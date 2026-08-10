@@ -150,6 +150,7 @@
 #include "bdUtilNodes/nodes/BdQuatLimitBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatMultiplyMultiNode.h"
 #include "bdUtilNodes/nodes/BdQuatValueNode.h"
+#include "bdUtilNodes/nodes/BdRbfPoseBlendNode.h"
 #include "bdUtilNodes/nodes/BdRbfPoseWeightNode.h"
 
 namespace {
@@ -161,8 +162,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 146>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 146> registrations = {{
+const std::array<NodeRegistration, 147>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 147> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -1032,6 +1033,12 @@ const std::array<NodeRegistration, 146>& nodeRegistrations() {
             BdQuatValueNode::typeId,
             BdQuatValueNode::creator,
             BdQuatValueNode::initialize,
+        },
+        {
+            BdRbfPoseBlendNode::typeName,
+            BdRbfPoseBlendNode::typeId,
+            BdRbfPoseBlendNode::creator,
+            BdRbfPoseBlendNode::initialize,
         },
         {
             BdRbfPoseWeightNode::typeName,

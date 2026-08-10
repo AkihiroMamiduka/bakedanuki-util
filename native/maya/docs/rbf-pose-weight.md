@@ -3,9 +3,9 @@
 `bdRbf_PoseWeight` は、現在の Quaternion と登録済み Quaternion pose の角度距離から、
 各 pose に対応する補間 weight を計算する dependency node です。
 
-初期版は「回転入力の RBF 補間」と「型付き出力の blend」を分離します。ノード自身は
-`outputWeight[]` だけを返すため、補助骨の translate、rotate、matrix など、用途ごとに
-適切な downstream node を選択できます。
+「回転入力のRBF補間」と「型付き出力のblend」は別nodeに分離します。このnode自身は
+`outputWeight[]`だけを返し、補助骨のtranslate、rotate、scaleは
+[`bdRbf_PoseBlend`](rbf-pose-blend.md)でまとめて合成できます。
 
 ## Scope
 
@@ -23,7 +23,7 @@
 - translate driver
 - translate と rotate を同じ距離空間へ混在させる処理
 - swing / twist を別々に重み付けする rotation metric
-- translate / Euler / Quaternion / matrix の最終出力 blend
+- このweight node内部でのtranslate / rotate / scaleの最終出力blend
 
 ## Quaternion Distance
 
@@ -135,7 +135,7 @@ poseが約45度間隔ならradiusは45〜60度、0度と90度のように疎な�
 
 ## NodeOperator Example
 
-weight solveとtranslate correctiveの加重和を分離する例です。
+weight solveと補助骨TRSのblendを分離する例です。
 
 ```python
 import bd_util as bdu
@@ -143,24 +143,28 @@ import bd_util as bdu
 mod = bdu.ModifierManager()
 nodes = bdu.Nodes(modifier_manager=mod)
 
-rbf = nodes.create.bdRbf_PoseWeight(name="shoulder_rbf")
-translate = nodes.create.bdDbl3_WeightedSumMulti(name="shoulder_corrective_t")
+weight = nodes.create.bdRbf_PoseWeight(name="shoulder_rbf_weight")
+blend = nodes.create.bdRbf_PoseBlend(name="shoulder_rbf_blend")
 
-rbf.pose[0].poseQuat.set((0.0, 0.0, 0.0, 1.0))
-rbf.pose[1].poseQuat.set((0.382683, 0.0, 0.0, 0.923880))
+weight.pose[0].poseQuat.set((0.0, 0.0, 0.0, 1.0))
+weight.pose[1].poseQuat.set((0.382683, 0.0, 0.0, 0.923880))
 
-translate.input[0].value.set((0.0, 0.0, 0.0))
-translate.input[1].value.set((0.0, 1.5, 0.5))
-rbf.outputWeight[0].connect(translate.input[0].weight)
-rbf.outputWeight[1].connect(translate.input[1].weight)
+blend.pose[0].translate.set((0.0, 0.0, 0.0))
+blend.pose[0].rotate.set((0.0, 0.0, 0.0))
+blend.pose[0].scale.set((1.0, 1.0, 1.0))
+blend.pose[1].translate.set((0.0, 1.5, 0.5))
+blend.pose[1].rotate.set((15.0, 0.0, -10.0))
+blend.pose[1].scale.set((1.0, 1.1, 0.95))
+
+weight.outputWeight.connect(blend.weight)
 
 mod.do_it_dg()
 ```
 
 実際のdriver Quaternionは、Eulerからの変換nodeや既存Quaternion networkから
-`inputQuat`へ接続します。rotate correctiveをEuler成分ごとの加重和にすると回転の
-周期性やrotate orderの問題が戻るため、Quaternionまたはmatrix用の型付きblenderを
-別nodeとして追加する方針です。
+`inputQuat`へ接続します。`outputWeight[]`と`weight[]`はmulti attributeの親同士を1回
+接続するだけで、sparse logical indexも対応します。回転blendの詳細は
+[`RBF Pose Blend`](rbf-pose-blend.md)を参照してください。
 
 ## Translate And Rotate Boundary
 

@@ -59,6 +59,7 @@ $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_double_angle.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_quat_multiply_multi.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_quat_bend_twist.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_pose_blend.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_pose_weight.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_average.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_weighted_average.py") `

@@ -61,6 +61,27 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_weight import 
     PoseAttrOperator as RbfPoseAttrOperator,
     PosePlugOperator as RbfPosePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_blend import (
+    BaseRotateAttrOperator as RbfBlendBaseRotateAttrOperator,
+    BaseRotatePlugOperator as RbfBlendBaseRotatePlugOperator,
+    BaseScaleAttrOperator as RbfBlendBaseScaleAttrOperator,
+    BaseScalePlugOperator as RbfBlendBaseScalePlugOperator,
+    BaseTranslateAttrOperator as RbfBlendBaseTranslateAttrOperator,
+    BaseTranslatePlugOperator as RbfBlendBaseTranslatePlugOperator,
+    OutputQuatAttrOperator as RbfBlendOutputQuatAttrOperator,
+    OutputQuatPlugOperator as RbfBlendOutputQuatPlugOperator,
+    OutputRotateAttrOperator as RbfBlendOutputRotateAttrOperator,
+    OutputRotatePlugOperator as RbfBlendOutputRotatePlugOperator,
+    OutputScaleAttrOperator as RbfBlendOutputScaleAttrOperator,
+    OutputScalePlugOperator as RbfBlendOutputScalePlugOperator,
+    OutputTranslateAttrOperator as RbfBlendOutputTranslateAttrOperator,
+    OutputTranslatePlugOperator as RbfBlendOutputTranslatePlugOperator,
+    Pose_rotatePlugOperator as RbfBlendPoseRotatePlugOperator,
+    Pose_scalePlugOperator as RbfBlendPoseScalePlugOperator,
+    Pose_translatePlugOperator as RbfBlendPoseTranslatePlugOperator,
+    PoseAttrOperator as RbfBlendPoseAttrOperator,
+    PosePlugOperator as RbfBlendPosePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_euler_value import (
     ValueAttrOperator as EulerValueAttrOperator,
     ValuePlugOperator as EulerValuePlugOperator,
@@ -433,6 +454,13 @@ from bd_util.maya.node.operator.node.dg.bd_rbf_pose_weight import (
 from bd_util.maya.node.operator.node.dg._generated.bd_rbf_pose_weight import (
     KernelEnumPlugOperator as RbfKernelPlugOperator,
     SolveStatusEnumPlugOperator as RbfSolveStatusPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_rbf_pose_blend import (
+    BdRbfPoseBlend,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_pose_blend import (
+    BlendStatusEnumPlugOperator as RbfBlendStatusPlugOperator,
+    RotateOrderEnumPlugOperator as RbfBlendRotateOrderPlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_euler_value import BdEulerValue
 from bd_util.maya.node.operator.node.dg._generated.bd_euler_value import (
@@ -852,6 +880,86 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdRbf_PoseWeight("existing_rbf_pose_weight"),
         BdRbfPoseWeight,
+    )
+
+    rbf_pose_blend = nodes.create.bdRbf_PoseBlend(name="rbf_pose_blend")
+    assert_type(rbf_pose_blend, BdRbfPoseBlend)
+    assert_type(
+        BdRbfPoseBlend.baseTranslate,
+        RbfBlendBaseTranslateAttrOperator,
+    )
+    assert_type(
+        rbf_pose_blend.baseTranslate,
+        RbfBlendBaseTranslatePlugOperator,
+    )
+    assert_type(BdRbfPoseBlend.baseRotate, RbfBlendBaseRotateAttrOperator)
+    assert_type(
+        rbf_pose_blend.baseRotate,
+        RbfBlendBaseRotatePlugOperator,
+    )
+    assert_type(BdRbfPoseBlend.baseScale, RbfBlendBaseScaleAttrOperator)
+    assert_type(rbf_pose_blend.baseScale, RbfBlendBaseScalePlugOperator)
+    assert_type(
+        rbf_pose_blend.rotateOrder,
+        RbfBlendRotateOrderPlugOperator,
+    )
+    assert_type(BdRbfPoseBlend.pose, RbfBlendPoseAttrOperator)
+    assert_type(rbf_pose_blend.pose[next], RbfBlendPosePlugOperator)
+    assert_type(
+        rbf_pose_blend.pose[next].translate,
+        RbfBlendPoseTranslatePlugOperator,
+    )
+    assert_type(
+        rbf_pose_blend.pose[next].rotate,
+        RbfBlendPoseRotatePlugOperator,
+    )
+    assert_type(
+        rbf_pose_blend.pose[next].scale,
+        RbfBlendPoseScalePlugOperator,
+    )
+    assert_type(rbf_pose_blend.pose[next].enabled, BoolPlugOperator)
+    assert_type(rbf_pose_blend.weight[next], DoublePlugOperator)
+    assert_type(
+        BdRbfPoseBlend.outputTranslate,
+        RbfBlendOutputTranslateAttrOperator,
+    )
+    assert_type(
+        rbf_pose_blend.outputTranslate,
+        RbfBlendOutputTranslatePlugOperator,
+    )
+    assert_type(
+        BdRbfPoseBlend.outputRotate,
+        RbfBlendOutputRotateAttrOperator,
+    )
+    assert_type(
+        rbf_pose_blend.outputRotate,
+        RbfBlendOutputRotatePlugOperator,
+    )
+    assert_type(
+        BdRbfPoseBlend.outputQuat,
+        RbfBlendOutputQuatAttrOperator,
+    )
+    assert_type(
+        rbf_pose_blend.outputQuat,
+        RbfBlendOutputQuatPlugOperator,
+    )
+    assert_type(
+        BdRbfPoseBlend.outputScale,
+        RbfBlendOutputScaleAttrOperator,
+    )
+    assert_type(
+        rbf_pose_blend.outputScale,
+        RbfBlendOutputScalePlugOperator,
+    )
+    assert_type(rbf_pose_blend.outputTranslate.get(), bdu.DoubleLinear3)
+    assert_type(rbf_pose_blend.outputRotate.get(), bdu.DoubleAngle3)
+    assert_type(rbf_pose_blend.outputQuat.get(), bdu.Quat)
+    assert_type(rbf_pose_blend.outputScale.get(), bdu.Double3)
+    assert_type(rbf_pose_blend.isValid, BoolPlugOperator)
+    assert_type(rbf_pose_blend.blendStatus, RbfBlendStatusPlugOperator)
+    assert_type(
+        nodes.existing.bdRbf_PoseBlend("existing_rbf_pose_blend"),
+        BdRbfPoseBlend,
     )
 
     euler_value = nodes.create.bdEuler_Value(name="euler_value")

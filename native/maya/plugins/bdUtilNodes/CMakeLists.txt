@@ -146,8 +146,10 @@ add_library(
     src/nodes/BdEulerLimitBendTwistNode.cpp
     src/nodes/BdEulerValueNode.cpp
     src/nodes/BdQuatValueNode.cpp
+    src/nodes/BdRbfPoseBlendNode.cpp
     src/nodes/BdRbfPoseWeightNode.cpp
     src/math/BendTwist.cpp
+    src/math/PoseBlend.cpp
     src/math/RbfInterpolator.cpp
     src/attributes/BendTwistAttribute.cpp
     src/attributes/ComparisonAttribute.cpp
