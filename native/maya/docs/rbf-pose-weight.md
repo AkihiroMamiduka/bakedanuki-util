@@ -20,7 +20,7 @@
 
 次は初期版の対象外です。
 
-- translate driver
+- translate driver（[`bdRbf_PositionWeight`](rbf-position-weight.md)で対応）
 - translate と rotate を同じ距離空間へ混在させる処理
 - swing / twist を別々に重み付けする rotation metric
 - このweight node内部でのtranslate / rotate / scaleの最終出力blend
@@ -172,9 +172,9 @@ translate distanceは長さ、Quaternion distanceは角度なので、そのま�
 足すことはできません。両方を1 nodeで扱うには、軸ごとのtranslate scale、角度scale、
 単位変換、どちらを重視するかというmetric設計が必要です。
 
-そのため初期版はrotation driver専用です。将来translate driverを追加する場合も、
-Euclidean distanceと軸ごとの正規化を明示した別の入力モードまたは別nodeとして設計し、
-型付き出力blenderとは分離します。
+そのためこのnodeはrotation driver専用です。translate driverには、Euclidean distanceを
+使う別node [`bdRbf_PositionWeight`](rbf-position-weight.md) を使用します。どちらのweight
+nodeも、型付き出力blenderとは分離します。
 
 ## Performance And Eigen
 

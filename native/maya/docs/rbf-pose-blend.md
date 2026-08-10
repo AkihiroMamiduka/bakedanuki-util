@@ -1,6 +1,6 @@
 # RBF Pose Blend
 
-`bdRbf_PoseBlend`は、`bdRbf_PoseWeight.outputWeight[]`と同じlogical indexに登録した
+`bdRbf_PoseBlend`は、RBF weight nodeの`outputWeight[]`と同じlogical indexに登録した
 poseのtranslate、rotate、scaleをブレンドするdependency nodeです。
 
 RBF solveと出力値の合成は別nodeに保ちます。これにより、同じweight solverから複数の
@@ -8,7 +8,8 @@ RBF solveと出力値の合成は別nodeに保ちます。これにより、同�
 
 ## Weight Connection
 
-`weight[]`は`bdRbf_PoseWeight.outputWeight[]`をmulti attributeの親同士で接続できます。
+`weight[]`は`bdRbf_PoseWeight.outputWeight[]`または
+`bdRbf_PositionWeight.outputWeight[]`をmulti attributeの親同士で接続できます。
 
 ```python
 weight.outputWeight.connect(blend.weight)
@@ -47,7 +48,8 @@ outputWeight[8] -> weight[8] -> pose[8]
 
 `pose[i]`と`weight[i]`の両方が存在し、poseがenabledで、weightがexact zeroではない場合だけ
 計算へ参加します。片方だけ存在するlogical indexは無視します。したがって、1つの
-`bdRbf_PoseWeight`から複数のblend nodeを駆動し、各blend nodeへ必要なposeだけ登録できます。
+1つのRBF weight nodeから複数のblend nodeを駆動し、各blend nodeへ必要なposeだけ
+登録できます。
 
 poseのTRSはbaseからのoffsetではなく、そのposeにおける絶対的なchannel目標値です。
 baseが既定値以外の場合は、各poseのtranslate、rotate、scaleをすべて記録してください。
@@ -105,7 +107,8 @@ Euler表現のturn数や入力channel値そのものの連続性は保証しま�
 | 6 | `NumericalFailure` | 加重和またはQuaternion合成結果が非有限 |
 
 失敗時は可能な限りbase TRSを返し、`isValid = false`にします。RBF solve自体が失敗した
-場合、`bdRbf_PoseWeight`はweightを0にするため、blend nodeはbase TRSへ安全に戻ります。
+場合、どちらのweight nodeもweightを0にするため、blend nodeはbase TRSへ安全に
+戻ります。
 
 ## NodeOperator Example
 

@@ -12,8 +12,10 @@ namespace {
 
 constexpr double kQuaternionEpsilon = 1.0e-12;
 constexpr double kDuplicateAngleEpsilon = 1.0e-8;
+constexpr double kDuplicatePositionEpsilon = 1.0e-10;
 
 using Quaternion = std::array<double, 4>;
+using Position = std::array<double, 3>;
 
 bool normalizeQuaternion(const Quaternion& input, Quaternion& output) {
     const double maximum = std::max({
@@ -45,6 +47,19 @@ double quaternionDistance(const Quaternion& first, const Quaternion& second) {
         + first[2] * second[2] + first[3] * second[3]
     );
     return 2.0 * std::acos(std::clamp(dot, 0.0, 1.0));
+}
+
+bool isFinitePosition(const Position& position) {
+    return std::isfinite(position[0]) && std::isfinite(position[1])
+        && std::isfinite(position[2]);
+}
+
+double positionDistance(const Position& first, const Position& second) {
+    return std::hypot(
+        first[0] - second[0],
+        first[1] - second[1],
+        first[2] - second[2]
+    );
 }
 
 bool isSupportedKernel(bd_util_nodes::RbfKernel kernel) {
@@ -238,5 +253,145 @@ RbfSolveStatus QuaternionRbfInterpolator::status() const {
     return impl_->solveStatus;
 }
 
-}  // namespace bd_util_nodes
+struct PositionRbfInterpolator::Impl {
+    std::vector<PositionPoseSample> samples;
+    RbfKernel kernel = RbfKernel::kGaussian;
+    double radius = 1.0;
+    Eigen::ColPivHouseholderQR<Eigen::MatrixXd> decomposition;
+    RbfSolveStatus solveStatus = RbfSolveStatus::kNoPoses;
+};
 
+PositionRbfInterpolator::PositionRbfInterpolator()
+    : impl_(std::make_unique<Impl>()) {}
+
+PositionRbfInterpolator::~PositionRbfInterpolator() = default;
+
+PositionRbfInterpolator::PositionRbfInterpolator(
+    PositionRbfInterpolator&&
+) noexcept = default;
+
+PositionRbfInterpolator& PositionRbfInterpolator::operator=(
+    PositionRbfInterpolator&&
+) noexcept = default;
+
+RbfSolveStatus PositionRbfInterpolator::configure(
+    const std::vector<PositionPoseSample>& samples,
+    RbfKernel kernel,
+    double radius,
+    double regularization
+) {
+    impl_->samples.clear();
+
+    if (samples.empty()) {
+        impl_->solveStatus = RbfSolveStatus::kNoPoses;
+        return impl_->solveStatus;
+    }
+    if (!isSupportedKernel(kernel)) {
+        impl_->solveStatus = RbfSolveStatus::kUnsupportedKernel;
+        return impl_->solveStatus;
+    }
+    if (!std::isfinite(radius) || radius <= 0.0) {
+        impl_->solveStatus = RbfSolveStatus::kInvalidRadius;
+        return impl_->solveStatus;
+    }
+    if (!std::isfinite(regularization) || regularization < 0.0) {
+        impl_->solveStatus = RbfSolveStatus::kInvalidRegularization;
+        return impl_->solveStatus;
+    }
+
+    impl_->samples = samples;
+    for (const PositionPoseSample& sample : samples) {
+        if (!isFinitePosition(sample.position)) {
+            impl_->samples.clear();
+            impl_->solveStatus = RbfSolveStatus::kInvalidPosition;
+            return impl_->solveStatus;
+        }
+    }
+
+    const Eigen::Index sampleCount = static_cast<Eigen::Index>(samples.size());
+    Eigen::MatrixXd matrix(sampleCount, sampleCount);
+    for (Eigen::Index row = 0; row < sampleCount; ++row) {
+        for (Eigen::Index column = 0; column < sampleCount; ++column) {
+            const double distance = positionDistance(
+                samples[static_cast<std::size_t>(row)].position,
+                samples[static_cast<std::size_t>(column)].position
+            );
+            if (row != column && distance <= kDuplicatePositionEpsilon) {
+                impl_->samples.clear();
+                impl_->solveStatus = RbfSolveStatus::kDuplicatePose;
+                return impl_->solveStatus;
+            }
+            matrix(row, column) = evaluateKernel(kernel, distance / radius);
+        }
+        matrix(row, row) += regularization;
+    }
+
+    if (!matrix.allFinite()) {
+        impl_->samples.clear();
+        impl_->solveStatus = RbfSolveStatus::kNumericalFailure;
+        return impl_->solveStatus;
+    }
+
+    impl_->decomposition.compute(matrix);
+    if (impl_->decomposition.rank() != sampleCount) {
+        impl_->samples.clear();
+        impl_->solveStatus = RbfSolveStatus::kRankDeficient;
+        return impl_->solveStatus;
+    }
+
+    impl_->kernel = kernel;
+    impl_->radius = radius;
+    impl_->solveStatus = RbfSolveStatus::kSuccess;
+    return impl_->solveStatus;
+}
+
+RbfSolveStatus PositionRbfInterpolator::evaluate(
+    const std::array<double, 3>& inputPosition,
+    std::vector<IndexedWeight>& outputWeights
+) const {
+    outputWeights.clear();
+    if (impl_->solveStatus != RbfSolveStatus::kSuccess) {
+        return impl_->solveStatus;
+    }
+    if (!isFinitePosition(inputPosition)) {
+        return RbfSolveStatus::kInvalidPosition;
+    }
+
+    const Eigen::Index sampleCount = static_cast<Eigen::Index>(
+        impl_->samples.size()
+    );
+    Eigen::VectorXd kernelVector(sampleCount);
+    for (Eigen::Index index = 0; index < sampleCount; ++index) {
+        const double distance = positionDistance(
+            inputPosition,
+            impl_->samples[static_cast<std::size_t>(index)].position
+        );
+        kernelVector(index) = evaluateKernel(
+            impl_->kernel,
+            distance / impl_->radius
+        );
+    }
+
+    if (!kernelVector.allFinite()) {
+        return RbfSolveStatus::kNumericalFailure;
+    }
+    const Eigen::VectorXd weights = impl_->decomposition.solve(kernelVector);
+    if (!weights.allFinite()) {
+        return RbfSolveStatus::kNumericalFailure;
+    }
+
+    outputWeights.reserve(impl_->samples.size());
+    for (Eigen::Index index = 0; index < sampleCount; ++index) {
+        outputWeights.push_back({
+            impl_->samples[static_cast<std::size_t>(index)].logicalIndex,
+            weights(index),
+        });
+    }
+    return RbfSolveStatus::kSuccess;
+}
+
+RbfSolveStatus PositionRbfInterpolator::status() const {
+    return impl_->solveStatus;
+}
+
+}  // namespace bd_util_nodes

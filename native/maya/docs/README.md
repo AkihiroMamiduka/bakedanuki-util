@@ -23,26 +23,28 @@
    - Quaternion距離、5種類のkernel、補間solve、weight出力、translate / rotateの責務分離
 8. [RBF Pose Blend](rbf-pose-blend.md)
    - RBF weight配列の親接続、base-relative TRS、Quaternion log / exp回転blend
-9. [Condition Nodes](condition.md)
+9. [RBF Position Weight](rbf-position-weight.md)
+   - 3次元ユークリッド距離、座標空間の責務、距離単位、position pose weight
+10. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
-10. [Average Nodes](average.md)
+11. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-11. [Weighted Average Nodes](weighted-average.md)
+12. [Weighted Average Nodes](weighted-average.md)
    - value / weight配列、weight合計0、負のweight、zero weightの仕様
-12. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+13. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-13. [Evaluation And Parallelism](evaluation.md)
+14. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-14. [Testing And Debugging](testing-debugging.md)
+15. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-15. [Node ID Registry](../NODE_IDS.md)
+16. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-16. [Build Guide](../README.md)
+17. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-17. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+18. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -59,18 +61,24 @@
   - Maya標準nodeを補う可変長Quaternion積、Bend / Twist分解・合成、Twist専用分解の仕様
 - [RBF Pose Weight](rbf-pose-weight.md)
   - Quaternion距離、interpolative RBF solve、kernel、状態出力、初期版の責務境界
+- [RBF Position Weight](rbf-position-weight.md)
+  - Euclidean distance、座標空間の責務、距離単位、position pose weight
 - [RBF Pose Blend](rbf-pose-blend.md)
   - RBF weightのmulti親接続、base-relative TRS、Quaternion log / exp blend、状態出力
 - [RbfInterpolator.cpp](../plugins/bdUtilNodes/src/math/RbfInterpolator.cpp)
-  - Eigenを内部へ隠蔽したQuaternion RBF行列構築とQR solve
+  - Eigenを内部へ隠蔽したQuaternion / position RBF行列構築とQR solve
 - [PoseBlend.cpp](../plugins/bdUtilNodes/src/math/PoseBlend.cpp)
   - base-relative translate / scaleとQuaternion log / exp blend
 - [BdRbfPoseWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfPoseWeightNode.cpp)
   - sparse pose配列とweight配列を対応させるDG node
+- [BdRbfPositionWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfPositionWeightNode.cpp)
+  - 同一座標空間の3次元位置をEuclidean distanceで比較するRBF DG node
 - [BdRbfPoseBlendNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfPoseBlendNode.cpp)
   - separate multi weight / pose配列をlogical indexで対応させるTRS blend node
 - [test_bd_rbf_pose_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_pose_weight.py)
   - kernel式、補間一致、Quaternion符号、invalid status、評価mode、NodeOperatorのテスト
+- [test_bd_rbf_position_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_position_weight.py)
+  - Euclidean distance、距離単位、kernel式、親weight接続、評価modeのテスト
 - [test_bd_rbf_pose_blend.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_pose_blend.py)
   - 親weight接続、TRS blend、最短回転、invalid status、評価mode、scene round-tripのテスト
 - [BdQuatMultiplyMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdQuatMultiplyMultiNode.cpp)

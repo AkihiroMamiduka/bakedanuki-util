@@ -61,6 +61,13 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_weight import 
     PoseAttrOperator as RbfPoseAttrOperator,
     PosePlugOperator as RbfPosePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_position_weight import (
+    InputPositionAttrOperator as RbfPositionInputAttrOperator,
+    InputPositionPlugOperator as RbfPositionInputPlugOperator,
+    Pose_positionPlugOperator as RbfPositionPosePositionPlugOperator,
+    PoseAttrOperator as RbfPositionPoseAttrOperator,
+    PosePlugOperator as RbfPositionPosePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_blend import (
     BaseRotateAttrOperator as RbfBlendBaseRotateAttrOperator,
     BaseRotatePlugOperator as RbfBlendBaseRotatePlugOperator,
@@ -454,6 +461,13 @@ from bd_util.maya.node.operator.node.dg.bd_rbf_pose_weight import (
 from bd_util.maya.node.operator.node.dg._generated.bd_rbf_pose_weight import (
     KernelEnumPlugOperator as RbfKernelPlugOperator,
     SolveStatusEnumPlugOperator as RbfSolveStatusPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_rbf_position_weight import (
+    BdRbfPositionWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_position_weight import (
+    KernelEnumPlugOperator as RbfPositionKernelPlugOperator,
+    SolveStatusEnumPlugOperator as RbfPositionSolveStatusPlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_rbf_pose_blend import (
     BdRbfPoseBlend,
@@ -880,6 +894,52 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdRbf_PoseWeight("existing_rbf_pose_weight"),
         BdRbfPoseWeight,
+    )
+
+    rbf_position_weight = nodes.create.bdRbf_PositionWeight(
+        name="rbf_position_weight"
+    )
+    assert_type(rbf_position_weight, BdRbfPositionWeight)
+    assert_type(
+        BdRbfPositionWeight.inputPosition,
+        RbfPositionInputAttrOperator,
+    )
+    assert_type(
+        rbf_position_weight.inputPosition,
+        RbfPositionInputPlugOperator,
+    )
+    assert_type(
+        BdRbfPositionWeight.pose,
+        RbfPositionPoseAttrOperator,
+    )
+    assert_type(
+        rbf_position_weight.pose[next],
+        RbfPositionPosePlugOperator,
+    )
+    assert_type(
+        rbf_position_weight.pose[next].position,
+        RbfPositionPosePositionPlugOperator,
+    )
+    assert_type(rbf_position_weight.pose[next].enabled, BoolPlugOperator)
+    assert_type(
+        rbf_position_weight.kernel,
+        RbfPositionKernelPlugOperator,
+    )
+    assert_type(
+        rbf_position_weight.radius,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(rbf_position_weight.regularization, DoublePlugOperator)
+    assert_type(rbf_position_weight.allowNegativeWeights, BoolPlugOperator)
+    assert_type(rbf_position_weight.outputWeight[next], DoublePlugOperator)
+    assert_type(rbf_position_weight.isValid, BoolPlugOperator)
+    assert_type(
+        rbf_position_weight.solveStatus,
+        RbfPositionSolveStatusPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdRbf_PositionWeight("existing_rbf_position_weight"),
+        BdRbfPositionWeight,
     )
 
     rbf_pose_blend = nodes.create.bdRbf_PoseBlend(name="rbf_pose_blend")

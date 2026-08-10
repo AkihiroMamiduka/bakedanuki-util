@@ -24,11 +24,17 @@ enum class RbfSolveStatus : short {
     kRankDeficient = 6,
     kNumericalFailure = 7,
     kUnsupportedKernel = 8,
+    kInvalidPosition = 9,
 };
 
 struct QuaternionPoseSample {
     unsigned int logicalIndex = 0;
     std::array<double, 4> quaternion = {0.0, 0.0, 0.0, 1.0};
+};
+
+struct PositionPoseSample {
+    unsigned int logicalIndex = 0;
+    std::array<double, 3> position = {0.0, 0.0, 0.0};
 };
 
 struct IndexedWeight {
@@ -70,5 +76,35 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace bd_util_nodes
+class PositionRbfInterpolator final {
+public:
+    PositionRbfInterpolator();
+    ~PositionRbfInterpolator();
 
+    PositionRbfInterpolator(PositionRbfInterpolator&&) noexcept;
+    PositionRbfInterpolator& operator=(PositionRbfInterpolator&&) noexcept;
+
+    PositionRbfInterpolator(const PositionRbfInterpolator&) = delete;
+    PositionRbfInterpolator& operator=(const PositionRbfInterpolator&) =
+        delete;
+
+    RbfSolveStatus configure(
+        const std::vector<PositionPoseSample>& samples,
+        RbfKernel kernel,
+        double radius,
+        double regularization
+    );
+
+    RbfSolveStatus evaluate(
+        const std::array<double, 3>& inputPosition,
+        std::vector<IndexedWeight>& outputWeights
+    ) const;
+
+    RbfSolveStatus status() const;
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+}  // namespace bd_util_nodes
