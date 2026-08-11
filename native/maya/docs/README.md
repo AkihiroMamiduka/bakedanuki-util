@@ -25,34 +25,40 @@
    - 複数sourceのQuaternion距離をweighted RMSで統合する補間RBF weight
 9. [RBF Orientation Falloff Weight](rbf-orientation-falloff-weight.md)
    - Quaternion距離、inner / outer半径、pose固有override、独立falloff weight
-10. [RBF Bend Twist Falloff Weight](rbf-bend-twist-falloff-weight.md)
+10. [RBF Multi Orientation Falloff Weight](rbf-multi-orientation-falloff-weight.md)
+   - 複数sourceのQuaternion距離をweighted RMSで統合する独立falloff weight
+11. [RBF Bend Twist Falloff Weight](rbf-bend-twist-falloff-weight.md)
    - Bend方向とTwist最短角度差、別半径、BendOnly、独立falloff weight
-11. [RBF Pose Blend](rbf-pose-blend.md)
+12. [RBF Pose Blend](rbf-pose-blend.md)
    - RBF weight配列の親接続、base-relative TRS、Quaternion log / exp回転blend
-12. [RBF Position Weight](rbf-position-weight.md)
+13. [RBF Position Weight](rbf-position-weight.md)
    - 3次元ユークリッド距離、座標空間の責務、距離単位、position weight
-13. [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
+14. [RBF Multi Position Weight](rbf-multi-position-weight.md)
+   - 複数sourceのEuclidean distanceをweighted RMSで統合する補間RBF weight
+15. [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
    - 内側・外側半径、pose固有override、独立したcompact falloff weight
-14. [Condition Nodes](condition.md)
+16. [RBF Multi Position Falloff Weight](rbf-multi-position-falloff-weight.md)
+   - 複数sourceのposition距離をweighted RMSで統合する独立falloff weight
+17. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
-15. [Average Nodes](average.md)
+18. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-16. [Weighted Average Nodes](weighted-average.md)
+19. [Weighted Average Nodes](weighted-average.md)
    - value / weight配列、weight合計0、負のweight、zero weightの仕様
-17. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+20. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-18. [Evaluation And Parallelism](evaluation.md)
+21. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-19. [Testing And Debugging](testing-debugging.md)
+22. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-20. [Node ID Registry](../NODE_IDS.md)
+23. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-21. [Build Guide](../README.md)
+24. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-22. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+25. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -71,22 +77,28 @@
   - Quaternion距離、interpolative RBF solve、kernel、状態出力、初期版の責務境界
 - [RBF Multi Orientation Weight](rbf-multi-orientation-weight.md)
   - 複数sourceのQuaternion距離をweighted RMSで統合するinterpolative RBF solve
+- [RBF Multi Orientation Falloff Weight](rbf-multi-orientation-falloff-weight.md)
+  - 複数sourceのQuaternion距離をweighted RMSで統合する直接falloff評価
 - [RBF Orientation Falloff Weight](rbf-orientation-falloff-weight.md)
   - Quaternion最短角度距離、pose固有半径、独立weight、線形時間評価
 - [RBF Bend Twist Falloff Weight](rbf-bend-twist-falloff-weight.md)
   - Bend方向、Twist最短角度差、BendOnly、Bend/Twist別半径
 - [RBF Position Weight](rbf-position-weight.md)
   - Euclidean distance、座標空間の責務、距離単位、position weight
+- [RBF Multi Position Weight](rbf-multi-position-weight.md)
+  - 複数sourceのposition距離をweighted RMSで統合するinterpolative RBF solve
 - [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
   - 内側・外側半径、pose固有override、非正規化の独立weight、線形時間評価
+- [RBF Multi Position Falloff Weight](rbf-multi-position-falloff-weight.md)
+  - 複数sourceのposition距離をweighted RMSで統合する直接falloff評価
 - [RBF Pose Blend](rbf-pose-blend.md)
   - RBF weightのmulti親接続、base-relative TRS、Quaternion log / exp blend、状態出力
 - [RbfInterpolator.cpp](../plugins/bdUtilNodes/src/math/RbfInterpolator.cpp)
-  - Eigenを内部へ隠蔽したQuaternion / multi-orientation / position RBF行列構築とQR solve
+  - Eigenを内部へ隠蔽した単一・複数sourceのQuaternion / position RBF行列構築とQR solve
 - [PositionFalloff.cpp](../plugins/bdUtilNodes/src/math/PositionFalloff.cpp)
-  - Euclidean distanceとLinear / CompactCubic / CompactQuinticの直接falloff評価
+  - 単一・複数sourceのEuclidean distanceと直接falloff評価、multi設定cache
 - [OrientationFalloff.cpp](../plugins/bdUtilNodes/src/math/OrientationFalloff.cpp)
-  - Quaternion正規化、最短角度距離、pose固有半径の直接falloff評価
+  - 単一・複数sourceのQuaternion最短角度距離、直接falloff評価、multi設定cache
 - [BendTwistFalloff.cpp](../plugins/bdUtilNodes/src/math/BendTwistFalloff.cpp)
   - Bend方向距離、Twist最短角度差、2つのfalloffの積
 - [PoseBlend.cpp](../plugins/bdUtilNodes/src/math/PoseBlend.cpp)
@@ -95,6 +107,12 @@
   - sparse pose配列とweight配列を対応させるDG node
 - [BdRbfMultiOrientationWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfMultiOrientationWeightNode.cpp)
   - 複数sourceと各poseのQuaternion組をlogical indexで対応させるDG node
+- [BdRbfMultiPositionWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfMultiPositionWeightNode.cpp)
+  - 複数position sourceと各poseをlogical indexで対応させる補間RBF DG node
+- [BdRbfMultiOrientationFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfMultiOrientationFalloffWeightNode.cpp)
+  - 複数orientation sourceの統合距離へ直接falloffを適用するDG node
+- [BdRbfMultiPositionFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfMultiPositionFalloffWeightNode.cpp)
+  - 複数position sourceの統合距離へ直接falloffを適用するDG node
 - [BdRbfOrientationFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfOrientationFalloffWeightNode.cpp)
   - Quaternion全体を比較する独立orientation falloff DG node
 - [BdRbfBendTwistFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfBendTwistFalloffWeightNode.cpp)
@@ -109,6 +127,12 @@
   - kernel式、補間一致、Quaternion符号、invalid status、評価mode、NodeOperatorのテスト
 - [test_bd_rbf_multi_orientation_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_multi_orientation_weight.py)
   - weighted RMS距離、source対応、invalid status、評価mode、nested multi APIのテスト
+- [test_bd_rbf_multi_position_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_multi_position_weight.py)
+  - weighted RMS position距離、補間solve、source対応、nested multi APIのテスト
+- [test_bd_rbf_multi_orientation_falloff_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_multi_orientation_falloff_weight.py)
+  - weighted RMS角度距離、plateau、pose半径override、評価cacheのテスト
+- [test_bd_rbf_multi_position_falloff_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_multi_position_falloff_weight.py)
+  - weighted RMS position距離、plateau、pose半径override、評価cacheのテスト
 - [test_bd_rbf_orientation_falloff_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_orientation_falloff_weight.py)
   - Quaternion距離、plateau、pose固有半径、非正規化、評価modeのテスト
 - [test_bd_rbf_bend_twist_falloff_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_bend_twist_falloff_weight.py)

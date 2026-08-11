@@ -693,4 +693,282 @@ RbfSolveStatus PositionRbfInterpolator::status() const {
     return impl_->solveStatus;
 }
 
+struct MultiPositionRbfInterpolator::Impl {
+    std::vector<PositionSourceDefinition> sources;
+    std::vector<MultiPositionPoseSample> samples;
+    std::vector<std::vector<std::array<double, 3>>> posePositions;
+    RbfKernel kernel = RbfKernel::kGaussian;
+    double radius = 1.0;
+    double influenceSum = 0.0;
+    Eigen::ColPivHouseholderQR<Eigen::MatrixXd> decomposition;
+    RbfSolveStatus solveStatus = RbfSolveStatus::kNoSources;
+};
+
+namespace {
+
+bool positionSourceDefinitionsAreValid(
+    const std::vector<PositionSourceDefinition>& sources,
+    double& influenceSum
+) {
+    influenceSum = 0.0;
+    for (std::size_t index = 0; index < sources.size(); ++index) {
+        const PositionSourceDefinition& source = sources[index];
+        if (
+            !std::isfinite(source.influence) || source.influence < 0.0
+            || (
+                index > 0
+                && sources[index - 1].logicalIndex >= source.logicalIndex
+            )
+        ) {
+            return false;
+        }
+        influenceSum += source.influence;
+    }
+    return std::isfinite(influenceSum) && influenceSum > 0.0;
+}
+
+bool validateMultiPositionPose(
+    const MultiPositionPoseSample& sample,
+    const std::vector<PositionSourceDefinition>& sources,
+    std::vector<std::array<double, 3>>& positions,
+    RbfSolveStatus& status
+) {
+    if (sample.sourcePositions.size() != sources.size()) {
+        status = RbfSolveStatus::kIncompletePose;
+        return false;
+    }
+
+    positions.clear();
+    positions.reserve(sources.size());
+    for (std::size_t index = 0; index < sources.size(); ++index) {
+        if (
+            sample.sourcePositions[index].logicalIndex
+            != sources[index].logicalIndex
+        ) {
+            status = RbfSolveStatus::kIncompletePose;
+            return false;
+        }
+        std::array<double, 3> position = {0.0, 0.0, 0.0};
+        if (sources[index].influence > 0.0) {
+            position = sample.sourcePositions[index].position;
+            if (!isFinitePosition(position)) {
+                status = RbfSolveStatus::kInvalidPosition;
+                return false;
+            }
+        }
+        positions.push_back(position);
+    }
+    return true;
+}
+
+double multiPositionDistance(
+    const std::vector<std::array<double, 3>>& first,
+    const std::vector<std::array<double, 3>>& second,
+    const std::vector<PositionSourceDefinition>& sources,
+    double influenceSum
+) {
+    double weightedSquaredDistance = 0.0;
+    for (std::size_t index = 0; index < sources.size(); ++index) {
+        if (sources[index].influence <= 0.0) {
+            continue;
+        }
+        const double distance = positionDistance(first[index], second[index]);
+        weightedSquaredDistance += sources[index].influence
+            * distance * distance;
+    }
+    return std::sqrt(weightedSquaredDistance / influenceSum);
+}
+
+}  // namespace
+
+MultiPositionRbfInterpolator::MultiPositionRbfInterpolator()
+    : impl_(std::make_unique<Impl>()) {}
+
+MultiPositionRbfInterpolator::~MultiPositionRbfInterpolator() = default;
+
+MultiPositionRbfInterpolator::MultiPositionRbfInterpolator(
+    MultiPositionRbfInterpolator&&
+) noexcept = default;
+
+MultiPositionRbfInterpolator& MultiPositionRbfInterpolator::operator=(
+    MultiPositionRbfInterpolator&&
+) noexcept = default;
+
+RbfSolveStatus MultiPositionRbfInterpolator::configure(
+    const std::vector<PositionSourceDefinition>& sources,
+    const std::vector<MultiPositionPoseSample>& samples,
+    RbfKernel kernel,
+    double radius,
+    double regularization
+) {
+    impl_->sources.clear();
+    impl_->samples.clear();
+    impl_->posePositions.clear();
+
+    if (sources.empty()) {
+        impl_->solveStatus = RbfSolveStatus::kNoSources;
+        return impl_->solveStatus;
+    }
+    if (samples.empty()) {
+        impl_->solveStatus = RbfSolveStatus::kNoPoses;
+        return impl_->solveStatus;
+    }
+    if (!isSupportedKernel(kernel)) {
+        impl_->solveStatus = RbfSolveStatus::kUnsupportedKernel;
+        return impl_->solveStatus;
+    }
+    if (!std::isfinite(radius) || radius <= 0.0) {
+        impl_->solveStatus = RbfSolveStatus::kInvalidRadius;
+        return impl_->solveStatus;
+    }
+    if (!std::isfinite(regularization) || regularization < 0.0) {
+        impl_->solveStatus = RbfSolveStatus::kInvalidRegularization;
+        return impl_->solveStatus;
+    }
+
+    impl_->sources = sources;
+    if (!positionSourceDefinitionsAreValid(
+            impl_->sources,
+            impl_->influenceSum
+        )) {
+        impl_->sources.clear();
+        impl_->solveStatus = RbfSolveStatus::kInvalidInfluence;
+        return impl_->solveStatus;
+    }
+
+    impl_->samples = samples;
+    impl_->posePositions.reserve(samples.size());
+    for (const MultiPositionPoseSample& sample : samples) {
+        std::vector<std::array<double, 3>> positions;
+        RbfSolveStatus sampleStatus = RbfSolveStatus::kSuccess;
+        if (!validateMultiPositionPose(
+                sample,
+                impl_->sources,
+                positions,
+                sampleStatus
+            )) {
+            impl_->sources.clear();
+            impl_->samples.clear();
+            impl_->posePositions.clear();
+            impl_->solveStatus = sampleStatus;
+            return impl_->solveStatus;
+        }
+        impl_->posePositions.push_back(std::move(positions));
+    }
+
+    const Eigen::Index sampleCount = static_cast<Eigen::Index>(samples.size());
+    Eigen::MatrixXd matrix(sampleCount, sampleCount);
+    for (Eigen::Index row = 0; row < sampleCount; ++row) {
+        for (Eigen::Index column = 0; column < sampleCount; ++column) {
+            const double distance = multiPositionDistance(
+                impl_->posePositions[static_cast<std::size_t>(row)],
+                impl_->posePositions[static_cast<std::size_t>(column)],
+                impl_->sources,
+                impl_->influenceSum
+            );
+            if (row != column && distance <= kDuplicatePositionEpsilon) {
+                impl_->sources.clear();
+                impl_->samples.clear();
+                impl_->posePositions.clear();
+                impl_->solveStatus = RbfSolveStatus::kDuplicatePose;
+                return impl_->solveStatus;
+            }
+            matrix(row, column) = evaluateKernel(kernel, distance / radius);
+        }
+        matrix(row, row) += regularization;
+    }
+
+    if (!matrix.allFinite()) {
+        impl_->sources.clear();
+        impl_->samples.clear();
+        impl_->posePositions.clear();
+        impl_->solveStatus = RbfSolveStatus::kNumericalFailure;
+        return impl_->solveStatus;
+    }
+
+    impl_->decomposition.compute(matrix);
+    if (impl_->decomposition.rank() != sampleCount) {
+        impl_->sources.clear();
+        impl_->samples.clear();
+        impl_->posePositions.clear();
+        impl_->solveStatus = RbfSolveStatus::kRankDeficient;
+        return impl_->solveStatus;
+    }
+
+    impl_->kernel = kernel;
+    impl_->radius = radius;
+    impl_->solveStatus = RbfSolveStatus::kSuccess;
+    return impl_->solveStatus;
+}
+
+RbfSolveStatus MultiPositionRbfInterpolator::evaluate(
+    const std::vector<IndexedPosition>& inputPositions,
+    std::vector<IndexedWeight>& outputWeights
+) const {
+    outputWeights.clear();
+    if (impl_->solveStatus != RbfSolveStatus::kSuccess) {
+        return impl_->solveStatus;
+    }
+    if (inputPositions.size() != impl_->sources.size()) {
+        return RbfSolveStatus::kIncompletePose;
+    }
+
+    std::vector<std::array<double, 3>> validatedInputs;
+    validatedInputs.reserve(inputPositions.size());
+    for (std::size_t index = 0; index < inputPositions.size(); ++index) {
+        if (
+            inputPositions[index].logicalIndex
+            != impl_->sources[index].logicalIndex
+        ) {
+            return RbfSolveStatus::kIncompletePose;
+        }
+        std::array<double, 3> position = {0.0, 0.0, 0.0};
+        if (impl_->sources[index].influence > 0.0) {
+            position = inputPositions[index].position;
+            if (!isFinitePosition(position)) {
+                return RbfSolveStatus::kInvalidPosition;
+            }
+        }
+        validatedInputs.push_back(position);
+    }
+
+    const Eigen::Index sampleCount = static_cast<Eigen::Index>(
+        impl_->samples.size()
+    );
+    Eigen::VectorXd kernelVector(sampleCount);
+    for (Eigen::Index index = 0; index < sampleCount; ++index) {
+        const double distance = multiPositionDistance(
+            validatedInputs,
+            impl_->posePositions[static_cast<std::size_t>(index)],
+            impl_->sources,
+            impl_->influenceSum
+        );
+        kernelVector(index) = evaluateKernel(
+            impl_->kernel,
+            distance / impl_->radius
+        );
+    }
+
+    if (!kernelVector.allFinite()) {
+        return RbfSolveStatus::kNumericalFailure;
+    }
+    const Eigen::VectorXd weights = impl_->decomposition.solve(kernelVector);
+    if (!weights.allFinite()) {
+        return RbfSolveStatus::kNumericalFailure;
+    }
+
+    outputWeights.reserve(impl_->samples.size());
+    for (Eigen::Index index = 0; index < sampleCount; ++index) {
+        outputWeights.push_back({
+            impl_->samples[static_cast<std::size_t>(index)].logicalIndex,
+            weights(index),
+        });
+    }
+    return RbfSolveStatus::kSuccess;
+}
+
+RbfSolveStatus MultiPositionRbfInterpolator::status() const {
+    return impl_->solveStatus;
+}
+
 }  // namespace bd_util_nodes

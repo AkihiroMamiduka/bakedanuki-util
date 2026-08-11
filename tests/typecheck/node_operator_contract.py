@@ -71,6 +71,30 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_multi_orientation_w
     SourceAttrOperator as RbfMultiOrientationSourceAttrOperator,
     SourcePlugOperator as RbfMultiOrientationSourcePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_multi_orientation_falloff_weight import (
+    Pose_sourceQuatPlugOperator as RbfMultiOrientationFalloffPoseSourceQuatPlugOperator,
+    PoseAttrOperator as RbfMultiOrientationFalloffPoseAttrOperator,
+    PosePlugOperator as RbfMultiOrientationFalloffPosePlugOperator,
+    Source_inputQuatPlugOperator as RbfMultiOrientationFalloffInputQuatPlugOperator,
+    SourceAttrOperator as RbfMultiOrientationFalloffSourceAttrOperator,
+    SourcePlugOperator as RbfMultiOrientationFalloffSourcePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_multi_position_falloff_weight import (
+    Pose_sourcePositionPlugOperator as RbfMultiPositionFalloffPoseSourcePositionPlugOperator,
+    PoseAttrOperator as RbfMultiPositionFalloffPoseAttrOperator,
+    PosePlugOperator as RbfMultiPositionFalloffPosePlugOperator,
+    Source_inputPositionPlugOperator as RbfMultiPositionFalloffInputPositionPlugOperator,
+    SourceAttrOperator as RbfMultiPositionFalloffSourceAttrOperator,
+    SourcePlugOperator as RbfMultiPositionFalloffSourcePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_multi_position_weight import (
+    Pose_sourcePositionPlugOperator as RbfMultiPositionPoseSourcePositionPlugOperator,
+    PoseAttrOperator as RbfMultiPositionPoseAttrOperator,
+    PosePlugOperator as RbfMultiPositionPosePlugOperator,
+    Source_inputPositionPlugOperator as RbfMultiPositionInputPositionPlugOperator,
+    SourceAttrOperator as RbfMultiPositionSourceAttrOperator,
+    SourcePlugOperator as RbfMultiPositionSourcePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_orientation_falloff_weight import (
     InputQuatAttrOperator as RbfOrientationFalloffInputQuatAttrOperator,
     InputQuatPlugOperator as RbfOrientationFalloffInputQuatPlugOperator,
@@ -501,6 +525,27 @@ from bd_util.maya.node.operator.node.dg.bd_rbf_multi_orientation_weight import (
 from bd_util.maya.node.operator.node.dg._generated.bd_rbf_multi_orientation_weight import (
     KernelEnumPlugOperator as RbfMultiOrientationKernelPlugOperator,
     SolveStatusEnumPlugOperator as RbfMultiOrientationSolveStatusPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_rbf_multi_orientation_falloff_weight import (
+    BdRbfMultiOrientationFalloffWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_multi_orientation_falloff_weight import (
+    FalloffEnumPlugOperator as RbfMultiOrientationFalloffPlugOperator,
+    FalloffStatusEnumPlugOperator as RbfMultiOrientationFalloffStatusPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_rbf_multi_position_falloff_weight import (
+    BdRbfMultiPositionFalloffWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_multi_position_falloff_weight import (
+    FalloffEnumPlugOperator as RbfMultiPositionFalloffPlugOperator,
+    FalloffStatusEnumPlugOperator as RbfMultiPositionFalloffStatusPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_rbf_multi_position_weight import (
+    BdRbfMultiPositionWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_multi_position_weight import (
+    KernelEnumPlugOperator as RbfMultiPositionKernelPlugOperator,
+    SolveStatusEnumPlugOperator as RbfMultiPositionSolveStatusPlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_rbf_orientation_falloff_weight import (
     BdRbfOrientationFalloffWeight,
@@ -1085,6 +1130,219 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
             "existing_rbf_multi_orientation"
         ),
         BdRbfMultiOrientationWeight,
+    )
+
+    rbf_multi_orientation_falloff = (
+        nodes.create.bdRbf_MultiOrientationFalloffWeight(
+            name="rbf_multi_orientation_falloff"
+        )
+    )
+    assert_type(
+        rbf_multi_orientation_falloff,
+        BdRbfMultiOrientationFalloffWeight,
+    )
+    assert_type(
+        BdRbfMultiOrientationFalloffWeight.source,
+        RbfMultiOrientationFalloffSourceAttrOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.source[next],
+        RbfMultiOrientationFalloffSourcePlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.source[next].inputQuat,
+        RbfMultiOrientationFalloffInputQuatPlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.source[next].influence,
+        DoublePlugOperator,
+    )
+    assert_type(
+        BdRbfMultiOrientationFalloffWeight.pose,
+        RbfMultiOrientationFalloffPoseAttrOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.pose[next],
+        RbfMultiOrientationFalloffPosePlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.pose[next].sourceQuat[next],
+        RbfMultiOrientationFalloffPoseSourceQuatPlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.pose[next].enabled,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.pose[next].useRadiusOverride,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.pose[next].innerRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.pose[next].outerRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.innerRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.outerRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.falloff,
+        RbfMultiOrientationFalloffPlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation_falloff.outputWeight[next],
+        DoublePlugOperator,
+    )
+    assert_type(rbf_multi_orientation_falloff.isValid, BoolPlugOperator)
+    assert_type(
+        rbf_multi_orientation_falloff.falloffStatus,
+        RbfMultiOrientationFalloffStatusPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdRbf_MultiOrientationFalloffWeight(
+            "existing_rbf_multi_orientation_falloff"
+        ),
+        BdRbfMultiOrientationFalloffWeight,
+    )
+
+    rbf_multi_position = nodes.create.bdRbf_MultiPositionWeight(
+        name="rbf_multi_position"
+    )
+    assert_type(rbf_multi_position, BdRbfMultiPositionWeight)
+    assert_type(
+        BdRbfMultiPositionWeight.source,
+        RbfMultiPositionSourceAttrOperator,
+    )
+    assert_type(
+        rbf_multi_position.source[next],
+        RbfMultiPositionSourcePlugOperator,
+    )
+    assert_type(
+        rbf_multi_position.source[next].inputPosition,
+        RbfMultiPositionInputPositionPlugOperator,
+    )
+    assert_type(rbf_multi_position.source[next].influence, DoublePlugOperator)
+    assert_type(
+        BdRbfMultiPositionWeight.pose,
+        RbfMultiPositionPoseAttrOperator,
+    )
+    assert_type(
+        rbf_multi_position.pose[next],
+        RbfMultiPositionPosePlugOperator,
+    )
+    assert_type(
+        rbf_multi_position.pose[next].sourcePosition[next],
+        RbfMultiPositionPoseSourcePositionPlugOperator,
+    )
+    assert_type(rbf_multi_position.pose[next].enabled, BoolPlugOperator)
+    assert_type(
+        rbf_multi_position.kernel,
+        RbfMultiPositionKernelPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position.radius,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(rbf_multi_position.regularization, DoublePlugOperator)
+    assert_type(rbf_multi_position.allowNegativeWeights, BoolPlugOperator)
+    assert_type(rbf_multi_position.outputWeight[next], DoublePlugOperator)
+    assert_type(rbf_multi_position.isValid, BoolPlugOperator)
+    assert_type(
+        rbf_multi_position.solveStatus,
+        RbfMultiPositionSolveStatusPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdRbf_MultiPositionWeight(
+            "existing_rbf_multi_position"
+        ),
+        BdRbfMultiPositionWeight,
+    )
+
+    rbf_multi_position_falloff = nodes.create.bdRbf_MultiPositionFalloffWeight(
+        name="rbf_multi_position_falloff"
+    )
+    assert_type(
+        rbf_multi_position_falloff,
+        BdRbfMultiPositionFalloffWeight,
+    )
+    assert_type(
+        BdRbfMultiPositionFalloffWeight.source,
+        RbfMultiPositionFalloffSourceAttrOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.source[next],
+        RbfMultiPositionFalloffSourcePlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.source[next].inputPosition,
+        RbfMultiPositionFalloffInputPositionPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.source[next].influence,
+        DoublePlugOperator,
+    )
+    assert_type(
+        BdRbfMultiPositionFalloffWeight.pose,
+        RbfMultiPositionFalloffPoseAttrOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.pose[next],
+        RbfMultiPositionFalloffPosePlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.pose[next].sourcePosition[next],
+        RbfMultiPositionFalloffPoseSourcePositionPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.pose[next].enabled,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.pose[next].useRadiusOverride,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.pose[next].innerRadiusOverride,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.pose[next].outerRadiusOverride,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.innerRadius,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.outerRadius,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.falloff,
+        RbfMultiPositionFalloffPlugOperator,
+    )
+    assert_type(
+        rbf_multi_position_falloff.outputWeight[next],
+        DoublePlugOperator,
+    )
+    assert_type(rbf_multi_position_falloff.isValid, BoolPlugOperator)
+    assert_type(
+        rbf_multi_position_falloff.falloffStatus,
+        RbfMultiPositionFalloffStatusPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdRbf_MultiPositionFalloffWeight(
+            "existing_rbf_multi_position_falloff"
+        ),
+        BdRbfMultiPositionFalloffWeight,
     )
 
     rbf_orientation_falloff = nodes.create.bdRbf_OrientationFalloffWeight(

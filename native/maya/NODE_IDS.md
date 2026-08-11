@@ -156,6 +156,9 @@
 | `bdRbf_OrientationFalloffWeight` | `0x0007F098` | Internal development |
 | `bdRbf_BendTwistFalloffWeight` | `0x0007F099` | Internal development |
 | `bdRbf_MultiOrientationWeight` | `0x0007F09A` | Internal development |
+| `bdRbf_MultiPositionWeight` | `0x0007F09B` | Internal development |
+| `bdRbf_MultiOrientationFalloffWeight` | `0x0007F09C` | Internal development |
+| `bdRbf_MultiPositionFalloffWeight` | `0x0007F09D` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

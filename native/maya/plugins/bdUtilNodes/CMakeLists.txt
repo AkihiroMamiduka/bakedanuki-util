@@ -147,7 +147,10 @@ add_library(
     src/nodes/BdEulerValueNode.cpp
     src/nodes/BdQuatValueNode.cpp
     src/nodes/BdRbfBendTwistFalloffWeightNode.cpp
+    src/nodes/BdRbfMultiOrientationFalloffWeightNode.cpp
     src/nodes/BdRbfMultiOrientationWeightNode.cpp
+    src/nodes/BdRbfMultiPositionFalloffWeightNode.cpp
+    src/nodes/BdRbfMultiPositionWeightNode.cpp
     src/nodes/BdRbfPoseBlendNode.cpp
     src/nodes/BdRbfOrientationFalloffWeightNode.cpp
     src/nodes/BdRbfOrientationWeightNode.cpp

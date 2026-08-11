@@ -404,8 +404,17 @@ from ..operator.node.dg.bd_quat_value import BdQuatValue
 from ..operator.node.dg.bd_rbf_bend_twist_falloff_weight import (
     BdRbfBendTwistFalloffWeight,
 )
+from ..operator.node.dg.bd_rbf_multi_orientation_falloff_weight import (
+    BdRbfMultiOrientationFalloffWeight,
+)
 from ..operator.node.dg.bd_rbf_multi_orientation_weight import (
     BdRbfMultiOrientationWeight,
+)
+from ..operator.node.dg.bd_rbf_multi_position_falloff_weight import (
+    BdRbfMultiPositionFalloffWeight,
+)
+from ..operator.node.dg.bd_rbf_multi_position_weight import (
+    BdRbfMultiPositionWeight,
 )
 from ..operator.node.dg.bd_rbf_pose_blend import BdRbfPoseBlend
 from ..operator.node.dg.bd_rbf_orientation_falloff_weight import (
@@ -3138,11 +3147,26 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdRbfBendTwistFalloffWeight: ...
+    def bdRbf_MultiOrientationFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfMultiOrientationFalloffWeight: ...
     def bdRbf_MultiOrientationWeight(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdRbfMultiOrientationWeight: ...
+    def bdRbf_MultiPositionFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfMultiPositionFalloffWeight: ...
+    def bdRbf_MultiPositionWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfMultiPositionWeight: ...
     def bdRbf_PoseBlend(
         self,
         name: str | None = None,

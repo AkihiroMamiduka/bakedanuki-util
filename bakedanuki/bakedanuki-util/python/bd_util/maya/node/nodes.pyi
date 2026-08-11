@@ -528,8 +528,17 @@ from .operator.node.dg.bd_quat_value import BdQuatValue
 from .operator.node.dg.bd_rbf_bend_twist_falloff_weight import (
     BdRbfBendTwistFalloffWeight,
 )
+from .operator.node.dg.bd_rbf_multi_orientation_falloff_weight import (
+    BdRbfMultiOrientationFalloffWeight,
+)
 from .operator.node.dg.bd_rbf_multi_orientation_weight import (
     BdRbfMultiOrientationWeight,
+)
+from .operator.node.dg.bd_rbf_multi_position_falloff_weight import (
+    BdRbfMultiPositionFalloffWeight,
+)
+from .operator.node.dg.bd_rbf_multi_position_weight import (
+    BdRbfMultiPositionWeight,
 )
 from .operator.node.dg.bd_rbf_orientation_falloff_weight import (
     BdRbfOrientationFalloffWeight,
@@ -3465,11 +3474,26 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdRbfBendTwistFalloffWeight: ...
+    def bdRbf_MultiOrientationFalloffWeight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdRbfMultiOrientationFalloffWeight: ...
     def bdRbf_MultiOrientationWeight(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdRbfMultiOrientationWeight: ...
+    def bdRbf_MultiPositionFalloffWeight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdRbfMultiPositionFalloffWeight: ...
+    def bdRbf_MultiPositionWeight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdRbfMultiPositionWeight: ...
     def bdRbf_OrientationFalloffWeight(
         self,
         node: str | om.MObject,

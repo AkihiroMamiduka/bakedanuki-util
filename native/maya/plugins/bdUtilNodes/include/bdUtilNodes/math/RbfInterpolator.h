@@ -55,6 +55,21 @@ struct MultiQuaternionPoseSample {
     std::vector<IndexedQuaternion> sourceQuaternions;
 };
 
+struct PositionSourceDefinition {
+    unsigned int logicalIndex = 0;
+    double influence = 1.0;
+};
+
+struct IndexedPosition {
+    unsigned int logicalIndex = 0;
+    std::array<double, 3> position = {0.0, 0.0, 0.0};
+};
+
+struct MultiPositionPoseSample {
+    unsigned int logicalIndex = 0;
+    std::vector<IndexedPosition> sourcePositions;
+};
+
 struct IndexedWeight {
     unsigned int logicalIndex = 0;
     double weight = 0.0;
@@ -154,6 +169,42 @@ public:
 
     RbfSolveStatus evaluate(
         const std::array<double, 3>& inputPosition,
+        std::vector<IndexedWeight>& outputWeights
+    ) const;
+
+    RbfSolveStatus status() const;
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+class MultiPositionRbfInterpolator final {
+public:
+    MultiPositionRbfInterpolator();
+    ~MultiPositionRbfInterpolator();
+
+    MultiPositionRbfInterpolator(MultiPositionRbfInterpolator&&) noexcept;
+    MultiPositionRbfInterpolator& operator=(
+        MultiPositionRbfInterpolator&&
+    ) noexcept;
+
+    MultiPositionRbfInterpolator(const MultiPositionRbfInterpolator&) =
+        delete;
+    MultiPositionRbfInterpolator& operator=(
+        const MultiPositionRbfInterpolator&
+    ) = delete;
+
+    RbfSolveStatus configure(
+        const std::vector<PositionSourceDefinition>& sources,
+        const std::vector<MultiPositionPoseSample>& samples,
+        RbfKernel kernel,
+        double radius,
+        double regularization
+    );
+
+    RbfSolveStatus evaluate(
+        const std::vector<IndexedPosition>& inputPositions,
         std::vector<IndexedWeight>& outputWeights
     ) const;
 

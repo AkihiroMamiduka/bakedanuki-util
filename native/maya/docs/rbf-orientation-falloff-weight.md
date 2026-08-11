@@ -1,5 +1,8 @@
 # RBF Orientation Falloff Weight
 
+複数のorientation sourceを1組のdriverとして扱う場合は
+[`bdRbf_MultiOrientationFalloffWeight`](rbf-multi-orientation-falloff-weight.md)を使用します。
+
 `bdRbf_OrientationFalloffWeight` は、現在の Quaternion と各 pose Quaternion の最短角度距離から、
 pose ごとに独立した falloff weight を計算する dependency node です。
 

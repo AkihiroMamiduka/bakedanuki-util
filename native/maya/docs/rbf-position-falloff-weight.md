@@ -1,5 +1,8 @@
 # RBF Position Falloff Weight
 
+複数のposition sourceを1組のdriverとして扱う場合は
+[`bdRbf_MultiPositionFalloffWeight`](rbf-multi-position-falloff-weight.md)を使用します。
+
 `bdRbf_PositionFalloffWeight` は、現在位置と各 pose 位置の3次元距離から、pose ごとに
 独立した falloff weight を計算する dependency node です。
 

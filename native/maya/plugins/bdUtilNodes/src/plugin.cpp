@@ -151,7 +151,10 @@
 #include "bdUtilNodes/nodes/BdQuatMultiplyMultiNode.h"
 #include "bdUtilNodes/nodes/BdQuatValueNode.h"
 #include "bdUtilNodes/nodes/BdRbfBendTwistFalloffWeightNode.h"
+#include "bdUtilNodes/nodes/BdRbfMultiOrientationFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfMultiOrientationWeightNode.h"
+#include "bdUtilNodes/nodes/BdRbfMultiPositionFalloffWeightNode.h"
+#include "bdUtilNodes/nodes/BdRbfMultiPositionWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfPoseBlendNode.h"
 #include "bdUtilNodes/nodes/BdRbfOrientationFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfOrientationWeightNode.h"
@@ -167,8 +170,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 152>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 152> registrations = {{
+const std::array<NodeRegistration, 155>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 155> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -1050,6 +1053,24 @@ const std::array<NodeRegistration, 152>& nodeRegistrations() {
             BdRbfMultiOrientationWeightNode::typeId,
             BdRbfMultiOrientationWeightNode::creator,
             BdRbfMultiOrientationWeightNode::initialize,
+        },
+        {
+            BdRbfMultiPositionWeightNode::typeName,
+            BdRbfMultiPositionWeightNode::typeId,
+            BdRbfMultiPositionWeightNode::creator,
+            BdRbfMultiPositionWeightNode::initialize,
+        },
+        {
+            BdRbfMultiOrientationFalloffWeightNode::typeName,
+            BdRbfMultiOrientationFalloffWeightNode::typeId,
+            BdRbfMultiOrientationFalloffWeightNode::creator,
+            BdRbfMultiOrientationFalloffWeightNode::initialize,
+        },
+        {
+            BdRbfMultiPositionFalloffWeightNode::typeName,
+            BdRbfMultiPositionFalloffWeightNode::typeId,
+            BdRbfMultiPositionFalloffWeightNode::creator,
+            BdRbfMultiPositionFalloffWeightNode::initialize,
         },
         {
             BdRbfPoseBlendNode::typeName,

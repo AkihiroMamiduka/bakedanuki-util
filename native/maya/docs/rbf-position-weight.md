@@ -1,5 +1,8 @@
 # RBF Position Weight
 
+複数のposition sourceを1組のdriverとして補間する場合は
+[`bdRbf_MultiPositionWeight`](rbf-multi-position-weight.md)を使用します。
+
 `bdRbf_PositionWeight` は、現在位置と登録済み pose 位置の3次元距離から、各 pose に
 対応する補間 weight を計算する dependency node です。
 

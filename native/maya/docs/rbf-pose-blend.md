@@ -9,9 +9,9 @@ RBF solveと出力値の合成は別nodeに保ちます。これにより、同�
 ## Weight Connection
 
 `weight[]`は`bdRbf_OrientationWeight.outputWeight[]`、
-`bdRbf_MultiOrientationWeight.outputWeight[]`、`bdRbf_OrientationFalloffWeight.outputWeight[]`、
-`bdRbf_BendTwistFalloffWeight.outputWeight[]`、`bdRbf_PositionWeight.outputWeight[]`、または
-`bdRbf_PositionFalloffWeight.outputWeight[]`をmulti attributeの親同士で接続できます。
+`bdRbf_MultiOrientationWeight.outputWeight[]`、orientation falloff系、
+`bdRbf_BendTwistFalloffWeight.outputWeight[]`、position weight / falloff系の単一・複数source版を
+multi attributeの親同士で接続できます。
 
 ```python
 weight.outputWeight.connect(blend.weight)
