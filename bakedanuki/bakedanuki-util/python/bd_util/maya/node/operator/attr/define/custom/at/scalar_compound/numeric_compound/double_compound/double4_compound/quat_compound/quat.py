@@ -1,4 +1,6 @@
 # coding: utf-8
+from collections.abc import Sequence
+from typing import Any
 
 # self
 from ._base import (
@@ -21,7 +23,12 @@ class QuatPlugOperator(QuatCompoundBasePlugOperator["Quat4AttrOperator"]):
 class Quat4AttrOperator(QuatCompoundBaseAttrOperator[QuatPlugOperator]):
     __slots__ = ()
 
-    def __init__(self, *args, default_value=None, **kwargs):
+    def __init__(
+        self,
+        *args: Any,
+        default_value: Sequence[int | float] | None = None,
+        **kwargs: Any,
+    ) -> None:
         if default_value is None:
             default_value = (0.0, 0.0, 0.0, 1.0)
         super().__init__(*args, default_value=default_value, **kwargs)

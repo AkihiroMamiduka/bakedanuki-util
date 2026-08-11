@@ -48,7 +48,7 @@ class EnumPlugOperator(ScalarBasePlugOperator[A]):
 
     NAME_MAP: dict[int, str] | None = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self._fn_enum: om.MFnEnumAttribute | None = None
@@ -119,8 +119,8 @@ class EnumAttrOperator(ScalarBaseAttrOperator[P]):
 
     def __init__(
         self,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> None:
         if self.NAME_MAP is not None:
             kwargs["enum_name"] = self.enum_full_name()
         super().__init__(**kwargs)

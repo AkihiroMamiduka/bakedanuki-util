@@ -18,7 +18,7 @@ class ExtraCompoundField(CompoundField[CompoundAttrOperator[P], P]):
     ATTR_CLS = cast(Type[CompoundAttrOperator[P]], CompoundAttrOperator)
     PLUG_CLS = cast(Type[P], CompoundPlugOperator)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.extra = True

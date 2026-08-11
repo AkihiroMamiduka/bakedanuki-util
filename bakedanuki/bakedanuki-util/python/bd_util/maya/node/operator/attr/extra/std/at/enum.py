@@ -20,7 +20,7 @@ class ExtraEnumField(EnumField[EnumAttrOperator[P], P]):
     ATTR_CLS = cast(Type[EnumAttrOperator[P]], EnumAttrOperator)
     PLUG_CLS = cast(Type[P], EnumPlugOperator)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.extra = True

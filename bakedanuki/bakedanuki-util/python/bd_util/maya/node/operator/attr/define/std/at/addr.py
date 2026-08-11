@@ -1,4 +1,5 @@
 # coding: utf-8
+from typing import Any
 
 # self
 from ...._core import AttrOperator, PlugOperator, AttributeField
@@ -9,7 +10,7 @@ class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
 
     _REQUIRED_CMDS_ADD_ATTR: bool = True
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self._data_handle = None

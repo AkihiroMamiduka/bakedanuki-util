@@ -1,4 +1,5 @@
 # coding: utf-8
+from typing import Any
 
 # maya
 from maya.api import OpenMaya as om
@@ -42,7 +43,12 @@ class DoubleLinearAttrOperator(
 
     ATTR_TYPE = "doubleLinear"
 
-    def __init__(self, *args, default_value=None, **kwargs):
+    def __init__(
+        self,
+        *args: Any,
+        default_value: float | None = None,
+        **kwargs: Any,
+    ) -> None:
         # デフォルト値
         if default_value is None:
             default_value = 0.0
