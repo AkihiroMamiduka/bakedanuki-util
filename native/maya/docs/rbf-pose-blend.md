@@ -8,8 +8,8 @@ RBF solveと出力値の合成は別nodeに保ちます。これにより、同�
 
 ## Weight Connection
 
-`weight[]`は`bdRbf_PoseWeight.outputWeight[]`または
-`bdRbf_PositionWeight.outputWeight[]`をmulti attributeの親同士で接続できます。
+`weight[]`は`bdRbf_PoseWeight.outputWeight[]`、`bdRbf_PositionWeight.outputWeight[]`、
+または`bdRbf_PositionFalloffWeight.outputWeight[]`をmulti attributeの親同士で接続できます。
 
 ```python
 weight.outputWeight.connect(blend.weight)
@@ -48,7 +48,7 @@ outputWeight[8] -> weight[8] -> pose[8]
 
 `pose[i]`と`weight[i]`の両方が存在し、poseがenabledで、weightがexact zeroではない場合だけ
 計算へ参加します。片方だけ存在するlogical indexは無視します。したがって、1つの
-1つのRBF weight nodeから複数のblend nodeを駆動し、各blend nodeへ必要なposeだけ
+RBF weight nodeから複数のblend nodeを駆動し、各blend nodeへ必要なposeだけ
 登録できます。
 
 poseのTRSはbaseからのoffsetではなく、そのposeにおける絶対的なchannel目標値です。

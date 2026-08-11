@@ -79,7 +79,7 @@ Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パ�
 doubleLinear / doubleLinear3版、scalar doubleAngle版、Euler / Quaternion Value、Quaternion可変長積・基準変換、Quaternion / EulerのBend / Twist分解・合成・Twist専用分解の乗算・安全除算・距離比率・
 角度比率・Wrap・最短角度差・最短経路補間・直角三角形計算、および加算・減算・
 最小値・最大値・Clamp・Map Range・Absolute・Negate・Condition・Average・Weighted Averageについて、固定入力ノード、
-可変長入力ノード、Quaternion RBF pose weight、position RBF weight、RBF weightによるTRS pose blend、空入力、sparse 配列、logical index 順、除数epsilon、`NaN`、無限値、
+可変長入力ノード、Quaternion RBF pose weight、position RBF interpolative weight、position RBF falloff weight、RBF weightによるTRS pose blend、空入力、sparse 配列、logical index 順、除数epsilon、`NaN`、無限値、
 符号付きゼロ、逆転した上下限、方向付き範囲、Source幅0、外挿、絶対値、符号反転、条件分岐、最初の一致、算術平均、加重平均、weight合計0、合計値のオーバーフロー、element 削除、compound child の直接要求、compound dirty、DG / Serial /
 Parallel、ノード接続、scene の保存と再読込、NodeOperator API を確認します。
 

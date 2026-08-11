@@ -3,6 +3,9 @@
 `bdRbf_PositionWeight` は、現在位置と登録済み pose 位置の3次元距離から、各 pose に
 対応する補間 weight を計算する dependency node です。
 
+各 pose の範囲を内側・外側半径で直接指定し、互いに独立した weight を軽量に計算したい
+場合は [`bdRbf_PositionFalloffWeight`](rbf-position-falloff-weight.md) を使用します。
+
 出力形式は `bdRbf_PoseWeight.outputWeight[]` と同じです。回転driver版と同様に、
 [`bdRbf_PoseBlend`](rbf-pose-blend.md) の `weight[]` へmulti attributeの親同士を
 接続できます。
@@ -159,3 +162,6 @@ pose、kernel、radius、regularizationが変化したときだけ `N x N` 行�
 再構築します。通常の評価で `inputPosition`だけが変化するときはfactorizationを再利用し、
 kernel vectorとweightだけを計算します。cacheはnode instanceごとに持ち、Parallel評価中も
 mutexで設定と入力評価の組み合わせを保護します。
+
+radiusはrig構築時に調整する設定値として扱います。値の変更による再評価は行いますが、
+毎フレームradiusをアニメーションする運用は想定せず、サポートおよび性能保証の対象外です。

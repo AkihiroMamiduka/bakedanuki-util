@@ -61,6 +61,13 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_weight import 
     PoseAttrOperator as RbfPoseAttrOperator,
     PosePlugOperator as RbfPosePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_position_falloff_weight import (
+    InputPositionAttrOperator as RbfPositionFalloffInputAttrOperator,
+    InputPositionPlugOperator as RbfPositionFalloffInputPlugOperator,
+    Pose_positionPlugOperator as RbfPositionFalloffPosePositionPlugOperator,
+    PoseAttrOperator as RbfPositionFalloffPoseAttrOperator,
+    PosePlugOperator as RbfPositionFalloffPosePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_position_weight import (
     InputPositionAttrOperator as RbfPositionInputAttrOperator,
     InputPositionPlugOperator as RbfPositionInputPlugOperator,
@@ -461,6 +468,13 @@ from bd_util.maya.node.operator.node.dg.bd_rbf_pose_weight import (
 from bd_util.maya.node.operator.node.dg._generated.bd_rbf_pose_weight import (
     KernelEnumPlugOperator as RbfKernelPlugOperator,
     SolveStatusEnumPlugOperator as RbfSolveStatusPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_rbf_position_falloff_weight import (
+    BdRbfPositionFalloffWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_position_falloff_weight import (
+    FalloffEnumPlugOperator as RbfPositionFalloffPlugOperator,
+    FalloffStatusEnumPlugOperator as RbfPositionFalloffStatusPlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_rbf_position_weight import (
     BdRbfPositionWeight,
@@ -894,6 +908,73 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdRbf_PoseWeight("existing_rbf_pose_weight"),
         BdRbfPoseWeight,
+    )
+
+    rbf_position_falloff_weight = nodes.create.bdRbf_PositionFalloffWeight(
+        name="rbf_position_falloff_weight"
+    )
+    assert_type(rbf_position_falloff_weight, BdRbfPositionFalloffWeight)
+    assert_type(
+        BdRbfPositionFalloffWeight.inputPosition,
+        RbfPositionFalloffInputAttrOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.inputPosition,
+        RbfPositionFalloffInputPlugOperator,
+    )
+    assert_type(
+        BdRbfPositionFalloffWeight.pose,
+        RbfPositionFalloffPoseAttrOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.pose[next],
+        RbfPositionFalloffPosePlugOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.pose[next].position,
+        RbfPositionFalloffPosePositionPlugOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.pose[next].enabled, BoolPlugOperator
+    )
+    assert_type(
+        rbf_position_falloff_weight.pose[next].useRadiusOverride,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.pose[next].innerRadiusOverride,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.pose[next].outerRadiusOverride,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.innerRadius,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.outerRadius,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.falloff,
+        RbfPositionFalloffPlugOperator,
+    )
+    assert_type(
+        rbf_position_falloff_weight.outputWeight[next],
+        DoublePlugOperator,
+    )
+    assert_type(rbf_position_falloff_weight.isValid, BoolPlugOperator)
+    assert_type(
+        rbf_position_falloff_weight.falloffStatus,
+        RbfPositionFalloffStatusPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdRbf_PositionFalloffWeight(
+            "existing_rbf_position_falloff_weight"
+        ),
+        BdRbfPositionFalloffWeight,
     )
 
     rbf_position_weight = nodes.create.bdRbf_PositionWeight(

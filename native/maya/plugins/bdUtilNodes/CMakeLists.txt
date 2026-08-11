@@ -148,9 +148,11 @@ add_library(
     src/nodes/BdQuatValueNode.cpp
     src/nodes/BdRbfPoseBlendNode.cpp
     src/nodes/BdRbfPoseWeightNode.cpp
+    src/nodes/BdRbfPositionFalloffWeightNode.cpp
     src/nodes/BdRbfPositionWeightNode.cpp
     src/math/BendTwist.cpp
     src/math/PoseBlend.cpp
+    src/math/PositionFalloff.cpp
     src/math/RbfInterpolator.cpp
     src/attributes/BendTwistAttribute.cpp
     src/attributes/ComparisonAttribute.cpp
