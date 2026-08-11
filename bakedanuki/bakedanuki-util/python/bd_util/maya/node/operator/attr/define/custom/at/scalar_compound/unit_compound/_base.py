@@ -19,13 +19,15 @@ A = TypeVar("A", bound="UnitCompoundBaseAttrOperator[Any]")
 
 P = TypeVar("P", bound="UnitCompoundBasePlugOperator[Any, Any]")
 
-V = TypeVar("V", bound=ScalarCompoundValue[int | float])
+V = TypeVar("V", bound=ScalarCompoundValue[float])
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class UnitCompoundBasePlugOperator(ScalarCompoundBasePlugOperator[A, V]):
+class UnitCompoundBasePlugOperator(
+    ScalarCompoundBasePlugOperator[A, V, float]
+):
     __slots__ = ()
 
     CHILD_M_FN = om.MFnUnitAttribute

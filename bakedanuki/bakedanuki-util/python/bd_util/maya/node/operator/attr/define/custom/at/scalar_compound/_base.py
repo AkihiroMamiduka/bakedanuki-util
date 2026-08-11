@@ -18,17 +18,17 @@ P = TypeVar("P", bound="PlugOperator[Any]")
 
 V = TypeVar("V", bound=ScalarCompoundValue[int | float])
 
-ScalarValue = int | float
+S = TypeVar("S", bound=int | float)
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
+class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
     __slots__ = ()
 
     CHILD_M_FN = None
-    CHILD_M_ATTR_TYPE: int = None
+    CHILD_M_ATTR_TYPE: int | None = None
     VALUE_TYPE: type[V]
     _SUFFIXES: tuple[str, ...] = ()
     CHILD_FIELDS: tuple[AttributeField[Any, Any], ...] = ()
@@ -76,7 +76,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
         cls.CHILD_ATTR_NAMES = child_attr_names
 
     # get
-    def _get_child_value(self, child_plug: om.MPlug) -> ScalarValue:
+    def _get_child_value(self, child_plug: om.MPlug) -> S:
         pass
 
     def get(self) -> V:
@@ -91,7 +91,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
         return self.get()
 
     @value.setter
-    def value(self, value: Sequence[ScalarValue]) -> None:
+    def value(self, value: Sequence[S]) -> None:
         self.set(value)
 
     @property
@@ -99,21 +99,21 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
         return self.get()
 
     @value_direct.setter
-    def value_direct(self, value: Sequence[ScalarValue]) -> None:
+    def value_direct(self, value: Sequence[S]) -> None:
         self.set_direct(value)
 
     # set
     def _set_child_value(
         self,
         child_plug: om.MPlug,
-        value: ScalarValue,
+        value: S,
     ) -> None:
         pass
 
     def _set_child_value_direct(
         self,
         child_plug: om.MPlug,
-        value: ScalarValue,
+        value: S,
     ) -> None:
         raise NotImplementedError
 
@@ -135,9 +135,9 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
 
     def _normalize_set_values(
         self,
-        values: tuple[ScalarValue | Sequence[ScalarValue], ...],
+        values: tuple[S | Sequence[S], ...],
         method_name: str = "set",
-    ) -> tuple[ScalarValue, ...]:
+    ) -> tuple[S, ...]:
         if len(values) == 1:
             value = values[0]
             if isinstance(value, Sequence) and not isinstance(
@@ -148,7 +148,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
             raise self._set_values_error(values, method_name)
         return tuple(values)
 
-    def set(self, *values: ScalarValue | Sequence[ScalarValue]) -> None:
+    def set(self, *values: S | Sequence[S]) -> None:
         values = self._normalize_set_values(values)
         plug = self.plug
         try:
@@ -161,7 +161,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
 
     def set_direct(
         self,
-        *values: ScalarValue | Sequence[ScalarValue],
+        *values: S | Sequence[S],
     ) -> None:
         values = self._normalize_set_values(values, "set_direct")
         plug = self.plug

@@ -17,15 +17,19 @@ from .._base import (
 
 A = TypeVar("A", bound="NumericCompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="NumericCompoundBasePlugOperator[Any, Any]")
+P = TypeVar("P", bound="NumericCompoundBasePlugOperator[Any, Any, Any]")
 
 V = TypeVar("V", bound=ScalarCompoundValue[int | float])
+
+S = TypeVar("S", bound=int | float)
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class NumericCompoundBasePlugOperator(ScalarCompoundBasePlugOperator[A, V]):
+class NumericCompoundBasePlugOperator(
+    ScalarCompoundBasePlugOperator[A, V, S]
+):
     __slots__ = ()
 
     CHILD_M_FN = om.MFnNumericAttribute
