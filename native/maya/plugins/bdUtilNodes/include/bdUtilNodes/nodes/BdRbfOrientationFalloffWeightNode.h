@@ -6,7 +6,7 @@
 #include <maya/MString.h>
 #include <maya/MTypeId.h>
 
-class BdRbfPoseFalloffWeightNode final : public MPxNode {
+class BdRbfOrientationFalloffWeightNode final : public MPxNode {
 public:
     static void* creator();
     static MStatus initialize();

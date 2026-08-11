@@ -6,7 +6,7 @@
 各 pose の範囲を内側・外側半径で直接指定し、互いに独立した weight を軽量に計算したい
 場合は [`bdRbf_PositionFalloffWeight`](rbf-position-falloff-weight.md) を使用します。
 
-出力形式は `bdRbf_PoseWeight.outputWeight[]` と同じです。回転driver版と同様に、
+出力形式は `bdRbf_OrientationWeight.outputWeight[]` と同じです。回転driver版と同様に、
 [`bdRbf_PoseBlend`](rbf-pose-blend.md) の `weight[]` へmulti attributeの親同士を
 接続できます。
 
@@ -47,7 +47,7 @@ nodeは行列適用や座標変換を行いません。`inputPosition` と `pose
 ## Kernel And Solve
 
 `x = distance / radius` とし、kernel式と補間solveは
-[`bdRbf_PoseWeight`](rbf-pose-weight.md) と共通です。
+[`bdRbf_OrientationWeight`](rbf-orientation-weight.md) と共通です。
 
 ```text
 K(i, j) = φ(d(c_i, c_j) / radius)

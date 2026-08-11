@@ -1,10 +1,10 @@
-# RBF Pose Weight
+# RBF Orientation Weight
 
-`bdRbf_PoseWeight` は、現在の Quaternion と登録済み Quaternion pose の角度距離から、
+`bdRbf_OrientationWeight` は、現在の Quaternion と登録済み Quaternion pose の角度距離から、
 各 pose に対応する補間 weight を計算する dependency node です。
 
 poseごとのinner / outer半径で独立weightを計算する場合は
-[`bdRbf_PoseFalloffWeight`](rbf-pose-falloff-weight.md)、BendとTwistを別の半径で評価する場合は
+[`bdRbf_OrientationFalloffWeight`](rbf-orientation-falloff-weight.md)、BendとTwistを別の半径で評価する場合は
 [`bdRbf_BendTwistFalloffWeight`](rbf-bend-twist-falloff-weight.md)を使用します。
 
 「回転入力のRBF補間」と「型付き出力のblend」は別nodeに分離します。このnode自身は
@@ -147,7 +147,7 @@ import bd_util as bdu
 mod = bdu.ModifierManager()
 nodes = bdu.Nodes(modifier_manager=mod)
 
-weight = nodes.create.bdRbf_PoseWeight(name="shoulder_rbf_weight")
+weight = nodes.create.bdRbf_OrientationWeight(name="shoulder_rbf_weight")
 blend = nodes.create.bdRbf_PoseBlend(name="shoulder_rbf_blend")
 
 weight.pose[0].poseQuat.set((0.0, 0.0, 0.0, 1.0))

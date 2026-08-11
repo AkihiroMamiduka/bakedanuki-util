@@ -298,7 +298,7 @@ def test_rbf_weight_parent_connection_preserves_sparse_indexes(
     maya_om,
 ):
     _load_bd_util_nodes(maya_cmds)
-    weight_node = maya_cmds.createNode("bdRbf_PoseWeight")
+    weight_node = maya_cmds.createNode("bdRbf_OrientationWeight")
     blend_node = maya_cmds.createNode("bdRbf_PoseBlend")
     identity = (0.0, 0.0, 0.0, 1.0)
     quarter_turn = _quaternion_from_euler(maya_om, (90.0, 0.0, 0.0))
@@ -466,7 +466,7 @@ def test_node_operator_creation_and_parent_weight_connection(
     )
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight_node = nodes.create.bdRbf_PoseWeight(name="rbf_weight")
+    weight_node = nodes.create.bdRbf_OrientationWeight(name="rbf_weight")
     blend_node = nodes.create.bdRbf_PoseBlend(name="rbf_blend")
     weight_node.pose[2].poseQuat.set((0.0, 0.0, 0.0, 1.0))
     blend_node.pose[2].translate.set((1.0, 2.0, 3.0))
@@ -496,7 +496,9 @@ def test_scene_round_trip_preserves_parent_connection(
     maya_cmds, maya_om, tmp_path
 ):
     _load_bd_util_nodes(maya_cmds)
-    weight_node = maya_cmds.createNode("bdRbf_PoseWeight", name="saved_weight")
+    weight_node = maya_cmds.createNode(
+        "bdRbf_OrientationWeight", name="saved_weight"
+    )
     blend_node = maya_cmds.createNode("bdRbf_PoseBlend", name="saved_blend")
     identity = (0.0, 0.0, 0.0, 1.0)
     quarter_turn = _quaternion_from_euler(maya_om, (90.0, 0.0, 0.0))

@@ -66,7 +66,7 @@ def _weight(maya_cmds, node: str, index: int) -> float:
 
 def test_type_id_attributes_and_defaults(maya_cmds, maya_om):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
 
     selection = maya_om.MSelectionList()
     selection.add(node)
@@ -106,7 +106,7 @@ def test_type_id_attributes_and_defaults(maya_cmds, maya_om):
 
 def test_pose_defaults_to_enabled_but_uninitialized(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
 
     assert maya_cmds.getAttr(f"{node}.pose[3].poseQuat")[0] == pytest.approx(
         (0.0, 0.0, 0.0, 0.0)
@@ -137,7 +137,7 @@ def test_falloff_formulas_use_quaternion_angular_distance(
     expected,
 ):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     _set_pose(maya_cmds, node, 0, _axis_quaternion("x", 0.0))
     _set_quaternion(
         maya_cmds,
@@ -153,7 +153,7 @@ def test_falloff_formulas_use_quaternion_angular_distance(
 
 def test_quaternion_sign_and_scale_represent_the_same_rotation(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     pose = _axis_quaternion("y", 70.0)
     _set_pose(maya_cmds, node, 0, pose)
     _set_quaternion(
@@ -167,7 +167,7 @@ def test_quaternion_sign_and_scale_represent_the_same_rotation(maya_cmds):
 
 def test_inner_plateau_and_outer_boundary(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     _set_pose(maya_cmds, node, 0, _axis_quaternion("z", 0.0))
     maya_cmds.setAttr(f"{node}.innerRadius", 20.0)
     maya_cmds.setAttr(f"{node}.outerRadius", 80.0)
@@ -190,7 +190,7 @@ def test_inner_plateau_and_outer_boundary(maya_cmds):
 
 def test_pose_radius_override_is_individual_and_not_normalized(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     identity = _axis_quaternion("x", 0.0)
     _set_pose(maya_cmds, node, 2, identity)
     _set_pose(maya_cmds, node, 8, identity)
@@ -215,7 +215,7 @@ def test_pose_radius_override_is_individual_and_not_normalized(maya_cmds):
 
 def test_disabled_pose_ignores_invalid_quaternion_and_override(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     _set_pose(maya_cmds, node, 2, _axis_quaternion("x", 0.0))
     maya_cmds.getAttr(f"{node}.pose[9].poseQuat")
     maya_cmds.setAttr(f"{node}.pose[9].enabled", False)
@@ -243,7 +243,7 @@ def test_invalid_input_reports_status_and_zeroes_outputs(
     expected_status,
 ):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     _set_pose(maya_cmds, node, 0, _axis_quaternion("x", 0.0))
 
     if invalid_target == "input":
@@ -266,7 +266,7 @@ def test_invalid_input_reports_status_and_zeroes_outputs(
 def test_angle_units_are_converted_consistently(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
     maya_cmds.currentUnit(angle="radian")
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     _set_pose(maya_cmds, node, 0, _axis_quaternion("x", 0.0))
     _set_quaternion(
         maya_cmds,
@@ -282,7 +282,7 @@ def test_angle_units_are_converted_consistently(maya_cmds):
 def test_quaternion_parent_connection_updates_weight(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
     compose = maya_cmds.createNode("bdQuat_ComposeBendTwist")
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     _set_pose(maya_cmds, node, 0, _axis_quaternion("x", 45.0))
     maya_cmds.connectAttr(f"{compose}.outputQuat", f"{node}.inputQuat")
 
@@ -292,7 +292,7 @@ def test_quaternion_parent_connection_updates_weight(maya_cmds):
 
 def test_removed_pose_removes_matching_output_element(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     _set_pose(maya_cmds, node, 2, _axis_quaternion("x", 0.0))
     _set_pose(maya_cmds, node, 10, _axis_quaternion("x", 30.0))
     assert maya_cmds.getAttr(f"{node}.outputWeight", multiIndices=True) == [
@@ -314,7 +314,7 @@ def test_dirty_updates_match_in_all_evaluation_modes(
     previous_mode = maya_cmds.evaluationManager(query=True, mode=True)[0]
     try:
         maya_cmds.evaluationManager(mode=evaluation_mode)
-        node = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+        node = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
         _set_pose(maya_cmds, node, 0, _axis_quaternion("x", 0.0))
         maya_cmds.setAttr(f"{node}.innerRadius", 10.0)
         maya_cmds.setAttr(f"{node}.outerRadius", 50.0)
@@ -334,7 +334,7 @@ def test_dirty_updates_match_in_all_evaluation_modes(
 
 def test_pose_blend_parent_connection(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    weight = maya_cmds.createNode("bdRbf_PoseFalloffWeight")
+    weight = maya_cmds.createNode("bdRbf_OrientationFalloffWeight")
     blend = maya_cmds.createNode("bdRbf_PoseBlend")
     _set_pose(maya_cmds, weight, 8, _axis_quaternion("x", 45.0))
     _set_quaternion(
@@ -353,15 +353,15 @@ def test_node_operator_creation_and_parent_connection(
     modifier_manager,
 ):
     _load_bd_util_nodes(maya_cmds)
-    from bd_util.maya.node.operator.node.dg.bd_rbf_pose_falloff_weight import (
-        BdRbfPoseFalloffWeight,
+    from bd_util.maya.node.operator.node.dg.bd_rbf_orientation_falloff_weight import (
+        BdRbfOrientationFalloffWeight,
     )
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight = nodes.create.bdRbf_PoseFalloffWeight(
-        name="rbf_pose_falloff_weight"
+    weight = nodes.create.bdRbf_OrientationFalloffWeight(
+        name="rbf_orientation_falloff_weight"
     )
-    blend = nodes.create.bdRbf_PoseBlend(name="rbf_pose_falloff_blend")
+    blend = nodes.create.bdRbf_PoseBlend(name="rbf_orientation_falloff_blend")
     pose = _axis_quaternion("x", 45.0)
     weight.pose[8].poseQuat.set(pose)
     weight.inputQuat.set(pose)
@@ -369,20 +369,20 @@ def test_node_operator_creation_and_parent_connection(
     weight.outputWeight.connect(blend.weight)
     modifier_manager.do_it_dg()
 
-    assert isinstance(weight, BdRbfPoseFalloffWeight)
+    assert isinstance(weight, BdRbfOrientationFalloffWeight)
     assert weight.outputWeight[8].get() == pytest.approx(1.0)
     assert blend.outputTranslate.get() == pytest.approx((0.0, 5.0, 0.0))
     assert isinstance(
-        nodes.existing.bdRbf_PoseFalloffWeight(weight.name),
-        BdRbfPoseFalloffWeight,
+        nodes.existing.bdRbf_OrientationFalloffWeight(weight.name),
+        BdRbfOrientationFalloffWeight,
     )
 
 
 def test_scene_round_trip_preserves_configuration(maya_cmds, tmp_path):
     _load_bd_util_nodes(maya_cmds)
     node = maya_cmds.createNode(
-        "bdRbf_PoseFalloffWeight",
-        name="saved_pose_falloff",
+        "bdRbf_OrientationFalloffWeight",
+        name="saved_orientation_falloff",
     )
     _set_pose(maya_cmds, node, 8, _axis_quaternion("y", 45.0))
     _set_quaternion(
@@ -397,23 +397,25 @@ def test_scene_round_trip_preserves_configuration(maya_cmds, tmp_path):
     maya_cmds.setAttr(f"{node}.pose[8].innerRadiusOverride", 20.0)
     maya_cmds.setAttr(f"{node}.pose[8].outerRadiusOverride", 70.0)
 
-    scene_path = tmp_path / "rbf_pose_falloff_weight.ma"
+    scene_path = tmp_path / "rbf_orientation_falloff_weight.ma"
     maya_cmds.file(rename=str(scene_path))
     maya_cmds.file(save=True, type="mayaAscii", force=True)
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
     assert maya_cmds.getAttr(
-        "saved_pose_falloff.innerRadius"
+        "saved_orientation_falloff.innerRadius"
     ) == pytest.approx(10.0)
     assert maya_cmds.getAttr(
-        "saved_pose_falloff.outerRadius"
+        "saved_orientation_falloff.outerRadius"
     ) == pytest.approx(80.0)
-    assert maya_cmds.getAttr("saved_pose_falloff.falloff") == 1
+    assert maya_cmds.getAttr("saved_orientation_falloff.falloff") == 1
     assert (
-        maya_cmds.getAttr("saved_pose_falloff.pose[8].useRadiusOverride")
+        maya_cmds.getAttr(
+            "saved_orientation_falloff.pose[8].useRadiusOverride"
+        )
         is True
     )
     assert maya_cmds.getAttr(
-        "saved_pose_falloff.outputWeight[8]"
+        "saved_orientation_falloff.outputWeight[8]"
     ) == pytest.approx(1.0)

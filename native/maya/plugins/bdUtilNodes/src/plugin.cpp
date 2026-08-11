@@ -152,8 +152,8 @@
 #include "bdUtilNodes/nodes/BdQuatValueNode.h"
 #include "bdUtilNodes/nodes/BdRbfBendTwistFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfPoseBlendNode.h"
-#include "bdUtilNodes/nodes/BdRbfPoseFalloffWeightNode.h"
-#include "bdUtilNodes/nodes/BdRbfPoseWeightNode.h"
+#include "bdUtilNodes/nodes/BdRbfOrientationFalloffWeightNode.h"
+#include "bdUtilNodes/nodes/BdRbfOrientationWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfPositionFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfPositionWeightNode.h"
 
@@ -1051,16 +1051,16 @@ const std::array<NodeRegistration, 151>& nodeRegistrations() {
             BdRbfPoseBlendNode::initialize,
         },
         {
-            BdRbfPoseFalloffWeightNode::typeName,
-            BdRbfPoseFalloffWeightNode::typeId,
-            BdRbfPoseFalloffWeightNode::creator,
-            BdRbfPoseFalloffWeightNode::initialize,
+            BdRbfOrientationFalloffWeightNode::typeName,
+            BdRbfOrientationFalloffWeightNode::typeId,
+            BdRbfOrientationFalloffWeightNode::creator,
+            BdRbfOrientationFalloffWeightNode::initialize,
         },
         {
-            BdRbfPoseWeightNode::typeName,
-            BdRbfPoseWeightNode::typeId,
-            BdRbfPoseWeightNode::creator,
-            BdRbfPoseWeightNode::initialize,
+            BdRbfOrientationWeightNode::typeName,
+            BdRbfOrientationWeightNode::typeId,
+            BdRbfOrientationWeightNode::creator,
+            BdRbfOrientationWeightNode::initialize,
         },
         {
             BdRbfPositionFalloffWeightNode::typeName,

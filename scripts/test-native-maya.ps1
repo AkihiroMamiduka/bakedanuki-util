@@ -61,10 +61,10 @@ $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_quat_bend_twist.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_bend_twist_falloff_weight.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_pose_blend.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_pose_falloff_weight.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_orientation_falloff_weight.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_position_falloff_weight.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_position_weight.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_pose_weight.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_rbf_orientation_weight.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_average.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_weighted_average.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_min_max.py") `

@@ -7,7 +7,7 @@
 
 namespace bd_util_nodes {
 
-enum class PoseFalloffStatus : short {
+enum class OrientationFalloffStatus : short {
     kSuccess = 0,
     kNoPoses = 1,
     kInvalidRadius = 2,
@@ -16,23 +16,23 @@ enum class PoseFalloffStatus : short {
     kNumericalFailure = 5,
 };
 
-struct PoseFalloffSample {
+struct OrientationFalloffSample {
     unsigned int logicalIndex = 0;
     std::array<double, 4> quaternion = {0.0, 0.0, 0.0, 0.0};
     double innerRadiusRadians = 0.0;
     double outerRadiusRadians = 1.0;
 };
 
-struct PoseFalloffWeight {
+struct OrientationFalloffWeight {
     unsigned int logicalIndex = 0;
     double weight = 0.0;
 };
 
-PoseFalloffStatus evaluatePoseFalloff(
+OrientationFalloffStatus evaluateOrientationFalloff(
     const std::array<double, 4>& inputQuaternion,
-    const std::vector<PoseFalloffSample>& samples,
+    const std::vector<OrientationFalloffSample>& samples,
     Falloff falloff,
-    std::vector<PoseFalloffWeight>& outputWeights
+    std::vector<OrientationFalloffWeight>& outputWeights
 );
 
 }  // namespace bd_util_nodes

@@ -63,14 +63,14 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_bend_twist_falloff_
     PoseAttrOperator as RbfBendTwistPoseAttrOperator,
     PosePlugOperator as RbfBendTwistPosePlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_falloff_weight import (
-    InputQuatAttrOperator as RbfPoseFalloffInputQuatAttrOperator,
-    InputQuatPlugOperator as RbfPoseFalloffInputQuatPlugOperator,
-    Pose_poseQuatPlugOperator as RbfPoseFalloffPoseQuatPlugOperator,
-    PoseAttrOperator as RbfPoseFalloffPoseAttrOperator,
-    PosePlugOperator as RbfPoseFalloffPosePlugOperator,
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_orientation_falloff_weight import (
+    InputQuatAttrOperator as RbfOrientationFalloffInputQuatAttrOperator,
+    InputQuatPlugOperator as RbfOrientationFalloffInputQuatPlugOperator,
+    Pose_poseQuatPlugOperator as RbfOrientationFalloffPoseQuatPlugOperator,
+    PoseAttrOperator as RbfOrientationFalloffPoseAttrOperator,
+    PosePlugOperator as RbfOrientationFalloffPosePlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_weight import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_orientation_weight import (
     InputQuatAttrOperator as RbfInputQuatAttrOperator,
     InputQuatPlugOperator as RbfInputQuatPlugOperator,
     Pose_poseQuatPlugOperator as RbfPoseQuatPlugOperator,
@@ -487,17 +487,17 @@ from bd_util.maya.node.operator.node.dg._generated.bd_rbf_bend_twist_falloff_wei
     ModeEnumPlugOperator as RbfBendTwistModePlugOperator,
     OrderEnumPlugOperator as RbfBendTwistOrderPlugOperator,
 )
-from bd_util.maya.node.operator.node.dg.bd_rbf_pose_falloff_weight import (
-    BdRbfPoseFalloffWeight,
+from bd_util.maya.node.operator.node.dg.bd_rbf_orientation_falloff_weight import (
+    BdRbfOrientationFalloffWeight,
 )
-from bd_util.maya.node.operator.node.dg._generated.bd_rbf_pose_falloff_weight import (
-    FalloffEnumPlugOperator as RbfPoseFalloffPlugOperator,
-    FalloffStatusEnumPlugOperator as RbfPoseFalloffStatusPlugOperator,
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_orientation_falloff_weight import (
+    FalloffEnumPlugOperator as RbfOrientationFalloffPlugOperator,
+    FalloffStatusEnumPlugOperator as RbfOrientationFalloffStatusPlugOperator,
 )
-from bd_util.maya.node.operator.node.dg.bd_rbf_pose_weight import (
-    BdRbfPoseWeight,
+from bd_util.maya.node.operator.node.dg.bd_rbf_orientation_weight import (
+    BdRbfOrientationWeight,
 )
-from bd_util.maya.node.operator.node.dg._generated.bd_rbf_pose_weight import (
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_orientation_weight import (
     KernelEnumPlugOperator as RbfKernelPlugOperator,
     SolveStatusEnumPlugOperator as RbfSolveStatusPlugOperator,
 )
@@ -1019,81 +1019,87 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         BdRbfBendTwistFalloffWeight,
     )
 
-    rbf_pose_falloff = nodes.create.bdRbf_PoseFalloffWeight(
-        name="rbf_pose_falloff"
+    rbf_orientation_falloff = nodes.create.bdRbf_OrientationFalloffWeight(
+        name="rbf_orientation_falloff"
     )
-    assert_type(rbf_pose_falloff, BdRbfPoseFalloffWeight)
+    assert_type(rbf_orientation_falloff, BdRbfOrientationFalloffWeight)
     assert_type(
-        BdRbfPoseFalloffWeight.inputQuat,
-        RbfPoseFalloffInputQuatAttrOperator,
-    )
-    assert_type(
-        rbf_pose_falloff.inputQuat,
-        RbfPoseFalloffInputQuatPlugOperator,
+        BdRbfOrientationFalloffWeight.inputQuat,
+        RbfOrientationFalloffInputQuatAttrOperator,
     )
     assert_type(
-        BdRbfPoseFalloffWeight.pose,
-        RbfPoseFalloffPoseAttrOperator,
+        rbf_orientation_falloff.inputQuat,
+        RbfOrientationFalloffInputQuatPlugOperator,
     )
     assert_type(
-        rbf_pose_falloff.pose[next],
-        RbfPoseFalloffPosePlugOperator,
+        BdRbfOrientationFalloffWeight.pose,
+        RbfOrientationFalloffPoseAttrOperator,
     )
     assert_type(
-        rbf_pose_falloff.pose[next].poseQuat,
-        RbfPoseFalloffPoseQuatPlugOperator,
+        rbf_orientation_falloff.pose[next],
+        RbfOrientationFalloffPosePlugOperator,
     )
-    assert_type(rbf_pose_falloff.pose[next].enabled, BoolPlugOperator)
     assert_type(
-        rbf_pose_falloff.pose[next].useRadiusOverride,
+        rbf_orientation_falloff.pose[next].poseQuat,
+        RbfOrientationFalloffPoseQuatPlugOperator,
+    )
+    assert_type(rbf_orientation_falloff.pose[next].enabled, BoolPlugOperator)
+    assert_type(
+        rbf_orientation_falloff.pose[next].useRadiusOverride,
         BoolPlugOperator,
     )
     assert_type(
-        rbf_pose_falloff.pose[next].innerRadiusOverride,
+        rbf_orientation_falloff.pose[next].innerRadiusOverride,
         DoubleAnglePlugOperator,
     )
     assert_type(
-        rbf_pose_falloff.pose[next].outerRadiusOverride,
+        rbf_orientation_falloff.pose[next].outerRadiusOverride,
         DoubleAnglePlugOperator,
     )
-    assert_type(rbf_pose_falloff.innerRadius, DoubleAnglePlugOperator)
-    assert_type(rbf_pose_falloff.outerRadius, DoubleAnglePlugOperator)
+    assert_type(rbf_orientation_falloff.innerRadius, DoubleAnglePlugOperator)
+    assert_type(rbf_orientation_falloff.outerRadius, DoubleAnglePlugOperator)
     assert_type(
-        rbf_pose_falloff.falloff,
-        RbfPoseFalloffPlugOperator,
+        rbf_orientation_falloff.falloff,
+        RbfOrientationFalloffPlugOperator,
     )
-    assert_type(rbf_pose_falloff.outputWeight[next], DoublePlugOperator)
-    assert_type(rbf_pose_falloff.isValid, BoolPlugOperator)
+    assert_type(rbf_orientation_falloff.outputWeight[next], DoublePlugOperator)
+    assert_type(rbf_orientation_falloff.isValid, BoolPlugOperator)
     assert_type(
-        rbf_pose_falloff.falloffStatus,
-        RbfPoseFalloffStatusPlugOperator,
+        rbf_orientation_falloff.falloffStatus,
+        RbfOrientationFalloffStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_PoseFalloffWeight("existing_rbf_pose_falloff"),
-        BdRbfPoseFalloffWeight,
+        nodes.existing.bdRbf_OrientationFalloffWeight(
+            "existing_rbf_orientation_falloff"
+        ),
+        BdRbfOrientationFalloffWeight,
     )
 
-    rbf_pose_weight = nodes.create.bdRbf_PoseWeight(name="rbf_pose_weight")
-    assert_type(rbf_pose_weight, BdRbfPoseWeight)
-    assert_type(BdRbfPoseWeight.inputQuat, RbfInputQuatAttrOperator)
-    assert_type(rbf_pose_weight.inputQuat, RbfInputQuatPlugOperator)
-    assert_type(BdRbfPoseWeight.pose, RbfPoseAttrOperator)
-    assert_type(rbf_pose_weight.pose[next], RbfPosePlugOperator)
+    rbf_orientation_weight = nodes.create.bdRbf_OrientationWeight(
+        name="rbf_orientation_weight"
+    )
+    assert_type(rbf_orientation_weight, BdRbfOrientationWeight)
+    assert_type(BdRbfOrientationWeight.inputQuat, RbfInputQuatAttrOperator)
+    assert_type(rbf_orientation_weight.inputQuat, RbfInputQuatPlugOperator)
+    assert_type(BdRbfOrientationWeight.pose, RbfPoseAttrOperator)
+    assert_type(rbf_orientation_weight.pose[next], RbfPosePlugOperator)
     assert_type(
-        rbf_pose_weight.pose[next].poseQuat,
+        rbf_orientation_weight.pose[next].poseQuat,
         RbfPoseQuatPlugOperator,
     )
-    assert_type(rbf_pose_weight.pose[next].enabled, BoolPlugOperator)
-    assert_type(rbf_pose_weight.kernel, RbfKernelPlugOperator)
-    assert_type(rbf_pose_weight.radius, DoubleAnglePlugOperator)
-    assert_type(rbf_pose_weight.regularization, DoublePlugOperator)
-    assert_type(rbf_pose_weight.allowNegativeWeights, BoolPlugOperator)
-    assert_type(rbf_pose_weight.outputWeight[next], DoublePlugOperator)
-    assert_type(rbf_pose_weight.isValid, BoolPlugOperator)
-    assert_type(rbf_pose_weight.solveStatus, RbfSolveStatusPlugOperator)
+    assert_type(rbf_orientation_weight.pose[next].enabled, BoolPlugOperator)
+    assert_type(rbf_orientation_weight.kernel, RbfKernelPlugOperator)
+    assert_type(rbf_orientation_weight.radius, DoubleAnglePlugOperator)
+    assert_type(rbf_orientation_weight.regularization, DoublePlugOperator)
+    assert_type(rbf_orientation_weight.allowNegativeWeights, BoolPlugOperator)
+    assert_type(rbf_orientation_weight.outputWeight[next], DoublePlugOperator)
+    assert_type(rbf_orientation_weight.isValid, BoolPlugOperator)
+    assert_type(rbf_orientation_weight.solveStatus, RbfSolveStatusPlugOperator)
     assert_type(
-        nodes.existing.bdRbf_PoseWeight("existing_rbf_pose_weight"),
-        BdRbfPoseWeight,
+        nodes.existing.bdRbf_OrientationWeight(
+            "existing_rbf_orientation_weight"
+        ),
+        BdRbfOrientationWeight,
     )
 
     rbf_position_falloff_weight = nodes.create.bdRbf_PositionFalloffWeight(

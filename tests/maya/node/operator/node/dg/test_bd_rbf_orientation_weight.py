@@ -53,7 +53,7 @@ def _weight(maya_cmds, node: str, index: int) -> float:
 
 def test_type_id_attributes_and_defaults(maya_cmds, maya_om):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
 
     selection = maya_om.MSelectionList()
     selection.add(node)
@@ -89,7 +89,7 @@ def test_type_id_attributes_and_defaults(maya_cmds, maya_om):
 
 def test_pose_defaults_are_enabled_but_uninitialized(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
 
     assert maya_cmds.getAttr(f"{node}.pose[3].poseQuat")[0] == pytest.approx(
         (0.0, 0.0, 0.0, 0.0)
@@ -102,7 +102,7 @@ def test_pose_defaults_are_enabled_but_uninitialized(maya_cmds):
 
 def test_sparse_pose_indexes_interpolate_at_pose_centers(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
     identity = _axis_x_quaternion(0.0)
     quarter_turn = _axis_x_quaternion(90.0)
 
@@ -125,7 +125,7 @@ def test_sparse_pose_indexes_interpolate_at_pose_centers(maya_cmds):
 
 def test_quaternion_sign_represents_the_same_rotation(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
     identity = _axis_x_quaternion(0.0)
     quarter_turn = _axis_x_quaternion(90.0)
     _set_pose(maya_cmds, node, 0, identity)
@@ -159,7 +159,7 @@ def test_kernel_formulas_use_angular_distance_over_radius(
     expected,
 ):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
     _set_pose(maya_cmds, node, 0, _axis_x_quaternion(0.0))
     maya_cmds.setAttr(
         f"{node}.inputQuat", *_axis_x_quaternion(22.5), type="double4"
@@ -173,7 +173,7 @@ def test_kernel_formulas_use_angular_distance_over_radius(
 
 def test_disabled_pose_keeps_its_output_index_at_zero(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
     identity = _axis_x_quaternion(0.0)
     _set_pose(maya_cmds, node, 2, identity)
     _set_pose(maya_cmds, node, 9, identity)
@@ -186,7 +186,7 @@ def test_disabled_pose_keeps_its_output_index_at_zero(maya_cmds):
 
 def test_duplicate_rotation_reports_status_and_zeroes_outputs(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
     quaternion = _axis_x_quaternion(35.0)
     _set_pose(maya_cmds, node, 0, quaternion)
     _set_pose(maya_cmds, node, 4, tuple(-value for value in quaternion))
@@ -207,7 +207,7 @@ def test_invalid_input_reports_status_and_zeroes_outputs(
     expected_status,
 ):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
     _set_pose(maya_cmds, node, 0, _axis_x_quaternion(0.0))
 
     if invalid_target == "input":
@@ -226,7 +226,7 @@ def test_invalid_input_reports_status_and_zeroes_outputs(
 
 def test_negative_weight_clamping_is_optional(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
     _set_pose(maya_cmds, node, 0, _axis_x_quaternion(0.0))
     _set_pose(maya_cmds, node, 1, _axis_x_quaternion(90.0))
     maya_cmds.setAttr(f"{node}.kernel", 0)
@@ -250,7 +250,7 @@ def test_factorization_cache_invalidates_for_every_configuration_input(
     maya_cmds,
 ):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
     _set_pose(maya_cmds, node, 0, _axis_x_quaternion(0.0))
     _set_pose(maya_cmds, node, 1, _axis_x_quaternion(90.0))
     maya_cmds.setAttr(f"{node}.kernel", 0)
@@ -288,7 +288,7 @@ def test_factorization_cache_invalidates_for_every_configuration_input(
 
 def test_removed_pose_removes_matching_output_element(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight")
     _set_pose(maya_cmds, node, 2, _axis_x_quaternion(0.0))
     _set_pose(maya_cmds, node, 10, _axis_x_quaternion(90.0))
     assert _weight(maya_cmds, node, 10) == pytest.approx(0.0, abs=1.0e-12)
@@ -307,7 +307,7 @@ def test_dirty_updates_match_in_all_evaluation_modes(
     previous_mode = maya_cmds.evaluationManager(query=True, mode=True)[0]
     try:
         maya_cmds.evaluationManager(mode=evaluation_mode)
-        node = maya_cmds.createNode("bdRbf_PoseWeight")
+        node = maya_cmds.createNode("bdRbf_OrientationWeight")
         _set_pose(maya_cmds, node, 0, _axis_x_quaternion(0.0))
         _set_pose(maya_cmds, node, 1, _axis_x_quaternion(90.0))
         assert _weight(maya_cmds, node, 0) == pytest.approx(1.0)
@@ -326,29 +326,29 @@ def test_node_operator_creation_and_existing_access(
     modifier_manager,
 ):
     _load_bd_util_nodes(maya_cmds)
-    from bd_util.maya.node.operator.node.dg.bd_rbf_pose_weight import (
-        BdRbfPoseWeight,
+    from bd_util.maya.node.operator.node.dg.bd_rbf_orientation_weight import (
+        BdRbfOrientationWeight,
     )
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdRbf_PoseWeight(name="rbf_pose_weight")
+    node = nodes.create.bdRbf_OrientationWeight(name="rbf_orientation_weight")
     node.pose[2].poseQuat.set(_axis_x_quaternion(0.0))
     node.pose[8].poseQuat.set(_axis_x_quaternion(90.0))
     node.kernel.set(node.kernel.GAUSSIAN)
     modifier_manager.do_it_dg()
 
-    assert isinstance(node, BdRbfPoseWeight)
+    assert isinstance(node, BdRbfOrientationWeight)
     assert node.outputWeight[2].get() == pytest.approx(1.0)
     assert node.outputWeight[8].get() == pytest.approx(0.0, abs=2.0e-8)
     assert isinstance(
-        nodes.existing.bdRbf_PoseWeight(node.name),
-        BdRbfPoseWeight,
+        nodes.existing.bdRbf_OrientationWeight(node.name),
+        BdRbfOrientationWeight,
     )
 
 
 def test_scene_round_trip_preserves_pose_configuration(maya_cmds, tmp_path):
     _load_bd_util_nodes(maya_cmds)
-    node = maya_cmds.createNode("bdRbf_PoseWeight", name="saved_rbf")
+    node = maya_cmds.createNode("bdRbf_OrientationWeight", name="saved_rbf")
     _set_pose(maya_cmds, node, 2, _axis_x_quaternion(0.0))
     _set_pose(maya_cmds, node, 8, _axis_x_quaternion(90.0))
     maya_cmds.setAttr(
@@ -357,7 +357,7 @@ def test_scene_round_trip_preserves_pose_configuration(maya_cmds, tmp_path):
     maya_cmds.setAttr(f"{node}.kernel", 1)
     maya_cmds.setAttr(f"{node}.radius", 120.0)
 
-    scene_path = tmp_path / "rbf_pose_weight.ma"
+    scene_path = tmp_path / "rbf_orientation_weight.ma"
     maya_cmds.file(rename=str(scene_path))
     maya_cmds.file(save=True, type="mayaAscii", force=True)
     maya_cmds.file(new=True, force=True)

@@ -8,7 +8,7 @@ RBF solveと出力値の合成は別nodeに保ちます。これにより、同�
 
 ## Weight Connection
 
-`weight[]`は`bdRbf_PoseWeight.outputWeight[]`、`bdRbf_PoseFalloffWeight.outputWeight[]`、
+`weight[]`は`bdRbf_OrientationWeight.outputWeight[]`、`bdRbf_OrientationFalloffWeight.outputWeight[]`、
 `bdRbf_BendTwistFalloffWeight.outputWeight[]`、`bdRbf_PositionWeight.outputWeight[]`、または
 `bdRbf_PositionFalloffWeight.outputWeight[]`をmulti attributeの親同士で接続できます。
 
@@ -119,7 +119,7 @@ import bd_util as bdu
 mod = bdu.ModifierManager()
 nodes = bdu.Nodes(modifier_manager=mod)
 
-weight = nodes.create.bdRbf_PoseWeight(name="shoulder_rbf_weight")
+weight = nodes.create.bdRbf_OrientationWeight(name="shoulder_rbf_weight")
 blend = nodes.create.bdRbf_PoseBlend(name="shoulder_rbf_blend")
 
 weight.pose[0].poseQuat.set((0.0, 0.0, 0.0, 1.0))

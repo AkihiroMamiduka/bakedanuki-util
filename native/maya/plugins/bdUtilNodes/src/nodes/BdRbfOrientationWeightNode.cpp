@@ -1,4 +1,4 @@
-#include "bdUtilNodes/nodes/BdRbfPoseWeightNode.h"
+#include "bdUtilNodes/nodes/BdRbfOrientationWeightNode.h"
 
 #include <algorithm>
 #include <array>
@@ -22,31 +22,31 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 #include "bdUtilNodes/math/RbfInterpolator.h"
 
-const MString BdRbfPoseWeightNode::typeName("bdRbf_PoseWeight");
-const MTypeId BdRbfPoseWeightNode::typeId(0x0007F094);
+const MString BdRbfOrientationWeightNode::typeName("bdRbf_OrientationWeight");
+const MTypeId BdRbfOrientationWeightNode::typeId(0x0007F094);
 
-MObject BdRbfPoseWeightNode::inputQuat;
-MObject BdRbfPoseWeightNode::inputQuatX;
-MObject BdRbfPoseWeightNode::inputQuatY;
-MObject BdRbfPoseWeightNode::inputQuatZ;
-MObject BdRbfPoseWeightNode::inputQuatW;
+MObject BdRbfOrientationWeightNode::inputQuat;
+MObject BdRbfOrientationWeightNode::inputQuatX;
+MObject BdRbfOrientationWeightNode::inputQuatY;
+MObject BdRbfOrientationWeightNode::inputQuatZ;
+MObject BdRbfOrientationWeightNode::inputQuatW;
 
-MObject BdRbfPoseWeightNode::pose;
-MObject BdRbfPoseWeightNode::poseQuat;
-MObject BdRbfPoseWeightNode::poseQuatX;
-MObject BdRbfPoseWeightNode::poseQuatY;
-MObject BdRbfPoseWeightNode::poseQuatZ;
-MObject BdRbfPoseWeightNode::poseQuatW;
-MObject BdRbfPoseWeightNode::enabled;
+MObject BdRbfOrientationWeightNode::pose;
+MObject BdRbfOrientationWeightNode::poseQuat;
+MObject BdRbfOrientationWeightNode::poseQuatX;
+MObject BdRbfOrientationWeightNode::poseQuatY;
+MObject BdRbfOrientationWeightNode::poseQuatZ;
+MObject BdRbfOrientationWeightNode::poseQuatW;
+MObject BdRbfOrientationWeightNode::enabled;
 
-MObject BdRbfPoseWeightNode::kernel;
-MObject BdRbfPoseWeightNode::radius;
-MObject BdRbfPoseWeightNode::regularization;
-MObject BdRbfPoseWeightNode::allowNegativeWeights;
+MObject BdRbfOrientationWeightNode::kernel;
+MObject BdRbfOrientationWeightNode::radius;
+MObject BdRbfOrientationWeightNode::regularization;
+MObject BdRbfOrientationWeightNode::allowNegativeWeights;
 
-MObject BdRbfPoseWeightNode::outputWeight;
-MObject BdRbfPoseWeightNode::isValid;
-MObject BdRbfPoseWeightNode::solveStatus;
+MObject BdRbfOrientationWeightNode::outputWeight;
+MObject BdRbfOrientationWeightNode::isValid;
+MObject BdRbfOrientationWeightNode::solveStatus;
 
 namespace {
 
@@ -102,7 +102,7 @@ MStatus configureOutputEnumAttribute(MFnEnumAttribute& attributeFn) {
 
 }  // namespace
 
-struct BdRbfPoseWeightNode::Cache {
+struct BdRbfOrientationWeightNode::Cache {
     bd_util_nodes::RbfSolveStatus evaluate(
         const std::vector<bd_util_nodes::QuaternionPoseSample>& samples,
         bd_util_nodes::RbfKernel requestedKernel,
@@ -149,16 +149,16 @@ struct BdRbfPoseWeightNode::Cache {
     bd_util_nodes::QuaternionRbfInterpolator interpolator;
 };
 
-BdRbfPoseWeightNode::BdRbfPoseWeightNode()
+BdRbfOrientationWeightNode::BdRbfOrientationWeightNode()
     : cache_(std::make_unique<Cache>()) {}
 
-BdRbfPoseWeightNode::~BdRbfPoseWeightNode() = default;
+BdRbfOrientationWeightNode::~BdRbfOrientationWeightNode() = default;
 
-void* BdRbfPoseWeightNode::creator() {
-    return new BdRbfPoseWeightNode();
+void* BdRbfOrientationWeightNode::creator() {
+    return new BdRbfOrientationWeightNode();
 }
 
-MStatus BdRbfPoseWeightNode::initialize() {
+MStatus BdRbfOrientationWeightNode::initialize() {
     MStatus status;
     MFnNumericAttribute numericAttributeFn;
     MFnUnitAttribute unitAttributeFn;
@@ -475,7 +475,7 @@ MStatus BdRbfPoseWeightNode::initialize() {
     return MS::kSuccess;
 }
 
-MStatus BdRbfPoseWeightNode::compute(
+MStatus BdRbfOrientationWeightNode::compute(
     const MPlug& plug,
     MDataBlock& dataBlock
 ) {
@@ -660,6 +660,6 @@ MStatus BdRbfPoseWeightNode::compute(
     return dataBlock.setClean(plug);
 }
 
-MPxNode::SchedulingType BdRbfPoseWeightNode::schedulingType() const {
+MPxNode::SchedulingType BdRbfOrientationWeightNode::schedulingType() const {
     return MPxNode::kParallel;
 }

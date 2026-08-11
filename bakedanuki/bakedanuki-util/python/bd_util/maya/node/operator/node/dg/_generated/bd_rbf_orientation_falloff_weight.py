@@ -1,6 +1,6 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.bd_rbf_pose_falloff_weight import (
+from ....attr.define.node_attr.bd_rbf_orientation_falloff_weight import (
     InputQuatField,
     PoseField,
 )
@@ -91,10 +91,10 @@ class FalloffStatusEnumField(
     PLUG_CLS = FalloffStatusEnumPlugOperator
 
 
-class GeneratedBdRbfPoseFalloffWeight(DG):
+class GeneratedBdRbfOrientationFalloffWeight(DG):
     __slots__ = ()
 
-    NODE_TYPE = "bdRbf_PoseFalloffWeight"
+    NODE_TYPE = "bdRbf_OrientationFalloffWeight"
 
     inputQuat = InputQuatField(default_value=(0.0, 0.0, 0.0, 1.0))
     iq = inputQuat

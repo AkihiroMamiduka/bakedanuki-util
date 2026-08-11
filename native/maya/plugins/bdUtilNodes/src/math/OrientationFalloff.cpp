@@ -1,4 +1,4 @@
-#include "bdUtilNodes/math/PoseFalloff.h"
+#include "bdUtilNodes/math/OrientationFalloff.h"
 
 #include <algorithm>
 #include <cmath>
@@ -47,39 +47,39 @@ double quaternionDistance(
 
 namespace bd_util_nodes {
 
-PoseFalloffStatus evaluatePoseFalloff(
+OrientationFalloffStatus evaluateOrientationFalloff(
     const std::array<double, 4>& inputQuaternion,
-    const std::vector<PoseFalloffSample>& samples,
+    const std::vector<OrientationFalloffSample>& samples,
     Falloff falloff,
-    std::vector<PoseFalloffWeight>& outputWeights
+    std::vector<OrientationFalloffWeight>& outputWeights
 ) {
     outputWeights.clear();
     if (samples.empty()) {
-        return PoseFalloffStatus::kNoPoses;
+        return OrientationFalloffStatus::kNoPoses;
     }
     if (!isSupportedFalloff(falloff)) {
-        return PoseFalloffStatus::kUnsupportedFalloff;
+        return OrientationFalloffStatus::kUnsupportedFalloff;
     }
 
     Quaternion normalizedInput;
     if (!normalizeQuaternion(inputQuaternion, normalizedInput)) {
-        return PoseFalloffStatus::kInvalidQuaternion;
+        return OrientationFalloffStatus::kInvalidQuaternion;
     }
 
     outputWeights.reserve(samples.size());
-    for (const PoseFalloffSample& sample : samples) {
+    for (const OrientationFalloffSample& sample : samples) {
         if (!isValidFalloffRadius(
                 sample.innerRadiusRadians,
                 sample.outerRadiusRadians
             )) {
             outputWeights.clear();
-            return PoseFalloffStatus::kInvalidRadius;
+            return OrientationFalloffStatus::kInvalidRadius;
         }
 
         Quaternion normalizedPose;
         if (!normalizeQuaternion(sample.quaternion, normalizedPose)) {
             outputWeights.clear();
-            return PoseFalloffStatus::kInvalidQuaternion;
+            return OrientationFalloffStatus::kInvalidQuaternion;
         }
 
         const double distance = quaternionDistance(
@@ -88,7 +88,7 @@ PoseFalloffStatus evaluatePoseFalloff(
         );
         if (!std::isfinite(distance)) {
             outputWeights.clear();
-            return PoseFalloffStatus::kNumericalFailure;
+            return OrientationFalloffStatus::kNumericalFailure;
         }
         const double weight = evaluateFalloffWeight(
             falloff,
@@ -98,14 +98,14 @@ PoseFalloffStatus evaluatePoseFalloff(
         );
         if (!std::isfinite(weight)) {
             outputWeights.clear();
-            return PoseFalloffStatus::kNumericalFailure;
+            return OrientationFalloffStatus::kNumericalFailure;
         }
         outputWeights.push_back({
             sample.logicalIndex,
             std::clamp(weight, 0.0, 1.0),
         });
     }
-    return PoseFalloffStatus::kSuccess;
+    return OrientationFalloffStatus::kSuccess;
 }
 
 }  // namespace bd_util_nodes

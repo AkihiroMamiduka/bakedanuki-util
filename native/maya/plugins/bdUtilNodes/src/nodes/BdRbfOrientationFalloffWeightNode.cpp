@@ -1,4 +1,4 @@
-#include "bdUtilNodes/nodes/BdRbfPoseFalloffWeightNode.h"
+#include "bdUtilNodes/nodes/BdRbfOrientationFalloffWeightNode.h"
 
 #include <array>
 #include <unordered_map>
@@ -18,37 +18,37 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 #include "bdUtilNodes/attributes/QuaternionAttribute.h"
 #include "bdUtilNodes/attributes/UnitAttribute.h"
-#include "bdUtilNodes/math/PoseFalloff.h"
+#include "bdUtilNodes/math/OrientationFalloff.h"
 
-const MString BdRbfPoseFalloffWeightNode::typeName(
-    "bdRbf_PoseFalloffWeight"
+const MString BdRbfOrientationFalloffWeightNode::typeName(
+    "bdRbf_OrientationFalloffWeight"
 );
-const MTypeId BdRbfPoseFalloffWeightNode::typeId(0x0007F098);
+const MTypeId BdRbfOrientationFalloffWeightNode::typeId(0x0007F098);
 
-MObject BdRbfPoseFalloffWeightNode::inputQuat;
-MObject BdRbfPoseFalloffWeightNode::inputQuatX;
-MObject BdRbfPoseFalloffWeightNode::inputQuatY;
-MObject BdRbfPoseFalloffWeightNode::inputQuatZ;
-MObject BdRbfPoseFalloffWeightNode::inputQuatW;
+MObject BdRbfOrientationFalloffWeightNode::inputQuat;
+MObject BdRbfOrientationFalloffWeightNode::inputQuatX;
+MObject BdRbfOrientationFalloffWeightNode::inputQuatY;
+MObject BdRbfOrientationFalloffWeightNode::inputQuatZ;
+MObject BdRbfOrientationFalloffWeightNode::inputQuatW;
 
-MObject BdRbfPoseFalloffWeightNode::innerRadius;
-MObject BdRbfPoseFalloffWeightNode::outerRadius;
-MObject BdRbfPoseFalloffWeightNode::falloff;
+MObject BdRbfOrientationFalloffWeightNode::innerRadius;
+MObject BdRbfOrientationFalloffWeightNode::outerRadius;
+MObject BdRbfOrientationFalloffWeightNode::falloff;
 
-MObject BdRbfPoseFalloffWeightNode::pose;
-MObject BdRbfPoseFalloffWeightNode::poseQuat;
-MObject BdRbfPoseFalloffWeightNode::poseQuatX;
-MObject BdRbfPoseFalloffWeightNode::poseQuatY;
-MObject BdRbfPoseFalloffWeightNode::poseQuatZ;
-MObject BdRbfPoseFalloffWeightNode::poseQuatW;
-MObject BdRbfPoseFalloffWeightNode::enabled;
-MObject BdRbfPoseFalloffWeightNode::useRadiusOverride;
-MObject BdRbfPoseFalloffWeightNode::innerRadiusOverride;
-MObject BdRbfPoseFalloffWeightNode::outerRadiusOverride;
+MObject BdRbfOrientationFalloffWeightNode::pose;
+MObject BdRbfOrientationFalloffWeightNode::poseQuat;
+MObject BdRbfOrientationFalloffWeightNode::poseQuatX;
+MObject BdRbfOrientationFalloffWeightNode::poseQuatY;
+MObject BdRbfOrientationFalloffWeightNode::poseQuatZ;
+MObject BdRbfOrientationFalloffWeightNode::poseQuatW;
+MObject BdRbfOrientationFalloffWeightNode::enabled;
+MObject BdRbfOrientationFalloffWeightNode::useRadiusOverride;
+MObject BdRbfOrientationFalloffWeightNode::innerRadiusOverride;
+MObject BdRbfOrientationFalloffWeightNode::outerRadiusOverride;
 
-MObject BdRbfPoseFalloffWeightNode::outputWeight;
-MObject BdRbfPoseFalloffWeightNode::isValid;
-MObject BdRbfPoseFalloffWeightNode::falloffStatus;
+MObject BdRbfOrientationFalloffWeightNode::outputWeight;
+MObject BdRbfOrientationFalloffWeightNode::isValid;
+MObject BdRbfOrientationFalloffWeightNode::falloffStatus;
 
 namespace {
 
@@ -86,11 +86,11 @@ MStatus configureOutputEnumAttribute(MFnEnumAttribute& attributeFn) {
 
 }  // namespace
 
-void* BdRbfPoseFalloffWeightNode::creator() {
-    return new BdRbfPoseFalloffWeightNode();
+void* BdRbfOrientationFalloffWeightNode::creator() {
+    return new BdRbfOrientationFalloffWeightNode();
 }
 
-MStatus BdRbfPoseFalloffWeightNode::initialize() {
+MStatus BdRbfOrientationFalloffWeightNode::initialize() {
     MStatus status;
     MFnNumericAttribute numericAttributeFn;
     MFnUnitAttribute unitAttributeFn;
@@ -454,7 +454,7 @@ MStatus BdRbfPoseFalloffWeightNode::initialize() {
     return MS::kSuccess;
 }
 
-MStatus BdRbfPoseFalloffWeightNode::compute(
+MStatus BdRbfOrientationFalloffWeightNode::compute(
     const MPlug& plug,
     MDataBlock& dataBlock
 ) {
@@ -503,7 +503,7 @@ MStatus BdRbfPoseFalloffWeightNode::compute(
     }
 
     std::vector<unsigned int> poseIndices;
-    std::vector<bd_util_nodes::PoseFalloffSample> enabledSamples;
+    std::vector<bd_util_nodes::OrientationFalloffSample> enabledSamples;
     MArrayDataHandle poseHandles = dataBlock.inputArrayValue(pose, &status);
     if (!status) {
         return status;
@@ -562,9 +562,9 @@ MStatus BdRbfPoseFalloffWeightNode::compute(
             }
         }
     }
-    std::vector<bd_util_nodes::PoseFalloffWeight> falloffWeights;
-    const bd_util_nodes::PoseFalloffStatus resultStatus =
-        bd_util_nodes::evaluatePoseFalloff(
+    std::vector<bd_util_nodes::OrientationFalloffWeight> falloffWeights;
+    const bd_util_nodes::OrientationFalloffStatus resultStatus =
+        bd_util_nodes::evaluateOrientationFalloff(
             input,
             enabledSamples,
             static_cast<bd_util_nodes::Falloff>(falloffValue),
@@ -572,7 +572,7 @@ MStatus BdRbfPoseFalloffWeightNode::compute(
         );
 
     std::unordered_map<unsigned int, double> weightByIndex;
-    if (resultStatus == bd_util_nodes::PoseFalloffStatus::kSuccess) {
+    if (resultStatus == bd_util_nodes::OrientationFalloffStatus::kSuccess) {
         weightByIndex.reserve(falloffWeights.size());
         for (const auto& falloffWeight : falloffWeights) {
             weightByIndex.emplace(
@@ -625,7 +625,7 @@ MStatus BdRbfPoseFalloffWeightNode::compute(
         return status;
     }
     isValidHandle.setBool(
-        resultStatus == bd_util_nodes::PoseFalloffStatus::kSuccess
+        resultStatus == bd_util_nodes::OrientationFalloffStatus::kSuccess
     );
     isValidHandle.setClean();
 
@@ -639,6 +639,6 @@ MStatus BdRbfPoseFalloffWeightNode::compute(
 }
 
 MPxNode::SchedulingType
-BdRbfPoseFalloffWeightNode::schedulingType() const {
+BdRbfOrientationFalloffWeightNode::schedulingType() const {
     return MPxNode::kParallel;
 }

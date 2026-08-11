@@ -1,9 +1,9 @@
-# RBF Pose Falloff Weight
+# RBF Orientation Falloff Weight
 
-`bdRbf_PoseFalloffWeight` は、現在の Quaternion と各 pose Quaternion の最短角度距離から、
+`bdRbf_OrientationFalloffWeight` は、現在の Quaternion と各 pose Quaternion の最短角度距離から、
 pose ごとに独立した falloff weight を計算する dependency node です。
 
-補間行列を解く [`bdRbf_PoseWeight`](rbf-pose-weight.md) と異なり、他の pose の位置や数は
+補間行列を解く [`bdRbf_OrientationWeight`](rbf-orientation-weight.md) と異なり、他の pose の位置や数は
 個々の weight に影響しません。pose 固有半径、weight 1 の範囲、明示的な0境界が必要な
 補助骨correctiveを `O(N)` で評価します。
 
@@ -80,7 +80,9 @@ import bd_util as bdu
 mod = bdu.ModifierManager()
 nodes = bdu.Nodes(modifier_manager=mod)
 
-weight = nodes.create.bdRbf_PoseFalloffWeight(name="shoulder_pose_falloff")
+weight = nodes.create.bdRbf_OrientationFalloffWeight(
+    name="shoulder_orientation_falloff"
+)
 blend = nodes.create.bdRbf_PoseBlend(name="shoulder_corrective_blend")
 
 weight.pose[0].poseQuat.set((0.0, 0.0, 0.0, 1.0))

@@ -8,10 +8,10 @@
 #include <maya/MString.h>
 #include <maya/MTypeId.h>
 
-class BdRbfPoseWeightNode final : public MPxNode {
+class BdRbfOrientationWeightNode final : public MPxNode {
 public:
-    BdRbfPoseWeightNode();
-    ~BdRbfPoseWeightNode() override;
+    BdRbfOrientationWeightNode();
+    ~BdRbfOrientationWeightNode() override;
 
     static void* creator();
     static MStatus initialize();

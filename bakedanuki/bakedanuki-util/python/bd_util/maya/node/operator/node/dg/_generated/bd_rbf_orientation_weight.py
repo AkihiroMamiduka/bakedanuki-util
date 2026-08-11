@@ -1,6 +1,6 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.bd_rbf_pose_weight import (
+from ....attr.define.node_attr.bd_rbf_orientation_weight import (
     InputQuatField,
     PoseField,
 )
@@ -106,10 +106,10 @@ class SolveStatusEnumField(
     PLUG_CLS = SolveStatusEnumPlugOperator
 
 
-class GeneratedBdRbfPoseWeight(DG):
+class GeneratedBdRbfOrientationWeight(DG):
     __slots__ = ()
 
-    NODE_TYPE = "bdRbf_PoseWeight"
+    NODE_TYPE = "bdRbf_OrientationWeight"
 
     inputQuat = InputQuatField(default_value=(0.0, 0.0, 0.0, 1.0))
     iq = inputQuat
