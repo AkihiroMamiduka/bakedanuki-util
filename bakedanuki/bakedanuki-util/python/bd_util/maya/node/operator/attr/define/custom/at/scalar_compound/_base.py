@@ -34,17 +34,18 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
     CHILD_FIELDS: tuple[AttributeField[Any, Any], ...] = ()
     CHILD_ATTR_NAMES: tuple[tuple[str, str], ...] = ()
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
-        suffixes = []
-        child_fields = []
-        seen_ids = set()
+        suffixes: list[str] = []
+        child_fields: list[AttributeField[Any, Any]] = []
+        seen_ids: set[int] = set()
 
         # 子属性の情報を取得
         for key, child_field in vars(cls).items():
             # AttributeField の派生以外はスキップ
             if not isinstance(child_field, AttributeField):
                 continue
+            child_field = cast(AttributeField[Any, Any], child_field)
             child_id = id(child_field)
             if child_id in seen_ids:
                 continue
