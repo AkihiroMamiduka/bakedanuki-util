@@ -253,6 +253,305 @@ RbfSolveStatus QuaternionRbfInterpolator::status() const {
     return impl_->solveStatus;
 }
 
+struct MultiQuaternionRbfInterpolator::Impl {
+    std::vector<QuaternionSourceDefinition> sources;
+    std::vector<MultiQuaternionPoseSample> samples;
+    std::vector<std::vector<Quaternion>> normalizedPoseQuaternions;
+    RbfKernel kernel = RbfKernel::kGaussian;
+    double radiusRadians = 1.0;
+    double influenceSum = 0.0;
+    Eigen::ColPivHouseholderQR<Eigen::MatrixXd> decomposition;
+    RbfSolveStatus solveStatus = RbfSolveStatus::kNoSources;
+};
+
+namespace {
+
+bool sourceDefinitionsAreValid(
+    const std::vector<QuaternionSourceDefinition>& sources,
+    double& influenceSum
+) {
+    influenceSum = 0.0;
+    for (std::size_t index = 0; index < sources.size(); ++index) {
+        const QuaternionSourceDefinition& source = sources[index];
+        if (
+            !std::isfinite(source.influence) || source.influence < 0.0
+            || (
+                index > 0
+                && sources[index - 1].logicalIndex >= source.logicalIndex
+            )
+        ) {
+            return false;
+        }
+        influenceSum += source.influence;
+    }
+    return std::isfinite(influenceSum) && influenceSum > 0.0;
+}
+
+bool normalizeMultiQuaternionPose(
+    const MultiQuaternionPoseSample& sample,
+    const std::vector<QuaternionSourceDefinition>& sources,
+    std::vector<Quaternion>& normalizedQuaternions,
+    RbfSolveStatus& status
+) {
+    if (sample.sourceQuaternions.size() != sources.size()) {
+        status = RbfSolveStatus::kIncompletePose;
+        return false;
+    }
+
+    normalizedQuaternions.clear();
+    normalizedQuaternions.reserve(sources.size());
+    for (std::size_t index = 0; index < sources.size(); ++index) {
+        if (
+            sample.sourceQuaternions[index].logicalIndex
+            != sources[index].logicalIndex
+        ) {
+            status = RbfSolveStatus::kIncompletePose;
+            return false;
+        }
+        Quaternion normalized = {0.0, 0.0, 0.0, 1.0};
+        if (
+            sources[index].influence > 0.0
+            && !normalizeQuaternion(
+                sample.sourceQuaternions[index].quaternion,
+                normalized
+            )
+        ) {
+            status = RbfSolveStatus::kInvalidQuaternion;
+            return false;
+        }
+        normalizedQuaternions.push_back(normalized);
+    }
+    return true;
+}
+
+double multiQuaternionDistance(
+    const std::vector<Quaternion>& first,
+    const std::vector<Quaternion>& second,
+    const std::vector<QuaternionSourceDefinition>& sources,
+    double influenceSum
+) {
+    double weightedSquaredDistance = 0.0;
+    for (std::size_t index = 0; index < sources.size(); ++index) {
+        if (sources[index].influence <= 0.0) {
+            continue;
+        }
+        const double distance = quaternionDistance(
+            first[index],
+            second[index]
+        );
+        weightedSquaredDistance += sources[index].influence
+            * distance * distance;
+    }
+    return std::sqrt(weightedSquaredDistance / influenceSum);
+}
+
+}  // namespace
+
+MultiQuaternionRbfInterpolator::MultiQuaternionRbfInterpolator()
+    : impl_(std::make_unique<Impl>()) {}
+
+MultiQuaternionRbfInterpolator::~MultiQuaternionRbfInterpolator() = default;
+
+MultiQuaternionRbfInterpolator::MultiQuaternionRbfInterpolator(
+    MultiQuaternionRbfInterpolator&&
+) noexcept = default;
+
+MultiQuaternionRbfInterpolator&
+MultiQuaternionRbfInterpolator::operator=(
+    MultiQuaternionRbfInterpolator&&
+) noexcept = default;
+
+RbfSolveStatus MultiQuaternionRbfInterpolator::configure(
+    const std::vector<QuaternionSourceDefinition>& sources,
+    const std::vector<MultiQuaternionPoseSample>& samples,
+    RbfKernel kernel,
+    double radiusRadians,
+    double regularization
+) {
+    impl_->sources.clear();
+    impl_->samples.clear();
+    impl_->normalizedPoseQuaternions.clear();
+
+    if (sources.empty()) {
+        impl_->solveStatus = RbfSolveStatus::kNoSources;
+        return impl_->solveStatus;
+    }
+    if (samples.empty()) {
+        impl_->solveStatus = RbfSolveStatus::kNoPoses;
+        return impl_->solveStatus;
+    }
+    if (!isSupportedKernel(kernel)) {
+        impl_->solveStatus = RbfSolveStatus::kUnsupportedKernel;
+        return impl_->solveStatus;
+    }
+    if (!std::isfinite(radiusRadians) || radiusRadians <= 0.0) {
+        impl_->solveStatus = RbfSolveStatus::kInvalidRadius;
+        return impl_->solveStatus;
+    }
+    if (!std::isfinite(regularization) || regularization < 0.0) {
+        impl_->solveStatus = RbfSolveStatus::kInvalidRegularization;
+        return impl_->solveStatus;
+    }
+
+    impl_->sources = sources;
+    if (!sourceDefinitionsAreValid(
+            impl_->sources,
+            impl_->influenceSum
+        )) {
+        impl_->sources.clear();
+        impl_->solveStatus = RbfSolveStatus::kInvalidInfluence;
+        return impl_->solveStatus;
+    }
+
+    impl_->samples = samples;
+    impl_->normalizedPoseQuaternions.reserve(samples.size());
+    for (const MultiQuaternionPoseSample& sample : samples) {
+        std::vector<Quaternion> normalizedQuaternions;
+        RbfSolveStatus sampleStatus = RbfSolveStatus::kSuccess;
+        if (!normalizeMultiQuaternionPose(
+                sample,
+                impl_->sources,
+                normalizedQuaternions,
+                sampleStatus
+            )) {
+            impl_->sources.clear();
+            impl_->samples.clear();
+            impl_->normalizedPoseQuaternions.clear();
+            impl_->solveStatus = sampleStatus;
+            return impl_->solveStatus;
+        }
+        impl_->normalizedPoseQuaternions.push_back(
+            std::move(normalizedQuaternions)
+        );
+    }
+
+    const Eigen::Index sampleCount = static_cast<Eigen::Index>(samples.size());
+    Eigen::MatrixXd matrix(sampleCount, sampleCount);
+    for (Eigen::Index row = 0; row < sampleCount; ++row) {
+        for (Eigen::Index column = 0; column < sampleCount; ++column) {
+            const double distance = multiQuaternionDistance(
+                impl_->normalizedPoseQuaternions[
+                    static_cast<std::size_t>(row)
+                ],
+                impl_->normalizedPoseQuaternions[
+                    static_cast<std::size_t>(column)
+                ],
+                impl_->sources,
+                impl_->influenceSum
+            );
+            if (row != column && distance <= kDuplicateAngleEpsilon) {
+                impl_->sources.clear();
+                impl_->samples.clear();
+                impl_->normalizedPoseQuaternions.clear();
+                impl_->solveStatus = RbfSolveStatus::kDuplicatePose;
+                return impl_->solveStatus;
+            }
+            matrix(row, column) = evaluateKernel(
+                kernel,
+                distance / radiusRadians
+            );
+        }
+        matrix(row, row) += regularization;
+    }
+
+    if (!matrix.allFinite()) {
+        impl_->sources.clear();
+        impl_->samples.clear();
+        impl_->normalizedPoseQuaternions.clear();
+        impl_->solveStatus = RbfSolveStatus::kNumericalFailure;
+        return impl_->solveStatus;
+    }
+
+    impl_->decomposition.compute(matrix);
+    if (impl_->decomposition.rank() != sampleCount) {
+        impl_->sources.clear();
+        impl_->samples.clear();
+        impl_->normalizedPoseQuaternions.clear();
+        impl_->solveStatus = RbfSolveStatus::kRankDeficient;
+        return impl_->solveStatus;
+    }
+
+    impl_->kernel = kernel;
+    impl_->radiusRadians = radiusRadians;
+    impl_->solveStatus = RbfSolveStatus::kSuccess;
+    return impl_->solveStatus;
+}
+
+RbfSolveStatus MultiQuaternionRbfInterpolator::evaluate(
+    const std::vector<IndexedQuaternion>& inputQuaternions,
+    std::vector<IndexedWeight>& outputWeights
+) const {
+    outputWeights.clear();
+    if (impl_->solveStatus != RbfSolveStatus::kSuccess) {
+        return impl_->solveStatus;
+    }
+    if (inputQuaternions.size() != impl_->sources.size()) {
+        return RbfSolveStatus::kIncompletePose;
+    }
+
+    std::vector<Quaternion> normalizedInputs;
+    normalizedInputs.reserve(inputQuaternions.size());
+    for (std::size_t index = 0; index < inputQuaternions.size(); ++index) {
+        if (
+            inputQuaternions[index].logicalIndex
+            != impl_->sources[index].logicalIndex
+        ) {
+            return RbfSolveStatus::kIncompletePose;
+        }
+        Quaternion normalized = {0.0, 0.0, 0.0, 1.0};
+        if (
+            impl_->sources[index].influence > 0.0
+            && !normalizeQuaternion(
+                inputQuaternions[index].quaternion,
+                normalized
+            )
+        ) {
+            return RbfSolveStatus::kInvalidQuaternion;
+        }
+        normalizedInputs.push_back(normalized);
+    }
+
+    const Eigen::Index sampleCount = static_cast<Eigen::Index>(
+        impl_->samples.size()
+    );
+    Eigen::VectorXd kernelVector(sampleCount);
+    for (Eigen::Index index = 0; index < sampleCount; ++index) {
+        const double distance = multiQuaternionDistance(
+            normalizedInputs,
+            impl_->normalizedPoseQuaternions[
+                static_cast<std::size_t>(index)
+            ],
+            impl_->sources,
+            impl_->influenceSum
+        );
+        kernelVector(index) = evaluateKernel(
+            impl_->kernel,
+            distance / impl_->radiusRadians
+        );
+    }
+
+    if (!kernelVector.allFinite()) {
+        return RbfSolveStatus::kNumericalFailure;
+    }
+    const Eigen::VectorXd weights = impl_->decomposition.solve(kernelVector);
+    if (!weights.allFinite()) {
+        return RbfSolveStatus::kNumericalFailure;
+    }
+
+    outputWeights.reserve(impl_->samples.size());
+    for (Eigen::Index index = 0; index < sampleCount; ++index) {
+        outputWeights.push_back({
+            impl_->samples[static_cast<std::size_t>(index)].logicalIndex,
+            weights(index),
+        });
+    }
+    return RbfSolveStatus::kSuccess;
+}
+
+RbfSolveStatus MultiQuaternionRbfInterpolator::status() const {
+    return impl_->solveStatus;
+}
+
 struct PositionRbfInterpolator::Impl {
     std::vector<PositionPoseSample> samples;
     RbfKernel kernel = RbfKernel::kGaussian;

@@ -25,6 +25,9 @@ enum class RbfSolveStatus : short {
     kNumericalFailure = 7,
     kUnsupportedKernel = 8,
     kInvalidPosition = 9,
+    kNoSources = 10,
+    kInvalidInfluence = 11,
+    kIncompletePose = 12,
 };
 
 struct QuaternionPoseSample {
@@ -35,6 +38,21 @@ struct QuaternionPoseSample {
 struct PositionPoseSample {
     unsigned int logicalIndex = 0;
     std::array<double, 3> position = {0.0, 0.0, 0.0};
+};
+
+struct QuaternionSourceDefinition {
+    unsigned int logicalIndex = 0;
+    double influence = 1.0;
+};
+
+struct IndexedQuaternion {
+    unsigned int logicalIndex = 0;
+    std::array<double, 4> quaternion = {0.0, 0.0, 0.0, 1.0};
+};
+
+struct MultiQuaternionPoseSample {
+    unsigned int logicalIndex = 0;
+    std::vector<IndexedQuaternion> sourceQuaternions;
 };
 
 struct IndexedWeight {
@@ -66,6 +84,45 @@ public:
 
     RbfSolveStatus evaluate(
         const std::array<double, 4>& inputQuaternion,
+        std::vector<IndexedWeight>& outputWeights
+    ) const;
+
+    RbfSolveStatus status() const;
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+class MultiQuaternionRbfInterpolator final {
+public:
+    MultiQuaternionRbfInterpolator();
+    ~MultiQuaternionRbfInterpolator();
+
+    MultiQuaternionRbfInterpolator(
+        MultiQuaternionRbfInterpolator&&
+    ) noexcept;
+    MultiQuaternionRbfInterpolator& operator=(
+        MultiQuaternionRbfInterpolator&&
+    ) noexcept;
+
+    MultiQuaternionRbfInterpolator(
+        const MultiQuaternionRbfInterpolator&
+    ) = delete;
+    MultiQuaternionRbfInterpolator& operator=(
+        const MultiQuaternionRbfInterpolator&
+    ) = delete;
+
+    RbfSolveStatus configure(
+        const std::vector<QuaternionSourceDefinition>& sources,
+        const std::vector<MultiQuaternionPoseSample>& samples,
+        RbfKernel kernel,
+        double radiusRadians,
+        double regularization
+    );
+
+    RbfSolveStatus evaluate(
+        const std::vector<IndexedQuaternion>& inputQuaternions,
         std::vector<IndexedWeight>& outputWeights
     ) const;
 

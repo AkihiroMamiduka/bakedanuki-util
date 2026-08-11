@@ -3,6 +3,9 @@
 `bdRbf_OrientationWeight` は、現在の Quaternion と登録済み Quaternion pose の角度距離から、
 各 pose に対応する補間 weight を計算する dependency node です。
 
+複数のorientationを1組のdriverとして補間する場合は
+[`bdRbf_MultiOrientationWeight`](rbf-multi-orientation-weight.md)を使用します。
+
 poseごとのinner / outer半径で独立weightを計算する場合は
 [`bdRbf_OrientationFalloffWeight`](rbf-orientation-falloff-weight.md)、BendとTwistを別の半径で評価する場合は
 [`bdRbf_BendTwistFalloffWeight`](rbf-bend-twist-falloff-weight.md)を使用します。

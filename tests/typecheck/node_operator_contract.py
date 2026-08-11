@@ -63,6 +63,14 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_bend_twist_falloff_
     PoseAttrOperator as RbfBendTwistPoseAttrOperator,
     PosePlugOperator as RbfBendTwistPosePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_multi_orientation_weight import (
+    Pose_sourceQuatPlugOperator as RbfMultiOrientationPoseSourceQuatPlugOperator,
+    PoseAttrOperator as RbfMultiOrientationPoseAttrOperator,
+    PosePlugOperator as RbfMultiOrientationPosePlugOperator,
+    Source_inputQuatPlugOperator as RbfMultiOrientationInputQuatPlugOperator,
+    SourceAttrOperator as RbfMultiOrientationSourceAttrOperator,
+    SourcePlugOperator as RbfMultiOrientationSourcePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_orientation_falloff_weight import (
     InputQuatAttrOperator as RbfOrientationFalloffInputQuatAttrOperator,
     InputQuatPlugOperator as RbfOrientationFalloffInputQuatPlugOperator,
@@ -486,6 +494,13 @@ from bd_util.maya.node.operator.node.dg._generated.bd_rbf_bend_twist_falloff_wei
     FalloffStatusEnumPlugOperator as RbfBendTwistFalloffStatusPlugOperator,
     ModeEnumPlugOperator as RbfBendTwistModePlugOperator,
     OrderEnumPlugOperator as RbfBendTwistOrderPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_rbf_multi_orientation_weight import (
+    BdRbfMultiOrientationWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_multi_orientation_weight import (
+    KernelEnumPlugOperator as RbfMultiOrientationKernelPlugOperator,
+    SolveStatusEnumPlugOperator as RbfMultiOrientationSolveStatusPlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_rbf_orientation_falloff_weight import (
     BdRbfOrientationFalloffWeight,
@@ -1017,6 +1032,59 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
             "existing_rbf_bend_twist_falloff"
         ),
         BdRbfBendTwistFalloffWeight,
+    )
+
+    rbf_multi_orientation = nodes.create.bdRbf_MultiOrientationWeight(
+        name="rbf_multi_orientation"
+    )
+    assert_type(rbf_multi_orientation, BdRbfMultiOrientationWeight)
+    assert_type(
+        BdRbfMultiOrientationWeight.source,
+        RbfMultiOrientationSourceAttrOperator,
+    )
+    assert_type(
+        rbf_multi_orientation.source[next],
+        RbfMultiOrientationSourcePlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation.source[next].inputQuat,
+        RbfMultiOrientationInputQuatPlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation.source[next].influence,
+        DoublePlugOperator,
+    )
+    assert_type(
+        BdRbfMultiOrientationWeight.pose,
+        RbfMultiOrientationPoseAttrOperator,
+    )
+    assert_type(
+        rbf_multi_orientation.pose[next],
+        RbfMultiOrientationPosePlugOperator,
+    )
+    assert_type(
+        rbf_multi_orientation.pose[next].sourceQuat[next],
+        RbfMultiOrientationPoseSourceQuatPlugOperator,
+    )
+    assert_type(rbf_multi_orientation.pose[next].enabled, BoolPlugOperator)
+    assert_type(
+        rbf_multi_orientation.kernel,
+        RbfMultiOrientationKernelPlugOperator,
+    )
+    assert_type(rbf_multi_orientation.radius, DoubleAnglePlugOperator)
+    assert_type(rbf_multi_orientation.regularization, DoublePlugOperator)
+    assert_type(rbf_multi_orientation.allowNegativeWeights, BoolPlugOperator)
+    assert_type(rbf_multi_orientation.outputWeight[next], DoublePlugOperator)
+    assert_type(rbf_multi_orientation.isValid, BoolPlugOperator)
+    assert_type(
+        rbf_multi_orientation.solveStatus,
+        RbfMultiOrientationSolveStatusPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdRbf_MultiOrientationWeight(
+            "existing_rbf_multi_orientation"
+        ),
+        BdRbfMultiOrientationWeight,
     )
 
     rbf_orientation_falloff = nodes.create.bdRbf_OrientationFalloffWeight(
