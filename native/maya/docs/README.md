@@ -19,48 +19,50 @@
    - 完了したAverage系、周期角度演算、Ratio、Conditionと、保留・対象外判断
 6. [Quaternion Nodes](quaternion-nodes.md)
    - Maya標準Quaternion nodeとの役割分担、可変長積、Quaternion / EulerのBend / Twist分解・合成、Twist専用分解、特異点
-7. [RBF Orientation Weight](rbf-orientation-weight.md)
+7. [RBF Node Family And Roadmap](rbf-roadmap.md)
+   - RBF node familyの完成範囲、使い分け、共通設計、性能方針、開発再開条件
+8. [RBF Orientation Weight](rbf-orientation-weight.md)
    - Quaternion距離、5種類のkernel、補間solve、weight出力、translate / rotateの責務分離
-8. [RBF Multi Orientation Weight](rbf-multi-orientation-weight.md)
+9. [RBF Multi Orientation Weight](rbf-multi-orientation-weight.md)
    - 複数sourceのQuaternion距離をweighted RMSで統合する補間RBF weight
-9. [RBF Orientation Falloff Weight](rbf-orientation-falloff-weight.md)
+10. [RBF Orientation Falloff Weight](rbf-orientation-falloff-weight.md)
    - Quaternion距離、inner / outer半径、pose固有override、独立falloff weight
-10. [RBF Multi Orientation Falloff Weight](rbf-multi-orientation-falloff-weight.md)
+11. [RBF Multi Orientation Falloff Weight](rbf-multi-orientation-falloff-weight.md)
    - 複数sourceのQuaternion距離をweighted RMSで統合する独立falloff weight
-11. [RBF Bend Twist Falloff Weight](rbf-bend-twist-falloff-weight.md)
+12. [RBF Bend Twist Falloff Weight](rbf-bend-twist-falloff-weight.md)
    - Bend方向とTwist最短角度差、別半径、BendOnly、独立falloff weight
-12. [RBF Multi Bend Twist Falloff Weight](rbf-multi-bend-twist-falloff-weight.md)
+13. [RBF Multi Bend Twist Falloff Weight](rbf-multi-bend-twist-falloff-weight.md)
    - source別の軸・order、Bend/Twist別のweighted RMS、BendOnly、独立falloff weight
-13. [RBF Pose Blend](rbf-pose-blend.md)
+14. [RBF Pose Blend](rbf-pose-blend.md)
    - RBF weight配列の親接続、base-relative TRS、Quaternion log / exp回転blend
-14. [RBF Position Weight](rbf-position-weight.md)
+15. [RBF Position Weight](rbf-position-weight.md)
    - 3次元ユークリッド距離、座標空間の責務、距離単位、position weight
-15. [RBF Multi Position Weight](rbf-multi-position-weight.md)
+16. [RBF Multi Position Weight](rbf-multi-position-weight.md)
    - 複数sourceのEuclidean distanceをweighted RMSで統合する補間RBF weight
-16. [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
+17. [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
    - 内側・外側半径、pose固有override、独立したcompact falloff weight
-17. [RBF Multi Position Falloff Weight](rbf-multi-position-falloff-weight.md)
+18. [RBF Multi Position Falloff Weight](rbf-multi-position-falloff-weight.md)
    - 複数sourceのposition距離をweighted RMSで統合する独立falloff weight
-18. [Condition Nodes](condition.md)
+19. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
-19. [Average Nodes](average.md)
+20. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-20. [Weighted Average Nodes](weighted-average.md)
+21. [Weighted Average Nodes](weighted-average.md)
    - value / weight配列、weight合計0、負のweight、zero weightの仕様
-21. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+22. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-22. [Evaluation And Parallelism](evaluation.md)
+23. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-23. [Testing And Debugging](testing-debugging.md)
+24. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-24. [Node ID Registry](../NODE_IDS.md)
+25. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-25. [Build Guide](../README.md)
+26. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-26. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+27. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -75,6 +77,8 @@
   - scalar `doubleAngle`を連続角度と明示的周期演算として扱う30 nodeの仕様とorientation境界
 - [Quaternion Nodes](quaternion-nodes.md)
   - Maya標準nodeを補う可変長Quaternion積、Bend / Twist分解・合成、Twist専用分解の仕様
+- [RBF Node Family And Roadmap](rbf-roadmap.md)
+  - RBF node familyの完成範囲、選択基準、共通方針、production導入までのロードマップ
 - [RBF Orientation Weight](rbf-orientation-weight.md)
   - Quaternion距離、interpolative RBF solve、kernel、状態出力、初期版の責務境界
 - [RBF Multi Orientation Weight](rbf-multi-orientation-weight.md)
