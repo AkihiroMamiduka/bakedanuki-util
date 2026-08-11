@@ -30,10 +30,10 @@ class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnUnitAttribute.kAngle
 
-    def _prepare_child_default_value(self, value):
+    def _prepare_child_default_value(self, value: float) -> float:
         return om.MAngle(value, om.MAngle.kDegrees).asRadians()
 
-    def _prepare_child_limit_value(self, value):
+    def _prepare_child_limit_value(self, value: float) -> om.MAngle:
         return om.MAngle(value, om.MAngle.kDegrees)
 
     # get

@@ -30,7 +30,7 @@ class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnUnitAttribute.kDistance
 
-    def _prepare_child_limit_value(self, value):
+    def _prepare_child_limit_value(self, value: float) -> om.MDistance:
         return om.MDistance(value, om.MDistance.kCentimeters)
 
     # get

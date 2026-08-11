@@ -1,6 +1,6 @@
 # coding: utf-8
 from collections.abc import Sequence
-from typing import Any, ClassVar, Generic, TypeVar, Type, cast
+from typing import Any, ClassVar, Generic, overload, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -173,7 +173,28 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
             raise self._set_values_error(values, "set_direct") from e
 
     # add
-    def _child_value(self, value, index: int, default=None):
+    @overload
+    def _child_value(
+        self,
+        value: S | Sequence[S] | None,
+        index: int,
+        default: S,
+    ) -> S: ...
+
+    @overload
+    def _child_value(
+        self,
+        value: S | Sequence[S] | None,
+        index: int,
+        default: None = None,
+    ) -> S | None: ...
+
+    def _child_value(
+        self,
+        value: S | Sequence[S] | None,
+        index: int,
+        default: S | None = None,
+    ) -> S | None:
         if value is None:
             return default
         if isinstance(value, Sequence) and not isinstance(value, str):
@@ -186,30 +207,41 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
                     )
                 )
             return value[index]
+        return cast(S, value)
+
+    def _prepare_child_default_value(self, value: S) -> S:
         return value
 
-    def _prepare_child_default_value(self, value):
+    def _prepare_child_limit_value(
+        self,
+        value: S,
+    ) -> S | om.MAngle | om.MDistance:
         return value
 
-    def _prepare_child_limit_value(self, value):
-        return value
-
-    def _set_child_attr_min(self, child_fn, value):
+    def _set_child_attr_min(self, child_fn: Any, value: S | None) -> None:
         if value is None:
             return
         child_fn.setMin(self._prepare_child_limit_value(value))
 
-    def _set_child_attr_max(self, child_fn, value):
+    def _set_child_attr_max(self, child_fn: Any, value: S | None) -> None:
         if value is None:
             return
         child_fn.setMax(self._prepare_child_limit_value(value))
 
-    def _set_child_attr_soft_min(self, child_fn, value):
+    def _set_child_attr_soft_min(
+        self,
+        child_fn: Any,
+        value: S | None,
+    ) -> None:
         if value is None:
             return
         child_fn.setSoftMin(self._prepare_child_limit_value(value))
 
-    def _set_child_attr_soft_max(self, child_fn, value):
+    def _set_child_attr_soft_max(
+        self,
+        child_fn: Any,
+        value: S | None,
+    ) -> None:
         if value is None:
             return
         child_fn.setSoftMax(self._prepare_child_limit_value(value))
@@ -217,28 +249,28 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
     def _child_fn(self, index: int):
         return self.CHILD_M_FN(self.plug.child(index).attribute())
 
-    def set_min(self, value):
+    def set_min(self, value: S | Sequence[S]) -> None:
         for i in range(len(self._SUFFIXES)):
             self._set_child_attr_min(
                 self._child_fn(i),
                 self._child_value(value, i),
             )
 
-    def set_max(self, value):
+    def set_max(self, value: S | Sequence[S]) -> None:
         for i in range(len(self._SUFFIXES)):
             self._set_child_attr_max(
                 self._child_fn(i),
                 self._child_value(value, i),
             )
 
-    def set_soft_min(self, value):
+    def set_soft_min(self, value: S | Sequence[S]) -> None:
         for i in range(len(self._SUFFIXES)):
             self._set_child_attr_soft_min(
                 self._child_fn(i),
                 self._child_value(value, i),
             )
 
-    def set_soft_max(self, value):
+    def set_soft_max(self, value: S | Sequence[S]) -> None:
         for i in range(len(self._SUFFIXES)):
             self._set_child_attr_soft_max(
                 self._child_fn(i),
@@ -277,7 +309,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
             default_value = self._child_value(
                 self._oprt_attr.default_value,
                 index,
-                default=0,
+                default=cast(S, 0),
             )
             child_attr = child_fn.create(
                 self.child_long_name(suffix),
