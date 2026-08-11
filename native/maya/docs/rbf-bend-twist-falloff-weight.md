@@ -7,6 +7,9 @@
 骨の向きだけを比較します。出力は [`bdRbf_PoseBlend`](rbf-pose-blend.md) の `weight[]`へ
 multi attributeの親同士で接続できます。
 
+複数driverを1つの距離へ統合する場合は
+[`bdRbf_MultiBendTwistFalloffWeight`](rbf-multi-bend-twist-falloff-weight.md)を使用します。
+
 ## Axis And Order
 
 分解規約は [`bdQuat_DecomposeBendTwist`](quaternion-nodes.md#bend--twist-convention) と共通です。

@@ -63,6 +63,16 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_bend_twist_falloff_
     PoseAttrOperator as RbfBendTwistPoseAttrOperator,
     PosePlugOperator as RbfBendTwistPosePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_multi_bend_twist_falloff_weight import (
+    Pose_sourceQuatPlugOperator as RbfMultiBendTwistPoseSourceQuatPlugOperator,
+    PoseAttrOperator as RbfMultiBendTwistPoseAttrOperator,
+    PosePlugOperator as RbfMultiBendTwistPosePlugOperator,
+    Source_axisQuatPlugOperator as RbfMultiBendTwistAxisQuatPlugOperator,
+    Source_inputQuatPlugOperator as RbfMultiBendTwistInputQuatPlugOperator,
+    Source_orderEnumPlugOperator as RbfMultiBendTwistOrderPlugOperator,
+    SourceAttrOperator as RbfMultiBendTwistSourceAttrOperator,
+    SourcePlugOperator as RbfMultiBendTwistSourcePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_multi_orientation_weight import (
     Pose_sourceQuatPlugOperator as RbfMultiOrientationPoseSourceQuatPlugOperator,
     PoseAttrOperator as RbfMultiOrientationPoseAttrOperator,
@@ -518,6 +528,14 @@ from bd_util.maya.node.operator.node.dg._generated.bd_rbf_bend_twist_falloff_wei
     FalloffStatusEnumPlugOperator as RbfBendTwistFalloffStatusPlugOperator,
     ModeEnumPlugOperator as RbfBendTwistModePlugOperator,
     OrderEnumPlugOperator as RbfBendTwistOrderPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_rbf_multi_bend_twist_falloff_weight import (
+    BdRbfMultiBendTwistFalloffWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_multi_bend_twist_falloff_weight import (
+    FalloffEnumPlugOperator as RbfMultiBendTwistFalloffPlugOperator,
+    FalloffStatusEnumPlugOperator as RbfMultiBendTwistFalloffStatusPlugOperator,
+    ModeEnumPlugOperator as RbfMultiBendTwistModePlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_rbf_multi_orientation_weight import (
     BdRbfMultiOrientationWeight,
@@ -1077,6 +1095,115 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
             "existing_rbf_bend_twist_falloff"
         ),
         BdRbfBendTwistFalloffWeight,
+    )
+
+    rbf_multi_bend_twist_falloff = (
+        nodes.create.bdRbf_MultiBendTwistFalloffWeight(
+            name="rbf_multi_bend_twist_falloff"
+        )
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff,
+        BdRbfMultiBendTwistFalloffWeight,
+    )
+    assert_type(
+        BdRbfMultiBendTwistFalloffWeight.source,
+        RbfMultiBendTwistSourceAttrOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.source[next],
+        RbfMultiBendTwistSourcePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.source[next].inputQuat,
+        RbfMultiBendTwistInputQuatPlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.source[next].axisQuat,
+        RbfMultiBendTwistAxisQuatPlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.source[next].order,
+        RbfMultiBendTwistOrderPlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.source[next].influence,
+        DoublePlugOperator,
+    )
+    assert_type(
+        BdRbfMultiBendTwistFalloffWeight.pose,
+        RbfMultiBendTwistPoseAttrOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.pose[next],
+        RbfMultiBendTwistPosePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.pose[next].sourceQuat[next],
+        RbfMultiBendTwistPoseSourceQuatPlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.pose[next].enabled,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.pose[next].useRadiusOverride,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.pose[next].bendInnerRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.pose[next].bendOuterRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.pose[next].twistInnerRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.pose[next].twistOuterRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.mode,
+        RbfMultiBendTwistModePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.bendInnerRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.bendOuterRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.twistInnerRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.twistOuterRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.falloff,
+        RbfMultiBendTwistFalloffPlugOperator,
+    )
+    assert_type(
+        rbf_multi_bend_twist_falloff.outputWeight[next],
+        DoublePlugOperator,
+    )
+    assert_type(rbf_multi_bend_twist_falloff.isValid, BoolPlugOperator)
+    assert_type(
+        rbf_multi_bend_twist_falloff.falloffStatus,
+        RbfMultiBendTwistFalloffStatusPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdRbf_MultiBendTwistFalloffWeight(
+            "existing_rbf_multi_bend_twist_falloff"
+        ),
+        BdRbfMultiBendTwistFalloffWeight,
     )
 
     rbf_multi_orientation = nodes.create.bdRbf_MultiOrientationWeight(

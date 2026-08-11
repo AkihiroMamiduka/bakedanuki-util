@@ -404,6 +404,9 @@ from ..operator.node.dg.bd_quat_value import BdQuatValue
 from ..operator.node.dg.bd_rbf_bend_twist_falloff_weight import (
     BdRbfBendTwistFalloffWeight,
 )
+from ..operator.node.dg.bd_rbf_multi_bend_twist_falloff_weight import (
+    BdRbfMultiBendTwistFalloffWeight,
+)
 from ..operator.node.dg.bd_rbf_multi_orientation_falloff_weight import (
     BdRbfMultiOrientationFalloffWeight,
 )
@@ -3147,6 +3150,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdRbfBendTwistFalloffWeight: ...
+    def bdRbf_MultiBendTwistFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfMultiBendTwistFalloffWeight: ...
     def bdRbf_MultiOrientationFalloffWeight(
         self,
         name: str | None = None,

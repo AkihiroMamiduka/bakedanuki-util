@@ -527,6 +527,9 @@ from .operator.node.dg.bd_quat_value import BdQuatValue
 from .operator.node.dg.bd_rbf_bend_twist_falloff_weight import (
     BdRbfBendTwistFalloffWeight,
 )
+from .operator.node.dg.bd_rbf_multi_bend_twist_falloff_weight import (
+    BdRbfMultiBendTwistFalloffWeight,
+)
 from .operator.node.dg.bd_rbf_multi_orientation_falloff_weight import (
     BdRbfMultiOrientationFalloffWeight,
 )
@@ -3914,6 +3917,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdRbfBendTwistFalloffWeight: ...
+    @staticmethod
+    def bdRbf_MultiBendTwistFalloffWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfMultiBendTwistFalloffWeight: ...
     @staticmethod
     def bdRbf_MultiOrientationFalloffWeight(
         node: str | om.MObject,

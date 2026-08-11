@@ -151,6 +151,7 @@
 #include "bdUtilNodes/nodes/BdQuatMultiplyMultiNode.h"
 #include "bdUtilNodes/nodes/BdQuatValueNode.h"
 #include "bdUtilNodes/nodes/BdRbfBendTwistFalloffWeightNode.h"
+#include "bdUtilNodes/nodes/BdRbfMultiBendTwistFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfMultiOrientationFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfMultiOrientationWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfMultiPositionFalloffWeightNode.h"
@@ -170,8 +171,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 155>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 155> registrations = {{
+const std::array<NodeRegistration, 156>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 156> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -1047,6 +1048,12 @@ const std::array<NodeRegistration, 155>& nodeRegistrations() {
             BdRbfBendTwistFalloffWeightNode::typeId,
             BdRbfBendTwistFalloffWeightNode::creator,
             BdRbfBendTwistFalloffWeightNode::initialize,
+        },
+        {
+            BdRbfMultiBendTwistFalloffWeightNode::typeName,
+            BdRbfMultiBendTwistFalloffWeightNode::typeId,
+            BdRbfMultiBendTwistFalloffWeightNode::creator,
+            BdRbfMultiBendTwistFalloffWeightNode::initialize,
         },
         {
             BdRbfMultiOrientationWeightNode::typeName,

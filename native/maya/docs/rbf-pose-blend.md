@@ -10,7 +10,7 @@ RBF solveと出力値の合成は別nodeに保ちます。これにより、同�
 
 `weight[]`は`bdRbf_OrientationWeight.outputWeight[]`、
 `bdRbf_MultiOrientationWeight.outputWeight[]`、orientation falloff系、
-`bdRbf_BendTwistFalloffWeight.outputWeight[]`、position weight / falloff系の単一・複数source版を
+`bdRbf_BendTwistFalloffWeight.outputWeight[]`とその複数source版、position weight / falloff系の単一・複数source版を
 multi attributeの親同士で接続できます。
 
 ```python

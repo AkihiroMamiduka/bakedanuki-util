@@ -29,36 +29,38 @@
    - 複数sourceのQuaternion距離をweighted RMSで統合する独立falloff weight
 11. [RBF Bend Twist Falloff Weight](rbf-bend-twist-falloff-weight.md)
    - Bend方向とTwist最短角度差、別半径、BendOnly、独立falloff weight
-12. [RBF Pose Blend](rbf-pose-blend.md)
+12. [RBF Multi Bend Twist Falloff Weight](rbf-multi-bend-twist-falloff-weight.md)
+   - source別の軸・order、Bend/Twist別のweighted RMS、BendOnly、独立falloff weight
+13. [RBF Pose Blend](rbf-pose-blend.md)
    - RBF weight配列の親接続、base-relative TRS、Quaternion log / exp回転blend
-13. [RBF Position Weight](rbf-position-weight.md)
+14. [RBF Position Weight](rbf-position-weight.md)
    - 3次元ユークリッド距離、座標空間の責務、距離単位、position weight
-14. [RBF Multi Position Weight](rbf-multi-position-weight.md)
+15. [RBF Multi Position Weight](rbf-multi-position-weight.md)
    - 複数sourceのEuclidean distanceをweighted RMSで統合する補間RBF weight
-15. [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
+16. [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
    - 内側・外側半径、pose固有override、独立したcompact falloff weight
-16. [RBF Multi Position Falloff Weight](rbf-multi-position-falloff-weight.md)
+17. [RBF Multi Position Falloff Weight](rbf-multi-position-falloff-weight.md)
    - 複数sourceのposition距離をweighted RMSで統合する独立falloff weight
-17. [Condition Nodes](condition.md)
+18. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
-18. [Average Nodes](average.md)
+19. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-19. [Weighted Average Nodes](weighted-average.md)
+20. [Weighted Average Nodes](weighted-average.md)
    - value / weight配列、weight合計0、負のweight、zero weightの仕様
-20. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+21. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-21. [Evaluation And Parallelism](evaluation.md)
+22. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-22. [Testing And Debugging](testing-debugging.md)
+23. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-23. [Node ID Registry](../NODE_IDS.md)
+24. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-24. [Build Guide](../README.md)
+25. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-25. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+26. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -83,6 +85,8 @@
   - Quaternion最短角度距離、pose固有半径、独立weight、線形時間評価
 - [RBF Bend Twist Falloff Weight](rbf-bend-twist-falloff-weight.md)
   - Bend方向、Twist最短角度差、BendOnly、Bend/Twist別半径
+- [RBF Multi Bend Twist Falloff Weight](rbf-multi-bend-twist-falloff-weight.md)
+  - 複数sourceのBend/Twist距離を別々のweighted RMSで統合する直接falloff評価
 - [RBF Position Weight](rbf-position-weight.md)
   - Euclidean distance、座標空間の責務、距離単位、position weight
 - [RBF Multi Position Weight](rbf-multi-position-weight.md)
@@ -100,7 +104,7 @@
 - [OrientationFalloff.cpp](../plugins/bdUtilNodes/src/math/OrientationFalloff.cpp)
   - 単一・複数sourceのQuaternion最短角度距離、直接falloff評価、multi設定cache
 - [BendTwistFalloff.cpp](../plugins/bdUtilNodes/src/math/BendTwistFalloff.cpp)
-  - Bend方向距離、Twist最短角度差、2つのfalloffの積
+  - 単一・複数sourceのBend方向距離、Twist最短角度差、2つのfalloffの積、multi設定cache
 - [PoseBlend.cpp](../plugins/bdUtilNodes/src/math/PoseBlend.cpp)
   - base-relative translate / scaleとQuaternion log / exp blend
 - [BdRbfOrientationWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfOrientationWeightNode.cpp)
@@ -117,6 +121,8 @@
   - Quaternion全体を比較する独立orientation falloff DG node
 - [BdRbfBendTwistFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfBendTwistFalloffWeightNode.cpp)
   - Bend/Twist別半径とBendOnly modeを持つfalloff DG node
+- [BdRbfMultiBendTwistFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfMultiBendTwistFalloffWeightNode.cpp)
+  - source別の軸・orderとBend/Twist weighted RMSを持つ複数source版falloff DG node
 - [BdRbfPositionWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfPositionWeightNode.cpp)
   - 同一座標空間の3次元位置をEuclidean distanceで比較するRBF DG node
 - [BdRbfPositionFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfPositionFalloffWeightNode.cpp)
