@@ -401,7 +401,13 @@ from ..operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
 from ..operator.node.dg.bd_quat_limit_bend_twist import BdQuatLimitBendTwist
 from ..operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
 from ..operator.node.dg.bd_quat_value import BdQuatValue
+from ..operator.node.dg.bd_rbf_bend_twist_falloff_weight import (
+    BdRbfBendTwistFalloffWeight,
+)
 from ..operator.node.dg.bd_rbf_pose_blend import BdRbfPoseBlend
+from ..operator.node.dg.bd_rbf_pose_falloff_weight import (
+    BdRbfPoseFalloffWeight,
+)
 from ..operator.node.dg.bd_rbf_pose_weight import BdRbfPoseWeight
 from ..operator.node.dg.bd_rbf_position_falloff_weight import (
     BdRbfPositionFalloffWeight,
@@ -3124,11 +3130,21 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdQuatValue: ...
+    def bdRbf_BendTwistFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfBendTwistFalloffWeight: ...
     def bdRbf_PoseBlend(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdRbfPoseBlend: ...
+    def bdRbf_PoseFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfPoseFalloffWeight: ...
     def bdRbf_PoseWeight(
         self,
         name: str | None = None,

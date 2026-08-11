@@ -1,53 +1,54 @@
-#include "bdUtilNodes/nodes/BdRbfPositionFalloffWeightNode.h"
+#include "bdUtilNodes/nodes/BdRbfPoseFalloffWeightNode.h"
 
-#include <algorithm>
 #include <array>
 #include <unordered_map>
 #include <vector>
 
+#include <maya/MAngle.h>
 #include <maya/MArrayDataBuilder.h>
 #include <maya/MArrayDataHandle.h>
 #include <maya/MDataBlock.h>
 #include <maya/MDataHandle.h>
-#include <maya/MDistance.h>
 #include <maya/MFnCompoundAttribute.h>
 #include <maya/MFnEnumAttribute.h>
 #include <maya/MFnNumericAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MPlug.h>
 
-#include "bdUtilNodes/attributes/DoubleLinear3Attribute.h"
 #include "bdUtilNodes/attributes/NumericAttribute.h"
+#include "bdUtilNodes/attributes/QuaternionAttribute.h"
 #include "bdUtilNodes/attributes/UnitAttribute.h"
-#include "bdUtilNodes/math/PositionFalloff.h"
+#include "bdUtilNodes/math/PoseFalloff.h"
 
-const MString BdRbfPositionFalloffWeightNode::typeName(
-    "bdRbf_PositionFalloffWeight"
+const MString BdRbfPoseFalloffWeightNode::typeName(
+    "bdRbf_PoseFalloffWeight"
 );
-const MTypeId BdRbfPositionFalloffWeightNode::typeId(0x0007F097);
+const MTypeId BdRbfPoseFalloffWeightNode::typeId(0x0007F098);
 
-MObject BdRbfPositionFalloffWeightNode::inputPosition;
-MObject BdRbfPositionFalloffWeightNode::inputPositionX;
-MObject BdRbfPositionFalloffWeightNode::inputPositionY;
-MObject BdRbfPositionFalloffWeightNode::inputPositionZ;
+MObject BdRbfPoseFalloffWeightNode::inputQuat;
+MObject BdRbfPoseFalloffWeightNode::inputQuatX;
+MObject BdRbfPoseFalloffWeightNode::inputQuatY;
+MObject BdRbfPoseFalloffWeightNode::inputQuatZ;
+MObject BdRbfPoseFalloffWeightNode::inputQuatW;
 
-MObject BdRbfPositionFalloffWeightNode::innerRadius;
-MObject BdRbfPositionFalloffWeightNode::outerRadius;
-MObject BdRbfPositionFalloffWeightNode::falloff;
+MObject BdRbfPoseFalloffWeightNode::innerRadius;
+MObject BdRbfPoseFalloffWeightNode::outerRadius;
+MObject BdRbfPoseFalloffWeightNode::falloff;
 
-MObject BdRbfPositionFalloffWeightNode::pose;
-MObject BdRbfPositionFalloffWeightNode::posePosition;
-MObject BdRbfPositionFalloffWeightNode::posePositionX;
-MObject BdRbfPositionFalloffWeightNode::posePositionY;
-MObject BdRbfPositionFalloffWeightNode::posePositionZ;
-MObject BdRbfPositionFalloffWeightNode::enabled;
-MObject BdRbfPositionFalloffWeightNode::useRadiusOverride;
-MObject BdRbfPositionFalloffWeightNode::innerRadiusOverride;
-MObject BdRbfPositionFalloffWeightNode::outerRadiusOverride;
+MObject BdRbfPoseFalloffWeightNode::pose;
+MObject BdRbfPoseFalloffWeightNode::poseQuat;
+MObject BdRbfPoseFalloffWeightNode::poseQuatX;
+MObject BdRbfPoseFalloffWeightNode::poseQuatY;
+MObject BdRbfPoseFalloffWeightNode::poseQuatZ;
+MObject BdRbfPoseFalloffWeightNode::poseQuatW;
+MObject BdRbfPoseFalloffWeightNode::enabled;
+MObject BdRbfPoseFalloffWeightNode::useRadiusOverride;
+MObject BdRbfPoseFalloffWeightNode::innerRadiusOverride;
+MObject BdRbfPoseFalloffWeightNode::outerRadiusOverride;
 
-MObject BdRbfPositionFalloffWeightNode::outputWeight;
-MObject BdRbfPositionFalloffWeightNode::isValid;
-MObject BdRbfPositionFalloffWeightNode::falloffStatus;
+MObject BdRbfPoseFalloffWeightNode::outputWeight;
+MObject BdRbfPoseFalloffWeightNode::isValid;
+MObject BdRbfPoseFalloffWeightNode::falloffStatus;
 
 namespace {
 
@@ -85,32 +86,33 @@ MStatus configureOutputEnumAttribute(MFnEnumAttribute& attributeFn) {
 
 }  // namespace
 
-void* BdRbfPositionFalloffWeightNode::creator() {
-    return new BdRbfPositionFalloffWeightNode();
+void* BdRbfPoseFalloffWeightNode::creator() {
+    return new BdRbfPoseFalloffWeightNode();
 }
 
-MStatus BdRbfPositionFalloffWeightNode::initialize() {
+MStatus BdRbfPoseFalloffWeightNode::initialize() {
     MStatus status;
     MFnNumericAttribute numericAttributeFn;
     MFnUnitAttribute unitAttributeFn;
     MFnEnumAttribute enumAttributeFn;
 
-    status = bd_util_nodes::createDoubleLinear3Attribute(
+    status = bd_util_nodes::createQuaternionAttribute(
         numericAttributeFn,
-        unitAttributeFn,
-        inputPosition,
-        inputPositionX,
-        inputPositionY,
-        inputPositionZ,
-        "inputPosition",
-        "ip",
-        "inputPositionX",
-        "ipx",
-        "inputPositionY",
-        "ipy",
-        "inputPositionZ",
-        "ipz",
-        0.0
+        inputQuat,
+        inputQuatX,
+        inputQuatY,
+        inputQuatZ,
+        inputQuatW,
+        "inputQuat",
+        "iq",
+        "inputQuatX",
+        "iqx",
+        "inputQuatY",
+        "iqy",
+        "inputQuatZ",
+        "iqz",
+        "inputQuatW",
+        "iqw"
     );
     if (!status) {
         return status;
@@ -121,12 +123,16 @@ MStatus BdRbfPositionFalloffWeightNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(inputPosition);
+    status = addAttribute(inputQuat);
     if (!status) {
         return status;
     }
 
-    status = bd_util_nodes::createDoubleLinearAttribute(
+    const double defaultOuterRadius = MAngle(
+        60.0,
+        MAngle::kDegrees
+    ).asRadians();
+    status = bd_util_nodes::createDoubleAngleAttribute(
         unitAttributeFn,
         innerRadius,
         "innerRadius",
@@ -149,12 +155,12 @@ MStatus BdRbfPositionFalloffWeightNode::initialize() {
         return status;
     }
 
-    status = bd_util_nodes::createDoubleLinearAttribute(
+    status = bd_util_nodes::createDoubleAngleAttribute(
         unitAttributeFn,
         outerRadius,
         "outerRadius",
         "outr",
-        1.0
+        defaultOuterRadius
     );
     if (!status) {
         return status;
@@ -194,21 +200,23 @@ MStatus BdRbfPositionFalloffWeightNode::initialize() {
         return status;
     }
 
-    status = bd_util_nodes::createDoubleLinear3Attribute(
+    status = bd_util_nodes::createQuaternionAttribute(
         numericAttributeFn,
-        unitAttributeFn,
-        posePosition,
-        posePositionX,
-        posePositionY,
-        posePositionZ,
-        "position",
-        "pp",
-        "positionX",
-        "ppx",
-        "positionY",
-        "ppy",
-        "positionZ",
-        "ppz",
+        poseQuat,
+        poseQuatX,
+        poseQuatY,
+        poseQuatZ,
+        poseQuatW,
+        "poseQuat",
+        "pq",
+        "poseQuatX",
+        "pqx",
+        "poseQuatY",
+        "pqy",
+        "poseQuatZ",
+        "pqz",
+        "poseQuatW",
+        "pqw",
         0.0
     );
     if (!status) {
@@ -255,7 +263,7 @@ MStatus BdRbfPositionFalloffWeightNode::initialize() {
         return status;
     }
 
-    status = bd_util_nodes::createDoubleLinearAttribute(
+    status = bd_util_nodes::createDoubleAngleAttribute(
         unitAttributeFn,
         innerRadiusOverride,
         "innerRadiusOverride",
@@ -274,12 +282,12 @@ MStatus BdRbfPositionFalloffWeightNode::initialize() {
         return status;
     }
 
-    status = bd_util_nodes::createDoubleLinearAttribute(
+    status = bd_util_nodes::createDoubleAngleAttribute(
         unitAttributeFn,
         outerRadiusOverride,
         "outerRadiusOverride",
         "oro",
-        1.0
+        defaultOuterRadius
     );
     if (!status) {
         return status;
@@ -299,7 +307,7 @@ MStatus BdRbfPositionFalloffWeightNode::initialize() {
         return status;
     }
     for (const MObject& child : {
-             posePosition,
+             poseQuat,
              enabled,
              useRadiusOverride,
              innerRadiusOverride,
@@ -394,7 +402,7 @@ MStatus BdRbfPositionFalloffWeightNode::initialize() {
              {{"Success", static_cast<short>(0)},
               {"NoPoses", static_cast<short>(1)},
               {"InvalidRadius", static_cast<short>(2)},
-              {"InvalidPosition", static_cast<short>(3)},
+              {"InvalidQuaternion", static_cast<short>(3)},
               {"UnsupportedFalloff", static_cast<short>(4)},
               {"NumericalFailure", static_cast<short>(5)}}}) {
         status = enumAttributeFn.addField(field.first, field.second);
@@ -411,19 +419,21 @@ MStatus BdRbfPositionFalloffWeightNode::initialize() {
         return status;
     }
 
-    const std::array<MObject, 16> inputs = {
-        inputPosition,
-        inputPositionX,
-        inputPositionY,
-        inputPositionZ,
+    const std::array<MObject, 18> inputs = {
+        inputQuat,
+        inputQuatX,
+        inputQuatY,
+        inputQuatZ,
+        inputQuatW,
         innerRadius,
         outerRadius,
         falloff,
         pose,
-        posePosition,
-        posePositionX,
-        posePositionY,
-        posePositionZ,
+        poseQuat,
+        poseQuatX,
+        poseQuatY,
+        poseQuatZ,
+        poseQuatW,
         enabled,
         useRadiusOverride,
         innerRadiusOverride,
@@ -444,7 +454,7 @@ MStatus BdRbfPositionFalloffWeightNode::initialize() {
     return MS::kSuccess;
 }
 
-MStatus BdRbfPositionFalloffWeightNode::compute(
+MStatus BdRbfPoseFalloffWeightNode::compute(
     const MPlug& plug,
     MDataBlock& dataBlock
 ) {
@@ -458,28 +468,29 @@ MStatus BdRbfPositionFalloffWeightNode::compute(
     }
 
     MStatus status;
-    MDataHandle inputHandle = dataBlock.inputValue(inputPosition, &status);
+    MDataHandle inputHandle = dataBlock.inputValue(inputQuat, &status);
     if (!status) {
         return status;
     }
-    const double3& inputValue = inputHandle.asDouble3();
-    const std::array<double, 3> input = {
+    const double4& inputValue = inputHandle.asDouble4();
+    const std::array<double, 4> input = {
         inputValue[0],
         inputValue[1],
         inputValue[2],
+        inputValue[3],
     };
 
     const double defaultInnerRadius = dataBlock.inputValue(
         innerRadius,
         &status
-    ).asDistance().asCentimeters();
+    ).asAngle().asRadians();
     if (!status) {
         return status;
     }
     const double defaultOuterRadius = dataBlock.inputValue(
         outerRadius,
         &status
-    ).asDistance().asCentimeters();
+    ).asAngle().asRadians();
     if (!status) {
         return status;
     }
@@ -492,7 +503,7 @@ MStatus BdRbfPositionFalloffWeightNode::compute(
     }
 
     std::vector<unsigned int> poseIndices;
-    std::vector<bd_util_nodes::PositionFalloffSample> enabledSamples;
+    std::vector<bd_util_nodes::PoseFalloffSample> enabledSamples;
     MArrayDataHandle poseHandles = dataBlock.inputArrayValue(pose, &status);
     if (!status) {
         return status;
@@ -515,9 +526,9 @@ MStatus BdRbfPositionFalloffWeightNode::compute(
             return status;
         }
         if (poseHandle.child(enabled).asBool()) {
-            const double3& poseValue = poseHandle.child(
-                posePosition
-            ).asDouble3();
+            const double4& poseValue = poseHandle.child(
+                poseQuat
+            ).asDouble4();
             const bool useOverride = poseHandle.child(
                 useRadiusOverride
             ).asBool();
@@ -526,14 +537,19 @@ MStatus BdRbfPositionFalloffWeightNode::compute(
             if (useOverride) {
                 resolvedInnerRadius = poseHandle.child(
                     innerRadiusOverride
-                ).asDistance().asCentimeters();
+                ).asAngle().asRadians();
                 resolvedOuterRadius = poseHandle.child(
                     outerRadiusOverride
-                ).asDistance().asCentimeters();
+                ).asAngle().asRadians();
             }
             enabledSamples.push_back({
                 logicalIndex,
-                {poseValue[0], poseValue[1], poseValue[2]},
+                {
+                    poseValue[0],
+                    poseValue[1],
+                    poseValue[2],
+                    poseValue[3],
+                },
                 resolvedInnerRadius,
                 resolvedOuterRadius,
             });
@@ -546,18 +562,9 @@ MStatus BdRbfPositionFalloffWeightNode::compute(
             }
         }
     }
-    std::sort(poseIndices.begin(), poseIndices.end());
-    std::sort(
-        enabledSamples.begin(),
-        enabledSamples.end(),
-        [](const auto& first, const auto& second) {
-            return first.logicalIndex < second.logicalIndex;
-        }
-    );
-
-    std::vector<bd_util_nodes::PositionFalloffWeight> falloffWeights;
-    const bd_util_nodes::PositionFalloffStatus resultStatus =
-        bd_util_nodes::evaluatePositionFalloff(
+    std::vector<bd_util_nodes::PoseFalloffWeight> falloffWeights;
+    const bd_util_nodes::PoseFalloffStatus resultStatus =
+        bd_util_nodes::evaluatePoseFalloff(
             input,
             enabledSamples,
             static_cast<bd_util_nodes::Falloff>(falloffValue),
@@ -565,7 +572,7 @@ MStatus BdRbfPositionFalloffWeightNode::compute(
         );
 
     std::unordered_map<unsigned int, double> weightByIndex;
-    if (resultStatus == bd_util_nodes::PositionFalloffStatus::kSuccess) {
+    if (resultStatus == bd_util_nodes::PoseFalloffStatus::kSuccess) {
         weightByIndex.reserve(falloffWeights.size());
         for (const auto& falloffWeight : falloffWeights) {
             weightByIndex.emplace(
@@ -618,7 +625,7 @@ MStatus BdRbfPositionFalloffWeightNode::compute(
         return status;
     }
     isValidHandle.setBool(
-        resultStatus == bd_util_nodes::PositionFalloffStatus::kSuccess
+        resultStatus == bd_util_nodes::PoseFalloffStatus::kSuccess
     );
     isValidHandle.setClean();
 
@@ -632,6 +639,6 @@ MStatus BdRbfPositionFalloffWeightNode::compute(
 }
 
 MPxNode::SchedulingType
-BdRbfPositionFalloffWeightNode::schedulingType() const {
+BdRbfPoseFalloffWeightNode::schedulingType() const {
     return MPxNode::kParallel;
 }

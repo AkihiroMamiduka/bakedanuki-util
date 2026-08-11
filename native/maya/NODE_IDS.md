@@ -153,6 +153,8 @@
 | `bdRbf_PoseBlend` | `0x0007F095` | Internal development |
 | `bdRbf_PositionWeight` | `0x0007F096` | Internal development |
 | `bdRbf_PositionFalloffWeight` | `0x0007F097` | Internal development |
+| `bdRbf_PoseFalloffWeight` | `0x0007F098` | Internal development |
+| `bdRbf_BendTwistFalloffWeight` | `0x0007F099` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

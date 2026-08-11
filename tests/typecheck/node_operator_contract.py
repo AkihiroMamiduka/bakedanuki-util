@@ -54,6 +54,22 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_value import (
     ValueAttrOperator as QuatValueAttrOperator,
     ValuePlugOperator as QuatValuePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_bend_twist_falloff_weight import (
+    AxisQuatAttrOperator as RbfBendTwistAxisQuatAttrOperator,
+    AxisQuatPlugOperator as RbfBendTwistAxisQuatPlugOperator,
+    InputQuatAttrOperator as RbfBendTwistInputQuatAttrOperator,
+    InputQuatPlugOperator as RbfBendTwistInputQuatPlugOperator,
+    Pose_poseQuatPlugOperator as RbfBendTwistPoseQuatPlugOperator,
+    PoseAttrOperator as RbfBendTwistPoseAttrOperator,
+    PosePlugOperator as RbfBendTwistPosePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_falloff_weight import (
+    InputQuatAttrOperator as RbfPoseFalloffInputQuatAttrOperator,
+    InputQuatPlugOperator as RbfPoseFalloffInputQuatPlugOperator,
+    Pose_poseQuatPlugOperator as RbfPoseFalloffPoseQuatPlugOperator,
+    PoseAttrOperator as RbfPoseFalloffPoseAttrOperator,
+    PosePlugOperator as RbfPoseFalloffPosePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_weight import (
     InputQuatAttrOperator as RbfInputQuatAttrOperator,
     InputQuatPlugOperator as RbfInputQuatPlugOperator,
@@ -462,6 +478,22 @@ from bd_util.maya.node.operator.node.dg._generated.bd_quat_change_basis import (
     DirectionEnumPlugOperator as ChangeBasisDirectionPlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_quat_value import BdQuatValue
+from bd_util.maya.node.operator.node.dg.bd_rbf_bend_twist_falloff_weight import (
+    BdRbfBendTwistFalloffWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_bend_twist_falloff_weight import (
+    FalloffEnumPlugOperator as RbfBendTwistFalloffPlugOperator,
+    FalloffStatusEnumPlugOperator as RbfBendTwistFalloffStatusPlugOperator,
+    ModeEnumPlugOperator as RbfBendTwistModePlugOperator,
+    OrderEnumPlugOperator as RbfBendTwistOrderPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_rbf_pose_falloff_weight import (
+    BdRbfPoseFalloffWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_pose_falloff_weight import (
+    FalloffEnumPlugOperator as RbfPoseFalloffPlugOperator,
+    FalloffStatusEnumPlugOperator as RbfPoseFalloffStatusPlugOperator,
+)
 from bd_util.maya.node.operator.node.dg.bd_rbf_pose_weight import (
     BdRbfPoseWeight,
 )
@@ -885,6 +917,160 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdQuat_Value("existing_quat_value"),
         BdQuatValue,
+    )
+
+    rbf_bend_twist_falloff = nodes.create.bdRbf_BendTwistFalloffWeight(
+        name="rbf_bend_twist_falloff"
+    )
+    assert_type(rbf_bend_twist_falloff, BdRbfBendTwistFalloffWeight)
+    assert_type(
+        BdRbfBendTwistFalloffWeight.inputQuat,
+        RbfBendTwistInputQuatAttrOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.inputQuat,
+        RbfBendTwistInputQuatPlugOperator,
+    )
+    assert_type(
+        BdRbfBendTwistFalloffWeight.axisQuat,
+        RbfBendTwistAxisQuatAttrOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.axisQuat,
+        RbfBendTwistAxisQuatPlugOperator,
+    )
+    assert_type(
+        BdRbfBendTwistFalloffWeight.pose,
+        RbfBendTwistPoseAttrOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.pose[next],
+        RbfBendTwistPosePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.pose[next].poseQuat,
+        RbfBendTwistPoseQuatPlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.pose[next].enabled,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.pose[next].useRadiusOverride,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.pose[next].bendInnerRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.pose[next].bendOuterRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.pose[next].twistInnerRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.pose[next].twistOuterRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.order,
+        RbfBendTwistOrderPlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.mode,
+        RbfBendTwistModePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.bendInnerRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.bendOuterRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.twistInnerRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.twistOuterRadius,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.falloff,
+        RbfBendTwistFalloffPlugOperator,
+    )
+    assert_type(
+        rbf_bend_twist_falloff.outputWeight[next],
+        DoublePlugOperator,
+    )
+    assert_type(rbf_bend_twist_falloff.isValid, BoolPlugOperator)
+    assert_type(
+        rbf_bend_twist_falloff.falloffStatus,
+        RbfBendTwistFalloffStatusPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdRbf_BendTwistFalloffWeight(
+            "existing_rbf_bend_twist_falloff"
+        ),
+        BdRbfBendTwistFalloffWeight,
+    )
+
+    rbf_pose_falloff = nodes.create.bdRbf_PoseFalloffWeight(
+        name="rbf_pose_falloff"
+    )
+    assert_type(rbf_pose_falloff, BdRbfPoseFalloffWeight)
+    assert_type(
+        BdRbfPoseFalloffWeight.inputQuat,
+        RbfPoseFalloffInputQuatAttrOperator,
+    )
+    assert_type(
+        rbf_pose_falloff.inputQuat,
+        RbfPoseFalloffInputQuatPlugOperator,
+    )
+    assert_type(
+        BdRbfPoseFalloffWeight.pose,
+        RbfPoseFalloffPoseAttrOperator,
+    )
+    assert_type(
+        rbf_pose_falloff.pose[next],
+        RbfPoseFalloffPosePlugOperator,
+    )
+    assert_type(
+        rbf_pose_falloff.pose[next].poseQuat,
+        RbfPoseFalloffPoseQuatPlugOperator,
+    )
+    assert_type(rbf_pose_falloff.pose[next].enabled, BoolPlugOperator)
+    assert_type(
+        rbf_pose_falloff.pose[next].useRadiusOverride,
+        BoolPlugOperator,
+    )
+    assert_type(
+        rbf_pose_falloff.pose[next].innerRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(
+        rbf_pose_falloff.pose[next].outerRadiusOverride,
+        DoubleAnglePlugOperator,
+    )
+    assert_type(rbf_pose_falloff.innerRadius, DoubleAnglePlugOperator)
+    assert_type(rbf_pose_falloff.outerRadius, DoubleAnglePlugOperator)
+    assert_type(
+        rbf_pose_falloff.falloff,
+        RbfPoseFalloffPlugOperator,
+    )
+    assert_type(rbf_pose_falloff.outputWeight[next], DoublePlugOperator)
+    assert_type(rbf_pose_falloff.isValid, BoolPlugOperator)
+    assert_type(
+        rbf_pose_falloff.falloffStatus,
+        RbfPoseFalloffStatusPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdRbf_PoseFalloffWeight("existing_rbf_pose_falloff"),
+        BdRbfPoseFalloffWeight,
     )
 
     rbf_pose_weight = nodes.create.bdRbf_PoseWeight(name="rbf_pose_weight")

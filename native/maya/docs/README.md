@@ -21,32 +21,36 @@
    - Maya標準Quaternion nodeとの役割分担、可変長積、Quaternion / EulerのBend / Twist分解・合成、Twist専用分解、特異点
 7. [RBF Pose Weight](rbf-pose-weight.md)
    - Quaternion距離、5種類のkernel、補間solve、weight出力、translate / rotateの責務分離
-8. [RBF Pose Blend](rbf-pose-blend.md)
+8. [RBF Pose Falloff Weight](rbf-pose-falloff-weight.md)
+   - Quaternion距離、inner / outer半径、pose固有override、独立falloff weight
+9. [RBF Bend Twist Falloff Weight](rbf-bend-twist-falloff-weight.md)
+   - Bend方向とTwist最短角度差、別半径、BendOnly、独立falloff weight
+10. [RBF Pose Blend](rbf-pose-blend.md)
    - RBF weight配列の親接続、base-relative TRS、Quaternion log / exp回転blend
-9. [RBF Position Weight](rbf-position-weight.md)
+11. [RBF Position Weight](rbf-position-weight.md)
    - 3次元ユークリッド距離、座標空間の責務、距離単位、position pose weight
-10. [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
+12. [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
    - 内側・外側半径、pose固有override、独立したcompact falloff weight
-11. [Condition Nodes](condition.md)
+13. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
-12. [Average Nodes](average.md)
+14. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-13. [Weighted Average Nodes](weighted-average.md)
+15. [Weighted Average Nodes](weighted-average.md)
    - value / weight配列、weight合計0、負のweight、zero weightの仕様
-14. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+16. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-15. [Evaluation And Parallelism](evaluation.md)
+17. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-16. [Testing And Debugging](testing-debugging.md)
+18. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-17. [Node ID Registry](../NODE_IDS.md)
+19. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-18. [Build Guide](../README.md)
+20. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-19. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+21. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -63,6 +67,10 @@
   - Maya標準nodeを補う可変長Quaternion積、Bend / Twist分解・合成、Twist専用分解の仕様
 - [RBF Pose Weight](rbf-pose-weight.md)
   - Quaternion距離、interpolative RBF solve、kernel、状態出力、初期版の責務境界
+- [RBF Pose Falloff Weight](rbf-pose-falloff-weight.md)
+  - Quaternion最短角度距離、pose固有半径、独立weight、線形時間評価
+- [RBF Bend Twist Falloff Weight](rbf-bend-twist-falloff-weight.md)
+  - Bend方向、Twist最短角度差、BendOnly、Bend/Twist別半径
 - [RBF Position Weight](rbf-position-weight.md)
   - Euclidean distance、座標空間の責務、距離単位、position pose weight
 - [RBF Position Falloff Weight](rbf-position-falloff-weight.md)
@@ -73,10 +81,18 @@
   - Eigenを内部へ隠蔽したQuaternion / position RBF行列構築とQR solve
 - [PositionFalloff.cpp](../plugins/bdUtilNodes/src/math/PositionFalloff.cpp)
   - Euclidean distanceとLinear / CompactCubic / CompactQuinticの直接falloff評価
+- [PoseFalloff.cpp](../plugins/bdUtilNodes/src/math/PoseFalloff.cpp)
+  - Quaternion正規化、最短角度距離、pose固有半径の直接falloff評価
+- [BendTwistFalloff.cpp](../plugins/bdUtilNodes/src/math/BendTwistFalloff.cpp)
+  - Bend方向距離、Twist最短角度差、2つのfalloffの積
 - [PoseBlend.cpp](../plugins/bdUtilNodes/src/math/PoseBlend.cpp)
   - base-relative translate / scaleとQuaternion log / exp blend
 - [BdRbfPoseWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfPoseWeightNode.cpp)
   - sparse pose配列とweight配列を対応させるDG node
+- [BdRbfPoseFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfPoseFalloffWeightNode.cpp)
+  - Quaternion全体を比較する独立pose falloff DG node
+- [BdRbfBendTwistFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfBendTwistFalloffWeightNode.cpp)
+  - Bend/Twist別半径とBendOnly modeを持つfalloff DG node
 - [BdRbfPositionWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfPositionWeightNode.cpp)
   - 同一座標空間の3次元位置をEuclidean distanceで比較するRBF DG node
 - [BdRbfPositionFalloffWeightNode.cpp](../plugins/bdUtilNodes/src/nodes/BdRbfPositionFalloffWeightNode.cpp)
@@ -85,6 +101,10 @@
   - separate multi weight / pose配列をlogical indexで対応させるTRS blend node
 - [test_bd_rbf_pose_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_pose_weight.py)
   - kernel式、補間一致、Quaternion符号、invalid status、評価mode、NodeOperatorのテスト
+- [test_bd_rbf_pose_falloff_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_pose_falloff_weight.py)
+  - Quaternion距離、plateau、pose固有半径、非正規化、評価modeのテスト
+- [test_bd_rbf_bend_twist_falloff_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_bend_twist_falloff_weight.py)
+  - Bend量・方向、Twist無視、最短角度差、別半径、評価modeのテスト
 - [test_bd_rbf_position_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_position_weight.py)
   - Euclidean distance、距離単位、kernel式、親weight接続、評価modeのテスト
 - [test_bd_rbf_position_falloff_weight.py](../../../tests/maya/node/operator/node/dg/test_bd_rbf_position_falloff_weight.py)

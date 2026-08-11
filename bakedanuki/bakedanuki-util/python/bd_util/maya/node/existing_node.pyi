@@ -524,7 +524,11 @@ from .operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
 from .operator.node.dg.bd_quat_limit_bend_twist import BdQuatLimitBendTwist
 from .operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
 from .operator.node.dg.bd_quat_value import BdQuatValue
+from .operator.node.dg.bd_rbf_bend_twist_falloff_weight import (
+    BdRbfBendTwistFalloffWeight,
+)
 from .operator.node.dg.bd_rbf_pose_blend import BdRbfPoseBlend
+from .operator.node.dg.bd_rbf_pose_falloff_weight import BdRbfPoseFalloffWeight
 from .operator.node.dg.bd_rbf_pose_weight import BdRbfPoseWeight
 from .operator.node.dg.bd_rbf_position_falloff_weight import (
     BdRbfPositionFalloffWeight,
@@ -3891,11 +3895,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdQuatValue: ...
     @staticmethod
+    def bdRbf_BendTwistFalloffWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfBendTwistFalloffWeight: ...
+    @staticmethod
     def bdRbf_PoseBlend(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdRbfPoseBlend: ...
+    @staticmethod
+    def bdRbf_PoseFalloffWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfPoseFalloffWeight: ...
     @staticmethod
     def bdRbf_PoseWeight(
         node: str | om.MObject,

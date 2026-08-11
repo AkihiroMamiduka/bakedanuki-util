@@ -150,7 +150,9 @@
 #include "bdUtilNodes/nodes/BdQuatLimitBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatMultiplyMultiNode.h"
 #include "bdUtilNodes/nodes/BdQuatValueNode.h"
+#include "bdUtilNodes/nodes/BdRbfBendTwistFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfPoseBlendNode.h"
+#include "bdUtilNodes/nodes/BdRbfPoseFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfPoseWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfPositionFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfPositionWeightNode.h"
@@ -164,8 +166,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 149>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 149> registrations = {{
+const std::array<NodeRegistration, 151>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 151> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -1037,10 +1039,22 @@ const std::array<NodeRegistration, 149>& nodeRegistrations() {
             BdQuatValueNode::initialize,
         },
         {
+            BdRbfBendTwistFalloffWeightNode::typeName,
+            BdRbfBendTwistFalloffWeightNode::typeId,
+            BdRbfBendTwistFalloffWeightNode::creator,
+            BdRbfBendTwistFalloffWeightNode::initialize,
+        },
+        {
             BdRbfPoseBlendNode::typeName,
             BdRbfPoseBlendNode::typeId,
             BdRbfPoseBlendNode::creator,
             BdRbfPoseBlendNode::initialize,
+        },
+        {
+            BdRbfPoseFalloffWeightNode::typeName,
+            BdRbfPoseFalloffWeightNode::typeId,
+            BdRbfPoseFalloffWeightNode::creator,
+            BdRbfPoseFalloffWeightNode::initialize,
         },
         {
             BdRbfPoseWeightNode::typeName,

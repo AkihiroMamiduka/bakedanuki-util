@@ -3,13 +3,9 @@
 #include <array>
 #include <vector>
 
-namespace bd_util_nodes {
+#include "bdUtilNodes/math/Falloff.h"
 
-enum class PositionFalloff : short {
-    kLinear = 0,
-    kCubic = 1,
-    kQuintic = 2,
-};
+namespace bd_util_nodes {
 
 enum class PositionFalloffStatus : short {
     kSuccess = 0,
@@ -35,7 +31,7 @@ struct PositionFalloffWeight {
 PositionFalloffStatus evaluatePositionFalloff(
     const std::array<double, 3>& inputPosition,
     const std::vector<PositionFalloffSample>& samples,
-    PositionFalloff falloff,
+    Falloff falloff,
     std::vector<PositionFalloffWeight>& outputWeights
 );
 
