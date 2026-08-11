@@ -1,6 +1,6 @@
 # coding: utf-8
 from collections.abc import Sequence
-from typing import Any, Generic, TypeVar, Type, cast
+from typing import Any, ClassVar, Generic, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -28,7 +28,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
     __slots__ = ()
 
     CHILD_M_FN = None
-    CHILD_M_ATTR_TYPE: int | None = None
+    CHILD_M_ATTR_TYPE: ClassVar[int]
     VALUE_TYPE: type[V]
     _SUFFIXES: tuple[str, ...] = ()
     CHILD_FIELDS: tuple[AttributeField[Any, Any], ...] = ()

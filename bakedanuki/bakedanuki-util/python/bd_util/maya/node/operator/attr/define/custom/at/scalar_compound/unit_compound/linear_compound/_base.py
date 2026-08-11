@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Any, TypeVar, Type, cast
+from typing import Any, ClassVar, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -28,7 +28,7 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
     __slots__ = ()
 
-    CHILD_M_ATTR_TYPE: int = om.MFnUnitAttribute.kDistance
+    CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnUnitAttribute.kDistance
 
     def _prepare_child_limit_value(self, value):
         return om.MDistance(value, om.MDistance.kCentimeters)

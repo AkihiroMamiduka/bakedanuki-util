@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Any, TypeVar, Type, cast
+from typing import Any, ClassVar, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -28,7 +28,7 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
     __slots__ = ()
 
-    CHILD_M_ATTR_TYPE: int = om.MFnUnitAttribute.kAngle
+    CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnUnitAttribute.kAngle
 
     def _prepare_child_default_value(self, value):
         return om.MAngle(value, om.MAngle.kDegrees).asRadians()

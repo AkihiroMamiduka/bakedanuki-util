@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Any, TypeVar, Type, cast
+from typing import Any, ClassVar, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -30,7 +30,7 @@ class LongCompoundBasePlugOperator(
 ):
     __slots__ = ()
 
-    CHILD_M_ATTR_TYPE: int = om.MFnNumericData.kLong
+    CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnNumericData.kLong
 
     # get
     def _get_child_value(self, child_plug: om.MPlug) -> int:
