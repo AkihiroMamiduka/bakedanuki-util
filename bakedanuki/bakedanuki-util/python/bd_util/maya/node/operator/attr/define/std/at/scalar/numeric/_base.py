@@ -23,6 +23,15 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class NumericBasePlugOperator(ScalarBasePlugOperator[A]):
     __slots__ = ()
 
+    @property
+    def _numeric_fn_attr(self) -> om.MFnNumericAttribute:
+        fn_attr = self._fn_attr
+        if not isinstance(fn_attr, om.MFnNumericAttribute):
+            raise RuntimeError(
+                f"{type(self).__name__} numeric attribute is not initialized."
+            )
+        return fn_attr
+
     # add
     def _add_attr_base(self, mfn_numeric_data_type: int):
         # アトリビュートが既に存在する場合はスキップ
