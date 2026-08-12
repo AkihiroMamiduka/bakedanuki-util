@@ -21,6 +21,9 @@ V = TypeVar("V", bound=ScalarCompoundValue[int | float])
 
 S = TypeVar("S", bound=int | float)
 
+_ChildMFn = om.MFnNumericAttribute | om.MFnUnitAttribute
+_ChildMFnType = type[om.MFnNumericAttribute] | type[om.MFnUnitAttribute]
+
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -28,7 +31,7 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
     __slots__ = ()
 
-    CHILD_M_FN = None
+    CHILD_M_FN: ClassVar[_ChildMFnType]
     CHILD_M_ATTR_TYPE: ClassVar[int]
     VALUE_TYPE: type[V]
     _SUFFIXES: tuple[str, ...] = ()
@@ -265,7 +268,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
             return
         child_fn.setSoftMax(self._prepare_child_limit_value(value))
 
-    def _child_fn(self, index: int):
+    def _child_fn(self, index: int) -> _ChildMFn:
         return self.CHILD_M_FN(self.plug.child(index).attribute())
 
     def set_min(self, value: S | Sequence[S]) -> None:
