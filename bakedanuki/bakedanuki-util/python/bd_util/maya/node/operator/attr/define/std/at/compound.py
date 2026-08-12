@@ -1,5 +1,6 @@
 # coding: utf-8
-from typing import Any, TypeVar, Type, cast, Protocol
+from collections.abc import Callable
+from typing import Any, Never, TypeVar, Type, cast, Protocol
 
 # self
 from ...._core import AttrOperator, PlugOperator, AttributeField
@@ -25,21 +26,89 @@ class _CompoundAttrParent(Protocol):
     def attr_path(self) -> str: ...
 
 
+class _ScalarCompoundPlugAdapter:
+    __slots__ = ("plug",)
+
+    def __init__(self, plug: PlugOperator[Any]) -> None:
+        self.plug = plug
+
+    @property
+    def suffixes(self) -> tuple[str, ...]:
+        return cast(tuple[str, ...], getattr(self.plug, "_SUFFIXES"))
+
+    @property
+    def child_attr_type(self) -> int:
+        return cast(int, getattr(self.plug, "CHILD_M_ATTR_TYPE"))
+
+    def create_child_fn(self) -> Any:
+        child_fn_cls = cast(
+            Callable[[], Any],
+            getattr(self.plug, "CHILD_M_FN"),
+        )
+        return child_fn_cls()
+
+    def child_value(
+        self,
+        value: Any,
+        index: int,
+        default: Any = None,
+    ) -> Any:
+        get_child_value = cast(
+            Callable[[Any, int, Any], Any],
+            getattr(self.plug, "_child_value"),
+        )
+        return get_child_value(value, index, default)
+
+    def prepare_child_default_value(self, value: Any) -> Any:
+        prepare = cast(
+            Callable[[Any], Any],
+            getattr(self.plug, "_prepare_child_default_value"),
+        )
+        return prepare(value)
+
+    def apply_child_limit(
+        self,
+        method_name: str,
+        child_fn: Any,
+        value: Any,
+    ) -> None:
+        setter = cast(
+            Callable[[Any, Any], None],
+            getattr(self.plug, method_name),
+        )
+        setter(child_fn, value)
+
+    def child_long_name(self, suffix: str, index: int) -> str:
+        get_name = cast(
+            Callable[[str, int | None], str],
+            getattr(self.plug, "child_long_name"),
+        )
+        return get_name(suffix, index)
+
+    def child_short_name(self, suffix: str, index: int) -> str:
+        get_name = cast(
+            Callable[[str, int | None], str],
+            getattr(self.plug, "child_short_name"),
+        )
+        return get_name(suffix, index)
+
+
 class CompoundPlugOperator(PlugOperator[A]):
     __slots__ = ()
 
     CHILD_FIELDS: tuple[AttributeField[Any, Any], ...] = ()
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
 
-        child_fields = []
-        seen_ids = set()
+        child_fields: list[AttributeField[Any, Any]] = []
+        seen_ids: set[int] = set()
         for child_field in vars(cls).values():
+            if not isinstance(child_field, AttributeField):
+                continue
+            child_field = cast(AttributeField[Any, Any], child_field)
             child_id = id(child_field)
-            if child_id in seen_ids or not isinstance(
-                child_field, AttributeField
-            ):
+            if child_id in seen_ids:
                 continue
             seen_ids.add(child_id)
             child_fields.append(child_field)
@@ -50,13 +119,13 @@ class CompoundPlugOperator(PlugOperator[A]):
             cls.CHILD_FIELDS = tuple(getattr(cls, "CHILD_FIELDS", ()))
 
     # get
-    def get(self):
+    def get(self) -> Never:
         raise NotImplementedError(
             "CompoundPlug does not support get operation"
         )
 
     # set
-    def set(self, value):
+    def set(self, value: Any) -> Never:
         raise NotImplementedError(
             "CompoundPlug does not support set operation"
         )
@@ -174,7 +243,9 @@ def _create_child_attr_operator(
     short_name = child_field.short_name
     if long_name is None or short_name is None:
         raise RuntimeError(
-            f"{type(child_field).__name__} is not initialized as a class attribute."
+            "{} is not initialized as a class attribute.".format(
+                type(child_field).__name__
+            )
         )
 
     parent_attr_path = parent.attr_path
@@ -201,6 +272,24 @@ def _create_child_attr_operator(
         category=child_field.category,
         child_index=child_field.child_index,
     )
+
+
+def _plug_cls_or_raise(
+    child_field: AttributeField[Any, Any],
+) -> type[PlugOperator[Any]]:
+    plug_cls = child_field.PLUG_CLS
+    if plug_cls is None:
+        raise TypeError(
+            f"{type(child_field).__name__}.PLUG_CLS is not defined."
+        )
+    return plug_cls
+
+
+def _attr_type_or_raise(attr: AttrOperator[Any]) -> str:
+    attr_type = attr.ATTR_TYPE
+    if attr_type is None:
+        raise TypeError(f"{type(attr).__name__}.ATTR_TYPE is not defined.")
+    return attr_type
 
 
 def _apply_mfn_attr_options(
@@ -236,10 +325,11 @@ def _apply_numeric_range_options(
 
 def _create_numeric_attr(attr: AttrOperator[Any]) -> om.MObject:
     fn_attr = om.MFnNumericAttribute()
+    attr_type = _attr_type_or_raise(attr)
     attr_obj = fn_attr.create(
         attr.long_name,
         attr.short_name,
-        _NUMERIC_ATTR_TYPES[attr.ATTR_TYPE],
+        _NUMERIC_ATTR_TYPES[attr_type],
         attr.default_value,
     )
     _apply_mfn_attr_options(fn_attr, attr)
@@ -249,10 +339,11 @@ def _create_numeric_attr(attr: AttrOperator[Any]) -> om.MObject:
 
 def _create_unit_attr(attr: AttrOperator[Any]) -> om.MObject:
     fn_attr = om.MFnUnitAttribute()
+    attr_type = _attr_type_or_raise(attr)
     attr_obj = fn_attr.create(
         attr.long_name,
         attr.short_name,
-        _UNIT_ATTR_TYPES[attr.ATTR_TYPE],
+        _UNIT_ATTR_TYPES[attr_type],
         attr.default_value,
     )
     _apply_mfn_attr_options(fn_attr, attr)
@@ -262,10 +353,11 @@ def _create_unit_attr(attr: AttrOperator[Any]) -> om.MObject:
 
 def _create_matrix_attr(attr: AttrOperator[Any]) -> om.MObject:
     fn_attr = om.MFnMatrixAttribute()
+    attr_type = _attr_type_or_raise(attr)
     attr_obj = fn_attr.create(
         attr.long_name,
         attr.short_name,
-        _MATRIX_ATTR_TYPES[attr.ATTR_TYPE],
+        _MATRIX_ATTR_TYPES[attr_type],
     )
     _apply_mfn_attr_options(fn_attr, attr)
     return attr_obj
@@ -275,6 +367,8 @@ def _is_scalar_compound_field(
     child_field: AttributeField[Any, Any],
 ) -> bool:
     plug_cls = child_field.PLUG_CLS
+    if plug_cls is None:
+        return False
     return (
         getattr(plug_cls, "CHILD_M_FN", None) is not None
         and getattr(plug_cls, "CHILD_M_ATTR_TYPE", None) is not None
@@ -288,17 +382,20 @@ def _create_scalar_compound_attr(
     attr: AttrOperator[Any],
     parent: _CompoundAttrParent,
 ) -> om.MObject:
-    scalar_plug = child_field.PLUG_CLS(
-        node=parent.node,
-        oprt_attr=attr,
-        parent_attr_path=parent.attr_path,
-        multi=attr.multi,
+    plug_cls = _plug_cls_or_raise(child_field)
+    scalar_plug = _ScalarCompoundPlugAdapter(
+        plug_cls(
+            node=parent.node,
+            oprt_attr=attr,
+            parent_attr_path=parent.attr_path,
+            multi=attr.multi,
+        )
     )
 
-    children_attrs = []
-    for i, suffix in enumerate(scalar_plug._SUFFIXES):
-        child_fn = scalar_plug.CHILD_M_FN()
-        default_value = scalar_plug._child_value(
+    children_attrs: list[om.MObject] = []
+    for i, suffix in enumerate(scalar_plug.suffixes):
+        child_fn = scalar_plug.create_child_fn()
+        default_value = scalar_plug.child_value(
             attr.default_value,
             i,
             default=0,
@@ -306,8 +403,8 @@ def _create_scalar_compound_attr(
         child_attr = child_fn.create(
             scalar_plug.child_long_name(suffix, i),
             scalar_plug.child_short_name(suffix, i),
-            scalar_plug.CHILD_M_ATTR_TYPE,
-            scalar_plug._prepare_child_default_value(default_value),
+            scalar_plug.child_attr_type,
+            scalar_plug.prepare_child_default_value(default_value),
         )
         _apply_scalar_compound_child_limits(child_fn, scalar_plug, attr, i)
         children_attrs.append(child_attr)
@@ -324,20 +421,24 @@ def _create_scalar_compound_attr(
 
 def _apply_scalar_compound_child_limits(
     child_fn: Any,
-    scalar_plug: PlugOperator[Any],
+    scalar_plug: _ScalarCompoundPlugAdapter,
     attr: AttrOperator[Any],
     index: int,
 ) -> None:
-    limit_items = (
-        (attr.min_value, scalar_plug._set_child_attr_min),
-        (attr.max_value, scalar_plug._set_child_attr_max),
-        (attr.soft_min_value, scalar_plug._set_child_attr_soft_min),
-        (attr.soft_max_value, scalar_plug._set_child_attr_soft_max),
+    limit_items: tuple[tuple[Any, str], ...] = (
+        (attr.min_value, "_set_child_attr_min"),
+        (attr.max_value, "_set_child_attr_max"),
+        (attr.soft_min_value, "_set_child_attr_soft_min"),
+        (attr.soft_max_value, "_set_child_attr_soft_max"),
     )
-    for value, setter in limit_items:
+    for value, method_name in limit_items:
         if value is None:
             continue
-        setter(child_fn, scalar_plug._child_value(value, index))
+        scalar_plug.apply_child_limit(
+            method_name,
+            child_fn,
+            scalar_plug.child_value(value, index),
+        )
 
 
 def _create_enum_attr(
@@ -355,12 +456,13 @@ def _create_enum_attr(
     )
     _apply_mfn_attr_options(fn_attr, attr)
 
-    name_map = getattr(child_field.PLUG_CLS, "NAME_MAP", None)
+    plug_cls = _plug_cls_or_raise(child_field)
+    name_map = getattr(plug_cls, "NAME_MAP", None)
     if name_map is None:
         name_map = getattr(attr, "NAME_MAP", None)
     if name_map is None:
         raise UnsupportedOperationError(
-            f"{child_field.PLUG_CLS.__name__}.NAME_MAP is not defined."
+            f"{plug_cls.__name__}.NAME_MAP is not defined."
         )
 
     for index, name in name_map.items():
@@ -383,10 +485,11 @@ def _create_compound_attr(
     attr: AttrOperator[Any],
     parent: _CompoundAttrParent,
 ) -> om.MObject:
-    child_fields = getattr(child_field.PLUG_CLS, "CHILD_FIELDS", ())
+    plug_cls = _plug_cls_or_raise(child_field)
+    child_fields = getattr(plug_cls, "CHILD_FIELDS", ())
     if not child_fields:
         raise UnsupportedOperationError(
-            f"{child_field.PLUG_CLS.__name__} must define child fields."
+            f"{plug_cls.__name__} must define child fields."
         )
 
     fn_attr = om.MFnCompoundAttribute()
