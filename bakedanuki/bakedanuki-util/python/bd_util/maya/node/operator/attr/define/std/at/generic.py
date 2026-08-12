@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Any
+from typing import Any, Never
 
 # maya
 from maya.api import OpenMaya as om
@@ -24,11 +24,11 @@ class GenericPlugOperator(PlugOperator["GenericAttrOperator"]):
 
         return self._data_handle
 
-    def get(self):
+    def get(self) -> Never:
         raise NotImplementedError("GenericPlug does not support get operation")
 
     # set
-    def set(self, value):
+    def set(self, value: Any) -> Never:
         raise NotImplementedError("GenericPlug does not support set operation")
 
     # add
