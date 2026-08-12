@@ -1,4 +1,5 @@
 # coding: utf-8
+from abc import abstractmethod
 from collections.abc import Sequence
 from typing import Any, ClassVar, Generic, overload, TypeVar, Type, cast
 
@@ -77,8 +78,9 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
         cls.CHILD_ATTR_NAMES = child_attr_names
 
     # get
+    @abstractmethod
     def _get_child_value(self, child_plug: om.MPlug) -> S:
-        pass
+        raise NotImplementedError
 
     def get(self) -> V:
         values = tuple(
