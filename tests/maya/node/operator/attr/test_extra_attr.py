@@ -6,6 +6,7 @@ import pytest
 import bd_util as bdu
 from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
 from bd_util.maya.node.operator.attr.define.std.at.addr import AddrField
+from bd_util.maya.node.operator.node._core import NodeOperator
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
 
 pytestmark = pytest.mark.maya
@@ -130,6 +131,7 @@ class SimpleCompoundField(
 class ExtraCompoundTransform(Transform):
     __slots__ = ()
 
+    extraLongLong = AddAttr.at.long_long_int(default_value=0)
     extraDouble2 = AddAttr.at.double2(default_value=[1.0, 2.0])
     extraDouble3 = AddAttr.at.double3(default_value=[1.0, 2.0, 3.0])
     extraDouble4 = AddAttr.at.double4(default_value=[1.0, 2.0, 3.0, 4.0])
@@ -183,6 +185,14 @@ class ExtraCompoundTransform(Transform):
     )
 
 
+class ExtraLongLongNetwork(NodeOperator):
+    __slots__ = ()
+
+    NODE_TYPE = "network"
+
+    extraLongLong = AddAttr.at.long_long_int(default_value=2**40 + 123)
+
+
 class ExtraCmdsAddAttrTransform(Transform):
     __slots__ = ()
 
@@ -203,6 +213,65 @@ def extra_compound_node(modifier_manager):
     modifier_manager.do_it_dag()
     modifier_manager.do_it_dg()
     return node
+
+
+def test_long_long_int_supports_64_bit_modifier_undo_redo(
+    modifier_manager,
+    extra_compound_node,
+):
+    plug = extra_compound_node.extraLongLong
+    value = 2**63 - 1
+
+    assert plug.get() == 0
+
+    modifier_manager.clear()
+    plug.set(value)
+
+    assert plug.get() == 0
+
+    modifier_manager.do_it_dg()
+    assert plug.get() == value
+
+    modifier_manager.undo_it()
+    assert plug.get() == 0
+
+    modifier_manager.redo_it()
+    assert plug.get() == value
+
+
+def test_long_long_int_supports_pending_node(modifier_manager):
+    node = ExtraLongLongNetwork.create(
+        modifier_manager,
+        name="pending_long_long",
+    )
+    plug = node.extraLongLong
+    value = -(2**63)
+
+    assert plug.get() == 2**40 + 123
+
+    with pytest.raises(RuntimeError, match="must exist in the scene"):
+        plug.set_direct(value)
+
+    plug.set(value)
+    assert plug.get() == 2**40 + 123
+
+    modifier_manager.do_it_dg()
+    assert plug.get() == value
+
+    modifier_manager.undo_it()
+    modifier_manager.redo_it()
+    assert plug.get() == value
+
+
+def test_long_long_int_set_direct_is_immediate(
+    extra_compound_node,
+):
+    plug = extra_compound_node.extraLongLong
+    value = -(2**63)
+
+    plug.set_direct(value)
+
+    assert plug.get() == value
 
 
 COMPOUND_DEFAULT_CASES = (
