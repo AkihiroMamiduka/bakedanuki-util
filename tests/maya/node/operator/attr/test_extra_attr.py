@@ -4,6 +4,7 @@ from __future__ import annotations
 import pytest
 
 import bd_util as bdu
+from maya.api import OpenMaya as om
 from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
 from bd_util.maya.node.operator.attr.define.std.at.addr import AddrField
 from bd_util.maya.node.operator.node._core import NodeOperator
@@ -132,6 +133,7 @@ class ExtraCompoundTransform(Transform):
     __slots__ = ()
 
     extraLongLong = AddAttr.at.long_long_int(default_value=0)
+    extraFltMatrix = AddAttr.at.flt_matrix()
     extraDouble2 = AddAttr.at.double2(default_value=[1.0, 2.0])
     extraDouble3 = AddAttr.at.double3(default_value=[1.0, 2.0, 3.0])
     extraDouble4 = AddAttr.at.double4(default_value=[1.0, 2.0, 3.0, 4.0])
@@ -272,6 +274,33 @@ def test_long_long_int_set_direct_is_immediate(
     plug.set_direct(value)
 
     assert plug.get() == value
+
+
+def test_flt_matrix_supports_modifier_undo_redo(
+    modifier_manager,
+    extra_compound_node,
+):
+    plug = extra_compound_node.extraFltMatrix
+    identity_values = list(om.MFloatMatrix())
+    values = [float(value) for value in range(1, 17)]
+    matrix = om.MFloatMatrix(values)
+
+    assert isinstance(plug.get(), om.MFloatMatrix)
+    assert list(plug.get()) == pytest.approx(identity_values)
+
+    modifier_manager.clear()
+    plug.set(matrix)
+
+    assert list(plug.get()) == pytest.approx(identity_values)
+
+    modifier_manager.do_it_dg()
+    assert list(plug.get()) == pytest.approx(values)
+
+    modifier_manager.undo_it()
+    assert list(plug.get()) == pytest.approx(identity_values)
+
+    modifier_manager.redo_it()
+    assert list(plug.get()) == pytest.approx(values)
 
 
 COMPOUND_DEFAULT_CASES = (
