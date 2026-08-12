@@ -156,29 +156,40 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
             raise self._set_values_error(values, method_name)
         return cast(tuple[S, ...], values)
 
-    def set(self, *values: S | Sequence[S]) -> None:
-        values = self._normalize_set_values(values)
+    def set(
+        self,
+        value: S | Sequence[S],
+        *values: S,
+    ) -> None:
+        normalized_values = self._normalize_set_values((value, *values))
         plug = self.plug
         try:
             # 値をセットする
-            for i, val in enumerate(values):
+            for i, val in enumerate(normalized_values):
                 self._set_child_value(plug.child(i), val)
 
         except Exception as e:
-            raise self._set_values_error(values) from e
+            raise self._set_values_error(normalized_values) from e
 
     def set_direct(
         self,
-        *values: S | Sequence[S],
+        value: S | Sequence[S],
+        *values: S,
     ) -> None:
-        values = self._normalize_set_values(values, "set_direct")
+        normalized_values = self._normalize_set_values(
+            (value, *values),
+            "set_direct",
+        )
         plug = self.plug
         try:
-            for i, val in enumerate(values):
+            for i, val in enumerate(normalized_values):
                 self._set_child_value_direct(plug.child(i), val)
 
         except Exception as e:
-            raise self._set_values_error(values, "set_direct") from e
+            raise self._set_values_error(
+                normalized_values,
+                "set_direct",
+            ) from e
 
     # add
     @overload

@@ -303,7 +303,7 @@ def test_compound_set_accepts_tuple_and_rejects_wrong_count(
 ):
     node = extra_compound_node
 
-    node.extraDouble4.set((4.0, 3.0, 2.0, 1.0))
+    node.extraDouble4.set(value=(4.0, 3.0, 2.0, 1.0))
     modifier_manager.do_it_dg()
     assert node.extraDouble4.get() == pytest.approx([4.0, 3.0, 2.0, 1.0])
 
@@ -365,7 +365,7 @@ def test_compound_set_direct_updates_immediately(
 def test_compound_set_direct_rejects_wrong_count(extra_compound_node):
     node = extra_compound_node
 
-    node.extraDouble4.set_direct(1.0, 2.0, 3.0, 4.0)
+    node.extraDouble4.set_direct(value=(1.0, 2.0, 3.0, 4.0))
 
     with pytest.raises(TypeError, match="Expected either set_direct"):
         node.extraDouble4.set_direct(9.0, 8.0)
