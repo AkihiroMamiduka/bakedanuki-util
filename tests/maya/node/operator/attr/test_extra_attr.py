@@ -309,6 +309,8 @@ def test_compound_set_accepts_tuple_and_rejects_wrong_count(
 
     with pytest.raises(TypeError, match="Expected either set"):
         node.extraDouble4.set(9.0, 8.0)
+    with pytest.raises(TypeError, match="Expected either set"):
+        node.extraDouble4.set([1.0], [2.0], [3.0], [4.0])
 
     modifier_manager.do_it_dg()
     assert node.extraDouble4.get() == pytest.approx([4.0, 3.0, 2.0, 1.0])

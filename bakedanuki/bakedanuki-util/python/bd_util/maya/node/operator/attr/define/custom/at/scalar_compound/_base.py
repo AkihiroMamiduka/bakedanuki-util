@@ -149,7 +149,12 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
                 values = tuple(value)
         if len(values) != len(self._SUFFIXES):
             raise self._set_values_error(values, method_name)
-        return tuple(values)
+        if any(
+            isinstance(value, Sequence) and not isinstance(value, (str, bytes))
+            for value in values
+        ):
+            raise self._set_values_error(values, method_name)
+        return cast(tuple[S, ...], values)
 
     def set(self, *values: S | Sequence[S]) -> None:
         values = self._normalize_set_values(values)
