@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Any
+from typing import Any, Never
 
 # self
 from ...._core import AttrOperator, PlugOperator, AttributeField
@@ -40,7 +40,7 @@ class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
         data_handle.setAddr(value)
         self.plug.setMDataHandle(data_handle)
 
-    def add_attr(self, **kwargs):
+    def add_attr(self) -> Never:
         raise TypeError(
             "{}{}".format(
                 "addr 属性は api.OpenMaya ではアトリビュートを作成できない為、 addAttr() できません。",
