@@ -21,17 +21,17 @@ class UnitRangeBasePlugOperator(UnitBasePlugOperator[A]):
     __slots__ = ()
 
     # set
-    def set_min(self, value):
-        self._fn_attr.setMin(value)
+    def set_min(self, value: float) -> None:
+        self._unit_fn_attr.setMin(value)
 
-    def set_max(self, value):
-        self._fn_attr.setMax(value)
+    def set_max(self, value: float) -> None:
+        self._unit_fn_attr.setMax(value)
 
-    def set_soft_min(self, value):
-        self._fn_attr.setSoftMin(value)
+    def set_soft_min(self, value: float) -> None:
+        self._unit_fn_attr.setSoftMin(value)
 
-    def set_soft_max(self, value):
-        self._fn_attr.setSoftMax(value)
+    def set_soft_max(self, value: float) -> None:
+        self._unit_fn_attr.setSoftMax(value)
 
     # add
     def _add_attr_base(self, mfn_numeric_data_type: int):

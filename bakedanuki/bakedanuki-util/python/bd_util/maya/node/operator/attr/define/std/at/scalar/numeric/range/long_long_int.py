@@ -29,12 +29,12 @@ class LongLongIntPlugOperator(
     def set(self, value: int):
         self._node.modifier_manager.dg_mod.newPlugValueInt64(self.plug, value)
 
-    def set_min(self, value: int):
+    def set_min(self, value: int | float) -> None:
         raise UnsupportedOperationError(
             "Setting min value is not supported for LongLongInt attributes."
         )
 
-    def set_max(self, value: int):
+    def set_max(self, value: int | float) -> None:
         raise UnsupportedOperationError(
             "Setting max value is not supported for LongLongInt attributes."
         )
