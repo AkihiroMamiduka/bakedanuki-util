@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Any, TypeVar, Type, cast
+from typing import Any, Never, TypeVar, Type, cast
 
 # self
 from ...._core import AttrOperator, PlugOperator, AttributeField
@@ -13,13 +13,13 @@ class LightDataPlugOperator(PlugOperator[A]):
     __slots__ = ()
 
     # get
-    def get(self):
+    def get(self) -> Never:
         raise NotImplementedError(
             "LightDataPlug does not support get operation"
         )
 
     # set
-    def set(self, value):
+    def set(self, value: Any) -> Never:
         raise NotImplementedError(
             "LightDataPlug does not support set operation"
         )
