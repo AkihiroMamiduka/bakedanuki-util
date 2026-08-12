@@ -348,7 +348,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
 
         # アトリビュートを作成
         #   子属性
-        children_attrs = []
+        children_attrs: list[om.MObject] = []
         for i, suffix in enumerate(self._SUFFIXES):
             children_attrs.append(_create_child_attr(suffix, i))
         #   親属性(double3)
