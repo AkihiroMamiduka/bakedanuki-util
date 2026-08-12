@@ -62,9 +62,11 @@ class EnumPlugOperator(ScalarBasePlugOperator[A]):
 
     def _get_fn_enum(self) -> om.MFnEnumAttribute:
         # MFnEnumAttribute をキャッシュする
-        if self._fn_enum is None:
-            self._fn_enum = om.MFnEnumAttribute(self.plug.attribute())
-        return self._fn_enum
+        fn_enum = self._fn_enum
+        if fn_enum is None:
+            fn_enum = om.MFnEnumAttribute(self.plug.attribute())
+            self._fn_enum = fn_enum
+        return fn_enum
 
     @property
     def _active_name_map(self) -> dict[int, str]:
