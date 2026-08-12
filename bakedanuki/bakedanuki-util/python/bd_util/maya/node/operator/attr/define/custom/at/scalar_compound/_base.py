@@ -122,7 +122,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
 
     def _set_values_error(
         self,
-        values,
+        values: tuple[S | Sequence[S], ...],
         method_name: str = "set",
     ) -> TypeError:
         suffix_str = ", ".join(self._SUFFIXES)
