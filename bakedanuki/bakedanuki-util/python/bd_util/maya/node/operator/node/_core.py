@@ -417,8 +417,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         if new_name is not None:
             pure_name = new_name
         elif search is not None:
-            replace_str = replace if replace is not None else ""
-            pure_name = pure_name.replace(search, replace_str)
+            pure_name = pure_name.replace(search, replace)
         #   prefix, suffix を付加する
         pure_name = prefix + pure_name + suffix
 
