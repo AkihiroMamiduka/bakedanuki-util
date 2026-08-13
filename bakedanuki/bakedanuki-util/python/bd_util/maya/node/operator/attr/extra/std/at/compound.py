@@ -23,12 +23,12 @@ class ExtraCompoundField(CompoundField[CompoundAttrOperator[P], P]):
 
         self.extra = True
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
 
         for base in getattr(cls, "__orig_bases__", ()):
             if get_origin(base) is ExtraCompoundField:
                 args = get_args(base)
                 if args:
-                    cls.PLUG_CLS = args[0]
+                    setattr(cls, "PLUG_CLS", args[0])
                 break
