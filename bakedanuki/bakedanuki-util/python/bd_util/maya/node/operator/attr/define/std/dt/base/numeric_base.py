@@ -23,7 +23,11 @@ class DataNumericBasePlugOperator(DataTypePlugOperator[A]):
         return fn_data.getData()
 
     # set
-    def _set_data(self, numeric_type, values: list[float]):
+    def _set_data(
+        self,
+        numeric_type: int,
+        values: list[float],
+    ) -> None:
         """
         値をセットするヘルパー
 
