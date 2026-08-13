@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from typing import Any
+
 """
 plugin から呼ばれるコマンド本体。
 このモジュール内では、相対import を使用して、コマンドを実装することができる。
@@ -13,5 +15,5 @@ from . import some_cmd
 class BDUSampleCommandA(MPxCommandBase):
     COMMAND_NAME = "bduSampleCommandA"
 
-    def do_process(self, args):
+    def do_process(self, args: Any) -> None:
         some_cmd.create(self.mod)

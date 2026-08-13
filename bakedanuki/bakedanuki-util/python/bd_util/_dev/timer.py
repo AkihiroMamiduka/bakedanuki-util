@@ -1,9 +1,11 @@
 # coding: utf-8
 from __future__ import annotations
+
+from collections.abc import Callable
 import functools
 import statistics
 import time
-from typing import Callable, TypeVar, ParamSpec
+from typing import ParamSpec, TypeVar, cast
 
 # self
 from .. import logger as u_logger
@@ -14,16 +16,16 @@ P = ParamSpec("P")
 R = TypeVar("R")
 
 
-def log_elapsed(label: str, elapsed: float):
+def log_elapsed(label: str, elapsed: float) -> None:
     logger.debug(f"[timer] {label}: {elapsed:.6f} 秒")
 
 
 def run_timed(
-    func: Callable[P, R],
-    *args: P.args,
+    func: Callable[..., R],
+    *args: object,
     label: str | None = None,
     log: bool = True,
-    **kwargs: P.kwargs,
+    **kwargs: object,
 ) -> tuple[R, float]:
     label = label or func.__qualname__
     start = time.perf_counter()
@@ -37,19 +39,23 @@ def run_timed(
 
 
 def run_timed_repeat(
-    func: Callable[P, R],
-    *args: P.args,
+    func: Callable[..., object],
+    *args: object,
     repeat_count: int = 3,
     log_each: bool = True,
     unwrap: bool = True,
-    **kwargs: P.kwargs,
+    **kwargs: object,
 ) -> list[float]:
     if repeat_count < 1:
         raise ValueError("repeat_count must be greater than 0.")
 
-    raw_func = getattr(func, "__wrapped__", func) if unwrap else func
+    raw_func = (
+        cast(Callable[..., object], getattr(func, "__wrapped__", func))
+        if unwrap
+        else func
+    )
     label = raw_func.__qualname__
-    results = []
+    results: list[float] = []
     for i in range(repeat_count):
         _, elapsed = run_timed(
             raw_func,
