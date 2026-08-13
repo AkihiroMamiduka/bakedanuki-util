@@ -36,7 +36,7 @@ def _find_node_definition(
     node_dir: Path,
 ) -> NodeDefinition | None:
     tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
-    definitions = []
+    definitions: list[NodeDefinition] = []
 
     for statement in tree.body:
         if not isinstance(statement, ast.ClassDef):
@@ -96,7 +96,7 @@ def collect_node_definitions(python_root: Path) -> tuple[NodeDefinition, ...]:
         operator_dir / "dag" / "shape",
     )
 
-    definitions = []
+    definitions: list[NodeDefinition] = []
     for package_dir in package_dirs:
         for path in sorted(package_dir.glob("*.py")):
             definition = _find_node_definition(path, node_dir)
