@@ -1,7 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
-from typing import Any, Type
+from typing import Any, Literal, cast
 
 import maya.cmds as cmds
 
@@ -72,9 +72,30 @@ from .define.std.dt.string import DataStringAttrOperator
 from .define.std.dt.string_array import DataStringArrayAttrOperator
 from .define.std.dt.vector_array import DataVectorArrayAttrOperator
 
-_AT_CLASS_MAP: dict[str, Type[AttrOperator[Any]]] = {
-    cls.ATTR_TYPE: cls
-    for cls in [
+_AttrOperatorClass = type[AttrOperator[Any]]
+
+
+def _build_class_map(
+    classes: tuple[_AttrOperatorClass, ...],
+    type_attribute: Literal["ATTR_TYPE", "DATA_TYPE"],
+) -> dict[str, _AttrOperatorClass]:
+    class_map: dict[str, _AttrOperatorClass] = {}
+    for attr_cls in classes:
+        type_name = (
+            attr_cls.ATTR_TYPE
+            if type_attribute == "ATTR_TYPE"
+            else attr_cls.DATA_TYPE
+        )
+        if type_name is None:
+            raise TypeError(
+                f"{attr_cls.__name__}.{type_attribute} must be defined."
+            )
+        class_map[type_name] = attr_cls
+    return class_map
+
+
+_AT_CLASS_MAP = _build_class_map(
+    (
         BoolAttrOperator,
         ByteAttrOperator,
         CharAttrOperator,
@@ -97,15 +118,16 @@ _AT_CLASS_MAP: dict[str, Type[AttrOperator[Any]]] = {
         SpectrumAttrOperator,
         TimeAttrOperator,
         TypedAttrOperator,
-    ]
-}
+    ),
+    "ATTR_TYPE",
+)
 
 _FLOATING_POINT_COMPOUND_ATTR_TYPES = frozenset(
     ["double2", "double3", "double4", "float2", "float3"]
 )
 
 _FLOATING_POINT_COMPOUND_CLASS_MAP: dict[
-    tuple[str, str, int], Type[AttrOperator[Any]]
+    tuple[str, str, int], _AttrOperatorClass
 ] = {
     ("double2", "double", 2): NumericDouble2AttrOperator,
     ("double2", "doubleLinear", 2): DoubleLinear2AttrOperator,
@@ -129,22 +151,25 @@ _FLOATING_POINT_COMPOUND_CLASS_MAP: dict[
 
 def _get_attr_long_name(node: str, attr: str) -> str:
     try:
-        return cmds.attributeQuery(attr, node=node, longName=True)
+        return cast(str, cmds.attributeQuery(attr, node=node, longName=True))
     except Exception:
         return attr
 
 
 def _lookup_floating_point_compound_attr_cls(
     node: str, attr: str, attribute_type: str
-) -> Type[AttrOperator[Any]]:
-    child_attrs = cmds.attributeQuery(attr, node=node, listChildren=True) or []
+) -> _AttrOperatorClass:
+    child_attrs = cast(
+        list[str] | None,
+        cmds.attributeQuery(attr, node=node, listChildren=True),
+    ) or []
     if not child_attrs:
         raise TypeError(
             "Unsupported floating point compound attribute: "
             f"{node}.{attr} ({attribute_type}) has no child attributes."
         )
 
-    child_types = []
+    child_types: list[str] = []
     for child_attr in child_attrs:
         child_info = get_attribute_info(node, child_attr)
         if child_info.attribute_type is None:
@@ -176,9 +201,8 @@ def _lookup_floating_point_compound_attr_cls(
     return attr_cls
 
 
-_DT_CLASS_MAP: dict[str, Type[AttrOperator[Any]]] = {
-    cls.DATA_TYPE: cls
-    for cls in [
+_DT_CLASS_MAP = _build_class_map(
+    (
         DataDouble2AttrOperator,
         DataDouble3AttrOperator,
         DataDoubleArrayAttrOperator,
@@ -201,11 +225,12 @@ _DT_CLASS_MAP: dict[str, Type[AttrOperator[Any]]] = {
         DataStringAttrOperator,
         DataStringArrayAttrOperator,
         DataVectorArrayAttrOperator,
-    ]
-}
+    ),
+    "DATA_TYPE",
+)
 
 
-def lookup_attr_cls(node: str, attr: str) -> Type[AttrOperator[Any]] | None:
+def lookup_attr_cls(node: str, attr: str) -> _AttrOperatorClass | None:
     """
     ノード名とアトリビュート名から、対応する Attr クラスを返す。
 
@@ -218,7 +243,8 @@ def lookup_attr_cls(node: str, attr: str) -> Type[AttrOperator[Any]] | None:
         attr (str): アトリビュート名
 
     Returns:
-        Type[Attr] | None: 対応する Attr クラス。見つからない場合は None。
+        type[AttrOperator[Any]] | None: 対応する Attr クラス。
+            見つからない場合は None。
     """
     attr_info = get_attribute_info(node, attr)
 
@@ -230,4 +256,6 @@ def lookup_attr_cls(node: str, attr: str) -> Type[AttrOperator[Any]] | None:
             node, attr, attr_info.attribute_type
         )
 
+    if attr_info.attribute_type is None:
+        return None
     return _AT_CLASS_MAP.get(attr_info.attribute_type)
