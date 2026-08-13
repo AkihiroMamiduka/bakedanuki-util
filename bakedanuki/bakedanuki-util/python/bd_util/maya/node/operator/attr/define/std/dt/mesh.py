@@ -19,7 +19,7 @@ class DataMeshPlugOperator(DataTypePlugOperator["DataMeshAttrOperator"]):
         )
 
     # set
-    def set_direct(self, _):
+    def set_direct(self, value: object):
         raise UnsupportedOperationError(
             f"{self.__class__.__name__} does not support set_direct operation"
         )

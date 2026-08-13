@@ -195,6 +195,19 @@ class ExtraLongLongNetwork(NodeOperator):
     extraLongLong = AddAttr.at.long_long_int(default_value=2**40 + 123)
 
 
+class ExtraDataArrayNetwork(NodeOperator):
+    __slots__ = ()
+
+    NODE_TYPE = "network"
+
+    doubleValues = AddAttr.dt.double_array()
+    floatValues = AddAttr.dt.float_array()
+    intValues = AddAttr.dt.int32_array()
+    pointValues = AddAttr.dt.point_array()
+    stringValues = AddAttr.dt.string_array()
+    vectorValues = AddAttr.dt.vector_array()
+
+
 class ExtraCmdsAddAttrTransform(Transform):
     __slots__ = ()
 
@@ -274,6 +287,35 @@ def test_long_long_int_set_direct_is_immediate(
     plug.set_direct(value)
 
     assert plug.get() == value
+
+
+def test_data_array_set_direct_round_trip(modifier_manager):
+    node = ExtraDataArrayNetwork.create(
+        modifier_manager,
+        name="extra_data_array",
+    )
+    modifier_manager.do_it_dg()
+
+    double_values = [1.25, 2.5, 3.75]
+    float_values = [4.25, 5.5, 6.75]
+    int_values = [1, -2, 3]
+    point_values = [(1.0, 2.0, 3.0, 1.0), (4.0, 5.0, 6.0, 2.0)]
+    string_values = ["alpha", "beta", "gamma"]
+    vector_values = [(1.0, 2.0, 3.0), (4.0, 5.0, 6.0)]
+
+    node.doubleValues.set_direct(double_values)
+    node.floatValues.set_direct(float_values)
+    node.intValues.set_direct(int_values)
+    node.pointValues.set_direct(point_values)
+    node.stringValues.set_direct(string_values)
+    node.vectorValues.set_direct(vector_values)
+
+    assert node.doubleValues.get() == pytest.approx(double_values)
+    assert node.floatValues.get() == pytest.approx(float_values)
+    assert node.intValues.get() == int_values
+    assert node.pointValues.get() == pytest.approx(point_values)
+    assert node.stringValues.get() == string_values
+    assert node.vectorValues.get() == pytest.approx(vector_values)
 
 
 def test_flt_matrix_supports_modifier_undo_redo(

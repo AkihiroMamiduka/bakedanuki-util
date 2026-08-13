@@ -21,7 +21,9 @@ T_co = TypeVar("T_co", covariant=True)
 class _ArrayData(Protocol[T_co]):
     def array(self) -> Iterable[T_co]: ...
 
-    def create(self, values: object) -> om.MObject: ...
+    def create(self, values: object = ...) -> om.MObject: ...
+
+    def set(self, values: object) -> None: ...
 
 
 _ArrayDataFactory = Callable[..., _ArrayData[T]]
@@ -37,7 +39,8 @@ class DataArrayBasePlugOperator(DataTypePlugOperator[A]):
         self,
         fn_data_cls: _ArrayDataFactory[T],
     ) -> Iterable[T]:
-        return fn_data_cls(self.plug.asMObject()).array()
+        data_obj = cast(om.MObject, self.plug.asMDataHandle().data())
+        return fn_data_cls(data_obj).array()
 
     def _get_array_values(
         self,
@@ -61,6 +64,17 @@ class DataArrayBasePlugOperator(DataTypePlugOperator[A]):
             values (list[T]): セットする値のリスト
         """
         self.plug.setMObject(fn_data_cls().create(array_cls(values)))
+
+    def _set_values_after_create(
+        self,
+        fn_data_cls: _ArrayDataFactory[T],
+        array_cls: _ArrayFactory[T],
+        values: list[T],
+    ) -> None:
+        fn_data = fn_data_cls()
+        data_obj = fn_data.create()
+        fn_data.set(array_cls(values))
+        self.plug.setMObject(data_obj)
 
 
 class DataArrayBaseAttrOperator(DataTypeAttrOperator[P]):

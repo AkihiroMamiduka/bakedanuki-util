@@ -12,7 +12,7 @@ from .base.numeric_base import (
 
 
 class DataLong3PlugOperator(
-    DataNumericBasePlugOperator["DataLong3AttrOperator"]
+    DataNumericBasePlugOperator["DataLong3AttrOperator", int]
 ):
     __slots__ = ()
 
@@ -22,15 +22,15 @@ class DataLong3PlugOperator(
         return [x, y, z]
 
     # set
-    def set_direct(self, values: list[int]):
+    def set_direct(self, value: list[int]) -> None:
         """
         MPlug に値を直接セットする
             その為、modifier.undoIt() 非対応です
 
         Args:
-            values (list[int]): x, y, z の値のリスト
+            value (list[int]): x, y, z の値のリスト
         """
-        self._set_data(om.MFnNumericData.k3Long, values)
+        self._set_data(om.MFnNumericData.k3Long, value)
 
 
 class DataLong3AttrOperator(
