@@ -25,9 +25,7 @@ V = TypeVar("V", bound=ScalarCompoundValue[int])
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class LongCompoundBasePlugOperator(
-    NumericCompoundBasePlugOperator[A, V, int]
-):
+class LongCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A, V, int]):
     __slots__ = ()
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnNumericData.kLong

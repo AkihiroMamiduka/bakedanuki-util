@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [string]$PythonExecutable
+    [string]$PythonExecutable,
+    [switch]$ForceRecreate
 )
 
 $ErrorActionPreference = "Stop"
@@ -12,7 +13,59 @@ $venvPath = Join-Path $repoRoot ".venv-format"
 $venvPython = Join-Path $venvPath "Scripts\python.exe"
 $requirementsPath = Join-Path $repoRoot "requirements-format.txt"
 
-if (-not (Test-Path -LiteralPath $venvPython)) {
+function Test-PythonEnvironment {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ExecutablePath
+    )
+
+    if (-not (Test-Path -LiteralPath $ExecutablePath -PathType Leaf)) {
+        return $false
+    }
+
+    try {
+        & $ExecutablePath -c "import sys" *> $null
+        return $LASTEXITCODE -eq 0
+    }
+    catch {
+        return $false
+    }
+}
+
+function Remove-FormatEnvironment {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+        [Parameter(Mandatory = $true)]
+        [string]$RepositoryRoot
+    )
+
+    $resolvedPath = [System.IO.Path]::GetFullPath($Path)
+    $resolvedExpectedPath = [System.IO.Path]::GetFullPath(
+        (Join-Path $RepositoryRoot ".venv-format")
+    )
+    if (-not [string]::Equals(
+        $resolvedPath,
+        $resolvedExpectedPath,
+        [System.StringComparison]::OrdinalIgnoreCase
+    )) {
+        throw "Refusing to remove an unexpected format environment: $resolvedPath"
+    }
+
+    if (Test-Path -LiteralPath $resolvedPath) {
+        Remove-Item -LiteralPath $resolvedPath -Recurse -Force
+    }
+}
+
+$environmentIsHealthy = Test-PythonEnvironment $venvPython
+if ($ForceRecreate -or -not $environmentIsHealthy) {
+    if (Test-Path -LiteralPath $venvPath) {
+        $environmentState = if ($ForceRecreate) { "existing" } else { "invalid" }
+        Write-Host "Removing the $environmentState format environment: $venvPath"
+        Remove-FormatEnvironment -Path $venvPath -RepositoryRoot $repoRoot
+    }
+
+    Write-Host "Creating the format environment: $venvPath"
     if ($PythonExecutable) {
         & $PythonExecutable -m venv $venvPath
     }
@@ -23,6 +76,10 @@ if (-not (Test-Path -LiteralPath $venvPython)) {
 
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to create the format environment."
+    }
+
+    if (-not (Test-PythonEnvironment $venvPython)) {
+        throw "The newly created format environment cannot start."
     }
 }
 

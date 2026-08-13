@@ -111,10 +111,21 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 ## Formatting
 
 Pythonコードは`requirements-format.txt`に固定したBlackを使います。
-Maya実行環境とは分離した`.venv-format`を初回だけ作成してください。
+Maya実行環境とは分離した`.venv-format`を使用します。
+`format.cmd`は環境がない場合や、作成元の Python が削除されて
+起動できない場合を検出します。環境がない場合は自動作成します。
+既存環境の起動失敗は、制限環境によるアクセス拒否と破損を区別できないため、
+勝手に削除せず`-ForceRecreate`による明示的な再作成を案内します。
+事前に明示的に作成する場合は次を実行してください。
 
 ```powershell
 .\scripts\setup-format.cmd
+```
+
+既存環境を明示的に作り直す場合です。
+
+```powershell
+.\scripts\setup-format.cmd -ForceRecreate
 ```
 
 一括整形と整形確認です。

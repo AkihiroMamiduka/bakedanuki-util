@@ -10,14 +10,42 @@ $repoRoot = [System.IO.Path]::GetFullPath(
     (Join-Path $PSScriptRoot "..")
 )
 $venvPython = Join-Path $repoRoot ".venv-format\Scripts\python.exe"
+$setupScript = Join-Path $PSScriptRoot "setup-format.ps1"
 $configPath = Join-Path $repoRoot "pyproject.toml"
 $formatTargets = @(
     (Join-Path $repoRoot "bakedanuki"),
     (Join-Path $repoRoot "tests")
 )
 
-if (-not (Test-Path -LiteralPath $venvPython)) {
-    throw "Format environment not found. Run .\scripts\setup-format.cmd first."
+function Test-PythonEnvironment {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ExecutablePath
+    )
+
+    if (-not (Test-Path -LiteralPath $ExecutablePath -PathType Leaf)) {
+        return $false
+    }
+
+    try {
+        & $ExecutablePath -c "import sys" *> $null
+        return $LASTEXITCODE -eq 0
+    }
+    catch {
+        return $false
+    }
+}
+
+if (-not (Test-Path -LiteralPath $venvPython -PathType Leaf)) {
+    Write-Host "The format environment is missing. Creating it."
+    & $setupScript
+}
+
+if (-not (Test-PythonEnvironment $venvPython)) {
+    throw @"
+The format environment exists but cannot start.
+Run .\scripts\setup-format.cmd -ForceRecreate to rebuild it explicitly.
+"@
 }
 
 $blackArgs = @(
