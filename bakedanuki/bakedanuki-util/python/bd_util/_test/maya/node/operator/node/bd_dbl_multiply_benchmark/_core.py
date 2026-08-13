@@ -100,7 +100,7 @@ def run_benchmarks(
                     VARIANTS if input_count % 2 else tuple(reversed(VARIANTS))
                 )
                 for variant in variants:
-                    cmds.file(new=True, force=True)
+                    cmds.file(newFile=True, force=True)
                     scene = _build_scene(
                         variant=variant,
                         input_count=input_count,
@@ -160,7 +160,7 @@ def run_benchmarks(
                     )
     finally:
         cmds.evaluationManager(mode=previous_mode)
-        cmds.file(new=True, force=True)
+        cmds.file(newFile=True, force=True)
         cmds.undoInfo(state=undo_was_enabled)
 
     return records

@@ -451,7 +451,7 @@ def _run_warmup(
     scenario: BenchmarkScenario,
     count: int,
 ) -> tuple[str, str] | None:
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
     try:
         state = adapter.setup_scenario(scenario.name)
         result = adapter.run_scenario(scenario.name, count, state)
@@ -461,7 +461,7 @@ def _run_warmup(
     except Exception as exc:
         return "error", f"warmup {type(exc).__name__}: {exc}"
     finally:
-        cmds.file(new=True, force=True)
+        cmds.file(newFile=True, force=True)
     return None
 
 
@@ -474,7 +474,7 @@ def _run_once(
     count: int,
     repeat_index: int,
 ) -> BenchmarkRecord:
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
     try:
         state = adapter.setup_scenario(scenario.name)
         gc.collect()
@@ -514,7 +514,7 @@ def _run_once(
             note=f"{type(exc).__name__}: {exc}",
         )
     finally:
-        cmds.file(new=True, force=True)
+        cmds.file(newFile=True, force=True)
 
     return _make_record(
         timestamp,
