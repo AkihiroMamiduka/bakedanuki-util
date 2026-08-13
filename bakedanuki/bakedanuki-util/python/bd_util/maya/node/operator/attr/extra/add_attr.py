@@ -1,7 +1,7 @@
 # coding:utf-8
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import Any, ClassVar
 
 # self
 #   difine
@@ -74,17 +74,17 @@ def _field_kwargs(
     *,
     long_name: str | None = None,
     short_name: str | None = None,
-    default_value=_UNSET,
-    min_value=_UNSET,
-    max_value=_UNSET,
-    soft_min_value=_UNSET,
-    soft_max_value=_UNSET,
+    default_value: Any = _UNSET,
+    min_value: Any = _UNSET,
+    max_value: Any = _UNSET,
+    soft_min_value: Any = _UNSET,
+    soft_max_value: Any = _UNSET,
     multi: bool = False,
     readable: bool | None = None,
     writable: bool | None = None,
     category: str | None = None,
-):
-    kwargs = {
+) -> dict[str, Any]:
+    kwargs: dict[str, Any] = {
         "long_name": long_name,
         "short_name": short_name,
         "multi": multi,
@@ -112,7 +112,7 @@ class AddAttrAt:
     @classmethod
     def bool(
         cls,
-        default_value: bool = None,
+        default_value: bool | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -135,11 +135,11 @@ class AddAttrAt:
     @classmethod
     def byte(
         cls,
-        default_value: int = None,
-        min_value: int = None,
-        max_value: int = None,
-        soft_min_value: int = None,
-        soft_max_value: int = None,
+        default_value: int | None = None,
+        min_value: int | None = None,
+        max_value: int | None = None,
+        soft_min_value: int | None = None,
+        soft_max_value: int | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -166,11 +166,11 @@ class AddAttrAt:
     @classmethod
     def char(
         cls,
-        default_value: int = None,
-        min_value: int = None,
-        max_value: int = None,
-        soft_min_value: int = None,
-        soft_max_value: int = None,
+        default_value: int | None = None,
+        min_value: int | None = None,
+        max_value: int | None = None,
+        soft_min_value: int | None = None,
+        soft_max_value: int | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -197,11 +197,11 @@ class AddAttrAt:
     @classmethod
     def double_angle(
         cls,
-        default_value: float = None,
-        min_value: float = None,
-        max_value: float = None,
-        soft_min_value: float = None,
-        soft_max_value: float = None,
+        default_value: float | None = None,
+        min_value: float | None = None,
+        max_value: float | None = None,
+        soft_min_value: float | None = None,
+        soft_max_value: float | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -228,11 +228,11 @@ class AddAttrAt:
     @classmethod
     def double_linear(
         cls,
-        default_value: float = None,
-        min_value: float = None,
-        max_value: float = None,
-        soft_min_value: float = None,
-        soft_max_value: float = None,
+        default_value: float | None = None,
+        min_value: float | None = None,
+        max_value: float | None = None,
+        soft_min_value: float | None = None,
+        soft_max_value: float | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -259,11 +259,11 @@ class AddAttrAt:
     @classmethod
     def double(
         cls,
-        default_value: float = None,
-        min_value: float = None,
-        max_value: float = None,
-        soft_min_value: float = None,
-        soft_max_value: float = None,
+        default_value: float | None = None,
+        min_value: float | None = None,
+        max_value: float | None = None,
+        soft_min_value: float | None = None,
+        soft_max_value: float | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -290,11 +290,11 @@ class AddAttrAt:
     @classmethod
     def double2(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -321,11 +321,11 @@ class AddAttrAt:
     @classmethod
     def double3(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -352,11 +352,11 @@ class AddAttrAt:
     @classmethod
     def double4(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -383,11 +383,11 @@ class AddAttrAt:
     @classmethod
     def quat(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -414,11 +414,11 @@ class AddAttrAt:
     @classmethod
     def double_linear2(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -445,11 +445,11 @@ class AddAttrAt:
     @classmethod
     def double_linear3(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -476,11 +476,11 @@ class AddAttrAt:
     @classmethod
     def double_angle2(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -507,11 +507,11 @@ class AddAttrAt:
     @classmethod
     def double_angle3(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -538,11 +538,11 @@ class AddAttrAt:
     @classmethod
     def float_angle(
         cls,
-        default_value: float = None,
-        min_value: float = None,
-        max_value: float = None,
-        soft_min_value: float = None,
-        soft_max_value: float = None,
+        default_value: float | None = None,
+        min_value: float | None = None,
+        max_value: float | None = None,
+        soft_min_value: float | None = None,
+        soft_max_value: float | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -569,11 +569,11 @@ class AddAttrAt:
     @classmethod
     def float_linear(
         cls,
-        default_value: float = None,
-        min_value: float = None,
-        max_value: float = None,
-        soft_min_value: float = None,
-        soft_max_value: float = None,
+        default_value: float | None = None,
+        min_value: float | None = None,
+        max_value: float | None = None,
+        soft_min_value: float | None = None,
+        soft_max_value: float | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -600,11 +600,11 @@ class AddAttrAt:
     @classmethod
     def float(
         cls,
-        default_value: float = None,
-        min_value: float = None,
-        max_value: float = None,
-        soft_min_value: float = None,
-        soft_max_value: float = None,
+        default_value: float | None = None,
+        min_value: float | None = None,
+        max_value: float | None = None,
+        soft_min_value: float | None = None,
+        soft_max_value: float | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -631,11 +631,11 @@ class AddAttrAt:
     @classmethod
     def float2(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -662,11 +662,11 @@ class AddAttrAt:
     @classmethod
     def float3(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -693,11 +693,11 @@ class AddAttrAt:
     @classmethod
     def float_linear2(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -724,11 +724,11 @@ class AddAttrAt:
     @classmethod
     def float_linear3(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -755,11 +755,11 @@ class AddAttrAt:
     @classmethod
     def float_angle2(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -786,11 +786,11 @@ class AddAttrAt:
     @classmethod
     def float_angle3(
         cls,
-        default_value: list[float] = None,
-        min_value: float | list[float] = None,
-        max_value: float | list[float] = None,
-        soft_min_value: float | list[float] = None,
-        soft_max_value: float | list[float] = None,
+        default_value: list[float] | None = None,
+        min_value: float | list[float] | None = None,
+        max_value: float | list[float] | None = None,
+        soft_min_value: float | list[float] | None = None,
+        soft_max_value: float | list[float] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -859,9 +859,9 @@ class AddAttrAt:
     @classmethod
     def long_long_int(
         cls,
-        default_value: int = None,
-        soft_min_value: int = None,
-        soft_max_value: int = None,
+        default_value: int | None = None,
+        soft_min_value: int | None = None,
+        soft_max_value: int | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -886,11 +886,11 @@ class AddAttrAt:
     @classmethod
     def long(
         cls,
-        default_value: int = None,
-        min_value: int = None,
-        max_value: int = None,
-        soft_min_value: int = None,
-        soft_max_value: int = None,
+        default_value: int | None = None,
+        min_value: int | None = None,
+        max_value: int | None = None,
+        soft_min_value: int | None = None,
+        soft_max_value: int | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -917,11 +917,11 @@ class AddAttrAt:
     @classmethod
     def long2(
         cls,
-        default_value: list[int] = None,
-        min_value: int | list[int] = None,
-        max_value: int | list[int] = None,
-        soft_min_value: int | list[int] = None,
-        soft_max_value: int | list[int] = None,
+        default_value: list[int] | None = None,
+        min_value: int | list[int] | None = None,
+        max_value: int | list[int] | None = None,
+        soft_min_value: int | list[int] | None = None,
+        soft_max_value: int | list[int] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -948,11 +948,11 @@ class AddAttrAt:
     @classmethod
     def long3(
         cls,
-        default_value: list[int] = None,
-        min_value: int | list[int] = None,
-        max_value: int | list[int] = None,
-        soft_min_value: int | list[int] = None,
-        soft_max_value: int | list[int] = None,
+        default_value: list[int] | None = None,
+        min_value: int | list[int] | None = None,
+        max_value: int | list[int] | None = None,
+        soft_min_value: int | list[int] | None = None,
+        soft_max_value: int | list[int] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -1021,11 +1021,11 @@ class AddAttrAt:
     @classmethod
     def short(
         cls,
-        default_value: int = None,
-        min_value: int = None,
-        max_value: int = None,
-        soft_min_value: int = None,
-        soft_max_value: int = None,
+        default_value: int | None = None,
+        min_value: int | None = None,
+        max_value: int | None = None,
+        soft_min_value: int | None = None,
+        soft_max_value: int | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -1052,11 +1052,11 @@ class AddAttrAt:
     @classmethod
     def short2(
         cls,
-        default_value: list[int] = None,
-        min_value: int | list[int] = None,
-        max_value: int | list[int] = None,
-        soft_min_value: int | list[int] = None,
-        soft_max_value: int | list[int] = None,
+        default_value: list[int] | None = None,
+        min_value: int | list[int] | None = None,
+        max_value: int | list[int] | None = None,
+        soft_min_value: int | list[int] | None = None,
+        soft_max_value: int | list[int] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -1083,11 +1083,11 @@ class AddAttrAt:
     @classmethod
     def short3(
         cls,
-        default_value: list[int] = None,
-        min_value: int | list[int] = None,
-        max_value: int | list[int] = None,
-        soft_min_value: int | list[int] = None,
-        soft_max_value: int | list[int] = None,
+        default_value: list[int] | None = None,
+        min_value: int | list[int] | None = None,
+        max_value: int | list[int] | None = None,
+        soft_min_value: int | list[int] | None = None,
+        soft_max_value: int | list[int] | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -1114,7 +1114,7 @@ class AddAttrAt:
     @classmethod
     def time(
         cls,
-        default_value: float = None,
+        default_value: float | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -1351,7 +1351,7 @@ class AddAttrDt:
     @classmethod
     def string(
         cls,
-        default_value: str = None,
+        default_value: str | None = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
