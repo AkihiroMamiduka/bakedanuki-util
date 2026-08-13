@@ -1,5 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
+from collections.abc import Callable
 from typing import Any, TypeVar, Type, cast
 
 # maya
@@ -24,7 +25,7 @@ class DataTypePlugOperator(PlugOperator[A]):
         self._fn_attr = om.MFnTypedAttribute()
 
     # set
-    def set(self, _):
+    def set(self, value: Any) -> None:
         """
         set_direct() を使用して下さい。
             このクラスでは、 set() はサポートされていません。
@@ -40,18 +41,23 @@ class DataTypePlugOperator(PlugOperator[A]):
         )
 
     # add
-    def _add_attr_base(self, mfn_data_type: int):
+    def _add_attr_base(self, mfn_data_type: int) -> None:
         # アトリビュートが既に存在する場合はスキップ
         if self.exists():
             return
 
         # アトリビュートを作成
-        attr_obj = self._fn_attr.create(
+        fn_attr = cast(om.MFnTypedAttribute, self._fn_attr)
+        create_attr = cast(
+            Callable[[str, str, int], om.MObject],
+            fn_attr.create,
+        )
+        attr_obj = create_attr(
             self.long_name,
             self.short_name,
             mfn_data_type,
         )
-        self._apply_mfn_attr_options(self._fn_attr)
+        self._apply_mfn_attr_options(fn_attr)
 
         # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)
