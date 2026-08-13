@@ -224,7 +224,7 @@ class AttrInfo:
     enum_name: str
     multi: bool
     number_of_children: int
-    parent: str
+    parent: list[str] | None
     readable: bool
     writable: bool
     category: str
@@ -309,7 +309,7 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
         enum_name=enum_name,
         multi=multi,
         number_of_children=number_of_children,
-        parent=parent,
+        parent=typing.cast(list[str] | None, parent),
         readable=readable,
         writable=writable,
         category=category,

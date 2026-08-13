@@ -36,11 +36,13 @@ Python ファイルを生成するモジュール。
 
 from __future__ import annotations
 
+from collections.abc import Callable, Iterator, Sequence
 import dataclasses
 import keyword
 import math
 import pathlib
 import re
+from typing import cast
 
 # self
 from ...... import logger as u_logger
@@ -921,12 +923,15 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
         tuple[str, str] | None: (クラス名, モジュール相対パス) または None
     """
     # Some built-in attrs report dataType but no attributeType in MFn query.
-    if attr_info.attribute_type in {None, "typed"} and attr_info.data_type:
+    attribute_type = attr_info.attribute_type
+    if attribute_type in {None, "typed"} and attr_info.data_type:
         result = _DT_TYPE_MAP.get(attr_info.data_type)
         if result:
             return result
 
-    return _AT_TYPE_MAP.get(attr_info.attribute_type)
+    if attribute_type is None:
+        return None
+    return _AT_TYPE_MAP.get(attribute_type)
 
 
 def _node_attr_module_path(module_path: str) -> str:
@@ -960,7 +965,7 @@ def _attr_long_name(attr_info: AttrInfo) -> str:
 
 def _attr_parent_name(attr_info: AttrInfo) -> str | None:
     """Return the canonical parent attr path for generated code."""
-    if attr_info.parent is None:
+    if not attr_info.parent:
         return None
 
     long_name = _attr_long_name(attr_info)
@@ -1069,7 +1074,11 @@ def _resolve_compound_base(
     ):
         return _QUAT_COMPOUND_AT_BASE
 
-    result = _GENERIC_COMPOUND_AT_BASE.get(parent_info.attribute_type)
+    attribute_type = parent_info.attribute_type
+    if attribute_type is None:
+        return None
+
+    result = _GENERIC_COMPOUND_AT_BASE.get(attribute_type)
     if result is not None:
         return result
 
@@ -1077,7 +1086,7 @@ def _resolve_compound_base(
     if first_child_type is None:
         return None
 
-    key = (parent_info.attribute_type, first_child_type, len(children))
+    key = (attribute_type, first_child_type, len(children))
     return _SCALAR_COMPOUND_AT_BASE.get(key)
 
 
@@ -1121,7 +1130,8 @@ def _parse_enum_entries(
         return None
 
     if isinstance(enum_name_raw, (list, tuple)):
-        raw = str(enum_name_raw[0]) if enum_name_raw else ""
+        enum_names = cast(Sequence[object], enum_name_raw)
+        raw = str(enum_names[0]) if enum_names else ""
     else:
         raw = str(enum_name_raw)
 
@@ -1168,7 +1178,7 @@ def _build_attr_init_args(attr_info: AttrInfo) -> list[str]:
     return args
 
 
-def _field_arg_literal(value) -> str:
+def _field_arg_literal(value: object) -> str:
     """Return a stable Python literal for generated Field kwargs."""
     if isinstance(value, str):
         escaped = value.replace("\\", "\\\\").replace('"', '\\"')
@@ -1180,26 +1190,29 @@ def _field_arg_literal(value) -> str:
             sign = "-" if value < 0 else ""
             return f'{sign}float("inf")'
     if isinstance(value, tuple):
-        items = ", ".join(_field_arg_literal(item) for item in value)
-        if len(value) == 1:
+        values = cast(tuple[object, ...], value)
+        items = ", ".join(_field_arg_literal(item) for item in values)
+        if len(values) == 1:
             items += ","
         return f"({items})"
     if isinstance(value, list):
-        items = ", ".join(_field_arg_literal(item) for item in value)
+        values = cast(list[object], value)
+        items = ", ".join(_field_arg_literal(item) for item in values)
         return f"[{items}]"
     return repr(value)
 
 
-def _normalize_attr_query_value(value):
+def _normalize_attr_query_value(value: object) -> object | None:
     """Normalize Maya attributeQuery list results for Field kwargs."""
     if value is None:
         return None
     if isinstance(value, (list, tuple)):
-        if not value:
+        values = cast(Sequence[object], value)
+        if not values:
             return None
-        if len(value) == 1:
-            return value[0]
-        return tuple(value)
+        if len(values) == 1:
+            return values[0]
+        return tuple(values)
     return value
 
 
@@ -1232,7 +1245,7 @@ _RANGE_ARG_NAMES: frozenset[str] = frozenset(
 )
 
 
-def _to_int_if_integral(value):
+def _to_int_if_integral(value: object) -> object:
     """Convert Maya's numeric float result to int when it is integral."""
     if isinstance(value, bool):
         return int(value)
@@ -1241,14 +1254,15 @@ def _to_int_if_integral(value):
     return value
 
 
-def _normalize_int_metadata_value(value):
+def _normalize_int_metadata_value(value: object) -> object:
     """Normalize int-like metadata values, including compound tuples."""
     if isinstance(value, tuple):
-        return tuple(_to_int_if_integral(v) for v in value)
+        values = cast(tuple[object, ...], value)
+        return tuple(_to_int_if_integral(item) for item in values)
     return _to_int_if_integral(value)
 
 
-def _normalize_bool_metadata_value(value):
+def _normalize_bool_metadata_value(value: object) -> object:
     """Normalize bool metadata default values from Maya query results."""
     value = _to_int_if_integral(value)
     if isinstance(value, int):
@@ -1256,7 +1270,11 @@ def _normalize_bool_metadata_value(value):
     return value
 
 
-def _normalize_metadata_value(attr_info: AttrInfo, arg_name: str, value):
+def _normalize_metadata_value(
+    attr_info: AttrInfo,
+    arg_name: str,
+    value: object,
+) -> object | None:
     """Normalize Field metadata by Maya attribute type."""
     attr_type = attr_info.attribute_type
     value = _normalize_attr_query_value(value)
@@ -1287,7 +1305,7 @@ def _replace_compound_default_with_child_defaults(
     if attr_info.default_value is None:
         return attr_info
 
-    child_defaults = []
+    child_defaults: list[object] = []
     for child in children:
         value = _normalize_metadata_value(
             child,
@@ -1305,20 +1323,23 @@ def _replace_compound_default_with_child_defaults(
     )
 
 
-def _normalize_category_value(value) -> str | None:
+def _normalize_category_value(value: object) -> str | None:
     """Normalize Maya category query results to AttributeField's string API."""
     if value is None:
         return None
     if isinstance(value, (list, tuple)):
-        if not value:
+        values = cast(Sequence[object], value)
+        if not values:
             return None
-        value = value[0]
+        value = values[0]
     if value is None:
         return None
     return str(value)
 
 
-def _iter_attr_metadata_args(attr_info: AttrInfo):
+def _iter_attr_metadata_args(
+    attr_info: AttrInfo,
+) -> Iterator[tuple[str, object]]:
     """Yield generated Field metadata kwargs for known Maya attr state."""
     for arg_name, value in (
         ("default_value", attr_info.default_value),
@@ -1696,10 +1717,9 @@ def generate_node_attr_code(
     # 子アトリビュートを親ごとにグループ化
     compound_children_map: dict[str, list[AttrInfo]] = {}
     for info in attr_infos:
-        if info.parent is not None:
-            parent_name = _attr_parent_name(info)
-            if parent_name is not None:
-                compound_children_map.setdefault(parent_name, []).append(info)
+        parent_name = _attr_parent_name(info)
+        if parent_name is not None:
+            compound_children_map.setdefault(parent_name, []).append(info)
 
     # compound タイプの親アトリビュートのみ対象（子が存在し、基底解決できるものに限る）
     compound_parents: list[AttrInfo] = [
@@ -1778,6 +1798,7 @@ def generate_node_attr_code(
             )
             child_short = child_info.short_name
 
+            child_module: str | None = None
             child_cls_name = compound_field_classes.get(
                 _attr_long_name(child_info)
             )
@@ -1803,8 +1824,9 @@ def generate_node_attr_code(
                     _add_import("EnumPlugOperator", "std.at.scalar.enum")
                     _add_import("EnumField", "std.at.scalar.enum")
                 else:
-                    _add_import(child_cls_name, child_module)
-            elif _attr_long_name(child_info) not in compound_field_classes:
+                    if child_module is not None:
+                        _add_import(child_cls_name, child_module)
+            elif child_module is not None:
                 _add_import(child_cls_name, child_module)
 
             safe_child_name = _safe_field_name(child_name)
@@ -2021,17 +2043,16 @@ def generate_node_class_code(
     # compound 型の子アトリビュートを親ごとにグループ化
     compound_children_map: dict[str, list[AttrInfo]] = {}
     for info in attr_infos:
-        if info.parent is not None:
-            parent_name = _attr_parent_name(info)
-            if parent_name is not None:
-                compound_children_map.setdefault(parent_name, []).append(info)
+        parent_name = _attr_parent_name(info)
+        if parent_name is not None:
+            compound_children_map.setdefault(parent_name, []).append(info)
 
     # compound 型で子が存在する親アトリビュート → カスタム Field クラス名
     # (node_attr/{snake_case}.py で定義されるクラスを参照する)
     custom_compound_cls: dict[str, str] = {}
     for info in attr_infos:
         if (
-            info.parent is None
+            _attr_parent_name(info) is None
             and compound_children_map.get(_attr_long_name(info))
             and _resolve_compound_base(
                 info,
@@ -2056,7 +2077,7 @@ def generate_node_class_code(
 
         # 子アトリビュート (compound の子) はスキップ
         # compound の内部定義は node_attr/ で別途行う
-        if attr_info.parent is not None:
+        if _attr_parent_name(attr_info) is not None:
             continue
 
         # listAttr が short_name も返してきた場合はスキップ
@@ -2352,7 +2373,7 @@ def generate_node_class_file(
 #   node_type ごとのファイル生成
 def generate_specific_node_class_file_core(
     src_dir: str | pathlib.Path,
-    func_get_node_types: callable,
+    func_get_node_types: Callable[[], list[str]],
     *,
     include_skipped: bool = False,
     node_kind: str = _NODE_KIND_DG,
