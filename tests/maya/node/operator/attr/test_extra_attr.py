@@ -99,28 +99,28 @@ class SimpleCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
     )
     mode = SimpleCompoundModeField()
     nested = SimpleNestedCompoundField()
-    uv = AddAttr.at.double2(default_value=[4.0, 5.0])
+    uv = AddAttr.at.double2(default_value=(4.0, 5.0))
     offset = AddAttr.at.double3(
-        default_value=[1.0, 2.0, 3.0],
-        min_value=[-1.0, -2.0, -3.0],
+        default_value=(1.0, 2.0, 3.0),
+        min_value=(-1.0, -2.0, -3.0),
         max_value=10.0,
     )
-    tangent = AddAttr.at.double4(default_value=[4.0, 5.0, 6.0, 7.0])
-    orient = AddAttr.at.quat(default_value=[0.1, 0.2, 0.3, 0.4])
-    floatUv = AddAttr.at.float2(default_value=[0.25, 0.75])
-    color = AddAttr.at.float3(default_value=[0.1, 0.2, 0.3])
-    indexPair = AddAttr.at.long2(default_value=[1, 2])
-    indexTriplet = AddAttr.at.long3(default_value=[3, 4, 5])
-    shortPair = AddAttr.at.short2(default_value=[6, 7])
-    shortTriplet = AddAttr.at.short3(default_value=[8, 9, 10])
-    linear2 = AddAttr.at.double_linear2(default_value=[11.0, 12.0])
-    linear3 = AddAttr.at.double_linear3(default_value=[13.0, 14.0, 15.0])
-    angle2 = AddAttr.at.double_angle2(default_value=[16.0, 17.0])
-    aim = AddAttr.at.double_angle3(default_value=[10.0, 20.0, 30.0])
-    floatLinear2 = AddAttr.at.float_linear2(default_value=[18.0, 19.0])
-    floatLinear3 = AddAttr.at.float_linear3(default_value=[20.0, 21.0, 22.0])
-    floatAngle2 = AddAttr.at.float_angle2(default_value=[23.0, 24.0])
-    floatAngle3 = AddAttr.at.float_angle3(default_value=[25.0, 26.0, 27.0])
+    tangent = AddAttr.at.double4(default_value=(4.0, 5.0, 6.0, 7.0))
+    orient = AddAttr.at.quat(default_value=(0.1, 0.2, 0.3, 0.4))
+    floatUv = AddAttr.at.float2(default_value=(0.25, 0.75))
+    color = AddAttr.at.float3(default_value=(0.1, 0.2, 0.3))
+    indexPair = AddAttr.at.long2(default_value=(1, 2))
+    indexTriplet = AddAttr.at.long3(default_value=(3, 4, 5))
+    shortPair = AddAttr.at.short2(default_value=(6, 7))
+    shortTriplet = AddAttr.at.short3(default_value=(8, 9, 10))
+    linear2 = AddAttr.at.double_linear2(default_value=(11.0, 12.0))
+    linear3 = AddAttr.at.double_linear3(default_value=(13.0, 14.0, 15.0))
+    angle2 = AddAttr.at.double_angle2(default_value=(16.0, 17.0))
+    aim = AddAttr.at.double_angle3(default_value=(10.0, 20.0, 30.0))
+    floatLinear2 = AddAttr.at.float_linear2(default_value=(18.0, 19.0))
+    floatLinear3 = AddAttr.at.float_linear3(default_value=(20.0, 21.0, 22.0))
+    floatAngle2 = AddAttr.at.float_angle2(default_value=(23.0, 24.0))
+    floatAngle3 = AddAttr.at.float_angle3(default_value=(25.0, 26.0, 27.0))
 
 
 class SimpleCompoundField(
@@ -134,37 +134,37 @@ class ExtraCompoundTransform(Transform):
 
     extraLongLong = AddAttr.at.long_long_int(default_value=0)
     extraFltMatrix = AddAttr.at.flt_matrix()
-    extraDouble2 = AddAttr.at.double2(default_value=[1.0, 2.0])
-    extraDouble3 = AddAttr.at.double3(default_value=[1.0, 2.0, 3.0])
-    extraDouble4 = AddAttr.at.double4(default_value=[1.0, 2.0, 3.0, 4.0])
+    extraDouble2 = AddAttr.at.double2(default_value=(1.0, 2.0))
+    extraDouble3 = AddAttr.at.double3(default_value=(1.0, 2.0, 3.0))
+    extraDouble4 = AddAttr.at.double4(default_value=(1.0, 2.0, 3.0, 4.0))
     extraLimitedDouble4 = AddAttr.at.double4(
-        default_value=[1.0, 2.0, 3.0, 4.0],
-        min_value=[-1.0, -2.0, -3.0, -4.0],
+        default_value=(1.0, 2.0, 3.0, 4.0),
+        min_value=(-1.0, -2.0, -3.0, -4.0),
         max_value=10.0,
         soft_min_value=0.0,
-        soft_max_value=[1.0, 2.0, 3.0, 4.0],
+        soft_max_value=(1.0, 2.0, 3.0, 4.0),
     )
     extraQuat = AddAttr.at.quat()
-    extraQuatCustom = AddAttr.at.quat(default_value=[0.1, 0.2, 0.3, 0.4])
-    extraFloat2 = AddAttr.at.float2(default_value=[1.0, 2.0])
-    extraFloat3 = AddAttr.at.float3(default_value=[1.0, 2.0, 3.0])
-    extraLong2 = AddAttr.at.long2(default_value=[1, 2])
-    extraLong3 = AddAttr.at.long3(default_value=[1, 2, 3])
-    extraShort2 = AddAttr.at.short2(default_value=[1, 2])
-    extraShort3 = AddAttr.at.short3(default_value=[1, 2, 3])
-    extraDoubleLinear2 = AddAttr.at.double_linear2(default_value=[1.0, 2.0])
+    extraQuatCustom = AddAttr.at.quat(default_value=(0.1, 0.2, 0.3, 0.4))
+    extraFloat2 = AddAttr.at.float2(default_value=(1.0, 2.0))
+    extraFloat3 = AddAttr.at.float3(default_value=(1.0, 2.0, 3.0))
+    extraLong2 = AddAttr.at.long2(default_value=(1, 2))
+    extraLong3 = AddAttr.at.long3(default_value=(1, 2, 3))
+    extraShort2 = AddAttr.at.short2(default_value=(1, 2))
+    extraShort3 = AddAttr.at.short3(default_value=(1, 2, 3))
+    extraDoubleLinear2 = AddAttr.at.double_linear2(default_value=(1.0, 2.0))
     extraDoubleLinear3 = AddAttr.at.double_linear3(
-        default_value=[1.0, 2.0, 3.0]
+        default_value=(1.0, 2.0, 3.0)
     )
-    extraDoubleAngle2 = AddAttr.at.double_angle2(default_value=[10.0, 20.0])
+    extraDoubleAngle2 = AddAttr.at.double_angle2(default_value=(10.0, 20.0))
     extraDoubleAngle3 = AddAttr.at.double_angle3(
-        default_value=[10.0, 20.0, 30.0]
+        default_value=(10.0, 20.0, 30.0)
     )
-    extraFloatLinear2 = AddAttr.at.float_linear2(default_value=[3.0, 4.0])
-    extraFloatLinear3 = AddAttr.at.float_linear3(default_value=[3.0, 4.0, 5.0])
-    extraFloatAngle2 = AddAttr.at.float_angle2(default_value=[30.0, 40.0])
+    extraFloatLinear2 = AddAttr.at.float_linear2(default_value=(3.0, 4.0))
+    extraFloatLinear3 = AddAttr.at.float_linear3(default_value=(3.0, 4.0, 5.0))
+    extraFloatAngle2 = AddAttr.at.float_angle2(default_value=(30.0, 40.0))
     extraFloatAngle3 = AddAttr.at.float_angle3(
-        default_value=[30.0, 40.0, 50.0]
+        default_value=(30.0, 40.0, 50.0)
     )
     extraNamedDouble = AddAttr.at.double(
         default_value=2.5,
