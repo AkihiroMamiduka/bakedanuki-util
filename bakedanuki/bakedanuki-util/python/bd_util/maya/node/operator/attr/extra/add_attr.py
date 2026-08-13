@@ -355,8 +355,12 @@ class AddAttrAt:
         default_value: tuple[float, float, float, float] | None = None,
         min_value: float | tuple[float, float, float, float] | None = None,
         max_value: float | tuple[float, float, float, float] | None = None,
-        soft_min_value: float | tuple[float, float, float, float] | None = None,
-        soft_max_value: float | tuple[float, float, float, float] | None = None,
+        soft_min_value: (
+            float | tuple[float, float, float, float] | None
+        ) = None,
+        soft_max_value: (
+            float | tuple[float, float, float, float] | None
+        ) = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
@@ -386,8 +390,12 @@ class AddAttrAt:
         default_value: tuple[float, float, float, float] | None = None,
         min_value: float | tuple[float, float, float, float] | None = None,
         max_value: float | tuple[float, float, float, float] | None = None,
-        soft_min_value: float | tuple[float, float, float, float] | None = None,
-        soft_max_value: float | tuple[float, float, float, float] | None = None,
+        soft_min_value: (
+            float | tuple[float, float, float, float] | None
+        ) = None,
+        soft_max_value: (
+            float | tuple[float, float, float, float] | None
+        ) = None,
         multi: bool = False,
         long_name: str | None = None,
         short_name: str | None = None,
