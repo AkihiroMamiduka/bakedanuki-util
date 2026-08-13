@@ -308,9 +308,12 @@ def _get_skipped_dag_node_type_reason(node_type: str) -> str | None:
         return reason
 
     node_type_lower = node_type.lower()
-    for keyword, keyword_reason in _SKIPPED_DAG_NODE_TYPE_KEYWORDS.items():
-        if keyword.lower() in node_type_lower:
-            return keyword_reason
+    for (
+        skipped_keyword,
+        skip_reason,
+    ) in _SKIPPED_DAG_NODE_TYPE_KEYWORDS.items():
+        if skipped_keyword.lower() in node_type_lower:
+            return skip_reason
     return None
 
 
