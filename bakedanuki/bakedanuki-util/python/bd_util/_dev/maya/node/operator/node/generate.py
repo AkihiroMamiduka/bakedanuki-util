@@ -42,7 +42,7 @@ import keyword
 import math
 import pathlib
 import re
-from typing import cast
+from typing import TypeGuard, cast
 
 # self
 from ...... import logger as u_logger
@@ -1513,7 +1513,7 @@ def _is_deprecated_attr_name(name: str | None) -> bool:
 def _should_emit_short_alias(
     short_name: str | None,
     long_name: str,
-) -> bool:
+) -> TypeGuard[str]:
     """Return True when a short name should be emitted as a Python alias."""
     if not short_name or short_name == long_name:
         return False

@@ -1,8 +1,9 @@
 # coding: utf-8
 
-from enum import Enum
+from collections.abc import Callable
 import dataclasses
-import typing
+from enum import Enum
+from typing import ParamSpec, TypeVar, cast
 
 # maya
 from .. import scene as u_scene
@@ -14,10 +15,13 @@ from ... import logger as u_logger
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
+P = ParamSpec("P")
+R = TypeVar("R")
+
 
 # get
 #   attr
-def get_attr(node, attr) -> om.MObject:
+def get_attr(node: str, attr: str) -> om.MObject:
 
     sel = om.MSelectionList()
     sel.add(node)
@@ -31,40 +35,45 @@ def get_attr(node, attr) -> om.MObject:
     return attr_obj
 
 
-def get_mfn_attribute(node, attr) -> om.MFnAttribute:
+def get_mfn_attribute(node: str, attr: str) -> om.MFnAttribute:
     return om.MFnAttribute(get_attr(node, attr))
 
 
-def get_attr_path_name(node, attr) -> str | None:
+def get_attr_path_name(node: str, attr: str) -> str | None:
     path_name = getattr(get_mfn_attribute(node, attr), "pathName", None)
     if path_name is None:
         return None
-    if not callable(path_name):
+    if isinstance(path_name, str):
         return path_name
-    return path_name()
+    if callable(path_name):
+        value = cast(Callable[[], object], path_name)()
+        return value if isinstance(value, str) else None
+    return None
 
 
-def get_attr_parent_names(node, attr) -> list[str] | None:
+def get_attr_parent_names(node: str, attr: str) -> list[str] | None:
     parent = get_mfn_attribute(node, attr).parent
     if parent.isNull():
         return None
     return [om.MFnAttribute(parent).name]
 
 
-def get_attr_enforcing_unique_name(node, attr) -> bool | None:
-    return getattr(get_mfn_attribute(node, attr), "enforcingUniqueName", None)
+def get_attr_enforcing_unique_name(node: str, attr: str) -> bool | None:
+    value = getattr(get_mfn_attribute(node, attr), "enforcingUniqueName", None)
+    return value if isinstance(value, bool) else None
 
 
-def get_attr_short_name(node, attr) -> str | None:
+def get_attr_short_name(node: str, attr: str) -> str | None:
     short_name = safe_query(
         cmds.attributeQuery, attr, node=node, shortName=True
     )
-    if short_name is not None:
+    if isinstance(short_name, str):
         return short_name
-    return getattr(get_mfn_attribute(node, attr), "shortName", None)
+    fallback = getattr(get_mfn_attribute(node, attr), "shortName", None)
+    return fallback if isinstance(fallback, str) else None
 
 
-def is_typed_attr(node, attr):
+def is_typed_attr(node: str, attr: str) -> bool:
     attr_obj = safe_query(get_attr, node, attr)
     if attr_obj is None:
         return False
@@ -77,22 +86,22 @@ class AttrKind(Enum):
 
 
 # type kind
-def get_attr_kind(node, attr):
+def get_attr_kind(node: str, attr: str) -> AttrKind:
     if is_typed_attr(node, attr):
         return AttrKind.DATA_TYPE
     return AttrKind.ATTRIBUTE_TYPE
 
 
-def is_attribute_type(node, attr):
+def is_attribute_type(node: str, attr: str) -> bool:
     return get_attr_kind(node, attr) == AttrKind.ATTRIBUTE_TYPE
 
 
-def is_data_type(node, attr):
+def is_data_type(node: str, attr: str) -> bool:
     return get_attr_kind(node, attr) == AttrKind.DATA_TYPE
 
 
 # data_type_name
-def get_data_type_name(node, attr) -> str | None:
+def get_data_type_name(node: str, attr: str) -> str | None:
     attr_obj = safe_query(get_attr, node, attr)
     if attr_obj is None:
         return None
@@ -171,11 +180,11 @@ def get_matrix_attribute_type_name(attr_obj: om.MObject) -> str | None:
     return "matrix"
 
 
-def get_attribute_type_name(node, attr) -> str | None:
+def get_attribute_type_name(node: str, attr: str) -> str | None:
     attribute_type = safe_query(
         cmds.attributeQuery, attr, node=node, attributeType=True
     )
-    if attribute_type is not None:
+    if isinstance(attribute_type, str):
         return attribute_type
 
     attr_obj = safe_query(get_attr, node, attr)
@@ -213,26 +222,30 @@ def get_attribute_type_name(node, attr) -> str | None:
 @dataclasses.dataclass
 class AttrInfo:
     long_name: str
-    short_name: str
+    short_name: str | None
     attribute_type: str | None
     data_type: str | None
-    default_value: typing.Any
-    min_value: typing.Any
-    max_value: typing.Any
-    soft_min_value: typing.Any
-    soft_max_value: typing.Any
-    enum_name: str
-    multi: bool
-    number_of_children: int
+    default_value: object | None
+    min_value: object | None
+    max_value: object | None
+    soft_min_value: object | None
+    soft_max_value: object | None
+    enum_name: list[str] | None
+    multi: bool | None
+    number_of_children: int | None
     parent: list[str] | None
-    readable: bool
-    writable: bool
-    category: str
+    readable: bool | None
+    writable: bool | None
+    category: list[str] | None
     path_name: str | None = None
     enforcing_unique_name: bool | None = None
 
 
-def safe_query(func, *args, **kwargs):
+def safe_query(
+    func: Callable[P, R],
+    *args: P.args,
+    **kwargs: P.kwargs,
+) -> R | None:
     """
     例外が出ても None を返す安全ラッパー
     """
@@ -240,6 +253,26 @@ def safe_query(func, *args, **kwargs):
         return func(*args, **kwargs)
     except Exception:
         return None
+
+
+def _as_bool(value: object) -> bool | None:
+    return value if isinstance(value, bool) else None
+
+
+def _as_int(value: object) -> int | None:
+    if isinstance(value, bool) or not isinstance(value, int):
+        return None
+    return value
+
+
+def _as_str_list(value: object) -> list[str] | None:
+    if not isinstance(value, list):
+        return None
+
+    values = cast(list[object], value)
+    if not all(isinstance(item, str) for item in values):
+        return None
+    return cast(list[str], values)
 
 
 def get_attribute_info(node: str, attr: str) -> AttrInfo:
@@ -271,28 +304,43 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
     )
 
     # enum
-    enum_name = safe_query(cmds.attributeQuery, attr, node=node, listEnum=True)
+    enum_name = _as_str_list(
+        safe_query(cmds.attributeQuery, attr, node=node, listEnum=True)
+    )
 
     # multi
-    multi = safe_query(cmds.attributeQuery, attr, node=node, multi=True)
+    multi = _as_bool(
+        safe_query(cmds.attributeQuery, attr, node=node, multi=True)
+    )
 
     # number of children
-    number_of_children = safe_query(
-        cmds.attributeQuery, attr, node=node, numberOfChildren=True
+    number_of_children = _as_int(
+        safe_query(
+            cmds.attributeQuery,
+            attr,
+            node=node,
+            numberOfChildren=True,
+        )
     )
 
     # parent
-    parent = safe_query(cmds.attributeQuery, attr, node=node, listParent=True)
+    parent = _as_str_list(
+        safe_query(cmds.attributeQuery, attr, node=node, listParent=True)
+    )
     if not parent:
         parent = safe_query(get_attr_parent_names, node, attr)
 
     # readable / writable
-    readable = safe_query(cmds.attributeQuery, attr, node=node, readable=True)
-    writable = safe_query(cmds.attributeQuery, attr, node=node, writable=True)
+    readable = _as_bool(
+        safe_query(cmds.attributeQuery, attr, node=node, readable=True)
+    )
+    writable = _as_bool(
+        safe_query(cmds.attributeQuery, attr, node=node, writable=True)
+    )
 
     # category
-    category = safe_query(
-        cmds.attributeQuery, attr, node=node, categories=True
+    category = _as_str_list(
+        safe_query(cmds.attributeQuery, attr, node=node, categories=True)
     )
 
     # 情報をまとめる
@@ -309,7 +357,7 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
         enum_name=enum_name,
         multi=multi,
         number_of_children=number_of_children,
-        parent=typing.cast(list[str] | None, parent),
+        parent=parent,
         readable=readable,
         writable=writable,
         category=category,
@@ -323,7 +371,7 @@ def get_attribute_infos(
     mode_new_scene: bool = False,
     mode_error_skip: bool = False,
 ) -> list[AttrInfo]:
-    def _post_process(node: str):
+    def _post_process(node: str) -> None:
         # ノードを削除するか新規シーンにするか
         if mode_new_scene:
             u_scene.new_scene()
@@ -378,7 +426,10 @@ def get_attribute_infos(
     return attr_infos
 
 
-def print_attribute_infos(node_type, valid_value=True):
+def print_attribute_infos(
+    node_type: str,
+    valid_value: bool = True,
+) -> None:
     attr_infos: list[AttrInfo] = get_attribute_infos(node_type)
     for attr_info in attr_infos:
 
