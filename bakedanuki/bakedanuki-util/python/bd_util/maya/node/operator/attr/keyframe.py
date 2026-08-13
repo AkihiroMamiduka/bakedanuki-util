@@ -55,7 +55,7 @@ def _to_tangent_type(tangent_type: TangentTypeValue) -> int:
         if result is not None:
             return result
 
-    elif isinstance(tangent_type, int):
+    else:
         if tangent_type in _VALID_TANGENT_TYPES:
             return tangent_type
 
