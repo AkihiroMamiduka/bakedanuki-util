@@ -9,13 +9,16 @@ import os
 import platform
 import statistics
 import time
+from collections.abc import Callable
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable, Sequence
+from typing import cast, Iterable, Sequence
 
 from maya import cmds, mel
 from maya.api import OpenMaya as om
+
+_set_attr = cast(Callable[..., None], cmds.setAttr)
 
 DEFAULT_INPUT_COUNTS = (2, 3, 4, 5, 8, 16)
 DIRTY_PATTERNS = ("all", "first", "last")
@@ -78,20 +81,17 @@ def run_benchmarks(
     cmds.undoInfo(state=False)
 
     timestamp = datetime.now(timezone.utc).isoformat()
-    metadata = {
-        "timestamp_utc": timestamp,
-        "maya_version": str(cmds.about(version=True)),
-        "maya_api_version": int(cmds.about(apiVersion=True)),
-        "python_version": platform.python_version(),
-        "processor": os.environ.get(
-            "PROCESSOR_IDENTIFIER",
-            platform.processor(),
-        ),
-        "plugin_path": str(path),
-        "plugin_sha256": _sha256(path),
-    }
+    maya_version = str(cmds.about(version=True))
+    maya_api_version = int(cmds.about(apiVersion=True))
+    python_version = platform.python_version()
+    processor = os.environ.get(
+        "PROCESSOR_IDENTIFIER",
+        platform.processor(),
+    )
+    plugin_path_text = str(path)
+    plugin_sha256 = _sha256(path)
     records: list[BenchmarkRecord] = []
-    previous_mode = cmds.evaluationManager(query=True, mode=True)[0]
+    previous_mode = _current_evaluation_mode()
 
     try:
         for dirty_pattern in dirty_patterns:
@@ -132,7 +132,13 @@ def run_benchmarks(
                             )
                             records.append(
                                 BenchmarkRecord(
-                                    **metadata,
+                                    timestamp_utc=timestamp,
+                                    maya_version=maya_version,
+                                    maya_api_version=maya_api_version,
+                                    python_version=python_version,
+                                    processor=processor,
+                                    plugin_path=plugin_path_text,
+                                    plugin_sha256=plugin_sha256,
                                     variant=variant,
                                     input_count=input_count,
                                     dirty_pattern=dirty_pattern,
@@ -308,7 +314,7 @@ def _build_scene(
         frame_count,
     )
     sink = cmds.createNode("plusMinusAverage", name="benchmarkSink")
-    cmds.setAttr(f"{sink}.operation", 1)
+    _set_attr(f"{sink}.operation", 1)
     plugin_nodes: list[str] = []
 
     for replica_index in range(replica_count):
@@ -364,7 +370,7 @@ def _create_factor_plugs(
         plug = f"{driver}.{attribute_name}"
         start_value = 1.0 + (input_index + 1) * 0.0001
         end_value = 1.0 + (input_index + 1) * 0.0002
-        cmds.setAttr(plug, start_value)
+        _set_attr(plug, start_value)
         if input_index in animated_indices:
             cmds.setKeyframe(plug, time=0, value=start_value)
             cmds.setKeyframe(
@@ -495,6 +501,15 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _current_evaluation_mode() -> str:
+    modes = cmds.evaluationManager(query=True, mode=True)
+    if isinstance(modes, str):
+        return modes
+    if isinstance(modes, list) and modes and isinstance(modes[0], str):
+        return modes[0]
+    raise RuntimeError(f"Unexpected evaluation manager mode: {modes!r}")
 
 
 def _find_repo_root() -> Path:

@@ -1,7 +1,5 @@
 # coding: utf-8
-"""
-DAG クラスの long_name プロパティのテスト・デモ
-"""
+"""DAG クラスの full_path プロパティのテスト・デモ。"""
 
 import maya.cmds as cmds
 
@@ -16,20 +14,22 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def main():
-    # long_name_root()
-    # long_name_under_group()
+    # full_path_root()
+    # full_path_under_group()
     operate_transform()
     get_local_matrix()
 
 
-def long_name_root():
-    test_str.title("long_name_root")
+def full_path_root():
+    test_str.title("full_path_root")
 
     node_name = "test_dag_root"
     if cmds.objExists(node_name):
         cmds.delete(node_name)
 
-    node = Transform.create(node_name)
+    modifier_manager = ModifierManager()
+    node = Transform.create(modifier_manager, name=node_name)
+    modifier_manager.do_it_dag()
 
     logger.debug(
         "{}: {}".format(
@@ -39,15 +39,15 @@ def long_name_root():
     )
     logger.debug(
         "{}: {}".format(
-            "node.long_name",
-            node.long_name,
+            "node.full_path",
+            node.full_path,
         )
     )
     # 期待値: "|test_dag_root"
 
 
-def long_name_under_group():
-    test_str.title("long_name_under_group")
+def full_path_under_group():
+    test_str.title("full_path_under_group")
 
     group_name = "test_dag_group"
     child_name = "test_dag_child"
@@ -67,11 +67,10 @@ def long_name_under_group():
             child.name,
         )
     )
-    child.name
     logger.debug(
         "{}: {}".format(
-            "child.long_name",
-            child.long_name,
+            "child.full_path",
+            child.full_path,
         )
     )
     # 期待値: "|test_dag_group|test_dag_child"

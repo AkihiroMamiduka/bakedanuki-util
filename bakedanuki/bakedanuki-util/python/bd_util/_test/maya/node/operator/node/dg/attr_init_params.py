@@ -40,13 +40,13 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 # ---------------------------------------------------------------------------
 
 
-class MyEnumPlug(EnumPlugOperator):
+class MyEnumPlug(EnumPlugOperator["MyEnumAttr"]):
     ALPHA = 0
     BETA = 1
     GAMMA = 2
 
 
-class MyEnumAttr(EnumAttrOperator):
+class MyEnumAttr(EnumAttrOperator[MyEnumPlug]):
     PLUG_CLS = MyEnumPlug
 
     ALPHA = 0

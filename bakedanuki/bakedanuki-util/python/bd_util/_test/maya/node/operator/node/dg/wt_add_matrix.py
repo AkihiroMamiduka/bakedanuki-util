@@ -131,7 +131,7 @@ def class_access():
     logger.debug(
         "{}: {}".format(
             "WtAddMatrix.matrixSum.attr_path",
-            WtAddMatrix.matrixSum._attr_path,
+            WtAddMatrix.matrixSum.attr_path,
         )
     )
 
@@ -158,7 +158,7 @@ def class_access():
     logger.debug(
         "{}: {}".format(
             "WtAddMatrix.wtMatrix.attr_path",
-            WtAddMatrix.wtMatrix._attr_path,
+            WtAddMatrix.wtMatrix.attr_path,
         )
     )
 
@@ -185,7 +185,7 @@ def class_access():
     logger.debug(
         "{}: {}".format(
             "WtAddMatrix.wtMatrix.matrixIn.attr_path",
-            WtAddMatrix.wtMatrix.matrixIn._attr_path,
+            WtAddMatrix.wtMatrix.matrixIn.attr_path,
         )
     )
 
@@ -212,7 +212,7 @@ def class_access():
     logger.debug(
         "{}: {}".format(
             "WtAddMatrix.wtMatrix.weightIn.attr_path",
-            WtAddMatrix.wtMatrix.weightIn._attr_path,
+            WtAddMatrix.wtMatrix.weightIn.attr_path,
         )
     )
 
@@ -277,8 +277,8 @@ def instance_access():
     )
     logger.debug(
         "{}: {}".format(
-            "node.matrixSum._attr_path",
-            node.matrixSum._attr_path,
+            "node.matrixSum.attr_path",
+            node.matrixSum.attr_path,
         )
     )
     logger.debug(
@@ -315,8 +315,8 @@ def instance_access():
     )
     logger.debug(
         "{}: {}".format(
-            "node.wtMatrix._attr_path",
-            node.wtMatrix._attr_path,
+            "node.wtMatrix.attr_path",
+            node.wtMatrix.attr_path,
         )
     )
     logger.debug(
@@ -353,8 +353,8 @@ def instance_access():
     )
     logger.debug(
         "{}: {}".format(
-            "node.wtMatrix[0]._attr_path",
-            node.wtMatrix[0]._attr_path,
+            "node.wtMatrix[0].attr_path",
+            node.wtMatrix[0].attr_path,
         )
     )
     logger.debug(
@@ -385,8 +385,8 @@ def instance_access():
     )
     logger.debug(
         "{}: {}".format(
-            "node.wtMatrix[0].matrixIn._attr_path",
-            node.wtMatrix[0].matrixIn._attr_path,
+            "node.wtMatrix[0].matrixIn.attr_path",
+            node.wtMatrix[0].matrixIn.attr_path,
         )
     )
     logger.debug(
@@ -512,20 +512,20 @@ def connect_disconnect():
     modifier_manager.do_it_dg()
 
     test_str.separator()
-    node_0.matrixSum > node_1.wtMatrix[0].matrixIn
-    node_0.matrixSum | node_1.wtMatrix[0].matrixIn
+    _ = node_0.matrixSum > node_1.wtMatrix[0].matrixIn
+    _ = node_0.matrixSum | node_1.wtMatrix[0].matrixIn
 
-    f"{node_0}.matrixSum" > node_1.wtMatrix[0].matrixIn
-    f"{node_0}.matrixSum" | node_1.wtMatrix[0].matrixIn
+    _ = f"{node_0}.matrixSum" > node_1.wtMatrix[0].matrixIn
+    _ = f"{node_0}.matrixSum" | node_1.wtMatrix[0].matrixIn
 
-    [str(node_0), "matrixSum"] > node_1.wtMatrix[0].matrixIn
-    [str(node_0), "matrixSum"] | node_1.wtMatrix[0].matrixIn
+    _ = [str(node_0), "matrixSum"] > node_1.wtMatrix[0].matrixIn
+    _ = [str(node_0), "matrixSum"] | node_1.wtMatrix[0].matrixIn
 
-    node_0.matrixSum > f"{node_1}.wtMatrix[0].matrixIn"
-    node_0.matrixSum | f"{node_1}.wtMatrix[0].matrixIn"
+    _ = node_0.matrixSum > f"{node_1}.wtMatrix[0].matrixIn"
+    _ = node_0.matrixSum | f"{node_1}.wtMatrix[0].matrixIn"
 
-    node_0.matrixSum > [str(node_1), "wtMatrix[0]", "matrixIn"]
-    node_0.matrixSum | [str(node_1), "wtMatrix[0]", "matrixIn"]
+    _ = node_0.matrixSum > [str(node_1), "wtMatrix[0]", "matrixIn"]
+    _ = node_0.matrixSum | [str(node_1), "wtMatrix[0]", "matrixIn"]
 
 
 def plug_cache():
@@ -822,7 +822,7 @@ def connect_next_index():
             cmds.delete(node_name)
         cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
         src_node = WtAddMatrix(modifier_manager, name=node_name)
-        src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
+        _ = src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
         logger.debug(
             "src_{}.matrixSum > dst_node.wtMatrix[{}].matrixIn".format(i, i)
         )
@@ -846,7 +846,7 @@ def refresh_next_index():
             cmds.delete(node_name)
         cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
         src_node = WtAddMatrix(modifier_manager, name=node_name)
-        src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
+        _ = src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
         logger.debug(
             "src_{}.matrixSum > dst.wtMatrix[{}].matrixIn".format(i, i)
         )
@@ -863,7 +863,7 @@ def refresh_next_index():
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
     extra_src = WtAddMatrix(modifier_manager, name=node_name)
-    extra_src.matrixSum > dst_node.wtMatrix[next].matrixIn
+    _ = extra_src.matrixSum > dst_node.wtMatrix[next].matrixIn
     logger.debug(
         "src_extra.matrixSum > dst.wtMatrix[3].matrixIn (after refresh)"
     )

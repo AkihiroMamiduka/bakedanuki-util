@@ -6,12 +6,15 @@ import gc
 import platform
 import statistics
 import time
+from collections.abc import Callable
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any, cast, Iterable, Sequence
 
 from maya import cmds
+
+_set_attr = cast(Callable[..., None], cmds.setAttr)
 
 SCALAR_VALUE = 1.25
 
@@ -103,7 +106,7 @@ class BaseBenchmarkAdapter:
 
         if scenario_name in {"plug_access", "scalar_get", "scalar_set"}:
             node_name = cmds.createNode("multiplyDivide")
-            cmds.setAttr(f"{node_name}.input1X", SCALAR_VALUE)
+            _set_attr(f"{node_name}.input1X", SCALAR_VALUE)
             node = self.wrap_node(node_name)
             state = {
                 "node_name": node_name,

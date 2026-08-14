@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import Any, cast, ClassVar, Protocol, Self, TYPE_CHECKING
+from typing import Any, cast, ClassVar, Self, TYPE_CHECKING
 
 # maya
 import maya.cmds as cmds
@@ -13,15 +13,11 @@ from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
 from ...modifier import ModifierManager
 
 if TYPE_CHECKING:
-    from ..attr._core import AttrOperator, PlugOperator
+    from ..attr._core import AttributeField, AttrOperator, PlugOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 DEFAULT_VALUE_AUTO_ADD_ATTR = True
-
-
-class _ExtraAttributeField(Protocol):
-    name: str
 
 
 class IsInstance(ImmutableDescriptor):
@@ -88,7 +84,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     is_instance = IsInstance()
     _attributes_map_by_long_name: dict[str, AttrOperator[Any]] = {}
     _attributes_map_by_short_name: dict[str, AttrOperator[Any]] = {}
-    _extra_attributes: tuple[_ExtraAttributeField, ...] = ()
+    _extra_attributes: tuple[AttributeField[Any, Any], ...] = ()
 
     __slots__ = (
         "__weakref__",
@@ -116,7 +112,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
         attributes_by_long_name: dict[str, AttrOperator[Any]] = {}
         attributes_by_short_name: dict[str, AttrOperator[Any]] = {}
-        extra_attrs: list[_ExtraAttributeField] = []
+        extra_attrs: list[AttributeField[Any, Any]] = []
         seen_ids: set[int] = set()
         for klass in cls.__mro__:
             for value in vars(klass).values():
@@ -178,7 +174,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         if auto_add_attr and self._extra_attributes:
             self._auto_add_extra_attrs()
 
-    def __getitem__(self, key: str):
+    def __getitem__(self, key: str) -> PlugOperator[Any]:
         """
         文字列キーでアトリビュートにアクセスし、Plug を返す。
 
@@ -198,10 +194,10 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             TypeError: key が str 以外の型の場合
             ValueError: キーの書式が不正な場合
         """
-        return getattr(self, key)
+        return cast("PlugOperator[Any]", getattr(self, key))
 
-    def __class_getitem__(cls, key: str):
-        return getattr(cls, key)
+    def __class_getitem__(cls, key: str) -> AttrOperator[Any]:
+        return cast("AttrOperator[Any]", getattr(cls, key))
 
     @property
     def modifier_manager(self) -> ModifierManager:
@@ -210,6 +206,13 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     @classmethod
     def get_attr_operator(cls, long_name: str) -> AttrOperator[Any] | None:
         return cls._attributes_map_by_long_name.get(long_name)
+
+    @classmethod
+    def get_extra_attribute_fields(
+        cls,
+    ) -> tuple[AttributeField[Any, Any], ...]:
+        """Return the fields registered for automatic extra-attribute creation."""
+        return cls._extra_attributes
 
     def get_cached_plug(self, attr_path: str) -> PlugOperator[Any] | None:
         plug_cache = self._plug_cache

@@ -2,7 +2,10 @@
 
 # builtin
 import importlib.util
+from collections.abc import Callable, Iterable
+from importlib import import_module
 from pathlib import Path
+from typing import Any, cast
 
 # maya
 from maya import cmds
@@ -19,6 +22,8 @@ from ......maya.node.operator.node.dg.plus_minus_average import (
 from ......maya import scene as u_scene
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
+
+_set_attr = cast(Callable[..., None], cmds.setAttr)
 
 ACCURATE = False
 REPEAT_COUNT = 3
@@ -195,7 +200,11 @@ def _run_get_set_benchmarks(accurate: bool, repeat_count: int):
     )
 
 
-def _run_benchmarks(funcs, accurate: bool, repeat_count: int):
+def _run_benchmarks(
+    funcs: Iterable[Callable[[], object]],
+    accurate: bool,
+    repeat_count: int,
+) -> None:
     pymel_available = None
     for func in funcs:
         if func.__name__.endswith("_pm"):
@@ -227,6 +236,11 @@ def _pymel_benchmarks_available() -> bool:
     )
 
 
+def pymel_benchmarks_available() -> bool:
+    """Return whether PyMEL has the caches required by this Maya version."""
+    return _pymel_benchmarks_available()
+
+
 def _pymel_cache_exists(cache_dir: Path, cache_name: str) -> bool:
     return any(
         (cache_dir / f"{cache_name}{extension}").is_file()
@@ -238,12 +252,21 @@ def _current_maya_version() -> str:
     return str(cmds.about(apiVersion=True))[:4]
 
 
-def _run_benchmark(func, accurate: bool, repeat_count: int):
+def _run_benchmark(
+    func: Callable[[], object],
+    accurate: bool,
+    repeat_count: int,
+) -> None:
     if not accurate:
         func()
         return
 
     run_timed_repeat(func, repeat_count=repeat_count, log_each=False)
+
+
+def _pymel_core() -> Any:
+    """Load the optional PyMEL dependency at the benchmark boundary."""
+    return cast(Any, import_module("pymel.core"))
 
 
 def _create_om_value_plugs():
@@ -290,14 +313,14 @@ def set_scalar_cmds():
     )
     plug = f"{node}.input1D[0]"
     for _ in range(GET_SET_COUNT):
-        cmds.setAttr(plug, SCALAR_VALUE)
+        _set_attr(plug, SCALAR_VALUE)
 
     cmds.file(newFile=True, force=True)
 
 
 @timer
 def set_scalar_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     cmds.file(newFile=True, force=True)
 
@@ -355,7 +378,7 @@ def get_scalar_cmds():
         skipSelect=True,
     )
     plug = f"{node}.input1D[0]"
-    cmds.setAttr(plug, SCALAR_VALUE)
+    _set_attr(plug, SCALAR_VALUE)
 
     total = 0.0
     for _ in range(GET_SET_COUNT):
@@ -367,7 +390,7 @@ def get_scalar_cmds():
 
 @timer
 def get_scalar_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     cmds.file(newFile=True, force=True)
 
@@ -439,14 +462,14 @@ def set_compound_cmds():
     )
     plug = f"{node}.input3D[0]"
     for _ in range(GET_SET_COUNT):
-        cmds.setAttr(plug, *COMPOUND_VALUE, type="float3")
+        _set_attr(plug, *COMPOUND_VALUE, type="float3")
 
     cmds.file(newFile=True, force=True)
 
 
 @timer
 def set_compound_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     cmds.file(newFile=True, force=True)
 
@@ -512,7 +535,7 @@ def get_compound_cmds():
         skipSelect=True,
     )
     plug = f"{node}.input3D[0]"
-    cmds.setAttr(plug, *COMPOUND_VALUE, type="float3")
+    _set_attr(plug, *COMPOUND_VALUE, type="float3")
 
     total = 0.0
     for _ in range(GET_SET_COUNT):
@@ -525,7 +548,7 @@ def get_compound_cmds():
 
 @timer
 def get_compound_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     cmds.file(newFile=True, force=True)
 
@@ -613,7 +636,7 @@ def create_one_cmds():
 
 @timer
 def create_one_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     # 新規シーンを開く
     cmds.file(newFile=True, force=True)
@@ -672,7 +695,7 @@ def create_many_cmds():
 
 @timer
 def create_many_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     # 新規シーンを開く
     cmds.file(newFile=True, force=True)
@@ -761,7 +784,7 @@ def create_connect_cmds():
 
 @timer
 def create_connect_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     # 新規シーンを開く
     cmds.file(newFile=True, force=True)
@@ -776,7 +799,7 @@ def create_connect_pm():
         )
         # ノードを接続
         if parent_node is not None:
-            parent_node.output3Dx >> node.input3D[0].input3Dx
+            _ = parent_node.output3Dx >> node.input3D[0].input3Dx
         # parent を置き換え
         parent_node = node
 
@@ -879,7 +902,7 @@ def create_connect_node_operator__gt__():
         node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
         if parent_node is not None:
-            parent_node.output3Dx > node.input3D[0].input3Dx
+            _ = parent_node.output3Dx > node.input3D[0].input3Dx
         # parent を置き換え
         parent_node = node
     modifier_manager.do_it_dg()
@@ -917,7 +940,7 @@ def create_connect_multi_cmds():
 
 @timer
 def create_connect_multi_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     # 新規シーンを開く
     cmds.file(newFile=True, force=True)
@@ -934,7 +957,7 @@ def create_connect_multi_pm():
             skipSelect=True,
         )
         # ノードを接続
-        src.output3Dx >> dst.input3D[0].input3Dx
+        _ = src.output3Dx >> dst.input3D[0].input3Dx
 
     # 新規シーンを開く
     cmds.file(newFile=True, force=True)
@@ -1069,7 +1092,7 @@ def create_connect_multi_node_operator():
         # ノードを作成
         dst_node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
-        src_node.output3Dx > dst_node.input3D[0].input3Dx
+        _ = src_node.output3Dx > dst_node.input3D[0].input3Dx
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
@@ -1088,9 +1111,9 @@ def create_connect_multi_node_operator_natural_src_natural_dst():
         # ノードを作成
         dst_node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
-        src_node.output3Dx > dst_node.input3D[0].input3Dx
-        src_node.output3Dx > dst_node.input3D[0].input3Dy
-        src_node.output3Dx > dst_node.input3D[0].input3Dz
+        _ = src_node.output3Dx > dst_node.input3D[0].input3Dx
+        _ = src_node.output3Dx > dst_node.input3D[0].input3Dy
+        _ = src_node.output3Dx > dst_node.input3D[0].input3Dz
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
@@ -1110,9 +1133,9 @@ def create_connect_multi_node_operator_reuse_src_natural_dst():
         # ノードを作成
         dst_node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
-        src_plug > dst_node.input3D[0].input3Dx
-        src_plug > dst_node.input3D[0].input3Dy
-        src_plug > dst_node.input3D[0].input3Dz
+        _ = src_plug > dst_node.input3D[0].input3Dx
+        _ = src_plug > dst_node.input3D[0].input3Dy
+        _ = src_plug > dst_node.input3D[0].input3Dz
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
@@ -1132,9 +1155,9 @@ def create_connect_multi_node_operator_natural_src_reuse_dst():
         dst_node = PlusMinusAverage.create(modifier_manager)
         dst_input = dst_node.input3D[0]
         # ノードを接続
-        src_node.output3Dx > dst_input.input3Dx
-        src_node.output3Dx > dst_input.input3Dy
-        src_node.output3Dx > dst_input.input3Dz
+        _ = src_node.output3Dx > dst_input.input3Dx
+        _ = src_node.output3Dx > dst_input.input3Dy
+        _ = src_node.output3Dx > dst_input.input3Dz
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
@@ -1155,9 +1178,9 @@ def create_connect_multi_node_operator_reuse_src_reuse_dst():
         dst_node = PlusMinusAverage.create(modifier_manager)
         dst_input = dst_node.input3D[0]
         # ノードを接続
-        src_plug > dst_input.input3Dx
-        src_plug > dst_input.input3Dy
-        src_plug > dst_input.input3Dz
+        _ = src_plug > dst_input.input3Dx
+        _ = src_plug > dst_input.input3Dy
+        _ = src_plug > dst_input.input3Dz
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く

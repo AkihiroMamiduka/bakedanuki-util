@@ -11,6 +11,8 @@ Node / Plug の文字列アクセス（__getitem__）のテスト
   6. plug 文字列の一致確認       : 取得した Plug の plug 文字列が期待値と一致するか
 """
 
+from typing import Any, cast
+
 # maya
 from maya import cmds
 
@@ -18,11 +20,17 @@ from maya import cmds
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.modifier import ModifierManager
+from .......maya.node.operator.attr._core import AttrOperator
 from .......maya.node.operator.node.dg.plus_minus_average import (
     PlusMinusAverage,
 )
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
+
+
+def _node_attr(name: str) -> AttrOperator[Any]:
+    """Exercise NodeOperator's class subscription with an explicit result type."""
+    return cast(AttrOperator[Any], PlusMinusAverage[name])
 
 
 def main():
@@ -51,11 +59,11 @@ def node_simple_attr():
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
-            'PlusMinusAverage["output1D"]._attr_path',
-            PlusMinusAverage["output1D"]._attr_path,
-            PlusMinusAverage.output1D._attr_path,
-            PlusMinusAverage["output1D"]._attr_path
-            == PlusMinusAverage.output1D._attr_path,
+            'PlusMinusAverage["output1D"].attr_path',
+            _node_attr("output1D").attr_path,
+            PlusMinusAverage.output1D.attr_path,
+            _node_attr("output1D").attr_path
+            == PlusMinusAverage.output1D.attr_path,
         )
     )
 
@@ -86,11 +94,11 @@ def node_multi_attr_with_index():
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
-            'PlusMinusAverage["input1D"][0]._attr_path',
-            PlusMinusAverage["input1D"]._attr_path,
-            PlusMinusAverage.input1D._attr_path,
-            PlusMinusAverage["input1D"]._attr_path
-            == PlusMinusAverage.input1D._attr_path,
+            'PlusMinusAverage["input1D"][0].attr_path',
+            _node_attr("input1D").attr_path,
+            PlusMinusAverage.input1D.attr_path,
+            _node_attr("input1D").attr_path
+            == PlusMinusAverage.input1D.attr_path,
         )
     )
 
@@ -121,11 +129,11 @@ def node_dotted_subattr():
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
-            'PlusMinusAverage["output3D"]["output3Dx"]._attr_path',
-            PlusMinusAverage["output3D"]["output3Dx"]._attr_path,
-            PlusMinusAverage.output3D.output3Dx._attr_path,
-            PlusMinusAverage["output3D"]["output3Dx"]._attr_path
-            == PlusMinusAverage.output3D.output3Dx._attr_path,
+            'PlusMinusAverage["output3D"]["output3Dx"].attr_path',
+            _node_attr("output3D")["output3Dx"].attr_path,
+            PlusMinusAverage.output3D.output3Dx.attr_path,
+            _node_attr("output3D")["output3Dx"].attr_path
+            == PlusMinusAverage.output3D.output3Dx.attr_path,
         )
     )
 
@@ -156,11 +164,11 @@ def node_index_and_subattr():
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
-            'PlusMinusAverage["input3D"]["input3Dx"]._attr_path',
-            PlusMinusAverage["input3D"]["input3Dx"]._attr_path,
-            PlusMinusAverage.input3D.input3Dx._attr_path,
-            PlusMinusAverage["input3D"]["input3Dx"]._attr_path
-            == PlusMinusAverage.input3D.input3Dx._attr_path,
+            'PlusMinusAverage["input3D"]["input3Dx"].attr_path',
+            _node_attr("input3D")["input3Dx"].attr_path,
+            PlusMinusAverage.input3D.input3Dx.attr_path,
+            _node_attr("input3D")["input3Dx"].attr_path
+            == PlusMinusAverage.input3D.input3Dx.attr_path,
         )
     )
 
@@ -192,11 +200,11 @@ def plug_string_subattr():
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
-            'PlusMinusAverage.output3D["output3Dy"]._attr_path',
-            PlusMinusAverage.output3D["output3Dy"]._attr_path,
-            PlusMinusAverage.output3D.output3Dy._attr_path,
-            PlusMinusAverage.output3D["output3Dy"]._attr_path
-            == PlusMinusAverage.output3D.output3Dy._attr_path,
+            'PlusMinusAverage.output3D["output3Dy"].attr_path',
+            PlusMinusAverage.output3D["output3Dy"].attr_path,
+            PlusMinusAverage.output3D.output3Dy.attr_path,
+            PlusMinusAverage.output3D["output3Dy"].attr_path
+            == PlusMinusAverage.output3D.output3Dy.attr_path,
         )
     )
 
@@ -228,23 +236,23 @@ def plug_string_check():
     cases = [
         (
             'PlusMinusAverage["output1D"]',
-            PlusMinusAverage["output1D"]._attr_path,
-            f"{PlusMinusAverage.output1D._attr_path}",
+            _node_attr("output1D").attr_path,
+            f"{PlusMinusAverage.output1D.attr_path}",
         ),
         (
             'PlusMinusAverage["input1D"]',
-            PlusMinusAverage["input1D"]._attr_path,
-            f"{PlusMinusAverage.input1D._attr_path}",
+            _node_attr("input1D").attr_path,
+            f"{PlusMinusAverage.input1D.attr_path}",
         ),
         (
             'PlusMinusAverage["input3D"]["input3Dx"]',
-            PlusMinusAverage["input3D"]["input3Dx"]._attr_path,
-            f"{PlusMinusAverage.input3D.input3Dx._attr_path}",
+            _node_attr("input3D")["input3Dx"].attr_path,
+            f"{PlusMinusAverage.input3D.input3Dx.attr_path}",
         ),
         (
             'PlusMinusAverage.input3D["input3Dy"]',
-            PlusMinusAverage.input3D["input3Dy"]._attr_path,
-            f"{PlusMinusAverage.input3D.input3Dy._attr_path}",
+            PlusMinusAverage.input3D["input3Dy"].attr_path,
+            f"{PlusMinusAverage.input3D.input3Dy.attr_path}",
         ),
     ]
     for label, result, expected in cases:

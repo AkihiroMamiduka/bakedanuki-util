@@ -403,13 +403,14 @@ def main():
 
 def extra_attrs_class_access():
     test_str.title("extra=True: class access properties")
+    extra_attributes = MyTransform.get_extra_attribute_fields()
     logger.debug(
         "{}: {}".format(
-            "MyTransform._extra_attributes",
-            MyTransform._extra_attributes,
+            "MyTransform.get_extra_attribute_fields()",
+            extra_attributes,
         )
     )
-    for attr in MyTransform._extra_attributes:
+    for attr in extra_attributes:
         logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
 
 
@@ -423,13 +424,14 @@ def extra_attrs_instance_access():
     node = MyTransform.create(modifier_manager, name="test")
     modifier_manager.do_it_dag()
     modifier_manager.do_it_dg()
+    extra_attributes = node.get_extra_attribute_fields()
     logger.debug(
         "{}: {}".format(
-            "node._extra_attributes",
-            node._extra_attributes,
+            "node.get_extra_attribute_fields()",
+            extra_attributes,
         )
     )
-    for attr in node._extra_attributes:
+    for attr in extra_attributes:
         logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
 
 

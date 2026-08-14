@@ -1,8 +1,9 @@
 # coding: utf-8
 from __future__ import annotations
 
-from importlib import metadata
-from typing import Any
+from collections.abc import Callable
+from importlib import import_module, metadata
+from typing import Any, cast
 
 from maya import cmds
 from maya.api import OpenMaya as om
@@ -13,6 +14,8 @@ from ._core import (
     OperationResult,
     UnsupportedScenario,
 )
+
+_set_attr = cast(Callable[..., None], cmds.setAttr)
 
 _BATCHED_MODES = {
     "scalar_set": "batched",
@@ -75,7 +78,7 @@ class CmdsAdapter(BaseBenchmarkAdapter):
         value: float,
     ) -> None:
         for _ in range(count):
-            cmds.setAttr(plug, value)
+            _set_attr(plug, value)
 
     def create_nodes(self, count: int) -> OperationResult:
         for _ in range(count):
@@ -283,16 +286,13 @@ class PyMELAdapter(BaseBenchmarkAdapter):
     def load(self) -> None:
         from .. import process_speed
 
-        if not process_speed._pymel_benchmarks_available():
+        if not process_speed.pymel_benchmarks_available():
             raise AdapterUnavailable(
                 "PyMEL cache for this Maya version is unavailable"
             )
 
-        import pymel
-        from pymel import core as pm
-
         self.version = _package_version("pymel")
-        self._pm = pm
+        self._pm = cast(Any, import_module("pymel.core"))
 
     def wrap_node(self, node_name: str) -> Any:
         return self._pm.PyNode(node_name)
@@ -365,11 +365,8 @@ class CymelAdapter(BaseBenchmarkAdapter):
     name = "cymel"
 
     def load(self) -> None:
-        import cymel
-        import cymel.main as cm
-
-        self.version = cymel.__version__
-        self._cm = cm
+        self.version = _package_version("cymel")
+        self._cm = cast(Any, import_module("cymel.main"))
 
     def wrap_node(self, node_name: str) -> Any:
         return self._cm.CyObject(node_name)
@@ -430,10 +427,8 @@ class CmdxAdapter(BaseBenchmarkAdapter):
     execution_modes = _HYBRID_MODES
 
     def load(self) -> None:
-        import cmdx
-
-        self.version = cmdx.__version__
-        self._cmdx = cmdx
+        self.version = _package_version("cmdx")
+        self._cmdx = cast(Any, import_module("cmdx"))
 
     def wrap_node(self, node_name: str) -> Any:
         return self._cmdx.encode(node_name)
@@ -512,10 +507,8 @@ class AlOmxAdapter(BaseBenchmarkAdapter):
     execution_modes = _HYBRID_MODES
 
     def load(self) -> None:
-        from AL import omx
-
         self.version = _package_version("AL-omx")
-        self._omx = omx
+        self._omx = cast(Any, import_module("AL.omx"))
 
     def wrap_node(self, node_name: str) -> Any:
         return self._omx.XNode(node_name)
