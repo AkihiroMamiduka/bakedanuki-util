@@ -7,6 +7,18 @@
 
 ## [Unreleased]
 
+### Added
+
+- `PlugOperator` に、接続先から接続元を指定する `connect_from()` と
+  `disconnect_from()` を追加。接続元には `PlugOperator`、`"node.attr"`、
+  `["node", "attr"]`、`("node", "attr")` を指定可能。
+
+### Removed
+
+- `PlugOperator` の接続・切断用演算子オーバーロード `__gt__()`、`__lt__()`、
+  `__or__()`、`__ror__()` を削除。接続には `connect()` / `connect_from()`、
+  切断には `disconnect()` / `disconnect_from()` を使用する。
+
 ## [0.1.0] - 2026-07-24
 
 `bakedanuki-util` の最初の公開リリースです。
