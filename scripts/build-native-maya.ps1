@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet("2025")]
+    [ValidateSet("2025", "2026", "2027")]
     [string]$MayaVersion = "2025",
 
     [ValidateSet("Debug", "Release")]
@@ -53,7 +53,7 @@ $visualStudioInfo = & $vswhere `
 if (-not $visualStudioInfo) {
     throw (
         "Visual Studio 2022 17.8.3 or later with C++ tools is required " +
-        "for Maya 2025 plug-ins."
+        "for Maya plug-ins."
     )
 }
 

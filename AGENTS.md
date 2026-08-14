@@ -157,6 +157,20 @@ DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を
   - full pytest に加えて、必要に応じて DG モジュールの import sweep を検討してください。
 - Pythonコードを変更した場合
   - 原則として`.\scripts\format.cmd -Check`で整形状態を確認してください。
+- ネイティブplug-in、build script、配布バイナリ、対応Maya versionを変更した場合
+  - Maya 2025 / 2026 / 2027それぞれでbuildとnative testを実行してください。
+
+```powershell
+.\scripts\build-native-maya2025.cmd
+.\scripts\test-native-maya2025.cmd
+.\scripts\build-native-maya2026.cmd
+.\scripts\test-native-maya2026.cmd
+.\scripts\build-native-maya2027.cmd
+.\scripts\test-native-maya2027.cmd
+```
+
+リリース前は、配布対象versionそれぞれの`mayapy`と対応するstaged plug-inを使用して
+full pytestも実行してください。
 
 全体テストです。
 

@@ -9,7 +9,7 @@ endif()
 if(NOT MSVC OR MSVC_VERSION LESS 1938)
     message(
         FATAL_ERROR
-        "Maya 2025 plug-ins require Visual Studio 2022 17.8.3 or later."
+        "Maya plug-ins require Visual Studio 2022 17.8.3 or later."
     )
 endif()
 
@@ -25,10 +25,11 @@ set(
     "Maya installation directory"
 )
 
-if(NOT MAYA_VERSION STREQUAL "2025")
+set(BD_SUPPORTED_MAYA_VERSIONS "2025" "2026" "2027")
+if(NOT MAYA_VERSION IN_LIST BD_SUPPORTED_MAYA_VERSIONS)
     message(
         FATAL_ERROR
-        "Only Maya 2025 is supported by the current native build."
+        "Maya ${MAYA_VERSION} is not supported by the current native build."
     )
 endif()
 

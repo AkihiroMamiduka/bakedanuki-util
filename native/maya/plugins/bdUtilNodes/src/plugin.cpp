@@ -162,7 +162,12 @@
 #include "bdUtilNodes/nodes/BdRbfPositionFalloffWeightNode.h"
 #include "bdUtilNodes/nodes/BdRbfPositionWeightNode.h"
 
+#define BD_STRINGIFY_IMPL(value) #value
+#define BD_STRINGIFY(value) BD_STRINGIFY_IMPL(value)
+
 namespace {
+
+constexpr char kMayaApiVersion[] = BD_STRINGIFY(MAYA_API_VERSION);
 
 struct NodeRegistration {
     const MString& typeName;
@@ -1120,8 +1125,8 @@ MStatus initializePlugin(MObject pluginObject) {
     MFnPlugin plugin(
         pluginObject,
         "bakedanuki",
-        "0.1.0",
-        "20250000",
+        "0.2.0",
+        kMayaApiVersion,
         &status
     );
     if (!status) {
@@ -1168,7 +1173,13 @@ MStatus initializePlugin(MObject pluginObject) {
 
 MStatus uninitializePlugin(MObject pluginObject) {
     MStatus status;
-    MFnPlugin plugin(pluginObject, "bakedanuki", "0.1.0", "20250000", &status);
+    MFnPlugin plugin(
+        pluginObject,
+        "bakedanuki",
+        "0.2.0",
+        kMayaApiVersion,
+        &status
+    );
     if (!status) {
         status.perror("Failed to initialize bdUtilNodes for unload");
         return status;

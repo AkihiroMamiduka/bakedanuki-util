@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet("2025")]
+    [ValidateSet("2025", "2026", "2027")]
     [string]$MayaVersion = "2025"
 )
 
@@ -33,6 +33,7 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
 
 & $mayapy -m pytest `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_plugin.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_double_linear.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_add.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_divide.py") `

@@ -9,6 +9,8 @@ C++ node は compile に成功しても、dirty 伝搬、scene 保存、Parallel
 
 ```powershell
 .\scripts\build-native-maya2025.cmd
+.\scripts\build-native-maya2026.cmd
+.\scripts\build-native-maya2027.cmd
 ```
 
 Maya が staged `.mll` をロード中で、build tree の生成だけを続けたい場合は stage を
@@ -37,10 +39,13 @@ build/native/maya2025/plugins/bdUtilNodes/Debug/
 
 ## Automated Tests
 
-native node の標準テストは Maya 2025 の `mayapy` で実行します。
+native nodeの標準テストは、配布対象のMaya 2025 / 2026 / 2027それぞれの`mayapy`で
+実行します。
 
 ```powershell
 .\scripts\test-native-maya2025.cmd
+.\scripts\test-native-maya2026.cmd
+.\scripts\test-native-maya2027.cmd
 ```
 
 関連テストは次にあります。

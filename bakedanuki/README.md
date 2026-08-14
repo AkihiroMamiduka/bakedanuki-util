@@ -24,8 +24,11 @@ bakedanuki/
     docs/
     plug-ins/
       maya2025/
+        bdUtilNodes.mll
       maya2026/
+        bdUtilNodes.mll
       maya2027/
+        bdUtilNodes.mll
     python/
 
   bakedanuki-rig/

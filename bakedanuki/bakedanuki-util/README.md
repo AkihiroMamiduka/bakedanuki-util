@@ -4,11 +4,13 @@
 
 今後制作予定のリグシステムパッケージ `bakedanuki-rig` で使用するために開発しています。その中でも、リグシステム専用ではなく他の Maya ツール開発でも使える汎用部分を `util` として切り出しています。
 
-現在は **v0.1.0 / pre-1.0.0 の開発中パッケージ**です。API は今後変わる可能性がありますが、Maya のノード操作を Python から短く、読みやすく、できるだけ OpenMaya に近い形で扱えることを目指しています。
+現在は **v0.2.0 / pre-1.0.0 の開発中パッケージ**です。API は今後変わる可能性がありますが、Maya のノード操作を Python から短く、読みやすく、できるだけ OpenMaya に近い形で扱えることを目指しています。
 
 ## Status
 
 - Target: Maya 2025 以降 / Python 3.11.4 以降
+- Release verification: Windows / Maya 2025 / 2026 / 2027
+- Bundled native plug-in: Windows / Maya 2025 / 2026 / 2027
 - Runtime: Maya 専用
 - Distribution: Maya Module
 - Stage: pre-1.0.0 / active development
@@ -107,6 +109,10 @@ decompose = nodes.create.decomposeMatrix(name="decompose")
 Python キーワードと衝突する `and`, `or`, `not` などは、`and_()`, `or_()`, `not_()` のように末尾 `_` を付けます。
 
 ### Native Plug-in Node
+
+v0.2.0 には、Windows版 Maya 2025 / 2026 / 2027 向けの
+`bdUtilNodes.mll` をそれぞれ同梱します。Maya Moduleが実行中のMaya versionに対応する
+`plug-ins/maya<version>` をplug-in pathへ追加します。
 
 Maya の Plug-in Manager で `bdUtilNodes.mll` をロードすると、
 固定2入力の `bdDbl3_Multiply` と、可変長入力の `bdDbl3_MultiplyMulti` を
@@ -228,7 +234,16 @@ bakedanuki/
   bakedanuki-util/
     README.md
     LICENSE
+    THIRD_PARTY_NOTICES.md
     docs/
+    licenses/
+    plug-ins/
+      maya2025/
+        bdUtilNodes.mll
+      maya2026/
+        bdUtilNodes.mll
+      maya2027/
+        bdUtilNodes.mll
     python/
       bd_util/
 ```
@@ -236,7 +251,7 @@ bakedanuki/
 `bakedanuki/modules/bd_util.mod` には、`bakedanuki-util/python` を Python path に追加する設定が入っています。
 
 ```text
-+ bd_util 0.1.0 ../bakedanuki-util
++ bd_util 0.2.0 ../bakedanuki-util
 PYTHONPATH+:=python
 ```
 

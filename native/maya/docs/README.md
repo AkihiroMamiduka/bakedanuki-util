@@ -1,7 +1,7 @@
 # Maya C++ Plug-in Development Guide
 
 `bakedanuki-util` で Maya の C++ dependency node を追加・保守するための
-開発ガイドです。Maya 2025 / Windows を基準にしています。
+開発ガイドです。Windows版 Maya 2025 / 2026 / 2027 を対象にしています。
 
 ## Documents
 
@@ -61,7 +61,7 @@
 25. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
 26. [Build Guide](../README.md)
-   - Maya 2025 向け build、stage、test の実行方法
+   - Maya 2025 / 2026 / 2027 向け build、stage、test の実行方法
 27. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 

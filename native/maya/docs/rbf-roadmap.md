@@ -218,8 +218,9 @@ DG / Serial / Parallel、複数characterで計測します。問題が確認さ�
 
 ### 4. Maya Version Coverage
 
-Maya 2025を基準とする現在のbuildとtestを維持し、配布対象に応じてMaya 2026以降の
-build、plugin load、scene round-trip、Evaluation Manager動作を検証します。
+Maya 2025 / 2026 / 2027それぞれのbuild、plugin load、scene round-trip、
+Evaluation Manager動作をrelease gateとして維持します。配布対象versionを増やす場合も、
+同じ検証を追加します。
 
 ### 5. Production Identity And API Stabilization
 

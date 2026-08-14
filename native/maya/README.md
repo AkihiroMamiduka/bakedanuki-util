@@ -4,9 +4,11 @@ C++ source と build tree は配布用 `bakedanuki` フォルダから分離し�
 
 ```text
 native/maya/                         C++ source / CMake
-build/native/maya2025/               local build tree (git ignored)
+build/native/maya<version>/          local build tree (git ignored)
 bakedanuki/bakedanuki-util/
-  plug-ins/maya2025/bdUtilNodes.mll  staged runtime binary
+  plug-ins/maya2025/bdUtilNodes.mll  Maya 2025 staged runtime binary
+  plug-ins/maya2026/bdUtilNodes.mll  Maya 2026 staged runtime binary
+  plug-ins/maya2027/bdUtilNodes.mll  Maya 2027 staged runtime binary
 ```
 
 ## Development Guide
@@ -22,7 +24,7 @@ C++ node の設計・実装・検証については
 
 ## Requirements
 
-- Autodesk Maya 2025
+- Autodesk Maya 2025 / 2026 / 2027
 - Visual Studio 2022 17.8.3 以降（Desktop development with C++）
 - CMake 3.27.3 以降
 
@@ -30,9 +32,9 @@ C++ node の設計・実装・検証については
 machineやMaya実行環境へEigenを別途インストールする必要はありません。出典、hash、
 ライセンスは [native/third_party/README.md](../third_party/README.md) を参照してください。
 
-Maya 2025 の公式 devkit 要件に合わせ、通常の build script は Visual Studio
-2022 を検出できない場合に停止します。複数 Maya version の環境変数を恒久設定せず、
-build ごとに対象 Maya を指定します。
+各Mayaの同梱devkitを使用します。通常のbuild scriptはVisual Studio 2022を検出できない
+場合に停止します。複数Maya versionの環境変数を恒久設定せず、buildごとに対象Mayaを
+指定します。
 
 ## Build
 
@@ -41,10 +43,12 @@ Windows はロード中の `.mll` を上書きできません。
 
 ```powershell
 .\scripts\build-native-maya2025.cmd
+.\scripts\build-native-maya2026.cmd
+.\scripts\build-native-maya2027.cmd
 ```
 
-成功すると `Release` build の `bdUtilNodes.mll` が
-`bakedanuki/bakedanuki-util/plug-ins/maya2025` へコピーされます。
+成功すると各Maya versionの `Release` buildが、対応する
+`bakedanuki/bakedanuki-util/plug-ins/maya<version>` へコピーされます。
 
 Mayaで既存バイナリをロードしたままコンパイルだけ行う場合は、配布先へのコピーを
 省略します。
@@ -62,6 +66,7 @@ Mayaで既存バイナリをロードしたままコンパイルだけ行う場�
 Debug build は配布用バイナリを上書きせず、
 `build/native/maya2025/plugins/bdUtilNodes/Debug` にだけ出力されます。
 Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パスでロードします。
+Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み替えてください。
 
 ## Test
 
@@ -74,9 +79,12 @@ Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パ�
 
 ```powershell
 .\scripts\test-native-maya2025.cmd
+.\scripts\test-native-maya2026.cmd
+.\scripts\test-native-maya2027.cmd
 ```
 
-テストは staged plug-in を Maya 2025 の `mayapy` へロードし、double3 / double版、
+テストは各versionのstaged plug-inを対応する`mayapy`へロードし、plug-in / Maya API
+versionの一致、double3 / double版、
 doubleLinear / doubleLinear3版、scalar doubleAngle版、Euler / Quaternion Value、Quaternion可変長積・基準変換、Quaternion / EulerのBend / Twist分解・合成・Twist専用分解の乗算・安全除算・距離比率・
 角度比率・Wrap・最短角度差・最短経路補間・直角三角形計算、および加算・減算・
 最小値・最大値・Clamp・Map Range・Absolute・Negate・Condition・Average・Weighted Averageについて、固定入力ノード、

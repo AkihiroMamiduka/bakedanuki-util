@@ -14,6 +14,16 @@ PowerShell では、パスにスペースが含まれる executable を呼ぶた
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
 ```
 
+通常開発ではMaya 2025を基準にします。リリース前はMaya 2025 / 2026 / 2027の
+各`mayapy`と対応する`plug-ins/maya<version>/bdUtilNodes.mll`を指定し、
+全テストを実行します。ネイティブテストはversion別scriptから実行できます。
+
+```powershell
+.\scripts\test-native-maya2025.cmd
+.\scripts\test-native-maya2026.cmd
+.\scripts\test-native-maya2027.cmd
+```
+
 Codex 側の mayapy に pytest が入っていない場合は、target install した pytest の場所を `PYTHONPATH` に足して実行します。
 
 ```powershell

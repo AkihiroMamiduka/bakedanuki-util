@@ -12,6 +12,9 @@
 
 `bakedanuki-util` は、Maya 2025 以降を対象とした Maya Module 形式の配布構成です。
 
+Python API、Maya Module、ネイティブ C++ plug-in `bdUtilNodes.mll` は、
+Windows版 Maya 2025 / 2026 / 2027 で検証しています。
+
 `bakedanuki/modules` を `MAYA_MODULE_PATH` に追加すると、Maya が `modules/bd_util.mod` を読み込み、`bakedanuki-util/python` を Python path に追加します。`bakedanuki-util/python` を直接環境変数へ追加する必要はありません。
 
 導入方法は、利用目的に合わせて次の3つから選べます。
@@ -74,11 +77,16 @@ Pyright の型・補完 contract と pytest の実行方法は、
 ### Maya C++ Plug-ins
 
 C++ source は配布用 `bakedanuki` フォルダへ含めず、リポジトリ直下の
-`native/maya` で管理します。Maya 2025 向けの build と test は次のコマンドです。
+`native/maya` で管理します。Maya 2025 / 2026 / 2027 向けの build と test は
+次のコマンドです。
 
 ```powershell
 .\scripts\build-native-maya2025.cmd
 .\scripts\test-native-maya2025.cmd
+.\scripts\build-native-maya2026.cmd
+.\scripts\test-native-maya2026.cmd
+.\scripts\build-native-maya2027.cmd
+.\scripts\test-native-maya2027.cmd
 ```
 
 必要な toolchain、成果物の配置、node ID の管理方針は
@@ -143,6 +151,10 @@ bakedanuki/
     licenses/
     plug-ins/
       maya2025/
+        bdUtilNodes.mll
+      maya2026/
+        bdUtilNodes.mll
+      maya2027/
         bdUtilNodes.mll
     python/
       bd_util/
