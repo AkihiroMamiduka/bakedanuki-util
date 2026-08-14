@@ -165,3 +165,29 @@ def test_connect_disconnect_path_parts(
     modifier_manager.do_it_dg()
 
     assert dst.input3D[0].input3Dx.src_plug is None
+
+
+def test_connect_disconnect_from_supported_sources(
+    modifier_manager,
+    plus_minus_average_cls,
+):
+    src = plus_minus_average_cls.create(modifier_manager, name="src")
+    dst = plus_minus_average_cls.create(modifier_manager, name="dst")
+    modifier_manager.do_it_dg()
+
+    dst_plug = dst.input3D[0].input3Dx
+    sources = (
+        src.output3Dx,
+        "src.output3Dx",
+        ["src", "output3Dx"],
+        ("src", "output3Dx"),
+    )
+
+    for source in sources:
+        dst_plug.connect_from(source)
+        modifier_manager.do_it_dg()
+        assert dst_plug.src_plug == "src.output3Dx"
+
+        dst_plug.disconnect_from(source)
+        modifier_manager.do_it_dg()
+        assert dst_plug.src_plug is None

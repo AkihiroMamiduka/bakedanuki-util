@@ -287,13 +287,13 @@ mod.do_it_dg()
 
 接続は即時実行ではなく、`MDGModifier.connect()` に積む処理です。`ModifierManager` の履歴に入るため、その単位で undo / redo 対象になります。
 
-新しいコードと docs では、接続の意図が明確で処理も軽い `.connect()` を優先します。
-演算子 `>` は現時点では互換 API として利用できますが、単独の式は Pyright の
-`reportUnusedExpression` 対象になります。既存コードで維持する場合は、global に
-rule を無効化せず、戻り値を意図的に破棄することを `_ = src > dst` で示します。
+接続元から操作する場合は `.connect()` / `.disconnect()` を使用します。
+接続先から操作する場合は `.connect_from()` / `.disconnect_from()` を使用します。
+接続・切断用の演算子 overload は提供しません。
 
 ```python
 src.output.connect(dst.input)
+dst.input.connect_from("src.output")
 ```
 
 `nodes.existing` はシーン上に既に存在するノードを包む入口です。

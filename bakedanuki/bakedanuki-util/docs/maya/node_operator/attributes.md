@@ -43,8 +43,10 @@ class MyNode(NodeOperator):
 - `set()`
 - `set_direct()`
 - `connect()`
+- `connect_from()`
 - `connect_next_index()`
 - `disconnect()`
+- `disconnect_from()`
 - `keyframe`
 - `add_attr()`
 - `cmds_add_attr()`
@@ -66,12 +68,15 @@ node.multiAttr[0].child
 `next` は Python builtin の `next` sentinel を利用します。
 
 ```python
-src.output.connect_next_index(dst.multiInput)
-src.output > dst.input
-src.output >> dst.multiInput
+src.output.connect(dst.input)
+dst.input.connect_from("src.output")
+dst.input.connect_from(["src", "output"])
+dst.input.disconnect_from("src.output")
+dst.multiInput.connect_next_index(src.output)
 ```
 
-`connect()` を明示的に呼ぶ方が、演算子経由より意図と速度の両面で分かりやすい場面があります。
+`connect()` / `disconnect()` は接続元から接続先を指定します。
+`connect_from()` / `disconnect_from()` は接続先から接続元を指定します。
 
 ## extra attribute
 

@@ -170,7 +170,7 @@ product = nodes.create.bdQuat_MultiplyMulti(name="product")
 to_euler = nodes.create.quatToEuler(name="to_euler")
 
 product.inputQuat[next].set((0.0, 0.0, 0.0, 1.0))
-product.outputQuat > to_euler.inputQuat
+product.outputQuat.connect(to_euler.inputQuat)
 mod.do_it_dg()
 ```
 
@@ -535,9 +535,9 @@ decompose_twist = nodes.create.bdQuat_DecomposeTwist(name="decompose_twist")
 recompose = nodes.create.bdQuat_ComposeBendTwist(name="recompose_bend_twist")
 
 compose.input.set((30.0, 45.0, -20.0))
-compose.outputQuat > decompose.inputQuat
-compose.outputQuat > decompose_twist.inputQuat
-decompose.output > recompose.input
+compose.outputQuat.connect(decompose.inputQuat)
+compose.outputQuat.connect(decompose_twist.inputQuat)
+decompose.output.connect(recompose.input)
 mod.do_it_dg()
 ```
 

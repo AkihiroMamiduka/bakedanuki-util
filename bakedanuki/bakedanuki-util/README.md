@@ -190,10 +190,13 @@ a.output1D.connect(b.input1D[0])
 mod.do_it_dg()
 ```
 
-演算子を使った接続もできます。
+接続先から既存plugのpathを指定する場合は、`connect_from()` を使います。
 
 ```python
-a.output1D > b.input1D[0]
+b.input1D[0].connect_from("a.output1D")
+mod.do_it_dg()
+
+b.input1D[0].disconnect_from(["a", "output1D"])
 mod.do_it_dg()
 ```
 
@@ -203,11 +206,9 @@ mod.do_it_dg()
 cmp_m = nodes.create.composeMatrix(name="cmp_m")
 mult_m = nodes.create.multMatrix(name="mult_m")
 
-cmp_m.outputMatrix > mult_m.matrixIn[next]
+cmp_m.outputMatrix.connect(mult_m.matrixIn[next])
 mod.do_it_dg()
 ```
-
-速度を重視する場合は、明示的に `.connect()` を使う方が意図も分かりやすくなります。
 
 ## Install / Setup
 

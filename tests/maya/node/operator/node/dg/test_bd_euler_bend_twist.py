@@ -394,8 +394,8 @@ def test_node_operator_types_and_direct_connection(
     compose = nodes.create.bdEuler_ComposeBendTwist(name="compose")
     decompose = nodes.create.bdEuler_DecomposeBendTwist(name="decompose")
     compose.input.set((35.0, -40.0, 25.0))
-    compose.outputRotate > decompose.inputRotate
-    compose.outputRotateOrder > decompose.inputRotateOrder
+    compose.outputRotate.connect(decompose.inputRotate)
+    compose.outputRotateOrder.connect(decompose.inputRotateOrder)
     modifier_manager.do_it_dg()
 
     assert isinstance(compose, BdEulerComposeBendTwist)

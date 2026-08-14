@@ -512,20 +512,20 @@ def connect_disconnect():
     modifier_manager.do_it_dg()
 
     test_str.separator()
-    _ = node_0.matrixSum > node_1.wtMatrix[0].matrixIn
-    _ = node_0.matrixSum | node_1.wtMatrix[0].matrixIn
+    node_0.matrixSum.connect(node_1.wtMatrix[0].matrixIn)
+    node_0.matrixSum.disconnect(node_1.wtMatrix[0].matrixIn)
 
-    _ = f"{node_0}.matrixSum" > node_1.wtMatrix[0].matrixIn
-    _ = f"{node_0}.matrixSum" | node_1.wtMatrix[0].matrixIn
+    node_1.wtMatrix[0].matrixIn.connect_from(f"{node_0}.matrixSum")
+    node_1.wtMatrix[0].matrixIn.disconnect_from(f"{node_0}.matrixSum")
 
-    _ = [str(node_0), "matrixSum"] > node_1.wtMatrix[0].matrixIn
-    _ = [str(node_0), "matrixSum"] | node_1.wtMatrix[0].matrixIn
+    node_1.wtMatrix[0].matrixIn.connect_from([str(node_0), "matrixSum"])
+    node_1.wtMatrix[0].matrixIn.disconnect_from([str(node_0), "matrixSum"])
 
-    _ = node_0.matrixSum > f"{node_1}.wtMatrix[0].matrixIn"
-    _ = node_0.matrixSum | f"{node_1}.wtMatrix[0].matrixIn"
+    node_0.matrixSum.connect(f"{node_1}.wtMatrix[0].matrixIn")
+    node_0.matrixSum.disconnect(f"{node_1}.wtMatrix[0].matrixIn")
 
-    _ = node_0.matrixSum > [str(node_1), "wtMatrix[0]", "matrixIn"]
-    _ = node_0.matrixSum | [str(node_1), "wtMatrix[0]", "matrixIn"]
+    node_0.matrixSum.connect([str(node_1), "wtMatrix[0]", "matrixIn"])
+    node_0.matrixSum.disconnect([str(node_1), "wtMatrix[0]", "matrixIn"])
 
 
 def plug_cache():
@@ -822,9 +822,11 @@ def connect_next_index():
             cmds.delete(node_name)
         cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
         src_node = WtAddMatrix(modifier_manager, name=node_name)
-        _ = src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
+        src_node.matrixSum.connect(dst_node.wtMatrix[next].matrixIn)
         logger.debug(
-            "src_{}.matrixSum > dst_node.wtMatrix[{}].matrixIn".format(i, i)
+            "src_{}.matrixSum.connect(dst_node.wtMatrix[{}].matrixIn)".format(
+                i, i
+            )
         )
     modifier_manager.do_it_dg()
 
@@ -846,9 +848,9 @@ def refresh_next_index():
             cmds.delete(node_name)
         cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
         src_node = WtAddMatrix(modifier_manager, name=node_name)
-        _ = src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
+        src_node.matrixSum.connect(dst_node.wtMatrix[next].matrixIn)
         logger.debug(
-            "src_{}.matrixSum > dst.wtMatrix[{}].matrixIn".format(i, i)
+            "src_{}.matrixSum.connect(dst.wtMatrix[{}].matrixIn)".format(i, i)
         )
     modifier_manager.do_it_dg()
 
@@ -863,8 +865,8 @@ def refresh_next_index():
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
     extra_src = WtAddMatrix(modifier_manager, name=node_name)
-    _ = extra_src.matrixSum > dst_node.wtMatrix[next].matrixIn
+    extra_src.matrixSum.connect(dst_node.wtMatrix[next].matrixIn)
     logger.debug(
-        "src_extra.matrixSum > dst.wtMatrix[3].matrixIn (after refresh)"
+        "src_extra.matrixSum.connect(dst.wtMatrix[3].matrixIn) (after refresh)"
     )
     modifier_manager.do_it_dg()

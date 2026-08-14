@@ -131,9 +131,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 - optional dependency は実行時 import とし、未導入時の既存 fallback を保つ。
 - `_generated` 以下は生成元を修正して再生成する。
 - diagnostic rule の global 無効化は、通常コードの書き間違いまで隠すため避ける。
-- 副作用目的で接続演算子 `>` を単独使用する既存コードは、
-  `reportUnusedExpression` を無効化せず `_ = src > dst` と書く。
-  新しいコードでは `.connect()` を優先する。
+- 接続と切断には `.connect()` / `.connect_from()` / `.disconnect()` /
+  `.disconnect_from()` を使用する。
 
 ## 現在の pytest 対象
 

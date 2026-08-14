@@ -178,9 +178,9 @@ case_value.value.set(12.0)
 else_value.value.set(-12.0)
 condition.input.set(5.0)
 
-extra.output > case.extra[next]
+extra.output.connect(case.extra[next])
 case_value.value > case.value
-case.output > condition.case[next]
+case.output.connect(condition.case[next])
 else_value.value > condition.elseValue
 
 mod.do_it_dg()
@@ -226,7 +226,7 @@ condition.extra[0].compareValue.set(10.0)
 
 true_value.value > condition.trueValue
 false_value.value > condition.falseValue
-condition.output > result.input1
+condition.output.connect(result.input1)
 
 mod.do_it_dg()
 ```

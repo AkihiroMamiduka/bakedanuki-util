@@ -2244,8 +2244,12 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     assert_type(compose.outputMatrix, MatrixPlugOperator)
     assert_type(compose.omat, MatrixPlugOperator)
     assert_type(compose.outputMatrix.get(), om.MMatrix)
-    compose.outputMatrix.connect(("target", "input"))
-    compose.outputMatrix.disconnect(["target", "input"])
+    assert_type(compose.outputMatrix.connect(("target", "input")), None)
+    assert_type(compose.outputMatrix.connect_from("source.output"), None)
+    assert_type(compose.outputMatrix.disconnect(["target", "input"]), None)
+    assert_type(
+        compose.outputMatrix.disconnect_from(["source", "output"]), None
+    )
 
     assert_type(ComposeMatrix.inputTranslate, InputTranslateAttrOperator)
     assert_type(compose.inputTranslate, InputTranslatePlugOperator)

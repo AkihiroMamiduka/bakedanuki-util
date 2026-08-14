@@ -39,11 +39,6 @@ P = TypeVar("P", bound="PlugOperator[Any]")
 
 _PlugPath = list[str] | tuple[str, ...]
 
-_ConnectionTarget = TypeVar(
-    "_ConnectionTarget",
-    bound="PlugOperator[Any] | str | _PlugPath",
-)
-
 _NextValue = TypeVar("_NextValue")
 _NextDefault = TypeVar("_NextDefault")
 
@@ -530,7 +525,7 @@ class PlugOperator(Generic[A], ABC):
 
         raise TypeError(f"Unsupported connection type: {type(obj)}")
 
-    def connect(self, other: PlugOperator[Any] | str | _PlugPath):
+    def connect(self, other: PlugOperator[Any] | str | _PlugPath) -> None:
         """
         self から other へ connect()
 
@@ -541,6 +536,23 @@ class PlugOperator(Generic[A], ABC):
         if src is None:
             src = self.plug
         dst = self._normalize_to_plug(other)
+
+        self._node.modifier_manager.dg_mod.connect(src, dst)
+
+    def connect_from(
+        self,
+        other: PlugOperator[Any] | str | _PlugPath,
+    ) -> None:
+        """
+        other から self へ接続する。
+
+        Args:
+            other (Plug | str | list[str] | tuple[str, ...]): 接続元
+        """
+        src = self._normalize_to_plug(other)
+        dst = self._m_plug
+        if dst is None:
+            dst = self.plug
 
         self._node.modifier_manager.dg_mod.connect(src, dst)
 
@@ -568,7 +580,7 @@ class PlugOperator(Generic[A], ABC):
     def connect_next_index(
         self,
         other: PlugOperator[Any] | str | _PlugPath,
-    ):
+    ) -> None:
         """
         マルチアトリビュートの最終インデックスの次へ接続する。
 
@@ -586,7 +598,7 @@ class PlugOperator(Generic[A], ABC):
 
         self._node.modifier_manager.dg_mod.connect(src, dst)
 
-    def refresh_next_index(self):
+    def refresh_next_index(self) -> None:
         """
         保持しているインデックスキャッシュを破棄する。
 
@@ -596,7 +608,7 @@ class PlugOperator(Generic[A], ABC):
         """
         self._next_index = None
 
-    def disconnect(self, other: PlugOperator[Any] | str | _PlugPath):
+    def disconnect(self, other: PlugOperator[Any] | str | _PlugPath) -> None:
         """
         self から other へ disconnect()
 
@@ -610,74 +622,15 @@ class PlugOperator(Generic[A], ABC):
 
         self._node.modifier_manager.dg_mod.disconnect(src, dst)
 
-    def __gt__(
-        self,
-        other: _ConnectionTarget,
-    ) -> _ConnectionTarget:
-        """
-        self > other 演算子オーバーライド：接続
-            .connect() の糖衣構文
-            大量処理で少しでも(メソッド1個分の)速度を詰めるなら src.connect(dst)
-            さらに詰めるなら Plug をローカル変数に保持して再利用するのが良いと思います。
-
-        Args:
-            other (Plug | str | list[str] | tuple[str, ...]): 接続先
-
-        Returns:
-            (Plug | str | list[str] | tuple[str, ...]): other
-        """
-        self.connect(other)
-        return other
-
-    def __lt__(
+    def disconnect_from(
         self,
         other: PlugOperator[Any] | str | _PlugPath,
-    ) -> Self:
+    ) -> None:
         """
-        other > self 演算子のオーバーライド：接続
-
-        Args:
-            other (Plug | str | list[str] | tuple[str, ...]): 接続元
-
-        Returns:
-            Self: self をそのまま返す
-        """
-        dst = self._m_plug
-        if dst is None:
-            dst = self.plug
-        src = self._normalize_to_plug(other)
-
-        self._node.modifier_manager.dg_mod.connect(src, dst)
-        return self
-
-    def __or__(
-        self,
-        other: _ConnectionTarget,
-    ) -> _ConnectionTarget:
-        """
-        self | other 演算子オーバーライド：切断
-
-        Args:
-            other (Plug | str | list[str] | tuple[str, ...]): 切断先
-
-        Returns:
-            (Plug | str | list[str] | tuple[str, ...]): other
-        """
-        self.disconnect(other)
-        return other
-
-    def __ror__(
-        self,
-        other: PlugOperator[Any] | str | _PlugPath,
-    ) -> Self:
-        """
-        other | self 演算子のオーバーライド：切断
+        other から self への接続を切断する。
 
         Args:
             other (Plug | str | list[str] | tuple[str, ...]): 切断元
-
-        Returns:
-            Self: self をそのまま返す
         """
         src = self._normalize_to_plug(other)
         dst = self._m_plug
@@ -689,8 +642,6 @@ class PlugOperator(Generic[A], ABC):
         # 切断後、キャッシュをリセットする
         if self._oprt_attr.multi:
             self.refresh_next_index()
-
-        return self
 
     # connection
     @property

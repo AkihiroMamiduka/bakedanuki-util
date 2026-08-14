@@ -10,6 +10,6 @@ def main():
     cmp_m = creator.composeMatrix(name="cmp_m")
     mult_m = creator.multMatrix(name="mult_m")
 
-    _ = cmp_m.outputMatrix > mult_m.matrixIn[next]
+    cmp_m.outputMatrix.connect(mult_m.matrixIn[next])
 
     creator.modifier_manager.do_it_dg()
