@@ -65,8 +65,8 @@ def test_node_ids_attributes_and_defaults(maya_cmds, maya_om):
     decompose_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
     compose_fn = maya_om.MFnDependencyNode(selection.getDependNode(1))
 
-    assert decompose_fn.typeId.id() == 0x0007F08D
-    assert compose_fn.typeId.id() == 0x0007F08E
+    assert decompose_fn.typeId.id() == 0x0014270C
+    assert compose_fn.typeId.id() == 0x0014270D
     assert maya_cmds.attributeQuery(
         "inputRotate", node=decompose, listChildren=True
     ) == ["inputRotateX", "inputRotateY", "inputRotateZ"]

@@ -60,7 +60,7 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     selection = maya_om.MSelectionList()
     selection.add(node.name)
     node_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
-    assert node_fn.typeId.id() == 0x0007F027
+    assert node_fn.typeId.id() == 0x001426A6
 
 
 def test_returns_component_wise_absolute_value(maya_cmds):

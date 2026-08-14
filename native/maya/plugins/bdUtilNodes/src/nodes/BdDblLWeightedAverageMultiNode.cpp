@@ -28,7 +28,7 @@ struct IndexedWeightedValue {
 const MString BdDblLWeightedAverageMultiNode::typeName(
     "bdDblL_WeightedAverageMulti"
 );
-const MTypeId BdDblLWeightedAverageMultiNode::typeId(0x0007F057);
+const MTypeId BdDblLWeightedAverageMultiNode::typeId(0x001426D6);
 
 MObject BdDblLWeightedAverageMultiNode::input;
 MObject BdDblLWeightedAverageMultiNode::value;

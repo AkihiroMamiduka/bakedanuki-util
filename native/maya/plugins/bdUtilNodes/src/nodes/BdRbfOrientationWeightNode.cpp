@@ -23,7 +23,7 @@
 #include "bdUtilNodes/math/RbfInterpolator.h"
 
 const MString BdRbfOrientationWeightNode::typeName("bdRbf_OrientationWeight");
-const MTypeId BdRbfOrientationWeightNode::typeId(0x0007F094);
+const MTypeId BdRbfOrientationWeightNode::typeId(0x00142713);
 
 MObject BdRbfOrientationWeightNode::inputQuat;
 MObject BdRbfOrientationWeightNode::inputQuatX;

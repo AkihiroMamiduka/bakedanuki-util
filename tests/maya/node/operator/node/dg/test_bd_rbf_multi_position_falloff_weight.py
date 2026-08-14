@@ -65,7 +65,7 @@ def test_type_id_attributes_and_defaults(maya_cmds, maya_om):
     selection.add(node)
     node_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
 
-    assert node_fn.typeId.id() == 0x0007F09D
+    assert node_fn.typeId.id() == 0x0014271C
     assert maya_cmds.attributeQuery(
         "source", node=node, listChildren=True
     ) == [

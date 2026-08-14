@@ -183,8 +183,8 @@ def test_both_nodes_survive_scene_save_and_reload(
     selection.add(multi.name)
     fixed_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
     multi_fn = maya_om.MFnDependencyNode(selection.getDependNode(1))
-    assert fixed_fn.typeId.id() == 0x0007F00C
-    assert multi_fn.typeId.id() == 0x0007F00B
+    assert fixed_fn.typeId.id() == 0x0014268B
+    assert multi_fn.typeId.id() == 0x0014268A
 
     scene_path = tmp_path / "bd_dbl_subtract.ma"
     maya_cmds.file(rename=str(scene_path))

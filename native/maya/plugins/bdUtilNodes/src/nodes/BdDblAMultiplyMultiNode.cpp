@@ -25,7 +25,7 @@ struct IndexedDouble {
 const MString BdDblAMultiplyMultiNode::typeName(
     "bdDblA_MultiplyMulti"
 );
-const MTypeId BdDblAMultiplyMultiNode::typeId(0x0007F072);
+const MTypeId BdDblAMultiplyMultiNode::typeId(0x001426F1);
 
 MObject BdDblAMultiplyMultiNode::input;
 MObject BdDblAMultiplyMultiNode::factor;

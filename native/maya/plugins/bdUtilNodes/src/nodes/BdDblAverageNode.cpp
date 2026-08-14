@@ -9,7 +9,7 @@
 #include "bdUtilNodes/math/Average.h"
 
 const MString BdDblAverageNode::typeName("bdDbl_Average");
-const MTypeId BdDblAverageNode::typeId(0x0007F032);
+const MTypeId BdDblAverageNode::typeId(0x001426B1);
 
 MObject BdDblAverageNode::input1;
 MObject BdDblAverageNode::input2;

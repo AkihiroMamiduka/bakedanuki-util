@@ -13,7 +13,7 @@
 const MString BdConditionDblLExtraComposeNode::typeName(
     "bdConditionDblLExtra_Compose"
 );
-const MTypeId BdConditionDblLExtraComposeNode::typeId(0x0007F05C);
+const MTypeId BdConditionDblLExtraComposeNode::typeId(0x001426DB);
 
 MObject BdConditionDblLExtraComposeNode::logic;
 MObject BdConditionDblLExtraComposeNode::comparison;

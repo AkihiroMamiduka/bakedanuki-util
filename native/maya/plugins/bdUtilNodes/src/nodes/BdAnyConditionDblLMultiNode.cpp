@@ -22,7 +22,7 @@
 const MString BdAnyConditionDblLMultiNode::typeName(
     "bdAny_ConditionDblLMulti"
 );
-const MTypeId BdAnyConditionDblLMultiNode::typeId(0x0007F05A);
+const MTypeId BdAnyConditionDblLMultiNode::typeId(0x001426D9);
 
 MObject BdAnyConditionDblLMultiNode::input;
 MObject BdAnyConditionDblLMultiNode::caseArray;

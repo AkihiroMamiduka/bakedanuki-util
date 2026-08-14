@@ -14,7 +14,7 @@
 const MString BdDblALerpShortestNode::typeName(
     "bdDblA_LerpShortest"
 );
-const MTypeId BdDblALerpShortestNode::typeId(0x0007F082);
+const MTypeId BdDblALerpShortestNode::typeId(0x00142701);
 
 MObject BdDblALerpShortestNode::input1;
 MObject BdDblALerpShortestNode::input2;

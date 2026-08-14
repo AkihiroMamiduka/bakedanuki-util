@@ -9,7 +9,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblAAbsNode::typeName("bdDblA_Abs");
-const MTypeId BdDblAAbsNode::typeId(0x0007F070);
+const MTypeId BdDblAAbsNode::typeId(0x001426EF);
 
 MObject BdDblAAbsNode::input;
 MObject BdDblAAbsNode::output;

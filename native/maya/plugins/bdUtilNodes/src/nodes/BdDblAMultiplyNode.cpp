@@ -10,7 +10,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblAMultiplyNode::typeName("bdDblA_Multiply");
-const MTypeId BdDblAMultiplyNode::typeId(0x0007F071);
+const MTypeId BdDblAMultiplyNode::typeId(0x001426F0);
 
 MObject BdDblAMultiplyNode::input;
 MObject BdDblAMultiplyNode::factor;

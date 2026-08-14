@@ -11,7 +11,7 @@
 #include "bdUtilNodes/math/SafeDivision.h"
 
 const MString BdDblADivideNode::typeName("bdDblA_Divide");
-const MTypeId BdDblADivideNode::typeId(0x0007F073);
+const MTypeId BdDblADivideNode::typeId(0x001426F2);
 
 MObject BdDblADivideNode::input;
 MObject BdDblADivideNode::factor;

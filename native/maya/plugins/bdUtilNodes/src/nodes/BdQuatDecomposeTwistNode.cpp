@@ -17,7 +17,7 @@
 const MString BdQuatDecomposeTwistNode::typeName(
     "bdQuat_DecomposeTwist"
 );
-const MTypeId BdQuatDecomposeTwistNode::typeId(0x0007F08B);
+const MTypeId BdQuatDecomposeTwistNode::typeId(0x0014270A);
 
 MObject BdQuatDecomposeTwistNode::inputQuat;
 MObject BdQuatDecomposeTwistNode::inputQuatX;

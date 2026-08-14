@@ -6,7 +6,7 @@
 #include "bdUtilNodes/attributes/QuaternionAttribute.h"
 
 const MString BdQuatValueNode::typeName("bdQuat_Value");
-const MTypeId BdQuatValueNode::typeId(0x0007F090);
+const MTypeId BdQuatValueNode::typeId(0x0014270F);
 
 MObject BdQuatValueNode::value;
 MObject BdQuatValueNode::valueX;

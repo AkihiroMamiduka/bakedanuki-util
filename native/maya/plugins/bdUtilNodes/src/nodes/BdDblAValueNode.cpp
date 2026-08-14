@@ -5,7 +5,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblAValueNode::typeName("bdDblA_Value");
-const MTypeId BdDblAValueNode::typeId(0x0007F06A);
+const MTypeId BdDblAValueNode::typeId(0x001426E9);
 
 MObject BdDblAValueNode::value;
 

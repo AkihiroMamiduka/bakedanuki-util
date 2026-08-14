@@ -58,7 +58,7 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     selection = maya_om.MSelectionList()
     selection.add(node.name)
     node_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
-    assert node_fn.typeId.id() == 0x0007F01A
+    assert node_fn.typeId.id() == 0x00142699
 
 
 def test_sums_sparse_weighted_values_without_normalizing(

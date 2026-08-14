@@ -11,7 +11,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblALerpNode::typeName("bdDblA_Lerp");
-const MTypeId BdDblALerpNode::typeId(0x0007F077);
+const MTypeId BdDblALerpNode::typeId(0x001426F6);
 
 MObject BdDblALerpNode::input1;
 MObject BdDblALerpNode::input2;

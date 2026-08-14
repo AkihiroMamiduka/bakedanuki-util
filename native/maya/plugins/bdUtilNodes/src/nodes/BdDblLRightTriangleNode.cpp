@@ -76,7 +76,7 @@ TriangleResult solveLeg(double hypotenuse, double knownLeg) {
 const MString BdDblLRightTriangleNode::typeName(
     "bdDblL_RightTriangle"
 );
-const MTypeId BdDblLRightTriangleNode::typeId(0x0007F069);
+const MTypeId BdDblLRightTriangleNode::typeId(0x001426E8);
 
 MObject BdDblLRightTriangleNode::solveFor;
 MObject BdDblLRightTriangleNode::legA;

@@ -13,8 +13,8 @@ pytestmark = pytest.mark.maya
 
 
 NODE_TYPE_IDS = {
-    "bdDbl_RatioDblL": 0x0007F067,
-    "bdDbl3_RatioDblL3": 0x0007F068,
+    "bdDbl_RatioDblL": 0x001426E6,
+    "bdDbl3_RatioDblL3": 0x001426E7,
 }
 
 

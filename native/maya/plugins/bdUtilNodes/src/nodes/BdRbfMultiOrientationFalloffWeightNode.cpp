@@ -26,7 +26,7 @@
 const MString BdRbfMultiOrientationFalloffWeightNode::typeName(
     "bdRbf_MultiOrientationFalloffWeight"
 );
-const MTypeId BdRbfMultiOrientationFalloffWeightNode::typeId(0x0007F09C);
+const MTypeId BdRbfMultiOrientationFalloffWeightNode::typeId(0x0014271B);
 
 MObject BdRbfMultiOrientationFalloffWeightNode::source;
 MObject BdRbfMultiOrientationFalloffWeightNode::inputQuat;

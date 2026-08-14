@@ -33,6 +33,8 @@ v0.1.0 以降の NodeOperator 基盤の改善に加え、Windows版 Maya 2025 / 
   contract を追加。
 - Maya versionごとのAPI versionをplug-in metadataへ登録し、Python package versionとの
   整合性を各Maya実行環境で検証するテストを追加。
+- Autodeskから取得した固有Node ID block `0x00142680` - `0x0014277F` を、
+  配布する全ネイティブノードへ割り当て。
 
 ### Changed
 

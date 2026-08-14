@@ -12,14 +12,14 @@ pytestmark = pytest.mark.maya
 
 
 NODE_TYPE_IDS = {
-    "bdDblL_Multiply": 0x0007F05F,
-    "bdDblL_MultiplyMulti": 0x0007F060,
-    "bdDblL3_Multiply": 0x0007F061,
-    "bdDblL3_MultiplyMulti": 0x0007F062,
-    "bdDblL_Divide": 0x0007F063,
-    "bdDblL_DivideMulti": 0x0007F064,
-    "bdDblL3_Divide": 0x0007F065,
-    "bdDblL3_DivideMulti": 0x0007F066,
+    "bdDblL_Multiply": 0x001426DE,
+    "bdDblL_MultiplyMulti": 0x001426DF,
+    "bdDblL3_Multiply": 0x001426E0,
+    "bdDblL3_MultiplyMulti": 0x001426E1,
+    "bdDblL_Divide": 0x001426E2,
+    "bdDblL_DivideMulti": 0x001426E3,
+    "bdDblL3_Divide": 0x001426E4,
+    "bdDblL3_DivideMulti": 0x001426E5,
 }
 
 

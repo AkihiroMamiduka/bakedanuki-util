@@ -10,7 +10,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblLMinMultiNode::typeName("bdDblL_MinMulti");
-const MTypeId BdDblLMinMultiNode::typeId(0x0007F044);
+const MTypeId BdDblLMinMultiNode::typeId(0x001426C3);
 
 MObject BdDblLMinMultiNode::input;
 MObject BdDblLMinMultiNode::output;

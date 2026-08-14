@@ -24,7 +24,7 @@ struct IndexedQuaternion {
 }  // namespace
 
 const MString BdQuatMultiplyMultiNode::typeName("bdQuat_MultiplyMulti");
-const MTypeId BdQuatMultiplyMultiNode::typeId(0x0007F088);
+const MTypeId BdQuatMultiplyMultiNode::typeId(0x00142707);
 
 MObject BdQuatMultiplyMultiNode::inputQuat;
 MObject BdQuatMultiplyMultiNode::inputQuatX;

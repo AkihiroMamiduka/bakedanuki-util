@@ -12,12 +12,12 @@ pytestmark = pytest.mark.maya
 
 
 NODE_TYPE_IDS = {
-    "bdConditionDblExtra_Compose": 0x0007F05B,
-    "bdConditionDblLExtra_Compose": 0x0007F05C,
-    "bdConditionDblCase_Compose": 0x0007F05D,
-    "bdConditionDblLCase_Compose": 0x0007F05E,
-    "bdConditionDblAExtra_Compose": 0x0007F086,
-    "bdConditionDblACase_Compose": 0x0007F087,
+    "bdConditionDblExtra_Compose": 0x001426DA,
+    "bdConditionDblLExtra_Compose": 0x001426DB,
+    "bdConditionDblCase_Compose": 0x001426DC,
+    "bdConditionDblLCase_Compose": 0x001426DD,
+    "bdConditionDblAExtra_Compose": 0x00142705,
+    "bdConditionDblACase_Compose": 0x00142706,
 }
 
 

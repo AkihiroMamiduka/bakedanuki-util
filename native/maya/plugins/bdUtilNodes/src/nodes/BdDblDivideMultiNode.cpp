@@ -22,7 +22,7 @@ struct IndexedDouble {
 }  // namespace
 
 const MString BdDblDivideMultiNode::typeName("bdDbl_DivideMulti");
-const MTypeId BdDblDivideMultiNode::typeId(0x0007F00F);
+const MTypeId BdDblDivideMultiNode::typeId(0x0014268E);
 
 MObject BdDblDivideMultiNode::input;
 MObject BdDblDivideMultiNode::output;

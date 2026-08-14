@@ -13,7 +13,7 @@
 #include "bdUtilNodes/math/Average.h"
 
 const MString BdDblL3AverageNode::typeName("bdDblL3_Average");
-const MTypeId BdDblL3AverageNode::typeId(0x0007F041);
+const MTypeId BdDblL3AverageNode::typeId(0x001426C0);
 
 MObject BdDblL3AverageNode::input1;
 MObject BdDblL3AverageNode::input1X;

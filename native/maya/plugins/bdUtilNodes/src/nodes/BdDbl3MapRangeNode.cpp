@@ -12,7 +12,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDbl3MapRangeNode::typeName("bdDbl3_MapRange");
-const MTypeId BdDbl3MapRangeNode::typeId(0x0007F025);
+const MTypeId BdDbl3MapRangeNode::typeId(0x001426A4);
 
 MObject BdDbl3MapRangeNode::input;
 MObject BdDbl3MapRangeNode::inputX;

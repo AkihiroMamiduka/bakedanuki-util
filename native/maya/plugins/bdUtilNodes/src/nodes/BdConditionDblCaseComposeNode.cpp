@@ -17,7 +17,7 @@
 const MString BdConditionDblCaseComposeNode::typeName(
     "bdConditionDblCase_Compose"
 );
-const MTypeId BdConditionDblCaseComposeNode::typeId(0x0007F05D);
+const MTypeId BdConditionDblCaseComposeNode::typeId(0x001426DC);
 
 MObject BdConditionDblCaseComposeNode::operation;
 MObject BdConditionDblCaseComposeNode::compare;

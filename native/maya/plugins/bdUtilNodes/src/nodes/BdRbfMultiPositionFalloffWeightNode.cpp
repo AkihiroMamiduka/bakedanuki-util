@@ -26,7 +26,7 @@
 const MString BdRbfMultiPositionFalloffWeightNode::typeName(
     "bdRbf_MultiPositionFalloffWeight"
 );
-const MTypeId BdRbfMultiPositionFalloffWeightNode::typeId(0x0007F09D);
+const MTypeId BdRbfMultiPositionFalloffWeightNode::typeId(0x0014271C);
 
 MObject BdRbfMultiPositionFalloffWeightNode::source;
 MObject BdRbfMultiPositionFalloffWeightNode::inputPosition;

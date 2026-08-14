@@ -9,7 +9,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblMinNode::typeName("bdDbl_Min");
-const MTypeId BdDblMinNode::typeId(0x0007F01E);
+const MTypeId BdDblMinNode::typeId(0x0014269D);
 
 MObject BdDblMinNode::input1;
 MObject BdDblMinNode::input2;

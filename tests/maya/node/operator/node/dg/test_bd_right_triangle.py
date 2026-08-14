@@ -12,7 +12,7 @@ pytestmark = pytest.mark.maya
 
 
 NODE_TYPE = "bdDblL_RightTriangle"
-NODE_TYPE_ID = 0x0007F069
+NODE_TYPE_ID = 0x001426E8
 
 
 def _load_bd_util_nodes(maya_cmds) -> Path:

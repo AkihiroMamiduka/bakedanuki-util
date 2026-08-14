@@ -61,7 +61,7 @@ def test_type_id_attributes_and_defaults(maya_cmds, maya_om):
     selection = maya_om.MSelectionList()
     selection.add(node)
     node_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
-    assert node_fn.typeId.id() == 0x0007F097
+    assert node_fn.typeId.id() == 0x00142716
     assert maya_cmds.attributeQuery("pose", node=node, listChildren=True) == [
         "position",
         "enabled",

@@ -72,10 +72,10 @@ def test_class_attribute_access(maya_cmds):
 @pytest.mark.parametrize(
     ("node_type", "type_id"),
     (
-        ("bdDbl3_AverageMulti", 0x0007F02F),
-        ("bdDbl3_Average", 0x0007F030),
-        ("bdDbl_AverageMulti", 0x0007F031),
-        ("bdDbl_Average", 0x0007F032),
+        ("bdDbl3_AverageMulti", 0x001426AE),
+        ("bdDbl3_Average", 0x001426AF),
+        ("bdDbl_AverageMulti", 0x001426B0),
+        ("bdDbl_Average", 0x001426B1),
     ),
 )
 def test_defaults_and_type_ids(maya_cmds, maya_om, node_type, type_id):

@@ -12,7 +12,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblAWrapNode::typeName("bdDblA_Wrap");
-const MTypeId BdDblAWrapNode::typeId(0x0007F080);
+const MTypeId BdDblAWrapNode::typeId(0x001426FF);
 
 MObject BdDblAWrapNode::input;
 MObject BdDblAWrapNode::minimum;

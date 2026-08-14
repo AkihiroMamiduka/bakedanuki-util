@@ -8,7 +8,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblLAddNode::typeName("bdDblL_Add");
-const MTypeId BdDblLAddNode::typeId(0x0007F037);
+const MTypeId BdDblLAddNode::typeId(0x001426B6);
 
 MObject BdDblLAddNode::input1;
 MObject BdDblLAddNode::input2;

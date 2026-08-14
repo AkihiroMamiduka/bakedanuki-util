@@ -23,7 +23,7 @@
 #include "bdUtilNodes/math/RbfInterpolator.h"
 
 const MString BdRbfPositionWeightNode::typeName("bdRbf_PositionWeight");
-const MTypeId BdRbfPositionWeightNode::typeId(0x0007F096);
+const MTypeId BdRbfPositionWeightNode::typeId(0x00142715);
 
 MObject BdRbfPositionWeightNode::inputPosition;
 MObject BdRbfPositionWeightNode::inputPositionX;

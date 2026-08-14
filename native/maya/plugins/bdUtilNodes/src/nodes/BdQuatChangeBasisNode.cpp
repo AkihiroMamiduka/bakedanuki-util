@@ -23,7 +23,7 @@ enum class BasisDirection : short {
 }  // namespace
 
 const MString BdQuatChangeBasisNode::typeName("bdQuat_ChangeBasis");
-const MTypeId BdQuatChangeBasisNode::typeId(0x0007F091);
+const MTypeId BdQuatChangeBasisNode::typeId(0x00142710);
 
 MObject BdQuatChangeBasisNode::inputQuat;
 MObject BdQuatChangeBasisNode::inputQuatX;

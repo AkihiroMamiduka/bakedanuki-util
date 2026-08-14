@@ -26,7 +26,7 @@
 const MString BdRbfBendTwistFalloffWeightNode::typeName(
     "bdRbf_BendTwistFalloffWeight"
 );
-const MTypeId BdRbfBendTwistFalloffWeightNode::typeId(0x0007F099);
+const MTypeId BdRbfBendTwistFalloffWeightNode::typeId(0x00142718);
 
 MObject BdRbfBendTwistFalloffWeightNode::inputQuat;
 MObject BdRbfBendTwistFalloffWeightNode::inputQuatX;

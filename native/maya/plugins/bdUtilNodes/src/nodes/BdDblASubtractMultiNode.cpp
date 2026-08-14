@@ -21,7 +21,7 @@ struct IndexedDouble {
 }  // namespace
 
 const MString BdDblASubtractMultiNode::typeName("bdDblA_SubtractMulti");
-const MTypeId BdDblASubtractMultiNode::typeId(0x0007F06E);
+const MTypeId BdDblASubtractMultiNode::typeId(0x001426ED);
 
 MObject BdDblASubtractMultiNode::input;
 MObject BdDblASubtractMultiNode::output;

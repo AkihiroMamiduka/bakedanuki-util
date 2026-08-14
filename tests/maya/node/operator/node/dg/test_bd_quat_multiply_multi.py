@@ -69,7 +69,7 @@ def test_node_id_attributes_and_defaults(maya_cmds, maya_om):
     selection.add(node)
     node_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
 
-    assert node_fn.typeId.id() == 0x0007F088
+    assert node_fn.typeId.id() == 0x00142707
     assert maya_cmds.attributeQuery("inputQuat", node=node, multi=True)
     assert maya_cmds.attributeQuery(
         "inputQuat", node=node, listChildren=True

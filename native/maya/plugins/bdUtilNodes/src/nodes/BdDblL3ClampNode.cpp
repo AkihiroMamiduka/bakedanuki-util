@@ -13,7 +13,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblL3ClampNode::typeName("bdDblL3_Clamp");
-const MTypeId BdDblL3ClampNode::typeId(0x0007F04C);
+const MTypeId BdDblL3ClampNode::typeId(0x001426CB);
 
 MObject BdDblL3ClampNode::input;
 MObject BdDblL3ClampNode::inputX;

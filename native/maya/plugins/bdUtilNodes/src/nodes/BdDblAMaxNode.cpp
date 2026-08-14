@@ -9,7 +9,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblAMaxNode::typeName("bdDblA_Max");
-const MTypeId BdDblAMaxNode::typeId(0x0007F07A);
+const MTypeId BdDblAMaxNode::typeId(0x001426F9);
 
 MObject BdDblAMaxNode::input1;
 MObject BdDblAMaxNode::input2;

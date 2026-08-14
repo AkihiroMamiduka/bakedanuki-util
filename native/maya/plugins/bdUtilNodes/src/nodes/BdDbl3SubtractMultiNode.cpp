@@ -23,7 +23,7 @@ struct IndexedDouble3 {
 }  // namespace
 
 const MString BdDbl3SubtractMultiNode::typeName("bdDbl3_SubtractMulti");
-const MTypeId BdDbl3SubtractMultiNode::typeId(0x0007F009);
+const MTypeId BdDbl3SubtractMultiNode::typeId(0x00142688);
 
 MObject BdDbl3SubtractMultiNode::input;
 MObject BdDbl3SubtractMultiNode::inputX;

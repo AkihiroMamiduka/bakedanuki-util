@@ -18,7 +18,7 @@
 const MString BdEulerDecomposeBendTwistNode::typeName(
     "bdEuler_DecomposeBendTwist"
 );
-const MTypeId BdEulerDecomposeBendTwistNode::typeId(0x0007F08D);
+const MTypeId BdEulerDecomposeBendTwistNode::typeId(0x0014270C);
 
 MObject BdEulerDecomposeBendTwistNode::inputRotate;
 MObject BdEulerDecomposeBendTwistNode::inputRotateX;

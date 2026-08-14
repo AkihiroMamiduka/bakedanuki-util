@@ -18,7 +18,7 @@
 const MString BdQuatComposeBendTwistNode::typeName(
     "bdQuat_ComposeBendTwist"
 );
-const MTypeId BdQuatComposeBendTwistNode::typeId(0x0007F08A);
+const MTypeId BdQuatComposeBendTwistNode::typeId(0x00142709);
 
 MObject BdQuatComposeBendTwistNode::input;
 MObject BdQuatComposeBendTwistNode::inputTwist;

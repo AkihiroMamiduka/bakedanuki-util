@@ -13,7 +13,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblLMapRangeNode::typeName("bdDblL_MapRange");
-const MTypeId BdDblLMapRangeNode::typeId(0x0007F053);
+const MTypeId BdDblLMapRangeNode::typeId(0x001426D2);
 
 MObject BdDblLMapRangeNode::input;
 MObject BdDblLMapRangeNode::sourceMinimum;

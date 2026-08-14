@@ -28,7 +28,7 @@ struct IndexedDouble3 {
 const MString BdDblL3DivideMultiNode::typeName(
     "bdDblL3_DivideMulti"
 );
-const MTypeId BdDblL3DivideMultiNode::typeId(0x0007F066);
+const MTypeId BdDblL3DivideMultiNode::typeId(0x001426E5);
 
 MObject BdDblL3DivideMultiNode::input;
 MObject BdDblL3DivideMultiNode::inputX;

@@ -24,7 +24,7 @@ struct IndexedDouble3 {
 }  // namespace
 
 const MString BdDbl3PowerMultiNode::typeName("bdDbl3_PowerMulti");
-const MTypeId BdDbl3PowerMultiNode::typeId(0x0007F011);
+const MTypeId BdDbl3PowerMultiNode::typeId(0x00142690);
 
 MObject BdDbl3PowerMultiNode::input;
 MObject BdDbl3PowerMultiNode::inputX;

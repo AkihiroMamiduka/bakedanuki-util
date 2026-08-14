@@ -14,7 +14,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblL3MinMultiNode::typeName("bdDblL3_MinMulti");
-const MTypeId BdDblL3MinMultiNode::typeId(0x0007F046);
+const MTypeId BdDblL3MinMultiNode::typeId(0x001426C5);
 
 MObject BdDblL3MinMultiNode::input;
 MObject BdDblL3MinMultiNode::inputX;

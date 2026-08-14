@@ -12,7 +12,7 @@
 #include "bdUtilNodes/math/Negate.h"
 
 const MString BdDbl3NegateNode::typeName("bdDbl3_Negate");
-const MTypeId BdDbl3NegateNode::typeId(0x0007F029);
+const MTypeId BdDbl3NegateNode::typeId(0x001426A8);
 
 MObject BdDbl3NegateNode::input;
 MObject BdDbl3NegateNode::inputX;

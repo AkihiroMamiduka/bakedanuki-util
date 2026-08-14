@@ -18,7 +18,7 @@
 const MString BdEulerDecomposeTwistNode::typeName(
     "bdEuler_DecomposeTwist"
 );
-const MTypeId BdEulerDecomposeTwistNode::typeId(0x0007F08C);
+const MTypeId BdEulerDecomposeTwistNode::typeId(0x0014270B);
 
 MObject BdEulerDecomposeTwistNode::inputRotate;
 MObject BdEulerDecomposeTwistNode::inputRotateX;

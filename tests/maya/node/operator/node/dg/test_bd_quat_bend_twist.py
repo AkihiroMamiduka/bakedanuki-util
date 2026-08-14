@@ -104,9 +104,9 @@ def test_node_ids_attributes_and_defaults(maya_cmds, maya_om):
     compose_fn = maya_om.MFnDependencyNode(selection.getDependNode(1))
     decompose_twist_fn = maya_om.MFnDependencyNode(selection.getDependNode(2))
 
-    assert decompose_fn.typeId.id() == 0x0007F089
-    assert compose_fn.typeId.id() == 0x0007F08A
-    assert decompose_twist_fn.typeId.id() == 0x0007F08B
+    assert decompose_fn.typeId.id() == 0x00142708
+    assert compose_fn.typeId.id() == 0x00142709
+    assert decompose_twist_fn.typeId.id() == 0x0014270A
     assert maya_cmds.attributeQuery(
         "output", node=decompose, listChildren=True
     ) == [
@@ -584,7 +584,7 @@ def test_euler_decompose_twist_id_attributes_and_defaults(
     selection.add(node)
     node_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
 
-    assert node_fn.typeId.id() == 0x0007F08C
+    assert node_fn.typeId.id() == 0x0014270B
     assert maya_cmds.attributeQuery(
         "inputRotate", node=node, listChildren=True
     ) == ["inputRotateX", "inputRotateY", "inputRotateZ"]

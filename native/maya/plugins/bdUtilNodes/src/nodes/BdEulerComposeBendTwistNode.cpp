@@ -19,7 +19,7 @@
 const MString BdEulerComposeBendTwistNode::typeName(
     "bdEuler_ComposeBendTwist"
 );
-const MTypeId BdEulerComposeBendTwistNode::typeId(0x0007F08E);
+const MTypeId BdEulerComposeBendTwistNode::typeId(0x0014270D);
 
 MObject BdEulerComposeBendTwistNode::input;
 MObject BdEulerComposeBendTwistNode::inputTwist;

@@ -19,7 +19,7 @@
 const MString BdEulerLimitBendTwistNode::typeName(
     "bdEuler_LimitBendTwist"
 );
-const MTypeId BdEulerLimitBendTwistNode::typeId(0x0007F093);
+const MTypeId BdEulerLimitBendTwistNode::typeId(0x00142712);
 
 MObject BdEulerLimitBendTwistNode::inputRotate;
 MObject BdEulerLimitBendTwistNode::inputRotateX;

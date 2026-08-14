@@ -14,7 +14,7 @@
 #include "bdUtilNodes/math/SafeDivision.h"
 
 const MString BdDbl3RatioDblL3Node::typeName("bdDbl3_RatioDblL3");
-const MTypeId BdDbl3RatioDblL3Node::typeId(0x0007F068);
+const MTypeId BdDbl3RatioDblL3Node::typeId(0x001426E7);
 
 MObject BdDbl3RatioDblL3Node::input;
 MObject BdDbl3RatioDblL3Node::inputX;

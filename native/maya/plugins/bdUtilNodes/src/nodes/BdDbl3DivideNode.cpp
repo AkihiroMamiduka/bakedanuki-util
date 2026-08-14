@@ -12,7 +12,7 @@
 #include "bdUtilNodes/math/SafeDivision.h"
 
 const MString BdDbl3DivideNode::typeName("bdDbl3_Divide");
-const MTypeId BdDbl3DivideNode::typeId(0x0007F00E);
+const MTypeId BdDbl3DivideNode::typeId(0x0014268D);
 
 MObject BdDbl3DivideNode::input1;
 MObject BdDbl3DivideNode::input1X;

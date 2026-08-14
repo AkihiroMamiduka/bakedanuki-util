@@ -11,7 +11,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblClampNode::typeName("bdDbl_Clamp");
-const MTypeId BdDblClampNode::typeId(0x0007F024);
+const MTypeId BdDblClampNode::typeId(0x001426A3);
 
 MObject BdDblClampNode::input;
 MObject BdDblClampNode::minimum;

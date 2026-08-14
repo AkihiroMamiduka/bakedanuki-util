@@ -9,7 +9,7 @@
 #include "bdUtilNodes/math/SafePower.h"
 
 const MString BdDblPowerNode::typeName("bdDbl_Power");
-const MTypeId BdDblPowerNode::typeId(0x0007F014);
+const MTypeId BdDblPowerNode::typeId(0x00142693);
 
 MObject BdDblPowerNode::input1;
 MObject BdDblPowerNode::input2;

@@ -23,7 +23,7 @@ struct IndexedDouble3 {
 }  // namespace
 
 const MString BdDbl3AverageMultiNode::typeName("bdDbl3_AverageMulti");
-const MTypeId BdDbl3AverageMultiNode::typeId(0x0007F02F);
+const MTypeId BdDbl3AverageMultiNode::typeId(0x001426AE);
 
 MObject BdDbl3AverageMultiNode::input;
 MObject BdDbl3AverageMultiNode::inputX;

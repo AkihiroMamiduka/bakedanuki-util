@@ -17,7 +17,7 @@
 #include "bdUtilNodes/nodes/ConditionExtra.h"
 
 const MString BdAnyConditionDblANode::typeName("bdAny_ConditionDblA");
-const MTypeId BdAnyConditionDblANode::typeId(0x0007F084);
+const MTypeId BdAnyConditionDblANode::typeId(0x00142703);
 
 MObject BdAnyConditionDblANode::input;
 MObject BdAnyConditionDblANode::operation;

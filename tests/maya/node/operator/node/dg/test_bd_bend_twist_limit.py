@@ -86,8 +86,8 @@ def test_node_ids_attributes_and_defaults(maya_cmds, maya_om):
     quat_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
     euler_fn = maya_om.MFnDependencyNode(selection.getDependNode(1))
 
-    assert quat_fn.typeId.id() == 0x0007F092
-    assert euler_fn.typeId.id() == 0x0007F093
+    assert quat_fn.typeId.id() == 0x00142711
+    assert euler_fn.typeId.id() == 0x00142712
     for node in (quat_node, euler_node):
         assert maya_cmds.attributeQuery(
             "bendLimitMode", node=node, listEnum=True

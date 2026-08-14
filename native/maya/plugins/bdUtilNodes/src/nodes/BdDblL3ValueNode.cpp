@@ -7,7 +7,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblL3ValueNode::typeName("bdDblL3_Value");
-const MTypeId BdDblL3ValueNode::typeId(0x0007F036);
+const MTypeId BdDblL3ValueNode::typeId(0x001426B5);
 
 MObject BdDblL3ValueNode::value;
 MObject BdDblL3ValueNode::valueX;

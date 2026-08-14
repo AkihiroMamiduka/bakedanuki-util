@@ -38,8 +38,8 @@ def _load_bd_util_nodes(maya_cmds) -> Path:
 @pytest.mark.parametrize(
     ("node_type", "type_id"),
     (
-        ("bdDbl3_WeightedAverageMulti", 0x0007F033),
-        ("bdDbl_WeightedAverageMulti", 0x0007F034),
+        ("bdDbl3_WeightedAverageMulti", 0x001426B2),
+        ("bdDbl_WeightedAverageMulti", 0x001426B3),
     ),
 )
 def test_attributes_defaults_and_type_ids(

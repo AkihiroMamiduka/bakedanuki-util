@@ -155,7 +155,7 @@ def test_existing_accessor_and_scene_round_trip(
     selection = maya_om.MSelectionList()
     selection.add(node.name)
     node_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
-    assert node_fn.typeId.id() == 0x0007F015
+    assert node_fn.typeId.id() == 0x00142694
 
     scene_path = tmp_path / "bd_dbl_value.ma"
     maya_cmds.file(rename=str(scene_path))

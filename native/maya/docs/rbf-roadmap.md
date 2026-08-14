@@ -224,9 +224,9 @@ Evaluation Manager動作をrelease gateとして維持します。配布対象ve
 
 ### 5. Production Identity And API Stabilization
 
-現在のMTypeIdはAutodeskのlocal test範囲です。production sceneや外部配布を始める前に、
-[Node ID Registry](../NODE_IDS.md)の方針に従って正式なID blockを取得します。production sceneへ
-保存したMTypeIdとattribute名は、そのnode typeが存続する限り変更しません。
+MTypeIdはAutodeskから取得した固有ID blockへ割り当て済みです。割り当て範囲と未使用IDは
+[Node ID Registry](../NODE_IDS.md)で管理します。production sceneへ保存したMTypeIdと
+attribute名は、そのnode typeが存続する限り変更しません。
 
 このpackageはv1.0.0未満のため、実運用のフィードバックに基づく破壊的改善を許容します。
 v1.0.0へ進む前に、node type、attribute、logical index、status、NodeOperator API、scene互換性を
@@ -251,7 +251,7 @@ RBF node familyの基礎開発は完了とし、次のいずれかが確認さ�
 - production相当のsceneで評価速度またはメモリの問題が再現した。
 - 現在の距離・補間・falloff方式では表現できないcorrectiveが見つかった。
 - weightの原因調査やscene保守が困難になり、デバッグ支援が必要になった。
-- 対応Maya version、正式MTypeId、v1.0.0互換性の作業を開始する。
+- 対応Maya versionまたはv1.0.0互換性の作業を開始する。
 
 新しい開発を始めるときは、まず再現scene、期待するweight、現在のnodeで不足する理由、
 pose / source規模、性能条件を記録します。

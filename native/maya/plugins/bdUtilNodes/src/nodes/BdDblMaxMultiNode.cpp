@@ -10,7 +10,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblMaxMultiNode::typeName("bdDbl_MaxMulti");
-const MTypeId BdDblMaxMultiNode::typeId(0x0007F021);
+const MTypeId BdDblMaxMultiNode::typeId(0x001426A0);
 
 MObject BdDblMaxMultiNode::input;
 MObject BdDblMaxMultiNode::output;

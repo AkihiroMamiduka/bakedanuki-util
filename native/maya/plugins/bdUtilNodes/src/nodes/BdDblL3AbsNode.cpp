@@ -13,7 +13,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblL3AbsNode::typeName("bdDblL3_Abs");
-const MTypeId BdDblL3AbsNode::typeId(0x0007F04E);
+const MTypeId BdDblL3AbsNode::typeId(0x001426CD);
 
 MObject BdDblL3AbsNode::input;
 MObject BdDblL3AbsNode::inputX;

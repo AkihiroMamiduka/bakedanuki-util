@@ -26,7 +26,7 @@
 const MString BdRbfMultiPositionWeightNode::typeName(
     "bdRbf_MultiPositionWeight"
 );
-const MTypeId BdRbfMultiPositionWeightNode::typeId(0x0007F09B);
+const MTypeId BdRbfMultiPositionWeightNode::typeId(0x0014271A);
 
 MObject BdRbfMultiPositionWeightNode::source;
 MObject BdRbfMultiPositionWeightNode::inputPosition;

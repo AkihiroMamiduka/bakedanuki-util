@@ -14,7 +14,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblL3MaxMultiNode::typeName("bdDblL3_MaxMulti");
-const MTypeId BdDblL3MaxMultiNode::typeId(0x0007F04A);
+const MTypeId BdDblL3MaxMultiNode::typeId(0x001426C9);
 
 MObject BdDblL3MaxMultiNode::input;
 MObject BdDblL3MaxMultiNode::inputX;

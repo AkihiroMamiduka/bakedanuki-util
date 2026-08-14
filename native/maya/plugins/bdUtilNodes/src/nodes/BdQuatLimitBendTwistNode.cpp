@@ -19,7 +19,7 @@
 const MString BdQuatLimitBendTwistNode::typeName(
     "bdQuat_LimitBendTwist"
 );
-const MTypeId BdQuatLimitBendTwistNode::typeId(0x0007F092);
+const MTypeId BdQuatLimitBendTwistNode::typeId(0x00142711);
 
 MObject BdQuatLimitBendTwistNode::inputQuat;
 MObject BdQuatLimitBendTwistNode::inputQuatX;

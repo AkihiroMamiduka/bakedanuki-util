@@ -333,8 +333,8 @@ def test_both_nodes_survive_scene_save_and_reload(
     selection.add(multi.name)
     fixed_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
     multi_fn = maya_om.MFnDependencyNode(selection.getDependNode(1))
-    assert fixed_fn.typeId.id() == 0x0007F012
-    assert multi_fn.typeId.id() == 0x0007F011
+    assert fixed_fn.typeId.id() == 0x00142691
+    assert multi_fn.typeId.id() == 0x00142690
 
     scene_path = tmp_path / "bd_dbl3_power.ma"
     maya_cmds.file(rename=str(scene_path))

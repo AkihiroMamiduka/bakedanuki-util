@@ -13,7 +13,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblL3MaxNode::typeName("bdDblL3_Max");
-const MTypeId BdDblL3MaxNode::typeId(0x0007F049);
+const MTypeId BdDblL3MaxNode::typeId(0x001426C8);
 
 MObject BdDblL3MaxNode::input1;
 MObject BdDblL3MaxNode::input1X;

@@ -21,7 +21,7 @@ struct IndexedDouble {
 }  // namespace
 
 const MString BdDblAAverageMultiNode::typeName("bdDblA_AverageMulti");
-const MTypeId BdDblAAverageMultiNode::typeId(0x0007F07D);
+const MTypeId BdDblAAverageMultiNode::typeId(0x001426FC);
 
 MObject BdDblAAverageMultiNode::input;
 MObject BdDblAAverageMultiNode::output;

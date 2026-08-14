@@ -56,8 +56,8 @@ def test_node_ids_attributes_and_defaults(maya_cmds, maya_om):
 
     euler_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
     quat_fn = maya_om.MFnDependencyNode(selection.getDependNode(1))
-    assert euler_fn.typeId.id() == 0x0007F08F
-    assert quat_fn.typeId.id() == 0x0007F090
+    assert euler_fn.typeId.id() == 0x0014270E
+    assert quat_fn.typeId.id() == 0x0014270F
 
     assert maya_cmds.attributeQuery(
         "value", node=euler, listChildren=True

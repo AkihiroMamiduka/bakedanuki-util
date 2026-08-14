@@ -14,7 +14,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblL3WeightedSumMultiNode::typeName("bdDblL3_WeightedSumMulti");
-const MTypeId BdDblL3WeightedSumMultiNode::typeId(0x0007F056);
+const MTypeId BdDblL3WeightedSumMultiNode::typeId(0x001426D5);
 
 MObject BdDblL3WeightedSumMultiNode::input;
 

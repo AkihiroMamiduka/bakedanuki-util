@@ -70,7 +70,7 @@ bool isRequestedOutput(const MObject& attribute) {
 }  // namespace
 
 const MString BdRbfPoseBlendNode::typeName("bdRbf_PoseBlend");
-const MTypeId BdRbfPoseBlendNode::typeId(0x0007F095);
+const MTypeId BdRbfPoseBlendNode::typeId(0x00142714);
 
 MObject BdRbfPoseBlendNode::baseTranslate;
 MObject BdRbfPoseBlendNode::baseTranslateX;

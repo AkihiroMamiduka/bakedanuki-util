@@ -8,7 +8,7 @@
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdDblLSubtractNode::typeName("bdDblL_Subtract");
-const MTypeId BdDblLSubtractNode::typeId(0x0007F03B);
+const MTypeId BdDblLSubtractNode::typeId(0x001426BA);
 
 MObject BdDblLSubtractNode::input1;
 MObject BdDblLSubtractNode::input2;

@@ -8,7 +8,7 @@
 #include "bdUtilNodes/attributes/RotateAttribute.h"
 
 const MString BdEulerValueNode::typeName("bdEuler_Value");
-const MTypeId BdEulerValueNode::typeId(0x0007F08F);
+const MTypeId BdEulerValueNode::typeId(0x0014270E);
 
 MObject BdEulerValueNode::value;
 MObject BdEulerValueNode::valueX;

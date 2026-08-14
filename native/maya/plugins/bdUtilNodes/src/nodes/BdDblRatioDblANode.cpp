@@ -12,7 +12,7 @@
 #include "bdUtilNodes/math/SafeDivision.h"
 
 const MString BdDblRatioDblANode::typeName("bdDbl_RatioDblA");
-const MTypeId BdDblRatioDblANode::typeId(0x0007F083);
+const MTypeId BdDblRatioDblANode::typeId(0x00142702);
 
 MObject BdDblRatioDblANode::input;
 MObject BdDblRatioDblANode::base;

@@ -11,7 +11,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDblMapRangeNode::typeName("bdDbl_MapRange");
-const MTypeId BdDblMapRangeNode::typeId(0x0007F026);
+const MTypeId BdDblMapRangeNode::typeId(0x001426A5);
 
 MObject BdDblMapRangeNode::input;
 MObject BdDblMapRangeNode::sourceMinimum;

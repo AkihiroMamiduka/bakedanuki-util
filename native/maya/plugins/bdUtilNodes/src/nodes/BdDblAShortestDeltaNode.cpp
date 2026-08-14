@@ -11,7 +11,7 @@
 const MString BdDblAShortestDeltaNode::typeName(
     "bdDblA_ShortestDelta"
 );
-const MTypeId BdDblAShortestDeltaNode::typeId(0x0007F081);
+const MTypeId BdDblAShortestDeltaNode::typeId(0x00142700);
 
 MObject BdDblAShortestDeltaNode::input1;
 MObject BdDblAShortestDeltaNode::input2;

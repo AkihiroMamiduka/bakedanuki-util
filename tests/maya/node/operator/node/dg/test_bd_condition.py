@@ -22,12 +22,12 @@ OPERATIONS = (
 )
 
 NODE_TYPE_IDS = {
-    "bdAny_ConditionDbl": 0x0007F02E,
-    "bdAny_ConditionDblMulti": 0x0007F02D,
-    "bdAny_ConditionDblL": 0x0007F059,
-    "bdAny_ConditionDblLMulti": 0x0007F05A,
-    "bdAny_ConditionDblA": 0x0007F084,
-    "bdAny_ConditionDblAMulti": 0x0007F085,
+    "bdAny_ConditionDbl": 0x001426AD,
+    "bdAny_ConditionDblMulti": 0x001426AC,
+    "bdAny_ConditionDblL": 0x001426D8,
+    "bdAny_ConditionDblLMulti": 0x001426D9,
+    "bdAny_ConditionDblA": 0x00142703,
+    "bdAny_ConditionDblAMulti": 0x00142704,
 }
 
 REMOVED_NODE_TYPES = {

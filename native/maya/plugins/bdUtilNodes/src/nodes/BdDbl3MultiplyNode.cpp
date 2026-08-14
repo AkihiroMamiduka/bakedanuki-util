@@ -11,7 +11,7 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 
 const MString BdDbl3MultiplyNode::typeName("bdDbl3_Multiply");
-const MTypeId BdDbl3MultiplyNode::typeId(0x0007F002);
+const MTypeId BdDbl3MultiplyNode::typeId(0x00142681);
 
 MObject BdDbl3MultiplyNode::input1;
 MObject BdDbl3MultiplyNode::input1X;

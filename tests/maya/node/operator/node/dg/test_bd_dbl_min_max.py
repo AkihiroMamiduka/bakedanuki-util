@@ -13,8 +13,8 @@ pytestmark = pytest.mark.maya
 
 
 OPERATIONS = (
-    ("Min", min, 0x0007F01E, 0x0007F01D),
-    ("Max", max, 0x0007F022, 0x0007F021),
+    ("Min", min, 0x0014269D, 0x0014269C),
+    ("Max", max, 0x001426A1, 0x001426A0),
 )
 
 
