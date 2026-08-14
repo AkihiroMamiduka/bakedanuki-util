@@ -100,6 +100,41 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 このcontractは静的解析用で、Maya sceneを作成するruntime testではありません。
 通常の挙動は引き続き `mayapy -m pytest tests` で検証します。
 
+### 実装ファイルの診断確認
+
+`pyrightconfig.json` の既定の `include` は `tests/typecheck` です。
+これは通常実行を公開 API の型・補完 contract に限定するための設定で、
+`bd_util` の全実装を自動的に総点検する設定ではありません。
+
+実装ファイルや特定階層の Pylance 警告を調べる場合は、同じ設定と Maya interpreter を
+使い、対象 path を明示します。例えば `_test` 全体を確認する場合は次の通りです。
+
+```powershell
+$pyrightTarget = Join-Path $env:TEMP 'codex-mayapy-pyright'
+$env:PYTHONPATH = $pyrightTarget
+$env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pyright `
+    --project pyrightconfig.json `
+    --pythonpath "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
+    bakedanuki/bakedanuki-util/python/bd_util/_test
+```
+
+通常の Python や Node.js 版 Pyright から実行すると、stub は見つかっていても Maya の
+実 module source を解決できず、`reportMissingModuleSource` が出ることがあります。
+コードの型不備と混同せず、最終判定は上記の `mayapy.exe` を指定した方法で行います。
+
+診断を修正するときは次を基準にします。
+
+- `Any` は動的 import や Maya command など避けられない境界へ限定する。
+- Maya stub の可変長引数が実 API より狭い場合は、対象 callable だけを
+  `Callable` へ cast し、実行時の呼び出し方は変えない。
+- optional dependency は実行時 import とし、未導入時の既存 fallback を保つ。
+- `_generated` 以下は生成元を修正して再生成する。
+- diagnostic rule の global 無効化は、通常コードの書き間違いまで隠すため避ける。
+- 副作用目的で接続演算子 `>` を単独使用する既存コードは、
+  `reportUnusedExpression` を無効化せず `_ = src > dst` と書く。
+  新しいコードでは `.connect()` を優先する。
+
 ## 現在の pytest 対象
 
 `tests` 以下では、公開 API、NodeOperator、matrix 操作、開発用 generator を

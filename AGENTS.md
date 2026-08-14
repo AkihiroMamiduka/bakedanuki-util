@@ -237,6 +237,31 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
 
 特に、`node.attr.child` や `nodes.create.composeMatrix(...)` / `nodes.existing.decomposeMatrix(...)` のような主要な利用経路では、ユーザーが IDE 上で候補を辿れることを重視してください。
 
+## Static Type Checking Practices
+
+型警告を修正するときは、警告を消すこと自体ではなく、実行時の責務と型の境界を
+一致させてください。
+
+- `Any` や `# pyright: ignore` を広範囲へ追加しない。動的 API が避けられない場合は、
+  `cast()` を import、Maya command、third-party package などの境界へ限定する。
+- Maya command stub が実際の可変長引数より狭い場合は、実行方法を変えず、
+  `cmds.setAttr` など対象 callable だけを正しい `Callable` へ cast する。
+- PyMEL、cymel、cmdx など任意依存は、必要なら `importlib.import_module()` で
+  実行時に読み込み、`Any` の伝播を adapter 内へ閉じ込める。
+- override の引数名・引数型は基底 class と揃える。class 単位で共有する定数には
+  `ClassVar` を使用し、mutable な instance variable と区別する。
+- 実行されるべき抽象・未実装 method は `pass` で暗黙に `None` を返さず、
+  `NotImplementedError` またはプロジェクト固有の例外を送出する。
+- `_generated` 以下の型不備は生成ファイルの一括手修正で済ませず、可能な限り
+  generator、template、または生成元の型解決を修正して再生成する。
+- `pyrightconfig.json` の diagnostic を repository 全体で安易に無効化しない。
+  個別抑制が必要な場合も対象 rule を明記し、抑制範囲を最小限にする。
+
+通常の `pyright --project pyrightconfig.json` は型・補完 contract を検証します。
+実装ファイルや特定階層の警告を総点検するときは、対象 path を明示して実行します。
+詳細なコマンドは `bakedanuki/bakedanuki-util/docs/maya/node_operator/testing.md` を
+参照してください。
+
 ## NodeOperator Usage Conventions
 
 README や docs のサンプルでは、基本的に次の書き方を使ってください。
@@ -254,7 +279,7 @@ nodes = bdu.Nodes(modifier_manager=mod)
 cmp_m = nodes.create.composeMatrix(name="cmp_m")
 mult_m = nodes.create.multMatrix(name="mult_m")
 
-cmp_m.outputMatrix > mult_m.matrixIn[next]
+cmp_m.outputMatrix.connect(mult_m.matrixIn[next])
 mod.do_it_dg()
 ```
 
@@ -262,7 +287,10 @@ mod.do_it_dg()
 
 接続は即時実行ではなく、`MDGModifier.connect()` に積む処理です。`ModifierManager` の履歴に入るため、その単位で undo / redo 対象になります。
 
-速度を重視する文脈では、演算子 `>` より `.connect()` を優先して説明しても構いません。
+新しいコードと docs では、接続の意図が明確で処理も軽い `.connect()` を優先します。
+演算子 `>` は現時点では互換 API として利用できますが、単独の式は Pyright の
+`reportUnusedExpression` 対象になります。既存コードで維持する場合は、global に
+rule を無効化せず、戻り値を意図的に破棄することを `_ = src > dst` で示します。
 
 ```python
 src.output.connect(dst.input)
