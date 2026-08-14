@@ -5,10 +5,10 @@ from ....attr.define.node_attr.quat_add import (
     Input2QuatField,
     OutputQuatField,
 )
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 
 
-class _GeneratedQuatAdd(DG):
+class GeneratedQuatAdd(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatAdd"
@@ -35,7 +35,9 @@ class _GeneratedQuatAdd(DG):
     input2QuatW = input2Quat.input2QuatW
     i2w = input2QuatW
 
-    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
+    outputQuat = OutputQuatField(
+        default_value=(0.0, 0.0, 0.0, 0.0), writable=False
+    )
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

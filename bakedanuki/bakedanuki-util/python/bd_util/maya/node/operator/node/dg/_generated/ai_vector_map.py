@@ -7,16 +7,16 @@ from ....attr.define.node_attr.ai_vector_map import (
     OutValueField,
     TangentField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class OrderEnumPlugOperator(EnumPlugOperator):
+class OrderEnumPlugOperator(EnumPlugOperator["OrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -27,7 +27,7 @@ class OrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class OrderEnumAttrOperator(EnumAttrOperator):
+class OrderEnumAttrOperator(EnumAttrOperator[OrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -47,16 +47,14 @@ class OrderEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class OrderEnumField(
-    EnumField[OrderEnumAttrOperator, OrderEnumPlugOperator]
-):
+class OrderEnumField(EnumField[OrderEnumAttrOperator, OrderEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OrderEnumAttrOperator
     PLUG_CLS = OrderEnumPlugOperator
 
 
-class _GeneratedAiVectorMap(DG):
+class GeneratedAiVectorMap(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiVectorMap"
@@ -70,7 +68,9 @@ class _GeneratedAiVectorMap(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

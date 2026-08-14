@@ -13,11 +13,11 @@ from ....attr.define.node_attr.ai_ray_switch import (
     SpecularTransmissionField,
     VolumeField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiRaySwitch(DG):
+class GeneratedAiRaySwitch(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiRaySwitch"
@@ -34,7 +34,9 @@ class _GeneratedAiRaySwitch(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -61,7 +63,9 @@ class _GeneratedAiRaySwitch(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    cameraA = FloatField(default_value=4.591634678053128e-41, min_value=0.0, max_value=1.0)
+    cameraA = FloatField(
+        default_value=4.591634678053128e-41, min_value=0.0, max_value=1.0
+    )
     cameraa = cameraA
 
     camera = CameraField(default_value=(0.0, 0.0, 0.0))
@@ -83,7 +87,9 @@ class _GeneratedAiRaySwitch(DG):
     shadowB = shadow.shadowB
     shadowb = shadowB
 
-    diffuseReflectionA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    diffuseReflectionA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     diffuse_reflectiona = diffuseReflectionA
 
     diffuseReflection = DiffuseReflectionField(default_value=(0.0, 0.0, 0.0))
@@ -95,10 +101,14 @@ class _GeneratedAiRaySwitch(DG):
     diffuseReflectionB = diffuseReflection.diffuseReflectionB
     diffuse_reflectionb = diffuseReflectionB
 
-    diffuseTransmissionA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    diffuseTransmissionA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     diffuse_transmissiona = diffuseTransmissionA
 
-    diffuseTransmission = DiffuseTransmissionField(default_value=(0.0, 0.0, 0.0))
+    diffuseTransmission = DiffuseTransmissionField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     diffuse_transmission = diffuseTransmission
     diffuseTransmissionR = diffuseTransmission.diffuseTransmissionR
     diffuse_transmissionr = diffuseTransmissionR
@@ -107,7 +117,9 @@ class _GeneratedAiRaySwitch(DG):
     diffuseTransmissionB = diffuseTransmission.diffuseTransmissionB
     diffuse_transmissionb = diffuseTransmissionB
 
-    specularReflectionA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    specularReflectionA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     specular_reflectiona = specularReflectionA
 
     specularReflection = SpecularReflectionField(default_value=(0.0, 0.0, 0.0))
@@ -119,10 +131,14 @@ class _GeneratedAiRaySwitch(DG):
     specularReflectionB = specularReflection.specularReflectionB
     specular_reflectionb = specularReflectionB
 
-    specularTransmissionA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    specularTransmissionA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     specular_transmissiona = specularTransmissionA
 
-    specularTransmission = SpecularTransmissionField(default_value=(0.0, 0.0, 0.0))
+    specularTransmission = SpecularTransmissionField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     specular_transmission = specularTransmission
     specularTransmissionR = specularTransmission.specularTransmissionR
     specular_transmissionr = specularTransmissionR

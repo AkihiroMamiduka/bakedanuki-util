@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.texture_bake_set import _GeneratedTextureBakeSet
+from ._generated.texture_bake_set import GeneratedTextureBakeSet
 
 
-class TextureBakeSet(_GeneratedTextureBakeSet):
+class TextureBakeSet(GeneratedTextureBakeSet):
     __slots__ = ()
 
     NODE_TYPE = "textureBakeSet"

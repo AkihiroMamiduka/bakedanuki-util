@@ -6,15 +6,15 @@ from ....attr.define.node_attr.ai_composite import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     A = 0
@@ -48,7 +48,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     XOR = 28
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     A = 0
@@ -123,7 +123,9 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class AlphaOperationEnumPlugOperator(EnumPlugOperator):
+class AlphaOperationEnumPlugOperator(
+    EnumPlugOperator["AlphaOperationEnumAttrOperator"]
+):
     __slots__ = ()
 
     SAME = 0
@@ -131,7 +133,9 @@ class AlphaOperationEnumPlugOperator(EnumPlugOperator):
     B = 2
 
 
-class AlphaOperationEnumAttrOperator(EnumAttrOperator):
+class AlphaOperationEnumAttrOperator(
+    EnumAttrOperator[AlphaOperationEnumPlugOperator]
+):
     __slots__ = ()
 
     SAME = 0
@@ -154,7 +158,7 @@ class AlphaOperationEnumField(
     PLUG_CLS = AlphaOperationEnumPlugOperator
 
 
-class _GeneratedAiComposite(DG):
+class GeneratedAiComposite(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiComposite"
@@ -171,7 +175,9 @@ class _GeneratedAiComposite(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

@@ -4,22 +4,24 @@ from ....attr.define.node_attr.mash_noise import (
     MColourField,
     OffsetValuesField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -28,7 +30,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -53,14 +57,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -73,7 +81,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -81,7 +92,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class NoiseTypeEnumPlugOperator(EnumPlugOperator):
+class NoiseTypeEnumPlugOperator(EnumPlugOperator["NoiseTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NOISE = 1
@@ -90,7 +101,7 @@ class NoiseTypeEnumPlugOperator(EnumPlugOperator):
     NOISE_LOOPING = 5
 
 
-class NoiseTypeEnumAttrOperator(EnumAttrOperator):
+class NoiseTypeEnumAttrOperator(EnumAttrOperator[NoiseTypeEnumPlugOperator]):
     __slots__ = ()
 
     NOISE = 1
@@ -115,7 +126,7 @@ class NoiseTypeEnumField(
     PLUG_CLS = NoiseTypeEnumPlugOperator
 
 
-class _GeneratedMASH_Noise(DG):
+class GeneratedMASHNoise(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Noise"
@@ -135,7 +146,9 @@ class _GeneratedMASH_Noise(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -213,9 +226,13 @@ class _GeneratedMASH_Noise(DG):
 
     switchTime = LongField(default_value=45, min_value=2, soft_max_value=100)
 
-    switchVariance = FloatField(default_value=0.30000001192092896, min_value=0.0, soft_max_value=1.0)
+    switchVariance = FloatField(
+        default_value=0.30000001192092896, min_value=0.0, soft_max_value=1.0
+    )
 
-    distanceVariance = FloatField(default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0)
+    distanceVariance = FloatField(
+        default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0
+    )
 
     fov = FloatField(default_value=120.0, min_value=0.0, max_value=360.0)
 
@@ -236,27 +253,45 @@ class _GeneratedMASH_Noise(DG):
 
     noiseType = NoiseTypeEnumField(default_value=1)
 
-    persistence = FloatField(default_value=4.0, min_value=0.01, soft_max_value=5.0)
+    persistence = FloatField(
+        default_value=4.0, min_value=0.01, soft_max_value=5.0
+    )
 
-    loopNoiseRadius = FloatField(default_value=120.0, min_value=0.001, soft_max_value=250.0)
+    loopNoiseRadius = FloatField(
+        default_value=120.0, min_value=0.001, soft_max_value=250.0
+    )
 
-    step = FloatField(default_value=1000.0, soft_min_value=0.0, soft_max_value=2000.0)
+    step = FloatField(
+        default_value=1000.0, soft_min_value=0.0, soft_max_value=2000.0
+    )
     st = step
 
-    amplitudeX = FloatField(default_value=1.0, soft_min_value=-20.0, soft_max_value=20.0)
+    amplitudeX = FloatField(
+        default_value=1.0, soft_min_value=-20.0, soft_max_value=20.0
+    )
     ampX = amplitudeX
 
-    frequencyX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    frequencyX = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     freqX = frequencyX
 
-    amplitudeY = FloatField(default_value=1.0, soft_min_value=-20.0, soft_max_value=20.0)
+    amplitudeY = FloatField(
+        default_value=1.0, soft_min_value=-20.0, soft_max_value=20.0
+    )
     ampY = amplitudeY
 
-    frequencyY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    frequencyY = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     freqY = frequencyY
 
-    amplitudeZ = FloatField(default_value=1.0, soft_min_value=-20.0, soft_max_value=20.0)
+    amplitudeZ = FloatField(
+        default_value=1.0, soft_min_value=-20.0, soft_max_value=20.0
+    )
     ampZ = amplitudeZ
 
-    frequencyZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    frequencyZ = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     freqZ = frequencyZ

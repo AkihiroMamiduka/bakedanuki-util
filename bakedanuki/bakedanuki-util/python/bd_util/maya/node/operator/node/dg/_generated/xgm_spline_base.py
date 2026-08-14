@@ -1,29 +1,33 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.xgm_spline_base import InitDirectionField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class InterpFromEnumPlugOperator(EnumPlugOperator):
+class InterpFromEnumPlugOperator(
+    EnumPlugOperator["InterpFromEnumAttrOperator"]
+):
     __slots__ = ()
 
     CURRENT_DESCRIPTION = 0
     INTERPOLATION_SOURCE = 1
 
 
-class InterpFromEnumAttrOperator(EnumAttrOperator):
+class InterpFromEnumAttrOperator(EnumAttrOperator[InterpFromEnumPlugOperator]):
     __slots__ = ()
 
     CURRENT_DESCRIPTION = 0
@@ -44,14 +48,18 @@ class InterpFromEnumField(
     PLUG_CLS = InterpFromEnumPlugOperator
 
 
-class TransferModeMappingTypeEnumPlugOperator(EnumPlugOperator):
+class TransferModeMappingTypeEnumPlugOperator(
+    EnumPlugOperator["TransferModeMappingTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     POSITION_BASED = 0
     UV_BASED = 1
 
 
-class TransferModeMappingTypeEnumAttrOperator(EnumAttrOperator):
+class TransferModeMappingTypeEnumAttrOperator(
+    EnumAttrOperator[TransferModeMappingTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     POSITION_BASED = 0
@@ -64,7 +72,10 @@ class TransferModeMappingTypeEnumAttrOperator(EnumAttrOperator):
 
 
 class TransferModeMappingTypeEnumField(
-    EnumField[TransferModeMappingTypeEnumAttrOperator, TransferModeMappingTypeEnumPlugOperator]
+    EnumField[
+        TransferModeMappingTypeEnumAttrOperator,
+        TransferModeMappingTypeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -72,7 +83,7 @@ class TransferModeMappingTypeEnumField(
     PLUG_CLS = TransferModeMappingTypeEnumPlugOperator
 
 
-class _GeneratedXgmSplineBase(DG):
+class GeneratedXgmSplineBase(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmSplineBase"
@@ -83,10 +94,17 @@ class _GeneratedXgmSplineBase(DG):
     boundInfoData = TypedField()
     bid = boundInfoData
 
-    resolution = LongField(multi=True, default_value=3, min_value=1, max_value=5)
+    resolution = LongField(
+        multi=True, default_value=3, min_value=1, max_value=5
+    )
     r = resolution
 
-    densityMultiplier = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
+    densityMultiplier = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=100.0,
+    )
     dm = densityMultiplier
 
     densityMask = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -104,7 +122,13 @@ class _GeneratedXgmSplineBase(DG):
     interpSource = TypedField()
     is_ = interpSource
 
-    interpSmoothness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    interpSmoothness = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     ism = interpSmoothness
 
     initLength = DoubleLinearField(default_value=1.0, min_value=0.001)
@@ -113,7 +137,9 @@ class _GeneratedXgmSplineBase(DG):
     initWidth = DoubleLinearField(default_value=0.01, min_value=0.001)
     w = initWidth
 
-    initDirection = InitDirectionField(default_value=(0.0, 0.0, 0.0), writable=False)
+    initDirection = InitDirectionField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     d = initDirection
     initDirectionX = initDirection.initDirectionX
     dx = initDirectionX

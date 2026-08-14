@@ -639,11 +639,11 @@ from ....attr.define.node_attr.hik_skeleton_generator_node import (
     SpineTField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedHIKSkeletonGeneratorNode(DG):
+class GeneratedHIKSkeletonGeneratorNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKSkeletonGeneratorNode"
@@ -1760,62 +1760,86 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeftHandPinky4Sy = LeftHandPinky4S.LeftHandPinky4Sy
     LeftHandPinky4Sz = LeftHandPinky4S.LeftHandPinky4Sz
 
-    LeftHandExtraFinger1T = LeftHandExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger1T = LeftHandExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger1Tx = LeftHandExtraFinger1T.LeftHandExtraFinger1Tx
     LeftHandExtraFinger1Ty = LeftHandExtraFinger1T.LeftHandExtraFinger1Ty
     LeftHandExtraFinger1Tz = LeftHandExtraFinger1T.LeftHandExtraFinger1Tz
 
-    LeftHandExtraFinger1R = LeftHandExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger1R = LeftHandExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger1Rx = LeftHandExtraFinger1R.LeftHandExtraFinger1Rx
     LeftHandExtraFinger1Ry = LeftHandExtraFinger1R.LeftHandExtraFinger1Ry
     LeftHandExtraFinger1Rz = LeftHandExtraFinger1R.LeftHandExtraFinger1Rz
 
-    LeftHandExtraFinger1S = LeftHandExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger1S = LeftHandExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger1Sx = LeftHandExtraFinger1S.LeftHandExtraFinger1Sx
     LeftHandExtraFinger1Sy = LeftHandExtraFinger1S.LeftHandExtraFinger1Sy
     LeftHandExtraFinger1Sz = LeftHandExtraFinger1S.LeftHandExtraFinger1Sz
 
-    LeftHandExtraFinger2T = LeftHandExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger2T = LeftHandExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger2Tx = LeftHandExtraFinger2T.LeftHandExtraFinger2Tx
     LeftHandExtraFinger2Ty = LeftHandExtraFinger2T.LeftHandExtraFinger2Ty
     LeftHandExtraFinger2Tz = LeftHandExtraFinger2T.LeftHandExtraFinger2Tz
 
-    LeftHandExtraFinger2R = LeftHandExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger2R = LeftHandExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger2Rx = LeftHandExtraFinger2R.LeftHandExtraFinger2Rx
     LeftHandExtraFinger2Ry = LeftHandExtraFinger2R.LeftHandExtraFinger2Ry
     LeftHandExtraFinger2Rz = LeftHandExtraFinger2R.LeftHandExtraFinger2Rz
 
-    LeftHandExtraFinger2S = LeftHandExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger2S = LeftHandExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger2Sx = LeftHandExtraFinger2S.LeftHandExtraFinger2Sx
     LeftHandExtraFinger2Sy = LeftHandExtraFinger2S.LeftHandExtraFinger2Sy
     LeftHandExtraFinger2Sz = LeftHandExtraFinger2S.LeftHandExtraFinger2Sz
 
-    LeftHandExtraFinger3T = LeftHandExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger3T = LeftHandExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger3Tx = LeftHandExtraFinger3T.LeftHandExtraFinger3Tx
     LeftHandExtraFinger3Ty = LeftHandExtraFinger3T.LeftHandExtraFinger3Ty
     LeftHandExtraFinger3Tz = LeftHandExtraFinger3T.LeftHandExtraFinger3Tz
 
-    LeftHandExtraFinger3R = LeftHandExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger3R = LeftHandExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger3Rx = LeftHandExtraFinger3R.LeftHandExtraFinger3Rx
     LeftHandExtraFinger3Ry = LeftHandExtraFinger3R.LeftHandExtraFinger3Ry
     LeftHandExtraFinger3Rz = LeftHandExtraFinger3R.LeftHandExtraFinger3Rz
 
-    LeftHandExtraFinger3S = LeftHandExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger3S = LeftHandExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger3Sx = LeftHandExtraFinger3S.LeftHandExtraFinger3Sx
     LeftHandExtraFinger3Sy = LeftHandExtraFinger3S.LeftHandExtraFinger3Sy
     LeftHandExtraFinger3Sz = LeftHandExtraFinger3S.LeftHandExtraFinger3Sz
 
-    LeftHandExtraFinger4T = LeftHandExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger4T = LeftHandExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger4Tx = LeftHandExtraFinger4T.LeftHandExtraFinger4Tx
     LeftHandExtraFinger4Ty = LeftHandExtraFinger4T.LeftHandExtraFinger4Ty
     LeftHandExtraFinger4Tz = LeftHandExtraFinger4T.LeftHandExtraFinger4Tz
 
-    LeftHandExtraFinger4R = LeftHandExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger4R = LeftHandExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger4Rx = LeftHandExtraFinger4R.LeftHandExtraFinger4Rx
     LeftHandExtraFinger4Ry = LeftHandExtraFinger4R.LeftHandExtraFinger4Ry
     LeftHandExtraFinger4Rz = LeftHandExtraFinger4R.LeftHandExtraFinger4Rz
 
-    LeftHandExtraFinger4S = LeftHandExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger4S = LeftHandExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger4Sx = LeftHandExtraFinger4S.LeftHandExtraFinger4Sx
     LeftHandExtraFinger4Sy = LeftHandExtraFinger4S.LeftHandExtraFinger4Sy
     LeftHandExtraFinger4Sz = LeftHandExtraFinger4S.LeftHandExtraFinger4Sz
@@ -2120,62 +2144,86 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     RightHandPinky4Sy = RightHandPinky4S.RightHandPinky4Sy
     RightHandPinky4Sz = RightHandPinky4S.RightHandPinky4Sz
 
-    RightHandExtraFinger1T = RightHandExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger1T = RightHandExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger1Tx = RightHandExtraFinger1T.RightHandExtraFinger1Tx
     RightHandExtraFinger1Ty = RightHandExtraFinger1T.RightHandExtraFinger1Ty
     RightHandExtraFinger1Tz = RightHandExtraFinger1T.RightHandExtraFinger1Tz
 
-    RightHandExtraFinger1R = RightHandExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger1R = RightHandExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger1Rx = RightHandExtraFinger1R.RightHandExtraFinger1Rx
     RightHandExtraFinger1Ry = RightHandExtraFinger1R.RightHandExtraFinger1Ry
     RightHandExtraFinger1Rz = RightHandExtraFinger1R.RightHandExtraFinger1Rz
 
-    RightHandExtraFinger1S = RightHandExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger1S = RightHandExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger1Sx = RightHandExtraFinger1S.RightHandExtraFinger1Sx
     RightHandExtraFinger1Sy = RightHandExtraFinger1S.RightHandExtraFinger1Sy
     RightHandExtraFinger1Sz = RightHandExtraFinger1S.RightHandExtraFinger1Sz
 
-    RightHandExtraFinger2T = RightHandExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger2T = RightHandExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger2Tx = RightHandExtraFinger2T.RightHandExtraFinger2Tx
     RightHandExtraFinger2Ty = RightHandExtraFinger2T.RightHandExtraFinger2Ty
     RightHandExtraFinger2Tz = RightHandExtraFinger2T.RightHandExtraFinger2Tz
 
-    RightHandExtraFinger2R = RightHandExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger2R = RightHandExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger2Rx = RightHandExtraFinger2R.RightHandExtraFinger2Rx
     RightHandExtraFinger2Ry = RightHandExtraFinger2R.RightHandExtraFinger2Ry
     RightHandExtraFinger2Rz = RightHandExtraFinger2R.RightHandExtraFinger2Rz
 
-    RightHandExtraFinger2S = RightHandExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger2S = RightHandExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger2Sx = RightHandExtraFinger2S.RightHandExtraFinger2Sx
     RightHandExtraFinger2Sy = RightHandExtraFinger2S.RightHandExtraFinger2Sy
     RightHandExtraFinger2Sz = RightHandExtraFinger2S.RightHandExtraFinger2Sz
 
-    RightHandExtraFinger3T = RightHandExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger3T = RightHandExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger3Tx = RightHandExtraFinger3T.RightHandExtraFinger3Tx
     RightHandExtraFinger3Ty = RightHandExtraFinger3T.RightHandExtraFinger3Ty
     RightHandExtraFinger3Tz = RightHandExtraFinger3T.RightHandExtraFinger3Tz
 
-    RightHandExtraFinger3R = RightHandExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger3R = RightHandExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger3Rx = RightHandExtraFinger3R.RightHandExtraFinger3Rx
     RightHandExtraFinger3Ry = RightHandExtraFinger3R.RightHandExtraFinger3Ry
     RightHandExtraFinger3Rz = RightHandExtraFinger3R.RightHandExtraFinger3Rz
 
-    RightHandExtraFinger3S = RightHandExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger3S = RightHandExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger3Sx = RightHandExtraFinger3S.RightHandExtraFinger3Sx
     RightHandExtraFinger3Sy = RightHandExtraFinger3S.RightHandExtraFinger3Sy
     RightHandExtraFinger3Sz = RightHandExtraFinger3S.RightHandExtraFinger3Sz
 
-    RightHandExtraFinger4T = RightHandExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger4T = RightHandExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger4Tx = RightHandExtraFinger4T.RightHandExtraFinger4Tx
     RightHandExtraFinger4Ty = RightHandExtraFinger4T.RightHandExtraFinger4Ty
     RightHandExtraFinger4Tz = RightHandExtraFinger4T.RightHandExtraFinger4Tz
 
-    RightHandExtraFinger4R = RightHandExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger4R = RightHandExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger4Rx = RightHandExtraFinger4R.RightHandExtraFinger4Rx
     RightHandExtraFinger4Ry = RightHandExtraFinger4R.RightHandExtraFinger4Ry
     RightHandExtraFinger4Rz = RightHandExtraFinger4R.RightHandExtraFinger4Rz
 
-    RightHandExtraFinger4S = RightHandExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger4S = RightHandExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger4Sx = RightHandExtraFinger4S.RightHandExtraFinger4Sx
     RightHandExtraFinger4Sy = RightHandExtraFinger4S.RightHandExtraFinger4Sy
     RightHandExtraFinger4Sz = RightHandExtraFinger4S.RightHandExtraFinger4Sz
@@ -2480,62 +2528,86 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeftFootPinky4Sy = LeftFootPinky4S.LeftFootPinky4Sy
     LeftFootPinky4Sz = LeftFootPinky4S.LeftFootPinky4Sz
 
-    LeftFootExtraFinger1T = LeftFootExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger1T = LeftFootExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger1Tx = LeftFootExtraFinger1T.LeftFootExtraFinger1Tx
     LeftFootExtraFinger1Ty = LeftFootExtraFinger1T.LeftFootExtraFinger1Ty
     LeftFootExtraFinger1Tz = LeftFootExtraFinger1T.LeftFootExtraFinger1Tz
 
-    LeftFootExtraFinger1R = LeftFootExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger1R = LeftFootExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger1Rx = LeftFootExtraFinger1R.LeftFootExtraFinger1Rx
     LeftFootExtraFinger1Ry = LeftFootExtraFinger1R.LeftFootExtraFinger1Ry
     LeftFootExtraFinger1Rz = LeftFootExtraFinger1R.LeftFootExtraFinger1Rz
 
-    LeftFootExtraFinger1S = LeftFootExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger1S = LeftFootExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger1Sx = LeftFootExtraFinger1S.LeftFootExtraFinger1Sx
     LeftFootExtraFinger1Sy = LeftFootExtraFinger1S.LeftFootExtraFinger1Sy
     LeftFootExtraFinger1Sz = LeftFootExtraFinger1S.LeftFootExtraFinger1Sz
 
-    LeftFootExtraFinger2T = LeftFootExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger2T = LeftFootExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger2Tx = LeftFootExtraFinger2T.LeftFootExtraFinger2Tx
     LeftFootExtraFinger2Ty = LeftFootExtraFinger2T.LeftFootExtraFinger2Ty
     LeftFootExtraFinger2Tz = LeftFootExtraFinger2T.LeftFootExtraFinger2Tz
 
-    LeftFootExtraFinger2R = LeftFootExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger2R = LeftFootExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger2Rx = LeftFootExtraFinger2R.LeftFootExtraFinger2Rx
     LeftFootExtraFinger2Ry = LeftFootExtraFinger2R.LeftFootExtraFinger2Ry
     LeftFootExtraFinger2Rz = LeftFootExtraFinger2R.LeftFootExtraFinger2Rz
 
-    LeftFootExtraFinger2S = LeftFootExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger2S = LeftFootExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger2Sx = LeftFootExtraFinger2S.LeftFootExtraFinger2Sx
     LeftFootExtraFinger2Sy = LeftFootExtraFinger2S.LeftFootExtraFinger2Sy
     LeftFootExtraFinger2Sz = LeftFootExtraFinger2S.LeftFootExtraFinger2Sz
 
-    LeftFootExtraFinger3T = LeftFootExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger3T = LeftFootExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger3Tx = LeftFootExtraFinger3T.LeftFootExtraFinger3Tx
     LeftFootExtraFinger3Ty = LeftFootExtraFinger3T.LeftFootExtraFinger3Ty
     LeftFootExtraFinger3Tz = LeftFootExtraFinger3T.LeftFootExtraFinger3Tz
 
-    LeftFootExtraFinger3R = LeftFootExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger3R = LeftFootExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger3Rx = LeftFootExtraFinger3R.LeftFootExtraFinger3Rx
     LeftFootExtraFinger3Ry = LeftFootExtraFinger3R.LeftFootExtraFinger3Ry
     LeftFootExtraFinger3Rz = LeftFootExtraFinger3R.LeftFootExtraFinger3Rz
 
-    LeftFootExtraFinger3S = LeftFootExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger3S = LeftFootExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger3Sx = LeftFootExtraFinger3S.LeftFootExtraFinger3Sx
     LeftFootExtraFinger3Sy = LeftFootExtraFinger3S.LeftFootExtraFinger3Sy
     LeftFootExtraFinger3Sz = LeftFootExtraFinger3S.LeftFootExtraFinger3Sz
 
-    LeftFootExtraFinger4T = LeftFootExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger4T = LeftFootExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger4Tx = LeftFootExtraFinger4T.LeftFootExtraFinger4Tx
     LeftFootExtraFinger4Ty = LeftFootExtraFinger4T.LeftFootExtraFinger4Ty
     LeftFootExtraFinger4Tz = LeftFootExtraFinger4T.LeftFootExtraFinger4Tz
 
-    LeftFootExtraFinger4R = LeftFootExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger4R = LeftFootExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger4Rx = LeftFootExtraFinger4R.LeftFootExtraFinger4Rx
     LeftFootExtraFinger4Ry = LeftFootExtraFinger4R.LeftFootExtraFinger4Ry
     LeftFootExtraFinger4Rz = LeftFootExtraFinger4R.LeftFootExtraFinger4Rz
 
-    LeftFootExtraFinger4S = LeftFootExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger4S = LeftFootExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger4Sx = LeftFootExtraFinger4S.LeftFootExtraFinger4Sx
     LeftFootExtraFinger4Sy = LeftFootExtraFinger4S.LeftFootExtraFinger4Sy
     LeftFootExtraFinger4Sz = LeftFootExtraFinger4S.LeftFootExtraFinger4Sz
@@ -2840,62 +2912,86 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     RightFootPinky4Sy = RightFootPinky4S.RightFootPinky4Sy
     RightFootPinky4Sz = RightFootPinky4S.RightFootPinky4Sz
 
-    RightFootExtraFinger1T = RightFootExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger1T = RightFootExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger1Tx = RightFootExtraFinger1T.RightFootExtraFinger1Tx
     RightFootExtraFinger1Ty = RightFootExtraFinger1T.RightFootExtraFinger1Ty
     RightFootExtraFinger1Tz = RightFootExtraFinger1T.RightFootExtraFinger1Tz
 
-    RightFootExtraFinger1R = RightFootExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger1R = RightFootExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger1Rx = RightFootExtraFinger1R.RightFootExtraFinger1Rx
     RightFootExtraFinger1Ry = RightFootExtraFinger1R.RightFootExtraFinger1Ry
     RightFootExtraFinger1Rz = RightFootExtraFinger1R.RightFootExtraFinger1Rz
 
-    RightFootExtraFinger1S = RightFootExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger1S = RightFootExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger1Sx = RightFootExtraFinger1S.RightFootExtraFinger1Sx
     RightFootExtraFinger1Sy = RightFootExtraFinger1S.RightFootExtraFinger1Sy
     RightFootExtraFinger1Sz = RightFootExtraFinger1S.RightFootExtraFinger1Sz
 
-    RightFootExtraFinger2T = RightFootExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger2T = RightFootExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger2Tx = RightFootExtraFinger2T.RightFootExtraFinger2Tx
     RightFootExtraFinger2Ty = RightFootExtraFinger2T.RightFootExtraFinger2Ty
     RightFootExtraFinger2Tz = RightFootExtraFinger2T.RightFootExtraFinger2Tz
 
-    RightFootExtraFinger2R = RightFootExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger2R = RightFootExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger2Rx = RightFootExtraFinger2R.RightFootExtraFinger2Rx
     RightFootExtraFinger2Ry = RightFootExtraFinger2R.RightFootExtraFinger2Ry
     RightFootExtraFinger2Rz = RightFootExtraFinger2R.RightFootExtraFinger2Rz
 
-    RightFootExtraFinger2S = RightFootExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger2S = RightFootExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger2Sx = RightFootExtraFinger2S.RightFootExtraFinger2Sx
     RightFootExtraFinger2Sy = RightFootExtraFinger2S.RightFootExtraFinger2Sy
     RightFootExtraFinger2Sz = RightFootExtraFinger2S.RightFootExtraFinger2Sz
 
-    RightFootExtraFinger3T = RightFootExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger3T = RightFootExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger3Tx = RightFootExtraFinger3T.RightFootExtraFinger3Tx
     RightFootExtraFinger3Ty = RightFootExtraFinger3T.RightFootExtraFinger3Ty
     RightFootExtraFinger3Tz = RightFootExtraFinger3T.RightFootExtraFinger3Tz
 
-    RightFootExtraFinger3R = RightFootExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger3R = RightFootExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger3Rx = RightFootExtraFinger3R.RightFootExtraFinger3Rx
     RightFootExtraFinger3Ry = RightFootExtraFinger3R.RightFootExtraFinger3Ry
     RightFootExtraFinger3Rz = RightFootExtraFinger3R.RightFootExtraFinger3Rz
 
-    RightFootExtraFinger3S = RightFootExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger3S = RightFootExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger3Sx = RightFootExtraFinger3S.RightFootExtraFinger3Sx
     RightFootExtraFinger3Sy = RightFootExtraFinger3S.RightFootExtraFinger3Sy
     RightFootExtraFinger3Sz = RightFootExtraFinger3S.RightFootExtraFinger3Sz
 
-    RightFootExtraFinger4T = RightFootExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger4T = RightFootExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger4Tx = RightFootExtraFinger4T.RightFootExtraFinger4Tx
     RightFootExtraFinger4Ty = RightFootExtraFinger4T.RightFootExtraFinger4Ty
     RightFootExtraFinger4Tz = RightFootExtraFinger4T.RightFootExtraFinger4Tz
 
-    RightFootExtraFinger4R = RightFootExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger4R = RightFootExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger4Rx = RightFootExtraFinger4R.RightFootExtraFinger4Rx
     RightFootExtraFinger4Ry = RightFootExtraFinger4R.RightFootExtraFinger4Ry
     RightFootExtraFinger4Rz = RightFootExtraFinger4R.RightFootExtraFinger4Rz
 
-    RightFootExtraFinger4S = RightFootExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger4S = RightFootExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger4Sx = RightFootExtraFinger4S.RightFootExtraFinger4Sx
     RightFootExtraFinger4Sy = RightFootExtraFinger4S.RightFootExtraFinger4Sy
     RightFootExtraFinger4Sz = RightFootExtraFinger4S.RightFootExtraFinger4Sz
@@ -2975,17 +3071,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeftInHandPinkySy = LeftInHandPinkyS.LeftInHandPinkySy
     LeftInHandPinkySz = LeftInHandPinkyS.LeftInHandPinkySz
 
-    LeftInHandExtraFingerT = LeftInHandExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandExtraFingerT = LeftInHandExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandExtraFingerTx = LeftInHandExtraFingerT.LeftInHandExtraFingerTx
     LeftInHandExtraFingerTy = LeftInHandExtraFingerT.LeftInHandExtraFingerTy
     LeftInHandExtraFingerTz = LeftInHandExtraFingerT.LeftInHandExtraFingerTz
 
-    LeftInHandExtraFingerR = LeftInHandExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandExtraFingerR = LeftInHandExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandExtraFingerRx = LeftInHandExtraFingerR.LeftInHandExtraFingerRx
     LeftInHandExtraFingerRy = LeftInHandExtraFingerR.LeftInHandExtraFingerRy
     LeftInHandExtraFingerRz = LeftInHandExtraFingerR.LeftInHandExtraFingerRz
 
-    LeftInHandExtraFingerS = LeftInHandExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    LeftInHandExtraFingerS = LeftInHandExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftInHandExtraFingerSx = LeftInHandExtraFingerS.LeftInHandExtraFingerSx
     LeftInHandExtraFingerSy = LeftInHandExtraFingerS.LeftInHandExtraFingerSy
     LeftInHandExtraFingerSz = LeftInHandExtraFingerS.LeftInHandExtraFingerSz
@@ -3065,17 +3167,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     RightInHandPinkySy = RightInHandPinkyS.RightInHandPinkySy
     RightInHandPinkySz = RightInHandPinkyS.RightInHandPinkySz
 
-    RightInHandExtraFingerT = RightInHandExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    RightInHandExtraFingerT = RightInHandExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandExtraFingerTx = RightInHandExtraFingerT.RightInHandExtraFingerTx
     RightInHandExtraFingerTy = RightInHandExtraFingerT.RightInHandExtraFingerTy
     RightInHandExtraFingerTz = RightInHandExtraFingerT.RightInHandExtraFingerTz
 
-    RightInHandExtraFingerR = RightInHandExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandExtraFingerR = RightInHandExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandExtraFingerRx = RightInHandExtraFingerR.RightInHandExtraFingerRx
     RightInHandExtraFingerRy = RightInHandExtraFingerR.RightInHandExtraFingerRy
     RightInHandExtraFingerRz = RightInHandExtraFingerR.RightInHandExtraFingerRz
 
-    RightInHandExtraFingerS = RightInHandExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    RightInHandExtraFingerS = RightInHandExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightInHandExtraFingerSx = RightInHandExtraFingerS.RightInHandExtraFingerSx
     RightInHandExtraFingerSy = RightInHandExtraFingerS.RightInHandExtraFingerSy
     RightInHandExtraFingerSz = RightInHandExtraFingerS.RightInHandExtraFingerSz
@@ -3155,17 +3263,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeftInFootPinkySy = LeftInFootPinkyS.LeftInFootPinkySy
     LeftInFootPinkySz = LeftInFootPinkyS.LeftInFootPinkySz
 
-    LeftInFootExtraFingerT = LeftInFootExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootExtraFingerT = LeftInFootExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootExtraFingerTx = LeftInFootExtraFingerT.LeftInFootExtraFingerTx
     LeftInFootExtraFingerTy = LeftInFootExtraFingerT.LeftInFootExtraFingerTy
     LeftInFootExtraFingerTz = LeftInFootExtraFingerT.LeftInFootExtraFingerTz
 
-    LeftInFootExtraFingerR = LeftInFootExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootExtraFingerR = LeftInFootExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootExtraFingerRx = LeftInFootExtraFingerR.LeftInFootExtraFingerRx
     LeftInFootExtraFingerRy = LeftInFootExtraFingerR.LeftInFootExtraFingerRy
     LeftInFootExtraFingerRz = LeftInFootExtraFingerR.LeftInFootExtraFingerRz
 
-    LeftInFootExtraFingerS = LeftInFootExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    LeftInFootExtraFingerS = LeftInFootExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftInFootExtraFingerSx = LeftInFootExtraFingerS.LeftInFootExtraFingerSx
     LeftInFootExtraFingerSy = LeftInFootExtraFingerS.LeftInFootExtraFingerSy
     LeftInFootExtraFingerSz = LeftInFootExtraFingerS.LeftInFootExtraFingerSz
@@ -3245,17 +3359,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     RightInFootPinkySy = RightInFootPinkyS.RightInFootPinkySy
     RightInFootPinkySz = RightInFootPinkyS.RightInFootPinkySz
 
-    RightInFootExtraFingerT = RightInFootExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    RightInFootExtraFingerT = RightInFootExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootExtraFingerTx = RightInFootExtraFingerT.RightInFootExtraFingerTx
     RightInFootExtraFingerTy = RightInFootExtraFingerT.RightInFootExtraFingerTy
     RightInFootExtraFingerTz = RightInFootExtraFingerT.RightInFootExtraFingerTz
 
-    RightInFootExtraFingerR = RightInFootExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootExtraFingerR = RightInFootExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootExtraFingerRx = RightInFootExtraFingerR.RightInFootExtraFingerRx
     RightInFootExtraFingerRy = RightInFootExtraFingerR.RightInFootExtraFingerRy
     RightInFootExtraFingerRz = RightInFootExtraFingerR.RightInFootExtraFingerRz
 
-    RightInFootExtraFingerS = RightInFootExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    RightInFootExtraFingerS = RightInFootExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightInFootExtraFingerSx = RightInFootExtraFingerS.RightInFootExtraFingerSx
     RightInFootExtraFingerSy = RightInFootExtraFingerS.RightInFootExtraFingerSy
     RightInFootExtraFingerSz = RightInFootExtraFingerS.RightInFootExtraFingerSz
@@ -3275,32 +3395,44 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeftShoulderExtraSy = LeftShoulderExtraS.LeftShoulderExtraSy
     LeftShoulderExtraSz = LeftShoulderExtraS.LeftShoulderExtraSz
 
-    RightShoulderExtraT = RightShoulderExtraTField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderExtraT = RightShoulderExtraTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderExtraTx = RightShoulderExtraT.RightShoulderExtraTx
     RightShoulderExtraTy = RightShoulderExtraT.RightShoulderExtraTy
     RightShoulderExtraTz = RightShoulderExtraT.RightShoulderExtraTz
 
-    RightShoulderExtraR = RightShoulderExtraRField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderExtraR = RightShoulderExtraRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderExtraRx = RightShoulderExtraR.RightShoulderExtraRx
     RightShoulderExtraRy = RightShoulderExtraR.RightShoulderExtraRy
     RightShoulderExtraRz = RightShoulderExtraR.RightShoulderExtraRz
 
-    RightShoulderExtraS = RightShoulderExtraSField(default_value=(1.0, 1.0, 1.0))
+    RightShoulderExtraS = RightShoulderExtraSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightShoulderExtraSx = RightShoulderExtraS.RightShoulderExtraSx
     RightShoulderExtraSy = RightShoulderExtraS.RightShoulderExtraSy
     RightShoulderExtraSz = RightShoulderExtraS.RightShoulderExtraSz
 
-    LeafLeftUpLegRoll1T = LeafLeftUpLegRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll1T = LeafLeftUpLegRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll1Tx = LeafLeftUpLegRoll1T.LeafLeftUpLegRoll1Tx
     LeafLeftUpLegRoll1Ty = LeafLeftUpLegRoll1T.LeafLeftUpLegRoll1Ty
     LeafLeftUpLegRoll1Tz = LeafLeftUpLegRoll1T.LeafLeftUpLegRoll1Tz
 
-    LeafLeftUpLegRoll1R = LeafLeftUpLegRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll1R = LeafLeftUpLegRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll1Rx = LeafLeftUpLegRoll1R.LeafLeftUpLegRoll1Rx
     LeafLeftUpLegRoll1Ry = LeafLeftUpLegRoll1R.LeafLeftUpLegRoll1Ry
     LeafLeftUpLegRoll1Rz = LeafLeftUpLegRoll1R.LeafLeftUpLegRoll1Rz
 
-    LeafLeftUpLegRoll1S = LeafLeftUpLegRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll1S = LeafLeftUpLegRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll1Sx = LeafLeftUpLegRoll1S.LeafLeftUpLegRoll1Sx
     LeafLeftUpLegRoll1Sy = LeafLeftUpLegRoll1S.LeafLeftUpLegRoll1Sy
     LeafLeftUpLegRoll1Sz = LeafLeftUpLegRoll1S.LeafLeftUpLegRoll1Sz
@@ -3320,17 +3452,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftLegRoll1Sy = LeafLeftLegRoll1S.LeafLeftLegRoll1Sy
     LeafLeftLegRoll1Sz = LeafLeftLegRoll1S.LeafLeftLegRoll1Sz
 
-    LeafRightUpLegRoll1T = LeafRightUpLegRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll1T = LeafRightUpLegRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll1Tx = LeafRightUpLegRoll1T.LeafRightUpLegRoll1Tx
     LeafRightUpLegRoll1Ty = LeafRightUpLegRoll1T.LeafRightUpLegRoll1Ty
     LeafRightUpLegRoll1Tz = LeafRightUpLegRoll1T.LeafRightUpLegRoll1Tz
 
-    LeafRightUpLegRoll1R = LeafRightUpLegRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll1R = LeafRightUpLegRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll1Rx = LeafRightUpLegRoll1R.LeafRightUpLegRoll1Rx
     LeafRightUpLegRoll1Ry = LeafRightUpLegRoll1R.LeafRightUpLegRoll1Ry
     LeafRightUpLegRoll1Rz = LeafRightUpLegRoll1R.LeafRightUpLegRoll1Rz
 
-    LeafRightUpLegRoll1S = LeafRightUpLegRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll1S = LeafRightUpLegRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll1Sx = LeafRightUpLegRoll1S.LeafRightUpLegRoll1Sx
     LeafRightUpLegRoll1Sy = LeafRightUpLegRoll1S.LeafRightUpLegRoll1Sy
     LeafRightUpLegRoll1Sz = LeafRightUpLegRoll1S.LeafRightUpLegRoll1Sz
@@ -3365,17 +3503,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftArmRoll1Sy = LeafLeftArmRoll1S.LeafLeftArmRoll1Sy
     LeafLeftArmRoll1Sz = LeafLeftArmRoll1S.LeafLeftArmRoll1Sz
 
-    LeafLeftForeArmRoll1T = LeafLeftForeArmRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll1T = LeafLeftForeArmRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll1Tx = LeafLeftForeArmRoll1T.LeafLeftForeArmRoll1Tx
     LeafLeftForeArmRoll1Ty = LeafLeftForeArmRoll1T.LeafLeftForeArmRoll1Ty
     LeafLeftForeArmRoll1Tz = LeafLeftForeArmRoll1T.LeafLeftForeArmRoll1Tz
 
-    LeafLeftForeArmRoll1R = LeafLeftForeArmRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll1R = LeafLeftForeArmRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll1Rx = LeafLeftForeArmRoll1R.LeafLeftForeArmRoll1Rx
     LeafLeftForeArmRoll1Ry = LeafLeftForeArmRoll1R.LeafLeftForeArmRoll1Ry
     LeafLeftForeArmRoll1Rz = LeafLeftForeArmRoll1R.LeafLeftForeArmRoll1Rz
 
-    LeafLeftForeArmRoll1S = LeafLeftForeArmRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll1S = LeafLeftForeArmRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll1Sx = LeafLeftForeArmRoll1S.LeafLeftForeArmRoll1Sx
     LeafLeftForeArmRoll1Sy = LeafLeftForeArmRoll1S.LeafLeftForeArmRoll1Sy
     LeafLeftForeArmRoll1Sz = LeafLeftForeArmRoll1S.LeafLeftForeArmRoll1Sz
@@ -3395,32 +3539,44 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafRightArmRoll1Sy = LeafRightArmRoll1S.LeafRightArmRoll1Sy
     LeafRightArmRoll1Sz = LeafRightArmRoll1S.LeafRightArmRoll1Sz
 
-    LeafRightForeArmRoll1T = LeafRightForeArmRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll1T = LeafRightForeArmRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll1Tx = LeafRightForeArmRoll1T.LeafRightForeArmRoll1Tx
     LeafRightForeArmRoll1Ty = LeafRightForeArmRoll1T.LeafRightForeArmRoll1Ty
     LeafRightForeArmRoll1Tz = LeafRightForeArmRoll1T.LeafRightForeArmRoll1Tz
 
-    LeafRightForeArmRoll1R = LeafRightForeArmRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll1R = LeafRightForeArmRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll1Rx = LeafRightForeArmRoll1R.LeafRightForeArmRoll1Rx
     LeafRightForeArmRoll1Ry = LeafRightForeArmRoll1R.LeafRightForeArmRoll1Ry
     LeafRightForeArmRoll1Rz = LeafRightForeArmRoll1R.LeafRightForeArmRoll1Rz
 
-    LeafRightForeArmRoll1S = LeafRightForeArmRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll1S = LeafRightForeArmRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll1Sx = LeafRightForeArmRoll1S.LeafRightForeArmRoll1Sx
     LeafRightForeArmRoll1Sy = LeafRightForeArmRoll1S.LeafRightForeArmRoll1Sy
     LeafRightForeArmRoll1Sz = LeafRightForeArmRoll1S.LeafRightForeArmRoll1Sz
 
-    LeafLeftUpLegRoll2T = LeafLeftUpLegRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll2T = LeafLeftUpLegRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll2Tx = LeafLeftUpLegRoll2T.LeafLeftUpLegRoll2Tx
     LeafLeftUpLegRoll2Ty = LeafLeftUpLegRoll2T.LeafLeftUpLegRoll2Ty
     LeafLeftUpLegRoll2Tz = LeafLeftUpLegRoll2T.LeafLeftUpLegRoll2Tz
 
-    LeafLeftUpLegRoll2R = LeafLeftUpLegRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll2R = LeafLeftUpLegRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll2Rx = LeafLeftUpLegRoll2R.LeafLeftUpLegRoll2Rx
     LeafLeftUpLegRoll2Ry = LeafLeftUpLegRoll2R.LeafLeftUpLegRoll2Ry
     LeafLeftUpLegRoll2Rz = LeafLeftUpLegRoll2R.LeafLeftUpLegRoll2Rz
 
-    LeafLeftUpLegRoll2S = LeafLeftUpLegRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll2S = LeafLeftUpLegRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll2Sx = LeafLeftUpLegRoll2S.LeafLeftUpLegRoll2Sx
     LeafLeftUpLegRoll2Sy = LeafLeftUpLegRoll2S.LeafLeftUpLegRoll2Sy
     LeafLeftUpLegRoll2Sz = LeafLeftUpLegRoll2S.LeafLeftUpLegRoll2Sz
@@ -3440,17 +3596,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftLegRoll2Sy = LeafLeftLegRoll2S.LeafLeftLegRoll2Sy
     LeafLeftLegRoll2Sz = LeafLeftLegRoll2S.LeafLeftLegRoll2Sz
 
-    LeafRightUpLegRoll2T = LeafRightUpLegRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll2T = LeafRightUpLegRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll2Tx = LeafRightUpLegRoll2T.LeafRightUpLegRoll2Tx
     LeafRightUpLegRoll2Ty = LeafRightUpLegRoll2T.LeafRightUpLegRoll2Ty
     LeafRightUpLegRoll2Tz = LeafRightUpLegRoll2T.LeafRightUpLegRoll2Tz
 
-    LeafRightUpLegRoll2R = LeafRightUpLegRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll2R = LeafRightUpLegRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll2Rx = LeafRightUpLegRoll2R.LeafRightUpLegRoll2Rx
     LeafRightUpLegRoll2Ry = LeafRightUpLegRoll2R.LeafRightUpLegRoll2Ry
     LeafRightUpLegRoll2Rz = LeafRightUpLegRoll2R.LeafRightUpLegRoll2Rz
 
-    LeafRightUpLegRoll2S = LeafRightUpLegRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll2S = LeafRightUpLegRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll2Sx = LeafRightUpLegRoll2S.LeafRightUpLegRoll2Sx
     LeafRightUpLegRoll2Sy = LeafRightUpLegRoll2S.LeafRightUpLegRoll2Sy
     LeafRightUpLegRoll2Sz = LeafRightUpLegRoll2S.LeafRightUpLegRoll2Sz
@@ -3485,17 +3647,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftArmRoll2Sy = LeafLeftArmRoll2S.LeafLeftArmRoll2Sy
     LeafLeftArmRoll2Sz = LeafLeftArmRoll2S.LeafLeftArmRoll2Sz
 
-    LeafLeftForeArmRoll2T = LeafLeftForeArmRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll2T = LeafLeftForeArmRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll2Tx = LeafLeftForeArmRoll2T.LeafLeftForeArmRoll2Tx
     LeafLeftForeArmRoll2Ty = LeafLeftForeArmRoll2T.LeafLeftForeArmRoll2Ty
     LeafLeftForeArmRoll2Tz = LeafLeftForeArmRoll2T.LeafLeftForeArmRoll2Tz
 
-    LeafLeftForeArmRoll2R = LeafLeftForeArmRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll2R = LeafLeftForeArmRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll2Rx = LeafLeftForeArmRoll2R.LeafLeftForeArmRoll2Rx
     LeafLeftForeArmRoll2Ry = LeafLeftForeArmRoll2R.LeafLeftForeArmRoll2Ry
     LeafLeftForeArmRoll2Rz = LeafLeftForeArmRoll2R.LeafLeftForeArmRoll2Rz
 
-    LeafLeftForeArmRoll2S = LeafLeftForeArmRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll2S = LeafLeftForeArmRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll2Sx = LeafLeftForeArmRoll2S.LeafLeftForeArmRoll2Sx
     LeafLeftForeArmRoll2Sy = LeafLeftForeArmRoll2S.LeafLeftForeArmRoll2Sy
     LeafLeftForeArmRoll2Sz = LeafLeftForeArmRoll2S.LeafLeftForeArmRoll2Sz
@@ -3515,32 +3683,44 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafRightArmRoll2Sy = LeafRightArmRoll2S.LeafRightArmRoll2Sy
     LeafRightArmRoll2Sz = LeafRightArmRoll2S.LeafRightArmRoll2Sz
 
-    LeafRightForeArmRoll2T = LeafRightForeArmRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll2T = LeafRightForeArmRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll2Tx = LeafRightForeArmRoll2T.LeafRightForeArmRoll2Tx
     LeafRightForeArmRoll2Ty = LeafRightForeArmRoll2T.LeafRightForeArmRoll2Ty
     LeafRightForeArmRoll2Tz = LeafRightForeArmRoll2T.LeafRightForeArmRoll2Tz
 
-    LeafRightForeArmRoll2R = LeafRightForeArmRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll2R = LeafRightForeArmRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll2Rx = LeafRightForeArmRoll2R.LeafRightForeArmRoll2Rx
     LeafRightForeArmRoll2Ry = LeafRightForeArmRoll2R.LeafRightForeArmRoll2Ry
     LeafRightForeArmRoll2Rz = LeafRightForeArmRoll2R.LeafRightForeArmRoll2Rz
 
-    LeafRightForeArmRoll2S = LeafRightForeArmRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll2S = LeafRightForeArmRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll2Sx = LeafRightForeArmRoll2S.LeafRightForeArmRoll2Sx
     LeafRightForeArmRoll2Sy = LeafRightForeArmRoll2S.LeafRightForeArmRoll2Sy
     LeafRightForeArmRoll2Sz = LeafRightForeArmRoll2S.LeafRightForeArmRoll2Sz
 
-    LeafLeftUpLegRoll3T = LeafLeftUpLegRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll3T = LeafLeftUpLegRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll3Tx = LeafLeftUpLegRoll3T.LeafLeftUpLegRoll3Tx
     LeafLeftUpLegRoll3Ty = LeafLeftUpLegRoll3T.LeafLeftUpLegRoll3Ty
     LeafLeftUpLegRoll3Tz = LeafLeftUpLegRoll3T.LeafLeftUpLegRoll3Tz
 
-    LeafLeftUpLegRoll3R = LeafLeftUpLegRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll3R = LeafLeftUpLegRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll3Rx = LeafLeftUpLegRoll3R.LeafLeftUpLegRoll3Rx
     LeafLeftUpLegRoll3Ry = LeafLeftUpLegRoll3R.LeafLeftUpLegRoll3Ry
     LeafLeftUpLegRoll3Rz = LeafLeftUpLegRoll3R.LeafLeftUpLegRoll3Rz
 
-    LeafLeftUpLegRoll3S = LeafLeftUpLegRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll3S = LeafLeftUpLegRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll3Sx = LeafLeftUpLegRoll3S.LeafLeftUpLegRoll3Sx
     LeafLeftUpLegRoll3Sy = LeafLeftUpLegRoll3S.LeafLeftUpLegRoll3Sy
     LeafLeftUpLegRoll3Sz = LeafLeftUpLegRoll3S.LeafLeftUpLegRoll3Sz
@@ -3560,17 +3740,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftLegRoll3Sy = LeafLeftLegRoll3S.LeafLeftLegRoll3Sy
     LeafLeftLegRoll3Sz = LeafLeftLegRoll3S.LeafLeftLegRoll3Sz
 
-    LeafRightUpLegRoll3T = LeafRightUpLegRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll3T = LeafRightUpLegRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll3Tx = LeafRightUpLegRoll3T.LeafRightUpLegRoll3Tx
     LeafRightUpLegRoll3Ty = LeafRightUpLegRoll3T.LeafRightUpLegRoll3Ty
     LeafRightUpLegRoll3Tz = LeafRightUpLegRoll3T.LeafRightUpLegRoll3Tz
 
-    LeafRightUpLegRoll3R = LeafRightUpLegRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll3R = LeafRightUpLegRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll3Rx = LeafRightUpLegRoll3R.LeafRightUpLegRoll3Rx
     LeafRightUpLegRoll3Ry = LeafRightUpLegRoll3R.LeafRightUpLegRoll3Ry
     LeafRightUpLegRoll3Rz = LeafRightUpLegRoll3R.LeafRightUpLegRoll3Rz
 
-    LeafRightUpLegRoll3S = LeafRightUpLegRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll3S = LeafRightUpLegRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll3Sx = LeafRightUpLegRoll3S.LeafRightUpLegRoll3Sx
     LeafRightUpLegRoll3Sy = LeafRightUpLegRoll3S.LeafRightUpLegRoll3Sy
     LeafRightUpLegRoll3Sz = LeafRightUpLegRoll3S.LeafRightUpLegRoll3Sz
@@ -3605,17 +3791,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftArmRoll3Sy = LeafLeftArmRoll3S.LeafLeftArmRoll3Sy
     LeafLeftArmRoll3Sz = LeafLeftArmRoll3S.LeafLeftArmRoll3Sz
 
-    LeafLeftForeArmRoll3T = LeafLeftForeArmRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll3T = LeafLeftForeArmRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll3Tx = LeafLeftForeArmRoll3T.LeafLeftForeArmRoll3Tx
     LeafLeftForeArmRoll3Ty = LeafLeftForeArmRoll3T.LeafLeftForeArmRoll3Ty
     LeafLeftForeArmRoll3Tz = LeafLeftForeArmRoll3T.LeafLeftForeArmRoll3Tz
 
-    LeafLeftForeArmRoll3R = LeafLeftForeArmRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll3R = LeafLeftForeArmRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll3Rx = LeafLeftForeArmRoll3R.LeafLeftForeArmRoll3Rx
     LeafLeftForeArmRoll3Ry = LeafLeftForeArmRoll3R.LeafLeftForeArmRoll3Ry
     LeafLeftForeArmRoll3Rz = LeafLeftForeArmRoll3R.LeafLeftForeArmRoll3Rz
 
-    LeafLeftForeArmRoll3S = LeafLeftForeArmRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll3S = LeafLeftForeArmRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll3Sx = LeafLeftForeArmRoll3S.LeafLeftForeArmRoll3Sx
     LeafLeftForeArmRoll3Sy = LeafLeftForeArmRoll3S.LeafLeftForeArmRoll3Sy
     LeafLeftForeArmRoll3Sz = LeafLeftForeArmRoll3S.LeafLeftForeArmRoll3Sz
@@ -3635,32 +3827,44 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafRightArmRoll3Sy = LeafRightArmRoll3S.LeafRightArmRoll3Sy
     LeafRightArmRoll3Sz = LeafRightArmRoll3S.LeafRightArmRoll3Sz
 
-    LeafRightForeArmRoll3T = LeafRightForeArmRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll3T = LeafRightForeArmRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll3Tx = LeafRightForeArmRoll3T.LeafRightForeArmRoll3Tx
     LeafRightForeArmRoll3Ty = LeafRightForeArmRoll3T.LeafRightForeArmRoll3Ty
     LeafRightForeArmRoll3Tz = LeafRightForeArmRoll3T.LeafRightForeArmRoll3Tz
 
-    LeafRightForeArmRoll3R = LeafRightForeArmRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll3R = LeafRightForeArmRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll3Rx = LeafRightForeArmRoll3R.LeafRightForeArmRoll3Rx
     LeafRightForeArmRoll3Ry = LeafRightForeArmRoll3R.LeafRightForeArmRoll3Ry
     LeafRightForeArmRoll3Rz = LeafRightForeArmRoll3R.LeafRightForeArmRoll3Rz
 
-    LeafRightForeArmRoll3S = LeafRightForeArmRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll3S = LeafRightForeArmRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll3Sx = LeafRightForeArmRoll3S.LeafRightForeArmRoll3Sx
     LeafRightForeArmRoll3Sy = LeafRightForeArmRoll3S.LeafRightForeArmRoll3Sy
     LeafRightForeArmRoll3Sz = LeafRightForeArmRoll3S.LeafRightForeArmRoll3Sz
 
-    LeafLeftUpLegRoll4T = LeafLeftUpLegRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll4T = LeafLeftUpLegRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll4Tx = LeafLeftUpLegRoll4T.LeafLeftUpLegRoll4Tx
     LeafLeftUpLegRoll4Ty = LeafLeftUpLegRoll4T.LeafLeftUpLegRoll4Ty
     LeafLeftUpLegRoll4Tz = LeafLeftUpLegRoll4T.LeafLeftUpLegRoll4Tz
 
-    LeafLeftUpLegRoll4R = LeafLeftUpLegRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll4R = LeafLeftUpLegRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll4Rx = LeafLeftUpLegRoll4R.LeafLeftUpLegRoll4Rx
     LeafLeftUpLegRoll4Ry = LeafLeftUpLegRoll4R.LeafLeftUpLegRoll4Ry
     LeafLeftUpLegRoll4Rz = LeafLeftUpLegRoll4R.LeafLeftUpLegRoll4Rz
 
-    LeafLeftUpLegRoll4S = LeafLeftUpLegRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll4S = LeafLeftUpLegRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll4Sx = LeafLeftUpLegRoll4S.LeafLeftUpLegRoll4Sx
     LeafLeftUpLegRoll4Sy = LeafLeftUpLegRoll4S.LeafLeftUpLegRoll4Sy
     LeafLeftUpLegRoll4Sz = LeafLeftUpLegRoll4S.LeafLeftUpLegRoll4Sz
@@ -3680,17 +3884,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftLegRoll4Sy = LeafLeftLegRoll4S.LeafLeftLegRoll4Sy
     LeafLeftLegRoll4Sz = LeafLeftLegRoll4S.LeafLeftLegRoll4Sz
 
-    LeafRightUpLegRoll4T = LeafRightUpLegRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll4T = LeafRightUpLegRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll4Tx = LeafRightUpLegRoll4T.LeafRightUpLegRoll4Tx
     LeafRightUpLegRoll4Ty = LeafRightUpLegRoll4T.LeafRightUpLegRoll4Ty
     LeafRightUpLegRoll4Tz = LeafRightUpLegRoll4T.LeafRightUpLegRoll4Tz
 
-    LeafRightUpLegRoll4R = LeafRightUpLegRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll4R = LeafRightUpLegRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll4Rx = LeafRightUpLegRoll4R.LeafRightUpLegRoll4Rx
     LeafRightUpLegRoll4Ry = LeafRightUpLegRoll4R.LeafRightUpLegRoll4Ry
     LeafRightUpLegRoll4Rz = LeafRightUpLegRoll4R.LeafRightUpLegRoll4Rz
 
-    LeafRightUpLegRoll4S = LeafRightUpLegRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll4S = LeafRightUpLegRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll4Sx = LeafRightUpLegRoll4S.LeafRightUpLegRoll4Sx
     LeafRightUpLegRoll4Sy = LeafRightUpLegRoll4S.LeafRightUpLegRoll4Sy
     LeafRightUpLegRoll4Sz = LeafRightUpLegRoll4S.LeafRightUpLegRoll4Sz
@@ -3725,17 +3935,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftArmRoll4Sy = LeafLeftArmRoll4S.LeafLeftArmRoll4Sy
     LeafLeftArmRoll4Sz = LeafLeftArmRoll4S.LeafLeftArmRoll4Sz
 
-    LeafLeftForeArmRoll4T = LeafLeftForeArmRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll4T = LeafLeftForeArmRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll4Tx = LeafLeftForeArmRoll4T.LeafLeftForeArmRoll4Tx
     LeafLeftForeArmRoll4Ty = LeafLeftForeArmRoll4T.LeafLeftForeArmRoll4Ty
     LeafLeftForeArmRoll4Tz = LeafLeftForeArmRoll4T.LeafLeftForeArmRoll4Tz
 
-    LeafLeftForeArmRoll4R = LeafLeftForeArmRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll4R = LeafLeftForeArmRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll4Rx = LeafLeftForeArmRoll4R.LeafLeftForeArmRoll4Rx
     LeafLeftForeArmRoll4Ry = LeafLeftForeArmRoll4R.LeafLeftForeArmRoll4Ry
     LeafLeftForeArmRoll4Rz = LeafLeftForeArmRoll4R.LeafLeftForeArmRoll4Rz
 
-    LeafLeftForeArmRoll4S = LeafLeftForeArmRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll4S = LeafLeftForeArmRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll4Sx = LeafLeftForeArmRoll4S.LeafLeftForeArmRoll4Sx
     LeafLeftForeArmRoll4Sy = LeafLeftForeArmRoll4S.LeafLeftForeArmRoll4Sy
     LeafLeftForeArmRoll4Sz = LeafLeftForeArmRoll4S.LeafLeftForeArmRoll4Sz
@@ -3755,32 +3971,44 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafRightArmRoll4Sy = LeafRightArmRoll4S.LeafRightArmRoll4Sy
     LeafRightArmRoll4Sz = LeafRightArmRoll4S.LeafRightArmRoll4Sz
 
-    LeafRightForeArmRoll4T = LeafRightForeArmRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll4T = LeafRightForeArmRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll4Tx = LeafRightForeArmRoll4T.LeafRightForeArmRoll4Tx
     LeafRightForeArmRoll4Ty = LeafRightForeArmRoll4T.LeafRightForeArmRoll4Ty
     LeafRightForeArmRoll4Tz = LeafRightForeArmRoll4T.LeafRightForeArmRoll4Tz
 
-    LeafRightForeArmRoll4R = LeafRightForeArmRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll4R = LeafRightForeArmRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll4Rx = LeafRightForeArmRoll4R.LeafRightForeArmRoll4Rx
     LeafRightForeArmRoll4Ry = LeafRightForeArmRoll4R.LeafRightForeArmRoll4Ry
     LeafRightForeArmRoll4Rz = LeafRightForeArmRoll4R.LeafRightForeArmRoll4Rz
 
-    LeafRightForeArmRoll4S = LeafRightForeArmRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll4S = LeafRightForeArmRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll4Sx = LeafRightForeArmRoll4S.LeafRightForeArmRoll4Sx
     LeafRightForeArmRoll4Sy = LeafRightForeArmRoll4S.LeafRightForeArmRoll4Sy
     LeafRightForeArmRoll4Sz = LeafRightForeArmRoll4S.LeafRightForeArmRoll4Sz
 
-    LeafLeftUpLegRoll5T = LeafLeftUpLegRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll5T = LeafLeftUpLegRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll5Tx = LeafLeftUpLegRoll5T.LeafLeftUpLegRoll5Tx
     LeafLeftUpLegRoll5Ty = LeafLeftUpLegRoll5T.LeafLeftUpLegRoll5Ty
     LeafLeftUpLegRoll5Tz = LeafLeftUpLegRoll5T.LeafLeftUpLegRoll5Tz
 
-    LeafLeftUpLegRoll5R = LeafLeftUpLegRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll5R = LeafLeftUpLegRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll5Rx = LeafLeftUpLegRoll5R.LeafLeftUpLegRoll5Rx
     LeafLeftUpLegRoll5Ry = LeafLeftUpLegRoll5R.LeafLeftUpLegRoll5Ry
     LeafLeftUpLegRoll5Rz = LeafLeftUpLegRoll5R.LeafLeftUpLegRoll5Rz
 
-    LeafLeftUpLegRoll5S = LeafLeftUpLegRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll5S = LeafLeftUpLegRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll5Sx = LeafLeftUpLegRoll5S.LeafLeftUpLegRoll5Sx
     LeafLeftUpLegRoll5Sy = LeafLeftUpLegRoll5S.LeafLeftUpLegRoll5Sy
     LeafLeftUpLegRoll5Sz = LeafLeftUpLegRoll5S.LeafLeftUpLegRoll5Sz
@@ -3800,17 +4028,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftLegRoll5Sy = LeafLeftLegRoll5S.LeafLeftLegRoll5Sy
     LeafLeftLegRoll5Sz = LeafLeftLegRoll5S.LeafLeftLegRoll5Sz
 
-    LeafRightUpLegRoll5T = LeafRightUpLegRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll5T = LeafRightUpLegRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll5Tx = LeafRightUpLegRoll5T.LeafRightUpLegRoll5Tx
     LeafRightUpLegRoll5Ty = LeafRightUpLegRoll5T.LeafRightUpLegRoll5Ty
     LeafRightUpLegRoll5Tz = LeafRightUpLegRoll5T.LeafRightUpLegRoll5Tz
 
-    LeafRightUpLegRoll5R = LeafRightUpLegRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll5R = LeafRightUpLegRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll5Rx = LeafRightUpLegRoll5R.LeafRightUpLegRoll5Rx
     LeafRightUpLegRoll5Ry = LeafRightUpLegRoll5R.LeafRightUpLegRoll5Ry
     LeafRightUpLegRoll5Rz = LeafRightUpLegRoll5R.LeafRightUpLegRoll5Rz
 
-    LeafRightUpLegRoll5S = LeafRightUpLegRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll5S = LeafRightUpLegRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll5Sx = LeafRightUpLegRoll5S.LeafRightUpLegRoll5Sx
     LeafRightUpLegRoll5Sy = LeafRightUpLegRoll5S.LeafRightUpLegRoll5Sy
     LeafRightUpLegRoll5Sz = LeafRightUpLegRoll5S.LeafRightUpLegRoll5Sz
@@ -3845,17 +4079,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafLeftArmRoll5Sy = LeafLeftArmRoll5S.LeafLeftArmRoll5Sy
     LeafLeftArmRoll5Sz = LeafLeftArmRoll5S.LeafLeftArmRoll5Sz
 
-    LeafLeftForeArmRoll5T = LeafLeftForeArmRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll5T = LeafLeftForeArmRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll5Tx = LeafLeftForeArmRoll5T.LeafLeftForeArmRoll5Tx
     LeafLeftForeArmRoll5Ty = LeafLeftForeArmRoll5T.LeafLeftForeArmRoll5Ty
     LeafLeftForeArmRoll5Tz = LeafLeftForeArmRoll5T.LeafLeftForeArmRoll5Tz
 
-    LeafLeftForeArmRoll5R = LeafLeftForeArmRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll5R = LeafLeftForeArmRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll5Rx = LeafLeftForeArmRoll5R.LeafLeftForeArmRoll5Rx
     LeafLeftForeArmRoll5Ry = LeafLeftForeArmRoll5R.LeafLeftForeArmRoll5Ry
     LeafLeftForeArmRoll5Rz = LeafLeftForeArmRoll5R.LeafLeftForeArmRoll5Rz
 
-    LeafLeftForeArmRoll5S = LeafLeftForeArmRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll5S = LeafLeftForeArmRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll5Sx = LeafLeftForeArmRoll5S.LeafLeftForeArmRoll5Sx
     LeafLeftForeArmRoll5Sy = LeafLeftForeArmRoll5S.LeafLeftForeArmRoll5Sy
     LeafLeftForeArmRoll5Sz = LeafLeftForeArmRoll5S.LeafLeftForeArmRoll5Sz
@@ -3875,17 +4115,23 @@ class _GeneratedHIKSkeletonGeneratorNode(DG):
     LeafRightArmRoll5Sy = LeafRightArmRoll5S.LeafRightArmRoll5Sy
     LeafRightArmRoll5Sz = LeafRightArmRoll5S.LeafRightArmRoll5Sz
 
-    LeafRightForeArmRoll5T = LeafRightForeArmRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll5T = LeafRightForeArmRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll5Tx = LeafRightForeArmRoll5T.LeafRightForeArmRoll5Tx
     LeafRightForeArmRoll5Ty = LeafRightForeArmRoll5T.LeafRightForeArmRoll5Ty
     LeafRightForeArmRoll5Tz = LeafRightForeArmRoll5T.LeafRightForeArmRoll5Tz
 
-    LeafRightForeArmRoll5R = LeafRightForeArmRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll5R = LeafRightForeArmRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll5Rx = LeafRightForeArmRoll5R.LeafRightForeArmRoll5Rx
     LeafRightForeArmRoll5Ry = LeafRightForeArmRoll5R.LeafRightForeArmRoll5Ry
     LeafRightForeArmRoll5Rz = LeafRightForeArmRoll5R.LeafRightForeArmRoll5Rz
 
-    LeafRightForeArmRoll5S = LeafRightForeArmRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll5S = LeafRightForeArmRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll5Sx = LeafRightForeArmRoll5S.LeafRightForeArmRoll5Sx
     LeafRightForeArmRoll5Sy = LeafRightForeArmRoll5S.LeafRightForeArmRoll5Sy
     LeafRightForeArmRoll5Sz = LeafRightForeArmRoll5S.LeafRightForeArmRoll5Sz

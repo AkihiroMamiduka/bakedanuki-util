@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.character_map import _GeneratedCharacterMap
+from ._generated.character_map import GeneratedCharacterMap
 
 
-class CharacterMap(_GeneratedCharacterMap):
+class CharacterMap(GeneratedCharacterMap):
     __slots__ = ()
 
     NODE_TYPE = "characterMap"

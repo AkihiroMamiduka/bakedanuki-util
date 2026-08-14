@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_blend import _GeneratedMASH_Blend
+from ._generated.mash_blend import GeneratedMASHBlend
 
 
-class MASH_Blend(_GeneratedMASH_Blend):
+class MASHBlend(GeneratedMASHBlend):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Blend"

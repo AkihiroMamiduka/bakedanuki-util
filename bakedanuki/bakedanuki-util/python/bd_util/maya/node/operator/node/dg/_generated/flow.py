@@ -4,21 +4,25 @@ from ....attr.define.node_attr.flow import (
     AllCoordsField,
     CenterField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.generic import GenericField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class SetFrontAxisEnumPlugOperator(EnumPlugOperator):
+class SetFrontAxisEnumPlugOperator(
+    EnumPlugOperator["SetFrontAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     X = 0
@@ -26,7 +30,9 @@ class SetFrontAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class SetFrontAxisEnumAttrOperator(EnumAttrOperator):
+class SetFrontAxisEnumAttrOperator(
+    EnumAttrOperator[SetFrontAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     X = 0
@@ -49,7 +55,7 @@ class SetFrontAxisEnumField(
     PLUG_CLS = SetFrontAxisEnumPlugOperator
 
 
-class SetUpAxisEnumPlugOperator(EnumPlugOperator):
+class SetUpAxisEnumPlugOperator(EnumPlugOperator["SetUpAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -57,7 +63,7 @@ class SetUpAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class SetUpAxisEnumAttrOperator(EnumAttrOperator):
+class SetUpAxisEnumAttrOperator(EnumAttrOperator[SetUpAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -80,7 +86,7 @@ class SetUpAxisEnumField(
     PLUG_CLS = SetUpAxisEnumPlugOperator
 
 
-class _GeneratedFlow(DG):
+class GeneratedFlow(DG):
     __slots__ = ()
 
     NODE_TYPE = "flow"
@@ -130,7 +136,9 @@ class _GeneratedFlow(DG):
     zCoord = allCoords.zCoord
     zc = zCoord
 
-    center = CenterField(multi=True, default_value=(0.0, 0.0, 0.0), readable=False)
+    center = CenterField(
+        multi=True, default_value=(0.0, 0.0, 0.0), readable=False
+    )
     ctr = center
 
     objectWorldMatrix = DataMatrixField(multi=True, readable=False)

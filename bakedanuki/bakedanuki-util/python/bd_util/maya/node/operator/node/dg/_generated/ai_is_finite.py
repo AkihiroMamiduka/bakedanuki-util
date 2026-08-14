@@ -4,10 +4,10 @@ from ....attr.define.node_attr.ai_is_finite import (
     InputField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class _GeneratedAiIsFinite(DG):
+class GeneratedAiIsFinite(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiIsFinite"
@@ -15,7 +15,9 @@ class _GeneratedAiIsFinite(DG):
     outValue = BoolField(default_value=False, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_time import _GeneratedMASH_Time
+from ._generated.mash_time import GeneratedMASHTime
 
 
-class MASH_Time(_GeneratedMASH_Time):
+class MASHTime(GeneratedMASHTime):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Time"

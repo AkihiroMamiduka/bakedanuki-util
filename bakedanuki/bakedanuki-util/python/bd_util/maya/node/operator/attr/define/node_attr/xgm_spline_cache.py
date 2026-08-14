@@ -5,15 +5,17 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class WidthRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class WidthRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["WidthRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +24,9 @@ class WidthRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class WidthRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class WidthRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[WidthRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -39,7 +43,9 @@ class WidthRamp_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class WidthRamp_InterpEnumField(
-    EnumField[WidthRamp_InterpEnumAttrOperator, WidthRamp_InterpEnumPlugOperator]
+    EnumField[
+        WidthRamp_InterpEnumAttrOperator, WidthRamp_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47,9 +53,7 @@ class WidthRamp_InterpEnumField(
     PLUG_CLS = WidthRamp_InterpEnumPlugOperator
 
 
-class WidthRampPlugOperator(
-    CompoundPlugOperator["WidthRampAttrOperator"]
-):
+class WidthRampPlugOperator(CompoundPlugOperator["WidthRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("widthRamp_Position", "wdrp"),
@@ -67,9 +71,7 @@ class WidthRampPlugOperator(
     wdri = widthRamp_Interp
 
 
-class WidthRampAttrOperator(
-    CompoundAttrOperator[WidthRampPlugOperator]
-):
+class WidthRampAttrOperator(CompoundAttrOperator[WidthRampPlugOperator]):
     __slots__ = ()
 
     widthRamp_Position = FloatField(default_value=0.0)

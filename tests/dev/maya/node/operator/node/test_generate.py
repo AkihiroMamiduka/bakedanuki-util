@@ -1,11 +1,161 @@
 # coding: utf-8
+import math
+
+import pytest
+
 from bd_util._dev.maya.node.operator.node.generate import (
+    _ARNOLD_UNRELIABLE_DEFAULT_ATTRS,
+    _AT_TYPE_MAP,
+    _QUAT_COMPOUND_AT_BASE,
+    _SCALAR_COMPOUND_AT_BASE,
+    _node_type_to_class_name,
+    _node_type_to_file_name,
     generate_node_attr_code,
     generate_node_class_code,
     generate_node_class_file,
+    generate_specific_node_class_file_core,
 )
 from bd_util.maya.attr.query import AttrInfo
-from bd_util.maya.node.operator.attr.define.std.dt.string import DataStringField
+from bd_util.maya.node.operator.attr.define.std.dt.string import (
+    DataStringField,
+)
+
+
+def test_scalar_attribute_type_map_uses_scalar_package_hierarchy():
+    expected_modules = {
+        "bool": "define.std.at.scalar.numeric.bool",
+        "byte": "define.std.at.scalar.numeric.range.byte",
+        "char": "define.std.at.scalar.numeric.range.char",
+        "double": "define.std.at.scalar.numeric.range.double",
+        "doubleAngle": "define.std.at.scalar.unit.range.double_angle",
+        "doubleLinear": "define.std.at.scalar.unit.range.double_linear",
+        "enum": "define.std.at.scalar.enum",
+        "float": "define.std.at.scalar.numeric.range.float",
+        "floatAngle": "define.std.at.scalar.unit.range.float_angle",
+        "floatLinear": "define.std.at.scalar.unit.range.float_linear",
+        "long": "define.std.at.scalar.numeric.range.long",
+        "long long int": "define.std.at.scalar.numeric.range.long_long_int",
+        "long_long_int": "define.std.at.scalar.numeric.range.long_long_int",
+        "short": "define.std.at.scalar.numeric.range.short",
+        "time": "define.std.at.scalar.unit.time",
+    }
+
+    for attribute_type, expected_module in expected_modules.items():
+        assert _AT_TYPE_MAP[attribute_type][1] == expected_module
+
+
+def test_custom_attribute_type_maps_use_export_facade():
+    custom_attribute_types = {
+        "double2",
+        "double3",
+        "double4",
+        "float2",
+        "float3",
+        "long2",
+        "long3",
+        "short2",
+        "short3",
+    }
+
+    for attribute_type in custom_attribute_types:
+        assert _AT_TYPE_MAP[attribute_type][1] == "define.custom"
+
+    assert all(
+        module_path == "custom"
+        for *_, module_path in _SCALAR_COMPOUND_AT_BASE.values()
+    )
+    assert _QUAT_COMPOUND_AT_BASE[-1] == "custom"
+
+
+def test_arnold_unreliable_default_attrs_are_narrowly_scoped():
+    assert _ARNOLD_UNRELIABLE_DEFAULT_ATTRS == {
+        "aiAOVDriver": frozenset({"layerTolerance"}),
+        "aiImagerLightMixer": frozenset(
+            {
+                "layerTint",
+                "layerTintR",
+                "layerTintG",
+                "layerIntensity",
+                "layerExposure",
+            }
+        ),
+        "aiLayerShader": frozenset(
+            {
+                "input1A",
+                "input2A",
+                "input4A",
+                "input5A",
+                "input7A",
+            }
+        ),
+        "aiMixShader": frozenset({"shader1A", "shader2A"}),
+        "aiPassthrough": frozenset(
+            {
+                "eval2A",
+                "eval3A",
+                "eval4A",
+                "eval5A",
+                "eval6A",
+                "eval11A",
+                "eval14A",
+                "eval18A",
+            }
+        ),
+        "aiWriteInt": frozenset({"beautyA"}),
+    }
+
+
+@pytest.mark.parametrize(
+    ("node_type", "class_name", "file_name"),
+    [
+        ("addDoubleLinear", "AddDoubleLinear", "add_double_linear.py"),
+        ("MASH_Audio", "MASHAudio", "mash_audio.py"),
+        ("bdDbl_Add", "BdDblAdd", "bd_dbl_add.py"),
+    ],
+)
+def test_node_type_python_name_conversion(
+    node_type,
+    class_name,
+    file_name,
+):
+    assert _node_type_to_class_name(node_type) == class_name
+    assert _node_type_to_file_name(node_type) == file_name
+
+
+def test_generate_node_class_code_removes_type_separator_from_class_name():
+    code = generate_node_class_code(
+        "bdDbl_Add",
+        attr_infos=[_attr("input1", "i1", "double")],
+    )
+
+    compile(code, "bd_dbl_add.py", "exec")
+    assert "class GeneratedBdDblAdd(DG):" in code
+    assert 'NODE_TYPE = "bdDbl_Add"' in code
+
+
+def test_generate_specific_node_classes_rejects_name_conversion_collision(
+    tmp_path,
+):
+    with pytest.raises(ValueError, match="name conversion collision"):
+        generate_specific_node_class_file_core(
+            tmp_path,
+            lambda: ("MASH_Audio", "MASHAudio"),
+        )
+
+
+def test_generate_node_class_file_rejects_existing_module_collision(tmp_path):
+    generate_node_class_file(
+        "MASH_Audio",
+        tmp_path,
+        attr_infos=[_attr("input", "in", "float")],
+    )
+
+    with pytest.raises(ValueError, match="module name collision"):
+        generate_node_class_file(
+            "MASHAudio",
+            tmp_path,
+            attr_infos=[_attr("input", "in", "float")],
+        )
 
 
 def _attr(
@@ -49,6 +199,81 @@ def _attr(
         path_name=path_name,
         enforcing_unique_name=enforcing_unique_name,
     )
+
+
+def test_generate_omits_only_known_unreliable_arnold_defaults():
+    code = generate_node_class_code(
+        "aiLayerShader",
+        attr_infos=[
+            _attr(
+                "input1A",
+                "input1a",
+                "float",
+                default_value=[123.0],
+                min_value=[0.0],
+                max_value=[1.0],
+            ),
+            _attr(
+                "input3A",
+                "input3a",
+                "float",
+                default_value=[0.0],
+                min_value=[0.0],
+                max_value=[1.0],
+            ),
+        ],
+    )
+
+    assert "input1A = FloatField(min_value=0.0, max_value=1.0)" in code
+    assert "input1A = FloatField(default_value=" not in code
+    assert (
+        "input3A = FloatField(default_value=0.0, min_value=0.0, "
+        "max_value=1.0)" in code
+    )
+
+
+def test_generate_node_attr_omits_known_unreliable_arnold_child_default():
+    code = generate_node_attr_code(
+        "aiImagerLightMixer",
+        attr_infos=[
+            _attr(
+                "layerTint",
+                "layer_tint",
+                "float3",
+                default_value=[123.0, 456.0, 1.0],
+                number_of_children=3,
+            ),
+            _attr(
+                "layerTint.layerTintR",
+                "layer_tintr",
+                "float",
+                default_value=[123.0],
+                parent="layerTint",
+                path_name="layerTintR",
+            ),
+            _attr(
+                "layerTint.layerTintG",
+                "layer_tintg",
+                "float",
+                default_value=[456.0],
+                parent="layerTint",
+                path_name="layerTintG",
+            ),
+            _attr(
+                "layerTint.layerTintB",
+                "layer_tintb",
+                "float",
+                default_value=[1.0],
+                parent="layerTint",
+                path_name="layerTintB",
+            ),
+        ],
+    )
+
+    assert code is not None
+    assert "layerTintR = FloatField()" in code
+    assert "layerTintG = FloatField()" in code
+    assert "layerTintB = FloatField(default_value=1.0)" in code
 
 
 def _plus_minus_average_attr_infos() -> list[AttrInfo]:
@@ -100,6 +325,16 @@ def _double4_quat_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _value_double4_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr("value", "v", "double4", number_of_children=4),
+        _attr("value.valueX", "vx", "double", parent="value"),
+        _attr("value.valueY", "vy", "double", parent="value"),
+        _attr("value.valueZ", "vz", "double", parent="value"),
+        _attr("value.valueW", "vw", "double", parent="value"),
+    ]
+
+
 def _unsafe_identifier_attr_infos() -> list[AttrInfo]:
     return [
         _attr(".weight", ".w", "float", multi=True),
@@ -107,7 +342,9 @@ def _unsafe_identifier_attr_infos() -> list[AttrInfo]:
         _attr(".pnts.px", ".pt.x", "double", parent=".pnts"),
         _attr(".pnts.py", ".pt.y", "double", parent=".pnts"),
         _attr(".pnts.pz", ".pt.z", "double", parent=".pnts"),
-        _attr("weightList", "wl", "compound", multi=True, number_of_children=1),
+        _attr(
+            "weightList", "wl", "compound", multi=True, number_of_children=1
+        ),
         _attr("weightList.weights", "wl.w", "float", parent="weightList"),
     ]
 
@@ -193,13 +430,126 @@ def _compound_enum_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _nested_double_linear3_compound_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr(
+            "case",
+            "cs",
+            "compound",
+            multi=True,
+            number_of_children=3,
+        ),
+        _attr(
+            "case.operation",
+            "op",
+            "enum",
+            parent="case",
+            path_name="operation",
+            enum_name=["Equal:Not Equal"],
+        ),
+        _attr(
+            "case.compare",
+            "cmp",
+            "double",
+            parent="case",
+            path_name="compare",
+        ),
+        _attr(
+            "case.value",
+            "v",
+            "double3",
+            parent="case",
+            path_name="value",
+            number_of_children=3,
+        ),
+        _attr(
+            "case.valueX",
+            "vx",
+            "doubleLinear",
+            parent="value",
+            path_name="valueX",
+        ),
+        _attr(
+            "case.valueY",
+            "vy",
+            "doubleLinear",
+            parent="value",
+            path_name="valueY",
+        ),
+        _attr(
+            "case.valueZ",
+            "vz",
+            "doubleLinear",
+            parent="value",
+            path_name="valueZ",
+        ),
+    ]
+
+
+def _nested_multi_compound_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr(
+            "case",
+            "cs",
+            "compound",
+            multi=True,
+            number_of_children=2,
+        ),
+        _attr(
+            "case.extra",
+            "ex",
+            "compound",
+            parent="case",
+            path_name="extra",
+            multi=True,
+            number_of_children=3,
+        ),
+        _attr(
+            "case.extra.logic",
+            "lgc",
+            "enum",
+            parent="extra",
+            path_name="logic",
+            enum_name=["And:Or"],
+        ),
+        _attr(
+            "case.extra.comparison",
+            "cpr",
+            "enum",
+            parent="extra",
+            path_name="comparison",
+            enum_name=["Equal:Not Equal"],
+        ),
+        _attr(
+            "case.extra.compareValue",
+            "cv",
+            "double",
+            parent="extra",
+            path_name="compareValue",
+        ),
+        _attr(
+            "case.value",
+            "v",
+            "typed",
+            parent="case",
+            path_name="value",
+        ),
+    ]
+
+
 def _transform_like_attr_infos() -> list[AttrInfo]:
     return [
         _attr("message", "msg", "message"),
         _attr("translate", "t", "double3", number_of_children=3),
-        _attr("translate.translateX", "tx", "doubleLinear", parent="translate"),
-        _attr("translate.translateY", "ty", "doubleLinear", parent="translate"),
-        _attr("translate.translateZ", "tz", "doubleLinear", parent="translate"),
+        _attr(
+            "translate.translateX", "tx", "doubleLinear", parent="translate"
+        ),
+        _attr(
+            "translate.translateY", "ty", "doubleLinear", parent="translate"
+        ),
+        _attr(
+            "translate.translateZ", "tz", "doubleLinear", parent="translate"
+        ),
     ]
 
 
@@ -271,6 +621,8 @@ def test_generate_plus_minus_average_node_attr_code():
     assert code is not None
     compile(code, "plus_minus_average_node_attr.py", "exec")
 
+    assert "from ..custom import (" in code
+    assert "custom.at.scalar_compound" not in code
     assert "Float2CompoundBaseField" in code
     assert "Float3CompoundBaseField" in code
     assert "class Input2DPlugOperator(" in code
@@ -316,6 +668,39 @@ def test_generate_double4_quat_compound_node_attr_code():
     assert "QuatCompoundBaseAttrOperator" in code
     assert "QuatCompoundBaseField" in code
     assert "class InputQuatField(" in code
+
+
+def test_generate_bd_quat_value_compound_uses_quat_semantics():
+    code = generate_node_attr_code(
+        "bdQuat_Value",
+        attr_infos=_value_double4_attr_infos(),
+    )
+
+    assert code is not None
+    compile(code, "bd_quat_value_node_attr.py", "exec")
+
+    assert "QuatCompoundBasePlugOperator" in code
+    assert "QuatCompoundBaseAttrOperator" in code
+    assert "QuatCompoundBaseField" in code
+    assert "Double4CompoundBasePlugOperator" not in code
+
+    node_code = generate_node_class_code(
+        "bdQuat_Value",
+        attr_infos=_value_double4_attr_infos(),
+    )
+    compile(node_code, "bd_quat_value.py", "exec")
+    assert "value = ValueField()" in node_code
+
+
+def test_generate_untyped_value_double4_keeps_double4_semantics():
+    code = generate_node_attr_code(
+        "exampleNode",
+        attr_infos=_value_double4_attr_infos(),
+    )
+
+    assert code is not None
+    assert "Double4CompoundBasePlugOperator" in code
+    assert "QuatCompoundBasePlugOperator" not in code
 
 
 def test_generate_sanitizes_invalid_names_and_skips_dotted_short_aliases():
@@ -415,12 +800,23 @@ def test_generate_plus_minus_average_node_class_code():
     compile(code, "plus_minus_average.py", "exec")
 
     assert "from ....attr.define.node_attr.plus_minus_average import" in code
+    assert "from ....attr.define.std.at.scalar.enum import" in code
+    assert (
+        "from ....attr.define.std.at.scalar.numeric.range.float "
+        "import FloatField"
+    ) in code
     assert "Input2DField" in code
     assert "Input3DField" in code
     assert "Output2DField" in code
     assert "Output3DField" in code
-    assert "class OperationEnumPlugOperator(EnumPlugOperator):" in code
-    assert "class OperationEnumAttrOperator(EnumAttrOperator):" in code
+    assert (
+        "class OperationEnumPlugOperator("
+        'EnumPlugOperator["OperationEnumAttrOperator"]):'
+    ) in code
+    assert (
+        "class OperationEnumAttrOperator("
+        "EnumAttrOperator[OperationEnumPlugOperator]):"
+    ) in code
     assert "class OperationEnumField(" in code
     assert "NO_OPERATION = 0" in code
     assert 'NO_OPERATION: "No operation"' in code
@@ -431,7 +827,7 @@ def test_generate_plus_minus_average_node_class_code():
     assert "output3D = Output3DField()" in code
     assert "output3Dz = output3D.output3Dz" in code
     assert "o3z = output3Dz" in code
-    assert "class _GeneratedPlusMinusAverage(DG):" in code
+    assert "class GeneratedPlusMinusAverage(DG):" in code
 
 
 def test_generate_transform_node_class_code():
@@ -445,8 +841,13 @@ def test_generate_transform_node_class_code():
     compile(code, "joint.py", "exec")
 
     assert "from .._core import Transform" in code
-    assert "from .....attr.define.node_attr.joint import JointOrientField" in code
-    assert "class _GeneratedJoint(Transform):" in code
+    assert (
+        "from .....attr.define.node_attr.joint import JointOrientField" in code
+    )
+    assert (
+        "from .....attr.define.std.at.scalar.numeric.bool " "import BoolField"
+    ) in code
+    assert "class GeneratedJoint(Transform):" in code
     assert 'NODE_TYPE = "joint"' in code
     assert "message = MessageField()" not in code
     assert "translate = TranslateField()" not in code
@@ -469,8 +870,11 @@ def test_generate_transform_base_node_class_code():
     compile(code, "transform.py", "exec")
 
     assert "from ..._core import DAG" in code
-    assert "from .....attr.define.node_attr.transform import TranslateField" in code
-    assert "class _GeneratedTransform(DAG):" in code
+    assert (
+        "from .....attr.define.node_attr.transform import TranslateField"
+        in code
+    )
+    assert "class GeneratedTransform(DAG):" in code
     assert 'NODE_TYPE = "transform"' in code
     assert "translate = TranslateField()" in code
 
@@ -486,7 +890,7 @@ def test_generate_shape_node_class_code():
 
     assert "from .._core import Shape" in code
     assert "from .....attr.define.std.dt.mesh import DataMeshField" in code
-    assert "class _GeneratedMesh(Shape):" in code
+    assert "class GeneratedMesh(Shape):" in code
     assert 'NODE_TYPE = "mesh"' in code
     assert "message = MessageField()" not in code
     assert "outMesh = DataMeshField(writable=False)" in code
@@ -578,19 +982,24 @@ def test_generate_field_init_args_include_attribute_metadata():
 
     compile(code, "metadata_node.py", "exec")
 
+    assert "from ....attr.define.custom import Float3Field" in code
+    assert "from ....attr.define.custom import Long3Field" in code
+    assert "define.custom.at.scalar_compound" not in code
     assert (
         "input = FloatField(default_value=0.5, min_value=0.0, "
-        'max_value=1.0, soft_min_value=0.25, soft_max_value=0.75, category="bdMetadata")'
-        in code
+        "max_value=1.0, soft_min_value=0.25, "
+        "soft_max_value=0.75, "
+        'category="bdMetadata")' in code
     )
     assert "output = DoubleField(default_value=0.0, writable=False)" in code
     assert "hidden = BoolField(default_value=False, readable=False)" in code
-    assert "count = LongField(default_value=3, min_value=0, max_value=10)" in code
+    assert (
+        "count = LongField(default_value=3, min_value=0, max_value=10)" in code
+    )
     assert "mode = ModeEnumField(default_value=2)" in code
     assert (
         "vector = Float3Field(default_value=(1.0, 2.0, 3.0), "
-        "min_value=(-1.0, -2.0, -3.0))"
-        in code
+        "min_value=(-1.0, -2.0, -3.0))" in code
     )
     assert (
         "indices = Long3Field(default_value=(1, 2, 3), min_value=(0, 0, 0))"
@@ -599,13 +1008,51 @@ def test_generate_field_init_args_include_attribute_metadata():
     assert 'notANumber = FloatField(default_value=float("nan"))' in code
     assert (
         'infiniteRange = Float2Field(default_value=(-float("inf"), '
-        'float("inf")))'
-        in code
+        'float("inf")))' in code
     )
     assert "readable=True" not in code
     assert "writable=True" not in code
     assert "hidden = BoolField(default_value=0.0" not in code
     assert "mode = ModeEnumField(default_value=2, min_value=" not in code
+
+
+def test_generate_compound_default_uses_child_unit_values():
+    code = generate_node_class_code(
+        "angleLimitNode",
+        attr_infos=[
+            _attr(
+                "min",
+                "mn",
+                "double3",
+                default_value=[-math.pi, -math.pi, -math.pi],
+                number_of_children=3,
+            ),
+            _attr(
+                "min.minTwist",
+                "mntw",
+                "doubleAngle",
+                parent="min",
+                default_value=[-180.0],
+            ),
+            _attr(
+                "min.minBendH",
+                "mnbh",
+                "doubleAngle",
+                parent="min",
+                default_value=[-180.0],
+            ),
+            _attr(
+                "min.minBendV",
+                "mnbv",
+                "doubleAngle",
+                parent="min",
+                default_value=[-180.0],
+            ),
+        ],
+    )
+
+    compile(code, "angle_limit_node.py", "exec")
+    assert "min = MinField(default_value=(-180.0, -180.0, -180.0))" in code
 
 
 def test_generate_suffixes_duplicate_enum_member_names():
@@ -620,6 +1067,29 @@ def test_generate_suffixes_duplicate_enum_member_names():
     assert "    RGBA_2 = 2" in code
     assert '        RGBA: "RGBA",' in code
     assert '        RGBA_2: "RGBA",' in code
+
+
+def test_generate_wraps_long_enum_name_map_entries():
+    code = generate_node_class_code(
+        "longEnumNode",
+        attr_infos=[
+            _attr(
+                "mode",
+                "md",
+                "enum",
+                enum_name=["Write Shader Result to Beauty Passes"],
+            )
+        ],
+    )
+
+    compile(code, "long_enum_node.py", "exec")
+
+    assert (
+        "        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: (\n"
+        '            "Write Shader Result to Beauty Passes"\n'
+        "        ),"
+    ) in code
+    assert all(len(line) <= 79 for line in code.splitlines())
 
 
 def test_generate_resolves_data_type_when_attribute_type_is_missing():
@@ -647,12 +1117,95 @@ def test_generate_compound_child_enum_uses_generated_enum_field():
     assert code is not None
     compile(code, "compound_enum_node_attr.py", "exec")
 
-    assert "class Primary_primaryModeEnumPlugOperator(" in code
-    assert "class Primary_primaryModeEnumAttrOperator(" in code
+    assert (
+        "class Primary_primaryModeEnumPlugOperator("
+        'EnumPlugOperator["Primary_primaryModeEnumAttrOperator"]):'
+    ) in code
+    assert (
+        "class Primary_primaryModeEnumAttrOperator("
+        "EnumAttrOperator[Primary_primaryModeEnumPlugOperator]):"
+    ) in code
     assert "class Primary_primaryModeEnumField(" in code
     assert "NAME_MAP = {" in code
     assert "primaryMode = Primary_primaryModeEnumField()" in code
     assert "primaryMode = EnumField()" not in code
+
+
+def test_generate_nested_double_linear3_compound_preserves_child_type():
+    attr_infos = _nested_double_linear3_compound_attr_infos()
+
+    node_attr_code = generate_node_attr_code(
+        "nestedLinearCondition",
+        attr_infos=attr_infos,
+    )
+    assert node_attr_code is not None
+    compile(node_attr_code, "nested_linear_condition_node_attr.py", "exec")
+
+    assert "class Case_valuePlugOperator(" in node_attr_code
+    assert "DoubleLinear3CompoundBasePlugOperator" in node_attr_code
+    assert "valueX = DoubleLinearField" in node_attr_code
+    assert "value = Case_valueField" in node_attr_code
+    assert "value = Double3Field" not in node_attr_code
+
+    node_code = generate_node_class_code(
+        "nestedLinearCondition",
+        attr_infos=attr_infos,
+    )
+    compile(node_code, "nested_linear_condition.py", "exec")
+
+    assert "case = CaseField(multi=True)" in node_code
+    assert "valueX = DoubleLinearField" not in node_code
+
+
+def test_generate_typed_value_child_preserves_descriptor_type():
+    code = generate_node_attr_code(
+        "typedValueCondition",
+        attr_infos=[
+            _attr(
+                "case",
+                "cs",
+                "compound",
+                multi=True,
+                number_of_children=1,
+            ),
+            _attr(
+                "case.value",
+                "v",
+                "typed",
+                parent="case",
+                path_name="value",
+            ),
+        ],
+    )
+
+    assert code is not None
+    compile(code, "typed_value_condition_node_attr.py", "exec")
+    assert code.count("value: TypedField = TypedField()") == 2
+
+
+def test_generate_nested_multi_compound_preserves_indexable_hierarchy():
+    attr_infos = _nested_multi_compound_attr_infos()
+
+    node_attr_code = generate_node_attr_code(
+        "nestedMultiCondition",
+        attr_infos=attr_infos,
+    )
+    assert node_attr_code is not None
+    compile(node_attr_code, "nested_multi_condition_node_attr.py", "exec")
+
+    assert "class Case_extraPlugOperator(" in node_attr_code
+    assert "class Case_extraField(" in node_attr_code
+    assert (
+        "extra: Case_extraField = Case_extraField(multi=True" in node_attr_code
+    )
+    assert "value: TypedField = TypedField()" in node_attr_code
+
+    node_code = generate_node_class_code(
+        "nestedMultiCondition",
+        attr_infos=attr_infos,
+    )
+    compile(node_code, "nested_multi_condition.py", "exec")
+    assert "case = CaseField(multi=True)" in node_code
 
 
 def test_generate_skips_deprecated_and_numeric_short_aliases():
@@ -719,7 +1272,7 @@ def test_generate_node_class_file_can_include_skipped_node_type(tmp_path):
     assert "default = BoolField()" in code
     assert "def_ = default" in code
     assert (
-        "class NodeGraphEditorInfo(_GeneratedNodeGraphEditorInfo):"
+        "class NodeGraphEditorInfo(GeneratedNodeGraphEditorInfo):"
         in public_code
     )
 
@@ -773,7 +1326,7 @@ def test_generate_node_class_file_supports_keyword_module_wrapper(tmp_path):
     compile(code, "and_public.py", "exec")
     assert "from importlib import import_module" in code
     assert 'f"{__package__}._generated.and"' in code
-    assert "class And(_GeneratedAnd):" in code
+    assert "class And(GeneratedAnd):" in code
 
 
 def test_generate_node_class_file_skips_unsafe_dag_node_type(tmp_path):
@@ -825,7 +1378,7 @@ def test_generate_node_class_file_can_include_unsafe_dag_node_type(tmp_path):
     assert 'NODE_TYPE = "caddyManipBase"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
-    assert "class CaddyManipBase(_GeneratedCaddyManipBase):" in public_code
+    assert "class CaddyManipBase(GeneratedCaddyManipBase):" in public_code
 
 
 def test_generate_node_class_file_skips_unsafe_dag_tool_node_type(tmp_path):
@@ -879,7 +1432,7 @@ def test_generate_node_class_file_can_include_unsafe_dag_tool_node_type(
     assert 'NODE_TYPE = "placerTool"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
-    assert "class PlacerTool(_GeneratedPlacerTool):" in public_code
+    assert "class PlacerTool(GeneratedPlacerTool):" in public_code
 
 
 def test_generate_node_class_file_outputs_xgm_dag_node_type(tmp_path):
@@ -909,7 +1462,7 @@ def test_generate_node_class_file_outputs_xgm_dag_node_type(tmp_path):
     assert 'NODE_TYPE = "xgmSubPatch"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
-    assert "class XgmSubPatch(_GeneratedXgmSubPatch):" in public_code
+    assert "class XgmSubPatch(GeneratedXgmSubPatch):" in public_code
 
 
 def test_generate_node_class_file_skips_unsafe_dag_node_type_keyword(
@@ -965,7 +1518,7 @@ def test_generate_node_class_file_can_include_unsafe_dag_node_type_keyword(
     assert 'NODE_TYPE = "buttonManip"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
-    assert "class ButtonManip(_GeneratedButtonManip):" in public_code
+    assert "class ButtonManip(GeneratedButtonManip):" in public_code
 
 
 def test_generate_node_class_file_outputs_transform_node_path(tmp_path):
@@ -1011,8 +1564,10 @@ def test_generate_node_class_file_outputs_transform_node_path(tmp_path):
     compile(public_code, "joint_public.py", "exec")
     compile(node_attr_code, "joint_node_attr.py", "exec")
     assert "from .._core import Transform" in code
-    assert "from .....attr.define.node_attr.joint import JointOrientField" in code
-    assert "class Joint(_GeneratedJoint):" in public_code
+    assert (
+        "from .....attr.define.node_attr.joint import JointOrientField" in code
+    )
+    assert "class Joint(GeneratedJoint):" in public_code
     assert "translate = TranslateField()" not in code
     assert "class TranslateField(" not in node_attr_code
     assert "class JointOrientField(" in node_attr_code
@@ -1052,13 +1607,15 @@ def test_generate_node_class_file_outputs_transform_base_path(tmp_path):
     )
 
     assert output_path.exists()
-    assert core_path.read_text(encoding="utf-8") == "# manual transform class\n"
+    assert (
+        core_path.read_text(encoding="utf-8") == "# manual transform class\n"
+    )
 
     code = output_path.read_text(encoding="utf-8")
 
     compile(code, "transform.py", "exec")
     assert "from ..._core import DAG" in code
-    assert "class _GeneratedTransform(DAG):" in code
+    assert "class GeneratedTransform(DAG):" in code
 
 
 def test_generate_node_class_file_outputs_shape_base_path(tmp_path):
@@ -1087,5 +1644,5 @@ def test_generate_node_class_file_outputs_shape_base_path(tmp_path):
     compile(generated_code, "shape.py", "exec")
     compile(public_code, "shape_public.py", "exec")
     assert "from ..._core import DAG" in generated_code
-    assert "class _GeneratedShape(DAG):" in generated_code
-    assert "class Shape(_GeneratedShape):" in public_code
+    assert "class GeneratedShape(DAG):" in generated_code
+    assert "class Shape(GeneratedShape):" in public_code

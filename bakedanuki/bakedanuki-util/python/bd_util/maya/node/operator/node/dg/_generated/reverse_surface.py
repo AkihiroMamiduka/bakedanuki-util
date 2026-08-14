@@ -1,6 +1,6 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
@@ -8,7 +8,7 @@ from ....attr.define.std.at.enum import (
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     U = 0
@@ -17,7 +17,7 @@ class DirectionEnumPlugOperator(EnumPlugOperator):
     SWAP = 3
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     U = 0
@@ -42,7 +42,7 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class _GeneratedReverseSurface(DG):
+class GeneratedReverseSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "reverseSurface"

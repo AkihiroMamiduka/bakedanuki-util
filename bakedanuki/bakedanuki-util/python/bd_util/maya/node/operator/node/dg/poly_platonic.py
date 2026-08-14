@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_platonic import _GeneratedPolyPlatonic
+from ._generated.poly_platonic import GeneratedPolyPlatonic
 
 
-class PolyPlatonic(_GeneratedPolyPlatonic):
+class PolyPlatonic(GeneratedPolyPlatonic):
     __slots__ = ()
 
     NODE_TYPE = "polyPlatonic"

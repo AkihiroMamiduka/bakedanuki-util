@@ -1,22 +1,24 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_bridge_edge import TaperCurveField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class CurveTypeEnumPlugOperator(EnumPlugOperator):
+class CurveTypeEnumPlugOperator(EnumPlugOperator["CurveTypeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 0
@@ -24,7 +26,7 @@ class CurveTypeEnumPlugOperator(EnumPlugOperator):
     CURVE = 2
 
 
-class CurveTypeEnumAttrOperator(EnumAttrOperator):
+class CurveTypeEnumAttrOperator(EnumAttrOperator[CurveTypeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 0
@@ -47,14 +49,14 @@ class CurveTypeEnumField(
     PLUG_CLS = CurveTypeEnumPlugOperator
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 0
     CUSTOM = 1
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 0
@@ -75,14 +77,18 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class SourceDirectionEnumPlugOperator(EnumPlugOperator):
+class SourceDirectionEnumPlugOperator(
+    EnumPlugOperator["SourceDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     PLUS = 0
     MINUS = 1
 
 
-class SourceDirectionEnumAttrOperator(EnumAttrOperator):
+class SourceDirectionEnumAttrOperator(
+    EnumAttrOperator[SourceDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     PLUS = 0
@@ -103,14 +109,18 @@ class SourceDirectionEnumField(
     PLUG_CLS = SourceDirectionEnumPlugOperator
 
 
-class TargetDirectionEnumPlugOperator(EnumPlugOperator):
+class TargetDirectionEnumPlugOperator(
+    EnumPlugOperator["TargetDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     PLUS = 0
     MINUS = 1
 
 
-class TargetDirectionEnumAttrOperator(EnumAttrOperator):
+class TargetDirectionEnumAttrOperator(
+    EnumAttrOperator[TargetDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     PLUS = 0
@@ -131,7 +141,7 @@ class TargetDirectionEnumField(
     PLUG_CLS = TargetDirectionEnumPlugOperator
 
 
-class _GeneratedPolyBridgeEdge(DG):
+class GeneratedPolyBridgeEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyBridgeEdge"
@@ -178,10 +188,14 @@ class _GeneratedPolyBridgeEdge(DG):
     inputProfile = DataNurbsCurveField()
     ipc = inputProfile
 
-    twist = DoubleAngleField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    twist = DoubleAngleField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
     twt = twist
 
-    taper = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=15.0)
+    taper = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=15.0
+    )
     tp = taper
 
     taperCurve = TaperCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
@@ -202,7 +216,11 @@ class _GeneratedPolyBridgeEdge(DG):
     curveType = CurveTypeEnumField(default_value=0)
     ctp = curveType
 
-    smoothingAngle = DoubleAngleField(default_value=29.999999999999996, soft_min_value=0.0, soft_max_value=180.0)
+    smoothingAngle = DoubleAngleField(
+        default_value=29.999999999999996,
+        soft_min_value=0.0,
+        soft_max_value=180.0,
+    )
     sma = smoothingAngle
 
     reverse = BoolField(default_value=False)

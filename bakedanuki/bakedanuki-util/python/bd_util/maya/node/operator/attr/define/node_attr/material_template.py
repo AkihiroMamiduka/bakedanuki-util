@@ -9,9 +9,7 @@ from ..std.at.message import MessageField
 from ..std.dt.string import DataStringField
 
 
-class AssignPlugOperator(
-    CompoundPlugOperator["AssignAttrOperator"]
-):
+class AssignPlugOperator(CompoundPlugOperator["AssignAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("componentTagExpression", "gtg"),
@@ -25,9 +23,7 @@ class AssignPlugOperator(
     shd = shadingEngine
 
 
-class AssignAttrOperator(
-    CompoundAttrOperator[AssignPlugOperator]
-):
+class AssignAttrOperator(CompoundAttrOperator[AssignPlugOperator]):
     __slots__ = ()
 
     componentTagExpression = DataStringField()
@@ -37,9 +33,7 @@ class AssignAttrOperator(
     shd = shadingEngine
 
 
-class AssignField(
-    CompoundField[AssignAttrOperator, AssignPlugOperator]
-):
+class AssignField(CompoundField[AssignAttrOperator, AssignPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AssignAttrOperator

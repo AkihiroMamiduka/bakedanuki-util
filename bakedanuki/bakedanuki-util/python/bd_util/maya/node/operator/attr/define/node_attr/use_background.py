@@ -6,14 +6,14 @@ from ..std.at.light_data import (
     LightDataPlugOperator,
     LightDataField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float3Field,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
 class RayDirectionPlugOperator(
@@ -158,7 +158,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -396,7 +398,9 @@ class SpecularColorAttrOperator(
 
 
 class SpecularColorField(
-    Float3CompoundBaseField[SpecularColorAttrOperator, SpecularColorPlugOperator]
+    Float3CompoundBaseField[
+        SpecularColorAttrOperator, SpecularColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -449,7 +453,9 @@ class OutMatteOpacityAttrOperator(
 
 
 class OutMatteOpacityField(
-    Float3CompoundBaseField[OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator]
+    Float3CompoundBaseField[
+        OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator
+    ]
 ):
     __slots__ = ()
 

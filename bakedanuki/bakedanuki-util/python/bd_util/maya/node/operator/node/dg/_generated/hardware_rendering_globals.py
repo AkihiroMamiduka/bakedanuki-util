@@ -9,25 +9,29 @@ from ....attr.define.node_attr.hardware_rendering_globals import (
     MotionBlurMultiframeChartSizeField,
     QuadDrawOverrideColorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class HoldOutDetailModeEnumPlugOperator(EnumPlugOperator):
+class HoldOutDetailModeEnumPlugOperator(
+    EnumPlugOperator["HoldOutDetailModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PER_OBJECT_HOLD_MINUS_OUT = 1
     ALL_OBJECT_HOLD_MINUS_OUT = 2
 
 
-class HoldOutDetailModeEnumAttrOperator(EnumAttrOperator):
+class HoldOutDetailModeEnumAttrOperator(
+    EnumAttrOperator[HoldOutDetailModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PER_OBJECT_HOLD_MINUS_OUT = 1
@@ -40,7 +44,9 @@ class HoldOutDetailModeEnumAttrOperator(EnumAttrOperator):
 
 
 class HoldOutDetailModeEnumField(
-    EnumField[HoldOutDetailModeEnumAttrOperator, HoldOutDetailModeEnumPlugOperator]
+    EnumField[
+        HoldOutDetailModeEnumAttrOperator, HoldOutDetailModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48,7 +54,9 @@ class HoldOutDetailModeEnumField(
     PLUG_CLS = HoldOutDetailModeEnumPlugOperator
 
 
-class VertexAnimationCacheEnumPlugOperator(EnumPlugOperator):
+class VertexAnimationCacheEnumPlugOperator(
+    EnumPlugOperator["VertexAnimationCacheEnumAttrOperator"]
+):
     __slots__ = ()
 
     DISABLE = 0
@@ -56,7 +64,9 @@ class VertexAnimationCacheEnumPlugOperator(EnumPlugOperator):
     HARDWARE = 2
 
 
-class VertexAnimationCacheEnumAttrOperator(EnumAttrOperator):
+class VertexAnimationCacheEnumAttrOperator(
+    EnumAttrOperator[VertexAnimationCacheEnumPlugOperator]
+):
     __slots__ = ()
 
     DISABLE = 0
@@ -71,7 +81,10 @@ class VertexAnimationCacheEnumAttrOperator(EnumAttrOperator):
 
 
 class VertexAnimationCacheEnumField(
-    EnumField[VertexAnimationCacheEnumAttrOperator, VertexAnimationCacheEnumPlugOperator]
+    EnumField[
+        VertexAnimationCacheEnumAttrOperator,
+        VertexAnimationCacheEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -79,7 +92,9 @@ class VertexAnimationCacheEnumField(
     PLUG_CLS = VertexAnimationCacheEnumPlugOperator
 
 
-class TransparencyAlgorithmEnumPlugOperator(EnumPlugOperator):
+class TransparencyAlgorithmEnumPlugOperator(
+    EnumPlugOperator["TransparencyAlgorithmEnumAttrOperator"]
+):
     __slots__ = ()
 
     SIMPLE = 0
@@ -89,7 +104,9 @@ class TransparencyAlgorithmEnumPlugOperator(EnumPlugOperator):
     ALPHA_CUT = 5
 
 
-class TransparencyAlgorithmEnumAttrOperator(EnumAttrOperator):
+class TransparencyAlgorithmEnumAttrOperator(
+    EnumAttrOperator[TransparencyAlgorithmEnumPlugOperator]
+):
     __slots__ = ()
 
     SIMPLE = 0
@@ -108,7 +125,10 @@ class TransparencyAlgorithmEnumAttrOperator(EnumAttrOperator):
 
 
 class TransparencyAlgorithmEnumField(
-    EnumField[TransparencyAlgorithmEnumAttrOperator, TransparencyAlgorithmEnumPlugOperator]
+    EnumField[
+        TransparencyAlgorithmEnumAttrOperator,
+        TransparencyAlgorithmEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -116,14 +136,18 @@ class TransparencyAlgorithmEnumField(
     PLUG_CLS = TransparencyAlgorithmEnumPlugOperator
 
 
-class TextureMaxResModeEnumPlugOperator(EnumPlugOperator):
+class TextureMaxResModeEnumPlugOperator(
+    EnumPlugOperator["TextureMaxResModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
     CUSTOM = 1
 
 
-class TextureMaxResModeEnumAttrOperator(EnumAttrOperator):
+class TextureMaxResModeEnumAttrOperator(
+    EnumAttrOperator[TextureMaxResModeEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -136,7 +160,9 @@ class TextureMaxResModeEnumAttrOperator(EnumAttrOperator):
 
 
 class TextureMaxResModeEnumField(
-    EnumField[TextureMaxResModeEnumAttrOperator, TextureMaxResModeEnumPlugOperator]
+    EnumField[
+        TextureMaxResModeEnumAttrOperator, TextureMaxResModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -144,7 +170,9 @@ class TextureMaxResModeEnumField(
     PLUG_CLS = TextureMaxResModeEnumPlugOperator
 
 
-class SsaoSamplesEnumPlugOperator(EnumPlugOperator):
+class SsaoSamplesEnumPlugOperator(
+    EnumPlugOperator["SsaoSamplesEnumAttrOperator"]
+):
     __slots__ = ()
 
     _8 = 8
@@ -152,7 +180,9 @@ class SsaoSamplesEnumPlugOperator(EnumPlugOperator):
     _32 = 32
 
 
-class SsaoSamplesEnumAttrOperator(EnumAttrOperator):
+class SsaoSamplesEnumAttrOperator(
+    EnumAttrOperator[SsaoSamplesEnumPlugOperator]
+):
     __slots__ = ()
 
     _8 = 8
@@ -175,7 +205,9 @@ class SsaoSamplesEnumField(
     PLUG_CLS = SsaoSamplesEnumPlugOperator
 
 
-class HwFogFalloffEnumPlugOperator(EnumPlugOperator):
+class HwFogFalloffEnumPlugOperator(
+    EnumPlugOperator["HwFogFalloffEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -183,7 +215,9 @@ class HwFogFalloffEnumPlugOperator(EnumPlugOperator):
     EXPONENTIAL_SQUARED = 2
 
 
-class HwFogFalloffEnumAttrOperator(EnumAttrOperator):
+class HwFogFalloffEnumAttrOperator(
+    EnumAttrOperator[HwFogFalloffEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -206,13 +240,17 @@ class HwFogFalloffEnumField(
     PLUG_CLS = HwFogFalloffEnumPlugOperator
 
 
-class MotionBlurTypeEnumPlugOperator(EnumPlugOperator):
+class MotionBlurTypeEnumPlugOperator(
+    EnumPlugOperator["MotionBlurTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     TRANSFORM = 0
 
 
-class MotionBlurTypeEnumAttrOperator(EnumAttrOperator):
+class MotionBlurTypeEnumAttrOperator(
+    EnumAttrOperator[MotionBlurTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     TRANSFORM = 0
@@ -231,7 +269,9 @@ class MotionBlurTypeEnumField(
     PLUG_CLS = MotionBlurTypeEnumPlugOperator
 
 
-class MotionBlurSampleCountEnumPlugOperator(EnumPlugOperator):
+class MotionBlurSampleCountEnumPlugOperator(
+    EnumPlugOperator["MotionBlurSampleCountEnumAttrOperator"]
+):
     __slots__ = ()
 
     _4 = 4
@@ -240,7 +280,9 @@ class MotionBlurSampleCountEnumPlugOperator(EnumPlugOperator):
     _32 = 32
 
 
-class MotionBlurSampleCountEnumAttrOperator(EnumAttrOperator):
+class MotionBlurSampleCountEnumAttrOperator(
+    EnumAttrOperator[MotionBlurSampleCountEnumPlugOperator]
+):
     __slots__ = ()
 
     _4 = 4
@@ -257,7 +299,10 @@ class MotionBlurSampleCountEnumAttrOperator(EnumAttrOperator):
 
 
 class MotionBlurSampleCountEnumField(
-    EnumField[MotionBlurSampleCountEnumAttrOperator, MotionBlurSampleCountEnumPlugOperator]
+    EnumField[
+        MotionBlurSampleCountEnumAttrOperator,
+        MotionBlurSampleCountEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -265,7 +310,9 @@ class MotionBlurSampleCountEnumField(
     PLUG_CLS = MotionBlurSampleCountEnumPlugOperator
 
 
-class MultiSampleCountEnumPlugOperator(EnumPlugOperator):
+class MultiSampleCountEnumPlugOperator(
+    EnumPlugOperator["MultiSampleCountEnumAttrOperator"]
+):
     __slots__ = ()
 
     _1 = 1
@@ -275,7 +322,9 @@ class MultiSampleCountEnumPlugOperator(EnumPlugOperator):
     _16 = 16
 
 
-class MultiSampleCountEnumAttrOperator(EnumAttrOperator):
+class MultiSampleCountEnumAttrOperator(
+    EnumAttrOperator[MultiSampleCountEnumPlugOperator]
+):
     __slots__ = ()
 
     _1 = 1
@@ -294,7 +343,9 @@ class MultiSampleCountEnumAttrOperator(EnumAttrOperator):
 
 
 class MultiSampleCountEnumField(
-    EnumField[MultiSampleCountEnumAttrOperator, MultiSampleCountEnumPlugOperator]
+    EnumField[
+        MultiSampleCountEnumAttrOperator, MultiSampleCountEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -302,13 +353,17 @@ class MultiSampleCountEnumField(
     PLUG_CLS = MultiSampleCountEnumPlugOperator
 
 
-class MultiSampleQualityEnumPlugOperator(EnumPlugOperator):
+class MultiSampleQualityEnumPlugOperator(
+    EnumPlugOperator["MultiSampleQualityEnumAttrOperator"]
+):
     __slots__ = ()
 
     _0 = 0
 
 
-class MultiSampleQualityEnumAttrOperator(EnumAttrOperator):
+class MultiSampleQualityEnumAttrOperator(
+    EnumAttrOperator[MultiSampleQualityEnumPlugOperator]
+):
     __slots__ = ()
 
     _0 = 0
@@ -319,7 +374,9 @@ class MultiSampleQualityEnumAttrOperator(EnumAttrOperator):
 
 
 class MultiSampleQualityEnumField(
-    EnumField[MultiSampleQualityEnumAttrOperator, MultiSampleQualityEnumPlugOperator]
+    EnumField[
+        MultiSampleQualityEnumAttrOperator, MultiSampleQualityEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -327,7 +384,9 @@ class MultiSampleQualityEnumField(
     PLUG_CLS = MultiSampleQualityEnumPlugOperator
 
 
-class FloatingPointRTFormatEnumPlugOperator(EnumPlugOperator):
+class FloatingPointRTFormatEnumPlugOperator(
+    EnumPlugOperator["FloatingPointRTFormatEnumAttrOperator"]
+):
     __slots__ = ()
 
     R32G32B32A32_FLOAT = 1
@@ -335,7 +394,9 @@ class FloatingPointRTFormatEnumPlugOperator(EnumPlugOperator):
     R16G16B16A16_FLOAT = 3
 
 
-class FloatingPointRTFormatEnumAttrOperator(EnumAttrOperator):
+class FloatingPointRTFormatEnumAttrOperator(
+    EnumAttrOperator[FloatingPointRTFormatEnumPlugOperator]
+):
     __slots__ = ()
 
     R32G32B32A32_FLOAT = 1
@@ -350,7 +411,10 @@ class FloatingPointRTFormatEnumAttrOperator(EnumAttrOperator):
 
 
 class FloatingPointRTFormatEnumField(
-    EnumField[FloatingPointRTFormatEnumAttrOperator, FloatingPointRTFormatEnumPlugOperator]
+    EnumField[
+        FloatingPointRTFormatEnumAttrOperator,
+        FloatingPointRTFormatEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -358,7 +422,7 @@ class FloatingPointRTFormatEnumField(
     PLUG_CLS = FloatingPointRTFormatEnumPlugOperator
 
 
-class _GeneratedHardwareRenderingGlobals(DG):
+class GeneratedHardwareRenderingGlobals(DG):
     __slots__ = ()
 
     NODE_TYPE = "hardwareRenderingGlobals"
@@ -373,9 +437,13 @@ class _GeneratedHardwareRenderingGlobals(DG):
     otfna = objectTypeFilterNameArray
     objectTypeFilterValueArray = batchRenderControls.objectTypeFilterValueArray
     otfva = objectTypeFilterValueArray
-    pluginObjectTypeFilterNameArray = batchRenderControls.pluginObjectTypeFilterNameArray
+    pluginObjectTypeFilterNameArray = (
+        batchRenderControls.pluginObjectTypeFilterNameArray
+    )
     potfna = pluginObjectTypeFilterNameArray
-    pluginObjectTypeFilterValueArray = batchRenderControls.pluginObjectTypeFilterValueArray
+    pluginObjectTypeFilterValueArray = (
+        batchRenderControls.pluginObjectTypeFilterValueArray
+    )
     potfva = pluginObjectTypeFilterValueArray
 
     renderOverrideName = DataStringField()
@@ -399,13 +467,19 @@ class _GeneratedHardwareRenderingGlobals(DG):
     singleSidedLighting = BoolField(default_value=False)
     sslt = singleSidedLighting
 
-    colorBakeResolution = LongField(default_value=64, min_value=4, max_value=8192, soft_max_value=2048)
+    colorBakeResolution = LongField(
+        default_value=64, min_value=4, max_value=8192, soft_max_value=2048
+    )
     cbr = colorBakeResolution
 
-    bumpBakeResolution = LongField(default_value=64, min_value=4, max_value=8192, soft_max_value=2048)
+    bumpBakeResolution = LongField(
+        default_value=64, min_value=4, max_value=8192, soft_max_value=2048
+    )
     bbr = bumpBakeResolution
 
-    maxHardwareLights = LongField(default_value=8, min_value=1, soft_max_value=16)
+    maxHardwareLights = LongField(
+        default_value=8, min_value=1, soft_max_value=16
+    )
     mhl = maxHardwareLights
 
     useMaximumHardwareLights = BoolField(default_value=True)
@@ -426,7 +500,9 @@ class _GeneratedHardwareRenderingGlobals(DG):
     transparencyAlgorithm = TransparencyAlgorithmEnumField(default_value=1)
     ta = transparencyAlgorithm
 
-    transparencyQuality = FloatField(default_value=0.33000001311302185, min_value=0.0, max_value=1.0)
+    transparencyQuality = FloatField(
+        default_value=0.33000001311302185, min_value=0.0, max_value=1.0
+    )
     tq = transparencyQuality
 
     transparentShadow = BoolField(default_value=False)
@@ -441,10 +517,14 @@ class _GeneratedHardwareRenderingGlobals(DG):
     textureMaxResMode = TextureMaxResModeEnumField(default_value=0)
     tmrm = textureMaxResMode
 
-    textureMaxResolution = LongField(default_value=2048, min_value=32, max_value=16384, soft_max_value=8192)
+    textureMaxResolution = LongField(
+        default_value=2048, min_value=32, max_value=16384, soft_max_value=8192
+    )
     tmr = textureMaxResolution
 
-    textureAutoMaxResolution = LongField(default_value=2048, min_value=32, max_value=16384, soft_max_value=8192)
+    textureAutoMaxResolution = LongField(
+        default_value=2048, min_value=32, max_value=16384, soft_max_value=8192
+    )
     tamr = textureAutoMaxResolution
 
     ssaoEnable = BoolField(default_value=False)
@@ -474,13 +554,19 @@ class _GeneratedHardwareRenderingGlobals(DG):
     hwFogFalloff = HwFogFalloffEnumField(default_value=0)
     hff = hwFogFalloff
 
-    hwFogDensity = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
+    hwFogDensity = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, max_value=1.0
+    )
     hfd = hwFogDensity
 
-    hwFogStart = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1000.0)
+    hwFogStart = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1000.0
+    )
     hfs = hwFogStart
 
-    hwFogEnd = FloatField(default_value=100.0, soft_min_value=0.0, soft_max_value=1000.0)
+    hwFogEnd = FloatField(
+        default_value=100.0, soft_min_value=0.0, soft_max_value=1000.0
+    )
     hfe = hwFogEnd
 
     hwFogColor = HwFogColorField(default_value=(0.5, 0.5, 0.5))
@@ -501,7 +587,11 @@ class _GeneratedHardwareRenderingGlobals(DG):
     motionBlurType = MotionBlurTypeEnumField(default_value=0)
     mbt = motionBlurType
 
-    motionBlurShutterOpenFraction = FloatField(default_value=0.20000000298023224, min_value=0.009999999776482582, max_value=2.0)
+    motionBlurShutterOpenFraction = FloatField(
+        default_value=0.20000000298023224,
+        min_value=0.009999999776482582,
+        max_value=2.0,
+    )
     mbsof = motionBlurShutterOpenFraction
 
     motionBlurSampleCount = MotionBlurSampleCountEnumField(default_value=8)
@@ -513,7 +603,9 @@ class _GeneratedHardwareRenderingGlobals(DG):
     motionBlurFadeFilter = DataStringField()
     mbff = motionBlurFadeFilter
 
-    motionBlurFadeAmount = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    motionBlurFadeAmount = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     mbfa = motionBlurFadeAmount
 
     motionBlurFadeTint = MotionBlurFadeTintField(default_value=(0.0, 0.0, 0.0))
@@ -528,20 +620,30 @@ class _GeneratedHardwareRenderingGlobals(DG):
     motionBlurFadeTintA = FloatField(default_value=1.0)
     mbfta = motionBlurFadeTintA
 
-    motionBlurFadeEmphasis = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    motionBlurFadeEmphasis = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     mbfe = motionBlurFadeEmphasis
 
     motionBlurMultiframeEnable = BoolField(default_value=False)
     mbme = motionBlurMultiframeEnable
 
-    motionBlurMultiframeChartSize = MotionBlurMultiframeChartSizeField(default_value=(256, 256), min_value=(1, 1), max_value=(4096, 4096))
+    motionBlurMultiframeChartSize = MotionBlurMultiframeChartSizeField(
+        default_value=(256, 256), min_value=(1, 1), max_value=(4096, 4096)
+    )
     mbcs = motionBlurMultiframeChartSize
-    motionBlurMultiframeChartSizeX = motionBlurMultiframeChartSize.motionBlurMultiframeChartSizeX
+    motionBlurMultiframeChartSizeX = (
+        motionBlurMultiframeChartSize.motionBlurMultiframeChartSizeX
+    )
     mbcsx = motionBlurMultiframeChartSizeX
-    motionBlurMultiframeChartSizeY = motionBlurMultiframeChartSize.motionBlurMultiframeChartSizeY
+    motionBlurMultiframeChartSizeY = (
+        motionBlurMultiframeChartSize.motionBlurMultiframeChartSizeY
+    )
     mbcsy = motionBlurMultiframeChartSizeY
 
-    motionBlurAtlasSize = MotionBlurAtlasSizeField(default_value=(8, 4), min_value=(1, 1), max_value=(32, 32))
+    motionBlurAtlasSize = MotionBlurAtlasSizeField(
+        default_value=(8, 4), min_value=(1, 1), max_value=(32, 32)
+    )
     mbas = motionBlurAtlasSize
     motionBlurAtlasSizeX = motionBlurAtlasSize.motionBlurAtlasSizeX
     mbasx = motionBlurAtlasSizeX
@@ -563,7 +665,9 @@ class _GeneratedHardwareRenderingGlobals(DG):
     bloomFilterAux = FloatField(default_value=0.0, min_value=0.0)
     blfa = bloomFilterAux
 
-    bloomAmount = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=3.0)
+    bloomAmount = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=3.0
+    )
     blat = bloomAmount
 
     multiSampleEnable = BoolField(default_value=False)
@@ -578,13 +682,21 @@ class _GeneratedHardwareRenderingGlobals(DG):
     lineAAEnable = BoolField(default_value=False)
     laa = lineAAEnable
 
-    defaultLightIntensity = FloatField(default_value=3.140000104904175, soft_min_value=0.0, soft_max_value=20.0)
+    defaultLightIntensity = FloatField(
+        default_value=3.140000104904175,
+        soft_min_value=0.0,
+        soft_max_value=20.0,
+    )
     dli = defaultLightIntensity
 
     gammaCorrectionEnable = BoolField(default_value=False)
     gamm = gammaCorrectionEnable
 
-    gammaValue = FloatField(default_value=2.200000047683716, soft_min_value=1.0, soft_max_value=2.200000047683716)
+    gammaValue = FloatField(
+        default_value=2.200000047683716,
+        soft_min_value=1.0,
+        soft_max_value=2.200000047683716,
+    )
     gmmv = gammaValue
 
     floatingPointRTEnable = BoolField(default_value=False)
@@ -596,7 +708,9 @@ class _GeneratedHardwareRenderingGlobals(DG):
     quadDrawAlwaysOnTop = BoolField(default_value=False)
     qdaot = quadDrawAlwaysOnTop
 
-    quadDrawOverrideColor = QuadDrawOverrideColorField(default_value=(-1.0, -1.0, -1.0))
+    quadDrawOverrideColor = QuadDrawOverrideColorField(
+        default_value=(-1.0, -1.0, -1.0)
+    )
     qdoc = quadDrawOverrideColor
     quadDrawOverrideColorR = quadDrawOverrideColor.quadDrawOverrideColorR
     qdocr = quadDrawOverrideColorR
@@ -611,7 +725,9 @@ class _GeneratedHardwareRenderingGlobals(DG):
     isCustomUVBorderColor = BoolField(default_value=False)
     isuvbc = isCustomUVBorderColor
 
-    customUVBorderColor = CustomUVBorderColorField(default_value=(-1.0, -1.0, -1.0))
+    customUVBorderColor = CustomUVBorderColorField(
+        default_value=(-1.0, -1.0, -1.0)
+    )
     uvbc = customUVBorderColor
     customUVBorderColorR = customUVBorderColor.customUVBorderColorR
     uvbcr = customUVBorderColorR

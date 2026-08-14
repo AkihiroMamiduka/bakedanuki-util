@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_base_node import _GeneratedMASH_BaseNode
+from ._generated.mash_base_node import GeneratedMASHBaseNode
 
 
-class MASH_BaseNode(_GeneratedMASH_BaseNode):
+class MASHBaseNode(GeneratedMASHBaseNode):
     __slots__ = ()
 
     NODE_TYPE = "MASH_BaseNode"

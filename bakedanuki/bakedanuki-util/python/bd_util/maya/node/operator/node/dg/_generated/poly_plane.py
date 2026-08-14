@@ -1,19 +1,21 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_plane import AxisField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -21,7 +23,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     PRESERVE_ASPECT_RATIO = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -44,7 +46,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -52,7 +54,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     NORMALIZE_AND_PRESERVE_ASPECT_RATIO = 2
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -62,7 +64,9 @@ class CreateUVsEnumAttrOperator(EnumAttrOperator):
     NAME_MAP = {
         NONE: "None",
         NORMALIZATION_OFF: "Normalization Off",
-        NORMALIZE_AND_PRESERVE_ASPECT_RATIO: "Normalize and Preserve Aspect Ratio",
+        NORMALIZE_AND_PRESERVE_ASPECT_RATIO: (
+            "Normalize and Preserve Aspect Ratio"
+        ),
     }
 
 
@@ -75,7 +79,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyPlane(DG):
+class GeneratedPolyPlane(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPlane"
@@ -92,7 +96,9 @@ class _GeneratedPolyPlane(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -110,16 +116,24 @@ class _GeneratedPolyPlane(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    width = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    width = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     w = width
 
-    height = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    height = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     h = height
 
-    subdivisionsWidth = LongField(default_value=10, min_value=1, soft_max_value=50)
+    subdivisionsWidth = LongField(
+        default_value=10, min_value=1, soft_max_value=50
+    )
     sw = subdivisionsWidth
 
-    subdivisionsHeight = LongField(default_value=10, min_value=1, soft_max_value=50)
+    subdivisionsHeight = LongField(
+        default_value=10, min_value=1, soft_max_value=50
+    )
     sh = subdivisionsHeight
 
     texture = TextureEnumField(default_value=1)

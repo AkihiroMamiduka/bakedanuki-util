@@ -7,10 +7,10 @@ from ....attr.define.node_attr.ai_fog import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiFog(DG):
+class GeneratedAiFog(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFog"
@@ -27,7 +27,9 @@ class _GeneratedAiFog(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -36,9 +38,15 @@ class _GeneratedAiFog(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    distance = FloatField(default_value=0.019999999552965164, min_value=0.0, soft_max_value=1000.0)
+    distance = FloatField(
+        default_value=0.019999999552965164,
+        min_value=0.0,
+        soft_max_value=1000.0,
+    )
 
-    height = FloatField(default_value=5.0, min_value=0.0, soft_max_value=1000.0)
+    height = FloatField(
+        default_value=5.0, min_value=0.0, soft_max_value=1000.0
+    )
 
     color = ColorField(default_value=(1.0, 1.0, 1.0))
     colorR = color.colorR

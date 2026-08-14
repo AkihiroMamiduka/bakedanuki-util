@@ -1,17 +1,17 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_create_face import VerticesField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -19,7 +19,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     UNITIZED = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -42,7 +42,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class _GeneratedPolyCreateFace(DG):
+class GeneratedPolyCreateFace(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCreateFace"
@@ -56,7 +56,9 @@ class _GeneratedPolyCreateFace(DG):
     loop = LongField(multi=True, default_value=0)
     l = loop
 
-    subdivision = LongField(default_value=1, min_value=1, max_value=100, soft_max_value=10)
+    subdivision = LongField(
+        default_value=1, min_value=1, max_value=100, soft_max_value=10
+    )
     s = subdivision
 
     texture = TextureEnumField(default_value=0)

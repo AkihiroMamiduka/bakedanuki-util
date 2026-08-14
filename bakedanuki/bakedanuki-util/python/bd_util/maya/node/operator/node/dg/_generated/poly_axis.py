@@ -1,19 +1,21 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_axis import AxisField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FrameTypeEnumPlugOperator(EnumPlugOperator):
+class FrameTypeEnumPlugOperator(EnumPlugOperator["FrameTypeEnumAttrOperator"]):
     __slots__ = ()
 
     AXIS = 0
@@ -21,7 +23,7 @@ class FrameTypeEnumPlugOperator(EnumPlugOperator):
     LOCATOR = 2
 
 
-class FrameTypeEnumAttrOperator(EnumAttrOperator):
+class FrameTypeEnumAttrOperator(EnumAttrOperator[FrameTypeEnumPlugOperator]):
     __slots__ = ()
 
     AXIS = 0
@@ -44,7 +46,7 @@ class FrameTypeEnumField(
     PLUG_CLS = FrameTypeEnumPlugOperator
 
 
-class ArrowTypeEnumPlugOperator(EnumPlugOperator):
+class ArrowTypeEnumPlugOperator(EnumPlugOperator["ArrowTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -52,7 +54,7 @@ class ArrowTypeEnumPlugOperator(EnumPlugOperator):
     CONE = 2
 
 
-class ArrowTypeEnumAttrOperator(EnumAttrOperator):
+class ArrowTypeEnumAttrOperator(EnumAttrOperator[ArrowTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -75,7 +77,7 @@ class ArrowTypeEnumField(
     PLUG_CLS = ArrowTypeEnumPlugOperator
 
 
-class _GeneratedPolyAxis(DG):
+class GeneratedPolyAxis(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyAxis"
@@ -92,7 +94,9 @@ class _GeneratedPolyAxis(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -113,25 +117,37 @@ class _GeneratedPolyAxis(DG):
     frameType = FrameTypeEnumField(default_value=0)
     ftp = frameType
 
-    scale = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    scale = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     sca = scale
 
-    radius = DoubleLinearField(default_value=0.05, min_value=0.001, soft_max_value=100.0)
+    radius = DoubleLinearField(
+        default_value=0.05, min_value=0.001, soft_max_value=100.0
+    )
     r = radius
 
-    lengthX = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    lengthX = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     lx = lengthX
 
-    lengthY = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    lengthY = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     ly = lengthY
 
-    lengthZ = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    lengthZ = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     lz = lengthZ
 
     arrowType = ArrowTypeEnumField(default_value=1)
     arw = arrowType
 
-    subdivisionsAxis = LongField(default_value=10, min_value=3, soft_max_value=50)
+    subdivisionsAxis = LongField(
+        default_value=10, min_value=3, soft_max_value=50
+    )
     sa = subdivisionsAxis
 
     rightHanded = BoolField(default_value=True)

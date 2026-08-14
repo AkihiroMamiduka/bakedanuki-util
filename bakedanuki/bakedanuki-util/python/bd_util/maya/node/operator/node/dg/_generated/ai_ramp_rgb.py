@@ -5,17 +5,17 @@ from ....attr.define.node_attr.ai_ramp_rgb import (
     OutTransparencyField,
     RampField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     CUSTOM = 0
@@ -28,7 +28,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     TIME = 7
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     CUSTOM = 0
@@ -52,16 +52,16 @@ class TypeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class UseImplicitUvsEnumPlugOperator(EnumPlugOperator):
+class UseImplicitUvsEnumPlugOperator(
+    EnumPlugOperator["UseImplicitUvsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -69,7 +69,9 @@ class UseImplicitUvsEnumPlugOperator(EnumPlugOperator):
     CURVES_ONLY = 2
 
 
-class UseImplicitUvsEnumAttrOperator(EnumAttrOperator):
+class UseImplicitUvsEnumAttrOperator(
+    EnumAttrOperator[UseImplicitUvsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -92,7 +94,7 @@ class UseImplicitUvsEnumField(
     PLUG_CLS = UseImplicitUvsEnumPlugOperator
 
 
-class _GeneratedAiRampRgb(DG):
+class GeneratedAiRampRgb(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiRampRgb"
@@ -106,7 +108,9 @@ class _GeneratedAiRampRgb(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

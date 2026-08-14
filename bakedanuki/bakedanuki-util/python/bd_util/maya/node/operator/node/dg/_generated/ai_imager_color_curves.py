@@ -7,11 +7,11 @@ from ....attr.define.node_attr.ai_imager_color_curves import (
     RampRGBField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiImagerColorCurves(DG):
+class GeneratedAiImagerColorCurves(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerColorCurves"
@@ -29,14 +29,22 @@ class _GeneratedAiImagerColorCurves(DG):
     aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    rampRGB = RampRGBField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
+    rampRGB = RampRGBField(
+        multi=True, default_value=(0.0, 0.0, 1.0), category="arnold"
+    )
     aiRampRGB = rampRGB
 
-    rampR = RampRField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
+    rampR = RampRField(
+        multi=True, default_value=(0.0, 0.0, 1.0), category="arnold"
+    )
     aiRampR = rampR
 
-    rampG = RampGField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
+    rampG = RampGField(
+        multi=True, default_value=(0.0, 0.0, 1.0), category="arnold"
+    )
     aiRampG = rampG
 
-    rampB = RampBField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
+    rampB = RampBField(
+        multi=True, default_value=(0.0, 0.0, 1.0), category="arnold"
+    )
     aiRampB = rampB

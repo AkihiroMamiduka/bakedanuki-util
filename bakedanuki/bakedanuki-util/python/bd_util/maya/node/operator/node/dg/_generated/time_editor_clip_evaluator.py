@@ -9,7 +9,7 @@ from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedTimeEditorClipEvaluator(DG):
+class GeneratedTimeEditorClipEvaluator(DG):
     __slots__ = ()
 
     NODE_TYPE = "timeEditorClipEvaluator"

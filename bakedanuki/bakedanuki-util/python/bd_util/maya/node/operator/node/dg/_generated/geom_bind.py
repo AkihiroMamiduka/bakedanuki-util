@@ -1,12 +1,12 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedGeomBind(DG):
+class GeneratedGeomBind(DG):
     __slots__ = ()
 
     NODE_TYPE = "geomBind"

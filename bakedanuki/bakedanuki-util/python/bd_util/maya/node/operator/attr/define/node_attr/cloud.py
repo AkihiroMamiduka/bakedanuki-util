@@ -1,15 +1,13 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
-    Float2CompoundBaseAttrOperator,
-    Float2CompoundBasePlugOperator,
-    Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float2CompoundBaseAttrOperator,
+    Float2CompoundBasePlugOperator,
+    Float2CompoundBaseField,
 )
 
 
@@ -526,7 +524,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -543,9 +543,7 @@ class RefPointCameraField(
     rcz = refPointCameraZ
 
 
-class Color1PlugOperator(
-    Float3CompoundBasePlugOperator["Color1AttrOperator"]
-):
+class Color1PlugOperator(Float3CompoundBasePlugOperator["Color1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color1R", "c1r"),
@@ -563,9 +561,7 @@ class Color1PlugOperator(
     c1b = color1B
 
 
-class Color1AttrOperator(
-    Float3CompoundBaseAttrOperator[Color1PlugOperator]
-):
+class Color1AttrOperator(Float3CompoundBaseAttrOperator[Color1PlugOperator]):
     __slots__ = ()
 
     color1R = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -596,9 +592,7 @@ class Color1Field(
     c1b = color1B
 
 
-class Color2PlugOperator(
-    Float3CompoundBasePlugOperator["Color2AttrOperator"]
-):
+class Color2PlugOperator(Float3CompoundBasePlugOperator["Color2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color2R", "c2r"),
@@ -616,9 +610,7 @@ class Color2PlugOperator(
     c2b = color2B
 
 
-class Color2AttrOperator(
-    Float3CompoundBaseAttrOperator[Color2PlugOperator]
-):
+class Color2AttrOperator(Float3CompoundBaseAttrOperator[Color2PlugOperator]):
     __slots__ = ()
 
     color2R = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -669,9 +661,7 @@ class RipplesPlugOperator(
     rz = ripplesZ
 
 
-class RipplesAttrOperator(
-    Float3CompoundBaseAttrOperator[RipplesPlugOperator]
-):
+class RipplesAttrOperator(Float3CompoundBaseAttrOperator[RipplesPlugOperator]):
     __slots__ = ()
 
     ripplesX = FloatField(default_value=1.0, min_value=0.0)
@@ -702,9 +692,7 @@ class RipplesField(
     rz = ripplesZ
 
 
-class DepthPlugOperator(
-    Float2CompoundBasePlugOperator["DepthAttrOperator"]
-):
+class DepthPlugOperator(Float2CompoundBasePlugOperator["DepthAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("depthMin", "dmn"),
@@ -718,9 +706,7 @@ class DepthPlugOperator(
     dmx = depthMax
 
 
-class DepthAttrOperator(
-    Float2CompoundBaseAttrOperator[DepthPlugOperator]
-):
+class DepthAttrOperator(Float2CompoundBaseAttrOperator[DepthPlugOperator]):
     __slots__ = ()
 
     depthMin = FloatField(default_value=0.0, min_value=0.0)

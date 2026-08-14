@@ -1,20 +1,25 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
+from ...........value import FloatLinear2
 from .._base import (
     LinearCompoundBasePlugOperator,
     LinearCompoundBaseAttrOperator,
     LinearCompoundBaseField,
 )
 
-A = TypeVar("A", bound="FloatLinear2CompoundBaseAttrOperator")
+A = TypeVar("A", bound="FloatLinear2CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="FloatLinear2CompoundBasePlugOperator")
+P = TypeVar("P", bound="FloatLinear2CompoundBasePlugOperator[Any]")
 
 
-class FloatLinear2CompoundBasePlugOperator(LinearCompoundBasePlugOperator[A]):
+class FloatLinear2CompoundBasePlugOperator(
+    LinearCompoundBasePlugOperator[A, FloatLinear2]
+):
     __slots__ = ()
+
+    VALUE_TYPE = FloatLinear2
 
 
 class FloatLinear2CompoundBaseAttrOperator(LinearCompoundBaseAttrOperator[P]):

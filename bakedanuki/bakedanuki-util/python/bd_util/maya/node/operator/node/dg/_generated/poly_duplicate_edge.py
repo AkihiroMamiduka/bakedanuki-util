@@ -1,26 +1,28 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class SplitTypeEnumPlugOperator(EnumPlugOperator):
+class SplitTypeEnumPlugOperator(EnumPlugOperator["SplitTypeEnumAttrOperator"]):
     __slots__ = ()
 
     ABSOLUTE = 0
     RELATIVE = 1
 
 
-class SplitTypeEnumAttrOperator(EnumAttrOperator):
+class SplitTypeEnumAttrOperator(EnumAttrOperator[SplitTypeEnumPlugOperator]):
     __slots__ = ()
 
     ABSOLUTE = 0
@@ -41,7 +43,7 @@ class SplitTypeEnumField(
     PLUG_CLS = SplitTypeEnumPlugOperator
 
 
-class _GeneratedPolyDuplicateEdge(DG):
+class GeneratedPolyDuplicateEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyDuplicateEdge"
@@ -79,16 +81,22 @@ class _GeneratedPolyDuplicateEdge(DG):
     offset = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     of = offset
 
-    startVertexOffset = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    startVertexOffset = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     svo = startVertexOffset
 
-    endVertexOffset = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    endVertexOffset = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     evo = endVertexOffset
 
     deleteEdge = BoolField(default_value=True)
     de = deleteEdge
 
-    smoothingAngle = DoubleAngleField(default_value=180.0, soft_min_value=0.0, soft_max_value=180.0)
+    smoothingAngle = DoubleAngleField(
+        default_value=180.0, soft_min_value=0.0, soft_max_value=180.0
+    )
     sma = smoothingAngle
 
     splitType = SplitTypeEnumField(default_value=1)
@@ -97,5 +105,7 @@ class _GeneratedPolyDuplicateEdge(DG):
     insertWithEdgeFlow = BoolField(default_value=False)
     ief = insertWithEdgeFlow
 
-    adjustEdgeFlow = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    adjustEdgeFlow = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     aef = adjustEdgeFlow

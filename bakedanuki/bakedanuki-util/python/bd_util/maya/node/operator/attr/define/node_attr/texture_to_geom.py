@@ -5,8 +5,8 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import Float3Field
 
 
 class OutColorDataPlugOperator(
@@ -25,9 +25,7 @@ class OutColorDataPlugOperator(
     oa = outAlpha
 
 
-class OutColorDataAttrOperator(
-    CompoundAttrOperator[OutColorDataPlugOperator]
-):
+class OutColorDataAttrOperator(CompoundAttrOperator[OutColorDataPlugOperator]):
     __slots__ = ()
 
     outColor = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)

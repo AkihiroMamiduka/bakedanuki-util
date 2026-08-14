@@ -17,22 +17,31 @@ class PointArrayPlugOperator(
     __slots__ = ()
 
     # get
-    def get(self) -> list[float]:
+    def get(self) -> list[tuple[float, float, float, float]]:
         return [
             (p.x, p.y, p.z, p.w)
             for p in self._get_array_values(om.MFnPointArrayData)
         ]
 
     # set
-    def set_direct(self, values: list[float]):
+    def set_direct(
+        self,
+        value: list[tuple[float, float, float, float]],
+    ) -> None:
         """
         MPlug に値を直接セットする
             その為、modifier.undoIt() 非対応です
 
         Args:
-            values (list[float]): セットする値のリスト
+            value (list[tuple[float, float, float, float]]):
+                セットする値のリスト
         """
-        self._set_values(om.MFnPointArrayData, om.MPointArray, values)
+        points = [om.MPoint(*point) for point in value]
+        self._set_values_after_create(
+            om.MFnPointArrayData,
+            om.MPointArray,
+            points,
+        )
 
     # add
     def add_attr(self):

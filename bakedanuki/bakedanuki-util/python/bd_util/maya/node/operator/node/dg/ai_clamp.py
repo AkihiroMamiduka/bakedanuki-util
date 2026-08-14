@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_clamp import _GeneratedAiClamp
+from ._generated.ai_clamp import GeneratedAiClamp
 
 
-class AiClamp(_GeneratedAiClamp):
+class AiClamp(GeneratedAiClamp):
     __slots__ = ()
 
     NODE_TYPE = "aiClamp"

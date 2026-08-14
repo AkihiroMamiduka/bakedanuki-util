@@ -1,87 +1,53 @@
 # coding: utf-8
 from __future__ import annotations
 
-from typing import Type
+from typing import Any, Literal, cast
 
 import maya.cmds as cmds
 
 from ....attr.query import get_attribute_info
 from ._core import AttrOperator
-from .define.std.at.numeric_scalar.bool import BoolAttrOperator
-from .define.std.at.numeric_scalar_range.byte import ByteAttrOperator
-from .define.std.at.numeric_scalar_range.char import CharAttrOperator
+from .define.custom import (
+    Double2AttrOperator as NumericDouble2AttrOperator,
+    Double3AttrOperator as NumericDouble3AttrOperator,
+    Double4AttrOperator as NumericDouble4AttrOperator,
+    DoubleAngle2AttrOperator,
+    DoubleAngle3AttrOperator,
+    DoubleLinear2AttrOperator,
+    DoubleLinear3AttrOperator,
+    Float2AttrOperator as NumericFloat2AttrOperator,
+    Float3AttrOperator as NumericFloat3AttrOperator,
+    FloatAngle2AttrOperator,
+    FloatAngle3AttrOperator,
+    FloatLinear2AttrOperator,
+    FloatLinear3AttrOperator,
+    Long2AttrOperator,
+    Long3AttrOperator,
+    Quat4AttrOperator,
+    Short2AttrOperator,
+    Short3AttrOperator,
+)
+from .define.std.at.scalar.numeric.bool import BoolAttrOperator
+from .define.std.at.scalar.numeric.range.byte import ByteAttrOperator
+from .define.std.at.scalar.numeric.range.char import CharAttrOperator
 from .define.std.at.compound import CompoundAttrOperator
-from .define.std.at.numeric_scalar_range.double import DoubleAttrOperator
-from .define.std.at.unit_scalar_range.double_angle import (
+from .define.std.at.scalar.numeric.range.double import DoubleAttrOperator
+from .define.std.at.scalar.unit.range.double_angle import (
     DoubleAngleAttrOperator,
 )
-from .define.std.at.unit_scalar_range.double_linear import (
+from .define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearAttrOperator,
 )
-from .define.std.at.enum import EnumAttrOperator
-from .define.std.at.numeric_scalar_range.float import FloatAttrOperator
+from .define.std.at.scalar.enum import EnumAttrOperator
+from .define.std.at.scalar.numeric.range.float import FloatAttrOperator
 from .define.std.at.flt_matrix import FltMatrixAttrOperator
-from .define.std.at.numeric_scalar_range.long import LongAttrOperator
-from .define.custom.at.scalar_compound.numeric_compound.double_compound.double2_compound.double2 import (
-    Double2AttrOperator as NumericDouble2AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
-    Double3AttrOperator as NumericDouble3AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.double4 import (
-    Double4AttrOperator as NumericDouble4AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound.quat import (
-    Quat4AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import (
-    Float2AttrOperator as NumericFloat2AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
-    Float3AttrOperator as NumericFloat3AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.long_compound.long2_compound.long2 import (
-    Long2AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.long_compound.long3_compound.long3 import (
-    Long3AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.angle_compound.double2.double_angle2 import (
-    DoubleAngle2AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.angle_compound.double3.double_angle3 import (
-    DoubleAngle3AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.angle_compound.float2.float_angle2 import (
-    FloatAngle2AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.angle_compound.float3.float_angle3 import (
-    FloatAngle3AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.linear_compound.double2.double_linear2 import (
-    DoubleLinear2AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.linear_compound.double3.double_linear3 import (
-    DoubleLinear3AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.linear_compound.float2.float_linear2 import (
-    FloatLinear2AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.linear_compound.float3.float_linear3 import (
-    FloatLinear3AttrOperator,
-)
+from .define.std.at.scalar.numeric.range.long import LongAttrOperator
 from .define.std.at.matrix import MatrixAttrOperator
 from .define.std.at.message import MessageAttrOperator
 from .define.std.at.reflectance import ReflectanceAttrOperator
-from .define.std.at.numeric_scalar_range.short import ShortAttrOperator
-from .define.custom.at.scalar_compound.numeric_compound.short_compound.short2_compound.short2 import (
-    Short2AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.short_compound.short3_compound.short3 import (
-    Short3AttrOperator,
-)
+from .define.std.at.scalar.numeric.range.short import ShortAttrOperator
 from .define.std.at.spectrum import SpectrumAttrOperator
-from .define.std.at.unit_scalar.time import TimeAttrOperator
+from .define.std.at.scalar.unit.time import TimeAttrOperator
 from .define.std.at.typed import TypedAttrOperator
 from .define.std.dt.double2 import DataDouble2AttrOperator
 from .define.std.dt.double3 import DataDouble3AttrOperator
@@ -106,9 +72,30 @@ from .define.std.dt.string import DataStringAttrOperator
 from .define.std.dt.string_array import DataStringArrayAttrOperator
 from .define.std.dt.vector_array import DataVectorArrayAttrOperator
 
-_AT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
-    cls.ATTR_TYPE: cls
-    for cls in [
+_AttrOperatorClass = type[AttrOperator[Any]]
+
+
+def _build_class_map(
+    classes: tuple[_AttrOperatorClass, ...],
+    type_attribute: Literal["ATTR_TYPE", "DATA_TYPE"],
+) -> dict[str, _AttrOperatorClass]:
+    class_map: dict[str, _AttrOperatorClass] = {}
+    for attr_cls in classes:
+        type_name = (
+            attr_cls.ATTR_TYPE
+            if type_attribute == "ATTR_TYPE"
+            else attr_cls.DATA_TYPE
+        )
+        if type_name is None:
+            raise TypeError(
+                f"{attr_cls.__name__}.{type_attribute} must be defined."
+            )
+        class_map[type_name] = attr_cls
+    return class_map
+
+
+_AT_CLASS_MAP = _build_class_map(
+    (
         BoolAttrOperator,
         ByteAttrOperator,
         CharAttrOperator,
@@ -131,15 +118,16 @@ _AT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
         SpectrumAttrOperator,
         TimeAttrOperator,
         TypedAttrOperator,
-    ]
-}
+    ),
+    "ATTR_TYPE",
+)
 
 _FLOATING_POINT_COMPOUND_ATTR_TYPES = frozenset(
     ["double2", "double3", "double4", "float2", "float3"]
 )
 
 _FLOATING_POINT_COMPOUND_CLASS_MAP: dict[
-    tuple[str, str, int], Type[AttrOperator]
+    tuple[str, str, int], _AttrOperatorClass
 ] = {
     ("double2", "double", 2): NumericDouble2AttrOperator,
     ("double2", "doubleLinear", 2): DoubleLinear2AttrOperator,
@@ -163,22 +151,28 @@ _FLOATING_POINT_COMPOUND_CLASS_MAP: dict[
 
 def _get_attr_long_name(node: str, attr: str) -> str:
     try:
-        return cmds.attributeQuery(attr, node=node, longName=True)
+        return cast(str, cmds.attributeQuery(attr, node=node, longName=True))
     except Exception:
         return attr
 
 
 def _lookup_floating_point_compound_attr_cls(
     node: str, attr: str, attribute_type: str
-) -> Type[AttrOperator]:
-    child_attrs = cmds.attributeQuery(attr, node=node, listChildren=True) or []
+) -> _AttrOperatorClass:
+    child_attrs = (
+        cast(
+            list[str] | None,
+            cmds.attributeQuery(attr, node=node, listChildren=True),
+        )
+        or []
+    )
     if not child_attrs:
         raise TypeError(
             "Unsupported floating point compound attribute: "
             f"{node}.{attr} ({attribute_type}) has no child attributes."
         )
 
-    child_types = []
+    child_types: list[str] = []
     for child_attr in child_attrs:
         child_info = get_attribute_info(node, child_attr)
         if child_info.attribute_type is None:
@@ -210,9 +204,8 @@ def _lookup_floating_point_compound_attr_cls(
     return attr_cls
 
 
-_DT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
-    cls.DATA_TYPE: cls
-    for cls in [
+_DT_CLASS_MAP = _build_class_map(
+    (
         DataDouble2AttrOperator,
         DataDouble3AttrOperator,
         DataDoubleArrayAttrOperator,
@@ -235,11 +228,12 @@ _DT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
         DataStringAttrOperator,
         DataStringArrayAttrOperator,
         DataVectorArrayAttrOperator,
-    ]
-}
+    ),
+    "DATA_TYPE",
+)
 
 
-def lookup_attr_cls(node: str, attr: str) -> Type[AttrOperator] | None:
+def lookup_attr_cls(node: str, attr: str) -> _AttrOperatorClass | None:
     """
     ノード名とアトリビュート名から、対応する Attr クラスを返す。
 
@@ -252,7 +246,8 @@ def lookup_attr_cls(node: str, attr: str) -> Type[AttrOperator] | None:
         attr (str): アトリビュート名
 
     Returns:
-        Type[Attr] | None: 対応する Attr クラス。見つからない場合は None。
+        type[AttrOperator[Any]] | None: 対応する Attr クラス。
+            見つからない場合は None。
     """
     attr_info = get_attribute_info(node, attr)
 
@@ -264,4 +259,6 @@ def lookup_attr_cls(node: str, attr: str) -> Type[AttrOperator] | None:
             node, attr, attr_info.attribute_type
         )
 
+    if attr_info.attribute_type is None:
+        return None
     return _AT_CLASS_MAP.get(attr_info.attribute_type)

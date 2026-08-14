@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -468,7 +468,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -485,9 +487,7 @@ class RefPointCameraField(
     rcz = refPointCameraZ
 
 
-class Color1PlugOperator(
-    Float3CompoundBasePlugOperator["Color1AttrOperator"]
-):
+class Color1PlugOperator(Float3CompoundBasePlugOperator["Color1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color1R", "c1r"),
@@ -495,7 +495,9 @@ class Color1PlugOperator(
         ("color1B", "c1b"),
     )
 
-    color1R = FloatField(default_value=0.23499999940395355, min_value=0.0, max_value=1.0)
+    color1R = FloatField(
+        default_value=0.23499999940395355, min_value=0.0, max_value=1.0
+    )
     c1r = color1R
 
     color1G = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -505,12 +507,12 @@ class Color1PlugOperator(
     c1b = color1B
 
 
-class Color1AttrOperator(
-    Float3CompoundBaseAttrOperator[Color1PlugOperator]
-):
+class Color1AttrOperator(Float3CompoundBaseAttrOperator[Color1PlugOperator]):
     __slots__ = ()
 
-    color1R = FloatField(default_value=0.23499999940395355, min_value=0.0, max_value=1.0)
+    color1R = FloatField(
+        default_value=0.23499999940395355, min_value=0.0, max_value=1.0
+    )
     c1r = color1R
 
     color1G = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -528,7 +530,9 @@ class Color1Field(
     ATTR_CLS = Color1AttrOperator
     PLUG_CLS = Color1PlugOperator
 
-    color1R = FloatField(default_value=0.23499999940395355, min_value=0.0, max_value=1.0)
+    color1R = FloatField(
+        default_value=0.23499999940395355, min_value=0.0, max_value=1.0
+    )
     c1r = color1R
 
     color1G = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -538,9 +542,7 @@ class Color1Field(
     c1b = color1B
 
 
-class Color2PlugOperator(
-    Float3CompoundBasePlugOperator["Color2AttrOperator"]
-):
+class Color2PlugOperator(Float3CompoundBasePlugOperator["Color2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color2R", "c2r"),
@@ -558,9 +560,7 @@ class Color2PlugOperator(
     c2b = color2B
 
 
-class Color2AttrOperator(
-    Float3CompoundBaseAttrOperator[Color2PlugOperator]
-):
+class Color2AttrOperator(Float3CompoundBaseAttrOperator[Color2PlugOperator]):
     __slots__ = ()
 
     color2R = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)

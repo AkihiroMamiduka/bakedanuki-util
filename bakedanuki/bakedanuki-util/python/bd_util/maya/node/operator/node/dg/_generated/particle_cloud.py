@@ -15,18 +15,20 @@ from ....attr.define.node_attr.particle_cloud import (
     SurfaceColorField,
     TransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class _GeneratedParticleCloud(DG):
+class GeneratedParticleCloud(DG):
     __slots__ = ()
 
     NODE_TYPE = "particleCloud"
 
-    outParticleEmission = OutParticleEmissionField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outParticleEmission = OutParticleEmissionField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     oe = outParticleEmission
     outParticleEmissionR = outParticleEmission.outParticleEmissionR
     oer = outParticleEmissionR
@@ -44,7 +46,9 @@ class _GeneratedParticleCloud(DG):
     outColorB = outColor.outColorB
     oib = outColorB
 
-    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outGlowColor = OutGlowColorField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ogi = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -53,7 +57,9 @@ class _GeneratedParticleCloud(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -62,7 +68,9 @@ class _GeneratedParticleCloud(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    color = ColorField(default_value=(0.0, 0.5882400274276733, 0.6439999938011169))
+    color = ColorField(
+        default_value=(0.0, 0.5882400274276733, 0.6439999938011169)
+    )
     c = color
     colorR = color.colorR
     cr = colorR
@@ -89,19 +97,31 @@ class _GeneratedParticleCloud(DG):
     incandescenceB = incandescence.incandescenceB
     ib = incandescenceB
 
-    density = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    density = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     d = density
 
-    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    glowIntensity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     gi = glowIntensity
 
-    noise = FloatField(default_value=0.75, soft_min_value=0.0, soft_max_value=1.0)
+    noise = FloatField(
+        default_value=0.75, soft_min_value=0.0, soft_max_value=1.0
+    )
     n = noise
 
-    noiseFreq = FloatField(default_value=0.15000000596046448, soft_min_value=0.0, soft_max_value=1.0)
+    noiseFreq = FloatField(
+        default_value=0.15000000596046448,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     nf = noiseFreq
 
-    noiseAspect = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    noiseAspect = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     na = noiseAspect
 
     particleWeight = FloatField(default_value=0.0)
@@ -164,16 +184,26 @@ class _GeneratedParticleCloud(DG):
     normalCameraZ = normalCamera.normalCameraZ
     ncz = normalCameraZ
 
-    translucenceCoeff = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    translucenceCoeff = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     tc = translucenceCoeff
 
-    diffuseCoeff = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    diffuseCoeff = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
     dc = diffuseCoeff
 
     surfaceShadingShadow = BoolField(default_value=False)
     sss = surfaceShadingShadow
 
-    surfaceColor = SurfaceColorField(default_value=(0.4000000059604645, 0.4000000059604645, 0.4000000059604645))
+    surfaceColor = SurfaceColorField(
+        default_value=(
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+        )
+    )
     sc = surfaceColor
     surfaceColorR = surfaceColor.surfaceColorR
     scr = surfaceColorR
@@ -182,13 +212,19 @@ class _GeneratedParticleCloud(DG):
     surfaceColorB = surfaceColor.surfaceColorB
     scb = surfaceColorB
 
-    solidCoreSize = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    solidCoreSize = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     scs = solidCoreSize
 
-    translucence = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    translucence = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     trsl = translucence
 
-    noiseAnimRate = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    noiseAnimRate = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     nanr = noiseAnimRate
 
     roundness = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -200,7 +236,9 @@ class _GeneratedParticleCloud(DG):
     particleOrder = LongField(default_value=0)
     podr = particleOrder
 
-    filterRadius = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterRadius = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     flrs = filterRadius
 
     renderState = LongField(default_value=0, readable=False)

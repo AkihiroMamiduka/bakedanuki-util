@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import pytest
 
+import bd_util as bdu
 
 pytestmark = pytest.mark.maya
 
@@ -72,7 +73,9 @@ def test_get_set_long_names(modifier_manager, plus_minus_average_node):
     modifier_manager.do_it_dg()
     assert node.input2D[0].input2Dx.get() == pytest.approx(201.0)
     assert node.input2D[0].input2Dy.get() == pytest.approx(202.0)
-    assert node.input2D[0].get() == pytest.approx([201.0, 202.0])
+    input2d = node.input2D[0].get()
+    assert isinstance(input2d, bdu.Float2)
+    assert input2d == pytest.approx([201.0, 202.0])
 
     node.input3D[0].input3Dx.set(301.0)
     node.input3D[0].input3Dy.set(302.0)
@@ -81,9 +84,9 @@ def test_get_set_long_names(modifier_manager, plus_minus_average_node):
     assert node.input3D[0].input3Dx.get() == pytest.approx(301.0)
     assert node.input3D[0].input3Dy.get() == pytest.approx(302.0)
     assert node.input3D[0].input3Dz.get() == pytest.approx(303.0)
-    assert node.input3D[0].get() == pytest.approx(
-        [301.0, 302.0, 303.0]
-    )
+    input3d = node.input3D[0].get()
+    assert isinstance(input3d, bdu.Float3)
+    assert input3d == pytest.approx([301.0, 302.0, 303.0])
 
 
 def test_get_set_short_names(modifier_manager, plus_minus_average_node):
@@ -130,9 +133,61 @@ def test_connect_disconnect_methods(
     src.output3Dx.connect(dst.input3D[0].input3Dx)
     modifier_manager.do_it_dg()
 
+    assert dst.input3D[0].input3Dx.src_name == "src"
     assert dst.input3D[0].input3Dx.src_plug == "src.output3Dx"
+    assert src.output3Dx.dst_names == ["dst"]
+    assert src.output3Dx.dst_plugs == ["dst.input3D[0].input3Dx"]
 
     src.output3Dx.disconnect(dst.input3D[0].input3Dx)
     modifier_manager.do_it_dg()
 
+    assert dst.input3D[0].input3Dx.src_name is None
     assert dst.input3D[0].input3Dx.src_plug is None
+    assert src.output3Dx.dst_names == []
+    assert src.output3Dx.dst_plugs == []
+
+
+def test_connect_disconnect_path_parts(
+    modifier_manager,
+    plus_minus_average_cls,
+):
+    src = plus_minus_average_cls.create(modifier_manager, name="src")
+    dst = plus_minus_average_cls.create(modifier_manager, name="dst")
+    modifier_manager.do_it_dg()
+
+    target = ("dst", "input3D[0]", "input3Dx")
+    src.output3Dx.connect(target)
+    modifier_manager.do_it_dg()
+
+    assert dst.input3D[0].input3Dx.src_plug == "src.output3Dx"
+
+    src.output3Dx.disconnect(list(target))
+    modifier_manager.do_it_dg()
+
+    assert dst.input3D[0].input3Dx.src_plug is None
+
+
+def test_connect_disconnect_from_supported_sources(
+    modifier_manager,
+    plus_minus_average_cls,
+):
+    src = plus_minus_average_cls.create(modifier_manager, name="src")
+    dst = plus_minus_average_cls.create(modifier_manager, name="dst")
+    modifier_manager.do_it_dg()
+
+    dst_plug = dst.input3D[0].input3Dx
+    sources = (
+        src.output3Dx,
+        "src.output3Dx",
+        ["src", "output3Dx"],
+        ("src", "output3Dx"),
+    )
+
+    for source in sources:
+        dst_plug.connect_from(source)
+        modifier_manager.do_it_dg()
+        assert dst_plug.src_plug == "src.output3Dx"
+
+        dst_plug.disconnect_from(source)
+        modifier_manager.do_it_dg()
+        assert dst_plug.src_plug is None

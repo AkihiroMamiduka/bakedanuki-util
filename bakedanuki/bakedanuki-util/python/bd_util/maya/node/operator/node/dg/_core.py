@@ -2,9 +2,9 @@
 
 # self
 from .._core import NodeOperator
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
-from ...attr.define.std.at.numeric_scalar_range.byte import ByteField
-from ...attr.define.std.at.enum import (
+from ...attr.define.std.at.scalar.numeric.bool import BoolField
+from ...attr.define.std.at.scalar.numeric.range.byte import ByteField
+from ...attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
@@ -13,7 +13,7 @@ from ...attr.define.std.at.message import MessageField
 from ...attr.define.std.dt.string import DataStringField
 
 
-class NodeStateEnumPlug(EnumPlugOperator):
+class NodeStateEnumPlug(EnumPlugOperator["NodeStateEnumAttr"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -24,7 +24,7 @@ class NodeStateEnumPlug(EnumPlugOperator):
     WAITING_BLOCKING = 10
 
 
-class NodeStateEnumAttr(EnumAttrOperator):
+class NodeStateEnumAttr(EnumAttrOperator[NodeStateEnumPlug]):
     __slots__ = ()
 
     NORMAL = 0

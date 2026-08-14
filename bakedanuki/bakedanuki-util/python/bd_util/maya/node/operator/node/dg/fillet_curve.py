@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.fillet_curve import _GeneratedFilletCurve
+from ._generated.fillet_curve import GeneratedFilletCurve
 
 
-class FilletCurve(_GeneratedFilletCurve):
+class FilletCurve(GeneratedFilletCurve):
     __slots__ = ()
 
     NODE_TYPE = "filletCurve"

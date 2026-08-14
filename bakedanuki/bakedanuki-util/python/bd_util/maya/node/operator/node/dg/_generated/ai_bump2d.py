@@ -5,10 +5,10 @@ from ....attr.define.node_attr.ai_bump2d import (
     OutTransparencyField,
     OutValueField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiBump2d(DG):
+class GeneratedAiBump2d(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiBump2d"
@@ -22,7 +22,9 @@ class _GeneratedAiBump2d(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -34,7 +36,11 @@ class _GeneratedAiBump2d(DG):
     bumpMap = FloatField(default_value=0.0)
     bump_map = bumpMap
 
-    bumpHeight = FloatField(default_value=0.009999999776482582, soft_min_value=0.0, soft_max_value=1.0)
+    bumpHeight = FloatField(
+        default_value=0.009999999776482582,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     bump_height = bumpHeight
 
     normal = NormalField(default_value=(0.0, 0.0, 0.0))

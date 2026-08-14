@@ -14,24 +14,26 @@ from ....attr.define.node_attr.mash_replicator import (
     TranslateOutPPField,
     UpVectorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -40,7 +42,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -65,14 +69,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -85,7 +93,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -93,7 +104,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -104,7 +117,9 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -133,7 +148,7 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class _GeneratedMASH_Replicator(DG):
+class GeneratedMASHReplicator(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Replicator"
@@ -153,7 +168,9 @@ class _GeneratedMASH_Replicator(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -209,7 +226,9 @@ class _GeneratedMASH_Replicator(DG):
     inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    timeMachineValue = FloatField(default_value=0.0, min_value=0.0, soft_max_value=30.0)
+    timeMachineValue = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=30.0
+    )
 
     rotateAround = RotateAroundField(default_value=(0.0, 0.0, 0.0))
     rotateAround0 = rotateAround.rotateAround0
@@ -223,23 +242,41 @@ class _GeneratedMASH_Replicator(DG):
 
     patternModulus = LongField(default_value=2, min_value=2, soft_max_value=10)
 
-    patternOffsetX = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    patternOffsetX = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
 
-    patternOffsetY = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    patternOffsetY = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
 
-    patternOffsetZ = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    patternOffsetZ = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
 
-    patternScaleX = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    patternScaleX = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
 
-    patternScaleY = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    patternScaleY = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
 
-    patternScaleZ = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    patternScaleZ = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
 
-    patternRotationX = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    patternRotationX = FloatField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
 
-    patternRotationY = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    patternRotationY = FloatField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
 
-    patternRotationZ = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    patternRotationZ = FloatField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
 
     patternAffectsPosition = BoolField(default_value=True)
 
@@ -253,9 +290,13 @@ class _GeneratedMASH_Replicator(DG):
 
     scaleTogether = BoolField(default_value=False)
 
-    curveScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    curveScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
 
-    timeSlide = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    timeSlide = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     tsli = timeSlide
 
     falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
@@ -281,23 +322,41 @@ class _GeneratedMASH_Replicator(DG):
 
     falloffInfo = TypedField()
 
-    offsetPositionX = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    offsetPositionX = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
 
-    offsetPositionY = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    offsetPositionY = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
 
-    offsetPositionZ = FloatField(default_value=-2.0, soft_min_value=-10.0, soft_max_value=10.0)
+    offsetPositionZ = FloatField(
+        default_value=-2.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
 
-    scalePointsX = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
+    scalePointsX = FloatField(
+        default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0
+    )
 
-    scalePointsY = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
+    scalePointsY = FloatField(
+        default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0
+    )
 
-    scalePointsZ = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
+    scalePointsZ = FloatField(
+        default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0
+    )
 
-    rotatePointsX = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    rotatePointsX = FloatField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
 
-    rotatePointsY = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    rotatePointsY = FloatField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
 
-    rotatePointsZ = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    rotatePointsZ = FloatField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
 
     replicants = LongField(default_value=0, min_value=0, soft_max_value=100)
 

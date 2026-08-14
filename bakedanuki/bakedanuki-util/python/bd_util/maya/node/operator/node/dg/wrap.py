@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.wrap import _GeneratedWrap
+from ._generated.wrap import GeneratedWrap
 
 
-class Wrap(_GeneratedWrap):
+class Wrap(GeneratedWrap):
     __slots__ = ()
 
     NODE_TYPE = "wrap"

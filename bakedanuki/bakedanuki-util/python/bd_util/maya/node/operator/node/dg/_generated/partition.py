@@ -1,18 +1,18 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.partition import PublishedNodeInfoField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -20,7 +20,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -43,7 +43,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -51,7 +53,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -74,7 +78,9 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class PartitionTypeEnumPlugOperator(EnumPlugOperator):
+class PartitionTypeEnumPlugOperator(
+    EnumPlugOperator["PartitionTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     REGULAR = 0
@@ -82,7 +88,9 @@ class PartitionTypeEnumPlugOperator(EnumPlugOperator):
     LAYER = 2
 
 
-class PartitionTypeEnumAttrOperator(EnumAttrOperator):
+class PartitionTypeEnumAttrOperator(
+    EnumAttrOperator[PartitionTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     REGULAR = 0
@@ -105,7 +113,7 @@ class PartitionTypeEnumField(
     PLUG_CLS = PartitionTypeEnumPlugOperator
 
 
-class _GeneratedPartition(DG):
+class GeneratedPartition(DG):
     __slots__ = ()
 
     NODE_TYPE = "partition"

@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -240,9 +242,7 @@ class OpacityPlugOperator(
     opacityb = opacityB
 
 
-class OpacityAttrOperator(
-    Float3CompoundBaseAttrOperator[OpacityPlugOperator]
-):
+class OpacityAttrOperator(Float3CompoundBaseAttrOperator[OpacityPlugOperator]):
     __slots__ = ()
 
     opacityR = FloatField(default_value=1.0)
@@ -415,7 +415,9 @@ class TransmissionColorAttrOperator(
 
 
 class TransmissionColorField(
-    Float3CompoundBaseField[TransmissionColorAttrOperator, TransmissionColorPlugOperator]
+    Float3CompoundBaseField[
+        TransmissionColorAttrOperator, TransmissionColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class HardwareColorAttrOperator(
 
 
 class HardwareColorField(
-    Float3CompoundBaseField[HardwareColorAttrOperator, HardwareColorPlugOperator]
+    Float3CompoundBaseField[
+        HardwareColorAttrOperator, HardwareColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -273,9 +277,7 @@ class PassthroughField(
     passthroughb = passthroughB
 
 
-class Eval1PlugOperator(
-    Float3CompoundBasePlugOperator["Eval1AttrOperator"]
-):
+class Eval1PlugOperator(Float3CompoundBasePlugOperator["Eval1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval1R", "eval1r"),
@@ -293,9 +295,7 @@ class Eval1PlugOperator(
     eval1b = eval1B
 
 
-class Eval1AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval1PlugOperator]
-):
+class Eval1AttrOperator(Float3CompoundBaseAttrOperator[Eval1PlugOperator]):
     __slots__ = ()
 
     eval1R = FloatField(default_value=0.0)
@@ -326,9 +326,7 @@ class Eval1Field(
     eval1b = eval1B
 
 
-class Eval2PlugOperator(
-    Float3CompoundBasePlugOperator["Eval2AttrOperator"]
-):
+class Eval2PlugOperator(Float3CompoundBasePlugOperator["Eval2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval2R", "eval2r"),
@@ -346,9 +344,7 @@ class Eval2PlugOperator(
     eval2b = eval2B
 
 
-class Eval2AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval2PlugOperator]
-):
+class Eval2AttrOperator(Float3CompoundBaseAttrOperator[Eval2PlugOperator]):
     __slots__ = ()
 
     eval2R = FloatField(default_value=0.0)
@@ -379,9 +375,7 @@ class Eval2Field(
     eval2b = eval2B
 
 
-class Eval3PlugOperator(
-    Float3CompoundBasePlugOperator["Eval3AttrOperator"]
-):
+class Eval3PlugOperator(Float3CompoundBasePlugOperator["Eval3AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval3R", "eval3r"),
@@ -399,9 +393,7 @@ class Eval3PlugOperator(
     eval3b = eval3B
 
 
-class Eval3AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval3PlugOperator]
-):
+class Eval3AttrOperator(Float3CompoundBaseAttrOperator[Eval3PlugOperator]):
     __slots__ = ()
 
     eval3R = FloatField(default_value=0.0)
@@ -432,9 +424,7 @@ class Eval3Field(
     eval3b = eval3B
 
 
-class Eval4PlugOperator(
-    Float3CompoundBasePlugOperator["Eval4AttrOperator"]
-):
+class Eval4PlugOperator(Float3CompoundBasePlugOperator["Eval4AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval4R", "eval4r"),
@@ -452,9 +442,7 @@ class Eval4PlugOperator(
     eval4b = eval4B
 
 
-class Eval4AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval4PlugOperator]
-):
+class Eval4AttrOperator(Float3CompoundBaseAttrOperator[Eval4PlugOperator]):
     __slots__ = ()
 
     eval4R = FloatField(default_value=0.0)
@@ -485,9 +473,7 @@ class Eval4Field(
     eval4b = eval4B
 
 
-class Eval5PlugOperator(
-    Float3CompoundBasePlugOperator["Eval5AttrOperator"]
-):
+class Eval5PlugOperator(Float3CompoundBasePlugOperator["Eval5AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval5R", "eval5r"),
@@ -505,9 +491,7 @@ class Eval5PlugOperator(
     eval5b = eval5B
 
 
-class Eval5AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval5PlugOperator]
-):
+class Eval5AttrOperator(Float3CompoundBaseAttrOperator[Eval5PlugOperator]):
     __slots__ = ()
 
     eval5R = FloatField(default_value=0.0)
@@ -538,9 +522,7 @@ class Eval5Field(
     eval5b = eval5B
 
 
-class Eval6PlugOperator(
-    Float3CompoundBasePlugOperator["Eval6AttrOperator"]
-):
+class Eval6PlugOperator(Float3CompoundBasePlugOperator["Eval6AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval6R", "eval6r"),
@@ -558,9 +540,7 @@ class Eval6PlugOperator(
     eval6b = eval6B
 
 
-class Eval6AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval6PlugOperator]
-):
+class Eval6AttrOperator(Float3CompoundBaseAttrOperator[Eval6PlugOperator]):
     __slots__ = ()
 
     eval6R = FloatField(default_value=0.0)
@@ -591,9 +571,7 @@ class Eval6Field(
     eval6b = eval6B
 
 
-class Eval7PlugOperator(
-    Float3CompoundBasePlugOperator["Eval7AttrOperator"]
-):
+class Eval7PlugOperator(Float3CompoundBasePlugOperator["Eval7AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval7R", "eval7r"),
@@ -611,9 +589,7 @@ class Eval7PlugOperator(
     eval7b = eval7B
 
 
-class Eval7AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval7PlugOperator]
-):
+class Eval7AttrOperator(Float3CompoundBaseAttrOperator[Eval7PlugOperator]):
     __slots__ = ()
 
     eval7R = FloatField(default_value=0.0)
@@ -644,9 +620,7 @@ class Eval7Field(
     eval7b = eval7B
 
 
-class Eval8PlugOperator(
-    Float3CompoundBasePlugOperator["Eval8AttrOperator"]
-):
+class Eval8PlugOperator(Float3CompoundBasePlugOperator["Eval8AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval8R", "eval8r"),
@@ -664,9 +638,7 @@ class Eval8PlugOperator(
     eval8b = eval8B
 
 
-class Eval8AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval8PlugOperator]
-):
+class Eval8AttrOperator(Float3CompoundBaseAttrOperator[Eval8PlugOperator]):
     __slots__ = ()
 
     eval8R = FloatField(default_value=0.0)
@@ -697,9 +669,7 @@ class Eval8Field(
     eval8b = eval8B
 
 
-class Eval9PlugOperator(
-    Float3CompoundBasePlugOperator["Eval9AttrOperator"]
-):
+class Eval9PlugOperator(Float3CompoundBasePlugOperator["Eval9AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval9R", "eval9r"),
@@ -717,9 +687,7 @@ class Eval9PlugOperator(
     eval9b = eval9B
 
 
-class Eval9AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval9PlugOperator]
-):
+class Eval9AttrOperator(Float3CompoundBaseAttrOperator[Eval9PlugOperator]):
     __slots__ = ()
 
     eval9R = FloatField(default_value=0.0)
@@ -750,9 +718,7 @@ class Eval9Field(
     eval9b = eval9B
 
 
-class Eval10PlugOperator(
-    Float3CompoundBasePlugOperator["Eval10AttrOperator"]
-):
+class Eval10PlugOperator(Float3CompoundBasePlugOperator["Eval10AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval10R", "eval10r"),
@@ -770,9 +736,7 @@ class Eval10PlugOperator(
     eval10b = eval10B
 
 
-class Eval10AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval10PlugOperator]
-):
+class Eval10AttrOperator(Float3CompoundBaseAttrOperator[Eval10PlugOperator]):
     __slots__ = ()
 
     eval10R = FloatField(default_value=0.0)
@@ -803,9 +767,7 @@ class Eval10Field(
     eval10b = eval10B
 
 
-class Eval11PlugOperator(
-    Float3CompoundBasePlugOperator["Eval11AttrOperator"]
-):
+class Eval11PlugOperator(Float3CompoundBasePlugOperator["Eval11AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval11R", "eval11r"),
@@ -823,9 +785,7 @@ class Eval11PlugOperator(
     eval11b = eval11B
 
 
-class Eval11AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval11PlugOperator]
-):
+class Eval11AttrOperator(Float3CompoundBaseAttrOperator[Eval11PlugOperator]):
     __slots__ = ()
 
     eval11R = FloatField(default_value=0.0)
@@ -856,9 +816,7 @@ class Eval11Field(
     eval11b = eval11B
 
 
-class Eval12PlugOperator(
-    Float3CompoundBasePlugOperator["Eval12AttrOperator"]
-):
+class Eval12PlugOperator(Float3CompoundBasePlugOperator["Eval12AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval12R", "eval12r"),
@@ -876,9 +834,7 @@ class Eval12PlugOperator(
     eval12b = eval12B
 
 
-class Eval12AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval12PlugOperator]
-):
+class Eval12AttrOperator(Float3CompoundBaseAttrOperator[Eval12PlugOperator]):
     __slots__ = ()
 
     eval12R = FloatField(default_value=0.0)
@@ -909,9 +865,7 @@ class Eval12Field(
     eval12b = eval12B
 
 
-class Eval13PlugOperator(
-    Float3CompoundBasePlugOperator["Eval13AttrOperator"]
-):
+class Eval13PlugOperator(Float3CompoundBasePlugOperator["Eval13AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval13R", "eval13r"),
@@ -929,9 +883,7 @@ class Eval13PlugOperator(
     eval13b = eval13B
 
 
-class Eval13AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval13PlugOperator]
-):
+class Eval13AttrOperator(Float3CompoundBaseAttrOperator[Eval13PlugOperator]):
     __slots__ = ()
 
     eval13R = FloatField(default_value=0.0)
@@ -962,9 +914,7 @@ class Eval13Field(
     eval13b = eval13B
 
 
-class Eval14PlugOperator(
-    Float3CompoundBasePlugOperator["Eval14AttrOperator"]
-):
+class Eval14PlugOperator(Float3CompoundBasePlugOperator["Eval14AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval14R", "eval14r"),
@@ -982,9 +932,7 @@ class Eval14PlugOperator(
     eval14b = eval14B
 
 
-class Eval14AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval14PlugOperator]
-):
+class Eval14AttrOperator(Float3CompoundBaseAttrOperator[Eval14PlugOperator]):
     __slots__ = ()
 
     eval14R = FloatField(default_value=0.0)
@@ -1015,9 +963,7 @@ class Eval14Field(
     eval14b = eval14B
 
 
-class Eval15PlugOperator(
-    Float3CompoundBasePlugOperator["Eval15AttrOperator"]
-):
+class Eval15PlugOperator(Float3CompoundBasePlugOperator["Eval15AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval15R", "eval15r"),
@@ -1035,9 +981,7 @@ class Eval15PlugOperator(
     eval15b = eval15B
 
 
-class Eval15AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval15PlugOperator]
-):
+class Eval15AttrOperator(Float3CompoundBaseAttrOperator[Eval15PlugOperator]):
     __slots__ = ()
 
     eval15R = FloatField(default_value=0.0)
@@ -1068,9 +1012,7 @@ class Eval15Field(
     eval15b = eval15B
 
 
-class Eval16PlugOperator(
-    Float3CompoundBasePlugOperator["Eval16AttrOperator"]
-):
+class Eval16PlugOperator(Float3CompoundBasePlugOperator["Eval16AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval16R", "eval16r"),
@@ -1088,9 +1030,7 @@ class Eval16PlugOperator(
     eval16b = eval16B
 
 
-class Eval16AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval16PlugOperator]
-):
+class Eval16AttrOperator(Float3CompoundBaseAttrOperator[Eval16PlugOperator]):
     __slots__ = ()
 
     eval16R = FloatField(default_value=0.0)
@@ -1121,9 +1061,7 @@ class Eval16Field(
     eval16b = eval16B
 
 
-class Eval17PlugOperator(
-    Float3CompoundBasePlugOperator["Eval17AttrOperator"]
-):
+class Eval17PlugOperator(Float3CompoundBasePlugOperator["Eval17AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval17R", "eval17r"),
@@ -1141,9 +1079,7 @@ class Eval17PlugOperator(
     eval17b = eval17B
 
 
-class Eval17AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval17PlugOperator]
-):
+class Eval17AttrOperator(Float3CompoundBaseAttrOperator[Eval17PlugOperator]):
     __slots__ = ()
 
     eval17R = FloatField(default_value=0.0)
@@ -1174,9 +1110,7 @@ class Eval17Field(
     eval17b = eval17B
 
 
-class Eval18PlugOperator(
-    Float3CompoundBasePlugOperator["Eval18AttrOperator"]
-):
+class Eval18PlugOperator(Float3CompoundBasePlugOperator["Eval18AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval18R", "eval18r"),
@@ -1194,9 +1128,7 @@ class Eval18PlugOperator(
     eval18b = eval18B
 
 
-class Eval18AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval18PlugOperator]
-):
+class Eval18AttrOperator(Float3CompoundBaseAttrOperator[Eval18PlugOperator]):
     __slots__ = ()
 
     eval18R = FloatField(default_value=0.0)
@@ -1227,9 +1159,7 @@ class Eval18Field(
     eval18b = eval18B
 
 
-class Eval19PlugOperator(
-    Float3CompoundBasePlugOperator["Eval19AttrOperator"]
-):
+class Eval19PlugOperator(Float3CompoundBasePlugOperator["Eval19AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval19R", "eval19r"),
@@ -1247,9 +1177,7 @@ class Eval19PlugOperator(
     eval19b = eval19B
 
 
-class Eval19AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval19PlugOperator]
-):
+class Eval19AttrOperator(Float3CompoundBaseAttrOperator[Eval19PlugOperator]):
     __slots__ = ()
 
     eval19R = FloatField(default_value=0.0)
@@ -1280,9 +1208,7 @@ class Eval19Field(
     eval19b = eval19B
 
 
-class Eval20PlugOperator(
-    Float3CompoundBasePlugOperator["Eval20AttrOperator"]
-):
+class Eval20PlugOperator(Float3CompoundBasePlugOperator["Eval20AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("eval20R", "eval20r"),
@@ -1300,9 +1226,7 @@ class Eval20PlugOperator(
     eval20b = eval20B
 
 
-class Eval20AttrOperator(
-    Float3CompoundBaseAttrOperator[Eval20PlugOperator]
-):
+class Eval20AttrOperator(Float3CompoundBaseAttrOperator[Eval20PlugOperator]):
     __slots__ = ()
 
     eval20R = FloatField(default_value=0.0)
@@ -1333,9 +1257,7 @@ class Eval20Field(
     eval20b = eval20B
 
 
-class NormalPlugOperator(
-    Float3CompoundBasePlugOperator["NormalAttrOperator"]
-):
+class NormalPlugOperator(Float3CompoundBasePlugOperator["NormalAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("normalX", "normalx"),
@@ -1353,9 +1275,7 @@ class NormalPlugOperator(
     normalz = normalZ
 
 
-class NormalAttrOperator(
-    Float3CompoundBaseAttrOperator[NormalPlugOperator]
-):
+class NormalAttrOperator(Float3CompoundBaseAttrOperator[NormalPlugOperator]):
     __slots__ = ()
 
     normalX = FloatField(default_value=0.0)

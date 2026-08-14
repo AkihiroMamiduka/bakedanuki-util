@@ -8,16 +8,16 @@ from ....attr.define.node_attr.ai_wireframe import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class EdgeTypeEnumPlugOperator(EnumPlugOperator):
+class EdgeTypeEnumPlugOperator(EnumPlugOperator["EdgeTypeEnumAttrOperator"]):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -25,7 +25,7 @@ class EdgeTypeEnumPlugOperator(EnumPlugOperator):
     PATCHES = 2
 
 
-class EdgeTypeEnumAttrOperator(EnumAttrOperator):
+class EdgeTypeEnumAttrOperator(EnumAttrOperator[EdgeTypeEnumPlugOperator]):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -48,7 +48,7 @@ class EdgeTypeEnumField(
     PLUG_CLS = EdgeTypeEnumPlugOperator
 
 
-class _GeneratedAiWireframe(DG):
+class GeneratedAiWireframe(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiWireframe"
@@ -62,7 +62,9 @@ class _GeneratedAiWireframe(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -89,7 +91,9 @@ class _GeneratedAiWireframe(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    lineWidth = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    lineWidth = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     line_width = lineWidth
 
     fillColor = FillColorField(default_value=(1.0, 1.0, 1.0))

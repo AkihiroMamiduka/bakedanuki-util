@@ -6,9 +6,9 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
 class VectorMessagesPlugOperator(

@@ -52,9 +52,9 @@ def _iter_node_module_paths(
 
 class NodeCreator:
     __slots__ = (
+        "__dict__",
         "_modifier_manager",
         "_node_cls_cache",
-        "_creator_cache",
         "_node_names_cache",
     )
 
@@ -78,7 +78,6 @@ class NodeCreator:
         self._node_cls_cache: dict[
             tuple[tuple[str, ...], str], type[NodeOperator]
         ] = {}
-        self._creator_cache: dict[str, Callable[..., NodeOperator]] = {}
         self._node_names_cache: tuple[str, ...] | None = None
 
     @property
@@ -136,6 +135,7 @@ class NodeCreator:
             return cached
 
         module = None
+        module_path: str | None = None
         for module_path in _iter_node_module_paths(packages, module_name):
             try:
                 module = importlib.import_module(module_path)
@@ -145,7 +145,7 @@ class NodeCreator:
                 raise
             break
 
-        if module is None:
+        if module is None or module_path is None:
             raise AttributeError(f"Unsupported node type: {node_name}")
 
         node_classes = [
@@ -204,15 +204,11 @@ class NodeCreator:
         if node_name.startswith("_"):
             raise AttributeError(node_name)
 
-        cached = self._creator_cache.get(node_name)
-        if cached is not None:
-            return cached
-
         node_cls = self._creator_node_class(node_name)
 
         if issubclass(node_cls, DAG):
 
-            def _create(
+            def _create_dag(
                 name: str | None = None,
                 auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
                 *,
@@ -225,9 +221,11 @@ class NodeCreator:
                     parent=parent,
                 )
 
+            create_func: Callable[..., NodeOperator] = _create_dag
+
         else:
 
-            def _create(
+            def _create_dg(
                 name: str | None = None,
                 auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
             ) -> NodeOperator:
@@ -237,11 +235,13 @@ class NodeCreator:
                     auto_add_attr=auto_add_attr,
                 )
 
-        _create.__name__ = node_name
-        _create.__qualname__ = f"{type(self).__name__}.{node_name}"
-        _create.__doc__ = f"Create {node_cls.__name__}."
-        self._creator_cache[node_name] = _create
-        return _create
+            create_func = _create_dg
+
+        create_func.__name__ = node_name
+        create_func.__qualname__ = f"{type(self).__name__}.{node_name}"
+        create_func.__doc__ = f"Create {node_cls.__name__}."
+        setattr(self, node_name, create_func)
+        return create_func
 
     def __dir__(self) -> list[str]:
         return sorted(
@@ -249,7 +249,7 @@ class NodeCreator:
         )
 
     @staticmethod
-    def _normalize_node_name(node_name: str) -> str:
+    def _normalize_node_name(node_name: object) -> str:
         if not isinstance(node_name, str):
             raise TypeError(f"node_name must be str: {type(node_name)}")
 

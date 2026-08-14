@@ -1,17 +1,17 @@
 # coding: utf-8
 
-from typing import TypeVar, Type, cast, get_args, get_origin
+from typing import Any, TypeVar, Type, cast, get_args, get_origin
 
 # self
-from ....define.std.at.enum import (
+from ....define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 
-A = TypeVar("A", bound="EnumAttrOperator")
+A = TypeVar("A", bound="EnumAttrOperator[Any]")
 
-P = TypeVar("P", bound="EnumPlugOperator")
+P = TypeVar("P", bound="EnumPlugOperator[Any]")
 
 
 class ExtraEnumField(EnumField[EnumAttrOperator[P], P]):
@@ -20,17 +20,17 @@ class ExtraEnumField(EnumField[EnumAttrOperator[P], P]):
     ATTR_CLS = cast(Type[EnumAttrOperator[P]], EnumAttrOperator)
     PLUG_CLS = cast(Type[P], EnumPlugOperator)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.extra = True
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
 
         for base in getattr(cls, "__orig_bases__", ()):
             if get_origin(base) is ExtraEnumField:
                 args = get_args(base)
                 if args:
-                    cls.PLUG_CLS = args[0]
+                    setattr(cls, "PLUG_CLS", args[0])
                 break

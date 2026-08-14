@@ -1,17 +1,21 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class RebuildTypeEnumPlugOperator(EnumPlugOperator):
+class RebuildTypeEnumPlugOperator(
+    EnumPlugOperator["RebuildTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     UNIFORM = 0
@@ -23,7 +27,9 @@ class RebuildTypeEnumPlugOperator(EnumPlugOperator):
     CLEAN = 6
 
 
-class RebuildTypeEnumAttrOperator(EnumAttrOperator):
+class RebuildTypeEnumAttrOperator(
+    EnumAttrOperator[RebuildTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     UNIFORM = 0
@@ -54,7 +60,7 @@ class RebuildTypeEnumField(
     PLUG_CLS = RebuildTypeEnumPlugOperator
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
@@ -64,7 +70,7 @@ class DegreeEnumPlugOperator(EnumPlugOperator):
     HEPTIC = 7
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1
@@ -91,14 +97,14 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class EndKnotsEnumPlugOperator(EnumPlugOperator):
+class EndKnotsEnumPlugOperator(EnumPlugOperator["EndKnotsEnumAttrOperator"]):
     __slots__ = ()
 
     NON_MULTIPLE_END_KNOTS = 0
     MULTIPLE_END_KNOTS = 1
 
 
-class EndKnotsEnumAttrOperator(EnumAttrOperator):
+class EndKnotsEnumAttrOperator(EnumAttrOperator[EndKnotsEnumPlugOperator]):
     __slots__ = ()
 
     NON_MULTIPLE_END_KNOTS = 0
@@ -119,7 +125,7 @@ class EndKnotsEnumField(
     PLUG_CLS = EndKnotsEnumPlugOperator
 
 
-class KeepRangeEnumPlugOperator(EnumPlugOperator):
+class KeepRangeEnumPlugOperator(EnumPlugOperator["KeepRangeEnumAttrOperator"]):
     __slots__ = ()
 
     _0_TO_1 = 0
@@ -127,7 +133,7 @@ class KeepRangeEnumPlugOperator(EnumPlugOperator):
     _0_TO_HASH_SPANS = 2
 
 
-class KeepRangeEnumAttrOperator(EnumAttrOperator):
+class KeepRangeEnumAttrOperator(EnumAttrOperator[KeepRangeEnumPlugOperator]):
     __slots__ = ()
 
     _0_TO_1 = 0
@@ -150,7 +156,7 @@ class KeepRangeEnumField(
     PLUG_CLS = KeepRangeEnumPlugOperator
 
 
-class _GeneratedRebuildCurve(DG):
+class GeneratedRebuildCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "rebuildCurve"
@@ -173,7 +179,9 @@ class _GeneratedRebuildCurve(DG):
     degree = DegreeEnumField(default_value=3)
     d = degree
 
-    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01, soft_min_value=0.001, soft_max_value=1.0
+    )
     tol = tolerance
 
     endKnots = EndKnotsEnumField(default_value=0)
@@ -197,5 +205,7 @@ class _GeneratedRebuildCurve(DG):
     smartSurfaceCurveRebuild = BoolField(default_value=False)
     scr = smartSurfaceCurveRebuild
 
-    smooth = DoubleLinearField(default_value=-3.0, min_value=-3.0, soft_max_value=5.0)
+    smooth = DoubleLinearField(
+        default_value=-3.0, min_value=-3.0, soft_max_value=5.0
+    )
     sm = smooth

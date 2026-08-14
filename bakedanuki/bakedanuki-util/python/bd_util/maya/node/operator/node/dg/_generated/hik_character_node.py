@@ -1486,17 +1486,19 @@ from ....attr.define.node_attr.hik_character_node import (
     SpineSField,
     SpineTField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 
 
-class ReferenceRotateOrderEnumPlugOperator(EnumPlugOperator):
+class ReferenceRotateOrderEnumPlugOperator(
+    EnumPlugOperator["ReferenceRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1507,7 +1509,9 @@ class ReferenceRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class ReferenceRotateOrderEnumAttrOperator(EnumAttrOperator):
+class ReferenceRotateOrderEnumAttrOperator(
+    EnumAttrOperator[ReferenceRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1528,7 +1532,10 @@ class ReferenceRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class ReferenceRotateOrderEnumField(
-    EnumField[ReferenceRotateOrderEnumAttrOperator, ReferenceRotateOrderEnumPlugOperator]
+    EnumField[
+        ReferenceRotateOrderEnumAttrOperator,
+        ReferenceRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1536,7 +1543,9 @@ class ReferenceRotateOrderEnumField(
     PLUG_CLS = ReferenceRotateOrderEnumPlugOperator
 
 
-class HipsRotateOrderEnumPlugOperator(EnumPlugOperator):
+class HipsRotateOrderEnumPlugOperator(
+    EnumPlugOperator["HipsRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1547,7 +1556,9 @@ class HipsRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class HipsRotateOrderEnumAttrOperator(EnumAttrOperator):
+class HipsRotateOrderEnumAttrOperator(
+    EnumAttrOperator[HipsRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1576,7 +1587,9 @@ class HipsRotateOrderEnumField(
     PLUG_CLS = HipsRotateOrderEnumPlugOperator
 
 
-class LeftUpLegRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftUpLegRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftUpLegRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1587,7 +1600,9 @@ class LeftUpLegRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftUpLegRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftUpLegRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftUpLegRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1608,7 +1623,10 @@ class LeftUpLegRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftUpLegRotateOrderEnumField(
-    EnumField[LeftUpLegRotateOrderEnumAttrOperator, LeftUpLegRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftUpLegRotateOrderEnumAttrOperator,
+        LeftUpLegRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1616,7 +1634,9 @@ class LeftUpLegRotateOrderEnumField(
     PLUG_CLS = LeftUpLegRotateOrderEnumPlugOperator
 
 
-class LeftLegRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftLegRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftLegRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1627,7 +1647,9 @@ class LeftLegRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftLegRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftLegRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftLegRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1648,7 +1670,9 @@ class LeftLegRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftLegRotateOrderEnumField(
-    EnumField[LeftLegRotateOrderEnumAttrOperator, LeftLegRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftLegRotateOrderEnumAttrOperator, LeftLegRotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1656,7 +1680,9 @@ class LeftLegRotateOrderEnumField(
     PLUG_CLS = LeftLegRotateOrderEnumPlugOperator
 
 
-class LeftFootRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1667,7 +1693,9 @@ class LeftFootRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1688,7 +1716,10 @@ class LeftFootRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootRotateOrderEnumField(
-    EnumField[LeftFootRotateOrderEnumAttrOperator, LeftFootRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootRotateOrderEnumAttrOperator,
+        LeftFootRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1696,7 +1727,9 @@ class LeftFootRotateOrderEnumField(
     PLUG_CLS = LeftFootRotateOrderEnumPlugOperator
 
 
-class RightUpLegRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightUpLegRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightUpLegRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1707,7 +1740,9 @@ class RightUpLegRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightUpLegRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightUpLegRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightUpLegRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1728,7 +1763,10 @@ class RightUpLegRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightUpLegRotateOrderEnumField(
-    EnumField[RightUpLegRotateOrderEnumAttrOperator, RightUpLegRotateOrderEnumPlugOperator]
+    EnumField[
+        RightUpLegRotateOrderEnumAttrOperator,
+        RightUpLegRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1736,7 +1774,9 @@ class RightUpLegRotateOrderEnumField(
     PLUG_CLS = RightUpLegRotateOrderEnumPlugOperator
 
 
-class RightLegRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightLegRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightLegRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1747,7 +1787,9 @@ class RightLegRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightLegRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightLegRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightLegRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1768,7 +1810,10 @@ class RightLegRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightLegRotateOrderEnumField(
-    EnumField[RightLegRotateOrderEnumAttrOperator, RightLegRotateOrderEnumPlugOperator]
+    EnumField[
+        RightLegRotateOrderEnumAttrOperator,
+        RightLegRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1776,7 +1821,9 @@ class RightLegRotateOrderEnumField(
     PLUG_CLS = RightLegRotateOrderEnumPlugOperator
 
 
-class RightFootRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1787,7 +1834,9 @@ class RightFootRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1808,7 +1857,10 @@ class RightFootRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootRotateOrderEnumField(
-    EnumField[RightFootRotateOrderEnumAttrOperator, RightFootRotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootRotateOrderEnumAttrOperator,
+        RightFootRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1816,7 +1868,9 @@ class RightFootRotateOrderEnumField(
     PLUG_CLS = RightFootRotateOrderEnumPlugOperator
 
 
-class SpineRotateOrderEnumPlugOperator(EnumPlugOperator):
+class SpineRotateOrderEnumPlugOperator(
+    EnumPlugOperator["SpineRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1827,7 +1881,9 @@ class SpineRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class SpineRotateOrderEnumAttrOperator(EnumAttrOperator):
+class SpineRotateOrderEnumAttrOperator(
+    EnumAttrOperator[SpineRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1848,7 +1904,9 @@ class SpineRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class SpineRotateOrderEnumField(
-    EnumField[SpineRotateOrderEnumAttrOperator, SpineRotateOrderEnumPlugOperator]
+    EnumField[
+        SpineRotateOrderEnumAttrOperator, SpineRotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1856,7 +1914,9 @@ class SpineRotateOrderEnumField(
     PLUG_CLS = SpineRotateOrderEnumPlugOperator
 
 
-class LeftArmRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftArmRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftArmRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1867,7 +1927,9 @@ class LeftArmRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftArmRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftArmRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftArmRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1888,7 +1950,9 @@ class LeftArmRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftArmRotateOrderEnumField(
-    EnumField[LeftArmRotateOrderEnumAttrOperator, LeftArmRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftArmRotateOrderEnumAttrOperator, LeftArmRotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1896,7 +1960,9 @@ class LeftArmRotateOrderEnumField(
     PLUG_CLS = LeftArmRotateOrderEnumPlugOperator
 
 
-class LeftForeArmRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftForeArmRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftForeArmRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1907,7 +1973,9 @@ class LeftForeArmRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftForeArmRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftForeArmRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftForeArmRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1928,7 +1996,10 @@ class LeftForeArmRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftForeArmRotateOrderEnumField(
-    EnumField[LeftForeArmRotateOrderEnumAttrOperator, LeftForeArmRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftForeArmRotateOrderEnumAttrOperator,
+        LeftForeArmRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1936,7 +2007,9 @@ class LeftForeArmRotateOrderEnumField(
     PLUG_CLS = LeftForeArmRotateOrderEnumPlugOperator
 
 
-class LeftHandRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1947,7 +2020,9 @@ class LeftHandRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1968,7 +2043,10 @@ class LeftHandRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandRotateOrderEnumField(
-    EnumField[LeftHandRotateOrderEnumAttrOperator, LeftHandRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandRotateOrderEnumAttrOperator,
+        LeftHandRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1976,7 +2054,9 @@ class LeftHandRotateOrderEnumField(
     PLUG_CLS = LeftHandRotateOrderEnumPlugOperator
 
 
-class RightArmRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightArmRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightArmRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1987,7 +2067,9 @@ class RightArmRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightArmRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightArmRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightArmRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2008,7 +2090,10 @@ class RightArmRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightArmRotateOrderEnumField(
-    EnumField[RightArmRotateOrderEnumAttrOperator, RightArmRotateOrderEnumPlugOperator]
+    EnumField[
+        RightArmRotateOrderEnumAttrOperator,
+        RightArmRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2016,7 +2101,9 @@ class RightArmRotateOrderEnumField(
     PLUG_CLS = RightArmRotateOrderEnumPlugOperator
 
 
-class RightForeArmRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightForeArmRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightForeArmRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2027,7 +2114,9 @@ class RightForeArmRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightForeArmRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightForeArmRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightForeArmRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2048,7 +2137,10 @@ class RightForeArmRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightForeArmRotateOrderEnumField(
-    EnumField[RightForeArmRotateOrderEnumAttrOperator, RightForeArmRotateOrderEnumPlugOperator]
+    EnumField[
+        RightForeArmRotateOrderEnumAttrOperator,
+        RightForeArmRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2056,7 +2148,9 @@ class RightForeArmRotateOrderEnumField(
     PLUG_CLS = RightForeArmRotateOrderEnumPlugOperator
 
 
-class RightHandRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2067,7 +2161,9 @@ class RightHandRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2088,7 +2184,10 @@ class RightHandRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandRotateOrderEnumField(
-    EnumField[RightHandRotateOrderEnumAttrOperator, RightHandRotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandRotateOrderEnumAttrOperator,
+        RightHandRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2096,7 +2195,9 @@ class RightHandRotateOrderEnumField(
     PLUG_CLS = RightHandRotateOrderEnumPlugOperator
 
 
-class HeadRotateOrderEnumPlugOperator(EnumPlugOperator):
+class HeadRotateOrderEnumPlugOperator(
+    EnumPlugOperator["HeadRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2107,7 +2208,9 @@ class HeadRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class HeadRotateOrderEnumAttrOperator(EnumAttrOperator):
+class HeadRotateOrderEnumAttrOperator(
+    EnumAttrOperator[HeadRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2136,7 +2239,9 @@ class HeadRotateOrderEnumField(
     PLUG_CLS = HeadRotateOrderEnumPlugOperator
 
 
-class LeftToeBaseRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftToeBaseRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftToeBaseRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2147,7 +2252,9 @@ class LeftToeBaseRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftToeBaseRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftToeBaseRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftToeBaseRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2168,7 +2275,10 @@ class LeftToeBaseRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftToeBaseRotateOrderEnumField(
-    EnumField[LeftToeBaseRotateOrderEnumAttrOperator, LeftToeBaseRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftToeBaseRotateOrderEnumAttrOperator,
+        LeftToeBaseRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2176,7 +2286,9 @@ class LeftToeBaseRotateOrderEnumField(
     PLUG_CLS = LeftToeBaseRotateOrderEnumPlugOperator
 
 
-class RightToeBaseRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightToeBaseRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightToeBaseRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2187,7 +2299,9 @@ class RightToeBaseRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightToeBaseRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightToeBaseRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightToeBaseRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2208,7 +2322,10 @@ class RightToeBaseRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightToeBaseRotateOrderEnumField(
-    EnumField[RightToeBaseRotateOrderEnumAttrOperator, RightToeBaseRotateOrderEnumPlugOperator]
+    EnumField[
+        RightToeBaseRotateOrderEnumAttrOperator,
+        RightToeBaseRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2216,7 +2333,9 @@ class RightToeBaseRotateOrderEnumField(
     PLUG_CLS = RightToeBaseRotateOrderEnumPlugOperator
 
 
-class LeftShoulderRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftShoulderRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftShoulderRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2227,7 +2346,9 @@ class LeftShoulderRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftShoulderRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftShoulderRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftShoulderRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2248,7 +2369,10 @@ class LeftShoulderRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftShoulderRotateOrderEnumField(
-    EnumField[LeftShoulderRotateOrderEnumAttrOperator, LeftShoulderRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftShoulderRotateOrderEnumAttrOperator,
+        LeftShoulderRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2256,7 +2380,9 @@ class LeftShoulderRotateOrderEnumField(
     PLUG_CLS = LeftShoulderRotateOrderEnumPlugOperator
 
 
-class RightShoulderRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightShoulderRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightShoulderRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2267,7 +2393,9 @@ class RightShoulderRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightShoulderRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightShoulderRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightShoulderRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2288,7 +2416,10 @@ class RightShoulderRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightShoulderRotateOrderEnumField(
-    EnumField[RightShoulderRotateOrderEnumAttrOperator, RightShoulderRotateOrderEnumPlugOperator]
+    EnumField[
+        RightShoulderRotateOrderEnumAttrOperator,
+        RightShoulderRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2296,7 +2427,9 @@ class RightShoulderRotateOrderEnumField(
     PLUG_CLS = RightShoulderRotateOrderEnumPlugOperator
 
 
-class NeckRotateOrderEnumPlugOperator(EnumPlugOperator):
+class NeckRotateOrderEnumPlugOperator(
+    EnumPlugOperator["NeckRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2307,7 +2440,9 @@ class NeckRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class NeckRotateOrderEnumAttrOperator(EnumAttrOperator):
+class NeckRotateOrderEnumAttrOperator(
+    EnumAttrOperator[NeckRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2336,7 +2471,9 @@ class NeckRotateOrderEnumField(
     PLUG_CLS = NeckRotateOrderEnumPlugOperator
 
 
-class LeftFingerBaseRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFingerBaseRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFingerBaseRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2347,7 +2484,9 @@ class LeftFingerBaseRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFingerBaseRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFingerBaseRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFingerBaseRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2368,7 +2507,10 @@ class LeftFingerBaseRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFingerBaseRotateOrderEnumField(
-    EnumField[LeftFingerBaseRotateOrderEnumAttrOperator, LeftFingerBaseRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFingerBaseRotateOrderEnumAttrOperator,
+        LeftFingerBaseRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2376,7 +2518,9 @@ class LeftFingerBaseRotateOrderEnumField(
     PLUG_CLS = LeftFingerBaseRotateOrderEnumPlugOperator
 
 
-class RightFingerBaseRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFingerBaseRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFingerBaseRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2387,7 +2531,9 @@ class RightFingerBaseRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFingerBaseRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFingerBaseRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFingerBaseRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2408,7 +2554,10 @@ class RightFingerBaseRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFingerBaseRotateOrderEnumField(
-    EnumField[RightFingerBaseRotateOrderEnumAttrOperator, RightFingerBaseRotateOrderEnumPlugOperator]
+    EnumField[
+        RightFingerBaseRotateOrderEnumAttrOperator,
+        RightFingerBaseRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2416,7 +2565,9 @@ class RightFingerBaseRotateOrderEnumField(
     PLUG_CLS = RightFingerBaseRotateOrderEnumPlugOperator
 
 
-class Spine1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Spine1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Spine1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2427,7 +2578,9 @@ class Spine1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Spine1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Spine1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Spine1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2448,7 +2601,9 @@ class Spine1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Spine1RotateOrderEnumField(
-    EnumField[Spine1RotateOrderEnumAttrOperator, Spine1RotateOrderEnumPlugOperator]
+    EnumField[
+        Spine1RotateOrderEnumAttrOperator, Spine1RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2456,7 +2611,9 @@ class Spine1RotateOrderEnumField(
     PLUG_CLS = Spine1RotateOrderEnumPlugOperator
 
 
-class Spine2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Spine2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Spine2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2467,7 +2624,9 @@ class Spine2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Spine2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Spine2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Spine2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2488,7 +2647,9 @@ class Spine2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Spine2RotateOrderEnumField(
-    EnumField[Spine2RotateOrderEnumAttrOperator, Spine2RotateOrderEnumPlugOperator]
+    EnumField[
+        Spine2RotateOrderEnumAttrOperator, Spine2RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2496,7 +2657,9 @@ class Spine2RotateOrderEnumField(
     PLUG_CLS = Spine2RotateOrderEnumPlugOperator
 
 
-class Spine3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Spine3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Spine3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2507,7 +2670,9 @@ class Spine3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Spine3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Spine3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Spine3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2528,7 +2693,9 @@ class Spine3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Spine3RotateOrderEnumField(
-    EnumField[Spine3RotateOrderEnumAttrOperator, Spine3RotateOrderEnumPlugOperator]
+    EnumField[
+        Spine3RotateOrderEnumAttrOperator, Spine3RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2536,7 +2703,9 @@ class Spine3RotateOrderEnumField(
     PLUG_CLS = Spine3RotateOrderEnumPlugOperator
 
 
-class Spine4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Spine4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Spine4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2547,7 +2716,9 @@ class Spine4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Spine4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Spine4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Spine4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2568,7 +2739,9 @@ class Spine4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Spine4RotateOrderEnumField(
-    EnumField[Spine4RotateOrderEnumAttrOperator, Spine4RotateOrderEnumPlugOperator]
+    EnumField[
+        Spine4RotateOrderEnumAttrOperator, Spine4RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2576,7 +2749,9 @@ class Spine4RotateOrderEnumField(
     PLUG_CLS = Spine4RotateOrderEnumPlugOperator
 
 
-class Spine5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Spine5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Spine5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2587,7 +2762,9 @@ class Spine5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Spine5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Spine5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Spine5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2608,7 +2785,9 @@ class Spine5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Spine5RotateOrderEnumField(
-    EnumField[Spine5RotateOrderEnumAttrOperator, Spine5RotateOrderEnumPlugOperator]
+    EnumField[
+        Spine5RotateOrderEnumAttrOperator, Spine5RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2616,7 +2795,9 @@ class Spine5RotateOrderEnumField(
     PLUG_CLS = Spine5RotateOrderEnumPlugOperator
 
 
-class Spine6RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Spine6RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Spine6RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2627,7 +2808,9 @@ class Spine6RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Spine6RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Spine6RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Spine6RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2648,7 +2831,9 @@ class Spine6RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Spine6RotateOrderEnumField(
-    EnumField[Spine6RotateOrderEnumAttrOperator, Spine6RotateOrderEnumPlugOperator]
+    EnumField[
+        Spine6RotateOrderEnumAttrOperator, Spine6RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2656,7 +2841,9 @@ class Spine6RotateOrderEnumField(
     PLUG_CLS = Spine6RotateOrderEnumPlugOperator
 
 
-class Spine7RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Spine7RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Spine7RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2667,7 +2854,9 @@ class Spine7RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Spine7RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Spine7RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Spine7RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2688,7 +2877,9 @@ class Spine7RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Spine7RotateOrderEnumField(
-    EnumField[Spine7RotateOrderEnumAttrOperator, Spine7RotateOrderEnumPlugOperator]
+    EnumField[
+        Spine7RotateOrderEnumAttrOperator, Spine7RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2696,7 +2887,9 @@ class Spine7RotateOrderEnumField(
     PLUG_CLS = Spine7RotateOrderEnumPlugOperator
 
 
-class Spine8RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Spine8RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Spine8RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2707,7 +2900,9 @@ class Spine8RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Spine8RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Spine8RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Spine8RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2728,7 +2923,9 @@ class Spine8RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Spine8RotateOrderEnumField(
-    EnumField[Spine8RotateOrderEnumAttrOperator, Spine8RotateOrderEnumPlugOperator]
+    EnumField[
+        Spine8RotateOrderEnumAttrOperator, Spine8RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2736,7 +2933,9 @@ class Spine8RotateOrderEnumField(
     PLUG_CLS = Spine8RotateOrderEnumPlugOperator
 
 
-class Spine9RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Spine9RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Spine9RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2747,7 +2946,9 @@ class Spine9RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Spine9RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Spine9RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Spine9RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2768,7 +2969,9 @@ class Spine9RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Spine9RotateOrderEnumField(
-    EnumField[Spine9RotateOrderEnumAttrOperator, Spine9RotateOrderEnumPlugOperator]
+    EnumField[
+        Spine9RotateOrderEnumAttrOperator, Spine9RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2776,7 +2979,9 @@ class Spine9RotateOrderEnumField(
     PLUG_CLS = Spine9RotateOrderEnumPlugOperator
 
 
-class Neck1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Neck1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Neck1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2787,7 +2992,9 @@ class Neck1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Neck1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Neck1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Neck1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2808,7 +3015,9 @@ class Neck1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Neck1RotateOrderEnumField(
-    EnumField[Neck1RotateOrderEnumAttrOperator, Neck1RotateOrderEnumPlugOperator]
+    EnumField[
+        Neck1RotateOrderEnumAttrOperator, Neck1RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2816,7 +3025,9 @@ class Neck1RotateOrderEnumField(
     PLUG_CLS = Neck1RotateOrderEnumPlugOperator
 
 
-class Neck2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Neck2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Neck2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2827,7 +3038,9 @@ class Neck2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Neck2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Neck2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Neck2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2848,7 +3061,9 @@ class Neck2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Neck2RotateOrderEnumField(
-    EnumField[Neck2RotateOrderEnumAttrOperator, Neck2RotateOrderEnumPlugOperator]
+    EnumField[
+        Neck2RotateOrderEnumAttrOperator, Neck2RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2856,7 +3071,9 @@ class Neck2RotateOrderEnumField(
     PLUG_CLS = Neck2RotateOrderEnumPlugOperator
 
 
-class Neck3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Neck3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Neck3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2867,7 +3084,9 @@ class Neck3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Neck3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Neck3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Neck3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2888,7 +3107,9 @@ class Neck3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Neck3RotateOrderEnumField(
-    EnumField[Neck3RotateOrderEnumAttrOperator, Neck3RotateOrderEnumPlugOperator]
+    EnumField[
+        Neck3RotateOrderEnumAttrOperator, Neck3RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2896,7 +3117,9 @@ class Neck3RotateOrderEnumField(
     PLUG_CLS = Neck3RotateOrderEnumPlugOperator
 
 
-class Neck4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Neck4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Neck4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2907,7 +3130,9 @@ class Neck4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Neck4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Neck4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Neck4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2928,7 +3153,9 @@ class Neck4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Neck4RotateOrderEnumField(
-    EnumField[Neck4RotateOrderEnumAttrOperator, Neck4RotateOrderEnumPlugOperator]
+    EnumField[
+        Neck4RotateOrderEnumAttrOperator, Neck4RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2936,7 +3163,9 @@ class Neck4RotateOrderEnumField(
     PLUG_CLS = Neck4RotateOrderEnumPlugOperator
 
 
-class Neck5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Neck5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Neck5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2947,7 +3176,9 @@ class Neck5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Neck5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Neck5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Neck5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2968,7 +3199,9 @@ class Neck5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Neck5RotateOrderEnumField(
-    EnumField[Neck5RotateOrderEnumAttrOperator, Neck5RotateOrderEnumPlugOperator]
+    EnumField[
+        Neck5RotateOrderEnumAttrOperator, Neck5RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2976,7 +3209,9 @@ class Neck5RotateOrderEnumField(
     PLUG_CLS = Neck5RotateOrderEnumPlugOperator
 
 
-class Neck6RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Neck6RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Neck6RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2987,7 +3222,9 @@ class Neck6RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Neck6RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Neck6RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Neck6RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3008,7 +3245,9 @@ class Neck6RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Neck6RotateOrderEnumField(
-    EnumField[Neck6RotateOrderEnumAttrOperator, Neck6RotateOrderEnumPlugOperator]
+    EnumField[
+        Neck6RotateOrderEnumAttrOperator, Neck6RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3016,7 +3255,9 @@ class Neck6RotateOrderEnumField(
     PLUG_CLS = Neck6RotateOrderEnumPlugOperator
 
 
-class Neck7RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Neck7RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Neck7RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3027,7 +3268,9 @@ class Neck7RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Neck7RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Neck7RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Neck7RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3048,7 +3291,9 @@ class Neck7RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Neck7RotateOrderEnumField(
-    EnumField[Neck7RotateOrderEnumAttrOperator, Neck7RotateOrderEnumPlugOperator]
+    EnumField[
+        Neck7RotateOrderEnumAttrOperator, Neck7RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3056,7 +3301,9 @@ class Neck7RotateOrderEnumField(
     PLUG_CLS = Neck7RotateOrderEnumPlugOperator
 
 
-class Neck8RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Neck8RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Neck8RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3067,7 +3314,9 @@ class Neck8RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Neck8RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Neck8RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Neck8RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3088,7 +3337,9 @@ class Neck8RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Neck8RotateOrderEnumField(
-    EnumField[Neck8RotateOrderEnumAttrOperator, Neck8RotateOrderEnumPlugOperator]
+    EnumField[
+        Neck8RotateOrderEnumAttrOperator, Neck8RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3096,7 +3347,9 @@ class Neck8RotateOrderEnumField(
     PLUG_CLS = Neck8RotateOrderEnumPlugOperator
 
 
-class Neck9RotateOrderEnumPlugOperator(EnumPlugOperator):
+class Neck9RotateOrderEnumPlugOperator(
+    EnumPlugOperator["Neck9RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3107,7 +3360,9 @@ class Neck9RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class Neck9RotateOrderEnumAttrOperator(EnumAttrOperator):
+class Neck9RotateOrderEnumAttrOperator(
+    EnumAttrOperator[Neck9RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3128,7 +3383,9 @@ class Neck9RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class Neck9RotateOrderEnumField(
-    EnumField[Neck9RotateOrderEnumAttrOperator, Neck9RotateOrderEnumPlugOperator]
+    EnumField[
+        Neck9RotateOrderEnumAttrOperator, Neck9RotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3136,7 +3393,9 @@ class Neck9RotateOrderEnumField(
     PLUG_CLS = Neck9RotateOrderEnumPlugOperator
 
 
-class LeftUpLegRollRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftUpLegRollRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftUpLegRollRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3147,7 +3406,9 @@ class LeftUpLegRollRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftUpLegRollRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftUpLegRollRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftUpLegRollRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3168,7 +3429,10 @@ class LeftUpLegRollRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftUpLegRollRotateOrderEnumField(
-    EnumField[LeftUpLegRollRotateOrderEnumAttrOperator, LeftUpLegRollRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftUpLegRollRotateOrderEnumAttrOperator,
+        LeftUpLegRollRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3176,7 +3440,9 @@ class LeftUpLegRollRotateOrderEnumField(
     PLUG_CLS = LeftUpLegRollRotateOrderEnumPlugOperator
 
 
-class LeftLegRollRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftLegRollRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftLegRollRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3187,7 +3453,9 @@ class LeftLegRollRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftLegRollRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftLegRollRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftLegRollRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3208,7 +3476,10 @@ class LeftLegRollRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftLegRollRotateOrderEnumField(
-    EnumField[LeftLegRollRotateOrderEnumAttrOperator, LeftLegRollRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftLegRollRotateOrderEnumAttrOperator,
+        LeftLegRollRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3216,7 +3487,9 @@ class LeftLegRollRotateOrderEnumField(
     PLUG_CLS = LeftLegRollRotateOrderEnumPlugOperator
 
 
-class RightUpLegRollRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightUpLegRollRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightUpLegRollRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3227,7 +3500,9 @@ class RightUpLegRollRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightUpLegRollRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightUpLegRollRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightUpLegRollRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3248,7 +3523,10 @@ class RightUpLegRollRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightUpLegRollRotateOrderEnumField(
-    EnumField[RightUpLegRollRotateOrderEnumAttrOperator, RightUpLegRollRotateOrderEnumPlugOperator]
+    EnumField[
+        RightUpLegRollRotateOrderEnumAttrOperator,
+        RightUpLegRollRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3256,7 +3534,9 @@ class RightUpLegRollRotateOrderEnumField(
     PLUG_CLS = RightUpLegRollRotateOrderEnumPlugOperator
 
 
-class RightLegRollRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightLegRollRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightLegRollRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3267,7 +3547,9 @@ class RightLegRollRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightLegRollRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightLegRollRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightLegRollRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3288,7 +3570,10 @@ class RightLegRollRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightLegRollRotateOrderEnumField(
-    EnumField[RightLegRollRotateOrderEnumAttrOperator, RightLegRollRotateOrderEnumPlugOperator]
+    EnumField[
+        RightLegRollRotateOrderEnumAttrOperator,
+        RightLegRollRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3296,7 +3581,9 @@ class RightLegRollRotateOrderEnumField(
     PLUG_CLS = RightLegRollRotateOrderEnumPlugOperator
 
 
-class LeftArmRollRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftArmRollRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftArmRollRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3307,7 +3594,9 @@ class LeftArmRollRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftArmRollRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftArmRollRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftArmRollRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3328,7 +3617,10 @@ class LeftArmRollRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftArmRollRotateOrderEnumField(
-    EnumField[LeftArmRollRotateOrderEnumAttrOperator, LeftArmRollRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftArmRollRotateOrderEnumAttrOperator,
+        LeftArmRollRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3336,7 +3628,9 @@ class LeftArmRollRotateOrderEnumField(
     PLUG_CLS = LeftArmRollRotateOrderEnumPlugOperator
 
 
-class LeftForeArmRollRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftForeArmRollRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftForeArmRollRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3347,7 +3641,9 @@ class LeftForeArmRollRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftForeArmRollRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftForeArmRollRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftForeArmRollRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3368,7 +3664,10 @@ class LeftForeArmRollRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftForeArmRollRotateOrderEnumField(
-    EnumField[LeftForeArmRollRotateOrderEnumAttrOperator, LeftForeArmRollRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftForeArmRollRotateOrderEnumAttrOperator,
+        LeftForeArmRollRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3376,7 +3675,9 @@ class LeftForeArmRollRotateOrderEnumField(
     PLUG_CLS = LeftForeArmRollRotateOrderEnumPlugOperator
 
 
-class RightArmRollRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightArmRollRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightArmRollRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3387,7 +3688,9 @@ class RightArmRollRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightArmRollRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightArmRollRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightArmRollRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3408,7 +3711,10 @@ class RightArmRollRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightArmRollRotateOrderEnumField(
-    EnumField[RightArmRollRotateOrderEnumAttrOperator, RightArmRollRotateOrderEnumPlugOperator]
+    EnumField[
+        RightArmRollRotateOrderEnumAttrOperator,
+        RightArmRollRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3416,7 +3722,9 @@ class RightArmRollRotateOrderEnumField(
     PLUG_CLS = RightArmRollRotateOrderEnumPlugOperator
 
 
-class RightForeArmRollRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightForeArmRollRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightForeArmRollRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3427,7 +3735,9 @@ class RightForeArmRollRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightForeArmRollRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightForeArmRollRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightForeArmRollRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3448,7 +3758,10 @@ class RightForeArmRollRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightForeArmRollRotateOrderEnumField(
-    EnumField[RightForeArmRollRotateOrderEnumAttrOperator, RightForeArmRollRotateOrderEnumPlugOperator]
+    EnumField[
+        RightForeArmRollRotateOrderEnumAttrOperator,
+        RightForeArmRollRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3456,7 +3769,9 @@ class RightForeArmRollRotateOrderEnumField(
     PLUG_CLS = RightForeArmRollRotateOrderEnumPlugOperator
 
 
-class HipsTranslationRotateOrderEnumPlugOperator(EnumPlugOperator):
+class HipsTranslationRotateOrderEnumPlugOperator(
+    EnumPlugOperator["HipsTranslationRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3467,7 +3782,9 @@ class HipsTranslationRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class HipsTranslationRotateOrderEnumAttrOperator(EnumAttrOperator):
+class HipsTranslationRotateOrderEnumAttrOperator(
+    EnumAttrOperator[HipsTranslationRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3488,7 +3805,10 @@ class HipsTranslationRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class HipsTranslationRotateOrderEnumField(
-    EnumField[HipsTranslationRotateOrderEnumAttrOperator, HipsTranslationRotateOrderEnumPlugOperator]
+    EnumField[
+        HipsTranslationRotateOrderEnumAttrOperator,
+        HipsTranslationRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3496,7 +3816,9 @@ class HipsTranslationRotateOrderEnumField(
     PLUG_CLS = HipsTranslationRotateOrderEnumPlugOperator
 
 
-class LeftHandThumb1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandThumb1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandThumb1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3507,7 +3829,9 @@ class LeftHandThumb1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandThumb1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandThumb1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandThumb1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3528,7 +3852,10 @@ class LeftHandThumb1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandThumb1RotateOrderEnumField(
-    EnumField[LeftHandThumb1RotateOrderEnumAttrOperator, LeftHandThumb1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandThumb1RotateOrderEnumAttrOperator,
+        LeftHandThumb1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3536,7 +3863,9 @@ class LeftHandThumb1RotateOrderEnumField(
     PLUG_CLS = LeftHandThumb1RotateOrderEnumPlugOperator
 
 
-class LeftHandThumb2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandThumb2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandThumb2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3547,7 +3876,9 @@ class LeftHandThumb2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandThumb2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandThumb2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandThumb2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3568,7 +3899,10 @@ class LeftHandThumb2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandThumb2RotateOrderEnumField(
-    EnumField[LeftHandThumb2RotateOrderEnumAttrOperator, LeftHandThumb2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandThumb2RotateOrderEnumAttrOperator,
+        LeftHandThumb2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3576,7 +3910,9 @@ class LeftHandThumb2RotateOrderEnumField(
     PLUG_CLS = LeftHandThumb2RotateOrderEnumPlugOperator
 
 
-class LeftHandThumb3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandThumb3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandThumb3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3587,7 +3923,9 @@ class LeftHandThumb3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandThumb3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandThumb3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandThumb3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3608,7 +3946,10 @@ class LeftHandThumb3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandThumb3RotateOrderEnumField(
-    EnumField[LeftHandThumb3RotateOrderEnumAttrOperator, LeftHandThumb3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandThumb3RotateOrderEnumAttrOperator,
+        LeftHandThumb3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3616,7 +3957,9 @@ class LeftHandThumb3RotateOrderEnumField(
     PLUG_CLS = LeftHandThumb3RotateOrderEnumPlugOperator
 
 
-class LeftHandThumb4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandThumb4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandThumb4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3627,7 +3970,9 @@ class LeftHandThumb4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandThumb4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandThumb4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandThumb4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3648,7 +3993,10 @@ class LeftHandThumb4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandThumb4RotateOrderEnumField(
-    EnumField[LeftHandThumb4RotateOrderEnumAttrOperator, LeftHandThumb4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandThumb4RotateOrderEnumAttrOperator,
+        LeftHandThumb4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3656,7 +4004,9 @@ class LeftHandThumb4RotateOrderEnumField(
     PLUG_CLS = LeftHandThumb4RotateOrderEnumPlugOperator
 
 
-class LeftHandIndex1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandIndex1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandIndex1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3667,7 +4017,9 @@ class LeftHandIndex1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandIndex1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandIndex1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandIndex1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3688,7 +4040,10 @@ class LeftHandIndex1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandIndex1RotateOrderEnumField(
-    EnumField[LeftHandIndex1RotateOrderEnumAttrOperator, LeftHandIndex1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandIndex1RotateOrderEnumAttrOperator,
+        LeftHandIndex1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3696,7 +4051,9 @@ class LeftHandIndex1RotateOrderEnumField(
     PLUG_CLS = LeftHandIndex1RotateOrderEnumPlugOperator
 
 
-class LeftHandIndex2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandIndex2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandIndex2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3707,7 +4064,9 @@ class LeftHandIndex2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandIndex2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandIndex2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandIndex2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3728,7 +4087,10 @@ class LeftHandIndex2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandIndex2RotateOrderEnumField(
-    EnumField[LeftHandIndex2RotateOrderEnumAttrOperator, LeftHandIndex2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandIndex2RotateOrderEnumAttrOperator,
+        LeftHandIndex2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3736,7 +4098,9 @@ class LeftHandIndex2RotateOrderEnumField(
     PLUG_CLS = LeftHandIndex2RotateOrderEnumPlugOperator
 
 
-class LeftHandIndex3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandIndex3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandIndex3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3747,7 +4111,9 @@ class LeftHandIndex3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandIndex3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandIndex3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandIndex3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3768,7 +4134,10 @@ class LeftHandIndex3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandIndex3RotateOrderEnumField(
-    EnumField[LeftHandIndex3RotateOrderEnumAttrOperator, LeftHandIndex3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandIndex3RotateOrderEnumAttrOperator,
+        LeftHandIndex3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3776,7 +4145,9 @@ class LeftHandIndex3RotateOrderEnumField(
     PLUG_CLS = LeftHandIndex3RotateOrderEnumPlugOperator
 
 
-class LeftHandIndex4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandIndex4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandIndex4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3787,7 +4158,9 @@ class LeftHandIndex4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandIndex4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandIndex4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandIndex4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3808,7 +4181,10 @@ class LeftHandIndex4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandIndex4RotateOrderEnumField(
-    EnumField[LeftHandIndex4RotateOrderEnumAttrOperator, LeftHandIndex4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandIndex4RotateOrderEnumAttrOperator,
+        LeftHandIndex4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3816,7 +4192,9 @@ class LeftHandIndex4RotateOrderEnumField(
     PLUG_CLS = LeftHandIndex4RotateOrderEnumPlugOperator
 
 
-class LeftHandMiddle1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandMiddle1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandMiddle1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3827,7 +4205,9 @@ class LeftHandMiddle1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandMiddle1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandMiddle1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandMiddle1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3848,7 +4228,10 @@ class LeftHandMiddle1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandMiddle1RotateOrderEnumField(
-    EnumField[LeftHandMiddle1RotateOrderEnumAttrOperator, LeftHandMiddle1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandMiddle1RotateOrderEnumAttrOperator,
+        LeftHandMiddle1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3856,7 +4239,9 @@ class LeftHandMiddle1RotateOrderEnumField(
     PLUG_CLS = LeftHandMiddle1RotateOrderEnumPlugOperator
 
 
-class LeftHandMiddle2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandMiddle2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandMiddle2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3867,7 +4252,9 @@ class LeftHandMiddle2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandMiddle2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandMiddle2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandMiddle2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3888,7 +4275,10 @@ class LeftHandMiddle2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandMiddle2RotateOrderEnumField(
-    EnumField[LeftHandMiddle2RotateOrderEnumAttrOperator, LeftHandMiddle2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandMiddle2RotateOrderEnumAttrOperator,
+        LeftHandMiddle2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3896,7 +4286,9 @@ class LeftHandMiddle2RotateOrderEnumField(
     PLUG_CLS = LeftHandMiddle2RotateOrderEnumPlugOperator
 
 
-class LeftHandMiddle3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandMiddle3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandMiddle3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3907,7 +4299,9 @@ class LeftHandMiddle3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandMiddle3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandMiddle3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandMiddle3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3928,7 +4322,10 @@ class LeftHandMiddle3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandMiddle3RotateOrderEnumField(
-    EnumField[LeftHandMiddle3RotateOrderEnumAttrOperator, LeftHandMiddle3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandMiddle3RotateOrderEnumAttrOperator,
+        LeftHandMiddle3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3936,7 +4333,9 @@ class LeftHandMiddle3RotateOrderEnumField(
     PLUG_CLS = LeftHandMiddle3RotateOrderEnumPlugOperator
 
 
-class LeftHandMiddle4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandMiddle4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandMiddle4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3947,7 +4346,9 @@ class LeftHandMiddle4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandMiddle4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandMiddle4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandMiddle4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3968,7 +4369,10 @@ class LeftHandMiddle4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandMiddle4RotateOrderEnumField(
-    EnumField[LeftHandMiddle4RotateOrderEnumAttrOperator, LeftHandMiddle4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandMiddle4RotateOrderEnumAttrOperator,
+        LeftHandMiddle4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3976,7 +4380,9 @@ class LeftHandMiddle4RotateOrderEnumField(
     PLUG_CLS = LeftHandMiddle4RotateOrderEnumPlugOperator
 
 
-class LeftHandRing1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandRing1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandRing1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3987,7 +4393,9 @@ class LeftHandRing1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandRing1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandRing1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandRing1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4008,7 +4416,10 @@ class LeftHandRing1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandRing1RotateOrderEnumField(
-    EnumField[LeftHandRing1RotateOrderEnumAttrOperator, LeftHandRing1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandRing1RotateOrderEnumAttrOperator,
+        LeftHandRing1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4016,7 +4427,9 @@ class LeftHandRing1RotateOrderEnumField(
     PLUG_CLS = LeftHandRing1RotateOrderEnumPlugOperator
 
 
-class LeftHandRing2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandRing2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandRing2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4027,7 +4440,9 @@ class LeftHandRing2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandRing2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandRing2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandRing2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4048,7 +4463,10 @@ class LeftHandRing2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandRing2RotateOrderEnumField(
-    EnumField[LeftHandRing2RotateOrderEnumAttrOperator, LeftHandRing2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandRing2RotateOrderEnumAttrOperator,
+        LeftHandRing2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4056,7 +4474,9 @@ class LeftHandRing2RotateOrderEnumField(
     PLUG_CLS = LeftHandRing2RotateOrderEnumPlugOperator
 
 
-class LeftHandRing3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandRing3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandRing3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4067,7 +4487,9 @@ class LeftHandRing3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandRing3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandRing3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandRing3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4088,7 +4510,10 @@ class LeftHandRing3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandRing3RotateOrderEnumField(
-    EnumField[LeftHandRing3RotateOrderEnumAttrOperator, LeftHandRing3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandRing3RotateOrderEnumAttrOperator,
+        LeftHandRing3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4096,7 +4521,9 @@ class LeftHandRing3RotateOrderEnumField(
     PLUG_CLS = LeftHandRing3RotateOrderEnumPlugOperator
 
 
-class LeftHandRing4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandRing4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandRing4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4107,7 +4534,9 @@ class LeftHandRing4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandRing4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandRing4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandRing4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4128,7 +4557,10 @@ class LeftHandRing4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandRing4RotateOrderEnumField(
-    EnumField[LeftHandRing4RotateOrderEnumAttrOperator, LeftHandRing4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandRing4RotateOrderEnumAttrOperator,
+        LeftHandRing4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4136,7 +4568,9 @@ class LeftHandRing4RotateOrderEnumField(
     PLUG_CLS = LeftHandRing4RotateOrderEnumPlugOperator
 
 
-class LeftHandPinky1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandPinky1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandPinky1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4147,7 +4581,9 @@ class LeftHandPinky1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandPinky1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandPinky1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandPinky1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4168,7 +4604,10 @@ class LeftHandPinky1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandPinky1RotateOrderEnumField(
-    EnumField[LeftHandPinky1RotateOrderEnumAttrOperator, LeftHandPinky1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandPinky1RotateOrderEnumAttrOperator,
+        LeftHandPinky1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4176,7 +4615,9 @@ class LeftHandPinky1RotateOrderEnumField(
     PLUG_CLS = LeftHandPinky1RotateOrderEnumPlugOperator
 
 
-class LeftHandPinky2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandPinky2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandPinky2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4187,7 +4628,9 @@ class LeftHandPinky2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandPinky2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandPinky2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandPinky2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4208,7 +4651,10 @@ class LeftHandPinky2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandPinky2RotateOrderEnumField(
-    EnumField[LeftHandPinky2RotateOrderEnumAttrOperator, LeftHandPinky2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandPinky2RotateOrderEnumAttrOperator,
+        LeftHandPinky2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4216,7 +4662,9 @@ class LeftHandPinky2RotateOrderEnumField(
     PLUG_CLS = LeftHandPinky2RotateOrderEnumPlugOperator
 
 
-class LeftHandPinky3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandPinky3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandPinky3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4227,7 +4675,9 @@ class LeftHandPinky3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandPinky3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandPinky3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandPinky3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4248,7 +4698,10 @@ class LeftHandPinky3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandPinky3RotateOrderEnumField(
-    EnumField[LeftHandPinky3RotateOrderEnumAttrOperator, LeftHandPinky3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandPinky3RotateOrderEnumAttrOperator,
+        LeftHandPinky3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4256,7 +4709,9 @@ class LeftHandPinky3RotateOrderEnumField(
     PLUG_CLS = LeftHandPinky3RotateOrderEnumPlugOperator
 
 
-class LeftHandPinky4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandPinky4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandPinky4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4267,7 +4722,9 @@ class LeftHandPinky4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandPinky4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandPinky4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandPinky4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4288,7 +4745,10 @@ class LeftHandPinky4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandPinky4RotateOrderEnumField(
-    EnumField[LeftHandPinky4RotateOrderEnumAttrOperator, LeftHandPinky4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandPinky4RotateOrderEnumAttrOperator,
+        LeftHandPinky4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4296,7 +4756,9 @@ class LeftHandPinky4RotateOrderEnumField(
     PLUG_CLS = LeftHandPinky4RotateOrderEnumPlugOperator
 
 
-class LeftHandExtraFinger1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandExtraFinger1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandExtraFinger1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4307,7 +4769,9 @@ class LeftHandExtraFinger1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandExtraFinger1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandExtraFinger1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandExtraFinger1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4328,7 +4792,10 @@ class LeftHandExtraFinger1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandExtraFinger1RotateOrderEnumField(
-    EnumField[LeftHandExtraFinger1RotateOrderEnumAttrOperator, LeftHandExtraFinger1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandExtraFinger1RotateOrderEnumAttrOperator,
+        LeftHandExtraFinger1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4336,7 +4803,9 @@ class LeftHandExtraFinger1RotateOrderEnumField(
     PLUG_CLS = LeftHandExtraFinger1RotateOrderEnumPlugOperator
 
 
-class LeftHandExtraFinger2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandExtraFinger2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandExtraFinger2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4347,7 +4816,9 @@ class LeftHandExtraFinger2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandExtraFinger2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandExtraFinger2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandExtraFinger2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4368,7 +4839,10 @@ class LeftHandExtraFinger2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandExtraFinger2RotateOrderEnumField(
-    EnumField[LeftHandExtraFinger2RotateOrderEnumAttrOperator, LeftHandExtraFinger2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandExtraFinger2RotateOrderEnumAttrOperator,
+        LeftHandExtraFinger2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4376,7 +4850,9 @@ class LeftHandExtraFinger2RotateOrderEnumField(
     PLUG_CLS = LeftHandExtraFinger2RotateOrderEnumPlugOperator
 
 
-class LeftHandExtraFinger3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandExtraFinger3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandExtraFinger3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4387,7 +4863,9 @@ class LeftHandExtraFinger3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandExtraFinger3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandExtraFinger3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandExtraFinger3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4408,7 +4886,10 @@ class LeftHandExtraFinger3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandExtraFinger3RotateOrderEnumField(
-    EnumField[LeftHandExtraFinger3RotateOrderEnumAttrOperator, LeftHandExtraFinger3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandExtraFinger3RotateOrderEnumAttrOperator,
+        LeftHandExtraFinger3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4416,7 +4897,9 @@ class LeftHandExtraFinger3RotateOrderEnumField(
     PLUG_CLS = LeftHandExtraFinger3RotateOrderEnumPlugOperator
 
 
-class LeftHandExtraFinger4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandExtraFinger4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandExtraFinger4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4427,7 +4910,9 @@ class LeftHandExtraFinger4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftHandExtraFinger4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandExtraFinger4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandExtraFinger4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4448,7 +4933,10 @@ class LeftHandExtraFinger4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftHandExtraFinger4RotateOrderEnumField(
-    EnumField[LeftHandExtraFinger4RotateOrderEnumAttrOperator, LeftHandExtraFinger4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftHandExtraFinger4RotateOrderEnumAttrOperator,
+        LeftHandExtraFinger4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4456,7 +4944,9 @@ class LeftHandExtraFinger4RotateOrderEnumField(
     PLUG_CLS = LeftHandExtraFinger4RotateOrderEnumPlugOperator
 
 
-class RightHandThumb1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandThumb1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandThumb1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4467,7 +4957,9 @@ class RightHandThumb1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandThumb1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandThumb1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandThumb1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4488,7 +4980,10 @@ class RightHandThumb1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandThumb1RotateOrderEnumField(
-    EnumField[RightHandThumb1RotateOrderEnumAttrOperator, RightHandThumb1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandThumb1RotateOrderEnumAttrOperator,
+        RightHandThumb1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4496,7 +4991,9 @@ class RightHandThumb1RotateOrderEnumField(
     PLUG_CLS = RightHandThumb1RotateOrderEnumPlugOperator
 
 
-class RightHandThumb2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandThumb2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandThumb2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4507,7 +5004,9 @@ class RightHandThumb2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandThumb2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandThumb2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandThumb2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4528,7 +5027,10 @@ class RightHandThumb2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandThumb2RotateOrderEnumField(
-    EnumField[RightHandThumb2RotateOrderEnumAttrOperator, RightHandThumb2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandThumb2RotateOrderEnumAttrOperator,
+        RightHandThumb2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4536,7 +5038,9 @@ class RightHandThumb2RotateOrderEnumField(
     PLUG_CLS = RightHandThumb2RotateOrderEnumPlugOperator
 
 
-class RightHandThumb3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandThumb3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandThumb3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4547,7 +5051,9 @@ class RightHandThumb3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandThumb3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandThumb3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandThumb3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4568,7 +5074,10 @@ class RightHandThumb3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandThumb3RotateOrderEnumField(
-    EnumField[RightHandThumb3RotateOrderEnumAttrOperator, RightHandThumb3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandThumb3RotateOrderEnumAttrOperator,
+        RightHandThumb3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4576,7 +5085,9 @@ class RightHandThumb3RotateOrderEnumField(
     PLUG_CLS = RightHandThumb3RotateOrderEnumPlugOperator
 
 
-class RightHandThumb4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandThumb4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandThumb4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4587,7 +5098,9 @@ class RightHandThumb4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandThumb4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandThumb4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandThumb4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4608,7 +5121,10 @@ class RightHandThumb4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandThumb4RotateOrderEnumField(
-    EnumField[RightHandThumb4RotateOrderEnumAttrOperator, RightHandThumb4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandThumb4RotateOrderEnumAttrOperator,
+        RightHandThumb4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4616,7 +5132,9 @@ class RightHandThumb4RotateOrderEnumField(
     PLUG_CLS = RightHandThumb4RotateOrderEnumPlugOperator
 
 
-class RightHandIndex1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandIndex1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandIndex1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4627,7 +5145,9 @@ class RightHandIndex1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandIndex1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandIndex1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandIndex1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4648,7 +5168,10 @@ class RightHandIndex1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandIndex1RotateOrderEnumField(
-    EnumField[RightHandIndex1RotateOrderEnumAttrOperator, RightHandIndex1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandIndex1RotateOrderEnumAttrOperator,
+        RightHandIndex1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4656,7 +5179,9 @@ class RightHandIndex1RotateOrderEnumField(
     PLUG_CLS = RightHandIndex1RotateOrderEnumPlugOperator
 
 
-class RightHandIndex2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandIndex2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandIndex2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4667,7 +5192,9 @@ class RightHandIndex2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandIndex2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandIndex2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandIndex2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4688,7 +5215,10 @@ class RightHandIndex2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandIndex2RotateOrderEnumField(
-    EnumField[RightHandIndex2RotateOrderEnumAttrOperator, RightHandIndex2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandIndex2RotateOrderEnumAttrOperator,
+        RightHandIndex2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4696,7 +5226,9 @@ class RightHandIndex2RotateOrderEnumField(
     PLUG_CLS = RightHandIndex2RotateOrderEnumPlugOperator
 
 
-class RightHandIndex3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandIndex3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandIndex3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4707,7 +5239,9 @@ class RightHandIndex3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandIndex3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandIndex3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandIndex3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4728,7 +5262,10 @@ class RightHandIndex3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandIndex3RotateOrderEnumField(
-    EnumField[RightHandIndex3RotateOrderEnumAttrOperator, RightHandIndex3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandIndex3RotateOrderEnumAttrOperator,
+        RightHandIndex3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4736,7 +5273,9 @@ class RightHandIndex3RotateOrderEnumField(
     PLUG_CLS = RightHandIndex3RotateOrderEnumPlugOperator
 
 
-class RightHandIndex4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandIndex4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandIndex4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4747,7 +5286,9 @@ class RightHandIndex4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandIndex4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandIndex4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandIndex4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4768,7 +5309,10 @@ class RightHandIndex4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandIndex4RotateOrderEnumField(
-    EnumField[RightHandIndex4RotateOrderEnumAttrOperator, RightHandIndex4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandIndex4RotateOrderEnumAttrOperator,
+        RightHandIndex4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4776,7 +5320,9 @@ class RightHandIndex4RotateOrderEnumField(
     PLUG_CLS = RightHandIndex4RotateOrderEnumPlugOperator
 
 
-class RightHandMiddle1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandMiddle1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandMiddle1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4787,7 +5333,9 @@ class RightHandMiddle1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandMiddle1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandMiddle1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandMiddle1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4808,7 +5356,10 @@ class RightHandMiddle1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandMiddle1RotateOrderEnumField(
-    EnumField[RightHandMiddle1RotateOrderEnumAttrOperator, RightHandMiddle1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandMiddle1RotateOrderEnumAttrOperator,
+        RightHandMiddle1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4816,7 +5367,9 @@ class RightHandMiddle1RotateOrderEnumField(
     PLUG_CLS = RightHandMiddle1RotateOrderEnumPlugOperator
 
 
-class RightHandMiddle2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandMiddle2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandMiddle2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4827,7 +5380,9 @@ class RightHandMiddle2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandMiddle2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandMiddle2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandMiddle2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4848,7 +5403,10 @@ class RightHandMiddle2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandMiddle2RotateOrderEnumField(
-    EnumField[RightHandMiddle2RotateOrderEnumAttrOperator, RightHandMiddle2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandMiddle2RotateOrderEnumAttrOperator,
+        RightHandMiddle2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4856,7 +5414,9 @@ class RightHandMiddle2RotateOrderEnumField(
     PLUG_CLS = RightHandMiddle2RotateOrderEnumPlugOperator
 
 
-class RightHandMiddle3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandMiddle3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandMiddle3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4867,7 +5427,9 @@ class RightHandMiddle3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandMiddle3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandMiddle3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandMiddle3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4888,7 +5450,10 @@ class RightHandMiddle3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandMiddle3RotateOrderEnumField(
-    EnumField[RightHandMiddle3RotateOrderEnumAttrOperator, RightHandMiddle3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandMiddle3RotateOrderEnumAttrOperator,
+        RightHandMiddle3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4896,7 +5461,9 @@ class RightHandMiddle3RotateOrderEnumField(
     PLUG_CLS = RightHandMiddle3RotateOrderEnumPlugOperator
 
 
-class RightHandMiddle4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandMiddle4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandMiddle4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4907,7 +5474,9 @@ class RightHandMiddle4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandMiddle4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandMiddle4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandMiddle4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4928,7 +5497,10 @@ class RightHandMiddle4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandMiddle4RotateOrderEnumField(
-    EnumField[RightHandMiddle4RotateOrderEnumAttrOperator, RightHandMiddle4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandMiddle4RotateOrderEnumAttrOperator,
+        RightHandMiddle4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4936,7 +5508,9 @@ class RightHandMiddle4RotateOrderEnumField(
     PLUG_CLS = RightHandMiddle4RotateOrderEnumPlugOperator
 
 
-class RightHandRing1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandRing1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandRing1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4947,7 +5521,9 @@ class RightHandRing1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandRing1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandRing1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandRing1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4968,7 +5544,10 @@ class RightHandRing1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandRing1RotateOrderEnumField(
-    EnumField[RightHandRing1RotateOrderEnumAttrOperator, RightHandRing1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandRing1RotateOrderEnumAttrOperator,
+        RightHandRing1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4976,7 +5555,9 @@ class RightHandRing1RotateOrderEnumField(
     PLUG_CLS = RightHandRing1RotateOrderEnumPlugOperator
 
 
-class RightHandRing2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandRing2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandRing2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4987,7 +5568,9 @@ class RightHandRing2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandRing2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandRing2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandRing2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5008,7 +5591,10 @@ class RightHandRing2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandRing2RotateOrderEnumField(
-    EnumField[RightHandRing2RotateOrderEnumAttrOperator, RightHandRing2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandRing2RotateOrderEnumAttrOperator,
+        RightHandRing2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5016,7 +5602,9 @@ class RightHandRing2RotateOrderEnumField(
     PLUG_CLS = RightHandRing2RotateOrderEnumPlugOperator
 
 
-class RightHandRing3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandRing3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandRing3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5027,7 +5615,9 @@ class RightHandRing3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandRing3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandRing3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandRing3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5048,7 +5638,10 @@ class RightHandRing3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandRing3RotateOrderEnumField(
-    EnumField[RightHandRing3RotateOrderEnumAttrOperator, RightHandRing3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandRing3RotateOrderEnumAttrOperator,
+        RightHandRing3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5056,7 +5649,9 @@ class RightHandRing3RotateOrderEnumField(
     PLUG_CLS = RightHandRing3RotateOrderEnumPlugOperator
 
 
-class RightHandRing4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandRing4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandRing4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5067,7 +5662,9 @@ class RightHandRing4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandRing4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandRing4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandRing4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5088,7 +5685,10 @@ class RightHandRing4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandRing4RotateOrderEnumField(
-    EnumField[RightHandRing4RotateOrderEnumAttrOperator, RightHandRing4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandRing4RotateOrderEnumAttrOperator,
+        RightHandRing4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5096,7 +5696,9 @@ class RightHandRing4RotateOrderEnumField(
     PLUG_CLS = RightHandRing4RotateOrderEnumPlugOperator
 
 
-class RightHandPinky1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandPinky1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandPinky1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5107,7 +5709,9 @@ class RightHandPinky1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandPinky1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandPinky1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandPinky1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5128,7 +5732,10 @@ class RightHandPinky1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandPinky1RotateOrderEnumField(
-    EnumField[RightHandPinky1RotateOrderEnumAttrOperator, RightHandPinky1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandPinky1RotateOrderEnumAttrOperator,
+        RightHandPinky1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5136,7 +5743,9 @@ class RightHandPinky1RotateOrderEnumField(
     PLUG_CLS = RightHandPinky1RotateOrderEnumPlugOperator
 
 
-class RightHandPinky2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandPinky2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandPinky2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5147,7 +5756,9 @@ class RightHandPinky2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandPinky2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandPinky2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandPinky2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5168,7 +5779,10 @@ class RightHandPinky2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandPinky2RotateOrderEnumField(
-    EnumField[RightHandPinky2RotateOrderEnumAttrOperator, RightHandPinky2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandPinky2RotateOrderEnumAttrOperator,
+        RightHandPinky2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5176,7 +5790,9 @@ class RightHandPinky2RotateOrderEnumField(
     PLUG_CLS = RightHandPinky2RotateOrderEnumPlugOperator
 
 
-class RightHandPinky3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandPinky3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandPinky3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5187,7 +5803,9 @@ class RightHandPinky3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandPinky3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandPinky3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandPinky3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5208,7 +5826,10 @@ class RightHandPinky3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandPinky3RotateOrderEnumField(
-    EnumField[RightHandPinky3RotateOrderEnumAttrOperator, RightHandPinky3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandPinky3RotateOrderEnumAttrOperator,
+        RightHandPinky3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5216,7 +5837,9 @@ class RightHandPinky3RotateOrderEnumField(
     PLUG_CLS = RightHandPinky3RotateOrderEnumPlugOperator
 
 
-class RightHandPinky4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandPinky4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandPinky4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5227,7 +5850,9 @@ class RightHandPinky4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandPinky4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandPinky4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandPinky4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5248,7 +5873,10 @@ class RightHandPinky4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandPinky4RotateOrderEnumField(
-    EnumField[RightHandPinky4RotateOrderEnumAttrOperator, RightHandPinky4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandPinky4RotateOrderEnumAttrOperator,
+        RightHandPinky4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5256,7 +5884,9 @@ class RightHandPinky4RotateOrderEnumField(
     PLUG_CLS = RightHandPinky4RotateOrderEnumPlugOperator
 
 
-class RightHandExtraFinger1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandExtraFinger1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandExtraFinger1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5267,7 +5897,9 @@ class RightHandExtraFinger1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandExtraFinger1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandExtraFinger1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandExtraFinger1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5288,7 +5920,10 @@ class RightHandExtraFinger1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandExtraFinger1RotateOrderEnumField(
-    EnumField[RightHandExtraFinger1RotateOrderEnumAttrOperator, RightHandExtraFinger1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandExtraFinger1RotateOrderEnumAttrOperator,
+        RightHandExtraFinger1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5296,7 +5931,9 @@ class RightHandExtraFinger1RotateOrderEnumField(
     PLUG_CLS = RightHandExtraFinger1RotateOrderEnumPlugOperator
 
 
-class RightHandExtraFinger2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandExtraFinger2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandExtraFinger2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5307,7 +5944,9 @@ class RightHandExtraFinger2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandExtraFinger2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandExtraFinger2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandExtraFinger2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5328,7 +5967,10 @@ class RightHandExtraFinger2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandExtraFinger2RotateOrderEnumField(
-    EnumField[RightHandExtraFinger2RotateOrderEnumAttrOperator, RightHandExtraFinger2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandExtraFinger2RotateOrderEnumAttrOperator,
+        RightHandExtraFinger2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5336,7 +5978,9 @@ class RightHandExtraFinger2RotateOrderEnumField(
     PLUG_CLS = RightHandExtraFinger2RotateOrderEnumPlugOperator
 
 
-class RightHandExtraFinger3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandExtraFinger3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandExtraFinger3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5347,7 +5991,9 @@ class RightHandExtraFinger3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandExtraFinger3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandExtraFinger3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandExtraFinger3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5368,7 +6014,10 @@ class RightHandExtraFinger3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandExtraFinger3RotateOrderEnumField(
-    EnumField[RightHandExtraFinger3RotateOrderEnumAttrOperator, RightHandExtraFinger3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandExtraFinger3RotateOrderEnumAttrOperator,
+        RightHandExtraFinger3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5376,7 +6025,9 @@ class RightHandExtraFinger3RotateOrderEnumField(
     PLUG_CLS = RightHandExtraFinger3RotateOrderEnumPlugOperator
 
 
-class RightHandExtraFinger4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightHandExtraFinger4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightHandExtraFinger4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5387,7 +6038,9 @@ class RightHandExtraFinger4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightHandExtraFinger4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightHandExtraFinger4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightHandExtraFinger4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5408,7 +6061,10 @@ class RightHandExtraFinger4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightHandExtraFinger4RotateOrderEnumField(
-    EnumField[RightHandExtraFinger4RotateOrderEnumAttrOperator, RightHandExtraFinger4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightHandExtraFinger4RotateOrderEnumAttrOperator,
+        RightHandExtraFinger4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5416,7 +6072,9 @@ class RightHandExtraFinger4RotateOrderEnumField(
     PLUG_CLS = RightHandExtraFinger4RotateOrderEnumPlugOperator
 
 
-class LeftFootThumb1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootThumb1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootThumb1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5427,7 +6085,9 @@ class LeftFootThumb1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootThumb1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootThumb1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootThumb1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5448,7 +6108,10 @@ class LeftFootThumb1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootThumb1RotateOrderEnumField(
-    EnumField[LeftFootThumb1RotateOrderEnumAttrOperator, LeftFootThumb1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootThumb1RotateOrderEnumAttrOperator,
+        LeftFootThumb1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5456,7 +6119,9 @@ class LeftFootThumb1RotateOrderEnumField(
     PLUG_CLS = LeftFootThumb1RotateOrderEnumPlugOperator
 
 
-class LeftFootThumb2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootThumb2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootThumb2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5467,7 +6132,9 @@ class LeftFootThumb2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootThumb2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootThumb2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootThumb2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5488,7 +6155,10 @@ class LeftFootThumb2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootThumb2RotateOrderEnumField(
-    EnumField[LeftFootThumb2RotateOrderEnumAttrOperator, LeftFootThumb2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootThumb2RotateOrderEnumAttrOperator,
+        LeftFootThumb2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5496,7 +6166,9 @@ class LeftFootThumb2RotateOrderEnumField(
     PLUG_CLS = LeftFootThumb2RotateOrderEnumPlugOperator
 
 
-class LeftFootThumb3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootThumb3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootThumb3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5507,7 +6179,9 @@ class LeftFootThumb3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootThumb3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootThumb3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootThumb3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5528,7 +6202,10 @@ class LeftFootThumb3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootThumb3RotateOrderEnumField(
-    EnumField[LeftFootThumb3RotateOrderEnumAttrOperator, LeftFootThumb3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootThumb3RotateOrderEnumAttrOperator,
+        LeftFootThumb3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5536,7 +6213,9 @@ class LeftFootThumb3RotateOrderEnumField(
     PLUG_CLS = LeftFootThumb3RotateOrderEnumPlugOperator
 
 
-class LeftFootThumb4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootThumb4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootThumb4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5547,7 +6226,9 @@ class LeftFootThumb4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootThumb4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootThumb4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootThumb4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5568,7 +6249,10 @@ class LeftFootThumb4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootThumb4RotateOrderEnumField(
-    EnumField[LeftFootThumb4RotateOrderEnumAttrOperator, LeftFootThumb4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootThumb4RotateOrderEnumAttrOperator,
+        LeftFootThumb4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5576,7 +6260,9 @@ class LeftFootThumb4RotateOrderEnumField(
     PLUG_CLS = LeftFootThumb4RotateOrderEnumPlugOperator
 
 
-class LeftFootIndex1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootIndex1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootIndex1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5587,7 +6273,9 @@ class LeftFootIndex1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootIndex1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootIndex1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootIndex1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5608,7 +6296,10 @@ class LeftFootIndex1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootIndex1RotateOrderEnumField(
-    EnumField[LeftFootIndex1RotateOrderEnumAttrOperator, LeftFootIndex1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootIndex1RotateOrderEnumAttrOperator,
+        LeftFootIndex1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5616,7 +6307,9 @@ class LeftFootIndex1RotateOrderEnumField(
     PLUG_CLS = LeftFootIndex1RotateOrderEnumPlugOperator
 
 
-class LeftFootIndex2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootIndex2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootIndex2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5627,7 +6320,9 @@ class LeftFootIndex2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootIndex2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootIndex2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootIndex2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5648,7 +6343,10 @@ class LeftFootIndex2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootIndex2RotateOrderEnumField(
-    EnumField[LeftFootIndex2RotateOrderEnumAttrOperator, LeftFootIndex2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootIndex2RotateOrderEnumAttrOperator,
+        LeftFootIndex2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5656,7 +6354,9 @@ class LeftFootIndex2RotateOrderEnumField(
     PLUG_CLS = LeftFootIndex2RotateOrderEnumPlugOperator
 
 
-class LeftFootIndex3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootIndex3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootIndex3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5667,7 +6367,9 @@ class LeftFootIndex3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootIndex3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootIndex3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootIndex3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5688,7 +6390,10 @@ class LeftFootIndex3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootIndex3RotateOrderEnumField(
-    EnumField[LeftFootIndex3RotateOrderEnumAttrOperator, LeftFootIndex3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootIndex3RotateOrderEnumAttrOperator,
+        LeftFootIndex3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5696,7 +6401,9 @@ class LeftFootIndex3RotateOrderEnumField(
     PLUG_CLS = LeftFootIndex3RotateOrderEnumPlugOperator
 
 
-class LeftFootIndex4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootIndex4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootIndex4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5707,7 +6414,9 @@ class LeftFootIndex4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootIndex4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootIndex4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootIndex4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5728,7 +6437,10 @@ class LeftFootIndex4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootIndex4RotateOrderEnumField(
-    EnumField[LeftFootIndex4RotateOrderEnumAttrOperator, LeftFootIndex4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootIndex4RotateOrderEnumAttrOperator,
+        LeftFootIndex4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5736,7 +6448,9 @@ class LeftFootIndex4RotateOrderEnumField(
     PLUG_CLS = LeftFootIndex4RotateOrderEnumPlugOperator
 
 
-class LeftFootMiddle1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootMiddle1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootMiddle1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5747,7 +6461,9 @@ class LeftFootMiddle1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootMiddle1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootMiddle1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootMiddle1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5768,7 +6484,10 @@ class LeftFootMiddle1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootMiddle1RotateOrderEnumField(
-    EnumField[LeftFootMiddle1RotateOrderEnumAttrOperator, LeftFootMiddle1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootMiddle1RotateOrderEnumAttrOperator,
+        LeftFootMiddle1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5776,7 +6495,9 @@ class LeftFootMiddle1RotateOrderEnumField(
     PLUG_CLS = LeftFootMiddle1RotateOrderEnumPlugOperator
 
 
-class LeftFootMiddle2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootMiddle2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootMiddle2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5787,7 +6508,9 @@ class LeftFootMiddle2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootMiddle2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootMiddle2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootMiddle2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5808,7 +6531,10 @@ class LeftFootMiddle2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootMiddle2RotateOrderEnumField(
-    EnumField[LeftFootMiddle2RotateOrderEnumAttrOperator, LeftFootMiddle2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootMiddle2RotateOrderEnumAttrOperator,
+        LeftFootMiddle2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5816,7 +6542,9 @@ class LeftFootMiddle2RotateOrderEnumField(
     PLUG_CLS = LeftFootMiddle2RotateOrderEnumPlugOperator
 
 
-class LeftFootMiddle3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootMiddle3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootMiddle3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5827,7 +6555,9 @@ class LeftFootMiddle3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootMiddle3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootMiddle3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootMiddle3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5848,7 +6578,10 @@ class LeftFootMiddle3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootMiddle3RotateOrderEnumField(
-    EnumField[LeftFootMiddle3RotateOrderEnumAttrOperator, LeftFootMiddle3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootMiddle3RotateOrderEnumAttrOperator,
+        LeftFootMiddle3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5856,7 +6589,9 @@ class LeftFootMiddle3RotateOrderEnumField(
     PLUG_CLS = LeftFootMiddle3RotateOrderEnumPlugOperator
 
 
-class LeftFootMiddle4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootMiddle4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootMiddle4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5867,7 +6602,9 @@ class LeftFootMiddle4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootMiddle4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootMiddle4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootMiddle4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5888,7 +6625,10 @@ class LeftFootMiddle4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootMiddle4RotateOrderEnumField(
-    EnumField[LeftFootMiddle4RotateOrderEnumAttrOperator, LeftFootMiddle4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootMiddle4RotateOrderEnumAttrOperator,
+        LeftFootMiddle4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5896,7 +6636,9 @@ class LeftFootMiddle4RotateOrderEnumField(
     PLUG_CLS = LeftFootMiddle4RotateOrderEnumPlugOperator
 
 
-class LeftFootRing1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootRing1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootRing1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5907,7 +6649,9 @@ class LeftFootRing1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootRing1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootRing1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootRing1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5928,7 +6672,10 @@ class LeftFootRing1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootRing1RotateOrderEnumField(
-    EnumField[LeftFootRing1RotateOrderEnumAttrOperator, LeftFootRing1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootRing1RotateOrderEnumAttrOperator,
+        LeftFootRing1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5936,7 +6683,9 @@ class LeftFootRing1RotateOrderEnumField(
     PLUG_CLS = LeftFootRing1RotateOrderEnumPlugOperator
 
 
-class LeftFootRing2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootRing2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootRing2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5947,7 +6696,9 @@ class LeftFootRing2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootRing2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootRing2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootRing2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5968,7 +6719,10 @@ class LeftFootRing2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootRing2RotateOrderEnumField(
-    EnumField[LeftFootRing2RotateOrderEnumAttrOperator, LeftFootRing2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootRing2RotateOrderEnumAttrOperator,
+        LeftFootRing2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5976,7 +6730,9 @@ class LeftFootRing2RotateOrderEnumField(
     PLUG_CLS = LeftFootRing2RotateOrderEnumPlugOperator
 
 
-class LeftFootRing3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootRing3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootRing3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5987,7 +6743,9 @@ class LeftFootRing3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootRing3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootRing3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootRing3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6008,7 +6766,10 @@ class LeftFootRing3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootRing3RotateOrderEnumField(
-    EnumField[LeftFootRing3RotateOrderEnumAttrOperator, LeftFootRing3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootRing3RotateOrderEnumAttrOperator,
+        LeftFootRing3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6016,7 +6777,9 @@ class LeftFootRing3RotateOrderEnumField(
     PLUG_CLS = LeftFootRing3RotateOrderEnumPlugOperator
 
 
-class LeftFootRing4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootRing4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootRing4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6027,7 +6790,9 @@ class LeftFootRing4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootRing4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootRing4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootRing4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6048,7 +6813,10 @@ class LeftFootRing4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootRing4RotateOrderEnumField(
-    EnumField[LeftFootRing4RotateOrderEnumAttrOperator, LeftFootRing4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootRing4RotateOrderEnumAttrOperator,
+        LeftFootRing4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6056,7 +6824,9 @@ class LeftFootRing4RotateOrderEnumField(
     PLUG_CLS = LeftFootRing4RotateOrderEnumPlugOperator
 
 
-class LeftFootPinky1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootPinky1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootPinky1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6067,7 +6837,9 @@ class LeftFootPinky1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootPinky1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootPinky1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootPinky1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6088,7 +6860,10 @@ class LeftFootPinky1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootPinky1RotateOrderEnumField(
-    EnumField[LeftFootPinky1RotateOrderEnumAttrOperator, LeftFootPinky1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootPinky1RotateOrderEnumAttrOperator,
+        LeftFootPinky1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6096,7 +6871,9 @@ class LeftFootPinky1RotateOrderEnumField(
     PLUG_CLS = LeftFootPinky1RotateOrderEnumPlugOperator
 
 
-class LeftFootPinky2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootPinky2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootPinky2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6107,7 +6884,9 @@ class LeftFootPinky2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootPinky2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootPinky2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootPinky2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6128,7 +6907,10 @@ class LeftFootPinky2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootPinky2RotateOrderEnumField(
-    EnumField[LeftFootPinky2RotateOrderEnumAttrOperator, LeftFootPinky2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootPinky2RotateOrderEnumAttrOperator,
+        LeftFootPinky2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6136,7 +6918,9 @@ class LeftFootPinky2RotateOrderEnumField(
     PLUG_CLS = LeftFootPinky2RotateOrderEnumPlugOperator
 
 
-class LeftFootPinky3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootPinky3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootPinky3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6147,7 +6931,9 @@ class LeftFootPinky3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootPinky3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootPinky3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootPinky3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6168,7 +6954,10 @@ class LeftFootPinky3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootPinky3RotateOrderEnumField(
-    EnumField[LeftFootPinky3RotateOrderEnumAttrOperator, LeftFootPinky3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootPinky3RotateOrderEnumAttrOperator,
+        LeftFootPinky3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6176,7 +6965,9 @@ class LeftFootPinky3RotateOrderEnumField(
     PLUG_CLS = LeftFootPinky3RotateOrderEnumPlugOperator
 
 
-class LeftFootPinky4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootPinky4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootPinky4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6187,7 +6978,9 @@ class LeftFootPinky4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootPinky4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootPinky4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootPinky4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6208,7 +7001,10 @@ class LeftFootPinky4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootPinky4RotateOrderEnumField(
-    EnumField[LeftFootPinky4RotateOrderEnumAttrOperator, LeftFootPinky4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootPinky4RotateOrderEnumAttrOperator,
+        LeftFootPinky4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6216,7 +7012,9 @@ class LeftFootPinky4RotateOrderEnumField(
     PLUG_CLS = LeftFootPinky4RotateOrderEnumPlugOperator
 
 
-class LeftFootExtraFinger1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootExtraFinger1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootExtraFinger1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6227,7 +7025,9 @@ class LeftFootExtraFinger1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootExtraFinger1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootExtraFinger1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootExtraFinger1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6248,7 +7048,10 @@ class LeftFootExtraFinger1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootExtraFinger1RotateOrderEnumField(
-    EnumField[LeftFootExtraFinger1RotateOrderEnumAttrOperator, LeftFootExtraFinger1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootExtraFinger1RotateOrderEnumAttrOperator,
+        LeftFootExtraFinger1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6256,7 +7059,9 @@ class LeftFootExtraFinger1RotateOrderEnumField(
     PLUG_CLS = LeftFootExtraFinger1RotateOrderEnumPlugOperator
 
 
-class LeftFootExtraFinger2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootExtraFinger2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootExtraFinger2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6267,7 +7072,9 @@ class LeftFootExtraFinger2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootExtraFinger2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootExtraFinger2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootExtraFinger2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6288,7 +7095,10 @@ class LeftFootExtraFinger2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootExtraFinger2RotateOrderEnumField(
-    EnumField[LeftFootExtraFinger2RotateOrderEnumAttrOperator, LeftFootExtraFinger2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootExtraFinger2RotateOrderEnumAttrOperator,
+        LeftFootExtraFinger2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6296,7 +7106,9 @@ class LeftFootExtraFinger2RotateOrderEnumField(
     PLUG_CLS = LeftFootExtraFinger2RotateOrderEnumPlugOperator
 
 
-class LeftFootExtraFinger3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootExtraFinger3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootExtraFinger3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6307,7 +7119,9 @@ class LeftFootExtraFinger3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootExtraFinger3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootExtraFinger3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootExtraFinger3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6328,7 +7142,10 @@ class LeftFootExtraFinger3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootExtraFinger3RotateOrderEnumField(
-    EnumField[LeftFootExtraFinger3RotateOrderEnumAttrOperator, LeftFootExtraFinger3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootExtraFinger3RotateOrderEnumAttrOperator,
+        LeftFootExtraFinger3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6336,7 +7153,9 @@ class LeftFootExtraFinger3RotateOrderEnumField(
     PLUG_CLS = LeftFootExtraFinger3RotateOrderEnumPlugOperator
 
 
-class LeftFootExtraFinger4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootExtraFinger4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootExtraFinger4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6347,7 +7166,9 @@ class LeftFootExtraFinger4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftFootExtraFinger4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootExtraFinger4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootExtraFinger4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6368,7 +7189,10 @@ class LeftFootExtraFinger4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftFootExtraFinger4RotateOrderEnumField(
-    EnumField[LeftFootExtraFinger4RotateOrderEnumAttrOperator, LeftFootExtraFinger4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeftFootExtraFinger4RotateOrderEnumAttrOperator,
+        LeftFootExtraFinger4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6376,7 +7200,9 @@ class LeftFootExtraFinger4RotateOrderEnumField(
     PLUG_CLS = LeftFootExtraFinger4RotateOrderEnumPlugOperator
 
 
-class RightFootThumb1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootThumb1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootThumb1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6387,7 +7213,9 @@ class RightFootThumb1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootThumb1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootThumb1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootThumb1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6408,7 +7236,10 @@ class RightFootThumb1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootThumb1RotateOrderEnumField(
-    EnumField[RightFootThumb1RotateOrderEnumAttrOperator, RightFootThumb1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootThumb1RotateOrderEnumAttrOperator,
+        RightFootThumb1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6416,7 +7247,9 @@ class RightFootThumb1RotateOrderEnumField(
     PLUG_CLS = RightFootThumb1RotateOrderEnumPlugOperator
 
 
-class RightFootThumb2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootThumb2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootThumb2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6427,7 +7260,9 @@ class RightFootThumb2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootThumb2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootThumb2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootThumb2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6448,7 +7283,10 @@ class RightFootThumb2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootThumb2RotateOrderEnumField(
-    EnumField[RightFootThumb2RotateOrderEnumAttrOperator, RightFootThumb2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootThumb2RotateOrderEnumAttrOperator,
+        RightFootThumb2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6456,7 +7294,9 @@ class RightFootThumb2RotateOrderEnumField(
     PLUG_CLS = RightFootThumb2RotateOrderEnumPlugOperator
 
 
-class RightFootThumb3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootThumb3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootThumb3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6467,7 +7307,9 @@ class RightFootThumb3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootThumb3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootThumb3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootThumb3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6488,7 +7330,10 @@ class RightFootThumb3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootThumb3RotateOrderEnumField(
-    EnumField[RightFootThumb3RotateOrderEnumAttrOperator, RightFootThumb3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootThumb3RotateOrderEnumAttrOperator,
+        RightFootThumb3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6496,7 +7341,9 @@ class RightFootThumb3RotateOrderEnumField(
     PLUG_CLS = RightFootThumb3RotateOrderEnumPlugOperator
 
 
-class RightFootThumb4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootThumb4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootThumb4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6507,7 +7354,9 @@ class RightFootThumb4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootThumb4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootThumb4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootThumb4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6528,7 +7377,10 @@ class RightFootThumb4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootThumb4RotateOrderEnumField(
-    EnumField[RightFootThumb4RotateOrderEnumAttrOperator, RightFootThumb4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootThumb4RotateOrderEnumAttrOperator,
+        RightFootThumb4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6536,7 +7388,9 @@ class RightFootThumb4RotateOrderEnumField(
     PLUG_CLS = RightFootThumb4RotateOrderEnumPlugOperator
 
 
-class RightFootIndex1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootIndex1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootIndex1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6547,7 +7401,9 @@ class RightFootIndex1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootIndex1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootIndex1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootIndex1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6568,7 +7424,10 @@ class RightFootIndex1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootIndex1RotateOrderEnumField(
-    EnumField[RightFootIndex1RotateOrderEnumAttrOperator, RightFootIndex1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootIndex1RotateOrderEnumAttrOperator,
+        RightFootIndex1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6576,7 +7435,9 @@ class RightFootIndex1RotateOrderEnumField(
     PLUG_CLS = RightFootIndex1RotateOrderEnumPlugOperator
 
 
-class RightFootIndex2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootIndex2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootIndex2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6587,7 +7448,9 @@ class RightFootIndex2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootIndex2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootIndex2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootIndex2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6608,7 +7471,10 @@ class RightFootIndex2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootIndex2RotateOrderEnumField(
-    EnumField[RightFootIndex2RotateOrderEnumAttrOperator, RightFootIndex2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootIndex2RotateOrderEnumAttrOperator,
+        RightFootIndex2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6616,7 +7482,9 @@ class RightFootIndex2RotateOrderEnumField(
     PLUG_CLS = RightFootIndex2RotateOrderEnumPlugOperator
 
 
-class RightFootIndex3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootIndex3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootIndex3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6627,7 +7495,9 @@ class RightFootIndex3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootIndex3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootIndex3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootIndex3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6648,7 +7518,10 @@ class RightFootIndex3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootIndex3RotateOrderEnumField(
-    EnumField[RightFootIndex3RotateOrderEnumAttrOperator, RightFootIndex3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootIndex3RotateOrderEnumAttrOperator,
+        RightFootIndex3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6656,7 +7529,9 @@ class RightFootIndex3RotateOrderEnumField(
     PLUG_CLS = RightFootIndex3RotateOrderEnumPlugOperator
 
 
-class RightFootIndex4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootIndex4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootIndex4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6667,7 +7542,9 @@ class RightFootIndex4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootIndex4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootIndex4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootIndex4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6688,7 +7565,10 @@ class RightFootIndex4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootIndex4RotateOrderEnumField(
-    EnumField[RightFootIndex4RotateOrderEnumAttrOperator, RightFootIndex4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootIndex4RotateOrderEnumAttrOperator,
+        RightFootIndex4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6696,7 +7576,9 @@ class RightFootIndex4RotateOrderEnumField(
     PLUG_CLS = RightFootIndex4RotateOrderEnumPlugOperator
 
 
-class RightFootMiddle1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootMiddle1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootMiddle1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6707,7 +7589,9 @@ class RightFootMiddle1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootMiddle1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootMiddle1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootMiddle1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6728,7 +7612,10 @@ class RightFootMiddle1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootMiddle1RotateOrderEnumField(
-    EnumField[RightFootMiddle1RotateOrderEnumAttrOperator, RightFootMiddle1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootMiddle1RotateOrderEnumAttrOperator,
+        RightFootMiddle1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6736,7 +7623,9 @@ class RightFootMiddle1RotateOrderEnumField(
     PLUG_CLS = RightFootMiddle1RotateOrderEnumPlugOperator
 
 
-class RightFootMiddle2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootMiddle2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootMiddle2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6747,7 +7636,9 @@ class RightFootMiddle2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootMiddle2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootMiddle2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootMiddle2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6768,7 +7659,10 @@ class RightFootMiddle2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootMiddle2RotateOrderEnumField(
-    EnumField[RightFootMiddle2RotateOrderEnumAttrOperator, RightFootMiddle2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootMiddle2RotateOrderEnumAttrOperator,
+        RightFootMiddle2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6776,7 +7670,9 @@ class RightFootMiddle2RotateOrderEnumField(
     PLUG_CLS = RightFootMiddle2RotateOrderEnumPlugOperator
 
 
-class RightFootMiddle3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootMiddle3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootMiddle3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6787,7 +7683,9 @@ class RightFootMiddle3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootMiddle3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootMiddle3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootMiddle3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6808,7 +7706,10 @@ class RightFootMiddle3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootMiddle3RotateOrderEnumField(
-    EnumField[RightFootMiddle3RotateOrderEnumAttrOperator, RightFootMiddle3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootMiddle3RotateOrderEnumAttrOperator,
+        RightFootMiddle3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6816,7 +7717,9 @@ class RightFootMiddle3RotateOrderEnumField(
     PLUG_CLS = RightFootMiddle3RotateOrderEnumPlugOperator
 
 
-class RightFootMiddle4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootMiddle4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootMiddle4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6827,7 +7730,9 @@ class RightFootMiddle4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootMiddle4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootMiddle4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootMiddle4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6848,7 +7753,10 @@ class RightFootMiddle4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootMiddle4RotateOrderEnumField(
-    EnumField[RightFootMiddle4RotateOrderEnumAttrOperator, RightFootMiddle4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootMiddle4RotateOrderEnumAttrOperator,
+        RightFootMiddle4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6856,7 +7764,9 @@ class RightFootMiddle4RotateOrderEnumField(
     PLUG_CLS = RightFootMiddle4RotateOrderEnumPlugOperator
 
 
-class RightFootRing1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootRing1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootRing1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6867,7 +7777,9 @@ class RightFootRing1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootRing1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootRing1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootRing1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6888,7 +7800,10 @@ class RightFootRing1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootRing1RotateOrderEnumField(
-    EnumField[RightFootRing1RotateOrderEnumAttrOperator, RightFootRing1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootRing1RotateOrderEnumAttrOperator,
+        RightFootRing1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6896,7 +7811,9 @@ class RightFootRing1RotateOrderEnumField(
     PLUG_CLS = RightFootRing1RotateOrderEnumPlugOperator
 
 
-class RightFootRing2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootRing2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootRing2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6907,7 +7824,9 @@ class RightFootRing2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootRing2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootRing2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootRing2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6928,7 +7847,10 @@ class RightFootRing2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootRing2RotateOrderEnumField(
-    EnumField[RightFootRing2RotateOrderEnumAttrOperator, RightFootRing2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootRing2RotateOrderEnumAttrOperator,
+        RightFootRing2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6936,7 +7858,9 @@ class RightFootRing2RotateOrderEnumField(
     PLUG_CLS = RightFootRing2RotateOrderEnumPlugOperator
 
 
-class RightFootRing3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootRing3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootRing3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6947,7 +7871,9 @@ class RightFootRing3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootRing3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootRing3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootRing3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6968,7 +7894,10 @@ class RightFootRing3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootRing3RotateOrderEnumField(
-    EnumField[RightFootRing3RotateOrderEnumAttrOperator, RightFootRing3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootRing3RotateOrderEnumAttrOperator,
+        RightFootRing3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6976,7 +7905,9 @@ class RightFootRing3RotateOrderEnumField(
     PLUG_CLS = RightFootRing3RotateOrderEnumPlugOperator
 
 
-class RightFootRing4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootRing4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootRing4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6987,7 +7918,9 @@ class RightFootRing4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootRing4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootRing4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootRing4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7008,7 +7941,10 @@ class RightFootRing4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootRing4RotateOrderEnumField(
-    EnumField[RightFootRing4RotateOrderEnumAttrOperator, RightFootRing4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootRing4RotateOrderEnumAttrOperator,
+        RightFootRing4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7016,7 +7952,9 @@ class RightFootRing4RotateOrderEnumField(
     PLUG_CLS = RightFootRing4RotateOrderEnumPlugOperator
 
 
-class RightFootPinky1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootPinky1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootPinky1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7027,7 +7965,9 @@ class RightFootPinky1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootPinky1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootPinky1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootPinky1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7048,7 +7988,10 @@ class RightFootPinky1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootPinky1RotateOrderEnumField(
-    EnumField[RightFootPinky1RotateOrderEnumAttrOperator, RightFootPinky1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootPinky1RotateOrderEnumAttrOperator,
+        RightFootPinky1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7056,7 +7999,9 @@ class RightFootPinky1RotateOrderEnumField(
     PLUG_CLS = RightFootPinky1RotateOrderEnumPlugOperator
 
 
-class RightFootPinky2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootPinky2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootPinky2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7067,7 +8012,9 @@ class RightFootPinky2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootPinky2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootPinky2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootPinky2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7088,7 +8035,10 @@ class RightFootPinky2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootPinky2RotateOrderEnumField(
-    EnumField[RightFootPinky2RotateOrderEnumAttrOperator, RightFootPinky2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootPinky2RotateOrderEnumAttrOperator,
+        RightFootPinky2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7096,7 +8046,9 @@ class RightFootPinky2RotateOrderEnumField(
     PLUG_CLS = RightFootPinky2RotateOrderEnumPlugOperator
 
 
-class RightFootPinky3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootPinky3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootPinky3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7107,7 +8059,9 @@ class RightFootPinky3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootPinky3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootPinky3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootPinky3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7128,7 +8082,10 @@ class RightFootPinky3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootPinky3RotateOrderEnumField(
-    EnumField[RightFootPinky3RotateOrderEnumAttrOperator, RightFootPinky3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootPinky3RotateOrderEnumAttrOperator,
+        RightFootPinky3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7136,7 +8093,9 @@ class RightFootPinky3RotateOrderEnumField(
     PLUG_CLS = RightFootPinky3RotateOrderEnumPlugOperator
 
 
-class RightFootPinky4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootPinky4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootPinky4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7147,7 +8106,9 @@ class RightFootPinky4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootPinky4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootPinky4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootPinky4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7168,7 +8129,10 @@ class RightFootPinky4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootPinky4RotateOrderEnumField(
-    EnumField[RightFootPinky4RotateOrderEnumAttrOperator, RightFootPinky4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootPinky4RotateOrderEnumAttrOperator,
+        RightFootPinky4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7176,7 +8140,9 @@ class RightFootPinky4RotateOrderEnumField(
     PLUG_CLS = RightFootPinky4RotateOrderEnumPlugOperator
 
 
-class RightFootExtraFinger1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootExtraFinger1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootExtraFinger1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7187,7 +8153,9 @@ class RightFootExtraFinger1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootExtraFinger1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootExtraFinger1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootExtraFinger1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7208,7 +8176,10 @@ class RightFootExtraFinger1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootExtraFinger1RotateOrderEnumField(
-    EnumField[RightFootExtraFinger1RotateOrderEnumAttrOperator, RightFootExtraFinger1RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootExtraFinger1RotateOrderEnumAttrOperator,
+        RightFootExtraFinger1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7216,7 +8187,9 @@ class RightFootExtraFinger1RotateOrderEnumField(
     PLUG_CLS = RightFootExtraFinger1RotateOrderEnumPlugOperator
 
 
-class RightFootExtraFinger2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootExtraFinger2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootExtraFinger2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7227,7 +8200,9 @@ class RightFootExtraFinger2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootExtraFinger2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootExtraFinger2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootExtraFinger2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7248,7 +8223,10 @@ class RightFootExtraFinger2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootExtraFinger2RotateOrderEnumField(
-    EnumField[RightFootExtraFinger2RotateOrderEnumAttrOperator, RightFootExtraFinger2RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootExtraFinger2RotateOrderEnumAttrOperator,
+        RightFootExtraFinger2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7256,7 +8234,9 @@ class RightFootExtraFinger2RotateOrderEnumField(
     PLUG_CLS = RightFootExtraFinger2RotateOrderEnumPlugOperator
 
 
-class RightFootExtraFinger3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootExtraFinger3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootExtraFinger3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7267,7 +8247,9 @@ class RightFootExtraFinger3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootExtraFinger3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootExtraFinger3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootExtraFinger3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7288,7 +8270,10 @@ class RightFootExtraFinger3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootExtraFinger3RotateOrderEnumField(
-    EnumField[RightFootExtraFinger3RotateOrderEnumAttrOperator, RightFootExtraFinger3RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootExtraFinger3RotateOrderEnumAttrOperator,
+        RightFootExtraFinger3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7296,7 +8281,9 @@ class RightFootExtraFinger3RotateOrderEnumField(
     PLUG_CLS = RightFootExtraFinger3RotateOrderEnumPlugOperator
 
 
-class RightFootExtraFinger4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightFootExtraFinger4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightFootExtraFinger4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7307,7 +8294,9 @@ class RightFootExtraFinger4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightFootExtraFinger4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightFootExtraFinger4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightFootExtraFinger4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7328,7 +8317,10 @@ class RightFootExtraFinger4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightFootExtraFinger4RotateOrderEnumField(
-    EnumField[RightFootExtraFinger4RotateOrderEnumAttrOperator, RightFootExtraFinger4RotateOrderEnumPlugOperator]
+    EnumField[
+        RightFootExtraFinger4RotateOrderEnumAttrOperator,
+        RightFootExtraFinger4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7336,7 +8328,9 @@ class RightFootExtraFinger4RotateOrderEnumField(
     PLUG_CLS = RightFootExtraFinger4RotateOrderEnumPlugOperator
 
 
-class LeftInHandThumbRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandThumbRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandThumbRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7347,7 +8341,9 @@ class LeftInHandThumbRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInHandThumbRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandThumbRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandThumbRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7368,7 +8364,10 @@ class LeftInHandThumbRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInHandThumbRotateOrderEnumField(
-    EnumField[LeftInHandThumbRotateOrderEnumAttrOperator, LeftInHandThumbRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInHandThumbRotateOrderEnumAttrOperator,
+        LeftInHandThumbRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7376,7 +8375,9 @@ class LeftInHandThumbRotateOrderEnumField(
     PLUG_CLS = LeftInHandThumbRotateOrderEnumPlugOperator
 
 
-class LeftInHandIndexRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandIndexRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandIndexRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7387,7 +8388,9 @@ class LeftInHandIndexRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInHandIndexRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandIndexRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandIndexRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7408,7 +8411,10 @@ class LeftInHandIndexRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInHandIndexRotateOrderEnumField(
-    EnumField[LeftInHandIndexRotateOrderEnumAttrOperator, LeftInHandIndexRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInHandIndexRotateOrderEnumAttrOperator,
+        LeftInHandIndexRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7416,7 +8422,9 @@ class LeftInHandIndexRotateOrderEnumField(
     PLUG_CLS = LeftInHandIndexRotateOrderEnumPlugOperator
 
 
-class LeftInHandMiddleRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandMiddleRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandMiddleRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7427,7 +8435,9 @@ class LeftInHandMiddleRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInHandMiddleRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandMiddleRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandMiddleRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7448,7 +8458,10 @@ class LeftInHandMiddleRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInHandMiddleRotateOrderEnumField(
-    EnumField[LeftInHandMiddleRotateOrderEnumAttrOperator, LeftInHandMiddleRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInHandMiddleRotateOrderEnumAttrOperator,
+        LeftInHandMiddleRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7456,7 +8469,9 @@ class LeftInHandMiddleRotateOrderEnumField(
     PLUG_CLS = LeftInHandMiddleRotateOrderEnumPlugOperator
 
 
-class LeftInHandRingRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandRingRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandRingRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7467,7 +8482,9 @@ class LeftInHandRingRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInHandRingRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandRingRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandRingRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7488,7 +8505,10 @@ class LeftInHandRingRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInHandRingRotateOrderEnumField(
-    EnumField[LeftInHandRingRotateOrderEnumAttrOperator, LeftInHandRingRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInHandRingRotateOrderEnumAttrOperator,
+        LeftInHandRingRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7496,7 +8516,9 @@ class LeftInHandRingRotateOrderEnumField(
     PLUG_CLS = LeftInHandRingRotateOrderEnumPlugOperator
 
 
-class LeftInHandPinkyRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandPinkyRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandPinkyRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7507,7 +8529,9 @@ class LeftInHandPinkyRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInHandPinkyRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandPinkyRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandPinkyRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7528,7 +8552,10 @@ class LeftInHandPinkyRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInHandPinkyRotateOrderEnumField(
-    EnumField[LeftInHandPinkyRotateOrderEnumAttrOperator, LeftInHandPinkyRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInHandPinkyRotateOrderEnumAttrOperator,
+        LeftInHandPinkyRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7536,7 +8563,9 @@ class LeftInHandPinkyRotateOrderEnumField(
     PLUG_CLS = LeftInHandPinkyRotateOrderEnumPlugOperator
 
 
-class LeftInHandExtraFingerRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandExtraFingerRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandExtraFingerRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7547,7 +8576,9 @@ class LeftInHandExtraFingerRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInHandExtraFingerRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandExtraFingerRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandExtraFingerRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7568,7 +8599,10 @@ class LeftInHandExtraFingerRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInHandExtraFingerRotateOrderEnumField(
-    EnumField[LeftInHandExtraFingerRotateOrderEnumAttrOperator, LeftInHandExtraFingerRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInHandExtraFingerRotateOrderEnumAttrOperator,
+        LeftInHandExtraFingerRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7576,7 +8610,9 @@ class LeftInHandExtraFingerRotateOrderEnumField(
     PLUG_CLS = LeftInHandExtraFingerRotateOrderEnumPlugOperator
 
 
-class RightInHandThumbRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandThumbRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandThumbRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7587,7 +8623,9 @@ class RightInHandThumbRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInHandThumbRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandThumbRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandThumbRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7608,7 +8646,10 @@ class RightInHandThumbRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInHandThumbRotateOrderEnumField(
-    EnumField[RightInHandThumbRotateOrderEnumAttrOperator, RightInHandThumbRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInHandThumbRotateOrderEnumAttrOperator,
+        RightInHandThumbRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7616,7 +8657,9 @@ class RightInHandThumbRotateOrderEnumField(
     PLUG_CLS = RightInHandThumbRotateOrderEnumPlugOperator
 
 
-class RightInHandIndexRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandIndexRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandIndexRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7627,7 +8670,9 @@ class RightInHandIndexRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInHandIndexRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandIndexRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandIndexRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7648,7 +8693,10 @@ class RightInHandIndexRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInHandIndexRotateOrderEnumField(
-    EnumField[RightInHandIndexRotateOrderEnumAttrOperator, RightInHandIndexRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInHandIndexRotateOrderEnumAttrOperator,
+        RightInHandIndexRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7656,7 +8704,9 @@ class RightInHandIndexRotateOrderEnumField(
     PLUG_CLS = RightInHandIndexRotateOrderEnumPlugOperator
 
 
-class RightInHandMiddleRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandMiddleRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandMiddleRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7667,7 +8717,9 @@ class RightInHandMiddleRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInHandMiddleRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandMiddleRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandMiddleRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7688,7 +8740,10 @@ class RightInHandMiddleRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInHandMiddleRotateOrderEnumField(
-    EnumField[RightInHandMiddleRotateOrderEnumAttrOperator, RightInHandMiddleRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInHandMiddleRotateOrderEnumAttrOperator,
+        RightInHandMiddleRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7696,7 +8751,9 @@ class RightInHandMiddleRotateOrderEnumField(
     PLUG_CLS = RightInHandMiddleRotateOrderEnumPlugOperator
 
 
-class RightInHandRingRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandRingRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandRingRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7707,7 +8764,9 @@ class RightInHandRingRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInHandRingRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandRingRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandRingRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7728,7 +8787,10 @@ class RightInHandRingRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInHandRingRotateOrderEnumField(
-    EnumField[RightInHandRingRotateOrderEnumAttrOperator, RightInHandRingRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInHandRingRotateOrderEnumAttrOperator,
+        RightInHandRingRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7736,7 +8798,9 @@ class RightInHandRingRotateOrderEnumField(
     PLUG_CLS = RightInHandRingRotateOrderEnumPlugOperator
 
 
-class RightInHandPinkyRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandPinkyRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandPinkyRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7747,7 +8811,9 @@ class RightInHandPinkyRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInHandPinkyRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandPinkyRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandPinkyRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7768,7 +8834,10 @@ class RightInHandPinkyRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInHandPinkyRotateOrderEnumField(
-    EnumField[RightInHandPinkyRotateOrderEnumAttrOperator, RightInHandPinkyRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInHandPinkyRotateOrderEnumAttrOperator,
+        RightInHandPinkyRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7776,7 +8845,9 @@ class RightInHandPinkyRotateOrderEnumField(
     PLUG_CLS = RightInHandPinkyRotateOrderEnumPlugOperator
 
 
-class RightInHandExtraFingerRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandExtraFingerRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandExtraFingerRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7787,7 +8858,9 @@ class RightInHandExtraFingerRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInHandExtraFingerRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandExtraFingerRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandExtraFingerRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7808,7 +8881,10 @@ class RightInHandExtraFingerRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInHandExtraFingerRotateOrderEnumField(
-    EnumField[RightInHandExtraFingerRotateOrderEnumAttrOperator, RightInHandExtraFingerRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInHandExtraFingerRotateOrderEnumAttrOperator,
+        RightInHandExtraFingerRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7816,7 +8892,9 @@ class RightInHandExtraFingerRotateOrderEnumField(
     PLUG_CLS = RightInHandExtraFingerRotateOrderEnumPlugOperator
 
 
-class LeftInFootThumbRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootThumbRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootThumbRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7827,7 +8905,9 @@ class LeftInFootThumbRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInFootThumbRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootThumbRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootThumbRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7848,7 +8928,10 @@ class LeftInFootThumbRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInFootThumbRotateOrderEnumField(
-    EnumField[LeftInFootThumbRotateOrderEnumAttrOperator, LeftInFootThumbRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInFootThumbRotateOrderEnumAttrOperator,
+        LeftInFootThumbRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7856,7 +8939,9 @@ class LeftInFootThumbRotateOrderEnumField(
     PLUG_CLS = LeftInFootThumbRotateOrderEnumPlugOperator
 
 
-class LeftInFootIndexRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootIndexRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootIndexRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7867,7 +8952,9 @@ class LeftInFootIndexRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInFootIndexRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootIndexRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootIndexRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7888,7 +8975,10 @@ class LeftInFootIndexRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInFootIndexRotateOrderEnumField(
-    EnumField[LeftInFootIndexRotateOrderEnumAttrOperator, LeftInFootIndexRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInFootIndexRotateOrderEnumAttrOperator,
+        LeftInFootIndexRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7896,7 +8986,9 @@ class LeftInFootIndexRotateOrderEnumField(
     PLUG_CLS = LeftInFootIndexRotateOrderEnumPlugOperator
 
 
-class LeftInFootMiddleRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootMiddleRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootMiddleRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7907,7 +8999,9 @@ class LeftInFootMiddleRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInFootMiddleRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootMiddleRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootMiddleRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7928,7 +9022,10 @@ class LeftInFootMiddleRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInFootMiddleRotateOrderEnumField(
-    EnumField[LeftInFootMiddleRotateOrderEnumAttrOperator, LeftInFootMiddleRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInFootMiddleRotateOrderEnumAttrOperator,
+        LeftInFootMiddleRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7936,7 +9033,9 @@ class LeftInFootMiddleRotateOrderEnumField(
     PLUG_CLS = LeftInFootMiddleRotateOrderEnumPlugOperator
 
 
-class LeftInFootRingRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootRingRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootRingRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7947,7 +9046,9 @@ class LeftInFootRingRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInFootRingRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootRingRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootRingRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7968,7 +9069,10 @@ class LeftInFootRingRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInFootRingRotateOrderEnumField(
-    EnumField[LeftInFootRingRotateOrderEnumAttrOperator, LeftInFootRingRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInFootRingRotateOrderEnumAttrOperator,
+        LeftInFootRingRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7976,7 +9080,9 @@ class LeftInFootRingRotateOrderEnumField(
     PLUG_CLS = LeftInFootRingRotateOrderEnumPlugOperator
 
 
-class LeftInFootPinkyRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootPinkyRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootPinkyRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7987,7 +9093,9 @@ class LeftInFootPinkyRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInFootPinkyRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootPinkyRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootPinkyRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8008,7 +9116,10 @@ class LeftInFootPinkyRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInFootPinkyRotateOrderEnumField(
-    EnumField[LeftInFootPinkyRotateOrderEnumAttrOperator, LeftInFootPinkyRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInFootPinkyRotateOrderEnumAttrOperator,
+        LeftInFootPinkyRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8016,7 +9127,9 @@ class LeftInFootPinkyRotateOrderEnumField(
     PLUG_CLS = LeftInFootPinkyRotateOrderEnumPlugOperator
 
 
-class LeftInFootExtraFingerRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootExtraFingerRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootExtraFingerRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8027,7 +9140,9 @@ class LeftInFootExtraFingerRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftInFootExtraFingerRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootExtraFingerRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootExtraFingerRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8048,7 +9163,10 @@ class LeftInFootExtraFingerRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftInFootExtraFingerRotateOrderEnumField(
-    EnumField[LeftInFootExtraFingerRotateOrderEnumAttrOperator, LeftInFootExtraFingerRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftInFootExtraFingerRotateOrderEnumAttrOperator,
+        LeftInFootExtraFingerRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8056,7 +9174,9 @@ class LeftInFootExtraFingerRotateOrderEnumField(
     PLUG_CLS = LeftInFootExtraFingerRotateOrderEnumPlugOperator
 
 
-class RightInFootThumbRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootThumbRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootThumbRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8067,7 +9187,9 @@ class RightInFootThumbRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInFootThumbRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootThumbRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootThumbRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8088,7 +9210,10 @@ class RightInFootThumbRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInFootThumbRotateOrderEnumField(
-    EnumField[RightInFootThumbRotateOrderEnumAttrOperator, RightInFootThumbRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInFootThumbRotateOrderEnumAttrOperator,
+        RightInFootThumbRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8096,7 +9221,9 @@ class RightInFootThumbRotateOrderEnumField(
     PLUG_CLS = RightInFootThumbRotateOrderEnumPlugOperator
 
 
-class RightInFootIndexRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootIndexRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootIndexRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8107,7 +9234,9 @@ class RightInFootIndexRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInFootIndexRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootIndexRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootIndexRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8128,7 +9257,10 @@ class RightInFootIndexRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInFootIndexRotateOrderEnumField(
-    EnumField[RightInFootIndexRotateOrderEnumAttrOperator, RightInFootIndexRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInFootIndexRotateOrderEnumAttrOperator,
+        RightInFootIndexRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8136,7 +9268,9 @@ class RightInFootIndexRotateOrderEnumField(
     PLUG_CLS = RightInFootIndexRotateOrderEnumPlugOperator
 
 
-class RightInFootMiddleRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootMiddleRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootMiddleRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8147,7 +9281,9 @@ class RightInFootMiddleRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInFootMiddleRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootMiddleRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootMiddleRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8168,7 +9304,10 @@ class RightInFootMiddleRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInFootMiddleRotateOrderEnumField(
-    EnumField[RightInFootMiddleRotateOrderEnumAttrOperator, RightInFootMiddleRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInFootMiddleRotateOrderEnumAttrOperator,
+        RightInFootMiddleRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8176,7 +9315,9 @@ class RightInFootMiddleRotateOrderEnumField(
     PLUG_CLS = RightInFootMiddleRotateOrderEnumPlugOperator
 
 
-class RightInFootRingRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootRingRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootRingRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8187,7 +9328,9 @@ class RightInFootRingRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInFootRingRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootRingRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootRingRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8208,7 +9351,10 @@ class RightInFootRingRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInFootRingRotateOrderEnumField(
-    EnumField[RightInFootRingRotateOrderEnumAttrOperator, RightInFootRingRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInFootRingRotateOrderEnumAttrOperator,
+        RightInFootRingRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8216,7 +9362,9 @@ class RightInFootRingRotateOrderEnumField(
     PLUG_CLS = RightInFootRingRotateOrderEnumPlugOperator
 
 
-class RightInFootPinkyRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootPinkyRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootPinkyRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8227,7 +9375,9 @@ class RightInFootPinkyRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInFootPinkyRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootPinkyRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootPinkyRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8248,7 +9398,10 @@ class RightInFootPinkyRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInFootPinkyRotateOrderEnumField(
-    EnumField[RightInFootPinkyRotateOrderEnumAttrOperator, RightInFootPinkyRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInFootPinkyRotateOrderEnumAttrOperator,
+        RightInFootPinkyRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8256,7 +9409,9 @@ class RightInFootPinkyRotateOrderEnumField(
     PLUG_CLS = RightInFootPinkyRotateOrderEnumPlugOperator
 
 
-class RightInFootExtraFingerRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootExtraFingerRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootExtraFingerRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8267,7 +9422,9 @@ class RightInFootExtraFingerRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightInFootExtraFingerRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootExtraFingerRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootExtraFingerRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8288,7 +9445,10 @@ class RightInFootExtraFingerRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightInFootExtraFingerRotateOrderEnumField(
-    EnumField[RightInFootExtraFingerRotateOrderEnumAttrOperator, RightInFootExtraFingerRotateOrderEnumPlugOperator]
+    EnumField[
+        RightInFootExtraFingerRotateOrderEnumAttrOperator,
+        RightInFootExtraFingerRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8296,7 +9456,9 @@ class RightInFootExtraFingerRotateOrderEnumField(
     PLUG_CLS = RightInFootExtraFingerRotateOrderEnumPlugOperator
 
 
-class LeftShoulderExtraRotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeftShoulderExtraRotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeftShoulderExtraRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8307,7 +9469,9 @@ class LeftShoulderExtraRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeftShoulderExtraRotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeftShoulderExtraRotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeftShoulderExtraRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8328,7 +9492,10 @@ class LeftShoulderExtraRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeftShoulderExtraRotateOrderEnumField(
-    EnumField[LeftShoulderExtraRotateOrderEnumAttrOperator, LeftShoulderExtraRotateOrderEnumPlugOperator]
+    EnumField[
+        LeftShoulderExtraRotateOrderEnumAttrOperator,
+        LeftShoulderExtraRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8336,7 +9503,9 @@ class LeftShoulderExtraRotateOrderEnumField(
     PLUG_CLS = LeftShoulderExtraRotateOrderEnumPlugOperator
 
 
-class RightShoulderExtraRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RightShoulderExtraRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RightShoulderExtraRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8347,7 +9516,9 @@ class RightShoulderExtraRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class RightShoulderExtraRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RightShoulderExtraRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RightShoulderExtraRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8368,7 +9539,10 @@ class RightShoulderExtraRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class RightShoulderExtraRotateOrderEnumField(
-    EnumField[RightShoulderExtraRotateOrderEnumAttrOperator, RightShoulderExtraRotateOrderEnumPlugOperator]
+    EnumField[
+        RightShoulderExtraRotateOrderEnumAttrOperator,
+        RightShoulderExtraRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8376,7 +9550,9 @@ class RightShoulderExtraRotateOrderEnumField(
     PLUG_CLS = RightShoulderExtraRotateOrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8387,7 +9563,9 @@ class LeafLeftUpLegRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftUpLegRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8408,7 +9586,10 @@ class LeafLeftUpLegRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftUpLegRoll1RotateOrderEnumField(
-    EnumField[LeafLeftUpLegRoll1RotateOrderEnumAttrOperator, LeafLeftUpLegRoll1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll1RotateOrderEnumAttrOperator,
+        LeafLeftUpLegRoll1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8416,7 +9597,9 @@ class LeafLeftUpLegRoll1RotateOrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll1RotateOrderEnumPlugOperator
 
 
-class LeafLeftLegRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8427,7 +9610,9 @@ class LeafLeftLegRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftLegRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8448,7 +9633,10 @@ class LeafLeftLegRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftLegRoll1RotateOrderEnumField(
-    EnumField[LeafLeftLegRoll1RotateOrderEnumAttrOperator, LeafLeftLegRoll1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll1RotateOrderEnumAttrOperator,
+        LeafLeftLegRoll1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8456,7 +9644,9 @@ class LeafLeftLegRoll1RotateOrderEnumField(
     PLUG_CLS = LeafLeftLegRoll1RotateOrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8467,7 +9657,9 @@ class LeafRightUpLegRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightUpLegRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8488,7 +9680,10 @@ class LeafRightUpLegRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightUpLegRoll1RotateOrderEnumField(
-    EnumField[LeafRightUpLegRoll1RotateOrderEnumAttrOperator, LeafRightUpLegRoll1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll1RotateOrderEnumAttrOperator,
+        LeafRightUpLegRoll1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8496,7 +9691,9 @@ class LeafRightUpLegRoll1RotateOrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll1RotateOrderEnumPlugOperator
 
 
-class LeafRightLegRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8507,7 +9704,9 @@ class LeafRightLegRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightLegRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8528,7 +9727,10 @@ class LeafRightLegRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightLegRoll1RotateOrderEnumField(
-    EnumField[LeafRightLegRoll1RotateOrderEnumAttrOperator, LeafRightLegRoll1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll1RotateOrderEnumAttrOperator,
+        LeafRightLegRoll1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8536,7 +9738,9 @@ class LeafRightLegRoll1RotateOrderEnumField(
     PLUG_CLS = LeafRightLegRoll1RotateOrderEnumPlugOperator
 
 
-class LeafLeftArmRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8547,7 +9751,9 @@ class LeafLeftArmRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftArmRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8568,7 +9774,10 @@ class LeafLeftArmRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftArmRoll1RotateOrderEnumField(
-    EnumField[LeafLeftArmRoll1RotateOrderEnumAttrOperator, LeafLeftArmRoll1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll1RotateOrderEnumAttrOperator,
+        LeafLeftArmRoll1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8576,7 +9785,9 @@ class LeafLeftArmRoll1RotateOrderEnumField(
     PLUG_CLS = LeafLeftArmRoll1RotateOrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8587,7 +9798,9 @@ class LeafLeftForeArmRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftForeArmRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8608,7 +9821,10 @@ class LeafLeftForeArmRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftForeArmRoll1RotateOrderEnumField(
-    EnumField[LeafLeftForeArmRoll1RotateOrderEnumAttrOperator, LeafLeftForeArmRoll1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll1RotateOrderEnumAttrOperator,
+        LeafLeftForeArmRoll1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8616,7 +9832,9 @@ class LeafLeftForeArmRoll1RotateOrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll1RotateOrderEnumPlugOperator
 
 
-class LeafRightArmRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8627,7 +9845,9 @@ class LeafRightArmRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightArmRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8648,7 +9868,10 @@ class LeafRightArmRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightArmRoll1RotateOrderEnumField(
-    EnumField[LeafRightArmRoll1RotateOrderEnumAttrOperator, LeafRightArmRoll1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll1RotateOrderEnumAttrOperator,
+        LeafRightArmRoll1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8656,7 +9879,9 @@ class LeafRightArmRoll1RotateOrderEnumField(
     PLUG_CLS = LeafRightArmRoll1RotateOrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll1RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll1RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8667,7 +9892,9 @@ class LeafRightForeArmRoll1RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightForeArmRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll1RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll1RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8688,7 +9915,10 @@ class LeafRightForeArmRoll1RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightForeArmRoll1RotateOrderEnumField(
-    EnumField[LeafRightForeArmRoll1RotateOrderEnumAttrOperator, LeafRightForeArmRoll1RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll1RotateOrderEnumAttrOperator,
+        LeafRightForeArmRoll1RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8696,7 +9926,9 @@ class LeafRightForeArmRoll1RotateOrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll1RotateOrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8707,7 +9939,9 @@ class LeafLeftUpLegRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftUpLegRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8728,7 +9962,10 @@ class LeafLeftUpLegRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftUpLegRoll2RotateOrderEnumField(
-    EnumField[LeafLeftUpLegRoll2RotateOrderEnumAttrOperator, LeafLeftUpLegRoll2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll2RotateOrderEnumAttrOperator,
+        LeafLeftUpLegRoll2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8736,7 +9973,9 @@ class LeafLeftUpLegRoll2RotateOrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll2RotateOrderEnumPlugOperator
 
 
-class LeafLeftLegRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8747,7 +9986,9 @@ class LeafLeftLegRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftLegRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8768,7 +10009,10 @@ class LeafLeftLegRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftLegRoll2RotateOrderEnumField(
-    EnumField[LeafLeftLegRoll2RotateOrderEnumAttrOperator, LeafLeftLegRoll2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll2RotateOrderEnumAttrOperator,
+        LeafLeftLegRoll2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8776,7 +10020,9 @@ class LeafLeftLegRoll2RotateOrderEnumField(
     PLUG_CLS = LeafLeftLegRoll2RotateOrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8787,7 +10033,9 @@ class LeafRightUpLegRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightUpLegRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8808,7 +10056,10 @@ class LeafRightUpLegRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightUpLegRoll2RotateOrderEnumField(
-    EnumField[LeafRightUpLegRoll2RotateOrderEnumAttrOperator, LeafRightUpLegRoll2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll2RotateOrderEnumAttrOperator,
+        LeafRightUpLegRoll2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8816,7 +10067,9 @@ class LeafRightUpLegRoll2RotateOrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll2RotateOrderEnumPlugOperator
 
 
-class LeafRightLegRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8827,7 +10080,9 @@ class LeafRightLegRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightLegRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8848,7 +10103,10 @@ class LeafRightLegRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightLegRoll2RotateOrderEnumField(
-    EnumField[LeafRightLegRoll2RotateOrderEnumAttrOperator, LeafRightLegRoll2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll2RotateOrderEnumAttrOperator,
+        LeafRightLegRoll2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8856,7 +10114,9 @@ class LeafRightLegRoll2RotateOrderEnumField(
     PLUG_CLS = LeafRightLegRoll2RotateOrderEnumPlugOperator
 
 
-class LeafLeftArmRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8867,7 +10127,9 @@ class LeafLeftArmRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftArmRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8888,7 +10150,10 @@ class LeafLeftArmRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftArmRoll2RotateOrderEnumField(
-    EnumField[LeafLeftArmRoll2RotateOrderEnumAttrOperator, LeafLeftArmRoll2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll2RotateOrderEnumAttrOperator,
+        LeafLeftArmRoll2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8896,7 +10161,9 @@ class LeafLeftArmRoll2RotateOrderEnumField(
     PLUG_CLS = LeafLeftArmRoll2RotateOrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8907,7 +10174,9 @@ class LeafLeftForeArmRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftForeArmRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8928,7 +10197,10 @@ class LeafLeftForeArmRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftForeArmRoll2RotateOrderEnumField(
-    EnumField[LeafLeftForeArmRoll2RotateOrderEnumAttrOperator, LeafLeftForeArmRoll2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll2RotateOrderEnumAttrOperator,
+        LeafLeftForeArmRoll2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8936,7 +10208,9 @@ class LeafLeftForeArmRoll2RotateOrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll2RotateOrderEnumPlugOperator
 
 
-class LeafRightArmRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8947,7 +10221,9 @@ class LeafRightArmRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightArmRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8968,7 +10244,10 @@ class LeafRightArmRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightArmRoll2RotateOrderEnumField(
-    EnumField[LeafRightArmRoll2RotateOrderEnumAttrOperator, LeafRightArmRoll2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll2RotateOrderEnumAttrOperator,
+        LeafRightArmRoll2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8976,7 +10255,9 @@ class LeafRightArmRoll2RotateOrderEnumField(
     PLUG_CLS = LeafRightArmRoll2RotateOrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll2RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll2RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8987,7 +10268,9 @@ class LeafRightForeArmRoll2RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightForeArmRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll2RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll2RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9008,7 +10291,10 @@ class LeafRightForeArmRoll2RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightForeArmRoll2RotateOrderEnumField(
-    EnumField[LeafRightForeArmRoll2RotateOrderEnumAttrOperator, LeafRightForeArmRoll2RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll2RotateOrderEnumAttrOperator,
+        LeafRightForeArmRoll2RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9016,7 +10302,9 @@ class LeafRightForeArmRoll2RotateOrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll2RotateOrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9027,7 +10315,9 @@ class LeafLeftUpLegRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftUpLegRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9048,7 +10338,10 @@ class LeafLeftUpLegRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftUpLegRoll3RotateOrderEnumField(
-    EnumField[LeafLeftUpLegRoll3RotateOrderEnumAttrOperator, LeafLeftUpLegRoll3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll3RotateOrderEnumAttrOperator,
+        LeafLeftUpLegRoll3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9056,7 +10349,9 @@ class LeafLeftUpLegRoll3RotateOrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll3RotateOrderEnumPlugOperator
 
 
-class LeafLeftLegRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9067,7 +10362,9 @@ class LeafLeftLegRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftLegRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9088,7 +10385,10 @@ class LeafLeftLegRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftLegRoll3RotateOrderEnumField(
-    EnumField[LeafLeftLegRoll3RotateOrderEnumAttrOperator, LeafLeftLegRoll3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll3RotateOrderEnumAttrOperator,
+        LeafLeftLegRoll3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9096,7 +10396,9 @@ class LeafLeftLegRoll3RotateOrderEnumField(
     PLUG_CLS = LeafLeftLegRoll3RotateOrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9107,7 +10409,9 @@ class LeafRightUpLegRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightUpLegRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9128,7 +10432,10 @@ class LeafRightUpLegRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightUpLegRoll3RotateOrderEnumField(
-    EnumField[LeafRightUpLegRoll3RotateOrderEnumAttrOperator, LeafRightUpLegRoll3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll3RotateOrderEnumAttrOperator,
+        LeafRightUpLegRoll3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9136,7 +10443,9 @@ class LeafRightUpLegRoll3RotateOrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll3RotateOrderEnumPlugOperator
 
 
-class LeafRightLegRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9147,7 +10456,9 @@ class LeafRightLegRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightLegRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9168,7 +10479,10 @@ class LeafRightLegRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightLegRoll3RotateOrderEnumField(
-    EnumField[LeafRightLegRoll3RotateOrderEnumAttrOperator, LeafRightLegRoll3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll3RotateOrderEnumAttrOperator,
+        LeafRightLegRoll3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9176,7 +10490,9 @@ class LeafRightLegRoll3RotateOrderEnumField(
     PLUG_CLS = LeafRightLegRoll3RotateOrderEnumPlugOperator
 
 
-class LeafLeftArmRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9187,7 +10503,9 @@ class LeafLeftArmRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftArmRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9208,7 +10526,10 @@ class LeafLeftArmRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftArmRoll3RotateOrderEnumField(
-    EnumField[LeafLeftArmRoll3RotateOrderEnumAttrOperator, LeafLeftArmRoll3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll3RotateOrderEnumAttrOperator,
+        LeafLeftArmRoll3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9216,7 +10537,9 @@ class LeafLeftArmRoll3RotateOrderEnumField(
     PLUG_CLS = LeafLeftArmRoll3RotateOrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9227,7 +10550,9 @@ class LeafLeftForeArmRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftForeArmRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9248,7 +10573,10 @@ class LeafLeftForeArmRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftForeArmRoll3RotateOrderEnumField(
-    EnumField[LeafLeftForeArmRoll3RotateOrderEnumAttrOperator, LeafLeftForeArmRoll3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll3RotateOrderEnumAttrOperator,
+        LeafLeftForeArmRoll3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9256,7 +10584,9 @@ class LeafLeftForeArmRoll3RotateOrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll3RotateOrderEnumPlugOperator
 
 
-class LeafRightArmRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9267,7 +10597,9 @@ class LeafRightArmRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightArmRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9288,7 +10620,10 @@ class LeafRightArmRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightArmRoll3RotateOrderEnumField(
-    EnumField[LeafRightArmRoll3RotateOrderEnumAttrOperator, LeafRightArmRoll3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll3RotateOrderEnumAttrOperator,
+        LeafRightArmRoll3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9296,7 +10631,9 @@ class LeafRightArmRoll3RotateOrderEnumField(
     PLUG_CLS = LeafRightArmRoll3RotateOrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll3RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll3RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9307,7 +10644,9 @@ class LeafRightForeArmRoll3RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightForeArmRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll3RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll3RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9328,7 +10667,10 @@ class LeafRightForeArmRoll3RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightForeArmRoll3RotateOrderEnumField(
-    EnumField[LeafRightForeArmRoll3RotateOrderEnumAttrOperator, LeafRightForeArmRoll3RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll3RotateOrderEnumAttrOperator,
+        LeafRightForeArmRoll3RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9336,7 +10678,9 @@ class LeafRightForeArmRoll3RotateOrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll3RotateOrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9347,7 +10691,9 @@ class LeafLeftUpLegRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftUpLegRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9368,7 +10714,10 @@ class LeafLeftUpLegRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftUpLegRoll4RotateOrderEnumField(
-    EnumField[LeafLeftUpLegRoll4RotateOrderEnumAttrOperator, LeafLeftUpLegRoll4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll4RotateOrderEnumAttrOperator,
+        LeafLeftUpLegRoll4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9376,7 +10725,9 @@ class LeafLeftUpLegRoll4RotateOrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll4RotateOrderEnumPlugOperator
 
 
-class LeafLeftLegRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9387,7 +10738,9 @@ class LeafLeftLegRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftLegRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9408,7 +10761,10 @@ class LeafLeftLegRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftLegRoll4RotateOrderEnumField(
-    EnumField[LeafLeftLegRoll4RotateOrderEnumAttrOperator, LeafLeftLegRoll4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll4RotateOrderEnumAttrOperator,
+        LeafLeftLegRoll4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9416,7 +10772,9 @@ class LeafLeftLegRoll4RotateOrderEnumField(
     PLUG_CLS = LeafLeftLegRoll4RotateOrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9427,7 +10785,9 @@ class LeafRightUpLegRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightUpLegRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9448,7 +10808,10 @@ class LeafRightUpLegRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightUpLegRoll4RotateOrderEnumField(
-    EnumField[LeafRightUpLegRoll4RotateOrderEnumAttrOperator, LeafRightUpLegRoll4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll4RotateOrderEnumAttrOperator,
+        LeafRightUpLegRoll4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9456,7 +10819,9 @@ class LeafRightUpLegRoll4RotateOrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll4RotateOrderEnumPlugOperator
 
 
-class LeafRightLegRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9467,7 +10832,9 @@ class LeafRightLegRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightLegRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9488,7 +10855,10 @@ class LeafRightLegRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightLegRoll4RotateOrderEnumField(
-    EnumField[LeafRightLegRoll4RotateOrderEnumAttrOperator, LeafRightLegRoll4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll4RotateOrderEnumAttrOperator,
+        LeafRightLegRoll4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9496,7 +10866,9 @@ class LeafRightLegRoll4RotateOrderEnumField(
     PLUG_CLS = LeafRightLegRoll4RotateOrderEnumPlugOperator
 
 
-class LeafLeftArmRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9507,7 +10879,9 @@ class LeafLeftArmRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftArmRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9528,7 +10902,10 @@ class LeafLeftArmRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftArmRoll4RotateOrderEnumField(
-    EnumField[LeafLeftArmRoll4RotateOrderEnumAttrOperator, LeafLeftArmRoll4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll4RotateOrderEnumAttrOperator,
+        LeafLeftArmRoll4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9536,7 +10913,9 @@ class LeafLeftArmRoll4RotateOrderEnumField(
     PLUG_CLS = LeafLeftArmRoll4RotateOrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9547,7 +10926,9 @@ class LeafLeftForeArmRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftForeArmRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9568,7 +10949,10 @@ class LeafLeftForeArmRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftForeArmRoll4RotateOrderEnumField(
-    EnumField[LeafLeftForeArmRoll4RotateOrderEnumAttrOperator, LeafLeftForeArmRoll4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll4RotateOrderEnumAttrOperator,
+        LeafLeftForeArmRoll4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9576,7 +10960,9 @@ class LeafLeftForeArmRoll4RotateOrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll4RotateOrderEnumPlugOperator
 
 
-class LeafRightArmRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9587,7 +10973,9 @@ class LeafRightArmRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightArmRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9608,7 +10996,10 @@ class LeafRightArmRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightArmRoll4RotateOrderEnumField(
-    EnumField[LeafRightArmRoll4RotateOrderEnumAttrOperator, LeafRightArmRoll4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll4RotateOrderEnumAttrOperator,
+        LeafRightArmRoll4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9616,7 +11007,9 @@ class LeafRightArmRoll4RotateOrderEnumField(
     PLUG_CLS = LeafRightArmRoll4RotateOrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll4RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll4RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9627,7 +11020,9 @@ class LeafRightForeArmRoll4RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightForeArmRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll4RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll4RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9648,7 +11043,10 @@ class LeafRightForeArmRoll4RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightForeArmRoll4RotateOrderEnumField(
-    EnumField[LeafRightForeArmRoll4RotateOrderEnumAttrOperator, LeafRightForeArmRoll4RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll4RotateOrderEnumAttrOperator,
+        LeafRightForeArmRoll4RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9656,7 +11054,9 @@ class LeafRightForeArmRoll4RotateOrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll4RotateOrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9667,7 +11067,9 @@ class LeafLeftUpLegRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftUpLegRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9688,7 +11090,10 @@ class LeafLeftUpLegRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftUpLegRoll5RotateOrderEnumField(
-    EnumField[LeafLeftUpLegRoll5RotateOrderEnumAttrOperator, LeafLeftUpLegRoll5RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll5RotateOrderEnumAttrOperator,
+        LeafLeftUpLegRoll5RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9696,7 +11101,9 @@ class LeafLeftUpLegRoll5RotateOrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll5RotateOrderEnumPlugOperator
 
 
-class LeafLeftLegRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9707,7 +11114,9 @@ class LeafLeftLegRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftLegRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9728,7 +11137,10 @@ class LeafLeftLegRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftLegRoll5RotateOrderEnumField(
-    EnumField[LeafLeftLegRoll5RotateOrderEnumAttrOperator, LeafLeftLegRoll5RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll5RotateOrderEnumAttrOperator,
+        LeafLeftLegRoll5RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9736,7 +11148,9 @@ class LeafLeftLegRoll5RotateOrderEnumField(
     PLUG_CLS = LeafLeftLegRoll5RotateOrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9747,7 +11161,9 @@ class LeafRightUpLegRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightUpLegRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9768,7 +11184,10 @@ class LeafRightUpLegRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightUpLegRoll5RotateOrderEnumField(
-    EnumField[LeafRightUpLegRoll5RotateOrderEnumAttrOperator, LeafRightUpLegRoll5RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll5RotateOrderEnumAttrOperator,
+        LeafRightUpLegRoll5RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9776,7 +11195,9 @@ class LeafRightUpLegRoll5RotateOrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll5RotateOrderEnumPlugOperator
 
 
-class LeafRightLegRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9787,7 +11208,9 @@ class LeafRightLegRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightLegRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9808,7 +11231,10 @@ class LeafRightLegRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightLegRoll5RotateOrderEnumField(
-    EnumField[LeafRightLegRoll5RotateOrderEnumAttrOperator, LeafRightLegRoll5RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll5RotateOrderEnumAttrOperator,
+        LeafRightLegRoll5RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9816,7 +11242,9 @@ class LeafRightLegRoll5RotateOrderEnumField(
     PLUG_CLS = LeafRightLegRoll5RotateOrderEnumPlugOperator
 
 
-class LeafLeftArmRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9827,7 +11255,9 @@ class LeafLeftArmRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftArmRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9848,7 +11278,10 @@ class LeafLeftArmRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftArmRoll5RotateOrderEnumField(
-    EnumField[LeafLeftArmRoll5RotateOrderEnumAttrOperator, LeafLeftArmRoll5RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll5RotateOrderEnumAttrOperator,
+        LeafLeftArmRoll5RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9856,7 +11289,9 @@ class LeafLeftArmRoll5RotateOrderEnumField(
     PLUG_CLS = LeafLeftArmRoll5RotateOrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9867,7 +11302,9 @@ class LeafLeftForeArmRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafLeftForeArmRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9888,7 +11325,10 @@ class LeafLeftForeArmRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafLeftForeArmRoll5RotateOrderEnumField(
-    EnumField[LeafLeftForeArmRoll5RotateOrderEnumAttrOperator, LeafLeftForeArmRoll5RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll5RotateOrderEnumAttrOperator,
+        LeafLeftForeArmRoll5RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9896,7 +11336,9 @@ class LeafLeftForeArmRoll5RotateOrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll5RotateOrderEnumPlugOperator
 
 
-class LeafRightArmRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9907,7 +11349,9 @@ class LeafRightArmRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightArmRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9928,7 +11372,10 @@ class LeafRightArmRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightArmRoll5RotateOrderEnumField(
-    EnumField[LeafRightArmRoll5RotateOrderEnumAttrOperator, LeafRightArmRoll5RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll5RotateOrderEnumAttrOperator,
+        LeafRightArmRoll5RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9936,7 +11383,9 @@ class LeafRightArmRoll5RotateOrderEnumField(
     PLUG_CLS = LeafRightArmRoll5RotateOrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll5RotateOrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll5RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9947,7 +11396,9 @@ class LeafRightForeArmRoll5RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 10
 
 
-class LeafRightForeArmRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll5RotateOrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll5RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9968,7 +11419,10 @@ class LeafRightForeArmRoll5RotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafRightForeArmRoll5RotateOrderEnumField(
-    EnumField[LeafRightForeArmRoll5RotateOrderEnumAttrOperator, LeafRightForeArmRoll5RotateOrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll5RotateOrderEnumAttrOperator,
+        LeafRightForeArmRoll5RotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9976,7 +11430,7 @@ class LeafRightForeArmRoll5RotateOrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll5RotateOrderEnumPlugOperator
 
 
-class _GeneratedHIKCharacterNode(DG):
+class GeneratedHIKCharacterNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKCharacterNode"
@@ -10016,12 +11470,16 @@ class _GeneratedHIKCharacterNode(DG):
 
     ReferenceRotateOrder = ReferenceRotateOrderEnumField(default_value=0)
 
-    ReferenceRotateAxis = ReferenceRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    ReferenceRotateAxis = ReferenceRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     ReferenceRotateAxisx = ReferenceRotateAxis.ReferenceRotateAxisx
     ReferenceRotateAxisy = ReferenceRotateAxis.ReferenceRotateAxisy
     ReferenceRotateAxisz = ReferenceRotateAxis.ReferenceRotateAxisz
 
-    ReferenceJointOrient = ReferenceJointOrientField(default_value=(0.0, 0.0, 0.0))
+    ReferenceJointOrient = ReferenceJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     ReferenceJointOrientx = ReferenceJointOrient.ReferenceJointOrientx
     ReferenceJointOrienty = ReferenceJointOrient.ReferenceJointOrienty
     ReferenceJointOrientz = ReferenceJointOrient.ReferenceJointOrientz
@@ -10118,12 +11576,16 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftUpLegRotateOrder = LeftUpLegRotateOrderEnumField(default_value=0)
 
-    LeftUpLegRotateAxis = LeftUpLegRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftUpLegRotateAxis = LeftUpLegRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftUpLegRotateAxisx = LeftUpLegRotateAxis.LeftUpLegRotateAxisx
     LeftUpLegRotateAxisy = LeftUpLegRotateAxis.LeftUpLegRotateAxisy
     LeftUpLegRotateAxisz = LeftUpLegRotateAxis.LeftUpLegRotateAxisz
 
-    LeftUpLegJointOrient = LeftUpLegJointOrientField(default_value=(0.0, 0.0, 0.0))
+    LeftUpLegJointOrient = LeftUpLegJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftUpLegJointOrientx = LeftUpLegJointOrient.LeftUpLegJointOrientx
     LeftUpLegJointOrienty = LeftUpLegJointOrient.LeftUpLegJointOrienty
     LeftUpLegJointOrientz = LeftUpLegJointOrient.LeftUpLegJointOrientz
@@ -10225,7 +11687,9 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootRotateAxisy = LeftFootRotateAxis.LeftFootRotateAxisy
     LeftFootRotateAxisz = LeftFootRotateAxis.LeftFootRotateAxisz
 
-    LeftFootJointOrient = LeftFootJointOrientField(default_value=(0.0, 0.0, 0.0))
+    LeftFootJointOrient = LeftFootJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootJointOrientx = LeftFootJointOrient.LeftFootJointOrientx
     LeftFootJointOrienty = LeftFootJointOrient.LeftFootJointOrienty
     LeftFootJointOrientz = LeftFootJointOrient.LeftFootJointOrientz
@@ -10271,22 +11735,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightUpLegRotateOrder = RightUpLegRotateOrderEnumField(default_value=0)
 
-    RightUpLegRotateAxis = RightUpLegRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    RightUpLegRotateAxis = RightUpLegRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightUpLegRotateAxisx = RightUpLegRotateAxis.RightUpLegRotateAxisx
     RightUpLegRotateAxisy = RightUpLegRotateAxis.RightUpLegRotateAxisy
     RightUpLegRotateAxisz = RightUpLegRotateAxis.RightUpLegRotateAxisz
 
-    RightUpLegJointOrient = RightUpLegJointOrientField(default_value=(0.0, 0.0, 0.0))
+    RightUpLegJointOrient = RightUpLegJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightUpLegJointOrientx = RightUpLegJointOrient.RightUpLegJointOrientx
     RightUpLegJointOrienty = RightUpLegJointOrient.RightUpLegJointOrienty
     RightUpLegJointOrientz = RightUpLegJointOrient.RightUpLegJointOrientz
 
-    RightUpLegMinRLimit = RightUpLegMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightUpLegMinRLimit = RightUpLegMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightUpLegMinRLimitx = RightUpLegMinRLimit.RightUpLegMinRLimitx
     RightUpLegMinRLimity = RightUpLegMinRLimit.RightUpLegMinRLimity
     RightUpLegMinRLimitz = RightUpLegMinRLimit.RightUpLegMinRLimitz
 
-    RightUpLegMaxRLimit = RightUpLegMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightUpLegMaxRLimit = RightUpLegMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightUpLegMaxRLimitx = RightUpLegMaxRLimit.RightUpLegMaxRLimitx
     RightUpLegMaxRLimity = RightUpLegMaxRLimit.RightUpLegMaxRLimity
     RightUpLegMaxRLimitz = RightUpLegMaxRLimit.RightUpLegMaxRLimitz
@@ -10327,7 +11799,9 @@ class _GeneratedHIKCharacterNode(DG):
     RightLegRotateAxisy = RightLegRotateAxis.RightLegRotateAxisy
     RightLegRotateAxisz = RightLegRotateAxis.RightLegRotateAxisz
 
-    RightLegJointOrient = RightLegJointOrientField(default_value=(0.0, 0.0, 0.0))
+    RightLegJointOrient = RightLegJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightLegJointOrientx = RightLegJointOrient.RightLegJointOrientx
     RightLegJointOrienty = RightLegJointOrient.RightLegJointOrienty
     RightLegJointOrientz = RightLegJointOrient.RightLegJointOrientz
@@ -10373,12 +11847,16 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightFootRotateOrder = RightFootRotateOrderEnumField(default_value=0)
 
-    RightFootRotateAxis = RightFootRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    RightFootRotateAxis = RightFootRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRotateAxisx = RightFootRotateAxis.RightFootRotateAxisx
     RightFootRotateAxisy = RightFootRotateAxis.RightFootRotateAxisy
     RightFootRotateAxisz = RightFootRotateAxis.RightFootRotateAxisz
 
-    RightFootJointOrient = RightFootJointOrientField(default_value=(0.0, 0.0, 0.0))
+    RightFootJointOrient = RightFootJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootJointOrientx = RightFootJointOrient.RightFootJointOrientx
     RightFootJointOrienty = RightFootJointOrient.RightFootJointOrienty
     RightFootJointOrientz = RightFootJointOrient.RightFootJointOrientz
@@ -10526,22 +12004,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftForeArmRotateOrder = LeftForeArmRotateOrderEnumField(default_value=0)
 
-    LeftForeArmRotateAxis = LeftForeArmRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftForeArmRotateAxis = LeftForeArmRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftForeArmRotateAxisx = LeftForeArmRotateAxis.LeftForeArmRotateAxisx
     LeftForeArmRotateAxisy = LeftForeArmRotateAxis.LeftForeArmRotateAxisy
     LeftForeArmRotateAxisz = LeftForeArmRotateAxis.LeftForeArmRotateAxisz
 
-    LeftForeArmJointOrient = LeftForeArmJointOrientField(default_value=(0.0, 0.0, 0.0))
+    LeftForeArmJointOrient = LeftForeArmJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftForeArmJointOrientx = LeftForeArmJointOrient.LeftForeArmJointOrientx
     LeftForeArmJointOrienty = LeftForeArmJointOrient.LeftForeArmJointOrienty
     LeftForeArmJointOrientz = LeftForeArmJointOrient.LeftForeArmJointOrientz
 
-    LeftForeArmMinRLimit = LeftForeArmMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftForeArmMinRLimit = LeftForeArmMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftForeArmMinRLimitx = LeftForeArmMinRLimit.LeftForeArmMinRLimitx
     LeftForeArmMinRLimity = LeftForeArmMinRLimit.LeftForeArmMinRLimity
     LeftForeArmMinRLimitz = LeftForeArmMinRLimit.LeftForeArmMinRLimitz
 
-    LeftForeArmMaxRLimit = LeftForeArmMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftForeArmMaxRLimit = LeftForeArmMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftForeArmMaxRLimitx = LeftForeArmMaxRLimit.LeftForeArmMaxRLimitx
     LeftForeArmMaxRLimity = LeftForeArmMaxRLimit.LeftForeArmMaxRLimity
     LeftForeArmMaxRLimitz = LeftForeArmMaxRLimit.LeftForeArmMaxRLimitz
@@ -10582,7 +12068,9 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandRotateAxisy = LeftHandRotateAxis.LeftHandRotateAxisy
     LeftHandRotateAxisz = LeftHandRotateAxis.LeftHandRotateAxisz
 
-    LeftHandJointOrient = LeftHandJointOrientField(default_value=(0.0, 0.0, 0.0))
+    LeftHandJointOrient = LeftHandJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandJointOrientx = LeftHandJointOrient.LeftHandJointOrientx
     LeftHandJointOrienty = LeftHandJointOrient.LeftHandJointOrienty
     LeftHandJointOrientz = LeftHandJointOrient.LeftHandJointOrientz
@@ -10633,7 +12121,9 @@ class _GeneratedHIKCharacterNode(DG):
     RightArmRotateAxisy = RightArmRotateAxis.RightArmRotateAxisy
     RightArmRotateAxisz = RightArmRotateAxis.RightArmRotateAxisz
 
-    RightArmJointOrient = RightArmJointOrientField(default_value=(0.0, 0.0, 0.0))
+    RightArmJointOrient = RightArmJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightArmJointOrientx = RightArmJointOrient.RightArmJointOrientx
     RightArmJointOrienty = RightArmJointOrient.RightArmJointOrienty
     RightArmJointOrientz = RightArmJointOrient.RightArmJointOrientz
@@ -10679,22 +12169,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightForeArmRotateOrder = RightForeArmRotateOrderEnumField(default_value=0)
 
-    RightForeArmRotateAxis = RightForeArmRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    RightForeArmRotateAxis = RightForeArmRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightForeArmRotateAxisx = RightForeArmRotateAxis.RightForeArmRotateAxisx
     RightForeArmRotateAxisy = RightForeArmRotateAxis.RightForeArmRotateAxisy
     RightForeArmRotateAxisz = RightForeArmRotateAxis.RightForeArmRotateAxisz
 
-    RightForeArmJointOrient = RightForeArmJointOrientField(default_value=(0.0, 0.0, 0.0))
+    RightForeArmJointOrient = RightForeArmJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightForeArmJointOrientx = RightForeArmJointOrient.RightForeArmJointOrientx
     RightForeArmJointOrienty = RightForeArmJointOrient.RightForeArmJointOrienty
     RightForeArmJointOrientz = RightForeArmJointOrient.RightForeArmJointOrientz
 
-    RightForeArmMinRLimit = RightForeArmMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightForeArmMinRLimit = RightForeArmMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightForeArmMinRLimitx = RightForeArmMinRLimit.RightForeArmMinRLimitx
     RightForeArmMinRLimity = RightForeArmMinRLimit.RightForeArmMinRLimity
     RightForeArmMinRLimitz = RightForeArmMinRLimit.RightForeArmMinRLimitz
 
-    RightForeArmMaxRLimit = RightForeArmMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightForeArmMaxRLimit = RightForeArmMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightForeArmMaxRLimitx = RightForeArmMaxRLimit.RightForeArmMaxRLimitx
     RightForeArmMaxRLimity = RightForeArmMaxRLimit.RightForeArmMaxRLimity
     RightForeArmMaxRLimitz = RightForeArmMaxRLimit.RightForeArmMaxRLimitz
@@ -10730,12 +12228,16 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightHandRotateOrder = RightHandRotateOrderEnumField(default_value=0)
 
-    RightHandRotateAxis = RightHandRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    RightHandRotateAxis = RightHandRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRotateAxisx = RightHandRotateAxis.RightHandRotateAxisx
     RightHandRotateAxisy = RightHandRotateAxis.RightHandRotateAxisy
     RightHandRotateAxisz = RightHandRotateAxis.RightHandRotateAxisz
 
-    RightHandJointOrient = RightHandJointOrientField(default_value=(0.0, 0.0, 0.0))
+    RightHandJointOrient = RightHandJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandJointOrientx = RightHandJointOrient.RightHandJointOrientx
     RightHandJointOrienty = RightHandJointOrient.RightHandJointOrienty
     RightHandJointOrientz = RightHandJointOrient.RightHandJointOrientz
@@ -10832,22 +12334,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftToeBaseRotateOrder = LeftToeBaseRotateOrderEnumField(default_value=0)
 
-    LeftToeBaseRotateAxis = LeftToeBaseRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftToeBaseRotateAxis = LeftToeBaseRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftToeBaseRotateAxisx = LeftToeBaseRotateAxis.LeftToeBaseRotateAxisx
     LeftToeBaseRotateAxisy = LeftToeBaseRotateAxis.LeftToeBaseRotateAxisy
     LeftToeBaseRotateAxisz = LeftToeBaseRotateAxis.LeftToeBaseRotateAxisz
 
-    LeftToeBaseJointOrient = LeftToeBaseJointOrientField(default_value=(0.0, 0.0, 0.0))
+    LeftToeBaseJointOrient = LeftToeBaseJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftToeBaseJointOrientx = LeftToeBaseJointOrient.LeftToeBaseJointOrientx
     LeftToeBaseJointOrienty = LeftToeBaseJointOrient.LeftToeBaseJointOrienty
     LeftToeBaseJointOrientz = LeftToeBaseJointOrient.LeftToeBaseJointOrientz
 
-    LeftToeBaseMinRLimit = LeftToeBaseMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftToeBaseMinRLimit = LeftToeBaseMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftToeBaseMinRLimitx = LeftToeBaseMinRLimit.LeftToeBaseMinRLimitx
     LeftToeBaseMinRLimity = LeftToeBaseMinRLimit.LeftToeBaseMinRLimity
     LeftToeBaseMinRLimitz = LeftToeBaseMinRLimit.LeftToeBaseMinRLimitz
 
-    LeftToeBaseMaxRLimit = LeftToeBaseMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftToeBaseMaxRLimit = LeftToeBaseMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftToeBaseMaxRLimitx = LeftToeBaseMaxRLimit.LeftToeBaseMaxRLimitx
     LeftToeBaseMaxRLimity = LeftToeBaseMaxRLimit.LeftToeBaseMaxRLimity
     LeftToeBaseMaxRLimitz = LeftToeBaseMaxRLimit.LeftToeBaseMaxRLimitz
@@ -10883,22 +12393,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightToeBaseRotateOrder = RightToeBaseRotateOrderEnumField(default_value=0)
 
-    RightToeBaseRotateAxis = RightToeBaseRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    RightToeBaseRotateAxis = RightToeBaseRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightToeBaseRotateAxisx = RightToeBaseRotateAxis.RightToeBaseRotateAxisx
     RightToeBaseRotateAxisy = RightToeBaseRotateAxis.RightToeBaseRotateAxisy
     RightToeBaseRotateAxisz = RightToeBaseRotateAxis.RightToeBaseRotateAxisz
 
-    RightToeBaseJointOrient = RightToeBaseJointOrientField(default_value=(0.0, 0.0, 0.0))
+    RightToeBaseJointOrient = RightToeBaseJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightToeBaseJointOrientx = RightToeBaseJointOrient.RightToeBaseJointOrientx
     RightToeBaseJointOrienty = RightToeBaseJointOrient.RightToeBaseJointOrienty
     RightToeBaseJointOrientz = RightToeBaseJointOrient.RightToeBaseJointOrientz
 
-    RightToeBaseMinRLimit = RightToeBaseMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightToeBaseMinRLimit = RightToeBaseMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightToeBaseMinRLimitx = RightToeBaseMinRLimit.RightToeBaseMinRLimitx
     RightToeBaseMinRLimity = RightToeBaseMinRLimit.RightToeBaseMinRLimity
     RightToeBaseMinRLimitz = RightToeBaseMinRLimit.RightToeBaseMinRLimitz
 
-    RightToeBaseMaxRLimit = RightToeBaseMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightToeBaseMaxRLimit = RightToeBaseMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightToeBaseMaxRLimitx = RightToeBaseMaxRLimit.RightToeBaseMaxRLimitx
     RightToeBaseMaxRLimity = RightToeBaseMaxRLimit.RightToeBaseMaxRLimity
     RightToeBaseMaxRLimitz = RightToeBaseMaxRLimit.RightToeBaseMaxRLimitz
@@ -10934,22 +12452,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftShoulderRotateOrder = LeftShoulderRotateOrderEnumField(default_value=0)
 
-    LeftShoulderRotateAxis = LeftShoulderRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftShoulderRotateAxis = LeftShoulderRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftShoulderRotateAxisx = LeftShoulderRotateAxis.LeftShoulderRotateAxisx
     LeftShoulderRotateAxisy = LeftShoulderRotateAxis.LeftShoulderRotateAxisy
     LeftShoulderRotateAxisz = LeftShoulderRotateAxis.LeftShoulderRotateAxisz
 
-    LeftShoulderJointOrient = LeftShoulderJointOrientField(default_value=(0.0, 0.0, 0.0))
+    LeftShoulderJointOrient = LeftShoulderJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftShoulderJointOrientx = LeftShoulderJointOrient.LeftShoulderJointOrientx
     LeftShoulderJointOrienty = LeftShoulderJointOrient.LeftShoulderJointOrienty
     LeftShoulderJointOrientz = LeftShoulderJointOrient.LeftShoulderJointOrientz
 
-    LeftShoulderMinRLimit = LeftShoulderMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftShoulderMinRLimit = LeftShoulderMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftShoulderMinRLimitx = LeftShoulderMinRLimit.LeftShoulderMinRLimitx
     LeftShoulderMinRLimity = LeftShoulderMinRLimit.LeftShoulderMinRLimity
     LeftShoulderMinRLimitz = LeftShoulderMinRLimit.LeftShoulderMinRLimitz
 
-    LeftShoulderMaxRLimit = LeftShoulderMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftShoulderMaxRLimit = LeftShoulderMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftShoulderMaxRLimitx = LeftShoulderMaxRLimit.LeftShoulderMaxRLimitx
     LeftShoulderMaxRLimity = LeftShoulderMaxRLimit.LeftShoulderMaxRLimity
     LeftShoulderMaxRLimitz = LeftShoulderMaxRLimit.LeftShoulderMaxRLimitz
@@ -10983,24 +12509,40 @@ class _GeneratedHIKCharacterNode(DG):
     RightShoulderSy = RightShoulderS.RightShoulderSy
     RightShoulderSz = RightShoulderS.RightShoulderSz
 
-    RightShoulderRotateOrder = RightShoulderRotateOrderEnumField(default_value=0)
+    RightShoulderRotateOrder = RightShoulderRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightShoulderRotateAxis = RightShoulderRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderRotateAxis = RightShoulderRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderRotateAxisx = RightShoulderRotateAxis.RightShoulderRotateAxisx
     RightShoulderRotateAxisy = RightShoulderRotateAxis.RightShoulderRotateAxisy
     RightShoulderRotateAxisz = RightShoulderRotateAxis.RightShoulderRotateAxisz
 
-    RightShoulderJointOrient = RightShoulderJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightShoulderJointOrientx = RightShoulderJointOrient.RightShoulderJointOrientx
-    RightShoulderJointOrienty = RightShoulderJointOrient.RightShoulderJointOrienty
-    RightShoulderJointOrientz = RightShoulderJointOrient.RightShoulderJointOrientz
+    RightShoulderJointOrient = RightShoulderJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightShoulderJointOrientx = (
+        RightShoulderJointOrient.RightShoulderJointOrientx
+    )
+    RightShoulderJointOrienty = (
+        RightShoulderJointOrient.RightShoulderJointOrienty
+    )
+    RightShoulderJointOrientz = (
+        RightShoulderJointOrient.RightShoulderJointOrientz
+    )
 
-    RightShoulderMinRLimit = RightShoulderMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderMinRLimit = RightShoulderMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderMinRLimitx = RightShoulderMinRLimit.RightShoulderMinRLimitx
     RightShoulderMinRLimity = RightShoulderMinRLimit.RightShoulderMinRLimity
     RightShoulderMinRLimitz = RightShoulderMinRLimit.RightShoulderMinRLimitz
 
-    RightShoulderMaxRLimit = RightShoulderMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderMaxRLimit = RightShoulderMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderMaxRLimitx = RightShoulderMaxRLimit.RightShoulderMaxRLimitx
     RightShoulderMaxRLimity = RightShoulderMaxRLimit.RightShoulderMaxRLimity
     RightShoulderMaxRLimitz = RightShoulderMaxRLimit.RightShoulderMaxRLimitz
@@ -11085,24 +12627,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFingerBaseSy = LeftFingerBaseS.LeftFingerBaseSy
     LeftFingerBaseSz = LeftFingerBaseS.LeftFingerBaseSz
 
-    LeftFingerBaseRotateOrder = LeftFingerBaseRotateOrderEnumField(default_value=0)
+    LeftFingerBaseRotateOrder = LeftFingerBaseRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFingerBaseRotateAxis = LeftFingerBaseRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFingerBaseRotateAxisx = LeftFingerBaseRotateAxis.LeftFingerBaseRotateAxisx
-    LeftFingerBaseRotateAxisy = LeftFingerBaseRotateAxis.LeftFingerBaseRotateAxisy
-    LeftFingerBaseRotateAxisz = LeftFingerBaseRotateAxis.LeftFingerBaseRotateAxisz
+    LeftFingerBaseRotateAxis = LeftFingerBaseRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFingerBaseRotateAxisx = (
+        LeftFingerBaseRotateAxis.LeftFingerBaseRotateAxisx
+    )
+    LeftFingerBaseRotateAxisy = (
+        LeftFingerBaseRotateAxis.LeftFingerBaseRotateAxisy
+    )
+    LeftFingerBaseRotateAxisz = (
+        LeftFingerBaseRotateAxis.LeftFingerBaseRotateAxisz
+    )
 
-    LeftFingerBaseJointOrient = LeftFingerBaseJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFingerBaseJointOrientx = LeftFingerBaseJointOrient.LeftFingerBaseJointOrientx
-    LeftFingerBaseJointOrienty = LeftFingerBaseJointOrient.LeftFingerBaseJointOrienty
-    LeftFingerBaseJointOrientz = LeftFingerBaseJointOrient.LeftFingerBaseJointOrientz
+    LeftFingerBaseJointOrient = LeftFingerBaseJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFingerBaseJointOrientx = (
+        LeftFingerBaseJointOrient.LeftFingerBaseJointOrientx
+    )
+    LeftFingerBaseJointOrienty = (
+        LeftFingerBaseJointOrient.LeftFingerBaseJointOrienty
+    )
+    LeftFingerBaseJointOrientz = (
+        LeftFingerBaseJointOrient.LeftFingerBaseJointOrientz
+    )
 
-    LeftFingerBaseMinRLimit = LeftFingerBaseMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFingerBaseMinRLimit = LeftFingerBaseMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFingerBaseMinRLimitx = LeftFingerBaseMinRLimit.LeftFingerBaseMinRLimitx
     LeftFingerBaseMinRLimity = LeftFingerBaseMinRLimit.LeftFingerBaseMinRLimity
     LeftFingerBaseMinRLimitz = LeftFingerBaseMinRLimit.LeftFingerBaseMinRLimitz
 
-    LeftFingerBaseMaxRLimit = LeftFingerBaseMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFingerBaseMaxRLimit = LeftFingerBaseMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFingerBaseMaxRLimitx = LeftFingerBaseMaxRLimit.LeftFingerBaseMaxRLimitx
     LeftFingerBaseMaxRLimity = LeftFingerBaseMaxRLimit.LeftFingerBaseMaxRLimity
     LeftFingerBaseMaxRLimitz = LeftFingerBaseMaxRLimit.LeftFingerBaseMaxRLimitz
@@ -11136,27 +12700,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFingerBaseSy = RightFingerBaseS.RightFingerBaseSy
     RightFingerBaseSz = RightFingerBaseS.RightFingerBaseSz
 
-    RightFingerBaseRotateOrder = RightFingerBaseRotateOrderEnumField(default_value=0)
+    RightFingerBaseRotateOrder = RightFingerBaseRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFingerBaseRotateAxis = RightFingerBaseRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFingerBaseRotateAxisx = RightFingerBaseRotateAxis.RightFingerBaseRotateAxisx
-    RightFingerBaseRotateAxisy = RightFingerBaseRotateAxis.RightFingerBaseRotateAxisy
-    RightFingerBaseRotateAxisz = RightFingerBaseRotateAxis.RightFingerBaseRotateAxisz
+    RightFingerBaseRotateAxis = RightFingerBaseRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFingerBaseRotateAxisx = (
+        RightFingerBaseRotateAxis.RightFingerBaseRotateAxisx
+    )
+    RightFingerBaseRotateAxisy = (
+        RightFingerBaseRotateAxis.RightFingerBaseRotateAxisy
+    )
+    RightFingerBaseRotateAxisz = (
+        RightFingerBaseRotateAxis.RightFingerBaseRotateAxisz
+    )
 
-    RightFingerBaseJointOrient = RightFingerBaseJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFingerBaseJointOrientx = RightFingerBaseJointOrient.RightFingerBaseJointOrientx
-    RightFingerBaseJointOrienty = RightFingerBaseJointOrient.RightFingerBaseJointOrienty
-    RightFingerBaseJointOrientz = RightFingerBaseJointOrient.RightFingerBaseJointOrientz
+    RightFingerBaseJointOrient = RightFingerBaseJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFingerBaseJointOrientx = (
+        RightFingerBaseJointOrient.RightFingerBaseJointOrientx
+    )
+    RightFingerBaseJointOrienty = (
+        RightFingerBaseJointOrient.RightFingerBaseJointOrienty
+    )
+    RightFingerBaseJointOrientz = (
+        RightFingerBaseJointOrient.RightFingerBaseJointOrientz
+    )
 
-    RightFingerBaseMinRLimit = RightFingerBaseMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFingerBaseMinRLimitx = RightFingerBaseMinRLimit.RightFingerBaseMinRLimitx
-    RightFingerBaseMinRLimity = RightFingerBaseMinRLimit.RightFingerBaseMinRLimity
-    RightFingerBaseMinRLimitz = RightFingerBaseMinRLimit.RightFingerBaseMinRLimitz
+    RightFingerBaseMinRLimit = RightFingerBaseMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFingerBaseMinRLimitx = (
+        RightFingerBaseMinRLimit.RightFingerBaseMinRLimitx
+    )
+    RightFingerBaseMinRLimity = (
+        RightFingerBaseMinRLimit.RightFingerBaseMinRLimity
+    )
+    RightFingerBaseMinRLimitz = (
+        RightFingerBaseMinRLimit.RightFingerBaseMinRLimitz
+    )
 
-    RightFingerBaseMaxRLimit = RightFingerBaseMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFingerBaseMaxRLimitx = RightFingerBaseMaxRLimit.RightFingerBaseMaxRLimitx
-    RightFingerBaseMaxRLimity = RightFingerBaseMaxRLimit.RightFingerBaseMaxRLimity
-    RightFingerBaseMaxRLimitz = RightFingerBaseMaxRLimit.RightFingerBaseMaxRLimitz
+    RightFingerBaseMaxRLimit = RightFingerBaseMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFingerBaseMaxRLimitx = (
+        RightFingerBaseMaxRLimit.RightFingerBaseMaxRLimitx
+    )
+    RightFingerBaseMaxRLimity = (
+        RightFingerBaseMaxRLimit.RightFingerBaseMaxRLimity
+    )
+    RightFingerBaseMaxRLimitz = (
+        RightFingerBaseMaxRLimit.RightFingerBaseMaxRLimitz
+    )
 
     RightFingerBaseMinRLimitEnablex = BoolField(default_value=False)
 
@@ -12105,24 +13703,40 @@ class _GeneratedHIKCharacterNode(DG):
     LeftUpLegRollSy = LeftUpLegRollS.LeftUpLegRollSy
     LeftUpLegRollSz = LeftUpLegRollS.LeftUpLegRollSz
 
-    LeftUpLegRollRotateOrder = LeftUpLegRollRotateOrderEnumField(default_value=0)
+    LeftUpLegRollRotateOrder = LeftUpLegRollRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftUpLegRollRotateAxis = LeftUpLegRollRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftUpLegRollRotateAxis = LeftUpLegRollRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftUpLegRollRotateAxisx = LeftUpLegRollRotateAxis.LeftUpLegRollRotateAxisx
     LeftUpLegRollRotateAxisy = LeftUpLegRollRotateAxis.LeftUpLegRollRotateAxisy
     LeftUpLegRollRotateAxisz = LeftUpLegRollRotateAxis.LeftUpLegRollRotateAxisz
 
-    LeftUpLegRollJointOrient = LeftUpLegRollJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftUpLegRollJointOrientx = LeftUpLegRollJointOrient.LeftUpLegRollJointOrientx
-    LeftUpLegRollJointOrienty = LeftUpLegRollJointOrient.LeftUpLegRollJointOrienty
-    LeftUpLegRollJointOrientz = LeftUpLegRollJointOrient.LeftUpLegRollJointOrientz
+    LeftUpLegRollJointOrient = LeftUpLegRollJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftUpLegRollJointOrientx = (
+        LeftUpLegRollJointOrient.LeftUpLegRollJointOrientx
+    )
+    LeftUpLegRollJointOrienty = (
+        LeftUpLegRollJointOrient.LeftUpLegRollJointOrienty
+    )
+    LeftUpLegRollJointOrientz = (
+        LeftUpLegRollJointOrient.LeftUpLegRollJointOrientz
+    )
 
-    LeftUpLegRollMinRLimit = LeftUpLegRollMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftUpLegRollMinRLimit = LeftUpLegRollMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftUpLegRollMinRLimitx = LeftUpLegRollMinRLimit.LeftUpLegRollMinRLimitx
     LeftUpLegRollMinRLimity = LeftUpLegRollMinRLimit.LeftUpLegRollMinRLimity
     LeftUpLegRollMinRLimitz = LeftUpLegRollMinRLimit.LeftUpLegRollMinRLimitz
 
-    LeftUpLegRollMaxRLimit = LeftUpLegRollMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftUpLegRollMaxRLimit = LeftUpLegRollMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftUpLegRollMaxRLimitx = LeftUpLegRollMaxRLimit.LeftUpLegRollMaxRLimitx
     LeftUpLegRollMaxRLimity = LeftUpLegRollMaxRLimit.LeftUpLegRollMaxRLimity
     LeftUpLegRollMaxRLimitz = LeftUpLegRollMaxRLimit.LeftUpLegRollMaxRLimitz
@@ -12158,22 +13772,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftLegRollRotateOrder = LeftLegRollRotateOrderEnumField(default_value=0)
 
-    LeftLegRollRotateAxis = LeftLegRollRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftLegRollRotateAxis = LeftLegRollRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftLegRollRotateAxisx = LeftLegRollRotateAxis.LeftLegRollRotateAxisx
     LeftLegRollRotateAxisy = LeftLegRollRotateAxis.LeftLegRollRotateAxisy
     LeftLegRollRotateAxisz = LeftLegRollRotateAxis.LeftLegRollRotateAxisz
 
-    LeftLegRollJointOrient = LeftLegRollJointOrientField(default_value=(0.0, 0.0, 0.0))
+    LeftLegRollJointOrient = LeftLegRollJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftLegRollJointOrientx = LeftLegRollJointOrient.LeftLegRollJointOrientx
     LeftLegRollJointOrienty = LeftLegRollJointOrient.LeftLegRollJointOrienty
     LeftLegRollJointOrientz = LeftLegRollJointOrient.LeftLegRollJointOrientz
 
-    LeftLegRollMinRLimit = LeftLegRollMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftLegRollMinRLimit = LeftLegRollMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftLegRollMinRLimitx = LeftLegRollMinRLimit.LeftLegRollMinRLimitx
     LeftLegRollMinRLimity = LeftLegRollMinRLimit.LeftLegRollMinRLimity
     LeftLegRollMinRLimitz = LeftLegRollMinRLimit.LeftLegRollMinRLimitz
 
-    LeftLegRollMaxRLimit = LeftLegRollMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftLegRollMaxRLimit = LeftLegRollMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftLegRollMaxRLimitx = LeftLegRollMaxRLimit.LeftLegRollMaxRLimitx
     LeftLegRollMaxRLimity = LeftLegRollMaxRLimit.LeftLegRollMaxRLimity
     LeftLegRollMaxRLimitz = LeftLegRollMaxRLimit.LeftLegRollMaxRLimitz
@@ -12207,24 +13829,46 @@ class _GeneratedHIKCharacterNode(DG):
     RightUpLegRollSy = RightUpLegRollS.RightUpLegRollSy
     RightUpLegRollSz = RightUpLegRollS.RightUpLegRollSz
 
-    RightUpLegRollRotateOrder = RightUpLegRollRotateOrderEnumField(default_value=0)
+    RightUpLegRollRotateOrder = RightUpLegRollRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightUpLegRollRotateAxis = RightUpLegRollRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightUpLegRollRotateAxisx = RightUpLegRollRotateAxis.RightUpLegRollRotateAxisx
-    RightUpLegRollRotateAxisy = RightUpLegRollRotateAxis.RightUpLegRollRotateAxisy
-    RightUpLegRollRotateAxisz = RightUpLegRollRotateAxis.RightUpLegRollRotateAxisz
+    RightUpLegRollRotateAxis = RightUpLegRollRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightUpLegRollRotateAxisx = (
+        RightUpLegRollRotateAxis.RightUpLegRollRotateAxisx
+    )
+    RightUpLegRollRotateAxisy = (
+        RightUpLegRollRotateAxis.RightUpLegRollRotateAxisy
+    )
+    RightUpLegRollRotateAxisz = (
+        RightUpLegRollRotateAxis.RightUpLegRollRotateAxisz
+    )
 
-    RightUpLegRollJointOrient = RightUpLegRollJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightUpLegRollJointOrientx = RightUpLegRollJointOrient.RightUpLegRollJointOrientx
-    RightUpLegRollJointOrienty = RightUpLegRollJointOrient.RightUpLegRollJointOrienty
-    RightUpLegRollJointOrientz = RightUpLegRollJointOrient.RightUpLegRollJointOrientz
+    RightUpLegRollJointOrient = RightUpLegRollJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightUpLegRollJointOrientx = (
+        RightUpLegRollJointOrient.RightUpLegRollJointOrientx
+    )
+    RightUpLegRollJointOrienty = (
+        RightUpLegRollJointOrient.RightUpLegRollJointOrienty
+    )
+    RightUpLegRollJointOrientz = (
+        RightUpLegRollJointOrient.RightUpLegRollJointOrientz
+    )
 
-    RightUpLegRollMinRLimit = RightUpLegRollMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightUpLegRollMinRLimit = RightUpLegRollMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightUpLegRollMinRLimitx = RightUpLegRollMinRLimit.RightUpLegRollMinRLimitx
     RightUpLegRollMinRLimity = RightUpLegRollMinRLimit.RightUpLegRollMinRLimity
     RightUpLegRollMinRLimitz = RightUpLegRollMinRLimit.RightUpLegRollMinRLimitz
 
-    RightUpLegRollMaxRLimit = RightUpLegRollMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightUpLegRollMaxRLimit = RightUpLegRollMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightUpLegRollMaxRLimitx = RightUpLegRollMaxRLimit.RightUpLegRollMaxRLimitx
     RightUpLegRollMaxRLimity = RightUpLegRollMaxRLimit.RightUpLegRollMaxRLimity
     RightUpLegRollMaxRLimitz = RightUpLegRollMaxRLimit.RightUpLegRollMaxRLimitz
@@ -12260,22 +13904,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightLegRollRotateOrder = RightLegRollRotateOrderEnumField(default_value=0)
 
-    RightLegRollRotateAxis = RightLegRollRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    RightLegRollRotateAxis = RightLegRollRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightLegRollRotateAxisx = RightLegRollRotateAxis.RightLegRollRotateAxisx
     RightLegRollRotateAxisy = RightLegRollRotateAxis.RightLegRollRotateAxisy
     RightLegRollRotateAxisz = RightLegRollRotateAxis.RightLegRollRotateAxisz
 
-    RightLegRollJointOrient = RightLegRollJointOrientField(default_value=(0.0, 0.0, 0.0))
+    RightLegRollJointOrient = RightLegRollJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightLegRollJointOrientx = RightLegRollJointOrient.RightLegRollJointOrientx
     RightLegRollJointOrienty = RightLegRollJointOrient.RightLegRollJointOrienty
     RightLegRollJointOrientz = RightLegRollJointOrient.RightLegRollJointOrientz
 
-    RightLegRollMinRLimit = RightLegRollMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightLegRollMinRLimit = RightLegRollMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightLegRollMinRLimitx = RightLegRollMinRLimit.RightLegRollMinRLimitx
     RightLegRollMinRLimity = RightLegRollMinRLimit.RightLegRollMinRLimity
     RightLegRollMinRLimitz = RightLegRollMinRLimit.RightLegRollMinRLimitz
 
-    RightLegRollMaxRLimit = RightLegRollMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightLegRollMaxRLimit = RightLegRollMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightLegRollMaxRLimitx = RightLegRollMaxRLimit.RightLegRollMaxRLimitx
     RightLegRollMaxRLimity = RightLegRollMaxRLimit.RightLegRollMaxRLimity
     RightLegRollMaxRLimitz = RightLegRollMaxRLimit.RightLegRollMaxRLimitz
@@ -12311,22 +13963,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftArmRollRotateOrder = LeftArmRollRotateOrderEnumField(default_value=0)
 
-    LeftArmRollRotateAxis = LeftArmRollRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftArmRollRotateAxis = LeftArmRollRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftArmRollRotateAxisx = LeftArmRollRotateAxis.LeftArmRollRotateAxisx
     LeftArmRollRotateAxisy = LeftArmRollRotateAxis.LeftArmRollRotateAxisy
     LeftArmRollRotateAxisz = LeftArmRollRotateAxis.LeftArmRollRotateAxisz
 
-    LeftArmRollJointOrient = LeftArmRollJointOrientField(default_value=(0.0, 0.0, 0.0))
+    LeftArmRollJointOrient = LeftArmRollJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftArmRollJointOrientx = LeftArmRollJointOrient.LeftArmRollJointOrientx
     LeftArmRollJointOrienty = LeftArmRollJointOrient.LeftArmRollJointOrienty
     LeftArmRollJointOrientz = LeftArmRollJointOrient.LeftArmRollJointOrientz
 
-    LeftArmRollMinRLimit = LeftArmRollMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftArmRollMinRLimit = LeftArmRollMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftArmRollMinRLimitx = LeftArmRollMinRLimit.LeftArmRollMinRLimitx
     LeftArmRollMinRLimity = LeftArmRollMinRLimit.LeftArmRollMinRLimity
     LeftArmRollMinRLimitz = LeftArmRollMinRLimit.LeftArmRollMinRLimitz
 
-    LeftArmRollMaxRLimit = LeftArmRollMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftArmRollMaxRLimit = LeftArmRollMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftArmRollMaxRLimitx = LeftArmRollMaxRLimit.LeftArmRollMaxRLimitx
     LeftArmRollMaxRLimity = LeftArmRollMaxRLimit.LeftArmRollMaxRLimity
     LeftArmRollMaxRLimitz = LeftArmRollMaxRLimit.LeftArmRollMaxRLimitz
@@ -12360,27 +14020,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftForeArmRollSy = LeftForeArmRollS.LeftForeArmRollSy
     LeftForeArmRollSz = LeftForeArmRollS.LeftForeArmRollSz
 
-    LeftForeArmRollRotateOrder = LeftForeArmRollRotateOrderEnumField(default_value=0)
+    LeftForeArmRollRotateOrder = LeftForeArmRollRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftForeArmRollRotateAxis = LeftForeArmRollRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftForeArmRollRotateAxisx = LeftForeArmRollRotateAxis.LeftForeArmRollRotateAxisx
-    LeftForeArmRollRotateAxisy = LeftForeArmRollRotateAxis.LeftForeArmRollRotateAxisy
-    LeftForeArmRollRotateAxisz = LeftForeArmRollRotateAxis.LeftForeArmRollRotateAxisz
+    LeftForeArmRollRotateAxis = LeftForeArmRollRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftForeArmRollRotateAxisx = (
+        LeftForeArmRollRotateAxis.LeftForeArmRollRotateAxisx
+    )
+    LeftForeArmRollRotateAxisy = (
+        LeftForeArmRollRotateAxis.LeftForeArmRollRotateAxisy
+    )
+    LeftForeArmRollRotateAxisz = (
+        LeftForeArmRollRotateAxis.LeftForeArmRollRotateAxisz
+    )
 
-    LeftForeArmRollJointOrient = LeftForeArmRollJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftForeArmRollJointOrientx = LeftForeArmRollJointOrient.LeftForeArmRollJointOrientx
-    LeftForeArmRollJointOrienty = LeftForeArmRollJointOrient.LeftForeArmRollJointOrienty
-    LeftForeArmRollJointOrientz = LeftForeArmRollJointOrient.LeftForeArmRollJointOrientz
+    LeftForeArmRollJointOrient = LeftForeArmRollJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftForeArmRollJointOrientx = (
+        LeftForeArmRollJointOrient.LeftForeArmRollJointOrientx
+    )
+    LeftForeArmRollJointOrienty = (
+        LeftForeArmRollJointOrient.LeftForeArmRollJointOrienty
+    )
+    LeftForeArmRollJointOrientz = (
+        LeftForeArmRollJointOrient.LeftForeArmRollJointOrientz
+    )
 
-    LeftForeArmRollMinRLimit = LeftForeArmRollMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftForeArmRollMinRLimitx = LeftForeArmRollMinRLimit.LeftForeArmRollMinRLimitx
-    LeftForeArmRollMinRLimity = LeftForeArmRollMinRLimit.LeftForeArmRollMinRLimity
-    LeftForeArmRollMinRLimitz = LeftForeArmRollMinRLimit.LeftForeArmRollMinRLimitz
+    LeftForeArmRollMinRLimit = LeftForeArmRollMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftForeArmRollMinRLimitx = (
+        LeftForeArmRollMinRLimit.LeftForeArmRollMinRLimitx
+    )
+    LeftForeArmRollMinRLimity = (
+        LeftForeArmRollMinRLimit.LeftForeArmRollMinRLimity
+    )
+    LeftForeArmRollMinRLimitz = (
+        LeftForeArmRollMinRLimit.LeftForeArmRollMinRLimitz
+    )
 
-    LeftForeArmRollMaxRLimit = LeftForeArmRollMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftForeArmRollMaxRLimitx = LeftForeArmRollMaxRLimit.LeftForeArmRollMaxRLimitx
-    LeftForeArmRollMaxRLimity = LeftForeArmRollMaxRLimit.LeftForeArmRollMaxRLimity
-    LeftForeArmRollMaxRLimitz = LeftForeArmRollMaxRLimit.LeftForeArmRollMaxRLimitz
+    LeftForeArmRollMaxRLimit = LeftForeArmRollMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftForeArmRollMaxRLimitx = (
+        LeftForeArmRollMaxRLimit.LeftForeArmRollMaxRLimitx
+    )
+    LeftForeArmRollMaxRLimity = (
+        LeftForeArmRollMaxRLimit.LeftForeArmRollMaxRLimity
+    )
+    LeftForeArmRollMaxRLimitz = (
+        LeftForeArmRollMaxRLimit.LeftForeArmRollMaxRLimitz
+    )
 
     LeftForeArmRollMinRLimitEnablex = BoolField(default_value=False)
 
@@ -12413,22 +14107,30 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightArmRollRotateOrder = RightArmRollRotateOrderEnumField(default_value=0)
 
-    RightArmRollRotateAxis = RightArmRollRotateAxisField(default_value=(0.0, 0.0, 0.0))
+    RightArmRollRotateAxis = RightArmRollRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightArmRollRotateAxisx = RightArmRollRotateAxis.RightArmRollRotateAxisx
     RightArmRollRotateAxisy = RightArmRollRotateAxis.RightArmRollRotateAxisy
     RightArmRollRotateAxisz = RightArmRollRotateAxis.RightArmRollRotateAxisz
 
-    RightArmRollJointOrient = RightArmRollJointOrientField(default_value=(0.0, 0.0, 0.0))
+    RightArmRollJointOrient = RightArmRollJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightArmRollJointOrientx = RightArmRollJointOrient.RightArmRollJointOrientx
     RightArmRollJointOrienty = RightArmRollJointOrient.RightArmRollJointOrienty
     RightArmRollJointOrientz = RightArmRollJointOrient.RightArmRollJointOrientz
 
-    RightArmRollMinRLimit = RightArmRollMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightArmRollMinRLimit = RightArmRollMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightArmRollMinRLimitx = RightArmRollMinRLimit.RightArmRollMinRLimitx
     RightArmRollMinRLimity = RightArmRollMinRLimit.RightArmRollMinRLimity
     RightArmRollMinRLimitz = RightArmRollMinRLimit.RightArmRollMinRLimitz
 
-    RightArmRollMaxRLimit = RightArmRollMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightArmRollMaxRLimit = RightArmRollMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightArmRollMaxRLimitx = RightArmRollMaxRLimit.RightArmRollMaxRLimitx
     RightArmRollMaxRLimity = RightArmRollMaxRLimit.RightArmRollMaxRLimity
     RightArmRollMaxRLimitz = RightArmRollMaxRLimit.RightArmRollMaxRLimitz
@@ -12462,27 +14164,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightForeArmRollSy = RightForeArmRollS.RightForeArmRollSy
     RightForeArmRollSz = RightForeArmRollS.RightForeArmRollSz
 
-    RightForeArmRollRotateOrder = RightForeArmRollRotateOrderEnumField(default_value=0)
+    RightForeArmRollRotateOrder = RightForeArmRollRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightForeArmRollRotateAxis = RightForeArmRollRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightForeArmRollRotateAxisx = RightForeArmRollRotateAxis.RightForeArmRollRotateAxisx
-    RightForeArmRollRotateAxisy = RightForeArmRollRotateAxis.RightForeArmRollRotateAxisy
-    RightForeArmRollRotateAxisz = RightForeArmRollRotateAxis.RightForeArmRollRotateAxisz
+    RightForeArmRollRotateAxis = RightForeArmRollRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightForeArmRollRotateAxisx = (
+        RightForeArmRollRotateAxis.RightForeArmRollRotateAxisx
+    )
+    RightForeArmRollRotateAxisy = (
+        RightForeArmRollRotateAxis.RightForeArmRollRotateAxisy
+    )
+    RightForeArmRollRotateAxisz = (
+        RightForeArmRollRotateAxis.RightForeArmRollRotateAxisz
+    )
 
-    RightForeArmRollJointOrient = RightForeArmRollJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightForeArmRollJointOrientx = RightForeArmRollJointOrient.RightForeArmRollJointOrientx
-    RightForeArmRollJointOrienty = RightForeArmRollJointOrient.RightForeArmRollJointOrienty
-    RightForeArmRollJointOrientz = RightForeArmRollJointOrient.RightForeArmRollJointOrientz
+    RightForeArmRollJointOrient = RightForeArmRollJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightForeArmRollJointOrientx = (
+        RightForeArmRollJointOrient.RightForeArmRollJointOrientx
+    )
+    RightForeArmRollJointOrienty = (
+        RightForeArmRollJointOrient.RightForeArmRollJointOrienty
+    )
+    RightForeArmRollJointOrientz = (
+        RightForeArmRollJointOrient.RightForeArmRollJointOrientz
+    )
 
-    RightForeArmRollMinRLimit = RightForeArmRollMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightForeArmRollMinRLimitx = RightForeArmRollMinRLimit.RightForeArmRollMinRLimitx
-    RightForeArmRollMinRLimity = RightForeArmRollMinRLimit.RightForeArmRollMinRLimity
-    RightForeArmRollMinRLimitz = RightForeArmRollMinRLimit.RightForeArmRollMinRLimitz
+    RightForeArmRollMinRLimit = RightForeArmRollMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightForeArmRollMinRLimitx = (
+        RightForeArmRollMinRLimit.RightForeArmRollMinRLimitx
+    )
+    RightForeArmRollMinRLimity = (
+        RightForeArmRollMinRLimit.RightForeArmRollMinRLimity
+    )
+    RightForeArmRollMinRLimitz = (
+        RightForeArmRollMinRLimit.RightForeArmRollMinRLimitz
+    )
 
-    RightForeArmRollMaxRLimit = RightForeArmRollMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightForeArmRollMaxRLimitx = RightForeArmRollMaxRLimit.RightForeArmRollMaxRLimitx
-    RightForeArmRollMaxRLimity = RightForeArmRollMaxRLimit.RightForeArmRollMaxRLimity
-    RightForeArmRollMaxRLimitz = RightForeArmRollMaxRLimit.RightForeArmRollMaxRLimitz
+    RightForeArmRollMaxRLimit = RightForeArmRollMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightForeArmRollMaxRLimitx = (
+        RightForeArmRollMaxRLimit.RightForeArmRollMaxRLimitx
+    )
+    RightForeArmRollMaxRLimity = (
+        RightForeArmRollMaxRLimit.RightForeArmRollMaxRLimity
+    )
+    RightForeArmRollMaxRLimitz = (
+        RightForeArmRollMaxRLimit.RightForeArmRollMaxRLimitz
+    )
 
     RightForeArmRollMinRLimitEnablex = BoolField(default_value=False)
 
@@ -12513,27 +14249,61 @@ class _GeneratedHIKCharacterNode(DG):
     HipsTranslationSy = HipsTranslationS.HipsTranslationSy
     HipsTranslationSz = HipsTranslationS.HipsTranslationSz
 
-    HipsTranslationRotateOrder = HipsTranslationRotateOrderEnumField(default_value=0)
+    HipsTranslationRotateOrder = HipsTranslationRotateOrderEnumField(
+        default_value=0
+    )
 
-    HipsTranslationRotateAxis = HipsTranslationRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    HipsTranslationRotateAxisx = HipsTranslationRotateAxis.HipsTranslationRotateAxisx
-    HipsTranslationRotateAxisy = HipsTranslationRotateAxis.HipsTranslationRotateAxisy
-    HipsTranslationRotateAxisz = HipsTranslationRotateAxis.HipsTranslationRotateAxisz
+    HipsTranslationRotateAxis = HipsTranslationRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    HipsTranslationRotateAxisx = (
+        HipsTranslationRotateAxis.HipsTranslationRotateAxisx
+    )
+    HipsTranslationRotateAxisy = (
+        HipsTranslationRotateAxis.HipsTranslationRotateAxisy
+    )
+    HipsTranslationRotateAxisz = (
+        HipsTranslationRotateAxis.HipsTranslationRotateAxisz
+    )
 
-    HipsTranslationJointOrient = HipsTranslationJointOrientField(default_value=(0.0, 0.0, 0.0))
-    HipsTranslationJointOrientx = HipsTranslationJointOrient.HipsTranslationJointOrientx
-    HipsTranslationJointOrienty = HipsTranslationJointOrient.HipsTranslationJointOrienty
-    HipsTranslationJointOrientz = HipsTranslationJointOrient.HipsTranslationJointOrientz
+    HipsTranslationJointOrient = HipsTranslationJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    HipsTranslationJointOrientx = (
+        HipsTranslationJointOrient.HipsTranslationJointOrientx
+    )
+    HipsTranslationJointOrienty = (
+        HipsTranslationJointOrient.HipsTranslationJointOrienty
+    )
+    HipsTranslationJointOrientz = (
+        HipsTranslationJointOrient.HipsTranslationJointOrientz
+    )
 
-    HipsTranslationMinRLimit = HipsTranslationMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    HipsTranslationMinRLimitx = HipsTranslationMinRLimit.HipsTranslationMinRLimitx
-    HipsTranslationMinRLimity = HipsTranslationMinRLimit.HipsTranslationMinRLimity
-    HipsTranslationMinRLimitz = HipsTranslationMinRLimit.HipsTranslationMinRLimitz
+    HipsTranslationMinRLimit = HipsTranslationMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    HipsTranslationMinRLimitx = (
+        HipsTranslationMinRLimit.HipsTranslationMinRLimitx
+    )
+    HipsTranslationMinRLimity = (
+        HipsTranslationMinRLimit.HipsTranslationMinRLimity
+    )
+    HipsTranslationMinRLimitz = (
+        HipsTranslationMinRLimit.HipsTranslationMinRLimitz
+    )
 
-    HipsTranslationMaxRLimit = HipsTranslationMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    HipsTranslationMaxRLimitx = HipsTranslationMaxRLimit.HipsTranslationMaxRLimitx
-    HipsTranslationMaxRLimity = HipsTranslationMaxRLimit.HipsTranslationMaxRLimity
-    HipsTranslationMaxRLimitz = HipsTranslationMaxRLimit.HipsTranslationMaxRLimitz
+    HipsTranslationMaxRLimit = HipsTranslationMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    HipsTranslationMaxRLimitx = (
+        HipsTranslationMaxRLimit.HipsTranslationMaxRLimitx
+    )
+    HipsTranslationMaxRLimity = (
+        HipsTranslationMaxRLimit.HipsTranslationMaxRLimity
+    )
+    HipsTranslationMaxRLimitz = (
+        HipsTranslationMaxRLimit.HipsTranslationMaxRLimitz
+    )
 
     HipsTranslationMinRLimitEnablex = BoolField(default_value=False)
 
@@ -12564,24 +14334,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandThumb1Sy = LeftHandThumb1S.LeftHandThumb1Sy
     LeftHandThumb1Sz = LeftHandThumb1S.LeftHandThumb1Sz
 
-    LeftHandThumb1RotateOrder = LeftHandThumb1RotateOrderEnumField(default_value=0)
+    LeftHandThumb1RotateOrder = LeftHandThumb1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandThumb1RotateAxis = LeftHandThumb1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandThumb1RotateAxisx = LeftHandThumb1RotateAxis.LeftHandThumb1RotateAxisx
-    LeftHandThumb1RotateAxisy = LeftHandThumb1RotateAxis.LeftHandThumb1RotateAxisy
-    LeftHandThumb1RotateAxisz = LeftHandThumb1RotateAxis.LeftHandThumb1RotateAxisz
+    LeftHandThumb1RotateAxis = LeftHandThumb1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandThumb1RotateAxisx = (
+        LeftHandThumb1RotateAxis.LeftHandThumb1RotateAxisx
+    )
+    LeftHandThumb1RotateAxisy = (
+        LeftHandThumb1RotateAxis.LeftHandThumb1RotateAxisy
+    )
+    LeftHandThumb1RotateAxisz = (
+        LeftHandThumb1RotateAxis.LeftHandThumb1RotateAxisz
+    )
 
-    LeftHandThumb1JointOrient = LeftHandThumb1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandThumb1JointOrientx = LeftHandThumb1JointOrient.LeftHandThumb1JointOrientx
-    LeftHandThumb1JointOrienty = LeftHandThumb1JointOrient.LeftHandThumb1JointOrienty
-    LeftHandThumb1JointOrientz = LeftHandThumb1JointOrient.LeftHandThumb1JointOrientz
+    LeftHandThumb1JointOrient = LeftHandThumb1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandThumb1JointOrientx = (
+        LeftHandThumb1JointOrient.LeftHandThumb1JointOrientx
+    )
+    LeftHandThumb1JointOrienty = (
+        LeftHandThumb1JointOrient.LeftHandThumb1JointOrienty
+    )
+    LeftHandThumb1JointOrientz = (
+        LeftHandThumb1JointOrient.LeftHandThumb1JointOrientz
+    )
 
-    LeftHandThumb1MinRLimit = LeftHandThumb1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb1MinRLimit = LeftHandThumb1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb1MinRLimitx = LeftHandThumb1MinRLimit.LeftHandThumb1MinRLimitx
     LeftHandThumb1MinRLimity = LeftHandThumb1MinRLimit.LeftHandThumb1MinRLimity
     LeftHandThumb1MinRLimitz = LeftHandThumb1MinRLimit.LeftHandThumb1MinRLimitz
 
-    LeftHandThumb1MaxRLimit = LeftHandThumb1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb1MaxRLimit = LeftHandThumb1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb1MaxRLimitx = LeftHandThumb1MaxRLimit.LeftHandThumb1MaxRLimitx
     LeftHandThumb1MaxRLimity = LeftHandThumb1MaxRLimit.LeftHandThumb1MaxRLimity
     LeftHandThumb1MaxRLimitz = LeftHandThumb1MaxRLimit.LeftHandThumb1MaxRLimitz
@@ -12615,24 +14407,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandThumb2Sy = LeftHandThumb2S.LeftHandThumb2Sy
     LeftHandThumb2Sz = LeftHandThumb2S.LeftHandThumb2Sz
 
-    LeftHandThumb2RotateOrder = LeftHandThumb2RotateOrderEnumField(default_value=0)
+    LeftHandThumb2RotateOrder = LeftHandThumb2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandThumb2RotateAxis = LeftHandThumb2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandThumb2RotateAxisx = LeftHandThumb2RotateAxis.LeftHandThumb2RotateAxisx
-    LeftHandThumb2RotateAxisy = LeftHandThumb2RotateAxis.LeftHandThumb2RotateAxisy
-    LeftHandThumb2RotateAxisz = LeftHandThumb2RotateAxis.LeftHandThumb2RotateAxisz
+    LeftHandThumb2RotateAxis = LeftHandThumb2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandThumb2RotateAxisx = (
+        LeftHandThumb2RotateAxis.LeftHandThumb2RotateAxisx
+    )
+    LeftHandThumb2RotateAxisy = (
+        LeftHandThumb2RotateAxis.LeftHandThumb2RotateAxisy
+    )
+    LeftHandThumb2RotateAxisz = (
+        LeftHandThumb2RotateAxis.LeftHandThumb2RotateAxisz
+    )
 
-    LeftHandThumb2JointOrient = LeftHandThumb2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandThumb2JointOrientx = LeftHandThumb2JointOrient.LeftHandThumb2JointOrientx
-    LeftHandThumb2JointOrienty = LeftHandThumb2JointOrient.LeftHandThumb2JointOrienty
-    LeftHandThumb2JointOrientz = LeftHandThumb2JointOrient.LeftHandThumb2JointOrientz
+    LeftHandThumb2JointOrient = LeftHandThumb2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandThumb2JointOrientx = (
+        LeftHandThumb2JointOrient.LeftHandThumb2JointOrientx
+    )
+    LeftHandThumb2JointOrienty = (
+        LeftHandThumb2JointOrient.LeftHandThumb2JointOrienty
+    )
+    LeftHandThumb2JointOrientz = (
+        LeftHandThumb2JointOrient.LeftHandThumb2JointOrientz
+    )
 
-    LeftHandThumb2MinRLimit = LeftHandThumb2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb2MinRLimit = LeftHandThumb2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb2MinRLimitx = LeftHandThumb2MinRLimit.LeftHandThumb2MinRLimitx
     LeftHandThumb2MinRLimity = LeftHandThumb2MinRLimit.LeftHandThumb2MinRLimity
     LeftHandThumb2MinRLimitz = LeftHandThumb2MinRLimit.LeftHandThumb2MinRLimitz
 
-    LeftHandThumb2MaxRLimit = LeftHandThumb2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb2MaxRLimit = LeftHandThumb2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb2MaxRLimitx = LeftHandThumb2MaxRLimit.LeftHandThumb2MaxRLimitx
     LeftHandThumb2MaxRLimity = LeftHandThumb2MaxRLimit.LeftHandThumb2MaxRLimity
     LeftHandThumb2MaxRLimitz = LeftHandThumb2MaxRLimit.LeftHandThumb2MaxRLimitz
@@ -12666,24 +14480,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandThumb3Sy = LeftHandThumb3S.LeftHandThumb3Sy
     LeftHandThumb3Sz = LeftHandThumb3S.LeftHandThumb3Sz
 
-    LeftHandThumb3RotateOrder = LeftHandThumb3RotateOrderEnumField(default_value=0)
+    LeftHandThumb3RotateOrder = LeftHandThumb3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandThumb3RotateAxis = LeftHandThumb3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandThumb3RotateAxisx = LeftHandThumb3RotateAxis.LeftHandThumb3RotateAxisx
-    LeftHandThumb3RotateAxisy = LeftHandThumb3RotateAxis.LeftHandThumb3RotateAxisy
-    LeftHandThumb3RotateAxisz = LeftHandThumb3RotateAxis.LeftHandThumb3RotateAxisz
+    LeftHandThumb3RotateAxis = LeftHandThumb3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandThumb3RotateAxisx = (
+        LeftHandThumb3RotateAxis.LeftHandThumb3RotateAxisx
+    )
+    LeftHandThumb3RotateAxisy = (
+        LeftHandThumb3RotateAxis.LeftHandThumb3RotateAxisy
+    )
+    LeftHandThumb3RotateAxisz = (
+        LeftHandThumb3RotateAxis.LeftHandThumb3RotateAxisz
+    )
 
-    LeftHandThumb3JointOrient = LeftHandThumb3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandThumb3JointOrientx = LeftHandThumb3JointOrient.LeftHandThumb3JointOrientx
-    LeftHandThumb3JointOrienty = LeftHandThumb3JointOrient.LeftHandThumb3JointOrienty
-    LeftHandThumb3JointOrientz = LeftHandThumb3JointOrient.LeftHandThumb3JointOrientz
+    LeftHandThumb3JointOrient = LeftHandThumb3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandThumb3JointOrientx = (
+        LeftHandThumb3JointOrient.LeftHandThumb3JointOrientx
+    )
+    LeftHandThumb3JointOrienty = (
+        LeftHandThumb3JointOrient.LeftHandThumb3JointOrienty
+    )
+    LeftHandThumb3JointOrientz = (
+        LeftHandThumb3JointOrient.LeftHandThumb3JointOrientz
+    )
 
-    LeftHandThumb3MinRLimit = LeftHandThumb3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb3MinRLimit = LeftHandThumb3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb3MinRLimitx = LeftHandThumb3MinRLimit.LeftHandThumb3MinRLimitx
     LeftHandThumb3MinRLimity = LeftHandThumb3MinRLimit.LeftHandThumb3MinRLimity
     LeftHandThumb3MinRLimitz = LeftHandThumb3MinRLimit.LeftHandThumb3MinRLimitz
 
-    LeftHandThumb3MaxRLimit = LeftHandThumb3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb3MaxRLimit = LeftHandThumb3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb3MaxRLimitx = LeftHandThumb3MaxRLimit.LeftHandThumb3MaxRLimitx
     LeftHandThumb3MaxRLimity = LeftHandThumb3MaxRLimit.LeftHandThumb3MaxRLimity
     LeftHandThumb3MaxRLimitz = LeftHandThumb3MaxRLimit.LeftHandThumb3MaxRLimitz
@@ -12717,24 +14553,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandThumb4Sy = LeftHandThumb4S.LeftHandThumb4Sy
     LeftHandThumb4Sz = LeftHandThumb4S.LeftHandThumb4Sz
 
-    LeftHandThumb4RotateOrder = LeftHandThumb4RotateOrderEnumField(default_value=0)
+    LeftHandThumb4RotateOrder = LeftHandThumb4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandThumb4RotateAxis = LeftHandThumb4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandThumb4RotateAxisx = LeftHandThumb4RotateAxis.LeftHandThumb4RotateAxisx
-    LeftHandThumb4RotateAxisy = LeftHandThumb4RotateAxis.LeftHandThumb4RotateAxisy
-    LeftHandThumb4RotateAxisz = LeftHandThumb4RotateAxis.LeftHandThumb4RotateAxisz
+    LeftHandThumb4RotateAxis = LeftHandThumb4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandThumb4RotateAxisx = (
+        LeftHandThumb4RotateAxis.LeftHandThumb4RotateAxisx
+    )
+    LeftHandThumb4RotateAxisy = (
+        LeftHandThumb4RotateAxis.LeftHandThumb4RotateAxisy
+    )
+    LeftHandThumb4RotateAxisz = (
+        LeftHandThumb4RotateAxis.LeftHandThumb4RotateAxisz
+    )
 
-    LeftHandThumb4JointOrient = LeftHandThumb4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandThumb4JointOrientx = LeftHandThumb4JointOrient.LeftHandThumb4JointOrientx
-    LeftHandThumb4JointOrienty = LeftHandThumb4JointOrient.LeftHandThumb4JointOrienty
-    LeftHandThumb4JointOrientz = LeftHandThumb4JointOrient.LeftHandThumb4JointOrientz
+    LeftHandThumb4JointOrient = LeftHandThumb4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandThumb4JointOrientx = (
+        LeftHandThumb4JointOrient.LeftHandThumb4JointOrientx
+    )
+    LeftHandThumb4JointOrienty = (
+        LeftHandThumb4JointOrient.LeftHandThumb4JointOrienty
+    )
+    LeftHandThumb4JointOrientz = (
+        LeftHandThumb4JointOrient.LeftHandThumb4JointOrientz
+    )
 
-    LeftHandThumb4MinRLimit = LeftHandThumb4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb4MinRLimit = LeftHandThumb4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb4MinRLimitx = LeftHandThumb4MinRLimit.LeftHandThumb4MinRLimitx
     LeftHandThumb4MinRLimity = LeftHandThumb4MinRLimit.LeftHandThumb4MinRLimity
     LeftHandThumb4MinRLimitz = LeftHandThumb4MinRLimit.LeftHandThumb4MinRLimitz
 
-    LeftHandThumb4MaxRLimit = LeftHandThumb4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb4MaxRLimit = LeftHandThumb4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb4MaxRLimitx = LeftHandThumb4MaxRLimit.LeftHandThumb4MaxRLimitx
     LeftHandThumb4MaxRLimity = LeftHandThumb4MaxRLimit.LeftHandThumb4MaxRLimity
     LeftHandThumb4MaxRLimitz = LeftHandThumb4MaxRLimit.LeftHandThumb4MaxRLimitz
@@ -12768,24 +14626,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandIndex1Sy = LeftHandIndex1S.LeftHandIndex1Sy
     LeftHandIndex1Sz = LeftHandIndex1S.LeftHandIndex1Sz
 
-    LeftHandIndex1RotateOrder = LeftHandIndex1RotateOrderEnumField(default_value=0)
+    LeftHandIndex1RotateOrder = LeftHandIndex1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandIndex1RotateAxis = LeftHandIndex1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandIndex1RotateAxisx = LeftHandIndex1RotateAxis.LeftHandIndex1RotateAxisx
-    LeftHandIndex1RotateAxisy = LeftHandIndex1RotateAxis.LeftHandIndex1RotateAxisy
-    LeftHandIndex1RotateAxisz = LeftHandIndex1RotateAxis.LeftHandIndex1RotateAxisz
+    LeftHandIndex1RotateAxis = LeftHandIndex1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandIndex1RotateAxisx = (
+        LeftHandIndex1RotateAxis.LeftHandIndex1RotateAxisx
+    )
+    LeftHandIndex1RotateAxisy = (
+        LeftHandIndex1RotateAxis.LeftHandIndex1RotateAxisy
+    )
+    LeftHandIndex1RotateAxisz = (
+        LeftHandIndex1RotateAxis.LeftHandIndex1RotateAxisz
+    )
 
-    LeftHandIndex1JointOrient = LeftHandIndex1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandIndex1JointOrientx = LeftHandIndex1JointOrient.LeftHandIndex1JointOrientx
-    LeftHandIndex1JointOrienty = LeftHandIndex1JointOrient.LeftHandIndex1JointOrienty
-    LeftHandIndex1JointOrientz = LeftHandIndex1JointOrient.LeftHandIndex1JointOrientz
+    LeftHandIndex1JointOrient = LeftHandIndex1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandIndex1JointOrientx = (
+        LeftHandIndex1JointOrient.LeftHandIndex1JointOrientx
+    )
+    LeftHandIndex1JointOrienty = (
+        LeftHandIndex1JointOrient.LeftHandIndex1JointOrienty
+    )
+    LeftHandIndex1JointOrientz = (
+        LeftHandIndex1JointOrient.LeftHandIndex1JointOrientz
+    )
 
-    LeftHandIndex1MinRLimit = LeftHandIndex1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex1MinRLimit = LeftHandIndex1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex1MinRLimitx = LeftHandIndex1MinRLimit.LeftHandIndex1MinRLimitx
     LeftHandIndex1MinRLimity = LeftHandIndex1MinRLimit.LeftHandIndex1MinRLimity
     LeftHandIndex1MinRLimitz = LeftHandIndex1MinRLimit.LeftHandIndex1MinRLimitz
 
-    LeftHandIndex1MaxRLimit = LeftHandIndex1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex1MaxRLimit = LeftHandIndex1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex1MaxRLimitx = LeftHandIndex1MaxRLimit.LeftHandIndex1MaxRLimitx
     LeftHandIndex1MaxRLimity = LeftHandIndex1MaxRLimit.LeftHandIndex1MaxRLimity
     LeftHandIndex1MaxRLimitz = LeftHandIndex1MaxRLimit.LeftHandIndex1MaxRLimitz
@@ -12819,24 +14699,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandIndex2Sy = LeftHandIndex2S.LeftHandIndex2Sy
     LeftHandIndex2Sz = LeftHandIndex2S.LeftHandIndex2Sz
 
-    LeftHandIndex2RotateOrder = LeftHandIndex2RotateOrderEnumField(default_value=0)
+    LeftHandIndex2RotateOrder = LeftHandIndex2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandIndex2RotateAxis = LeftHandIndex2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandIndex2RotateAxisx = LeftHandIndex2RotateAxis.LeftHandIndex2RotateAxisx
-    LeftHandIndex2RotateAxisy = LeftHandIndex2RotateAxis.LeftHandIndex2RotateAxisy
-    LeftHandIndex2RotateAxisz = LeftHandIndex2RotateAxis.LeftHandIndex2RotateAxisz
+    LeftHandIndex2RotateAxis = LeftHandIndex2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandIndex2RotateAxisx = (
+        LeftHandIndex2RotateAxis.LeftHandIndex2RotateAxisx
+    )
+    LeftHandIndex2RotateAxisy = (
+        LeftHandIndex2RotateAxis.LeftHandIndex2RotateAxisy
+    )
+    LeftHandIndex2RotateAxisz = (
+        LeftHandIndex2RotateAxis.LeftHandIndex2RotateAxisz
+    )
 
-    LeftHandIndex2JointOrient = LeftHandIndex2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandIndex2JointOrientx = LeftHandIndex2JointOrient.LeftHandIndex2JointOrientx
-    LeftHandIndex2JointOrienty = LeftHandIndex2JointOrient.LeftHandIndex2JointOrienty
-    LeftHandIndex2JointOrientz = LeftHandIndex2JointOrient.LeftHandIndex2JointOrientz
+    LeftHandIndex2JointOrient = LeftHandIndex2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandIndex2JointOrientx = (
+        LeftHandIndex2JointOrient.LeftHandIndex2JointOrientx
+    )
+    LeftHandIndex2JointOrienty = (
+        LeftHandIndex2JointOrient.LeftHandIndex2JointOrienty
+    )
+    LeftHandIndex2JointOrientz = (
+        LeftHandIndex2JointOrient.LeftHandIndex2JointOrientz
+    )
 
-    LeftHandIndex2MinRLimit = LeftHandIndex2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex2MinRLimit = LeftHandIndex2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex2MinRLimitx = LeftHandIndex2MinRLimit.LeftHandIndex2MinRLimitx
     LeftHandIndex2MinRLimity = LeftHandIndex2MinRLimit.LeftHandIndex2MinRLimity
     LeftHandIndex2MinRLimitz = LeftHandIndex2MinRLimit.LeftHandIndex2MinRLimitz
 
-    LeftHandIndex2MaxRLimit = LeftHandIndex2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex2MaxRLimit = LeftHandIndex2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex2MaxRLimitx = LeftHandIndex2MaxRLimit.LeftHandIndex2MaxRLimitx
     LeftHandIndex2MaxRLimity = LeftHandIndex2MaxRLimit.LeftHandIndex2MaxRLimity
     LeftHandIndex2MaxRLimitz = LeftHandIndex2MaxRLimit.LeftHandIndex2MaxRLimitz
@@ -12870,24 +14772,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandIndex3Sy = LeftHandIndex3S.LeftHandIndex3Sy
     LeftHandIndex3Sz = LeftHandIndex3S.LeftHandIndex3Sz
 
-    LeftHandIndex3RotateOrder = LeftHandIndex3RotateOrderEnumField(default_value=0)
+    LeftHandIndex3RotateOrder = LeftHandIndex3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandIndex3RotateAxis = LeftHandIndex3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandIndex3RotateAxisx = LeftHandIndex3RotateAxis.LeftHandIndex3RotateAxisx
-    LeftHandIndex3RotateAxisy = LeftHandIndex3RotateAxis.LeftHandIndex3RotateAxisy
-    LeftHandIndex3RotateAxisz = LeftHandIndex3RotateAxis.LeftHandIndex3RotateAxisz
+    LeftHandIndex3RotateAxis = LeftHandIndex3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandIndex3RotateAxisx = (
+        LeftHandIndex3RotateAxis.LeftHandIndex3RotateAxisx
+    )
+    LeftHandIndex3RotateAxisy = (
+        LeftHandIndex3RotateAxis.LeftHandIndex3RotateAxisy
+    )
+    LeftHandIndex3RotateAxisz = (
+        LeftHandIndex3RotateAxis.LeftHandIndex3RotateAxisz
+    )
 
-    LeftHandIndex3JointOrient = LeftHandIndex3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandIndex3JointOrientx = LeftHandIndex3JointOrient.LeftHandIndex3JointOrientx
-    LeftHandIndex3JointOrienty = LeftHandIndex3JointOrient.LeftHandIndex3JointOrienty
-    LeftHandIndex3JointOrientz = LeftHandIndex3JointOrient.LeftHandIndex3JointOrientz
+    LeftHandIndex3JointOrient = LeftHandIndex3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandIndex3JointOrientx = (
+        LeftHandIndex3JointOrient.LeftHandIndex3JointOrientx
+    )
+    LeftHandIndex3JointOrienty = (
+        LeftHandIndex3JointOrient.LeftHandIndex3JointOrienty
+    )
+    LeftHandIndex3JointOrientz = (
+        LeftHandIndex3JointOrient.LeftHandIndex3JointOrientz
+    )
 
-    LeftHandIndex3MinRLimit = LeftHandIndex3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex3MinRLimit = LeftHandIndex3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex3MinRLimitx = LeftHandIndex3MinRLimit.LeftHandIndex3MinRLimitx
     LeftHandIndex3MinRLimity = LeftHandIndex3MinRLimit.LeftHandIndex3MinRLimity
     LeftHandIndex3MinRLimitz = LeftHandIndex3MinRLimit.LeftHandIndex3MinRLimitz
 
-    LeftHandIndex3MaxRLimit = LeftHandIndex3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex3MaxRLimit = LeftHandIndex3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex3MaxRLimitx = LeftHandIndex3MaxRLimit.LeftHandIndex3MaxRLimitx
     LeftHandIndex3MaxRLimity = LeftHandIndex3MaxRLimit.LeftHandIndex3MaxRLimity
     LeftHandIndex3MaxRLimitz = LeftHandIndex3MaxRLimit.LeftHandIndex3MaxRLimitz
@@ -12921,24 +14845,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandIndex4Sy = LeftHandIndex4S.LeftHandIndex4Sy
     LeftHandIndex4Sz = LeftHandIndex4S.LeftHandIndex4Sz
 
-    LeftHandIndex4RotateOrder = LeftHandIndex4RotateOrderEnumField(default_value=0)
+    LeftHandIndex4RotateOrder = LeftHandIndex4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandIndex4RotateAxis = LeftHandIndex4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandIndex4RotateAxisx = LeftHandIndex4RotateAxis.LeftHandIndex4RotateAxisx
-    LeftHandIndex4RotateAxisy = LeftHandIndex4RotateAxis.LeftHandIndex4RotateAxisy
-    LeftHandIndex4RotateAxisz = LeftHandIndex4RotateAxis.LeftHandIndex4RotateAxisz
+    LeftHandIndex4RotateAxis = LeftHandIndex4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandIndex4RotateAxisx = (
+        LeftHandIndex4RotateAxis.LeftHandIndex4RotateAxisx
+    )
+    LeftHandIndex4RotateAxisy = (
+        LeftHandIndex4RotateAxis.LeftHandIndex4RotateAxisy
+    )
+    LeftHandIndex4RotateAxisz = (
+        LeftHandIndex4RotateAxis.LeftHandIndex4RotateAxisz
+    )
 
-    LeftHandIndex4JointOrient = LeftHandIndex4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandIndex4JointOrientx = LeftHandIndex4JointOrient.LeftHandIndex4JointOrientx
-    LeftHandIndex4JointOrienty = LeftHandIndex4JointOrient.LeftHandIndex4JointOrienty
-    LeftHandIndex4JointOrientz = LeftHandIndex4JointOrient.LeftHandIndex4JointOrientz
+    LeftHandIndex4JointOrient = LeftHandIndex4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandIndex4JointOrientx = (
+        LeftHandIndex4JointOrient.LeftHandIndex4JointOrientx
+    )
+    LeftHandIndex4JointOrienty = (
+        LeftHandIndex4JointOrient.LeftHandIndex4JointOrienty
+    )
+    LeftHandIndex4JointOrientz = (
+        LeftHandIndex4JointOrient.LeftHandIndex4JointOrientz
+    )
 
-    LeftHandIndex4MinRLimit = LeftHandIndex4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex4MinRLimit = LeftHandIndex4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex4MinRLimitx = LeftHandIndex4MinRLimit.LeftHandIndex4MinRLimitx
     LeftHandIndex4MinRLimity = LeftHandIndex4MinRLimit.LeftHandIndex4MinRLimity
     LeftHandIndex4MinRLimitz = LeftHandIndex4MinRLimit.LeftHandIndex4MinRLimitz
 
-    LeftHandIndex4MaxRLimit = LeftHandIndex4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex4MaxRLimit = LeftHandIndex4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex4MaxRLimitx = LeftHandIndex4MaxRLimit.LeftHandIndex4MaxRLimitx
     LeftHandIndex4MaxRLimity = LeftHandIndex4MaxRLimit.LeftHandIndex4MaxRLimity
     LeftHandIndex4MaxRLimitz = LeftHandIndex4MaxRLimit.LeftHandIndex4MaxRLimitz
@@ -12972,27 +14918,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandMiddle1Sy = LeftHandMiddle1S.LeftHandMiddle1Sy
     LeftHandMiddle1Sz = LeftHandMiddle1S.LeftHandMiddle1Sz
 
-    LeftHandMiddle1RotateOrder = LeftHandMiddle1RotateOrderEnumField(default_value=0)
+    LeftHandMiddle1RotateOrder = LeftHandMiddle1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandMiddle1RotateAxis = LeftHandMiddle1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle1RotateAxisx = LeftHandMiddle1RotateAxis.LeftHandMiddle1RotateAxisx
-    LeftHandMiddle1RotateAxisy = LeftHandMiddle1RotateAxis.LeftHandMiddle1RotateAxisy
-    LeftHandMiddle1RotateAxisz = LeftHandMiddle1RotateAxis.LeftHandMiddle1RotateAxisz
+    LeftHandMiddle1RotateAxis = LeftHandMiddle1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle1RotateAxisx = (
+        LeftHandMiddle1RotateAxis.LeftHandMiddle1RotateAxisx
+    )
+    LeftHandMiddle1RotateAxisy = (
+        LeftHandMiddle1RotateAxis.LeftHandMiddle1RotateAxisy
+    )
+    LeftHandMiddle1RotateAxisz = (
+        LeftHandMiddle1RotateAxis.LeftHandMiddle1RotateAxisz
+    )
 
-    LeftHandMiddle1JointOrient = LeftHandMiddle1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle1JointOrientx = LeftHandMiddle1JointOrient.LeftHandMiddle1JointOrientx
-    LeftHandMiddle1JointOrienty = LeftHandMiddle1JointOrient.LeftHandMiddle1JointOrienty
-    LeftHandMiddle1JointOrientz = LeftHandMiddle1JointOrient.LeftHandMiddle1JointOrientz
+    LeftHandMiddle1JointOrient = LeftHandMiddle1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle1JointOrientx = (
+        LeftHandMiddle1JointOrient.LeftHandMiddle1JointOrientx
+    )
+    LeftHandMiddle1JointOrienty = (
+        LeftHandMiddle1JointOrient.LeftHandMiddle1JointOrienty
+    )
+    LeftHandMiddle1JointOrientz = (
+        LeftHandMiddle1JointOrient.LeftHandMiddle1JointOrientz
+    )
 
-    LeftHandMiddle1MinRLimit = LeftHandMiddle1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle1MinRLimitx = LeftHandMiddle1MinRLimit.LeftHandMiddle1MinRLimitx
-    LeftHandMiddle1MinRLimity = LeftHandMiddle1MinRLimit.LeftHandMiddle1MinRLimity
-    LeftHandMiddle1MinRLimitz = LeftHandMiddle1MinRLimit.LeftHandMiddle1MinRLimitz
+    LeftHandMiddle1MinRLimit = LeftHandMiddle1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle1MinRLimitx = (
+        LeftHandMiddle1MinRLimit.LeftHandMiddle1MinRLimitx
+    )
+    LeftHandMiddle1MinRLimity = (
+        LeftHandMiddle1MinRLimit.LeftHandMiddle1MinRLimity
+    )
+    LeftHandMiddle1MinRLimitz = (
+        LeftHandMiddle1MinRLimit.LeftHandMiddle1MinRLimitz
+    )
 
-    LeftHandMiddle1MaxRLimit = LeftHandMiddle1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle1MaxRLimitx = LeftHandMiddle1MaxRLimit.LeftHandMiddle1MaxRLimitx
-    LeftHandMiddle1MaxRLimity = LeftHandMiddle1MaxRLimit.LeftHandMiddle1MaxRLimity
-    LeftHandMiddle1MaxRLimitz = LeftHandMiddle1MaxRLimit.LeftHandMiddle1MaxRLimitz
+    LeftHandMiddle1MaxRLimit = LeftHandMiddle1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle1MaxRLimitx = (
+        LeftHandMiddle1MaxRLimit.LeftHandMiddle1MaxRLimitx
+    )
+    LeftHandMiddle1MaxRLimity = (
+        LeftHandMiddle1MaxRLimit.LeftHandMiddle1MaxRLimity
+    )
+    LeftHandMiddle1MaxRLimitz = (
+        LeftHandMiddle1MaxRLimit.LeftHandMiddle1MaxRLimitz
+    )
 
     LeftHandMiddle1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13023,27 +15003,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandMiddle2Sy = LeftHandMiddle2S.LeftHandMiddle2Sy
     LeftHandMiddle2Sz = LeftHandMiddle2S.LeftHandMiddle2Sz
 
-    LeftHandMiddle2RotateOrder = LeftHandMiddle2RotateOrderEnumField(default_value=0)
+    LeftHandMiddle2RotateOrder = LeftHandMiddle2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandMiddle2RotateAxis = LeftHandMiddle2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle2RotateAxisx = LeftHandMiddle2RotateAxis.LeftHandMiddle2RotateAxisx
-    LeftHandMiddle2RotateAxisy = LeftHandMiddle2RotateAxis.LeftHandMiddle2RotateAxisy
-    LeftHandMiddle2RotateAxisz = LeftHandMiddle2RotateAxis.LeftHandMiddle2RotateAxisz
+    LeftHandMiddle2RotateAxis = LeftHandMiddle2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle2RotateAxisx = (
+        LeftHandMiddle2RotateAxis.LeftHandMiddle2RotateAxisx
+    )
+    LeftHandMiddle2RotateAxisy = (
+        LeftHandMiddle2RotateAxis.LeftHandMiddle2RotateAxisy
+    )
+    LeftHandMiddle2RotateAxisz = (
+        LeftHandMiddle2RotateAxis.LeftHandMiddle2RotateAxisz
+    )
 
-    LeftHandMiddle2JointOrient = LeftHandMiddle2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle2JointOrientx = LeftHandMiddle2JointOrient.LeftHandMiddle2JointOrientx
-    LeftHandMiddle2JointOrienty = LeftHandMiddle2JointOrient.LeftHandMiddle2JointOrienty
-    LeftHandMiddle2JointOrientz = LeftHandMiddle2JointOrient.LeftHandMiddle2JointOrientz
+    LeftHandMiddle2JointOrient = LeftHandMiddle2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle2JointOrientx = (
+        LeftHandMiddle2JointOrient.LeftHandMiddle2JointOrientx
+    )
+    LeftHandMiddle2JointOrienty = (
+        LeftHandMiddle2JointOrient.LeftHandMiddle2JointOrienty
+    )
+    LeftHandMiddle2JointOrientz = (
+        LeftHandMiddle2JointOrient.LeftHandMiddle2JointOrientz
+    )
 
-    LeftHandMiddle2MinRLimit = LeftHandMiddle2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle2MinRLimitx = LeftHandMiddle2MinRLimit.LeftHandMiddle2MinRLimitx
-    LeftHandMiddle2MinRLimity = LeftHandMiddle2MinRLimit.LeftHandMiddle2MinRLimity
-    LeftHandMiddle2MinRLimitz = LeftHandMiddle2MinRLimit.LeftHandMiddle2MinRLimitz
+    LeftHandMiddle2MinRLimit = LeftHandMiddle2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle2MinRLimitx = (
+        LeftHandMiddle2MinRLimit.LeftHandMiddle2MinRLimitx
+    )
+    LeftHandMiddle2MinRLimity = (
+        LeftHandMiddle2MinRLimit.LeftHandMiddle2MinRLimity
+    )
+    LeftHandMiddle2MinRLimitz = (
+        LeftHandMiddle2MinRLimit.LeftHandMiddle2MinRLimitz
+    )
 
-    LeftHandMiddle2MaxRLimit = LeftHandMiddle2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle2MaxRLimitx = LeftHandMiddle2MaxRLimit.LeftHandMiddle2MaxRLimitx
-    LeftHandMiddle2MaxRLimity = LeftHandMiddle2MaxRLimit.LeftHandMiddle2MaxRLimity
-    LeftHandMiddle2MaxRLimitz = LeftHandMiddle2MaxRLimit.LeftHandMiddle2MaxRLimitz
+    LeftHandMiddle2MaxRLimit = LeftHandMiddle2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle2MaxRLimitx = (
+        LeftHandMiddle2MaxRLimit.LeftHandMiddle2MaxRLimitx
+    )
+    LeftHandMiddle2MaxRLimity = (
+        LeftHandMiddle2MaxRLimit.LeftHandMiddle2MaxRLimity
+    )
+    LeftHandMiddle2MaxRLimitz = (
+        LeftHandMiddle2MaxRLimit.LeftHandMiddle2MaxRLimitz
+    )
 
     LeftHandMiddle2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13074,27 +15088,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandMiddle3Sy = LeftHandMiddle3S.LeftHandMiddle3Sy
     LeftHandMiddle3Sz = LeftHandMiddle3S.LeftHandMiddle3Sz
 
-    LeftHandMiddle3RotateOrder = LeftHandMiddle3RotateOrderEnumField(default_value=0)
+    LeftHandMiddle3RotateOrder = LeftHandMiddle3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandMiddle3RotateAxis = LeftHandMiddle3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle3RotateAxisx = LeftHandMiddle3RotateAxis.LeftHandMiddle3RotateAxisx
-    LeftHandMiddle3RotateAxisy = LeftHandMiddle3RotateAxis.LeftHandMiddle3RotateAxisy
-    LeftHandMiddle3RotateAxisz = LeftHandMiddle3RotateAxis.LeftHandMiddle3RotateAxisz
+    LeftHandMiddle3RotateAxis = LeftHandMiddle3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle3RotateAxisx = (
+        LeftHandMiddle3RotateAxis.LeftHandMiddle3RotateAxisx
+    )
+    LeftHandMiddle3RotateAxisy = (
+        LeftHandMiddle3RotateAxis.LeftHandMiddle3RotateAxisy
+    )
+    LeftHandMiddle3RotateAxisz = (
+        LeftHandMiddle3RotateAxis.LeftHandMiddle3RotateAxisz
+    )
 
-    LeftHandMiddle3JointOrient = LeftHandMiddle3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle3JointOrientx = LeftHandMiddle3JointOrient.LeftHandMiddle3JointOrientx
-    LeftHandMiddle3JointOrienty = LeftHandMiddle3JointOrient.LeftHandMiddle3JointOrienty
-    LeftHandMiddle3JointOrientz = LeftHandMiddle3JointOrient.LeftHandMiddle3JointOrientz
+    LeftHandMiddle3JointOrient = LeftHandMiddle3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle3JointOrientx = (
+        LeftHandMiddle3JointOrient.LeftHandMiddle3JointOrientx
+    )
+    LeftHandMiddle3JointOrienty = (
+        LeftHandMiddle3JointOrient.LeftHandMiddle3JointOrienty
+    )
+    LeftHandMiddle3JointOrientz = (
+        LeftHandMiddle3JointOrient.LeftHandMiddle3JointOrientz
+    )
 
-    LeftHandMiddle3MinRLimit = LeftHandMiddle3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle3MinRLimitx = LeftHandMiddle3MinRLimit.LeftHandMiddle3MinRLimitx
-    LeftHandMiddle3MinRLimity = LeftHandMiddle3MinRLimit.LeftHandMiddle3MinRLimity
-    LeftHandMiddle3MinRLimitz = LeftHandMiddle3MinRLimit.LeftHandMiddle3MinRLimitz
+    LeftHandMiddle3MinRLimit = LeftHandMiddle3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle3MinRLimitx = (
+        LeftHandMiddle3MinRLimit.LeftHandMiddle3MinRLimitx
+    )
+    LeftHandMiddle3MinRLimity = (
+        LeftHandMiddle3MinRLimit.LeftHandMiddle3MinRLimity
+    )
+    LeftHandMiddle3MinRLimitz = (
+        LeftHandMiddle3MinRLimit.LeftHandMiddle3MinRLimitz
+    )
 
-    LeftHandMiddle3MaxRLimit = LeftHandMiddle3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle3MaxRLimitx = LeftHandMiddle3MaxRLimit.LeftHandMiddle3MaxRLimitx
-    LeftHandMiddle3MaxRLimity = LeftHandMiddle3MaxRLimit.LeftHandMiddle3MaxRLimity
-    LeftHandMiddle3MaxRLimitz = LeftHandMiddle3MaxRLimit.LeftHandMiddle3MaxRLimitz
+    LeftHandMiddle3MaxRLimit = LeftHandMiddle3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle3MaxRLimitx = (
+        LeftHandMiddle3MaxRLimit.LeftHandMiddle3MaxRLimitx
+    )
+    LeftHandMiddle3MaxRLimity = (
+        LeftHandMiddle3MaxRLimit.LeftHandMiddle3MaxRLimity
+    )
+    LeftHandMiddle3MaxRLimitz = (
+        LeftHandMiddle3MaxRLimit.LeftHandMiddle3MaxRLimitz
+    )
 
     LeftHandMiddle3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13125,27 +15173,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandMiddle4Sy = LeftHandMiddle4S.LeftHandMiddle4Sy
     LeftHandMiddle4Sz = LeftHandMiddle4S.LeftHandMiddle4Sz
 
-    LeftHandMiddle4RotateOrder = LeftHandMiddle4RotateOrderEnumField(default_value=0)
+    LeftHandMiddle4RotateOrder = LeftHandMiddle4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandMiddle4RotateAxis = LeftHandMiddle4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle4RotateAxisx = LeftHandMiddle4RotateAxis.LeftHandMiddle4RotateAxisx
-    LeftHandMiddle4RotateAxisy = LeftHandMiddle4RotateAxis.LeftHandMiddle4RotateAxisy
-    LeftHandMiddle4RotateAxisz = LeftHandMiddle4RotateAxis.LeftHandMiddle4RotateAxisz
+    LeftHandMiddle4RotateAxis = LeftHandMiddle4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle4RotateAxisx = (
+        LeftHandMiddle4RotateAxis.LeftHandMiddle4RotateAxisx
+    )
+    LeftHandMiddle4RotateAxisy = (
+        LeftHandMiddle4RotateAxis.LeftHandMiddle4RotateAxisy
+    )
+    LeftHandMiddle4RotateAxisz = (
+        LeftHandMiddle4RotateAxis.LeftHandMiddle4RotateAxisz
+    )
 
-    LeftHandMiddle4JointOrient = LeftHandMiddle4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle4JointOrientx = LeftHandMiddle4JointOrient.LeftHandMiddle4JointOrientx
-    LeftHandMiddle4JointOrienty = LeftHandMiddle4JointOrient.LeftHandMiddle4JointOrienty
-    LeftHandMiddle4JointOrientz = LeftHandMiddle4JointOrient.LeftHandMiddle4JointOrientz
+    LeftHandMiddle4JointOrient = LeftHandMiddle4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle4JointOrientx = (
+        LeftHandMiddle4JointOrient.LeftHandMiddle4JointOrientx
+    )
+    LeftHandMiddle4JointOrienty = (
+        LeftHandMiddle4JointOrient.LeftHandMiddle4JointOrienty
+    )
+    LeftHandMiddle4JointOrientz = (
+        LeftHandMiddle4JointOrient.LeftHandMiddle4JointOrientz
+    )
 
-    LeftHandMiddle4MinRLimit = LeftHandMiddle4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle4MinRLimitx = LeftHandMiddle4MinRLimit.LeftHandMiddle4MinRLimitx
-    LeftHandMiddle4MinRLimity = LeftHandMiddle4MinRLimit.LeftHandMiddle4MinRLimity
-    LeftHandMiddle4MinRLimitz = LeftHandMiddle4MinRLimit.LeftHandMiddle4MinRLimitz
+    LeftHandMiddle4MinRLimit = LeftHandMiddle4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle4MinRLimitx = (
+        LeftHandMiddle4MinRLimit.LeftHandMiddle4MinRLimitx
+    )
+    LeftHandMiddle4MinRLimity = (
+        LeftHandMiddle4MinRLimit.LeftHandMiddle4MinRLimity
+    )
+    LeftHandMiddle4MinRLimitz = (
+        LeftHandMiddle4MinRLimit.LeftHandMiddle4MinRLimitz
+    )
 
-    LeftHandMiddle4MaxRLimit = LeftHandMiddle4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandMiddle4MaxRLimitx = LeftHandMiddle4MaxRLimit.LeftHandMiddle4MaxRLimitx
-    LeftHandMiddle4MaxRLimity = LeftHandMiddle4MaxRLimit.LeftHandMiddle4MaxRLimity
-    LeftHandMiddle4MaxRLimitz = LeftHandMiddle4MaxRLimit.LeftHandMiddle4MaxRLimitz
+    LeftHandMiddle4MaxRLimit = LeftHandMiddle4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandMiddle4MaxRLimitx = (
+        LeftHandMiddle4MaxRLimit.LeftHandMiddle4MaxRLimitx
+    )
+    LeftHandMiddle4MaxRLimity = (
+        LeftHandMiddle4MaxRLimit.LeftHandMiddle4MaxRLimity
+    )
+    LeftHandMiddle4MaxRLimitz = (
+        LeftHandMiddle4MaxRLimit.LeftHandMiddle4MaxRLimitz
+    )
 
     LeftHandMiddle4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13176,24 +15258,40 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandRing1Sy = LeftHandRing1S.LeftHandRing1Sy
     LeftHandRing1Sz = LeftHandRing1S.LeftHandRing1Sz
 
-    LeftHandRing1RotateOrder = LeftHandRing1RotateOrderEnumField(default_value=0)
+    LeftHandRing1RotateOrder = LeftHandRing1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandRing1RotateAxis = LeftHandRing1RotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing1RotateAxis = LeftHandRing1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing1RotateAxisx = LeftHandRing1RotateAxis.LeftHandRing1RotateAxisx
     LeftHandRing1RotateAxisy = LeftHandRing1RotateAxis.LeftHandRing1RotateAxisy
     LeftHandRing1RotateAxisz = LeftHandRing1RotateAxis.LeftHandRing1RotateAxisz
 
-    LeftHandRing1JointOrient = LeftHandRing1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandRing1JointOrientx = LeftHandRing1JointOrient.LeftHandRing1JointOrientx
-    LeftHandRing1JointOrienty = LeftHandRing1JointOrient.LeftHandRing1JointOrienty
-    LeftHandRing1JointOrientz = LeftHandRing1JointOrient.LeftHandRing1JointOrientz
+    LeftHandRing1JointOrient = LeftHandRing1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandRing1JointOrientx = (
+        LeftHandRing1JointOrient.LeftHandRing1JointOrientx
+    )
+    LeftHandRing1JointOrienty = (
+        LeftHandRing1JointOrient.LeftHandRing1JointOrienty
+    )
+    LeftHandRing1JointOrientz = (
+        LeftHandRing1JointOrient.LeftHandRing1JointOrientz
+    )
 
-    LeftHandRing1MinRLimit = LeftHandRing1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing1MinRLimit = LeftHandRing1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing1MinRLimitx = LeftHandRing1MinRLimit.LeftHandRing1MinRLimitx
     LeftHandRing1MinRLimity = LeftHandRing1MinRLimit.LeftHandRing1MinRLimity
     LeftHandRing1MinRLimitz = LeftHandRing1MinRLimit.LeftHandRing1MinRLimitz
 
-    LeftHandRing1MaxRLimit = LeftHandRing1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing1MaxRLimit = LeftHandRing1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing1MaxRLimitx = LeftHandRing1MaxRLimit.LeftHandRing1MaxRLimitx
     LeftHandRing1MaxRLimity = LeftHandRing1MaxRLimit.LeftHandRing1MaxRLimity
     LeftHandRing1MaxRLimitz = LeftHandRing1MaxRLimit.LeftHandRing1MaxRLimitz
@@ -13227,24 +15325,40 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandRing2Sy = LeftHandRing2S.LeftHandRing2Sy
     LeftHandRing2Sz = LeftHandRing2S.LeftHandRing2Sz
 
-    LeftHandRing2RotateOrder = LeftHandRing2RotateOrderEnumField(default_value=0)
+    LeftHandRing2RotateOrder = LeftHandRing2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandRing2RotateAxis = LeftHandRing2RotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing2RotateAxis = LeftHandRing2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing2RotateAxisx = LeftHandRing2RotateAxis.LeftHandRing2RotateAxisx
     LeftHandRing2RotateAxisy = LeftHandRing2RotateAxis.LeftHandRing2RotateAxisy
     LeftHandRing2RotateAxisz = LeftHandRing2RotateAxis.LeftHandRing2RotateAxisz
 
-    LeftHandRing2JointOrient = LeftHandRing2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandRing2JointOrientx = LeftHandRing2JointOrient.LeftHandRing2JointOrientx
-    LeftHandRing2JointOrienty = LeftHandRing2JointOrient.LeftHandRing2JointOrienty
-    LeftHandRing2JointOrientz = LeftHandRing2JointOrient.LeftHandRing2JointOrientz
+    LeftHandRing2JointOrient = LeftHandRing2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandRing2JointOrientx = (
+        LeftHandRing2JointOrient.LeftHandRing2JointOrientx
+    )
+    LeftHandRing2JointOrienty = (
+        LeftHandRing2JointOrient.LeftHandRing2JointOrienty
+    )
+    LeftHandRing2JointOrientz = (
+        LeftHandRing2JointOrient.LeftHandRing2JointOrientz
+    )
 
-    LeftHandRing2MinRLimit = LeftHandRing2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing2MinRLimit = LeftHandRing2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing2MinRLimitx = LeftHandRing2MinRLimit.LeftHandRing2MinRLimitx
     LeftHandRing2MinRLimity = LeftHandRing2MinRLimit.LeftHandRing2MinRLimity
     LeftHandRing2MinRLimitz = LeftHandRing2MinRLimit.LeftHandRing2MinRLimitz
 
-    LeftHandRing2MaxRLimit = LeftHandRing2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing2MaxRLimit = LeftHandRing2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing2MaxRLimitx = LeftHandRing2MaxRLimit.LeftHandRing2MaxRLimitx
     LeftHandRing2MaxRLimity = LeftHandRing2MaxRLimit.LeftHandRing2MaxRLimity
     LeftHandRing2MaxRLimitz = LeftHandRing2MaxRLimit.LeftHandRing2MaxRLimitz
@@ -13278,24 +15392,40 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandRing3Sy = LeftHandRing3S.LeftHandRing3Sy
     LeftHandRing3Sz = LeftHandRing3S.LeftHandRing3Sz
 
-    LeftHandRing3RotateOrder = LeftHandRing3RotateOrderEnumField(default_value=0)
+    LeftHandRing3RotateOrder = LeftHandRing3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandRing3RotateAxis = LeftHandRing3RotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing3RotateAxis = LeftHandRing3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing3RotateAxisx = LeftHandRing3RotateAxis.LeftHandRing3RotateAxisx
     LeftHandRing3RotateAxisy = LeftHandRing3RotateAxis.LeftHandRing3RotateAxisy
     LeftHandRing3RotateAxisz = LeftHandRing3RotateAxis.LeftHandRing3RotateAxisz
 
-    LeftHandRing3JointOrient = LeftHandRing3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandRing3JointOrientx = LeftHandRing3JointOrient.LeftHandRing3JointOrientx
-    LeftHandRing3JointOrienty = LeftHandRing3JointOrient.LeftHandRing3JointOrienty
-    LeftHandRing3JointOrientz = LeftHandRing3JointOrient.LeftHandRing3JointOrientz
+    LeftHandRing3JointOrient = LeftHandRing3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandRing3JointOrientx = (
+        LeftHandRing3JointOrient.LeftHandRing3JointOrientx
+    )
+    LeftHandRing3JointOrienty = (
+        LeftHandRing3JointOrient.LeftHandRing3JointOrienty
+    )
+    LeftHandRing3JointOrientz = (
+        LeftHandRing3JointOrient.LeftHandRing3JointOrientz
+    )
 
-    LeftHandRing3MinRLimit = LeftHandRing3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing3MinRLimit = LeftHandRing3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing3MinRLimitx = LeftHandRing3MinRLimit.LeftHandRing3MinRLimitx
     LeftHandRing3MinRLimity = LeftHandRing3MinRLimit.LeftHandRing3MinRLimity
     LeftHandRing3MinRLimitz = LeftHandRing3MinRLimit.LeftHandRing3MinRLimitz
 
-    LeftHandRing3MaxRLimit = LeftHandRing3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing3MaxRLimit = LeftHandRing3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing3MaxRLimitx = LeftHandRing3MaxRLimit.LeftHandRing3MaxRLimitx
     LeftHandRing3MaxRLimity = LeftHandRing3MaxRLimit.LeftHandRing3MaxRLimity
     LeftHandRing3MaxRLimitz = LeftHandRing3MaxRLimit.LeftHandRing3MaxRLimitz
@@ -13329,24 +15459,40 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandRing4Sy = LeftHandRing4S.LeftHandRing4Sy
     LeftHandRing4Sz = LeftHandRing4S.LeftHandRing4Sz
 
-    LeftHandRing4RotateOrder = LeftHandRing4RotateOrderEnumField(default_value=0)
+    LeftHandRing4RotateOrder = LeftHandRing4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandRing4RotateAxis = LeftHandRing4RotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing4RotateAxis = LeftHandRing4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing4RotateAxisx = LeftHandRing4RotateAxis.LeftHandRing4RotateAxisx
     LeftHandRing4RotateAxisy = LeftHandRing4RotateAxis.LeftHandRing4RotateAxisy
     LeftHandRing4RotateAxisz = LeftHandRing4RotateAxis.LeftHandRing4RotateAxisz
 
-    LeftHandRing4JointOrient = LeftHandRing4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandRing4JointOrientx = LeftHandRing4JointOrient.LeftHandRing4JointOrientx
-    LeftHandRing4JointOrienty = LeftHandRing4JointOrient.LeftHandRing4JointOrienty
-    LeftHandRing4JointOrientz = LeftHandRing4JointOrient.LeftHandRing4JointOrientz
+    LeftHandRing4JointOrient = LeftHandRing4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandRing4JointOrientx = (
+        LeftHandRing4JointOrient.LeftHandRing4JointOrientx
+    )
+    LeftHandRing4JointOrienty = (
+        LeftHandRing4JointOrient.LeftHandRing4JointOrienty
+    )
+    LeftHandRing4JointOrientz = (
+        LeftHandRing4JointOrient.LeftHandRing4JointOrientz
+    )
 
-    LeftHandRing4MinRLimit = LeftHandRing4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing4MinRLimit = LeftHandRing4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing4MinRLimitx = LeftHandRing4MinRLimit.LeftHandRing4MinRLimitx
     LeftHandRing4MinRLimity = LeftHandRing4MinRLimit.LeftHandRing4MinRLimity
     LeftHandRing4MinRLimitz = LeftHandRing4MinRLimit.LeftHandRing4MinRLimitz
 
-    LeftHandRing4MaxRLimit = LeftHandRing4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandRing4MaxRLimit = LeftHandRing4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandRing4MaxRLimitx = LeftHandRing4MaxRLimit.LeftHandRing4MaxRLimitx
     LeftHandRing4MaxRLimity = LeftHandRing4MaxRLimit.LeftHandRing4MaxRLimity
     LeftHandRing4MaxRLimitz = LeftHandRing4MaxRLimit.LeftHandRing4MaxRLimitz
@@ -13380,24 +15526,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandPinky1Sy = LeftHandPinky1S.LeftHandPinky1Sy
     LeftHandPinky1Sz = LeftHandPinky1S.LeftHandPinky1Sz
 
-    LeftHandPinky1RotateOrder = LeftHandPinky1RotateOrderEnumField(default_value=0)
+    LeftHandPinky1RotateOrder = LeftHandPinky1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandPinky1RotateAxis = LeftHandPinky1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandPinky1RotateAxisx = LeftHandPinky1RotateAxis.LeftHandPinky1RotateAxisx
-    LeftHandPinky1RotateAxisy = LeftHandPinky1RotateAxis.LeftHandPinky1RotateAxisy
-    LeftHandPinky1RotateAxisz = LeftHandPinky1RotateAxis.LeftHandPinky1RotateAxisz
+    LeftHandPinky1RotateAxis = LeftHandPinky1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandPinky1RotateAxisx = (
+        LeftHandPinky1RotateAxis.LeftHandPinky1RotateAxisx
+    )
+    LeftHandPinky1RotateAxisy = (
+        LeftHandPinky1RotateAxis.LeftHandPinky1RotateAxisy
+    )
+    LeftHandPinky1RotateAxisz = (
+        LeftHandPinky1RotateAxis.LeftHandPinky1RotateAxisz
+    )
 
-    LeftHandPinky1JointOrient = LeftHandPinky1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandPinky1JointOrientx = LeftHandPinky1JointOrient.LeftHandPinky1JointOrientx
-    LeftHandPinky1JointOrienty = LeftHandPinky1JointOrient.LeftHandPinky1JointOrienty
-    LeftHandPinky1JointOrientz = LeftHandPinky1JointOrient.LeftHandPinky1JointOrientz
+    LeftHandPinky1JointOrient = LeftHandPinky1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandPinky1JointOrientx = (
+        LeftHandPinky1JointOrient.LeftHandPinky1JointOrientx
+    )
+    LeftHandPinky1JointOrienty = (
+        LeftHandPinky1JointOrient.LeftHandPinky1JointOrienty
+    )
+    LeftHandPinky1JointOrientz = (
+        LeftHandPinky1JointOrient.LeftHandPinky1JointOrientz
+    )
 
-    LeftHandPinky1MinRLimit = LeftHandPinky1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky1MinRLimit = LeftHandPinky1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky1MinRLimitx = LeftHandPinky1MinRLimit.LeftHandPinky1MinRLimitx
     LeftHandPinky1MinRLimity = LeftHandPinky1MinRLimit.LeftHandPinky1MinRLimity
     LeftHandPinky1MinRLimitz = LeftHandPinky1MinRLimit.LeftHandPinky1MinRLimitz
 
-    LeftHandPinky1MaxRLimit = LeftHandPinky1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky1MaxRLimit = LeftHandPinky1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky1MaxRLimitx = LeftHandPinky1MaxRLimit.LeftHandPinky1MaxRLimitx
     LeftHandPinky1MaxRLimity = LeftHandPinky1MaxRLimit.LeftHandPinky1MaxRLimity
     LeftHandPinky1MaxRLimitz = LeftHandPinky1MaxRLimit.LeftHandPinky1MaxRLimitz
@@ -13431,24 +15599,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandPinky2Sy = LeftHandPinky2S.LeftHandPinky2Sy
     LeftHandPinky2Sz = LeftHandPinky2S.LeftHandPinky2Sz
 
-    LeftHandPinky2RotateOrder = LeftHandPinky2RotateOrderEnumField(default_value=0)
+    LeftHandPinky2RotateOrder = LeftHandPinky2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandPinky2RotateAxis = LeftHandPinky2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandPinky2RotateAxisx = LeftHandPinky2RotateAxis.LeftHandPinky2RotateAxisx
-    LeftHandPinky2RotateAxisy = LeftHandPinky2RotateAxis.LeftHandPinky2RotateAxisy
-    LeftHandPinky2RotateAxisz = LeftHandPinky2RotateAxis.LeftHandPinky2RotateAxisz
+    LeftHandPinky2RotateAxis = LeftHandPinky2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandPinky2RotateAxisx = (
+        LeftHandPinky2RotateAxis.LeftHandPinky2RotateAxisx
+    )
+    LeftHandPinky2RotateAxisy = (
+        LeftHandPinky2RotateAxis.LeftHandPinky2RotateAxisy
+    )
+    LeftHandPinky2RotateAxisz = (
+        LeftHandPinky2RotateAxis.LeftHandPinky2RotateAxisz
+    )
 
-    LeftHandPinky2JointOrient = LeftHandPinky2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandPinky2JointOrientx = LeftHandPinky2JointOrient.LeftHandPinky2JointOrientx
-    LeftHandPinky2JointOrienty = LeftHandPinky2JointOrient.LeftHandPinky2JointOrienty
-    LeftHandPinky2JointOrientz = LeftHandPinky2JointOrient.LeftHandPinky2JointOrientz
+    LeftHandPinky2JointOrient = LeftHandPinky2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandPinky2JointOrientx = (
+        LeftHandPinky2JointOrient.LeftHandPinky2JointOrientx
+    )
+    LeftHandPinky2JointOrienty = (
+        LeftHandPinky2JointOrient.LeftHandPinky2JointOrienty
+    )
+    LeftHandPinky2JointOrientz = (
+        LeftHandPinky2JointOrient.LeftHandPinky2JointOrientz
+    )
 
-    LeftHandPinky2MinRLimit = LeftHandPinky2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky2MinRLimit = LeftHandPinky2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky2MinRLimitx = LeftHandPinky2MinRLimit.LeftHandPinky2MinRLimitx
     LeftHandPinky2MinRLimity = LeftHandPinky2MinRLimit.LeftHandPinky2MinRLimity
     LeftHandPinky2MinRLimitz = LeftHandPinky2MinRLimit.LeftHandPinky2MinRLimitz
 
-    LeftHandPinky2MaxRLimit = LeftHandPinky2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky2MaxRLimit = LeftHandPinky2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky2MaxRLimitx = LeftHandPinky2MaxRLimit.LeftHandPinky2MaxRLimitx
     LeftHandPinky2MaxRLimity = LeftHandPinky2MaxRLimit.LeftHandPinky2MaxRLimity
     LeftHandPinky2MaxRLimitz = LeftHandPinky2MaxRLimit.LeftHandPinky2MaxRLimitz
@@ -13482,24 +15672,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandPinky3Sy = LeftHandPinky3S.LeftHandPinky3Sy
     LeftHandPinky3Sz = LeftHandPinky3S.LeftHandPinky3Sz
 
-    LeftHandPinky3RotateOrder = LeftHandPinky3RotateOrderEnumField(default_value=0)
+    LeftHandPinky3RotateOrder = LeftHandPinky3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandPinky3RotateAxis = LeftHandPinky3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandPinky3RotateAxisx = LeftHandPinky3RotateAxis.LeftHandPinky3RotateAxisx
-    LeftHandPinky3RotateAxisy = LeftHandPinky3RotateAxis.LeftHandPinky3RotateAxisy
-    LeftHandPinky3RotateAxisz = LeftHandPinky3RotateAxis.LeftHandPinky3RotateAxisz
+    LeftHandPinky3RotateAxis = LeftHandPinky3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandPinky3RotateAxisx = (
+        LeftHandPinky3RotateAxis.LeftHandPinky3RotateAxisx
+    )
+    LeftHandPinky3RotateAxisy = (
+        LeftHandPinky3RotateAxis.LeftHandPinky3RotateAxisy
+    )
+    LeftHandPinky3RotateAxisz = (
+        LeftHandPinky3RotateAxis.LeftHandPinky3RotateAxisz
+    )
 
-    LeftHandPinky3JointOrient = LeftHandPinky3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandPinky3JointOrientx = LeftHandPinky3JointOrient.LeftHandPinky3JointOrientx
-    LeftHandPinky3JointOrienty = LeftHandPinky3JointOrient.LeftHandPinky3JointOrienty
-    LeftHandPinky3JointOrientz = LeftHandPinky3JointOrient.LeftHandPinky3JointOrientz
+    LeftHandPinky3JointOrient = LeftHandPinky3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandPinky3JointOrientx = (
+        LeftHandPinky3JointOrient.LeftHandPinky3JointOrientx
+    )
+    LeftHandPinky3JointOrienty = (
+        LeftHandPinky3JointOrient.LeftHandPinky3JointOrienty
+    )
+    LeftHandPinky3JointOrientz = (
+        LeftHandPinky3JointOrient.LeftHandPinky3JointOrientz
+    )
 
-    LeftHandPinky3MinRLimit = LeftHandPinky3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky3MinRLimit = LeftHandPinky3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky3MinRLimitx = LeftHandPinky3MinRLimit.LeftHandPinky3MinRLimitx
     LeftHandPinky3MinRLimity = LeftHandPinky3MinRLimit.LeftHandPinky3MinRLimity
     LeftHandPinky3MinRLimitz = LeftHandPinky3MinRLimit.LeftHandPinky3MinRLimitz
 
-    LeftHandPinky3MaxRLimit = LeftHandPinky3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky3MaxRLimit = LeftHandPinky3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky3MaxRLimitx = LeftHandPinky3MaxRLimit.LeftHandPinky3MaxRLimitx
     LeftHandPinky3MaxRLimity = LeftHandPinky3MaxRLimit.LeftHandPinky3MaxRLimity
     LeftHandPinky3MaxRLimitz = LeftHandPinky3MaxRLimit.LeftHandPinky3MaxRLimitz
@@ -13533,24 +15745,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftHandPinky4Sy = LeftHandPinky4S.LeftHandPinky4Sy
     LeftHandPinky4Sz = LeftHandPinky4S.LeftHandPinky4Sz
 
-    LeftHandPinky4RotateOrder = LeftHandPinky4RotateOrderEnumField(default_value=0)
+    LeftHandPinky4RotateOrder = LeftHandPinky4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandPinky4RotateAxis = LeftHandPinky4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandPinky4RotateAxisx = LeftHandPinky4RotateAxis.LeftHandPinky4RotateAxisx
-    LeftHandPinky4RotateAxisy = LeftHandPinky4RotateAxis.LeftHandPinky4RotateAxisy
-    LeftHandPinky4RotateAxisz = LeftHandPinky4RotateAxis.LeftHandPinky4RotateAxisz
+    LeftHandPinky4RotateAxis = LeftHandPinky4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandPinky4RotateAxisx = (
+        LeftHandPinky4RotateAxis.LeftHandPinky4RotateAxisx
+    )
+    LeftHandPinky4RotateAxisy = (
+        LeftHandPinky4RotateAxis.LeftHandPinky4RotateAxisy
+    )
+    LeftHandPinky4RotateAxisz = (
+        LeftHandPinky4RotateAxis.LeftHandPinky4RotateAxisz
+    )
 
-    LeftHandPinky4JointOrient = LeftHandPinky4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandPinky4JointOrientx = LeftHandPinky4JointOrient.LeftHandPinky4JointOrientx
-    LeftHandPinky4JointOrienty = LeftHandPinky4JointOrient.LeftHandPinky4JointOrienty
-    LeftHandPinky4JointOrientz = LeftHandPinky4JointOrient.LeftHandPinky4JointOrientz
+    LeftHandPinky4JointOrient = LeftHandPinky4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandPinky4JointOrientx = (
+        LeftHandPinky4JointOrient.LeftHandPinky4JointOrientx
+    )
+    LeftHandPinky4JointOrienty = (
+        LeftHandPinky4JointOrient.LeftHandPinky4JointOrienty
+    )
+    LeftHandPinky4JointOrientz = (
+        LeftHandPinky4JointOrient.LeftHandPinky4JointOrientz
+    )
 
-    LeftHandPinky4MinRLimit = LeftHandPinky4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky4MinRLimit = LeftHandPinky4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky4MinRLimitx = LeftHandPinky4MinRLimit.LeftHandPinky4MinRLimitx
     LeftHandPinky4MinRLimity = LeftHandPinky4MinRLimit.LeftHandPinky4MinRLimity
     LeftHandPinky4MinRLimitz = LeftHandPinky4MinRLimit.LeftHandPinky4MinRLimitz
 
-    LeftHandPinky4MaxRLimit = LeftHandPinky4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky4MaxRLimit = LeftHandPinky4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky4MaxRLimitx = LeftHandPinky4MaxRLimit.LeftHandPinky4MaxRLimitx
     LeftHandPinky4MaxRLimity = LeftHandPinky4MaxRLimit.LeftHandPinky4MaxRLimity
     LeftHandPinky4MaxRLimitz = LeftHandPinky4MaxRLimit.LeftHandPinky4MaxRLimitz
@@ -13569,42 +15803,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftHandExtraFinger1 = MessageField()
 
-    LeftHandExtraFinger1T = LeftHandExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger1T = LeftHandExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger1Tx = LeftHandExtraFinger1T.LeftHandExtraFinger1Tx
     LeftHandExtraFinger1Ty = LeftHandExtraFinger1T.LeftHandExtraFinger1Ty
     LeftHandExtraFinger1Tz = LeftHandExtraFinger1T.LeftHandExtraFinger1Tz
 
-    LeftHandExtraFinger1R = LeftHandExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger1R = LeftHandExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger1Rx = LeftHandExtraFinger1R.LeftHandExtraFinger1Rx
     LeftHandExtraFinger1Ry = LeftHandExtraFinger1R.LeftHandExtraFinger1Ry
     LeftHandExtraFinger1Rz = LeftHandExtraFinger1R.LeftHandExtraFinger1Rz
 
-    LeftHandExtraFinger1S = LeftHandExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger1S = LeftHandExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger1Sx = LeftHandExtraFinger1S.LeftHandExtraFinger1Sx
     LeftHandExtraFinger1Sy = LeftHandExtraFinger1S.LeftHandExtraFinger1Sy
     LeftHandExtraFinger1Sz = LeftHandExtraFinger1S.LeftHandExtraFinger1Sz
 
-    LeftHandExtraFinger1RotateOrder = LeftHandExtraFinger1RotateOrderEnumField(default_value=0)
+    LeftHandExtraFinger1RotateOrder = LeftHandExtraFinger1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandExtraFinger1RotateAxis = LeftHandExtraFinger1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger1RotateAxisx = LeftHandExtraFinger1RotateAxis.LeftHandExtraFinger1RotateAxisx
-    LeftHandExtraFinger1RotateAxisy = LeftHandExtraFinger1RotateAxis.LeftHandExtraFinger1RotateAxisy
-    LeftHandExtraFinger1RotateAxisz = LeftHandExtraFinger1RotateAxis.LeftHandExtraFinger1RotateAxisz
+    LeftHandExtraFinger1RotateAxis = LeftHandExtraFinger1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger1RotateAxisx = (
+        LeftHandExtraFinger1RotateAxis.LeftHandExtraFinger1RotateAxisx
+    )
+    LeftHandExtraFinger1RotateAxisy = (
+        LeftHandExtraFinger1RotateAxis.LeftHandExtraFinger1RotateAxisy
+    )
+    LeftHandExtraFinger1RotateAxisz = (
+        LeftHandExtraFinger1RotateAxis.LeftHandExtraFinger1RotateAxisz
+    )
 
-    LeftHandExtraFinger1JointOrient = LeftHandExtraFinger1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger1JointOrientx = LeftHandExtraFinger1JointOrient.LeftHandExtraFinger1JointOrientx
-    LeftHandExtraFinger1JointOrienty = LeftHandExtraFinger1JointOrient.LeftHandExtraFinger1JointOrienty
-    LeftHandExtraFinger1JointOrientz = LeftHandExtraFinger1JointOrient.LeftHandExtraFinger1JointOrientz
+    LeftHandExtraFinger1JointOrient = LeftHandExtraFinger1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger1JointOrientx = (
+        LeftHandExtraFinger1JointOrient.LeftHandExtraFinger1JointOrientx
+    )
+    LeftHandExtraFinger1JointOrienty = (
+        LeftHandExtraFinger1JointOrient.LeftHandExtraFinger1JointOrienty
+    )
+    LeftHandExtraFinger1JointOrientz = (
+        LeftHandExtraFinger1JointOrient.LeftHandExtraFinger1JointOrientz
+    )
 
-    LeftHandExtraFinger1MinRLimit = LeftHandExtraFinger1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger1MinRLimitx = LeftHandExtraFinger1MinRLimit.LeftHandExtraFinger1MinRLimitx
-    LeftHandExtraFinger1MinRLimity = LeftHandExtraFinger1MinRLimit.LeftHandExtraFinger1MinRLimity
-    LeftHandExtraFinger1MinRLimitz = LeftHandExtraFinger1MinRLimit.LeftHandExtraFinger1MinRLimitz
+    LeftHandExtraFinger1MinRLimit = LeftHandExtraFinger1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger1MinRLimitx = (
+        LeftHandExtraFinger1MinRLimit.LeftHandExtraFinger1MinRLimitx
+    )
+    LeftHandExtraFinger1MinRLimity = (
+        LeftHandExtraFinger1MinRLimit.LeftHandExtraFinger1MinRLimity
+    )
+    LeftHandExtraFinger1MinRLimitz = (
+        LeftHandExtraFinger1MinRLimit.LeftHandExtraFinger1MinRLimitz
+    )
 
-    LeftHandExtraFinger1MaxRLimit = LeftHandExtraFinger1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger1MaxRLimitx = LeftHandExtraFinger1MaxRLimit.LeftHandExtraFinger1MaxRLimitx
-    LeftHandExtraFinger1MaxRLimity = LeftHandExtraFinger1MaxRLimit.LeftHandExtraFinger1MaxRLimity
-    LeftHandExtraFinger1MaxRLimitz = LeftHandExtraFinger1MaxRLimit.LeftHandExtraFinger1MaxRLimitz
+    LeftHandExtraFinger1MaxRLimit = LeftHandExtraFinger1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger1MaxRLimitx = (
+        LeftHandExtraFinger1MaxRLimit.LeftHandExtraFinger1MaxRLimitx
+    )
+    LeftHandExtraFinger1MaxRLimity = (
+        LeftHandExtraFinger1MaxRLimit.LeftHandExtraFinger1MaxRLimity
+    )
+    LeftHandExtraFinger1MaxRLimitz = (
+        LeftHandExtraFinger1MaxRLimit.LeftHandExtraFinger1MaxRLimitz
+    )
 
     LeftHandExtraFinger1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13620,42 +15894,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftHandExtraFinger2 = MessageField()
 
-    LeftHandExtraFinger2T = LeftHandExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger2T = LeftHandExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger2Tx = LeftHandExtraFinger2T.LeftHandExtraFinger2Tx
     LeftHandExtraFinger2Ty = LeftHandExtraFinger2T.LeftHandExtraFinger2Ty
     LeftHandExtraFinger2Tz = LeftHandExtraFinger2T.LeftHandExtraFinger2Tz
 
-    LeftHandExtraFinger2R = LeftHandExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger2R = LeftHandExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger2Rx = LeftHandExtraFinger2R.LeftHandExtraFinger2Rx
     LeftHandExtraFinger2Ry = LeftHandExtraFinger2R.LeftHandExtraFinger2Ry
     LeftHandExtraFinger2Rz = LeftHandExtraFinger2R.LeftHandExtraFinger2Rz
 
-    LeftHandExtraFinger2S = LeftHandExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger2S = LeftHandExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger2Sx = LeftHandExtraFinger2S.LeftHandExtraFinger2Sx
     LeftHandExtraFinger2Sy = LeftHandExtraFinger2S.LeftHandExtraFinger2Sy
     LeftHandExtraFinger2Sz = LeftHandExtraFinger2S.LeftHandExtraFinger2Sz
 
-    LeftHandExtraFinger2RotateOrder = LeftHandExtraFinger2RotateOrderEnumField(default_value=0)
+    LeftHandExtraFinger2RotateOrder = LeftHandExtraFinger2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandExtraFinger2RotateAxis = LeftHandExtraFinger2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger2RotateAxisx = LeftHandExtraFinger2RotateAxis.LeftHandExtraFinger2RotateAxisx
-    LeftHandExtraFinger2RotateAxisy = LeftHandExtraFinger2RotateAxis.LeftHandExtraFinger2RotateAxisy
-    LeftHandExtraFinger2RotateAxisz = LeftHandExtraFinger2RotateAxis.LeftHandExtraFinger2RotateAxisz
+    LeftHandExtraFinger2RotateAxis = LeftHandExtraFinger2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger2RotateAxisx = (
+        LeftHandExtraFinger2RotateAxis.LeftHandExtraFinger2RotateAxisx
+    )
+    LeftHandExtraFinger2RotateAxisy = (
+        LeftHandExtraFinger2RotateAxis.LeftHandExtraFinger2RotateAxisy
+    )
+    LeftHandExtraFinger2RotateAxisz = (
+        LeftHandExtraFinger2RotateAxis.LeftHandExtraFinger2RotateAxisz
+    )
 
-    LeftHandExtraFinger2JointOrient = LeftHandExtraFinger2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger2JointOrientx = LeftHandExtraFinger2JointOrient.LeftHandExtraFinger2JointOrientx
-    LeftHandExtraFinger2JointOrienty = LeftHandExtraFinger2JointOrient.LeftHandExtraFinger2JointOrienty
-    LeftHandExtraFinger2JointOrientz = LeftHandExtraFinger2JointOrient.LeftHandExtraFinger2JointOrientz
+    LeftHandExtraFinger2JointOrient = LeftHandExtraFinger2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger2JointOrientx = (
+        LeftHandExtraFinger2JointOrient.LeftHandExtraFinger2JointOrientx
+    )
+    LeftHandExtraFinger2JointOrienty = (
+        LeftHandExtraFinger2JointOrient.LeftHandExtraFinger2JointOrienty
+    )
+    LeftHandExtraFinger2JointOrientz = (
+        LeftHandExtraFinger2JointOrient.LeftHandExtraFinger2JointOrientz
+    )
 
-    LeftHandExtraFinger2MinRLimit = LeftHandExtraFinger2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger2MinRLimitx = LeftHandExtraFinger2MinRLimit.LeftHandExtraFinger2MinRLimitx
-    LeftHandExtraFinger2MinRLimity = LeftHandExtraFinger2MinRLimit.LeftHandExtraFinger2MinRLimity
-    LeftHandExtraFinger2MinRLimitz = LeftHandExtraFinger2MinRLimit.LeftHandExtraFinger2MinRLimitz
+    LeftHandExtraFinger2MinRLimit = LeftHandExtraFinger2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger2MinRLimitx = (
+        LeftHandExtraFinger2MinRLimit.LeftHandExtraFinger2MinRLimitx
+    )
+    LeftHandExtraFinger2MinRLimity = (
+        LeftHandExtraFinger2MinRLimit.LeftHandExtraFinger2MinRLimity
+    )
+    LeftHandExtraFinger2MinRLimitz = (
+        LeftHandExtraFinger2MinRLimit.LeftHandExtraFinger2MinRLimitz
+    )
 
-    LeftHandExtraFinger2MaxRLimit = LeftHandExtraFinger2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger2MaxRLimitx = LeftHandExtraFinger2MaxRLimit.LeftHandExtraFinger2MaxRLimitx
-    LeftHandExtraFinger2MaxRLimity = LeftHandExtraFinger2MaxRLimit.LeftHandExtraFinger2MaxRLimity
-    LeftHandExtraFinger2MaxRLimitz = LeftHandExtraFinger2MaxRLimit.LeftHandExtraFinger2MaxRLimitz
+    LeftHandExtraFinger2MaxRLimit = LeftHandExtraFinger2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger2MaxRLimitx = (
+        LeftHandExtraFinger2MaxRLimit.LeftHandExtraFinger2MaxRLimitx
+    )
+    LeftHandExtraFinger2MaxRLimity = (
+        LeftHandExtraFinger2MaxRLimit.LeftHandExtraFinger2MaxRLimity
+    )
+    LeftHandExtraFinger2MaxRLimitz = (
+        LeftHandExtraFinger2MaxRLimit.LeftHandExtraFinger2MaxRLimitz
+    )
 
     LeftHandExtraFinger2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13671,42 +15985,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftHandExtraFinger3 = MessageField()
 
-    LeftHandExtraFinger3T = LeftHandExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger3T = LeftHandExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger3Tx = LeftHandExtraFinger3T.LeftHandExtraFinger3Tx
     LeftHandExtraFinger3Ty = LeftHandExtraFinger3T.LeftHandExtraFinger3Ty
     LeftHandExtraFinger3Tz = LeftHandExtraFinger3T.LeftHandExtraFinger3Tz
 
-    LeftHandExtraFinger3R = LeftHandExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger3R = LeftHandExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger3Rx = LeftHandExtraFinger3R.LeftHandExtraFinger3Rx
     LeftHandExtraFinger3Ry = LeftHandExtraFinger3R.LeftHandExtraFinger3Ry
     LeftHandExtraFinger3Rz = LeftHandExtraFinger3R.LeftHandExtraFinger3Rz
 
-    LeftHandExtraFinger3S = LeftHandExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger3S = LeftHandExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger3Sx = LeftHandExtraFinger3S.LeftHandExtraFinger3Sx
     LeftHandExtraFinger3Sy = LeftHandExtraFinger3S.LeftHandExtraFinger3Sy
     LeftHandExtraFinger3Sz = LeftHandExtraFinger3S.LeftHandExtraFinger3Sz
 
-    LeftHandExtraFinger3RotateOrder = LeftHandExtraFinger3RotateOrderEnumField(default_value=0)
+    LeftHandExtraFinger3RotateOrder = LeftHandExtraFinger3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandExtraFinger3RotateAxis = LeftHandExtraFinger3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger3RotateAxisx = LeftHandExtraFinger3RotateAxis.LeftHandExtraFinger3RotateAxisx
-    LeftHandExtraFinger3RotateAxisy = LeftHandExtraFinger3RotateAxis.LeftHandExtraFinger3RotateAxisy
-    LeftHandExtraFinger3RotateAxisz = LeftHandExtraFinger3RotateAxis.LeftHandExtraFinger3RotateAxisz
+    LeftHandExtraFinger3RotateAxis = LeftHandExtraFinger3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger3RotateAxisx = (
+        LeftHandExtraFinger3RotateAxis.LeftHandExtraFinger3RotateAxisx
+    )
+    LeftHandExtraFinger3RotateAxisy = (
+        LeftHandExtraFinger3RotateAxis.LeftHandExtraFinger3RotateAxisy
+    )
+    LeftHandExtraFinger3RotateAxisz = (
+        LeftHandExtraFinger3RotateAxis.LeftHandExtraFinger3RotateAxisz
+    )
 
-    LeftHandExtraFinger3JointOrient = LeftHandExtraFinger3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger3JointOrientx = LeftHandExtraFinger3JointOrient.LeftHandExtraFinger3JointOrientx
-    LeftHandExtraFinger3JointOrienty = LeftHandExtraFinger3JointOrient.LeftHandExtraFinger3JointOrienty
-    LeftHandExtraFinger3JointOrientz = LeftHandExtraFinger3JointOrient.LeftHandExtraFinger3JointOrientz
+    LeftHandExtraFinger3JointOrient = LeftHandExtraFinger3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger3JointOrientx = (
+        LeftHandExtraFinger3JointOrient.LeftHandExtraFinger3JointOrientx
+    )
+    LeftHandExtraFinger3JointOrienty = (
+        LeftHandExtraFinger3JointOrient.LeftHandExtraFinger3JointOrienty
+    )
+    LeftHandExtraFinger3JointOrientz = (
+        LeftHandExtraFinger3JointOrient.LeftHandExtraFinger3JointOrientz
+    )
 
-    LeftHandExtraFinger3MinRLimit = LeftHandExtraFinger3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger3MinRLimitx = LeftHandExtraFinger3MinRLimit.LeftHandExtraFinger3MinRLimitx
-    LeftHandExtraFinger3MinRLimity = LeftHandExtraFinger3MinRLimit.LeftHandExtraFinger3MinRLimity
-    LeftHandExtraFinger3MinRLimitz = LeftHandExtraFinger3MinRLimit.LeftHandExtraFinger3MinRLimitz
+    LeftHandExtraFinger3MinRLimit = LeftHandExtraFinger3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger3MinRLimitx = (
+        LeftHandExtraFinger3MinRLimit.LeftHandExtraFinger3MinRLimitx
+    )
+    LeftHandExtraFinger3MinRLimity = (
+        LeftHandExtraFinger3MinRLimit.LeftHandExtraFinger3MinRLimity
+    )
+    LeftHandExtraFinger3MinRLimitz = (
+        LeftHandExtraFinger3MinRLimit.LeftHandExtraFinger3MinRLimitz
+    )
 
-    LeftHandExtraFinger3MaxRLimit = LeftHandExtraFinger3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger3MaxRLimitx = LeftHandExtraFinger3MaxRLimit.LeftHandExtraFinger3MaxRLimitx
-    LeftHandExtraFinger3MaxRLimity = LeftHandExtraFinger3MaxRLimit.LeftHandExtraFinger3MaxRLimity
-    LeftHandExtraFinger3MaxRLimitz = LeftHandExtraFinger3MaxRLimit.LeftHandExtraFinger3MaxRLimitz
+    LeftHandExtraFinger3MaxRLimit = LeftHandExtraFinger3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger3MaxRLimitx = (
+        LeftHandExtraFinger3MaxRLimit.LeftHandExtraFinger3MaxRLimitx
+    )
+    LeftHandExtraFinger3MaxRLimity = (
+        LeftHandExtraFinger3MaxRLimit.LeftHandExtraFinger3MaxRLimity
+    )
+    LeftHandExtraFinger3MaxRLimitz = (
+        LeftHandExtraFinger3MaxRLimit.LeftHandExtraFinger3MaxRLimitz
+    )
 
     LeftHandExtraFinger3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13722,42 +16076,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftHandExtraFinger4 = MessageField()
 
-    LeftHandExtraFinger4T = LeftHandExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger4T = LeftHandExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger4Tx = LeftHandExtraFinger4T.LeftHandExtraFinger4Tx
     LeftHandExtraFinger4Ty = LeftHandExtraFinger4T.LeftHandExtraFinger4Ty
     LeftHandExtraFinger4Tz = LeftHandExtraFinger4T.LeftHandExtraFinger4Tz
 
-    LeftHandExtraFinger4R = LeftHandExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger4R = LeftHandExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger4Rx = LeftHandExtraFinger4R.LeftHandExtraFinger4Rx
     LeftHandExtraFinger4Ry = LeftHandExtraFinger4R.LeftHandExtraFinger4Ry
     LeftHandExtraFinger4Rz = LeftHandExtraFinger4R.LeftHandExtraFinger4Rz
 
-    LeftHandExtraFinger4S = LeftHandExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger4S = LeftHandExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger4Sx = LeftHandExtraFinger4S.LeftHandExtraFinger4Sx
     LeftHandExtraFinger4Sy = LeftHandExtraFinger4S.LeftHandExtraFinger4Sy
     LeftHandExtraFinger4Sz = LeftHandExtraFinger4S.LeftHandExtraFinger4Sz
 
-    LeftHandExtraFinger4RotateOrder = LeftHandExtraFinger4RotateOrderEnumField(default_value=0)
+    LeftHandExtraFinger4RotateOrder = LeftHandExtraFinger4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftHandExtraFinger4RotateAxis = LeftHandExtraFinger4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger4RotateAxisx = LeftHandExtraFinger4RotateAxis.LeftHandExtraFinger4RotateAxisx
-    LeftHandExtraFinger4RotateAxisy = LeftHandExtraFinger4RotateAxis.LeftHandExtraFinger4RotateAxisy
-    LeftHandExtraFinger4RotateAxisz = LeftHandExtraFinger4RotateAxis.LeftHandExtraFinger4RotateAxisz
+    LeftHandExtraFinger4RotateAxis = LeftHandExtraFinger4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger4RotateAxisx = (
+        LeftHandExtraFinger4RotateAxis.LeftHandExtraFinger4RotateAxisx
+    )
+    LeftHandExtraFinger4RotateAxisy = (
+        LeftHandExtraFinger4RotateAxis.LeftHandExtraFinger4RotateAxisy
+    )
+    LeftHandExtraFinger4RotateAxisz = (
+        LeftHandExtraFinger4RotateAxis.LeftHandExtraFinger4RotateAxisz
+    )
 
-    LeftHandExtraFinger4JointOrient = LeftHandExtraFinger4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger4JointOrientx = LeftHandExtraFinger4JointOrient.LeftHandExtraFinger4JointOrientx
-    LeftHandExtraFinger4JointOrienty = LeftHandExtraFinger4JointOrient.LeftHandExtraFinger4JointOrienty
-    LeftHandExtraFinger4JointOrientz = LeftHandExtraFinger4JointOrient.LeftHandExtraFinger4JointOrientz
+    LeftHandExtraFinger4JointOrient = LeftHandExtraFinger4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger4JointOrientx = (
+        LeftHandExtraFinger4JointOrient.LeftHandExtraFinger4JointOrientx
+    )
+    LeftHandExtraFinger4JointOrienty = (
+        LeftHandExtraFinger4JointOrient.LeftHandExtraFinger4JointOrienty
+    )
+    LeftHandExtraFinger4JointOrientz = (
+        LeftHandExtraFinger4JointOrient.LeftHandExtraFinger4JointOrientz
+    )
 
-    LeftHandExtraFinger4MinRLimit = LeftHandExtraFinger4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger4MinRLimitx = LeftHandExtraFinger4MinRLimit.LeftHandExtraFinger4MinRLimitx
-    LeftHandExtraFinger4MinRLimity = LeftHandExtraFinger4MinRLimit.LeftHandExtraFinger4MinRLimity
-    LeftHandExtraFinger4MinRLimitz = LeftHandExtraFinger4MinRLimit.LeftHandExtraFinger4MinRLimitz
+    LeftHandExtraFinger4MinRLimit = LeftHandExtraFinger4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger4MinRLimitx = (
+        LeftHandExtraFinger4MinRLimit.LeftHandExtraFinger4MinRLimitx
+    )
+    LeftHandExtraFinger4MinRLimity = (
+        LeftHandExtraFinger4MinRLimit.LeftHandExtraFinger4MinRLimity
+    )
+    LeftHandExtraFinger4MinRLimitz = (
+        LeftHandExtraFinger4MinRLimit.LeftHandExtraFinger4MinRLimitz
+    )
 
-    LeftHandExtraFinger4MaxRLimit = LeftHandExtraFinger4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger4MaxRLimitx = LeftHandExtraFinger4MaxRLimit.LeftHandExtraFinger4MaxRLimitx
-    LeftHandExtraFinger4MaxRLimity = LeftHandExtraFinger4MaxRLimit.LeftHandExtraFinger4MaxRLimity
-    LeftHandExtraFinger4MaxRLimitz = LeftHandExtraFinger4MaxRLimit.LeftHandExtraFinger4MaxRLimitz
+    LeftHandExtraFinger4MaxRLimit = LeftHandExtraFinger4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger4MaxRLimitx = (
+        LeftHandExtraFinger4MaxRLimit.LeftHandExtraFinger4MaxRLimitx
+    )
+    LeftHandExtraFinger4MaxRLimity = (
+        LeftHandExtraFinger4MaxRLimit.LeftHandExtraFinger4MaxRLimity
+    )
+    LeftHandExtraFinger4MaxRLimitz = (
+        LeftHandExtraFinger4MaxRLimit.LeftHandExtraFinger4MaxRLimitz
+    )
 
     LeftHandExtraFinger4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13788,27 +16182,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandThumb1Sy = RightHandThumb1S.RightHandThumb1Sy
     RightHandThumb1Sz = RightHandThumb1S.RightHandThumb1Sz
 
-    RightHandThumb1RotateOrder = RightHandThumb1RotateOrderEnumField(default_value=0)
+    RightHandThumb1RotateOrder = RightHandThumb1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandThumb1RotateAxis = RightHandThumb1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb1RotateAxisx = RightHandThumb1RotateAxis.RightHandThumb1RotateAxisx
-    RightHandThumb1RotateAxisy = RightHandThumb1RotateAxis.RightHandThumb1RotateAxisy
-    RightHandThumb1RotateAxisz = RightHandThumb1RotateAxis.RightHandThumb1RotateAxisz
+    RightHandThumb1RotateAxis = RightHandThumb1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb1RotateAxisx = (
+        RightHandThumb1RotateAxis.RightHandThumb1RotateAxisx
+    )
+    RightHandThumb1RotateAxisy = (
+        RightHandThumb1RotateAxis.RightHandThumb1RotateAxisy
+    )
+    RightHandThumb1RotateAxisz = (
+        RightHandThumb1RotateAxis.RightHandThumb1RotateAxisz
+    )
 
-    RightHandThumb1JointOrient = RightHandThumb1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb1JointOrientx = RightHandThumb1JointOrient.RightHandThumb1JointOrientx
-    RightHandThumb1JointOrienty = RightHandThumb1JointOrient.RightHandThumb1JointOrienty
-    RightHandThumb1JointOrientz = RightHandThumb1JointOrient.RightHandThumb1JointOrientz
+    RightHandThumb1JointOrient = RightHandThumb1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb1JointOrientx = (
+        RightHandThumb1JointOrient.RightHandThumb1JointOrientx
+    )
+    RightHandThumb1JointOrienty = (
+        RightHandThumb1JointOrient.RightHandThumb1JointOrienty
+    )
+    RightHandThumb1JointOrientz = (
+        RightHandThumb1JointOrient.RightHandThumb1JointOrientz
+    )
 
-    RightHandThumb1MinRLimit = RightHandThumb1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb1MinRLimitx = RightHandThumb1MinRLimit.RightHandThumb1MinRLimitx
-    RightHandThumb1MinRLimity = RightHandThumb1MinRLimit.RightHandThumb1MinRLimity
-    RightHandThumb1MinRLimitz = RightHandThumb1MinRLimit.RightHandThumb1MinRLimitz
+    RightHandThumb1MinRLimit = RightHandThumb1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb1MinRLimitx = (
+        RightHandThumb1MinRLimit.RightHandThumb1MinRLimitx
+    )
+    RightHandThumb1MinRLimity = (
+        RightHandThumb1MinRLimit.RightHandThumb1MinRLimity
+    )
+    RightHandThumb1MinRLimitz = (
+        RightHandThumb1MinRLimit.RightHandThumb1MinRLimitz
+    )
 
-    RightHandThumb1MaxRLimit = RightHandThumb1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb1MaxRLimitx = RightHandThumb1MaxRLimit.RightHandThumb1MaxRLimitx
-    RightHandThumb1MaxRLimity = RightHandThumb1MaxRLimit.RightHandThumb1MaxRLimity
-    RightHandThumb1MaxRLimitz = RightHandThumb1MaxRLimit.RightHandThumb1MaxRLimitz
+    RightHandThumb1MaxRLimit = RightHandThumb1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb1MaxRLimitx = (
+        RightHandThumb1MaxRLimit.RightHandThumb1MaxRLimitx
+    )
+    RightHandThumb1MaxRLimity = (
+        RightHandThumb1MaxRLimit.RightHandThumb1MaxRLimity
+    )
+    RightHandThumb1MaxRLimitz = (
+        RightHandThumb1MaxRLimit.RightHandThumb1MaxRLimitz
+    )
 
     RightHandThumb1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13839,27 +16267,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandThumb2Sy = RightHandThumb2S.RightHandThumb2Sy
     RightHandThumb2Sz = RightHandThumb2S.RightHandThumb2Sz
 
-    RightHandThumb2RotateOrder = RightHandThumb2RotateOrderEnumField(default_value=0)
+    RightHandThumb2RotateOrder = RightHandThumb2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandThumb2RotateAxis = RightHandThumb2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb2RotateAxisx = RightHandThumb2RotateAxis.RightHandThumb2RotateAxisx
-    RightHandThumb2RotateAxisy = RightHandThumb2RotateAxis.RightHandThumb2RotateAxisy
-    RightHandThumb2RotateAxisz = RightHandThumb2RotateAxis.RightHandThumb2RotateAxisz
+    RightHandThumb2RotateAxis = RightHandThumb2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb2RotateAxisx = (
+        RightHandThumb2RotateAxis.RightHandThumb2RotateAxisx
+    )
+    RightHandThumb2RotateAxisy = (
+        RightHandThumb2RotateAxis.RightHandThumb2RotateAxisy
+    )
+    RightHandThumb2RotateAxisz = (
+        RightHandThumb2RotateAxis.RightHandThumb2RotateAxisz
+    )
 
-    RightHandThumb2JointOrient = RightHandThumb2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb2JointOrientx = RightHandThumb2JointOrient.RightHandThumb2JointOrientx
-    RightHandThumb2JointOrienty = RightHandThumb2JointOrient.RightHandThumb2JointOrienty
-    RightHandThumb2JointOrientz = RightHandThumb2JointOrient.RightHandThumb2JointOrientz
+    RightHandThumb2JointOrient = RightHandThumb2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb2JointOrientx = (
+        RightHandThumb2JointOrient.RightHandThumb2JointOrientx
+    )
+    RightHandThumb2JointOrienty = (
+        RightHandThumb2JointOrient.RightHandThumb2JointOrienty
+    )
+    RightHandThumb2JointOrientz = (
+        RightHandThumb2JointOrient.RightHandThumb2JointOrientz
+    )
 
-    RightHandThumb2MinRLimit = RightHandThumb2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb2MinRLimitx = RightHandThumb2MinRLimit.RightHandThumb2MinRLimitx
-    RightHandThumb2MinRLimity = RightHandThumb2MinRLimit.RightHandThumb2MinRLimity
-    RightHandThumb2MinRLimitz = RightHandThumb2MinRLimit.RightHandThumb2MinRLimitz
+    RightHandThumb2MinRLimit = RightHandThumb2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb2MinRLimitx = (
+        RightHandThumb2MinRLimit.RightHandThumb2MinRLimitx
+    )
+    RightHandThumb2MinRLimity = (
+        RightHandThumb2MinRLimit.RightHandThumb2MinRLimity
+    )
+    RightHandThumb2MinRLimitz = (
+        RightHandThumb2MinRLimit.RightHandThumb2MinRLimitz
+    )
 
-    RightHandThumb2MaxRLimit = RightHandThumb2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb2MaxRLimitx = RightHandThumb2MaxRLimit.RightHandThumb2MaxRLimitx
-    RightHandThumb2MaxRLimity = RightHandThumb2MaxRLimit.RightHandThumb2MaxRLimity
-    RightHandThumb2MaxRLimitz = RightHandThumb2MaxRLimit.RightHandThumb2MaxRLimitz
+    RightHandThumb2MaxRLimit = RightHandThumb2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb2MaxRLimitx = (
+        RightHandThumb2MaxRLimit.RightHandThumb2MaxRLimitx
+    )
+    RightHandThumb2MaxRLimity = (
+        RightHandThumb2MaxRLimit.RightHandThumb2MaxRLimity
+    )
+    RightHandThumb2MaxRLimitz = (
+        RightHandThumb2MaxRLimit.RightHandThumb2MaxRLimitz
+    )
 
     RightHandThumb2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13890,27 +16352,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandThumb3Sy = RightHandThumb3S.RightHandThumb3Sy
     RightHandThumb3Sz = RightHandThumb3S.RightHandThumb3Sz
 
-    RightHandThumb3RotateOrder = RightHandThumb3RotateOrderEnumField(default_value=0)
+    RightHandThumb3RotateOrder = RightHandThumb3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandThumb3RotateAxis = RightHandThumb3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb3RotateAxisx = RightHandThumb3RotateAxis.RightHandThumb3RotateAxisx
-    RightHandThumb3RotateAxisy = RightHandThumb3RotateAxis.RightHandThumb3RotateAxisy
-    RightHandThumb3RotateAxisz = RightHandThumb3RotateAxis.RightHandThumb3RotateAxisz
+    RightHandThumb3RotateAxis = RightHandThumb3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb3RotateAxisx = (
+        RightHandThumb3RotateAxis.RightHandThumb3RotateAxisx
+    )
+    RightHandThumb3RotateAxisy = (
+        RightHandThumb3RotateAxis.RightHandThumb3RotateAxisy
+    )
+    RightHandThumb3RotateAxisz = (
+        RightHandThumb3RotateAxis.RightHandThumb3RotateAxisz
+    )
 
-    RightHandThumb3JointOrient = RightHandThumb3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb3JointOrientx = RightHandThumb3JointOrient.RightHandThumb3JointOrientx
-    RightHandThumb3JointOrienty = RightHandThumb3JointOrient.RightHandThumb3JointOrienty
-    RightHandThumb3JointOrientz = RightHandThumb3JointOrient.RightHandThumb3JointOrientz
+    RightHandThumb3JointOrient = RightHandThumb3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb3JointOrientx = (
+        RightHandThumb3JointOrient.RightHandThumb3JointOrientx
+    )
+    RightHandThumb3JointOrienty = (
+        RightHandThumb3JointOrient.RightHandThumb3JointOrienty
+    )
+    RightHandThumb3JointOrientz = (
+        RightHandThumb3JointOrient.RightHandThumb3JointOrientz
+    )
 
-    RightHandThumb3MinRLimit = RightHandThumb3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb3MinRLimitx = RightHandThumb3MinRLimit.RightHandThumb3MinRLimitx
-    RightHandThumb3MinRLimity = RightHandThumb3MinRLimit.RightHandThumb3MinRLimity
-    RightHandThumb3MinRLimitz = RightHandThumb3MinRLimit.RightHandThumb3MinRLimitz
+    RightHandThumb3MinRLimit = RightHandThumb3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb3MinRLimitx = (
+        RightHandThumb3MinRLimit.RightHandThumb3MinRLimitx
+    )
+    RightHandThumb3MinRLimity = (
+        RightHandThumb3MinRLimit.RightHandThumb3MinRLimity
+    )
+    RightHandThumb3MinRLimitz = (
+        RightHandThumb3MinRLimit.RightHandThumb3MinRLimitz
+    )
 
-    RightHandThumb3MaxRLimit = RightHandThumb3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb3MaxRLimitx = RightHandThumb3MaxRLimit.RightHandThumb3MaxRLimitx
-    RightHandThumb3MaxRLimity = RightHandThumb3MaxRLimit.RightHandThumb3MaxRLimity
-    RightHandThumb3MaxRLimitz = RightHandThumb3MaxRLimit.RightHandThumb3MaxRLimitz
+    RightHandThumb3MaxRLimit = RightHandThumb3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb3MaxRLimitx = (
+        RightHandThumb3MaxRLimit.RightHandThumb3MaxRLimitx
+    )
+    RightHandThumb3MaxRLimity = (
+        RightHandThumb3MaxRLimit.RightHandThumb3MaxRLimity
+    )
+    RightHandThumb3MaxRLimitz = (
+        RightHandThumb3MaxRLimit.RightHandThumb3MaxRLimitz
+    )
 
     RightHandThumb3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13941,27 +16437,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandThumb4Sy = RightHandThumb4S.RightHandThumb4Sy
     RightHandThumb4Sz = RightHandThumb4S.RightHandThumb4Sz
 
-    RightHandThumb4RotateOrder = RightHandThumb4RotateOrderEnumField(default_value=0)
+    RightHandThumb4RotateOrder = RightHandThumb4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandThumb4RotateAxis = RightHandThumb4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb4RotateAxisx = RightHandThumb4RotateAxis.RightHandThumb4RotateAxisx
-    RightHandThumb4RotateAxisy = RightHandThumb4RotateAxis.RightHandThumb4RotateAxisy
-    RightHandThumb4RotateAxisz = RightHandThumb4RotateAxis.RightHandThumb4RotateAxisz
+    RightHandThumb4RotateAxis = RightHandThumb4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb4RotateAxisx = (
+        RightHandThumb4RotateAxis.RightHandThumb4RotateAxisx
+    )
+    RightHandThumb4RotateAxisy = (
+        RightHandThumb4RotateAxis.RightHandThumb4RotateAxisy
+    )
+    RightHandThumb4RotateAxisz = (
+        RightHandThumb4RotateAxis.RightHandThumb4RotateAxisz
+    )
 
-    RightHandThumb4JointOrient = RightHandThumb4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb4JointOrientx = RightHandThumb4JointOrient.RightHandThumb4JointOrientx
-    RightHandThumb4JointOrienty = RightHandThumb4JointOrient.RightHandThumb4JointOrienty
-    RightHandThumb4JointOrientz = RightHandThumb4JointOrient.RightHandThumb4JointOrientz
+    RightHandThumb4JointOrient = RightHandThumb4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb4JointOrientx = (
+        RightHandThumb4JointOrient.RightHandThumb4JointOrientx
+    )
+    RightHandThumb4JointOrienty = (
+        RightHandThumb4JointOrient.RightHandThumb4JointOrienty
+    )
+    RightHandThumb4JointOrientz = (
+        RightHandThumb4JointOrient.RightHandThumb4JointOrientz
+    )
 
-    RightHandThumb4MinRLimit = RightHandThumb4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb4MinRLimitx = RightHandThumb4MinRLimit.RightHandThumb4MinRLimitx
-    RightHandThumb4MinRLimity = RightHandThumb4MinRLimit.RightHandThumb4MinRLimity
-    RightHandThumb4MinRLimitz = RightHandThumb4MinRLimit.RightHandThumb4MinRLimitz
+    RightHandThumb4MinRLimit = RightHandThumb4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb4MinRLimitx = (
+        RightHandThumb4MinRLimit.RightHandThumb4MinRLimitx
+    )
+    RightHandThumb4MinRLimity = (
+        RightHandThumb4MinRLimit.RightHandThumb4MinRLimity
+    )
+    RightHandThumb4MinRLimitz = (
+        RightHandThumb4MinRLimit.RightHandThumb4MinRLimitz
+    )
 
-    RightHandThumb4MaxRLimit = RightHandThumb4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandThumb4MaxRLimitx = RightHandThumb4MaxRLimit.RightHandThumb4MaxRLimitx
-    RightHandThumb4MaxRLimity = RightHandThumb4MaxRLimit.RightHandThumb4MaxRLimity
-    RightHandThumb4MaxRLimitz = RightHandThumb4MaxRLimit.RightHandThumb4MaxRLimitz
+    RightHandThumb4MaxRLimit = RightHandThumb4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandThumb4MaxRLimitx = (
+        RightHandThumb4MaxRLimit.RightHandThumb4MaxRLimitx
+    )
+    RightHandThumb4MaxRLimity = (
+        RightHandThumb4MaxRLimit.RightHandThumb4MaxRLimity
+    )
+    RightHandThumb4MaxRLimitz = (
+        RightHandThumb4MaxRLimit.RightHandThumb4MaxRLimitz
+    )
 
     RightHandThumb4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -13992,27 +16522,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandIndex1Sy = RightHandIndex1S.RightHandIndex1Sy
     RightHandIndex1Sz = RightHandIndex1S.RightHandIndex1Sz
 
-    RightHandIndex1RotateOrder = RightHandIndex1RotateOrderEnumField(default_value=0)
+    RightHandIndex1RotateOrder = RightHandIndex1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandIndex1RotateAxis = RightHandIndex1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex1RotateAxisx = RightHandIndex1RotateAxis.RightHandIndex1RotateAxisx
-    RightHandIndex1RotateAxisy = RightHandIndex1RotateAxis.RightHandIndex1RotateAxisy
-    RightHandIndex1RotateAxisz = RightHandIndex1RotateAxis.RightHandIndex1RotateAxisz
+    RightHandIndex1RotateAxis = RightHandIndex1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex1RotateAxisx = (
+        RightHandIndex1RotateAxis.RightHandIndex1RotateAxisx
+    )
+    RightHandIndex1RotateAxisy = (
+        RightHandIndex1RotateAxis.RightHandIndex1RotateAxisy
+    )
+    RightHandIndex1RotateAxisz = (
+        RightHandIndex1RotateAxis.RightHandIndex1RotateAxisz
+    )
 
-    RightHandIndex1JointOrient = RightHandIndex1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex1JointOrientx = RightHandIndex1JointOrient.RightHandIndex1JointOrientx
-    RightHandIndex1JointOrienty = RightHandIndex1JointOrient.RightHandIndex1JointOrienty
-    RightHandIndex1JointOrientz = RightHandIndex1JointOrient.RightHandIndex1JointOrientz
+    RightHandIndex1JointOrient = RightHandIndex1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex1JointOrientx = (
+        RightHandIndex1JointOrient.RightHandIndex1JointOrientx
+    )
+    RightHandIndex1JointOrienty = (
+        RightHandIndex1JointOrient.RightHandIndex1JointOrienty
+    )
+    RightHandIndex1JointOrientz = (
+        RightHandIndex1JointOrient.RightHandIndex1JointOrientz
+    )
 
-    RightHandIndex1MinRLimit = RightHandIndex1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex1MinRLimitx = RightHandIndex1MinRLimit.RightHandIndex1MinRLimitx
-    RightHandIndex1MinRLimity = RightHandIndex1MinRLimit.RightHandIndex1MinRLimity
-    RightHandIndex1MinRLimitz = RightHandIndex1MinRLimit.RightHandIndex1MinRLimitz
+    RightHandIndex1MinRLimit = RightHandIndex1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex1MinRLimitx = (
+        RightHandIndex1MinRLimit.RightHandIndex1MinRLimitx
+    )
+    RightHandIndex1MinRLimity = (
+        RightHandIndex1MinRLimit.RightHandIndex1MinRLimity
+    )
+    RightHandIndex1MinRLimitz = (
+        RightHandIndex1MinRLimit.RightHandIndex1MinRLimitz
+    )
 
-    RightHandIndex1MaxRLimit = RightHandIndex1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex1MaxRLimitx = RightHandIndex1MaxRLimit.RightHandIndex1MaxRLimitx
-    RightHandIndex1MaxRLimity = RightHandIndex1MaxRLimit.RightHandIndex1MaxRLimity
-    RightHandIndex1MaxRLimitz = RightHandIndex1MaxRLimit.RightHandIndex1MaxRLimitz
+    RightHandIndex1MaxRLimit = RightHandIndex1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex1MaxRLimitx = (
+        RightHandIndex1MaxRLimit.RightHandIndex1MaxRLimitx
+    )
+    RightHandIndex1MaxRLimity = (
+        RightHandIndex1MaxRLimit.RightHandIndex1MaxRLimity
+    )
+    RightHandIndex1MaxRLimitz = (
+        RightHandIndex1MaxRLimit.RightHandIndex1MaxRLimitz
+    )
 
     RightHandIndex1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14043,27 +16607,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandIndex2Sy = RightHandIndex2S.RightHandIndex2Sy
     RightHandIndex2Sz = RightHandIndex2S.RightHandIndex2Sz
 
-    RightHandIndex2RotateOrder = RightHandIndex2RotateOrderEnumField(default_value=0)
+    RightHandIndex2RotateOrder = RightHandIndex2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandIndex2RotateAxis = RightHandIndex2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex2RotateAxisx = RightHandIndex2RotateAxis.RightHandIndex2RotateAxisx
-    RightHandIndex2RotateAxisy = RightHandIndex2RotateAxis.RightHandIndex2RotateAxisy
-    RightHandIndex2RotateAxisz = RightHandIndex2RotateAxis.RightHandIndex2RotateAxisz
+    RightHandIndex2RotateAxis = RightHandIndex2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex2RotateAxisx = (
+        RightHandIndex2RotateAxis.RightHandIndex2RotateAxisx
+    )
+    RightHandIndex2RotateAxisy = (
+        RightHandIndex2RotateAxis.RightHandIndex2RotateAxisy
+    )
+    RightHandIndex2RotateAxisz = (
+        RightHandIndex2RotateAxis.RightHandIndex2RotateAxisz
+    )
 
-    RightHandIndex2JointOrient = RightHandIndex2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex2JointOrientx = RightHandIndex2JointOrient.RightHandIndex2JointOrientx
-    RightHandIndex2JointOrienty = RightHandIndex2JointOrient.RightHandIndex2JointOrienty
-    RightHandIndex2JointOrientz = RightHandIndex2JointOrient.RightHandIndex2JointOrientz
+    RightHandIndex2JointOrient = RightHandIndex2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex2JointOrientx = (
+        RightHandIndex2JointOrient.RightHandIndex2JointOrientx
+    )
+    RightHandIndex2JointOrienty = (
+        RightHandIndex2JointOrient.RightHandIndex2JointOrienty
+    )
+    RightHandIndex2JointOrientz = (
+        RightHandIndex2JointOrient.RightHandIndex2JointOrientz
+    )
 
-    RightHandIndex2MinRLimit = RightHandIndex2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex2MinRLimitx = RightHandIndex2MinRLimit.RightHandIndex2MinRLimitx
-    RightHandIndex2MinRLimity = RightHandIndex2MinRLimit.RightHandIndex2MinRLimity
-    RightHandIndex2MinRLimitz = RightHandIndex2MinRLimit.RightHandIndex2MinRLimitz
+    RightHandIndex2MinRLimit = RightHandIndex2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex2MinRLimitx = (
+        RightHandIndex2MinRLimit.RightHandIndex2MinRLimitx
+    )
+    RightHandIndex2MinRLimity = (
+        RightHandIndex2MinRLimit.RightHandIndex2MinRLimity
+    )
+    RightHandIndex2MinRLimitz = (
+        RightHandIndex2MinRLimit.RightHandIndex2MinRLimitz
+    )
 
-    RightHandIndex2MaxRLimit = RightHandIndex2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex2MaxRLimitx = RightHandIndex2MaxRLimit.RightHandIndex2MaxRLimitx
-    RightHandIndex2MaxRLimity = RightHandIndex2MaxRLimit.RightHandIndex2MaxRLimity
-    RightHandIndex2MaxRLimitz = RightHandIndex2MaxRLimit.RightHandIndex2MaxRLimitz
+    RightHandIndex2MaxRLimit = RightHandIndex2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex2MaxRLimitx = (
+        RightHandIndex2MaxRLimit.RightHandIndex2MaxRLimitx
+    )
+    RightHandIndex2MaxRLimity = (
+        RightHandIndex2MaxRLimit.RightHandIndex2MaxRLimity
+    )
+    RightHandIndex2MaxRLimitz = (
+        RightHandIndex2MaxRLimit.RightHandIndex2MaxRLimitz
+    )
 
     RightHandIndex2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14094,27 +16692,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandIndex3Sy = RightHandIndex3S.RightHandIndex3Sy
     RightHandIndex3Sz = RightHandIndex3S.RightHandIndex3Sz
 
-    RightHandIndex3RotateOrder = RightHandIndex3RotateOrderEnumField(default_value=0)
+    RightHandIndex3RotateOrder = RightHandIndex3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandIndex3RotateAxis = RightHandIndex3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex3RotateAxisx = RightHandIndex3RotateAxis.RightHandIndex3RotateAxisx
-    RightHandIndex3RotateAxisy = RightHandIndex3RotateAxis.RightHandIndex3RotateAxisy
-    RightHandIndex3RotateAxisz = RightHandIndex3RotateAxis.RightHandIndex3RotateAxisz
+    RightHandIndex3RotateAxis = RightHandIndex3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex3RotateAxisx = (
+        RightHandIndex3RotateAxis.RightHandIndex3RotateAxisx
+    )
+    RightHandIndex3RotateAxisy = (
+        RightHandIndex3RotateAxis.RightHandIndex3RotateAxisy
+    )
+    RightHandIndex3RotateAxisz = (
+        RightHandIndex3RotateAxis.RightHandIndex3RotateAxisz
+    )
 
-    RightHandIndex3JointOrient = RightHandIndex3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex3JointOrientx = RightHandIndex3JointOrient.RightHandIndex3JointOrientx
-    RightHandIndex3JointOrienty = RightHandIndex3JointOrient.RightHandIndex3JointOrienty
-    RightHandIndex3JointOrientz = RightHandIndex3JointOrient.RightHandIndex3JointOrientz
+    RightHandIndex3JointOrient = RightHandIndex3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex3JointOrientx = (
+        RightHandIndex3JointOrient.RightHandIndex3JointOrientx
+    )
+    RightHandIndex3JointOrienty = (
+        RightHandIndex3JointOrient.RightHandIndex3JointOrienty
+    )
+    RightHandIndex3JointOrientz = (
+        RightHandIndex3JointOrient.RightHandIndex3JointOrientz
+    )
 
-    RightHandIndex3MinRLimit = RightHandIndex3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex3MinRLimitx = RightHandIndex3MinRLimit.RightHandIndex3MinRLimitx
-    RightHandIndex3MinRLimity = RightHandIndex3MinRLimit.RightHandIndex3MinRLimity
-    RightHandIndex3MinRLimitz = RightHandIndex3MinRLimit.RightHandIndex3MinRLimitz
+    RightHandIndex3MinRLimit = RightHandIndex3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex3MinRLimitx = (
+        RightHandIndex3MinRLimit.RightHandIndex3MinRLimitx
+    )
+    RightHandIndex3MinRLimity = (
+        RightHandIndex3MinRLimit.RightHandIndex3MinRLimity
+    )
+    RightHandIndex3MinRLimitz = (
+        RightHandIndex3MinRLimit.RightHandIndex3MinRLimitz
+    )
 
-    RightHandIndex3MaxRLimit = RightHandIndex3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex3MaxRLimitx = RightHandIndex3MaxRLimit.RightHandIndex3MaxRLimitx
-    RightHandIndex3MaxRLimity = RightHandIndex3MaxRLimit.RightHandIndex3MaxRLimity
-    RightHandIndex3MaxRLimitz = RightHandIndex3MaxRLimit.RightHandIndex3MaxRLimitz
+    RightHandIndex3MaxRLimit = RightHandIndex3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex3MaxRLimitx = (
+        RightHandIndex3MaxRLimit.RightHandIndex3MaxRLimitx
+    )
+    RightHandIndex3MaxRLimity = (
+        RightHandIndex3MaxRLimit.RightHandIndex3MaxRLimity
+    )
+    RightHandIndex3MaxRLimitz = (
+        RightHandIndex3MaxRLimit.RightHandIndex3MaxRLimitz
+    )
 
     RightHandIndex3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14145,27 +16777,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandIndex4Sy = RightHandIndex4S.RightHandIndex4Sy
     RightHandIndex4Sz = RightHandIndex4S.RightHandIndex4Sz
 
-    RightHandIndex4RotateOrder = RightHandIndex4RotateOrderEnumField(default_value=0)
+    RightHandIndex4RotateOrder = RightHandIndex4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandIndex4RotateAxis = RightHandIndex4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex4RotateAxisx = RightHandIndex4RotateAxis.RightHandIndex4RotateAxisx
-    RightHandIndex4RotateAxisy = RightHandIndex4RotateAxis.RightHandIndex4RotateAxisy
-    RightHandIndex4RotateAxisz = RightHandIndex4RotateAxis.RightHandIndex4RotateAxisz
+    RightHandIndex4RotateAxis = RightHandIndex4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex4RotateAxisx = (
+        RightHandIndex4RotateAxis.RightHandIndex4RotateAxisx
+    )
+    RightHandIndex4RotateAxisy = (
+        RightHandIndex4RotateAxis.RightHandIndex4RotateAxisy
+    )
+    RightHandIndex4RotateAxisz = (
+        RightHandIndex4RotateAxis.RightHandIndex4RotateAxisz
+    )
 
-    RightHandIndex4JointOrient = RightHandIndex4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex4JointOrientx = RightHandIndex4JointOrient.RightHandIndex4JointOrientx
-    RightHandIndex4JointOrienty = RightHandIndex4JointOrient.RightHandIndex4JointOrienty
-    RightHandIndex4JointOrientz = RightHandIndex4JointOrient.RightHandIndex4JointOrientz
+    RightHandIndex4JointOrient = RightHandIndex4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex4JointOrientx = (
+        RightHandIndex4JointOrient.RightHandIndex4JointOrientx
+    )
+    RightHandIndex4JointOrienty = (
+        RightHandIndex4JointOrient.RightHandIndex4JointOrienty
+    )
+    RightHandIndex4JointOrientz = (
+        RightHandIndex4JointOrient.RightHandIndex4JointOrientz
+    )
 
-    RightHandIndex4MinRLimit = RightHandIndex4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex4MinRLimitx = RightHandIndex4MinRLimit.RightHandIndex4MinRLimitx
-    RightHandIndex4MinRLimity = RightHandIndex4MinRLimit.RightHandIndex4MinRLimity
-    RightHandIndex4MinRLimitz = RightHandIndex4MinRLimit.RightHandIndex4MinRLimitz
+    RightHandIndex4MinRLimit = RightHandIndex4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex4MinRLimitx = (
+        RightHandIndex4MinRLimit.RightHandIndex4MinRLimitx
+    )
+    RightHandIndex4MinRLimity = (
+        RightHandIndex4MinRLimit.RightHandIndex4MinRLimity
+    )
+    RightHandIndex4MinRLimitz = (
+        RightHandIndex4MinRLimit.RightHandIndex4MinRLimitz
+    )
 
-    RightHandIndex4MaxRLimit = RightHandIndex4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandIndex4MaxRLimitx = RightHandIndex4MaxRLimit.RightHandIndex4MaxRLimitx
-    RightHandIndex4MaxRLimity = RightHandIndex4MaxRLimit.RightHandIndex4MaxRLimity
-    RightHandIndex4MaxRLimitz = RightHandIndex4MaxRLimit.RightHandIndex4MaxRLimitz
+    RightHandIndex4MaxRLimit = RightHandIndex4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandIndex4MaxRLimitx = (
+        RightHandIndex4MaxRLimit.RightHandIndex4MaxRLimitx
+    )
+    RightHandIndex4MaxRLimity = (
+        RightHandIndex4MaxRLimit.RightHandIndex4MaxRLimity
+    )
+    RightHandIndex4MaxRLimitz = (
+        RightHandIndex4MaxRLimit.RightHandIndex4MaxRLimitz
+    )
 
     RightHandIndex4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14196,27 +16862,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandMiddle1Sy = RightHandMiddle1S.RightHandMiddle1Sy
     RightHandMiddle1Sz = RightHandMiddle1S.RightHandMiddle1Sz
 
-    RightHandMiddle1RotateOrder = RightHandMiddle1RotateOrderEnumField(default_value=0)
+    RightHandMiddle1RotateOrder = RightHandMiddle1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandMiddle1RotateAxis = RightHandMiddle1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle1RotateAxisx = RightHandMiddle1RotateAxis.RightHandMiddle1RotateAxisx
-    RightHandMiddle1RotateAxisy = RightHandMiddle1RotateAxis.RightHandMiddle1RotateAxisy
-    RightHandMiddle1RotateAxisz = RightHandMiddle1RotateAxis.RightHandMiddle1RotateAxisz
+    RightHandMiddle1RotateAxis = RightHandMiddle1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle1RotateAxisx = (
+        RightHandMiddle1RotateAxis.RightHandMiddle1RotateAxisx
+    )
+    RightHandMiddle1RotateAxisy = (
+        RightHandMiddle1RotateAxis.RightHandMiddle1RotateAxisy
+    )
+    RightHandMiddle1RotateAxisz = (
+        RightHandMiddle1RotateAxis.RightHandMiddle1RotateAxisz
+    )
 
-    RightHandMiddle1JointOrient = RightHandMiddle1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle1JointOrientx = RightHandMiddle1JointOrient.RightHandMiddle1JointOrientx
-    RightHandMiddle1JointOrienty = RightHandMiddle1JointOrient.RightHandMiddle1JointOrienty
-    RightHandMiddle1JointOrientz = RightHandMiddle1JointOrient.RightHandMiddle1JointOrientz
+    RightHandMiddle1JointOrient = RightHandMiddle1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle1JointOrientx = (
+        RightHandMiddle1JointOrient.RightHandMiddle1JointOrientx
+    )
+    RightHandMiddle1JointOrienty = (
+        RightHandMiddle1JointOrient.RightHandMiddle1JointOrienty
+    )
+    RightHandMiddle1JointOrientz = (
+        RightHandMiddle1JointOrient.RightHandMiddle1JointOrientz
+    )
 
-    RightHandMiddle1MinRLimit = RightHandMiddle1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle1MinRLimitx = RightHandMiddle1MinRLimit.RightHandMiddle1MinRLimitx
-    RightHandMiddle1MinRLimity = RightHandMiddle1MinRLimit.RightHandMiddle1MinRLimity
-    RightHandMiddle1MinRLimitz = RightHandMiddle1MinRLimit.RightHandMiddle1MinRLimitz
+    RightHandMiddle1MinRLimit = RightHandMiddle1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle1MinRLimitx = (
+        RightHandMiddle1MinRLimit.RightHandMiddle1MinRLimitx
+    )
+    RightHandMiddle1MinRLimity = (
+        RightHandMiddle1MinRLimit.RightHandMiddle1MinRLimity
+    )
+    RightHandMiddle1MinRLimitz = (
+        RightHandMiddle1MinRLimit.RightHandMiddle1MinRLimitz
+    )
 
-    RightHandMiddle1MaxRLimit = RightHandMiddle1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle1MaxRLimitx = RightHandMiddle1MaxRLimit.RightHandMiddle1MaxRLimitx
-    RightHandMiddle1MaxRLimity = RightHandMiddle1MaxRLimit.RightHandMiddle1MaxRLimity
-    RightHandMiddle1MaxRLimitz = RightHandMiddle1MaxRLimit.RightHandMiddle1MaxRLimitz
+    RightHandMiddle1MaxRLimit = RightHandMiddle1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle1MaxRLimitx = (
+        RightHandMiddle1MaxRLimit.RightHandMiddle1MaxRLimitx
+    )
+    RightHandMiddle1MaxRLimity = (
+        RightHandMiddle1MaxRLimit.RightHandMiddle1MaxRLimity
+    )
+    RightHandMiddle1MaxRLimitz = (
+        RightHandMiddle1MaxRLimit.RightHandMiddle1MaxRLimitz
+    )
 
     RightHandMiddle1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14247,27 +16947,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandMiddle2Sy = RightHandMiddle2S.RightHandMiddle2Sy
     RightHandMiddle2Sz = RightHandMiddle2S.RightHandMiddle2Sz
 
-    RightHandMiddle2RotateOrder = RightHandMiddle2RotateOrderEnumField(default_value=0)
+    RightHandMiddle2RotateOrder = RightHandMiddle2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandMiddle2RotateAxis = RightHandMiddle2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle2RotateAxisx = RightHandMiddle2RotateAxis.RightHandMiddle2RotateAxisx
-    RightHandMiddle2RotateAxisy = RightHandMiddle2RotateAxis.RightHandMiddle2RotateAxisy
-    RightHandMiddle2RotateAxisz = RightHandMiddle2RotateAxis.RightHandMiddle2RotateAxisz
+    RightHandMiddle2RotateAxis = RightHandMiddle2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle2RotateAxisx = (
+        RightHandMiddle2RotateAxis.RightHandMiddle2RotateAxisx
+    )
+    RightHandMiddle2RotateAxisy = (
+        RightHandMiddle2RotateAxis.RightHandMiddle2RotateAxisy
+    )
+    RightHandMiddle2RotateAxisz = (
+        RightHandMiddle2RotateAxis.RightHandMiddle2RotateAxisz
+    )
 
-    RightHandMiddle2JointOrient = RightHandMiddle2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle2JointOrientx = RightHandMiddle2JointOrient.RightHandMiddle2JointOrientx
-    RightHandMiddle2JointOrienty = RightHandMiddle2JointOrient.RightHandMiddle2JointOrienty
-    RightHandMiddle2JointOrientz = RightHandMiddle2JointOrient.RightHandMiddle2JointOrientz
+    RightHandMiddle2JointOrient = RightHandMiddle2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle2JointOrientx = (
+        RightHandMiddle2JointOrient.RightHandMiddle2JointOrientx
+    )
+    RightHandMiddle2JointOrienty = (
+        RightHandMiddle2JointOrient.RightHandMiddle2JointOrienty
+    )
+    RightHandMiddle2JointOrientz = (
+        RightHandMiddle2JointOrient.RightHandMiddle2JointOrientz
+    )
 
-    RightHandMiddle2MinRLimit = RightHandMiddle2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle2MinRLimitx = RightHandMiddle2MinRLimit.RightHandMiddle2MinRLimitx
-    RightHandMiddle2MinRLimity = RightHandMiddle2MinRLimit.RightHandMiddle2MinRLimity
-    RightHandMiddle2MinRLimitz = RightHandMiddle2MinRLimit.RightHandMiddle2MinRLimitz
+    RightHandMiddle2MinRLimit = RightHandMiddle2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle2MinRLimitx = (
+        RightHandMiddle2MinRLimit.RightHandMiddle2MinRLimitx
+    )
+    RightHandMiddle2MinRLimity = (
+        RightHandMiddle2MinRLimit.RightHandMiddle2MinRLimity
+    )
+    RightHandMiddle2MinRLimitz = (
+        RightHandMiddle2MinRLimit.RightHandMiddle2MinRLimitz
+    )
 
-    RightHandMiddle2MaxRLimit = RightHandMiddle2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle2MaxRLimitx = RightHandMiddle2MaxRLimit.RightHandMiddle2MaxRLimitx
-    RightHandMiddle2MaxRLimity = RightHandMiddle2MaxRLimit.RightHandMiddle2MaxRLimity
-    RightHandMiddle2MaxRLimitz = RightHandMiddle2MaxRLimit.RightHandMiddle2MaxRLimitz
+    RightHandMiddle2MaxRLimit = RightHandMiddle2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle2MaxRLimitx = (
+        RightHandMiddle2MaxRLimit.RightHandMiddle2MaxRLimitx
+    )
+    RightHandMiddle2MaxRLimity = (
+        RightHandMiddle2MaxRLimit.RightHandMiddle2MaxRLimity
+    )
+    RightHandMiddle2MaxRLimitz = (
+        RightHandMiddle2MaxRLimit.RightHandMiddle2MaxRLimitz
+    )
 
     RightHandMiddle2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14298,27 +17032,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandMiddle3Sy = RightHandMiddle3S.RightHandMiddle3Sy
     RightHandMiddle3Sz = RightHandMiddle3S.RightHandMiddle3Sz
 
-    RightHandMiddle3RotateOrder = RightHandMiddle3RotateOrderEnumField(default_value=0)
+    RightHandMiddle3RotateOrder = RightHandMiddle3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandMiddle3RotateAxis = RightHandMiddle3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle3RotateAxisx = RightHandMiddle3RotateAxis.RightHandMiddle3RotateAxisx
-    RightHandMiddle3RotateAxisy = RightHandMiddle3RotateAxis.RightHandMiddle3RotateAxisy
-    RightHandMiddle3RotateAxisz = RightHandMiddle3RotateAxis.RightHandMiddle3RotateAxisz
+    RightHandMiddle3RotateAxis = RightHandMiddle3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle3RotateAxisx = (
+        RightHandMiddle3RotateAxis.RightHandMiddle3RotateAxisx
+    )
+    RightHandMiddle3RotateAxisy = (
+        RightHandMiddle3RotateAxis.RightHandMiddle3RotateAxisy
+    )
+    RightHandMiddle3RotateAxisz = (
+        RightHandMiddle3RotateAxis.RightHandMiddle3RotateAxisz
+    )
 
-    RightHandMiddle3JointOrient = RightHandMiddle3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle3JointOrientx = RightHandMiddle3JointOrient.RightHandMiddle3JointOrientx
-    RightHandMiddle3JointOrienty = RightHandMiddle3JointOrient.RightHandMiddle3JointOrienty
-    RightHandMiddle3JointOrientz = RightHandMiddle3JointOrient.RightHandMiddle3JointOrientz
+    RightHandMiddle3JointOrient = RightHandMiddle3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle3JointOrientx = (
+        RightHandMiddle3JointOrient.RightHandMiddle3JointOrientx
+    )
+    RightHandMiddle3JointOrienty = (
+        RightHandMiddle3JointOrient.RightHandMiddle3JointOrienty
+    )
+    RightHandMiddle3JointOrientz = (
+        RightHandMiddle3JointOrient.RightHandMiddle3JointOrientz
+    )
 
-    RightHandMiddle3MinRLimit = RightHandMiddle3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle3MinRLimitx = RightHandMiddle3MinRLimit.RightHandMiddle3MinRLimitx
-    RightHandMiddle3MinRLimity = RightHandMiddle3MinRLimit.RightHandMiddle3MinRLimity
-    RightHandMiddle3MinRLimitz = RightHandMiddle3MinRLimit.RightHandMiddle3MinRLimitz
+    RightHandMiddle3MinRLimit = RightHandMiddle3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle3MinRLimitx = (
+        RightHandMiddle3MinRLimit.RightHandMiddle3MinRLimitx
+    )
+    RightHandMiddle3MinRLimity = (
+        RightHandMiddle3MinRLimit.RightHandMiddle3MinRLimity
+    )
+    RightHandMiddle3MinRLimitz = (
+        RightHandMiddle3MinRLimit.RightHandMiddle3MinRLimitz
+    )
 
-    RightHandMiddle3MaxRLimit = RightHandMiddle3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle3MaxRLimitx = RightHandMiddle3MaxRLimit.RightHandMiddle3MaxRLimitx
-    RightHandMiddle3MaxRLimity = RightHandMiddle3MaxRLimit.RightHandMiddle3MaxRLimity
-    RightHandMiddle3MaxRLimitz = RightHandMiddle3MaxRLimit.RightHandMiddle3MaxRLimitz
+    RightHandMiddle3MaxRLimit = RightHandMiddle3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle3MaxRLimitx = (
+        RightHandMiddle3MaxRLimit.RightHandMiddle3MaxRLimitx
+    )
+    RightHandMiddle3MaxRLimity = (
+        RightHandMiddle3MaxRLimit.RightHandMiddle3MaxRLimity
+    )
+    RightHandMiddle3MaxRLimitz = (
+        RightHandMiddle3MaxRLimit.RightHandMiddle3MaxRLimitz
+    )
 
     RightHandMiddle3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14349,27 +17117,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandMiddle4Sy = RightHandMiddle4S.RightHandMiddle4Sy
     RightHandMiddle4Sz = RightHandMiddle4S.RightHandMiddle4Sz
 
-    RightHandMiddle4RotateOrder = RightHandMiddle4RotateOrderEnumField(default_value=0)
+    RightHandMiddle4RotateOrder = RightHandMiddle4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandMiddle4RotateAxis = RightHandMiddle4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle4RotateAxisx = RightHandMiddle4RotateAxis.RightHandMiddle4RotateAxisx
-    RightHandMiddle4RotateAxisy = RightHandMiddle4RotateAxis.RightHandMiddle4RotateAxisy
-    RightHandMiddle4RotateAxisz = RightHandMiddle4RotateAxis.RightHandMiddle4RotateAxisz
+    RightHandMiddle4RotateAxis = RightHandMiddle4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle4RotateAxisx = (
+        RightHandMiddle4RotateAxis.RightHandMiddle4RotateAxisx
+    )
+    RightHandMiddle4RotateAxisy = (
+        RightHandMiddle4RotateAxis.RightHandMiddle4RotateAxisy
+    )
+    RightHandMiddle4RotateAxisz = (
+        RightHandMiddle4RotateAxis.RightHandMiddle4RotateAxisz
+    )
 
-    RightHandMiddle4JointOrient = RightHandMiddle4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle4JointOrientx = RightHandMiddle4JointOrient.RightHandMiddle4JointOrientx
-    RightHandMiddle4JointOrienty = RightHandMiddle4JointOrient.RightHandMiddle4JointOrienty
-    RightHandMiddle4JointOrientz = RightHandMiddle4JointOrient.RightHandMiddle4JointOrientz
+    RightHandMiddle4JointOrient = RightHandMiddle4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle4JointOrientx = (
+        RightHandMiddle4JointOrient.RightHandMiddle4JointOrientx
+    )
+    RightHandMiddle4JointOrienty = (
+        RightHandMiddle4JointOrient.RightHandMiddle4JointOrienty
+    )
+    RightHandMiddle4JointOrientz = (
+        RightHandMiddle4JointOrient.RightHandMiddle4JointOrientz
+    )
 
-    RightHandMiddle4MinRLimit = RightHandMiddle4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle4MinRLimitx = RightHandMiddle4MinRLimit.RightHandMiddle4MinRLimitx
-    RightHandMiddle4MinRLimity = RightHandMiddle4MinRLimit.RightHandMiddle4MinRLimity
-    RightHandMiddle4MinRLimitz = RightHandMiddle4MinRLimit.RightHandMiddle4MinRLimitz
+    RightHandMiddle4MinRLimit = RightHandMiddle4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle4MinRLimitx = (
+        RightHandMiddle4MinRLimit.RightHandMiddle4MinRLimitx
+    )
+    RightHandMiddle4MinRLimity = (
+        RightHandMiddle4MinRLimit.RightHandMiddle4MinRLimity
+    )
+    RightHandMiddle4MinRLimitz = (
+        RightHandMiddle4MinRLimit.RightHandMiddle4MinRLimitz
+    )
 
-    RightHandMiddle4MaxRLimit = RightHandMiddle4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandMiddle4MaxRLimitx = RightHandMiddle4MaxRLimit.RightHandMiddle4MaxRLimitx
-    RightHandMiddle4MaxRLimity = RightHandMiddle4MaxRLimit.RightHandMiddle4MaxRLimity
-    RightHandMiddle4MaxRLimitz = RightHandMiddle4MaxRLimit.RightHandMiddle4MaxRLimitz
+    RightHandMiddle4MaxRLimit = RightHandMiddle4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandMiddle4MaxRLimitx = (
+        RightHandMiddle4MaxRLimit.RightHandMiddle4MaxRLimitx
+    )
+    RightHandMiddle4MaxRLimity = (
+        RightHandMiddle4MaxRLimit.RightHandMiddle4MaxRLimity
+    )
+    RightHandMiddle4MaxRLimitz = (
+        RightHandMiddle4MaxRLimit.RightHandMiddle4MaxRLimitz
+    )
 
     RightHandMiddle4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14400,24 +17202,46 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandRing1Sy = RightHandRing1S.RightHandRing1Sy
     RightHandRing1Sz = RightHandRing1S.RightHandRing1Sz
 
-    RightHandRing1RotateOrder = RightHandRing1RotateOrderEnumField(default_value=0)
+    RightHandRing1RotateOrder = RightHandRing1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandRing1RotateAxis = RightHandRing1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandRing1RotateAxisx = RightHandRing1RotateAxis.RightHandRing1RotateAxisx
-    RightHandRing1RotateAxisy = RightHandRing1RotateAxis.RightHandRing1RotateAxisy
-    RightHandRing1RotateAxisz = RightHandRing1RotateAxis.RightHandRing1RotateAxisz
+    RightHandRing1RotateAxis = RightHandRing1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandRing1RotateAxisx = (
+        RightHandRing1RotateAxis.RightHandRing1RotateAxisx
+    )
+    RightHandRing1RotateAxisy = (
+        RightHandRing1RotateAxis.RightHandRing1RotateAxisy
+    )
+    RightHandRing1RotateAxisz = (
+        RightHandRing1RotateAxis.RightHandRing1RotateAxisz
+    )
 
-    RightHandRing1JointOrient = RightHandRing1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandRing1JointOrientx = RightHandRing1JointOrient.RightHandRing1JointOrientx
-    RightHandRing1JointOrienty = RightHandRing1JointOrient.RightHandRing1JointOrienty
-    RightHandRing1JointOrientz = RightHandRing1JointOrient.RightHandRing1JointOrientz
+    RightHandRing1JointOrient = RightHandRing1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandRing1JointOrientx = (
+        RightHandRing1JointOrient.RightHandRing1JointOrientx
+    )
+    RightHandRing1JointOrienty = (
+        RightHandRing1JointOrient.RightHandRing1JointOrienty
+    )
+    RightHandRing1JointOrientz = (
+        RightHandRing1JointOrient.RightHandRing1JointOrientz
+    )
 
-    RightHandRing1MinRLimit = RightHandRing1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing1MinRLimit = RightHandRing1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing1MinRLimitx = RightHandRing1MinRLimit.RightHandRing1MinRLimitx
     RightHandRing1MinRLimity = RightHandRing1MinRLimit.RightHandRing1MinRLimity
     RightHandRing1MinRLimitz = RightHandRing1MinRLimit.RightHandRing1MinRLimitz
 
-    RightHandRing1MaxRLimit = RightHandRing1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing1MaxRLimit = RightHandRing1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing1MaxRLimitx = RightHandRing1MaxRLimit.RightHandRing1MaxRLimitx
     RightHandRing1MaxRLimity = RightHandRing1MaxRLimit.RightHandRing1MaxRLimity
     RightHandRing1MaxRLimitz = RightHandRing1MaxRLimit.RightHandRing1MaxRLimitz
@@ -14451,24 +17275,46 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandRing2Sy = RightHandRing2S.RightHandRing2Sy
     RightHandRing2Sz = RightHandRing2S.RightHandRing2Sz
 
-    RightHandRing2RotateOrder = RightHandRing2RotateOrderEnumField(default_value=0)
+    RightHandRing2RotateOrder = RightHandRing2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandRing2RotateAxis = RightHandRing2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandRing2RotateAxisx = RightHandRing2RotateAxis.RightHandRing2RotateAxisx
-    RightHandRing2RotateAxisy = RightHandRing2RotateAxis.RightHandRing2RotateAxisy
-    RightHandRing2RotateAxisz = RightHandRing2RotateAxis.RightHandRing2RotateAxisz
+    RightHandRing2RotateAxis = RightHandRing2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandRing2RotateAxisx = (
+        RightHandRing2RotateAxis.RightHandRing2RotateAxisx
+    )
+    RightHandRing2RotateAxisy = (
+        RightHandRing2RotateAxis.RightHandRing2RotateAxisy
+    )
+    RightHandRing2RotateAxisz = (
+        RightHandRing2RotateAxis.RightHandRing2RotateAxisz
+    )
 
-    RightHandRing2JointOrient = RightHandRing2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandRing2JointOrientx = RightHandRing2JointOrient.RightHandRing2JointOrientx
-    RightHandRing2JointOrienty = RightHandRing2JointOrient.RightHandRing2JointOrienty
-    RightHandRing2JointOrientz = RightHandRing2JointOrient.RightHandRing2JointOrientz
+    RightHandRing2JointOrient = RightHandRing2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandRing2JointOrientx = (
+        RightHandRing2JointOrient.RightHandRing2JointOrientx
+    )
+    RightHandRing2JointOrienty = (
+        RightHandRing2JointOrient.RightHandRing2JointOrienty
+    )
+    RightHandRing2JointOrientz = (
+        RightHandRing2JointOrient.RightHandRing2JointOrientz
+    )
 
-    RightHandRing2MinRLimit = RightHandRing2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing2MinRLimit = RightHandRing2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing2MinRLimitx = RightHandRing2MinRLimit.RightHandRing2MinRLimitx
     RightHandRing2MinRLimity = RightHandRing2MinRLimit.RightHandRing2MinRLimity
     RightHandRing2MinRLimitz = RightHandRing2MinRLimit.RightHandRing2MinRLimitz
 
-    RightHandRing2MaxRLimit = RightHandRing2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing2MaxRLimit = RightHandRing2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing2MaxRLimitx = RightHandRing2MaxRLimit.RightHandRing2MaxRLimitx
     RightHandRing2MaxRLimity = RightHandRing2MaxRLimit.RightHandRing2MaxRLimity
     RightHandRing2MaxRLimitz = RightHandRing2MaxRLimit.RightHandRing2MaxRLimitz
@@ -14502,24 +17348,46 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandRing3Sy = RightHandRing3S.RightHandRing3Sy
     RightHandRing3Sz = RightHandRing3S.RightHandRing3Sz
 
-    RightHandRing3RotateOrder = RightHandRing3RotateOrderEnumField(default_value=0)
+    RightHandRing3RotateOrder = RightHandRing3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandRing3RotateAxis = RightHandRing3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandRing3RotateAxisx = RightHandRing3RotateAxis.RightHandRing3RotateAxisx
-    RightHandRing3RotateAxisy = RightHandRing3RotateAxis.RightHandRing3RotateAxisy
-    RightHandRing3RotateAxisz = RightHandRing3RotateAxis.RightHandRing3RotateAxisz
+    RightHandRing3RotateAxis = RightHandRing3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandRing3RotateAxisx = (
+        RightHandRing3RotateAxis.RightHandRing3RotateAxisx
+    )
+    RightHandRing3RotateAxisy = (
+        RightHandRing3RotateAxis.RightHandRing3RotateAxisy
+    )
+    RightHandRing3RotateAxisz = (
+        RightHandRing3RotateAxis.RightHandRing3RotateAxisz
+    )
 
-    RightHandRing3JointOrient = RightHandRing3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandRing3JointOrientx = RightHandRing3JointOrient.RightHandRing3JointOrientx
-    RightHandRing3JointOrienty = RightHandRing3JointOrient.RightHandRing3JointOrienty
-    RightHandRing3JointOrientz = RightHandRing3JointOrient.RightHandRing3JointOrientz
+    RightHandRing3JointOrient = RightHandRing3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandRing3JointOrientx = (
+        RightHandRing3JointOrient.RightHandRing3JointOrientx
+    )
+    RightHandRing3JointOrienty = (
+        RightHandRing3JointOrient.RightHandRing3JointOrienty
+    )
+    RightHandRing3JointOrientz = (
+        RightHandRing3JointOrient.RightHandRing3JointOrientz
+    )
 
-    RightHandRing3MinRLimit = RightHandRing3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing3MinRLimit = RightHandRing3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing3MinRLimitx = RightHandRing3MinRLimit.RightHandRing3MinRLimitx
     RightHandRing3MinRLimity = RightHandRing3MinRLimit.RightHandRing3MinRLimity
     RightHandRing3MinRLimitz = RightHandRing3MinRLimit.RightHandRing3MinRLimitz
 
-    RightHandRing3MaxRLimit = RightHandRing3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing3MaxRLimit = RightHandRing3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing3MaxRLimitx = RightHandRing3MaxRLimit.RightHandRing3MaxRLimitx
     RightHandRing3MaxRLimity = RightHandRing3MaxRLimit.RightHandRing3MaxRLimity
     RightHandRing3MaxRLimitz = RightHandRing3MaxRLimit.RightHandRing3MaxRLimitz
@@ -14553,24 +17421,46 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandRing4Sy = RightHandRing4S.RightHandRing4Sy
     RightHandRing4Sz = RightHandRing4S.RightHandRing4Sz
 
-    RightHandRing4RotateOrder = RightHandRing4RotateOrderEnumField(default_value=0)
+    RightHandRing4RotateOrder = RightHandRing4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandRing4RotateAxis = RightHandRing4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandRing4RotateAxisx = RightHandRing4RotateAxis.RightHandRing4RotateAxisx
-    RightHandRing4RotateAxisy = RightHandRing4RotateAxis.RightHandRing4RotateAxisy
-    RightHandRing4RotateAxisz = RightHandRing4RotateAxis.RightHandRing4RotateAxisz
+    RightHandRing4RotateAxis = RightHandRing4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandRing4RotateAxisx = (
+        RightHandRing4RotateAxis.RightHandRing4RotateAxisx
+    )
+    RightHandRing4RotateAxisy = (
+        RightHandRing4RotateAxis.RightHandRing4RotateAxisy
+    )
+    RightHandRing4RotateAxisz = (
+        RightHandRing4RotateAxis.RightHandRing4RotateAxisz
+    )
 
-    RightHandRing4JointOrient = RightHandRing4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandRing4JointOrientx = RightHandRing4JointOrient.RightHandRing4JointOrientx
-    RightHandRing4JointOrienty = RightHandRing4JointOrient.RightHandRing4JointOrienty
-    RightHandRing4JointOrientz = RightHandRing4JointOrient.RightHandRing4JointOrientz
+    RightHandRing4JointOrient = RightHandRing4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandRing4JointOrientx = (
+        RightHandRing4JointOrient.RightHandRing4JointOrientx
+    )
+    RightHandRing4JointOrienty = (
+        RightHandRing4JointOrient.RightHandRing4JointOrienty
+    )
+    RightHandRing4JointOrientz = (
+        RightHandRing4JointOrient.RightHandRing4JointOrientz
+    )
 
-    RightHandRing4MinRLimit = RightHandRing4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing4MinRLimit = RightHandRing4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing4MinRLimitx = RightHandRing4MinRLimit.RightHandRing4MinRLimitx
     RightHandRing4MinRLimity = RightHandRing4MinRLimit.RightHandRing4MinRLimity
     RightHandRing4MinRLimitz = RightHandRing4MinRLimit.RightHandRing4MinRLimitz
 
-    RightHandRing4MaxRLimit = RightHandRing4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing4MaxRLimit = RightHandRing4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing4MaxRLimitx = RightHandRing4MaxRLimit.RightHandRing4MaxRLimitx
     RightHandRing4MaxRLimity = RightHandRing4MaxRLimit.RightHandRing4MaxRLimity
     RightHandRing4MaxRLimitz = RightHandRing4MaxRLimit.RightHandRing4MaxRLimitz
@@ -14604,27 +17494,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandPinky1Sy = RightHandPinky1S.RightHandPinky1Sy
     RightHandPinky1Sz = RightHandPinky1S.RightHandPinky1Sz
 
-    RightHandPinky1RotateOrder = RightHandPinky1RotateOrderEnumField(default_value=0)
+    RightHandPinky1RotateOrder = RightHandPinky1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandPinky1RotateAxis = RightHandPinky1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky1RotateAxisx = RightHandPinky1RotateAxis.RightHandPinky1RotateAxisx
-    RightHandPinky1RotateAxisy = RightHandPinky1RotateAxis.RightHandPinky1RotateAxisy
-    RightHandPinky1RotateAxisz = RightHandPinky1RotateAxis.RightHandPinky1RotateAxisz
+    RightHandPinky1RotateAxis = RightHandPinky1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky1RotateAxisx = (
+        RightHandPinky1RotateAxis.RightHandPinky1RotateAxisx
+    )
+    RightHandPinky1RotateAxisy = (
+        RightHandPinky1RotateAxis.RightHandPinky1RotateAxisy
+    )
+    RightHandPinky1RotateAxisz = (
+        RightHandPinky1RotateAxis.RightHandPinky1RotateAxisz
+    )
 
-    RightHandPinky1JointOrient = RightHandPinky1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky1JointOrientx = RightHandPinky1JointOrient.RightHandPinky1JointOrientx
-    RightHandPinky1JointOrienty = RightHandPinky1JointOrient.RightHandPinky1JointOrienty
-    RightHandPinky1JointOrientz = RightHandPinky1JointOrient.RightHandPinky1JointOrientz
+    RightHandPinky1JointOrient = RightHandPinky1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky1JointOrientx = (
+        RightHandPinky1JointOrient.RightHandPinky1JointOrientx
+    )
+    RightHandPinky1JointOrienty = (
+        RightHandPinky1JointOrient.RightHandPinky1JointOrienty
+    )
+    RightHandPinky1JointOrientz = (
+        RightHandPinky1JointOrient.RightHandPinky1JointOrientz
+    )
 
-    RightHandPinky1MinRLimit = RightHandPinky1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky1MinRLimitx = RightHandPinky1MinRLimit.RightHandPinky1MinRLimitx
-    RightHandPinky1MinRLimity = RightHandPinky1MinRLimit.RightHandPinky1MinRLimity
-    RightHandPinky1MinRLimitz = RightHandPinky1MinRLimit.RightHandPinky1MinRLimitz
+    RightHandPinky1MinRLimit = RightHandPinky1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky1MinRLimitx = (
+        RightHandPinky1MinRLimit.RightHandPinky1MinRLimitx
+    )
+    RightHandPinky1MinRLimity = (
+        RightHandPinky1MinRLimit.RightHandPinky1MinRLimity
+    )
+    RightHandPinky1MinRLimitz = (
+        RightHandPinky1MinRLimit.RightHandPinky1MinRLimitz
+    )
 
-    RightHandPinky1MaxRLimit = RightHandPinky1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky1MaxRLimitx = RightHandPinky1MaxRLimit.RightHandPinky1MaxRLimitx
-    RightHandPinky1MaxRLimity = RightHandPinky1MaxRLimit.RightHandPinky1MaxRLimity
-    RightHandPinky1MaxRLimitz = RightHandPinky1MaxRLimit.RightHandPinky1MaxRLimitz
+    RightHandPinky1MaxRLimit = RightHandPinky1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky1MaxRLimitx = (
+        RightHandPinky1MaxRLimit.RightHandPinky1MaxRLimitx
+    )
+    RightHandPinky1MaxRLimity = (
+        RightHandPinky1MaxRLimit.RightHandPinky1MaxRLimity
+    )
+    RightHandPinky1MaxRLimitz = (
+        RightHandPinky1MaxRLimit.RightHandPinky1MaxRLimitz
+    )
 
     RightHandPinky1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14655,27 +17579,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandPinky2Sy = RightHandPinky2S.RightHandPinky2Sy
     RightHandPinky2Sz = RightHandPinky2S.RightHandPinky2Sz
 
-    RightHandPinky2RotateOrder = RightHandPinky2RotateOrderEnumField(default_value=0)
+    RightHandPinky2RotateOrder = RightHandPinky2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandPinky2RotateAxis = RightHandPinky2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky2RotateAxisx = RightHandPinky2RotateAxis.RightHandPinky2RotateAxisx
-    RightHandPinky2RotateAxisy = RightHandPinky2RotateAxis.RightHandPinky2RotateAxisy
-    RightHandPinky2RotateAxisz = RightHandPinky2RotateAxis.RightHandPinky2RotateAxisz
+    RightHandPinky2RotateAxis = RightHandPinky2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky2RotateAxisx = (
+        RightHandPinky2RotateAxis.RightHandPinky2RotateAxisx
+    )
+    RightHandPinky2RotateAxisy = (
+        RightHandPinky2RotateAxis.RightHandPinky2RotateAxisy
+    )
+    RightHandPinky2RotateAxisz = (
+        RightHandPinky2RotateAxis.RightHandPinky2RotateAxisz
+    )
 
-    RightHandPinky2JointOrient = RightHandPinky2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky2JointOrientx = RightHandPinky2JointOrient.RightHandPinky2JointOrientx
-    RightHandPinky2JointOrienty = RightHandPinky2JointOrient.RightHandPinky2JointOrienty
-    RightHandPinky2JointOrientz = RightHandPinky2JointOrient.RightHandPinky2JointOrientz
+    RightHandPinky2JointOrient = RightHandPinky2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky2JointOrientx = (
+        RightHandPinky2JointOrient.RightHandPinky2JointOrientx
+    )
+    RightHandPinky2JointOrienty = (
+        RightHandPinky2JointOrient.RightHandPinky2JointOrienty
+    )
+    RightHandPinky2JointOrientz = (
+        RightHandPinky2JointOrient.RightHandPinky2JointOrientz
+    )
 
-    RightHandPinky2MinRLimit = RightHandPinky2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky2MinRLimitx = RightHandPinky2MinRLimit.RightHandPinky2MinRLimitx
-    RightHandPinky2MinRLimity = RightHandPinky2MinRLimit.RightHandPinky2MinRLimity
-    RightHandPinky2MinRLimitz = RightHandPinky2MinRLimit.RightHandPinky2MinRLimitz
+    RightHandPinky2MinRLimit = RightHandPinky2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky2MinRLimitx = (
+        RightHandPinky2MinRLimit.RightHandPinky2MinRLimitx
+    )
+    RightHandPinky2MinRLimity = (
+        RightHandPinky2MinRLimit.RightHandPinky2MinRLimity
+    )
+    RightHandPinky2MinRLimitz = (
+        RightHandPinky2MinRLimit.RightHandPinky2MinRLimitz
+    )
 
-    RightHandPinky2MaxRLimit = RightHandPinky2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky2MaxRLimitx = RightHandPinky2MaxRLimit.RightHandPinky2MaxRLimitx
-    RightHandPinky2MaxRLimity = RightHandPinky2MaxRLimit.RightHandPinky2MaxRLimity
-    RightHandPinky2MaxRLimitz = RightHandPinky2MaxRLimit.RightHandPinky2MaxRLimitz
+    RightHandPinky2MaxRLimit = RightHandPinky2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky2MaxRLimitx = (
+        RightHandPinky2MaxRLimit.RightHandPinky2MaxRLimitx
+    )
+    RightHandPinky2MaxRLimity = (
+        RightHandPinky2MaxRLimit.RightHandPinky2MaxRLimity
+    )
+    RightHandPinky2MaxRLimitz = (
+        RightHandPinky2MaxRLimit.RightHandPinky2MaxRLimitz
+    )
 
     RightHandPinky2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14706,27 +17664,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandPinky3Sy = RightHandPinky3S.RightHandPinky3Sy
     RightHandPinky3Sz = RightHandPinky3S.RightHandPinky3Sz
 
-    RightHandPinky3RotateOrder = RightHandPinky3RotateOrderEnumField(default_value=0)
+    RightHandPinky3RotateOrder = RightHandPinky3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandPinky3RotateAxis = RightHandPinky3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky3RotateAxisx = RightHandPinky3RotateAxis.RightHandPinky3RotateAxisx
-    RightHandPinky3RotateAxisy = RightHandPinky3RotateAxis.RightHandPinky3RotateAxisy
-    RightHandPinky3RotateAxisz = RightHandPinky3RotateAxis.RightHandPinky3RotateAxisz
+    RightHandPinky3RotateAxis = RightHandPinky3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky3RotateAxisx = (
+        RightHandPinky3RotateAxis.RightHandPinky3RotateAxisx
+    )
+    RightHandPinky3RotateAxisy = (
+        RightHandPinky3RotateAxis.RightHandPinky3RotateAxisy
+    )
+    RightHandPinky3RotateAxisz = (
+        RightHandPinky3RotateAxis.RightHandPinky3RotateAxisz
+    )
 
-    RightHandPinky3JointOrient = RightHandPinky3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky3JointOrientx = RightHandPinky3JointOrient.RightHandPinky3JointOrientx
-    RightHandPinky3JointOrienty = RightHandPinky3JointOrient.RightHandPinky3JointOrienty
-    RightHandPinky3JointOrientz = RightHandPinky3JointOrient.RightHandPinky3JointOrientz
+    RightHandPinky3JointOrient = RightHandPinky3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky3JointOrientx = (
+        RightHandPinky3JointOrient.RightHandPinky3JointOrientx
+    )
+    RightHandPinky3JointOrienty = (
+        RightHandPinky3JointOrient.RightHandPinky3JointOrienty
+    )
+    RightHandPinky3JointOrientz = (
+        RightHandPinky3JointOrient.RightHandPinky3JointOrientz
+    )
 
-    RightHandPinky3MinRLimit = RightHandPinky3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky3MinRLimitx = RightHandPinky3MinRLimit.RightHandPinky3MinRLimitx
-    RightHandPinky3MinRLimity = RightHandPinky3MinRLimit.RightHandPinky3MinRLimity
-    RightHandPinky3MinRLimitz = RightHandPinky3MinRLimit.RightHandPinky3MinRLimitz
+    RightHandPinky3MinRLimit = RightHandPinky3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky3MinRLimitx = (
+        RightHandPinky3MinRLimit.RightHandPinky3MinRLimitx
+    )
+    RightHandPinky3MinRLimity = (
+        RightHandPinky3MinRLimit.RightHandPinky3MinRLimity
+    )
+    RightHandPinky3MinRLimitz = (
+        RightHandPinky3MinRLimit.RightHandPinky3MinRLimitz
+    )
 
-    RightHandPinky3MaxRLimit = RightHandPinky3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky3MaxRLimitx = RightHandPinky3MaxRLimit.RightHandPinky3MaxRLimitx
-    RightHandPinky3MaxRLimity = RightHandPinky3MaxRLimit.RightHandPinky3MaxRLimity
-    RightHandPinky3MaxRLimitz = RightHandPinky3MaxRLimit.RightHandPinky3MaxRLimitz
+    RightHandPinky3MaxRLimit = RightHandPinky3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky3MaxRLimitx = (
+        RightHandPinky3MaxRLimit.RightHandPinky3MaxRLimitx
+    )
+    RightHandPinky3MaxRLimity = (
+        RightHandPinky3MaxRLimit.RightHandPinky3MaxRLimity
+    )
+    RightHandPinky3MaxRLimitz = (
+        RightHandPinky3MaxRLimit.RightHandPinky3MaxRLimitz
+    )
 
     RightHandPinky3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14757,27 +17749,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightHandPinky4Sy = RightHandPinky4S.RightHandPinky4Sy
     RightHandPinky4Sz = RightHandPinky4S.RightHandPinky4Sz
 
-    RightHandPinky4RotateOrder = RightHandPinky4RotateOrderEnumField(default_value=0)
+    RightHandPinky4RotateOrder = RightHandPinky4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightHandPinky4RotateAxis = RightHandPinky4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky4RotateAxisx = RightHandPinky4RotateAxis.RightHandPinky4RotateAxisx
-    RightHandPinky4RotateAxisy = RightHandPinky4RotateAxis.RightHandPinky4RotateAxisy
-    RightHandPinky4RotateAxisz = RightHandPinky4RotateAxis.RightHandPinky4RotateAxisz
+    RightHandPinky4RotateAxis = RightHandPinky4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky4RotateAxisx = (
+        RightHandPinky4RotateAxis.RightHandPinky4RotateAxisx
+    )
+    RightHandPinky4RotateAxisy = (
+        RightHandPinky4RotateAxis.RightHandPinky4RotateAxisy
+    )
+    RightHandPinky4RotateAxisz = (
+        RightHandPinky4RotateAxis.RightHandPinky4RotateAxisz
+    )
 
-    RightHandPinky4JointOrient = RightHandPinky4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky4JointOrientx = RightHandPinky4JointOrient.RightHandPinky4JointOrientx
-    RightHandPinky4JointOrienty = RightHandPinky4JointOrient.RightHandPinky4JointOrienty
-    RightHandPinky4JointOrientz = RightHandPinky4JointOrient.RightHandPinky4JointOrientz
+    RightHandPinky4JointOrient = RightHandPinky4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky4JointOrientx = (
+        RightHandPinky4JointOrient.RightHandPinky4JointOrientx
+    )
+    RightHandPinky4JointOrienty = (
+        RightHandPinky4JointOrient.RightHandPinky4JointOrienty
+    )
+    RightHandPinky4JointOrientz = (
+        RightHandPinky4JointOrient.RightHandPinky4JointOrientz
+    )
 
-    RightHandPinky4MinRLimit = RightHandPinky4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky4MinRLimitx = RightHandPinky4MinRLimit.RightHandPinky4MinRLimitx
-    RightHandPinky4MinRLimity = RightHandPinky4MinRLimit.RightHandPinky4MinRLimity
-    RightHandPinky4MinRLimitz = RightHandPinky4MinRLimit.RightHandPinky4MinRLimitz
+    RightHandPinky4MinRLimit = RightHandPinky4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky4MinRLimitx = (
+        RightHandPinky4MinRLimit.RightHandPinky4MinRLimitx
+    )
+    RightHandPinky4MinRLimity = (
+        RightHandPinky4MinRLimit.RightHandPinky4MinRLimity
+    )
+    RightHandPinky4MinRLimitz = (
+        RightHandPinky4MinRLimit.RightHandPinky4MinRLimitz
+    )
 
-    RightHandPinky4MaxRLimit = RightHandPinky4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandPinky4MaxRLimitx = RightHandPinky4MaxRLimit.RightHandPinky4MaxRLimitx
-    RightHandPinky4MaxRLimity = RightHandPinky4MaxRLimit.RightHandPinky4MaxRLimity
-    RightHandPinky4MaxRLimitz = RightHandPinky4MaxRLimit.RightHandPinky4MaxRLimitz
+    RightHandPinky4MaxRLimit = RightHandPinky4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandPinky4MaxRLimitx = (
+        RightHandPinky4MaxRLimit.RightHandPinky4MaxRLimitx
+    )
+    RightHandPinky4MaxRLimity = (
+        RightHandPinky4MaxRLimit.RightHandPinky4MaxRLimity
+    )
+    RightHandPinky4MaxRLimitz = (
+        RightHandPinky4MaxRLimit.RightHandPinky4MaxRLimitz
+    )
 
     RightHandPinky4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14793,42 +17819,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightHandExtraFinger1 = MessageField()
 
-    RightHandExtraFinger1T = RightHandExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger1T = RightHandExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger1Tx = RightHandExtraFinger1T.RightHandExtraFinger1Tx
     RightHandExtraFinger1Ty = RightHandExtraFinger1T.RightHandExtraFinger1Ty
     RightHandExtraFinger1Tz = RightHandExtraFinger1T.RightHandExtraFinger1Tz
 
-    RightHandExtraFinger1R = RightHandExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger1R = RightHandExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger1Rx = RightHandExtraFinger1R.RightHandExtraFinger1Rx
     RightHandExtraFinger1Ry = RightHandExtraFinger1R.RightHandExtraFinger1Ry
     RightHandExtraFinger1Rz = RightHandExtraFinger1R.RightHandExtraFinger1Rz
 
-    RightHandExtraFinger1S = RightHandExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger1S = RightHandExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger1Sx = RightHandExtraFinger1S.RightHandExtraFinger1Sx
     RightHandExtraFinger1Sy = RightHandExtraFinger1S.RightHandExtraFinger1Sy
     RightHandExtraFinger1Sz = RightHandExtraFinger1S.RightHandExtraFinger1Sz
 
-    RightHandExtraFinger1RotateOrder = RightHandExtraFinger1RotateOrderEnumField(default_value=0)
+    RightHandExtraFinger1RotateOrder = (
+        RightHandExtraFinger1RotateOrderEnumField(default_value=0)
+    )
 
-    RightHandExtraFinger1RotateAxis = RightHandExtraFinger1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger1RotateAxisx = RightHandExtraFinger1RotateAxis.RightHandExtraFinger1RotateAxisx
-    RightHandExtraFinger1RotateAxisy = RightHandExtraFinger1RotateAxis.RightHandExtraFinger1RotateAxisy
-    RightHandExtraFinger1RotateAxisz = RightHandExtraFinger1RotateAxis.RightHandExtraFinger1RotateAxisz
+    RightHandExtraFinger1RotateAxis = RightHandExtraFinger1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger1RotateAxisx = (
+        RightHandExtraFinger1RotateAxis.RightHandExtraFinger1RotateAxisx
+    )
+    RightHandExtraFinger1RotateAxisy = (
+        RightHandExtraFinger1RotateAxis.RightHandExtraFinger1RotateAxisy
+    )
+    RightHandExtraFinger1RotateAxisz = (
+        RightHandExtraFinger1RotateAxis.RightHandExtraFinger1RotateAxisz
+    )
 
-    RightHandExtraFinger1JointOrient = RightHandExtraFinger1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger1JointOrientx = RightHandExtraFinger1JointOrient.RightHandExtraFinger1JointOrientx
-    RightHandExtraFinger1JointOrienty = RightHandExtraFinger1JointOrient.RightHandExtraFinger1JointOrienty
-    RightHandExtraFinger1JointOrientz = RightHandExtraFinger1JointOrient.RightHandExtraFinger1JointOrientz
+    RightHandExtraFinger1JointOrient = RightHandExtraFinger1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger1JointOrientx = (
+        RightHandExtraFinger1JointOrient.RightHandExtraFinger1JointOrientx
+    )
+    RightHandExtraFinger1JointOrienty = (
+        RightHandExtraFinger1JointOrient.RightHandExtraFinger1JointOrienty
+    )
+    RightHandExtraFinger1JointOrientz = (
+        RightHandExtraFinger1JointOrient.RightHandExtraFinger1JointOrientz
+    )
 
-    RightHandExtraFinger1MinRLimit = RightHandExtraFinger1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger1MinRLimitx = RightHandExtraFinger1MinRLimit.RightHandExtraFinger1MinRLimitx
-    RightHandExtraFinger1MinRLimity = RightHandExtraFinger1MinRLimit.RightHandExtraFinger1MinRLimity
-    RightHandExtraFinger1MinRLimitz = RightHandExtraFinger1MinRLimit.RightHandExtraFinger1MinRLimitz
+    RightHandExtraFinger1MinRLimit = RightHandExtraFinger1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger1MinRLimitx = (
+        RightHandExtraFinger1MinRLimit.RightHandExtraFinger1MinRLimitx
+    )
+    RightHandExtraFinger1MinRLimity = (
+        RightHandExtraFinger1MinRLimit.RightHandExtraFinger1MinRLimity
+    )
+    RightHandExtraFinger1MinRLimitz = (
+        RightHandExtraFinger1MinRLimit.RightHandExtraFinger1MinRLimitz
+    )
 
-    RightHandExtraFinger1MaxRLimit = RightHandExtraFinger1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger1MaxRLimitx = RightHandExtraFinger1MaxRLimit.RightHandExtraFinger1MaxRLimitx
-    RightHandExtraFinger1MaxRLimity = RightHandExtraFinger1MaxRLimit.RightHandExtraFinger1MaxRLimity
-    RightHandExtraFinger1MaxRLimitz = RightHandExtraFinger1MaxRLimit.RightHandExtraFinger1MaxRLimitz
+    RightHandExtraFinger1MaxRLimit = RightHandExtraFinger1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger1MaxRLimitx = (
+        RightHandExtraFinger1MaxRLimit.RightHandExtraFinger1MaxRLimitx
+    )
+    RightHandExtraFinger1MaxRLimity = (
+        RightHandExtraFinger1MaxRLimit.RightHandExtraFinger1MaxRLimity
+    )
+    RightHandExtraFinger1MaxRLimitz = (
+        RightHandExtraFinger1MaxRLimit.RightHandExtraFinger1MaxRLimitz
+    )
 
     RightHandExtraFinger1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14844,42 +17910,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightHandExtraFinger2 = MessageField()
 
-    RightHandExtraFinger2T = RightHandExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger2T = RightHandExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger2Tx = RightHandExtraFinger2T.RightHandExtraFinger2Tx
     RightHandExtraFinger2Ty = RightHandExtraFinger2T.RightHandExtraFinger2Ty
     RightHandExtraFinger2Tz = RightHandExtraFinger2T.RightHandExtraFinger2Tz
 
-    RightHandExtraFinger2R = RightHandExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger2R = RightHandExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger2Rx = RightHandExtraFinger2R.RightHandExtraFinger2Rx
     RightHandExtraFinger2Ry = RightHandExtraFinger2R.RightHandExtraFinger2Ry
     RightHandExtraFinger2Rz = RightHandExtraFinger2R.RightHandExtraFinger2Rz
 
-    RightHandExtraFinger2S = RightHandExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger2S = RightHandExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger2Sx = RightHandExtraFinger2S.RightHandExtraFinger2Sx
     RightHandExtraFinger2Sy = RightHandExtraFinger2S.RightHandExtraFinger2Sy
     RightHandExtraFinger2Sz = RightHandExtraFinger2S.RightHandExtraFinger2Sz
 
-    RightHandExtraFinger2RotateOrder = RightHandExtraFinger2RotateOrderEnumField(default_value=0)
+    RightHandExtraFinger2RotateOrder = (
+        RightHandExtraFinger2RotateOrderEnumField(default_value=0)
+    )
 
-    RightHandExtraFinger2RotateAxis = RightHandExtraFinger2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger2RotateAxisx = RightHandExtraFinger2RotateAxis.RightHandExtraFinger2RotateAxisx
-    RightHandExtraFinger2RotateAxisy = RightHandExtraFinger2RotateAxis.RightHandExtraFinger2RotateAxisy
-    RightHandExtraFinger2RotateAxisz = RightHandExtraFinger2RotateAxis.RightHandExtraFinger2RotateAxisz
+    RightHandExtraFinger2RotateAxis = RightHandExtraFinger2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger2RotateAxisx = (
+        RightHandExtraFinger2RotateAxis.RightHandExtraFinger2RotateAxisx
+    )
+    RightHandExtraFinger2RotateAxisy = (
+        RightHandExtraFinger2RotateAxis.RightHandExtraFinger2RotateAxisy
+    )
+    RightHandExtraFinger2RotateAxisz = (
+        RightHandExtraFinger2RotateAxis.RightHandExtraFinger2RotateAxisz
+    )
 
-    RightHandExtraFinger2JointOrient = RightHandExtraFinger2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger2JointOrientx = RightHandExtraFinger2JointOrient.RightHandExtraFinger2JointOrientx
-    RightHandExtraFinger2JointOrienty = RightHandExtraFinger2JointOrient.RightHandExtraFinger2JointOrienty
-    RightHandExtraFinger2JointOrientz = RightHandExtraFinger2JointOrient.RightHandExtraFinger2JointOrientz
+    RightHandExtraFinger2JointOrient = RightHandExtraFinger2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger2JointOrientx = (
+        RightHandExtraFinger2JointOrient.RightHandExtraFinger2JointOrientx
+    )
+    RightHandExtraFinger2JointOrienty = (
+        RightHandExtraFinger2JointOrient.RightHandExtraFinger2JointOrienty
+    )
+    RightHandExtraFinger2JointOrientz = (
+        RightHandExtraFinger2JointOrient.RightHandExtraFinger2JointOrientz
+    )
 
-    RightHandExtraFinger2MinRLimit = RightHandExtraFinger2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger2MinRLimitx = RightHandExtraFinger2MinRLimit.RightHandExtraFinger2MinRLimitx
-    RightHandExtraFinger2MinRLimity = RightHandExtraFinger2MinRLimit.RightHandExtraFinger2MinRLimity
-    RightHandExtraFinger2MinRLimitz = RightHandExtraFinger2MinRLimit.RightHandExtraFinger2MinRLimitz
+    RightHandExtraFinger2MinRLimit = RightHandExtraFinger2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger2MinRLimitx = (
+        RightHandExtraFinger2MinRLimit.RightHandExtraFinger2MinRLimitx
+    )
+    RightHandExtraFinger2MinRLimity = (
+        RightHandExtraFinger2MinRLimit.RightHandExtraFinger2MinRLimity
+    )
+    RightHandExtraFinger2MinRLimitz = (
+        RightHandExtraFinger2MinRLimit.RightHandExtraFinger2MinRLimitz
+    )
 
-    RightHandExtraFinger2MaxRLimit = RightHandExtraFinger2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger2MaxRLimitx = RightHandExtraFinger2MaxRLimit.RightHandExtraFinger2MaxRLimitx
-    RightHandExtraFinger2MaxRLimity = RightHandExtraFinger2MaxRLimit.RightHandExtraFinger2MaxRLimity
-    RightHandExtraFinger2MaxRLimitz = RightHandExtraFinger2MaxRLimit.RightHandExtraFinger2MaxRLimitz
+    RightHandExtraFinger2MaxRLimit = RightHandExtraFinger2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger2MaxRLimitx = (
+        RightHandExtraFinger2MaxRLimit.RightHandExtraFinger2MaxRLimitx
+    )
+    RightHandExtraFinger2MaxRLimity = (
+        RightHandExtraFinger2MaxRLimit.RightHandExtraFinger2MaxRLimity
+    )
+    RightHandExtraFinger2MaxRLimitz = (
+        RightHandExtraFinger2MaxRLimit.RightHandExtraFinger2MaxRLimitz
+    )
 
     RightHandExtraFinger2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14895,42 +18001,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightHandExtraFinger3 = MessageField()
 
-    RightHandExtraFinger3T = RightHandExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger3T = RightHandExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger3Tx = RightHandExtraFinger3T.RightHandExtraFinger3Tx
     RightHandExtraFinger3Ty = RightHandExtraFinger3T.RightHandExtraFinger3Ty
     RightHandExtraFinger3Tz = RightHandExtraFinger3T.RightHandExtraFinger3Tz
 
-    RightHandExtraFinger3R = RightHandExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger3R = RightHandExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger3Rx = RightHandExtraFinger3R.RightHandExtraFinger3Rx
     RightHandExtraFinger3Ry = RightHandExtraFinger3R.RightHandExtraFinger3Ry
     RightHandExtraFinger3Rz = RightHandExtraFinger3R.RightHandExtraFinger3Rz
 
-    RightHandExtraFinger3S = RightHandExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger3S = RightHandExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger3Sx = RightHandExtraFinger3S.RightHandExtraFinger3Sx
     RightHandExtraFinger3Sy = RightHandExtraFinger3S.RightHandExtraFinger3Sy
     RightHandExtraFinger3Sz = RightHandExtraFinger3S.RightHandExtraFinger3Sz
 
-    RightHandExtraFinger3RotateOrder = RightHandExtraFinger3RotateOrderEnumField(default_value=0)
+    RightHandExtraFinger3RotateOrder = (
+        RightHandExtraFinger3RotateOrderEnumField(default_value=0)
+    )
 
-    RightHandExtraFinger3RotateAxis = RightHandExtraFinger3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger3RotateAxisx = RightHandExtraFinger3RotateAxis.RightHandExtraFinger3RotateAxisx
-    RightHandExtraFinger3RotateAxisy = RightHandExtraFinger3RotateAxis.RightHandExtraFinger3RotateAxisy
-    RightHandExtraFinger3RotateAxisz = RightHandExtraFinger3RotateAxis.RightHandExtraFinger3RotateAxisz
+    RightHandExtraFinger3RotateAxis = RightHandExtraFinger3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger3RotateAxisx = (
+        RightHandExtraFinger3RotateAxis.RightHandExtraFinger3RotateAxisx
+    )
+    RightHandExtraFinger3RotateAxisy = (
+        RightHandExtraFinger3RotateAxis.RightHandExtraFinger3RotateAxisy
+    )
+    RightHandExtraFinger3RotateAxisz = (
+        RightHandExtraFinger3RotateAxis.RightHandExtraFinger3RotateAxisz
+    )
 
-    RightHandExtraFinger3JointOrient = RightHandExtraFinger3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger3JointOrientx = RightHandExtraFinger3JointOrient.RightHandExtraFinger3JointOrientx
-    RightHandExtraFinger3JointOrienty = RightHandExtraFinger3JointOrient.RightHandExtraFinger3JointOrienty
-    RightHandExtraFinger3JointOrientz = RightHandExtraFinger3JointOrient.RightHandExtraFinger3JointOrientz
+    RightHandExtraFinger3JointOrient = RightHandExtraFinger3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger3JointOrientx = (
+        RightHandExtraFinger3JointOrient.RightHandExtraFinger3JointOrientx
+    )
+    RightHandExtraFinger3JointOrienty = (
+        RightHandExtraFinger3JointOrient.RightHandExtraFinger3JointOrienty
+    )
+    RightHandExtraFinger3JointOrientz = (
+        RightHandExtraFinger3JointOrient.RightHandExtraFinger3JointOrientz
+    )
 
-    RightHandExtraFinger3MinRLimit = RightHandExtraFinger3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger3MinRLimitx = RightHandExtraFinger3MinRLimit.RightHandExtraFinger3MinRLimitx
-    RightHandExtraFinger3MinRLimity = RightHandExtraFinger3MinRLimit.RightHandExtraFinger3MinRLimity
-    RightHandExtraFinger3MinRLimitz = RightHandExtraFinger3MinRLimit.RightHandExtraFinger3MinRLimitz
+    RightHandExtraFinger3MinRLimit = RightHandExtraFinger3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger3MinRLimitx = (
+        RightHandExtraFinger3MinRLimit.RightHandExtraFinger3MinRLimitx
+    )
+    RightHandExtraFinger3MinRLimity = (
+        RightHandExtraFinger3MinRLimit.RightHandExtraFinger3MinRLimity
+    )
+    RightHandExtraFinger3MinRLimitz = (
+        RightHandExtraFinger3MinRLimit.RightHandExtraFinger3MinRLimitz
+    )
 
-    RightHandExtraFinger3MaxRLimit = RightHandExtraFinger3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger3MaxRLimitx = RightHandExtraFinger3MaxRLimit.RightHandExtraFinger3MaxRLimitx
-    RightHandExtraFinger3MaxRLimity = RightHandExtraFinger3MaxRLimit.RightHandExtraFinger3MaxRLimity
-    RightHandExtraFinger3MaxRLimitz = RightHandExtraFinger3MaxRLimit.RightHandExtraFinger3MaxRLimitz
+    RightHandExtraFinger3MaxRLimit = RightHandExtraFinger3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger3MaxRLimitx = (
+        RightHandExtraFinger3MaxRLimit.RightHandExtraFinger3MaxRLimitx
+    )
+    RightHandExtraFinger3MaxRLimity = (
+        RightHandExtraFinger3MaxRLimit.RightHandExtraFinger3MaxRLimity
+    )
+    RightHandExtraFinger3MaxRLimitz = (
+        RightHandExtraFinger3MaxRLimit.RightHandExtraFinger3MaxRLimitz
+    )
 
     RightHandExtraFinger3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -14946,42 +18092,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightHandExtraFinger4 = MessageField()
 
-    RightHandExtraFinger4T = RightHandExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger4T = RightHandExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger4Tx = RightHandExtraFinger4T.RightHandExtraFinger4Tx
     RightHandExtraFinger4Ty = RightHandExtraFinger4T.RightHandExtraFinger4Ty
     RightHandExtraFinger4Tz = RightHandExtraFinger4T.RightHandExtraFinger4Tz
 
-    RightHandExtraFinger4R = RightHandExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger4R = RightHandExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger4Rx = RightHandExtraFinger4R.RightHandExtraFinger4Rx
     RightHandExtraFinger4Ry = RightHandExtraFinger4R.RightHandExtraFinger4Ry
     RightHandExtraFinger4Rz = RightHandExtraFinger4R.RightHandExtraFinger4Rz
 
-    RightHandExtraFinger4S = RightHandExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger4S = RightHandExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger4Sx = RightHandExtraFinger4S.RightHandExtraFinger4Sx
     RightHandExtraFinger4Sy = RightHandExtraFinger4S.RightHandExtraFinger4Sy
     RightHandExtraFinger4Sz = RightHandExtraFinger4S.RightHandExtraFinger4Sz
 
-    RightHandExtraFinger4RotateOrder = RightHandExtraFinger4RotateOrderEnumField(default_value=0)
+    RightHandExtraFinger4RotateOrder = (
+        RightHandExtraFinger4RotateOrderEnumField(default_value=0)
+    )
 
-    RightHandExtraFinger4RotateAxis = RightHandExtraFinger4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger4RotateAxisx = RightHandExtraFinger4RotateAxis.RightHandExtraFinger4RotateAxisx
-    RightHandExtraFinger4RotateAxisy = RightHandExtraFinger4RotateAxis.RightHandExtraFinger4RotateAxisy
-    RightHandExtraFinger4RotateAxisz = RightHandExtraFinger4RotateAxis.RightHandExtraFinger4RotateAxisz
+    RightHandExtraFinger4RotateAxis = RightHandExtraFinger4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger4RotateAxisx = (
+        RightHandExtraFinger4RotateAxis.RightHandExtraFinger4RotateAxisx
+    )
+    RightHandExtraFinger4RotateAxisy = (
+        RightHandExtraFinger4RotateAxis.RightHandExtraFinger4RotateAxisy
+    )
+    RightHandExtraFinger4RotateAxisz = (
+        RightHandExtraFinger4RotateAxis.RightHandExtraFinger4RotateAxisz
+    )
 
-    RightHandExtraFinger4JointOrient = RightHandExtraFinger4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger4JointOrientx = RightHandExtraFinger4JointOrient.RightHandExtraFinger4JointOrientx
-    RightHandExtraFinger4JointOrienty = RightHandExtraFinger4JointOrient.RightHandExtraFinger4JointOrienty
-    RightHandExtraFinger4JointOrientz = RightHandExtraFinger4JointOrient.RightHandExtraFinger4JointOrientz
+    RightHandExtraFinger4JointOrient = RightHandExtraFinger4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger4JointOrientx = (
+        RightHandExtraFinger4JointOrient.RightHandExtraFinger4JointOrientx
+    )
+    RightHandExtraFinger4JointOrienty = (
+        RightHandExtraFinger4JointOrient.RightHandExtraFinger4JointOrienty
+    )
+    RightHandExtraFinger4JointOrientz = (
+        RightHandExtraFinger4JointOrient.RightHandExtraFinger4JointOrientz
+    )
 
-    RightHandExtraFinger4MinRLimit = RightHandExtraFinger4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger4MinRLimitx = RightHandExtraFinger4MinRLimit.RightHandExtraFinger4MinRLimitx
-    RightHandExtraFinger4MinRLimity = RightHandExtraFinger4MinRLimit.RightHandExtraFinger4MinRLimity
-    RightHandExtraFinger4MinRLimitz = RightHandExtraFinger4MinRLimit.RightHandExtraFinger4MinRLimitz
+    RightHandExtraFinger4MinRLimit = RightHandExtraFinger4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger4MinRLimitx = (
+        RightHandExtraFinger4MinRLimit.RightHandExtraFinger4MinRLimitx
+    )
+    RightHandExtraFinger4MinRLimity = (
+        RightHandExtraFinger4MinRLimit.RightHandExtraFinger4MinRLimity
+    )
+    RightHandExtraFinger4MinRLimitz = (
+        RightHandExtraFinger4MinRLimit.RightHandExtraFinger4MinRLimitz
+    )
 
-    RightHandExtraFinger4MaxRLimit = RightHandExtraFinger4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger4MaxRLimitx = RightHandExtraFinger4MaxRLimit.RightHandExtraFinger4MaxRLimitx
-    RightHandExtraFinger4MaxRLimity = RightHandExtraFinger4MaxRLimit.RightHandExtraFinger4MaxRLimity
-    RightHandExtraFinger4MaxRLimitz = RightHandExtraFinger4MaxRLimit.RightHandExtraFinger4MaxRLimitz
+    RightHandExtraFinger4MaxRLimit = RightHandExtraFinger4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger4MaxRLimitx = (
+        RightHandExtraFinger4MaxRLimit.RightHandExtraFinger4MaxRLimitx
+    )
+    RightHandExtraFinger4MaxRLimity = (
+        RightHandExtraFinger4MaxRLimit.RightHandExtraFinger4MaxRLimity
+    )
+    RightHandExtraFinger4MaxRLimitz = (
+        RightHandExtraFinger4MaxRLimit.RightHandExtraFinger4MaxRLimitz
+    )
 
     RightHandExtraFinger4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -15012,24 +18198,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootThumb1Sy = LeftFootThumb1S.LeftFootThumb1Sy
     LeftFootThumb1Sz = LeftFootThumb1S.LeftFootThumb1Sz
 
-    LeftFootThumb1RotateOrder = LeftFootThumb1RotateOrderEnumField(default_value=0)
+    LeftFootThumb1RotateOrder = LeftFootThumb1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootThumb1RotateAxis = LeftFootThumb1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootThumb1RotateAxisx = LeftFootThumb1RotateAxis.LeftFootThumb1RotateAxisx
-    LeftFootThumb1RotateAxisy = LeftFootThumb1RotateAxis.LeftFootThumb1RotateAxisy
-    LeftFootThumb1RotateAxisz = LeftFootThumb1RotateAxis.LeftFootThumb1RotateAxisz
+    LeftFootThumb1RotateAxis = LeftFootThumb1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootThumb1RotateAxisx = (
+        LeftFootThumb1RotateAxis.LeftFootThumb1RotateAxisx
+    )
+    LeftFootThumb1RotateAxisy = (
+        LeftFootThumb1RotateAxis.LeftFootThumb1RotateAxisy
+    )
+    LeftFootThumb1RotateAxisz = (
+        LeftFootThumb1RotateAxis.LeftFootThumb1RotateAxisz
+    )
 
-    LeftFootThumb1JointOrient = LeftFootThumb1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootThumb1JointOrientx = LeftFootThumb1JointOrient.LeftFootThumb1JointOrientx
-    LeftFootThumb1JointOrienty = LeftFootThumb1JointOrient.LeftFootThumb1JointOrienty
-    LeftFootThumb1JointOrientz = LeftFootThumb1JointOrient.LeftFootThumb1JointOrientz
+    LeftFootThumb1JointOrient = LeftFootThumb1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootThumb1JointOrientx = (
+        LeftFootThumb1JointOrient.LeftFootThumb1JointOrientx
+    )
+    LeftFootThumb1JointOrienty = (
+        LeftFootThumb1JointOrient.LeftFootThumb1JointOrienty
+    )
+    LeftFootThumb1JointOrientz = (
+        LeftFootThumb1JointOrient.LeftFootThumb1JointOrientz
+    )
 
-    LeftFootThumb1MinRLimit = LeftFootThumb1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb1MinRLimit = LeftFootThumb1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb1MinRLimitx = LeftFootThumb1MinRLimit.LeftFootThumb1MinRLimitx
     LeftFootThumb1MinRLimity = LeftFootThumb1MinRLimit.LeftFootThumb1MinRLimity
     LeftFootThumb1MinRLimitz = LeftFootThumb1MinRLimit.LeftFootThumb1MinRLimitz
 
-    LeftFootThumb1MaxRLimit = LeftFootThumb1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb1MaxRLimit = LeftFootThumb1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb1MaxRLimitx = LeftFootThumb1MaxRLimit.LeftFootThumb1MaxRLimitx
     LeftFootThumb1MaxRLimity = LeftFootThumb1MaxRLimit.LeftFootThumb1MaxRLimity
     LeftFootThumb1MaxRLimitz = LeftFootThumb1MaxRLimit.LeftFootThumb1MaxRLimitz
@@ -15063,24 +18271,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootThumb2Sy = LeftFootThumb2S.LeftFootThumb2Sy
     LeftFootThumb2Sz = LeftFootThumb2S.LeftFootThumb2Sz
 
-    LeftFootThumb2RotateOrder = LeftFootThumb2RotateOrderEnumField(default_value=0)
+    LeftFootThumb2RotateOrder = LeftFootThumb2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootThumb2RotateAxis = LeftFootThumb2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootThumb2RotateAxisx = LeftFootThumb2RotateAxis.LeftFootThumb2RotateAxisx
-    LeftFootThumb2RotateAxisy = LeftFootThumb2RotateAxis.LeftFootThumb2RotateAxisy
-    LeftFootThumb2RotateAxisz = LeftFootThumb2RotateAxis.LeftFootThumb2RotateAxisz
+    LeftFootThumb2RotateAxis = LeftFootThumb2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootThumb2RotateAxisx = (
+        LeftFootThumb2RotateAxis.LeftFootThumb2RotateAxisx
+    )
+    LeftFootThumb2RotateAxisy = (
+        LeftFootThumb2RotateAxis.LeftFootThumb2RotateAxisy
+    )
+    LeftFootThumb2RotateAxisz = (
+        LeftFootThumb2RotateAxis.LeftFootThumb2RotateAxisz
+    )
 
-    LeftFootThumb2JointOrient = LeftFootThumb2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootThumb2JointOrientx = LeftFootThumb2JointOrient.LeftFootThumb2JointOrientx
-    LeftFootThumb2JointOrienty = LeftFootThumb2JointOrient.LeftFootThumb2JointOrienty
-    LeftFootThumb2JointOrientz = LeftFootThumb2JointOrient.LeftFootThumb2JointOrientz
+    LeftFootThumb2JointOrient = LeftFootThumb2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootThumb2JointOrientx = (
+        LeftFootThumb2JointOrient.LeftFootThumb2JointOrientx
+    )
+    LeftFootThumb2JointOrienty = (
+        LeftFootThumb2JointOrient.LeftFootThumb2JointOrienty
+    )
+    LeftFootThumb2JointOrientz = (
+        LeftFootThumb2JointOrient.LeftFootThumb2JointOrientz
+    )
 
-    LeftFootThumb2MinRLimit = LeftFootThumb2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb2MinRLimit = LeftFootThumb2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb2MinRLimitx = LeftFootThumb2MinRLimit.LeftFootThumb2MinRLimitx
     LeftFootThumb2MinRLimity = LeftFootThumb2MinRLimit.LeftFootThumb2MinRLimity
     LeftFootThumb2MinRLimitz = LeftFootThumb2MinRLimit.LeftFootThumb2MinRLimitz
 
-    LeftFootThumb2MaxRLimit = LeftFootThumb2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb2MaxRLimit = LeftFootThumb2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb2MaxRLimitx = LeftFootThumb2MaxRLimit.LeftFootThumb2MaxRLimitx
     LeftFootThumb2MaxRLimity = LeftFootThumb2MaxRLimit.LeftFootThumb2MaxRLimity
     LeftFootThumb2MaxRLimitz = LeftFootThumb2MaxRLimit.LeftFootThumb2MaxRLimitz
@@ -15114,24 +18344,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootThumb3Sy = LeftFootThumb3S.LeftFootThumb3Sy
     LeftFootThumb3Sz = LeftFootThumb3S.LeftFootThumb3Sz
 
-    LeftFootThumb3RotateOrder = LeftFootThumb3RotateOrderEnumField(default_value=0)
+    LeftFootThumb3RotateOrder = LeftFootThumb3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootThumb3RotateAxis = LeftFootThumb3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootThumb3RotateAxisx = LeftFootThumb3RotateAxis.LeftFootThumb3RotateAxisx
-    LeftFootThumb3RotateAxisy = LeftFootThumb3RotateAxis.LeftFootThumb3RotateAxisy
-    LeftFootThumb3RotateAxisz = LeftFootThumb3RotateAxis.LeftFootThumb3RotateAxisz
+    LeftFootThumb3RotateAxis = LeftFootThumb3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootThumb3RotateAxisx = (
+        LeftFootThumb3RotateAxis.LeftFootThumb3RotateAxisx
+    )
+    LeftFootThumb3RotateAxisy = (
+        LeftFootThumb3RotateAxis.LeftFootThumb3RotateAxisy
+    )
+    LeftFootThumb3RotateAxisz = (
+        LeftFootThumb3RotateAxis.LeftFootThumb3RotateAxisz
+    )
 
-    LeftFootThumb3JointOrient = LeftFootThumb3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootThumb3JointOrientx = LeftFootThumb3JointOrient.LeftFootThumb3JointOrientx
-    LeftFootThumb3JointOrienty = LeftFootThumb3JointOrient.LeftFootThumb3JointOrienty
-    LeftFootThumb3JointOrientz = LeftFootThumb3JointOrient.LeftFootThumb3JointOrientz
+    LeftFootThumb3JointOrient = LeftFootThumb3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootThumb3JointOrientx = (
+        LeftFootThumb3JointOrient.LeftFootThumb3JointOrientx
+    )
+    LeftFootThumb3JointOrienty = (
+        LeftFootThumb3JointOrient.LeftFootThumb3JointOrienty
+    )
+    LeftFootThumb3JointOrientz = (
+        LeftFootThumb3JointOrient.LeftFootThumb3JointOrientz
+    )
 
-    LeftFootThumb3MinRLimit = LeftFootThumb3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb3MinRLimit = LeftFootThumb3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb3MinRLimitx = LeftFootThumb3MinRLimit.LeftFootThumb3MinRLimitx
     LeftFootThumb3MinRLimity = LeftFootThumb3MinRLimit.LeftFootThumb3MinRLimity
     LeftFootThumb3MinRLimitz = LeftFootThumb3MinRLimit.LeftFootThumb3MinRLimitz
 
-    LeftFootThumb3MaxRLimit = LeftFootThumb3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb3MaxRLimit = LeftFootThumb3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb3MaxRLimitx = LeftFootThumb3MaxRLimit.LeftFootThumb3MaxRLimitx
     LeftFootThumb3MaxRLimity = LeftFootThumb3MaxRLimit.LeftFootThumb3MaxRLimity
     LeftFootThumb3MaxRLimitz = LeftFootThumb3MaxRLimit.LeftFootThumb3MaxRLimitz
@@ -15165,24 +18417,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootThumb4Sy = LeftFootThumb4S.LeftFootThumb4Sy
     LeftFootThumb4Sz = LeftFootThumb4S.LeftFootThumb4Sz
 
-    LeftFootThumb4RotateOrder = LeftFootThumb4RotateOrderEnumField(default_value=0)
+    LeftFootThumb4RotateOrder = LeftFootThumb4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootThumb4RotateAxis = LeftFootThumb4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootThumb4RotateAxisx = LeftFootThumb4RotateAxis.LeftFootThumb4RotateAxisx
-    LeftFootThumb4RotateAxisy = LeftFootThumb4RotateAxis.LeftFootThumb4RotateAxisy
-    LeftFootThumb4RotateAxisz = LeftFootThumb4RotateAxis.LeftFootThumb4RotateAxisz
+    LeftFootThumb4RotateAxis = LeftFootThumb4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootThumb4RotateAxisx = (
+        LeftFootThumb4RotateAxis.LeftFootThumb4RotateAxisx
+    )
+    LeftFootThumb4RotateAxisy = (
+        LeftFootThumb4RotateAxis.LeftFootThumb4RotateAxisy
+    )
+    LeftFootThumb4RotateAxisz = (
+        LeftFootThumb4RotateAxis.LeftFootThumb4RotateAxisz
+    )
 
-    LeftFootThumb4JointOrient = LeftFootThumb4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootThumb4JointOrientx = LeftFootThumb4JointOrient.LeftFootThumb4JointOrientx
-    LeftFootThumb4JointOrienty = LeftFootThumb4JointOrient.LeftFootThumb4JointOrienty
-    LeftFootThumb4JointOrientz = LeftFootThumb4JointOrient.LeftFootThumb4JointOrientz
+    LeftFootThumb4JointOrient = LeftFootThumb4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootThumb4JointOrientx = (
+        LeftFootThumb4JointOrient.LeftFootThumb4JointOrientx
+    )
+    LeftFootThumb4JointOrienty = (
+        LeftFootThumb4JointOrient.LeftFootThumb4JointOrienty
+    )
+    LeftFootThumb4JointOrientz = (
+        LeftFootThumb4JointOrient.LeftFootThumb4JointOrientz
+    )
 
-    LeftFootThumb4MinRLimit = LeftFootThumb4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb4MinRLimit = LeftFootThumb4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb4MinRLimitx = LeftFootThumb4MinRLimit.LeftFootThumb4MinRLimitx
     LeftFootThumb4MinRLimity = LeftFootThumb4MinRLimit.LeftFootThumb4MinRLimity
     LeftFootThumb4MinRLimitz = LeftFootThumb4MinRLimit.LeftFootThumb4MinRLimitz
 
-    LeftFootThumb4MaxRLimit = LeftFootThumb4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb4MaxRLimit = LeftFootThumb4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb4MaxRLimitx = LeftFootThumb4MaxRLimit.LeftFootThumb4MaxRLimitx
     LeftFootThumb4MaxRLimity = LeftFootThumb4MaxRLimit.LeftFootThumb4MaxRLimity
     LeftFootThumb4MaxRLimitz = LeftFootThumb4MaxRLimit.LeftFootThumb4MaxRLimitz
@@ -15216,24 +18490,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootIndex1Sy = LeftFootIndex1S.LeftFootIndex1Sy
     LeftFootIndex1Sz = LeftFootIndex1S.LeftFootIndex1Sz
 
-    LeftFootIndex1RotateOrder = LeftFootIndex1RotateOrderEnumField(default_value=0)
+    LeftFootIndex1RotateOrder = LeftFootIndex1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootIndex1RotateAxis = LeftFootIndex1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootIndex1RotateAxisx = LeftFootIndex1RotateAxis.LeftFootIndex1RotateAxisx
-    LeftFootIndex1RotateAxisy = LeftFootIndex1RotateAxis.LeftFootIndex1RotateAxisy
-    LeftFootIndex1RotateAxisz = LeftFootIndex1RotateAxis.LeftFootIndex1RotateAxisz
+    LeftFootIndex1RotateAxis = LeftFootIndex1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootIndex1RotateAxisx = (
+        LeftFootIndex1RotateAxis.LeftFootIndex1RotateAxisx
+    )
+    LeftFootIndex1RotateAxisy = (
+        LeftFootIndex1RotateAxis.LeftFootIndex1RotateAxisy
+    )
+    LeftFootIndex1RotateAxisz = (
+        LeftFootIndex1RotateAxis.LeftFootIndex1RotateAxisz
+    )
 
-    LeftFootIndex1JointOrient = LeftFootIndex1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootIndex1JointOrientx = LeftFootIndex1JointOrient.LeftFootIndex1JointOrientx
-    LeftFootIndex1JointOrienty = LeftFootIndex1JointOrient.LeftFootIndex1JointOrienty
-    LeftFootIndex1JointOrientz = LeftFootIndex1JointOrient.LeftFootIndex1JointOrientz
+    LeftFootIndex1JointOrient = LeftFootIndex1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootIndex1JointOrientx = (
+        LeftFootIndex1JointOrient.LeftFootIndex1JointOrientx
+    )
+    LeftFootIndex1JointOrienty = (
+        LeftFootIndex1JointOrient.LeftFootIndex1JointOrienty
+    )
+    LeftFootIndex1JointOrientz = (
+        LeftFootIndex1JointOrient.LeftFootIndex1JointOrientz
+    )
 
-    LeftFootIndex1MinRLimit = LeftFootIndex1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex1MinRLimit = LeftFootIndex1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex1MinRLimitx = LeftFootIndex1MinRLimit.LeftFootIndex1MinRLimitx
     LeftFootIndex1MinRLimity = LeftFootIndex1MinRLimit.LeftFootIndex1MinRLimity
     LeftFootIndex1MinRLimitz = LeftFootIndex1MinRLimit.LeftFootIndex1MinRLimitz
 
-    LeftFootIndex1MaxRLimit = LeftFootIndex1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex1MaxRLimit = LeftFootIndex1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex1MaxRLimitx = LeftFootIndex1MaxRLimit.LeftFootIndex1MaxRLimitx
     LeftFootIndex1MaxRLimity = LeftFootIndex1MaxRLimit.LeftFootIndex1MaxRLimity
     LeftFootIndex1MaxRLimitz = LeftFootIndex1MaxRLimit.LeftFootIndex1MaxRLimitz
@@ -15267,24 +18563,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootIndex2Sy = LeftFootIndex2S.LeftFootIndex2Sy
     LeftFootIndex2Sz = LeftFootIndex2S.LeftFootIndex2Sz
 
-    LeftFootIndex2RotateOrder = LeftFootIndex2RotateOrderEnumField(default_value=0)
+    LeftFootIndex2RotateOrder = LeftFootIndex2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootIndex2RotateAxis = LeftFootIndex2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootIndex2RotateAxisx = LeftFootIndex2RotateAxis.LeftFootIndex2RotateAxisx
-    LeftFootIndex2RotateAxisy = LeftFootIndex2RotateAxis.LeftFootIndex2RotateAxisy
-    LeftFootIndex2RotateAxisz = LeftFootIndex2RotateAxis.LeftFootIndex2RotateAxisz
+    LeftFootIndex2RotateAxis = LeftFootIndex2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootIndex2RotateAxisx = (
+        LeftFootIndex2RotateAxis.LeftFootIndex2RotateAxisx
+    )
+    LeftFootIndex2RotateAxisy = (
+        LeftFootIndex2RotateAxis.LeftFootIndex2RotateAxisy
+    )
+    LeftFootIndex2RotateAxisz = (
+        LeftFootIndex2RotateAxis.LeftFootIndex2RotateAxisz
+    )
 
-    LeftFootIndex2JointOrient = LeftFootIndex2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootIndex2JointOrientx = LeftFootIndex2JointOrient.LeftFootIndex2JointOrientx
-    LeftFootIndex2JointOrienty = LeftFootIndex2JointOrient.LeftFootIndex2JointOrienty
-    LeftFootIndex2JointOrientz = LeftFootIndex2JointOrient.LeftFootIndex2JointOrientz
+    LeftFootIndex2JointOrient = LeftFootIndex2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootIndex2JointOrientx = (
+        LeftFootIndex2JointOrient.LeftFootIndex2JointOrientx
+    )
+    LeftFootIndex2JointOrienty = (
+        LeftFootIndex2JointOrient.LeftFootIndex2JointOrienty
+    )
+    LeftFootIndex2JointOrientz = (
+        LeftFootIndex2JointOrient.LeftFootIndex2JointOrientz
+    )
 
-    LeftFootIndex2MinRLimit = LeftFootIndex2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex2MinRLimit = LeftFootIndex2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex2MinRLimitx = LeftFootIndex2MinRLimit.LeftFootIndex2MinRLimitx
     LeftFootIndex2MinRLimity = LeftFootIndex2MinRLimit.LeftFootIndex2MinRLimity
     LeftFootIndex2MinRLimitz = LeftFootIndex2MinRLimit.LeftFootIndex2MinRLimitz
 
-    LeftFootIndex2MaxRLimit = LeftFootIndex2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex2MaxRLimit = LeftFootIndex2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex2MaxRLimitx = LeftFootIndex2MaxRLimit.LeftFootIndex2MaxRLimitx
     LeftFootIndex2MaxRLimity = LeftFootIndex2MaxRLimit.LeftFootIndex2MaxRLimity
     LeftFootIndex2MaxRLimitz = LeftFootIndex2MaxRLimit.LeftFootIndex2MaxRLimitz
@@ -15318,24 +18636,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootIndex3Sy = LeftFootIndex3S.LeftFootIndex3Sy
     LeftFootIndex3Sz = LeftFootIndex3S.LeftFootIndex3Sz
 
-    LeftFootIndex3RotateOrder = LeftFootIndex3RotateOrderEnumField(default_value=0)
+    LeftFootIndex3RotateOrder = LeftFootIndex3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootIndex3RotateAxis = LeftFootIndex3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootIndex3RotateAxisx = LeftFootIndex3RotateAxis.LeftFootIndex3RotateAxisx
-    LeftFootIndex3RotateAxisy = LeftFootIndex3RotateAxis.LeftFootIndex3RotateAxisy
-    LeftFootIndex3RotateAxisz = LeftFootIndex3RotateAxis.LeftFootIndex3RotateAxisz
+    LeftFootIndex3RotateAxis = LeftFootIndex3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootIndex3RotateAxisx = (
+        LeftFootIndex3RotateAxis.LeftFootIndex3RotateAxisx
+    )
+    LeftFootIndex3RotateAxisy = (
+        LeftFootIndex3RotateAxis.LeftFootIndex3RotateAxisy
+    )
+    LeftFootIndex3RotateAxisz = (
+        LeftFootIndex3RotateAxis.LeftFootIndex3RotateAxisz
+    )
 
-    LeftFootIndex3JointOrient = LeftFootIndex3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootIndex3JointOrientx = LeftFootIndex3JointOrient.LeftFootIndex3JointOrientx
-    LeftFootIndex3JointOrienty = LeftFootIndex3JointOrient.LeftFootIndex3JointOrienty
-    LeftFootIndex3JointOrientz = LeftFootIndex3JointOrient.LeftFootIndex3JointOrientz
+    LeftFootIndex3JointOrient = LeftFootIndex3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootIndex3JointOrientx = (
+        LeftFootIndex3JointOrient.LeftFootIndex3JointOrientx
+    )
+    LeftFootIndex3JointOrienty = (
+        LeftFootIndex3JointOrient.LeftFootIndex3JointOrienty
+    )
+    LeftFootIndex3JointOrientz = (
+        LeftFootIndex3JointOrient.LeftFootIndex3JointOrientz
+    )
 
-    LeftFootIndex3MinRLimit = LeftFootIndex3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex3MinRLimit = LeftFootIndex3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex3MinRLimitx = LeftFootIndex3MinRLimit.LeftFootIndex3MinRLimitx
     LeftFootIndex3MinRLimity = LeftFootIndex3MinRLimit.LeftFootIndex3MinRLimity
     LeftFootIndex3MinRLimitz = LeftFootIndex3MinRLimit.LeftFootIndex3MinRLimitz
 
-    LeftFootIndex3MaxRLimit = LeftFootIndex3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex3MaxRLimit = LeftFootIndex3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex3MaxRLimitx = LeftFootIndex3MaxRLimit.LeftFootIndex3MaxRLimitx
     LeftFootIndex3MaxRLimity = LeftFootIndex3MaxRLimit.LeftFootIndex3MaxRLimity
     LeftFootIndex3MaxRLimitz = LeftFootIndex3MaxRLimit.LeftFootIndex3MaxRLimitz
@@ -15369,24 +18709,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootIndex4Sy = LeftFootIndex4S.LeftFootIndex4Sy
     LeftFootIndex4Sz = LeftFootIndex4S.LeftFootIndex4Sz
 
-    LeftFootIndex4RotateOrder = LeftFootIndex4RotateOrderEnumField(default_value=0)
+    LeftFootIndex4RotateOrder = LeftFootIndex4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootIndex4RotateAxis = LeftFootIndex4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootIndex4RotateAxisx = LeftFootIndex4RotateAxis.LeftFootIndex4RotateAxisx
-    LeftFootIndex4RotateAxisy = LeftFootIndex4RotateAxis.LeftFootIndex4RotateAxisy
-    LeftFootIndex4RotateAxisz = LeftFootIndex4RotateAxis.LeftFootIndex4RotateAxisz
+    LeftFootIndex4RotateAxis = LeftFootIndex4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootIndex4RotateAxisx = (
+        LeftFootIndex4RotateAxis.LeftFootIndex4RotateAxisx
+    )
+    LeftFootIndex4RotateAxisy = (
+        LeftFootIndex4RotateAxis.LeftFootIndex4RotateAxisy
+    )
+    LeftFootIndex4RotateAxisz = (
+        LeftFootIndex4RotateAxis.LeftFootIndex4RotateAxisz
+    )
 
-    LeftFootIndex4JointOrient = LeftFootIndex4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootIndex4JointOrientx = LeftFootIndex4JointOrient.LeftFootIndex4JointOrientx
-    LeftFootIndex4JointOrienty = LeftFootIndex4JointOrient.LeftFootIndex4JointOrienty
-    LeftFootIndex4JointOrientz = LeftFootIndex4JointOrient.LeftFootIndex4JointOrientz
+    LeftFootIndex4JointOrient = LeftFootIndex4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootIndex4JointOrientx = (
+        LeftFootIndex4JointOrient.LeftFootIndex4JointOrientx
+    )
+    LeftFootIndex4JointOrienty = (
+        LeftFootIndex4JointOrient.LeftFootIndex4JointOrienty
+    )
+    LeftFootIndex4JointOrientz = (
+        LeftFootIndex4JointOrient.LeftFootIndex4JointOrientz
+    )
 
-    LeftFootIndex4MinRLimit = LeftFootIndex4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex4MinRLimit = LeftFootIndex4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex4MinRLimitx = LeftFootIndex4MinRLimit.LeftFootIndex4MinRLimitx
     LeftFootIndex4MinRLimity = LeftFootIndex4MinRLimit.LeftFootIndex4MinRLimity
     LeftFootIndex4MinRLimitz = LeftFootIndex4MinRLimit.LeftFootIndex4MinRLimitz
 
-    LeftFootIndex4MaxRLimit = LeftFootIndex4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex4MaxRLimit = LeftFootIndex4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex4MaxRLimitx = LeftFootIndex4MaxRLimit.LeftFootIndex4MaxRLimitx
     LeftFootIndex4MaxRLimity = LeftFootIndex4MaxRLimit.LeftFootIndex4MaxRLimity
     LeftFootIndex4MaxRLimitz = LeftFootIndex4MaxRLimit.LeftFootIndex4MaxRLimitz
@@ -15420,27 +18782,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootMiddle1Sy = LeftFootMiddle1S.LeftFootMiddle1Sy
     LeftFootMiddle1Sz = LeftFootMiddle1S.LeftFootMiddle1Sz
 
-    LeftFootMiddle1RotateOrder = LeftFootMiddle1RotateOrderEnumField(default_value=0)
+    LeftFootMiddle1RotateOrder = LeftFootMiddle1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootMiddle1RotateAxis = LeftFootMiddle1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle1RotateAxisx = LeftFootMiddle1RotateAxis.LeftFootMiddle1RotateAxisx
-    LeftFootMiddle1RotateAxisy = LeftFootMiddle1RotateAxis.LeftFootMiddle1RotateAxisy
-    LeftFootMiddle1RotateAxisz = LeftFootMiddle1RotateAxis.LeftFootMiddle1RotateAxisz
+    LeftFootMiddle1RotateAxis = LeftFootMiddle1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle1RotateAxisx = (
+        LeftFootMiddle1RotateAxis.LeftFootMiddle1RotateAxisx
+    )
+    LeftFootMiddle1RotateAxisy = (
+        LeftFootMiddle1RotateAxis.LeftFootMiddle1RotateAxisy
+    )
+    LeftFootMiddle1RotateAxisz = (
+        LeftFootMiddle1RotateAxis.LeftFootMiddle1RotateAxisz
+    )
 
-    LeftFootMiddle1JointOrient = LeftFootMiddle1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle1JointOrientx = LeftFootMiddle1JointOrient.LeftFootMiddle1JointOrientx
-    LeftFootMiddle1JointOrienty = LeftFootMiddle1JointOrient.LeftFootMiddle1JointOrienty
-    LeftFootMiddle1JointOrientz = LeftFootMiddle1JointOrient.LeftFootMiddle1JointOrientz
+    LeftFootMiddle1JointOrient = LeftFootMiddle1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle1JointOrientx = (
+        LeftFootMiddle1JointOrient.LeftFootMiddle1JointOrientx
+    )
+    LeftFootMiddle1JointOrienty = (
+        LeftFootMiddle1JointOrient.LeftFootMiddle1JointOrienty
+    )
+    LeftFootMiddle1JointOrientz = (
+        LeftFootMiddle1JointOrient.LeftFootMiddle1JointOrientz
+    )
 
-    LeftFootMiddle1MinRLimit = LeftFootMiddle1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle1MinRLimitx = LeftFootMiddle1MinRLimit.LeftFootMiddle1MinRLimitx
-    LeftFootMiddle1MinRLimity = LeftFootMiddle1MinRLimit.LeftFootMiddle1MinRLimity
-    LeftFootMiddle1MinRLimitz = LeftFootMiddle1MinRLimit.LeftFootMiddle1MinRLimitz
+    LeftFootMiddle1MinRLimit = LeftFootMiddle1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle1MinRLimitx = (
+        LeftFootMiddle1MinRLimit.LeftFootMiddle1MinRLimitx
+    )
+    LeftFootMiddle1MinRLimity = (
+        LeftFootMiddle1MinRLimit.LeftFootMiddle1MinRLimity
+    )
+    LeftFootMiddle1MinRLimitz = (
+        LeftFootMiddle1MinRLimit.LeftFootMiddle1MinRLimitz
+    )
 
-    LeftFootMiddle1MaxRLimit = LeftFootMiddle1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle1MaxRLimitx = LeftFootMiddle1MaxRLimit.LeftFootMiddle1MaxRLimitx
-    LeftFootMiddle1MaxRLimity = LeftFootMiddle1MaxRLimit.LeftFootMiddle1MaxRLimity
-    LeftFootMiddle1MaxRLimitz = LeftFootMiddle1MaxRLimit.LeftFootMiddle1MaxRLimitz
+    LeftFootMiddle1MaxRLimit = LeftFootMiddle1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle1MaxRLimitx = (
+        LeftFootMiddle1MaxRLimit.LeftFootMiddle1MaxRLimitx
+    )
+    LeftFootMiddle1MaxRLimity = (
+        LeftFootMiddle1MaxRLimit.LeftFootMiddle1MaxRLimity
+    )
+    LeftFootMiddle1MaxRLimitz = (
+        LeftFootMiddle1MaxRLimit.LeftFootMiddle1MaxRLimitz
+    )
 
     LeftFootMiddle1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -15471,27 +18867,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootMiddle2Sy = LeftFootMiddle2S.LeftFootMiddle2Sy
     LeftFootMiddle2Sz = LeftFootMiddle2S.LeftFootMiddle2Sz
 
-    LeftFootMiddle2RotateOrder = LeftFootMiddle2RotateOrderEnumField(default_value=0)
+    LeftFootMiddle2RotateOrder = LeftFootMiddle2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootMiddle2RotateAxis = LeftFootMiddle2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle2RotateAxisx = LeftFootMiddle2RotateAxis.LeftFootMiddle2RotateAxisx
-    LeftFootMiddle2RotateAxisy = LeftFootMiddle2RotateAxis.LeftFootMiddle2RotateAxisy
-    LeftFootMiddle2RotateAxisz = LeftFootMiddle2RotateAxis.LeftFootMiddle2RotateAxisz
+    LeftFootMiddle2RotateAxis = LeftFootMiddle2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle2RotateAxisx = (
+        LeftFootMiddle2RotateAxis.LeftFootMiddle2RotateAxisx
+    )
+    LeftFootMiddle2RotateAxisy = (
+        LeftFootMiddle2RotateAxis.LeftFootMiddle2RotateAxisy
+    )
+    LeftFootMiddle2RotateAxisz = (
+        LeftFootMiddle2RotateAxis.LeftFootMiddle2RotateAxisz
+    )
 
-    LeftFootMiddle2JointOrient = LeftFootMiddle2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle2JointOrientx = LeftFootMiddle2JointOrient.LeftFootMiddle2JointOrientx
-    LeftFootMiddle2JointOrienty = LeftFootMiddle2JointOrient.LeftFootMiddle2JointOrienty
-    LeftFootMiddle2JointOrientz = LeftFootMiddle2JointOrient.LeftFootMiddle2JointOrientz
+    LeftFootMiddle2JointOrient = LeftFootMiddle2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle2JointOrientx = (
+        LeftFootMiddle2JointOrient.LeftFootMiddle2JointOrientx
+    )
+    LeftFootMiddle2JointOrienty = (
+        LeftFootMiddle2JointOrient.LeftFootMiddle2JointOrienty
+    )
+    LeftFootMiddle2JointOrientz = (
+        LeftFootMiddle2JointOrient.LeftFootMiddle2JointOrientz
+    )
 
-    LeftFootMiddle2MinRLimit = LeftFootMiddle2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle2MinRLimitx = LeftFootMiddle2MinRLimit.LeftFootMiddle2MinRLimitx
-    LeftFootMiddle2MinRLimity = LeftFootMiddle2MinRLimit.LeftFootMiddle2MinRLimity
-    LeftFootMiddle2MinRLimitz = LeftFootMiddle2MinRLimit.LeftFootMiddle2MinRLimitz
+    LeftFootMiddle2MinRLimit = LeftFootMiddle2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle2MinRLimitx = (
+        LeftFootMiddle2MinRLimit.LeftFootMiddle2MinRLimitx
+    )
+    LeftFootMiddle2MinRLimity = (
+        LeftFootMiddle2MinRLimit.LeftFootMiddle2MinRLimity
+    )
+    LeftFootMiddle2MinRLimitz = (
+        LeftFootMiddle2MinRLimit.LeftFootMiddle2MinRLimitz
+    )
 
-    LeftFootMiddle2MaxRLimit = LeftFootMiddle2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle2MaxRLimitx = LeftFootMiddle2MaxRLimit.LeftFootMiddle2MaxRLimitx
-    LeftFootMiddle2MaxRLimity = LeftFootMiddle2MaxRLimit.LeftFootMiddle2MaxRLimity
-    LeftFootMiddle2MaxRLimitz = LeftFootMiddle2MaxRLimit.LeftFootMiddle2MaxRLimitz
+    LeftFootMiddle2MaxRLimit = LeftFootMiddle2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle2MaxRLimitx = (
+        LeftFootMiddle2MaxRLimit.LeftFootMiddle2MaxRLimitx
+    )
+    LeftFootMiddle2MaxRLimity = (
+        LeftFootMiddle2MaxRLimit.LeftFootMiddle2MaxRLimity
+    )
+    LeftFootMiddle2MaxRLimitz = (
+        LeftFootMiddle2MaxRLimit.LeftFootMiddle2MaxRLimitz
+    )
 
     LeftFootMiddle2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -15522,27 +18952,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootMiddle3Sy = LeftFootMiddle3S.LeftFootMiddle3Sy
     LeftFootMiddle3Sz = LeftFootMiddle3S.LeftFootMiddle3Sz
 
-    LeftFootMiddle3RotateOrder = LeftFootMiddle3RotateOrderEnumField(default_value=0)
+    LeftFootMiddle3RotateOrder = LeftFootMiddle3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootMiddle3RotateAxis = LeftFootMiddle3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle3RotateAxisx = LeftFootMiddle3RotateAxis.LeftFootMiddle3RotateAxisx
-    LeftFootMiddle3RotateAxisy = LeftFootMiddle3RotateAxis.LeftFootMiddle3RotateAxisy
-    LeftFootMiddle3RotateAxisz = LeftFootMiddle3RotateAxis.LeftFootMiddle3RotateAxisz
+    LeftFootMiddle3RotateAxis = LeftFootMiddle3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle3RotateAxisx = (
+        LeftFootMiddle3RotateAxis.LeftFootMiddle3RotateAxisx
+    )
+    LeftFootMiddle3RotateAxisy = (
+        LeftFootMiddle3RotateAxis.LeftFootMiddle3RotateAxisy
+    )
+    LeftFootMiddle3RotateAxisz = (
+        LeftFootMiddle3RotateAxis.LeftFootMiddle3RotateAxisz
+    )
 
-    LeftFootMiddle3JointOrient = LeftFootMiddle3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle3JointOrientx = LeftFootMiddle3JointOrient.LeftFootMiddle3JointOrientx
-    LeftFootMiddle3JointOrienty = LeftFootMiddle3JointOrient.LeftFootMiddle3JointOrienty
-    LeftFootMiddle3JointOrientz = LeftFootMiddle3JointOrient.LeftFootMiddle3JointOrientz
+    LeftFootMiddle3JointOrient = LeftFootMiddle3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle3JointOrientx = (
+        LeftFootMiddle3JointOrient.LeftFootMiddle3JointOrientx
+    )
+    LeftFootMiddle3JointOrienty = (
+        LeftFootMiddle3JointOrient.LeftFootMiddle3JointOrienty
+    )
+    LeftFootMiddle3JointOrientz = (
+        LeftFootMiddle3JointOrient.LeftFootMiddle3JointOrientz
+    )
 
-    LeftFootMiddle3MinRLimit = LeftFootMiddle3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle3MinRLimitx = LeftFootMiddle3MinRLimit.LeftFootMiddle3MinRLimitx
-    LeftFootMiddle3MinRLimity = LeftFootMiddle3MinRLimit.LeftFootMiddle3MinRLimity
-    LeftFootMiddle3MinRLimitz = LeftFootMiddle3MinRLimit.LeftFootMiddle3MinRLimitz
+    LeftFootMiddle3MinRLimit = LeftFootMiddle3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle3MinRLimitx = (
+        LeftFootMiddle3MinRLimit.LeftFootMiddle3MinRLimitx
+    )
+    LeftFootMiddle3MinRLimity = (
+        LeftFootMiddle3MinRLimit.LeftFootMiddle3MinRLimity
+    )
+    LeftFootMiddle3MinRLimitz = (
+        LeftFootMiddle3MinRLimit.LeftFootMiddle3MinRLimitz
+    )
 
-    LeftFootMiddle3MaxRLimit = LeftFootMiddle3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle3MaxRLimitx = LeftFootMiddle3MaxRLimit.LeftFootMiddle3MaxRLimitx
-    LeftFootMiddle3MaxRLimity = LeftFootMiddle3MaxRLimit.LeftFootMiddle3MaxRLimity
-    LeftFootMiddle3MaxRLimitz = LeftFootMiddle3MaxRLimit.LeftFootMiddle3MaxRLimitz
+    LeftFootMiddle3MaxRLimit = LeftFootMiddle3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle3MaxRLimitx = (
+        LeftFootMiddle3MaxRLimit.LeftFootMiddle3MaxRLimitx
+    )
+    LeftFootMiddle3MaxRLimity = (
+        LeftFootMiddle3MaxRLimit.LeftFootMiddle3MaxRLimity
+    )
+    LeftFootMiddle3MaxRLimitz = (
+        LeftFootMiddle3MaxRLimit.LeftFootMiddle3MaxRLimitz
+    )
 
     LeftFootMiddle3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -15573,27 +19037,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootMiddle4Sy = LeftFootMiddle4S.LeftFootMiddle4Sy
     LeftFootMiddle4Sz = LeftFootMiddle4S.LeftFootMiddle4Sz
 
-    LeftFootMiddle4RotateOrder = LeftFootMiddle4RotateOrderEnumField(default_value=0)
+    LeftFootMiddle4RotateOrder = LeftFootMiddle4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootMiddle4RotateAxis = LeftFootMiddle4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle4RotateAxisx = LeftFootMiddle4RotateAxis.LeftFootMiddle4RotateAxisx
-    LeftFootMiddle4RotateAxisy = LeftFootMiddle4RotateAxis.LeftFootMiddle4RotateAxisy
-    LeftFootMiddle4RotateAxisz = LeftFootMiddle4RotateAxis.LeftFootMiddle4RotateAxisz
+    LeftFootMiddle4RotateAxis = LeftFootMiddle4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle4RotateAxisx = (
+        LeftFootMiddle4RotateAxis.LeftFootMiddle4RotateAxisx
+    )
+    LeftFootMiddle4RotateAxisy = (
+        LeftFootMiddle4RotateAxis.LeftFootMiddle4RotateAxisy
+    )
+    LeftFootMiddle4RotateAxisz = (
+        LeftFootMiddle4RotateAxis.LeftFootMiddle4RotateAxisz
+    )
 
-    LeftFootMiddle4JointOrient = LeftFootMiddle4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle4JointOrientx = LeftFootMiddle4JointOrient.LeftFootMiddle4JointOrientx
-    LeftFootMiddle4JointOrienty = LeftFootMiddle4JointOrient.LeftFootMiddle4JointOrienty
-    LeftFootMiddle4JointOrientz = LeftFootMiddle4JointOrient.LeftFootMiddle4JointOrientz
+    LeftFootMiddle4JointOrient = LeftFootMiddle4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle4JointOrientx = (
+        LeftFootMiddle4JointOrient.LeftFootMiddle4JointOrientx
+    )
+    LeftFootMiddle4JointOrienty = (
+        LeftFootMiddle4JointOrient.LeftFootMiddle4JointOrienty
+    )
+    LeftFootMiddle4JointOrientz = (
+        LeftFootMiddle4JointOrient.LeftFootMiddle4JointOrientz
+    )
 
-    LeftFootMiddle4MinRLimit = LeftFootMiddle4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle4MinRLimitx = LeftFootMiddle4MinRLimit.LeftFootMiddle4MinRLimitx
-    LeftFootMiddle4MinRLimity = LeftFootMiddle4MinRLimit.LeftFootMiddle4MinRLimity
-    LeftFootMiddle4MinRLimitz = LeftFootMiddle4MinRLimit.LeftFootMiddle4MinRLimitz
+    LeftFootMiddle4MinRLimit = LeftFootMiddle4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle4MinRLimitx = (
+        LeftFootMiddle4MinRLimit.LeftFootMiddle4MinRLimitx
+    )
+    LeftFootMiddle4MinRLimity = (
+        LeftFootMiddle4MinRLimit.LeftFootMiddle4MinRLimity
+    )
+    LeftFootMiddle4MinRLimitz = (
+        LeftFootMiddle4MinRLimit.LeftFootMiddle4MinRLimitz
+    )
 
-    LeftFootMiddle4MaxRLimit = LeftFootMiddle4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootMiddle4MaxRLimitx = LeftFootMiddle4MaxRLimit.LeftFootMiddle4MaxRLimitx
-    LeftFootMiddle4MaxRLimity = LeftFootMiddle4MaxRLimit.LeftFootMiddle4MaxRLimity
-    LeftFootMiddle4MaxRLimitz = LeftFootMiddle4MaxRLimit.LeftFootMiddle4MaxRLimitz
+    LeftFootMiddle4MaxRLimit = LeftFootMiddle4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootMiddle4MaxRLimitx = (
+        LeftFootMiddle4MaxRLimit.LeftFootMiddle4MaxRLimitx
+    )
+    LeftFootMiddle4MaxRLimity = (
+        LeftFootMiddle4MaxRLimit.LeftFootMiddle4MaxRLimity
+    )
+    LeftFootMiddle4MaxRLimitz = (
+        LeftFootMiddle4MaxRLimit.LeftFootMiddle4MaxRLimitz
+    )
 
     LeftFootMiddle4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -15624,24 +19122,40 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootRing1Sy = LeftFootRing1S.LeftFootRing1Sy
     LeftFootRing1Sz = LeftFootRing1S.LeftFootRing1Sz
 
-    LeftFootRing1RotateOrder = LeftFootRing1RotateOrderEnumField(default_value=0)
+    LeftFootRing1RotateOrder = LeftFootRing1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootRing1RotateAxis = LeftFootRing1RotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing1RotateAxis = LeftFootRing1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing1RotateAxisx = LeftFootRing1RotateAxis.LeftFootRing1RotateAxisx
     LeftFootRing1RotateAxisy = LeftFootRing1RotateAxis.LeftFootRing1RotateAxisy
     LeftFootRing1RotateAxisz = LeftFootRing1RotateAxis.LeftFootRing1RotateAxisz
 
-    LeftFootRing1JointOrient = LeftFootRing1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootRing1JointOrientx = LeftFootRing1JointOrient.LeftFootRing1JointOrientx
-    LeftFootRing1JointOrienty = LeftFootRing1JointOrient.LeftFootRing1JointOrienty
-    LeftFootRing1JointOrientz = LeftFootRing1JointOrient.LeftFootRing1JointOrientz
+    LeftFootRing1JointOrient = LeftFootRing1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootRing1JointOrientx = (
+        LeftFootRing1JointOrient.LeftFootRing1JointOrientx
+    )
+    LeftFootRing1JointOrienty = (
+        LeftFootRing1JointOrient.LeftFootRing1JointOrienty
+    )
+    LeftFootRing1JointOrientz = (
+        LeftFootRing1JointOrient.LeftFootRing1JointOrientz
+    )
 
-    LeftFootRing1MinRLimit = LeftFootRing1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing1MinRLimit = LeftFootRing1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing1MinRLimitx = LeftFootRing1MinRLimit.LeftFootRing1MinRLimitx
     LeftFootRing1MinRLimity = LeftFootRing1MinRLimit.LeftFootRing1MinRLimity
     LeftFootRing1MinRLimitz = LeftFootRing1MinRLimit.LeftFootRing1MinRLimitz
 
-    LeftFootRing1MaxRLimit = LeftFootRing1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing1MaxRLimit = LeftFootRing1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing1MaxRLimitx = LeftFootRing1MaxRLimit.LeftFootRing1MaxRLimitx
     LeftFootRing1MaxRLimity = LeftFootRing1MaxRLimit.LeftFootRing1MaxRLimity
     LeftFootRing1MaxRLimitz = LeftFootRing1MaxRLimit.LeftFootRing1MaxRLimitz
@@ -15675,24 +19189,40 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootRing2Sy = LeftFootRing2S.LeftFootRing2Sy
     LeftFootRing2Sz = LeftFootRing2S.LeftFootRing2Sz
 
-    LeftFootRing2RotateOrder = LeftFootRing2RotateOrderEnumField(default_value=0)
+    LeftFootRing2RotateOrder = LeftFootRing2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootRing2RotateAxis = LeftFootRing2RotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing2RotateAxis = LeftFootRing2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing2RotateAxisx = LeftFootRing2RotateAxis.LeftFootRing2RotateAxisx
     LeftFootRing2RotateAxisy = LeftFootRing2RotateAxis.LeftFootRing2RotateAxisy
     LeftFootRing2RotateAxisz = LeftFootRing2RotateAxis.LeftFootRing2RotateAxisz
 
-    LeftFootRing2JointOrient = LeftFootRing2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootRing2JointOrientx = LeftFootRing2JointOrient.LeftFootRing2JointOrientx
-    LeftFootRing2JointOrienty = LeftFootRing2JointOrient.LeftFootRing2JointOrienty
-    LeftFootRing2JointOrientz = LeftFootRing2JointOrient.LeftFootRing2JointOrientz
+    LeftFootRing2JointOrient = LeftFootRing2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootRing2JointOrientx = (
+        LeftFootRing2JointOrient.LeftFootRing2JointOrientx
+    )
+    LeftFootRing2JointOrienty = (
+        LeftFootRing2JointOrient.LeftFootRing2JointOrienty
+    )
+    LeftFootRing2JointOrientz = (
+        LeftFootRing2JointOrient.LeftFootRing2JointOrientz
+    )
 
-    LeftFootRing2MinRLimit = LeftFootRing2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing2MinRLimit = LeftFootRing2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing2MinRLimitx = LeftFootRing2MinRLimit.LeftFootRing2MinRLimitx
     LeftFootRing2MinRLimity = LeftFootRing2MinRLimit.LeftFootRing2MinRLimity
     LeftFootRing2MinRLimitz = LeftFootRing2MinRLimit.LeftFootRing2MinRLimitz
 
-    LeftFootRing2MaxRLimit = LeftFootRing2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing2MaxRLimit = LeftFootRing2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing2MaxRLimitx = LeftFootRing2MaxRLimit.LeftFootRing2MaxRLimitx
     LeftFootRing2MaxRLimity = LeftFootRing2MaxRLimit.LeftFootRing2MaxRLimity
     LeftFootRing2MaxRLimitz = LeftFootRing2MaxRLimit.LeftFootRing2MaxRLimitz
@@ -15726,24 +19256,40 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootRing3Sy = LeftFootRing3S.LeftFootRing3Sy
     LeftFootRing3Sz = LeftFootRing3S.LeftFootRing3Sz
 
-    LeftFootRing3RotateOrder = LeftFootRing3RotateOrderEnumField(default_value=0)
+    LeftFootRing3RotateOrder = LeftFootRing3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootRing3RotateAxis = LeftFootRing3RotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing3RotateAxis = LeftFootRing3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing3RotateAxisx = LeftFootRing3RotateAxis.LeftFootRing3RotateAxisx
     LeftFootRing3RotateAxisy = LeftFootRing3RotateAxis.LeftFootRing3RotateAxisy
     LeftFootRing3RotateAxisz = LeftFootRing3RotateAxis.LeftFootRing3RotateAxisz
 
-    LeftFootRing3JointOrient = LeftFootRing3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootRing3JointOrientx = LeftFootRing3JointOrient.LeftFootRing3JointOrientx
-    LeftFootRing3JointOrienty = LeftFootRing3JointOrient.LeftFootRing3JointOrienty
-    LeftFootRing3JointOrientz = LeftFootRing3JointOrient.LeftFootRing3JointOrientz
+    LeftFootRing3JointOrient = LeftFootRing3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootRing3JointOrientx = (
+        LeftFootRing3JointOrient.LeftFootRing3JointOrientx
+    )
+    LeftFootRing3JointOrienty = (
+        LeftFootRing3JointOrient.LeftFootRing3JointOrienty
+    )
+    LeftFootRing3JointOrientz = (
+        LeftFootRing3JointOrient.LeftFootRing3JointOrientz
+    )
 
-    LeftFootRing3MinRLimit = LeftFootRing3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing3MinRLimit = LeftFootRing3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing3MinRLimitx = LeftFootRing3MinRLimit.LeftFootRing3MinRLimitx
     LeftFootRing3MinRLimity = LeftFootRing3MinRLimit.LeftFootRing3MinRLimity
     LeftFootRing3MinRLimitz = LeftFootRing3MinRLimit.LeftFootRing3MinRLimitz
 
-    LeftFootRing3MaxRLimit = LeftFootRing3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing3MaxRLimit = LeftFootRing3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing3MaxRLimitx = LeftFootRing3MaxRLimit.LeftFootRing3MaxRLimitx
     LeftFootRing3MaxRLimity = LeftFootRing3MaxRLimit.LeftFootRing3MaxRLimity
     LeftFootRing3MaxRLimitz = LeftFootRing3MaxRLimit.LeftFootRing3MaxRLimitz
@@ -15777,24 +19323,40 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootRing4Sy = LeftFootRing4S.LeftFootRing4Sy
     LeftFootRing4Sz = LeftFootRing4S.LeftFootRing4Sz
 
-    LeftFootRing4RotateOrder = LeftFootRing4RotateOrderEnumField(default_value=0)
+    LeftFootRing4RotateOrder = LeftFootRing4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootRing4RotateAxis = LeftFootRing4RotateAxisField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing4RotateAxis = LeftFootRing4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing4RotateAxisx = LeftFootRing4RotateAxis.LeftFootRing4RotateAxisx
     LeftFootRing4RotateAxisy = LeftFootRing4RotateAxis.LeftFootRing4RotateAxisy
     LeftFootRing4RotateAxisz = LeftFootRing4RotateAxis.LeftFootRing4RotateAxisz
 
-    LeftFootRing4JointOrient = LeftFootRing4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootRing4JointOrientx = LeftFootRing4JointOrient.LeftFootRing4JointOrientx
-    LeftFootRing4JointOrienty = LeftFootRing4JointOrient.LeftFootRing4JointOrienty
-    LeftFootRing4JointOrientz = LeftFootRing4JointOrient.LeftFootRing4JointOrientz
+    LeftFootRing4JointOrient = LeftFootRing4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootRing4JointOrientx = (
+        LeftFootRing4JointOrient.LeftFootRing4JointOrientx
+    )
+    LeftFootRing4JointOrienty = (
+        LeftFootRing4JointOrient.LeftFootRing4JointOrienty
+    )
+    LeftFootRing4JointOrientz = (
+        LeftFootRing4JointOrient.LeftFootRing4JointOrientz
+    )
 
-    LeftFootRing4MinRLimit = LeftFootRing4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing4MinRLimit = LeftFootRing4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing4MinRLimitx = LeftFootRing4MinRLimit.LeftFootRing4MinRLimitx
     LeftFootRing4MinRLimity = LeftFootRing4MinRLimit.LeftFootRing4MinRLimity
     LeftFootRing4MinRLimitz = LeftFootRing4MinRLimit.LeftFootRing4MinRLimitz
 
-    LeftFootRing4MaxRLimit = LeftFootRing4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootRing4MaxRLimit = LeftFootRing4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootRing4MaxRLimitx = LeftFootRing4MaxRLimit.LeftFootRing4MaxRLimitx
     LeftFootRing4MaxRLimity = LeftFootRing4MaxRLimit.LeftFootRing4MaxRLimity
     LeftFootRing4MaxRLimitz = LeftFootRing4MaxRLimit.LeftFootRing4MaxRLimitz
@@ -15828,24 +19390,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootPinky1Sy = LeftFootPinky1S.LeftFootPinky1Sy
     LeftFootPinky1Sz = LeftFootPinky1S.LeftFootPinky1Sz
 
-    LeftFootPinky1RotateOrder = LeftFootPinky1RotateOrderEnumField(default_value=0)
+    LeftFootPinky1RotateOrder = LeftFootPinky1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootPinky1RotateAxis = LeftFootPinky1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootPinky1RotateAxisx = LeftFootPinky1RotateAxis.LeftFootPinky1RotateAxisx
-    LeftFootPinky1RotateAxisy = LeftFootPinky1RotateAxis.LeftFootPinky1RotateAxisy
-    LeftFootPinky1RotateAxisz = LeftFootPinky1RotateAxis.LeftFootPinky1RotateAxisz
+    LeftFootPinky1RotateAxis = LeftFootPinky1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootPinky1RotateAxisx = (
+        LeftFootPinky1RotateAxis.LeftFootPinky1RotateAxisx
+    )
+    LeftFootPinky1RotateAxisy = (
+        LeftFootPinky1RotateAxis.LeftFootPinky1RotateAxisy
+    )
+    LeftFootPinky1RotateAxisz = (
+        LeftFootPinky1RotateAxis.LeftFootPinky1RotateAxisz
+    )
 
-    LeftFootPinky1JointOrient = LeftFootPinky1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootPinky1JointOrientx = LeftFootPinky1JointOrient.LeftFootPinky1JointOrientx
-    LeftFootPinky1JointOrienty = LeftFootPinky1JointOrient.LeftFootPinky1JointOrienty
-    LeftFootPinky1JointOrientz = LeftFootPinky1JointOrient.LeftFootPinky1JointOrientz
+    LeftFootPinky1JointOrient = LeftFootPinky1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootPinky1JointOrientx = (
+        LeftFootPinky1JointOrient.LeftFootPinky1JointOrientx
+    )
+    LeftFootPinky1JointOrienty = (
+        LeftFootPinky1JointOrient.LeftFootPinky1JointOrienty
+    )
+    LeftFootPinky1JointOrientz = (
+        LeftFootPinky1JointOrient.LeftFootPinky1JointOrientz
+    )
 
-    LeftFootPinky1MinRLimit = LeftFootPinky1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky1MinRLimit = LeftFootPinky1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky1MinRLimitx = LeftFootPinky1MinRLimit.LeftFootPinky1MinRLimitx
     LeftFootPinky1MinRLimity = LeftFootPinky1MinRLimit.LeftFootPinky1MinRLimity
     LeftFootPinky1MinRLimitz = LeftFootPinky1MinRLimit.LeftFootPinky1MinRLimitz
 
-    LeftFootPinky1MaxRLimit = LeftFootPinky1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky1MaxRLimit = LeftFootPinky1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky1MaxRLimitx = LeftFootPinky1MaxRLimit.LeftFootPinky1MaxRLimitx
     LeftFootPinky1MaxRLimity = LeftFootPinky1MaxRLimit.LeftFootPinky1MaxRLimity
     LeftFootPinky1MaxRLimitz = LeftFootPinky1MaxRLimit.LeftFootPinky1MaxRLimitz
@@ -15879,24 +19463,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootPinky2Sy = LeftFootPinky2S.LeftFootPinky2Sy
     LeftFootPinky2Sz = LeftFootPinky2S.LeftFootPinky2Sz
 
-    LeftFootPinky2RotateOrder = LeftFootPinky2RotateOrderEnumField(default_value=0)
+    LeftFootPinky2RotateOrder = LeftFootPinky2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootPinky2RotateAxis = LeftFootPinky2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootPinky2RotateAxisx = LeftFootPinky2RotateAxis.LeftFootPinky2RotateAxisx
-    LeftFootPinky2RotateAxisy = LeftFootPinky2RotateAxis.LeftFootPinky2RotateAxisy
-    LeftFootPinky2RotateAxisz = LeftFootPinky2RotateAxis.LeftFootPinky2RotateAxisz
+    LeftFootPinky2RotateAxis = LeftFootPinky2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootPinky2RotateAxisx = (
+        LeftFootPinky2RotateAxis.LeftFootPinky2RotateAxisx
+    )
+    LeftFootPinky2RotateAxisy = (
+        LeftFootPinky2RotateAxis.LeftFootPinky2RotateAxisy
+    )
+    LeftFootPinky2RotateAxisz = (
+        LeftFootPinky2RotateAxis.LeftFootPinky2RotateAxisz
+    )
 
-    LeftFootPinky2JointOrient = LeftFootPinky2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootPinky2JointOrientx = LeftFootPinky2JointOrient.LeftFootPinky2JointOrientx
-    LeftFootPinky2JointOrienty = LeftFootPinky2JointOrient.LeftFootPinky2JointOrienty
-    LeftFootPinky2JointOrientz = LeftFootPinky2JointOrient.LeftFootPinky2JointOrientz
+    LeftFootPinky2JointOrient = LeftFootPinky2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootPinky2JointOrientx = (
+        LeftFootPinky2JointOrient.LeftFootPinky2JointOrientx
+    )
+    LeftFootPinky2JointOrienty = (
+        LeftFootPinky2JointOrient.LeftFootPinky2JointOrienty
+    )
+    LeftFootPinky2JointOrientz = (
+        LeftFootPinky2JointOrient.LeftFootPinky2JointOrientz
+    )
 
-    LeftFootPinky2MinRLimit = LeftFootPinky2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky2MinRLimit = LeftFootPinky2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky2MinRLimitx = LeftFootPinky2MinRLimit.LeftFootPinky2MinRLimitx
     LeftFootPinky2MinRLimity = LeftFootPinky2MinRLimit.LeftFootPinky2MinRLimity
     LeftFootPinky2MinRLimitz = LeftFootPinky2MinRLimit.LeftFootPinky2MinRLimitz
 
-    LeftFootPinky2MaxRLimit = LeftFootPinky2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky2MaxRLimit = LeftFootPinky2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky2MaxRLimitx = LeftFootPinky2MaxRLimit.LeftFootPinky2MaxRLimitx
     LeftFootPinky2MaxRLimity = LeftFootPinky2MaxRLimit.LeftFootPinky2MaxRLimity
     LeftFootPinky2MaxRLimitz = LeftFootPinky2MaxRLimit.LeftFootPinky2MaxRLimitz
@@ -15930,24 +19536,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootPinky3Sy = LeftFootPinky3S.LeftFootPinky3Sy
     LeftFootPinky3Sz = LeftFootPinky3S.LeftFootPinky3Sz
 
-    LeftFootPinky3RotateOrder = LeftFootPinky3RotateOrderEnumField(default_value=0)
+    LeftFootPinky3RotateOrder = LeftFootPinky3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootPinky3RotateAxis = LeftFootPinky3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootPinky3RotateAxisx = LeftFootPinky3RotateAxis.LeftFootPinky3RotateAxisx
-    LeftFootPinky3RotateAxisy = LeftFootPinky3RotateAxis.LeftFootPinky3RotateAxisy
-    LeftFootPinky3RotateAxisz = LeftFootPinky3RotateAxis.LeftFootPinky3RotateAxisz
+    LeftFootPinky3RotateAxis = LeftFootPinky3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootPinky3RotateAxisx = (
+        LeftFootPinky3RotateAxis.LeftFootPinky3RotateAxisx
+    )
+    LeftFootPinky3RotateAxisy = (
+        LeftFootPinky3RotateAxis.LeftFootPinky3RotateAxisy
+    )
+    LeftFootPinky3RotateAxisz = (
+        LeftFootPinky3RotateAxis.LeftFootPinky3RotateAxisz
+    )
 
-    LeftFootPinky3JointOrient = LeftFootPinky3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootPinky3JointOrientx = LeftFootPinky3JointOrient.LeftFootPinky3JointOrientx
-    LeftFootPinky3JointOrienty = LeftFootPinky3JointOrient.LeftFootPinky3JointOrienty
-    LeftFootPinky3JointOrientz = LeftFootPinky3JointOrient.LeftFootPinky3JointOrientz
+    LeftFootPinky3JointOrient = LeftFootPinky3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootPinky3JointOrientx = (
+        LeftFootPinky3JointOrient.LeftFootPinky3JointOrientx
+    )
+    LeftFootPinky3JointOrienty = (
+        LeftFootPinky3JointOrient.LeftFootPinky3JointOrienty
+    )
+    LeftFootPinky3JointOrientz = (
+        LeftFootPinky3JointOrient.LeftFootPinky3JointOrientz
+    )
 
-    LeftFootPinky3MinRLimit = LeftFootPinky3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky3MinRLimit = LeftFootPinky3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky3MinRLimitx = LeftFootPinky3MinRLimit.LeftFootPinky3MinRLimitx
     LeftFootPinky3MinRLimity = LeftFootPinky3MinRLimit.LeftFootPinky3MinRLimity
     LeftFootPinky3MinRLimitz = LeftFootPinky3MinRLimit.LeftFootPinky3MinRLimitz
 
-    LeftFootPinky3MaxRLimit = LeftFootPinky3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky3MaxRLimit = LeftFootPinky3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky3MaxRLimitx = LeftFootPinky3MaxRLimit.LeftFootPinky3MaxRLimitx
     LeftFootPinky3MaxRLimity = LeftFootPinky3MaxRLimit.LeftFootPinky3MaxRLimity
     LeftFootPinky3MaxRLimitz = LeftFootPinky3MaxRLimit.LeftFootPinky3MaxRLimitz
@@ -15981,24 +19609,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftFootPinky4Sy = LeftFootPinky4S.LeftFootPinky4Sy
     LeftFootPinky4Sz = LeftFootPinky4S.LeftFootPinky4Sz
 
-    LeftFootPinky4RotateOrder = LeftFootPinky4RotateOrderEnumField(default_value=0)
+    LeftFootPinky4RotateOrder = LeftFootPinky4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootPinky4RotateAxis = LeftFootPinky4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootPinky4RotateAxisx = LeftFootPinky4RotateAxis.LeftFootPinky4RotateAxisx
-    LeftFootPinky4RotateAxisy = LeftFootPinky4RotateAxis.LeftFootPinky4RotateAxisy
-    LeftFootPinky4RotateAxisz = LeftFootPinky4RotateAxis.LeftFootPinky4RotateAxisz
+    LeftFootPinky4RotateAxis = LeftFootPinky4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootPinky4RotateAxisx = (
+        LeftFootPinky4RotateAxis.LeftFootPinky4RotateAxisx
+    )
+    LeftFootPinky4RotateAxisy = (
+        LeftFootPinky4RotateAxis.LeftFootPinky4RotateAxisy
+    )
+    LeftFootPinky4RotateAxisz = (
+        LeftFootPinky4RotateAxis.LeftFootPinky4RotateAxisz
+    )
 
-    LeftFootPinky4JointOrient = LeftFootPinky4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootPinky4JointOrientx = LeftFootPinky4JointOrient.LeftFootPinky4JointOrientx
-    LeftFootPinky4JointOrienty = LeftFootPinky4JointOrient.LeftFootPinky4JointOrienty
-    LeftFootPinky4JointOrientz = LeftFootPinky4JointOrient.LeftFootPinky4JointOrientz
+    LeftFootPinky4JointOrient = LeftFootPinky4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootPinky4JointOrientx = (
+        LeftFootPinky4JointOrient.LeftFootPinky4JointOrientx
+    )
+    LeftFootPinky4JointOrienty = (
+        LeftFootPinky4JointOrient.LeftFootPinky4JointOrienty
+    )
+    LeftFootPinky4JointOrientz = (
+        LeftFootPinky4JointOrient.LeftFootPinky4JointOrientz
+    )
 
-    LeftFootPinky4MinRLimit = LeftFootPinky4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky4MinRLimit = LeftFootPinky4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky4MinRLimitx = LeftFootPinky4MinRLimit.LeftFootPinky4MinRLimitx
     LeftFootPinky4MinRLimity = LeftFootPinky4MinRLimit.LeftFootPinky4MinRLimity
     LeftFootPinky4MinRLimitz = LeftFootPinky4MinRLimit.LeftFootPinky4MinRLimitz
 
-    LeftFootPinky4MaxRLimit = LeftFootPinky4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky4MaxRLimit = LeftFootPinky4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky4MaxRLimitx = LeftFootPinky4MaxRLimit.LeftFootPinky4MaxRLimitx
     LeftFootPinky4MaxRLimity = LeftFootPinky4MaxRLimit.LeftFootPinky4MaxRLimity
     LeftFootPinky4MaxRLimitz = LeftFootPinky4MaxRLimit.LeftFootPinky4MaxRLimitz
@@ -16017,42 +19667,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftFootExtraFinger1 = MessageField()
 
-    LeftFootExtraFinger1T = LeftFootExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger1T = LeftFootExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger1Tx = LeftFootExtraFinger1T.LeftFootExtraFinger1Tx
     LeftFootExtraFinger1Ty = LeftFootExtraFinger1T.LeftFootExtraFinger1Ty
     LeftFootExtraFinger1Tz = LeftFootExtraFinger1T.LeftFootExtraFinger1Tz
 
-    LeftFootExtraFinger1R = LeftFootExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger1R = LeftFootExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger1Rx = LeftFootExtraFinger1R.LeftFootExtraFinger1Rx
     LeftFootExtraFinger1Ry = LeftFootExtraFinger1R.LeftFootExtraFinger1Ry
     LeftFootExtraFinger1Rz = LeftFootExtraFinger1R.LeftFootExtraFinger1Rz
 
-    LeftFootExtraFinger1S = LeftFootExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger1S = LeftFootExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger1Sx = LeftFootExtraFinger1S.LeftFootExtraFinger1Sx
     LeftFootExtraFinger1Sy = LeftFootExtraFinger1S.LeftFootExtraFinger1Sy
     LeftFootExtraFinger1Sz = LeftFootExtraFinger1S.LeftFootExtraFinger1Sz
 
-    LeftFootExtraFinger1RotateOrder = LeftFootExtraFinger1RotateOrderEnumField(default_value=0)
+    LeftFootExtraFinger1RotateOrder = LeftFootExtraFinger1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootExtraFinger1RotateAxis = LeftFootExtraFinger1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger1RotateAxisx = LeftFootExtraFinger1RotateAxis.LeftFootExtraFinger1RotateAxisx
-    LeftFootExtraFinger1RotateAxisy = LeftFootExtraFinger1RotateAxis.LeftFootExtraFinger1RotateAxisy
-    LeftFootExtraFinger1RotateAxisz = LeftFootExtraFinger1RotateAxis.LeftFootExtraFinger1RotateAxisz
+    LeftFootExtraFinger1RotateAxis = LeftFootExtraFinger1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger1RotateAxisx = (
+        LeftFootExtraFinger1RotateAxis.LeftFootExtraFinger1RotateAxisx
+    )
+    LeftFootExtraFinger1RotateAxisy = (
+        LeftFootExtraFinger1RotateAxis.LeftFootExtraFinger1RotateAxisy
+    )
+    LeftFootExtraFinger1RotateAxisz = (
+        LeftFootExtraFinger1RotateAxis.LeftFootExtraFinger1RotateAxisz
+    )
 
-    LeftFootExtraFinger1JointOrient = LeftFootExtraFinger1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger1JointOrientx = LeftFootExtraFinger1JointOrient.LeftFootExtraFinger1JointOrientx
-    LeftFootExtraFinger1JointOrienty = LeftFootExtraFinger1JointOrient.LeftFootExtraFinger1JointOrienty
-    LeftFootExtraFinger1JointOrientz = LeftFootExtraFinger1JointOrient.LeftFootExtraFinger1JointOrientz
+    LeftFootExtraFinger1JointOrient = LeftFootExtraFinger1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger1JointOrientx = (
+        LeftFootExtraFinger1JointOrient.LeftFootExtraFinger1JointOrientx
+    )
+    LeftFootExtraFinger1JointOrienty = (
+        LeftFootExtraFinger1JointOrient.LeftFootExtraFinger1JointOrienty
+    )
+    LeftFootExtraFinger1JointOrientz = (
+        LeftFootExtraFinger1JointOrient.LeftFootExtraFinger1JointOrientz
+    )
 
-    LeftFootExtraFinger1MinRLimit = LeftFootExtraFinger1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger1MinRLimitx = LeftFootExtraFinger1MinRLimit.LeftFootExtraFinger1MinRLimitx
-    LeftFootExtraFinger1MinRLimity = LeftFootExtraFinger1MinRLimit.LeftFootExtraFinger1MinRLimity
-    LeftFootExtraFinger1MinRLimitz = LeftFootExtraFinger1MinRLimit.LeftFootExtraFinger1MinRLimitz
+    LeftFootExtraFinger1MinRLimit = LeftFootExtraFinger1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger1MinRLimitx = (
+        LeftFootExtraFinger1MinRLimit.LeftFootExtraFinger1MinRLimitx
+    )
+    LeftFootExtraFinger1MinRLimity = (
+        LeftFootExtraFinger1MinRLimit.LeftFootExtraFinger1MinRLimity
+    )
+    LeftFootExtraFinger1MinRLimitz = (
+        LeftFootExtraFinger1MinRLimit.LeftFootExtraFinger1MinRLimitz
+    )
 
-    LeftFootExtraFinger1MaxRLimit = LeftFootExtraFinger1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger1MaxRLimitx = LeftFootExtraFinger1MaxRLimit.LeftFootExtraFinger1MaxRLimitx
-    LeftFootExtraFinger1MaxRLimity = LeftFootExtraFinger1MaxRLimit.LeftFootExtraFinger1MaxRLimity
-    LeftFootExtraFinger1MaxRLimitz = LeftFootExtraFinger1MaxRLimit.LeftFootExtraFinger1MaxRLimitz
+    LeftFootExtraFinger1MaxRLimit = LeftFootExtraFinger1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger1MaxRLimitx = (
+        LeftFootExtraFinger1MaxRLimit.LeftFootExtraFinger1MaxRLimitx
+    )
+    LeftFootExtraFinger1MaxRLimity = (
+        LeftFootExtraFinger1MaxRLimit.LeftFootExtraFinger1MaxRLimity
+    )
+    LeftFootExtraFinger1MaxRLimitz = (
+        LeftFootExtraFinger1MaxRLimit.LeftFootExtraFinger1MaxRLimitz
+    )
 
     LeftFootExtraFinger1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16068,42 +19758,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftFootExtraFinger2 = MessageField()
 
-    LeftFootExtraFinger2T = LeftFootExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger2T = LeftFootExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger2Tx = LeftFootExtraFinger2T.LeftFootExtraFinger2Tx
     LeftFootExtraFinger2Ty = LeftFootExtraFinger2T.LeftFootExtraFinger2Ty
     LeftFootExtraFinger2Tz = LeftFootExtraFinger2T.LeftFootExtraFinger2Tz
 
-    LeftFootExtraFinger2R = LeftFootExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger2R = LeftFootExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger2Rx = LeftFootExtraFinger2R.LeftFootExtraFinger2Rx
     LeftFootExtraFinger2Ry = LeftFootExtraFinger2R.LeftFootExtraFinger2Ry
     LeftFootExtraFinger2Rz = LeftFootExtraFinger2R.LeftFootExtraFinger2Rz
 
-    LeftFootExtraFinger2S = LeftFootExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger2S = LeftFootExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger2Sx = LeftFootExtraFinger2S.LeftFootExtraFinger2Sx
     LeftFootExtraFinger2Sy = LeftFootExtraFinger2S.LeftFootExtraFinger2Sy
     LeftFootExtraFinger2Sz = LeftFootExtraFinger2S.LeftFootExtraFinger2Sz
 
-    LeftFootExtraFinger2RotateOrder = LeftFootExtraFinger2RotateOrderEnumField(default_value=0)
+    LeftFootExtraFinger2RotateOrder = LeftFootExtraFinger2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootExtraFinger2RotateAxis = LeftFootExtraFinger2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger2RotateAxisx = LeftFootExtraFinger2RotateAxis.LeftFootExtraFinger2RotateAxisx
-    LeftFootExtraFinger2RotateAxisy = LeftFootExtraFinger2RotateAxis.LeftFootExtraFinger2RotateAxisy
-    LeftFootExtraFinger2RotateAxisz = LeftFootExtraFinger2RotateAxis.LeftFootExtraFinger2RotateAxisz
+    LeftFootExtraFinger2RotateAxis = LeftFootExtraFinger2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger2RotateAxisx = (
+        LeftFootExtraFinger2RotateAxis.LeftFootExtraFinger2RotateAxisx
+    )
+    LeftFootExtraFinger2RotateAxisy = (
+        LeftFootExtraFinger2RotateAxis.LeftFootExtraFinger2RotateAxisy
+    )
+    LeftFootExtraFinger2RotateAxisz = (
+        LeftFootExtraFinger2RotateAxis.LeftFootExtraFinger2RotateAxisz
+    )
 
-    LeftFootExtraFinger2JointOrient = LeftFootExtraFinger2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger2JointOrientx = LeftFootExtraFinger2JointOrient.LeftFootExtraFinger2JointOrientx
-    LeftFootExtraFinger2JointOrienty = LeftFootExtraFinger2JointOrient.LeftFootExtraFinger2JointOrienty
-    LeftFootExtraFinger2JointOrientz = LeftFootExtraFinger2JointOrient.LeftFootExtraFinger2JointOrientz
+    LeftFootExtraFinger2JointOrient = LeftFootExtraFinger2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger2JointOrientx = (
+        LeftFootExtraFinger2JointOrient.LeftFootExtraFinger2JointOrientx
+    )
+    LeftFootExtraFinger2JointOrienty = (
+        LeftFootExtraFinger2JointOrient.LeftFootExtraFinger2JointOrienty
+    )
+    LeftFootExtraFinger2JointOrientz = (
+        LeftFootExtraFinger2JointOrient.LeftFootExtraFinger2JointOrientz
+    )
 
-    LeftFootExtraFinger2MinRLimit = LeftFootExtraFinger2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger2MinRLimitx = LeftFootExtraFinger2MinRLimit.LeftFootExtraFinger2MinRLimitx
-    LeftFootExtraFinger2MinRLimity = LeftFootExtraFinger2MinRLimit.LeftFootExtraFinger2MinRLimity
-    LeftFootExtraFinger2MinRLimitz = LeftFootExtraFinger2MinRLimit.LeftFootExtraFinger2MinRLimitz
+    LeftFootExtraFinger2MinRLimit = LeftFootExtraFinger2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger2MinRLimitx = (
+        LeftFootExtraFinger2MinRLimit.LeftFootExtraFinger2MinRLimitx
+    )
+    LeftFootExtraFinger2MinRLimity = (
+        LeftFootExtraFinger2MinRLimit.LeftFootExtraFinger2MinRLimity
+    )
+    LeftFootExtraFinger2MinRLimitz = (
+        LeftFootExtraFinger2MinRLimit.LeftFootExtraFinger2MinRLimitz
+    )
 
-    LeftFootExtraFinger2MaxRLimit = LeftFootExtraFinger2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger2MaxRLimitx = LeftFootExtraFinger2MaxRLimit.LeftFootExtraFinger2MaxRLimitx
-    LeftFootExtraFinger2MaxRLimity = LeftFootExtraFinger2MaxRLimit.LeftFootExtraFinger2MaxRLimity
-    LeftFootExtraFinger2MaxRLimitz = LeftFootExtraFinger2MaxRLimit.LeftFootExtraFinger2MaxRLimitz
+    LeftFootExtraFinger2MaxRLimit = LeftFootExtraFinger2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger2MaxRLimitx = (
+        LeftFootExtraFinger2MaxRLimit.LeftFootExtraFinger2MaxRLimitx
+    )
+    LeftFootExtraFinger2MaxRLimity = (
+        LeftFootExtraFinger2MaxRLimit.LeftFootExtraFinger2MaxRLimity
+    )
+    LeftFootExtraFinger2MaxRLimitz = (
+        LeftFootExtraFinger2MaxRLimit.LeftFootExtraFinger2MaxRLimitz
+    )
 
     LeftFootExtraFinger2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16119,42 +19849,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftFootExtraFinger3 = MessageField()
 
-    LeftFootExtraFinger3T = LeftFootExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger3T = LeftFootExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger3Tx = LeftFootExtraFinger3T.LeftFootExtraFinger3Tx
     LeftFootExtraFinger3Ty = LeftFootExtraFinger3T.LeftFootExtraFinger3Ty
     LeftFootExtraFinger3Tz = LeftFootExtraFinger3T.LeftFootExtraFinger3Tz
 
-    LeftFootExtraFinger3R = LeftFootExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger3R = LeftFootExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger3Rx = LeftFootExtraFinger3R.LeftFootExtraFinger3Rx
     LeftFootExtraFinger3Ry = LeftFootExtraFinger3R.LeftFootExtraFinger3Ry
     LeftFootExtraFinger3Rz = LeftFootExtraFinger3R.LeftFootExtraFinger3Rz
 
-    LeftFootExtraFinger3S = LeftFootExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger3S = LeftFootExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger3Sx = LeftFootExtraFinger3S.LeftFootExtraFinger3Sx
     LeftFootExtraFinger3Sy = LeftFootExtraFinger3S.LeftFootExtraFinger3Sy
     LeftFootExtraFinger3Sz = LeftFootExtraFinger3S.LeftFootExtraFinger3Sz
 
-    LeftFootExtraFinger3RotateOrder = LeftFootExtraFinger3RotateOrderEnumField(default_value=0)
+    LeftFootExtraFinger3RotateOrder = LeftFootExtraFinger3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootExtraFinger3RotateAxis = LeftFootExtraFinger3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger3RotateAxisx = LeftFootExtraFinger3RotateAxis.LeftFootExtraFinger3RotateAxisx
-    LeftFootExtraFinger3RotateAxisy = LeftFootExtraFinger3RotateAxis.LeftFootExtraFinger3RotateAxisy
-    LeftFootExtraFinger3RotateAxisz = LeftFootExtraFinger3RotateAxis.LeftFootExtraFinger3RotateAxisz
+    LeftFootExtraFinger3RotateAxis = LeftFootExtraFinger3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger3RotateAxisx = (
+        LeftFootExtraFinger3RotateAxis.LeftFootExtraFinger3RotateAxisx
+    )
+    LeftFootExtraFinger3RotateAxisy = (
+        LeftFootExtraFinger3RotateAxis.LeftFootExtraFinger3RotateAxisy
+    )
+    LeftFootExtraFinger3RotateAxisz = (
+        LeftFootExtraFinger3RotateAxis.LeftFootExtraFinger3RotateAxisz
+    )
 
-    LeftFootExtraFinger3JointOrient = LeftFootExtraFinger3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger3JointOrientx = LeftFootExtraFinger3JointOrient.LeftFootExtraFinger3JointOrientx
-    LeftFootExtraFinger3JointOrienty = LeftFootExtraFinger3JointOrient.LeftFootExtraFinger3JointOrienty
-    LeftFootExtraFinger3JointOrientz = LeftFootExtraFinger3JointOrient.LeftFootExtraFinger3JointOrientz
+    LeftFootExtraFinger3JointOrient = LeftFootExtraFinger3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger3JointOrientx = (
+        LeftFootExtraFinger3JointOrient.LeftFootExtraFinger3JointOrientx
+    )
+    LeftFootExtraFinger3JointOrienty = (
+        LeftFootExtraFinger3JointOrient.LeftFootExtraFinger3JointOrienty
+    )
+    LeftFootExtraFinger3JointOrientz = (
+        LeftFootExtraFinger3JointOrient.LeftFootExtraFinger3JointOrientz
+    )
 
-    LeftFootExtraFinger3MinRLimit = LeftFootExtraFinger3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger3MinRLimitx = LeftFootExtraFinger3MinRLimit.LeftFootExtraFinger3MinRLimitx
-    LeftFootExtraFinger3MinRLimity = LeftFootExtraFinger3MinRLimit.LeftFootExtraFinger3MinRLimity
-    LeftFootExtraFinger3MinRLimitz = LeftFootExtraFinger3MinRLimit.LeftFootExtraFinger3MinRLimitz
+    LeftFootExtraFinger3MinRLimit = LeftFootExtraFinger3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger3MinRLimitx = (
+        LeftFootExtraFinger3MinRLimit.LeftFootExtraFinger3MinRLimitx
+    )
+    LeftFootExtraFinger3MinRLimity = (
+        LeftFootExtraFinger3MinRLimit.LeftFootExtraFinger3MinRLimity
+    )
+    LeftFootExtraFinger3MinRLimitz = (
+        LeftFootExtraFinger3MinRLimit.LeftFootExtraFinger3MinRLimitz
+    )
 
-    LeftFootExtraFinger3MaxRLimit = LeftFootExtraFinger3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger3MaxRLimitx = LeftFootExtraFinger3MaxRLimit.LeftFootExtraFinger3MaxRLimitx
-    LeftFootExtraFinger3MaxRLimity = LeftFootExtraFinger3MaxRLimit.LeftFootExtraFinger3MaxRLimity
-    LeftFootExtraFinger3MaxRLimitz = LeftFootExtraFinger3MaxRLimit.LeftFootExtraFinger3MaxRLimitz
+    LeftFootExtraFinger3MaxRLimit = LeftFootExtraFinger3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger3MaxRLimitx = (
+        LeftFootExtraFinger3MaxRLimit.LeftFootExtraFinger3MaxRLimitx
+    )
+    LeftFootExtraFinger3MaxRLimity = (
+        LeftFootExtraFinger3MaxRLimit.LeftFootExtraFinger3MaxRLimity
+    )
+    LeftFootExtraFinger3MaxRLimitz = (
+        LeftFootExtraFinger3MaxRLimit.LeftFootExtraFinger3MaxRLimitz
+    )
 
     LeftFootExtraFinger3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16170,42 +19940,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftFootExtraFinger4 = MessageField()
 
-    LeftFootExtraFinger4T = LeftFootExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger4T = LeftFootExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger4Tx = LeftFootExtraFinger4T.LeftFootExtraFinger4Tx
     LeftFootExtraFinger4Ty = LeftFootExtraFinger4T.LeftFootExtraFinger4Ty
     LeftFootExtraFinger4Tz = LeftFootExtraFinger4T.LeftFootExtraFinger4Tz
 
-    LeftFootExtraFinger4R = LeftFootExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger4R = LeftFootExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger4Rx = LeftFootExtraFinger4R.LeftFootExtraFinger4Rx
     LeftFootExtraFinger4Ry = LeftFootExtraFinger4R.LeftFootExtraFinger4Ry
     LeftFootExtraFinger4Rz = LeftFootExtraFinger4R.LeftFootExtraFinger4Rz
 
-    LeftFootExtraFinger4S = LeftFootExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger4S = LeftFootExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger4Sx = LeftFootExtraFinger4S.LeftFootExtraFinger4Sx
     LeftFootExtraFinger4Sy = LeftFootExtraFinger4S.LeftFootExtraFinger4Sy
     LeftFootExtraFinger4Sz = LeftFootExtraFinger4S.LeftFootExtraFinger4Sz
 
-    LeftFootExtraFinger4RotateOrder = LeftFootExtraFinger4RotateOrderEnumField(default_value=0)
+    LeftFootExtraFinger4RotateOrder = LeftFootExtraFinger4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftFootExtraFinger4RotateAxis = LeftFootExtraFinger4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger4RotateAxisx = LeftFootExtraFinger4RotateAxis.LeftFootExtraFinger4RotateAxisx
-    LeftFootExtraFinger4RotateAxisy = LeftFootExtraFinger4RotateAxis.LeftFootExtraFinger4RotateAxisy
-    LeftFootExtraFinger4RotateAxisz = LeftFootExtraFinger4RotateAxis.LeftFootExtraFinger4RotateAxisz
+    LeftFootExtraFinger4RotateAxis = LeftFootExtraFinger4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger4RotateAxisx = (
+        LeftFootExtraFinger4RotateAxis.LeftFootExtraFinger4RotateAxisx
+    )
+    LeftFootExtraFinger4RotateAxisy = (
+        LeftFootExtraFinger4RotateAxis.LeftFootExtraFinger4RotateAxisy
+    )
+    LeftFootExtraFinger4RotateAxisz = (
+        LeftFootExtraFinger4RotateAxis.LeftFootExtraFinger4RotateAxisz
+    )
 
-    LeftFootExtraFinger4JointOrient = LeftFootExtraFinger4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger4JointOrientx = LeftFootExtraFinger4JointOrient.LeftFootExtraFinger4JointOrientx
-    LeftFootExtraFinger4JointOrienty = LeftFootExtraFinger4JointOrient.LeftFootExtraFinger4JointOrienty
-    LeftFootExtraFinger4JointOrientz = LeftFootExtraFinger4JointOrient.LeftFootExtraFinger4JointOrientz
+    LeftFootExtraFinger4JointOrient = LeftFootExtraFinger4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger4JointOrientx = (
+        LeftFootExtraFinger4JointOrient.LeftFootExtraFinger4JointOrientx
+    )
+    LeftFootExtraFinger4JointOrienty = (
+        LeftFootExtraFinger4JointOrient.LeftFootExtraFinger4JointOrienty
+    )
+    LeftFootExtraFinger4JointOrientz = (
+        LeftFootExtraFinger4JointOrient.LeftFootExtraFinger4JointOrientz
+    )
 
-    LeftFootExtraFinger4MinRLimit = LeftFootExtraFinger4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger4MinRLimitx = LeftFootExtraFinger4MinRLimit.LeftFootExtraFinger4MinRLimitx
-    LeftFootExtraFinger4MinRLimity = LeftFootExtraFinger4MinRLimit.LeftFootExtraFinger4MinRLimity
-    LeftFootExtraFinger4MinRLimitz = LeftFootExtraFinger4MinRLimit.LeftFootExtraFinger4MinRLimitz
+    LeftFootExtraFinger4MinRLimit = LeftFootExtraFinger4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger4MinRLimitx = (
+        LeftFootExtraFinger4MinRLimit.LeftFootExtraFinger4MinRLimitx
+    )
+    LeftFootExtraFinger4MinRLimity = (
+        LeftFootExtraFinger4MinRLimit.LeftFootExtraFinger4MinRLimity
+    )
+    LeftFootExtraFinger4MinRLimitz = (
+        LeftFootExtraFinger4MinRLimit.LeftFootExtraFinger4MinRLimitz
+    )
 
-    LeftFootExtraFinger4MaxRLimit = LeftFootExtraFinger4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger4MaxRLimitx = LeftFootExtraFinger4MaxRLimit.LeftFootExtraFinger4MaxRLimitx
-    LeftFootExtraFinger4MaxRLimity = LeftFootExtraFinger4MaxRLimit.LeftFootExtraFinger4MaxRLimity
-    LeftFootExtraFinger4MaxRLimitz = LeftFootExtraFinger4MaxRLimit.LeftFootExtraFinger4MaxRLimitz
+    LeftFootExtraFinger4MaxRLimit = LeftFootExtraFinger4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger4MaxRLimitx = (
+        LeftFootExtraFinger4MaxRLimit.LeftFootExtraFinger4MaxRLimitx
+    )
+    LeftFootExtraFinger4MaxRLimity = (
+        LeftFootExtraFinger4MaxRLimit.LeftFootExtraFinger4MaxRLimity
+    )
+    LeftFootExtraFinger4MaxRLimitz = (
+        LeftFootExtraFinger4MaxRLimit.LeftFootExtraFinger4MaxRLimitz
+    )
 
     LeftFootExtraFinger4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16236,27 +20046,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootThumb1Sy = RightFootThumb1S.RightFootThumb1Sy
     RightFootThumb1Sz = RightFootThumb1S.RightFootThumb1Sz
 
-    RightFootThumb1RotateOrder = RightFootThumb1RotateOrderEnumField(default_value=0)
+    RightFootThumb1RotateOrder = RightFootThumb1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootThumb1RotateAxis = RightFootThumb1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb1RotateAxisx = RightFootThumb1RotateAxis.RightFootThumb1RotateAxisx
-    RightFootThumb1RotateAxisy = RightFootThumb1RotateAxis.RightFootThumb1RotateAxisy
-    RightFootThumb1RotateAxisz = RightFootThumb1RotateAxis.RightFootThumb1RotateAxisz
+    RightFootThumb1RotateAxis = RightFootThumb1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb1RotateAxisx = (
+        RightFootThumb1RotateAxis.RightFootThumb1RotateAxisx
+    )
+    RightFootThumb1RotateAxisy = (
+        RightFootThumb1RotateAxis.RightFootThumb1RotateAxisy
+    )
+    RightFootThumb1RotateAxisz = (
+        RightFootThumb1RotateAxis.RightFootThumb1RotateAxisz
+    )
 
-    RightFootThumb1JointOrient = RightFootThumb1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb1JointOrientx = RightFootThumb1JointOrient.RightFootThumb1JointOrientx
-    RightFootThumb1JointOrienty = RightFootThumb1JointOrient.RightFootThumb1JointOrienty
-    RightFootThumb1JointOrientz = RightFootThumb1JointOrient.RightFootThumb1JointOrientz
+    RightFootThumb1JointOrient = RightFootThumb1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb1JointOrientx = (
+        RightFootThumb1JointOrient.RightFootThumb1JointOrientx
+    )
+    RightFootThumb1JointOrienty = (
+        RightFootThumb1JointOrient.RightFootThumb1JointOrienty
+    )
+    RightFootThumb1JointOrientz = (
+        RightFootThumb1JointOrient.RightFootThumb1JointOrientz
+    )
 
-    RightFootThumb1MinRLimit = RightFootThumb1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb1MinRLimitx = RightFootThumb1MinRLimit.RightFootThumb1MinRLimitx
-    RightFootThumb1MinRLimity = RightFootThumb1MinRLimit.RightFootThumb1MinRLimity
-    RightFootThumb1MinRLimitz = RightFootThumb1MinRLimit.RightFootThumb1MinRLimitz
+    RightFootThumb1MinRLimit = RightFootThumb1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb1MinRLimitx = (
+        RightFootThumb1MinRLimit.RightFootThumb1MinRLimitx
+    )
+    RightFootThumb1MinRLimity = (
+        RightFootThumb1MinRLimit.RightFootThumb1MinRLimity
+    )
+    RightFootThumb1MinRLimitz = (
+        RightFootThumb1MinRLimit.RightFootThumb1MinRLimitz
+    )
 
-    RightFootThumb1MaxRLimit = RightFootThumb1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb1MaxRLimitx = RightFootThumb1MaxRLimit.RightFootThumb1MaxRLimitx
-    RightFootThumb1MaxRLimity = RightFootThumb1MaxRLimit.RightFootThumb1MaxRLimity
-    RightFootThumb1MaxRLimitz = RightFootThumb1MaxRLimit.RightFootThumb1MaxRLimitz
+    RightFootThumb1MaxRLimit = RightFootThumb1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb1MaxRLimitx = (
+        RightFootThumb1MaxRLimit.RightFootThumb1MaxRLimitx
+    )
+    RightFootThumb1MaxRLimity = (
+        RightFootThumb1MaxRLimit.RightFootThumb1MaxRLimity
+    )
+    RightFootThumb1MaxRLimitz = (
+        RightFootThumb1MaxRLimit.RightFootThumb1MaxRLimitz
+    )
 
     RightFootThumb1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16287,27 +20131,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootThumb2Sy = RightFootThumb2S.RightFootThumb2Sy
     RightFootThumb2Sz = RightFootThumb2S.RightFootThumb2Sz
 
-    RightFootThumb2RotateOrder = RightFootThumb2RotateOrderEnumField(default_value=0)
+    RightFootThumb2RotateOrder = RightFootThumb2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootThumb2RotateAxis = RightFootThumb2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb2RotateAxisx = RightFootThumb2RotateAxis.RightFootThumb2RotateAxisx
-    RightFootThumb2RotateAxisy = RightFootThumb2RotateAxis.RightFootThumb2RotateAxisy
-    RightFootThumb2RotateAxisz = RightFootThumb2RotateAxis.RightFootThumb2RotateAxisz
+    RightFootThumb2RotateAxis = RightFootThumb2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb2RotateAxisx = (
+        RightFootThumb2RotateAxis.RightFootThumb2RotateAxisx
+    )
+    RightFootThumb2RotateAxisy = (
+        RightFootThumb2RotateAxis.RightFootThumb2RotateAxisy
+    )
+    RightFootThumb2RotateAxisz = (
+        RightFootThumb2RotateAxis.RightFootThumb2RotateAxisz
+    )
 
-    RightFootThumb2JointOrient = RightFootThumb2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb2JointOrientx = RightFootThumb2JointOrient.RightFootThumb2JointOrientx
-    RightFootThumb2JointOrienty = RightFootThumb2JointOrient.RightFootThumb2JointOrienty
-    RightFootThumb2JointOrientz = RightFootThumb2JointOrient.RightFootThumb2JointOrientz
+    RightFootThumb2JointOrient = RightFootThumb2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb2JointOrientx = (
+        RightFootThumb2JointOrient.RightFootThumb2JointOrientx
+    )
+    RightFootThumb2JointOrienty = (
+        RightFootThumb2JointOrient.RightFootThumb2JointOrienty
+    )
+    RightFootThumb2JointOrientz = (
+        RightFootThumb2JointOrient.RightFootThumb2JointOrientz
+    )
 
-    RightFootThumb2MinRLimit = RightFootThumb2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb2MinRLimitx = RightFootThumb2MinRLimit.RightFootThumb2MinRLimitx
-    RightFootThumb2MinRLimity = RightFootThumb2MinRLimit.RightFootThumb2MinRLimity
-    RightFootThumb2MinRLimitz = RightFootThumb2MinRLimit.RightFootThumb2MinRLimitz
+    RightFootThumb2MinRLimit = RightFootThumb2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb2MinRLimitx = (
+        RightFootThumb2MinRLimit.RightFootThumb2MinRLimitx
+    )
+    RightFootThumb2MinRLimity = (
+        RightFootThumb2MinRLimit.RightFootThumb2MinRLimity
+    )
+    RightFootThumb2MinRLimitz = (
+        RightFootThumb2MinRLimit.RightFootThumb2MinRLimitz
+    )
 
-    RightFootThumb2MaxRLimit = RightFootThumb2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb2MaxRLimitx = RightFootThumb2MaxRLimit.RightFootThumb2MaxRLimitx
-    RightFootThumb2MaxRLimity = RightFootThumb2MaxRLimit.RightFootThumb2MaxRLimity
-    RightFootThumb2MaxRLimitz = RightFootThumb2MaxRLimit.RightFootThumb2MaxRLimitz
+    RightFootThumb2MaxRLimit = RightFootThumb2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb2MaxRLimitx = (
+        RightFootThumb2MaxRLimit.RightFootThumb2MaxRLimitx
+    )
+    RightFootThumb2MaxRLimity = (
+        RightFootThumb2MaxRLimit.RightFootThumb2MaxRLimity
+    )
+    RightFootThumb2MaxRLimitz = (
+        RightFootThumb2MaxRLimit.RightFootThumb2MaxRLimitz
+    )
 
     RightFootThumb2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16338,27 +20216,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootThumb3Sy = RightFootThumb3S.RightFootThumb3Sy
     RightFootThumb3Sz = RightFootThumb3S.RightFootThumb3Sz
 
-    RightFootThumb3RotateOrder = RightFootThumb3RotateOrderEnumField(default_value=0)
+    RightFootThumb3RotateOrder = RightFootThumb3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootThumb3RotateAxis = RightFootThumb3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb3RotateAxisx = RightFootThumb3RotateAxis.RightFootThumb3RotateAxisx
-    RightFootThumb3RotateAxisy = RightFootThumb3RotateAxis.RightFootThumb3RotateAxisy
-    RightFootThumb3RotateAxisz = RightFootThumb3RotateAxis.RightFootThumb3RotateAxisz
+    RightFootThumb3RotateAxis = RightFootThumb3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb3RotateAxisx = (
+        RightFootThumb3RotateAxis.RightFootThumb3RotateAxisx
+    )
+    RightFootThumb3RotateAxisy = (
+        RightFootThumb3RotateAxis.RightFootThumb3RotateAxisy
+    )
+    RightFootThumb3RotateAxisz = (
+        RightFootThumb3RotateAxis.RightFootThumb3RotateAxisz
+    )
 
-    RightFootThumb3JointOrient = RightFootThumb3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb3JointOrientx = RightFootThumb3JointOrient.RightFootThumb3JointOrientx
-    RightFootThumb3JointOrienty = RightFootThumb3JointOrient.RightFootThumb3JointOrienty
-    RightFootThumb3JointOrientz = RightFootThumb3JointOrient.RightFootThumb3JointOrientz
+    RightFootThumb3JointOrient = RightFootThumb3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb3JointOrientx = (
+        RightFootThumb3JointOrient.RightFootThumb3JointOrientx
+    )
+    RightFootThumb3JointOrienty = (
+        RightFootThumb3JointOrient.RightFootThumb3JointOrienty
+    )
+    RightFootThumb3JointOrientz = (
+        RightFootThumb3JointOrient.RightFootThumb3JointOrientz
+    )
 
-    RightFootThumb3MinRLimit = RightFootThumb3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb3MinRLimitx = RightFootThumb3MinRLimit.RightFootThumb3MinRLimitx
-    RightFootThumb3MinRLimity = RightFootThumb3MinRLimit.RightFootThumb3MinRLimity
-    RightFootThumb3MinRLimitz = RightFootThumb3MinRLimit.RightFootThumb3MinRLimitz
+    RightFootThumb3MinRLimit = RightFootThumb3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb3MinRLimitx = (
+        RightFootThumb3MinRLimit.RightFootThumb3MinRLimitx
+    )
+    RightFootThumb3MinRLimity = (
+        RightFootThumb3MinRLimit.RightFootThumb3MinRLimity
+    )
+    RightFootThumb3MinRLimitz = (
+        RightFootThumb3MinRLimit.RightFootThumb3MinRLimitz
+    )
 
-    RightFootThumb3MaxRLimit = RightFootThumb3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb3MaxRLimitx = RightFootThumb3MaxRLimit.RightFootThumb3MaxRLimitx
-    RightFootThumb3MaxRLimity = RightFootThumb3MaxRLimit.RightFootThumb3MaxRLimity
-    RightFootThumb3MaxRLimitz = RightFootThumb3MaxRLimit.RightFootThumb3MaxRLimitz
+    RightFootThumb3MaxRLimit = RightFootThumb3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb3MaxRLimitx = (
+        RightFootThumb3MaxRLimit.RightFootThumb3MaxRLimitx
+    )
+    RightFootThumb3MaxRLimity = (
+        RightFootThumb3MaxRLimit.RightFootThumb3MaxRLimity
+    )
+    RightFootThumb3MaxRLimitz = (
+        RightFootThumb3MaxRLimit.RightFootThumb3MaxRLimitz
+    )
 
     RightFootThumb3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16389,27 +20301,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootThumb4Sy = RightFootThumb4S.RightFootThumb4Sy
     RightFootThumb4Sz = RightFootThumb4S.RightFootThumb4Sz
 
-    RightFootThumb4RotateOrder = RightFootThumb4RotateOrderEnumField(default_value=0)
+    RightFootThumb4RotateOrder = RightFootThumb4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootThumb4RotateAxis = RightFootThumb4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb4RotateAxisx = RightFootThumb4RotateAxis.RightFootThumb4RotateAxisx
-    RightFootThumb4RotateAxisy = RightFootThumb4RotateAxis.RightFootThumb4RotateAxisy
-    RightFootThumb4RotateAxisz = RightFootThumb4RotateAxis.RightFootThumb4RotateAxisz
+    RightFootThumb4RotateAxis = RightFootThumb4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb4RotateAxisx = (
+        RightFootThumb4RotateAxis.RightFootThumb4RotateAxisx
+    )
+    RightFootThumb4RotateAxisy = (
+        RightFootThumb4RotateAxis.RightFootThumb4RotateAxisy
+    )
+    RightFootThumb4RotateAxisz = (
+        RightFootThumb4RotateAxis.RightFootThumb4RotateAxisz
+    )
 
-    RightFootThumb4JointOrient = RightFootThumb4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb4JointOrientx = RightFootThumb4JointOrient.RightFootThumb4JointOrientx
-    RightFootThumb4JointOrienty = RightFootThumb4JointOrient.RightFootThumb4JointOrienty
-    RightFootThumb4JointOrientz = RightFootThumb4JointOrient.RightFootThumb4JointOrientz
+    RightFootThumb4JointOrient = RightFootThumb4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb4JointOrientx = (
+        RightFootThumb4JointOrient.RightFootThumb4JointOrientx
+    )
+    RightFootThumb4JointOrienty = (
+        RightFootThumb4JointOrient.RightFootThumb4JointOrienty
+    )
+    RightFootThumb4JointOrientz = (
+        RightFootThumb4JointOrient.RightFootThumb4JointOrientz
+    )
 
-    RightFootThumb4MinRLimit = RightFootThumb4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb4MinRLimitx = RightFootThumb4MinRLimit.RightFootThumb4MinRLimitx
-    RightFootThumb4MinRLimity = RightFootThumb4MinRLimit.RightFootThumb4MinRLimity
-    RightFootThumb4MinRLimitz = RightFootThumb4MinRLimit.RightFootThumb4MinRLimitz
+    RightFootThumb4MinRLimit = RightFootThumb4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb4MinRLimitx = (
+        RightFootThumb4MinRLimit.RightFootThumb4MinRLimitx
+    )
+    RightFootThumb4MinRLimity = (
+        RightFootThumb4MinRLimit.RightFootThumb4MinRLimity
+    )
+    RightFootThumb4MinRLimitz = (
+        RightFootThumb4MinRLimit.RightFootThumb4MinRLimitz
+    )
 
-    RightFootThumb4MaxRLimit = RightFootThumb4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootThumb4MaxRLimitx = RightFootThumb4MaxRLimit.RightFootThumb4MaxRLimitx
-    RightFootThumb4MaxRLimity = RightFootThumb4MaxRLimit.RightFootThumb4MaxRLimity
-    RightFootThumb4MaxRLimitz = RightFootThumb4MaxRLimit.RightFootThumb4MaxRLimitz
+    RightFootThumb4MaxRLimit = RightFootThumb4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootThumb4MaxRLimitx = (
+        RightFootThumb4MaxRLimit.RightFootThumb4MaxRLimitx
+    )
+    RightFootThumb4MaxRLimity = (
+        RightFootThumb4MaxRLimit.RightFootThumb4MaxRLimity
+    )
+    RightFootThumb4MaxRLimitz = (
+        RightFootThumb4MaxRLimit.RightFootThumb4MaxRLimitz
+    )
 
     RightFootThumb4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16440,27 +20386,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootIndex1Sy = RightFootIndex1S.RightFootIndex1Sy
     RightFootIndex1Sz = RightFootIndex1S.RightFootIndex1Sz
 
-    RightFootIndex1RotateOrder = RightFootIndex1RotateOrderEnumField(default_value=0)
+    RightFootIndex1RotateOrder = RightFootIndex1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootIndex1RotateAxis = RightFootIndex1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex1RotateAxisx = RightFootIndex1RotateAxis.RightFootIndex1RotateAxisx
-    RightFootIndex1RotateAxisy = RightFootIndex1RotateAxis.RightFootIndex1RotateAxisy
-    RightFootIndex1RotateAxisz = RightFootIndex1RotateAxis.RightFootIndex1RotateAxisz
+    RightFootIndex1RotateAxis = RightFootIndex1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex1RotateAxisx = (
+        RightFootIndex1RotateAxis.RightFootIndex1RotateAxisx
+    )
+    RightFootIndex1RotateAxisy = (
+        RightFootIndex1RotateAxis.RightFootIndex1RotateAxisy
+    )
+    RightFootIndex1RotateAxisz = (
+        RightFootIndex1RotateAxis.RightFootIndex1RotateAxisz
+    )
 
-    RightFootIndex1JointOrient = RightFootIndex1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex1JointOrientx = RightFootIndex1JointOrient.RightFootIndex1JointOrientx
-    RightFootIndex1JointOrienty = RightFootIndex1JointOrient.RightFootIndex1JointOrienty
-    RightFootIndex1JointOrientz = RightFootIndex1JointOrient.RightFootIndex1JointOrientz
+    RightFootIndex1JointOrient = RightFootIndex1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex1JointOrientx = (
+        RightFootIndex1JointOrient.RightFootIndex1JointOrientx
+    )
+    RightFootIndex1JointOrienty = (
+        RightFootIndex1JointOrient.RightFootIndex1JointOrienty
+    )
+    RightFootIndex1JointOrientz = (
+        RightFootIndex1JointOrient.RightFootIndex1JointOrientz
+    )
 
-    RightFootIndex1MinRLimit = RightFootIndex1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex1MinRLimitx = RightFootIndex1MinRLimit.RightFootIndex1MinRLimitx
-    RightFootIndex1MinRLimity = RightFootIndex1MinRLimit.RightFootIndex1MinRLimity
-    RightFootIndex1MinRLimitz = RightFootIndex1MinRLimit.RightFootIndex1MinRLimitz
+    RightFootIndex1MinRLimit = RightFootIndex1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex1MinRLimitx = (
+        RightFootIndex1MinRLimit.RightFootIndex1MinRLimitx
+    )
+    RightFootIndex1MinRLimity = (
+        RightFootIndex1MinRLimit.RightFootIndex1MinRLimity
+    )
+    RightFootIndex1MinRLimitz = (
+        RightFootIndex1MinRLimit.RightFootIndex1MinRLimitz
+    )
 
-    RightFootIndex1MaxRLimit = RightFootIndex1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex1MaxRLimitx = RightFootIndex1MaxRLimit.RightFootIndex1MaxRLimitx
-    RightFootIndex1MaxRLimity = RightFootIndex1MaxRLimit.RightFootIndex1MaxRLimity
-    RightFootIndex1MaxRLimitz = RightFootIndex1MaxRLimit.RightFootIndex1MaxRLimitz
+    RightFootIndex1MaxRLimit = RightFootIndex1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex1MaxRLimitx = (
+        RightFootIndex1MaxRLimit.RightFootIndex1MaxRLimitx
+    )
+    RightFootIndex1MaxRLimity = (
+        RightFootIndex1MaxRLimit.RightFootIndex1MaxRLimity
+    )
+    RightFootIndex1MaxRLimitz = (
+        RightFootIndex1MaxRLimit.RightFootIndex1MaxRLimitz
+    )
 
     RightFootIndex1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16491,27 +20471,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootIndex2Sy = RightFootIndex2S.RightFootIndex2Sy
     RightFootIndex2Sz = RightFootIndex2S.RightFootIndex2Sz
 
-    RightFootIndex2RotateOrder = RightFootIndex2RotateOrderEnumField(default_value=0)
+    RightFootIndex2RotateOrder = RightFootIndex2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootIndex2RotateAxis = RightFootIndex2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex2RotateAxisx = RightFootIndex2RotateAxis.RightFootIndex2RotateAxisx
-    RightFootIndex2RotateAxisy = RightFootIndex2RotateAxis.RightFootIndex2RotateAxisy
-    RightFootIndex2RotateAxisz = RightFootIndex2RotateAxis.RightFootIndex2RotateAxisz
+    RightFootIndex2RotateAxis = RightFootIndex2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex2RotateAxisx = (
+        RightFootIndex2RotateAxis.RightFootIndex2RotateAxisx
+    )
+    RightFootIndex2RotateAxisy = (
+        RightFootIndex2RotateAxis.RightFootIndex2RotateAxisy
+    )
+    RightFootIndex2RotateAxisz = (
+        RightFootIndex2RotateAxis.RightFootIndex2RotateAxisz
+    )
 
-    RightFootIndex2JointOrient = RightFootIndex2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex2JointOrientx = RightFootIndex2JointOrient.RightFootIndex2JointOrientx
-    RightFootIndex2JointOrienty = RightFootIndex2JointOrient.RightFootIndex2JointOrienty
-    RightFootIndex2JointOrientz = RightFootIndex2JointOrient.RightFootIndex2JointOrientz
+    RightFootIndex2JointOrient = RightFootIndex2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex2JointOrientx = (
+        RightFootIndex2JointOrient.RightFootIndex2JointOrientx
+    )
+    RightFootIndex2JointOrienty = (
+        RightFootIndex2JointOrient.RightFootIndex2JointOrienty
+    )
+    RightFootIndex2JointOrientz = (
+        RightFootIndex2JointOrient.RightFootIndex2JointOrientz
+    )
 
-    RightFootIndex2MinRLimit = RightFootIndex2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex2MinRLimitx = RightFootIndex2MinRLimit.RightFootIndex2MinRLimitx
-    RightFootIndex2MinRLimity = RightFootIndex2MinRLimit.RightFootIndex2MinRLimity
-    RightFootIndex2MinRLimitz = RightFootIndex2MinRLimit.RightFootIndex2MinRLimitz
+    RightFootIndex2MinRLimit = RightFootIndex2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex2MinRLimitx = (
+        RightFootIndex2MinRLimit.RightFootIndex2MinRLimitx
+    )
+    RightFootIndex2MinRLimity = (
+        RightFootIndex2MinRLimit.RightFootIndex2MinRLimity
+    )
+    RightFootIndex2MinRLimitz = (
+        RightFootIndex2MinRLimit.RightFootIndex2MinRLimitz
+    )
 
-    RightFootIndex2MaxRLimit = RightFootIndex2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex2MaxRLimitx = RightFootIndex2MaxRLimit.RightFootIndex2MaxRLimitx
-    RightFootIndex2MaxRLimity = RightFootIndex2MaxRLimit.RightFootIndex2MaxRLimity
-    RightFootIndex2MaxRLimitz = RightFootIndex2MaxRLimit.RightFootIndex2MaxRLimitz
+    RightFootIndex2MaxRLimit = RightFootIndex2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex2MaxRLimitx = (
+        RightFootIndex2MaxRLimit.RightFootIndex2MaxRLimitx
+    )
+    RightFootIndex2MaxRLimity = (
+        RightFootIndex2MaxRLimit.RightFootIndex2MaxRLimity
+    )
+    RightFootIndex2MaxRLimitz = (
+        RightFootIndex2MaxRLimit.RightFootIndex2MaxRLimitz
+    )
 
     RightFootIndex2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16542,27 +20556,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootIndex3Sy = RightFootIndex3S.RightFootIndex3Sy
     RightFootIndex3Sz = RightFootIndex3S.RightFootIndex3Sz
 
-    RightFootIndex3RotateOrder = RightFootIndex3RotateOrderEnumField(default_value=0)
+    RightFootIndex3RotateOrder = RightFootIndex3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootIndex3RotateAxis = RightFootIndex3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex3RotateAxisx = RightFootIndex3RotateAxis.RightFootIndex3RotateAxisx
-    RightFootIndex3RotateAxisy = RightFootIndex3RotateAxis.RightFootIndex3RotateAxisy
-    RightFootIndex3RotateAxisz = RightFootIndex3RotateAxis.RightFootIndex3RotateAxisz
+    RightFootIndex3RotateAxis = RightFootIndex3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex3RotateAxisx = (
+        RightFootIndex3RotateAxis.RightFootIndex3RotateAxisx
+    )
+    RightFootIndex3RotateAxisy = (
+        RightFootIndex3RotateAxis.RightFootIndex3RotateAxisy
+    )
+    RightFootIndex3RotateAxisz = (
+        RightFootIndex3RotateAxis.RightFootIndex3RotateAxisz
+    )
 
-    RightFootIndex3JointOrient = RightFootIndex3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex3JointOrientx = RightFootIndex3JointOrient.RightFootIndex3JointOrientx
-    RightFootIndex3JointOrienty = RightFootIndex3JointOrient.RightFootIndex3JointOrienty
-    RightFootIndex3JointOrientz = RightFootIndex3JointOrient.RightFootIndex3JointOrientz
+    RightFootIndex3JointOrient = RightFootIndex3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex3JointOrientx = (
+        RightFootIndex3JointOrient.RightFootIndex3JointOrientx
+    )
+    RightFootIndex3JointOrienty = (
+        RightFootIndex3JointOrient.RightFootIndex3JointOrienty
+    )
+    RightFootIndex3JointOrientz = (
+        RightFootIndex3JointOrient.RightFootIndex3JointOrientz
+    )
 
-    RightFootIndex3MinRLimit = RightFootIndex3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex3MinRLimitx = RightFootIndex3MinRLimit.RightFootIndex3MinRLimitx
-    RightFootIndex3MinRLimity = RightFootIndex3MinRLimit.RightFootIndex3MinRLimity
-    RightFootIndex3MinRLimitz = RightFootIndex3MinRLimit.RightFootIndex3MinRLimitz
+    RightFootIndex3MinRLimit = RightFootIndex3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex3MinRLimitx = (
+        RightFootIndex3MinRLimit.RightFootIndex3MinRLimitx
+    )
+    RightFootIndex3MinRLimity = (
+        RightFootIndex3MinRLimit.RightFootIndex3MinRLimity
+    )
+    RightFootIndex3MinRLimitz = (
+        RightFootIndex3MinRLimit.RightFootIndex3MinRLimitz
+    )
 
-    RightFootIndex3MaxRLimit = RightFootIndex3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex3MaxRLimitx = RightFootIndex3MaxRLimit.RightFootIndex3MaxRLimitx
-    RightFootIndex3MaxRLimity = RightFootIndex3MaxRLimit.RightFootIndex3MaxRLimity
-    RightFootIndex3MaxRLimitz = RightFootIndex3MaxRLimit.RightFootIndex3MaxRLimitz
+    RightFootIndex3MaxRLimit = RightFootIndex3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex3MaxRLimitx = (
+        RightFootIndex3MaxRLimit.RightFootIndex3MaxRLimitx
+    )
+    RightFootIndex3MaxRLimity = (
+        RightFootIndex3MaxRLimit.RightFootIndex3MaxRLimity
+    )
+    RightFootIndex3MaxRLimitz = (
+        RightFootIndex3MaxRLimit.RightFootIndex3MaxRLimitz
+    )
 
     RightFootIndex3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16593,27 +20641,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootIndex4Sy = RightFootIndex4S.RightFootIndex4Sy
     RightFootIndex4Sz = RightFootIndex4S.RightFootIndex4Sz
 
-    RightFootIndex4RotateOrder = RightFootIndex4RotateOrderEnumField(default_value=0)
+    RightFootIndex4RotateOrder = RightFootIndex4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootIndex4RotateAxis = RightFootIndex4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex4RotateAxisx = RightFootIndex4RotateAxis.RightFootIndex4RotateAxisx
-    RightFootIndex4RotateAxisy = RightFootIndex4RotateAxis.RightFootIndex4RotateAxisy
-    RightFootIndex4RotateAxisz = RightFootIndex4RotateAxis.RightFootIndex4RotateAxisz
+    RightFootIndex4RotateAxis = RightFootIndex4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex4RotateAxisx = (
+        RightFootIndex4RotateAxis.RightFootIndex4RotateAxisx
+    )
+    RightFootIndex4RotateAxisy = (
+        RightFootIndex4RotateAxis.RightFootIndex4RotateAxisy
+    )
+    RightFootIndex4RotateAxisz = (
+        RightFootIndex4RotateAxis.RightFootIndex4RotateAxisz
+    )
 
-    RightFootIndex4JointOrient = RightFootIndex4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex4JointOrientx = RightFootIndex4JointOrient.RightFootIndex4JointOrientx
-    RightFootIndex4JointOrienty = RightFootIndex4JointOrient.RightFootIndex4JointOrienty
-    RightFootIndex4JointOrientz = RightFootIndex4JointOrient.RightFootIndex4JointOrientz
+    RightFootIndex4JointOrient = RightFootIndex4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex4JointOrientx = (
+        RightFootIndex4JointOrient.RightFootIndex4JointOrientx
+    )
+    RightFootIndex4JointOrienty = (
+        RightFootIndex4JointOrient.RightFootIndex4JointOrienty
+    )
+    RightFootIndex4JointOrientz = (
+        RightFootIndex4JointOrient.RightFootIndex4JointOrientz
+    )
 
-    RightFootIndex4MinRLimit = RightFootIndex4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex4MinRLimitx = RightFootIndex4MinRLimit.RightFootIndex4MinRLimitx
-    RightFootIndex4MinRLimity = RightFootIndex4MinRLimit.RightFootIndex4MinRLimity
-    RightFootIndex4MinRLimitz = RightFootIndex4MinRLimit.RightFootIndex4MinRLimitz
+    RightFootIndex4MinRLimit = RightFootIndex4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex4MinRLimitx = (
+        RightFootIndex4MinRLimit.RightFootIndex4MinRLimitx
+    )
+    RightFootIndex4MinRLimity = (
+        RightFootIndex4MinRLimit.RightFootIndex4MinRLimity
+    )
+    RightFootIndex4MinRLimitz = (
+        RightFootIndex4MinRLimit.RightFootIndex4MinRLimitz
+    )
 
-    RightFootIndex4MaxRLimit = RightFootIndex4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootIndex4MaxRLimitx = RightFootIndex4MaxRLimit.RightFootIndex4MaxRLimitx
-    RightFootIndex4MaxRLimity = RightFootIndex4MaxRLimit.RightFootIndex4MaxRLimity
-    RightFootIndex4MaxRLimitz = RightFootIndex4MaxRLimit.RightFootIndex4MaxRLimitz
+    RightFootIndex4MaxRLimit = RightFootIndex4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootIndex4MaxRLimitx = (
+        RightFootIndex4MaxRLimit.RightFootIndex4MaxRLimitx
+    )
+    RightFootIndex4MaxRLimity = (
+        RightFootIndex4MaxRLimit.RightFootIndex4MaxRLimity
+    )
+    RightFootIndex4MaxRLimitz = (
+        RightFootIndex4MaxRLimit.RightFootIndex4MaxRLimitz
+    )
 
     RightFootIndex4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16644,27 +20726,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootMiddle1Sy = RightFootMiddle1S.RightFootMiddle1Sy
     RightFootMiddle1Sz = RightFootMiddle1S.RightFootMiddle1Sz
 
-    RightFootMiddle1RotateOrder = RightFootMiddle1RotateOrderEnumField(default_value=0)
+    RightFootMiddle1RotateOrder = RightFootMiddle1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootMiddle1RotateAxis = RightFootMiddle1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle1RotateAxisx = RightFootMiddle1RotateAxis.RightFootMiddle1RotateAxisx
-    RightFootMiddle1RotateAxisy = RightFootMiddle1RotateAxis.RightFootMiddle1RotateAxisy
-    RightFootMiddle1RotateAxisz = RightFootMiddle1RotateAxis.RightFootMiddle1RotateAxisz
+    RightFootMiddle1RotateAxis = RightFootMiddle1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle1RotateAxisx = (
+        RightFootMiddle1RotateAxis.RightFootMiddle1RotateAxisx
+    )
+    RightFootMiddle1RotateAxisy = (
+        RightFootMiddle1RotateAxis.RightFootMiddle1RotateAxisy
+    )
+    RightFootMiddle1RotateAxisz = (
+        RightFootMiddle1RotateAxis.RightFootMiddle1RotateAxisz
+    )
 
-    RightFootMiddle1JointOrient = RightFootMiddle1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle1JointOrientx = RightFootMiddle1JointOrient.RightFootMiddle1JointOrientx
-    RightFootMiddle1JointOrienty = RightFootMiddle1JointOrient.RightFootMiddle1JointOrienty
-    RightFootMiddle1JointOrientz = RightFootMiddle1JointOrient.RightFootMiddle1JointOrientz
+    RightFootMiddle1JointOrient = RightFootMiddle1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle1JointOrientx = (
+        RightFootMiddle1JointOrient.RightFootMiddle1JointOrientx
+    )
+    RightFootMiddle1JointOrienty = (
+        RightFootMiddle1JointOrient.RightFootMiddle1JointOrienty
+    )
+    RightFootMiddle1JointOrientz = (
+        RightFootMiddle1JointOrient.RightFootMiddle1JointOrientz
+    )
 
-    RightFootMiddle1MinRLimit = RightFootMiddle1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle1MinRLimitx = RightFootMiddle1MinRLimit.RightFootMiddle1MinRLimitx
-    RightFootMiddle1MinRLimity = RightFootMiddle1MinRLimit.RightFootMiddle1MinRLimity
-    RightFootMiddle1MinRLimitz = RightFootMiddle1MinRLimit.RightFootMiddle1MinRLimitz
+    RightFootMiddle1MinRLimit = RightFootMiddle1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle1MinRLimitx = (
+        RightFootMiddle1MinRLimit.RightFootMiddle1MinRLimitx
+    )
+    RightFootMiddle1MinRLimity = (
+        RightFootMiddle1MinRLimit.RightFootMiddle1MinRLimity
+    )
+    RightFootMiddle1MinRLimitz = (
+        RightFootMiddle1MinRLimit.RightFootMiddle1MinRLimitz
+    )
 
-    RightFootMiddle1MaxRLimit = RightFootMiddle1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle1MaxRLimitx = RightFootMiddle1MaxRLimit.RightFootMiddle1MaxRLimitx
-    RightFootMiddle1MaxRLimity = RightFootMiddle1MaxRLimit.RightFootMiddle1MaxRLimity
-    RightFootMiddle1MaxRLimitz = RightFootMiddle1MaxRLimit.RightFootMiddle1MaxRLimitz
+    RightFootMiddle1MaxRLimit = RightFootMiddle1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle1MaxRLimitx = (
+        RightFootMiddle1MaxRLimit.RightFootMiddle1MaxRLimitx
+    )
+    RightFootMiddle1MaxRLimity = (
+        RightFootMiddle1MaxRLimit.RightFootMiddle1MaxRLimity
+    )
+    RightFootMiddle1MaxRLimitz = (
+        RightFootMiddle1MaxRLimit.RightFootMiddle1MaxRLimitz
+    )
 
     RightFootMiddle1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16695,27 +20811,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootMiddle2Sy = RightFootMiddle2S.RightFootMiddle2Sy
     RightFootMiddle2Sz = RightFootMiddle2S.RightFootMiddle2Sz
 
-    RightFootMiddle2RotateOrder = RightFootMiddle2RotateOrderEnumField(default_value=0)
+    RightFootMiddle2RotateOrder = RightFootMiddle2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootMiddle2RotateAxis = RightFootMiddle2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle2RotateAxisx = RightFootMiddle2RotateAxis.RightFootMiddle2RotateAxisx
-    RightFootMiddle2RotateAxisy = RightFootMiddle2RotateAxis.RightFootMiddle2RotateAxisy
-    RightFootMiddle2RotateAxisz = RightFootMiddle2RotateAxis.RightFootMiddle2RotateAxisz
+    RightFootMiddle2RotateAxis = RightFootMiddle2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle2RotateAxisx = (
+        RightFootMiddle2RotateAxis.RightFootMiddle2RotateAxisx
+    )
+    RightFootMiddle2RotateAxisy = (
+        RightFootMiddle2RotateAxis.RightFootMiddle2RotateAxisy
+    )
+    RightFootMiddle2RotateAxisz = (
+        RightFootMiddle2RotateAxis.RightFootMiddle2RotateAxisz
+    )
 
-    RightFootMiddle2JointOrient = RightFootMiddle2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle2JointOrientx = RightFootMiddle2JointOrient.RightFootMiddle2JointOrientx
-    RightFootMiddle2JointOrienty = RightFootMiddle2JointOrient.RightFootMiddle2JointOrienty
-    RightFootMiddle2JointOrientz = RightFootMiddle2JointOrient.RightFootMiddle2JointOrientz
+    RightFootMiddle2JointOrient = RightFootMiddle2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle2JointOrientx = (
+        RightFootMiddle2JointOrient.RightFootMiddle2JointOrientx
+    )
+    RightFootMiddle2JointOrienty = (
+        RightFootMiddle2JointOrient.RightFootMiddle2JointOrienty
+    )
+    RightFootMiddle2JointOrientz = (
+        RightFootMiddle2JointOrient.RightFootMiddle2JointOrientz
+    )
 
-    RightFootMiddle2MinRLimit = RightFootMiddle2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle2MinRLimitx = RightFootMiddle2MinRLimit.RightFootMiddle2MinRLimitx
-    RightFootMiddle2MinRLimity = RightFootMiddle2MinRLimit.RightFootMiddle2MinRLimity
-    RightFootMiddle2MinRLimitz = RightFootMiddle2MinRLimit.RightFootMiddle2MinRLimitz
+    RightFootMiddle2MinRLimit = RightFootMiddle2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle2MinRLimitx = (
+        RightFootMiddle2MinRLimit.RightFootMiddle2MinRLimitx
+    )
+    RightFootMiddle2MinRLimity = (
+        RightFootMiddle2MinRLimit.RightFootMiddle2MinRLimity
+    )
+    RightFootMiddle2MinRLimitz = (
+        RightFootMiddle2MinRLimit.RightFootMiddle2MinRLimitz
+    )
 
-    RightFootMiddle2MaxRLimit = RightFootMiddle2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle2MaxRLimitx = RightFootMiddle2MaxRLimit.RightFootMiddle2MaxRLimitx
-    RightFootMiddle2MaxRLimity = RightFootMiddle2MaxRLimit.RightFootMiddle2MaxRLimity
-    RightFootMiddle2MaxRLimitz = RightFootMiddle2MaxRLimit.RightFootMiddle2MaxRLimitz
+    RightFootMiddle2MaxRLimit = RightFootMiddle2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle2MaxRLimitx = (
+        RightFootMiddle2MaxRLimit.RightFootMiddle2MaxRLimitx
+    )
+    RightFootMiddle2MaxRLimity = (
+        RightFootMiddle2MaxRLimit.RightFootMiddle2MaxRLimity
+    )
+    RightFootMiddle2MaxRLimitz = (
+        RightFootMiddle2MaxRLimit.RightFootMiddle2MaxRLimitz
+    )
 
     RightFootMiddle2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16746,27 +20896,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootMiddle3Sy = RightFootMiddle3S.RightFootMiddle3Sy
     RightFootMiddle3Sz = RightFootMiddle3S.RightFootMiddle3Sz
 
-    RightFootMiddle3RotateOrder = RightFootMiddle3RotateOrderEnumField(default_value=0)
+    RightFootMiddle3RotateOrder = RightFootMiddle3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootMiddle3RotateAxis = RightFootMiddle3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle3RotateAxisx = RightFootMiddle3RotateAxis.RightFootMiddle3RotateAxisx
-    RightFootMiddle3RotateAxisy = RightFootMiddle3RotateAxis.RightFootMiddle3RotateAxisy
-    RightFootMiddle3RotateAxisz = RightFootMiddle3RotateAxis.RightFootMiddle3RotateAxisz
+    RightFootMiddle3RotateAxis = RightFootMiddle3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle3RotateAxisx = (
+        RightFootMiddle3RotateAxis.RightFootMiddle3RotateAxisx
+    )
+    RightFootMiddle3RotateAxisy = (
+        RightFootMiddle3RotateAxis.RightFootMiddle3RotateAxisy
+    )
+    RightFootMiddle3RotateAxisz = (
+        RightFootMiddle3RotateAxis.RightFootMiddle3RotateAxisz
+    )
 
-    RightFootMiddle3JointOrient = RightFootMiddle3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle3JointOrientx = RightFootMiddle3JointOrient.RightFootMiddle3JointOrientx
-    RightFootMiddle3JointOrienty = RightFootMiddle3JointOrient.RightFootMiddle3JointOrienty
-    RightFootMiddle3JointOrientz = RightFootMiddle3JointOrient.RightFootMiddle3JointOrientz
+    RightFootMiddle3JointOrient = RightFootMiddle3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle3JointOrientx = (
+        RightFootMiddle3JointOrient.RightFootMiddle3JointOrientx
+    )
+    RightFootMiddle3JointOrienty = (
+        RightFootMiddle3JointOrient.RightFootMiddle3JointOrienty
+    )
+    RightFootMiddle3JointOrientz = (
+        RightFootMiddle3JointOrient.RightFootMiddle3JointOrientz
+    )
 
-    RightFootMiddle3MinRLimit = RightFootMiddle3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle3MinRLimitx = RightFootMiddle3MinRLimit.RightFootMiddle3MinRLimitx
-    RightFootMiddle3MinRLimity = RightFootMiddle3MinRLimit.RightFootMiddle3MinRLimity
-    RightFootMiddle3MinRLimitz = RightFootMiddle3MinRLimit.RightFootMiddle3MinRLimitz
+    RightFootMiddle3MinRLimit = RightFootMiddle3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle3MinRLimitx = (
+        RightFootMiddle3MinRLimit.RightFootMiddle3MinRLimitx
+    )
+    RightFootMiddle3MinRLimity = (
+        RightFootMiddle3MinRLimit.RightFootMiddle3MinRLimity
+    )
+    RightFootMiddle3MinRLimitz = (
+        RightFootMiddle3MinRLimit.RightFootMiddle3MinRLimitz
+    )
 
-    RightFootMiddle3MaxRLimit = RightFootMiddle3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle3MaxRLimitx = RightFootMiddle3MaxRLimit.RightFootMiddle3MaxRLimitx
-    RightFootMiddle3MaxRLimity = RightFootMiddle3MaxRLimit.RightFootMiddle3MaxRLimity
-    RightFootMiddle3MaxRLimitz = RightFootMiddle3MaxRLimit.RightFootMiddle3MaxRLimitz
+    RightFootMiddle3MaxRLimit = RightFootMiddle3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle3MaxRLimitx = (
+        RightFootMiddle3MaxRLimit.RightFootMiddle3MaxRLimitx
+    )
+    RightFootMiddle3MaxRLimity = (
+        RightFootMiddle3MaxRLimit.RightFootMiddle3MaxRLimity
+    )
+    RightFootMiddle3MaxRLimitz = (
+        RightFootMiddle3MaxRLimit.RightFootMiddle3MaxRLimitz
+    )
 
     RightFootMiddle3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16797,27 +20981,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootMiddle4Sy = RightFootMiddle4S.RightFootMiddle4Sy
     RightFootMiddle4Sz = RightFootMiddle4S.RightFootMiddle4Sz
 
-    RightFootMiddle4RotateOrder = RightFootMiddle4RotateOrderEnumField(default_value=0)
+    RightFootMiddle4RotateOrder = RightFootMiddle4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootMiddle4RotateAxis = RightFootMiddle4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle4RotateAxisx = RightFootMiddle4RotateAxis.RightFootMiddle4RotateAxisx
-    RightFootMiddle4RotateAxisy = RightFootMiddle4RotateAxis.RightFootMiddle4RotateAxisy
-    RightFootMiddle4RotateAxisz = RightFootMiddle4RotateAxis.RightFootMiddle4RotateAxisz
+    RightFootMiddle4RotateAxis = RightFootMiddle4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle4RotateAxisx = (
+        RightFootMiddle4RotateAxis.RightFootMiddle4RotateAxisx
+    )
+    RightFootMiddle4RotateAxisy = (
+        RightFootMiddle4RotateAxis.RightFootMiddle4RotateAxisy
+    )
+    RightFootMiddle4RotateAxisz = (
+        RightFootMiddle4RotateAxis.RightFootMiddle4RotateAxisz
+    )
 
-    RightFootMiddle4JointOrient = RightFootMiddle4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle4JointOrientx = RightFootMiddle4JointOrient.RightFootMiddle4JointOrientx
-    RightFootMiddle4JointOrienty = RightFootMiddle4JointOrient.RightFootMiddle4JointOrienty
-    RightFootMiddle4JointOrientz = RightFootMiddle4JointOrient.RightFootMiddle4JointOrientz
+    RightFootMiddle4JointOrient = RightFootMiddle4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle4JointOrientx = (
+        RightFootMiddle4JointOrient.RightFootMiddle4JointOrientx
+    )
+    RightFootMiddle4JointOrienty = (
+        RightFootMiddle4JointOrient.RightFootMiddle4JointOrienty
+    )
+    RightFootMiddle4JointOrientz = (
+        RightFootMiddle4JointOrient.RightFootMiddle4JointOrientz
+    )
 
-    RightFootMiddle4MinRLimit = RightFootMiddle4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle4MinRLimitx = RightFootMiddle4MinRLimit.RightFootMiddle4MinRLimitx
-    RightFootMiddle4MinRLimity = RightFootMiddle4MinRLimit.RightFootMiddle4MinRLimity
-    RightFootMiddle4MinRLimitz = RightFootMiddle4MinRLimit.RightFootMiddle4MinRLimitz
+    RightFootMiddle4MinRLimit = RightFootMiddle4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle4MinRLimitx = (
+        RightFootMiddle4MinRLimit.RightFootMiddle4MinRLimitx
+    )
+    RightFootMiddle4MinRLimity = (
+        RightFootMiddle4MinRLimit.RightFootMiddle4MinRLimity
+    )
+    RightFootMiddle4MinRLimitz = (
+        RightFootMiddle4MinRLimit.RightFootMiddle4MinRLimitz
+    )
 
-    RightFootMiddle4MaxRLimit = RightFootMiddle4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootMiddle4MaxRLimitx = RightFootMiddle4MaxRLimit.RightFootMiddle4MaxRLimitx
-    RightFootMiddle4MaxRLimity = RightFootMiddle4MaxRLimit.RightFootMiddle4MaxRLimity
-    RightFootMiddle4MaxRLimitz = RightFootMiddle4MaxRLimit.RightFootMiddle4MaxRLimitz
+    RightFootMiddle4MaxRLimit = RightFootMiddle4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootMiddle4MaxRLimitx = (
+        RightFootMiddle4MaxRLimit.RightFootMiddle4MaxRLimitx
+    )
+    RightFootMiddle4MaxRLimity = (
+        RightFootMiddle4MaxRLimit.RightFootMiddle4MaxRLimity
+    )
+    RightFootMiddle4MaxRLimitz = (
+        RightFootMiddle4MaxRLimit.RightFootMiddle4MaxRLimitz
+    )
 
     RightFootMiddle4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -16848,24 +21066,46 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootRing1Sy = RightFootRing1S.RightFootRing1Sy
     RightFootRing1Sz = RightFootRing1S.RightFootRing1Sz
 
-    RightFootRing1RotateOrder = RightFootRing1RotateOrderEnumField(default_value=0)
+    RightFootRing1RotateOrder = RightFootRing1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootRing1RotateAxis = RightFootRing1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootRing1RotateAxisx = RightFootRing1RotateAxis.RightFootRing1RotateAxisx
-    RightFootRing1RotateAxisy = RightFootRing1RotateAxis.RightFootRing1RotateAxisy
-    RightFootRing1RotateAxisz = RightFootRing1RotateAxis.RightFootRing1RotateAxisz
+    RightFootRing1RotateAxis = RightFootRing1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootRing1RotateAxisx = (
+        RightFootRing1RotateAxis.RightFootRing1RotateAxisx
+    )
+    RightFootRing1RotateAxisy = (
+        RightFootRing1RotateAxis.RightFootRing1RotateAxisy
+    )
+    RightFootRing1RotateAxisz = (
+        RightFootRing1RotateAxis.RightFootRing1RotateAxisz
+    )
 
-    RightFootRing1JointOrient = RightFootRing1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootRing1JointOrientx = RightFootRing1JointOrient.RightFootRing1JointOrientx
-    RightFootRing1JointOrienty = RightFootRing1JointOrient.RightFootRing1JointOrienty
-    RightFootRing1JointOrientz = RightFootRing1JointOrient.RightFootRing1JointOrientz
+    RightFootRing1JointOrient = RightFootRing1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootRing1JointOrientx = (
+        RightFootRing1JointOrient.RightFootRing1JointOrientx
+    )
+    RightFootRing1JointOrienty = (
+        RightFootRing1JointOrient.RightFootRing1JointOrienty
+    )
+    RightFootRing1JointOrientz = (
+        RightFootRing1JointOrient.RightFootRing1JointOrientz
+    )
 
-    RightFootRing1MinRLimit = RightFootRing1MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing1MinRLimit = RightFootRing1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing1MinRLimitx = RightFootRing1MinRLimit.RightFootRing1MinRLimitx
     RightFootRing1MinRLimity = RightFootRing1MinRLimit.RightFootRing1MinRLimity
     RightFootRing1MinRLimitz = RightFootRing1MinRLimit.RightFootRing1MinRLimitz
 
-    RightFootRing1MaxRLimit = RightFootRing1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing1MaxRLimit = RightFootRing1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing1MaxRLimitx = RightFootRing1MaxRLimit.RightFootRing1MaxRLimitx
     RightFootRing1MaxRLimity = RightFootRing1MaxRLimit.RightFootRing1MaxRLimity
     RightFootRing1MaxRLimitz = RightFootRing1MaxRLimit.RightFootRing1MaxRLimitz
@@ -16899,24 +21139,46 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootRing2Sy = RightFootRing2S.RightFootRing2Sy
     RightFootRing2Sz = RightFootRing2S.RightFootRing2Sz
 
-    RightFootRing2RotateOrder = RightFootRing2RotateOrderEnumField(default_value=0)
+    RightFootRing2RotateOrder = RightFootRing2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootRing2RotateAxis = RightFootRing2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootRing2RotateAxisx = RightFootRing2RotateAxis.RightFootRing2RotateAxisx
-    RightFootRing2RotateAxisy = RightFootRing2RotateAxis.RightFootRing2RotateAxisy
-    RightFootRing2RotateAxisz = RightFootRing2RotateAxis.RightFootRing2RotateAxisz
+    RightFootRing2RotateAxis = RightFootRing2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootRing2RotateAxisx = (
+        RightFootRing2RotateAxis.RightFootRing2RotateAxisx
+    )
+    RightFootRing2RotateAxisy = (
+        RightFootRing2RotateAxis.RightFootRing2RotateAxisy
+    )
+    RightFootRing2RotateAxisz = (
+        RightFootRing2RotateAxis.RightFootRing2RotateAxisz
+    )
 
-    RightFootRing2JointOrient = RightFootRing2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootRing2JointOrientx = RightFootRing2JointOrient.RightFootRing2JointOrientx
-    RightFootRing2JointOrienty = RightFootRing2JointOrient.RightFootRing2JointOrienty
-    RightFootRing2JointOrientz = RightFootRing2JointOrient.RightFootRing2JointOrientz
+    RightFootRing2JointOrient = RightFootRing2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootRing2JointOrientx = (
+        RightFootRing2JointOrient.RightFootRing2JointOrientx
+    )
+    RightFootRing2JointOrienty = (
+        RightFootRing2JointOrient.RightFootRing2JointOrienty
+    )
+    RightFootRing2JointOrientz = (
+        RightFootRing2JointOrient.RightFootRing2JointOrientz
+    )
 
-    RightFootRing2MinRLimit = RightFootRing2MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing2MinRLimit = RightFootRing2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing2MinRLimitx = RightFootRing2MinRLimit.RightFootRing2MinRLimitx
     RightFootRing2MinRLimity = RightFootRing2MinRLimit.RightFootRing2MinRLimity
     RightFootRing2MinRLimitz = RightFootRing2MinRLimit.RightFootRing2MinRLimitz
 
-    RightFootRing2MaxRLimit = RightFootRing2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing2MaxRLimit = RightFootRing2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing2MaxRLimitx = RightFootRing2MaxRLimit.RightFootRing2MaxRLimitx
     RightFootRing2MaxRLimity = RightFootRing2MaxRLimit.RightFootRing2MaxRLimity
     RightFootRing2MaxRLimitz = RightFootRing2MaxRLimit.RightFootRing2MaxRLimitz
@@ -16950,24 +21212,46 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootRing3Sy = RightFootRing3S.RightFootRing3Sy
     RightFootRing3Sz = RightFootRing3S.RightFootRing3Sz
 
-    RightFootRing3RotateOrder = RightFootRing3RotateOrderEnumField(default_value=0)
+    RightFootRing3RotateOrder = RightFootRing3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootRing3RotateAxis = RightFootRing3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootRing3RotateAxisx = RightFootRing3RotateAxis.RightFootRing3RotateAxisx
-    RightFootRing3RotateAxisy = RightFootRing3RotateAxis.RightFootRing3RotateAxisy
-    RightFootRing3RotateAxisz = RightFootRing3RotateAxis.RightFootRing3RotateAxisz
+    RightFootRing3RotateAxis = RightFootRing3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootRing3RotateAxisx = (
+        RightFootRing3RotateAxis.RightFootRing3RotateAxisx
+    )
+    RightFootRing3RotateAxisy = (
+        RightFootRing3RotateAxis.RightFootRing3RotateAxisy
+    )
+    RightFootRing3RotateAxisz = (
+        RightFootRing3RotateAxis.RightFootRing3RotateAxisz
+    )
 
-    RightFootRing3JointOrient = RightFootRing3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootRing3JointOrientx = RightFootRing3JointOrient.RightFootRing3JointOrientx
-    RightFootRing3JointOrienty = RightFootRing3JointOrient.RightFootRing3JointOrienty
-    RightFootRing3JointOrientz = RightFootRing3JointOrient.RightFootRing3JointOrientz
+    RightFootRing3JointOrient = RightFootRing3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootRing3JointOrientx = (
+        RightFootRing3JointOrient.RightFootRing3JointOrientx
+    )
+    RightFootRing3JointOrienty = (
+        RightFootRing3JointOrient.RightFootRing3JointOrienty
+    )
+    RightFootRing3JointOrientz = (
+        RightFootRing3JointOrient.RightFootRing3JointOrientz
+    )
 
-    RightFootRing3MinRLimit = RightFootRing3MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing3MinRLimit = RightFootRing3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing3MinRLimitx = RightFootRing3MinRLimit.RightFootRing3MinRLimitx
     RightFootRing3MinRLimity = RightFootRing3MinRLimit.RightFootRing3MinRLimity
     RightFootRing3MinRLimitz = RightFootRing3MinRLimit.RightFootRing3MinRLimitz
 
-    RightFootRing3MaxRLimit = RightFootRing3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing3MaxRLimit = RightFootRing3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing3MaxRLimitx = RightFootRing3MaxRLimit.RightFootRing3MaxRLimitx
     RightFootRing3MaxRLimity = RightFootRing3MaxRLimit.RightFootRing3MaxRLimity
     RightFootRing3MaxRLimitz = RightFootRing3MaxRLimit.RightFootRing3MaxRLimitz
@@ -17001,24 +21285,46 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootRing4Sy = RightFootRing4S.RightFootRing4Sy
     RightFootRing4Sz = RightFootRing4S.RightFootRing4Sz
 
-    RightFootRing4RotateOrder = RightFootRing4RotateOrderEnumField(default_value=0)
+    RightFootRing4RotateOrder = RightFootRing4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootRing4RotateAxis = RightFootRing4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootRing4RotateAxisx = RightFootRing4RotateAxis.RightFootRing4RotateAxisx
-    RightFootRing4RotateAxisy = RightFootRing4RotateAxis.RightFootRing4RotateAxisy
-    RightFootRing4RotateAxisz = RightFootRing4RotateAxis.RightFootRing4RotateAxisz
+    RightFootRing4RotateAxis = RightFootRing4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootRing4RotateAxisx = (
+        RightFootRing4RotateAxis.RightFootRing4RotateAxisx
+    )
+    RightFootRing4RotateAxisy = (
+        RightFootRing4RotateAxis.RightFootRing4RotateAxisy
+    )
+    RightFootRing4RotateAxisz = (
+        RightFootRing4RotateAxis.RightFootRing4RotateAxisz
+    )
 
-    RightFootRing4JointOrient = RightFootRing4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootRing4JointOrientx = RightFootRing4JointOrient.RightFootRing4JointOrientx
-    RightFootRing4JointOrienty = RightFootRing4JointOrient.RightFootRing4JointOrienty
-    RightFootRing4JointOrientz = RightFootRing4JointOrient.RightFootRing4JointOrientz
+    RightFootRing4JointOrient = RightFootRing4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootRing4JointOrientx = (
+        RightFootRing4JointOrient.RightFootRing4JointOrientx
+    )
+    RightFootRing4JointOrienty = (
+        RightFootRing4JointOrient.RightFootRing4JointOrienty
+    )
+    RightFootRing4JointOrientz = (
+        RightFootRing4JointOrient.RightFootRing4JointOrientz
+    )
 
-    RightFootRing4MinRLimit = RightFootRing4MinRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing4MinRLimit = RightFootRing4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing4MinRLimitx = RightFootRing4MinRLimit.RightFootRing4MinRLimitx
     RightFootRing4MinRLimity = RightFootRing4MinRLimit.RightFootRing4MinRLimity
     RightFootRing4MinRLimitz = RightFootRing4MinRLimit.RightFootRing4MinRLimitz
 
-    RightFootRing4MaxRLimit = RightFootRing4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing4MaxRLimit = RightFootRing4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing4MaxRLimitx = RightFootRing4MaxRLimit.RightFootRing4MaxRLimitx
     RightFootRing4MaxRLimity = RightFootRing4MaxRLimit.RightFootRing4MaxRLimity
     RightFootRing4MaxRLimitz = RightFootRing4MaxRLimit.RightFootRing4MaxRLimitz
@@ -17052,27 +21358,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootPinky1Sy = RightFootPinky1S.RightFootPinky1Sy
     RightFootPinky1Sz = RightFootPinky1S.RightFootPinky1Sz
 
-    RightFootPinky1RotateOrder = RightFootPinky1RotateOrderEnumField(default_value=0)
+    RightFootPinky1RotateOrder = RightFootPinky1RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootPinky1RotateAxis = RightFootPinky1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky1RotateAxisx = RightFootPinky1RotateAxis.RightFootPinky1RotateAxisx
-    RightFootPinky1RotateAxisy = RightFootPinky1RotateAxis.RightFootPinky1RotateAxisy
-    RightFootPinky1RotateAxisz = RightFootPinky1RotateAxis.RightFootPinky1RotateAxisz
+    RightFootPinky1RotateAxis = RightFootPinky1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky1RotateAxisx = (
+        RightFootPinky1RotateAxis.RightFootPinky1RotateAxisx
+    )
+    RightFootPinky1RotateAxisy = (
+        RightFootPinky1RotateAxis.RightFootPinky1RotateAxisy
+    )
+    RightFootPinky1RotateAxisz = (
+        RightFootPinky1RotateAxis.RightFootPinky1RotateAxisz
+    )
 
-    RightFootPinky1JointOrient = RightFootPinky1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky1JointOrientx = RightFootPinky1JointOrient.RightFootPinky1JointOrientx
-    RightFootPinky1JointOrienty = RightFootPinky1JointOrient.RightFootPinky1JointOrienty
-    RightFootPinky1JointOrientz = RightFootPinky1JointOrient.RightFootPinky1JointOrientz
+    RightFootPinky1JointOrient = RightFootPinky1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky1JointOrientx = (
+        RightFootPinky1JointOrient.RightFootPinky1JointOrientx
+    )
+    RightFootPinky1JointOrienty = (
+        RightFootPinky1JointOrient.RightFootPinky1JointOrienty
+    )
+    RightFootPinky1JointOrientz = (
+        RightFootPinky1JointOrient.RightFootPinky1JointOrientz
+    )
 
-    RightFootPinky1MinRLimit = RightFootPinky1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky1MinRLimitx = RightFootPinky1MinRLimit.RightFootPinky1MinRLimitx
-    RightFootPinky1MinRLimity = RightFootPinky1MinRLimit.RightFootPinky1MinRLimity
-    RightFootPinky1MinRLimitz = RightFootPinky1MinRLimit.RightFootPinky1MinRLimitz
+    RightFootPinky1MinRLimit = RightFootPinky1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky1MinRLimitx = (
+        RightFootPinky1MinRLimit.RightFootPinky1MinRLimitx
+    )
+    RightFootPinky1MinRLimity = (
+        RightFootPinky1MinRLimit.RightFootPinky1MinRLimity
+    )
+    RightFootPinky1MinRLimitz = (
+        RightFootPinky1MinRLimit.RightFootPinky1MinRLimitz
+    )
 
-    RightFootPinky1MaxRLimit = RightFootPinky1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky1MaxRLimitx = RightFootPinky1MaxRLimit.RightFootPinky1MaxRLimitx
-    RightFootPinky1MaxRLimity = RightFootPinky1MaxRLimit.RightFootPinky1MaxRLimity
-    RightFootPinky1MaxRLimitz = RightFootPinky1MaxRLimit.RightFootPinky1MaxRLimitz
+    RightFootPinky1MaxRLimit = RightFootPinky1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky1MaxRLimitx = (
+        RightFootPinky1MaxRLimit.RightFootPinky1MaxRLimitx
+    )
+    RightFootPinky1MaxRLimity = (
+        RightFootPinky1MaxRLimit.RightFootPinky1MaxRLimity
+    )
+    RightFootPinky1MaxRLimitz = (
+        RightFootPinky1MaxRLimit.RightFootPinky1MaxRLimitz
+    )
 
     RightFootPinky1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -17103,27 +21443,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootPinky2Sy = RightFootPinky2S.RightFootPinky2Sy
     RightFootPinky2Sz = RightFootPinky2S.RightFootPinky2Sz
 
-    RightFootPinky2RotateOrder = RightFootPinky2RotateOrderEnumField(default_value=0)
+    RightFootPinky2RotateOrder = RightFootPinky2RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootPinky2RotateAxis = RightFootPinky2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky2RotateAxisx = RightFootPinky2RotateAxis.RightFootPinky2RotateAxisx
-    RightFootPinky2RotateAxisy = RightFootPinky2RotateAxis.RightFootPinky2RotateAxisy
-    RightFootPinky2RotateAxisz = RightFootPinky2RotateAxis.RightFootPinky2RotateAxisz
+    RightFootPinky2RotateAxis = RightFootPinky2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky2RotateAxisx = (
+        RightFootPinky2RotateAxis.RightFootPinky2RotateAxisx
+    )
+    RightFootPinky2RotateAxisy = (
+        RightFootPinky2RotateAxis.RightFootPinky2RotateAxisy
+    )
+    RightFootPinky2RotateAxisz = (
+        RightFootPinky2RotateAxis.RightFootPinky2RotateAxisz
+    )
 
-    RightFootPinky2JointOrient = RightFootPinky2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky2JointOrientx = RightFootPinky2JointOrient.RightFootPinky2JointOrientx
-    RightFootPinky2JointOrienty = RightFootPinky2JointOrient.RightFootPinky2JointOrienty
-    RightFootPinky2JointOrientz = RightFootPinky2JointOrient.RightFootPinky2JointOrientz
+    RightFootPinky2JointOrient = RightFootPinky2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky2JointOrientx = (
+        RightFootPinky2JointOrient.RightFootPinky2JointOrientx
+    )
+    RightFootPinky2JointOrienty = (
+        RightFootPinky2JointOrient.RightFootPinky2JointOrienty
+    )
+    RightFootPinky2JointOrientz = (
+        RightFootPinky2JointOrient.RightFootPinky2JointOrientz
+    )
 
-    RightFootPinky2MinRLimit = RightFootPinky2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky2MinRLimitx = RightFootPinky2MinRLimit.RightFootPinky2MinRLimitx
-    RightFootPinky2MinRLimity = RightFootPinky2MinRLimit.RightFootPinky2MinRLimity
-    RightFootPinky2MinRLimitz = RightFootPinky2MinRLimit.RightFootPinky2MinRLimitz
+    RightFootPinky2MinRLimit = RightFootPinky2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky2MinRLimitx = (
+        RightFootPinky2MinRLimit.RightFootPinky2MinRLimitx
+    )
+    RightFootPinky2MinRLimity = (
+        RightFootPinky2MinRLimit.RightFootPinky2MinRLimity
+    )
+    RightFootPinky2MinRLimitz = (
+        RightFootPinky2MinRLimit.RightFootPinky2MinRLimitz
+    )
 
-    RightFootPinky2MaxRLimit = RightFootPinky2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky2MaxRLimitx = RightFootPinky2MaxRLimit.RightFootPinky2MaxRLimitx
-    RightFootPinky2MaxRLimity = RightFootPinky2MaxRLimit.RightFootPinky2MaxRLimity
-    RightFootPinky2MaxRLimitz = RightFootPinky2MaxRLimit.RightFootPinky2MaxRLimitz
+    RightFootPinky2MaxRLimit = RightFootPinky2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky2MaxRLimitx = (
+        RightFootPinky2MaxRLimit.RightFootPinky2MaxRLimitx
+    )
+    RightFootPinky2MaxRLimity = (
+        RightFootPinky2MaxRLimit.RightFootPinky2MaxRLimity
+    )
+    RightFootPinky2MaxRLimitz = (
+        RightFootPinky2MaxRLimit.RightFootPinky2MaxRLimitz
+    )
 
     RightFootPinky2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -17154,27 +21528,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootPinky3Sy = RightFootPinky3S.RightFootPinky3Sy
     RightFootPinky3Sz = RightFootPinky3S.RightFootPinky3Sz
 
-    RightFootPinky3RotateOrder = RightFootPinky3RotateOrderEnumField(default_value=0)
+    RightFootPinky3RotateOrder = RightFootPinky3RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootPinky3RotateAxis = RightFootPinky3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky3RotateAxisx = RightFootPinky3RotateAxis.RightFootPinky3RotateAxisx
-    RightFootPinky3RotateAxisy = RightFootPinky3RotateAxis.RightFootPinky3RotateAxisy
-    RightFootPinky3RotateAxisz = RightFootPinky3RotateAxis.RightFootPinky3RotateAxisz
+    RightFootPinky3RotateAxis = RightFootPinky3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky3RotateAxisx = (
+        RightFootPinky3RotateAxis.RightFootPinky3RotateAxisx
+    )
+    RightFootPinky3RotateAxisy = (
+        RightFootPinky3RotateAxis.RightFootPinky3RotateAxisy
+    )
+    RightFootPinky3RotateAxisz = (
+        RightFootPinky3RotateAxis.RightFootPinky3RotateAxisz
+    )
 
-    RightFootPinky3JointOrient = RightFootPinky3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky3JointOrientx = RightFootPinky3JointOrient.RightFootPinky3JointOrientx
-    RightFootPinky3JointOrienty = RightFootPinky3JointOrient.RightFootPinky3JointOrienty
-    RightFootPinky3JointOrientz = RightFootPinky3JointOrient.RightFootPinky3JointOrientz
+    RightFootPinky3JointOrient = RightFootPinky3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky3JointOrientx = (
+        RightFootPinky3JointOrient.RightFootPinky3JointOrientx
+    )
+    RightFootPinky3JointOrienty = (
+        RightFootPinky3JointOrient.RightFootPinky3JointOrienty
+    )
+    RightFootPinky3JointOrientz = (
+        RightFootPinky3JointOrient.RightFootPinky3JointOrientz
+    )
 
-    RightFootPinky3MinRLimit = RightFootPinky3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky3MinRLimitx = RightFootPinky3MinRLimit.RightFootPinky3MinRLimitx
-    RightFootPinky3MinRLimity = RightFootPinky3MinRLimit.RightFootPinky3MinRLimity
-    RightFootPinky3MinRLimitz = RightFootPinky3MinRLimit.RightFootPinky3MinRLimitz
+    RightFootPinky3MinRLimit = RightFootPinky3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky3MinRLimitx = (
+        RightFootPinky3MinRLimit.RightFootPinky3MinRLimitx
+    )
+    RightFootPinky3MinRLimity = (
+        RightFootPinky3MinRLimit.RightFootPinky3MinRLimity
+    )
+    RightFootPinky3MinRLimitz = (
+        RightFootPinky3MinRLimit.RightFootPinky3MinRLimitz
+    )
 
-    RightFootPinky3MaxRLimit = RightFootPinky3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky3MaxRLimitx = RightFootPinky3MaxRLimit.RightFootPinky3MaxRLimitx
-    RightFootPinky3MaxRLimity = RightFootPinky3MaxRLimit.RightFootPinky3MaxRLimity
-    RightFootPinky3MaxRLimitz = RightFootPinky3MaxRLimit.RightFootPinky3MaxRLimitz
+    RightFootPinky3MaxRLimit = RightFootPinky3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky3MaxRLimitx = (
+        RightFootPinky3MaxRLimit.RightFootPinky3MaxRLimitx
+    )
+    RightFootPinky3MaxRLimity = (
+        RightFootPinky3MaxRLimit.RightFootPinky3MaxRLimity
+    )
+    RightFootPinky3MaxRLimitz = (
+        RightFootPinky3MaxRLimit.RightFootPinky3MaxRLimitz
+    )
 
     RightFootPinky3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -17205,27 +21613,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightFootPinky4Sy = RightFootPinky4S.RightFootPinky4Sy
     RightFootPinky4Sz = RightFootPinky4S.RightFootPinky4Sz
 
-    RightFootPinky4RotateOrder = RightFootPinky4RotateOrderEnumField(default_value=0)
+    RightFootPinky4RotateOrder = RightFootPinky4RotateOrderEnumField(
+        default_value=0
+    )
 
-    RightFootPinky4RotateAxis = RightFootPinky4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky4RotateAxisx = RightFootPinky4RotateAxis.RightFootPinky4RotateAxisx
-    RightFootPinky4RotateAxisy = RightFootPinky4RotateAxis.RightFootPinky4RotateAxisy
-    RightFootPinky4RotateAxisz = RightFootPinky4RotateAxis.RightFootPinky4RotateAxisz
+    RightFootPinky4RotateAxis = RightFootPinky4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky4RotateAxisx = (
+        RightFootPinky4RotateAxis.RightFootPinky4RotateAxisx
+    )
+    RightFootPinky4RotateAxisy = (
+        RightFootPinky4RotateAxis.RightFootPinky4RotateAxisy
+    )
+    RightFootPinky4RotateAxisz = (
+        RightFootPinky4RotateAxis.RightFootPinky4RotateAxisz
+    )
 
-    RightFootPinky4JointOrient = RightFootPinky4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky4JointOrientx = RightFootPinky4JointOrient.RightFootPinky4JointOrientx
-    RightFootPinky4JointOrienty = RightFootPinky4JointOrient.RightFootPinky4JointOrienty
-    RightFootPinky4JointOrientz = RightFootPinky4JointOrient.RightFootPinky4JointOrientz
+    RightFootPinky4JointOrient = RightFootPinky4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky4JointOrientx = (
+        RightFootPinky4JointOrient.RightFootPinky4JointOrientx
+    )
+    RightFootPinky4JointOrienty = (
+        RightFootPinky4JointOrient.RightFootPinky4JointOrienty
+    )
+    RightFootPinky4JointOrientz = (
+        RightFootPinky4JointOrient.RightFootPinky4JointOrientz
+    )
 
-    RightFootPinky4MinRLimit = RightFootPinky4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky4MinRLimitx = RightFootPinky4MinRLimit.RightFootPinky4MinRLimitx
-    RightFootPinky4MinRLimity = RightFootPinky4MinRLimit.RightFootPinky4MinRLimity
-    RightFootPinky4MinRLimitz = RightFootPinky4MinRLimit.RightFootPinky4MinRLimitz
+    RightFootPinky4MinRLimit = RightFootPinky4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky4MinRLimitx = (
+        RightFootPinky4MinRLimit.RightFootPinky4MinRLimitx
+    )
+    RightFootPinky4MinRLimity = (
+        RightFootPinky4MinRLimit.RightFootPinky4MinRLimity
+    )
+    RightFootPinky4MinRLimitz = (
+        RightFootPinky4MinRLimit.RightFootPinky4MinRLimitz
+    )
 
-    RightFootPinky4MaxRLimit = RightFootPinky4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootPinky4MaxRLimitx = RightFootPinky4MaxRLimit.RightFootPinky4MaxRLimitx
-    RightFootPinky4MaxRLimity = RightFootPinky4MaxRLimit.RightFootPinky4MaxRLimity
-    RightFootPinky4MaxRLimitz = RightFootPinky4MaxRLimit.RightFootPinky4MaxRLimitz
+    RightFootPinky4MaxRLimit = RightFootPinky4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootPinky4MaxRLimitx = (
+        RightFootPinky4MaxRLimit.RightFootPinky4MaxRLimitx
+    )
+    RightFootPinky4MaxRLimity = (
+        RightFootPinky4MaxRLimit.RightFootPinky4MaxRLimity
+    )
+    RightFootPinky4MaxRLimitz = (
+        RightFootPinky4MaxRLimit.RightFootPinky4MaxRLimitz
+    )
 
     RightFootPinky4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -17241,42 +21683,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightFootExtraFinger1 = MessageField()
 
-    RightFootExtraFinger1T = RightFootExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger1T = RightFootExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger1Tx = RightFootExtraFinger1T.RightFootExtraFinger1Tx
     RightFootExtraFinger1Ty = RightFootExtraFinger1T.RightFootExtraFinger1Ty
     RightFootExtraFinger1Tz = RightFootExtraFinger1T.RightFootExtraFinger1Tz
 
-    RightFootExtraFinger1R = RightFootExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger1R = RightFootExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger1Rx = RightFootExtraFinger1R.RightFootExtraFinger1Rx
     RightFootExtraFinger1Ry = RightFootExtraFinger1R.RightFootExtraFinger1Ry
     RightFootExtraFinger1Rz = RightFootExtraFinger1R.RightFootExtraFinger1Rz
 
-    RightFootExtraFinger1S = RightFootExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger1S = RightFootExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger1Sx = RightFootExtraFinger1S.RightFootExtraFinger1Sx
     RightFootExtraFinger1Sy = RightFootExtraFinger1S.RightFootExtraFinger1Sy
     RightFootExtraFinger1Sz = RightFootExtraFinger1S.RightFootExtraFinger1Sz
 
-    RightFootExtraFinger1RotateOrder = RightFootExtraFinger1RotateOrderEnumField(default_value=0)
+    RightFootExtraFinger1RotateOrder = (
+        RightFootExtraFinger1RotateOrderEnumField(default_value=0)
+    )
 
-    RightFootExtraFinger1RotateAxis = RightFootExtraFinger1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger1RotateAxisx = RightFootExtraFinger1RotateAxis.RightFootExtraFinger1RotateAxisx
-    RightFootExtraFinger1RotateAxisy = RightFootExtraFinger1RotateAxis.RightFootExtraFinger1RotateAxisy
-    RightFootExtraFinger1RotateAxisz = RightFootExtraFinger1RotateAxis.RightFootExtraFinger1RotateAxisz
+    RightFootExtraFinger1RotateAxis = RightFootExtraFinger1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger1RotateAxisx = (
+        RightFootExtraFinger1RotateAxis.RightFootExtraFinger1RotateAxisx
+    )
+    RightFootExtraFinger1RotateAxisy = (
+        RightFootExtraFinger1RotateAxis.RightFootExtraFinger1RotateAxisy
+    )
+    RightFootExtraFinger1RotateAxisz = (
+        RightFootExtraFinger1RotateAxis.RightFootExtraFinger1RotateAxisz
+    )
 
-    RightFootExtraFinger1JointOrient = RightFootExtraFinger1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger1JointOrientx = RightFootExtraFinger1JointOrient.RightFootExtraFinger1JointOrientx
-    RightFootExtraFinger1JointOrienty = RightFootExtraFinger1JointOrient.RightFootExtraFinger1JointOrienty
-    RightFootExtraFinger1JointOrientz = RightFootExtraFinger1JointOrient.RightFootExtraFinger1JointOrientz
+    RightFootExtraFinger1JointOrient = RightFootExtraFinger1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger1JointOrientx = (
+        RightFootExtraFinger1JointOrient.RightFootExtraFinger1JointOrientx
+    )
+    RightFootExtraFinger1JointOrienty = (
+        RightFootExtraFinger1JointOrient.RightFootExtraFinger1JointOrienty
+    )
+    RightFootExtraFinger1JointOrientz = (
+        RightFootExtraFinger1JointOrient.RightFootExtraFinger1JointOrientz
+    )
 
-    RightFootExtraFinger1MinRLimit = RightFootExtraFinger1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger1MinRLimitx = RightFootExtraFinger1MinRLimit.RightFootExtraFinger1MinRLimitx
-    RightFootExtraFinger1MinRLimity = RightFootExtraFinger1MinRLimit.RightFootExtraFinger1MinRLimity
-    RightFootExtraFinger1MinRLimitz = RightFootExtraFinger1MinRLimit.RightFootExtraFinger1MinRLimitz
+    RightFootExtraFinger1MinRLimit = RightFootExtraFinger1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger1MinRLimitx = (
+        RightFootExtraFinger1MinRLimit.RightFootExtraFinger1MinRLimitx
+    )
+    RightFootExtraFinger1MinRLimity = (
+        RightFootExtraFinger1MinRLimit.RightFootExtraFinger1MinRLimity
+    )
+    RightFootExtraFinger1MinRLimitz = (
+        RightFootExtraFinger1MinRLimit.RightFootExtraFinger1MinRLimitz
+    )
 
-    RightFootExtraFinger1MaxRLimit = RightFootExtraFinger1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger1MaxRLimitx = RightFootExtraFinger1MaxRLimit.RightFootExtraFinger1MaxRLimitx
-    RightFootExtraFinger1MaxRLimity = RightFootExtraFinger1MaxRLimit.RightFootExtraFinger1MaxRLimity
-    RightFootExtraFinger1MaxRLimitz = RightFootExtraFinger1MaxRLimit.RightFootExtraFinger1MaxRLimitz
+    RightFootExtraFinger1MaxRLimit = RightFootExtraFinger1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger1MaxRLimitx = (
+        RightFootExtraFinger1MaxRLimit.RightFootExtraFinger1MaxRLimitx
+    )
+    RightFootExtraFinger1MaxRLimity = (
+        RightFootExtraFinger1MaxRLimit.RightFootExtraFinger1MaxRLimity
+    )
+    RightFootExtraFinger1MaxRLimitz = (
+        RightFootExtraFinger1MaxRLimit.RightFootExtraFinger1MaxRLimitz
+    )
 
     RightFootExtraFinger1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -17292,42 +21774,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightFootExtraFinger2 = MessageField()
 
-    RightFootExtraFinger2T = RightFootExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger2T = RightFootExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger2Tx = RightFootExtraFinger2T.RightFootExtraFinger2Tx
     RightFootExtraFinger2Ty = RightFootExtraFinger2T.RightFootExtraFinger2Ty
     RightFootExtraFinger2Tz = RightFootExtraFinger2T.RightFootExtraFinger2Tz
 
-    RightFootExtraFinger2R = RightFootExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger2R = RightFootExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger2Rx = RightFootExtraFinger2R.RightFootExtraFinger2Rx
     RightFootExtraFinger2Ry = RightFootExtraFinger2R.RightFootExtraFinger2Ry
     RightFootExtraFinger2Rz = RightFootExtraFinger2R.RightFootExtraFinger2Rz
 
-    RightFootExtraFinger2S = RightFootExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger2S = RightFootExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger2Sx = RightFootExtraFinger2S.RightFootExtraFinger2Sx
     RightFootExtraFinger2Sy = RightFootExtraFinger2S.RightFootExtraFinger2Sy
     RightFootExtraFinger2Sz = RightFootExtraFinger2S.RightFootExtraFinger2Sz
 
-    RightFootExtraFinger2RotateOrder = RightFootExtraFinger2RotateOrderEnumField(default_value=0)
+    RightFootExtraFinger2RotateOrder = (
+        RightFootExtraFinger2RotateOrderEnumField(default_value=0)
+    )
 
-    RightFootExtraFinger2RotateAxis = RightFootExtraFinger2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger2RotateAxisx = RightFootExtraFinger2RotateAxis.RightFootExtraFinger2RotateAxisx
-    RightFootExtraFinger2RotateAxisy = RightFootExtraFinger2RotateAxis.RightFootExtraFinger2RotateAxisy
-    RightFootExtraFinger2RotateAxisz = RightFootExtraFinger2RotateAxis.RightFootExtraFinger2RotateAxisz
+    RightFootExtraFinger2RotateAxis = RightFootExtraFinger2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger2RotateAxisx = (
+        RightFootExtraFinger2RotateAxis.RightFootExtraFinger2RotateAxisx
+    )
+    RightFootExtraFinger2RotateAxisy = (
+        RightFootExtraFinger2RotateAxis.RightFootExtraFinger2RotateAxisy
+    )
+    RightFootExtraFinger2RotateAxisz = (
+        RightFootExtraFinger2RotateAxis.RightFootExtraFinger2RotateAxisz
+    )
 
-    RightFootExtraFinger2JointOrient = RightFootExtraFinger2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger2JointOrientx = RightFootExtraFinger2JointOrient.RightFootExtraFinger2JointOrientx
-    RightFootExtraFinger2JointOrienty = RightFootExtraFinger2JointOrient.RightFootExtraFinger2JointOrienty
-    RightFootExtraFinger2JointOrientz = RightFootExtraFinger2JointOrient.RightFootExtraFinger2JointOrientz
+    RightFootExtraFinger2JointOrient = RightFootExtraFinger2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger2JointOrientx = (
+        RightFootExtraFinger2JointOrient.RightFootExtraFinger2JointOrientx
+    )
+    RightFootExtraFinger2JointOrienty = (
+        RightFootExtraFinger2JointOrient.RightFootExtraFinger2JointOrienty
+    )
+    RightFootExtraFinger2JointOrientz = (
+        RightFootExtraFinger2JointOrient.RightFootExtraFinger2JointOrientz
+    )
 
-    RightFootExtraFinger2MinRLimit = RightFootExtraFinger2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger2MinRLimitx = RightFootExtraFinger2MinRLimit.RightFootExtraFinger2MinRLimitx
-    RightFootExtraFinger2MinRLimity = RightFootExtraFinger2MinRLimit.RightFootExtraFinger2MinRLimity
-    RightFootExtraFinger2MinRLimitz = RightFootExtraFinger2MinRLimit.RightFootExtraFinger2MinRLimitz
+    RightFootExtraFinger2MinRLimit = RightFootExtraFinger2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger2MinRLimitx = (
+        RightFootExtraFinger2MinRLimit.RightFootExtraFinger2MinRLimitx
+    )
+    RightFootExtraFinger2MinRLimity = (
+        RightFootExtraFinger2MinRLimit.RightFootExtraFinger2MinRLimity
+    )
+    RightFootExtraFinger2MinRLimitz = (
+        RightFootExtraFinger2MinRLimit.RightFootExtraFinger2MinRLimitz
+    )
 
-    RightFootExtraFinger2MaxRLimit = RightFootExtraFinger2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger2MaxRLimitx = RightFootExtraFinger2MaxRLimit.RightFootExtraFinger2MaxRLimitx
-    RightFootExtraFinger2MaxRLimity = RightFootExtraFinger2MaxRLimit.RightFootExtraFinger2MaxRLimity
-    RightFootExtraFinger2MaxRLimitz = RightFootExtraFinger2MaxRLimit.RightFootExtraFinger2MaxRLimitz
+    RightFootExtraFinger2MaxRLimit = RightFootExtraFinger2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger2MaxRLimitx = (
+        RightFootExtraFinger2MaxRLimit.RightFootExtraFinger2MaxRLimitx
+    )
+    RightFootExtraFinger2MaxRLimity = (
+        RightFootExtraFinger2MaxRLimit.RightFootExtraFinger2MaxRLimity
+    )
+    RightFootExtraFinger2MaxRLimitz = (
+        RightFootExtraFinger2MaxRLimit.RightFootExtraFinger2MaxRLimitz
+    )
 
     RightFootExtraFinger2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -17343,42 +21865,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightFootExtraFinger3 = MessageField()
 
-    RightFootExtraFinger3T = RightFootExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger3T = RightFootExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger3Tx = RightFootExtraFinger3T.RightFootExtraFinger3Tx
     RightFootExtraFinger3Ty = RightFootExtraFinger3T.RightFootExtraFinger3Ty
     RightFootExtraFinger3Tz = RightFootExtraFinger3T.RightFootExtraFinger3Tz
 
-    RightFootExtraFinger3R = RightFootExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger3R = RightFootExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger3Rx = RightFootExtraFinger3R.RightFootExtraFinger3Rx
     RightFootExtraFinger3Ry = RightFootExtraFinger3R.RightFootExtraFinger3Ry
     RightFootExtraFinger3Rz = RightFootExtraFinger3R.RightFootExtraFinger3Rz
 
-    RightFootExtraFinger3S = RightFootExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger3S = RightFootExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger3Sx = RightFootExtraFinger3S.RightFootExtraFinger3Sx
     RightFootExtraFinger3Sy = RightFootExtraFinger3S.RightFootExtraFinger3Sy
     RightFootExtraFinger3Sz = RightFootExtraFinger3S.RightFootExtraFinger3Sz
 
-    RightFootExtraFinger3RotateOrder = RightFootExtraFinger3RotateOrderEnumField(default_value=0)
+    RightFootExtraFinger3RotateOrder = (
+        RightFootExtraFinger3RotateOrderEnumField(default_value=0)
+    )
 
-    RightFootExtraFinger3RotateAxis = RightFootExtraFinger3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger3RotateAxisx = RightFootExtraFinger3RotateAxis.RightFootExtraFinger3RotateAxisx
-    RightFootExtraFinger3RotateAxisy = RightFootExtraFinger3RotateAxis.RightFootExtraFinger3RotateAxisy
-    RightFootExtraFinger3RotateAxisz = RightFootExtraFinger3RotateAxis.RightFootExtraFinger3RotateAxisz
+    RightFootExtraFinger3RotateAxis = RightFootExtraFinger3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger3RotateAxisx = (
+        RightFootExtraFinger3RotateAxis.RightFootExtraFinger3RotateAxisx
+    )
+    RightFootExtraFinger3RotateAxisy = (
+        RightFootExtraFinger3RotateAxis.RightFootExtraFinger3RotateAxisy
+    )
+    RightFootExtraFinger3RotateAxisz = (
+        RightFootExtraFinger3RotateAxis.RightFootExtraFinger3RotateAxisz
+    )
 
-    RightFootExtraFinger3JointOrient = RightFootExtraFinger3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger3JointOrientx = RightFootExtraFinger3JointOrient.RightFootExtraFinger3JointOrientx
-    RightFootExtraFinger3JointOrienty = RightFootExtraFinger3JointOrient.RightFootExtraFinger3JointOrienty
-    RightFootExtraFinger3JointOrientz = RightFootExtraFinger3JointOrient.RightFootExtraFinger3JointOrientz
+    RightFootExtraFinger3JointOrient = RightFootExtraFinger3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger3JointOrientx = (
+        RightFootExtraFinger3JointOrient.RightFootExtraFinger3JointOrientx
+    )
+    RightFootExtraFinger3JointOrienty = (
+        RightFootExtraFinger3JointOrient.RightFootExtraFinger3JointOrienty
+    )
+    RightFootExtraFinger3JointOrientz = (
+        RightFootExtraFinger3JointOrient.RightFootExtraFinger3JointOrientz
+    )
 
-    RightFootExtraFinger3MinRLimit = RightFootExtraFinger3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger3MinRLimitx = RightFootExtraFinger3MinRLimit.RightFootExtraFinger3MinRLimitx
-    RightFootExtraFinger3MinRLimity = RightFootExtraFinger3MinRLimit.RightFootExtraFinger3MinRLimity
-    RightFootExtraFinger3MinRLimitz = RightFootExtraFinger3MinRLimit.RightFootExtraFinger3MinRLimitz
+    RightFootExtraFinger3MinRLimit = RightFootExtraFinger3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger3MinRLimitx = (
+        RightFootExtraFinger3MinRLimit.RightFootExtraFinger3MinRLimitx
+    )
+    RightFootExtraFinger3MinRLimity = (
+        RightFootExtraFinger3MinRLimit.RightFootExtraFinger3MinRLimity
+    )
+    RightFootExtraFinger3MinRLimitz = (
+        RightFootExtraFinger3MinRLimit.RightFootExtraFinger3MinRLimitz
+    )
 
-    RightFootExtraFinger3MaxRLimit = RightFootExtraFinger3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger3MaxRLimitx = RightFootExtraFinger3MaxRLimit.RightFootExtraFinger3MaxRLimitx
-    RightFootExtraFinger3MaxRLimity = RightFootExtraFinger3MaxRLimit.RightFootExtraFinger3MaxRLimity
-    RightFootExtraFinger3MaxRLimitz = RightFootExtraFinger3MaxRLimit.RightFootExtraFinger3MaxRLimitz
+    RightFootExtraFinger3MaxRLimit = RightFootExtraFinger3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger3MaxRLimitx = (
+        RightFootExtraFinger3MaxRLimit.RightFootExtraFinger3MaxRLimitx
+    )
+    RightFootExtraFinger3MaxRLimity = (
+        RightFootExtraFinger3MaxRLimit.RightFootExtraFinger3MaxRLimity
+    )
+    RightFootExtraFinger3MaxRLimitz = (
+        RightFootExtraFinger3MaxRLimit.RightFootExtraFinger3MaxRLimitz
+    )
 
     RightFootExtraFinger3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -17394,42 +21956,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightFootExtraFinger4 = MessageField()
 
-    RightFootExtraFinger4T = RightFootExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger4T = RightFootExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger4Tx = RightFootExtraFinger4T.RightFootExtraFinger4Tx
     RightFootExtraFinger4Ty = RightFootExtraFinger4T.RightFootExtraFinger4Ty
     RightFootExtraFinger4Tz = RightFootExtraFinger4T.RightFootExtraFinger4Tz
 
-    RightFootExtraFinger4R = RightFootExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger4R = RightFootExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger4Rx = RightFootExtraFinger4R.RightFootExtraFinger4Rx
     RightFootExtraFinger4Ry = RightFootExtraFinger4R.RightFootExtraFinger4Ry
     RightFootExtraFinger4Rz = RightFootExtraFinger4R.RightFootExtraFinger4Rz
 
-    RightFootExtraFinger4S = RightFootExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger4S = RightFootExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger4Sx = RightFootExtraFinger4S.RightFootExtraFinger4Sx
     RightFootExtraFinger4Sy = RightFootExtraFinger4S.RightFootExtraFinger4Sy
     RightFootExtraFinger4Sz = RightFootExtraFinger4S.RightFootExtraFinger4Sz
 
-    RightFootExtraFinger4RotateOrder = RightFootExtraFinger4RotateOrderEnumField(default_value=0)
+    RightFootExtraFinger4RotateOrder = (
+        RightFootExtraFinger4RotateOrderEnumField(default_value=0)
+    )
 
-    RightFootExtraFinger4RotateAxis = RightFootExtraFinger4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger4RotateAxisx = RightFootExtraFinger4RotateAxis.RightFootExtraFinger4RotateAxisx
-    RightFootExtraFinger4RotateAxisy = RightFootExtraFinger4RotateAxis.RightFootExtraFinger4RotateAxisy
-    RightFootExtraFinger4RotateAxisz = RightFootExtraFinger4RotateAxis.RightFootExtraFinger4RotateAxisz
+    RightFootExtraFinger4RotateAxis = RightFootExtraFinger4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger4RotateAxisx = (
+        RightFootExtraFinger4RotateAxis.RightFootExtraFinger4RotateAxisx
+    )
+    RightFootExtraFinger4RotateAxisy = (
+        RightFootExtraFinger4RotateAxis.RightFootExtraFinger4RotateAxisy
+    )
+    RightFootExtraFinger4RotateAxisz = (
+        RightFootExtraFinger4RotateAxis.RightFootExtraFinger4RotateAxisz
+    )
 
-    RightFootExtraFinger4JointOrient = RightFootExtraFinger4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger4JointOrientx = RightFootExtraFinger4JointOrient.RightFootExtraFinger4JointOrientx
-    RightFootExtraFinger4JointOrienty = RightFootExtraFinger4JointOrient.RightFootExtraFinger4JointOrienty
-    RightFootExtraFinger4JointOrientz = RightFootExtraFinger4JointOrient.RightFootExtraFinger4JointOrientz
+    RightFootExtraFinger4JointOrient = RightFootExtraFinger4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger4JointOrientx = (
+        RightFootExtraFinger4JointOrient.RightFootExtraFinger4JointOrientx
+    )
+    RightFootExtraFinger4JointOrienty = (
+        RightFootExtraFinger4JointOrient.RightFootExtraFinger4JointOrienty
+    )
+    RightFootExtraFinger4JointOrientz = (
+        RightFootExtraFinger4JointOrient.RightFootExtraFinger4JointOrientz
+    )
 
-    RightFootExtraFinger4MinRLimit = RightFootExtraFinger4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger4MinRLimitx = RightFootExtraFinger4MinRLimit.RightFootExtraFinger4MinRLimitx
-    RightFootExtraFinger4MinRLimity = RightFootExtraFinger4MinRLimit.RightFootExtraFinger4MinRLimity
-    RightFootExtraFinger4MinRLimitz = RightFootExtraFinger4MinRLimit.RightFootExtraFinger4MinRLimitz
+    RightFootExtraFinger4MinRLimit = RightFootExtraFinger4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger4MinRLimitx = (
+        RightFootExtraFinger4MinRLimit.RightFootExtraFinger4MinRLimitx
+    )
+    RightFootExtraFinger4MinRLimity = (
+        RightFootExtraFinger4MinRLimit.RightFootExtraFinger4MinRLimity
+    )
+    RightFootExtraFinger4MinRLimitz = (
+        RightFootExtraFinger4MinRLimit.RightFootExtraFinger4MinRLimitz
+    )
 
-    RightFootExtraFinger4MaxRLimit = RightFootExtraFinger4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger4MaxRLimitx = RightFootExtraFinger4MaxRLimit.RightFootExtraFinger4MaxRLimitx
-    RightFootExtraFinger4MaxRLimity = RightFootExtraFinger4MaxRLimit.RightFootExtraFinger4MaxRLimity
-    RightFootExtraFinger4MaxRLimitz = RightFootExtraFinger4MaxRLimit.RightFootExtraFinger4MaxRLimitz
+    RightFootExtraFinger4MaxRLimit = RightFootExtraFinger4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger4MaxRLimitx = (
+        RightFootExtraFinger4MaxRLimit.RightFootExtraFinger4MaxRLimitx
+    )
+    RightFootExtraFinger4MaxRLimity = (
+        RightFootExtraFinger4MaxRLimit.RightFootExtraFinger4MaxRLimity
+    )
+    RightFootExtraFinger4MaxRLimitz = (
+        RightFootExtraFinger4MaxRLimit.RightFootExtraFinger4MaxRLimitz
+    )
 
     RightFootExtraFinger4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -17460,27 +22062,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInHandThumbSy = LeftInHandThumbS.LeftInHandThumbSy
     LeftInHandThumbSz = LeftInHandThumbS.LeftInHandThumbSz
 
-    LeftInHandThumbRotateOrder = LeftInHandThumbRotateOrderEnumField(default_value=0)
+    LeftInHandThumbRotateOrder = LeftInHandThumbRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInHandThumbRotateAxis = LeftInHandThumbRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandThumbRotateAxisx = LeftInHandThumbRotateAxis.LeftInHandThumbRotateAxisx
-    LeftInHandThumbRotateAxisy = LeftInHandThumbRotateAxis.LeftInHandThumbRotateAxisy
-    LeftInHandThumbRotateAxisz = LeftInHandThumbRotateAxis.LeftInHandThumbRotateAxisz
+    LeftInHandThumbRotateAxis = LeftInHandThumbRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandThumbRotateAxisx = (
+        LeftInHandThumbRotateAxis.LeftInHandThumbRotateAxisx
+    )
+    LeftInHandThumbRotateAxisy = (
+        LeftInHandThumbRotateAxis.LeftInHandThumbRotateAxisy
+    )
+    LeftInHandThumbRotateAxisz = (
+        LeftInHandThumbRotateAxis.LeftInHandThumbRotateAxisz
+    )
 
-    LeftInHandThumbJointOrient = LeftInHandThumbJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandThumbJointOrientx = LeftInHandThumbJointOrient.LeftInHandThumbJointOrientx
-    LeftInHandThumbJointOrienty = LeftInHandThumbJointOrient.LeftInHandThumbJointOrienty
-    LeftInHandThumbJointOrientz = LeftInHandThumbJointOrient.LeftInHandThumbJointOrientz
+    LeftInHandThumbJointOrient = LeftInHandThumbJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandThumbJointOrientx = (
+        LeftInHandThumbJointOrient.LeftInHandThumbJointOrientx
+    )
+    LeftInHandThumbJointOrienty = (
+        LeftInHandThumbJointOrient.LeftInHandThumbJointOrienty
+    )
+    LeftInHandThumbJointOrientz = (
+        LeftInHandThumbJointOrient.LeftInHandThumbJointOrientz
+    )
 
-    LeftInHandThumbMinRLimit = LeftInHandThumbMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandThumbMinRLimitx = LeftInHandThumbMinRLimit.LeftInHandThumbMinRLimitx
-    LeftInHandThumbMinRLimity = LeftInHandThumbMinRLimit.LeftInHandThumbMinRLimity
-    LeftInHandThumbMinRLimitz = LeftInHandThumbMinRLimit.LeftInHandThumbMinRLimitz
+    LeftInHandThumbMinRLimit = LeftInHandThumbMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandThumbMinRLimitx = (
+        LeftInHandThumbMinRLimit.LeftInHandThumbMinRLimitx
+    )
+    LeftInHandThumbMinRLimity = (
+        LeftInHandThumbMinRLimit.LeftInHandThumbMinRLimity
+    )
+    LeftInHandThumbMinRLimitz = (
+        LeftInHandThumbMinRLimit.LeftInHandThumbMinRLimitz
+    )
 
-    LeftInHandThumbMaxRLimit = LeftInHandThumbMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandThumbMaxRLimitx = LeftInHandThumbMaxRLimit.LeftInHandThumbMaxRLimitx
-    LeftInHandThumbMaxRLimity = LeftInHandThumbMaxRLimit.LeftInHandThumbMaxRLimity
-    LeftInHandThumbMaxRLimitz = LeftInHandThumbMaxRLimit.LeftInHandThumbMaxRLimitz
+    LeftInHandThumbMaxRLimit = LeftInHandThumbMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandThumbMaxRLimitx = (
+        LeftInHandThumbMaxRLimit.LeftInHandThumbMaxRLimitx
+    )
+    LeftInHandThumbMaxRLimity = (
+        LeftInHandThumbMaxRLimit.LeftInHandThumbMaxRLimity
+    )
+    LeftInHandThumbMaxRLimitz = (
+        LeftInHandThumbMaxRLimit.LeftInHandThumbMaxRLimitz
+    )
 
     LeftInHandThumbMinRLimitEnablex = BoolField(default_value=False)
 
@@ -17511,27 +22147,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInHandIndexSy = LeftInHandIndexS.LeftInHandIndexSy
     LeftInHandIndexSz = LeftInHandIndexS.LeftInHandIndexSz
 
-    LeftInHandIndexRotateOrder = LeftInHandIndexRotateOrderEnumField(default_value=0)
+    LeftInHandIndexRotateOrder = LeftInHandIndexRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInHandIndexRotateAxis = LeftInHandIndexRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandIndexRotateAxisx = LeftInHandIndexRotateAxis.LeftInHandIndexRotateAxisx
-    LeftInHandIndexRotateAxisy = LeftInHandIndexRotateAxis.LeftInHandIndexRotateAxisy
-    LeftInHandIndexRotateAxisz = LeftInHandIndexRotateAxis.LeftInHandIndexRotateAxisz
+    LeftInHandIndexRotateAxis = LeftInHandIndexRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandIndexRotateAxisx = (
+        LeftInHandIndexRotateAxis.LeftInHandIndexRotateAxisx
+    )
+    LeftInHandIndexRotateAxisy = (
+        LeftInHandIndexRotateAxis.LeftInHandIndexRotateAxisy
+    )
+    LeftInHandIndexRotateAxisz = (
+        LeftInHandIndexRotateAxis.LeftInHandIndexRotateAxisz
+    )
 
-    LeftInHandIndexJointOrient = LeftInHandIndexJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandIndexJointOrientx = LeftInHandIndexJointOrient.LeftInHandIndexJointOrientx
-    LeftInHandIndexJointOrienty = LeftInHandIndexJointOrient.LeftInHandIndexJointOrienty
-    LeftInHandIndexJointOrientz = LeftInHandIndexJointOrient.LeftInHandIndexJointOrientz
+    LeftInHandIndexJointOrient = LeftInHandIndexJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandIndexJointOrientx = (
+        LeftInHandIndexJointOrient.LeftInHandIndexJointOrientx
+    )
+    LeftInHandIndexJointOrienty = (
+        LeftInHandIndexJointOrient.LeftInHandIndexJointOrienty
+    )
+    LeftInHandIndexJointOrientz = (
+        LeftInHandIndexJointOrient.LeftInHandIndexJointOrientz
+    )
 
-    LeftInHandIndexMinRLimit = LeftInHandIndexMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandIndexMinRLimitx = LeftInHandIndexMinRLimit.LeftInHandIndexMinRLimitx
-    LeftInHandIndexMinRLimity = LeftInHandIndexMinRLimit.LeftInHandIndexMinRLimity
-    LeftInHandIndexMinRLimitz = LeftInHandIndexMinRLimit.LeftInHandIndexMinRLimitz
+    LeftInHandIndexMinRLimit = LeftInHandIndexMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandIndexMinRLimitx = (
+        LeftInHandIndexMinRLimit.LeftInHandIndexMinRLimitx
+    )
+    LeftInHandIndexMinRLimity = (
+        LeftInHandIndexMinRLimit.LeftInHandIndexMinRLimity
+    )
+    LeftInHandIndexMinRLimitz = (
+        LeftInHandIndexMinRLimit.LeftInHandIndexMinRLimitz
+    )
 
-    LeftInHandIndexMaxRLimit = LeftInHandIndexMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandIndexMaxRLimitx = LeftInHandIndexMaxRLimit.LeftInHandIndexMaxRLimitx
-    LeftInHandIndexMaxRLimity = LeftInHandIndexMaxRLimit.LeftInHandIndexMaxRLimity
-    LeftInHandIndexMaxRLimitz = LeftInHandIndexMaxRLimit.LeftInHandIndexMaxRLimitz
+    LeftInHandIndexMaxRLimit = LeftInHandIndexMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandIndexMaxRLimitx = (
+        LeftInHandIndexMaxRLimit.LeftInHandIndexMaxRLimitx
+    )
+    LeftInHandIndexMaxRLimity = (
+        LeftInHandIndexMaxRLimit.LeftInHandIndexMaxRLimity
+    )
+    LeftInHandIndexMaxRLimitz = (
+        LeftInHandIndexMaxRLimit.LeftInHandIndexMaxRLimitz
+    )
 
     LeftInHandIndexMinRLimitEnablex = BoolField(default_value=False)
 
@@ -17562,27 +22232,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInHandMiddleSy = LeftInHandMiddleS.LeftInHandMiddleSy
     LeftInHandMiddleSz = LeftInHandMiddleS.LeftInHandMiddleSz
 
-    LeftInHandMiddleRotateOrder = LeftInHandMiddleRotateOrderEnumField(default_value=0)
+    LeftInHandMiddleRotateOrder = LeftInHandMiddleRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInHandMiddleRotateAxis = LeftInHandMiddleRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandMiddleRotateAxisx = LeftInHandMiddleRotateAxis.LeftInHandMiddleRotateAxisx
-    LeftInHandMiddleRotateAxisy = LeftInHandMiddleRotateAxis.LeftInHandMiddleRotateAxisy
-    LeftInHandMiddleRotateAxisz = LeftInHandMiddleRotateAxis.LeftInHandMiddleRotateAxisz
+    LeftInHandMiddleRotateAxis = LeftInHandMiddleRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandMiddleRotateAxisx = (
+        LeftInHandMiddleRotateAxis.LeftInHandMiddleRotateAxisx
+    )
+    LeftInHandMiddleRotateAxisy = (
+        LeftInHandMiddleRotateAxis.LeftInHandMiddleRotateAxisy
+    )
+    LeftInHandMiddleRotateAxisz = (
+        LeftInHandMiddleRotateAxis.LeftInHandMiddleRotateAxisz
+    )
 
-    LeftInHandMiddleJointOrient = LeftInHandMiddleJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandMiddleJointOrientx = LeftInHandMiddleJointOrient.LeftInHandMiddleJointOrientx
-    LeftInHandMiddleJointOrienty = LeftInHandMiddleJointOrient.LeftInHandMiddleJointOrienty
-    LeftInHandMiddleJointOrientz = LeftInHandMiddleJointOrient.LeftInHandMiddleJointOrientz
+    LeftInHandMiddleJointOrient = LeftInHandMiddleJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandMiddleJointOrientx = (
+        LeftInHandMiddleJointOrient.LeftInHandMiddleJointOrientx
+    )
+    LeftInHandMiddleJointOrienty = (
+        LeftInHandMiddleJointOrient.LeftInHandMiddleJointOrienty
+    )
+    LeftInHandMiddleJointOrientz = (
+        LeftInHandMiddleJointOrient.LeftInHandMiddleJointOrientz
+    )
 
-    LeftInHandMiddleMinRLimit = LeftInHandMiddleMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandMiddleMinRLimitx = LeftInHandMiddleMinRLimit.LeftInHandMiddleMinRLimitx
-    LeftInHandMiddleMinRLimity = LeftInHandMiddleMinRLimit.LeftInHandMiddleMinRLimity
-    LeftInHandMiddleMinRLimitz = LeftInHandMiddleMinRLimit.LeftInHandMiddleMinRLimitz
+    LeftInHandMiddleMinRLimit = LeftInHandMiddleMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandMiddleMinRLimitx = (
+        LeftInHandMiddleMinRLimit.LeftInHandMiddleMinRLimitx
+    )
+    LeftInHandMiddleMinRLimity = (
+        LeftInHandMiddleMinRLimit.LeftInHandMiddleMinRLimity
+    )
+    LeftInHandMiddleMinRLimitz = (
+        LeftInHandMiddleMinRLimit.LeftInHandMiddleMinRLimitz
+    )
 
-    LeftInHandMiddleMaxRLimit = LeftInHandMiddleMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandMiddleMaxRLimitx = LeftInHandMiddleMaxRLimit.LeftInHandMiddleMaxRLimitx
-    LeftInHandMiddleMaxRLimity = LeftInHandMiddleMaxRLimit.LeftInHandMiddleMaxRLimity
-    LeftInHandMiddleMaxRLimitz = LeftInHandMiddleMaxRLimit.LeftInHandMiddleMaxRLimitz
+    LeftInHandMiddleMaxRLimit = LeftInHandMiddleMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandMiddleMaxRLimitx = (
+        LeftInHandMiddleMaxRLimit.LeftInHandMiddleMaxRLimitx
+    )
+    LeftInHandMiddleMaxRLimity = (
+        LeftInHandMiddleMaxRLimit.LeftInHandMiddleMaxRLimity
+    )
+    LeftInHandMiddleMaxRLimitz = (
+        LeftInHandMiddleMaxRLimit.LeftInHandMiddleMaxRLimitz
+    )
 
     LeftInHandMiddleMinRLimitEnablex = BoolField(default_value=False)
 
@@ -17613,24 +22317,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInHandRingSy = LeftInHandRingS.LeftInHandRingSy
     LeftInHandRingSz = LeftInHandRingS.LeftInHandRingSz
 
-    LeftInHandRingRotateOrder = LeftInHandRingRotateOrderEnumField(default_value=0)
+    LeftInHandRingRotateOrder = LeftInHandRingRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInHandRingRotateAxis = LeftInHandRingRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandRingRotateAxisx = LeftInHandRingRotateAxis.LeftInHandRingRotateAxisx
-    LeftInHandRingRotateAxisy = LeftInHandRingRotateAxis.LeftInHandRingRotateAxisy
-    LeftInHandRingRotateAxisz = LeftInHandRingRotateAxis.LeftInHandRingRotateAxisz
+    LeftInHandRingRotateAxis = LeftInHandRingRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandRingRotateAxisx = (
+        LeftInHandRingRotateAxis.LeftInHandRingRotateAxisx
+    )
+    LeftInHandRingRotateAxisy = (
+        LeftInHandRingRotateAxis.LeftInHandRingRotateAxisy
+    )
+    LeftInHandRingRotateAxisz = (
+        LeftInHandRingRotateAxis.LeftInHandRingRotateAxisz
+    )
 
-    LeftInHandRingJointOrient = LeftInHandRingJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandRingJointOrientx = LeftInHandRingJointOrient.LeftInHandRingJointOrientx
-    LeftInHandRingJointOrienty = LeftInHandRingJointOrient.LeftInHandRingJointOrienty
-    LeftInHandRingJointOrientz = LeftInHandRingJointOrient.LeftInHandRingJointOrientz
+    LeftInHandRingJointOrient = LeftInHandRingJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandRingJointOrientx = (
+        LeftInHandRingJointOrient.LeftInHandRingJointOrientx
+    )
+    LeftInHandRingJointOrienty = (
+        LeftInHandRingJointOrient.LeftInHandRingJointOrienty
+    )
+    LeftInHandRingJointOrientz = (
+        LeftInHandRingJointOrient.LeftInHandRingJointOrientz
+    )
 
-    LeftInHandRingMinRLimit = LeftInHandRingMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandRingMinRLimit = LeftInHandRingMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandRingMinRLimitx = LeftInHandRingMinRLimit.LeftInHandRingMinRLimitx
     LeftInHandRingMinRLimity = LeftInHandRingMinRLimit.LeftInHandRingMinRLimity
     LeftInHandRingMinRLimitz = LeftInHandRingMinRLimit.LeftInHandRingMinRLimitz
 
-    LeftInHandRingMaxRLimit = LeftInHandRingMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandRingMaxRLimit = LeftInHandRingMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandRingMaxRLimitx = LeftInHandRingMaxRLimit.LeftInHandRingMaxRLimitx
     LeftInHandRingMaxRLimity = LeftInHandRingMaxRLimit.LeftInHandRingMaxRLimity
     LeftInHandRingMaxRLimitz = LeftInHandRingMaxRLimit.LeftInHandRingMaxRLimitz
@@ -17664,27 +22390,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInHandPinkySy = LeftInHandPinkyS.LeftInHandPinkySy
     LeftInHandPinkySz = LeftInHandPinkyS.LeftInHandPinkySz
 
-    LeftInHandPinkyRotateOrder = LeftInHandPinkyRotateOrderEnumField(default_value=0)
+    LeftInHandPinkyRotateOrder = LeftInHandPinkyRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInHandPinkyRotateAxis = LeftInHandPinkyRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandPinkyRotateAxisx = LeftInHandPinkyRotateAxis.LeftInHandPinkyRotateAxisx
-    LeftInHandPinkyRotateAxisy = LeftInHandPinkyRotateAxis.LeftInHandPinkyRotateAxisy
-    LeftInHandPinkyRotateAxisz = LeftInHandPinkyRotateAxis.LeftInHandPinkyRotateAxisz
+    LeftInHandPinkyRotateAxis = LeftInHandPinkyRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandPinkyRotateAxisx = (
+        LeftInHandPinkyRotateAxis.LeftInHandPinkyRotateAxisx
+    )
+    LeftInHandPinkyRotateAxisy = (
+        LeftInHandPinkyRotateAxis.LeftInHandPinkyRotateAxisy
+    )
+    LeftInHandPinkyRotateAxisz = (
+        LeftInHandPinkyRotateAxis.LeftInHandPinkyRotateAxisz
+    )
 
-    LeftInHandPinkyJointOrient = LeftInHandPinkyJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandPinkyJointOrientx = LeftInHandPinkyJointOrient.LeftInHandPinkyJointOrientx
-    LeftInHandPinkyJointOrienty = LeftInHandPinkyJointOrient.LeftInHandPinkyJointOrienty
-    LeftInHandPinkyJointOrientz = LeftInHandPinkyJointOrient.LeftInHandPinkyJointOrientz
+    LeftInHandPinkyJointOrient = LeftInHandPinkyJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandPinkyJointOrientx = (
+        LeftInHandPinkyJointOrient.LeftInHandPinkyJointOrientx
+    )
+    LeftInHandPinkyJointOrienty = (
+        LeftInHandPinkyJointOrient.LeftInHandPinkyJointOrienty
+    )
+    LeftInHandPinkyJointOrientz = (
+        LeftInHandPinkyJointOrient.LeftInHandPinkyJointOrientz
+    )
 
-    LeftInHandPinkyMinRLimit = LeftInHandPinkyMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandPinkyMinRLimitx = LeftInHandPinkyMinRLimit.LeftInHandPinkyMinRLimitx
-    LeftInHandPinkyMinRLimity = LeftInHandPinkyMinRLimit.LeftInHandPinkyMinRLimity
-    LeftInHandPinkyMinRLimitz = LeftInHandPinkyMinRLimit.LeftInHandPinkyMinRLimitz
+    LeftInHandPinkyMinRLimit = LeftInHandPinkyMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandPinkyMinRLimitx = (
+        LeftInHandPinkyMinRLimit.LeftInHandPinkyMinRLimitx
+    )
+    LeftInHandPinkyMinRLimity = (
+        LeftInHandPinkyMinRLimit.LeftInHandPinkyMinRLimity
+    )
+    LeftInHandPinkyMinRLimitz = (
+        LeftInHandPinkyMinRLimit.LeftInHandPinkyMinRLimitz
+    )
 
-    LeftInHandPinkyMaxRLimit = LeftInHandPinkyMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandPinkyMaxRLimitx = LeftInHandPinkyMaxRLimit.LeftInHandPinkyMaxRLimitx
-    LeftInHandPinkyMaxRLimity = LeftInHandPinkyMaxRLimit.LeftInHandPinkyMaxRLimity
-    LeftInHandPinkyMaxRLimitz = LeftInHandPinkyMaxRLimit.LeftInHandPinkyMaxRLimitz
+    LeftInHandPinkyMaxRLimit = LeftInHandPinkyMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandPinkyMaxRLimitx = (
+        LeftInHandPinkyMaxRLimit.LeftInHandPinkyMaxRLimitx
+    )
+    LeftInHandPinkyMaxRLimity = (
+        LeftInHandPinkyMaxRLimit.LeftInHandPinkyMaxRLimity
+    )
+    LeftInHandPinkyMaxRLimitz = (
+        LeftInHandPinkyMaxRLimit.LeftInHandPinkyMaxRLimitz
+    )
 
     LeftInHandPinkyMinRLimitEnablex = BoolField(default_value=False)
 
@@ -17700,42 +22460,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftInHandExtraFinger = MessageField()
 
-    LeftInHandExtraFingerT = LeftInHandExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandExtraFingerT = LeftInHandExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandExtraFingerTx = LeftInHandExtraFingerT.LeftInHandExtraFingerTx
     LeftInHandExtraFingerTy = LeftInHandExtraFingerT.LeftInHandExtraFingerTy
     LeftInHandExtraFingerTz = LeftInHandExtraFingerT.LeftInHandExtraFingerTz
 
-    LeftInHandExtraFingerR = LeftInHandExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandExtraFingerR = LeftInHandExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandExtraFingerRx = LeftInHandExtraFingerR.LeftInHandExtraFingerRx
     LeftInHandExtraFingerRy = LeftInHandExtraFingerR.LeftInHandExtraFingerRy
     LeftInHandExtraFingerRz = LeftInHandExtraFingerR.LeftInHandExtraFingerRz
 
-    LeftInHandExtraFingerS = LeftInHandExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    LeftInHandExtraFingerS = LeftInHandExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftInHandExtraFingerSx = LeftInHandExtraFingerS.LeftInHandExtraFingerSx
     LeftInHandExtraFingerSy = LeftInHandExtraFingerS.LeftInHandExtraFingerSy
     LeftInHandExtraFingerSz = LeftInHandExtraFingerS.LeftInHandExtraFingerSz
 
-    LeftInHandExtraFingerRotateOrder = LeftInHandExtraFingerRotateOrderEnumField(default_value=0)
+    LeftInHandExtraFingerRotateOrder = (
+        LeftInHandExtraFingerRotateOrderEnumField(default_value=0)
+    )
 
-    LeftInHandExtraFingerRotateAxis = LeftInHandExtraFingerRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandExtraFingerRotateAxisx = LeftInHandExtraFingerRotateAxis.LeftInHandExtraFingerRotateAxisx
-    LeftInHandExtraFingerRotateAxisy = LeftInHandExtraFingerRotateAxis.LeftInHandExtraFingerRotateAxisy
-    LeftInHandExtraFingerRotateAxisz = LeftInHandExtraFingerRotateAxis.LeftInHandExtraFingerRotateAxisz
+    LeftInHandExtraFingerRotateAxis = LeftInHandExtraFingerRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandExtraFingerRotateAxisx = (
+        LeftInHandExtraFingerRotateAxis.LeftInHandExtraFingerRotateAxisx
+    )
+    LeftInHandExtraFingerRotateAxisy = (
+        LeftInHandExtraFingerRotateAxis.LeftInHandExtraFingerRotateAxisy
+    )
+    LeftInHandExtraFingerRotateAxisz = (
+        LeftInHandExtraFingerRotateAxis.LeftInHandExtraFingerRotateAxisz
+    )
 
-    LeftInHandExtraFingerJointOrient = LeftInHandExtraFingerJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandExtraFingerJointOrientx = LeftInHandExtraFingerJointOrient.LeftInHandExtraFingerJointOrientx
-    LeftInHandExtraFingerJointOrienty = LeftInHandExtraFingerJointOrient.LeftInHandExtraFingerJointOrienty
-    LeftInHandExtraFingerJointOrientz = LeftInHandExtraFingerJointOrient.LeftInHandExtraFingerJointOrientz
+    LeftInHandExtraFingerJointOrient = LeftInHandExtraFingerJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandExtraFingerJointOrientx = (
+        LeftInHandExtraFingerJointOrient.LeftInHandExtraFingerJointOrientx
+    )
+    LeftInHandExtraFingerJointOrienty = (
+        LeftInHandExtraFingerJointOrient.LeftInHandExtraFingerJointOrienty
+    )
+    LeftInHandExtraFingerJointOrientz = (
+        LeftInHandExtraFingerJointOrient.LeftInHandExtraFingerJointOrientz
+    )
 
-    LeftInHandExtraFingerMinRLimit = LeftInHandExtraFingerMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandExtraFingerMinRLimitx = LeftInHandExtraFingerMinRLimit.LeftInHandExtraFingerMinRLimitx
-    LeftInHandExtraFingerMinRLimity = LeftInHandExtraFingerMinRLimit.LeftInHandExtraFingerMinRLimity
-    LeftInHandExtraFingerMinRLimitz = LeftInHandExtraFingerMinRLimit.LeftInHandExtraFingerMinRLimitz
+    LeftInHandExtraFingerMinRLimit = LeftInHandExtraFingerMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandExtraFingerMinRLimitx = (
+        LeftInHandExtraFingerMinRLimit.LeftInHandExtraFingerMinRLimitx
+    )
+    LeftInHandExtraFingerMinRLimity = (
+        LeftInHandExtraFingerMinRLimit.LeftInHandExtraFingerMinRLimity
+    )
+    LeftInHandExtraFingerMinRLimitz = (
+        LeftInHandExtraFingerMinRLimit.LeftInHandExtraFingerMinRLimitz
+    )
 
-    LeftInHandExtraFingerMaxRLimit = LeftInHandExtraFingerMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandExtraFingerMaxRLimitx = LeftInHandExtraFingerMaxRLimit.LeftInHandExtraFingerMaxRLimitx
-    LeftInHandExtraFingerMaxRLimity = LeftInHandExtraFingerMaxRLimit.LeftInHandExtraFingerMaxRLimity
-    LeftInHandExtraFingerMaxRLimitz = LeftInHandExtraFingerMaxRLimit.LeftInHandExtraFingerMaxRLimitz
+    LeftInHandExtraFingerMaxRLimit = LeftInHandExtraFingerMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandExtraFingerMaxRLimitx = (
+        LeftInHandExtraFingerMaxRLimit.LeftInHandExtraFingerMaxRLimitx
+    )
+    LeftInHandExtraFingerMaxRLimity = (
+        LeftInHandExtraFingerMaxRLimit.LeftInHandExtraFingerMaxRLimity
+    )
+    LeftInHandExtraFingerMaxRLimitz = (
+        LeftInHandExtraFingerMaxRLimit.LeftInHandExtraFingerMaxRLimitz
+    )
 
     LeftInHandExtraFingerMinRLimitEnablex = BoolField(default_value=False)
 
@@ -17766,27 +22566,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInHandThumbSy = RightInHandThumbS.RightInHandThumbSy
     RightInHandThumbSz = RightInHandThumbS.RightInHandThumbSz
 
-    RightInHandThumbRotateOrder = RightInHandThumbRotateOrderEnumField(default_value=0)
+    RightInHandThumbRotateOrder = RightInHandThumbRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInHandThumbRotateAxis = RightInHandThumbRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInHandThumbRotateAxisx = RightInHandThumbRotateAxis.RightInHandThumbRotateAxisx
-    RightInHandThumbRotateAxisy = RightInHandThumbRotateAxis.RightInHandThumbRotateAxisy
-    RightInHandThumbRotateAxisz = RightInHandThumbRotateAxis.RightInHandThumbRotateAxisz
+    RightInHandThumbRotateAxis = RightInHandThumbRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandThumbRotateAxisx = (
+        RightInHandThumbRotateAxis.RightInHandThumbRotateAxisx
+    )
+    RightInHandThumbRotateAxisy = (
+        RightInHandThumbRotateAxis.RightInHandThumbRotateAxisy
+    )
+    RightInHandThumbRotateAxisz = (
+        RightInHandThumbRotateAxis.RightInHandThumbRotateAxisz
+    )
 
-    RightInHandThumbJointOrient = RightInHandThumbJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInHandThumbJointOrientx = RightInHandThumbJointOrient.RightInHandThumbJointOrientx
-    RightInHandThumbJointOrienty = RightInHandThumbJointOrient.RightInHandThumbJointOrienty
-    RightInHandThumbJointOrientz = RightInHandThumbJointOrient.RightInHandThumbJointOrientz
+    RightInHandThumbJointOrient = RightInHandThumbJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandThumbJointOrientx = (
+        RightInHandThumbJointOrient.RightInHandThumbJointOrientx
+    )
+    RightInHandThumbJointOrienty = (
+        RightInHandThumbJointOrient.RightInHandThumbJointOrienty
+    )
+    RightInHandThumbJointOrientz = (
+        RightInHandThumbJointOrient.RightInHandThumbJointOrientz
+    )
 
-    RightInHandThumbMinRLimit = RightInHandThumbMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandThumbMinRLimitx = RightInHandThumbMinRLimit.RightInHandThumbMinRLimitx
-    RightInHandThumbMinRLimity = RightInHandThumbMinRLimit.RightInHandThumbMinRLimity
-    RightInHandThumbMinRLimitz = RightInHandThumbMinRLimit.RightInHandThumbMinRLimitz
+    RightInHandThumbMinRLimit = RightInHandThumbMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandThumbMinRLimitx = (
+        RightInHandThumbMinRLimit.RightInHandThumbMinRLimitx
+    )
+    RightInHandThumbMinRLimity = (
+        RightInHandThumbMinRLimit.RightInHandThumbMinRLimity
+    )
+    RightInHandThumbMinRLimitz = (
+        RightInHandThumbMinRLimit.RightInHandThumbMinRLimitz
+    )
 
-    RightInHandThumbMaxRLimit = RightInHandThumbMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandThumbMaxRLimitx = RightInHandThumbMaxRLimit.RightInHandThumbMaxRLimitx
-    RightInHandThumbMaxRLimity = RightInHandThumbMaxRLimit.RightInHandThumbMaxRLimity
-    RightInHandThumbMaxRLimitz = RightInHandThumbMaxRLimit.RightInHandThumbMaxRLimitz
+    RightInHandThumbMaxRLimit = RightInHandThumbMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandThumbMaxRLimitx = (
+        RightInHandThumbMaxRLimit.RightInHandThumbMaxRLimitx
+    )
+    RightInHandThumbMaxRLimity = (
+        RightInHandThumbMaxRLimit.RightInHandThumbMaxRLimity
+    )
+    RightInHandThumbMaxRLimitz = (
+        RightInHandThumbMaxRLimit.RightInHandThumbMaxRLimitz
+    )
 
     RightInHandThumbMinRLimitEnablex = BoolField(default_value=False)
 
@@ -17817,27 +22651,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInHandIndexSy = RightInHandIndexS.RightInHandIndexSy
     RightInHandIndexSz = RightInHandIndexS.RightInHandIndexSz
 
-    RightInHandIndexRotateOrder = RightInHandIndexRotateOrderEnumField(default_value=0)
+    RightInHandIndexRotateOrder = RightInHandIndexRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInHandIndexRotateAxis = RightInHandIndexRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInHandIndexRotateAxisx = RightInHandIndexRotateAxis.RightInHandIndexRotateAxisx
-    RightInHandIndexRotateAxisy = RightInHandIndexRotateAxis.RightInHandIndexRotateAxisy
-    RightInHandIndexRotateAxisz = RightInHandIndexRotateAxis.RightInHandIndexRotateAxisz
+    RightInHandIndexRotateAxis = RightInHandIndexRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandIndexRotateAxisx = (
+        RightInHandIndexRotateAxis.RightInHandIndexRotateAxisx
+    )
+    RightInHandIndexRotateAxisy = (
+        RightInHandIndexRotateAxis.RightInHandIndexRotateAxisy
+    )
+    RightInHandIndexRotateAxisz = (
+        RightInHandIndexRotateAxis.RightInHandIndexRotateAxisz
+    )
 
-    RightInHandIndexJointOrient = RightInHandIndexJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInHandIndexJointOrientx = RightInHandIndexJointOrient.RightInHandIndexJointOrientx
-    RightInHandIndexJointOrienty = RightInHandIndexJointOrient.RightInHandIndexJointOrienty
-    RightInHandIndexJointOrientz = RightInHandIndexJointOrient.RightInHandIndexJointOrientz
+    RightInHandIndexJointOrient = RightInHandIndexJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandIndexJointOrientx = (
+        RightInHandIndexJointOrient.RightInHandIndexJointOrientx
+    )
+    RightInHandIndexJointOrienty = (
+        RightInHandIndexJointOrient.RightInHandIndexJointOrienty
+    )
+    RightInHandIndexJointOrientz = (
+        RightInHandIndexJointOrient.RightInHandIndexJointOrientz
+    )
 
-    RightInHandIndexMinRLimit = RightInHandIndexMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandIndexMinRLimitx = RightInHandIndexMinRLimit.RightInHandIndexMinRLimitx
-    RightInHandIndexMinRLimity = RightInHandIndexMinRLimit.RightInHandIndexMinRLimity
-    RightInHandIndexMinRLimitz = RightInHandIndexMinRLimit.RightInHandIndexMinRLimitz
+    RightInHandIndexMinRLimit = RightInHandIndexMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandIndexMinRLimitx = (
+        RightInHandIndexMinRLimit.RightInHandIndexMinRLimitx
+    )
+    RightInHandIndexMinRLimity = (
+        RightInHandIndexMinRLimit.RightInHandIndexMinRLimity
+    )
+    RightInHandIndexMinRLimitz = (
+        RightInHandIndexMinRLimit.RightInHandIndexMinRLimitz
+    )
 
-    RightInHandIndexMaxRLimit = RightInHandIndexMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandIndexMaxRLimitx = RightInHandIndexMaxRLimit.RightInHandIndexMaxRLimitx
-    RightInHandIndexMaxRLimity = RightInHandIndexMaxRLimit.RightInHandIndexMaxRLimity
-    RightInHandIndexMaxRLimitz = RightInHandIndexMaxRLimit.RightInHandIndexMaxRLimitz
+    RightInHandIndexMaxRLimit = RightInHandIndexMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandIndexMaxRLimitx = (
+        RightInHandIndexMaxRLimit.RightInHandIndexMaxRLimitx
+    )
+    RightInHandIndexMaxRLimity = (
+        RightInHandIndexMaxRLimit.RightInHandIndexMaxRLimity
+    )
+    RightInHandIndexMaxRLimitz = (
+        RightInHandIndexMaxRLimit.RightInHandIndexMaxRLimitz
+    )
 
     RightInHandIndexMinRLimitEnablex = BoolField(default_value=False)
 
@@ -17868,27 +22736,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInHandMiddleSy = RightInHandMiddleS.RightInHandMiddleSy
     RightInHandMiddleSz = RightInHandMiddleS.RightInHandMiddleSz
 
-    RightInHandMiddleRotateOrder = RightInHandMiddleRotateOrderEnumField(default_value=0)
+    RightInHandMiddleRotateOrder = RightInHandMiddleRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInHandMiddleRotateAxis = RightInHandMiddleRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInHandMiddleRotateAxisx = RightInHandMiddleRotateAxis.RightInHandMiddleRotateAxisx
-    RightInHandMiddleRotateAxisy = RightInHandMiddleRotateAxis.RightInHandMiddleRotateAxisy
-    RightInHandMiddleRotateAxisz = RightInHandMiddleRotateAxis.RightInHandMiddleRotateAxisz
+    RightInHandMiddleRotateAxis = RightInHandMiddleRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandMiddleRotateAxisx = (
+        RightInHandMiddleRotateAxis.RightInHandMiddleRotateAxisx
+    )
+    RightInHandMiddleRotateAxisy = (
+        RightInHandMiddleRotateAxis.RightInHandMiddleRotateAxisy
+    )
+    RightInHandMiddleRotateAxisz = (
+        RightInHandMiddleRotateAxis.RightInHandMiddleRotateAxisz
+    )
 
-    RightInHandMiddleJointOrient = RightInHandMiddleJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInHandMiddleJointOrientx = RightInHandMiddleJointOrient.RightInHandMiddleJointOrientx
-    RightInHandMiddleJointOrienty = RightInHandMiddleJointOrient.RightInHandMiddleJointOrienty
-    RightInHandMiddleJointOrientz = RightInHandMiddleJointOrient.RightInHandMiddleJointOrientz
+    RightInHandMiddleJointOrient = RightInHandMiddleJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandMiddleJointOrientx = (
+        RightInHandMiddleJointOrient.RightInHandMiddleJointOrientx
+    )
+    RightInHandMiddleJointOrienty = (
+        RightInHandMiddleJointOrient.RightInHandMiddleJointOrienty
+    )
+    RightInHandMiddleJointOrientz = (
+        RightInHandMiddleJointOrient.RightInHandMiddleJointOrientz
+    )
 
-    RightInHandMiddleMinRLimit = RightInHandMiddleMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandMiddleMinRLimitx = RightInHandMiddleMinRLimit.RightInHandMiddleMinRLimitx
-    RightInHandMiddleMinRLimity = RightInHandMiddleMinRLimit.RightInHandMiddleMinRLimity
-    RightInHandMiddleMinRLimitz = RightInHandMiddleMinRLimit.RightInHandMiddleMinRLimitz
+    RightInHandMiddleMinRLimit = RightInHandMiddleMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandMiddleMinRLimitx = (
+        RightInHandMiddleMinRLimit.RightInHandMiddleMinRLimitx
+    )
+    RightInHandMiddleMinRLimity = (
+        RightInHandMiddleMinRLimit.RightInHandMiddleMinRLimity
+    )
+    RightInHandMiddleMinRLimitz = (
+        RightInHandMiddleMinRLimit.RightInHandMiddleMinRLimitz
+    )
 
-    RightInHandMiddleMaxRLimit = RightInHandMiddleMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandMiddleMaxRLimitx = RightInHandMiddleMaxRLimit.RightInHandMiddleMaxRLimitx
-    RightInHandMiddleMaxRLimity = RightInHandMiddleMaxRLimit.RightInHandMiddleMaxRLimity
-    RightInHandMiddleMaxRLimitz = RightInHandMiddleMaxRLimit.RightInHandMiddleMaxRLimitz
+    RightInHandMiddleMaxRLimit = RightInHandMiddleMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandMiddleMaxRLimitx = (
+        RightInHandMiddleMaxRLimit.RightInHandMiddleMaxRLimitx
+    )
+    RightInHandMiddleMaxRLimity = (
+        RightInHandMiddleMaxRLimit.RightInHandMiddleMaxRLimity
+    )
+    RightInHandMiddleMaxRLimitz = (
+        RightInHandMiddleMaxRLimit.RightInHandMiddleMaxRLimitz
+    )
 
     RightInHandMiddleMinRLimitEnablex = BoolField(default_value=False)
 
@@ -17919,27 +22821,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInHandRingSy = RightInHandRingS.RightInHandRingSy
     RightInHandRingSz = RightInHandRingS.RightInHandRingSz
 
-    RightInHandRingRotateOrder = RightInHandRingRotateOrderEnumField(default_value=0)
+    RightInHandRingRotateOrder = RightInHandRingRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInHandRingRotateAxis = RightInHandRingRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInHandRingRotateAxisx = RightInHandRingRotateAxis.RightInHandRingRotateAxisx
-    RightInHandRingRotateAxisy = RightInHandRingRotateAxis.RightInHandRingRotateAxisy
-    RightInHandRingRotateAxisz = RightInHandRingRotateAxis.RightInHandRingRotateAxisz
+    RightInHandRingRotateAxis = RightInHandRingRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandRingRotateAxisx = (
+        RightInHandRingRotateAxis.RightInHandRingRotateAxisx
+    )
+    RightInHandRingRotateAxisy = (
+        RightInHandRingRotateAxis.RightInHandRingRotateAxisy
+    )
+    RightInHandRingRotateAxisz = (
+        RightInHandRingRotateAxis.RightInHandRingRotateAxisz
+    )
 
-    RightInHandRingJointOrient = RightInHandRingJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInHandRingJointOrientx = RightInHandRingJointOrient.RightInHandRingJointOrientx
-    RightInHandRingJointOrienty = RightInHandRingJointOrient.RightInHandRingJointOrienty
-    RightInHandRingJointOrientz = RightInHandRingJointOrient.RightInHandRingJointOrientz
+    RightInHandRingJointOrient = RightInHandRingJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandRingJointOrientx = (
+        RightInHandRingJointOrient.RightInHandRingJointOrientx
+    )
+    RightInHandRingJointOrienty = (
+        RightInHandRingJointOrient.RightInHandRingJointOrienty
+    )
+    RightInHandRingJointOrientz = (
+        RightInHandRingJointOrient.RightInHandRingJointOrientz
+    )
 
-    RightInHandRingMinRLimit = RightInHandRingMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandRingMinRLimitx = RightInHandRingMinRLimit.RightInHandRingMinRLimitx
-    RightInHandRingMinRLimity = RightInHandRingMinRLimit.RightInHandRingMinRLimity
-    RightInHandRingMinRLimitz = RightInHandRingMinRLimit.RightInHandRingMinRLimitz
+    RightInHandRingMinRLimit = RightInHandRingMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandRingMinRLimitx = (
+        RightInHandRingMinRLimit.RightInHandRingMinRLimitx
+    )
+    RightInHandRingMinRLimity = (
+        RightInHandRingMinRLimit.RightInHandRingMinRLimity
+    )
+    RightInHandRingMinRLimitz = (
+        RightInHandRingMinRLimit.RightInHandRingMinRLimitz
+    )
 
-    RightInHandRingMaxRLimit = RightInHandRingMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandRingMaxRLimitx = RightInHandRingMaxRLimit.RightInHandRingMaxRLimitx
-    RightInHandRingMaxRLimity = RightInHandRingMaxRLimit.RightInHandRingMaxRLimity
-    RightInHandRingMaxRLimitz = RightInHandRingMaxRLimit.RightInHandRingMaxRLimitz
+    RightInHandRingMaxRLimit = RightInHandRingMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandRingMaxRLimitx = (
+        RightInHandRingMaxRLimit.RightInHandRingMaxRLimitx
+    )
+    RightInHandRingMaxRLimity = (
+        RightInHandRingMaxRLimit.RightInHandRingMaxRLimity
+    )
+    RightInHandRingMaxRLimitz = (
+        RightInHandRingMaxRLimit.RightInHandRingMaxRLimitz
+    )
 
     RightInHandRingMinRLimitEnablex = BoolField(default_value=False)
 
@@ -17970,27 +22906,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInHandPinkySy = RightInHandPinkyS.RightInHandPinkySy
     RightInHandPinkySz = RightInHandPinkyS.RightInHandPinkySz
 
-    RightInHandPinkyRotateOrder = RightInHandPinkyRotateOrderEnumField(default_value=0)
+    RightInHandPinkyRotateOrder = RightInHandPinkyRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInHandPinkyRotateAxis = RightInHandPinkyRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInHandPinkyRotateAxisx = RightInHandPinkyRotateAxis.RightInHandPinkyRotateAxisx
-    RightInHandPinkyRotateAxisy = RightInHandPinkyRotateAxis.RightInHandPinkyRotateAxisy
-    RightInHandPinkyRotateAxisz = RightInHandPinkyRotateAxis.RightInHandPinkyRotateAxisz
+    RightInHandPinkyRotateAxis = RightInHandPinkyRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandPinkyRotateAxisx = (
+        RightInHandPinkyRotateAxis.RightInHandPinkyRotateAxisx
+    )
+    RightInHandPinkyRotateAxisy = (
+        RightInHandPinkyRotateAxis.RightInHandPinkyRotateAxisy
+    )
+    RightInHandPinkyRotateAxisz = (
+        RightInHandPinkyRotateAxis.RightInHandPinkyRotateAxisz
+    )
 
-    RightInHandPinkyJointOrient = RightInHandPinkyJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInHandPinkyJointOrientx = RightInHandPinkyJointOrient.RightInHandPinkyJointOrientx
-    RightInHandPinkyJointOrienty = RightInHandPinkyJointOrient.RightInHandPinkyJointOrienty
-    RightInHandPinkyJointOrientz = RightInHandPinkyJointOrient.RightInHandPinkyJointOrientz
+    RightInHandPinkyJointOrient = RightInHandPinkyJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandPinkyJointOrientx = (
+        RightInHandPinkyJointOrient.RightInHandPinkyJointOrientx
+    )
+    RightInHandPinkyJointOrienty = (
+        RightInHandPinkyJointOrient.RightInHandPinkyJointOrienty
+    )
+    RightInHandPinkyJointOrientz = (
+        RightInHandPinkyJointOrient.RightInHandPinkyJointOrientz
+    )
 
-    RightInHandPinkyMinRLimit = RightInHandPinkyMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandPinkyMinRLimitx = RightInHandPinkyMinRLimit.RightInHandPinkyMinRLimitx
-    RightInHandPinkyMinRLimity = RightInHandPinkyMinRLimit.RightInHandPinkyMinRLimity
-    RightInHandPinkyMinRLimitz = RightInHandPinkyMinRLimit.RightInHandPinkyMinRLimitz
+    RightInHandPinkyMinRLimit = RightInHandPinkyMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandPinkyMinRLimitx = (
+        RightInHandPinkyMinRLimit.RightInHandPinkyMinRLimitx
+    )
+    RightInHandPinkyMinRLimity = (
+        RightInHandPinkyMinRLimit.RightInHandPinkyMinRLimity
+    )
+    RightInHandPinkyMinRLimitz = (
+        RightInHandPinkyMinRLimit.RightInHandPinkyMinRLimitz
+    )
 
-    RightInHandPinkyMaxRLimit = RightInHandPinkyMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandPinkyMaxRLimitx = RightInHandPinkyMaxRLimit.RightInHandPinkyMaxRLimitx
-    RightInHandPinkyMaxRLimity = RightInHandPinkyMaxRLimit.RightInHandPinkyMaxRLimity
-    RightInHandPinkyMaxRLimitz = RightInHandPinkyMaxRLimit.RightInHandPinkyMaxRLimitz
+    RightInHandPinkyMaxRLimit = RightInHandPinkyMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandPinkyMaxRLimitx = (
+        RightInHandPinkyMaxRLimit.RightInHandPinkyMaxRLimitx
+    )
+    RightInHandPinkyMaxRLimity = (
+        RightInHandPinkyMaxRLimit.RightInHandPinkyMaxRLimity
+    )
+    RightInHandPinkyMaxRLimitz = (
+        RightInHandPinkyMaxRLimit.RightInHandPinkyMaxRLimitz
+    )
 
     RightInHandPinkyMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18006,42 +22976,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightInHandExtraFinger = MessageField()
 
-    RightInHandExtraFingerT = RightInHandExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    RightInHandExtraFingerT = RightInHandExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandExtraFingerTx = RightInHandExtraFingerT.RightInHandExtraFingerTx
     RightInHandExtraFingerTy = RightInHandExtraFingerT.RightInHandExtraFingerTy
     RightInHandExtraFingerTz = RightInHandExtraFingerT.RightInHandExtraFingerTz
 
-    RightInHandExtraFingerR = RightInHandExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandExtraFingerR = RightInHandExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandExtraFingerRx = RightInHandExtraFingerR.RightInHandExtraFingerRx
     RightInHandExtraFingerRy = RightInHandExtraFingerR.RightInHandExtraFingerRy
     RightInHandExtraFingerRz = RightInHandExtraFingerR.RightInHandExtraFingerRz
 
-    RightInHandExtraFingerS = RightInHandExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    RightInHandExtraFingerS = RightInHandExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightInHandExtraFingerSx = RightInHandExtraFingerS.RightInHandExtraFingerSx
     RightInHandExtraFingerSy = RightInHandExtraFingerS.RightInHandExtraFingerSy
     RightInHandExtraFingerSz = RightInHandExtraFingerS.RightInHandExtraFingerSz
 
-    RightInHandExtraFingerRotateOrder = RightInHandExtraFingerRotateOrderEnumField(default_value=0)
+    RightInHandExtraFingerRotateOrder = (
+        RightInHandExtraFingerRotateOrderEnumField(default_value=0)
+    )
 
-    RightInHandExtraFingerRotateAxis = RightInHandExtraFingerRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInHandExtraFingerRotateAxisx = RightInHandExtraFingerRotateAxis.RightInHandExtraFingerRotateAxisx
-    RightInHandExtraFingerRotateAxisy = RightInHandExtraFingerRotateAxis.RightInHandExtraFingerRotateAxisy
-    RightInHandExtraFingerRotateAxisz = RightInHandExtraFingerRotateAxis.RightInHandExtraFingerRotateAxisz
+    RightInHandExtraFingerRotateAxis = RightInHandExtraFingerRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandExtraFingerRotateAxisx = (
+        RightInHandExtraFingerRotateAxis.RightInHandExtraFingerRotateAxisx
+    )
+    RightInHandExtraFingerRotateAxisy = (
+        RightInHandExtraFingerRotateAxis.RightInHandExtraFingerRotateAxisy
+    )
+    RightInHandExtraFingerRotateAxisz = (
+        RightInHandExtraFingerRotateAxis.RightInHandExtraFingerRotateAxisz
+    )
 
-    RightInHandExtraFingerJointOrient = RightInHandExtraFingerJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInHandExtraFingerJointOrientx = RightInHandExtraFingerJointOrient.RightInHandExtraFingerJointOrientx
-    RightInHandExtraFingerJointOrienty = RightInHandExtraFingerJointOrient.RightInHandExtraFingerJointOrienty
-    RightInHandExtraFingerJointOrientz = RightInHandExtraFingerJointOrient.RightInHandExtraFingerJointOrientz
+    RightInHandExtraFingerJointOrient = RightInHandExtraFingerJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandExtraFingerJointOrientx = (
+        RightInHandExtraFingerJointOrient.RightInHandExtraFingerJointOrientx
+    )
+    RightInHandExtraFingerJointOrienty = (
+        RightInHandExtraFingerJointOrient.RightInHandExtraFingerJointOrienty
+    )
+    RightInHandExtraFingerJointOrientz = (
+        RightInHandExtraFingerJointOrient.RightInHandExtraFingerJointOrientz
+    )
 
-    RightInHandExtraFingerMinRLimit = RightInHandExtraFingerMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandExtraFingerMinRLimitx = RightInHandExtraFingerMinRLimit.RightInHandExtraFingerMinRLimitx
-    RightInHandExtraFingerMinRLimity = RightInHandExtraFingerMinRLimit.RightInHandExtraFingerMinRLimity
-    RightInHandExtraFingerMinRLimitz = RightInHandExtraFingerMinRLimit.RightInHandExtraFingerMinRLimitz
+    RightInHandExtraFingerMinRLimit = RightInHandExtraFingerMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandExtraFingerMinRLimitx = (
+        RightInHandExtraFingerMinRLimit.RightInHandExtraFingerMinRLimitx
+    )
+    RightInHandExtraFingerMinRLimity = (
+        RightInHandExtraFingerMinRLimit.RightInHandExtraFingerMinRLimity
+    )
+    RightInHandExtraFingerMinRLimitz = (
+        RightInHandExtraFingerMinRLimit.RightInHandExtraFingerMinRLimitz
+    )
 
-    RightInHandExtraFingerMaxRLimit = RightInHandExtraFingerMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInHandExtraFingerMaxRLimitx = RightInHandExtraFingerMaxRLimit.RightInHandExtraFingerMaxRLimitx
-    RightInHandExtraFingerMaxRLimity = RightInHandExtraFingerMaxRLimit.RightInHandExtraFingerMaxRLimity
-    RightInHandExtraFingerMaxRLimitz = RightInHandExtraFingerMaxRLimit.RightInHandExtraFingerMaxRLimitz
+    RightInHandExtraFingerMaxRLimit = RightInHandExtraFingerMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandExtraFingerMaxRLimitx = (
+        RightInHandExtraFingerMaxRLimit.RightInHandExtraFingerMaxRLimitx
+    )
+    RightInHandExtraFingerMaxRLimity = (
+        RightInHandExtraFingerMaxRLimit.RightInHandExtraFingerMaxRLimity
+    )
+    RightInHandExtraFingerMaxRLimitz = (
+        RightInHandExtraFingerMaxRLimit.RightInHandExtraFingerMaxRLimitz
+    )
 
     RightInHandExtraFingerMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18072,27 +23082,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInFootThumbSy = LeftInFootThumbS.LeftInFootThumbSy
     LeftInFootThumbSz = LeftInFootThumbS.LeftInFootThumbSz
 
-    LeftInFootThumbRotateOrder = LeftInFootThumbRotateOrderEnumField(default_value=0)
+    LeftInFootThumbRotateOrder = LeftInFootThumbRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInFootThumbRotateAxis = LeftInFootThumbRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootThumbRotateAxisx = LeftInFootThumbRotateAxis.LeftInFootThumbRotateAxisx
-    LeftInFootThumbRotateAxisy = LeftInFootThumbRotateAxis.LeftInFootThumbRotateAxisy
-    LeftInFootThumbRotateAxisz = LeftInFootThumbRotateAxis.LeftInFootThumbRotateAxisz
+    LeftInFootThumbRotateAxis = LeftInFootThumbRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootThumbRotateAxisx = (
+        LeftInFootThumbRotateAxis.LeftInFootThumbRotateAxisx
+    )
+    LeftInFootThumbRotateAxisy = (
+        LeftInFootThumbRotateAxis.LeftInFootThumbRotateAxisy
+    )
+    LeftInFootThumbRotateAxisz = (
+        LeftInFootThumbRotateAxis.LeftInFootThumbRotateAxisz
+    )
 
-    LeftInFootThumbJointOrient = LeftInFootThumbJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootThumbJointOrientx = LeftInFootThumbJointOrient.LeftInFootThumbJointOrientx
-    LeftInFootThumbJointOrienty = LeftInFootThumbJointOrient.LeftInFootThumbJointOrienty
-    LeftInFootThumbJointOrientz = LeftInFootThumbJointOrient.LeftInFootThumbJointOrientz
+    LeftInFootThumbJointOrient = LeftInFootThumbJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootThumbJointOrientx = (
+        LeftInFootThumbJointOrient.LeftInFootThumbJointOrientx
+    )
+    LeftInFootThumbJointOrienty = (
+        LeftInFootThumbJointOrient.LeftInFootThumbJointOrienty
+    )
+    LeftInFootThumbJointOrientz = (
+        LeftInFootThumbJointOrient.LeftInFootThumbJointOrientz
+    )
 
-    LeftInFootThumbMinRLimit = LeftInFootThumbMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootThumbMinRLimitx = LeftInFootThumbMinRLimit.LeftInFootThumbMinRLimitx
-    LeftInFootThumbMinRLimity = LeftInFootThumbMinRLimit.LeftInFootThumbMinRLimity
-    LeftInFootThumbMinRLimitz = LeftInFootThumbMinRLimit.LeftInFootThumbMinRLimitz
+    LeftInFootThumbMinRLimit = LeftInFootThumbMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootThumbMinRLimitx = (
+        LeftInFootThumbMinRLimit.LeftInFootThumbMinRLimitx
+    )
+    LeftInFootThumbMinRLimity = (
+        LeftInFootThumbMinRLimit.LeftInFootThumbMinRLimity
+    )
+    LeftInFootThumbMinRLimitz = (
+        LeftInFootThumbMinRLimit.LeftInFootThumbMinRLimitz
+    )
 
-    LeftInFootThumbMaxRLimit = LeftInFootThumbMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootThumbMaxRLimitx = LeftInFootThumbMaxRLimit.LeftInFootThumbMaxRLimitx
-    LeftInFootThumbMaxRLimity = LeftInFootThumbMaxRLimit.LeftInFootThumbMaxRLimity
-    LeftInFootThumbMaxRLimitz = LeftInFootThumbMaxRLimit.LeftInFootThumbMaxRLimitz
+    LeftInFootThumbMaxRLimit = LeftInFootThumbMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootThumbMaxRLimitx = (
+        LeftInFootThumbMaxRLimit.LeftInFootThumbMaxRLimitx
+    )
+    LeftInFootThumbMaxRLimity = (
+        LeftInFootThumbMaxRLimit.LeftInFootThumbMaxRLimity
+    )
+    LeftInFootThumbMaxRLimitz = (
+        LeftInFootThumbMaxRLimit.LeftInFootThumbMaxRLimitz
+    )
 
     LeftInFootThumbMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18123,27 +23167,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInFootIndexSy = LeftInFootIndexS.LeftInFootIndexSy
     LeftInFootIndexSz = LeftInFootIndexS.LeftInFootIndexSz
 
-    LeftInFootIndexRotateOrder = LeftInFootIndexRotateOrderEnumField(default_value=0)
+    LeftInFootIndexRotateOrder = LeftInFootIndexRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInFootIndexRotateAxis = LeftInFootIndexRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootIndexRotateAxisx = LeftInFootIndexRotateAxis.LeftInFootIndexRotateAxisx
-    LeftInFootIndexRotateAxisy = LeftInFootIndexRotateAxis.LeftInFootIndexRotateAxisy
-    LeftInFootIndexRotateAxisz = LeftInFootIndexRotateAxis.LeftInFootIndexRotateAxisz
+    LeftInFootIndexRotateAxis = LeftInFootIndexRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootIndexRotateAxisx = (
+        LeftInFootIndexRotateAxis.LeftInFootIndexRotateAxisx
+    )
+    LeftInFootIndexRotateAxisy = (
+        LeftInFootIndexRotateAxis.LeftInFootIndexRotateAxisy
+    )
+    LeftInFootIndexRotateAxisz = (
+        LeftInFootIndexRotateAxis.LeftInFootIndexRotateAxisz
+    )
 
-    LeftInFootIndexJointOrient = LeftInFootIndexJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootIndexJointOrientx = LeftInFootIndexJointOrient.LeftInFootIndexJointOrientx
-    LeftInFootIndexJointOrienty = LeftInFootIndexJointOrient.LeftInFootIndexJointOrienty
-    LeftInFootIndexJointOrientz = LeftInFootIndexJointOrient.LeftInFootIndexJointOrientz
+    LeftInFootIndexJointOrient = LeftInFootIndexJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootIndexJointOrientx = (
+        LeftInFootIndexJointOrient.LeftInFootIndexJointOrientx
+    )
+    LeftInFootIndexJointOrienty = (
+        LeftInFootIndexJointOrient.LeftInFootIndexJointOrienty
+    )
+    LeftInFootIndexJointOrientz = (
+        LeftInFootIndexJointOrient.LeftInFootIndexJointOrientz
+    )
 
-    LeftInFootIndexMinRLimit = LeftInFootIndexMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootIndexMinRLimitx = LeftInFootIndexMinRLimit.LeftInFootIndexMinRLimitx
-    LeftInFootIndexMinRLimity = LeftInFootIndexMinRLimit.LeftInFootIndexMinRLimity
-    LeftInFootIndexMinRLimitz = LeftInFootIndexMinRLimit.LeftInFootIndexMinRLimitz
+    LeftInFootIndexMinRLimit = LeftInFootIndexMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootIndexMinRLimitx = (
+        LeftInFootIndexMinRLimit.LeftInFootIndexMinRLimitx
+    )
+    LeftInFootIndexMinRLimity = (
+        LeftInFootIndexMinRLimit.LeftInFootIndexMinRLimity
+    )
+    LeftInFootIndexMinRLimitz = (
+        LeftInFootIndexMinRLimit.LeftInFootIndexMinRLimitz
+    )
 
-    LeftInFootIndexMaxRLimit = LeftInFootIndexMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootIndexMaxRLimitx = LeftInFootIndexMaxRLimit.LeftInFootIndexMaxRLimitx
-    LeftInFootIndexMaxRLimity = LeftInFootIndexMaxRLimit.LeftInFootIndexMaxRLimity
-    LeftInFootIndexMaxRLimitz = LeftInFootIndexMaxRLimit.LeftInFootIndexMaxRLimitz
+    LeftInFootIndexMaxRLimit = LeftInFootIndexMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootIndexMaxRLimitx = (
+        LeftInFootIndexMaxRLimit.LeftInFootIndexMaxRLimitx
+    )
+    LeftInFootIndexMaxRLimity = (
+        LeftInFootIndexMaxRLimit.LeftInFootIndexMaxRLimity
+    )
+    LeftInFootIndexMaxRLimitz = (
+        LeftInFootIndexMaxRLimit.LeftInFootIndexMaxRLimitz
+    )
 
     LeftInFootIndexMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18174,27 +23252,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInFootMiddleSy = LeftInFootMiddleS.LeftInFootMiddleSy
     LeftInFootMiddleSz = LeftInFootMiddleS.LeftInFootMiddleSz
 
-    LeftInFootMiddleRotateOrder = LeftInFootMiddleRotateOrderEnumField(default_value=0)
+    LeftInFootMiddleRotateOrder = LeftInFootMiddleRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInFootMiddleRotateAxis = LeftInFootMiddleRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootMiddleRotateAxisx = LeftInFootMiddleRotateAxis.LeftInFootMiddleRotateAxisx
-    LeftInFootMiddleRotateAxisy = LeftInFootMiddleRotateAxis.LeftInFootMiddleRotateAxisy
-    LeftInFootMiddleRotateAxisz = LeftInFootMiddleRotateAxis.LeftInFootMiddleRotateAxisz
+    LeftInFootMiddleRotateAxis = LeftInFootMiddleRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootMiddleRotateAxisx = (
+        LeftInFootMiddleRotateAxis.LeftInFootMiddleRotateAxisx
+    )
+    LeftInFootMiddleRotateAxisy = (
+        LeftInFootMiddleRotateAxis.LeftInFootMiddleRotateAxisy
+    )
+    LeftInFootMiddleRotateAxisz = (
+        LeftInFootMiddleRotateAxis.LeftInFootMiddleRotateAxisz
+    )
 
-    LeftInFootMiddleJointOrient = LeftInFootMiddleJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootMiddleJointOrientx = LeftInFootMiddleJointOrient.LeftInFootMiddleJointOrientx
-    LeftInFootMiddleJointOrienty = LeftInFootMiddleJointOrient.LeftInFootMiddleJointOrienty
-    LeftInFootMiddleJointOrientz = LeftInFootMiddleJointOrient.LeftInFootMiddleJointOrientz
+    LeftInFootMiddleJointOrient = LeftInFootMiddleJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootMiddleJointOrientx = (
+        LeftInFootMiddleJointOrient.LeftInFootMiddleJointOrientx
+    )
+    LeftInFootMiddleJointOrienty = (
+        LeftInFootMiddleJointOrient.LeftInFootMiddleJointOrienty
+    )
+    LeftInFootMiddleJointOrientz = (
+        LeftInFootMiddleJointOrient.LeftInFootMiddleJointOrientz
+    )
 
-    LeftInFootMiddleMinRLimit = LeftInFootMiddleMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootMiddleMinRLimitx = LeftInFootMiddleMinRLimit.LeftInFootMiddleMinRLimitx
-    LeftInFootMiddleMinRLimity = LeftInFootMiddleMinRLimit.LeftInFootMiddleMinRLimity
-    LeftInFootMiddleMinRLimitz = LeftInFootMiddleMinRLimit.LeftInFootMiddleMinRLimitz
+    LeftInFootMiddleMinRLimit = LeftInFootMiddleMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootMiddleMinRLimitx = (
+        LeftInFootMiddleMinRLimit.LeftInFootMiddleMinRLimitx
+    )
+    LeftInFootMiddleMinRLimity = (
+        LeftInFootMiddleMinRLimit.LeftInFootMiddleMinRLimity
+    )
+    LeftInFootMiddleMinRLimitz = (
+        LeftInFootMiddleMinRLimit.LeftInFootMiddleMinRLimitz
+    )
 
-    LeftInFootMiddleMaxRLimit = LeftInFootMiddleMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootMiddleMaxRLimitx = LeftInFootMiddleMaxRLimit.LeftInFootMiddleMaxRLimitx
-    LeftInFootMiddleMaxRLimity = LeftInFootMiddleMaxRLimit.LeftInFootMiddleMaxRLimity
-    LeftInFootMiddleMaxRLimitz = LeftInFootMiddleMaxRLimit.LeftInFootMiddleMaxRLimitz
+    LeftInFootMiddleMaxRLimit = LeftInFootMiddleMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootMiddleMaxRLimitx = (
+        LeftInFootMiddleMaxRLimit.LeftInFootMiddleMaxRLimitx
+    )
+    LeftInFootMiddleMaxRLimity = (
+        LeftInFootMiddleMaxRLimit.LeftInFootMiddleMaxRLimity
+    )
+    LeftInFootMiddleMaxRLimitz = (
+        LeftInFootMiddleMaxRLimit.LeftInFootMiddleMaxRLimitz
+    )
 
     LeftInFootMiddleMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18225,24 +23337,46 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInFootRingSy = LeftInFootRingS.LeftInFootRingSy
     LeftInFootRingSz = LeftInFootRingS.LeftInFootRingSz
 
-    LeftInFootRingRotateOrder = LeftInFootRingRotateOrderEnumField(default_value=0)
+    LeftInFootRingRotateOrder = LeftInFootRingRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInFootRingRotateAxis = LeftInFootRingRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootRingRotateAxisx = LeftInFootRingRotateAxis.LeftInFootRingRotateAxisx
-    LeftInFootRingRotateAxisy = LeftInFootRingRotateAxis.LeftInFootRingRotateAxisy
-    LeftInFootRingRotateAxisz = LeftInFootRingRotateAxis.LeftInFootRingRotateAxisz
+    LeftInFootRingRotateAxis = LeftInFootRingRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootRingRotateAxisx = (
+        LeftInFootRingRotateAxis.LeftInFootRingRotateAxisx
+    )
+    LeftInFootRingRotateAxisy = (
+        LeftInFootRingRotateAxis.LeftInFootRingRotateAxisy
+    )
+    LeftInFootRingRotateAxisz = (
+        LeftInFootRingRotateAxis.LeftInFootRingRotateAxisz
+    )
 
-    LeftInFootRingJointOrient = LeftInFootRingJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootRingJointOrientx = LeftInFootRingJointOrient.LeftInFootRingJointOrientx
-    LeftInFootRingJointOrienty = LeftInFootRingJointOrient.LeftInFootRingJointOrienty
-    LeftInFootRingJointOrientz = LeftInFootRingJointOrient.LeftInFootRingJointOrientz
+    LeftInFootRingJointOrient = LeftInFootRingJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootRingJointOrientx = (
+        LeftInFootRingJointOrient.LeftInFootRingJointOrientx
+    )
+    LeftInFootRingJointOrienty = (
+        LeftInFootRingJointOrient.LeftInFootRingJointOrienty
+    )
+    LeftInFootRingJointOrientz = (
+        LeftInFootRingJointOrient.LeftInFootRingJointOrientz
+    )
 
-    LeftInFootRingMinRLimit = LeftInFootRingMinRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootRingMinRLimit = LeftInFootRingMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootRingMinRLimitx = LeftInFootRingMinRLimit.LeftInFootRingMinRLimitx
     LeftInFootRingMinRLimity = LeftInFootRingMinRLimit.LeftInFootRingMinRLimity
     LeftInFootRingMinRLimitz = LeftInFootRingMinRLimit.LeftInFootRingMinRLimitz
 
-    LeftInFootRingMaxRLimit = LeftInFootRingMaxRLimitField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootRingMaxRLimit = LeftInFootRingMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootRingMaxRLimitx = LeftInFootRingMaxRLimit.LeftInFootRingMaxRLimitx
     LeftInFootRingMaxRLimity = LeftInFootRingMaxRLimit.LeftInFootRingMaxRLimity
     LeftInFootRingMaxRLimitz = LeftInFootRingMaxRLimit.LeftInFootRingMaxRLimitz
@@ -18276,27 +23410,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftInFootPinkySy = LeftInFootPinkyS.LeftInFootPinkySy
     LeftInFootPinkySz = LeftInFootPinkyS.LeftInFootPinkySz
 
-    LeftInFootPinkyRotateOrder = LeftInFootPinkyRotateOrderEnumField(default_value=0)
+    LeftInFootPinkyRotateOrder = LeftInFootPinkyRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftInFootPinkyRotateAxis = LeftInFootPinkyRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootPinkyRotateAxisx = LeftInFootPinkyRotateAxis.LeftInFootPinkyRotateAxisx
-    LeftInFootPinkyRotateAxisy = LeftInFootPinkyRotateAxis.LeftInFootPinkyRotateAxisy
-    LeftInFootPinkyRotateAxisz = LeftInFootPinkyRotateAxis.LeftInFootPinkyRotateAxisz
+    LeftInFootPinkyRotateAxis = LeftInFootPinkyRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootPinkyRotateAxisx = (
+        LeftInFootPinkyRotateAxis.LeftInFootPinkyRotateAxisx
+    )
+    LeftInFootPinkyRotateAxisy = (
+        LeftInFootPinkyRotateAxis.LeftInFootPinkyRotateAxisy
+    )
+    LeftInFootPinkyRotateAxisz = (
+        LeftInFootPinkyRotateAxis.LeftInFootPinkyRotateAxisz
+    )
 
-    LeftInFootPinkyJointOrient = LeftInFootPinkyJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootPinkyJointOrientx = LeftInFootPinkyJointOrient.LeftInFootPinkyJointOrientx
-    LeftInFootPinkyJointOrienty = LeftInFootPinkyJointOrient.LeftInFootPinkyJointOrienty
-    LeftInFootPinkyJointOrientz = LeftInFootPinkyJointOrient.LeftInFootPinkyJointOrientz
+    LeftInFootPinkyJointOrient = LeftInFootPinkyJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootPinkyJointOrientx = (
+        LeftInFootPinkyJointOrient.LeftInFootPinkyJointOrientx
+    )
+    LeftInFootPinkyJointOrienty = (
+        LeftInFootPinkyJointOrient.LeftInFootPinkyJointOrienty
+    )
+    LeftInFootPinkyJointOrientz = (
+        LeftInFootPinkyJointOrient.LeftInFootPinkyJointOrientz
+    )
 
-    LeftInFootPinkyMinRLimit = LeftInFootPinkyMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootPinkyMinRLimitx = LeftInFootPinkyMinRLimit.LeftInFootPinkyMinRLimitx
-    LeftInFootPinkyMinRLimity = LeftInFootPinkyMinRLimit.LeftInFootPinkyMinRLimity
-    LeftInFootPinkyMinRLimitz = LeftInFootPinkyMinRLimit.LeftInFootPinkyMinRLimitz
+    LeftInFootPinkyMinRLimit = LeftInFootPinkyMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootPinkyMinRLimitx = (
+        LeftInFootPinkyMinRLimit.LeftInFootPinkyMinRLimitx
+    )
+    LeftInFootPinkyMinRLimity = (
+        LeftInFootPinkyMinRLimit.LeftInFootPinkyMinRLimity
+    )
+    LeftInFootPinkyMinRLimitz = (
+        LeftInFootPinkyMinRLimit.LeftInFootPinkyMinRLimitz
+    )
 
-    LeftInFootPinkyMaxRLimit = LeftInFootPinkyMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootPinkyMaxRLimitx = LeftInFootPinkyMaxRLimit.LeftInFootPinkyMaxRLimitx
-    LeftInFootPinkyMaxRLimity = LeftInFootPinkyMaxRLimit.LeftInFootPinkyMaxRLimity
-    LeftInFootPinkyMaxRLimitz = LeftInFootPinkyMaxRLimit.LeftInFootPinkyMaxRLimitz
+    LeftInFootPinkyMaxRLimit = LeftInFootPinkyMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootPinkyMaxRLimitx = (
+        LeftInFootPinkyMaxRLimit.LeftInFootPinkyMaxRLimitx
+    )
+    LeftInFootPinkyMaxRLimity = (
+        LeftInFootPinkyMaxRLimit.LeftInFootPinkyMaxRLimity
+    )
+    LeftInFootPinkyMaxRLimitz = (
+        LeftInFootPinkyMaxRLimit.LeftInFootPinkyMaxRLimitz
+    )
 
     LeftInFootPinkyMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18312,42 +23480,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeftInFootExtraFinger = MessageField()
 
-    LeftInFootExtraFingerT = LeftInFootExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootExtraFingerT = LeftInFootExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootExtraFingerTx = LeftInFootExtraFingerT.LeftInFootExtraFingerTx
     LeftInFootExtraFingerTy = LeftInFootExtraFingerT.LeftInFootExtraFingerTy
     LeftInFootExtraFingerTz = LeftInFootExtraFingerT.LeftInFootExtraFingerTz
 
-    LeftInFootExtraFingerR = LeftInFootExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootExtraFingerR = LeftInFootExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootExtraFingerRx = LeftInFootExtraFingerR.LeftInFootExtraFingerRx
     LeftInFootExtraFingerRy = LeftInFootExtraFingerR.LeftInFootExtraFingerRy
     LeftInFootExtraFingerRz = LeftInFootExtraFingerR.LeftInFootExtraFingerRz
 
-    LeftInFootExtraFingerS = LeftInFootExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    LeftInFootExtraFingerS = LeftInFootExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftInFootExtraFingerSx = LeftInFootExtraFingerS.LeftInFootExtraFingerSx
     LeftInFootExtraFingerSy = LeftInFootExtraFingerS.LeftInFootExtraFingerSy
     LeftInFootExtraFingerSz = LeftInFootExtraFingerS.LeftInFootExtraFingerSz
 
-    LeftInFootExtraFingerRotateOrder = LeftInFootExtraFingerRotateOrderEnumField(default_value=0)
+    LeftInFootExtraFingerRotateOrder = (
+        LeftInFootExtraFingerRotateOrderEnumField(default_value=0)
+    )
 
-    LeftInFootExtraFingerRotateAxis = LeftInFootExtraFingerRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootExtraFingerRotateAxisx = LeftInFootExtraFingerRotateAxis.LeftInFootExtraFingerRotateAxisx
-    LeftInFootExtraFingerRotateAxisy = LeftInFootExtraFingerRotateAxis.LeftInFootExtraFingerRotateAxisy
-    LeftInFootExtraFingerRotateAxisz = LeftInFootExtraFingerRotateAxis.LeftInFootExtraFingerRotateAxisz
+    LeftInFootExtraFingerRotateAxis = LeftInFootExtraFingerRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootExtraFingerRotateAxisx = (
+        LeftInFootExtraFingerRotateAxis.LeftInFootExtraFingerRotateAxisx
+    )
+    LeftInFootExtraFingerRotateAxisy = (
+        LeftInFootExtraFingerRotateAxis.LeftInFootExtraFingerRotateAxisy
+    )
+    LeftInFootExtraFingerRotateAxisz = (
+        LeftInFootExtraFingerRotateAxis.LeftInFootExtraFingerRotateAxisz
+    )
 
-    LeftInFootExtraFingerJointOrient = LeftInFootExtraFingerJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootExtraFingerJointOrientx = LeftInFootExtraFingerJointOrient.LeftInFootExtraFingerJointOrientx
-    LeftInFootExtraFingerJointOrienty = LeftInFootExtraFingerJointOrient.LeftInFootExtraFingerJointOrienty
-    LeftInFootExtraFingerJointOrientz = LeftInFootExtraFingerJointOrient.LeftInFootExtraFingerJointOrientz
+    LeftInFootExtraFingerJointOrient = LeftInFootExtraFingerJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootExtraFingerJointOrientx = (
+        LeftInFootExtraFingerJointOrient.LeftInFootExtraFingerJointOrientx
+    )
+    LeftInFootExtraFingerJointOrienty = (
+        LeftInFootExtraFingerJointOrient.LeftInFootExtraFingerJointOrienty
+    )
+    LeftInFootExtraFingerJointOrientz = (
+        LeftInFootExtraFingerJointOrient.LeftInFootExtraFingerJointOrientz
+    )
 
-    LeftInFootExtraFingerMinRLimit = LeftInFootExtraFingerMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootExtraFingerMinRLimitx = LeftInFootExtraFingerMinRLimit.LeftInFootExtraFingerMinRLimitx
-    LeftInFootExtraFingerMinRLimity = LeftInFootExtraFingerMinRLimit.LeftInFootExtraFingerMinRLimity
-    LeftInFootExtraFingerMinRLimitz = LeftInFootExtraFingerMinRLimit.LeftInFootExtraFingerMinRLimitz
+    LeftInFootExtraFingerMinRLimit = LeftInFootExtraFingerMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootExtraFingerMinRLimitx = (
+        LeftInFootExtraFingerMinRLimit.LeftInFootExtraFingerMinRLimitx
+    )
+    LeftInFootExtraFingerMinRLimity = (
+        LeftInFootExtraFingerMinRLimit.LeftInFootExtraFingerMinRLimity
+    )
+    LeftInFootExtraFingerMinRLimitz = (
+        LeftInFootExtraFingerMinRLimit.LeftInFootExtraFingerMinRLimitz
+    )
 
-    LeftInFootExtraFingerMaxRLimit = LeftInFootExtraFingerMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootExtraFingerMaxRLimitx = LeftInFootExtraFingerMaxRLimit.LeftInFootExtraFingerMaxRLimitx
-    LeftInFootExtraFingerMaxRLimity = LeftInFootExtraFingerMaxRLimit.LeftInFootExtraFingerMaxRLimity
-    LeftInFootExtraFingerMaxRLimitz = LeftInFootExtraFingerMaxRLimit.LeftInFootExtraFingerMaxRLimitz
+    LeftInFootExtraFingerMaxRLimit = LeftInFootExtraFingerMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootExtraFingerMaxRLimitx = (
+        LeftInFootExtraFingerMaxRLimit.LeftInFootExtraFingerMaxRLimitx
+    )
+    LeftInFootExtraFingerMaxRLimity = (
+        LeftInFootExtraFingerMaxRLimit.LeftInFootExtraFingerMaxRLimity
+    )
+    LeftInFootExtraFingerMaxRLimitz = (
+        LeftInFootExtraFingerMaxRLimit.LeftInFootExtraFingerMaxRLimitz
+    )
 
     LeftInFootExtraFingerMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18378,27 +23586,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInFootThumbSy = RightInFootThumbS.RightInFootThumbSy
     RightInFootThumbSz = RightInFootThumbS.RightInFootThumbSz
 
-    RightInFootThumbRotateOrder = RightInFootThumbRotateOrderEnumField(default_value=0)
+    RightInFootThumbRotateOrder = RightInFootThumbRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInFootThumbRotateAxis = RightInFootThumbRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInFootThumbRotateAxisx = RightInFootThumbRotateAxis.RightInFootThumbRotateAxisx
-    RightInFootThumbRotateAxisy = RightInFootThumbRotateAxis.RightInFootThumbRotateAxisy
-    RightInFootThumbRotateAxisz = RightInFootThumbRotateAxis.RightInFootThumbRotateAxisz
+    RightInFootThumbRotateAxis = RightInFootThumbRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootThumbRotateAxisx = (
+        RightInFootThumbRotateAxis.RightInFootThumbRotateAxisx
+    )
+    RightInFootThumbRotateAxisy = (
+        RightInFootThumbRotateAxis.RightInFootThumbRotateAxisy
+    )
+    RightInFootThumbRotateAxisz = (
+        RightInFootThumbRotateAxis.RightInFootThumbRotateAxisz
+    )
 
-    RightInFootThumbJointOrient = RightInFootThumbJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInFootThumbJointOrientx = RightInFootThumbJointOrient.RightInFootThumbJointOrientx
-    RightInFootThumbJointOrienty = RightInFootThumbJointOrient.RightInFootThumbJointOrienty
-    RightInFootThumbJointOrientz = RightInFootThumbJointOrient.RightInFootThumbJointOrientz
+    RightInFootThumbJointOrient = RightInFootThumbJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootThumbJointOrientx = (
+        RightInFootThumbJointOrient.RightInFootThumbJointOrientx
+    )
+    RightInFootThumbJointOrienty = (
+        RightInFootThumbJointOrient.RightInFootThumbJointOrienty
+    )
+    RightInFootThumbJointOrientz = (
+        RightInFootThumbJointOrient.RightInFootThumbJointOrientz
+    )
 
-    RightInFootThumbMinRLimit = RightInFootThumbMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootThumbMinRLimitx = RightInFootThumbMinRLimit.RightInFootThumbMinRLimitx
-    RightInFootThumbMinRLimity = RightInFootThumbMinRLimit.RightInFootThumbMinRLimity
-    RightInFootThumbMinRLimitz = RightInFootThumbMinRLimit.RightInFootThumbMinRLimitz
+    RightInFootThumbMinRLimit = RightInFootThumbMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootThumbMinRLimitx = (
+        RightInFootThumbMinRLimit.RightInFootThumbMinRLimitx
+    )
+    RightInFootThumbMinRLimity = (
+        RightInFootThumbMinRLimit.RightInFootThumbMinRLimity
+    )
+    RightInFootThumbMinRLimitz = (
+        RightInFootThumbMinRLimit.RightInFootThumbMinRLimitz
+    )
 
-    RightInFootThumbMaxRLimit = RightInFootThumbMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootThumbMaxRLimitx = RightInFootThumbMaxRLimit.RightInFootThumbMaxRLimitx
-    RightInFootThumbMaxRLimity = RightInFootThumbMaxRLimit.RightInFootThumbMaxRLimity
-    RightInFootThumbMaxRLimitz = RightInFootThumbMaxRLimit.RightInFootThumbMaxRLimitz
+    RightInFootThumbMaxRLimit = RightInFootThumbMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootThumbMaxRLimitx = (
+        RightInFootThumbMaxRLimit.RightInFootThumbMaxRLimitx
+    )
+    RightInFootThumbMaxRLimity = (
+        RightInFootThumbMaxRLimit.RightInFootThumbMaxRLimity
+    )
+    RightInFootThumbMaxRLimitz = (
+        RightInFootThumbMaxRLimit.RightInFootThumbMaxRLimitz
+    )
 
     RightInFootThumbMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18429,27 +23671,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInFootIndexSy = RightInFootIndexS.RightInFootIndexSy
     RightInFootIndexSz = RightInFootIndexS.RightInFootIndexSz
 
-    RightInFootIndexRotateOrder = RightInFootIndexRotateOrderEnumField(default_value=0)
+    RightInFootIndexRotateOrder = RightInFootIndexRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInFootIndexRotateAxis = RightInFootIndexRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInFootIndexRotateAxisx = RightInFootIndexRotateAxis.RightInFootIndexRotateAxisx
-    RightInFootIndexRotateAxisy = RightInFootIndexRotateAxis.RightInFootIndexRotateAxisy
-    RightInFootIndexRotateAxisz = RightInFootIndexRotateAxis.RightInFootIndexRotateAxisz
+    RightInFootIndexRotateAxis = RightInFootIndexRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootIndexRotateAxisx = (
+        RightInFootIndexRotateAxis.RightInFootIndexRotateAxisx
+    )
+    RightInFootIndexRotateAxisy = (
+        RightInFootIndexRotateAxis.RightInFootIndexRotateAxisy
+    )
+    RightInFootIndexRotateAxisz = (
+        RightInFootIndexRotateAxis.RightInFootIndexRotateAxisz
+    )
 
-    RightInFootIndexJointOrient = RightInFootIndexJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInFootIndexJointOrientx = RightInFootIndexJointOrient.RightInFootIndexJointOrientx
-    RightInFootIndexJointOrienty = RightInFootIndexJointOrient.RightInFootIndexJointOrienty
-    RightInFootIndexJointOrientz = RightInFootIndexJointOrient.RightInFootIndexJointOrientz
+    RightInFootIndexJointOrient = RightInFootIndexJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootIndexJointOrientx = (
+        RightInFootIndexJointOrient.RightInFootIndexJointOrientx
+    )
+    RightInFootIndexJointOrienty = (
+        RightInFootIndexJointOrient.RightInFootIndexJointOrienty
+    )
+    RightInFootIndexJointOrientz = (
+        RightInFootIndexJointOrient.RightInFootIndexJointOrientz
+    )
 
-    RightInFootIndexMinRLimit = RightInFootIndexMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootIndexMinRLimitx = RightInFootIndexMinRLimit.RightInFootIndexMinRLimitx
-    RightInFootIndexMinRLimity = RightInFootIndexMinRLimit.RightInFootIndexMinRLimity
-    RightInFootIndexMinRLimitz = RightInFootIndexMinRLimit.RightInFootIndexMinRLimitz
+    RightInFootIndexMinRLimit = RightInFootIndexMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootIndexMinRLimitx = (
+        RightInFootIndexMinRLimit.RightInFootIndexMinRLimitx
+    )
+    RightInFootIndexMinRLimity = (
+        RightInFootIndexMinRLimit.RightInFootIndexMinRLimity
+    )
+    RightInFootIndexMinRLimitz = (
+        RightInFootIndexMinRLimit.RightInFootIndexMinRLimitz
+    )
 
-    RightInFootIndexMaxRLimit = RightInFootIndexMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootIndexMaxRLimitx = RightInFootIndexMaxRLimit.RightInFootIndexMaxRLimitx
-    RightInFootIndexMaxRLimity = RightInFootIndexMaxRLimit.RightInFootIndexMaxRLimity
-    RightInFootIndexMaxRLimitz = RightInFootIndexMaxRLimit.RightInFootIndexMaxRLimitz
+    RightInFootIndexMaxRLimit = RightInFootIndexMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootIndexMaxRLimitx = (
+        RightInFootIndexMaxRLimit.RightInFootIndexMaxRLimitx
+    )
+    RightInFootIndexMaxRLimity = (
+        RightInFootIndexMaxRLimit.RightInFootIndexMaxRLimity
+    )
+    RightInFootIndexMaxRLimitz = (
+        RightInFootIndexMaxRLimit.RightInFootIndexMaxRLimitz
+    )
 
     RightInFootIndexMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18480,27 +23756,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInFootMiddleSy = RightInFootMiddleS.RightInFootMiddleSy
     RightInFootMiddleSz = RightInFootMiddleS.RightInFootMiddleSz
 
-    RightInFootMiddleRotateOrder = RightInFootMiddleRotateOrderEnumField(default_value=0)
+    RightInFootMiddleRotateOrder = RightInFootMiddleRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInFootMiddleRotateAxis = RightInFootMiddleRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInFootMiddleRotateAxisx = RightInFootMiddleRotateAxis.RightInFootMiddleRotateAxisx
-    RightInFootMiddleRotateAxisy = RightInFootMiddleRotateAxis.RightInFootMiddleRotateAxisy
-    RightInFootMiddleRotateAxisz = RightInFootMiddleRotateAxis.RightInFootMiddleRotateAxisz
+    RightInFootMiddleRotateAxis = RightInFootMiddleRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootMiddleRotateAxisx = (
+        RightInFootMiddleRotateAxis.RightInFootMiddleRotateAxisx
+    )
+    RightInFootMiddleRotateAxisy = (
+        RightInFootMiddleRotateAxis.RightInFootMiddleRotateAxisy
+    )
+    RightInFootMiddleRotateAxisz = (
+        RightInFootMiddleRotateAxis.RightInFootMiddleRotateAxisz
+    )
 
-    RightInFootMiddleJointOrient = RightInFootMiddleJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInFootMiddleJointOrientx = RightInFootMiddleJointOrient.RightInFootMiddleJointOrientx
-    RightInFootMiddleJointOrienty = RightInFootMiddleJointOrient.RightInFootMiddleJointOrienty
-    RightInFootMiddleJointOrientz = RightInFootMiddleJointOrient.RightInFootMiddleJointOrientz
+    RightInFootMiddleJointOrient = RightInFootMiddleJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootMiddleJointOrientx = (
+        RightInFootMiddleJointOrient.RightInFootMiddleJointOrientx
+    )
+    RightInFootMiddleJointOrienty = (
+        RightInFootMiddleJointOrient.RightInFootMiddleJointOrienty
+    )
+    RightInFootMiddleJointOrientz = (
+        RightInFootMiddleJointOrient.RightInFootMiddleJointOrientz
+    )
 
-    RightInFootMiddleMinRLimit = RightInFootMiddleMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootMiddleMinRLimitx = RightInFootMiddleMinRLimit.RightInFootMiddleMinRLimitx
-    RightInFootMiddleMinRLimity = RightInFootMiddleMinRLimit.RightInFootMiddleMinRLimity
-    RightInFootMiddleMinRLimitz = RightInFootMiddleMinRLimit.RightInFootMiddleMinRLimitz
+    RightInFootMiddleMinRLimit = RightInFootMiddleMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootMiddleMinRLimitx = (
+        RightInFootMiddleMinRLimit.RightInFootMiddleMinRLimitx
+    )
+    RightInFootMiddleMinRLimity = (
+        RightInFootMiddleMinRLimit.RightInFootMiddleMinRLimity
+    )
+    RightInFootMiddleMinRLimitz = (
+        RightInFootMiddleMinRLimit.RightInFootMiddleMinRLimitz
+    )
 
-    RightInFootMiddleMaxRLimit = RightInFootMiddleMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootMiddleMaxRLimitx = RightInFootMiddleMaxRLimit.RightInFootMiddleMaxRLimitx
-    RightInFootMiddleMaxRLimity = RightInFootMiddleMaxRLimit.RightInFootMiddleMaxRLimity
-    RightInFootMiddleMaxRLimitz = RightInFootMiddleMaxRLimit.RightInFootMiddleMaxRLimitz
+    RightInFootMiddleMaxRLimit = RightInFootMiddleMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootMiddleMaxRLimitx = (
+        RightInFootMiddleMaxRLimit.RightInFootMiddleMaxRLimitx
+    )
+    RightInFootMiddleMaxRLimity = (
+        RightInFootMiddleMaxRLimit.RightInFootMiddleMaxRLimity
+    )
+    RightInFootMiddleMaxRLimitz = (
+        RightInFootMiddleMaxRLimit.RightInFootMiddleMaxRLimitz
+    )
 
     RightInFootMiddleMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18531,27 +23841,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInFootRingSy = RightInFootRingS.RightInFootRingSy
     RightInFootRingSz = RightInFootRingS.RightInFootRingSz
 
-    RightInFootRingRotateOrder = RightInFootRingRotateOrderEnumField(default_value=0)
+    RightInFootRingRotateOrder = RightInFootRingRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInFootRingRotateAxis = RightInFootRingRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInFootRingRotateAxisx = RightInFootRingRotateAxis.RightInFootRingRotateAxisx
-    RightInFootRingRotateAxisy = RightInFootRingRotateAxis.RightInFootRingRotateAxisy
-    RightInFootRingRotateAxisz = RightInFootRingRotateAxis.RightInFootRingRotateAxisz
+    RightInFootRingRotateAxis = RightInFootRingRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootRingRotateAxisx = (
+        RightInFootRingRotateAxis.RightInFootRingRotateAxisx
+    )
+    RightInFootRingRotateAxisy = (
+        RightInFootRingRotateAxis.RightInFootRingRotateAxisy
+    )
+    RightInFootRingRotateAxisz = (
+        RightInFootRingRotateAxis.RightInFootRingRotateAxisz
+    )
 
-    RightInFootRingJointOrient = RightInFootRingJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInFootRingJointOrientx = RightInFootRingJointOrient.RightInFootRingJointOrientx
-    RightInFootRingJointOrienty = RightInFootRingJointOrient.RightInFootRingJointOrienty
-    RightInFootRingJointOrientz = RightInFootRingJointOrient.RightInFootRingJointOrientz
+    RightInFootRingJointOrient = RightInFootRingJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootRingJointOrientx = (
+        RightInFootRingJointOrient.RightInFootRingJointOrientx
+    )
+    RightInFootRingJointOrienty = (
+        RightInFootRingJointOrient.RightInFootRingJointOrienty
+    )
+    RightInFootRingJointOrientz = (
+        RightInFootRingJointOrient.RightInFootRingJointOrientz
+    )
 
-    RightInFootRingMinRLimit = RightInFootRingMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootRingMinRLimitx = RightInFootRingMinRLimit.RightInFootRingMinRLimitx
-    RightInFootRingMinRLimity = RightInFootRingMinRLimit.RightInFootRingMinRLimity
-    RightInFootRingMinRLimitz = RightInFootRingMinRLimit.RightInFootRingMinRLimitz
+    RightInFootRingMinRLimit = RightInFootRingMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootRingMinRLimitx = (
+        RightInFootRingMinRLimit.RightInFootRingMinRLimitx
+    )
+    RightInFootRingMinRLimity = (
+        RightInFootRingMinRLimit.RightInFootRingMinRLimity
+    )
+    RightInFootRingMinRLimitz = (
+        RightInFootRingMinRLimit.RightInFootRingMinRLimitz
+    )
 
-    RightInFootRingMaxRLimit = RightInFootRingMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootRingMaxRLimitx = RightInFootRingMaxRLimit.RightInFootRingMaxRLimitx
-    RightInFootRingMaxRLimity = RightInFootRingMaxRLimit.RightInFootRingMaxRLimity
-    RightInFootRingMaxRLimitz = RightInFootRingMaxRLimit.RightInFootRingMaxRLimitz
+    RightInFootRingMaxRLimit = RightInFootRingMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootRingMaxRLimitx = (
+        RightInFootRingMaxRLimit.RightInFootRingMaxRLimitx
+    )
+    RightInFootRingMaxRLimity = (
+        RightInFootRingMaxRLimit.RightInFootRingMaxRLimity
+    )
+    RightInFootRingMaxRLimitz = (
+        RightInFootRingMaxRLimit.RightInFootRingMaxRLimitz
+    )
 
     RightInFootRingMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18582,27 +23926,61 @@ class _GeneratedHIKCharacterNode(DG):
     RightInFootPinkySy = RightInFootPinkyS.RightInFootPinkySy
     RightInFootPinkySz = RightInFootPinkyS.RightInFootPinkySz
 
-    RightInFootPinkyRotateOrder = RightInFootPinkyRotateOrderEnumField(default_value=0)
+    RightInFootPinkyRotateOrder = RightInFootPinkyRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightInFootPinkyRotateAxis = RightInFootPinkyRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInFootPinkyRotateAxisx = RightInFootPinkyRotateAxis.RightInFootPinkyRotateAxisx
-    RightInFootPinkyRotateAxisy = RightInFootPinkyRotateAxis.RightInFootPinkyRotateAxisy
-    RightInFootPinkyRotateAxisz = RightInFootPinkyRotateAxis.RightInFootPinkyRotateAxisz
+    RightInFootPinkyRotateAxis = RightInFootPinkyRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootPinkyRotateAxisx = (
+        RightInFootPinkyRotateAxis.RightInFootPinkyRotateAxisx
+    )
+    RightInFootPinkyRotateAxisy = (
+        RightInFootPinkyRotateAxis.RightInFootPinkyRotateAxisy
+    )
+    RightInFootPinkyRotateAxisz = (
+        RightInFootPinkyRotateAxis.RightInFootPinkyRotateAxisz
+    )
 
-    RightInFootPinkyJointOrient = RightInFootPinkyJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInFootPinkyJointOrientx = RightInFootPinkyJointOrient.RightInFootPinkyJointOrientx
-    RightInFootPinkyJointOrienty = RightInFootPinkyJointOrient.RightInFootPinkyJointOrienty
-    RightInFootPinkyJointOrientz = RightInFootPinkyJointOrient.RightInFootPinkyJointOrientz
+    RightInFootPinkyJointOrient = RightInFootPinkyJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootPinkyJointOrientx = (
+        RightInFootPinkyJointOrient.RightInFootPinkyJointOrientx
+    )
+    RightInFootPinkyJointOrienty = (
+        RightInFootPinkyJointOrient.RightInFootPinkyJointOrienty
+    )
+    RightInFootPinkyJointOrientz = (
+        RightInFootPinkyJointOrient.RightInFootPinkyJointOrientz
+    )
 
-    RightInFootPinkyMinRLimit = RightInFootPinkyMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootPinkyMinRLimitx = RightInFootPinkyMinRLimit.RightInFootPinkyMinRLimitx
-    RightInFootPinkyMinRLimity = RightInFootPinkyMinRLimit.RightInFootPinkyMinRLimity
-    RightInFootPinkyMinRLimitz = RightInFootPinkyMinRLimit.RightInFootPinkyMinRLimitz
+    RightInFootPinkyMinRLimit = RightInFootPinkyMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootPinkyMinRLimitx = (
+        RightInFootPinkyMinRLimit.RightInFootPinkyMinRLimitx
+    )
+    RightInFootPinkyMinRLimity = (
+        RightInFootPinkyMinRLimit.RightInFootPinkyMinRLimity
+    )
+    RightInFootPinkyMinRLimitz = (
+        RightInFootPinkyMinRLimit.RightInFootPinkyMinRLimitz
+    )
 
-    RightInFootPinkyMaxRLimit = RightInFootPinkyMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootPinkyMaxRLimitx = RightInFootPinkyMaxRLimit.RightInFootPinkyMaxRLimitx
-    RightInFootPinkyMaxRLimity = RightInFootPinkyMaxRLimit.RightInFootPinkyMaxRLimity
-    RightInFootPinkyMaxRLimitz = RightInFootPinkyMaxRLimit.RightInFootPinkyMaxRLimitz
+    RightInFootPinkyMaxRLimit = RightInFootPinkyMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootPinkyMaxRLimitx = (
+        RightInFootPinkyMaxRLimit.RightInFootPinkyMaxRLimitx
+    )
+    RightInFootPinkyMaxRLimity = (
+        RightInFootPinkyMaxRLimit.RightInFootPinkyMaxRLimity
+    )
+    RightInFootPinkyMaxRLimitz = (
+        RightInFootPinkyMaxRLimit.RightInFootPinkyMaxRLimitz
+    )
 
     RightInFootPinkyMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18618,42 +23996,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightInFootExtraFinger = MessageField()
 
-    RightInFootExtraFingerT = RightInFootExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    RightInFootExtraFingerT = RightInFootExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootExtraFingerTx = RightInFootExtraFingerT.RightInFootExtraFingerTx
     RightInFootExtraFingerTy = RightInFootExtraFingerT.RightInFootExtraFingerTy
     RightInFootExtraFingerTz = RightInFootExtraFingerT.RightInFootExtraFingerTz
 
-    RightInFootExtraFingerR = RightInFootExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootExtraFingerR = RightInFootExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootExtraFingerRx = RightInFootExtraFingerR.RightInFootExtraFingerRx
     RightInFootExtraFingerRy = RightInFootExtraFingerR.RightInFootExtraFingerRy
     RightInFootExtraFingerRz = RightInFootExtraFingerR.RightInFootExtraFingerRz
 
-    RightInFootExtraFingerS = RightInFootExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    RightInFootExtraFingerS = RightInFootExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightInFootExtraFingerSx = RightInFootExtraFingerS.RightInFootExtraFingerSx
     RightInFootExtraFingerSy = RightInFootExtraFingerS.RightInFootExtraFingerSy
     RightInFootExtraFingerSz = RightInFootExtraFingerS.RightInFootExtraFingerSz
 
-    RightInFootExtraFingerRotateOrder = RightInFootExtraFingerRotateOrderEnumField(default_value=0)
+    RightInFootExtraFingerRotateOrder = (
+        RightInFootExtraFingerRotateOrderEnumField(default_value=0)
+    )
 
-    RightInFootExtraFingerRotateAxis = RightInFootExtraFingerRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightInFootExtraFingerRotateAxisx = RightInFootExtraFingerRotateAxis.RightInFootExtraFingerRotateAxisx
-    RightInFootExtraFingerRotateAxisy = RightInFootExtraFingerRotateAxis.RightInFootExtraFingerRotateAxisy
-    RightInFootExtraFingerRotateAxisz = RightInFootExtraFingerRotateAxis.RightInFootExtraFingerRotateAxisz
+    RightInFootExtraFingerRotateAxis = RightInFootExtraFingerRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootExtraFingerRotateAxisx = (
+        RightInFootExtraFingerRotateAxis.RightInFootExtraFingerRotateAxisx
+    )
+    RightInFootExtraFingerRotateAxisy = (
+        RightInFootExtraFingerRotateAxis.RightInFootExtraFingerRotateAxisy
+    )
+    RightInFootExtraFingerRotateAxisz = (
+        RightInFootExtraFingerRotateAxis.RightInFootExtraFingerRotateAxisz
+    )
 
-    RightInFootExtraFingerJointOrient = RightInFootExtraFingerJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightInFootExtraFingerJointOrientx = RightInFootExtraFingerJointOrient.RightInFootExtraFingerJointOrientx
-    RightInFootExtraFingerJointOrienty = RightInFootExtraFingerJointOrient.RightInFootExtraFingerJointOrienty
-    RightInFootExtraFingerJointOrientz = RightInFootExtraFingerJointOrient.RightInFootExtraFingerJointOrientz
+    RightInFootExtraFingerJointOrient = RightInFootExtraFingerJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootExtraFingerJointOrientx = (
+        RightInFootExtraFingerJointOrient.RightInFootExtraFingerJointOrientx
+    )
+    RightInFootExtraFingerJointOrienty = (
+        RightInFootExtraFingerJointOrient.RightInFootExtraFingerJointOrienty
+    )
+    RightInFootExtraFingerJointOrientz = (
+        RightInFootExtraFingerJointOrient.RightInFootExtraFingerJointOrientz
+    )
 
-    RightInFootExtraFingerMinRLimit = RightInFootExtraFingerMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootExtraFingerMinRLimitx = RightInFootExtraFingerMinRLimit.RightInFootExtraFingerMinRLimitx
-    RightInFootExtraFingerMinRLimity = RightInFootExtraFingerMinRLimit.RightInFootExtraFingerMinRLimity
-    RightInFootExtraFingerMinRLimitz = RightInFootExtraFingerMinRLimit.RightInFootExtraFingerMinRLimitz
+    RightInFootExtraFingerMinRLimit = RightInFootExtraFingerMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootExtraFingerMinRLimitx = (
+        RightInFootExtraFingerMinRLimit.RightInFootExtraFingerMinRLimitx
+    )
+    RightInFootExtraFingerMinRLimity = (
+        RightInFootExtraFingerMinRLimit.RightInFootExtraFingerMinRLimity
+    )
+    RightInFootExtraFingerMinRLimitz = (
+        RightInFootExtraFingerMinRLimit.RightInFootExtraFingerMinRLimitz
+    )
 
-    RightInFootExtraFingerMaxRLimit = RightInFootExtraFingerMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightInFootExtraFingerMaxRLimitx = RightInFootExtraFingerMaxRLimit.RightInFootExtraFingerMaxRLimitx
-    RightInFootExtraFingerMaxRLimity = RightInFootExtraFingerMaxRLimit.RightInFootExtraFingerMaxRLimity
-    RightInFootExtraFingerMaxRLimitz = RightInFootExtraFingerMaxRLimit.RightInFootExtraFingerMaxRLimitz
+    RightInFootExtraFingerMaxRLimit = RightInFootExtraFingerMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootExtraFingerMaxRLimitx = (
+        RightInFootExtraFingerMaxRLimit.RightInFootExtraFingerMaxRLimitx
+    )
+    RightInFootExtraFingerMaxRLimity = (
+        RightInFootExtraFingerMaxRLimit.RightInFootExtraFingerMaxRLimity
+    )
+    RightInFootExtraFingerMaxRLimitz = (
+        RightInFootExtraFingerMaxRLimit.RightInFootExtraFingerMaxRLimitz
+    )
 
     RightInFootExtraFingerMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18684,27 +24102,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeftShoulderExtraSy = LeftShoulderExtraS.LeftShoulderExtraSy
     LeftShoulderExtraSz = LeftShoulderExtraS.LeftShoulderExtraSz
 
-    LeftShoulderExtraRotateOrder = LeftShoulderExtraRotateOrderEnumField(default_value=0)
+    LeftShoulderExtraRotateOrder = LeftShoulderExtraRotateOrderEnumField(
+        default_value=0
+    )
 
-    LeftShoulderExtraRotateAxis = LeftShoulderExtraRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeftShoulderExtraRotateAxisx = LeftShoulderExtraRotateAxis.LeftShoulderExtraRotateAxisx
-    LeftShoulderExtraRotateAxisy = LeftShoulderExtraRotateAxis.LeftShoulderExtraRotateAxisy
-    LeftShoulderExtraRotateAxisz = LeftShoulderExtraRotateAxis.LeftShoulderExtraRotateAxisz
+    LeftShoulderExtraRotateAxis = LeftShoulderExtraRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftShoulderExtraRotateAxisx = (
+        LeftShoulderExtraRotateAxis.LeftShoulderExtraRotateAxisx
+    )
+    LeftShoulderExtraRotateAxisy = (
+        LeftShoulderExtraRotateAxis.LeftShoulderExtraRotateAxisy
+    )
+    LeftShoulderExtraRotateAxisz = (
+        LeftShoulderExtraRotateAxis.LeftShoulderExtraRotateAxisz
+    )
 
-    LeftShoulderExtraJointOrient = LeftShoulderExtraJointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeftShoulderExtraJointOrientx = LeftShoulderExtraJointOrient.LeftShoulderExtraJointOrientx
-    LeftShoulderExtraJointOrienty = LeftShoulderExtraJointOrient.LeftShoulderExtraJointOrienty
-    LeftShoulderExtraJointOrientz = LeftShoulderExtraJointOrient.LeftShoulderExtraJointOrientz
+    LeftShoulderExtraJointOrient = LeftShoulderExtraJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftShoulderExtraJointOrientx = (
+        LeftShoulderExtraJointOrient.LeftShoulderExtraJointOrientx
+    )
+    LeftShoulderExtraJointOrienty = (
+        LeftShoulderExtraJointOrient.LeftShoulderExtraJointOrienty
+    )
+    LeftShoulderExtraJointOrientz = (
+        LeftShoulderExtraJointOrient.LeftShoulderExtraJointOrientz
+    )
 
-    LeftShoulderExtraMinRLimit = LeftShoulderExtraMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftShoulderExtraMinRLimitx = LeftShoulderExtraMinRLimit.LeftShoulderExtraMinRLimitx
-    LeftShoulderExtraMinRLimity = LeftShoulderExtraMinRLimit.LeftShoulderExtraMinRLimity
-    LeftShoulderExtraMinRLimitz = LeftShoulderExtraMinRLimit.LeftShoulderExtraMinRLimitz
+    LeftShoulderExtraMinRLimit = LeftShoulderExtraMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftShoulderExtraMinRLimitx = (
+        LeftShoulderExtraMinRLimit.LeftShoulderExtraMinRLimitx
+    )
+    LeftShoulderExtraMinRLimity = (
+        LeftShoulderExtraMinRLimit.LeftShoulderExtraMinRLimity
+    )
+    LeftShoulderExtraMinRLimitz = (
+        LeftShoulderExtraMinRLimit.LeftShoulderExtraMinRLimitz
+    )
 
-    LeftShoulderExtraMaxRLimit = LeftShoulderExtraMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeftShoulderExtraMaxRLimitx = LeftShoulderExtraMaxRLimit.LeftShoulderExtraMaxRLimitx
-    LeftShoulderExtraMaxRLimity = LeftShoulderExtraMaxRLimit.LeftShoulderExtraMaxRLimity
-    LeftShoulderExtraMaxRLimitz = LeftShoulderExtraMaxRLimit.LeftShoulderExtraMaxRLimitz
+    LeftShoulderExtraMaxRLimit = LeftShoulderExtraMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftShoulderExtraMaxRLimitx = (
+        LeftShoulderExtraMaxRLimit.LeftShoulderExtraMaxRLimitx
+    )
+    LeftShoulderExtraMaxRLimity = (
+        LeftShoulderExtraMaxRLimit.LeftShoulderExtraMaxRLimity
+    )
+    LeftShoulderExtraMaxRLimitz = (
+        LeftShoulderExtraMaxRLimit.LeftShoulderExtraMaxRLimitz
+    )
 
     LeftShoulderExtraMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18720,42 +24172,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     RightShoulderExtra = MessageField()
 
-    RightShoulderExtraT = RightShoulderExtraTField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderExtraT = RightShoulderExtraTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderExtraTx = RightShoulderExtraT.RightShoulderExtraTx
     RightShoulderExtraTy = RightShoulderExtraT.RightShoulderExtraTy
     RightShoulderExtraTz = RightShoulderExtraT.RightShoulderExtraTz
 
-    RightShoulderExtraR = RightShoulderExtraRField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderExtraR = RightShoulderExtraRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderExtraRx = RightShoulderExtraR.RightShoulderExtraRx
     RightShoulderExtraRy = RightShoulderExtraR.RightShoulderExtraRy
     RightShoulderExtraRz = RightShoulderExtraR.RightShoulderExtraRz
 
-    RightShoulderExtraS = RightShoulderExtraSField(default_value=(1.0, 1.0, 1.0))
+    RightShoulderExtraS = RightShoulderExtraSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightShoulderExtraSx = RightShoulderExtraS.RightShoulderExtraSx
     RightShoulderExtraSy = RightShoulderExtraS.RightShoulderExtraSy
     RightShoulderExtraSz = RightShoulderExtraS.RightShoulderExtraSz
 
-    RightShoulderExtraRotateOrder = RightShoulderExtraRotateOrderEnumField(default_value=0)
+    RightShoulderExtraRotateOrder = RightShoulderExtraRotateOrderEnumField(
+        default_value=0
+    )
 
-    RightShoulderExtraRotateAxis = RightShoulderExtraRotateAxisField(default_value=(0.0, 0.0, 0.0))
-    RightShoulderExtraRotateAxisx = RightShoulderExtraRotateAxis.RightShoulderExtraRotateAxisx
-    RightShoulderExtraRotateAxisy = RightShoulderExtraRotateAxis.RightShoulderExtraRotateAxisy
-    RightShoulderExtraRotateAxisz = RightShoulderExtraRotateAxis.RightShoulderExtraRotateAxisz
+    RightShoulderExtraRotateAxis = RightShoulderExtraRotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightShoulderExtraRotateAxisx = (
+        RightShoulderExtraRotateAxis.RightShoulderExtraRotateAxisx
+    )
+    RightShoulderExtraRotateAxisy = (
+        RightShoulderExtraRotateAxis.RightShoulderExtraRotateAxisy
+    )
+    RightShoulderExtraRotateAxisz = (
+        RightShoulderExtraRotateAxis.RightShoulderExtraRotateAxisz
+    )
 
-    RightShoulderExtraJointOrient = RightShoulderExtraJointOrientField(default_value=(0.0, 0.0, 0.0))
-    RightShoulderExtraJointOrientx = RightShoulderExtraJointOrient.RightShoulderExtraJointOrientx
-    RightShoulderExtraJointOrienty = RightShoulderExtraJointOrient.RightShoulderExtraJointOrienty
-    RightShoulderExtraJointOrientz = RightShoulderExtraJointOrient.RightShoulderExtraJointOrientz
+    RightShoulderExtraJointOrient = RightShoulderExtraJointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightShoulderExtraJointOrientx = (
+        RightShoulderExtraJointOrient.RightShoulderExtraJointOrientx
+    )
+    RightShoulderExtraJointOrienty = (
+        RightShoulderExtraJointOrient.RightShoulderExtraJointOrienty
+    )
+    RightShoulderExtraJointOrientz = (
+        RightShoulderExtraJointOrient.RightShoulderExtraJointOrientz
+    )
 
-    RightShoulderExtraMinRLimit = RightShoulderExtraMinRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightShoulderExtraMinRLimitx = RightShoulderExtraMinRLimit.RightShoulderExtraMinRLimitx
-    RightShoulderExtraMinRLimity = RightShoulderExtraMinRLimit.RightShoulderExtraMinRLimity
-    RightShoulderExtraMinRLimitz = RightShoulderExtraMinRLimit.RightShoulderExtraMinRLimitz
+    RightShoulderExtraMinRLimit = RightShoulderExtraMinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightShoulderExtraMinRLimitx = (
+        RightShoulderExtraMinRLimit.RightShoulderExtraMinRLimitx
+    )
+    RightShoulderExtraMinRLimity = (
+        RightShoulderExtraMinRLimit.RightShoulderExtraMinRLimity
+    )
+    RightShoulderExtraMinRLimitz = (
+        RightShoulderExtraMinRLimit.RightShoulderExtraMinRLimitz
+    )
 
-    RightShoulderExtraMaxRLimit = RightShoulderExtraMaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    RightShoulderExtraMaxRLimitx = RightShoulderExtraMaxRLimit.RightShoulderExtraMaxRLimitx
-    RightShoulderExtraMaxRLimity = RightShoulderExtraMaxRLimit.RightShoulderExtraMaxRLimity
-    RightShoulderExtraMaxRLimitz = RightShoulderExtraMaxRLimit.RightShoulderExtraMaxRLimitz
+    RightShoulderExtraMaxRLimit = RightShoulderExtraMaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightShoulderExtraMaxRLimitx = (
+        RightShoulderExtraMaxRLimit.RightShoulderExtraMaxRLimitx
+    )
+    RightShoulderExtraMaxRLimity = (
+        RightShoulderExtraMaxRLimit.RightShoulderExtraMaxRLimity
+    )
+    RightShoulderExtraMaxRLimitz = (
+        RightShoulderExtraMaxRLimit.RightShoulderExtraMaxRLimitz
+    )
 
     RightShoulderExtraMinRLimitEnablex = BoolField(default_value=False)
 
@@ -18771,42 +24263,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftUpLegRoll1 = MessageField()
 
-    LeafLeftUpLegRoll1T = LeafLeftUpLegRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll1T = LeafLeftUpLegRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll1Tx = LeafLeftUpLegRoll1T.LeafLeftUpLegRoll1Tx
     LeafLeftUpLegRoll1Ty = LeafLeftUpLegRoll1T.LeafLeftUpLegRoll1Ty
     LeafLeftUpLegRoll1Tz = LeafLeftUpLegRoll1T.LeafLeftUpLegRoll1Tz
 
-    LeafLeftUpLegRoll1R = LeafLeftUpLegRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll1R = LeafLeftUpLegRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll1Rx = LeafLeftUpLegRoll1R.LeafLeftUpLegRoll1Rx
     LeafLeftUpLegRoll1Ry = LeafLeftUpLegRoll1R.LeafLeftUpLegRoll1Ry
     LeafLeftUpLegRoll1Rz = LeafLeftUpLegRoll1R.LeafLeftUpLegRoll1Rz
 
-    LeafLeftUpLegRoll1S = LeafLeftUpLegRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll1S = LeafLeftUpLegRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll1Sx = LeafLeftUpLegRoll1S.LeafLeftUpLegRoll1Sx
     LeafLeftUpLegRoll1Sy = LeafLeftUpLegRoll1S.LeafLeftUpLegRoll1Sy
     LeafLeftUpLegRoll1Sz = LeafLeftUpLegRoll1S.LeafLeftUpLegRoll1Sz
 
-    LeafLeftUpLegRoll1RotateOrder = LeafLeftUpLegRoll1RotateOrderEnumField(default_value=0)
+    LeafLeftUpLegRoll1RotateOrder = LeafLeftUpLegRoll1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftUpLegRoll1RotateAxis = LeafLeftUpLegRoll1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll1RotateAxisx = LeafLeftUpLegRoll1RotateAxis.LeafLeftUpLegRoll1RotateAxisx
-    LeafLeftUpLegRoll1RotateAxisy = LeafLeftUpLegRoll1RotateAxis.LeafLeftUpLegRoll1RotateAxisy
-    LeafLeftUpLegRoll1RotateAxisz = LeafLeftUpLegRoll1RotateAxis.LeafLeftUpLegRoll1RotateAxisz
+    LeafLeftUpLegRoll1RotateAxis = LeafLeftUpLegRoll1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll1RotateAxisx = (
+        LeafLeftUpLegRoll1RotateAxis.LeafLeftUpLegRoll1RotateAxisx
+    )
+    LeafLeftUpLegRoll1RotateAxisy = (
+        LeafLeftUpLegRoll1RotateAxis.LeafLeftUpLegRoll1RotateAxisy
+    )
+    LeafLeftUpLegRoll1RotateAxisz = (
+        LeafLeftUpLegRoll1RotateAxis.LeafLeftUpLegRoll1RotateAxisz
+    )
 
-    LeafLeftUpLegRoll1JointOrient = LeafLeftUpLegRoll1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll1JointOrientx = LeafLeftUpLegRoll1JointOrient.LeafLeftUpLegRoll1JointOrientx
-    LeafLeftUpLegRoll1JointOrienty = LeafLeftUpLegRoll1JointOrient.LeafLeftUpLegRoll1JointOrienty
-    LeafLeftUpLegRoll1JointOrientz = LeafLeftUpLegRoll1JointOrient.LeafLeftUpLegRoll1JointOrientz
+    LeafLeftUpLegRoll1JointOrient = LeafLeftUpLegRoll1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll1JointOrientx = (
+        LeafLeftUpLegRoll1JointOrient.LeafLeftUpLegRoll1JointOrientx
+    )
+    LeafLeftUpLegRoll1JointOrienty = (
+        LeafLeftUpLegRoll1JointOrient.LeafLeftUpLegRoll1JointOrienty
+    )
+    LeafLeftUpLegRoll1JointOrientz = (
+        LeafLeftUpLegRoll1JointOrient.LeafLeftUpLegRoll1JointOrientz
+    )
 
-    LeafLeftUpLegRoll1MinRLimit = LeafLeftUpLegRoll1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll1MinRLimitx = LeafLeftUpLegRoll1MinRLimit.LeafLeftUpLegRoll1MinRLimitx
-    LeafLeftUpLegRoll1MinRLimity = LeafLeftUpLegRoll1MinRLimit.LeafLeftUpLegRoll1MinRLimity
-    LeafLeftUpLegRoll1MinRLimitz = LeafLeftUpLegRoll1MinRLimit.LeafLeftUpLegRoll1MinRLimitz
+    LeafLeftUpLegRoll1MinRLimit = LeafLeftUpLegRoll1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll1MinRLimitx = (
+        LeafLeftUpLegRoll1MinRLimit.LeafLeftUpLegRoll1MinRLimitx
+    )
+    LeafLeftUpLegRoll1MinRLimity = (
+        LeafLeftUpLegRoll1MinRLimit.LeafLeftUpLegRoll1MinRLimity
+    )
+    LeafLeftUpLegRoll1MinRLimitz = (
+        LeafLeftUpLegRoll1MinRLimit.LeafLeftUpLegRoll1MinRLimitz
+    )
 
-    LeafLeftUpLegRoll1MaxRLimit = LeafLeftUpLegRoll1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll1MaxRLimitx = LeafLeftUpLegRoll1MaxRLimit.LeafLeftUpLegRoll1MaxRLimitx
-    LeafLeftUpLegRoll1MaxRLimity = LeafLeftUpLegRoll1MaxRLimit.LeafLeftUpLegRoll1MaxRLimity
-    LeafLeftUpLegRoll1MaxRLimitz = LeafLeftUpLegRoll1MaxRLimit.LeafLeftUpLegRoll1MaxRLimitz
+    LeafLeftUpLegRoll1MaxRLimit = LeafLeftUpLegRoll1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll1MaxRLimitx = (
+        LeafLeftUpLegRoll1MaxRLimit.LeafLeftUpLegRoll1MaxRLimitx
+    )
+    LeafLeftUpLegRoll1MaxRLimity = (
+        LeafLeftUpLegRoll1MaxRLimit.LeafLeftUpLegRoll1MaxRLimity
+    )
+    LeafLeftUpLegRoll1MaxRLimitz = (
+        LeafLeftUpLegRoll1MaxRLimit.LeafLeftUpLegRoll1MaxRLimitz
+    )
 
     LeafLeftUpLegRoll1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -18837,27 +24369,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftLegRoll1Sy = LeafLeftLegRoll1S.LeafLeftLegRoll1Sy
     LeafLeftLegRoll1Sz = LeafLeftLegRoll1S.LeafLeftLegRoll1Sz
 
-    LeafLeftLegRoll1RotateOrder = LeafLeftLegRoll1RotateOrderEnumField(default_value=0)
+    LeafLeftLegRoll1RotateOrder = LeafLeftLegRoll1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftLegRoll1RotateAxis = LeafLeftLegRoll1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll1RotateAxisx = LeafLeftLegRoll1RotateAxis.LeafLeftLegRoll1RotateAxisx
-    LeafLeftLegRoll1RotateAxisy = LeafLeftLegRoll1RotateAxis.LeafLeftLegRoll1RotateAxisy
-    LeafLeftLegRoll1RotateAxisz = LeafLeftLegRoll1RotateAxis.LeafLeftLegRoll1RotateAxisz
+    LeafLeftLegRoll1RotateAxis = LeafLeftLegRoll1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll1RotateAxisx = (
+        LeafLeftLegRoll1RotateAxis.LeafLeftLegRoll1RotateAxisx
+    )
+    LeafLeftLegRoll1RotateAxisy = (
+        LeafLeftLegRoll1RotateAxis.LeafLeftLegRoll1RotateAxisy
+    )
+    LeafLeftLegRoll1RotateAxisz = (
+        LeafLeftLegRoll1RotateAxis.LeafLeftLegRoll1RotateAxisz
+    )
 
-    LeafLeftLegRoll1JointOrient = LeafLeftLegRoll1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll1JointOrientx = LeafLeftLegRoll1JointOrient.LeafLeftLegRoll1JointOrientx
-    LeafLeftLegRoll1JointOrienty = LeafLeftLegRoll1JointOrient.LeafLeftLegRoll1JointOrienty
-    LeafLeftLegRoll1JointOrientz = LeafLeftLegRoll1JointOrient.LeafLeftLegRoll1JointOrientz
+    LeafLeftLegRoll1JointOrient = LeafLeftLegRoll1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll1JointOrientx = (
+        LeafLeftLegRoll1JointOrient.LeafLeftLegRoll1JointOrientx
+    )
+    LeafLeftLegRoll1JointOrienty = (
+        LeafLeftLegRoll1JointOrient.LeafLeftLegRoll1JointOrienty
+    )
+    LeafLeftLegRoll1JointOrientz = (
+        LeafLeftLegRoll1JointOrient.LeafLeftLegRoll1JointOrientz
+    )
 
-    LeafLeftLegRoll1MinRLimit = LeafLeftLegRoll1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll1MinRLimitx = LeafLeftLegRoll1MinRLimit.LeafLeftLegRoll1MinRLimitx
-    LeafLeftLegRoll1MinRLimity = LeafLeftLegRoll1MinRLimit.LeafLeftLegRoll1MinRLimity
-    LeafLeftLegRoll1MinRLimitz = LeafLeftLegRoll1MinRLimit.LeafLeftLegRoll1MinRLimitz
+    LeafLeftLegRoll1MinRLimit = LeafLeftLegRoll1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll1MinRLimitx = (
+        LeafLeftLegRoll1MinRLimit.LeafLeftLegRoll1MinRLimitx
+    )
+    LeafLeftLegRoll1MinRLimity = (
+        LeafLeftLegRoll1MinRLimit.LeafLeftLegRoll1MinRLimity
+    )
+    LeafLeftLegRoll1MinRLimitz = (
+        LeafLeftLegRoll1MinRLimit.LeafLeftLegRoll1MinRLimitz
+    )
 
-    LeafLeftLegRoll1MaxRLimit = LeafLeftLegRoll1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll1MaxRLimitx = LeafLeftLegRoll1MaxRLimit.LeafLeftLegRoll1MaxRLimitx
-    LeafLeftLegRoll1MaxRLimity = LeafLeftLegRoll1MaxRLimit.LeafLeftLegRoll1MaxRLimity
-    LeafLeftLegRoll1MaxRLimitz = LeafLeftLegRoll1MaxRLimit.LeafLeftLegRoll1MaxRLimitz
+    LeafLeftLegRoll1MaxRLimit = LeafLeftLegRoll1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll1MaxRLimitx = (
+        LeafLeftLegRoll1MaxRLimit.LeafLeftLegRoll1MaxRLimitx
+    )
+    LeafLeftLegRoll1MaxRLimity = (
+        LeafLeftLegRoll1MaxRLimit.LeafLeftLegRoll1MaxRLimity
+    )
+    LeafLeftLegRoll1MaxRLimitz = (
+        LeafLeftLegRoll1MaxRLimit.LeafLeftLegRoll1MaxRLimitz
+    )
 
     LeafLeftLegRoll1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -18873,42 +24439,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightUpLegRoll1 = MessageField()
 
-    LeafRightUpLegRoll1T = LeafRightUpLegRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll1T = LeafRightUpLegRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll1Tx = LeafRightUpLegRoll1T.LeafRightUpLegRoll1Tx
     LeafRightUpLegRoll1Ty = LeafRightUpLegRoll1T.LeafRightUpLegRoll1Ty
     LeafRightUpLegRoll1Tz = LeafRightUpLegRoll1T.LeafRightUpLegRoll1Tz
 
-    LeafRightUpLegRoll1R = LeafRightUpLegRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll1R = LeafRightUpLegRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll1Rx = LeafRightUpLegRoll1R.LeafRightUpLegRoll1Rx
     LeafRightUpLegRoll1Ry = LeafRightUpLegRoll1R.LeafRightUpLegRoll1Ry
     LeafRightUpLegRoll1Rz = LeafRightUpLegRoll1R.LeafRightUpLegRoll1Rz
 
-    LeafRightUpLegRoll1S = LeafRightUpLegRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll1S = LeafRightUpLegRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll1Sx = LeafRightUpLegRoll1S.LeafRightUpLegRoll1Sx
     LeafRightUpLegRoll1Sy = LeafRightUpLegRoll1S.LeafRightUpLegRoll1Sy
     LeafRightUpLegRoll1Sz = LeafRightUpLegRoll1S.LeafRightUpLegRoll1Sz
 
-    LeafRightUpLegRoll1RotateOrder = LeafRightUpLegRoll1RotateOrderEnumField(default_value=0)
+    LeafRightUpLegRoll1RotateOrder = LeafRightUpLegRoll1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightUpLegRoll1RotateAxis = LeafRightUpLegRoll1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll1RotateAxisx = LeafRightUpLegRoll1RotateAxis.LeafRightUpLegRoll1RotateAxisx
-    LeafRightUpLegRoll1RotateAxisy = LeafRightUpLegRoll1RotateAxis.LeafRightUpLegRoll1RotateAxisy
-    LeafRightUpLegRoll1RotateAxisz = LeafRightUpLegRoll1RotateAxis.LeafRightUpLegRoll1RotateAxisz
+    LeafRightUpLegRoll1RotateAxis = LeafRightUpLegRoll1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll1RotateAxisx = (
+        LeafRightUpLegRoll1RotateAxis.LeafRightUpLegRoll1RotateAxisx
+    )
+    LeafRightUpLegRoll1RotateAxisy = (
+        LeafRightUpLegRoll1RotateAxis.LeafRightUpLegRoll1RotateAxisy
+    )
+    LeafRightUpLegRoll1RotateAxisz = (
+        LeafRightUpLegRoll1RotateAxis.LeafRightUpLegRoll1RotateAxisz
+    )
 
-    LeafRightUpLegRoll1JointOrient = LeafRightUpLegRoll1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll1JointOrientx = LeafRightUpLegRoll1JointOrient.LeafRightUpLegRoll1JointOrientx
-    LeafRightUpLegRoll1JointOrienty = LeafRightUpLegRoll1JointOrient.LeafRightUpLegRoll1JointOrienty
-    LeafRightUpLegRoll1JointOrientz = LeafRightUpLegRoll1JointOrient.LeafRightUpLegRoll1JointOrientz
+    LeafRightUpLegRoll1JointOrient = LeafRightUpLegRoll1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll1JointOrientx = (
+        LeafRightUpLegRoll1JointOrient.LeafRightUpLegRoll1JointOrientx
+    )
+    LeafRightUpLegRoll1JointOrienty = (
+        LeafRightUpLegRoll1JointOrient.LeafRightUpLegRoll1JointOrienty
+    )
+    LeafRightUpLegRoll1JointOrientz = (
+        LeafRightUpLegRoll1JointOrient.LeafRightUpLegRoll1JointOrientz
+    )
 
-    LeafRightUpLegRoll1MinRLimit = LeafRightUpLegRoll1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll1MinRLimitx = LeafRightUpLegRoll1MinRLimit.LeafRightUpLegRoll1MinRLimitx
-    LeafRightUpLegRoll1MinRLimity = LeafRightUpLegRoll1MinRLimit.LeafRightUpLegRoll1MinRLimity
-    LeafRightUpLegRoll1MinRLimitz = LeafRightUpLegRoll1MinRLimit.LeafRightUpLegRoll1MinRLimitz
+    LeafRightUpLegRoll1MinRLimit = LeafRightUpLegRoll1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll1MinRLimitx = (
+        LeafRightUpLegRoll1MinRLimit.LeafRightUpLegRoll1MinRLimitx
+    )
+    LeafRightUpLegRoll1MinRLimity = (
+        LeafRightUpLegRoll1MinRLimit.LeafRightUpLegRoll1MinRLimity
+    )
+    LeafRightUpLegRoll1MinRLimitz = (
+        LeafRightUpLegRoll1MinRLimit.LeafRightUpLegRoll1MinRLimitz
+    )
 
-    LeafRightUpLegRoll1MaxRLimit = LeafRightUpLegRoll1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll1MaxRLimitx = LeafRightUpLegRoll1MaxRLimit.LeafRightUpLegRoll1MaxRLimitx
-    LeafRightUpLegRoll1MaxRLimity = LeafRightUpLegRoll1MaxRLimit.LeafRightUpLegRoll1MaxRLimity
-    LeafRightUpLegRoll1MaxRLimitz = LeafRightUpLegRoll1MaxRLimit.LeafRightUpLegRoll1MaxRLimitz
+    LeafRightUpLegRoll1MaxRLimit = LeafRightUpLegRoll1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll1MaxRLimitx = (
+        LeafRightUpLegRoll1MaxRLimit.LeafRightUpLegRoll1MaxRLimitx
+    )
+    LeafRightUpLegRoll1MaxRLimity = (
+        LeafRightUpLegRoll1MaxRLimit.LeafRightUpLegRoll1MaxRLimity
+    )
+    LeafRightUpLegRoll1MaxRLimitz = (
+        LeafRightUpLegRoll1MaxRLimit.LeafRightUpLegRoll1MaxRLimitz
+    )
 
     LeafRightUpLegRoll1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -18939,27 +24545,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightLegRoll1Sy = LeafRightLegRoll1S.LeafRightLegRoll1Sy
     LeafRightLegRoll1Sz = LeafRightLegRoll1S.LeafRightLegRoll1Sz
 
-    LeafRightLegRoll1RotateOrder = LeafRightLegRoll1RotateOrderEnumField(default_value=0)
+    LeafRightLegRoll1RotateOrder = LeafRightLegRoll1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightLegRoll1RotateAxis = LeafRightLegRoll1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll1RotateAxisx = LeafRightLegRoll1RotateAxis.LeafRightLegRoll1RotateAxisx
-    LeafRightLegRoll1RotateAxisy = LeafRightLegRoll1RotateAxis.LeafRightLegRoll1RotateAxisy
-    LeafRightLegRoll1RotateAxisz = LeafRightLegRoll1RotateAxis.LeafRightLegRoll1RotateAxisz
+    LeafRightLegRoll1RotateAxis = LeafRightLegRoll1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll1RotateAxisx = (
+        LeafRightLegRoll1RotateAxis.LeafRightLegRoll1RotateAxisx
+    )
+    LeafRightLegRoll1RotateAxisy = (
+        LeafRightLegRoll1RotateAxis.LeafRightLegRoll1RotateAxisy
+    )
+    LeafRightLegRoll1RotateAxisz = (
+        LeafRightLegRoll1RotateAxis.LeafRightLegRoll1RotateAxisz
+    )
 
-    LeafRightLegRoll1JointOrient = LeafRightLegRoll1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll1JointOrientx = LeafRightLegRoll1JointOrient.LeafRightLegRoll1JointOrientx
-    LeafRightLegRoll1JointOrienty = LeafRightLegRoll1JointOrient.LeafRightLegRoll1JointOrienty
-    LeafRightLegRoll1JointOrientz = LeafRightLegRoll1JointOrient.LeafRightLegRoll1JointOrientz
+    LeafRightLegRoll1JointOrient = LeafRightLegRoll1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll1JointOrientx = (
+        LeafRightLegRoll1JointOrient.LeafRightLegRoll1JointOrientx
+    )
+    LeafRightLegRoll1JointOrienty = (
+        LeafRightLegRoll1JointOrient.LeafRightLegRoll1JointOrienty
+    )
+    LeafRightLegRoll1JointOrientz = (
+        LeafRightLegRoll1JointOrient.LeafRightLegRoll1JointOrientz
+    )
 
-    LeafRightLegRoll1MinRLimit = LeafRightLegRoll1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll1MinRLimitx = LeafRightLegRoll1MinRLimit.LeafRightLegRoll1MinRLimitx
-    LeafRightLegRoll1MinRLimity = LeafRightLegRoll1MinRLimit.LeafRightLegRoll1MinRLimity
-    LeafRightLegRoll1MinRLimitz = LeafRightLegRoll1MinRLimit.LeafRightLegRoll1MinRLimitz
+    LeafRightLegRoll1MinRLimit = LeafRightLegRoll1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll1MinRLimitx = (
+        LeafRightLegRoll1MinRLimit.LeafRightLegRoll1MinRLimitx
+    )
+    LeafRightLegRoll1MinRLimity = (
+        LeafRightLegRoll1MinRLimit.LeafRightLegRoll1MinRLimity
+    )
+    LeafRightLegRoll1MinRLimitz = (
+        LeafRightLegRoll1MinRLimit.LeafRightLegRoll1MinRLimitz
+    )
 
-    LeafRightLegRoll1MaxRLimit = LeafRightLegRoll1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll1MaxRLimitx = LeafRightLegRoll1MaxRLimit.LeafRightLegRoll1MaxRLimitx
-    LeafRightLegRoll1MaxRLimity = LeafRightLegRoll1MaxRLimit.LeafRightLegRoll1MaxRLimity
-    LeafRightLegRoll1MaxRLimitz = LeafRightLegRoll1MaxRLimit.LeafRightLegRoll1MaxRLimitz
+    LeafRightLegRoll1MaxRLimit = LeafRightLegRoll1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll1MaxRLimitx = (
+        LeafRightLegRoll1MaxRLimit.LeafRightLegRoll1MaxRLimitx
+    )
+    LeafRightLegRoll1MaxRLimity = (
+        LeafRightLegRoll1MaxRLimit.LeafRightLegRoll1MaxRLimity
+    )
+    LeafRightLegRoll1MaxRLimitz = (
+        LeafRightLegRoll1MaxRLimit.LeafRightLegRoll1MaxRLimitz
+    )
 
     LeafRightLegRoll1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -18990,27 +24630,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftArmRoll1Sy = LeafLeftArmRoll1S.LeafLeftArmRoll1Sy
     LeafLeftArmRoll1Sz = LeafLeftArmRoll1S.LeafLeftArmRoll1Sz
 
-    LeafLeftArmRoll1RotateOrder = LeafLeftArmRoll1RotateOrderEnumField(default_value=0)
+    LeafLeftArmRoll1RotateOrder = LeafLeftArmRoll1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftArmRoll1RotateAxis = LeafLeftArmRoll1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll1RotateAxisx = LeafLeftArmRoll1RotateAxis.LeafLeftArmRoll1RotateAxisx
-    LeafLeftArmRoll1RotateAxisy = LeafLeftArmRoll1RotateAxis.LeafLeftArmRoll1RotateAxisy
-    LeafLeftArmRoll1RotateAxisz = LeafLeftArmRoll1RotateAxis.LeafLeftArmRoll1RotateAxisz
+    LeafLeftArmRoll1RotateAxis = LeafLeftArmRoll1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll1RotateAxisx = (
+        LeafLeftArmRoll1RotateAxis.LeafLeftArmRoll1RotateAxisx
+    )
+    LeafLeftArmRoll1RotateAxisy = (
+        LeafLeftArmRoll1RotateAxis.LeafLeftArmRoll1RotateAxisy
+    )
+    LeafLeftArmRoll1RotateAxisz = (
+        LeafLeftArmRoll1RotateAxis.LeafLeftArmRoll1RotateAxisz
+    )
 
-    LeafLeftArmRoll1JointOrient = LeafLeftArmRoll1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll1JointOrientx = LeafLeftArmRoll1JointOrient.LeafLeftArmRoll1JointOrientx
-    LeafLeftArmRoll1JointOrienty = LeafLeftArmRoll1JointOrient.LeafLeftArmRoll1JointOrienty
-    LeafLeftArmRoll1JointOrientz = LeafLeftArmRoll1JointOrient.LeafLeftArmRoll1JointOrientz
+    LeafLeftArmRoll1JointOrient = LeafLeftArmRoll1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll1JointOrientx = (
+        LeafLeftArmRoll1JointOrient.LeafLeftArmRoll1JointOrientx
+    )
+    LeafLeftArmRoll1JointOrienty = (
+        LeafLeftArmRoll1JointOrient.LeafLeftArmRoll1JointOrienty
+    )
+    LeafLeftArmRoll1JointOrientz = (
+        LeafLeftArmRoll1JointOrient.LeafLeftArmRoll1JointOrientz
+    )
 
-    LeafLeftArmRoll1MinRLimit = LeafLeftArmRoll1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll1MinRLimitx = LeafLeftArmRoll1MinRLimit.LeafLeftArmRoll1MinRLimitx
-    LeafLeftArmRoll1MinRLimity = LeafLeftArmRoll1MinRLimit.LeafLeftArmRoll1MinRLimity
-    LeafLeftArmRoll1MinRLimitz = LeafLeftArmRoll1MinRLimit.LeafLeftArmRoll1MinRLimitz
+    LeafLeftArmRoll1MinRLimit = LeafLeftArmRoll1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll1MinRLimitx = (
+        LeafLeftArmRoll1MinRLimit.LeafLeftArmRoll1MinRLimitx
+    )
+    LeafLeftArmRoll1MinRLimity = (
+        LeafLeftArmRoll1MinRLimit.LeafLeftArmRoll1MinRLimity
+    )
+    LeafLeftArmRoll1MinRLimitz = (
+        LeafLeftArmRoll1MinRLimit.LeafLeftArmRoll1MinRLimitz
+    )
 
-    LeafLeftArmRoll1MaxRLimit = LeafLeftArmRoll1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll1MaxRLimitx = LeafLeftArmRoll1MaxRLimit.LeafLeftArmRoll1MaxRLimitx
-    LeafLeftArmRoll1MaxRLimity = LeafLeftArmRoll1MaxRLimit.LeafLeftArmRoll1MaxRLimity
-    LeafLeftArmRoll1MaxRLimitz = LeafLeftArmRoll1MaxRLimit.LeafLeftArmRoll1MaxRLimitz
+    LeafLeftArmRoll1MaxRLimit = LeafLeftArmRoll1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll1MaxRLimitx = (
+        LeafLeftArmRoll1MaxRLimit.LeafLeftArmRoll1MaxRLimitx
+    )
+    LeafLeftArmRoll1MaxRLimity = (
+        LeafLeftArmRoll1MaxRLimit.LeafLeftArmRoll1MaxRLimity
+    )
+    LeafLeftArmRoll1MaxRLimitz = (
+        LeafLeftArmRoll1MaxRLimit.LeafLeftArmRoll1MaxRLimitz
+    )
 
     LeafLeftArmRoll1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19026,42 +24700,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftForeArmRoll1 = MessageField()
 
-    LeafLeftForeArmRoll1T = LeafLeftForeArmRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll1T = LeafLeftForeArmRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll1Tx = LeafLeftForeArmRoll1T.LeafLeftForeArmRoll1Tx
     LeafLeftForeArmRoll1Ty = LeafLeftForeArmRoll1T.LeafLeftForeArmRoll1Ty
     LeafLeftForeArmRoll1Tz = LeafLeftForeArmRoll1T.LeafLeftForeArmRoll1Tz
 
-    LeafLeftForeArmRoll1R = LeafLeftForeArmRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll1R = LeafLeftForeArmRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll1Rx = LeafLeftForeArmRoll1R.LeafLeftForeArmRoll1Rx
     LeafLeftForeArmRoll1Ry = LeafLeftForeArmRoll1R.LeafLeftForeArmRoll1Ry
     LeafLeftForeArmRoll1Rz = LeafLeftForeArmRoll1R.LeafLeftForeArmRoll1Rz
 
-    LeafLeftForeArmRoll1S = LeafLeftForeArmRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll1S = LeafLeftForeArmRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll1Sx = LeafLeftForeArmRoll1S.LeafLeftForeArmRoll1Sx
     LeafLeftForeArmRoll1Sy = LeafLeftForeArmRoll1S.LeafLeftForeArmRoll1Sy
     LeafLeftForeArmRoll1Sz = LeafLeftForeArmRoll1S.LeafLeftForeArmRoll1Sz
 
-    LeafLeftForeArmRoll1RotateOrder = LeafLeftForeArmRoll1RotateOrderEnumField(default_value=0)
+    LeafLeftForeArmRoll1RotateOrder = LeafLeftForeArmRoll1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftForeArmRoll1RotateAxis = LeafLeftForeArmRoll1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll1RotateAxisx = LeafLeftForeArmRoll1RotateAxis.LeafLeftForeArmRoll1RotateAxisx
-    LeafLeftForeArmRoll1RotateAxisy = LeafLeftForeArmRoll1RotateAxis.LeafLeftForeArmRoll1RotateAxisy
-    LeafLeftForeArmRoll1RotateAxisz = LeafLeftForeArmRoll1RotateAxis.LeafLeftForeArmRoll1RotateAxisz
+    LeafLeftForeArmRoll1RotateAxis = LeafLeftForeArmRoll1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll1RotateAxisx = (
+        LeafLeftForeArmRoll1RotateAxis.LeafLeftForeArmRoll1RotateAxisx
+    )
+    LeafLeftForeArmRoll1RotateAxisy = (
+        LeafLeftForeArmRoll1RotateAxis.LeafLeftForeArmRoll1RotateAxisy
+    )
+    LeafLeftForeArmRoll1RotateAxisz = (
+        LeafLeftForeArmRoll1RotateAxis.LeafLeftForeArmRoll1RotateAxisz
+    )
 
-    LeafLeftForeArmRoll1JointOrient = LeafLeftForeArmRoll1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll1JointOrientx = LeafLeftForeArmRoll1JointOrient.LeafLeftForeArmRoll1JointOrientx
-    LeafLeftForeArmRoll1JointOrienty = LeafLeftForeArmRoll1JointOrient.LeafLeftForeArmRoll1JointOrienty
-    LeafLeftForeArmRoll1JointOrientz = LeafLeftForeArmRoll1JointOrient.LeafLeftForeArmRoll1JointOrientz
+    LeafLeftForeArmRoll1JointOrient = LeafLeftForeArmRoll1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll1JointOrientx = (
+        LeafLeftForeArmRoll1JointOrient.LeafLeftForeArmRoll1JointOrientx
+    )
+    LeafLeftForeArmRoll1JointOrienty = (
+        LeafLeftForeArmRoll1JointOrient.LeafLeftForeArmRoll1JointOrienty
+    )
+    LeafLeftForeArmRoll1JointOrientz = (
+        LeafLeftForeArmRoll1JointOrient.LeafLeftForeArmRoll1JointOrientz
+    )
 
-    LeafLeftForeArmRoll1MinRLimit = LeafLeftForeArmRoll1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll1MinRLimitx = LeafLeftForeArmRoll1MinRLimit.LeafLeftForeArmRoll1MinRLimitx
-    LeafLeftForeArmRoll1MinRLimity = LeafLeftForeArmRoll1MinRLimit.LeafLeftForeArmRoll1MinRLimity
-    LeafLeftForeArmRoll1MinRLimitz = LeafLeftForeArmRoll1MinRLimit.LeafLeftForeArmRoll1MinRLimitz
+    LeafLeftForeArmRoll1MinRLimit = LeafLeftForeArmRoll1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll1MinRLimitx = (
+        LeafLeftForeArmRoll1MinRLimit.LeafLeftForeArmRoll1MinRLimitx
+    )
+    LeafLeftForeArmRoll1MinRLimity = (
+        LeafLeftForeArmRoll1MinRLimit.LeafLeftForeArmRoll1MinRLimity
+    )
+    LeafLeftForeArmRoll1MinRLimitz = (
+        LeafLeftForeArmRoll1MinRLimit.LeafLeftForeArmRoll1MinRLimitz
+    )
 
-    LeafLeftForeArmRoll1MaxRLimit = LeafLeftForeArmRoll1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll1MaxRLimitx = LeafLeftForeArmRoll1MaxRLimit.LeafLeftForeArmRoll1MaxRLimitx
-    LeafLeftForeArmRoll1MaxRLimity = LeafLeftForeArmRoll1MaxRLimit.LeafLeftForeArmRoll1MaxRLimity
-    LeafLeftForeArmRoll1MaxRLimitz = LeafLeftForeArmRoll1MaxRLimit.LeafLeftForeArmRoll1MaxRLimitz
+    LeafLeftForeArmRoll1MaxRLimit = LeafLeftForeArmRoll1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll1MaxRLimitx = (
+        LeafLeftForeArmRoll1MaxRLimit.LeafLeftForeArmRoll1MaxRLimitx
+    )
+    LeafLeftForeArmRoll1MaxRLimity = (
+        LeafLeftForeArmRoll1MaxRLimit.LeafLeftForeArmRoll1MaxRLimity
+    )
+    LeafLeftForeArmRoll1MaxRLimitz = (
+        LeafLeftForeArmRoll1MaxRLimit.LeafLeftForeArmRoll1MaxRLimitz
+    )
 
     LeafLeftForeArmRoll1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19092,27 +24806,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightArmRoll1Sy = LeafRightArmRoll1S.LeafRightArmRoll1Sy
     LeafRightArmRoll1Sz = LeafRightArmRoll1S.LeafRightArmRoll1Sz
 
-    LeafRightArmRoll1RotateOrder = LeafRightArmRoll1RotateOrderEnumField(default_value=0)
+    LeafRightArmRoll1RotateOrder = LeafRightArmRoll1RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightArmRoll1RotateAxis = LeafRightArmRoll1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll1RotateAxisx = LeafRightArmRoll1RotateAxis.LeafRightArmRoll1RotateAxisx
-    LeafRightArmRoll1RotateAxisy = LeafRightArmRoll1RotateAxis.LeafRightArmRoll1RotateAxisy
-    LeafRightArmRoll1RotateAxisz = LeafRightArmRoll1RotateAxis.LeafRightArmRoll1RotateAxisz
+    LeafRightArmRoll1RotateAxis = LeafRightArmRoll1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll1RotateAxisx = (
+        LeafRightArmRoll1RotateAxis.LeafRightArmRoll1RotateAxisx
+    )
+    LeafRightArmRoll1RotateAxisy = (
+        LeafRightArmRoll1RotateAxis.LeafRightArmRoll1RotateAxisy
+    )
+    LeafRightArmRoll1RotateAxisz = (
+        LeafRightArmRoll1RotateAxis.LeafRightArmRoll1RotateAxisz
+    )
 
-    LeafRightArmRoll1JointOrient = LeafRightArmRoll1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll1JointOrientx = LeafRightArmRoll1JointOrient.LeafRightArmRoll1JointOrientx
-    LeafRightArmRoll1JointOrienty = LeafRightArmRoll1JointOrient.LeafRightArmRoll1JointOrienty
-    LeafRightArmRoll1JointOrientz = LeafRightArmRoll1JointOrient.LeafRightArmRoll1JointOrientz
+    LeafRightArmRoll1JointOrient = LeafRightArmRoll1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll1JointOrientx = (
+        LeafRightArmRoll1JointOrient.LeafRightArmRoll1JointOrientx
+    )
+    LeafRightArmRoll1JointOrienty = (
+        LeafRightArmRoll1JointOrient.LeafRightArmRoll1JointOrienty
+    )
+    LeafRightArmRoll1JointOrientz = (
+        LeafRightArmRoll1JointOrient.LeafRightArmRoll1JointOrientz
+    )
 
-    LeafRightArmRoll1MinRLimit = LeafRightArmRoll1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll1MinRLimitx = LeafRightArmRoll1MinRLimit.LeafRightArmRoll1MinRLimitx
-    LeafRightArmRoll1MinRLimity = LeafRightArmRoll1MinRLimit.LeafRightArmRoll1MinRLimity
-    LeafRightArmRoll1MinRLimitz = LeafRightArmRoll1MinRLimit.LeafRightArmRoll1MinRLimitz
+    LeafRightArmRoll1MinRLimit = LeafRightArmRoll1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll1MinRLimitx = (
+        LeafRightArmRoll1MinRLimit.LeafRightArmRoll1MinRLimitx
+    )
+    LeafRightArmRoll1MinRLimity = (
+        LeafRightArmRoll1MinRLimit.LeafRightArmRoll1MinRLimity
+    )
+    LeafRightArmRoll1MinRLimitz = (
+        LeafRightArmRoll1MinRLimit.LeafRightArmRoll1MinRLimitz
+    )
 
-    LeafRightArmRoll1MaxRLimit = LeafRightArmRoll1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll1MaxRLimitx = LeafRightArmRoll1MaxRLimit.LeafRightArmRoll1MaxRLimitx
-    LeafRightArmRoll1MaxRLimity = LeafRightArmRoll1MaxRLimit.LeafRightArmRoll1MaxRLimity
-    LeafRightArmRoll1MaxRLimitz = LeafRightArmRoll1MaxRLimit.LeafRightArmRoll1MaxRLimitz
+    LeafRightArmRoll1MaxRLimit = LeafRightArmRoll1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll1MaxRLimitx = (
+        LeafRightArmRoll1MaxRLimit.LeafRightArmRoll1MaxRLimitx
+    )
+    LeafRightArmRoll1MaxRLimity = (
+        LeafRightArmRoll1MaxRLimit.LeafRightArmRoll1MaxRLimity
+    )
+    LeafRightArmRoll1MaxRLimitz = (
+        LeafRightArmRoll1MaxRLimit.LeafRightArmRoll1MaxRLimitz
+    )
 
     LeafRightArmRoll1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19128,42 +24876,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightForeArmRoll1 = MessageField()
 
-    LeafRightForeArmRoll1T = LeafRightForeArmRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll1T = LeafRightForeArmRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll1Tx = LeafRightForeArmRoll1T.LeafRightForeArmRoll1Tx
     LeafRightForeArmRoll1Ty = LeafRightForeArmRoll1T.LeafRightForeArmRoll1Ty
     LeafRightForeArmRoll1Tz = LeafRightForeArmRoll1T.LeafRightForeArmRoll1Tz
 
-    LeafRightForeArmRoll1R = LeafRightForeArmRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll1R = LeafRightForeArmRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll1Rx = LeafRightForeArmRoll1R.LeafRightForeArmRoll1Rx
     LeafRightForeArmRoll1Ry = LeafRightForeArmRoll1R.LeafRightForeArmRoll1Ry
     LeafRightForeArmRoll1Rz = LeafRightForeArmRoll1R.LeafRightForeArmRoll1Rz
 
-    LeafRightForeArmRoll1S = LeafRightForeArmRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll1S = LeafRightForeArmRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll1Sx = LeafRightForeArmRoll1S.LeafRightForeArmRoll1Sx
     LeafRightForeArmRoll1Sy = LeafRightForeArmRoll1S.LeafRightForeArmRoll1Sy
     LeafRightForeArmRoll1Sz = LeafRightForeArmRoll1S.LeafRightForeArmRoll1Sz
 
-    LeafRightForeArmRoll1RotateOrder = LeafRightForeArmRoll1RotateOrderEnumField(default_value=0)
+    LeafRightForeArmRoll1RotateOrder = (
+        LeafRightForeArmRoll1RotateOrderEnumField(default_value=0)
+    )
 
-    LeafRightForeArmRoll1RotateAxis = LeafRightForeArmRoll1RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll1RotateAxisx = LeafRightForeArmRoll1RotateAxis.LeafRightForeArmRoll1RotateAxisx
-    LeafRightForeArmRoll1RotateAxisy = LeafRightForeArmRoll1RotateAxis.LeafRightForeArmRoll1RotateAxisy
-    LeafRightForeArmRoll1RotateAxisz = LeafRightForeArmRoll1RotateAxis.LeafRightForeArmRoll1RotateAxisz
+    LeafRightForeArmRoll1RotateAxis = LeafRightForeArmRoll1RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll1RotateAxisx = (
+        LeafRightForeArmRoll1RotateAxis.LeafRightForeArmRoll1RotateAxisx
+    )
+    LeafRightForeArmRoll1RotateAxisy = (
+        LeafRightForeArmRoll1RotateAxis.LeafRightForeArmRoll1RotateAxisy
+    )
+    LeafRightForeArmRoll1RotateAxisz = (
+        LeafRightForeArmRoll1RotateAxis.LeafRightForeArmRoll1RotateAxisz
+    )
 
-    LeafRightForeArmRoll1JointOrient = LeafRightForeArmRoll1JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll1JointOrientx = LeafRightForeArmRoll1JointOrient.LeafRightForeArmRoll1JointOrientx
-    LeafRightForeArmRoll1JointOrienty = LeafRightForeArmRoll1JointOrient.LeafRightForeArmRoll1JointOrienty
-    LeafRightForeArmRoll1JointOrientz = LeafRightForeArmRoll1JointOrient.LeafRightForeArmRoll1JointOrientz
+    LeafRightForeArmRoll1JointOrient = LeafRightForeArmRoll1JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll1JointOrientx = (
+        LeafRightForeArmRoll1JointOrient.LeafRightForeArmRoll1JointOrientx
+    )
+    LeafRightForeArmRoll1JointOrienty = (
+        LeafRightForeArmRoll1JointOrient.LeafRightForeArmRoll1JointOrienty
+    )
+    LeafRightForeArmRoll1JointOrientz = (
+        LeafRightForeArmRoll1JointOrient.LeafRightForeArmRoll1JointOrientz
+    )
 
-    LeafRightForeArmRoll1MinRLimit = LeafRightForeArmRoll1MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll1MinRLimitx = LeafRightForeArmRoll1MinRLimit.LeafRightForeArmRoll1MinRLimitx
-    LeafRightForeArmRoll1MinRLimity = LeafRightForeArmRoll1MinRLimit.LeafRightForeArmRoll1MinRLimity
-    LeafRightForeArmRoll1MinRLimitz = LeafRightForeArmRoll1MinRLimit.LeafRightForeArmRoll1MinRLimitz
+    LeafRightForeArmRoll1MinRLimit = LeafRightForeArmRoll1MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll1MinRLimitx = (
+        LeafRightForeArmRoll1MinRLimit.LeafRightForeArmRoll1MinRLimitx
+    )
+    LeafRightForeArmRoll1MinRLimity = (
+        LeafRightForeArmRoll1MinRLimit.LeafRightForeArmRoll1MinRLimity
+    )
+    LeafRightForeArmRoll1MinRLimitz = (
+        LeafRightForeArmRoll1MinRLimit.LeafRightForeArmRoll1MinRLimitz
+    )
 
-    LeafRightForeArmRoll1MaxRLimit = LeafRightForeArmRoll1MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll1MaxRLimitx = LeafRightForeArmRoll1MaxRLimit.LeafRightForeArmRoll1MaxRLimitx
-    LeafRightForeArmRoll1MaxRLimity = LeafRightForeArmRoll1MaxRLimit.LeafRightForeArmRoll1MaxRLimity
-    LeafRightForeArmRoll1MaxRLimitz = LeafRightForeArmRoll1MaxRLimit.LeafRightForeArmRoll1MaxRLimitz
+    LeafRightForeArmRoll1MaxRLimit = LeafRightForeArmRoll1MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll1MaxRLimitx = (
+        LeafRightForeArmRoll1MaxRLimit.LeafRightForeArmRoll1MaxRLimitx
+    )
+    LeafRightForeArmRoll1MaxRLimity = (
+        LeafRightForeArmRoll1MaxRLimit.LeafRightForeArmRoll1MaxRLimity
+    )
+    LeafRightForeArmRoll1MaxRLimitz = (
+        LeafRightForeArmRoll1MaxRLimit.LeafRightForeArmRoll1MaxRLimitz
+    )
 
     LeafRightForeArmRoll1MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19179,42 +24967,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftUpLegRoll2 = MessageField()
 
-    LeafLeftUpLegRoll2T = LeafLeftUpLegRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll2T = LeafLeftUpLegRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll2Tx = LeafLeftUpLegRoll2T.LeafLeftUpLegRoll2Tx
     LeafLeftUpLegRoll2Ty = LeafLeftUpLegRoll2T.LeafLeftUpLegRoll2Ty
     LeafLeftUpLegRoll2Tz = LeafLeftUpLegRoll2T.LeafLeftUpLegRoll2Tz
 
-    LeafLeftUpLegRoll2R = LeafLeftUpLegRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll2R = LeafLeftUpLegRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll2Rx = LeafLeftUpLegRoll2R.LeafLeftUpLegRoll2Rx
     LeafLeftUpLegRoll2Ry = LeafLeftUpLegRoll2R.LeafLeftUpLegRoll2Ry
     LeafLeftUpLegRoll2Rz = LeafLeftUpLegRoll2R.LeafLeftUpLegRoll2Rz
 
-    LeafLeftUpLegRoll2S = LeafLeftUpLegRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll2S = LeafLeftUpLegRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll2Sx = LeafLeftUpLegRoll2S.LeafLeftUpLegRoll2Sx
     LeafLeftUpLegRoll2Sy = LeafLeftUpLegRoll2S.LeafLeftUpLegRoll2Sy
     LeafLeftUpLegRoll2Sz = LeafLeftUpLegRoll2S.LeafLeftUpLegRoll2Sz
 
-    LeafLeftUpLegRoll2RotateOrder = LeafLeftUpLegRoll2RotateOrderEnumField(default_value=0)
+    LeafLeftUpLegRoll2RotateOrder = LeafLeftUpLegRoll2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftUpLegRoll2RotateAxis = LeafLeftUpLegRoll2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll2RotateAxisx = LeafLeftUpLegRoll2RotateAxis.LeafLeftUpLegRoll2RotateAxisx
-    LeafLeftUpLegRoll2RotateAxisy = LeafLeftUpLegRoll2RotateAxis.LeafLeftUpLegRoll2RotateAxisy
-    LeafLeftUpLegRoll2RotateAxisz = LeafLeftUpLegRoll2RotateAxis.LeafLeftUpLegRoll2RotateAxisz
+    LeafLeftUpLegRoll2RotateAxis = LeafLeftUpLegRoll2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll2RotateAxisx = (
+        LeafLeftUpLegRoll2RotateAxis.LeafLeftUpLegRoll2RotateAxisx
+    )
+    LeafLeftUpLegRoll2RotateAxisy = (
+        LeafLeftUpLegRoll2RotateAxis.LeafLeftUpLegRoll2RotateAxisy
+    )
+    LeafLeftUpLegRoll2RotateAxisz = (
+        LeafLeftUpLegRoll2RotateAxis.LeafLeftUpLegRoll2RotateAxisz
+    )
 
-    LeafLeftUpLegRoll2JointOrient = LeafLeftUpLegRoll2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll2JointOrientx = LeafLeftUpLegRoll2JointOrient.LeafLeftUpLegRoll2JointOrientx
-    LeafLeftUpLegRoll2JointOrienty = LeafLeftUpLegRoll2JointOrient.LeafLeftUpLegRoll2JointOrienty
-    LeafLeftUpLegRoll2JointOrientz = LeafLeftUpLegRoll2JointOrient.LeafLeftUpLegRoll2JointOrientz
+    LeafLeftUpLegRoll2JointOrient = LeafLeftUpLegRoll2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll2JointOrientx = (
+        LeafLeftUpLegRoll2JointOrient.LeafLeftUpLegRoll2JointOrientx
+    )
+    LeafLeftUpLegRoll2JointOrienty = (
+        LeafLeftUpLegRoll2JointOrient.LeafLeftUpLegRoll2JointOrienty
+    )
+    LeafLeftUpLegRoll2JointOrientz = (
+        LeafLeftUpLegRoll2JointOrient.LeafLeftUpLegRoll2JointOrientz
+    )
 
-    LeafLeftUpLegRoll2MinRLimit = LeafLeftUpLegRoll2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll2MinRLimitx = LeafLeftUpLegRoll2MinRLimit.LeafLeftUpLegRoll2MinRLimitx
-    LeafLeftUpLegRoll2MinRLimity = LeafLeftUpLegRoll2MinRLimit.LeafLeftUpLegRoll2MinRLimity
-    LeafLeftUpLegRoll2MinRLimitz = LeafLeftUpLegRoll2MinRLimit.LeafLeftUpLegRoll2MinRLimitz
+    LeafLeftUpLegRoll2MinRLimit = LeafLeftUpLegRoll2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll2MinRLimitx = (
+        LeafLeftUpLegRoll2MinRLimit.LeafLeftUpLegRoll2MinRLimitx
+    )
+    LeafLeftUpLegRoll2MinRLimity = (
+        LeafLeftUpLegRoll2MinRLimit.LeafLeftUpLegRoll2MinRLimity
+    )
+    LeafLeftUpLegRoll2MinRLimitz = (
+        LeafLeftUpLegRoll2MinRLimit.LeafLeftUpLegRoll2MinRLimitz
+    )
 
-    LeafLeftUpLegRoll2MaxRLimit = LeafLeftUpLegRoll2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll2MaxRLimitx = LeafLeftUpLegRoll2MaxRLimit.LeafLeftUpLegRoll2MaxRLimitx
-    LeafLeftUpLegRoll2MaxRLimity = LeafLeftUpLegRoll2MaxRLimit.LeafLeftUpLegRoll2MaxRLimity
-    LeafLeftUpLegRoll2MaxRLimitz = LeafLeftUpLegRoll2MaxRLimit.LeafLeftUpLegRoll2MaxRLimitz
+    LeafLeftUpLegRoll2MaxRLimit = LeafLeftUpLegRoll2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll2MaxRLimitx = (
+        LeafLeftUpLegRoll2MaxRLimit.LeafLeftUpLegRoll2MaxRLimitx
+    )
+    LeafLeftUpLegRoll2MaxRLimity = (
+        LeafLeftUpLegRoll2MaxRLimit.LeafLeftUpLegRoll2MaxRLimity
+    )
+    LeafLeftUpLegRoll2MaxRLimitz = (
+        LeafLeftUpLegRoll2MaxRLimit.LeafLeftUpLegRoll2MaxRLimitz
+    )
 
     LeafLeftUpLegRoll2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19245,27 +25073,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftLegRoll2Sy = LeafLeftLegRoll2S.LeafLeftLegRoll2Sy
     LeafLeftLegRoll2Sz = LeafLeftLegRoll2S.LeafLeftLegRoll2Sz
 
-    LeafLeftLegRoll2RotateOrder = LeafLeftLegRoll2RotateOrderEnumField(default_value=0)
+    LeafLeftLegRoll2RotateOrder = LeafLeftLegRoll2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftLegRoll2RotateAxis = LeafLeftLegRoll2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll2RotateAxisx = LeafLeftLegRoll2RotateAxis.LeafLeftLegRoll2RotateAxisx
-    LeafLeftLegRoll2RotateAxisy = LeafLeftLegRoll2RotateAxis.LeafLeftLegRoll2RotateAxisy
-    LeafLeftLegRoll2RotateAxisz = LeafLeftLegRoll2RotateAxis.LeafLeftLegRoll2RotateAxisz
+    LeafLeftLegRoll2RotateAxis = LeafLeftLegRoll2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll2RotateAxisx = (
+        LeafLeftLegRoll2RotateAxis.LeafLeftLegRoll2RotateAxisx
+    )
+    LeafLeftLegRoll2RotateAxisy = (
+        LeafLeftLegRoll2RotateAxis.LeafLeftLegRoll2RotateAxisy
+    )
+    LeafLeftLegRoll2RotateAxisz = (
+        LeafLeftLegRoll2RotateAxis.LeafLeftLegRoll2RotateAxisz
+    )
 
-    LeafLeftLegRoll2JointOrient = LeafLeftLegRoll2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll2JointOrientx = LeafLeftLegRoll2JointOrient.LeafLeftLegRoll2JointOrientx
-    LeafLeftLegRoll2JointOrienty = LeafLeftLegRoll2JointOrient.LeafLeftLegRoll2JointOrienty
-    LeafLeftLegRoll2JointOrientz = LeafLeftLegRoll2JointOrient.LeafLeftLegRoll2JointOrientz
+    LeafLeftLegRoll2JointOrient = LeafLeftLegRoll2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll2JointOrientx = (
+        LeafLeftLegRoll2JointOrient.LeafLeftLegRoll2JointOrientx
+    )
+    LeafLeftLegRoll2JointOrienty = (
+        LeafLeftLegRoll2JointOrient.LeafLeftLegRoll2JointOrienty
+    )
+    LeafLeftLegRoll2JointOrientz = (
+        LeafLeftLegRoll2JointOrient.LeafLeftLegRoll2JointOrientz
+    )
 
-    LeafLeftLegRoll2MinRLimit = LeafLeftLegRoll2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll2MinRLimitx = LeafLeftLegRoll2MinRLimit.LeafLeftLegRoll2MinRLimitx
-    LeafLeftLegRoll2MinRLimity = LeafLeftLegRoll2MinRLimit.LeafLeftLegRoll2MinRLimity
-    LeafLeftLegRoll2MinRLimitz = LeafLeftLegRoll2MinRLimit.LeafLeftLegRoll2MinRLimitz
+    LeafLeftLegRoll2MinRLimit = LeafLeftLegRoll2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll2MinRLimitx = (
+        LeafLeftLegRoll2MinRLimit.LeafLeftLegRoll2MinRLimitx
+    )
+    LeafLeftLegRoll2MinRLimity = (
+        LeafLeftLegRoll2MinRLimit.LeafLeftLegRoll2MinRLimity
+    )
+    LeafLeftLegRoll2MinRLimitz = (
+        LeafLeftLegRoll2MinRLimit.LeafLeftLegRoll2MinRLimitz
+    )
 
-    LeafLeftLegRoll2MaxRLimit = LeafLeftLegRoll2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll2MaxRLimitx = LeafLeftLegRoll2MaxRLimit.LeafLeftLegRoll2MaxRLimitx
-    LeafLeftLegRoll2MaxRLimity = LeafLeftLegRoll2MaxRLimit.LeafLeftLegRoll2MaxRLimity
-    LeafLeftLegRoll2MaxRLimitz = LeafLeftLegRoll2MaxRLimit.LeafLeftLegRoll2MaxRLimitz
+    LeafLeftLegRoll2MaxRLimit = LeafLeftLegRoll2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll2MaxRLimitx = (
+        LeafLeftLegRoll2MaxRLimit.LeafLeftLegRoll2MaxRLimitx
+    )
+    LeafLeftLegRoll2MaxRLimity = (
+        LeafLeftLegRoll2MaxRLimit.LeafLeftLegRoll2MaxRLimity
+    )
+    LeafLeftLegRoll2MaxRLimitz = (
+        LeafLeftLegRoll2MaxRLimit.LeafLeftLegRoll2MaxRLimitz
+    )
 
     LeafLeftLegRoll2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19281,42 +25143,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightUpLegRoll2 = MessageField()
 
-    LeafRightUpLegRoll2T = LeafRightUpLegRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll2T = LeafRightUpLegRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll2Tx = LeafRightUpLegRoll2T.LeafRightUpLegRoll2Tx
     LeafRightUpLegRoll2Ty = LeafRightUpLegRoll2T.LeafRightUpLegRoll2Ty
     LeafRightUpLegRoll2Tz = LeafRightUpLegRoll2T.LeafRightUpLegRoll2Tz
 
-    LeafRightUpLegRoll2R = LeafRightUpLegRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll2R = LeafRightUpLegRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll2Rx = LeafRightUpLegRoll2R.LeafRightUpLegRoll2Rx
     LeafRightUpLegRoll2Ry = LeafRightUpLegRoll2R.LeafRightUpLegRoll2Ry
     LeafRightUpLegRoll2Rz = LeafRightUpLegRoll2R.LeafRightUpLegRoll2Rz
 
-    LeafRightUpLegRoll2S = LeafRightUpLegRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll2S = LeafRightUpLegRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll2Sx = LeafRightUpLegRoll2S.LeafRightUpLegRoll2Sx
     LeafRightUpLegRoll2Sy = LeafRightUpLegRoll2S.LeafRightUpLegRoll2Sy
     LeafRightUpLegRoll2Sz = LeafRightUpLegRoll2S.LeafRightUpLegRoll2Sz
 
-    LeafRightUpLegRoll2RotateOrder = LeafRightUpLegRoll2RotateOrderEnumField(default_value=0)
+    LeafRightUpLegRoll2RotateOrder = LeafRightUpLegRoll2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightUpLegRoll2RotateAxis = LeafRightUpLegRoll2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll2RotateAxisx = LeafRightUpLegRoll2RotateAxis.LeafRightUpLegRoll2RotateAxisx
-    LeafRightUpLegRoll2RotateAxisy = LeafRightUpLegRoll2RotateAxis.LeafRightUpLegRoll2RotateAxisy
-    LeafRightUpLegRoll2RotateAxisz = LeafRightUpLegRoll2RotateAxis.LeafRightUpLegRoll2RotateAxisz
+    LeafRightUpLegRoll2RotateAxis = LeafRightUpLegRoll2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll2RotateAxisx = (
+        LeafRightUpLegRoll2RotateAxis.LeafRightUpLegRoll2RotateAxisx
+    )
+    LeafRightUpLegRoll2RotateAxisy = (
+        LeafRightUpLegRoll2RotateAxis.LeafRightUpLegRoll2RotateAxisy
+    )
+    LeafRightUpLegRoll2RotateAxisz = (
+        LeafRightUpLegRoll2RotateAxis.LeafRightUpLegRoll2RotateAxisz
+    )
 
-    LeafRightUpLegRoll2JointOrient = LeafRightUpLegRoll2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll2JointOrientx = LeafRightUpLegRoll2JointOrient.LeafRightUpLegRoll2JointOrientx
-    LeafRightUpLegRoll2JointOrienty = LeafRightUpLegRoll2JointOrient.LeafRightUpLegRoll2JointOrienty
-    LeafRightUpLegRoll2JointOrientz = LeafRightUpLegRoll2JointOrient.LeafRightUpLegRoll2JointOrientz
+    LeafRightUpLegRoll2JointOrient = LeafRightUpLegRoll2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll2JointOrientx = (
+        LeafRightUpLegRoll2JointOrient.LeafRightUpLegRoll2JointOrientx
+    )
+    LeafRightUpLegRoll2JointOrienty = (
+        LeafRightUpLegRoll2JointOrient.LeafRightUpLegRoll2JointOrienty
+    )
+    LeafRightUpLegRoll2JointOrientz = (
+        LeafRightUpLegRoll2JointOrient.LeafRightUpLegRoll2JointOrientz
+    )
 
-    LeafRightUpLegRoll2MinRLimit = LeafRightUpLegRoll2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll2MinRLimitx = LeafRightUpLegRoll2MinRLimit.LeafRightUpLegRoll2MinRLimitx
-    LeafRightUpLegRoll2MinRLimity = LeafRightUpLegRoll2MinRLimit.LeafRightUpLegRoll2MinRLimity
-    LeafRightUpLegRoll2MinRLimitz = LeafRightUpLegRoll2MinRLimit.LeafRightUpLegRoll2MinRLimitz
+    LeafRightUpLegRoll2MinRLimit = LeafRightUpLegRoll2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll2MinRLimitx = (
+        LeafRightUpLegRoll2MinRLimit.LeafRightUpLegRoll2MinRLimitx
+    )
+    LeafRightUpLegRoll2MinRLimity = (
+        LeafRightUpLegRoll2MinRLimit.LeafRightUpLegRoll2MinRLimity
+    )
+    LeafRightUpLegRoll2MinRLimitz = (
+        LeafRightUpLegRoll2MinRLimit.LeafRightUpLegRoll2MinRLimitz
+    )
 
-    LeafRightUpLegRoll2MaxRLimit = LeafRightUpLegRoll2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll2MaxRLimitx = LeafRightUpLegRoll2MaxRLimit.LeafRightUpLegRoll2MaxRLimitx
-    LeafRightUpLegRoll2MaxRLimity = LeafRightUpLegRoll2MaxRLimit.LeafRightUpLegRoll2MaxRLimity
-    LeafRightUpLegRoll2MaxRLimitz = LeafRightUpLegRoll2MaxRLimit.LeafRightUpLegRoll2MaxRLimitz
+    LeafRightUpLegRoll2MaxRLimit = LeafRightUpLegRoll2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll2MaxRLimitx = (
+        LeafRightUpLegRoll2MaxRLimit.LeafRightUpLegRoll2MaxRLimitx
+    )
+    LeafRightUpLegRoll2MaxRLimity = (
+        LeafRightUpLegRoll2MaxRLimit.LeafRightUpLegRoll2MaxRLimity
+    )
+    LeafRightUpLegRoll2MaxRLimitz = (
+        LeafRightUpLegRoll2MaxRLimit.LeafRightUpLegRoll2MaxRLimitz
+    )
 
     LeafRightUpLegRoll2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19347,27 +25249,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightLegRoll2Sy = LeafRightLegRoll2S.LeafRightLegRoll2Sy
     LeafRightLegRoll2Sz = LeafRightLegRoll2S.LeafRightLegRoll2Sz
 
-    LeafRightLegRoll2RotateOrder = LeafRightLegRoll2RotateOrderEnumField(default_value=0)
+    LeafRightLegRoll2RotateOrder = LeafRightLegRoll2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightLegRoll2RotateAxis = LeafRightLegRoll2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll2RotateAxisx = LeafRightLegRoll2RotateAxis.LeafRightLegRoll2RotateAxisx
-    LeafRightLegRoll2RotateAxisy = LeafRightLegRoll2RotateAxis.LeafRightLegRoll2RotateAxisy
-    LeafRightLegRoll2RotateAxisz = LeafRightLegRoll2RotateAxis.LeafRightLegRoll2RotateAxisz
+    LeafRightLegRoll2RotateAxis = LeafRightLegRoll2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll2RotateAxisx = (
+        LeafRightLegRoll2RotateAxis.LeafRightLegRoll2RotateAxisx
+    )
+    LeafRightLegRoll2RotateAxisy = (
+        LeafRightLegRoll2RotateAxis.LeafRightLegRoll2RotateAxisy
+    )
+    LeafRightLegRoll2RotateAxisz = (
+        LeafRightLegRoll2RotateAxis.LeafRightLegRoll2RotateAxisz
+    )
 
-    LeafRightLegRoll2JointOrient = LeafRightLegRoll2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll2JointOrientx = LeafRightLegRoll2JointOrient.LeafRightLegRoll2JointOrientx
-    LeafRightLegRoll2JointOrienty = LeafRightLegRoll2JointOrient.LeafRightLegRoll2JointOrienty
-    LeafRightLegRoll2JointOrientz = LeafRightLegRoll2JointOrient.LeafRightLegRoll2JointOrientz
+    LeafRightLegRoll2JointOrient = LeafRightLegRoll2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll2JointOrientx = (
+        LeafRightLegRoll2JointOrient.LeafRightLegRoll2JointOrientx
+    )
+    LeafRightLegRoll2JointOrienty = (
+        LeafRightLegRoll2JointOrient.LeafRightLegRoll2JointOrienty
+    )
+    LeafRightLegRoll2JointOrientz = (
+        LeafRightLegRoll2JointOrient.LeafRightLegRoll2JointOrientz
+    )
 
-    LeafRightLegRoll2MinRLimit = LeafRightLegRoll2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll2MinRLimitx = LeafRightLegRoll2MinRLimit.LeafRightLegRoll2MinRLimitx
-    LeafRightLegRoll2MinRLimity = LeafRightLegRoll2MinRLimit.LeafRightLegRoll2MinRLimity
-    LeafRightLegRoll2MinRLimitz = LeafRightLegRoll2MinRLimit.LeafRightLegRoll2MinRLimitz
+    LeafRightLegRoll2MinRLimit = LeafRightLegRoll2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll2MinRLimitx = (
+        LeafRightLegRoll2MinRLimit.LeafRightLegRoll2MinRLimitx
+    )
+    LeafRightLegRoll2MinRLimity = (
+        LeafRightLegRoll2MinRLimit.LeafRightLegRoll2MinRLimity
+    )
+    LeafRightLegRoll2MinRLimitz = (
+        LeafRightLegRoll2MinRLimit.LeafRightLegRoll2MinRLimitz
+    )
 
-    LeafRightLegRoll2MaxRLimit = LeafRightLegRoll2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll2MaxRLimitx = LeafRightLegRoll2MaxRLimit.LeafRightLegRoll2MaxRLimitx
-    LeafRightLegRoll2MaxRLimity = LeafRightLegRoll2MaxRLimit.LeafRightLegRoll2MaxRLimity
-    LeafRightLegRoll2MaxRLimitz = LeafRightLegRoll2MaxRLimit.LeafRightLegRoll2MaxRLimitz
+    LeafRightLegRoll2MaxRLimit = LeafRightLegRoll2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll2MaxRLimitx = (
+        LeafRightLegRoll2MaxRLimit.LeafRightLegRoll2MaxRLimitx
+    )
+    LeafRightLegRoll2MaxRLimity = (
+        LeafRightLegRoll2MaxRLimit.LeafRightLegRoll2MaxRLimity
+    )
+    LeafRightLegRoll2MaxRLimitz = (
+        LeafRightLegRoll2MaxRLimit.LeafRightLegRoll2MaxRLimitz
+    )
 
     LeafRightLegRoll2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19398,27 +25334,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftArmRoll2Sy = LeafLeftArmRoll2S.LeafLeftArmRoll2Sy
     LeafLeftArmRoll2Sz = LeafLeftArmRoll2S.LeafLeftArmRoll2Sz
 
-    LeafLeftArmRoll2RotateOrder = LeafLeftArmRoll2RotateOrderEnumField(default_value=0)
+    LeafLeftArmRoll2RotateOrder = LeafLeftArmRoll2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftArmRoll2RotateAxis = LeafLeftArmRoll2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll2RotateAxisx = LeafLeftArmRoll2RotateAxis.LeafLeftArmRoll2RotateAxisx
-    LeafLeftArmRoll2RotateAxisy = LeafLeftArmRoll2RotateAxis.LeafLeftArmRoll2RotateAxisy
-    LeafLeftArmRoll2RotateAxisz = LeafLeftArmRoll2RotateAxis.LeafLeftArmRoll2RotateAxisz
+    LeafLeftArmRoll2RotateAxis = LeafLeftArmRoll2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll2RotateAxisx = (
+        LeafLeftArmRoll2RotateAxis.LeafLeftArmRoll2RotateAxisx
+    )
+    LeafLeftArmRoll2RotateAxisy = (
+        LeafLeftArmRoll2RotateAxis.LeafLeftArmRoll2RotateAxisy
+    )
+    LeafLeftArmRoll2RotateAxisz = (
+        LeafLeftArmRoll2RotateAxis.LeafLeftArmRoll2RotateAxisz
+    )
 
-    LeafLeftArmRoll2JointOrient = LeafLeftArmRoll2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll2JointOrientx = LeafLeftArmRoll2JointOrient.LeafLeftArmRoll2JointOrientx
-    LeafLeftArmRoll2JointOrienty = LeafLeftArmRoll2JointOrient.LeafLeftArmRoll2JointOrienty
-    LeafLeftArmRoll2JointOrientz = LeafLeftArmRoll2JointOrient.LeafLeftArmRoll2JointOrientz
+    LeafLeftArmRoll2JointOrient = LeafLeftArmRoll2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll2JointOrientx = (
+        LeafLeftArmRoll2JointOrient.LeafLeftArmRoll2JointOrientx
+    )
+    LeafLeftArmRoll2JointOrienty = (
+        LeafLeftArmRoll2JointOrient.LeafLeftArmRoll2JointOrienty
+    )
+    LeafLeftArmRoll2JointOrientz = (
+        LeafLeftArmRoll2JointOrient.LeafLeftArmRoll2JointOrientz
+    )
 
-    LeafLeftArmRoll2MinRLimit = LeafLeftArmRoll2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll2MinRLimitx = LeafLeftArmRoll2MinRLimit.LeafLeftArmRoll2MinRLimitx
-    LeafLeftArmRoll2MinRLimity = LeafLeftArmRoll2MinRLimit.LeafLeftArmRoll2MinRLimity
-    LeafLeftArmRoll2MinRLimitz = LeafLeftArmRoll2MinRLimit.LeafLeftArmRoll2MinRLimitz
+    LeafLeftArmRoll2MinRLimit = LeafLeftArmRoll2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll2MinRLimitx = (
+        LeafLeftArmRoll2MinRLimit.LeafLeftArmRoll2MinRLimitx
+    )
+    LeafLeftArmRoll2MinRLimity = (
+        LeafLeftArmRoll2MinRLimit.LeafLeftArmRoll2MinRLimity
+    )
+    LeafLeftArmRoll2MinRLimitz = (
+        LeafLeftArmRoll2MinRLimit.LeafLeftArmRoll2MinRLimitz
+    )
 
-    LeafLeftArmRoll2MaxRLimit = LeafLeftArmRoll2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll2MaxRLimitx = LeafLeftArmRoll2MaxRLimit.LeafLeftArmRoll2MaxRLimitx
-    LeafLeftArmRoll2MaxRLimity = LeafLeftArmRoll2MaxRLimit.LeafLeftArmRoll2MaxRLimity
-    LeafLeftArmRoll2MaxRLimitz = LeafLeftArmRoll2MaxRLimit.LeafLeftArmRoll2MaxRLimitz
+    LeafLeftArmRoll2MaxRLimit = LeafLeftArmRoll2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll2MaxRLimitx = (
+        LeafLeftArmRoll2MaxRLimit.LeafLeftArmRoll2MaxRLimitx
+    )
+    LeafLeftArmRoll2MaxRLimity = (
+        LeafLeftArmRoll2MaxRLimit.LeafLeftArmRoll2MaxRLimity
+    )
+    LeafLeftArmRoll2MaxRLimitz = (
+        LeafLeftArmRoll2MaxRLimit.LeafLeftArmRoll2MaxRLimitz
+    )
 
     LeafLeftArmRoll2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19434,42 +25404,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftForeArmRoll2 = MessageField()
 
-    LeafLeftForeArmRoll2T = LeafLeftForeArmRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll2T = LeafLeftForeArmRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll2Tx = LeafLeftForeArmRoll2T.LeafLeftForeArmRoll2Tx
     LeafLeftForeArmRoll2Ty = LeafLeftForeArmRoll2T.LeafLeftForeArmRoll2Ty
     LeafLeftForeArmRoll2Tz = LeafLeftForeArmRoll2T.LeafLeftForeArmRoll2Tz
 
-    LeafLeftForeArmRoll2R = LeafLeftForeArmRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll2R = LeafLeftForeArmRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll2Rx = LeafLeftForeArmRoll2R.LeafLeftForeArmRoll2Rx
     LeafLeftForeArmRoll2Ry = LeafLeftForeArmRoll2R.LeafLeftForeArmRoll2Ry
     LeafLeftForeArmRoll2Rz = LeafLeftForeArmRoll2R.LeafLeftForeArmRoll2Rz
 
-    LeafLeftForeArmRoll2S = LeafLeftForeArmRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll2S = LeafLeftForeArmRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll2Sx = LeafLeftForeArmRoll2S.LeafLeftForeArmRoll2Sx
     LeafLeftForeArmRoll2Sy = LeafLeftForeArmRoll2S.LeafLeftForeArmRoll2Sy
     LeafLeftForeArmRoll2Sz = LeafLeftForeArmRoll2S.LeafLeftForeArmRoll2Sz
 
-    LeafLeftForeArmRoll2RotateOrder = LeafLeftForeArmRoll2RotateOrderEnumField(default_value=0)
+    LeafLeftForeArmRoll2RotateOrder = LeafLeftForeArmRoll2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftForeArmRoll2RotateAxis = LeafLeftForeArmRoll2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll2RotateAxisx = LeafLeftForeArmRoll2RotateAxis.LeafLeftForeArmRoll2RotateAxisx
-    LeafLeftForeArmRoll2RotateAxisy = LeafLeftForeArmRoll2RotateAxis.LeafLeftForeArmRoll2RotateAxisy
-    LeafLeftForeArmRoll2RotateAxisz = LeafLeftForeArmRoll2RotateAxis.LeafLeftForeArmRoll2RotateAxisz
+    LeafLeftForeArmRoll2RotateAxis = LeafLeftForeArmRoll2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll2RotateAxisx = (
+        LeafLeftForeArmRoll2RotateAxis.LeafLeftForeArmRoll2RotateAxisx
+    )
+    LeafLeftForeArmRoll2RotateAxisy = (
+        LeafLeftForeArmRoll2RotateAxis.LeafLeftForeArmRoll2RotateAxisy
+    )
+    LeafLeftForeArmRoll2RotateAxisz = (
+        LeafLeftForeArmRoll2RotateAxis.LeafLeftForeArmRoll2RotateAxisz
+    )
 
-    LeafLeftForeArmRoll2JointOrient = LeafLeftForeArmRoll2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll2JointOrientx = LeafLeftForeArmRoll2JointOrient.LeafLeftForeArmRoll2JointOrientx
-    LeafLeftForeArmRoll2JointOrienty = LeafLeftForeArmRoll2JointOrient.LeafLeftForeArmRoll2JointOrienty
-    LeafLeftForeArmRoll2JointOrientz = LeafLeftForeArmRoll2JointOrient.LeafLeftForeArmRoll2JointOrientz
+    LeafLeftForeArmRoll2JointOrient = LeafLeftForeArmRoll2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll2JointOrientx = (
+        LeafLeftForeArmRoll2JointOrient.LeafLeftForeArmRoll2JointOrientx
+    )
+    LeafLeftForeArmRoll2JointOrienty = (
+        LeafLeftForeArmRoll2JointOrient.LeafLeftForeArmRoll2JointOrienty
+    )
+    LeafLeftForeArmRoll2JointOrientz = (
+        LeafLeftForeArmRoll2JointOrient.LeafLeftForeArmRoll2JointOrientz
+    )
 
-    LeafLeftForeArmRoll2MinRLimit = LeafLeftForeArmRoll2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll2MinRLimitx = LeafLeftForeArmRoll2MinRLimit.LeafLeftForeArmRoll2MinRLimitx
-    LeafLeftForeArmRoll2MinRLimity = LeafLeftForeArmRoll2MinRLimit.LeafLeftForeArmRoll2MinRLimity
-    LeafLeftForeArmRoll2MinRLimitz = LeafLeftForeArmRoll2MinRLimit.LeafLeftForeArmRoll2MinRLimitz
+    LeafLeftForeArmRoll2MinRLimit = LeafLeftForeArmRoll2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll2MinRLimitx = (
+        LeafLeftForeArmRoll2MinRLimit.LeafLeftForeArmRoll2MinRLimitx
+    )
+    LeafLeftForeArmRoll2MinRLimity = (
+        LeafLeftForeArmRoll2MinRLimit.LeafLeftForeArmRoll2MinRLimity
+    )
+    LeafLeftForeArmRoll2MinRLimitz = (
+        LeafLeftForeArmRoll2MinRLimit.LeafLeftForeArmRoll2MinRLimitz
+    )
 
-    LeafLeftForeArmRoll2MaxRLimit = LeafLeftForeArmRoll2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll2MaxRLimitx = LeafLeftForeArmRoll2MaxRLimit.LeafLeftForeArmRoll2MaxRLimitx
-    LeafLeftForeArmRoll2MaxRLimity = LeafLeftForeArmRoll2MaxRLimit.LeafLeftForeArmRoll2MaxRLimity
-    LeafLeftForeArmRoll2MaxRLimitz = LeafLeftForeArmRoll2MaxRLimit.LeafLeftForeArmRoll2MaxRLimitz
+    LeafLeftForeArmRoll2MaxRLimit = LeafLeftForeArmRoll2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll2MaxRLimitx = (
+        LeafLeftForeArmRoll2MaxRLimit.LeafLeftForeArmRoll2MaxRLimitx
+    )
+    LeafLeftForeArmRoll2MaxRLimity = (
+        LeafLeftForeArmRoll2MaxRLimit.LeafLeftForeArmRoll2MaxRLimity
+    )
+    LeafLeftForeArmRoll2MaxRLimitz = (
+        LeafLeftForeArmRoll2MaxRLimit.LeafLeftForeArmRoll2MaxRLimitz
+    )
 
     LeafLeftForeArmRoll2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19500,27 +25510,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightArmRoll2Sy = LeafRightArmRoll2S.LeafRightArmRoll2Sy
     LeafRightArmRoll2Sz = LeafRightArmRoll2S.LeafRightArmRoll2Sz
 
-    LeafRightArmRoll2RotateOrder = LeafRightArmRoll2RotateOrderEnumField(default_value=0)
+    LeafRightArmRoll2RotateOrder = LeafRightArmRoll2RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightArmRoll2RotateAxis = LeafRightArmRoll2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll2RotateAxisx = LeafRightArmRoll2RotateAxis.LeafRightArmRoll2RotateAxisx
-    LeafRightArmRoll2RotateAxisy = LeafRightArmRoll2RotateAxis.LeafRightArmRoll2RotateAxisy
-    LeafRightArmRoll2RotateAxisz = LeafRightArmRoll2RotateAxis.LeafRightArmRoll2RotateAxisz
+    LeafRightArmRoll2RotateAxis = LeafRightArmRoll2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll2RotateAxisx = (
+        LeafRightArmRoll2RotateAxis.LeafRightArmRoll2RotateAxisx
+    )
+    LeafRightArmRoll2RotateAxisy = (
+        LeafRightArmRoll2RotateAxis.LeafRightArmRoll2RotateAxisy
+    )
+    LeafRightArmRoll2RotateAxisz = (
+        LeafRightArmRoll2RotateAxis.LeafRightArmRoll2RotateAxisz
+    )
 
-    LeafRightArmRoll2JointOrient = LeafRightArmRoll2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll2JointOrientx = LeafRightArmRoll2JointOrient.LeafRightArmRoll2JointOrientx
-    LeafRightArmRoll2JointOrienty = LeafRightArmRoll2JointOrient.LeafRightArmRoll2JointOrienty
-    LeafRightArmRoll2JointOrientz = LeafRightArmRoll2JointOrient.LeafRightArmRoll2JointOrientz
+    LeafRightArmRoll2JointOrient = LeafRightArmRoll2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll2JointOrientx = (
+        LeafRightArmRoll2JointOrient.LeafRightArmRoll2JointOrientx
+    )
+    LeafRightArmRoll2JointOrienty = (
+        LeafRightArmRoll2JointOrient.LeafRightArmRoll2JointOrienty
+    )
+    LeafRightArmRoll2JointOrientz = (
+        LeafRightArmRoll2JointOrient.LeafRightArmRoll2JointOrientz
+    )
 
-    LeafRightArmRoll2MinRLimit = LeafRightArmRoll2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll2MinRLimitx = LeafRightArmRoll2MinRLimit.LeafRightArmRoll2MinRLimitx
-    LeafRightArmRoll2MinRLimity = LeafRightArmRoll2MinRLimit.LeafRightArmRoll2MinRLimity
-    LeafRightArmRoll2MinRLimitz = LeafRightArmRoll2MinRLimit.LeafRightArmRoll2MinRLimitz
+    LeafRightArmRoll2MinRLimit = LeafRightArmRoll2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll2MinRLimitx = (
+        LeafRightArmRoll2MinRLimit.LeafRightArmRoll2MinRLimitx
+    )
+    LeafRightArmRoll2MinRLimity = (
+        LeafRightArmRoll2MinRLimit.LeafRightArmRoll2MinRLimity
+    )
+    LeafRightArmRoll2MinRLimitz = (
+        LeafRightArmRoll2MinRLimit.LeafRightArmRoll2MinRLimitz
+    )
 
-    LeafRightArmRoll2MaxRLimit = LeafRightArmRoll2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll2MaxRLimitx = LeafRightArmRoll2MaxRLimit.LeafRightArmRoll2MaxRLimitx
-    LeafRightArmRoll2MaxRLimity = LeafRightArmRoll2MaxRLimit.LeafRightArmRoll2MaxRLimity
-    LeafRightArmRoll2MaxRLimitz = LeafRightArmRoll2MaxRLimit.LeafRightArmRoll2MaxRLimitz
+    LeafRightArmRoll2MaxRLimit = LeafRightArmRoll2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll2MaxRLimitx = (
+        LeafRightArmRoll2MaxRLimit.LeafRightArmRoll2MaxRLimitx
+    )
+    LeafRightArmRoll2MaxRLimity = (
+        LeafRightArmRoll2MaxRLimit.LeafRightArmRoll2MaxRLimity
+    )
+    LeafRightArmRoll2MaxRLimitz = (
+        LeafRightArmRoll2MaxRLimit.LeafRightArmRoll2MaxRLimitz
+    )
 
     LeafRightArmRoll2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19536,42 +25580,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightForeArmRoll2 = MessageField()
 
-    LeafRightForeArmRoll2T = LeafRightForeArmRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll2T = LeafRightForeArmRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll2Tx = LeafRightForeArmRoll2T.LeafRightForeArmRoll2Tx
     LeafRightForeArmRoll2Ty = LeafRightForeArmRoll2T.LeafRightForeArmRoll2Ty
     LeafRightForeArmRoll2Tz = LeafRightForeArmRoll2T.LeafRightForeArmRoll2Tz
 
-    LeafRightForeArmRoll2R = LeafRightForeArmRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll2R = LeafRightForeArmRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll2Rx = LeafRightForeArmRoll2R.LeafRightForeArmRoll2Rx
     LeafRightForeArmRoll2Ry = LeafRightForeArmRoll2R.LeafRightForeArmRoll2Ry
     LeafRightForeArmRoll2Rz = LeafRightForeArmRoll2R.LeafRightForeArmRoll2Rz
 
-    LeafRightForeArmRoll2S = LeafRightForeArmRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll2S = LeafRightForeArmRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll2Sx = LeafRightForeArmRoll2S.LeafRightForeArmRoll2Sx
     LeafRightForeArmRoll2Sy = LeafRightForeArmRoll2S.LeafRightForeArmRoll2Sy
     LeafRightForeArmRoll2Sz = LeafRightForeArmRoll2S.LeafRightForeArmRoll2Sz
 
-    LeafRightForeArmRoll2RotateOrder = LeafRightForeArmRoll2RotateOrderEnumField(default_value=0)
+    LeafRightForeArmRoll2RotateOrder = (
+        LeafRightForeArmRoll2RotateOrderEnumField(default_value=0)
+    )
 
-    LeafRightForeArmRoll2RotateAxis = LeafRightForeArmRoll2RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll2RotateAxisx = LeafRightForeArmRoll2RotateAxis.LeafRightForeArmRoll2RotateAxisx
-    LeafRightForeArmRoll2RotateAxisy = LeafRightForeArmRoll2RotateAxis.LeafRightForeArmRoll2RotateAxisy
-    LeafRightForeArmRoll2RotateAxisz = LeafRightForeArmRoll2RotateAxis.LeafRightForeArmRoll2RotateAxisz
+    LeafRightForeArmRoll2RotateAxis = LeafRightForeArmRoll2RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll2RotateAxisx = (
+        LeafRightForeArmRoll2RotateAxis.LeafRightForeArmRoll2RotateAxisx
+    )
+    LeafRightForeArmRoll2RotateAxisy = (
+        LeafRightForeArmRoll2RotateAxis.LeafRightForeArmRoll2RotateAxisy
+    )
+    LeafRightForeArmRoll2RotateAxisz = (
+        LeafRightForeArmRoll2RotateAxis.LeafRightForeArmRoll2RotateAxisz
+    )
 
-    LeafRightForeArmRoll2JointOrient = LeafRightForeArmRoll2JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll2JointOrientx = LeafRightForeArmRoll2JointOrient.LeafRightForeArmRoll2JointOrientx
-    LeafRightForeArmRoll2JointOrienty = LeafRightForeArmRoll2JointOrient.LeafRightForeArmRoll2JointOrienty
-    LeafRightForeArmRoll2JointOrientz = LeafRightForeArmRoll2JointOrient.LeafRightForeArmRoll2JointOrientz
+    LeafRightForeArmRoll2JointOrient = LeafRightForeArmRoll2JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll2JointOrientx = (
+        LeafRightForeArmRoll2JointOrient.LeafRightForeArmRoll2JointOrientx
+    )
+    LeafRightForeArmRoll2JointOrienty = (
+        LeafRightForeArmRoll2JointOrient.LeafRightForeArmRoll2JointOrienty
+    )
+    LeafRightForeArmRoll2JointOrientz = (
+        LeafRightForeArmRoll2JointOrient.LeafRightForeArmRoll2JointOrientz
+    )
 
-    LeafRightForeArmRoll2MinRLimit = LeafRightForeArmRoll2MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll2MinRLimitx = LeafRightForeArmRoll2MinRLimit.LeafRightForeArmRoll2MinRLimitx
-    LeafRightForeArmRoll2MinRLimity = LeafRightForeArmRoll2MinRLimit.LeafRightForeArmRoll2MinRLimity
-    LeafRightForeArmRoll2MinRLimitz = LeafRightForeArmRoll2MinRLimit.LeafRightForeArmRoll2MinRLimitz
+    LeafRightForeArmRoll2MinRLimit = LeafRightForeArmRoll2MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll2MinRLimitx = (
+        LeafRightForeArmRoll2MinRLimit.LeafRightForeArmRoll2MinRLimitx
+    )
+    LeafRightForeArmRoll2MinRLimity = (
+        LeafRightForeArmRoll2MinRLimit.LeafRightForeArmRoll2MinRLimity
+    )
+    LeafRightForeArmRoll2MinRLimitz = (
+        LeafRightForeArmRoll2MinRLimit.LeafRightForeArmRoll2MinRLimitz
+    )
 
-    LeafRightForeArmRoll2MaxRLimit = LeafRightForeArmRoll2MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll2MaxRLimitx = LeafRightForeArmRoll2MaxRLimit.LeafRightForeArmRoll2MaxRLimitx
-    LeafRightForeArmRoll2MaxRLimity = LeafRightForeArmRoll2MaxRLimit.LeafRightForeArmRoll2MaxRLimity
-    LeafRightForeArmRoll2MaxRLimitz = LeafRightForeArmRoll2MaxRLimit.LeafRightForeArmRoll2MaxRLimitz
+    LeafRightForeArmRoll2MaxRLimit = LeafRightForeArmRoll2MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll2MaxRLimitx = (
+        LeafRightForeArmRoll2MaxRLimit.LeafRightForeArmRoll2MaxRLimitx
+    )
+    LeafRightForeArmRoll2MaxRLimity = (
+        LeafRightForeArmRoll2MaxRLimit.LeafRightForeArmRoll2MaxRLimity
+    )
+    LeafRightForeArmRoll2MaxRLimitz = (
+        LeafRightForeArmRoll2MaxRLimit.LeafRightForeArmRoll2MaxRLimitz
+    )
 
     LeafRightForeArmRoll2MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19587,42 +25671,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftUpLegRoll3 = MessageField()
 
-    LeafLeftUpLegRoll3T = LeafLeftUpLegRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll3T = LeafLeftUpLegRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll3Tx = LeafLeftUpLegRoll3T.LeafLeftUpLegRoll3Tx
     LeafLeftUpLegRoll3Ty = LeafLeftUpLegRoll3T.LeafLeftUpLegRoll3Ty
     LeafLeftUpLegRoll3Tz = LeafLeftUpLegRoll3T.LeafLeftUpLegRoll3Tz
 
-    LeafLeftUpLegRoll3R = LeafLeftUpLegRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll3R = LeafLeftUpLegRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll3Rx = LeafLeftUpLegRoll3R.LeafLeftUpLegRoll3Rx
     LeafLeftUpLegRoll3Ry = LeafLeftUpLegRoll3R.LeafLeftUpLegRoll3Ry
     LeafLeftUpLegRoll3Rz = LeafLeftUpLegRoll3R.LeafLeftUpLegRoll3Rz
 
-    LeafLeftUpLegRoll3S = LeafLeftUpLegRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll3S = LeafLeftUpLegRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll3Sx = LeafLeftUpLegRoll3S.LeafLeftUpLegRoll3Sx
     LeafLeftUpLegRoll3Sy = LeafLeftUpLegRoll3S.LeafLeftUpLegRoll3Sy
     LeafLeftUpLegRoll3Sz = LeafLeftUpLegRoll3S.LeafLeftUpLegRoll3Sz
 
-    LeafLeftUpLegRoll3RotateOrder = LeafLeftUpLegRoll3RotateOrderEnumField(default_value=0)
+    LeafLeftUpLegRoll3RotateOrder = LeafLeftUpLegRoll3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftUpLegRoll3RotateAxis = LeafLeftUpLegRoll3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll3RotateAxisx = LeafLeftUpLegRoll3RotateAxis.LeafLeftUpLegRoll3RotateAxisx
-    LeafLeftUpLegRoll3RotateAxisy = LeafLeftUpLegRoll3RotateAxis.LeafLeftUpLegRoll3RotateAxisy
-    LeafLeftUpLegRoll3RotateAxisz = LeafLeftUpLegRoll3RotateAxis.LeafLeftUpLegRoll3RotateAxisz
+    LeafLeftUpLegRoll3RotateAxis = LeafLeftUpLegRoll3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll3RotateAxisx = (
+        LeafLeftUpLegRoll3RotateAxis.LeafLeftUpLegRoll3RotateAxisx
+    )
+    LeafLeftUpLegRoll3RotateAxisy = (
+        LeafLeftUpLegRoll3RotateAxis.LeafLeftUpLegRoll3RotateAxisy
+    )
+    LeafLeftUpLegRoll3RotateAxisz = (
+        LeafLeftUpLegRoll3RotateAxis.LeafLeftUpLegRoll3RotateAxisz
+    )
 
-    LeafLeftUpLegRoll3JointOrient = LeafLeftUpLegRoll3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll3JointOrientx = LeafLeftUpLegRoll3JointOrient.LeafLeftUpLegRoll3JointOrientx
-    LeafLeftUpLegRoll3JointOrienty = LeafLeftUpLegRoll3JointOrient.LeafLeftUpLegRoll3JointOrienty
-    LeafLeftUpLegRoll3JointOrientz = LeafLeftUpLegRoll3JointOrient.LeafLeftUpLegRoll3JointOrientz
+    LeafLeftUpLegRoll3JointOrient = LeafLeftUpLegRoll3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll3JointOrientx = (
+        LeafLeftUpLegRoll3JointOrient.LeafLeftUpLegRoll3JointOrientx
+    )
+    LeafLeftUpLegRoll3JointOrienty = (
+        LeafLeftUpLegRoll3JointOrient.LeafLeftUpLegRoll3JointOrienty
+    )
+    LeafLeftUpLegRoll3JointOrientz = (
+        LeafLeftUpLegRoll3JointOrient.LeafLeftUpLegRoll3JointOrientz
+    )
 
-    LeafLeftUpLegRoll3MinRLimit = LeafLeftUpLegRoll3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll3MinRLimitx = LeafLeftUpLegRoll3MinRLimit.LeafLeftUpLegRoll3MinRLimitx
-    LeafLeftUpLegRoll3MinRLimity = LeafLeftUpLegRoll3MinRLimit.LeafLeftUpLegRoll3MinRLimity
-    LeafLeftUpLegRoll3MinRLimitz = LeafLeftUpLegRoll3MinRLimit.LeafLeftUpLegRoll3MinRLimitz
+    LeafLeftUpLegRoll3MinRLimit = LeafLeftUpLegRoll3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll3MinRLimitx = (
+        LeafLeftUpLegRoll3MinRLimit.LeafLeftUpLegRoll3MinRLimitx
+    )
+    LeafLeftUpLegRoll3MinRLimity = (
+        LeafLeftUpLegRoll3MinRLimit.LeafLeftUpLegRoll3MinRLimity
+    )
+    LeafLeftUpLegRoll3MinRLimitz = (
+        LeafLeftUpLegRoll3MinRLimit.LeafLeftUpLegRoll3MinRLimitz
+    )
 
-    LeafLeftUpLegRoll3MaxRLimit = LeafLeftUpLegRoll3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll3MaxRLimitx = LeafLeftUpLegRoll3MaxRLimit.LeafLeftUpLegRoll3MaxRLimitx
-    LeafLeftUpLegRoll3MaxRLimity = LeafLeftUpLegRoll3MaxRLimit.LeafLeftUpLegRoll3MaxRLimity
-    LeafLeftUpLegRoll3MaxRLimitz = LeafLeftUpLegRoll3MaxRLimit.LeafLeftUpLegRoll3MaxRLimitz
+    LeafLeftUpLegRoll3MaxRLimit = LeafLeftUpLegRoll3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll3MaxRLimitx = (
+        LeafLeftUpLegRoll3MaxRLimit.LeafLeftUpLegRoll3MaxRLimitx
+    )
+    LeafLeftUpLegRoll3MaxRLimity = (
+        LeafLeftUpLegRoll3MaxRLimit.LeafLeftUpLegRoll3MaxRLimity
+    )
+    LeafLeftUpLegRoll3MaxRLimitz = (
+        LeafLeftUpLegRoll3MaxRLimit.LeafLeftUpLegRoll3MaxRLimitz
+    )
 
     LeafLeftUpLegRoll3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19653,27 +25777,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftLegRoll3Sy = LeafLeftLegRoll3S.LeafLeftLegRoll3Sy
     LeafLeftLegRoll3Sz = LeafLeftLegRoll3S.LeafLeftLegRoll3Sz
 
-    LeafLeftLegRoll3RotateOrder = LeafLeftLegRoll3RotateOrderEnumField(default_value=0)
+    LeafLeftLegRoll3RotateOrder = LeafLeftLegRoll3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftLegRoll3RotateAxis = LeafLeftLegRoll3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll3RotateAxisx = LeafLeftLegRoll3RotateAxis.LeafLeftLegRoll3RotateAxisx
-    LeafLeftLegRoll3RotateAxisy = LeafLeftLegRoll3RotateAxis.LeafLeftLegRoll3RotateAxisy
-    LeafLeftLegRoll3RotateAxisz = LeafLeftLegRoll3RotateAxis.LeafLeftLegRoll3RotateAxisz
+    LeafLeftLegRoll3RotateAxis = LeafLeftLegRoll3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll3RotateAxisx = (
+        LeafLeftLegRoll3RotateAxis.LeafLeftLegRoll3RotateAxisx
+    )
+    LeafLeftLegRoll3RotateAxisy = (
+        LeafLeftLegRoll3RotateAxis.LeafLeftLegRoll3RotateAxisy
+    )
+    LeafLeftLegRoll3RotateAxisz = (
+        LeafLeftLegRoll3RotateAxis.LeafLeftLegRoll3RotateAxisz
+    )
 
-    LeafLeftLegRoll3JointOrient = LeafLeftLegRoll3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll3JointOrientx = LeafLeftLegRoll3JointOrient.LeafLeftLegRoll3JointOrientx
-    LeafLeftLegRoll3JointOrienty = LeafLeftLegRoll3JointOrient.LeafLeftLegRoll3JointOrienty
-    LeafLeftLegRoll3JointOrientz = LeafLeftLegRoll3JointOrient.LeafLeftLegRoll3JointOrientz
+    LeafLeftLegRoll3JointOrient = LeafLeftLegRoll3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll3JointOrientx = (
+        LeafLeftLegRoll3JointOrient.LeafLeftLegRoll3JointOrientx
+    )
+    LeafLeftLegRoll3JointOrienty = (
+        LeafLeftLegRoll3JointOrient.LeafLeftLegRoll3JointOrienty
+    )
+    LeafLeftLegRoll3JointOrientz = (
+        LeafLeftLegRoll3JointOrient.LeafLeftLegRoll3JointOrientz
+    )
 
-    LeafLeftLegRoll3MinRLimit = LeafLeftLegRoll3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll3MinRLimitx = LeafLeftLegRoll3MinRLimit.LeafLeftLegRoll3MinRLimitx
-    LeafLeftLegRoll3MinRLimity = LeafLeftLegRoll3MinRLimit.LeafLeftLegRoll3MinRLimity
-    LeafLeftLegRoll3MinRLimitz = LeafLeftLegRoll3MinRLimit.LeafLeftLegRoll3MinRLimitz
+    LeafLeftLegRoll3MinRLimit = LeafLeftLegRoll3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll3MinRLimitx = (
+        LeafLeftLegRoll3MinRLimit.LeafLeftLegRoll3MinRLimitx
+    )
+    LeafLeftLegRoll3MinRLimity = (
+        LeafLeftLegRoll3MinRLimit.LeafLeftLegRoll3MinRLimity
+    )
+    LeafLeftLegRoll3MinRLimitz = (
+        LeafLeftLegRoll3MinRLimit.LeafLeftLegRoll3MinRLimitz
+    )
 
-    LeafLeftLegRoll3MaxRLimit = LeafLeftLegRoll3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll3MaxRLimitx = LeafLeftLegRoll3MaxRLimit.LeafLeftLegRoll3MaxRLimitx
-    LeafLeftLegRoll3MaxRLimity = LeafLeftLegRoll3MaxRLimit.LeafLeftLegRoll3MaxRLimity
-    LeafLeftLegRoll3MaxRLimitz = LeafLeftLegRoll3MaxRLimit.LeafLeftLegRoll3MaxRLimitz
+    LeafLeftLegRoll3MaxRLimit = LeafLeftLegRoll3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll3MaxRLimitx = (
+        LeafLeftLegRoll3MaxRLimit.LeafLeftLegRoll3MaxRLimitx
+    )
+    LeafLeftLegRoll3MaxRLimity = (
+        LeafLeftLegRoll3MaxRLimit.LeafLeftLegRoll3MaxRLimity
+    )
+    LeafLeftLegRoll3MaxRLimitz = (
+        LeafLeftLegRoll3MaxRLimit.LeafLeftLegRoll3MaxRLimitz
+    )
 
     LeafLeftLegRoll3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19689,42 +25847,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightUpLegRoll3 = MessageField()
 
-    LeafRightUpLegRoll3T = LeafRightUpLegRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll3T = LeafRightUpLegRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll3Tx = LeafRightUpLegRoll3T.LeafRightUpLegRoll3Tx
     LeafRightUpLegRoll3Ty = LeafRightUpLegRoll3T.LeafRightUpLegRoll3Ty
     LeafRightUpLegRoll3Tz = LeafRightUpLegRoll3T.LeafRightUpLegRoll3Tz
 
-    LeafRightUpLegRoll3R = LeafRightUpLegRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll3R = LeafRightUpLegRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll3Rx = LeafRightUpLegRoll3R.LeafRightUpLegRoll3Rx
     LeafRightUpLegRoll3Ry = LeafRightUpLegRoll3R.LeafRightUpLegRoll3Ry
     LeafRightUpLegRoll3Rz = LeafRightUpLegRoll3R.LeafRightUpLegRoll3Rz
 
-    LeafRightUpLegRoll3S = LeafRightUpLegRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll3S = LeafRightUpLegRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll3Sx = LeafRightUpLegRoll3S.LeafRightUpLegRoll3Sx
     LeafRightUpLegRoll3Sy = LeafRightUpLegRoll3S.LeafRightUpLegRoll3Sy
     LeafRightUpLegRoll3Sz = LeafRightUpLegRoll3S.LeafRightUpLegRoll3Sz
 
-    LeafRightUpLegRoll3RotateOrder = LeafRightUpLegRoll3RotateOrderEnumField(default_value=0)
+    LeafRightUpLegRoll3RotateOrder = LeafRightUpLegRoll3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightUpLegRoll3RotateAxis = LeafRightUpLegRoll3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll3RotateAxisx = LeafRightUpLegRoll3RotateAxis.LeafRightUpLegRoll3RotateAxisx
-    LeafRightUpLegRoll3RotateAxisy = LeafRightUpLegRoll3RotateAxis.LeafRightUpLegRoll3RotateAxisy
-    LeafRightUpLegRoll3RotateAxisz = LeafRightUpLegRoll3RotateAxis.LeafRightUpLegRoll3RotateAxisz
+    LeafRightUpLegRoll3RotateAxis = LeafRightUpLegRoll3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll3RotateAxisx = (
+        LeafRightUpLegRoll3RotateAxis.LeafRightUpLegRoll3RotateAxisx
+    )
+    LeafRightUpLegRoll3RotateAxisy = (
+        LeafRightUpLegRoll3RotateAxis.LeafRightUpLegRoll3RotateAxisy
+    )
+    LeafRightUpLegRoll3RotateAxisz = (
+        LeafRightUpLegRoll3RotateAxis.LeafRightUpLegRoll3RotateAxisz
+    )
 
-    LeafRightUpLegRoll3JointOrient = LeafRightUpLegRoll3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll3JointOrientx = LeafRightUpLegRoll3JointOrient.LeafRightUpLegRoll3JointOrientx
-    LeafRightUpLegRoll3JointOrienty = LeafRightUpLegRoll3JointOrient.LeafRightUpLegRoll3JointOrienty
-    LeafRightUpLegRoll3JointOrientz = LeafRightUpLegRoll3JointOrient.LeafRightUpLegRoll3JointOrientz
+    LeafRightUpLegRoll3JointOrient = LeafRightUpLegRoll3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll3JointOrientx = (
+        LeafRightUpLegRoll3JointOrient.LeafRightUpLegRoll3JointOrientx
+    )
+    LeafRightUpLegRoll3JointOrienty = (
+        LeafRightUpLegRoll3JointOrient.LeafRightUpLegRoll3JointOrienty
+    )
+    LeafRightUpLegRoll3JointOrientz = (
+        LeafRightUpLegRoll3JointOrient.LeafRightUpLegRoll3JointOrientz
+    )
 
-    LeafRightUpLegRoll3MinRLimit = LeafRightUpLegRoll3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll3MinRLimitx = LeafRightUpLegRoll3MinRLimit.LeafRightUpLegRoll3MinRLimitx
-    LeafRightUpLegRoll3MinRLimity = LeafRightUpLegRoll3MinRLimit.LeafRightUpLegRoll3MinRLimity
-    LeafRightUpLegRoll3MinRLimitz = LeafRightUpLegRoll3MinRLimit.LeafRightUpLegRoll3MinRLimitz
+    LeafRightUpLegRoll3MinRLimit = LeafRightUpLegRoll3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll3MinRLimitx = (
+        LeafRightUpLegRoll3MinRLimit.LeafRightUpLegRoll3MinRLimitx
+    )
+    LeafRightUpLegRoll3MinRLimity = (
+        LeafRightUpLegRoll3MinRLimit.LeafRightUpLegRoll3MinRLimity
+    )
+    LeafRightUpLegRoll3MinRLimitz = (
+        LeafRightUpLegRoll3MinRLimit.LeafRightUpLegRoll3MinRLimitz
+    )
 
-    LeafRightUpLegRoll3MaxRLimit = LeafRightUpLegRoll3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll3MaxRLimitx = LeafRightUpLegRoll3MaxRLimit.LeafRightUpLegRoll3MaxRLimitx
-    LeafRightUpLegRoll3MaxRLimity = LeafRightUpLegRoll3MaxRLimit.LeafRightUpLegRoll3MaxRLimity
-    LeafRightUpLegRoll3MaxRLimitz = LeafRightUpLegRoll3MaxRLimit.LeafRightUpLegRoll3MaxRLimitz
+    LeafRightUpLegRoll3MaxRLimit = LeafRightUpLegRoll3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll3MaxRLimitx = (
+        LeafRightUpLegRoll3MaxRLimit.LeafRightUpLegRoll3MaxRLimitx
+    )
+    LeafRightUpLegRoll3MaxRLimity = (
+        LeafRightUpLegRoll3MaxRLimit.LeafRightUpLegRoll3MaxRLimity
+    )
+    LeafRightUpLegRoll3MaxRLimitz = (
+        LeafRightUpLegRoll3MaxRLimit.LeafRightUpLegRoll3MaxRLimitz
+    )
 
     LeafRightUpLegRoll3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19755,27 +25953,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightLegRoll3Sy = LeafRightLegRoll3S.LeafRightLegRoll3Sy
     LeafRightLegRoll3Sz = LeafRightLegRoll3S.LeafRightLegRoll3Sz
 
-    LeafRightLegRoll3RotateOrder = LeafRightLegRoll3RotateOrderEnumField(default_value=0)
+    LeafRightLegRoll3RotateOrder = LeafRightLegRoll3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightLegRoll3RotateAxis = LeafRightLegRoll3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll3RotateAxisx = LeafRightLegRoll3RotateAxis.LeafRightLegRoll3RotateAxisx
-    LeafRightLegRoll3RotateAxisy = LeafRightLegRoll3RotateAxis.LeafRightLegRoll3RotateAxisy
-    LeafRightLegRoll3RotateAxisz = LeafRightLegRoll3RotateAxis.LeafRightLegRoll3RotateAxisz
+    LeafRightLegRoll3RotateAxis = LeafRightLegRoll3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll3RotateAxisx = (
+        LeafRightLegRoll3RotateAxis.LeafRightLegRoll3RotateAxisx
+    )
+    LeafRightLegRoll3RotateAxisy = (
+        LeafRightLegRoll3RotateAxis.LeafRightLegRoll3RotateAxisy
+    )
+    LeafRightLegRoll3RotateAxisz = (
+        LeafRightLegRoll3RotateAxis.LeafRightLegRoll3RotateAxisz
+    )
 
-    LeafRightLegRoll3JointOrient = LeafRightLegRoll3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll3JointOrientx = LeafRightLegRoll3JointOrient.LeafRightLegRoll3JointOrientx
-    LeafRightLegRoll3JointOrienty = LeafRightLegRoll3JointOrient.LeafRightLegRoll3JointOrienty
-    LeafRightLegRoll3JointOrientz = LeafRightLegRoll3JointOrient.LeafRightLegRoll3JointOrientz
+    LeafRightLegRoll3JointOrient = LeafRightLegRoll3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll3JointOrientx = (
+        LeafRightLegRoll3JointOrient.LeafRightLegRoll3JointOrientx
+    )
+    LeafRightLegRoll3JointOrienty = (
+        LeafRightLegRoll3JointOrient.LeafRightLegRoll3JointOrienty
+    )
+    LeafRightLegRoll3JointOrientz = (
+        LeafRightLegRoll3JointOrient.LeafRightLegRoll3JointOrientz
+    )
 
-    LeafRightLegRoll3MinRLimit = LeafRightLegRoll3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll3MinRLimitx = LeafRightLegRoll3MinRLimit.LeafRightLegRoll3MinRLimitx
-    LeafRightLegRoll3MinRLimity = LeafRightLegRoll3MinRLimit.LeafRightLegRoll3MinRLimity
-    LeafRightLegRoll3MinRLimitz = LeafRightLegRoll3MinRLimit.LeafRightLegRoll3MinRLimitz
+    LeafRightLegRoll3MinRLimit = LeafRightLegRoll3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll3MinRLimitx = (
+        LeafRightLegRoll3MinRLimit.LeafRightLegRoll3MinRLimitx
+    )
+    LeafRightLegRoll3MinRLimity = (
+        LeafRightLegRoll3MinRLimit.LeafRightLegRoll3MinRLimity
+    )
+    LeafRightLegRoll3MinRLimitz = (
+        LeafRightLegRoll3MinRLimit.LeafRightLegRoll3MinRLimitz
+    )
 
-    LeafRightLegRoll3MaxRLimit = LeafRightLegRoll3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll3MaxRLimitx = LeafRightLegRoll3MaxRLimit.LeafRightLegRoll3MaxRLimitx
-    LeafRightLegRoll3MaxRLimity = LeafRightLegRoll3MaxRLimit.LeafRightLegRoll3MaxRLimity
-    LeafRightLegRoll3MaxRLimitz = LeafRightLegRoll3MaxRLimit.LeafRightLegRoll3MaxRLimitz
+    LeafRightLegRoll3MaxRLimit = LeafRightLegRoll3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll3MaxRLimitx = (
+        LeafRightLegRoll3MaxRLimit.LeafRightLegRoll3MaxRLimitx
+    )
+    LeafRightLegRoll3MaxRLimity = (
+        LeafRightLegRoll3MaxRLimit.LeafRightLegRoll3MaxRLimity
+    )
+    LeafRightLegRoll3MaxRLimitz = (
+        LeafRightLegRoll3MaxRLimit.LeafRightLegRoll3MaxRLimitz
+    )
 
     LeafRightLegRoll3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19806,27 +26038,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftArmRoll3Sy = LeafLeftArmRoll3S.LeafLeftArmRoll3Sy
     LeafLeftArmRoll3Sz = LeafLeftArmRoll3S.LeafLeftArmRoll3Sz
 
-    LeafLeftArmRoll3RotateOrder = LeafLeftArmRoll3RotateOrderEnumField(default_value=0)
+    LeafLeftArmRoll3RotateOrder = LeafLeftArmRoll3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftArmRoll3RotateAxis = LeafLeftArmRoll3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll3RotateAxisx = LeafLeftArmRoll3RotateAxis.LeafLeftArmRoll3RotateAxisx
-    LeafLeftArmRoll3RotateAxisy = LeafLeftArmRoll3RotateAxis.LeafLeftArmRoll3RotateAxisy
-    LeafLeftArmRoll3RotateAxisz = LeafLeftArmRoll3RotateAxis.LeafLeftArmRoll3RotateAxisz
+    LeafLeftArmRoll3RotateAxis = LeafLeftArmRoll3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll3RotateAxisx = (
+        LeafLeftArmRoll3RotateAxis.LeafLeftArmRoll3RotateAxisx
+    )
+    LeafLeftArmRoll3RotateAxisy = (
+        LeafLeftArmRoll3RotateAxis.LeafLeftArmRoll3RotateAxisy
+    )
+    LeafLeftArmRoll3RotateAxisz = (
+        LeafLeftArmRoll3RotateAxis.LeafLeftArmRoll3RotateAxisz
+    )
 
-    LeafLeftArmRoll3JointOrient = LeafLeftArmRoll3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll3JointOrientx = LeafLeftArmRoll3JointOrient.LeafLeftArmRoll3JointOrientx
-    LeafLeftArmRoll3JointOrienty = LeafLeftArmRoll3JointOrient.LeafLeftArmRoll3JointOrienty
-    LeafLeftArmRoll3JointOrientz = LeafLeftArmRoll3JointOrient.LeafLeftArmRoll3JointOrientz
+    LeafLeftArmRoll3JointOrient = LeafLeftArmRoll3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll3JointOrientx = (
+        LeafLeftArmRoll3JointOrient.LeafLeftArmRoll3JointOrientx
+    )
+    LeafLeftArmRoll3JointOrienty = (
+        LeafLeftArmRoll3JointOrient.LeafLeftArmRoll3JointOrienty
+    )
+    LeafLeftArmRoll3JointOrientz = (
+        LeafLeftArmRoll3JointOrient.LeafLeftArmRoll3JointOrientz
+    )
 
-    LeafLeftArmRoll3MinRLimit = LeafLeftArmRoll3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll3MinRLimitx = LeafLeftArmRoll3MinRLimit.LeafLeftArmRoll3MinRLimitx
-    LeafLeftArmRoll3MinRLimity = LeafLeftArmRoll3MinRLimit.LeafLeftArmRoll3MinRLimity
-    LeafLeftArmRoll3MinRLimitz = LeafLeftArmRoll3MinRLimit.LeafLeftArmRoll3MinRLimitz
+    LeafLeftArmRoll3MinRLimit = LeafLeftArmRoll3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll3MinRLimitx = (
+        LeafLeftArmRoll3MinRLimit.LeafLeftArmRoll3MinRLimitx
+    )
+    LeafLeftArmRoll3MinRLimity = (
+        LeafLeftArmRoll3MinRLimit.LeafLeftArmRoll3MinRLimity
+    )
+    LeafLeftArmRoll3MinRLimitz = (
+        LeafLeftArmRoll3MinRLimit.LeafLeftArmRoll3MinRLimitz
+    )
 
-    LeafLeftArmRoll3MaxRLimit = LeafLeftArmRoll3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll3MaxRLimitx = LeafLeftArmRoll3MaxRLimit.LeafLeftArmRoll3MaxRLimitx
-    LeafLeftArmRoll3MaxRLimity = LeafLeftArmRoll3MaxRLimit.LeafLeftArmRoll3MaxRLimity
-    LeafLeftArmRoll3MaxRLimitz = LeafLeftArmRoll3MaxRLimit.LeafLeftArmRoll3MaxRLimitz
+    LeafLeftArmRoll3MaxRLimit = LeafLeftArmRoll3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll3MaxRLimitx = (
+        LeafLeftArmRoll3MaxRLimit.LeafLeftArmRoll3MaxRLimitx
+    )
+    LeafLeftArmRoll3MaxRLimity = (
+        LeafLeftArmRoll3MaxRLimit.LeafLeftArmRoll3MaxRLimity
+    )
+    LeafLeftArmRoll3MaxRLimitz = (
+        LeafLeftArmRoll3MaxRLimit.LeafLeftArmRoll3MaxRLimitz
+    )
 
     LeafLeftArmRoll3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19842,42 +26108,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftForeArmRoll3 = MessageField()
 
-    LeafLeftForeArmRoll3T = LeafLeftForeArmRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll3T = LeafLeftForeArmRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll3Tx = LeafLeftForeArmRoll3T.LeafLeftForeArmRoll3Tx
     LeafLeftForeArmRoll3Ty = LeafLeftForeArmRoll3T.LeafLeftForeArmRoll3Ty
     LeafLeftForeArmRoll3Tz = LeafLeftForeArmRoll3T.LeafLeftForeArmRoll3Tz
 
-    LeafLeftForeArmRoll3R = LeafLeftForeArmRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll3R = LeafLeftForeArmRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll3Rx = LeafLeftForeArmRoll3R.LeafLeftForeArmRoll3Rx
     LeafLeftForeArmRoll3Ry = LeafLeftForeArmRoll3R.LeafLeftForeArmRoll3Ry
     LeafLeftForeArmRoll3Rz = LeafLeftForeArmRoll3R.LeafLeftForeArmRoll3Rz
 
-    LeafLeftForeArmRoll3S = LeafLeftForeArmRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll3S = LeafLeftForeArmRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll3Sx = LeafLeftForeArmRoll3S.LeafLeftForeArmRoll3Sx
     LeafLeftForeArmRoll3Sy = LeafLeftForeArmRoll3S.LeafLeftForeArmRoll3Sy
     LeafLeftForeArmRoll3Sz = LeafLeftForeArmRoll3S.LeafLeftForeArmRoll3Sz
 
-    LeafLeftForeArmRoll3RotateOrder = LeafLeftForeArmRoll3RotateOrderEnumField(default_value=0)
+    LeafLeftForeArmRoll3RotateOrder = LeafLeftForeArmRoll3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftForeArmRoll3RotateAxis = LeafLeftForeArmRoll3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll3RotateAxisx = LeafLeftForeArmRoll3RotateAxis.LeafLeftForeArmRoll3RotateAxisx
-    LeafLeftForeArmRoll3RotateAxisy = LeafLeftForeArmRoll3RotateAxis.LeafLeftForeArmRoll3RotateAxisy
-    LeafLeftForeArmRoll3RotateAxisz = LeafLeftForeArmRoll3RotateAxis.LeafLeftForeArmRoll3RotateAxisz
+    LeafLeftForeArmRoll3RotateAxis = LeafLeftForeArmRoll3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll3RotateAxisx = (
+        LeafLeftForeArmRoll3RotateAxis.LeafLeftForeArmRoll3RotateAxisx
+    )
+    LeafLeftForeArmRoll3RotateAxisy = (
+        LeafLeftForeArmRoll3RotateAxis.LeafLeftForeArmRoll3RotateAxisy
+    )
+    LeafLeftForeArmRoll3RotateAxisz = (
+        LeafLeftForeArmRoll3RotateAxis.LeafLeftForeArmRoll3RotateAxisz
+    )
 
-    LeafLeftForeArmRoll3JointOrient = LeafLeftForeArmRoll3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll3JointOrientx = LeafLeftForeArmRoll3JointOrient.LeafLeftForeArmRoll3JointOrientx
-    LeafLeftForeArmRoll3JointOrienty = LeafLeftForeArmRoll3JointOrient.LeafLeftForeArmRoll3JointOrienty
-    LeafLeftForeArmRoll3JointOrientz = LeafLeftForeArmRoll3JointOrient.LeafLeftForeArmRoll3JointOrientz
+    LeafLeftForeArmRoll3JointOrient = LeafLeftForeArmRoll3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll3JointOrientx = (
+        LeafLeftForeArmRoll3JointOrient.LeafLeftForeArmRoll3JointOrientx
+    )
+    LeafLeftForeArmRoll3JointOrienty = (
+        LeafLeftForeArmRoll3JointOrient.LeafLeftForeArmRoll3JointOrienty
+    )
+    LeafLeftForeArmRoll3JointOrientz = (
+        LeafLeftForeArmRoll3JointOrient.LeafLeftForeArmRoll3JointOrientz
+    )
 
-    LeafLeftForeArmRoll3MinRLimit = LeafLeftForeArmRoll3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll3MinRLimitx = LeafLeftForeArmRoll3MinRLimit.LeafLeftForeArmRoll3MinRLimitx
-    LeafLeftForeArmRoll3MinRLimity = LeafLeftForeArmRoll3MinRLimit.LeafLeftForeArmRoll3MinRLimity
-    LeafLeftForeArmRoll3MinRLimitz = LeafLeftForeArmRoll3MinRLimit.LeafLeftForeArmRoll3MinRLimitz
+    LeafLeftForeArmRoll3MinRLimit = LeafLeftForeArmRoll3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll3MinRLimitx = (
+        LeafLeftForeArmRoll3MinRLimit.LeafLeftForeArmRoll3MinRLimitx
+    )
+    LeafLeftForeArmRoll3MinRLimity = (
+        LeafLeftForeArmRoll3MinRLimit.LeafLeftForeArmRoll3MinRLimity
+    )
+    LeafLeftForeArmRoll3MinRLimitz = (
+        LeafLeftForeArmRoll3MinRLimit.LeafLeftForeArmRoll3MinRLimitz
+    )
 
-    LeafLeftForeArmRoll3MaxRLimit = LeafLeftForeArmRoll3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll3MaxRLimitx = LeafLeftForeArmRoll3MaxRLimit.LeafLeftForeArmRoll3MaxRLimitx
-    LeafLeftForeArmRoll3MaxRLimity = LeafLeftForeArmRoll3MaxRLimit.LeafLeftForeArmRoll3MaxRLimity
-    LeafLeftForeArmRoll3MaxRLimitz = LeafLeftForeArmRoll3MaxRLimit.LeafLeftForeArmRoll3MaxRLimitz
+    LeafLeftForeArmRoll3MaxRLimit = LeafLeftForeArmRoll3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll3MaxRLimitx = (
+        LeafLeftForeArmRoll3MaxRLimit.LeafLeftForeArmRoll3MaxRLimitx
+    )
+    LeafLeftForeArmRoll3MaxRLimity = (
+        LeafLeftForeArmRoll3MaxRLimit.LeafLeftForeArmRoll3MaxRLimity
+    )
+    LeafLeftForeArmRoll3MaxRLimitz = (
+        LeafLeftForeArmRoll3MaxRLimit.LeafLeftForeArmRoll3MaxRLimitz
+    )
 
     LeafLeftForeArmRoll3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19908,27 +26214,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightArmRoll3Sy = LeafRightArmRoll3S.LeafRightArmRoll3Sy
     LeafRightArmRoll3Sz = LeafRightArmRoll3S.LeafRightArmRoll3Sz
 
-    LeafRightArmRoll3RotateOrder = LeafRightArmRoll3RotateOrderEnumField(default_value=0)
+    LeafRightArmRoll3RotateOrder = LeafRightArmRoll3RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightArmRoll3RotateAxis = LeafRightArmRoll3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll3RotateAxisx = LeafRightArmRoll3RotateAxis.LeafRightArmRoll3RotateAxisx
-    LeafRightArmRoll3RotateAxisy = LeafRightArmRoll3RotateAxis.LeafRightArmRoll3RotateAxisy
-    LeafRightArmRoll3RotateAxisz = LeafRightArmRoll3RotateAxis.LeafRightArmRoll3RotateAxisz
+    LeafRightArmRoll3RotateAxis = LeafRightArmRoll3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll3RotateAxisx = (
+        LeafRightArmRoll3RotateAxis.LeafRightArmRoll3RotateAxisx
+    )
+    LeafRightArmRoll3RotateAxisy = (
+        LeafRightArmRoll3RotateAxis.LeafRightArmRoll3RotateAxisy
+    )
+    LeafRightArmRoll3RotateAxisz = (
+        LeafRightArmRoll3RotateAxis.LeafRightArmRoll3RotateAxisz
+    )
 
-    LeafRightArmRoll3JointOrient = LeafRightArmRoll3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll3JointOrientx = LeafRightArmRoll3JointOrient.LeafRightArmRoll3JointOrientx
-    LeafRightArmRoll3JointOrienty = LeafRightArmRoll3JointOrient.LeafRightArmRoll3JointOrienty
-    LeafRightArmRoll3JointOrientz = LeafRightArmRoll3JointOrient.LeafRightArmRoll3JointOrientz
+    LeafRightArmRoll3JointOrient = LeafRightArmRoll3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll3JointOrientx = (
+        LeafRightArmRoll3JointOrient.LeafRightArmRoll3JointOrientx
+    )
+    LeafRightArmRoll3JointOrienty = (
+        LeafRightArmRoll3JointOrient.LeafRightArmRoll3JointOrienty
+    )
+    LeafRightArmRoll3JointOrientz = (
+        LeafRightArmRoll3JointOrient.LeafRightArmRoll3JointOrientz
+    )
 
-    LeafRightArmRoll3MinRLimit = LeafRightArmRoll3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll3MinRLimitx = LeafRightArmRoll3MinRLimit.LeafRightArmRoll3MinRLimitx
-    LeafRightArmRoll3MinRLimity = LeafRightArmRoll3MinRLimit.LeafRightArmRoll3MinRLimity
-    LeafRightArmRoll3MinRLimitz = LeafRightArmRoll3MinRLimit.LeafRightArmRoll3MinRLimitz
+    LeafRightArmRoll3MinRLimit = LeafRightArmRoll3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll3MinRLimitx = (
+        LeafRightArmRoll3MinRLimit.LeafRightArmRoll3MinRLimitx
+    )
+    LeafRightArmRoll3MinRLimity = (
+        LeafRightArmRoll3MinRLimit.LeafRightArmRoll3MinRLimity
+    )
+    LeafRightArmRoll3MinRLimitz = (
+        LeafRightArmRoll3MinRLimit.LeafRightArmRoll3MinRLimitz
+    )
 
-    LeafRightArmRoll3MaxRLimit = LeafRightArmRoll3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll3MaxRLimitx = LeafRightArmRoll3MaxRLimit.LeafRightArmRoll3MaxRLimitx
-    LeafRightArmRoll3MaxRLimity = LeafRightArmRoll3MaxRLimit.LeafRightArmRoll3MaxRLimity
-    LeafRightArmRoll3MaxRLimitz = LeafRightArmRoll3MaxRLimit.LeafRightArmRoll3MaxRLimitz
+    LeafRightArmRoll3MaxRLimit = LeafRightArmRoll3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll3MaxRLimitx = (
+        LeafRightArmRoll3MaxRLimit.LeafRightArmRoll3MaxRLimitx
+    )
+    LeafRightArmRoll3MaxRLimity = (
+        LeafRightArmRoll3MaxRLimit.LeafRightArmRoll3MaxRLimity
+    )
+    LeafRightArmRoll3MaxRLimitz = (
+        LeafRightArmRoll3MaxRLimit.LeafRightArmRoll3MaxRLimitz
+    )
 
     LeafRightArmRoll3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19944,42 +26284,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightForeArmRoll3 = MessageField()
 
-    LeafRightForeArmRoll3T = LeafRightForeArmRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll3T = LeafRightForeArmRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll3Tx = LeafRightForeArmRoll3T.LeafRightForeArmRoll3Tx
     LeafRightForeArmRoll3Ty = LeafRightForeArmRoll3T.LeafRightForeArmRoll3Ty
     LeafRightForeArmRoll3Tz = LeafRightForeArmRoll3T.LeafRightForeArmRoll3Tz
 
-    LeafRightForeArmRoll3R = LeafRightForeArmRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll3R = LeafRightForeArmRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll3Rx = LeafRightForeArmRoll3R.LeafRightForeArmRoll3Rx
     LeafRightForeArmRoll3Ry = LeafRightForeArmRoll3R.LeafRightForeArmRoll3Ry
     LeafRightForeArmRoll3Rz = LeafRightForeArmRoll3R.LeafRightForeArmRoll3Rz
 
-    LeafRightForeArmRoll3S = LeafRightForeArmRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll3S = LeafRightForeArmRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll3Sx = LeafRightForeArmRoll3S.LeafRightForeArmRoll3Sx
     LeafRightForeArmRoll3Sy = LeafRightForeArmRoll3S.LeafRightForeArmRoll3Sy
     LeafRightForeArmRoll3Sz = LeafRightForeArmRoll3S.LeafRightForeArmRoll3Sz
 
-    LeafRightForeArmRoll3RotateOrder = LeafRightForeArmRoll3RotateOrderEnumField(default_value=0)
+    LeafRightForeArmRoll3RotateOrder = (
+        LeafRightForeArmRoll3RotateOrderEnumField(default_value=0)
+    )
 
-    LeafRightForeArmRoll3RotateAxis = LeafRightForeArmRoll3RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll3RotateAxisx = LeafRightForeArmRoll3RotateAxis.LeafRightForeArmRoll3RotateAxisx
-    LeafRightForeArmRoll3RotateAxisy = LeafRightForeArmRoll3RotateAxis.LeafRightForeArmRoll3RotateAxisy
-    LeafRightForeArmRoll3RotateAxisz = LeafRightForeArmRoll3RotateAxis.LeafRightForeArmRoll3RotateAxisz
+    LeafRightForeArmRoll3RotateAxis = LeafRightForeArmRoll3RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll3RotateAxisx = (
+        LeafRightForeArmRoll3RotateAxis.LeafRightForeArmRoll3RotateAxisx
+    )
+    LeafRightForeArmRoll3RotateAxisy = (
+        LeafRightForeArmRoll3RotateAxis.LeafRightForeArmRoll3RotateAxisy
+    )
+    LeafRightForeArmRoll3RotateAxisz = (
+        LeafRightForeArmRoll3RotateAxis.LeafRightForeArmRoll3RotateAxisz
+    )
 
-    LeafRightForeArmRoll3JointOrient = LeafRightForeArmRoll3JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll3JointOrientx = LeafRightForeArmRoll3JointOrient.LeafRightForeArmRoll3JointOrientx
-    LeafRightForeArmRoll3JointOrienty = LeafRightForeArmRoll3JointOrient.LeafRightForeArmRoll3JointOrienty
-    LeafRightForeArmRoll3JointOrientz = LeafRightForeArmRoll3JointOrient.LeafRightForeArmRoll3JointOrientz
+    LeafRightForeArmRoll3JointOrient = LeafRightForeArmRoll3JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll3JointOrientx = (
+        LeafRightForeArmRoll3JointOrient.LeafRightForeArmRoll3JointOrientx
+    )
+    LeafRightForeArmRoll3JointOrienty = (
+        LeafRightForeArmRoll3JointOrient.LeafRightForeArmRoll3JointOrienty
+    )
+    LeafRightForeArmRoll3JointOrientz = (
+        LeafRightForeArmRoll3JointOrient.LeafRightForeArmRoll3JointOrientz
+    )
 
-    LeafRightForeArmRoll3MinRLimit = LeafRightForeArmRoll3MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll3MinRLimitx = LeafRightForeArmRoll3MinRLimit.LeafRightForeArmRoll3MinRLimitx
-    LeafRightForeArmRoll3MinRLimity = LeafRightForeArmRoll3MinRLimit.LeafRightForeArmRoll3MinRLimity
-    LeafRightForeArmRoll3MinRLimitz = LeafRightForeArmRoll3MinRLimit.LeafRightForeArmRoll3MinRLimitz
+    LeafRightForeArmRoll3MinRLimit = LeafRightForeArmRoll3MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll3MinRLimitx = (
+        LeafRightForeArmRoll3MinRLimit.LeafRightForeArmRoll3MinRLimitx
+    )
+    LeafRightForeArmRoll3MinRLimity = (
+        LeafRightForeArmRoll3MinRLimit.LeafRightForeArmRoll3MinRLimity
+    )
+    LeafRightForeArmRoll3MinRLimitz = (
+        LeafRightForeArmRoll3MinRLimit.LeafRightForeArmRoll3MinRLimitz
+    )
 
-    LeafRightForeArmRoll3MaxRLimit = LeafRightForeArmRoll3MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll3MaxRLimitx = LeafRightForeArmRoll3MaxRLimit.LeafRightForeArmRoll3MaxRLimitx
-    LeafRightForeArmRoll3MaxRLimity = LeafRightForeArmRoll3MaxRLimit.LeafRightForeArmRoll3MaxRLimity
-    LeafRightForeArmRoll3MaxRLimitz = LeafRightForeArmRoll3MaxRLimit.LeafRightForeArmRoll3MaxRLimitz
+    LeafRightForeArmRoll3MaxRLimit = LeafRightForeArmRoll3MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll3MaxRLimitx = (
+        LeafRightForeArmRoll3MaxRLimit.LeafRightForeArmRoll3MaxRLimitx
+    )
+    LeafRightForeArmRoll3MaxRLimity = (
+        LeafRightForeArmRoll3MaxRLimit.LeafRightForeArmRoll3MaxRLimity
+    )
+    LeafRightForeArmRoll3MaxRLimitz = (
+        LeafRightForeArmRoll3MaxRLimit.LeafRightForeArmRoll3MaxRLimitz
+    )
 
     LeafRightForeArmRoll3MinRLimitEnablex = BoolField(default_value=False)
 
@@ -19995,42 +26375,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftUpLegRoll4 = MessageField()
 
-    LeafLeftUpLegRoll4T = LeafLeftUpLegRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll4T = LeafLeftUpLegRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll4Tx = LeafLeftUpLegRoll4T.LeafLeftUpLegRoll4Tx
     LeafLeftUpLegRoll4Ty = LeafLeftUpLegRoll4T.LeafLeftUpLegRoll4Ty
     LeafLeftUpLegRoll4Tz = LeafLeftUpLegRoll4T.LeafLeftUpLegRoll4Tz
 
-    LeafLeftUpLegRoll4R = LeafLeftUpLegRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll4R = LeafLeftUpLegRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll4Rx = LeafLeftUpLegRoll4R.LeafLeftUpLegRoll4Rx
     LeafLeftUpLegRoll4Ry = LeafLeftUpLegRoll4R.LeafLeftUpLegRoll4Ry
     LeafLeftUpLegRoll4Rz = LeafLeftUpLegRoll4R.LeafLeftUpLegRoll4Rz
 
-    LeafLeftUpLegRoll4S = LeafLeftUpLegRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll4S = LeafLeftUpLegRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll4Sx = LeafLeftUpLegRoll4S.LeafLeftUpLegRoll4Sx
     LeafLeftUpLegRoll4Sy = LeafLeftUpLegRoll4S.LeafLeftUpLegRoll4Sy
     LeafLeftUpLegRoll4Sz = LeafLeftUpLegRoll4S.LeafLeftUpLegRoll4Sz
 
-    LeafLeftUpLegRoll4RotateOrder = LeafLeftUpLegRoll4RotateOrderEnumField(default_value=0)
+    LeafLeftUpLegRoll4RotateOrder = LeafLeftUpLegRoll4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftUpLegRoll4RotateAxis = LeafLeftUpLegRoll4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll4RotateAxisx = LeafLeftUpLegRoll4RotateAxis.LeafLeftUpLegRoll4RotateAxisx
-    LeafLeftUpLegRoll4RotateAxisy = LeafLeftUpLegRoll4RotateAxis.LeafLeftUpLegRoll4RotateAxisy
-    LeafLeftUpLegRoll4RotateAxisz = LeafLeftUpLegRoll4RotateAxis.LeafLeftUpLegRoll4RotateAxisz
+    LeafLeftUpLegRoll4RotateAxis = LeafLeftUpLegRoll4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll4RotateAxisx = (
+        LeafLeftUpLegRoll4RotateAxis.LeafLeftUpLegRoll4RotateAxisx
+    )
+    LeafLeftUpLegRoll4RotateAxisy = (
+        LeafLeftUpLegRoll4RotateAxis.LeafLeftUpLegRoll4RotateAxisy
+    )
+    LeafLeftUpLegRoll4RotateAxisz = (
+        LeafLeftUpLegRoll4RotateAxis.LeafLeftUpLegRoll4RotateAxisz
+    )
 
-    LeafLeftUpLegRoll4JointOrient = LeafLeftUpLegRoll4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll4JointOrientx = LeafLeftUpLegRoll4JointOrient.LeafLeftUpLegRoll4JointOrientx
-    LeafLeftUpLegRoll4JointOrienty = LeafLeftUpLegRoll4JointOrient.LeafLeftUpLegRoll4JointOrienty
-    LeafLeftUpLegRoll4JointOrientz = LeafLeftUpLegRoll4JointOrient.LeafLeftUpLegRoll4JointOrientz
+    LeafLeftUpLegRoll4JointOrient = LeafLeftUpLegRoll4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll4JointOrientx = (
+        LeafLeftUpLegRoll4JointOrient.LeafLeftUpLegRoll4JointOrientx
+    )
+    LeafLeftUpLegRoll4JointOrienty = (
+        LeafLeftUpLegRoll4JointOrient.LeafLeftUpLegRoll4JointOrienty
+    )
+    LeafLeftUpLegRoll4JointOrientz = (
+        LeafLeftUpLegRoll4JointOrient.LeafLeftUpLegRoll4JointOrientz
+    )
 
-    LeafLeftUpLegRoll4MinRLimit = LeafLeftUpLegRoll4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll4MinRLimitx = LeafLeftUpLegRoll4MinRLimit.LeafLeftUpLegRoll4MinRLimitx
-    LeafLeftUpLegRoll4MinRLimity = LeafLeftUpLegRoll4MinRLimit.LeafLeftUpLegRoll4MinRLimity
-    LeafLeftUpLegRoll4MinRLimitz = LeafLeftUpLegRoll4MinRLimit.LeafLeftUpLegRoll4MinRLimitz
+    LeafLeftUpLegRoll4MinRLimit = LeafLeftUpLegRoll4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll4MinRLimitx = (
+        LeafLeftUpLegRoll4MinRLimit.LeafLeftUpLegRoll4MinRLimitx
+    )
+    LeafLeftUpLegRoll4MinRLimity = (
+        LeafLeftUpLegRoll4MinRLimit.LeafLeftUpLegRoll4MinRLimity
+    )
+    LeafLeftUpLegRoll4MinRLimitz = (
+        LeafLeftUpLegRoll4MinRLimit.LeafLeftUpLegRoll4MinRLimitz
+    )
 
-    LeafLeftUpLegRoll4MaxRLimit = LeafLeftUpLegRoll4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll4MaxRLimitx = LeafLeftUpLegRoll4MaxRLimit.LeafLeftUpLegRoll4MaxRLimitx
-    LeafLeftUpLegRoll4MaxRLimity = LeafLeftUpLegRoll4MaxRLimit.LeafLeftUpLegRoll4MaxRLimity
-    LeafLeftUpLegRoll4MaxRLimitz = LeafLeftUpLegRoll4MaxRLimit.LeafLeftUpLegRoll4MaxRLimitz
+    LeafLeftUpLegRoll4MaxRLimit = LeafLeftUpLegRoll4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll4MaxRLimitx = (
+        LeafLeftUpLegRoll4MaxRLimit.LeafLeftUpLegRoll4MaxRLimitx
+    )
+    LeafLeftUpLegRoll4MaxRLimity = (
+        LeafLeftUpLegRoll4MaxRLimit.LeafLeftUpLegRoll4MaxRLimity
+    )
+    LeafLeftUpLegRoll4MaxRLimitz = (
+        LeafLeftUpLegRoll4MaxRLimit.LeafLeftUpLegRoll4MaxRLimitz
+    )
 
     LeafLeftUpLegRoll4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20061,27 +26481,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftLegRoll4Sy = LeafLeftLegRoll4S.LeafLeftLegRoll4Sy
     LeafLeftLegRoll4Sz = LeafLeftLegRoll4S.LeafLeftLegRoll4Sz
 
-    LeafLeftLegRoll4RotateOrder = LeafLeftLegRoll4RotateOrderEnumField(default_value=0)
+    LeafLeftLegRoll4RotateOrder = LeafLeftLegRoll4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftLegRoll4RotateAxis = LeafLeftLegRoll4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll4RotateAxisx = LeafLeftLegRoll4RotateAxis.LeafLeftLegRoll4RotateAxisx
-    LeafLeftLegRoll4RotateAxisy = LeafLeftLegRoll4RotateAxis.LeafLeftLegRoll4RotateAxisy
-    LeafLeftLegRoll4RotateAxisz = LeafLeftLegRoll4RotateAxis.LeafLeftLegRoll4RotateAxisz
+    LeafLeftLegRoll4RotateAxis = LeafLeftLegRoll4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll4RotateAxisx = (
+        LeafLeftLegRoll4RotateAxis.LeafLeftLegRoll4RotateAxisx
+    )
+    LeafLeftLegRoll4RotateAxisy = (
+        LeafLeftLegRoll4RotateAxis.LeafLeftLegRoll4RotateAxisy
+    )
+    LeafLeftLegRoll4RotateAxisz = (
+        LeafLeftLegRoll4RotateAxis.LeafLeftLegRoll4RotateAxisz
+    )
 
-    LeafLeftLegRoll4JointOrient = LeafLeftLegRoll4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll4JointOrientx = LeafLeftLegRoll4JointOrient.LeafLeftLegRoll4JointOrientx
-    LeafLeftLegRoll4JointOrienty = LeafLeftLegRoll4JointOrient.LeafLeftLegRoll4JointOrienty
-    LeafLeftLegRoll4JointOrientz = LeafLeftLegRoll4JointOrient.LeafLeftLegRoll4JointOrientz
+    LeafLeftLegRoll4JointOrient = LeafLeftLegRoll4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll4JointOrientx = (
+        LeafLeftLegRoll4JointOrient.LeafLeftLegRoll4JointOrientx
+    )
+    LeafLeftLegRoll4JointOrienty = (
+        LeafLeftLegRoll4JointOrient.LeafLeftLegRoll4JointOrienty
+    )
+    LeafLeftLegRoll4JointOrientz = (
+        LeafLeftLegRoll4JointOrient.LeafLeftLegRoll4JointOrientz
+    )
 
-    LeafLeftLegRoll4MinRLimit = LeafLeftLegRoll4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll4MinRLimitx = LeafLeftLegRoll4MinRLimit.LeafLeftLegRoll4MinRLimitx
-    LeafLeftLegRoll4MinRLimity = LeafLeftLegRoll4MinRLimit.LeafLeftLegRoll4MinRLimity
-    LeafLeftLegRoll4MinRLimitz = LeafLeftLegRoll4MinRLimit.LeafLeftLegRoll4MinRLimitz
+    LeafLeftLegRoll4MinRLimit = LeafLeftLegRoll4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll4MinRLimitx = (
+        LeafLeftLegRoll4MinRLimit.LeafLeftLegRoll4MinRLimitx
+    )
+    LeafLeftLegRoll4MinRLimity = (
+        LeafLeftLegRoll4MinRLimit.LeafLeftLegRoll4MinRLimity
+    )
+    LeafLeftLegRoll4MinRLimitz = (
+        LeafLeftLegRoll4MinRLimit.LeafLeftLegRoll4MinRLimitz
+    )
 
-    LeafLeftLegRoll4MaxRLimit = LeafLeftLegRoll4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll4MaxRLimitx = LeafLeftLegRoll4MaxRLimit.LeafLeftLegRoll4MaxRLimitx
-    LeafLeftLegRoll4MaxRLimity = LeafLeftLegRoll4MaxRLimit.LeafLeftLegRoll4MaxRLimity
-    LeafLeftLegRoll4MaxRLimitz = LeafLeftLegRoll4MaxRLimit.LeafLeftLegRoll4MaxRLimitz
+    LeafLeftLegRoll4MaxRLimit = LeafLeftLegRoll4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll4MaxRLimitx = (
+        LeafLeftLegRoll4MaxRLimit.LeafLeftLegRoll4MaxRLimitx
+    )
+    LeafLeftLegRoll4MaxRLimity = (
+        LeafLeftLegRoll4MaxRLimit.LeafLeftLegRoll4MaxRLimity
+    )
+    LeafLeftLegRoll4MaxRLimitz = (
+        LeafLeftLegRoll4MaxRLimit.LeafLeftLegRoll4MaxRLimitz
+    )
 
     LeafLeftLegRoll4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20097,42 +26551,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightUpLegRoll4 = MessageField()
 
-    LeafRightUpLegRoll4T = LeafRightUpLegRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll4T = LeafRightUpLegRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll4Tx = LeafRightUpLegRoll4T.LeafRightUpLegRoll4Tx
     LeafRightUpLegRoll4Ty = LeafRightUpLegRoll4T.LeafRightUpLegRoll4Ty
     LeafRightUpLegRoll4Tz = LeafRightUpLegRoll4T.LeafRightUpLegRoll4Tz
 
-    LeafRightUpLegRoll4R = LeafRightUpLegRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll4R = LeafRightUpLegRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll4Rx = LeafRightUpLegRoll4R.LeafRightUpLegRoll4Rx
     LeafRightUpLegRoll4Ry = LeafRightUpLegRoll4R.LeafRightUpLegRoll4Ry
     LeafRightUpLegRoll4Rz = LeafRightUpLegRoll4R.LeafRightUpLegRoll4Rz
 
-    LeafRightUpLegRoll4S = LeafRightUpLegRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll4S = LeafRightUpLegRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll4Sx = LeafRightUpLegRoll4S.LeafRightUpLegRoll4Sx
     LeafRightUpLegRoll4Sy = LeafRightUpLegRoll4S.LeafRightUpLegRoll4Sy
     LeafRightUpLegRoll4Sz = LeafRightUpLegRoll4S.LeafRightUpLegRoll4Sz
 
-    LeafRightUpLegRoll4RotateOrder = LeafRightUpLegRoll4RotateOrderEnumField(default_value=0)
+    LeafRightUpLegRoll4RotateOrder = LeafRightUpLegRoll4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightUpLegRoll4RotateAxis = LeafRightUpLegRoll4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll4RotateAxisx = LeafRightUpLegRoll4RotateAxis.LeafRightUpLegRoll4RotateAxisx
-    LeafRightUpLegRoll4RotateAxisy = LeafRightUpLegRoll4RotateAxis.LeafRightUpLegRoll4RotateAxisy
-    LeafRightUpLegRoll4RotateAxisz = LeafRightUpLegRoll4RotateAxis.LeafRightUpLegRoll4RotateAxisz
+    LeafRightUpLegRoll4RotateAxis = LeafRightUpLegRoll4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll4RotateAxisx = (
+        LeafRightUpLegRoll4RotateAxis.LeafRightUpLegRoll4RotateAxisx
+    )
+    LeafRightUpLegRoll4RotateAxisy = (
+        LeafRightUpLegRoll4RotateAxis.LeafRightUpLegRoll4RotateAxisy
+    )
+    LeafRightUpLegRoll4RotateAxisz = (
+        LeafRightUpLegRoll4RotateAxis.LeafRightUpLegRoll4RotateAxisz
+    )
 
-    LeafRightUpLegRoll4JointOrient = LeafRightUpLegRoll4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll4JointOrientx = LeafRightUpLegRoll4JointOrient.LeafRightUpLegRoll4JointOrientx
-    LeafRightUpLegRoll4JointOrienty = LeafRightUpLegRoll4JointOrient.LeafRightUpLegRoll4JointOrienty
-    LeafRightUpLegRoll4JointOrientz = LeafRightUpLegRoll4JointOrient.LeafRightUpLegRoll4JointOrientz
+    LeafRightUpLegRoll4JointOrient = LeafRightUpLegRoll4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll4JointOrientx = (
+        LeafRightUpLegRoll4JointOrient.LeafRightUpLegRoll4JointOrientx
+    )
+    LeafRightUpLegRoll4JointOrienty = (
+        LeafRightUpLegRoll4JointOrient.LeafRightUpLegRoll4JointOrienty
+    )
+    LeafRightUpLegRoll4JointOrientz = (
+        LeafRightUpLegRoll4JointOrient.LeafRightUpLegRoll4JointOrientz
+    )
 
-    LeafRightUpLegRoll4MinRLimit = LeafRightUpLegRoll4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll4MinRLimitx = LeafRightUpLegRoll4MinRLimit.LeafRightUpLegRoll4MinRLimitx
-    LeafRightUpLegRoll4MinRLimity = LeafRightUpLegRoll4MinRLimit.LeafRightUpLegRoll4MinRLimity
-    LeafRightUpLegRoll4MinRLimitz = LeafRightUpLegRoll4MinRLimit.LeafRightUpLegRoll4MinRLimitz
+    LeafRightUpLegRoll4MinRLimit = LeafRightUpLegRoll4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll4MinRLimitx = (
+        LeafRightUpLegRoll4MinRLimit.LeafRightUpLegRoll4MinRLimitx
+    )
+    LeafRightUpLegRoll4MinRLimity = (
+        LeafRightUpLegRoll4MinRLimit.LeafRightUpLegRoll4MinRLimity
+    )
+    LeafRightUpLegRoll4MinRLimitz = (
+        LeafRightUpLegRoll4MinRLimit.LeafRightUpLegRoll4MinRLimitz
+    )
 
-    LeafRightUpLegRoll4MaxRLimit = LeafRightUpLegRoll4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll4MaxRLimitx = LeafRightUpLegRoll4MaxRLimit.LeafRightUpLegRoll4MaxRLimitx
-    LeafRightUpLegRoll4MaxRLimity = LeafRightUpLegRoll4MaxRLimit.LeafRightUpLegRoll4MaxRLimity
-    LeafRightUpLegRoll4MaxRLimitz = LeafRightUpLegRoll4MaxRLimit.LeafRightUpLegRoll4MaxRLimitz
+    LeafRightUpLegRoll4MaxRLimit = LeafRightUpLegRoll4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll4MaxRLimitx = (
+        LeafRightUpLegRoll4MaxRLimit.LeafRightUpLegRoll4MaxRLimitx
+    )
+    LeafRightUpLegRoll4MaxRLimity = (
+        LeafRightUpLegRoll4MaxRLimit.LeafRightUpLegRoll4MaxRLimity
+    )
+    LeafRightUpLegRoll4MaxRLimitz = (
+        LeafRightUpLegRoll4MaxRLimit.LeafRightUpLegRoll4MaxRLimitz
+    )
 
     LeafRightUpLegRoll4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20163,27 +26657,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightLegRoll4Sy = LeafRightLegRoll4S.LeafRightLegRoll4Sy
     LeafRightLegRoll4Sz = LeafRightLegRoll4S.LeafRightLegRoll4Sz
 
-    LeafRightLegRoll4RotateOrder = LeafRightLegRoll4RotateOrderEnumField(default_value=0)
+    LeafRightLegRoll4RotateOrder = LeafRightLegRoll4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightLegRoll4RotateAxis = LeafRightLegRoll4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll4RotateAxisx = LeafRightLegRoll4RotateAxis.LeafRightLegRoll4RotateAxisx
-    LeafRightLegRoll4RotateAxisy = LeafRightLegRoll4RotateAxis.LeafRightLegRoll4RotateAxisy
-    LeafRightLegRoll4RotateAxisz = LeafRightLegRoll4RotateAxis.LeafRightLegRoll4RotateAxisz
+    LeafRightLegRoll4RotateAxis = LeafRightLegRoll4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll4RotateAxisx = (
+        LeafRightLegRoll4RotateAxis.LeafRightLegRoll4RotateAxisx
+    )
+    LeafRightLegRoll4RotateAxisy = (
+        LeafRightLegRoll4RotateAxis.LeafRightLegRoll4RotateAxisy
+    )
+    LeafRightLegRoll4RotateAxisz = (
+        LeafRightLegRoll4RotateAxis.LeafRightLegRoll4RotateAxisz
+    )
 
-    LeafRightLegRoll4JointOrient = LeafRightLegRoll4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll4JointOrientx = LeafRightLegRoll4JointOrient.LeafRightLegRoll4JointOrientx
-    LeafRightLegRoll4JointOrienty = LeafRightLegRoll4JointOrient.LeafRightLegRoll4JointOrienty
-    LeafRightLegRoll4JointOrientz = LeafRightLegRoll4JointOrient.LeafRightLegRoll4JointOrientz
+    LeafRightLegRoll4JointOrient = LeafRightLegRoll4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll4JointOrientx = (
+        LeafRightLegRoll4JointOrient.LeafRightLegRoll4JointOrientx
+    )
+    LeafRightLegRoll4JointOrienty = (
+        LeafRightLegRoll4JointOrient.LeafRightLegRoll4JointOrienty
+    )
+    LeafRightLegRoll4JointOrientz = (
+        LeafRightLegRoll4JointOrient.LeafRightLegRoll4JointOrientz
+    )
 
-    LeafRightLegRoll4MinRLimit = LeafRightLegRoll4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll4MinRLimitx = LeafRightLegRoll4MinRLimit.LeafRightLegRoll4MinRLimitx
-    LeafRightLegRoll4MinRLimity = LeafRightLegRoll4MinRLimit.LeafRightLegRoll4MinRLimity
-    LeafRightLegRoll4MinRLimitz = LeafRightLegRoll4MinRLimit.LeafRightLegRoll4MinRLimitz
+    LeafRightLegRoll4MinRLimit = LeafRightLegRoll4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll4MinRLimitx = (
+        LeafRightLegRoll4MinRLimit.LeafRightLegRoll4MinRLimitx
+    )
+    LeafRightLegRoll4MinRLimity = (
+        LeafRightLegRoll4MinRLimit.LeafRightLegRoll4MinRLimity
+    )
+    LeafRightLegRoll4MinRLimitz = (
+        LeafRightLegRoll4MinRLimit.LeafRightLegRoll4MinRLimitz
+    )
 
-    LeafRightLegRoll4MaxRLimit = LeafRightLegRoll4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll4MaxRLimitx = LeafRightLegRoll4MaxRLimit.LeafRightLegRoll4MaxRLimitx
-    LeafRightLegRoll4MaxRLimity = LeafRightLegRoll4MaxRLimit.LeafRightLegRoll4MaxRLimity
-    LeafRightLegRoll4MaxRLimitz = LeafRightLegRoll4MaxRLimit.LeafRightLegRoll4MaxRLimitz
+    LeafRightLegRoll4MaxRLimit = LeafRightLegRoll4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll4MaxRLimitx = (
+        LeafRightLegRoll4MaxRLimit.LeafRightLegRoll4MaxRLimitx
+    )
+    LeafRightLegRoll4MaxRLimity = (
+        LeafRightLegRoll4MaxRLimit.LeafRightLegRoll4MaxRLimity
+    )
+    LeafRightLegRoll4MaxRLimitz = (
+        LeafRightLegRoll4MaxRLimit.LeafRightLegRoll4MaxRLimitz
+    )
 
     LeafRightLegRoll4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20214,27 +26742,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftArmRoll4Sy = LeafLeftArmRoll4S.LeafLeftArmRoll4Sy
     LeafLeftArmRoll4Sz = LeafLeftArmRoll4S.LeafLeftArmRoll4Sz
 
-    LeafLeftArmRoll4RotateOrder = LeafLeftArmRoll4RotateOrderEnumField(default_value=0)
+    LeafLeftArmRoll4RotateOrder = LeafLeftArmRoll4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftArmRoll4RotateAxis = LeafLeftArmRoll4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll4RotateAxisx = LeafLeftArmRoll4RotateAxis.LeafLeftArmRoll4RotateAxisx
-    LeafLeftArmRoll4RotateAxisy = LeafLeftArmRoll4RotateAxis.LeafLeftArmRoll4RotateAxisy
-    LeafLeftArmRoll4RotateAxisz = LeafLeftArmRoll4RotateAxis.LeafLeftArmRoll4RotateAxisz
+    LeafLeftArmRoll4RotateAxis = LeafLeftArmRoll4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll4RotateAxisx = (
+        LeafLeftArmRoll4RotateAxis.LeafLeftArmRoll4RotateAxisx
+    )
+    LeafLeftArmRoll4RotateAxisy = (
+        LeafLeftArmRoll4RotateAxis.LeafLeftArmRoll4RotateAxisy
+    )
+    LeafLeftArmRoll4RotateAxisz = (
+        LeafLeftArmRoll4RotateAxis.LeafLeftArmRoll4RotateAxisz
+    )
 
-    LeafLeftArmRoll4JointOrient = LeafLeftArmRoll4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll4JointOrientx = LeafLeftArmRoll4JointOrient.LeafLeftArmRoll4JointOrientx
-    LeafLeftArmRoll4JointOrienty = LeafLeftArmRoll4JointOrient.LeafLeftArmRoll4JointOrienty
-    LeafLeftArmRoll4JointOrientz = LeafLeftArmRoll4JointOrient.LeafLeftArmRoll4JointOrientz
+    LeafLeftArmRoll4JointOrient = LeafLeftArmRoll4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll4JointOrientx = (
+        LeafLeftArmRoll4JointOrient.LeafLeftArmRoll4JointOrientx
+    )
+    LeafLeftArmRoll4JointOrienty = (
+        LeafLeftArmRoll4JointOrient.LeafLeftArmRoll4JointOrienty
+    )
+    LeafLeftArmRoll4JointOrientz = (
+        LeafLeftArmRoll4JointOrient.LeafLeftArmRoll4JointOrientz
+    )
 
-    LeafLeftArmRoll4MinRLimit = LeafLeftArmRoll4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll4MinRLimitx = LeafLeftArmRoll4MinRLimit.LeafLeftArmRoll4MinRLimitx
-    LeafLeftArmRoll4MinRLimity = LeafLeftArmRoll4MinRLimit.LeafLeftArmRoll4MinRLimity
-    LeafLeftArmRoll4MinRLimitz = LeafLeftArmRoll4MinRLimit.LeafLeftArmRoll4MinRLimitz
+    LeafLeftArmRoll4MinRLimit = LeafLeftArmRoll4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll4MinRLimitx = (
+        LeafLeftArmRoll4MinRLimit.LeafLeftArmRoll4MinRLimitx
+    )
+    LeafLeftArmRoll4MinRLimity = (
+        LeafLeftArmRoll4MinRLimit.LeafLeftArmRoll4MinRLimity
+    )
+    LeafLeftArmRoll4MinRLimitz = (
+        LeafLeftArmRoll4MinRLimit.LeafLeftArmRoll4MinRLimitz
+    )
 
-    LeafLeftArmRoll4MaxRLimit = LeafLeftArmRoll4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll4MaxRLimitx = LeafLeftArmRoll4MaxRLimit.LeafLeftArmRoll4MaxRLimitx
-    LeafLeftArmRoll4MaxRLimity = LeafLeftArmRoll4MaxRLimit.LeafLeftArmRoll4MaxRLimity
-    LeafLeftArmRoll4MaxRLimitz = LeafLeftArmRoll4MaxRLimit.LeafLeftArmRoll4MaxRLimitz
+    LeafLeftArmRoll4MaxRLimit = LeafLeftArmRoll4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll4MaxRLimitx = (
+        LeafLeftArmRoll4MaxRLimit.LeafLeftArmRoll4MaxRLimitx
+    )
+    LeafLeftArmRoll4MaxRLimity = (
+        LeafLeftArmRoll4MaxRLimit.LeafLeftArmRoll4MaxRLimity
+    )
+    LeafLeftArmRoll4MaxRLimitz = (
+        LeafLeftArmRoll4MaxRLimit.LeafLeftArmRoll4MaxRLimitz
+    )
 
     LeafLeftArmRoll4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20250,42 +26812,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftForeArmRoll4 = MessageField()
 
-    LeafLeftForeArmRoll4T = LeafLeftForeArmRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll4T = LeafLeftForeArmRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll4Tx = LeafLeftForeArmRoll4T.LeafLeftForeArmRoll4Tx
     LeafLeftForeArmRoll4Ty = LeafLeftForeArmRoll4T.LeafLeftForeArmRoll4Ty
     LeafLeftForeArmRoll4Tz = LeafLeftForeArmRoll4T.LeafLeftForeArmRoll4Tz
 
-    LeafLeftForeArmRoll4R = LeafLeftForeArmRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll4R = LeafLeftForeArmRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll4Rx = LeafLeftForeArmRoll4R.LeafLeftForeArmRoll4Rx
     LeafLeftForeArmRoll4Ry = LeafLeftForeArmRoll4R.LeafLeftForeArmRoll4Ry
     LeafLeftForeArmRoll4Rz = LeafLeftForeArmRoll4R.LeafLeftForeArmRoll4Rz
 
-    LeafLeftForeArmRoll4S = LeafLeftForeArmRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll4S = LeafLeftForeArmRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll4Sx = LeafLeftForeArmRoll4S.LeafLeftForeArmRoll4Sx
     LeafLeftForeArmRoll4Sy = LeafLeftForeArmRoll4S.LeafLeftForeArmRoll4Sy
     LeafLeftForeArmRoll4Sz = LeafLeftForeArmRoll4S.LeafLeftForeArmRoll4Sz
 
-    LeafLeftForeArmRoll4RotateOrder = LeafLeftForeArmRoll4RotateOrderEnumField(default_value=0)
+    LeafLeftForeArmRoll4RotateOrder = LeafLeftForeArmRoll4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftForeArmRoll4RotateAxis = LeafLeftForeArmRoll4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll4RotateAxisx = LeafLeftForeArmRoll4RotateAxis.LeafLeftForeArmRoll4RotateAxisx
-    LeafLeftForeArmRoll4RotateAxisy = LeafLeftForeArmRoll4RotateAxis.LeafLeftForeArmRoll4RotateAxisy
-    LeafLeftForeArmRoll4RotateAxisz = LeafLeftForeArmRoll4RotateAxis.LeafLeftForeArmRoll4RotateAxisz
+    LeafLeftForeArmRoll4RotateAxis = LeafLeftForeArmRoll4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll4RotateAxisx = (
+        LeafLeftForeArmRoll4RotateAxis.LeafLeftForeArmRoll4RotateAxisx
+    )
+    LeafLeftForeArmRoll4RotateAxisy = (
+        LeafLeftForeArmRoll4RotateAxis.LeafLeftForeArmRoll4RotateAxisy
+    )
+    LeafLeftForeArmRoll4RotateAxisz = (
+        LeafLeftForeArmRoll4RotateAxis.LeafLeftForeArmRoll4RotateAxisz
+    )
 
-    LeafLeftForeArmRoll4JointOrient = LeafLeftForeArmRoll4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll4JointOrientx = LeafLeftForeArmRoll4JointOrient.LeafLeftForeArmRoll4JointOrientx
-    LeafLeftForeArmRoll4JointOrienty = LeafLeftForeArmRoll4JointOrient.LeafLeftForeArmRoll4JointOrienty
-    LeafLeftForeArmRoll4JointOrientz = LeafLeftForeArmRoll4JointOrient.LeafLeftForeArmRoll4JointOrientz
+    LeafLeftForeArmRoll4JointOrient = LeafLeftForeArmRoll4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll4JointOrientx = (
+        LeafLeftForeArmRoll4JointOrient.LeafLeftForeArmRoll4JointOrientx
+    )
+    LeafLeftForeArmRoll4JointOrienty = (
+        LeafLeftForeArmRoll4JointOrient.LeafLeftForeArmRoll4JointOrienty
+    )
+    LeafLeftForeArmRoll4JointOrientz = (
+        LeafLeftForeArmRoll4JointOrient.LeafLeftForeArmRoll4JointOrientz
+    )
 
-    LeafLeftForeArmRoll4MinRLimit = LeafLeftForeArmRoll4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll4MinRLimitx = LeafLeftForeArmRoll4MinRLimit.LeafLeftForeArmRoll4MinRLimitx
-    LeafLeftForeArmRoll4MinRLimity = LeafLeftForeArmRoll4MinRLimit.LeafLeftForeArmRoll4MinRLimity
-    LeafLeftForeArmRoll4MinRLimitz = LeafLeftForeArmRoll4MinRLimit.LeafLeftForeArmRoll4MinRLimitz
+    LeafLeftForeArmRoll4MinRLimit = LeafLeftForeArmRoll4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll4MinRLimitx = (
+        LeafLeftForeArmRoll4MinRLimit.LeafLeftForeArmRoll4MinRLimitx
+    )
+    LeafLeftForeArmRoll4MinRLimity = (
+        LeafLeftForeArmRoll4MinRLimit.LeafLeftForeArmRoll4MinRLimity
+    )
+    LeafLeftForeArmRoll4MinRLimitz = (
+        LeafLeftForeArmRoll4MinRLimit.LeafLeftForeArmRoll4MinRLimitz
+    )
 
-    LeafLeftForeArmRoll4MaxRLimit = LeafLeftForeArmRoll4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll4MaxRLimitx = LeafLeftForeArmRoll4MaxRLimit.LeafLeftForeArmRoll4MaxRLimitx
-    LeafLeftForeArmRoll4MaxRLimity = LeafLeftForeArmRoll4MaxRLimit.LeafLeftForeArmRoll4MaxRLimity
-    LeafLeftForeArmRoll4MaxRLimitz = LeafLeftForeArmRoll4MaxRLimit.LeafLeftForeArmRoll4MaxRLimitz
+    LeafLeftForeArmRoll4MaxRLimit = LeafLeftForeArmRoll4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll4MaxRLimitx = (
+        LeafLeftForeArmRoll4MaxRLimit.LeafLeftForeArmRoll4MaxRLimitx
+    )
+    LeafLeftForeArmRoll4MaxRLimity = (
+        LeafLeftForeArmRoll4MaxRLimit.LeafLeftForeArmRoll4MaxRLimity
+    )
+    LeafLeftForeArmRoll4MaxRLimitz = (
+        LeafLeftForeArmRoll4MaxRLimit.LeafLeftForeArmRoll4MaxRLimitz
+    )
 
     LeafLeftForeArmRoll4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20316,27 +26918,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightArmRoll4Sy = LeafRightArmRoll4S.LeafRightArmRoll4Sy
     LeafRightArmRoll4Sz = LeafRightArmRoll4S.LeafRightArmRoll4Sz
 
-    LeafRightArmRoll4RotateOrder = LeafRightArmRoll4RotateOrderEnumField(default_value=0)
+    LeafRightArmRoll4RotateOrder = LeafRightArmRoll4RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightArmRoll4RotateAxis = LeafRightArmRoll4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll4RotateAxisx = LeafRightArmRoll4RotateAxis.LeafRightArmRoll4RotateAxisx
-    LeafRightArmRoll4RotateAxisy = LeafRightArmRoll4RotateAxis.LeafRightArmRoll4RotateAxisy
-    LeafRightArmRoll4RotateAxisz = LeafRightArmRoll4RotateAxis.LeafRightArmRoll4RotateAxisz
+    LeafRightArmRoll4RotateAxis = LeafRightArmRoll4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll4RotateAxisx = (
+        LeafRightArmRoll4RotateAxis.LeafRightArmRoll4RotateAxisx
+    )
+    LeafRightArmRoll4RotateAxisy = (
+        LeafRightArmRoll4RotateAxis.LeafRightArmRoll4RotateAxisy
+    )
+    LeafRightArmRoll4RotateAxisz = (
+        LeafRightArmRoll4RotateAxis.LeafRightArmRoll4RotateAxisz
+    )
 
-    LeafRightArmRoll4JointOrient = LeafRightArmRoll4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll4JointOrientx = LeafRightArmRoll4JointOrient.LeafRightArmRoll4JointOrientx
-    LeafRightArmRoll4JointOrienty = LeafRightArmRoll4JointOrient.LeafRightArmRoll4JointOrienty
-    LeafRightArmRoll4JointOrientz = LeafRightArmRoll4JointOrient.LeafRightArmRoll4JointOrientz
+    LeafRightArmRoll4JointOrient = LeafRightArmRoll4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll4JointOrientx = (
+        LeafRightArmRoll4JointOrient.LeafRightArmRoll4JointOrientx
+    )
+    LeafRightArmRoll4JointOrienty = (
+        LeafRightArmRoll4JointOrient.LeafRightArmRoll4JointOrienty
+    )
+    LeafRightArmRoll4JointOrientz = (
+        LeafRightArmRoll4JointOrient.LeafRightArmRoll4JointOrientz
+    )
 
-    LeafRightArmRoll4MinRLimit = LeafRightArmRoll4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll4MinRLimitx = LeafRightArmRoll4MinRLimit.LeafRightArmRoll4MinRLimitx
-    LeafRightArmRoll4MinRLimity = LeafRightArmRoll4MinRLimit.LeafRightArmRoll4MinRLimity
-    LeafRightArmRoll4MinRLimitz = LeafRightArmRoll4MinRLimit.LeafRightArmRoll4MinRLimitz
+    LeafRightArmRoll4MinRLimit = LeafRightArmRoll4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll4MinRLimitx = (
+        LeafRightArmRoll4MinRLimit.LeafRightArmRoll4MinRLimitx
+    )
+    LeafRightArmRoll4MinRLimity = (
+        LeafRightArmRoll4MinRLimit.LeafRightArmRoll4MinRLimity
+    )
+    LeafRightArmRoll4MinRLimitz = (
+        LeafRightArmRoll4MinRLimit.LeafRightArmRoll4MinRLimitz
+    )
 
-    LeafRightArmRoll4MaxRLimit = LeafRightArmRoll4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll4MaxRLimitx = LeafRightArmRoll4MaxRLimit.LeafRightArmRoll4MaxRLimitx
-    LeafRightArmRoll4MaxRLimity = LeafRightArmRoll4MaxRLimit.LeafRightArmRoll4MaxRLimity
-    LeafRightArmRoll4MaxRLimitz = LeafRightArmRoll4MaxRLimit.LeafRightArmRoll4MaxRLimitz
+    LeafRightArmRoll4MaxRLimit = LeafRightArmRoll4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll4MaxRLimitx = (
+        LeafRightArmRoll4MaxRLimit.LeafRightArmRoll4MaxRLimitx
+    )
+    LeafRightArmRoll4MaxRLimity = (
+        LeafRightArmRoll4MaxRLimit.LeafRightArmRoll4MaxRLimity
+    )
+    LeafRightArmRoll4MaxRLimitz = (
+        LeafRightArmRoll4MaxRLimit.LeafRightArmRoll4MaxRLimitz
+    )
 
     LeafRightArmRoll4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20352,42 +26988,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightForeArmRoll4 = MessageField()
 
-    LeafRightForeArmRoll4T = LeafRightForeArmRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll4T = LeafRightForeArmRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll4Tx = LeafRightForeArmRoll4T.LeafRightForeArmRoll4Tx
     LeafRightForeArmRoll4Ty = LeafRightForeArmRoll4T.LeafRightForeArmRoll4Ty
     LeafRightForeArmRoll4Tz = LeafRightForeArmRoll4T.LeafRightForeArmRoll4Tz
 
-    LeafRightForeArmRoll4R = LeafRightForeArmRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll4R = LeafRightForeArmRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll4Rx = LeafRightForeArmRoll4R.LeafRightForeArmRoll4Rx
     LeafRightForeArmRoll4Ry = LeafRightForeArmRoll4R.LeafRightForeArmRoll4Ry
     LeafRightForeArmRoll4Rz = LeafRightForeArmRoll4R.LeafRightForeArmRoll4Rz
 
-    LeafRightForeArmRoll4S = LeafRightForeArmRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll4S = LeafRightForeArmRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll4Sx = LeafRightForeArmRoll4S.LeafRightForeArmRoll4Sx
     LeafRightForeArmRoll4Sy = LeafRightForeArmRoll4S.LeafRightForeArmRoll4Sy
     LeafRightForeArmRoll4Sz = LeafRightForeArmRoll4S.LeafRightForeArmRoll4Sz
 
-    LeafRightForeArmRoll4RotateOrder = LeafRightForeArmRoll4RotateOrderEnumField(default_value=0)
+    LeafRightForeArmRoll4RotateOrder = (
+        LeafRightForeArmRoll4RotateOrderEnumField(default_value=0)
+    )
 
-    LeafRightForeArmRoll4RotateAxis = LeafRightForeArmRoll4RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll4RotateAxisx = LeafRightForeArmRoll4RotateAxis.LeafRightForeArmRoll4RotateAxisx
-    LeafRightForeArmRoll4RotateAxisy = LeafRightForeArmRoll4RotateAxis.LeafRightForeArmRoll4RotateAxisy
-    LeafRightForeArmRoll4RotateAxisz = LeafRightForeArmRoll4RotateAxis.LeafRightForeArmRoll4RotateAxisz
+    LeafRightForeArmRoll4RotateAxis = LeafRightForeArmRoll4RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll4RotateAxisx = (
+        LeafRightForeArmRoll4RotateAxis.LeafRightForeArmRoll4RotateAxisx
+    )
+    LeafRightForeArmRoll4RotateAxisy = (
+        LeafRightForeArmRoll4RotateAxis.LeafRightForeArmRoll4RotateAxisy
+    )
+    LeafRightForeArmRoll4RotateAxisz = (
+        LeafRightForeArmRoll4RotateAxis.LeafRightForeArmRoll4RotateAxisz
+    )
 
-    LeafRightForeArmRoll4JointOrient = LeafRightForeArmRoll4JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll4JointOrientx = LeafRightForeArmRoll4JointOrient.LeafRightForeArmRoll4JointOrientx
-    LeafRightForeArmRoll4JointOrienty = LeafRightForeArmRoll4JointOrient.LeafRightForeArmRoll4JointOrienty
-    LeafRightForeArmRoll4JointOrientz = LeafRightForeArmRoll4JointOrient.LeafRightForeArmRoll4JointOrientz
+    LeafRightForeArmRoll4JointOrient = LeafRightForeArmRoll4JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll4JointOrientx = (
+        LeafRightForeArmRoll4JointOrient.LeafRightForeArmRoll4JointOrientx
+    )
+    LeafRightForeArmRoll4JointOrienty = (
+        LeafRightForeArmRoll4JointOrient.LeafRightForeArmRoll4JointOrienty
+    )
+    LeafRightForeArmRoll4JointOrientz = (
+        LeafRightForeArmRoll4JointOrient.LeafRightForeArmRoll4JointOrientz
+    )
 
-    LeafRightForeArmRoll4MinRLimit = LeafRightForeArmRoll4MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll4MinRLimitx = LeafRightForeArmRoll4MinRLimit.LeafRightForeArmRoll4MinRLimitx
-    LeafRightForeArmRoll4MinRLimity = LeafRightForeArmRoll4MinRLimit.LeafRightForeArmRoll4MinRLimity
-    LeafRightForeArmRoll4MinRLimitz = LeafRightForeArmRoll4MinRLimit.LeafRightForeArmRoll4MinRLimitz
+    LeafRightForeArmRoll4MinRLimit = LeafRightForeArmRoll4MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll4MinRLimitx = (
+        LeafRightForeArmRoll4MinRLimit.LeafRightForeArmRoll4MinRLimitx
+    )
+    LeafRightForeArmRoll4MinRLimity = (
+        LeafRightForeArmRoll4MinRLimit.LeafRightForeArmRoll4MinRLimity
+    )
+    LeafRightForeArmRoll4MinRLimitz = (
+        LeafRightForeArmRoll4MinRLimit.LeafRightForeArmRoll4MinRLimitz
+    )
 
-    LeafRightForeArmRoll4MaxRLimit = LeafRightForeArmRoll4MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll4MaxRLimitx = LeafRightForeArmRoll4MaxRLimit.LeafRightForeArmRoll4MaxRLimitx
-    LeafRightForeArmRoll4MaxRLimity = LeafRightForeArmRoll4MaxRLimit.LeafRightForeArmRoll4MaxRLimity
-    LeafRightForeArmRoll4MaxRLimitz = LeafRightForeArmRoll4MaxRLimit.LeafRightForeArmRoll4MaxRLimitz
+    LeafRightForeArmRoll4MaxRLimit = LeafRightForeArmRoll4MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll4MaxRLimitx = (
+        LeafRightForeArmRoll4MaxRLimit.LeafRightForeArmRoll4MaxRLimitx
+    )
+    LeafRightForeArmRoll4MaxRLimity = (
+        LeafRightForeArmRoll4MaxRLimit.LeafRightForeArmRoll4MaxRLimity
+    )
+    LeafRightForeArmRoll4MaxRLimitz = (
+        LeafRightForeArmRoll4MaxRLimit.LeafRightForeArmRoll4MaxRLimitz
+    )
 
     LeafRightForeArmRoll4MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20403,42 +27079,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftUpLegRoll5 = MessageField()
 
-    LeafLeftUpLegRoll5T = LeafLeftUpLegRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll5T = LeafLeftUpLegRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll5Tx = LeafLeftUpLegRoll5T.LeafLeftUpLegRoll5Tx
     LeafLeftUpLegRoll5Ty = LeafLeftUpLegRoll5T.LeafLeftUpLegRoll5Ty
     LeafLeftUpLegRoll5Tz = LeafLeftUpLegRoll5T.LeafLeftUpLegRoll5Tz
 
-    LeafLeftUpLegRoll5R = LeafLeftUpLegRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll5R = LeafLeftUpLegRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll5Rx = LeafLeftUpLegRoll5R.LeafLeftUpLegRoll5Rx
     LeafLeftUpLegRoll5Ry = LeafLeftUpLegRoll5R.LeafLeftUpLegRoll5Ry
     LeafLeftUpLegRoll5Rz = LeafLeftUpLegRoll5R.LeafLeftUpLegRoll5Rz
 
-    LeafLeftUpLegRoll5S = LeafLeftUpLegRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll5S = LeafLeftUpLegRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll5Sx = LeafLeftUpLegRoll5S.LeafLeftUpLegRoll5Sx
     LeafLeftUpLegRoll5Sy = LeafLeftUpLegRoll5S.LeafLeftUpLegRoll5Sy
     LeafLeftUpLegRoll5Sz = LeafLeftUpLegRoll5S.LeafLeftUpLegRoll5Sz
 
-    LeafLeftUpLegRoll5RotateOrder = LeafLeftUpLegRoll5RotateOrderEnumField(default_value=0)
+    LeafLeftUpLegRoll5RotateOrder = LeafLeftUpLegRoll5RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftUpLegRoll5RotateAxis = LeafLeftUpLegRoll5RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll5RotateAxisx = LeafLeftUpLegRoll5RotateAxis.LeafLeftUpLegRoll5RotateAxisx
-    LeafLeftUpLegRoll5RotateAxisy = LeafLeftUpLegRoll5RotateAxis.LeafLeftUpLegRoll5RotateAxisy
-    LeafLeftUpLegRoll5RotateAxisz = LeafLeftUpLegRoll5RotateAxis.LeafLeftUpLegRoll5RotateAxisz
+    LeafLeftUpLegRoll5RotateAxis = LeafLeftUpLegRoll5RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll5RotateAxisx = (
+        LeafLeftUpLegRoll5RotateAxis.LeafLeftUpLegRoll5RotateAxisx
+    )
+    LeafLeftUpLegRoll5RotateAxisy = (
+        LeafLeftUpLegRoll5RotateAxis.LeafLeftUpLegRoll5RotateAxisy
+    )
+    LeafLeftUpLegRoll5RotateAxisz = (
+        LeafLeftUpLegRoll5RotateAxis.LeafLeftUpLegRoll5RotateAxisz
+    )
 
-    LeafLeftUpLegRoll5JointOrient = LeafLeftUpLegRoll5JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll5JointOrientx = LeafLeftUpLegRoll5JointOrient.LeafLeftUpLegRoll5JointOrientx
-    LeafLeftUpLegRoll5JointOrienty = LeafLeftUpLegRoll5JointOrient.LeafLeftUpLegRoll5JointOrienty
-    LeafLeftUpLegRoll5JointOrientz = LeafLeftUpLegRoll5JointOrient.LeafLeftUpLegRoll5JointOrientz
+    LeafLeftUpLegRoll5JointOrient = LeafLeftUpLegRoll5JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll5JointOrientx = (
+        LeafLeftUpLegRoll5JointOrient.LeafLeftUpLegRoll5JointOrientx
+    )
+    LeafLeftUpLegRoll5JointOrienty = (
+        LeafLeftUpLegRoll5JointOrient.LeafLeftUpLegRoll5JointOrienty
+    )
+    LeafLeftUpLegRoll5JointOrientz = (
+        LeafLeftUpLegRoll5JointOrient.LeafLeftUpLegRoll5JointOrientz
+    )
 
-    LeafLeftUpLegRoll5MinRLimit = LeafLeftUpLegRoll5MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll5MinRLimitx = LeafLeftUpLegRoll5MinRLimit.LeafLeftUpLegRoll5MinRLimitx
-    LeafLeftUpLegRoll5MinRLimity = LeafLeftUpLegRoll5MinRLimit.LeafLeftUpLegRoll5MinRLimity
-    LeafLeftUpLegRoll5MinRLimitz = LeafLeftUpLegRoll5MinRLimit.LeafLeftUpLegRoll5MinRLimitz
+    LeafLeftUpLegRoll5MinRLimit = LeafLeftUpLegRoll5MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll5MinRLimitx = (
+        LeafLeftUpLegRoll5MinRLimit.LeafLeftUpLegRoll5MinRLimitx
+    )
+    LeafLeftUpLegRoll5MinRLimity = (
+        LeafLeftUpLegRoll5MinRLimit.LeafLeftUpLegRoll5MinRLimity
+    )
+    LeafLeftUpLegRoll5MinRLimitz = (
+        LeafLeftUpLegRoll5MinRLimit.LeafLeftUpLegRoll5MinRLimitz
+    )
 
-    LeafLeftUpLegRoll5MaxRLimit = LeafLeftUpLegRoll5MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftUpLegRoll5MaxRLimitx = LeafLeftUpLegRoll5MaxRLimit.LeafLeftUpLegRoll5MaxRLimitx
-    LeafLeftUpLegRoll5MaxRLimity = LeafLeftUpLegRoll5MaxRLimit.LeafLeftUpLegRoll5MaxRLimity
-    LeafLeftUpLegRoll5MaxRLimitz = LeafLeftUpLegRoll5MaxRLimit.LeafLeftUpLegRoll5MaxRLimitz
+    LeafLeftUpLegRoll5MaxRLimit = LeafLeftUpLegRoll5MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftUpLegRoll5MaxRLimitx = (
+        LeafLeftUpLegRoll5MaxRLimit.LeafLeftUpLegRoll5MaxRLimitx
+    )
+    LeafLeftUpLegRoll5MaxRLimity = (
+        LeafLeftUpLegRoll5MaxRLimit.LeafLeftUpLegRoll5MaxRLimity
+    )
+    LeafLeftUpLegRoll5MaxRLimitz = (
+        LeafLeftUpLegRoll5MaxRLimit.LeafLeftUpLegRoll5MaxRLimitz
+    )
 
     LeafLeftUpLegRoll5MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20469,27 +27185,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftLegRoll5Sy = LeafLeftLegRoll5S.LeafLeftLegRoll5Sy
     LeafLeftLegRoll5Sz = LeafLeftLegRoll5S.LeafLeftLegRoll5Sz
 
-    LeafLeftLegRoll5RotateOrder = LeafLeftLegRoll5RotateOrderEnumField(default_value=0)
+    LeafLeftLegRoll5RotateOrder = LeafLeftLegRoll5RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftLegRoll5RotateAxis = LeafLeftLegRoll5RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll5RotateAxisx = LeafLeftLegRoll5RotateAxis.LeafLeftLegRoll5RotateAxisx
-    LeafLeftLegRoll5RotateAxisy = LeafLeftLegRoll5RotateAxis.LeafLeftLegRoll5RotateAxisy
-    LeafLeftLegRoll5RotateAxisz = LeafLeftLegRoll5RotateAxis.LeafLeftLegRoll5RotateAxisz
+    LeafLeftLegRoll5RotateAxis = LeafLeftLegRoll5RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll5RotateAxisx = (
+        LeafLeftLegRoll5RotateAxis.LeafLeftLegRoll5RotateAxisx
+    )
+    LeafLeftLegRoll5RotateAxisy = (
+        LeafLeftLegRoll5RotateAxis.LeafLeftLegRoll5RotateAxisy
+    )
+    LeafLeftLegRoll5RotateAxisz = (
+        LeafLeftLegRoll5RotateAxis.LeafLeftLegRoll5RotateAxisz
+    )
 
-    LeafLeftLegRoll5JointOrient = LeafLeftLegRoll5JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll5JointOrientx = LeafLeftLegRoll5JointOrient.LeafLeftLegRoll5JointOrientx
-    LeafLeftLegRoll5JointOrienty = LeafLeftLegRoll5JointOrient.LeafLeftLegRoll5JointOrienty
-    LeafLeftLegRoll5JointOrientz = LeafLeftLegRoll5JointOrient.LeafLeftLegRoll5JointOrientz
+    LeafLeftLegRoll5JointOrient = LeafLeftLegRoll5JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll5JointOrientx = (
+        LeafLeftLegRoll5JointOrient.LeafLeftLegRoll5JointOrientx
+    )
+    LeafLeftLegRoll5JointOrienty = (
+        LeafLeftLegRoll5JointOrient.LeafLeftLegRoll5JointOrienty
+    )
+    LeafLeftLegRoll5JointOrientz = (
+        LeafLeftLegRoll5JointOrient.LeafLeftLegRoll5JointOrientz
+    )
 
-    LeafLeftLegRoll5MinRLimit = LeafLeftLegRoll5MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll5MinRLimitx = LeafLeftLegRoll5MinRLimit.LeafLeftLegRoll5MinRLimitx
-    LeafLeftLegRoll5MinRLimity = LeafLeftLegRoll5MinRLimit.LeafLeftLegRoll5MinRLimity
-    LeafLeftLegRoll5MinRLimitz = LeafLeftLegRoll5MinRLimit.LeafLeftLegRoll5MinRLimitz
+    LeafLeftLegRoll5MinRLimit = LeafLeftLegRoll5MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll5MinRLimitx = (
+        LeafLeftLegRoll5MinRLimit.LeafLeftLegRoll5MinRLimitx
+    )
+    LeafLeftLegRoll5MinRLimity = (
+        LeafLeftLegRoll5MinRLimit.LeafLeftLegRoll5MinRLimity
+    )
+    LeafLeftLegRoll5MinRLimitz = (
+        LeafLeftLegRoll5MinRLimit.LeafLeftLegRoll5MinRLimitz
+    )
 
-    LeafLeftLegRoll5MaxRLimit = LeafLeftLegRoll5MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftLegRoll5MaxRLimitx = LeafLeftLegRoll5MaxRLimit.LeafLeftLegRoll5MaxRLimitx
-    LeafLeftLegRoll5MaxRLimity = LeafLeftLegRoll5MaxRLimit.LeafLeftLegRoll5MaxRLimity
-    LeafLeftLegRoll5MaxRLimitz = LeafLeftLegRoll5MaxRLimit.LeafLeftLegRoll5MaxRLimitz
+    LeafLeftLegRoll5MaxRLimit = LeafLeftLegRoll5MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftLegRoll5MaxRLimitx = (
+        LeafLeftLegRoll5MaxRLimit.LeafLeftLegRoll5MaxRLimitx
+    )
+    LeafLeftLegRoll5MaxRLimity = (
+        LeafLeftLegRoll5MaxRLimit.LeafLeftLegRoll5MaxRLimity
+    )
+    LeafLeftLegRoll5MaxRLimitz = (
+        LeafLeftLegRoll5MaxRLimit.LeafLeftLegRoll5MaxRLimitz
+    )
 
     LeafLeftLegRoll5MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20505,42 +27255,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightUpLegRoll5 = MessageField()
 
-    LeafRightUpLegRoll5T = LeafRightUpLegRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll5T = LeafRightUpLegRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll5Tx = LeafRightUpLegRoll5T.LeafRightUpLegRoll5Tx
     LeafRightUpLegRoll5Ty = LeafRightUpLegRoll5T.LeafRightUpLegRoll5Ty
     LeafRightUpLegRoll5Tz = LeafRightUpLegRoll5T.LeafRightUpLegRoll5Tz
 
-    LeafRightUpLegRoll5R = LeafRightUpLegRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll5R = LeafRightUpLegRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll5Rx = LeafRightUpLegRoll5R.LeafRightUpLegRoll5Rx
     LeafRightUpLegRoll5Ry = LeafRightUpLegRoll5R.LeafRightUpLegRoll5Ry
     LeafRightUpLegRoll5Rz = LeafRightUpLegRoll5R.LeafRightUpLegRoll5Rz
 
-    LeafRightUpLegRoll5S = LeafRightUpLegRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll5S = LeafRightUpLegRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll5Sx = LeafRightUpLegRoll5S.LeafRightUpLegRoll5Sx
     LeafRightUpLegRoll5Sy = LeafRightUpLegRoll5S.LeafRightUpLegRoll5Sy
     LeafRightUpLegRoll5Sz = LeafRightUpLegRoll5S.LeafRightUpLegRoll5Sz
 
-    LeafRightUpLegRoll5RotateOrder = LeafRightUpLegRoll5RotateOrderEnumField(default_value=0)
+    LeafRightUpLegRoll5RotateOrder = LeafRightUpLegRoll5RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightUpLegRoll5RotateAxis = LeafRightUpLegRoll5RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll5RotateAxisx = LeafRightUpLegRoll5RotateAxis.LeafRightUpLegRoll5RotateAxisx
-    LeafRightUpLegRoll5RotateAxisy = LeafRightUpLegRoll5RotateAxis.LeafRightUpLegRoll5RotateAxisy
-    LeafRightUpLegRoll5RotateAxisz = LeafRightUpLegRoll5RotateAxis.LeafRightUpLegRoll5RotateAxisz
+    LeafRightUpLegRoll5RotateAxis = LeafRightUpLegRoll5RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll5RotateAxisx = (
+        LeafRightUpLegRoll5RotateAxis.LeafRightUpLegRoll5RotateAxisx
+    )
+    LeafRightUpLegRoll5RotateAxisy = (
+        LeafRightUpLegRoll5RotateAxis.LeafRightUpLegRoll5RotateAxisy
+    )
+    LeafRightUpLegRoll5RotateAxisz = (
+        LeafRightUpLegRoll5RotateAxis.LeafRightUpLegRoll5RotateAxisz
+    )
 
-    LeafRightUpLegRoll5JointOrient = LeafRightUpLegRoll5JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll5JointOrientx = LeafRightUpLegRoll5JointOrient.LeafRightUpLegRoll5JointOrientx
-    LeafRightUpLegRoll5JointOrienty = LeafRightUpLegRoll5JointOrient.LeafRightUpLegRoll5JointOrienty
-    LeafRightUpLegRoll5JointOrientz = LeafRightUpLegRoll5JointOrient.LeafRightUpLegRoll5JointOrientz
+    LeafRightUpLegRoll5JointOrient = LeafRightUpLegRoll5JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll5JointOrientx = (
+        LeafRightUpLegRoll5JointOrient.LeafRightUpLegRoll5JointOrientx
+    )
+    LeafRightUpLegRoll5JointOrienty = (
+        LeafRightUpLegRoll5JointOrient.LeafRightUpLegRoll5JointOrienty
+    )
+    LeafRightUpLegRoll5JointOrientz = (
+        LeafRightUpLegRoll5JointOrient.LeafRightUpLegRoll5JointOrientz
+    )
 
-    LeafRightUpLegRoll5MinRLimit = LeafRightUpLegRoll5MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll5MinRLimitx = LeafRightUpLegRoll5MinRLimit.LeafRightUpLegRoll5MinRLimitx
-    LeafRightUpLegRoll5MinRLimity = LeafRightUpLegRoll5MinRLimit.LeafRightUpLegRoll5MinRLimity
-    LeafRightUpLegRoll5MinRLimitz = LeafRightUpLegRoll5MinRLimit.LeafRightUpLegRoll5MinRLimitz
+    LeafRightUpLegRoll5MinRLimit = LeafRightUpLegRoll5MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll5MinRLimitx = (
+        LeafRightUpLegRoll5MinRLimit.LeafRightUpLegRoll5MinRLimitx
+    )
+    LeafRightUpLegRoll5MinRLimity = (
+        LeafRightUpLegRoll5MinRLimit.LeafRightUpLegRoll5MinRLimity
+    )
+    LeafRightUpLegRoll5MinRLimitz = (
+        LeafRightUpLegRoll5MinRLimit.LeafRightUpLegRoll5MinRLimitz
+    )
 
-    LeafRightUpLegRoll5MaxRLimit = LeafRightUpLegRoll5MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll5MaxRLimitx = LeafRightUpLegRoll5MaxRLimit.LeafRightUpLegRoll5MaxRLimitx
-    LeafRightUpLegRoll5MaxRLimity = LeafRightUpLegRoll5MaxRLimit.LeafRightUpLegRoll5MaxRLimity
-    LeafRightUpLegRoll5MaxRLimitz = LeafRightUpLegRoll5MaxRLimit.LeafRightUpLegRoll5MaxRLimitz
+    LeafRightUpLegRoll5MaxRLimit = LeafRightUpLegRoll5MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll5MaxRLimitx = (
+        LeafRightUpLegRoll5MaxRLimit.LeafRightUpLegRoll5MaxRLimitx
+    )
+    LeafRightUpLegRoll5MaxRLimity = (
+        LeafRightUpLegRoll5MaxRLimit.LeafRightUpLegRoll5MaxRLimity
+    )
+    LeafRightUpLegRoll5MaxRLimitz = (
+        LeafRightUpLegRoll5MaxRLimit.LeafRightUpLegRoll5MaxRLimitz
+    )
 
     LeafRightUpLegRoll5MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20571,27 +27361,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightLegRoll5Sy = LeafRightLegRoll5S.LeafRightLegRoll5Sy
     LeafRightLegRoll5Sz = LeafRightLegRoll5S.LeafRightLegRoll5Sz
 
-    LeafRightLegRoll5RotateOrder = LeafRightLegRoll5RotateOrderEnumField(default_value=0)
+    LeafRightLegRoll5RotateOrder = LeafRightLegRoll5RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightLegRoll5RotateAxis = LeafRightLegRoll5RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll5RotateAxisx = LeafRightLegRoll5RotateAxis.LeafRightLegRoll5RotateAxisx
-    LeafRightLegRoll5RotateAxisy = LeafRightLegRoll5RotateAxis.LeafRightLegRoll5RotateAxisy
-    LeafRightLegRoll5RotateAxisz = LeafRightLegRoll5RotateAxis.LeafRightLegRoll5RotateAxisz
+    LeafRightLegRoll5RotateAxis = LeafRightLegRoll5RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll5RotateAxisx = (
+        LeafRightLegRoll5RotateAxis.LeafRightLegRoll5RotateAxisx
+    )
+    LeafRightLegRoll5RotateAxisy = (
+        LeafRightLegRoll5RotateAxis.LeafRightLegRoll5RotateAxisy
+    )
+    LeafRightLegRoll5RotateAxisz = (
+        LeafRightLegRoll5RotateAxis.LeafRightLegRoll5RotateAxisz
+    )
 
-    LeafRightLegRoll5JointOrient = LeafRightLegRoll5JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll5JointOrientx = LeafRightLegRoll5JointOrient.LeafRightLegRoll5JointOrientx
-    LeafRightLegRoll5JointOrienty = LeafRightLegRoll5JointOrient.LeafRightLegRoll5JointOrienty
-    LeafRightLegRoll5JointOrientz = LeafRightLegRoll5JointOrient.LeafRightLegRoll5JointOrientz
+    LeafRightLegRoll5JointOrient = LeafRightLegRoll5JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll5JointOrientx = (
+        LeafRightLegRoll5JointOrient.LeafRightLegRoll5JointOrientx
+    )
+    LeafRightLegRoll5JointOrienty = (
+        LeafRightLegRoll5JointOrient.LeafRightLegRoll5JointOrienty
+    )
+    LeafRightLegRoll5JointOrientz = (
+        LeafRightLegRoll5JointOrient.LeafRightLegRoll5JointOrientz
+    )
 
-    LeafRightLegRoll5MinRLimit = LeafRightLegRoll5MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll5MinRLimitx = LeafRightLegRoll5MinRLimit.LeafRightLegRoll5MinRLimitx
-    LeafRightLegRoll5MinRLimity = LeafRightLegRoll5MinRLimit.LeafRightLegRoll5MinRLimity
-    LeafRightLegRoll5MinRLimitz = LeafRightLegRoll5MinRLimit.LeafRightLegRoll5MinRLimitz
+    LeafRightLegRoll5MinRLimit = LeafRightLegRoll5MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll5MinRLimitx = (
+        LeafRightLegRoll5MinRLimit.LeafRightLegRoll5MinRLimitx
+    )
+    LeafRightLegRoll5MinRLimity = (
+        LeafRightLegRoll5MinRLimit.LeafRightLegRoll5MinRLimity
+    )
+    LeafRightLegRoll5MinRLimitz = (
+        LeafRightLegRoll5MinRLimit.LeafRightLegRoll5MinRLimitz
+    )
 
-    LeafRightLegRoll5MaxRLimit = LeafRightLegRoll5MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightLegRoll5MaxRLimitx = LeafRightLegRoll5MaxRLimit.LeafRightLegRoll5MaxRLimitx
-    LeafRightLegRoll5MaxRLimity = LeafRightLegRoll5MaxRLimit.LeafRightLegRoll5MaxRLimity
-    LeafRightLegRoll5MaxRLimitz = LeafRightLegRoll5MaxRLimit.LeafRightLegRoll5MaxRLimitz
+    LeafRightLegRoll5MaxRLimit = LeafRightLegRoll5MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightLegRoll5MaxRLimitx = (
+        LeafRightLegRoll5MaxRLimit.LeafRightLegRoll5MaxRLimitx
+    )
+    LeafRightLegRoll5MaxRLimity = (
+        LeafRightLegRoll5MaxRLimit.LeafRightLegRoll5MaxRLimity
+    )
+    LeafRightLegRoll5MaxRLimitz = (
+        LeafRightLegRoll5MaxRLimit.LeafRightLegRoll5MaxRLimitz
+    )
 
     LeafRightLegRoll5MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20622,27 +27446,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafLeftArmRoll5Sy = LeafLeftArmRoll5S.LeafLeftArmRoll5Sy
     LeafLeftArmRoll5Sz = LeafLeftArmRoll5S.LeafLeftArmRoll5Sz
 
-    LeafLeftArmRoll5RotateOrder = LeafLeftArmRoll5RotateOrderEnumField(default_value=0)
+    LeafLeftArmRoll5RotateOrder = LeafLeftArmRoll5RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftArmRoll5RotateAxis = LeafLeftArmRoll5RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll5RotateAxisx = LeafLeftArmRoll5RotateAxis.LeafLeftArmRoll5RotateAxisx
-    LeafLeftArmRoll5RotateAxisy = LeafLeftArmRoll5RotateAxis.LeafLeftArmRoll5RotateAxisy
-    LeafLeftArmRoll5RotateAxisz = LeafLeftArmRoll5RotateAxis.LeafLeftArmRoll5RotateAxisz
+    LeafLeftArmRoll5RotateAxis = LeafLeftArmRoll5RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll5RotateAxisx = (
+        LeafLeftArmRoll5RotateAxis.LeafLeftArmRoll5RotateAxisx
+    )
+    LeafLeftArmRoll5RotateAxisy = (
+        LeafLeftArmRoll5RotateAxis.LeafLeftArmRoll5RotateAxisy
+    )
+    LeafLeftArmRoll5RotateAxisz = (
+        LeafLeftArmRoll5RotateAxis.LeafLeftArmRoll5RotateAxisz
+    )
 
-    LeafLeftArmRoll5JointOrient = LeafLeftArmRoll5JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll5JointOrientx = LeafLeftArmRoll5JointOrient.LeafLeftArmRoll5JointOrientx
-    LeafLeftArmRoll5JointOrienty = LeafLeftArmRoll5JointOrient.LeafLeftArmRoll5JointOrienty
-    LeafLeftArmRoll5JointOrientz = LeafLeftArmRoll5JointOrient.LeafLeftArmRoll5JointOrientz
+    LeafLeftArmRoll5JointOrient = LeafLeftArmRoll5JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll5JointOrientx = (
+        LeafLeftArmRoll5JointOrient.LeafLeftArmRoll5JointOrientx
+    )
+    LeafLeftArmRoll5JointOrienty = (
+        LeafLeftArmRoll5JointOrient.LeafLeftArmRoll5JointOrienty
+    )
+    LeafLeftArmRoll5JointOrientz = (
+        LeafLeftArmRoll5JointOrient.LeafLeftArmRoll5JointOrientz
+    )
 
-    LeafLeftArmRoll5MinRLimit = LeafLeftArmRoll5MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll5MinRLimitx = LeafLeftArmRoll5MinRLimit.LeafLeftArmRoll5MinRLimitx
-    LeafLeftArmRoll5MinRLimity = LeafLeftArmRoll5MinRLimit.LeafLeftArmRoll5MinRLimity
-    LeafLeftArmRoll5MinRLimitz = LeafLeftArmRoll5MinRLimit.LeafLeftArmRoll5MinRLimitz
+    LeafLeftArmRoll5MinRLimit = LeafLeftArmRoll5MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll5MinRLimitx = (
+        LeafLeftArmRoll5MinRLimit.LeafLeftArmRoll5MinRLimitx
+    )
+    LeafLeftArmRoll5MinRLimity = (
+        LeafLeftArmRoll5MinRLimit.LeafLeftArmRoll5MinRLimity
+    )
+    LeafLeftArmRoll5MinRLimitz = (
+        LeafLeftArmRoll5MinRLimit.LeafLeftArmRoll5MinRLimitz
+    )
 
-    LeafLeftArmRoll5MaxRLimit = LeafLeftArmRoll5MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftArmRoll5MaxRLimitx = LeafLeftArmRoll5MaxRLimit.LeafLeftArmRoll5MaxRLimitx
-    LeafLeftArmRoll5MaxRLimity = LeafLeftArmRoll5MaxRLimit.LeafLeftArmRoll5MaxRLimity
-    LeafLeftArmRoll5MaxRLimitz = LeafLeftArmRoll5MaxRLimit.LeafLeftArmRoll5MaxRLimitz
+    LeafLeftArmRoll5MaxRLimit = LeafLeftArmRoll5MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftArmRoll5MaxRLimitx = (
+        LeafLeftArmRoll5MaxRLimit.LeafLeftArmRoll5MaxRLimitx
+    )
+    LeafLeftArmRoll5MaxRLimity = (
+        LeafLeftArmRoll5MaxRLimit.LeafLeftArmRoll5MaxRLimity
+    )
+    LeafLeftArmRoll5MaxRLimitz = (
+        LeafLeftArmRoll5MaxRLimit.LeafLeftArmRoll5MaxRLimitz
+    )
 
     LeafLeftArmRoll5MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20658,42 +27516,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafLeftForeArmRoll5 = MessageField()
 
-    LeafLeftForeArmRoll5T = LeafLeftForeArmRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll5T = LeafLeftForeArmRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll5Tx = LeafLeftForeArmRoll5T.LeafLeftForeArmRoll5Tx
     LeafLeftForeArmRoll5Ty = LeafLeftForeArmRoll5T.LeafLeftForeArmRoll5Ty
     LeafLeftForeArmRoll5Tz = LeafLeftForeArmRoll5T.LeafLeftForeArmRoll5Tz
 
-    LeafLeftForeArmRoll5R = LeafLeftForeArmRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll5R = LeafLeftForeArmRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll5Rx = LeafLeftForeArmRoll5R.LeafLeftForeArmRoll5Rx
     LeafLeftForeArmRoll5Ry = LeafLeftForeArmRoll5R.LeafLeftForeArmRoll5Ry
     LeafLeftForeArmRoll5Rz = LeafLeftForeArmRoll5R.LeafLeftForeArmRoll5Rz
 
-    LeafLeftForeArmRoll5S = LeafLeftForeArmRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll5S = LeafLeftForeArmRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll5Sx = LeafLeftForeArmRoll5S.LeafLeftForeArmRoll5Sx
     LeafLeftForeArmRoll5Sy = LeafLeftForeArmRoll5S.LeafLeftForeArmRoll5Sy
     LeafLeftForeArmRoll5Sz = LeafLeftForeArmRoll5S.LeafLeftForeArmRoll5Sz
 
-    LeafLeftForeArmRoll5RotateOrder = LeafLeftForeArmRoll5RotateOrderEnumField(default_value=0)
+    LeafLeftForeArmRoll5RotateOrder = LeafLeftForeArmRoll5RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafLeftForeArmRoll5RotateAxis = LeafLeftForeArmRoll5RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll5RotateAxisx = LeafLeftForeArmRoll5RotateAxis.LeafLeftForeArmRoll5RotateAxisx
-    LeafLeftForeArmRoll5RotateAxisy = LeafLeftForeArmRoll5RotateAxis.LeafLeftForeArmRoll5RotateAxisy
-    LeafLeftForeArmRoll5RotateAxisz = LeafLeftForeArmRoll5RotateAxis.LeafLeftForeArmRoll5RotateAxisz
+    LeafLeftForeArmRoll5RotateAxis = LeafLeftForeArmRoll5RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll5RotateAxisx = (
+        LeafLeftForeArmRoll5RotateAxis.LeafLeftForeArmRoll5RotateAxisx
+    )
+    LeafLeftForeArmRoll5RotateAxisy = (
+        LeafLeftForeArmRoll5RotateAxis.LeafLeftForeArmRoll5RotateAxisy
+    )
+    LeafLeftForeArmRoll5RotateAxisz = (
+        LeafLeftForeArmRoll5RotateAxis.LeafLeftForeArmRoll5RotateAxisz
+    )
 
-    LeafLeftForeArmRoll5JointOrient = LeafLeftForeArmRoll5JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll5JointOrientx = LeafLeftForeArmRoll5JointOrient.LeafLeftForeArmRoll5JointOrientx
-    LeafLeftForeArmRoll5JointOrienty = LeafLeftForeArmRoll5JointOrient.LeafLeftForeArmRoll5JointOrienty
-    LeafLeftForeArmRoll5JointOrientz = LeafLeftForeArmRoll5JointOrient.LeafLeftForeArmRoll5JointOrientz
+    LeafLeftForeArmRoll5JointOrient = LeafLeftForeArmRoll5JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll5JointOrientx = (
+        LeafLeftForeArmRoll5JointOrient.LeafLeftForeArmRoll5JointOrientx
+    )
+    LeafLeftForeArmRoll5JointOrienty = (
+        LeafLeftForeArmRoll5JointOrient.LeafLeftForeArmRoll5JointOrienty
+    )
+    LeafLeftForeArmRoll5JointOrientz = (
+        LeafLeftForeArmRoll5JointOrient.LeafLeftForeArmRoll5JointOrientz
+    )
 
-    LeafLeftForeArmRoll5MinRLimit = LeafLeftForeArmRoll5MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll5MinRLimitx = LeafLeftForeArmRoll5MinRLimit.LeafLeftForeArmRoll5MinRLimitx
-    LeafLeftForeArmRoll5MinRLimity = LeafLeftForeArmRoll5MinRLimit.LeafLeftForeArmRoll5MinRLimity
-    LeafLeftForeArmRoll5MinRLimitz = LeafLeftForeArmRoll5MinRLimit.LeafLeftForeArmRoll5MinRLimitz
+    LeafLeftForeArmRoll5MinRLimit = LeafLeftForeArmRoll5MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll5MinRLimitx = (
+        LeafLeftForeArmRoll5MinRLimit.LeafLeftForeArmRoll5MinRLimitx
+    )
+    LeafLeftForeArmRoll5MinRLimity = (
+        LeafLeftForeArmRoll5MinRLimit.LeafLeftForeArmRoll5MinRLimity
+    )
+    LeafLeftForeArmRoll5MinRLimitz = (
+        LeafLeftForeArmRoll5MinRLimit.LeafLeftForeArmRoll5MinRLimitz
+    )
 
-    LeafLeftForeArmRoll5MaxRLimit = LeafLeftForeArmRoll5MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll5MaxRLimitx = LeafLeftForeArmRoll5MaxRLimit.LeafLeftForeArmRoll5MaxRLimitx
-    LeafLeftForeArmRoll5MaxRLimity = LeafLeftForeArmRoll5MaxRLimit.LeafLeftForeArmRoll5MaxRLimity
-    LeafLeftForeArmRoll5MaxRLimitz = LeafLeftForeArmRoll5MaxRLimit.LeafLeftForeArmRoll5MaxRLimitz
+    LeafLeftForeArmRoll5MaxRLimit = LeafLeftForeArmRoll5MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll5MaxRLimitx = (
+        LeafLeftForeArmRoll5MaxRLimit.LeafLeftForeArmRoll5MaxRLimitx
+    )
+    LeafLeftForeArmRoll5MaxRLimity = (
+        LeafLeftForeArmRoll5MaxRLimit.LeafLeftForeArmRoll5MaxRLimity
+    )
+    LeafLeftForeArmRoll5MaxRLimitz = (
+        LeafLeftForeArmRoll5MaxRLimit.LeafLeftForeArmRoll5MaxRLimitz
+    )
 
     LeafLeftForeArmRoll5MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20724,27 +27622,61 @@ class _GeneratedHIKCharacterNode(DG):
     LeafRightArmRoll5Sy = LeafRightArmRoll5S.LeafRightArmRoll5Sy
     LeafRightArmRoll5Sz = LeafRightArmRoll5S.LeafRightArmRoll5Sz
 
-    LeafRightArmRoll5RotateOrder = LeafRightArmRoll5RotateOrderEnumField(default_value=0)
+    LeafRightArmRoll5RotateOrder = LeafRightArmRoll5RotateOrderEnumField(
+        default_value=0
+    )
 
-    LeafRightArmRoll5RotateAxis = LeafRightArmRoll5RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll5RotateAxisx = LeafRightArmRoll5RotateAxis.LeafRightArmRoll5RotateAxisx
-    LeafRightArmRoll5RotateAxisy = LeafRightArmRoll5RotateAxis.LeafRightArmRoll5RotateAxisy
-    LeafRightArmRoll5RotateAxisz = LeafRightArmRoll5RotateAxis.LeafRightArmRoll5RotateAxisz
+    LeafRightArmRoll5RotateAxis = LeafRightArmRoll5RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll5RotateAxisx = (
+        LeafRightArmRoll5RotateAxis.LeafRightArmRoll5RotateAxisx
+    )
+    LeafRightArmRoll5RotateAxisy = (
+        LeafRightArmRoll5RotateAxis.LeafRightArmRoll5RotateAxisy
+    )
+    LeafRightArmRoll5RotateAxisz = (
+        LeafRightArmRoll5RotateAxis.LeafRightArmRoll5RotateAxisz
+    )
 
-    LeafRightArmRoll5JointOrient = LeafRightArmRoll5JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll5JointOrientx = LeafRightArmRoll5JointOrient.LeafRightArmRoll5JointOrientx
-    LeafRightArmRoll5JointOrienty = LeafRightArmRoll5JointOrient.LeafRightArmRoll5JointOrienty
-    LeafRightArmRoll5JointOrientz = LeafRightArmRoll5JointOrient.LeafRightArmRoll5JointOrientz
+    LeafRightArmRoll5JointOrient = LeafRightArmRoll5JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll5JointOrientx = (
+        LeafRightArmRoll5JointOrient.LeafRightArmRoll5JointOrientx
+    )
+    LeafRightArmRoll5JointOrienty = (
+        LeafRightArmRoll5JointOrient.LeafRightArmRoll5JointOrienty
+    )
+    LeafRightArmRoll5JointOrientz = (
+        LeafRightArmRoll5JointOrient.LeafRightArmRoll5JointOrientz
+    )
 
-    LeafRightArmRoll5MinRLimit = LeafRightArmRoll5MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll5MinRLimitx = LeafRightArmRoll5MinRLimit.LeafRightArmRoll5MinRLimitx
-    LeafRightArmRoll5MinRLimity = LeafRightArmRoll5MinRLimit.LeafRightArmRoll5MinRLimity
-    LeafRightArmRoll5MinRLimitz = LeafRightArmRoll5MinRLimit.LeafRightArmRoll5MinRLimitz
+    LeafRightArmRoll5MinRLimit = LeafRightArmRoll5MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll5MinRLimitx = (
+        LeafRightArmRoll5MinRLimit.LeafRightArmRoll5MinRLimitx
+    )
+    LeafRightArmRoll5MinRLimity = (
+        LeafRightArmRoll5MinRLimit.LeafRightArmRoll5MinRLimity
+    )
+    LeafRightArmRoll5MinRLimitz = (
+        LeafRightArmRoll5MinRLimit.LeafRightArmRoll5MinRLimitz
+    )
 
-    LeafRightArmRoll5MaxRLimit = LeafRightArmRoll5MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightArmRoll5MaxRLimitx = LeafRightArmRoll5MaxRLimit.LeafRightArmRoll5MaxRLimitx
-    LeafRightArmRoll5MaxRLimity = LeafRightArmRoll5MaxRLimit.LeafRightArmRoll5MaxRLimity
-    LeafRightArmRoll5MaxRLimitz = LeafRightArmRoll5MaxRLimit.LeafRightArmRoll5MaxRLimitz
+    LeafRightArmRoll5MaxRLimit = LeafRightArmRoll5MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightArmRoll5MaxRLimitx = (
+        LeafRightArmRoll5MaxRLimit.LeafRightArmRoll5MaxRLimitx
+    )
+    LeafRightArmRoll5MaxRLimity = (
+        LeafRightArmRoll5MaxRLimit.LeafRightArmRoll5MaxRLimity
+    )
+    LeafRightArmRoll5MaxRLimitz = (
+        LeafRightArmRoll5MaxRLimit.LeafRightArmRoll5MaxRLimitz
+    )
 
     LeafRightArmRoll5MinRLimitEnablex = BoolField(default_value=False)
 
@@ -20760,42 +27692,82 @@ class _GeneratedHIKCharacterNode(DG):
 
     LeafRightForeArmRoll5 = MessageField()
 
-    LeafRightForeArmRoll5T = LeafRightForeArmRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll5T = LeafRightForeArmRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll5Tx = LeafRightForeArmRoll5T.LeafRightForeArmRoll5Tx
     LeafRightForeArmRoll5Ty = LeafRightForeArmRoll5T.LeafRightForeArmRoll5Ty
     LeafRightForeArmRoll5Tz = LeafRightForeArmRoll5T.LeafRightForeArmRoll5Tz
 
-    LeafRightForeArmRoll5R = LeafRightForeArmRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll5R = LeafRightForeArmRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll5Rx = LeafRightForeArmRoll5R.LeafRightForeArmRoll5Rx
     LeafRightForeArmRoll5Ry = LeafRightForeArmRoll5R.LeafRightForeArmRoll5Ry
     LeafRightForeArmRoll5Rz = LeafRightForeArmRoll5R.LeafRightForeArmRoll5Rz
 
-    LeafRightForeArmRoll5S = LeafRightForeArmRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll5S = LeafRightForeArmRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll5Sx = LeafRightForeArmRoll5S.LeafRightForeArmRoll5Sx
     LeafRightForeArmRoll5Sy = LeafRightForeArmRoll5S.LeafRightForeArmRoll5Sy
     LeafRightForeArmRoll5Sz = LeafRightForeArmRoll5S.LeafRightForeArmRoll5Sz
 
-    LeafRightForeArmRoll5RotateOrder = LeafRightForeArmRoll5RotateOrderEnumField(default_value=0)
+    LeafRightForeArmRoll5RotateOrder = (
+        LeafRightForeArmRoll5RotateOrderEnumField(default_value=0)
+    )
 
-    LeafRightForeArmRoll5RotateAxis = LeafRightForeArmRoll5RotateAxisField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll5RotateAxisx = LeafRightForeArmRoll5RotateAxis.LeafRightForeArmRoll5RotateAxisx
-    LeafRightForeArmRoll5RotateAxisy = LeafRightForeArmRoll5RotateAxis.LeafRightForeArmRoll5RotateAxisy
-    LeafRightForeArmRoll5RotateAxisz = LeafRightForeArmRoll5RotateAxis.LeafRightForeArmRoll5RotateAxisz
+    LeafRightForeArmRoll5RotateAxis = LeafRightForeArmRoll5RotateAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll5RotateAxisx = (
+        LeafRightForeArmRoll5RotateAxis.LeafRightForeArmRoll5RotateAxisx
+    )
+    LeafRightForeArmRoll5RotateAxisy = (
+        LeafRightForeArmRoll5RotateAxis.LeafRightForeArmRoll5RotateAxisy
+    )
+    LeafRightForeArmRoll5RotateAxisz = (
+        LeafRightForeArmRoll5RotateAxis.LeafRightForeArmRoll5RotateAxisz
+    )
 
-    LeafRightForeArmRoll5JointOrient = LeafRightForeArmRoll5JointOrientField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll5JointOrientx = LeafRightForeArmRoll5JointOrient.LeafRightForeArmRoll5JointOrientx
-    LeafRightForeArmRoll5JointOrienty = LeafRightForeArmRoll5JointOrient.LeafRightForeArmRoll5JointOrienty
-    LeafRightForeArmRoll5JointOrientz = LeafRightForeArmRoll5JointOrient.LeafRightForeArmRoll5JointOrientz
+    LeafRightForeArmRoll5JointOrient = LeafRightForeArmRoll5JointOrientField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll5JointOrientx = (
+        LeafRightForeArmRoll5JointOrient.LeafRightForeArmRoll5JointOrientx
+    )
+    LeafRightForeArmRoll5JointOrienty = (
+        LeafRightForeArmRoll5JointOrient.LeafRightForeArmRoll5JointOrienty
+    )
+    LeafRightForeArmRoll5JointOrientz = (
+        LeafRightForeArmRoll5JointOrient.LeafRightForeArmRoll5JointOrientz
+    )
 
-    LeafRightForeArmRoll5MinRLimit = LeafRightForeArmRoll5MinRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll5MinRLimitx = LeafRightForeArmRoll5MinRLimit.LeafRightForeArmRoll5MinRLimitx
-    LeafRightForeArmRoll5MinRLimity = LeafRightForeArmRoll5MinRLimit.LeafRightForeArmRoll5MinRLimity
-    LeafRightForeArmRoll5MinRLimitz = LeafRightForeArmRoll5MinRLimit.LeafRightForeArmRoll5MinRLimitz
+    LeafRightForeArmRoll5MinRLimit = LeafRightForeArmRoll5MinRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll5MinRLimitx = (
+        LeafRightForeArmRoll5MinRLimit.LeafRightForeArmRoll5MinRLimitx
+    )
+    LeafRightForeArmRoll5MinRLimity = (
+        LeafRightForeArmRoll5MinRLimit.LeafRightForeArmRoll5MinRLimity
+    )
+    LeafRightForeArmRoll5MinRLimitz = (
+        LeafRightForeArmRoll5MinRLimit.LeafRightForeArmRoll5MinRLimitz
+    )
 
-    LeafRightForeArmRoll5MaxRLimit = LeafRightForeArmRoll5MaxRLimitField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll5MaxRLimitx = LeafRightForeArmRoll5MaxRLimit.LeafRightForeArmRoll5MaxRLimitx
-    LeafRightForeArmRoll5MaxRLimity = LeafRightForeArmRoll5MaxRLimit.LeafRightForeArmRoll5MaxRLimity
-    LeafRightForeArmRoll5MaxRLimitz = LeafRightForeArmRoll5MaxRLimit.LeafRightForeArmRoll5MaxRLimitz
+    LeafRightForeArmRoll5MaxRLimit = LeafRightForeArmRoll5MaxRLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll5MaxRLimitx = (
+        LeafRightForeArmRoll5MaxRLimit.LeafRightForeArmRoll5MaxRLimitx
+    )
+    LeafRightForeArmRoll5MaxRLimity = (
+        LeafRightForeArmRoll5MaxRLimit.LeafRightForeArmRoll5MaxRLimity
+    )
+    LeafRightForeArmRoll5MaxRLimitz = (
+        LeafRightForeArmRoll5MaxRLimit.LeafRightForeArmRoll5MaxRLimitz
+    )
 
     LeafRightForeArmRoll5MinRLimitEnablex = BoolField(default_value=False)
 

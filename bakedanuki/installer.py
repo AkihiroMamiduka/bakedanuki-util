@@ -5,7 +5,6 @@ import os
 import re
 from pathlib import Path
 
-
 ENV_NAME = "MAYA_MODULE_PATH"
 PATH_SEPARATOR = ";"
 BAKEDANUKI_FOLDER_NAME = "bakedanuki"
@@ -30,7 +29,9 @@ def _has_bakedanuki_folder(path: str) -> bool:
 
 
 def _split_paths(value: str) -> list[str]:
-    return [part.strip() for part in value.split(PATH_SEPARATOR) if part.strip()]
+    return [
+        part.strip() for part in value.split(PATH_SEPARATOR) if part.strip()
+    ]
 
 
 def _join_paths(paths: list[str]) -> str:
@@ -55,7 +56,9 @@ def _split_env_line(line: str) -> tuple[str, str]:
     return key.strip(), value.strip()
 
 
-def _build_module_paths(current_paths: list[str], target_path: str) -> tuple[list[str], bool, list[str]]:
+def _build_module_paths(
+    current_paths: list[str], target_path: str
+) -> tuple[list[str], bool, list[str]]:
     new_paths: list[str] = []
     inserted_target = False
     removed_bakedanuki_paths: list[str] = []
@@ -155,12 +158,16 @@ def _build_env_text(text: str, target_path: str) -> tuple[str, str, list[str]]:
         if not content_lines:
             new_text = new_line + newline
         else:
-            new_text = newline.join(content_lines) + newline + new_line + newline
+            new_text = (
+                newline.join(content_lines) + newline + new_line + newline
+            )
     else:
         if all(not line.strip() for line in lines[line_index + 1 :]):
             lines = lines[:line_index] + [new_line]
         else:
-            lines[line_index] = new_line + (_line_ending(lines[line_index]) or newline)
+            lines[line_index] = new_line + (
+                _line_ending(lines[line_index]) or newline
+            )
         new_text = "".join(lines)
 
     action = "replace" if removed_bakedanuki_paths else "add"
@@ -171,7 +178,9 @@ def _installer_dir() -> Path:
     try:
         return Path(__file__).resolve().parent
     except NameError as exc:
-        raise RuntimeError("installer.py のパスを取得できませんでした。") from exc
+        raise RuntimeError(
+            "installer.py のパスを取得できませんでした。"
+        ) from exc
 
 
 def _cleanup_bytecode_cache(installer_path: Path | None = None) -> None:
@@ -232,7 +241,9 @@ def _confirm(cmds, title: str, message: str, icon: str = "question") -> bool:
     return result == "OK"
 
 
-def _message(cmds, title: str, message: str, icon: str = "information") -> None:
+def _message(
+    cmds, title: str, message: str, icon: str = "information"
+) -> None:
     cmds.confirmDialog(
         title=title,
         message=message,

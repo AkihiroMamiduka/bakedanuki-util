@@ -26,11 +26,11 @@ from ....attr.define.node_attr.ai_switch import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedAiSwitch(DG):
+class GeneratedAiSwitch(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSwitch"
@@ -47,7 +47,9 @@ class _GeneratedAiSwitch(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ..custom import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
@@ -28,9 +28,7 @@ class EyePlugOperator(
     ez = eyeZ
 
 
-class EyeAttrOperator(
-    DoubleLinear3CompoundBaseAttrOperator[EyePlugOperator]
-):
+class EyeAttrOperator(DoubleLinear3CompoundBaseAttrOperator[EyePlugOperator]):
     __slots__ = ()
 
     eyeX = DoubleLinearField(default_value=60.0)
@@ -97,7 +95,9 @@ class CenterOfInterestAttrOperator(
 
 
 class CenterOfInterestField(
-    DoubleLinear3CompoundBaseField[CenterOfInterestAttrOperator, CenterOfInterestPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CenterOfInterestAttrOperator, CenterOfInterestPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,9 +114,7 @@ class CenterOfInterestField(
     cz = centerOfInterestZ
 
 
-class UpPlugOperator(
-    DoubleLinear3CompoundBasePlugOperator["UpAttrOperator"]
-):
+class UpPlugOperator(DoubleLinear3CompoundBasePlugOperator["UpAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("upX", "ux"),
@@ -134,9 +132,7 @@ class UpPlugOperator(
     uz = upZ
 
 
-class UpAttrOperator(
-    DoubleLinear3CompoundBaseAttrOperator[UpPlugOperator]
-):
+class UpAttrOperator(DoubleLinear3CompoundBaseAttrOperator[UpPlugOperator]):
     __slots__ = ()
 
     upX = DoubleLinearField(default_value=0.0)
@@ -149,9 +145,7 @@ class UpAttrOperator(
     uz = upZ
 
 
-class UpField(
-    DoubleLinear3CompoundBaseField[UpAttrOperator, UpPlugOperator]
-):
+class UpField(DoubleLinear3CompoundBaseField[UpAttrOperator, UpPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UpAttrOperator
@@ -203,7 +197,9 @@ class TumblePivotAttrOperator(
 
 
 class TumblePivotField(
-    DoubleLinear3CompoundBaseField[TumblePivotAttrOperator, TumblePivotPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TumblePivotAttrOperator, TumblePivotPlugOperator
+    ]
 ):
     __slots__ = ()
 

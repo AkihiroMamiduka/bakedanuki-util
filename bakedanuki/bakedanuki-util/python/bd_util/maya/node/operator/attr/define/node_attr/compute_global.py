@@ -5,14 +5,12 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class TranslatePlugOperator(
-    CompoundPlugOperator["TranslateAttrOperator"]
-):
+class TranslatePlugOperator(CompoundPlugOperator["TranslateAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("translateX", "tx"),
@@ -30,9 +28,7 @@ class TranslatePlugOperator(
     tz = translateZ
 
 
-class TranslateAttrOperator(
-    CompoundAttrOperator[TranslatePlugOperator]
-):
+class TranslateAttrOperator(CompoundAttrOperator[TranslatePlugOperator]):
     __slots__ = ()
 
     translateX = DoubleLinearField(default_value=0.0)
@@ -63,9 +59,7 @@ class TranslateField(
     tz = translateZ
 
 
-class RotatePlugOperator(
-    CompoundPlugOperator["RotateAttrOperator"]
-):
+class RotatePlugOperator(CompoundPlugOperator["RotateAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("rotateX", "rx"),
@@ -83,9 +77,7 @@ class RotatePlugOperator(
     rz = rotateZ
 
 
-class RotateAttrOperator(
-    CompoundAttrOperator[RotatePlugOperator]
-):
+class RotateAttrOperator(CompoundAttrOperator[RotatePlugOperator]):
     __slots__ = ()
 
     rotateX = DoubleAngleField(default_value=0.0)
@@ -98,9 +90,7 @@ class RotateAttrOperator(
     rz = rotateZ
 
 
-class RotateField(
-    CompoundField[RotateAttrOperator, RotatePlugOperator]
-):
+class RotateField(CompoundField[RotateAttrOperator, RotatePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RotateAttrOperator
@@ -116,9 +106,7 @@ class RotateField(
     rz = rotateZ
 
 
-class ScalePlugOperator(
-    CompoundPlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(CompoundPlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "sx"),
@@ -136,9 +124,7 @@ class ScalePlugOperator(
     sz = scaleZ
 
 
-class ScaleAttrOperator(
-    CompoundAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(CompoundAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = DoubleField(default_value=0.0)
@@ -151,9 +137,7 @@ class ScaleAttrOperator(
     sz = scaleZ
 
 
-class ScaleField(
-    CompoundField[ScaleAttrOperator, ScalePlugOperator]
-):
+class ScaleField(CompoundField[ScaleAttrOperator, ScalePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ScaleAttrOperator
@@ -169,9 +153,7 @@ class ScaleField(
     sz = scaleZ
 
 
-class PreRPlugOperator(
-    CompoundPlugOperator["PreRAttrOperator"]
-):
+class PreRPlugOperator(CompoundPlugOperator["PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("PreRx", "PreRx"),
@@ -186,9 +168,7 @@ class PreRPlugOperator(
     PreRz = DoubleAngleField(default_value=0.0)
 
 
-class PreRAttrOperator(
-    CompoundAttrOperator[PreRPlugOperator]
-):
+class PreRAttrOperator(CompoundAttrOperator[PreRPlugOperator]):
     __slots__ = ()
 
     PreRx = DoubleAngleField(default_value=0.0)
@@ -198,9 +178,7 @@ class PreRAttrOperator(
     PreRz = DoubleAngleField(default_value=0.0)
 
 
-class PreRField(
-    CompoundField[PreRAttrOperator, PreRPlugOperator]
-):
+class PreRField(CompoundField[PreRAttrOperator, PreRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = PreRAttrOperator
@@ -213,9 +191,7 @@ class PreRField(
     PreRz = DoubleAngleField(default_value=0.0)
 
 
-class PostRPlugOperator(
-    CompoundPlugOperator["PostRAttrOperator"]
-):
+class PostRPlugOperator(CompoundPlugOperator["PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("PostRx", "PostRx"),
@@ -230,9 +206,7 @@ class PostRPlugOperator(
     PostRz = DoubleAngleField(default_value=0.0)
 
 
-class PostRAttrOperator(
-    CompoundAttrOperator[PostRPlugOperator]
-):
+class PostRAttrOperator(CompoundAttrOperator[PostRPlugOperator]):
     __slots__ = ()
 
     PostRx = DoubleAngleField(default_value=0.0)
@@ -242,9 +216,7 @@ class PostRAttrOperator(
     PostRz = DoubleAngleField(default_value=0.0)
 
 
-class PostRField(
-    CompoundField[PostRAttrOperator, PostRPlugOperator]
-):
+class PostRField(CompoundField[PostRAttrOperator, PostRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = PostRAttrOperator

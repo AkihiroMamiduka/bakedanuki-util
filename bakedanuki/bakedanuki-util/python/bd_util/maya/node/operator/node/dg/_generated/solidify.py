@@ -6,26 +6,30 @@ from ....attr.define.node_attr.solidify import (
     InputField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AttachmentModeEnumPlugOperator(EnumPlugOperator):
+class AttachmentModeEnumPlugOperator(
+    EnumPlugOperator["AttachmentModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BORDERS = 0
     FULL = 1
 
 
-class AttachmentModeEnumAttrOperator(EnumAttrOperator):
+class AttachmentModeEnumAttrOperator(
+    EnumAttrOperator[AttachmentModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BORDERS = 0
@@ -46,7 +50,7 @@ class AttachmentModeEnumField(
     PLUG_CLS = AttachmentModeEnumPlugOperator
 
 
-class ScaleModeEnumPlugOperator(EnumPlugOperator):
+class ScaleModeEnumPlugOperator(EnumPlugOperator["ScaleModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -54,7 +58,7 @@ class ScaleModeEnumPlugOperator(EnumPlugOperator):
     EDGE_GLOBAL = 2
 
 
-class ScaleModeEnumAttrOperator(EnumAttrOperator):
+class ScaleModeEnumAttrOperator(EnumAttrOperator[ScaleModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -77,7 +81,7 @@ class ScaleModeEnumField(
     PLUG_CLS = ScaleModeEnumPlugOperator
 
 
-class _GeneratedSolidify(DG):
+class GeneratedSolidify(DG):
     __slots__ = ()
 
     NODE_TYPE = "solidify"
@@ -94,13 +98,21 @@ class _GeneratedSolidify(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -133,10 +145,14 @@ class _GeneratedSolidify(DG):
     islands = DataStringField()
     isl = islands
 
-    normalScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    normalScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     nsc = normalScale
 
-    tangentPlaneScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    tangentPlaneScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     tsc = tangentPlaneScale
 
     scaleMode = ScaleModeEnumField(default_value=0)

@@ -6,20 +6,22 @@ from ....attr.define.node_attr.mash_channel_random import (
     VarianceVectorMaxField,
     VarianceVectorMinField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -28,7 +30,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -53,14 +57,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -73,7 +81,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -81,7 +92,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class DynamicsChannelNameEnumPlugOperator(EnumPlugOperator):
+class DynamicsChannelNameEnumPlugOperator(
+    EnumPlugOperator["DynamicsChannelNameEnumAttrOperator"]
+):
     __slots__ = ()
 
     CONSTRAINT = 0
@@ -100,7 +113,9 @@ class DynamicsChannelNameEnumPlugOperator(EnumPlugOperator):
     ROTATION_STRENGTH = 15
 
 
-class DynamicsChannelNameEnumAttrOperator(EnumAttrOperator):
+class DynamicsChannelNameEnumAttrOperator(
+    EnumAttrOperator[DynamicsChannelNameEnumPlugOperator]
+):
     __slots__ = ()
 
     CONSTRAINT = 0
@@ -137,7 +152,10 @@ class DynamicsChannelNameEnumAttrOperator(EnumAttrOperator):
 
 
 class DynamicsChannelNameEnumField(
-    EnumField[DynamicsChannelNameEnumAttrOperator, DynamicsChannelNameEnumPlugOperator]
+    EnumField[
+        DynamicsChannelNameEnumAttrOperator,
+        DynamicsChannelNameEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -145,7 +163,9 @@ class DynamicsChannelNameEnumField(
     PLUG_CLS = DynamicsChannelNameEnumPlugOperator
 
 
-class ConstraintChannelNameEnumPlugOperator(EnumPlugOperator):
+class ConstraintChannelNameEnumPlugOperator(
+    EnumPlugOperator["ConstraintChannelNameEnumAttrOperator"]
+):
     __slots__ = ()
 
     ENABLE = 1
@@ -168,7 +188,9 @@ class ConstraintChannelNameEnumPlugOperator(EnumPlugOperator):
     MAXIMUM_ROTATION_LIMIT = 18
 
 
-class ConstraintChannelNameEnumAttrOperator(EnumAttrOperator):
+class ConstraintChannelNameEnumAttrOperator(
+    EnumAttrOperator[ConstraintChannelNameEnumPlugOperator]
+):
     __slots__ = ()
 
     ENABLE = 1
@@ -213,7 +235,10 @@ class ConstraintChannelNameEnumAttrOperator(EnumAttrOperator):
 
 
 class ConstraintChannelNameEnumField(
-    EnumField[ConstraintChannelNameEnumAttrOperator, ConstraintChannelNameEnumPlugOperator]
+    EnumField[
+        ConstraintChannelNameEnumAttrOperator,
+        ConstraintChannelNameEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -221,7 +246,7 @@ class ConstraintChannelNameEnumField(
     PLUG_CLS = ConstraintChannelNameEnumPlugOperator
 
 
-class _GeneratedMASH_ChannelRandom(DG):
+class GeneratedMASHChannelRandom(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_ChannelRandom"
@@ -241,7 +266,9 @@ class _GeneratedMASH_ChannelRandom(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -281,14 +308,18 @@ class _GeneratedMASH_ChannelRandom(DG):
     varianceVectorMin1 = varianceVectorMin.varianceVectorMin1
     varianceVectorMin2 = varianceVectorMin.varianceVectorMin2
 
-    varianceMin = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    varianceMin = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
 
     varianceVectorMax = VarianceVectorMaxField(default_value=(0.0, 0.0, 0.0))
     varianceVectorMax0 = varianceVectorMax.varianceVectorMax0
     varianceVectorMax1 = varianceVectorMax.varianceVectorMax1
     varianceVectorMax2 = varianceVectorMax.varianceVectorMax2
 
-    varianceMax = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    varianceMax = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
 
     randomSeed = LongField(default_value=0, min_value=0, soft_max_value=100)
 

@@ -12,22 +12,24 @@ from ....attr.define.node_attr.mash_world import (
     TimeRangeField,
     UpVectorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.generic import GenericField
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -36,7 +38,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -61,14 +65,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -81,7 +89,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -89,7 +100,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class PrevousPointsModeEnumPlugOperator(EnumPlugOperator):
+class PrevousPointsModeEnumPlugOperator(
+    EnumPlugOperator["PrevousPointsModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     KEEP = 1
@@ -98,7 +111,9 @@ class PrevousPointsModeEnumPlugOperator(EnumPlugOperator):
     KILL = 4
 
 
-class PrevousPointsModeEnumAttrOperator(EnumAttrOperator):
+class PrevousPointsModeEnumAttrOperator(
+    EnumAttrOperator[PrevousPointsModeEnumPlugOperator]
+):
     __slots__ = ()
 
     KEEP = 1
@@ -115,7 +130,9 @@ class PrevousPointsModeEnumAttrOperator(EnumAttrOperator):
 
 
 class PrevousPointsModeEnumField(
-    EnumField[PrevousPointsModeEnumAttrOperator, PrevousPointsModeEnumPlugOperator]
+    EnumField[
+        PrevousPointsModeEnumAttrOperator, PrevousPointsModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -123,7 +140,9 @@ class PrevousPointsModeEnumField(
     PLUG_CLS = PrevousPointsModeEnumPlugOperator
 
 
-class ClusterModeEnumPlugOperator(EnumPlugOperator):
+class ClusterModeEnumPlugOperator(
+    EnumPlugOperator["ClusterModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BALL = 1
@@ -135,7 +154,9 @@ class ClusterModeEnumPlugOperator(EnumPlugOperator):
     TERRESTRIAL_ECOSYSTEM = 7
 
 
-class ClusterModeEnumAttrOperator(EnumAttrOperator):
+class ClusterModeEnumAttrOperator(
+    EnumAttrOperator[ClusterModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BALL = 1
@@ -166,7 +187,7 @@ class ClusterModeEnumField(
     PLUG_CLS = ClusterModeEnumPlugOperator
 
 
-class IdModeEnumPlugOperator(EnumPlugOperator):
+class IdModeEnumPlugOperator(EnumPlugOperator["IdModeEnumAttrOperator"]):
     __slots__ = ()
 
     FIXED = 1
@@ -175,7 +196,7 @@ class IdModeEnumPlugOperator(EnumPlugOperator):
     CLUSTER_RANDOM = 4
 
 
-class IdModeEnumAttrOperator(EnumAttrOperator):
+class IdModeEnumAttrOperator(EnumAttrOperator[IdModeEnumPlugOperator]):
     __slots__ = ()
 
     FIXED = 1
@@ -200,7 +221,7 @@ class IdModeEnumField(
     PLUG_CLS = IdModeEnumPlugOperator
 
 
-class ScaleModeEnumPlugOperator(EnumPlugOperator):
+class ScaleModeEnumPlugOperator(EnumPlugOperator["ScaleModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 1
@@ -209,7 +230,7 @@ class ScaleModeEnumPlugOperator(EnumPlugOperator):
     INHERIT = 4
 
 
-class ScaleModeEnumAttrOperator(EnumAttrOperator):
+class ScaleModeEnumAttrOperator(EnumAttrOperator[ScaleModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 1
@@ -234,7 +255,9 @@ class ScaleModeEnumField(
     PLUG_CLS = ScaleModeEnumPlugOperator
 
 
-class PruningMapDirectionEnumPlugOperator(EnumPlugOperator):
+class PruningMapDirectionEnumPlugOperator(
+    EnumPlugOperator["PruningMapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -243,7 +266,9 @@ class PruningMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class PruningMapDirectionEnumAttrOperator(EnumAttrOperator):
+class PruningMapDirectionEnumAttrOperator(
+    EnumAttrOperator[PruningMapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -260,7 +285,10 @@ class PruningMapDirectionEnumAttrOperator(EnumAttrOperator):
 
 
 class PruningMapDirectionEnumField(
-    EnumField[PruningMapDirectionEnumAttrOperator, PruningMapDirectionEnumPlugOperator]
+    EnumField[
+        PruningMapDirectionEnumAttrOperator,
+        PruningMapDirectionEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -268,7 +296,9 @@ class PruningMapDirectionEnumField(
     PLUG_CLS = PruningMapDirectionEnumPlugOperator
 
 
-class ConditionMapDirectionEnumPlugOperator(EnumPlugOperator):
+class ConditionMapDirectionEnumPlugOperator(
+    EnumPlugOperator["ConditionMapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -277,7 +307,9 @@ class ConditionMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class ConditionMapDirectionEnumAttrOperator(EnumAttrOperator):
+class ConditionMapDirectionEnumAttrOperator(
+    EnumAttrOperator[ConditionMapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -294,7 +326,10 @@ class ConditionMapDirectionEnumAttrOperator(EnumAttrOperator):
 
 
 class ConditionMapDirectionEnumField(
-    EnumField[ConditionMapDirectionEnumAttrOperator, ConditionMapDirectionEnumPlugOperator]
+    EnumField[
+        ConditionMapDirectionEnumAttrOperator,
+        ConditionMapDirectionEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -302,7 +337,9 @@ class ConditionMapDirectionEnumField(
     PLUG_CLS = ConditionMapDirectionEnumPlugOperator
 
 
-class IdMapDirectionEnumPlugOperator(EnumPlugOperator):
+class IdMapDirectionEnumPlugOperator(
+    EnumPlugOperator["IdMapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -311,7 +348,9 @@ class IdMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class IdMapDirectionEnumAttrOperator(EnumAttrOperator):
+class IdMapDirectionEnumAttrOperator(
+    EnumAttrOperator[IdMapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -336,7 +375,7 @@ class IdMapDirectionEnumField(
     PLUG_CLS = IdMapDirectionEnumPlugOperator
 
 
-class _GeneratedMASH_World(DG):
+class GeneratedMASHWorld(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_World"
@@ -356,7 +395,9 @@ class _GeneratedMASH_World(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -388,17 +429,29 @@ class _GeneratedMASH_World(DG):
 
     randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
 
-    collisionIterations = LongField(default_value=6, min_value=0, soft_max_value=50)
+    collisionIterations = LongField(
+        default_value=6, min_value=0, soft_max_value=50
+    )
 
-    minimumSeparation = FloatField(default_value=0.10000000149011612, min_value=0.001, soft_max_value=10.0)
+    minimumSeparation = FloatField(
+        default_value=0.10000000149011612, min_value=0.001, soft_max_value=10.0
+    )
 
-    avoidanceRadius = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    avoidanceRadius = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    avoidanceRamp = AvoidanceRampField(multi=True, default_value=(0.0, 0.0, 1.0))
+    avoidanceRamp = AvoidanceRampField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
 
-    killSize = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    killSize = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    radiusVariance = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    radiusVariance = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randomRotate = RandomRotateField(default_value=(0.0, 6.28319, 0.0))
     randomRotateX = randomRotate.randomRotateX
@@ -411,13 +464,19 @@ class _GeneratedMASH_World(DG):
 
     minId = LongField(default_value=0, min_value=1, soft_max_value=20)
 
-    clusterRadius = FloatField(default_value=3.0, min_value=0.0, soft_max_value=50.0)
+    clusterRadius = FloatField(
+        default_value=3.0, min_value=0.0, soft_max_value=50.0
+    )
 
     radius = FloatField(default_value=2.0, min_value=0.01, soft_max_value=10.0)
 
-    pointsPerCluster = LongField(default_value=10, min_value=0, soft_max_value=50)
+    pointsPerCluster = LongField(
+        default_value=10, min_value=0, soft_max_value=50
+    )
 
-    randomPointsPerCluster = LongField(default_value=0, min_value=0, soft_max_value=50)
+    randomPointsPerCluster = LongField(
+        default_value=0, min_value=0, soft_max_value=50
+    )
 
     clusterMode = ClusterModeEnumField(default_value=1)
 
@@ -462,7 +521,9 @@ class _GeneratedMASH_World(DG):
 
     ecosystemAge = LongField(default_value=40, min_value=0, soft_max_value=120)
 
-    scaleMultiplier = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    scaleMultiplier = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
     conditionMapDirection = ConditionMapDirectionEnumField(default_value=2)
 
@@ -472,7 +533,9 @@ class _GeneratedMASH_World(DG):
 
     useBChannel = BoolField(default_value=False)
 
-    terrainConditionsMap = TerrainConditionsMapField(default_value=(0.5, 0.5, 0.5))
+    terrainConditionsMap = TerrainConditionsMapField(
+        default_value=(0.5, 0.5, 0.5)
+    )
     terrainConditionsMapR = terrainConditionsMap.terrainConditionsMapR
     terrainConditionsMapr = terrainConditionsMapR
     terrainConditionsMapG = terrainConditionsMap.terrainConditionsMapG
@@ -496,7 +559,9 @@ class _GeneratedMASH_World(DG):
 
     calculateShade = BoolField(default_value=False)
 
-    shadeVariance = FloatField(default_value=30.0, min_value=0.0, max_value=90.0)
+    shadeVariance = FloatField(
+        default_value=30.0, min_value=0.0, max_value=90.0
+    )
 
     poleBias = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
@@ -510,15 +575,23 @@ class _GeneratedMASH_World(DG):
 
     highQualitySim = BoolField(default_value=False)
 
-    sparsity = FloatField(default_value=1.0, min_value=0.001, soft_max_value=5.0)
+    sparsity = FloatField(
+        default_value=1.0, min_value=0.001, soft_max_value=5.0
+    )
 
-    seedMultiplier = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    seedMultiplier = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
 
-    maxPlants = LongField(default_value=15000, min_value=0, soft_max_value=2000)
+    maxPlants = LongField(
+        default_value=15000, min_value=0, soft_max_value=2000
+    )
 
     ageToTime = BoolField(default_value=False)
 
-    timeRange = TimeRangeField(default_value=(0.0, 120.0), min_value=(0.0, 0.0))
+    timeRange = TimeRangeField(
+        default_value=(0.0, 120.0), min_value=(0.0, 0.0)
+    )
     timeRange0 = timeRange.timeRange0
     timeRange1 = timeRange.timeRange1
 

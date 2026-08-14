@@ -4,14 +4,16 @@ from ....attr.define.node_attr.rgb_to_hsv import (
     InRgbField,
     OutHsvField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator):
+class RenderPassModeEnumPlugOperator(
+    EnumPlugOperator["RenderPassModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -20,7 +22,9 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator):
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator):
+class RenderPassModeEnumAttrOperator(
+    EnumAttrOperator[RenderPassModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -32,7 +36,9 @@ class RenderPassModeEnumAttrOperator(EnumAttrOperator):
         PASS_THROUGH: "Pass through",
         APPLY_TO_RENDER_PASSES: "Apply to Render Passes",
         NO_CONTRIBUTION: "No Contribution",
-        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: "Write Shader Result to Beauty Passes",
+        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: (
+            "Write Shader Result to Beauty Passes"
+        ),
     }
 
 
@@ -45,12 +51,16 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedRgbToHsv(DG):
+class GeneratedRgbToHsv(DG):
     __slots__ = ()
 
     NODE_TYPE = "rgbToHsv"
 
-    inRgb = InRgbField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    inRgb = InRgbField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     i = inRgb
     inRgbR = inRgb.inRgbR
     ir = inRgbR

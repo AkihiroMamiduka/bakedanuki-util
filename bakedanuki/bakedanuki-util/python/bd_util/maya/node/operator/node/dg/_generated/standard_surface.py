@@ -31,20 +31,22 @@ from ....attr.define.node_attr.standard_surface import (
     TransmissionScatterField,
     TriangleNormalCameraField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.addr import AddrField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AiSubsurfaceTypeEnumPlugOperator(EnumPlugOperator):
+class AiSubsurfaceTypeEnumPlugOperator(
+    EnumPlugOperator["AiSubsurfaceTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     DIFFUSION = 0
@@ -52,7 +54,9 @@ class AiSubsurfaceTypeEnumPlugOperator(EnumPlugOperator):
     RANDOMWALK_V2 = 2
 
 
-class AiSubsurfaceTypeEnumAttrOperator(EnumAttrOperator):
+class AiSubsurfaceTypeEnumAttrOperator(
+    EnumAttrOperator[AiSubsurfaceTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     DIFFUSION = 0
@@ -67,7 +71,9 @@ class AiSubsurfaceTypeEnumAttrOperator(EnumAttrOperator):
 
 
 class AiSubsurfaceTypeEnumField(
-    EnumField[AiSubsurfaceTypeEnumAttrOperator, AiSubsurfaceTypeEnumPlugOperator]
+    EnumField[
+        AiSubsurfaceTypeEnumAttrOperator, AiSubsurfaceTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -75,7 +81,7 @@ class AiSubsurfaceTypeEnumField(
     PLUG_CLS = AiSubsurfaceTypeEnumPlugOperator
 
 
-class _GeneratedStandardSurface(DG):
+class GeneratedStandardSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "standardSurface"
@@ -89,7 +95,9 @@ class _GeneratedStandardSurface(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -101,7 +109,9 @@ class _GeneratedStandardSurface(DG):
     base = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     b = base
 
-    baseColor = BaseColorField(default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929))
+    baseColor = BaseColorField(
+        default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929)
+    )
     bc = baseColor
     baseColorR = baseColor.baseColorR
     bcr = baseColorR
@@ -110,7 +120,9 @@ class _GeneratedStandardSurface(DG):
     baseColorB = baseColor.baseColorB
     bcb = baseColorB
 
-    diffuseRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    diffuseRoughness = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     dr = diffuseRoughness
 
     specular = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -125,16 +137,24 @@ class _GeneratedStandardSurface(DG):
     specularColorB = specularColor.specularColorB
     spb = specularColorB
 
-    specularRoughness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    specularRoughness = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
     sr = specularRoughness
 
-    specularIOR = FloatField(default_value=1.5, min_value=0.0, soft_max_value=3.0)
+    specularIOR = FloatField(
+        default_value=1.5, min_value=0.0, soft_max_value=3.0
+    )
     sior = specularIOR
 
-    specularAnisotropy = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    specularAnisotropy = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     sa = specularAnisotropy
 
-    specularRotation = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    specularRotation = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     srot = specularRotation
 
     metalness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -152,10 +172,14 @@ class _GeneratedStandardSurface(DG):
     transmissionColorB = transmissionColor.transmissionColorB
     trcb = transmissionColorB
 
-    transmissionDepth = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    transmissionDepth = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
     td = transmissionDepth
 
-    transmissionScatter = TransmissionScatterField(default_value=(0.0, 0.0, 0.0))
+    transmissionScatter = TransmissionScatterField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     ts = transmissionScatter
     transmissionScatterR = transmissionScatter.transmissionScatterR
     tsr = transmissionScatterR
@@ -164,13 +188,19 @@ class _GeneratedStandardSurface(DG):
     transmissionScatterB = transmissionScatter.transmissionScatterB
     tsb = transmissionScatterB
 
-    transmissionScatterAnisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    transmissionScatterAnisotropy = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     tsa = transmissionScatterAnisotropy
 
-    transmissionDispersion = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    transmissionDispersion = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
     tdi = transmissionDispersion
 
-    transmissionExtraRoughness = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    transmissionExtraRoughness = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ter = transmissionExtraRoughness
 
     subsurface = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -194,10 +224,14 @@ class _GeneratedStandardSurface(DG):
     subsurfaceRadiusB = subsurfaceRadius.subsurfaceRadiusB
     subrb = subsurfaceRadiusB
 
-    subsurfaceScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    subsurfaceScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     subs = subsurfaceScale
 
-    subsurfaceAnisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    subsurfaceAnisotropy = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     suba = subsurfaceAnisotropy
 
     sheen = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -212,7 +246,9 @@ class _GeneratedStandardSurface(DG):
     sheenColorB = sheenColor.sheenColorB
     shcb = sheenColorB
 
-    sheenRoughness = FloatField(default_value=0.30000001192092896, min_value=0.0, max_value=1.0)
+    sheenRoughness = FloatField(
+        default_value=0.30000001192092896, min_value=0.0, max_value=1.0
+    )
     shr = sheenRoughness
 
     thinWalled = BoolField(default_value=False)
@@ -230,16 +266,22 @@ class _GeneratedStandardSurface(DG):
     coatColorB = coatColor.coatColorB
     ctcb = coatColorB
 
-    coatRoughness = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
+    coatRoughness = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, max_value=1.0
+    )
     ctr = coatRoughness
 
     coatIOR = FloatField(default_value=1.5, min_value=0.0, soft_max_value=5.0)
     ctior = coatIOR
 
-    coatAnisotropy = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    coatAnisotropy = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     cta = coatAnisotropy
 
-    coatRotation = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    coatRotation = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ctro = coatRotation
 
     coatNormal = CoatNormalField(default_value=(0.0, 0.0, 0.0))
@@ -251,16 +293,24 @@ class _GeneratedStandardSurface(DG):
     coatNormalZ = coatNormal.coatNormalZ
     ctnz = coatNormalZ
 
-    coatAffectColor = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    coatAffectColor = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     ctac = coatAffectColor
 
-    coatAffectRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    coatAffectRoughness = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     ctar = coatAffectRoughness
 
-    thinFilmThickness = FloatField(default_value=0.0, min_value=0.0, soft_max_value=2000.0)
+    thinFilmThickness = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=2000.0
+    )
     tft = thinFilmThickness
 
-    thinFilmIOR = FloatField(default_value=1.5, min_value=0.0, soft_max_value=3.0)
+    thinFilmIOR = FloatField(
+        default_value=1.5, min_value=0.0, soft_max_value=3.0
+    )
     tfior = thinFilmIOR
 
     emission = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
@@ -299,7 +349,9 @@ class _GeneratedStandardSurface(DG):
     rayInstance = LongField(default_value=0, readable=False)
     ryi = rayInstance
 
-    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0), readable=False)
+    rayDirection = RayDirectionField(
+        default_value=(0.0, 0.0, 1.0), readable=False
+    )
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -308,7 +360,9 @@ class _GeneratedStandardSurface(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rdz = rayDirectionZ
 
-    triangleNormalCamera = TriangleNormalCameraField(default_value=(0.0, 1.0, 0.0))
+    triangleNormalCamera = TriangleNormalCameraField(
+        default_value=(0.0, 1.0, 0.0)
+    )
     tnc = triangleNormalCamera
     triangleNormalCameraX = triangleNormalCamera.triangleNormalCameraX
     tnx = triangleNormalCameraX
@@ -377,7 +431,9 @@ class _GeneratedStandardSurface(DG):
     aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    aiSubsurfaceType = AiSubsurfaceTypeEnumField(default_value=1, category="arnold")
+    aiSubsurfaceType = AiSubsurfaceTypeEnumField(
+        default_value=1, category="arnold"
+    )
     ai_subsurface_type = aiSubsurfaceType
 
     aiTransmitAovs = BoolField(default_value=True, category="arnold")
@@ -389,7 +445,9 @@ class _GeneratedStandardSurface(DG):
     aiEnableMatte = BoolField(default_value=False, category="arnold")
     ai_enable_matte = aiEnableMatte
 
-    aiMatteColor = AiMatteColorField(default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiMatteColor = AiMatteColorField(
+        default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_matte_color = aiMatteColor
     aiMatteColorR = aiMatteColor.aiMatteColorR
     ai_matte_colorr = aiMatteColorR
@@ -398,7 +456,9 @@ class _GeneratedStandardSurface(DG):
     aiMatteColorB = aiMatteColor.aiMatteColorB
     ai_matte_colorb = aiMatteColorB
 
-    aiMatteColorA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, category="arnold")
+    aiMatteColorA = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0, category="arnold"
+    )
     ai_matte_color_a = aiMatteColorA
 
     aiAovId1 = DataStringField(category="arnold")
@@ -506,8 +566,12 @@ class _GeneratedStandardSurface(DG):
     aiInternalReflections = BoolField(default_value=True, category="arnold")
     ai_internal_reflections = aiInternalReflections
 
-    aiIndirectDiffuse = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, category="arnold")
+    aiIndirectDiffuse = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0, category="arnold"
+    )
     ai_indirect_diffuse = aiIndirectDiffuse
 
-    aiIndirectSpecular = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, category="arnold")
+    aiIndirectSpecular = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0, category="arnold"
+    )
     ai_indirect_specular = aiIndirectSpecular

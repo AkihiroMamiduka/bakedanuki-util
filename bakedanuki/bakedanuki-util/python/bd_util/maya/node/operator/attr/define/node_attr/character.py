@@ -6,12 +6,12 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
 from ..std.at.typed import TypedField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -98,7 +98,9 @@ class ChannelSetColorAttrOperator(
 
 
 class ChannelSetColorField(
-    Float3CompoundBaseField[ChannelSetColorAttrOperator, ChannelSetColorPlugOperator]
+    Float3CompoundBaseField[
+        ChannelSetColorAttrOperator, ChannelSetColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -139,9 +141,7 @@ class ClipEvaluatePlugOperator(
     ceo = clipEvaluate_Outmap
 
 
-class ClipEvaluateAttrOperator(
-    CompoundAttrOperator[ClipEvaluatePlugOperator]
-):
+class ClipEvaluateAttrOperator(CompoundAttrOperator[ClipEvaluatePlugOperator]):
     __slots__ = ()
 
     clipEvaluate_Hidden = TypedField()
@@ -195,10 +195,14 @@ class ClipStatePercentEvalPlugOperator(
     clipStatePercentEval_Raw = TypedField()
     csper = clipStatePercentEval_Raw
 
-    clipStatePercentEval_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
+    clipStatePercentEval_Inmap = CompoundField(
+        multi=True, default_value=(0.0, 0.0)
+    )
     cspei = clipStatePercentEval_Inmap
 
-    clipStatePercentEval_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
+    clipStatePercentEval_Outmap = CompoundField(
+        multi=True, default_value=(0.0, 0.0)
+    )
     cspeo = clipStatePercentEval_Outmap
 
 
@@ -213,15 +217,21 @@ class ClipStatePercentEvalAttrOperator(
     clipStatePercentEval_Raw = TypedField()
     csper = clipStatePercentEval_Raw
 
-    clipStatePercentEval_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
+    clipStatePercentEval_Inmap = CompoundField(
+        multi=True, default_value=(0.0, 0.0)
+    )
     cspei = clipStatePercentEval_Inmap
 
-    clipStatePercentEval_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
+    clipStatePercentEval_Outmap = CompoundField(
+        multi=True, default_value=(0.0, 0.0)
+    )
     cspeo = clipStatePercentEval_Outmap
 
 
 class ClipStatePercentEvalField(
-    CompoundField[ClipStatePercentEvalAttrOperator, ClipStatePercentEvalPlugOperator]
+    CompoundField[
+        ClipStatePercentEvalAttrOperator, ClipStatePercentEvalPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -234,10 +244,14 @@ class ClipStatePercentEvalField(
     clipStatePercentEval_Raw = TypedField()
     csper = clipStatePercentEval_Raw
 
-    clipStatePercentEval_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
+    clipStatePercentEval_Inmap = CompoundField(
+        multi=True, default_value=(0.0, 0.0)
+    )
     cspei = clipStatePercentEval_Inmap
 
-    clipStatePercentEval_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
+    clipStatePercentEval_Outmap = CompoundField(
+        multi=True, default_value=(0.0, 0.0)
+    )
     cspeo = clipStatePercentEval_Outmap
 
 
@@ -277,7 +291,10 @@ class TranslationOffsetIndicesAttrOperator(
 
 
 class TranslationOffsetIndicesField(
-    CompoundField[TranslationOffsetIndicesAttrOperator, TranslationOffsetIndicesPlugOperator]
+    CompoundField[
+        TranslationOffsetIndicesAttrOperator,
+        TranslationOffsetIndicesPlugOperator,
+    ]
 ):
     __slots__ = ()
 

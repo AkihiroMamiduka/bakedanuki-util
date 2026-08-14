@@ -6,13 +6,11 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.matrix import MatrixField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.double import DoubleField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.double import DoubleField
 
 
-class TargetPlugOperator(
-    CompoundPlugOperator["TargetAttrOperator"]
-):
+class TargetPlugOperator(CompoundPlugOperator["TargetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("targetMatrix", "tmat"),
@@ -30,25 +28,33 @@ class TargetPlugOperator(
     useMatrix = BoolField(default_value=True)
     umt = useMatrix
 
-    weight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    weight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     wgt = weight
 
-    scaleWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    scaleWeight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     sca = scaleWeight
 
-    translateWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    translateWeight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     tra = translateWeight
 
-    rotateWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    rotateWeight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     rot = rotateWeight
 
-    shearWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    shearWeight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     she = shearWeight
 
 
-class TargetAttrOperator(
-    CompoundAttrOperator[TargetPlugOperator]
-):
+class TargetAttrOperator(CompoundAttrOperator[TargetPlugOperator]):
     __slots__ = ()
 
     targetMatrix = MatrixField()
@@ -57,25 +63,33 @@ class TargetAttrOperator(
     useMatrix = BoolField(default_value=True)
     umt = useMatrix
 
-    weight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    weight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     wgt = weight
 
-    scaleWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    scaleWeight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     sca = scaleWeight
 
-    translateWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    translateWeight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     tra = translateWeight
 
-    rotateWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    rotateWeight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     rot = rotateWeight
 
-    shearWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    shearWeight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     she = shearWeight
 
 
-class TargetField(
-    CompoundField[TargetAttrOperator, TargetPlugOperator]
-):
+class TargetField(CompoundField[TargetAttrOperator, TargetPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TargetAttrOperator

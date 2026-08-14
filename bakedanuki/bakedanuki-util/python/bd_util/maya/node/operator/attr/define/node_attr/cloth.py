@@ -1,12 +1,10 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -29,9 +27,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -364,9 +360,7 @@ class GapColorField(
     gcb = gapColorB
 
 
-class UColorPlugOperator(
-    Float3CompoundBasePlugOperator["UColorAttrOperator"]
-):
+class UColorPlugOperator(Float3CompoundBasePlugOperator["UColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("uColorR", "ucr"),
@@ -384,9 +378,7 @@ class UColorPlugOperator(
     ucb = uColorB
 
 
-class UColorAttrOperator(
-    Float3CompoundBaseAttrOperator[UColorPlugOperator]
-):
+class UColorAttrOperator(Float3CompoundBaseAttrOperator[UColorPlugOperator]):
     __slots__ = ()
 
     uColorR = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -417,9 +409,7 @@ class UColorField(
     ucb = uColorB
 
 
-class VColorPlugOperator(
-    Float3CompoundBasePlugOperator["VColorAttrOperator"]
-):
+class VColorPlugOperator(Float3CompoundBasePlugOperator["VColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("vColorR", "vcr"),
@@ -437,9 +427,7 @@ class VColorPlugOperator(
     vcb = vColorB
 
 
-class VColorAttrOperator(
-    Float3CompoundBaseAttrOperator[VColorPlugOperator]
-):
+class VColorAttrOperator(Float3CompoundBaseAttrOperator[VColorPlugOperator]):
     __slots__ = ()
 
     vColorR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)

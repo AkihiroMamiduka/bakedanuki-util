@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import TypeVar, Type, cast
+from typing import Any, Generic, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -8,29 +8,35 @@ from maya.api import OpenMaya as om
 # self
 from .._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
-A = TypeVar("A", bound="DataTypeAttrOperator")
+A = TypeVar("A", bound="DataTypeAttrOperator[Any]")
 
-P = TypeVar("P", bound="DataTypePlugOperator")
+P = TypeVar("P", bound="DataTypePlugOperator[Any]")
+
+N = TypeVar("N", int, float)
 
 
-class DataNumericBasePlugOperator(DataTypePlugOperator[A]):
+class DataNumericBasePlugOperator(DataTypePlugOperator[A], Generic[A, N]):
     __slots__ = ()
 
     # get
-    def _get_data(self) -> list[float]:
+    def _get_data(self) -> tuple[N, ...]:
         m_obj = self.plug.asMObject()
         fn_data = om.MFnNumericData(m_obj)
-        return fn_data.getData()
+        return cast(tuple[N, ...], fn_data.getData())
 
     # set
-    def _set_data(self, numeric_type, values: list[float]):
+    def _set_data(
+        self,
+        numeric_type: int,
+        values: list[N],
+    ) -> None:
         """
         値をセットするヘルパー
 
         modifier.undoIt() 非対応
 
         Args:
-            values (list[float]): セットする値のリスト
+            values (list[N]): セットする値のリスト
         """
         fn_data = om.MFnNumericData()
         obj = fn_data.create(numeric_type)

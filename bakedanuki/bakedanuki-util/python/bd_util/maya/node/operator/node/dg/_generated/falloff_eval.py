@@ -8,7 +8,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedFalloffEval(DG):
+class GeneratedFalloffEval(DG):
     __slots__ = ()
 
     NODE_TYPE = "falloffEval"
@@ -25,8 +25,12 @@ class _GeneratedFalloffEval(DG):
     weightFunction = TypedField(multi=True)
     whf = weightFunction
 
-    perFunctionWeights = PerFunctionWeightsField(multi=True, default_value=0.0, writable=False)
+    perFunctionWeights = PerFunctionWeightsField(
+        multi=True, default_value=0.0, writable=False
+    )
     pfw = perFunctionWeights
 
-    perVertexWeights = PerVertexWeightsField(multi=True, default_value=0.0, writable=False)
+    perVertexWeights = PerVertexWeightsField(
+        multi=True, default_value=0.0, writable=False
+    )
     pvw = perVertexWeights

@@ -7,10 +7,10 @@ from ....attr.define.node_attr.simple_volume_shader import (
     OutTransparencyField,
     PointWorldField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedSimpleVolumeShader(DG):
+class GeneratedSimpleVolumeShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "simpleVolumeShader"
@@ -18,7 +18,9 @@ class _GeneratedSimpleVolumeShader(DG):
     parameter1 = FloatField(default_value=0.44999998807907104)
     p1 = parameter1
 
-    color = ColorField(default_value=(0.0, 0.5882400274276733, 0.6439999938011169))
+    color = ColorField(
+        default_value=(0.0, 0.5882400274276733, 0.6439999938011169)
+    )
     c = color
     colorR = color.colorR
     cr = colorR
@@ -36,7 +38,9 @@ class _GeneratedSimpleVolumeShader(DG):
     pointWorldZ = pointWorld.pointWorldZ
     pz = pointWorldZ
 
-    farPointWorld = FarPointWorldField(default_value=(1.0, 1.0, 1.0), readable=False)
+    farPointWorld = FarPointWorldField(
+        default_value=(1.0, 1.0, 1.0), readable=False
+    )
     fp = farPointWorld
     farPointWorldX = farPointWorld.farPointWorldX
     fpx = farPointWorldX
@@ -54,7 +58,9 @@ class _GeneratedSimpleVolumeShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

@@ -5,20 +5,22 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class MagnitudeScale_InterpEnumPlugOperator(EnumPlugOperator):
+class MagnitudeScale_InterpEnumPlugOperator(
+    EnumPlugOperator["MagnitudeScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +29,9 @@ class MagnitudeScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class MagnitudeScale_InterpEnumAttrOperator(EnumAttrOperator):
+class MagnitudeScale_InterpEnumAttrOperator(
+    EnumAttrOperator[MagnitudeScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -44,7 +48,10 @@ class MagnitudeScale_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class MagnitudeScale_InterpEnumField(
-    EnumField[MagnitudeScale_InterpEnumAttrOperator, MagnitudeScale_InterpEnumPlugOperator]
+    EnumField[
+        MagnitudeScale_InterpEnumAttrOperator,
+        MagnitudeScale_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 

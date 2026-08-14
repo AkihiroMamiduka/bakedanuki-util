@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.vector_product import _GeneratedVectorProduct
+from ._generated.vector_product import GeneratedVectorProduct
 
 
-class VectorProduct(_GeneratedVectorProduct):
+class VectorProduct(GeneratedVectorProduct):
     __slots__ = ()
 
     NODE_TYPE = "vectorProduct"

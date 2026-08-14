@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.set_range import _GeneratedSetRange
+from ._generated.set_range import GeneratedSetRange
 
 
-class SetRange(_GeneratedSetRange):
+class SetRange(GeneratedSetRange):
     __slots__ = ()
 
     NODE_TYPE = "setRange"

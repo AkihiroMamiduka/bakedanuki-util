@@ -50,9 +50,7 @@ class MultiParentListPlugOperator(
     CompoundPlugOperator["MultiParentListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("multiParent", "mp"),
-    )
+    CHILD_ATTR_NAMES = (("multiParent", "mp"),)
 
     multiParent = GenericField(multi=True)
     mp = multiParent

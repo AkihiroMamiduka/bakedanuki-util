@@ -1,16 +1,16 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.ai_float_to_int import OutTransparencyField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     ROUND = 0
@@ -19,7 +19,7 @@ class ModeEnumPlugOperator(EnumPlugOperator):
     CEIL = 3
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     ROUND = 0
@@ -35,16 +35,14 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiFloatToInt(DG):
+class GeneratedAiFloatToInt(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFloatToInt"
@@ -52,7 +50,9 @@ class _GeneratedAiFloatToInt(DG):
     outValue = LongField(default_value=0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -61,6 +61,8 @@ class _GeneratedAiFloatToInt(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    input = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
     mode = ModeEnumField(default_value=0)

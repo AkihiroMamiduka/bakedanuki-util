@@ -15,18 +15,18 @@ from ....attr.define.node_attr.ai_uv_transform import (
     UvcoordsField,
     WrapFrameColorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class UnitEnumPlugOperator(EnumPlugOperator):
+class UnitEnumPlugOperator(EnumPlugOperator["UnitEnumAttrOperator"]):
     __slots__ = ()
 
     RADIANS = 0
@@ -34,7 +34,7 @@ class UnitEnumPlugOperator(EnumPlugOperator):
     NORMALIZED = 2
 
 
-class UnitEnumAttrOperator(EnumAttrOperator):
+class UnitEnumAttrOperator(EnumAttrOperator[UnitEnumPlugOperator]):
     __slots__ = ()
 
     RADIANS = 0
@@ -48,16 +48,16 @@ class UnitEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class UnitEnumField(
-    EnumField[UnitEnumAttrOperator, UnitEnumPlugOperator]
-):
+class UnitEnumField(EnumField[UnitEnumAttrOperator, UnitEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UnitEnumAttrOperator
     PLUG_CLS = UnitEnumPlugOperator
 
 
-class WrapFrameUEnumPlugOperator(EnumPlugOperator):
+class WrapFrameUEnumPlugOperator(
+    EnumPlugOperator["WrapFrameUEnumAttrOperator"]
+):
     __slots__ = ()
 
     PERIODIC = 0
@@ -67,7 +67,7 @@ class WrapFrameUEnumPlugOperator(EnumPlugOperator):
     NONE = 4
 
 
-class WrapFrameUEnumAttrOperator(EnumAttrOperator):
+class WrapFrameUEnumAttrOperator(EnumAttrOperator[WrapFrameUEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -94,7 +94,9 @@ class WrapFrameUEnumField(
     PLUG_CLS = WrapFrameUEnumPlugOperator
 
 
-class WrapFrameVEnumPlugOperator(EnumPlugOperator):
+class WrapFrameVEnumPlugOperator(
+    EnumPlugOperator["WrapFrameVEnumAttrOperator"]
+):
     __slots__ = ()
 
     PERIODIC = 0
@@ -104,7 +106,7 @@ class WrapFrameVEnumPlugOperator(EnumPlugOperator):
     NONE = 4
 
 
-class WrapFrameVEnumAttrOperator(EnumAttrOperator):
+class WrapFrameVEnumAttrOperator(EnumAttrOperator[WrapFrameVEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -131,7 +133,7 @@ class WrapFrameVEnumField(
     PLUG_CLS = WrapFrameVEnumPlugOperator
 
 
-class _GeneratedAiUvTransform(DG):
+class GeneratedAiUvTransform(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUvTransform"
@@ -148,7 +150,9 @@ class _GeneratedAiUvTransform(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -200,7 +204,9 @@ class _GeneratedAiUvTransform(DG):
     translateFrameY = translateFrame.translateFrameY
     translate_framey = translateFrameY
 
-    rotateFrame = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotateFrame = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     rotate_frame = rotateFrame
 
     pivotFrame = PivotFrameField(default_value=(0.5, 0.5))
@@ -216,7 +222,9 @@ class _GeneratedAiUvTransform(DG):
     wrapFrameV = WrapFrameVEnumField(default_value=0)
     wrap_frame_v = wrapFrameV
 
-    wrapFrameColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    wrapFrameColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     wrap_frame_colora = wrapFrameColorA
 
     wrapFrameColor = WrapFrameColorField(default_value=(0.0, 0.0, 0.0))
@@ -240,7 +248,9 @@ class _GeneratedAiUvTransform(DG):
     offsetY = offset.offsetY
     offsety = offsetY
 
-    rotate = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotate = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
 
     pivot = PivotField(default_value=(0.5, 0.5))
     pivotX = pivot.pivotX

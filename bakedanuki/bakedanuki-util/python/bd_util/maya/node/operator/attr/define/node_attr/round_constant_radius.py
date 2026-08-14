@@ -5,14 +5,12 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.long import LongField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.long import LongField
 from ..std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class EdgePlugOperator(
-    CompoundPlugOperator["EdgeAttrOperator"]
-):
+class EdgePlugOperator(CompoundPlugOperator["EdgeAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputCurveA", "ica"),
@@ -38,9 +36,7 @@ class EdgePlugOperator(
     ev = edgeValid
 
 
-class EdgeAttrOperator(
-    CompoundAttrOperator[EdgePlugOperator]
-):
+class EdgeAttrOperator(CompoundAttrOperator[EdgePlugOperator]):
     __slots__ = ()
 
     inputCurveA = DataNurbsCurveField(multi=True)
@@ -59,9 +55,7 @@ class EdgeAttrOperator(
     ev = edgeValid
 
 
-class EdgeField(
-    CompoundField[EdgeAttrOperator, EdgePlugOperator]
-):
+class EdgeField(CompoundField[EdgeAttrOperator, EdgePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = EdgeAttrOperator

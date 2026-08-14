@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_atmosphere_volume import _GeneratedAiAtmosphereVolume
+from ._generated.ai_atmosphere_volume import GeneratedAiAtmosphereVolume
 
 
-class AiAtmosphereVolume(_GeneratedAiAtmosphereVolume):
+class AiAtmosphereVolume(GeneratedAiAtmosphereVolume):
     __slots__ = ()
 
     NODE_TYPE = "aiAtmosphereVolume"

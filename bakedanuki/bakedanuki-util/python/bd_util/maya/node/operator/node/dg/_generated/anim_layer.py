@@ -4,21 +4,21 @@ from ....attr.define.node_attr.anim_layer import (
     ChannelSetColorField,
     PublishedNodeInfoField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -26,7 +26,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -49,7 +49,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -57,7 +59,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -80,14 +84,18 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class RotationAccumulationModeEnumPlugOperator(EnumPlugOperator):
+class RotationAccumulationModeEnumPlugOperator(
+    EnumPlugOperator["RotationAccumulationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BY_COMPONENT = 0
     BY_LAYER = 1
 
 
-class RotationAccumulationModeEnumAttrOperator(EnumAttrOperator):
+class RotationAccumulationModeEnumAttrOperator(
+    EnumAttrOperator[RotationAccumulationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BY_COMPONENT = 0
@@ -100,7 +108,10 @@ class RotationAccumulationModeEnumAttrOperator(EnumAttrOperator):
 
 
 class RotationAccumulationModeEnumField(
-    EnumField[RotationAccumulationModeEnumAttrOperator, RotationAccumulationModeEnumPlugOperator]
+    EnumField[
+        RotationAccumulationModeEnumAttrOperator,
+        RotationAccumulationModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -108,7 +119,9 @@ class RotationAccumulationModeEnumField(
     PLUG_CLS = RotationAccumulationModeEnumPlugOperator
 
 
-class OutRotationAccumulationModeEnumPlugOperator(EnumPlugOperator):
+class OutRotationAccumulationModeEnumPlugOperator(
+    EnumPlugOperator["OutRotationAccumulationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BY_COMPONENT = 0
@@ -116,7 +129,9 @@ class OutRotationAccumulationModeEnumPlugOperator(EnumPlugOperator):
     BY_LAYER_BLENDED = 2
 
 
-class OutRotationAccumulationModeEnumAttrOperator(EnumAttrOperator):
+class OutRotationAccumulationModeEnumAttrOperator(
+    EnumAttrOperator[OutRotationAccumulationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BY_COMPONENT = 0
@@ -131,7 +146,10 @@ class OutRotationAccumulationModeEnumAttrOperator(EnumAttrOperator):
 
 
 class OutRotationAccumulationModeEnumField(
-    EnumField[OutRotationAccumulationModeEnumAttrOperator, OutRotationAccumulationModeEnumPlugOperator]
+    EnumField[
+        OutRotationAccumulationModeEnumAttrOperator,
+        OutRotationAccumulationModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -139,14 +157,18 @@ class OutRotationAccumulationModeEnumField(
     PLUG_CLS = OutRotationAccumulationModeEnumPlugOperator
 
 
-class ScaleAccumulationModeEnumPlugOperator(EnumPlugOperator):
+class ScaleAccumulationModeEnumPlugOperator(
+    EnumPlugOperator["ScaleAccumulationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     ADDITIVE = 0
     MULTIPLY = 1
 
 
-class ScaleAccumulationModeEnumAttrOperator(EnumAttrOperator):
+class ScaleAccumulationModeEnumAttrOperator(
+    EnumAttrOperator[ScaleAccumulationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     ADDITIVE = 0
@@ -159,7 +181,10 @@ class ScaleAccumulationModeEnumAttrOperator(EnumAttrOperator):
 
 
 class ScaleAccumulationModeEnumField(
-    EnumField[ScaleAccumulationModeEnumAttrOperator, ScaleAccumulationModeEnumPlugOperator]
+    EnumField[
+        ScaleAccumulationModeEnumAttrOperator,
+        ScaleAccumulationModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -167,7 +192,7 @@ class ScaleAccumulationModeEnumField(
     PLUG_CLS = ScaleAccumulationModeEnumPlugOperator
 
 
-class _GeneratedAnimLayer(DG):
+class GeneratedAnimLayer(DG):
     __slots__ = ()
 
     NODE_TYPE = "animLayer"
@@ -232,7 +257,9 @@ class _GeneratedAnimLayer(DG):
     dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
+    memberWireframeColor = ShortField(
+        default_value=-1, min_value=-1, max_value=23
+    )
     mwc = memberWireframeColor
 
     channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
@@ -343,19 +370,27 @@ class _GeneratedAnimLayer(DG):
     parentWeight = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     pwth = parentWeight
 
-    foregroundWeight = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    foregroundWeight = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     fgwt = foregroundWeight
 
-    backgroundWeight = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundWeight = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bgwt = backgroundWeight
 
     cteRoot = MessageField()
     cter = cteRoot
 
-    rotationAccumulationMode = RotationAccumulationModeEnumField(default_value=0)
+    rotationAccumulationMode = RotationAccumulationModeEnumField(
+        default_value=0
+    )
     ram = rotationAccumulationMode
 
-    outRotationAccumulationMode = OutRotationAccumulationModeEnumField(default_value=0)
+    outRotationAccumulationMode = OutRotationAccumulationModeEnumField(
+        default_value=0
+    )
     oram = outRotationAccumulationMode
 
     scaleAccumulationMode = ScaleAccumulationModeEnumField(default_value=1)

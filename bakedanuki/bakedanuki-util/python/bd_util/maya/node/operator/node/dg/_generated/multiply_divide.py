@@ -5,14 +5,14 @@ from ....attr.define.node_attr.multiply_divide import (
     Input2Field,
     OutputField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     NO_OPERATION = 0
@@ -21,7 +21,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     POWER = 3
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     NO_OPERATION = 0
@@ -46,7 +46,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedMultiplyDivide(DG):
+class GeneratedMultiplyDivide(DG):
     __slots__ = ()
 
     NODE_TYPE = "multiplyDivide"

@@ -1,12 +1,10 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -29,9 +27,7 @@ class Input2DPlugOperator(
     i2y = input2Dy
 
 
-class Input2DAttrOperator(
-    Float2CompoundBaseAttrOperator[Input2DPlugOperator]
-):
+class Input2DAttrOperator(Float2CompoundBaseAttrOperator[Input2DPlugOperator]):
     __slots__ = ()
 
     input2Dx = FloatField(default_value=0.0, readable=False)
@@ -70,9 +66,7 @@ class Input3DPlugOperator(
     i3z = input3Dz
 
 
-class Input3DAttrOperator(
-    Float3CompoundBaseAttrOperator[Input3DPlugOperator]
-):
+class Input3DAttrOperator(Float3CompoundBaseAttrOperator[Input3DPlugOperator]):
     __slots__ = ()
 
     input3Dx = FloatField(default_value=0.0, readable=False)

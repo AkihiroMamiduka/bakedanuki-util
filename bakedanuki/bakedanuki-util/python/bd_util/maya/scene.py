@@ -5,4 +5,4 @@ from maya import cmds
 
 
 def new_scene():
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)

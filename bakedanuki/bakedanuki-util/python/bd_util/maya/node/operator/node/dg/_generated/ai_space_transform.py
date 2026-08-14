@@ -7,16 +7,16 @@ from ....attr.define.node_attr.ai_space_transform import (
     OutValueField,
     TangentField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     POINT = 0
@@ -24,7 +24,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     NORMAL = 2
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     POINT = 0
@@ -38,16 +38,14 @@ class TypeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class From_EnumPlugOperator(EnumPlugOperator):
+class From_EnumPlugOperator(EnumPlugOperator["From_EnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -57,7 +55,7 @@ class From_EnumPlugOperator(EnumPlugOperator):
     TANGENT = 4
 
 
-class From_EnumAttrOperator(EnumAttrOperator):
+class From_EnumAttrOperator(EnumAttrOperator[From_EnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -75,16 +73,14 @@ class From_EnumAttrOperator(EnumAttrOperator):
     }
 
 
-class From_EnumField(
-    EnumField[From_EnumAttrOperator, From_EnumPlugOperator]
-):
+class From_EnumField(EnumField[From_EnumAttrOperator, From_EnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = From_EnumAttrOperator
     PLUG_CLS = From_EnumPlugOperator
 
 
-class ToEnumPlugOperator(EnumPlugOperator):
+class ToEnumPlugOperator(EnumPlugOperator["ToEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -94,7 +90,7 @@ class ToEnumPlugOperator(EnumPlugOperator):
     TANGENT = 4
 
 
-class ToEnumAttrOperator(EnumAttrOperator):
+class ToEnumAttrOperator(EnumAttrOperator[ToEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -112,16 +108,14 @@ class ToEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ToEnumField(
-    EnumField[ToEnumAttrOperator, ToEnumPlugOperator]
-):
+class ToEnumField(EnumField[ToEnumAttrOperator, ToEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ToEnumAttrOperator
     PLUG_CLS = ToEnumPlugOperator
 
 
-class _GeneratedAiSpaceTransform(DG):
+class GeneratedAiSpaceTransform(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSpaceTransform"
@@ -135,7 +129,9 @@ class _GeneratedAiSpaceTransform(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -154,7 +150,9 @@ class _GeneratedAiSpaceTransform(DG):
 
     type = TypeEnumField(default_value=0)
 
-    from_ = From_EnumField(default_value=0, long_name="from", short_name="from")
+    from_ = From_EnumField(
+        default_value=0, long_name="from", short_name="from"
+    )
 
     to = ToEnumField(default_value=0)
 
@@ -176,4 +174,6 @@ class _GeneratedAiSpaceTransform(DG):
 
     normalize = BoolField(default_value=False)
 
-    scale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    scale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )

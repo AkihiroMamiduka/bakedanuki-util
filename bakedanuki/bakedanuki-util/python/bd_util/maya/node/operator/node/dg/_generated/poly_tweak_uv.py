@@ -4,14 +4,14 @@ from ....attr.define.node_attr.poly_tweak_uv import (
     NewUVField,
     UvTweakField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedPolyTweakUV(DG):
+class GeneratedPolyTweakUV(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyTweakUV"

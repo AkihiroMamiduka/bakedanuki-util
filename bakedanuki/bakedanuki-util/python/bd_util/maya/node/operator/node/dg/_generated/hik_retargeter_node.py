@@ -1,11 +1,11 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedHIKRetargeterNode(DG):
+class GeneratedHIKRetargeterNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKRetargeterNode"

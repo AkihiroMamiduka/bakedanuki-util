@@ -10,7 +10,14 @@
 
 今後制作予定のリグシステムパッケージ `bakedanuki-rig` で使うために開発されています。その中でも、リグ専用ではなく他の Maya ツール開発にも使える汎用部分を `util` として切り出しています。
 
-現状は v1.0.0 未満の開発中 API です。まだ破壊的変更が入る可能性があります。
+現状は v1.0.0 未満の開発中 API です。将来の設計と使いやすさを優先し、互換性維持よりも
+改善を選んで、必要な破壊的変更を積極的に行います。安定した API 互換性の提供は
+v1.0.0 以降を対象とします。
+
+破壊的変更は原則として `0.x.0` の minor release で行い、`0.x.y` の patch release では
+意図的に行いません。ネイティブノードの `typeName`、attribute 構成・名前・default 値、
+計算仕様も v1.0.0 未満の変更対象ですが、一度公開した `MTypeId` は変更・再利用しません。
+旧仕様と新仕様を共存させる場合は、新しい node type と未使用の `MTypeId` を追加します。
 
 主な関心領域は次の通りです。
 
@@ -75,7 +82,8 @@ Get-Content -Raw -Encoding UTF8 README.md
 
 ## Python Path And pytest
 
-このリポジトリには現時点で `pyproject.toml` や `setup.py` はありません。
+このリポジトリには package build 用の `setup.py` はありません。
+`pyproject.toml` は Black の共通設定として使用します。
 
 テストは `mayapy` で実行してください。通常の Python では Maya API が import できません。
 
@@ -105,6 +113,41 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 
 `swig/python detected a memory leak ...` のような表示がテスト終了後に出ることがあります。pytest の終了コードが成功であれば、通常は非失敗ログとして扱ってください。
 
+## Formatting
+
+Pythonコードは`requirements-format.txt`に固定したBlackを使います。
+Maya実行環境とは分離した`.venv-format`を使用します。
+`format.cmd`は環境がない場合や、作成元の Python が削除されて
+起動できない場合を検出します。環境がない場合は自動作成します。
+既存環境の起動失敗は、制限環境によるアクセス拒否と破損を区別できないため、
+勝手に削除せず`-ForceRecreate`による明示的な再作成を案内します。
+事前に明示的に作成する場合は次を実行してください。
+
+```powershell
+.\scripts\setup-format.cmd
+```
+
+既存環境を明示的に作り直す場合です。
+
+```powershell
+.\scripts\setup-format.cmd -ForceRecreate
+```
+
+一括整形と整形確認です。
+
+```powershell
+.\scripts\format.cmd
+.\scripts\format.cmd -Check
+.\scripts\format.cmd -Check -Diff
+```
+
+対象は`bakedanuki`と`tests`以下です。
+外部由来のMaya API stubを置く`typings`は対象外です。
+
+ノード生成器はBlackを直接importしません。
+DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を実行してから
+差分確認とテストを行ってください。
+
 ## Verification Policy
 
 変更内容に応じて検証範囲を選んでください。
@@ -117,6 +160,22 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
   - targeted pytest に加えて、原則として full pytest を実行してください。
 - DG ノード生成、node attr 解決、共通 import に関わる変更
   - full pytest に加えて、必要に応じて DG モジュールの import sweep を検討してください。
+- Pythonコードを変更した場合
+  - 原則として`.\scripts\format.cmd -Check`で整形状態を確認してください。
+- ネイティブplug-in、build script、配布バイナリ、対応Maya versionを変更した場合
+  - Maya 2025 / 2026 / 2027それぞれでbuildとnative testを実行してください。
+
+```powershell
+.\scripts\build-native-maya2025.cmd
+.\scripts\test-native-maya2025.cmd
+.\scripts\build-native-maya2026.cmd
+.\scripts\test-native-maya2026.cmd
+.\scripts\build-native-maya2027.cmd
+.\scripts\test-native-maya2027.cmd
+```
+
+リリース前は、配布対象versionそれぞれの`mayapy`と対応するstaged plug-inを使用して
+full pytestも実行してください。
 
 全体テストです。
 
@@ -170,6 +229,9 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
 - Maya 専用パッケージとして割り切る。
 - OpenMaya の実挙動を優先する。
 - 推測で Maya API の意味を決めない。怪しい場合は `mayapy` で確認する。
+- `bd_util` パッケージ内部の module 間 import は、`from bd_util.maya...` のような
+  package top 起点ではなく、import 元の module を基準にした相対 import を使う。
+  利用者向けサンプルやテストから公開 API を import する場合は、この制約の対象外とする。
 - `cmds` / PyMEL より、可能な範囲で `maya.api.OpenMaya` を中心に考える。
 - ただし Maya 標準挙動や undo の都合で必要な場合は、既存方針に従う。
 - 共有基盤を触る場合は、影響範囲を広く見る。
@@ -194,6 +256,31 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
 
 特に、`node.attr.child` や `nodes.create.composeMatrix(...)` / `nodes.existing.decomposeMatrix(...)` のような主要な利用経路では、ユーザーが IDE 上で候補を辿れることを重視してください。
 
+## Static Type Checking Practices
+
+型警告を修正するときは、警告を消すこと自体ではなく、実行時の責務と型の境界を
+一致させてください。
+
+- `Any` や `# pyright: ignore` を広範囲へ追加しない。動的 API が避けられない場合は、
+  `cast()` を import、Maya command、third-party package などの境界へ限定する。
+- Maya command stub が実際の可変長引数より狭い場合は、実行方法を変えず、
+  `cmds.setAttr` など対象 callable だけを正しい `Callable` へ cast する。
+- PyMEL、cymel、cmdx など任意依存は、必要なら `importlib.import_module()` で
+  実行時に読み込み、`Any` の伝播を adapter 内へ閉じ込める。
+- override の引数名・引数型は基底 class と揃える。class 単位で共有する定数には
+  `ClassVar` を使用し、mutable な instance variable と区別する。
+- 実行されるべき抽象・未実装 method は `pass` で暗黙に `None` を返さず、
+  `NotImplementedError` またはプロジェクト固有の例外を送出する。
+- `_generated` 以下の型不備は生成ファイルの一括手修正で済ませず、可能な限り
+  generator、template、または生成元の型解決を修正して再生成する。
+- `pyrightconfig.json` の diagnostic を repository 全体で安易に無効化しない。
+  個別抑制が必要な場合も対象 rule を明記し、抑制範囲を最小限にする。
+
+通常の `pyright --project pyrightconfig.json` は型・補完 contract を検証します。
+実装ファイルや特定階層の警告を総点検するときは、対象 path を明示して実行します。
+詳細なコマンドは `bakedanuki/bakedanuki-util/docs/maya/node_operator/testing.md` を
+参照してください。
+
 ## NodeOperator Usage Conventions
 
 README や docs のサンプルでは、基本的に次の書き方を使ってください。
@@ -211,7 +298,7 @@ nodes = bdu.Nodes(modifier_manager=mod)
 cmp_m = nodes.create.composeMatrix(name="cmp_m")
 mult_m = nodes.create.multMatrix(name="mult_m")
 
-cmp_m.outputMatrix > mult_m.matrixIn[next]
+cmp_m.outputMatrix.connect(mult_m.matrixIn[next])
 mod.do_it_dg()
 ```
 
@@ -219,10 +306,13 @@ mod.do_it_dg()
 
 接続は即時実行ではなく、`MDGModifier.connect()` に積む処理です。`ModifierManager` の履歴に入るため、その単位で undo / redo 対象になります。
 
-速度を重視する文脈では、演算子 `>` より `.connect()` を優先して説明しても構いません。
+接続元から操作する場合は `.connect()` / `.disconnect()` を使用します。
+接続先から操作する場合は `.connect_from()` / `.disconnect_from()` を使用します。
+接続・切断用の演算子 overload は提供しません。
 
 ```python
 src.output.connect(dst.input)
+dst.input.connect_from("src.output")
 ```
 
 `nodes.existing` はシーン上に既に存在するノードを包む入口です。

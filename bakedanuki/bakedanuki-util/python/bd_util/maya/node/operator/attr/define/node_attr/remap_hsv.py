@@ -5,20 +5,22 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class Hue_InterpEnumPlugOperator(EnumPlugOperator):
+class Hue_InterpEnumPlugOperator(
+    EnumPlugOperator["Hue_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +29,7 @@ class Hue_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Hue_InterpEnumAttrOperator(EnumAttrOperator):
+class Hue_InterpEnumAttrOperator(EnumAttrOperator[Hue_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -52,7 +54,9 @@ class Hue_InterpEnumField(
     PLUG_CLS = Hue_InterpEnumPlugOperator
 
 
-class Saturation_InterpEnumPlugOperator(EnumPlugOperator):
+class Saturation_InterpEnumPlugOperator(
+    EnumPlugOperator["Saturation_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -61,7 +65,9 @@ class Saturation_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Saturation_InterpEnumAttrOperator(EnumAttrOperator):
+class Saturation_InterpEnumAttrOperator(
+    EnumAttrOperator[Saturation_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -78,7 +84,9 @@ class Saturation_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class Saturation_InterpEnumField(
-    EnumField[Saturation_InterpEnumAttrOperator, Saturation_InterpEnumPlugOperator]
+    EnumField[
+        Saturation_InterpEnumAttrOperator, Saturation_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -86,7 +94,9 @@ class Saturation_InterpEnumField(
     PLUG_CLS = Saturation_InterpEnumPlugOperator
 
 
-class Value_InterpEnumPlugOperator(EnumPlugOperator):
+class Value_InterpEnumPlugOperator(
+    EnumPlugOperator["Value_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -95,7 +105,9 @@ class Value_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Value_InterpEnumAttrOperator(EnumAttrOperator):
+class Value_InterpEnumAttrOperator(
+    EnumAttrOperator[Value_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -120,9 +132,7 @@ class Value_InterpEnumField(
     PLUG_CLS = Value_InterpEnumPlugOperator
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "cr"),
@@ -140,9 +150,7 @@ class ColorPlugOperator(
     cb = colorB
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=0.5)
@@ -173,9 +181,7 @@ class ColorField(
     cb = colorB
 
 
-class HuePlugOperator(
-    CompoundPlugOperator["HueAttrOperator"]
-):
+class HuePlugOperator(CompoundPlugOperator["HueAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("hue_Position", "hp"),
@@ -193,9 +199,7 @@ class HuePlugOperator(
     hi = hue_Interp
 
 
-class HueAttrOperator(
-    CompoundAttrOperator[HuePlugOperator]
-):
+class HueAttrOperator(CompoundAttrOperator[HuePlugOperator]):
     __slots__ = ()
 
     hue_Position = FloatField(default_value=0.0)
@@ -208,18 +212,14 @@ class HueAttrOperator(
     hi = hue_Interp
 
 
-class HueField(
-    CompoundField[HueAttrOperator, HuePlugOperator]
-):
+class HueField(CompoundField[HueAttrOperator, HuePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HueAttrOperator
     PLUG_CLS = HuePlugOperator
 
 
-class SaturationPlugOperator(
-    CompoundPlugOperator["SaturationAttrOperator"]
-):
+class SaturationPlugOperator(CompoundPlugOperator["SaturationAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("saturation_Position", "sp"),
@@ -237,9 +237,7 @@ class SaturationPlugOperator(
     si = saturation_Interp
 
 
-class SaturationAttrOperator(
-    CompoundAttrOperator[SaturationPlugOperator]
-):
+class SaturationAttrOperator(CompoundAttrOperator[SaturationPlugOperator]):
     __slots__ = ()
 
     saturation_Position = FloatField(default_value=0.0)
@@ -261,9 +259,7 @@ class SaturationField(
     PLUG_CLS = SaturationPlugOperator
 
 
-class ValuePlugOperator(
-    CompoundPlugOperator["ValueAttrOperator"]
-):
+class ValuePlugOperator(CompoundPlugOperator["ValueAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("value_Position", "vp"),
@@ -281,9 +277,7 @@ class ValuePlugOperator(
     vi = value_Interp
 
 
-class ValueAttrOperator(
-    CompoundAttrOperator[ValuePlugOperator]
-):
+class ValueAttrOperator(CompoundAttrOperator[ValuePlugOperator]):
     __slots__ = ()
 
     value_Position = FloatField(default_value=0.0)
@@ -296,9 +290,7 @@ class ValueAttrOperator(
     vi = value_Interp
 
 
-class ValueField(
-    CompoundField[ValueAttrOperator, ValuePlugOperator]
-):
+class ValueField(CompoundField[ValueAttrOperator, ValuePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ValueAttrOperator

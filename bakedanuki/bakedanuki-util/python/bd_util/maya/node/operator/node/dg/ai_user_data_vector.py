@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_user_data_vector import _GeneratedAiUserDataVector
+from ._generated.ai_user_data_vector import GeneratedAiUserDataVector
 
 
-class AiUserDataVector(_GeneratedAiUserDataVector):
+class AiUserDataVector(GeneratedAiUserDataVector):
     __slots__ = ()
 
     NODE_TYPE = "aiUserDataVector"

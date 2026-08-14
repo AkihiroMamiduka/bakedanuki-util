@@ -1,16 +1,14 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
 )
 
 
-class OutPlugOperator(
-    Float2CompoundBasePlugOperator["OutAttrOperator"]
-):
+class OutPlugOperator(Float2CompoundBasePlugOperator["OutAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("out0", "o0"),
@@ -24,9 +22,7 @@ class OutPlugOperator(
     o1 = out1
 
 
-class OutAttrOperator(
-    Float2CompoundBaseAttrOperator[OutPlugOperator]
-):
+class OutAttrOperator(Float2CompoundBaseAttrOperator[OutPlugOperator]):
     __slots__ = ()
 
     out0 = FloatField(default_value=0.0, writable=False)
@@ -36,9 +32,7 @@ class OutAttrOperator(
     o1 = out1
 
 
-class OutField(
-    Float2CompoundBaseField[OutAttrOperator, OutPlugOperator]
-):
+class OutField(Float2CompoundBaseField[OutAttrOperator, OutPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OutAttrOperator
@@ -94,9 +88,7 @@ class OriginalField(
     ori1 = original1
 
 
-class ValuePlugOperator(
-    Float2CompoundBasePlugOperator["ValueAttrOperator"]
-):
+class ValuePlugOperator(Float2CompoundBasePlugOperator["ValueAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("value0", "val0"),
@@ -110,9 +102,7 @@ class ValuePlugOperator(
     val1 = value1
 
 
-class ValueAttrOperator(
-    Float2CompoundBaseAttrOperator[ValuePlugOperator]
-):
+class ValueAttrOperator(Float2CompoundBaseAttrOperator[ValuePlugOperator]):
     __slots__ = ()
 
     value0 = FloatField(default_value=0.0, readable=False)

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.light_group import _GeneratedLightGroup
+from ._generated.light_group import GeneratedLightGroup
 
 
-class LightGroup(_GeneratedLightGroup):
+class LightGroup(GeneratedLightGroup):
     __slots__ = ()
 
     NODE_TYPE = "lightGroup"

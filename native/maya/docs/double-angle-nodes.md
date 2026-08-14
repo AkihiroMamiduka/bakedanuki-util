@@ -1,0 +1,115 @@
+# Double Angle Nodes
+
+`bdUtilNodes`のscalar `doubleAngle`演算node familyです。type codeは`DblA`とし、
+1軸の回転channel、twist、roll、hinge、bank、回転制限、angle driverなどを対象にします。
+
+## Scope And Angle Policy
+
+このfamilyの角度は、周期的なorientationではなく、正規化されていない連続値として
+扱います。Mayaの`rotateX`などと同様に、`370 deg`、`720 deg`、`-450 deg`をそのまま
+保持して演算します。
+
+```text
+350 deg + 20 deg = 370 deg
+10 deg - 350 deg = -340 deg
+lerp(350 deg, 10 deg, 0.5) = 180 deg
+```
+
+通常演算は`-180..180`や`0..360`へwrapしません。Wrap、最短角度差、最短経路補間は、
+angle固有nodeとして通常演算と分けて明示します。
+
+3軸のorientation計算はQuaternionまたはrotate orderを持つEuler rotationとして扱うため、
+`DblA3`演算nodeと`DblA3_Value`はこのfamilyの対象外です。3つの独立したangle channelが
+必要な場合はscalar nodeを各軸へ接続します。
+
+## Implemented Nodes
+
+| Node type | Angle inputs | Non-angle inputs | Result |
+| --- | --- | --- | --- |
+| `bdDblA_Value` | `value` | none | 保存・編集・接続可能なangle value |
+| `bdDblA_Add` | `input1`, `input2` | none | `input1 + input2` |
+| `bdDblA_AddMulti` | `input[]` | none | 既存要素の合計。空配列はzero |
+| `bdDblA_Subtract` | `input1`, `input2` | none | `input1 - input2` |
+| `bdDblA_SubtractMulti` | `input[]` | none | logical index順の左畳み込み。空配列はzero |
+| `bdDblA_Negate` | `input` | none | `-input` |
+| `bdDblA_Abs` | `input` | none | raw angle値の絶対値 |
+| `bdDblA_Multiply` | `input` | `factor: double` | `input * factor` |
+| `bdDblA_MultiplyMulti` | `input` | `factor[]: double` | factorを畳み込む。空配列はinput |
+| `bdDblA_Divide` | `input` | `factor: double` | `input / factor` |
+| `bdDblA_DivideMulti` | `input` | `factor[]: double` | factorをlogical index順に除算。空配列はinput |
+| `bdDblA_Clamp` | `input`, `min`, `max` | none | raw angle rangeへclamp |
+| `bdDblA_MapRange` | input、Source / Target range | `clamp: bool` | angle rangeからangle rangeへ変換 |
+| `bdDblA_Lerp` | `input1`, `input2` | `weight: double` | raw angle値の線形補間 |
+| `bdDblA_Min` | `input1`, `input2` | none | 小さいraw angle値を選択 |
+| `bdDblA_MinMulti` | `input[]` | none | 既存要素の最小値。空配列はzero |
+| `bdDblA_Max` | `input1`, `input2` | none | 大きいraw angle値を選択 |
+| `bdDblA_MaxMulti` | `input[]` | none | 既存要素の最大値。空配列はzero |
+| `bdDblA_Average` | `input1`, `input2` | none | 2つのraw angle値の算術平均 |
+| `bdDblA_AverageMulti` | `input[]` | none | 既存要素の算術平均。空配列はzero |
+| `bdDblA_WeightedSumMulti` | `input[].value` | `input[].weight: double` | angleとweightの積の合計 |
+| `bdDblA_WeightedAverageMulti` | `input[].value` | `input[].weight: double` | weight合計で正規化したangle平均 |
+| `bdDblA_Wrap` | `input`, `min`, `max` | none | 半開区間`[min, max)`へwrap |
+| `bdDblA_ShortestDelta` | `input1`, `input2` | none | `input1`から`input2`への最短角度差 |
+| `bdDblA_LerpShortest` | `input1`, `input2` | `weight: double` | 最短角度差による非正規化補間 |
+
+Multiply / Divideの`factor`はdimensionlessです。angle同士の乗除算ではありません。
+Divideは既存の`SafeDivision.h`を使用し、絶対値が`1.0e-9`未満のfactorを符号付きepsilonへ
+置き換えます。
+
+## Units And Defaults
+
+attributeは`MFnUnitAttribute::kAngle`で作成し、C++の`MDataHandle::asDouble()` /
+`setDouble()`ではMaya内部単位のradianを扱います。PythonのNodeOperator APIは既存の
+`DoubleAngleField`に従いdegreeで`.get()` / `.set()`します。
+
+zero defaultは単位表示に依存しません。`Clamp.max`、`MapRange.srcMax`、
+`MapRange.dstMax`のdefaultは1回転を表す360度（内部値は2π radian）です。
+`factor`のdefault `1.0`はdimensionless identityです。
+
+`Wrap.min` / `max`のdefaultは`-180 deg` / `180 deg`です。出力は`[min, max)`なので
+`180 deg`は`-180 deg`になります。NaNを含む場合はNaN、`max <= min`では`min`、
+それ以外で`input`、境界、または範囲幅が非有限の場合はNaNを返します。
+
+angle表示単位をdegree / radian間で切り替えても、scene内の物理角度と計算結果は
+変化しません。`rotateX`などの`doubleAngle` plugとはunit conversion nodeなしで
+直接接続できます。
+
+## Orientation Boundary
+
+このfamilyは1軸のangle channel計算だけを担当します。3軸回転について、次の処理を
+component-wise angle演算で代用しません。
+
+- orientationの合成と相対回転
+- rotate orderを考慮したEuler変換
+- Euler解の選択
+- Quaternion Slerp
+
+これらはMayaの`eulerToQuat`、`quatToEuler`、`quatProd`、`quatInvert`、`quatSlerp`
+などを使用します。
+
+## Related Mixed And Condition Nodes
+
+| Node type | Angle inputs | 出力 / 役割 |
+| --- | --- | --- |
+| `bdDbl_RatioDblA` | `input`, `base` | `input / base`のdimensionlessな`double`。`base`は360度 |
+| `bdAny_ConditionDblA` | `input`, `compare`, `extra[].compareValue` | 連続角度による単一条件とtyped-any選択 |
+| `bdAny_ConditionDblAMulti` | `input`, `case[].compare`, `case[].extra[].compareValue` | 連続角度による条件配列とtyped-any選択 |
+| `bdConditionDblAExtra_Compose` | `compareValue` | angle用`extra[index]` compoundを構築 |
+| `bdConditionDblACase_Compose` | `compare`, `extra[].compareValue` | angle用`case[index]` compoundを構築 |
+
+Conditionはrawな連続角度を比較し、暗黙のwrapや最短角度比較を行いません。周期上の比較が
+必要な場合は、先に`Wrap`または`ShortestDelta`で比較対象を明示的に作ります。
+
+## Roadmap
+
+完了したAverage系、Wrap / ShortestDelta / LerpShortest、angle比率、Condition展開の
+判断と、保留・対象外候補は[Double Angle Node Roadmap](double-angle-roadmap.md)で管理します。
+
+## Verification
+
+[test_bd_double_angle.py](../../../tests/maya/node/operator/node/dg/test_bd_double_angle.py)、
+[test_bd_condition.py](../../../tests/maya/node/operator/node/dg/test_bd_condition.py)、
+[test_bd_condition_compose.py](../../../tests/maya/node/operator/node/dg/test_bd_condition_compose.py)で、
+実装scope 30 node typeのIDとattribute型、連続角度演算、周期境界、sparse multi、表示単位、
+typed-any選択、`rotateX`接続、DG / Serial / Parallel、NodeOperator API、scene round-tripを
+確認します。

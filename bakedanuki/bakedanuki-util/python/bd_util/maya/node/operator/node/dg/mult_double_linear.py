@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mult_double_linear import _GeneratedMultDoubleLinear
+from ._generated.mult_double_linear import GeneratedMultDoubleLinear
 
 
-class MultDoubleLinear(_GeneratedMultDoubleLinear):
+class MultDoubleLinear(GeneratedMultDoubleLinear):
     __slots__ = ()
 
     NODE_TYPE = "multDoubleLinear"

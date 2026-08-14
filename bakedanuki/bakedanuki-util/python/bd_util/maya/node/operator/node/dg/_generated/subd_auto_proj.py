@@ -1,25 +1,25 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class OptimizeEnumPlugOperator(EnumPlugOperator):
+class OptimizeEnumPlugOperator(EnumPlugOperator["OptimizeEnumAttrOperator"]):
     __slots__ = ()
 
     LESS_DISTORTION = 0
     FEWER_PIECES = 1
 
 
-class OptimizeEnumAttrOperator(EnumAttrOperator):
+class OptimizeEnumAttrOperator(EnumAttrOperator[OptimizeEnumPlugOperator]):
     __slots__ = ()
 
     LESS_DISTORTION = 0
@@ -40,14 +40,14 @@ class OptimizeEnumField(
     PLUG_CLS = OptimizeEnumPlugOperator
 
 
-class LayoutEnumPlugOperator(EnumPlugOperator):
+class LayoutEnumPlugOperator(EnumPlugOperator["LayoutEnumAttrOperator"]):
     __slots__ = ()
 
     ALONG_U = 1
     INTO_SQUARE = 2
 
 
-class LayoutEnumAttrOperator(EnumAttrOperator):
+class LayoutEnumAttrOperator(EnumAttrOperator[LayoutEnumPlugOperator]):
     __slots__ = ()
 
     ALONG_U = 1
@@ -68,14 +68,18 @@ class LayoutEnumField(
     PLUG_CLS = LayoutEnumPlugOperator
 
 
-class LayoutMethodEnumPlugOperator(EnumPlugOperator):
+class LayoutMethodEnumPlugOperator(
+    EnumPlugOperator["LayoutMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLOCK_STACKING = 0
     SHAPE_STACKING = 1
 
 
-class LayoutMethodEnumAttrOperator(EnumAttrOperator):
+class LayoutMethodEnumAttrOperator(
+    EnumAttrOperator[LayoutMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     BLOCK_STACKING = 0
@@ -96,7 +100,7 @@ class LayoutMethodEnumField(
     PLUG_CLS = LayoutMethodEnumPlugOperator
 
 
-class ScaleEnumPlugOperator(EnumPlugOperator):
+class ScaleEnumPlugOperator(EnumPlugOperator["ScaleEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -104,7 +108,7 @@ class ScaleEnumPlugOperator(EnumPlugOperator):
     STRETCH_TO_SQUARE = 2
 
 
-class ScaleEnumAttrOperator(EnumAttrOperator):
+class ScaleEnumAttrOperator(EnumAttrOperator[ScaleEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -118,16 +122,14 @@ class ScaleEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ScaleEnumField(
-    EnumField[ScaleEnumAttrOperator, ScaleEnumPlugOperator]
-):
+class ScaleEnumField(EnumField[ScaleEnumAttrOperator, ScaleEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ScaleEnumAttrOperator
     PLUG_CLS = ScaleEnumPlugOperator
 
 
-class _GeneratedSubdAutoProj(DG):
+class GeneratedSubdAutoProj(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdAutoProj"
@@ -168,7 +170,9 @@ class _GeneratedSubdAutoProj(DG):
     layoutMethod = LayoutMethodEnumField(default_value=0)
     lm = layoutMethod
 
-    percentageSpace = FloatField(default_value=0.0, min_value=0.0, max_value=5.0)
+    percentageSpace = FloatField(
+        default_value=0.0, min_value=0.0, max_value=5.0
+    )
     ps = percentageSpace
 
     scale = ScaleEnumField(default_value=1)

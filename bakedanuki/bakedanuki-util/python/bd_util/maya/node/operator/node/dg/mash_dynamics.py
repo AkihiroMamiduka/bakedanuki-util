@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_dynamics import _GeneratedMASH_Dynamics
+from ._generated.mash_dynamics import GeneratedMASHDynamics
 
 
-class MASH_Dynamics(_GeneratedMASH_Dynamics):
+class MASHDynamics(GeneratedMASHDynamics):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Dynamics"

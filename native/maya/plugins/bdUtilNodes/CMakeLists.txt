@@ -1,0 +1,225 @@
+add_library(
+    bdUtilNodes
+    SHARED
+    src/nodes/BdDblAddNode.cpp
+    src/nodes/BdDblAddMultiNode.cpp
+    src/nodes/BdDbl3AddNode.cpp
+    src/nodes/BdDbl3AddMultiNode.cpp
+    src/nodes/BdDblMultiplyNode.cpp
+    src/nodes/BdDblMultiplyMultiNode.cpp
+    src/nodes/BdDbl3MultiplyNode.cpp
+    src/nodes/BdDbl3MultiplyMultiNode.cpp
+    src/nodes/BdDblSubtractNode.cpp
+    src/nodes/BdDblSubtractMultiNode.cpp
+    src/nodes/BdDbl3SubtractNode.cpp
+    src/nodes/BdDbl3SubtractMultiNode.cpp
+    src/nodes/BdDblDivideNode.cpp
+    src/nodes/BdDblDivideMultiNode.cpp
+    src/nodes/BdDbl3DivideNode.cpp
+    src/nodes/BdDbl3DivideMultiNode.cpp
+    src/nodes/BdDblPowerNode.cpp
+    src/nodes/BdDblPowerMultiNode.cpp
+    src/nodes/BdDbl3PowerNode.cpp
+    src/nodes/BdDbl3PowerMultiNode.cpp
+    src/nodes/BdDblLerpNode.cpp
+    src/nodes/BdDbl3LerpNode.cpp
+    src/nodes/BdDblWeightedSumMultiNode.cpp
+    src/nodes/BdDbl3WeightedSumMultiNode.cpp
+    src/nodes/BdDblMinNode.cpp
+    src/nodes/BdDblMinMultiNode.cpp
+    src/nodes/BdDbl3MinNode.cpp
+    src/nodes/BdDbl3MinMultiNode.cpp
+    src/nodes/BdDblMaxNode.cpp
+    src/nodes/BdDblMaxMultiNode.cpp
+    src/nodes/BdDbl3MaxNode.cpp
+    src/nodes/BdDbl3MaxMultiNode.cpp
+    src/nodes/BdDblClampNode.cpp
+    src/nodes/BdDbl3ClampNode.cpp
+    src/nodes/BdDblMapRangeNode.cpp
+    src/nodes/BdDbl3MapRangeNode.cpp
+    src/nodes/BdDblAbsNode.cpp
+    src/nodes/BdDbl3AbsNode.cpp
+    src/nodes/BdDblNegateNode.cpp
+    src/nodes/BdDbl3NegateNode.cpp
+    src/nodes/BdAnyConditionDblNode.cpp
+    src/nodes/BdAnyConditionDblMultiNode.cpp
+    src/nodes/BdDblAverageNode.cpp
+    src/nodes/BdDblAverageMultiNode.cpp
+    src/nodes/BdDbl3AverageNode.cpp
+    src/nodes/BdDbl3AverageMultiNode.cpp
+    src/nodes/BdDblWeightedAverageMultiNode.cpp
+    src/nodes/BdDbl3WeightedAverageMultiNode.cpp
+    src/nodes/BdDblValueNode.cpp
+    src/nodes/BdDbl3ValueNode.cpp
+    src/nodes/BdDblLValueNode.cpp
+    src/nodes/BdDblL3ValueNode.cpp
+    src/nodes/BdDblLAddNode.cpp
+    src/nodes/BdDblLAddMultiNode.cpp
+    src/nodes/BdDblL3AddNode.cpp
+    src/nodes/BdDblL3AddMultiNode.cpp
+    src/nodes/BdDblLSubtractNode.cpp
+    src/nodes/BdDblLSubtractMultiNode.cpp
+    src/nodes/BdDblL3SubtractNode.cpp
+    src/nodes/BdDblL3SubtractMultiNode.cpp
+    src/nodes/BdDblLAverageNode.cpp
+    src/nodes/BdDblLAverageMultiNode.cpp
+    src/nodes/BdDblL3AverageNode.cpp
+    src/nodes/BdDblL3AverageMultiNode.cpp
+    src/nodes/BdDblLMinNode.cpp
+    src/nodes/BdDblLMinMultiNode.cpp
+    src/nodes/BdDblL3MinNode.cpp
+    src/nodes/BdDblL3MinMultiNode.cpp
+    src/nodes/BdDblLMaxNode.cpp
+    src/nodes/BdDblLMaxMultiNode.cpp
+    src/nodes/BdDblL3MaxNode.cpp
+    src/nodes/BdDblL3MaxMultiNode.cpp
+    src/nodes/BdDblLClampNode.cpp
+    src/nodes/BdDblL3ClampNode.cpp
+    src/nodes/BdDblLAbsNode.cpp
+    src/nodes/BdDblL3AbsNode.cpp
+    src/nodes/BdDblLNegateNode.cpp
+    src/nodes/BdDblL3NegateNode.cpp
+    src/nodes/BdDblLLerpNode.cpp
+    src/nodes/BdDblL3LerpNode.cpp
+    src/nodes/BdDblLMapRangeNode.cpp
+    src/nodes/BdDblL3MapRangeNode.cpp
+    src/nodes/BdDblLWeightedSumMultiNode.cpp
+    src/nodes/BdDblL3WeightedSumMultiNode.cpp
+    src/nodes/BdDblLWeightedAverageMultiNode.cpp
+    src/nodes/BdDblL3WeightedAverageMultiNode.cpp
+    src/nodes/BdDblLMultiplyNode.cpp
+    src/nodes/BdDblLMultiplyMultiNode.cpp
+    src/nodes/BdDblL3MultiplyNode.cpp
+    src/nodes/BdDblL3MultiplyMultiNode.cpp
+    src/nodes/BdDblLDivideNode.cpp
+    src/nodes/BdDblLDivideMultiNode.cpp
+    src/nodes/BdDblL3DivideNode.cpp
+    src/nodes/BdDblL3DivideMultiNode.cpp
+    src/nodes/BdDblRatioDblLNode.cpp
+    src/nodes/BdDbl3RatioDblL3Node.cpp
+    src/nodes/BdDblLRightTriangleNode.cpp
+    src/nodes/BdDblAValueNode.cpp
+    src/nodes/BdDblAAddNode.cpp
+    src/nodes/BdDblAAddMultiNode.cpp
+    src/nodes/BdDblASubtractNode.cpp
+    src/nodes/BdDblASubtractMultiNode.cpp
+    src/nodes/BdDblANegateNode.cpp
+    src/nodes/BdDblAAbsNode.cpp
+    src/nodes/BdDblAMultiplyNode.cpp
+    src/nodes/BdDblAMultiplyMultiNode.cpp
+    src/nodes/BdDblADivideNode.cpp
+    src/nodes/BdDblADivideMultiNode.cpp
+    src/nodes/BdDblAClampNode.cpp
+    src/nodes/BdDblAMapRangeNode.cpp
+    src/nodes/BdDblALerpNode.cpp
+    src/nodes/BdDblAMinNode.cpp
+    src/nodes/BdDblAMinMultiNode.cpp
+    src/nodes/BdDblAMaxNode.cpp
+    src/nodes/BdDblAMaxMultiNode.cpp
+    src/nodes/BdDblAAverageNode.cpp
+    src/nodes/BdDblAAverageMultiNode.cpp
+    src/nodes/BdDblAWeightedSumMultiNode.cpp
+    src/nodes/BdDblAWeightedAverageMultiNode.cpp
+    src/nodes/BdDblAWrapNode.cpp
+    src/nodes/BdDblAShortestDeltaNode.cpp
+    src/nodes/BdDblALerpShortestNode.cpp
+    src/nodes/BdDblRatioDblANode.cpp
+    src/nodes/BdAnyConditionDblANode.cpp
+    src/nodes/BdAnyConditionDblAMultiNode.cpp
+    src/nodes/BdConditionDblAExtraComposeNode.cpp
+    src/nodes/BdConditionDblACaseComposeNode.cpp
+    src/nodes/BdAnyConditionDblLNode.cpp
+    src/nodes/BdAnyConditionDblLMultiNode.cpp
+    src/nodes/BdConditionDblExtraComposeNode.cpp
+    src/nodes/BdConditionDblLExtraComposeNode.cpp
+    src/nodes/BdConditionDblCaseComposeNode.cpp
+    src/nodes/BdConditionDblLCaseComposeNode.cpp
+    src/nodes/BdQuatMultiplyMultiNode.cpp
+    src/nodes/BdQuatChangeBasisNode.cpp
+    src/nodes/BdQuatLimitBendTwistNode.cpp
+    src/nodes/BdQuatDecomposeBendTwistNode.cpp
+    src/nodes/BdQuatComposeBendTwistNode.cpp
+    src/nodes/BdQuatDecomposeTwistNode.cpp
+    src/nodes/BdEulerDecomposeTwistNode.cpp
+    src/nodes/BdEulerDecomposeBendTwistNode.cpp
+    src/nodes/BdEulerComposeBendTwistNode.cpp
+    src/nodes/BdEulerLimitBendTwistNode.cpp
+    src/nodes/BdEulerValueNode.cpp
+    src/nodes/BdQuatValueNode.cpp
+    src/nodes/BdRbfBendTwistFalloffWeightNode.cpp
+    src/nodes/BdRbfMultiBendTwistFalloffWeightNode.cpp
+    src/nodes/BdRbfMultiOrientationFalloffWeightNode.cpp
+    src/nodes/BdRbfMultiOrientationWeightNode.cpp
+    src/nodes/BdRbfMultiPositionFalloffWeightNode.cpp
+    src/nodes/BdRbfMultiPositionWeightNode.cpp
+    src/nodes/BdRbfPoseBlendNode.cpp
+    src/nodes/BdRbfOrientationFalloffWeightNode.cpp
+    src/nodes/BdRbfOrientationWeightNode.cpp
+    src/nodes/BdRbfPositionFalloffWeightNode.cpp
+    src/nodes/BdRbfPositionWeightNode.cpp
+    src/math/BendTwist.cpp
+    src/math/BendTwistFalloff.cpp
+    src/math/PoseBlend.cpp
+    src/math/OrientationFalloff.cpp
+    src/math/PositionFalloff.cpp
+    src/math/RbfInterpolator.cpp
+    src/attributes/BendTwistAttribute.cpp
+    src/attributes/ComparisonAttribute.cpp
+    src/attributes/Double3Attribute.cpp
+    src/attributes/DoubleLinear3Attribute.cpp
+    src/attributes/NumericAttribute.cpp
+    src/attributes/QuaternionAttribute.cpp
+    src/attributes/RotateAttribute.cpp
+    src/attributes/TypedAnyAttribute.cpp
+    src/attributes/UnitAttribute.cpp
+    src/plugin.cpp
+)
+
+target_include_directories(
+    bdUtilNodes
+    PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    "${MAYA_LOCATION}/include"
+)
+
+target_include_directories(
+    bdUtilNodes
+    SYSTEM PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../third_party/eigen-5.0.1"
+)
+
+target_link_libraries(
+    bdUtilNodes
+    PRIVATE
+    "${MAYA_LOCATION}/lib/Foundation.lib"
+    "${MAYA_LOCATION}/lib/OpenMaya.lib"
+)
+
+target_compile_definitions(
+    bdUtilNodes
+    PRIVATE
+    NT_PLUGIN
+    REQUIRE_IOSTREAM
+)
+
+target_compile_features(bdUtilNodes PRIVATE cxx_std_17)
+
+if(MSVC)
+    target_compile_options(
+        bdUtilNodes
+        PRIVATE
+        /EHsc
+        /permissive-
+        /W4
+        /Zc:__cplusplus
+    )
+endif()
+
+set_target_properties(
+    bdUtilNodes
+    PROPERTIES
+    CXX_EXTENSIONS OFF
+    OUTPUT_NAME "bdUtilNodes"
+    PREFIX ""
+    SUFFIX ".mll"
+)

@@ -5,16 +5,16 @@ from ....attr.define.node_attr.ai_shuffle import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ChannelREnumPlugOperator(EnumPlugOperator):
+class ChannelREnumPlugOperator(EnumPlugOperator["ChannelREnumAttrOperator"]):
     __slots__ = ()
 
     R = 0
@@ -23,7 +23,7 @@ class ChannelREnumPlugOperator(EnumPlugOperator):
     A = 3
 
 
-class ChannelREnumAttrOperator(EnumAttrOperator):
+class ChannelREnumAttrOperator(EnumAttrOperator[ChannelREnumPlugOperator]):
     __slots__ = ()
 
     R = 0
@@ -48,7 +48,7 @@ class ChannelREnumField(
     PLUG_CLS = ChannelREnumPlugOperator
 
 
-class ChannelGEnumPlugOperator(EnumPlugOperator):
+class ChannelGEnumPlugOperator(EnumPlugOperator["ChannelGEnumAttrOperator"]):
     __slots__ = ()
 
     R = 0
@@ -57,7 +57,7 @@ class ChannelGEnumPlugOperator(EnumPlugOperator):
     A = 3
 
 
-class ChannelGEnumAttrOperator(EnumAttrOperator):
+class ChannelGEnumAttrOperator(EnumAttrOperator[ChannelGEnumPlugOperator]):
     __slots__ = ()
 
     R = 0
@@ -82,7 +82,7 @@ class ChannelGEnumField(
     PLUG_CLS = ChannelGEnumPlugOperator
 
 
-class ChannelBEnumPlugOperator(EnumPlugOperator):
+class ChannelBEnumPlugOperator(EnumPlugOperator["ChannelBEnumAttrOperator"]):
     __slots__ = ()
 
     R = 0
@@ -91,7 +91,7 @@ class ChannelBEnumPlugOperator(EnumPlugOperator):
     A = 3
 
 
-class ChannelBEnumAttrOperator(EnumAttrOperator):
+class ChannelBEnumAttrOperator(EnumAttrOperator[ChannelBEnumPlugOperator]):
     __slots__ = ()
 
     R = 0
@@ -116,7 +116,7 @@ class ChannelBEnumField(
     PLUG_CLS = ChannelBEnumPlugOperator
 
 
-class ChannelAEnumPlugOperator(EnumPlugOperator):
+class ChannelAEnumPlugOperator(EnumPlugOperator["ChannelAEnumAttrOperator"]):
     __slots__ = ()
 
     R = 0
@@ -125,7 +125,7 @@ class ChannelAEnumPlugOperator(EnumPlugOperator):
     A = 3
 
 
-class ChannelAEnumAttrOperator(EnumAttrOperator):
+class ChannelAEnumAttrOperator(EnumAttrOperator[ChannelAEnumPlugOperator]):
     __slots__ = ()
 
     R = 0
@@ -150,7 +150,7 @@ class ChannelAEnumField(
     PLUG_CLS = ChannelAEnumPlugOperator
 
 
-class _GeneratedAiShuffle(DG):
+class GeneratedAiShuffle(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiShuffle"
@@ -167,7 +167,9 @@ class _GeneratedAiShuffle(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -184,7 +186,9 @@ class _GeneratedAiShuffle(DG):
     colorB = color.colorB
     colorb = colorB
 
-    alpha = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    alpha = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     channelR = ChannelREnumField(default_value=0)
     channel_r = channelR

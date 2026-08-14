@@ -1,16 +1,14 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class ColorAPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAAttrOperator"]
-):
+class ColorAPlugOperator(Float3CompoundBasePlugOperator["ColorAAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorAR", "_car"),
@@ -28,9 +26,7 @@ class ColorAPlugOperator(
     cab = colorAB
 
 
-class ColorAAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorAPlugOperator]
-):
+class ColorAAttrOperator(Float3CompoundBaseAttrOperator[ColorAPlugOperator]):
     __slots__ = ()
 
     colorAR = FloatField(default_value=1.0)
@@ -61,9 +57,7 @@ class ColorAField(
     cab = colorAB
 
 
-class ColorBPlugOperator(
-    Float3CompoundBasePlugOperator["ColorBAttrOperator"]
-):
+class ColorBPlugOperator(Float3CompoundBasePlugOperator["ColorBAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorBR", "_cbr"),
@@ -81,9 +75,7 @@ class ColorBPlugOperator(
     cbb = colorBB
 
 
-class ColorBAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorBPlugOperator]
-):
+class ColorBAttrOperator(Float3CompoundBaseAttrOperator[ColorBPlugOperator]):
     __slots__ = ()
 
     colorBR = FloatField(default_value=0.0)

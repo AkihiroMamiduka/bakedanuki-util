@@ -5,17 +5,17 @@ from ....attr.define.node_attr.ai_random import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class InputTypeEnumPlugOperator(EnumPlugOperator):
+class InputTypeEnumPlugOperator(EnumPlugOperator["InputTypeEnumAttrOperator"]):
     __slots__ = ()
 
     INT = 0
@@ -23,7 +23,7 @@ class InputTypeEnumPlugOperator(EnumPlugOperator):
     COLOR = 2
 
 
-class InputTypeEnumAttrOperator(EnumAttrOperator):
+class InputTypeEnumAttrOperator(EnumAttrOperator[InputTypeEnumPlugOperator]):
     __slots__ = ()
 
     INT = 0
@@ -46,7 +46,7 @@ class InputTypeEnumField(
     PLUG_CLS = InputTypeEnumPlugOperator
 
 
-class _GeneratedAiRandom(DG):
+class GeneratedAiRandom(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiRandom"
@@ -60,7 +60,9 @@ class _GeneratedAiRandom(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -72,10 +74,14 @@ class _GeneratedAiRandom(DG):
     inputType = InputTypeEnumField(default_value=0)
     input_type = inputType
 
-    inputInt = LongField(default_value=0, soft_min_value=-100, soft_max_value=100)
+    inputInt = LongField(
+        default_value=0, soft_min_value=-100, soft_max_value=100
+    )
     input_int = inputInt
 
-    inputFloat = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    inputFloat = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     input_float = inputFloat
 
     inputColor = InputColorField(default_value=(0.0, 0.0, 0.0))

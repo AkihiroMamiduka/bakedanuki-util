@@ -1,27 +1,29 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_helix import AxisField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     CLOCKWISE = 0
     COUNTERCLOCKWISE = 1
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     CLOCKWISE = 0
@@ -42,7 +44,7 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -50,7 +52,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     FACE = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -73,7 +75,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +84,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     NORMALIZE_AND_PRESERVE_ASPECT_RATIO = 3
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -94,7 +96,9 @@ class CreateUVsEnumAttrOperator(EnumAttrOperator):
         NONE: "None",
         NORMALIZATION_OFF: "Normalization Off",
         NORMALIZE: "Normalize",
-        NORMALIZE_AND_PRESERVE_ASPECT_RATIO: "Normalize and Preserve Aspect Ratio",
+        NORMALIZE_AND_PRESERVE_ASPECT_RATIO: (
+            "Normalize and Preserve Aspect Ratio"
+        ),
     }
 
 
@@ -107,7 +111,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyHelix(DG):
+class GeneratedPolyHelix(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyHelix"
@@ -124,7 +128,9 @@ class _GeneratedPolyHelix(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -145,25 +151,37 @@ class _GeneratedPolyHelix(DG):
     coils = DoubleField(default_value=3.0, min_value=0.5, soft_max_value=20.0)
     c = coils
 
-    height = DoubleLinearField(default_value=2.0, min_value=0.01, soft_max_value=100.0)
+    height = DoubleLinearField(
+        default_value=2.0, min_value=0.01, soft_max_value=100.0
+    )
     h = height
 
-    width = DoubleLinearField(default_value=2.0, min_value=0.01, soft_max_value=100.0)
+    width = DoubleLinearField(
+        default_value=2.0, min_value=0.01, soft_max_value=100.0
+    )
     w = width
 
-    radius = DoubleLinearField(default_value=0.4, min_value=0.01, soft_max_value=20.0)
+    radius = DoubleLinearField(
+        default_value=0.4, min_value=0.01, soft_max_value=20.0
+    )
     r = radius
 
     direction = DirectionEnumField(default_value=1)
     d = direction
 
-    subdivisionsAxis = LongField(default_value=8, min_value=3, max_value=1001, soft_max_value=100)
+    subdivisionsAxis = LongField(
+        default_value=8, min_value=3, max_value=1001, soft_max_value=100
+    )
     sa = subdivisionsAxis
 
-    subdivisionsCoil = LongField(default_value=50, min_value=2, max_value=10001, soft_max_value=1000)
+    subdivisionsCoil = LongField(
+        default_value=50, min_value=2, max_value=10001, soft_max_value=1000
+    )
     sco = subdivisionsCoil
 
-    subdivisionsCaps = LongField(default_value=0, min_value=0, max_value=1001, soft_max_value=50)
+    subdivisionsCaps = LongField(
+        default_value=0, min_value=0, max_value=1001, soft_max_value=50
+    )
     sc = subdivisionsCaps
 
     texture = TextureEnumField(default_value=2)

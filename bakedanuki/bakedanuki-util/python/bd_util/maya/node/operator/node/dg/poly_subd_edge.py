@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_subd_edge import _GeneratedPolySubdEdge
+from ._generated.poly_subd_edge import GeneratedPolySubdEdge
 
 
-class PolySubdEdge(_GeneratedPolySubdEdge):
+class PolySubdEdge(GeneratedPolySubdEdge):
     __slots__ = ()
 
     NODE_TYPE = "polySubdEdge"

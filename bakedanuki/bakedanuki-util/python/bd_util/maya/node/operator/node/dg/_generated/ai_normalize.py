@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_normalize import (
 )
 
 
-class _GeneratedAiNormalize(DG):
+class GeneratedAiNormalize(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiNormalize"
@@ -21,7 +21,9 @@ class _GeneratedAiNormalize(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

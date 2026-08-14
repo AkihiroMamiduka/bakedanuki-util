@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_helix import _GeneratedPolyHelix
+from ._generated.poly_helix import GeneratedPolyHelix
 
 
-class PolyHelix(_GeneratedPolyHelix):
+class PolyHelix(GeneratedPolyHelix):
     __slots__ = ()
 
     NODE_TYPE = "polyHelix"

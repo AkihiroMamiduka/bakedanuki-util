@@ -5,7 +5,7 @@ from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiOslShader(DG):
+class GeneratedAiOslShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiOslShader"
@@ -13,7 +13,9 @@ class _GeneratedAiOslShader(DG):
     outValue = MessageField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

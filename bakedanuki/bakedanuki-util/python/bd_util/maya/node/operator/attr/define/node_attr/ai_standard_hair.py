@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class AiTransparencyAttrOperator(
 
 
 class AiTransparencyField(
-    Float3CompoundBaseField[AiTransparencyAttrOperator, AiTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        AiTransparencyAttrOperator, AiTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -309,7 +311,9 @@ class Specular2TintAttrOperator(
 
 
 class Specular2TintField(
-    Float3CompoundBaseField[Specular2TintAttrOperator, Specular2TintPlugOperator]
+    Float3CompoundBaseField[
+        Specular2TintAttrOperator, Specular2TintPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -362,7 +366,9 @@ class TransmissionTintAttrOperator(
 
 
 class TransmissionTintField(
-    Float3CompoundBaseField[TransmissionTintAttrOperator, TransmissionTintPlugOperator]
+    Float3CompoundBaseField[
+        TransmissionTintAttrOperator, TransmissionTintPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -468,7 +474,9 @@ class EmissionColorAttrOperator(
 
 
 class EmissionColorField(
-    Float3CompoundBaseField[EmissionColorAttrOperator, EmissionColorPlugOperator]
+    Float3CompoundBaseField[
+        EmissionColorAttrOperator, EmissionColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -505,9 +513,7 @@ class OpacityPlugOperator(
     opacityb = opacityB
 
 
-class OpacityAttrOperator(
-    Float3CompoundBaseAttrOperator[OpacityPlugOperator]
-):
+class OpacityAttrOperator(Float3CompoundBaseAttrOperator[OpacityPlugOperator]):
     __slots__ = ()
 
     opacityR = FloatField(default_value=1.0)
@@ -538,9 +544,7 @@ class OpacityField(
     opacityb = opacityB
 
 
-class Id1PlugOperator(
-    Float3CompoundBasePlugOperator["Id1AttrOperator"]
-):
+class Id1PlugOperator(Float3CompoundBasePlugOperator["Id1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("id1R", "id1r"),
@@ -558,9 +562,7 @@ class Id1PlugOperator(
     id1b = id1B
 
 
-class Id1AttrOperator(
-    Float3CompoundBaseAttrOperator[Id1PlugOperator]
-):
+class Id1AttrOperator(Float3CompoundBaseAttrOperator[Id1PlugOperator]):
     __slots__ = ()
 
     id1R = FloatField(default_value=0.0)
@@ -573,9 +575,7 @@ class Id1AttrOperator(
     id1b = id1B
 
 
-class Id1Field(
-    Float3CompoundBaseField[Id1AttrOperator, Id1PlugOperator]
-):
+class Id1Field(Float3CompoundBaseField[Id1AttrOperator, Id1PlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Id1AttrOperator
@@ -591,9 +591,7 @@ class Id1Field(
     id1b = id1B
 
 
-class Id2PlugOperator(
-    Float3CompoundBasePlugOperator["Id2AttrOperator"]
-):
+class Id2PlugOperator(Float3CompoundBasePlugOperator["Id2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("id2R", "id2r"),
@@ -611,9 +609,7 @@ class Id2PlugOperator(
     id2b = id2B
 
 
-class Id2AttrOperator(
-    Float3CompoundBaseAttrOperator[Id2PlugOperator]
-):
+class Id2AttrOperator(Float3CompoundBaseAttrOperator[Id2PlugOperator]):
     __slots__ = ()
 
     id2R = FloatField(default_value=0.0)
@@ -626,9 +622,7 @@ class Id2AttrOperator(
     id2b = id2B
 
 
-class Id2Field(
-    Float3CompoundBaseField[Id2AttrOperator, Id2PlugOperator]
-):
+class Id2Field(Float3CompoundBaseField[Id2AttrOperator, Id2PlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Id2AttrOperator
@@ -644,9 +638,7 @@ class Id2Field(
     id2b = id2B
 
 
-class Id3PlugOperator(
-    Float3CompoundBasePlugOperator["Id3AttrOperator"]
-):
+class Id3PlugOperator(Float3CompoundBasePlugOperator["Id3AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("id3R", "id3r"),
@@ -664,9 +656,7 @@ class Id3PlugOperator(
     id3b = id3B
 
 
-class Id3AttrOperator(
-    Float3CompoundBaseAttrOperator[Id3PlugOperator]
-):
+class Id3AttrOperator(Float3CompoundBaseAttrOperator[Id3PlugOperator]):
     __slots__ = ()
 
     id3R = FloatField(default_value=0.0)
@@ -679,9 +669,7 @@ class Id3AttrOperator(
     id3b = id3B
 
 
-class Id3Field(
-    Float3CompoundBaseField[Id3AttrOperator, Id3PlugOperator]
-):
+class Id3Field(Float3CompoundBaseField[Id3AttrOperator, Id3PlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Id3AttrOperator
@@ -697,9 +685,7 @@ class Id3Field(
     id3b = id3B
 
 
-class Id4PlugOperator(
-    Float3CompoundBasePlugOperator["Id4AttrOperator"]
-):
+class Id4PlugOperator(Float3CompoundBasePlugOperator["Id4AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("id4R", "id4r"),
@@ -717,9 +703,7 @@ class Id4PlugOperator(
     id4b = id4B
 
 
-class Id4AttrOperator(
-    Float3CompoundBaseAttrOperator[Id4PlugOperator]
-):
+class Id4AttrOperator(Float3CompoundBaseAttrOperator[Id4PlugOperator]):
     __slots__ = ()
 
     id4R = FloatField(default_value=0.0)
@@ -732,9 +716,7 @@ class Id4AttrOperator(
     id4b = id4B
 
 
-class Id4Field(
-    Float3CompoundBaseField[Id4AttrOperator, Id4PlugOperator]
-):
+class Id4Field(Float3CompoundBaseField[Id4AttrOperator, Id4PlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Id4AttrOperator
@@ -750,9 +732,7 @@ class Id4Field(
     id4b = id4B
 
 
-class Id5PlugOperator(
-    Float3CompoundBasePlugOperator["Id5AttrOperator"]
-):
+class Id5PlugOperator(Float3CompoundBasePlugOperator["Id5AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("id5R", "id5r"),
@@ -770,9 +750,7 @@ class Id5PlugOperator(
     id5b = id5B
 
 
-class Id5AttrOperator(
-    Float3CompoundBaseAttrOperator[Id5PlugOperator]
-):
+class Id5AttrOperator(Float3CompoundBaseAttrOperator[Id5PlugOperator]):
     __slots__ = ()
 
     id5R = FloatField(default_value=0.0)
@@ -785,9 +763,7 @@ class Id5AttrOperator(
     id5b = id5B
 
 
-class Id5Field(
-    Float3CompoundBaseField[Id5AttrOperator, Id5PlugOperator]
-):
+class Id5Field(Float3CompoundBaseField[Id5AttrOperator, Id5PlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Id5AttrOperator
@@ -803,9 +779,7 @@ class Id5Field(
     id5b = id5B
 
 
-class Id6PlugOperator(
-    Float3CompoundBasePlugOperator["Id6AttrOperator"]
-):
+class Id6PlugOperator(Float3CompoundBasePlugOperator["Id6AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("id6R", "id6r"),
@@ -823,9 +797,7 @@ class Id6PlugOperator(
     id6b = id6B
 
 
-class Id6AttrOperator(
-    Float3CompoundBaseAttrOperator[Id6PlugOperator]
-):
+class Id6AttrOperator(Float3CompoundBaseAttrOperator[Id6PlugOperator]):
     __slots__ = ()
 
     id6R = FloatField(default_value=0.0)
@@ -838,9 +810,7 @@ class Id6AttrOperator(
     id6b = id6B
 
 
-class Id6Field(
-    Float3CompoundBaseField[Id6AttrOperator, Id6PlugOperator]
-):
+class Id6Field(Float3CompoundBaseField[Id6AttrOperator, Id6PlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Id6AttrOperator
@@ -856,9 +826,7 @@ class Id6Field(
     id6b = id6B
 
 
-class Id7PlugOperator(
-    Float3CompoundBasePlugOperator["Id7AttrOperator"]
-):
+class Id7PlugOperator(Float3CompoundBasePlugOperator["Id7AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("id7R", "id7r"),
@@ -876,9 +844,7 @@ class Id7PlugOperator(
     id7b = id7B
 
 
-class Id7AttrOperator(
-    Float3CompoundBaseAttrOperator[Id7PlugOperator]
-):
+class Id7AttrOperator(Float3CompoundBaseAttrOperator[Id7PlugOperator]):
     __slots__ = ()
 
     id7R = FloatField(default_value=0.0)
@@ -891,9 +857,7 @@ class Id7AttrOperator(
     id7b = id7B
 
 
-class Id7Field(
-    Float3CompoundBaseField[Id7AttrOperator, Id7PlugOperator]
-):
+class Id7Field(Float3CompoundBaseField[Id7AttrOperator, Id7PlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Id7AttrOperator
@@ -909,9 +873,7 @@ class Id7Field(
     id7b = id7B
 
 
-class Id8PlugOperator(
-    Float3CompoundBasePlugOperator["Id8AttrOperator"]
-):
+class Id8PlugOperator(Float3CompoundBasePlugOperator["Id8AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("id8R", "id8r"),
@@ -929,9 +891,7 @@ class Id8PlugOperator(
     id8b = id8B
 
 
-class Id8AttrOperator(
-    Float3CompoundBaseAttrOperator[Id8PlugOperator]
-):
+class Id8AttrOperator(Float3CompoundBaseAttrOperator[Id8PlugOperator]):
     __slots__ = ()
 
     id8R = FloatField(default_value=0.0)
@@ -944,9 +904,7 @@ class Id8AttrOperator(
     id8b = id8B
 
 
-class Id8Field(
-    Float3CompoundBaseField[Id8AttrOperator, Id8PlugOperator]
-):
+class Id8Field(Float3CompoundBaseField[Id8AttrOperator, Id8PlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Id8AttrOperator

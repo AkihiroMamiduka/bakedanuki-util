@@ -8,7 +8,9 @@ from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 from ..operator.node.dag._core import DAG
 from ..operator.node.dag.transform._core import Transform
 from ..operator.node.dag.transform.joint import Joint
-from ..operator.node.dg.about_to_set_value_test_node import AboutToSetValueTestNode
+from ..operator.node.dg.about_to_set_value_test_node import (
+    AboutToSetValueTestNode,
+)
 from ..operator.node.dg.abs_override import AbsOverride
 from ..operator.node.dg.abs_unique_override import AbsUniqueOverride
 from ..operator.node.dg.absolute import Absolute
@@ -16,7 +18,9 @@ from ..operator.node.dg.acos import Acos
 from ..operator.node.dg.add_double_linear import AddDoubleLinear
 from ..operator.node.dg.add_matrix import AddMatrix
 from ..operator.node.dg.adsk_material import AdskMaterial
-from ..operator.node.dg.adsk_prepare_render_globals import AdskPrepareRenderGlobals
+from ..operator.node.dg.adsk_prepare_render_globals import (
+    AdskPrepareRenderGlobals,
+)
 from ..operator.node.dg.ai_abs import AiAbs
 from ..operator.node.dg.ai_add import AiAdd
 from ..operator.node.dg.ai_ambient_occlusion import AiAmbientOcclusion
@@ -176,15 +180,33 @@ from ..operator.node.dg.angle_between import AngleBetween
 from ..operator.node.dg.anim_blend import AnimBlend
 from ..operator.node.dg.anim_blend_in_out import AnimBlendInOut
 from ..operator.node.dg.anim_blend_node_additive import AnimBlendNodeAdditive
-from ..operator.node.dg.anim_blend_node_additive_da import AnimBlendNodeAdditiveDA
-from ..operator.node.dg.anim_blend_node_additive_dl import AnimBlendNodeAdditiveDL
-from ..operator.node.dg.anim_blend_node_additive_f import AnimBlendNodeAdditiveF
-from ..operator.node.dg.anim_blend_node_additive_fa import AnimBlendNodeAdditiveFA
-from ..operator.node.dg.anim_blend_node_additive_fl import AnimBlendNodeAdditiveFL
-from ..operator.node.dg.anim_blend_node_additive_i16 import AnimBlendNodeAdditiveI16
-from ..operator.node.dg.anim_blend_node_additive_i32 import AnimBlendNodeAdditiveI32
-from ..operator.node.dg.anim_blend_node_additive_rotation import AnimBlendNodeAdditiveRotation
-from ..operator.node.dg.anim_blend_node_additive_scale import AnimBlendNodeAdditiveScale
+from ..operator.node.dg.anim_blend_node_additive_da import (
+    AnimBlendNodeAdditiveDA,
+)
+from ..operator.node.dg.anim_blend_node_additive_dl import (
+    AnimBlendNodeAdditiveDL,
+)
+from ..operator.node.dg.anim_blend_node_additive_f import (
+    AnimBlendNodeAdditiveF,
+)
+from ..operator.node.dg.anim_blend_node_additive_fa import (
+    AnimBlendNodeAdditiveFA,
+)
+from ..operator.node.dg.anim_blend_node_additive_fl import (
+    AnimBlendNodeAdditiveFL,
+)
+from ..operator.node.dg.anim_blend_node_additive_i16 import (
+    AnimBlendNodeAdditiveI16,
+)
+from ..operator.node.dg.anim_blend_node_additive_i32 import (
+    AnimBlendNodeAdditiveI32,
+)
+from ..operator.node.dg.anim_blend_node_additive_rotation import (
+    AnimBlendNodeAdditiveRotation,
+)
+from ..operator.node.dg.anim_blend_node_additive_scale import (
+    AnimBlendNodeAdditiveScale,
+)
 from ..operator.node.dg.anim_blend_node_boolean import AnimBlendNodeBoolean
 from ..operator.node.dg.anim_blend_node_enum import AnimBlendNodeEnum
 from ..operator.node.dg.anim_blend_node_time import AnimBlendNodeTime
@@ -201,18 +223,28 @@ from ..operator.node.dg.anim_layer import AnimLayer
 from ..operator.node.dg.anisotropic import Anisotropic
 from ..operator.node.dg.aov_child_collection import AovChildCollection
 from ..operator.node.dg.aov_collection import AovCollection
-from ..operator.node.dg.apply_abs2_floats_override import ApplyAbs2FloatsOverride
-from ..operator.node.dg.apply_abs3_floats_override import ApplyAbs3FloatsOverride
+from ..operator.node.dg.apply_abs2_floats_override import (
+    ApplyAbs2FloatsOverride,
+)
+from ..operator.node.dg.apply_abs3_floats_override import (
+    ApplyAbs3FloatsOverride,
+)
 from ..operator.node.dg.apply_abs_bool_override import ApplyAbsBoolOverride
 from ..operator.node.dg.apply_abs_enum_override import ApplyAbsEnumOverride
 from ..operator.node.dg.apply_abs_float_override import ApplyAbsFloatOverride
 from ..operator.node.dg.apply_abs_int_override import ApplyAbsIntOverride
 from ..operator.node.dg.apply_abs_override import ApplyAbsOverride
 from ..operator.node.dg.apply_abs_string_override import ApplyAbsStringOverride
-from ..operator.node.dg.apply_connection_override import ApplyConnectionOverride
+from ..operator.node.dg.apply_connection_override import (
+    ApplyConnectionOverride,
+)
 from ..operator.node.dg.apply_override import ApplyOverride
-from ..operator.node.dg.apply_rel2_floats_override import ApplyRel2FloatsOverride
-from ..operator.node.dg.apply_rel3_floats_override import ApplyRel3FloatsOverride
+from ..operator.node.dg.apply_rel2_floats_override import (
+    ApplyRel2FloatsOverride,
+)
+from ..operator.node.dg.apply_rel3_floats_override import (
+    ApplyRel3FloatsOverride,
+)
 from ..operator.node.dg.apply_rel_float_override import ApplyRelFloatOverride
 from ..operator.node.dg.apply_rel_int_override import ApplyRelIntOverride
 from ..operator.node.dg.apply_rel_override import ApplyRelOverride
@@ -233,6 +265,169 @@ from ..operator.node.dg.avg_surface_points import AvgSurfacePoints
 from ..operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from ..operator.node.dg.axis_from_matrix import AxisFromMatrix
 from ..operator.node.dg.basic_selector import BasicSelector
+from ..operator.node.dg.bd_any_condition_dbl import BdAnyConditionDbl
+from ..operator.node.dg.bd_any_condition_dbl_a import BdAnyConditionDblA
+from ..operator.node.dg.bd_any_condition_dbl_a_multi import (
+    BdAnyConditionDblAMulti,
+)
+from ..operator.node.dg.bd_any_condition_dbl_l import BdAnyConditionDblL
+from ..operator.node.dg.bd_any_condition_dbl_l_multi import (
+    BdAnyConditionDblLMulti,
+)
+from ..operator.node.dg.bd_any_condition_dbl_multi import (
+    BdAnyConditionDblMulti,
+)
+from ..operator.node.dg.bd_condition_dbl_case_compose import (
+    BdConditionDblCaseCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_a_case_compose import (
+    BdConditionDblACaseCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_a_extra_compose import (
+    BdConditionDblAExtraCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_extra_compose import (
+    BdConditionDblExtraCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_l_case_compose import (
+    BdConditionDblLCaseCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_l_extra_compose import (
+    BdConditionDblLExtraCompose,
+)
+from ..operator.node.dg.bd_dbl3_abs import BdDbl3Abs
+from ..operator.node.dg.bd_dbl3_add import BdDbl3Add
+from ..operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
+from ..operator.node.dg.bd_dbl3_average import BdDbl3Average
+from ..operator.node.dg.bd_dbl3_average_multi import BdDbl3AverageMulti
+from ..operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
+from ..operator.node.dg.bd_dbl3_divide import BdDbl3Divide
+from ..operator.node.dg.bd_dbl3_divide_multi import BdDbl3DivideMulti
+from ..operator.node.dg.bd_dbl3_value import BdDbl3Value
+from ..operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
+from ..operator.node.dg.bd_dbl3_map_range import BdDbl3MapRange
+from ..operator.node.dg.bd_dbl3_max import BdDbl3Max
+from ..operator.node.dg.bd_dbl3_max_multi import BdDbl3MaxMulti
+from ..operator.node.dg.bd_dbl3_min import BdDbl3Min
+from ..operator.node.dg.bd_dbl3_min_multi import BdDbl3MinMulti
+from ..operator.node.dg.bd_dbl3_negate import BdDbl3Negate
+from ..operator.node.dg.bd_dbl3_multiply import BdDbl3Multiply
+from ..operator.node.dg.bd_dbl3_multiply_multi import BdDbl3MultiplyMulti
+from ..operator.node.dg.bd_dbl3_power import BdDbl3Power
+from ..operator.node.dg.bd_dbl3_power_multi import BdDbl3PowerMulti
+from ..operator.node.dg.bd_dbl3_ratio_dbl_l3 import BdDbl3RatioDblL3
+from ..operator.node.dg.bd_dbl3_subtract import BdDbl3Subtract
+from ..operator.node.dg.bd_dbl3_subtract_multi import BdDbl3SubtractMulti
+from ..operator.node.dg.bd_dbl3_weighted_average_multi import (
+    BdDbl3WeightedAverageMulti,
+)
+from ..operator.node.dg.bd_dbl3_weighted_sum_multi import (
+    BdDbl3WeightedSumMulti,
+)
+from ..operator.node.dg.bd_dbl_a_abs import BdDblAAbs
+from ..operator.node.dg.bd_dbl_a_add import BdDblAAdd
+from ..operator.node.dg.bd_dbl_a_add_multi import BdDblAAddMulti
+from ..operator.node.dg.bd_dbl_a_average import BdDblAAverage
+from ..operator.node.dg.bd_dbl_a_average_multi import BdDblAAverageMulti
+from ..operator.node.dg.bd_dbl_a_clamp import BdDblAClamp
+from ..operator.node.dg.bd_dbl_a_divide import BdDblADivide
+from ..operator.node.dg.bd_dbl_a_divide_multi import BdDblADivideMulti
+from ..operator.node.dg.bd_dbl_a_lerp import BdDblALerp
+from ..operator.node.dg.bd_dbl_a_lerp_shortest import BdDblALerpShortest
+from ..operator.node.dg.bd_dbl_a_map_range import BdDblAMapRange
+from ..operator.node.dg.bd_dbl_a_max import BdDblAMax
+from ..operator.node.dg.bd_dbl_a_max_multi import BdDblAMaxMulti
+from ..operator.node.dg.bd_dbl_a_min import BdDblAMin
+from ..operator.node.dg.bd_dbl_a_min_multi import BdDblAMinMulti
+from ..operator.node.dg.bd_dbl_a_multiply import BdDblAMultiply
+from ..operator.node.dg.bd_dbl_a_multiply_multi import BdDblAMultiplyMulti
+from ..operator.node.dg.bd_dbl_a_negate import BdDblANegate
+from ..operator.node.dg.bd_dbl_a_shortest_delta import BdDblAShortestDelta
+from ..operator.node.dg.bd_dbl_a_subtract import BdDblASubtract
+from ..operator.node.dg.bd_dbl_a_subtract_multi import BdDblASubtractMulti
+from ..operator.node.dg.bd_dbl_a_value import BdDblAValue
+from ..operator.node.dg.bd_dbl_a_weighted_average_multi import (
+    BdDblAWeightedAverageMulti,
+)
+from ..operator.node.dg.bd_dbl_a_weighted_sum_multi import (
+    BdDblAWeightedSumMulti,
+)
+from ..operator.node.dg.bd_dbl_a_wrap import BdDblAWrap
+from ..operator.node.dg.bd_dbl_abs import BdDblAbs
+from ..operator.node.dg.bd_dbl_add import BdDblAdd
+from ..operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
+from ..operator.node.dg.bd_dbl_average import BdDblAverage
+from ..operator.node.dg.bd_dbl_average_multi import BdDblAverageMulti
+from ..operator.node.dg.bd_dbl_clamp import BdDblClamp
+from ..operator.node.dg.bd_dbl_divide import BdDblDivide
+from ..operator.node.dg.bd_dbl_divide_multi import BdDblDivideMulti
+from ..operator.node.dg.bd_dbl_value import BdDblValue
+from ..operator.node.dg.bd_dbl_lerp import BdDblLerp
+from ..operator.node.dg.bd_dbl_map_range import BdDblMapRange
+from ..operator.node.dg.bd_dbl_max import BdDblMax
+from ..operator.node.dg.bd_dbl_max_multi import BdDblMaxMulti
+from ..operator.node.dg.bd_dbl_min import BdDblMin
+from ..operator.node.dg.bd_dbl_min_multi import BdDblMinMulti
+from ..operator.node.dg.bd_dbl_negate import BdDblNegate
+from ..operator.node.dg.bd_dbl_multiply import BdDblMultiply
+from ..operator.node.dg.bd_dbl_multiply_multi import BdDblMultiplyMulti
+from ..operator.node.dg.bd_dbl_power import BdDblPower
+from ..operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
+from ..operator.node.dg.bd_dbl_ratio_dbl_l import BdDblRatioDblL
+from ..operator.node.dg.bd_dbl_ratio_dbl_a import BdDblRatioDblA
+from ..operator.node.dg.bd_dbl_subtract import BdDblSubtract
+from ..operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
+from ..operator.node.dg.bd_dbl_weighted_average_multi import (
+    BdDblWeightedAverageMulti,
+)
+from ..operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
+from ..operator.node.dg.bd_euler_compose_bend_twist import (
+    BdEulerComposeBendTwist,
+)
+from ..operator.node.dg.bd_euler_decompose_bend_twist import (
+    BdEulerDecomposeBendTwist,
+)
+from ..operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
+from ..operator.node.dg.bd_euler_limit_bend_twist import BdEulerLimitBendTwist
+from ..operator.node.dg.bd_euler_value import BdEulerValue
+from ..operator.node.dg.bd_quat_change_basis import BdQuatChangeBasis
+from ..operator.node.dg.bd_quat_compose_bend_twist import (
+    BdQuatComposeBendTwist,
+)
+from ..operator.node.dg.bd_quat_decompose_bend_twist import (
+    BdQuatDecomposeBendTwist,
+)
+from ..operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
+from ..operator.node.dg.bd_quat_limit_bend_twist import BdQuatLimitBendTwist
+from ..operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
+from ..operator.node.dg.bd_quat_value import BdQuatValue
+from ..operator.node.dg.bd_rbf_bend_twist_falloff_weight import (
+    BdRbfBendTwistFalloffWeight,
+)
+from ..operator.node.dg.bd_rbf_multi_bend_twist_falloff_weight import (
+    BdRbfMultiBendTwistFalloffWeight,
+)
+from ..operator.node.dg.bd_rbf_multi_orientation_falloff_weight import (
+    BdRbfMultiOrientationFalloffWeight,
+)
+from ..operator.node.dg.bd_rbf_multi_orientation_weight import (
+    BdRbfMultiOrientationWeight,
+)
+from ..operator.node.dg.bd_rbf_multi_position_falloff_weight import (
+    BdRbfMultiPositionFalloffWeight,
+)
+from ..operator.node.dg.bd_rbf_multi_position_weight import (
+    BdRbfMultiPositionWeight,
+)
+from ..operator.node.dg.bd_rbf_pose_blend import BdRbfPoseBlend
+from ..operator.node.dg.bd_rbf_orientation_falloff_weight import (
+    BdRbfOrientationFalloffWeight,
+)
+from ..operator.node.dg.bd_rbf_orientation_weight import BdRbfOrientationWeight
+from ..operator.node.dg.bd_rbf_position_falloff_weight import (
+    BdRbfPositionFalloffWeight,
+)
+from ..operator.node.dg.bd_rbf_position_weight import BdRbfPositionWeight
 from ..operator.node.dg.bevel import Bevel
 from ..operator.node.dg.bevel_plus import BevelPlus
 from ..operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -310,7 +505,9 @@ from ..operator.node.dg.compute_global import ComputeGlobal
 from ..operator.node.dg.compute_local import ComputeLocal
 from ..operator.node.dg.condition import Condition
 from ..operator.node.dg.connection_override import ConnectionOverride
-from ..operator.node.dg.connection_unique_override import ConnectionUniqueOverride
+from ..operator.node.dg.connection_unique_override import (
+    ConnectionUniqueOverride,
+)
 from ..operator.node.dg.container import Container
 from ..operator.node.dg.container_base import ContainerBase
 from ..operator.node.dg.contrast import Contrast
@@ -338,13 +535,19 @@ from ..operator.node.dg.curve_intersect import CurveIntersect
 from ..operator.node.dg.curve_normalizer_angle import CurveNormalizerAngle
 from ..operator.node.dg.curve_normalizer_linear import CurveNormalizerLinear
 from ..operator.node.dg.curve_warp import CurveWarp
-from ..operator.node.dg.custom_rig_default_mapping_node import CustomRigDefaultMappingNode
-from ..operator.node.dg.custom_rig_retargeter_node import CustomRigRetargeterNode
+from ..operator.node.dg.custom_rig_default_mapping_node import (
+    CustomRigDefaultMappingNode,
+)
+from ..operator.node.dg.custom_rig_retargeter_node import (
+    CustomRigRetargeterNode,
+)
 from ..operator.node.dg.dag_pose import DagPose
 from ..operator.node.dg.data_block_test import DataBlockTest
 from ..operator.node.dg.decompose_matrix import DecomposeMatrix
 from ..operator.node.dg.default_light_list import DefaultLightList
-from ..operator.node.dg.default_render_utility_list import DefaultRenderUtilityList
+from ..operator.node.dg.default_render_utility_list import (
+    DefaultRenderUtilityList,
+)
 from ..operator.node.dg.default_rendering_list import DefaultRenderingList
 from ..operator.node.dg.default_shader_list import DefaultShaderList
 from ..operator.node.dg.default_texture_list import DefaultTextureList
@@ -423,20 +626,28 @@ from ..operator.node.dg.hair_physical_shader import HairPhysicalShader
 from ..operator.node.dg.hair_tube_shader import HairTubeShader
 from ..operator.node.dg.harden_point import HardenPoint
 from ..operator.node.dg.hardware_render_globals import HardwareRenderGlobals
-from ..operator.node.dg.hardware_rendering_globals import HardwareRenderingGlobals
+from ..operator.node.dg.hardware_rendering_globals import (
+    HardwareRenderingGlobals,
+)
 from ..operator.node.dg.hierarchy_test_node1 import HierarchyTestNode1
 from ..operator.node.dg.hierarchy_test_node2 import HierarchyTestNode2
 from ..operator.node.dg.hierarchy_test_node3 import HierarchyTestNode3
 from ..operator.node.dg.hierarchy_test_node4 import HierarchyTestNode4
 from ..operator.node.dg.hik_character_node import HIKCharacterNode
-from ..operator.node.dg.hik_character_state_client import HIKCharacterStateClient
+from ..operator.node.dg.hik_character_state_client import (
+    HIKCharacterStateClient,
+)
 from ..operator.node.dg.hik_control_set_node import HIKControlSetNode
 from ..operator.node.dg.hik_effector2_state import HIKEffector2State
-from ..operator.node.dg.hik_effector_from_character import HIKEffectorFromCharacter
+from ..operator.node.dg.hik_effector_from_character import (
+    HIKEffectorFromCharacter,
+)
 from ..operator.node.dg.hik_pinning2_state import HIKPinning2State
 from ..operator.node.dg.hik_property2_state import HIKProperty2State
 from ..operator.node.dg.hik_retargeter_node import HIKRetargeterNode
-from ..operator.node.dg.hik_skeleton_generator_node import HIKSkeletonGeneratorNode
+from ..operator.node.dg.hik_skeleton_generator_node import (
+    HIKSkeletonGeneratorNode,
+)
 from ..operator.node.dg.hik_solver import HikSolver
 from ..operator.node.dg.hik_solver_node import HIKSolverNode
 from ..operator.node.dg.hik_state2_effector import HIKState2Effector
@@ -489,7 +700,9 @@ from ..operator.node.dg.light_linker import LightLinker
 from ..operator.node.dg.light_list import LightList
 from ..operator.node.dg.lights_child_collection import LightsChildCollection
 from ..operator.node.dg.lights_collection import LightsCollection
-from ..operator.node.dg.lights_collection_selector import LightsCollectionSelector
+from ..operator.node.dg.lights_collection_selector import (
+    LightsCollectionSelector,
+)
 from ..operator.node.dg.list_item import ListItem
 from ..operator.node.dg.lod_thresholds import LodThresholds
 from ..operator.node.dg.loft import Loft
@@ -506,69 +719,81 @@ from ..operator.node.dg.make_nurb_sphere import MakeNurbSphere
 from ..operator.node.dg.make_nurb_torus import MakeNurbTorus
 from ..operator.node.dg.make_nurbs_square import MakeNurbsSquare
 from ..operator.node.dg.make_text_curves import MakeTextCurves
-from ..operator.node.dg.make_three_point_circular_arc import MakeThreePointCircularArc
-from ..operator.node.dg.make_two_point_circular_arc import MakeTwoPointCircularArc
+from ..operator.node.dg.make_three_point_circular_arc import (
+    MakeThreePointCircularArc,
+)
+from ..operator.node.dg.make_two_point_circular_arc import (
+    MakeTwoPointCircularArc,
+)
 from ..operator.node.dg.mandelbrot import Mandelbrot
 from ..operator.node.dg.mandelbrot3_d import Mandelbrot3D
 from ..operator.node.dg.marble import Marble
-from ..operator.node.dg.mash_audio import MASH_Audio
-from ..operator.node.dg.mash_base_node import MASH_BaseNode
-from ..operator.node.dg.mash_blend import MASH_Blend
-from ..operator.node.dg.mash_blend_deformer import MASH_BlendDeformer
-from ..operator.node.dg.mash_breakout import MASH_Breakout
-from ..operator.node.dg.mash_channel_random import MASH_ChannelRandom
-from ..operator.node.dg.mash_color import MASH_Color
-from ..operator.node.dg.mash_constraint import MASH_Constraint
-from ..operator.node.dg.mash_curve import MASH_Curve
-from ..operator.node.dg.mash_deformer import MASH_Deformer
-from ..operator.node.dg.mash_delay import MASH_Delay
-from ..operator.node.dg.mash_distribute import MASH_Distribute
-from ..operator.node.dg.mash_dynamics import MASH_Dynamics
-from ..operator.node.dg.mash_dynamics_initial_state import MASH_DynamicsInitialState
-from ..operator.node.dg.mash_explode import MASH_Explode
-from ..operator.node.dg.mash_id import MASH_Id
-from ..operator.node.dg.mash_influence import MASH_Influence
-from ..operator.node.dg.mash_inherit import MASH_Inherit
-from ..operator.node.dg.mash_initial_state import MASH_InitialState
-from ..operator.node.dg.mash_jiggle import MASH_Jiggle
-from ..operator.node.dg.mash_legacy import MASH_Legacy
-from ..operator.node.dg.mash_maths import MASH_Maths
-from ..operator.node.dg.mash_multi_curve import MASH_MultiCurve
-from ..operator.node.dg.mash_mute import MASH_Mute
-from ..operator.node.dg.mash_noise import MASH_Noise
-from ..operator.node.dg.mash_offset import MASH_Offset
-from ..operator.node.dg.mash_orient import MASH_Orient
-from ..operator.node.dg.mash_pfx_connect import MASH_PfxConnect
-from ..operator.node.dg.mash_placer import MASH_Placer
-from ..operator.node.dg.mash_point_to_curve import MASH_PointToCurve
-from ..operator.node.dg.mash_python import MASH_Python
-from ..operator.node.dg.mash_random import MASH_Random
-from ..operator.node.dg.mash_replicator import MASH_Replicator
-from ..operator.node.dg.mash_repro import MASH_Repro
-from ..operator.node.dg.mash_shell_deformer import MASH_ShellDeformer
-from ..operator.node.dg.mash_signal import MASH_Signal
-from ..operator.node.dg.mash_spring import MASH_Spring
-from ..operator.node.dg.mash_strength import MASH_Strength
-from ..operator.node.dg.mash_symmetry import MASH_Symmetry
-from ..operator.node.dg.mash_time import MASH_Time
-from ..operator.node.dg.mash_trails import MASH_Trails
-from ..operator.node.dg.mash_transform import MASH_Transform
-from ..operator.node.dg.mash_trig import MASH_Trig
-from ..operator.node.dg.mash_visibility import MASH_Visibility
-from ..operator.node.dg.mash_waiter import MASH_Waiter
-from ..operator.node.dg.mash_world import MASH_World
+from ..operator.node.dg.mash_audio import MASHAudio
+from ..operator.node.dg.mash_base_node import MASHBaseNode
+from ..operator.node.dg.mash_blend import MASHBlend
+from ..operator.node.dg.mash_blend_deformer import MASHBlendDeformer
+from ..operator.node.dg.mash_breakout import MASHBreakout
+from ..operator.node.dg.mash_channel_random import MASHChannelRandom
+from ..operator.node.dg.mash_color import MASHColor
+from ..operator.node.dg.mash_constraint import MASHConstraint
+from ..operator.node.dg.mash_curve import MASHCurve
+from ..operator.node.dg.mash_deformer import MASHDeformer
+from ..operator.node.dg.mash_delay import MASHDelay
+from ..operator.node.dg.mash_distribute import MASHDistribute
+from ..operator.node.dg.mash_dynamics import MASHDynamics
+from ..operator.node.dg.mash_dynamics_initial_state import (
+    MASHDynamicsInitialState,
+)
+from ..operator.node.dg.mash_explode import MASHExplode
+from ..operator.node.dg.mash_id import MASHId
+from ..operator.node.dg.mash_influence import MASHInfluence
+from ..operator.node.dg.mash_inherit import MASHInherit
+from ..operator.node.dg.mash_initial_state import MASHInitialState
+from ..operator.node.dg.mash_jiggle import MASHJiggle
+from ..operator.node.dg.mash_legacy import MASHLegacy
+from ..operator.node.dg.mash_maths import MASHMaths
+from ..operator.node.dg.mash_multi_curve import MASHMultiCurve
+from ..operator.node.dg.mash_mute import MASHMute
+from ..operator.node.dg.mash_noise import MASHNoise
+from ..operator.node.dg.mash_offset import MASHOffset
+from ..operator.node.dg.mash_orient import MASHOrient
+from ..operator.node.dg.mash_pfx_connect import MASHPfxConnect
+from ..operator.node.dg.mash_placer import MASHPlacer
+from ..operator.node.dg.mash_point_to_curve import MASHPointToCurve
+from ..operator.node.dg.mash_python import MASHPython
+from ..operator.node.dg.mash_random import MASHRandom
+from ..operator.node.dg.mash_replicator import MASHReplicator
+from ..operator.node.dg.mash_repro import MASHRepro
+from ..operator.node.dg.mash_shell_deformer import MASHShellDeformer
+from ..operator.node.dg.mash_signal import MASHSignal
+from ..operator.node.dg.mash_spring import MASHSpring
+from ..operator.node.dg.mash_strength import MASHStrength
+from ..operator.node.dg.mash_symmetry import MASHSymmetry
+from ..operator.node.dg.mash_time import MASHTime
+from ..operator.node.dg.mash_trails import MASHTrails
+from ..operator.node.dg.mash_transform import MASHTransform
+from ..operator.node.dg.mash_trig import MASHTrig
+from ..operator.node.dg.mash_visibility import MASHVisibility
+from ..operator.node.dg.mash_waiter import MASHWaiter
+from ..operator.node.dg.mash_world import MASHWorld
 from ..operator.node.dg.material_facade import MaterialFacade
 from ..operator.node.dg.material_info import MaterialInfo
 from ..operator.node.dg.material_override import MaterialOverride
 from ..operator.node.dg.material_template import MaterialTemplate
-from ..operator.node.dg.material_template_override import MaterialTemplateOverride
+from ..operator.node.dg.material_template_override import (
+    MaterialTemplateOverride,
+)
 from ..operator.node.dg.material_x_material import MaterialXMaterial
 from ..operator.node.dg.material_x_surface_shader import MaterialXSurfaceShader
 from ..operator.node.dg.max import Max
 from ..operator.node.dg.maya_usd_geom_node import MayaUsdGeomNode
 from ..operator.node.dg.maya_usd_layer_manager import MayaUsdLayerManager
-from ..operator.node.dg.maya_usd_proxy_shape_listener import MayaUsdProxyShapeListener
-from ..operator.node.dg.maya_usd_proxy_shape_listener_base import MayaUsdProxyShapeListenerBase
+from ..operator.node.dg.maya_usd_proxy_shape_listener import (
+    MayaUsdProxyShapeListener,
+)
+from ..operator.node.dg.maya_usd_proxy_shape_listener_base import (
+    MayaUsdProxyShapeListenerBase,
+)
 from ..operator.node.dg.membrane import Membrane
 from ..operator.node.dg.min import Min
 from ..operator.node.dg.modulo import Modulo
@@ -590,8 +815,12 @@ from ..operator.node.dg.n_component import NComponent
 from ..operator.node.dg.nearest_point_on_curve import NearestPointOnCurve
 from ..operator.node.dg.negate import Negate
 from ..operator.node.dg.network import Network
-from ..operator.node.dg.node_graph_editor_bookmark_info import NodeGraphEditorBookmarkInfo
-from ..operator.node.dg.node_graph_editor_bookmarks import NodeGraphEditorBookmarks
+from ..operator.node.dg.node_graph_editor_bookmark_info import (
+    NodeGraphEditorBookmarkInfo,
+)
+from ..operator.node.dg.node_graph_editor_bookmarks import (
+    NodeGraphEditorBookmarks,
+)
 from ..operator.node.dg.noise import Noise
 from ..operator.node.dg.non_linear import NonLinear
 from ..operator.node.dg.normalize import Normalize
@@ -753,7 +982,9 @@ from ..operator.node.dg.poly_unite import PolyUnite
 from ..operator.node.dg.poly_unsmooth import PolyUnsmooth
 from ..operator.node.dg.poly_uv_rectangle import PolyUVRectangle
 from ..operator.node.dg.poly_wedge_face import PolyWedgeFace
-from ..operator.node.dg.pose_interpolator_manager import PoseInterpolatorManager
+from ..operator.node.dg.pose_interpolator_manager import (
+    PoseInterpolatorManager,
+)
 from ..operator.node.dg.post_process_list import PostProcessList
 from ..operator.node.dg.power import Power
 from ..operator.node.dg.precomp_export import PrecompExport
@@ -766,7 +997,9 @@ from ..operator.node.dg.proximity_pin import ProximityPin
 from ..operator.node.dg.proximity_wrap import ProximityWrap
 from ..operator.node.dg.proxy_manager import ProxyManager
 from ..operator.node.dg.psd_file_tex import PsdFileTex
-from ..operator.node.dg.pxr_usd_point_based_deformer_node import PxrUsdPointBasedDeformerNode
+from ..operator.node.dg.pxr_usd_point_based_deformer_node import (
+    PxrUsdPointBasedDeformerNode,
+)
 from ..operator.node.dg.pxr_usd_stage_node import PxrUsdStageNode
 from ..operator.node.dg.quad_shading_switch import QuadShadingSwitch
 from ..operator.node.dg.quat_add import QuatAdd
@@ -799,18 +1032,28 @@ from ..operator.node.dg.render_layer_manager import RenderLayerManager
 from ..operator.node.dg.render_pass import RenderPass
 from ..operator.node.dg.render_pass_set import RenderPassSet
 from ..operator.node.dg.render_quality import RenderQuality
-from ..operator.node.dg.render_settings_child_collection import RenderSettingsChildCollection
-from ..operator.node.dg.render_settings_collection import RenderSettingsCollection
+from ..operator.node.dg.render_settings_child_collection import (
+    RenderSettingsChildCollection,
+)
+from ..operator.node.dg.render_settings_collection import (
+    RenderSettingsCollection,
+)
 from ..operator.node.dg.render_setup import RenderSetup
 from ..operator.node.dg.render_setup_layer import RenderSetupLayer
 from ..operator.node.dg.render_target import RenderTarget
 from ..operator.node.dg.rendered_image_source import RenderedImageSource
 from ..operator.node.dg.reorder_uv_set import ReorderUVSet
 from ..operator.node.dg.resolution import Resolution
-from ..operator.node.dg.result_curve_time_to_angular import ResultCurveTimeToAngular
-from ..operator.node.dg.result_curve_time_to_linear import ResultCurveTimeToLinear
+from ..operator.node.dg.result_curve_time_to_angular import (
+    ResultCurveTimeToAngular,
+)
+from ..operator.node.dg.result_curve_time_to_linear import (
+    ResultCurveTimeToLinear,
+)
 from ..operator.node.dg.result_curve_time_to_time import ResultCurveTimeToTime
-from ..operator.node.dg.result_curve_time_to_unitless import ResultCurveTimeToUnitless
+from ..operator.node.dg.result_curve_time_to_unitless import (
+    ResultCurveTimeToUnitless,
+)
 from ..operator.node.dg.reverse import Reverse
 from ..operator.node.dg.reverse_curve import ReverseCurve
 from ..operator.node.dg.reverse_surface import ReverseSurface
@@ -906,7 +1149,9 @@ from ..operator.node.dg.time_editor import TimeEditor
 from ..operator.node.dg.time_editor_anim_source import TimeEditorAnimSource
 from ..operator.node.dg.time_editor_clip import TimeEditorClip
 from ..operator.node.dg.time_editor_clip_base import TimeEditorClipBase
-from ..operator.node.dg.time_editor_clip_evaluator import TimeEditorClipEvaluator
+from ..operator.node.dg.time_editor_clip_evaluator import (
+    TimeEditorClipEvaluator,
+)
 from ..operator.node.dg.time_editor_interpolator import TimeEditorInterpolator
 from ..operator.node.dg.time_editor_tracks import TimeEditorTracks
 from ..operator.node.dg.time_function import TimeFunction
@@ -960,7 +1205,9 @@ from ..operator.node.dg.xgm_modifier_base import XgmModifierBase
 from ..operator.node.dg.xgm_modifier_clump import XgmModifierClump
 from ..operator.node.dg.xgm_modifier_collision import XgmModifierCollision
 from ..operator.node.dg.xgm_modifier_cut import XgmModifierCut
-from ..operator.node.dg.xgm_modifier_displacement import XgmModifierDisplacement
+from ..operator.node.dg.xgm_modifier_displacement import (
+    XgmModifierDisplacement,
+)
 from ..operator.node.dg.xgm_modifier_guide import XgmModifierGuide
 from ..operator.node.dg.xgm_modifier_linear_wire import XgmModifierLinearWire
 from ..operator.node.dg.xgm_modifier_noise import XgmModifierNoise
@@ -970,13 +1217,68 @@ from ..operator.node.dg.xgm_se_expr import XgmSeExpr
 from ..operator.node.dg.xgm_spline_base import XgmSplineBase
 from ..operator.node.dg.xgm_spline_cache import XgmSplineCache
 
+from ..operator.node.dg.bd_dbl_l_abs import BdDblLAbs
+from ..operator.node.dg.bd_dbl_l_add import BdDblLAdd
+from ..operator.node.dg.bd_dbl_l_add_multi import BdDblLAddMulti
+from ..operator.node.dg.bd_dbl_l_average import BdDblLAverage
+from ..operator.node.dg.bd_dbl_l_average_multi import BdDblLAverageMulti
+from ..operator.node.dg.bd_dbl_l_clamp import BdDblLClamp
+from ..operator.node.dg.bd_dbl_l_divide import BdDblLDivide
+from ..operator.node.dg.bd_dbl_l_divide_multi import BdDblLDivideMulti
+from ..operator.node.dg.bd_dbl_l_lerp import BdDblLLerp
+from ..operator.node.dg.bd_dbl_l_map_range import BdDblLMapRange
+from ..operator.node.dg.bd_dbl_l_max import BdDblLMax
+from ..operator.node.dg.bd_dbl_l_max_multi import BdDblLMaxMulti
+from ..operator.node.dg.bd_dbl_l_min import BdDblLMin
+from ..operator.node.dg.bd_dbl_l_min_multi import BdDblLMinMulti
+from ..operator.node.dg.bd_dbl_l_multiply import BdDblLMultiply
+from ..operator.node.dg.bd_dbl_l_multiply_multi import BdDblLMultiplyMulti
+from ..operator.node.dg.bd_dbl_l_negate import BdDblLNegate
+from ..operator.node.dg.bd_dbl_l_right_triangle import BdDblLRightTriangle
+from ..operator.node.dg.bd_dbl_l_subtract import BdDblLSubtract
+from ..operator.node.dg.bd_dbl_l_subtract_multi import BdDblLSubtractMulti
+from ..operator.node.dg.bd_dbl_l_value import BdDblLValue
+from ..operator.node.dg.bd_dbl_l_weighted_average_multi import (
+    BdDblLWeightedAverageMulti,
+)
+from ..operator.node.dg.bd_dbl_l_weighted_sum_multi import (
+    BdDblLWeightedSumMulti,
+)
+from ..operator.node.dg.bd_dbl_l3_abs import BdDblL3Abs
+from ..operator.node.dg.bd_dbl_l3_add import BdDblL3Add
+from ..operator.node.dg.bd_dbl_l3_add_multi import BdDblL3AddMulti
+from ..operator.node.dg.bd_dbl_l3_average import BdDblL3Average
+from ..operator.node.dg.bd_dbl_l3_average_multi import BdDblL3AverageMulti
+from ..operator.node.dg.bd_dbl_l3_clamp import BdDblL3Clamp
+from ..operator.node.dg.bd_dbl_l3_divide import BdDblL3Divide
+from ..operator.node.dg.bd_dbl_l3_divide_multi import BdDblL3DivideMulti
+from ..operator.node.dg.bd_dbl_l3_lerp import BdDblL3Lerp
+from ..operator.node.dg.bd_dbl_l3_map_range import BdDblL3MapRange
+from ..operator.node.dg.bd_dbl_l3_max import BdDblL3Max
+from ..operator.node.dg.bd_dbl_l3_max_multi import BdDblL3MaxMulti
+from ..operator.node.dg.bd_dbl_l3_min import BdDblL3Min
+from ..operator.node.dg.bd_dbl_l3_min_multi import BdDblL3MinMulti
+from ..operator.node.dg.bd_dbl_l3_multiply import BdDblL3Multiply
+from ..operator.node.dg.bd_dbl_l3_multiply_multi import (
+    BdDblL3MultiplyMulti,
+)
+from ..operator.node.dg.bd_dbl_l3_negate import BdDblL3Negate
+from ..operator.node.dg.bd_dbl_l3_subtract import BdDblL3Subtract
+from ..operator.node.dg.bd_dbl_l3_subtract_multi import BdDblL3SubtractMulti
+from ..operator.node.dg.bd_dbl_l3_value import BdDblL3Value
+from ..operator.node.dg.bd_dbl_l3_weighted_average_multi import (
+    BdDblL3WeightedAverageMulti,
+)
+from ..operator.node.dg.bd_dbl_l3_weighted_sum_multi import (
+    BdDblL3WeightedSumMulti,
+)
 
 class NodeCreator:
-    def __init__(self, modifier_manager: ModifierManager | None = None) -> None: ...
-
+    def __init__(
+        self, modifier_manager: ModifierManager | None = None
+    ) -> None: ...
     @property
     def modifier_manager(self) -> ModifierManager: ...
-
     def create(
         self,
         node_name: str,
@@ -985,2773 +1287,3089 @@ class NodeCreator:
         *,
         parent: DAG | None = None,
     ) -> NodeOperator: ...
-
     def node_class(self, node_name: str) -> type[NodeOperator]: ...
-
     def available_node_names(self) -> tuple[str, ...]: ...
-
     def __getattr__(self, node_name: str) -> Callable[..., NodeOperator]: ...
-
     def aboutToSetValueTestNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AboutToSetValueTestNode: ...
-
     def absOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AbsOverride: ...
-
     def absUniqueOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AbsUniqueOverride: ...
-
     def absolute(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Absolute: ...
-
     def acos(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Acos: ...
-
     def addDoubleLinear(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AddDoubleLinear: ...
-
     def addMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AddMatrix: ...
-
     def adskMaterial(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AdskMaterial: ...
-
     def adskPrepareRenderGlobals(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AdskPrepareRenderGlobals: ...
-
     def aiAbs(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAbs: ...
-
     def aiAdd(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAdd: ...
-
     def aiAmbientOcclusion(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAmbientOcclusion: ...
-
     def aiAOV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAOV: ...
-
     def aiAOVDriver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAOVDriver: ...
-
     def aiAOVFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAOVFilter: ...
-
     def aiAtan(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAtan: ...
-
     def aiAtmosphereVolume(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAtmosphereVolume: ...
-
     def aiAxfShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAxfShader: ...
-
     def aiBarndoor(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiBarndoor: ...
-
     def aiBlackbody(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiBlackbody: ...
-
     def aiBump2d(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiBump2d: ...
-
     def aiBump3d(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiBump3d: ...
-
     def aiCache(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCache: ...
-
     def aiCameraProjection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCameraProjection: ...
-
     def aiCarPaint(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCarPaint: ...
-
     def aiCellNoise(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCellNoise: ...
-
     def aiCheckerboard(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCheckerboard: ...
-
     def aiClamp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiClamp: ...
-
     def aiClipGeo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiClipGeo: ...
-
     def aiCollection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCollection: ...
-
     def aiColorConvert(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiColorConvert: ...
-
     def aiColorCorrect(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiColorCorrect: ...
-
     def aiColorJitter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiColorJitter: ...
-
     def aiColorToFloat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiColorToFloat: ...
-
     def aiCompare(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCompare: ...
-
     def aiComplement(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiComplement: ...
-
     def aiComplexIor(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiComplexIor: ...
-
     def aiComposite(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiComposite: ...
-
     def aiCross(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCross: ...
-
     def aiCurvature(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCurvature: ...
-
     def aiDisable(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiDisable: ...
-
     def aiDistance(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiDistance: ...
-
     def aiDivide(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiDivide: ...
-
     def aiDot(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiDot: ...
-
     def aiExp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiExp: ...
-
     def aiFacingRatio(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiFacingRatio: ...
-
     def aiFlakes(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiFlakes: ...
-
     def aiFlat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiFlat: ...
-
     def aiFloatToInt(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiFloatToInt: ...
-
     def aiFloatToMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiFloatToMatrix: ...
-
     def aiFloatToRgba(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiFloatToRgba: ...
-
     def aiFog(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiFog: ...
-
     def aiFraction(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiFraction: ...
-
     def aiGobo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiGobo: ...
-
     def aiHair(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiHair: ...
-
     def aiImage(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImage: ...
-
     def aiImagerColorCorrect(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerColorCorrect: ...
-
     def aiImagerColorCurves(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerColorCurves: ...
-
     def aiImagerDenoiserNoice(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerDenoiserNoice: ...
-
     def aiImagerDenoiserOidn(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerDenoiserOidn: ...
-
     def aiImagerDenoiserOptix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerDenoiserOptix: ...
-
     def aiImagerExposure(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerExposure: ...
-
     def aiImagerLensEffects(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerLensEffects: ...
-
     def aiImagerLightMixer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerLightMixer: ...
-
     def aiImagerOverlay(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerOverlay: ...
-
     def aiImagerTonemap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerTonemap: ...
-
     def aiImagerWhiteBalance(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiImagerWhiteBalance: ...
-
     def aiIncludeGraph(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiIncludeGraph: ...
-
     def aiIsFinite(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiIsFinite: ...
-
     def aiLambert(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLambert: ...
-
     def aiLayerFloat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLayerFloat: ...
-
     def aiLayerRgba(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLayerRgba: ...
-
     def aiLayerShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLayerShader: ...
-
     def aiLength(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLength: ...
-
     def aiLightDecay(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLightDecay: ...
-
     def aiLog(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLog: ...
-
     def aiLookSwitch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLookSwitch: ...
-
     def aiMaterialXShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMaterialXShader: ...
-
     def aiMaterialx(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMaterialx: ...
-
     def aiMatrixInterpolate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMatrixInterpolate: ...
-
     def aiMatrixMultiplyVector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMatrixMultiplyVector: ...
-
     def aiMatrixTransform(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMatrixTransform: ...
-
     def aiMatte(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMatte: ...
-
     def aiMax(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMax: ...
-
     def aiMerge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMerge: ...
-
     def aiMin(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMin: ...
-
     def aiMixShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMixShader: ...
-
     def aiModulo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiModulo: ...
-
     def aiMotionVector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMotionVector: ...
-
     def aiMultiply(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMultiply: ...
-
     def aiNegate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiNegate: ...
-
     def aiNoise(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiNoise: ...
-
     def aiNormalMap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiNormalMap: ...
-
     def aiNormalize(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiNormalize: ...
-
     def aiOptions(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiOptions: ...
-
     def aiOslShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiOslShader: ...
-
     def aiPassthrough(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiPassthrough: ...
-
     def aiPhysicalSky(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiPhysicalSky: ...
-
     def aiPow(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiPow: ...
-
     def aiRampFloat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiRampFloat: ...
-
     def aiRampRgb(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiRampRgb: ...
-
     def aiRandom(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiRandom: ...
-
     def aiRange(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiRange: ...
-
     def aiRaySwitch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiRaySwitch: ...
-
     def aiReadFloat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiReadFloat: ...
-
     def aiReadInt(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiReadInt: ...
-
     def aiReadRGB(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiReadRGB: ...
-
     def aiReadRGBA(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiReadRGBA: ...
-
     def aiReciprocal(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiReciprocal: ...
-
     def aiRgbToVector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiRgbToVector: ...
-
     def aiRgbaToFloat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiRgbaToFloat: ...
-
     def aiRoundCorners(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiRoundCorners: ...
-
     def aiSetParameter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSetParameter: ...
-
     def aiSetTransform(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSetTransform: ...
-
     def aiShadowMatte(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiShadowMatte: ...
-
     def aiShuffle(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiShuffle: ...
-
     def aiSign(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSign: ...
-
     def aiSkin(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSkin: ...
-
     def aiSky(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSky: ...
-
     def aiSpaceTransform(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSpaceTransform: ...
-
     def aiSqrt(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSqrt: ...
-
     def aiStandard(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiStandard: ...
-
     def aiStandardHair(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiStandardHair: ...
-
     def aiStandardSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiStandardSurface: ...
-
     def aiStandardVolume(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiStandardVolume: ...
-
     def aiStateFloat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiStateFloat: ...
-
     def aiStateInt(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiStateInt: ...
-
     def aiStateVector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiStateVector: ...
-
     def aiStringReplace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiStringReplace: ...
-
     def aiSubtract(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSubtract: ...
-
     def aiSwitch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSwitch: ...
-
     def aiSwitchOperator(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSwitchOperator: ...
-
     def aiThinFilm(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiThinFilm: ...
-
     def aiToon(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiToon: ...
-
     def aiTraceSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiTraceSet: ...
-
     def aiTrigo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiTrigo: ...
-
     def aiTriplanar(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiTriplanar: ...
-
     def aiTwoSided(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiTwoSided: ...
-
     def aiUserDataBool(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUserDataBool: ...
-
     def aiUserDataColor(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUserDataColor: ...
-
     def aiUserDataFloat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUserDataFloat: ...
-
     def aiUserDataInt(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUserDataInt: ...
-
     def aiUserDataString(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUserDataString: ...
-
     def aiUserDataVec2(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUserDataVec2: ...
-
     def aiUserDataVector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUserDataVector: ...
-
     def aiUtility(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUtility: ...
-
     def aiUvProjection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUvProjection: ...
-
     def aiUvTransform(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiUvTransform: ...
-
     def aiVectorMap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiVectorMap: ...
-
     def aiVectorToRgb(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiVectorToRgb: ...
-
     def aiVolumeCollector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiVolumeCollector: ...
-
     def aiVolumeSampleFloat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiVolumeSampleFloat: ...
-
     def aiVolumeSampleRgb(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiVolumeSampleRgb: ...
-
     def aiWireframe(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiWireframe: ...
-
     def aiWriteColor(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiWriteColor: ...
-
     def aiWriteFloat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiWriteFloat: ...
-
     def aiWriteInt(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiWriteInt: ...
-
     def aiWriteRgba(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiWriteRgba: ...
-
     def aiWriteVector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiWriteVector: ...
-
     def aimMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AimMatrix: ...
-
     def AISEnvFacade(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AISEnvFacade: ...
-
     def AlembicNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AlembicNode: ...
-
     def alignCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AlignCurve: ...
-
     def alignSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AlignSurface: ...
-
     def and_(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeOperator: ...
-
     def angleBetween(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AngleBetween: ...
-
     def animBlend(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlend: ...
-
     def animBlendInOut(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendInOut: ...
-
     def animBlendNodeAdditive(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditive: ...
-
     def animBlendNodeAdditiveDA(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditiveDA: ...
-
     def animBlendNodeAdditiveDL(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditiveDL: ...
-
     def animBlendNodeAdditiveF(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditiveF: ...
-
     def animBlendNodeAdditiveFA(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditiveFA: ...
-
     def animBlendNodeAdditiveFL(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditiveFL: ...
-
     def animBlendNodeAdditiveI16(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditiveI16: ...
-
     def animBlendNodeAdditiveI32(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditiveI32: ...
-
     def animBlendNodeAdditiveRotation(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditiveRotation: ...
-
     def animBlendNodeAdditiveScale(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeAdditiveScale: ...
-
     def animBlendNodeBoolean(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeBoolean: ...
-
     def animBlendNodeEnum(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeEnum: ...
-
     def animBlendNodeTime(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimBlendNodeTime: ...
-
     def animClip(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimClip: ...
-
     def animCurveTA(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimCurveTA: ...
-
     def animCurveTL(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimCurveTL: ...
-
     def animCurveTT(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimCurveTT: ...
-
     def animCurveTU(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimCurveTU: ...
-
     def animCurveUA(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimCurveUA: ...
-
     def animCurveUL(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimCurveUL: ...
-
     def animCurveUT(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimCurveUT: ...
-
     def animCurveUU(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimCurveUU: ...
-
     def animLayer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AnimLayer: ...
-
     def anisotropic(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Anisotropic: ...
-
     def aovChildCollection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AovChildCollection: ...
-
     def aovCollection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AovCollection: ...
-
     def applyAbs2FloatsOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyAbs2FloatsOverride: ...
-
     def applyAbs3FloatsOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyAbs3FloatsOverride: ...
-
     def applyAbsBoolOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyAbsBoolOverride: ...
-
     def applyAbsEnumOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyAbsEnumOverride: ...
-
     def applyAbsFloatOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyAbsFloatOverride: ...
-
     def applyAbsIntOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyAbsIntOverride: ...
-
     def applyAbsOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyAbsOverride: ...
-
     def applyAbsStringOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyAbsStringOverride: ...
-
     def applyConnectionOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyConnectionOverride: ...
-
     def applyOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyOverride: ...
-
     def applyRel2FloatsOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyRel2FloatsOverride: ...
-
     def applyRel3FloatsOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyRel3FloatsOverride: ...
-
     def applyRelFloatOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyRelFloatOverride: ...
-
     def applyRelIntOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyRelIntOverride: ...
-
     def applyRelOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyRelOverride: ...
-
     def arnoldAOVChildSelector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ArnoldAOVChildSelector: ...
-
     def arrayMapper(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ArrayMapper: ...
-
     def arubaTessellate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ArubaTessellate: ...
-
     def asin(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Asin: ...
-
     def atan(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Atan: ...
-
     def atan2(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Atan2: ...
-
     def attachCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AttachCurve: ...
-
     def attachSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AttachSurface: ...
-
     def attrHierarchyTest(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AttrHierarchyTest: ...
-
     def audio(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Audio: ...
-
     def average(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Average: ...
-
     def avgCurves(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AvgCurves: ...
-
     def avgNurbsSurfacePoints(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AvgNurbsSurfacePoints: ...
-
     def avgSurfacePoints(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AvgSurfacePoints: ...
-
     def axisAngleToQuat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AxisAngleToQuat: ...
-
     def axisFromMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AxisFromMatrix: ...
-
     def basicSelector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BasicSelector: ...
-
+    def bdAny_ConditionDbl(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDbl: ...
+    def bdAny_ConditionDblA(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblA: ...
+    def bdAny_ConditionDblAMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblAMulti: ...
+    def bdAny_ConditionDblL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblL: ...
+    def bdAny_ConditionDblLMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblLMulti: ...
+    def bdAny_ConditionDblMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblMulti: ...
+    def bdConditionDblCase_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblCaseCompose: ...
+    def bdConditionDblACase_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblACaseCompose: ...
+    def bdConditionDblAExtra_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblAExtraCompose: ...
+    def bdConditionDblExtra_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblExtraCompose: ...
+    def bdConditionDblLCase_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblLCaseCompose: ...
+    def bdConditionDblLExtra_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblLExtraCompose: ...
+    def bdDbl3_Abs(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Abs: ...
+    def bdDbl3_Add(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Add: ...
+    def bdDbl3_AddMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3AddMulti: ...
+    def bdDbl3_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Average: ...
+    def bdDbl3_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3AverageMulti: ...
+    def bdDbl3_Clamp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Clamp: ...
+    def bdDbl3_Divide(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Divide: ...
+    def bdDbl3_DivideMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3DivideMulti: ...
+    def bdDbl3_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Value: ...
+    def bdDbl3_Lerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Lerp: ...
+    def bdDbl3_MapRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3MapRange: ...
+    def bdDbl3_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Max: ...
+    def bdDbl3_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3MaxMulti: ...
+    def bdDbl3_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Min: ...
+    def bdDbl3_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3MinMulti: ...
+    def bdDbl3_Negate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Negate: ...
+    def bdDbl3_Multiply(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Multiply: ...
+    def bdDbl3_MultiplyMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3MultiplyMulti: ...
+    def bdDbl3_Power(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Power: ...
+    def bdDbl3_PowerMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3PowerMulti: ...
+    def bdDbl3_RatioDblL3(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3RatioDblL3: ...
+    def bdDbl3_Subtract(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Subtract: ...
+    def bdDbl3_SubtractMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3SubtractMulti: ...
+    def bdDbl3_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3WeightedAverageMulti: ...
+    def bdDbl3_WeightedSumMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3WeightedSumMulti: ...
+    def bdDblL_Abs(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAbs: ...
+    def bdDblL_Add(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAdd: ...
+    def bdDblL_AddMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAddMulti: ...
+    def bdDblL_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAverage: ...
+    def bdDblL_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAverageMulti: ...
+    def bdDblL_Clamp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLClamp: ...
+    def bdDblL_Divide(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLDivide: ...
+    def bdDblL_DivideMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLDivideMulti: ...
+    def bdDblL_Lerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLLerp: ...
+    def bdDblL_MapRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMapRange: ...
+    def bdDblL_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMax: ...
+    def bdDblL_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMaxMulti: ...
+    def bdDblL_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMin: ...
+    def bdDblL_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMinMulti: ...
+    def bdDblL_Multiply(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMultiply: ...
+    def bdDblL_MultiplyMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMultiplyMulti: ...
+    def bdDblL_Negate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLNegate: ...
+    def bdDblL_RightTriangle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLRightTriangle: ...
+    def bdDblL_Subtract(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLSubtract: ...
+    def bdDblL_SubtractMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLSubtractMulti: ...
+    def bdDblL_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLValue: ...
+    def bdDblL_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLWeightedAverageMulti: ...
+    def bdDblL_WeightedSumMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLWeightedSumMulti: ...
+    def bdDblL3_Abs(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Abs: ...
+    def bdDblL3_Add(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Add: ...
+    def bdDblL3_AddMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3AddMulti: ...
+    def bdDblL3_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Average: ...
+    def bdDblL3_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3AverageMulti: ...
+    def bdDblL3_Clamp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Clamp: ...
+    def bdDblL3_Divide(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Divide: ...
+    def bdDblL3_DivideMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3DivideMulti: ...
+    def bdDblL3_Lerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Lerp: ...
+    def bdDblL3_MapRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3MapRange: ...
+    def bdDblL3_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Max: ...
+    def bdDblL3_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3MaxMulti: ...
+    def bdDblL3_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Min: ...
+    def bdDblL3_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3MinMulti: ...
+    def bdDblL3_Multiply(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Multiply: ...
+    def bdDblL3_MultiplyMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3MultiplyMulti: ...
+    def bdDblL3_Negate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Negate: ...
+    def bdDblL3_Subtract(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Subtract: ...
+    def bdDblL3_SubtractMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3SubtractMulti: ...
+    def bdDblL3_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Value: ...
+    def bdDblL3_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3WeightedAverageMulti: ...
+    def bdDblL3_WeightedSumMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3WeightedSumMulti: ...
+    def bdDblA_Abs(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAAbs: ...
+    def bdDblA_Add(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAAdd: ...
+    def bdDblA_AddMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAAddMulti: ...
+    def bdDblA_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAAverage: ...
+    def bdDblA_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAAverageMulti: ...
+    def bdDblA_Clamp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAClamp: ...
+    def bdDblA_Divide(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblADivide: ...
+    def bdDblA_DivideMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblADivideMulti: ...
+    def bdDblA_Lerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblALerp: ...
+    def bdDblA_LerpShortest(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblALerpShortest: ...
+    def bdDblA_MapRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMapRange: ...
+    def bdDblA_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMax: ...
+    def bdDblA_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMaxMulti: ...
+    def bdDblA_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMin: ...
+    def bdDblA_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMinMulti: ...
+    def bdDblA_Multiply(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMultiply: ...
+    def bdDblA_MultiplyMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMultiplyMulti: ...
+    def bdDblA_Negate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblANegate: ...
+    def bdDblA_ShortestDelta(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAShortestDelta: ...
+    def bdDblA_Subtract(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblASubtract: ...
+    def bdDblA_SubtractMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblASubtractMulti: ...
+    def bdDblA_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAValue: ...
+    def bdDblA_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAWeightedAverageMulti: ...
+    def bdDblA_WeightedSumMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAWeightedSumMulti: ...
+    def bdDblA_Wrap(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAWrap: ...
+    def bdDbl_Abs(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAbs: ...
+    def bdDbl_Add(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAdd: ...
+    def bdDbl_AddMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAddMulti: ...
+    def bdDbl_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAverage: ...
+    def bdDbl_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAverageMulti: ...
+    def bdDbl_Clamp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblClamp: ...
+    def bdDbl_Divide(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblDivide: ...
+    def bdDbl_DivideMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblDivideMulti: ...
+    def bdDbl_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblValue: ...
+    def bdDbl_Lerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLerp: ...
+    def bdDbl_MapRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMapRange: ...
+    def bdDbl_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMax: ...
+    def bdDbl_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMaxMulti: ...
+    def bdDbl_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMin: ...
+    def bdDbl_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMinMulti: ...
+    def bdDbl_Negate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblNegate: ...
+    def bdDbl_Multiply(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMultiply: ...
+    def bdDbl_MultiplyMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMultiplyMulti: ...
+    def bdDbl_Power(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblPower: ...
+    def bdDbl_PowerMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblPowerMulti: ...
+    def bdDbl_RatioDblL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblRatioDblL: ...
+    def bdDbl_RatioDblA(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblRatioDblA: ...
+    def bdDbl_Subtract(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblSubtract: ...
+    def bdDbl_SubtractMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblSubtractMulti: ...
+    def bdDbl_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblWeightedAverageMulti: ...
+    def bdDbl_WeightedSumMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblWeightedSumMulti: ...
+    def bdEuler_ComposeBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdEulerComposeBendTwist: ...
+    def bdEuler_DecomposeBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdEulerDecomposeBendTwist: ...
+    def bdEuler_DecomposeTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdEulerDecomposeTwist: ...
+    def bdEuler_LimitBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdEulerLimitBendTwist: ...
+    def bdEuler_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdEulerValue: ...
+    def bdQuat_ChangeBasis(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatChangeBasis: ...
+    def bdQuat_ComposeBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatComposeBendTwist: ...
+    def bdQuat_DecomposeBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatDecomposeBendTwist: ...
+    def bdQuat_DecomposeTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatDecomposeTwist: ...
+    def bdQuat_LimitBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatLimitBendTwist: ...
+    def bdQuat_MultiplyMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatMultiplyMulti: ...
+    def bdQuat_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatValue: ...
+    def bdRbf_BendTwistFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfBendTwistFalloffWeight: ...
+    def bdRbf_MultiBendTwistFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfMultiBendTwistFalloffWeight: ...
+    def bdRbf_MultiOrientationFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfMultiOrientationFalloffWeight: ...
+    def bdRbf_MultiOrientationWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfMultiOrientationWeight: ...
+    def bdRbf_MultiPositionFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfMultiPositionFalloffWeight: ...
+    def bdRbf_MultiPositionWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfMultiPositionWeight: ...
+    def bdRbf_PoseBlend(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfPoseBlend: ...
+    def bdRbf_OrientationFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfOrientationFalloffWeight: ...
+    def bdRbf_OrientationWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfOrientationWeight: ...
+    def bdRbf_PositionFalloffWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfPositionFalloffWeight: ...
+    def bdRbf_PositionWeight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdRbfPositionWeight: ...
     def bevel(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Bevel: ...
-
     def bevelPlus(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BevelPlus: ...
-
     def bezierCurveToNurbs(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BezierCurveToNurbs: ...
-
     def bifrostBoard(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BifrostBoard: ...
-
     def bifrostGeoToMaya(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BifrostGeoToMaya: ...
-
     def blendColorSets(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BlendColorSets: ...
-
     def blendColors(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BlendColors: ...
-
     def blendDevice(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BlendDevice: ...
-
     def blendFalloff(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BlendFalloff: ...
-
     def blendMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BlendMatrix: ...
-
     def blendShape(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BlendShape: ...
-
     def blendTwoAttr(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BlendTwoAttr: ...
-
     def blendWeighted(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BlendWeighted: ...
-
     def blindDataTemplate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BlindDataTemplate: ...
-
     def blinn(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Blinn: ...
-
     def boneLattice(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BoneLattice: ...
-
     def boolean(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Boolean: ...
-
     def boundary(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Boundary: ...
-
     def brownian(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Brownian: ...
-
     def brush(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Brush: ...
-
     def bulge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Bulge: ...
-
     def bump2d(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Bump2d: ...
-
     def bump3d(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Bump3d: ...
-
     def cMuscleCreator(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CMuscleCreator: ...
-
     def cMuscleMultiCollide(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CMuscleMultiCollide: ...
-
     def cMuscleRelative(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CMuscleRelative: ...
-
     def cMuscleShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CMuscleShader: ...
-
     def cMuscleSmartConstraint(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CMuscleSmartConstraint: ...
-
     def cMuscleSplineDeformer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CMuscleSplineDeformer: ...
-
     def cMuscleStretch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CMuscleStretch: ...
-
     def cMuscleSystem(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CMuscleSystem: ...
-
     def cacheBlend(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CacheBlend: ...
-
     def cacheFile(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CacheFile: ...
-
     def cameraSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CameraSet: ...
-
     def cameraView(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CameraView: ...
-
     def ceil(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Ceil: ...
-
     def channels(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Channels: ...
-
     def character(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Character: ...
-
     def characterMap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CharacterMap: ...
-
     def characterOffset(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CharacterOffset: ...
-
     def checker(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Checker: ...
-
     def childNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ChildNode: ...
-
     def choice(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Choice: ...
-
     def chooser(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Chooser: ...
-
     def clamp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Clamp: ...
-
     def clampRange(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ClampRange: ...
-
     def clipLibrary(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ClipLibrary: ...
-
     def clipScheduler(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ClipScheduler: ...
-
     def clipToGhostData(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ClipToGhostData: ...
-
     def closeCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CloseCurve: ...
-
     def closeSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CloseSurface: ...
-
     def closestPointOnMesh(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ClosestPointOnMesh: ...
-
     def closestPointOnSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ClosestPointOnSurface: ...
-
     def cloth(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Cloth: ...
-
     def cloud(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Cloud: ...
-
     def cluster(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Cluster: ...
-
     def collection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Collection: ...
-
     def colorComposite(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColorComposite: ...
-
     def colorCondition(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColorCondition: ...
-
     def colorConstant(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColorConstant: ...
-
     def colorCorrect(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColorCorrect: ...
-
     def colorLogic(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColorLogic: ...
-
     def colorManagementGlobals(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColorManagementGlobals: ...
-
     def colorMask(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColorMask: ...
-
     def colorMath(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColorMath: ...
-
     def colorProfile(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColorProfile: ...
-
     def columnFromMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ColumnFromMatrix: ...
-
     def combinationShape(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CombinationShape: ...
-
     def compactPlugArrayTest(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CompactPlugArrayTest: ...
-
     def componentFalloff(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ComponentFalloff: ...
-
     def componentMatch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ComponentMatch: ...
-
     def componentTagBase(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ComponentTagBase: ...
-
     def composeMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ComposeMatrix: ...
-
     def ComputeGlobal(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ComputeGlobal: ...
-
     def ComputeLocal(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ComputeLocal: ...
-
     def condition(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Condition: ...
-
     def connectionOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ConnectionOverride: ...
-
     def connectionUniqueOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ConnectionUniqueOverride: ...
-
     def container(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Container: ...
-
     def containerBase(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ContainerBase: ...
-
     def contrast(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Contrast: ...
-
     def controller(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Controller: ...
-
     def copyColorSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CopyColorSet: ...
-
     def copyUVSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CopyUVSet: ...
-
     def cos(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Cos: ...
-
     def cpvColor(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CpvColor: ...
-
     def crater(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Crater: ...
-
     def creaseSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CreaseSet: ...
-
     def createColorSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CreateColorSet: ...
-
     def createPtexUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CreatePtexUV: ...
-
     def createUVSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CreateUVSet: ...
-
     def crossProduct(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CrossProduct: ...
-
     def cryptomatte(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Cryptomatte: ...
-
     def curveFromMeshCoM(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveFromMeshCoM: ...
-
     def curveFromMeshEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveFromMeshEdge: ...
-
     def curveFromSubdivEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveFromSubdivEdge: ...
-
     def curveFromSubdivFace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveFromSubdivFace: ...
-
     def curveFromSurfaceBnd(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveFromSurfaceBnd: ...
-
     def curveFromSurfaceCoS(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveFromSurfaceCoS: ...
-
     def curveFromSurfaceIso(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveFromSurfaceIso: ...
-
     def curveInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveInfo: ...
-
     def curveIntersect(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveIntersect: ...
-
     def curveNormalizerAngle(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveNormalizerAngle: ...
-
     def curveNormalizerLinear(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveNormalizerLinear: ...
-
     def curveWarp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CurveWarp: ...
-
     def CustomRigDefaultMappingNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CustomRigDefaultMappingNode: ...
-
     def CustomRigRetargeterNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CustomRigRetargeterNode: ...
-
     def dagPose(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DagPose: ...
-
     def dataBlockTest(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DataBlockTest: ...
-
     def decomposeMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DecomposeMatrix: ...
-
     def defaultLightList(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DefaultLightList: ...
-
     def defaultRenderUtilityList(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DefaultRenderUtilityList: ...
-
     def defaultRenderingList(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DefaultRenderingList: ...
-
     def defaultShaderList(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DefaultShaderList: ...
-
     def defaultTextureList(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DefaultTextureList: ...
-
     def deleteColorSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DeleteColorSet: ...
-
     def deleteComponent(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DeleteComponent: ...
-
     def deleteUVSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DeleteUVSet: ...
-
     def deltaMush(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DeltaMush: ...
-
     def detachCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DetachCurve: ...
-
     def detachSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DetachSurface: ...
-
     def determinant(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Determinant: ...
-
     def diskCache(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DiskCache: ...
-
     def displacementShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DisplacementShader: ...
-
     def displayLayer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DisplayLayer: ...
-
     def displayLayerManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DisplayLayerManager: ...
-
     def distanceBetween(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DistanceBetween: ...
-
     def divide(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Divide: ...
-
     def dof(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Dof: ...
-
     def dotProduct(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DotProduct: ...
-
     def doubleShadingSwitch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DoubleShadingSwitch: ...
-
     def dpBirailSrf(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DpBirailSrf: ...
-
     def dynController(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DynController: ...
-
     def dynGlobals(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DynGlobals: ...
-
     def editMetadata(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EditMetadata: ...
-
     def editsManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EditsManager: ...
-
     def envBall(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EnvBall: ...
-
     def envChrome(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EnvChrome: ...
-
     def envCube(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EnvCube: ...
-
     def envFacade(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EnvFacade: ...
-
     def envFog(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EnvFog: ...
-
     def envSky(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EnvSky: ...
-
     def envSphere(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EnvSphere: ...
-
     def equal(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Equal: ...
-
     def eulerToQuat(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EulerToQuat: ...
-
     def explodeNurbsShell(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ExplodeNurbsShell: ...
-
     def expression(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Expression: ...
-
     def extendCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ExtendCurve: ...
-
     def extendSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ExtendSurface: ...
-
     def extrude(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Extrude: ...
-
     def facade(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Facade: ...
-
     def falloffEval(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FalloffEval: ...
-
     def ffBlendSrf(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FfBlendSrf: ...
-
     def ffBlendSrfObsolete(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FfBlendSrfObsolete: ...
-
     def ffFilletSrf(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FfFilletSrf: ...
-
     def ffd(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Ffd: ...
-
     def file(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> File: ...
-
     def filletCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FilletCurve: ...
-
     def fitBspline(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FitBspline: ...
-
     def floatComposite(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FloatComposite: ...
-
     def floatCondition(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FloatCondition: ...
-
     def floatConstant(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FloatConstant: ...
-
     def floatCorrect(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FloatCorrect: ...
-
     def floatLogic(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FloatLogic: ...
-
     def floatMask(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FloatMask: ...
-
     def floatMath(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FloatMath: ...
-
     def floor(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Floor: ...
-
     def flow(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Flow: ...
-
     def fourByFourMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FourByFourMatrix: ...
-
     def fractal(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Fractal: ...
-
     def frameCache(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FrameCache: ...
-
     def gameFbxExporter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GameFbxExporter: ...
-
     def gammaCorrect(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GammaCorrect: ...
-
     def geoConnector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GeoConnector: ...
-
     def geomBind(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GeomBind: ...
-
     def geometryFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GeometryFilter: ...
-
     def globalCacheControl(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GlobalCacheControl: ...
-
     def globalStitch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GlobalStitch: ...
-
     def granite(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Granite: ...
-
     def greasePencilSequence(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GreasePencilSequence: ...
-
     def greaterThan(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GreaterThan: ...
-
     def grid(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Grid: ...
-
     def group(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Group: ...
-
     def groupId(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GroupId: ...
-
     def groupParts(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GroupParts: ...
-
     def guide(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Guide: ...
-
     def hairPhysicalShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HairPhysicalShader: ...
-
     def hairTubeShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HairTubeShader: ...
-
     def hardenPoint(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HardenPoint: ...
-
     def hardwareRenderGlobals(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HardwareRenderGlobals: ...
-
     def hardwareRenderingGlobals(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HardwareRenderingGlobals: ...
-
     def hierarchyTestNode1(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HierarchyTestNode1: ...
-
     def hierarchyTestNode2(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HierarchyTestNode2: ...
-
     def hierarchyTestNode3(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HierarchyTestNode3: ...
-
     def hierarchyTestNode4(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HierarchyTestNode4: ...
-
     def HIKCharacterNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKCharacterNode: ...
-
     def HIKCharacterStateClient(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKCharacterStateClient: ...
-
     def HIKControlSetNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKControlSetNode: ...
-
     def HIKEffector2State(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKEffector2State: ...
-
     def HIKEffectorFromCharacter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKEffectorFromCharacter: ...
-
     def HIKPinning2State(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKPinning2State: ...
-
     def HIKProperty2State(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKProperty2State: ...
-
     def HIKRetargeterNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKRetargeterNode: ...
-
     def HIKSkeletonGeneratorNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKSkeletonGeneratorNode: ...
-
     def hikSolver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HikSolver: ...
-
     def HIKSolverNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKSolverNode: ...
-
     def HIKState2Effector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKState2Effector: ...
-
     def HIKState2FK(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKState2FK: ...
-
     def HIKState2GlobalSK(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKState2GlobalSK: ...
-
     def HIKState2SK(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKState2SK: ...
-
     def HIKFK2State(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKFK2State: ...
-
     def HIKSK2State(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKSK2State: ...
-
     def historySwitch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HistorySwitch: ...
-
     def holdMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HoldMatrix: ...
-
     def hsvToRgb(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HsvToRgb: ...
-
     def hwReflectionMap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HwReflectionMap: ...
-
     def hwRenderGlobals(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HwRenderGlobals: ...
-
     def hyperGraphInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HyperGraphInfo: ...
-
     def hyperLayout(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HyperLayout: ...
-
     def hyperView(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HyperView: ...
-
     def ik2Bsolver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Ik2Bsolver: ...
-
     def ikMCsolver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkMCsolver: ...
-
     def ikPASolver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkPASolver: ...
-
     def ikRPsolver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkRPsolver: ...
-
     def ikSCsolver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkSCsolver: ...
-
     def ikSplineSolver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkSplineSolver: ...
-
     def ikSpringSolver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkSpringSolver: ...
-
     def ikSystem(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkSystem: ...
-
     def insertKnotCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> InsertKnotCurve: ...
-
     def insertKnotSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> InsertKnotSurface: ...
-
     def intersectSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IntersectSurface: ...
-
     def inverseLerp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> InverseLerp: ...
-
     def inverseMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> InverseMatrix: ...
-
     def jiggle(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Jiggle: ...
-
     def joint(
         self,
         name: str | None = None,
@@ -3759,2713 +4377,2261 @@ class NodeCreator:
         *,
         parent: Transform | None = None,
     ) -> Joint: ...
-
     def jointCluster(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> JointCluster: ...
-
     def jointFfd(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> JointFfd: ...
-
     def jointLattice(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> JointLattice: ...
-
     def keyingGroup(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> KeyingGroup: ...
-
     def lambert(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Lambert: ...
-
     def layeredShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LayeredShader: ...
-
     def layeredTexture(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LayeredTexture: ...
-
     def leastSquaresModifier(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LeastSquaresModifier: ...
-
     def leather(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Leather: ...
-
     def length(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Length: ...
-
     def lerp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Lerp: ...
-
     def lessThan(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LessThan: ...
-
     def lightEditor(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightEditor: ...
-
     def lightFog(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightFog: ...
-
     def lightGroup(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightGroup: ...
-
     def lightInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightInfo: ...
-
     def lightItem(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightItem: ...
-
     def lightItemBase(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightItemBase: ...
-
     def lightLinker(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightLinker: ...
-
     def lightList(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightList: ...
-
     def lightsChildCollection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightsChildCollection: ...
-
     def lightsCollection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightsCollection: ...
-
     def lightsCollectionSelector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightsCollectionSelector: ...
-
     def listItem(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ListItem: ...
-
     def lodThresholds(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LodThresholds: ...
-
     def loft(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Loft: ...
-
     def log(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Log: ...
-
     def luminance(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Luminance: ...
-
     def makeGroup(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeGroup: ...
-
     def makeIllustratorCurves(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeIllustratorCurves: ...
-
     def makeNurbCircle(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeNurbCircle: ...
-
     def makeNurbCone(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeNurbCone: ...
-
     def makeNurbCube(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeNurbCube: ...
-
     def makeNurbCylinder(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeNurbCylinder: ...
-
     def makeNurbPlane(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeNurbPlane: ...
-
     def makeNurbSphere(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeNurbSphere: ...
-
     def makeNurbTorus(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeNurbTorus: ...
-
     def makeNurbsSquare(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeNurbsSquare: ...
-
     def makeTextCurves(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeTextCurves: ...
-
     def makeThreePointCircularArc(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeThreePointCircularArc: ...
-
     def makeTwoPointCircularArc(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MakeTwoPointCircularArc: ...
-
     def mandelbrot(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Mandelbrot: ...
-
     def mandelbrot3D(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Mandelbrot3D: ...
-
     def marble(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Marble: ...
-
     def MASH_Audio(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Audio: ...
-
+    ) -> MASHAudio: ...
     def MASH_BaseNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_BaseNode: ...
-
+    ) -> MASHBaseNode: ...
     def MASH_Blend(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Blend: ...
-
+    ) -> MASHBlend: ...
     def MASH_BlendDeformer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_BlendDeformer: ...
-
+    ) -> MASHBlendDeformer: ...
     def MASH_Breakout(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Breakout: ...
-
+    ) -> MASHBreakout: ...
     def MASH_ChannelRandom(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_ChannelRandom: ...
-
+    ) -> MASHChannelRandom: ...
     def MASH_Color(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Color: ...
-
+    ) -> MASHColor: ...
     def MASH_Constraint(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Constraint: ...
-
+    ) -> MASHConstraint: ...
     def MASH_Curve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Curve: ...
-
+    ) -> MASHCurve: ...
     def MASH_Deformer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Deformer: ...
-
+    ) -> MASHDeformer: ...
     def MASH_Delay(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Delay: ...
-
+    ) -> MASHDelay: ...
     def MASH_Distribute(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Distribute: ...
-
+    ) -> MASHDistribute: ...
     def MASH_Dynamics(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Dynamics: ...
-
+    ) -> MASHDynamics: ...
     def MASH_DynamicsInitialState(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_DynamicsInitialState: ...
-
+    ) -> MASHDynamicsInitialState: ...
     def MASH_Explode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Explode: ...
-
+    ) -> MASHExplode: ...
     def MASH_Id(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Id: ...
-
+    ) -> MASHId: ...
     def MASH_Influence(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Influence: ...
-
+    ) -> MASHInfluence: ...
     def MASH_Inherit(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Inherit: ...
-
+    ) -> MASHInherit: ...
     def MASH_InitialState(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_InitialState: ...
-
+    ) -> MASHInitialState: ...
     def MASH_Jiggle(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Jiggle: ...
-
+    ) -> MASHJiggle: ...
     def MASH_Legacy(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Legacy: ...
-
+    ) -> MASHLegacy: ...
     def MASH_Maths(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Maths: ...
-
+    ) -> MASHMaths: ...
     def MASH_MultiCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_MultiCurve: ...
-
+    ) -> MASHMultiCurve: ...
     def MASH_Mute(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Mute: ...
-
+    ) -> MASHMute: ...
     def MASH_Noise(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Noise: ...
-
+    ) -> MASHNoise: ...
     def MASH_Offset(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Offset: ...
-
+    ) -> MASHOffset: ...
     def MASH_Orient(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Orient: ...
-
+    ) -> MASHOrient: ...
     def MASH_PfxConnect(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_PfxConnect: ...
-
+    ) -> MASHPfxConnect: ...
     def MASH_Placer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Placer: ...
-
+    ) -> MASHPlacer: ...
     def MASH_PointToCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_PointToCurve: ...
-
+    ) -> MASHPointToCurve: ...
     def MASH_Python(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Python: ...
-
+    ) -> MASHPython: ...
     def MASH_Random(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Random: ...
-
+    ) -> MASHRandom: ...
     def MASH_Replicator(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Replicator: ...
-
+    ) -> MASHReplicator: ...
     def MASH_Repro(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Repro: ...
-
+    ) -> MASHRepro: ...
     def MASH_ShellDeformer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_ShellDeformer: ...
-
+    ) -> MASHShellDeformer: ...
     def MASH_Signal(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Signal: ...
-
+    ) -> MASHSignal: ...
     def MASH_Spring(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Spring: ...
-
+    ) -> MASHSpring: ...
     def MASH_Strength(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Strength: ...
-
+    ) -> MASHStrength: ...
     def MASH_Symmetry(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Symmetry: ...
-
+    ) -> MASHSymmetry: ...
     def MASH_Time(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Time: ...
-
+    ) -> MASHTime: ...
     def MASH_Trails(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Trails: ...
-
+    ) -> MASHTrails: ...
     def MASH_Transform(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Transform: ...
-
+    ) -> MASHTransform: ...
     def MASH_Trig(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Trig: ...
-
+    ) -> MASHTrig: ...
     def MASH_Visibility(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Visibility: ...
-
+    ) -> MASHVisibility: ...
     def MASH_Waiter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_Waiter: ...
-
+    ) -> MASHWaiter: ...
     def MASH_World(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> MASH_World: ...
-
+    ) -> MASHWorld: ...
     def materialFacade(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MaterialFacade: ...
-
     def materialInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MaterialInfo: ...
-
     def materialOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MaterialOverride: ...
-
     def materialTemplate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MaterialTemplate: ...
-
     def materialTemplateOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MaterialTemplateOverride: ...
-
     def materialXMaterial(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MaterialXMaterial: ...
-
     def MaterialXSurfaceShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MaterialXSurfaceShader: ...
-
     def max(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Max: ...
-
     def mayaUsdGeomNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MayaUsdGeomNode: ...
-
     def mayaUsdLayerManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MayaUsdLayerManager: ...
-
     def mayaUsdProxyShapeListener(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MayaUsdProxyShapeListener: ...
-
     def mayaUsdProxyShapeListenerBase(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MayaUsdProxyShapeListenerBase: ...
-
     def membrane(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Membrane: ...
-
     def min(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Min: ...
-
     def modulo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Modulo: ...
-
     def morph(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Morph: ...
-
     def motionPath(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MotionPath: ...
-
     def motionTrail(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MotionTrail: ...
-
     def mountain(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Mountain: ...
-
     def movie(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Movie: ...
-
     def mpBirailSrf(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MpBirailSrf: ...
-
     def multDoubleLinear(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MultDoubleLinear: ...
-
     def multMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MultMatrix: ...
-
     def multilisterLight(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MultilisterLight: ...
-
     def multiply(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Multiply: ...
-
     def multiplyDivide(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MultiplyDivide: ...
-
     def multiplyPointByMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MultiplyPointByMatrix: ...
-
     def multiplyVectorByMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MultiplyVectorByMatrix: ...
-
     def mute(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Mute: ...
-
     def nComponent(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NComponent: ...
-
     def nearestPointOnCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NearestPointOnCurve: ...
-
     def negate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Negate: ...
-
     def network(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Network: ...
-
     def nodeGraphEditorBookmarkInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeGraphEditorBookmarkInfo: ...
-
     def nodeGraphEditorBookmarks(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeGraphEditorBookmarks: ...
-
     def noise(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Noise: ...
-
     def nonLinear(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NonLinear: ...
-
     def normalize(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Normalize: ...
-
     def not_(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeOperator: ...
-
     def nurbsCurveToBezier(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NurbsCurveToBezier: ...
-
     def nurbsTessellate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NurbsTessellate: ...
-
     def nurbsToSubdiv(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NurbsToSubdiv: ...
-
     def nurbsToSubdivProc(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NurbsToSubdivProc: ...
-
     def objectAttrFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectAttrFilter: ...
-
     def objectBinFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectBinFilter: ...
-
     def objectFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectFilter: ...
-
     def objectGrpToComp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectGrpToComp: ...
-
     def objectMultiFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectMultiFilter: ...
-
     def objectNameFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectNameFilter: ...
-
     def objectRenderFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectRenderFilter: ...
-
     def objectScriptFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectScriptFilter: ...
-
     def objectSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectSet: ...
-
     def objectTypeFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ObjectTypeFilter: ...
-
     def ocean(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Ocean: ...
-
     def oceanShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> OceanShader: ...
-
     def offsetCos(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> OffsetCos: ...
-
     def offsetCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> OffsetCurve: ...
-
     def offsetDeformer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> OffsetDeformer: ...
-
     def offsetSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> OffsetSurface: ...
-
     def oldBlindDataBase(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> OldBlindDataBase: ...
-
     def oldGeometryConstraint(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> OldGeometryConstraint: ...
-
     def opticalFX(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> OpticalFX: ...
-
     def or_(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeOperator: ...
-
     def override(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Override: ...
-
     def pairBlend(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PairBlend: ...
-
     def parentMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ParentMatrix: ...
-
     def particleAgeMapper(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ParticleAgeMapper: ...
-
     def particleCloud(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ParticleCloud: ...
-
     def particleColorMapper(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ParticleColorMapper: ...
-
     def particleIncandMapper(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ParticleIncandMapper: ...
-
     def particleSamplerInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ParticleSamplerInfo: ...
-
     def particleTranspMapper(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ParticleTranspMapper: ...
-
     def partition(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Partition: ...
-
     def passContributionMap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PassContributionMap: ...
-
     def passMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PassMatrix: ...
-
     def phong(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Phong: ...
-
     def phongE(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PhongE: ...
-
     def pi(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Pi: ...
-
     def pickMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PickMatrix: ...
-
     def place2dTexture(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Place2dTexture: ...
-
     def planarTrimSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PlanarTrimSurface: ...
-
     def plusMinusAverage(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PlusMinusAverage: ...
-
     def pointMatrixMult(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PointMatrixMult: ...
-
     def pointOnCurveInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PointOnCurveInfo: ...
-
     def pointOnSurfaceInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PointOnSurfaceInfo: ...
-
     def polyAppend(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyAppend: ...
-
     def polyAppendVertex(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyAppendVertex: ...
-
     def polyAutoProj(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyAutoProj: ...
-
     def polyAverageVertex(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyAverageVertex: ...
-
     def polyAxis(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyAxis: ...
-
     def polyBevel(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyBevel: ...
-
     def polyBevel2(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyBevel2: ...
-
     def polyBevel3(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyBevel3: ...
-
     def polyBevelCutback(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyBevelCutback: ...
-
     def polyBlindData(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyBlindData: ...
-
     def polyBoolOp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyBoolOp: ...
-
     def polyBoolean(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyBoolean: ...
-
     def polyBridgeEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyBridgeEdge: ...
-
     def polyCBoolOp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCBoolOp: ...
-
     def polyChipOff(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyChipOff: ...
-
     def polyCircularize(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCircularize: ...
-
     def polyClean(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyClean: ...
-
     def polyCloseBorder(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCloseBorder: ...
-
     def polyCollapseEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCollapseEdge: ...
-
     def polyCollapseF(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCollapseF: ...
-
     def polyColorDel(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyColorDel: ...
-
     def polyColorMod(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyColorMod: ...
-
     def polyColorPerVertex(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyColorPerVertex: ...
-
     def polyCone(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCone: ...
-
     def polyConnectComponents(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyConnectComponents: ...
-
     def polyContourProj(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyContourProj: ...
-
     def polyCopyUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCopyUV: ...
-
     def polyCrease(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCrease: ...
-
     def polyCreaseEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCreaseEdge: ...
-
     def polyCreateFace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCreateFace: ...
-
     def polyCube(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCube: ...
-
     def polyCut(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCut: ...
-
     def polyCylProj(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCylProj: ...
-
     def polyCylinder(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyCylinder: ...
-
     def polyDelEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyDelEdge: ...
-
     def polyDelFacet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyDelFacet: ...
-
     def polyDelVertex(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyDelVertex: ...
-
     def polyDisc(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyDisc: ...
-
     def polyDuplicateEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyDuplicateEdge: ...
-
     def polyEdgeToCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyEdgeToCurve: ...
-
     def polyEditEdgeFlow(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyEditEdgeFlow: ...
-
     def polyExtrudeEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyExtrudeEdge: ...
-
     def polyExtrudeFace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyExtrudeFace: ...
-
     def polyExtrudeVertex(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyExtrudeVertex: ...
-
     def polyFlipEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyFlipEdge: ...
-
     def polyFlipUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyFlipUV: ...
-
     def polyGear(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyGear: ...
-
     def polyHelix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyHelix: ...
-
     def polyHoleFace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyHoleFace: ...
-
     def polyLayoutUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyLayoutUV: ...
-
     def polyMapCut(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMapCut: ...
-
     def polyMapDel(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMapDel: ...
-
     def polyMapSew(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMapSew: ...
-
     def polyMapSewMove(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMapSewMove: ...
-
     def polyMergeEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMergeEdge: ...
-
     def polyMergeFace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMergeFace: ...
-
     def polyMergeUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMergeUV: ...
-
     def polyMergeVert(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMergeVert: ...
-
     def polyMirror(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMirror: ...
-
     def polyMoveEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMoveEdge: ...
-
     def polyMoveFace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMoveFace: ...
-
     def polyMoveFacetUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMoveFacetUV: ...
-
     def polyMoveUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMoveUV: ...
-
     def polyMoveVertex(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyMoveVertex: ...
-
     def polyNormal(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyNormal: ...
-
     def polyNormalPerVertex(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyNormalPerVertex: ...
-
     def polyNormalizeUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyNormalizeUV: ...
-
     def polyOptUvs(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyOptUvs: ...
-
     def polyPassThru(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPassThru: ...
-
     def polyPinUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPinUV: ...
-
     def polyPipe(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPipe: ...
-
     def polyPlanarProj(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPlanarProj: ...
-
     def polyPlane(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPlane: ...
-
     def polyPlatonic(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPlatonic: ...
-
     def polyPlatonicSolid(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPlatonicSolid: ...
-
     def polyPoke(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPoke: ...
-
     def polyPrimitiveMisc(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPrimitiveMisc: ...
-
     def polyPrism(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPrism: ...
-
     def polyProj(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyProj: ...
-
     def polyProjectCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyProjectCurve: ...
-
     def polyPyramid(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyPyramid: ...
-
     def polyQuad(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyQuad: ...
-
     def polyReduce(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyReduce: ...
-
     def polyRemesh(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyRemesh: ...
-
     def polyRetopo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyRetopo: ...
-
     def polySeparate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySeparate: ...
-
     def polySewEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySewEdge: ...
-
     def polySmartExtrude(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySmartExtrude: ...
-
     def polySmooth(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySmooth: ...
-
     def polySmoothFace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySmoothFace: ...
-
     def polySmoothProxy(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySmoothProxy: ...
-
     def polySoftEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySoftEdge: ...
-
     def polySphProj(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySphProj: ...
-
     def polySphere(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySphere: ...
-
     def polySpinEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySpinEdge: ...
-
     def polySplit(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySplit: ...
-
     def polySplitEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySplitEdge: ...
-
     def polySplitRing(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySplitRing: ...
-
     def polySplitVert(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySplitVert: ...
-
     def polyStraightenUVBorder(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyStraightenUVBorder: ...
-
     def polySubdEdge(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySubdEdge: ...
-
     def polySubdFace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySubdFace: ...
-
     def polySuperShape(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolySuperShape: ...
-
     def polyToSubdiv(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyToSubdiv: ...
-
     def polyTorus(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyTorus: ...
-
     def polyTransfer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyTransfer: ...
-
     def polyTriangulate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyTriangulate: ...
-
     def polyTweak(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyTweak: ...
-
     def polyTweakUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyTweakUV: ...
-
     def polyUnite(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyUnite: ...
-
     def polyUnsmooth(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyUnsmooth: ...
-
     def polyUVRectangle(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyUVRectangle: ...
-
     def polyWedgeFace(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PolyWedgeFace: ...
-
     def poseInterpolatorManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PoseInterpolatorManager: ...
-
     def postProcessList(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PostProcessList: ...
-
     def power(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Power: ...
-
     def precompExport(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PrecompExport: ...
-
     def premultiply(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Premultiply: ...
-
     def projectCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ProjectCurve: ...
-
     def projectTangent(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ProjectTangent: ...
-
     def projection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Projection: ...
-
     def proximityFalloff(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ProximityFalloff: ...
-
     def proximityPin(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ProximityPin: ...
-
     def proximityWrap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ProximityWrap: ...
-
     def proxyManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ProxyManager: ...
-
     def psdFileTex(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PsdFileTex: ...
-
     def pxrUsdPointBasedDeformerNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PxrUsdPointBasedDeformerNode: ...
-
     def pxrUsdStageNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PxrUsdStageNode: ...
-
     def quadShadingSwitch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuadShadingSwitch: ...
-
     def quatAdd(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatAdd: ...
-
     def quatConjugate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatConjugate: ...
-
     def quatInvert(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatInvert: ...
-
     def quatNegate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatNegate: ...
-
     def quatNormalize(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatNormalize: ...
-
     def quatProd(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatProd: ...
-
     def quatSlerp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatSlerp: ...
-
     def quatSub(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatSub: ...
-
     def quatToAxisAngle(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatToAxisAngle: ...
-
     def quatToEuler(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> QuatToEuler: ...
-
     def RScontainer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RScontainer: ...
-
     def ramp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Ramp: ...
-
     def rampShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RampShader: ...
-
     def rbfSrf(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RbfSrf: ...
-
     def rebuildCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RebuildCurve: ...
-
     def rebuildSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RebuildSurface: ...
-
     def record(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Record: ...
-
     def reference(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Reference: ...
-
     def relOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RelOverride: ...
-
     def relUniqueOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RelUniqueOverride: ...
-
     def remapColor(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RemapColor: ...
-
     def remapHsv(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RemapHsv: ...
-
     def remapValue(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RemapValue: ...
-
     def renderGlobals(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderGlobals: ...
-
     def renderGlobalsList(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderGlobalsList: ...
-
     def renderLayer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderLayer: ...
-
     def renderLayerManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderLayerManager: ...
-
     def renderPass(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderPass: ...
-
     def renderPassSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderPassSet: ...
-
     def renderQuality(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderQuality: ...
-
     def renderSettingsChildCollection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderSettingsChildCollection: ...
-
     def renderSettingsCollection(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderSettingsCollection: ...
-
     def renderSetup(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderSetup: ...
-
     def renderSetupLayer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderSetupLayer: ...
-
     def renderTarget(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderTarget: ...
-
     def renderedImageSource(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderedImageSource: ...
-
     def reorderUVSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ReorderUVSet: ...
-
     def resolution(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Resolution: ...
-
     def resultCurveTimeToAngular(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ResultCurveTimeToAngular: ...
-
     def resultCurveTimeToLinear(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ResultCurveTimeToLinear: ...
-
     def resultCurveTimeToTime(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ResultCurveTimeToTime: ...
-
     def resultCurveTimeToUnitless(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ResultCurveTimeToUnitless: ...
-
     def reverse(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Reverse: ...
-
     def reverseCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ReverseCurve: ...
-
     def reverseSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ReverseSurface: ...
-
     def revolve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Revolve: ...
-
     def rgbToHsv(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RgbToHsv: ...
-
     def rigidSolver(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RigidSolver: ...
-
     def rock(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Rock: ...
-
     def rotateHelper(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RotateHelper: ...
-
     def rotateVector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RotateVector: ...
-
     def rotationFromMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RotationFromMatrix: ...
-
     def round(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Round: ...
-
     def roundConstantRadius(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RoundConstantRadius: ...
-
     def rowFromMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RowFromMatrix: ...
-
     def sampler(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Sampler: ...
-
     def samplerInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SamplerInfo: ...
-
     def scaleFromMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ScaleFromMatrix: ...
-
     def script(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Script: ...
-
     def sculpt(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Sculpt: ...
-
     def selectionListOperator(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SelectionListOperator: ...
-
     def selector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Selector: ...
-
     def sequenceManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SequenceManager: ...
-
     def sequencer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Sequencer: ...
-
     def setRange(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SetRange: ...
-
     def shaderGlow(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ShaderGlow: ...
-
     def shaderOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ShaderOverride: ...
-
     def shadingEngine(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ShadingEngine: ...
-
     def shadingMap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ShadingMap: ...
-
     def shapeEditorManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ShapeEditorManager: ...
-
     def shellDeformer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ShellDeformer: ...
-
     def shellTessellate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ShellTessellate: ...
-
     def shot(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Shot: ...
-
     def shrinkWrap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ShrinkWrap: ...
-
     def simpleSelector(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SimpleSelector: ...
-
     def simpleTestNode(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SimpleTestNode: ...
-
     def simpleVolumeShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SimpleVolumeShader: ...
-
     def simplexNoise(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SimplexNoise: ...
-
     def sin(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Sin: ...
-
     def singleShadingSwitch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SingleShadingSwitch: ...
-
     def skinBinding(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SkinBinding: ...
-
     def skinCluster(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SkinCluster: ...
-
     def smoothCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SmoothCurve: ...
-
     def smoothStep(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SmoothStep: ...
-
     def smoothTangentSrf(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SmoothTangentSrf: ...
-
     def snapshot(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Snapshot: ...
-
     def snow(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Snow: ...
-
     def softMod(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SoftMod: ...
-
     def solidFractal(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SolidFractal: ...
-
     def solidify(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Solidify: ...
-
     def spBirailSrf(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SpBirailSrf: ...
-
     def squareSrf(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SquareSrf: ...
-
     def standardSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> StandardSurface: ...
-
     def stencil(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Stencil: ...
-
     def stitchAsNurbsShell(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> StitchAsNurbsShell: ...
-
     def stitchSrf(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> StitchSrf: ...
-
     def strokeGlobals(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> StrokeGlobals: ...
-
     def stucco(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Stucco: ...
-
     def styleCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> StyleCurve: ...
-
     def subCurve(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubCurve: ...
-
     def subSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubSurface: ...
-
     def subdAddTopology(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdAddTopology: ...
-
     def subdAutoProj(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdAutoProj: ...
-
     def subdBlindData(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdBlindData: ...
-
     def subdCleanTopology(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdCleanTopology: ...
-
     def subdHierBlind(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdHierBlind: ...
-
     def subdLayoutUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdLayoutUV: ...
-
     def subdMapCut(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdMapCut: ...
-
     def subdMapSewMove(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdMapSewMove: ...
-
     def subdPlanarProj(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdPlanarProj: ...
-
     def subdTweak(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdTweak: ...
-
     def subdTweakUV(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdTweakUV: ...
-
     def subdivCollapse(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdivCollapse: ...
-
     def subdivComponentId(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdivComponentId: ...
-
     def subdivReverseFaces(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdivReverseFaces: ...
-
     def subdivToNurbs(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdivToNurbs: ...
-
     def subdivToPoly(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdivToPoly: ...
-
     def subsetFalloff(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubsetFalloff: ...
-
     def subtract(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Subtract: ...
-
     def sum(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Sum: ...
-
     def surfaceInfo(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SurfaceInfo: ...
-
     def surfaceLuminance(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SurfaceLuminance: ...
-
     def surfaceShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SurfaceShader: ...
-
     def svgToPoly(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SvgToPoly: ...
-
     def sweepMeshCreator(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SweepMeshCreator: ...
-
     def sweepProfileConverter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SweepProfileConverter: ...
-
     def tan(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Tan: ...
-
     def tension(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Tension: ...
-
     def texLattice(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TexLattice: ...
-
     def textureBakeSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TextureBakeSet: ...
-
     def textureDeformer(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TextureDeformer: ...
-
     def textureToGeom(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TextureToGeom: ...
-
     def time(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Time: ...
-
     def timeEditor(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeEditor: ...
-
     def timeEditorAnimSource(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeEditorAnimSource: ...
-
     def timeEditorClip(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeEditorClip: ...
-
     def timeEditorClipBase(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeEditorClipBase: ...
-
     def timeEditorClipEvaluator(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeEditorClipEvaluator: ...
-
     def timeEditorInterpolator(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeEditorInterpolator: ...
-
     def timeEditorTracks(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeEditorTracks: ...
-
     def timeFunction(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeFunction: ...
-
     def timeToUnitConversion(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeToUnitConversion: ...
-
     def timeWarp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TimeWarp: ...
-
     def toonLineAttributes(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ToonLineAttributes: ...
-
     def trackInfoManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TrackInfoManager: ...
-
     def transferAttributes(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TransferAttributes: ...
-
     def transferFalloff(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TransferFalloff: ...
-
     def transform(
         self,
         name: str | None = None,
@@ -6473,319 +6639,266 @@ class NodeCreator:
         *,
         parent: Transform | None = None,
     ) -> Transform: ...
-
     def transformGeometry(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TransformGeometry: ...
-
     def translationFromMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TranslationFromMatrix: ...
-
     def transposeMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TransposeMatrix: ...
-
     def trim(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Trim: ...
-
     def trimWithBoundaries(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TrimWithBoundaries: ...
-
     def tripleShadingSwitch(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TripleShadingSwitch: ...
-
     def truncate(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Truncate: ...
-
     def tweak(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Tweak: ...
-
     def type(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Type: ...
-
     def typeExtrude(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TypeExtrude: ...
-
     def Unfold3DOptimize(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Unfold3DOptimize: ...
-
     def Unfold3DUnfold(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Unfold3DUnfold: ...
-
     def uniformFalloff(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> UniformFalloff: ...
-
     def unitConversion(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> UnitConversion: ...
-
     def unitToTimeConversion(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> UnitToTimeConversion: ...
-
     def unknown(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Unknown: ...
-
     def unpremultiply(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Unpremultiply: ...
-
     def untrim(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Untrim: ...
-
     def usdPreviewSurface(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> UsdPreviewSurface: ...
-
     def useBackground(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> UseBackground: ...
-
     def uvChooser(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> UvChooser: ...
-
     def uvPin(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> UvPin: ...
-
     def valueOverride(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ValueOverride: ...
-
     def vectorAdjust(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> VectorAdjust: ...
-
     def vectorExtrude(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> VectorExtrude: ...
-
     def vectorProduct(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> VectorProduct: ...
-
     def vertexBakeSet(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> VertexBakeSet: ...
-
     def viewColorManager(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ViewColorManager: ...
-
     def volumeFog(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> VolumeFog: ...
-
     def volumeNoise(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> VolumeNoise: ...
-
     def volumeShader(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> VolumeShader: ...
-
     def water(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Water: ...
-
     def weightGeometryFilter(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> WeightGeometryFilter: ...
-
     def wire(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Wire: ...
-
     def wood(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Wood: ...
-
     def wrap(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Wrap: ...
-
     def wtAddMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> WtAddMatrix: ...
-
     def xgmCurveToSpline(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmCurveToSpline: ...
-
     def xgmHairMapping(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmHairMapping: ...
-
     def xgmMakeGuide(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmMakeGuide: ...
-
     def xgmModifierBase(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierBase: ...
-
     def xgmModifierClump(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierClump: ...
-
     def xgmModifierCollision(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierCollision: ...
-
     def xgmModifierCut(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierCut: ...
-
     def xgmModifierDisplacement(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierDisplacement: ...
-
     def xgmModifierGuide(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierGuide: ...
-
     def xgmModifierLinearWire(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierLinearWire: ...
-
     def xgmModifierNoise(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierNoise: ...
-
     def xgmModifierScale(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierScale: ...
-
     def xgmModifierSculpt(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmModifierSculpt: ...
-
     def xgmSeExpr(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmSeExpr: ...
-
     def xgmSplineBase(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> XgmSplineBase: ...
-
     def xgmSplineCache(
         self,
         name: str | None = None,

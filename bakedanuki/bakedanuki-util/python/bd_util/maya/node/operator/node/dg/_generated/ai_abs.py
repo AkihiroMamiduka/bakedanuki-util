@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_abs import (
 )
 
 
-class _GeneratedAiAbs(DG):
+class GeneratedAiAbs(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiAbs"
@@ -21,7 +21,9 @@ class _GeneratedAiAbs(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

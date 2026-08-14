@@ -1,21 +1,21 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.xgm_spline_cache import WidthRampField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class CycleTypeEnumPlugOperator(EnumPlugOperator):
+class CycleTypeEnumPlugOperator(EnumPlugOperator["CycleTypeEnumAttrOperator"]):
     __slots__ = ()
 
     HOLD = 0
@@ -24,7 +24,7 @@ class CycleTypeEnumPlugOperator(EnumPlugOperator):
     BOUNCE = 3
 
 
-class CycleTypeEnumAttrOperator(EnumAttrOperator):
+class CycleTypeEnumAttrOperator(EnumAttrOperator[CycleTypeEnumPlugOperator]):
     __slots__ = ()
 
     HOLD = 0
@@ -49,7 +49,7 @@ class CycleTypeEnumField(
     PLUG_CLS = CycleTypeEnumPlugOperator
 
 
-class _GeneratedXgmSplineCache(DG):
+class GeneratedXgmSplineCache(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmSplineCache"
@@ -90,13 +90,20 @@ class _GeneratedXgmSplineCache(DG):
     cycleType = CycleTypeEnumField(default_value=0)
     ct = cycleType
 
-    width = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    width = FloatField(
+        default_value=0.10000000149011612,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     w = width
 
     widthTaper = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     wdt = widthTaper
 
-    widthTaperStart = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    widthTaperStart = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     wdts = widthTaperStart
 
     widthRamp = WidthRampField(multi=True, default_value=(0.0, 0.0, 1.0))

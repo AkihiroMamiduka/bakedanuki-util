@@ -1,16 +1,18 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class SolverModeEnumPlugOperator(EnumPlugOperator):
+class SolverModeEnumPlugOperator(
+    EnumPlugOperator["SolverModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FULL_BODY = 0
@@ -18,7 +20,7 @@ class SolverModeEnumPlugOperator(EnumPlugOperator):
     SELECTION = 2
 
 
-class SolverModeEnumAttrOperator(EnumAttrOperator):
+class SolverModeEnumAttrOperator(EnumAttrOperator[SolverModeEnumPlugOperator]):
     __slots__ = ()
 
     FULL_BODY = 0
@@ -41,7 +43,7 @@ class SolverModeEnumField(
     PLUG_CLS = SolverModeEnumPlugOperator
 
 
-class _GeneratedHIKSolverNode(DG):
+class GeneratedHIKSolverNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKSolverNode"

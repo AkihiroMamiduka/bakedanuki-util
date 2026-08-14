@@ -8,15 +8,15 @@ from ....attr.define.node_attr.ai_utility import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ColorModeEnumPlugOperator(EnumPlugOperator):
+class ColorModeEnumPlugOperator(EnumPlugOperator["ColorModeEnumAttrOperator"]):
     __slots__ = ()
 
     COLOR = 0
@@ -45,7 +45,7 @@ class ColorModeEnumPlugOperator(EnumPlugOperator):
     PIXELERROR = 23
 
 
-class ColorModeEnumAttrOperator(EnumAttrOperator):
+class ColorModeEnumAttrOperator(EnumAttrOperator[ColorModeEnumPlugOperator]):
     __slots__ = ()
 
     COLOR = 0
@@ -110,7 +110,7 @@ class ColorModeEnumField(
     PLUG_CLS = ColorModeEnumPlugOperator
 
 
-class ShadeModeEnumPlugOperator(EnumPlugOperator):
+class ShadeModeEnumPlugOperator(EnumPlugOperator["ShadeModeEnumAttrOperator"]):
     __slots__ = ()
 
     NDOTEYE = 0
@@ -121,7 +121,7 @@ class ShadeModeEnumPlugOperator(EnumPlugOperator):
     METAL = 5
 
 
-class ShadeModeEnumAttrOperator(EnumAttrOperator):
+class ShadeModeEnumAttrOperator(EnumAttrOperator[ShadeModeEnumPlugOperator]):
     __slots__ = ()
 
     NDOTEYE = 0
@@ -150,7 +150,9 @@ class ShadeModeEnumField(
     PLUG_CLS = ShadeModeEnumPlugOperator
 
 
-class OverlayModeEnumPlugOperator(EnumPlugOperator):
+class OverlayModeEnumPlugOperator(
+    EnumPlugOperator["OverlayModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -158,7 +160,9 @@ class OverlayModeEnumPlugOperator(EnumPlugOperator):
     POLYWIRE = 2
 
 
-class OverlayModeEnumAttrOperator(EnumAttrOperator):
+class OverlayModeEnumAttrOperator(
+    EnumAttrOperator[OverlayModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -181,7 +185,7 @@ class OverlayModeEnumField(
     PLUG_CLS = OverlayModeEnumPlugOperator
 
 
-class _GeneratedAiUtility(DG):
+class GeneratedAiUtility(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUtility"
@@ -195,7 +199,9 @@ class _GeneratedAiUtility(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -239,10 +245,14 @@ class _GeneratedAiUtility(DG):
     colorB = color.colorB
     colorb = colorB
 
-    aoDistance = FloatField(default_value=100.0, min_value=0.0, soft_max_value=200.0)
+    aoDistance = FloatField(
+        default_value=100.0, min_value=0.0, soft_max_value=200.0
+    )
     ao_distance = aoDistance
 
-    roughness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    roughness = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
 
     normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX

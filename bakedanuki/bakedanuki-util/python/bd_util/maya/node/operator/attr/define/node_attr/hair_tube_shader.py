@@ -6,32 +6,32 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
-    EnumAttrOperator,
-    EnumPlugOperator,
-    EnumField,
-)
 from ..std.at.light_data import (
     LightDataAttrOperator,
     LightDataPlugOperator,
     LightDataField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
+    Float3CompoundBaseAttrOperator,
+    Float3CompoundBasePlugOperator,
+    Float3CompoundBaseField,
+    Float3Field,
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
-    Float3CompoundBaseAttrOperator,
-    Float3CompoundBasePlugOperator,
-    Float3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
-class ColorScale_InterpEnumPlugOperator(EnumPlugOperator):
+class ColorScale_InterpEnumPlugOperator(
+    EnumPlugOperator["ColorScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -40,7 +40,9 @@ class ColorScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class ColorScale_InterpEnumAttrOperator(EnumAttrOperator):
+class ColorScale_InterpEnumAttrOperator(
+    EnumAttrOperator[ColorScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -57,7 +59,9 @@ class ColorScale_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class ColorScale_InterpEnumField(
-    EnumField[ColorScale_InterpEnumAttrOperator, ColorScale_InterpEnumPlugOperator]
+    EnumField[
+        ColorScale_InterpEnumAttrOperator, ColorScale_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -118,9 +122,7 @@ class RayDirectionField(
     rdz = rayDirectionZ
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "cr"),
@@ -138,9 +140,7 @@ class ColorPlugOperator(
     cb = colorB
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=0.5)
@@ -313,7 +313,9 @@ class IncandescenceAttrOperator(
 
 
 class IncandescenceField(
-    Float3CompoundBaseField[IncandescenceAttrOperator, IncandescencePlugOperator]
+    Float3CompoundBaseField[
+        IncandescenceAttrOperator, IncandescencePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -472,7 +474,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -763,7 +767,9 @@ class OutMatteOpacityAttrOperator(
 
 
 class OutMatteOpacityField(
-    Float3CompoundBaseField[OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator]
+    Float3CompoundBaseField[
+        OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -816,7 +822,9 @@ class HardwareShaderAttrOperator(
 
 
 class HardwareShaderField(
-    Float3CompoundBaseField[HardwareShaderAttrOperator, HardwareShaderPlugOperator]
+    Float3CompoundBaseField[
+        HardwareShaderAttrOperator, HardwareShaderPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -869,7 +877,9 @@ class SpecularColorAttrOperator(
 
 
 class SpecularColorField(
-    Float3CompoundBaseField[SpecularColorAttrOperator, SpecularColorPlugOperator]
+    Float3CompoundBaseField[
+        SpecularColorAttrOperator, SpecularColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -922,7 +932,9 @@ class ReflectedColorAttrOperator(
 
 
 class ReflectedColorField(
-    Float3CompoundBaseField[ReflectedColorAttrOperator, ReflectedColorPlugOperator]
+    Float3CompoundBaseField[
+        ReflectedColorAttrOperator, ReflectedColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -975,7 +987,9 @@ class TriangleNormalCameraAttrOperator(
 
 
 class TriangleNormalCameraField(
-    Float3CompoundBaseField[TriangleNormalCameraAttrOperator, TriangleNormalCameraPlugOperator]
+    Float3CompoundBaseField[
+        TriangleNormalCameraAttrOperator, TriangleNormalCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1028,7 +1042,9 @@ class TangentUCameraAttrOperator(
 
 
 class TangentUCameraField(
-    Float3CompoundBaseField[TangentUCameraAttrOperator, TangentUCameraPlugOperator]
+    Float3CompoundBaseField[
+        TangentUCameraAttrOperator, TangentUCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1081,7 +1097,9 @@ class TangentVCameraAttrOperator(
 
 
 class TangentVCameraField(
-    Float3CompoundBaseField[TangentVCameraAttrOperator, TangentVCameraPlugOperator]
+    Float3CompoundBaseField[
+        TangentVCameraAttrOperator, TangentVCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1114,9 +1132,7 @@ class UvCoordPlugOperator(
     uvv = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -1141,9 +1157,7 @@ class UvCoordField(
     uvv = vCoord
 
 
-class ColorScalePlugOperator(
-    CompoundPlugOperator["ColorScaleAttrOperator"]
-):
+class ColorScalePlugOperator(CompoundPlugOperator["ColorScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorScale_Position", "clsp"),
@@ -1161,9 +1175,7 @@ class ColorScalePlugOperator(
     clsi = colorScale_Interp
 
 
-class ColorScaleAttrOperator(
-    CompoundAttrOperator[ColorScalePlugOperator]
-):
+class ColorScaleAttrOperator(CompoundAttrOperator[ColorScalePlugOperator]):
     __slots__ = ()
 
     colorScale_Position = FloatField(default_value=0.0)

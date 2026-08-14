@@ -7,7 +7,7 @@ from ....attr.define.node_attr.compact_plug_array_test import (
 )
 
 
-class _GeneratedCompactPlugArrayTest(DG):
+class GeneratedCompactPlugArrayTest(DG):
     __slots__ = ()
 
     NODE_TYPE = "compactPlugArrayTest"

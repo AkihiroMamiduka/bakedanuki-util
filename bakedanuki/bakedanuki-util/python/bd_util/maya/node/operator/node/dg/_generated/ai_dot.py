@@ -5,10 +5,10 @@ from ....attr.define.node_attr.ai_dot import (
     Input2Field,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiDot(DG):
+class GeneratedAiDot(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiDot"
@@ -16,7 +16,9 @@ class _GeneratedAiDot(DG):
     outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

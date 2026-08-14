@@ -2,7 +2,7 @@
 from .._core import DG
 
 
-class _GeneratedSelector(DG):
+class GeneratedSelector(DG):
     __slots__ = ()
 
     NODE_TYPE = "selector"

@@ -6,13 +6,11 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar_range.double import DoubleField
+from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.dt.string import DataStringField
 
 
-class AnimationPlugOperator(
-    CompoundPlugOperator["AnimationAttrOperator"]
-):
+class AnimationPlugOperator(CompoundPlugOperator["AnimationAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("source", "as"),
@@ -34,9 +32,7 @@ class AnimationPlugOperator(
     at = target
 
 
-class AnimationAttrOperator(
-    CompoundAttrOperator[AnimationPlugOperator]
-):
+class AnimationAttrOperator(CompoundAttrOperator[AnimationPlugOperator]):
     __slots__ = ()
 
     source = MessageField()

@@ -5,11 +5,11 @@ from ....attr.define.node_attr.cache_blend import (
     InCacheField,
 )
 from ....attr.define.std.at.generic import GenericField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedCacheBlend(DG):
+class GeneratedCacheBlend(DG):
     __slots__ = ()
 
     NODE_TYPE = "cacheBlend"

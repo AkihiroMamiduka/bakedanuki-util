@@ -1,27 +1,21 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base import (
-    Double2CompoundBaseAttrOperator,
-    Double2CompoundBasePlugOperator,
-    Double2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
-    DoubleAngle3CompoundBaseAttrOperator,
-    DoubleAngle3CompoundBasePlugOperator,
-    DoubleAngle3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double2._base import (
-    DoubleLinear2CompoundBaseAttrOperator,
-    DoubleLinear2CompoundBasePlugOperator,
-    DoubleLinear2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ..custom import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
+    Double2CompoundBaseAttrOperator,
+    Double2CompoundBasePlugOperator,
+    Double2CompoundBaseField,
+    DoubleAngle3CompoundBaseAttrOperator,
+    DoubleAngle3CompoundBasePlugOperator,
+    DoubleAngle3CompoundBaseField,
+    DoubleLinear2CompoundBaseAttrOperator,
+    DoubleLinear2CompoundBasePlugOperator,
+    DoubleLinear2CompoundBaseField,
 )
 
 
@@ -61,7 +55,9 @@ class ProjectionCenterAttrOperator(
 
 
 class ProjectionCenterField(
-    DoubleLinear3CompoundBaseField[ProjectionCenterAttrOperator, ProjectionCenterPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ProjectionCenterAttrOperator, ProjectionCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -183,10 +179,14 @@ class ProjectionScalePlugOperator(
         ("projectionVerticalSweep", "pvs"),
     )
 
-    projectionHorizontalSweep = DoubleLinearField(default_value=180.0, min_value=0.0, max_value=360.0)
+    projectionHorizontalSweep = DoubleLinearField(
+        default_value=180.0, min_value=0.0, max_value=360.0
+    )
     phs = projectionHorizontalSweep
 
-    projectionVerticalSweep = DoubleLinearField(default_value=90.0, min_value=0.0, max_value=180.0)
+    projectionVerticalSweep = DoubleLinearField(
+        default_value=90.0, min_value=0.0, max_value=180.0
+    )
     pvs = projectionVerticalSweep
 
 
@@ -195,25 +195,35 @@ class ProjectionScaleAttrOperator(
 ):
     __slots__ = ()
 
-    projectionHorizontalSweep = DoubleLinearField(default_value=180.0, min_value=0.0, max_value=360.0)
+    projectionHorizontalSweep = DoubleLinearField(
+        default_value=180.0, min_value=0.0, max_value=360.0
+    )
     phs = projectionHorizontalSweep
 
-    projectionVerticalSweep = DoubleLinearField(default_value=90.0, min_value=0.0, max_value=180.0)
+    projectionVerticalSweep = DoubleLinearField(
+        default_value=90.0, min_value=0.0, max_value=180.0
+    )
     pvs = projectionVerticalSweep
 
 
 class ProjectionScaleField(
-    DoubleLinear2CompoundBaseField[ProjectionScaleAttrOperator, ProjectionScalePlugOperator]
+    DoubleLinear2CompoundBaseField[
+        ProjectionScaleAttrOperator, ProjectionScalePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = ProjectionScaleAttrOperator
     PLUG_CLS = ProjectionScalePlugOperator
 
-    projectionHorizontalSweep = DoubleLinearField(default_value=180.0, min_value=0.0, max_value=360.0)
+    projectionHorizontalSweep = DoubleLinearField(
+        default_value=180.0, min_value=0.0, max_value=360.0
+    )
     phs = projectionHorizontalSweep
 
-    projectionVerticalSweep = DoubleLinearField(default_value=90.0, min_value=0.0, max_value=180.0)
+    projectionVerticalSweep = DoubleLinearField(
+        default_value=90.0, min_value=0.0, max_value=180.0
+    )
     pvs = projectionVerticalSweep
 
 

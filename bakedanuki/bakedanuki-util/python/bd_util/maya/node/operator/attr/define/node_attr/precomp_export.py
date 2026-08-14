@@ -44,7 +44,9 @@ class ExcludedExportItemListAttrOperator(
 
 
 class ExcludedExportItemListField(
-    CompoundField[ExcludedExportItemListAttrOperator, ExcludedExportItemListPlugOperator]
+    CompoundField[
+        ExcludedExportItemListAttrOperator, ExcludedExportItemListPlugOperator
+    ]
 ):
     __slots__ = ()
 

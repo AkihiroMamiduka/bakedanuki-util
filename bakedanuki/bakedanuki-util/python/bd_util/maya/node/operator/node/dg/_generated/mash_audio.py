@@ -5,23 +5,25 @@ from ....attr.define.node_attr.mash_audio import (
     FrequencyGraphField,
     MColourField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -30,7 +32,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -55,14 +59,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -75,7 +83,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -83,7 +94,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class FilterStrengthEnumPlugOperator(EnumPlugOperator):
+class FilterStrengthEnumPlugOperator(
+    EnumPlugOperator["FilterStrengthEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 1
@@ -92,7 +105,9 @@ class FilterStrengthEnumPlugOperator(EnumPlugOperator):
     STRONG = 4
 
 
-class FilterStrengthEnumAttrOperator(EnumAttrOperator):
+class FilterStrengthEnumAttrOperator(
+    EnumAttrOperator[FilterStrengthEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 1
@@ -117,14 +132,16 @@ class FilterStrengthEnumField(
     PLUG_CLS = FilterStrengthEnumPlugOperator
 
 
-class OutputModeEnumPlugOperator(EnumPlugOperator):
+class OutputModeEnumPlugOperator(
+    EnumPlugOperator["OutputModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
     MULTIPLY = 1
 
 
-class OutputModeEnumAttrOperator(EnumAttrOperator):
+class OutputModeEnumAttrOperator(EnumAttrOperator[OutputModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -145,7 +162,9 @@ class OutputModeEnumField(
     PLUG_CLS = OutputModeEnumPlugOperator
 
 
-class SampleRateEnumPlugOperator(EnumPlugOperator):
+class SampleRateEnumPlugOperator(
+    EnumPlugOperator["SampleRateEnumAttrOperator"]
+):
     __slots__ = ()
 
     _48000 = 0
@@ -155,7 +174,7 @@ class SampleRateEnumPlugOperator(EnumPlugOperator):
     _96000 = 4
 
 
-class SampleRateEnumAttrOperator(EnumAttrOperator):
+class SampleRateEnumAttrOperator(EnumAttrOperator[SampleRateEnumPlugOperator]):
     __slots__ = ()
 
     _48000 = 0
@@ -182,14 +201,14 @@ class SampleRateEnumField(
     PLUG_CLS = SampleRateEnumPlugOperator
 
 
-class NodeModeEnumPlugOperator(EnumPlugOperator):
+class NodeModeEnumPlugOperator(EnumPlugOperator["NodeModeEnumAttrOperator"]):
     __slots__ = ()
 
     SPECTRUM = 0
     AVERAGE = 1
 
 
-class NodeModeEnumAttrOperator(EnumAttrOperator):
+class NodeModeEnumAttrOperator(EnumAttrOperator[NodeModeEnumPlugOperator]):
     __slots__ = ()
 
     SPECTRUM = 0
@@ -210,7 +229,9 @@ class NodeModeEnumField(
     PLUG_CLS = NodeModeEnumPlugOperator
 
 
-class FourierScalingEnumPlugOperator(EnumPlugOperator):
+class FourierScalingEnumPlugOperator(
+    EnumPlugOperator["FourierScalingEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -218,7 +239,9 @@ class FourierScalingEnumPlugOperator(EnumPlugOperator):
     LOGARITHMIC = 2
 
 
-class FourierScalingEnumAttrOperator(EnumAttrOperator):
+class FourierScalingEnumAttrOperator(
+    EnumAttrOperator[FourierScalingEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -241,14 +264,16 @@ class FourierScalingEnumField(
     PLUG_CLS = FourierScalingEnumPlugOperator
 
 
-class VolumeModeEnumPlugOperator(EnumPlugOperator):
+class VolumeModeEnumPlugOperator(
+    EnumPlugOperator["VolumeModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     AVERAGE = 0
     LOUDEST = 1
 
 
-class VolumeModeEnumAttrOperator(EnumAttrOperator):
+class VolumeModeEnumAttrOperator(EnumAttrOperator[VolumeModeEnumPlugOperator]):
     __slots__ = ()
 
     AVERAGE = 0
@@ -269,7 +294,7 @@ class VolumeModeEnumField(
     PLUG_CLS = VolumeModeEnumPlugOperator
 
 
-class _GeneratedMASH_Audio(DG):
+class GeneratedMASHAudio(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Audio"
@@ -289,7 +314,9 @@ class _GeneratedMASH_Audio(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -394,9 +421,13 @@ class _GeneratedMASH_Audio(DG):
 
     filterStrength = FilterStrengthEnumField(default_value=1)
 
-    minThreshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=30.0)
+    minThreshold = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=30.0
+    )
 
-    maxThreshold = FloatField(default_value=100.0, min_value=0.0, soft_max_value=100.0)
+    maxThreshold = FloatField(
+        default_value=100.0, min_value=0.0, soft_max_value=100.0
+    )
 
     filename = DataStringField()
 
@@ -412,11 +443,15 @@ class _GeneratedMASH_Audio(DG):
 
     volumeMode = VolumeModeEnumField(default_value=0)
 
-    frequencyGraph = FrequencyGraphField(multi=True, default_value=(0.0, 0.0, 1.0))
+    frequencyGraph = FrequencyGraphField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
 
     timeSmoothing = LongField(default_value=1, min_value=1, soft_max_value=5)
 
-    ampScale = FloatField(default_value=30.0, soft_min_value=0.0, soft_max_value=100.0)
+    ampScale = FloatField(
+        default_value=30.0, soft_min_value=0.0, soft_max_value=100.0
+    )
     as_ = ampScale
 
     amplitudeLeft = FloatField(default_value=0.0, writable=False)
@@ -425,17 +460,29 @@ class _GeneratedMASH_Audio(DG):
     amplitudeRight = FloatField(default_value=0.0, writable=False)
     ampR = amplitudeRight
 
-    positionX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    positionX = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    positionY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    positionY = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    positionZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    positionZ = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    rotationX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    rotationX = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
 
-    rotationY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    rotationY = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
 
-    rotationZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    rotationZ = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
 
     scaleX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 

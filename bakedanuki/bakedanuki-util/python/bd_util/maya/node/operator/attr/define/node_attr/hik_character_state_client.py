@@ -5,12 +5,10 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
+from ..std.at.scalar.numeric.range.double import DoubleField
 
 
-class HipsScalePlugOperator(
-    CompoundPlugOperator["HipsScaleAttrOperator"]
-):
+class HipsScalePlugOperator(CompoundPlugOperator["HipsScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("hipsScaleX", "hipsScaleX"),
@@ -25,9 +23,7 @@ class HipsScalePlugOperator(
     hipsScaleZ = DoubleField(default_value=1.0)
 
 
-class HipsScaleAttrOperator(
-    CompoundAttrOperator[HipsScalePlugOperator]
-):
+class HipsScaleAttrOperator(CompoundAttrOperator[HipsScalePlugOperator]):
     __slots__ = ()
 
     hipsScaleX = DoubleField(default_value=1.0)

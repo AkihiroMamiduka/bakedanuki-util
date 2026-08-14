@@ -6,19 +6,21 @@ from ....attr.define.node_attr.render_target import (
     OutSizeField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FrameBufferTypeEnumPlugOperator(EnumPlugOperator):
+class FrameBufferTypeEnumPlugOperator(
+    EnumPlugOperator["FrameBufferTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     _8_MINUS_BIT_INTEGER_UNSIGNED = 0
@@ -27,7 +29,9 @@ class FrameBufferTypeEnumPlugOperator(EnumPlugOperator):
     _32_MINUS_BIT_FLOAT = 3
 
 
-class FrameBufferTypeEnumAttrOperator(EnumAttrOperator):
+class FrameBufferTypeEnumAttrOperator(
+    EnumAttrOperator[FrameBufferTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     _8_MINUS_BIT_INTEGER_UNSIGNED = 0
@@ -52,7 +56,9 @@ class FrameBufferTypeEnumField(
     PLUG_CLS = FrameBufferTypeEnumPlugOperator
 
 
-class NumberOfChannelsEnumPlugOperator(EnumPlugOperator):
+class NumberOfChannelsEnumPlugOperator(
+    EnumPlugOperator["NumberOfChannelsEnumAttrOperator"]
+):
     __slots__ = ()
 
     _1 = 1
@@ -60,7 +66,9 @@ class NumberOfChannelsEnumPlugOperator(EnumPlugOperator):
     _4 = 4
 
 
-class NumberOfChannelsEnumAttrOperator(EnumAttrOperator):
+class NumberOfChannelsEnumAttrOperator(
+    EnumAttrOperator[NumberOfChannelsEnumPlugOperator]
+):
     __slots__ = ()
 
     _1 = 1
@@ -75,7 +83,9 @@ class NumberOfChannelsEnumAttrOperator(EnumAttrOperator):
 
 
 class NumberOfChannelsEnumField(
-    EnumField[NumberOfChannelsEnumAttrOperator, NumberOfChannelsEnumPlugOperator]
+    EnumField[
+        NumberOfChannelsEnumAttrOperator, NumberOfChannelsEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -83,7 +93,7 @@ class NumberOfChannelsEnumField(
     PLUG_CLS = NumberOfChannelsEnumPlugOperator
 
 
-class _GeneratedRenderTarget(DG):
+class GeneratedRenderTarget(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderTarget"
@@ -110,7 +120,9 @@ class _GeneratedRenderTarget(DG):
     fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -158,10 +170,14 @@ class _GeneratedRenderTarget(DG):
     resolutionOverride = BoolField(default_value=False)
     reso = resolutionOverride
 
-    width = LongField(default_value=640, min_value=2, soft_min_value=128, soft_max_value=8192)
+    width = LongField(
+        default_value=640, min_value=2, soft_min_value=128, soft_max_value=8192
+    )
     w = width
 
-    height = LongField(default_value=480, min_value=2, soft_min_value=128, soft_max_value=8192)
+    height = LongField(
+        default_value=480, min_value=2, soft_min_value=128, soft_max_value=8192
+    )
     h = height
 
     camera = MessageField(readable=False)

@@ -1,17 +1,17 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     FILMIC = 0
@@ -19,7 +19,7 @@ class ModeEnumPlugOperator(EnumPlugOperator):
     LUT = 2
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     FILMIC = 0
@@ -33,16 +33,14 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiImagerTonemap(DG):
+class GeneratedAiImagerTonemap(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerTonemap"
@@ -56,25 +54,39 @@ class _GeneratedAiImagerTonemap(DG):
 
     mode = ModeEnumField(default_value=0)
 
-    filmicToeStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    filmicToeStrength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     filmic_toe_strength = filmicToeStrength
 
-    filmicToeLength = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    filmicToeLength = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     filmic_toe_length = filmicToeLength
 
-    filmicShoulderStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    filmicShoulderStrength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     filmic_shoulder_strength = filmicShoulderStrength
 
-    filmicShoulderLength = FloatField(default_value=0.5, min_value=0.0, soft_max_value=3.0)
+    filmicShoulderLength = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=3.0
+    )
     filmic_shoulder_length = filmicShoulderLength
 
-    filmicShoulderAngle = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    filmicShoulderAngle = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     filmic_shoulder_angle = filmicShoulderAngle
 
-    reinhardHighlights = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    reinhardHighlights = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     reinhard_highlights = reinhardHighlights
 
-    reinhardShadows = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    reinhardShadows = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     reinhard_shadows = reinhardShadows
 
     lutFilename = DataStringField()

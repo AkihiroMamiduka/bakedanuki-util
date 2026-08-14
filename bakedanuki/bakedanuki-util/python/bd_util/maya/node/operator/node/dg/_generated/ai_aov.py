@@ -1,17 +1,17 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.ai_aov import OutputsField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     INT = 1
@@ -25,7 +25,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     POINTER = 11
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     INT = 1
@@ -51,16 +51,14 @@ class TypeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class _GeneratedAiAOV(DG):
+class GeneratedAiAOV(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiAOV"

@@ -1,12 +1,10 @@
 # coding: utf-8
 from importlib import import_module
 
-_GeneratedOr = import_module(
-    f"{__package__}._generated.or"
-)._GeneratedOr
+GeneratedOr = import_module(f"{__package__}._generated.or").GeneratedOr
 
 
-class Or(_GeneratedOr):
+class Or(GeneratedOr):
     __slots__ = ()
 
     NODE_TYPE = "or"

@@ -8,7 +8,7 @@ from ....attr.define.node_attr.light_linker import (
 )
 
 
-class _GeneratedLightLinker(DG):
+class GeneratedLightLinker(DG):
     __slots__ = ()
 
     NODE_TYPE = "lightLinker"

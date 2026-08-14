@@ -2,7 +2,11 @@
 
 このページは `NodeOperator` 周辺の設計メモと今後の作業候補です。
 
-1.0.0 までは開発中 API として扱い、必要なら破壊的変更も許容します。
+1.0.0 までは開発中 API として扱います。将来の設計と使いやすさを優先し、互換性維持
+よりも改善を選んで、必要な破壊的変更を積極的に行います。安定した API 互換性の提供は
+1.0.0 以降を対象とします。破壊的変更は原則として `0.x.0` の minor release で行い、
+`0.x.y` の patch release では意図的に行いません。変更内容と移行手順はルートの
+`CHANGELOG.md` に記録します。
 
 ## 現在固まっている方針
 
@@ -23,6 +27,8 @@
 - `plus_minus_average` / `wt_add_matrix` の代表的な挙動を pytest 化。
 - `ModifierManager` 追加。
 - NodeOperator / PlugOperator の modifier 参照を manager 経由へ移行。
+- Pyright による node 作成、descriptor、compound / multi、戻り値型の
+  contract test を追加。
 - plug cache / indexed plug cache / child direct index などの速度改善。
 - custom scalar compound の階層整理。
 - `double2` / `double3` / `double4` / `float2` / `float3` などを custom compound 側へ移行。
@@ -31,6 +37,75 @@
 - compound `get()` / `set()` / `set_direct()` を整備。
 - compound child limit の public method 化。
 - `lookup.py` の double4 / quat 解決対応。
+- 18 種類の compound 専用値型を追加し、scalar compound の
+  `get()` / `value` / `value_direct` の戻り値へ接続。
+
+## 決定済みのロードマップ
+
+次の順序で、DAG 階層と shape 作成 API を整備します。
+
+### 1. DAG path と instancing の方針
+
+子孫・先祖 traversal の実装前に、`MDagPath` と instanced DAG node の
+扱いを決めます。
+
+現在の `NodeOperator` は `MObject` を中心に扱うため、同じ node が複数の
+DAG path を持つ場合に、どの path の階層を返すかが曖昧になります。
+
+初期版で曖昧な操作を `RuntimeError` にするか、`ExistingNode` から
+具体的な `MDagPath` を保持できる設計へ拡張するかを先に決定します。
+
+### 2. DAG 階層 traversal
+
+DAG path / instancing の方針確定後、次の階層取得 API を追加します。
+
+- 直接の子。
+- 直接親から root 方向へ辿る先祖。
+- depth-first で辿る子孫。
+
+戻り値は同じ `ModifierManager` を共有する `DAG` 系の `NodeOperator` とし、
+world を含めるか、shape を含めるか、列挙順、未実行の `MDagModifier` の
+変更を含めるかを仕様として固定します。
+
+### 3. 親 Transform 必須の shape 作成
+
+最初の shape 作成 API は、親 `Transform` を必須として公開します。
+
+```python
+mesh = nodes.create.mesh(
+    name="meshShape",
+    parent=transform,
+)
+```
+
+親を指定せず `MDagModifier.createNode()` で shape type を作成すると、
+Maya が transform を自動生成し、返される `MObject` も transform になる
+場合があります。そのため、既存の DG / transform 作成 API と同じ形で
+shape package 全体を無条件に公開しません。
+
+まずは作成可能なことを確認できた shape type から限定して公開し、
+戻り値型、undo / redo、命名、親との `ModifierManager` 共有を検証します。
+
+### 4. transform と shape の一括作成
+
+親 Transform 必須の API が安定した後、transform と shape を同じ
+`ModifierManager` に積んで一括作成する便利 API を検討します。
+
+shape 名と transform 名、戻り値を shape 単体にするか両方返すか、
+既存の `nodes.create.<nodeType>()` とどう区別するかを明示します。
+
+`polyCube` のように history node も生成する primitive 作成は、raw shape
+作成とは別の高レベル API として扱います。
+
+## 将来の拡張候補
+
+### compound 専用値型の演算
+
+compound 専用値型の利用例が集まり、演算の意味を固定できてから追加します。
+
+通常の numeric compound では、同じ型同士の加算・減算、scalar との
+乗算・除算を最初の候補とします。要素積、内積、行列との演算、
+quaternion multiplication などは同じ演算子へ一律に割り当てません。
 
 ## 近い作業候補
 

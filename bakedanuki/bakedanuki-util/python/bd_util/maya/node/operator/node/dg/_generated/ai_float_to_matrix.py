@@ -2,10 +2,10 @@
 from .._core import DG
 from ....attr.define.node_attr.ai_float_to_matrix import OutTransparencyField
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiFloatToMatrix(DG):
+class GeneratedAiFloatToMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFloatToMatrix"
@@ -13,7 +13,9 @@ class _GeneratedAiFloatToMatrix(DG):
     outValue = FltMatrixField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

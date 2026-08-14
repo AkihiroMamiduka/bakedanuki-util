@@ -1,15 +1,13 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
-    Float2CompoundBaseAttrOperator,
-    Float2CompoundBasePlugOperator,
-    Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float2CompoundBaseAttrOperator,
+    Float2CompoundBasePlugOperator,
+    Float2CompoundBaseField,
 )
 
 
@@ -526,7 +524,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -553,13 +553,19 @@ class FillerColorPlugOperator(
         ("fillerColorB", "fcb"),
     )
 
-    fillerColorR = FloatField(default_value=0.8240000009536743, min_value=0.0, max_value=1.0)
+    fillerColorR = FloatField(
+        default_value=0.8240000009536743, min_value=0.0, max_value=1.0
+    )
     fcr = fillerColorR
 
-    fillerColorG = FloatField(default_value=0.6269999742507935, min_value=0.0, max_value=1.0)
+    fillerColorG = FloatField(
+        default_value=0.6269999742507935, min_value=0.0, max_value=1.0
+    )
     fcg = fillerColorG
 
-    fillerColorB = FloatField(default_value=0.47099998593330383, min_value=0.0, max_value=1.0)
+    fillerColorB = FloatField(
+        default_value=0.47099998593330383, min_value=0.0, max_value=1.0
+    )
     fcb = fillerColorB
 
 
@@ -568,13 +574,19 @@ class FillerColorAttrOperator(
 ):
     __slots__ = ()
 
-    fillerColorR = FloatField(default_value=0.8240000009536743, min_value=0.0, max_value=1.0)
+    fillerColorR = FloatField(
+        default_value=0.8240000009536743, min_value=0.0, max_value=1.0
+    )
     fcr = fillerColorR
 
-    fillerColorG = FloatField(default_value=0.6269999742507935, min_value=0.0, max_value=1.0)
+    fillerColorG = FloatField(
+        default_value=0.6269999742507935, min_value=0.0, max_value=1.0
+    )
     fcg = fillerColorG
 
-    fillerColorB = FloatField(default_value=0.47099998593330383, min_value=0.0, max_value=1.0)
+    fillerColorB = FloatField(
+        default_value=0.47099998593330383, min_value=0.0, max_value=1.0
+    )
     fcb = fillerColorB
 
 
@@ -586,13 +598,19 @@ class FillerColorField(
     ATTR_CLS = FillerColorAttrOperator
     PLUG_CLS = FillerColorPlugOperator
 
-    fillerColorR = FloatField(default_value=0.8240000009536743, min_value=0.0, max_value=1.0)
+    fillerColorR = FloatField(
+        default_value=0.8240000009536743, min_value=0.0, max_value=1.0
+    )
     fcr = fillerColorR
 
-    fillerColorG = FloatField(default_value=0.6269999742507935, min_value=0.0, max_value=1.0)
+    fillerColorG = FloatField(
+        default_value=0.6269999742507935, min_value=0.0, max_value=1.0
+    )
     fcg = fillerColorG
 
-    fillerColorB = FloatField(default_value=0.47099998593330383, min_value=0.0, max_value=1.0)
+    fillerColorB = FloatField(
+        default_value=0.47099998593330383, min_value=0.0, max_value=1.0
+    )
     fcb = fillerColorB
 
 
@@ -606,13 +624,19 @@ class VeinColorPlugOperator(
         ("veinColorB", "vcb"),
     )
 
-    veinColorR = FloatField(default_value=0.15700000524520874, min_value=0.0, max_value=1.0)
+    veinColorR = FloatField(
+        default_value=0.15700000524520874, min_value=0.0, max_value=1.0
+    )
     vcr = veinColorR
 
-    veinColorG = FloatField(default_value=0.07800000160932541, min_value=0.0, max_value=1.0)
+    veinColorG = FloatField(
+        default_value=0.07800000160932541, min_value=0.0, max_value=1.0
+    )
     vcg = veinColorG
 
-    veinColorB = FloatField(default_value=0.039000000804662704, min_value=0.0, max_value=1.0)
+    veinColorB = FloatField(
+        default_value=0.039000000804662704, min_value=0.0, max_value=1.0
+    )
     vcb = veinColorB
 
 
@@ -621,13 +645,19 @@ class VeinColorAttrOperator(
 ):
     __slots__ = ()
 
-    veinColorR = FloatField(default_value=0.15700000524520874, min_value=0.0, max_value=1.0)
+    veinColorR = FloatField(
+        default_value=0.15700000524520874, min_value=0.0, max_value=1.0
+    )
     vcr = veinColorR
 
-    veinColorG = FloatField(default_value=0.07800000160932541, min_value=0.0, max_value=1.0)
+    veinColorG = FloatField(
+        default_value=0.07800000160932541, min_value=0.0, max_value=1.0
+    )
     vcg = veinColorG
 
-    veinColorB = FloatField(default_value=0.039000000804662704, min_value=0.0, max_value=1.0)
+    veinColorB = FloatField(
+        default_value=0.039000000804662704, min_value=0.0, max_value=1.0
+    )
     vcb = veinColorB
 
 
@@ -639,13 +669,19 @@ class VeinColorField(
     ATTR_CLS = VeinColorAttrOperator
     PLUG_CLS = VeinColorPlugOperator
 
-    veinColorR = FloatField(default_value=0.15700000524520874, min_value=0.0, max_value=1.0)
+    veinColorR = FloatField(
+        default_value=0.15700000524520874, min_value=0.0, max_value=1.0
+    )
     vcr = veinColorR
 
-    veinColorG = FloatField(default_value=0.07800000160932541, min_value=0.0, max_value=1.0)
+    veinColorG = FloatField(
+        default_value=0.07800000160932541, min_value=0.0, max_value=1.0
+    )
     vcg = veinColorG
 
-    veinColorB = FloatField(default_value=0.039000000804662704, min_value=0.0, max_value=1.0)
+    veinColorB = FloatField(
+        default_value=0.039000000804662704, min_value=0.0, max_value=1.0
+    )
     vcb = veinColorB
 
 
@@ -659,10 +695,14 @@ class GrainColorPlugOperator(
         ("grainColorB", "gcb"),
     )
 
-    grainColorR = FloatField(default_value=0.11800000071525574, min_value=0.0, max_value=1.0)
+    grainColorR = FloatField(
+        default_value=0.11800000071525574, min_value=0.0, max_value=1.0
+    )
     gcr = grainColorR
 
-    grainColorG = FloatField(default_value=0.039000000804662704, min_value=0.0, max_value=1.0)
+    grainColorG = FloatField(
+        default_value=0.039000000804662704, min_value=0.0, max_value=1.0
+    )
     gcg = grainColorG
 
     grainColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -674,10 +714,14 @@ class GrainColorAttrOperator(
 ):
     __slots__ = ()
 
-    grainColorR = FloatField(default_value=0.11800000071525574, min_value=0.0, max_value=1.0)
+    grainColorR = FloatField(
+        default_value=0.11800000071525574, min_value=0.0, max_value=1.0
+    )
     gcr = grainColorR
 
-    grainColorG = FloatField(default_value=0.039000000804662704, min_value=0.0, max_value=1.0)
+    grainColorG = FloatField(
+        default_value=0.039000000804662704, min_value=0.0, max_value=1.0
+    )
     gcg = grainColorG
 
     grainColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -692,19 +736,21 @@ class GrainColorField(
     ATTR_CLS = GrainColorAttrOperator
     PLUG_CLS = GrainColorPlugOperator
 
-    grainColorR = FloatField(default_value=0.11800000071525574, min_value=0.0, max_value=1.0)
+    grainColorR = FloatField(
+        default_value=0.11800000071525574, min_value=0.0, max_value=1.0
+    )
     gcr = grainColorR
 
-    grainColorG = FloatField(default_value=0.039000000804662704, min_value=0.0, max_value=1.0)
+    grainColorG = FloatField(
+        default_value=0.039000000804662704, min_value=0.0, max_value=1.0
+    )
     gcg = grainColorG
 
     grainColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     gcb = grainColorB
 
 
-class CenterPlugOperator(
-    Float2CompoundBasePlugOperator["CenterAttrOperator"]
-):
+class CenterPlugOperator(Float2CompoundBasePlugOperator["CenterAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("centerU", "cu"),
@@ -718,9 +764,7 @@ class CenterPlugOperator(
     cv = centerV
 
 
-class CenterAttrOperator(
-    Float2CompoundBaseAttrOperator[CenterPlugOperator]
-):
+class CenterAttrOperator(Float2CompoundBaseAttrOperator[CenterPlugOperator]):
     __slots__ = ()
 
     centerU = FloatField(default_value=0.5, min_value=-1.0, max_value=2.0)
@@ -765,9 +809,7 @@ class RipplesPlugOperator(
     rz = ripplesZ
 
 
-class RipplesAttrOperator(
-    Float3CompoundBaseAttrOperator[RipplesPlugOperator]
-):
+class RipplesAttrOperator(Float3CompoundBaseAttrOperator[RipplesPlugOperator]):
     __slots__ = ()
 
     ripplesX = FloatField(default_value=1.0)
@@ -798,9 +840,7 @@ class RipplesField(
     rz = ripplesZ
 
 
-class DepthPlugOperator(
-    Float2CompoundBasePlugOperator["DepthAttrOperator"]
-):
+class DepthPlugOperator(Float2CompoundBasePlugOperator["DepthAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("depthMin", "dmn"),
@@ -814,9 +854,7 @@ class DepthPlugOperator(
     dmx = depthMax
 
 
-class DepthAttrOperator(
-    Float2CompoundBaseAttrOperator[DepthPlugOperator]
-):
+class DepthAttrOperator(Float2CompoundBaseAttrOperator[DepthPlugOperator]):
     __slots__ = ()
 
     depthMin = FloatField(default_value=0.0)

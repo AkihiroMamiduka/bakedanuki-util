@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.stitch_srf import _GeneratedStitchSrf
+from ._generated.stitch_srf import GeneratedStitchSrf
 
 
-class StitchSrf(_GeneratedStitchSrf):
+class StitchSrf(GeneratedStitchSrf):
     __slots__ = ()
 
     NODE_TYPE = "stitchSrf"

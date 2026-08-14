@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_move_edge import _GeneratedPolyMoveEdge
+from ._generated.poly_move_edge import GeneratedPolyMoveEdge
 
 
-class PolyMoveEdge(_GeneratedPolyMoveEdge):
+class PolyMoveEdge(GeneratedPolyMoveEdge):
     __slots__ = ()
 
     NODE_TYPE = "polyMoveEdge"

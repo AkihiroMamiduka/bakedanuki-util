@@ -5,13 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
+from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.typed import TypedField
 
 
-class FunctionPlugOperator(
-    CompoundPlugOperator["FunctionAttrOperator"]
-):
+class FunctionPlugOperator(CompoundPlugOperator["FunctionAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("function_Hidden", "fh"),
@@ -37,9 +35,7 @@ class FunctionPlugOperator(
     fd = function_Default
 
 
-class FunctionAttrOperator(
-    CompoundAttrOperator[FunctionPlugOperator]
-):
+class FunctionAttrOperator(CompoundAttrOperator[FunctionPlugOperator]):
     __slots__ = ()
 
     function_Hidden = TypedField()
@@ -58,9 +54,7 @@ class FunctionAttrOperator(
     fd = function_Default
 
 
-class FunctionField(
-    CompoundField[FunctionAttrOperator, FunctionPlugOperator]
-):
+class FunctionField(CompoundField[FunctionAttrOperator, FunctionPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = FunctionAttrOperator

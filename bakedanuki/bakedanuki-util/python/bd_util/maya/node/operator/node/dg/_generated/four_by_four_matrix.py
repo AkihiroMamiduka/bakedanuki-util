@@ -1,10 +1,10 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class _GeneratedFourByFourMatrix(DG):
+class GeneratedFourByFourMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "fourByFourMatrix"

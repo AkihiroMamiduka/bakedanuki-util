@@ -8,9 +8,7 @@ from ..std.at.compound import (
 from ..std.at.message import MessageField
 
 
-class OutputsPlugOperator(
-    CompoundPlugOperator["OutputsAttrOperator"]
-):
+class OutputsPlugOperator(CompoundPlugOperator["OutputsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("driver", "drvr"),
@@ -24,9 +22,7 @@ class OutputsPlugOperator(
     ftr = filter
 
 
-class OutputsAttrOperator(
-    CompoundAttrOperator[OutputsPlugOperator]
-):
+class OutputsAttrOperator(CompoundAttrOperator[OutputsPlugOperator]):
     __slots__ = ()
 
     driver = MessageField()
@@ -36,9 +32,7 @@ class OutputsAttrOperator(
     ftr = filter
 
 
-class OutputsField(
-    CompoundField[OutputsAttrOperator, OutputsPlugOperator]
-):
+class OutputsField(CompoundField[OutputsAttrOperator, OutputsPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OutputsAttrOperator

@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,9 +116,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class ScalePlugOperator(
-    Float3CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Float3CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "scalex"),
@@ -134,9 +134,7 @@ class ScalePlugOperator(
     scalez = scaleZ
 
 
-class ScaleAttrOperator(
-    Float3CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Float3CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = FloatField(default_value=1.0)
@@ -167,9 +165,7 @@ class ScaleField(
     scalez = scaleZ
 
 
-class OffsetPlugOperator(
-    Float3CompoundBasePlugOperator["OffsetAttrOperator"]
-):
+class OffsetPlugOperator(Float3CompoundBasePlugOperator["OffsetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("offsetX", "offsetx"),
@@ -187,9 +183,7 @@ class OffsetPlugOperator(
     offsetz = offsetZ
 
 
-class OffsetAttrOperator(
-    Float3CompoundBaseAttrOperator[OffsetPlugOperator]
-):
+class OffsetAttrOperator(Float3CompoundBaseAttrOperator[OffsetPlugOperator]):
     __slots__ = ()
 
     offsetX = FloatField(default_value=0.0)
@@ -220,9 +214,7 @@ class OffsetField(
     offsetz = offsetZ
 
 
-class PPlugOperator(
-    Float3CompoundBasePlugOperator["PAttrOperator"]
-):
+class PPlugOperator(Float3CompoundBasePlugOperator["PAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("PX", "Px"),
@@ -240,9 +232,7 @@ class PPlugOperator(
     Pz = PZ
 
 
-class PAttrOperator(
-    Float3CompoundBaseAttrOperator[PPlugOperator]
-):
+class PAttrOperator(Float3CompoundBaseAttrOperator[PPlugOperator]):
     __slots__ = ()
 
     PX = FloatField(default_value=0.0)
@@ -255,9 +245,7 @@ class PAttrOperator(
     Pz = PZ
 
 
-class PField(
-    Float3CompoundBaseField[PAttrOperator, PPlugOperator]
-):
+class PField(Float3CompoundBaseField[PAttrOperator, PPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = PAttrOperator
@@ -273,9 +261,7 @@ class PField(
     Pz = PZ
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "colorr"),
@@ -293,9 +279,7 @@ class ColorPlugOperator(
     colorb = colorB
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=1.0)
@@ -346,9 +330,7 @@ class PalettePlugOperator(
     paletteb = paletteB
 
 
-class PaletteAttrOperator(
-    Float3CompoundBaseAttrOperator[PalettePlugOperator]
-):
+class PaletteAttrOperator(Float3CompoundBaseAttrOperator[PalettePlugOperator]):
     __slots__ = ()
 
     paletteR = FloatField(default_value=1.0)

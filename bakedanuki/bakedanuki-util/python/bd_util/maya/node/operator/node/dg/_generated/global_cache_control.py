@@ -1,21 +1,25 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class EnableStatusEnumPlugOperator(EnumPlugOperator):
+class EnableStatusEnumPlugOperator(
+    EnumPlugOperator["EnableStatusEnumAttrOperator"]
+):
     __slots__ = ()
 
     ENABLE_ALL = 0
     DISABLE_ALL = 1
 
 
-class EnableStatusEnumAttrOperator(EnumAttrOperator):
+class EnableStatusEnumAttrOperator(
+    EnumAttrOperator[EnableStatusEnumPlugOperator]
+):
     __slots__ = ()
 
     ENABLE_ALL = 0
@@ -36,7 +40,7 @@ class EnableStatusEnumField(
     PLUG_CLS = EnableStatusEnumPlugOperator
 
 
-class _GeneratedGlobalCacheControl(DG):
+class GeneratedGlobalCacheControl(DG):
     __slots__ = ()
 
     NODE_TYPE = "globalCacheControl"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.checker import _GeneratedChecker
+from ._generated.checker import GeneratedChecker
 
 
-class Checker(_GeneratedChecker):
+class Checker(GeneratedChecker):
     __slots__ = ()
 
     NODE_TYPE = "checker"

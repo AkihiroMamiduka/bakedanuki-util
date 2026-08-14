@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_cylinder import _GeneratedPolyCylinder
+from ._generated.poly_cylinder import GeneratedPolyCylinder
 
 
-class PolyCylinder(_GeneratedPolyCylinder):
+class PolyCylinder(GeneratedPolyCylinder):
     __slots__ = ()
 
     NODE_TYPE = "polyCylinder"

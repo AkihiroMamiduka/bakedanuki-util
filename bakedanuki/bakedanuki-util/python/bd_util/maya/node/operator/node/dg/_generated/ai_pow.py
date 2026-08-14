@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_pow import (
 )
 
 
-class _GeneratedAiPow(DG):
+class GeneratedAiPow(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiPow"
@@ -22,7 +22,9 @@ class _GeneratedAiPow(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -31,7 +33,13 @@ class _GeneratedAiPow(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    base = BaseField(default_value=(2.7182817459106445, 2.7182817459106445, 2.7182817459106445))
+    base = BaseField(
+        default_value=(
+            2.7182817459106445,
+            2.7182817459106445,
+            2.7182817459106445,
+        )
+    )
     baseR = base.baseR
     baser = baseR
     baseG = base.baseG

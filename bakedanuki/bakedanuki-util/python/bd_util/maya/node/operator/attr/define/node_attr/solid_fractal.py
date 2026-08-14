@@ -1,15 +1,13 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
-    Float2CompoundBaseAttrOperator,
-    Float2CompoundBasePlugOperator,
-    Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float2CompoundBaseAttrOperator,
+    Float2CompoundBasePlugOperator,
+    Float2CompoundBaseField,
 )
 
 
@@ -473,7 +471,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -510,9 +510,7 @@ class RipplesPlugOperator(
     rz = ripplesZ
 
 
-class RipplesAttrOperator(
-    Float3CompoundBaseAttrOperator[RipplesPlugOperator]
-):
+class RipplesAttrOperator(Float3CompoundBaseAttrOperator[RipplesPlugOperator]):
     __slots__ = ()
 
     ripplesX = FloatField(default_value=1.0, min_value=0.0)
@@ -543,9 +541,7 @@ class RipplesField(
     rz = ripplesZ
 
 
-class DepthPlugOperator(
-    Float2CompoundBasePlugOperator["DepthAttrOperator"]
-):
+class DepthPlugOperator(Float2CompoundBasePlugOperator["DepthAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("depthMin", "dmn"),
@@ -559,9 +555,7 @@ class DepthPlugOperator(
     dmx = depthMax
 
 
-class DepthAttrOperator(
-    Float2CompoundBaseAttrOperator[DepthPlugOperator]
-):
+class DepthAttrOperator(Float2CompoundBaseAttrOperator[DepthPlugOperator]):
     __slots__ = ()
 
     depthMin = FloatField(default_value=0.0, min_value=0.0, max_value=20.0)

@@ -16,11 +16,11 @@ from ....attr.define.node_attr.uv_chooser import (
     VertexUvThreeField,
     VertexUvTwoField,
 )
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedUvChooser(DG):
+class GeneratedUvChooser(DG):
     __slots__ = ()
 
     NODE_TYPE = "uvChooser"

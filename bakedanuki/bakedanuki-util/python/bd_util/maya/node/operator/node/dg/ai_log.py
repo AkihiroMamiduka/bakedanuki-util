@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_log import _GeneratedAiLog
+from ._generated.ai_log import GeneratedAiLog
 
 
-class AiLog(_GeneratedAiLog):
+class AiLog(GeneratedAiLog):
     __slots__ = ()
 
     NODE_TYPE = "aiLog"

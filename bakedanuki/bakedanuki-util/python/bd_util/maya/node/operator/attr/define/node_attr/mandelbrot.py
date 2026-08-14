@@ -5,26 +5,26 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float3Field,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
-class Value_InterpEnumPlugOperator(EnumPlugOperator):
+class Value_InterpEnumPlugOperator(
+    EnumPlugOperator["Value_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -33,7 +33,9 @@ class Value_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Value_InterpEnumAttrOperator(EnumAttrOperator):
+class Value_InterpEnumAttrOperator(
+    EnumAttrOperator[Value_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -58,7 +60,9 @@ class Value_InterpEnumField(
     PLUG_CLS = Value_InterpEnumPlugOperator
 
 
-class Color_InterpEnumPlugOperator(EnumPlugOperator):
+class Color_InterpEnumPlugOperator(
+    EnumPlugOperator["Color_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -67,7 +71,9 @@ class Color_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Color_InterpEnumAttrOperator(EnumAttrOperator):
+class Color_InterpEnumAttrOperator(
+    EnumAttrOperator[Color_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -108,9 +114,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -390,9 +394,7 @@ class OutColorField(
     ocb = outColorB
 
 
-class ValuePlugOperator(
-    CompoundPlugOperator["ValueAttrOperator"]
-):
+class ValuePlugOperator(CompoundPlugOperator["ValueAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("value_Position", "vlp"),
@@ -410,9 +412,7 @@ class ValuePlugOperator(
     vli = value_Interp
 
 
-class ValueAttrOperator(
-    CompoundAttrOperator[ValuePlugOperator]
-):
+class ValueAttrOperator(CompoundAttrOperator[ValuePlugOperator]):
     __slots__ = ()
 
     value_Position = FloatField(default_value=0.0)
@@ -425,18 +425,14 @@ class ValueAttrOperator(
     vli = value_Interp
 
 
-class ValueField(
-    CompoundField[ValueAttrOperator, ValuePlugOperator]
-):
+class ValueField(CompoundField[ValueAttrOperator, ValuePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ValueAttrOperator
     PLUG_CLS = ValuePlugOperator
 
 
-class ColorPlugOperator(
-    CompoundPlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(CompoundPlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color_Position", "clp"),
@@ -454,9 +450,7 @@ class ColorPlugOperator(
     cli = color_Interp
 
 
-class ColorAttrOperator(
-    CompoundAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(CompoundAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     color_Position = FloatField(default_value=0.0)
@@ -469,9 +463,7 @@ class ColorAttrOperator(
     cli = color_Interp
 
 
-class ColorField(
-    CompoundField[ColorAttrOperator, ColorPlugOperator]
-):
+class ColorField(CompoundField[ColorAttrOperator, ColorPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ColorAttrOperator
@@ -507,7 +499,9 @@ class ImplodeCenterAttrOperator(
 
 
 class ImplodeCenterField(
-    Float2CompoundBaseField[ImplodeCenterAttrOperator, ImplodeCenterPlugOperator]
+    Float2CompoundBaseField[
+        ImplodeCenterAttrOperator, ImplodeCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -521,9 +515,7 @@ class ImplodeCenterField(
     imv = implodeCenterV
 
 
-class OutUVPlugOperator(
-    Float2CompoundBasePlugOperator["OutUVAttrOperator"]
-):
+class OutUVPlugOperator(Float2CompoundBasePlugOperator["OutUVAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outU", "ou"),
@@ -537,9 +529,7 @@ class OutUVPlugOperator(
     ov = outV
 
 
-class OutUVAttrOperator(
-    Float2CompoundBaseAttrOperator[OutUVPlugOperator]
-):
+class OutUVAttrOperator(Float2CompoundBaseAttrOperator[OutUVPlugOperator]):
     __slots__ = ()
 
     outU = FloatField(default_value=0.0, writable=False)

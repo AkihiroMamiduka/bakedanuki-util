@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_crease import _GeneratedPolyCrease
+from ._generated.poly_crease import GeneratedPolyCrease
 
 
-class PolyCrease(_GeneratedPolyCrease):
+class PolyCrease(GeneratedPolyCrease):
     __slots__ = ()
 
     NODE_TYPE = "polyCrease"

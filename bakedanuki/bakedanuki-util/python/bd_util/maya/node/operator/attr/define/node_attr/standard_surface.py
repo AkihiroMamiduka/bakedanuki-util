@@ -6,14 +6,14 @@ from ..std.at.light_data import (
     LightDataPlugOperator,
     LightDataField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float3Field,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
 class OutColorPlugOperator(
@@ -105,7 +105,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -211,7 +213,9 @@ class SpecularColorAttrOperator(
 
 
 class SpecularColorField(
-    Float3CompoundBaseField[SpecularColorAttrOperator, SpecularColorPlugOperator]
+    Float3CompoundBaseField[
+        SpecularColorAttrOperator, SpecularColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -264,7 +268,9 @@ class TransmissionColorAttrOperator(
 
 
 class TransmissionColorField(
-    Float3CompoundBaseField[TransmissionColorAttrOperator, TransmissionColorPlugOperator]
+    Float3CompoundBaseField[
+        TransmissionColorAttrOperator, TransmissionColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -317,7 +323,9 @@ class TransmissionScatterAttrOperator(
 
 
 class TransmissionScatterField(
-    Float3CompoundBaseField[TransmissionScatterAttrOperator, TransmissionScatterPlugOperator]
+    Float3CompoundBaseField[
+        TransmissionScatterAttrOperator, TransmissionScatterPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -370,7 +378,9 @@ class SubsurfaceColorAttrOperator(
 
 
 class SubsurfaceColorField(
-    Float3CompoundBaseField[SubsurfaceColorAttrOperator, SubsurfaceColorPlugOperator]
+    Float3CompoundBaseField[
+        SubsurfaceColorAttrOperator, SubsurfaceColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -423,7 +433,9 @@ class SubsurfaceRadiusAttrOperator(
 
 
 class SubsurfaceRadiusField(
-    Float3CompoundBaseField[SubsurfaceRadiusAttrOperator, SubsurfaceRadiusPlugOperator]
+    Float3CompoundBaseField[
+        SubsurfaceRadiusAttrOperator, SubsurfaceRadiusPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -635,7 +647,9 @@ class EmissionColorAttrOperator(
 
 
 class EmissionColorField(
-    Float3CompoundBaseField[EmissionColorAttrOperator, EmissionColorPlugOperator]
+    Float3CompoundBaseField[
+        EmissionColorAttrOperator, EmissionColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -672,9 +686,7 @@ class OpacityPlugOperator(
     opb = opacityB
 
 
-class OpacityAttrOperator(
-    Float3CompoundBaseAttrOperator[OpacityPlugOperator]
-):
+class OpacityAttrOperator(Float3CompoundBaseAttrOperator[OpacityPlugOperator]):
     __slots__ = ()
 
     opacityR = FloatField(default_value=1.0)
@@ -794,7 +806,9 @@ class TriangleNormalCameraAttrOperator(
 
 
 class TriangleNormalCameraField(
-    Float3CompoundBaseField[TriangleNormalCameraAttrOperator, TriangleNormalCameraPlugOperator]
+    Float3CompoundBaseField[
+        TriangleNormalCameraAttrOperator, TriangleNormalCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -953,7 +967,9 @@ class TangentUCameraAttrOperator(
 
 
 class TangentUCameraField(
-    Float3CompoundBaseField[TangentUCameraAttrOperator, TangentUCameraPlugOperator]
+    Float3CompoundBaseField[
+        TangentUCameraAttrOperator, TangentUCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1085,7 +1101,9 @@ class HardwareShaderAttrOperator(
 
 
 class HardwareShaderField(
-    Float3CompoundBaseField[HardwareShaderAttrOperator, HardwareShaderPlugOperator]
+    Float3CompoundBaseField[
+        HardwareShaderAttrOperator, HardwareShaderPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1155,9 +1173,7 @@ class AiMatteColorField(
     ai_matte_colorb = aiMatteColorB
 
 
-class AiId1PlugOperator(
-    Float3CompoundBasePlugOperator["AiId1AttrOperator"]
-):
+class AiId1PlugOperator(Float3CompoundBasePlugOperator["AiId1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("aiId1R", "ai_id1r"),
@@ -1175,9 +1191,7 @@ class AiId1PlugOperator(
     ai_id1b = aiId1B
 
 
-class AiId1AttrOperator(
-    Float3CompoundBaseAttrOperator[AiId1PlugOperator]
-):
+class AiId1AttrOperator(Float3CompoundBaseAttrOperator[AiId1PlugOperator]):
     __slots__ = ()
 
     aiId1R = FloatField(default_value=0.0)
@@ -1208,9 +1222,7 @@ class AiId1Field(
     ai_id1b = aiId1B
 
 
-class AiId2PlugOperator(
-    Float3CompoundBasePlugOperator["AiId2AttrOperator"]
-):
+class AiId2PlugOperator(Float3CompoundBasePlugOperator["AiId2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("aiId2R", "ai_id2r"),
@@ -1228,9 +1240,7 @@ class AiId2PlugOperator(
     ai_id2b = aiId2B
 
 
-class AiId2AttrOperator(
-    Float3CompoundBaseAttrOperator[AiId2PlugOperator]
-):
+class AiId2AttrOperator(Float3CompoundBaseAttrOperator[AiId2PlugOperator]):
     __slots__ = ()
 
     aiId2R = FloatField(default_value=0.0)
@@ -1261,9 +1271,7 @@ class AiId2Field(
     ai_id2b = aiId2B
 
 
-class AiId3PlugOperator(
-    Float3CompoundBasePlugOperator["AiId3AttrOperator"]
-):
+class AiId3PlugOperator(Float3CompoundBasePlugOperator["AiId3AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("aiId3R", "ai_id3r"),
@@ -1281,9 +1289,7 @@ class AiId3PlugOperator(
     ai_id3b = aiId3B
 
 
-class AiId3AttrOperator(
-    Float3CompoundBaseAttrOperator[AiId3PlugOperator]
-):
+class AiId3AttrOperator(Float3CompoundBaseAttrOperator[AiId3PlugOperator]):
     __slots__ = ()
 
     aiId3R = FloatField(default_value=0.0)
@@ -1314,9 +1320,7 @@ class AiId3Field(
     ai_id3b = aiId3B
 
 
-class AiId4PlugOperator(
-    Float3CompoundBasePlugOperator["AiId4AttrOperator"]
-):
+class AiId4PlugOperator(Float3CompoundBasePlugOperator["AiId4AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("aiId4R", "ai_id4r"),
@@ -1334,9 +1338,7 @@ class AiId4PlugOperator(
     ai_id4b = aiId4B
 
 
-class AiId4AttrOperator(
-    Float3CompoundBaseAttrOperator[AiId4PlugOperator]
-):
+class AiId4AttrOperator(Float3CompoundBaseAttrOperator[AiId4PlugOperator]):
     __slots__ = ()
 
     aiId4R = FloatField(default_value=0.0)
@@ -1367,9 +1369,7 @@ class AiId4Field(
     ai_id4b = aiId4B
 
 
-class AiId5PlugOperator(
-    Float3CompoundBasePlugOperator["AiId5AttrOperator"]
-):
+class AiId5PlugOperator(Float3CompoundBasePlugOperator["AiId5AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("aiId5R", "ai_id5r"),
@@ -1387,9 +1387,7 @@ class AiId5PlugOperator(
     ai_id5b = aiId5B
 
 
-class AiId5AttrOperator(
-    Float3CompoundBaseAttrOperator[AiId5PlugOperator]
-):
+class AiId5AttrOperator(Float3CompoundBaseAttrOperator[AiId5PlugOperator]):
     __slots__ = ()
 
     aiId5R = FloatField(default_value=0.0)
@@ -1420,9 +1418,7 @@ class AiId5Field(
     ai_id5b = aiId5B
 
 
-class AiId6PlugOperator(
-    Float3CompoundBasePlugOperator["AiId6AttrOperator"]
-):
+class AiId6PlugOperator(Float3CompoundBasePlugOperator["AiId6AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("aiId6R", "ai_id6r"),
@@ -1440,9 +1436,7 @@ class AiId6PlugOperator(
     ai_id6b = aiId6B
 
 
-class AiId6AttrOperator(
-    Float3CompoundBaseAttrOperator[AiId6PlugOperator]
-):
+class AiId6AttrOperator(Float3CompoundBaseAttrOperator[AiId6PlugOperator]):
     __slots__ = ()
 
     aiId6R = FloatField(default_value=0.0)
@@ -1473,9 +1467,7 @@ class AiId6Field(
     ai_id6b = aiId6B
 
 
-class AiId7PlugOperator(
-    Float3CompoundBasePlugOperator["AiId7AttrOperator"]
-):
+class AiId7PlugOperator(Float3CompoundBasePlugOperator["AiId7AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("aiId7R", "ai_id7r"),
@@ -1493,9 +1485,7 @@ class AiId7PlugOperator(
     ai_id7b = aiId7B
 
 
-class AiId7AttrOperator(
-    Float3CompoundBaseAttrOperator[AiId7PlugOperator]
-):
+class AiId7AttrOperator(Float3CompoundBaseAttrOperator[AiId7PlugOperator]):
     __slots__ = ()
 
     aiId7R = FloatField(default_value=0.0)
@@ -1526,9 +1516,7 @@ class AiId7Field(
     ai_id7b = aiId7B
 
 
-class AiId8PlugOperator(
-    Float3CompoundBasePlugOperator["AiId8AttrOperator"]
-):
+class AiId8PlugOperator(Float3CompoundBasePlugOperator["AiId8AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("aiId8R", "ai_id8r"),
@@ -1546,9 +1534,7 @@ class AiId8PlugOperator(
     ai_id8b = aiId8B
 
 
-class AiId8AttrOperator(
-    Float3CompoundBaseAttrOperator[AiId8PlugOperator]
-):
+class AiId8AttrOperator(Float3CompoundBaseAttrOperator[AiId8PlugOperator]):
     __slots__ = ()
 
     aiId8R = FloatField(default_value=0.0)

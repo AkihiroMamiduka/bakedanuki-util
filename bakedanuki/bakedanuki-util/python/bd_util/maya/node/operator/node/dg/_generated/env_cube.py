@@ -15,26 +15,28 @@ from ....attr.define.node_attr.env_cube import (
     UvCoordField,
     UvFilterSizeField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.char import CharField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.char import CharField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class LookupTypeEnumPlugOperator(EnumPlugOperator):
+class LookupTypeEnumPlugOperator(
+    EnumPlugOperator["LookupTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     REFLECTION = 0
     NORMAL = 1
 
 
-class LookupTypeEnumAttrOperator(EnumAttrOperator):
+class LookupTypeEnumAttrOperator(EnumAttrOperator[LookupTypeEnumPlugOperator]):
     __slots__ = ()
 
     REFLECTION = 0
@@ -55,7 +57,7 @@ class LookupTypeEnumField(
     PLUG_CLS = LookupTypeEnumPlugOperator
 
 
-class _GeneratedEnvCube(DG):
+class GeneratedEnvCube(DG):
     __slots__ = ()
 
     NODE_TYPE = "envCube"
@@ -69,7 +71,9 @@ class _GeneratedEnvCube(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
@@ -140,7 +144,11 @@ class _GeneratedEnvCube(DG):
     lookupType = LookupTypeEnumField(default_value=0)
     lt = lookupType
 
-    left = LeftField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    left = LeftField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     le = left
     leftR = left.leftR
     ler = leftR
@@ -149,7 +157,11 @@ class _GeneratedEnvCube(DG):
     leftB = left.leftB
     leb = leftB
 
-    right = RightField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    right = RightField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     ri = right
     rightR = right.rightR
     rir = rightR
@@ -158,7 +170,11 @@ class _GeneratedEnvCube(DG):
     rightB = right.rightB
     rib = rightB
 
-    top = TopField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    top = TopField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     to = top
     topR = top.topR
     tor = topR
@@ -167,7 +183,11 @@ class _GeneratedEnvCube(DG):
     topB = top.topB
     tob = topB
 
-    bottom = BottomField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    bottom = BottomField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     bo = bottom
     bottomR = bottom.bottomR
     bor = bottomR
@@ -176,7 +196,11 @@ class _GeneratedEnvCube(DG):
     bottomB = bottom.bottomB
     bob = bottomB
 
-    front = FrontField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    front = FrontField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     fr = front
     frontR = front.frontR
     frr = frontR
@@ -185,7 +209,11 @@ class _GeneratedEnvCube(DG):
     frontB = front.frontB
     frb = frontB
 
-    back = BackField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    back = BackField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     ba = back
     backR = back.backR
     bar = backR

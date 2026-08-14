@@ -1,13 +1,11 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ..custom import (
     Double2CompoundBaseAttrOperator,
     Double2CompoundBasePlugOperator,
     Double2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
@@ -87,7 +85,9 @@ class OutputTranslateAttrOperator(
 
 
 class OutputTranslateField(
-    DoubleLinear3CompoundBaseField[OutputTranslateAttrOperator, OutputTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        OutputTranslateAttrOperator, OutputTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 

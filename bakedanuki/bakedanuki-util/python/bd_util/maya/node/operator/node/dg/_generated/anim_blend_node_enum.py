@@ -1,11 +1,11 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAnimBlendNodeEnum(DG):
+class GeneratedAnimBlendNodeEnum(DG):
     __slots__ = ()
 
     NODE_TYPE = "animBlendNodeEnum"

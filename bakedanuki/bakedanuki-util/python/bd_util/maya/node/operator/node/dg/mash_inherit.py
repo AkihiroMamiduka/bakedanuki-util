@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_inherit import _GeneratedMASH_Inherit
+from ._generated.mash_inherit import GeneratedMASHInherit
 
 
-class MASH_Inherit(_GeneratedMASH_Inherit):
+class MASHInherit(GeneratedMASHInherit):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Inherit"

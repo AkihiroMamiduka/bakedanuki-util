@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ik_s_csolver import _GeneratedIkSCsolver
+from ._generated.ik_s_csolver import GeneratedIkSCsolver
 
 
-class IkSCsolver(_GeneratedIkSCsolver):
+class IkSCsolver(GeneratedIkSCsolver):
     __slots__ = ()
 
     NODE_TYPE = "ikSCsolver"

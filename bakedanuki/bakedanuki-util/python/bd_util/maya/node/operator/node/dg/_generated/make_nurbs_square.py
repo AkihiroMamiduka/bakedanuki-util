@@ -4,17 +4,19 @@ from ....attr.define.node_attr.make_nurbs_square import (
     CenterField,
     NormalField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
@@ -24,7 +26,7 @@ class DegreeEnumPlugOperator(EnumPlugOperator):
     HEPTIC = 7
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1
@@ -51,7 +53,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedMakeNurbsSquare(DG):
+class GeneratedMakeNurbsSquare(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeNurbsSquare"
@@ -74,16 +76,22 @@ class _GeneratedMakeNurbsSquare(DG):
     centerZ = center.centerZ
     cz = centerZ
 
-    sideLength1 = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    sideLength1 = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     sl1 = sideLength1
 
-    sideLength2 = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    sideLength2 = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     sl2 = sideLength2
 
     degree = DegreeEnumField(default_value=3)
     d = degree
 
-    spansPerSide = LongField(default_value=1, min_value=1, max_value=1024, soft_max_value=4)
+    spansPerSide = LongField(
+        default_value=1, min_value=1, max_value=1024, soft_max_value=4
+    )
     sps = spansPerSide
 
     outputCurve1 = DataNurbsCurveField(writable=False)

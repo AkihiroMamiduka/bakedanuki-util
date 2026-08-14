@@ -1,10 +1,13 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
 
 # self
+from .........value.scalar_compound.scalar_compound_value import (
+    ScalarCompoundValue,
+)
 from .......... import logger as u_logger
 from .._base import (
     ScalarCompoundBasePlugOperator,
@@ -12,15 +15,19 @@ from .._base import (
     ScalarCompoundBaseField,
 )
 
-A = TypeVar("A", bound="UnitCompoundBaseAttrOperator")
+A = TypeVar("A", bound="UnitCompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="UnitCompoundBasePlugOperator")
+P = TypeVar("P", bound="UnitCompoundBasePlugOperator[Any, Any]")
+
+V = TypeVar("V", bound=ScalarCompoundValue[float])
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class UnitCompoundBasePlugOperator(ScalarCompoundBasePlugOperator[A]):
+class UnitCompoundBasePlugOperator(
+    ScalarCompoundBasePlugOperator[A, V, float]
+):
     __slots__ = ()
 
     CHILD_M_FN = om.MFnUnitAttribute

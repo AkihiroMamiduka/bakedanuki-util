@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.projection import _GeneratedProjection
+from ._generated.projection import GeneratedProjection
 
 
-class Projection(_GeneratedProjection):
+class Projection(GeneratedProjection):
     __slots__ = ()
 
     NODE_TYPE = "projection"

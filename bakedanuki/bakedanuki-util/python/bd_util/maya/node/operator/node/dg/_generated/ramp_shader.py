@@ -21,20 +21,22 @@ from ....attr.define.node_attr.ramp_shader import (
     TransparencyField,
     TriangleNormalCameraField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.addr import AddrField
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class ColorInputEnumPlugOperator(EnumPlugOperator):
+class ColorInputEnumPlugOperator(
+    EnumPlugOperator["ColorInputEnumAttrOperator"]
+):
     __slots__ = ()
 
     LIGHT_ANGLE = 0
@@ -43,7 +45,7 @@ class ColorInputEnumPlugOperator(EnumPlugOperator):
     NORMALIZED_BRIGHTNESS = 3
 
 
-class ColorInputEnumAttrOperator(EnumAttrOperator):
+class ColorInputEnumAttrOperator(EnumAttrOperator[ColorInputEnumPlugOperator]):
     __slots__ = ()
 
     LIGHT_ANGLE = 0
@@ -68,7 +70,9 @@ class ColorInputEnumField(
     PLUG_CLS = ColorInputEnumPlugOperator
 
 
-class ShadowModeEnumPlugOperator(EnumPlugOperator):
+class ShadowModeEnumPlugOperator(
+    EnumPlugOperator["ShadowModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -76,7 +80,7 @@ class ShadowModeEnumPlugOperator(EnumPlugOperator):
     CONSTANT_COLOR = 2
 
 
-class ShadowModeEnumAttrOperator(EnumAttrOperator):
+class ShadowModeEnumAttrOperator(EnumAttrOperator[ShadowModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -99,7 +103,9 @@ class ShadowModeEnumField(
     PLUG_CLS = ShadowModeEnumPlugOperator
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(
+    EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -107,7 +113,9 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(
+    EnumAttrOperator[MatteOpacityModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -122,7 +130,9 @@ class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
 
 
 class MatteOpacityModeEnumField(
-    EnumField[MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator]
+    EnumField[
+        MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -130,7 +140,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class _GeneratedRampShader(DG):
+class GeneratedRampShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "rampShader"
@@ -150,10 +160,14 @@ class _GeneratedRampShader(DG):
     rayInstance = LongField(default_value=0, readable=False)
     ryi = rayInstance
 
-    refractionLimit = ShortField(default_value=6, min_value=0, soft_max_value=10)
+    refractionLimit = ShortField(
+        default_value=6, min_value=0, soft_max_value=10
+    )
     rdl = refractionLimit
 
-    refractiveIndex = FloatField(default_value=1.0, min_value=0.01, soft_max_value=3.0)
+    refractiveIndex = FloatField(
+        default_value=1.0, min_value=0.01, soft_max_value=3.0
+    )
     rfi = refractiveIndex
 
     mediumRefractiveIndex = FloatField(default_value=1.0, readable=False)
@@ -162,13 +176,19 @@ class _GeneratedRampShader(DG):
     refractions = BoolField(default_value=False)
     rfc = refractions
 
-    diffuse = FloatField(default_value=0.800000011920929, soft_min_value=0.0, soft_max_value=1.0)
+    diffuse = FloatField(
+        default_value=0.800000011920929, soft_min_value=0.0, soft_max_value=1.0
+    )
     dc = diffuse
 
-    forwardScatter = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    forwardScatter = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fsc = forwardScatter
 
-    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0), readable=False)
+    rayDirection = RayDirectionField(
+        default_value=(0.0, 0.0, 1.0), readable=False
+    )
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -204,7 +224,9 @@ class _GeneratedRampShader(DG):
     shadowColorB = shadowColor.shadowColorB
     shb = shadowColorB
 
-    shadowThreshold = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    shadowThreshold = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     sht = shadowThreshold
 
     transparency = TransparencyField(multi=True)
@@ -240,52 +262,95 @@ class _GeneratedRampShader(DG):
     incandescence_ColorB = FloatField()
     iccb = incandescence_ColorB
 
-    translucence = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    translucence = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     tc = translucence
 
-    translucenceFocus = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    translucenceFocus = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     tcf = translucenceFocus
 
-    translucenceDepth = FloatField(default_value=0.05000000074505806, soft_min_value=0.0, soft_max_value=5.0)
+    translucenceDepth = FloatField(
+        default_value=0.05000000074505806,
+        soft_min_value=0.0,
+        soft_max_value=5.0,
+    )
     trsd = translucenceDepth
 
-    opacityDepth = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    opacityDepth = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     opad = opacityDepth
 
-    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    glowIntensity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     gi = glowIntensity
 
-    specularGlow = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    specularGlow = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     spg = specularGlow
 
     hideSource = BoolField(default_value=False)
     hs = hideSource
 
-    surfaceThickness = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    surfaceThickness = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     thik = surfaceThickness
 
-    shadowAttenuation = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    shadowAttenuation = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     fakc = shadowAttenuation
 
-    transparencyDepth = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    transparencyDepth = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
     trdp = transparencyDepth
 
-    lightAbsorbance = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    lightAbsorbance = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
     absb = lightAbsorbance
 
     chromaticAberration = BoolField(default_value=False)
     crab = chromaticAberration
 
-    eccentricity = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
+    eccentricity = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     ec = eccentricity
 
-    specularity = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
+    specularity = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     spl = specularity
 
-    specularRollOff = SpecularRollOffField(multi=True, default_value=(0.0, 0.0, 0.0))
+    specularRollOff = SpecularRollOffField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     sro = specularRollOff
 
-    reflectionLimit = ShortField(default_value=1, min_value=0, soft_max_value=10)
+    reflectionLimit = ShortField(
+        default_value=1, min_value=0, soft_max_value=10
+    )
     fll = reflectionLimit
 
     specularColor = SpecularColorField(multi=True)
@@ -324,7 +389,9 @@ class _GeneratedRampShader(DG):
     reflectedColorB = reflectedColor.reflectedColorB
     rb = reflectedColorB
 
-    triangleNormalCamera = TriangleNormalCameraField(default_value=(0.0, 1.0, 0.0))
+    triangleNormalCamera = TriangleNormalCameraField(
+        default_value=(0.0, 1.0, 0.0)
+    )
     tnc = triangleNormalCamera
     triangleNormalCameraX = triangleNormalCamera.triangleNormalCameraX
     tnx = triangleNormalCameraX
@@ -333,7 +400,9 @@ class _GeneratedRampShader(DG):
     triangleNormalCameraZ = triangleNormalCamera.triangleNormalCameraZ
     tnz = triangleNormalCameraZ
 
-    reflectionSpecularity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    reflectionSpecularity = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     rsp = reflectionSpecularity
 
     outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
@@ -345,7 +414,9 @@ class _GeneratedRampShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -354,7 +425,9 @@ class _GeneratedRampShader(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outGlowColor = OutGlowColorField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -408,10 +481,14 @@ class _GeneratedRampShader(DG):
     matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    matteOpacity = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outMatteOpacity = OutMatteOpacityField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.geometry_filter import _GeneratedGeometryFilter
+from ._generated.geometry_filter import GeneratedGeometryFilter
 
 
-class GeometryFilter(_GeneratedGeometryFilter):
+class GeometryFilter(GeneratedGeometryFilter):
     __slots__ = ()
 
     NODE_TYPE = "geometryFilter"

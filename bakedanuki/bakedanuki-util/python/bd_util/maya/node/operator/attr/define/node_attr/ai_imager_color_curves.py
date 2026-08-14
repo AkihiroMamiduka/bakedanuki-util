@@ -5,15 +5,17 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class RampRGB_InterpEnumPlugOperator(EnumPlugOperator):
+class RampRGB_InterpEnumPlugOperator(
+    EnumPlugOperator["RampRGB_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +24,9 @@ class RampRGB_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RampRGB_InterpEnumAttrOperator(EnumAttrOperator):
+class RampRGB_InterpEnumAttrOperator(
+    EnumAttrOperator[RampRGB_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -47,7 +51,9 @@ class RampRGB_InterpEnumField(
     PLUG_CLS = RampRGB_InterpEnumPlugOperator
 
 
-class RampR_InterpEnumPlugOperator(EnumPlugOperator):
+class RampR_InterpEnumPlugOperator(
+    EnumPlugOperator["RampR_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -56,7 +62,9 @@ class RampR_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RampR_InterpEnumAttrOperator(EnumAttrOperator):
+class RampR_InterpEnumAttrOperator(
+    EnumAttrOperator[RampR_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -81,7 +89,9 @@ class RampR_InterpEnumField(
     PLUG_CLS = RampR_InterpEnumPlugOperator
 
 
-class RampG_InterpEnumPlugOperator(EnumPlugOperator):
+class RampG_InterpEnumPlugOperator(
+    EnumPlugOperator["RampG_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -90,7 +100,9 @@ class RampG_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RampG_InterpEnumAttrOperator(EnumAttrOperator):
+class RampG_InterpEnumAttrOperator(
+    EnumAttrOperator[RampG_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -115,7 +127,9 @@ class RampG_InterpEnumField(
     PLUG_CLS = RampG_InterpEnumPlugOperator
 
 
-class RampB_InterpEnumPlugOperator(EnumPlugOperator):
+class RampB_InterpEnumPlugOperator(
+    EnumPlugOperator["RampB_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -124,7 +138,9 @@ class RampB_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RampB_InterpEnumAttrOperator(EnumAttrOperator):
+class RampB_InterpEnumAttrOperator(
+    EnumAttrOperator[RampB_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -149,9 +165,7 @@ class RampB_InterpEnumField(
     PLUG_CLS = RampB_InterpEnumPlugOperator
 
 
-class RampRGBPlugOperator(
-    CompoundPlugOperator["RampRGBAttrOperator"]
-):
+class RampRGBPlugOperator(CompoundPlugOperator["RampRGBAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("rampRGB_Position", "aiRampRGBp"),
@@ -169,9 +183,7 @@ class RampRGBPlugOperator(
     aiRampRGBi = rampRGB_Interp
 
 
-class RampRGBAttrOperator(
-    CompoundAttrOperator[RampRGBPlugOperator]
-):
+class RampRGBAttrOperator(CompoundAttrOperator[RampRGBPlugOperator]):
     __slots__ = ()
 
     rampRGB_Position = FloatField(default_value=0.0)
@@ -184,18 +196,14 @@ class RampRGBAttrOperator(
     aiRampRGBi = rampRGB_Interp
 
 
-class RampRGBField(
-    CompoundField[RampRGBAttrOperator, RampRGBPlugOperator]
-):
+class RampRGBField(CompoundField[RampRGBAttrOperator, RampRGBPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RampRGBAttrOperator
     PLUG_CLS = RampRGBPlugOperator
 
 
-class RampRPlugOperator(
-    CompoundPlugOperator["RampRAttrOperator"]
-):
+class RampRPlugOperator(CompoundPlugOperator["RampRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("rampR_Position", "aiRampRp"),
@@ -213,9 +221,7 @@ class RampRPlugOperator(
     aiRampRi = rampR_Interp
 
 
-class RampRAttrOperator(
-    CompoundAttrOperator[RampRPlugOperator]
-):
+class RampRAttrOperator(CompoundAttrOperator[RampRPlugOperator]):
     __slots__ = ()
 
     rampR_Position = FloatField(default_value=0.0)
@@ -228,18 +234,14 @@ class RampRAttrOperator(
     aiRampRi = rampR_Interp
 
 
-class RampRField(
-    CompoundField[RampRAttrOperator, RampRPlugOperator]
-):
+class RampRField(CompoundField[RampRAttrOperator, RampRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RampRAttrOperator
     PLUG_CLS = RampRPlugOperator
 
 
-class RampGPlugOperator(
-    CompoundPlugOperator["RampGAttrOperator"]
-):
+class RampGPlugOperator(CompoundPlugOperator["RampGAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("rampG_Position", "aiRampGp"),
@@ -257,9 +259,7 @@ class RampGPlugOperator(
     aiRampGi = rampG_Interp
 
 
-class RampGAttrOperator(
-    CompoundAttrOperator[RampGPlugOperator]
-):
+class RampGAttrOperator(CompoundAttrOperator[RampGPlugOperator]):
     __slots__ = ()
 
     rampG_Position = FloatField(default_value=0.0)
@@ -272,18 +272,14 @@ class RampGAttrOperator(
     aiRampGi = rampG_Interp
 
 
-class RampGField(
-    CompoundField[RampGAttrOperator, RampGPlugOperator]
-):
+class RampGField(CompoundField[RampGAttrOperator, RampGPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RampGAttrOperator
     PLUG_CLS = RampGPlugOperator
 
 
-class RampBPlugOperator(
-    CompoundPlugOperator["RampBAttrOperator"]
-):
+class RampBPlugOperator(CompoundPlugOperator["RampBAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("rampB_Position", "aiRampBp"),
@@ -301,9 +297,7 @@ class RampBPlugOperator(
     aiRampBi = rampB_Interp
 
 
-class RampBAttrOperator(
-    CompoundAttrOperator[RampBPlugOperator]
-):
+class RampBAttrOperator(CompoundAttrOperator[RampBPlugOperator]):
     __slots__ = ()
 
     rampB_Position = FloatField(default_value=0.0)
@@ -316,9 +310,7 @@ class RampBAttrOperator(
     aiRampBi = rampB_Interp
 
 
-class RampBField(
-    CompoundField[RampBAttrOperator, RampBPlugOperator]
-):
+class RampBField(CompoundField[RampBAttrOperator, RampBPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RampBAttrOperator

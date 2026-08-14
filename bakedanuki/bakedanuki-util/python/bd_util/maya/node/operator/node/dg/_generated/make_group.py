@@ -1,16 +1,16 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class GroupTypeEnumPlugOperator(EnumPlugOperator):
+class GroupTypeEnumPlugOperator(EnumPlugOperator["GroupTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -20,7 +20,7 @@ class GroupTypeEnumPlugOperator(EnumPlugOperator):
     UVMAP = 4
 
 
-class GroupTypeEnumAttrOperator(EnumAttrOperator):
+class GroupTypeEnumAttrOperator(EnumAttrOperator[GroupTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -47,7 +47,7 @@ class GroupTypeEnumField(
     PLUG_CLS = GroupTypeEnumPlugOperator
 
 
-class _GeneratedMakeGroup(DG):
+class GeneratedMakeGroup(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeGroup"

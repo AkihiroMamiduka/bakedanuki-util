@@ -1,22 +1,18 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
-    Double3CompoundBaseAttrOperator,
-    Double3CompoundBasePlugOperator,
-    Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
-    DoubleAngle3CompoundBaseAttrOperator,
-    DoubleAngle3CompoundBasePlugOperator,
-    DoubleAngle3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ..custom import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
+    DoubleAngle3CompoundBaseAttrOperator,
+    DoubleAngle3CompoundBasePlugOperator,
+    DoubleAngle3CompoundBaseField,
+    Double3CompoundBaseAttrOperator,
+    Double3CompoundBasePlugOperator,
+    Double3CompoundBaseField,
 )
 
 
@@ -56,7 +52,9 @@ class InRootTranslateAttrOperator(
 
 
 class InRootTranslateField(
-    DoubleLinear3CompoundBaseField[InRootTranslateAttrOperator, InRootTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        InRootTranslateAttrOperator, InRootTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -109,7 +107,9 @@ class InRootRotateAttrOperator(
 
 
 class InRootRotateField(
-    DoubleAngle3CompoundBaseField[InRootRotateAttrOperator, InRootRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        InRootRotateAttrOperator, InRootRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -162,7 +162,9 @@ class RootJointOrientAttrOperator(
 
 
 class RootJointOrientField(
-    DoubleAngle3CompoundBaseField[RootJointOrientAttrOperator, RootJointOrientPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        RootJointOrientAttrOperator, RootJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -215,7 +217,9 @@ class OffsetRootTranslateAttrOperator(
 
 
 class OffsetRootTranslateField(
-    DoubleLinear3CompoundBaseField[OffsetRootTranslateAttrOperator, OffsetRootTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        OffsetRootTranslateAttrOperator, OffsetRootTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -233,7 +237,9 @@ class OffsetRootTranslateField(
 
 
 class InitialOffsetRootTranslatePlugOperator(
-    DoubleLinear3CompoundBasePlugOperator["InitialOffsetRootTranslateAttrOperator"]
+    DoubleLinear3CompoundBasePlugOperator[
+        "InitialOffsetRootTranslateAttrOperator"
+    ]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -253,7 +259,9 @@ class InitialOffsetRootTranslatePlugOperator(
 
 
 class InitialOffsetRootTranslateAttrOperator(
-    DoubleLinear3CompoundBaseAttrOperator[InitialOffsetRootTranslatePlugOperator]
+    DoubleLinear3CompoundBaseAttrOperator[
+        InitialOffsetRootTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -268,7 +276,10 @@ class InitialOffsetRootTranslateAttrOperator(
 
 
 class InitialOffsetRootTranslateField(
-    DoubleLinear3CompoundBaseField[InitialOffsetRootTranslateAttrOperator, InitialOffsetRootTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        InitialOffsetRootTranslateAttrOperator,
+        InitialOffsetRootTranslatePlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -321,7 +332,9 @@ class RotateControlScaleAttrOperator(
 
 
 class RotateControlScaleField(
-    Double3CompoundBaseField[RotateControlScaleAttrOperator, RotateControlScalePlugOperator]
+    Double3CompoundBaseField[
+        RotateControlScaleAttrOperator, RotateControlScalePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -374,7 +387,9 @@ class OffsetRootRotateAttrOperator(
 
 
 class OffsetRootRotateField(
-    DoubleAngle3CompoundBaseField[OffsetRootRotateAttrOperator, OffsetRootRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        OffsetRootRotateAttrOperator, OffsetRootRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -427,7 +442,9 @@ class OffsetRootRotatePivotAttrOperator(
 
 
 class OffsetRootRotatePivotField(
-    DoubleLinear3CompoundBaseField[OffsetRootRotatePivotAttrOperator, OffsetRootRotatePivotPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        OffsetRootRotatePivotAttrOperator, OffsetRootRotatePivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -480,7 +497,9 @@ class OutRootTranslateAttrOperator(
 
 
 class OutRootTranslateField(
-    DoubleLinear3CompoundBaseField[OutRootTranslateAttrOperator, OutRootTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        OutRootTranslateAttrOperator, OutRootTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -533,7 +552,9 @@ class OutRootRotateAttrOperator(
 
 
 class OutRootRotateField(
-    DoubleAngle3CompoundBaseField[OutRootRotateAttrOperator, OutRootRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        OutRootRotateAttrOperator, OutRootRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 

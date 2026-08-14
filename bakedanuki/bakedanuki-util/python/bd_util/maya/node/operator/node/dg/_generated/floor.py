@@ -1,9 +1,11 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 
 
-class _GeneratedFloor(DG):
+class GeneratedFloor(DG):
     __slots__ = ()
 
     NODE_TYPE = "floor"

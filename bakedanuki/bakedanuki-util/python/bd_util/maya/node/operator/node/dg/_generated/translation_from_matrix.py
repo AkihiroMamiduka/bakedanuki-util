@@ -4,7 +4,7 @@ from ....attr.define.node_attr.translation_from_matrix import OutputField
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class _GeneratedTranslationFromMatrix(DG):
+class GeneratedTranslationFromMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "translationFromMatrix"

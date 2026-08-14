@@ -7,7 +7,7 @@ from ....attr.define.node_attr.multiply_point_by_matrix import (
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class _GeneratedMultiplyPointByMatrix(DG):
+class GeneratedMultiplyPointByMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "multiplyPointByMatrix"

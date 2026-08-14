@@ -5,7 +5,7 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.typed import TypedField
 
 
@@ -25,9 +25,7 @@ class ExtrudeCurvePlugOperator(
     excv = extrudeCurve_Value
 
 
-class ExtrudeCurveAttrOperator(
-    CompoundAttrOperator[ExtrudeCurvePlugOperator]
-):
+class ExtrudeCurveAttrOperator(CompoundAttrOperator[ExtrudeCurvePlugOperator]):
     __slots__ = ()
 
     extrudeCurve_Position = FloatField(default_value=0.0)

@@ -6,10 +6,10 @@ from ....attr.define.node_attr.triple_shading_switch import (
     OutputField,
 )
 from ....attr.define.std.at.addr import AddrField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedTripleShadingSwitch(DG):
+class GeneratedTripleShadingSwitch(DG):
     __slots__ = ()
 
     NODE_TYPE = "tripleShadingSwitch"
@@ -29,7 +29,9 @@ class _GeneratedTripleShadingSwitch(DG):
     inComp3 = FloatField()
     ic3 = inComp3
 
-    default = DefaultField(default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929))
+    default = DefaultField(
+        default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929)
+    )
     def_ = default
     defComp1 = default.defComp1
     dc1 = defComp1

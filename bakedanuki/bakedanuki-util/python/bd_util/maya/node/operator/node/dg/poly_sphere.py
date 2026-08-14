@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_sphere import _GeneratedPolySphere
+from ._generated.poly_sphere import GeneratedPolySphere
 
 
-class PolySphere(_GeneratedPolySphere):
+class PolySphere(GeneratedPolySphere):
     __slots__ = ()
 
     NODE_TYPE = "polySphere"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.clip_library import _GeneratedClipLibrary
+from ._generated.clip_library import GeneratedClipLibrary
 
 
-class ClipLibrary(_GeneratedClipLibrary):
+class ClipLibrary(GeneratedClipLibrary):
     __slots__ = ()
 
     NODE_TYPE = "clipLibrary"

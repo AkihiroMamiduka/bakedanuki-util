@@ -1,14 +1,14 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class VariableEnumPlugOperator(EnumPlugOperator):
+class VariableEnumPlugOperator(EnumPlugOperator["VariableEnumAttrOperator"]):
     __slots__ = ()
 
     SX = 0
@@ -30,7 +30,7 @@ class VariableEnumPlugOperator(EnumPlugOperator):
     SHUTTER_END = 16
 
 
-class VariableEnumAttrOperator(EnumAttrOperator):
+class VariableEnumAttrOperator(EnumAttrOperator[VariableEnumPlugOperator]):
     __slots__ = ()
 
     SX = 0
@@ -81,7 +81,7 @@ class VariableEnumField(
     PLUG_CLS = VariableEnumPlugOperator
 
 
-class _GeneratedAiStateFloat(DG):
+class GeneratedAiStateFloat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiStateFloat"

@@ -21,15 +21,15 @@ class DataStringArrayPlugOperator(
         return self._get_array_values(om.MFnStringArrayData)
 
     # set
-    def set_direct(self, values: list[str]):
+    def set_direct(self, value: list[str]) -> None:
         """
         MPlug に値を直接セットする
             その為、modifier.undoIt() 非対応です
 
         Args:
-            values (list[str]): セットする値のリスト
+            value (list[str]): セットする値のリスト
         """
-        self._set_values(om.MFnStringArrayData, om.MStringArray, values)
+        self.plug.setMObject(om.MFnStringArrayData().create(value))
 
     # add
     def add_attr(self):

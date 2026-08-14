@@ -1,19 +1,21 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_cube import AxisField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -21,7 +23,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     FACE = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -44,7 +46,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -54,7 +56,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO = 4
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -68,7 +70,9 @@ class CreateUVsEnumAttrOperator(EnumAttrOperator):
         NORMALIZATION_OFF: "Normalization Off",
         NORMALIZE_EACH_FACE_SEPARATELY: "Normalize Each Face Separately",
         NORMALIZE_COLLECTIVELY: "Normalize Collectively",
-        NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO: "Normalize Collectively and Preserve Aspect Ratio",
+        NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO: (
+            "Normalize Collectively and Preserve Aspect Ratio"
+        ),
     }
 
 
@@ -81,7 +85,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyCube(DG):
+class GeneratedPolyCube(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCube"
@@ -98,7 +102,9 @@ class _GeneratedPolyCube(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -116,22 +122,34 @@ class _GeneratedPolyCube(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    width = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    width = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     w = width
 
-    height = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    height = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     h = height
 
-    depth = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    depth = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     d = depth
 
-    subdivisionsWidth = LongField(default_value=1, min_value=1, soft_max_value=50)
+    subdivisionsWidth = LongField(
+        default_value=1, min_value=1, soft_max_value=50
+    )
     sw = subdivisionsWidth
 
-    subdivisionsHeight = LongField(default_value=1, min_value=1, soft_max_value=50)
+    subdivisionsHeight = LongField(
+        default_value=1, min_value=1, soft_max_value=50
+    )
     sh = subdivisionsHeight
 
-    subdivisionsDepth = LongField(default_value=1, min_value=1, soft_max_value=50)
+    subdivisionsDepth = LongField(
+        default_value=1, min_value=1, soft_max_value=50
+    )
     sd = subdivisionsDepth
 
     texture = TextureEnumField(default_value=1)

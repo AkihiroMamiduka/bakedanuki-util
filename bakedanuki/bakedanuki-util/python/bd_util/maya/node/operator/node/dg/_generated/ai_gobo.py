@@ -6,15 +6,17 @@ from ....attr.define.node_attr.ai_gobo import (
     OutTransparencyField,
     SlidemapField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class FilterModeEnumPlugOperator(EnumPlugOperator):
+class FilterModeEnumPlugOperator(
+    EnumPlugOperator["FilterModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLEND = 0
@@ -24,7 +26,7 @@ class FilterModeEnumPlugOperator(EnumPlugOperator):
     MIX = 4
 
 
-class FilterModeEnumAttrOperator(EnumAttrOperator):
+class FilterModeEnumAttrOperator(EnumAttrOperator[FilterModeEnumPlugOperator]):
     __slots__ = ()
 
     BLEND = 0
@@ -51,7 +53,7 @@ class FilterModeEnumField(
     PLUG_CLS = FilterModeEnumPlugOperator
 
 
-class SwrapEnumPlugOperator(EnumPlugOperator):
+class SwrapEnumPlugOperator(EnumPlugOperator["SwrapEnumAttrOperator"]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -61,7 +63,7 @@ class SwrapEnumPlugOperator(EnumPlugOperator):
     FILE = 4
 
 
-class SwrapEnumAttrOperator(EnumAttrOperator):
+class SwrapEnumAttrOperator(EnumAttrOperator[SwrapEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -79,16 +81,14 @@ class SwrapEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class SwrapEnumField(
-    EnumField[SwrapEnumAttrOperator, SwrapEnumPlugOperator]
-):
+class SwrapEnumField(EnumField[SwrapEnumAttrOperator, SwrapEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SwrapEnumAttrOperator
     PLUG_CLS = SwrapEnumPlugOperator
 
 
-class TwrapEnumPlugOperator(EnumPlugOperator):
+class TwrapEnumPlugOperator(EnumPlugOperator["TwrapEnumAttrOperator"]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -98,7 +98,7 @@ class TwrapEnumPlugOperator(EnumPlugOperator):
     FILE = 4
 
 
-class TwrapEnumAttrOperator(EnumAttrOperator):
+class TwrapEnumAttrOperator(EnumAttrOperator[TwrapEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -116,16 +116,14 @@ class TwrapEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class TwrapEnumField(
-    EnumField[TwrapEnumAttrOperator, TwrapEnumPlugOperator]
-):
+class TwrapEnumField(EnumField[TwrapEnumAttrOperator, TwrapEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TwrapEnumAttrOperator
     PLUG_CLS = TwrapEnumPlugOperator
 
 
-class _GeneratedAiGobo(DG):
+class GeneratedAiGobo(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiGobo"
@@ -139,7 +137,9 @@ class _GeneratedAiGobo(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -156,7 +156,9 @@ class _GeneratedAiGobo(DG):
     slidemapB = slidemap.slidemapB
     slidemapb = slidemapB
 
-    rotate = FloatField(multi=True, default_value=0.0, min_value=0.0, max_value=360.0)
+    rotate = FloatField(
+        multi=True, default_value=0.0, min_value=0.0, max_value=360.0
+    )
 
     offset = OffsetField(default_value=(0.0, 0.0))
     offsetX = offset.offsetX
@@ -173,6 +175,10 @@ class _GeneratedAiGobo(DG):
 
     twrap = TwrapEnumField(default_value=2)
 
-    sscale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1000.0)
+    sscale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1000.0
+    )
 
-    tscale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1000.0)
+    tscale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1000.0
+    )

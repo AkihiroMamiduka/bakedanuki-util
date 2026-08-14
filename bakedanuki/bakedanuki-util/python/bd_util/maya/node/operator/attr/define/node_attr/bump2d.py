@@ -1,15 +1,13 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
-    Float2CompoundBaseAttrOperator,
-    Float2CompoundBasePlugOperator,
-    Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float2CompoundBaseAttrOperator,
+    Float2CompoundBasePlugOperator,
+    Float2CompoundBaseField,
 )
 
 
@@ -208,7 +206,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -294,9 +294,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -453,7 +451,9 @@ class TangentUCameraAttrOperator(
 
 
 class TangentUCameraField(
-    Float3CompoundBaseField[TangentUCameraAttrOperator, TangentUCameraPlugOperator]
+    Float3CompoundBaseField[
+        TangentUCameraAttrOperator, TangentUCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -506,7 +506,9 @@ class TangentVCameraAttrOperator(
 
 
 class TangentVCameraField(
-    Float3CompoundBaseField[TangentVCameraAttrOperator, TangentVCameraPlugOperator]
+    Float3CompoundBaseField[
+        TangentVCameraAttrOperator, TangentVCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -698,7 +700,9 @@ class VertexCameraOneAttrOperator(
 
 
 class VertexCameraOneField(
-    Float3CompoundBaseField[VertexCameraOneAttrOperator, VertexCameraOnePlugOperator]
+    Float3CompoundBaseField[
+        VertexCameraOneAttrOperator, VertexCameraOnePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -751,7 +755,9 @@ class VertexCameraTwoAttrOperator(
 
 
 class VertexCameraTwoField(
-    Float3CompoundBaseField[VertexCameraTwoAttrOperator, VertexCameraTwoPlugOperator]
+    Float3CompoundBaseField[
+        VertexCameraTwoAttrOperator, VertexCameraTwoPlugOperator
+    ]
 ):
     __slots__ = ()
 

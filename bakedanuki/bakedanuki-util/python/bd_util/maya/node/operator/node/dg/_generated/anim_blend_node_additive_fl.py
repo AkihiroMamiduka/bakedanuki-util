@@ -1,23 +1,29 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.unit_scalar_range.float_linear import FloatLinearField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.unit.range.float_linear import (
+    FloatLinearField,
+)
 from ....attr.define.std.dt.string import DataStringField
 
 
-class InterpolateModeEnumPlugOperator(EnumPlugOperator):
+class InterpolateModeEnumPlugOperator(
+    EnumPlugOperator["InterpolateModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     ADDITIVE = 0
     MULTIPLY = 1
 
 
-class InterpolateModeEnumAttrOperator(EnumAttrOperator):
+class InterpolateModeEnumAttrOperator(
+    EnumAttrOperator[InterpolateModeEnumPlugOperator]
+):
     __slots__ = ()
 
     ADDITIVE = 0
@@ -38,7 +44,7 @@ class InterpolateModeEnumField(
     PLUG_CLS = InterpolateModeEnumPlugOperator
 
 
-class _GeneratedAnimBlendNodeAdditiveFL(DG):
+class GeneratedAnimBlendNodeAdditiveFL(DG):
     __slots__ = ()
 
     NODE_TYPE = "animBlendNodeAdditiveFL"

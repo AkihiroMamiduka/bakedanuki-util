@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_trails import _GeneratedMASH_Trails
+from ._generated.mash_trails import GeneratedMASHTrails
 
 
-class MASH_Trails(_GeneratedMASH_Trails):
+class MASHTrails(GeneratedMASHTrails):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Trails"

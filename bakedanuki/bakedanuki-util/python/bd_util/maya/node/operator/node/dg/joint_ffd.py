@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.joint_ffd import _GeneratedJointFfd
+from ._generated.joint_ffd import GeneratedJointFfd
 
 
-class JointFfd(_GeneratedJointFfd):
+class JointFfd(GeneratedJointFfd):
     __slots__ = ()
 
     NODE_TYPE = "jointFfd"

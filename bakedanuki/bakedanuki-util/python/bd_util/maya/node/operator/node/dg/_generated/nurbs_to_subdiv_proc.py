@@ -1,20 +1,22 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class SolidTypeEnumPlugOperator(EnumPlugOperator):
+class SolidTypeEnumPlugOperator(EnumPlugOperator["SolidTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NOTHING = 0
@@ -22,7 +24,7 @@ class SolidTypeEnumPlugOperator(EnumPlugOperator):
     OFFSET = 2
 
 
-class SolidTypeEnumAttrOperator(EnumAttrOperator):
+class SolidTypeEnumAttrOperator(EnumAttrOperator[SolidTypeEnumPlugOperator]):
     __slots__ = ()
 
     NOTHING = 0
@@ -45,14 +47,14 @@ class SolidTypeEnumField(
     PLUG_CLS = SolidTypeEnumPlugOperator
 
 
-class CapTypeEnumPlugOperator(EnumPlugOperator):
+class CapTypeEnumPlugOperator(EnumPlugOperator["CapTypeEnumAttrOperator"]):
     __slots__ = ()
 
     CAP = 0
     STITCH = 1
 
 
-class CapTypeEnumAttrOperator(EnumAttrOperator):
+class CapTypeEnumAttrOperator(EnumAttrOperator[CapTypeEnumPlugOperator]):
     __slots__ = ()
 
     CAP = 0
@@ -73,7 +75,7 @@ class CapTypeEnumField(
     PLUG_CLS = CapTypeEnumPlugOperator
 
 
-class BridgeEnumPlugOperator(EnumPlugOperator):
+class BridgeEnumPlugOperator(EnumPlugOperator["BridgeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +84,7 @@ class BridgeEnumPlugOperator(EnumPlugOperator):
     BOTH = 3
 
 
-class BridgeEnumAttrOperator(EnumAttrOperator):
+class BridgeEnumAttrOperator(EnumAttrOperator[BridgeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -107,7 +109,7 @@ class BridgeEnumField(
     PLUG_CLS = BridgeEnumPlugOperator
 
 
-class _GeneratedNurbsToSubdivProc(DG):
+class GeneratedNurbsToSubdivProc(DG):
     __slots__ = ()
 
     NODE_TYPE = "nurbsToSubdivProc"
@@ -139,7 +141,9 @@ class _GeneratedNurbsToSubdivProc(DG):
     transform = DataMatrixField()
     t = transform
 
-    offset = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    offset = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     o = offset
 
     bridge = BridgeEnumField(default_value=0)

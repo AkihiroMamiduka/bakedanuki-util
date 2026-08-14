@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_reciprocal import (
 )
 
 
-class _GeneratedAiReciprocal(DG):
+class GeneratedAiReciprocal(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiReciprocal"
@@ -21,7 +21,9 @@ class _GeneratedAiReciprocal(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

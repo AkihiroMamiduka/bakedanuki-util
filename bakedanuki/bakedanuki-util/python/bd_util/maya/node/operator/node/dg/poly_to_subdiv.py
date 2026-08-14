@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_to_subdiv import _GeneratedPolyToSubdiv
+from ._generated.poly_to_subdiv import GeneratedPolyToSubdiv
 
 
-class PolyToSubdiv(_GeneratedPolyToSubdiv):
+class PolyToSubdiv(GeneratedPolyToSubdiv):
     __slots__ = ()
 
     NODE_TYPE = "polyToSubdiv"

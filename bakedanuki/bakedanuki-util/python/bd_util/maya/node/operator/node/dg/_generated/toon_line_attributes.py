@@ -1,22 +1,24 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ViewUpdateEnumPlugOperator(EnumPlugOperator):
+class ViewUpdateEnumPlugOperator(
+    EnumPlugOperator["ViewUpdateEnumAttrOperator"]
+):
     __slots__ = ()
 
     ON = 0
     OFF = 2
 
 
-class ViewUpdateEnumAttrOperator(EnumAttrOperator):
+class ViewUpdateEnumAttrOperator(EnumAttrOperator[ViewUpdateEnumPlugOperator]):
     __slots__ = ()
 
     ON = 0
@@ -37,12 +39,14 @@ class ViewUpdateEnumField(
     PLUG_CLS = ViewUpdateEnumPlugOperator
 
 
-class _GeneratedToonLineAttributes(DG):
+class GeneratedToonLineAttributes(DG):
     __slots__ = ()
 
     NODE_TYPE = "toonLineAttributes"
 
-    lineWidth = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    lineWidth = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     lwd = lineWidth
 
     lineVisibility = BoolField(default_value=True)

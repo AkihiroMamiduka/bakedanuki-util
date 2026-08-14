@@ -8,7 +8,6 @@ from bd_util.maya.attr.query import (
     get_attribute_infos,
 )
 
-
 pytestmark = pytest.mark.maya
 
 
@@ -23,6 +22,7 @@ def test_get_attribute_info_includes_mfn_attribute_metadata(
     assert info.long_name == "translateX"
     assert info.short_name == "tx"
     assert info.path_name == "translateX"
+    assert info.parent == ["translate"]
     assert info.enforcing_unique_name is True
 
 

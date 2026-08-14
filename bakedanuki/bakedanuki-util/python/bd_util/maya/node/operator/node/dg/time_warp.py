@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.time_warp import _GeneratedTimeWarp
+from ._generated.time_warp import GeneratedTimeWarp
 
 
-class TimeWarp(_GeneratedTimeWarp):
+class TimeWarp(GeneratedTimeWarp):
     __slots__ = ()
 
     NODE_TYPE = "timeWarp"

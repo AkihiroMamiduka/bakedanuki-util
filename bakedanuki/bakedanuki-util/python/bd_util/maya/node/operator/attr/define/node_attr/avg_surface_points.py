@@ -5,12 +5,10 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom import Double3Field
 
 
-class ResultPlugOperator(
-    CompoundPlugOperator["ResultAttrOperator"]
-):
+class ResultPlugOperator(CompoundPlugOperator["ResultAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("position", "p"),
@@ -24,9 +22,7 @@ class ResultPlugOperator(
     n = normal
 
 
-class ResultAttrOperator(
-    CompoundAttrOperator[ResultPlugOperator]
-):
+class ResultAttrOperator(CompoundAttrOperator[ResultPlugOperator]):
     __slots__ = ()
 
     position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
@@ -36,9 +32,7 @@ class ResultAttrOperator(
     n = normal
 
 
-class ResultField(
-    CompoundField[ResultAttrOperator, ResultPlugOperator]
-):
+class ResultField(CompoundField[ResultAttrOperator, ResultPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ResultAttrOperator

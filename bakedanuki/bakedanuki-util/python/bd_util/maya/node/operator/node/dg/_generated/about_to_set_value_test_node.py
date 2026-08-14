@@ -1,9 +1,9 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAboutToSetValueTestNode(DG):
+class GeneratedAboutToSetValueTestNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "aboutToSetValueTestNode"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.boolean import _GeneratedBoolean
+from ._generated.boolean import GeneratedBoolean
 
 
-class Boolean(_GeneratedBoolean):
+class Boolean(GeneratedBoolean):
     __slots__ = ()
 
     NODE_TYPE = "boolean"

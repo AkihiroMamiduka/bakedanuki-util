@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -28,9 +28,7 @@ class InColorPlugOperator(
     icb = inColorB
 
 
-class InColorAttrOperator(
-    Float3CompoundBaseAttrOperator[InColorPlugOperator]
-):
+class InColorAttrOperator(Float3CompoundBaseAttrOperator[InColorPlugOperator]):
     __slots__ = ()
 
     inColorR = FloatField(default_value=0.30000001192092896)
@@ -61,9 +59,7 @@ class InColorField(
     icb = inColorB
 
 
-class MaskPlugOperator(
-    Float3CompoundBasePlugOperator["MaskAttrOperator"]
-):
+class MaskPlugOperator(Float3CompoundBasePlugOperator["MaskAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("maskR", "_mr"),
@@ -81,9 +77,7 @@ class MaskPlugOperator(
     mb = maskB
 
 
-class MaskAttrOperator(
-    Float3CompoundBaseAttrOperator[MaskPlugOperator]
-):
+class MaskAttrOperator(Float3CompoundBaseAttrOperator[MaskPlugOperator]):
     __slots__ = ()
 
     maskR = FloatField(default_value=0.0)
@@ -96,9 +90,7 @@ class MaskAttrOperator(
     mb = maskB
 
 
-class MaskField(
-    Float3CompoundBaseField[MaskAttrOperator, MaskPlugOperator]
-):
+class MaskField(Float3CompoundBaseField[MaskAttrOperator, MaskPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = MaskAttrOperator

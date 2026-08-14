@@ -9,29 +9,33 @@ from ....attr.define.node_attr.joint_ffd import (
     StuCacheListField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 
 
-class UsePartialResolutionEnumPlugOperator(EnumPlugOperator):
+class UsePartialResolutionEnumPlugOperator(
+    EnumPlugOperator["UsePartialResolutionEnumAttrOperator"]
+):
     __slots__ = ()
 
     FULL = 0
     PARTIAL = 1
 
 
-class UsePartialResolutionEnumAttrOperator(EnumAttrOperator):
+class UsePartialResolutionEnumAttrOperator(
+    EnumAttrOperator[UsePartialResolutionEnumPlugOperator]
+):
     __slots__ = ()
 
     FULL = 0
@@ -44,7 +48,10 @@ class UsePartialResolutionEnumAttrOperator(EnumAttrOperator):
 
 
 class UsePartialResolutionEnumField(
-    EnumField[UsePartialResolutionEnumAttrOperator, UsePartialResolutionEnumPlugOperator]
+    EnumField[
+        UsePartialResolutionEnumAttrOperator,
+        UsePartialResolutionEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52,7 +59,9 @@ class UsePartialResolutionEnumField(
     PLUG_CLS = UsePartialResolutionEnumPlugOperator
 
 
-class OutsideLatticeEnumPlugOperator(EnumPlugOperator):
+class OutsideLatticeEnumPlugOperator(
+    EnumPlugOperator["OutsideLatticeEnumAttrOperator"]
+):
     __slots__ = ()
 
     INSIDE = 0
@@ -60,7 +69,9 @@ class OutsideLatticeEnumPlugOperator(EnumPlugOperator):
     FALLOFF = 2
 
 
-class OutsideLatticeEnumAttrOperator(EnumAttrOperator):
+class OutsideLatticeEnumAttrOperator(
+    EnumAttrOperator[OutsideLatticeEnumPlugOperator]
+):
     __slots__ = ()
 
     INSIDE = 0
@@ -83,7 +94,7 @@ class OutsideLatticeEnumField(
     PLUG_CLS = OutsideLatticeEnumPlugOperator
 
 
-class _GeneratedJointFfd(DG):
+class GeneratedJointFfd(DG):
     __slots__ = ()
 
     NODE_TYPE = "jointFfd"
@@ -100,13 +111,21 @@ class _GeneratedJointFfd(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -141,7 +160,9 @@ class _GeneratedJointFfd(DG):
     stuCacheList = StuCacheListField(multi=True, default_value=0.0)
     scl = stuCacheList
 
-    partialResolution = DoubleField(default_value=0.01, min_value=0.0, max_value=0.1)
+    partialResolution = DoubleField(
+        default_value=0.01, min_value=0.0, max_value=0.1
+    )
     ptr = partialResolution
 
     localInfluenceS = ShortField(default_value=2, min_value=2, max_value=30)
@@ -168,7 +189,9 @@ class _GeneratedJointFfd(DG):
     outsideLattice = OutsideLatticeEnumField(default_value=0)
     ot = outsideLattice
 
-    outsideFalloffDist = DoubleField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    outsideFalloffDist = DoubleField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     ofd = outsideFalloffDist
 
     baseLattice2Matrix = MatrixField()

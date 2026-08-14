@@ -5,21 +5,21 @@ from ....attr.define.node_attr.ai_color_convert import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 
 
-class From_EnumPlugOperator(EnumPlugOperator):
+class From_EnumPlugOperator(EnumPlugOperator["From_EnumAttrOperator"]):
     __slots__ = ()
 
     RGB = 0
     HSV = 1
 
 
-class From_EnumAttrOperator(EnumAttrOperator):
+class From_EnumAttrOperator(EnumAttrOperator[From_EnumPlugOperator]):
     __slots__ = ()
 
     RGB = 0
@@ -31,23 +31,21 @@ class From_EnumAttrOperator(EnumAttrOperator):
     }
 
 
-class From_EnumField(
-    EnumField[From_EnumAttrOperator, From_EnumPlugOperator]
-):
+class From_EnumField(EnumField[From_EnumAttrOperator, From_EnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = From_EnumAttrOperator
     PLUG_CLS = From_EnumPlugOperator
 
 
-class ToEnumPlugOperator(EnumPlugOperator):
+class ToEnumPlugOperator(EnumPlugOperator["ToEnumAttrOperator"]):
     __slots__ = ()
 
     RGB = 0
     HSV = 1
 
 
-class ToEnumAttrOperator(EnumAttrOperator):
+class ToEnumAttrOperator(EnumAttrOperator[ToEnumPlugOperator]):
     __slots__ = ()
 
     RGB = 0
@@ -59,16 +57,14 @@ class ToEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ToEnumField(
-    EnumField[ToEnumAttrOperator, ToEnumPlugOperator]
-):
+class ToEnumField(EnumField[ToEnumAttrOperator, ToEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ToEnumAttrOperator
     PLUG_CLS = ToEnumPlugOperator
 
 
-class _GeneratedAiColorConvert(DG):
+class GeneratedAiColorConvert(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiColorConvert"
@@ -82,7 +78,9 @@ class _GeneratedAiColorConvert(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -99,6 +97,8 @@ class _GeneratedAiColorConvert(DG):
     inputB = input.inputB
     inputb = inputB
 
-    from_ = From_EnumField(default_value=0, long_name="from", short_name="from")
+    from_ = From_EnumField(
+        default_value=0, long_name="from", short_name="from"
+    )
 
     to = ToEnumField(default_value=1)

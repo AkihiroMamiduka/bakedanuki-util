@@ -5,12 +5,12 @@ from ....attr.define.node_attr.ai_write_int import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiWriteInt(DG):
+class GeneratedAiWriteInt(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiWriteInt"
@@ -27,7 +27,9 @@ class _GeneratedAiWriteInt(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -36,7 +38,7 @@ class _GeneratedAiWriteInt(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    beautyA = FloatField(default_value=9.34666075704653e-43, min_value=0.0, max_value=1.0)
+    beautyA = FloatField(min_value=0.0, max_value=1.0)
     passthrougha = beautyA
 
     beauty = BeautyField(default_value=(0.0, 0.0, 0.0))

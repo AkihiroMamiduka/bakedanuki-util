@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.tan import _GeneratedTan
+from ._generated.tan import GeneratedTan
 
 
-class Tan(_GeneratedTan):
+class Tan(GeneratedTan):
     __slots__ = ()
 
     NODE_TYPE = "tan"

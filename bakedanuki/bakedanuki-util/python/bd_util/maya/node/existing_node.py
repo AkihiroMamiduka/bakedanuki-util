@@ -93,7 +93,7 @@ def _wrap_existing_node(
     )
 
 
-def _to_m_object(node: str | om.MObject) -> om.MObject:
+def _to_m_object(node: object) -> om.MObject:
     if isinstance(node, om.MObject):
         return node
     if isinstance(node, str):

@@ -6,11 +6,11 @@ from ....attr.define.node_attr.rendered_image_source import (
     OutTransparencyField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedRenderedImageSource(DG):
+class GeneratedRenderedImageSource(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderedImageSource"
@@ -37,7 +37,9 @@ class _GeneratedRenderedImageSource(DG):
     fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

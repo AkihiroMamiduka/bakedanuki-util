@@ -1,19 +1,21 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_cone import AxisField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +24,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     NORMALIZE_AND_PRESERVE_ASPECT_RATIO = 3
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -34,7 +36,9 @@ class CreateUVsEnumAttrOperator(EnumAttrOperator):
         NONE: "None",
         NORMALIZATION_OFF: "Normalization Off",
         NORMALIZE: "Normalize",
-        NORMALIZE_AND_PRESERVE_ASPECT_RATIO: "Normalize and Preserve Aspect Ratio",
+        NORMALIZE_AND_PRESERVE_ASPECT_RATIO: (
+            "Normalize and Preserve Aspect Ratio"
+        ),
     }
 
 
@@ -47,7 +51,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyCone(DG):
+class GeneratedPolyCone(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCone"
@@ -64,7 +68,9 @@ class _GeneratedPolyCone(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -82,19 +88,29 @@ class _GeneratedPolyCone(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    radius = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    radius = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     r = radius
 
-    height = DoubleLinearField(default_value=2.0, min_value=0.01, soft_max_value=100.0)
+    height = DoubleLinearField(
+        default_value=2.0, min_value=0.01, soft_max_value=100.0
+    )
     h = height
 
-    subdivisionsAxis = LongField(default_value=20, min_value=3, soft_max_value=50)
+    subdivisionsAxis = LongField(
+        default_value=20, min_value=3, soft_max_value=50
+    )
     sa = subdivisionsAxis
 
-    subdivisionsHeight = LongField(default_value=1, min_value=1, soft_max_value=50)
+    subdivisionsHeight = LongField(
+        default_value=1, min_value=1, soft_max_value=50
+    )
     sh = subdivisionsHeight
 
-    subdivisionsCap = LongField(default_value=0, min_value=0, soft_max_value=50)
+    subdivisionsCap = LongField(
+        default_value=0, min_value=0, soft_max_value=50
+    )
     sc = subdivisionsCap
 
     texture = BoolField(default_value=True)

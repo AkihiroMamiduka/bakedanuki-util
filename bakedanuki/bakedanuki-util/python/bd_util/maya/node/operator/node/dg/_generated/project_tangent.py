@@ -1,18 +1,24 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class TangentDirectionEnumPlugOperator(EnumPlugOperator):
+class TangentDirectionEnumPlugOperator(
+    EnumPlugOperator["TangentDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     U = 1
@@ -20,7 +26,9 @@ class TangentDirectionEnumPlugOperator(EnumPlugOperator):
     NORMAL = 3
 
 
-class TangentDirectionEnumAttrOperator(EnumAttrOperator):
+class TangentDirectionEnumAttrOperator(
+    EnumAttrOperator[TangentDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     U = 1
@@ -35,7 +43,9 @@ class TangentDirectionEnumAttrOperator(EnumAttrOperator):
 
 
 class TangentDirectionEnumField(
-    EnumField[TangentDirectionEnumAttrOperator, TangentDirectionEnumPlugOperator]
+    EnumField[
+        TangentDirectionEnumAttrOperator, TangentDirectionEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43,7 +53,7 @@ class TangentDirectionEnumField(
     PLUG_CLS = TangentDirectionEnumPlugOperator
 
 
-class _GeneratedProjectTangent(DG):
+class GeneratedProjectTangent(DG):
     __slots__ = ()
 
     NODE_TYPE = "projectTangent"
@@ -63,13 +73,19 @@ class _GeneratedProjectTangent(DG):
     outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    tangentScale = DoubleLinearField(default_value=1.0, min_value=-10.0, max_value=10.0)
+    tangentScale = DoubleLinearField(
+        default_value=1.0, min_value=-10.0, max_value=10.0
+    )
     ts = tangentScale
 
-    curvatureScale = DoubleLinearField(default_value=0.0, min_value=-10.0, max_value=10.0)
+    curvatureScale = DoubleLinearField(
+        default_value=0.0, min_value=-10.0, max_value=10.0
+    )
     cs = curvatureScale
 
-    rotate = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotate = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     ro = rotate
 
     tangentDirection = TangentDirectionEnumField(default_value=1)

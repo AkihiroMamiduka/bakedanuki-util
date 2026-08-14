@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.group import _GeneratedGroup
+from ._generated.group import GeneratedGroup
 
 
-class Group(_GeneratedGroup):
+class Group(GeneratedGroup):
     __slots__ = ()
 
     NODE_TYPE = "group"

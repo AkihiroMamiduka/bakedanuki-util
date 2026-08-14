@@ -1,19 +1,19 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     CREASE = 0
@@ -21,7 +21,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     REMOVE_ALL = 2
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     CREASE = 0
@@ -44,7 +44,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedPolyCreaseEdge(DG):
+class GeneratedPolyCreaseEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCreaseEdge"
@@ -88,13 +88,17 @@ class _GeneratedPolyCreaseEdge(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    crease = FloatField(multi=True, default_value=-1.0, min_value=0.0, soft_max_value=10.0)
+    crease = FloatField(
+        multi=True, default_value=-1.0, min_value=0.0, soft_max_value=10.0
+    )
     cr = crease
 
     inputVertexComponents = TypedField()
     ivc = inputVertexComponents
 
-    creaseVertex = FloatField(multi=True, default_value=-1.0, min_value=0.0, soft_max_value=10.0)
+    creaseVertex = FloatField(
+        multi=True, default_value=-1.0, min_value=0.0, soft_max_value=10.0
+    )
     crv = creaseVertex
 
     operation = OperationEnumField(default_value=0)

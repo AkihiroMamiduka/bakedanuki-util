@@ -1,25 +1,19 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
-from ..std.at.unit_scalar_range.float_linear import FloatLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
-    Double3CompoundBaseAttrOperator,
-    Double3CompoundBasePlugOperator,
-    Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
-    DoubleAngle3CompoundBaseAttrOperator,
-    DoubleAngle3CompoundBasePlugOperator,
-    DoubleAngle3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ..std.at.scalar.unit.range.float_linear import FloatLinearField
+from ..custom import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base import (
+    DoubleAngle3CompoundBaseAttrOperator,
+    DoubleAngle3CompoundBasePlugOperator,
+    DoubleAngle3CompoundBaseField,
+    Double3CompoundBaseAttrOperator,
+    Double3CompoundBasePlugOperator,
+    Double3CompoundBaseField,
     FloatLinear3CompoundBaseAttrOperator,
     FloatLinear3CompoundBasePlugOperator,
     FloatLinear3CompoundBaseField,
@@ -62,7 +56,9 @@ class TranslateAttrOperator(
 
 
 class TranslateField(
-    DoubleLinear3CompoundBaseField[TranslateAttrOperator, TranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TranslateAttrOperator, TranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -132,9 +128,7 @@ class RotateField(
     rz = rotateZ
 
 
-class ScalePlugOperator(
-    Double3CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Double3CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "sx"),
@@ -152,9 +146,7 @@ class ScalePlugOperator(
     sz = scaleZ
 
 
-class ScaleAttrOperator(
-    Double3CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Double3CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = DoubleField(default_value=1.0)
@@ -274,7 +266,9 @@ class LocalTranslateAttrOperator(
 
 
 class LocalTranslateField(
-    DoubleLinear3CompoundBaseField[LocalTranslateAttrOperator, LocalTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        LocalTranslateAttrOperator, LocalTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -327,7 +321,9 @@ class LocalDirectionAttrOperator(
 
 
 class LocalDirectionField(
-    DoubleLinear3CompoundBaseField[LocalDirectionAttrOperator, LocalDirectionPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        LocalDirectionAttrOperator, LocalDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -380,7 +376,9 @@ class LocalRotateAttrOperator(
 
 
 class LocalRotateField(
-    DoubleAngle3CompoundBaseField[LocalRotateAttrOperator, LocalRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        LocalRotateAttrOperator, LocalRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 

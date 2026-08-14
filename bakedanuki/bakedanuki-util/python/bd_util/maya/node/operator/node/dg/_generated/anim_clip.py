@@ -4,20 +4,22 @@ from ....attr.define.node_attr.anim_clip import (
     LocalStartPositionField,
     WorldStartPositionField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class WeightStyleEnumPlugOperator(EnumPlugOperator):
+class WeightStyleEnumPlugOperator(
+    EnumPlugOperator["WeightStyleEnumAttrOperator"]
+):
     __slots__ = ()
 
     FROM_START = 0
@@ -25,7 +27,9 @@ class WeightStyleEnumPlugOperator(EnumPlugOperator):
     ABSOLUTE_FROM_ZERO = 2
 
 
-class WeightStyleEnumAttrOperator(EnumAttrOperator):
+class WeightStyleEnumAttrOperator(
+    EnumAttrOperator[WeightStyleEnumPlugOperator]
+):
     __slots__ = ()
 
     FROM_START = 0
@@ -48,14 +52,14 @@ class WeightStyleEnumField(
     PLUG_CLS = WeightStyleEnumPlugOperator
 
 
-class OffsetEnumPlugOperator(EnumPlugOperator):
+class OffsetEnumPlugOperator(EnumPlugOperator["OffsetEnumAttrOperator"]):
     __slots__ = ()
 
     RELATIVE = 0
     ABSOLUTE = 1
 
 
-class OffsetEnumAttrOperator(EnumAttrOperator):
+class OffsetEnumAttrOperator(EnumAttrOperator[OffsetEnumPlugOperator]):
     __slots__ = ()
 
     RELATIVE = 0
@@ -76,7 +80,7 @@ class OffsetEnumField(
     PLUG_CLS = OffsetEnumPlugOperator
 
 
-class _GeneratedAnimClip(DG):
+class GeneratedAnimClip(DG):
     __slots__ = ()
 
     NODE_TYPE = "animClip"

@@ -1,16 +1,18 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class RenderDeviceEnumPlugOperator(EnumPlugOperator):
+class RenderDeviceEnumPlugOperator(
+    EnumPlugOperator["RenderDeviceEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -18,7 +20,9 @@ class RenderDeviceEnumPlugOperator(EnumPlugOperator):
     GPU = 2
 
 
-class RenderDeviceEnumAttrOperator(EnumAttrOperator):
+class RenderDeviceEnumAttrOperator(
+    EnumAttrOperator[RenderDeviceEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -41,7 +45,7 @@ class RenderDeviceEnumField(
     PLUG_CLS = RenderDeviceEnumPlugOperator
 
 
-class _GeneratedAiImagerDenoiserOidn(DG):
+class GeneratedAiImagerDenoiserOidn(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerDenoiserOidn"

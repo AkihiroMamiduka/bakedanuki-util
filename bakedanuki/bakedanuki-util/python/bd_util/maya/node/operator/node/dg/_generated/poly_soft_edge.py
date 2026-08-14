@@ -1,14 +1,16 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolySoftEdge(DG):
+class GeneratedPolySoftEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySoftEdge"
@@ -52,5 +54,7 @@ class _GeneratedPolySoftEdge(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    angle = DoubleAngleField(default_value=29.999999999999996, min_value=0.0, max_value=180.0)
+    angle = DoubleAngleField(
+        default_value=29.999999999999996, min_value=0.0, max_value=180.0
+    )
     a = angle

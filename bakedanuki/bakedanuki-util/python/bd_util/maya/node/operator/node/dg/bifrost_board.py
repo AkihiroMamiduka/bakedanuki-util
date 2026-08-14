@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.bifrost_board import _GeneratedBifrostBoard
+from ._generated.bifrost_board import GeneratedBifrostBoard
 
 
-class BifrostBoard(_GeneratedBifrostBoard):
+class BifrostBoard(GeneratedBifrostBoard):
     __slots__ = ()
 
     NODE_TYPE = "bifrostBoard"

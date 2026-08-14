@@ -1,20 +1,22 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OptimizeAxisEnumPlugOperator(EnumPlugOperator):
+class OptimizeAxisEnumPlugOperator(
+    EnumPlugOperator["OptimizeAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     FREE = 0
@@ -22,7 +24,9 @@ class OptimizeAxisEnumPlugOperator(EnumPlugOperator):
     HORIZONTAL = 2
 
 
-class OptimizeAxisEnumAttrOperator(EnumAttrOperator):
+class OptimizeAxisEnumAttrOperator(
+    EnumAttrOperator[OptimizeAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     FREE = 0
@@ -45,7 +49,7 @@ class OptimizeAxisEnumField(
     PLUG_CLS = OptimizeAxisEnumPlugOperator
 
 
-class _GeneratedPolyOptUvs(DG):
+class GeneratedPolyOptUvs(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyOptUvs"
@@ -95,10 +99,17 @@ class _GeneratedPolyOptUvs(DG):
     iterations = LongField(default_value=100, min_value=0, soft_max_value=1000)
     i = iterations
 
-    stoppingThreshold = FloatField(default_value=0.0010000000474974513, min_value=0.0, max_value=10.0, soft_max_value=1.0)
+    stoppingThreshold = FloatField(
+        default_value=0.0010000000474974513,
+        min_value=0.0,
+        max_value=10.0,
+        soft_max_value=1.0,
+    )
     ss = stoppingThreshold
 
-    areaWeight = FloatField(default_value=1.0, min_value=0.0, max_value=10.0, soft_max_value=1.0)
+    areaWeight = FloatField(
+        default_value=1.0, min_value=0.0, max_value=10.0, soft_max_value=1.0
+    )
     aw = areaWeight
 
     useScale = BoolField(default_value=False)
@@ -122,5 +133,7 @@ class _GeneratedPolyOptUvs(DG):
     globalBlend = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     gb = globalBlend
 
-    globalMethodBlend = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    globalMethodBlend = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     gmb = globalMethodBlend

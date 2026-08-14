@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.remap_color import _GeneratedRemapColor
+from ._generated.remap_color import GeneratedRemapColor
 
 
-class RemapColor(_GeneratedRemapColor):
+class RemapColor(GeneratedRemapColor):
     __slots__ = ()
 
     NODE_TYPE = "remapColor"

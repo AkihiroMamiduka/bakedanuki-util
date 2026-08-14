@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.row_from_matrix import _GeneratedRowFromMatrix
+from ._generated.row_from_matrix import GeneratedRowFromMatrix
 
 
-class RowFromMatrix(_GeneratedRowFromMatrix):
+class RowFromMatrix(GeneratedRowFromMatrix):
     __slots__ = ()
 
     NODE_TYPE = "rowFromMatrix"

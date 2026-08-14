@@ -5,11 +5,11 @@ from ....attr.define.node_attr.ai_user_data_color import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiUserDataColor(DG):
+class GeneratedAiUserDataColor(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUserDataColor"
@@ -26,7 +26,9 @@ class _GeneratedAiUserDataColor(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

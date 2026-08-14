@@ -1,14 +1,16 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyMergeVert(DG):
+class GeneratedPolyMergeVert(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyMergeVert"
@@ -52,7 +54,9 @@ class _GeneratedPolyMergeVert(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    distance = DoubleLinearField(default_value=0.01, min_value=0.0, soft_max_value=1.0)
+    distance = DoubleLinearField(
+        default_value=0.01, min_value=0.0, soft_max_value=1.0
+    )
     d = distance
 
     alwaysMergeTwoVertices = BoolField(default_value=False)

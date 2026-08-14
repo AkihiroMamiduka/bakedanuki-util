@@ -1,16 +1,18 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class FrameBufferFormatEnumPlugOperator(EnumPlugOperator):
+class FrameBufferFormatEnumPlugOperator(
+    EnumPlugOperator["FrameBufferFormatEnumAttrOperator"]
+):
     __slots__ = ()
 
     RGBA = 0
@@ -19,7 +21,9 @@ class FrameBufferFormatEnumPlugOperator(EnumPlugOperator):
     _16_MINUS_BIT_FLOAT_PER_CHANNEL = 3
 
 
-class FrameBufferFormatEnumAttrOperator(EnumAttrOperator):
+class FrameBufferFormatEnumAttrOperator(
+    EnumAttrOperator[FrameBufferFormatEnumPlugOperator]
+):
     __slots__ = ()
 
     RGBA = 0
@@ -36,7 +40,9 @@ class FrameBufferFormatEnumAttrOperator(EnumAttrOperator):
 
 
 class FrameBufferFormatEnumField(
-    EnumField[FrameBufferFormatEnumAttrOperator, FrameBufferFormatEnumPlugOperator]
+    EnumField[
+        FrameBufferFormatEnumAttrOperator, FrameBufferFormatEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44,7 +50,9 @@ class FrameBufferFormatEnumField(
     PLUG_CLS = FrameBufferFormatEnumPlugOperator
 
 
-class NumberOfSamplesEnumPlugOperator(EnumPlugOperator):
+class NumberOfSamplesEnumPlugOperator(
+    EnumPlugOperator["NumberOfSamplesEnumAttrOperator"]
+):
     __slots__ = ()
 
     _1_SAMPLE = 1
@@ -58,7 +66,9 @@ class NumberOfSamplesEnumPlugOperator(EnumPlugOperator):
     _36_SAMPLES = 36
 
 
-class NumberOfSamplesEnumAttrOperator(EnumAttrOperator):
+class NumberOfSamplesEnumAttrOperator(
+    EnumAttrOperator[NumberOfSamplesEnumPlugOperator]
+):
     __slots__ = ()
 
     _1_SAMPLE = 1
@@ -93,14 +103,18 @@ class NumberOfSamplesEnumField(
     PLUG_CLS = NumberOfSamplesEnumPlugOperator
 
 
-class TransparencySortingEnumPlugOperator(EnumPlugOperator):
+class TransparencySortingEnumPlugOperator(
+    EnumPlugOperator["TransparencySortingEnumAttrOperator"]
+):
     __slots__ = ()
 
     PER_OBJECT = 0
     PER_POLYGON = 1
 
 
-class TransparencySortingEnumAttrOperator(EnumAttrOperator):
+class TransparencySortingEnumAttrOperator(
+    EnumAttrOperator[TransparencySortingEnumPlugOperator]
+):
     __slots__ = ()
 
     PER_OBJECT = 0
@@ -113,7 +127,10 @@ class TransparencySortingEnumAttrOperator(EnumAttrOperator):
 
 
 class TransparencySortingEnumField(
-    EnumField[TransparencySortingEnumAttrOperator, TransparencySortingEnumPlugOperator]
+    EnumField[
+        TransparencySortingEnumAttrOperator,
+        TransparencySortingEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -121,7 +138,7 @@ class TransparencySortingEnumField(
     PLUG_CLS = TransparencySortingEnumPlugOperator
 
 
-class CullingEnumPlugOperator(EnumPlugOperator):
+class CullingEnumPlugOperator(EnumPlugOperator["CullingEnumAttrOperator"]):
     __slots__ = ()
 
     PER_OBJECT = 0
@@ -129,7 +146,7 @@ class CullingEnumPlugOperator(EnumPlugOperator):
     ALL_SINGLE_SIDED = 2
 
 
-class CullingEnumAttrOperator(EnumAttrOperator):
+class CullingEnumAttrOperator(EnumAttrOperator[CullingEnumPlugOperator]):
     __slots__ = ()
 
     PER_OBJECT = 0
@@ -152,14 +169,18 @@ class CullingEnumField(
     PLUG_CLS = CullingEnumPlugOperator
 
 
-class TextureCompressionEnumPlugOperator(EnumPlugOperator):
+class TextureCompressionEnumPlugOperator(
+    EnumPlugOperator["TextureCompressionEnumAttrOperator"]
+):
     __slots__ = ()
 
     DISABLED = 0
     ENABLED = 1
 
 
-class TextureCompressionEnumAttrOperator(EnumAttrOperator):
+class TextureCompressionEnumAttrOperator(
+    EnumAttrOperator[TextureCompressionEnumPlugOperator]
+):
     __slots__ = ()
 
     DISABLED = 0
@@ -172,7 +193,9 @@ class TextureCompressionEnumAttrOperator(EnumAttrOperator):
 
 
 class TextureCompressionEnumField(
-    EnumField[TextureCompressionEnumAttrOperator, TextureCompressionEnumPlugOperator]
+    EnumField[
+        TextureCompressionEnumAttrOperator, TextureCompressionEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -180,14 +203,18 @@ class TextureCompressionEnumField(
     PLUG_CLS = TextureCompressionEnumPlugOperator
 
 
-class ShadingModelEnumPlugOperator(EnumPlugOperator):
+class ShadingModelEnumPlugOperator(
+    EnumPlugOperator["ShadingModelEnumAttrOperator"]
+):
     __slots__ = ()
 
     MAYA_SOFTWARE_RENDER_EMULATION = 0
     MAYA_INTERACTIVE_SHADER = 1
 
 
-class ShadingModelEnumAttrOperator(EnumAttrOperator):
+class ShadingModelEnumAttrOperator(
+    EnumAttrOperator[ShadingModelEnumPlugOperator]
+):
     __slots__ = ()
 
     MAYA_SOFTWARE_RENDER_EMULATION = 0
@@ -208,15 +235,19 @@ class ShadingModelEnumField(
     PLUG_CLS = ShadingModelEnumPlugOperator
 
 
-class _GeneratedHardwareRenderGlobals(DG):
+class GeneratedHardwareRenderGlobals(DG):
     __slots__ = ()
 
     NODE_TYPE = "hardwareRenderGlobals"
 
-    colorTextureResolution = LongField(default_value=128, min_value=2, max_value=2048)
+    colorTextureResolution = LongField(
+        default_value=128, min_value=2, max_value=2048
+    )
     ctrs = colorTextureResolution
 
-    bumpTextureResolution = LongField(default_value=256, min_value=2, max_value=2048)
+    bumpTextureResolution = LongField(
+        default_value=256, min_value=2, max_value=2048
+    )
     btrs = bumpTextureResolution
 
     frameBufferFormat = FrameBufferFormatEnumField(default_value=0)
@@ -261,13 +292,17 @@ class _GeneratedHardwareRenderGlobals(DG):
     textureCompression = TextureCompressionEnumField(default_value=0)
     tcov = textureCompression
 
-    lightIntensityThreshold = FloatField(default_value=0.0010000000474974513, min_value=0.0001, max_value=1.0)
+    lightIntensityThreshold = FloatField(
+        default_value=0.0010000000474974513, min_value=0.0001, max_value=1.0
+    )
     lith = lightIntensityThreshold
 
     smallObjectCulling = BoolField(default_value=True)
     sobc = smallObjectCulling
 
-    cullingThreshold = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
+    cullingThreshold = FloatField(
+        default_value=0.0, min_value=0.0, max_value=100.0
+    )
     cuth = cullingThreshold
 
     graphicsHardwareGeometryCachingData = BoolField(default_value=True)
@@ -276,7 +311,9 @@ class _GeneratedHardwareRenderGlobals(DG):
     graphicsHardwareGeometryCachingIndexing = BoolField(default_value=True)
     hgci = graphicsHardwareGeometryCachingIndexing
 
-    maximumGeometryCacheSize = LongField(default_value=64, min_value=1, max_value=512)
+    maximumGeometryCacheSize = LongField(
+        default_value=64, min_value=1, max_value=512
+    )
     mgcs = maximumGeometryCacheSize
 
     writeAlphaAsColor = BoolField(default_value=False)

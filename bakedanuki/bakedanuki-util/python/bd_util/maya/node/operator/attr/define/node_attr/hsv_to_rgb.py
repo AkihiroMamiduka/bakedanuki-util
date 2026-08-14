@@ -1,16 +1,14 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class InHsvPlugOperator(
-    Float3CompoundBasePlugOperator["InHsvAttrOperator"]
-):
+class InHsvPlugOperator(Float3CompoundBasePlugOperator["InHsvAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inHsvR", "ir"),
@@ -28,9 +26,7 @@ class InHsvPlugOperator(
     ib = inHsvB
 
 
-class InHsvAttrOperator(
-    Float3CompoundBaseAttrOperator[InHsvPlugOperator]
-):
+class InHsvAttrOperator(Float3CompoundBaseAttrOperator[InHsvPlugOperator]):
     __slots__ = ()
 
     inHsvR = FloatField(default_value=0.0, min_value=0.0, max_value=360.0)
@@ -61,9 +57,7 @@ class InHsvField(
     ib = inHsvB
 
 
-class OutRgbPlugOperator(
-    Float3CompoundBasePlugOperator["OutRgbAttrOperator"]
-):
+class OutRgbPlugOperator(Float3CompoundBasePlugOperator["OutRgbAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outRgbR", "or"),
@@ -81,9 +75,7 @@ class OutRgbPlugOperator(
     ob = outRgbB
 
 
-class OutRgbAttrOperator(
-    Float3CompoundBaseAttrOperator[OutRgbPlugOperator]
-):
+class OutRgbAttrOperator(Float3CompoundBaseAttrOperator[OutRgbPlugOperator]):
     __slots__ = ()
 
     outRgbR = FloatField(default_value=0.0, writable=False)

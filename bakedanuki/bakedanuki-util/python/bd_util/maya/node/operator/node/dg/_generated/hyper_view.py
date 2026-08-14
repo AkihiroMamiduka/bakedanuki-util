@@ -5,18 +5,20 @@ from ....attr.define.node_attr.hyper_view import (
     ViewRectHighField,
     ViewRectLowField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class BuildDirectionEnumPlugOperator(EnumPlugOperator):
+class BuildDirectionEnumPlugOperator(
+    EnumPlugOperator["BuildDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UPSTREAM = 0
@@ -24,7 +26,9 @@ class BuildDirectionEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class BuildDirectionEnumAttrOperator(EnumAttrOperator):
+class BuildDirectionEnumAttrOperator(
+    EnumAttrOperator[BuildDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UPSTREAM = 0
@@ -47,7 +51,7 @@ class BuildDirectionEnumField(
     PLUG_CLS = BuildDirectionEnumPlugOperator
 
 
-class _GeneratedHyperView(DG):
+class GeneratedHyperView(DG):
     __slots__ = ()
 
     NODE_TYPE = "hyperView"

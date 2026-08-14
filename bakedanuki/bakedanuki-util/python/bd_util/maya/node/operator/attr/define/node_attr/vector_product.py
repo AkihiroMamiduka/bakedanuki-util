@@ -1,16 +1,14 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class Input1PlugOperator(
-    Float3CompoundBasePlugOperator["Input1AttrOperator"]
-):
+class Input1PlugOperator(Float3CompoundBasePlugOperator["Input1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input1X", "i1x"),
@@ -28,9 +26,7 @@ class Input1PlugOperator(
     i1z = input1Z
 
 
-class Input1AttrOperator(
-    Float3CompoundBaseAttrOperator[Input1PlugOperator]
-):
+class Input1AttrOperator(Float3CompoundBaseAttrOperator[Input1PlugOperator]):
     __slots__ = ()
 
     input1X = FloatField(default_value=0.0)
@@ -61,9 +57,7 @@ class Input1Field(
     i1z = input1Z
 
 
-class Input2PlugOperator(
-    Float3CompoundBasePlugOperator["Input2AttrOperator"]
-):
+class Input2PlugOperator(Float3CompoundBasePlugOperator["Input2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input2X", "i2x"),
@@ -81,9 +75,7 @@ class Input2PlugOperator(
     i2z = input2Z
 
 
-class Input2AttrOperator(
-    Float3CompoundBaseAttrOperator[Input2PlugOperator]
-):
+class Input2AttrOperator(Float3CompoundBaseAttrOperator[Input2PlugOperator]):
     __slots__ = ()
 
     input2X = FloatField(default_value=0.0)
@@ -114,9 +106,7 @@ class Input2Field(
     i2z = input2Z
 
 
-class OutputPlugOperator(
-    Float3CompoundBasePlugOperator["OutputAttrOperator"]
-):
+class OutputPlugOperator(Float3CompoundBasePlugOperator["OutputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outputX", "ox"),
@@ -134,9 +124,7 @@ class OutputPlugOperator(
     oz = outputZ
 
 
-class OutputAttrOperator(
-    Float3CompoundBaseAttrOperator[OutputPlugOperator]
-):
+class OutputAttrOperator(Float3CompoundBaseAttrOperator[OutputPlugOperator]):
     __slots__ = ()
 
     outputX = FloatField(default_value=1.0, writable=False)

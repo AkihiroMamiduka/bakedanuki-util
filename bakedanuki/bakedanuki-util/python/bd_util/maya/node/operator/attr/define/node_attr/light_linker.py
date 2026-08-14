@@ -8,9 +8,7 @@ from ..std.at.compound import (
 from ..std.at.message import MessageField
 
 
-class LinkPlugOperator(
-    CompoundPlugOperator["LinkAttrOperator"]
-):
+class LinkPlugOperator(CompoundPlugOperator["LinkAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("light", "llnk"),
@@ -24,9 +22,7 @@ class LinkPlugOperator(
     olnk = object
 
 
-class LinkAttrOperator(
-    CompoundAttrOperator[LinkPlugOperator]
-):
+class LinkAttrOperator(CompoundAttrOperator[LinkPlugOperator]):
     __slots__ = ()
 
     light = MessageField()
@@ -36,18 +32,14 @@ class LinkAttrOperator(
     olnk = object
 
 
-class LinkField(
-    CompoundField[LinkAttrOperator, LinkPlugOperator]
-):
+class LinkField(CompoundField[LinkAttrOperator, LinkPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LinkAttrOperator
     PLUG_CLS = LinkPlugOperator
 
 
-class IgnorePlugOperator(
-    CompoundPlugOperator["IgnoreAttrOperator"]
-):
+class IgnorePlugOperator(CompoundPlugOperator["IgnoreAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("lightIgnored", "lign"),
@@ -61,9 +53,7 @@ class IgnorePlugOperator(
     oign = objectIgnored
 
 
-class IgnoreAttrOperator(
-    CompoundAttrOperator[IgnorePlugOperator]
-):
+class IgnoreAttrOperator(CompoundAttrOperator[IgnorePlugOperator]):
     __slots__ = ()
 
     lightIgnored = MessageField()
@@ -73,18 +63,14 @@ class IgnoreAttrOperator(
     oign = objectIgnored
 
 
-class IgnoreField(
-    CompoundField[IgnoreAttrOperator, IgnorePlugOperator]
-):
+class IgnoreField(CompoundField[IgnoreAttrOperator, IgnorePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = IgnoreAttrOperator
     PLUG_CLS = IgnorePlugOperator
 
 
-class ShadowLinkPlugOperator(
-    CompoundPlugOperator["ShadowLinkAttrOperator"]
-):
+class ShadowLinkPlugOperator(CompoundPlugOperator["ShadowLinkAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("shadowLight", "sllk"),
@@ -98,9 +84,7 @@ class ShadowLinkPlugOperator(
     solk = shadowObject
 
 
-class ShadowLinkAttrOperator(
-    CompoundAttrOperator[ShadowLinkPlugOperator]
-):
+class ShadowLinkAttrOperator(CompoundAttrOperator[ShadowLinkPlugOperator]):
     __slots__ = ()
 
     shadowLight = MessageField()
@@ -135,9 +119,7 @@ class ShadowIgnorePlugOperator(
     soig = shadowObjectIgnored
 
 
-class ShadowIgnoreAttrOperator(
-    CompoundAttrOperator[ShadowIgnorePlugOperator]
-):
+class ShadowIgnoreAttrOperator(CompoundAttrOperator[ShadowIgnorePlugOperator]):
     __slots__ = ()
 
     shadowLightIgnored = MessageField()

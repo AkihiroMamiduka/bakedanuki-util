@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import Self
+from typing import Any, cast, ClassVar, Self, TYPE_CHECKING
 
 # maya
 import maya.cmds as cmds
@@ -11,6 +11,9 @@ from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
 from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
 from ...modifier import ModifierManager
+
+if TYPE_CHECKING:
+    from ..attr._core import AttributeField, AttrOperator, PlugOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -27,7 +30,7 @@ class IsInstance(ImmutableDescriptor):
     def __get__(
         self,
         instance: object | None,
-        owner: type,
+        owner: type[NodeOperator],
     ) -> bool:
         """
         属性アクセスメソッド
@@ -35,7 +38,7 @@ class IsInstance(ImmutableDescriptor):
 
         Args:
             instance (object | None): インスタンス
-            owner (type): 親クラス
+            owner (type[NodeOperator]): 親クラス
 
         Returns:
             bool: 親がインスタンスかどうかの真偽値
@@ -55,32 +58,33 @@ class NodeClass(ImmutableDescriptor):
     def __get__(
         self,
         instance: object | None,
-        owner: type,
-    ) -> om.MNodeClass:
+        owner: type[NodeOperator],
+    ) -> om.MNodeClass | None:
         """
         属性アクセスメソッド
         ノードクラスを返す
 
         Args:
             instance (object | None): インスタンス
-            owner (type): 親クラス
+            owner (type[NodeOperator]): 親クラス
 
         Returns:
-            om.MNodeClass: ノードクラス
+            om.MNodeClass | None: ノードクラス。
+                NODE_TYPE が未定義の場合は None。
         """
-        node_class = None
-        if owner.NODE_TYPE is not None:
-            node_class = om.MNodeClass(owner.NODE_TYPE)
-        return node_class
+        node_type = owner.NODE_TYPE
+        if node_type is None:
+            return None
+        return om.MNodeClass(node_type)
 
 
 class NodeOperator(metaclass=ImmutableDescriptorMeta):
-    NODE_TYPE = None
+    NODE_TYPE: ClassVar[str | None] = None
     node_class = NodeClass()
     is_instance = IsInstance()
-    _attributes_map_by_long_name: dict = {}
-    _attributes_map_by_short_name: dict = {}
-    _extra_attributes: tuple = ()
+    _attributes_map_by_long_name: dict[str, AttrOperator[Any]] = {}
+    _attributes_map_by_short_name: dict[str, AttrOperator[Any]] = {}
+    _extra_attributes: tuple[AttributeField[Any, Any], ...] = ()
 
     __slots__ = (
         "__weakref__",
@@ -90,13 +94,13 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         "_plug_cache",
     )
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
 
         cls._init_set_extra_attrs()
 
     @classmethod
-    def _init_set_extra_attrs(cls):
+    def _init_set_extra_attrs(cls) -> None:
         """
         クラス階層からすべての extra=True 属性記述子を収集する。
         オブジェクトの同一性に基づいて重複を排除し、
@@ -106,31 +110,31 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             AttributeField,
         )  # 循環インポート回避のため遅延インポート
 
-        attributes_by_long_name = {}
-        attributes_by_short_name = {}
-        extra_attrs = []
-        seen_ids = set()
+        attributes_by_long_name: dict[str, AttrOperator[Any]] = {}
+        attributes_by_short_name: dict[str, AttrOperator[Any]] = {}
+        extra_attrs: list[AttributeField[Any, Any]] = []
+        seen_ids: set[int] = set()
         for klass in cls.__mro__:
-            for v in vars(klass).values():
-                v: AttributeField
-                obj_id = id(v)
-
-                # 既に登録されているか、AttributeField でない場合はスキップ
-                if obj_id in seen_ids or not isinstance(v, AttributeField):
+            for value in vars(klass).values():
+                if not isinstance(value, AttributeField):
+                    continue
+                field = cast(AttributeField[Any, Any], value)
+                obj_id = id(field)
+                if obj_id in seen_ids:
                     continue
 
                 # 初回なので登録
                 seen_ids.add(obj_id)
 
                 # class access で AttrOperator を取得してマップを構築する
-                oprt_attr = v.__get__(None, cls)
+                oprt_attr = field.__get__(None, cls)
                 attributes_by_long_name[oprt_attr.long_name] = oprt_attr
                 attributes_by_short_name[oprt_attr.short_name] = oprt_attr
 
                 # extra=True のものは field を保持して、
                 # instance access 時に PlugOperator へ解決する
-                if getattr(v, "extra", False):
-                    extra_attrs.append(v)
+                if field.extra:
+                    extra_attrs.append(field)
 
         cls._attributes_map_by_long_name = attributes_by_long_name
         cls._attributes_map_by_short_name = attributes_by_short_name
@@ -139,10 +143,10 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     def __init__(
         self,
         modifier_manager: ModifierManager,
-        name: str = None,
-        m_obj: om.MObject = None,
+        name: str | None = None,
+        m_obj: om.MObject | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ):
+    ) -> None:
         if m_obj is None and name is None:
             raise ValueError("Either m_obj or name must be provided.")
         # modifier_manager
@@ -164,13 +168,13 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             self._dg_mod.renameNode(self.m_obj, name)
 
         # plug_cache
-        self._plug_cache = None
+        self._plug_cache: dict[str, PlugOperator[Any]] | None = None
 
         # auto_add_attr
         if auto_add_attr and self._extra_attributes:
             self._auto_add_extra_attrs()
 
-    def __getitem__(self, key: str):
+    def __getitem__(self, key: str) -> PlugOperator[Any]:
         """
         文字列キーでアトリビュートにアクセスし、Plug を返す。
 
@@ -190,42 +194,42 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             TypeError: key が str 以外の型の場合
             ValueError: キーの書式が不正な場合
         """
-        # from ..attr._core import (
-        #     _make_dynamic_plug,
-        #     _parse_attr_segment,
-        # )  # 循環インポート回避のため遅延インポート
+        return cast("PlugOperator[Any]", getattr(self, key))
 
-        # if not isinstance(key, str):
-        #     raise TypeError(
-        #         f"キーの型は str でなければなりません: {type(key)}"
-        #     )
-
-        # segments = key.split(".")
-        # if any(s == "" for s in segments):
-        #     raise ValueError(
-        #         f"アトリビュートキーに空セグメントが含まれています: '{key}'"
-        #     )
-
-        # # 最初のセグメントを処理する（名前 + オプションのインデックス）
-        # attr_name, index = _parse_attr_segment(segments[0])
-
-        # plug = _make_dynamic_plug(self, attr_name, "")
-        # if index is not None:
-        #     plug = plug[index]
-
-        # # 残りのセグメントを順に処理する
-        # for segment in segments[1:]:
-        #     plug = plug[segment]
-
-        # return plug
-        return getattr(self, key)
-
-    def __class_getitem__(cls, key: str):
-        return getattr(cls, key)
+    def __class_getitem__(cls, key: str) -> AttrOperator[Any]:
+        return cast("AttrOperator[Any]", getattr(cls, key))
 
     @property
     def modifier_manager(self) -> ModifierManager:
         return self._modifier_manager
+
+    @classmethod
+    def get_attr_operator(cls, long_name: str) -> AttrOperator[Any] | None:
+        return cls._attributes_map_by_long_name.get(long_name)
+
+    @classmethod
+    def get_extra_attribute_fields(
+        cls,
+    ) -> tuple[AttributeField[Any, Any], ...]:
+        """Return the fields registered for automatic extra-attribute creation."""
+        return cls._extra_attributes
+
+    def get_cached_plug(self, attr_path: str) -> PlugOperator[Any] | None:
+        plug_cache = self._plug_cache
+        if plug_cache is None:
+            return None
+        return plug_cache.get(attr_path)
+
+    def cache_plug(
+        self,
+        attr_path: str,
+        plug: PlugOperator[Any],
+    ) -> None:
+        plug_cache = self._plug_cache
+        if plug_cache is None:
+            plug_cache = {}
+            self._plug_cache = plug_cache
+        plug_cache[attr_path] = plug
 
     @property
     def _dg_mod(self) -> om.MDGModifier:
@@ -235,15 +239,11 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         """
         extra=True の Attr で、対象ノードに存在しないものを addAttr() する。
         """
-        from ..attr._core import (
-            PlugOperator,
-        )  # 循環インポート回避のため遅延インポート
-
         for field in self._extra_attributes:
             plug = getattr(self, field.name)
-            plug: PlugOperator
+            plug: PlugOperator[Any]
             if not plug.exists():
-                if plug._REQUIRED_CMDS_ADD_ATTR:
+                if plug.requires_cmds_add_attr:
                     plug.cmds_add_attr()
                 else:
                     plug.add_attr()
@@ -258,20 +258,14 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     def create(
         cls,
         modifier_manager: ModifierManager,
-        name=None,
-        auto_add_attr=DEFAULT_VALUE_AUTO_ADD_ATTR,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Self:
         if cls.NODE_TYPE is None:
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
 
         # ノード作成
         m_obj = modifier_manager.dg_mod.createNode(cls.NODE_TYPE)
-
-        # # チャンネルボックスでのINPUTS OUTPUTSから表示を消す
-        # fn_node = om.MFnDependencyNode(m_obj)
-        # attr_obj = fn_node.attribute("isHistoricallyInteresting")
-        # plug = om.MPlug(m_obj, attr_obj)
-        # dg_mod.newPlugValueBool(plug, False)
 
         # インスタンス生成
         return cls(
@@ -350,7 +344,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         return self.name
 
     @property
-    def _cmd_access_name(self) -> str:
+    def cmd_access_name(self) -> str:
         """
         maya コマンドへアクセスする用のノード名を返す。
         dg ノード : name をそのまま返す
@@ -426,8 +420,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         if new_name is not None:
             pure_name = new_name
         elif search is not None:
-            replace_str = replace if replace is not None else ""
-            pure_name = pure_name.replace(search, replace_str)
+            pure_name = pure_name.replace(search, replace)
         #   prefix, suffix を付加する
         pure_name = prefix + pure_name + suffix
 

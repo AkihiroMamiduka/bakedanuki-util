@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ff_blend_srf import _GeneratedFfBlendSrf
+from ._generated.ff_blend_srf import GeneratedFfBlendSrf
 
 
-class FfBlendSrf(_GeneratedFfBlendSrf):
+class FfBlendSrf(GeneratedFfBlendSrf):
     __slots__ = ()
 
     NODE_TYPE = "ffBlendSrf"

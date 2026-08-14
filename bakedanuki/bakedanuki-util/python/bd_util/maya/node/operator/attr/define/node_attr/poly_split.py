@@ -5,8 +5,8 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.unit_scalar_range.float_linear import FloatLinearField
-from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base import (
+from ..std.at.scalar.unit.range.float_linear import FloatLinearField
+from ..custom import (
     FloatLinear3CompoundBaseAttrOperator,
     FloatLinear3CompoundBasePlugOperator,
     FloatLinear3CompoundBaseField,
@@ -57,21 +57,15 @@ class VerticesField(
     PLUG_CLS = VerticesPlugOperator
 
 
-class SplitPointsPlugOperator(
-    CompoundPlugOperator["SplitPointsAttrOperator"]
-):
+class SplitPointsPlugOperator(CompoundPlugOperator["SplitPointsAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("splitPoint", "sp"),
-    )
+    CHILD_ATTR_NAMES = (("splitPoint", "sp"),)
 
     splitPoint = CompoundField(multi=True)
     sp = splitPoint
 
 
-class SplitPointsAttrOperator(
-    CompoundAttrOperator[SplitPointsPlugOperator]
-):
+class SplitPointsAttrOperator(CompoundAttrOperator[SplitPointsPlugOperator]):
     __slots__ = ()
 
     splitPoint = CompoundField(multi=True)

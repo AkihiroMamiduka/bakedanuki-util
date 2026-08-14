@@ -9,23 +9,25 @@ from ....attr.define.node_attr.skin_cluster import (
     PerInfluenceWeightsField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class SkinningMethodEnumPlugOperator(EnumPlugOperator):
+class SkinningMethodEnumPlugOperator(
+    EnumPlugOperator["SkinningMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLASSIC_LINEAR = 0
@@ -33,7 +35,9 @@ class SkinningMethodEnumPlugOperator(EnumPlugOperator):
     WEIGHT_BLENDED = 2
 
 
-class SkinningMethodEnumAttrOperator(EnumAttrOperator):
+class SkinningMethodEnumAttrOperator(
+    EnumAttrOperator[SkinningMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     CLASSIC_LINEAR = 0
@@ -56,7 +60,9 @@ class SkinningMethodEnumField(
     PLUG_CLS = SkinningMethodEnumPlugOperator
 
 
-class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator):
+class RelativeSpaceModeEnumPlugOperator(
+    EnumPlugOperator["RelativeSpaceModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -64,7 +70,9 @@ class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 2
 
 
-class RelativeSpaceModeEnumAttrOperator(EnumAttrOperator):
+class RelativeSpaceModeEnumAttrOperator(
+    EnumAttrOperator[RelativeSpaceModeEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -79,7 +87,9 @@ class RelativeSpaceModeEnumAttrOperator(EnumAttrOperator):
 
 
 class RelativeSpaceModeEnumField(
-    EnumField[RelativeSpaceModeEnumAttrOperator, RelativeSpaceModeEnumPlugOperator]
+    EnumField[
+        RelativeSpaceModeEnumAttrOperator, RelativeSpaceModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -87,7 +97,9 @@ class RelativeSpaceModeEnumField(
     PLUG_CLS = RelativeSpaceModeEnumPlugOperator
 
 
-class BindMethodEnumPlugOperator(EnumPlugOperator):
+class BindMethodEnumPlugOperator(
+    EnumPlugOperator["BindMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST_DISTANCE = 0
@@ -96,7 +108,7 @@ class BindMethodEnumPlugOperator(EnumPlugOperator):
     GEODESIC_VOXEL = 3
 
 
-class BindMethodEnumAttrOperator(EnumAttrOperator):
+class BindMethodEnumAttrOperator(EnumAttrOperator[BindMethodEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST_DISTANCE = 0
@@ -121,7 +133,9 @@ class BindMethodEnumField(
     PLUG_CLS = BindMethodEnumPlugOperator
 
 
-class NormalizeWeightsEnumPlugOperator(EnumPlugOperator):
+class NormalizeWeightsEnumPlugOperator(
+    EnumPlugOperator["NormalizeWeightsEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -129,7 +143,9 @@ class NormalizeWeightsEnumPlugOperator(EnumPlugOperator):
     POST = 2
 
 
-class NormalizeWeightsEnumAttrOperator(EnumAttrOperator):
+class NormalizeWeightsEnumAttrOperator(
+    EnumAttrOperator[NormalizeWeightsEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -144,7 +160,9 @@ class NormalizeWeightsEnumAttrOperator(EnumAttrOperator):
 
 
 class NormalizeWeightsEnumField(
-    EnumField[NormalizeWeightsEnumAttrOperator, NormalizeWeightsEnumPlugOperator]
+    EnumField[
+        NormalizeWeightsEnumAttrOperator, NormalizeWeightsEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -152,14 +170,18 @@ class NormalizeWeightsEnumField(
     PLUG_CLS = NormalizeWeightsEnumPlugOperator
 
 
-class WeightDistributionEnumPlugOperator(EnumPlugOperator):
+class WeightDistributionEnumPlugOperator(
+    EnumPlugOperator["WeightDistributionEnumAttrOperator"]
+):
     __slots__ = ()
 
     DISTANCE = 0
     NEIGHBORS = 1
 
 
-class WeightDistributionEnumAttrOperator(EnumAttrOperator):
+class WeightDistributionEnumAttrOperator(
+    EnumAttrOperator[WeightDistributionEnumPlugOperator]
+):
     __slots__ = ()
 
     DISTANCE = 0
@@ -172,7 +194,9 @@ class WeightDistributionEnumAttrOperator(EnumAttrOperator):
 
 
 class WeightDistributionEnumField(
-    EnumField[WeightDistributionEnumAttrOperator, WeightDistributionEnumPlugOperator]
+    EnumField[
+        WeightDistributionEnumAttrOperator, WeightDistributionEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -180,7 +204,7 @@ class WeightDistributionEnumField(
     PLUG_CLS = WeightDistributionEnumPlugOperator
 
 
-class _GeneratedSkinCluster(DG):
+class GeneratedSkinCluster(DG):
     __slots__ = ()
 
     NODE_TYPE = "skinCluster"
@@ -197,13 +221,21 @@ class _GeneratedSkinCluster(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -227,7 +259,9 @@ class _GeneratedSkinCluster(DG):
     weightList = WeightListField(multi=True, default_value=0.0)
     wl = weightList
 
-    perInfluenceWeights = PerInfluenceWeightsField(multi=True, default_value=0.0, writable=False)
+    perInfluenceWeights = PerInfluenceWeightsField(
+        multi=True, default_value=0.0, writable=False
+    )
     piw = perInfluenceWeights
 
     bindPreMatrix = DataMatrixField(multi=True)
@@ -242,7 +276,9 @@ class _GeneratedSkinCluster(DG):
     dropoffRate = DoubleField(default_value=4.0, min_value=0.1, max_value=10.0)
     dr = dropoffRate
 
-    dropoff = DoubleField(multi=True, default_value=4.0, min_value=0.1, max_value=100.0)
+    dropoff = DoubleField(
+        multi=True, default_value=4.0, min_value=0.1, max_value=100.0
+    )
     dpf = dropoff
 
     smoothness = DoubleField(multi=True, default_value=0.0)
@@ -311,10 +347,14 @@ class _GeneratedSkinCluster(DG):
     bindVolume = MessageField()
     bc = bindVolume
 
-    heatmapFalloff = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    heatmapFalloff = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     hmf = heatmapFalloff
 
-    influenceColor = InfluenceColorField(multi=True, default_value=(0.0, 0.0, 0.0))
+    influenceColor = InfluenceColorField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     ifcl = influenceColor
 
     geomBind = MessageField()

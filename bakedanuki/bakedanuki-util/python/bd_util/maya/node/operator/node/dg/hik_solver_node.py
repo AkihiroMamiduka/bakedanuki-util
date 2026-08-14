@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.hik_solver_node import _GeneratedHIKSolverNode
+from ._generated.hik_solver_node import GeneratedHIKSolverNode
 
 
-class HIKSolverNode(_GeneratedHIKSolverNode):
+class HIKSolverNode(GeneratedHIKSolverNode):
     __slots__ = ()
 
     NODE_TYPE = "HIKSolverNode"

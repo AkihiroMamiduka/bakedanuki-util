@@ -85,7 +85,7 @@ def test_next_index_connects_to_sequential_elements(
     for i in range(5):
         src = wt_add_matrix_cls.create(modifier_manager, name=f"src_{i}")
         sources.append(src)
-        src.matrixSum > dst.wtMatrix[next].matrixIn
+        src.matrixSum.connect(dst.wtMatrix[next].matrixIn)
 
     modifier_manager.do_it_dg()
 
@@ -104,7 +104,7 @@ def test_refresh_next_index_rescans_existing_elements(
 
     for i in range(3):
         src = wt_add_matrix_cls.create(modifier_manager, name=f"src_{i}")
-        src.matrixSum > dst.wtMatrix[next].matrixIn
+        src.matrixSum.connect(dst.wtMatrix[next].matrixIn)
 
     modifier_manager.do_it_dg()
 
@@ -116,7 +116,7 @@ def test_refresh_next_index_rescans_existing_elements(
 
     dst.wtMatrix.refresh_next_index()
     extra_src = wt_add_matrix_cls.create(modifier_manager, name="src_extra")
-    extra_src.matrixSum > dst.wtMatrix[next].matrixIn
+    extra_src.matrixSum.connect(dst.wtMatrix[next].matrixIn)
     modifier_manager.do_it_dg()
 
     assert dst.wtMatrix[0].matrixIn.src_plug == "src_0.matrixSum"

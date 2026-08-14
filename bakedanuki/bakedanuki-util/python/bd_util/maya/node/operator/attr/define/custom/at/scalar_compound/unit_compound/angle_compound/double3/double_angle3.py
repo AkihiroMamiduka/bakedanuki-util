@@ -6,7 +6,7 @@ from ._base import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBaseField,
 )
-from .......std.at.unit_scalar_range.double_angle import DoubleAngleField
+from .......std.at.scalar.unit.range.double_angle import DoubleAngleField
 
 
 class DoubleAngle3PlugOperator(

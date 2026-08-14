@@ -1,14 +1,14 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyExtrudeVertex(DG):
+class GeneratedPolyExtrudeVertex(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyExtrudeVertex"
@@ -52,11 +52,15 @@ class _GeneratedPolyExtrudeVertex(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    length = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    length = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     l = length
 
     width = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     w = width
 
-    divisions = LongField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=25)
+    divisions = LongField(
+        default_value=1, min_value=1, soft_min_value=1, soft_max_value=25
+    )
     d = divisions

@@ -14,6 +14,16 @@ PowerShell では、パスにスペースが含まれる executable を呼ぶた
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
 ```
 
+通常開発ではMaya 2025を基準にします。リリース前はMaya 2025 / 2026 / 2027の
+各`mayapy`と対応する`plug-ins/maya<version>/bdUtilNodes.mll`を指定し、
+全テストを実行します。ネイティブテストはversion別scriptから実行できます。
+
+```powershell
+.\scripts\test-native-maya2025.cmd
+.\scripts\test-native-maya2026.cmd
+.\scripts\test-native-maya2027.cmd
+```
+
 Codex 側の mayapy に pytest が入っていない場合は、target install した pytest の場所を `PYTHONPATH` に足して実行します。
 
 ```powershell
@@ -22,6 +32,117 @@ $pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
 $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
 ```
+
+## Black format
+
+BlackはMaya実行環境とは分離した`.venv-format`へインストールします。
+初回セットアップでは`requirements-format.txt`に固定したバージョンを使用します。
+
+```powershell
+.\scripts\setup-format.cmd
+```
+
+`bakedanuki`と`tests`以下のPythonコードを一括整形します。
+
+```powershell
+.\scripts\format.cmd
+```
+
+ファイルを変更せずに整形状態だけ確認する場合は`-Check`を指定します。
+実際の差分も確認する場合は`-Diff`を追加します。
+
+```powershell
+.\scripts\format.cmd -Check
+.\scripts\format.cmd -Check -Diff
+```
+
+設定はリポジトリ直下の`pyproject.toml`に置き、Python 3.11を対象にします。
+VS CodeのBlack Formatterも`.venv-format`と同じ設定を使用します。
+外部由来のMaya API stubを置く`typings`は一括整形の対象外です。
+
+Generatorは生成コードを直接Blackへ依存させません。
+ノードを再生成した場合は、生成処理の後に`format.cmd`を実行してから
+差分確認とテストを行ってください。
+
+## Pyright 型・補完 contract
+
+`tests/typecheck/node_operator_contract.py` は、公開 API を利用したときに
+Pyright が解決する型を `typing.assert_type()` で固定します。
+
+現在は次の経路を検証します。
+
+- `nodes.create` / `nodes.existing` の具体的な node 戻り値型。
+- `AttributeField` の class access と instance access。
+- compound child と alias の具体的な plug 型。
+- enum plug と enum 定数。
+- `multi[index]` / `multi[next]` の具体的な plug 型。
+- `get()` の値型。
+- 存在しない属性や不正な引数が型エラーになること。
+
+型エラーになるべき行は、対象の diagnostic rule を
+`# pyright: ignore[...]` で指定しています。
+`pyrightconfig.json` の `reportUnnecessaryTypeIgnoreComment` を有効にしているため、
+誤用が型エラーにならなくなった場合も contract failure になります。
+
+Maya API stub はリポジトリの `typings/maya` に同梱しています。
+`pyrightconfig.json` の `stubPath` を通して Pyright / Pylance から参照されるため、
+開発環境ごとに `maya-stubs` をインストールする必要はありません。
+
+Pyright CLI は、Maya 環境へ常設せず一時ディレクトリへ
+インストールできます。
+
+```powershell
+$pyrightTarget = Join-Path $env:TEMP 'codex-mayapy-pyright'
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pip install `
+    --upgrade `
+    --target $pyrightTarget `
+    -r requirements-typecheck.txt
+
+$env:PYTHONPATH = $pyrightTarget
+$env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pyright `
+    --project pyrightconfig.json `
+    --pythonpath "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe"
+```
+
+期待する結果は `0 errors, 0 warnings, 0 informations` です。
+
+このcontractは静的解析用で、Maya sceneを作成するruntime testではありません。
+通常の挙動は引き続き `mayapy -m pytest tests` で検証します。
+
+### 実装ファイルの診断確認
+
+`pyrightconfig.json` の既定の `include` は `tests/typecheck` です。
+これは通常実行を公開 API の型・補完 contract に限定するための設定で、
+`bd_util` の全実装を自動的に総点検する設定ではありません。
+
+実装ファイルや特定階層の Pylance 警告を調べる場合は、同じ設定と Maya interpreter を
+使い、対象 path を明示します。例えば `_test` 全体を確認する場合は次の通りです。
+
+```powershell
+$pyrightTarget = Join-Path $env:TEMP 'codex-mayapy-pyright'
+$env:PYTHONPATH = $pyrightTarget
+$env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pyright `
+    --project pyrightconfig.json `
+    --pythonpath "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
+    bakedanuki/bakedanuki-util/python/bd_util/_test
+```
+
+通常の Python や Node.js 版 Pyright から実行すると、stub は見つかっていても Maya の
+実 module source を解決できず、`reportMissingModuleSource` が出ることがあります。
+コードの型不備と混同せず、最終判定は上記の `mayapy.exe` を指定した方法で行います。
+
+診断を修正するときは次を基準にします。
+
+- `Any` は動的 import や Maya command など避けられない境界へ限定する。
+- Maya stub の可変長引数が実 API より狭い場合は、対象 callable だけを
+  `Callable` へ cast し、実行時の呼び出し方は変えない。
+- optional dependency は実行時 import とし、未導入時の既存 fallback を保つ。
+- `_generated` 以下は生成元を修正して再生成する。
+- diagnostic rule の global 無効化は、通常コードの書き間違いまで隠すため避ける。
+- 接続と切断には `.connect()` / `.connect_from()` / `.disconnect()` /
+  `.disconnect_from()` を使用する。
 
 ## 現在の pytest 対象
 
@@ -49,6 +170,9 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
   - animCurve の作成、query、削除、tangent 操作を検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
   - matrix plug と `TransformMatrix` の連携を検証します。
+- `tests/maya/value/test_scalar_compound.py`
+  - compound 専用値型の immutable sequence、component access、型ごとの
+    equality、演算未対応を検証します。
 
 ### NodeOperator
 
@@ -71,7 +195,7 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 ### 開発用 generator
 
 - `tests/dev/maya/node/operator/node/test_generate.py`
-  - AttributeField と非公開の生成 NodeOperator、公開 wrapper の生成・保護、安全でない nodeType の除外を検証します。
+  - AttributeField と内部 `_generated` package の生成 NodeOperator、公開 wrapper の生成・保護、安全でない nodeType の除外を検証します。
 - `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
   - `nodes.create` / `nodes.existing` の型情報を公開する stub の生成結果を検証します。
 
@@ -150,6 +274,88 @@ NodeOperator は生の `maya.api.OpenMaya` より速くなることは基本的�
 - descriptor access 時の cache key 改善
 
 速度比較では 1 回ごとの揺れが大きいため、判断が難しい場合は accurate mode の median を見ます。
+
+## 競合パッケージとの同条件ベンチマーク
+
+`competitor_benchmark` は次の API を同じ Maya、同じ処理件数、
+各計測前の新規シーンという条件で比較します。
+
+- `maya.cmds`
+- `maya.api.OpenMaya`
+- NodeOperator
+- PyMEL
+- cymel
+- cmdx
+- AL_omx
+
+対象シナリオは、既存ノードのラップ、plug access、scalar get / set、
+node 作成、直列接続、matrix graph 作成です。library import、scene 初期化、
+事前準備、結果検証、scene 破棄は計測区間に含めません。
+また、import による Maya plug-in 読み込みの影響を全対象で揃えるため、
+利用可能な全 library を最初に import してから計測を開始します。
+
+NodeOperator と OpenMaya は処理を modifier に積んで最後に実行できます。
+一方、cmdx と AL_omx は node 作成を途中で即時反映するため、
+完全な一括実行にはなりません。この差を隠さないため、CSV の
+`execution_mode` に `immediate` / `batched` / `hybrid` を記録します。
+比較結果は単一の総合順位ではなく、scenario と execution mode ごとに
+解釈してください。
+
+### 競合パッケージの配置
+
+pip で配布されている比較対象は `requirements-benchmark.txt` で
+計測時のバージョンを固定します。
+
+```powershell
+$thirdParty = 'D:\thirdparty\python\site-packages'
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pip install `
+    --upgrade `
+    --target $thirdParty `
+    -r requirements-benchmark.txt
+```
+
+cymel は PyPI package ではないため、source を同じ third-party
+directory の下へ clone します。
+
+```powershell
+git clone --depth 1 --branch main `
+    https://github.com/ryusas/cymel.git `
+    D:\thirdparty\python\site-packages\_cymel_source
+```
+
+初回の比較基準は cymel `0.33.2026070600`
+（commit `f46f395517d907b852fd7d1cede78b5268508a90`）です。
+将来更新した場合は、CSV の `adapter_version` とあわせて比較してください。
+
+### 実行方法
+
+PyMEL が home directory に `pymel.log` を作らないよう、benchmark 同梱の
+logging config を指定します。third-party packages と `bd_util` の両方を
+`PYTHONPATH` に入れて mayapy から実行します。
+
+```powershell
+$thirdParty = 'D:\thirdparty\python\site-packages'
+$cymelPython = Join-Path $thirdParty '_cymel_source\python'
+$packagePython = Resolve-Path .\bakedanuki\bakedanuki-util\python
+$env:PYTHONPATH = "$cymelPython;$thirdParty;$packagePython"
+$env:PYMEL_CONF = Resolve-Path `
+    .\bakedanuki\bakedanuki-util\python\bd_util\_test\maya\node\operator\node\competitor_benchmark\pymel.conf
+
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m `
+    bd_util._test.maya.node.operator.node.competitor_benchmark `
+    --count 1000 `
+    --repeat-count 5
+```
+
+手早い疎通確認では `--count 10 --repeat-count 1` を使用できます。
+`--adapter NodeOperator` や `--scenario matrix_graph` は複数回指定でき、
+対象を絞り込めます。
+
+計測値は既定で repository root の
+`benchmark_results/competitor/*.csv` へ保存します。
+`benchmark_results/` は `.gitignore` で除外しているため、
+比較結果そのものは Git 管理されません。CSV には各 repeat の生データを保存し、
+console には scenario ごとの median / min / max を表示します。
 
 ## 現行 snapshot
 

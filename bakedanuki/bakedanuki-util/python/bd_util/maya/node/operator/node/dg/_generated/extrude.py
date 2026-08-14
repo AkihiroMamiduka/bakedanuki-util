@@ -4,21 +4,27 @@ from ....attr.define.node_attr.extrude import (
     DirectionField,
     PivotField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class ExtrudeTypeEnumPlugOperator(EnumPlugOperator):
+class ExtrudeTypeEnumPlugOperator(
+    EnumPlugOperator["ExtrudeTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     DISTANCE = 0
@@ -26,7 +32,9 @@ class ExtrudeTypeEnumPlugOperator(EnumPlugOperator):
     TUBE = 2
 
 
-class ExtrudeTypeEnumAttrOperator(EnumAttrOperator):
+class ExtrudeTypeEnumAttrOperator(
+    EnumAttrOperator[ExtrudeTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     DISTANCE = 0
@@ -49,7 +57,9 @@ class ExtrudeTypeEnumField(
     PLUG_CLS = ExtrudeTypeEnumPlugOperator
 
 
-class UseComponentPivotEnumPlugOperator(EnumPlugOperator):
+class UseComponentPivotEnumPlugOperator(
+    EnumPlugOperator["UseComponentPivotEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST_ENDPOINT_OF_THE_PATH = 0
@@ -57,7 +67,9 @@ class UseComponentPivotEnumPlugOperator(EnumPlugOperator):
     CENTER_OF_THE_BOUNDING_BOX_OF_THE_PROFILE = 2
 
 
-class UseComponentPivotEnumAttrOperator(EnumAttrOperator):
+class UseComponentPivotEnumAttrOperator(
+    EnumAttrOperator[UseComponentPivotEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST_ENDPOINT_OF_THE_PATH = 0
@@ -67,12 +79,16 @@ class UseComponentPivotEnumAttrOperator(EnumAttrOperator):
     NAME_MAP = {
         CLOSEST_ENDPOINT_OF_THE_PATH: "Closest Endpoint of the Path",
         COMPONENT_PIVOT: "Component Pivot",
-        CENTER_OF_THE_BOUNDING_BOX_OF_THE_PROFILE: "Center of the Bounding Box of the Profile",
+        CENTER_OF_THE_BOUNDING_BOX_OF_THE_PROFILE: (
+            "Center of the Bounding Box of the Profile"
+        ),
     }
 
 
 class UseComponentPivotEnumField(
-    EnumField[UseComponentPivotEnumAttrOperator, UseComponentPivotEnumPlugOperator]
+    EnumField[
+        UseComponentPivotEnumAttrOperator, UseComponentPivotEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -80,7 +96,7 @@ class UseComponentPivotEnumField(
     PLUG_CLS = UseComponentPivotEnumPlugOperator
 
 
-class _GeneratedExtrude(DG):
+class GeneratedExtrude(DG):
     __slots__ = ()
 
     NODE_TYPE = "extrude"
@@ -112,7 +128,9 @@ class _GeneratedExtrude(DG):
     directionZ = direction.directionZ
     dz = directionZ
 
-    length = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    length = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     l = length
 
     pivot = PivotField(default_value=(0.0, 0.0, 0.0))
@@ -124,10 +142,14 @@ class _GeneratedExtrude(DG):
     pivotZ = pivot.pivotZ
     pz = pivotZ
 
-    rotation = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotation = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     ro = rotation
 
-    scale = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    scale = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     sc = scale
 
     reverseSurfaceIfPathReversed = BoolField(default_value=False)

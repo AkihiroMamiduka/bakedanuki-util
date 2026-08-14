@@ -1,21 +1,23 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_split_ring import ProfileCurveField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class SplitTypeEnumPlugOperator(EnumPlugOperator):
+class SplitTypeEnumPlugOperator(EnumPlugOperator["SplitTypeEnumAttrOperator"]):
     __slots__ = ()
 
     ABSOLUTE = 0
@@ -23,7 +25,7 @@ class SplitTypeEnumPlugOperator(EnumPlugOperator):
     MULTI = 2
 
 
-class SplitTypeEnumAttrOperator(EnumAttrOperator):
+class SplitTypeEnumAttrOperator(EnumAttrOperator[SplitTypeEnumPlugOperator]):
     __slots__ = ()
 
     ABSOLUTE = 0
@@ -46,7 +48,7 @@ class SplitTypeEnumField(
     PLUG_CLS = SplitTypeEnumPlugOperator
 
 
-class _GeneratedPolySplitRing(DG):
+class GeneratedPolySplitRing(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySplitRing"
@@ -102,7 +104,9 @@ class _GeneratedPolySplitRing(DG):
     rootEdge = LongField(default_value=-1)
     re = rootEdge
 
-    smoothingAngle = DoubleAngleField(default_value=180.0, soft_min_value=0.0, soft_max_value=180.0)
+    smoothingAngle = DoubleAngleField(
+        default_value=180.0, soft_min_value=0.0, soft_max_value=180.0
+    )
     sma = smoothingAngle
 
     splitType = SplitTypeEnumField(default_value=1)
@@ -117,10 +121,14 @@ class _GeneratedPolySplitRing(DG):
     profileCurve = ProfileCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
     p = profileCurve
 
-    profileCurveInputOffset = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
+    profileCurveInputOffset = FloatField(
+        default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0
+    )
     pio = profileCurveInputOffset
 
-    profileCurveInputScale = FloatField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
+    profileCurveInputScale = FloatField(
+        default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     pis = profileCurveInputScale
 
     useFaceNormalsAtEnds = BoolField(default_value=True)
@@ -135,5 +143,7 @@ class _GeneratedPolySplitRing(DG):
     insertWithEdgeFlow = BoolField(default_value=False)
     ief = insertWithEdgeFlow
 
-    adjustEdgeFlow = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    adjustEdgeFlow = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     aef = adjustEdgeFlow

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.keying_group import _GeneratedKeyingGroup
+from ._generated.keying_group import GeneratedKeyingGroup
 
 
-class KeyingGroup(_GeneratedKeyingGroup):
+class KeyingGroup(GeneratedKeyingGroup):
     __slots__ = ()
 
     NODE_TYPE = "keyingGroup"

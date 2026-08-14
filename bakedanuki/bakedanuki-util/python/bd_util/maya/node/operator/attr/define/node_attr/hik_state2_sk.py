@@ -5,14 +5,12 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class ReferenceTPlugOperator(
-    CompoundPlugOperator["ReferenceTAttrOperator"]
-):
+class ReferenceTPlugOperator(CompoundPlugOperator["ReferenceTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("ReferenceTx", "ReferenceTx"),
@@ -27,9 +25,7 @@ class ReferenceTPlugOperator(
     ReferenceTz = DoubleLinearField(default_value=0.0)
 
 
-class ReferenceTAttrOperator(
-    CompoundAttrOperator[ReferenceTPlugOperator]
-):
+class ReferenceTAttrOperator(CompoundAttrOperator[ReferenceTPlugOperator]):
     __slots__ = ()
 
     ReferenceTx = DoubleLinearField(default_value=0.0)
@@ -54,9 +50,7 @@ class ReferenceTField(
     ReferenceTz = DoubleLinearField(default_value=0.0)
 
 
-class ReferenceRPlugOperator(
-    CompoundPlugOperator["ReferenceRAttrOperator"]
-):
+class ReferenceRPlugOperator(CompoundPlugOperator["ReferenceRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("ReferenceRx", "ReferenceRx"),
@@ -71,9 +65,7 @@ class ReferenceRPlugOperator(
     ReferenceRz = DoubleAngleField(default_value=0.0)
 
 
-class ReferenceRAttrOperator(
-    CompoundAttrOperator[ReferenceRPlugOperator]
-):
+class ReferenceRAttrOperator(CompoundAttrOperator[ReferenceRPlugOperator]):
     __slots__ = ()
 
     ReferenceRx = DoubleAngleField(default_value=0.0)
@@ -98,9 +90,7 @@ class ReferenceRField(
     ReferenceRz = DoubleAngleField(default_value=0.0)
 
 
-class ReferenceSPlugOperator(
-    CompoundPlugOperator["ReferenceSAttrOperator"]
-):
+class ReferenceSPlugOperator(CompoundPlugOperator["ReferenceSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("ReferenceSx", "ReferenceSx"),
@@ -115,9 +105,7 @@ class ReferenceSPlugOperator(
     ReferenceSz = DoubleField(default_value=1.0)
 
 
-class ReferenceSAttrOperator(
-    CompoundAttrOperator[ReferenceSPlugOperator]
-):
+class ReferenceSAttrOperator(CompoundAttrOperator[ReferenceSPlugOperator]):
     __slots__ = ()
 
     ReferenceSx = DoubleField(default_value=1.0)
@@ -142,9 +130,7 @@ class ReferenceSField(
     ReferenceSz = DoubleField(default_value=1.0)
 
 
-class ReferenceISPlugOperator(
-    CompoundPlugOperator["ReferenceISAttrOperator"]
-):
+class ReferenceISPlugOperator(CompoundPlugOperator["ReferenceISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("ReferenceISx", "ReferenceISx"),
@@ -159,9 +145,7 @@ class ReferenceISPlugOperator(
     ReferenceISz = DoubleField(default_value=1.0)
 
 
-class ReferenceISAttrOperator(
-    CompoundAttrOperator[ReferenceISPlugOperator]
-):
+class ReferenceISAttrOperator(CompoundAttrOperator[ReferenceISPlugOperator]):
     __slots__ = ()
 
     ReferenceISx = DoubleField(default_value=1.0)
@@ -274,9 +258,7 @@ class ReferencePostRField(
     ReferencePostRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsTPlugOperator(
-    CompoundPlugOperator["HipsTAttrOperator"]
-):
+class HipsTPlugOperator(CompoundPlugOperator["HipsTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HipsTx", "HipsTx"),
@@ -291,9 +273,7 @@ class HipsTPlugOperator(
     HipsTz = DoubleLinearField(default_value=0.0)
 
 
-class HipsTAttrOperator(
-    CompoundAttrOperator[HipsTPlugOperator]
-):
+class HipsTAttrOperator(CompoundAttrOperator[HipsTPlugOperator]):
     __slots__ = ()
 
     HipsTx = DoubleLinearField(default_value=0.0)
@@ -303,9 +283,7 @@ class HipsTAttrOperator(
     HipsTz = DoubleLinearField(default_value=0.0)
 
 
-class HipsTField(
-    CompoundField[HipsTAttrOperator, HipsTPlugOperator]
-):
+class HipsTField(CompoundField[HipsTAttrOperator, HipsTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HipsTAttrOperator
@@ -318,9 +296,7 @@ class HipsTField(
     HipsTz = DoubleLinearField(default_value=0.0)
 
 
-class HipsRPlugOperator(
-    CompoundPlugOperator["HipsRAttrOperator"]
-):
+class HipsRPlugOperator(CompoundPlugOperator["HipsRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HipsRx", "HipsRx"),
@@ -335,9 +311,7 @@ class HipsRPlugOperator(
     HipsRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsRAttrOperator(
-    CompoundAttrOperator[HipsRPlugOperator]
-):
+class HipsRAttrOperator(CompoundAttrOperator[HipsRPlugOperator]):
     __slots__ = ()
 
     HipsRx = DoubleAngleField(default_value=0.0)
@@ -347,9 +321,7 @@ class HipsRAttrOperator(
     HipsRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsRField(
-    CompoundField[HipsRAttrOperator, HipsRPlugOperator]
-):
+class HipsRField(CompoundField[HipsRAttrOperator, HipsRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HipsRAttrOperator
@@ -362,9 +334,7 @@ class HipsRField(
     HipsRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsSPlugOperator(
-    CompoundPlugOperator["HipsSAttrOperator"]
-):
+class HipsSPlugOperator(CompoundPlugOperator["HipsSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HipsSx", "HipsSx"),
@@ -379,9 +349,7 @@ class HipsSPlugOperator(
     HipsSz = DoubleField(default_value=1.0)
 
 
-class HipsSAttrOperator(
-    CompoundAttrOperator[HipsSPlugOperator]
-):
+class HipsSAttrOperator(CompoundAttrOperator[HipsSPlugOperator]):
     __slots__ = ()
 
     HipsSx = DoubleField(default_value=1.0)
@@ -391,9 +359,7 @@ class HipsSAttrOperator(
     HipsSz = DoubleField(default_value=1.0)
 
 
-class HipsSField(
-    CompoundField[HipsSAttrOperator, HipsSPlugOperator]
-):
+class HipsSField(CompoundField[HipsSAttrOperator, HipsSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HipsSAttrOperator
@@ -406,9 +372,7 @@ class HipsSField(
     HipsSz = DoubleField(default_value=1.0)
 
 
-class HipsISPlugOperator(
-    CompoundPlugOperator["HipsISAttrOperator"]
-):
+class HipsISPlugOperator(CompoundPlugOperator["HipsISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HipsISx", "HipsISx"),
@@ -423,9 +387,7 @@ class HipsISPlugOperator(
     HipsISz = DoubleField(default_value=1.0)
 
 
-class HipsISAttrOperator(
-    CompoundAttrOperator[HipsISPlugOperator]
-):
+class HipsISAttrOperator(CompoundAttrOperator[HipsISPlugOperator]):
     __slots__ = ()
 
     HipsISx = DoubleField(default_value=1.0)
@@ -435,9 +397,7 @@ class HipsISAttrOperator(
     HipsISz = DoubleField(default_value=1.0)
 
 
-class HipsISField(
-    CompoundField[HipsISAttrOperator, HipsISPlugOperator]
-):
+class HipsISField(CompoundField[HipsISAttrOperator, HipsISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HipsISAttrOperator
@@ -450,9 +410,7 @@ class HipsISField(
     HipsISz = DoubleField(default_value=1.0)
 
 
-class HipsPreRPlugOperator(
-    CompoundPlugOperator["HipsPreRAttrOperator"]
-):
+class HipsPreRPlugOperator(CompoundPlugOperator["HipsPreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HipsPreRx", "HipsPreRx"),
@@ -467,9 +425,7 @@ class HipsPreRPlugOperator(
     HipsPreRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsPreRAttrOperator(
-    CompoundAttrOperator[HipsPreRPlugOperator]
-):
+class HipsPreRAttrOperator(CompoundAttrOperator[HipsPreRPlugOperator]):
     __slots__ = ()
 
     HipsPreRx = DoubleAngleField(default_value=0.0)
@@ -479,9 +435,7 @@ class HipsPreRAttrOperator(
     HipsPreRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsPreRField(
-    CompoundField[HipsPreRAttrOperator, HipsPreRPlugOperator]
-):
+class HipsPreRField(CompoundField[HipsPreRAttrOperator, HipsPreRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HipsPreRAttrOperator
@@ -494,9 +448,7 @@ class HipsPreRField(
     HipsPreRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsPostRPlugOperator(
-    CompoundPlugOperator["HipsPostRAttrOperator"]
-):
+class HipsPostRPlugOperator(CompoundPlugOperator["HipsPostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HipsPostRx", "HipsPostRx"),
@@ -511,9 +463,7 @@ class HipsPostRPlugOperator(
     HipsPostRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsPostRAttrOperator(
-    CompoundAttrOperator[HipsPostRPlugOperator]
-):
+class HipsPostRAttrOperator(CompoundAttrOperator[HipsPostRPlugOperator]):
     __slots__ = ()
 
     HipsPostRx = DoubleAngleField(default_value=0.0)
@@ -538,9 +488,7 @@ class HipsPostRField(
     HipsPostRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftUpLegTPlugOperator(
-    CompoundPlugOperator["LeftUpLegTAttrOperator"]
-):
+class LeftUpLegTPlugOperator(CompoundPlugOperator["LeftUpLegTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftUpLegTx", "LeftUpLegTx"),
@@ -555,9 +503,7 @@ class LeftUpLegTPlugOperator(
     LeftUpLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftUpLegTAttrOperator(
-    CompoundAttrOperator[LeftUpLegTPlugOperator]
-):
+class LeftUpLegTAttrOperator(CompoundAttrOperator[LeftUpLegTPlugOperator]):
     __slots__ = ()
 
     LeftUpLegTx = DoubleLinearField(default_value=0.0)
@@ -582,9 +528,7 @@ class LeftUpLegTField(
     LeftUpLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftUpLegRPlugOperator(
-    CompoundPlugOperator["LeftUpLegRAttrOperator"]
-):
+class LeftUpLegRPlugOperator(CompoundPlugOperator["LeftUpLegRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftUpLegRx", "LeftUpLegRx"),
@@ -599,9 +543,7 @@ class LeftUpLegRPlugOperator(
     LeftUpLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftUpLegRAttrOperator(
-    CompoundAttrOperator[LeftUpLegRPlugOperator]
-):
+class LeftUpLegRAttrOperator(CompoundAttrOperator[LeftUpLegRPlugOperator]):
     __slots__ = ()
 
     LeftUpLegRx = DoubleAngleField(default_value=0.0)
@@ -626,9 +568,7 @@ class LeftUpLegRField(
     LeftUpLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftUpLegSPlugOperator(
-    CompoundPlugOperator["LeftUpLegSAttrOperator"]
-):
+class LeftUpLegSPlugOperator(CompoundPlugOperator["LeftUpLegSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftUpLegSx", "LeftUpLegSx"),
@@ -643,9 +583,7 @@ class LeftUpLegSPlugOperator(
     LeftUpLegSz = DoubleField(default_value=1.0)
 
 
-class LeftUpLegSAttrOperator(
-    CompoundAttrOperator[LeftUpLegSPlugOperator]
-):
+class LeftUpLegSAttrOperator(CompoundAttrOperator[LeftUpLegSPlugOperator]):
     __slots__ = ()
 
     LeftUpLegSx = DoubleField(default_value=1.0)
@@ -670,9 +608,7 @@ class LeftUpLegSField(
     LeftUpLegSz = DoubleField(default_value=1.0)
 
 
-class LeftUpLegISPlugOperator(
-    CompoundPlugOperator["LeftUpLegISAttrOperator"]
-):
+class LeftUpLegISPlugOperator(CompoundPlugOperator["LeftUpLegISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftUpLegISx", "LeftUpLegISx"),
@@ -687,9 +623,7 @@ class LeftUpLegISPlugOperator(
     LeftUpLegISz = DoubleField(default_value=1.0)
 
 
-class LeftUpLegISAttrOperator(
-    CompoundAttrOperator[LeftUpLegISPlugOperator]
-):
+class LeftUpLegISAttrOperator(CompoundAttrOperator[LeftUpLegISPlugOperator]):
     __slots__ = ()
 
     LeftUpLegISx = DoubleField(default_value=1.0)
@@ -802,9 +736,7 @@ class LeftUpLegPostRField(
     LeftUpLegPostRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegTPlugOperator(
-    CompoundPlugOperator["LeftLegTAttrOperator"]
-):
+class LeftLegTPlugOperator(CompoundPlugOperator["LeftLegTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftLegTx", "LeftLegTx"),
@@ -819,9 +751,7 @@ class LeftLegTPlugOperator(
     LeftLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftLegTAttrOperator(
-    CompoundAttrOperator[LeftLegTPlugOperator]
-):
+class LeftLegTAttrOperator(CompoundAttrOperator[LeftLegTPlugOperator]):
     __slots__ = ()
 
     LeftLegTx = DoubleLinearField(default_value=0.0)
@@ -831,9 +761,7 @@ class LeftLegTAttrOperator(
     LeftLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftLegTField(
-    CompoundField[LeftLegTAttrOperator, LeftLegTPlugOperator]
-):
+class LeftLegTField(CompoundField[LeftLegTAttrOperator, LeftLegTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftLegTAttrOperator
@@ -846,9 +774,7 @@ class LeftLegTField(
     LeftLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftLegRPlugOperator(
-    CompoundPlugOperator["LeftLegRAttrOperator"]
-):
+class LeftLegRPlugOperator(CompoundPlugOperator["LeftLegRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftLegRx", "LeftLegRx"),
@@ -863,9 +789,7 @@ class LeftLegRPlugOperator(
     LeftLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegRAttrOperator(
-    CompoundAttrOperator[LeftLegRPlugOperator]
-):
+class LeftLegRAttrOperator(CompoundAttrOperator[LeftLegRPlugOperator]):
     __slots__ = ()
 
     LeftLegRx = DoubleAngleField(default_value=0.0)
@@ -875,9 +799,7 @@ class LeftLegRAttrOperator(
     LeftLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegRField(
-    CompoundField[LeftLegRAttrOperator, LeftLegRPlugOperator]
-):
+class LeftLegRField(CompoundField[LeftLegRAttrOperator, LeftLegRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftLegRAttrOperator
@@ -890,9 +812,7 @@ class LeftLegRField(
     LeftLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegSPlugOperator(
-    CompoundPlugOperator["LeftLegSAttrOperator"]
-):
+class LeftLegSPlugOperator(CompoundPlugOperator["LeftLegSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftLegSx", "LeftLegSx"),
@@ -907,9 +827,7 @@ class LeftLegSPlugOperator(
     LeftLegSz = DoubleField(default_value=1.0)
 
 
-class LeftLegSAttrOperator(
-    CompoundAttrOperator[LeftLegSPlugOperator]
-):
+class LeftLegSAttrOperator(CompoundAttrOperator[LeftLegSPlugOperator]):
     __slots__ = ()
 
     LeftLegSx = DoubleField(default_value=1.0)
@@ -919,9 +837,7 @@ class LeftLegSAttrOperator(
     LeftLegSz = DoubleField(default_value=1.0)
 
 
-class LeftLegSField(
-    CompoundField[LeftLegSAttrOperator, LeftLegSPlugOperator]
-):
+class LeftLegSField(CompoundField[LeftLegSAttrOperator, LeftLegSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftLegSAttrOperator
@@ -934,9 +850,7 @@ class LeftLegSField(
     LeftLegSz = DoubleField(default_value=1.0)
 
 
-class LeftLegISPlugOperator(
-    CompoundPlugOperator["LeftLegISAttrOperator"]
-):
+class LeftLegISPlugOperator(CompoundPlugOperator["LeftLegISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftLegISx", "LeftLegISx"),
@@ -951,9 +865,7 @@ class LeftLegISPlugOperator(
     LeftLegISz = DoubleField(default_value=1.0)
 
 
-class LeftLegISAttrOperator(
-    CompoundAttrOperator[LeftLegISPlugOperator]
-):
+class LeftLegISAttrOperator(CompoundAttrOperator[LeftLegISPlugOperator]):
     __slots__ = ()
 
     LeftLegISx = DoubleField(default_value=1.0)
@@ -978,9 +890,7 @@ class LeftLegISField(
     LeftLegISz = DoubleField(default_value=1.0)
 
 
-class LeftLegPreRPlugOperator(
-    CompoundPlugOperator["LeftLegPreRAttrOperator"]
-):
+class LeftLegPreRPlugOperator(CompoundPlugOperator["LeftLegPreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftLegPreRx", "LeftLegPreRx"),
@@ -995,9 +905,7 @@ class LeftLegPreRPlugOperator(
     LeftLegPreRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegPreRAttrOperator(
-    CompoundAttrOperator[LeftLegPreRPlugOperator]
-):
+class LeftLegPreRAttrOperator(CompoundAttrOperator[LeftLegPreRPlugOperator]):
     __slots__ = ()
 
     LeftLegPreRx = DoubleAngleField(default_value=0.0)
@@ -1039,9 +947,7 @@ class LeftLegPostRPlugOperator(
     LeftLegPostRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegPostRAttrOperator(
-    CompoundAttrOperator[LeftLegPostRPlugOperator]
-):
+class LeftLegPostRAttrOperator(CompoundAttrOperator[LeftLegPostRPlugOperator]):
     __slots__ = ()
 
     LeftLegPostRx = DoubleAngleField(default_value=0.0)
@@ -1066,9 +972,7 @@ class LeftLegPostRField(
     LeftLegPostRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftFootTPlugOperator(
-    CompoundPlugOperator["LeftFootTAttrOperator"]
-):
+class LeftFootTPlugOperator(CompoundPlugOperator["LeftFootTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftFootTx", "LeftFootTx"),
@@ -1083,9 +987,7 @@ class LeftFootTPlugOperator(
     LeftFootTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftFootTAttrOperator(
-    CompoundAttrOperator[LeftFootTPlugOperator]
-):
+class LeftFootTAttrOperator(CompoundAttrOperator[LeftFootTPlugOperator]):
     __slots__ = ()
 
     LeftFootTx = DoubleLinearField(default_value=0.0)
@@ -1110,9 +1012,7 @@ class LeftFootTField(
     LeftFootTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftFootRPlugOperator(
-    CompoundPlugOperator["LeftFootRAttrOperator"]
-):
+class LeftFootRPlugOperator(CompoundPlugOperator["LeftFootRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftFootRx", "LeftFootRx"),
@@ -1127,9 +1027,7 @@ class LeftFootRPlugOperator(
     LeftFootRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftFootRAttrOperator(
-    CompoundAttrOperator[LeftFootRPlugOperator]
-):
+class LeftFootRAttrOperator(CompoundAttrOperator[LeftFootRPlugOperator]):
     __slots__ = ()
 
     LeftFootRx = DoubleAngleField(default_value=0.0)
@@ -1154,9 +1052,7 @@ class LeftFootRField(
     LeftFootRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftFootSPlugOperator(
-    CompoundPlugOperator["LeftFootSAttrOperator"]
-):
+class LeftFootSPlugOperator(CompoundPlugOperator["LeftFootSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftFootSx", "LeftFootSx"),
@@ -1171,9 +1067,7 @@ class LeftFootSPlugOperator(
     LeftFootSz = DoubleField(default_value=1.0)
 
 
-class LeftFootSAttrOperator(
-    CompoundAttrOperator[LeftFootSPlugOperator]
-):
+class LeftFootSAttrOperator(CompoundAttrOperator[LeftFootSPlugOperator]):
     __slots__ = ()
 
     LeftFootSx = DoubleField(default_value=1.0)
@@ -1198,9 +1092,7 @@ class LeftFootSField(
     LeftFootSz = DoubleField(default_value=1.0)
 
 
-class LeftFootISPlugOperator(
-    CompoundPlugOperator["LeftFootISAttrOperator"]
-):
+class LeftFootISPlugOperator(CompoundPlugOperator["LeftFootISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftFootISx", "LeftFootISx"),
@@ -1215,9 +1107,7 @@ class LeftFootISPlugOperator(
     LeftFootISz = DoubleField(default_value=1.0)
 
 
-class LeftFootISAttrOperator(
-    CompoundAttrOperator[LeftFootISPlugOperator]
-):
+class LeftFootISAttrOperator(CompoundAttrOperator[LeftFootISPlugOperator]):
     __slots__ = ()
 
     LeftFootISx = DoubleField(default_value=1.0)
@@ -1259,9 +1149,7 @@ class LeftFootPreRPlugOperator(
     LeftFootPreRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftFootPreRAttrOperator(
-    CompoundAttrOperator[LeftFootPreRPlugOperator]
-):
+class LeftFootPreRAttrOperator(CompoundAttrOperator[LeftFootPreRPlugOperator]):
     __slots__ = ()
 
     LeftFootPreRx = DoubleAngleField(default_value=0.0)
@@ -1330,9 +1218,7 @@ class LeftFootPostRField(
     LeftFootPostRz = DoubleAngleField(default_value=0.0)
 
 
-class RightUpLegTPlugOperator(
-    CompoundPlugOperator["RightUpLegTAttrOperator"]
-):
+class RightUpLegTPlugOperator(CompoundPlugOperator["RightUpLegTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightUpLegTx", "RightUpLegTx"),
@@ -1347,9 +1233,7 @@ class RightUpLegTPlugOperator(
     RightUpLegTz = DoubleLinearField(default_value=0.0)
 
 
-class RightUpLegTAttrOperator(
-    CompoundAttrOperator[RightUpLegTPlugOperator]
-):
+class RightUpLegTAttrOperator(CompoundAttrOperator[RightUpLegTPlugOperator]):
     __slots__ = ()
 
     RightUpLegTx = DoubleLinearField(default_value=0.0)
@@ -1374,9 +1258,7 @@ class RightUpLegTField(
     RightUpLegTz = DoubleLinearField(default_value=0.0)
 
 
-class RightUpLegRPlugOperator(
-    CompoundPlugOperator["RightUpLegRAttrOperator"]
-):
+class RightUpLegRPlugOperator(CompoundPlugOperator["RightUpLegRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightUpLegRx", "RightUpLegRx"),
@@ -1391,9 +1273,7 @@ class RightUpLegRPlugOperator(
     RightUpLegRz = DoubleAngleField(default_value=0.0)
 
 
-class RightUpLegRAttrOperator(
-    CompoundAttrOperator[RightUpLegRPlugOperator]
-):
+class RightUpLegRAttrOperator(CompoundAttrOperator[RightUpLegRPlugOperator]):
     __slots__ = ()
 
     RightUpLegRx = DoubleAngleField(default_value=0.0)
@@ -1418,9 +1298,7 @@ class RightUpLegRField(
     RightUpLegRz = DoubleAngleField(default_value=0.0)
 
 
-class RightUpLegSPlugOperator(
-    CompoundPlugOperator["RightUpLegSAttrOperator"]
-):
+class RightUpLegSPlugOperator(CompoundPlugOperator["RightUpLegSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightUpLegSx", "RightUpLegSx"),
@@ -1435,9 +1313,7 @@ class RightUpLegSPlugOperator(
     RightUpLegSz = DoubleField(default_value=1.0)
 
 
-class RightUpLegSAttrOperator(
-    CompoundAttrOperator[RightUpLegSPlugOperator]
-):
+class RightUpLegSAttrOperator(CompoundAttrOperator[RightUpLegSPlugOperator]):
     __slots__ = ()
 
     RightUpLegSx = DoubleField(default_value=1.0)
@@ -1479,9 +1355,7 @@ class RightUpLegISPlugOperator(
     RightUpLegISz = DoubleField(default_value=1.0)
 
 
-class RightUpLegISAttrOperator(
-    CompoundAttrOperator[RightUpLegISPlugOperator]
-):
+class RightUpLegISAttrOperator(CompoundAttrOperator[RightUpLegISPlugOperator]):
     __slots__ = ()
 
     RightUpLegISx = DoubleField(default_value=1.0)
@@ -1594,9 +1468,7 @@ class RightUpLegPostRField(
     RightUpLegPostRz = DoubleAngleField(default_value=0.0)
 
 
-class RightLegTPlugOperator(
-    CompoundPlugOperator["RightLegTAttrOperator"]
-):
+class RightLegTPlugOperator(CompoundPlugOperator["RightLegTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightLegTx", "RightLegTx"),
@@ -1611,9 +1483,7 @@ class RightLegTPlugOperator(
     RightLegTz = DoubleLinearField(default_value=0.0)
 
 
-class RightLegTAttrOperator(
-    CompoundAttrOperator[RightLegTPlugOperator]
-):
+class RightLegTAttrOperator(CompoundAttrOperator[RightLegTPlugOperator]):
     __slots__ = ()
 
     RightLegTx = DoubleLinearField(default_value=0.0)
@@ -1638,9 +1508,7 @@ class RightLegTField(
     RightLegTz = DoubleLinearField(default_value=0.0)
 
 
-class RightLegRPlugOperator(
-    CompoundPlugOperator["RightLegRAttrOperator"]
-):
+class RightLegRPlugOperator(CompoundPlugOperator["RightLegRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightLegRx", "RightLegRx"),
@@ -1655,9 +1523,7 @@ class RightLegRPlugOperator(
     RightLegRz = DoubleAngleField(default_value=0.0)
 
 
-class RightLegRAttrOperator(
-    CompoundAttrOperator[RightLegRPlugOperator]
-):
+class RightLegRAttrOperator(CompoundAttrOperator[RightLegRPlugOperator]):
     __slots__ = ()
 
     RightLegRx = DoubleAngleField(default_value=0.0)
@@ -1682,9 +1548,7 @@ class RightLegRField(
     RightLegRz = DoubleAngleField(default_value=0.0)
 
 
-class RightLegSPlugOperator(
-    CompoundPlugOperator["RightLegSAttrOperator"]
-):
+class RightLegSPlugOperator(CompoundPlugOperator["RightLegSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightLegSx", "RightLegSx"),
@@ -1699,9 +1563,7 @@ class RightLegSPlugOperator(
     RightLegSz = DoubleField(default_value=1.0)
 
 
-class RightLegSAttrOperator(
-    CompoundAttrOperator[RightLegSPlugOperator]
-):
+class RightLegSAttrOperator(CompoundAttrOperator[RightLegSPlugOperator]):
     __slots__ = ()
 
     RightLegSx = DoubleField(default_value=1.0)
@@ -1726,9 +1588,7 @@ class RightLegSField(
     RightLegSz = DoubleField(default_value=1.0)
 
 
-class RightLegISPlugOperator(
-    CompoundPlugOperator["RightLegISAttrOperator"]
-):
+class RightLegISPlugOperator(CompoundPlugOperator["RightLegISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightLegISx", "RightLegISx"),
@@ -1743,9 +1603,7 @@ class RightLegISPlugOperator(
     RightLegISz = DoubleField(default_value=1.0)
 
 
-class RightLegISAttrOperator(
-    CompoundAttrOperator[RightLegISPlugOperator]
-):
+class RightLegISAttrOperator(CompoundAttrOperator[RightLegISPlugOperator]):
     __slots__ = ()
 
     RightLegISx = DoubleField(default_value=1.0)
@@ -1787,9 +1645,7 @@ class RightLegPreRPlugOperator(
     RightLegPreRz = DoubleAngleField(default_value=0.0)
 
 
-class RightLegPreRAttrOperator(
-    CompoundAttrOperator[RightLegPreRPlugOperator]
-):
+class RightLegPreRAttrOperator(CompoundAttrOperator[RightLegPreRPlugOperator]):
     __slots__ = ()
 
     RightLegPreRx = DoubleAngleField(default_value=0.0)
@@ -1858,9 +1714,7 @@ class RightLegPostRField(
     RightLegPostRz = DoubleAngleField(default_value=0.0)
 
 
-class RightFootTPlugOperator(
-    CompoundPlugOperator["RightFootTAttrOperator"]
-):
+class RightFootTPlugOperator(CompoundPlugOperator["RightFootTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightFootTx", "RightFootTx"),
@@ -1875,9 +1729,7 @@ class RightFootTPlugOperator(
     RightFootTz = DoubleLinearField(default_value=0.0)
 
 
-class RightFootTAttrOperator(
-    CompoundAttrOperator[RightFootTPlugOperator]
-):
+class RightFootTAttrOperator(CompoundAttrOperator[RightFootTPlugOperator]):
     __slots__ = ()
 
     RightFootTx = DoubleLinearField(default_value=0.0)
@@ -1902,9 +1754,7 @@ class RightFootTField(
     RightFootTz = DoubleLinearField(default_value=0.0)
 
 
-class RightFootRPlugOperator(
-    CompoundPlugOperator["RightFootRAttrOperator"]
-):
+class RightFootRPlugOperator(CompoundPlugOperator["RightFootRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightFootRx", "RightFootRx"),
@@ -1919,9 +1769,7 @@ class RightFootRPlugOperator(
     RightFootRz = DoubleAngleField(default_value=0.0)
 
 
-class RightFootRAttrOperator(
-    CompoundAttrOperator[RightFootRPlugOperator]
-):
+class RightFootRAttrOperator(CompoundAttrOperator[RightFootRPlugOperator]):
     __slots__ = ()
 
     RightFootRx = DoubleAngleField(default_value=0.0)
@@ -1946,9 +1794,7 @@ class RightFootRField(
     RightFootRz = DoubleAngleField(default_value=0.0)
 
 
-class RightFootSPlugOperator(
-    CompoundPlugOperator["RightFootSAttrOperator"]
-):
+class RightFootSPlugOperator(CompoundPlugOperator["RightFootSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightFootSx", "RightFootSx"),
@@ -1963,9 +1809,7 @@ class RightFootSPlugOperator(
     RightFootSz = DoubleField(default_value=1.0)
 
 
-class RightFootSAttrOperator(
-    CompoundAttrOperator[RightFootSPlugOperator]
-):
+class RightFootSAttrOperator(CompoundAttrOperator[RightFootSPlugOperator]):
     __slots__ = ()
 
     RightFootSx = DoubleField(default_value=1.0)
@@ -1990,9 +1834,7 @@ class RightFootSField(
     RightFootSz = DoubleField(default_value=1.0)
 
 
-class RightFootISPlugOperator(
-    CompoundPlugOperator["RightFootISAttrOperator"]
-):
+class RightFootISPlugOperator(CompoundPlugOperator["RightFootISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightFootISx", "RightFootISx"),
@@ -2007,9 +1849,7 @@ class RightFootISPlugOperator(
     RightFootISz = DoubleField(default_value=1.0)
 
 
-class RightFootISAttrOperator(
-    CompoundAttrOperator[RightFootISPlugOperator]
-):
+class RightFootISAttrOperator(CompoundAttrOperator[RightFootISPlugOperator]):
     __slots__ = ()
 
     RightFootISx = DoubleField(default_value=1.0)
@@ -2122,9 +1962,7 @@ class RightFootPostRField(
     RightFootPostRz = DoubleAngleField(default_value=0.0)
 
 
-class SpineTPlugOperator(
-    CompoundPlugOperator["SpineTAttrOperator"]
-):
+class SpineTPlugOperator(CompoundPlugOperator["SpineTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("SpineTx", "SpineTx"),
@@ -2139,9 +1977,7 @@ class SpineTPlugOperator(
     SpineTz = DoubleLinearField(default_value=0.0)
 
 
-class SpineTAttrOperator(
-    CompoundAttrOperator[SpineTPlugOperator]
-):
+class SpineTAttrOperator(CompoundAttrOperator[SpineTPlugOperator]):
     __slots__ = ()
 
     SpineTx = DoubleLinearField(default_value=0.0)
@@ -2151,9 +1987,7 @@ class SpineTAttrOperator(
     SpineTz = DoubleLinearField(default_value=0.0)
 
 
-class SpineTField(
-    CompoundField[SpineTAttrOperator, SpineTPlugOperator]
-):
+class SpineTField(CompoundField[SpineTAttrOperator, SpineTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SpineTAttrOperator
@@ -2166,9 +2000,7 @@ class SpineTField(
     SpineTz = DoubleLinearField(default_value=0.0)
 
 
-class SpineRPlugOperator(
-    CompoundPlugOperator["SpineRAttrOperator"]
-):
+class SpineRPlugOperator(CompoundPlugOperator["SpineRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("SpineRx", "SpineRx"),
@@ -2183,9 +2015,7 @@ class SpineRPlugOperator(
     SpineRz = DoubleAngleField(default_value=0.0)
 
 
-class SpineRAttrOperator(
-    CompoundAttrOperator[SpineRPlugOperator]
-):
+class SpineRAttrOperator(CompoundAttrOperator[SpineRPlugOperator]):
     __slots__ = ()
 
     SpineRx = DoubleAngleField(default_value=0.0)
@@ -2195,9 +2025,7 @@ class SpineRAttrOperator(
     SpineRz = DoubleAngleField(default_value=0.0)
 
 
-class SpineRField(
-    CompoundField[SpineRAttrOperator, SpineRPlugOperator]
-):
+class SpineRField(CompoundField[SpineRAttrOperator, SpineRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SpineRAttrOperator
@@ -2210,9 +2038,7 @@ class SpineRField(
     SpineRz = DoubleAngleField(default_value=0.0)
 
 
-class SpineSPlugOperator(
-    CompoundPlugOperator["SpineSAttrOperator"]
-):
+class SpineSPlugOperator(CompoundPlugOperator["SpineSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("SpineSx", "SpineSx"),
@@ -2227,9 +2053,7 @@ class SpineSPlugOperator(
     SpineSz = DoubleField(default_value=1.0)
 
 
-class SpineSAttrOperator(
-    CompoundAttrOperator[SpineSPlugOperator]
-):
+class SpineSAttrOperator(CompoundAttrOperator[SpineSPlugOperator]):
     __slots__ = ()
 
     SpineSx = DoubleField(default_value=1.0)
@@ -2239,9 +2063,7 @@ class SpineSAttrOperator(
     SpineSz = DoubleField(default_value=1.0)
 
 
-class SpineSField(
-    CompoundField[SpineSAttrOperator, SpineSPlugOperator]
-):
+class SpineSField(CompoundField[SpineSAttrOperator, SpineSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SpineSAttrOperator
@@ -2254,9 +2076,7 @@ class SpineSField(
     SpineSz = DoubleField(default_value=1.0)
 
 
-class SpineISPlugOperator(
-    CompoundPlugOperator["SpineISAttrOperator"]
-):
+class SpineISPlugOperator(CompoundPlugOperator["SpineISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("SpineISx", "SpineISx"),
@@ -2271,9 +2091,7 @@ class SpineISPlugOperator(
     SpineISz = DoubleField(default_value=1.0)
 
 
-class SpineISAttrOperator(
-    CompoundAttrOperator[SpineISPlugOperator]
-):
+class SpineISAttrOperator(CompoundAttrOperator[SpineISPlugOperator]):
     __slots__ = ()
 
     SpineISx = DoubleField(default_value=1.0)
@@ -2283,9 +2101,7 @@ class SpineISAttrOperator(
     SpineISz = DoubleField(default_value=1.0)
 
 
-class SpineISField(
-    CompoundField[SpineISAttrOperator, SpineISPlugOperator]
-):
+class SpineISField(CompoundField[SpineISAttrOperator, SpineISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SpineISAttrOperator
@@ -2298,9 +2114,7 @@ class SpineISField(
     SpineISz = DoubleField(default_value=1.0)
 
 
-class SpinePreRPlugOperator(
-    CompoundPlugOperator["SpinePreRAttrOperator"]
-):
+class SpinePreRPlugOperator(CompoundPlugOperator["SpinePreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("SpinePreRx", "SpinePreRx"),
@@ -2315,9 +2129,7 @@ class SpinePreRPlugOperator(
     SpinePreRz = DoubleAngleField(default_value=0.0)
 
 
-class SpinePreRAttrOperator(
-    CompoundAttrOperator[SpinePreRPlugOperator]
-):
+class SpinePreRAttrOperator(CompoundAttrOperator[SpinePreRPlugOperator]):
     __slots__ = ()
 
     SpinePreRx = DoubleAngleField(default_value=0.0)
@@ -2342,9 +2154,7 @@ class SpinePreRField(
     SpinePreRz = DoubleAngleField(default_value=0.0)
 
 
-class SpinePostRPlugOperator(
-    CompoundPlugOperator["SpinePostRAttrOperator"]
-):
+class SpinePostRPlugOperator(CompoundPlugOperator["SpinePostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("SpinePostRx", "SpinePostRx"),
@@ -2359,9 +2169,7 @@ class SpinePostRPlugOperator(
     SpinePostRz = DoubleAngleField(default_value=0.0)
 
 
-class SpinePostRAttrOperator(
-    CompoundAttrOperator[SpinePostRPlugOperator]
-):
+class SpinePostRAttrOperator(CompoundAttrOperator[SpinePostRPlugOperator]):
     __slots__ = ()
 
     SpinePostRx = DoubleAngleField(default_value=0.0)
@@ -2386,9 +2194,7 @@ class SpinePostRField(
     SpinePostRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmTPlugOperator(
-    CompoundPlugOperator["LeftArmTAttrOperator"]
-):
+class LeftArmTPlugOperator(CompoundPlugOperator["LeftArmTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftArmTx", "LeftArmTx"),
@@ -2403,9 +2209,7 @@ class LeftArmTPlugOperator(
     LeftArmTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftArmTAttrOperator(
-    CompoundAttrOperator[LeftArmTPlugOperator]
-):
+class LeftArmTAttrOperator(CompoundAttrOperator[LeftArmTPlugOperator]):
     __slots__ = ()
 
     LeftArmTx = DoubleLinearField(default_value=0.0)
@@ -2415,9 +2219,7 @@ class LeftArmTAttrOperator(
     LeftArmTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftArmTField(
-    CompoundField[LeftArmTAttrOperator, LeftArmTPlugOperator]
-):
+class LeftArmTField(CompoundField[LeftArmTAttrOperator, LeftArmTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftArmTAttrOperator
@@ -2430,9 +2232,7 @@ class LeftArmTField(
     LeftArmTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftArmRPlugOperator(
-    CompoundPlugOperator["LeftArmRAttrOperator"]
-):
+class LeftArmRPlugOperator(CompoundPlugOperator["LeftArmRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftArmRx", "LeftArmRx"),
@@ -2447,9 +2247,7 @@ class LeftArmRPlugOperator(
     LeftArmRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmRAttrOperator(
-    CompoundAttrOperator[LeftArmRPlugOperator]
-):
+class LeftArmRAttrOperator(CompoundAttrOperator[LeftArmRPlugOperator]):
     __slots__ = ()
 
     LeftArmRx = DoubleAngleField(default_value=0.0)
@@ -2459,9 +2257,7 @@ class LeftArmRAttrOperator(
     LeftArmRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmRField(
-    CompoundField[LeftArmRAttrOperator, LeftArmRPlugOperator]
-):
+class LeftArmRField(CompoundField[LeftArmRAttrOperator, LeftArmRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftArmRAttrOperator
@@ -2474,9 +2270,7 @@ class LeftArmRField(
     LeftArmRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmSPlugOperator(
-    CompoundPlugOperator["LeftArmSAttrOperator"]
-):
+class LeftArmSPlugOperator(CompoundPlugOperator["LeftArmSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftArmSx", "LeftArmSx"),
@@ -2491,9 +2285,7 @@ class LeftArmSPlugOperator(
     LeftArmSz = DoubleField(default_value=1.0)
 
 
-class LeftArmSAttrOperator(
-    CompoundAttrOperator[LeftArmSPlugOperator]
-):
+class LeftArmSAttrOperator(CompoundAttrOperator[LeftArmSPlugOperator]):
     __slots__ = ()
 
     LeftArmSx = DoubleField(default_value=1.0)
@@ -2503,9 +2295,7 @@ class LeftArmSAttrOperator(
     LeftArmSz = DoubleField(default_value=1.0)
 
 
-class LeftArmSField(
-    CompoundField[LeftArmSAttrOperator, LeftArmSPlugOperator]
-):
+class LeftArmSField(CompoundField[LeftArmSAttrOperator, LeftArmSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftArmSAttrOperator
@@ -2518,9 +2308,7 @@ class LeftArmSField(
     LeftArmSz = DoubleField(default_value=1.0)
 
 
-class LeftArmISPlugOperator(
-    CompoundPlugOperator["LeftArmISAttrOperator"]
-):
+class LeftArmISPlugOperator(CompoundPlugOperator["LeftArmISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftArmISx", "LeftArmISx"),
@@ -2535,9 +2323,7 @@ class LeftArmISPlugOperator(
     LeftArmISz = DoubleField(default_value=1.0)
 
 
-class LeftArmISAttrOperator(
-    CompoundAttrOperator[LeftArmISPlugOperator]
-):
+class LeftArmISAttrOperator(CompoundAttrOperator[LeftArmISPlugOperator]):
     __slots__ = ()
 
     LeftArmISx = DoubleField(default_value=1.0)
@@ -2562,9 +2348,7 @@ class LeftArmISField(
     LeftArmISz = DoubleField(default_value=1.0)
 
 
-class LeftArmPreRPlugOperator(
-    CompoundPlugOperator["LeftArmPreRAttrOperator"]
-):
+class LeftArmPreRPlugOperator(CompoundPlugOperator["LeftArmPreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftArmPreRx", "LeftArmPreRx"),
@@ -2579,9 +2363,7 @@ class LeftArmPreRPlugOperator(
     LeftArmPreRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmPreRAttrOperator(
-    CompoundAttrOperator[LeftArmPreRPlugOperator]
-):
+class LeftArmPreRAttrOperator(CompoundAttrOperator[LeftArmPreRPlugOperator]):
     __slots__ = ()
 
     LeftArmPreRx = DoubleAngleField(default_value=0.0)
@@ -2623,9 +2405,7 @@ class LeftArmPostRPlugOperator(
     LeftArmPostRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmPostRAttrOperator(
-    CompoundAttrOperator[LeftArmPostRPlugOperator]
-):
+class LeftArmPostRAttrOperator(CompoundAttrOperator[LeftArmPostRPlugOperator]):
     __slots__ = ()
 
     LeftArmPostRx = DoubleAngleField(default_value=0.0)
@@ -2667,9 +2447,7 @@ class LeftForeArmTPlugOperator(
     LeftForeArmTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftForeArmTAttrOperator(
-    CompoundAttrOperator[LeftForeArmTPlugOperator]
-):
+class LeftForeArmTAttrOperator(CompoundAttrOperator[LeftForeArmTPlugOperator]):
     __slots__ = ()
 
     LeftForeArmTx = DoubleLinearField(default_value=0.0)
@@ -2711,9 +2489,7 @@ class LeftForeArmRPlugOperator(
     LeftForeArmRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftForeArmRAttrOperator(
-    CompoundAttrOperator[LeftForeArmRPlugOperator]
-):
+class LeftForeArmRAttrOperator(CompoundAttrOperator[LeftForeArmRPlugOperator]):
     __slots__ = ()
 
     LeftForeArmRx = DoubleAngleField(default_value=0.0)
@@ -2755,9 +2531,7 @@ class LeftForeArmSPlugOperator(
     LeftForeArmSz = DoubleField(default_value=1.0)
 
 
-class LeftForeArmSAttrOperator(
-    CompoundAttrOperator[LeftForeArmSPlugOperator]
-):
+class LeftForeArmSAttrOperator(CompoundAttrOperator[LeftForeArmSPlugOperator]):
     __slots__ = ()
 
     LeftForeArmSx = DoubleField(default_value=1.0)
@@ -2914,9 +2688,7 @@ class LeftForeArmPostRField(
     LeftForeArmPostRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftHandTPlugOperator(
-    CompoundPlugOperator["LeftHandTAttrOperator"]
-):
+class LeftHandTPlugOperator(CompoundPlugOperator["LeftHandTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftHandTx", "LeftHandTx"),
@@ -2931,9 +2703,7 @@ class LeftHandTPlugOperator(
     LeftHandTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftHandTAttrOperator(
-    CompoundAttrOperator[LeftHandTPlugOperator]
-):
+class LeftHandTAttrOperator(CompoundAttrOperator[LeftHandTPlugOperator]):
     __slots__ = ()
 
     LeftHandTx = DoubleLinearField(default_value=0.0)
@@ -2958,9 +2728,7 @@ class LeftHandTField(
     LeftHandTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftHandRPlugOperator(
-    CompoundPlugOperator["LeftHandRAttrOperator"]
-):
+class LeftHandRPlugOperator(CompoundPlugOperator["LeftHandRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftHandRx", "LeftHandRx"),
@@ -2975,9 +2743,7 @@ class LeftHandRPlugOperator(
     LeftHandRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftHandRAttrOperator(
-    CompoundAttrOperator[LeftHandRPlugOperator]
-):
+class LeftHandRAttrOperator(CompoundAttrOperator[LeftHandRPlugOperator]):
     __slots__ = ()
 
     LeftHandRx = DoubleAngleField(default_value=0.0)
@@ -3002,9 +2768,7 @@ class LeftHandRField(
     LeftHandRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftHandSPlugOperator(
-    CompoundPlugOperator["LeftHandSAttrOperator"]
-):
+class LeftHandSPlugOperator(CompoundPlugOperator["LeftHandSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftHandSx", "LeftHandSx"),
@@ -3019,9 +2783,7 @@ class LeftHandSPlugOperator(
     LeftHandSz = DoubleField(default_value=1.0)
 
 
-class LeftHandSAttrOperator(
-    CompoundAttrOperator[LeftHandSPlugOperator]
-):
+class LeftHandSAttrOperator(CompoundAttrOperator[LeftHandSPlugOperator]):
     __slots__ = ()
 
     LeftHandSx = DoubleField(default_value=1.0)
@@ -3046,9 +2808,7 @@ class LeftHandSField(
     LeftHandSz = DoubleField(default_value=1.0)
 
 
-class LeftHandISPlugOperator(
-    CompoundPlugOperator["LeftHandISAttrOperator"]
-):
+class LeftHandISPlugOperator(CompoundPlugOperator["LeftHandISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftHandISx", "LeftHandISx"),
@@ -3063,9 +2823,7 @@ class LeftHandISPlugOperator(
     LeftHandISz = DoubleField(default_value=1.0)
 
 
-class LeftHandISAttrOperator(
-    CompoundAttrOperator[LeftHandISPlugOperator]
-):
+class LeftHandISAttrOperator(CompoundAttrOperator[LeftHandISPlugOperator]):
     __slots__ = ()
 
     LeftHandISx = DoubleField(default_value=1.0)
@@ -3107,9 +2865,7 @@ class LeftHandPreRPlugOperator(
     LeftHandPreRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftHandPreRAttrOperator(
-    CompoundAttrOperator[LeftHandPreRPlugOperator]
-):
+class LeftHandPreRAttrOperator(CompoundAttrOperator[LeftHandPreRPlugOperator]):
     __slots__ = ()
 
     LeftHandPreRx = DoubleAngleField(default_value=0.0)
@@ -3178,9 +2934,7 @@ class LeftHandPostRField(
     LeftHandPostRz = DoubleAngleField(default_value=0.0)
 
 
-class RightArmTPlugOperator(
-    CompoundPlugOperator["RightArmTAttrOperator"]
-):
+class RightArmTPlugOperator(CompoundPlugOperator["RightArmTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightArmTx", "RightArmTx"),
@@ -3195,9 +2949,7 @@ class RightArmTPlugOperator(
     RightArmTz = DoubleLinearField(default_value=0.0)
 
 
-class RightArmTAttrOperator(
-    CompoundAttrOperator[RightArmTPlugOperator]
-):
+class RightArmTAttrOperator(CompoundAttrOperator[RightArmTPlugOperator]):
     __slots__ = ()
 
     RightArmTx = DoubleLinearField(default_value=0.0)
@@ -3222,9 +2974,7 @@ class RightArmTField(
     RightArmTz = DoubleLinearField(default_value=0.0)
 
 
-class RightArmRPlugOperator(
-    CompoundPlugOperator["RightArmRAttrOperator"]
-):
+class RightArmRPlugOperator(CompoundPlugOperator["RightArmRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightArmRx", "RightArmRx"),
@@ -3239,9 +2989,7 @@ class RightArmRPlugOperator(
     RightArmRz = DoubleAngleField(default_value=0.0)
 
 
-class RightArmRAttrOperator(
-    CompoundAttrOperator[RightArmRPlugOperator]
-):
+class RightArmRAttrOperator(CompoundAttrOperator[RightArmRPlugOperator]):
     __slots__ = ()
 
     RightArmRx = DoubleAngleField(default_value=0.0)
@@ -3266,9 +3014,7 @@ class RightArmRField(
     RightArmRz = DoubleAngleField(default_value=0.0)
 
 
-class RightArmSPlugOperator(
-    CompoundPlugOperator["RightArmSAttrOperator"]
-):
+class RightArmSPlugOperator(CompoundPlugOperator["RightArmSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightArmSx", "RightArmSx"),
@@ -3283,9 +3029,7 @@ class RightArmSPlugOperator(
     RightArmSz = DoubleField(default_value=1.0)
 
 
-class RightArmSAttrOperator(
-    CompoundAttrOperator[RightArmSPlugOperator]
-):
+class RightArmSAttrOperator(CompoundAttrOperator[RightArmSPlugOperator]):
     __slots__ = ()
 
     RightArmSx = DoubleField(default_value=1.0)
@@ -3310,9 +3054,7 @@ class RightArmSField(
     RightArmSz = DoubleField(default_value=1.0)
 
 
-class RightArmISPlugOperator(
-    CompoundPlugOperator["RightArmISAttrOperator"]
-):
+class RightArmISPlugOperator(CompoundPlugOperator["RightArmISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightArmISx", "RightArmISx"),
@@ -3327,9 +3069,7 @@ class RightArmISPlugOperator(
     RightArmISz = DoubleField(default_value=1.0)
 
 
-class RightArmISAttrOperator(
-    CompoundAttrOperator[RightArmISPlugOperator]
-):
+class RightArmISAttrOperator(CompoundAttrOperator[RightArmISPlugOperator]):
     __slots__ = ()
 
     RightArmISx = DoubleField(default_value=1.0)
@@ -3371,9 +3111,7 @@ class RightArmPreRPlugOperator(
     RightArmPreRz = DoubleAngleField(default_value=0.0)
 
 
-class RightArmPreRAttrOperator(
-    CompoundAttrOperator[RightArmPreRPlugOperator]
-):
+class RightArmPreRAttrOperator(CompoundAttrOperator[RightArmPreRPlugOperator]):
     __slots__ = ()
 
     RightArmPreRx = DoubleAngleField(default_value=0.0)
@@ -3706,9 +3444,7 @@ class RightForeArmPostRField(
     RightForeArmPostRz = DoubleAngleField(default_value=0.0)
 
 
-class RightHandTPlugOperator(
-    CompoundPlugOperator["RightHandTAttrOperator"]
-):
+class RightHandTPlugOperator(CompoundPlugOperator["RightHandTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightHandTx", "RightHandTx"),
@@ -3723,9 +3459,7 @@ class RightHandTPlugOperator(
     RightHandTz = DoubleLinearField(default_value=0.0)
 
 
-class RightHandTAttrOperator(
-    CompoundAttrOperator[RightHandTPlugOperator]
-):
+class RightHandTAttrOperator(CompoundAttrOperator[RightHandTPlugOperator]):
     __slots__ = ()
 
     RightHandTx = DoubleLinearField(default_value=0.0)
@@ -3750,9 +3484,7 @@ class RightHandTField(
     RightHandTz = DoubleLinearField(default_value=0.0)
 
 
-class RightHandRPlugOperator(
-    CompoundPlugOperator["RightHandRAttrOperator"]
-):
+class RightHandRPlugOperator(CompoundPlugOperator["RightHandRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightHandRx", "RightHandRx"),
@@ -3767,9 +3499,7 @@ class RightHandRPlugOperator(
     RightHandRz = DoubleAngleField(default_value=0.0)
 
 
-class RightHandRAttrOperator(
-    CompoundAttrOperator[RightHandRPlugOperator]
-):
+class RightHandRAttrOperator(CompoundAttrOperator[RightHandRPlugOperator]):
     __slots__ = ()
 
     RightHandRx = DoubleAngleField(default_value=0.0)
@@ -3794,9 +3524,7 @@ class RightHandRField(
     RightHandRz = DoubleAngleField(default_value=0.0)
 
 
-class RightHandSPlugOperator(
-    CompoundPlugOperator["RightHandSAttrOperator"]
-):
+class RightHandSPlugOperator(CompoundPlugOperator["RightHandSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightHandSx", "RightHandSx"),
@@ -3811,9 +3539,7 @@ class RightHandSPlugOperator(
     RightHandSz = DoubleField(default_value=1.0)
 
 
-class RightHandSAttrOperator(
-    CompoundAttrOperator[RightHandSPlugOperator]
-):
+class RightHandSAttrOperator(CompoundAttrOperator[RightHandSPlugOperator]):
     __slots__ = ()
 
     RightHandSx = DoubleField(default_value=1.0)
@@ -3838,9 +3564,7 @@ class RightHandSField(
     RightHandSz = DoubleField(default_value=1.0)
 
 
-class RightHandISPlugOperator(
-    CompoundPlugOperator["RightHandISAttrOperator"]
-):
+class RightHandISPlugOperator(CompoundPlugOperator["RightHandISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightHandISx", "RightHandISx"),
@@ -3855,9 +3579,7 @@ class RightHandISPlugOperator(
     RightHandISz = DoubleField(default_value=1.0)
 
 
-class RightHandISAttrOperator(
-    CompoundAttrOperator[RightHandISPlugOperator]
-):
+class RightHandISAttrOperator(CompoundAttrOperator[RightHandISPlugOperator]):
     __slots__ = ()
 
     RightHandISx = DoubleField(default_value=1.0)
@@ -3970,9 +3692,7 @@ class RightHandPostRField(
     RightHandPostRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadTPlugOperator(
-    CompoundPlugOperator["HeadTAttrOperator"]
-):
+class HeadTPlugOperator(CompoundPlugOperator["HeadTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HeadTx", "HeadTx"),
@@ -3987,9 +3707,7 @@ class HeadTPlugOperator(
     HeadTz = DoubleLinearField(default_value=0.0)
 
 
-class HeadTAttrOperator(
-    CompoundAttrOperator[HeadTPlugOperator]
-):
+class HeadTAttrOperator(CompoundAttrOperator[HeadTPlugOperator]):
     __slots__ = ()
 
     HeadTx = DoubleLinearField(default_value=0.0)
@@ -3999,9 +3717,7 @@ class HeadTAttrOperator(
     HeadTz = DoubleLinearField(default_value=0.0)
 
 
-class HeadTField(
-    CompoundField[HeadTAttrOperator, HeadTPlugOperator]
-):
+class HeadTField(CompoundField[HeadTAttrOperator, HeadTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HeadTAttrOperator
@@ -4014,9 +3730,7 @@ class HeadTField(
     HeadTz = DoubleLinearField(default_value=0.0)
 
 
-class HeadRPlugOperator(
-    CompoundPlugOperator["HeadRAttrOperator"]
-):
+class HeadRPlugOperator(CompoundPlugOperator["HeadRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HeadRx", "HeadRx"),
@@ -4031,9 +3745,7 @@ class HeadRPlugOperator(
     HeadRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadRAttrOperator(
-    CompoundAttrOperator[HeadRPlugOperator]
-):
+class HeadRAttrOperator(CompoundAttrOperator[HeadRPlugOperator]):
     __slots__ = ()
 
     HeadRx = DoubleAngleField(default_value=0.0)
@@ -4043,9 +3755,7 @@ class HeadRAttrOperator(
     HeadRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadRField(
-    CompoundField[HeadRAttrOperator, HeadRPlugOperator]
-):
+class HeadRField(CompoundField[HeadRAttrOperator, HeadRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HeadRAttrOperator
@@ -4058,9 +3768,7 @@ class HeadRField(
     HeadRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadSPlugOperator(
-    CompoundPlugOperator["HeadSAttrOperator"]
-):
+class HeadSPlugOperator(CompoundPlugOperator["HeadSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HeadSx", "HeadSx"),
@@ -4075,9 +3783,7 @@ class HeadSPlugOperator(
     HeadSz = DoubleField(default_value=1.0)
 
 
-class HeadSAttrOperator(
-    CompoundAttrOperator[HeadSPlugOperator]
-):
+class HeadSAttrOperator(CompoundAttrOperator[HeadSPlugOperator]):
     __slots__ = ()
 
     HeadSx = DoubleField(default_value=1.0)
@@ -4087,9 +3793,7 @@ class HeadSAttrOperator(
     HeadSz = DoubleField(default_value=1.0)
 
 
-class HeadSField(
-    CompoundField[HeadSAttrOperator, HeadSPlugOperator]
-):
+class HeadSField(CompoundField[HeadSAttrOperator, HeadSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HeadSAttrOperator
@@ -4102,9 +3806,7 @@ class HeadSField(
     HeadSz = DoubleField(default_value=1.0)
 
 
-class HeadISPlugOperator(
-    CompoundPlugOperator["HeadISAttrOperator"]
-):
+class HeadISPlugOperator(CompoundPlugOperator["HeadISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HeadISx", "HeadISx"),
@@ -4119,9 +3821,7 @@ class HeadISPlugOperator(
     HeadISz = DoubleField(default_value=1.0)
 
 
-class HeadISAttrOperator(
-    CompoundAttrOperator[HeadISPlugOperator]
-):
+class HeadISAttrOperator(CompoundAttrOperator[HeadISPlugOperator]):
     __slots__ = ()
 
     HeadISx = DoubleField(default_value=1.0)
@@ -4131,9 +3831,7 @@ class HeadISAttrOperator(
     HeadISz = DoubleField(default_value=1.0)
 
 
-class HeadISField(
-    CompoundField[HeadISAttrOperator, HeadISPlugOperator]
-):
+class HeadISField(CompoundField[HeadISAttrOperator, HeadISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HeadISAttrOperator
@@ -4146,9 +3844,7 @@ class HeadISField(
     HeadISz = DoubleField(default_value=1.0)
 
 
-class HeadPreRPlugOperator(
-    CompoundPlugOperator["HeadPreRAttrOperator"]
-):
+class HeadPreRPlugOperator(CompoundPlugOperator["HeadPreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HeadPreRx", "HeadPreRx"),
@@ -4163,9 +3859,7 @@ class HeadPreRPlugOperator(
     HeadPreRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadPreRAttrOperator(
-    CompoundAttrOperator[HeadPreRPlugOperator]
-):
+class HeadPreRAttrOperator(CompoundAttrOperator[HeadPreRPlugOperator]):
     __slots__ = ()
 
     HeadPreRx = DoubleAngleField(default_value=0.0)
@@ -4175,9 +3869,7 @@ class HeadPreRAttrOperator(
     HeadPreRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadPreRField(
-    CompoundField[HeadPreRAttrOperator, HeadPreRPlugOperator]
-):
+class HeadPreRField(CompoundField[HeadPreRAttrOperator, HeadPreRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HeadPreRAttrOperator
@@ -4190,9 +3882,7 @@ class HeadPreRField(
     HeadPreRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadPostRPlugOperator(
-    CompoundPlugOperator["HeadPostRAttrOperator"]
-):
+class HeadPostRPlugOperator(CompoundPlugOperator["HeadPostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HeadPostRx", "HeadPostRx"),
@@ -4207,9 +3897,7 @@ class HeadPostRPlugOperator(
     HeadPostRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadPostRAttrOperator(
-    CompoundAttrOperator[HeadPostRPlugOperator]
-):
+class HeadPostRAttrOperator(CompoundAttrOperator[HeadPostRPlugOperator]):
     __slots__ = ()
 
     HeadPostRx = DoubleAngleField(default_value=0.0)
@@ -4251,9 +3939,7 @@ class LeftToeBaseTPlugOperator(
     LeftToeBaseTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftToeBaseTAttrOperator(
-    CompoundAttrOperator[LeftToeBaseTPlugOperator]
-):
+class LeftToeBaseTAttrOperator(CompoundAttrOperator[LeftToeBaseTPlugOperator]):
     __slots__ = ()
 
     LeftToeBaseTx = DoubleLinearField(default_value=0.0)
@@ -4295,9 +3981,7 @@ class LeftToeBaseRPlugOperator(
     LeftToeBaseRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftToeBaseRAttrOperator(
-    CompoundAttrOperator[LeftToeBaseRPlugOperator]
-):
+class LeftToeBaseRAttrOperator(CompoundAttrOperator[LeftToeBaseRPlugOperator]):
     __slots__ = ()
 
     LeftToeBaseRx = DoubleAngleField(default_value=0.0)
@@ -4339,9 +4023,7 @@ class LeftToeBaseSPlugOperator(
     LeftToeBaseSz = DoubleField(default_value=1.0)
 
 
-class LeftToeBaseSAttrOperator(
-    CompoundAttrOperator[LeftToeBaseSPlugOperator]
-):
+class LeftToeBaseSAttrOperator(CompoundAttrOperator[LeftToeBaseSPlugOperator]):
     __slots__ = ()
 
     LeftToeBaseSx = DoubleField(default_value=1.0)
@@ -5276,7 +4958,9 @@ class RightShoulderPostRAttrOperator(
 
 
 class RightShoulderPostRField(
-    CompoundField[RightShoulderPostRAttrOperator, RightShoulderPostRPlugOperator]
+    CompoundField[
+        RightShoulderPostRAttrOperator, RightShoulderPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5290,9 +4974,7 @@ class RightShoulderPostRField(
     RightShoulderPostRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckTPlugOperator(
-    CompoundPlugOperator["NeckTAttrOperator"]
-):
+class NeckTPlugOperator(CompoundPlugOperator["NeckTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NeckTx", "NeckTx"),
@@ -5307,9 +4989,7 @@ class NeckTPlugOperator(
     NeckTz = DoubleLinearField(default_value=0.0)
 
 
-class NeckTAttrOperator(
-    CompoundAttrOperator[NeckTPlugOperator]
-):
+class NeckTAttrOperator(CompoundAttrOperator[NeckTPlugOperator]):
     __slots__ = ()
 
     NeckTx = DoubleLinearField(default_value=0.0)
@@ -5319,9 +4999,7 @@ class NeckTAttrOperator(
     NeckTz = DoubleLinearField(default_value=0.0)
 
 
-class NeckTField(
-    CompoundField[NeckTAttrOperator, NeckTPlugOperator]
-):
+class NeckTField(CompoundField[NeckTAttrOperator, NeckTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NeckTAttrOperator
@@ -5334,9 +5012,7 @@ class NeckTField(
     NeckTz = DoubleLinearField(default_value=0.0)
 
 
-class NeckRPlugOperator(
-    CompoundPlugOperator["NeckRAttrOperator"]
-):
+class NeckRPlugOperator(CompoundPlugOperator["NeckRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NeckRx", "NeckRx"),
@@ -5351,9 +5027,7 @@ class NeckRPlugOperator(
     NeckRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckRAttrOperator(
-    CompoundAttrOperator[NeckRPlugOperator]
-):
+class NeckRAttrOperator(CompoundAttrOperator[NeckRPlugOperator]):
     __slots__ = ()
 
     NeckRx = DoubleAngleField(default_value=0.0)
@@ -5363,9 +5037,7 @@ class NeckRAttrOperator(
     NeckRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckRField(
-    CompoundField[NeckRAttrOperator, NeckRPlugOperator]
-):
+class NeckRField(CompoundField[NeckRAttrOperator, NeckRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NeckRAttrOperator
@@ -5378,9 +5050,7 @@ class NeckRField(
     NeckRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckSPlugOperator(
-    CompoundPlugOperator["NeckSAttrOperator"]
-):
+class NeckSPlugOperator(CompoundPlugOperator["NeckSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NeckSx", "NeckSx"),
@@ -5395,9 +5065,7 @@ class NeckSPlugOperator(
     NeckSz = DoubleField(default_value=1.0)
 
 
-class NeckSAttrOperator(
-    CompoundAttrOperator[NeckSPlugOperator]
-):
+class NeckSAttrOperator(CompoundAttrOperator[NeckSPlugOperator]):
     __slots__ = ()
 
     NeckSx = DoubleField(default_value=1.0)
@@ -5407,9 +5075,7 @@ class NeckSAttrOperator(
     NeckSz = DoubleField(default_value=1.0)
 
 
-class NeckSField(
-    CompoundField[NeckSAttrOperator, NeckSPlugOperator]
-):
+class NeckSField(CompoundField[NeckSAttrOperator, NeckSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NeckSAttrOperator
@@ -5422,9 +5088,7 @@ class NeckSField(
     NeckSz = DoubleField(default_value=1.0)
 
 
-class NeckISPlugOperator(
-    CompoundPlugOperator["NeckISAttrOperator"]
-):
+class NeckISPlugOperator(CompoundPlugOperator["NeckISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NeckISx", "NeckISx"),
@@ -5439,9 +5103,7 @@ class NeckISPlugOperator(
     NeckISz = DoubleField(default_value=1.0)
 
 
-class NeckISAttrOperator(
-    CompoundAttrOperator[NeckISPlugOperator]
-):
+class NeckISAttrOperator(CompoundAttrOperator[NeckISPlugOperator]):
     __slots__ = ()
 
     NeckISx = DoubleField(default_value=1.0)
@@ -5451,9 +5113,7 @@ class NeckISAttrOperator(
     NeckISz = DoubleField(default_value=1.0)
 
 
-class NeckISField(
-    CompoundField[NeckISAttrOperator, NeckISPlugOperator]
-):
+class NeckISField(CompoundField[NeckISAttrOperator, NeckISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NeckISAttrOperator
@@ -5466,9 +5126,7 @@ class NeckISField(
     NeckISz = DoubleField(default_value=1.0)
 
 
-class NeckPreRPlugOperator(
-    CompoundPlugOperator["NeckPreRAttrOperator"]
-):
+class NeckPreRPlugOperator(CompoundPlugOperator["NeckPreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NeckPreRx", "NeckPreRx"),
@@ -5483,9 +5141,7 @@ class NeckPreRPlugOperator(
     NeckPreRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckPreRAttrOperator(
-    CompoundAttrOperator[NeckPreRPlugOperator]
-):
+class NeckPreRAttrOperator(CompoundAttrOperator[NeckPreRPlugOperator]):
     __slots__ = ()
 
     NeckPreRx = DoubleAngleField(default_value=0.0)
@@ -5495,9 +5151,7 @@ class NeckPreRAttrOperator(
     NeckPreRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckPreRField(
-    CompoundField[NeckPreRAttrOperator, NeckPreRPlugOperator]
-):
+class NeckPreRField(CompoundField[NeckPreRAttrOperator, NeckPreRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NeckPreRAttrOperator
@@ -5510,9 +5164,7 @@ class NeckPreRField(
     NeckPreRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckPostRPlugOperator(
-    CompoundPlugOperator["NeckPostRAttrOperator"]
-):
+class NeckPostRPlugOperator(CompoundPlugOperator["NeckPostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NeckPostRx", "NeckPostRx"),
@@ -5527,9 +5179,7 @@ class NeckPostRPlugOperator(
     NeckPostRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckPostRAttrOperator(
-    CompoundAttrOperator[NeckPostRPlugOperator]
-):
+class NeckPostRAttrOperator(CompoundAttrOperator[NeckPostRPlugOperator]):
     __slots__ = ()
 
     NeckPostRx = DoubleAngleField(default_value=0.0)
@@ -5760,7 +5410,9 @@ class LeftFingerBasePreRAttrOperator(
 
 
 class LeftFingerBasePreRField(
-    CompoundField[LeftFingerBasePreRAttrOperator, LeftFingerBasePreRPlugOperator]
+    CompoundField[
+        LeftFingerBasePreRAttrOperator, LeftFingerBasePreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5804,7 +5456,9 @@ class LeftFingerBasePostRAttrOperator(
 
 
 class LeftFingerBasePostRField(
-    CompoundField[LeftFingerBasePostRAttrOperator, LeftFingerBasePostRPlugOperator]
+    CompoundField[
+        LeftFingerBasePostRAttrOperator, LeftFingerBasePostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -6024,7 +5678,9 @@ class RightFingerBasePreRAttrOperator(
 
 
 class RightFingerBasePreRField(
-    CompoundField[RightFingerBasePreRAttrOperator, RightFingerBasePreRPlugOperator]
+    CompoundField[
+        RightFingerBasePreRAttrOperator, RightFingerBasePreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -6068,7 +5724,9 @@ class RightFingerBasePostRAttrOperator(
 
 
 class RightFingerBasePostRField(
-    CompoundField[RightFingerBasePostRAttrOperator, RightFingerBasePostRPlugOperator]
+    CompoundField[
+        RightFingerBasePostRAttrOperator, RightFingerBasePostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -6082,9 +5740,7 @@ class RightFingerBasePostRField(
     RightFingerBasePostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1TPlugOperator(
-    CompoundPlugOperator["Spine1TAttrOperator"]
-):
+class Spine1TPlugOperator(CompoundPlugOperator["Spine1TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine1Tx", "Spine1Tx"),
@@ -6099,9 +5755,7 @@ class Spine1TPlugOperator(
     Spine1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine1TAttrOperator(
-    CompoundAttrOperator[Spine1TPlugOperator]
-):
+class Spine1TAttrOperator(CompoundAttrOperator[Spine1TPlugOperator]):
     __slots__ = ()
 
     Spine1Tx = DoubleLinearField(default_value=0.0)
@@ -6111,9 +5765,7 @@ class Spine1TAttrOperator(
     Spine1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine1TField(
-    CompoundField[Spine1TAttrOperator, Spine1TPlugOperator]
-):
+class Spine1TField(CompoundField[Spine1TAttrOperator, Spine1TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine1TAttrOperator
@@ -6126,9 +5778,7 @@ class Spine1TField(
     Spine1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine1RPlugOperator(
-    CompoundPlugOperator["Spine1RAttrOperator"]
-):
+class Spine1RPlugOperator(CompoundPlugOperator["Spine1RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine1Rx", "Spine1Rx"),
@@ -6143,9 +5793,7 @@ class Spine1RPlugOperator(
     Spine1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1RAttrOperator(
-    CompoundAttrOperator[Spine1RPlugOperator]
-):
+class Spine1RAttrOperator(CompoundAttrOperator[Spine1RPlugOperator]):
     __slots__ = ()
 
     Spine1Rx = DoubleAngleField(default_value=0.0)
@@ -6155,9 +5803,7 @@ class Spine1RAttrOperator(
     Spine1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1RField(
-    CompoundField[Spine1RAttrOperator, Spine1RPlugOperator]
-):
+class Spine1RField(CompoundField[Spine1RAttrOperator, Spine1RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine1RAttrOperator
@@ -6170,9 +5816,7 @@ class Spine1RField(
     Spine1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1SPlugOperator(
-    CompoundPlugOperator["Spine1SAttrOperator"]
-):
+class Spine1SPlugOperator(CompoundPlugOperator["Spine1SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine1Sx", "Spine1Sx"),
@@ -6187,9 +5831,7 @@ class Spine1SPlugOperator(
     Spine1Sz = DoubleField(default_value=1.0)
 
 
-class Spine1SAttrOperator(
-    CompoundAttrOperator[Spine1SPlugOperator]
-):
+class Spine1SAttrOperator(CompoundAttrOperator[Spine1SPlugOperator]):
     __slots__ = ()
 
     Spine1Sx = DoubleField(default_value=1.0)
@@ -6199,9 +5841,7 @@ class Spine1SAttrOperator(
     Spine1Sz = DoubleField(default_value=1.0)
 
 
-class Spine1SField(
-    CompoundField[Spine1SAttrOperator, Spine1SPlugOperator]
-):
+class Spine1SField(CompoundField[Spine1SAttrOperator, Spine1SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine1SAttrOperator
@@ -6214,9 +5854,7 @@ class Spine1SField(
     Spine1Sz = DoubleField(default_value=1.0)
 
 
-class Spine1ISPlugOperator(
-    CompoundPlugOperator["Spine1ISAttrOperator"]
-):
+class Spine1ISPlugOperator(CompoundPlugOperator["Spine1ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine1ISx", "Spine1ISx"),
@@ -6231,9 +5869,7 @@ class Spine1ISPlugOperator(
     Spine1ISz = DoubleField(default_value=1.0)
 
 
-class Spine1ISAttrOperator(
-    CompoundAttrOperator[Spine1ISPlugOperator]
-):
+class Spine1ISAttrOperator(CompoundAttrOperator[Spine1ISPlugOperator]):
     __slots__ = ()
 
     Spine1ISx = DoubleField(default_value=1.0)
@@ -6243,9 +5879,7 @@ class Spine1ISAttrOperator(
     Spine1ISz = DoubleField(default_value=1.0)
 
 
-class Spine1ISField(
-    CompoundField[Spine1ISAttrOperator, Spine1ISPlugOperator]
-):
+class Spine1ISField(CompoundField[Spine1ISAttrOperator, Spine1ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine1ISAttrOperator
@@ -6258,9 +5892,7 @@ class Spine1ISField(
     Spine1ISz = DoubleField(default_value=1.0)
 
 
-class Spine1PreRPlugOperator(
-    CompoundPlugOperator["Spine1PreRAttrOperator"]
-):
+class Spine1PreRPlugOperator(CompoundPlugOperator["Spine1PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine1PreRx", "Spine1PreRx"),
@@ -6275,9 +5907,7 @@ class Spine1PreRPlugOperator(
     Spine1PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1PreRAttrOperator(
-    CompoundAttrOperator[Spine1PreRPlugOperator]
-):
+class Spine1PreRAttrOperator(CompoundAttrOperator[Spine1PreRPlugOperator]):
     __slots__ = ()
 
     Spine1PreRx = DoubleAngleField(default_value=0.0)
@@ -6302,9 +5932,7 @@ class Spine1PreRField(
     Spine1PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1PostRPlugOperator(
-    CompoundPlugOperator["Spine1PostRAttrOperator"]
-):
+class Spine1PostRPlugOperator(CompoundPlugOperator["Spine1PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine1PostRx", "Spine1PostRx"),
@@ -6319,9 +5947,7 @@ class Spine1PostRPlugOperator(
     Spine1PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1PostRAttrOperator(
-    CompoundAttrOperator[Spine1PostRPlugOperator]
-):
+class Spine1PostRAttrOperator(CompoundAttrOperator[Spine1PostRPlugOperator]):
     __slots__ = ()
 
     Spine1PostRx = DoubleAngleField(default_value=0.0)
@@ -6346,9 +5972,7 @@ class Spine1PostRField(
     Spine1PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2TPlugOperator(
-    CompoundPlugOperator["Spine2TAttrOperator"]
-):
+class Spine2TPlugOperator(CompoundPlugOperator["Spine2TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine2Tx", "Spine2Tx"),
@@ -6363,9 +5987,7 @@ class Spine2TPlugOperator(
     Spine2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine2TAttrOperator(
-    CompoundAttrOperator[Spine2TPlugOperator]
-):
+class Spine2TAttrOperator(CompoundAttrOperator[Spine2TPlugOperator]):
     __slots__ = ()
 
     Spine2Tx = DoubleLinearField(default_value=0.0)
@@ -6375,9 +5997,7 @@ class Spine2TAttrOperator(
     Spine2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine2TField(
-    CompoundField[Spine2TAttrOperator, Spine2TPlugOperator]
-):
+class Spine2TField(CompoundField[Spine2TAttrOperator, Spine2TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine2TAttrOperator
@@ -6390,9 +6010,7 @@ class Spine2TField(
     Spine2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine2RPlugOperator(
-    CompoundPlugOperator["Spine2RAttrOperator"]
-):
+class Spine2RPlugOperator(CompoundPlugOperator["Spine2RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine2Rx", "Spine2Rx"),
@@ -6407,9 +6025,7 @@ class Spine2RPlugOperator(
     Spine2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2RAttrOperator(
-    CompoundAttrOperator[Spine2RPlugOperator]
-):
+class Spine2RAttrOperator(CompoundAttrOperator[Spine2RPlugOperator]):
     __slots__ = ()
 
     Spine2Rx = DoubleAngleField(default_value=0.0)
@@ -6419,9 +6035,7 @@ class Spine2RAttrOperator(
     Spine2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2RField(
-    CompoundField[Spine2RAttrOperator, Spine2RPlugOperator]
-):
+class Spine2RField(CompoundField[Spine2RAttrOperator, Spine2RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine2RAttrOperator
@@ -6434,9 +6048,7 @@ class Spine2RField(
     Spine2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2SPlugOperator(
-    CompoundPlugOperator["Spine2SAttrOperator"]
-):
+class Spine2SPlugOperator(CompoundPlugOperator["Spine2SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine2Sx", "Spine2Sx"),
@@ -6451,9 +6063,7 @@ class Spine2SPlugOperator(
     Spine2Sz = DoubleField(default_value=1.0)
 
 
-class Spine2SAttrOperator(
-    CompoundAttrOperator[Spine2SPlugOperator]
-):
+class Spine2SAttrOperator(CompoundAttrOperator[Spine2SPlugOperator]):
     __slots__ = ()
 
     Spine2Sx = DoubleField(default_value=1.0)
@@ -6463,9 +6073,7 @@ class Spine2SAttrOperator(
     Spine2Sz = DoubleField(default_value=1.0)
 
 
-class Spine2SField(
-    CompoundField[Spine2SAttrOperator, Spine2SPlugOperator]
-):
+class Spine2SField(CompoundField[Spine2SAttrOperator, Spine2SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine2SAttrOperator
@@ -6478,9 +6086,7 @@ class Spine2SField(
     Spine2Sz = DoubleField(default_value=1.0)
 
 
-class Spine2ISPlugOperator(
-    CompoundPlugOperator["Spine2ISAttrOperator"]
-):
+class Spine2ISPlugOperator(CompoundPlugOperator["Spine2ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine2ISx", "Spine2ISx"),
@@ -6495,9 +6101,7 @@ class Spine2ISPlugOperator(
     Spine2ISz = DoubleField(default_value=1.0)
 
 
-class Spine2ISAttrOperator(
-    CompoundAttrOperator[Spine2ISPlugOperator]
-):
+class Spine2ISAttrOperator(CompoundAttrOperator[Spine2ISPlugOperator]):
     __slots__ = ()
 
     Spine2ISx = DoubleField(default_value=1.0)
@@ -6507,9 +6111,7 @@ class Spine2ISAttrOperator(
     Spine2ISz = DoubleField(default_value=1.0)
 
 
-class Spine2ISField(
-    CompoundField[Spine2ISAttrOperator, Spine2ISPlugOperator]
-):
+class Spine2ISField(CompoundField[Spine2ISAttrOperator, Spine2ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine2ISAttrOperator
@@ -6522,9 +6124,7 @@ class Spine2ISField(
     Spine2ISz = DoubleField(default_value=1.0)
 
 
-class Spine2PreRPlugOperator(
-    CompoundPlugOperator["Spine2PreRAttrOperator"]
-):
+class Spine2PreRPlugOperator(CompoundPlugOperator["Spine2PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine2PreRx", "Spine2PreRx"),
@@ -6539,9 +6139,7 @@ class Spine2PreRPlugOperator(
     Spine2PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2PreRAttrOperator(
-    CompoundAttrOperator[Spine2PreRPlugOperator]
-):
+class Spine2PreRAttrOperator(CompoundAttrOperator[Spine2PreRPlugOperator]):
     __slots__ = ()
 
     Spine2PreRx = DoubleAngleField(default_value=0.0)
@@ -6566,9 +6164,7 @@ class Spine2PreRField(
     Spine2PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2PostRPlugOperator(
-    CompoundPlugOperator["Spine2PostRAttrOperator"]
-):
+class Spine2PostRPlugOperator(CompoundPlugOperator["Spine2PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine2PostRx", "Spine2PostRx"),
@@ -6583,9 +6179,7 @@ class Spine2PostRPlugOperator(
     Spine2PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2PostRAttrOperator(
-    CompoundAttrOperator[Spine2PostRPlugOperator]
-):
+class Spine2PostRAttrOperator(CompoundAttrOperator[Spine2PostRPlugOperator]):
     __slots__ = ()
 
     Spine2PostRx = DoubleAngleField(default_value=0.0)
@@ -6610,9 +6204,7 @@ class Spine2PostRField(
     Spine2PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3TPlugOperator(
-    CompoundPlugOperator["Spine3TAttrOperator"]
-):
+class Spine3TPlugOperator(CompoundPlugOperator["Spine3TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine3Tx", "Spine3Tx"),
@@ -6627,9 +6219,7 @@ class Spine3TPlugOperator(
     Spine3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine3TAttrOperator(
-    CompoundAttrOperator[Spine3TPlugOperator]
-):
+class Spine3TAttrOperator(CompoundAttrOperator[Spine3TPlugOperator]):
     __slots__ = ()
 
     Spine3Tx = DoubleLinearField(default_value=0.0)
@@ -6639,9 +6229,7 @@ class Spine3TAttrOperator(
     Spine3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine3TField(
-    CompoundField[Spine3TAttrOperator, Spine3TPlugOperator]
-):
+class Spine3TField(CompoundField[Spine3TAttrOperator, Spine3TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine3TAttrOperator
@@ -6654,9 +6242,7 @@ class Spine3TField(
     Spine3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine3RPlugOperator(
-    CompoundPlugOperator["Spine3RAttrOperator"]
-):
+class Spine3RPlugOperator(CompoundPlugOperator["Spine3RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine3Rx", "Spine3Rx"),
@@ -6671,9 +6257,7 @@ class Spine3RPlugOperator(
     Spine3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3RAttrOperator(
-    CompoundAttrOperator[Spine3RPlugOperator]
-):
+class Spine3RAttrOperator(CompoundAttrOperator[Spine3RPlugOperator]):
     __slots__ = ()
 
     Spine3Rx = DoubleAngleField(default_value=0.0)
@@ -6683,9 +6267,7 @@ class Spine3RAttrOperator(
     Spine3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3RField(
-    CompoundField[Spine3RAttrOperator, Spine3RPlugOperator]
-):
+class Spine3RField(CompoundField[Spine3RAttrOperator, Spine3RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine3RAttrOperator
@@ -6698,9 +6280,7 @@ class Spine3RField(
     Spine3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3SPlugOperator(
-    CompoundPlugOperator["Spine3SAttrOperator"]
-):
+class Spine3SPlugOperator(CompoundPlugOperator["Spine3SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine3Sx", "Spine3Sx"),
@@ -6715,9 +6295,7 @@ class Spine3SPlugOperator(
     Spine3Sz = DoubleField(default_value=1.0)
 
 
-class Spine3SAttrOperator(
-    CompoundAttrOperator[Spine3SPlugOperator]
-):
+class Spine3SAttrOperator(CompoundAttrOperator[Spine3SPlugOperator]):
     __slots__ = ()
 
     Spine3Sx = DoubleField(default_value=1.0)
@@ -6727,9 +6305,7 @@ class Spine3SAttrOperator(
     Spine3Sz = DoubleField(default_value=1.0)
 
 
-class Spine3SField(
-    CompoundField[Spine3SAttrOperator, Spine3SPlugOperator]
-):
+class Spine3SField(CompoundField[Spine3SAttrOperator, Spine3SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine3SAttrOperator
@@ -6742,9 +6318,7 @@ class Spine3SField(
     Spine3Sz = DoubleField(default_value=1.0)
 
 
-class Spine3ISPlugOperator(
-    CompoundPlugOperator["Spine3ISAttrOperator"]
-):
+class Spine3ISPlugOperator(CompoundPlugOperator["Spine3ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine3ISx", "Spine3ISx"),
@@ -6759,9 +6333,7 @@ class Spine3ISPlugOperator(
     Spine3ISz = DoubleField(default_value=1.0)
 
 
-class Spine3ISAttrOperator(
-    CompoundAttrOperator[Spine3ISPlugOperator]
-):
+class Spine3ISAttrOperator(CompoundAttrOperator[Spine3ISPlugOperator]):
     __slots__ = ()
 
     Spine3ISx = DoubleField(default_value=1.0)
@@ -6771,9 +6343,7 @@ class Spine3ISAttrOperator(
     Spine3ISz = DoubleField(default_value=1.0)
 
 
-class Spine3ISField(
-    CompoundField[Spine3ISAttrOperator, Spine3ISPlugOperator]
-):
+class Spine3ISField(CompoundField[Spine3ISAttrOperator, Spine3ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine3ISAttrOperator
@@ -6786,9 +6356,7 @@ class Spine3ISField(
     Spine3ISz = DoubleField(default_value=1.0)
 
 
-class Spine3PreRPlugOperator(
-    CompoundPlugOperator["Spine3PreRAttrOperator"]
-):
+class Spine3PreRPlugOperator(CompoundPlugOperator["Spine3PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine3PreRx", "Spine3PreRx"),
@@ -6803,9 +6371,7 @@ class Spine3PreRPlugOperator(
     Spine3PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3PreRAttrOperator(
-    CompoundAttrOperator[Spine3PreRPlugOperator]
-):
+class Spine3PreRAttrOperator(CompoundAttrOperator[Spine3PreRPlugOperator]):
     __slots__ = ()
 
     Spine3PreRx = DoubleAngleField(default_value=0.0)
@@ -6830,9 +6396,7 @@ class Spine3PreRField(
     Spine3PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3PostRPlugOperator(
-    CompoundPlugOperator["Spine3PostRAttrOperator"]
-):
+class Spine3PostRPlugOperator(CompoundPlugOperator["Spine3PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine3PostRx", "Spine3PostRx"),
@@ -6847,9 +6411,7 @@ class Spine3PostRPlugOperator(
     Spine3PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3PostRAttrOperator(
-    CompoundAttrOperator[Spine3PostRPlugOperator]
-):
+class Spine3PostRAttrOperator(CompoundAttrOperator[Spine3PostRPlugOperator]):
     __slots__ = ()
 
     Spine3PostRx = DoubleAngleField(default_value=0.0)
@@ -6874,9 +6436,7 @@ class Spine3PostRField(
     Spine3PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4TPlugOperator(
-    CompoundPlugOperator["Spine4TAttrOperator"]
-):
+class Spine4TPlugOperator(CompoundPlugOperator["Spine4TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine4Tx", "Spine4Tx"),
@@ -6891,9 +6451,7 @@ class Spine4TPlugOperator(
     Spine4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine4TAttrOperator(
-    CompoundAttrOperator[Spine4TPlugOperator]
-):
+class Spine4TAttrOperator(CompoundAttrOperator[Spine4TPlugOperator]):
     __slots__ = ()
 
     Spine4Tx = DoubleLinearField(default_value=0.0)
@@ -6903,9 +6461,7 @@ class Spine4TAttrOperator(
     Spine4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine4TField(
-    CompoundField[Spine4TAttrOperator, Spine4TPlugOperator]
-):
+class Spine4TField(CompoundField[Spine4TAttrOperator, Spine4TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine4TAttrOperator
@@ -6918,9 +6474,7 @@ class Spine4TField(
     Spine4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine4RPlugOperator(
-    CompoundPlugOperator["Spine4RAttrOperator"]
-):
+class Spine4RPlugOperator(CompoundPlugOperator["Spine4RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine4Rx", "Spine4Rx"),
@@ -6935,9 +6489,7 @@ class Spine4RPlugOperator(
     Spine4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4RAttrOperator(
-    CompoundAttrOperator[Spine4RPlugOperator]
-):
+class Spine4RAttrOperator(CompoundAttrOperator[Spine4RPlugOperator]):
     __slots__ = ()
 
     Spine4Rx = DoubleAngleField(default_value=0.0)
@@ -6947,9 +6499,7 @@ class Spine4RAttrOperator(
     Spine4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4RField(
-    CompoundField[Spine4RAttrOperator, Spine4RPlugOperator]
-):
+class Spine4RField(CompoundField[Spine4RAttrOperator, Spine4RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine4RAttrOperator
@@ -6962,9 +6512,7 @@ class Spine4RField(
     Spine4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4SPlugOperator(
-    CompoundPlugOperator["Spine4SAttrOperator"]
-):
+class Spine4SPlugOperator(CompoundPlugOperator["Spine4SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine4Sx", "Spine4Sx"),
@@ -6979,9 +6527,7 @@ class Spine4SPlugOperator(
     Spine4Sz = DoubleField(default_value=1.0)
 
 
-class Spine4SAttrOperator(
-    CompoundAttrOperator[Spine4SPlugOperator]
-):
+class Spine4SAttrOperator(CompoundAttrOperator[Spine4SPlugOperator]):
     __slots__ = ()
 
     Spine4Sx = DoubleField(default_value=1.0)
@@ -6991,9 +6537,7 @@ class Spine4SAttrOperator(
     Spine4Sz = DoubleField(default_value=1.0)
 
 
-class Spine4SField(
-    CompoundField[Spine4SAttrOperator, Spine4SPlugOperator]
-):
+class Spine4SField(CompoundField[Spine4SAttrOperator, Spine4SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine4SAttrOperator
@@ -7006,9 +6550,7 @@ class Spine4SField(
     Spine4Sz = DoubleField(default_value=1.0)
 
 
-class Spine4ISPlugOperator(
-    CompoundPlugOperator["Spine4ISAttrOperator"]
-):
+class Spine4ISPlugOperator(CompoundPlugOperator["Spine4ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine4ISx", "Spine4ISx"),
@@ -7023,9 +6565,7 @@ class Spine4ISPlugOperator(
     Spine4ISz = DoubleField(default_value=1.0)
 
 
-class Spine4ISAttrOperator(
-    CompoundAttrOperator[Spine4ISPlugOperator]
-):
+class Spine4ISAttrOperator(CompoundAttrOperator[Spine4ISPlugOperator]):
     __slots__ = ()
 
     Spine4ISx = DoubleField(default_value=1.0)
@@ -7035,9 +6575,7 @@ class Spine4ISAttrOperator(
     Spine4ISz = DoubleField(default_value=1.0)
 
 
-class Spine4ISField(
-    CompoundField[Spine4ISAttrOperator, Spine4ISPlugOperator]
-):
+class Spine4ISField(CompoundField[Spine4ISAttrOperator, Spine4ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine4ISAttrOperator
@@ -7050,9 +6588,7 @@ class Spine4ISField(
     Spine4ISz = DoubleField(default_value=1.0)
 
 
-class Spine4PreRPlugOperator(
-    CompoundPlugOperator["Spine4PreRAttrOperator"]
-):
+class Spine4PreRPlugOperator(CompoundPlugOperator["Spine4PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine4PreRx", "Spine4PreRx"),
@@ -7067,9 +6603,7 @@ class Spine4PreRPlugOperator(
     Spine4PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4PreRAttrOperator(
-    CompoundAttrOperator[Spine4PreRPlugOperator]
-):
+class Spine4PreRAttrOperator(CompoundAttrOperator[Spine4PreRPlugOperator]):
     __slots__ = ()
 
     Spine4PreRx = DoubleAngleField(default_value=0.0)
@@ -7094,9 +6628,7 @@ class Spine4PreRField(
     Spine4PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4PostRPlugOperator(
-    CompoundPlugOperator["Spine4PostRAttrOperator"]
-):
+class Spine4PostRPlugOperator(CompoundPlugOperator["Spine4PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine4PostRx", "Spine4PostRx"),
@@ -7111,9 +6643,7 @@ class Spine4PostRPlugOperator(
     Spine4PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4PostRAttrOperator(
-    CompoundAttrOperator[Spine4PostRPlugOperator]
-):
+class Spine4PostRAttrOperator(CompoundAttrOperator[Spine4PostRPlugOperator]):
     __slots__ = ()
 
     Spine4PostRx = DoubleAngleField(default_value=0.0)
@@ -7138,9 +6668,7 @@ class Spine4PostRField(
     Spine4PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5TPlugOperator(
-    CompoundPlugOperator["Spine5TAttrOperator"]
-):
+class Spine5TPlugOperator(CompoundPlugOperator["Spine5TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine5Tx", "Spine5Tx"),
@@ -7155,9 +6683,7 @@ class Spine5TPlugOperator(
     Spine5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine5TAttrOperator(
-    CompoundAttrOperator[Spine5TPlugOperator]
-):
+class Spine5TAttrOperator(CompoundAttrOperator[Spine5TPlugOperator]):
     __slots__ = ()
 
     Spine5Tx = DoubleLinearField(default_value=0.0)
@@ -7167,9 +6693,7 @@ class Spine5TAttrOperator(
     Spine5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine5TField(
-    CompoundField[Spine5TAttrOperator, Spine5TPlugOperator]
-):
+class Spine5TField(CompoundField[Spine5TAttrOperator, Spine5TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine5TAttrOperator
@@ -7182,9 +6706,7 @@ class Spine5TField(
     Spine5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine5RPlugOperator(
-    CompoundPlugOperator["Spine5RAttrOperator"]
-):
+class Spine5RPlugOperator(CompoundPlugOperator["Spine5RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine5Rx", "Spine5Rx"),
@@ -7199,9 +6721,7 @@ class Spine5RPlugOperator(
     Spine5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5RAttrOperator(
-    CompoundAttrOperator[Spine5RPlugOperator]
-):
+class Spine5RAttrOperator(CompoundAttrOperator[Spine5RPlugOperator]):
     __slots__ = ()
 
     Spine5Rx = DoubleAngleField(default_value=0.0)
@@ -7211,9 +6731,7 @@ class Spine5RAttrOperator(
     Spine5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5RField(
-    CompoundField[Spine5RAttrOperator, Spine5RPlugOperator]
-):
+class Spine5RField(CompoundField[Spine5RAttrOperator, Spine5RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine5RAttrOperator
@@ -7226,9 +6744,7 @@ class Spine5RField(
     Spine5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5SPlugOperator(
-    CompoundPlugOperator["Spine5SAttrOperator"]
-):
+class Spine5SPlugOperator(CompoundPlugOperator["Spine5SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine5Sx", "Spine5Sx"),
@@ -7243,9 +6759,7 @@ class Spine5SPlugOperator(
     Spine5Sz = DoubleField(default_value=1.0)
 
 
-class Spine5SAttrOperator(
-    CompoundAttrOperator[Spine5SPlugOperator]
-):
+class Spine5SAttrOperator(CompoundAttrOperator[Spine5SPlugOperator]):
     __slots__ = ()
 
     Spine5Sx = DoubleField(default_value=1.0)
@@ -7255,9 +6769,7 @@ class Spine5SAttrOperator(
     Spine5Sz = DoubleField(default_value=1.0)
 
 
-class Spine5SField(
-    CompoundField[Spine5SAttrOperator, Spine5SPlugOperator]
-):
+class Spine5SField(CompoundField[Spine5SAttrOperator, Spine5SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine5SAttrOperator
@@ -7270,9 +6782,7 @@ class Spine5SField(
     Spine5Sz = DoubleField(default_value=1.0)
 
 
-class Spine5ISPlugOperator(
-    CompoundPlugOperator["Spine5ISAttrOperator"]
-):
+class Spine5ISPlugOperator(CompoundPlugOperator["Spine5ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine5ISx", "Spine5ISx"),
@@ -7287,9 +6797,7 @@ class Spine5ISPlugOperator(
     Spine5ISz = DoubleField(default_value=1.0)
 
 
-class Spine5ISAttrOperator(
-    CompoundAttrOperator[Spine5ISPlugOperator]
-):
+class Spine5ISAttrOperator(CompoundAttrOperator[Spine5ISPlugOperator]):
     __slots__ = ()
 
     Spine5ISx = DoubleField(default_value=1.0)
@@ -7299,9 +6807,7 @@ class Spine5ISAttrOperator(
     Spine5ISz = DoubleField(default_value=1.0)
 
 
-class Spine5ISField(
-    CompoundField[Spine5ISAttrOperator, Spine5ISPlugOperator]
-):
+class Spine5ISField(CompoundField[Spine5ISAttrOperator, Spine5ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine5ISAttrOperator
@@ -7314,9 +6820,7 @@ class Spine5ISField(
     Spine5ISz = DoubleField(default_value=1.0)
 
 
-class Spine5PreRPlugOperator(
-    CompoundPlugOperator["Spine5PreRAttrOperator"]
-):
+class Spine5PreRPlugOperator(CompoundPlugOperator["Spine5PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine5PreRx", "Spine5PreRx"),
@@ -7331,9 +6835,7 @@ class Spine5PreRPlugOperator(
     Spine5PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5PreRAttrOperator(
-    CompoundAttrOperator[Spine5PreRPlugOperator]
-):
+class Spine5PreRAttrOperator(CompoundAttrOperator[Spine5PreRPlugOperator]):
     __slots__ = ()
 
     Spine5PreRx = DoubleAngleField(default_value=0.0)
@@ -7358,9 +6860,7 @@ class Spine5PreRField(
     Spine5PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5PostRPlugOperator(
-    CompoundPlugOperator["Spine5PostRAttrOperator"]
-):
+class Spine5PostRPlugOperator(CompoundPlugOperator["Spine5PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine5PostRx", "Spine5PostRx"),
@@ -7375,9 +6875,7 @@ class Spine5PostRPlugOperator(
     Spine5PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5PostRAttrOperator(
-    CompoundAttrOperator[Spine5PostRPlugOperator]
-):
+class Spine5PostRAttrOperator(CompoundAttrOperator[Spine5PostRPlugOperator]):
     __slots__ = ()
 
     Spine5PostRx = DoubleAngleField(default_value=0.0)
@@ -7402,9 +6900,7 @@ class Spine5PostRField(
     Spine5PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6TPlugOperator(
-    CompoundPlugOperator["Spine6TAttrOperator"]
-):
+class Spine6TPlugOperator(CompoundPlugOperator["Spine6TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine6Tx", "Spine6Tx"),
@@ -7419,9 +6915,7 @@ class Spine6TPlugOperator(
     Spine6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine6TAttrOperator(
-    CompoundAttrOperator[Spine6TPlugOperator]
-):
+class Spine6TAttrOperator(CompoundAttrOperator[Spine6TPlugOperator]):
     __slots__ = ()
 
     Spine6Tx = DoubleLinearField(default_value=0.0)
@@ -7431,9 +6925,7 @@ class Spine6TAttrOperator(
     Spine6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine6TField(
-    CompoundField[Spine6TAttrOperator, Spine6TPlugOperator]
-):
+class Spine6TField(CompoundField[Spine6TAttrOperator, Spine6TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine6TAttrOperator
@@ -7446,9 +6938,7 @@ class Spine6TField(
     Spine6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine6RPlugOperator(
-    CompoundPlugOperator["Spine6RAttrOperator"]
-):
+class Spine6RPlugOperator(CompoundPlugOperator["Spine6RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine6Rx", "Spine6Rx"),
@@ -7463,9 +6953,7 @@ class Spine6RPlugOperator(
     Spine6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6RAttrOperator(
-    CompoundAttrOperator[Spine6RPlugOperator]
-):
+class Spine6RAttrOperator(CompoundAttrOperator[Spine6RPlugOperator]):
     __slots__ = ()
 
     Spine6Rx = DoubleAngleField(default_value=0.0)
@@ -7475,9 +6963,7 @@ class Spine6RAttrOperator(
     Spine6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6RField(
-    CompoundField[Spine6RAttrOperator, Spine6RPlugOperator]
-):
+class Spine6RField(CompoundField[Spine6RAttrOperator, Spine6RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine6RAttrOperator
@@ -7490,9 +6976,7 @@ class Spine6RField(
     Spine6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6SPlugOperator(
-    CompoundPlugOperator["Spine6SAttrOperator"]
-):
+class Spine6SPlugOperator(CompoundPlugOperator["Spine6SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine6Sx", "Spine6Sx"),
@@ -7507,9 +6991,7 @@ class Spine6SPlugOperator(
     Spine6Sz = DoubleField(default_value=1.0)
 
 
-class Spine6SAttrOperator(
-    CompoundAttrOperator[Spine6SPlugOperator]
-):
+class Spine6SAttrOperator(CompoundAttrOperator[Spine6SPlugOperator]):
     __slots__ = ()
 
     Spine6Sx = DoubleField(default_value=1.0)
@@ -7519,9 +7001,7 @@ class Spine6SAttrOperator(
     Spine6Sz = DoubleField(default_value=1.0)
 
 
-class Spine6SField(
-    CompoundField[Spine6SAttrOperator, Spine6SPlugOperator]
-):
+class Spine6SField(CompoundField[Spine6SAttrOperator, Spine6SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine6SAttrOperator
@@ -7534,9 +7014,7 @@ class Spine6SField(
     Spine6Sz = DoubleField(default_value=1.0)
 
 
-class Spine6ISPlugOperator(
-    CompoundPlugOperator["Spine6ISAttrOperator"]
-):
+class Spine6ISPlugOperator(CompoundPlugOperator["Spine6ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine6ISx", "Spine6ISx"),
@@ -7551,9 +7029,7 @@ class Spine6ISPlugOperator(
     Spine6ISz = DoubleField(default_value=1.0)
 
 
-class Spine6ISAttrOperator(
-    CompoundAttrOperator[Spine6ISPlugOperator]
-):
+class Spine6ISAttrOperator(CompoundAttrOperator[Spine6ISPlugOperator]):
     __slots__ = ()
 
     Spine6ISx = DoubleField(default_value=1.0)
@@ -7563,9 +7039,7 @@ class Spine6ISAttrOperator(
     Spine6ISz = DoubleField(default_value=1.0)
 
 
-class Spine6ISField(
-    CompoundField[Spine6ISAttrOperator, Spine6ISPlugOperator]
-):
+class Spine6ISField(CompoundField[Spine6ISAttrOperator, Spine6ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine6ISAttrOperator
@@ -7578,9 +7052,7 @@ class Spine6ISField(
     Spine6ISz = DoubleField(default_value=1.0)
 
 
-class Spine6PreRPlugOperator(
-    CompoundPlugOperator["Spine6PreRAttrOperator"]
-):
+class Spine6PreRPlugOperator(CompoundPlugOperator["Spine6PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine6PreRx", "Spine6PreRx"),
@@ -7595,9 +7067,7 @@ class Spine6PreRPlugOperator(
     Spine6PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6PreRAttrOperator(
-    CompoundAttrOperator[Spine6PreRPlugOperator]
-):
+class Spine6PreRAttrOperator(CompoundAttrOperator[Spine6PreRPlugOperator]):
     __slots__ = ()
 
     Spine6PreRx = DoubleAngleField(default_value=0.0)
@@ -7622,9 +7092,7 @@ class Spine6PreRField(
     Spine6PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6PostRPlugOperator(
-    CompoundPlugOperator["Spine6PostRAttrOperator"]
-):
+class Spine6PostRPlugOperator(CompoundPlugOperator["Spine6PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine6PostRx", "Spine6PostRx"),
@@ -7639,9 +7107,7 @@ class Spine6PostRPlugOperator(
     Spine6PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6PostRAttrOperator(
-    CompoundAttrOperator[Spine6PostRPlugOperator]
-):
+class Spine6PostRAttrOperator(CompoundAttrOperator[Spine6PostRPlugOperator]):
     __slots__ = ()
 
     Spine6PostRx = DoubleAngleField(default_value=0.0)
@@ -7666,9 +7132,7 @@ class Spine6PostRField(
     Spine6PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7TPlugOperator(
-    CompoundPlugOperator["Spine7TAttrOperator"]
-):
+class Spine7TPlugOperator(CompoundPlugOperator["Spine7TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine7Tx", "Spine7Tx"),
@@ -7683,9 +7147,7 @@ class Spine7TPlugOperator(
     Spine7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine7TAttrOperator(
-    CompoundAttrOperator[Spine7TPlugOperator]
-):
+class Spine7TAttrOperator(CompoundAttrOperator[Spine7TPlugOperator]):
     __slots__ = ()
 
     Spine7Tx = DoubleLinearField(default_value=0.0)
@@ -7695,9 +7157,7 @@ class Spine7TAttrOperator(
     Spine7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine7TField(
-    CompoundField[Spine7TAttrOperator, Spine7TPlugOperator]
-):
+class Spine7TField(CompoundField[Spine7TAttrOperator, Spine7TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine7TAttrOperator
@@ -7710,9 +7170,7 @@ class Spine7TField(
     Spine7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine7RPlugOperator(
-    CompoundPlugOperator["Spine7RAttrOperator"]
-):
+class Spine7RPlugOperator(CompoundPlugOperator["Spine7RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine7Rx", "Spine7Rx"),
@@ -7727,9 +7185,7 @@ class Spine7RPlugOperator(
     Spine7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7RAttrOperator(
-    CompoundAttrOperator[Spine7RPlugOperator]
-):
+class Spine7RAttrOperator(CompoundAttrOperator[Spine7RPlugOperator]):
     __slots__ = ()
 
     Spine7Rx = DoubleAngleField(default_value=0.0)
@@ -7739,9 +7195,7 @@ class Spine7RAttrOperator(
     Spine7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7RField(
-    CompoundField[Spine7RAttrOperator, Spine7RPlugOperator]
-):
+class Spine7RField(CompoundField[Spine7RAttrOperator, Spine7RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine7RAttrOperator
@@ -7754,9 +7208,7 @@ class Spine7RField(
     Spine7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7SPlugOperator(
-    CompoundPlugOperator["Spine7SAttrOperator"]
-):
+class Spine7SPlugOperator(CompoundPlugOperator["Spine7SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine7Sx", "Spine7Sx"),
@@ -7771,9 +7223,7 @@ class Spine7SPlugOperator(
     Spine7Sz = DoubleField(default_value=1.0)
 
 
-class Spine7SAttrOperator(
-    CompoundAttrOperator[Spine7SPlugOperator]
-):
+class Spine7SAttrOperator(CompoundAttrOperator[Spine7SPlugOperator]):
     __slots__ = ()
 
     Spine7Sx = DoubleField(default_value=1.0)
@@ -7783,9 +7233,7 @@ class Spine7SAttrOperator(
     Spine7Sz = DoubleField(default_value=1.0)
 
 
-class Spine7SField(
-    CompoundField[Spine7SAttrOperator, Spine7SPlugOperator]
-):
+class Spine7SField(CompoundField[Spine7SAttrOperator, Spine7SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine7SAttrOperator
@@ -7798,9 +7246,7 @@ class Spine7SField(
     Spine7Sz = DoubleField(default_value=1.0)
 
 
-class Spine7ISPlugOperator(
-    CompoundPlugOperator["Spine7ISAttrOperator"]
-):
+class Spine7ISPlugOperator(CompoundPlugOperator["Spine7ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine7ISx", "Spine7ISx"),
@@ -7815,9 +7261,7 @@ class Spine7ISPlugOperator(
     Spine7ISz = DoubleField(default_value=1.0)
 
 
-class Spine7ISAttrOperator(
-    CompoundAttrOperator[Spine7ISPlugOperator]
-):
+class Spine7ISAttrOperator(CompoundAttrOperator[Spine7ISPlugOperator]):
     __slots__ = ()
 
     Spine7ISx = DoubleField(default_value=1.0)
@@ -7827,9 +7271,7 @@ class Spine7ISAttrOperator(
     Spine7ISz = DoubleField(default_value=1.0)
 
 
-class Spine7ISField(
-    CompoundField[Spine7ISAttrOperator, Spine7ISPlugOperator]
-):
+class Spine7ISField(CompoundField[Spine7ISAttrOperator, Spine7ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine7ISAttrOperator
@@ -7842,9 +7284,7 @@ class Spine7ISField(
     Spine7ISz = DoubleField(default_value=1.0)
 
 
-class Spine7PreRPlugOperator(
-    CompoundPlugOperator["Spine7PreRAttrOperator"]
-):
+class Spine7PreRPlugOperator(CompoundPlugOperator["Spine7PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine7PreRx", "Spine7PreRx"),
@@ -7859,9 +7299,7 @@ class Spine7PreRPlugOperator(
     Spine7PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7PreRAttrOperator(
-    CompoundAttrOperator[Spine7PreRPlugOperator]
-):
+class Spine7PreRAttrOperator(CompoundAttrOperator[Spine7PreRPlugOperator]):
     __slots__ = ()
 
     Spine7PreRx = DoubleAngleField(default_value=0.0)
@@ -7886,9 +7324,7 @@ class Spine7PreRField(
     Spine7PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7PostRPlugOperator(
-    CompoundPlugOperator["Spine7PostRAttrOperator"]
-):
+class Spine7PostRPlugOperator(CompoundPlugOperator["Spine7PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine7PostRx", "Spine7PostRx"),
@@ -7903,9 +7339,7 @@ class Spine7PostRPlugOperator(
     Spine7PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7PostRAttrOperator(
-    CompoundAttrOperator[Spine7PostRPlugOperator]
-):
+class Spine7PostRAttrOperator(CompoundAttrOperator[Spine7PostRPlugOperator]):
     __slots__ = ()
 
     Spine7PostRx = DoubleAngleField(default_value=0.0)
@@ -7930,9 +7364,7 @@ class Spine7PostRField(
     Spine7PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8TPlugOperator(
-    CompoundPlugOperator["Spine8TAttrOperator"]
-):
+class Spine8TPlugOperator(CompoundPlugOperator["Spine8TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine8Tx", "Spine8Tx"),
@@ -7947,9 +7379,7 @@ class Spine8TPlugOperator(
     Spine8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine8TAttrOperator(
-    CompoundAttrOperator[Spine8TPlugOperator]
-):
+class Spine8TAttrOperator(CompoundAttrOperator[Spine8TPlugOperator]):
     __slots__ = ()
 
     Spine8Tx = DoubleLinearField(default_value=0.0)
@@ -7959,9 +7389,7 @@ class Spine8TAttrOperator(
     Spine8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine8TField(
-    CompoundField[Spine8TAttrOperator, Spine8TPlugOperator]
-):
+class Spine8TField(CompoundField[Spine8TAttrOperator, Spine8TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine8TAttrOperator
@@ -7974,9 +7402,7 @@ class Spine8TField(
     Spine8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine8RPlugOperator(
-    CompoundPlugOperator["Spine8RAttrOperator"]
-):
+class Spine8RPlugOperator(CompoundPlugOperator["Spine8RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine8Rx", "Spine8Rx"),
@@ -7991,9 +7417,7 @@ class Spine8RPlugOperator(
     Spine8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8RAttrOperator(
-    CompoundAttrOperator[Spine8RPlugOperator]
-):
+class Spine8RAttrOperator(CompoundAttrOperator[Spine8RPlugOperator]):
     __slots__ = ()
 
     Spine8Rx = DoubleAngleField(default_value=0.0)
@@ -8003,9 +7427,7 @@ class Spine8RAttrOperator(
     Spine8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8RField(
-    CompoundField[Spine8RAttrOperator, Spine8RPlugOperator]
-):
+class Spine8RField(CompoundField[Spine8RAttrOperator, Spine8RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine8RAttrOperator
@@ -8018,9 +7440,7 @@ class Spine8RField(
     Spine8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8SPlugOperator(
-    CompoundPlugOperator["Spine8SAttrOperator"]
-):
+class Spine8SPlugOperator(CompoundPlugOperator["Spine8SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine8Sx", "Spine8Sx"),
@@ -8035,9 +7455,7 @@ class Spine8SPlugOperator(
     Spine8Sz = DoubleField(default_value=1.0)
 
 
-class Spine8SAttrOperator(
-    CompoundAttrOperator[Spine8SPlugOperator]
-):
+class Spine8SAttrOperator(CompoundAttrOperator[Spine8SPlugOperator]):
     __slots__ = ()
 
     Spine8Sx = DoubleField(default_value=1.0)
@@ -8047,9 +7465,7 @@ class Spine8SAttrOperator(
     Spine8Sz = DoubleField(default_value=1.0)
 
 
-class Spine8SField(
-    CompoundField[Spine8SAttrOperator, Spine8SPlugOperator]
-):
+class Spine8SField(CompoundField[Spine8SAttrOperator, Spine8SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine8SAttrOperator
@@ -8062,9 +7478,7 @@ class Spine8SField(
     Spine8Sz = DoubleField(default_value=1.0)
 
 
-class Spine8ISPlugOperator(
-    CompoundPlugOperator["Spine8ISAttrOperator"]
-):
+class Spine8ISPlugOperator(CompoundPlugOperator["Spine8ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine8ISx", "Spine8ISx"),
@@ -8079,9 +7493,7 @@ class Spine8ISPlugOperator(
     Spine8ISz = DoubleField(default_value=1.0)
 
 
-class Spine8ISAttrOperator(
-    CompoundAttrOperator[Spine8ISPlugOperator]
-):
+class Spine8ISAttrOperator(CompoundAttrOperator[Spine8ISPlugOperator]):
     __slots__ = ()
 
     Spine8ISx = DoubleField(default_value=1.0)
@@ -8091,9 +7503,7 @@ class Spine8ISAttrOperator(
     Spine8ISz = DoubleField(default_value=1.0)
 
 
-class Spine8ISField(
-    CompoundField[Spine8ISAttrOperator, Spine8ISPlugOperator]
-):
+class Spine8ISField(CompoundField[Spine8ISAttrOperator, Spine8ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine8ISAttrOperator
@@ -8106,9 +7516,7 @@ class Spine8ISField(
     Spine8ISz = DoubleField(default_value=1.0)
 
 
-class Spine8PreRPlugOperator(
-    CompoundPlugOperator["Spine8PreRAttrOperator"]
-):
+class Spine8PreRPlugOperator(CompoundPlugOperator["Spine8PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine8PreRx", "Spine8PreRx"),
@@ -8123,9 +7531,7 @@ class Spine8PreRPlugOperator(
     Spine8PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8PreRAttrOperator(
-    CompoundAttrOperator[Spine8PreRPlugOperator]
-):
+class Spine8PreRAttrOperator(CompoundAttrOperator[Spine8PreRPlugOperator]):
     __slots__ = ()
 
     Spine8PreRx = DoubleAngleField(default_value=0.0)
@@ -8150,9 +7556,7 @@ class Spine8PreRField(
     Spine8PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8PostRPlugOperator(
-    CompoundPlugOperator["Spine8PostRAttrOperator"]
-):
+class Spine8PostRPlugOperator(CompoundPlugOperator["Spine8PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine8PostRx", "Spine8PostRx"),
@@ -8167,9 +7571,7 @@ class Spine8PostRPlugOperator(
     Spine8PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8PostRAttrOperator(
-    CompoundAttrOperator[Spine8PostRPlugOperator]
-):
+class Spine8PostRAttrOperator(CompoundAttrOperator[Spine8PostRPlugOperator]):
     __slots__ = ()
 
     Spine8PostRx = DoubleAngleField(default_value=0.0)
@@ -8194,9 +7596,7 @@ class Spine8PostRField(
     Spine8PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9TPlugOperator(
-    CompoundPlugOperator["Spine9TAttrOperator"]
-):
+class Spine9TPlugOperator(CompoundPlugOperator["Spine9TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine9Tx", "Spine9Tx"),
@@ -8211,9 +7611,7 @@ class Spine9TPlugOperator(
     Spine9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine9TAttrOperator(
-    CompoundAttrOperator[Spine9TPlugOperator]
-):
+class Spine9TAttrOperator(CompoundAttrOperator[Spine9TPlugOperator]):
     __slots__ = ()
 
     Spine9Tx = DoubleLinearField(default_value=0.0)
@@ -8223,9 +7621,7 @@ class Spine9TAttrOperator(
     Spine9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine9TField(
-    CompoundField[Spine9TAttrOperator, Spine9TPlugOperator]
-):
+class Spine9TField(CompoundField[Spine9TAttrOperator, Spine9TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine9TAttrOperator
@@ -8238,9 +7634,7 @@ class Spine9TField(
     Spine9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine9RPlugOperator(
-    CompoundPlugOperator["Spine9RAttrOperator"]
-):
+class Spine9RPlugOperator(CompoundPlugOperator["Spine9RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine9Rx", "Spine9Rx"),
@@ -8255,9 +7649,7 @@ class Spine9RPlugOperator(
     Spine9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9RAttrOperator(
-    CompoundAttrOperator[Spine9RPlugOperator]
-):
+class Spine9RAttrOperator(CompoundAttrOperator[Spine9RPlugOperator]):
     __slots__ = ()
 
     Spine9Rx = DoubleAngleField(default_value=0.0)
@@ -8267,9 +7659,7 @@ class Spine9RAttrOperator(
     Spine9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9RField(
-    CompoundField[Spine9RAttrOperator, Spine9RPlugOperator]
-):
+class Spine9RField(CompoundField[Spine9RAttrOperator, Spine9RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine9RAttrOperator
@@ -8282,9 +7672,7 @@ class Spine9RField(
     Spine9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9SPlugOperator(
-    CompoundPlugOperator["Spine9SAttrOperator"]
-):
+class Spine9SPlugOperator(CompoundPlugOperator["Spine9SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine9Sx", "Spine9Sx"),
@@ -8299,9 +7687,7 @@ class Spine9SPlugOperator(
     Spine9Sz = DoubleField(default_value=1.0)
 
 
-class Spine9SAttrOperator(
-    CompoundAttrOperator[Spine9SPlugOperator]
-):
+class Spine9SAttrOperator(CompoundAttrOperator[Spine9SPlugOperator]):
     __slots__ = ()
 
     Spine9Sx = DoubleField(default_value=1.0)
@@ -8311,9 +7697,7 @@ class Spine9SAttrOperator(
     Spine9Sz = DoubleField(default_value=1.0)
 
 
-class Spine9SField(
-    CompoundField[Spine9SAttrOperator, Spine9SPlugOperator]
-):
+class Spine9SField(CompoundField[Spine9SAttrOperator, Spine9SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine9SAttrOperator
@@ -8326,9 +7710,7 @@ class Spine9SField(
     Spine9Sz = DoubleField(default_value=1.0)
 
 
-class Spine9ISPlugOperator(
-    CompoundPlugOperator["Spine9ISAttrOperator"]
-):
+class Spine9ISPlugOperator(CompoundPlugOperator["Spine9ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine9ISx", "Spine9ISx"),
@@ -8343,9 +7725,7 @@ class Spine9ISPlugOperator(
     Spine9ISz = DoubleField(default_value=1.0)
 
 
-class Spine9ISAttrOperator(
-    CompoundAttrOperator[Spine9ISPlugOperator]
-):
+class Spine9ISAttrOperator(CompoundAttrOperator[Spine9ISPlugOperator]):
     __slots__ = ()
 
     Spine9ISx = DoubleField(default_value=1.0)
@@ -8355,9 +7735,7 @@ class Spine9ISAttrOperator(
     Spine9ISz = DoubleField(default_value=1.0)
 
 
-class Spine9ISField(
-    CompoundField[Spine9ISAttrOperator, Spine9ISPlugOperator]
-):
+class Spine9ISField(CompoundField[Spine9ISAttrOperator, Spine9ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine9ISAttrOperator
@@ -8370,9 +7748,7 @@ class Spine9ISField(
     Spine9ISz = DoubleField(default_value=1.0)
 
 
-class Spine9PreRPlugOperator(
-    CompoundPlugOperator["Spine9PreRAttrOperator"]
-):
+class Spine9PreRPlugOperator(CompoundPlugOperator["Spine9PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine9PreRx", "Spine9PreRx"),
@@ -8387,9 +7763,7 @@ class Spine9PreRPlugOperator(
     Spine9PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9PreRAttrOperator(
-    CompoundAttrOperator[Spine9PreRPlugOperator]
-):
+class Spine9PreRAttrOperator(CompoundAttrOperator[Spine9PreRPlugOperator]):
     __slots__ = ()
 
     Spine9PreRx = DoubleAngleField(default_value=0.0)
@@ -8414,9 +7788,7 @@ class Spine9PreRField(
     Spine9PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9PostRPlugOperator(
-    CompoundPlugOperator["Spine9PostRAttrOperator"]
-):
+class Spine9PostRPlugOperator(CompoundPlugOperator["Spine9PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine9PostRx", "Spine9PostRx"),
@@ -8431,9 +7803,7 @@ class Spine9PostRPlugOperator(
     Spine9PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9PostRAttrOperator(
-    CompoundAttrOperator[Spine9PostRPlugOperator]
-):
+class Spine9PostRAttrOperator(CompoundAttrOperator[Spine9PostRPlugOperator]):
     __slots__ = ()
 
     Spine9PostRx = DoubleAngleField(default_value=0.0)
@@ -8458,9 +7828,7 @@ class Spine9PostRField(
     Spine9PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1TPlugOperator(
-    CompoundPlugOperator["Neck1TAttrOperator"]
-):
+class Neck1TPlugOperator(CompoundPlugOperator["Neck1TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck1Tx", "Neck1Tx"),
@@ -8475,9 +7843,7 @@ class Neck1TPlugOperator(
     Neck1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck1TAttrOperator(
-    CompoundAttrOperator[Neck1TPlugOperator]
-):
+class Neck1TAttrOperator(CompoundAttrOperator[Neck1TPlugOperator]):
     __slots__ = ()
 
     Neck1Tx = DoubleLinearField(default_value=0.0)
@@ -8487,9 +7853,7 @@ class Neck1TAttrOperator(
     Neck1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck1TField(
-    CompoundField[Neck1TAttrOperator, Neck1TPlugOperator]
-):
+class Neck1TField(CompoundField[Neck1TAttrOperator, Neck1TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck1TAttrOperator
@@ -8502,9 +7866,7 @@ class Neck1TField(
     Neck1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck1RPlugOperator(
-    CompoundPlugOperator["Neck1RAttrOperator"]
-):
+class Neck1RPlugOperator(CompoundPlugOperator["Neck1RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck1Rx", "Neck1Rx"),
@@ -8519,9 +7881,7 @@ class Neck1RPlugOperator(
     Neck1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1RAttrOperator(
-    CompoundAttrOperator[Neck1RPlugOperator]
-):
+class Neck1RAttrOperator(CompoundAttrOperator[Neck1RPlugOperator]):
     __slots__ = ()
 
     Neck1Rx = DoubleAngleField(default_value=0.0)
@@ -8531,9 +7891,7 @@ class Neck1RAttrOperator(
     Neck1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1RField(
-    CompoundField[Neck1RAttrOperator, Neck1RPlugOperator]
-):
+class Neck1RField(CompoundField[Neck1RAttrOperator, Neck1RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck1RAttrOperator
@@ -8546,9 +7904,7 @@ class Neck1RField(
     Neck1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1SPlugOperator(
-    CompoundPlugOperator["Neck1SAttrOperator"]
-):
+class Neck1SPlugOperator(CompoundPlugOperator["Neck1SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck1Sx", "Neck1Sx"),
@@ -8563,9 +7919,7 @@ class Neck1SPlugOperator(
     Neck1Sz = DoubleField(default_value=1.0)
 
 
-class Neck1SAttrOperator(
-    CompoundAttrOperator[Neck1SPlugOperator]
-):
+class Neck1SAttrOperator(CompoundAttrOperator[Neck1SPlugOperator]):
     __slots__ = ()
 
     Neck1Sx = DoubleField(default_value=1.0)
@@ -8575,9 +7929,7 @@ class Neck1SAttrOperator(
     Neck1Sz = DoubleField(default_value=1.0)
 
 
-class Neck1SField(
-    CompoundField[Neck1SAttrOperator, Neck1SPlugOperator]
-):
+class Neck1SField(CompoundField[Neck1SAttrOperator, Neck1SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck1SAttrOperator
@@ -8590,9 +7942,7 @@ class Neck1SField(
     Neck1Sz = DoubleField(default_value=1.0)
 
 
-class Neck1ISPlugOperator(
-    CompoundPlugOperator["Neck1ISAttrOperator"]
-):
+class Neck1ISPlugOperator(CompoundPlugOperator["Neck1ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck1ISx", "Neck1ISx"),
@@ -8607,9 +7957,7 @@ class Neck1ISPlugOperator(
     Neck1ISz = DoubleField(default_value=1.0)
 
 
-class Neck1ISAttrOperator(
-    CompoundAttrOperator[Neck1ISPlugOperator]
-):
+class Neck1ISAttrOperator(CompoundAttrOperator[Neck1ISPlugOperator]):
     __slots__ = ()
 
     Neck1ISx = DoubleField(default_value=1.0)
@@ -8619,9 +7967,7 @@ class Neck1ISAttrOperator(
     Neck1ISz = DoubleField(default_value=1.0)
 
 
-class Neck1ISField(
-    CompoundField[Neck1ISAttrOperator, Neck1ISPlugOperator]
-):
+class Neck1ISField(CompoundField[Neck1ISAttrOperator, Neck1ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck1ISAttrOperator
@@ -8634,9 +7980,7 @@ class Neck1ISField(
     Neck1ISz = DoubleField(default_value=1.0)
 
 
-class Neck1PreRPlugOperator(
-    CompoundPlugOperator["Neck1PreRAttrOperator"]
-):
+class Neck1PreRPlugOperator(CompoundPlugOperator["Neck1PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck1PreRx", "Neck1PreRx"),
@@ -8651,9 +7995,7 @@ class Neck1PreRPlugOperator(
     Neck1PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1PreRAttrOperator(
-    CompoundAttrOperator[Neck1PreRPlugOperator]
-):
+class Neck1PreRAttrOperator(CompoundAttrOperator[Neck1PreRPlugOperator]):
     __slots__ = ()
 
     Neck1PreRx = DoubleAngleField(default_value=0.0)
@@ -8678,9 +8020,7 @@ class Neck1PreRField(
     Neck1PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1PostRPlugOperator(
-    CompoundPlugOperator["Neck1PostRAttrOperator"]
-):
+class Neck1PostRPlugOperator(CompoundPlugOperator["Neck1PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck1PostRx", "Neck1PostRx"),
@@ -8695,9 +8035,7 @@ class Neck1PostRPlugOperator(
     Neck1PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1PostRAttrOperator(
-    CompoundAttrOperator[Neck1PostRPlugOperator]
-):
+class Neck1PostRAttrOperator(CompoundAttrOperator[Neck1PostRPlugOperator]):
     __slots__ = ()
 
     Neck1PostRx = DoubleAngleField(default_value=0.0)
@@ -8722,9 +8060,7 @@ class Neck1PostRField(
     Neck1PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2TPlugOperator(
-    CompoundPlugOperator["Neck2TAttrOperator"]
-):
+class Neck2TPlugOperator(CompoundPlugOperator["Neck2TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck2Tx", "Neck2Tx"),
@@ -8739,9 +8075,7 @@ class Neck2TPlugOperator(
     Neck2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck2TAttrOperator(
-    CompoundAttrOperator[Neck2TPlugOperator]
-):
+class Neck2TAttrOperator(CompoundAttrOperator[Neck2TPlugOperator]):
     __slots__ = ()
 
     Neck2Tx = DoubleLinearField(default_value=0.0)
@@ -8751,9 +8085,7 @@ class Neck2TAttrOperator(
     Neck2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck2TField(
-    CompoundField[Neck2TAttrOperator, Neck2TPlugOperator]
-):
+class Neck2TField(CompoundField[Neck2TAttrOperator, Neck2TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck2TAttrOperator
@@ -8766,9 +8098,7 @@ class Neck2TField(
     Neck2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck2RPlugOperator(
-    CompoundPlugOperator["Neck2RAttrOperator"]
-):
+class Neck2RPlugOperator(CompoundPlugOperator["Neck2RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck2Rx", "Neck2Rx"),
@@ -8783,9 +8113,7 @@ class Neck2RPlugOperator(
     Neck2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2RAttrOperator(
-    CompoundAttrOperator[Neck2RPlugOperator]
-):
+class Neck2RAttrOperator(CompoundAttrOperator[Neck2RPlugOperator]):
     __slots__ = ()
 
     Neck2Rx = DoubleAngleField(default_value=0.0)
@@ -8795,9 +8123,7 @@ class Neck2RAttrOperator(
     Neck2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2RField(
-    CompoundField[Neck2RAttrOperator, Neck2RPlugOperator]
-):
+class Neck2RField(CompoundField[Neck2RAttrOperator, Neck2RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck2RAttrOperator
@@ -8810,9 +8136,7 @@ class Neck2RField(
     Neck2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2SPlugOperator(
-    CompoundPlugOperator["Neck2SAttrOperator"]
-):
+class Neck2SPlugOperator(CompoundPlugOperator["Neck2SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck2Sx", "Neck2Sx"),
@@ -8827,9 +8151,7 @@ class Neck2SPlugOperator(
     Neck2Sz = DoubleField(default_value=1.0)
 
 
-class Neck2SAttrOperator(
-    CompoundAttrOperator[Neck2SPlugOperator]
-):
+class Neck2SAttrOperator(CompoundAttrOperator[Neck2SPlugOperator]):
     __slots__ = ()
 
     Neck2Sx = DoubleField(default_value=1.0)
@@ -8839,9 +8161,7 @@ class Neck2SAttrOperator(
     Neck2Sz = DoubleField(default_value=1.0)
 
 
-class Neck2SField(
-    CompoundField[Neck2SAttrOperator, Neck2SPlugOperator]
-):
+class Neck2SField(CompoundField[Neck2SAttrOperator, Neck2SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck2SAttrOperator
@@ -8854,9 +8174,7 @@ class Neck2SField(
     Neck2Sz = DoubleField(default_value=1.0)
 
 
-class Neck2ISPlugOperator(
-    CompoundPlugOperator["Neck2ISAttrOperator"]
-):
+class Neck2ISPlugOperator(CompoundPlugOperator["Neck2ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck2ISx", "Neck2ISx"),
@@ -8871,9 +8189,7 @@ class Neck2ISPlugOperator(
     Neck2ISz = DoubleField(default_value=1.0)
 
 
-class Neck2ISAttrOperator(
-    CompoundAttrOperator[Neck2ISPlugOperator]
-):
+class Neck2ISAttrOperator(CompoundAttrOperator[Neck2ISPlugOperator]):
     __slots__ = ()
 
     Neck2ISx = DoubleField(default_value=1.0)
@@ -8883,9 +8199,7 @@ class Neck2ISAttrOperator(
     Neck2ISz = DoubleField(default_value=1.0)
 
 
-class Neck2ISField(
-    CompoundField[Neck2ISAttrOperator, Neck2ISPlugOperator]
-):
+class Neck2ISField(CompoundField[Neck2ISAttrOperator, Neck2ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck2ISAttrOperator
@@ -8898,9 +8212,7 @@ class Neck2ISField(
     Neck2ISz = DoubleField(default_value=1.0)
 
 
-class Neck2PreRPlugOperator(
-    CompoundPlugOperator["Neck2PreRAttrOperator"]
-):
+class Neck2PreRPlugOperator(CompoundPlugOperator["Neck2PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck2PreRx", "Neck2PreRx"),
@@ -8915,9 +8227,7 @@ class Neck2PreRPlugOperator(
     Neck2PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2PreRAttrOperator(
-    CompoundAttrOperator[Neck2PreRPlugOperator]
-):
+class Neck2PreRAttrOperator(CompoundAttrOperator[Neck2PreRPlugOperator]):
     __slots__ = ()
 
     Neck2PreRx = DoubleAngleField(default_value=0.0)
@@ -8942,9 +8252,7 @@ class Neck2PreRField(
     Neck2PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2PostRPlugOperator(
-    CompoundPlugOperator["Neck2PostRAttrOperator"]
-):
+class Neck2PostRPlugOperator(CompoundPlugOperator["Neck2PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck2PostRx", "Neck2PostRx"),
@@ -8959,9 +8267,7 @@ class Neck2PostRPlugOperator(
     Neck2PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2PostRAttrOperator(
-    CompoundAttrOperator[Neck2PostRPlugOperator]
-):
+class Neck2PostRAttrOperator(CompoundAttrOperator[Neck2PostRPlugOperator]):
     __slots__ = ()
 
     Neck2PostRx = DoubleAngleField(default_value=0.0)
@@ -8986,9 +8292,7 @@ class Neck2PostRField(
     Neck2PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3TPlugOperator(
-    CompoundPlugOperator["Neck3TAttrOperator"]
-):
+class Neck3TPlugOperator(CompoundPlugOperator["Neck3TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck3Tx", "Neck3Tx"),
@@ -9003,9 +8307,7 @@ class Neck3TPlugOperator(
     Neck3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck3TAttrOperator(
-    CompoundAttrOperator[Neck3TPlugOperator]
-):
+class Neck3TAttrOperator(CompoundAttrOperator[Neck3TPlugOperator]):
     __slots__ = ()
 
     Neck3Tx = DoubleLinearField(default_value=0.0)
@@ -9015,9 +8317,7 @@ class Neck3TAttrOperator(
     Neck3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck3TField(
-    CompoundField[Neck3TAttrOperator, Neck3TPlugOperator]
-):
+class Neck3TField(CompoundField[Neck3TAttrOperator, Neck3TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck3TAttrOperator
@@ -9030,9 +8330,7 @@ class Neck3TField(
     Neck3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck3RPlugOperator(
-    CompoundPlugOperator["Neck3RAttrOperator"]
-):
+class Neck3RPlugOperator(CompoundPlugOperator["Neck3RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck3Rx", "Neck3Rx"),
@@ -9047,9 +8345,7 @@ class Neck3RPlugOperator(
     Neck3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3RAttrOperator(
-    CompoundAttrOperator[Neck3RPlugOperator]
-):
+class Neck3RAttrOperator(CompoundAttrOperator[Neck3RPlugOperator]):
     __slots__ = ()
 
     Neck3Rx = DoubleAngleField(default_value=0.0)
@@ -9059,9 +8355,7 @@ class Neck3RAttrOperator(
     Neck3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3RField(
-    CompoundField[Neck3RAttrOperator, Neck3RPlugOperator]
-):
+class Neck3RField(CompoundField[Neck3RAttrOperator, Neck3RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck3RAttrOperator
@@ -9074,9 +8368,7 @@ class Neck3RField(
     Neck3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3SPlugOperator(
-    CompoundPlugOperator["Neck3SAttrOperator"]
-):
+class Neck3SPlugOperator(CompoundPlugOperator["Neck3SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck3Sx", "Neck3Sx"),
@@ -9091,9 +8383,7 @@ class Neck3SPlugOperator(
     Neck3Sz = DoubleField(default_value=1.0)
 
 
-class Neck3SAttrOperator(
-    CompoundAttrOperator[Neck3SPlugOperator]
-):
+class Neck3SAttrOperator(CompoundAttrOperator[Neck3SPlugOperator]):
     __slots__ = ()
 
     Neck3Sx = DoubleField(default_value=1.0)
@@ -9103,9 +8393,7 @@ class Neck3SAttrOperator(
     Neck3Sz = DoubleField(default_value=1.0)
 
 
-class Neck3SField(
-    CompoundField[Neck3SAttrOperator, Neck3SPlugOperator]
-):
+class Neck3SField(CompoundField[Neck3SAttrOperator, Neck3SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck3SAttrOperator
@@ -9118,9 +8406,7 @@ class Neck3SField(
     Neck3Sz = DoubleField(default_value=1.0)
 
 
-class Neck3ISPlugOperator(
-    CompoundPlugOperator["Neck3ISAttrOperator"]
-):
+class Neck3ISPlugOperator(CompoundPlugOperator["Neck3ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck3ISx", "Neck3ISx"),
@@ -9135,9 +8421,7 @@ class Neck3ISPlugOperator(
     Neck3ISz = DoubleField(default_value=1.0)
 
 
-class Neck3ISAttrOperator(
-    CompoundAttrOperator[Neck3ISPlugOperator]
-):
+class Neck3ISAttrOperator(CompoundAttrOperator[Neck3ISPlugOperator]):
     __slots__ = ()
 
     Neck3ISx = DoubleField(default_value=1.0)
@@ -9147,9 +8431,7 @@ class Neck3ISAttrOperator(
     Neck3ISz = DoubleField(default_value=1.0)
 
 
-class Neck3ISField(
-    CompoundField[Neck3ISAttrOperator, Neck3ISPlugOperator]
-):
+class Neck3ISField(CompoundField[Neck3ISAttrOperator, Neck3ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck3ISAttrOperator
@@ -9162,9 +8444,7 @@ class Neck3ISField(
     Neck3ISz = DoubleField(default_value=1.0)
 
 
-class Neck3PreRPlugOperator(
-    CompoundPlugOperator["Neck3PreRAttrOperator"]
-):
+class Neck3PreRPlugOperator(CompoundPlugOperator["Neck3PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck3PreRx", "Neck3PreRx"),
@@ -9179,9 +8459,7 @@ class Neck3PreRPlugOperator(
     Neck3PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3PreRAttrOperator(
-    CompoundAttrOperator[Neck3PreRPlugOperator]
-):
+class Neck3PreRAttrOperator(CompoundAttrOperator[Neck3PreRPlugOperator]):
     __slots__ = ()
 
     Neck3PreRx = DoubleAngleField(default_value=0.0)
@@ -9206,9 +8484,7 @@ class Neck3PreRField(
     Neck3PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3PostRPlugOperator(
-    CompoundPlugOperator["Neck3PostRAttrOperator"]
-):
+class Neck3PostRPlugOperator(CompoundPlugOperator["Neck3PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck3PostRx", "Neck3PostRx"),
@@ -9223,9 +8499,7 @@ class Neck3PostRPlugOperator(
     Neck3PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3PostRAttrOperator(
-    CompoundAttrOperator[Neck3PostRPlugOperator]
-):
+class Neck3PostRAttrOperator(CompoundAttrOperator[Neck3PostRPlugOperator]):
     __slots__ = ()
 
     Neck3PostRx = DoubleAngleField(default_value=0.0)
@@ -9250,9 +8524,7 @@ class Neck3PostRField(
     Neck3PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4TPlugOperator(
-    CompoundPlugOperator["Neck4TAttrOperator"]
-):
+class Neck4TPlugOperator(CompoundPlugOperator["Neck4TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck4Tx", "Neck4Tx"),
@@ -9267,9 +8539,7 @@ class Neck4TPlugOperator(
     Neck4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck4TAttrOperator(
-    CompoundAttrOperator[Neck4TPlugOperator]
-):
+class Neck4TAttrOperator(CompoundAttrOperator[Neck4TPlugOperator]):
     __slots__ = ()
 
     Neck4Tx = DoubleLinearField(default_value=0.0)
@@ -9279,9 +8549,7 @@ class Neck4TAttrOperator(
     Neck4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck4TField(
-    CompoundField[Neck4TAttrOperator, Neck4TPlugOperator]
-):
+class Neck4TField(CompoundField[Neck4TAttrOperator, Neck4TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck4TAttrOperator
@@ -9294,9 +8562,7 @@ class Neck4TField(
     Neck4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck4RPlugOperator(
-    CompoundPlugOperator["Neck4RAttrOperator"]
-):
+class Neck4RPlugOperator(CompoundPlugOperator["Neck4RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck4Rx", "Neck4Rx"),
@@ -9311,9 +8577,7 @@ class Neck4RPlugOperator(
     Neck4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4RAttrOperator(
-    CompoundAttrOperator[Neck4RPlugOperator]
-):
+class Neck4RAttrOperator(CompoundAttrOperator[Neck4RPlugOperator]):
     __slots__ = ()
 
     Neck4Rx = DoubleAngleField(default_value=0.0)
@@ -9323,9 +8587,7 @@ class Neck4RAttrOperator(
     Neck4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4RField(
-    CompoundField[Neck4RAttrOperator, Neck4RPlugOperator]
-):
+class Neck4RField(CompoundField[Neck4RAttrOperator, Neck4RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck4RAttrOperator
@@ -9338,9 +8600,7 @@ class Neck4RField(
     Neck4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4SPlugOperator(
-    CompoundPlugOperator["Neck4SAttrOperator"]
-):
+class Neck4SPlugOperator(CompoundPlugOperator["Neck4SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck4Sx", "Neck4Sx"),
@@ -9355,9 +8615,7 @@ class Neck4SPlugOperator(
     Neck4Sz = DoubleField(default_value=1.0)
 
 
-class Neck4SAttrOperator(
-    CompoundAttrOperator[Neck4SPlugOperator]
-):
+class Neck4SAttrOperator(CompoundAttrOperator[Neck4SPlugOperator]):
     __slots__ = ()
 
     Neck4Sx = DoubleField(default_value=1.0)
@@ -9367,9 +8625,7 @@ class Neck4SAttrOperator(
     Neck4Sz = DoubleField(default_value=1.0)
 
 
-class Neck4SField(
-    CompoundField[Neck4SAttrOperator, Neck4SPlugOperator]
-):
+class Neck4SField(CompoundField[Neck4SAttrOperator, Neck4SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck4SAttrOperator
@@ -9382,9 +8638,7 @@ class Neck4SField(
     Neck4Sz = DoubleField(default_value=1.0)
 
 
-class Neck4ISPlugOperator(
-    CompoundPlugOperator["Neck4ISAttrOperator"]
-):
+class Neck4ISPlugOperator(CompoundPlugOperator["Neck4ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck4ISx", "Neck4ISx"),
@@ -9399,9 +8653,7 @@ class Neck4ISPlugOperator(
     Neck4ISz = DoubleField(default_value=1.0)
 
 
-class Neck4ISAttrOperator(
-    CompoundAttrOperator[Neck4ISPlugOperator]
-):
+class Neck4ISAttrOperator(CompoundAttrOperator[Neck4ISPlugOperator]):
     __slots__ = ()
 
     Neck4ISx = DoubleField(default_value=1.0)
@@ -9411,9 +8663,7 @@ class Neck4ISAttrOperator(
     Neck4ISz = DoubleField(default_value=1.0)
 
 
-class Neck4ISField(
-    CompoundField[Neck4ISAttrOperator, Neck4ISPlugOperator]
-):
+class Neck4ISField(CompoundField[Neck4ISAttrOperator, Neck4ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck4ISAttrOperator
@@ -9426,9 +8676,7 @@ class Neck4ISField(
     Neck4ISz = DoubleField(default_value=1.0)
 
 
-class Neck4PreRPlugOperator(
-    CompoundPlugOperator["Neck4PreRAttrOperator"]
-):
+class Neck4PreRPlugOperator(CompoundPlugOperator["Neck4PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck4PreRx", "Neck4PreRx"),
@@ -9443,9 +8691,7 @@ class Neck4PreRPlugOperator(
     Neck4PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4PreRAttrOperator(
-    CompoundAttrOperator[Neck4PreRPlugOperator]
-):
+class Neck4PreRAttrOperator(CompoundAttrOperator[Neck4PreRPlugOperator]):
     __slots__ = ()
 
     Neck4PreRx = DoubleAngleField(default_value=0.0)
@@ -9470,9 +8716,7 @@ class Neck4PreRField(
     Neck4PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4PostRPlugOperator(
-    CompoundPlugOperator["Neck4PostRAttrOperator"]
-):
+class Neck4PostRPlugOperator(CompoundPlugOperator["Neck4PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck4PostRx", "Neck4PostRx"),
@@ -9487,9 +8731,7 @@ class Neck4PostRPlugOperator(
     Neck4PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4PostRAttrOperator(
-    CompoundAttrOperator[Neck4PostRPlugOperator]
-):
+class Neck4PostRAttrOperator(CompoundAttrOperator[Neck4PostRPlugOperator]):
     __slots__ = ()
 
     Neck4PostRx = DoubleAngleField(default_value=0.0)
@@ -9514,9 +8756,7 @@ class Neck4PostRField(
     Neck4PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5TPlugOperator(
-    CompoundPlugOperator["Neck5TAttrOperator"]
-):
+class Neck5TPlugOperator(CompoundPlugOperator["Neck5TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck5Tx", "Neck5Tx"),
@@ -9531,9 +8771,7 @@ class Neck5TPlugOperator(
     Neck5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck5TAttrOperator(
-    CompoundAttrOperator[Neck5TPlugOperator]
-):
+class Neck5TAttrOperator(CompoundAttrOperator[Neck5TPlugOperator]):
     __slots__ = ()
 
     Neck5Tx = DoubleLinearField(default_value=0.0)
@@ -9543,9 +8781,7 @@ class Neck5TAttrOperator(
     Neck5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck5TField(
-    CompoundField[Neck5TAttrOperator, Neck5TPlugOperator]
-):
+class Neck5TField(CompoundField[Neck5TAttrOperator, Neck5TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck5TAttrOperator
@@ -9558,9 +8794,7 @@ class Neck5TField(
     Neck5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck5RPlugOperator(
-    CompoundPlugOperator["Neck5RAttrOperator"]
-):
+class Neck5RPlugOperator(CompoundPlugOperator["Neck5RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck5Rx", "Neck5Rx"),
@@ -9575,9 +8809,7 @@ class Neck5RPlugOperator(
     Neck5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5RAttrOperator(
-    CompoundAttrOperator[Neck5RPlugOperator]
-):
+class Neck5RAttrOperator(CompoundAttrOperator[Neck5RPlugOperator]):
     __slots__ = ()
 
     Neck5Rx = DoubleAngleField(default_value=0.0)
@@ -9587,9 +8819,7 @@ class Neck5RAttrOperator(
     Neck5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5RField(
-    CompoundField[Neck5RAttrOperator, Neck5RPlugOperator]
-):
+class Neck5RField(CompoundField[Neck5RAttrOperator, Neck5RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck5RAttrOperator
@@ -9602,9 +8832,7 @@ class Neck5RField(
     Neck5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5SPlugOperator(
-    CompoundPlugOperator["Neck5SAttrOperator"]
-):
+class Neck5SPlugOperator(CompoundPlugOperator["Neck5SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck5Sx", "Neck5Sx"),
@@ -9619,9 +8847,7 @@ class Neck5SPlugOperator(
     Neck5Sz = DoubleField(default_value=1.0)
 
 
-class Neck5SAttrOperator(
-    CompoundAttrOperator[Neck5SPlugOperator]
-):
+class Neck5SAttrOperator(CompoundAttrOperator[Neck5SPlugOperator]):
     __slots__ = ()
 
     Neck5Sx = DoubleField(default_value=1.0)
@@ -9631,9 +8857,7 @@ class Neck5SAttrOperator(
     Neck5Sz = DoubleField(default_value=1.0)
 
 
-class Neck5SField(
-    CompoundField[Neck5SAttrOperator, Neck5SPlugOperator]
-):
+class Neck5SField(CompoundField[Neck5SAttrOperator, Neck5SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck5SAttrOperator
@@ -9646,9 +8870,7 @@ class Neck5SField(
     Neck5Sz = DoubleField(default_value=1.0)
 
 
-class Neck5ISPlugOperator(
-    CompoundPlugOperator["Neck5ISAttrOperator"]
-):
+class Neck5ISPlugOperator(CompoundPlugOperator["Neck5ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck5ISx", "Neck5ISx"),
@@ -9663,9 +8885,7 @@ class Neck5ISPlugOperator(
     Neck5ISz = DoubleField(default_value=1.0)
 
 
-class Neck5ISAttrOperator(
-    CompoundAttrOperator[Neck5ISPlugOperator]
-):
+class Neck5ISAttrOperator(CompoundAttrOperator[Neck5ISPlugOperator]):
     __slots__ = ()
 
     Neck5ISx = DoubleField(default_value=1.0)
@@ -9675,9 +8895,7 @@ class Neck5ISAttrOperator(
     Neck5ISz = DoubleField(default_value=1.0)
 
 
-class Neck5ISField(
-    CompoundField[Neck5ISAttrOperator, Neck5ISPlugOperator]
-):
+class Neck5ISField(CompoundField[Neck5ISAttrOperator, Neck5ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck5ISAttrOperator
@@ -9690,9 +8908,7 @@ class Neck5ISField(
     Neck5ISz = DoubleField(default_value=1.0)
 
 
-class Neck5PreRPlugOperator(
-    CompoundPlugOperator["Neck5PreRAttrOperator"]
-):
+class Neck5PreRPlugOperator(CompoundPlugOperator["Neck5PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck5PreRx", "Neck5PreRx"),
@@ -9707,9 +8923,7 @@ class Neck5PreRPlugOperator(
     Neck5PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5PreRAttrOperator(
-    CompoundAttrOperator[Neck5PreRPlugOperator]
-):
+class Neck5PreRAttrOperator(CompoundAttrOperator[Neck5PreRPlugOperator]):
     __slots__ = ()
 
     Neck5PreRx = DoubleAngleField(default_value=0.0)
@@ -9734,9 +8948,7 @@ class Neck5PreRField(
     Neck5PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5PostRPlugOperator(
-    CompoundPlugOperator["Neck5PostRAttrOperator"]
-):
+class Neck5PostRPlugOperator(CompoundPlugOperator["Neck5PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck5PostRx", "Neck5PostRx"),
@@ -9751,9 +8963,7 @@ class Neck5PostRPlugOperator(
     Neck5PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5PostRAttrOperator(
-    CompoundAttrOperator[Neck5PostRPlugOperator]
-):
+class Neck5PostRAttrOperator(CompoundAttrOperator[Neck5PostRPlugOperator]):
     __slots__ = ()
 
     Neck5PostRx = DoubleAngleField(default_value=0.0)
@@ -9778,9 +8988,7 @@ class Neck5PostRField(
     Neck5PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6TPlugOperator(
-    CompoundPlugOperator["Neck6TAttrOperator"]
-):
+class Neck6TPlugOperator(CompoundPlugOperator["Neck6TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck6Tx", "Neck6Tx"),
@@ -9795,9 +9003,7 @@ class Neck6TPlugOperator(
     Neck6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck6TAttrOperator(
-    CompoundAttrOperator[Neck6TPlugOperator]
-):
+class Neck6TAttrOperator(CompoundAttrOperator[Neck6TPlugOperator]):
     __slots__ = ()
 
     Neck6Tx = DoubleLinearField(default_value=0.0)
@@ -9807,9 +9013,7 @@ class Neck6TAttrOperator(
     Neck6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck6TField(
-    CompoundField[Neck6TAttrOperator, Neck6TPlugOperator]
-):
+class Neck6TField(CompoundField[Neck6TAttrOperator, Neck6TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck6TAttrOperator
@@ -9822,9 +9026,7 @@ class Neck6TField(
     Neck6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck6RPlugOperator(
-    CompoundPlugOperator["Neck6RAttrOperator"]
-):
+class Neck6RPlugOperator(CompoundPlugOperator["Neck6RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck6Rx", "Neck6Rx"),
@@ -9839,9 +9041,7 @@ class Neck6RPlugOperator(
     Neck6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6RAttrOperator(
-    CompoundAttrOperator[Neck6RPlugOperator]
-):
+class Neck6RAttrOperator(CompoundAttrOperator[Neck6RPlugOperator]):
     __slots__ = ()
 
     Neck6Rx = DoubleAngleField(default_value=0.0)
@@ -9851,9 +9051,7 @@ class Neck6RAttrOperator(
     Neck6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6RField(
-    CompoundField[Neck6RAttrOperator, Neck6RPlugOperator]
-):
+class Neck6RField(CompoundField[Neck6RAttrOperator, Neck6RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck6RAttrOperator
@@ -9866,9 +9064,7 @@ class Neck6RField(
     Neck6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6SPlugOperator(
-    CompoundPlugOperator["Neck6SAttrOperator"]
-):
+class Neck6SPlugOperator(CompoundPlugOperator["Neck6SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck6Sx", "Neck6Sx"),
@@ -9883,9 +9079,7 @@ class Neck6SPlugOperator(
     Neck6Sz = DoubleField(default_value=1.0)
 
 
-class Neck6SAttrOperator(
-    CompoundAttrOperator[Neck6SPlugOperator]
-):
+class Neck6SAttrOperator(CompoundAttrOperator[Neck6SPlugOperator]):
     __slots__ = ()
 
     Neck6Sx = DoubleField(default_value=1.0)
@@ -9895,9 +9089,7 @@ class Neck6SAttrOperator(
     Neck6Sz = DoubleField(default_value=1.0)
 
 
-class Neck6SField(
-    CompoundField[Neck6SAttrOperator, Neck6SPlugOperator]
-):
+class Neck6SField(CompoundField[Neck6SAttrOperator, Neck6SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck6SAttrOperator
@@ -9910,9 +9102,7 @@ class Neck6SField(
     Neck6Sz = DoubleField(default_value=1.0)
 
 
-class Neck6ISPlugOperator(
-    CompoundPlugOperator["Neck6ISAttrOperator"]
-):
+class Neck6ISPlugOperator(CompoundPlugOperator["Neck6ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck6ISx", "Neck6ISx"),
@@ -9927,9 +9117,7 @@ class Neck6ISPlugOperator(
     Neck6ISz = DoubleField(default_value=1.0)
 
 
-class Neck6ISAttrOperator(
-    CompoundAttrOperator[Neck6ISPlugOperator]
-):
+class Neck6ISAttrOperator(CompoundAttrOperator[Neck6ISPlugOperator]):
     __slots__ = ()
 
     Neck6ISx = DoubleField(default_value=1.0)
@@ -9939,9 +9127,7 @@ class Neck6ISAttrOperator(
     Neck6ISz = DoubleField(default_value=1.0)
 
 
-class Neck6ISField(
-    CompoundField[Neck6ISAttrOperator, Neck6ISPlugOperator]
-):
+class Neck6ISField(CompoundField[Neck6ISAttrOperator, Neck6ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck6ISAttrOperator
@@ -9954,9 +9140,7 @@ class Neck6ISField(
     Neck6ISz = DoubleField(default_value=1.0)
 
 
-class Neck6PreRPlugOperator(
-    CompoundPlugOperator["Neck6PreRAttrOperator"]
-):
+class Neck6PreRPlugOperator(CompoundPlugOperator["Neck6PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck6PreRx", "Neck6PreRx"),
@@ -9971,9 +9155,7 @@ class Neck6PreRPlugOperator(
     Neck6PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6PreRAttrOperator(
-    CompoundAttrOperator[Neck6PreRPlugOperator]
-):
+class Neck6PreRAttrOperator(CompoundAttrOperator[Neck6PreRPlugOperator]):
     __slots__ = ()
 
     Neck6PreRx = DoubleAngleField(default_value=0.0)
@@ -9998,9 +9180,7 @@ class Neck6PreRField(
     Neck6PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6PostRPlugOperator(
-    CompoundPlugOperator["Neck6PostRAttrOperator"]
-):
+class Neck6PostRPlugOperator(CompoundPlugOperator["Neck6PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck6PostRx", "Neck6PostRx"),
@@ -10015,9 +9195,7 @@ class Neck6PostRPlugOperator(
     Neck6PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6PostRAttrOperator(
-    CompoundAttrOperator[Neck6PostRPlugOperator]
-):
+class Neck6PostRAttrOperator(CompoundAttrOperator[Neck6PostRPlugOperator]):
     __slots__ = ()
 
     Neck6PostRx = DoubleAngleField(default_value=0.0)
@@ -10042,9 +9220,7 @@ class Neck6PostRField(
     Neck6PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7TPlugOperator(
-    CompoundPlugOperator["Neck7TAttrOperator"]
-):
+class Neck7TPlugOperator(CompoundPlugOperator["Neck7TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck7Tx", "Neck7Tx"),
@@ -10059,9 +9235,7 @@ class Neck7TPlugOperator(
     Neck7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck7TAttrOperator(
-    CompoundAttrOperator[Neck7TPlugOperator]
-):
+class Neck7TAttrOperator(CompoundAttrOperator[Neck7TPlugOperator]):
     __slots__ = ()
 
     Neck7Tx = DoubleLinearField(default_value=0.0)
@@ -10071,9 +9245,7 @@ class Neck7TAttrOperator(
     Neck7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck7TField(
-    CompoundField[Neck7TAttrOperator, Neck7TPlugOperator]
-):
+class Neck7TField(CompoundField[Neck7TAttrOperator, Neck7TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck7TAttrOperator
@@ -10086,9 +9258,7 @@ class Neck7TField(
     Neck7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck7RPlugOperator(
-    CompoundPlugOperator["Neck7RAttrOperator"]
-):
+class Neck7RPlugOperator(CompoundPlugOperator["Neck7RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck7Rx", "Neck7Rx"),
@@ -10103,9 +9273,7 @@ class Neck7RPlugOperator(
     Neck7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7RAttrOperator(
-    CompoundAttrOperator[Neck7RPlugOperator]
-):
+class Neck7RAttrOperator(CompoundAttrOperator[Neck7RPlugOperator]):
     __slots__ = ()
 
     Neck7Rx = DoubleAngleField(default_value=0.0)
@@ -10115,9 +9283,7 @@ class Neck7RAttrOperator(
     Neck7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7RField(
-    CompoundField[Neck7RAttrOperator, Neck7RPlugOperator]
-):
+class Neck7RField(CompoundField[Neck7RAttrOperator, Neck7RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck7RAttrOperator
@@ -10130,9 +9296,7 @@ class Neck7RField(
     Neck7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7SPlugOperator(
-    CompoundPlugOperator["Neck7SAttrOperator"]
-):
+class Neck7SPlugOperator(CompoundPlugOperator["Neck7SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck7Sx", "Neck7Sx"),
@@ -10147,9 +9311,7 @@ class Neck7SPlugOperator(
     Neck7Sz = DoubleField(default_value=1.0)
 
 
-class Neck7SAttrOperator(
-    CompoundAttrOperator[Neck7SPlugOperator]
-):
+class Neck7SAttrOperator(CompoundAttrOperator[Neck7SPlugOperator]):
     __slots__ = ()
 
     Neck7Sx = DoubleField(default_value=1.0)
@@ -10159,9 +9321,7 @@ class Neck7SAttrOperator(
     Neck7Sz = DoubleField(default_value=1.0)
 
 
-class Neck7SField(
-    CompoundField[Neck7SAttrOperator, Neck7SPlugOperator]
-):
+class Neck7SField(CompoundField[Neck7SAttrOperator, Neck7SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck7SAttrOperator
@@ -10174,9 +9334,7 @@ class Neck7SField(
     Neck7Sz = DoubleField(default_value=1.0)
 
 
-class Neck7ISPlugOperator(
-    CompoundPlugOperator["Neck7ISAttrOperator"]
-):
+class Neck7ISPlugOperator(CompoundPlugOperator["Neck7ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck7ISx", "Neck7ISx"),
@@ -10191,9 +9349,7 @@ class Neck7ISPlugOperator(
     Neck7ISz = DoubleField(default_value=1.0)
 
 
-class Neck7ISAttrOperator(
-    CompoundAttrOperator[Neck7ISPlugOperator]
-):
+class Neck7ISAttrOperator(CompoundAttrOperator[Neck7ISPlugOperator]):
     __slots__ = ()
 
     Neck7ISx = DoubleField(default_value=1.0)
@@ -10203,9 +9359,7 @@ class Neck7ISAttrOperator(
     Neck7ISz = DoubleField(default_value=1.0)
 
 
-class Neck7ISField(
-    CompoundField[Neck7ISAttrOperator, Neck7ISPlugOperator]
-):
+class Neck7ISField(CompoundField[Neck7ISAttrOperator, Neck7ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck7ISAttrOperator
@@ -10218,9 +9372,7 @@ class Neck7ISField(
     Neck7ISz = DoubleField(default_value=1.0)
 
 
-class Neck7PreRPlugOperator(
-    CompoundPlugOperator["Neck7PreRAttrOperator"]
-):
+class Neck7PreRPlugOperator(CompoundPlugOperator["Neck7PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck7PreRx", "Neck7PreRx"),
@@ -10235,9 +9387,7 @@ class Neck7PreRPlugOperator(
     Neck7PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7PreRAttrOperator(
-    CompoundAttrOperator[Neck7PreRPlugOperator]
-):
+class Neck7PreRAttrOperator(CompoundAttrOperator[Neck7PreRPlugOperator]):
     __slots__ = ()
 
     Neck7PreRx = DoubleAngleField(default_value=0.0)
@@ -10262,9 +9412,7 @@ class Neck7PreRField(
     Neck7PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7PostRPlugOperator(
-    CompoundPlugOperator["Neck7PostRAttrOperator"]
-):
+class Neck7PostRPlugOperator(CompoundPlugOperator["Neck7PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck7PostRx", "Neck7PostRx"),
@@ -10279,9 +9427,7 @@ class Neck7PostRPlugOperator(
     Neck7PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7PostRAttrOperator(
-    CompoundAttrOperator[Neck7PostRPlugOperator]
-):
+class Neck7PostRAttrOperator(CompoundAttrOperator[Neck7PostRPlugOperator]):
     __slots__ = ()
 
     Neck7PostRx = DoubleAngleField(default_value=0.0)
@@ -10306,9 +9452,7 @@ class Neck7PostRField(
     Neck7PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8TPlugOperator(
-    CompoundPlugOperator["Neck8TAttrOperator"]
-):
+class Neck8TPlugOperator(CompoundPlugOperator["Neck8TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck8Tx", "Neck8Tx"),
@@ -10323,9 +9467,7 @@ class Neck8TPlugOperator(
     Neck8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck8TAttrOperator(
-    CompoundAttrOperator[Neck8TPlugOperator]
-):
+class Neck8TAttrOperator(CompoundAttrOperator[Neck8TPlugOperator]):
     __slots__ = ()
 
     Neck8Tx = DoubleLinearField(default_value=0.0)
@@ -10335,9 +9477,7 @@ class Neck8TAttrOperator(
     Neck8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck8TField(
-    CompoundField[Neck8TAttrOperator, Neck8TPlugOperator]
-):
+class Neck8TField(CompoundField[Neck8TAttrOperator, Neck8TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck8TAttrOperator
@@ -10350,9 +9490,7 @@ class Neck8TField(
     Neck8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck8RPlugOperator(
-    CompoundPlugOperator["Neck8RAttrOperator"]
-):
+class Neck8RPlugOperator(CompoundPlugOperator["Neck8RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck8Rx", "Neck8Rx"),
@@ -10367,9 +9505,7 @@ class Neck8RPlugOperator(
     Neck8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8RAttrOperator(
-    CompoundAttrOperator[Neck8RPlugOperator]
-):
+class Neck8RAttrOperator(CompoundAttrOperator[Neck8RPlugOperator]):
     __slots__ = ()
 
     Neck8Rx = DoubleAngleField(default_value=0.0)
@@ -10379,9 +9515,7 @@ class Neck8RAttrOperator(
     Neck8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8RField(
-    CompoundField[Neck8RAttrOperator, Neck8RPlugOperator]
-):
+class Neck8RField(CompoundField[Neck8RAttrOperator, Neck8RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck8RAttrOperator
@@ -10394,9 +9528,7 @@ class Neck8RField(
     Neck8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8SPlugOperator(
-    CompoundPlugOperator["Neck8SAttrOperator"]
-):
+class Neck8SPlugOperator(CompoundPlugOperator["Neck8SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck8Sx", "Neck8Sx"),
@@ -10411,9 +9543,7 @@ class Neck8SPlugOperator(
     Neck8Sz = DoubleField(default_value=1.0)
 
 
-class Neck8SAttrOperator(
-    CompoundAttrOperator[Neck8SPlugOperator]
-):
+class Neck8SAttrOperator(CompoundAttrOperator[Neck8SPlugOperator]):
     __slots__ = ()
 
     Neck8Sx = DoubleField(default_value=1.0)
@@ -10423,9 +9553,7 @@ class Neck8SAttrOperator(
     Neck8Sz = DoubleField(default_value=1.0)
 
 
-class Neck8SField(
-    CompoundField[Neck8SAttrOperator, Neck8SPlugOperator]
-):
+class Neck8SField(CompoundField[Neck8SAttrOperator, Neck8SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck8SAttrOperator
@@ -10438,9 +9566,7 @@ class Neck8SField(
     Neck8Sz = DoubleField(default_value=1.0)
 
 
-class Neck8ISPlugOperator(
-    CompoundPlugOperator["Neck8ISAttrOperator"]
-):
+class Neck8ISPlugOperator(CompoundPlugOperator["Neck8ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck8ISx", "Neck8ISx"),
@@ -10455,9 +9581,7 @@ class Neck8ISPlugOperator(
     Neck8ISz = DoubleField(default_value=1.0)
 
 
-class Neck8ISAttrOperator(
-    CompoundAttrOperator[Neck8ISPlugOperator]
-):
+class Neck8ISAttrOperator(CompoundAttrOperator[Neck8ISPlugOperator]):
     __slots__ = ()
 
     Neck8ISx = DoubleField(default_value=1.0)
@@ -10467,9 +9591,7 @@ class Neck8ISAttrOperator(
     Neck8ISz = DoubleField(default_value=1.0)
 
 
-class Neck8ISField(
-    CompoundField[Neck8ISAttrOperator, Neck8ISPlugOperator]
-):
+class Neck8ISField(CompoundField[Neck8ISAttrOperator, Neck8ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck8ISAttrOperator
@@ -10482,9 +9604,7 @@ class Neck8ISField(
     Neck8ISz = DoubleField(default_value=1.0)
 
 
-class Neck8PreRPlugOperator(
-    CompoundPlugOperator["Neck8PreRAttrOperator"]
-):
+class Neck8PreRPlugOperator(CompoundPlugOperator["Neck8PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck8PreRx", "Neck8PreRx"),
@@ -10499,9 +9619,7 @@ class Neck8PreRPlugOperator(
     Neck8PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8PreRAttrOperator(
-    CompoundAttrOperator[Neck8PreRPlugOperator]
-):
+class Neck8PreRAttrOperator(CompoundAttrOperator[Neck8PreRPlugOperator]):
     __slots__ = ()
 
     Neck8PreRx = DoubleAngleField(default_value=0.0)
@@ -10526,9 +9644,7 @@ class Neck8PreRField(
     Neck8PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8PostRPlugOperator(
-    CompoundPlugOperator["Neck8PostRAttrOperator"]
-):
+class Neck8PostRPlugOperator(CompoundPlugOperator["Neck8PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck8PostRx", "Neck8PostRx"),
@@ -10543,9 +9659,7 @@ class Neck8PostRPlugOperator(
     Neck8PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8PostRAttrOperator(
-    CompoundAttrOperator[Neck8PostRPlugOperator]
-):
+class Neck8PostRAttrOperator(CompoundAttrOperator[Neck8PostRPlugOperator]):
     __slots__ = ()
 
     Neck8PostRx = DoubleAngleField(default_value=0.0)
@@ -10570,9 +9684,7 @@ class Neck8PostRField(
     Neck8PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9TPlugOperator(
-    CompoundPlugOperator["Neck9TAttrOperator"]
-):
+class Neck9TPlugOperator(CompoundPlugOperator["Neck9TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck9Tx", "Neck9Tx"),
@@ -10587,9 +9699,7 @@ class Neck9TPlugOperator(
     Neck9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck9TAttrOperator(
-    CompoundAttrOperator[Neck9TPlugOperator]
-):
+class Neck9TAttrOperator(CompoundAttrOperator[Neck9TPlugOperator]):
     __slots__ = ()
 
     Neck9Tx = DoubleLinearField(default_value=0.0)
@@ -10599,9 +9709,7 @@ class Neck9TAttrOperator(
     Neck9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck9TField(
-    CompoundField[Neck9TAttrOperator, Neck9TPlugOperator]
-):
+class Neck9TField(CompoundField[Neck9TAttrOperator, Neck9TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck9TAttrOperator
@@ -10614,9 +9722,7 @@ class Neck9TField(
     Neck9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck9RPlugOperator(
-    CompoundPlugOperator["Neck9RAttrOperator"]
-):
+class Neck9RPlugOperator(CompoundPlugOperator["Neck9RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck9Rx", "Neck9Rx"),
@@ -10631,9 +9737,7 @@ class Neck9RPlugOperator(
     Neck9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9RAttrOperator(
-    CompoundAttrOperator[Neck9RPlugOperator]
-):
+class Neck9RAttrOperator(CompoundAttrOperator[Neck9RPlugOperator]):
     __slots__ = ()
 
     Neck9Rx = DoubleAngleField(default_value=0.0)
@@ -10643,9 +9747,7 @@ class Neck9RAttrOperator(
     Neck9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9RField(
-    CompoundField[Neck9RAttrOperator, Neck9RPlugOperator]
-):
+class Neck9RField(CompoundField[Neck9RAttrOperator, Neck9RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck9RAttrOperator
@@ -10658,9 +9760,7 @@ class Neck9RField(
     Neck9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9SPlugOperator(
-    CompoundPlugOperator["Neck9SAttrOperator"]
-):
+class Neck9SPlugOperator(CompoundPlugOperator["Neck9SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck9Sx", "Neck9Sx"),
@@ -10675,9 +9775,7 @@ class Neck9SPlugOperator(
     Neck9Sz = DoubleField(default_value=1.0)
 
 
-class Neck9SAttrOperator(
-    CompoundAttrOperator[Neck9SPlugOperator]
-):
+class Neck9SAttrOperator(CompoundAttrOperator[Neck9SPlugOperator]):
     __slots__ = ()
 
     Neck9Sx = DoubleField(default_value=1.0)
@@ -10687,9 +9785,7 @@ class Neck9SAttrOperator(
     Neck9Sz = DoubleField(default_value=1.0)
 
 
-class Neck9SField(
-    CompoundField[Neck9SAttrOperator, Neck9SPlugOperator]
-):
+class Neck9SField(CompoundField[Neck9SAttrOperator, Neck9SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck9SAttrOperator
@@ -10702,9 +9798,7 @@ class Neck9SField(
     Neck9Sz = DoubleField(default_value=1.0)
 
 
-class Neck9ISPlugOperator(
-    CompoundPlugOperator["Neck9ISAttrOperator"]
-):
+class Neck9ISPlugOperator(CompoundPlugOperator["Neck9ISAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck9ISx", "Neck9ISx"),
@@ -10719,9 +9813,7 @@ class Neck9ISPlugOperator(
     Neck9ISz = DoubleField(default_value=1.0)
 
 
-class Neck9ISAttrOperator(
-    CompoundAttrOperator[Neck9ISPlugOperator]
-):
+class Neck9ISAttrOperator(CompoundAttrOperator[Neck9ISPlugOperator]):
     __slots__ = ()
 
     Neck9ISx = DoubleField(default_value=1.0)
@@ -10731,9 +9823,7 @@ class Neck9ISAttrOperator(
     Neck9ISz = DoubleField(default_value=1.0)
 
 
-class Neck9ISField(
-    CompoundField[Neck9ISAttrOperator, Neck9ISPlugOperator]
-):
+class Neck9ISField(CompoundField[Neck9ISAttrOperator, Neck9ISPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck9ISAttrOperator
@@ -10746,9 +9836,7 @@ class Neck9ISField(
     Neck9ISz = DoubleField(default_value=1.0)
 
 
-class Neck9PreRPlugOperator(
-    CompoundPlugOperator["Neck9PreRAttrOperator"]
-):
+class Neck9PreRPlugOperator(CompoundPlugOperator["Neck9PreRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck9PreRx", "Neck9PreRx"),
@@ -10763,9 +9851,7 @@ class Neck9PreRPlugOperator(
     Neck9PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9PreRAttrOperator(
-    CompoundAttrOperator[Neck9PreRPlugOperator]
-):
+class Neck9PreRAttrOperator(CompoundAttrOperator[Neck9PreRPlugOperator]):
     __slots__ = ()
 
     Neck9PreRx = DoubleAngleField(default_value=0.0)
@@ -10790,9 +9876,7 @@ class Neck9PreRField(
     Neck9PreRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9PostRPlugOperator(
-    CompoundPlugOperator["Neck9PostRAttrOperator"]
-):
+class Neck9PostRPlugOperator(CompoundPlugOperator["Neck9PostRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck9PostRx", "Neck9PostRx"),
@@ -10807,9 +9891,7 @@ class Neck9PostRPlugOperator(
     Neck9PostRz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9PostRAttrOperator(
-    CompoundAttrOperator[Neck9PostRPlugOperator]
-):
+class Neck9PostRAttrOperator(CompoundAttrOperator[Neck9PostRPlugOperator]):
     __slots__ = ()
 
     Neck9PostRx = DoubleAngleField(default_value=0.0)
@@ -11084,7 +10166,9 @@ class LeftUpLegRollPostRAttrOperator(
 
 
 class LeftUpLegRollPostRField(
-    CompoundField[LeftUpLegRollPostRAttrOperator, LeftUpLegRollPostRPlugOperator]
+    CompoundField[
+        LeftUpLegRollPostRAttrOperator, LeftUpLegRollPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -11115,9 +10199,7 @@ class LeftLegRollTPlugOperator(
     LeftLegRollTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftLegRollTAttrOperator(
-    CompoundAttrOperator[LeftLegRollTPlugOperator]
-):
+class LeftLegRollTAttrOperator(CompoundAttrOperator[LeftLegRollTPlugOperator]):
     __slots__ = ()
 
     LeftLegRollTx = DoubleLinearField(default_value=0.0)
@@ -11159,9 +10241,7 @@ class LeftLegRollRPlugOperator(
     LeftLegRollRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegRollRAttrOperator(
-    CompoundAttrOperator[LeftLegRollRPlugOperator]
-):
+class LeftLegRollRAttrOperator(CompoundAttrOperator[LeftLegRollRPlugOperator]):
     __slots__ = ()
 
     LeftLegRollRx = DoubleAngleField(default_value=0.0)
@@ -11203,9 +10283,7 @@ class LeftLegRollSPlugOperator(
     LeftLegRollSz = DoubleField(default_value=1.0)
 
 
-class LeftLegRollSAttrOperator(
-    CompoundAttrOperator[LeftLegRollSPlugOperator]
-):
+class LeftLegRollSAttrOperator(CompoundAttrOperator[LeftLegRollSPlugOperator]):
     __slots__ = ()
 
     LeftLegRollSx = DoubleField(default_value=1.0)
@@ -11568,7 +10646,9 @@ class RightUpLegRollPreRAttrOperator(
 
 
 class RightUpLegRollPreRField(
-    CompoundField[RightUpLegRollPreRAttrOperator, RightUpLegRollPreRPlugOperator]
+    CompoundField[
+        RightUpLegRollPreRAttrOperator, RightUpLegRollPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -11612,7 +10692,9 @@ class RightUpLegRollPostRAttrOperator(
 
 
 class RightUpLegRollPostRField(
-    CompoundField[RightUpLegRollPostRAttrOperator, RightUpLegRollPostRPlugOperator]
+    CompoundField[
+        RightUpLegRollPostRAttrOperator, RightUpLegRollPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -11907,9 +10989,7 @@ class LeftArmRollTPlugOperator(
     LeftArmRollTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftArmRollTAttrOperator(
-    CompoundAttrOperator[LeftArmRollTPlugOperator]
-):
+class LeftArmRollTAttrOperator(CompoundAttrOperator[LeftArmRollTPlugOperator]):
     __slots__ = ()
 
     LeftArmRollTx = DoubleLinearField(default_value=0.0)
@@ -11951,9 +11031,7 @@ class LeftArmRollRPlugOperator(
     LeftArmRollRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmRollRAttrOperator(
-    CompoundAttrOperator[LeftArmRollRPlugOperator]
-):
+class LeftArmRollRAttrOperator(CompoundAttrOperator[LeftArmRollRPlugOperator]):
     __slots__ = ()
 
     LeftArmRollRx = DoubleAngleField(default_value=0.0)
@@ -11995,9 +11073,7 @@ class LeftArmRollSPlugOperator(
     LeftArmRollSz = DoubleField(default_value=1.0)
 
 
-class LeftArmRollSAttrOperator(
-    CompoundAttrOperator[LeftArmRollSPlugOperator]
-):
+class LeftArmRollSAttrOperator(CompoundAttrOperator[LeftArmRollSPlugOperator]):
     __slots__ = ()
 
     LeftArmRollSx = DoubleField(default_value=1.0)
@@ -12360,7 +11436,9 @@ class LeftForeArmRollPreRAttrOperator(
 
 
 class LeftForeArmRollPreRField(
-    CompoundField[LeftForeArmRollPreRAttrOperator, LeftForeArmRollPreRPlugOperator]
+    CompoundField[
+        LeftForeArmRollPreRAttrOperator, LeftForeArmRollPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -12404,7 +11482,9 @@ class LeftForeArmRollPostRAttrOperator(
 
 
 class LeftForeArmRollPostRField(
-    CompoundField[LeftForeArmRollPostRAttrOperator, LeftForeArmRollPostRPlugOperator]
+    CompoundField[
+        LeftForeArmRollPostRAttrOperator, LeftForeArmRollPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -12844,7 +11924,9 @@ class RightForeArmRollISAttrOperator(
 
 
 class RightForeArmRollISField(
-    CompoundField[RightForeArmRollISAttrOperator, RightForeArmRollISPlugOperator]
+    CompoundField[
+        RightForeArmRollISAttrOperator, RightForeArmRollISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -12888,7 +11970,9 @@ class RightForeArmRollPreRAttrOperator(
 
 
 class RightForeArmRollPreRField(
-    CompoundField[RightForeArmRollPreRAttrOperator, RightForeArmRollPreRPlugOperator]
+    CompoundField[
+        RightForeArmRollPreRAttrOperator, RightForeArmRollPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -12932,7 +12016,9 @@ class RightForeArmRollPostRAttrOperator(
 
 
 class RightForeArmRollPostRField(
-    CompoundField[RightForeArmRollPostRAttrOperator, RightForeArmRollPostRPlugOperator]
+    CompoundField[
+        RightForeArmRollPostRAttrOperator, RightForeArmRollPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13152,7 +12238,9 @@ class HipsTranslationPreRAttrOperator(
 
 
 class HipsTranslationPreRField(
-    CompoundField[HipsTranslationPreRAttrOperator, HipsTranslationPreRPlugOperator]
+    CompoundField[
+        HipsTranslationPreRAttrOperator, HipsTranslationPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13196,7 +12284,9 @@ class HipsTranslationPostRAttrOperator(
 
 
 class HipsTranslationPostRField(
-    CompoundField[HipsTranslationPostRAttrOperator, HipsTranslationPostRPlugOperator]
+    CompoundField[
+        HipsTranslationPostRAttrOperator, HipsTranslationPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13416,7 +12506,9 @@ class LeftHandThumb1PreRAttrOperator(
 
 
 class LeftHandThumb1PreRField(
-    CompoundField[LeftHandThumb1PreRAttrOperator, LeftHandThumb1PreRPlugOperator]
+    CompoundField[
+        LeftHandThumb1PreRAttrOperator, LeftHandThumb1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13460,7 +12552,9 @@ class LeftHandThumb1PostRAttrOperator(
 
 
 class LeftHandThumb1PostRField(
-    CompoundField[LeftHandThumb1PostRAttrOperator, LeftHandThumb1PostRPlugOperator]
+    CompoundField[
+        LeftHandThumb1PostRAttrOperator, LeftHandThumb1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13680,7 +12774,9 @@ class LeftHandThumb2PreRAttrOperator(
 
 
 class LeftHandThumb2PreRField(
-    CompoundField[LeftHandThumb2PreRAttrOperator, LeftHandThumb2PreRPlugOperator]
+    CompoundField[
+        LeftHandThumb2PreRAttrOperator, LeftHandThumb2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13724,7 +12820,9 @@ class LeftHandThumb2PostRAttrOperator(
 
 
 class LeftHandThumb2PostRField(
-    CompoundField[LeftHandThumb2PostRAttrOperator, LeftHandThumb2PostRPlugOperator]
+    CompoundField[
+        LeftHandThumb2PostRAttrOperator, LeftHandThumb2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13944,7 +13042,9 @@ class LeftHandThumb3PreRAttrOperator(
 
 
 class LeftHandThumb3PreRField(
-    CompoundField[LeftHandThumb3PreRAttrOperator, LeftHandThumb3PreRPlugOperator]
+    CompoundField[
+        LeftHandThumb3PreRAttrOperator, LeftHandThumb3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13988,7 +13088,9 @@ class LeftHandThumb3PostRAttrOperator(
 
 
 class LeftHandThumb3PostRField(
-    CompoundField[LeftHandThumb3PostRAttrOperator, LeftHandThumb3PostRPlugOperator]
+    CompoundField[
+        LeftHandThumb3PostRAttrOperator, LeftHandThumb3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14208,7 +13310,9 @@ class LeftHandThumb4PreRAttrOperator(
 
 
 class LeftHandThumb4PreRField(
-    CompoundField[LeftHandThumb4PreRAttrOperator, LeftHandThumb4PreRPlugOperator]
+    CompoundField[
+        LeftHandThumb4PreRAttrOperator, LeftHandThumb4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14252,7 +13356,9 @@ class LeftHandThumb4PostRAttrOperator(
 
 
 class LeftHandThumb4PostRField(
-    CompoundField[LeftHandThumb4PostRAttrOperator, LeftHandThumb4PostRPlugOperator]
+    CompoundField[
+        LeftHandThumb4PostRAttrOperator, LeftHandThumb4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14472,7 +13578,9 @@ class LeftHandIndex1PreRAttrOperator(
 
 
 class LeftHandIndex1PreRField(
-    CompoundField[LeftHandIndex1PreRAttrOperator, LeftHandIndex1PreRPlugOperator]
+    CompoundField[
+        LeftHandIndex1PreRAttrOperator, LeftHandIndex1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14516,7 +13624,9 @@ class LeftHandIndex1PostRAttrOperator(
 
 
 class LeftHandIndex1PostRField(
-    CompoundField[LeftHandIndex1PostRAttrOperator, LeftHandIndex1PostRPlugOperator]
+    CompoundField[
+        LeftHandIndex1PostRAttrOperator, LeftHandIndex1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14736,7 +13846,9 @@ class LeftHandIndex2PreRAttrOperator(
 
 
 class LeftHandIndex2PreRField(
-    CompoundField[LeftHandIndex2PreRAttrOperator, LeftHandIndex2PreRPlugOperator]
+    CompoundField[
+        LeftHandIndex2PreRAttrOperator, LeftHandIndex2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14780,7 +13892,9 @@ class LeftHandIndex2PostRAttrOperator(
 
 
 class LeftHandIndex2PostRField(
-    CompoundField[LeftHandIndex2PostRAttrOperator, LeftHandIndex2PostRPlugOperator]
+    CompoundField[
+        LeftHandIndex2PostRAttrOperator, LeftHandIndex2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -15000,7 +14114,9 @@ class LeftHandIndex3PreRAttrOperator(
 
 
 class LeftHandIndex3PreRField(
-    CompoundField[LeftHandIndex3PreRAttrOperator, LeftHandIndex3PreRPlugOperator]
+    CompoundField[
+        LeftHandIndex3PreRAttrOperator, LeftHandIndex3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -15044,7 +14160,9 @@ class LeftHandIndex3PostRAttrOperator(
 
 
 class LeftHandIndex3PostRField(
-    CompoundField[LeftHandIndex3PostRAttrOperator, LeftHandIndex3PostRPlugOperator]
+    CompoundField[
+        LeftHandIndex3PostRAttrOperator, LeftHandIndex3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -15264,7 +14382,9 @@ class LeftHandIndex4PreRAttrOperator(
 
 
 class LeftHandIndex4PreRField(
-    CompoundField[LeftHandIndex4PreRAttrOperator, LeftHandIndex4PreRPlugOperator]
+    CompoundField[
+        LeftHandIndex4PreRAttrOperator, LeftHandIndex4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -15308,7 +14428,9 @@ class LeftHandIndex4PostRAttrOperator(
 
 
 class LeftHandIndex4PostRField(
-    CompoundField[LeftHandIndex4PostRAttrOperator, LeftHandIndex4PostRPlugOperator]
+    CompoundField[
+        LeftHandIndex4PostRAttrOperator, LeftHandIndex4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -15528,7 +14650,9 @@ class LeftHandMiddle1PreRAttrOperator(
 
 
 class LeftHandMiddle1PreRField(
-    CompoundField[LeftHandMiddle1PreRAttrOperator, LeftHandMiddle1PreRPlugOperator]
+    CompoundField[
+        LeftHandMiddle1PreRAttrOperator, LeftHandMiddle1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -15572,7 +14696,9 @@ class LeftHandMiddle1PostRAttrOperator(
 
 
 class LeftHandMiddle1PostRField(
-    CompoundField[LeftHandMiddle1PostRAttrOperator, LeftHandMiddle1PostRPlugOperator]
+    CompoundField[
+        LeftHandMiddle1PostRAttrOperator, LeftHandMiddle1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -15792,7 +14918,9 @@ class LeftHandMiddle2PreRAttrOperator(
 
 
 class LeftHandMiddle2PreRField(
-    CompoundField[LeftHandMiddle2PreRAttrOperator, LeftHandMiddle2PreRPlugOperator]
+    CompoundField[
+        LeftHandMiddle2PreRAttrOperator, LeftHandMiddle2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -15836,7 +14964,9 @@ class LeftHandMiddle2PostRAttrOperator(
 
 
 class LeftHandMiddle2PostRField(
-    CompoundField[LeftHandMiddle2PostRAttrOperator, LeftHandMiddle2PostRPlugOperator]
+    CompoundField[
+        LeftHandMiddle2PostRAttrOperator, LeftHandMiddle2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -16056,7 +15186,9 @@ class LeftHandMiddle3PreRAttrOperator(
 
 
 class LeftHandMiddle3PreRField(
-    CompoundField[LeftHandMiddle3PreRAttrOperator, LeftHandMiddle3PreRPlugOperator]
+    CompoundField[
+        LeftHandMiddle3PreRAttrOperator, LeftHandMiddle3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -16100,7 +15232,9 @@ class LeftHandMiddle3PostRAttrOperator(
 
 
 class LeftHandMiddle3PostRField(
-    CompoundField[LeftHandMiddle3PostRAttrOperator, LeftHandMiddle3PostRPlugOperator]
+    CompoundField[
+        LeftHandMiddle3PostRAttrOperator, LeftHandMiddle3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -16320,7 +15454,9 @@ class LeftHandMiddle4PreRAttrOperator(
 
 
 class LeftHandMiddle4PreRField(
-    CompoundField[LeftHandMiddle4PreRAttrOperator, LeftHandMiddle4PreRPlugOperator]
+    CompoundField[
+        LeftHandMiddle4PreRAttrOperator, LeftHandMiddle4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -16364,7 +15500,9 @@ class LeftHandMiddle4PostRAttrOperator(
 
 
 class LeftHandMiddle4PostRField(
-    CompoundField[LeftHandMiddle4PostRAttrOperator, LeftHandMiddle4PostRPlugOperator]
+    CompoundField[
+        LeftHandMiddle4PostRAttrOperator, LeftHandMiddle4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -16628,7 +15766,9 @@ class LeftHandRing1PostRAttrOperator(
 
 
 class LeftHandRing1PostRField(
-    CompoundField[LeftHandRing1PostRAttrOperator, LeftHandRing1PostRPlugOperator]
+    CompoundField[
+        LeftHandRing1PostRAttrOperator, LeftHandRing1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -16892,7 +16032,9 @@ class LeftHandRing2PostRAttrOperator(
 
 
 class LeftHandRing2PostRField(
-    CompoundField[LeftHandRing2PostRAttrOperator, LeftHandRing2PostRPlugOperator]
+    CompoundField[
+        LeftHandRing2PostRAttrOperator, LeftHandRing2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -17156,7 +16298,9 @@ class LeftHandRing3PostRAttrOperator(
 
 
 class LeftHandRing3PostRField(
-    CompoundField[LeftHandRing3PostRAttrOperator, LeftHandRing3PostRPlugOperator]
+    CompoundField[
+        LeftHandRing3PostRAttrOperator, LeftHandRing3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -17420,7 +16564,9 @@ class LeftHandRing4PostRAttrOperator(
 
 
 class LeftHandRing4PostRField(
-    CompoundField[LeftHandRing4PostRAttrOperator, LeftHandRing4PostRPlugOperator]
+    CompoundField[
+        LeftHandRing4PostRAttrOperator, LeftHandRing4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -17640,7 +16786,9 @@ class LeftHandPinky1PreRAttrOperator(
 
 
 class LeftHandPinky1PreRField(
-    CompoundField[LeftHandPinky1PreRAttrOperator, LeftHandPinky1PreRPlugOperator]
+    CompoundField[
+        LeftHandPinky1PreRAttrOperator, LeftHandPinky1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -17684,7 +16832,9 @@ class LeftHandPinky1PostRAttrOperator(
 
 
 class LeftHandPinky1PostRField(
-    CompoundField[LeftHandPinky1PostRAttrOperator, LeftHandPinky1PostRPlugOperator]
+    CompoundField[
+        LeftHandPinky1PostRAttrOperator, LeftHandPinky1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -17904,7 +17054,9 @@ class LeftHandPinky2PreRAttrOperator(
 
 
 class LeftHandPinky2PreRField(
-    CompoundField[LeftHandPinky2PreRAttrOperator, LeftHandPinky2PreRPlugOperator]
+    CompoundField[
+        LeftHandPinky2PreRAttrOperator, LeftHandPinky2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -17948,7 +17100,9 @@ class LeftHandPinky2PostRAttrOperator(
 
 
 class LeftHandPinky2PostRField(
-    CompoundField[LeftHandPinky2PostRAttrOperator, LeftHandPinky2PostRPlugOperator]
+    CompoundField[
+        LeftHandPinky2PostRAttrOperator, LeftHandPinky2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18168,7 +17322,9 @@ class LeftHandPinky3PreRAttrOperator(
 
 
 class LeftHandPinky3PreRField(
-    CompoundField[LeftHandPinky3PreRAttrOperator, LeftHandPinky3PreRPlugOperator]
+    CompoundField[
+        LeftHandPinky3PreRAttrOperator, LeftHandPinky3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18212,7 +17368,9 @@ class LeftHandPinky3PostRAttrOperator(
 
 
 class LeftHandPinky3PostRField(
-    CompoundField[LeftHandPinky3PostRAttrOperator, LeftHandPinky3PostRPlugOperator]
+    CompoundField[
+        LeftHandPinky3PostRAttrOperator, LeftHandPinky3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18432,7 +17590,9 @@ class LeftHandPinky4PreRAttrOperator(
 
 
 class LeftHandPinky4PreRField(
-    CompoundField[LeftHandPinky4PreRAttrOperator, LeftHandPinky4PreRPlugOperator]
+    CompoundField[
+        LeftHandPinky4PreRAttrOperator, LeftHandPinky4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18476,7 +17636,9 @@ class LeftHandPinky4PostRAttrOperator(
 
 
 class LeftHandPinky4PostRField(
-    CompoundField[LeftHandPinky4PostRAttrOperator, LeftHandPinky4PostRPlugOperator]
+    CompoundField[
+        LeftHandPinky4PostRAttrOperator, LeftHandPinky4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18520,7 +17682,9 @@ class LeftHandExtraFinger1TAttrOperator(
 
 
 class LeftHandExtraFinger1TField(
-    CompoundField[LeftHandExtraFinger1TAttrOperator, LeftHandExtraFinger1TPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1TAttrOperator, LeftHandExtraFinger1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18564,7 +17728,9 @@ class LeftHandExtraFinger1RAttrOperator(
 
 
 class LeftHandExtraFinger1RField(
-    CompoundField[LeftHandExtraFinger1RAttrOperator, LeftHandExtraFinger1RPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1RAttrOperator, LeftHandExtraFinger1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18608,7 +17774,9 @@ class LeftHandExtraFinger1SAttrOperator(
 
 
 class LeftHandExtraFinger1SField(
-    CompoundField[LeftHandExtraFinger1SAttrOperator, LeftHandExtraFinger1SPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1SAttrOperator, LeftHandExtraFinger1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18652,7 +17820,9 @@ class LeftHandExtraFinger1ISAttrOperator(
 
 
 class LeftHandExtraFinger1ISField(
-    CompoundField[LeftHandExtraFinger1ISAttrOperator, LeftHandExtraFinger1ISPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1ISAttrOperator, LeftHandExtraFinger1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18696,7 +17866,10 @@ class LeftHandExtraFinger1PreRAttrOperator(
 
 
 class LeftHandExtraFinger1PreRField(
-    CompoundField[LeftHandExtraFinger1PreRAttrOperator, LeftHandExtraFinger1PreRPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1PreRAttrOperator,
+        LeftHandExtraFinger1PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18740,7 +17913,10 @@ class LeftHandExtraFinger1PostRAttrOperator(
 
 
 class LeftHandExtraFinger1PostRField(
-    CompoundField[LeftHandExtraFinger1PostRAttrOperator, LeftHandExtraFinger1PostRPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1PostRAttrOperator,
+        LeftHandExtraFinger1PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18784,7 +17960,9 @@ class LeftHandExtraFinger2TAttrOperator(
 
 
 class LeftHandExtraFinger2TField(
-    CompoundField[LeftHandExtraFinger2TAttrOperator, LeftHandExtraFinger2TPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2TAttrOperator, LeftHandExtraFinger2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18828,7 +18006,9 @@ class LeftHandExtraFinger2RAttrOperator(
 
 
 class LeftHandExtraFinger2RField(
-    CompoundField[LeftHandExtraFinger2RAttrOperator, LeftHandExtraFinger2RPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2RAttrOperator, LeftHandExtraFinger2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18872,7 +18052,9 @@ class LeftHandExtraFinger2SAttrOperator(
 
 
 class LeftHandExtraFinger2SField(
-    CompoundField[LeftHandExtraFinger2SAttrOperator, LeftHandExtraFinger2SPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2SAttrOperator, LeftHandExtraFinger2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18916,7 +18098,9 @@ class LeftHandExtraFinger2ISAttrOperator(
 
 
 class LeftHandExtraFinger2ISField(
-    CompoundField[LeftHandExtraFinger2ISAttrOperator, LeftHandExtraFinger2ISPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2ISAttrOperator, LeftHandExtraFinger2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -18960,7 +18144,10 @@ class LeftHandExtraFinger2PreRAttrOperator(
 
 
 class LeftHandExtraFinger2PreRField(
-    CompoundField[LeftHandExtraFinger2PreRAttrOperator, LeftHandExtraFinger2PreRPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2PreRAttrOperator,
+        LeftHandExtraFinger2PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19004,7 +18191,10 @@ class LeftHandExtraFinger2PostRAttrOperator(
 
 
 class LeftHandExtraFinger2PostRField(
-    CompoundField[LeftHandExtraFinger2PostRAttrOperator, LeftHandExtraFinger2PostRPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2PostRAttrOperator,
+        LeftHandExtraFinger2PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19048,7 +18238,9 @@ class LeftHandExtraFinger3TAttrOperator(
 
 
 class LeftHandExtraFinger3TField(
-    CompoundField[LeftHandExtraFinger3TAttrOperator, LeftHandExtraFinger3TPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3TAttrOperator, LeftHandExtraFinger3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19092,7 +18284,9 @@ class LeftHandExtraFinger3RAttrOperator(
 
 
 class LeftHandExtraFinger3RField(
-    CompoundField[LeftHandExtraFinger3RAttrOperator, LeftHandExtraFinger3RPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3RAttrOperator, LeftHandExtraFinger3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19136,7 +18330,9 @@ class LeftHandExtraFinger3SAttrOperator(
 
 
 class LeftHandExtraFinger3SField(
-    CompoundField[LeftHandExtraFinger3SAttrOperator, LeftHandExtraFinger3SPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3SAttrOperator, LeftHandExtraFinger3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19180,7 +18376,9 @@ class LeftHandExtraFinger3ISAttrOperator(
 
 
 class LeftHandExtraFinger3ISField(
-    CompoundField[LeftHandExtraFinger3ISAttrOperator, LeftHandExtraFinger3ISPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3ISAttrOperator, LeftHandExtraFinger3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19224,7 +18422,10 @@ class LeftHandExtraFinger3PreRAttrOperator(
 
 
 class LeftHandExtraFinger3PreRField(
-    CompoundField[LeftHandExtraFinger3PreRAttrOperator, LeftHandExtraFinger3PreRPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3PreRAttrOperator,
+        LeftHandExtraFinger3PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19268,7 +18469,10 @@ class LeftHandExtraFinger3PostRAttrOperator(
 
 
 class LeftHandExtraFinger3PostRField(
-    CompoundField[LeftHandExtraFinger3PostRAttrOperator, LeftHandExtraFinger3PostRPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3PostRAttrOperator,
+        LeftHandExtraFinger3PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19312,7 +18516,9 @@ class LeftHandExtraFinger4TAttrOperator(
 
 
 class LeftHandExtraFinger4TField(
-    CompoundField[LeftHandExtraFinger4TAttrOperator, LeftHandExtraFinger4TPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4TAttrOperator, LeftHandExtraFinger4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19356,7 +18562,9 @@ class LeftHandExtraFinger4RAttrOperator(
 
 
 class LeftHandExtraFinger4RField(
-    CompoundField[LeftHandExtraFinger4RAttrOperator, LeftHandExtraFinger4RPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4RAttrOperator, LeftHandExtraFinger4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19400,7 +18608,9 @@ class LeftHandExtraFinger4SAttrOperator(
 
 
 class LeftHandExtraFinger4SField(
-    CompoundField[LeftHandExtraFinger4SAttrOperator, LeftHandExtraFinger4SPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4SAttrOperator, LeftHandExtraFinger4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19444,7 +18654,9 @@ class LeftHandExtraFinger4ISAttrOperator(
 
 
 class LeftHandExtraFinger4ISField(
-    CompoundField[LeftHandExtraFinger4ISAttrOperator, LeftHandExtraFinger4ISPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4ISAttrOperator, LeftHandExtraFinger4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19488,7 +18700,10 @@ class LeftHandExtraFinger4PreRAttrOperator(
 
 
 class LeftHandExtraFinger4PreRField(
-    CompoundField[LeftHandExtraFinger4PreRAttrOperator, LeftHandExtraFinger4PreRPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4PreRAttrOperator,
+        LeftHandExtraFinger4PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19532,7 +18747,10 @@ class LeftHandExtraFinger4PostRAttrOperator(
 
 
 class LeftHandExtraFinger4PostRField(
-    CompoundField[LeftHandExtraFinger4PostRAttrOperator, LeftHandExtraFinger4PostRPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4PostRAttrOperator,
+        LeftHandExtraFinger4PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19752,7 +18970,9 @@ class RightHandThumb1PreRAttrOperator(
 
 
 class RightHandThumb1PreRField(
-    CompoundField[RightHandThumb1PreRAttrOperator, RightHandThumb1PreRPlugOperator]
+    CompoundField[
+        RightHandThumb1PreRAttrOperator, RightHandThumb1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19796,7 +19016,9 @@ class RightHandThumb1PostRAttrOperator(
 
 
 class RightHandThumb1PostRField(
-    CompoundField[RightHandThumb1PostRAttrOperator, RightHandThumb1PostRPlugOperator]
+    CompoundField[
+        RightHandThumb1PostRAttrOperator, RightHandThumb1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20016,7 +19238,9 @@ class RightHandThumb2PreRAttrOperator(
 
 
 class RightHandThumb2PreRField(
-    CompoundField[RightHandThumb2PreRAttrOperator, RightHandThumb2PreRPlugOperator]
+    CompoundField[
+        RightHandThumb2PreRAttrOperator, RightHandThumb2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20060,7 +19284,9 @@ class RightHandThumb2PostRAttrOperator(
 
 
 class RightHandThumb2PostRField(
-    CompoundField[RightHandThumb2PostRAttrOperator, RightHandThumb2PostRPlugOperator]
+    CompoundField[
+        RightHandThumb2PostRAttrOperator, RightHandThumb2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20280,7 +19506,9 @@ class RightHandThumb3PreRAttrOperator(
 
 
 class RightHandThumb3PreRField(
-    CompoundField[RightHandThumb3PreRAttrOperator, RightHandThumb3PreRPlugOperator]
+    CompoundField[
+        RightHandThumb3PreRAttrOperator, RightHandThumb3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20324,7 +19552,9 @@ class RightHandThumb3PostRAttrOperator(
 
 
 class RightHandThumb3PostRField(
-    CompoundField[RightHandThumb3PostRAttrOperator, RightHandThumb3PostRPlugOperator]
+    CompoundField[
+        RightHandThumb3PostRAttrOperator, RightHandThumb3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20544,7 +19774,9 @@ class RightHandThumb4PreRAttrOperator(
 
 
 class RightHandThumb4PreRField(
-    CompoundField[RightHandThumb4PreRAttrOperator, RightHandThumb4PreRPlugOperator]
+    CompoundField[
+        RightHandThumb4PreRAttrOperator, RightHandThumb4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20588,7 +19820,9 @@ class RightHandThumb4PostRAttrOperator(
 
 
 class RightHandThumb4PostRField(
-    CompoundField[RightHandThumb4PostRAttrOperator, RightHandThumb4PostRPlugOperator]
+    CompoundField[
+        RightHandThumb4PostRAttrOperator, RightHandThumb4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20808,7 +20042,9 @@ class RightHandIndex1PreRAttrOperator(
 
 
 class RightHandIndex1PreRField(
-    CompoundField[RightHandIndex1PreRAttrOperator, RightHandIndex1PreRPlugOperator]
+    CompoundField[
+        RightHandIndex1PreRAttrOperator, RightHandIndex1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20852,7 +20088,9 @@ class RightHandIndex1PostRAttrOperator(
 
 
 class RightHandIndex1PostRField(
-    CompoundField[RightHandIndex1PostRAttrOperator, RightHandIndex1PostRPlugOperator]
+    CompoundField[
+        RightHandIndex1PostRAttrOperator, RightHandIndex1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21072,7 +20310,9 @@ class RightHandIndex2PreRAttrOperator(
 
 
 class RightHandIndex2PreRField(
-    CompoundField[RightHandIndex2PreRAttrOperator, RightHandIndex2PreRPlugOperator]
+    CompoundField[
+        RightHandIndex2PreRAttrOperator, RightHandIndex2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21116,7 +20356,9 @@ class RightHandIndex2PostRAttrOperator(
 
 
 class RightHandIndex2PostRField(
-    CompoundField[RightHandIndex2PostRAttrOperator, RightHandIndex2PostRPlugOperator]
+    CompoundField[
+        RightHandIndex2PostRAttrOperator, RightHandIndex2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21336,7 +20578,9 @@ class RightHandIndex3PreRAttrOperator(
 
 
 class RightHandIndex3PreRField(
-    CompoundField[RightHandIndex3PreRAttrOperator, RightHandIndex3PreRPlugOperator]
+    CompoundField[
+        RightHandIndex3PreRAttrOperator, RightHandIndex3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21380,7 +20624,9 @@ class RightHandIndex3PostRAttrOperator(
 
 
 class RightHandIndex3PostRField(
-    CompoundField[RightHandIndex3PostRAttrOperator, RightHandIndex3PostRPlugOperator]
+    CompoundField[
+        RightHandIndex3PostRAttrOperator, RightHandIndex3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21600,7 +20846,9 @@ class RightHandIndex4PreRAttrOperator(
 
 
 class RightHandIndex4PreRField(
-    CompoundField[RightHandIndex4PreRAttrOperator, RightHandIndex4PreRPlugOperator]
+    CompoundField[
+        RightHandIndex4PreRAttrOperator, RightHandIndex4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21644,7 +20892,9 @@ class RightHandIndex4PostRAttrOperator(
 
 
 class RightHandIndex4PostRField(
-    CompoundField[RightHandIndex4PostRAttrOperator, RightHandIndex4PostRPlugOperator]
+    CompoundField[
+        RightHandIndex4PostRAttrOperator, RightHandIndex4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21820,7 +21070,9 @@ class RightHandMiddle1ISAttrOperator(
 
 
 class RightHandMiddle1ISField(
-    CompoundField[RightHandMiddle1ISAttrOperator, RightHandMiddle1ISPlugOperator]
+    CompoundField[
+        RightHandMiddle1ISAttrOperator, RightHandMiddle1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21864,7 +21116,9 @@ class RightHandMiddle1PreRAttrOperator(
 
 
 class RightHandMiddle1PreRField(
-    CompoundField[RightHandMiddle1PreRAttrOperator, RightHandMiddle1PreRPlugOperator]
+    CompoundField[
+        RightHandMiddle1PreRAttrOperator, RightHandMiddle1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21908,7 +21162,9 @@ class RightHandMiddle1PostRAttrOperator(
 
 
 class RightHandMiddle1PostRField(
-    CompoundField[RightHandMiddle1PostRAttrOperator, RightHandMiddle1PostRPlugOperator]
+    CompoundField[
+        RightHandMiddle1PostRAttrOperator, RightHandMiddle1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22084,7 +21340,9 @@ class RightHandMiddle2ISAttrOperator(
 
 
 class RightHandMiddle2ISField(
-    CompoundField[RightHandMiddle2ISAttrOperator, RightHandMiddle2ISPlugOperator]
+    CompoundField[
+        RightHandMiddle2ISAttrOperator, RightHandMiddle2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22128,7 +21386,9 @@ class RightHandMiddle2PreRAttrOperator(
 
 
 class RightHandMiddle2PreRField(
-    CompoundField[RightHandMiddle2PreRAttrOperator, RightHandMiddle2PreRPlugOperator]
+    CompoundField[
+        RightHandMiddle2PreRAttrOperator, RightHandMiddle2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22172,7 +21432,9 @@ class RightHandMiddle2PostRAttrOperator(
 
 
 class RightHandMiddle2PostRField(
-    CompoundField[RightHandMiddle2PostRAttrOperator, RightHandMiddle2PostRPlugOperator]
+    CompoundField[
+        RightHandMiddle2PostRAttrOperator, RightHandMiddle2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22348,7 +21610,9 @@ class RightHandMiddle3ISAttrOperator(
 
 
 class RightHandMiddle3ISField(
-    CompoundField[RightHandMiddle3ISAttrOperator, RightHandMiddle3ISPlugOperator]
+    CompoundField[
+        RightHandMiddle3ISAttrOperator, RightHandMiddle3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22392,7 +21656,9 @@ class RightHandMiddle3PreRAttrOperator(
 
 
 class RightHandMiddle3PreRField(
-    CompoundField[RightHandMiddle3PreRAttrOperator, RightHandMiddle3PreRPlugOperator]
+    CompoundField[
+        RightHandMiddle3PreRAttrOperator, RightHandMiddle3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22436,7 +21702,9 @@ class RightHandMiddle3PostRAttrOperator(
 
 
 class RightHandMiddle3PostRField(
-    CompoundField[RightHandMiddle3PostRAttrOperator, RightHandMiddle3PostRPlugOperator]
+    CompoundField[
+        RightHandMiddle3PostRAttrOperator, RightHandMiddle3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22612,7 +21880,9 @@ class RightHandMiddle4ISAttrOperator(
 
 
 class RightHandMiddle4ISField(
-    CompoundField[RightHandMiddle4ISAttrOperator, RightHandMiddle4ISPlugOperator]
+    CompoundField[
+        RightHandMiddle4ISAttrOperator, RightHandMiddle4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22656,7 +21926,9 @@ class RightHandMiddle4PreRAttrOperator(
 
 
 class RightHandMiddle4PreRField(
-    CompoundField[RightHandMiddle4PreRAttrOperator, RightHandMiddle4PreRPlugOperator]
+    CompoundField[
+        RightHandMiddle4PreRAttrOperator, RightHandMiddle4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22700,7 +21972,9 @@ class RightHandMiddle4PostRAttrOperator(
 
 
 class RightHandMiddle4PostRField(
-    CompoundField[RightHandMiddle4PostRAttrOperator, RightHandMiddle4PostRPlugOperator]
+    CompoundField[
+        RightHandMiddle4PostRAttrOperator, RightHandMiddle4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22920,7 +22194,9 @@ class RightHandRing1PreRAttrOperator(
 
 
 class RightHandRing1PreRField(
-    CompoundField[RightHandRing1PreRAttrOperator, RightHandRing1PreRPlugOperator]
+    CompoundField[
+        RightHandRing1PreRAttrOperator, RightHandRing1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22964,7 +22240,9 @@ class RightHandRing1PostRAttrOperator(
 
 
 class RightHandRing1PostRField(
-    CompoundField[RightHandRing1PostRAttrOperator, RightHandRing1PostRPlugOperator]
+    CompoundField[
+        RightHandRing1PostRAttrOperator, RightHandRing1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -23184,7 +22462,9 @@ class RightHandRing2PreRAttrOperator(
 
 
 class RightHandRing2PreRField(
-    CompoundField[RightHandRing2PreRAttrOperator, RightHandRing2PreRPlugOperator]
+    CompoundField[
+        RightHandRing2PreRAttrOperator, RightHandRing2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -23228,7 +22508,9 @@ class RightHandRing2PostRAttrOperator(
 
 
 class RightHandRing2PostRField(
-    CompoundField[RightHandRing2PostRAttrOperator, RightHandRing2PostRPlugOperator]
+    CompoundField[
+        RightHandRing2PostRAttrOperator, RightHandRing2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -23448,7 +22730,9 @@ class RightHandRing3PreRAttrOperator(
 
 
 class RightHandRing3PreRField(
-    CompoundField[RightHandRing3PreRAttrOperator, RightHandRing3PreRPlugOperator]
+    CompoundField[
+        RightHandRing3PreRAttrOperator, RightHandRing3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -23492,7 +22776,9 @@ class RightHandRing3PostRAttrOperator(
 
 
 class RightHandRing3PostRField(
-    CompoundField[RightHandRing3PostRAttrOperator, RightHandRing3PostRPlugOperator]
+    CompoundField[
+        RightHandRing3PostRAttrOperator, RightHandRing3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -23712,7 +22998,9 @@ class RightHandRing4PreRAttrOperator(
 
 
 class RightHandRing4PreRField(
-    CompoundField[RightHandRing4PreRAttrOperator, RightHandRing4PreRPlugOperator]
+    CompoundField[
+        RightHandRing4PreRAttrOperator, RightHandRing4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -23756,7 +23044,9 @@ class RightHandRing4PostRAttrOperator(
 
 
 class RightHandRing4PostRField(
-    CompoundField[RightHandRing4PostRAttrOperator, RightHandRing4PostRPlugOperator]
+    CompoundField[
+        RightHandRing4PostRAttrOperator, RightHandRing4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -23976,7 +23266,9 @@ class RightHandPinky1PreRAttrOperator(
 
 
 class RightHandPinky1PreRField(
-    CompoundField[RightHandPinky1PreRAttrOperator, RightHandPinky1PreRPlugOperator]
+    CompoundField[
+        RightHandPinky1PreRAttrOperator, RightHandPinky1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24020,7 +23312,9 @@ class RightHandPinky1PostRAttrOperator(
 
 
 class RightHandPinky1PostRField(
-    CompoundField[RightHandPinky1PostRAttrOperator, RightHandPinky1PostRPlugOperator]
+    CompoundField[
+        RightHandPinky1PostRAttrOperator, RightHandPinky1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24240,7 +23534,9 @@ class RightHandPinky2PreRAttrOperator(
 
 
 class RightHandPinky2PreRField(
-    CompoundField[RightHandPinky2PreRAttrOperator, RightHandPinky2PreRPlugOperator]
+    CompoundField[
+        RightHandPinky2PreRAttrOperator, RightHandPinky2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24284,7 +23580,9 @@ class RightHandPinky2PostRAttrOperator(
 
 
 class RightHandPinky2PostRField(
-    CompoundField[RightHandPinky2PostRAttrOperator, RightHandPinky2PostRPlugOperator]
+    CompoundField[
+        RightHandPinky2PostRAttrOperator, RightHandPinky2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24504,7 +23802,9 @@ class RightHandPinky3PreRAttrOperator(
 
 
 class RightHandPinky3PreRField(
-    CompoundField[RightHandPinky3PreRAttrOperator, RightHandPinky3PreRPlugOperator]
+    CompoundField[
+        RightHandPinky3PreRAttrOperator, RightHandPinky3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24548,7 +23848,9 @@ class RightHandPinky3PostRAttrOperator(
 
 
 class RightHandPinky3PostRField(
-    CompoundField[RightHandPinky3PostRAttrOperator, RightHandPinky3PostRPlugOperator]
+    CompoundField[
+        RightHandPinky3PostRAttrOperator, RightHandPinky3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24768,7 +24070,9 @@ class RightHandPinky4PreRAttrOperator(
 
 
 class RightHandPinky4PreRField(
-    CompoundField[RightHandPinky4PreRAttrOperator, RightHandPinky4PreRPlugOperator]
+    CompoundField[
+        RightHandPinky4PreRAttrOperator, RightHandPinky4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24812,7 +24116,9 @@ class RightHandPinky4PostRAttrOperator(
 
 
 class RightHandPinky4PostRField(
-    CompoundField[RightHandPinky4PostRAttrOperator, RightHandPinky4PostRPlugOperator]
+    CompoundField[
+        RightHandPinky4PostRAttrOperator, RightHandPinky4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24856,7 +24162,9 @@ class RightHandExtraFinger1TAttrOperator(
 
 
 class RightHandExtraFinger1TField(
-    CompoundField[RightHandExtraFinger1TAttrOperator, RightHandExtraFinger1TPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1TAttrOperator, RightHandExtraFinger1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24900,7 +24208,9 @@ class RightHandExtraFinger1RAttrOperator(
 
 
 class RightHandExtraFinger1RField(
-    CompoundField[RightHandExtraFinger1RAttrOperator, RightHandExtraFinger1RPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1RAttrOperator, RightHandExtraFinger1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24944,7 +24254,9 @@ class RightHandExtraFinger1SAttrOperator(
 
 
 class RightHandExtraFinger1SField(
-    CompoundField[RightHandExtraFinger1SAttrOperator, RightHandExtraFinger1SPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1SAttrOperator, RightHandExtraFinger1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -24988,7 +24300,10 @@ class RightHandExtraFinger1ISAttrOperator(
 
 
 class RightHandExtraFinger1ISField(
-    CompoundField[RightHandExtraFinger1ISAttrOperator, RightHandExtraFinger1ISPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1ISAttrOperator,
+        RightHandExtraFinger1ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25032,7 +24347,10 @@ class RightHandExtraFinger1PreRAttrOperator(
 
 
 class RightHandExtraFinger1PreRField(
-    CompoundField[RightHandExtraFinger1PreRAttrOperator, RightHandExtraFinger1PreRPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1PreRAttrOperator,
+        RightHandExtraFinger1PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25076,7 +24394,10 @@ class RightHandExtraFinger1PostRAttrOperator(
 
 
 class RightHandExtraFinger1PostRField(
-    CompoundField[RightHandExtraFinger1PostRAttrOperator, RightHandExtraFinger1PostRPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1PostRAttrOperator,
+        RightHandExtraFinger1PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25120,7 +24441,9 @@ class RightHandExtraFinger2TAttrOperator(
 
 
 class RightHandExtraFinger2TField(
-    CompoundField[RightHandExtraFinger2TAttrOperator, RightHandExtraFinger2TPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2TAttrOperator, RightHandExtraFinger2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -25164,7 +24487,9 @@ class RightHandExtraFinger2RAttrOperator(
 
 
 class RightHandExtraFinger2RField(
-    CompoundField[RightHandExtraFinger2RAttrOperator, RightHandExtraFinger2RPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2RAttrOperator, RightHandExtraFinger2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -25208,7 +24533,9 @@ class RightHandExtraFinger2SAttrOperator(
 
 
 class RightHandExtraFinger2SField(
-    CompoundField[RightHandExtraFinger2SAttrOperator, RightHandExtraFinger2SPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2SAttrOperator, RightHandExtraFinger2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -25252,7 +24579,10 @@ class RightHandExtraFinger2ISAttrOperator(
 
 
 class RightHandExtraFinger2ISField(
-    CompoundField[RightHandExtraFinger2ISAttrOperator, RightHandExtraFinger2ISPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2ISAttrOperator,
+        RightHandExtraFinger2ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25296,7 +24626,10 @@ class RightHandExtraFinger2PreRAttrOperator(
 
 
 class RightHandExtraFinger2PreRField(
-    CompoundField[RightHandExtraFinger2PreRAttrOperator, RightHandExtraFinger2PreRPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2PreRAttrOperator,
+        RightHandExtraFinger2PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25340,7 +24673,10 @@ class RightHandExtraFinger2PostRAttrOperator(
 
 
 class RightHandExtraFinger2PostRField(
-    CompoundField[RightHandExtraFinger2PostRAttrOperator, RightHandExtraFinger2PostRPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2PostRAttrOperator,
+        RightHandExtraFinger2PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25384,7 +24720,9 @@ class RightHandExtraFinger3TAttrOperator(
 
 
 class RightHandExtraFinger3TField(
-    CompoundField[RightHandExtraFinger3TAttrOperator, RightHandExtraFinger3TPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3TAttrOperator, RightHandExtraFinger3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -25428,7 +24766,9 @@ class RightHandExtraFinger3RAttrOperator(
 
 
 class RightHandExtraFinger3RField(
-    CompoundField[RightHandExtraFinger3RAttrOperator, RightHandExtraFinger3RPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3RAttrOperator, RightHandExtraFinger3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -25472,7 +24812,9 @@ class RightHandExtraFinger3SAttrOperator(
 
 
 class RightHandExtraFinger3SField(
-    CompoundField[RightHandExtraFinger3SAttrOperator, RightHandExtraFinger3SPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3SAttrOperator, RightHandExtraFinger3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -25516,7 +24858,10 @@ class RightHandExtraFinger3ISAttrOperator(
 
 
 class RightHandExtraFinger3ISField(
-    CompoundField[RightHandExtraFinger3ISAttrOperator, RightHandExtraFinger3ISPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3ISAttrOperator,
+        RightHandExtraFinger3ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25560,7 +24905,10 @@ class RightHandExtraFinger3PreRAttrOperator(
 
 
 class RightHandExtraFinger3PreRField(
-    CompoundField[RightHandExtraFinger3PreRAttrOperator, RightHandExtraFinger3PreRPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3PreRAttrOperator,
+        RightHandExtraFinger3PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25604,7 +24952,10 @@ class RightHandExtraFinger3PostRAttrOperator(
 
 
 class RightHandExtraFinger3PostRField(
-    CompoundField[RightHandExtraFinger3PostRAttrOperator, RightHandExtraFinger3PostRPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3PostRAttrOperator,
+        RightHandExtraFinger3PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25648,7 +24999,9 @@ class RightHandExtraFinger4TAttrOperator(
 
 
 class RightHandExtraFinger4TField(
-    CompoundField[RightHandExtraFinger4TAttrOperator, RightHandExtraFinger4TPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4TAttrOperator, RightHandExtraFinger4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -25692,7 +25045,9 @@ class RightHandExtraFinger4RAttrOperator(
 
 
 class RightHandExtraFinger4RField(
-    CompoundField[RightHandExtraFinger4RAttrOperator, RightHandExtraFinger4RPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4RAttrOperator, RightHandExtraFinger4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -25736,7 +25091,9 @@ class RightHandExtraFinger4SAttrOperator(
 
 
 class RightHandExtraFinger4SField(
-    CompoundField[RightHandExtraFinger4SAttrOperator, RightHandExtraFinger4SPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4SAttrOperator, RightHandExtraFinger4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -25780,7 +25137,10 @@ class RightHandExtraFinger4ISAttrOperator(
 
 
 class RightHandExtraFinger4ISField(
-    CompoundField[RightHandExtraFinger4ISAttrOperator, RightHandExtraFinger4ISPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4ISAttrOperator,
+        RightHandExtraFinger4ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25824,7 +25184,10 @@ class RightHandExtraFinger4PreRAttrOperator(
 
 
 class RightHandExtraFinger4PreRField(
-    CompoundField[RightHandExtraFinger4PreRAttrOperator, RightHandExtraFinger4PreRPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4PreRAttrOperator,
+        RightHandExtraFinger4PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25868,7 +25231,10 @@ class RightHandExtraFinger4PostRAttrOperator(
 
 
 class RightHandExtraFinger4PostRField(
-    CompoundField[RightHandExtraFinger4PostRAttrOperator, RightHandExtraFinger4PostRPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4PostRAttrOperator,
+        RightHandExtraFinger4PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26088,7 +25454,9 @@ class LeftFootThumb1PreRAttrOperator(
 
 
 class LeftFootThumb1PreRField(
-    CompoundField[LeftFootThumb1PreRAttrOperator, LeftFootThumb1PreRPlugOperator]
+    CompoundField[
+        LeftFootThumb1PreRAttrOperator, LeftFootThumb1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -26132,7 +25500,9 @@ class LeftFootThumb1PostRAttrOperator(
 
 
 class LeftFootThumb1PostRField(
-    CompoundField[LeftFootThumb1PostRAttrOperator, LeftFootThumb1PostRPlugOperator]
+    CompoundField[
+        LeftFootThumb1PostRAttrOperator, LeftFootThumb1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -26352,7 +25722,9 @@ class LeftFootThumb2PreRAttrOperator(
 
 
 class LeftFootThumb2PreRField(
-    CompoundField[LeftFootThumb2PreRAttrOperator, LeftFootThumb2PreRPlugOperator]
+    CompoundField[
+        LeftFootThumb2PreRAttrOperator, LeftFootThumb2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -26396,7 +25768,9 @@ class LeftFootThumb2PostRAttrOperator(
 
 
 class LeftFootThumb2PostRField(
-    CompoundField[LeftFootThumb2PostRAttrOperator, LeftFootThumb2PostRPlugOperator]
+    CompoundField[
+        LeftFootThumb2PostRAttrOperator, LeftFootThumb2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -26616,7 +25990,9 @@ class LeftFootThumb3PreRAttrOperator(
 
 
 class LeftFootThumb3PreRField(
-    CompoundField[LeftFootThumb3PreRAttrOperator, LeftFootThumb3PreRPlugOperator]
+    CompoundField[
+        LeftFootThumb3PreRAttrOperator, LeftFootThumb3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -26660,7 +26036,9 @@ class LeftFootThumb3PostRAttrOperator(
 
 
 class LeftFootThumb3PostRField(
-    CompoundField[LeftFootThumb3PostRAttrOperator, LeftFootThumb3PostRPlugOperator]
+    CompoundField[
+        LeftFootThumb3PostRAttrOperator, LeftFootThumb3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -26880,7 +26258,9 @@ class LeftFootThumb4PreRAttrOperator(
 
 
 class LeftFootThumb4PreRField(
-    CompoundField[LeftFootThumb4PreRAttrOperator, LeftFootThumb4PreRPlugOperator]
+    CompoundField[
+        LeftFootThumb4PreRAttrOperator, LeftFootThumb4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -26924,7 +26304,9 @@ class LeftFootThumb4PostRAttrOperator(
 
 
 class LeftFootThumb4PostRField(
-    CompoundField[LeftFootThumb4PostRAttrOperator, LeftFootThumb4PostRPlugOperator]
+    CompoundField[
+        LeftFootThumb4PostRAttrOperator, LeftFootThumb4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -27144,7 +26526,9 @@ class LeftFootIndex1PreRAttrOperator(
 
 
 class LeftFootIndex1PreRField(
-    CompoundField[LeftFootIndex1PreRAttrOperator, LeftFootIndex1PreRPlugOperator]
+    CompoundField[
+        LeftFootIndex1PreRAttrOperator, LeftFootIndex1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -27188,7 +26572,9 @@ class LeftFootIndex1PostRAttrOperator(
 
 
 class LeftFootIndex1PostRField(
-    CompoundField[LeftFootIndex1PostRAttrOperator, LeftFootIndex1PostRPlugOperator]
+    CompoundField[
+        LeftFootIndex1PostRAttrOperator, LeftFootIndex1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -27408,7 +26794,9 @@ class LeftFootIndex2PreRAttrOperator(
 
 
 class LeftFootIndex2PreRField(
-    CompoundField[LeftFootIndex2PreRAttrOperator, LeftFootIndex2PreRPlugOperator]
+    CompoundField[
+        LeftFootIndex2PreRAttrOperator, LeftFootIndex2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -27452,7 +26840,9 @@ class LeftFootIndex2PostRAttrOperator(
 
 
 class LeftFootIndex2PostRField(
-    CompoundField[LeftFootIndex2PostRAttrOperator, LeftFootIndex2PostRPlugOperator]
+    CompoundField[
+        LeftFootIndex2PostRAttrOperator, LeftFootIndex2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -27672,7 +27062,9 @@ class LeftFootIndex3PreRAttrOperator(
 
 
 class LeftFootIndex3PreRField(
-    CompoundField[LeftFootIndex3PreRAttrOperator, LeftFootIndex3PreRPlugOperator]
+    CompoundField[
+        LeftFootIndex3PreRAttrOperator, LeftFootIndex3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -27716,7 +27108,9 @@ class LeftFootIndex3PostRAttrOperator(
 
 
 class LeftFootIndex3PostRField(
-    CompoundField[LeftFootIndex3PostRAttrOperator, LeftFootIndex3PostRPlugOperator]
+    CompoundField[
+        LeftFootIndex3PostRAttrOperator, LeftFootIndex3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -27936,7 +27330,9 @@ class LeftFootIndex4PreRAttrOperator(
 
 
 class LeftFootIndex4PreRField(
-    CompoundField[LeftFootIndex4PreRAttrOperator, LeftFootIndex4PreRPlugOperator]
+    CompoundField[
+        LeftFootIndex4PreRAttrOperator, LeftFootIndex4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -27980,7 +27376,9 @@ class LeftFootIndex4PostRAttrOperator(
 
 
 class LeftFootIndex4PostRField(
-    CompoundField[LeftFootIndex4PostRAttrOperator, LeftFootIndex4PostRPlugOperator]
+    CompoundField[
+        LeftFootIndex4PostRAttrOperator, LeftFootIndex4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -28200,7 +27598,9 @@ class LeftFootMiddle1PreRAttrOperator(
 
 
 class LeftFootMiddle1PreRField(
-    CompoundField[LeftFootMiddle1PreRAttrOperator, LeftFootMiddle1PreRPlugOperator]
+    CompoundField[
+        LeftFootMiddle1PreRAttrOperator, LeftFootMiddle1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -28244,7 +27644,9 @@ class LeftFootMiddle1PostRAttrOperator(
 
 
 class LeftFootMiddle1PostRField(
-    CompoundField[LeftFootMiddle1PostRAttrOperator, LeftFootMiddle1PostRPlugOperator]
+    CompoundField[
+        LeftFootMiddle1PostRAttrOperator, LeftFootMiddle1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -28464,7 +27866,9 @@ class LeftFootMiddle2PreRAttrOperator(
 
 
 class LeftFootMiddle2PreRField(
-    CompoundField[LeftFootMiddle2PreRAttrOperator, LeftFootMiddle2PreRPlugOperator]
+    CompoundField[
+        LeftFootMiddle2PreRAttrOperator, LeftFootMiddle2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -28508,7 +27912,9 @@ class LeftFootMiddle2PostRAttrOperator(
 
 
 class LeftFootMiddle2PostRField(
-    CompoundField[LeftFootMiddle2PostRAttrOperator, LeftFootMiddle2PostRPlugOperator]
+    CompoundField[
+        LeftFootMiddle2PostRAttrOperator, LeftFootMiddle2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -28728,7 +28134,9 @@ class LeftFootMiddle3PreRAttrOperator(
 
 
 class LeftFootMiddle3PreRField(
-    CompoundField[LeftFootMiddle3PreRAttrOperator, LeftFootMiddle3PreRPlugOperator]
+    CompoundField[
+        LeftFootMiddle3PreRAttrOperator, LeftFootMiddle3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -28772,7 +28180,9 @@ class LeftFootMiddle3PostRAttrOperator(
 
 
 class LeftFootMiddle3PostRField(
-    CompoundField[LeftFootMiddle3PostRAttrOperator, LeftFootMiddle3PostRPlugOperator]
+    CompoundField[
+        LeftFootMiddle3PostRAttrOperator, LeftFootMiddle3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -28992,7 +28402,9 @@ class LeftFootMiddle4PreRAttrOperator(
 
 
 class LeftFootMiddle4PreRField(
-    CompoundField[LeftFootMiddle4PreRAttrOperator, LeftFootMiddle4PreRPlugOperator]
+    CompoundField[
+        LeftFootMiddle4PreRAttrOperator, LeftFootMiddle4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29036,7 +28448,9 @@ class LeftFootMiddle4PostRAttrOperator(
 
 
 class LeftFootMiddle4PostRField(
-    CompoundField[LeftFootMiddle4PostRAttrOperator, LeftFootMiddle4PostRPlugOperator]
+    CompoundField[
+        LeftFootMiddle4PostRAttrOperator, LeftFootMiddle4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29300,7 +28714,9 @@ class LeftFootRing1PostRAttrOperator(
 
 
 class LeftFootRing1PostRField(
-    CompoundField[LeftFootRing1PostRAttrOperator, LeftFootRing1PostRPlugOperator]
+    CompoundField[
+        LeftFootRing1PostRAttrOperator, LeftFootRing1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29564,7 +28980,9 @@ class LeftFootRing2PostRAttrOperator(
 
 
 class LeftFootRing2PostRField(
-    CompoundField[LeftFootRing2PostRAttrOperator, LeftFootRing2PostRPlugOperator]
+    CompoundField[
+        LeftFootRing2PostRAttrOperator, LeftFootRing2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29828,7 +29246,9 @@ class LeftFootRing3PostRAttrOperator(
 
 
 class LeftFootRing3PostRField(
-    CompoundField[LeftFootRing3PostRAttrOperator, LeftFootRing3PostRPlugOperator]
+    CompoundField[
+        LeftFootRing3PostRAttrOperator, LeftFootRing3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -30092,7 +29512,9 @@ class LeftFootRing4PostRAttrOperator(
 
 
 class LeftFootRing4PostRField(
-    CompoundField[LeftFootRing4PostRAttrOperator, LeftFootRing4PostRPlugOperator]
+    CompoundField[
+        LeftFootRing4PostRAttrOperator, LeftFootRing4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -30312,7 +29734,9 @@ class LeftFootPinky1PreRAttrOperator(
 
 
 class LeftFootPinky1PreRField(
-    CompoundField[LeftFootPinky1PreRAttrOperator, LeftFootPinky1PreRPlugOperator]
+    CompoundField[
+        LeftFootPinky1PreRAttrOperator, LeftFootPinky1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -30356,7 +29780,9 @@ class LeftFootPinky1PostRAttrOperator(
 
 
 class LeftFootPinky1PostRField(
-    CompoundField[LeftFootPinky1PostRAttrOperator, LeftFootPinky1PostRPlugOperator]
+    CompoundField[
+        LeftFootPinky1PostRAttrOperator, LeftFootPinky1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -30576,7 +30002,9 @@ class LeftFootPinky2PreRAttrOperator(
 
 
 class LeftFootPinky2PreRField(
-    CompoundField[LeftFootPinky2PreRAttrOperator, LeftFootPinky2PreRPlugOperator]
+    CompoundField[
+        LeftFootPinky2PreRAttrOperator, LeftFootPinky2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -30620,7 +30048,9 @@ class LeftFootPinky2PostRAttrOperator(
 
 
 class LeftFootPinky2PostRField(
-    CompoundField[LeftFootPinky2PostRAttrOperator, LeftFootPinky2PostRPlugOperator]
+    CompoundField[
+        LeftFootPinky2PostRAttrOperator, LeftFootPinky2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -30840,7 +30270,9 @@ class LeftFootPinky3PreRAttrOperator(
 
 
 class LeftFootPinky3PreRField(
-    CompoundField[LeftFootPinky3PreRAttrOperator, LeftFootPinky3PreRPlugOperator]
+    CompoundField[
+        LeftFootPinky3PreRAttrOperator, LeftFootPinky3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -30884,7 +30316,9 @@ class LeftFootPinky3PostRAttrOperator(
 
 
 class LeftFootPinky3PostRField(
-    CompoundField[LeftFootPinky3PostRAttrOperator, LeftFootPinky3PostRPlugOperator]
+    CompoundField[
+        LeftFootPinky3PostRAttrOperator, LeftFootPinky3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31104,7 +30538,9 @@ class LeftFootPinky4PreRAttrOperator(
 
 
 class LeftFootPinky4PreRField(
-    CompoundField[LeftFootPinky4PreRAttrOperator, LeftFootPinky4PreRPlugOperator]
+    CompoundField[
+        LeftFootPinky4PreRAttrOperator, LeftFootPinky4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31148,7 +30584,9 @@ class LeftFootPinky4PostRAttrOperator(
 
 
 class LeftFootPinky4PostRField(
-    CompoundField[LeftFootPinky4PostRAttrOperator, LeftFootPinky4PostRPlugOperator]
+    CompoundField[
+        LeftFootPinky4PostRAttrOperator, LeftFootPinky4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31192,7 +30630,9 @@ class LeftFootExtraFinger1TAttrOperator(
 
 
 class LeftFootExtraFinger1TField(
-    CompoundField[LeftFootExtraFinger1TAttrOperator, LeftFootExtraFinger1TPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1TAttrOperator, LeftFootExtraFinger1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31236,7 +30676,9 @@ class LeftFootExtraFinger1RAttrOperator(
 
 
 class LeftFootExtraFinger1RField(
-    CompoundField[LeftFootExtraFinger1RAttrOperator, LeftFootExtraFinger1RPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1RAttrOperator, LeftFootExtraFinger1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31280,7 +30722,9 @@ class LeftFootExtraFinger1SAttrOperator(
 
 
 class LeftFootExtraFinger1SField(
-    CompoundField[LeftFootExtraFinger1SAttrOperator, LeftFootExtraFinger1SPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1SAttrOperator, LeftFootExtraFinger1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31324,7 +30768,9 @@ class LeftFootExtraFinger1ISAttrOperator(
 
 
 class LeftFootExtraFinger1ISField(
-    CompoundField[LeftFootExtraFinger1ISAttrOperator, LeftFootExtraFinger1ISPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1ISAttrOperator, LeftFootExtraFinger1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31368,7 +30814,10 @@ class LeftFootExtraFinger1PreRAttrOperator(
 
 
 class LeftFootExtraFinger1PreRField(
-    CompoundField[LeftFootExtraFinger1PreRAttrOperator, LeftFootExtraFinger1PreRPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1PreRAttrOperator,
+        LeftFootExtraFinger1PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31412,7 +30861,10 @@ class LeftFootExtraFinger1PostRAttrOperator(
 
 
 class LeftFootExtraFinger1PostRField(
-    CompoundField[LeftFootExtraFinger1PostRAttrOperator, LeftFootExtraFinger1PostRPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1PostRAttrOperator,
+        LeftFootExtraFinger1PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31456,7 +30908,9 @@ class LeftFootExtraFinger2TAttrOperator(
 
 
 class LeftFootExtraFinger2TField(
-    CompoundField[LeftFootExtraFinger2TAttrOperator, LeftFootExtraFinger2TPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2TAttrOperator, LeftFootExtraFinger2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31500,7 +30954,9 @@ class LeftFootExtraFinger2RAttrOperator(
 
 
 class LeftFootExtraFinger2RField(
-    CompoundField[LeftFootExtraFinger2RAttrOperator, LeftFootExtraFinger2RPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2RAttrOperator, LeftFootExtraFinger2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31544,7 +31000,9 @@ class LeftFootExtraFinger2SAttrOperator(
 
 
 class LeftFootExtraFinger2SField(
-    CompoundField[LeftFootExtraFinger2SAttrOperator, LeftFootExtraFinger2SPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2SAttrOperator, LeftFootExtraFinger2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31588,7 +31046,9 @@ class LeftFootExtraFinger2ISAttrOperator(
 
 
 class LeftFootExtraFinger2ISField(
-    CompoundField[LeftFootExtraFinger2ISAttrOperator, LeftFootExtraFinger2ISPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2ISAttrOperator, LeftFootExtraFinger2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31632,7 +31092,10 @@ class LeftFootExtraFinger2PreRAttrOperator(
 
 
 class LeftFootExtraFinger2PreRField(
-    CompoundField[LeftFootExtraFinger2PreRAttrOperator, LeftFootExtraFinger2PreRPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2PreRAttrOperator,
+        LeftFootExtraFinger2PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31676,7 +31139,10 @@ class LeftFootExtraFinger2PostRAttrOperator(
 
 
 class LeftFootExtraFinger2PostRField(
-    CompoundField[LeftFootExtraFinger2PostRAttrOperator, LeftFootExtraFinger2PostRPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2PostRAttrOperator,
+        LeftFootExtraFinger2PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31720,7 +31186,9 @@ class LeftFootExtraFinger3TAttrOperator(
 
 
 class LeftFootExtraFinger3TField(
-    CompoundField[LeftFootExtraFinger3TAttrOperator, LeftFootExtraFinger3TPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3TAttrOperator, LeftFootExtraFinger3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31764,7 +31232,9 @@ class LeftFootExtraFinger3RAttrOperator(
 
 
 class LeftFootExtraFinger3RField(
-    CompoundField[LeftFootExtraFinger3RAttrOperator, LeftFootExtraFinger3RPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3RAttrOperator, LeftFootExtraFinger3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31808,7 +31278,9 @@ class LeftFootExtraFinger3SAttrOperator(
 
 
 class LeftFootExtraFinger3SField(
-    CompoundField[LeftFootExtraFinger3SAttrOperator, LeftFootExtraFinger3SPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3SAttrOperator, LeftFootExtraFinger3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31852,7 +31324,9 @@ class LeftFootExtraFinger3ISAttrOperator(
 
 
 class LeftFootExtraFinger3ISField(
-    CompoundField[LeftFootExtraFinger3ISAttrOperator, LeftFootExtraFinger3ISPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3ISAttrOperator, LeftFootExtraFinger3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -31896,7 +31370,10 @@ class LeftFootExtraFinger3PreRAttrOperator(
 
 
 class LeftFootExtraFinger3PreRField(
-    CompoundField[LeftFootExtraFinger3PreRAttrOperator, LeftFootExtraFinger3PreRPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3PreRAttrOperator,
+        LeftFootExtraFinger3PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31940,7 +31417,10 @@ class LeftFootExtraFinger3PostRAttrOperator(
 
 
 class LeftFootExtraFinger3PostRField(
-    CompoundField[LeftFootExtraFinger3PostRAttrOperator, LeftFootExtraFinger3PostRPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3PostRAttrOperator,
+        LeftFootExtraFinger3PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31984,7 +31464,9 @@ class LeftFootExtraFinger4TAttrOperator(
 
 
 class LeftFootExtraFinger4TField(
-    CompoundField[LeftFootExtraFinger4TAttrOperator, LeftFootExtraFinger4TPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4TAttrOperator, LeftFootExtraFinger4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -32028,7 +31510,9 @@ class LeftFootExtraFinger4RAttrOperator(
 
 
 class LeftFootExtraFinger4RField(
-    CompoundField[LeftFootExtraFinger4RAttrOperator, LeftFootExtraFinger4RPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4RAttrOperator, LeftFootExtraFinger4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -32072,7 +31556,9 @@ class LeftFootExtraFinger4SAttrOperator(
 
 
 class LeftFootExtraFinger4SField(
-    CompoundField[LeftFootExtraFinger4SAttrOperator, LeftFootExtraFinger4SPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4SAttrOperator, LeftFootExtraFinger4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -32116,7 +31602,9 @@ class LeftFootExtraFinger4ISAttrOperator(
 
 
 class LeftFootExtraFinger4ISField(
-    CompoundField[LeftFootExtraFinger4ISAttrOperator, LeftFootExtraFinger4ISPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4ISAttrOperator, LeftFootExtraFinger4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -32160,7 +31648,10 @@ class LeftFootExtraFinger4PreRAttrOperator(
 
 
 class LeftFootExtraFinger4PreRField(
-    CompoundField[LeftFootExtraFinger4PreRAttrOperator, LeftFootExtraFinger4PreRPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4PreRAttrOperator,
+        LeftFootExtraFinger4PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32204,7 +31695,10 @@ class LeftFootExtraFinger4PostRAttrOperator(
 
 
 class LeftFootExtraFinger4PostRField(
-    CompoundField[LeftFootExtraFinger4PostRAttrOperator, LeftFootExtraFinger4PostRPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4PostRAttrOperator,
+        LeftFootExtraFinger4PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32424,7 +31918,9 @@ class RightFootThumb1PreRAttrOperator(
 
 
 class RightFootThumb1PreRField(
-    CompoundField[RightFootThumb1PreRAttrOperator, RightFootThumb1PreRPlugOperator]
+    CompoundField[
+        RightFootThumb1PreRAttrOperator, RightFootThumb1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -32468,7 +31964,9 @@ class RightFootThumb1PostRAttrOperator(
 
 
 class RightFootThumb1PostRField(
-    CompoundField[RightFootThumb1PostRAttrOperator, RightFootThumb1PostRPlugOperator]
+    CompoundField[
+        RightFootThumb1PostRAttrOperator, RightFootThumb1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -32688,7 +32186,9 @@ class RightFootThumb2PreRAttrOperator(
 
 
 class RightFootThumb2PreRField(
-    CompoundField[RightFootThumb2PreRAttrOperator, RightFootThumb2PreRPlugOperator]
+    CompoundField[
+        RightFootThumb2PreRAttrOperator, RightFootThumb2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -32732,7 +32232,9 @@ class RightFootThumb2PostRAttrOperator(
 
 
 class RightFootThumb2PostRField(
-    CompoundField[RightFootThumb2PostRAttrOperator, RightFootThumb2PostRPlugOperator]
+    CompoundField[
+        RightFootThumb2PostRAttrOperator, RightFootThumb2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -32952,7 +32454,9 @@ class RightFootThumb3PreRAttrOperator(
 
 
 class RightFootThumb3PreRField(
-    CompoundField[RightFootThumb3PreRAttrOperator, RightFootThumb3PreRPlugOperator]
+    CompoundField[
+        RightFootThumb3PreRAttrOperator, RightFootThumb3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -32996,7 +32500,9 @@ class RightFootThumb3PostRAttrOperator(
 
 
 class RightFootThumb3PostRField(
-    CompoundField[RightFootThumb3PostRAttrOperator, RightFootThumb3PostRPlugOperator]
+    CompoundField[
+        RightFootThumb3PostRAttrOperator, RightFootThumb3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -33216,7 +32722,9 @@ class RightFootThumb4PreRAttrOperator(
 
 
 class RightFootThumb4PreRField(
-    CompoundField[RightFootThumb4PreRAttrOperator, RightFootThumb4PreRPlugOperator]
+    CompoundField[
+        RightFootThumb4PreRAttrOperator, RightFootThumb4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -33260,7 +32768,9 @@ class RightFootThumb4PostRAttrOperator(
 
 
 class RightFootThumb4PostRField(
-    CompoundField[RightFootThumb4PostRAttrOperator, RightFootThumb4PostRPlugOperator]
+    CompoundField[
+        RightFootThumb4PostRAttrOperator, RightFootThumb4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -33480,7 +32990,9 @@ class RightFootIndex1PreRAttrOperator(
 
 
 class RightFootIndex1PreRField(
-    CompoundField[RightFootIndex1PreRAttrOperator, RightFootIndex1PreRPlugOperator]
+    CompoundField[
+        RightFootIndex1PreRAttrOperator, RightFootIndex1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -33524,7 +33036,9 @@ class RightFootIndex1PostRAttrOperator(
 
 
 class RightFootIndex1PostRField(
-    CompoundField[RightFootIndex1PostRAttrOperator, RightFootIndex1PostRPlugOperator]
+    CompoundField[
+        RightFootIndex1PostRAttrOperator, RightFootIndex1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -33744,7 +33258,9 @@ class RightFootIndex2PreRAttrOperator(
 
 
 class RightFootIndex2PreRField(
-    CompoundField[RightFootIndex2PreRAttrOperator, RightFootIndex2PreRPlugOperator]
+    CompoundField[
+        RightFootIndex2PreRAttrOperator, RightFootIndex2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -33788,7 +33304,9 @@ class RightFootIndex2PostRAttrOperator(
 
 
 class RightFootIndex2PostRField(
-    CompoundField[RightFootIndex2PostRAttrOperator, RightFootIndex2PostRPlugOperator]
+    CompoundField[
+        RightFootIndex2PostRAttrOperator, RightFootIndex2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34008,7 +33526,9 @@ class RightFootIndex3PreRAttrOperator(
 
 
 class RightFootIndex3PreRField(
-    CompoundField[RightFootIndex3PreRAttrOperator, RightFootIndex3PreRPlugOperator]
+    CompoundField[
+        RightFootIndex3PreRAttrOperator, RightFootIndex3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34052,7 +33572,9 @@ class RightFootIndex3PostRAttrOperator(
 
 
 class RightFootIndex3PostRField(
-    CompoundField[RightFootIndex3PostRAttrOperator, RightFootIndex3PostRPlugOperator]
+    CompoundField[
+        RightFootIndex3PostRAttrOperator, RightFootIndex3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34272,7 +33794,9 @@ class RightFootIndex4PreRAttrOperator(
 
 
 class RightFootIndex4PreRField(
-    CompoundField[RightFootIndex4PreRAttrOperator, RightFootIndex4PreRPlugOperator]
+    CompoundField[
+        RightFootIndex4PreRAttrOperator, RightFootIndex4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34316,7 +33840,9 @@ class RightFootIndex4PostRAttrOperator(
 
 
 class RightFootIndex4PostRField(
-    CompoundField[RightFootIndex4PostRAttrOperator, RightFootIndex4PostRPlugOperator]
+    CompoundField[
+        RightFootIndex4PostRAttrOperator, RightFootIndex4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34492,7 +34018,9 @@ class RightFootMiddle1ISAttrOperator(
 
 
 class RightFootMiddle1ISField(
-    CompoundField[RightFootMiddle1ISAttrOperator, RightFootMiddle1ISPlugOperator]
+    CompoundField[
+        RightFootMiddle1ISAttrOperator, RightFootMiddle1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34536,7 +34064,9 @@ class RightFootMiddle1PreRAttrOperator(
 
 
 class RightFootMiddle1PreRField(
-    CompoundField[RightFootMiddle1PreRAttrOperator, RightFootMiddle1PreRPlugOperator]
+    CompoundField[
+        RightFootMiddle1PreRAttrOperator, RightFootMiddle1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34580,7 +34110,9 @@ class RightFootMiddle1PostRAttrOperator(
 
 
 class RightFootMiddle1PostRField(
-    CompoundField[RightFootMiddle1PostRAttrOperator, RightFootMiddle1PostRPlugOperator]
+    CompoundField[
+        RightFootMiddle1PostRAttrOperator, RightFootMiddle1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34756,7 +34288,9 @@ class RightFootMiddle2ISAttrOperator(
 
 
 class RightFootMiddle2ISField(
-    CompoundField[RightFootMiddle2ISAttrOperator, RightFootMiddle2ISPlugOperator]
+    CompoundField[
+        RightFootMiddle2ISAttrOperator, RightFootMiddle2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34800,7 +34334,9 @@ class RightFootMiddle2PreRAttrOperator(
 
 
 class RightFootMiddle2PreRField(
-    CompoundField[RightFootMiddle2PreRAttrOperator, RightFootMiddle2PreRPlugOperator]
+    CompoundField[
+        RightFootMiddle2PreRAttrOperator, RightFootMiddle2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34844,7 +34380,9 @@ class RightFootMiddle2PostRAttrOperator(
 
 
 class RightFootMiddle2PostRField(
-    CompoundField[RightFootMiddle2PostRAttrOperator, RightFootMiddle2PostRPlugOperator]
+    CompoundField[
+        RightFootMiddle2PostRAttrOperator, RightFootMiddle2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35020,7 +34558,9 @@ class RightFootMiddle3ISAttrOperator(
 
 
 class RightFootMiddle3ISField(
-    CompoundField[RightFootMiddle3ISAttrOperator, RightFootMiddle3ISPlugOperator]
+    CompoundField[
+        RightFootMiddle3ISAttrOperator, RightFootMiddle3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35064,7 +34604,9 @@ class RightFootMiddle3PreRAttrOperator(
 
 
 class RightFootMiddle3PreRField(
-    CompoundField[RightFootMiddle3PreRAttrOperator, RightFootMiddle3PreRPlugOperator]
+    CompoundField[
+        RightFootMiddle3PreRAttrOperator, RightFootMiddle3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35108,7 +34650,9 @@ class RightFootMiddle3PostRAttrOperator(
 
 
 class RightFootMiddle3PostRField(
-    CompoundField[RightFootMiddle3PostRAttrOperator, RightFootMiddle3PostRPlugOperator]
+    CompoundField[
+        RightFootMiddle3PostRAttrOperator, RightFootMiddle3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35284,7 +34828,9 @@ class RightFootMiddle4ISAttrOperator(
 
 
 class RightFootMiddle4ISField(
-    CompoundField[RightFootMiddle4ISAttrOperator, RightFootMiddle4ISPlugOperator]
+    CompoundField[
+        RightFootMiddle4ISAttrOperator, RightFootMiddle4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35328,7 +34874,9 @@ class RightFootMiddle4PreRAttrOperator(
 
 
 class RightFootMiddle4PreRField(
-    CompoundField[RightFootMiddle4PreRAttrOperator, RightFootMiddle4PreRPlugOperator]
+    CompoundField[
+        RightFootMiddle4PreRAttrOperator, RightFootMiddle4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35372,7 +34920,9 @@ class RightFootMiddle4PostRAttrOperator(
 
 
 class RightFootMiddle4PostRField(
-    CompoundField[RightFootMiddle4PostRAttrOperator, RightFootMiddle4PostRPlugOperator]
+    CompoundField[
+        RightFootMiddle4PostRAttrOperator, RightFootMiddle4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35592,7 +35142,9 @@ class RightFootRing1PreRAttrOperator(
 
 
 class RightFootRing1PreRField(
-    CompoundField[RightFootRing1PreRAttrOperator, RightFootRing1PreRPlugOperator]
+    CompoundField[
+        RightFootRing1PreRAttrOperator, RightFootRing1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35636,7 +35188,9 @@ class RightFootRing1PostRAttrOperator(
 
 
 class RightFootRing1PostRField(
-    CompoundField[RightFootRing1PostRAttrOperator, RightFootRing1PostRPlugOperator]
+    CompoundField[
+        RightFootRing1PostRAttrOperator, RightFootRing1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35856,7 +35410,9 @@ class RightFootRing2PreRAttrOperator(
 
 
 class RightFootRing2PreRField(
-    CompoundField[RightFootRing2PreRAttrOperator, RightFootRing2PreRPlugOperator]
+    CompoundField[
+        RightFootRing2PreRAttrOperator, RightFootRing2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35900,7 +35456,9 @@ class RightFootRing2PostRAttrOperator(
 
 
 class RightFootRing2PostRField(
-    CompoundField[RightFootRing2PostRAttrOperator, RightFootRing2PostRPlugOperator]
+    CompoundField[
+        RightFootRing2PostRAttrOperator, RightFootRing2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36120,7 +35678,9 @@ class RightFootRing3PreRAttrOperator(
 
 
 class RightFootRing3PreRField(
-    CompoundField[RightFootRing3PreRAttrOperator, RightFootRing3PreRPlugOperator]
+    CompoundField[
+        RightFootRing3PreRAttrOperator, RightFootRing3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36164,7 +35724,9 @@ class RightFootRing3PostRAttrOperator(
 
 
 class RightFootRing3PostRField(
-    CompoundField[RightFootRing3PostRAttrOperator, RightFootRing3PostRPlugOperator]
+    CompoundField[
+        RightFootRing3PostRAttrOperator, RightFootRing3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36384,7 +35946,9 @@ class RightFootRing4PreRAttrOperator(
 
 
 class RightFootRing4PreRField(
-    CompoundField[RightFootRing4PreRAttrOperator, RightFootRing4PreRPlugOperator]
+    CompoundField[
+        RightFootRing4PreRAttrOperator, RightFootRing4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36428,7 +35992,9 @@ class RightFootRing4PostRAttrOperator(
 
 
 class RightFootRing4PostRField(
-    CompoundField[RightFootRing4PostRAttrOperator, RightFootRing4PostRPlugOperator]
+    CompoundField[
+        RightFootRing4PostRAttrOperator, RightFootRing4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36648,7 +36214,9 @@ class RightFootPinky1PreRAttrOperator(
 
 
 class RightFootPinky1PreRField(
-    CompoundField[RightFootPinky1PreRAttrOperator, RightFootPinky1PreRPlugOperator]
+    CompoundField[
+        RightFootPinky1PreRAttrOperator, RightFootPinky1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36692,7 +36260,9 @@ class RightFootPinky1PostRAttrOperator(
 
 
 class RightFootPinky1PostRField(
-    CompoundField[RightFootPinky1PostRAttrOperator, RightFootPinky1PostRPlugOperator]
+    CompoundField[
+        RightFootPinky1PostRAttrOperator, RightFootPinky1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36912,7 +36482,9 @@ class RightFootPinky2PreRAttrOperator(
 
 
 class RightFootPinky2PreRField(
-    CompoundField[RightFootPinky2PreRAttrOperator, RightFootPinky2PreRPlugOperator]
+    CompoundField[
+        RightFootPinky2PreRAttrOperator, RightFootPinky2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36956,7 +36528,9 @@ class RightFootPinky2PostRAttrOperator(
 
 
 class RightFootPinky2PostRField(
-    CompoundField[RightFootPinky2PostRAttrOperator, RightFootPinky2PostRPlugOperator]
+    CompoundField[
+        RightFootPinky2PostRAttrOperator, RightFootPinky2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37176,7 +36750,9 @@ class RightFootPinky3PreRAttrOperator(
 
 
 class RightFootPinky3PreRField(
-    CompoundField[RightFootPinky3PreRAttrOperator, RightFootPinky3PreRPlugOperator]
+    CompoundField[
+        RightFootPinky3PreRAttrOperator, RightFootPinky3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37220,7 +36796,9 @@ class RightFootPinky3PostRAttrOperator(
 
 
 class RightFootPinky3PostRField(
-    CompoundField[RightFootPinky3PostRAttrOperator, RightFootPinky3PostRPlugOperator]
+    CompoundField[
+        RightFootPinky3PostRAttrOperator, RightFootPinky3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37440,7 +37018,9 @@ class RightFootPinky4PreRAttrOperator(
 
 
 class RightFootPinky4PreRField(
-    CompoundField[RightFootPinky4PreRAttrOperator, RightFootPinky4PreRPlugOperator]
+    CompoundField[
+        RightFootPinky4PreRAttrOperator, RightFootPinky4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37484,7 +37064,9 @@ class RightFootPinky4PostRAttrOperator(
 
 
 class RightFootPinky4PostRField(
-    CompoundField[RightFootPinky4PostRAttrOperator, RightFootPinky4PostRPlugOperator]
+    CompoundField[
+        RightFootPinky4PostRAttrOperator, RightFootPinky4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37528,7 +37110,9 @@ class RightFootExtraFinger1TAttrOperator(
 
 
 class RightFootExtraFinger1TField(
-    CompoundField[RightFootExtraFinger1TAttrOperator, RightFootExtraFinger1TPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1TAttrOperator, RightFootExtraFinger1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37572,7 +37156,9 @@ class RightFootExtraFinger1RAttrOperator(
 
 
 class RightFootExtraFinger1RField(
-    CompoundField[RightFootExtraFinger1RAttrOperator, RightFootExtraFinger1RPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1RAttrOperator, RightFootExtraFinger1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37616,7 +37202,9 @@ class RightFootExtraFinger1SAttrOperator(
 
 
 class RightFootExtraFinger1SField(
-    CompoundField[RightFootExtraFinger1SAttrOperator, RightFootExtraFinger1SPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1SAttrOperator, RightFootExtraFinger1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37660,7 +37248,10 @@ class RightFootExtraFinger1ISAttrOperator(
 
 
 class RightFootExtraFinger1ISField(
-    CompoundField[RightFootExtraFinger1ISAttrOperator, RightFootExtraFinger1ISPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1ISAttrOperator,
+        RightFootExtraFinger1ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37704,7 +37295,10 @@ class RightFootExtraFinger1PreRAttrOperator(
 
 
 class RightFootExtraFinger1PreRField(
-    CompoundField[RightFootExtraFinger1PreRAttrOperator, RightFootExtraFinger1PreRPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1PreRAttrOperator,
+        RightFootExtraFinger1PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37748,7 +37342,10 @@ class RightFootExtraFinger1PostRAttrOperator(
 
 
 class RightFootExtraFinger1PostRField(
-    CompoundField[RightFootExtraFinger1PostRAttrOperator, RightFootExtraFinger1PostRPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1PostRAttrOperator,
+        RightFootExtraFinger1PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37792,7 +37389,9 @@ class RightFootExtraFinger2TAttrOperator(
 
 
 class RightFootExtraFinger2TField(
-    CompoundField[RightFootExtraFinger2TAttrOperator, RightFootExtraFinger2TPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2TAttrOperator, RightFootExtraFinger2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37836,7 +37435,9 @@ class RightFootExtraFinger2RAttrOperator(
 
 
 class RightFootExtraFinger2RField(
-    CompoundField[RightFootExtraFinger2RAttrOperator, RightFootExtraFinger2RPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2RAttrOperator, RightFootExtraFinger2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37880,7 +37481,9 @@ class RightFootExtraFinger2SAttrOperator(
 
 
 class RightFootExtraFinger2SField(
-    CompoundField[RightFootExtraFinger2SAttrOperator, RightFootExtraFinger2SPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2SAttrOperator, RightFootExtraFinger2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37924,7 +37527,10 @@ class RightFootExtraFinger2ISAttrOperator(
 
 
 class RightFootExtraFinger2ISField(
-    CompoundField[RightFootExtraFinger2ISAttrOperator, RightFootExtraFinger2ISPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2ISAttrOperator,
+        RightFootExtraFinger2ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37968,7 +37574,10 @@ class RightFootExtraFinger2PreRAttrOperator(
 
 
 class RightFootExtraFinger2PreRField(
-    CompoundField[RightFootExtraFinger2PreRAttrOperator, RightFootExtraFinger2PreRPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2PreRAttrOperator,
+        RightFootExtraFinger2PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38012,7 +37621,10 @@ class RightFootExtraFinger2PostRAttrOperator(
 
 
 class RightFootExtraFinger2PostRField(
-    CompoundField[RightFootExtraFinger2PostRAttrOperator, RightFootExtraFinger2PostRPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2PostRAttrOperator,
+        RightFootExtraFinger2PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38056,7 +37668,9 @@ class RightFootExtraFinger3TAttrOperator(
 
 
 class RightFootExtraFinger3TField(
-    CompoundField[RightFootExtraFinger3TAttrOperator, RightFootExtraFinger3TPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3TAttrOperator, RightFootExtraFinger3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -38100,7 +37714,9 @@ class RightFootExtraFinger3RAttrOperator(
 
 
 class RightFootExtraFinger3RField(
-    CompoundField[RightFootExtraFinger3RAttrOperator, RightFootExtraFinger3RPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3RAttrOperator, RightFootExtraFinger3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -38144,7 +37760,9 @@ class RightFootExtraFinger3SAttrOperator(
 
 
 class RightFootExtraFinger3SField(
-    CompoundField[RightFootExtraFinger3SAttrOperator, RightFootExtraFinger3SPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3SAttrOperator, RightFootExtraFinger3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -38188,7 +37806,10 @@ class RightFootExtraFinger3ISAttrOperator(
 
 
 class RightFootExtraFinger3ISField(
-    CompoundField[RightFootExtraFinger3ISAttrOperator, RightFootExtraFinger3ISPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3ISAttrOperator,
+        RightFootExtraFinger3ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38232,7 +37853,10 @@ class RightFootExtraFinger3PreRAttrOperator(
 
 
 class RightFootExtraFinger3PreRField(
-    CompoundField[RightFootExtraFinger3PreRAttrOperator, RightFootExtraFinger3PreRPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3PreRAttrOperator,
+        RightFootExtraFinger3PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38276,7 +37900,10 @@ class RightFootExtraFinger3PostRAttrOperator(
 
 
 class RightFootExtraFinger3PostRField(
-    CompoundField[RightFootExtraFinger3PostRAttrOperator, RightFootExtraFinger3PostRPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3PostRAttrOperator,
+        RightFootExtraFinger3PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38320,7 +37947,9 @@ class RightFootExtraFinger4TAttrOperator(
 
 
 class RightFootExtraFinger4TField(
-    CompoundField[RightFootExtraFinger4TAttrOperator, RightFootExtraFinger4TPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4TAttrOperator, RightFootExtraFinger4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -38364,7 +37993,9 @@ class RightFootExtraFinger4RAttrOperator(
 
 
 class RightFootExtraFinger4RField(
-    CompoundField[RightFootExtraFinger4RAttrOperator, RightFootExtraFinger4RPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4RAttrOperator, RightFootExtraFinger4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -38408,7 +38039,9 @@ class RightFootExtraFinger4SAttrOperator(
 
 
 class RightFootExtraFinger4SField(
-    CompoundField[RightFootExtraFinger4SAttrOperator, RightFootExtraFinger4SPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4SAttrOperator, RightFootExtraFinger4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -38452,7 +38085,10 @@ class RightFootExtraFinger4ISAttrOperator(
 
 
 class RightFootExtraFinger4ISField(
-    CompoundField[RightFootExtraFinger4ISAttrOperator, RightFootExtraFinger4ISPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4ISAttrOperator,
+        RightFootExtraFinger4ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38496,7 +38132,10 @@ class RightFootExtraFinger4PreRAttrOperator(
 
 
 class RightFootExtraFinger4PreRField(
-    CompoundField[RightFootExtraFinger4PreRAttrOperator, RightFootExtraFinger4PreRPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4PreRAttrOperator,
+        RightFootExtraFinger4PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38540,7 +38179,10 @@ class RightFootExtraFinger4PostRAttrOperator(
 
 
 class RightFootExtraFinger4PostRField(
-    CompoundField[RightFootExtraFinger4PostRAttrOperator, RightFootExtraFinger4PostRPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4PostRAttrOperator,
+        RightFootExtraFinger4PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38760,7 +38402,9 @@ class LeftInHandThumbPreRAttrOperator(
 
 
 class LeftInHandThumbPreRField(
-    CompoundField[LeftInHandThumbPreRAttrOperator, LeftInHandThumbPreRPlugOperator]
+    CompoundField[
+        LeftInHandThumbPreRAttrOperator, LeftInHandThumbPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -38804,7 +38448,9 @@ class LeftInHandThumbPostRAttrOperator(
 
 
 class LeftInHandThumbPostRField(
-    CompoundField[LeftInHandThumbPostRAttrOperator, LeftInHandThumbPostRPlugOperator]
+    CompoundField[
+        LeftInHandThumbPostRAttrOperator, LeftInHandThumbPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39024,7 +38670,9 @@ class LeftInHandIndexPreRAttrOperator(
 
 
 class LeftInHandIndexPreRField(
-    CompoundField[LeftInHandIndexPreRAttrOperator, LeftInHandIndexPreRPlugOperator]
+    CompoundField[
+        LeftInHandIndexPreRAttrOperator, LeftInHandIndexPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39068,7 +38716,9 @@ class LeftInHandIndexPostRAttrOperator(
 
 
 class LeftInHandIndexPostRField(
-    CompoundField[LeftInHandIndexPostRAttrOperator, LeftInHandIndexPostRPlugOperator]
+    CompoundField[
+        LeftInHandIndexPostRAttrOperator, LeftInHandIndexPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39244,7 +38894,9 @@ class LeftInHandMiddleISAttrOperator(
 
 
 class LeftInHandMiddleISField(
-    CompoundField[LeftInHandMiddleISAttrOperator, LeftInHandMiddleISPlugOperator]
+    CompoundField[
+        LeftInHandMiddleISAttrOperator, LeftInHandMiddleISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39288,7 +38940,9 @@ class LeftInHandMiddlePreRAttrOperator(
 
 
 class LeftInHandMiddlePreRField(
-    CompoundField[LeftInHandMiddlePreRAttrOperator, LeftInHandMiddlePreRPlugOperator]
+    CompoundField[
+        LeftInHandMiddlePreRAttrOperator, LeftInHandMiddlePreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39332,7 +38986,9 @@ class LeftInHandMiddlePostRAttrOperator(
 
 
 class LeftInHandMiddlePostRField(
-    CompoundField[LeftInHandMiddlePostRAttrOperator, LeftInHandMiddlePostRPlugOperator]
+    CompoundField[
+        LeftInHandMiddlePostRAttrOperator, LeftInHandMiddlePostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39552,7 +39208,9 @@ class LeftInHandRingPreRAttrOperator(
 
 
 class LeftInHandRingPreRField(
-    CompoundField[LeftInHandRingPreRAttrOperator, LeftInHandRingPreRPlugOperator]
+    CompoundField[
+        LeftInHandRingPreRAttrOperator, LeftInHandRingPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39596,7 +39254,9 @@ class LeftInHandRingPostRAttrOperator(
 
 
 class LeftInHandRingPostRField(
-    CompoundField[LeftInHandRingPostRAttrOperator, LeftInHandRingPostRPlugOperator]
+    CompoundField[
+        LeftInHandRingPostRAttrOperator, LeftInHandRingPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39816,7 +39476,9 @@ class LeftInHandPinkyPreRAttrOperator(
 
 
 class LeftInHandPinkyPreRField(
-    CompoundField[LeftInHandPinkyPreRAttrOperator, LeftInHandPinkyPreRPlugOperator]
+    CompoundField[
+        LeftInHandPinkyPreRAttrOperator, LeftInHandPinkyPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39860,7 +39522,9 @@ class LeftInHandPinkyPostRAttrOperator(
 
 
 class LeftInHandPinkyPostRField(
-    CompoundField[LeftInHandPinkyPostRAttrOperator, LeftInHandPinkyPostRPlugOperator]
+    CompoundField[
+        LeftInHandPinkyPostRAttrOperator, LeftInHandPinkyPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39904,7 +39568,9 @@ class LeftInHandExtraFingerTAttrOperator(
 
 
 class LeftInHandExtraFingerTField(
-    CompoundField[LeftInHandExtraFingerTAttrOperator, LeftInHandExtraFingerTPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerTAttrOperator, LeftInHandExtraFingerTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39948,7 +39614,9 @@ class LeftInHandExtraFingerRAttrOperator(
 
 
 class LeftInHandExtraFingerRField(
-    CompoundField[LeftInHandExtraFingerRAttrOperator, LeftInHandExtraFingerRPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerRAttrOperator, LeftInHandExtraFingerRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39992,7 +39660,9 @@ class LeftInHandExtraFingerSAttrOperator(
 
 
 class LeftInHandExtraFingerSField(
-    CompoundField[LeftInHandExtraFingerSAttrOperator, LeftInHandExtraFingerSPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerSAttrOperator, LeftInHandExtraFingerSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40036,7 +39706,10 @@ class LeftInHandExtraFingerISAttrOperator(
 
 
 class LeftInHandExtraFingerISField(
-    CompoundField[LeftInHandExtraFingerISAttrOperator, LeftInHandExtraFingerISPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerISAttrOperator,
+        LeftInHandExtraFingerISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40080,7 +39753,10 @@ class LeftInHandExtraFingerPreRAttrOperator(
 
 
 class LeftInHandExtraFingerPreRField(
-    CompoundField[LeftInHandExtraFingerPreRAttrOperator, LeftInHandExtraFingerPreRPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerPreRAttrOperator,
+        LeftInHandExtraFingerPreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40124,7 +39800,10 @@ class LeftInHandExtraFingerPostRAttrOperator(
 
 
 class LeftInHandExtraFingerPostRField(
-    CompoundField[LeftInHandExtraFingerPostRAttrOperator, LeftInHandExtraFingerPostRPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerPostRAttrOperator,
+        LeftInHandExtraFingerPostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40300,7 +39979,9 @@ class RightInHandThumbISAttrOperator(
 
 
 class RightInHandThumbISField(
-    CompoundField[RightInHandThumbISAttrOperator, RightInHandThumbISPlugOperator]
+    CompoundField[
+        RightInHandThumbISAttrOperator, RightInHandThumbISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40344,7 +40025,9 @@ class RightInHandThumbPreRAttrOperator(
 
 
 class RightInHandThumbPreRField(
-    CompoundField[RightInHandThumbPreRAttrOperator, RightInHandThumbPreRPlugOperator]
+    CompoundField[
+        RightInHandThumbPreRAttrOperator, RightInHandThumbPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40388,7 +40071,9 @@ class RightInHandThumbPostRAttrOperator(
 
 
 class RightInHandThumbPostRField(
-    CompoundField[RightInHandThumbPostRAttrOperator, RightInHandThumbPostRPlugOperator]
+    CompoundField[
+        RightInHandThumbPostRAttrOperator, RightInHandThumbPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40564,7 +40249,9 @@ class RightInHandIndexISAttrOperator(
 
 
 class RightInHandIndexISField(
-    CompoundField[RightInHandIndexISAttrOperator, RightInHandIndexISPlugOperator]
+    CompoundField[
+        RightInHandIndexISAttrOperator, RightInHandIndexISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40608,7 +40295,9 @@ class RightInHandIndexPreRAttrOperator(
 
 
 class RightInHandIndexPreRField(
-    CompoundField[RightInHandIndexPreRAttrOperator, RightInHandIndexPreRPlugOperator]
+    CompoundField[
+        RightInHandIndexPreRAttrOperator, RightInHandIndexPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40652,7 +40341,9 @@ class RightInHandIndexPostRAttrOperator(
 
 
 class RightInHandIndexPostRField(
-    CompoundField[RightInHandIndexPostRAttrOperator, RightInHandIndexPostRPlugOperator]
+    CompoundField[
+        RightInHandIndexPostRAttrOperator, RightInHandIndexPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40696,7 +40387,9 @@ class RightInHandMiddleTAttrOperator(
 
 
 class RightInHandMiddleTField(
-    CompoundField[RightInHandMiddleTAttrOperator, RightInHandMiddleTPlugOperator]
+    CompoundField[
+        RightInHandMiddleTAttrOperator, RightInHandMiddleTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40740,7 +40433,9 @@ class RightInHandMiddleRAttrOperator(
 
 
 class RightInHandMiddleRField(
-    CompoundField[RightInHandMiddleRAttrOperator, RightInHandMiddleRPlugOperator]
+    CompoundField[
+        RightInHandMiddleRAttrOperator, RightInHandMiddleRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40784,7 +40479,9 @@ class RightInHandMiddleSAttrOperator(
 
 
 class RightInHandMiddleSField(
-    CompoundField[RightInHandMiddleSAttrOperator, RightInHandMiddleSPlugOperator]
+    CompoundField[
+        RightInHandMiddleSAttrOperator, RightInHandMiddleSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40828,7 +40525,9 @@ class RightInHandMiddleISAttrOperator(
 
 
 class RightInHandMiddleISField(
-    CompoundField[RightInHandMiddleISAttrOperator, RightInHandMiddleISPlugOperator]
+    CompoundField[
+        RightInHandMiddleISAttrOperator, RightInHandMiddleISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40872,7 +40571,9 @@ class RightInHandMiddlePreRAttrOperator(
 
 
 class RightInHandMiddlePreRField(
-    CompoundField[RightInHandMiddlePreRAttrOperator, RightInHandMiddlePreRPlugOperator]
+    CompoundField[
+        RightInHandMiddlePreRAttrOperator, RightInHandMiddlePreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -40916,7 +40617,9 @@ class RightInHandMiddlePostRAttrOperator(
 
 
 class RightInHandMiddlePostRField(
-    CompoundField[RightInHandMiddlePostRAttrOperator, RightInHandMiddlePostRPlugOperator]
+    CompoundField[
+        RightInHandMiddlePostRAttrOperator, RightInHandMiddlePostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -41136,7 +40839,9 @@ class RightInHandRingPreRAttrOperator(
 
 
 class RightInHandRingPreRField(
-    CompoundField[RightInHandRingPreRAttrOperator, RightInHandRingPreRPlugOperator]
+    CompoundField[
+        RightInHandRingPreRAttrOperator, RightInHandRingPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -41180,7 +40885,9 @@ class RightInHandRingPostRAttrOperator(
 
 
 class RightInHandRingPostRField(
-    CompoundField[RightInHandRingPostRAttrOperator, RightInHandRingPostRPlugOperator]
+    CompoundField[
+        RightInHandRingPostRAttrOperator, RightInHandRingPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -41356,7 +41063,9 @@ class RightInHandPinkyISAttrOperator(
 
 
 class RightInHandPinkyISField(
-    CompoundField[RightInHandPinkyISAttrOperator, RightInHandPinkyISPlugOperator]
+    CompoundField[
+        RightInHandPinkyISAttrOperator, RightInHandPinkyISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -41400,7 +41109,9 @@ class RightInHandPinkyPreRAttrOperator(
 
 
 class RightInHandPinkyPreRField(
-    CompoundField[RightInHandPinkyPreRAttrOperator, RightInHandPinkyPreRPlugOperator]
+    CompoundField[
+        RightInHandPinkyPreRAttrOperator, RightInHandPinkyPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -41444,7 +41155,9 @@ class RightInHandPinkyPostRAttrOperator(
 
 
 class RightInHandPinkyPostRField(
-    CompoundField[RightInHandPinkyPostRAttrOperator, RightInHandPinkyPostRPlugOperator]
+    CompoundField[
+        RightInHandPinkyPostRAttrOperator, RightInHandPinkyPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -41488,7 +41201,10 @@ class RightInHandExtraFingerTAttrOperator(
 
 
 class RightInHandExtraFingerTField(
-    CompoundField[RightInHandExtraFingerTAttrOperator, RightInHandExtraFingerTPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerTAttrOperator,
+        RightInHandExtraFingerTPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41532,7 +41248,10 @@ class RightInHandExtraFingerRAttrOperator(
 
 
 class RightInHandExtraFingerRField(
-    CompoundField[RightInHandExtraFingerRAttrOperator, RightInHandExtraFingerRPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerRAttrOperator,
+        RightInHandExtraFingerRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41576,7 +41295,10 @@ class RightInHandExtraFingerSAttrOperator(
 
 
 class RightInHandExtraFingerSField(
-    CompoundField[RightInHandExtraFingerSAttrOperator, RightInHandExtraFingerSPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerSAttrOperator,
+        RightInHandExtraFingerSPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41620,7 +41342,10 @@ class RightInHandExtraFingerISAttrOperator(
 
 
 class RightInHandExtraFingerISField(
-    CompoundField[RightInHandExtraFingerISAttrOperator, RightInHandExtraFingerISPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerISAttrOperator,
+        RightInHandExtraFingerISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41664,7 +41389,10 @@ class RightInHandExtraFingerPreRAttrOperator(
 
 
 class RightInHandExtraFingerPreRField(
-    CompoundField[RightInHandExtraFingerPreRAttrOperator, RightInHandExtraFingerPreRPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerPreRAttrOperator,
+        RightInHandExtraFingerPreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41708,7 +41436,10 @@ class RightInHandExtraFingerPostRAttrOperator(
 
 
 class RightInHandExtraFingerPostRField(
-    CompoundField[RightInHandExtraFingerPostRAttrOperator, RightInHandExtraFingerPostRPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerPostRAttrOperator,
+        RightInHandExtraFingerPostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41928,7 +41659,9 @@ class LeftInFootThumbPreRAttrOperator(
 
 
 class LeftInFootThumbPreRField(
-    CompoundField[LeftInFootThumbPreRAttrOperator, LeftInFootThumbPreRPlugOperator]
+    CompoundField[
+        LeftInFootThumbPreRAttrOperator, LeftInFootThumbPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -41972,7 +41705,9 @@ class LeftInFootThumbPostRAttrOperator(
 
 
 class LeftInFootThumbPostRField(
-    CompoundField[LeftInFootThumbPostRAttrOperator, LeftInFootThumbPostRPlugOperator]
+    CompoundField[
+        LeftInFootThumbPostRAttrOperator, LeftInFootThumbPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -42192,7 +41927,9 @@ class LeftInFootIndexPreRAttrOperator(
 
 
 class LeftInFootIndexPreRField(
-    CompoundField[LeftInFootIndexPreRAttrOperator, LeftInFootIndexPreRPlugOperator]
+    CompoundField[
+        LeftInFootIndexPreRAttrOperator, LeftInFootIndexPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -42236,7 +41973,9 @@ class LeftInFootIndexPostRAttrOperator(
 
 
 class LeftInFootIndexPostRField(
-    CompoundField[LeftInFootIndexPostRAttrOperator, LeftInFootIndexPostRPlugOperator]
+    CompoundField[
+        LeftInFootIndexPostRAttrOperator, LeftInFootIndexPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -42412,7 +42151,9 @@ class LeftInFootMiddleISAttrOperator(
 
 
 class LeftInFootMiddleISField(
-    CompoundField[LeftInFootMiddleISAttrOperator, LeftInFootMiddleISPlugOperator]
+    CompoundField[
+        LeftInFootMiddleISAttrOperator, LeftInFootMiddleISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -42456,7 +42197,9 @@ class LeftInFootMiddlePreRAttrOperator(
 
 
 class LeftInFootMiddlePreRField(
-    CompoundField[LeftInFootMiddlePreRAttrOperator, LeftInFootMiddlePreRPlugOperator]
+    CompoundField[
+        LeftInFootMiddlePreRAttrOperator, LeftInFootMiddlePreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -42500,7 +42243,9 @@ class LeftInFootMiddlePostRAttrOperator(
 
 
 class LeftInFootMiddlePostRField(
-    CompoundField[LeftInFootMiddlePostRAttrOperator, LeftInFootMiddlePostRPlugOperator]
+    CompoundField[
+        LeftInFootMiddlePostRAttrOperator, LeftInFootMiddlePostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -42720,7 +42465,9 @@ class LeftInFootRingPreRAttrOperator(
 
 
 class LeftInFootRingPreRField(
-    CompoundField[LeftInFootRingPreRAttrOperator, LeftInFootRingPreRPlugOperator]
+    CompoundField[
+        LeftInFootRingPreRAttrOperator, LeftInFootRingPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -42764,7 +42511,9 @@ class LeftInFootRingPostRAttrOperator(
 
 
 class LeftInFootRingPostRField(
-    CompoundField[LeftInFootRingPostRAttrOperator, LeftInFootRingPostRPlugOperator]
+    CompoundField[
+        LeftInFootRingPostRAttrOperator, LeftInFootRingPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -42984,7 +42733,9 @@ class LeftInFootPinkyPreRAttrOperator(
 
 
 class LeftInFootPinkyPreRField(
-    CompoundField[LeftInFootPinkyPreRAttrOperator, LeftInFootPinkyPreRPlugOperator]
+    CompoundField[
+        LeftInFootPinkyPreRAttrOperator, LeftInFootPinkyPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43028,7 +42779,9 @@ class LeftInFootPinkyPostRAttrOperator(
 
 
 class LeftInFootPinkyPostRField(
-    CompoundField[LeftInFootPinkyPostRAttrOperator, LeftInFootPinkyPostRPlugOperator]
+    CompoundField[
+        LeftInFootPinkyPostRAttrOperator, LeftInFootPinkyPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43072,7 +42825,9 @@ class LeftInFootExtraFingerTAttrOperator(
 
 
 class LeftInFootExtraFingerTField(
-    CompoundField[LeftInFootExtraFingerTAttrOperator, LeftInFootExtraFingerTPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerTAttrOperator, LeftInFootExtraFingerTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43116,7 +42871,9 @@ class LeftInFootExtraFingerRAttrOperator(
 
 
 class LeftInFootExtraFingerRField(
-    CompoundField[LeftInFootExtraFingerRAttrOperator, LeftInFootExtraFingerRPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerRAttrOperator, LeftInFootExtraFingerRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43160,7 +42917,9 @@ class LeftInFootExtraFingerSAttrOperator(
 
 
 class LeftInFootExtraFingerSField(
-    CompoundField[LeftInFootExtraFingerSAttrOperator, LeftInFootExtraFingerSPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerSAttrOperator, LeftInFootExtraFingerSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43204,7 +42963,10 @@ class LeftInFootExtraFingerISAttrOperator(
 
 
 class LeftInFootExtraFingerISField(
-    CompoundField[LeftInFootExtraFingerISAttrOperator, LeftInFootExtraFingerISPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerISAttrOperator,
+        LeftInFootExtraFingerISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43248,7 +43010,10 @@ class LeftInFootExtraFingerPreRAttrOperator(
 
 
 class LeftInFootExtraFingerPreRField(
-    CompoundField[LeftInFootExtraFingerPreRAttrOperator, LeftInFootExtraFingerPreRPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerPreRAttrOperator,
+        LeftInFootExtraFingerPreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43292,7 +43057,10 @@ class LeftInFootExtraFingerPostRAttrOperator(
 
 
 class LeftInFootExtraFingerPostRField(
-    CompoundField[LeftInFootExtraFingerPostRAttrOperator, LeftInFootExtraFingerPostRPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerPostRAttrOperator,
+        LeftInFootExtraFingerPostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43468,7 +43236,9 @@ class RightInFootThumbISAttrOperator(
 
 
 class RightInFootThumbISField(
-    CompoundField[RightInFootThumbISAttrOperator, RightInFootThumbISPlugOperator]
+    CompoundField[
+        RightInFootThumbISAttrOperator, RightInFootThumbISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43512,7 +43282,9 @@ class RightInFootThumbPreRAttrOperator(
 
 
 class RightInFootThumbPreRField(
-    CompoundField[RightInFootThumbPreRAttrOperator, RightInFootThumbPreRPlugOperator]
+    CompoundField[
+        RightInFootThumbPreRAttrOperator, RightInFootThumbPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43556,7 +43328,9 @@ class RightInFootThumbPostRAttrOperator(
 
 
 class RightInFootThumbPostRField(
-    CompoundField[RightInFootThumbPostRAttrOperator, RightInFootThumbPostRPlugOperator]
+    CompoundField[
+        RightInFootThumbPostRAttrOperator, RightInFootThumbPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43732,7 +43506,9 @@ class RightInFootIndexISAttrOperator(
 
 
 class RightInFootIndexISField(
-    CompoundField[RightInFootIndexISAttrOperator, RightInFootIndexISPlugOperator]
+    CompoundField[
+        RightInFootIndexISAttrOperator, RightInFootIndexISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43776,7 +43552,9 @@ class RightInFootIndexPreRAttrOperator(
 
 
 class RightInFootIndexPreRField(
-    CompoundField[RightInFootIndexPreRAttrOperator, RightInFootIndexPreRPlugOperator]
+    CompoundField[
+        RightInFootIndexPreRAttrOperator, RightInFootIndexPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43820,7 +43598,9 @@ class RightInFootIndexPostRAttrOperator(
 
 
 class RightInFootIndexPostRField(
-    CompoundField[RightInFootIndexPostRAttrOperator, RightInFootIndexPostRPlugOperator]
+    CompoundField[
+        RightInFootIndexPostRAttrOperator, RightInFootIndexPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43864,7 +43644,9 @@ class RightInFootMiddleTAttrOperator(
 
 
 class RightInFootMiddleTField(
-    CompoundField[RightInFootMiddleTAttrOperator, RightInFootMiddleTPlugOperator]
+    CompoundField[
+        RightInFootMiddleTAttrOperator, RightInFootMiddleTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43908,7 +43690,9 @@ class RightInFootMiddleRAttrOperator(
 
 
 class RightInFootMiddleRField(
-    CompoundField[RightInFootMiddleRAttrOperator, RightInFootMiddleRPlugOperator]
+    CompoundField[
+        RightInFootMiddleRAttrOperator, RightInFootMiddleRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43952,7 +43736,9 @@ class RightInFootMiddleSAttrOperator(
 
 
 class RightInFootMiddleSField(
-    CompoundField[RightInFootMiddleSAttrOperator, RightInFootMiddleSPlugOperator]
+    CompoundField[
+        RightInFootMiddleSAttrOperator, RightInFootMiddleSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43996,7 +43782,9 @@ class RightInFootMiddleISAttrOperator(
 
 
 class RightInFootMiddleISField(
-    CompoundField[RightInFootMiddleISAttrOperator, RightInFootMiddleISPlugOperator]
+    CompoundField[
+        RightInFootMiddleISAttrOperator, RightInFootMiddleISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44040,7 +43828,9 @@ class RightInFootMiddlePreRAttrOperator(
 
 
 class RightInFootMiddlePreRField(
-    CompoundField[RightInFootMiddlePreRAttrOperator, RightInFootMiddlePreRPlugOperator]
+    CompoundField[
+        RightInFootMiddlePreRAttrOperator, RightInFootMiddlePreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44084,7 +43874,9 @@ class RightInFootMiddlePostRAttrOperator(
 
 
 class RightInFootMiddlePostRField(
-    CompoundField[RightInFootMiddlePostRAttrOperator, RightInFootMiddlePostRPlugOperator]
+    CompoundField[
+        RightInFootMiddlePostRAttrOperator, RightInFootMiddlePostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44304,7 +44096,9 @@ class RightInFootRingPreRAttrOperator(
 
 
 class RightInFootRingPreRField(
-    CompoundField[RightInFootRingPreRAttrOperator, RightInFootRingPreRPlugOperator]
+    CompoundField[
+        RightInFootRingPreRAttrOperator, RightInFootRingPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44348,7 +44142,9 @@ class RightInFootRingPostRAttrOperator(
 
 
 class RightInFootRingPostRField(
-    CompoundField[RightInFootRingPostRAttrOperator, RightInFootRingPostRPlugOperator]
+    CompoundField[
+        RightInFootRingPostRAttrOperator, RightInFootRingPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44524,7 +44320,9 @@ class RightInFootPinkyISAttrOperator(
 
 
 class RightInFootPinkyISField(
-    CompoundField[RightInFootPinkyISAttrOperator, RightInFootPinkyISPlugOperator]
+    CompoundField[
+        RightInFootPinkyISAttrOperator, RightInFootPinkyISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44568,7 +44366,9 @@ class RightInFootPinkyPreRAttrOperator(
 
 
 class RightInFootPinkyPreRField(
-    CompoundField[RightInFootPinkyPreRAttrOperator, RightInFootPinkyPreRPlugOperator]
+    CompoundField[
+        RightInFootPinkyPreRAttrOperator, RightInFootPinkyPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44612,7 +44412,9 @@ class RightInFootPinkyPostRAttrOperator(
 
 
 class RightInFootPinkyPostRField(
-    CompoundField[RightInFootPinkyPostRAttrOperator, RightInFootPinkyPostRPlugOperator]
+    CompoundField[
+        RightInFootPinkyPostRAttrOperator, RightInFootPinkyPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44656,7 +44458,10 @@ class RightInFootExtraFingerTAttrOperator(
 
 
 class RightInFootExtraFingerTField(
-    CompoundField[RightInFootExtraFingerTAttrOperator, RightInFootExtraFingerTPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerTAttrOperator,
+        RightInFootExtraFingerTPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44700,7 +44505,10 @@ class RightInFootExtraFingerRAttrOperator(
 
 
 class RightInFootExtraFingerRField(
-    CompoundField[RightInFootExtraFingerRAttrOperator, RightInFootExtraFingerRPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerRAttrOperator,
+        RightInFootExtraFingerRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44744,7 +44552,10 @@ class RightInFootExtraFingerSAttrOperator(
 
 
 class RightInFootExtraFingerSField(
-    CompoundField[RightInFootExtraFingerSAttrOperator, RightInFootExtraFingerSPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerSAttrOperator,
+        RightInFootExtraFingerSPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44788,7 +44599,10 @@ class RightInFootExtraFingerISAttrOperator(
 
 
 class RightInFootExtraFingerISField(
-    CompoundField[RightInFootExtraFingerISAttrOperator, RightInFootExtraFingerISPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerISAttrOperator,
+        RightInFootExtraFingerISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44832,7 +44646,10 @@ class RightInFootExtraFingerPreRAttrOperator(
 
 
 class RightInFootExtraFingerPreRField(
-    CompoundField[RightInFootExtraFingerPreRAttrOperator, RightInFootExtraFingerPreRPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerPreRAttrOperator,
+        RightInFootExtraFingerPreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44876,7 +44693,10 @@ class RightInFootExtraFingerPostRAttrOperator(
 
 
 class RightInFootExtraFingerPostRField(
-    CompoundField[RightInFootExtraFingerPostRAttrOperator, RightInFootExtraFingerPostRPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerPostRAttrOperator,
+        RightInFootExtraFingerPostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44920,7 +44740,9 @@ class LeftShoulderExtraTAttrOperator(
 
 
 class LeftShoulderExtraTField(
-    CompoundField[LeftShoulderExtraTAttrOperator, LeftShoulderExtraTPlugOperator]
+    CompoundField[
+        LeftShoulderExtraTAttrOperator, LeftShoulderExtraTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44964,7 +44786,9 @@ class LeftShoulderExtraRAttrOperator(
 
 
 class LeftShoulderExtraRField(
-    CompoundField[LeftShoulderExtraRAttrOperator, LeftShoulderExtraRPlugOperator]
+    CompoundField[
+        LeftShoulderExtraRAttrOperator, LeftShoulderExtraRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45008,7 +44832,9 @@ class LeftShoulderExtraSAttrOperator(
 
 
 class LeftShoulderExtraSField(
-    CompoundField[LeftShoulderExtraSAttrOperator, LeftShoulderExtraSPlugOperator]
+    CompoundField[
+        LeftShoulderExtraSAttrOperator, LeftShoulderExtraSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45052,7 +44878,9 @@ class LeftShoulderExtraISAttrOperator(
 
 
 class LeftShoulderExtraISField(
-    CompoundField[LeftShoulderExtraISAttrOperator, LeftShoulderExtraISPlugOperator]
+    CompoundField[
+        LeftShoulderExtraISAttrOperator, LeftShoulderExtraISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45096,7 +44924,9 @@ class LeftShoulderExtraPreRAttrOperator(
 
 
 class LeftShoulderExtraPreRField(
-    CompoundField[LeftShoulderExtraPreRAttrOperator, LeftShoulderExtraPreRPlugOperator]
+    CompoundField[
+        LeftShoulderExtraPreRAttrOperator, LeftShoulderExtraPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45140,7 +44970,9 @@ class LeftShoulderExtraPostRAttrOperator(
 
 
 class LeftShoulderExtraPostRField(
-    CompoundField[LeftShoulderExtraPostRAttrOperator, LeftShoulderExtraPostRPlugOperator]
+    CompoundField[
+        LeftShoulderExtraPostRAttrOperator, LeftShoulderExtraPostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45184,7 +45016,9 @@ class RightShoulderExtraTAttrOperator(
 
 
 class RightShoulderExtraTField(
-    CompoundField[RightShoulderExtraTAttrOperator, RightShoulderExtraTPlugOperator]
+    CompoundField[
+        RightShoulderExtraTAttrOperator, RightShoulderExtraTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45228,7 +45062,9 @@ class RightShoulderExtraRAttrOperator(
 
 
 class RightShoulderExtraRField(
-    CompoundField[RightShoulderExtraRAttrOperator, RightShoulderExtraRPlugOperator]
+    CompoundField[
+        RightShoulderExtraRAttrOperator, RightShoulderExtraRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45272,7 +45108,9 @@ class RightShoulderExtraSAttrOperator(
 
 
 class RightShoulderExtraSField(
-    CompoundField[RightShoulderExtraSAttrOperator, RightShoulderExtraSPlugOperator]
+    CompoundField[
+        RightShoulderExtraSAttrOperator, RightShoulderExtraSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45316,7 +45154,9 @@ class RightShoulderExtraISAttrOperator(
 
 
 class RightShoulderExtraISField(
-    CompoundField[RightShoulderExtraISAttrOperator, RightShoulderExtraISPlugOperator]
+    CompoundField[
+        RightShoulderExtraISAttrOperator, RightShoulderExtraISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45360,7 +45200,9 @@ class RightShoulderExtraPreRAttrOperator(
 
 
 class RightShoulderExtraPreRField(
-    CompoundField[RightShoulderExtraPreRAttrOperator, RightShoulderExtraPreRPlugOperator]
+    CompoundField[
+        RightShoulderExtraPreRAttrOperator, RightShoulderExtraPreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45404,7 +45246,10 @@ class RightShoulderExtraPostRAttrOperator(
 
 
 class RightShoulderExtraPostRField(
-    CompoundField[RightShoulderExtraPostRAttrOperator, RightShoulderExtraPostRPlugOperator]
+    CompoundField[
+        RightShoulderExtraPostRAttrOperator,
+        RightShoulderExtraPostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45448,7 +45293,9 @@ class LeafLeftUpLegRoll1TAttrOperator(
 
 
 class LeafLeftUpLegRoll1TField(
-    CompoundField[LeafLeftUpLegRoll1TAttrOperator, LeafLeftUpLegRoll1TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1TAttrOperator, LeafLeftUpLegRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45492,7 +45339,9 @@ class LeafLeftUpLegRoll1RAttrOperator(
 
 
 class LeafLeftUpLegRoll1RField(
-    CompoundField[LeafLeftUpLegRoll1RAttrOperator, LeafLeftUpLegRoll1RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1RAttrOperator, LeafLeftUpLegRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45536,7 +45385,9 @@ class LeafLeftUpLegRoll1SAttrOperator(
 
 
 class LeafLeftUpLegRoll1SField(
-    CompoundField[LeafLeftUpLegRoll1SAttrOperator, LeafLeftUpLegRoll1SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1SAttrOperator, LeafLeftUpLegRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45580,7 +45431,9 @@ class LeafLeftUpLegRoll1ISAttrOperator(
 
 
 class LeafLeftUpLegRoll1ISField(
-    CompoundField[LeafLeftUpLegRoll1ISAttrOperator, LeafLeftUpLegRoll1ISPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1ISAttrOperator, LeafLeftUpLegRoll1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45624,7 +45477,9 @@ class LeafLeftUpLegRoll1PreRAttrOperator(
 
 
 class LeafLeftUpLegRoll1PreRField(
-    CompoundField[LeafLeftUpLegRoll1PreRAttrOperator, LeafLeftUpLegRoll1PreRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1PreRAttrOperator, LeafLeftUpLegRoll1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45668,7 +45523,10 @@ class LeafLeftUpLegRoll1PostRAttrOperator(
 
 
 class LeafLeftUpLegRoll1PostRField(
-    CompoundField[LeafLeftUpLegRoll1PostRAttrOperator, LeafLeftUpLegRoll1PostRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1PostRAttrOperator,
+        LeafLeftUpLegRoll1PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45844,7 +45702,9 @@ class LeafLeftLegRoll1ISAttrOperator(
 
 
 class LeafLeftLegRoll1ISField(
-    CompoundField[LeafLeftLegRoll1ISAttrOperator, LeafLeftLegRoll1ISPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll1ISAttrOperator, LeafLeftLegRoll1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45888,7 +45748,9 @@ class LeafLeftLegRoll1PreRAttrOperator(
 
 
 class LeafLeftLegRoll1PreRField(
-    CompoundField[LeafLeftLegRoll1PreRAttrOperator, LeafLeftLegRoll1PreRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll1PreRAttrOperator, LeafLeftLegRoll1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45932,7 +45794,9 @@ class LeafLeftLegRoll1PostRAttrOperator(
 
 
 class LeafLeftLegRoll1PostRField(
-    CompoundField[LeafLeftLegRoll1PostRAttrOperator, LeafLeftLegRoll1PostRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll1PostRAttrOperator, LeafLeftLegRoll1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45976,7 +45840,9 @@ class LeafRightUpLegRoll1TAttrOperator(
 
 
 class LeafRightUpLegRoll1TField(
-    CompoundField[LeafRightUpLegRoll1TAttrOperator, LeafRightUpLegRoll1TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1TAttrOperator, LeafRightUpLegRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46020,7 +45886,9 @@ class LeafRightUpLegRoll1RAttrOperator(
 
 
 class LeafRightUpLegRoll1RField(
-    CompoundField[LeafRightUpLegRoll1RAttrOperator, LeafRightUpLegRoll1RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1RAttrOperator, LeafRightUpLegRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46064,7 +45932,9 @@ class LeafRightUpLegRoll1SAttrOperator(
 
 
 class LeafRightUpLegRoll1SField(
-    CompoundField[LeafRightUpLegRoll1SAttrOperator, LeafRightUpLegRoll1SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1SAttrOperator, LeafRightUpLegRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46108,7 +45978,9 @@ class LeafRightUpLegRoll1ISAttrOperator(
 
 
 class LeafRightUpLegRoll1ISField(
-    CompoundField[LeafRightUpLegRoll1ISAttrOperator, LeafRightUpLegRoll1ISPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1ISAttrOperator, LeafRightUpLegRoll1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46152,7 +46024,10 @@ class LeafRightUpLegRoll1PreRAttrOperator(
 
 
 class LeafRightUpLegRoll1PreRField(
-    CompoundField[LeafRightUpLegRoll1PreRAttrOperator, LeafRightUpLegRoll1PreRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1PreRAttrOperator,
+        LeafRightUpLegRoll1PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46196,7 +46071,10 @@ class LeafRightUpLegRoll1PostRAttrOperator(
 
 
 class LeafRightUpLegRoll1PostRField(
-    CompoundField[LeafRightUpLegRoll1PostRAttrOperator, LeafRightUpLegRoll1PostRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1PostRAttrOperator,
+        LeafRightUpLegRoll1PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46240,7 +46118,9 @@ class LeafRightLegRoll1TAttrOperator(
 
 
 class LeafRightLegRoll1TField(
-    CompoundField[LeafRightLegRoll1TAttrOperator, LeafRightLegRoll1TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1TAttrOperator, LeafRightLegRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46284,7 +46164,9 @@ class LeafRightLegRoll1RAttrOperator(
 
 
 class LeafRightLegRoll1RField(
-    CompoundField[LeafRightLegRoll1RAttrOperator, LeafRightLegRoll1RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1RAttrOperator, LeafRightLegRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46328,7 +46210,9 @@ class LeafRightLegRoll1SAttrOperator(
 
 
 class LeafRightLegRoll1SField(
-    CompoundField[LeafRightLegRoll1SAttrOperator, LeafRightLegRoll1SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1SAttrOperator, LeafRightLegRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46372,7 +46256,9 @@ class LeafRightLegRoll1ISAttrOperator(
 
 
 class LeafRightLegRoll1ISField(
-    CompoundField[LeafRightLegRoll1ISAttrOperator, LeafRightLegRoll1ISPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1ISAttrOperator, LeafRightLegRoll1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46416,7 +46302,9 @@ class LeafRightLegRoll1PreRAttrOperator(
 
 
 class LeafRightLegRoll1PreRField(
-    CompoundField[LeafRightLegRoll1PreRAttrOperator, LeafRightLegRoll1PreRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1PreRAttrOperator, LeafRightLegRoll1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46460,7 +46348,9 @@ class LeafRightLegRoll1PostRAttrOperator(
 
 
 class LeafRightLegRoll1PostRField(
-    CompoundField[LeafRightLegRoll1PostRAttrOperator, LeafRightLegRoll1PostRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1PostRAttrOperator, LeafRightLegRoll1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46636,7 +46526,9 @@ class LeafLeftArmRoll1ISAttrOperator(
 
 
 class LeafLeftArmRoll1ISField(
-    CompoundField[LeafLeftArmRoll1ISAttrOperator, LeafLeftArmRoll1ISPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll1ISAttrOperator, LeafLeftArmRoll1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46680,7 +46572,9 @@ class LeafLeftArmRoll1PreRAttrOperator(
 
 
 class LeafLeftArmRoll1PreRField(
-    CompoundField[LeafLeftArmRoll1PreRAttrOperator, LeafLeftArmRoll1PreRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll1PreRAttrOperator, LeafLeftArmRoll1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46724,7 +46618,9 @@ class LeafLeftArmRoll1PostRAttrOperator(
 
 
 class LeafLeftArmRoll1PostRField(
-    CompoundField[LeafLeftArmRoll1PostRAttrOperator, LeafLeftArmRoll1PostRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll1PostRAttrOperator, LeafLeftArmRoll1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46768,7 +46664,9 @@ class LeafLeftForeArmRoll1TAttrOperator(
 
 
 class LeafLeftForeArmRoll1TField(
-    CompoundField[LeafLeftForeArmRoll1TAttrOperator, LeafLeftForeArmRoll1TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1TAttrOperator, LeafLeftForeArmRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46812,7 +46710,9 @@ class LeafLeftForeArmRoll1RAttrOperator(
 
 
 class LeafLeftForeArmRoll1RField(
-    CompoundField[LeafLeftForeArmRoll1RAttrOperator, LeafLeftForeArmRoll1RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1RAttrOperator, LeafLeftForeArmRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46856,7 +46756,9 @@ class LeafLeftForeArmRoll1SAttrOperator(
 
 
 class LeafLeftForeArmRoll1SField(
-    CompoundField[LeafLeftForeArmRoll1SAttrOperator, LeafLeftForeArmRoll1SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1SAttrOperator, LeafLeftForeArmRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46900,7 +46802,9 @@ class LeafLeftForeArmRoll1ISAttrOperator(
 
 
 class LeafLeftForeArmRoll1ISField(
-    CompoundField[LeafLeftForeArmRoll1ISAttrOperator, LeafLeftForeArmRoll1ISPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1ISAttrOperator, LeafLeftForeArmRoll1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46944,7 +46848,10 @@ class LeafLeftForeArmRoll1PreRAttrOperator(
 
 
 class LeafLeftForeArmRoll1PreRField(
-    CompoundField[LeafLeftForeArmRoll1PreRAttrOperator, LeafLeftForeArmRoll1PreRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1PreRAttrOperator,
+        LeafLeftForeArmRoll1PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46988,7 +46895,10 @@ class LeafLeftForeArmRoll1PostRAttrOperator(
 
 
 class LeafLeftForeArmRoll1PostRField(
-    CompoundField[LeafLeftForeArmRoll1PostRAttrOperator, LeafLeftForeArmRoll1PostRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1PostRAttrOperator,
+        LeafLeftForeArmRoll1PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47032,7 +46942,9 @@ class LeafRightArmRoll1TAttrOperator(
 
 
 class LeafRightArmRoll1TField(
-    CompoundField[LeafRightArmRoll1TAttrOperator, LeafRightArmRoll1TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1TAttrOperator, LeafRightArmRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47076,7 +46988,9 @@ class LeafRightArmRoll1RAttrOperator(
 
 
 class LeafRightArmRoll1RField(
-    CompoundField[LeafRightArmRoll1RAttrOperator, LeafRightArmRoll1RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1RAttrOperator, LeafRightArmRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47120,7 +47034,9 @@ class LeafRightArmRoll1SAttrOperator(
 
 
 class LeafRightArmRoll1SField(
-    CompoundField[LeafRightArmRoll1SAttrOperator, LeafRightArmRoll1SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1SAttrOperator, LeafRightArmRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47164,7 +47080,9 @@ class LeafRightArmRoll1ISAttrOperator(
 
 
 class LeafRightArmRoll1ISField(
-    CompoundField[LeafRightArmRoll1ISAttrOperator, LeafRightArmRoll1ISPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1ISAttrOperator, LeafRightArmRoll1ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47208,7 +47126,9 @@ class LeafRightArmRoll1PreRAttrOperator(
 
 
 class LeafRightArmRoll1PreRField(
-    CompoundField[LeafRightArmRoll1PreRAttrOperator, LeafRightArmRoll1PreRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1PreRAttrOperator, LeafRightArmRoll1PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47252,7 +47172,9 @@ class LeafRightArmRoll1PostRAttrOperator(
 
 
 class LeafRightArmRoll1PostRField(
-    CompoundField[LeafRightArmRoll1PostRAttrOperator, LeafRightArmRoll1PostRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1PostRAttrOperator, LeafRightArmRoll1PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47296,7 +47218,9 @@ class LeafRightForeArmRoll1TAttrOperator(
 
 
 class LeafRightForeArmRoll1TField(
-    CompoundField[LeafRightForeArmRoll1TAttrOperator, LeafRightForeArmRoll1TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1TAttrOperator, LeafRightForeArmRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47340,7 +47264,9 @@ class LeafRightForeArmRoll1RAttrOperator(
 
 
 class LeafRightForeArmRoll1RField(
-    CompoundField[LeafRightForeArmRoll1RAttrOperator, LeafRightForeArmRoll1RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1RAttrOperator, LeafRightForeArmRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47384,7 +47310,9 @@ class LeafRightForeArmRoll1SAttrOperator(
 
 
 class LeafRightForeArmRoll1SField(
-    CompoundField[LeafRightForeArmRoll1SAttrOperator, LeafRightForeArmRoll1SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1SAttrOperator, LeafRightForeArmRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47428,7 +47356,10 @@ class LeafRightForeArmRoll1ISAttrOperator(
 
 
 class LeafRightForeArmRoll1ISField(
-    CompoundField[LeafRightForeArmRoll1ISAttrOperator, LeafRightForeArmRoll1ISPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1ISAttrOperator,
+        LeafRightForeArmRoll1ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47472,7 +47403,10 @@ class LeafRightForeArmRoll1PreRAttrOperator(
 
 
 class LeafRightForeArmRoll1PreRField(
-    CompoundField[LeafRightForeArmRoll1PreRAttrOperator, LeafRightForeArmRoll1PreRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1PreRAttrOperator,
+        LeafRightForeArmRoll1PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47516,7 +47450,10 @@ class LeafRightForeArmRoll1PostRAttrOperator(
 
 
 class LeafRightForeArmRoll1PostRField(
-    CompoundField[LeafRightForeArmRoll1PostRAttrOperator, LeafRightForeArmRoll1PostRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1PostRAttrOperator,
+        LeafRightForeArmRoll1PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47560,7 +47497,9 @@ class LeafLeftUpLegRoll2TAttrOperator(
 
 
 class LeafLeftUpLegRoll2TField(
-    CompoundField[LeafLeftUpLegRoll2TAttrOperator, LeafLeftUpLegRoll2TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2TAttrOperator, LeafLeftUpLegRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47604,7 +47543,9 @@ class LeafLeftUpLegRoll2RAttrOperator(
 
 
 class LeafLeftUpLegRoll2RField(
-    CompoundField[LeafLeftUpLegRoll2RAttrOperator, LeafLeftUpLegRoll2RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2RAttrOperator, LeafLeftUpLegRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47648,7 +47589,9 @@ class LeafLeftUpLegRoll2SAttrOperator(
 
 
 class LeafLeftUpLegRoll2SField(
-    CompoundField[LeafLeftUpLegRoll2SAttrOperator, LeafLeftUpLegRoll2SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2SAttrOperator, LeafLeftUpLegRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47692,7 +47635,9 @@ class LeafLeftUpLegRoll2ISAttrOperator(
 
 
 class LeafLeftUpLegRoll2ISField(
-    CompoundField[LeafLeftUpLegRoll2ISAttrOperator, LeafLeftUpLegRoll2ISPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2ISAttrOperator, LeafLeftUpLegRoll2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47736,7 +47681,9 @@ class LeafLeftUpLegRoll2PreRAttrOperator(
 
 
 class LeafLeftUpLegRoll2PreRField(
-    CompoundField[LeafLeftUpLegRoll2PreRAttrOperator, LeafLeftUpLegRoll2PreRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2PreRAttrOperator, LeafLeftUpLegRoll2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47780,7 +47727,10 @@ class LeafLeftUpLegRoll2PostRAttrOperator(
 
 
 class LeafLeftUpLegRoll2PostRField(
-    CompoundField[LeafLeftUpLegRoll2PostRAttrOperator, LeafLeftUpLegRoll2PostRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2PostRAttrOperator,
+        LeafLeftUpLegRoll2PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47956,7 +47906,9 @@ class LeafLeftLegRoll2ISAttrOperator(
 
 
 class LeafLeftLegRoll2ISField(
-    CompoundField[LeafLeftLegRoll2ISAttrOperator, LeafLeftLegRoll2ISPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll2ISAttrOperator, LeafLeftLegRoll2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48000,7 +47952,9 @@ class LeafLeftLegRoll2PreRAttrOperator(
 
 
 class LeafLeftLegRoll2PreRField(
-    CompoundField[LeafLeftLegRoll2PreRAttrOperator, LeafLeftLegRoll2PreRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll2PreRAttrOperator, LeafLeftLegRoll2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48044,7 +47998,9 @@ class LeafLeftLegRoll2PostRAttrOperator(
 
 
 class LeafLeftLegRoll2PostRField(
-    CompoundField[LeafLeftLegRoll2PostRAttrOperator, LeafLeftLegRoll2PostRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll2PostRAttrOperator, LeafLeftLegRoll2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48088,7 +48044,9 @@ class LeafRightUpLegRoll2TAttrOperator(
 
 
 class LeafRightUpLegRoll2TField(
-    CompoundField[LeafRightUpLegRoll2TAttrOperator, LeafRightUpLegRoll2TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2TAttrOperator, LeafRightUpLegRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48132,7 +48090,9 @@ class LeafRightUpLegRoll2RAttrOperator(
 
 
 class LeafRightUpLegRoll2RField(
-    CompoundField[LeafRightUpLegRoll2RAttrOperator, LeafRightUpLegRoll2RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2RAttrOperator, LeafRightUpLegRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48176,7 +48136,9 @@ class LeafRightUpLegRoll2SAttrOperator(
 
 
 class LeafRightUpLegRoll2SField(
-    CompoundField[LeafRightUpLegRoll2SAttrOperator, LeafRightUpLegRoll2SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2SAttrOperator, LeafRightUpLegRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48220,7 +48182,9 @@ class LeafRightUpLegRoll2ISAttrOperator(
 
 
 class LeafRightUpLegRoll2ISField(
-    CompoundField[LeafRightUpLegRoll2ISAttrOperator, LeafRightUpLegRoll2ISPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2ISAttrOperator, LeafRightUpLegRoll2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48264,7 +48228,10 @@ class LeafRightUpLegRoll2PreRAttrOperator(
 
 
 class LeafRightUpLegRoll2PreRField(
-    CompoundField[LeafRightUpLegRoll2PreRAttrOperator, LeafRightUpLegRoll2PreRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2PreRAttrOperator,
+        LeafRightUpLegRoll2PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48308,7 +48275,10 @@ class LeafRightUpLegRoll2PostRAttrOperator(
 
 
 class LeafRightUpLegRoll2PostRField(
-    CompoundField[LeafRightUpLegRoll2PostRAttrOperator, LeafRightUpLegRoll2PostRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2PostRAttrOperator,
+        LeafRightUpLegRoll2PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48352,7 +48322,9 @@ class LeafRightLegRoll2TAttrOperator(
 
 
 class LeafRightLegRoll2TField(
-    CompoundField[LeafRightLegRoll2TAttrOperator, LeafRightLegRoll2TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2TAttrOperator, LeafRightLegRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48396,7 +48368,9 @@ class LeafRightLegRoll2RAttrOperator(
 
 
 class LeafRightLegRoll2RField(
-    CompoundField[LeafRightLegRoll2RAttrOperator, LeafRightLegRoll2RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2RAttrOperator, LeafRightLegRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48440,7 +48414,9 @@ class LeafRightLegRoll2SAttrOperator(
 
 
 class LeafRightLegRoll2SField(
-    CompoundField[LeafRightLegRoll2SAttrOperator, LeafRightLegRoll2SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2SAttrOperator, LeafRightLegRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48484,7 +48460,9 @@ class LeafRightLegRoll2ISAttrOperator(
 
 
 class LeafRightLegRoll2ISField(
-    CompoundField[LeafRightLegRoll2ISAttrOperator, LeafRightLegRoll2ISPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2ISAttrOperator, LeafRightLegRoll2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48528,7 +48506,9 @@ class LeafRightLegRoll2PreRAttrOperator(
 
 
 class LeafRightLegRoll2PreRField(
-    CompoundField[LeafRightLegRoll2PreRAttrOperator, LeafRightLegRoll2PreRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2PreRAttrOperator, LeafRightLegRoll2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48572,7 +48552,9 @@ class LeafRightLegRoll2PostRAttrOperator(
 
 
 class LeafRightLegRoll2PostRField(
-    CompoundField[LeafRightLegRoll2PostRAttrOperator, LeafRightLegRoll2PostRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2PostRAttrOperator, LeafRightLegRoll2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48748,7 +48730,9 @@ class LeafLeftArmRoll2ISAttrOperator(
 
 
 class LeafLeftArmRoll2ISField(
-    CompoundField[LeafLeftArmRoll2ISAttrOperator, LeafLeftArmRoll2ISPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll2ISAttrOperator, LeafLeftArmRoll2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48792,7 +48776,9 @@ class LeafLeftArmRoll2PreRAttrOperator(
 
 
 class LeafLeftArmRoll2PreRField(
-    CompoundField[LeafLeftArmRoll2PreRAttrOperator, LeafLeftArmRoll2PreRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll2PreRAttrOperator, LeafLeftArmRoll2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48836,7 +48822,9 @@ class LeafLeftArmRoll2PostRAttrOperator(
 
 
 class LeafLeftArmRoll2PostRField(
-    CompoundField[LeafLeftArmRoll2PostRAttrOperator, LeafLeftArmRoll2PostRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll2PostRAttrOperator, LeafLeftArmRoll2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48880,7 +48868,9 @@ class LeafLeftForeArmRoll2TAttrOperator(
 
 
 class LeafLeftForeArmRoll2TField(
-    CompoundField[LeafLeftForeArmRoll2TAttrOperator, LeafLeftForeArmRoll2TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2TAttrOperator, LeafLeftForeArmRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48924,7 +48914,9 @@ class LeafLeftForeArmRoll2RAttrOperator(
 
 
 class LeafLeftForeArmRoll2RField(
-    CompoundField[LeafLeftForeArmRoll2RAttrOperator, LeafLeftForeArmRoll2RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2RAttrOperator, LeafLeftForeArmRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48968,7 +48960,9 @@ class LeafLeftForeArmRoll2SAttrOperator(
 
 
 class LeafLeftForeArmRoll2SField(
-    CompoundField[LeafLeftForeArmRoll2SAttrOperator, LeafLeftForeArmRoll2SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2SAttrOperator, LeafLeftForeArmRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49012,7 +49006,9 @@ class LeafLeftForeArmRoll2ISAttrOperator(
 
 
 class LeafLeftForeArmRoll2ISField(
-    CompoundField[LeafLeftForeArmRoll2ISAttrOperator, LeafLeftForeArmRoll2ISPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2ISAttrOperator, LeafLeftForeArmRoll2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49056,7 +49052,10 @@ class LeafLeftForeArmRoll2PreRAttrOperator(
 
 
 class LeafLeftForeArmRoll2PreRField(
-    CompoundField[LeafLeftForeArmRoll2PreRAttrOperator, LeafLeftForeArmRoll2PreRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2PreRAttrOperator,
+        LeafLeftForeArmRoll2PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49100,7 +49099,10 @@ class LeafLeftForeArmRoll2PostRAttrOperator(
 
 
 class LeafLeftForeArmRoll2PostRField(
-    CompoundField[LeafLeftForeArmRoll2PostRAttrOperator, LeafLeftForeArmRoll2PostRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2PostRAttrOperator,
+        LeafLeftForeArmRoll2PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49144,7 +49146,9 @@ class LeafRightArmRoll2TAttrOperator(
 
 
 class LeafRightArmRoll2TField(
-    CompoundField[LeafRightArmRoll2TAttrOperator, LeafRightArmRoll2TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2TAttrOperator, LeafRightArmRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49188,7 +49192,9 @@ class LeafRightArmRoll2RAttrOperator(
 
 
 class LeafRightArmRoll2RField(
-    CompoundField[LeafRightArmRoll2RAttrOperator, LeafRightArmRoll2RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2RAttrOperator, LeafRightArmRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49232,7 +49238,9 @@ class LeafRightArmRoll2SAttrOperator(
 
 
 class LeafRightArmRoll2SField(
-    CompoundField[LeafRightArmRoll2SAttrOperator, LeafRightArmRoll2SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2SAttrOperator, LeafRightArmRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49276,7 +49284,9 @@ class LeafRightArmRoll2ISAttrOperator(
 
 
 class LeafRightArmRoll2ISField(
-    CompoundField[LeafRightArmRoll2ISAttrOperator, LeafRightArmRoll2ISPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2ISAttrOperator, LeafRightArmRoll2ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49320,7 +49330,9 @@ class LeafRightArmRoll2PreRAttrOperator(
 
 
 class LeafRightArmRoll2PreRField(
-    CompoundField[LeafRightArmRoll2PreRAttrOperator, LeafRightArmRoll2PreRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2PreRAttrOperator, LeafRightArmRoll2PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49364,7 +49376,9 @@ class LeafRightArmRoll2PostRAttrOperator(
 
 
 class LeafRightArmRoll2PostRField(
-    CompoundField[LeafRightArmRoll2PostRAttrOperator, LeafRightArmRoll2PostRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2PostRAttrOperator, LeafRightArmRoll2PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49408,7 +49422,9 @@ class LeafRightForeArmRoll2TAttrOperator(
 
 
 class LeafRightForeArmRoll2TField(
-    CompoundField[LeafRightForeArmRoll2TAttrOperator, LeafRightForeArmRoll2TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2TAttrOperator, LeafRightForeArmRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49452,7 +49468,9 @@ class LeafRightForeArmRoll2RAttrOperator(
 
 
 class LeafRightForeArmRoll2RField(
-    CompoundField[LeafRightForeArmRoll2RAttrOperator, LeafRightForeArmRoll2RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2RAttrOperator, LeafRightForeArmRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49496,7 +49514,9 @@ class LeafRightForeArmRoll2SAttrOperator(
 
 
 class LeafRightForeArmRoll2SField(
-    CompoundField[LeafRightForeArmRoll2SAttrOperator, LeafRightForeArmRoll2SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2SAttrOperator, LeafRightForeArmRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49540,7 +49560,10 @@ class LeafRightForeArmRoll2ISAttrOperator(
 
 
 class LeafRightForeArmRoll2ISField(
-    CompoundField[LeafRightForeArmRoll2ISAttrOperator, LeafRightForeArmRoll2ISPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2ISAttrOperator,
+        LeafRightForeArmRoll2ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49584,7 +49607,10 @@ class LeafRightForeArmRoll2PreRAttrOperator(
 
 
 class LeafRightForeArmRoll2PreRField(
-    CompoundField[LeafRightForeArmRoll2PreRAttrOperator, LeafRightForeArmRoll2PreRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2PreRAttrOperator,
+        LeafRightForeArmRoll2PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49628,7 +49654,10 @@ class LeafRightForeArmRoll2PostRAttrOperator(
 
 
 class LeafRightForeArmRoll2PostRField(
-    CompoundField[LeafRightForeArmRoll2PostRAttrOperator, LeafRightForeArmRoll2PostRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2PostRAttrOperator,
+        LeafRightForeArmRoll2PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49672,7 +49701,9 @@ class LeafLeftUpLegRoll3TAttrOperator(
 
 
 class LeafLeftUpLegRoll3TField(
-    CompoundField[LeafLeftUpLegRoll3TAttrOperator, LeafLeftUpLegRoll3TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3TAttrOperator, LeafLeftUpLegRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49716,7 +49747,9 @@ class LeafLeftUpLegRoll3RAttrOperator(
 
 
 class LeafLeftUpLegRoll3RField(
-    CompoundField[LeafLeftUpLegRoll3RAttrOperator, LeafLeftUpLegRoll3RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3RAttrOperator, LeafLeftUpLegRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49760,7 +49793,9 @@ class LeafLeftUpLegRoll3SAttrOperator(
 
 
 class LeafLeftUpLegRoll3SField(
-    CompoundField[LeafLeftUpLegRoll3SAttrOperator, LeafLeftUpLegRoll3SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3SAttrOperator, LeafLeftUpLegRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49804,7 +49839,9 @@ class LeafLeftUpLegRoll3ISAttrOperator(
 
 
 class LeafLeftUpLegRoll3ISField(
-    CompoundField[LeafLeftUpLegRoll3ISAttrOperator, LeafLeftUpLegRoll3ISPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3ISAttrOperator, LeafLeftUpLegRoll3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49848,7 +49885,9 @@ class LeafLeftUpLegRoll3PreRAttrOperator(
 
 
 class LeafLeftUpLegRoll3PreRField(
-    CompoundField[LeafLeftUpLegRoll3PreRAttrOperator, LeafLeftUpLegRoll3PreRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3PreRAttrOperator, LeafLeftUpLegRoll3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -49892,7 +49931,10 @@ class LeafLeftUpLegRoll3PostRAttrOperator(
 
 
 class LeafLeftUpLegRoll3PostRField(
-    CompoundField[LeafLeftUpLegRoll3PostRAttrOperator, LeafLeftUpLegRoll3PostRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3PostRAttrOperator,
+        LeafLeftUpLegRoll3PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50068,7 +50110,9 @@ class LeafLeftLegRoll3ISAttrOperator(
 
 
 class LeafLeftLegRoll3ISField(
-    CompoundField[LeafLeftLegRoll3ISAttrOperator, LeafLeftLegRoll3ISPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll3ISAttrOperator, LeafLeftLegRoll3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50112,7 +50156,9 @@ class LeafLeftLegRoll3PreRAttrOperator(
 
 
 class LeafLeftLegRoll3PreRField(
-    CompoundField[LeafLeftLegRoll3PreRAttrOperator, LeafLeftLegRoll3PreRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll3PreRAttrOperator, LeafLeftLegRoll3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50156,7 +50202,9 @@ class LeafLeftLegRoll3PostRAttrOperator(
 
 
 class LeafLeftLegRoll3PostRField(
-    CompoundField[LeafLeftLegRoll3PostRAttrOperator, LeafLeftLegRoll3PostRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll3PostRAttrOperator, LeafLeftLegRoll3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50200,7 +50248,9 @@ class LeafRightUpLegRoll3TAttrOperator(
 
 
 class LeafRightUpLegRoll3TField(
-    CompoundField[LeafRightUpLegRoll3TAttrOperator, LeafRightUpLegRoll3TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3TAttrOperator, LeafRightUpLegRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50244,7 +50294,9 @@ class LeafRightUpLegRoll3RAttrOperator(
 
 
 class LeafRightUpLegRoll3RField(
-    CompoundField[LeafRightUpLegRoll3RAttrOperator, LeafRightUpLegRoll3RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3RAttrOperator, LeafRightUpLegRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50288,7 +50340,9 @@ class LeafRightUpLegRoll3SAttrOperator(
 
 
 class LeafRightUpLegRoll3SField(
-    CompoundField[LeafRightUpLegRoll3SAttrOperator, LeafRightUpLegRoll3SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3SAttrOperator, LeafRightUpLegRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50332,7 +50386,9 @@ class LeafRightUpLegRoll3ISAttrOperator(
 
 
 class LeafRightUpLegRoll3ISField(
-    CompoundField[LeafRightUpLegRoll3ISAttrOperator, LeafRightUpLegRoll3ISPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3ISAttrOperator, LeafRightUpLegRoll3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50376,7 +50432,10 @@ class LeafRightUpLegRoll3PreRAttrOperator(
 
 
 class LeafRightUpLegRoll3PreRField(
-    CompoundField[LeafRightUpLegRoll3PreRAttrOperator, LeafRightUpLegRoll3PreRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3PreRAttrOperator,
+        LeafRightUpLegRoll3PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50420,7 +50479,10 @@ class LeafRightUpLegRoll3PostRAttrOperator(
 
 
 class LeafRightUpLegRoll3PostRField(
-    CompoundField[LeafRightUpLegRoll3PostRAttrOperator, LeafRightUpLegRoll3PostRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3PostRAttrOperator,
+        LeafRightUpLegRoll3PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50464,7 +50526,9 @@ class LeafRightLegRoll3TAttrOperator(
 
 
 class LeafRightLegRoll3TField(
-    CompoundField[LeafRightLegRoll3TAttrOperator, LeafRightLegRoll3TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3TAttrOperator, LeafRightLegRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50508,7 +50572,9 @@ class LeafRightLegRoll3RAttrOperator(
 
 
 class LeafRightLegRoll3RField(
-    CompoundField[LeafRightLegRoll3RAttrOperator, LeafRightLegRoll3RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3RAttrOperator, LeafRightLegRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50552,7 +50618,9 @@ class LeafRightLegRoll3SAttrOperator(
 
 
 class LeafRightLegRoll3SField(
-    CompoundField[LeafRightLegRoll3SAttrOperator, LeafRightLegRoll3SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3SAttrOperator, LeafRightLegRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50596,7 +50664,9 @@ class LeafRightLegRoll3ISAttrOperator(
 
 
 class LeafRightLegRoll3ISField(
-    CompoundField[LeafRightLegRoll3ISAttrOperator, LeafRightLegRoll3ISPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3ISAttrOperator, LeafRightLegRoll3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50640,7 +50710,9 @@ class LeafRightLegRoll3PreRAttrOperator(
 
 
 class LeafRightLegRoll3PreRField(
-    CompoundField[LeafRightLegRoll3PreRAttrOperator, LeafRightLegRoll3PreRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3PreRAttrOperator, LeafRightLegRoll3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50684,7 +50756,9 @@ class LeafRightLegRoll3PostRAttrOperator(
 
 
 class LeafRightLegRoll3PostRField(
-    CompoundField[LeafRightLegRoll3PostRAttrOperator, LeafRightLegRoll3PostRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3PostRAttrOperator, LeafRightLegRoll3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50860,7 +50934,9 @@ class LeafLeftArmRoll3ISAttrOperator(
 
 
 class LeafLeftArmRoll3ISField(
-    CompoundField[LeafLeftArmRoll3ISAttrOperator, LeafLeftArmRoll3ISPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll3ISAttrOperator, LeafLeftArmRoll3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50904,7 +50980,9 @@ class LeafLeftArmRoll3PreRAttrOperator(
 
 
 class LeafLeftArmRoll3PreRField(
-    CompoundField[LeafLeftArmRoll3PreRAttrOperator, LeafLeftArmRoll3PreRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll3PreRAttrOperator, LeafLeftArmRoll3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50948,7 +51026,9 @@ class LeafLeftArmRoll3PostRAttrOperator(
 
 
 class LeafLeftArmRoll3PostRField(
-    CompoundField[LeafLeftArmRoll3PostRAttrOperator, LeafLeftArmRoll3PostRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll3PostRAttrOperator, LeafLeftArmRoll3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50992,7 +51072,9 @@ class LeafLeftForeArmRoll3TAttrOperator(
 
 
 class LeafLeftForeArmRoll3TField(
-    CompoundField[LeafLeftForeArmRoll3TAttrOperator, LeafLeftForeArmRoll3TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3TAttrOperator, LeafLeftForeArmRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51036,7 +51118,9 @@ class LeafLeftForeArmRoll3RAttrOperator(
 
 
 class LeafLeftForeArmRoll3RField(
-    CompoundField[LeafLeftForeArmRoll3RAttrOperator, LeafLeftForeArmRoll3RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3RAttrOperator, LeafLeftForeArmRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51080,7 +51164,9 @@ class LeafLeftForeArmRoll3SAttrOperator(
 
 
 class LeafLeftForeArmRoll3SField(
-    CompoundField[LeafLeftForeArmRoll3SAttrOperator, LeafLeftForeArmRoll3SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3SAttrOperator, LeafLeftForeArmRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51124,7 +51210,9 @@ class LeafLeftForeArmRoll3ISAttrOperator(
 
 
 class LeafLeftForeArmRoll3ISField(
-    CompoundField[LeafLeftForeArmRoll3ISAttrOperator, LeafLeftForeArmRoll3ISPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3ISAttrOperator, LeafLeftForeArmRoll3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51168,7 +51256,10 @@ class LeafLeftForeArmRoll3PreRAttrOperator(
 
 
 class LeafLeftForeArmRoll3PreRField(
-    CompoundField[LeafLeftForeArmRoll3PreRAttrOperator, LeafLeftForeArmRoll3PreRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3PreRAttrOperator,
+        LeafLeftForeArmRoll3PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51212,7 +51303,10 @@ class LeafLeftForeArmRoll3PostRAttrOperator(
 
 
 class LeafLeftForeArmRoll3PostRField(
-    CompoundField[LeafLeftForeArmRoll3PostRAttrOperator, LeafLeftForeArmRoll3PostRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3PostRAttrOperator,
+        LeafLeftForeArmRoll3PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51256,7 +51350,9 @@ class LeafRightArmRoll3TAttrOperator(
 
 
 class LeafRightArmRoll3TField(
-    CompoundField[LeafRightArmRoll3TAttrOperator, LeafRightArmRoll3TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3TAttrOperator, LeafRightArmRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51300,7 +51396,9 @@ class LeafRightArmRoll3RAttrOperator(
 
 
 class LeafRightArmRoll3RField(
-    CompoundField[LeafRightArmRoll3RAttrOperator, LeafRightArmRoll3RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3RAttrOperator, LeafRightArmRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51344,7 +51442,9 @@ class LeafRightArmRoll3SAttrOperator(
 
 
 class LeafRightArmRoll3SField(
-    CompoundField[LeafRightArmRoll3SAttrOperator, LeafRightArmRoll3SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3SAttrOperator, LeafRightArmRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51388,7 +51488,9 @@ class LeafRightArmRoll3ISAttrOperator(
 
 
 class LeafRightArmRoll3ISField(
-    CompoundField[LeafRightArmRoll3ISAttrOperator, LeafRightArmRoll3ISPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3ISAttrOperator, LeafRightArmRoll3ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51432,7 +51534,9 @@ class LeafRightArmRoll3PreRAttrOperator(
 
 
 class LeafRightArmRoll3PreRField(
-    CompoundField[LeafRightArmRoll3PreRAttrOperator, LeafRightArmRoll3PreRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3PreRAttrOperator, LeafRightArmRoll3PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51476,7 +51580,9 @@ class LeafRightArmRoll3PostRAttrOperator(
 
 
 class LeafRightArmRoll3PostRField(
-    CompoundField[LeafRightArmRoll3PostRAttrOperator, LeafRightArmRoll3PostRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3PostRAttrOperator, LeafRightArmRoll3PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51520,7 +51626,9 @@ class LeafRightForeArmRoll3TAttrOperator(
 
 
 class LeafRightForeArmRoll3TField(
-    CompoundField[LeafRightForeArmRoll3TAttrOperator, LeafRightForeArmRoll3TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3TAttrOperator, LeafRightForeArmRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51564,7 +51672,9 @@ class LeafRightForeArmRoll3RAttrOperator(
 
 
 class LeafRightForeArmRoll3RField(
-    CompoundField[LeafRightForeArmRoll3RAttrOperator, LeafRightForeArmRoll3RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3RAttrOperator, LeafRightForeArmRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51608,7 +51718,9 @@ class LeafRightForeArmRoll3SAttrOperator(
 
 
 class LeafRightForeArmRoll3SField(
-    CompoundField[LeafRightForeArmRoll3SAttrOperator, LeafRightForeArmRoll3SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3SAttrOperator, LeafRightForeArmRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51652,7 +51764,10 @@ class LeafRightForeArmRoll3ISAttrOperator(
 
 
 class LeafRightForeArmRoll3ISField(
-    CompoundField[LeafRightForeArmRoll3ISAttrOperator, LeafRightForeArmRoll3ISPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3ISAttrOperator,
+        LeafRightForeArmRoll3ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51696,7 +51811,10 @@ class LeafRightForeArmRoll3PreRAttrOperator(
 
 
 class LeafRightForeArmRoll3PreRField(
-    CompoundField[LeafRightForeArmRoll3PreRAttrOperator, LeafRightForeArmRoll3PreRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3PreRAttrOperator,
+        LeafRightForeArmRoll3PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51740,7 +51858,10 @@ class LeafRightForeArmRoll3PostRAttrOperator(
 
 
 class LeafRightForeArmRoll3PostRField(
-    CompoundField[LeafRightForeArmRoll3PostRAttrOperator, LeafRightForeArmRoll3PostRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3PostRAttrOperator,
+        LeafRightForeArmRoll3PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51784,7 +51905,9 @@ class LeafLeftUpLegRoll4TAttrOperator(
 
 
 class LeafLeftUpLegRoll4TField(
-    CompoundField[LeafLeftUpLegRoll4TAttrOperator, LeafLeftUpLegRoll4TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4TAttrOperator, LeafLeftUpLegRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51828,7 +51951,9 @@ class LeafLeftUpLegRoll4RAttrOperator(
 
 
 class LeafLeftUpLegRoll4RField(
-    CompoundField[LeafLeftUpLegRoll4RAttrOperator, LeafLeftUpLegRoll4RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4RAttrOperator, LeafLeftUpLegRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51872,7 +51997,9 @@ class LeafLeftUpLegRoll4SAttrOperator(
 
 
 class LeafLeftUpLegRoll4SField(
-    CompoundField[LeafLeftUpLegRoll4SAttrOperator, LeafLeftUpLegRoll4SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4SAttrOperator, LeafLeftUpLegRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51916,7 +52043,9 @@ class LeafLeftUpLegRoll4ISAttrOperator(
 
 
 class LeafLeftUpLegRoll4ISField(
-    CompoundField[LeafLeftUpLegRoll4ISAttrOperator, LeafLeftUpLegRoll4ISPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4ISAttrOperator, LeafLeftUpLegRoll4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51960,7 +52089,9 @@ class LeafLeftUpLegRoll4PreRAttrOperator(
 
 
 class LeafLeftUpLegRoll4PreRField(
-    CompoundField[LeafLeftUpLegRoll4PreRAttrOperator, LeafLeftUpLegRoll4PreRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4PreRAttrOperator, LeafLeftUpLegRoll4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52004,7 +52135,10 @@ class LeafLeftUpLegRoll4PostRAttrOperator(
 
 
 class LeafLeftUpLegRoll4PostRField(
-    CompoundField[LeafLeftUpLegRoll4PostRAttrOperator, LeafLeftUpLegRoll4PostRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4PostRAttrOperator,
+        LeafLeftUpLegRoll4PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52180,7 +52314,9 @@ class LeafLeftLegRoll4ISAttrOperator(
 
 
 class LeafLeftLegRoll4ISField(
-    CompoundField[LeafLeftLegRoll4ISAttrOperator, LeafLeftLegRoll4ISPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll4ISAttrOperator, LeafLeftLegRoll4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52224,7 +52360,9 @@ class LeafLeftLegRoll4PreRAttrOperator(
 
 
 class LeafLeftLegRoll4PreRField(
-    CompoundField[LeafLeftLegRoll4PreRAttrOperator, LeafLeftLegRoll4PreRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll4PreRAttrOperator, LeafLeftLegRoll4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52268,7 +52406,9 @@ class LeafLeftLegRoll4PostRAttrOperator(
 
 
 class LeafLeftLegRoll4PostRField(
-    CompoundField[LeafLeftLegRoll4PostRAttrOperator, LeafLeftLegRoll4PostRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll4PostRAttrOperator, LeafLeftLegRoll4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52312,7 +52452,9 @@ class LeafRightUpLegRoll4TAttrOperator(
 
 
 class LeafRightUpLegRoll4TField(
-    CompoundField[LeafRightUpLegRoll4TAttrOperator, LeafRightUpLegRoll4TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4TAttrOperator, LeafRightUpLegRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52356,7 +52498,9 @@ class LeafRightUpLegRoll4RAttrOperator(
 
 
 class LeafRightUpLegRoll4RField(
-    CompoundField[LeafRightUpLegRoll4RAttrOperator, LeafRightUpLegRoll4RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4RAttrOperator, LeafRightUpLegRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52400,7 +52544,9 @@ class LeafRightUpLegRoll4SAttrOperator(
 
 
 class LeafRightUpLegRoll4SField(
-    CompoundField[LeafRightUpLegRoll4SAttrOperator, LeafRightUpLegRoll4SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4SAttrOperator, LeafRightUpLegRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52444,7 +52590,9 @@ class LeafRightUpLegRoll4ISAttrOperator(
 
 
 class LeafRightUpLegRoll4ISField(
-    CompoundField[LeafRightUpLegRoll4ISAttrOperator, LeafRightUpLegRoll4ISPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4ISAttrOperator, LeafRightUpLegRoll4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52488,7 +52636,10 @@ class LeafRightUpLegRoll4PreRAttrOperator(
 
 
 class LeafRightUpLegRoll4PreRField(
-    CompoundField[LeafRightUpLegRoll4PreRAttrOperator, LeafRightUpLegRoll4PreRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4PreRAttrOperator,
+        LeafRightUpLegRoll4PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52532,7 +52683,10 @@ class LeafRightUpLegRoll4PostRAttrOperator(
 
 
 class LeafRightUpLegRoll4PostRField(
-    CompoundField[LeafRightUpLegRoll4PostRAttrOperator, LeafRightUpLegRoll4PostRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4PostRAttrOperator,
+        LeafRightUpLegRoll4PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52576,7 +52730,9 @@ class LeafRightLegRoll4TAttrOperator(
 
 
 class LeafRightLegRoll4TField(
-    CompoundField[LeafRightLegRoll4TAttrOperator, LeafRightLegRoll4TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4TAttrOperator, LeafRightLegRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52620,7 +52776,9 @@ class LeafRightLegRoll4RAttrOperator(
 
 
 class LeafRightLegRoll4RField(
-    CompoundField[LeafRightLegRoll4RAttrOperator, LeafRightLegRoll4RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4RAttrOperator, LeafRightLegRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52664,7 +52822,9 @@ class LeafRightLegRoll4SAttrOperator(
 
 
 class LeafRightLegRoll4SField(
-    CompoundField[LeafRightLegRoll4SAttrOperator, LeafRightLegRoll4SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4SAttrOperator, LeafRightLegRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52708,7 +52868,9 @@ class LeafRightLegRoll4ISAttrOperator(
 
 
 class LeafRightLegRoll4ISField(
-    CompoundField[LeafRightLegRoll4ISAttrOperator, LeafRightLegRoll4ISPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4ISAttrOperator, LeafRightLegRoll4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52752,7 +52914,9 @@ class LeafRightLegRoll4PreRAttrOperator(
 
 
 class LeafRightLegRoll4PreRField(
-    CompoundField[LeafRightLegRoll4PreRAttrOperator, LeafRightLegRoll4PreRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4PreRAttrOperator, LeafRightLegRoll4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52796,7 +52960,9 @@ class LeafRightLegRoll4PostRAttrOperator(
 
 
 class LeafRightLegRoll4PostRField(
-    CompoundField[LeafRightLegRoll4PostRAttrOperator, LeafRightLegRoll4PostRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4PostRAttrOperator, LeafRightLegRoll4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52972,7 +53138,9 @@ class LeafLeftArmRoll4ISAttrOperator(
 
 
 class LeafLeftArmRoll4ISField(
-    CompoundField[LeafLeftArmRoll4ISAttrOperator, LeafLeftArmRoll4ISPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll4ISAttrOperator, LeafLeftArmRoll4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53016,7 +53184,9 @@ class LeafLeftArmRoll4PreRAttrOperator(
 
 
 class LeafLeftArmRoll4PreRField(
-    CompoundField[LeafLeftArmRoll4PreRAttrOperator, LeafLeftArmRoll4PreRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll4PreRAttrOperator, LeafLeftArmRoll4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53060,7 +53230,9 @@ class LeafLeftArmRoll4PostRAttrOperator(
 
 
 class LeafLeftArmRoll4PostRField(
-    CompoundField[LeafLeftArmRoll4PostRAttrOperator, LeafLeftArmRoll4PostRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll4PostRAttrOperator, LeafLeftArmRoll4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53104,7 +53276,9 @@ class LeafLeftForeArmRoll4TAttrOperator(
 
 
 class LeafLeftForeArmRoll4TField(
-    CompoundField[LeafLeftForeArmRoll4TAttrOperator, LeafLeftForeArmRoll4TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4TAttrOperator, LeafLeftForeArmRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53148,7 +53322,9 @@ class LeafLeftForeArmRoll4RAttrOperator(
 
 
 class LeafLeftForeArmRoll4RField(
-    CompoundField[LeafLeftForeArmRoll4RAttrOperator, LeafLeftForeArmRoll4RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4RAttrOperator, LeafLeftForeArmRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53192,7 +53368,9 @@ class LeafLeftForeArmRoll4SAttrOperator(
 
 
 class LeafLeftForeArmRoll4SField(
-    CompoundField[LeafLeftForeArmRoll4SAttrOperator, LeafLeftForeArmRoll4SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4SAttrOperator, LeafLeftForeArmRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53236,7 +53414,9 @@ class LeafLeftForeArmRoll4ISAttrOperator(
 
 
 class LeafLeftForeArmRoll4ISField(
-    CompoundField[LeafLeftForeArmRoll4ISAttrOperator, LeafLeftForeArmRoll4ISPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4ISAttrOperator, LeafLeftForeArmRoll4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53280,7 +53460,10 @@ class LeafLeftForeArmRoll4PreRAttrOperator(
 
 
 class LeafLeftForeArmRoll4PreRField(
-    CompoundField[LeafLeftForeArmRoll4PreRAttrOperator, LeafLeftForeArmRoll4PreRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4PreRAttrOperator,
+        LeafLeftForeArmRoll4PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53324,7 +53507,10 @@ class LeafLeftForeArmRoll4PostRAttrOperator(
 
 
 class LeafLeftForeArmRoll4PostRField(
-    CompoundField[LeafLeftForeArmRoll4PostRAttrOperator, LeafLeftForeArmRoll4PostRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4PostRAttrOperator,
+        LeafLeftForeArmRoll4PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53368,7 +53554,9 @@ class LeafRightArmRoll4TAttrOperator(
 
 
 class LeafRightArmRoll4TField(
-    CompoundField[LeafRightArmRoll4TAttrOperator, LeafRightArmRoll4TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4TAttrOperator, LeafRightArmRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53412,7 +53600,9 @@ class LeafRightArmRoll4RAttrOperator(
 
 
 class LeafRightArmRoll4RField(
-    CompoundField[LeafRightArmRoll4RAttrOperator, LeafRightArmRoll4RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4RAttrOperator, LeafRightArmRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53456,7 +53646,9 @@ class LeafRightArmRoll4SAttrOperator(
 
 
 class LeafRightArmRoll4SField(
-    CompoundField[LeafRightArmRoll4SAttrOperator, LeafRightArmRoll4SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4SAttrOperator, LeafRightArmRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53500,7 +53692,9 @@ class LeafRightArmRoll4ISAttrOperator(
 
 
 class LeafRightArmRoll4ISField(
-    CompoundField[LeafRightArmRoll4ISAttrOperator, LeafRightArmRoll4ISPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4ISAttrOperator, LeafRightArmRoll4ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53544,7 +53738,9 @@ class LeafRightArmRoll4PreRAttrOperator(
 
 
 class LeafRightArmRoll4PreRField(
-    CompoundField[LeafRightArmRoll4PreRAttrOperator, LeafRightArmRoll4PreRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4PreRAttrOperator, LeafRightArmRoll4PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53588,7 +53784,9 @@ class LeafRightArmRoll4PostRAttrOperator(
 
 
 class LeafRightArmRoll4PostRField(
-    CompoundField[LeafRightArmRoll4PostRAttrOperator, LeafRightArmRoll4PostRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4PostRAttrOperator, LeafRightArmRoll4PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53632,7 +53830,9 @@ class LeafRightForeArmRoll4TAttrOperator(
 
 
 class LeafRightForeArmRoll4TField(
-    CompoundField[LeafRightForeArmRoll4TAttrOperator, LeafRightForeArmRoll4TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4TAttrOperator, LeafRightForeArmRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53676,7 +53876,9 @@ class LeafRightForeArmRoll4RAttrOperator(
 
 
 class LeafRightForeArmRoll4RField(
-    CompoundField[LeafRightForeArmRoll4RAttrOperator, LeafRightForeArmRoll4RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4RAttrOperator, LeafRightForeArmRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53720,7 +53922,9 @@ class LeafRightForeArmRoll4SAttrOperator(
 
 
 class LeafRightForeArmRoll4SField(
-    CompoundField[LeafRightForeArmRoll4SAttrOperator, LeafRightForeArmRoll4SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4SAttrOperator, LeafRightForeArmRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53764,7 +53968,10 @@ class LeafRightForeArmRoll4ISAttrOperator(
 
 
 class LeafRightForeArmRoll4ISField(
-    CompoundField[LeafRightForeArmRoll4ISAttrOperator, LeafRightForeArmRoll4ISPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4ISAttrOperator,
+        LeafRightForeArmRoll4ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53808,7 +54015,10 @@ class LeafRightForeArmRoll4PreRAttrOperator(
 
 
 class LeafRightForeArmRoll4PreRField(
-    CompoundField[LeafRightForeArmRoll4PreRAttrOperator, LeafRightForeArmRoll4PreRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4PreRAttrOperator,
+        LeafRightForeArmRoll4PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53852,7 +54062,10 @@ class LeafRightForeArmRoll4PostRAttrOperator(
 
 
 class LeafRightForeArmRoll4PostRField(
-    CompoundField[LeafRightForeArmRoll4PostRAttrOperator, LeafRightForeArmRoll4PostRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4PostRAttrOperator,
+        LeafRightForeArmRoll4PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53896,7 +54109,9 @@ class LeafLeftUpLegRoll5TAttrOperator(
 
 
 class LeafLeftUpLegRoll5TField(
-    CompoundField[LeafLeftUpLegRoll5TAttrOperator, LeafLeftUpLegRoll5TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5TAttrOperator, LeafLeftUpLegRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53940,7 +54155,9 @@ class LeafLeftUpLegRoll5RAttrOperator(
 
 
 class LeafLeftUpLegRoll5RField(
-    CompoundField[LeafLeftUpLegRoll5RAttrOperator, LeafLeftUpLegRoll5RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5RAttrOperator, LeafLeftUpLegRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53984,7 +54201,9 @@ class LeafLeftUpLegRoll5SAttrOperator(
 
 
 class LeafLeftUpLegRoll5SField(
-    CompoundField[LeafLeftUpLegRoll5SAttrOperator, LeafLeftUpLegRoll5SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5SAttrOperator, LeafLeftUpLegRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54028,7 +54247,9 @@ class LeafLeftUpLegRoll5ISAttrOperator(
 
 
 class LeafLeftUpLegRoll5ISField(
-    CompoundField[LeafLeftUpLegRoll5ISAttrOperator, LeafLeftUpLegRoll5ISPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5ISAttrOperator, LeafLeftUpLegRoll5ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54072,7 +54293,9 @@ class LeafLeftUpLegRoll5PreRAttrOperator(
 
 
 class LeafLeftUpLegRoll5PreRField(
-    CompoundField[LeafLeftUpLegRoll5PreRAttrOperator, LeafLeftUpLegRoll5PreRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5PreRAttrOperator, LeafLeftUpLegRoll5PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54116,7 +54339,10 @@ class LeafLeftUpLegRoll5PostRAttrOperator(
 
 
 class LeafLeftUpLegRoll5PostRField(
-    CompoundField[LeafLeftUpLegRoll5PostRAttrOperator, LeafLeftUpLegRoll5PostRPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5PostRAttrOperator,
+        LeafLeftUpLegRoll5PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54292,7 +54518,9 @@ class LeafLeftLegRoll5ISAttrOperator(
 
 
 class LeafLeftLegRoll5ISField(
-    CompoundField[LeafLeftLegRoll5ISAttrOperator, LeafLeftLegRoll5ISPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll5ISAttrOperator, LeafLeftLegRoll5ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54336,7 +54564,9 @@ class LeafLeftLegRoll5PreRAttrOperator(
 
 
 class LeafLeftLegRoll5PreRField(
-    CompoundField[LeafLeftLegRoll5PreRAttrOperator, LeafLeftLegRoll5PreRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll5PreRAttrOperator, LeafLeftLegRoll5PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54380,7 +54610,9 @@ class LeafLeftLegRoll5PostRAttrOperator(
 
 
 class LeafLeftLegRoll5PostRField(
-    CompoundField[LeafLeftLegRoll5PostRAttrOperator, LeafLeftLegRoll5PostRPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll5PostRAttrOperator, LeafLeftLegRoll5PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54424,7 +54656,9 @@ class LeafRightUpLegRoll5TAttrOperator(
 
 
 class LeafRightUpLegRoll5TField(
-    CompoundField[LeafRightUpLegRoll5TAttrOperator, LeafRightUpLegRoll5TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5TAttrOperator, LeafRightUpLegRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54468,7 +54702,9 @@ class LeafRightUpLegRoll5RAttrOperator(
 
 
 class LeafRightUpLegRoll5RField(
-    CompoundField[LeafRightUpLegRoll5RAttrOperator, LeafRightUpLegRoll5RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5RAttrOperator, LeafRightUpLegRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54512,7 +54748,9 @@ class LeafRightUpLegRoll5SAttrOperator(
 
 
 class LeafRightUpLegRoll5SField(
-    CompoundField[LeafRightUpLegRoll5SAttrOperator, LeafRightUpLegRoll5SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5SAttrOperator, LeafRightUpLegRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54556,7 +54794,9 @@ class LeafRightUpLegRoll5ISAttrOperator(
 
 
 class LeafRightUpLegRoll5ISField(
-    CompoundField[LeafRightUpLegRoll5ISAttrOperator, LeafRightUpLegRoll5ISPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5ISAttrOperator, LeafRightUpLegRoll5ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54600,7 +54840,10 @@ class LeafRightUpLegRoll5PreRAttrOperator(
 
 
 class LeafRightUpLegRoll5PreRField(
-    CompoundField[LeafRightUpLegRoll5PreRAttrOperator, LeafRightUpLegRoll5PreRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5PreRAttrOperator,
+        LeafRightUpLegRoll5PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54644,7 +54887,10 @@ class LeafRightUpLegRoll5PostRAttrOperator(
 
 
 class LeafRightUpLegRoll5PostRField(
-    CompoundField[LeafRightUpLegRoll5PostRAttrOperator, LeafRightUpLegRoll5PostRPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5PostRAttrOperator,
+        LeafRightUpLegRoll5PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54688,7 +54934,9 @@ class LeafRightLegRoll5TAttrOperator(
 
 
 class LeafRightLegRoll5TField(
-    CompoundField[LeafRightLegRoll5TAttrOperator, LeafRightLegRoll5TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5TAttrOperator, LeafRightLegRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54732,7 +54980,9 @@ class LeafRightLegRoll5RAttrOperator(
 
 
 class LeafRightLegRoll5RField(
-    CompoundField[LeafRightLegRoll5RAttrOperator, LeafRightLegRoll5RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5RAttrOperator, LeafRightLegRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54776,7 +55026,9 @@ class LeafRightLegRoll5SAttrOperator(
 
 
 class LeafRightLegRoll5SField(
-    CompoundField[LeafRightLegRoll5SAttrOperator, LeafRightLegRoll5SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5SAttrOperator, LeafRightLegRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54820,7 +55072,9 @@ class LeafRightLegRoll5ISAttrOperator(
 
 
 class LeafRightLegRoll5ISField(
-    CompoundField[LeafRightLegRoll5ISAttrOperator, LeafRightLegRoll5ISPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5ISAttrOperator, LeafRightLegRoll5ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54864,7 +55118,9 @@ class LeafRightLegRoll5PreRAttrOperator(
 
 
 class LeafRightLegRoll5PreRField(
-    CompoundField[LeafRightLegRoll5PreRAttrOperator, LeafRightLegRoll5PreRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5PreRAttrOperator, LeafRightLegRoll5PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54908,7 +55164,9 @@ class LeafRightLegRoll5PostRAttrOperator(
 
 
 class LeafRightLegRoll5PostRField(
-    CompoundField[LeafRightLegRoll5PostRAttrOperator, LeafRightLegRoll5PostRPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5PostRAttrOperator, LeafRightLegRoll5PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55084,7 +55342,9 @@ class LeafLeftArmRoll5ISAttrOperator(
 
 
 class LeafLeftArmRoll5ISField(
-    CompoundField[LeafLeftArmRoll5ISAttrOperator, LeafLeftArmRoll5ISPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll5ISAttrOperator, LeafLeftArmRoll5ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55128,7 +55388,9 @@ class LeafLeftArmRoll5PreRAttrOperator(
 
 
 class LeafLeftArmRoll5PreRField(
-    CompoundField[LeafLeftArmRoll5PreRAttrOperator, LeafLeftArmRoll5PreRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll5PreRAttrOperator, LeafLeftArmRoll5PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55172,7 +55434,9 @@ class LeafLeftArmRoll5PostRAttrOperator(
 
 
 class LeafLeftArmRoll5PostRField(
-    CompoundField[LeafLeftArmRoll5PostRAttrOperator, LeafLeftArmRoll5PostRPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll5PostRAttrOperator, LeafLeftArmRoll5PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55216,7 +55480,9 @@ class LeafLeftForeArmRoll5TAttrOperator(
 
 
 class LeafLeftForeArmRoll5TField(
-    CompoundField[LeafLeftForeArmRoll5TAttrOperator, LeafLeftForeArmRoll5TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5TAttrOperator, LeafLeftForeArmRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55260,7 +55526,9 @@ class LeafLeftForeArmRoll5RAttrOperator(
 
 
 class LeafLeftForeArmRoll5RField(
-    CompoundField[LeafLeftForeArmRoll5RAttrOperator, LeafLeftForeArmRoll5RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5RAttrOperator, LeafLeftForeArmRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55304,7 +55572,9 @@ class LeafLeftForeArmRoll5SAttrOperator(
 
 
 class LeafLeftForeArmRoll5SField(
-    CompoundField[LeafLeftForeArmRoll5SAttrOperator, LeafLeftForeArmRoll5SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5SAttrOperator, LeafLeftForeArmRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55348,7 +55618,9 @@ class LeafLeftForeArmRoll5ISAttrOperator(
 
 
 class LeafLeftForeArmRoll5ISField(
-    CompoundField[LeafLeftForeArmRoll5ISAttrOperator, LeafLeftForeArmRoll5ISPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5ISAttrOperator, LeafLeftForeArmRoll5ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55392,7 +55664,10 @@ class LeafLeftForeArmRoll5PreRAttrOperator(
 
 
 class LeafLeftForeArmRoll5PreRField(
-    CompoundField[LeafLeftForeArmRoll5PreRAttrOperator, LeafLeftForeArmRoll5PreRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5PreRAttrOperator,
+        LeafLeftForeArmRoll5PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55436,7 +55711,10 @@ class LeafLeftForeArmRoll5PostRAttrOperator(
 
 
 class LeafLeftForeArmRoll5PostRField(
-    CompoundField[LeafLeftForeArmRoll5PostRAttrOperator, LeafLeftForeArmRoll5PostRPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5PostRAttrOperator,
+        LeafLeftForeArmRoll5PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55480,7 +55758,9 @@ class LeafRightArmRoll5TAttrOperator(
 
 
 class LeafRightArmRoll5TField(
-    CompoundField[LeafRightArmRoll5TAttrOperator, LeafRightArmRoll5TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5TAttrOperator, LeafRightArmRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55524,7 +55804,9 @@ class LeafRightArmRoll5RAttrOperator(
 
 
 class LeafRightArmRoll5RField(
-    CompoundField[LeafRightArmRoll5RAttrOperator, LeafRightArmRoll5RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5RAttrOperator, LeafRightArmRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55568,7 +55850,9 @@ class LeafRightArmRoll5SAttrOperator(
 
 
 class LeafRightArmRoll5SField(
-    CompoundField[LeafRightArmRoll5SAttrOperator, LeafRightArmRoll5SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5SAttrOperator, LeafRightArmRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55612,7 +55896,9 @@ class LeafRightArmRoll5ISAttrOperator(
 
 
 class LeafRightArmRoll5ISField(
-    CompoundField[LeafRightArmRoll5ISAttrOperator, LeafRightArmRoll5ISPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5ISAttrOperator, LeafRightArmRoll5ISPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55656,7 +55942,9 @@ class LeafRightArmRoll5PreRAttrOperator(
 
 
 class LeafRightArmRoll5PreRField(
-    CompoundField[LeafRightArmRoll5PreRAttrOperator, LeafRightArmRoll5PreRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5PreRAttrOperator, LeafRightArmRoll5PreRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55700,7 +55988,9 @@ class LeafRightArmRoll5PostRAttrOperator(
 
 
 class LeafRightArmRoll5PostRField(
-    CompoundField[LeafRightArmRoll5PostRAttrOperator, LeafRightArmRoll5PostRPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5PostRAttrOperator, LeafRightArmRoll5PostRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55744,7 +56034,9 @@ class LeafRightForeArmRoll5TAttrOperator(
 
 
 class LeafRightForeArmRoll5TField(
-    CompoundField[LeafRightForeArmRoll5TAttrOperator, LeafRightForeArmRoll5TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5TAttrOperator, LeafRightForeArmRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55788,7 +56080,9 @@ class LeafRightForeArmRoll5RAttrOperator(
 
 
 class LeafRightForeArmRoll5RField(
-    CompoundField[LeafRightForeArmRoll5RAttrOperator, LeafRightForeArmRoll5RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5RAttrOperator, LeafRightForeArmRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55832,7 +56126,9 @@ class LeafRightForeArmRoll5SAttrOperator(
 
 
 class LeafRightForeArmRoll5SField(
-    CompoundField[LeafRightForeArmRoll5SAttrOperator, LeafRightForeArmRoll5SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5SAttrOperator, LeafRightForeArmRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55876,7 +56172,10 @@ class LeafRightForeArmRoll5ISAttrOperator(
 
 
 class LeafRightForeArmRoll5ISField(
-    CompoundField[LeafRightForeArmRoll5ISAttrOperator, LeafRightForeArmRoll5ISPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5ISAttrOperator,
+        LeafRightForeArmRoll5ISPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55920,7 +56219,10 @@ class LeafRightForeArmRoll5PreRAttrOperator(
 
 
 class LeafRightForeArmRoll5PreRField(
-    CompoundField[LeafRightForeArmRoll5PreRAttrOperator, LeafRightForeArmRoll5PreRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5PreRAttrOperator,
+        LeafRightForeArmRoll5PreRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55964,7 +56266,10 @@ class LeafRightForeArmRoll5PostRAttrOperator(
 
 
 class LeafRightForeArmRoll5PostRField(
-    CompoundField[LeafRightForeArmRoll5PostRAttrOperator, LeafRightForeArmRoll5PostRPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5PostRAttrOperator,
+        LeafRightForeArmRoll5PostRPlugOperator,
+    ]
 ):
     __slots__ = ()
 

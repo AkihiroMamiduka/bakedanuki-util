@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class HardwareColorAttrOperator(
 
 
 class HardwareColorField(
-    Float3CompoundBaseField[HardwareColorAttrOperator, HardwareColorPlugOperator]
+    Float3CompoundBaseField[
+        HardwareColorAttrOperator, HardwareColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -220,9 +224,7 @@ class HardwareColorField(
     hwcb = hardwareColorB
 
 
-class FrontPlugOperator(
-    Float3CompoundBasePlugOperator["FrontAttrOperator"]
-):
+class FrontPlugOperator(Float3CompoundBasePlugOperator["FrontAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("frontR", "frontr"),
@@ -240,9 +242,7 @@ class FrontPlugOperator(
     frontb = frontB
 
 
-class FrontAttrOperator(
-    Float3CompoundBaseAttrOperator[FrontPlugOperator]
-):
+class FrontAttrOperator(Float3CompoundBaseAttrOperator[FrontPlugOperator]):
     __slots__ = ()
 
     frontR = FloatField(default_value=0.0)
@@ -273,9 +273,7 @@ class FrontField(
     frontb = frontB
 
 
-class BackPlugOperator(
-    Float3CompoundBasePlugOperator["BackAttrOperator"]
-):
+class BackPlugOperator(Float3CompoundBasePlugOperator["BackAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("backR", "backr"),
@@ -293,9 +291,7 @@ class BackPlugOperator(
     backb = backB
 
 
-class BackAttrOperator(
-    Float3CompoundBaseAttrOperator[BackPlugOperator]
-):
+class BackAttrOperator(Float3CompoundBaseAttrOperator[BackPlugOperator]):
     __slots__ = ()
 
     backR = FloatField(default_value=0.0)
@@ -308,9 +304,7 @@ class BackAttrOperator(
     backb = backB
 
 
-class BackField(
-    Float3CompoundBaseField[BackAttrOperator, BackPlugOperator]
-):
+class BackField(Float3CompoundBaseField[BackAttrOperator, BackPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = BackAttrOperator

@@ -5,18 +5,20 @@ from ....attr.define.node_attr.ai_set_transform import (
     ScaleField,
     TranslateField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TransformOrderEnumPlugOperator(EnumPlugOperator):
+class TransformOrderEnumPlugOperator(
+    EnumPlugOperator["TransformOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     SRT = 0
@@ -27,7 +29,9 @@ class TransformOrderEnumPlugOperator(EnumPlugOperator):
     RTS = 5
 
 
-class TransformOrderEnumAttrOperator(EnumAttrOperator):
+class TransformOrderEnumAttrOperator(
+    EnumAttrOperator[TransformOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     SRT = 0
@@ -56,7 +60,9 @@ class TransformOrderEnumField(
     PLUG_CLS = TransformOrderEnumPlugOperator
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -67,7 +73,9 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -96,14 +104,14 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     APPEND = 0
     REPLACE = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     APPEND = 0
@@ -115,16 +123,14 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiSetTransform(DG):
+class GeneratedAiSetTransform(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSetTransform"

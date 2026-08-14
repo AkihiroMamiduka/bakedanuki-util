@@ -1,19 +1,19 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class BlendFuncEnumPlugOperator(EnumPlugOperator):
+class BlendFuncEnumPlugOperator(EnumPlugOperator["BlendFuncEnumAttrOperator"]):
     __slots__ = ()
 
     ALPHABLEND = 0
@@ -26,7 +26,7 @@ class BlendFuncEnumPlugOperator(EnumPlugOperator):
     MULTIPLYRGBA = 7
 
 
-class BlendFuncEnumAttrOperator(EnumAttrOperator):
+class BlendFuncEnumAttrOperator(EnumAttrOperator[BlendFuncEnumPlugOperator]):
     __slots__ = ()
 
     ALPHABLEND = 0
@@ -59,7 +59,7 @@ class BlendFuncEnumField(
     PLUG_CLS = BlendFuncEnumPlugOperator
 
 
-class _GeneratedBlendColorSets(DG):
+class GeneratedBlendColorSets(DG):
     __slots__ = ()
 
     NODE_TYPE = "blendColorSets"
@@ -106,14 +106,22 @@ class _GeneratedBlendColorSets(DG):
     blendFunc = BlendFuncEnumField(default_value=0)
     bfn = blendFunc
 
-    blendWeightA = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blendWeightA = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bwa = blendWeightA
 
-    blendWeightB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blendWeightB = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bwb = blendWeightB
 
-    blendWeightC = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    blendWeightC = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     bwc = blendWeightC
 
-    blendWeightD = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    blendWeightD = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     bwd = blendWeightD

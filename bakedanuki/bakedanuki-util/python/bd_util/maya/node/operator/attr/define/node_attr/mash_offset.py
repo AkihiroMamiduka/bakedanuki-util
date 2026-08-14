@@ -5,14 +5,14 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
+    Double3Field,
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float3Field,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
 class MColourPlugOperator(
@@ -35,9 +35,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -104,7 +102,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -263,7 +263,9 @@ class ReorderDistancePointAttrOperator(
 
 
 class ReorderDistancePointField(
-    Float3CompoundBaseField[ReorderDistancePointAttrOperator, ReorderDistancePointPlugOperator]
+    Float3CompoundBaseField[
+        ReorderDistancePointAttrOperator, ReorderDistancePointPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -300,9 +302,7 @@ class OffsetsPlugOperator(
     off2 = offsets2
 
 
-class OffsetsAttrOperator(
-    Float3CompoundBaseAttrOperator[OffsetsPlugOperator]
-):
+class OffsetsAttrOperator(Float3CompoundBaseAttrOperator[OffsetsPlugOperator]):
     __slots__ = ()
 
     offsets0 = FloatField(default_value=0.0)
@@ -394,9 +394,7 @@ class OffsetInputsPlugOperator(
     scaleOffset = Float3Field(default_value=(0.0, 0.0, 0.0))
 
 
-class OffsetInputsAttrOperator(
-    CompoundAttrOperator[OffsetInputsPlugOperator]
-):
+class OffsetInputsAttrOperator(CompoundAttrOperator[OffsetInputsPlugOperator]):
     __slots__ = ()
 
     positionOffset = Float3Field(default_value=(0.0, 0.0, 0.0))
@@ -451,7 +449,9 @@ class CentreOfRotationAttrOperator(
 
 
 class CentreOfRotationField(
-    Float3CompoundBaseField[CentreOfRotationAttrOperator, CentreOfRotationPlugOperator]
+    Float3CompoundBaseField[
+        CentreOfRotationAttrOperator, CentreOfRotationPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -1,16 +1,14 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
-    Double3CompoundBaseAttrOperator,
-    Double3CompoundBasePlugOperator,
-    Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..custom import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseField,
+    Double3CompoundBaseAttrOperator,
+    Double3CompoundBasePlugOperator,
+    Double3CompoundBaseField,
 )
 
 
@@ -50,7 +48,9 @@ class JointOrientAttrOperator(
 
 
 class JointOrientField(
-    DoubleAngle3CompoundBaseField[JointOrientAttrOperator, JointOrientPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        JointOrientAttrOperator, JointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -103,7 +103,9 @@ class InverseScaleAttrOperator(
 
 
 class InverseScaleField(
-    Double3CompoundBaseField[InverseScaleAttrOperator, InverseScalePlugOperator]
+    Double3CompoundBaseField[
+        InverseScaleAttrOperator, InverseScalePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -209,7 +211,9 @@ class PreferredAngleAttrOperator(
 
 
 class PreferredAngleField(
-    DoubleAngle3CompoundBaseField[PreferredAngleAttrOperator, PreferredAnglePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        PreferredAngleAttrOperator, PreferredAnglePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -262,7 +266,9 @@ class MinRotateDampRangeAttrOperator(
 
 
 class MinRotateDampRangeField(
-    DoubleAngle3CompoundBaseField[MinRotateDampRangeAttrOperator, MinRotateDampRangePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        MinRotateDampRangeAttrOperator, MinRotateDampRangePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -315,7 +321,9 @@ class MinRotateDampStrengthAttrOperator(
 
 
 class MinRotateDampStrengthField(
-    Double3CompoundBaseField[MinRotateDampStrengthAttrOperator, MinRotateDampStrengthPlugOperator]
+    Double3CompoundBaseField[
+        MinRotateDampStrengthAttrOperator, MinRotateDampStrengthPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -368,7 +376,9 @@ class MaxRotateDampRangeAttrOperator(
 
 
 class MaxRotateDampRangeField(
-    DoubleAngle3CompoundBaseField[MaxRotateDampRangeAttrOperator, MaxRotateDampRangePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        MaxRotateDampRangeAttrOperator, MaxRotateDampRangePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -421,7 +431,9 @@ class MaxRotateDampStrengthAttrOperator(
 
 
 class MaxRotateDampStrengthField(
-    Double3CompoundBaseField[MaxRotateDampStrengthAttrOperator, MaxRotateDampStrengthPlugOperator]
+    Double3CompoundBaseField[
+        MaxRotateDampStrengthAttrOperator, MaxRotateDampStrengthPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -474,7 +486,9 @@ class BindRotationAttrOperator(
 
 
 class BindRotationField(
-    DoubleAngle3CompoundBaseField[BindRotationAttrOperator, BindRotationPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        BindRotationAttrOperator, BindRotationPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -527,7 +541,9 @@ class BindJointOrientAttrOperator(
 
 
 class BindJointOrientField(
-    DoubleAngle3CompoundBaseField[BindJointOrientAttrOperator, BindJointOrientPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        BindJointOrientAttrOperator, BindJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -580,7 +596,9 @@ class BindRotateAxisAttrOperator(
 
 
 class BindRotateAxisField(
-    DoubleAngle3CompoundBaseField[BindRotateAxisAttrOperator, BindRotateAxisPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        BindRotateAxisAttrOperator, BindRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -686,7 +704,9 @@ class BindInverseScaleAttrOperator(
 
 
 class BindInverseScaleField(
-    Double3CompoundBaseField[BindInverseScaleAttrOperator, BindInverseScalePlugOperator]
+    Double3CompoundBaseField[
+        BindInverseScaleAttrOperator, BindInverseScalePlugOperator
+    ]
 ):
     __slots__ = ()
 

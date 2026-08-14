@@ -1,14 +1,14 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyUnsmooth(DG):
+class GeneratedPolyUnsmooth(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyUnsmooth"
@@ -52,5 +52,11 @@ class _GeneratedPolyUnsmooth(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    divisionLevels = ShortField(default_value=1, min_value=0, max_value=15, soft_min_value=1, soft_max_value=4)
+    divisionLevels = ShortField(
+        default_value=1,
+        min_value=0,
+        max_value=15,
+        soft_min_value=1,
+        soft_max_value=4,
+    )
     dlv = divisionLevels

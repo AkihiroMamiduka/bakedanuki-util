@@ -1,17 +1,19 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class FilterClassEnumPlugOperator(EnumPlugOperator):
+class FilterClassEnumPlugOperator(
+    EnumPlugOperator["FilterClassEnumAttrOperator"]
+):
     __slots__ = ()
 
     OTHER = 0
@@ -19,7 +21,9 @@ class FilterClassEnumPlugOperator(EnumPlugOperator):
     USER = 2
 
 
-class FilterClassEnumAttrOperator(EnumAttrOperator):
+class FilterClassEnumAttrOperator(
+    EnumAttrOperator[FilterClassEnumPlugOperator]
+):
     __slots__ = ()
 
     OTHER = 0
@@ -42,7 +46,7 @@ class FilterClassEnumField(
     PLUG_CLS = FilterClassEnumPlugOperator
 
 
-class _GeneratedObjectRenderFilter(DG):
+class GeneratedObjectRenderFilter(DG):
     __slots__ = ()
 
     NODE_TYPE = "objectRenderFilter"

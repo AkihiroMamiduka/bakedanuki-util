@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.render_layer import _GeneratedRenderLayer
+from ._generated.render_layer import GeneratedRenderLayer
 
 
-class RenderLayer(_GeneratedRenderLayer):
+class RenderLayer(GeneratedRenderLayer):
     __slots__ = ()
 
     NODE_TYPE = "renderLayer"

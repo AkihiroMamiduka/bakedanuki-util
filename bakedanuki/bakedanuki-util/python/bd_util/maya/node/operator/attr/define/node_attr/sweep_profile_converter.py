@@ -5,22 +5,24 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.matrix import MatrixField
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.matrix import MatrixField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.typed import TypedField
 from ..std.dt.mesh import DataMeshField
 from ..std.dt.nurbs_curve import DataNurbsCurveField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom import (
+    Double3Field,
+)
 
 
-class InputTypeEnumPlugOperator(EnumPlugOperator):
+class InputTypeEnumPlugOperator(EnumPlugOperator["InputTypeEnumAttrOperator"]):
     __slots__ = ()
 
     POLY_OBJECT = 0
@@ -29,7 +31,7 @@ class InputTypeEnumPlugOperator(EnumPlugOperator):
     CURVE_OBJECT = 3
 
 
-class InputTypeEnumAttrOperator(EnumAttrOperator):
+class InputTypeEnumAttrOperator(EnumAttrOperator[InputTypeEnumPlugOperator]):
     __slots__ = ()
 
     POLY_OBJECT = 0
@@ -78,7 +80,9 @@ class InObjectArrayPlugOperator(
 
     worldMatrix = MatrixField()
 
-    curvePrecision = FloatField(default_value=80.0, min_value=0.0, max_value=100.0)
+    curvePrecision = FloatField(
+        default_value=80.0, min_value=0.0, max_value=100.0
+    )
 
     curveOptimize = BoolField(default_value=True)
 
@@ -98,7 +102,9 @@ class InObjectArrayAttrOperator(
 
     worldMatrix = MatrixField()
 
-    curvePrecision = FloatField(default_value=80.0, min_value=0.0, max_value=100.0)
+    curvePrecision = FloatField(
+        default_value=80.0, min_value=0.0, max_value=100.0
+    )
 
     curveOptimize = BoolField(default_value=True)
 
@@ -137,7 +143,10 @@ class CachedLocalZCompoundArrayAttrOperator(
 
 
 class CachedLocalZCompoundArrayField(
-    CompoundField[CachedLocalZCompoundArrayAttrOperator, CachedLocalZCompoundArrayPlugOperator]
+    CompoundField[
+        CachedLocalZCompoundArrayAttrOperator,
+        CachedLocalZCompoundArrayPlugOperator,
+    ]
 ):
     __slots__ = ()
 

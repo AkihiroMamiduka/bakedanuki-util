@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.geo_connector import _GeneratedGeoConnector
+from ._generated.geo_connector import GeneratedGeoConnector
 
 
-class GeoConnector(_GeneratedGeoConnector):
+class GeoConnector(GeneratedGeoConnector):
     __slots__ = ()
 
     NODE_TYPE = "geoConnector"

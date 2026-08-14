@@ -5,13 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ..custom import Double3Field
 
 
-class ResultPlugOperator(
-    CompoundPlugOperator["ResultAttrOperator"]
-):
+class ResultPlugOperator(CompoundPlugOperator["ResultAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("position", "p"),
@@ -29,25 +27,29 @@ class ResultPlugOperator(
     normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
-    normalizedNormal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
+    normalizedNormal = Double3Field(
+        default_value=(0.0, 0.0, 1.0), writable=False
+    )
     nn = normalizedNormal
 
     tangent = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     t = tangent
 
-    normalizedTangent = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
+    normalizedTangent = Double3Field(
+        default_value=(1.0, 0.0, 0.0), writable=False
+    )
     nt = normalizedTangent
 
-    curvatureCenter = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    curvatureCenter = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     cc = curvatureCenter
 
     curvatureRadius = DoubleLinearField(default_value=1.0, writable=False)
     cr = curvatureRadius
 
 
-class ResultAttrOperator(
-    CompoundAttrOperator[ResultPlugOperator]
-):
+class ResultAttrOperator(CompoundAttrOperator[ResultPlugOperator]):
     __slots__ = ()
 
     position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
@@ -56,25 +58,29 @@ class ResultAttrOperator(
     normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
-    normalizedNormal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
+    normalizedNormal = Double3Field(
+        default_value=(0.0, 0.0, 1.0), writable=False
+    )
     nn = normalizedNormal
 
     tangent = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     t = tangent
 
-    normalizedTangent = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
+    normalizedTangent = Double3Field(
+        default_value=(1.0, 0.0, 0.0), writable=False
+    )
     nt = normalizedTangent
 
-    curvatureCenter = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    curvatureCenter = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     cc = curvatureCenter
 
     curvatureRadius = DoubleLinearField(default_value=1.0, writable=False)
     cr = curvatureRadius
 
 
-class ResultField(
-    CompoundField[ResultAttrOperator, ResultPlugOperator]
-):
+class ResultField(CompoundField[ResultAttrOperator, ResultPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ResultAttrOperator
@@ -86,16 +92,22 @@ class ResultField(
     normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
-    normalizedNormal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
+    normalizedNormal = Double3Field(
+        default_value=(0.0, 0.0, 1.0), writable=False
+    )
     nn = normalizedNormal
 
     tangent = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     t = tangent
 
-    normalizedTangent = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
+    normalizedTangent = Double3Field(
+        default_value=(1.0, 0.0, 0.0), writable=False
+    )
     nt = normalizedTangent
 
-    curvatureCenter = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    curvatureCenter = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     cc = curvatureCenter
 
     curvatureRadius = DoubleLinearField(default_value=1.0, writable=False)

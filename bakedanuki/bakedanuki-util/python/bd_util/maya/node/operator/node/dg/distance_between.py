@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.distance_between import _GeneratedDistanceBetween
+from ._generated.distance_between import GeneratedDistanceBetween
 
 
-class DistanceBetween(_GeneratedDistanceBetween):
+class DistanceBetween(GeneratedDistanceBetween):
     __slots__ = ()
 
     NODE_TYPE = "distanceBetween"

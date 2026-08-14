@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..custom import (
     Double2CompoundBaseAttrOperator,
     Double2CompoundBasePlugOperator,
     Double2CompoundBaseField,
@@ -37,7 +37,9 @@ class LatticePointAttrOperator(
 
 
 class LatticePointField(
-    Double2CompoundBaseField[LatticePointAttrOperator, LatticePointPlugOperator]
+    Double2CompoundBaseField[
+        LatticePointAttrOperator, LatticePointPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -74,7 +76,9 @@ class BoundingBoxInfAttrOperator(
 
 
 class BoundingBoxInfField(
-    Double2CompoundBaseField[BoundingBoxInfAttrOperator, BoundingBoxInfPlugOperator]
+    Double2CompoundBaseField[
+        BoundingBoxInfAttrOperator, BoundingBoxInfPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -117,7 +121,9 @@ class BoundingBoxSupAttrOperator(
 
 
 class BoundingBoxSupField(
-    Double2CompoundBaseField[BoundingBoxSupAttrOperator, BoundingBoxSupPlugOperator]
+    Double2CompoundBaseField[
+        BoundingBoxSupAttrOperator, BoundingBoxSupPlugOperator
+    ]
 ):
     __slots__ = ()
 

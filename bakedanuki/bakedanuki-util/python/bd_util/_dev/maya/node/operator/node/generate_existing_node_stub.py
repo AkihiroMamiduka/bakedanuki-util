@@ -7,7 +7,6 @@ import keyword
 from dataclasses import dataclass
 from pathlib import Path
 
-
 _ABSTRACT_NODE_TYPES = frozenset({"shape"})
 
 
@@ -37,7 +36,7 @@ def _find_node_definition(
     node_dir: Path,
 ) -> NodeDefinition | None:
     tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
-    definitions = []
+    definitions: list[NodeDefinition] = []
 
     for statement in tree.body:
         if not isinstance(statement, ast.ClassDef):
@@ -97,7 +96,7 @@ def collect_node_definitions(python_root: Path) -> tuple[NodeDefinition, ...]:
         operator_dir / "dag" / "shape",
     )
 
-    definitions = []
+    definitions: list[NodeDefinition] = []
     for package_dir in package_dirs:
         for path in sorted(package_dir.glob("*.py")):
             definition = _find_node_definition(path, node_dir)
@@ -250,6 +249,24 @@ def nodes_stub_path(python_root: Path) -> Path:
     return python_root / "bd_util" / "maya" / "node" / "nodes.pyi"
 
 
+def stub_code_is_current(
+    output_path: Path,
+    generated_code: str,
+) -> bool:
+    if not output_path.is_file():
+        return False
+
+    current_tree = ast.parse(
+        output_path.read_text(encoding="utf-8"),
+        filename=str(output_path),
+    )
+    generated_tree = ast.parse(
+        generated_code,
+        filename=f"{output_path} (generated)",
+    )
+    return ast.dump(current_tree) == ast.dump(generated_tree)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
@@ -271,8 +288,7 @@ def main() -> None:
         outdated_paths = [
             output_path
             for output_path, code in outputs
-            if not output_path.is_file()
-            or output_path.read_text(encoding="utf-8") != code
+            if not stub_code_is_current(output_path, code)
         ]
         if outdated_paths:
             paths = ", ".join(str(path) for path in outdated_paths)

@@ -5,16 +5,18 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.matrix import MatrixField
+from ..std.at.message import MessageField
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.matrix import MatrixField
-from ..std.at.message import MessageField
 
 
-class DisplayTypeEnumPlugOperator(EnumPlugOperator):
+class DisplayTypeEnumPlugOperator(
+    EnumPlugOperator["DisplayTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MESH = 0
@@ -22,7 +24,9 @@ class DisplayTypeEnumPlugOperator(EnumPlugOperator):
     LOD = 2
 
 
-class DisplayTypeEnumAttrOperator(EnumAttrOperator):
+class DisplayTypeEnumAttrOperator(
+    EnumAttrOperator[DisplayTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     MESH = 0

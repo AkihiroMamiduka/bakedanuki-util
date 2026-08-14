@@ -5,27 +5,27 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
-    Double3CompoundBaseAttrOperator,
-    Double3CompoundBasePlugOperator,
-    Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Double3CompoundBaseAttrOperator,
+    Double3CompoundBasePlugOperator,
+    Double3CompoundBaseField,
+    Float3Field,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
-class LeafCurl_InterpEnumPlugOperator(EnumPlugOperator):
+class LeafCurl_InterpEnumPlugOperator(
+    EnumPlugOperator["LeafCurl_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -34,7 +34,9 @@ class LeafCurl_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class LeafCurl_InterpEnumAttrOperator(EnumAttrOperator):
+class LeafCurl_InterpEnumAttrOperator(
+    EnumAttrOperator[LeafCurl_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -59,7 +61,9 @@ class LeafCurl_InterpEnumField(
     PLUG_CLS = LeafCurl_InterpEnumPlugOperator
 
 
-class PetalCurl_InterpEnumPlugOperator(EnumPlugOperator):
+class PetalCurl_InterpEnumPlugOperator(
+    EnumPlugOperator["PetalCurl_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -68,7 +72,9 @@ class PetalCurl_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class PetalCurl_InterpEnumAttrOperator(EnumAttrOperator):
+class PetalCurl_InterpEnumAttrOperator(
+    EnumAttrOperator[PetalCurl_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -85,7 +91,9 @@ class PetalCurl_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class PetalCurl_InterpEnumField(
-    EnumField[PetalCurl_InterpEnumAttrOperator, PetalCurl_InterpEnumPlugOperator]
+    EnumField[
+        PetalCurl_InterpEnumAttrOperator, PetalCurl_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -93,7 +101,9 @@ class PetalCurl_InterpEnumField(
     PLUG_CLS = PetalCurl_InterpEnumPlugOperator
 
 
-class WidthScale_InterpEnumPlugOperator(EnumPlugOperator):
+class WidthScale_InterpEnumPlugOperator(
+    EnumPlugOperator["WidthScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -102,7 +112,9 @@ class WidthScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class WidthScale_InterpEnumAttrOperator(EnumAttrOperator):
+class WidthScale_InterpEnumAttrOperator(
+    EnumAttrOperator[WidthScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -119,7 +131,9 @@ class WidthScale_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class WidthScale_InterpEnumField(
-    EnumField[WidthScale_InterpEnumAttrOperator, WidthScale_InterpEnumPlugOperator]
+    EnumField[
+        WidthScale_InterpEnumAttrOperator, WidthScale_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -127,7 +141,9 @@ class WidthScale_InterpEnumField(
     PLUG_CLS = WidthScale_InterpEnumPlugOperator
 
 
-class LeafWidthScale_InterpEnumPlugOperator(EnumPlugOperator):
+class LeafWidthScale_InterpEnumPlugOperator(
+    EnumPlugOperator["LeafWidthScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -136,7 +152,9 @@ class LeafWidthScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class LeafWidthScale_InterpEnumAttrOperator(EnumAttrOperator):
+class LeafWidthScale_InterpEnumAttrOperator(
+    EnumAttrOperator[LeafWidthScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -153,7 +171,10 @@ class LeafWidthScale_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class LeafWidthScale_InterpEnumField(
-    EnumField[LeafWidthScale_InterpEnumAttrOperator, LeafWidthScale_InterpEnumPlugOperator]
+    EnumField[
+        LeafWidthScale_InterpEnumAttrOperator,
+        LeafWidthScale_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -161,7 +182,9 @@ class LeafWidthScale_InterpEnumField(
     PLUG_CLS = LeafWidthScale_InterpEnumPlugOperator
 
 
-class PetalWidthScale_InterpEnumPlugOperator(EnumPlugOperator):
+class PetalWidthScale_InterpEnumPlugOperator(
+    EnumPlugOperator["PetalWidthScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -170,7 +193,9 @@ class PetalWidthScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class PetalWidthScale_InterpEnumAttrOperator(EnumAttrOperator):
+class PetalWidthScale_InterpEnumAttrOperator(
+    EnumAttrOperator[PetalWidthScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -187,7 +212,10 @@ class PetalWidthScale_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class PetalWidthScale_InterpEnumField(
-    EnumField[PetalWidthScale_InterpEnumAttrOperator, PetalWidthScale_InterpEnumPlugOperator]
+    EnumField[
+        PetalWidthScale_InterpEnumAttrOperator,
+        PetalWidthScale_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -195,7 +223,9 @@ class PetalWidthScale_InterpEnumField(
     PLUG_CLS = PetalWidthScale_InterpEnumPlugOperator
 
 
-class TwigLengthScale_InterpEnumPlugOperator(EnumPlugOperator):
+class TwigLengthScale_InterpEnumPlugOperator(
+    EnumPlugOperator["TwigLengthScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -204,7 +234,9 @@ class TwigLengthScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class TwigLengthScale_InterpEnumAttrOperator(EnumAttrOperator):
+class TwigLengthScale_InterpEnumAttrOperator(
+    EnumAttrOperator[TwigLengthScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -221,7 +253,10 @@ class TwigLengthScale_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class TwigLengthScale_InterpEnumField(
-    EnumField[TwigLengthScale_InterpEnumAttrOperator, TwigLengthScale_InterpEnumPlugOperator]
+    EnumField[
+        TwigLengthScale_InterpEnumAttrOperator,
+        TwigLengthScale_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -229,7 +264,9 @@ class TwigLengthScale_InterpEnumField(
     PLUG_CLS = TwigLengthScale_InterpEnumPlugOperator
 
 
-class Environment_InterpEnumPlugOperator(EnumPlugOperator):
+class Environment_InterpEnumPlugOperator(
+    EnumPlugOperator["Environment_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -238,7 +275,9 @@ class Environment_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Environment_InterpEnumAttrOperator(EnumAttrOperator):
+class Environment_InterpEnumAttrOperator(
+    EnumAttrOperator[Environment_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -255,7 +294,9 @@ class Environment_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class Environment_InterpEnumField(
-    EnumField[Environment_InterpEnumAttrOperator, Environment_InterpEnumPlugOperator]
+    EnumField[
+        Environment_InterpEnumAttrOperator, Environment_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -263,7 +304,9 @@ class Environment_InterpEnumField(
     PLUG_CLS = Environment_InterpEnumPlugOperator
 
 
-class ReflectionRolloff_InterpEnumPlugOperator(EnumPlugOperator):
+class ReflectionRolloff_InterpEnumPlugOperator(
+    EnumPlugOperator["ReflectionRolloff_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -272,7 +315,9 @@ class ReflectionRolloff_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class ReflectionRolloff_InterpEnumAttrOperator(EnumAttrOperator):
+class ReflectionRolloff_InterpEnumAttrOperator(
+    EnumAttrOperator[ReflectionRolloff_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -289,7 +334,10 @@ class ReflectionRolloff_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class ReflectionRolloff_InterpEnumField(
-    EnumField[ReflectionRolloff_InterpEnumAttrOperator, ReflectionRolloff_InterpEnumPlugOperator]
+    EnumField[
+        ReflectionRolloff_InterpEnumAttrOperator,
+        ReflectionRolloff_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -297,9 +345,7 @@ class ReflectionRolloff_InterpEnumField(
     PLUG_CLS = ReflectionRolloff_InterpEnumPlugOperator
 
 
-class Color1PlugOperator(
-    Float3CompoundBasePlugOperator["Color1AttrOperator"]
-):
+class Color1PlugOperator(Float3CompoundBasePlugOperator["Color1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color1R", "c1r"),
@@ -317,9 +363,7 @@ class Color1PlugOperator(
     c1b = color1B
 
 
-class Color1AttrOperator(
-    Float3CompoundBaseAttrOperator[Color1PlugOperator]
-):
+class Color1AttrOperator(Float3CompoundBaseAttrOperator[Color1PlugOperator]):
     __slots__ = ()
 
     color1R = FloatField(default_value=0.0)
@@ -350,9 +394,7 @@ class Color1Field(
     c1b = color1B
 
 
-class Color2PlugOperator(
-    Float3CompoundBasePlugOperator["Color2AttrOperator"]
-):
+class Color2PlugOperator(Float3CompoundBasePlugOperator["Color2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color2R", "c2r"),
@@ -370,9 +412,7 @@ class Color2PlugOperator(
     c2b = color2B
 
 
-class Color2AttrOperator(
-    Float3CompoundBaseAttrOperator[Color2PlugOperator]
-):
+class Color2AttrOperator(Float3CompoundBaseAttrOperator[Color2PlugOperator]):
     __slots__ = ()
 
     color2R = FloatField(default_value=1.0)
@@ -439,7 +479,9 @@ class Transparency1AttrOperator(
 
 
 class Transparency1Field(
-    Float3CompoundBaseField[Transparency1AttrOperator, Transparency1PlugOperator]
+    Float3CompoundBaseField[
+        Transparency1AttrOperator, Transparency1PlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -492,7 +534,9 @@ class Transparency2AttrOperator(
 
 
 class Transparency2Field(
-    Float3CompoundBaseField[Transparency2AttrOperator, Transparency2PlugOperator]
+    Float3CompoundBaseField[
+        Transparency2AttrOperator, Transparency2PlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -545,7 +589,9 @@ class Incandescence1AttrOperator(
 
 
 class Incandescence1Field(
-    Float3CompoundBaseField[Incandescence1AttrOperator, Incandescence1PlugOperator]
+    Float3CompoundBaseField[
+        Incandescence1AttrOperator, Incandescence1PlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -598,7 +644,9 @@ class Incandescence2AttrOperator(
 
 
 class Incandescence2Field(
-    Float3CompoundBaseField[Incandescence2AttrOperator, Incandescence2PlugOperator]
+    Float3CompoundBaseField[
+        Incandescence2AttrOperator, Incandescence2PlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -651,7 +699,9 @@ class SpecularColorAttrOperator(
 
 
 class SpecularColorField(
-    Float3CompoundBaseField[SpecularColorAttrOperator, SpecularColorPlugOperator]
+    Float3CompoundBaseField[
+        SpecularColorAttrOperator, SpecularColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -757,7 +807,9 @@ class LightDirectionAttrOperator(
 
 
 class LightDirectionField(
-    Double3CompoundBaseField[LightDirectionAttrOperator, LightDirectionPlugOperator]
+    Double3CompoundBaseField[
+        LightDirectionAttrOperator, LightDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -784,13 +836,19 @@ class UniformForcePlugOperator(
         ("uniformForceZ", "ufz"),
     )
 
-    uniformForceX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uniformForceX = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     ufx = uniformForceX
 
-    uniformForceY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uniformForceY = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     ufy = uniformForceY
 
-    uniformForceZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uniformForceZ = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     ufz = uniformForceZ
 
 
@@ -799,31 +857,45 @@ class UniformForceAttrOperator(
 ):
     __slots__ = ()
 
-    uniformForceX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uniformForceX = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     ufx = uniformForceX
 
-    uniformForceY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uniformForceY = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     ufy = uniformForceY
 
-    uniformForceZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uniformForceZ = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     ufz = uniformForceZ
 
 
 class UniformForceField(
-    Double3CompoundBaseField[UniformForceAttrOperator, UniformForcePlugOperator]
+    Double3CompoundBaseField[
+        UniformForceAttrOperator, UniformForcePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = UniformForceAttrOperator
     PLUG_CLS = UniformForcePlugOperator
 
-    uniformForceX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uniformForceX = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     ufx = uniformForceX
 
-    uniformForceY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uniformForceY = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     ufy = uniformForceY
 
-    uniformForceZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uniformForceZ = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     ufz = uniformForceZ
 
 
@@ -837,13 +909,19 @@ class TurbulenceOffsetPlugOperator(
         ("turbulenceOffsetZ", "trz"),
     )
 
-    turbulenceOffsetX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    turbulenceOffsetX = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     trx = turbulenceOffsetX
 
-    turbulenceOffsetY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    turbulenceOffsetY = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     try_ = turbulenceOffsetY
 
-    turbulenceOffsetZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    turbulenceOffsetZ = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     trz = turbulenceOffsetZ
 
 
@@ -852,31 +930,45 @@ class TurbulenceOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    turbulenceOffsetX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    turbulenceOffsetX = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     trx = turbulenceOffsetX
 
-    turbulenceOffsetY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    turbulenceOffsetY = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     try_ = turbulenceOffsetY
 
-    turbulenceOffsetZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    turbulenceOffsetZ = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     trz = turbulenceOffsetZ
 
 
 class TurbulenceOffsetField(
-    Double3CompoundBaseField[TurbulenceOffsetAttrOperator, TurbulenceOffsetPlugOperator]
+    Double3CompoundBaseField[
+        TurbulenceOffsetAttrOperator, TurbulenceOffsetPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = TurbulenceOffsetAttrOperator
     PLUG_CLS = TurbulenceOffsetPlugOperator
 
-    turbulenceOffsetX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    turbulenceOffsetX = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     trx = turbulenceOffsetX
 
-    turbulenceOffsetY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    turbulenceOffsetY = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     try_ = turbulenceOffsetY
 
-    turbulenceOffsetZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    turbulenceOffsetZ = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     trz = turbulenceOffsetZ
 
 
@@ -890,13 +982,19 @@ class SunDirectionPlugOperator(
         ("sunDirectionZ", "sndz"),
     )
 
-    sunDirectionX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sunDirectionX = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sndx = sunDirectionX
 
-    sunDirectionY = DoubleField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sunDirectionY = DoubleField(
+        default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sndy = sunDirectionY
 
-    sunDirectionZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sunDirectionZ = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sndz = sunDirectionZ
 
 
@@ -905,37 +1003,49 @@ class SunDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    sunDirectionX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sunDirectionX = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sndx = sunDirectionX
 
-    sunDirectionY = DoubleField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sunDirectionY = DoubleField(
+        default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sndy = sunDirectionY
 
-    sunDirectionZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sunDirectionZ = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sndz = sunDirectionZ
 
 
 class SunDirectionField(
-    Double3CompoundBaseField[SunDirectionAttrOperator, SunDirectionPlugOperator]
+    Double3CompoundBaseField[
+        SunDirectionAttrOperator, SunDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = SunDirectionAttrOperator
     PLUG_CLS = SunDirectionPlugOperator
 
-    sunDirectionX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sunDirectionX = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sndx = sunDirectionX
 
-    sunDirectionY = DoubleField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sunDirectionY = DoubleField(
+        default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sndy = sunDirectionY
 
-    sunDirectionZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sunDirectionZ = DoubleField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sndz = sunDirectionZ
 
 
-class LeafCurlPlugOperator(
-    CompoundPlugOperator["LeafCurlAttrOperator"]
-):
+class LeafCurlPlugOperator(CompoundPlugOperator["LeafCurlAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("leafCurl_Position", "lclp"),
@@ -953,9 +1063,7 @@ class LeafCurlPlugOperator(
     lcli = leafCurl_Interp
 
 
-class LeafCurlAttrOperator(
-    CompoundAttrOperator[LeafCurlPlugOperator]
-):
+class LeafCurlAttrOperator(CompoundAttrOperator[LeafCurlPlugOperator]):
     __slots__ = ()
 
     leafCurl_Position = FloatField(default_value=0.0)
@@ -968,9 +1076,7 @@ class LeafCurlAttrOperator(
     lcli = leafCurl_Interp
 
 
-class LeafCurlField(
-    CompoundField[LeafCurlAttrOperator, LeafCurlPlugOperator]
-):
+class LeafCurlField(CompoundField[LeafCurlAttrOperator, LeafCurlPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeafCurlAttrOperator
@@ -1136,9 +1242,7 @@ class BudColorField(
     bub = budColorB
 
 
-class PetalCurlPlugOperator(
-    CompoundPlugOperator["PetalCurlAttrOperator"]
-):
+class PetalCurlPlugOperator(CompoundPlugOperator["PetalCurlAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("petalCurl_Position", "pclp"),
@@ -1156,9 +1260,7 @@ class PetalCurlPlugOperator(
     pcli = petalCurl_Interp
 
 
-class PetalCurlAttrOperator(
-    CompoundAttrOperator[PetalCurlPlugOperator]
-):
+class PetalCurlAttrOperator(CompoundAttrOperator[PetalCurlPlugOperator]):
     __slots__ = ()
 
     petalCurl_Position = FloatField(default_value=0.0)
@@ -1392,9 +1494,7 @@ class TexColor2Field(
     x2b = texColor2B
 
 
-class WidthScalePlugOperator(
-    CompoundPlugOperator["WidthScaleAttrOperator"]
-):
+class WidthScalePlugOperator(CompoundPlugOperator["WidthScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("widthScale_Position", "wscp"),
@@ -1412,9 +1512,7 @@ class WidthScalePlugOperator(
     wsci = widthScale_Interp
 
 
-class WidthScaleAttrOperator(
-    CompoundAttrOperator[WidthScalePlugOperator]
-):
+class WidthScaleAttrOperator(CompoundAttrOperator[WidthScalePlugOperator]):
     __slots__ = ()
 
     widthScale_Position = FloatField(default_value=0.0)
@@ -1604,7 +1702,9 @@ class ThornBaseColorAttrOperator(
 
 
 class ThornBaseColorField(
-    Float3CompoundBaseField[ThornBaseColorAttrOperator, ThornBaseColorPlugOperator]
+    Float3CompoundBaseField[
+        ThornBaseColorAttrOperator, ThornBaseColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1657,7 +1757,9 @@ class ThornTipColorAttrOperator(
 
 
 class ThornTipColorField(
-    Float3CompoundBaseField[ThornTipColorAttrOperator, ThornTipColorPlugOperator]
+    Float3CompoundBaseField[
+        ThornTipColorAttrOperator, ThornTipColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1674,9 +1776,7 @@ class ThornTipColorField(
     ttcb = thornTipColorB
 
 
-class EnvironmentPlugOperator(
-    CompoundPlugOperator["EnvironmentAttrOperator"]
-):
+class EnvironmentPlugOperator(CompoundPlugOperator["EnvironmentAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("environment_Position", "envp"),
@@ -1694,9 +1794,7 @@ class EnvironmentPlugOperator(
     envi = environment_Interp
 
 
-class EnvironmentAttrOperator(
-    CompoundAttrOperator[EnvironmentPlugOperator]
-):
+class EnvironmentAttrOperator(CompoundAttrOperator[EnvironmentPlugOperator]):
     __slots__ = ()
 
     environment_Position = FloatField(default_value=0.0)
@@ -1734,7 +1832,9 @@ class ReflectionRolloffPlugOperator(
     reflectionRolloff_FloatValue = FloatField(default_value=0.0)
     rrofv = reflectionRolloff_FloatValue
 
-    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField(default_value=0)
+    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField(
+        default_value=0
+    )
     rroi = reflectionRolloff_Interp
 
 
@@ -1749,7 +1849,9 @@ class ReflectionRolloffAttrOperator(
     reflectionRolloff_FloatValue = FloatField(default_value=0.0)
     rrofv = reflectionRolloff_FloatValue
 
-    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField(default_value=0)
+    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField(
+        default_value=0
+    )
     rroi = reflectionRolloff_Interp
 
 

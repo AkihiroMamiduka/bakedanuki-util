@@ -5,18 +5,16 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ..std.dt.vector_array import DataVectorArrayField
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
-    DoubleAngle3CompoundBaseAttrOperator,
-    DoubleAngle3CompoundBasePlugOperator,
-    DoubleAngle3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
+from ..custom import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
+    DoubleAngle3CompoundBaseAttrOperator,
+    DoubleAngle3CompoundBasePlugOperator,
+    DoubleAngle3CompoundBaseField,
 )
 
 
@@ -36,9 +34,7 @@ class GeneralForcePlugOperator(
     itr = inputTorque
 
 
-class GeneralForceAttrOperator(
-    CompoundAttrOperator[GeneralForcePlugOperator]
-):
+class GeneralForceAttrOperator(CompoundAttrOperator[GeneralForcePlugOperator]):
     __slots__ = ()
 
     inputForce = DataVectorArrayField()
@@ -93,7 +89,9 @@ class TranslateAttrOperator(
 
 
 class TranslateField(
-    DoubleLinear3CompoundBaseField[TranslateAttrOperator, TranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TranslateAttrOperator, TranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -181,7 +179,9 @@ class ConstraintTranslateAttrOperator(
 
 
 class ConstraintTranslateField(
-    DoubleLinear3CompoundBaseField[ConstraintTranslateAttrOperator, ConstraintTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ConstraintTranslateAttrOperator, ConstraintTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -225,7 +225,9 @@ class ConstraintRotateAttrOperator(
 
 
 class ConstraintRotateField(
-    DoubleAngle3CompoundBaseField[ConstraintRotateAttrOperator, ConstraintRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        ConstraintRotateAttrOperator, ConstraintRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 

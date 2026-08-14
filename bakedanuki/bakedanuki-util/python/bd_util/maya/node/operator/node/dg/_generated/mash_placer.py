@@ -9,21 +9,23 @@ from ....attr.define.node_attr.mash_placer import (
     RotationAdjustField,
     ScaleAdjustField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -32,7 +34,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -57,14 +61,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -77,7 +85,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -85,7 +96,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class CollideOnCreateEnumPlugOperator(EnumPlugOperator):
+class CollideOnCreateEnumPlugOperator(
+    EnumPlugOperator["CollideOnCreateEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 1
@@ -93,7 +106,9 @@ class CollideOnCreateEnumPlugOperator(EnumPlugOperator):
     STRICT = 3
 
 
-class CollideOnCreateEnumAttrOperator(EnumAttrOperator):
+class CollideOnCreateEnumAttrOperator(
+    EnumAttrOperator[CollideOnCreateEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 1
@@ -116,7 +131,9 @@ class CollideOnCreateEnumField(
     PLUG_CLS = CollideOnCreateEnumPlugOperator
 
 
-class AlignBrushAxisEnumPlugOperator(EnumPlugOperator):
+class AlignBrushAxisEnumPlugOperator(
+    EnumPlugOperator["AlignBrushAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 1
@@ -125,7 +142,9 @@ class AlignBrushAxisEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class AlignBrushAxisEnumAttrOperator(EnumAttrOperator):
+class AlignBrushAxisEnumAttrOperator(
+    EnumAttrOperator[AlignBrushAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     ALL = 1
@@ -150,7 +169,9 @@ class AlignBrushAxisEnumField(
     PLUG_CLS = AlignBrushAxisEnumPlugOperator
 
 
-class RotationModeEnumPlugOperator(EnumPlugOperator):
+class RotationModeEnumPlugOperator(
+    EnumPlugOperator["RotationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 1
@@ -158,7 +179,9 @@ class RotationModeEnumPlugOperator(EnumPlugOperator):
     ALIGN_TO_BRUSH = 3
 
 
-class RotationModeEnumAttrOperator(EnumAttrOperator):
+class RotationModeEnumAttrOperator(
+    EnumAttrOperator[RotationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 1
@@ -181,14 +204,14 @@ class RotationModeEnumField(
     PLUG_CLS = RotationModeEnumPlugOperator
 
 
-class IdModeEnumPlugOperator(EnumPlugOperator):
+class IdModeEnumPlugOperator(EnumPlugOperator["IdModeEnumAttrOperator"]):
     __slots__ = ()
 
     FIXED = 1
     RANDOM = 2
 
 
-class IdModeEnumAttrOperator(EnumAttrOperator):
+class IdModeEnumAttrOperator(EnumAttrOperator[IdModeEnumPlugOperator]):
     __slots__ = ()
 
     FIXED = 1
@@ -209,7 +232,7 @@ class IdModeEnumField(
     PLUG_CLS = IdModeEnumPlugOperator
 
 
-class BrushTypeEnumPlugOperator(EnumPlugOperator):
+class BrushTypeEnumPlugOperator(EnumPlugOperator["BrushTypeEnumAttrOperator"]):
     __slots__ = ()
 
     POINTS_BRUSH = 1
@@ -222,7 +245,7 @@ class BrushTypeEnumPlugOperator(EnumPlugOperator):
     NUDGE_BRUSH = 8
 
 
-class BrushTypeEnumAttrOperator(EnumAttrOperator):
+class BrushTypeEnumAttrOperator(EnumAttrOperator[BrushTypeEnumPlugOperator]):
     __slots__ = ()
 
     POINTS_BRUSH = 1
@@ -255,7 +278,7 @@ class BrushTypeEnumField(
     PLUG_CLS = BrushTypeEnumPlugOperator
 
 
-class _GeneratedMASH_Placer(DG):
+class GeneratedMASHPlacer(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Placer"
@@ -275,7 +298,9 @@ class _GeneratedMASH_Placer(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -311,25 +336,37 @@ class _GeneratedMASH_Placer(DG):
 
     leanAmount = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    pushAlongNormal = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    pushAlongNormal = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
     randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
 
     paintId = LongField(default_value=0, min_value=0, soft_max_value=10)
 
-    brushRadius = FloatField(default_value=2.0, min_value=0.0, soft_max_value=20.0)
+    brushRadius = FloatField(
+        default_value=2.0, min_value=0.0, soft_max_value=20.0
+    )
 
     scatterDensity = LongField(default_value=1, min_value=1, soft_max_value=10)
 
-    brushSpacing = FloatField(default_value=2.0, min_value=0.0, soft_max_value=10.0)
+    brushSpacing = FloatField(
+        default_value=2.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    brushStrength = FloatField(default_value=5.0, min_value=0.0, soft_max_value=5.0)
+    brushStrength = FloatField(
+        default_value=5.0, min_value=0.0, soft_max_value=5.0
+    )
 
-    randomScale = RandomScaleField(default_value=(1.0, 1.0), min_value=(0.0, 0.0))
+    randomScale = RandomScaleField(
+        default_value=(1.0, 1.0), min_value=(0.0, 0.0)
+    )
     randomScale0 = randomScale.randomScale0
     randomScale1 = randomScale.randomScale1
 
-    randomRotation = RandomRotationField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0))
+    randomRotation = RandomRotationField(
+        default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0)
+    )
     randomRotation0 = randomRotation.randomRotation0
     randomRotation1 = randomRotation.randomRotation1
     randomRotation2 = randomRotation.randomRotation2

@@ -5,13 +5,13 @@ from ....attr.define.node_attr.ais_env_facade import (
     ExtraLightInfoField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAISEnvFacade(DG):
+class GeneratedAISEnvFacade(DG):
     __slots__ = ()
 
     NODE_TYPE = "AISEnvFacade"
@@ -40,7 +40,9 @@ class _GeneratedAISEnvFacade(DG):
     maxMentalRayQualityNode = MessageField()
     maxmrq = maxMentalRayQualityNode
 
-    antiAliasingQuality = ShortField(default_value=1, min_value=1, max_value=10)
+    antiAliasingQuality = ShortField(
+        default_value=1, min_value=1, max_value=10
+    )
     aaq = antiAliasingQuality
 
     reflectionsQuality = ShortField(default_value=1, min_value=1, max_value=10)
@@ -49,40 +51,64 @@ class _GeneratedAISEnvFacade(DG):
     refractionsQuality = ShortField(default_value=1, min_value=1, max_value=10)
     rfrq = refractionsQuality
 
-    globalIlluminationQuality = ShortField(default_value=1, min_value=1, max_value=10)
+    globalIlluminationQuality = ShortField(
+        default_value=1, min_value=1, max_value=10
+    )
     giq = globalIlluminationQuality
 
-    tessellationQuality = ShortField(default_value=1, min_value=1, max_value=10)
+    tessellationQuality = ShortField(
+        default_value=1, min_value=1, max_value=10
+    )
     tq = tessellationQuality
 
-    factoryAntiAliasingQuality = ShortField(default_value=1, min_value=1, max_value=10)
+    factoryAntiAliasingQuality = ShortField(
+        default_value=1, min_value=1, max_value=10
+    )
     faaq = factoryAntiAliasingQuality
 
-    factoryReflectionsQuality = ShortField(default_value=1, min_value=1, max_value=10)
+    factoryReflectionsQuality = ShortField(
+        default_value=1, min_value=1, max_value=10
+    )
     frflq = factoryReflectionsQuality
 
-    factoryRefractionsQuality = ShortField(default_value=1, min_value=1, max_value=10)
+    factoryRefractionsQuality = ShortField(
+        default_value=1, min_value=1, max_value=10
+    )
     frfrq = factoryRefractionsQuality
 
-    factoryGlobalIlluminationQuality = ShortField(default_value=1, min_value=1, max_value=10)
+    factoryGlobalIlluminationQuality = ShortField(
+        default_value=1, min_value=1, max_value=10
+    )
     fgiq = factoryGlobalIlluminationQuality
 
-    factoryTessellationQuality = ShortField(default_value=1, min_value=1, max_value=10)
+    factoryTessellationQuality = ShortField(
+        default_value=1, min_value=1, max_value=10
+    )
     ftq = factoryTessellationQuality
 
-    testAntiAliasingQuality = FloatField(default_value=1.0, min_value=1.0, max_value=10.0)
+    testAntiAliasingQuality = FloatField(
+        default_value=1.0, min_value=1.0, max_value=10.0
+    )
     taaq = testAntiAliasingQuality
 
-    testReflectionsQuality = FloatField(default_value=1.0, min_value=1.0, max_value=10.0)
+    testReflectionsQuality = FloatField(
+        default_value=1.0, min_value=1.0, max_value=10.0
+    )
     trflq = testReflectionsQuality
 
-    testRefractionsQuality = FloatField(default_value=1.0, min_value=1.0, max_value=10.0)
+    testRefractionsQuality = FloatField(
+        default_value=1.0, min_value=1.0, max_value=10.0
+    )
     trfrq = testRefractionsQuality
 
-    testGlobalIlluminationQuality = FloatField(default_value=1.0, min_value=1.0, max_value=10.0)
+    testGlobalIlluminationQuality = FloatField(
+        default_value=1.0, min_value=1.0, max_value=10.0
+    )
     tgiq = testGlobalIlluminationQuality
 
-    testTessellationQuality = FloatField(default_value=1.0, min_value=1.0, max_value=10.0)
+    testTessellationQuality = FloatField(
+        default_value=1.0, min_value=1.0, max_value=10.0
+    )
     ttq = testTessellationQuality
 
     hasFloor = BoolField(default_value=False, readable=False)
@@ -91,7 +117,14 @@ class _GeneratedAISEnvFacade(DG):
     floorHeight = FloatField(default_value=0.0, readable=False)
     fh = floorHeight
 
-    backgroundColor = BackgroundColorField(default_value=(0.699999988079071, 0.699999988079071, 0.699999988079071), readable=False)
+    backgroundColor = BackgroundColorField(
+        default_value=(
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+        ),
+        readable=False,
+    )
     bc = backgroundColor
     backgroundColorR = backgroundColor.backgroundColorR
     bcr = backgroundColorR

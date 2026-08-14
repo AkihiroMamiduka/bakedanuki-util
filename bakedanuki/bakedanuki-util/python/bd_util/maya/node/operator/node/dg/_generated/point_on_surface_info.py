@@ -1,12 +1,12 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.point_on_surface_info import ResultField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedPointOnSurfaceInfo(DG):
+class GeneratedPointOnSurfaceInfo(DG):
     __slots__ = ()
 
     NODE_TYPE = "pointOnSurfaceInfo"

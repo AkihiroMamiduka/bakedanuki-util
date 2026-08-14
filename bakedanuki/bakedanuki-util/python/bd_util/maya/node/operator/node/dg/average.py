@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.average import _GeneratedAverage
+from ._generated.average import GeneratedAverage
 
 
-class Average(_GeneratedAverage):
+class Average(GeneratedAverage):
     __slots__ = ()
 
     NODE_TYPE = "average"

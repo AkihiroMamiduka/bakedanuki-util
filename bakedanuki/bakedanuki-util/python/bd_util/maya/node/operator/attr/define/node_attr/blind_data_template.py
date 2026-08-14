@@ -45,9 +45,7 @@ class BlindDataPresetsField(
     PLUG_CLS = BlindDataPresetsPlugOperator
 
 
-class BdUserInfoPlugOperator(
-    CompoundPlugOperator["BdUserInfoAttrOperator"]
-):
+class BdUserInfoPlugOperator(CompoundPlugOperator["BdUserInfoAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("bdUserInfoName", "bdun"),
@@ -61,9 +59,7 @@ class BdUserInfoPlugOperator(
     bduv = bdUserInfoValue
 
 
-class BdUserInfoAttrOperator(
-    CompoundAttrOperator[BdUserInfoPlugOperator]
-):
+class BdUserInfoAttrOperator(CompoundAttrOperator[BdUserInfoPlugOperator]):
     __slots__ = ()
 
     bdUserInfoName = DataStringField()

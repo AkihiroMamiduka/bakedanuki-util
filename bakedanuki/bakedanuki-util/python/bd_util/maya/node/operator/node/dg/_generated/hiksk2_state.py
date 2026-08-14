@@ -4,7 +4,7 @@ from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedHIKSK2State(DG):
+class GeneratedHIKSK2State(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKSK2State"

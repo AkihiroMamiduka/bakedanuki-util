@@ -1,23 +1,25 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.ai_matrix_interpolate import OutTransparencyField
-from ....attr.define.std.at.enum import (
+from ....attr.define.node_attr.ai_matrix_interpolate import (
+    OutTransparencyField,
+)
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     TIME = 0
     VALUE = 1
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     TIME = 0
@@ -29,16 +31,14 @@ class TypeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class _GeneratedAiMatrixInterpolate(DG):
+class GeneratedAiMatrixInterpolate(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMatrixInterpolate"
@@ -46,7 +46,9 @@ class _GeneratedAiMatrixInterpolate(DG):
     outValue = FltMatrixField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

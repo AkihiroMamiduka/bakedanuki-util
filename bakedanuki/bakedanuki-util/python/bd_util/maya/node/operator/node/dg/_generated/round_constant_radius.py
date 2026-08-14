@@ -1,12 +1,14 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.round_constant_radius import EdgeField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedRoundConstantRadius(DG):
+class GeneratedRoundConstantRadius(DG):
     __slots__ = ()
 
     NODE_TYPE = "roundConstantRadius"
@@ -20,7 +22,9 @@ class _GeneratedRoundConstantRadius(DG):
     edge = EdgeField(multi=True)
     e = edge
 
-    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01, soft_min_value=0.001, soft_max_value=1.0
+    )
     tol = tolerance
 
     filletStatus = ShortField(multi=True, default_value=0, writable=False)

@@ -7,14 +7,14 @@ from ....attr.define.node_attr.mash_inherit import (
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 
 
-class _GeneratedMASH_Inherit(DG):
+class GeneratedMASHInherit(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Inherit"
@@ -79,7 +79,9 @@ class _GeneratedMASH_Inherit(DG):
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    force = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
+    force = FloatField(
+        default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0
+    )
     for_ = force
 
     forceVar = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)

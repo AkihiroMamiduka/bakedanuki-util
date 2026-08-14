@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.create_ptex_uv import _GeneratedCreatePtexUV
+from ._generated.create_ptex_uv import GeneratedCreatePtexUV
 
 
-class CreatePtexUV(_GeneratedCreatePtexUV):
+class CreatePtexUV(GeneratedCreatePtexUV):
     __slots__ = ()
 
     NODE_TYPE = "createPtexUV"

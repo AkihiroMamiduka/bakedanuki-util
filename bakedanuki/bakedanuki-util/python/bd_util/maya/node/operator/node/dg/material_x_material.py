@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.material_x_material import _GeneratedMaterialXMaterial
+from ._generated.material_x_material import GeneratedMaterialXMaterial
 
 
-class MaterialXMaterial(_GeneratedMaterialXMaterial):
+class MaterialXMaterial(GeneratedMaterialXMaterial):
     __slots__ = ()
 
     NODE_TYPE = "materialXMaterial"

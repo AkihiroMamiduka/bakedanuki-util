@@ -1,6 +1,6 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
@@ -8,7 +8,7 @@ from ....attr.define.std.at.enum import (
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class StyleEnumPlugOperator(EnumPlugOperator):
+class StyleEnumPlugOperator(EnumPlugOperator["StyleEnumAttrOperator"]):
     __slots__ = ()
 
     STRAIGHT_OUT = 0
@@ -28,7 +28,7 @@ class StyleEnumPlugOperator(EnumPlugOperator):
     CONVEX_CREASE = 14
 
 
-class StyleEnumAttrOperator(EnumAttrOperator):
+class StyleEnumAttrOperator(EnumAttrOperator[StyleEnumPlugOperator]):
     __slots__ = ()
 
     STRAIGHT_OUT = 0
@@ -66,16 +66,14 @@ class StyleEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class StyleEnumField(
-    EnumField[StyleEnumAttrOperator, StyleEnumPlugOperator]
-):
+class StyleEnumField(EnumField[StyleEnumAttrOperator, StyleEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = StyleEnumAttrOperator
     PLUG_CLS = StyleEnumPlugOperator
 
 
-class _GeneratedStyleCurve(DG):
+class GeneratedStyleCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "styleCurve"

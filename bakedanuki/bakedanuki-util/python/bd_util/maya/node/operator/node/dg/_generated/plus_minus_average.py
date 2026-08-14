@@ -6,15 +6,15 @@ from ....attr.define.node_attr.plus_minus_average import (
     Output2DField,
     Output3DField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     NO_OPERATION = 0
@@ -23,7 +23,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     AVERAGE = 3
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     NO_OPERATION = 0
@@ -48,7 +48,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedPlusMinusAverage(DG):
+class GeneratedPlusMinusAverage(DG):
     __slots__ = ()
 
     NODE_TYPE = "plusMinusAverage"
@@ -59,10 +59,14 @@ class _GeneratedPlusMinusAverage(DG):
     input1D = FloatField(multi=True, default_value=0.0, readable=False)
     i1 = input1D
 
-    input2D = Input2DField(multi=True, default_value=(0.0, 0.0), readable=False)
+    input2D = Input2DField(
+        multi=True, default_value=(0.0, 0.0), readable=False
+    )
     i2 = input2D
 
-    input3D = Input3DField(multi=True, default_value=(0.0, 0.0, 0.0), readable=False)
+    input3D = Input3DField(
+        multi=True, default_value=(0.0, 0.0, 0.0), readable=False
+    )
     i3 = input3D
 
     output1D = FloatField(default_value=0.0, writable=False)

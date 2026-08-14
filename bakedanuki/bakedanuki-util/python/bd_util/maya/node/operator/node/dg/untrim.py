@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.untrim import _GeneratedUntrim
+from ._generated.untrim import GeneratedUntrim
 
 
-class Untrim(_GeneratedUntrim):
+class Untrim(GeneratedUntrim):
     __slots__ = ()
 
     NODE_TYPE = "untrim"

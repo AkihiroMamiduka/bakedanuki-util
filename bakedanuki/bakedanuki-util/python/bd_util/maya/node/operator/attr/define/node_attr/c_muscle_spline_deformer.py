@@ -5,31 +5,31 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
 from ..std.at.typed import TypedField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._base import (
+from ..custom import (
     Long3CompoundBaseAttrOperator,
     Long3CompoundBasePlugOperator,
     Long3CompoundBaseField,
 )
 
 
-class STATEEnumPlugOperator(EnumPlugOperator):
+class STATEEnumPlugOperator(EnumPlugOperator["STATEEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class STATEEnumAttrOperator(EnumAttrOperator):
+class STATEEnumAttrOperator(EnumAttrOperator[STATEEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -39,22 +39,20 @@ class STATEEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class STATEEnumField(
-    EnumField[STATEEnumAttrOperator, STATEEnumPlugOperator]
-):
+class STATEEnumField(EnumField[STATEEnumAttrOperator, STATEEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = STATEEnumAttrOperator
     PLUG_CLS = STATEEnumPlugOperator
 
 
-class SHAPINGEnumPlugOperator(EnumPlugOperator):
+class SHAPINGEnumPlugOperator(EnumPlugOperator["SHAPINGEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SHAPINGEnumAttrOperator(EnumAttrOperator):
+class SHAPINGEnumAttrOperator(EnumAttrOperator[SHAPINGEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -73,13 +71,13 @@ class SHAPINGEnumField(
     PLUG_CLS = SHAPINGEnumPlugOperator
 
 
-class SQUASHEnumPlugOperator(EnumPlugOperator):
+class SQUASHEnumPlugOperator(EnumPlugOperator["SQUASHEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SQUASHEnumAttrOperator(EnumAttrOperator):
+class SQUASHEnumAttrOperator(EnumAttrOperator[SQUASHEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -98,13 +96,13 @@ class SQUASHEnumField(
     PLUG_CLS = SQUASHEnumPlugOperator
 
 
-class STRETCHEnumPlugOperator(EnumPlugOperator):
+class STRETCHEnumPlugOperator(EnumPlugOperator["STRETCHEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class STRETCHEnumAttrOperator(EnumAttrOperator):
+class STRETCHEnumAttrOperator(EnumAttrOperator[STRETCHEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -123,9 +121,7 @@ class STRETCHEnumField(
     PLUG_CLS = STRETCHEnumPlugOperator
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -143,9 +139,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -158,9 +152,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -171,9 +163,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -189,7 +179,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -250,20 +242,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -278,9 +264,7 @@ class WeightListField(
     PLUG_CLS = WeightListPlugOperator
 
 
-class ControlDataPlugOperator(
-    CompoundPlugOperator["ControlDataAttrOperator"]
-):
+class ControlDataPlugOperator(CompoundPlugOperator["ControlDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("point", "pt"),
@@ -302,9 +286,7 @@ class ControlDataPlugOperator(
     u = up
 
 
-class ControlDataAttrOperator(
-    CompoundAttrOperator[ControlDataPlugOperator]
-):
+class ControlDataAttrOperator(CompoundAttrOperator[ControlDataPlugOperator]):
     __slots__ = ()
 
     point = CompoundField(default_value=(0.0, 0.0, 0.0))
@@ -380,9 +362,7 @@ class ControlDataBaseField(
     PLUG_CLS = ControlDataBasePlugOperator
 
 
-class SquashDataPlugOperator(
-    CompoundPlugOperator["SquashDataAttrOperator"]
-):
+class SquashDataPlugOperator(CompoundPlugOperator["SquashDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("STATE", "STA"),
@@ -496,9 +476,7 @@ class SquashDataPlugOperator(
     stzend = stretchZEnd
 
 
-class SquashDataAttrOperator(
-    CompoundAttrOperator[SquashDataPlugOperator]
-):
+class SquashDataAttrOperator(CompoundAttrOperator[SquashDataPlugOperator]):
     __slots__ = ()
 
     STATE = STATEEnumField(default_value=0)
@@ -673,9 +651,7 @@ class SquashDataField(
     stzend = stretchZEnd
 
 
-class ShapeDataPlugOperator(
-    CompoundPlugOperator["ShapeDataAttrOperator"]
-):
+class ShapeDataPlugOperator(CompoundPlugOperator["ShapeDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("shapeName", "snm"),
@@ -694,16 +670,16 @@ class ShapeDataPlugOperator(
     shapeActive = BoolField(default_value=False)
     sact = shapeActive
 
-    shapeManualTrigger = DoubleField(default_value=0.0, min_value=0.0, max_value=0.0)
+    shapeManualTrigger = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=0.0
+    )
     strg = shapeManualTrigger
 
     shapeDelta = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     sdlt = shapeDelta
 
 
-class ShapeDataAttrOperator(
-    CompoundAttrOperator[ShapeDataPlugOperator]
-):
+class ShapeDataAttrOperator(CompoundAttrOperator[ShapeDataPlugOperator]):
     __slots__ = ()
 
     shapeName = DataStringField()
@@ -715,7 +691,9 @@ class ShapeDataAttrOperator(
     shapeActive = BoolField(default_value=False)
     sact = shapeActive
 
-    shapeManualTrigger = DoubleField(default_value=0.0, min_value=0.0, max_value=0.0)
+    shapeManualTrigger = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=0.0
+    )
     strg = shapeManualTrigger
 
     shapeDelta = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))

@@ -15,14 +15,14 @@ def _world_matrix(maya_cmds, node: str) -> list[float]:
 
 def test_transform_uses_generated_base_class():
     from bd_util.maya.node.operator.node.dag.transform._core import Transform
-    from bd_util.maya.node.operator.node.dag.transform._generated.transform import (
-        _GeneratedTransform,
+    from bd_util.maya.node.operator.node.dag.transform._generated import (
+        transform as generated_transform,
     )
 
-    assert Transform.__base__ is _GeneratedTransform
+    assert Transform.__base__ is generated_transform.GeneratedTransform
     assert Transform.NODE_TYPE == "transform"
     assert "translate" not in vars(Transform)
-    assert "translate" in vars(_GeneratedTransform)
+    assert "translate" in vars(generated_transform.GeneratedTransform)
     assert Transform.translate.long_name == "translate"
 
 

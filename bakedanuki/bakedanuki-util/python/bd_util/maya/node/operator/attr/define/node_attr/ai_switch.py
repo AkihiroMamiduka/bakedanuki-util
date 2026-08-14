@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class HardwareColorAttrOperator(
 
 
 class HardwareColorField(
-    Float3CompoundBaseField[HardwareColorAttrOperator, HardwareColorPlugOperator]
+    Float3CompoundBaseField[
+        HardwareColorAttrOperator, HardwareColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -220,9 +224,7 @@ class HardwareColorField(
     hwcb = hardwareColorB
 
 
-class Input0PlugOperator(
-    Float3CompoundBasePlugOperator["Input0AttrOperator"]
-):
+class Input0PlugOperator(Float3CompoundBasePlugOperator["Input0AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input0R", "input0r"),
@@ -240,9 +242,7 @@ class Input0PlugOperator(
     input0b = input0B
 
 
-class Input0AttrOperator(
-    Float3CompoundBaseAttrOperator[Input0PlugOperator]
-):
+class Input0AttrOperator(Float3CompoundBaseAttrOperator[Input0PlugOperator]):
     __slots__ = ()
 
     input0R = FloatField(default_value=0.0)
@@ -273,9 +273,7 @@ class Input0Field(
     input0b = input0B
 
 
-class Input1PlugOperator(
-    Float3CompoundBasePlugOperator["Input1AttrOperator"]
-):
+class Input1PlugOperator(Float3CompoundBasePlugOperator["Input1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input1R", "input1r"),
@@ -293,9 +291,7 @@ class Input1PlugOperator(
     input1b = input1B
 
 
-class Input1AttrOperator(
-    Float3CompoundBaseAttrOperator[Input1PlugOperator]
-):
+class Input1AttrOperator(Float3CompoundBaseAttrOperator[Input1PlugOperator]):
     __slots__ = ()
 
     input1R = FloatField(default_value=0.0)
@@ -326,9 +322,7 @@ class Input1Field(
     input1b = input1B
 
 
-class Input2PlugOperator(
-    Float3CompoundBasePlugOperator["Input2AttrOperator"]
-):
+class Input2PlugOperator(Float3CompoundBasePlugOperator["Input2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input2R", "input2r"),
@@ -346,9 +340,7 @@ class Input2PlugOperator(
     input2b = input2B
 
 
-class Input2AttrOperator(
-    Float3CompoundBaseAttrOperator[Input2PlugOperator]
-):
+class Input2AttrOperator(Float3CompoundBaseAttrOperator[Input2PlugOperator]):
     __slots__ = ()
 
     input2R = FloatField(default_value=0.0)
@@ -379,9 +371,7 @@ class Input2Field(
     input2b = input2B
 
 
-class Input3PlugOperator(
-    Float3CompoundBasePlugOperator["Input3AttrOperator"]
-):
+class Input3PlugOperator(Float3CompoundBasePlugOperator["Input3AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input3R", "input3r"),
@@ -399,9 +389,7 @@ class Input3PlugOperator(
     input3b = input3B
 
 
-class Input3AttrOperator(
-    Float3CompoundBaseAttrOperator[Input3PlugOperator]
-):
+class Input3AttrOperator(Float3CompoundBaseAttrOperator[Input3PlugOperator]):
     __slots__ = ()
 
     input3R = FloatField(default_value=0.0)
@@ -432,9 +420,7 @@ class Input3Field(
     input3b = input3B
 
 
-class Input4PlugOperator(
-    Float3CompoundBasePlugOperator["Input4AttrOperator"]
-):
+class Input4PlugOperator(Float3CompoundBasePlugOperator["Input4AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input4R", "input4r"),
@@ -452,9 +438,7 @@ class Input4PlugOperator(
     input4b = input4B
 
 
-class Input4AttrOperator(
-    Float3CompoundBaseAttrOperator[Input4PlugOperator]
-):
+class Input4AttrOperator(Float3CompoundBaseAttrOperator[Input4PlugOperator]):
     __slots__ = ()
 
     input4R = FloatField(default_value=0.0)
@@ -485,9 +469,7 @@ class Input4Field(
     input4b = input4B
 
 
-class Input5PlugOperator(
-    Float3CompoundBasePlugOperator["Input5AttrOperator"]
-):
+class Input5PlugOperator(Float3CompoundBasePlugOperator["Input5AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input5R", "input5r"),
@@ -505,9 +487,7 @@ class Input5PlugOperator(
     input5b = input5B
 
 
-class Input5AttrOperator(
-    Float3CompoundBaseAttrOperator[Input5PlugOperator]
-):
+class Input5AttrOperator(Float3CompoundBaseAttrOperator[Input5PlugOperator]):
     __slots__ = ()
 
     input5R = FloatField(default_value=0.0)
@@ -538,9 +518,7 @@ class Input5Field(
     input5b = input5B
 
 
-class Input6PlugOperator(
-    Float3CompoundBasePlugOperator["Input6AttrOperator"]
-):
+class Input6PlugOperator(Float3CompoundBasePlugOperator["Input6AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input6R", "input6r"),
@@ -558,9 +536,7 @@ class Input6PlugOperator(
     input6b = input6B
 
 
-class Input6AttrOperator(
-    Float3CompoundBaseAttrOperator[Input6PlugOperator]
-):
+class Input6AttrOperator(Float3CompoundBaseAttrOperator[Input6PlugOperator]):
     __slots__ = ()
 
     input6R = FloatField(default_value=0.0)
@@ -591,9 +567,7 @@ class Input6Field(
     input6b = input6B
 
 
-class Input7PlugOperator(
-    Float3CompoundBasePlugOperator["Input7AttrOperator"]
-):
+class Input7PlugOperator(Float3CompoundBasePlugOperator["Input7AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input7R", "input7r"),
@@ -611,9 +585,7 @@ class Input7PlugOperator(
     input7b = input7B
 
 
-class Input7AttrOperator(
-    Float3CompoundBaseAttrOperator[Input7PlugOperator]
-):
+class Input7AttrOperator(Float3CompoundBaseAttrOperator[Input7PlugOperator]):
     __slots__ = ()
 
     input7R = FloatField(default_value=0.0)
@@ -644,9 +616,7 @@ class Input7Field(
     input7b = input7B
 
 
-class Input8PlugOperator(
-    Float3CompoundBasePlugOperator["Input8AttrOperator"]
-):
+class Input8PlugOperator(Float3CompoundBasePlugOperator["Input8AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input8R", "input8r"),
@@ -664,9 +634,7 @@ class Input8PlugOperator(
     input8b = input8B
 
 
-class Input8AttrOperator(
-    Float3CompoundBaseAttrOperator[Input8PlugOperator]
-):
+class Input8AttrOperator(Float3CompoundBaseAttrOperator[Input8PlugOperator]):
     __slots__ = ()
 
     input8R = FloatField(default_value=0.0)
@@ -697,9 +665,7 @@ class Input8Field(
     input8b = input8B
 
 
-class Input9PlugOperator(
-    Float3CompoundBasePlugOperator["Input9AttrOperator"]
-):
+class Input9PlugOperator(Float3CompoundBasePlugOperator["Input9AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input9R", "input9r"),
@@ -717,9 +683,7 @@ class Input9PlugOperator(
     input9b = input9B
 
 
-class Input9AttrOperator(
-    Float3CompoundBaseAttrOperator[Input9PlugOperator]
-):
+class Input9AttrOperator(Float3CompoundBaseAttrOperator[Input9PlugOperator]):
     __slots__ = ()
 
     input9R = FloatField(default_value=0.0)
@@ -770,9 +734,7 @@ class Input10PlugOperator(
     input10b = input10B
 
 
-class Input10AttrOperator(
-    Float3CompoundBaseAttrOperator[Input10PlugOperator]
-):
+class Input10AttrOperator(Float3CompoundBaseAttrOperator[Input10PlugOperator]):
     __slots__ = ()
 
     input10R = FloatField(default_value=0.0)
@@ -823,9 +785,7 @@ class Input11PlugOperator(
     input11b = input11B
 
 
-class Input11AttrOperator(
-    Float3CompoundBaseAttrOperator[Input11PlugOperator]
-):
+class Input11AttrOperator(Float3CompoundBaseAttrOperator[Input11PlugOperator]):
     __slots__ = ()
 
     input11R = FloatField(default_value=0.0)
@@ -876,9 +836,7 @@ class Input12PlugOperator(
     input12b = input12B
 
 
-class Input12AttrOperator(
-    Float3CompoundBaseAttrOperator[Input12PlugOperator]
-):
+class Input12AttrOperator(Float3CompoundBaseAttrOperator[Input12PlugOperator]):
     __slots__ = ()
 
     input12R = FloatField(default_value=0.0)
@@ -929,9 +887,7 @@ class Input13PlugOperator(
     input13b = input13B
 
 
-class Input13AttrOperator(
-    Float3CompoundBaseAttrOperator[Input13PlugOperator]
-):
+class Input13AttrOperator(Float3CompoundBaseAttrOperator[Input13PlugOperator]):
     __slots__ = ()
 
     input13R = FloatField(default_value=0.0)
@@ -982,9 +938,7 @@ class Input14PlugOperator(
     input14b = input14B
 
 
-class Input14AttrOperator(
-    Float3CompoundBaseAttrOperator[Input14PlugOperator]
-):
+class Input14AttrOperator(Float3CompoundBaseAttrOperator[Input14PlugOperator]):
     __slots__ = ()
 
     input14R = FloatField(default_value=0.0)
@@ -1035,9 +989,7 @@ class Input15PlugOperator(
     input15b = input15B
 
 
-class Input15AttrOperator(
-    Float3CompoundBaseAttrOperator[Input15PlugOperator]
-):
+class Input15AttrOperator(Float3CompoundBaseAttrOperator[Input15PlugOperator]):
     __slots__ = ()
 
     input15R = FloatField(default_value=0.0)
@@ -1088,9 +1040,7 @@ class Input16PlugOperator(
     input16b = input16B
 
 
-class Input16AttrOperator(
-    Float3CompoundBaseAttrOperator[Input16PlugOperator]
-):
+class Input16AttrOperator(Float3CompoundBaseAttrOperator[Input16PlugOperator]):
     __slots__ = ()
 
     input16R = FloatField(default_value=0.0)
@@ -1141,9 +1091,7 @@ class Input17PlugOperator(
     input17b = input17B
 
 
-class Input17AttrOperator(
-    Float3CompoundBaseAttrOperator[Input17PlugOperator]
-):
+class Input17AttrOperator(Float3CompoundBaseAttrOperator[Input17PlugOperator]):
     __slots__ = ()
 
     input17R = FloatField(default_value=0.0)
@@ -1194,9 +1142,7 @@ class Input18PlugOperator(
     input18b = input18B
 
 
-class Input18AttrOperator(
-    Float3CompoundBaseAttrOperator[Input18PlugOperator]
-):
+class Input18AttrOperator(Float3CompoundBaseAttrOperator[Input18PlugOperator]):
     __slots__ = ()
 
     input18R = FloatField(default_value=0.0)
@@ -1247,9 +1193,7 @@ class Input19PlugOperator(
     input19b = input19B
 
 
-class Input19AttrOperator(
-    Float3CompoundBaseAttrOperator[Input19PlugOperator]
-):
+class Input19AttrOperator(Float3CompoundBaseAttrOperator[Input19PlugOperator]):
     __slots__ = ()
 
     input19R = FloatField(default_value=0.0)

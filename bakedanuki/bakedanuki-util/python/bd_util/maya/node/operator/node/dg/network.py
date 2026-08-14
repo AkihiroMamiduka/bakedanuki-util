@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.network import _GeneratedNetwork
+from ._generated.network import GeneratedNetwork
 
 
-class Network(_GeneratedNetwork):
+class Network(GeneratedNetwork):
     __slots__ = ()
 
     NODE_TYPE = "network"

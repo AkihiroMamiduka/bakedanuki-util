@@ -6,13 +6,11 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.matrix import MatrixField
-from ..std.at.numeric_scalar.bool import BoolField
+from ..std.at.scalar.numeric.bool import BoolField
 from ..std.dt.mesh import DataMeshField
 
 
-class ColliderPlugOperator(
-    CompoundPlugOperator["ColliderAttrOperator"]
-):
+class ColliderPlugOperator(CompoundPlugOperator["ColliderAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colliderMesh", "cm"),
@@ -34,9 +32,7 @@ class ColliderPlugOperator(
     cnf = colliderNormalFlipped
 
 
-class ColliderAttrOperator(
-    CompoundAttrOperator[ColliderPlugOperator]
-):
+class ColliderAttrOperator(CompoundAttrOperator[ColliderPlugOperator]):
     __slots__ = ()
 
     colliderMesh = DataMeshField()
@@ -52,9 +48,7 @@ class ColliderAttrOperator(
     cnf = colliderNormalFlipped
 
 
-class ColliderField(
-    CompoundField[ColliderAttrOperator, ColliderPlugOperator]
-):
+class ColliderField(CompoundField[ColliderAttrOperator, ColliderPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ColliderAttrOperator

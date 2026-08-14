@@ -1,14 +1,16 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class DisplayLevelEnumPlugOperator(EnumPlugOperator):
+class DisplayLevelEnumPlugOperator(
+    EnumPlugOperator["DisplayLevelEnumAttrOperator"]
+):
     __slots__ = ()
 
     USELOD = 0
@@ -16,7 +18,9 @@ class DisplayLevelEnumPlugOperator(EnumPlugOperator):
     HIDE = 2
 
 
-class DisplayLevelEnumAttrOperator(EnumAttrOperator):
+class DisplayLevelEnumAttrOperator(
+    EnumAttrOperator[DisplayLevelEnumPlugOperator]
+):
     __slots__ = ()
 
     USELOD = 0
@@ -39,7 +43,7 @@ class DisplayLevelEnumField(
     PLUG_CLS = DisplayLevelEnumPlugOperator
 
 
-class _GeneratedChooser(DG):
+class GeneratedChooser(DG):
     __slots__ = ()
 
     NODE_TYPE = "chooser"

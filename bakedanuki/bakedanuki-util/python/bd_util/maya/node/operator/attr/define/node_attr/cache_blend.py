@@ -6,15 +6,13 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.generic import GenericField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar.time import TimeField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.time import TimeField
 from ..std.dt.double_array import DataDoubleArrayField
 
 
-class InCachePlugOperator(
-    CompoundPlugOperator["InCacheAttrOperator"]
-):
+class InCachePlugOperator(CompoundPlugOperator["InCacheAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("vectorArray", "va"),
@@ -28,9 +26,7 @@ class InCachePlugOperator(
     ppw = perPtWeights
 
 
-class InCacheAttrOperator(
-    CompoundAttrOperator[InCachePlugOperator]
-):
+class InCacheAttrOperator(CompoundAttrOperator[InCachePlugOperator]):
     __slots__ = ()
 
     vectorArray = GenericField(multi=True)
@@ -40,18 +36,14 @@ class InCacheAttrOperator(
     ppw = perPtWeights
 
 
-class InCacheField(
-    CompoundField[InCacheAttrOperator, InCachePlugOperator]
-):
+class InCacheField(CompoundField[InCacheAttrOperator, InCachePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InCacheAttrOperator
     PLUG_CLS = InCachePlugOperator
 
 
-class CacheDataPlugOperator(
-    CompoundPlugOperator["CacheDataAttrOperator"]
-):
+class CacheDataPlugOperator(CompoundPlugOperator["CacheDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("start", "st"),
@@ -69,13 +61,16 @@ class CacheDataPlugOperator(
     range = BoolField(default_value=False)
     ra = range
 
-    weight = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    weight = DoubleField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     w = weight
 
 
-class CacheDataAttrOperator(
-    CompoundAttrOperator[CacheDataPlugOperator]
-):
+class CacheDataAttrOperator(CompoundAttrOperator[CacheDataPlugOperator]):
     __slots__ = ()
 
     start = TimeField(default_value=0.0)
@@ -87,7 +82,12 @@ class CacheDataAttrOperator(
     range = BoolField(default_value=False)
     ra = range
 
-    weight = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    weight = DoubleField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     w = weight
 
 

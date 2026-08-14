@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.unit_scalar_range.float_linear import FloatLinearField
-from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base import (
+from ..std.at.scalar.unit.range.float_linear import FloatLinearField
+from ..custom import (
     FloatLinear3CompoundBaseAttrOperator,
     FloatLinear3CompoundBasePlugOperator,
     FloatLinear3CompoundBaseField,

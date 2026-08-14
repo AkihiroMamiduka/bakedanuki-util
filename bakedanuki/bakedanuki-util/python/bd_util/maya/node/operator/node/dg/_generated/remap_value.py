@@ -5,10 +5,10 @@ from ....attr.define.node_attr.remap_value import (
     OutColorField,
     ValueField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedRemapValue(DG):
+class GeneratedRemapValue(DG):
     __slots__ = ()
 
     NODE_TYPE = "remapValue"
@@ -16,16 +16,24 @@ class _GeneratedRemapValue(DG):
     inputValue = FloatField(default_value=0.0)
     i = inputValue
 
-    inputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    inputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     imn = inputMin
 
-    inputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    inputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     imx = inputMax
 
-    outputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    outputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omn = outputMin
 
-    outputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    outputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omx = outputMax
 
     value = ValueField(multi=True, default_value=(0.0, 0.0, 0.0))

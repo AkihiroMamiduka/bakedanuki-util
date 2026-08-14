@@ -5,7 +5,7 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
 class HipsEffectorPivotPlugOperator(
@@ -76,7 +76,9 @@ class LeftAnkleEffectorPivotAttrOperator(
 
 
 class LeftAnkleEffectorPivotField(
-    CompoundField[LeftAnkleEffectorPivotAttrOperator, LeftAnkleEffectorPivotPlugOperator]
+    CompoundField[
+        LeftAnkleEffectorPivotAttrOperator, LeftAnkleEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,7 +116,10 @@ class RightAnkleEffectorPivotAttrOperator(
 
 
 class RightAnkleEffectorPivotField(
-    CompoundField[RightAnkleEffectorPivotAttrOperator, RightAnkleEffectorPivotPlugOperator]
+    CompoundField[
+        RightAnkleEffectorPivotAttrOperator,
+        RightAnkleEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -152,7 +157,9 @@ class LeftWristEffectorPivotAttrOperator(
 
 
 class LeftWristEffectorPivotField(
-    CompoundField[LeftWristEffectorPivotAttrOperator, LeftWristEffectorPivotPlugOperator]
+    CompoundField[
+        LeftWristEffectorPivotAttrOperator, LeftWristEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -190,7 +197,10 @@ class RightWristEffectorPivotAttrOperator(
 
 
 class RightWristEffectorPivotField(
-    CompoundField[RightWristEffectorPivotAttrOperator, RightWristEffectorPivotPlugOperator]
+    CompoundField[
+        RightWristEffectorPivotAttrOperator,
+        RightWristEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -228,7 +238,9 @@ class LeftKneeEffectorPivotAttrOperator(
 
 
 class LeftKneeEffectorPivotField(
-    CompoundField[LeftKneeEffectorPivotAttrOperator, LeftKneeEffectorPivotPlugOperator]
+    CompoundField[
+        LeftKneeEffectorPivotAttrOperator, LeftKneeEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -266,7 +278,9 @@ class RightKneeEffectorPivotAttrOperator(
 
 
 class RightKneeEffectorPivotField(
-    CompoundField[RightKneeEffectorPivotAttrOperator, RightKneeEffectorPivotPlugOperator]
+    CompoundField[
+        RightKneeEffectorPivotAttrOperator, RightKneeEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -304,7 +318,9 @@ class LeftElbowEffectorPivotAttrOperator(
 
 
 class LeftElbowEffectorPivotField(
-    CompoundField[LeftElbowEffectorPivotAttrOperator, LeftElbowEffectorPivotPlugOperator]
+    CompoundField[
+        LeftElbowEffectorPivotAttrOperator, LeftElbowEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -342,7 +358,10 @@ class RightElbowEffectorPivotAttrOperator(
 
 
 class RightElbowEffectorPivotField(
-    CompoundField[RightElbowEffectorPivotAttrOperator, RightElbowEffectorPivotPlugOperator]
+    CompoundField[
+        RightElbowEffectorPivotAttrOperator,
+        RightElbowEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -380,7 +399,10 @@ class ChestOriginEffectorPivotAttrOperator(
 
 
 class ChestOriginEffectorPivotField(
-    CompoundField[ChestOriginEffectorPivotAttrOperator, ChestOriginEffectorPivotPlugOperator]
+    CompoundField[
+        ChestOriginEffectorPivotAttrOperator,
+        ChestOriginEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -418,7 +440,9 @@ class ChestEndEffectorPivotAttrOperator(
 
 
 class ChestEndEffectorPivotField(
-    CompoundField[ChestEndEffectorPivotAttrOperator, ChestEndEffectorPivotPlugOperator]
+    CompoundField[
+        ChestEndEffectorPivotAttrOperator, ChestEndEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -456,7 +480,9 @@ class LeftFootEffectorPivotAttrOperator(
 
 
 class LeftFootEffectorPivotField(
-    CompoundField[LeftFootEffectorPivotAttrOperator, LeftFootEffectorPivotPlugOperator]
+    CompoundField[
+        LeftFootEffectorPivotAttrOperator, LeftFootEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -494,7 +520,9 @@ class RightFootEffectorPivotAttrOperator(
 
 
 class RightFootEffectorPivotField(
-    CompoundField[RightFootEffectorPivotAttrOperator, RightFootEffectorPivotPlugOperator]
+    CompoundField[
+        RightFootEffectorPivotAttrOperator, RightFootEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -532,7 +560,10 @@ class LeftShoulderEffectorPivotAttrOperator(
 
 
 class LeftShoulderEffectorPivotField(
-    CompoundField[LeftShoulderEffectorPivotAttrOperator, LeftShoulderEffectorPivotPlugOperator]
+    CompoundField[
+        LeftShoulderEffectorPivotAttrOperator,
+        LeftShoulderEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -570,7 +601,10 @@ class RightShoulderEffectorPivotAttrOperator(
 
 
 class RightShoulderEffectorPivotField(
-    CompoundField[RightShoulderEffectorPivotAttrOperator, RightShoulderEffectorPivotPlugOperator]
+    CompoundField[
+        RightShoulderEffectorPivotAttrOperator,
+        RightShoulderEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -646,7 +680,9 @@ class LeftHipEffectorPivotAttrOperator(
 
 
 class LeftHipEffectorPivotField(
-    CompoundField[LeftHipEffectorPivotAttrOperator, LeftHipEffectorPivotPlugOperator]
+    CompoundField[
+        LeftHipEffectorPivotAttrOperator, LeftHipEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -684,7 +720,9 @@ class RightHipEffectorPivotAttrOperator(
 
 
 class RightHipEffectorPivotField(
-    CompoundField[RightHipEffectorPivotAttrOperator, RightHipEffectorPivotPlugOperator]
+    CompoundField[
+        RightHipEffectorPivotAttrOperator, RightHipEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -722,7 +760,9 @@ class LeftHandEffectorPivotAttrOperator(
 
 
 class LeftHandEffectorPivotField(
-    CompoundField[LeftHandEffectorPivotAttrOperator, LeftHandEffectorPivotPlugOperator]
+    CompoundField[
+        LeftHandEffectorPivotAttrOperator, LeftHandEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -760,7 +800,9 @@ class RightHandEffectorPivotAttrOperator(
 
 
 class RightHandEffectorPivotField(
-    CompoundField[RightHandEffectorPivotAttrOperator, RightHandEffectorPivotPlugOperator]
+    CompoundField[
+        RightHandEffectorPivotAttrOperator, RightHandEffectorPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -798,7 +840,10 @@ class LeftHandThumbEffectorPivotAttrOperator(
 
 
 class LeftHandThumbEffectorPivotField(
-    CompoundField[LeftHandThumbEffectorPivotAttrOperator, LeftHandThumbEffectorPivotPlugOperator]
+    CompoundField[
+        LeftHandThumbEffectorPivotAttrOperator,
+        LeftHandThumbEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -836,7 +881,10 @@ class LeftHandIndexEffectorPivotAttrOperator(
 
 
 class LeftHandIndexEffectorPivotField(
-    CompoundField[LeftHandIndexEffectorPivotAttrOperator, LeftHandIndexEffectorPivotPlugOperator]
+    CompoundField[
+        LeftHandIndexEffectorPivotAttrOperator,
+        LeftHandIndexEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -874,7 +922,10 @@ class LeftHandMiddleEffectorPivotAttrOperator(
 
 
 class LeftHandMiddleEffectorPivotField(
-    CompoundField[LeftHandMiddleEffectorPivotAttrOperator, LeftHandMiddleEffectorPivotPlugOperator]
+    CompoundField[
+        LeftHandMiddleEffectorPivotAttrOperator,
+        LeftHandMiddleEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -912,7 +963,10 @@ class LeftHandRingEffectorPivotAttrOperator(
 
 
 class LeftHandRingEffectorPivotField(
-    CompoundField[LeftHandRingEffectorPivotAttrOperator, LeftHandRingEffectorPivotPlugOperator]
+    CompoundField[
+        LeftHandRingEffectorPivotAttrOperator,
+        LeftHandRingEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -950,7 +1004,10 @@ class LeftHandPinkyEffectorPivotAttrOperator(
 
 
 class LeftHandPinkyEffectorPivotField(
-    CompoundField[LeftHandPinkyEffectorPivotAttrOperator, LeftHandPinkyEffectorPivotPlugOperator]
+    CompoundField[
+        LeftHandPinkyEffectorPivotAttrOperator,
+        LeftHandPinkyEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -963,9 +1020,18 @@ class LeftHandExtraFingerEffectorPivotPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftHandExtraFingerEffectorPivotX", "LeftHandExtraFingerEffectorPivotX"),
-        ("LeftHandExtraFingerEffectorPivotY", "LeftHandExtraFingerEffectorPivotY"),
-        ("LeftHandExtraFingerEffectorPivotZ", "LeftHandExtraFingerEffectorPivotZ"),
+        (
+            "LeftHandExtraFingerEffectorPivotX",
+            "LeftHandExtraFingerEffectorPivotX",
+        ),
+        (
+            "LeftHandExtraFingerEffectorPivotY",
+            "LeftHandExtraFingerEffectorPivotY",
+        ),
+        (
+            "LeftHandExtraFingerEffectorPivotZ",
+            "LeftHandExtraFingerEffectorPivotZ",
+        ),
     )
 
     LeftHandExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
@@ -988,7 +1054,10 @@ class LeftHandExtraFingerEffectorPivotAttrOperator(
 
 
 class LeftHandExtraFingerEffectorPivotField(
-    CompoundField[LeftHandExtraFingerEffectorPivotAttrOperator, LeftHandExtraFingerEffectorPivotPlugOperator]
+    CompoundField[
+        LeftHandExtraFingerEffectorPivotAttrOperator,
+        LeftHandExtraFingerEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1026,7 +1095,10 @@ class RightHandThumbEffectorPivotAttrOperator(
 
 
 class RightHandThumbEffectorPivotField(
-    CompoundField[RightHandThumbEffectorPivotAttrOperator, RightHandThumbEffectorPivotPlugOperator]
+    CompoundField[
+        RightHandThumbEffectorPivotAttrOperator,
+        RightHandThumbEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1064,7 +1136,10 @@ class RightHandIndexEffectorPivotAttrOperator(
 
 
 class RightHandIndexEffectorPivotField(
-    CompoundField[RightHandIndexEffectorPivotAttrOperator, RightHandIndexEffectorPivotPlugOperator]
+    CompoundField[
+        RightHandIndexEffectorPivotAttrOperator,
+        RightHandIndexEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1102,7 +1177,10 @@ class RightHandMiddleEffectorPivotAttrOperator(
 
 
 class RightHandMiddleEffectorPivotField(
-    CompoundField[RightHandMiddleEffectorPivotAttrOperator, RightHandMiddleEffectorPivotPlugOperator]
+    CompoundField[
+        RightHandMiddleEffectorPivotAttrOperator,
+        RightHandMiddleEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1140,7 +1218,10 @@ class RightHandRingEffectorPivotAttrOperator(
 
 
 class RightHandRingEffectorPivotField(
-    CompoundField[RightHandRingEffectorPivotAttrOperator, RightHandRingEffectorPivotPlugOperator]
+    CompoundField[
+        RightHandRingEffectorPivotAttrOperator,
+        RightHandRingEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1178,7 +1259,10 @@ class RightHandPinkyEffectorPivotAttrOperator(
 
 
 class RightHandPinkyEffectorPivotField(
-    CompoundField[RightHandPinkyEffectorPivotAttrOperator, RightHandPinkyEffectorPivotPlugOperator]
+    CompoundField[
+        RightHandPinkyEffectorPivotAttrOperator,
+        RightHandPinkyEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1191,9 +1275,18 @@ class RightHandExtraFingerEffectorPivotPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightHandExtraFingerEffectorPivotX", "RightHandExtraFingerEffectorPivotX"),
-        ("RightHandExtraFingerEffectorPivotY", "RightHandExtraFingerEffectorPivotY"),
-        ("RightHandExtraFingerEffectorPivotZ", "RightHandExtraFingerEffectorPivotZ"),
+        (
+            "RightHandExtraFingerEffectorPivotX",
+            "RightHandExtraFingerEffectorPivotX",
+        ),
+        (
+            "RightHandExtraFingerEffectorPivotY",
+            "RightHandExtraFingerEffectorPivotY",
+        ),
+        (
+            "RightHandExtraFingerEffectorPivotZ",
+            "RightHandExtraFingerEffectorPivotZ",
+        ),
     )
 
     RightHandExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
@@ -1216,7 +1309,10 @@ class RightHandExtraFingerEffectorPivotAttrOperator(
 
 
 class RightHandExtraFingerEffectorPivotField(
-    CompoundField[RightHandExtraFingerEffectorPivotAttrOperator, RightHandExtraFingerEffectorPivotPlugOperator]
+    CompoundField[
+        RightHandExtraFingerEffectorPivotAttrOperator,
+        RightHandExtraFingerEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1254,7 +1350,10 @@ class LeftFootThumbEffectorPivotAttrOperator(
 
 
 class LeftFootThumbEffectorPivotField(
-    CompoundField[LeftFootThumbEffectorPivotAttrOperator, LeftFootThumbEffectorPivotPlugOperator]
+    CompoundField[
+        LeftFootThumbEffectorPivotAttrOperator,
+        LeftFootThumbEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1292,7 +1391,10 @@ class LeftFootIndexEffectorPivotAttrOperator(
 
 
 class LeftFootIndexEffectorPivotField(
-    CompoundField[LeftFootIndexEffectorPivotAttrOperator, LeftFootIndexEffectorPivotPlugOperator]
+    CompoundField[
+        LeftFootIndexEffectorPivotAttrOperator,
+        LeftFootIndexEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1330,7 +1432,10 @@ class LeftFootMiddleEffectorPivotAttrOperator(
 
 
 class LeftFootMiddleEffectorPivotField(
-    CompoundField[LeftFootMiddleEffectorPivotAttrOperator, LeftFootMiddleEffectorPivotPlugOperator]
+    CompoundField[
+        LeftFootMiddleEffectorPivotAttrOperator,
+        LeftFootMiddleEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1368,7 +1473,10 @@ class LeftFootRingEffectorPivotAttrOperator(
 
 
 class LeftFootRingEffectorPivotField(
-    CompoundField[LeftFootRingEffectorPivotAttrOperator, LeftFootRingEffectorPivotPlugOperator]
+    CompoundField[
+        LeftFootRingEffectorPivotAttrOperator,
+        LeftFootRingEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1406,7 +1514,10 @@ class LeftFootPinkyEffectorPivotAttrOperator(
 
 
 class LeftFootPinkyEffectorPivotField(
-    CompoundField[LeftFootPinkyEffectorPivotAttrOperator, LeftFootPinkyEffectorPivotPlugOperator]
+    CompoundField[
+        LeftFootPinkyEffectorPivotAttrOperator,
+        LeftFootPinkyEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1419,9 +1530,18 @@ class LeftFootExtraFingerEffectorPivotPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftFootExtraFingerEffectorPivotX", "LeftFootExtraFingerEffectorPivotX"),
-        ("LeftFootExtraFingerEffectorPivotY", "LeftFootExtraFingerEffectorPivotY"),
-        ("LeftFootExtraFingerEffectorPivotZ", "LeftFootExtraFingerEffectorPivotZ"),
+        (
+            "LeftFootExtraFingerEffectorPivotX",
+            "LeftFootExtraFingerEffectorPivotX",
+        ),
+        (
+            "LeftFootExtraFingerEffectorPivotY",
+            "LeftFootExtraFingerEffectorPivotY",
+        ),
+        (
+            "LeftFootExtraFingerEffectorPivotZ",
+            "LeftFootExtraFingerEffectorPivotZ",
+        ),
     )
 
     LeftFootExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
@@ -1444,7 +1564,10 @@ class LeftFootExtraFingerEffectorPivotAttrOperator(
 
 
 class LeftFootExtraFingerEffectorPivotField(
-    CompoundField[LeftFootExtraFingerEffectorPivotAttrOperator, LeftFootExtraFingerEffectorPivotPlugOperator]
+    CompoundField[
+        LeftFootExtraFingerEffectorPivotAttrOperator,
+        LeftFootExtraFingerEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1482,7 +1605,10 @@ class RightFootThumbEffectorPivotAttrOperator(
 
 
 class RightFootThumbEffectorPivotField(
-    CompoundField[RightFootThumbEffectorPivotAttrOperator, RightFootThumbEffectorPivotPlugOperator]
+    CompoundField[
+        RightFootThumbEffectorPivotAttrOperator,
+        RightFootThumbEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1520,7 +1646,10 @@ class RightFootIndexEffectorPivotAttrOperator(
 
 
 class RightFootIndexEffectorPivotField(
-    CompoundField[RightFootIndexEffectorPivotAttrOperator, RightFootIndexEffectorPivotPlugOperator]
+    CompoundField[
+        RightFootIndexEffectorPivotAttrOperator,
+        RightFootIndexEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1558,7 +1687,10 @@ class RightFootMiddleEffectorPivotAttrOperator(
 
 
 class RightFootMiddleEffectorPivotField(
-    CompoundField[RightFootMiddleEffectorPivotAttrOperator, RightFootMiddleEffectorPivotPlugOperator]
+    CompoundField[
+        RightFootMiddleEffectorPivotAttrOperator,
+        RightFootMiddleEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1596,7 +1728,10 @@ class RightFootRingEffectorPivotAttrOperator(
 
 
 class RightFootRingEffectorPivotField(
-    CompoundField[RightFootRingEffectorPivotAttrOperator, RightFootRingEffectorPivotPlugOperator]
+    CompoundField[
+        RightFootRingEffectorPivotAttrOperator,
+        RightFootRingEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1634,7 +1769,10 @@ class RightFootPinkyEffectorPivotAttrOperator(
 
 
 class RightFootPinkyEffectorPivotField(
-    CompoundField[RightFootPinkyEffectorPivotAttrOperator, RightFootPinkyEffectorPivotPlugOperator]
+    CompoundField[
+        RightFootPinkyEffectorPivotAttrOperator,
+        RightFootPinkyEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1647,9 +1785,18 @@ class RightFootExtraFingerEffectorPivotPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightFootExtraFingerEffectorPivotX", "RightFootExtraFingerEffectorPivotX"),
-        ("RightFootExtraFingerEffectorPivotY", "RightFootExtraFingerEffectorPivotY"),
-        ("RightFootExtraFingerEffectorPivotZ", "RightFootExtraFingerEffectorPivotZ"),
+        (
+            "RightFootExtraFingerEffectorPivotX",
+            "RightFootExtraFingerEffectorPivotX",
+        ),
+        (
+            "RightFootExtraFingerEffectorPivotY",
+            "RightFootExtraFingerEffectorPivotY",
+        ),
+        (
+            "RightFootExtraFingerEffectorPivotZ",
+            "RightFootExtraFingerEffectorPivotZ",
+        ),
     )
 
     RightFootExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
@@ -1672,7 +1819,10 @@ class RightFootExtraFingerEffectorPivotAttrOperator(
 
 
 class RightFootExtraFingerEffectorPivotField(
-    CompoundField[RightFootExtraFingerEffectorPivotAttrOperator, RightFootExtraFingerEffectorPivotPlugOperator]
+    CompoundField[
+        RightFootExtraFingerEffectorPivotAttrOperator,
+        RightFootExtraFingerEffectorPivotPlugOperator,
+    ]
 ):
     __slots__ = ()
 

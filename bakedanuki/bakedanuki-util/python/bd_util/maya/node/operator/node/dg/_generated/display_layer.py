@@ -1,11 +1,11 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.display_layer import DrawInfoField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class _GeneratedDisplayLayer(DG):
+class GeneratedDisplayLayer(DG):
     __slots__ = ()
 
     NODE_TYPE = "displayLayer"

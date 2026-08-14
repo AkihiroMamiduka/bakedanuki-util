@@ -28,10 +28,10 @@ from ....attr.define.node_attr.ai_passthrough import (
     OutTransparencyField,
     PassthroughField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiPassthrough(DG):
+class GeneratedAiPassthrough(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiPassthrough"
@@ -48,7 +48,9 @@ class _GeneratedAiPassthrough(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -75,7 +77,9 @@ class _GeneratedAiPassthrough(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    passthroughA = FloatField(default_value=4.591634678053128e-41, min_value=0.0, max_value=1.0)
+    passthroughA = FloatField(
+        default_value=4.591634678053128e-41, min_value=0.0, max_value=1.0
+    )
     passthrougha = passthroughA
 
     passthrough = PassthroughField(default_value=(0.0, 0.0, 0.0))
@@ -97,7 +101,7 @@ class _GeneratedAiPassthrough(DG):
     eval1B = eval1.eval1B
     eval1b = eval1B
 
-    eval2A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    eval2A = FloatField(min_value=0.0, max_value=1.0)
     eval2a = eval2A
 
     eval2 = Eval2Field(default_value=(0.0, 0.0, 0.0))
@@ -108,7 +112,7 @@ class _GeneratedAiPassthrough(DG):
     eval2B = eval2.eval2B
     eval2b = eval2B
 
-    eval3A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    eval3A = FloatField(min_value=0.0, max_value=1.0)
     eval3a = eval3A
 
     eval3 = Eval3Field(default_value=(0.0, 0.0, 0.0))
@@ -119,7 +123,7 @@ class _GeneratedAiPassthrough(DG):
     eval3B = eval3.eval3B
     eval3b = eval3B
 
-    eval4A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    eval4A = FloatField(min_value=0.0, max_value=1.0)
     eval4a = eval4A
 
     eval4 = Eval4Field(default_value=(0.0, 0.0, 0.0))
@@ -130,7 +134,7 @@ class _GeneratedAiPassthrough(DG):
     eval4B = eval4.eval4B
     eval4b = eval4B
 
-    eval5A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    eval5A = FloatField(min_value=0.0, max_value=1.0)
     eval5a = eval5A
 
     eval5 = Eval5Field(default_value=(0.0, 0.0, 0.0))
@@ -141,7 +145,7 @@ class _GeneratedAiPassthrough(DG):
     eval5B = eval5.eval5B
     eval5b = eval5B
 
-    eval6A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    eval6A = FloatField(min_value=0.0, max_value=1.0)
     eval6a = eval6A
 
     eval6 = Eval6Field(default_value=(0.0, 0.0, 0.0))
@@ -196,7 +200,7 @@ class _GeneratedAiPassthrough(DG):
     eval10B = eval10.eval10B
     eval10b = eval10B
 
-    eval11A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    eval11A = FloatField(min_value=0.0, max_value=1.0)
     eval11a = eval11A
 
     eval11 = Eval11Field(default_value=(0.0, 0.0, 0.0))
@@ -207,7 +211,9 @@ class _GeneratedAiPassthrough(DG):
     eval11B = eval11.eval11B
     eval11b = eval11B
 
-    eval12A = FloatField(default_value=float("nan"), min_value=0.0, max_value=1.0)
+    eval12A = FloatField(
+        default_value=float("nan"), min_value=0.0, max_value=1.0
+    )
     eval12a = eval12A
 
     eval12 = Eval12Field(default_value=(0.0, 0.0, 0.0))
@@ -229,7 +235,7 @@ class _GeneratedAiPassthrough(DG):
     eval13B = eval13.eval13B
     eval13b = eval13B
 
-    eval14A = FloatField(default_value=3.363116314379561e-43, min_value=0.0, max_value=1.0)
+    eval14A = FloatField(min_value=0.0, max_value=1.0)
     eval14a = eval14A
 
     eval14 = Eval14Field(default_value=(0.0, 0.0, 0.0))
@@ -251,7 +257,9 @@ class _GeneratedAiPassthrough(DG):
     eval15B = eval15.eval15B
     eval15b = eval15B
 
-    eval16A = FloatField(default_value=float("nan"), min_value=0.0, max_value=1.0)
+    eval16A = FloatField(
+        default_value=float("nan"), min_value=0.0, max_value=1.0
+    )
     eval16a = eval16A
 
     eval16 = Eval16Field(default_value=(0.0, 0.0, 0.0))
@@ -273,7 +281,7 @@ class _GeneratedAiPassthrough(DG):
     eval17B = eval17.eval17B
     eval17b = eval17B
 
-    eval18A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    eval18A = FloatField(min_value=0.0, max_value=1.0)
     eval18a = eval18A
 
     eval18 = Eval18Field(default_value=(0.0, 0.0, 0.0))
@@ -284,7 +292,9 @@ class _GeneratedAiPassthrough(DG):
     eval18B = eval18.eval18B
     eval18b = eval18B
 
-    eval19A = FloatField(default_value=float("nan"), min_value=0.0, max_value=1.0)
+    eval19A = FloatField(
+        default_value=float("nan"), min_value=0.0, max_value=1.0
+    )
     eval19a = eval19A
 
     eval19 = Eval19Field(default_value=(0.0, 0.0, 0.0))
@@ -295,7 +305,9 @@ class _GeneratedAiPassthrough(DG):
     eval19B = eval19.eval19B
     eval19b = eval19B
 
-    eval20A = FloatField(default_value=float("nan"), min_value=0.0, max_value=1.0)
+    eval20A = FloatField(
+        default_value=float("nan"), min_value=0.0, max_value=1.0
+    )
     eval20a = eval20A
 
     eval20 = Eval20Field(default_value=(0.0, 0.0, 0.0))

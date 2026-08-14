@@ -1,23 +1,23 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     V = 0
     U = 1
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     V = 0
@@ -38,7 +38,7 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class _GeneratedDetachSurface(DG):
+class GeneratedDetachSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "detachSurface"
@@ -52,7 +52,12 @@ class _GeneratedDetachSurface(DG):
     direction = DirectionEnumField(default_value=1)
     d = direction
 
-    parameter = DoubleField(multi=True, default_value=0.0, soft_min_value=0.0, soft_max_value=1000.0)
+    parameter = DoubleField(
+        multi=True,
+        default_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1000.0,
+    )
     p = parameter
 
     keep = BoolField(multi=True, default_value=True)

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.cluster import _GeneratedCluster
+from ._generated.cluster import GeneratedCluster
 
 
-class Cluster(_GeneratedCluster):
+class Cluster(GeneratedCluster):
     __slots__ = ()
 
     NODE_TYPE = "cluster"

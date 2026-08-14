@@ -11,21 +11,23 @@ from ....attr.define.node_attr.mash_blend_deformer import (
     SmoothingRampField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +36,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +63,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class FalloffAffectsEnumPlugOperator(EnumPlugOperator):
+class FalloffAffectsEnumPlugOperator(
+    EnumPlugOperator["FalloffAffectsEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 1
     BLEND_ONLY = 2
 
 
-class FalloffAffectsEnumAttrOperator(EnumAttrOperator):
+class FalloffAffectsEnumAttrOperator(
+    EnumAttrOperator[FalloffAffectsEnumPlugOperator]
+):
     __slots__ = ()
 
     ALL = 1
@@ -87,14 +95,16 @@ class FalloffAffectsEnumField(
     PLUG_CLS = FalloffAffectsEnumPlugOperator
 
 
-class MapAffectsEnumPlugOperator(EnumPlugOperator):
+class MapAffectsEnumPlugOperator(
+    EnumPlugOperator["MapAffectsEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 1
     BLEND_ONLY = 2
 
 
-class MapAffectsEnumAttrOperator(EnumAttrOperator):
+class MapAffectsEnumAttrOperator(EnumAttrOperator[MapAffectsEnumPlugOperator]):
     __slots__ = ()
 
     ALL = 1
@@ -115,7 +125,7 @@ class MapAffectsEnumField(
     PLUG_CLS = MapAffectsEnumPlugOperator
 
 
-class _GeneratedMASH_BlendDeformer(DG):
+class GeneratedMASHBlendDeformer(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_BlendDeformer"
@@ -132,13 +142,21 @@ class _GeneratedMASH_BlendDeformer(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -158,21 +176,29 @@ class _GeneratedMASH_BlendDeformer(DG):
 
     blendMesh = DataMeshField()
 
-    smoothingIterations = LongField(default_value=0, min_value=0, max_value=100, soft_max_value=50)
+    smoothingIterations = LongField(
+        default_value=0, min_value=0, max_value=100, soft_max_value=50
+    )
 
     guideCurve = DataNurbsCurveField()
 
-    inflate = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    inflate = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     blendValue = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
     curveRamp = CurveRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    inflationRamp = InflationRampField(multi=True, default_value=(0.0, 0.0, 1.0))
+    inflationRamp = InflationRampField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
 
     blendRamp = BlendRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    smoothingRamp = SmoothingRampField(multi=True, default_value=(0.0, 0.0, 1.0))
+    smoothingRamp = SmoothingRampField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
 
     mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
@@ -196,9 +222,13 @@ class _GeneratedMASH_BlendDeformer(DG):
     StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
     StEnv = StepEnvelope
 
-    bilateralOne = FloatField(default_value=0.75, min_value=0.01, soft_max_value=1.0)
+    bilateralOne = FloatField(
+        default_value=0.75, min_value=0.01, soft_max_value=1.0
+    )
 
-    bilateralTwo = FloatField(default_value=0.10000000149011612, min_value=0.01, soft_max_value=1.0)
+    bilateralTwo = FloatField(
+        default_value=0.10000000149011612, min_value=0.01, soft_max_value=1.0
+    )
 
     falloffAffects = FalloffAffectsEnumField(default_value=1)
 

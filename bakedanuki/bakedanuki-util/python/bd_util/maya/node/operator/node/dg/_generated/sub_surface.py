@@ -1,10 +1,10 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedSubSurface(DG):
+class GeneratedSubSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "subSurface"

@@ -4,7 +4,7 @@ from ....attr.define.node_attr.rotation_from_matrix import OutputField
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class _GeneratedRotationFromMatrix(DG):
+class GeneratedRotationFromMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "rotationFromMatrix"

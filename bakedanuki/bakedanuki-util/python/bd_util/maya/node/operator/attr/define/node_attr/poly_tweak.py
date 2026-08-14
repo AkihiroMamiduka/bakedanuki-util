@@ -1,16 +1,14 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class TweakPlugOperator(
-    Float3CompoundBasePlugOperator["TweakAttrOperator"]
-):
+class TweakPlugOperator(Float3CompoundBasePlugOperator["TweakAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("tweakX", "tx"),
@@ -28,9 +26,7 @@ class TweakPlugOperator(
     tz = tweakZ
 
 
-class TweakAttrOperator(
-    Float3CompoundBaseAttrOperator[TweakPlugOperator]
-):
+class TweakAttrOperator(Float3CompoundBaseAttrOperator[TweakPlugOperator]):
     __slots__ = ()
 
     tweakX = FloatField(default_value=0.0)

@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedHIKEffectorFromCharacter(DG):
+class GeneratedHIKEffectorFromCharacter(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKEffectorFromCharacter"

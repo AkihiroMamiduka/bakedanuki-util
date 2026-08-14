@@ -1,13 +1,14 @@
 # coding: utf-8
+from typing import Any
 
 # self
-from ....define.std.at.unit_scalar_range.float_linear import FloatLinearField
+from ....define.std.at.scalar.unit.range.float_linear import FloatLinearField
 
 
 class ExtraFloatLinearField(FloatLinearField):
     __slots__ = ()
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.extra = True

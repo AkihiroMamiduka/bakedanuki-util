@@ -12,17 +12,19 @@ from ....attr.define.node_attr.ai_layer_rgba import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class Operation1EnumPlugOperator(EnumPlugOperator):
+class Operation1EnumPlugOperator(
+    EnumPlugOperator["Operation1EnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -67,7 +69,7 @@ class Operation1EnumPlugOperator(EnumPlugOperator):
     NORMAL_MAP = 39
 
 
-class Operation1EnumAttrOperator(EnumAttrOperator):
+class Operation1EnumAttrOperator(EnumAttrOperator[Operation1EnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -164,7 +166,9 @@ class Operation1EnumField(
     PLUG_CLS = Operation1EnumPlugOperator
 
 
-class AlphaOperation1EnumPlugOperator(EnumPlugOperator):
+class AlphaOperation1EnumPlugOperator(
+    EnumPlugOperator["AlphaOperation1EnumAttrOperator"]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -173,7 +177,9 @@ class AlphaOperation1EnumPlugOperator(EnumPlugOperator):
     OVERWRITE = 3
 
 
-class AlphaOperation1EnumAttrOperator(EnumAttrOperator):
+class AlphaOperation1EnumAttrOperator(
+    EnumAttrOperator[AlphaOperation1EnumPlugOperator]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -198,7 +204,9 @@ class AlphaOperation1EnumField(
     PLUG_CLS = AlphaOperation1EnumPlugOperator
 
 
-class Operation2EnumPlugOperator(EnumPlugOperator):
+class Operation2EnumPlugOperator(
+    EnumPlugOperator["Operation2EnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -243,7 +251,7 @@ class Operation2EnumPlugOperator(EnumPlugOperator):
     NORMAL_MAP = 39
 
 
-class Operation2EnumAttrOperator(EnumAttrOperator):
+class Operation2EnumAttrOperator(EnumAttrOperator[Operation2EnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -340,7 +348,9 @@ class Operation2EnumField(
     PLUG_CLS = Operation2EnumPlugOperator
 
 
-class AlphaOperation2EnumPlugOperator(EnumPlugOperator):
+class AlphaOperation2EnumPlugOperator(
+    EnumPlugOperator["AlphaOperation2EnumAttrOperator"]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -349,7 +359,9 @@ class AlphaOperation2EnumPlugOperator(EnumPlugOperator):
     OVERWRITE = 3
 
 
-class AlphaOperation2EnumAttrOperator(EnumAttrOperator):
+class AlphaOperation2EnumAttrOperator(
+    EnumAttrOperator[AlphaOperation2EnumPlugOperator]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -374,7 +386,9 @@ class AlphaOperation2EnumField(
     PLUG_CLS = AlphaOperation2EnumPlugOperator
 
 
-class Operation3EnumPlugOperator(EnumPlugOperator):
+class Operation3EnumPlugOperator(
+    EnumPlugOperator["Operation3EnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -419,7 +433,7 @@ class Operation3EnumPlugOperator(EnumPlugOperator):
     NORMAL_MAP = 39
 
 
-class Operation3EnumAttrOperator(EnumAttrOperator):
+class Operation3EnumAttrOperator(EnumAttrOperator[Operation3EnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -516,7 +530,9 @@ class Operation3EnumField(
     PLUG_CLS = Operation3EnumPlugOperator
 
 
-class AlphaOperation3EnumPlugOperator(EnumPlugOperator):
+class AlphaOperation3EnumPlugOperator(
+    EnumPlugOperator["AlphaOperation3EnumAttrOperator"]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -525,7 +541,9 @@ class AlphaOperation3EnumPlugOperator(EnumPlugOperator):
     OVERWRITE = 3
 
 
-class AlphaOperation3EnumAttrOperator(EnumAttrOperator):
+class AlphaOperation3EnumAttrOperator(
+    EnumAttrOperator[AlphaOperation3EnumPlugOperator]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -550,7 +568,9 @@ class AlphaOperation3EnumField(
     PLUG_CLS = AlphaOperation3EnumPlugOperator
 
 
-class Operation4EnumPlugOperator(EnumPlugOperator):
+class Operation4EnumPlugOperator(
+    EnumPlugOperator["Operation4EnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -595,7 +615,7 @@ class Operation4EnumPlugOperator(EnumPlugOperator):
     NORMAL_MAP = 39
 
 
-class Operation4EnumAttrOperator(EnumAttrOperator):
+class Operation4EnumAttrOperator(EnumAttrOperator[Operation4EnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -692,7 +712,9 @@ class Operation4EnumField(
     PLUG_CLS = Operation4EnumPlugOperator
 
 
-class AlphaOperation4EnumPlugOperator(EnumPlugOperator):
+class AlphaOperation4EnumPlugOperator(
+    EnumPlugOperator["AlphaOperation4EnumAttrOperator"]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -701,7 +723,9 @@ class AlphaOperation4EnumPlugOperator(EnumPlugOperator):
     OVERWRITE = 3
 
 
-class AlphaOperation4EnumAttrOperator(EnumAttrOperator):
+class AlphaOperation4EnumAttrOperator(
+    EnumAttrOperator[AlphaOperation4EnumPlugOperator]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -726,7 +750,9 @@ class AlphaOperation4EnumField(
     PLUG_CLS = AlphaOperation4EnumPlugOperator
 
 
-class Operation5EnumPlugOperator(EnumPlugOperator):
+class Operation5EnumPlugOperator(
+    EnumPlugOperator["Operation5EnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -771,7 +797,7 @@ class Operation5EnumPlugOperator(EnumPlugOperator):
     NORMAL_MAP = 39
 
 
-class Operation5EnumAttrOperator(EnumAttrOperator):
+class Operation5EnumAttrOperator(EnumAttrOperator[Operation5EnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -868,7 +894,9 @@ class Operation5EnumField(
     PLUG_CLS = Operation5EnumPlugOperator
 
 
-class AlphaOperation5EnumPlugOperator(EnumPlugOperator):
+class AlphaOperation5EnumPlugOperator(
+    EnumPlugOperator["AlphaOperation5EnumAttrOperator"]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -877,7 +905,9 @@ class AlphaOperation5EnumPlugOperator(EnumPlugOperator):
     OVERWRITE = 3
 
 
-class AlphaOperation5EnumAttrOperator(EnumAttrOperator):
+class AlphaOperation5EnumAttrOperator(
+    EnumAttrOperator[AlphaOperation5EnumPlugOperator]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -902,7 +932,9 @@ class AlphaOperation5EnumField(
     PLUG_CLS = AlphaOperation5EnumPlugOperator
 
 
-class Operation6EnumPlugOperator(EnumPlugOperator):
+class Operation6EnumPlugOperator(
+    EnumPlugOperator["Operation6EnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -947,7 +979,7 @@ class Operation6EnumPlugOperator(EnumPlugOperator):
     NORMAL_MAP = 39
 
 
-class Operation6EnumAttrOperator(EnumAttrOperator):
+class Operation6EnumAttrOperator(EnumAttrOperator[Operation6EnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -1044,7 +1076,9 @@ class Operation6EnumField(
     PLUG_CLS = Operation6EnumPlugOperator
 
 
-class AlphaOperation6EnumPlugOperator(EnumPlugOperator):
+class AlphaOperation6EnumPlugOperator(
+    EnumPlugOperator["AlphaOperation6EnumAttrOperator"]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -1053,7 +1087,9 @@ class AlphaOperation6EnumPlugOperator(EnumPlugOperator):
     OVERWRITE = 3
 
 
-class AlphaOperation6EnumAttrOperator(EnumAttrOperator):
+class AlphaOperation6EnumAttrOperator(
+    EnumAttrOperator[AlphaOperation6EnumPlugOperator]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -1078,7 +1114,9 @@ class AlphaOperation6EnumField(
     PLUG_CLS = AlphaOperation6EnumPlugOperator
 
 
-class Operation7EnumPlugOperator(EnumPlugOperator):
+class Operation7EnumPlugOperator(
+    EnumPlugOperator["Operation7EnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -1123,7 +1161,7 @@ class Operation7EnumPlugOperator(EnumPlugOperator):
     NORMAL_MAP = 39
 
 
-class Operation7EnumAttrOperator(EnumAttrOperator):
+class Operation7EnumAttrOperator(EnumAttrOperator[Operation7EnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -1220,7 +1258,9 @@ class Operation7EnumField(
     PLUG_CLS = Operation7EnumPlugOperator
 
 
-class AlphaOperation7EnumPlugOperator(EnumPlugOperator):
+class AlphaOperation7EnumPlugOperator(
+    EnumPlugOperator["AlphaOperation7EnumAttrOperator"]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -1229,7 +1269,9 @@ class AlphaOperation7EnumPlugOperator(EnumPlugOperator):
     OVERWRITE = 3
 
 
-class AlphaOperation7EnumAttrOperator(EnumAttrOperator):
+class AlphaOperation7EnumAttrOperator(
+    EnumAttrOperator[AlphaOperation7EnumPlugOperator]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -1254,7 +1296,9 @@ class AlphaOperation7EnumField(
     PLUG_CLS = AlphaOperation7EnumPlugOperator
 
 
-class Operation8EnumPlugOperator(EnumPlugOperator):
+class Operation8EnumPlugOperator(
+    EnumPlugOperator["Operation8EnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -1299,7 +1343,7 @@ class Operation8EnumPlugOperator(EnumPlugOperator):
     NORMAL_MAP = 39
 
 
-class Operation8EnumAttrOperator(EnumAttrOperator):
+class Operation8EnumAttrOperator(EnumAttrOperator[Operation8EnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -1396,7 +1440,9 @@ class Operation8EnumField(
     PLUG_CLS = Operation8EnumPlugOperator
 
 
-class AlphaOperation8EnumPlugOperator(EnumPlugOperator):
+class AlphaOperation8EnumPlugOperator(
+    EnumPlugOperator["AlphaOperation8EnumAttrOperator"]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -1405,7 +1451,9 @@ class AlphaOperation8EnumPlugOperator(EnumPlugOperator):
     OVERWRITE = 3
 
 
-class AlphaOperation8EnumAttrOperator(EnumAttrOperator):
+class AlphaOperation8EnumAttrOperator(
+    EnumAttrOperator[AlphaOperation8EnumPlugOperator]
+):
     __slots__ = ()
 
     RESULT = 0
@@ -1430,7 +1478,7 @@ class AlphaOperation8EnumField(
     PLUG_CLS = AlphaOperation8EnumPlugOperator
 
 
-class _GeneratedAiLayerRgba(DG):
+class GeneratedAiLayerRgba(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiLayerRgba"
@@ -1447,7 +1495,9 @@ class _GeneratedAiLayerRgba(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

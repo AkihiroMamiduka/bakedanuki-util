@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.aov_child_collection import _GeneratedAovChildCollection
+from ._generated.aov_child_collection import GeneratedAovChildCollection
 
 
-class AovChildCollection(_GeneratedAovChildCollection):
+class AovChildCollection(GeneratedAovChildCollection):
     __slots__ = ()
 
     NODE_TYPE = "aovChildCollection"

@@ -5,31 +5,29 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..custom import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseField,
 )
 
 
-class AvoidanceRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class AvoidanceRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["AvoidanceRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -38,7 +36,9 @@ class AvoidanceRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class AvoidanceRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class AvoidanceRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[AvoidanceRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -55,7 +55,10 @@ class AvoidanceRamp_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class AvoidanceRamp_InterpEnumField(
-    EnumField[AvoidanceRamp_InterpEnumAttrOperator, AvoidanceRamp_InterpEnumPlugOperator]
+    EnumField[
+        AvoidanceRamp_InterpEnumAttrOperator,
+        AvoidanceRamp_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -83,9 +86,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -190,7 +191,9 @@ class RandomRotateAttrOperator(
 
 
 class RandomRotateField(
-    DoubleAngle3CompoundBaseField[RandomRotateAttrOperator, RandomRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        RandomRotateAttrOperator, RandomRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -337,7 +340,9 @@ class PruningStrengthMapAttrOperator(
 
 
 class PruningStrengthMapField(
-    Float3CompoundBaseField[PruningStrengthMapAttrOperator, PruningStrengthMapPlugOperator]
+    Float3CompoundBaseField[
+        PruningStrengthMapAttrOperator, PruningStrengthMapPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -390,7 +395,9 @@ class TerrainConditionsMapAttrOperator(
 
 
 class TerrainConditionsMapField(
-    Float3CompoundBaseField[TerrainConditionsMapAttrOperator, TerrainConditionsMapPlugOperator]
+    Float3CompoundBaseField[
+        TerrainConditionsMapAttrOperator, TerrainConditionsMapPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -407,9 +414,7 @@ class TerrainConditionsMapField(
     terrainConditionsMapb = terrainConditionsMapB
 
 
-class IdMapPlugOperator(
-    Float3CompoundBasePlugOperator["IdMapAttrOperator"]
-):
+class IdMapPlugOperator(Float3CompoundBasePlugOperator["IdMapAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("idMapR", "idMapr"),
@@ -427,9 +432,7 @@ class IdMapPlugOperator(
     idMapb = idMapB
 
 
-class IdMapAttrOperator(
-    Float3CompoundBaseAttrOperator[IdMapPlugOperator]
-):
+class IdMapAttrOperator(Float3CompoundBaseAttrOperator[IdMapPlugOperator]):
     __slots__ = ()
 
     idMapR = FloatField(default_value=0.5)
@@ -496,7 +499,9 @@ class PoleDirectionAttrOperator(
 
 
 class PoleDirectionField(
-    Float3CompoundBaseField[PoleDirectionAttrOperator, PoleDirectionPlugOperator]
+    Float3CompoundBaseField[
+        PoleDirectionAttrOperator, PoleDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 

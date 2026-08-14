@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.shading_engine import _GeneratedShadingEngine
+from ._generated.shading_engine import GeneratedShadingEngine
 
 
-class ShadingEngine(_GeneratedShadingEngine):
+class ShadingEngine(GeneratedShadingEngine):
     __slots__ = ()
 
     NODE_TYPE = "shadingEngine"

@@ -5,16 +5,16 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
+from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.typed import TypedField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     NO_OPERATION = 0
@@ -27,7 +27,7 @@ class ModeEnumPlugOperator(EnumPlugOperator):
     ALPHABLEND = 7
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     NO_OPERATION = 0
@@ -51,18 +51,14 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class TargetPlugOperator(
-    CompoundPlugOperator["TargetAttrOperator"]
-):
+class TargetPlugOperator(CompoundPlugOperator["TargetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("mode", "mod"),
@@ -80,9 +76,7 @@ class TargetPlugOperator(
     whf = weightFunction
 
 
-class TargetAttrOperator(
-    CompoundAttrOperator[TargetPlugOperator]
-):
+class TargetAttrOperator(CompoundAttrOperator[TargetPlugOperator]):
     __slots__ = ()
 
     mode = ModeEnumField(default_value=1)
@@ -95,9 +89,7 @@ class TargetAttrOperator(
     whf = weightFunction
 
 
-class TargetField(
-    CompoundField[TargetAttrOperator, TargetPlugOperator]
-):
+class TargetField(CompoundField[TargetAttrOperator, TargetPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TargetAttrOperator

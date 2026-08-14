@@ -1,19 +1,21 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator):
+class DisplaySmoothMeshEnumPlugOperator(
+    EnumPlugOperator["DisplaySmoothMeshEnumAttrOperator"]
+):
     __slots__ = ()
 
     BASE_MESH_ONLY = 0
@@ -21,7 +23,9 @@ class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator):
     SMOOTH_MESH_ONLY = 2
 
 
-class DisplaySmoothMeshEnumAttrOperator(EnumAttrOperator):
+class DisplaySmoothMeshEnumAttrOperator(
+    EnumAttrOperator[DisplaySmoothMeshEnumPlugOperator]
+):
     __slots__ = ()
 
     BASE_MESH_ONLY = 0
@@ -36,7 +40,9 @@ class DisplaySmoothMeshEnumAttrOperator(EnumAttrOperator):
 
 
 class DisplaySmoothMeshEnumField(
-    EnumField[DisplaySmoothMeshEnumAttrOperator, DisplaySmoothMeshEnumPlugOperator]
+    EnumField[
+        DisplaySmoothMeshEnumAttrOperator, DisplaySmoothMeshEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44,7 +50,7 @@ class DisplaySmoothMeshEnumField(
     PLUG_CLS = DisplaySmoothMeshEnumPlugOperator
 
 
-class FormEnumPlugOperator(EnumPlugOperator):
+class FormEnumPlugOperator(EnumPlugOperator["FormEnumAttrOperator"]):
     __slots__ = ()
 
     OPEN = 0
@@ -52,7 +58,7 @@ class FormEnumPlugOperator(EnumPlugOperator):
     BEST_GUESS = 2
 
 
-class FormEnumAttrOperator(EnumAttrOperator):
+class FormEnumAttrOperator(EnumAttrOperator[FormEnumPlugOperator]):
     __slots__ = ()
 
     OPEN = 0
@@ -66,16 +72,14 @@ class FormEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class FormEnumField(
-    EnumField[FormEnumAttrOperator, FormEnumPlugOperator]
-):
+class FormEnumField(EnumField[FormEnumAttrOperator, FormEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = FormEnumAttrOperator
     PLUG_CLS = FormEnumPlugOperator
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     _1 = 1
@@ -85,7 +89,7 @@ class DegreeEnumPlugOperator(EnumPlugOperator):
     _7 = 7
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     _1 = 1
@@ -112,7 +116,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedPolyEdgeToCurve(DG):
+class GeneratedPolyEdgeToCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyEdgeToCurve"
@@ -126,7 +130,13 @@ class _GeneratedPolyEdgeToCurve(DG):
     displaySmoothMesh = DisplaySmoothMeshEnumField(default_value=0)
     dsm = displaySmoothMesh
 
-    smoothLevel = ShortField(default_value=2, min_value=0, max_value=15, soft_min_value=0, soft_max_value=4)
+    smoothLevel = ShortField(
+        default_value=2,
+        min_value=0,
+        max_value=15,
+        soft_min_value=0,
+        soft_max_value=4,
+    )
     lev = smoothLevel
 
     conformToSmoothMeshPreview = BoolField(default_value=True)

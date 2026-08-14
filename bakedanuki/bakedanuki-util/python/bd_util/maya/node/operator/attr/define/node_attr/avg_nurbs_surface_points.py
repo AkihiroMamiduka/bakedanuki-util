@@ -5,10 +5,10 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.long import LongField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.long import LongField
 from ..std.dt.nurbs_surface import DataNurbsSurfaceField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom import Double3Field
 
 
 class SurfacePointPlugOperator(
@@ -43,9 +43,7 @@ class SurfacePointPlugOperator(
     cj = cvJthIndex
 
 
-class SurfacePointAttrOperator(
-    CompoundAttrOperator[SurfacePointPlugOperator]
-):
+class SurfacePointAttrOperator(CompoundAttrOperator[SurfacePointPlugOperator]):
     __slots__ = ()
 
     inputSurface = DataNurbsSurfaceField()
@@ -76,9 +74,7 @@ class SurfacePointField(
     PLUG_CLS = SurfacePointPlugOperator
 
 
-class ResultPlugOperator(
-    CompoundPlugOperator["ResultAttrOperator"]
-):
+class ResultPlugOperator(CompoundPlugOperator["ResultAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("position", "p"),
@@ -92,9 +88,7 @@ class ResultPlugOperator(
     n = normal
 
 
-class ResultAttrOperator(
-    CompoundAttrOperator[ResultPlugOperator]
-):
+class ResultAttrOperator(CompoundAttrOperator[ResultPlugOperator]):
     __slots__ = ()
 
     position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
@@ -104,9 +98,7 @@ class ResultAttrOperator(
     n = normal
 
 
-class ResultField(
-    CompoundField[ResultAttrOperator, ResultPlugOperator]
-):
+class ResultField(CompoundField[ResultAttrOperator, ResultPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ResultAttrOperator

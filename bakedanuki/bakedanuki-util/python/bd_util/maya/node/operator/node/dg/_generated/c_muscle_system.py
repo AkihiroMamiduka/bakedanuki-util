@@ -34,15 +34,15 @@ from ....attr.define.node_attr.c_muscle_system import (
     WeightListSmartVolumizeField,
     WeightListSmartWrinkleField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedCMuscleSystem(DG):
+class GeneratedCMuscleSystem(DG):
     __slots__ = ()
 
     NODE_TYPE = "cMuscleSystem"
@@ -59,13 +59,21 @@ class _GeneratedCMuscleSystem(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -320,7 +328,9 @@ class _GeneratedCMuscleSystem(DG):
     relaxTriAdj = LongField()
     rtadj = relaxTriAdj
 
-    relativePoint = RelativePointField(multi=True, default_value=(0.0, 0.0, 0.0))
+    relativePoint = RelativePointField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     relpt = relativePoint
 
     smoothData = SmoothDataField()
@@ -336,13 +346,19 @@ class _GeneratedCMuscleSystem(DG):
     ptToPtCon = LongField()
     ptpc = ptToPtCon
 
-    jiggle = DoubleField(multi=True, default_value=0.0, min_value=0.0, max_value=1.0)
+    jiggle = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0, max_value=1.0
+    )
     jig = jiggle
 
-    cycle = DoubleField(multi=True, default_value=0.0, min_value=0.0, max_value=1.0)
+    cycle = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0, max_value=1.0
+    )
     cyc = cycle
 
-    rest = DoubleField(multi=True, default_value=0.0, min_value=0.0, max_value=1.0)
+    rest = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0, max_value=1.0
+    )
     rst = rest
 
     jiggleFrame = JiggleFrameField(multi=True)
@@ -372,58 +388,90 @@ class _GeneratedCMuscleSystem(DG):
     relaxChange = BoolField(default_value=False)
     rlxchg = relaxChange
 
-    weightListMus = WeightListMusField(multi=True, default_value=0.0, min_value=0.0)
+    weightListMus = WeightListMusField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlm = weightListMus
 
     fatList = DoubleField(multi=True, default_value=0.0)
     fl = fatList
 
-    stickyWeightListMus = StickyWeightListMusField(multi=True, default_value=0.0, min_value=0.0)
+    stickyWeightListMus = StickyWeightListMusField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     stkwlm = stickyWeightListMus
 
-    stickyWeightListMusB = StickyWeightListMusBField(multi=True, default_value=0.0, min_value=0.0)
+    stickyWeightListMusB = StickyWeightListMusBField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     stkwlmb = stickyWeightListMusB
 
-    stickyWeightListMusC = StickyWeightListMusCField(multi=True, default_value=0.0, min_value=0.0)
+    stickyWeightListMusC = StickyWeightListMusCField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     stkwlmc = stickyWeightListMusC
 
     stickyList = StickyListField(multi=True)
     stklist = stickyList
 
-    weightListDir = WeightListDirField(multi=True, default_value=0.0, min_value=0.0)
+    weightListDir = WeightListDirField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wld = weightListDir
 
-    weightListSmartRegionA = WeightListSmartRegionAField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartRegionA = WeightListSmartRegionAField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtrega = weightListSmartRegionA
 
-    weightListSmartRegionB = WeightListSmartRegionBField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartRegionB = WeightListSmartRegionBField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtregb = weightListSmartRegionB
 
-    weightListSmartBulk = WeightListSmartBulkField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartBulk = WeightListSmartBulkField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtblk = weightListSmartBulk
 
-    weightListSmartBulkAngular = WeightListSmartBulkAngularField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartBulkAngular = WeightListSmartBulkAngularField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtblkang = weightListSmartBulkAngular
 
-    weightListSmartBulkWiden = WeightListSmartBulkWidenField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartBulkWiden = WeightListSmartBulkWidenField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtblkwid = weightListSmartBulkWiden
 
-    weightListSmartSlide = WeightListSmartSlideField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartSlide = WeightListSmartSlideField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtsld = weightListSmartSlide
 
-    weightListSmartSlideAngular = WeightListSmartSlideAngularField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartSlideAngular = WeightListSmartSlideAngularField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtsldang = weightListSmartSlideAngular
 
-    weightListSmartSmooth = WeightListSmartSmoothField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartSmooth = WeightListSmartSmoothField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtsmth = weightListSmartSmooth
 
-    weightListSmartWrinkle = WeightListSmartWrinkleField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartWrinkle = WeightListSmartWrinkleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtwrk = weightListSmartWrinkle
 
-    weightListSmartFlatten = WeightListSmartFlattenField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartFlatten = WeightListSmartFlattenField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtflt = weightListSmartFlatten
 
-    weightListSmartVolumize = WeightListSmartVolumizeField(multi=True, default_value=0.0, min_value=0.0)
+    weightListSmartVolumize = WeightListSmartVolumizeField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wlsmrtvol = weightListSmartVolumize
 
     weightsForce = DoubleField(multi=True, default_value=1.0)

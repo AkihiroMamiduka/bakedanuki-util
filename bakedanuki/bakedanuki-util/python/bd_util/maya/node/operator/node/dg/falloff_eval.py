@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.falloff_eval import _GeneratedFalloffEval
+from ._generated.falloff_eval import GeneratedFalloffEval
 
 
-class FalloffEval(_GeneratedFalloffEval):
+class FalloffEval(GeneratedFalloffEval):
     __slots__ = ()
 
     NODE_TYPE = "falloffEval"

@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -240,9 +242,7 @@ class KdColorPlugOperator(
     Kd_colorb = KdColorB
 
 
-class KdColorAttrOperator(
-    Float3CompoundBaseAttrOperator[KdColorPlugOperator]
-):
+class KdColorAttrOperator(Float3CompoundBaseAttrOperator[KdColorPlugOperator]):
     __slots__ = ()
 
     KdColorR = FloatField(default_value=1.0)
@@ -293,9 +293,7 @@ class KsColorPlugOperator(
     Ks_colorb = KsColorB
 
 
-class KsColorAttrOperator(
-    Float3CompoundBaseAttrOperator[KsColorPlugOperator]
-):
+class KsColorAttrOperator(Float3CompoundBaseAttrOperator[KsColorPlugOperator]):
     __slots__ = ()
 
     KsColorR = FloatField(default_value=1.0)
@@ -346,9 +344,7 @@ class KrColorPlugOperator(
     Kr_colorb = KrColorB
 
 
-class KrColorAttrOperator(
-    Float3CompoundBaseAttrOperator[KrColorPlugOperator]
-):
+class KrColorAttrOperator(Float3CompoundBaseAttrOperator[KrColorPlugOperator]):
     __slots__ = ()
 
     KrColorR = FloatField(default_value=1.0)
@@ -415,7 +411,9 @@ class ReflectionExitColorAttrOperator(
 
 
 class ReflectionExitColorField(
-    Float3CompoundBaseField[ReflectionExitColorAttrOperator, ReflectionExitColorPlugOperator]
+    Float3CompoundBaseField[
+        ReflectionExitColorAttrOperator, ReflectionExitColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -452,9 +450,7 @@ class KtColorPlugOperator(
     Kt_colorb = KtColorB
 
 
-class KtColorAttrOperator(
-    Float3CompoundBaseAttrOperator[KtColorPlugOperator]
-):
+class KtColorAttrOperator(Float3CompoundBaseAttrOperator[KtColorPlugOperator]):
     __slots__ = ()
 
     KtColorR = FloatField(default_value=1.0)
@@ -521,7 +517,9 @@ class TransmittanceAttrOperator(
 
 
 class TransmittanceField(
-    Float3CompoundBaseField[TransmittanceAttrOperator, TransmittancePlugOperator]
+    Float3CompoundBaseField[
+        TransmittanceAttrOperator, TransmittancePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -574,7 +572,9 @@ class RefractionExitColorAttrOperator(
 
 
 class RefractionExitColorField(
-    Float3CompoundBaseField[RefractionExitColorAttrOperator, RefractionExitColorPlugOperator]
+    Float3CompoundBaseField[
+        RefractionExitColorAttrOperator, RefractionExitColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -627,7 +627,9 @@ class EmissionColorAttrOperator(
 
 
 class EmissionColorField(
-    Float3CompoundBaseField[EmissionColorAttrOperator, EmissionColorPlugOperator]
+    Float3CompoundBaseField[
+        EmissionColorAttrOperator, EmissionColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -770,9 +772,7 @@ class OpacityPlugOperator(
     opacityb = opacityB
 
 
-class OpacityAttrOperator(
-    Float3CompoundBaseAttrOperator[OpacityPlugOperator]
-):
+class OpacityAttrOperator(Float3CompoundBaseAttrOperator[OpacityPlugOperator]):
     __slots__ = ()
 
     opacityR = FloatField(default_value=1.0)
@@ -803,9 +803,7 @@ class OpacityField(
     opacityb = opacityB
 
 
-class NormalPlugOperator(
-    Float3CompoundBasePlugOperator["NormalAttrOperator"]
-):
+class NormalPlugOperator(Float3CompoundBasePlugOperator["NormalAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("normalX", "normalx"),
@@ -823,9 +821,7 @@ class NormalPlugOperator(
     normalz = normalZ
 
 
-class NormalAttrOperator(
-    Float3CompoundBaseAttrOperator[NormalPlugOperator]
-):
+class NormalAttrOperator(Float3CompoundBaseAttrOperator[NormalPlugOperator]):
     __slots__ = ()
 
     normalX = FloatField(default_value=0.0)

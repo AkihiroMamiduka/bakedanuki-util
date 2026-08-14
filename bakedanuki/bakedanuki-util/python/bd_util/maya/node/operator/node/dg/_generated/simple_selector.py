@@ -1,16 +1,18 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TypeFilterEnumPlugOperator(EnumPlugOperator):
+class TypeFilterEnumPlugOperator(
+    EnumPlugOperator["TypeFilterEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 0
@@ -25,7 +27,7 @@ class TypeFilterEnumPlugOperator(EnumPlugOperator):
     LIGHTS_AND_TRANSFORMS = 12
 
 
-class TypeFilterEnumAttrOperator(EnumAttrOperator):
+class TypeFilterEnumAttrOperator(EnumAttrOperator[TypeFilterEnumPlugOperator]):
     __slots__ = ()
 
     ALL = 0
@@ -62,7 +64,7 @@ class TypeFilterEnumField(
     PLUG_CLS = TypeFilterEnumPlugOperator
 
 
-class _GeneratedSimpleSelector(DG):
+class GeneratedSimpleSelector(DG):
     __slots__ = ()
 
     NODE_TYPE = "simpleSelector"

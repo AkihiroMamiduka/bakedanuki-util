@@ -10,24 +10,26 @@ from ....attr.define.node_attr.ai_shadow_matte import (
     ShadowColorField,
     SpecularColorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class BackgroundEnumPlugOperator(EnumPlugOperator):
+class BackgroundEnumPlugOperator(
+    EnumPlugOperator["BackgroundEnumAttrOperator"]
+):
     __slots__ = ()
 
     SCENE_BACKGROUND = 0
     BACKGROUND_COLOR = 1
 
 
-class BackgroundEnumAttrOperator(EnumAttrOperator):
+class BackgroundEnumAttrOperator(EnumAttrOperator[BackgroundEnumPlugOperator]):
     __slots__ = ()
 
     SCENE_BACKGROUND = 0
@@ -48,7 +50,7 @@ class BackgroundEnumField(
     PLUG_CLS = BackgroundEnumPlugOperator
 
 
-class _GeneratedAiShadowMatte(DG):
+class GeneratedAiShadowMatte(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiShadowMatte"
@@ -65,7 +67,9 @@ class _GeneratedAiShadowMatte(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -127,10 +131,14 @@ class _GeneratedAiShadowMatte(DG):
     diffuseUseBackground = BoolField(default_value=True)
     diffuse_use_background = diffuseUseBackground
 
-    diffuseIntensity = FloatField(default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0)
+    diffuseIntensity = FloatField(
+        default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0
+    )
     diffuse_intensity = diffuseIntensity
 
-    backlighting = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=1.0)
+    backlighting = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=1.0
+    )
 
     indirectDiffuseEnable = BoolField(default_value=False)
     indirect_diffuse_enable = indirectDiffuseEnable
@@ -147,13 +155,19 @@ class _GeneratedAiShadowMatte(DG):
     specularColorB = specularColor.specularColorB
     specular_colorb = specularColorB
 
-    specularIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    specularIntensity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     specular_intensity = specularIntensity
 
-    specularRoughness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    specularRoughness = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
     specular_roughness = specularRoughness
 
-    specularIOR = FloatField(default_value=1.5, min_value=0.0, soft_max_value=10.0)
+    specularIOR = FloatField(
+        default_value=1.5, min_value=0.0, soft_max_value=10.0
+    )
     specular_IOR = specularIOR
 
     alphaMask = BoolField(default_value=True)

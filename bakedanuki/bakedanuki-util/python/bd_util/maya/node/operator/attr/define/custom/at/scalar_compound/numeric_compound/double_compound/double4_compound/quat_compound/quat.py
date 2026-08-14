@@ -1,4 +1,6 @@
 # coding: utf-8
+from collections.abc import Sequence
+from typing import Any
 
 # self
 from ._base import (
@@ -6,7 +8,7 @@ from ._base import (
     QuatCompoundBasePlugOperator,
     QuatCompoundBaseField,
 )
-from ........std.at.numeric_scalar_range.double import DoubleField
+from ........std.at.scalar.numeric.range.double import DoubleField
 
 
 class QuatPlugOperator(QuatCompoundBasePlugOperator["Quat4AttrOperator"]):
@@ -21,7 +23,12 @@ class QuatPlugOperator(QuatCompoundBasePlugOperator["Quat4AttrOperator"]):
 class Quat4AttrOperator(QuatCompoundBaseAttrOperator[QuatPlugOperator]):
     __slots__ = ()
 
-    def __init__(self, *args, default_value=None, **kwargs):
+    def __init__(
+        self,
+        *args: Any,
+        default_value: Sequence[int | float] | None = None,
+        **kwargs: Any,
+    ) -> None:
         if default_value is None:
             default_value = (0.0, 0.0, 0.0, 1.0)
         super().__init__(*args, default_value=default_value, **kwargs)

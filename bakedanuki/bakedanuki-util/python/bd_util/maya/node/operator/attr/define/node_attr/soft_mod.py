@@ -5,30 +5,30 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ..std.at.typed import TypedField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ..std.dt.matrix import DataMatrixField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._base import (
+from ..custom import (
     Long3CompoundBaseAttrOperator,
     Long3CompoundBasePlugOperator,
     Long3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
 )
 
 
-class FalloffCurve_InterpEnumPlugOperator(EnumPlugOperator):
+class FalloffCurve_InterpEnumPlugOperator(
+    EnumPlugOperator["FalloffCurve_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -37,7 +37,9 @@ class FalloffCurve_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class FalloffCurve_InterpEnumAttrOperator(EnumAttrOperator):
+class FalloffCurve_InterpEnumAttrOperator(
+    EnumAttrOperator[FalloffCurve_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -54,7 +56,10 @@ class FalloffCurve_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class FalloffCurve_InterpEnumField(
-    EnumField[FalloffCurve_InterpEnumAttrOperator, FalloffCurve_InterpEnumPlugOperator]
+    EnumField[
+        FalloffCurve_InterpEnumAttrOperator,
+        FalloffCurve_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62,9 +67,7 @@ class FalloffCurve_InterpEnumField(
     PLUG_CLS = FalloffCurve_InterpEnumPlugOperator
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -82,9 +85,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -97,9 +98,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -110,9 +109,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -128,7 +125,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -189,20 +188,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -290,9 +283,7 @@ class FalloffCurvePlugOperator(
     fci = falloffCurve_Interp
 
 
-class FalloffCurveAttrOperator(
-    CompoundAttrOperator[FalloffCurvePlugOperator]
-):
+class FalloffCurveAttrOperator(CompoundAttrOperator[FalloffCurvePlugOperator]):
     __slots__ = ()
 
     falloffCurve_Position = FloatField(default_value=0.0)
@@ -350,7 +341,9 @@ class FalloffCenterAttrOperator(
 
 
 class FalloffCenterField(
-    DoubleLinear3CompoundBaseField[FalloffCenterAttrOperator, FalloffCenterPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        FalloffCenterAttrOperator, FalloffCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 

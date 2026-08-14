@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.xgm_spline_cache import _GeneratedXgmSplineCache
+from ._generated.xgm_spline_cache import GeneratedXgmSplineCache
 
 
-class XgmSplineCache(_GeneratedXgmSplineCache):
+class XgmSplineCache(GeneratedXgmSplineCache):
     __slots__ = ()
 
     NODE_TYPE = "xgmSplineCache"

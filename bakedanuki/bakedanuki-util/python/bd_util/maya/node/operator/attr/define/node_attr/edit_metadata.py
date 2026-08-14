@@ -8,9 +8,7 @@ from ..std.at.compound import (
 from ..std.dt.string import DataStringField
 
 
-class EditsPlugOperator(
-    CompoundPlugOperator["EditsAttrOperator"]
-):
+class EditsPlugOperator(CompoundPlugOperator["EditsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("channelName", "cn"),
@@ -24,9 +22,7 @@ class EditsPlugOperator(
     ce = channelEdits
 
 
-class EditsAttrOperator(
-    CompoundAttrOperator[EditsPlugOperator]
-):
+class EditsAttrOperator(CompoundAttrOperator[EditsPlugOperator]):
     __slots__ = ()
 
     channelName = DataStringField()
@@ -36,9 +32,7 @@ class EditsAttrOperator(
     ce = channelEdits
 
 
-class EditsField(
-    CompoundField[EditsAttrOperator, EditsPlugOperator]
-):
+class EditsField(CompoundField[EditsAttrOperator, EditsPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = EditsAttrOperator

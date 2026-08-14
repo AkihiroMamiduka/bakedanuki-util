@@ -6,10 +6,10 @@ from ....attr.define.node_attr.double_shading_switch import (
     OutputField,
 )
 from ....attr.define.std.at.addr import AddrField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedDoubleShadingSwitch(DG):
+class GeneratedDoubleShadingSwitch(DG):
     __slots__ = ()
 
     NODE_TYPE = "doubleShadingSwitch"

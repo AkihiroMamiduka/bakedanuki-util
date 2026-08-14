@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_collection import _GeneratedAiCollection
+from ._generated.ai_collection import GeneratedAiCollection
 
 
-class AiCollection(_GeneratedAiCollection):
+class AiCollection(GeneratedAiCollection):
     __slots__ = ()
 
     NODE_TYPE = "aiCollection"

@@ -12,11 +12,11 @@ from ....attr.define.node_attr.sampler_info import (
     UvCoordField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedSamplerInfo(DG):
+class GeneratedSamplerInfo(DG):
     __slots__ = ()
 
     NODE_TYPE = "samplerInfo"

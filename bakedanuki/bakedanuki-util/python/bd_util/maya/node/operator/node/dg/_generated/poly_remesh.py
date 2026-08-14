@@ -1,20 +1,24 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.float_linear import (
+    FloatLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.float_linear import FloatLinearField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class InterpolationTypeEnumPlugOperator(EnumPlugOperator):
+class InterpolationTypeEnumPlugOperator(
+    EnumPlugOperator["InterpolationTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -22,7 +26,9 @@ class InterpolationTypeEnumPlugOperator(EnumPlugOperator):
     HYBRID = 2
 
 
-class InterpolationTypeEnumAttrOperator(EnumAttrOperator):
+class InterpolationTypeEnumAttrOperator(
+    EnumAttrOperator[InterpolationTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -37,7 +43,9 @@ class InterpolationTypeEnumAttrOperator(EnumAttrOperator):
 
 
 class InterpolationTypeEnumField(
-    EnumField[InterpolationTypeEnumAttrOperator, InterpolationTypeEnumPlugOperator]
+    EnumField[
+        InterpolationTypeEnumAttrOperator, InterpolationTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -45,7 +53,7 @@ class InterpolationTypeEnumField(
     PLUG_CLS = InterpolationTypeEnumPlugOperator
 
 
-class _GeneratedPolyRemesh(DG):
+class GeneratedPolyRemesh(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyRemesh"
@@ -89,13 +97,22 @@ class _GeneratedPolyRemesh(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    maxEdgeLength = FloatLinearField(default_value=1.0, min_value=0.0, soft_min_value=0.1, soft_max_value=2.0)
+    maxEdgeLength = FloatLinearField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.1,
+        soft_max_value=2.0,
+    )
     mel = maxEdgeLength
 
-    collapseThreshold = FloatField(default_value=20.0, min_value=0.0, max_value=100.0)
+    collapseThreshold = FloatField(
+        default_value=20.0, min_value=0.0, max_value=100.0
+    )
     cot = collapseThreshold
 
-    smoothStrength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    smoothStrength = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
     smt = smoothStrength
 
     tessellateBorders = BoolField(default_value=True)
@@ -104,5 +121,7 @@ class _GeneratedPolyRemesh(DG):
     interpolationType = InterpolationTypeEnumField(default_value=2)
     ipt = interpolationType
 
-    maxTriangleCount = LongField(default_value=5000000, min_value=0, soft_max_value=5000000)
+    maxTriangleCount = LongField(
+        default_value=5000000, min_value=0, soft_max_value=5000000
+    )
     mtc = maxTriangleCount

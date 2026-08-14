@@ -1,9 +1,11 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 
 
-class _GeneratedModulo(DG):
+class GeneratedModulo(DG):
     __slots__ = ()
 
     NODE_TYPE = "modulo"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ceil import _GeneratedCeil
+from ._generated.ceil import GeneratedCeil
 
 
-class Ceil(_GeneratedCeil):
+class Ceil(GeneratedCeil):
     __slots__ = ()
 
     NODE_TYPE = "ceil"

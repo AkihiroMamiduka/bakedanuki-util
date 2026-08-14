@@ -4,17 +4,19 @@ from ....attr.define.node_attr.displacement_shader import (
     TangentField,
     VectorDisplacementField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class DisplacementModeEnumPlugOperator(EnumPlugOperator):
+class DisplacementModeEnumPlugOperator(
+    EnumPlugOperator["DisplacementModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -23,7 +25,9 @@ class DisplacementModeEnumPlugOperator(EnumPlugOperator):
     VECTOR_WORLD_SPACE = 3
 
 
-class DisplacementModeEnumAttrOperator(EnumAttrOperator):
+class DisplacementModeEnumAttrOperator(
+    EnumAttrOperator[DisplacementModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -40,7 +44,9 @@ class DisplacementModeEnumAttrOperator(EnumAttrOperator):
 
 
 class DisplacementModeEnumField(
-    EnumField[DisplacementModeEnumAttrOperator, DisplacementModeEnumPlugOperator]
+    EnumField[
+        DisplacementModeEnumAttrOperator, DisplacementModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48,14 +54,18 @@ class DisplacementModeEnumField(
     PLUG_CLS = DisplacementModeEnumPlugOperator
 
 
-class VectorEncodingEnumPlugOperator(EnumPlugOperator):
+class VectorEncodingEnumPlugOperator(
+    EnumPlugOperator["VectorEncodingEnumAttrOperator"]
+):
     __slots__ = ()
 
     FLOATING_MINUS_POINT_ABSOLUTE = 0
     SIGNED_ENCODING = 1
 
 
-class VectorEncodingEnumAttrOperator(EnumAttrOperator):
+class VectorEncodingEnumAttrOperator(
+    EnumAttrOperator[VectorEncodingEnumPlugOperator]
+):
     __slots__ = ()
 
     FLOATING_MINUS_POINT_ABSOLUTE = 0
@@ -76,7 +86,9 @@ class VectorEncodingEnumField(
     PLUG_CLS = VectorEncodingEnumPlugOperator
 
 
-class VectorSpaceEnumPlugOperator(EnumPlugOperator):
+class VectorSpaceEnumPlugOperator(
+    EnumPlugOperator["VectorSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -84,7 +96,9 @@ class VectorSpaceEnumPlugOperator(EnumPlugOperator):
     TANGENT = 2
 
 
-class VectorSpaceEnumAttrOperator(EnumAttrOperator):
+class VectorSpaceEnumAttrOperator(
+    EnumAttrOperator[VectorSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -107,7 +121,7 @@ class VectorSpaceEnumField(
     PLUG_CLS = VectorSpaceEnumPlugOperator
 
 
-class _GeneratedDisplacementShader(DG):
+class GeneratedDisplacementShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "displacementShader"

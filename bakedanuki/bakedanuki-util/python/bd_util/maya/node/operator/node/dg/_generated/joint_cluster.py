@@ -13,19 +13,21 @@ from ....attr.define.node_attr.joint_cluster import (
     NextJointMidplaneAxisField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class AngleInterpolationEnumPlugOperator(EnumPlugOperator):
+class AngleInterpolationEnumPlugOperator(
+    EnumPlugOperator["AngleInterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -34,7 +36,9 @@ class AngleInterpolationEnumPlugOperator(EnumPlugOperator):
     SHORTEST = 3
 
 
-class AngleInterpolationEnumAttrOperator(EnumAttrOperator):
+class AngleInterpolationEnumAttrOperator(
+    EnumAttrOperator[AngleInterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -51,7 +55,9 @@ class AngleInterpolationEnumAttrOperator(EnumAttrOperator):
 
 
 class AngleInterpolationEnumField(
-    EnumField[AngleInterpolationEnumAttrOperator, AngleInterpolationEnumPlugOperator]
+    EnumField[
+        AngleInterpolationEnumAttrOperator, AngleInterpolationEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -59,7 +65,9 @@ class AngleInterpolationEnumField(
     PLUG_CLS = AngleInterpolationEnumPlugOperator
 
 
-class UpperDropoffTypeEnumPlugOperator(EnumPlugOperator):
+class UpperDropoffTypeEnumPlugOperator(
+    EnumPlugOperator["UpperDropoffTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -68,7 +76,9 @@ class UpperDropoffTypeEnumPlugOperator(EnumPlugOperator):
     NONE = 3
 
 
-class UpperDropoffTypeEnumAttrOperator(EnumAttrOperator):
+class UpperDropoffTypeEnumAttrOperator(
+    EnumAttrOperator[UpperDropoffTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -85,7 +95,9 @@ class UpperDropoffTypeEnumAttrOperator(EnumAttrOperator):
 
 
 class UpperDropoffTypeEnumField(
-    EnumField[UpperDropoffTypeEnumAttrOperator, UpperDropoffTypeEnumPlugOperator]
+    EnumField[
+        UpperDropoffTypeEnumAttrOperator, UpperDropoffTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -93,7 +105,9 @@ class UpperDropoffTypeEnumField(
     PLUG_CLS = UpperDropoffTypeEnumPlugOperator
 
 
-class LowerDropoffTypeEnumPlugOperator(EnumPlugOperator):
+class LowerDropoffTypeEnumPlugOperator(
+    EnumPlugOperator["LowerDropoffTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -102,7 +116,9 @@ class LowerDropoffTypeEnumPlugOperator(EnumPlugOperator):
     NONE = 3
 
 
-class LowerDropoffTypeEnumAttrOperator(EnumAttrOperator):
+class LowerDropoffTypeEnumAttrOperator(
+    EnumAttrOperator[LowerDropoffTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -119,7 +135,9 @@ class LowerDropoffTypeEnumAttrOperator(EnumAttrOperator):
 
 
 class LowerDropoffTypeEnumField(
-    EnumField[LowerDropoffTypeEnumAttrOperator, LowerDropoffTypeEnumPlugOperator]
+    EnumField[
+        LowerDropoffTypeEnumAttrOperator, LowerDropoffTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -127,7 +145,7 @@ class LowerDropoffTypeEnumField(
     PLUG_CLS = LowerDropoffTypeEnumPlugOperator
 
 
-class _GeneratedJointCluster(DG):
+class GeneratedJointCluster(DG):
     __slots__ = ()
 
     NODE_TYPE = "jointCluster"
@@ -144,13 +162,21 @@ class _GeneratedJointCluster(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -252,7 +278,9 @@ class _GeneratedJointCluster(DG):
     nextJointPostCompensationMatrix = DataMatrixField()
     njps = nextJointPostCompensationMatrix
 
-    nextJointMidplaneAxis = NextJointMidplaneAxisField(default_value=(0.0, 0.0, 0.0))
+    nextJointMidplaneAxis = NextJointMidplaneAxisField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     njm = nextJointMidplaneAxis
     nextjointMidplaneAxisX = nextJointMidplaneAxis.nextjointMidplaneAxisX
     nmx = nextjointMidplaneAxisX
@@ -261,7 +289,9 @@ class _GeneratedJointCluster(DG):
     nextjointMidplaneAxisZ = nextJointMidplaneAxis.nextjointMidplaneAxisZ
     nmz = nextjointMidplaneAxisZ
 
-    childJointMidplaneAxis = ChildJointMidplaneAxisField(multi=True, default_value=(0.0, 0.0, 0.0))
+    childJointMidplaneAxis = ChildJointMidplaneAxisField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     cjm = childJointMidplaneAxis
 
     distanceList = DistanceListField(multi=True, default_value=0.0)

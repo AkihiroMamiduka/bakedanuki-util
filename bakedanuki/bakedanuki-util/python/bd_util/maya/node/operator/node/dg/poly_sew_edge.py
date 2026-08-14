@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_sew_edge import _GeneratedPolySewEdge
+from ._generated.poly_sew_edge import GeneratedPolySewEdge
 
 
-class PolySewEdge(_GeneratedPolySewEdge):
+class PolySewEdge(GeneratedPolySewEdge):
     __slots__ = ()
 
     NODE_TYPE = "polySewEdge"

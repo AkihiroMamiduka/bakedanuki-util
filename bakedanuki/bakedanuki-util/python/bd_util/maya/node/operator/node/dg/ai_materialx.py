@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_materialx import _GeneratedAiMaterialx
+from ._generated.ai_materialx import GeneratedAiMaterialx
 
 
-class AiMaterialx(_GeneratedAiMaterialx):
+class AiMaterialx(GeneratedAiMaterialx):
     __slots__ = ()
 
     NODE_TYPE = "aiMaterialx"

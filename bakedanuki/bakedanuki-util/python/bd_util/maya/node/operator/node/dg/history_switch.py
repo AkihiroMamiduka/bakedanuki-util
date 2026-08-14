@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.history_switch import _GeneratedHistorySwitch
+from ._generated.history_switch import GeneratedHistorySwitch
 
 
-class HistorySwitch(_GeneratedHistorySwitch):
+class HistorySwitch(GeneratedHistorySwitch):
     __slots__ = ()
 
     NODE_TYPE = "historySwitch"

@@ -1,17 +1,17 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class MergeModeEnumPlugOperator(EnumPlugOperator):
+class MergeModeEnumPlugOperator(EnumPlugOperator["MergeModeEnumAttrOperator"]):
     __slots__ = ()
 
     FIRST = 0
@@ -19,7 +19,7 @@ class MergeModeEnumPlugOperator(EnumPlugOperator):
     LAST = 2
 
 
-class MergeModeEnumAttrOperator(EnumAttrOperator):
+class MergeModeEnumAttrOperator(EnumAttrOperator[MergeModeEnumPlugOperator]):
     __slots__ = ()
 
     FIRST = 0
@@ -42,7 +42,7 @@ class MergeModeEnumField(
     PLUG_CLS = MergeModeEnumPlugOperator
 
 
-class _GeneratedPolyMergeEdge(DG):
+class GeneratedPolyMergeEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyMergeEdge"

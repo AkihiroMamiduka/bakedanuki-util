@@ -1,13 +1,13 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolySmooth(DG):
+class GeneratedPolySmooth(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySmooth"
@@ -42,5 +42,7 @@ class _GeneratedPolySmooth(DG):
     useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    smoothness = ShortField(default_value=1, min_value=0, max_value=4, soft_max_value=4)
+    smoothness = ShortField(
+        default_value=1, min_value=0, max_value=4, soft_max_value=4
+    )
     sm = smoothness

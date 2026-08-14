@@ -9,19 +9,21 @@ from ....attr.define.node_attr.texture_deformer import (
     VectorStrengthField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -29,7 +31,7 @@ class DirectionEnumPlugOperator(EnumPlugOperator):
     VECTOR = 2
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -52,7 +54,9 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class PointSpaceEnumPlugOperator(EnumPlugOperator):
+class PointSpaceEnumPlugOperator(
+    EnumPlugOperator["PointSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -60,7 +64,7 @@ class PointSpaceEnumPlugOperator(EnumPlugOperator):
     UV = 2
 
 
-class PointSpaceEnumAttrOperator(EnumAttrOperator):
+class PointSpaceEnumAttrOperator(EnumAttrOperator[PointSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -83,7 +87,9 @@ class PointSpaceEnumField(
     PLUG_CLS = PointSpaceEnumPlugOperator
 
 
-class VectorSpaceEnumPlugOperator(EnumPlugOperator):
+class VectorSpaceEnumPlugOperator(
+    EnumPlugOperator["VectorSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     OBJECT = 0
@@ -91,7 +97,9 @@ class VectorSpaceEnumPlugOperator(EnumPlugOperator):
     TANGENT = 2
 
 
-class VectorSpaceEnumAttrOperator(EnumAttrOperator):
+class VectorSpaceEnumAttrOperator(
+    EnumAttrOperator[VectorSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     OBJECT = 0
@@ -114,7 +122,7 @@ class VectorSpaceEnumField(
     PLUG_CLS = VectorSpaceEnumPlugOperator
 
 
-class _GeneratedTextureDeformer(DG):
+class GeneratedTextureDeformer(DG):
     __slots__ = ()
 
     NODE_TYPE = "textureDeformer"
@@ -131,13 +139,21 @@ class _GeneratedTextureDeformer(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -164,10 +180,14 @@ class _GeneratedTextureDeformer(DG):
     textureB = texture.textureB
     tb = textureB
 
-    strength = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    strength = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     s = strength
 
-    offset = DoubleLinearField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    offset = DoubleLinearField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     o = offset
 
     vectorStrength = VectorStrengthField(default_value=(1.0, 1.0, 1.0))

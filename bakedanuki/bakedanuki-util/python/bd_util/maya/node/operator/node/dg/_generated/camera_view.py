@@ -6,25 +6,27 @@ from ....attr.define.node_attr.camera_view import (
     TumblePivotField,
     UpField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ViewTypeEnumPlugOperator(EnumPlugOperator):
+class ViewTypeEnumPlugOperator(EnumPlugOperator["ViewTypeEnumAttrOperator"]):
     __slots__ = ()
 
     _3D = 0
     _2D_PAN_SLASH_ZOOM = 1
 
 
-class ViewTypeEnumAttrOperator(EnumAttrOperator):
+class ViewTypeEnumAttrOperator(EnumAttrOperator[ViewTypeEnumPlugOperator]):
     __slots__ = ()
 
     _3D = 0
@@ -45,7 +47,7 @@ class ViewTypeEnumField(
     PLUG_CLS = ViewTypeEnumPlugOperator
 
 
-class _GeneratedCameraView(DG):
+class GeneratedCameraView(DG):
     __slots__ = ()
 
     NODE_TYPE = "cameraView"

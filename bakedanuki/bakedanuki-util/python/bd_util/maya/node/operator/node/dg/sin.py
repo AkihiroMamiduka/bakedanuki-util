@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.sin import _GeneratedSin
+from ._generated.sin import GeneratedSin
 
 
-class Sin(_GeneratedSin):
+class Sin(GeneratedSin):
     __slots__ = ()
 
     NODE_TYPE = "sin"

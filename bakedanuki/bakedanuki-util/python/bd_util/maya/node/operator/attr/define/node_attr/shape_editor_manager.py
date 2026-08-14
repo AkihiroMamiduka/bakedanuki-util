@@ -5,8 +5,8 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.long import LongField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.long import LongField
 from ..std.at.typed import TypedField
 from ..std.dt.string import DataStringField
 
@@ -61,7 +61,9 @@ class BlendShapeDirectoryAttrOperator(
 
 
 class BlendShapeDirectoryField(
-    CompoundField[BlendShapeDirectoryAttrOperator, BlendShapeDirectoryPlugOperator]
+    CompoundField[
+        BlendShapeDirectoryAttrOperator, BlendShapeDirectoryPlugOperator
+    ]
 ):
     __slots__ = ()
 

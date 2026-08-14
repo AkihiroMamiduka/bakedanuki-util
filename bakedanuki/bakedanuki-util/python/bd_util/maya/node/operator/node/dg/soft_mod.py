@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.soft_mod import _GeneratedSoftMod
+from ._generated.soft_mod import GeneratedSoftMod
 
 
-class SoftMod(_GeneratedSoftMod):
+class SoftMod(GeneratedSoftMod):
     __slots__ = ()
 
     NODE_TYPE = "softMod"

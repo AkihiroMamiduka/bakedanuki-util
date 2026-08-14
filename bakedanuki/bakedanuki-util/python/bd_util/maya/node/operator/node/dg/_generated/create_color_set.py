@@ -1,16 +1,18 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class RepresentationEnumPlugOperator(EnumPlugOperator):
+class RepresentationEnumPlugOperator(
+    EnumPlugOperator["RepresentationEnumAttrOperator"]
+):
     __slots__ = ()
 
     A = 1
@@ -19,7 +21,9 @@ class RepresentationEnumPlugOperator(EnumPlugOperator):
     RGBA = 4
 
 
-class RepresentationEnumAttrOperator(EnumAttrOperator):
+class RepresentationEnumAttrOperator(
+    EnumAttrOperator[RepresentationEnumPlugOperator]
+):
     __slots__ = ()
 
     A = 1
@@ -44,7 +48,7 @@ class RepresentationEnumField(
     PLUG_CLS = RepresentationEnumPlugOperator
 
 
-class _GeneratedCreateColorSet(DG):
+class GeneratedCreateColorSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "createColorSet"

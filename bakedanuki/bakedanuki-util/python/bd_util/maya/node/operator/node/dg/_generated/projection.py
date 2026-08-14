@@ -33,21 +33,23 @@ from ....attr.define.node_attr.projection import (
     VertexUvThreeField,
     VertexUvTwoField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ProjTypeEnumPlugOperator(EnumPlugOperator):
+class ProjTypeEnumPlugOperator(EnumPlugOperator["ProjTypeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -61,7 +63,7 @@ class ProjTypeEnumPlugOperator(EnumPlugOperator):
     PERSPECTIVE = 8
 
 
-class ProjTypeEnumAttrOperator(EnumAttrOperator):
+class ProjTypeEnumAttrOperator(EnumAttrOperator[ProjTypeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -96,7 +98,7 @@ class ProjTypeEnumField(
     PLUG_CLS = ProjTypeEnumPlugOperator
 
 
-class FitTypeEnumPlugOperator(EnumPlugOperator):
+class FitTypeEnumPlugOperator(EnumPlugOperator["FitTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -104,7 +106,7 @@ class FitTypeEnumPlugOperator(EnumPlugOperator):
     MATCH_CAMERA_RESOLUTION = 2
 
 
-class FitTypeEnumAttrOperator(EnumAttrOperator):
+class FitTypeEnumAttrOperator(EnumAttrOperator[FitTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -127,7 +129,7 @@ class FitTypeEnumField(
     PLUG_CLS = FitTypeEnumPlugOperator
 
 
-class FitFillEnumPlugOperator(EnumPlugOperator):
+class FitFillEnumPlugOperator(EnumPlugOperator["FitFillEnumAttrOperator"]):
     __slots__ = ()
 
     FILL = 0
@@ -135,7 +137,7 @@ class FitFillEnumPlugOperator(EnumPlugOperator):
     VERTICAL = 2
 
 
-class FitFillEnumAttrOperator(EnumAttrOperator):
+class FitFillEnumAttrOperator(EnumAttrOperator[FitFillEnumPlugOperator]):
     __slots__ = ()
 
     FILL = 0
@@ -158,7 +160,7 @@ class FitFillEnumField(
     PLUG_CLS = FitFillEnumPlugOperator
 
 
-class _GeneratedProjection(DG):
+class GeneratedProjection(DG):
     __slots__ = ()
 
     NODE_TYPE = "projection"
@@ -196,13 +198,19 @@ class _GeneratedProjection(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
-    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = blend
 
     local = BoolField(default_value=False)
@@ -217,7 +225,11 @@ class _GeneratedProjection(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -226,7 +238,11 @@ class _GeneratedProjection(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -235,13 +251,21 @@ class _GeneratedProjection(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -298,10 +322,16 @@ class _GeneratedProjection(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
-    image = ImageField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    image = ImageField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     im = image
     imageR = image.imageR
     imr = imageR
@@ -310,7 +340,11 @@ class _GeneratedProjection(DG):
     imageB = image.imageB
     imb = imageB
 
-    transparency = TransparencyField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    transparency = TransparencyField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     it = transparency
     transparencyR = transparency.transparencyR
     itr = transparencyR
@@ -319,10 +353,14 @@ class _GeneratedProjection(DG):
     transparencyB = transparency.transparencyB
     itb = transparencyB
 
-    uAngle = DoubleAngleField(default_value=180.0, min_value=0.0, max_value=360.0)
+    uAngle = DoubleAngleField(
+        default_value=180.0, min_value=0.0, max_value=360.0
+    )
     ua = uAngle
 
-    vAngle = DoubleAngleField(default_value=90.0, min_value=0.0, max_value=180.0)
+    vAngle = DoubleAngleField(
+        default_value=90.0, min_value=0.0, max_value=180.0
+    )
     va = vAngle
 
     projType = ProjTypeEnumField(default_value=1)
@@ -337,7 +375,11 @@ class _GeneratedProjection(DG):
     fitFill = FitFillEnumField(default_value=0)
     ff = fitFill
 
-    ripples = RipplesField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(20.0, 20.0, 20.0))
+    ripples = RipplesField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(20.0, 20.0, 20.0),
+    )
     r = ripples
     ripplesX = ripples.ripplesX
     rx = ripplesX
@@ -346,7 +388,9 @@ class _GeneratedProjection(DG):
     ripplesZ = ripples.ripplesZ
     rz = ripplesZ
 
-    depth = DepthField(default_value=(0.0, 10.0), min_value=(0.0, 0.0), max_value=(25.0, 25.0))
+    depth = DepthField(
+        default_value=(0.0, 10.0), min_value=(0.0, 0.0), max_value=(25.0, 25.0)
+    )
     d = depth
     depthMin = depth.depthMin
     dmn = depthMin
@@ -359,7 +403,9 @@ class _GeneratedProjection(DG):
     amplitudeY = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ay = amplitudeY
 
-    ratio = FloatField(default_value=0.30000001192092896, min_value=0.0, max_value=1.0)
+    ratio = FloatField(
+        default_value=0.30000001192092896, min_value=0.0, max_value=1.0
+    )
     ra = ratio
 
     infoBits = LongField(default_value=0)
@@ -392,7 +438,11 @@ class _GeneratedProjection(DG):
     passTr = BoolField(default_value=False)
     pst = passTr
 
-    transparencyGain = TransparencyGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    transparencyGain = TransparencyGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     tg = transparencyGain
     transparencyGainR = transparencyGain.transparencyGainR
     tgr = transparencyGainR
@@ -401,7 +451,11 @@ class _GeneratedProjection(DG):
     transparencyGainB = transparencyGain.transparencyGainB
     tgb = transparencyGainB
 
-    transparencyOffset = TransparencyOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    transparencyOffset = TransparencyOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     to = transparencyOffset
     transparencyOffsetR = transparencyOffset.transparencyOffsetR
     tor = transparencyOffsetR
@@ -410,7 +464,11 @@ class _GeneratedProjection(DG):
     transparencyOffsetB = transparencyOffset.transparencyOffsetB
     tob = transparencyOffsetB
 
-    defaultTransparency = DefaultTransparencyField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultTransparency = DefaultTransparencyField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dt = defaultTransparency
     defaultTransparencyR = defaultTransparency.defaultTransparencyR
     dtr = defaultTransparencyR
@@ -419,7 +477,9 @@ class _GeneratedProjection(DG):
     defaultTransparencyB = defaultTransparency.defaultTransparencyB
     dtb = defaultTransparencyB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

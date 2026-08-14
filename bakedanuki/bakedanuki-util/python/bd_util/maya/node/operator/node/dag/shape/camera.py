@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.camera import _GeneratedCamera
+from ._generated.camera import GeneratedCamera
 
 
-class Camera(_GeneratedCamera):
+class Camera(GeneratedCamera):
     __slots__ = ()
 
     NODE_TYPE = "camera"

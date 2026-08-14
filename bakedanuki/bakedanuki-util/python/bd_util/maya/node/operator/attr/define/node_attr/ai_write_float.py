@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,9 +116,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class BeautyPlugOperator(
-    Float3CompoundBasePlugOperator["BeautyAttrOperator"]
-):
+class BeautyPlugOperator(Float3CompoundBasePlugOperator["BeautyAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("beautyR", "passthroughr"),
@@ -134,9 +134,7 @@ class BeautyPlugOperator(
     passthroughb = beautyB
 
 
-class BeautyAttrOperator(
-    Float3CompoundBaseAttrOperator[BeautyPlugOperator]
-):
+class BeautyAttrOperator(Float3CompoundBaseAttrOperator[BeautyPlugOperator]):
     __slots__ = ()
 
     beautyR = FloatField(default_value=0.0)

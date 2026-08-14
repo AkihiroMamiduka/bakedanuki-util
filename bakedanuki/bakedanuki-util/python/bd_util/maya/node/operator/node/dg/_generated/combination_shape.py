@@ -1,14 +1,16 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class CombinationMethodEnumPlugOperator(EnumPlugOperator):
+class CombinationMethodEnumPlugOperator(
+    EnumPlugOperator["CombinationMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     MULTIPLICATION = 0
@@ -16,7 +18,9 @@ class CombinationMethodEnumPlugOperator(EnumPlugOperator):
     SMOOTH = 2
 
 
-class CombinationMethodEnumAttrOperator(EnumAttrOperator):
+class CombinationMethodEnumAttrOperator(
+    EnumAttrOperator[CombinationMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     MULTIPLICATION = 0
@@ -31,7 +35,9 @@ class CombinationMethodEnumAttrOperator(EnumAttrOperator):
 
 
 class CombinationMethodEnumField(
-    EnumField[CombinationMethodEnumAttrOperator, CombinationMethodEnumPlugOperator]
+    EnumField[
+        CombinationMethodEnumAttrOperator, CombinationMethodEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39,7 +45,7 @@ class CombinationMethodEnumField(
     PLUG_CLS = CombinationMethodEnumPlugOperator
 
 
-class _GeneratedCombinationShape(DG):
+class GeneratedCombinationShape(DG):
     __slots__ = ()
 
     NODE_TYPE = "combinationShape"

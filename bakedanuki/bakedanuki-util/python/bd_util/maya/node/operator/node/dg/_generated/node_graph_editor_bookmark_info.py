@@ -8,7 +8,7 @@ from ....attr.define.node_attr.node_graph_editor_bookmark_info import (
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedNodeGraphEditorBookmarkInfo(DG):
+class GeneratedNodeGraphEditorBookmarkInfo(DG):
     __slots__ = ()
 
     NODE_TYPE = "nodeGraphEditorBookmarkInfo"

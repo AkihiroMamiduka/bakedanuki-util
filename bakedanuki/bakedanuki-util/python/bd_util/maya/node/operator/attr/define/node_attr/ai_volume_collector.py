@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class ScatteringColorAttrOperator(
 
 
 class ScatteringColorField(
-    Float3CompoundBaseField[ScatteringColorAttrOperator, ScatteringColorPlugOperator]
+    Float3CompoundBaseField[
+        ScatteringColorAttrOperator, ScatteringColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -309,7 +313,9 @@ class AttenuationColorAttrOperator(
 
 
 class AttenuationColorField(
-    Float3CompoundBaseField[AttenuationColorAttrOperator, AttenuationColorPlugOperator]
+    Float3CompoundBaseField[
+        AttenuationColorAttrOperator, AttenuationColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -415,7 +421,9 @@ class EmissionColorAttrOperator(
 
 
 class EmissionColorField(
-    Float3CompoundBaseField[EmissionColorAttrOperator, EmissionColorPlugOperator]
+    Float3CompoundBaseField[
+        EmissionColorAttrOperator, EmissionColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -468,7 +476,9 @@ class PositionOffsetAttrOperator(
 
 
 class PositionOffsetField(
-    Float3CompoundBaseField[PositionOffsetAttrOperator, PositionOffsetPlugOperator]
+    Float3CompoundBaseField[
+        PositionOffsetAttrOperator, PositionOffsetPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -1,24 +1,28 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class IsoparmDirectionEnumPlugOperator(EnumPlugOperator):
+class IsoparmDirectionEnumPlugOperator(
+    EnumPlugOperator["IsoparmDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     U = 0
     V = 1
 
 
-class IsoparmDirectionEnumAttrOperator(EnumAttrOperator):
+class IsoparmDirectionEnumAttrOperator(
+    EnumAttrOperator[IsoparmDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     U = 0
@@ -31,7 +35,9 @@ class IsoparmDirectionEnumAttrOperator(EnumAttrOperator):
 
 
 class IsoparmDirectionEnumField(
-    EnumField[IsoparmDirectionEnumAttrOperator, IsoparmDirectionEnumPlugOperator]
+    EnumField[
+        IsoparmDirectionEnumAttrOperator, IsoparmDirectionEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -39,7 +45,7 @@ class IsoparmDirectionEnumField(
     PLUG_CLS = IsoparmDirectionEnumPlugOperator
 
 
-class _GeneratedCurveFromSurfaceIso(DG):
+class GeneratedCurveFromSurfaceIso(DG):
     __slots__ = ()
 
     NODE_TYPE = "curveFromSurfaceIso"
@@ -47,10 +53,14 @@ class _GeneratedCurveFromSurfaceIso(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    minValue = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    minValue = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     min = minValue
 
-    maxValue = DoubleField(default_value=-1.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxValue = DoubleField(
+        default_value=-1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     max = maxValue
 
     relative = BoolField(default_value=False)

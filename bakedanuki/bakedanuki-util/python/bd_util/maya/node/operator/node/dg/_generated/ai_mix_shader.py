@@ -8,23 +8,23 @@ from ....attr.define.node_attr.ai_mix_shader import (
     Shader1Field,
     Shader2Field,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLEND = 0
     ADD = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     BLEND = 0
@@ -36,16 +36,14 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiMixShader(DG):
+class GeneratedAiMixShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMixShader"
@@ -62,7 +60,9 @@ class _GeneratedAiMixShader(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -96,7 +96,7 @@ class _GeneratedAiMixShader(DG):
     addTransparency = BoolField(default_value=False)
     add_transparency = addTransparency
 
-    shader1A = FloatField(default_value=9.332647772403282e-43, min_value=0.0, max_value=1.0)
+    shader1A = FloatField(min_value=0.0, max_value=1.0)
     shader1a = shader1A
 
     shader1 = Shader1Field(default_value=(0.0, 0.0, 0.0))
@@ -107,7 +107,7 @@ class _GeneratedAiMixShader(DG):
     shader1B = shader1.shader1B
     shader1b = shader1B
 
-    shader2A = FloatField(default_value=9.332647772403282e-43, min_value=0.0, max_value=1.0)
+    shader2A = FloatField(min_value=0.0, max_value=1.0)
     shader2a = shader2A
 
     shader2 = Shader2Field(default_value=(0.0, 0.0, 0.0))

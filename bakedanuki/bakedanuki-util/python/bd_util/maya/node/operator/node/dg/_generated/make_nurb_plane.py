@@ -4,18 +4,20 @@ from ....attr.define.node_attr.make_nurb_plane import (
     AxisField,
     PivotField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
@@ -25,7 +27,7 @@ class DegreeEnumPlugOperator(EnumPlugOperator):
     HEPTIC = 7
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1
@@ -52,7 +54,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedMakeNurbPlane(DG):
+class GeneratedMakeNurbPlane(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeNurbPlane"
@@ -78,16 +80,24 @@ class _GeneratedMakeNurbPlane(DG):
     outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    width = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=100.0)
+    width = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=100.0
+    )
     w = width
 
-    lengthRatio = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    lengthRatio = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     lr = lengthRatio
 
-    patchesU = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
+    patchesU = LongField(
+        default_value=1, min_value=1, max_value=1000, soft_max_value=100
+    )
     u = patchesU
 
-    patchesV = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
+    patchesV = LongField(
+        default_value=1, min_value=1, max_value=1000, soft_max_value=100
+    )
     v = patchesV
 
     degree = DegreeEnumField(default_value=3)

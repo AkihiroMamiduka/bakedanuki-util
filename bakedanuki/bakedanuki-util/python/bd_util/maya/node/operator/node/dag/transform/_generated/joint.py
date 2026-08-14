@@ -17,20 +17,20 @@ from .....attr.define.node_attr.joint import (
     PreferredAngleField,
     StiffnessField,
 )
-from .....attr.define.std.at.enum import (
+from .....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from .....attr.define.std.at.message import MessageField
-from .....attr.define.std.at.numeric_scalar.bool import BoolField
-from .....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from .....attr.define.std.at.numeric_scalar_range.long import LongField
+from .....attr.define.std.at.scalar.numeric.bool import BoolField
+from .....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from .....attr.define.std.at.scalar.numeric.range.long import LongField
 from .....attr.define.std.dt.matrix import DataMatrixField
 from .....attr.define.std.dt.string import DataStringField
 
 
-class DrawStyleEnumPlugOperator(EnumPlugOperator):
+class DrawStyleEnumPlugOperator(EnumPlugOperator["DrawStyleEnumAttrOperator"]):
     __slots__ = ()
 
     BONE = 0
@@ -39,7 +39,7 @@ class DrawStyleEnumPlugOperator(EnumPlugOperator):
     JOINT = 3
 
 
-class DrawStyleEnumAttrOperator(EnumAttrOperator):
+class DrawStyleEnumAttrOperator(EnumAttrOperator[DrawStyleEnumPlugOperator]):
     __slots__ = ()
 
     BONE = 0
@@ -64,7 +64,7 @@ class DrawStyleEnumField(
     PLUG_CLS = DrawStyleEnumPlugOperator
 
 
-class SideEnumPlugOperator(EnumPlugOperator):
+class SideEnumPlugOperator(EnumPlugOperator["SideEnumAttrOperator"]):
     __slots__ = ()
 
     CENTER = 0
@@ -73,7 +73,7 @@ class SideEnumPlugOperator(EnumPlugOperator):
     NONE = 3
 
 
-class SideEnumAttrOperator(EnumAttrOperator):
+class SideEnumAttrOperator(EnumAttrOperator[SideEnumPlugOperator]):
     __slots__ = ()
 
     CENTER = 0
@@ -89,16 +89,14 @@ class SideEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class SideEnumField(
-    EnumField[SideEnumAttrOperator, SideEnumPlugOperator]
-):
+class SideEnumField(EnumField[SideEnumAttrOperator, SideEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SideEnumAttrOperator
     PLUG_CLS = SideEnumPlugOperator
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -133,7 +131,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     FOOT_THUMB = 29
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -201,16 +199,14 @@ class TypeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class _GeneratedJoint(Transform):
+class GeneratedJoint(Transform):
     __slots__ = ()
 
     NODE_TYPE = "joint"
@@ -281,7 +277,9 @@ class _GeneratedJoint(Transform):
     minRotateDampRangeZ = minRotateDampRange.minRotateDampRangeZ
     ndz = minRotateDampRangeZ
 
-    minRotateDampStrength = MinRotateDampStrengthField(default_value=(0.0, 0.0, 0.0))
+    minRotateDampStrength = MinRotateDampStrengthField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     nst = minRotateDampStrength
     minRotateDampStrengthX = minRotateDampStrength.minRotateDampStrengthX
     nstx = minRotateDampStrengthX
@@ -299,7 +297,9 @@ class _GeneratedJoint(Transform):
     maxRotateDampRangeZ = maxRotateDampRange.maxRotateDampRangeZ
     xdz = maxRotateDampRangeZ
 
-    maxRotateDampStrength = MaxRotateDampStrengthField(default_value=(0.0, 0.0, 0.0))
+    maxRotateDampStrength = MaxRotateDampStrengthField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     xst = maxRotateDampStrength
     maxRotateDampStrengthX = maxRotateDampStrength.maxRotateDampStrengthX
     xstx = maxRotateDampStrengthX

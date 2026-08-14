@@ -5,16 +5,18 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.matrix import MatrixField
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.matrix import MatrixField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom import Double3Field
 
 
-class PrimaryModeEnumPlugOperator(EnumPlugOperator):
+class PrimaryModeEnumPlugOperator(
+    EnumPlugOperator["PrimaryModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LOCK_AXIS = 0
@@ -22,7 +24,9 @@ class PrimaryModeEnumPlugOperator(EnumPlugOperator):
     ALIGN = 2
 
 
-class PrimaryModeEnumAttrOperator(EnumAttrOperator):
+class PrimaryModeEnumAttrOperator(
+    EnumAttrOperator[PrimaryModeEnumPlugOperator]
+):
     __slots__ = ()
 
     LOCK_AXIS = 0
@@ -45,7 +49,9 @@ class PrimaryModeEnumField(
     PLUG_CLS = PrimaryModeEnumPlugOperator
 
 
-class SecondaryModeEnumPlugOperator(EnumPlugOperator):
+class SecondaryModeEnumPlugOperator(
+    EnumPlugOperator["SecondaryModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -53,7 +59,9 @@ class SecondaryModeEnumPlugOperator(EnumPlugOperator):
     ALIGN = 2
 
 
-class SecondaryModeEnumAttrOperator(EnumAttrOperator):
+class SecondaryModeEnumAttrOperator(
+    EnumAttrOperator[SecondaryModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -76,9 +84,7 @@ class SecondaryModeEnumField(
     PLUG_CLS = SecondaryModeEnumPlugOperator
 
 
-class PrimaryPlugOperator(
-    CompoundPlugOperator["PrimaryAttrOperator"]
-):
+class PrimaryPlugOperator(CompoundPlugOperator["PrimaryAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("primaryInputAxis", "pmi"),
@@ -100,9 +106,7 @@ class PrimaryPlugOperator(
     pmat = primaryTargetMatrix
 
 
-class PrimaryAttrOperator(
-    CompoundAttrOperator[PrimaryPlugOperator]
-):
+class PrimaryAttrOperator(CompoundAttrOperator[PrimaryPlugOperator]):
     __slots__ = ()
 
     primaryInputAxis = Double3Field(default_value=(1.0, 0.0, 0.0))
@@ -118,9 +122,7 @@ class PrimaryAttrOperator(
     pmat = primaryTargetMatrix
 
 
-class PrimaryField(
-    CompoundField[PrimaryAttrOperator, PrimaryPlugOperator]
-):
+class PrimaryField(CompoundField[PrimaryAttrOperator, PrimaryPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = PrimaryAttrOperator
@@ -139,9 +141,7 @@ class PrimaryField(
     pmat = primaryTargetMatrix
 
 
-class SecondaryPlugOperator(
-    CompoundPlugOperator["SecondaryAttrOperator"]
-):
+class SecondaryPlugOperator(CompoundPlugOperator["SecondaryAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("secondaryInputAxis", "smi"),
@@ -163,9 +163,7 @@ class SecondaryPlugOperator(
     smat = secondaryTargetMatrix
 
 
-class SecondaryAttrOperator(
-    CompoundAttrOperator[SecondaryPlugOperator]
-):
+class SecondaryAttrOperator(CompoundAttrOperator[SecondaryPlugOperator]):
     __slots__ = ()
 
     secondaryInputAxis = Double3Field(default_value=(0.0, 1.0, 0.0))

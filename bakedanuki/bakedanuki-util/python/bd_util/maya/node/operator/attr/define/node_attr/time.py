@@ -8,9 +8,7 @@ from ..std.at.compound import (
 from ..std.at.typed import TypedField
 
 
-class TimewarpInPlugOperator(
-    CompoundPlugOperator["TimewarpInAttrOperator"]
-):
+class TimewarpInPlugOperator(CompoundPlugOperator["TimewarpInAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("timewarpIn_Hidden", "twih"),
@@ -32,9 +30,7 @@ class TimewarpInPlugOperator(
     twio = timewarpIn_Outmap
 
 
-class TimewarpInAttrOperator(
-    CompoundAttrOperator[TimewarpInPlugOperator]
-):
+class TimewarpInAttrOperator(CompoundAttrOperator[TimewarpInPlugOperator]):
     __slots__ = ()
 
     timewarpIn_Hidden = TypedField()

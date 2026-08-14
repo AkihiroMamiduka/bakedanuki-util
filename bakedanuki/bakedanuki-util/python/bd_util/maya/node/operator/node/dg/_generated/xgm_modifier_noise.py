@@ -1,12 +1,12 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.xgm_modifier_noise import MagnitudeScaleField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedXgmModifierNoise(DG):
+class GeneratedXgmModifierNoise(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierNoise"
@@ -23,19 +23,27 @@ class _GeneratedXgmModifierNoise(DG):
     mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    frequency = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    frequency = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     fy = frequency
 
-    magnitude = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    magnitude = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     mg = magnitude
 
-    magnitudeScale = MagnitudeScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
+    magnitudeScale = MagnitudeScaleField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
     ms = magnitudeScale
 
     correlation = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
     cl = correlation
 
-    preserveLength = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
+    preserveLength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=100.0
+    )
     pl = preserveLength
 
     tweak = TypedField()

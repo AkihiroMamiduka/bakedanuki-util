@@ -1,7 +1,8 @@
 # coding: utf-8
+from typing import Any
 
 # self
-from ...define.custom.at.scalar_compound.numeric_compound.long_compound.long2_compound.long2 import (
+from ...define.custom import (
     Long2Field,
 )
 
@@ -9,7 +10,7 @@ from ...define.custom.at.scalar_compound.numeric_compound.long_compound.long2_co
 class ExtraLong2Field(Long2Field):
     __slots__ = ()
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.extra = True

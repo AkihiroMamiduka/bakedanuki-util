@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_delay import _GeneratedMASH_Delay
+from ._generated.mash_delay import GeneratedMASHDelay
 
 
-class MASH_Delay(_GeneratedMASH_Delay):
+class MASHDelay(GeneratedMASHDelay):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Delay"

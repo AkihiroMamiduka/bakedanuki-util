@@ -6,20 +6,18 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.generic import GenericField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.byte import ByteField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
-from ..std.at.numeric_scalar_range.short import ShortField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
-    Float2CompoundBaseAttrOperator,
-    Float2CompoundBasePlugOperator,
-    Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.byte import ByteField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..std.at.scalar.numeric.range.short import ShortField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float2CompoundBaseAttrOperator,
+    Float2CompoundBasePlugOperator,
+    Float2CompoundBaseField,
 )
 
 
@@ -92,9 +90,7 @@ class OutSizePlugOperator(
     osy = outSizeY
 
 
-class OutSizeAttrOperator(
-    Float2CompoundBaseAttrOperator[OutSizePlugOperator]
-):
+class OutSizeAttrOperator(Float2CompoundBaseAttrOperator[OutSizePlugOperator]):
     __slots__ = ()
 
     outSizeX = FloatField(default_value=0.0, writable=False)
@@ -155,7 +151,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -172,9 +170,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class RenderInfoPlugOperator(
-    CompoundPlugOperator["RenderInfoAttrOperator"]
-):
+class RenderInfoPlugOperator(CompoundPlugOperator["RenderInfoAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("identification", "rlid"),
@@ -192,9 +188,7 @@ class RenderInfoPlugOperator(
     c = drawColor
 
 
-class RenderInfoAttrOperator(
-    CompoundAttrOperator[RenderInfoPlugOperator]
-):
+class RenderInfoAttrOperator(CompoundAttrOperator[RenderInfoPlugOperator]):
     __slots__ = ()
 
     identification = ShortField(default_value=0)
@@ -308,9 +302,7 @@ class RenderPassInfoField(
     s = shadow
 
 
-class AdjustmentsPlugOperator(
-    CompoundPlugOperator["AdjustmentsAttrOperator"]
-):
+class AdjustmentsPlugOperator(CompoundPlugOperator["AdjustmentsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("plug", "plg"),
@@ -324,9 +316,7 @@ class AdjustmentsPlugOperator(
     val = value
 
 
-class AdjustmentsAttrOperator(
-    CompoundAttrOperator[AdjustmentsPlugOperator]
-):
+class AdjustmentsAttrOperator(CompoundAttrOperator[AdjustmentsPlugOperator]):
     __slots__ = ()
 
     plug = GenericField(readable=False)

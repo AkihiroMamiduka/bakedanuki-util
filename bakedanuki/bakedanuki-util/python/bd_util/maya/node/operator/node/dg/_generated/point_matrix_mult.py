@@ -5,10 +5,10 @@ from ....attr.define.node_attr.point_matrix_mult import (
     OutputField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class _GeneratedPointMatrixMult(DG):
+class GeneratedPointMatrixMult(DG):
     __slots__ = ()
 
     NODE_TYPE = "pointMatrixMult"

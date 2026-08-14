@@ -1,6 +1,6 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
@@ -8,7 +8,7 @@ from ....attr.define.std.at.enum import (
 from ....attr.define.std.at.typed import TypedField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     UNION = 0
@@ -17,7 +17,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     DIFFERENCE = 3
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     UNION = 0
@@ -42,7 +42,9 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class OperatorClassEnumPlugOperator(EnumPlugOperator):
+class OperatorClassEnumPlugOperator(
+    EnumPlugOperator["OperatorClassEnumAttrOperator"]
+):
     __slots__ = ()
 
     OTHER = 0
@@ -50,7 +52,9 @@ class OperatorClassEnumPlugOperator(EnumPlugOperator):
     USER = 2
 
 
-class OperatorClassEnumAttrOperator(EnumAttrOperator):
+class OperatorClassEnumAttrOperator(
+    EnumAttrOperator[OperatorClassEnumPlugOperator]
+):
     __slots__ = ()
 
     OTHER = 0
@@ -73,7 +77,7 @@ class OperatorClassEnumField(
     PLUG_CLS = OperatorClassEnumPlugOperator
 
 
-class _GeneratedSelectionListOperator(DG):
+class GeneratedSelectionListOperator(DG):
     __slots__ = ()
 
     NODE_TYPE = "selectionListOperator"

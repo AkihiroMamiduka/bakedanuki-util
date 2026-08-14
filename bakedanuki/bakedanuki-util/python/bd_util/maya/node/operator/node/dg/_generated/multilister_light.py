@@ -4,10 +4,10 @@ from ....attr.define.node_attr.multilister_light import (
     LightDataField,
     PointCameraField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedMultilisterLight(DG):
+class GeneratedMultilisterLight(DG):
     __slots__ = ()
 
     NODE_TYPE = "multilisterLight"
@@ -15,7 +15,9 @@ class _GeneratedMultilisterLight(DG):
     inLightIntensity = FloatField(default_value=1.0, readable=False)
     ili = inLightIntensity
 
-    pointCamera = PointCameraField(default_value=(1.0, 1.0, 1.0), readable=False)
+    pointCamera = PointCameraField(
+        default_value=(1.0, 1.0, 1.0), readable=False
+    )
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX

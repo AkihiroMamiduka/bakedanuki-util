@@ -21,15 +21,15 @@ class DataInt32ArrayPlugOperator(
         return self._get_array_values(om.MFnIntArrayData)
 
     # set
-    def set_direct(self, values: list[int]):
+    def set_direct(self, value: list[int]) -> None:
         """
         MPlug に値を直接セットする
             その為、modifier.undoIt() 非対応です
 
         Args:
-            values (list[int]): セットする値のリスト
+            value (list[int]): セットする値のリスト
         """
-        self._set_values(om.MFnIntArrayData, om.MIntArray, values)
+        self._set_values(om.MFnIntArrayData, om.MIntArray, value)
 
     # add
     def add_attr(self):

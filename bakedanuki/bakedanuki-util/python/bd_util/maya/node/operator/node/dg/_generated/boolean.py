@@ -1,15 +1,17 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     UNION = 0
@@ -17,7 +19,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     INTERSECT = 2
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     UNION = 0
@@ -40,7 +42,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedBoolean(DG):
+class GeneratedBoolean(DG):
     __slots__ = ()
 
     NODE_TYPE = "boolean"
@@ -54,7 +56,12 @@ class _GeneratedBoolean(DG):
     operation = OperationEnumField(default_value=0)
     op = operation
 
-    tolerance = DoubleLinearField(default_value=0.01, min_value=0.0001, soft_min_value=0.01, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01,
+        min_value=0.0001,
+        soft_min_value=0.01,
+        soft_max_value=1.0,
+    )
     tlb = tolerance
 
     outputShell = TypedField(writable=False)

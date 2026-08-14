@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.container import _GeneratedContainer
+from ._generated.container import GeneratedContainer
 
 
-class Container(_GeneratedContainer):
+class Container(GeneratedContainer):
     __slots__ = ()
 
     NODE_TYPE = "container"

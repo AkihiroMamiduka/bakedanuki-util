@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.env_sphere import _GeneratedEnvSphere
+from ._generated.env_sphere import GeneratedEnvSphere
 
 
-class EnvSphere(_GeneratedEnvSphere):
+class EnvSphere(GeneratedEnvSphere):
     __slots__ = ()
 
     NODE_TYPE = "envSphere"

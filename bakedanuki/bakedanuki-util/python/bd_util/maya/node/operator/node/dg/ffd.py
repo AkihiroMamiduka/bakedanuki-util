@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ffd import _GeneratedFfd
+from ._generated.ffd import GeneratedFfd
 
 
-class Ffd(_GeneratedFfd):
+class Ffd(GeneratedFfd):
     __slots__ = ()
 
     NODE_TYPE = "ffd"

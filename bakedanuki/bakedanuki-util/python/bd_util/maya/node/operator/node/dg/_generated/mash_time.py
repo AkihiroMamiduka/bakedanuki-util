@@ -1,22 +1,24 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.mash_time import MColourField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -25,7 +27,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -50,14 +54,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -70,7 +78,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -78,7 +89,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class StrengthModeEnumPlugOperator(EnumPlugOperator):
+class StrengthModeEnumPlugOperator(
+    EnumPlugOperator["StrengthModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 1
@@ -86,7 +99,9 @@ class StrengthModeEnumPlugOperator(EnumPlugOperator):
     ANIMATION_TRIGGER = 3
 
 
-class StrengthModeEnumAttrOperator(EnumAttrOperator):
+class StrengthModeEnumAttrOperator(
+    EnumAttrOperator[StrengthModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 1
@@ -109,7 +124,7 @@ class StrengthModeEnumField(
     PLUG_CLS = StrengthModeEnumPlugOperator
 
 
-class _GeneratedMASH_Time(DG):
+class GeneratedMASHTime(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Time"
@@ -129,7 +144,9 @@ class _GeneratedMASH_Time(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -175,15 +192,25 @@ class _GeneratedMASH_Time(DG):
 
     timeOffset = LongField(default_value=0)
 
-    animationStart = LongField(default_value=0, soft_min_value=0, soft_max_value=100)
+    animationStart = LongField(
+        default_value=0, soft_min_value=0, soft_max_value=100
+    )
 
-    animationEnd = LongField(default_value=25, soft_min_value=1, soft_max_value=100)
+    animationEnd = LongField(
+        default_value=25, soft_min_value=1, soft_max_value=100
+    )
 
-    staggerFrames = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    staggerFrames = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
-    timeScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=3.0)
+    timeScale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=3.0
+    )
 
-    timeScaleRandom = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=3.0)
+    timeScaleRandom = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=3.0
+    )
 
     numberOfLoops = LongField(default_value=3, min_value=1, soft_max_value=10)
 

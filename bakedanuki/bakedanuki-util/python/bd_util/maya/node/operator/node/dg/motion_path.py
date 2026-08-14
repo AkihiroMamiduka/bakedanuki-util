@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.motion_path import _GeneratedMotionPath
+from ._generated.motion_path import GeneratedMotionPath
 
 
-class MotionPath(_GeneratedMotionPath):
+class MotionPath(GeneratedMotionPath):
     __slots__ = ()
 
     NODE_TYPE = "motionPath"

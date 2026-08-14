@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.quad_shading_switch import _GeneratedQuadShadingSwitch
+from ._generated.quad_shading_switch import GeneratedQuadShadingSwitch
 
 
-class QuadShadingSwitch(_GeneratedQuadShadingSwitch):
+class QuadShadingSwitch(GeneratedQuadShadingSwitch):
     __slots__ = ()
 
     NODE_TYPE = "quadShadingSwitch"

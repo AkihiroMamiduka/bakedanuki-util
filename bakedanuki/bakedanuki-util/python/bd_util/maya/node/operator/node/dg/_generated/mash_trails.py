@@ -8,21 +8,23 @@ from ....attr.define.node_attr.mash_trails import (
     TranslateOutPPField,
     UpVectorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class FrontCapModeEnumPlugOperator(EnumPlugOperator):
+class FrontCapModeEnumPlugOperator(
+    EnumPlugOperator["FrontCapModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 1
@@ -30,7 +32,9 @@ class FrontCapModeEnumPlugOperator(EnumPlugOperator):
     BEVEL_CAP = 3
 
 
-class FrontCapModeEnumAttrOperator(EnumAttrOperator):
+class FrontCapModeEnumAttrOperator(
+    EnumAttrOperator[FrontCapModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 1
@@ -53,7 +57,9 @@ class FrontCapModeEnumField(
     PLUG_CLS = FrontCapModeEnumPlugOperator
 
 
-class RearCapModeEnumPlugOperator(EnumPlugOperator):
+class RearCapModeEnumPlugOperator(
+    EnumPlugOperator["RearCapModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 1
@@ -61,7 +67,9 @@ class RearCapModeEnumPlugOperator(EnumPlugOperator):
     BEVEL_CAP = 3
 
 
-class RearCapModeEnumAttrOperator(EnumAttrOperator):
+class RearCapModeEnumAttrOperator(
+    EnumAttrOperator[RearCapModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 1
@@ -84,7 +92,9 @@ class RearCapModeEnumField(
     PLUG_CLS = RearCapModeEnumPlugOperator
 
 
-class TrailsModeEnumPlugOperator(EnumPlugOperator):
+class TrailsModeEnumPlugOperator(
+    EnumPlugOperator["TrailsModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     TRAILS = 1
@@ -95,7 +105,7 @@ class TrailsModeEnumPlugOperator(EnumPlugOperator):
     CONSTRAINT_PAIRS = 6
 
 
-class TrailsModeEnumAttrOperator(EnumAttrOperator):
+class TrailsModeEnumAttrOperator(EnumAttrOperator[TrailsModeEnumPlugOperator]):
     __slots__ = ()
 
     TRAILS = 1
@@ -124,7 +134,7 @@ class TrailsModeEnumField(
     PLUG_CLS = TrailsModeEnumPlugOperator
 
 
-class _GeneratedMASH_Trails(DG):
+class GeneratedMASHTrails(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Trails"
@@ -151,17 +161,25 @@ class _GeneratedMASH_Trails(DG):
 
     trailCount = LongField(default_value=1, min_value=1, soft_max_value=10)
 
-    searchRadius = FloatField(default_value=150.0, min_value=0.0, soft_max_value=50.0)
+    searchRadius = FloatField(
+        default_value=150.0, min_value=0.0, soft_max_value=50.0
+    )
 
-    bevelCapDistance = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    bevelCapDistance = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
 
-    bevelCapDivisions = LongField(default_value=6, min_value=3, soft_max_value=10)
+    bevelCapDivisions = LongField(
+        default_value=6, min_value=3, soft_max_value=10
+    )
 
     randomLength = LongField(default_value=0, min_value=0, soft_max_value=100)
 
     curveSamples = LongField(default_value=6, min_value=2, soft_max_value=12)
 
-    trailWidth = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    trailWidth = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
     autoUpVector = BoolField(default_value=False)
 
@@ -186,7 +204,9 @@ class _GeneratedMASH_Trails(DG):
 
     trailsMode = TrailsModeEnumField(default_value=1)
 
-    trailTaperCurve = TrailTaperCurveField(multi=True, default_value=(0.0, 0.0))
+    trailTaperCurve = TrailTaperCurveField(
+        multi=True, default_value=(0.0, 0.0)
+    )
 
     bevelCapCurve = BevelCapCurveField(multi=True, default_value=(0.0, 0.0))
 

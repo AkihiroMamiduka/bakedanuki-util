@@ -5,13 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
+from ..std.at.scalar.numeric.bool import BoolField
 from ..std.dt.string import DataStringField
 
 
-class LayersPlugOperator(
-    CompoundPlugOperator["LayersAttrOperator"]
-):
+class LayersPlugOperator(CompoundPlugOperator["LayersAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("identifier", "id"),
@@ -33,9 +31,7 @@ class LayersPlugOperator(
     ann = anonymous
 
 
-class LayersAttrOperator(
-    CompoundAttrOperator[LayersPlugOperator]
-):
+class LayersAttrOperator(CompoundAttrOperator[LayersPlugOperator]):
     __slots__ = ()
 
     identifier = DataStringField()
@@ -51,9 +47,7 @@ class LayersAttrOperator(
     ann = anonymous
 
 
-class LayersField(
-    CompoundField[LayersAttrOperator, LayersPlugOperator]
-):
+class LayersField(CompoundField[LayersAttrOperator, LayersPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LayersAttrOperator

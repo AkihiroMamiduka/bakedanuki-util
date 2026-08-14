@@ -6,21 +6,21 @@ from ....attr.define.node_attr.ai_atan import (
     XField,
     YField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 
 
-class UnitsEnumPlugOperator(EnumPlugOperator):
+class UnitsEnumPlugOperator(EnumPlugOperator["UnitsEnumAttrOperator"]):
     __slots__ = ()
 
     RADIANS = 0
     DEGREES = 1
 
 
-class UnitsEnumAttrOperator(EnumAttrOperator):
+class UnitsEnumAttrOperator(EnumAttrOperator[UnitsEnumPlugOperator]):
     __slots__ = ()
 
     RADIANS = 0
@@ -32,16 +32,14 @@ class UnitsEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class UnitsEnumField(
-    EnumField[UnitsEnumAttrOperator, UnitsEnumPlugOperator]
-):
+class UnitsEnumField(EnumField[UnitsEnumAttrOperator, UnitsEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UnitsEnumAttrOperator
     PLUG_CLS = UnitsEnumPlugOperator
 
 
-class _GeneratedAiAtan(DG):
+class GeneratedAiAtan(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiAtan"
@@ -55,7 +53,9 @@ class _GeneratedAiAtan(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

@@ -11,11 +11,11 @@ from ....attr.define.node_attr.cloth import (
     UvFilterSizeField,
     VColorField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedCloth(DG):
+class GeneratedCloth(DG):
     __slots__ = ()
 
     NODE_TYPE = "cloth"
@@ -34,10 +34,17 @@ class _GeneratedCloth(DG):
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    filter = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
     invert = BoolField(default_value=False)
@@ -46,7 +53,11 @@ class _GeneratedCloth(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -55,7 +66,11 @@ class _GeneratedCloth(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -64,13 +79,21 @@ class _GeneratedCloth(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -91,7 +114,11 @@ class _GeneratedCloth(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    gapColor = GapColorField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    gapColor = GapColorField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     gc = gapColor
     gapColorR = gapColor.gapColorR
     gcr = gapColorR
@@ -100,7 +127,11 @@ class _GeneratedCloth(DG):
     gapColorB = gapColor.gapColorB
     gcb = gapColorB
 
-    uColor = UColorField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    uColor = UColorField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     uc = uColor
     uColorR = uColor.uColorR
     ucr = uColorR
@@ -109,7 +140,11 @@ class _GeneratedCloth(DG):
     uColorB = uColor.uColorB
     ucb = uColorB
 
-    vColor = VColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    vColor = VColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     vc = vColor
     vColorR = vColor.vColorR
     vcr = vColorR
@@ -130,7 +165,9 @@ class _GeneratedCloth(DG):
     vWave = FloatField(default_value=0.0, min_value=0.0, soft_max_value=0.5)
     vwa = vWave
 
-    randomness = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    randomness = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     r = randomness
 
     widthSpread = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)

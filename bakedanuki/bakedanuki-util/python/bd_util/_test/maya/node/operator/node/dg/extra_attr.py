@@ -66,58 +66,58 @@ class TestExtraCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
     cmp1Enum = TestExtraEnumField()
     cmp1Compound = TestExtraNestedCompoundField()
     cmp1Double2 = AddAttr.at.double2(
-        default_value=[4.0, 5.0],
+        default_value=(4.0, 5.0),
     )
     cmp1Double3 = AddAttr.at.double3(
-        default_value=[1.0, 2.0, 3.0],
+        default_value=(1.0, 2.0, 3.0),
     )
     cmp1Double4 = AddAttr.at.double4(
-        default_value=[4.0, 5.0, 6.0, 7.0],
+        default_value=(4.0, 5.0, 6.0, 7.0),
     )
     cmp1Quat = AddAttr.at.quat(
-        default_value=[0.1, 0.2, 0.3, 0.4],
+        default_value=(0.1, 0.2, 0.3, 0.4),
     )
     cmp1Float2 = AddAttr.at.float2(
-        default_value=[0.25, 0.75],
+        default_value=(0.25, 0.75),
     )
     cmp1Float3 = AddAttr.at.float3(
-        default_value=[0.1, 0.2, 0.3],
+        default_value=(0.1, 0.2, 0.3),
     )
     cmp1Long2 = AddAttr.at.long2(
-        default_value=[1, 2],
+        default_value=(1, 2),
     )
     cmp1Long3 = AddAttr.at.long3(
-        default_value=[3, 4, 5],
+        default_value=(3, 4, 5),
     )
     cmp1Short2 = AddAttr.at.short2(
-        default_value=[6, 7],
+        default_value=(6, 7),
     )
     cmp1Short3 = AddAttr.at.short3(
-        default_value=[8, 9, 10],
+        default_value=(8, 9, 10),
     )
     cmp1DoubleLinear2 = AddAttr.at.double_linear2(
-        default_value=[11.0, 12.0],
+        default_value=(11.0, 12.0),
     )
     cmp1DoubleLinear3 = AddAttr.at.double_linear3(
-        default_value=[13.0, 14.0, 15.0],
+        default_value=(13.0, 14.0, 15.0),
     )
     cmp1DoubleAngle2 = AddAttr.at.double_angle2(
-        default_value=[16.0, 17.0],
+        default_value=(16.0, 17.0),
     )
     cmp1DoubleAngle3 = AddAttr.at.double_angle3(
-        default_value=[10.0, 20.0, 30.0],
+        default_value=(10.0, 20.0, 30.0),
     )
     cmp1FloatLinear2 = AddAttr.at.float_linear2(
-        default_value=[18.0, 19.0],
+        default_value=(18.0, 19.0),
     )
     cmp1FloatLinear3 = AddAttr.at.float_linear3(
-        default_value=[20.0, 21.0, 22.0],
+        default_value=(20.0, 21.0, 22.0),
     )
     cmp1FloatAngle2 = AddAttr.at.float_angle2(
-        default_value=[23.0, 24.0],
+        default_value=(23.0, 24.0),
     )
     cmp1FloatAngle3 = AddAttr.at.float_angle3(
-        default_value=[25.0, 26.0, 27.0],
+        default_value=(25.0, 26.0, 27.0),
     )
 
 
@@ -403,13 +403,14 @@ def main():
 
 def extra_attrs_class_access():
     test_str.title("extra=True: class access properties")
+    extra_attributes = MyTransform.get_extra_attribute_fields()
     logger.debug(
         "{}: {}".format(
-            "MyTransform._extra_attributes",
-            MyTransform._extra_attributes,
+            "MyTransform.get_extra_attribute_fields()",
+            extra_attributes,
         )
     )
-    for attr in MyTransform._extra_attributes:
+    for attr in extra_attributes:
         logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
 
 
@@ -423,13 +424,14 @@ def extra_attrs_instance_access():
     node = MyTransform.create(modifier_manager, name="test")
     modifier_manager.do_it_dag()
     modifier_manager.do_it_dg()
+    extra_attributes = node.get_extra_attribute_fields()
     logger.debug(
         "{}: {}".format(
-            "node._extra_attributes",
-            node._extra_attributes,
+            "node.get_extra_attribute_fields()",
+            extra_attributes,
         )
     )
-    for attr in node._extra_attributes:
+    for attr in extra_attributes:
         logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
 
 

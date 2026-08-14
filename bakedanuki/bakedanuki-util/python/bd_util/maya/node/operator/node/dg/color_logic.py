@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.color_logic import _GeneratedColorLogic
+from ._generated.color_logic import GeneratedColorLogic
 
 
-class ColorLogic(_GeneratedColorLogic):
+class ColorLogic(GeneratedColorLogic):
     __slots__ = ()
 
     NODE_TYPE = "colorLogic"

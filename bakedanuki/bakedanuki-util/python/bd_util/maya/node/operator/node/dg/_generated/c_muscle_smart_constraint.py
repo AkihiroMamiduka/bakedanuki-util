@@ -6,7 +6,7 @@ from ....attr.define.node_attr.c_muscle_smart_constraint import (
 )
 
 
-class _GeneratedCMuscleSmartConstraint(DG):
+class GeneratedCMuscleSmartConstraint(DG):
     __slots__ = ()
 
     NODE_TYPE = "cMuscleSmartConstraint"

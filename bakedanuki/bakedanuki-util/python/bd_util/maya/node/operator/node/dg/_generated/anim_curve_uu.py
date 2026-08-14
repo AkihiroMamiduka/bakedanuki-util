@@ -4,18 +4,20 @@ from ....attr.define.node_attr.anim_curve_uu import (
     CurveColorField,
     KeyTimeValueField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 
 
-class TangentTypeEnumPlugOperator(EnumPlugOperator):
+class TangentTypeEnumPlugOperator(
+    EnumPlugOperator["TangentTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FIXED = 1
@@ -34,7 +36,9 @@ class TangentTypeEnumPlugOperator(EnumPlugOperator):
     AUTOCUSTOM = 29
 
 
-class TangentTypeEnumAttrOperator(EnumAttrOperator):
+class TangentTypeEnumAttrOperator(
+    EnumAttrOperator[TangentTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     FIXED = 1
@@ -79,7 +83,9 @@ class TangentTypeEnumField(
     PLUG_CLS = TangentTypeEnumPlugOperator
 
 
-class KeyTanInTypeEnumPlugOperator(EnumPlugOperator):
+class KeyTanInTypeEnumPlugOperator(
+    EnumPlugOperator["KeyTanInTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FIXED = 1
@@ -98,7 +104,9 @@ class KeyTanInTypeEnumPlugOperator(EnumPlugOperator):
     AUTOCUSTOM = 29
 
 
-class KeyTanInTypeEnumAttrOperator(EnumAttrOperator):
+class KeyTanInTypeEnumAttrOperator(
+    EnumAttrOperator[KeyTanInTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     FIXED = 1
@@ -143,7 +151,9 @@ class KeyTanInTypeEnumField(
     PLUG_CLS = KeyTanInTypeEnumPlugOperator
 
 
-class KeyTanOutTypeEnumPlugOperator(EnumPlugOperator):
+class KeyTanOutTypeEnumPlugOperator(
+    EnumPlugOperator["KeyTanOutTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FIXED = 1
@@ -162,7 +172,9 @@ class KeyTanOutTypeEnumPlugOperator(EnumPlugOperator):
     AUTOCUSTOM = 29
 
 
-class KeyTanOutTypeEnumAttrOperator(EnumAttrOperator):
+class KeyTanOutTypeEnumAttrOperator(
+    EnumAttrOperator[KeyTanOutTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     FIXED = 1
@@ -207,7 +219,9 @@ class KeyTanOutTypeEnumField(
     PLUG_CLS = KeyTanOutTypeEnumPlugOperator
 
 
-class RotationInterpolationEnumPlugOperator(EnumPlugOperator):
+class RotationInterpolationEnumPlugOperator(
+    EnumPlugOperator["RotationInterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 1
@@ -217,7 +231,9 @@ class RotationInterpolationEnumPlugOperator(EnumPlugOperator):
     QUATERNION_SQUAD = 5
 
 
-class RotationInterpolationEnumAttrOperator(EnumAttrOperator):
+class RotationInterpolationEnumAttrOperator(
+    EnumAttrOperator[RotationInterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 1
@@ -236,7 +252,10 @@ class RotationInterpolationEnumAttrOperator(EnumAttrOperator):
 
 
 class RotationInterpolationEnumField(
-    EnumField[RotationInterpolationEnumAttrOperator, RotationInterpolationEnumPlugOperator]
+    EnumField[
+        RotationInterpolationEnumAttrOperator,
+        RotationInterpolationEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -244,7 +263,9 @@ class RotationInterpolationEnumField(
     PLUG_CLS = RotationInterpolationEnumPlugOperator
 
 
-class PreInfinityEnumPlugOperator(EnumPlugOperator):
+class PreInfinityEnumPlugOperator(
+    EnumPlugOperator["PreInfinityEnumAttrOperator"]
+):
     __slots__ = ()
 
     CONSTANT = 0
@@ -254,7 +275,9 @@ class PreInfinityEnumPlugOperator(EnumPlugOperator):
     OSCILLATE = 5
 
 
-class PreInfinityEnumAttrOperator(EnumAttrOperator):
+class PreInfinityEnumAttrOperator(
+    EnumAttrOperator[PreInfinityEnumPlugOperator]
+):
     __slots__ = ()
 
     CONSTANT = 0
@@ -281,7 +304,9 @@ class PreInfinityEnumField(
     PLUG_CLS = PreInfinityEnumPlugOperator
 
 
-class PostInfinityEnumPlugOperator(EnumPlugOperator):
+class PostInfinityEnumPlugOperator(
+    EnumPlugOperator["PostInfinityEnumAttrOperator"]
+):
     __slots__ = ()
 
     CONSTANT = 0
@@ -291,7 +316,9 @@ class PostInfinityEnumPlugOperator(EnumPlugOperator):
     OSCILLATE = 5
 
 
-class PostInfinityEnumAttrOperator(EnumAttrOperator):
+class PostInfinityEnumAttrOperator(
+    EnumAttrOperator[PostInfinityEnumPlugOperator]
+):
     __slots__ = ()
 
     CONSTANT = 0
@@ -318,7 +345,9 @@ class PostInfinityEnumField(
     PLUG_CLS = PostInfinityEnumPlugOperator
 
 
-class StipplePatternEnumPlugOperator(EnumPlugOperator):
+class StipplePatternEnumPlugOperator(
+    EnumPlugOperator["StipplePatternEnumAttrOperator"]
+):
     __slots__ = ()
 
     SOLID = 0
@@ -330,7 +359,9 @@ class StipplePatternEnumPlugOperator(EnumPlugOperator):
     SHORT_DASHED = 6
 
 
-class StipplePatternEnumAttrOperator(EnumAttrOperator):
+class StipplePatternEnumAttrOperator(
+    EnumAttrOperator[StipplePatternEnumPlugOperator]
+):
     __slots__ = ()
 
     SOLID = 0
@@ -361,7 +392,7 @@ class StipplePatternEnumField(
     PLUG_CLS = StipplePatternEnumPlugOperator
 
 
-class _GeneratedAnimCurveUU(DG):
+class GeneratedAnimCurveUU(DG):
     __slots__ = ()
 
     NODE_TYPE = "animCurveUU"

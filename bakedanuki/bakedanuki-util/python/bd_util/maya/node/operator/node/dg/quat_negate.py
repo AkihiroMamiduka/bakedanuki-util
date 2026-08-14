@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.quat_negate import _GeneratedQuatNegate
+from ._generated.quat_negate import GeneratedQuatNegate
 
 
-class QuatNegate(_GeneratedQuatNegate):
+class QuatNegate(GeneratedQuatNegate):
     __slots__ = ()
 
     NODE_TYPE = "quatNegate"

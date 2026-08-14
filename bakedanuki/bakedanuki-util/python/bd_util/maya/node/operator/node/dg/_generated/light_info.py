@@ -6,11 +6,11 @@ from ....attr.define.node_attr.light_info import (
     PointCameraField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedLightInfo(DG):
+class GeneratedLightInfo(DG):
     __slots__ = ()
 
     NODE_TYPE = "lightInfo"
@@ -33,7 +33,9 @@ class _GeneratedLightInfo(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    lightPosition = LightPositionField(default_value=(0.0, 0.0, 0.0), writable=False)
+    lightPosition = LightPositionField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     lp = lightPosition
     lightPositionX = lightPosition.lightPositionX
     lpx = lightPositionX
@@ -42,7 +44,9 @@ class _GeneratedLightInfo(DG):
     lightPositionZ = lightPosition.lightPositionZ
     lpz = lightPositionZ
 
-    lightDirection = LightDirectionField(default_value=(0.0, 0.0, 1.0), writable=False)
+    lightDirection = LightDirectionField(
+        default_value=(0.0, 0.0, 1.0), writable=False
+    )
     ld = lightDirection
     lightDirectionX = lightDirection.lightDirectionX
     ldx = lightDirectionX
@@ -51,5 +55,7 @@ class _GeneratedLightInfo(DG):
     lightDirectionZ = lightDirection.lightDirectionZ
     ldz = lightDirectionZ
 
-    sampleDistance = FloatField(default_value=0.0010000000474974513, writable=False)
+    sampleDistance = FloatField(
+        default_value=0.0010000000474974513, writable=False
+    )
     sd = sampleDistance

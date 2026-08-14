@@ -7,18 +7,20 @@ from ....attr.define.node_attr.ai_uv_projection import (
     PField,
     ProjectionColorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ProjectionTypeEnumPlugOperator(EnumPlugOperator):
+class ProjectionTypeEnumPlugOperator(
+    EnumPlugOperator["ProjectionTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PLANAR = 0
@@ -29,7 +31,9 @@ class ProjectionTypeEnumPlugOperator(EnumPlugOperator):
     SHRINK_WRAP = 5
 
 
-class ProjectionTypeEnumAttrOperator(EnumAttrOperator):
+class ProjectionTypeEnumAttrOperator(
+    EnumAttrOperator[ProjectionTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     PLANAR = 0
@@ -58,7 +62,9 @@ class ProjectionTypeEnumField(
     PLUG_CLS = ProjectionTypeEnumPlugOperator
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator):
+class CoordSpaceEnumPlugOperator(
+    EnumPlugOperator["CoordSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -66,7 +72,7 @@ class CoordSpaceEnumPlugOperator(EnumPlugOperator):
     PREF = 2
 
 
-class CoordSpaceEnumAttrOperator(EnumAttrOperator):
+class CoordSpaceEnumAttrOperator(EnumAttrOperator[CoordSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -89,7 +95,7 @@ class CoordSpaceEnumField(
     PLUG_CLS = CoordSpaceEnumPlugOperator
 
 
-class _GeneratedAiUvProjection(DG):
+class GeneratedAiUvProjection(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUvProjection"
@@ -106,7 +112,9 @@ class _GeneratedAiUvProjection(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -115,7 +123,9 @@ class _GeneratedAiUvProjection(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    projectionColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    projectionColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     projection_colora = projectionColorA
 
     projectionColor = ProjectionColorField(default_value=(1.0, 1.0, 1.0))
@@ -144,10 +154,14 @@ class _GeneratedAiUvProjection(DG):
     PZ = P.PZ
     Pz = PZ
 
-    uAngle = FloatField(default_value=180.0, soft_min_value=0.0, soft_max_value=360.0)
+    uAngle = FloatField(
+        default_value=180.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     u_angle = uAngle
 
-    vAngle = FloatField(default_value=90.0, soft_min_value=0.0, soft_max_value=360.0)
+    vAngle = FloatField(
+        default_value=90.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     v_angle = vAngle
 
     clamp = BoolField(default_value=False)

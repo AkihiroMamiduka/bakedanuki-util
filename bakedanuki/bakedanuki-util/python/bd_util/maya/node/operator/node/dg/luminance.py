@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.luminance import _GeneratedLuminance
+from ._generated.luminance import GeneratedLuminance
 
 
-class Luminance(_GeneratedLuminance):
+class Luminance(GeneratedLuminance):
     __slots__ = ()
 
     NODE_TYPE = "luminance"

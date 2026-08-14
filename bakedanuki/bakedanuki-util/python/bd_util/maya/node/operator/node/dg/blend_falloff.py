@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.blend_falloff import _GeneratedBlendFalloff
+from ._generated.blend_falloff import GeneratedBlendFalloff
 
 
-class BlendFalloff(_GeneratedBlendFalloff):
+class BlendFalloff(GeneratedBlendFalloff):
     __slots__ = ()
 
     NODE_TYPE = "blendFalloff"

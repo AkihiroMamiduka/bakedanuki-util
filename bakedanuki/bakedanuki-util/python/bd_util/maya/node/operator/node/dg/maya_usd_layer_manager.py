@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.maya_usd_layer_manager import _GeneratedMayaUsdLayerManager
+from ._generated.maya_usd_layer_manager import GeneratedMayaUsdLayerManager
 
 
-class MayaUsdLayerManager(_GeneratedMayaUsdLayerManager):
+class MayaUsdLayerManager(GeneratedMayaUsdLayerManager):
     __slots__ = ()
 
     NODE_TYPE = "mayaUsdLayerManager"

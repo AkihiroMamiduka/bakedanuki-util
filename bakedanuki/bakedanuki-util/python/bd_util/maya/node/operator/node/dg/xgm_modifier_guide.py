@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.xgm_modifier_guide import _GeneratedXgmModifierGuide
+from ._generated.xgm_modifier_guide import GeneratedXgmModifierGuide
 
 
-class XgmModifierGuide(_GeneratedXgmModifierGuide):
+class XgmModifierGuide(GeneratedXgmModifierGuide):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierGuide"

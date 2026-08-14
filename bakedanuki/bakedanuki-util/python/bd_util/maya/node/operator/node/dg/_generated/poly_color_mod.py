@@ -7,15 +7,15 @@ from ....attr.define.node_attr.poly_color_mod import (
     IntensityScaleField,
     RedScaleField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedPolyColorMod(DG):
+class GeneratedPolyColorMod(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyColorMod"
@@ -65,14 +65,22 @@ class _GeneratedPolyColorMod(DG):
     alphaScale = AlphaScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     a = alphaScale
 
-    intensityScale = IntensityScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
+    intensityScale = IntensityScaleField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     n = intensityScale
 
-    huev = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    huev = FloatField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
     h = huev
 
-    satv = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    satv = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     s = satv
 
-    value = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    value = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     v = value

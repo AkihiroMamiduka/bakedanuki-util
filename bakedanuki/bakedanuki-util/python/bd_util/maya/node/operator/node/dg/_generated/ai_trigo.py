@@ -5,15 +5,15 @@ from ....attr.define.node_attr.ai_trigo import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class FunctionEnumPlugOperator(EnumPlugOperator):
+class FunctionEnumPlugOperator(EnumPlugOperator["FunctionEnumAttrOperator"]):
     __slots__ = ()
 
     COS = 0
@@ -27,7 +27,7 @@ class FunctionEnumPlugOperator(EnumPlugOperator):
     TANH = 8
 
 
-class FunctionEnumAttrOperator(EnumAttrOperator):
+class FunctionEnumAttrOperator(EnumAttrOperator[FunctionEnumPlugOperator]):
     __slots__ = ()
 
     COS = 0
@@ -62,14 +62,14 @@ class FunctionEnumField(
     PLUG_CLS = FunctionEnumPlugOperator
 
 
-class UnitsEnumPlugOperator(EnumPlugOperator):
+class UnitsEnumPlugOperator(EnumPlugOperator["UnitsEnumAttrOperator"]):
     __slots__ = ()
 
     RADIANS = 0
     DEGREES = 1
 
 
-class UnitsEnumAttrOperator(EnumAttrOperator):
+class UnitsEnumAttrOperator(EnumAttrOperator[UnitsEnumPlugOperator]):
     __slots__ = ()
 
     RADIANS = 0
@@ -81,16 +81,14 @@ class UnitsEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class UnitsEnumField(
-    EnumField[UnitsEnumAttrOperator, UnitsEnumPlugOperator]
-):
+class UnitsEnumField(EnumField[UnitsEnumAttrOperator, UnitsEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UnitsEnumAttrOperator
     PLUG_CLS = UnitsEnumPlugOperator
 
 
-class _GeneratedAiTrigo(DG):
+class GeneratedAiTrigo(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiTrigo"
@@ -104,7 +102,9 @@ class _GeneratedAiTrigo(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -125,6 +125,10 @@ class _GeneratedAiTrigo(DG):
 
     units = UnitsEnumField(default_value=0)
 
-    frequency = FloatField(default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0)
+    frequency = FloatField(
+        default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0
+    )
 
-    phase = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0)
+    phase = FloatField(
+        default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0
+    )

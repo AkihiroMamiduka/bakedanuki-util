@@ -6,21 +6,21 @@ from ....attr.define.node_attr.vertex_bake_set import (
     MinColorField,
     PublishedNodeInfoField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -28,7 +28,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -51,7 +51,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -59,7 +61,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -82,7 +86,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class AlphaModeEnumPlugOperator(EnumPlugOperator):
+class AlphaModeEnumPlugOperator(EnumPlugOperator["AlphaModeEnumAttrOperator"]):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -91,7 +95,7 @@ class AlphaModeEnumPlugOperator(EnumPlugOperator):
     COVERAGE = 3
 
 
-class AlphaModeEnumAttrOperator(EnumAttrOperator):
+class AlphaModeEnumAttrOperator(EnumAttrOperator[AlphaModeEnumPlugOperator]):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -116,7 +120,7 @@ class AlphaModeEnumField(
     PLUG_CLS = AlphaModeEnumPlugOperator
 
 
-class ColorModeEnumPlugOperator(EnumPlugOperator):
+class ColorModeEnumPlugOperator(EnumPlugOperator["ColorModeEnumAttrOperator"]):
     __slots__ = ()
 
     LIGHT_AND_COLOR = 0
@@ -126,7 +130,7 @@ class ColorModeEnumPlugOperator(EnumPlugOperator):
     CUSTOM_SHADER = 4
 
 
-class ColorModeEnumAttrOperator(EnumAttrOperator):
+class ColorModeEnumAttrOperator(EnumAttrOperator[ColorModeEnumPlugOperator]):
     __slots__ = ()
 
     LIGHT_AND_COLOR = 0
@@ -153,7 +157,9 @@ class ColorModeEnumField(
     PLUG_CLS = ColorModeEnumPlugOperator
 
 
-class NormalDirectionEnumPlugOperator(EnumPlugOperator):
+class NormalDirectionEnumPlugOperator(
+    EnumPlugOperator["NormalDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     FACE_CAMERA = 0
@@ -161,7 +167,9 @@ class NormalDirectionEnumPlugOperator(EnumPlugOperator):
     SURFACE_BACK = 2
 
 
-class NormalDirectionEnumAttrOperator(EnumAttrOperator):
+class NormalDirectionEnumAttrOperator(
+    EnumAttrOperator[NormalDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     FACE_CAMERA = 0
@@ -184,7 +192,9 @@ class NormalDirectionEnumField(
     PLUG_CLS = NormalDirectionEnumPlugOperator
 
 
-class ColorBlendingEnumPlugOperator(EnumPlugOperator):
+class ColorBlendingEnumPlugOperator(
+    EnumPlugOperator["ColorBlendingEnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -195,7 +205,9 @@ class ColorBlendingEnumPlugOperator(EnumPlugOperator):
     AVERAGE = 5
 
 
-class ColorBlendingEnumAttrOperator(EnumAttrOperator):
+class ColorBlendingEnumAttrOperator(
+    EnumAttrOperator[ColorBlendingEnumPlugOperator]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -224,7 +236,9 @@ class ColorBlendingEnumField(
     PLUG_CLS = ColorBlendingEnumPlugOperator
 
 
-class AlphaBlendingEnumPlugOperator(EnumPlugOperator):
+class AlphaBlendingEnumPlugOperator(
+    EnumPlugOperator["AlphaBlendingEnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -235,7 +249,9 @@ class AlphaBlendingEnumPlugOperator(EnumPlugOperator):
     AVERAGE = 5
 
 
-class AlphaBlendingEnumAttrOperator(EnumAttrOperator):
+class AlphaBlendingEnumAttrOperator(
+    EnumAttrOperator[AlphaBlendingEnumPlugOperator]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -264,7 +280,7 @@ class AlphaBlendingEnumField(
     PLUG_CLS = AlphaBlendingEnumPlugOperator
 
 
-class _GeneratedVertexBakeSet(DG):
+class GeneratedVertexBakeSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "vertexBakeSet"
@@ -329,7 +345,9 @@ class _GeneratedVertexBakeSet(DG):
     dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
+    memberWireframeColor = ShortField(
+        default_value=-1, min_value=-1, max_value=23
+    )
     mwc = memberWireframeColor
 
     channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
@@ -386,7 +404,9 @@ class _GeneratedVertexBakeSet(DG):
     alphaMode = AlphaModeEnumField(default_value=1)
     mode = alphaMode
 
-    occlusionRays = LongField(default_value=64, min_value=0, soft_max_value=256)
+    occlusionRays = LongField(
+        default_value=64, min_value=0, soft_max_value=256
+    )
     mor = occlusionRays
 
     occlusionFalloff = FloatField(default_value=0.0, min_value=0.0)
@@ -416,7 +436,13 @@ class _GeneratedVertexBakeSet(DG):
     alphaBlending = AlphaBlendingEnumField(default_value=0)
     ablend = alphaBlending
 
-    scaleRgba = FloatField(default_value=1.0, min_value=0.0, max_value=10000.0, soft_min_value=0.1, soft_max_value=2.1)
+    scaleRgba = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=10000.0,
+        soft_min_value=0.1,
+        soft_max_value=2.1,
+    )
     scale = scaleRgba
 
     clampMin = BoolField(default_value=False)
@@ -431,7 +457,9 @@ class _GeneratedVertexBakeSet(DG):
     minColorB = minColor.minColorB
     lb = minColorB
 
-    minAlpha = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minAlpha = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mina = minAlpha
 
     clampMax = BoolField(default_value=False)
@@ -446,7 +474,9 @@ class _GeneratedVertexBakeSet(DG):
     maxColorB = maxColor.maxColorB
     hb = maxColorB
 
-    maxAlpha = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxAlpha = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     maxa = maxAlpha
 
     useFaceNormals = BoolField(default_value=False)

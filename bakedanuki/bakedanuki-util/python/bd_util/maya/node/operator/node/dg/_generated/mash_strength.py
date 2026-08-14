@@ -9,21 +9,23 @@ from ....attr.define.node_attr.mash_strength import (
     ScaleStrengthField,
     ScaleStrengthMapField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -32,7 +34,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -57,14 +61,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -77,7 +85,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -85,7 +96,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class PosMapDirectionEnumPlugOperator(EnumPlugOperator):
+class PosMapDirectionEnumPlugOperator(
+    EnumPlugOperator["PosMapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -94,7 +107,9 @@ class PosMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class PosMapDirectionEnumAttrOperator(EnumAttrOperator):
+class PosMapDirectionEnumAttrOperator(
+    EnumAttrOperator[PosMapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -119,7 +134,9 @@ class PosMapDirectionEnumField(
     PLUG_CLS = PosMapDirectionEnumPlugOperator
 
 
-class RotMapDirectionEnumPlugOperator(EnumPlugOperator):
+class RotMapDirectionEnumPlugOperator(
+    EnumPlugOperator["RotMapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -128,7 +145,9 @@ class RotMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class RotMapDirectionEnumAttrOperator(EnumAttrOperator):
+class RotMapDirectionEnumAttrOperator(
+    EnumAttrOperator[RotMapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -153,7 +172,9 @@ class RotMapDirectionEnumField(
     PLUG_CLS = RotMapDirectionEnumPlugOperator
 
 
-class ScaleMapDirectionEnumPlugOperator(EnumPlugOperator):
+class ScaleMapDirectionEnumPlugOperator(
+    EnumPlugOperator["ScaleMapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -162,7 +183,9 @@ class ScaleMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class ScaleMapDirectionEnumAttrOperator(EnumAttrOperator):
+class ScaleMapDirectionEnumAttrOperator(
+    EnumAttrOperator[ScaleMapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -179,7 +202,9 @@ class ScaleMapDirectionEnumAttrOperator(EnumAttrOperator):
 
 
 class ScaleMapDirectionEnumField(
-    EnumField[ScaleMapDirectionEnumAttrOperator, ScaleMapDirectionEnumPlugOperator]
+    EnumField[
+        ScaleMapDirectionEnumAttrOperator, ScaleMapDirectionEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -187,7 +212,7 @@ class ScaleMapDirectionEnumField(
     PLUG_CLS = ScaleMapDirectionEnumPlugOperator
 
 
-class _GeneratedMASH_Strength(DG):
+class GeneratedMASHStrength(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Strength"
@@ -207,7 +232,9 @@ class _GeneratedMASH_Strength(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -254,13 +281,21 @@ class _GeneratedMASH_Strength(DG):
 
     randomSeed = LongField(default_value=0, min_value=0, soft_max_value=100)
 
-    positionDelay = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=50.0)
+    positionDelay = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=50.0
+    )
 
-    rotationDelay = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=50.0)
+    rotationDelay = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=50.0
+    )
 
-    scaleDelay = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=50.0)
+    scaleDelay = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=50.0
+    )
 
-    positionStrengthMap = PositionStrengthMapField(default_value=(1.0, 1.0, 1.0))
+    positionStrengthMap = PositionStrengthMapField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     positionStrengthMapR = positionStrengthMap.positionStrengthMapR
     positionStrengthMapr = positionStrengthMapR
     positionStrengthMapG = positionStrengthMap.positionStrengthMapG
@@ -268,7 +303,9 @@ class _GeneratedMASH_Strength(DG):
     positionStrengthMapB = positionStrengthMap.positionStrengthMapB
     positionStrengthMapb = positionStrengthMapB
 
-    rotationStrengthMap = RotationStrengthMapField(default_value=(1.0, 1.0, 1.0))
+    rotationStrengthMap = RotationStrengthMapField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     rotationStrengthMapR = rotationStrengthMap.rotationStrengthMapR
     rotationStrengthMapr = rotationStrengthMapR
     rotationStrengthMapG = rotationStrengthMap.rotationStrengthMapG

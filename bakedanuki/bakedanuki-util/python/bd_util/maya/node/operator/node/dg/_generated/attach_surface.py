@@ -1,23 +1,23 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class MethodEnumPlugOperator(EnumPlugOperator):
+class MethodEnumPlugOperator(EnumPlugOperator["MethodEnumAttrOperator"]):
     __slots__ = ()
 
     CONNECT = 0
     BLEND = 1
 
 
-class MethodEnumAttrOperator(EnumAttrOperator):
+class MethodEnumAttrOperator(EnumAttrOperator[MethodEnumPlugOperator]):
     __slots__ = ()
 
     CONNECT = 0
@@ -38,7 +38,7 @@ class MethodEnumField(
     PLUG_CLS = MethodEnumPlugOperator
 
 
-class _GeneratedAttachSurface(DG):
+class GeneratedAttachSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "attachSurface"
@@ -73,13 +73,17 @@ class _GeneratedAttachSurface(DG):
     twist = BoolField(default_value=False)
     tw = twist
 
-    blendBias = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    blendBias = DoubleField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     bb = blendBias
 
     blendKnotInsertion = BoolField(default_value=False)
     bki = blendKnotInsertion
 
-    parameter = DoubleField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
+    parameter = DoubleField(
+        default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0
+    )
     p = parameter
 
     keepMultipleKnots = BoolField(default_value=True)

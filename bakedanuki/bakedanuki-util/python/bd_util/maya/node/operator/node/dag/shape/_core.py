@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.shape import _GeneratedShape
+from ._generated.shape import GeneratedShape
 
 
-class Shape(_GeneratedShape):
+class Shape(GeneratedShape):
     __slots__ = ()
 
     NODE_TYPE = "shape"

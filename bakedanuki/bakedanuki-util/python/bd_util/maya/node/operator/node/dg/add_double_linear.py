@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.add_double_linear import _GeneratedAddDoubleLinear
+from ._generated.add_double_linear import GeneratedAddDoubleLinear
 
 
-class AddDoubleLinear(_GeneratedAddDoubleLinear):
+class AddDoubleLinear(GeneratedAddDoubleLinear):
     __slots__ = ()
 
     NODE_TYPE = "addDoubleLinear"

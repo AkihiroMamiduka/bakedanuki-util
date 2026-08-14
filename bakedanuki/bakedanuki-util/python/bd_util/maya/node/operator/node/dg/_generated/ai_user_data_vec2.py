@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_user_data_vec2 import (
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiUserDataVec2(DG):
+class GeneratedAiUserDataVec2(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUserDataVec2"
@@ -20,7 +20,9 @@ class _GeneratedAiUserDataVec2(DG):
     outValueY = outValue.outValueY
     outy = outValueY
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

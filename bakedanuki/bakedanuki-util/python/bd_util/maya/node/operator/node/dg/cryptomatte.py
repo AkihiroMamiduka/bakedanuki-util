@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.cryptomatte import _GeneratedCryptomatte
+from ._generated.cryptomatte import GeneratedCryptomatte
 
 
-class Cryptomatte(_GeneratedCryptomatte):
+class Cryptomatte(GeneratedCryptomatte):
     __slots__ = ()
 
     NODE_TYPE = "cryptomatte"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.reverse import _GeneratedReverse
+from ._generated.reverse import GeneratedReverse
 
 
-class Reverse(_GeneratedReverse):
+class Reverse(GeneratedReverse):
     __slots__ = ()
 
     NODE_TYPE = "reverse"

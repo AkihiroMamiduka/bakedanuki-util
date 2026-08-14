@@ -1,10 +1,10 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedChoice(DG):
+class GeneratedChoice(DG):
     __slots__ = ()
 
     NODE_TYPE = "choice"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_random import _GeneratedMASH_Random
+from ._generated.mash_random import GeneratedMASHRandom
 
 
-class MASH_Random(_GeneratedMASH_Random):
+class MASHRandom(GeneratedMASHRandom):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Random"

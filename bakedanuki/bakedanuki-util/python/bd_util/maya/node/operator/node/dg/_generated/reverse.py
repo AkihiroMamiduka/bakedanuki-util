@@ -6,7 +6,7 @@ from ....attr.define.node_attr.reverse import (
 )
 
 
-class _GeneratedReverse(DG):
+class GeneratedReverse(DG):
     __slots__ = ()
 
     NODE_TYPE = "reverse"

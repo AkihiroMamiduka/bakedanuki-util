@@ -1,10 +1,10 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedRenderSetupLayer(DG):
+class GeneratedRenderSetupLayer(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderSetupLayer"

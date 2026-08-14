@@ -6,14 +6,16 @@ from ....attr.define.node_attr.clamp import (
     MinField,
     OutputField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator):
+class RenderPassModeEnumPlugOperator(
+    EnumPlugOperator["RenderPassModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -22,7 +24,9 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator):
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator):
+class RenderPassModeEnumAttrOperator(
+    EnumAttrOperator[RenderPassModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -34,7 +38,9 @@ class RenderPassModeEnumAttrOperator(EnumAttrOperator):
         PASS_THROUGH: "Pass through",
         APPLY_TO_RENDER_PASSES: "Apply to Render Passes",
         NO_CONTRIBUTION: "No Contribution",
-        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: "Write Shader Result to Beauty Passes",
+        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: (
+            "Write Shader Result to Beauty Passes"
+        ),
     }
 
 
@@ -47,12 +53,16 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedClamp(DG):
+class GeneratedClamp(DG):
     __slots__ = ()
 
     NODE_TYPE = "clamp"
 
-    min = MinField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    min = MinField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     mn = min
     minR = min.minR
     mnr = minR
@@ -61,7 +71,11 @@ class _GeneratedClamp(DG):
     minB = min.minB
     mnb = minB
 
-    max = MaxField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    max = MaxField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     mx = max
     maxR = max.maxR
     mxr = maxR
@@ -70,7 +84,11 @@ class _GeneratedClamp(DG):
     maxB = max.maxB
     mxb = maxB
 
-    input = InputField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(5.0, 5.0, 5.0))
+    input = InputField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(5.0, 5.0, 5.0),
+    )
     ip = input
     inputR = input.inputR
     ipr = inputR

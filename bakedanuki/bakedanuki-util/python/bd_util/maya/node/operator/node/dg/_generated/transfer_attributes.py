@@ -7,27 +7,31 @@ from ....attr.define.node_attr.transfer_attributes import (
     SearchScaleField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TransferPositionsEnumPlugOperator(EnumPlugOperator):
+class TransferPositionsEnumPlugOperator(
+    EnumPlugOperator["TransferPositionsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class TransferPositionsEnumAttrOperator(EnumAttrOperator):
+class TransferPositionsEnumAttrOperator(
+    EnumAttrOperator[TransferPositionsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -40,7 +44,9 @@ class TransferPositionsEnumAttrOperator(EnumAttrOperator):
 
 
 class TransferPositionsEnumField(
-    EnumField[TransferPositionsEnumAttrOperator, TransferPositionsEnumPlugOperator]
+    EnumField[
+        TransferPositionsEnumAttrOperator, TransferPositionsEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48,14 +54,18 @@ class TransferPositionsEnumField(
     PLUG_CLS = TransferPositionsEnumPlugOperator
 
 
-class TransferNormalsEnumPlugOperator(EnumPlugOperator):
+class TransferNormalsEnumPlugOperator(
+    EnumPlugOperator["TransferNormalsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class TransferNormalsEnumAttrOperator(EnumAttrOperator):
+class TransferNormalsEnumAttrOperator(
+    EnumAttrOperator[TransferNormalsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -76,7 +86,9 @@ class TransferNormalsEnumField(
     PLUG_CLS = TransferNormalsEnumPlugOperator
 
 
-class TransferUVsEnumPlugOperator(EnumPlugOperator):
+class TransferUVsEnumPlugOperator(
+    EnumPlugOperator["TransferUVsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -84,7 +96,9 @@ class TransferUVsEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class TransferUVsEnumAttrOperator(EnumAttrOperator):
+class TransferUVsEnumAttrOperator(
+    EnumAttrOperator[TransferUVsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -107,7 +121,9 @@ class TransferUVsEnumField(
     PLUG_CLS = TransferUVsEnumPlugOperator
 
 
-class TransferColorsEnumPlugOperator(EnumPlugOperator):
+class TransferColorsEnumPlugOperator(
+    EnumPlugOperator["TransferColorsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -115,7 +131,9 @@ class TransferColorsEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class TransferColorsEnumAttrOperator(EnumAttrOperator):
+class TransferColorsEnumAttrOperator(
+    EnumAttrOperator[TransferColorsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -138,7 +156,9 @@ class TransferColorsEnumField(
     PLUG_CLS = TransferColorsEnumPlugOperator
 
 
-class SampleSpaceEnumPlugOperator(EnumPlugOperator):
+class SampleSpaceEnumPlugOperator(
+    EnumPlugOperator["SampleSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -149,7 +169,9 @@ class SampleSpaceEnumPlugOperator(EnumPlugOperator):
     TOPOLOGY = 5
 
 
-class SampleSpaceEnumAttrOperator(EnumAttrOperator):
+class SampleSpaceEnumAttrOperator(
+    EnumAttrOperator[SampleSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -178,14 +200,18 @@ class SampleSpaceEnumField(
     PLUG_CLS = SampleSpaceEnumPlugOperator
 
 
-class SearchMethodEnumPlugOperator(EnumPlugOperator):
+class SearchMethodEnumPlugOperator(
+    EnumPlugOperator["SearchMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST_ALONG_NORMAL = 0
     CLOSEST_TO_POINT = 3
 
 
-class SearchMethodEnumAttrOperator(EnumAttrOperator):
+class SearchMethodEnumAttrOperator(
+    EnumAttrOperator[SearchMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST_ALONG_NORMAL = 0
@@ -206,7 +232,7 @@ class SearchMethodEnumField(
     PLUG_CLS = SearchMethodEnumPlugOperator
 
 
-class FlipUVsEnumPlugOperator(EnumPlugOperator):
+class FlipUVsEnumPlugOperator(EnumPlugOperator["FlipUVsEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -215,7 +241,7 @@ class FlipUVsEnumPlugOperator(EnumPlugOperator):
     BOTH = 3
 
 
-class FlipUVsEnumAttrOperator(EnumAttrOperator):
+class FlipUVsEnumAttrOperator(EnumAttrOperator[FlipUVsEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -240,14 +266,18 @@ class FlipUVsEnumField(
     PLUG_CLS = FlipUVsEnumPlugOperator
 
 
-class ColorBordersEnumPlugOperator(EnumPlugOperator):
+class ColorBordersEnumPlugOperator(
+    EnumPlugOperator["ColorBordersEnumAttrOperator"]
+):
     __slots__ = ()
 
     IGNORE = 0
     PRESERVE = 1
 
 
-class ColorBordersEnumAttrOperator(EnumAttrOperator):
+class ColorBordersEnumAttrOperator(
+    EnumAttrOperator[ColorBordersEnumPlugOperator]
+):
     __slots__ = ()
 
     IGNORE = 0
@@ -268,7 +298,7 @@ class ColorBordersEnumField(
     PLUG_CLS = ColorBordersEnumPlugOperator
 
 
-class _GeneratedTransferAttributes(DG):
+class GeneratedTransferAttributes(DG):
     __slots__ = ()
 
     NODE_TYPE = "transferAttributes"
@@ -285,13 +315,21 @@ class _GeneratedTransferAttributes(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -348,10 +386,14 @@ class _GeneratedTransferAttributes(DG):
     searchMethod = SearchMethodEnumField(default_value=3)
     mtd = searchMethod
 
-    searchDistance = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    searchDistance = DoubleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     dis = searchDistance
 
-    searchTolerance = DoubleField(default_value=1.3, soft_min_value=1.0, soft_max_value=2.0)
+    searchTolerance = DoubleField(
+        default_value=1.3, soft_min_value=1.0, soft_max_value=2.0
+    )
     tol = searchTolerance
 
     searchScale = SearchScaleField(default_value=(1.0, 1.0, 1.0))

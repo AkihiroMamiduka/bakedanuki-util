@@ -10,13 +10,13 @@ from ....attr.define.node_attr.c_muscle_spline_deformer import (
     SquashDataField,
     WeightListField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedCMuscleSplineDeformer(DG):
+class GeneratedCMuscleSplineDeformer(DG):
     __slots__ = ()
 
     NODE_TYPE = "cMuscleSplineDeformer"
@@ -33,13 +33,21 @@ class _GeneratedCMuscleSplineDeformer(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -138,7 +146,37 @@ class _GeneratedCMuscleSplineDeformer(DG):
     uWts = DoubleField(multi=True, default_value=0.0)
     uwt = uWts
 
-    squashData = SquashDataField(default_value=(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-05, 0.0, 1.0, 0.0, 0.0, 0.5, 0.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0))
+    squashData = SquashDataField(
+        default_value=(
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1e-05,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.5,
+            0.0,
+            1.0,
+            1.0,
+            2.0,
+            2.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            0.5,
+            0.5,
+            1.0,
+            1.0,
+        )
+    )
     sdata = squashData
     STATE = squashData.STATE
     STA = STATE

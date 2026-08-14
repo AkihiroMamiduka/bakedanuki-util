@@ -7,25 +7,27 @@ from ....attr.define.node_attr.morph import (
     InputField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class MorphSpaceEnumPlugOperator(EnumPlugOperator):
+class MorphSpaceEnumPlugOperator(
+    EnumPlugOperator["MorphSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     OBJECT_SPACE = 0
     WORLD_SPACE = 1
 
 
-class MorphSpaceEnumAttrOperator(EnumAttrOperator):
+class MorphSpaceEnumAttrOperator(EnumAttrOperator[MorphSpaceEnumPlugOperator]):
     __slots__ = ()
 
     OBJECT_SPACE = 0
@@ -46,7 +48,7 @@ class MorphSpaceEnumField(
     PLUG_CLS = MorphSpaceEnumPlugOperator
 
 
-class MorphModeEnumPlugOperator(EnumPlugOperator):
+class MorphModeEnumPlugOperator(EnumPlugOperator["MorphModeEnumAttrOperator"]):
     __slots__ = ()
 
     ABSOLUTE = 0
@@ -56,7 +58,7 @@ class MorphModeEnumPlugOperator(EnumPlugOperator):
     MIRROR = 4
 
 
-class MorphModeEnumAttrOperator(EnumAttrOperator):
+class MorphModeEnumAttrOperator(EnumAttrOperator[MorphModeEnumPlugOperator]):
     __slots__ = ()
 
     ABSOLUTE = 0
@@ -83,7 +85,9 @@ class MorphModeEnumField(
     PLUG_CLS = MorphModeEnumPlugOperator
 
 
-class MirrorDirectionEnumPlugOperator(EnumPlugOperator):
+class MirrorDirectionEnumPlugOperator(
+    EnumPlugOperator["MirrorDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     PLUS_X = 0
@@ -97,7 +101,9 @@ class MirrorDirectionEnumPlugOperator(EnumPlugOperator):
     FLIP_Z = 8
 
 
-class MirrorDirectionEnumAttrOperator(EnumAttrOperator):
+class MirrorDirectionEnumAttrOperator(
+    EnumAttrOperator[MirrorDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     PLUS_X = 0
@@ -132,7 +138,7 @@ class MirrorDirectionEnumField(
     PLUG_CLS = MirrorDirectionEnumPlugOperator
 
 
-class _GeneratedMorph(DG):
+class GeneratedMorph(DG):
     __slots__ = ()
 
     NODE_TYPE = "morph"
@@ -149,13 +155,21 @@ class _GeneratedMorph(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -185,7 +199,9 @@ class _GeneratedMorph(DG):
     originalMorphTarget = TypedField(multi=True)
     otrg = originalMorphTarget
 
-    componentLookupList = ComponentLookupListField(multi=True, default_value=0.0)
+    componentLookupList = ComponentLookupListField(
+        multi=True, default_value=0.0
+    )
     clkl = componentLookupList
 
     useComponentLookup = BoolField(default_value=False)
@@ -197,7 +213,9 @@ class _GeneratedMorph(DG):
     neighborLevel = LongField(default_value=0, min_value=0, max_value=15)
     nbl = neighborLevel
 
-    neighborExponent = FloatField(default_value=0.0, min_value=0.0, max_value=4.0)
+    neighborExponent = FloatField(
+        default_value=0.0, min_value=0.0, max_value=4.0
+    )
     nbe = neighborExponent
 
     neighborBias = FloatField(default_value=0.0, min_value=0.0)
@@ -209,13 +227,19 @@ class _GeneratedMorph(DG):
     scaleEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     sen = scaleEnvelope
 
-    uniformScaleWeight = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    uniformScaleWeight = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     uen = uniformScaleWeight
 
-    normalScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    normalScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     nsc = normalScale
 
-    tangentPlaneScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    tangentPlaneScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     tsc = tangentPlaneScale
 
     smoothNormals = LongField(default_value=0, min_value=0, max_value=20)
@@ -227,11 +251,17 @@ class _GeneratedMorph(DG):
     useTangentialConstraints = BoolField(default_value=False)
     utnc = useTangentialConstraints
 
-    tangentialDamping = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    tangentialDamping = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     tndm = tangentialDamping
 
-    inwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    inwardConstraint = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     iwc = inwardConstraint
 
-    outwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    outwardConstraint = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     owc = outwardConstraint

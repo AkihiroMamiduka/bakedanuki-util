@@ -1,20 +1,25 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
+from ...........value import DoubleAngle2
 from .._base import (
     AngleCompoundBasePlugOperator,
     AngleCompoundBaseAttrOperator,
     AngleCompoundBaseField,
 )
 
-A = TypeVar("A", bound="DoubleAngle2CompoundBaseAttrOperator")
+A = TypeVar("A", bound="DoubleAngle2CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="DoubleAngle2CompoundBasePlugOperator")
+P = TypeVar("P", bound="DoubleAngle2CompoundBasePlugOperator[Any]")
 
 
-class DoubleAngle2CompoundBasePlugOperator(AngleCompoundBasePlugOperator[A]):
+class DoubleAngle2CompoundBasePlugOperator(
+    AngleCompoundBasePlugOperator[A, DoubleAngle2]
+):
     __slots__ = ()
+
+    VALUE_TYPE = DoubleAngle2
 
 
 class DoubleAngle2CompoundBaseAttrOperator(AngleCompoundBaseAttrOperator[P]):

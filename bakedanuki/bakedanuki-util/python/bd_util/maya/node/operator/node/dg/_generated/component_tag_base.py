@@ -4,7 +4,7 @@ from ....attr.define.node_attr.component_tag_base import ComponentTagsField
 from ....attr.define.std.at.generic import GenericField
 
 
-class _GeneratedComponentTagBase(DG):
+class GeneratedComponentTagBase(DG):
     __slots__ = ()
 
     NODE_TYPE = "componentTagBase"

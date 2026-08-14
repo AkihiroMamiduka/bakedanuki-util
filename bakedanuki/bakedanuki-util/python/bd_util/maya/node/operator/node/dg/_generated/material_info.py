@@ -1,6 +1,6 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
@@ -9,7 +9,9 @@ from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TextureFilterEnumPlugOperator(EnumPlugOperator):
+class TextureFilterEnumPlugOperator(
+    EnumPlugOperator["TextureFilterEnumAttrOperator"]
+):
     __slots__ = ()
 
     GLOBAL_SETTINGS = 1
@@ -21,7 +23,9 @@ class TextureFilterEnumPlugOperator(EnumPlugOperator):
     MIPMAP_TRILINEAR = 7
 
 
-class TextureFilterEnumAttrOperator(EnumAttrOperator):
+class TextureFilterEnumAttrOperator(
+    EnumAttrOperator[TextureFilterEnumPlugOperator]
+):
     __slots__ = ()
 
     GLOBAL_SETTINGS = 1
@@ -52,7 +56,7 @@ class TextureFilterEnumField(
     PLUG_CLS = TextureFilterEnumPlugOperator
 
 
-class _GeneratedMaterialInfo(DG):
+class GeneratedMaterialInfo(DG):
     __slots__ = ()
 
     NODE_TYPE = "materialInfo"

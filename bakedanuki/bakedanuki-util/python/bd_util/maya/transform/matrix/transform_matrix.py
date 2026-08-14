@@ -18,6 +18,21 @@ _ROTATION_ORDER_MAP: dict[str, int] = {
 }
 
 
+def _resolve_rotation_order(order: object) -> int:
+    if not isinstance(order, str):
+        raise TypeError(f"order must be str; got {type(order).__name__}")
+
+    normalized_order = order.lower()
+    try:
+        return _ROTATION_ORDER_MAP[normalized_order]
+    except KeyError as error:
+        supported = ", ".join(_ROTATION_ORDER_MAP)
+        raise ValueError(
+            f"Unsupported rotation order: {order!r}. "
+            f"Expected one of: {supported}"
+        ) from error
+
+
 class TransformMatrix:
     """Maya の transform 行列を合成・分解するスナップショット値。"""
 
@@ -118,18 +133,7 @@ class TransformMatrix:
         order: RotationOrder = "xyz",
     ) -> tuple[float, float, float]:
         """指定した回転順序の Euler 回転を degree で返す。"""
-        if not isinstance(order, str):
-            raise TypeError(f"order must be str; got {type(order).__name__}")
-
-        normalized_order = order.lower()
-        try:
-            maya_order = _ROTATION_ORDER_MAP[normalized_order]
-        except KeyError as error:
-            supported = ", ".join(_ROTATION_ORDER_MAP)
-            raise ValueError(
-                f"Unsupported rotation order: {order!r}. "
-                f"Expected one of: {supported}"
-            ) from error
+        maya_order = _resolve_rotation_order(order)
 
         value = self.transformation_matrix.rotation()
         value.reorderIt(maya_order)

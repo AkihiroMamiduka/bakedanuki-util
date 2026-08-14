@@ -21,15 +21,15 @@ class DataDoubleArrayPlugOperator(
         return self._get_array_values(om.MFnDoubleArrayData)
 
     # set
-    def set_direct(self, values: list[float]):
+    def set_direct(self, value: list[float]) -> None:
         """
         MPlug に値を直接セットする
             その為、modifier.undoIt() 非対応です
 
         Args:
-            values (list[float]): セットする値のリスト
+            value (list[float]): セットする値のリスト
         """
-        self._set_values(om.MFnDoubleArrayData, om.MDoubleArray, values)
+        self._set_values(om.MFnDoubleArrayData, om.MDoubleArray, value)
 
     # add
     def add_attr(self):

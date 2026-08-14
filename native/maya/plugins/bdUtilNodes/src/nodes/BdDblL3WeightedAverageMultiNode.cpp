@@ -1,0 +1,269 @@
+#include "bdUtilNodes/nodes/BdDblL3WeightedAverageMultiNode.h"
+
+#include <algorithm>
+#include <array>
+#include <vector>
+
+#include <maya/MArrayDataHandle.h>
+#include <maya/MDataBlock.h>
+#include <maya/MDataHandle.h>
+#include <maya/MFnCompoundAttribute.h>
+#include <maya/MFnNumericAttribute.h>
+#include <maya/MFnUnitAttribute.h>
+#include <maya/MPlug.h>
+
+#include "bdUtilNodes/attributes/DoubleLinear3Attribute.h"
+#include "bdUtilNodes/attributes/NumericAttribute.h"
+#include "bdUtilNodes/math/WeightedAverage.h"
+
+namespace {
+
+struct IndexedWeightedValue {
+    unsigned int logicalIndex;
+    std::array<double, 3> value;
+    double weight;
+};
+
+}  // namespace
+
+const MString BdDblL3WeightedAverageMultiNode::typeName(
+    "bdDblL3_WeightedAverageMulti"
+);
+const MTypeId BdDblL3WeightedAverageMultiNode::typeId(0x001426D7);
+
+MObject BdDblL3WeightedAverageMultiNode::input;
+
+MObject BdDblL3WeightedAverageMultiNode::value;
+MObject BdDblL3WeightedAverageMultiNode::valueX;
+MObject BdDblL3WeightedAverageMultiNode::valueY;
+MObject BdDblL3WeightedAverageMultiNode::valueZ;
+
+MObject BdDblL3WeightedAverageMultiNode::weight;
+
+MObject BdDblL3WeightedAverageMultiNode::output;
+MObject BdDblL3WeightedAverageMultiNode::outputX;
+MObject BdDblL3WeightedAverageMultiNode::outputY;
+MObject BdDblL3WeightedAverageMultiNode::outputZ;
+
+void* BdDblL3WeightedAverageMultiNode::creator() {
+    return new BdDblL3WeightedAverageMultiNode();
+}
+
+MStatus BdDblL3WeightedAverageMultiNode::initialize() {
+    MFnNumericAttribute numericAttributeFn;
+    MFnUnitAttribute unitAttributeFn;
+
+    MStatus status = bd_util_nodes::createDoubleLinear3Attribute(
+        numericAttributeFn,
+        unitAttributeFn,
+        value,
+        valueX,
+        valueY,
+        valueZ,
+        "value",
+        "v",
+        "valueX",
+        "vx",
+        "valueY",
+        "vy",
+        "valueZ",
+        "vz",
+        0.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(
+        numericAttributeFn
+    );
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDoubleAttribute(
+        numericAttributeFn,
+        weight,
+        "weight",
+        "w",
+        0.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(
+        numericAttributeFn
+    );
+    if (!status) {
+        return status;
+    }
+
+    MFnCompoundAttribute compoundAttributeFn;
+    input = compoundAttributeFn.create("input", "i", &status);
+    if (!status) {
+        return status;
+    }
+    status = compoundAttributeFn.addChild(value);
+    if (!status) {
+        return status;
+    }
+    status = compoundAttributeFn.addChild(weight);
+    if (!status) {
+        return status;
+    }
+    status = compoundAttributeFn.setArray(true);
+    if (!status) {
+        return status;
+    }
+    status = compoundAttributeFn.setReadable(true);
+    if (!status) {
+        return status;
+    }
+    status = compoundAttributeFn.setWritable(true);
+    if (!status) {
+        return status;
+    }
+    status = compoundAttributeFn.setStorable(true);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(input);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDoubleLinear3Attribute(
+        numericAttributeFn,
+        unitAttributeFn,
+        output,
+        outputX,
+        outputY,
+        outputZ,
+        "output",
+        "o",
+        "outputX",
+        "ox",
+        "outputY",
+        "oy",
+        "outputZ",
+        "oz",
+        0.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureOutputNumericAttribute(
+        numericAttributeFn
+    );
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(output);
+    if (!status) {
+        return status;
+    }
+
+    const std::array<MObject, 6> inputAttributes = {
+        input,
+        value,
+        valueX,
+        valueY,
+        valueZ,
+        weight,
+    };
+    for (const MObject& inputAttribute : inputAttributes) {
+        status = attributeAffects(inputAttribute, output);
+        if (!status) {
+            return status;
+        }
+    }
+    return MS::kSuccess;
+}
+
+MStatus BdDblL3WeightedAverageMultiNode::compute(
+    const MPlug& plug,
+    MDataBlock& dataBlock
+) {
+    const MObject requestedAttribute = plug.attribute();
+    if (
+        requestedAttribute != output
+        && requestedAttribute != outputX
+        && requestedAttribute != outputY
+        && requestedAttribute != outputZ
+    ) {
+        return MS::kUnknownParameter;
+    }
+
+    MStatus status;
+    MArrayDataHandle inputArray = dataBlock.inputArrayValue(input, &status);
+    if (!status) {
+        return status;
+    }
+    const unsigned int elementCount = inputArray.elementCount(&status);
+    if (!status) {
+        return status;
+    }
+
+    std::vector<IndexedWeightedValue> values;
+    values.reserve(elementCount);
+    for (unsigned int index = 0; index < elementCount; ++index) {
+        MDataHandle inputElement = inputArray.inputValue(&status);
+        if (!status) {
+            return status;
+        }
+        const double elementWeight = inputElement.child(weight).asDouble();
+        if (elementWeight != 0.0) {
+            const unsigned int logicalIndex = inputArray.elementIndex(&status);
+            if (!status) {
+                return status;
+            }
+            const double3& elementValue = inputElement.child(value).asDouble3();
+            values.push_back(
+                {
+                    logicalIndex,
+                    {elementValue[0], elementValue[1], elementValue[2]},
+                    elementWeight,
+                }
+            );
+        }
+
+        if (index + 1 < elementCount) {
+            status = inputArray.next();
+            if (!status) {
+                return status;
+            }
+        }
+    }
+    std::sort(
+        values.begin(),
+        values.end(),
+        [](const IndexedWeightedValue& left,
+           const IndexedWeightedValue& right) {
+            return left.logicalIndex < right.logicalIndex;
+        }
+    );
+
+    std::array<double, 3> weightedSum = {0.0, 0.0, 0.0};
+    double weightSum = 0.0;
+    for (const IndexedWeightedValue& current : values) {
+        weightedSum[0] += current.value[0] * current.weight;
+        weightedSum[1] += current.value[1] * current.weight;
+        weightedSum[2] += current.value[2] * current.weight;
+        weightSum += current.weight;
+    }
+
+    MDataHandle outputValue = dataBlock.outputValue(output, &status);
+    if (!status) {
+        return status;
+    }
+    outputValue.set3Double(
+        bd_util_nodes::weightedAverage(weightedSum[0], weightSum),
+        bd_util_nodes::weightedAverage(weightedSum[1], weightSum),
+        bd_util_nodes::weightedAverage(weightedSum[2], weightSum)
+    );
+    outputValue.setClean();
+    return dataBlock.setClean(plug);
+}
+
+MPxNode::SchedulingType BdDblL3WeightedAverageMultiNode::schedulingType() const {
+    return MPxNode::kParallel;
+}

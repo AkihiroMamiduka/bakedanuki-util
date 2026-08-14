@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_multiply import _GeneratedAiMultiply
+from ._generated.ai_multiply import GeneratedAiMultiply
 
 
-class AiMultiply(_GeneratedAiMultiply):
+class AiMultiply(GeneratedAiMultiply):
     __slots__ = ()
 
     NODE_TYPE = "aiMultiply"

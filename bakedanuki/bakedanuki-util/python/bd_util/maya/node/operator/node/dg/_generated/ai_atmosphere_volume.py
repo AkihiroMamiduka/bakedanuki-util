@@ -6,11 +6,11 @@ from ....attr.define.node_attr.ai_atmosphere_volume import (
     RgbAttenuationField,
     RgbDensityField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedAiAtmosphereVolume(DG):
+class GeneratedAiAtmosphereVolume(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiAtmosphereVolume"
@@ -27,7 +27,9 @@ class _GeneratedAiAtmosphereVolume(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -38,9 +40,15 @@ class _GeneratedAiAtmosphereVolume(DG):
 
     density = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    samples = LongField(default_value=5, min_value=1, max_value=100, soft_max_value=64)
+    samples = LongField(
+        default_value=5, min_value=1, max_value=100, soft_max_value=64
+    )
 
-    eccentricity = FloatField(default_value=0.0, min_value=-0.8999999761581421, max_value=0.8999999761581421)
+    eccentricity = FloatField(
+        default_value=0.0,
+        min_value=-0.8999999761581421,
+        max_value=0.8999999761581421,
+    )
 
     attenuation = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
@@ -50,7 +58,9 @@ class _GeneratedAiAtmosphereVolume(DG):
     affectDiffuse = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     affect_diffuse = affectDiffuse
 
-    affectSpecular = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    affectSpecular = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     affect_specular = affectSpecular
 
     rgbDensity = RgbDensityField(default_value=(1.0, 1.0, 1.0))

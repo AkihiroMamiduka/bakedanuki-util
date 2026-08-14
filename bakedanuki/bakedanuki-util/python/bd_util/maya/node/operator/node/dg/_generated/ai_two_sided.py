@@ -8,10 +8,10 @@ from ....attr.define.node_attr.ai_two_sided import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiTwoSided(DG):
+class GeneratedAiTwoSided(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiTwoSided"
@@ -28,7 +28,9 @@ class _GeneratedAiTwoSided(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

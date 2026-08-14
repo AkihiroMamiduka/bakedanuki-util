@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.volume_shader import _GeneratedVolumeShader
+from ._generated.volume_shader import GeneratedVolumeShader
 
 
-class VolumeShader(_GeneratedVolumeShader):
+class VolumeShader(GeneratedVolumeShader):
     __slots__ = ()
 
     NODE_TYPE = "volumeShader"

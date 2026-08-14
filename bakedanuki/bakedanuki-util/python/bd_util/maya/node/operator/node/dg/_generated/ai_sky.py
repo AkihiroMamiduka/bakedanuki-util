@@ -8,17 +8,17 @@ from ....attr.define.node_attr.ai_sky import (
     YField,
     ZField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.byte import ByteField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.byte import ByteField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class FormatEnumPlugOperator(EnumPlugOperator):
+class FormatEnumPlugOperator(EnumPlugOperator["FormatEnumAttrOperator"]):
     __slots__ = ()
 
     MIRRORED_BALL = 0
@@ -26,7 +26,7 @@ class FormatEnumPlugOperator(EnumPlugOperator):
     LATLONG = 2
 
 
-class FormatEnumAttrOperator(EnumAttrOperator):
+class FormatEnumAttrOperator(EnumAttrOperator[FormatEnumPlugOperator]):
     __slots__ = ()
 
     MIRRORED_BALL = 0
@@ -49,7 +49,7 @@ class FormatEnumField(
     PLUG_CLS = FormatEnumPlugOperator
 
 
-class _GeneratedAiSky(DG):
+class GeneratedAiSky(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSky"
@@ -66,7 +66,9 @@ class _GeneratedAiSky(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -83,7 +85,9 @@ class _GeneratedAiSky(DG):
     colorB = color.colorB
     colorb = colorB
 
-    intensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    intensity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
     visibility = ByteField(default_value=255, min_value=0, max_value=255)
 

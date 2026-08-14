@@ -1,23 +1,25 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AssignTypeEnumPlugOperator(EnumPlugOperator):
+class AssignTypeEnumPlugOperator(
+    EnumPlugOperator["AssignTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LOOK = 0
     MATERIAL = 1
 
 
-class AssignTypeEnumAttrOperator(EnumAttrOperator):
+class AssignTypeEnumAttrOperator(EnumAttrOperator[AssignTypeEnumPlugOperator]):
     __slots__ = ()
 
     LOOK = 0
@@ -38,7 +40,7 @@ class AssignTypeEnumField(
     PLUG_CLS = AssignTypeEnumPlugOperator
 
 
-class _GeneratedAiMaterialx(DG):
+class GeneratedAiMaterialx(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMaterialx"

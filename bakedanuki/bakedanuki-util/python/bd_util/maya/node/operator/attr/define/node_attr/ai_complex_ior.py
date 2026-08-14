@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -220,9 +222,7 @@ class EdgetintField(
     edgetintb = edgetintB
 
 
-class NPlugOperator(
-    Float3CompoundBasePlugOperator["NAttrOperator"]
-):
+class NPlugOperator(Float3CompoundBasePlugOperator["NAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("nX", "nx"),
@@ -240,9 +240,7 @@ class NPlugOperator(
     nz = nZ
 
 
-class NAttrOperator(
-    Float3CompoundBaseAttrOperator[NPlugOperator]
-):
+class NAttrOperator(Float3CompoundBaseAttrOperator[NPlugOperator]):
     __slots__ = ()
 
     nX = FloatField(default_value=0.27105000615119934)
@@ -255,9 +253,7 @@ class NAttrOperator(
     nz = nZ
 
 
-class NField(
-    Float3CompoundBaseField[NAttrOperator, NPlugOperator]
-):
+class NField(Float3CompoundBaseField[NAttrOperator, NPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NAttrOperator
@@ -273,9 +269,7 @@ class NField(
     nz = nZ
 
 
-class KPlugOperator(
-    Float3CompoundBasePlugOperator["KAttrOperator"]
-):
+class KPlugOperator(Float3CompoundBasePlugOperator["KAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("kX", "kx"),
@@ -293,9 +287,7 @@ class KPlugOperator(
     kz = kZ
 
 
-class KAttrOperator(
-    Float3CompoundBaseAttrOperator[KPlugOperator]
-):
+class KAttrOperator(Float3CompoundBaseAttrOperator[KPlugOperator]):
     __slots__ = ()
 
     kX = FloatField(default_value=3.6092000007629395)
@@ -308,9 +300,7 @@ class KAttrOperator(
     kz = kZ
 
 
-class KField(
-    Float3CompoundBaseField[KAttrOperator, KPlugOperator]
-):
+class KField(Float3CompoundBaseField[KAttrOperator, KPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = KAttrOperator

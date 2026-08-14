@@ -1,20 +1,20 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class CycleTypeEnumPlugOperator(EnumPlugOperator):
+class CycleTypeEnumPlugOperator(EnumPlugOperator["CycleTypeEnumAttrOperator"]):
     __slots__ = ()
 
     HOLD = 0
@@ -23,7 +23,7 @@ class CycleTypeEnumPlugOperator(EnumPlugOperator):
     BOUNCE = 3
 
 
-class CycleTypeEnumAttrOperator(EnumAttrOperator):
+class CycleTypeEnumAttrOperator(EnumAttrOperator[CycleTypeEnumPlugOperator]):
     __slots__ = ()
 
     HOLD = 0
@@ -48,7 +48,7 @@ class CycleTypeEnumField(
     PLUG_CLS = CycleTypeEnumPlugOperator
 
 
-class _GeneratedXgmCurveToSpline(DG):
+class GeneratedXgmCurveToSpline(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmCurveToSpline"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.unpremultiply import _GeneratedUnpremultiply
+from ._generated.unpremultiply import GeneratedUnpremultiply
 
 
-class Unpremultiply(_GeneratedUnpremultiply):
+class Unpremultiply(GeneratedUnpremultiply):
     __slots__ = ()
 
     NODE_TYPE = "unpremultiply"

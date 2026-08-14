@@ -4,17 +4,19 @@ from ....attr.define.node_attr.color_profile import (
     TransformField,
     WhitepointField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class ColorProfileTypeEnumPlugOperator(EnumPlugOperator):
+class ColorProfileTypeEnumPlugOperator(
+    EnumPlugOperator["ColorProfileTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -24,7 +26,9 @@ class ColorProfileTypeEnumPlugOperator(EnumPlugOperator):
     CIE_XYZ = 10
 
 
-class ColorProfileTypeEnumAttrOperator(EnumAttrOperator):
+class ColorProfileTypeEnumAttrOperator(
+    EnumAttrOperator[ColorProfileTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -43,7 +47,9 @@ class ColorProfileTypeEnumAttrOperator(EnumAttrOperator):
 
 
 class ColorProfileTypeEnumField(
-    EnumField[ColorProfileTypeEnumAttrOperator, ColorProfileTypeEnumPlugOperator]
+    EnumField[
+        ColorProfileTypeEnumAttrOperator, ColorProfileTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51,7 +57,7 @@ class ColorProfileTypeEnumField(
     PLUG_CLS = ColorProfileTypeEnumPlugOperator
 
 
-class _GeneratedColorProfile(DG):
+class GeneratedColorProfile(DG):
     __slots__ = ()
 
     NODE_TYPE = "colorProfile"

@@ -6,32 +6,32 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
-    EnumAttrOperator,
-    EnumPlugOperator,
-    EnumField,
-)
 from ..std.at.light_data import (
     LightDataAttrOperator,
     LightDataPlugOperator,
     LightDataField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
+    Float3CompoundBaseAttrOperator,
+    Float3CompoundBasePlugOperator,
+    Float3CompoundBaseField,
+    Float3Field,
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
-    Float3CompoundBaseAttrOperator,
-    Float3CompoundBasePlugOperator,
-    Float3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
-class Environment_InterpEnumPlugOperator(EnumPlugOperator):
+class Environment_InterpEnumPlugOperator(
+    EnumPlugOperator["Environment_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -40,7 +40,9 @@ class Environment_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Environment_InterpEnumAttrOperator(EnumAttrOperator):
+class Environment_InterpEnumAttrOperator(
+    EnumAttrOperator[Environment_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -57,7 +59,9 @@ class Environment_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class Environment_InterpEnumField(
-    EnumField[Environment_InterpEnumAttrOperator, Environment_InterpEnumPlugOperator]
+    EnumField[
+        Environment_InterpEnumAttrOperator, Environment_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -65,7 +69,9 @@ class Environment_InterpEnumField(
     PLUG_CLS = Environment_InterpEnumPlugOperator
 
 
-class WaveHeight_InterpEnumPlugOperator(EnumPlugOperator):
+class WaveHeight_InterpEnumPlugOperator(
+    EnumPlugOperator["WaveHeight_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -74,7 +80,9 @@ class WaveHeight_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class WaveHeight_InterpEnumAttrOperator(EnumAttrOperator):
+class WaveHeight_InterpEnumAttrOperator(
+    EnumAttrOperator[WaveHeight_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -91,7 +99,9 @@ class WaveHeight_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class WaveHeight_InterpEnumField(
-    EnumField[WaveHeight_InterpEnumAttrOperator, WaveHeight_InterpEnumPlugOperator]
+    EnumField[
+        WaveHeight_InterpEnumAttrOperator, WaveHeight_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -99,7 +109,9 @@ class WaveHeight_InterpEnumField(
     PLUG_CLS = WaveHeight_InterpEnumPlugOperator
 
 
-class WaveTurbulence_InterpEnumPlugOperator(EnumPlugOperator):
+class WaveTurbulence_InterpEnumPlugOperator(
+    EnumPlugOperator["WaveTurbulence_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -108,7 +120,9 @@ class WaveTurbulence_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class WaveTurbulence_InterpEnumAttrOperator(EnumAttrOperator):
+class WaveTurbulence_InterpEnumAttrOperator(
+    EnumAttrOperator[WaveTurbulence_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -125,7 +139,10 @@ class WaveTurbulence_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class WaveTurbulence_InterpEnumField(
-    EnumField[WaveTurbulence_InterpEnumAttrOperator, WaveTurbulence_InterpEnumPlugOperator]
+    EnumField[
+        WaveTurbulence_InterpEnumAttrOperator,
+        WaveTurbulence_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -133,7 +150,9 @@ class WaveTurbulence_InterpEnumField(
     PLUG_CLS = WaveTurbulence_InterpEnumPlugOperator
 
 
-class WavePeaking_InterpEnumPlugOperator(EnumPlugOperator):
+class WavePeaking_InterpEnumPlugOperator(
+    EnumPlugOperator["WavePeaking_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -142,7 +161,9 @@ class WavePeaking_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class WavePeaking_InterpEnumAttrOperator(EnumAttrOperator):
+class WavePeaking_InterpEnumAttrOperator(
+    EnumAttrOperator[WavePeaking_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -159,7 +180,9 @@ class WavePeaking_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class WavePeaking_InterpEnumField(
-    EnumField[WavePeaking_InterpEnumAttrOperator, WavePeaking_InterpEnumPlugOperator]
+    EnumField[
+        WavePeaking_InterpEnumAttrOperator, WavePeaking_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -415,7 +438,9 @@ class IncandescenceAttrOperator(
 
 
 class IncandescenceField(
-    Float3CompoundBaseField[IncandescenceAttrOperator, IncandescencePlugOperator]
+    Float3CompoundBaseField[
+        IncandescenceAttrOperator, IncandescencePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -468,7 +493,9 @@ class SpecularColorAttrOperator(
 
 
 class SpecularColorField(
-    Float3CompoundBaseField[SpecularColorAttrOperator, SpecularColorPlugOperator]
+    Float3CompoundBaseField[
+        SpecularColorAttrOperator, SpecularColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -485,9 +512,7 @@ class SpecularColorField(
     sb = specularColorB
 
 
-class EnvironmentPlugOperator(
-    CompoundPlugOperator["EnvironmentAttrOperator"]
-):
+class EnvironmentPlugOperator(CompoundPlugOperator["EnvironmentAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("environment_Position", "envp"),
@@ -505,9 +530,7 @@ class EnvironmentPlugOperator(
     envi = environment_Interp
 
 
-class EnvironmentAttrOperator(
-    CompoundAttrOperator[EnvironmentPlugOperator]
-):
+class EnvironmentAttrOperator(CompoundAttrOperator[EnvironmentPlugOperator]):
     __slots__ = ()
 
     environment_Position = FloatField(default_value=0.0)
@@ -565,7 +588,9 @@ class ReflectedColorAttrOperator(
 
 
 class ReflectedColorField(
-    Float3CompoundBaseField[ReflectedColorAttrOperator, ReflectedColorPlugOperator]
+    Float3CompoundBaseField[
+        ReflectedColorAttrOperator, ReflectedColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -618,7 +643,9 @@ class TriangleNormalCameraAttrOperator(
 
 
 class TriangleNormalCameraField(
-    Float3CompoundBaseField[TriangleNormalCameraAttrOperator, TriangleNormalCameraPlugOperator]
+    Float3CompoundBaseField[
+        TriangleNormalCameraAttrOperator, TriangleNormalCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -724,7 +751,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1068,7 +1097,9 @@ class OutMatteOpacityAttrOperator(
 
 
 class OutMatteOpacityField(
-    Float3CompoundBaseField[OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator]
+    Float3CompoundBaseField[
+        OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1085,9 +1116,7 @@ class OutMatteOpacityField(
     omob = outMatteOpacityB
 
 
-class WindUVPlugOperator(
-    Float2CompoundBasePlugOperator["WindUVAttrOperator"]
-):
+class WindUVPlugOperator(Float2CompoundBasePlugOperator["WindUVAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("windU", "wiu"),
@@ -1101,9 +1130,7 @@ class WindUVPlugOperator(
     wiv = windV
 
 
-class WindUVAttrOperator(
-    Float2CompoundBaseAttrOperator[WindUVPlugOperator]
-):
+class WindUVAttrOperator(Float2CompoundBaseAttrOperator[WindUVPlugOperator]):
     __slots__ = ()
 
     windU = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
@@ -1128,9 +1155,7 @@ class WindUVField(
     wiv = windV
 
 
-class WaveHeightPlugOperator(
-    CompoundPlugOperator["WaveHeightAttrOperator"]
-):
+class WaveHeightPlugOperator(CompoundPlugOperator["WaveHeightAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("waveHeight_Position", "whp"),
@@ -1148,9 +1173,7 @@ class WaveHeightPlugOperator(
     whi = waveHeight_Interp
 
 
-class WaveHeightAttrOperator(
-    CompoundAttrOperator[WaveHeightPlugOperator]
-):
+class WaveHeightAttrOperator(CompoundAttrOperator[WaveHeightPlugOperator]):
     __slots__ = ()
 
     waveHeight_Position = FloatField(default_value=0.0)
@@ -1216,9 +1239,7 @@ class WaveTurbulenceField(
     PLUG_CLS = WaveTurbulencePlugOperator
 
 
-class WavePeakingPlugOperator(
-    CompoundPlugOperator["WavePeakingAttrOperator"]
-):
+class WavePeakingPlugOperator(CompoundPlugOperator["WavePeakingAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("wavePeaking_Position", "wpp"),
@@ -1236,9 +1257,7 @@ class WavePeakingPlugOperator(
     wpi = wavePeaking_Interp
 
 
-class WavePeakingAttrOperator(
-    CompoundAttrOperator[WavePeakingPlugOperator]
-):
+class WavePeakingAttrOperator(CompoundAttrOperator[WavePeakingPlugOperator]):
     __slots__ = ()
 
     wavePeaking_Position = FloatField(default_value=0.0)
@@ -1349,7 +1368,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.message import MessageField
 
 
-class _GeneratedRenderSetup(DG):
+class GeneratedRenderSetup(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderSetup"

@@ -6,12 +6,12 @@ from ....attr.define.node_attr.reference import (
 )
 from ....attr.define.std.at.generic import GenericField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedReference(DG):
+class GeneratedReference(DG):
     __slots__ = ()
 
     NODE_TYPE = "reference"

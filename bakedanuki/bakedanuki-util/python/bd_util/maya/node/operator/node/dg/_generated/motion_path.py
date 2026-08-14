@@ -5,7 +5,7 @@ from ....attr.define.node_attr.motion_path import (
     RotateField,
     WorldUpVectorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
@@ -13,15 +13,21 @@ from ....attr.define.std.at.enum import (
 from ....attr.define.std.at.generic import GenericField
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.unit_scalar.time import TimeField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -32,7 +38,9 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -61,7 +69,7 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class FrontAxisEnumPlugOperator(EnumPlugOperator):
+class FrontAxisEnumPlugOperator(EnumPlugOperator["FrontAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -69,7 +77,7 @@ class FrontAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class FrontAxisEnumAttrOperator(EnumAttrOperator):
+class FrontAxisEnumAttrOperator(EnumAttrOperator[FrontAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -92,7 +100,7 @@ class FrontAxisEnumField(
     PLUG_CLS = FrontAxisEnumPlugOperator
 
 
-class UpAxisEnumPlugOperator(EnumPlugOperator):
+class UpAxisEnumPlugOperator(EnumPlugOperator["UpAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -100,7 +108,7 @@ class UpAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class UpAxisEnumAttrOperator(EnumAttrOperator):
+class UpAxisEnumAttrOperator(EnumAttrOperator[UpAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -123,7 +131,9 @@ class UpAxisEnumField(
     PLUG_CLS = UpAxisEnumPlugOperator
 
 
-class WorldUpTypeEnumPlugOperator(EnumPlugOperator):
+class WorldUpTypeEnumPlugOperator(
+    EnumPlugOperator["WorldUpTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     SCENE_UP = 0
@@ -133,7 +143,9 @@ class WorldUpTypeEnumPlugOperator(EnumPlugOperator):
     NORMAL = 4
 
 
-class WorldUpTypeEnumAttrOperator(EnumAttrOperator):
+class WorldUpTypeEnumAttrOperator(
+    EnumAttrOperator[WorldUpTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     SCENE_UP = 0
@@ -160,7 +172,7 @@ class WorldUpTypeEnumField(
     PLUG_CLS = WorldUpTypeEnumPlugOperator
 
 
-class _GeneratedMotionPath(DG):
+class GeneratedMotionPath(DG):
     __slots__ = ()
 
     NODE_TYPE = "motionPath"
@@ -177,7 +189,9 @@ class _GeneratedMotionPath(DG):
     sideTwist = DoubleAngleField(default_value=0.0)
     st = sideTwist
 
-    allCoordinates = AllCoordinatesField(default_value=(0.0, 0.0, 0.0), writable=False)
+    allCoordinates = AllCoordinatesField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ac = allCoordinates
     xCoordinate = allCoordinates.xCoordinate
     xc = xCoordinate

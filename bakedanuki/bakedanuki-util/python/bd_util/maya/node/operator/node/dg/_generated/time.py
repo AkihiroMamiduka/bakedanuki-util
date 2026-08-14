@@ -1,12 +1,12 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.time import TimewarpInField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
-from ....attr.define.std.at.unit_scalar.time import TimeField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class _GeneratedTime(DG):
+class GeneratedTime(DG):
     __slots__ = ()
 
     NODE_TYPE = "time"

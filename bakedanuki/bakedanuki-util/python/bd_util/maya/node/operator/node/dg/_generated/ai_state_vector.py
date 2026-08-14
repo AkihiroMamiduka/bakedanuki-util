@@ -20,14 +20,14 @@ from ....attr.define.node_attr.ai_state_vector import (
     RdField,
     RoField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 
 
-class VariableEnumPlugOperator(EnumPlugOperator):
+class VariableEnumPlugOperator(EnumPlugOperator["VariableEnumAttrOperator"]):
     __slots__ = ()
 
     RO = 0
@@ -49,7 +49,7 @@ class VariableEnumPlugOperator(EnumPlugOperator):
     DNDY = 16
 
 
-class VariableEnumAttrOperator(EnumAttrOperator):
+class VariableEnumAttrOperator(EnumAttrOperator[VariableEnumPlugOperator]):
     __slots__ = ()
 
     RO = 0
@@ -100,7 +100,7 @@ class VariableEnumField(
     PLUG_CLS = VariableEnumPlugOperator
 
 
-class _GeneratedAiStateVector(DG):
+class GeneratedAiStateVector(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiStateVector"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.stencil import _GeneratedStencil
+from ._generated.stencil import GeneratedStencil
 
 
-class Stencil(_GeneratedStencil):
+class Stencil(GeneratedStencil):
     __slots__ = ()
 
     NODE_TYPE = "stencil"

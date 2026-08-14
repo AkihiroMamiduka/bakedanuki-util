@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..custom import (
     Double2CompoundBaseAttrOperator,
     Double2CompoundBasePlugOperator,
     Double2CompoundBaseField,
@@ -51,9 +51,7 @@ class TranslateField(
     tv = translateV
 
 
-class PivotPlugOperator(
-    Double2CompoundBasePlugOperator["PivotAttrOperator"]
-):
+class PivotPlugOperator(Double2CompoundBasePlugOperator["PivotAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("pivotU", "pvu"),
@@ -67,9 +65,7 @@ class PivotPlugOperator(
     pvv = pivotV
 
 
-class PivotAttrOperator(
-    Double2CompoundBaseAttrOperator[PivotPlugOperator]
-):
+class PivotAttrOperator(Double2CompoundBaseAttrOperator[PivotPlugOperator]):
     __slots__ = ()
 
     pivotU = DoubleField(default_value=0.5)
@@ -94,9 +90,7 @@ class PivotField(
     pvv = pivotV
 
 
-class ScalePlugOperator(
-    Double2CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Double2CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleU", "su"),
@@ -110,9 +104,7 @@ class ScalePlugOperator(
     sv = scaleV
 
 
-class ScaleAttrOperator(
-    Double2CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Double2CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleU = DoubleField(default_value=1.0)

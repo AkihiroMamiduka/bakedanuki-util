@@ -9,17 +9,17 @@ from ....attr.define.node_attr.ramp import (
     UvCoordField,
     UvFilterSizeField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     V_RAMP = 0
@@ -33,7 +33,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     TARTAN_RAMP = 8
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     V_RAMP = 0
@@ -59,16 +59,16 @@ class TypeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class InterpolationEnumPlugOperator(EnumPlugOperator):
+class InterpolationEnumPlugOperator(
+    EnumPlugOperator["InterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -80,7 +80,9 @@ class InterpolationEnumPlugOperator(EnumPlugOperator):
     SPIKE = 6
 
 
-class InterpolationEnumAttrOperator(EnumAttrOperator):
+class InterpolationEnumAttrOperator(
+    EnumAttrOperator[InterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -111,7 +113,7 @@ class InterpolationEnumField(
     PLUG_CLS = InterpolationEnumPlugOperator
 
 
-class _GeneratedRamp(DG):
+class GeneratedRamp(DG):
     __slots__ = ()
 
     NODE_TYPE = "ramp"
@@ -130,10 +132,17 @@ class _GeneratedRamp(DG):
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    filter = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
     invert = BoolField(default_value=False)
@@ -142,7 +151,11 @@ class _GeneratedRamp(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -151,7 +164,11 @@ class _GeneratedRamp(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -160,13 +177,21 @@ class _GeneratedRamp(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -214,7 +239,9 @@ class _GeneratedRamp(DG):
     noise = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     n = noise
 
-    noiseFreq = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    noiseFreq = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     nf = noiseFreq
 
     hueNoise = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
@@ -226,13 +253,19 @@ class _GeneratedRamp(DG):
     valNoise = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     vn = valNoise
 
-    hueNoiseFreq = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    hueNoiseFreq = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     hnf = hueNoiseFreq
 
-    satNoiseFreq = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    satNoiseFreq = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     snf = satNoiseFreq
 
-    valNoiseFreq = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    valNoiseFreq = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     vnf = valNoiseFreq
 
     aiUserOptions = DataStringField(category="arnold")

@@ -5,9 +5,9 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.unit_scalar.time import TimeField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.unit.time import TimeField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -83,9 +83,7 @@ class KeyTimeValuePlugOperator(
     kv = keyValue
 
 
-class KeyTimeValueAttrOperator(
-    CompoundAttrOperator[KeyTimeValuePlugOperator]
-):
+class KeyTimeValueAttrOperator(CompoundAttrOperator[KeyTimeValuePlugOperator]):
     __slots__ = ()
 
     keyTime = TimeField(default_value=0.0)

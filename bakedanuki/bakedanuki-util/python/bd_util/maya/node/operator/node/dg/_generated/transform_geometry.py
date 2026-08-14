@@ -1,16 +1,18 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.generic import GenericField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class FreezeNormalsEnumPlugOperator(EnumPlugOperator):
+class FreezeNormalsEnumPlugOperator(
+    EnumPlugOperator["FreezeNormalsEnumAttrOperator"]
+):
     __slots__ = ()
 
     NEVER = 0
@@ -18,7 +20,9 @@ class FreezeNormalsEnumPlugOperator(EnumPlugOperator):
     NON_MINUS_RIGID_TRANSFORMATIONS_ONLY = 2
 
 
-class FreezeNormalsEnumAttrOperator(EnumAttrOperator):
+class FreezeNormalsEnumAttrOperator(
+    EnumAttrOperator[FreezeNormalsEnumPlugOperator]
+):
     __slots__ = ()
 
     NEVER = 0
@@ -41,7 +45,7 @@ class FreezeNormalsEnumField(
     PLUG_CLS = FreezeNormalsEnumPlugOperator
 
 
-class _GeneratedTransformGeometry(DG):
+class GeneratedTransformGeometry(DG):
     __slots__ = ()
 
     NODE_TYPE = "transformGeometry"

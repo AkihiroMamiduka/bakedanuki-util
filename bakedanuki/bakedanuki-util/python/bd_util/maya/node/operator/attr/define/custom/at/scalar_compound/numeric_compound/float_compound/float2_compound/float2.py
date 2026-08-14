@@ -6,12 +6,10 @@ from ._base import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBaseField,
 )
-from .......std.at.numeric_scalar_range.float import FloatField
+from .......std.at.scalar.numeric.range.float import FloatField
 
 
-class Float2PlugOperator(
-    Float2CompoundBasePlugOperator["Float2AttrOperator"]
-):
+class Float2PlugOperator(Float2CompoundBasePlugOperator["Float2AttrOperator"]):
     __slots__ = ()
 
     x = FloatField()

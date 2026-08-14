@@ -13,13 +13,12 @@ from .operator.node._core import NodeOperator
 
 class _ExistingNodeAccessor:
     __slots__ = (
+        "__dict__",
         "_modifier_manager",
-        "_accessor_cache",
     )
 
     def __init__(self, modifier_manager: ModifierManager):
         self._modifier_manager = modifier_manager
-        self._accessor_cache: dict[str, Callable[..., NodeOperator]] = {}
 
     @property
     def modifier_manager(self) -> ModifierManager:
@@ -39,10 +38,6 @@ class _ExistingNodeAccessor:
     def __getattr__(self, node_name: str) -> Callable[..., NodeOperator]:
         if node_name.startswith("_"):
             raise AttributeError(node_name)
-
-        cached = self._accessor_cache.get(node_name)
-        if cached is not None:
-            return cached
 
         existing_node_accessor: Callable[..., NodeOperator] = getattr(
             ExistingNode,
@@ -65,7 +60,7 @@ class _ExistingNodeAccessor:
         return_type = existing_node_accessor.__annotations__.get("return")
         if return_type is not None:
             _wrap.__annotations__["return"] = return_type
-        self._accessor_cache[node_name] = _wrap
+        setattr(self, node_name, _wrap)
         return _wrap
 
 

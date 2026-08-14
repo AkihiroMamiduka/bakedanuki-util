@@ -1,10 +1,10 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class _GeneratedPickMatrix(DG):
+class GeneratedPickMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "pickMatrix"

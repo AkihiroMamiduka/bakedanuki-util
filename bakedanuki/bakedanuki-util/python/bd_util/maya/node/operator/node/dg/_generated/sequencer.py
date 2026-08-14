@@ -1,10 +1,10 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.unit_scalar.time import TimeField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class _GeneratedSequencer(DG):
+class GeneratedSequencer(DG):
     __slots__ = ()
 
     NODE_TYPE = "sequencer"

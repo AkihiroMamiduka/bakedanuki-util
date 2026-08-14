@@ -8,24 +8,28 @@ from ....attr.define.node_attr.delta_mush import (
     ScaleField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class SmoothingAlgorithmEnumPlugOperator(EnumPlugOperator):
+class SmoothingAlgorithmEnumPlugOperator(
+    EnumPlugOperator["SmoothingAlgorithmEnumAttrOperator"]
+):
     __slots__ = ()
 
     AVERAGE = 0
 
 
-class SmoothingAlgorithmEnumAttrOperator(EnumAttrOperator):
+class SmoothingAlgorithmEnumAttrOperator(
+    EnumAttrOperator[SmoothingAlgorithmEnumPlugOperator]
+):
     __slots__ = ()
 
     AVERAGE = 0
@@ -36,7 +40,9 @@ class SmoothingAlgorithmEnumAttrOperator(EnumAttrOperator):
 
 
 class SmoothingAlgorithmEnumField(
-    EnumField[SmoothingAlgorithmEnumAttrOperator, SmoothingAlgorithmEnumPlugOperator]
+    EnumField[
+        SmoothingAlgorithmEnumAttrOperator, SmoothingAlgorithmEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44,7 +50,7 @@ class SmoothingAlgorithmEnumField(
     PLUG_CLS = SmoothingAlgorithmEnumPlugOperator
 
 
-class _GeneratedDeltaMush(DG):
+class GeneratedDeltaMush(DG):
     __slots__ = ()
 
     NODE_TYPE = "deltaMush"
@@ -61,13 +67,21 @@ class _GeneratedDeltaMush(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -94,13 +108,19 @@ class _GeneratedDeltaMush(DG):
     smoothingStep = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     ss = smoothingStep
 
-    inwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    inwardConstraint = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     iwc = inwardConstraint
 
-    outwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    outwardConstraint = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     owc = outwardConstraint
 
-    distanceWeight = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    distanceWeight = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     dwt = distanceWeight
 
     pinBorderVertices = BoolField(default_value=True)

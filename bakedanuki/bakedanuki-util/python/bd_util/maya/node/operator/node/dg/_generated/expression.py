@@ -1,19 +1,19 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
-from ....attr.define.std.at.unit_scalar.time import TimeField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AnimatedEnumPlugOperator(EnumPlugOperator):
+class AnimatedEnumPlugOperator(EnumPlugOperator["AnimatedEnumAttrOperator"]):
     __slots__ = ()
 
     NOTANIMATED = 0
@@ -21,7 +21,7 @@ class AnimatedEnumPlugOperator(EnumPlugOperator):
     ANIMATEDNOCALLBACK = 2
 
 
-class AnimatedEnumAttrOperator(EnumAttrOperator):
+class AnimatedEnumAttrOperator(EnumAttrOperator[AnimatedEnumPlugOperator]):
     __slots__ = ()
 
     NOTANIMATED = 0
@@ -44,7 +44,9 @@ class AnimatedEnumField(
     PLUG_CLS = AnimatedEnumPlugOperator
 
 
-class UnitOptionEnumPlugOperator(EnumPlugOperator):
+class UnitOptionEnumPlugOperator(
+    EnumPlugOperator["UnitOptionEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 0
@@ -52,7 +54,7 @@ class UnitOptionEnumPlugOperator(EnumPlugOperator):
     ANGULARONLY = 2
 
 
-class UnitOptionEnumAttrOperator(EnumAttrOperator):
+class UnitOptionEnumAttrOperator(EnumAttrOperator[UnitOptionEnumPlugOperator]):
     __slots__ = ()
 
     ALL = 0
@@ -75,7 +77,7 @@ class UnitOptionEnumField(
     PLUG_CLS = UnitOptionEnumPlugOperator
 
 
-class _GeneratedExpression(DG):
+class GeneratedExpression(DG):
     __slots__ = ()
 
     NODE_TYPE = "expression"

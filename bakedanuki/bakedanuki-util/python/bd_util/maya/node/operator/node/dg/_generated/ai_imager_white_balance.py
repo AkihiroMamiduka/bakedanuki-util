@@ -1,18 +1,18 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.ai_imager_white_balance import CustomField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     ILLUMINANT = 0
@@ -20,7 +20,7 @@ class ModeEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 2
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     ILLUMINANT = 0
@@ -34,16 +34,16 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class IlluminantEnumPlugOperator(EnumPlugOperator):
+class IlluminantEnumPlugOperator(
+    EnumPlugOperator["IlluminantEnumAttrOperator"]
+):
     __slots__ = ()
 
     DAYLIGHT = 0
@@ -84,7 +84,7 @@ class IlluminantEnumPlugOperator(EnumPlugOperator):
     LOW_PRESS_SODIUM = 35
 
 
-class IlluminantEnumAttrOperator(EnumAttrOperator):
+class IlluminantEnumAttrOperator(EnumAttrOperator[IlluminantEnumPlugOperator]):
     __slots__ = ()
 
     DAYLIGHT = 0
@@ -173,7 +173,7 @@ class IlluminantEnumField(
     PLUG_CLS = IlluminantEnumPlugOperator
 
 
-class _GeneratedAiImagerWhiteBalance(DG):
+class GeneratedAiImagerWhiteBalance(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerWhiteBalance"
@@ -187,7 +187,9 @@ class _GeneratedAiImagerWhiteBalance(DG):
 
     mode = ModeEnumField(default_value=0)
 
-    temperature = FloatField(default_value=6500.0, min_value=0.0, soft_max_value=15000.0)
+    temperature = FloatField(
+        default_value=6500.0, min_value=0.0, soft_max_value=15000.0
+    )
 
     illuminant = IlluminantEnumField(default_value=0)
 

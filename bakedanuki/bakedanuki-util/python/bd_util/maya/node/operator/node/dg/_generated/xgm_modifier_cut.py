@@ -1,24 +1,26 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 
 
-class CutModeEnumPlugOperator(EnumPlugOperator):
+class CutModeEnumPlugOperator(EnumPlugOperator["CutModeEnumAttrOperator"]):
     __slots__ = ()
 
     ABSOLUTE = 0
     RELATIVE = 1
 
 
-class CutModeEnumAttrOperator(EnumAttrOperator):
+class CutModeEnumAttrOperator(EnumAttrOperator[CutModeEnumPlugOperator]):
     __slots__ = ()
 
     ABSOLUTE = 0
@@ -39,7 +41,7 @@ class CutModeEnumField(
     PLUG_CLS = CutModeEnumPlugOperator
 
 
-class _GeneratedXgmModifierCut(DG):
+class GeneratedXgmModifierCut(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierCut"
@@ -59,13 +61,17 @@ class _GeneratedXgmModifierCut(DG):
     mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    amount = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    amount = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
     a = amount
 
     percentage = FloatField(default_value=10.0, min_value=0.0, max_value=100.0)
     pt = percentage
 
-    minRemainLength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    minRemainLength = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
     mrl = minRemainLength
 
     redistributingCV = BoolField(default_value=True)

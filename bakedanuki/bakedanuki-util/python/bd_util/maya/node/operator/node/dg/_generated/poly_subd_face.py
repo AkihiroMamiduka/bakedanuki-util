@@ -1,24 +1,24 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     QUADS = 0
     TRIANGLES = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     QUADS = 0
@@ -30,23 +30,23 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class SubdMethodEnumPlugOperator(EnumPlugOperator):
+class SubdMethodEnumPlugOperator(
+    EnumPlugOperator["SubdMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     EXPONENTIAL = 0
     LINEAR = 1
 
 
-class SubdMethodEnumAttrOperator(EnumAttrOperator):
+class SubdMethodEnumAttrOperator(EnumAttrOperator[SubdMethodEnumPlugOperator]):
     __slots__ = ()
 
     EXPONENTIAL = 0
@@ -67,7 +67,7 @@ class SubdMethodEnumField(
     PLUG_CLS = SubdMethodEnumPlugOperator
 
 
-class _GeneratedPolySubdFace(DG):
+class GeneratedPolySubdFace(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySubdFace"
@@ -102,13 +102,19 @@ class _GeneratedPolySubdFace(DG):
     useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    divisions = LongField(default_value=1, min_value=0, max_value=8, soft_max_value=4)
+    divisions = LongField(
+        default_value=1, min_value=0, max_value=8, soft_max_value=4
+    )
     dv = divisions
 
-    divisionsU = LongField(default_value=1, min_value=1, max_value=250, soft_max_value=8)
+    divisionsU = LongField(
+        default_value=1, min_value=1, max_value=250, soft_max_value=8
+    )
     duv = divisionsU
 
-    divisionsV = LongField(default_value=1, min_value=1, max_value=250, soft_max_value=8)
+    divisionsV = LongField(
+        default_value=1, min_value=1, max_value=250, soft_max_value=8
+    )
     dvv = divisionsV
 
     mode = ModeEnumField(default_value=0)

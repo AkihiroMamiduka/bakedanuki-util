@@ -5,7 +5,7 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.long import LongField
+from ..std.at.scalar.numeric.range.long import LongField
 from ..std.at.typed import TypedField
 from ..std.dt.string import DataStringField
 
@@ -46,7 +46,10 @@ class PoseInterpolatorDirectoryAttrOperator(
 
 
 class PoseInterpolatorDirectoryField(
-    CompoundField[PoseInterpolatorDirectoryAttrOperator, PoseInterpolatorDirectoryPlugOperator]
+    CompoundField[
+        PoseInterpolatorDirectoryAttrOperator,
+        PoseInterpolatorDirectoryPlugOperator,
+    ]
 ):
     __slots__ = ()
 

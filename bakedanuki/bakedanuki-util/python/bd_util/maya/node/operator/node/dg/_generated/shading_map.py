@@ -11,15 +11,17 @@ from ....attr.define.node_attr.shading_map import (
     TransparencyField,
     UvCoordField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class MapFunctionUEnumPlugOperator(EnumPlugOperator):
+class MapFunctionUEnumPlugOperator(
+    EnumPlugOperator["MapFunctionUEnumAttrOperator"]
+):
     __slots__ = ()
 
     HUE = 0
@@ -31,7 +33,9 @@ class MapFunctionUEnumPlugOperator(EnumPlugOperator):
     RGB_AVERAGE = 6
 
 
-class MapFunctionUEnumAttrOperator(EnumAttrOperator):
+class MapFunctionUEnumAttrOperator(
+    EnumAttrOperator[MapFunctionUEnumPlugOperator]
+):
     __slots__ = ()
 
     HUE = 0
@@ -62,7 +66,9 @@ class MapFunctionUEnumField(
     PLUG_CLS = MapFunctionUEnumPlugOperator
 
 
-class MapFunctionVEnumPlugOperator(EnumPlugOperator):
+class MapFunctionVEnumPlugOperator(
+    EnumPlugOperator["MapFunctionVEnumAttrOperator"]
+):
     __slots__ = ()
 
     HUE = 0
@@ -74,7 +80,9 @@ class MapFunctionVEnumPlugOperator(EnumPlugOperator):
     RGB_AVERAGE = 6
 
 
-class MapFunctionVEnumAttrOperator(EnumAttrOperator):
+class MapFunctionVEnumAttrOperator(
+    EnumAttrOperator[MapFunctionVEnumPlugOperator]
+):
     __slots__ = ()
 
     HUE = 0
@@ -105,7 +113,9 @@ class MapFunctionVEnumField(
     PLUG_CLS = MapFunctionVEnumPlugOperator
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(
+    EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -113,7 +123,9 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(
+    EnumAttrOperator[MatteOpacityModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -128,7 +140,9 @@ class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
 
 
 class MatteOpacityModeEnumField(
-    EnumField[MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator]
+    EnumField[
+        MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -136,7 +150,9 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator):
+class RenderPassModeEnumPlugOperator(
+    EnumPlugOperator["RenderPassModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -145,7 +161,9 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator):
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator):
+class RenderPassModeEnumAttrOperator(
+    EnumAttrOperator[RenderPassModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -157,7 +175,9 @@ class RenderPassModeEnumAttrOperator(EnumAttrOperator):
         PASS_THROUGH: "Pass through",
         APPLY_TO_RENDER_PASSES: "Apply to Render Passes",
         NO_CONTRIBUTION: "No Contribution",
-        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: "Write Shader Result to Beauty Passes",
+        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: (
+            "Write Shader Result to Beauty Passes"
+        ),
     }
 
 
@@ -170,7 +190,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedShadingMap(DG):
+class GeneratedShadingMap(DG):
     __slots__ = ()
 
     NODE_TYPE = "shadingMap"
@@ -233,7 +253,9 @@ class _GeneratedShadingMap(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -242,7 +264,9 @@ class _GeneratedShadingMap(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outGlowColor = OutGlowColorField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -254,10 +278,14 @@ class _GeneratedShadingMap(DG):
     matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    matteOpacity = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outMatteOpacity = OutMatteOpacityField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR

@@ -5,21 +5,23 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.dt.vector_array import DataVectorArrayField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class PositionRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class PositionRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["PositionRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -28,7 +30,9 @@ class PositionRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class PositionRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class PositionRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[PositionRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -45,7 +49,10 @@ class PositionRamp_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class PositionRamp_InterpEnumField(
-    EnumField[PositionRamp_InterpEnumAttrOperator, PositionRamp_InterpEnumPlugOperator]
+    EnumField[
+        PositionRamp_InterpEnumAttrOperator,
+        PositionRamp_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53,7 +60,9 @@ class PositionRamp_InterpEnumField(
     PLUG_CLS = PositionRamp_InterpEnumPlugOperator
 
 
-class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class ScaleRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["ScaleRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -62,7 +71,9 @@ class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class ScaleRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[ScaleRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -79,7 +90,9 @@ class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class ScaleRamp_InterpEnumField(
-    EnumField[ScaleRamp_InterpEnumAttrOperator, ScaleRamp_InterpEnumPlugOperator]
+    EnumField[
+        ScaleRamp_InterpEnumAttrOperator, ScaleRamp_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -87,7 +100,9 @@ class ScaleRamp_InterpEnumField(
     PLUG_CLS = ScaleRamp_InterpEnumPlugOperator
 
 
-class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class RotationRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["RotationRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -96,7 +111,9 @@ class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class RotationRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[RotationRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -113,7 +130,10 @@ class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class RotationRamp_InterpEnumField(
-    EnumField[RotationRamp_InterpEnumAttrOperator, RotationRamp_InterpEnumPlugOperator]
+    EnumField[
+        RotationRamp_InterpEnumAttrOperator,
+        RotationRamp_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -141,9 +161,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -320,7 +338,9 @@ class DriverTranslateInPPAttrOperator(
 
 
 class DriverTranslateInPPField(
-    CompoundField[DriverTranslateInPPAttrOperator, DriverTranslateInPPPlugOperator]
+    CompoundField[
+        DriverTranslateInPPAttrOperator, DriverTranslateInPPPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -414,7 +434,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -451,9 +473,7 @@ class PositionRampPlugOperator(
     positionRampi = positionRamp_Interp
 
 
-class PositionRampAttrOperator(
-    CompoundAttrOperator[PositionRampPlugOperator]
-):
+class PositionRampAttrOperator(CompoundAttrOperator[PositionRampPlugOperator]):
     __slots__ = ()
 
     positionRamp_Position = FloatField(default_value=0.0)
@@ -475,9 +495,7 @@ class PositionRampField(
     PLUG_CLS = PositionRampPlugOperator
 
 
-class ScaleRampPlugOperator(
-    CompoundPlugOperator["ScaleRampAttrOperator"]
-):
+class ScaleRampPlugOperator(CompoundPlugOperator["ScaleRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleRamp_Position", "scaleRampp"),
@@ -495,9 +513,7 @@ class ScaleRampPlugOperator(
     scaleRampi = scaleRamp_Interp
 
 
-class ScaleRampAttrOperator(
-    CompoundAttrOperator[ScaleRampPlugOperator]
-):
+class ScaleRampAttrOperator(CompoundAttrOperator[ScaleRampPlugOperator]):
     __slots__ = ()
 
     scaleRamp_Position = FloatField(default_value=0.0)
@@ -539,9 +555,7 @@ class RotationRampPlugOperator(
     rotationRampi = rotationRamp_Interp
 
 
-class RotationRampAttrOperator(
-    CompoundAttrOperator[RotationRampPlugOperator]
-):
+class RotationRampAttrOperator(CompoundAttrOperator[RotationRampPlugOperator]):
     __slots__ = ()
 
     rotationRamp_Position = FloatField(default_value=0.0)
@@ -646,7 +660,9 @@ class RotationOffsetAttrOperator(
 
 
 class RotationOffsetField(
-    Float3CompoundBaseField[RotationOffsetAttrOperator, RotationOffsetPlugOperator]
+    Float3CompoundBaseField[
+        RotationOffsetAttrOperator, RotationOffsetPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -690,7 +706,9 @@ class ForwardVectorAttrOperator(
 
 
 class ForwardVectorField(
-    Float3CompoundBaseField[ForwardVectorAttrOperator, ForwardVectorPlugOperator]
+    Float3CompoundBaseField[
+        ForwardVectorAttrOperator, ForwardVectorPlugOperator
+    ]
 ):
     __slots__ = ()
 

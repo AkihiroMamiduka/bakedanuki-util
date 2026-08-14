@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.tex_lattice import _GeneratedTexLattice
+from ._generated.tex_lattice import GeneratedTexLattice
 
 
-class TexLattice(_GeneratedTexLattice):
+class TexLattice(GeneratedTexLattice):
     __slots__ = ()
 
     NODE_TYPE = "texLattice"

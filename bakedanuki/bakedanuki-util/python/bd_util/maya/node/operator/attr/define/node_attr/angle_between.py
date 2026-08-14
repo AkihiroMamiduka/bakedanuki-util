@@ -5,18 +5,16 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
-    DoubleAngle3CompoundBaseAttrOperator,
-    DoubleAngle3CompoundBasePlugOperator,
-    DoubleAngle3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ..custom import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
+    DoubleAngle3CompoundBaseAttrOperator,
+    DoubleAngle3CompoundBasePlugOperator,
+    DoubleAngle3CompoundBaseField,
+    Double3Field,
 )
 
 
@@ -179,9 +177,7 @@ class EulerField(
     euz = eulerZ
 
 
-class AxisAnglePlugOperator(
-    CompoundPlugOperator["AxisAngleAttrOperator"]
-):
+class AxisAnglePlugOperator(CompoundPlugOperator["AxisAngleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("axis", "ax"),
@@ -195,9 +191,7 @@ class AxisAnglePlugOperator(
     a = angle
 
 
-class AxisAngleAttrOperator(
-    CompoundAttrOperator[AxisAnglePlugOperator]
-):
+class AxisAngleAttrOperator(CompoundAttrOperator[AxisAnglePlugOperator]):
     __slots__ = ()
 
     axis = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.subd_tweak import _GeneratedSubdTweak
+from ._generated.subd_tweak import GeneratedSubdTweak
 
 
-class SubdTweak(_GeneratedSubdTweak):
+class SubdTweak(GeneratedSubdTweak):
     __slots__ = ()
 
     NODE_TYPE = "subdTweak"

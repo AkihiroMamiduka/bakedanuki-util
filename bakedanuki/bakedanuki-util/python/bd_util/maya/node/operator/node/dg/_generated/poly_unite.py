@@ -1,17 +1,19 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
+class MergeUVSetsEnumPlugOperator(
+    EnumPlugOperator["MergeUVSetsEnumAttrOperator"]
+):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -19,7 +21,9 @@ class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
     MERGE_BY_UV_LINKS = 2
 
 
-class MergeUVSetsEnumAttrOperator(EnumAttrOperator):
+class MergeUVSetsEnumAttrOperator(
+    EnumAttrOperator[MergeUVSetsEnumPlugOperator]
+):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -42,7 +46,7 @@ class MergeUVSetsEnumField(
     PLUG_CLS = MergeUVSetsEnumPlugOperator
 
 
-class _GeneratedPolyUnite(DG):
+class GeneratedPolyUnite(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyUnite"

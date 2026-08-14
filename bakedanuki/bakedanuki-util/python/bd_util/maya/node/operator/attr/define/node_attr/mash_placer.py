@@ -1,24 +1,18 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..custom import (
     Double3CompoundBaseAttrOperator,
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.long_compound.long2_compound._base import (
     Long2CompoundBaseAttrOperator,
     Long2CompoundBasePlugOperator,
     Long2CompoundBaseField,
@@ -45,9 +39,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -145,7 +137,9 @@ class RandomRotationAttrOperator(
 
 
 class RandomRotationField(
-    Float3CompoundBaseField[RandomRotationAttrOperator, RandomRotationPlugOperator]
+    Float3CompoundBaseField[
+        RandomRotationAttrOperator, RandomRotationPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -226,7 +220,9 @@ class PositionAdjustAttrOperator(
 
 
 class PositionAdjustField(
-    Double3CompoundBaseField[PositionAdjustAttrOperator, PositionAdjustPlugOperator]
+    Double3CompoundBaseField[
+        PositionAdjustAttrOperator, PositionAdjustPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -270,7 +266,9 @@ class RotationAdjustAttrOperator(
 
 
 class RotationAdjustField(
-    Double3CompoundBaseField[RotationAdjustAttrOperator, RotationAdjustPlugOperator]
+    Double3CompoundBaseField[
+        RotationAdjustAttrOperator, RotationAdjustPlugOperator
+    ]
 ):
     __slots__ = ()
 

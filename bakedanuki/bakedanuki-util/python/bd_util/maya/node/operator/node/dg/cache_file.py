@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.cache_file import _GeneratedCacheFile
+from ._generated.cache_file import GeneratedCacheFile
 
 
-class CacheFile(_GeneratedCacheFile):
+class CacheFile(GeneratedCacheFile):
     __slots__ = ()
 
     NODE_TYPE = "cacheFile"

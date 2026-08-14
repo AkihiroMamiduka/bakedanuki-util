@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.cos import _GeneratedCos
+from ._generated.cos import GeneratedCos
 
 
-class Cos(_GeneratedCos):
+class Cos(GeneratedCos):
     __slots__ = ()
 
     NODE_TYPE = "cos"

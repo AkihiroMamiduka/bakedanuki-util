@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.rebuild_curve import _GeneratedRebuildCurve
+from ._generated.rebuild_curve import GeneratedRebuildCurve
 
 
-class RebuildCurve(_GeneratedRebuildCurve):
+class RebuildCurve(GeneratedRebuildCurve):
     __slots__ = ()
 
     NODE_TYPE = "rebuildCurve"

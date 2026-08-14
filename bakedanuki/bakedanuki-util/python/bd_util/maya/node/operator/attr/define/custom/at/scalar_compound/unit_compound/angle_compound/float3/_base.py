@@ -1,20 +1,25 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
+from ...........value import FloatAngle3
 from .._base import (
     AngleCompoundBasePlugOperator,
     AngleCompoundBaseAttrOperator,
     AngleCompoundBaseField,
 )
 
-A = TypeVar("A", bound="FloatAngle3CompoundBaseAttrOperator")
+A = TypeVar("A", bound="FloatAngle3CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="FloatAngle3CompoundBasePlugOperator")
+P = TypeVar("P", bound="FloatAngle3CompoundBasePlugOperator[Any]")
 
 
-class FloatAngle3CompoundBasePlugOperator(AngleCompoundBasePlugOperator[A]):
+class FloatAngle3CompoundBasePlugOperator(
+    AngleCompoundBasePlugOperator[A, FloatAngle3]
+):
     __slots__ = ()
+
+    VALUE_TYPE = FloatAngle3
 
 
 class FloatAngle3CompoundBaseAttrOperator(AngleCompoundBaseAttrOperator[P]):

@@ -11,12 +11,13 @@ class FltMatrixPlugOperator(PlugOperator["FltMatrixAttrOperator"]):
 
     # get
     def get(self) -> om.MFloatMatrix:
-        return om.MFnFloatMatrixData(self.plug.asMObject()).matrix()
+        matrix = om.MFnMatrixData(self.plug.asMObject()).matrix()
+        return om.MFloatMatrix(matrix)
 
     # set
-    def set(self, value: om.MFloatMatrix):
-        matrix_obj = om.MFnFloatMatrixData().create(value)
-        self._node._dg_mod.newPlugValue(self.plug, matrix_obj)
+    def set(self, value: om.MFloatMatrix) -> None:
+        matrix_obj = om.MFnMatrixData().create(om.MMatrix(value))
+        self._node.modifier_manager.dg_mod.newPlugValue(self.plug, matrix_obj)
 
     # add
     def add_attr(self):

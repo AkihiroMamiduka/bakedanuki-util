@@ -1,24 +1,24 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MatchModeEnumPlugOperator(EnumPlugOperator):
+class MatchModeEnumPlugOperator(EnumPlugOperator["MatchModeEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSESTPOINT = 0
     OTHER = 1
 
 
-class MatchModeEnumAttrOperator(EnumAttrOperator):
+class MatchModeEnumAttrOperator(EnumAttrOperator[MatchModeEnumPlugOperator]):
     __slots__ = ()
 
     CLOSESTPOINT = 0
@@ -39,7 +39,7 @@ class MatchModeEnumField(
     PLUG_CLS = MatchModeEnumPlugOperator
 
 
-class _GeneratedComponentMatch(DG):
+class GeneratedComponentMatch(DG):
     __slots__ = ()
 
     NODE_TYPE = "componentMatch"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.multilister_light import _GeneratedMultilisterLight
+from ._generated.multilister_light import GeneratedMultilisterLight
 
 
-class MultilisterLight(_GeneratedMultilisterLight):
+class MultilisterLight(GeneratedMultilisterLight):
     __slots__ = ()
 
     NODE_TYPE = "multilisterLight"

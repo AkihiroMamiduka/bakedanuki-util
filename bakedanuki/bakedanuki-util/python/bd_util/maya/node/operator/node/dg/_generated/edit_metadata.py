@@ -4,7 +4,7 @@ from ....attr.define.node_attr.edit_metadata import EditsField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedEditMetadata(DG):
+class GeneratedEditMetadata(DG):
     __slots__ = ()
 
     NODE_TYPE = "editMetadata"

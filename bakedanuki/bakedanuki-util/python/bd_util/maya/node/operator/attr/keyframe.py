@@ -55,7 +55,7 @@ def _to_tangent_type(tangent_type: TangentTypeValue) -> int:
         if result is not None:
             return result
 
-    elif isinstance(tangent_type, int):
+    else:
         if tangent_type in _VALID_TANGENT_TYPES:
             return tangent_type
 
@@ -361,7 +361,9 @@ class KeyframeManager:
             and end_frame is not None
             and start_frame > end_frame
         ):
-            raise ValueError("start_frame must be less than or equal to end_frame.")
+            raise ValueError(
+                "start_frame must be less than or equal to end_frame."
+            )
 
         indices = [
             i

@@ -8,15 +8,15 @@ from ....attr.define.node_attr.poly_move_vertex import (
     ScaleField,
     TranslateField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyMoveVertex(DG):
+class GeneratedPolyMoveVertex(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyMoveVertex"
@@ -96,7 +96,9 @@ class _GeneratedPolyMoveVertex(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    random = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    random = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ran = random
 
     randomSeed = LongField(default_value=0)

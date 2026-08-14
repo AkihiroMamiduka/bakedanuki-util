@@ -1,14 +1,14 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class InLevelEnumPlugOperator(EnumPlugOperator):
+class InLevelEnumPlugOperator(EnumPlugOperator["InLevelEnumAttrOperator"]):
     __slots__ = ()
 
     BASE_0 = 0
@@ -26,7 +26,7 @@ class InLevelEnumPlugOperator(EnumPlugOperator):
     FINEST_12 = 12
 
 
-class InLevelEnumAttrOperator(EnumAttrOperator):
+class InLevelEnumAttrOperator(EnumAttrOperator[InLevelEnumPlugOperator]):
     __slots__ = ()
 
     BASE_0 = 0
@@ -69,7 +69,7 @@ class InLevelEnumField(
     PLUG_CLS = InLevelEnumPlugOperator
 
 
-class InFinalEnumPlugOperator(EnumPlugOperator):
+class InFinalEnumPlugOperator(EnumPlugOperator["InFinalEnumAttrOperator"]):
     __slots__ = ()
 
     _0 = 0
@@ -78,7 +78,7 @@ class InFinalEnumPlugOperator(EnumPlugOperator):
     _3 = 3
 
 
-class InFinalEnumAttrOperator(EnumAttrOperator):
+class InFinalEnumAttrOperator(EnumAttrOperator[InFinalEnumPlugOperator]):
     __slots__ = ()
 
     _0 = 0
@@ -103,7 +103,7 @@ class InFinalEnumField(
     PLUG_CLS = InFinalEnumPlugOperator
 
 
-class OutLevelEnumPlugOperator(EnumPlugOperator):
+class OutLevelEnumPlugOperator(EnumPlugOperator["OutLevelEnumAttrOperator"]):
     __slots__ = ()
 
     BASE_0 = 0
@@ -121,7 +121,7 @@ class OutLevelEnumPlugOperator(EnumPlugOperator):
     FINEST_12 = 12
 
 
-class OutLevelEnumAttrOperator(EnumAttrOperator):
+class OutLevelEnumAttrOperator(EnumAttrOperator[OutLevelEnumPlugOperator]):
     __slots__ = ()
 
     BASE_0 = 0
@@ -164,7 +164,7 @@ class OutLevelEnumField(
     PLUG_CLS = OutLevelEnumPlugOperator
 
 
-class OutFinalEnumPlugOperator(EnumPlugOperator):
+class OutFinalEnumPlugOperator(EnumPlugOperator["OutFinalEnumAttrOperator"]):
     __slots__ = ()
 
     _0 = 0
@@ -173,7 +173,7 @@ class OutFinalEnumPlugOperator(EnumPlugOperator):
     _3 = 3
 
 
-class OutFinalEnumAttrOperator(EnumAttrOperator):
+class OutFinalEnumAttrOperator(EnumAttrOperator[OutFinalEnumPlugOperator]):
     __slots__ = ()
 
     _0 = 0
@@ -198,7 +198,7 @@ class OutFinalEnumField(
     PLUG_CLS = OutFinalEnumPlugOperator
 
 
-class _GeneratedSubdivComponentId(DG):
+class GeneratedSubdivComponentId(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdivComponentId"

@@ -3,8 +3,11 @@ from __future__ import annotations
 
 import pytest
 
+import bd_util as bdu
+from maya.api import OpenMaya as om
 from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
 from bd_util.maya.node.operator.attr.define.std.at.addr import AddrField
+from bd_util.maya.node.operator.node._core import NodeOperator
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
 
 pytestmark = pytest.mark.maya
@@ -42,7 +45,9 @@ class PriorityEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
     }
 
 
-class PriorityEnumField(AddAttr.define.at.enum.field[PriorityEnumPlugOperator]):
+class PriorityEnumField(
+    AddAttr.define.at.enum.field[PriorityEnumPlugOperator]
+):
     __slots__ = ()
 
 
@@ -64,7 +69,9 @@ class SimpleCompoundModeField(
     __slots__ = ()
 
 
-class SimpleNestedCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
+class SimpleNestedCompoundPlugOperator(
+    AddAttr.define.at.compound.plug_operator
+):
     __slots__ = ()
 
     visible = AddAttr.at.bool(default_value=True)
@@ -92,32 +99,28 @@ class SimpleCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
     )
     mode = SimpleCompoundModeField()
     nested = SimpleNestedCompoundField()
-    uv = AddAttr.at.double2(default_value=[4.0, 5.0])
+    uv = AddAttr.at.double2(default_value=(4.0, 5.0))
     offset = AddAttr.at.double3(
-        default_value=[1.0, 2.0, 3.0],
-        min_value=[-1.0, -2.0, -3.0],
+        default_value=(1.0, 2.0, 3.0),
+        min_value=(-1.0, -2.0, -3.0),
         max_value=10.0,
     )
-    tangent = AddAttr.at.double4(default_value=[4.0, 5.0, 6.0, 7.0])
-    orient = AddAttr.at.quat(default_value=[0.1, 0.2, 0.3, 0.4])
-    floatUv = AddAttr.at.float2(default_value=[0.25, 0.75])
-    color = AddAttr.at.float3(default_value=[0.1, 0.2, 0.3])
-    indexPair = AddAttr.at.long2(default_value=[1, 2])
-    indexTriplet = AddAttr.at.long3(default_value=[3, 4, 5])
-    shortPair = AddAttr.at.short2(default_value=[6, 7])
-    shortTriplet = AddAttr.at.short3(default_value=[8, 9, 10])
-    linear2 = AddAttr.at.double_linear2(default_value=[11.0, 12.0])
-    linear3 = AddAttr.at.double_linear3(default_value=[13.0, 14.0, 15.0])
-    angle2 = AddAttr.at.double_angle2(default_value=[16.0, 17.0])
-    aim = AddAttr.at.double_angle3(default_value=[10.0, 20.0, 30.0])
-    floatLinear2 = AddAttr.at.float_linear2(default_value=[18.0, 19.0])
-    floatLinear3 = AddAttr.at.float_linear3(
-        default_value=[20.0, 21.0, 22.0]
-    )
-    floatAngle2 = AddAttr.at.float_angle2(default_value=[23.0, 24.0])
-    floatAngle3 = AddAttr.at.float_angle3(
-        default_value=[25.0, 26.0, 27.0]
-    )
+    tangent = AddAttr.at.double4(default_value=(4.0, 5.0, 6.0, 7.0))
+    orient = AddAttr.at.quat(default_value=(0.1, 0.2, 0.3, 0.4))
+    floatUv = AddAttr.at.float2(default_value=(0.25, 0.75))
+    color = AddAttr.at.float3(default_value=(0.1, 0.2, 0.3))
+    indexPair = AddAttr.at.long2(default_value=(1, 2))
+    indexTriplet = AddAttr.at.long3(default_value=(3, 4, 5))
+    shortPair = AddAttr.at.short2(default_value=(6, 7))
+    shortTriplet = AddAttr.at.short3(default_value=(8, 9, 10))
+    linear2 = AddAttr.at.double_linear2(default_value=(11.0, 12.0))
+    linear3 = AddAttr.at.double_linear3(default_value=(13.0, 14.0, 15.0))
+    angle2 = AddAttr.at.double_angle2(default_value=(16.0, 17.0))
+    aim = AddAttr.at.double_angle3(default_value=(10.0, 20.0, 30.0))
+    floatLinear2 = AddAttr.at.float_linear2(default_value=(18.0, 19.0))
+    floatLinear3 = AddAttr.at.float_linear3(default_value=(20.0, 21.0, 22.0))
+    floatAngle2 = AddAttr.at.float_angle2(default_value=(23.0, 24.0))
+    floatAngle3 = AddAttr.at.float_angle3(default_value=(25.0, 26.0, 27.0))
 
 
 class SimpleCompoundField(
@@ -129,37 +132,39 @@ class SimpleCompoundField(
 class ExtraCompoundTransform(Transform):
     __slots__ = ()
 
-    extraDouble2 = AddAttr.at.double2(default_value=[1.0, 2.0])
-    extraDouble3 = AddAttr.at.double3(default_value=[1.0, 2.0, 3.0])
-    extraDouble4 = AddAttr.at.double4(default_value=[1.0, 2.0, 3.0, 4.0])
+    extraLongLong = AddAttr.at.long_long_int(default_value=0)
+    extraFltMatrix = AddAttr.at.flt_matrix()
+    extraDouble2 = AddAttr.at.double2(default_value=(1.0, 2.0))
+    extraDouble3 = AddAttr.at.double3(default_value=(1.0, 2.0, 3.0))
+    extraDouble4 = AddAttr.at.double4(default_value=(1.0, 2.0, 3.0, 4.0))
     extraLimitedDouble4 = AddAttr.at.double4(
-        default_value=[1.0, 2.0, 3.0, 4.0],
-        min_value=[-1.0, -2.0, -3.0, -4.0],
+        default_value=(1.0, 2.0, 3.0, 4.0),
+        min_value=(-1.0, -2.0, -3.0, -4.0),
         max_value=10.0,
         soft_min_value=0.0,
-        soft_max_value=[1.0, 2.0, 3.0, 4.0],
+        soft_max_value=(1.0, 2.0, 3.0, 4.0),
     )
     extraQuat = AddAttr.at.quat()
-    extraQuatCustom = AddAttr.at.quat(default_value=[0.1, 0.2, 0.3, 0.4])
-    extraFloat2 = AddAttr.at.float2(default_value=[1.0, 2.0])
-    extraFloat3 = AddAttr.at.float3(default_value=[1.0, 2.0, 3.0])
-    extraLong2 = AddAttr.at.long2(default_value=[1, 2])
-    extraLong3 = AddAttr.at.long3(default_value=[1, 2, 3])
-    extraShort2 = AddAttr.at.short2(default_value=[1, 2])
-    extraShort3 = AddAttr.at.short3(default_value=[1, 2, 3])
-    extraDoubleLinear2 = AddAttr.at.double_linear2(default_value=[1.0, 2.0])
+    extraQuatCustom = AddAttr.at.quat(default_value=(0.1, 0.2, 0.3, 0.4))
+    extraFloat2 = AddAttr.at.float2(default_value=(1.0, 2.0))
+    extraFloat3 = AddAttr.at.float3(default_value=(1.0, 2.0, 3.0))
+    extraLong2 = AddAttr.at.long2(default_value=(1, 2))
+    extraLong3 = AddAttr.at.long3(default_value=(1, 2, 3))
+    extraShort2 = AddAttr.at.short2(default_value=(1, 2))
+    extraShort3 = AddAttr.at.short3(default_value=(1, 2, 3))
+    extraDoubleLinear2 = AddAttr.at.double_linear2(default_value=(1.0, 2.0))
     extraDoubleLinear3 = AddAttr.at.double_linear3(
-        default_value=[1.0, 2.0, 3.0]
+        default_value=(1.0, 2.0, 3.0)
     )
-    extraDoubleAngle2 = AddAttr.at.double_angle2(default_value=[10.0, 20.0])
+    extraDoubleAngle2 = AddAttr.at.double_angle2(default_value=(10.0, 20.0))
     extraDoubleAngle3 = AddAttr.at.double_angle3(
-        default_value=[10.0, 20.0, 30.0]
+        default_value=(10.0, 20.0, 30.0)
     )
-    extraFloatLinear2 = AddAttr.at.float_linear2(default_value=[3.0, 4.0])
-    extraFloatLinear3 = AddAttr.at.float_linear3(default_value=[3.0, 4.0, 5.0])
-    extraFloatAngle2 = AddAttr.at.float_angle2(default_value=[30.0, 40.0])
+    extraFloatLinear2 = AddAttr.at.float_linear2(default_value=(3.0, 4.0))
+    extraFloatLinear3 = AddAttr.at.float_linear3(default_value=(3.0, 4.0, 5.0))
+    extraFloatAngle2 = AddAttr.at.float_angle2(default_value=(30.0, 40.0))
     extraFloatAngle3 = AddAttr.at.float_angle3(
-        default_value=[30.0, 40.0, 50.0]
+        default_value=(30.0, 40.0, 50.0)
     )
     extraNamedDouble = AddAttr.at.double(
         default_value=2.5,
@@ -182,6 +187,27 @@ class ExtraCompoundTransform(Transform):
     )
 
 
+class ExtraLongLongNetwork(NodeOperator):
+    __slots__ = ()
+
+    NODE_TYPE = "network"
+
+    extraLongLong = AddAttr.at.long_long_int(default_value=2**40 + 123)
+
+
+class ExtraDataArrayNetwork(NodeOperator):
+    __slots__ = ()
+
+    NODE_TYPE = "network"
+
+    doubleValues = AddAttr.dt.double_array()
+    floatValues = AddAttr.dt.float_array()
+    intValues = AddAttr.dt.int32_array()
+    pointValues = AddAttr.dt.point_array()
+    stringValues = AddAttr.dt.string_array()
+    vectorValues = AddAttr.dt.vector_array()
+
+
 class ExtraCmdsAddAttrTransform(Transform):
     __slots__ = ()
 
@@ -202,6 +228,121 @@ def extra_compound_node(modifier_manager):
     modifier_manager.do_it_dag()
     modifier_manager.do_it_dg()
     return node
+
+
+def test_long_long_int_supports_64_bit_modifier_undo_redo(
+    modifier_manager,
+    extra_compound_node,
+):
+    plug = extra_compound_node.extraLongLong
+    value = 2**63 - 1
+
+    assert plug.get() == 0
+
+    modifier_manager.clear()
+    plug.set(value)
+
+    assert plug.get() == 0
+
+    modifier_manager.do_it_dg()
+    assert plug.get() == value
+
+    modifier_manager.undo_it()
+    assert plug.get() == 0
+
+    modifier_manager.redo_it()
+    assert plug.get() == value
+
+
+def test_long_long_int_supports_pending_node(modifier_manager):
+    node = ExtraLongLongNetwork.create(
+        modifier_manager,
+        name="pending_long_long",
+    )
+    plug = node.extraLongLong
+    value = -(2**63)
+
+    assert plug.get() == 2**40 + 123
+
+    with pytest.raises(RuntimeError, match="must exist in the scene"):
+        plug.set_direct(value)
+
+    plug.set(value)
+    assert plug.get() == 2**40 + 123
+
+    modifier_manager.do_it_dg()
+    assert plug.get() == value
+
+    modifier_manager.undo_it()
+    modifier_manager.redo_it()
+    assert plug.get() == value
+
+
+def test_long_long_int_set_direct_is_immediate(
+    extra_compound_node,
+):
+    plug = extra_compound_node.extraLongLong
+    value = -(2**63)
+
+    plug.set_direct(value)
+
+    assert plug.get() == value
+
+
+def test_data_array_set_direct_round_trip(modifier_manager):
+    node = ExtraDataArrayNetwork.create(
+        modifier_manager,
+        name="extra_data_array",
+    )
+    modifier_manager.do_it_dg()
+
+    double_values = [1.25, 2.5, 3.75]
+    float_values = [4.25, 5.5, 6.75]
+    int_values = [1, -2, 3]
+    point_values = [(1.0, 2.0, 3.0, 1.0), (4.0, 5.0, 6.0, 2.0)]
+    string_values = ["alpha", "beta", "gamma"]
+    vector_values = [(1.0, 2.0, 3.0), (4.0, 5.0, 6.0)]
+
+    node.doubleValues.set_direct(double_values)
+    node.floatValues.set_direct(float_values)
+    node.intValues.set_direct(int_values)
+    node.pointValues.set_direct(point_values)
+    node.stringValues.set_direct(string_values)
+    node.vectorValues.set_direct(vector_values)
+
+    assert node.doubleValues.get() == pytest.approx(double_values)
+    assert node.floatValues.get() == pytest.approx(float_values)
+    assert node.intValues.get() == int_values
+    assert node.pointValues.get() == pytest.approx(point_values)
+    assert node.stringValues.get() == string_values
+    assert node.vectorValues.get() == pytest.approx(vector_values)
+
+
+def test_flt_matrix_supports_modifier_undo_redo(
+    modifier_manager,
+    extra_compound_node,
+):
+    plug = extra_compound_node.extraFltMatrix
+    identity_values = list(om.MFloatMatrix())
+    values = [float(value) for value in range(1, 17)]
+    matrix = om.MFloatMatrix(values)
+
+    assert isinstance(plug.get(), om.MFloatMatrix)
+    assert list(plug.get()) == pytest.approx(identity_values)
+
+    modifier_manager.clear()
+    plug.set(matrix)
+
+    assert list(plug.get()) == pytest.approx(identity_values)
+
+    modifier_manager.do_it_dg()
+    assert list(plug.get()) == pytest.approx(values)
+
+    modifier_manager.undo_it()
+    assert list(plug.get()) == pytest.approx(identity_values)
+
+    modifier_manager.redo_it()
+    assert list(plug.get()) == pytest.approx(values)
 
 
 COMPOUND_DEFAULT_CASES = (
@@ -248,12 +389,36 @@ COMPOUND_SET_CASES = (
     ("extraFloatAngle3", [81.0, 82.0, 83.0]),
 )
 
+COMPOUND_VALUE_TYPES = {
+    "extraDouble2": bdu.Double2,
+    "extraDouble3": bdu.Double3,
+    "extraDouble4": bdu.Double4,
+    "extraQuat": bdu.Quat,
+    "extraQuatCustom": bdu.Quat,
+    "extraFloat2": bdu.Float2,
+    "extraFloat3": bdu.Float3,
+    "extraLong2": bdu.Long2,
+    "extraLong3": bdu.Long3,
+    "extraShort2": bdu.Short2,
+    "extraShort3": bdu.Short3,
+    "extraDoubleLinear2": bdu.DoubleLinear2,
+    "extraDoubleLinear3": bdu.DoubleLinear3,
+    "extraDoubleAngle2": bdu.DoubleAngle2,
+    "extraDoubleAngle3": bdu.DoubleAngle3,
+    "extraFloatLinear2": bdu.FloatLinear2,
+    "extraFloatLinear3": bdu.FloatLinear3,
+    "extraFloatAngle2": bdu.FloatAngle2,
+    "extraFloatAngle3": bdu.FloatAngle3,
+}
+
 
 @pytest.mark.parametrize(("attr_name", "expected"), COMPOUND_DEFAULT_CASES)
 def test_compound_defaults(extra_compound_node, attr_name, expected):
     node = extra_compound_node
+    value = getattr(node, attr_name).get()
 
-    assert getattr(node, attr_name).get() == pytest.approx(expected)
+    assert isinstance(value, COMPOUND_VALUE_TYPES[attr_name])
+    assert value == pytest.approx(expected)
 
 
 @pytest.mark.parametrize(("attr_name", "values"), COMPOUND_SET_CASES)
@@ -278,15 +443,49 @@ def test_compound_set_accepts_tuple_and_rejects_wrong_count(
 ):
     node = extra_compound_node
 
-    node.extraDouble4.set((4.0, 3.0, 2.0, 1.0))
+    node.extraDouble4.set(value=(4.0, 3.0, 2.0, 1.0))
     modifier_manager.do_it_dg()
     assert node.extraDouble4.get() == pytest.approx([4.0, 3.0, 2.0, 1.0])
 
     with pytest.raises(TypeError, match="Expected either set"):
         node.extraDouble4.set(9.0, 8.0)
+    with pytest.raises(TypeError, match="Expected either set"):
+        node.extraDouble4.set([1.0], [2.0], [3.0], [4.0])
 
     modifier_manager.do_it_dg()
     assert node.extraDouble4.get() == pytest.approx([4.0, 3.0, 2.0, 1.0])
+
+
+def test_compound_set_accepts_dedicated_value(
+    modifier_manager,
+    extra_compound_node,
+):
+    value = bdu.Double4(4.0, 3.0, 2.0, 1.0)
+
+    extra_compound_node.extraDouble4.set(value)
+    modifier_manager.do_it_dg()
+
+    assert extra_compound_node.extraDouble4.get() == value
+    assert extra_compound_node.extraDouble4.value == value
+
+    extra_compound_node.extraDouble4.value = bdu.Double4(
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+    )
+    modifier_manager.do_it_dg()
+
+    assert extra_compound_node.extraDouble4.value == bdu.Double4(
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+    )
+
+    extra_compound_node.extraDouble4.value_direct = value
+
+    assert extra_compound_node.extraDouble4.value_direct == value
 
 
 @pytest.mark.parametrize(("attr_name", "values"), COMPOUND_SET_CASES)
@@ -306,7 +505,7 @@ def test_compound_set_direct_updates_immediately(
 def test_compound_set_direct_rejects_wrong_count(extra_compound_node):
     node = extra_compound_node
 
-    node.extraDouble4.set_direct(1.0, 2.0, 3.0, 4.0)
+    node.extraDouble4.set_direct(value=(1.0, 2.0, 3.0, 4.0))
 
     with pytest.raises(TypeError, match="Expected either set_direct"):
         node.extraDouble4.set_direct(9.0, 8.0)
@@ -511,16 +710,22 @@ def test_extra_compound_field_can_be_defined_with_plug_only(
         node=node.name,
         categories=True,
     ) == ["bdSimpleCompoundTest"]
-    assert maya_cmds.attributeQuery(
-        "enabled",
-        node=node.name,
-        attributeType=True,
-    ) == "bool"
-    assert maya_cmds.attributeQuery(
-        "weight",
-        node=node.name,
-        attributeType=True,
-    ) == "float"
+    assert (
+        maya_cmds.attributeQuery(
+            "enabled",
+            node=node.name,
+            attributeType=True,
+        )
+        == "bool"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "weight",
+            node=node.name,
+            attributeType=True,
+        )
+        == "float"
+    )
     assert maya_cmds.attributeQuery(
         "weight",
         node=node.name,
@@ -531,11 +736,14 @@ def test_extra_compound_field_can_be_defined_with_plug_only(
         node=node.name,
         maximum=True,
     ) == pytest.approx([10.0])
-    assert maya_cmds.attributeQuery(
-        "mode",
-        node=node.name,
-        attributeType=True,
-    ) == "enum"
+    assert (
+        maya_cmds.attributeQuery(
+            "mode",
+            node=node.name,
+            attributeType=True,
+        )
+        == "enum"
+    )
     assert maya_cmds.attributeQuery(
         "mode",
         node=node.name,
@@ -569,16 +777,22 @@ def test_extra_compound_can_have_nested_compound_child(
         node=node.name,
         listChildren=True,
     ) == ["visible", "blend"]
-    assert maya_cmds.attributeQuery(
-        "visible",
-        node=node.name,
-        attributeType=True,
-    ) == "bool"
-    assert maya_cmds.attributeQuery(
-        "blend",
-        node=node.name,
-        attributeType=True,
-    ) == "float"
+    assert (
+        maya_cmds.attributeQuery(
+            "visible",
+            node=node.name,
+            attributeType=True,
+        )
+        == "bool"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "blend",
+            node=node.name,
+            attributeType=True,
+        )
+        == "float"
+    )
     assert maya_cmds.attributeQuery(
         "blend",
         node=node.name,
@@ -627,9 +841,7 @@ def test_extra_compound_can_have_custom_scalar_compound_child(
     assert node.extraSimpleCompound.linear3.get() == pytest.approx(
         [13.0, 14.0, 15.0]
     )
-    assert node.extraSimpleCompound.angle2.get() == pytest.approx(
-        [16.0, 17.0]
-    )
+    assert node.extraSimpleCompound.angle2.get() == pytest.approx([16.0, 17.0])
     assert node.extraSimpleCompound.aim.get() == pytest.approx(
         [10.0, 20.0, 30.0]
     )
@@ -646,86 +858,128 @@ def test_extra_compound_can_have_custom_scalar_compound_child(
         [25.0, 26.0, 27.0]
     )
 
-    assert maya_cmds.attributeQuery(
-        "uv",
-        node=node.name,
-        attributeType=True,
-    ) == "double2"
-    assert maya_cmds.attributeQuery(
-        "offset",
-        node=node.name,
-        attributeType=True,
-    ) == "double3"
+    assert (
+        maya_cmds.attributeQuery(
+            "uv",
+            node=node.name,
+            attributeType=True,
+        )
+        == "double2"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "offset",
+            node=node.name,
+            attributeType=True,
+        )
+        == "double3"
+    )
     assert maya_cmds.attributeQuery(
         "offset",
         node=node.name,
         listChildren=True,
     ) == ["offsetX", "offsetY", "offsetZ"]
-    assert maya_cmds.attributeQuery(
-        "tangent",
-        node=node.name,
-        attributeType=True,
-    ) == "double4"
-    assert maya_cmds.attributeQuery(
-        "orient",
-        node=node.name,
-        attributeType=True,
-    ) == "double4"
-    assert maya_cmds.attributeQuery(
-        "floatUv",
-        node=node.name,
-        attributeType=True,
-    ) == "float2"
-    assert maya_cmds.attributeQuery(
-        "color",
-        node=node.name,
-        attributeType=True,
-    ) == "float3"
+    assert (
+        maya_cmds.attributeQuery(
+            "tangent",
+            node=node.name,
+            attributeType=True,
+        )
+        == "double4"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "orient",
+            node=node.name,
+            attributeType=True,
+        )
+        == "double4"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "floatUv",
+            node=node.name,
+            attributeType=True,
+        )
+        == "float2"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "color",
+            node=node.name,
+            attributeType=True,
+        )
+        == "float3"
+    )
     assert maya_cmds.attributeQuery(
         "color",
         node=node.name,
         listChildren=True,
     ) == ["colorX", "colorY", "colorZ"]
-    assert maya_cmds.attributeQuery(
-        "indexPair",
-        node=node.name,
-        attributeType=True,
-    ) == "long2"
-    assert maya_cmds.attributeQuery(
-        "indexTriplet",
-        node=node.name,
-        attributeType=True,
-    ) == "long3"
-    assert maya_cmds.attributeQuery(
-        "shortPair",
-        node=node.name,
-        attributeType=True,
-    ) == "short2"
-    assert maya_cmds.attributeQuery(
-        "shortTriplet",
-        node=node.name,
-        attributeType=True,
-    ) == "short3"
-    assert maya_cmds.attributeQuery(
-        "linear2",
-        node=node.name,
-        attributeType=True,
-    ) == "double2"
-    assert maya_cmds.attributeQuery(
-        "linear3",
-        node=node.name,
-        attributeType=True,
-    ) == "double3"
-    assert maya_cmds.attributeQuery(
-        "angle2",
-        node=node.name,
-        attributeType=True,
-    ) == "double2"
-    assert maya_cmds.attributeQuery(
-        "aim",
-        node=node.name,
-        attributeType=True,
-    ) == "double3"
+    assert (
+        maya_cmds.attributeQuery(
+            "indexPair",
+            node=node.name,
+            attributeType=True,
+        )
+        == "long2"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "indexTriplet",
+            node=node.name,
+            attributeType=True,
+        )
+        == "long3"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "shortPair",
+            node=node.name,
+            attributeType=True,
+        )
+        == "short2"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "shortTriplet",
+            node=node.name,
+            attributeType=True,
+        )
+        == "short3"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "linear2",
+            node=node.name,
+            attributeType=True,
+        )
+        == "double2"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "linear3",
+            node=node.name,
+            attributeType=True,
+        )
+        == "double3"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "angle2",
+            node=node.name,
+            attributeType=True,
+        )
+        == "double2"
+    )
+    assert (
+        maya_cmds.attributeQuery(
+            "aim",
+            node=node.name,
+            attributeType=True,
+        )
+        == "double3"
+    )
     assert maya_cmds.attributeQuery(
         "aim",
         node=node.name,

@@ -5,21 +5,23 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.dt.vector_array import DataVectorArrayField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class ScaleRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["ScaleRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -28,7 +30,9 @@ class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class ScaleRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[ScaleRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -45,7 +49,9 @@ class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class ScaleRamp_InterpEnumField(
-    EnumField[ScaleRamp_InterpEnumAttrOperator, ScaleRamp_InterpEnumPlugOperator]
+    EnumField[
+        ScaleRamp_InterpEnumAttrOperator, ScaleRamp_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -73,9 +79,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -225,7 +229,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -295,9 +301,7 @@ class UpVectorField(
     uVec2 = upVector2
 
 
-class ScaleRampPlugOperator(
-    CompoundPlugOperator["ScaleRampAttrOperator"]
-):
+class ScaleRampPlugOperator(CompoundPlugOperator["ScaleRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleRamp_Position", "scaleRampp"),
@@ -315,9 +319,7 @@ class ScaleRampPlugOperator(
     scaleRampi = scaleRamp_Interp
 
 
-class ScaleRampAttrOperator(
-    CompoundAttrOperator[ScaleRampPlugOperator]
-):
+class ScaleRampAttrOperator(CompoundAttrOperator[ScaleRampPlugOperator]):
     __slots__ = ()
 
     scaleRamp_Position = FloatField(default_value=0.0)

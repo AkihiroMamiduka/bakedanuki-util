@@ -5,31 +5,31 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.message import MessageField
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.message import MessageField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.long import LongField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ..std.dt.double_array import DataDoubleArrayField
 from ..std.dt.vector_array import DataVectorArrayField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
+from ..custom import (
     Double3CompoundBaseAttrOperator,
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.long_compound.long2_compound._base import (
     Long2CompoundBaseAttrOperator,
     Long2CompoundBasePlugOperator,
     Long2CompoundBaseField,
 )
 
 
-class ManipulatorModeEnumPlugOperator(EnumPlugOperator):
+class ManipulatorModeEnumPlugOperator(
+    EnumPlugOperator["ManipulatorModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     CHARACTER = 0
@@ -37,7 +37,9 @@ class ManipulatorModeEnumPlugOperator(EnumPlugOperator):
     LINE = 2
 
 
-class ManipulatorModeEnumAttrOperator(EnumAttrOperator):
+class ManipulatorModeEnumAttrOperator(
+    EnumAttrOperator[ManipulatorModeEnumPlugOperator]
+):
     __slots__ = ()
 
     CHARACTER = 0
@@ -60,9 +62,7 @@ class ManipulatorModeEnumField(
     PLUG_CLS = ManipulatorModeEnumPlugOperator
 
 
-class GroupingPlugOperator(
-    CompoundPlugOperator["GroupingAttrOperator"]
-):
+class GroupingPlugOperator(CompoundPlugOperator["GroupingAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("solidsPerCharacter", "solidsPerCharacter"),
@@ -77,9 +77,7 @@ class GroupingPlugOperator(
     solidsPerLine = DataDoubleArrayField()
 
 
-class GroupingAttrOperator(
-    CompoundAttrOperator[GroupingPlugOperator]
-):
+class GroupingAttrOperator(CompoundAttrOperator[GroupingPlugOperator]):
     __slots__ = ()
 
     solidsPerCharacter = DataDoubleArrayField()
@@ -89,9 +87,7 @@ class GroupingAttrOperator(
     solidsPerLine = DataDoubleArrayField()
 
 
-class GroupingField(
-    CompoundField[GroupingAttrOperator, GroupingPlugOperator]
-):
+class GroupingField(CompoundField[GroupingAttrOperator, GroupingPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = GroupingAttrOperator
@@ -194,7 +190,9 @@ class ManipulatorTransformsAttrOperator(
 
 
 class ManipulatorTransformsField(
-    CompoundField[ManipulatorTransformsAttrOperator, ManipulatorTransformsPlugOperator]
+    CompoundField[
+        ManipulatorTransformsAttrOperator, ManipulatorTransformsPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -262,7 +260,9 @@ class PositionAdjustAttrOperator(
 
 
 class PositionAdjustField(
-    Double3CompoundBaseField[PositionAdjustAttrOperator, PositionAdjustPlugOperator]
+    Double3CompoundBaseField[
+        PositionAdjustAttrOperator, PositionAdjustPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -306,7 +306,9 @@ class RotationAdjustAttrOperator(
 
 
 class RotationAdjustField(
-    Double3CompoundBaseField[RotationAdjustAttrOperator, RotationAdjustPlugOperator]
+    Double3CompoundBaseField[
+        RotationAdjustAttrOperator, RotationAdjustPlugOperator
+    ]
 ):
     __slots__ = ()
 

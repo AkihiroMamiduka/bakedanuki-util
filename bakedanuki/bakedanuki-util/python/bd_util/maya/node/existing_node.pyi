@@ -10,75 +10,89 @@ from .operator.node.dg.ais_env_facade import AISEnvFacade
 from .operator.node.dg.alembic_node import AlembicNode
 from .operator.node.dg.compute_global import ComputeGlobal
 from .operator.node.dg.compute_local import ComputeLocal
-from .operator.node.dg.custom_rig_default_mapping_node import CustomRigDefaultMappingNode
-from .operator.node.dg.custom_rig_retargeter_node import CustomRigRetargeterNode
+from .operator.node.dg.custom_rig_default_mapping_node import (
+    CustomRigDefaultMappingNode,
+)
+from .operator.node.dg.custom_rig_retargeter_node import (
+    CustomRigRetargeterNode,
+)
 from .operator.node.dg.hik_character_node import HIKCharacterNode
-from .operator.node.dg.hik_character_state_client import HIKCharacterStateClient
+from .operator.node.dg.hik_character_state_client import (
+    HIKCharacterStateClient,
+)
 from .operator.node.dg.hik_control_set_node import HIKControlSetNode
 from .operator.node.dg.hik_effector2_state import HIKEffector2State
-from .operator.node.dg.hik_effector_from_character import HIKEffectorFromCharacter
+from .operator.node.dg.hik_effector_from_character import (
+    HIKEffectorFromCharacter,
+)
 from .operator.node.dg.hikfk2_state import HIKFK2State
 from .operator.node.dg.hik_pinning2_state import HIKPinning2State
 from .operator.node.dg.hik_property2_state import HIKProperty2State
 from .operator.node.dg.hik_retargeter_node import HIKRetargeterNode
 from .operator.node.dg.hiksk2_state import HIKSK2State
-from .operator.node.dg.hik_skeleton_generator_node import HIKSkeletonGeneratorNode
+from .operator.node.dg.hik_skeleton_generator_node import (
+    HIKSkeletonGeneratorNode,
+)
 from .operator.node.dg.hik_solver_node import HIKSolverNode
 from .operator.node.dg.hik_state2_effector import HIKState2Effector
 from .operator.node.dg.hik_state2_fk import HIKState2FK
 from .operator.node.dg.hik_state2_global_sk import HIKState2GlobalSK
 from .operator.node.dg.hik_state2_sk import HIKState2SK
-from .operator.node.dg.mash_audio import MASH_Audio
-from .operator.node.dg.mash_base_node import MASH_BaseNode
-from .operator.node.dg.mash_blend import MASH_Blend
-from .operator.node.dg.mash_blend_deformer import MASH_BlendDeformer
-from .operator.node.dg.mash_breakout import MASH_Breakout
-from .operator.node.dg.mash_channel_random import MASH_ChannelRandom
-from .operator.node.dg.mash_color import MASH_Color
-from .operator.node.dg.mash_constraint import MASH_Constraint
-from .operator.node.dg.mash_curve import MASH_Curve
-from .operator.node.dg.mash_deformer import MASH_Deformer
-from .operator.node.dg.mash_delay import MASH_Delay
-from .operator.node.dg.mash_distribute import MASH_Distribute
-from .operator.node.dg.mash_dynamics import MASH_Dynamics
-from .operator.node.dg.mash_dynamics_initial_state import MASH_DynamicsInitialState
-from .operator.node.dg.mash_explode import MASH_Explode
-from .operator.node.dg.mash_id import MASH_Id
-from .operator.node.dg.mash_influence import MASH_Influence
-from .operator.node.dg.mash_inherit import MASH_Inherit
-from .operator.node.dg.mash_initial_state import MASH_InitialState
-from .operator.node.dg.mash_jiggle import MASH_Jiggle
-from .operator.node.dg.mash_legacy import MASH_Legacy
-from .operator.node.dg.mash_maths import MASH_Maths
-from .operator.node.dg.mash_multi_curve import MASH_MultiCurve
-from .operator.node.dg.mash_mute import MASH_Mute
-from .operator.node.dg.mash_noise import MASH_Noise
-from .operator.node.dg.mash_offset import MASH_Offset
-from .operator.node.dg.mash_orient import MASH_Orient
-from .operator.node.dg.mash_pfx_connect import MASH_PfxConnect
-from .operator.node.dg.mash_placer import MASH_Placer
-from .operator.node.dg.mash_point_to_curve import MASH_PointToCurve
-from .operator.node.dg.mash_python import MASH_Python
-from .operator.node.dg.mash_random import MASH_Random
-from .operator.node.dg.mash_replicator import MASH_Replicator
-from .operator.node.dg.mash_repro import MASH_Repro
-from .operator.node.dg.mash_shell_deformer import MASH_ShellDeformer
-from .operator.node.dg.mash_signal import MASH_Signal
-from .operator.node.dg.mash_spring import MASH_Spring
-from .operator.node.dg.mash_strength import MASH_Strength
-from .operator.node.dg.mash_symmetry import MASH_Symmetry
-from .operator.node.dg.mash_time import MASH_Time
-from .operator.node.dg.mash_trails import MASH_Trails
-from .operator.node.dg.mash_transform import MASH_Transform
-from .operator.node.dg.mash_trig import MASH_Trig
-from .operator.node.dg.mash_visibility import MASH_Visibility
-from .operator.node.dg.mash_waiter import MASH_Waiter
-from .operator.node.dg.mash_world import MASH_World
+from .operator.node.dg.mash_audio import MASHAudio
+from .operator.node.dg.mash_base_node import MASHBaseNode
+from .operator.node.dg.mash_blend import MASHBlend
+from .operator.node.dg.mash_blend_deformer import MASHBlendDeformer
+from .operator.node.dg.mash_breakout import MASHBreakout
+from .operator.node.dg.mash_channel_random import MASHChannelRandom
+from .operator.node.dg.mash_color import MASHColor
+from .operator.node.dg.mash_constraint import MASHConstraint
+from .operator.node.dg.mash_curve import MASHCurve
+from .operator.node.dg.mash_deformer import MASHDeformer
+from .operator.node.dg.mash_delay import MASHDelay
+from .operator.node.dg.mash_distribute import MASHDistribute
+from .operator.node.dg.mash_dynamics import MASHDynamics
+from .operator.node.dg.mash_dynamics_initial_state import (
+    MASHDynamicsInitialState,
+)
+from .operator.node.dg.mash_explode import MASHExplode
+from .operator.node.dg.mash_id import MASHId
+from .operator.node.dg.mash_influence import MASHInfluence
+from .operator.node.dg.mash_inherit import MASHInherit
+from .operator.node.dg.mash_initial_state import MASHInitialState
+from .operator.node.dg.mash_jiggle import MASHJiggle
+from .operator.node.dg.mash_legacy import MASHLegacy
+from .operator.node.dg.mash_maths import MASHMaths
+from .operator.node.dg.mash_multi_curve import MASHMultiCurve
+from .operator.node.dg.mash_mute import MASHMute
+from .operator.node.dg.mash_noise import MASHNoise
+from .operator.node.dg.mash_offset import MASHOffset
+from .operator.node.dg.mash_orient import MASHOrient
+from .operator.node.dg.mash_pfx_connect import MASHPfxConnect
+from .operator.node.dg.mash_placer import MASHPlacer
+from .operator.node.dg.mash_point_to_curve import MASHPointToCurve
+from .operator.node.dg.mash_python import MASHPython
+from .operator.node.dg.mash_random import MASHRandom
+from .operator.node.dg.mash_replicator import MASHReplicator
+from .operator.node.dg.mash_repro import MASHRepro
+from .operator.node.dg.mash_shell_deformer import MASHShellDeformer
+from .operator.node.dg.mash_signal import MASHSignal
+from .operator.node.dg.mash_spring import MASHSpring
+from .operator.node.dg.mash_strength import MASHStrength
+from .operator.node.dg.mash_symmetry import MASHSymmetry
+from .operator.node.dg.mash_time import MASHTime
+from .operator.node.dg.mash_trails import MASHTrails
+from .operator.node.dg.mash_transform import MASHTransform
+from .operator.node.dg.mash_trig import MASHTrig
+from .operator.node.dg.mash_visibility import MASHVisibility
+from .operator.node.dg.mash_waiter import MASHWaiter
+from .operator.node.dg.mash_world import MASHWorld
 from .operator.node.dg.material_x_surface_shader import MaterialXSurfaceShader
 from .operator.node.dg.r_scontainer import RScontainer
 from .operator.node.dg.unfold3_d_optimize import Unfold3DOptimize
 from .operator.node.dg.unfold3_d_unfold import Unfold3DUnfold
-from .operator.node.dg.about_to_set_value_test_node import AboutToSetValueTestNode
+from .operator.node.dg.about_to_set_value_test_node import (
+    AboutToSetValueTestNode,
+)
 from .operator.node.dg.abs_override import AbsOverride
 from .operator.node.dg.abs_unique_override import AbsUniqueOverride
 from .operator.node.dg.absolute import Absolute
@@ -86,7 +100,9 @@ from .operator.node.dg.acos import Acos
 from .operator.node.dg.add_double_linear import AddDoubleLinear
 from .operator.node.dg.add_matrix import AddMatrix
 from .operator.node.dg.adsk_material import AdskMaterial
-from .operator.node.dg.adsk_prepare_render_globals import AdskPrepareRenderGlobals
+from .operator.node.dg.adsk_prepare_render_globals import (
+    AdskPrepareRenderGlobals,
+)
 from .operator.node.dg.ai_aov import AiAOV
 from .operator.node.dg.ai_aov_driver import AiAOVDriver
 from .operator.node.dg.ai_aov_filter import AiAOVFilter
@@ -244,15 +260,31 @@ from .operator.node.dg.angle_between import AngleBetween
 from .operator.node.dg.anim_blend import AnimBlend
 from .operator.node.dg.anim_blend_in_out import AnimBlendInOut
 from .operator.node.dg.anim_blend_node_additive import AnimBlendNodeAdditive
-from .operator.node.dg.anim_blend_node_additive_da import AnimBlendNodeAdditiveDA
-from .operator.node.dg.anim_blend_node_additive_dl import AnimBlendNodeAdditiveDL
+from .operator.node.dg.anim_blend_node_additive_da import (
+    AnimBlendNodeAdditiveDA,
+)
+from .operator.node.dg.anim_blend_node_additive_dl import (
+    AnimBlendNodeAdditiveDL,
+)
 from .operator.node.dg.anim_blend_node_additive_f import AnimBlendNodeAdditiveF
-from .operator.node.dg.anim_blend_node_additive_fa import AnimBlendNodeAdditiveFA
-from .operator.node.dg.anim_blend_node_additive_fl import AnimBlendNodeAdditiveFL
-from .operator.node.dg.anim_blend_node_additive_i16 import AnimBlendNodeAdditiveI16
-from .operator.node.dg.anim_blend_node_additive_i32 import AnimBlendNodeAdditiveI32
-from .operator.node.dg.anim_blend_node_additive_rotation import AnimBlendNodeAdditiveRotation
-from .operator.node.dg.anim_blend_node_additive_scale import AnimBlendNodeAdditiveScale
+from .operator.node.dg.anim_blend_node_additive_fa import (
+    AnimBlendNodeAdditiveFA,
+)
+from .operator.node.dg.anim_blend_node_additive_fl import (
+    AnimBlendNodeAdditiveFL,
+)
+from .operator.node.dg.anim_blend_node_additive_i16 import (
+    AnimBlendNodeAdditiveI16,
+)
+from .operator.node.dg.anim_blend_node_additive_i32 import (
+    AnimBlendNodeAdditiveI32,
+)
+from .operator.node.dg.anim_blend_node_additive_rotation import (
+    AnimBlendNodeAdditiveRotation,
+)
+from .operator.node.dg.anim_blend_node_additive_scale import (
+    AnimBlendNodeAdditiveScale,
+)
 from .operator.node.dg.anim_blend_node_boolean import AnimBlendNodeBoolean
 from .operator.node.dg.anim_blend_node_enum import AnimBlendNodeEnum
 from .operator.node.dg.anim_blend_node_time import AnimBlendNodeTime
@@ -269,8 +301,12 @@ from .operator.node.dg.anim_layer import AnimLayer
 from .operator.node.dg.anisotropic import Anisotropic
 from .operator.node.dg.aov_child_collection import AovChildCollection
 from .operator.node.dg.aov_collection import AovCollection
-from .operator.node.dg.apply_abs2_floats_override import ApplyAbs2FloatsOverride
-from .operator.node.dg.apply_abs3_floats_override import ApplyAbs3FloatsOverride
+from .operator.node.dg.apply_abs2_floats_override import (
+    ApplyAbs2FloatsOverride,
+)
+from .operator.node.dg.apply_abs3_floats_override import (
+    ApplyAbs3FloatsOverride,
+)
 from .operator.node.dg.apply_abs_bool_override import ApplyAbsBoolOverride
 from .operator.node.dg.apply_abs_enum_override import ApplyAbsEnumOverride
 from .operator.node.dg.apply_abs_float_override import ApplyAbsFloatOverride
@@ -279,8 +315,12 @@ from .operator.node.dg.apply_abs_override import ApplyAbsOverride
 from .operator.node.dg.apply_abs_string_override import ApplyAbsStringOverride
 from .operator.node.dg.apply_connection_override import ApplyConnectionOverride
 from .operator.node.dg.apply_override import ApplyOverride
-from .operator.node.dg.apply_rel2_floats_override import ApplyRel2FloatsOverride
-from .operator.node.dg.apply_rel3_floats_override import ApplyRel3FloatsOverride
+from .operator.node.dg.apply_rel2_floats_override import (
+    ApplyRel2FloatsOverride,
+)
+from .operator.node.dg.apply_rel3_floats_override import (
+    ApplyRel3FloatsOverride,
+)
 from .operator.node.dg.apply_rel_float_override import ApplyRelFloatOverride
 from .operator.node.dg.apply_rel_int_override import ApplyRelIntOverride
 from .operator.node.dg.apply_rel_override import ApplyRelOverride
@@ -301,6 +341,216 @@ from .operator.node.dg.avg_surface_points import AvgSurfacePoints
 from .operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from .operator.node.dg.axis_from_matrix import AxisFromMatrix
 from .operator.node.dg.basic_selector import BasicSelector
+from .operator.node.dg.bd_any_condition_dbl import BdAnyConditionDbl
+from .operator.node.dg.bd_any_condition_dbl_a import BdAnyConditionDblA
+from .operator.node.dg.bd_any_condition_dbl_a_multi import (
+    BdAnyConditionDblAMulti,
+)
+from .operator.node.dg.bd_any_condition_dbl_l import BdAnyConditionDblL
+from .operator.node.dg.bd_any_condition_dbl_l_multi import (
+    BdAnyConditionDblLMulti,
+)
+from .operator.node.dg.bd_any_condition_dbl_multi import BdAnyConditionDblMulti
+from .operator.node.dg.bd_condition_dbl_a_case_compose import (
+    BdConditionDblACaseCompose,
+)
+from .operator.node.dg.bd_condition_dbl_a_extra_compose import (
+    BdConditionDblAExtraCompose,
+)
+from .operator.node.dg.bd_condition_dbl_case_compose import (
+    BdConditionDblCaseCompose,
+)
+from .operator.node.dg.bd_condition_dbl_extra_compose import (
+    BdConditionDblExtraCompose,
+)
+from .operator.node.dg.bd_condition_dbl_l_case_compose import (
+    BdConditionDblLCaseCompose,
+)
+from .operator.node.dg.bd_condition_dbl_l_extra_compose import (
+    BdConditionDblLExtraCompose,
+)
+from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs
+from .operator.node.dg.bd_dbl3_add import BdDbl3Add
+from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
+from .operator.node.dg.bd_dbl3_average import BdDbl3Average
+from .operator.node.dg.bd_dbl3_average_multi import BdDbl3AverageMulti
+from .operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
+from .operator.node.dg.bd_dbl3_divide import BdDbl3Divide
+from .operator.node.dg.bd_dbl3_divide_multi import BdDbl3DivideMulti
+from .operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
+from .operator.node.dg.bd_dbl3_map_range import BdDbl3MapRange
+from .operator.node.dg.bd_dbl3_max import BdDbl3Max
+from .operator.node.dg.bd_dbl3_max_multi import BdDbl3MaxMulti
+from .operator.node.dg.bd_dbl3_min import BdDbl3Min
+from .operator.node.dg.bd_dbl3_min_multi import BdDbl3MinMulti
+from .operator.node.dg.bd_dbl3_multiply import BdDbl3Multiply
+from .operator.node.dg.bd_dbl3_multiply_multi import BdDbl3MultiplyMulti
+from .operator.node.dg.bd_dbl3_negate import BdDbl3Negate
+from .operator.node.dg.bd_dbl3_power import BdDbl3Power
+from .operator.node.dg.bd_dbl3_power_multi import BdDbl3PowerMulti
+from .operator.node.dg.bd_dbl3_ratio_dbl_l3 import BdDbl3RatioDblL3
+from .operator.node.dg.bd_dbl3_subtract import BdDbl3Subtract
+from .operator.node.dg.bd_dbl3_subtract_multi import BdDbl3SubtractMulti
+from .operator.node.dg.bd_dbl3_value import BdDbl3Value
+from .operator.node.dg.bd_dbl3_weighted_average_multi import (
+    BdDbl3WeightedAverageMulti,
+)
+from .operator.node.dg.bd_dbl3_weighted_sum_multi import BdDbl3WeightedSumMulti
+from .operator.node.dg.bd_dbl_a_abs import BdDblAAbs
+from .operator.node.dg.bd_dbl_a_add import BdDblAAdd
+from .operator.node.dg.bd_dbl_a_add_multi import BdDblAAddMulti
+from .operator.node.dg.bd_dbl_a_average import BdDblAAverage
+from .operator.node.dg.bd_dbl_a_average_multi import BdDblAAverageMulti
+from .operator.node.dg.bd_dbl_a_clamp import BdDblAClamp
+from .operator.node.dg.bd_dbl_a_divide import BdDblADivide
+from .operator.node.dg.bd_dbl_a_divide_multi import BdDblADivideMulti
+from .operator.node.dg.bd_dbl_a_lerp import BdDblALerp
+from .operator.node.dg.bd_dbl_a_lerp_shortest import BdDblALerpShortest
+from .operator.node.dg.bd_dbl_a_map_range import BdDblAMapRange
+from .operator.node.dg.bd_dbl_a_max import BdDblAMax
+from .operator.node.dg.bd_dbl_a_max_multi import BdDblAMaxMulti
+from .operator.node.dg.bd_dbl_a_min import BdDblAMin
+from .operator.node.dg.bd_dbl_a_min_multi import BdDblAMinMulti
+from .operator.node.dg.bd_dbl_a_multiply import BdDblAMultiply
+from .operator.node.dg.bd_dbl_a_multiply_multi import BdDblAMultiplyMulti
+from .operator.node.dg.bd_dbl_a_negate import BdDblANegate
+from .operator.node.dg.bd_dbl_a_shortest_delta import BdDblAShortestDelta
+from .operator.node.dg.bd_dbl_a_subtract import BdDblASubtract
+from .operator.node.dg.bd_dbl_a_subtract_multi import BdDblASubtractMulti
+from .operator.node.dg.bd_dbl_a_value import BdDblAValue
+from .operator.node.dg.bd_dbl_a_weighted_average_multi import (
+    BdDblAWeightedAverageMulti,
+)
+from .operator.node.dg.bd_dbl_a_weighted_sum_multi import (
+    BdDblAWeightedSumMulti,
+)
+from .operator.node.dg.bd_dbl_a_wrap import BdDblAWrap
+from .operator.node.dg.bd_dbl_l3_abs import BdDblL3Abs
+from .operator.node.dg.bd_dbl_l3_add import BdDblL3Add
+from .operator.node.dg.bd_dbl_l3_add_multi import BdDblL3AddMulti
+from .operator.node.dg.bd_dbl_l3_average import BdDblL3Average
+from .operator.node.dg.bd_dbl_l3_average_multi import BdDblL3AverageMulti
+from .operator.node.dg.bd_dbl_l3_clamp import BdDblL3Clamp
+from .operator.node.dg.bd_dbl_l3_divide import BdDblL3Divide
+from .operator.node.dg.bd_dbl_l3_divide_multi import BdDblL3DivideMulti
+from .operator.node.dg.bd_dbl_l3_lerp import BdDblL3Lerp
+from .operator.node.dg.bd_dbl_l3_map_range import BdDblL3MapRange
+from .operator.node.dg.bd_dbl_l3_max import BdDblL3Max
+from .operator.node.dg.bd_dbl_l3_max_multi import BdDblL3MaxMulti
+from .operator.node.dg.bd_dbl_l3_min import BdDblL3Min
+from .operator.node.dg.bd_dbl_l3_min_multi import BdDblL3MinMulti
+from .operator.node.dg.bd_dbl_l3_multiply import BdDblL3Multiply
+from .operator.node.dg.bd_dbl_l3_multiply_multi import BdDblL3MultiplyMulti
+from .operator.node.dg.bd_dbl_l3_negate import BdDblL3Negate
+from .operator.node.dg.bd_dbl_l3_subtract import BdDblL3Subtract
+from .operator.node.dg.bd_dbl_l3_subtract_multi import BdDblL3SubtractMulti
+from .operator.node.dg.bd_dbl_l3_value import BdDblL3Value
+from .operator.node.dg.bd_dbl_l3_weighted_average_multi import (
+    BdDblL3WeightedAverageMulti,
+)
+from .operator.node.dg.bd_dbl_l3_weighted_sum_multi import (
+    BdDblL3WeightedSumMulti,
+)
+from .operator.node.dg.bd_dbl_l_abs import BdDblLAbs
+from .operator.node.dg.bd_dbl_l_add import BdDblLAdd
+from .operator.node.dg.bd_dbl_l_add_multi import BdDblLAddMulti
+from .operator.node.dg.bd_dbl_l_average import BdDblLAverage
+from .operator.node.dg.bd_dbl_l_average_multi import BdDblLAverageMulti
+from .operator.node.dg.bd_dbl_l_clamp import BdDblLClamp
+from .operator.node.dg.bd_dbl_l_divide import BdDblLDivide
+from .operator.node.dg.bd_dbl_l_divide_multi import BdDblLDivideMulti
+from .operator.node.dg.bd_dbl_l_lerp import BdDblLLerp
+from .operator.node.dg.bd_dbl_l_map_range import BdDblLMapRange
+from .operator.node.dg.bd_dbl_l_max import BdDblLMax
+from .operator.node.dg.bd_dbl_l_max_multi import BdDblLMaxMulti
+from .operator.node.dg.bd_dbl_l_min import BdDblLMin
+from .operator.node.dg.bd_dbl_l_min_multi import BdDblLMinMulti
+from .operator.node.dg.bd_dbl_l_multiply import BdDblLMultiply
+from .operator.node.dg.bd_dbl_l_multiply_multi import BdDblLMultiplyMulti
+from .operator.node.dg.bd_dbl_l_negate import BdDblLNegate
+from .operator.node.dg.bd_dbl_l_right_triangle import BdDblLRightTriangle
+from .operator.node.dg.bd_dbl_l_subtract import BdDblLSubtract
+from .operator.node.dg.bd_dbl_l_subtract_multi import BdDblLSubtractMulti
+from .operator.node.dg.bd_dbl_l_value import BdDblLValue
+from .operator.node.dg.bd_dbl_l_weighted_average_multi import (
+    BdDblLWeightedAverageMulti,
+)
+from .operator.node.dg.bd_dbl_l_weighted_sum_multi import (
+    BdDblLWeightedSumMulti,
+)
+from .operator.node.dg.bd_dbl_abs import BdDblAbs
+from .operator.node.dg.bd_dbl_add import BdDblAdd
+from .operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
+from .operator.node.dg.bd_dbl_average import BdDblAverage
+from .operator.node.dg.bd_dbl_average_multi import BdDblAverageMulti
+from .operator.node.dg.bd_dbl_clamp import BdDblClamp
+from .operator.node.dg.bd_dbl_divide import BdDblDivide
+from .operator.node.dg.bd_dbl_divide_multi import BdDblDivideMulti
+from .operator.node.dg.bd_dbl_lerp import BdDblLerp
+from .operator.node.dg.bd_dbl_map_range import BdDblMapRange
+from .operator.node.dg.bd_dbl_max import BdDblMax
+from .operator.node.dg.bd_dbl_max_multi import BdDblMaxMulti
+from .operator.node.dg.bd_dbl_min import BdDblMin
+from .operator.node.dg.bd_dbl_min_multi import BdDblMinMulti
+from .operator.node.dg.bd_dbl_multiply import BdDblMultiply
+from .operator.node.dg.bd_dbl_multiply_multi import BdDblMultiplyMulti
+from .operator.node.dg.bd_dbl_negate import BdDblNegate
+from .operator.node.dg.bd_dbl_power import BdDblPower
+from .operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
+from .operator.node.dg.bd_dbl_ratio_dbl_a import BdDblRatioDblA
+from .operator.node.dg.bd_dbl_ratio_dbl_l import BdDblRatioDblL
+from .operator.node.dg.bd_dbl_subtract import BdDblSubtract
+from .operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
+from .operator.node.dg.bd_dbl_value import BdDblValue
+from .operator.node.dg.bd_dbl_weighted_average_multi import (
+    BdDblWeightedAverageMulti,
+)
+from .operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
+from .operator.node.dg.bd_euler_compose_bend_twist import (
+    BdEulerComposeBendTwist,
+)
+from .operator.node.dg.bd_euler_decompose_bend_twist import (
+    BdEulerDecomposeBendTwist,
+)
+from .operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
+from .operator.node.dg.bd_euler_limit_bend_twist import BdEulerLimitBendTwist
+from .operator.node.dg.bd_euler_value import BdEulerValue
+from .operator.node.dg.bd_quat_change_basis import BdQuatChangeBasis
+from .operator.node.dg.bd_quat_compose_bend_twist import BdQuatComposeBendTwist
+from .operator.node.dg.bd_quat_decompose_bend_twist import (
+    BdQuatDecomposeBendTwist,
+)
+from .operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
+from .operator.node.dg.bd_quat_limit_bend_twist import BdQuatLimitBendTwist
+from .operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
+from .operator.node.dg.bd_quat_value import BdQuatValue
+from .operator.node.dg.bd_rbf_bend_twist_falloff_weight import (
+    BdRbfBendTwistFalloffWeight,
+)
+from .operator.node.dg.bd_rbf_multi_bend_twist_falloff_weight import (
+    BdRbfMultiBendTwistFalloffWeight,
+)
+from .operator.node.dg.bd_rbf_multi_orientation_falloff_weight import (
+    BdRbfMultiOrientationFalloffWeight,
+)
+from .operator.node.dg.bd_rbf_multi_orientation_weight import (
+    BdRbfMultiOrientationWeight,
+)
+from .operator.node.dg.bd_rbf_multi_position_falloff_weight import (
+    BdRbfMultiPositionFalloffWeight,
+)
+from .operator.node.dg.bd_rbf_multi_position_weight import (
+    BdRbfMultiPositionWeight,
+)
+from .operator.node.dg.bd_rbf_orientation_falloff_weight import (
+    BdRbfOrientationFalloffWeight,
+)
+from .operator.node.dg.bd_rbf_orientation_weight import BdRbfOrientationWeight
+from .operator.node.dg.bd_rbf_pose_blend import BdRbfPoseBlend
+from .operator.node.dg.bd_rbf_position_falloff_weight import (
+    BdRbfPositionFalloffWeight,
+)
+from .operator.node.dg.bd_rbf_position_weight import BdRbfPositionWeight
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -377,7 +627,9 @@ from .operator.node.dg.component_tag_base import ComponentTagBase
 from .operator.node.dg.compose_matrix import ComposeMatrix
 from .operator.node.dg.condition import Condition
 from .operator.node.dg.connection_override import ConnectionOverride
-from .operator.node.dg.connection_unique_override import ConnectionUniqueOverride
+from .operator.node.dg.connection_unique_override import (
+    ConnectionUniqueOverride,
+)
 from .operator.node.dg.container import Container
 from .operator.node.dg.container_base import ContainerBase
 from .operator.node.dg.contrast import Contrast
@@ -409,7 +661,9 @@ from .operator.node.dg.dag_pose import DagPose
 from .operator.node.dg.data_block_test import DataBlockTest
 from .operator.node.dg.decompose_matrix import DecomposeMatrix
 from .operator.node.dg.default_light_list import DefaultLightList
-from .operator.node.dg.default_render_utility_list import DefaultRenderUtilityList
+from .operator.node.dg.default_render_utility_list import (
+    DefaultRenderUtilityList,
+)
 from .operator.node.dg.default_rendering_list import DefaultRenderingList
 from .operator.node.dg.default_shader_list import DefaultShaderList
 from .operator.node.dg.default_texture_list import DefaultTextureList
@@ -488,7 +742,9 @@ from .operator.node.dg.hair_physical_shader import HairPhysicalShader
 from .operator.node.dg.hair_tube_shader import HairTubeShader
 from .operator.node.dg.harden_point import HardenPoint
 from .operator.node.dg.hardware_render_globals import HardwareRenderGlobals
-from .operator.node.dg.hardware_rendering_globals import HardwareRenderingGlobals
+from .operator.node.dg.hardware_rendering_globals import (
+    HardwareRenderingGlobals,
+)
 from .operator.node.dg.hierarchy_test_node1 import HierarchyTestNode1
 from .operator.node.dg.hierarchy_test_node2 import HierarchyTestNode2
 from .operator.node.dg.hierarchy_test_node3 import HierarchyTestNode3
@@ -539,7 +795,9 @@ from .operator.node.dg.light_linker import LightLinker
 from .operator.node.dg.light_list import LightList
 from .operator.node.dg.lights_child_collection import LightsChildCollection
 from .operator.node.dg.lights_collection import LightsCollection
-from .operator.node.dg.lights_collection_selector import LightsCollectionSelector
+from .operator.node.dg.lights_collection_selector import (
+    LightsCollectionSelector,
+)
 from .operator.node.dg.list_item import ListItem
 from .operator.node.dg.lod_thresholds import LodThresholds
 from .operator.node.dg.loft import Loft
@@ -556,8 +814,12 @@ from .operator.node.dg.make_nurb_sphere import MakeNurbSphere
 from .operator.node.dg.make_nurb_torus import MakeNurbTorus
 from .operator.node.dg.make_nurbs_square import MakeNurbsSquare
 from .operator.node.dg.make_text_curves import MakeTextCurves
-from .operator.node.dg.make_three_point_circular_arc import MakeThreePointCircularArc
-from .operator.node.dg.make_two_point_circular_arc import MakeTwoPointCircularArc
+from .operator.node.dg.make_three_point_circular_arc import (
+    MakeThreePointCircularArc,
+)
+from .operator.node.dg.make_two_point_circular_arc import (
+    MakeTwoPointCircularArc,
+)
 from .operator.node.dg.mandelbrot import Mandelbrot
 from .operator.node.dg.mandelbrot3_d import Mandelbrot3D
 from .operator.node.dg.marble import Marble
@@ -565,13 +827,19 @@ from .operator.node.dg.material_facade import MaterialFacade
 from .operator.node.dg.material_info import MaterialInfo
 from .operator.node.dg.material_override import MaterialOverride
 from .operator.node.dg.material_template import MaterialTemplate
-from .operator.node.dg.material_template_override import MaterialTemplateOverride
+from .operator.node.dg.material_template_override import (
+    MaterialTemplateOverride,
+)
 from .operator.node.dg.material_x_material import MaterialXMaterial
 from .operator.node.dg.max import Max
 from .operator.node.dg.maya_usd_geom_node import MayaUsdGeomNode
 from .operator.node.dg.maya_usd_layer_manager import MayaUsdLayerManager
-from .operator.node.dg.maya_usd_proxy_shape_listener import MayaUsdProxyShapeListener
-from .operator.node.dg.maya_usd_proxy_shape_listener_base import MayaUsdProxyShapeListenerBase
+from .operator.node.dg.maya_usd_proxy_shape_listener import (
+    MayaUsdProxyShapeListener,
+)
+from .operator.node.dg.maya_usd_proxy_shape_listener_base import (
+    MayaUsdProxyShapeListenerBase,
+)
 from .operator.node.dg.membrane import Membrane
 from .operator.node.dag.shape.mesh import Mesh
 from .operator.node.dg.min import Min
@@ -594,8 +862,12 @@ from .operator.node.dg.n_component import NComponent
 from .operator.node.dg.nearest_point_on_curve import NearestPointOnCurve
 from .operator.node.dg.negate import Negate
 from .operator.node.dg.network import Network
-from .operator.node.dg.node_graph_editor_bookmark_info import NodeGraphEditorBookmarkInfo
-from .operator.node.dg.node_graph_editor_bookmarks import NodeGraphEditorBookmarks
+from .operator.node.dg.node_graph_editor_bookmark_info import (
+    NodeGraphEditorBookmarkInfo,
+)
+from .operator.node.dg.node_graph_editor_bookmarks import (
+    NodeGraphEditorBookmarks,
+)
 from .operator.node.dg.noise import Noise
 from .operator.node.dg.non_linear import NonLinear
 from .operator.node.dg.normalize import Normalize
@@ -770,7 +1042,9 @@ from .operator.node.dg.proximity_pin import ProximityPin
 from .operator.node.dg.proximity_wrap import ProximityWrap
 from .operator.node.dg.proxy_manager import ProxyManager
 from .operator.node.dg.psd_file_tex import PsdFileTex
-from .operator.node.dg.pxr_usd_point_based_deformer_node import PxrUsdPointBasedDeformerNode
+from .operator.node.dg.pxr_usd_point_based_deformer_node import (
+    PxrUsdPointBasedDeformerNode,
+)
 from .operator.node.dg.pxr_usd_stage_node import PxrUsdStageNode
 from .operator.node.dg.quad_shading_switch import QuadShadingSwitch
 from .operator.node.dg.quat_add import QuatAdd
@@ -802,18 +1076,28 @@ from .operator.node.dg.render_layer_manager import RenderLayerManager
 from .operator.node.dg.render_pass import RenderPass
 from .operator.node.dg.render_pass_set import RenderPassSet
 from .operator.node.dg.render_quality import RenderQuality
-from .operator.node.dg.render_settings_child_collection import RenderSettingsChildCollection
-from .operator.node.dg.render_settings_collection import RenderSettingsCollection
+from .operator.node.dg.render_settings_child_collection import (
+    RenderSettingsChildCollection,
+)
+from .operator.node.dg.render_settings_collection import (
+    RenderSettingsCollection,
+)
 from .operator.node.dg.render_setup import RenderSetup
 from .operator.node.dg.render_setup_layer import RenderSetupLayer
 from .operator.node.dg.render_target import RenderTarget
 from .operator.node.dg.rendered_image_source import RenderedImageSource
 from .operator.node.dg.reorder_uv_set import ReorderUVSet
 from .operator.node.dg.resolution import Resolution
-from .operator.node.dg.result_curve_time_to_angular import ResultCurveTimeToAngular
-from .operator.node.dg.result_curve_time_to_linear import ResultCurveTimeToLinear
+from .operator.node.dg.result_curve_time_to_angular import (
+    ResultCurveTimeToAngular,
+)
+from .operator.node.dg.result_curve_time_to_linear import (
+    ResultCurveTimeToLinear,
+)
 from .operator.node.dg.result_curve_time_to_time import ResultCurveTimeToTime
-from .operator.node.dg.result_curve_time_to_unitless import ResultCurveTimeToUnitless
+from .operator.node.dg.result_curve_time_to_unitless import (
+    ResultCurveTimeToUnitless,
+)
 from .operator.node.dg.reverse import Reverse
 from .operator.node.dg.reverse_curve import ReverseCurve
 from .operator.node.dg.reverse_surface import ReverseSurface
@@ -909,7 +1193,9 @@ from .operator.node.dg.time_editor import TimeEditor
 from .operator.node.dg.time_editor_anim_source import TimeEditorAnimSource
 from .operator.node.dg.time_editor_clip import TimeEditorClip
 from .operator.node.dg.time_editor_clip_base import TimeEditorClipBase
-from .operator.node.dg.time_editor_clip_evaluator import TimeEditorClipEvaluator
+from .operator.node.dg.time_editor_clip_evaluator import (
+    TimeEditorClipEvaluator,
+)
 from .operator.node.dg.time_editor_interpolator import TimeEditorInterpolator
 from .operator.node.dg.time_editor_tracks import TimeEditorTracks
 from .operator.node.dg.time_function import TimeFunction
@@ -972,7 +1258,6 @@ from .operator.node.dg.xgm_se_expr import XgmSeExpr
 from .operator.node.dg.xgm_spline_base import XgmSplineBase
 from .operator.node.dg.xgm_spline_cache import XgmSplineCache
 
-
 class ExistingNode:
     def __new__(
         cls,
@@ -980,6776 +1265,6744 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
-
     @staticmethod
     def AISEnvFacade(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AISEnvFacade: ...
-
     @staticmethod
     def AlembicNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AlembicNode: ...
-
     @staticmethod
     def ComputeGlobal(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ComputeGlobal: ...
-
     @staticmethod
     def ComputeLocal(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ComputeLocal: ...
-
     @staticmethod
     def CustomRigDefaultMappingNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CustomRigDefaultMappingNode: ...
-
     @staticmethod
     def CustomRigRetargeterNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CustomRigRetargeterNode: ...
-
     @staticmethod
     def HIKCharacterNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKCharacterNode: ...
-
     @staticmethod
     def HIKCharacterStateClient(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKCharacterStateClient: ...
-
     @staticmethod
     def HIKControlSetNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKControlSetNode: ...
-
     @staticmethod
     def HIKEffector2State(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKEffector2State: ...
-
     @staticmethod
     def HIKEffectorFromCharacter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKEffectorFromCharacter: ...
-
     @staticmethod
     def HIKFK2State(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKFK2State: ...
-
     @staticmethod
     def HIKPinning2State(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKPinning2State: ...
-
     @staticmethod
     def HIKProperty2State(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKProperty2State: ...
-
     @staticmethod
     def HIKRetargeterNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKRetargeterNode: ...
-
     @staticmethod
     def HIKSK2State(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKSK2State: ...
-
     @staticmethod
     def HIKSkeletonGeneratorNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKSkeletonGeneratorNode: ...
-
     @staticmethod
     def HIKSolverNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKSolverNode: ...
-
     @staticmethod
     def HIKState2Effector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKState2Effector: ...
-
     @staticmethod
     def HIKState2FK(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKState2FK: ...
-
     @staticmethod
     def HIKState2GlobalSK(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKState2GlobalSK: ...
-
     @staticmethod
     def HIKState2SK(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HIKState2SK: ...
-
     @staticmethod
     def MASH_Audio(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Audio: ...
-
+    ) -> MASHAudio: ...
     @staticmethod
     def MASH_BaseNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_BaseNode: ...
-
+    ) -> MASHBaseNode: ...
     @staticmethod
     def MASH_Blend(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Blend: ...
-
+    ) -> MASHBlend: ...
     @staticmethod
     def MASH_BlendDeformer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_BlendDeformer: ...
-
+    ) -> MASHBlendDeformer: ...
     @staticmethod
     def MASH_Breakout(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Breakout: ...
-
+    ) -> MASHBreakout: ...
     @staticmethod
     def MASH_ChannelRandom(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_ChannelRandom: ...
-
+    ) -> MASHChannelRandom: ...
     @staticmethod
     def MASH_Color(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Color: ...
-
+    ) -> MASHColor: ...
     @staticmethod
     def MASH_Constraint(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Constraint: ...
-
+    ) -> MASHConstraint: ...
     @staticmethod
     def MASH_Curve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Curve: ...
-
+    ) -> MASHCurve: ...
     @staticmethod
     def MASH_Deformer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Deformer: ...
-
+    ) -> MASHDeformer: ...
     @staticmethod
     def MASH_Delay(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Delay: ...
-
+    ) -> MASHDelay: ...
     @staticmethod
     def MASH_Distribute(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Distribute: ...
-
+    ) -> MASHDistribute: ...
     @staticmethod
     def MASH_Dynamics(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Dynamics: ...
-
+    ) -> MASHDynamics: ...
     @staticmethod
     def MASH_DynamicsInitialState(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_DynamicsInitialState: ...
-
+    ) -> MASHDynamicsInitialState: ...
     @staticmethod
     def MASH_Explode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Explode: ...
-
+    ) -> MASHExplode: ...
     @staticmethod
     def MASH_Id(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Id: ...
-
+    ) -> MASHId: ...
     @staticmethod
     def MASH_Influence(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Influence: ...
-
+    ) -> MASHInfluence: ...
     @staticmethod
     def MASH_Inherit(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Inherit: ...
-
+    ) -> MASHInherit: ...
     @staticmethod
     def MASH_InitialState(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_InitialState: ...
-
+    ) -> MASHInitialState: ...
     @staticmethod
     def MASH_Jiggle(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Jiggle: ...
-
+    ) -> MASHJiggle: ...
     @staticmethod
     def MASH_Legacy(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Legacy: ...
-
+    ) -> MASHLegacy: ...
     @staticmethod
     def MASH_Maths(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Maths: ...
-
+    ) -> MASHMaths: ...
     @staticmethod
     def MASH_MultiCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_MultiCurve: ...
-
+    ) -> MASHMultiCurve: ...
     @staticmethod
     def MASH_Mute(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Mute: ...
-
+    ) -> MASHMute: ...
     @staticmethod
     def MASH_Noise(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Noise: ...
-
+    ) -> MASHNoise: ...
     @staticmethod
     def MASH_Offset(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Offset: ...
-
+    ) -> MASHOffset: ...
     @staticmethod
     def MASH_Orient(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Orient: ...
-
+    ) -> MASHOrient: ...
     @staticmethod
     def MASH_PfxConnect(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_PfxConnect: ...
-
+    ) -> MASHPfxConnect: ...
     @staticmethod
     def MASH_Placer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Placer: ...
-
+    ) -> MASHPlacer: ...
     @staticmethod
     def MASH_PointToCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_PointToCurve: ...
-
+    ) -> MASHPointToCurve: ...
     @staticmethod
     def MASH_Python(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Python: ...
-
+    ) -> MASHPython: ...
     @staticmethod
     def MASH_Random(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Random: ...
-
+    ) -> MASHRandom: ...
     @staticmethod
     def MASH_Replicator(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Replicator: ...
-
+    ) -> MASHReplicator: ...
     @staticmethod
     def MASH_Repro(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Repro: ...
-
+    ) -> MASHRepro: ...
     @staticmethod
     def MASH_ShellDeformer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_ShellDeformer: ...
-
+    ) -> MASHShellDeformer: ...
     @staticmethod
     def MASH_Signal(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Signal: ...
-
+    ) -> MASHSignal: ...
     @staticmethod
     def MASH_Spring(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Spring: ...
-
+    ) -> MASHSpring: ...
     @staticmethod
     def MASH_Strength(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Strength: ...
-
+    ) -> MASHStrength: ...
     @staticmethod
     def MASH_Symmetry(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Symmetry: ...
-
+    ) -> MASHSymmetry: ...
     @staticmethod
     def MASH_Time(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Time: ...
-
+    ) -> MASHTime: ...
     @staticmethod
     def MASH_Trails(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Trails: ...
-
+    ) -> MASHTrails: ...
     @staticmethod
     def MASH_Transform(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Transform: ...
-
+    ) -> MASHTransform: ...
     @staticmethod
     def MASH_Trig(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Trig: ...
-
+    ) -> MASHTrig: ...
     @staticmethod
     def MASH_Visibility(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Visibility: ...
-
+    ) -> MASHVisibility: ...
     @staticmethod
     def MASH_Waiter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_Waiter: ...
-
+    ) -> MASHWaiter: ...
     @staticmethod
     def MASH_World(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> MASH_World: ...
-
+    ) -> MASHWorld: ...
     @staticmethod
     def MaterialXSurfaceShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MaterialXSurfaceShader: ...
-
     @staticmethod
     def RScontainer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RScontainer: ...
-
     @staticmethod
     def Unfold3DOptimize(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Unfold3DOptimize: ...
-
     @staticmethod
     def Unfold3DUnfold(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Unfold3DUnfold: ...
-
     @staticmethod
     def aboutToSetValueTestNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AboutToSetValueTestNode: ...
-
     @staticmethod
     def absOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AbsOverride: ...
-
     @staticmethod
     def absUniqueOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AbsUniqueOverride: ...
-
     @staticmethod
     def absolute(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Absolute: ...
-
     @staticmethod
     def acos(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Acos: ...
-
     @staticmethod
     def addDoubleLinear(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AddDoubleLinear: ...
-
     @staticmethod
     def addMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AddMatrix: ...
-
     @staticmethod
     def adskMaterial(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AdskMaterial: ...
-
     @staticmethod
     def adskPrepareRenderGlobals(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AdskPrepareRenderGlobals: ...
-
     @staticmethod
     def aiAOV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiAOV: ...
-
     @staticmethod
     def aiAOVDriver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiAOVDriver: ...
-
     @staticmethod
     def aiAOVFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiAOVFilter: ...
-
     @staticmethod
     def aiAbs(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiAbs: ...
-
     @staticmethod
     def aiAdd(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiAdd: ...
-
     @staticmethod
     def aiAmbientOcclusion(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiAmbientOcclusion: ...
-
     @staticmethod
     def aiAtan(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiAtan: ...
-
     @staticmethod
     def aiAtmosphereVolume(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiAtmosphereVolume: ...
-
     @staticmethod
     def aiAxfShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiAxfShader: ...
-
     @staticmethod
     def aiBarndoor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiBarndoor: ...
-
     @staticmethod
     def aiBlackbody(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiBlackbody: ...
-
     @staticmethod
     def aiBump2d(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiBump2d: ...
-
     @staticmethod
     def aiBump3d(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiBump3d: ...
-
     @staticmethod
     def aiCache(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiCache: ...
-
     @staticmethod
     def aiCameraProjection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiCameraProjection: ...
-
     @staticmethod
     def aiCarPaint(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiCarPaint: ...
-
     @staticmethod
     def aiCellNoise(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiCellNoise: ...
-
     @staticmethod
     def aiCheckerboard(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiCheckerboard: ...
-
     @staticmethod
     def aiClamp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiClamp: ...
-
     @staticmethod
     def aiClipGeo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiClipGeo: ...
-
     @staticmethod
     def aiCollection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiCollection: ...
-
     @staticmethod
     def aiColorConvert(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiColorConvert: ...
-
     @staticmethod
     def aiColorCorrect(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiColorCorrect: ...
-
     @staticmethod
     def aiColorJitter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiColorJitter: ...
-
     @staticmethod
     def aiColorToFloat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiColorToFloat: ...
-
     @staticmethod
     def aiCompare(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiCompare: ...
-
     @staticmethod
     def aiComplement(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiComplement: ...
-
     @staticmethod
     def aiComplexIor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiComplexIor: ...
-
     @staticmethod
     def aiComposite(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiComposite: ...
-
     @staticmethod
     def aiCross(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiCross: ...
-
     @staticmethod
     def aiCurvature(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiCurvature: ...
-
     @staticmethod
     def aiDisable(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiDisable: ...
-
     @staticmethod
     def aiDistance(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiDistance: ...
-
     @staticmethod
     def aiDivide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiDivide: ...
-
     @staticmethod
     def aiDot(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiDot: ...
-
     @staticmethod
     def aiExp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiExp: ...
-
     @staticmethod
     def aiFacingRatio(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiFacingRatio: ...
-
     @staticmethod
     def aiFlakes(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiFlakes: ...
-
     @staticmethod
     def aiFlat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiFlat: ...
-
     @staticmethod
     def aiFloatToInt(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiFloatToInt: ...
-
     @staticmethod
     def aiFloatToMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiFloatToMatrix: ...
-
     @staticmethod
     def aiFloatToRgba(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiFloatToRgba: ...
-
     @staticmethod
     def aiFog(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiFog: ...
-
     @staticmethod
     def aiFraction(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiFraction: ...
-
     @staticmethod
     def aiGobo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiGobo: ...
-
     @staticmethod
     def aiHair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiHair: ...
-
     @staticmethod
     def aiImage(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImage: ...
-
     @staticmethod
     def aiImagerColorCorrect(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerColorCorrect: ...
-
     @staticmethod
     def aiImagerColorCurves(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerColorCurves: ...
-
     @staticmethod
     def aiImagerDenoiserNoice(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerDenoiserNoice: ...
-
     @staticmethod
     def aiImagerDenoiserOidn(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerDenoiserOidn: ...
-
     @staticmethod
     def aiImagerDenoiserOptix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerDenoiserOptix: ...
-
     @staticmethod
     def aiImagerExposure(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerExposure: ...
-
     @staticmethod
     def aiImagerLensEffects(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerLensEffects: ...
-
     @staticmethod
     def aiImagerLightMixer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerLightMixer: ...
-
     @staticmethod
     def aiImagerOverlay(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerOverlay: ...
-
     @staticmethod
     def aiImagerTonemap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerTonemap: ...
-
     @staticmethod
     def aiImagerWhiteBalance(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerWhiteBalance: ...
-
     @staticmethod
     def aiIncludeGraph(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiIncludeGraph: ...
-
     @staticmethod
     def aiIsFinite(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiIsFinite: ...
-
     @staticmethod
     def aiLambert(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiLambert: ...
-
     @staticmethod
     def aiLayerFloat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiLayerFloat: ...
-
     @staticmethod
     def aiLayerRgba(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiLayerRgba: ...
-
     @staticmethod
     def aiLayerShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiLayerShader: ...
-
     @staticmethod
     def aiLength(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiLength: ...
-
     @staticmethod
     def aiLightDecay(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiLightDecay: ...
-
     @staticmethod
     def aiLog(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiLog: ...
-
     @staticmethod
     def aiLookSwitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiLookSwitch: ...
-
     @staticmethod
     def aiMaterialXShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMaterialXShader: ...
-
     @staticmethod
     def aiMaterialx(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMaterialx: ...
-
     @staticmethod
     def aiMatrixInterpolate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMatrixInterpolate: ...
-
     @staticmethod
     def aiMatrixMultiplyVector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMatrixMultiplyVector: ...
-
     @staticmethod
     def aiMatrixTransform(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMatrixTransform: ...
-
     @staticmethod
     def aiMatte(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMatte: ...
-
     @staticmethod
     def aiMax(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMax: ...
-
     @staticmethod
     def aiMerge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMerge: ...
-
     @staticmethod
     def aiMin(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMin: ...
-
     @staticmethod
     def aiMixShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMixShader: ...
-
     @staticmethod
     def aiModulo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiModulo: ...
-
     @staticmethod
     def aiMotionVector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMotionVector: ...
-
     @staticmethod
     def aiMultiply(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiMultiply: ...
-
     @staticmethod
     def aiNegate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiNegate: ...
-
     @staticmethod
     def aiNoise(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiNoise: ...
-
     @staticmethod
     def aiNormalMap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiNormalMap: ...
-
     @staticmethod
     def aiNormalize(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiNormalize: ...
-
     @staticmethod
     def aiOptions(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiOptions: ...
-
     @staticmethod
     def aiOslShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiOslShader: ...
-
     @staticmethod
     def aiPassthrough(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiPassthrough: ...
-
     @staticmethod
     def aiPhysicalSky(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiPhysicalSky: ...
-
     @staticmethod
     def aiPow(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiPow: ...
-
     @staticmethod
     def aiRampFloat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiRampFloat: ...
-
     @staticmethod
     def aiRampRgb(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiRampRgb: ...
-
     @staticmethod
     def aiRandom(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiRandom: ...
-
     @staticmethod
     def aiRange(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiRange: ...
-
     @staticmethod
     def aiRaySwitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiRaySwitch: ...
-
     @staticmethod
     def aiReadFloat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiReadFloat: ...
-
     @staticmethod
     def aiReadInt(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiReadInt: ...
-
     @staticmethod
     def aiReadRGB(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiReadRGB: ...
-
     @staticmethod
     def aiReadRGBA(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiReadRGBA: ...
-
     @staticmethod
     def aiReciprocal(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiReciprocal: ...
-
     @staticmethod
     def aiRgbToVector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiRgbToVector: ...
-
     @staticmethod
     def aiRgbaToFloat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiRgbaToFloat: ...
-
     @staticmethod
     def aiRoundCorners(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiRoundCorners: ...
-
     @staticmethod
     def aiSetParameter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSetParameter: ...
-
     @staticmethod
     def aiSetTransform(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSetTransform: ...
-
     @staticmethod
     def aiShadowMatte(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiShadowMatte: ...
-
     @staticmethod
     def aiShuffle(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiShuffle: ...
-
     @staticmethod
     def aiSign(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSign: ...
-
     @staticmethod
     def aiSkin(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSkin: ...
-
     @staticmethod
     def aiSky(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSky: ...
-
     @staticmethod
     def aiSpaceTransform(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSpaceTransform: ...
-
     @staticmethod
     def aiSqrt(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSqrt: ...
-
     @staticmethod
     def aiStandard(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiStandard: ...
-
     @staticmethod
     def aiStandardHair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiStandardHair: ...
-
     @staticmethod
     def aiStandardSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiStandardSurface: ...
-
     @staticmethod
     def aiStandardVolume(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiStandardVolume: ...
-
     @staticmethod
     def aiStateFloat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiStateFloat: ...
-
     @staticmethod
     def aiStateInt(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiStateInt: ...
-
     @staticmethod
     def aiStateVector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiStateVector: ...
-
     @staticmethod
     def aiStringReplace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiStringReplace: ...
-
     @staticmethod
     def aiSubtract(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSubtract: ...
-
     @staticmethod
     def aiSwitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSwitch: ...
-
     @staticmethod
     def aiSwitchOperator(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiSwitchOperator: ...
-
     @staticmethod
     def aiThinFilm(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiThinFilm: ...
-
     @staticmethod
     def aiToon(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiToon: ...
-
     @staticmethod
     def aiTraceSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiTraceSet: ...
-
     @staticmethod
     def aiTrigo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiTrigo: ...
-
     @staticmethod
     def aiTriplanar(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiTriplanar: ...
-
     @staticmethod
     def aiTwoSided(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiTwoSided: ...
-
     @staticmethod
     def aiUserDataBool(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUserDataBool: ...
-
     @staticmethod
     def aiUserDataColor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUserDataColor: ...
-
     @staticmethod
     def aiUserDataFloat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUserDataFloat: ...
-
     @staticmethod
     def aiUserDataInt(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUserDataInt: ...
-
     @staticmethod
     def aiUserDataString(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUserDataString: ...
-
     @staticmethod
     def aiUserDataVec2(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUserDataVec2: ...
-
     @staticmethod
     def aiUserDataVector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUserDataVector: ...
-
     @staticmethod
     def aiUtility(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUtility: ...
-
     @staticmethod
     def aiUvProjection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUvProjection: ...
-
     @staticmethod
     def aiUvTransform(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiUvTransform: ...
-
     @staticmethod
     def aiVectorMap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiVectorMap: ...
-
     @staticmethod
     def aiVectorToRgb(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiVectorToRgb: ...
-
     @staticmethod
     def aiVolumeCollector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiVolumeCollector: ...
-
     @staticmethod
     def aiVolumeSampleFloat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiVolumeSampleFloat: ...
-
     @staticmethod
     def aiVolumeSampleRgb(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiVolumeSampleRgb: ...
-
     @staticmethod
     def aiWireframe(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiWireframe: ...
-
     @staticmethod
     def aiWriteColor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiWriteColor: ...
-
     @staticmethod
     def aiWriteFloat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiWriteFloat: ...
-
     @staticmethod
     def aiWriteInt(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiWriteInt: ...
-
     @staticmethod
     def aiWriteRgba(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiWriteRgba: ...
-
     @staticmethod
     def aiWriteVector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiWriteVector: ...
-
     @staticmethod
     def aimMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AimMatrix: ...
-
     @staticmethod
     def alignCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AlignCurve: ...
-
     @staticmethod
     def alignSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AlignSurface: ...
-
     @staticmethod
     def and_(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
-
     @staticmethod
     def angleBetween(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AngleBetween: ...
-
     @staticmethod
     def animBlend(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlend: ...
-
     @staticmethod
     def animBlendInOut(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendInOut: ...
-
     @staticmethod
     def animBlendNodeAdditive(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditive: ...
-
     @staticmethod
     def animBlendNodeAdditiveDA(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveDA: ...
-
     @staticmethod
     def animBlendNodeAdditiveDL(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveDL: ...
-
     @staticmethod
     def animBlendNodeAdditiveF(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveF: ...
-
     @staticmethod
     def animBlendNodeAdditiveFA(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveFA: ...
-
     @staticmethod
     def animBlendNodeAdditiveFL(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveFL: ...
-
     @staticmethod
     def animBlendNodeAdditiveI16(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveI16: ...
-
     @staticmethod
     def animBlendNodeAdditiveI32(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveI32: ...
-
     @staticmethod
     def animBlendNodeAdditiveRotation(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveRotation: ...
-
     @staticmethod
     def animBlendNodeAdditiveScale(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveScale: ...
-
     @staticmethod
     def animBlendNodeBoolean(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeBoolean: ...
-
     @staticmethod
     def animBlendNodeEnum(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeEnum: ...
-
     @staticmethod
     def animBlendNodeTime(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeTime: ...
-
     @staticmethod
     def animClip(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimClip: ...
-
     @staticmethod
     def animCurveTA(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimCurveTA: ...
-
     @staticmethod
     def animCurveTL(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimCurveTL: ...
-
     @staticmethod
     def animCurveTT(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimCurveTT: ...
-
     @staticmethod
     def animCurveTU(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimCurveTU: ...
-
     @staticmethod
     def animCurveUA(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimCurveUA: ...
-
     @staticmethod
     def animCurveUL(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimCurveUL: ...
-
     @staticmethod
     def animCurveUT(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimCurveUT: ...
-
     @staticmethod
     def animCurveUU(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimCurveUU: ...
-
     @staticmethod
     def animLayer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimLayer: ...
-
     @staticmethod
     def anisotropic(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Anisotropic: ...
-
     @staticmethod
     def aovChildCollection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AovChildCollection: ...
-
     @staticmethod
     def aovCollection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AovCollection: ...
-
     @staticmethod
     def applyAbs2FloatsOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyAbs2FloatsOverride: ...
-
     @staticmethod
     def applyAbs3FloatsOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyAbs3FloatsOverride: ...
-
     @staticmethod
     def applyAbsBoolOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyAbsBoolOverride: ...
-
     @staticmethod
     def applyAbsEnumOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyAbsEnumOverride: ...
-
     @staticmethod
     def applyAbsFloatOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyAbsFloatOverride: ...
-
     @staticmethod
     def applyAbsIntOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyAbsIntOverride: ...
-
     @staticmethod
     def applyAbsOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyAbsOverride: ...
-
     @staticmethod
     def applyAbsStringOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyAbsStringOverride: ...
-
     @staticmethod
     def applyConnectionOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyConnectionOverride: ...
-
     @staticmethod
     def applyOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyOverride: ...
-
     @staticmethod
     def applyRel2FloatsOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyRel2FloatsOverride: ...
-
     @staticmethod
     def applyRel3FloatsOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyRel3FloatsOverride: ...
-
     @staticmethod
     def applyRelFloatOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyRelFloatOverride: ...
-
     @staticmethod
     def applyRelIntOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyRelIntOverride: ...
-
     @staticmethod
     def applyRelOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ApplyRelOverride: ...
-
     @staticmethod
     def arnoldAOVChildSelector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ArnoldAOVChildSelector: ...
-
     @staticmethod
     def arrayMapper(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ArrayMapper: ...
-
     @staticmethod
     def arubaTessellate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ArubaTessellate: ...
-
     @staticmethod
     def asin(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Asin: ...
-
     @staticmethod
     def atan(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Atan: ...
-
     @staticmethod
     def atan2(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Atan2: ...
-
     @staticmethod
     def attachCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AttachCurve: ...
-
     @staticmethod
     def attachSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AttachSurface: ...
-
     @staticmethod
     def attrHierarchyTest(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AttrHierarchyTest: ...
-
     @staticmethod
     def audio(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Audio: ...
-
     @staticmethod
     def average(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Average: ...
-
     @staticmethod
     def avgCurves(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AvgCurves: ...
-
     @staticmethod
     def avgNurbsSurfacePoints(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AvgNurbsSurfacePoints: ...
-
     @staticmethod
     def avgSurfacePoints(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AvgSurfacePoints: ...
-
     @staticmethod
     def axisAngleToQuat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AxisAngleToQuat: ...
-
     @staticmethod
     def axisFromMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AxisFromMatrix: ...
-
     @staticmethod
     def basicSelector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BasicSelector: ...
-
+    @staticmethod
+    def bdAny_ConditionDbl(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDbl: ...
+    @staticmethod
+    def bdAny_ConditionDblA(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblA: ...
+    @staticmethod
+    def bdAny_ConditionDblAMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblAMulti: ...
+    @staticmethod
+    def bdAny_ConditionDblL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblL: ...
+    @staticmethod
+    def bdAny_ConditionDblLMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblLMulti: ...
+    @staticmethod
+    def bdAny_ConditionDblMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblMulti: ...
+    @staticmethod
+    def bdConditionDblACase_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblACaseCompose: ...
+    @staticmethod
+    def bdConditionDblAExtra_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblAExtraCompose: ...
+    @staticmethod
+    def bdConditionDblCase_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblCaseCompose: ...
+    @staticmethod
+    def bdConditionDblExtra_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblExtraCompose: ...
+    @staticmethod
+    def bdConditionDblLCase_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblLCaseCompose: ...
+    @staticmethod
+    def bdConditionDblLExtra_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblLExtraCompose: ...
+    @staticmethod
+    def bdDbl3_Abs(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Abs: ...
+    @staticmethod
+    def bdDbl3_Add(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Add: ...
+    @staticmethod
+    def bdDbl3_AddMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3AddMulti: ...
+    @staticmethod
+    def bdDbl3_Average(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Average: ...
+    @staticmethod
+    def bdDbl3_AverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3AverageMulti: ...
+    @staticmethod
+    def bdDbl3_Clamp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Clamp: ...
+    @staticmethod
+    def bdDbl3_Divide(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Divide: ...
+    @staticmethod
+    def bdDbl3_DivideMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3DivideMulti: ...
+    @staticmethod
+    def bdDbl3_Lerp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Lerp: ...
+    @staticmethod
+    def bdDbl3_MapRange(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3MapRange: ...
+    @staticmethod
+    def bdDbl3_Max(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Max: ...
+    @staticmethod
+    def bdDbl3_MaxMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3MaxMulti: ...
+    @staticmethod
+    def bdDbl3_Min(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Min: ...
+    @staticmethod
+    def bdDbl3_MinMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3MinMulti: ...
+    @staticmethod
+    def bdDbl3_Multiply(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Multiply: ...
+    @staticmethod
+    def bdDbl3_MultiplyMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3MultiplyMulti: ...
+    @staticmethod
+    def bdDbl3_Negate(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Negate: ...
+    @staticmethod
+    def bdDbl3_Power(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Power: ...
+    @staticmethod
+    def bdDbl3_PowerMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3PowerMulti: ...
+    @staticmethod
+    def bdDbl3_RatioDblL3(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3RatioDblL3: ...
+    @staticmethod
+    def bdDbl3_Subtract(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Subtract: ...
+    @staticmethod
+    def bdDbl3_SubtractMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3SubtractMulti: ...
+    @staticmethod
+    def bdDbl3_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Value: ...
+    @staticmethod
+    def bdDbl3_WeightedAverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3WeightedAverageMulti: ...
+    @staticmethod
+    def bdDbl3_WeightedSumMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3WeightedSumMulti: ...
+    @staticmethod
+    def bdDblA_Abs(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAbs: ...
+    @staticmethod
+    def bdDblA_Add(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAdd: ...
+    @staticmethod
+    def bdDblA_AddMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAddMulti: ...
+    @staticmethod
+    def bdDblA_Average(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAverage: ...
+    @staticmethod
+    def bdDblA_AverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAverageMulti: ...
+    @staticmethod
+    def bdDblA_Clamp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAClamp: ...
+    @staticmethod
+    def bdDblA_Divide(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblADivide: ...
+    @staticmethod
+    def bdDblA_DivideMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblADivideMulti: ...
+    @staticmethod
+    def bdDblA_Lerp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblALerp: ...
+    @staticmethod
+    def bdDblA_LerpShortest(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblALerpShortest: ...
+    @staticmethod
+    def bdDblA_MapRange(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMapRange: ...
+    @staticmethod
+    def bdDblA_Max(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMax: ...
+    @staticmethod
+    def bdDblA_MaxMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMaxMulti: ...
+    @staticmethod
+    def bdDblA_Min(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMin: ...
+    @staticmethod
+    def bdDblA_MinMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMinMulti: ...
+    @staticmethod
+    def bdDblA_Multiply(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMultiply: ...
+    @staticmethod
+    def bdDblA_MultiplyMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMultiplyMulti: ...
+    @staticmethod
+    def bdDblA_Negate(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblANegate: ...
+    @staticmethod
+    def bdDblA_ShortestDelta(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAShortestDelta: ...
+    @staticmethod
+    def bdDblA_Subtract(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblASubtract: ...
+    @staticmethod
+    def bdDblA_SubtractMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblASubtractMulti: ...
+    @staticmethod
+    def bdDblA_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAValue: ...
+    @staticmethod
+    def bdDblA_WeightedAverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAWeightedAverageMulti: ...
+    @staticmethod
+    def bdDblA_WeightedSumMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAWeightedSumMulti: ...
+    @staticmethod
+    def bdDblA_Wrap(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAWrap: ...
+    @staticmethod
+    def bdDblL3_Abs(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Abs: ...
+    @staticmethod
+    def bdDblL3_Add(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Add: ...
+    @staticmethod
+    def bdDblL3_AddMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3AddMulti: ...
+    @staticmethod
+    def bdDblL3_Average(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Average: ...
+    @staticmethod
+    def bdDblL3_AverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3AverageMulti: ...
+    @staticmethod
+    def bdDblL3_Clamp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Clamp: ...
+    @staticmethod
+    def bdDblL3_Divide(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Divide: ...
+    @staticmethod
+    def bdDblL3_DivideMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3DivideMulti: ...
+    @staticmethod
+    def bdDblL3_Lerp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Lerp: ...
+    @staticmethod
+    def bdDblL3_MapRange(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3MapRange: ...
+    @staticmethod
+    def bdDblL3_Max(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Max: ...
+    @staticmethod
+    def bdDblL3_MaxMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3MaxMulti: ...
+    @staticmethod
+    def bdDblL3_Min(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Min: ...
+    @staticmethod
+    def bdDblL3_MinMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3MinMulti: ...
+    @staticmethod
+    def bdDblL3_Multiply(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Multiply: ...
+    @staticmethod
+    def bdDblL3_MultiplyMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3MultiplyMulti: ...
+    @staticmethod
+    def bdDblL3_Negate(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Negate: ...
+    @staticmethod
+    def bdDblL3_Subtract(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Subtract: ...
+    @staticmethod
+    def bdDblL3_SubtractMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3SubtractMulti: ...
+    @staticmethod
+    def bdDblL3_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Value: ...
+    @staticmethod
+    def bdDblL3_WeightedAverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3WeightedAverageMulti: ...
+    @staticmethod
+    def bdDblL3_WeightedSumMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3WeightedSumMulti: ...
+    @staticmethod
+    def bdDblL_Abs(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAbs: ...
+    @staticmethod
+    def bdDblL_Add(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAdd: ...
+    @staticmethod
+    def bdDblL_AddMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAddMulti: ...
+    @staticmethod
+    def bdDblL_Average(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAverage: ...
+    @staticmethod
+    def bdDblL_AverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAverageMulti: ...
+    @staticmethod
+    def bdDblL_Clamp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLClamp: ...
+    @staticmethod
+    def bdDblL_Divide(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLDivide: ...
+    @staticmethod
+    def bdDblL_DivideMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLDivideMulti: ...
+    @staticmethod
+    def bdDblL_Lerp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLLerp: ...
+    @staticmethod
+    def bdDblL_MapRange(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMapRange: ...
+    @staticmethod
+    def bdDblL_Max(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMax: ...
+    @staticmethod
+    def bdDblL_MaxMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMaxMulti: ...
+    @staticmethod
+    def bdDblL_Min(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMin: ...
+    @staticmethod
+    def bdDblL_MinMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMinMulti: ...
+    @staticmethod
+    def bdDblL_Multiply(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMultiply: ...
+    @staticmethod
+    def bdDblL_MultiplyMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMultiplyMulti: ...
+    @staticmethod
+    def bdDblL_Negate(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLNegate: ...
+    @staticmethod
+    def bdDblL_RightTriangle(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLRightTriangle: ...
+    @staticmethod
+    def bdDblL_Subtract(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLSubtract: ...
+    @staticmethod
+    def bdDblL_SubtractMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLSubtractMulti: ...
+    @staticmethod
+    def bdDblL_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLValue: ...
+    @staticmethod
+    def bdDblL_WeightedAverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLWeightedAverageMulti: ...
+    @staticmethod
+    def bdDblL_WeightedSumMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLWeightedSumMulti: ...
+    @staticmethod
+    def bdDbl_Abs(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAbs: ...
+    @staticmethod
+    def bdDbl_Add(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAdd: ...
+    @staticmethod
+    def bdDbl_AddMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAddMulti: ...
+    @staticmethod
+    def bdDbl_Average(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAverage: ...
+    @staticmethod
+    def bdDbl_AverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAverageMulti: ...
+    @staticmethod
+    def bdDbl_Clamp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblClamp: ...
+    @staticmethod
+    def bdDbl_Divide(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblDivide: ...
+    @staticmethod
+    def bdDbl_DivideMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblDivideMulti: ...
+    @staticmethod
+    def bdDbl_Lerp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLerp: ...
+    @staticmethod
+    def bdDbl_MapRange(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMapRange: ...
+    @staticmethod
+    def bdDbl_Max(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMax: ...
+    @staticmethod
+    def bdDbl_MaxMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMaxMulti: ...
+    @staticmethod
+    def bdDbl_Min(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMin: ...
+    @staticmethod
+    def bdDbl_MinMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMinMulti: ...
+    @staticmethod
+    def bdDbl_Multiply(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMultiply: ...
+    @staticmethod
+    def bdDbl_MultiplyMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMultiplyMulti: ...
+    @staticmethod
+    def bdDbl_Negate(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblNegate: ...
+    @staticmethod
+    def bdDbl_Power(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblPower: ...
+    @staticmethod
+    def bdDbl_PowerMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblPowerMulti: ...
+    @staticmethod
+    def bdDbl_RatioDblA(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblRatioDblA: ...
+    @staticmethod
+    def bdDbl_RatioDblL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblRatioDblL: ...
+    @staticmethod
+    def bdDbl_Subtract(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblSubtract: ...
+    @staticmethod
+    def bdDbl_SubtractMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblSubtractMulti: ...
+    @staticmethod
+    def bdDbl_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblValue: ...
+    @staticmethod
+    def bdDbl_WeightedAverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblWeightedAverageMulti: ...
+    @staticmethod
+    def bdDbl_WeightedSumMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblWeightedSumMulti: ...
+    @staticmethod
+    def bdEuler_ComposeBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerComposeBendTwist: ...
+    @staticmethod
+    def bdEuler_DecomposeBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerDecomposeBendTwist: ...
+    @staticmethod
+    def bdEuler_DecomposeTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerDecomposeTwist: ...
+    @staticmethod
+    def bdEuler_LimitBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerLimitBendTwist: ...
+    @staticmethod
+    def bdEuler_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerValue: ...
+    @staticmethod
+    def bdQuat_ChangeBasis(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatChangeBasis: ...
+    @staticmethod
+    def bdQuat_ComposeBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatComposeBendTwist: ...
+    @staticmethod
+    def bdQuat_DecomposeBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatDecomposeBendTwist: ...
+    @staticmethod
+    def bdQuat_DecomposeTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatDecomposeTwist: ...
+    @staticmethod
+    def bdQuat_LimitBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatLimitBendTwist: ...
+    @staticmethod
+    def bdQuat_MultiplyMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatMultiplyMulti: ...
+    @staticmethod
+    def bdQuat_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatValue: ...
+    @staticmethod
+    def bdRbf_BendTwistFalloffWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfBendTwistFalloffWeight: ...
+    @staticmethod
+    def bdRbf_MultiBendTwistFalloffWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfMultiBendTwistFalloffWeight: ...
+    @staticmethod
+    def bdRbf_MultiOrientationFalloffWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfMultiOrientationFalloffWeight: ...
+    @staticmethod
+    def bdRbf_MultiOrientationWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfMultiOrientationWeight: ...
+    @staticmethod
+    def bdRbf_MultiPositionFalloffWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfMultiPositionFalloffWeight: ...
+    @staticmethod
+    def bdRbf_MultiPositionWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfMultiPositionWeight: ...
+    @staticmethod
+    def bdRbf_OrientationFalloffWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfOrientationFalloffWeight: ...
+    @staticmethod
+    def bdRbf_OrientationWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfOrientationWeight: ...
+    @staticmethod
+    def bdRbf_PoseBlend(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfPoseBlend: ...
+    @staticmethod
+    def bdRbf_PositionFalloffWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfPositionFalloffWeight: ...
+    @staticmethod
+    def bdRbf_PositionWeight(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdRbfPositionWeight: ...
     @staticmethod
     def bevel(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Bevel: ...
-
     @staticmethod
     def bevelPlus(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BevelPlus: ...
-
     @staticmethod
     def bezierCurveToNurbs(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BezierCurveToNurbs: ...
-
     @staticmethod
     def bifrostBoard(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BifrostBoard: ...
-
     @staticmethod
     def bifrostGeoToMaya(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BifrostGeoToMaya: ...
-
     @staticmethod
     def blendColorSets(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BlendColorSets: ...
-
     @staticmethod
     def blendColors(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BlendColors: ...
-
     @staticmethod
     def blendDevice(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BlendDevice: ...
-
     @staticmethod
     def blendFalloff(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BlendFalloff: ...
-
     @staticmethod
     def blendMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BlendMatrix: ...
-
     @staticmethod
     def blendShape(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BlendShape: ...
-
     @staticmethod
     def blendTwoAttr(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BlendTwoAttr: ...
-
     @staticmethod
     def blendWeighted(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BlendWeighted: ...
-
     @staticmethod
     def blindDataTemplate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BlindDataTemplate: ...
-
     @staticmethod
     def blinn(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Blinn: ...
-
     @staticmethod
     def boneLattice(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BoneLattice: ...
-
     @staticmethod
     def boolean(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Boolean: ...
-
     @staticmethod
     def boundary(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Boundary: ...
-
     @staticmethod
     def brownian(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Brownian: ...
-
     @staticmethod
     def brush(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Brush: ...
-
     @staticmethod
     def bulge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Bulge: ...
-
     @staticmethod
     def bump2d(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Bump2d: ...
-
     @staticmethod
     def bump3d(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Bump3d: ...
-
     @staticmethod
     def cMuscleCreator(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CMuscleCreator: ...
-
     @staticmethod
     def cMuscleMultiCollide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CMuscleMultiCollide: ...
-
     @staticmethod
     def cMuscleRelative(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CMuscleRelative: ...
-
     @staticmethod
     def cMuscleShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CMuscleShader: ...
-
     @staticmethod
     def cMuscleSmartConstraint(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CMuscleSmartConstraint: ...
-
     @staticmethod
     def cMuscleSplineDeformer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CMuscleSplineDeformer: ...
-
     @staticmethod
     def cMuscleStretch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CMuscleStretch: ...
-
     @staticmethod
     def cMuscleSystem(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CMuscleSystem: ...
-
     @staticmethod
     def cacheBlend(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CacheBlend: ...
-
     @staticmethod
     def cacheFile(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CacheFile: ...
-
     @staticmethod
     def camera(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Camera: ...
-
     @staticmethod
     def cameraSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CameraSet: ...
-
     @staticmethod
     def cameraView(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CameraView: ...
-
     @staticmethod
     def ceil(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Ceil: ...
-
     @staticmethod
     def channels(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Channels: ...
-
     @staticmethod
     def character(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Character: ...
-
     @staticmethod
     def characterMap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CharacterMap: ...
-
     @staticmethod
     def characterOffset(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CharacterOffset: ...
-
     @staticmethod
     def checker(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Checker: ...
-
     @staticmethod
     def childNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ChildNode: ...
-
     @staticmethod
     def choice(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Choice: ...
-
     @staticmethod
     def chooser(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Chooser: ...
-
     @staticmethod
     def clamp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Clamp: ...
-
     @staticmethod
     def clampRange(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ClampRange: ...
-
     @staticmethod
     def clipLibrary(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ClipLibrary: ...
-
     @staticmethod
     def clipScheduler(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ClipScheduler: ...
-
     @staticmethod
     def clipToGhostData(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ClipToGhostData: ...
-
     @staticmethod
     def closeCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CloseCurve: ...
-
     @staticmethod
     def closeSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CloseSurface: ...
-
     @staticmethod
     def closestPointOnMesh(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ClosestPointOnMesh: ...
-
     @staticmethod
     def closestPointOnSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ClosestPointOnSurface: ...
-
     @staticmethod
     def cloth(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Cloth: ...
-
     @staticmethod
     def cloud(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Cloud: ...
-
     @staticmethod
     def cluster(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Cluster: ...
-
     @staticmethod
     def collection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Collection: ...
-
     @staticmethod
     def colorComposite(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColorComposite: ...
-
     @staticmethod
     def colorCondition(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColorCondition: ...
-
     @staticmethod
     def colorConstant(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColorConstant: ...
-
     @staticmethod
     def colorCorrect(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColorCorrect: ...
-
     @staticmethod
     def colorLogic(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColorLogic: ...
-
     @staticmethod
     def colorManagementGlobals(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColorManagementGlobals: ...
-
     @staticmethod
     def colorMask(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColorMask: ...
-
     @staticmethod
     def colorMath(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColorMath: ...
-
     @staticmethod
     def colorProfile(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColorProfile: ...
-
     @staticmethod
     def columnFromMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ColumnFromMatrix: ...
-
     @staticmethod
     def combinationShape(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CombinationShape: ...
-
     @staticmethod
     def compactPlugArrayTest(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CompactPlugArrayTest: ...
-
     @staticmethod
     def componentFalloff(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ComponentFalloff: ...
-
     @staticmethod
     def componentMatch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ComponentMatch: ...
-
     @staticmethod
     def componentTagBase(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ComponentTagBase: ...
-
     @staticmethod
     def composeMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ComposeMatrix: ...
-
     @staticmethod
     def condition(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Condition: ...
-
     @staticmethod
     def connectionOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ConnectionOverride: ...
-
     @staticmethod
     def connectionUniqueOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ConnectionUniqueOverride: ...
-
     @staticmethod
     def container(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Container: ...
-
     @staticmethod
     def containerBase(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ContainerBase: ...
-
     @staticmethod
     def contrast(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Contrast: ...
-
     @staticmethod
     def controller(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Controller: ...
-
     @staticmethod
     def copyColorSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CopyColorSet: ...
-
     @staticmethod
     def copyUVSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CopyUVSet: ...
-
     @staticmethod
     def cos(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Cos: ...
-
     @staticmethod
     def cpvColor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CpvColor: ...
-
     @staticmethod
     def crater(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Crater: ...
-
     @staticmethod
     def creaseSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CreaseSet: ...
-
     @staticmethod
     def createColorSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CreateColorSet: ...
-
     @staticmethod
     def createPtexUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CreatePtexUV: ...
-
     @staticmethod
     def createUVSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CreateUVSet: ...
-
     @staticmethod
     def crossProduct(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CrossProduct: ...
-
     @staticmethod
     def cryptomatte(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Cryptomatte: ...
-
     @staticmethod
     def curveFromMeshCoM(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveFromMeshCoM: ...
-
     @staticmethod
     def curveFromMeshEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveFromMeshEdge: ...
-
     @staticmethod
     def curveFromSubdivEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveFromSubdivEdge: ...
-
     @staticmethod
     def curveFromSubdivFace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveFromSubdivFace: ...
-
     @staticmethod
     def curveFromSurfaceBnd(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveFromSurfaceBnd: ...
-
     @staticmethod
     def curveFromSurfaceCoS(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveFromSurfaceCoS: ...
-
     @staticmethod
     def curveFromSurfaceIso(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveFromSurfaceIso: ...
-
     @staticmethod
     def curveInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveInfo: ...
-
     @staticmethod
     def curveIntersect(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveIntersect: ...
-
     @staticmethod
     def curveNormalizerAngle(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveNormalizerAngle: ...
-
     @staticmethod
     def curveNormalizerLinear(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveNormalizerLinear: ...
-
     @staticmethod
     def curveWarp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveWarp: ...
-
     @staticmethod
     def dagPose(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DagPose: ...
-
     @staticmethod
     def dataBlockTest(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DataBlockTest: ...
-
     @staticmethod
     def decomposeMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DecomposeMatrix: ...
-
     @staticmethod
     def defaultLightList(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DefaultLightList: ...
-
     @staticmethod
     def defaultRenderUtilityList(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DefaultRenderUtilityList: ...
-
     @staticmethod
     def defaultRenderingList(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DefaultRenderingList: ...
-
     @staticmethod
     def defaultShaderList(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DefaultShaderList: ...
-
     @staticmethod
     def defaultTextureList(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DefaultTextureList: ...
-
     @staticmethod
     def deleteColorSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DeleteColorSet: ...
-
     @staticmethod
     def deleteComponent(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DeleteComponent: ...
-
     @staticmethod
     def deleteUVSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DeleteUVSet: ...
-
     @staticmethod
     def deltaMush(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DeltaMush: ...
-
     @staticmethod
     def detachCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DetachCurve: ...
-
     @staticmethod
     def detachSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DetachSurface: ...
-
     @staticmethod
     def determinant(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Determinant: ...
-
     @staticmethod
     def diskCache(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DiskCache: ...
-
     @staticmethod
     def displacementShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DisplacementShader: ...
-
     @staticmethod
     def displayLayer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DisplayLayer: ...
-
     @staticmethod
     def displayLayerManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DisplayLayerManager: ...
-
     @staticmethod
     def distanceBetween(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DistanceBetween: ...
-
     @staticmethod
     def divide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Divide: ...
-
     @staticmethod
     def dof(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Dof: ...
-
     @staticmethod
     def dotProduct(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DotProduct: ...
-
     @staticmethod
     def doubleShadingSwitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DoubleShadingSwitch: ...
-
     @staticmethod
     def dpBirailSrf(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DpBirailSrf: ...
-
     @staticmethod
     def dynController(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DynController: ...
-
     @staticmethod
     def dynGlobals(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DynGlobals: ...
-
     @staticmethod
     def editMetadata(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EditMetadata: ...
-
     @staticmethod
     def editsManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EditsManager: ...
-
     @staticmethod
     def envBall(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EnvBall: ...
-
     @staticmethod
     def envChrome(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EnvChrome: ...
-
     @staticmethod
     def envCube(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EnvCube: ...
-
     @staticmethod
     def envFacade(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EnvFacade: ...
-
     @staticmethod
     def envFog(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EnvFog: ...
-
     @staticmethod
     def envSky(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EnvSky: ...
-
     @staticmethod
     def envSphere(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EnvSphere: ...
-
     @staticmethod
     def equal(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Equal: ...
-
     @staticmethod
     def eulerToQuat(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> EulerToQuat: ...
-
     @staticmethod
     def explodeNurbsShell(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ExplodeNurbsShell: ...
-
     @staticmethod
     def expression(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Expression: ...
-
     @staticmethod
     def extendCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ExtendCurve: ...
-
     @staticmethod
     def extendSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ExtendSurface: ...
-
     @staticmethod
     def extrude(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Extrude: ...
-
     @staticmethod
     def facade(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Facade: ...
-
     @staticmethod
     def falloffEval(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FalloffEval: ...
-
     @staticmethod
     def ffBlendSrf(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FfBlendSrf: ...
-
     @staticmethod
     def ffBlendSrfObsolete(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FfBlendSrfObsolete: ...
-
     @staticmethod
     def ffFilletSrf(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FfFilletSrf: ...
-
     @staticmethod
     def ffd(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Ffd: ...
-
     @staticmethod
     def file(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> File: ...
-
     @staticmethod
     def filletCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FilletCurve: ...
-
     @staticmethod
     def fitBspline(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FitBspline: ...
-
     @staticmethod
     def floatComposite(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FloatComposite: ...
-
     @staticmethod
     def floatCondition(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FloatCondition: ...
-
     @staticmethod
     def floatConstant(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FloatConstant: ...
-
     @staticmethod
     def floatCorrect(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FloatCorrect: ...
-
     @staticmethod
     def floatLogic(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FloatLogic: ...
-
     @staticmethod
     def floatMask(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FloatMask: ...
-
     @staticmethod
     def floatMath(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FloatMath: ...
-
     @staticmethod
     def floor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Floor: ...
-
     @staticmethod
     def flow(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Flow: ...
-
     @staticmethod
     def fourByFourMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FourByFourMatrix: ...
-
     @staticmethod
     def fractal(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Fractal: ...
-
     @staticmethod
     def frameCache(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> FrameCache: ...
-
     @staticmethod
     def gameFbxExporter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GameFbxExporter: ...
-
     @staticmethod
     def gammaCorrect(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GammaCorrect: ...
-
     @staticmethod
     def geoConnector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GeoConnector: ...
-
     @staticmethod
     def geomBind(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GeomBind: ...
-
     @staticmethod
     def geometryFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GeometryFilter: ...
-
     @staticmethod
     def globalCacheControl(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GlobalCacheControl: ...
-
     @staticmethod
     def globalStitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GlobalStitch: ...
-
     @staticmethod
     def granite(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Granite: ...
-
     @staticmethod
     def greasePencilSequence(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GreasePencilSequence: ...
-
     @staticmethod
     def greaterThan(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GreaterThan: ...
-
     @staticmethod
     def grid(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Grid: ...
-
     @staticmethod
     def group(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Group: ...
-
     @staticmethod
     def groupId(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GroupId: ...
-
     @staticmethod
     def groupParts(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GroupParts: ...
-
     @staticmethod
     def guide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Guide: ...
-
     @staticmethod
     def hairPhysicalShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HairPhysicalShader: ...
-
     @staticmethod
     def hairTubeShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HairTubeShader: ...
-
     @staticmethod
     def hardenPoint(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HardenPoint: ...
-
     @staticmethod
     def hardwareRenderGlobals(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HardwareRenderGlobals: ...
-
     @staticmethod
     def hardwareRenderingGlobals(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HardwareRenderingGlobals: ...
-
     @staticmethod
     def hierarchyTestNode1(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode1: ...
-
     @staticmethod
     def hierarchyTestNode2(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode2: ...
-
     @staticmethod
     def hierarchyTestNode3(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode3: ...
-
     @staticmethod
     def hierarchyTestNode4(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode4: ...
-
     @staticmethod
     def hikSolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HikSolver: ...
-
     @staticmethod
     def historySwitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HistorySwitch: ...
-
     @staticmethod
     def holdMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HoldMatrix: ...
-
     @staticmethod
     def hsvToRgb(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HsvToRgb: ...
-
     @staticmethod
     def hwReflectionMap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HwReflectionMap: ...
-
     @staticmethod
     def hwRenderGlobals(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HwRenderGlobals: ...
-
     @staticmethod
     def hyperGraphInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HyperGraphInfo: ...
-
     @staticmethod
     def hyperLayout(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HyperLayout: ...
-
     @staticmethod
     def hyperView(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HyperView: ...
-
     @staticmethod
     def ik2Bsolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Ik2Bsolver: ...
-
     @staticmethod
     def ikMCsolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> IkMCsolver: ...
-
     @staticmethod
     def ikPASolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> IkPASolver: ...
-
     @staticmethod
     def ikRPsolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> IkRPsolver: ...
-
     @staticmethod
     def ikSCsolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> IkSCsolver: ...
-
     @staticmethod
     def ikSplineSolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> IkSplineSolver: ...
-
     @staticmethod
     def ikSpringSolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> IkSpringSolver: ...
-
     @staticmethod
     def ikSystem(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> IkSystem: ...
-
     @staticmethod
     def insertKnotCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> InsertKnotCurve: ...
-
     @staticmethod
     def insertKnotSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> InsertKnotSurface: ...
-
     @staticmethod
     def intersectSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> IntersectSurface: ...
-
     @staticmethod
     def inverseLerp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> InverseLerp: ...
-
     @staticmethod
     def inverseMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> InverseMatrix: ...
-
     @staticmethod
     def jiggle(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Jiggle: ...
-
     @staticmethod
     def joint(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Joint: ...
-
     @staticmethod
     def jointCluster(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> JointCluster: ...
-
     @staticmethod
     def jointFfd(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> JointFfd: ...
-
     @staticmethod
     def jointLattice(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> JointLattice: ...
-
     @staticmethod
     def keyingGroup(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> KeyingGroup: ...
-
     @staticmethod
     def lambert(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Lambert: ...
-
     @staticmethod
     def layeredShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LayeredShader: ...
-
     @staticmethod
     def layeredTexture(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LayeredTexture: ...
-
     @staticmethod
     def leastSquaresModifier(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LeastSquaresModifier: ...
-
     @staticmethod
     def leather(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Leather: ...
-
     @staticmethod
     def length(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Length: ...
-
     @staticmethod
     def lerp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Lerp: ...
-
     @staticmethod
     def lessThan(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LessThan: ...
-
     @staticmethod
     def lightEditor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightEditor: ...
-
     @staticmethod
     def lightFog(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightFog: ...
-
     @staticmethod
     def lightGroup(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightGroup: ...
-
     @staticmethod
     def lightInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightInfo: ...
-
     @staticmethod
     def lightItem(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightItem: ...
-
     @staticmethod
     def lightItemBase(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightItemBase: ...
-
     @staticmethod
     def lightLinker(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightLinker: ...
-
     @staticmethod
     def lightList(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightList: ...
-
     @staticmethod
     def lightsChildCollection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightsChildCollection: ...
-
     @staticmethod
     def lightsCollection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightsCollection: ...
-
     @staticmethod
     def lightsCollectionSelector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LightsCollectionSelector: ...
-
     @staticmethod
     def listItem(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ListItem: ...
-
     @staticmethod
     def lodThresholds(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LodThresholds: ...
-
     @staticmethod
     def loft(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Loft: ...
-
     @staticmethod
     def log(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Log: ...
-
     @staticmethod
     def luminance(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Luminance: ...
-
     @staticmethod
     def makeGroup(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeGroup: ...
-
     @staticmethod
     def makeIllustratorCurves(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeIllustratorCurves: ...
-
     @staticmethod
     def makeNurbCircle(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeNurbCircle: ...
-
     @staticmethod
     def makeNurbCone(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeNurbCone: ...
-
     @staticmethod
     def makeNurbCube(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeNurbCube: ...
-
     @staticmethod
     def makeNurbCylinder(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeNurbCylinder: ...
-
     @staticmethod
     def makeNurbPlane(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeNurbPlane: ...
-
     @staticmethod
     def makeNurbSphere(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeNurbSphere: ...
-
     @staticmethod
     def makeNurbTorus(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeNurbTorus: ...
-
     @staticmethod
     def makeNurbsSquare(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeNurbsSquare: ...
-
     @staticmethod
     def makeTextCurves(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeTextCurves: ...
-
     @staticmethod
     def makeThreePointCircularArc(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeThreePointCircularArc: ...
-
     @staticmethod
     def makeTwoPointCircularArc(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MakeTwoPointCircularArc: ...
-
     @staticmethod
     def mandelbrot(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Mandelbrot: ...
-
     @staticmethod
     def mandelbrot3D(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Mandelbrot3D: ...
-
     @staticmethod
     def marble(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Marble: ...
-
     @staticmethod
     def materialFacade(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MaterialFacade: ...
-
     @staticmethod
     def materialInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MaterialInfo: ...
-
     @staticmethod
     def materialOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MaterialOverride: ...
-
     @staticmethod
     def materialTemplate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MaterialTemplate: ...
-
     @staticmethod
     def materialTemplateOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MaterialTemplateOverride: ...
-
     @staticmethod
     def materialXMaterial(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MaterialXMaterial: ...
-
     @staticmethod
     def max(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Max: ...
-
     @staticmethod
     def mayaUsdGeomNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MayaUsdGeomNode: ...
-
     @staticmethod
     def mayaUsdLayerManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MayaUsdLayerManager: ...
-
     @staticmethod
     def mayaUsdProxyShapeListener(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MayaUsdProxyShapeListener: ...
-
     @staticmethod
     def mayaUsdProxyShapeListenerBase(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MayaUsdProxyShapeListenerBase: ...
-
     @staticmethod
     def membrane(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Membrane: ...
-
     @staticmethod
     def mesh(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Mesh: ...
-
     @staticmethod
     def min(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Min: ...
-
     @staticmethod
     def modulo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Modulo: ...
-
     @staticmethod
     def morph(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Morph: ...
-
     @staticmethod
     def motionPath(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MotionPath: ...
-
     @staticmethod
     def motionTrail(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MotionTrail: ...
-
     @staticmethod
     def mountain(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Mountain: ...
-
     @staticmethod
     def movie(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Movie: ...
-
     @staticmethod
     def mpBirailSrf(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MpBirailSrf: ...
-
     @staticmethod
     def multDoubleLinear(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MultDoubleLinear: ...
-
     @staticmethod
     def multMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MultMatrix: ...
-
     @staticmethod
     def multilisterLight(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MultilisterLight: ...
-
     @staticmethod
     def multiply(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Multiply: ...
-
     @staticmethod
     def multiplyDivide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MultiplyDivide: ...
-
     @staticmethod
     def multiplyPointByMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MultiplyPointByMatrix: ...
-
     @staticmethod
     def multiplyVectorByMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MultiplyVectorByMatrix: ...
-
     @staticmethod
     def mute(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Mute: ...
-
     @staticmethod
     def nComponent(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NComponent: ...
-
     @staticmethod
     def nearestPointOnCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NearestPointOnCurve: ...
-
     @staticmethod
     def negate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Negate: ...
-
     @staticmethod
     def network(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Network: ...
-
     @staticmethod
     def nodeGraphEditorBookmarkInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NodeGraphEditorBookmarkInfo: ...
-
     @staticmethod
     def nodeGraphEditorBookmarks(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NodeGraphEditorBookmarks: ...
-
     @staticmethod
     def noise(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Noise: ...
-
     @staticmethod
     def nonLinear(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NonLinear: ...
-
     @staticmethod
     def normalize(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Normalize: ...
-
     @staticmethod
     def not_(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
-
     @staticmethod
     def nurbsCurveToBezier(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NurbsCurveToBezier: ...
-
     @staticmethod
     def nurbsTessellate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NurbsTessellate: ...
-
     @staticmethod
     def nurbsToSubdiv(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NurbsToSubdiv: ...
-
     @staticmethod
     def nurbsToSubdivProc(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NurbsToSubdivProc: ...
-
     @staticmethod
     def objectAttrFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectAttrFilter: ...
-
     @staticmethod
     def objectBinFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectBinFilter: ...
-
     @staticmethod
     def objectFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectFilter: ...
-
     @staticmethod
     def objectGrpToComp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectGrpToComp: ...
-
     @staticmethod
     def objectMultiFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectMultiFilter: ...
-
     @staticmethod
     def objectNameFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectNameFilter: ...
-
     @staticmethod
     def objectRenderFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectRenderFilter: ...
-
     @staticmethod
     def objectScriptFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectScriptFilter: ...
-
     @staticmethod
     def objectSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectSet: ...
-
     @staticmethod
     def objectTypeFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ObjectTypeFilter: ...
-
     @staticmethod
     def ocean(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Ocean: ...
-
     @staticmethod
     def oceanShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> OceanShader: ...
-
     @staticmethod
     def offsetCos(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> OffsetCos: ...
-
     @staticmethod
     def offsetCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> OffsetCurve: ...
-
     @staticmethod
     def offsetDeformer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> OffsetDeformer: ...
-
     @staticmethod
     def offsetSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> OffsetSurface: ...
-
     @staticmethod
     def oldBlindDataBase(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> OldBlindDataBase: ...
-
     @staticmethod
     def oldGeometryConstraint(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> OldGeometryConstraint: ...
-
     @staticmethod
     def opticalFX(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> OpticalFX: ...
-
     @staticmethod
     def or_(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
-
     @staticmethod
     def override(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Override: ...
-
     @staticmethod
     def pairBlend(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PairBlend: ...
-
     @staticmethod
     def parentMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ParentMatrix: ...
-
     @staticmethod
     def particleAgeMapper(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ParticleAgeMapper: ...
-
     @staticmethod
     def particleCloud(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ParticleCloud: ...
-
     @staticmethod
     def particleColorMapper(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ParticleColorMapper: ...
-
     @staticmethod
     def particleIncandMapper(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ParticleIncandMapper: ...
-
     @staticmethod
     def particleSamplerInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ParticleSamplerInfo: ...
-
     @staticmethod
     def particleTranspMapper(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ParticleTranspMapper: ...
-
     @staticmethod
     def partition(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Partition: ...
-
     @staticmethod
     def passContributionMap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PassContributionMap: ...
-
     @staticmethod
     def passMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PassMatrix: ...
-
     @staticmethod
     def phong(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Phong: ...
-
     @staticmethod
     def phongE(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PhongE: ...
-
     @staticmethod
     def pi(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Pi: ...
-
     @staticmethod
     def pickMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PickMatrix: ...
-
     @staticmethod
     def place2dTexture(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Place2dTexture: ...
-
     @staticmethod
     def planarTrimSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PlanarTrimSurface: ...
-
     @staticmethod
     def plusMinusAverage(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PlusMinusAverage: ...
-
     @staticmethod
     def pointMatrixMult(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PointMatrixMult: ...
-
     @staticmethod
     def pointOnCurveInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PointOnCurveInfo: ...
-
     @staticmethod
     def pointOnSurfaceInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PointOnSurfaceInfo: ...
-
     @staticmethod
     def polyAppend(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyAppend: ...
-
     @staticmethod
     def polyAppendVertex(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyAppendVertex: ...
-
     @staticmethod
     def polyAutoProj(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyAutoProj: ...
-
     @staticmethod
     def polyAverageVertex(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyAverageVertex: ...
-
     @staticmethod
     def polyAxis(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyAxis: ...
-
     @staticmethod
     def polyBevel(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyBevel: ...
-
     @staticmethod
     def polyBevel2(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyBevel2: ...
-
     @staticmethod
     def polyBevel3(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyBevel3: ...
-
     @staticmethod
     def polyBevelCutback(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyBevelCutback: ...
-
     @staticmethod
     def polyBlindData(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyBlindData: ...
-
     @staticmethod
     def polyBoolOp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyBoolOp: ...
-
     @staticmethod
     def polyBoolean(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyBoolean: ...
-
     @staticmethod
     def polyBridgeEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyBridgeEdge: ...
-
     @staticmethod
     def polyCBoolOp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCBoolOp: ...
-
     @staticmethod
     def polyChipOff(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyChipOff: ...
-
     @staticmethod
     def polyCircularize(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCircularize: ...
-
     @staticmethod
     def polyClean(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyClean: ...
-
     @staticmethod
     def polyCloseBorder(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCloseBorder: ...
-
     @staticmethod
     def polyCollapseEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCollapseEdge: ...
-
     @staticmethod
     def polyCollapseF(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCollapseF: ...
-
     @staticmethod
     def polyColorDel(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyColorDel: ...
-
     @staticmethod
     def polyColorMod(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyColorMod: ...
-
     @staticmethod
     def polyColorPerVertex(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyColorPerVertex: ...
-
     @staticmethod
     def polyCone(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCone: ...
-
     @staticmethod
     def polyConnectComponents(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyConnectComponents: ...
-
     @staticmethod
     def polyContourProj(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyContourProj: ...
-
     @staticmethod
     def polyCopyUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCopyUV: ...
-
     @staticmethod
     def polyCrease(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCrease: ...
-
     @staticmethod
     def polyCreaseEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCreaseEdge: ...
-
     @staticmethod
     def polyCreateFace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCreateFace: ...
-
     @staticmethod
     def polyCube(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCube: ...
-
     @staticmethod
     def polyCut(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCut: ...
-
     @staticmethod
     def polyCylProj(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCylProj: ...
-
     @staticmethod
     def polyCylinder(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyCylinder: ...
-
     @staticmethod
     def polyDelEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyDelEdge: ...
-
     @staticmethod
     def polyDelFacet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyDelFacet: ...
-
     @staticmethod
     def polyDelVertex(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyDelVertex: ...
-
     @staticmethod
     def polyDisc(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyDisc: ...
-
     @staticmethod
     def polyDuplicateEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyDuplicateEdge: ...
-
     @staticmethod
     def polyEdgeToCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyEdgeToCurve: ...
-
     @staticmethod
     def polyEditEdgeFlow(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyEditEdgeFlow: ...
-
     @staticmethod
     def polyExtrudeEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyExtrudeEdge: ...
-
     @staticmethod
     def polyExtrudeFace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyExtrudeFace: ...
-
     @staticmethod
     def polyExtrudeVertex(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyExtrudeVertex: ...
-
     @staticmethod
     def polyFlipEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyFlipEdge: ...
-
     @staticmethod
     def polyFlipUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyFlipUV: ...
-
     @staticmethod
     def polyGear(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyGear: ...
-
     @staticmethod
     def polyHelix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyHelix: ...
-
     @staticmethod
     def polyHoleFace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyHoleFace: ...
-
     @staticmethod
     def polyLayoutUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyLayoutUV: ...
-
     @staticmethod
     def polyMapCut(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMapCut: ...
-
     @staticmethod
     def polyMapDel(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMapDel: ...
-
     @staticmethod
     def polyMapSew(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMapSew: ...
-
     @staticmethod
     def polyMapSewMove(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMapSewMove: ...
-
     @staticmethod
     def polyMergeEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMergeEdge: ...
-
     @staticmethod
     def polyMergeFace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMergeFace: ...
-
     @staticmethod
     def polyMergeUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMergeUV: ...
-
     @staticmethod
     def polyMergeVert(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMergeVert: ...
-
     @staticmethod
     def polyMirror(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMirror: ...
-
     @staticmethod
     def polyMoveEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMoveEdge: ...
-
     @staticmethod
     def polyMoveFace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMoveFace: ...
-
     @staticmethod
     def polyMoveFacetUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMoveFacetUV: ...
-
     @staticmethod
     def polyMoveUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMoveUV: ...
-
     @staticmethod
     def polyMoveVertex(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyMoveVertex: ...
-
     @staticmethod
     def polyNormal(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyNormal: ...
-
     @staticmethod
     def polyNormalPerVertex(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyNormalPerVertex: ...
-
     @staticmethod
     def polyNormalizeUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyNormalizeUV: ...
-
     @staticmethod
     def polyOptUvs(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyOptUvs: ...
-
     @staticmethod
     def polyPassThru(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPassThru: ...
-
     @staticmethod
     def polyPinUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPinUV: ...
-
     @staticmethod
     def polyPipe(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPipe: ...
-
     @staticmethod
     def polyPlanarProj(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPlanarProj: ...
-
     @staticmethod
     def polyPlane(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPlane: ...
-
     @staticmethod
     def polyPlatonic(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPlatonic: ...
-
     @staticmethod
     def polyPlatonicSolid(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPlatonicSolid: ...
-
     @staticmethod
     def polyPoke(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPoke: ...
-
     @staticmethod
     def polyPrimitiveMisc(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPrimitiveMisc: ...
-
     @staticmethod
     def polyPrism(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPrism: ...
-
     @staticmethod
     def polyProj(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyProj: ...
-
     @staticmethod
     def polyProjectCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyProjectCurve: ...
-
     @staticmethod
     def polyPyramid(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyPyramid: ...
-
     @staticmethod
     def polyQuad(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyQuad: ...
-
     @staticmethod
     def polyReduce(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyReduce: ...
-
     @staticmethod
     def polyRemesh(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyRemesh: ...
-
     @staticmethod
     def polyRetopo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyRetopo: ...
-
     @staticmethod
     def polySeparate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySeparate: ...
-
     @staticmethod
     def polySewEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySewEdge: ...
-
     @staticmethod
     def polySmartExtrude(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySmartExtrude: ...
-
     @staticmethod
     def polySmooth(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySmooth: ...
-
     @staticmethod
     def polySmoothFace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySmoothFace: ...
-
     @staticmethod
     def polySmoothProxy(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySmoothProxy: ...
-
     @staticmethod
     def polySoftEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySoftEdge: ...
-
     @staticmethod
     def polySphProj(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySphProj: ...
-
     @staticmethod
     def polySphere(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySphere: ...
-
     @staticmethod
     def polySpinEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySpinEdge: ...
-
     @staticmethod
     def polySplit(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySplit: ...
-
     @staticmethod
     def polySplitEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySplitEdge: ...
-
     @staticmethod
     def polySplitRing(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySplitRing: ...
-
     @staticmethod
     def polySplitVert(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySplitVert: ...
-
     @staticmethod
     def polyStraightenUVBorder(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyStraightenUVBorder: ...
-
     @staticmethod
     def polySubdEdge(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySubdEdge: ...
-
     @staticmethod
     def polySubdFace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySubdFace: ...
-
     @staticmethod
     def polySuperShape(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolySuperShape: ...
-
     @staticmethod
     def polyToSubdiv(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyToSubdiv: ...
-
     @staticmethod
     def polyTorus(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyTorus: ...
-
     @staticmethod
     def polyTransfer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyTransfer: ...
-
     @staticmethod
     def polyTriangulate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyTriangulate: ...
-
     @staticmethod
     def polyTweak(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyTweak: ...
-
     @staticmethod
     def polyTweakUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyTweakUV: ...
-
     @staticmethod
     def polyUVRectangle(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyUVRectangle: ...
-
     @staticmethod
     def polyUnite(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyUnite: ...
-
     @staticmethod
     def polyUnsmooth(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyUnsmooth: ...
-
     @staticmethod
     def polyWedgeFace(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PolyWedgeFace: ...
-
     @staticmethod
     def poseInterpolatorManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PoseInterpolatorManager: ...
-
     @staticmethod
     def postProcessList(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PostProcessList: ...
-
     @staticmethod
     def power(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Power: ...
-
     @staticmethod
     def precompExport(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PrecompExport: ...
-
     @staticmethod
     def premultiply(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Premultiply: ...
-
     @staticmethod
     def projectCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ProjectCurve: ...
-
     @staticmethod
     def projectTangent(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ProjectTangent: ...
-
     @staticmethod
     def projection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Projection: ...
-
     @staticmethod
     def proximityFalloff(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ProximityFalloff: ...
-
     @staticmethod
     def proximityPin(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ProximityPin: ...
-
     @staticmethod
     def proximityWrap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ProximityWrap: ...
-
     @staticmethod
     def proxyManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ProxyManager: ...
-
     @staticmethod
     def psdFileTex(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PsdFileTex: ...
-
     @staticmethod
     def pxrUsdPointBasedDeformerNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PxrUsdPointBasedDeformerNode: ...
-
     @staticmethod
     def pxrUsdStageNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PxrUsdStageNode: ...
-
     @staticmethod
     def quadShadingSwitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuadShadingSwitch: ...
-
     @staticmethod
     def quatAdd(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatAdd: ...
-
     @staticmethod
     def quatConjugate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatConjugate: ...
-
     @staticmethod
     def quatInvert(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatInvert: ...
-
     @staticmethod
     def quatNegate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatNegate: ...
-
     @staticmethod
     def quatNormalize(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatNormalize: ...
-
     @staticmethod
     def quatProd(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatProd: ...
-
     @staticmethod
     def quatSlerp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatSlerp: ...
-
     @staticmethod
     def quatSub(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatSub: ...
-
     @staticmethod
     def quatToAxisAngle(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatToAxisAngle: ...
-
     @staticmethod
     def quatToEuler(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatToEuler: ...
-
     @staticmethod
     def ramp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Ramp: ...
-
     @staticmethod
     def rampShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RampShader: ...
-
     @staticmethod
     def rbfSrf(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RbfSrf: ...
-
     @staticmethod
     def rebuildCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RebuildCurve: ...
-
     @staticmethod
     def rebuildSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RebuildSurface: ...
-
     @staticmethod
     def record(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Record: ...
-
     @staticmethod
     def reference(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Reference: ...
-
     @staticmethod
     def relOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RelOverride: ...
-
     @staticmethod
     def relUniqueOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RelUniqueOverride: ...
-
     @staticmethod
     def remapColor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RemapColor: ...
-
     @staticmethod
     def remapHsv(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RemapHsv: ...
-
     @staticmethod
     def remapValue(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RemapValue: ...
-
     @staticmethod
     def renderGlobals(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderGlobals: ...
-
     @staticmethod
     def renderGlobalsList(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderGlobalsList: ...
-
     @staticmethod
     def renderLayer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderLayer: ...
-
     @staticmethod
     def renderLayerManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderLayerManager: ...
-
     @staticmethod
     def renderPass(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderPass: ...
-
     @staticmethod
     def renderPassSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderPassSet: ...
-
     @staticmethod
     def renderQuality(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderQuality: ...
-
     @staticmethod
     def renderSettingsChildCollection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderSettingsChildCollection: ...
-
     @staticmethod
     def renderSettingsCollection(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderSettingsCollection: ...
-
     @staticmethod
     def renderSetup(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderSetup: ...
-
     @staticmethod
     def renderSetupLayer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderSetupLayer: ...
-
     @staticmethod
     def renderTarget(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderTarget: ...
-
     @staticmethod
     def renderedImageSource(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RenderedImageSource: ...
-
     @staticmethod
     def reorderUVSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ReorderUVSet: ...
-
     @staticmethod
     def resolution(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Resolution: ...
-
     @staticmethod
     def resultCurveTimeToAngular(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ResultCurveTimeToAngular: ...
-
     @staticmethod
     def resultCurveTimeToLinear(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ResultCurveTimeToLinear: ...
-
     @staticmethod
     def resultCurveTimeToTime(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ResultCurveTimeToTime: ...
-
     @staticmethod
     def resultCurveTimeToUnitless(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ResultCurveTimeToUnitless: ...
-
     @staticmethod
     def reverse(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Reverse: ...
-
     @staticmethod
     def reverseCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ReverseCurve: ...
-
     @staticmethod
     def reverseSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ReverseSurface: ...
-
     @staticmethod
     def revolve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Revolve: ...
-
     @staticmethod
     def rgbToHsv(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RgbToHsv: ...
-
     @staticmethod
     def rigidSolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RigidSolver: ...
-
     @staticmethod
     def rock(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Rock: ...
-
     @staticmethod
     def rotateHelper(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RotateHelper: ...
-
     @staticmethod
     def rotateVector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RotateVector: ...
-
     @staticmethod
     def rotationFromMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RotationFromMatrix: ...
-
     @staticmethod
     def round(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Round: ...
-
     @staticmethod
     def roundConstantRadius(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RoundConstantRadius: ...
-
     @staticmethod
     def rowFromMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RowFromMatrix: ...
-
     @staticmethod
     def sampler(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Sampler: ...
-
     @staticmethod
     def samplerInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SamplerInfo: ...
-
     @staticmethod
     def scaleFromMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ScaleFromMatrix: ...
-
     @staticmethod
     def script(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Script: ...
-
     @staticmethod
     def sculpt(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Sculpt: ...
-
     @staticmethod
     def selectionListOperator(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SelectionListOperator: ...
-
     @staticmethod
     def selector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Selector: ...
-
     @staticmethod
     def sequenceManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SequenceManager: ...
-
     @staticmethod
     def sequencer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Sequencer: ...
-
     @staticmethod
     def setRange(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SetRange: ...
-
     @staticmethod
     def shaderGlow(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ShaderGlow: ...
-
     @staticmethod
     def shaderOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ShaderOverride: ...
-
     @staticmethod
     def shadingEngine(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ShadingEngine: ...
-
     @staticmethod
     def shadingMap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ShadingMap: ...
-
     @staticmethod
     def shapeEditorManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ShapeEditorManager: ...
-
     @staticmethod
     def shellDeformer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ShellDeformer: ...
-
     @staticmethod
     def shellTessellate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ShellTessellate: ...
-
     @staticmethod
     def shot(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Shot: ...
-
     @staticmethod
     def shrinkWrap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ShrinkWrap: ...
-
     @staticmethod
     def simpleSelector(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SimpleSelector: ...
-
     @staticmethod
     def simpleTestNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SimpleTestNode: ...
-
     @staticmethod
     def simpleVolumeShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SimpleVolumeShader: ...
-
     @staticmethod
     def simplexNoise(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SimplexNoise: ...
-
     @staticmethod
     def sin(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Sin: ...
-
     @staticmethod
     def singleShadingSwitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SingleShadingSwitch: ...
-
     @staticmethod
     def skinBinding(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SkinBinding: ...
-
     @staticmethod
     def skinCluster(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SkinCluster: ...
-
     @staticmethod
     def smoothCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SmoothCurve: ...
-
     @staticmethod
     def smoothStep(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SmoothStep: ...
-
     @staticmethod
     def smoothTangentSrf(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SmoothTangentSrf: ...
-
     @staticmethod
     def snapshot(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Snapshot: ...
-
     @staticmethod
     def snow(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Snow: ...
-
     @staticmethod
     def softMod(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SoftMod: ...
-
     @staticmethod
     def solidFractal(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SolidFractal: ...
-
     @staticmethod
     def solidify(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Solidify: ...
-
     @staticmethod
     def spBirailSrf(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SpBirailSrf: ...
-
     @staticmethod
     def squareSrf(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SquareSrf: ...
-
     @staticmethod
     def standardSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> StandardSurface: ...
-
     @staticmethod
     def stencil(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Stencil: ...
-
     @staticmethod
     def stitchAsNurbsShell(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> StitchAsNurbsShell: ...
-
     @staticmethod
     def stitchSrf(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> StitchSrf: ...
-
     @staticmethod
     def strokeGlobals(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> StrokeGlobals: ...
-
     @staticmethod
     def stucco(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Stucco: ...
-
     @staticmethod
     def styleCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> StyleCurve: ...
-
     @staticmethod
     def subCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubCurve: ...
-
     @staticmethod
     def subSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubSurface: ...
-
     @staticmethod
     def subdAddTopology(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdAddTopology: ...
-
     @staticmethod
     def subdAutoProj(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdAutoProj: ...
-
     @staticmethod
     def subdBlindData(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdBlindData: ...
-
     @staticmethod
     def subdCleanTopology(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdCleanTopology: ...
-
     @staticmethod
     def subdHierBlind(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdHierBlind: ...
-
     @staticmethod
     def subdLayoutUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdLayoutUV: ...
-
     @staticmethod
     def subdMapCut(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdMapCut: ...
-
     @staticmethod
     def subdMapSewMove(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdMapSewMove: ...
-
     @staticmethod
     def subdPlanarProj(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdPlanarProj: ...
-
     @staticmethod
     def subdTweak(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdTweak: ...
-
     @staticmethod
     def subdTweakUV(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdTweakUV: ...
-
     @staticmethod
     def subdivCollapse(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdivCollapse: ...
-
     @staticmethod
     def subdivComponentId(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdivComponentId: ...
-
     @staticmethod
     def subdivReverseFaces(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdivReverseFaces: ...
-
     @staticmethod
     def subdivToNurbs(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdivToNurbs: ...
-
     @staticmethod
     def subdivToPoly(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubdivToPoly: ...
-
     @staticmethod
     def subsetFalloff(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SubsetFalloff: ...
-
     @staticmethod
     def subtract(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Subtract: ...
-
     @staticmethod
     def sum(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Sum: ...
-
     @staticmethod
     def surfaceInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SurfaceInfo: ...
-
     @staticmethod
     def surfaceLuminance(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SurfaceLuminance: ...
-
     @staticmethod
     def surfaceShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SurfaceShader: ...
-
     @staticmethod
     def svgToPoly(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SvgToPoly: ...
-
     @staticmethod
     def sweepMeshCreator(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SweepMeshCreator: ...
-
     @staticmethod
     def sweepProfileConverter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SweepProfileConverter: ...
-
     @staticmethod
     def tan(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Tan: ...
-
     @staticmethod
     def tension(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Tension: ...
-
     @staticmethod
     def texLattice(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TexLattice: ...
-
     @staticmethod
     def textureBakeSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TextureBakeSet: ...
-
     @staticmethod
     def textureDeformer(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TextureDeformer: ...
-
     @staticmethod
     def textureToGeom(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TextureToGeom: ...
-
     @staticmethod
     def time(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Time: ...
-
     @staticmethod
     def timeEditor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeEditor: ...
-
     @staticmethod
     def timeEditorAnimSource(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeEditorAnimSource: ...
-
     @staticmethod
     def timeEditorClip(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeEditorClip: ...
-
     @staticmethod
     def timeEditorClipBase(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeEditorClipBase: ...
-
     @staticmethod
     def timeEditorClipEvaluator(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeEditorClipEvaluator: ...
-
     @staticmethod
     def timeEditorInterpolator(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeEditorInterpolator: ...
-
     @staticmethod
     def timeEditorTracks(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeEditorTracks: ...
-
     @staticmethod
     def timeFunction(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeFunction: ...
-
     @staticmethod
     def timeToUnitConversion(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeToUnitConversion: ...
-
     @staticmethod
     def timeWarp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TimeWarp: ...
-
     @staticmethod
     def toonLineAttributes(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ToonLineAttributes: ...
-
     @staticmethod
     def trackInfoManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TrackInfoManager: ...
-
     @staticmethod
     def transferAttributes(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TransferAttributes: ...
-
     @staticmethod
     def transferFalloff(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TransferFalloff: ...
-
     @staticmethod
     def transform(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Transform: ...
-
     @staticmethod
     def transformGeometry(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TransformGeometry: ...
-
     @staticmethod
     def translationFromMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TranslationFromMatrix: ...
-
     @staticmethod
     def transposeMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TransposeMatrix: ...
-
     @staticmethod
     def trim(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Trim: ...
-
     @staticmethod
     def trimWithBoundaries(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TrimWithBoundaries: ...
-
     @staticmethod
     def tripleShadingSwitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TripleShadingSwitch: ...
-
     @staticmethod
     def truncate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Truncate: ...
-
     @staticmethod
     def tweak(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Tweak: ...
-
     @staticmethod
     def type(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Type: ...
-
     @staticmethod
     def typeExtrude(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TypeExtrude: ...
-
     @staticmethod
     def uniformFalloff(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> UniformFalloff: ...
-
     @staticmethod
     def unitConversion(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> UnitConversion: ...
-
     @staticmethod
     def unitToTimeConversion(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> UnitToTimeConversion: ...
-
     @staticmethod
     def unknown(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Unknown: ...
-
     @staticmethod
     def unpremultiply(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Unpremultiply: ...
-
     @staticmethod
     def untrim(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Untrim: ...
-
     @staticmethod
     def usdPreviewSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> UsdPreviewSurface: ...
-
     @staticmethod
     def useBackground(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> UseBackground: ...
-
     @staticmethod
     def uvChooser(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> UvChooser: ...
-
     @staticmethod
     def uvPin(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> UvPin: ...
-
     @staticmethod
     def valueOverride(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ValueOverride: ...
-
     @staticmethod
     def vectorAdjust(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> VectorAdjust: ...
-
     @staticmethod
     def vectorExtrude(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> VectorExtrude: ...
-
     @staticmethod
     def vectorProduct(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> VectorProduct: ...
-
     @staticmethod
     def vertexBakeSet(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> VertexBakeSet: ...
-
     @staticmethod
     def viewColorManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ViewColorManager: ...
-
     @staticmethod
     def volumeFog(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> VolumeFog: ...
-
     @staticmethod
     def volumeNoise(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> VolumeNoise: ...
-
     @staticmethod
     def volumeShader(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> VolumeShader: ...
-
     @staticmethod
     def water(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Water: ...
-
     @staticmethod
     def weightGeometryFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> WeightGeometryFilter: ...
-
     @staticmethod
     def wire(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Wire: ...
-
     @staticmethod
     def wood(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Wood: ...
-
     @staticmethod
     def wrap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Wrap: ...
-
     @staticmethod
     def wtAddMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> WtAddMatrix: ...
-
     @staticmethod
     def xgmCurveToSpline(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmCurveToSpline: ...
-
     @staticmethod
     def xgmHairMapping(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmHairMapping: ...
-
     @staticmethod
     def xgmMakeGuide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmMakeGuide: ...
-
     @staticmethod
     def xgmModifierBase(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierBase: ...
-
     @staticmethod
     def xgmModifierClump(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierClump: ...
-
     @staticmethod
     def xgmModifierCollision(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierCollision: ...
-
     @staticmethod
     def xgmModifierCut(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierCut: ...
-
     @staticmethod
     def xgmModifierDisplacement(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierDisplacement: ...
-
     @staticmethod
     def xgmModifierGuide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierGuide: ...
-
     @staticmethod
     def xgmModifierLinearWire(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierLinearWire: ...
-
     @staticmethod
     def xgmModifierNoise(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierNoise: ...
-
     @staticmethod
     def xgmModifierScale(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierScale: ...
-
     @staticmethod
     def xgmModifierSculpt(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmModifierSculpt: ...
-
     @staticmethod
     def xgmSeExpr(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmSeExpr: ...
-
     @staticmethod
     def xgmSplineBase(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmSplineBase: ...
-
     @staticmethod
     def xgmSplineCache(
         node: str | om.MObject,

@@ -1,15 +1,13 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
-    Float2CompoundBaseAttrOperator,
-    Float2CompoundBasePlugOperator,
-    Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float2CompoundBaseAttrOperator,
+    Float2CompoundBasePlugOperator,
+    Float2CompoundBaseField,
 )
 
 
@@ -49,7 +47,9 @@ class ParticleColorAttrOperator(
 
 
 class ParticleColorField(
-    Float3CompoundBaseField[ParticleColorAttrOperator, ParticleColorPlugOperator]
+    Float3CompoundBaseField[
+        ParticleColorAttrOperator, ParticleColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -102,7 +102,9 @@ class ParticleTransparencyAttrOperator(
 
 
 class ParticleTransparencyField(
-    Float3CompoundBaseField[ParticleTransparencyAttrOperator, ParticleTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        ParticleTransparencyAttrOperator, ParticleTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -155,7 +157,9 @@ class ParticleIncandescenceAttrOperator(
 
 
 class ParticleIncandescenceField(
-    Float3CompoundBaseField[ParticleIncandescenceAttrOperator, ParticleIncandescencePlugOperator]
+    Float3CompoundBaseField[
+        ParticleIncandescenceAttrOperator, ParticleIncandescencePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -304,7 +308,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -357,7 +363,9 @@ class OutIncandescenceAttrOperator(
 
 
 class OutIncandescenceField(
-    Float3CompoundBaseField[OutIncandescenceAttrOperator, OutIncandescencePlugOperator]
+    Float3CompoundBaseField[
+        OutIncandescenceAttrOperator, OutIncandescencePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -427,9 +435,7 @@ class AccelerationField(
     accz = accelerationZ
 
 
-class ForcePlugOperator(
-    Float3CompoundBasePlugOperator["ForceAttrOperator"]
-):
+class ForcePlugOperator(Float3CompoundBasePlugOperator["ForceAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("forceX", "frx"),
@@ -447,9 +453,7 @@ class ForcePlugOperator(
     frz = forceZ
 
 
-class ForceAttrOperator(
-    Float3CompoundBaseAttrOperator[ForcePlugOperator]
-):
+class ForceAttrOperator(Float3CompoundBaseAttrOperator[ForcePlugOperator]):
     __slots__ = ()
 
     forceX = FloatField(default_value=0.5, writable=False)
@@ -569,7 +573,9 @@ class BirthPositionAttrOperator(
 
 
 class BirthPositionField(
-    Float3CompoundBaseField[BirthPositionAttrOperator, BirthPositionPlugOperator]
+    Float3CompoundBaseField[
+        BirthPositionAttrOperator, BirthPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -622,7 +628,9 @@ class BirthWorldPositionAttrOperator(
 
 
 class BirthWorldPositionField(
-    Float3CompoundBaseField[BirthWorldPositionAttrOperator, BirthWorldPositionPlugOperator]
+    Float3CompoundBaseField[
+        BirthWorldPositionAttrOperator, BirthWorldPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -728,7 +736,9 @@ class WorldPositionAttrOperator(
 
 
 class WorldPositionField(
-    Float3CompoundBaseField[WorldPositionAttrOperator, WorldPositionPlugOperator]
+    Float3CompoundBaseField[
+        WorldPositionAttrOperator, WorldPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -781,7 +791,9 @@ class WorldVelocityAttrOperator(
 
 
 class WorldVelocityField(
-    Float3CompoundBaseField[WorldVelocityAttrOperator, WorldVelocityPlugOperator]
+    Float3CompoundBaseField[
+        WorldVelocityAttrOperator, WorldVelocityPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -798,9 +810,7 @@ class WorldVelocityField(
     wvlz = worldVelocityZ
 
 
-class RgbPPPlugOperator(
-    Float3CompoundBasePlugOperator["RgbPPAttrOperator"]
-):
+class RgbPPPlugOperator(Float3CompoundBasePlugOperator["RgbPPAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("rPP", "rpp"),
@@ -818,9 +828,7 @@ class RgbPPPlugOperator(
     bpp = bPP
 
 
-class RgbPPAttrOperator(
-    Float3CompoundBaseAttrOperator[RgbPPPlugOperator]
-):
+class RgbPPAttrOperator(Float3CompoundBaseAttrOperator[RgbPPPlugOperator]):
     __slots__ = ()
 
     rPP = FloatField(default_value=0.5, writable=False)
@@ -887,7 +895,9 @@ class IncandescencePPAttrOperator(
 
 
 class IncandescencePPField(
-    Float3CompoundBaseField[IncandescencePPAttrOperator, IncandescencePPPlugOperator]
+    Float3CompoundBaseField[
+        IncandescencePPAttrOperator, IncandescencePPPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -940,7 +950,9 @@ class IncandescenceAttrOperator(
 
 
 class IncandescenceField(
-    Float3CompoundBaseField[IncandescenceAttrOperator, IncandescencePlugOperator]
+    Float3CompoundBaseField[
+        IncandescenceAttrOperator, IncandescencePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -993,7 +1005,9 @@ class UserVector1PPAttrOperator(
 
 
 class UserVector1PPField(
-    Float3CompoundBaseField[UserVector1PPAttrOperator, UserVector1PPPlugOperator]
+    Float3CompoundBaseField[
+        UserVector1PPAttrOperator, UserVector1PPPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1046,7 +1060,9 @@ class UserVector2PPAttrOperator(
 
 
 class UserVector2PPField(
-    Float3CompoundBaseField[UserVector2PPAttrOperator, UserVector2PPPlugOperator]
+    Float3CompoundBaseField[
+        UserVector2PPAttrOperator, UserVector2PPPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1099,7 +1115,9 @@ class UserVector3PPAttrOperator(
 
 
 class UserVector3PPField(
-    Float3CompoundBaseField[UserVector3PPAttrOperator, UserVector3PPPlugOperator]
+    Float3CompoundBaseField[
+        UserVector3PPAttrOperator, UserVector3PPPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1152,7 +1170,9 @@ class UserVector4PPAttrOperator(
 
 
 class UserVector4PPField(
-    Float3CompoundBaseField[UserVector4PPAttrOperator, UserVector4PPPlugOperator]
+    Float3CompoundBaseField[
+        UserVector4PPAttrOperator, UserVector4PPPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1205,7 +1225,9 @@ class UserVector5PPAttrOperator(
 
 
 class UserVector5PPField(
-    Float3CompoundBaseField[UserVector5PPAttrOperator, UserVector5PPPlugOperator]
+    Float3CompoundBaseField[
+        UserVector5PPAttrOperator, UserVector5PPPlugOperator
+    ]
 ):
     __slots__ = ()
 

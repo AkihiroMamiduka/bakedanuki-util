@@ -1,22 +1,18 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..custom import (
     Double3CompoundBaseAttrOperator,
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseField,
 )
 
 
-class UpPlugOperator(
-    Double3CompoundBasePlugOperator["UpAttrOperator"]
-):
+class UpPlugOperator(Double3CompoundBasePlugOperator["UpAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("upX", "ux"),
@@ -34,9 +30,7 @@ class UpPlugOperator(
     uz = upZ
 
 
-class UpAttrOperator(
-    Double3CompoundBaseAttrOperator[UpPlugOperator]
-):
+class UpAttrOperator(Double3CompoundBaseAttrOperator[UpPlugOperator]):
     __slots__ = ()
 
     upX = DoubleField(default_value=0.0)
@@ -49,9 +43,7 @@ class UpAttrOperator(
     uz = upZ
 
 
-class UpField(
-    Double3CompoundBaseField[UpAttrOperator, UpPlugOperator]
-):
+class UpField(Double3CompoundBaseField[UpAttrOperator, UpPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UpAttrOperator

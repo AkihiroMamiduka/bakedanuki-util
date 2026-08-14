@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.equal import _GeneratedEqual
+from ._generated.equal import GeneratedEqual
 
 
-class Equal(_GeneratedEqual):
+class Equal(GeneratedEqual):
     __slots__ = ()
 
     NODE_TYPE = "equal"

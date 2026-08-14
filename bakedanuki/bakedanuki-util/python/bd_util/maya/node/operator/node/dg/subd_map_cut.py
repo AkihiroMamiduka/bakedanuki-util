@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.subd_map_cut import _GeneratedSubdMapCut
+from ._generated.subd_map_cut import GeneratedSubdMapCut
 
 
-class SubdMapCut(_GeneratedSubdMapCut):
+class SubdMapCut(GeneratedSubdMapCut):
     __slots__ = ()
 
     NODE_TYPE = "subdMapCut"

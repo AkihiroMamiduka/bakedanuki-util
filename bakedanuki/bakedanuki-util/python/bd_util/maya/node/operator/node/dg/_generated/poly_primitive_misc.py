@@ -1,24 +1,26 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_primitive_misc import AxisField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class PolyTypeEnumPlugOperator(EnumPlugOperator):
+class PolyTypeEnumPlugOperator(EnumPlugOperator["PolyTypeEnumAttrOperator"]):
     __slots__ = ()
 
     SOCCER_BALL = 0
 
 
-class PolyTypeEnumAttrOperator(EnumAttrOperator):
+class PolyTypeEnumAttrOperator(EnumAttrOperator[PolyTypeEnumPlugOperator]):
     __slots__ = ()
 
     SOCCER_BALL = 0
@@ -37,7 +39,7 @@ class PolyTypeEnumField(
     PLUG_CLS = PolyTypeEnumPlugOperator
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -45,7 +47,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     FACE = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -68,7 +70,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -78,7 +80,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO = 4
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -92,7 +94,9 @@ class CreateUVsEnumAttrOperator(EnumAttrOperator):
         NORMALIZATION_OFF: "Normalization Off",
         NORMALIZE_EACH_FACE_SEPARATELY: "Normalize Each Face Separately",
         NORMALIZE_COLLECTIVELY: "Normalize Collectively",
-        NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO: "Normalize Collectively and Preserve Aspect Ratio",
+        NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO: (
+            "Normalize Collectively and Preserve Aspect Ratio"
+        ),
     }
 
 
@@ -105,7 +109,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyPrimitiveMisc(DG):
+class GeneratedPolyPrimitiveMisc(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPrimitiveMisc"
@@ -122,7 +126,9 @@ class _GeneratedPolyPrimitiveMisc(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -140,10 +146,14 @@ class _GeneratedPolyPrimitiveMisc(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    radius = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    radius = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     r = radius
 
-    sideLength = DoubleLinearField(default_value=0.0, min_value=0.01, soft_max_value=100.0)
+    sideLength = DoubleLinearField(
+        default_value=0.0, min_value=0.01, soft_max_value=100.0
+    )
     l = sideLength
 
     polyType = PolyTypeEnumField(default_value=0)

@@ -5,20 +5,22 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class FrequencyGraph_InterpEnumPlugOperator(EnumPlugOperator):
+class FrequencyGraph_InterpEnumPlugOperator(
+    EnumPlugOperator["FrequencyGraph_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +29,9 @@ class FrequencyGraph_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class FrequencyGraph_InterpEnumAttrOperator(EnumAttrOperator):
+class FrequencyGraph_InterpEnumAttrOperator(
+    EnumAttrOperator[FrequencyGraph_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -44,7 +48,10 @@ class FrequencyGraph_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class FrequencyGraph_InterpEnumField(
-    EnumField[FrequencyGraph_InterpEnumAttrOperator, FrequencyGraph_InterpEnumPlugOperator]
+    EnumField[
+        FrequencyGraph_InterpEnumAttrOperator,
+        FrequencyGraph_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -72,9 +79,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -141,7 +146,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 

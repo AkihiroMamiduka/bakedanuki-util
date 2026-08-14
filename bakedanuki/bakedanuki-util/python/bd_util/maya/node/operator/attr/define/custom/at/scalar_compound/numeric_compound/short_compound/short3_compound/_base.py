@@ -1,20 +1,23 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
+from ...........value import Short3
 from .._base import (
     ShortCompoundBasePlugOperator,
     ShortCompoundBaseAttrOperator,
     ShortCompoundBaseField,
 )
 
-A = TypeVar("A", bound="Short3CompoundBaseAttrOperator")
+A = TypeVar("A", bound="Short3CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="Short3CompoundBasePlugOperator")
+P = TypeVar("P", bound="Short3CompoundBasePlugOperator[Any]")
 
 
-class Short3CompoundBasePlugOperator(ShortCompoundBasePlugOperator[A]):
+class Short3CompoundBasePlugOperator(ShortCompoundBasePlugOperator[A, Short3]):
     __slots__ = ()
+
+    VALUE_TYPE = Short3
 
 
 class Short3CompoundBaseAttrOperator(ShortCompoundBaseAttrOperator[P]):

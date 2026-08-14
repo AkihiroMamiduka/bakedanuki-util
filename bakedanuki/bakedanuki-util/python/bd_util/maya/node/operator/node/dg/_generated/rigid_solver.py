@@ -7,18 +7,20 @@ from ....attr.define.node_attr.rigid_solver import (
     RotateField,
     TranslateField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar.time import TimeField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class SolverMethodEnumPlugOperator(EnumPlugOperator):
+class SolverMethodEnumPlugOperator(
+    EnumPlugOperator["SolverMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     MIDPOINT = 0
@@ -26,7 +28,9 @@ class SolverMethodEnumPlugOperator(EnumPlugOperator):
     RUNGE_KUTTA_ADAPTIVE = 2
 
 
-class SolverMethodEnumAttrOperator(EnumAttrOperator):
+class SolverMethodEnumAttrOperator(
+    EnumAttrOperator[SolverMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     MIDPOINT = 0
@@ -49,7 +53,7 @@ class SolverMethodEnumField(
     PLUG_CLS = SolverMethodEnumPlugOperator
 
 
-class _GeneratedRigidSolver(DG):
+class GeneratedRigidSolver(DG):
     __slots__ = ()
 
     NODE_TYPE = "rigidSolver"
@@ -75,10 +79,14 @@ class _GeneratedRigidSolver(DG):
     rotate = RotateField(multi=True, default_value=(0.0, 0.0, 0.0))
     r = rotate
 
-    constraintTranslate = ConstraintTranslateField(multi=True, default_value=(0.0, 0.0, 0.0))
+    constraintTranslate = ConstraintTranslateField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     ctr = constraintTranslate
 
-    constraintRotate = ConstraintRotateField(multi=True, default_value=(0.0, 0.0, 0.0))
+    constraintRotate = ConstraintRotateField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     cr = constraintRotate
 
     collisionTolerance = DoubleField(default_value=0.02)

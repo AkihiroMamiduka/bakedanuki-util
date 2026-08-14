@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import pytest
 
-
 pytestmark = pytest.mark.maya
 
 TANGENT_TYPES = (
@@ -173,11 +172,14 @@ def test_keyframe_property_sets_tangent_type_on_existing_key(
         out_tangent_type=tangent.flat,
     )
 
-    assert keyframe.set_tangent(
-        10.0,
-        in_tangent_type=tangent.flat,
-        out_tangent_type=tangent.linear,
-    ) is True
+    assert (
+        keyframe.set_tangent(
+            10.0,
+            in_tangent_type=tangent.flat,
+            out_tangent_type=tangent.linear,
+        )
+        is True
+    )
     assert maya_cmds.keyTangent(
         "test_input1D_0_",
         query=True,
@@ -244,9 +246,7 @@ def test_keyframe_manager_can_be_used_with_mplug_directly(
         frame=3.0,
     )
 
-    assert maya_cmds.getAttr("test.input1D[0]", time=3.0) == pytest.approx(
-        3.5
-    )
+    assert maya_cmds.getAttr("test.input1D[0]", time=3.0) == pytest.approx(3.5)
 
 
 def test_keyframe_manager_insert_direct_inserts_key_on_existing_anim_curve(
@@ -394,17 +394,16 @@ def test_keyframe_property_reuses_upstream_anim_curve_from_new_operator(
         plugs=True,
     )
     assert source_plugs == ["test_input1D_0_.output"]
-    assert maya_cmds.keyframe(
-        "test_input1D_0_",
-        query=True,
-        keyframeCount=True,
-    ) == 2
-    assert maya_cmds.getAttr("test.input1D[0]", time=1.0) == pytest.approx(
-        1.0
+    assert (
+        maya_cmds.keyframe(
+            "test_input1D_0_",
+            query=True,
+            keyframeCount=True,
+        )
+        == 2
     )
-    assert maya_cmds.getAttr("test.input1D[0]", time=2.0) == pytest.approx(
-        2.0
-    )
+    assert maya_cmds.getAttr("test.input1D[0]", time=1.0) == pytest.approx(1.0)
+    assert maya_cmds.getAttr("test.input1D[0]", time=2.0) == pytest.approx(2.0)
 
 
 def test_delete_anim_curve_removes_managed_anim_curve(

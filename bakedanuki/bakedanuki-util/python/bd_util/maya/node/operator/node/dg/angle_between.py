@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.angle_between import _GeneratedAngleBetween
+from ._generated.angle_between import GeneratedAngleBetween
 
 
-class AngleBetween(_GeneratedAngleBetween):
+class AngleBetween(GeneratedAngleBetween):
     __slots__ = ()
 
     NODE_TYPE = "angleBetween"

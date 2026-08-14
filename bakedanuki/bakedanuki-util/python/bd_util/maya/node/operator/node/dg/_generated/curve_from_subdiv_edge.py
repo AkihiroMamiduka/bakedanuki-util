@@ -1,13 +1,13 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedCurveFromSubdivEdge(DG):
+class GeneratedCurveFromSubdivEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "curveFromSubdivEdge"
@@ -15,10 +15,14 @@ class _GeneratedCurveFromSubdivEdge(DG):
     inputSubdiv = TypedField()
     is_ = inputSubdiv
 
-    minValue = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    minValue = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     min = minValue
 
-    maxValue = DoubleField(default_value=-1.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxValue = DoubleField(
+        default_value=-1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     max = maxValue
 
     relative = BoolField(default_value=False)

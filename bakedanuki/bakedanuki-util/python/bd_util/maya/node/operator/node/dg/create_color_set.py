@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.create_color_set import _GeneratedCreateColorSet
+from ._generated.create_color_set import GeneratedCreateColorSet
 
 
-class CreateColorSet(_GeneratedCreateColorSet):
+class CreateColorSet(GeneratedCreateColorSet):
     __slots__ = ()
 
     NODE_TYPE = "createColorSet"

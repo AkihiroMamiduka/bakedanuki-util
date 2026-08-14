@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.offset_surface import _GeneratedOffsetSurface
+from ._generated.offset_surface import GeneratedOffsetSurface
 
 
-class OffsetSurface(_GeneratedOffsetSurface):
+class OffsetSurface(GeneratedOffsetSurface):
     __slots__ = ()
 
     NODE_TYPE = "offsetSurface"

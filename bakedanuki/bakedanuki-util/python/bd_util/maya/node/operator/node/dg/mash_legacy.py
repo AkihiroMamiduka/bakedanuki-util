@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_legacy import _GeneratedMASH_Legacy
+from ._generated.mash_legacy import GeneratedMASHLegacy
 
 
-class MASH_Legacy(_GeneratedMASH_Legacy):
+class MASHLegacy(GeneratedMASHLegacy):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Legacy"

@@ -1,10 +1,10 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedApplyAbsStringOverride(DG):
+class GeneratedApplyAbsStringOverride(DG):
     __slots__ = ()
 
     NODE_TYPE = "applyAbsStringOverride"

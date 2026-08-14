@@ -2,7 +2,7 @@
 from .._core import DG
 
 
-class _GeneratedListItem(DG):
+class GeneratedListItem(DG):
     __slots__ = ()
 
     NODE_TYPE = "listItem"

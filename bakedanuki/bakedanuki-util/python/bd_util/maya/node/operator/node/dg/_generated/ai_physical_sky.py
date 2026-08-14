@@ -11,11 +11,11 @@ from ....attr.define.node_attr.ai_physical_sky import (
     YField,
     ZField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiPhysicalSky(DG):
+class GeneratedAiPhysicalSky(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiPhysicalSky"
@@ -32,7 +32,9 @@ class _GeneratedAiPhysicalSky(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -41,9 +43,17 @@ class _GeneratedAiPhysicalSky(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    turbidity = FloatField(default_value=3.0, soft_min_value=1.0, soft_max_value=10.0)
+    turbidity = FloatField(
+        default_value=3.0, soft_min_value=1.0, soft_max_value=10.0
+    )
 
-    groundAlbedo = GroundAlbedoField(default_value=(0.10000000149011612, 0.10000000149011612, 0.10000000149011612))
+    groundAlbedo = GroundAlbedoField(
+        default_value=(
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+        )
+    )
     ground_albedo = groundAlbedo
     groundAlbedoR = groundAlbedo.groundAlbedoR
     ground_albedor = groundAlbedoR
@@ -55,9 +65,13 @@ class _GeneratedAiPhysicalSky(DG):
     useDegrees = BoolField(default_value=True)
     use_degrees = useDegrees
 
-    elevation = FloatField(default_value=45.0, soft_min_value=0.0, soft_max_value=90.0)
+    elevation = FloatField(
+        default_value=45.0, soft_min_value=0.0, soft_max_value=90.0
+    )
 
-    azimuth = FloatField(default_value=90.0, soft_min_value=0.0, soft_max_value=360.0)
+    azimuth = FloatField(
+        default_value=90.0, soft_min_value=0.0, soft_max_value=360.0
+    )
 
     sunDirection = SunDirectionField(default_value=(0.0, 1.0, 0.0))
     sun_direction = sunDirection
@@ -74,7 +88,11 @@ class _GeneratedAiPhysicalSky(DG):
     enableSky = BoolField(default_value=True)
     enable_sky = enableSky
 
-    sunSize = FloatField(default_value=0.5099999904632568, soft_min_value=0.10000000149011612, soft_max_value=5.0)
+    sunSize = FloatField(
+        default_value=0.5099999904632568,
+        soft_min_value=0.10000000149011612,
+        soft_max_value=5.0,
+    )
     sun_size = sunSize
 
     sunTint = SunTintField(default_value=(1.0, 1.0, 1.0))
@@ -95,7 +113,11 @@ class _GeneratedAiPhysicalSky(DG):
     skyTintB = skyTint.skyTintB
     sky_tintb = skyTintB
 
-    intensity = FloatField(default_value=1.0, soft_min_value=0.10000000149011612, soft_max_value=10.0)
+    intensity = FloatField(
+        default_value=1.0,
+        soft_min_value=0.10000000149011612,
+        soft_max_value=10.0,
+    )
 
     X = XField(default_value=(1.0, 0.0, 0.0))
     XX = X.XX

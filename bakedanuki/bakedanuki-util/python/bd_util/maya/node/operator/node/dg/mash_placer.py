@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_placer import _GeneratedMASH_Placer
+from ._generated.mash_placer import GeneratedMASHPlacer
 
 
-class MASH_Placer(_GeneratedMASH_Placer):
+class MASHPlacer(GeneratedMASHPlacer):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Placer"

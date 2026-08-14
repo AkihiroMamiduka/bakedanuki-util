@@ -4,16 +4,22 @@ from ....attr.define.node_attr.channels import (
     InColorField,
     OutColorField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class _GeneratedChannels(DG):
+class GeneratedChannels(DG):
     __slots__ = ()
 
     NODE_TYPE = "channels"
 
-    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
+    inColor = InColorField(
+        default_value=(
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+        )
+    )
     ic = inColor
     inColorR = inColor.inColorR
     icr = inColorR

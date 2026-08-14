@@ -24,20 +24,24 @@ from ....attr.define.node_attr.file import (
     VertexUvThreeField,
     VertexUvTwoField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.char import CharField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.char import CharField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FilterTypeEnumPlugOperator(EnumPlugOperator):
+class FilterTypeEnumPlugOperator(
+    EnumPlugOperator["FilterTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -48,7 +52,7 @@ class FilterTypeEnumPlugOperator(EnumPlugOperator):
     GAUSSIAN = 5
 
 
-class FilterTypeEnumAttrOperator(EnumAttrOperator):
+class FilterTypeEnumAttrOperator(EnumAttrOperator[FilterTypeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -77,7 +81,9 @@ class FilterTypeEnumField(
     PLUG_CLS = FilterTypeEnumPlugOperator
 
 
-class UvTilingModeEnumPlugOperator(EnumPlugOperator):
+class UvTilingModeEnumPlugOperator(
+    EnumPlugOperator["UvTilingModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -87,7 +93,9 @@ class UvTilingModeEnumPlugOperator(EnumPlugOperator):
     EXPLICIT_TILES = 4
 
 
-class UvTilingModeEnumAttrOperator(EnumAttrOperator):
+class UvTilingModeEnumAttrOperator(
+    EnumAttrOperator[UvTilingModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -114,7 +122,9 @@ class UvTilingModeEnumField(
     PLUG_CLS = UvTilingModeEnumPlugOperator
 
 
-class UvTileProxyQualityEnumPlugOperator(EnumPlugOperator):
+class UvTileProxyQualityEnumPlugOperator(
+    EnumPlugOperator["UvTileProxyQualityEnumAttrOperator"]
+):
     __slots__ = ()
 
     DISABLE_PREVIEW = 0
@@ -125,7 +135,9 @@ class UvTileProxyQualityEnumPlugOperator(EnumPlugOperator):
     EXTREME_HIGH_QUALITY_16K = 5
 
 
-class UvTileProxyQualityEnumAttrOperator(EnumAttrOperator):
+class UvTileProxyQualityEnumAttrOperator(
+    EnumAttrOperator[UvTileProxyQualityEnumPlugOperator]
+):
     __slots__ = ()
 
     DISABLE_PREVIEW = 0
@@ -146,7 +158,9 @@ class UvTileProxyQualityEnumAttrOperator(EnumAttrOperator):
 
 
 class UvTileProxyQualityEnumField(
-    EnumField[UvTileProxyQualityEnumAttrOperator, UvTileProxyQualityEnumPlugOperator]
+    EnumField[
+        UvTileProxyQualityEnumAttrOperator, UvTileProxyQualityEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -154,7 +168,9 @@ class UvTileProxyQualityEnumField(
     PLUG_CLS = UvTileProxyQualityEnumPlugOperator
 
 
-class HdrMappingEnumPlugOperator(EnumPlugOperator):
+class HdrMappingEnumPlugOperator(
+    EnumPlugOperator["HdrMappingEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLAMP = 0
@@ -162,7 +178,7 @@ class HdrMappingEnumPlugOperator(EnumPlugOperator):
     EXPONENTIAL = 2
 
 
-class HdrMappingEnumAttrOperator(EnumAttrOperator):
+class HdrMappingEnumAttrOperator(EnumAttrOperator[HdrMappingEnumPlugOperator]):
     __slots__ = ()
 
     CLAMP = 0
@@ -185,7 +201,9 @@ class HdrMappingEnumField(
     PLUG_CLS = HdrMappingEnumPlugOperator
 
 
-class PtexFilterTypeEnumPlugOperator(EnumPlugOperator):
+class PtexFilterTypeEnumPlugOperator(
+    EnumPlugOperator["PtexFilterTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     POINT = 0
@@ -198,7 +216,9 @@ class PtexFilterTypeEnumPlugOperator(EnumPlugOperator):
     MITCHELL = 7
 
 
-class PtexFilterTypeEnumAttrOperator(EnumAttrOperator):
+class PtexFilterTypeEnumAttrOperator(
+    EnumAttrOperator[PtexFilterTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     POINT = 0
@@ -231,7 +251,7 @@ class PtexFilterTypeEnumField(
     PLUG_CLS = PtexFilterTypeEnumPlugOperator
 
 
-class AiFilterEnumPlugOperator(EnumPlugOperator):
+class AiFilterEnumPlugOperator(EnumPlugOperator["AiFilterEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -240,7 +260,7 @@ class AiFilterEnumPlugOperator(EnumPlugOperator):
     SMART_BICUBIC = 3
 
 
-class AiFilterEnumAttrOperator(EnumAttrOperator):
+class AiFilterEnumAttrOperator(EnumAttrOperator[AiFilterEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -265,7 +285,7 @@ class AiFilterEnumField(
     PLUG_CLS = AiFilterEnumPlugOperator
 
 
-class _GeneratedFile(DG):
+class GeneratedFile(DG):
     __slots__ = ()
 
     NODE_TYPE = "file"
@@ -284,10 +304,17 @@ class _GeneratedFile(DG):
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    filter = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
     invert = BoolField(default_value=False)
@@ -296,7 +323,11 @@ class _GeneratedFile(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -305,7 +336,11 @@ class _GeneratedFile(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -314,13 +349,21 @@ class _GeneratedFile(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -380,13 +423,17 @@ class _GeneratedFile(DG):
     filterType = FilterTypeEnumField(default_value=3)
     ft = filterType
 
-    filterWidth = FloatField(default_value=0.7070000171661377, min_value=0.35, max_value=1.05)
+    filterWidth = FloatField(
+        default_value=0.7070000171661377, min_value=0.35, max_value=1.05
+    )
     fw = filterWidth
 
     preFilter = BoolField(default_value=False)
     pf = preFilter
 
-    preFilterRadius = FloatField(default_value=2.0, min_value=1.0, max_value=10.0)
+    preFilterRadius = FloatField(
+        default_value=2.0, min_value=1.0, max_value=10.0
+    )
     pfr = preFilterRadius
 
     useCache = BoolField(default_value=False)
@@ -407,11 +454,17 @@ class _GeneratedFile(DG):
     explicitUvTilePositionV = FloatField()
     eupv = explicitUvTilePositionV
 
-    baseExplicitUvTilePosition = BaseExplicitUvTilePositionField(default_value=(0.0, 0.0))
+    baseExplicitUvTilePosition = BaseExplicitUvTilePositionField(
+        default_value=(0.0, 0.0)
+    )
     butp = baseExplicitUvTilePosition
-    baseExplicitUvTilePositionU = baseExplicitUvTilePosition.baseExplicitUvTilePositionU
+    baseExplicitUvTilePositionU = (
+        baseExplicitUvTilePosition.baseExplicitUvTilePositionU
+    )
     bupu = baseExplicitUvTilePositionU
-    baseExplicitUvTilePositionV = baseExplicitUvTilePosition.baseExplicitUvTilePositionV
+    baseExplicitUvTilePositionV = (
+        baseExplicitUvTilePosition.baseExplicitUvTilePositionV
+    )
     bupv = baseExplicitUvTilePositionV
 
     uvTileProxyDirty = BoolField(default_value=True)
@@ -423,14 +476,18 @@ class _GeneratedFile(DG):
     uvTileProxyQuality = UvTileProxyQualityEnumField(default_value=3)
     utpq = uvTileProxyQuality
 
-    coverage = CoverageField(default_value=(1.0, 1.0), min_value=(0.0, 0.0), max_value=(1.0, 1.0))
+    coverage = CoverageField(
+        default_value=(1.0, 1.0), min_value=(0.0, 0.0), max_value=(1.0, 1.0)
+    )
     c = coverage
     coverageU = coverage.coverageU
     cu = coverageU
     coverageV = coverage.coverageV
     cv = coverageV
 
-    translateFrame = TranslateFrameField(default_value=(0.0, 0.0), min_value=(0.0, 0.0), max_value=(1.0, 1.0))
+    translateFrame = TranslateFrameField(
+        default_value=(0.0, 0.0), min_value=(0.0, 0.0), max_value=(1.0, 1.0)
+    )
     tf = translateFrame
     translateFrameU = translateFrame.translateFrameU
     tfu = translateFrameU
@@ -465,7 +522,9 @@ class _GeneratedFile(DG):
     repeatV = repeatUV.repeatV
     rev = repeatV
 
-    offset = OffsetField(default_value=(0.0, 0.0), min_value=(0.0, 0.0), max_value=(1.0, 1.0))
+    offset = OffsetField(
+        default_value=(0.0, 0.0), min_value=(0.0, 0.0), max_value=(1.0, 1.0)
+    )
     of = offset
     offsetU = offset.offsetU
     ofu = offsetU
@@ -549,13 +608,17 @@ class _GeneratedFile(DG):
     pixelCenterY = pixelCenter.pixelCenterY
     pcy = pixelCenterY
 
-    exposure = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0)
+    exposure = FloatField(
+        default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0
+    )
     exp = exposure
 
     hdrMapping = HdrMappingEnumField(default_value=0)
     hm = hdrMapping
 
-    hdrExposure = FloatField(default_value=0.0, min_value=-10.0, max_value=10.0)
+    hdrExposure = FloatField(
+        default_value=0.0, min_value=-10.0, max_value=10.0
+    )
     he = hdrExposure
 
     dirtyPixelRegion = BoolField(default_value=False)
@@ -564,13 +627,19 @@ class _GeneratedFile(DG):
     ptexFilterType = PtexFilterTypeEnumField(default_value=3)
     pft = ptexFilterType
 
-    ptexFilterWidth = FloatField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
+    ptexFilterWidth = FloatField(
+        default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     pfw = ptexFilterWidth
 
-    ptexFilterBlur = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ptexFilterBlur = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     pfb = ptexFilterBlur
 
-    ptexFilterSharpness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ptexFilterSharpness = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     pfs = ptexFilterSharpness
 
     ptexFilterInterpolateLevels = BoolField(default_value=False)
@@ -613,7 +682,9 @@ class _GeneratedFile(DG):
     fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

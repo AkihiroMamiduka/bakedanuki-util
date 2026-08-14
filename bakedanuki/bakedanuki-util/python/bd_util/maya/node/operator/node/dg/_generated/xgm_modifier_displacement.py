@@ -1,24 +1,26 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.xgm_modifier_displacement import VectorDisplacementField
-from ....attr.define.std.at.enum import (
+from ....attr.define.node_attr.xgm_modifier_displacement import (
+    VectorDisplacementField,
+)
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class CoordsysEnumPlugOperator(EnumPlugOperator):
+class CoordsysEnumPlugOperator(EnumPlugOperator["CoordsysEnumAttrOperator"]):
     __slots__ = ()
 
     MUDBOX_XZY = 0
     MAYA_XYZ = 1
 
 
-class CoordsysEnumAttrOperator(EnumAttrOperator):
+class CoordsysEnumAttrOperator(EnumAttrOperator[CoordsysEnumPlugOperator]):
     __slots__ = ()
 
     MUDBOX_XZY = 0
@@ -39,7 +41,7 @@ class CoordsysEnumField(
     PLUG_CLS = CoordsysEnumPlugOperator
 
 
-class _GeneratedXgmModifierDisplacement(DG):
+class GeneratedXgmModifierDisplacement(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierDisplacement"
@@ -68,16 +70,24 @@ class _GeneratedXgmModifierDisplacement(DG):
     coordsys = CoordsysEnumField(default_value=1)
     cds = coordsys
 
-    scale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    scale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     scl = scale
 
-    base = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    base = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     bs = base
 
-    offset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    offset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     os = offset
 
-    bump = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    bump = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     bp = bump
 
     tweak = TypedField()

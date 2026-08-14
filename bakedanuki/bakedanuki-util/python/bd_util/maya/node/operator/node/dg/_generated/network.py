@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.message import MessageField
 
 
-class _GeneratedNetwork(DG):
+class GeneratedNetwork(DG):
     __slots__ = ()
 
     NODE_TYPE = "network"

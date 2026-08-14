@@ -4,17 +4,19 @@ from ....attr.define.node_attr.ai_volume_sample_float import (
     OutTransparencyField,
     PositionOffsetField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class InterpolationEnumPlugOperator(EnumPlugOperator):
+class InterpolationEnumPlugOperator(
+    EnumPlugOperator["InterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -22,7 +24,9 @@ class InterpolationEnumPlugOperator(EnumPlugOperator):
     TRICUBIC = 2
 
 
-class InterpolationEnumAttrOperator(EnumAttrOperator):
+class InterpolationEnumAttrOperator(
+    EnumAttrOperator[InterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -45,14 +49,16 @@ class InterpolationEnumField(
     PLUG_CLS = InterpolationEnumPlugOperator
 
 
-class VolumeTypeEnumPlugOperator(EnumPlugOperator):
+class VolumeTypeEnumPlugOperator(
+    EnumPlugOperator["VolumeTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FOG = 0
     SDF = 1
 
 
-class VolumeTypeEnumAttrOperator(EnumAttrOperator):
+class VolumeTypeEnumAttrOperator(EnumAttrOperator[VolumeTypeEnumPlugOperator]):
     __slots__ = ()
 
     FOG = 0
@@ -73,7 +79,7 @@ class VolumeTypeEnumField(
     PLUG_CLS = VolumeTypeEnumPlugOperator
 
 
-class _GeneratedAiVolumeSampleFloat(DG):
+class GeneratedAiVolumeSampleFloat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiVolumeSampleFloat"
@@ -81,7 +87,9 @@ class _GeneratedAiVolumeSampleFloat(DG):
     outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -106,7 +114,9 @@ class _GeneratedAiVolumeSampleFloat(DG):
     volumeType = VolumeTypeEnumField(default_value=0)
     volume_type = volumeType
 
-    sdfOffset = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    sdfOffset = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     sdf_offset = sdfOffset
 
     sdfBlend = FloatField(default_value=0.0)
@@ -115,25 +125,41 @@ class _GeneratedAiVolumeSampleFloat(DG):
     sdfInvert = BoolField(default_value=False)
     sdf_invert = sdfInvert
 
-    inputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    inputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     input_min = inputMin
 
-    inputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    inputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     input_max = inputMax
 
-    contrast = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    contrast = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
 
-    contrastPivot = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    contrastPivot = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     contrast_pivot = contrastPivot
 
-    bias = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    bias = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
 
-    gain = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    gain = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
 
-    outputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    outputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     output_min = outputMin
 
-    outputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    outputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     output_max = outputMax
 
     clampMin = BoolField(default_value=False)

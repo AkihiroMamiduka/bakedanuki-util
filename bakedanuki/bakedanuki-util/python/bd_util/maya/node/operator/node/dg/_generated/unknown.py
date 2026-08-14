@@ -2,7 +2,7 @@
 from .._core import DG
 
 
-class _GeneratedUnknown(DG):
+class GeneratedUnknown(DG):
     __slots__ = ()
 
     NODE_TYPE = "unknown"

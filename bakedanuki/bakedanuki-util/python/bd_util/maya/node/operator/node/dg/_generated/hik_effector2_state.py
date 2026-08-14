@@ -47,11 +47,11 @@ from ....attr.define.node_attr.hik_effector2_state import (
     RightWristEffectorPivotField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedHIKEffector2State(DG):
+class GeneratedHIKEffector2State(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKEffector2State"
@@ -64,7 +64,9 @@ class _GeneratedHIKEffector2State(DG):
 
     HipsEffectorGX = MatrixField(multi=True)
 
-    HipsEffectorPivot = HipsEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    HipsEffectorPivot = HipsEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     HipsEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -76,7 +78,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftAnkleEffectorGX = MatrixField(multi=True)
 
-    LeftAnkleEffectorPivot = LeftAnkleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftAnkleEffectorPivot = LeftAnkleEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftAnkleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -88,7 +92,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightAnkleEffectorGX = MatrixField(multi=True)
 
-    RightAnkleEffectorPivot = RightAnkleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightAnkleEffectorPivot = RightAnkleEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightAnkleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -100,7 +106,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftWristEffectorGX = MatrixField(multi=True)
 
-    LeftWristEffectorPivot = LeftWristEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftWristEffectorPivot = LeftWristEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftWristEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -112,7 +120,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightWristEffectorGX = MatrixField(multi=True)
 
-    RightWristEffectorPivot = RightWristEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightWristEffectorPivot = RightWristEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightWristEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -124,7 +134,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftKneeEffectorGX = MatrixField(multi=True)
 
-    LeftKneeEffectorPivot = LeftKneeEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftKneeEffectorPivot = LeftKneeEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftKneeEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -136,7 +148,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightKneeEffectorGX = MatrixField(multi=True)
 
-    RightKneeEffectorPivot = RightKneeEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightKneeEffectorPivot = RightKneeEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightKneeEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -148,7 +162,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftElbowEffectorGX = MatrixField(multi=True)
 
-    LeftElbowEffectorPivot = LeftElbowEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftElbowEffectorPivot = LeftElbowEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftElbowEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -160,7 +176,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightElbowEffectorGX = MatrixField(multi=True)
 
-    RightElbowEffectorPivot = RightElbowEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightElbowEffectorPivot = RightElbowEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightElbowEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -172,7 +190,9 @@ class _GeneratedHIKEffector2State(DG):
 
     ChestOriginEffectorGX = MatrixField(multi=True)
 
-    ChestOriginEffectorPivot = ChestOriginEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    ChestOriginEffectorPivot = ChestOriginEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     ChestOriginEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -184,7 +204,9 @@ class _GeneratedHIKEffector2State(DG):
 
     ChestEndEffectorGX = MatrixField(multi=True)
 
-    ChestEndEffectorPivot = ChestEndEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    ChestEndEffectorPivot = ChestEndEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     ChestEndEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -196,7 +218,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftFootEffectorGX = MatrixField(multi=True)
 
-    LeftFootEffectorPivot = LeftFootEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftFootEffectorPivot = LeftFootEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftFootEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -208,7 +232,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightFootEffectorGX = MatrixField(multi=True)
 
-    RightFootEffectorPivot = RightFootEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightFootEffectorPivot = RightFootEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightFootEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -220,7 +246,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftShoulderEffectorGX = MatrixField(multi=True)
 
-    LeftShoulderEffectorPivot = LeftShoulderEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftShoulderEffectorPivot = LeftShoulderEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftShoulderEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -232,7 +260,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightShoulderEffectorGX = MatrixField(multi=True)
 
-    RightShoulderEffectorPivot = RightShoulderEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightShoulderEffectorPivot = RightShoulderEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightShoulderEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -244,7 +274,9 @@ class _GeneratedHIKEffector2State(DG):
 
     HeadEffectorGX = MatrixField(multi=True)
 
-    HeadEffectorPivot = HeadEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    HeadEffectorPivot = HeadEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     HeadEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -256,7 +288,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftHipEffectorGX = MatrixField(multi=True)
 
-    LeftHipEffectorPivot = LeftHipEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftHipEffectorPivot = LeftHipEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftHipEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -268,7 +302,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightHipEffectorGX = MatrixField(multi=True)
 
-    RightHipEffectorPivot = RightHipEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightHipEffectorPivot = RightHipEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightHipEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -280,7 +316,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftHandEffectorGX = MatrixField(multi=True)
 
-    LeftHandEffectorPivot = LeftHandEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftHandEffectorPivot = LeftHandEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftHandEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -292,7 +330,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightHandEffectorGX = MatrixField(multi=True)
 
-    RightHandEffectorPivot = RightHandEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightHandEffectorPivot = RightHandEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightHandEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -304,7 +344,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftHandThumbEffectorGX = MatrixField(multi=True)
 
-    LeftHandThumbEffectorPivot = LeftHandThumbEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftHandThumbEffectorPivot = LeftHandThumbEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftHandThumbEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -316,7 +358,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftHandIndexEffectorGX = MatrixField(multi=True)
 
-    LeftHandIndexEffectorPivot = LeftHandIndexEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftHandIndexEffectorPivot = LeftHandIndexEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftHandIndexEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -328,7 +372,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftHandMiddleEffectorGX = MatrixField(multi=True)
 
-    LeftHandMiddleEffectorPivot = LeftHandMiddleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftHandMiddleEffectorPivot = LeftHandMiddleEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftHandMiddleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -340,7 +386,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftHandRingEffectorGX = MatrixField(multi=True)
 
-    LeftHandRingEffectorPivot = LeftHandRingEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftHandRingEffectorPivot = LeftHandRingEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftHandRingEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -352,7 +400,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftHandPinkyEffectorGX = MatrixField(multi=True)
 
-    LeftHandPinkyEffectorPivot = LeftHandPinkyEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftHandPinkyEffectorPivot = LeftHandPinkyEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftHandPinkyEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -364,11 +414,17 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftHandExtraFingerEffectorGX = MatrixField(multi=True)
 
-    LeftHandExtraFingerEffectorPivot = LeftHandExtraFingerEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFingerEffectorPivot = LeftHandExtraFingerEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
-    LeftHandExtraFingerEffectorReachT = DoubleField(multi=True, default_value=0.0)
+    LeftHandExtraFingerEffectorReachT = DoubleField(
+        multi=True, default_value=0.0
+    )
 
-    LeftHandExtraFingerEffectorReachR = DoubleField(multi=True, default_value=0.0)
+    LeftHandExtraFingerEffectorReachR = DoubleField(
+        multi=True, default_value=0.0
+    )
 
     LeftHandExtraFingerEffectorPull = DoubleField(default_value=0.0)
 
@@ -376,7 +432,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightHandThumbEffectorGX = MatrixField(multi=True)
 
-    RightHandThumbEffectorPivot = RightHandThumbEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightHandThumbEffectorPivot = RightHandThumbEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightHandThumbEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -388,7 +446,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightHandIndexEffectorGX = MatrixField(multi=True)
 
-    RightHandIndexEffectorPivot = RightHandIndexEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightHandIndexEffectorPivot = RightHandIndexEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightHandIndexEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -400,7 +460,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightHandMiddleEffectorGX = MatrixField(multi=True)
 
-    RightHandMiddleEffectorPivot = RightHandMiddleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightHandMiddleEffectorPivot = RightHandMiddleEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightHandMiddleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -412,7 +474,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightHandRingEffectorGX = MatrixField(multi=True)
 
-    RightHandRingEffectorPivot = RightHandRingEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightHandRingEffectorPivot = RightHandRingEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightHandRingEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -424,7 +488,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightHandPinkyEffectorGX = MatrixField(multi=True)
 
-    RightHandPinkyEffectorPivot = RightHandPinkyEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightHandPinkyEffectorPivot = RightHandPinkyEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightHandPinkyEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -436,11 +502,17 @@ class _GeneratedHIKEffector2State(DG):
 
     RightHandExtraFingerEffectorGX = MatrixField(multi=True)
 
-    RightHandExtraFingerEffectorPivot = RightHandExtraFingerEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFingerEffectorPivot = RightHandExtraFingerEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
-    RightHandExtraFingerEffectorReachT = DoubleField(multi=True, default_value=0.0)
+    RightHandExtraFingerEffectorReachT = DoubleField(
+        multi=True, default_value=0.0
+    )
 
-    RightHandExtraFingerEffectorReachR = DoubleField(multi=True, default_value=0.0)
+    RightHandExtraFingerEffectorReachR = DoubleField(
+        multi=True, default_value=0.0
+    )
 
     RightHandExtraFingerEffectorPull = DoubleField(default_value=0.0)
 
@@ -448,7 +520,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftFootThumbEffectorGX = MatrixField(multi=True)
 
-    LeftFootThumbEffectorPivot = LeftFootThumbEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftFootThumbEffectorPivot = LeftFootThumbEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftFootThumbEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -460,7 +534,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftFootIndexEffectorGX = MatrixField(multi=True)
 
-    LeftFootIndexEffectorPivot = LeftFootIndexEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftFootIndexEffectorPivot = LeftFootIndexEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftFootIndexEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -472,7 +548,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftFootMiddleEffectorGX = MatrixField(multi=True)
 
-    LeftFootMiddleEffectorPivot = LeftFootMiddleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftFootMiddleEffectorPivot = LeftFootMiddleEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftFootMiddleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -484,7 +562,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftFootRingEffectorGX = MatrixField(multi=True)
 
-    LeftFootRingEffectorPivot = LeftFootRingEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftFootRingEffectorPivot = LeftFootRingEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftFootRingEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -496,7 +576,9 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftFootPinkyEffectorGX = MatrixField(multi=True)
 
-    LeftFootPinkyEffectorPivot = LeftFootPinkyEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftFootPinkyEffectorPivot = LeftFootPinkyEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     LeftFootPinkyEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -508,11 +590,17 @@ class _GeneratedHIKEffector2State(DG):
 
     LeftFootExtraFingerEffectorGX = MatrixField(multi=True)
 
-    LeftFootExtraFingerEffectorPivot = LeftFootExtraFingerEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFingerEffectorPivot = LeftFootExtraFingerEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
-    LeftFootExtraFingerEffectorReachT = DoubleField(multi=True, default_value=0.0)
+    LeftFootExtraFingerEffectorReachT = DoubleField(
+        multi=True, default_value=0.0
+    )
 
-    LeftFootExtraFingerEffectorReachR = DoubleField(multi=True, default_value=0.0)
+    LeftFootExtraFingerEffectorReachR = DoubleField(
+        multi=True, default_value=0.0
+    )
 
     LeftFootExtraFingerEffectorPull = DoubleField(default_value=0.0)
 
@@ -520,7 +608,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightFootThumbEffectorGX = MatrixField(multi=True)
 
-    RightFootThumbEffectorPivot = RightFootThumbEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightFootThumbEffectorPivot = RightFootThumbEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightFootThumbEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -532,7 +622,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightFootIndexEffectorGX = MatrixField(multi=True)
 
-    RightFootIndexEffectorPivot = RightFootIndexEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightFootIndexEffectorPivot = RightFootIndexEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightFootIndexEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -544,7 +636,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightFootMiddleEffectorGX = MatrixField(multi=True)
 
-    RightFootMiddleEffectorPivot = RightFootMiddleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightFootMiddleEffectorPivot = RightFootMiddleEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightFootMiddleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -556,7 +650,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightFootRingEffectorGX = MatrixField(multi=True)
 
-    RightFootRingEffectorPivot = RightFootRingEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightFootRingEffectorPivot = RightFootRingEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightFootRingEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -568,7 +664,9 @@ class _GeneratedHIKEffector2State(DG):
 
     RightFootPinkyEffectorGX = MatrixField(multi=True)
 
-    RightFootPinkyEffectorPivot = RightFootPinkyEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightFootPinkyEffectorPivot = RightFootPinkyEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
     RightFootPinkyEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
@@ -580,11 +678,17 @@ class _GeneratedHIKEffector2State(DG):
 
     RightFootExtraFingerEffectorGX = MatrixField(multi=True)
 
-    RightFootExtraFingerEffectorPivot = RightFootExtraFingerEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFingerEffectorPivot = RightFootExtraFingerEffectorPivotField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
 
-    RightFootExtraFingerEffectorReachT = DoubleField(multi=True, default_value=0.0)
+    RightFootExtraFingerEffectorReachT = DoubleField(
+        multi=True, default_value=0.0
+    )
 
-    RightFootExtraFingerEffectorReachR = DoubleField(multi=True, default_value=0.0)
+    RightFootExtraFingerEffectorReachR = DoubleField(
+        multi=True, default_value=0.0
+    )
 
     RightFootExtraFingerEffectorPull = DoubleField(default_value=0.0)
 

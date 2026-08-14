@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.color_profile import _GeneratedColorProfile
+from ._generated.color_profile import GeneratedColorProfile
 
 
-class ColorProfile(_GeneratedColorProfile):
+class ColorProfile(GeneratedColorProfile):
     __slots__ = ()
 
     NODE_TYPE = "colorProfile"

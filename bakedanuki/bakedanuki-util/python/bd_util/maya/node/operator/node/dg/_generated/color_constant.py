@@ -4,15 +4,21 @@ from ....attr.define.node_attr.color_constant import (
     InColorField,
     OutColorField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedColorConstant(DG):
+class GeneratedColorConstant(DG):
     __slots__ = ()
 
     NODE_TYPE = "colorConstant"
 
-    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
+    inColor = InColorField(
+        default_value=(
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+        )
+    )
     c = inColor
     inColorR = inColor.inColorR
     cr = inColorR

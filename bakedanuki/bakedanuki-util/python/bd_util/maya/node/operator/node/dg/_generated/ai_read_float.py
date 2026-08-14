@@ -1,11 +1,11 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.ai_read_float import OutTransparencyField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiReadFloat(DG):
+class GeneratedAiReadFloat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiReadFloat"
@@ -13,7 +13,9 @@ class _GeneratedAiReadFloat(DG):
     outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

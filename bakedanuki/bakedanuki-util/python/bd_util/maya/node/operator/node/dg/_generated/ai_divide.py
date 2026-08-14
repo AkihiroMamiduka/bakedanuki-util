@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_divide import (
 )
 
 
-class _GeneratedAiDivide(DG):
+class GeneratedAiDivide(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiDivide"
@@ -22,7 +22,9 @@ class _GeneratedAiDivide(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

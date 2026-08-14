@@ -1,12 +1,10 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -29,9 +27,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -374,10 +370,14 @@ class RockColorPlugOperator(
         ("rockColorB", "rcb"),
     )
 
-    rockColorR = FloatField(default_value=0.2619999945163727, min_value=0.0, max_value=1.0)
+    rockColorR = FloatField(
+        default_value=0.2619999945163727, min_value=0.0, max_value=1.0
+    )
     rcr = rockColorR
 
-    rockColorG = FloatField(default_value=0.10199999809265137, min_value=0.0, max_value=1.0)
+    rockColorG = FloatField(
+        default_value=0.10199999809265137, min_value=0.0, max_value=1.0
+    )
     rcg = rockColorG
 
     rockColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -389,10 +389,14 @@ class RockColorAttrOperator(
 ):
     __slots__ = ()
 
-    rockColorR = FloatField(default_value=0.2619999945163727, min_value=0.0, max_value=1.0)
+    rockColorR = FloatField(
+        default_value=0.2619999945163727, min_value=0.0, max_value=1.0
+    )
     rcr = rockColorR
 
-    rockColorG = FloatField(default_value=0.10199999809265137, min_value=0.0, max_value=1.0)
+    rockColorG = FloatField(
+        default_value=0.10199999809265137, min_value=0.0, max_value=1.0
+    )
     rcg = rockColorG
 
     rockColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -407,10 +411,14 @@ class RockColorField(
     ATTR_CLS = RockColorAttrOperator
     PLUG_CLS = RockColorPlugOperator
 
-    rockColorR = FloatField(default_value=0.2619999945163727, min_value=0.0, max_value=1.0)
+    rockColorR = FloatField(
+        default_value=0.2619999945163727, min_value=0.0, max_value=1.0
+    )
     rcr = rockColorR
 
-    rockColorG = FloatField(default_value=0.10199999809265137, min_value=0.0, max_value=1.0)
+    rockColorG = FloatField(
+        default_value=0.10199999809265137, min_value=0.0, max_value=1.0
+    )
     rcg = rockColorG
 
     rockColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)

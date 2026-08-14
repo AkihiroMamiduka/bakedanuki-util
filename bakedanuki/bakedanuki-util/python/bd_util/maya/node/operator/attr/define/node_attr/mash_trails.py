@@ -5,9 +5,9 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.dt.vector_array import DataVectorArrayField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -55,9 +55,7 @@ class TranslateInPPPlugOperator(
     CompoundPlugOperator["TranslateInPPAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("positionInPP", "positionInPP"),
-    )
+    CHILD_ATTR_NAMES = (("positionInPP", "positionInPP"),)
 
     positionInPP = DataVectorArrayField()
 
@@ -235,7 +233,9 @@ class ConnectionPointAttrOperator(
 
 
 class ConnectionPointField(
-    Float3CompoundBaseField[ConnectionPointAttrOperator, ConnectionPointPlugOperator]
+    Float3CompoundBaseField[
+        ConnectionPointAttrOperator, ConnectionPointPlugOperator
+    ]
 ):
     __slots__ = ()
 

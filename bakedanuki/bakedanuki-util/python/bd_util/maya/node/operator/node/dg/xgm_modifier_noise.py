@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.xgm_modifier_noise import _GeneratedXgmModifierNoise
+from ._generated.xgm_modifier_noise import GeneratedXgmModifierNoise
 
 
-class XgmModifierNoise(_GeneratedXgmModifierNoise):
+class XgmModifierNoise(GeneratedXgmModifierNoise):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierNoise"

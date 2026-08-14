@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.uv_pin import _GeneratedUvPin
+from ._generated.uv_pin import GeneratedUvPin
 
 
-class UvPin(_GeneratedUvPin):
+class UvPin(GeneratedUvPin):
     __slots__ = ()
 
     NODE_TYPE = "uvPin"

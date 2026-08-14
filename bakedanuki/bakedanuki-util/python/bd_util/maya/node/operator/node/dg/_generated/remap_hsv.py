@@ -7,15 +7,17 @@ from ....attr.define.node_attr.remap_hsv import (
     SaturationField,
     ValueField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator):
+class RenderPassModeEnumPlugOperator(
+    EnumPlugOperator["RenderPassModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -24,7 +26,9 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator):
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator):
+class RenderPassModeEnumAttrOperator(
+    EnumAttrOperator[RenderPassModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -36,7 +40,9 @@ class RenderPassModeEnumAttrOperator(EnumAttrOperator):
         PASS_THROUGH: "Pass through",
         APPLY_TO_RENDER_PASSES: "Apply to Render Passes",
         NO_CONTRIBUTION: "No Contribution",
-        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: "Write Shader Result to Beauty Passes",
+        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: (
+            "Write Shader Result to Beauty Passes"
+        ),
     }
 
 
@@ -49,7 +55,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedRemapHsv(DG):
+class GeneratedRemapHsv(DG):
     __slots__ = ()
 
     NODE_TYPE = "remapHsv"
@@ -63,16 +69,24 @@ class _GeneratedRemapHsv(DG):
     colorB = color.colorB
     cb = colorB
 
-    inputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    inputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     imn = inputMin
 
-    inputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    inputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     imx = inputMax
 
-    outputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    outputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omn = outputMin
 
-    outputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    outputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omx = outputMax
 
     hue = HueField(multi=True, default_value=(0.0, 0.0, 0.0))

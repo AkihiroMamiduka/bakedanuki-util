@@ -6,10 +6,10 @@ from ....attr.define.node_attr.surface_shader import (
     OutMatteOpacityField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedSurfaceShader(DG):
+class GeneratedSurfaceShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "surfaceShader"
@@ -50,5 +50,7 @@ class _GeneratedSurfaceShader(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    materialAlphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    materialAlphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     maga = materialAlphaGain

@@ -6,7 +6,7 @@ from ....attr.define.node_attr.quat_invert import (
 )
 
 
-class _GeneratedQuatInvert(DG):
+class GeneratedQuatInvert(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatInvert"
@@ -22,7 +22,9 @@ class _GeneratedQuatInvert(DG):
     inputQuatW = inputQuat.inputQuatW
     iqw = inputQuatW
 
-    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
+    outputQuat = OutputQuatField(
+        default_value=(0.0, 0.0, 0.0, 0.0), writable=False
+    )
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

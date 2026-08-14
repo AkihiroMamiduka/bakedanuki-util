@@ -8,14 +8,14 @@ from ....attr.define.node_attr.ai_complex_ior import (
     OutTransparencyField,
     ReflectivityField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 
 
-class MaterialEnumPlugOperator(EnumPlugOperator):
+class MaterialEnumPlugOperator(EnumPlugOperator["MaterialEnumAttrOperator"]):
     __slots__ = ()
 
     CUSTOM = 0
@@ -32,7 +32,7 @@ class MaterialEnumPlugOperator(EnumPlugOperator):
     SODIUM = 11
 
 
-class MaterialEnumAttrOperator(EnumAttrOperator):
+class MaterialEnumAttrOperator(EnumAttrOperator[MaterialEnumPlugOperator]):
     __slots__ = ()
 
     CUSTOM = 0
@@ -73,14 +73,14 @@ class MaterialEnumField(
     PLUG_CLS = MaterialEnumPlugOperator
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     ARTISTIC = 0
     PHYSICAL = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     ARTISTIC = 0
@@ -92,16 +92,14 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiComplexIor(DG):
+class GeneratedAiComplexIor(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiComplexIor"
@@ -115,7 +113,9 @@ class _GeneratedAiComplexIor(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -128,7 +128,13 @@ class _GeneratedAiComplexIor(DG):
 
     mode = ModeEnumField(default_value=0)
 
-    reflectivity = ReflectivityField(default_value=(0.9259520173072815, 0.7208870053291321, 0.5041540265083313))
+    reflectivity = ReflectivityField(
+        default_value=(
+            0.9259520173072815,
+            0.7208870053291321,
+            0.5041540265083313,
+        )
+    )
     reflectivityR = reflectivity.reflectivityR
     reflectivityr = reflectivityR
     reflectivityG = reflectivity.reflectivityG
@@ -136,7 +142,13 @@ class _GeneratedAiComplexIor(DG):
     reflectivityB = reflectivity.reflectivityB
     reflectivityb = reflectivityB
 
-    edgetint = EdgetintField(default_value=(0.995523989200592, 0.957414984703064, 0.8227760195732117))
+    edgetint = EdgetintField(
+        default_value=(
+            0.995523989200592,
+            0.957414984703064,
+            0.8227760195732117,
+        )
+    )
     edgetintR = edgetint.edgetintR
     edgetintr = edgetintR
     edgetintG = edgetint.edgetintG
@@ -144,7 +156,13 @@ class _GeneratedAiComplexIor(DG):
     edgetintB = edgetint.edgetintB
     edgetintb = edgetintB
 
-    n = NField(default_value=(0.27105000615119934, 0.6769300103187561, 1.3164000511169434))
+    n = NField(
+        default_value=(
+            0.27105000615119934,
+            0.6769300103187561,
+            1.3164000511169434,
+        )
+    )
     nX = n.nX
     nx = nX
     nY = n.nY
@@ -152,7 +170,13 @@ class _GeneratedAiComplexIor(DG):
     nZ = n.nZ
     nz = nZ
 
-    k = KField(default_value=(3.6092000007629395, 2.6247000694274902, 2.292099952697754))
+    k = KField(
+        default_value=(
+            3.6092000007629395,
+            2.6247000694274902,
+            2.292099952697754,
+        )
+    )
     kX = k.kX
     kx = kX
     kY = k.kY

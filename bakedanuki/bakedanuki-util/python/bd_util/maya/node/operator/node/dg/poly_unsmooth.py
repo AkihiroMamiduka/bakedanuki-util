@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_unsmooth import _GeneratedPolyUnsmooth
+from ._generated.poly_unsmooth import GeneratedPolyUnsmooth
 
 
-class PolyUnsmooth(_GeneratedPolyUnsmooth):
+class PolyUnsmooth(GeneratedPolyUnsmooth):
     __slots__ = ()
 
     NODE_TYPE = "polyUnsmooth"

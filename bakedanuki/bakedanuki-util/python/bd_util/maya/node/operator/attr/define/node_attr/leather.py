@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -468,7 +468,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -495,13 +497,19 @@ class CellColorPlugOperator(
         ("cellColorB", "ceb"),
     )
 
-    cellColorR = FloatField(default_value=0.37299999594688416, min_value=0.0, max_value=1.0)
+    cellColorR = FloatField(
+        default_value=0.37299999594688416, min_value=0.0, max_value=1.0
+    )
     cer = cellColorR
 
-    cellColorG = FloatField(default_value=0.15700000524520874, min_value=0.0, max_value=1.0)
+    cellColorG = FloatField(
+        default_value=0.15700000524520874, min_value=0.0, max_value=1.0
+    )
     ceg = cellColorG
 
-    cellColorB = FloatField(default_value=0.05900000035762787, min_value=0.0, max_value=1.0)
+    cellColorB = FloatField(
+        default_value=0.05900000035762787, min_value=0.0, max_value=1.0
+    )
     ceb = cellColorB
 
 
@@ -510,13 +518,19 @@ class CellColorAttrOperator(
 ):
     __slots__ = ()
 
-    cellColorR = FloatField(default_value=0.37299999594688416, min_value=0.0, max_value=1.0)
+    cellColorR = FloatField(
+        default_value=0.37299999594688416, min_value=0.0, max_value=1.0
+    )
     cer = cellColorR
 
-    cellColorG = FloatField(default_value=0.15700000524520874, min_value=0.0, max_value=1.0)
+    cellColorG = FloatField(
+        default_value=0.15700000524520874, min_value=0.0, max_value=1.0
+    )
     ceg = cellColorG
 
-    cellColorB = FloatField(default_value=0.05900000035762787, min_value=0.0, max_value=1.0)
+    cellColorB = FloatField(
+        default_value=0.05900000035762787, min_value=0.0, max_value=1.0
+    )
     ceb = cellColorB
 
 
@@ -528,13 +542,19 @@ class CellColorField(
     ATTR_CLS = CellColorAttrOperator
     PLUG_CLS = CellColorPlugOperator
 
-    cellColorR = FloatField(default_value=0.37299999594688416, min_value=0.0, max_value=1.0)
+    cellColorR = FloatField(
+        default_value=0.37299999594688416, min_value=0.0, max_value=1.0
+    )
     cer = cellColorR
 
-    cellColorG = FloatField(default_value=0.15700000524520874, min_value=0.0, max_value=1.0)
+    cellColorG = FloatField(
+        default_value=0.15700000524520874, min_value=0.0, max_value=1.0
+    )
     ceg = cellColorG
 
-    cellColorB = FloatField(default_value=0.05900000035762787, min_value=0.0, max_value=1.0)
+    cellColorB = FloatField(
+        default_value=0.05900000035762787, min_value=0.0, max_value=1.0
+    )
     ceb = cellColorB
 
 
@@ -548,10 +568,14 @@ class CreaseColorPlugOperator(
         ("creaseColorB", "crb"),
     )
 
-    creaseColorR = FloatField(default_value=0.23499999940395355, min_value=0.0, max_value=1.0)
+    creaseColorR = FloatField(
+        default_value=0.23499999940395355, min_value=0.0, max_value=1.0
+    )
     crr = creaseColorR
 
-    creaseColorG = FloatField(default_value=0.11800000071525574, min_value=0.0, max_value=1.0)
+    creaseColorG = FloatField(
+        default_value=0.11800000071525574, min_value=0.0, max_value=1.0
+    )
     crg = creaseColorG
 
     creaseColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -563,10 +587,14 @@ class CreaseColorAttrOperator(
 ):
     __slots__ = ()
 
-    creaseColorR = FloatField(default_value=0.23499999940395355, min_value=0.0, max_value=1.0)
+    creaseColorR = FloatField(
+        default_value=0.23499999940395355, min_value=0.0, max_value=1.0
+    )
     crr = creaseColorR
 
-    creaseColorG = FloatField(default_value=0.11800000071525574, min_value=0.0, max_value=1.0)
+    creaseColorG = FloatField(
+        default_value=0.11800000071525574, min_value=0.0, max_value=1.0
+    )
     crg = creaseColorG
 
     creaseColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -581,10 +609,14 @@ class CreaseColorField(
     ATTR_CLS = CreaseColorAttrOperator
     PLUG_CLS = CreaseColorPlugOperator
 
-    creaseColorR = FloatField(default_value=0.23499999940395355, min_value=0.0, max_value=1.0)
+    creaseColorR = FloatField(
+        default_value=0.23499999940395355, min_value=0.0, max_value=1.0
+    )
     crr = creaseColorR
 
-    creaseColorG = FloatField(default_value=0.11800000071525574, min_value=0.0, max_value=1.0)
+    creaseColorG = FloatField(
+        default_value=0.11800000071525574, min_value=0.0, max_value=1.0
+    )
     crg = creaseColorG
 
     creaseColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)

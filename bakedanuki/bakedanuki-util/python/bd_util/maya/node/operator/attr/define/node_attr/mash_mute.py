@@ -5,20 +5,22 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class EnvelopeRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class EnvelopeRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["EnvelopeRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +29,9 @@ class EnvelopeRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class EnvelopeRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class EnvelopeRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[EnvelopeRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -44,7 +48,10 @@ class EnvelopeRamp_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class EnvelopeRamp_InterpEnumField(
-    EnumField[EnvelopeRamp_InterpEnumAttrOperator, EnvelopeRamp_InterpEnumPlugOperator]
+    EnumField[
+        EnvelopeRamp_InterpEnumAttrOperator,
+        EnvelopeRamp_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52,7 +59,9 @@ class EnvelopeRamp_InterpEnumField(
     PLUG_CLS = EnvelopeRamp_InterpEnumPlugOperator
 
 
-class BeatRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class BeatRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["BeatRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -61,7 +70,9 @@ class BeatRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class BeatRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class BeatRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[BeatRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -86,7 +97,9 @@ class BeatRamp_InterpEnumField(
     PLUG_CLS = BeatRamp_InterpEnumPlugOperator
 
 
-class MuteRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class MuteRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["MuteRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -95,7 +108,9 @@ class MuteRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class MuteRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class MuteRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[MuteRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -120,7 +135,9 @@ class MuteRamp_InterpEnumField(
     PLUG_CLS = MuteRamp_InterpEnumPlugOperator
 
 
-class VelocityRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class VelocityRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["VelocityRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -129,7 +146,9 @@ class VelocityRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class VelocityRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class VelocityRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[VelocityRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -146,7 +165,10 @@ class VelocityRamp_InterpEnumAttrOperator(EnumAttrOperator):
 
 
 class VelocityRamp_InterpEnumField(
-    EnumField[VelocityRamp_InterpEnumAttrOperator, VelocityRamp_InterpEnumPlugOperator]
+    EnumField[
+        VelocityRamp_InterpEnumAttrOperator,
+        VelocityRamp_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -174,9 +196,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -227,9 +247,7 @@ class EnvelopeRampPlugOperator(
     envelopeRampi = envelopeRamp_Interp
 
 
-class EnvelopeRampAttrOperator(
-    CompoundAttrOperator[EnvelopeRampPlugOperator]
-):
+class EnvelopeRampAttrOperator(CompoundAttrOperator[EnvelopeRampPlugOperator]):
     __slots__ = ()
 
     envelopeRamp_Position = FloatField(default_value=0.0)
@@ -287,7 +305,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -304,9 +324,7 @@ class FalloffObjectField(
     fallObjz = falloffObjectZ
 
 
-class BeatRampPlugOperator(
-    CompoundPlugOperator["BeatRampAttrOperator"]
-):
+class BeatRampPlugOperator(CompoundPlugOperator["BeatRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("beatRamp_Position", "beatRampp"),
@@ -324,9 +342,7 @@ class BeatRampPlugOperator(
     beatRampi = beatRamp_Interp
 
 
-class BeatRampAttrOperator(
-    CompoundAttrOperator[BeatRampPlugOperator]
-):
+class BeatRampAttrOperator(CompoundAttrOperator[BeatRampPlugOperator]):
     __slots__ = ()
 
     beatRamp_Position = FloatField(default_value=0.0)
@@ -339,18 +355,14 @@ class BeatRampAttrOperator(
     beatRampi = beatRamp_Interp
 
 
-class BeatRampField(
-    CompoundField[BeatRampAttrOperator, BeatRampPlugOperator]
-):
+class BeatRampField(CompoundField[BeatRampAttrOperator, BeatRampPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = BeatRampAttrOperator
     PLUG_CLS = BeatRampPlugOperator
 
 
-class MuteRampPlugOperator(
-    CompoundPlugOperator["MuteRampAttrOperator"]
-):
+class MuteRampPlugOperator(CompoundPlugOperator["MuteRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("muteRamp_Position", "muteRampp"),
@@ -368,9 +380,7 @@ class MuteRampPlugOperator(
     muteRampi = muteRamp_Interp
 
 
-class MuteRampAttrOperator(
-    CompoundAttrOperator[MuteRampPlugOperator]
-):
+class MuteRampAttrOperator(CompoundAttrOperator[MuteRampPlugOperator]):
     __slots__ = ()
 
     muteRamp_Position = FloatField(default_value=0.0)
@@ -383,9 +393,7 @@ class MuteRampAttrOperator(
     muteRampi = muteRamp_Interp
 
 
-class MuteRampField(
-    CompoundField[MuteRampAttrOperator, MuteRampPlugOperator]
-):
+class MuteRampField(CompoundField[MuteRampAttrOperator, MuteRampPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = MuteRampAttrOperator
@@ -412,9 +420,7 @@ class VelocityRampPlugOperator(
     velocityRampi = velocityRamp_Interp
 
 
-class VelocityRampAttrOperator(
-    CompoundAttrOperator[VelocityRampPlugOperator]
-):
+class VelocityRampAttrOperator(CompoundAttrOperator[VelocityRampPlugOperator]):
     __slots__ = ()
 
     velocityRamp_Position = FloatField(default_value=0.0)

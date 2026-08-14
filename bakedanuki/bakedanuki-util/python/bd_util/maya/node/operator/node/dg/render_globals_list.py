@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.render_globals_list import _GeneratedRenderGlobalsList
+from ._generated.render_globals_list import GeneratedRenderGlobalsList
 
 
-class RenderGlobalsList(_GeneratedRenderGlobalsList):
+class RenderGlobalsList(GeneratedRenderGlobalsList):
     __slots__ = ()
 
     NODE_TYPE = "renderGlobalsList"

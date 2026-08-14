@@ -11,24 +11,26 @@ from ....attr.define.node_attr.mash_offset import (
     RayDirectionField,
     ReorderDistancePointField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -37,7 +39,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -62,14 +66,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -82,7 +90,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -90,7 +101,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class OffsetTypeEnumPlugOperator(EnumPlugOperator):
+class OffsetTypeEnumPlugOperator(
+    EnumPlugOperator["OffsetTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFFSET = 1
@@ -100,7 +113,7 @@ class OffsetTypeEnumPlugOperator(EnumPlugOperator):
     MULTIPLY_BY_TIME = 6
 
 
-class OffsetTypeEnumAttrOperator(EnumAttrOperator):
+class OffsetTypeEnumAttrOperator(EnumAttrOperator[OffsetTypeEnumPlugOperator]):
     __slots__ = ()
 
     OFFSET = 1
@@ -127,7 +140,9 @@ class OffsetTypeEnumField(
     PLUG_CLS = OffsetTypeEnumPlugOperator
 
 
-class ReorderPointsEnumPlugOperator(EnumPlugOperator):
+class ReorderPointsEnumPlugOperator(
+    EnumPlugOperator["ReorderPointsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 1
@@ -139,7 +154,9 @@ class ReorderPointsEnumPlugOperator(EnumPlugOperator):
     RANDOM = 7
 
 
-class ReorderPointsEnumAttrOperator(EnumAttrOperator):
+class ReorderPointsEnumAttrOperator(
+    EnumAttrOperator[ReorderPointsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 1
@@ -170,14 +187,18 @@ class ReorderPointsEnumField(
     PLUG_CLS = ReorderPointsEnumPlugOperator
 
 
-class ClosestPointModeEnumPlugOperator(EnumPlugOperator):
+class ClosestPointModeEnumPlugOperator(
+    EnumPlugOperator["ClosestPointModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST_POINT_ON_MESH = 1
     RAY_CAST = 2
 
 
-class ClosestPointModeEnumAttrOperator(EnumAttrOperator):
+class ClosestPointModeEnumAttrOperator(
+    EnumAttrOperator[ClosestPointModeEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST_POINT_ON_MESH = 1
@@ -190,7 +211,9 @@ class ClosestPointModeEnumAttrOperator(EnumAttrOperator):
 
 
 class ClosestPointModeEnumField(
-    EnumField[ClosestPointModeEnumAttrOperator, ClosestPointModeEnumPlugOperator]
+    EnumField[
+        ClosestPointModeEnumAttrOperator, ClosestPointModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -198,7 +221,7 @@ class ClosestPointModeEnumField(
     PLUG_CLS = ClosestPointModeEnumPlugOperator
 
 
-class _GeneratedMASH_Offset(DG):
+class GeneratedMASHOffset(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Offset"
@@ -218,7 +241,9 @@ class _GeneratedMASH_Offset(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -270,7 +295,9 @@ class _GeneratedMASH_Offset(DG):
 
     holdValue = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    startFrame = LongField(default_value=0, soft_min_value=0, soft_max_value=100)
+    startFrame = LongField(
+        default_value=0, soft_min_value=0, soft_max_value=100
+    )
 
     useTime = BoolField(default_value=True)
 
@@ -332,7 +359,9 @@ class _GeneratedMASH_Offset(DG):
 
     reversePointOrder = BoolField(default_value=False)
 
-    reorderDistancePoint = ReorderDistancePointField(default_value=(0.0, 0.0, 0.0))
+    reorderDistancePoint = ReorderDistancePointField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     reorderDistancePointX = reorderDistancePoint.reorderDistancePointX
     reorderDistancePointx = reorderDistancePointX
     reorderDistancePointY = reorderDistancePoint.reorderDistancePointY

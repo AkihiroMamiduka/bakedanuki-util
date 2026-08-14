@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.c_muscle_stretch import _GeneratedCMuscleStretch
+from ._generated.c_muscle_stretch import GeneratedCMuscleStretch
 
 
-class CMuscleStretch(_GeneratedCMuscleStretch):
+class CMuscleStretch(GeneratedCMuscleStretch):
     __slots__ = ()
 
     NODE_TYPE = "cMuscleStretch"

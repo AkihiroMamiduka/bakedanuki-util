@@ -1,10 +1,12 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 
 
-class _GeneratedEqual(DG):
+class GeneratedEqual(DG):
     __slots__ = ()
 
     NODE_TYPE = "equal"

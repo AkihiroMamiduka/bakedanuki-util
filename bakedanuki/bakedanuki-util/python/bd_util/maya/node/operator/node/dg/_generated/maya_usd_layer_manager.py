@@ -4,7 +4,7 @@ from ....attr.define.node_attr.maya_usd_layer_manager import LayersField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedMayaUsdLayerManager(DG):
+class GeneratedMayaUsdLayerManager(DG):
     __slots__ = ()
 
     NODE_TYPE = "mayaUsdLayerManager"

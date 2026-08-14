@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_influence import _GeneratedMASH_Influence
+from ._generated.mash_influence import GeneratedMASHInfluence
 
 
-class MASH_Influence(_GeneratedMASH_Influence):
+class MASHInfluence(GeneratedMASHInfluence):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Influence"

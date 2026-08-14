@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ocean_shader import _GeneratedOceanShader
+from ._generated.ocean_shader import GeneratedOceanShader
 
 
-class OceanShader(_GeneratedOceanShader):
+class OceanShader(GeneratedOceanShader):
     __slots__ = ()
 
     NODE_TYPE = "oceanShader"

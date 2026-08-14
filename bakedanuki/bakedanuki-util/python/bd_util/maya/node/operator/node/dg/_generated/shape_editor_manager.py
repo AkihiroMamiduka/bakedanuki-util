@@ -1,12 +1,14 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.shape_editor_manager import BlendShapeDirectoryField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.node_attr.shape_editor_manager import (
+    BlendShapeDirectoryField,
+)
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedShapeEditorManager(DG):
+class GeneratedShapeEditorManager(DG):
     __slots__ = ()
 
     NODE_TYPE = "shapeEditorManager"
@@ -17,7 +19,9 @@ class _GeneratedShapeEditorManager(DG):
     blendShapeParent = LongField(multi=True, default_value=0)
     bspr = blendShapeParent
 
-    outBlendShapeVisibility = BoolField(multi=True, default_value=False, writable=False)
+    outBlendShapeVisibility = BoolField(
+        multi=True, default_value=False, writable=False
+    )
     obsv = outBlendShapeVisibility
 
     filterString = DataStringField()

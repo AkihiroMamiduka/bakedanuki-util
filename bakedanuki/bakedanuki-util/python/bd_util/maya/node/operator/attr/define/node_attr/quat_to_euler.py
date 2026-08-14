@@ -1,13 +1,11 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ..custom import (
     QuatCompoundBaseAttrOperator,
     QuatCompoundBasePlugOperator,
     QuatCompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseField,
@@ -113,7 +111,9 @@ class OutputRotateAttrOperator(
 
 
 class OutputRotateField(
-    DoubleAngle3CompoundBaseField[OutputRotateAttrOperator, OutputRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        OutputRotateAttrOperator, OutputRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 

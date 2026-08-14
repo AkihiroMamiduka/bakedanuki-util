@@ -1,20 +1,24 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
+class MergeUVSetsEnumPlugOperator(
+    EnumPlugOperator["MergeUVSetsEnumAttrOperator"]
+):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -22,7 +26,9 @@ class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
     MERGE_BY_UV_LINKS = 2
 
 
-class MergeUVSetsEnumAttrOperator(EnumAttrOperator):
+class MergeUVSetsEnumAttrOperator(
+    EnumAttrOperator[MergeUVSetsEnumPlugOperator]
+):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -45,7 +51,7 @@ class MergeUVSetsEnumField(
     PLUG_CLS = MergeUVSetsEnumPlugOperator
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     UNION = 1
@@ -53,7 +59,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     INTERSECTION = 3
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     UNION = 1
@@ -76,14 +82,18 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class ClassificationEnumPlugOperator(EnumPlugOperator):
+class ClassificationEnumPlugOperator(
+    EnumPlugOperator["ClassificationEnumAttrOperator"]
+):
     __slots__ = ()
 
     EDGE = 1
     NORMAL = 2
 
 
-class ClassificationEnumAttrOperator(EnumAttrOperator):
+class ClassificationEnumAttrOperator(
+    EnumAttrOperator[ClassificationEnumPlugOperator]
+):
     __slots__ = ()
 
     EDGE = 1
@@ -104,7 +114,7 @@ class ClassificationEnumField(
     PLUG_CLS = ClassificationEnumPlugOperator
 
 
-class _GeneratedPolyCBoolOp(DG):
+class GeneratedPolyCBoolOp(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCBoolOp"
@@ -139,10 +149,14 @@ class _GeneratedPolyCBoolOp(DG):
     useThresholds = BoolField(default_value=False)
     uth = useThresholds
 
-    vertexDistanceThreshold = DoubleLinearField(default_value=0.001, min_value=0.0, soft_max_value=1.0)
+    vertexDistanceThreshold = DoubleLinearField(
+        default_value=0.001, min_value=0.0, soft_max_value=1.0
+    )
     vdt = vertexDistanceThreshold
 
-    faceAreaThreshold = DoubleLinearField(default_value=0.0001, min_value=0.0, soft_max_value=1.0)
+    faceAreaThreshold = DoubleLinearField(
+        default_value=0.0001, min_value=0.0, soft_max_value=1.0
+    )
     fat = faceAreaThreshold
 
     preserveColor = BoolField(default_value=False)

@@ -7,16 +7,19 @@ plugin ファイル内では、絶対 import しか使用できない。
 登録のみを plugin ファイル内で行うと良さそう。
 """
 
+# maya
+from maya import OpenMaya as om
+
 # self
 from ..cmds.sample_cmd_a.cmd import BDUSampleCommandA
 from ..cmds.sample_cmd_b.cmd import BDUSampleCommandB
 
 
-def initializePlugin(plugin):
+def initializePlugin(plugin: om.MObject) -> None:
     BDUSampleCommandA.initialize_plugin(plugin)
     BDUSampleCommandB.initialize_plugin(plugin)
 
 
-def uninitializePlugin(plugin):
+def uninitializePlugin(plugin: om.MObject) -> None:
     BDUSampleCommandA.uninitialize_plugin(plugin)
     BDUSampleCommandB.uninitialize_plugin(plugin)

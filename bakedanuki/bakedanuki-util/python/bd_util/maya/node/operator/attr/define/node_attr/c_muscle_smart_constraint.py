@@ -5,16 +5,16 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.matrix import MatrixField
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.matrix import MatrixField
-from ..std.at.numeric_scalar_range.double import DoubleField
+from ..std.at.scalar.numeric.range.double import DoubleField
 
 
-class AxisEnumPlugOperator(EnumPlugOperator):
+class AxisEnumPlugOperator(EnumPlugOperator["AxisEnumAttrOperator"]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -25,7 +25,7 @@ class AxisEnumPlugOperator(EnumPlugOperator):
     NEG_Z_MINUS_AXIS = 5
 
 
-class AxisEnumAttrOperator(EnumAttrOperator):
+class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -45,9 +45,7 @@ class AxisEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class AxisEnumField(
-    EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]
-):
+class AxisEnumField(EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AxisEnumAttrOperator
@@ -157,9 +155,7 @@ class ConstrainDataField(
     bisadj = biasAdjust
 
 
-class OutDataPlugOperator(
-    CompoundPlugOperator["OutDataAttrOperator"]
-):
+class OutDataPlugOperator(CompoundPlugOperator["OutDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outTranslate", "ot"),
@@ -177,9 +173,7 @@ class OutDataPlugOperator(
     otrg = outTrigger
 
 
-class OutDataAttrOperator(
-    CompoundAttrOperator[OutDataPlugOperator]
-):
+class OutDataAttrOperator(CompoundAttrOperator[OutDataPlugOperator]):
     __slots__ = ()
 
     outTranslate = CompoundField(default_value=(0.0, 0.0, 0.0))
@@ -192,9 +186,7 @@ class OutDataAttrOperator(
     otrg = outTrigger
 
 
-class OutDataField(
-    CompoundField[OutDataAttrOperator, OutDataPlugOperator]
-):
+class OutDataField(CompoundField[OutDataAttrOperator, OutDataPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OutDataAttrOperator

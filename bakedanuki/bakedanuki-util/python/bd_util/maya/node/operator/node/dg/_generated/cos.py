@@ -1,10 +1,14 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 
 
-class _GeneratedCos(DG):
+class GeneratedCos(DG):
     __slots__ = ()
 
     NODE_TYPE = "cos"

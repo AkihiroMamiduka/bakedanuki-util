@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.script import _GeneratedScript
+from ._generated.script import GeneratedScript
 
 
-class Script(_GeneratedScript):
+class Script(GeneratedScript):
     __slots__ = ()
 
     NODE_TYPE = "script"

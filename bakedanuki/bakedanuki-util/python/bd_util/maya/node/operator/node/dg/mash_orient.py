@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_orient import _GeneratedMASH_Orient
+from ._generated.mash_orient import GeneratedMASHOrient
 
 
-class MASH_Orient(_GeneratedMASH_Orient):
+class MASHOrient(GeneratedMASHOrient):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Orient"

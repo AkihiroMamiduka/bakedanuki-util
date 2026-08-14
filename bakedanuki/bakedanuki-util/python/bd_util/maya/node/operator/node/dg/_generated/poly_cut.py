@@ -6,14 +6,14 @@ from ....attr.define.node_attr.poly_cut import (
     CutPlaneSizeField,
     ExtractOffsetField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyCut(DG):
+class GeneratedPolyCut(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCut"
@@ -75,7 +75,11 @@ class _GeneratedPolyCut(DG):
     cutPlaneRotateZ = cutPlaneRotate.cutPlaneRotateZ
     rz = cutPlaneRotateZ
 
-    cutPlaneSize = CutPlaneSizeField(default_value=(1.0, 1.0), min_value=(0.0, 0.0), soft_max_value=(2.0, 2.0))
+    cutPlaneSize = CutPlaneSizeField(
+        default_value=(1.0, 1.0),
+        min_value=(0.0, 0.0),
+        soft_max_value=(2.0, 2.0),
+    )
     ps = cutPlaneSize
     cutPlaneWidth = cutPlaneSize.cutPlaneWidth
     pw = cutPlaneWidth

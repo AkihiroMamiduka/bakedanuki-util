@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.time import _GeneratedTime
+from ._generated.time import GeneratedTime
 
 
-class Time(_GeneratedTime):
+class Time(GeneratedTime):
     __slots__ = ()
 
     NODE_TYPE = "time"

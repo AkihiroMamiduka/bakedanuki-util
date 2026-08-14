@@ -1,11 +1,11 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedApplyRelIntOverride(DG):
+class GeneratedApplyRelIntOverride(DG):
     __slots__ = ()
 
     NODE_TYPE = "applyRelIntOverride"

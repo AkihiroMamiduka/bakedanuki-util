@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_cross import (
 )
 
 
-class _GeneratedAiCross(DG):
+class GeneratedAiCross(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCross"
@@ -22,7 +22,9 @@ class _GeneratedAiCross(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

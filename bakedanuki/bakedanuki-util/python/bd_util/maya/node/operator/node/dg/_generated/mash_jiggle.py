@@ -8,19 +8,21 @@ from ....attr.define.node_attr.mash_jiggle import (
     PerGeometryField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -29,7 +31,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -54,14 +58,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class FalloffAffectsEnumPlugOperator(EnumPlugOperator):
+class FalloffAffectsEnumPlugOperator(
+    EnumPlugOperator["FalloffAffectsEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 1
     BLEND_ONLY = 2
 
 
-class FalloffAffectsEnumAttrOperator(EnumAttrOperator):
+class FalloffAffectsEnumAttrOperator(
+    EnumAttrOperator[FalloffAffectsEnumPlugOperator]
+):
     __slots__ = ()
 
     ALL = 1
@@ -82,14 +90,16 @@ class FalloffAffectsEnumField(
     PLUG_CLS = FalloffAffectsEnumPlugOperator
 
 
-class MapAffectsEnumPlugOperator(EnumPlugOperator):
+class MapAffectsEnumPlugOperator(
+    EnumPlugOperator["MapAffectsEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 1
     BLEND_ONLY = 2
 
 
-class MapAffectsEnumAttrOperator(EnumAttrOperator):
+class MapAffectsEnumAttrOperator(EnumAttrOperator[MapAffectsEnumPlugOperator]):
     __slots__ = ()
 
     ALL = 1
@@ -110,7 +120,7 @@ class MapAffectsEnumField(
     PLUG_CLS = MapAffectsEnumPlugOperator
 
 
-class _GeneratedMASH_Jiggle(DG):
+class GeneratedMASHJiggle(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Jiggle"
@@ -127,13 +137,21 @@ class _GeneratedMASH_Jiggle(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -176,15 +194,25 @@ class _GeneratedMASH_Jiggle(DG):
 
     mapAffects = MapAffectsEnumField(default_value=1)
 
-    directionBias = FloatField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
+    directionBias = FloatField(
+        default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
 
-    normalStrength = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    normalStrength = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    maxVelocity = FloatField(default_value=3.0, soft_min_value=0.0, soft_max_value=4.0)
+    maxVelocity = FloatField(
+        default_value=3.0, soft_min_value=0.0, soft_max_value=4.0
+    )
 
-    stiffness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    stiffness = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
 
-    damping = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    damping = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
 
     strengthPP = TypedField(multi=True)
 

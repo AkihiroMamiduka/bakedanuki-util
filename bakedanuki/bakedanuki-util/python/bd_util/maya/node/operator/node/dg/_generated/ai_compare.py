@@ -1,16 +1,16 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.ai_compare import OutTransparencyField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class TestEnumPlugOperator(EnumPlugOperator):
+class TestEnumPlugOperator(EnumPlugOperator["TestEnumAttrOperator"]):
     __slots__ = ()
 
     EQUAL_EQUAL = 0
@@ -21,7 +21,7 @@ class TestEnumPlugOperator(EnumPlugOperator):
     GREATER_EQUAL = 5
 
 
-class TestEnumAttrOperator(EnumAttrOperator):
+class TestEnumAttrOperator(EnumAttrOperator[TestEnumPlugOperator]):
     __slots__ = ()
 
     EQUAL_EQUAL = 0
@@ -41,16 +41,14 @@ class TestEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class TestEnumField(
-    EnumField[TestEnumAttrOperator, TestEnumPlugOperator]
-):
+class TestEnumField(EnumField[TestEnumAttrOperator, TestEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TestEnumAttrOperator
     PLUG_CLS = TestEnumPlugOperator
 
 
-class _GeneratedAiCompare(DG):
+class GeneratedAiCompare(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCompare"
@@ -58,7 +56,9 @@ class _GeneratedAiCompare(DG):
     outValue = BoolField(default_value=False, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

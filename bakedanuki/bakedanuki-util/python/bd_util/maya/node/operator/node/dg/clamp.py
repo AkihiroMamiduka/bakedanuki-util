@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.clamp import _GeneratedClamp
+from ._generated.clamp import GeneratedClamp
 
 
-class Clamp(_GeneratedClamp):
+class Clamp(GeneratedClamp):
     __slots__ = ()
 
     NODE_TYPE = "clamp"

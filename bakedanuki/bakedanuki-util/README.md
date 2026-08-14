@@ -4,11 +4,13 @@
 
 今後制作予定のリグシステムパッケージ `bakedanuki-rig` で使用するために開発しています。その中でも、リグシステム専用ではなく他の Maya ツール開発でも使える汎用部分を `util` として切り出しています。
 
-現在は **v0.1.0 / pre-1.0.0 の開発中パッケージ**です。API は今後変わる可能性がありますが、Maya のノード操作を Python から短く、読みやすく、できるだけ OpenMaya に近い形で扱えることを目指しています。
+現在は **v0.2.0 / pre-1.0.0 の開発中パッケージ**です。API は今後変わる可能性がありますが、Maya のノード操作を Python から短く、読みやすく、できるだけ OpenMaya に近い形で扱えることを目指しています。
 
 ## Status
 
 - Target: Maya 2025 以降 / Python 3.11.4 以降
+- Release verification: Windows / Maya 2025 / 2026 / 2027
+- Bundled native plug-in: Windows / Maya 2025 / 2026 / 2027
 - Runtime: Maya 専用
 - Distribution: Maya Module
 - Stage: pre-1.0.0 / active development
@@ -106,6 +108,44 @@ decompose = nodes.create.decomposeMatrix(name="decompose")
 
 Python キーワードと衝突する `and`, `or`, `not` などは、`and_()`, `or_()`, `not_()` のように末尾 `_` を付けます。
 
+### Native Plug-in Node
+
+v0.2.0 には、Windows版 Maya 2025 / 2026 / 2027 向けの
+`bdUtilNodes.mll` をそれぞれ同梱します。Maya Moduleが実行中のMaya versionに対応する
+`plug-ins/maya<version>` をplug-in pathへ追加します。
+
+Maya の Plug-in Manager で `bdUtilNodes.mll` をロードすると、
+固定2入力の `bdDbl3_Multiply` と、可変長入力の `bdDbl3_MultiplyMulti` を
+`Nodes` から使用できます。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+mult = nodes.create.bdDbl3_Multiply(name="mult")
+mult.input1.set((2.0, 3.0, 4.0))
+mult.input2.set((5.0, 6.0, 7.0))
+
+mod.do_it_dg()
+
+print(mult.output.get().as_tuple())  # (10.0, 18.0, 28.0)
+```
+
+`bdDbl3_Multiply` の `input1` と `input2` は `double3` です。2入力を成分ごとに
+乗算します。
+
+任意個の `double3` を乗算する場合は `bdDbl3_MultiplyMulti` の multi attribute
+`input` を使用します。既存要素を成分ごとに乗算し、要素がない場合は
+`(1.0, 1.0, 1.0)` を返します。
+
+```python
+multi = nodes.create.bdDbl3_MultiplyMulti(name="multi")
+multi.input[0].set((2.0, 3.0, 4.0))
+multi.input[3].set((5.0, 6.0, 7.0))
+```
+
 ### Wrap Existing Nodes
 
 ```python
@@ -156,10 +196,13 @@ a.output1D.connect(b.input1D[0])
 mod.do_it_dg()
 ```
 
-演算子を使った接続もできます。
+接続先から既存plugのpathを指定する場合は、`connect_from()` を使います。
 
 ```python
-a.output1D > b.input1D[0]
+b.input1D[0].connect_from("a.output1D")
+mod.do_it_dg()
+
+b.input1D[0].disconnect_from(["a", "output1D"])
 mod.do_it_dg()
 ```
 
@@ -169,11 +212,9 @@ mod.do_it_dg()
 cmp_m = nodes.create.composeMatrix(name="cmp_m")
 mult_m = nodes.create.multMatrix(name="mult_m")
 
-cmp_m.outputMatrix > mult_m.matrixIn[next]
+cmp_m.outputMatrix.connect(mult_m.matrixIn[next])
 mod.do_it_dg()
 ```
-
-速度を重視する場合は、明示的に `.connect()` を使う方が意図も分かりやすくなります。
 
 ## Install / Setup
 
@@ -193,7 +234,16 @@ bakedanuki/
   bakedanuki-util/
     README.md
     LICENSE
+    THIRD_PARTY_NOTICES.md
     docs/
+    licenses/
+    plug-ins/
+      maya2025/
+        bdUtilNodes.mll
+      maya2026/
+        bdUtilNodes.mll
+      maya2027/
+        bdUtilNodes.mll
     python/
       bd_util/
 ```
@@ -201,7 +251,7 @@ bakedanuki/
 `bakedanuki/modules/bd_util.mod` には、`bakedanuki-util/python` を Python path に追加する設定が入っています。
 
 ```text
-+ bd_util 0.1.0 ../bakedanuki-util
++ bd_util 0.2.0 ../bakedanuki-util
 PYTHONPATH+:=python
 ```
 
@@ -303,7 +353,14 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 
 ## Current Notes
 
-- まだ v1.0.0 未満のため、API は破壊的に変更される可能性があります。
+- v1.0.0 未満では将来の設計と使いやすさを優先し、互換性維持よりも改善を選びます。
+  破壊的変更は原則として `0.x.0` の minor release で行い、`0.x.y` の patch release
+  では意図的に行いません。安定した API 互換性の提供は v1.0.0 以降を対象とします。
+- 変更対象には公開 Python API のほか、ネイティブノードの `typeName`、attribute 構成・
+  名前・default 値、計算仕様も含まれます。既存 scene の移行やノードの再作成が必要に
+  なる場合があり、破壊的変更と移行手順はルートの `CHANGELOG.md` に記録します。
+- 一度公開した `MTypeId` は v1.0.0 未満でも変更・再利用しません。旧仕様と新仕様を
+  共存させる場合は、新しい node type と未使用の `MTypeId` を追加します。
 - 現在は Maya 2025 以降を前提にしています。
 - `NodeOperator` / `AttributeField` / `PlugOperator` 周辺は、利便性と速度の両立を重視して継続的に調整しています。
 - 生成済み DG ノード定義は増えていますが、すべてのノード操作が十分に検証済みとは限りません。
@@ -311,3 +368,6 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 ## License
 
 MIT License
+
+`bdUtilNodes.mll` が使用する第三者ライブラリについては
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) を参照してください。

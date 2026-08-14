@@ -6,10 +6,10 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -96,7 +96,9 @@ class ChannelSetColorAttrOperator(
 
 
 class ChannelSetColorField(
-    Float3CompoundBaseField[ChannelSetColorAttrOperator, ChannelSetColorPlugOperator]
+    Float3CompoundBaseField[
+        ChannelSetColorAttrOperator, ChannelSetColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_copy_uv import _GeneratedPolyCopyUV
+from ._generated.poly_copy_uv import GeneratedPolyCopyUV
 
 
-class PolyCopyUV(_GeneratedPolyCopyUV):
+class PolyCopyUV(GeneratedPolyCopyUV):
     __slots__ = ()
 
     NODE_TYPE = "polyCopyUV"

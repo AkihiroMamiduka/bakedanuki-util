@@ -5,8 +5,8 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.dt.string import DataStringField
 
 
@@ -51,17 +51,13 @@ class WeightLayersPlugOperator(
     CompoundPlugOperator["WeightLayersAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wht"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wht"),)
 
     weights = DoubleField(multi=True, default_value=1.0)
     wht = weights
 
 
-class WeightLayersAttrOperator(
-    CompoundAttrOperator[WeightLayersPlugOperator]
-):
+class WeightLayersAttrOperator(CompoundAttrOperator[WeightLayersPlugOperator]):
     __slots__ = ()
 
     weights = DoubleField(multi=True, default_value=1.0)

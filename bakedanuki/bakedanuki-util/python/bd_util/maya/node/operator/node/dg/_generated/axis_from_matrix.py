@@ -1,7 +1,7 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.axis_from_matrix import OutputField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
@@ -9,7 +9,7 @@ from ....attr.define.std.at.enum import (
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class AxisEnumPlugOperator(EnumPlugOperator):
+class AxisEnumPlugOperator(EnumPlugOperator["AxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -20,7 +20,7 @@ class AxisEnumPlugOperator(EnumPlugOperator):
     MINUS_Z = 5
 
 
-class AxisEnumAttrOperator(EnumAttrOperator):
+class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -40,16 +40,14 @@ class AxisEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class AxisEnumField(
-    EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]
-):
+class AxisEnumField(EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AxisEnumAttrOperator
     PLUG_CLS = AxisEnumPlugOperator
 
 
-class _GeneratedAxisFromMatrix(DG):
+class GeneratedAxisFromMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "axisFromMatrix"

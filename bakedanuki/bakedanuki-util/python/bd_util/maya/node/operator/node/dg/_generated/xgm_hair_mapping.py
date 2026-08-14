@@ -12,7 +12,7 @@ from ....attr.define.node_attr.xgm_hair_mapping import (
 )
 
 
-class _GeneratedXgmHairMapping(DG):
+class GeneratedXgmHairMapping(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmHairMapping"
@@ -66,7 +66,9 @@ class _GeneratedXgmHairMapping(DG):
     outV = outUV.outV
     ov = outV
 
-    outUvFilterSize = OutUvFilterSizeField(default_value=(0.0, 0.0), writable=False)
+    outUvFilterSize = OutUvFilterSizeField(
+        default_value=(0.0, 0.0), writable=False
+    )
     ofs = outUvFilterSize
     outUvFilterSizeX = outUvFilterSize.outUvFilterSizeX
     ofsx = outUvFilterSizeX

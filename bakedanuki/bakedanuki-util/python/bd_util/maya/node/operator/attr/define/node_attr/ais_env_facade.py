@@ -6,16 +6,16 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.short import ShortField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.short import ShortField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float3Field,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
 class BackgroundColorPlugOperator(
@@ -54,7 +54,9 @@ class BackgroundColorAttrOperator(
 
 
 class BackgroundColorField(
-    Float3CompoundBaseField[BackgroundColorAttrOperator, BackgroundColorPlugOperator]
+    Float3CompoundBaseField[
+        BackgroundColorAttrOperator, BackgroundColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -95,19 +97,27 @@ class ExtraLightInfoPlugOperator(
     extraLightOnOff = BoolField(default_value=False)
     eloo = extraLightOnOff
 
-    extraLightIntensity = FloatField(default_value=1.0, min_value=1.0, max_value=10.0)
+    extraLightIntensity = FloatField(
+        default_value=1.0, min_value=1.0, max_value=10.0
+    )
     elin = extraLightIntensity
 
-    extraLightColor = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
+    extraLightColor = Float3Field(
+        default_value=(1.0, 1.0, 1.0), readable=False
+    )
     elc = extraLightColor
 
     extraLightShadowColor = Float3Field(default_value=(0.0, 0.0, 0.0))
     elsc = extraLightShadowColor
 
-    extraLightShadowSmoothness = ShortField(default_value=1, min_value=1, max_value=40)
+    extraLightShadowSmoothness = ShortField(
+        default_value=1, min_value=1, max_value=40
+    )
     elss = extraLightShadowSmoothness
 
-    extraLightShadowWidth = DoubleField(default_value=0.0, min_value=0.0, max_value=10.0)
+    extraLightShadowWidth = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=10.0
+    )
     elsw = extraLightShadowWidth
 
 
@@ -125,19 +135,27 @@ class ExtraLightInfoAttrOperator(
     extraLightOnOff = BoolField(default_value=False)
     eloo = extraLightOnOff
 
-    extraLightIntensity = FloatField(default_value=1.0, min_value=1.0, max_value=10.0)
+    extraLightIntensity = FloatField(
+        default_value=1.0, min_value=1.0, max_value=10.0
+    )
     elin = extraLightIntensity
 
-    extraLightColor = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
+    extraLightColor = Float3Field(
+        default_value=(1.0, 1.0, 1.0), readable=False
+    )
     elc = extraLightColor
 
     extraLightShadowColor = Float3Field(default_value=(0.0, 0.0, 0.0))
     elsc = extraLightShadowColor
 
-    extraLightShadowSmoothness = ShortField(default_value=1, min_value=1, max_value=40)
+    extraLightShadowSmoothness = ShortField(
+        default_value=1, min_value=1, max_value=40
+    )
     elss = extraLightShadowSmoothness
 
-    extraLightShadowWidth = DoubleField(default_value=0.0, min_value=0.0, max_value=10.0)
+    extraLightShadowWidth = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=10.0
+    )
     elsw = extraLightShadowWidth
 
 

@@ -8,16 +8,18 @@ from ....attr.define.node_attr.ai_standard_volume import (
     ScatterColorField,
     TransparentField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class EmissionModeEnumPlugOperator(EnumPlugOperator):
+class EmissionModeEnumPlugOperator(
+    EnumPlugOperator["EmissionModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -26,7 +28,9 @@ class EmissionModeEnumPlugOperator(EnumPlugOperator):
     BLACKBODY = 3
 
 
-class EmissionModeEnumAttrOperator(EnumAttrOperator):
+class EmissionModeEnumAttrOperator(
+    EnumAttrOperator[EmissionModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -51,7 +55,9 @@ class EmissionModeEnumField(
     PLUG_CLS = EmissionModeEnumPlugOperator
 
 
-class EmissionScalingEnumPlugOperator(EnumPlugOperator):
+class EmissionScalingEnumPlugOperator(
+    EnumPlugOperator["EmissionScalingEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -59,7 +65,9 @@ class EmissionScalingEnumPlugOperator(EnumPlugOperator):
     THERMODYNAMIC = 2
 
 
-class EmissionScalingEnumAttrOperator(EnumAttrOperator):
+class EmissionScalingEnumAttrOperator(
+    EnumAttrOperator[EmissionScalingEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +90,9 @@ class EmissionScalingEnumField(
     PLUG_CLS = EmissionScalingEnumPlugOperator
 
 
-class InterpolationEnumPlugOperator(EnumPlugOperator):
+class InterpolationEnumPlugOperator(
+    EnumPlugOperator["InterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -90,7 +100,9 @@ class InterpolationEnumPlugOperator(EnumPlugOperator):
     TRICUBIC = 2
 
 
-class InterpolationEnumAttrOperator(EnumAttrOperator):
+class InterpolationEnumAttrOperator(
+    EnumAttrOperator[InterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -113,7 +125,7 @@ class InterpolationEnumField(
     PLUG_CLS = InterpolationEnumPlugOperator
 
 
-class _GeneratedAiStandardVolume(DG):
+class GeneratedAiStandardVolume(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiStandardVolume"
@@ -130,7 +142,9 @@ class _GeneratedAiStandardVolume(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -158,16 +172,28 @@ class _GeneratedAiStandardVolume(DG):
     scatterColorChannel = DataStringField()
     scatter_color_channel = scatterColorChannel
 
-    scatterAnisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    scatterAnisotropy = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     scatter_anisotropy = scatterAnisotropy
 
-    scatterSecondaryAnisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    scatterSecondaryAnisotropy = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     scatter_secondary_anisotropy = scatterSecondaryAnisotropy
 
-    scatterSecondaryAnisotropyMix = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    scatterSecondaryAnisotropyMix = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     scatter_secondary_anisotropy_mix = scatterSecondaryAnisotropyMix
 
-    transparent = TransparentField(default_value=(0.3678794503211975, 0.3678794503211975, 0.3678794503211975))
+    transparent = TransparentField(
+        default_value=(
+            0.3678794503211975,
+            0.3678794503211975,
+            0.3678794503211975,
+        )
+    )
     transparentR = transparent.transparentR
     transparentr = transparentR
     transparentG = transparent.transparentG
@@ -206,13 +232,19 @@ class _GeneratedAiStandardVolume(DG):
     temperatureChannel = DataStringField()
     temperature_channel = temperatureChannel
 
-    blackbodyKelvin = FloatField(default_value=5000.0, min_value=0.0, soft_max_value=20000.0)
+    blackbodyKelvin = FloatField(
+        default_value=5000.0, min_value=0.0, soft_max_value=20000.0
+    )
     blackbody_kelvin = blackbodyKelvin
 
-    blackbodyIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=100.0)
+    blackbodyIntensity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=100.0
+    )
     blackbody_intensity = blackbodyIntensity
 
-    blackbodyContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    blackbodyContrast = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     blackbody_contrast = blackbodyContrast
 
     displacement = DisplacementField(default_value=(0.0, 0.0, 0.0))

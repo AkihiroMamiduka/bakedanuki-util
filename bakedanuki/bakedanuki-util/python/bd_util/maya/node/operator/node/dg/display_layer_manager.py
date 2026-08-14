@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.display_layer_manager import _GeneratedDisplayLayerManager
+from ._generated.display_layer_manager import GeneratedDisplayLayerManager
 
 
-class DisplayLayerManager(_GeneratedDisplayLayerManager):
+class DisplayLayerManager(GeneratedDisplayLayerManager):
     __slots__ = ()
 
     NODE_TYPE = "displayLayerManager"

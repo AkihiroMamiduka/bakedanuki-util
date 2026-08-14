@@ -1,16 +1,14 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class ValuePlugOperator(
-    Float3CompoundBasePlugOperator["ValueAttrOperator"]
-):
+class ValuePlugOperator(Float3CompoundBasePlugOperator["ValueAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("valueX", "vx"),
@@ -18,28 +16,38 @@ class ValuePlugOperator(
         ("valueZ", "vz"),
     )
 
-    valueX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    valueX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     vx = valueX
 
-    valueY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    valueY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     vy = valueY
 
-    valueZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    valueZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     vz = valueZ
 
 
-class ValueAttrOperator(
-    Float3CompoundBaseAttrOperator[ValuePlugOperator]
-):
+class ValueAttrOperator(Float3CompoundBaseAttrOperator[ValuePlugOperator]):
     __slots__ = ()
 
-    valueX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    valueX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     vx = valueX
 
-    valueY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    valueY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     vy = valueY
 
-    valueZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    valueZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     vz = valueZ
 
 
@@ -51,19 +59,23 @@ class ValueField(
     ATTR_CLS = ValueAttrOperator
     PLUG_CLS = ValuePlugOperator
 
-    valueX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    valueX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     vx = valueX
 
-    valueY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    valueY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     vy = valueY
 
-    valueZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    valueZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     vz = valueZ
 
 
-class MinPlugOperator(
-    Float3CompoundBasePlugOperator["MinAttrOperator"]
-):
+class MinPlugOperator(Float3CompoundBasePlugOperator["MinAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("minX", "nx"),
@@ -71,52 +83,64 @@ class MinPlugOperator(
         ("minZ", "nz"),
     )
 
-    minX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     nx = minX
 
-    minY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ny = minY
 
-    minZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     nz = minZ
 
 
-class MinAttrOperator(
-    Float3CompoundBaseAttrOperator[MinPlugOperator]
-):
+class MinAttrOperator(Float3CompoundBaseAttrOperator[MinPlugOperator]):
     __slots__ = ()
 
-    minX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     nx = minX
 
-    minY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ny = minY
 
-    minZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     nz = minZ
 
 
-class MinField(
-    Float3CompoundBaseField[MinAttrOperator, MinPlugOperator]
-):
+class MinField(Float3CompoundBaseField[MinAttrOperator, MinPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = MinAttrOperator
     PLUG_CLS = MinPlugOperator
 
-    minX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     nx = minX
 
-    minY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ny = minY
 
-    minZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    minZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     nz = minZ
 
 
-class MaxPlugOperator(
-    Float3CompoundBasePlugOperator["MaxAttrOperator"]
-):
+class MaxPlugOperator(Float3CompoundBasePlugOperator["MaxAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("maxX", "mx"),
@@ -124,52 +148,64 @@ class MaxPlugOperator(
         ("maxZ", "mz"),
     )
 
-    maxX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mx = maxX
 
-    maxY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     my = maxY
 
-    maxZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mz = maxZ
 
 
-class MaxAttrOperator(
-    Float3CompoundBaseAttrOperator[MaxPlugOperator]
-):
+class MaxAttrOperator(Float3CompoundBaseAttrOperator[MaxPlugOperator]):
     __slots__ = ()
 
-    maxX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mx = maxX
 
-    maxY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     my = maxY
 
-    maxZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mz = maxZ
 
 
-class MaxField(
-    Float3CompoundBaseField[MaxAttrOperator, MaxPlugOperator]
-):
+class MaxField(Float3CompoundBaseField[MaxAttrOperator, MaxPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = MaxAttrOperator
     PLUG_CLS = MaxPlugOperator
 
-    maxX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mx = maxX
 
-    maxY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     my = maxY
 
-    maxZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mz = maxZ
 
 
-class OldMinPlugOperator(
-    Float3CompoundBasePlugOperator["OldMinAttrOperator"]
-):
+class OldMinPlugOperator(Float3CompoundBasePlugOperator["OldMinAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("oldMinX", "onx"),
@@ -177,28 +213,38 @@ class OldMinPlugOperator(
         ("oldMinZ", "onz"),
     )
 
-    oldMinX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMinX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     onx = oldMinX
 
-    oldMinY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMinY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ony = oldMinY
 
-    oldMinZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMinZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     onz = oldMinZ
 
 
-class OldMinAttrOperator(
-    Float3CompoundBaseAttrOperator[OldMinPlugOperator]
-):
+class OldMinAttrOperator(Float3CompoundBaseAttrOperator[OldMinPlugOperator]):
     __slots__ = ()
 
-    oldMinX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMinX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     onx = oldMinX
 
-    oldMinY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMinY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ony = oldMinY
 
-    oldMinZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMinZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     onz = oldMinZ
 
 
@@ -210,19 +256,23 @@ class OldMinField(
     ATTR_CLS = OldMinAttrOperator
     PLUG_CLS = OldMinPlugOperator
 
-    oldMinX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMinX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     onx = oldMinX
 
-    oldMinY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMinY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ony = oldMinY
 
-    oldMinZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMinZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     onz = oldMinZ
 
 
-class OldMaxPlugOperator(
-    Float3CompoundBasePlugOperator["OldMaxAttrOperator"]
-):
+class OldMaxPlugOperator(Float3CompoundBasePlugOperator["OldMaxAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("oldMaxX", "omx"),
@@ -230,28 +280,38 @@ class OldMaxPlugOperator(
         ("oldMaxZ", "omz"),
     )
 
-    oldMaxX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMaxX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omx = oldMaxX
 
-    oldMaxY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMaxY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omy = oldMaxY
 
-    oldMaxZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMaxZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omz = oldMaxZ
 
 
-class OldMaxAttrOperator(
-    Float3CompoundBaseAttrOperator[OldMaxPlugOperator]
-):
+class OldMaxAttrOperator(Float3CompoundBaseAttrOperator[OldMaxPlugOperator]):
     __slots__ = ()
 
-    oldMaxX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMaxX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omx = oldMaxX
 
-    oldMaxY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMaxY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omy = oldMaxY
 
-    oldMaxZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMaxZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omz = oldMaxZ
 
 
@@ -263,13 +323,19 @@ class OldMaxField(
     ATTR_CLS = OldMaxAttrOperator
     PLUG_CLS = OldMaxPlugOperator
 
-    oldMaxX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMaxX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omx = oldMaxX
 
-    oldMaxY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMaxY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omy = oldMaxY
 
-    oldMaxZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    oldMaxZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omz = oldMaxZ
 
 

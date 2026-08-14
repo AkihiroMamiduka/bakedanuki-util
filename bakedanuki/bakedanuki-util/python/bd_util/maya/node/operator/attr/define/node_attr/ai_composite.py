@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,9 +116,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class APlugOperator(
-    Float3CompoundBasePlugOperator["AAttrOperator"]
-):
+class APlugOperator(Float3CompoundBasePlugOperator["AAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("AR", "Ar"),
@@ -134,9 +134,7 @@ class APlugOperator(
     Ab = AB
 
 
-class AAttrOperator(
-    Float3CompoundBaseAttrOperator[APlugOperator]
-):
+class AAttrOperator(Float3CompoundBaseAttrOperator[APlugOperator]):
     __slots__ = ()
 
     AR = FloatField(default_value=1.0)
@@ -149,9 +147,7 @@ class AAttrOperator(
     Ab = AB
 
 
-class AField(
-    Float3CompoundBaseField[AAttrOperator, APlugOperator]
-):
+class AField(Float3CompoundBaseField[AAttrOperator, APlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AAttrOperator
@@ -167,9 +163,7 @@ class AField(
     Ab = AB
 
 
-class BPlugOperator(
-    Float3CompoundBasePlugOperator["BAttrOperator"]
-):
+class BPlugOperator(Float3CompoundBasePlugOperator["BAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("BR", "Br"),
@@ -187,9 +181,7 @@ class BPlugOperator(
     Bb = BB
 
 
-class BAttrOperator(
-    Float3CompoundBaseAttrOperator[BPlugOperator]
-):
+class BAttrOperator(Float3CompoundBaseAttrOperator[BPlugOperator]):
     __slots__ = ()
 
     BR = FloatField(default_value=0.0)
@@ -202,9 +194,7 @@ class BAttrOperator(
     Bb = BB
 
 
-class BField(
-    Float3CompoundBaseField[BAttrOperator, BPlugOperator]
-):
+class BField(Float3CompoundBaseField[BAttrOperator, BPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = BAttrOperator

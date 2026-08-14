@@ -4,7 +4,7 @@ from ....attr.define.node_attr.subd_tweak_uv import UvTweakField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedSubdTweakUV(DG):
+class GeneratedSubdTweakUV(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdTweakUV"

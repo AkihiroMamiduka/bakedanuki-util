@@ -9,26 +9,26 @@ from ....attr.define.node_attr.c_muscle_stretch import (
     InputField,
     WeightListField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class SCALINGEnumPlugOperator(EnumPlugOperator):
+class SCALINGEnumPlugOperator(EnumPlugOperator["SCALINGEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SCALINGEnumAttrOperator(EnumAttrOperator):
+class SCALINGEnumAttrOperator(EnumAttrOperator[SCALINGEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -47,13 +47,13 @@ class SCALINGEnumField(
     PLUG_CLS = SCALINGEnumPlugOperator
 
 
-class WEIGHTINGEnumPlugOperator(EnumPlugOperator):
+class WEIGHTINGEnumPlugOperator(EnumPlugOperator["WEIGHTINGEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class WEIGHTINGEnumAttrOperator(EnumAttrOperator):
+class WEIGHTINGEnumAttrOperator(EnumAttrOperator[WEIGHTINGEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -72,13 +72,13 @@ class WEIGHTINGEnumField(
     PLUG_CLS = WEIGHTINGEnumPlugOperator
 
 
-class JIGGLEEnumPlugOperator(EnumPlugOperator):
+class JIGGLEEnumPlugOperator(EnumPlugOperator["JIGGLEEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class JIGGLEEnumAttrOperator(EnumAttrOperator):
+class JIGGLEEnumAttrOperator(EnumAttrOperator[JIGGLEEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -97,7 +97,7 @@ class JIGGLEEnumField(
     PLUG_CLS = JIGGLEEnumPlugOperator
 
 
-class _GeneratedCMuscleStretch(DG):
+class GeneratedCMuscleStretch(DG):
     __slots__ = ()
 
     NODE_TYPE = "cMuscleStretch"
@@ -114,13 +114,21 @@ class _GeneratedCMuscleStretch(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -159,7 +167,9 @@ class _GeneratedCMuscleStretch(DG):
     SCALING = SCALINGEnumField(default_value=0)
     SCL = SCALING
 
-    manualSquish = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    manualSquish = DoubleField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     mans = manualSquish
 
     maxStretch = DoubleField(default_value=2.0, min_value=1.0)
@@ -195,22 +205,34 @@ class _GeneratedCMuscleStretch(DG):
     WEIGHTING = WEIGHTINGEnumField(default_value=0)
     WTNG = WEIGHTING
 
-    innerFalloffStart = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    innerFalloffStart = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     ifs = innerFalloffStart
 
-    innerFalloffMid = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    innerFalloffMid = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     ifm = innerFalloffMid
 
-    innerFalloffEnd = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    innerFalloffEnd = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     ife = innerFalloffEnd
 
-    outerFalloffStart = DoubleField(default_value=0.9, min_value=0.0, max_value=1.0)
+    outerFalloffStart = DoubleField(
+        default_value=0.9, min_value=0.0, max_value=1.0
+    )
     ofs = outerFalloffStart
 
-    outerFalloffMid = DoubleField(default_value=0.9, min_value=0.0, max_value=1.0)
+    outerFalloffMid = DoubleField(
+        default_value=0.9, min_value=0.0, max_value=1.0
+    )
     ofm = outerFalloffMid
 
-    outerFalloffEnd = DoubleField(default_value=0.9, min_value=0.0, max_value=1.0)
+    outerFalloffEnd = DoubleField(
+        default_value=0.9, min_value=0.0, max_value=1.0
+    )
     ofe = outerFalloffEnd
 
     weightStart = DoubleField(default_value=1.0, min_value=0.0)
@@ -258,10 +280,14 @@ class _GeneratedCMuscleStretch(DG):
     restEnd = LongField(default_value=24, min_value=0)
     re = restEnd
 
-    dampenOnSquash = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnSquash = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpsq = dampenOnSquash
 
-    dampenOnStretch = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnStretch = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpst = dampenOnStretch
 
     forceStart = ForceStartField(multi=True, default_value=(0.0, 0.0, 0.0))

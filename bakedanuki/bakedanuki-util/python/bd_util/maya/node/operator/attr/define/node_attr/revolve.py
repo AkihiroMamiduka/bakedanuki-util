@@ -1,16 +1,14 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
-    Double3CompoundBaseAttrOperator,
-    Double3CompoundBasePlugOperator,
-    Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ..custom import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
+    Double3CompoundBaseAttrOperator,
+    Double3CompoundBasePlugOperator,
+    Double3CompoundBaseField,
 )
 
 
@@ -209,7 +207,9 @@ class CompPivotAttrOperator(
 
 
 class CompPivotField(
-    DoubleLinear3CompoundBaseField[CompPivotAttrOperator, CompPivotPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CompPivotAttrOperator, CompPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -262,7 +262,9 @@ class CompAnchorAttrOperator(
 
 
 class CompAnchorField(
-    DoubleLinear3CompoundBaseField[CompAnchorAttrOperator, CompAnchorPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CompAnchorAttrOperator, CompAnchorPlugOperator
+    ]
 ):
     __slots__ = ()
 

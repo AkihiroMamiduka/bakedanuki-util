@@ -1,11 +1,11 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedAvgCurves(DG):
+class GeneratedAvgCurves(DG):
     __slots__ = ()
 
     NODE_TYPE = "avgCurves"
@@ -16,10 +16,14 @@ class _GeneratedAvgCurves(DG):
     inputCurve2 = DataNurbsCurveField()
     ic2 = inputCurve2
 
-    weight1 = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    weight1 = DoubleField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     w1 = weight1
 
-    weight2 = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    weight2 = DoubleField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     w2 = weight2
 
     automaticWeight = BoolField(default_value=True)

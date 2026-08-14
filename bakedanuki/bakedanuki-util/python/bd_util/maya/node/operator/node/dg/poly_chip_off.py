@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_chip_off import _GeneratedPolyChipOff
+from ._generated.poly_chip_off import GeneratedPolyChipOff
 
 
-class PolyChipOff(_GeneratedPolyChipOff):
+class PolyChipOff(GeneratedPolyChipOff):
     __slots__ = ()
 
     NODE_TYPE = "polyChipOff"

@@ -1,15 +1,17 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class VisibilityModeEnumPlugOperator(EnumPlugOperator):
+class VisibilityModeEnumPlugOperator(
+    EnumPlugOperator["VisibilityModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NOT_OVERRIDDEN = 0
@@ -17,7 +19,9 @@ class VisibilityModeEnumPlugOperator(EnumPlugOperator):
     SHOW_ON_MOUSE_PROXIMITY = 2
 
 
-class VisibilityModeEnumAttrOperator(EnumAttrOperator):
+class VisibilityModeEnumAttrOperator(
+    EnumAttrOperator[VisibilityModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NOT_OVERRIDDEN = 0
@@ -40,7 +44,7 @@ class VisibilityModeEnumField(
     PLUG_CLS = VisibilityModeEnumPlugOperator
 
 
-class _GeneratedController(DG):
+class GeneratedController(DG):
     __slots__ = ()
 
     NODE_TYPE = "controller"

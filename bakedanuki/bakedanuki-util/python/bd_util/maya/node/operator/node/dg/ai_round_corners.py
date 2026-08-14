@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_round_corners import _GeneratedAiRoundCorners
+from ._generated.ai_round_corners import GeneratedAiRoundCorners
 
 
-class AiRoundCorners(_GeneratedAiRoundCorners):
+class AiRoundCorners(GeneratedAiRoundCorners):
     __slots__ = ()
 
     NODE_TYPE = "aiRoundCorners"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_read_int import _GeneratedAiReadInt
+from ._generated.ai_read_int import GeneratedAiReadInt
 
 
-class AiReadInt(_GeneratedAiReadInt):
+class AiReadInt(GeneratedAiReadInt):
     __slots__ = ()
 
     NODE_TYPE = "aiReadInt"

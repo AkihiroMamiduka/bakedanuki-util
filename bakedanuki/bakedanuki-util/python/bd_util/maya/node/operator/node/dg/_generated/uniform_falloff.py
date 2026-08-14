@@ -1,10 +1,12 @@
 # coding: utf-8
 from .._core import DG
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 
 
-class _GeneratedUniformFalloff(DG):
+class GeneratedUniformFalloff(DG):
     __slots__ = ()
 
     NODE_TYPE = "uniformFalloff"

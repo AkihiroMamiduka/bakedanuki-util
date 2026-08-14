@@ -1,11 +1,11 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.std.at.generic import GenericField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.unit_scalar.time import TimeField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class _GeneratedMute(DG):
+class GeneratedMute(DG):
     __slots__ = ()
 
     NODE_TYPE = "mute"

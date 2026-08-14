@@ -4,26 +4,30 @@ from ....attr.define.node_attr.mash_dynamics import (
     InitialRotationalVelocityField,
     InitialVelocityField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class HierarchyModeEnumPlugOperator(EnumPlugOperator):
+class HierarchyModeEnumPlugOperator(
+    EnumPlugOperator["HierarchyModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 4
 
 
-class HierarchyModeEnumAttrOperator(EnumAttrOperator):
+class HierarchyModeEnumAttrOperator(
+    EnumAttrOperator[HierarchyModeEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -44,14 +48,18 @@ class HierarchyModeEnumField(
     PLUG_CLS = HierarchyModeEnumPlugOperator
 
 
-class InitialVelocitySpaceEnumPlugOperator(EnumPlugOperator):
+class InitialVelocitySpaceEnumPlugOperator(
+    EnumPlugOperator["InitialVelocitySpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class InitialVelocitySpaceEnumAttrOperator(EnumAttrOperator):
+class InitialVelocitySpaceEnumAttrOperator(
+    EnumAttrOperator[InitialVelocitySpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -64,7 +72,10 @@ class InitialVelocitySpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class InitialVelocitySpaceEnumField(
-    EnumField[InitialVelocitySpaceEnumAttrOperator, InitialVelocitySpaceEnumPlugOperator]
+    EnumField[
+        InitialVelocitySpaceEnumAttrOperator,
+        InitialVelocitySpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -72,7 +83,9 @@ class InitialVelocitySpaceEnumField(
     PLUG_CLS = InitialVelocitySpaceEnumPlugOperator
 
 
-class CollisionShapeAxisEnumPlugOperator(EnumPlugOperator):
+class CollisionShapeAxisEnumPlugOperator(
+    EnumPlugOperator["CollisionShapeAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     X = 0
@@ -80,7 +93,9 @@ class CollisionShapeAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class CollisionShapeAxisEnumAttrOperator(EnumAttrOperator):
+class CollisionShapeAxisEnumAttrOperator(
+    EnumAttrOperator[CollisionShapeAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     X = 0
@@ -95,7 +110,9 @@ class CollisionShapeAxisEnumAttrOperator(EnumAttrOperator):
 
 
 class CollisionShapeAxisEnumField(
-    EnumField[CollisionShapeAxisEnumAttrOperator, CollisionShapeAxisEnumPlugOperator]
+    EnumField[
+        CollisionShapeAxisEnumAttrOperator, CollisionShapeAxisEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -103,7 +120,9 @@ class CollisionShapeAxisEnumField(
     PLUG_CLS = CollisionShapeAxisEnumPlugOperator
 
 
-class CollisionShapeEnumPlugOperator(EnumPlugOperator):
+class CollisionShapeEnumPlugOperator(
+    EnumPlugOperator["CollisionShapeEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -115,7 +134,9 @@ class CollisionShapeEnumPlugOperator(EnumPlugOperator):
     MESH = 8
 
 
-class CollisionShapeEnumAttrOperator(EnumAttrOperator):
+class CollisionShapeEnumAttrOperator(
+    EnumAttrOperator[CollisionShapeEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -146,7 +167,7 @@ class CollisionShapeEnumField(
     PLUG_CLS = CollisionShapeEnumPlugOperator
 
 
-class _GeneratedMASH_Dynamics(DG):
+class GeneratedMASHDynamics(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Dynamics"
@@ -163,29 +184,49 @@ class _GeneratedMASH_Dynamics(DG):
 
     initiallySleeping = BoolField(default_value=False)
 
-    bounce = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
+    bounce = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0
+    )
 
-    friction = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
+    friction = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0
+    )
 
-    damping = FloatField(default_value=0.05000000074505806, min_value=0.0, max_value=1.0)
+    damping = FloatField(
+        default_value=0.05000000074505806, min_value=0.0, max_value=1.0
+    )
 
-    rollingFriction = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
+    rollingFriction = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0
+    )
 
-    rollingDamping = FloatField(default_value=0.009999999776482582, min_value=0.0, max_value=1.0)
+    rollingDamping = FloatField(
+        default_value=0.009999999776482582, min_value=0.0, max_value=1.0
+    )
 
     mass = FloatField(default_value=1.0, min_value=0.0, soft_max_value=100.0)
 
     useDensity = BoolField(default_value=False)
 
-    positionStrength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    positionStrength = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
 
-    rotationalStrength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    rotationalStrength = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
 
-    collisionObjectScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    collisionObjectScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
 
-    maxVelocity = FloatField(default_value=100.0, min_value=0.0, soft_max_value=100.0)
+    maxVelocity = FloatField(
+        default_value=100.0, min_value=0.0, soft_max_value=100.0
+    )
 
-    maxAngularVelocity = FloatField(default_value=100.0, min_value=0.0, soft_max_value=2.0)
+    maxAngularVelocity = FloatField(
+        default_value=100.0, min_value=0.0, soft_max_value=2.0
+    )
 
     dynamicsPP = TypedField(multi=True)
 
@@ -195,7 +236,9 @@ class _GeneratedMASH_Dynamics(DG):
 
     emitFromCollisions = BoolField(default_value=False)
 
-    collisionDistanceThreshold = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    collisionDistanceThreshold = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
 
     contactMaskLayers = DataStringField()
 
@@ -212,18 +255,34 @@ class _GeneratedMASH_Dynamics(DG):
     initialVelocity1 = initialVelocity.initialVelocity1
     initialVelocity2 = initialVelocity.initialVelocity2
 
-    initialRotationalVelocity = InitialRotationalVelocityField(default_value=(0.0, 0.0, 0.0))
-    initialRotationalVelocity0 = initialRotationalVelocity.initialRotationalVelocity0
-    initialRotationalVelocity1 = initialRotationalVelocity.initialRotationalVelocity1
-    initialRotationalVelocity2 = initialRotationalVelocity.initialRotationalVelocity2
+    initialRotationalVelocity = InitialRotationalVelocityField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    initialRotationalVelocity0 = (
+        initialRotationalVelocity.initialRotationalVelocity0
+    )
+    initialRotationalVelocity1 = (
+        initialRotationalVelocity.initialRotationalVelocity1
+    )
+    initialRotationalVelocity2 = (
+        initialRotationalVelocity.initialRotationalVelocity2
+    )
 
-    linearVelocityThreshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    linearVelocityThreshold = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    angularVelocityThreshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    angularVelocityThreshold = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    collisionJitter = FloatField(default_value=0.009999999776482582, min_value=0.0, soft_max_value=1.0)
+    collisionJitter = FloatField(
+        default_value=0.009999999776482582, min_value=0.0, soft_max_value=1.0
+    )
 
-    collisionShapeLength = FloatField(default_value=5.0, min_value=0.0, soft_max_value=10.0)
+    collisionShapeLength = FloatField(
+        default_value=5.0, min_value=0.0, soft_max_value=10.0
+    )
 
     initialStateJSON = DataStringField()
 

@@ -1,20 +1,25 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
+from ...........value import Double3
 from .._base import (
     DoubleCompoundBasePlugOperator,
     DoubleCompoundBaseAttrOperator,
     DoubleCompoundBaseField,
 )
 
-A = TypeVar("A", bound="Double3CompoundBaseAttrOperator")
+A = TypeVar("A", bound="Double3CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="Double3CompoundBasePlugOperator")
+P = TypeVar("P", bound="Double3CompoundBasePlugOperator[Any]")
 
 
-class Double3CompoundBasePlugOperator(DoubleCompoundBasePlugOperator[A]):
+class Double3CompoundBasePlugOperator(
+    DoubleCompoundBasePlugOperator[A, Double3]
+):
     __slots__ = ()
+
+    VALUE_TYPE = Double3
 
 
 class Double3CompoundBaseAttrOperator(DoubleCompoundBaseAttrOperator[P]):

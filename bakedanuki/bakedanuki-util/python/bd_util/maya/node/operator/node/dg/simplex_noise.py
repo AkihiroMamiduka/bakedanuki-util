@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.simplex_noise import _GeneratedSimplexNoise
+from ._generated.simplex_noise import GeneratedSimplexNoise
 
 
-class SimplexNoise(_GeneratedSimplexNoise):
+class SimplexNoise(GeneratedSimplexNoise):
     __slots__ = ()
 
     NODE_TYPE = "simplexNoise"

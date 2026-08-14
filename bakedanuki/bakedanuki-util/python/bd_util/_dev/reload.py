@@ -1,9 +1,10 @@
 # coding: utf-8
 
 import importlib
-import sys
-import shutil
 import pathlib
+import shutil
+import sys
+from types import ModuleType
 
 PACKAGE_NAME = __name__.split(".")[0]
 
@@ -16,7 +17,7 @@ def _get_package_module_names() -> list[str]:
     return [name for name in sys.modules if _is_package_module(name)]
 
 
-def _remove_pycache():
+def _remove_pycache() -> None:
     """
     パッケージ内、全てのキャッシュを削除する
     """
@@ -24,16 +25,20 @@ def _remove_pycache():
     module = sys.modules.get(PACKAGE_NAME)
 
     # モジュールが見つからない場合は、__pycache__を削除できないため、処理を終了する
-    if not module:
+    if module is None:
         return
 
     # モジュールのファイルパスから、__pycache__ディレクトリを削除する
-    package_path = pathlib.Path(module.__file__).parent
+    module_file = module.__file__
+    if module_file is None:
+        return
+
+    package_path = pathlib.Path(module_file).parent
     for path in package_path.rglob("__pycache__"):
         shutil.rmtree(path, ignore_errors=True)
 
 
-def _remove_parent_module_attrs(module_names: list[str]):
+def _remove_parent_module_attrs(module_names: list[str]) -> None:
     """
     親モジュールが保持している子モジュール参照を削除する。
 
@@ -56,12 +61,12 @@ def _remove_parent_module_attrs(module_names: list[str]):
             delattr(parent_module, child_name)
 
 
-def _remove_package_modules(module_names: list[str]):
+def _remove_package_modules(module_names: list[str]) -> None:
     for name in sorted(module_names, key=lambda n: n.count("."), reverse=True):
         sys.modules.pop(name, None)
 
 
-def reload_package(clear_pycache=False):
+def reload_package(clear_pycache: bool = False) -> ModuleType:
     """
     パッケージをリロードする
 

@@ -1,4 +1,5 @@
 # coding: utf-8
+from typing import Any, Never
 
 # maya
 from maya.api import OpenMaya as om
@@ -11,13 +12,13 @@ class MessagePlugOperator(PlugOperator["MessageAttrOperator"]):
     __slots__ = ()
 
     # get
-    def get(self):
+    def get(self) -> Never:
         raise NotImplementedError(
             "MessagePlugOperator does not support get operation"
         )
 
     # set
-    def set(self, value):
+    def set(self, value: Any) -> Never:
         raise NotImplementedError(
             "MessagePlugOperator does not support set operation"
         )

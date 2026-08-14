@@ -11,9 +11,7 @@ class ColorPerVertexPlugOperator(
     CompoundPlugOperator["ColorPerVertexAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexColor", "vclr"),
-    )
+    CHILD_ATTR_NAMES = (("vertexColor", "vclr"),)
 
     vertexColor = CompoundField(multi=True)
     vclr = vertexColor

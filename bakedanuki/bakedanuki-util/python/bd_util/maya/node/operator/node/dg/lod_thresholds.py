@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.lod_thresholds import _GeneratedLodThresholds
+from ._generated.lod_thresholds import GeneratedLodThresholds
 
 
-class LodThresholds(_GeneratedLodThresholds):
+class LodThresholds(GeneratedLodThresholds):
     __slots__ = ()
 
     NODE_TYPE = "lodThresholds"

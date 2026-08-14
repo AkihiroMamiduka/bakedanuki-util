@@ -35,26 +35,30 @@ from .....attr.define.node_attr.camera import (
     TumblePivotField,
     WireColorRGBField,
 )
-from .....attr.define.std.at.enum import (
+from .....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from .....attr.define.std.at.flt_matrix import FltMatrixField
 from .....attr.define.std.at.message import MessageField
-from .....attr.define.std.at.numeric_scalar.bool import BoolField
-from .....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from .....attr.define.std.at.numeric_scalar_range.float import FloatField
-from .....attr.define.std.at.numeric_scalar_range.long import LongField
-from .....attr.define.std.at.numeric_scalar_range.short import ShortField
+from .....attr.define.std.at.scalar.numeric.bool import BoolField
+from .....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from .....attr.define.std.at.scalar.numeric.range.float import FloatField
+from .....attr.define.std.at.scalar.numeric.range.long import LongField
+from .....attr.define.std.at.scalar.numeric.range.short import ShortField
 from .....attr.define.std.at.typed import TypedField
-from .....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
-from .....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from .....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from .....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from .....attr.define.std.dt.matrix import DataMatrixField
 from .....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -62,7 +66,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -85,7 +89,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -93,7 +99,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -116,7 +124,9 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class UseObjectColorEnumPlugOperator(EnumPlugOperator):
+class UseObjectColorEnumPlugOperator(
+    EnumPlugOperator["UseObjectColorEnumAttrOperator"]
+):
     __slots__ = ()
 
     DEFAULT = 0
@@ -124,7 +134,9 @@ class UseObjectColorEnumPlugOperator(EnumPlugOperator):
     RGB = 2
 
 
-class UseObjectColorEnumAttrOperator(EnumAttrOperator):
+class UseObjectColorEnumAttrOperator(
+    EnumAttrOperator[UseObjectColorEnumPlugOperator]
+):
     __slots__ = ()
 
     DEFAULT = 0
@@ -147,7 +159,9 @@ class UseObjectColorEnumField(
     PLUG_CLS = UseObjectColorEnumPlugOperator
 
 
-class GhostingModeEnumPlugOperator(EnumPlugOperator):
+class GhostingModeEnumPlugOperator(
+    EnumPlugOperator["GhostingModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -158,7 +172,9 @@ class GhostingModeEnumPlugOperator(EnumPlugOperator):
     ALL_KEYFRAMES = 5
 
 
-class GhostingModeEnumAttrOperator(EnumAttrOperator):
+class GhostingModeEnumAttrOperator(
+    EnumAttrOperator[GhostingModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -187,7 +203,7 @@ class GhostingModeEnumField(
     PLUG_CLS = GhostingModeEnumPlugOperator
 
 
-class FilmFitEnumPlugOperator(EnumPlugOperator):
+class FilmFitEnumPlugOperator(EnumPlugOperator["FilmFitEnumAttrOperator"]):
     __slots__ = ()
 
     FILL = 0
@@ -196,7 +212,7 @@ class FilmFitEnumPlugOperator(EnumPlugOperator):
     OVERSCAN = 3
 
 
-class FilmFitEnumAttrOperator(EnumAttrOperator):
+class FilmFitEnumAttrOperator(EnumAttrOperator[FilmFitEnumPlugOperator]):
     __slots__ = ()
 
     FILL = 0
@@ -221,14 +237,14 @@ class FilmFitEnumField(
     PLUG_CLS = FilmFitEnumPlugOperator
 
 
-class DepthTypeEnumPlugOperator(EnumPlugOperator):
+class DepthTypeEnumPlugOperator(EnumPlugOperator["DepthTypeEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST_VISIBLE_DEPTH = 0
     FURTHEST_VISIBLE_DEPTH = 1
 
 
-class DepthTypeEnumAttrOperator(EnumAttrOperator):
+class DepthTypeEnumAttrOperator(EnumAttrOperator[DepthTypeEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST_VISIBLE_DEPTH = 0
@@ -249,14 +265,18 @@ class DepthTypeEnumField(
     PLUG_CLS = DepthTypeEnumPlugOperator
 
 
-class AiHandednessEnumPlugOperator(EnumPlugOperator):
+class AiHandednessEnumPlugOperator(
+    EnumPlugOperator["AiHandednessEnumAttrOperator"]
+):
     __slots__ = ()
 
     RIGHT = 0
     LEFT = 1
 
 
-class AiHandednessEnumAttrOperator(EnumAttrOperator):
+class AiHandednessEnumAttrOperator(
+    EnumAttrOperator[AiHandednessEnumPlugOperator]
+):
     __slots__ = ()
 
     RIGHT = 0
@@ -277,7 +297,9 @@ class AiHandednessEnumField(
     PLUG_CLS = AiHandednessEnumPlugOperator
 
 
-class AiShutterTypeEnumPlugOperator(EnumPlugOperator):
+class AiShutterTypeEnumPlugOperator(
+    EnumPlugOperator["AiShutterTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BOX = 0
@@ -285,7 +307,9 @@ class AiShutterTypeEnumPlugOperator(EnumPlugOperator):
     CURVE = 2
 
 
-class AiShutterTypeEnumAttrOperator(EnumAttrOperator):
+class AiShutterTypeEnumAttrOperator(
+    EnumAttrOperator[AiShutterTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     BOX = 0
@@ -308,7 +332,9 @@ class AiShutterTypeEnumField(
     PLUG_CLS = AiShutterTypeEnumPlugOperator
 
 
-class AiRollingShutterEnumPlugOperator(EnumPlugOperator):
+class AiRollingShutterEnumPlugOperator(
+    EnumPlugOperator["AiRollingShutterEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -318,7 +344,9 @@ class AiRollingShutterEnumPlugOperator(EnumPlugOperator):
     RIGHT = 4
 
 
-class AiRollingShutterEnumAttrOperator(EnumAttrOperator):
+class AiRollingShutterEnumAttrOperator(
+    EnumAttrOperator[AiRollingShutterEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -337,7 +365,9 @@ class AiRollingShutterEnumAttrOperator(EnumAttrOperator):
 
 
 class AiRollingShutterEnumField(
-    EnumField[AiRollingShutterEnumAttrOperator, AiRollingShutterEnumPlugOperator]
+    EnumField[
+        AiRollingShutterEnumAttrOperator, AiRollingShutterEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -345,7 +375,7 @@ class AiRollingShutterEnumField(
     PLUG_CLS = AiRollingShutterEnumPlugOperator
 
 
-class AiModeEnumPlugOperator(EnumPlugOperator):
+class AiModeEnumPlugOperator(EnumPlugOperator["AiModeEnumAttrOperator"]):
     __slots__ = ()
 
     SIDE_BY_SIDE = 0
@@ -354,7 +384,7 @@ class AiModeEnumPlugOperator(EnumPlugOperator):
     RIGHT_EYE = 3
 
 
-class AiModeEnumAttrOperator(EnumAttrOperator):
+class AiModeEnumAttrOperator(EnumAttrOperator[AiModeEnumPlugOperator]):
     __slots__ = ()
 
     SIDE_BY_SIDE = 0
@@ -379,7 +409,9 @@ class AiModeEnumField(
     PLUG_CLS = AiModeEnumPlugOperator
 
 
-class AiProjectionEnumPlugOperator(EnumPlugOperator):
+class AiProjectionEnumPlugOperator(
+    EnumPlugOperator["AiProjectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     LATLONG = 0
@@ -387,7 +419,9 @@ class AiProjectionEnumPlugOperator(EnumPlugOperator):
     CUBEMAP_3X2 = 2
 
 
-class AiProjectionEnumAttrOperator(EnumAttrOperator):
+class AiProjectionEnumAttrOperator(
+    EnumAttrOperator[AiProjectionEnumPlugOperator]
+):
     __slots__ = ()
 
     LATLONG = 0
@@ -410,7 +444,9 @@ class AiProjectionEnumField(
     PLUG_CLS = AiProjectionEnumPlugOperator
 
 
-class AiTopMergeModeEnumPlugOperator(EnumPlugOperator):
+class AiTopMergeModeEnumPlugOperator(
+    EnumPlugOperator["AiTopMergeModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -418,7 +454,9 @@ class AiTopMergeModeEnumPlugOperator(EnumPlugOperator):
     SHADER = 2
 
 
-class AiTopMergeModeEnumAttrOperator(EnumAttrOperator):
+class AiTopMergeModeEnumAttrOperator(
+    EnumAttrOperator[AiTopMergeModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -441,7 +479,9 @@ class AiTopMergeModeEnumField(
     PLUG_CLS = AiTopMergeModeEnumPlugOperator
 
 
-class AiBottomMergeModeEnumPlugOperator(EnumPlugOperator):
+class AiBottomMergeModeEnumPlugOperator(
+    EnumPlugOperator["AiBottomMergeModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -449,7 +489,9 @@ class AiBottomMergeModeEnumPlugOperator(EnumPlugOperator):
     SHADER = 2
 
 
-class AiBottomMergeModeEnumAttrOperator(EnumAttrOperator):
+class AiBottomMergeModeEnumAttrOperator(
+    EnumAttrOperator[AiBottomMergeModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -464,7 +506,9 @@ class AiBottomMergeModeEnumAttrOperator(EnumAttrOperator):
 
 
 class AiBottomMergeModeEnumField(
-    EnumField[AiBottomMergeModeEnumAttrOperator, AiBottomMergeModeEnumPlugOperator]
+    EnumField[
+        AiBottomMergeModeEnumAttrOperator, AiBottomMergeModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -472,14 +516,18 @@ class AiBottomMergeModeEnumField(
     PLUG_CLS = AiBottomMergeModeEnumPlugOperator
 
 
-class AiRadialDistortionTypeEnumPlugOperator(EnumPlugOperator):
+class AiRadialDistortionTypeEnumPlugOperator(
+    EnumPlugOperator["AiRadialDistortionTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     CUBIC = 0
     CUBIC_INVERSE = 1
 
 
-class AiRadialDistortionTypeEnumAttrOperator(EnumAttrOperator):
+class AiRadialDistortionTypeEnumAttrOperator(
+    EnumAttrOperator[AiRadialDistortionTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     CUBIC = 0
@@ -492,7 +540,10 @@ class AiRadialDistortionTypeEnumAttrOperator(EnumAttrOperator):
 
 
 class AiRadialDistortionTypeEnumField(
-    EnumField[AiRadialDistortionTypeEnumAttrOperator, AiRadialDistortionTypeEnumPlugOperator]
+    EnumField[
+        AiRadialDistortionTypeEnumAttrOperator,
+        AiRadialDistortionTypeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -500,7 +551,9 @@ class AiRadialDistortionTypeEnumField(
     PLUG_CLS = AiRadialDistortionTypeEnumPlugOperator
 
 
-class MotionBlurOverrideEnumPlugOperator(EnumPlugOperator):
+class MotionBlurOverrideEnumPlugOperator(
+    EnumPlugOperator["MotionBlurOverrideEnumAttrOperator"]
+):
     __slots__ = ()
 
     USE_GLOBAL_SETTINGS = 0
@@ -508,7 +561,9 @@ class MotionBlurOverrideEnumPlugOperator(EnumPlugOperator):
     OFF = 2
 
 
-class MotionBlurOverrideEnumAttrOperator(EnumAttrOperator):
+class MotionBlurOverrideEnumAttrOperator(
+    EnumAttrOperator[MotionBlurOverrideEnumPlugOperator]
+):
     __slots__ = ()
 
     USE_GLOBAL_SETTINGS = 0
@@ -523,7 +578,9 @@ class MotionBlurOverrideEnumAttrOperator(EnumAttrOperator):
 
 
 class MotionBlurOverrideEnumField(
-    EnumField[MotionBlurOverrideEnumAttrOperator, MotionBlurOverrideEnumPlugOperator]
+    EnumField[
+        MotionBlurOverrideEnumAttrOperator, MotionBlurOverrideEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -531,7 +588,7 @@ class MotionBlurOverrideEnumField(
     PLUG_CLS = MotionBlurOverrideEnumPlugOperator
 
 
-class _GeneratedCamera(Shape):
+class GeneratedCamera(Shape):
     __slots__ = ()
 
     NODE_TYPE = "camera"
@@ -704,7 +761,9 @@ class _GeneratedCamera(Shape):
     layerOverrideColor = renderInfo.layerOverrideColor
     lovc = layerOverrideColor
 
-    renderLayerInfo = RenderLayerInfoField(multi=True, default_value=(0.0, 1.0, 0.0))
+    renderLayerInfo = RenderLayerInfoField(
+        multi=True, default_value=(0.0, 1.0, 0.0)
+    )
     rlio = renderLayerInfo
 
     ghosting = BoolField(default_value=False)
@@ -725,14 +784,22 @@ class _GeneratedCamera(Shape):
     ghostFrames = TypedField()
     gf = ghostFrames
 
-    ghostOpacityRange = GhostOpacityRangeField(default_value=(0.15000000596046448, 0.5), min_value=(0.0, 0.0), max_value=(1.0, 1.0))
+    ghostOpacityRange = GhostOpacityRangeField(
+        default_value=(0.15000000596046448, 0.5),
+        min_value=(0.0, 0.0),
+        max_value=(1.0, 1.0),
+    )
     golr = ghostOpacityRange
     ghostFarOpacity = ghostOpacityRange.ghostFarOpacity
     gfro = ghostFarOpacity
     ghostNearOpacity = ghostOpacityRange.ghostNearOpacity
     gnro = ghostNearOpacity
 
-    ghostColorPre = GhostColorPreField(default_value=(0.44699999690055847, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    ghostColorPre = GhostColorPreField(
+        default_value=(0.44699999690055847, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     gcp = ghostColorPre
     ghostColorPreR = ghostColorPre.ghostColorPreR
     grr = ghostColorPreR
@@ -741,7 +808,15 @@ class _GeneratedCamera(Shape):
     ghostColorPreB = ghostColorPre.ghostColorPreB
     gpb = ghostColorPreB
 
-    ghostColorPost = GhostColorPostField(default_value=(0.878000020980835, 0.6779999732971191, 0.6629999876022339), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    ghostColorPost = GhostColorPostField(
+        default_value=(
+            0.878000020980835,
+            0.6779999732971191,
+            0.6629999876022339,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     gac = ghostColorPost
     ghostColorPostR = ghostColorPost.ghostColorPostR
     gar = ghostColorPostR
@@ -774,7 +849,13 @@ class _GeneratedCamera(Shape):
     renderable = BoolField(default_value=True)
     rnd = renderable
 
-    cameraAperture = CameraApertureField(default_value=(1.4173200000000001, 0.94488), min_value=(3.9370000000000004e-05, 3.9370000000000004e-05), max_value=(1200.0, 1200.0), soft_min_value=(0.1, 0.1), soft_max_value=(10.0, 10.0))
+    cameraAperture = CameraApertureField(
+        default_value=(1.4173200000000001, 0.94488),
+        min_value=(3.9370000000000004e-05, 3.9370000000000004e-05),
+        max_value=(1200.0, 1200.0),
+        soft_min_value=(0.1, 0.1),
+        soft_max_value=(10.0, 10.0),
+    )
     cap = cameraAperture
     horizontalFilmAperture = cameraAperture.horizontalFilmAperture
     hfa = horizontalFilmAperture
@@ -846,7 +927,13 @@ class _GeneratedCamera(Shape):
     zoom = DoubleField(default_value=1.0, min_value=1e-10)
     zom = zoom
 
-    focalLength = DoubleField(default_value=35.0, min_value=0.5, max_value=100000.0, soft_min_value=2.5, soft_max_value=3500.0)
+    focalLength = DoubleField(
+        default_value=35.0,
+        min_value=0.5,
+        max_value=100000.0,
+        soft_min_value=2.5,
+        soft_max_value=3500.0,
+    )
     fl = focalLength
 
     lensSqueezeRatio = DoubleField(default_value=1.0, min_value=1e-10)
@@ -915,7 +1002,9 @@ class _GeneratedCamera(Shape):
     locatorScale = DoubleField(default_value=1.0, min_value=1e-10)
     lls = locatorScale
 
-    displayGateMaskOpacity = FloatField(default_value=0.699999988079071, min_value=0.0, max_value=1.0)
+    displayGateMaskOpacity = FloatField(
+        default_value=0.699999988079071, min_value=0.0, max_value=1.0
+    )
     dgo = displayGateMaskOpacity
 
     displayGateMask = BoolField(default_value=True)
@@ -984,7 +1073,9 @@ class _GeneratedCamera(Shape):
     mask = BoolField(default_value=True)
     ma = mask
 
-    displayGateMaskColor = DisplayGateMaskColorField(default_value=(0.5, 0.5, 0.5))
+    displayGateMaskColor = DisplayGateMaskColorField(
+        default_value=(0.5, 0.5, 0.5)
+    )
     dgc = displayGateMaskColor
     displayGateMaskColorR = displayGateMaskColor.displayGateMaskColorR
     dgcr = displayGateMaskColorR
@@ -1020,13 +1111,19 @@ class _GeneratedCamera(Shape):
     aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    aiPosition = AiPositionField(multi=True, default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiPosition = AiPositionField(
+        multi=True, default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_position = aiPosition
 
-    aiLookAt = AiLookAtField(multi=True, default_value=(0.0, 0.0, -1.0), category="arnold")
+    aiLookAt = AiLookAtField(
+        multi=True, default_value=(0.0, 0.0, -1.0), category="arnold"
+    )
     ai_look_at = aiLookAt
 
-    aiUp = AiUpField(multi=True, default_value=(0.0, 1.0, 0.0), category="arnold")
+    aiUp = AiUpField(
+        multi=True, default_value=(0.0, 1.0, 0.0), category="arnold"
+    )
     ai_up = aiUp
 
     aiMatrix = FltMatrixField(category="arnold")
@@ -1035,16 +1132,24 @@ class _GeneratedCamera(Shape):
     aiHandedness = AiHandednessEnumField(default_value=0, category="arnold")
     ai_handedness = aiHandedness
 
-    aiNearClip = FloatField(default_value=9.999999747378752e-05, category="arnold")
+    aiNearClip = FloatField(
+        default_value=9.999999747378752e-05, category="arnold"
+    )
     ai_near_clip = aiNearClip
 
-    aiFarClip = FloatField(default_value=1.0000000150474662e+30, category="arnold")
+    aiFarClip = FloatField(
+        default_value=1.0000000150474662e30, category="arnold"
+    )
     ai_far_clip = aiFarClip
 
-    aiScreenWindowMin = AiScreenWindowMinField(multi=True, default_value=(-1.0, -1.0), category="arnold")
+    aiScreenWindowMin = AiScreenWindowMinField(
+        multi=True, default_value=(-1.0, -1.0), category="arnold"
+    )
     ai_screen_window_min = aiScreenWindowMin
 
-    aiScreenWindowMax = AiScreenWindowMaxField(multi=True, default_value=(1.0, 1.0), category="arnold")
+    aiScreenWindowMax = AiScreenWindowMaxField(
+        multi=True, default_value=(1.0, 1.0), category="arnold"
+    )
     ai_screen_window_max = aiScreenWindowMax
 
     aiShutterStart = FloatField(default_value=0.0, category="arnold")
@@ -1056,10 +1161,16 @@ class _GeneratedCamera(Shape):
     aiShutterType = AiShutterTypeEnumField(default_value=0, category="arnold")
     ai_shutter_type = aiShutterType
 
-    aiShutterCurve = AiShutterCurveField(multi=True, default_value=(1206030336.0, 6.978466352337589e-43), category="arnold")
+    aiShutterCurve = AiShutterCurveField(
+        multi=True,
+        default_value=(1206030336.0, 6.978466352337589e-43),
+        category="arnold",
+    )
     ai_shutter_curve = aiShutterCurve
 
-    aiRollingShutter = AiRollingShutterEnumField(default_value=0, category="arnold")
+    aiRollingShutter = AiRollingShutterEnumField(
+        default_value=0, category="arnold"
+    )
     ai_rolling_shutter = aiRollingShutter
 
     aiRollingShutterDuration = FloatField(default_value=0.0, category="arnold")
@@ -1104,7 +1215,9 @@ class _GeneratedCamera(Shape):
     aiExtendEdges = BoolField(default_value=True, category="arnold")
     ai_extend_edges = aiExtendEdges
 
-    aiRayOrigin = AiRayOriginField(default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiRayOrigin = AiRayOriginField(
+        default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_ray_origin = aiRayOrigin
     aiRayOriginX = aiRayOrigin.aiRayOriginX
     ai_ray_originx = aiRayOriginX
@@ -1113,7 +1226,9 @@ class _GeneratedCamera(Shape):
     aiRayOriginZ = aiRayOrigin.aiRayOriginZ
     ai_ray_originz = aiRayOriginZ
 
-    aiRayDirection = AiRayDirectionField(default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiRayDirection = AiRayDirectionField(
+        default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_ray_direction = aiRayDirection
     aiRayDirectionX = aiRayDirection.aiRayDirectionX
     ai_ray_directionx = aiRayDirectionX
@@ -1143,52 +1258,120 @@ class _GeneratedCamera(Shape):
     aiProjection = AiProjectionEnumField(default_value=0, category="arnold")
     ai_projection = aiProjection
 
-    aiEyeSeparation = FloatField(default_value=0.6499999761581421, soft_min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiEyeSeparation = FloatField(
+        default_value=0.6499999761581421,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+        category="arnold",
+    )
     ai_eye_separation = aiEyeSeparation
 
-    aiEyeToNeck = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiEyeToNeck = FloatField(
+        default_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+        category="arnold",
+    )
     ai_eye_to_neck = aiEyeToNeck
 
-    aiTopMergeMode = AiTopMergeModeEnumField(default_value=1, category="arnold")
+    aiTopMergeMode = AiTopMergeModeEnumField(
+        default_value=1, category="arnold"
+    )
     ai_top_merge_mode = aiTopMergeMode
 
-    aiTopMergeAngle = FloatField(default_value=90.0, min_value=0.0, max_value=180.0, soft_min_value=0.0, soft_max_value=90.0, category="arnold")
+    aiTopMergeAngle = FloatField(
+        default_value=90.0,
+        min_value=0.0,
+        max_value=180.0,
+        soft_min_value=0.0,
+        soft_max_value=90.0,
+        category="arnold",
+    )
     ai_top_merge_angle = aiTopMergeAngle
 
-    aiBottomMergeMode = AiBottomMergeModeEnumField(default_value=1, category="arnold")
+    aiBottomMergeMode = AiBottomMergeModeEnumField(
+        default_value=1, category="arnold"
+    )
     ai_bottom_merge_mode = aiBottomMergeMode
 
-    aiBottomMergeAngle = FloatField(default_value=90.0, min_value=0.0, max_value=180.0, soft_min_value=0.0, soft_max_value=90.0, category="arnold")
+    aiBottomMergeAngle = FloatField(
+        default_value=90.0,
+        min_value=0.0,
+        max_value=180.0,
+        soft_min_value=0.0,
+        soft_max_value=90.0,
+        category="arnold",
+    )
     ai_bottom_merge_angle = aiBottomMergeAngle
 
     aiMergeShader = FloatField(default_value=0.0, category="arnold")
     ai_merge_shader = aiMergeShader
 
-    aiFocusDistance = FloatField(default_value=5.0, min_value=0.0, max_value=1000000000.0, soft_min_value=0.0, soft_max_value=200.0, category="arnold")
+    aiFocusDistance = FloatField(
+        default_value=5.0,
+        min_value=0.0,
+        max_value=1000000000.0,
+        soft_min_value=0.0,
+        soft_max_value=200.0,
+        category="arnold",
+    )
     ai_focus_distance = aiFocusDistance
 
-    aiApertureSize = FloatField(default_value=0.0, min_value=0.0, max_value=20.0, soft_min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiApertureSize = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        max_value=20.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+        category="arnold",
+    )
     ai_aperture_size = aiApertureSize
 
-    aiApertureBlades = LongField(default_value=0, min_value=0, max_value=40, category="arnold")
+    aiApertureBlades = LongField(
+        default_value=0, min_value=0, max_value=40, category="arnold"
+    )
     ai_aperture_blades = aiApertureBlades
 
-    aiApertureBladeCurvature = FloatField(default_value=0.0, min_value=-20.0, max_value=20.0, soft_min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiApertureBladeCurvature = FloatField(
+        default_value=0.0,
+        min_value=-20.0,
+        max_value=20.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+        category="arnold",
+    )
     ai_aperture_blade_curvature = aiApertureBladeCurvature
 
-    aiApertureRotation = FloatField(default_value=0.0, min_value=0.0, max_value=360.0, soft_min_value=0.0, soft_max_value=50.0, category="arnold")
+    aiApertureRotation = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        max_value=360.0,
+        soft_min_value=0.0,
+        soft_max_value=50.0,
+        category="arnold",
+    )
     ai_aperture_rotation = aiApertureRotation
 
-    aiApertureAspectRatio = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiApertureAspectRatio = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+        category="arnold",
+    )
     ai_aperture_aspect_ratio = aiApertureAspectRatio
 
     aiEnableDOF = BoolField(default_value=False, category="arnold")
     ai_edof = aiEnableDOF
 
-    aiUvRemapA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, category="arnold")
+    aiUvRemapA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0, category="arnold"
+    )
     ai_uv_remapa = aiUvRemapA
 
-    aiUvRemap = AiUvRemapField(default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiUvRemap = AiUvRemapField(
+        default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_uv_remap = aiUvRemap
     aiUvRemapR = aiUvRemap.aiUvRemapR
     ai_uv_remapr = aiUvRemapR
@@ -1197,13 +1380,22 @@ class _GeneratedCamera(Shape):
     aiUvRemapB = aiUvRemap.aiUvRemapB
     ai_uv_remapb = aiUvRemapB
 
-    aiRadialDistortion = FloatField(default_value=0.0, soft_min_value=-0.20000000298023224, soft_max_value=2.0, category="arnold")
+    aiRadialDistortion = FloatField(
+        default_value=0.0,
+        soft_min_value=-0.20000000298023224,
+        soft_max_value=2.0,
+        category="arnold",
+    )
     ai_radial_distortion = aiRadialDistortion
 
-    aiRadialDistortionType = AiRadialDistortionTypeEnumField(default_value=0, category="arnold")
+    aiRadialDistortionType = AiRadialDistortionTypeEnumField(
+        default_value=0, category="arnold"
+    )
     ai_radial_distortion_type = aiRadialDistortionType
 
-    aiLensTiltAngle = AiLensTiltAngleField(default_value=(0.0, 0.0), category="arnold")
+    aiLensTiltAngle = AiLensTiltAngleField(
+        default_value=(0.0, 0.0), category="arnold"
+    )
     ai_lens_tilt_angle = aiLensTiltAngle
     aiLensTiltAngleX = aiLensTiltAngle.aiLensTiltAngleX
     ai_lens_tilt_anglex = aiLensTiltAngleX
@@ -1217,7 +1409,9 @@ class _GeneratedCamera(Shape):
     aiLensShiftY = aiLensShift.aiLensShiftY
     ai_lens_shifty = aiLensShiftY
 
-    motionBlurOverride = MotionBlurOverrideEnumField(default_value=0, category="arnold")
+    motionBlurOverride = MotionBlurOverrideEnumField(
+        default_value=0, category="arnold"
+    )
     motion_blur_override = motionBlurOverride
 
     aiFov = FloatField(default_value=90.0, category="arnold")

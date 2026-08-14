@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.nurbs_to_subdiv import _GeneratedNurbsToSubdiv
+from ._generated.nurbs_to_subdiv import GeneratedNurbsToSubdiv
 
 
-class NurbsToSubdiv(_GeneratedNurbsToSubdiv):
+class NurbsToSubdiv(GeneratedNurbsToSubdiv):
     __slots__ = ()
 
     NODE_TYPE = "nurbsToSubdiv"

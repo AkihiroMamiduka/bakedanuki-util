@@ -17,7 +17,7 @@ class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
     # set
     def set(self, value: om.MMatrix):
         mat_obj = om.MFnMatrixData().create(value)
-        self._node._dg_mod.newPlugValue(self.plug, mat_obj)
+        self._node.modifier_manager.dg_mod.newPlugValue(self.plug, mat_obj)
 
     # add
     def add_attr(self):

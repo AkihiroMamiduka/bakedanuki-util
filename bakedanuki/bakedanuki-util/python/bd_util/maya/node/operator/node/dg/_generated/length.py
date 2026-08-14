@@ -1,10 +1,12 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.length import InputField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 
 
-class _GeneratedLength(DG):
+class GeneratedLength(DG):
     __slots__ = ()
 
     NODE_TYPE = "length"

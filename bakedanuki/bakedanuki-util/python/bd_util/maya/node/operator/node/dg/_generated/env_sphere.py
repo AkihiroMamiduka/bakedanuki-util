@@ -13,13 +13,13 @@ from ....attr.define.node_attr.env_sphere import (
     UvFilterSizeField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.char import CharField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.char import CharField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedEnvSphere(DG):
+class GeneratedEnvSphere(DG):
     __slots__ = ()
 
     NODE_TYPE = "envSphere"
@@ -33,7 +33,9 @@ class _GeneratedEnvSphere(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
@@ -107,7 +109,11 @@ class _GeneratedEnvSphere(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    image = ImageField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    image = ImageField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     so = image
     imageR = image.imageR
     sor = imageR
@@ -116,7 +122,11 @@ class _GeneratedEnvSphere(DG):
     imageB = image.imageB
     sob = imageB
 
-    shearUV = ShearUVField(default_value=(0.0, 0.0), min_value=(-10.0, -10.0), max_value=(10.0, 10.0))
+    shearUV = ShearUVField(
+        default_value=(0.0, 0.0),
+        min_value=(-10.0, -10.0),
+        max_value=(10.0, 10.0),
+    )
     suv = shearUV
     shearU = shearUV.shearU
     su = shearU

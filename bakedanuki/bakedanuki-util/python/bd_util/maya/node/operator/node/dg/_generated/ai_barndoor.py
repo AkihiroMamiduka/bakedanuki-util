@@ -4,10 +4,10 @@ from ....attr.define.node_attr.ai_barndoor import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiBarndoor(DG):
+class GeneratedAiBarndoor(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiBarndoor"
@@ -21,7 +21,9 @@ class _GeneratedAiBarndoor(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -30,38 +32,62 @@ class _GeneratedAiBarndoor(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    barndoorTopLeft = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    barndoorTopLeft = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     barndoor_top_left = barndoorTopLeft
 
-    barndoorTopRight = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    barndoorTopRight = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     barndoor_top_right = barndoorTopRight
 
-    barndoorTopEdge = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    barndoorTopEdge = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     barndoor_top_edge = barndoorTopEdge
 
-    barndoorRightTop = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    barndoorRightTop = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     barndoor_right_top = barndoorRightTop
 
-    barndoorRightBottom = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    barndoorRightBottom = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     barndoor_right_bottom = barndoorRightBottom
 
-    barndoorRightEdge = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    barndoorRightEdge = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     barndoor_right_edge = barndoorRightEdge
 
-    barndoorBottomLeft = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    barndoorBottomLeft = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     barndoor_bottom_left = barndoorBottomLeft
 
-    barndoorBottomRight = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    barndoorBottomRight = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     barndoor_bottom_right = barndoorBottomRight
 
-    barndoorBottomEdge = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    barndoorBottomEdge = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     barndoor_bottom_edge = barndoorBottomEdge
 
-    barndoorLeftTop = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    barndoorLeftTop = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     barndoor_left_top = barndoorLeftTop
 
-    barndoorLeftBottom = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    barndoorLeftBottom = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     barndoor_left_bottom = barndoorLeftBottom
 
-    barndoorLeftEdge = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    barndoorLeftEdge = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     barndoor_left_edge = barndoorLeftEdge

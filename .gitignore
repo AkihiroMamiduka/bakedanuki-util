@@ -1,2 +1,9 @@
 # Python
 __pycache__/
+/.venv-format/
+
+# Native builds
+/build/
+
+# Local benchmark measurements
+/benchmark_results/

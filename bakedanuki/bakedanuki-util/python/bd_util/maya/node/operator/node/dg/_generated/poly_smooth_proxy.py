@@ -1,26 +1,26 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class MethodEnumPlugOperator(EnumPlugOperator):
+class MethodEnumPlugOperator(EnumPlugOperator["MethodEnumAttrOperator"]):
     __slots__ = ()
 
     EXPONENTIAL = 0
     LINEAR = 1
 
 
-class MethodEnumAttrOperator(EnumAttrOperator):
+class MethodEnumAttrOperator(EnumAttrOperator[MethodEnumPlugOperator]):
     __slots__ = ()
 
     EXPONENTIAL = 0
@@ -41,7 +41,9 @@ class MethodEnumField(
     PLUG_CLS = MethodEnumPlugOperator
 
 
-class SubdivisionTypeEnumPlugOperator(EnumPlugOperator):
+class SubdivisionTypeEnumPlugOperator(
+    EnumPlugOperator["SubdivisionTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -49,7 +51,9 @@ class SubdivisionTypeEnumPlugOperator(EnumPlugOperator):
     OPENSUBDIV_CATMULL_MINUS_CLARK_ADAPTIVE = 3
 
 
-class SubdivisionTypeEnumAttrOperator(EnumAttrOperator):
+class SubdivisionTypeEnumAttrOperator(
+    EnumAttrOperator[SubdivisionTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -59,7 +63,9 @@ class SubdivisionTypeEnumAttrOperator(EnumAttrOperator):
     NAME_MAP = {
         MAYA_CATMULL_MINUS_CLARK: "Maya Catmull-Clark",
         OPENSUBDIV_CATMULL_MINUS_CLARK: "OpenSubdiv Catmull-Clark",
-        OPENSUBDIV_CATMULL_MINUS_CLARK_ADAPTIVE: "OpenSubdiv Catmull-Clark Adaptive",
+        OPENSUBDIV_CATMULL_MINUS_CLARK_ADAPTIVE: (
+            "OpenSubdiv Catmull-Clark Adaptive"
+        ),
     }
 
 
@@ -72,14 +78,18 @@ class SubdivisionTypeEnumField(
     PLUG_CLS = SubdivisionTypeEnumPlugOperator
 
 
-class OsdVertBoundaryEnumPlugOperator(EnumPlugOperator):
+class OsdVertBoundaryEnumPlugOperator(
+    EnumPlugOperator["OsdVertBoundaryEnumAttrOperator"]
+):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
     SHARP_EDGES = 2
 
 
-class OsdVertBoundaryEnumAttrOperator(EnumAttrOperator):
+class OsdVertBoundaryEnumAttrOperator(
+    EnumAttrOperator[OsdVertBoundaryEnumPlugOperator]
+):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
@@ -100,7 +110,9 @@ class OsdVertBoundaryEnumField(
     PLUG_CLS = OsdVertBoundaryEnumPlugOperator
 
 
-class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator):
+class OsdFvarBoundaryEnumPlugOperator(
+    EnumPlugOperator["OsdFvarBoundaryEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -109,7 +121,9 @@ class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator):
     MAYA_CATMULL_MINUS_CLARK = 3
 
 
-class OsdFvarBoundaryEnumAttrOperator(EnumAttrOperator):
+class OsdFvarBoundaryEnumAttrOperator(
+    EnumAttrOperator[OsdFvarBoundaryEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -134,14 +148,18 @@ class OsdFvarBoundaryEnumField(
     PLUG_CLS = OsdFvarBoundaryEnumPlugOperator
 
 
-class OsdCreaseMethodEnumPlugOperator(EnumPlugOperator):
+class OsdCreaseMethodEnumPlugOperator(
+    EnumPlugOperator["OsdCreaseMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
     CHAIKIN = 1
 
 
-class OsdCreaseMethodEnumAttrOperator(EnumAttrOperator):
+class OsdCreaseMethodEnumAttrOperator(
+    EnumAttrOperator[OsdCreaseMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -162,7 +180,9 @@ class OsdCreaseMethodEnumField(
     PLUG_CLS = OsdCreaseMethodEnumPlugOperator
 
 
-class BoundaryRuleEnumPlugOperator(EnumPlugOperator):
+class BoundaryRuleEnumPlugOperator(
+    EnumPlugOperator["BoundaryRuleEnumAttrOperator"]
+):
     __slots__ = ()
 
     LEGACY = 0
@@ -170,7 +190,9 @@ class BoundaryRuleEnumPlugOperator(EnumPlugOperator):
     CREASE_EDGES = 2
 
 
-class BoundaryRuleEnumAttrOperator(EnumAttrOperator):
+class BoundaryRuleEnumAttrOperator(
+    EnumAttrOperator[BoundaryRuleEnumPlugOperator]
+):
     __slots__ = ()
 
     LEGACY = 0
@@ -193,7 +215,9 @@ class BoundaryRuleEnumField(
     PLUG_CLS = BoundaryRuleEnumPlugOperator
 
 
-class KeepMapBordersEnumPlugOperator(EnumPlugOperator):
+class KeepMapBordersEnumPlugOperator(
+    EnumPlugOperator["KeepMapBordersEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -201,7 +225,9 @@ class KeepMapBordersEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class KeepMapBordersEnumAttrOperator(EnumAttrOperator):
+class KeepMapBordersEnumAttrOperator(
+    EnumAttrOperator[KeepMapBordersEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -224,7 +250,7 @@ class KeepMapBordersEnumField(
     PLUG_CLS = KeepMapBordersEnumPlugOperator
 
 
-class _GeneratedPolySmoothProxy(DG):
+class GeneratedPolySmoothProxy(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySmoothProxy"
@@ -289,10 +315,22 @@ class _GeneratedPolySmoothProxy(DG):
     osdIndependentUVChannels = BoolField(default_value=True)
     iuv = osdIndependentUVChannels
 
-    exponentialLevel = ShortField(default_value=1, min_value=0, max_value=8, soft_min_value=0, soft_max_value=4)
+    exponentialLevel = ShortField(
+        default_value=1,
+        min_value=0,
+        max_value=8,
+        soft_min_value=0,
+        soft_max_value=4,
+    )
     el = exponentialLevel
 
-    continuity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    continuity = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     c = continuity
 
     smoothUVs = BoolField(default_value=False)
@@ -313,19 +351,43 @@ class _GeneratedPolySmoothProxy(DG):
     keepMapBorders = KeepMapBordersEnumField(default_value=1)
     kmb = keepMapBorders
 
-    linearLevel = ShortField(default_value=1, min_value=0, max_value=8, soft_min_value=0, soft_max_value=4)
+    linearLevel = ShortField(
+        default_value=1,
+        min_value=0,
+        max_value=8,
+        soft_min_value=0,
+        soft_max_value=4,
+    )
     ll = linearLevel
 
-    divisionsPerEdge = LongField(default_value=1, min_value=0, max_value=10, soft_min_value=0, soft_max_value=4)
+    divisionsPerEdge = LongField(
+        default_value=1,
+        min_value=0,
+        max_value=10,
+        soft_min_value=0,
+        soft_max_value=4,
+    )
     dpe = divisionsPerEdge
 
     degree = LongField(default_value=3)
     deg = degree
 
-    pushStrength = FloatField(default_value=0.0, min_value=-1.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    pushStrength = FloatField(
+        default_value=0.0,
+        min_value=-1.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     ps = pushStrength
 
-    roundness = FloatField(default_value=0.0, min_value=-10.0, max_value=10.0, soft_min_value=-2.0, soft_max_value=2.0)
+    roundness = FloatField(
+        default_value=0.0,
+        min_value=-10.0,
+        max_value=10.0,
+        soft_min_value=-2.0,
+        soft_max_value=2.0,
+    )
     ro = roundness
 
     multiEdgeCrease = BoolField(default_value=True)

@@ -7,25 +7,29 @@ from ....attr.define.node_attr.character import (
     PublishedNodeInfoField,
     TranslationOffsetIndicesField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -33,7 +37,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -56,7 +60,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -64,7 +70,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -87,7 +95,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class _GeneratedCharacter(DG):
+class GeneratedCharacter(DG):
     __slots__ = ()
 
     NODE_TYPE = "character"
@@ -152,7 +160,9 @@ class _GeneratedCharacter(DG):
     dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
+    memberWireframeColor = ShortField(
+        default_value=-1, min_value=-1, max_value=23
+    )
     mwc = memberWireframeColor
 
     channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
@@ -228,13 +238,19 @@ class _GeneratedCharacter(DG):
 
     clipStatePercentEval = ClipStatePercentEvalField()
     cspe = clipStatePercentEval
-    clipStatePercentEval_Hidden = clipStatePercentEval.clipStatePercentEval_Hidden
+    clipStatePercentEval_Hidden = (
+        clipStatePercentEval.clipStatePercentEval_Hidden
+    )
     cspeh = clipStatePercentEval_Hidden
     clipStatePercentEval_Raw = clipStatePercentEval.clipStatePercentEval_Raw
     csper = clipStatePercentEval_Raw
-    clipStatePercentEval_Inmap = clipStatePercentEval.clipStatePercentEval_Inmap
+    clipStatePercentEval_Inmap = (
+        clipStatePercentEval.clipStatePercentEval_Inmap
+    )
     cspei = clipStatePercentEval_Inmap
-    clipStatePercentEval_Outmap = clipStatePercentEval.clipStatePercentEval_Outmap
+    clipStatePercentEval_Outmap = (
+        clipStatePercentEval.clipStatePercentEval_Outmap
+    )
     cspeo = clipStatePercentEval_Outmap
 
     clipStatePercentEval_InmapTo = ShortField()
@@ -330,7 +346,9 @@ class _GeneratedCharacter(DG):
     offsetObjectLocalXForm = DataMatrixField()
     oolx = offsetObjectLocalXForm
 
-    translationOffsetIndices = TranslationOffsetIndicesField(default_value=(-1.0, -1.0, -1.0))
+    translationOffsetIndices = TranslationOffsetIndicesField(
+        default_value=(-1.0, -1.0, -1.0)
+    )
     toi = translationOffsetIndices
     translationOffsetIndexX = translationOffsetIndices.translationOffsetIndexX
     tox = translationOffsetIndexX

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_spring import _GeneratedMASH_Spring
+from ._generated.mash_spring import GeneratedMASHSpring
 
 
-class MASH_Spring(_GeneratedMASH_Spring):
+class MASHSpring(GeneratedMASHSpring):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Spring"

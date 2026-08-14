@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.rotate_helper import _GeneratedRotateHelper
+from ._generated.rotate_helper import GeneratedRotateHelper
 
 
-class RotateHelper(_GeneratedRotateHelper):
+class RotateHelper(GeneratedRotateHelper):
     __slots__ = ()
 
     NODE_TYPE = "rotateHelper"

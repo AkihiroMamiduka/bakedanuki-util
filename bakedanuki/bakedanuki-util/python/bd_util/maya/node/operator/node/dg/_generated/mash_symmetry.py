@@ -9,23 +9,25 @@ from ....attr.define.node_attr.mash_symmetry import (
     TranslateInPPField,
     TranslateOutPPField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +36,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +63,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -79,7 +87,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -87,7 +98,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class AxisOfSymmetryEnumPlugOperator(EnumPlugOperator):
+class AxisOfSymmetryEnumPlugOperator(
+    EnumPlugOperator["AxisOfSymmetryEnumAttrOperator"]
+):
     __slots__ = ()
 
     X = 1
@@ -95,7 +108,9 @@ class AxisOfSymmetryEnumPlugOperator(EnumPlugOperator):
     Z = 5
 
 
-class AxisOfSymmetryEnumAttrOperator(EnumAttrOperator):
+class AxisOfSymmetryEnumAttrOperator(
+    EnumAttrOperator[AxisOfSymmetryEnumPlugOperator]
+):
     __slots__ = ()
 
     X = 1
@@ -118,7 +133,9 @@ class AxisOfSymmetryEnumField(
     PLUG_CLS = AxisOfSymmetryEnumPlugOperator
 
 
-class PlacementModeEnumPlugOperator(EnumPlugOperator):
+class PlacementModeEnumPlugOperator(
+    EnumPlugOperator["PlacementModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MIRROR_PLANE = 1
@@ -126,7 +143,9 @@ class PlacementModeEnumPlugOperator(EnumPlugOperator):
     BOUNDING_BOX_MINUS = 3
 
 
-class PlacementModeEnumAttrOperator(EnumAttrOperator):
+class PlacementModeEnumAttrOperator(
+    EnumAttrOperator[PlacementModeEnumPlugOperator]
+):
     __slots__ = ()
 
     MIRROR_PLANE = 1
@@ -149,7 +168,7 @@ class PlacementModeEnumField(
     PLUG_CLS = PlacementModeEnumPlugOperator
 
 
-class _GeneratedMASH_Symmetry(DG):
+class GeneratedMASHSymmetry(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Symmetry"
@@ -169,7 +188,9 @@ class _GeneratedMASH_Symmetry(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -223,7 +244,9 @@ class _GeneratedMASH_Symmetry(DG):
     centreOfSymmetry1 = centreOfSymmetry.centreOfSymmetry1
     centreOfSymmetry2 = centreOfSymmetry.centreOfSymmetry2
 
-    reflectionVector = ReflectionVectorField(default_value=(0.0, 0.0, 0.0), writable=False)
+    reflectionVector = ReflectionVectorField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     reflectionVector0 = reflectionVector.reflectionVector0
     reflectionVector1 = reflectionVector.reflectionVector1
     reflectionVector2 = reflectionVector.reflectionVector2

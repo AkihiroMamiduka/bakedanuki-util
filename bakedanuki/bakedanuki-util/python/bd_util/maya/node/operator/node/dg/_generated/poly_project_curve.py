@@ -4,15 +4,17 @@ from ....attr.define.node_attr.poly_project_curve import (
     CurvePointsField,
     DirectionField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedPolyProjectCurve(DG):
+class GeneratedPolyProjectCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyProjectCurve"
@@ -59,5 +61,7 @@ class _GeneratedPolyProjectCurve(DG):
     directionZ = direction.directionZ
     dz = directionZ
 
-    tolerance = DoubleLinearField(default_value=0.0001, min_value=1e-05, max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.0001, min_value=1e-05, max_value=1.0
+    )
     tol = tolerance

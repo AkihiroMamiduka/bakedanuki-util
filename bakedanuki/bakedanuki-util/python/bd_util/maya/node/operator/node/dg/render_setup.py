@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.render_setup import _GeneratedRenderSetup
+from ._generated.render_setup import GeneratedRenderSetup
 
 
-class RenderSetup(_GeneratedRenderSetup):
+class RenderSetup(GeneratedRenderSetup):
     __slots__ = ()
 
     NODE_TYPE = "renderSetup"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_noise import _GeneratedMASH_Noise
+from ._generated.mash_noise import GeneratedMASHNoise
 
 
-class MASH_Noise(_GeneratedMASH_Noise):
+class MASHNoise(GeneratedMASHNoise):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Noise"

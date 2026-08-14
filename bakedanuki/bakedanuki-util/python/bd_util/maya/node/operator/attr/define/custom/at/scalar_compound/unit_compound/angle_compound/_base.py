@@ -1,10 +1,13 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, ClassVar, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
 
 # self
+from ..........value.scalar_compound.scalar_compound_value import (
+    ScalarCompoundValue,
+)
 from ........... import logger as u_logger
 from .._base import (
     UnitCompoundBasePlugOperator,
@@ -12,23 +15,25 @@ from .._base import (
     UnitCompoundBaseField,
 )
 
-A = TypeVar("A", bound="AngleCompoundBaseAttrOperator")
+A = TypeVar("A", bound="AngleCompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="AngleCompoundBasePlugOperator")
+P = TypeVar("P", bound="AngleCompoundBasePlugOperator[Any, Any]")
+
+V = TypeVar("V", bound=ScalarCompoundValue[float])
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A]):
+class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
     __slots__ = ()
 
-    CHILD_M_ATTR_TYPE: int = om.MFnUnitAttribute.kAngle
+    CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnUnitAttribute.kAngle
 
-    def _prepare_child_default_value(self, value):
+    def _prepare_child_default_value(self, value: float) -> float:
         return om.MAngle(value, om.MAngle.kDegrees).asRadians()
 
-    def _prepare_child_limit_value(self, value):
+    def _prepare_child_limit_value(self, value: float) -> om.MAngle:
         return om.MAngle(value, om.MAngle.kDegrees)
 
     # get
@@ -37,7 +42,7 @@ class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A]):
 
     # set
     def _set_child_value(self, child_plug: om.MPlug, value: float) -> None:
-        self._node._dg_mod.newPlugValueMAngle(
+        self._node.modifier_manager.dg_mod.newPlugValueMAngle(
             child_plug, om.MAngle(value, om.MAngle.kDegrees)
         )
 

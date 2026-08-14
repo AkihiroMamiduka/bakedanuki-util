@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_deformer import _GeneratedMASH_Deformer
+from ._generated.mash_deformer import GeneratedMASHDeformer
 
 
-class MASH_Deformer(_GeneratedMASH_Deformer):
+class MASHDeformer(GeneratedMASHDeformer):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Deformer"

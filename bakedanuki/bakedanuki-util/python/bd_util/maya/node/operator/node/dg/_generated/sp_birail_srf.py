@@ -1,23 +1,25 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class SweepStyleEnumPlugOperator(EnumPlugOperator):
+class SweepStyleEnumPlugOperator(
+    EnumPlugOperator["SweepStyleEnumAttrOperator"]
+):
     __slots__ = ()
 
     NATURAL = 0
     VIEW = 1
 
 
-class SweepStyleEnumAttrOperator(EnumAttrOperator):
+class SweepStyleEnumAttrOperator(EnumAttrOperator[SweepStyleEnumPlugOperator]):
     __slots__ = ()
 
     NATURAL = 0
@@ -38,14 +40,18 @@ class SweepStyleEnumField(
     PLUG_CLS = SweepStyleEnumPlugOperator
 
 
-class TransformModeEnumPlugOperator(EnumPlugOperator):
+class TransformModeEnumPlugOperator(
+    EnumPlugOperator["TransformModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NON_PROPORTIONAL = 0
     PROPORTIONAL = 1
 
 
-class TransformModeEnumAttrOperator(EnumAttrOperator):
+class TransformModeEnumAttrOperator(
+    EnumAttrOperator[TransformModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NON_PROPORTIONAL = 0
@@ -66,7 +72,7 @@ class TransformModeEnumField(
     PLUG_CLS = TransformModeEnumPlugOperator
 
 
-class _GeneratedSpBirailSrf(DG):
+class GeneratedSpBirailSrf(DG):
     __slots__ = ()
 
     NODE_TYPE = "spBirailSrf"

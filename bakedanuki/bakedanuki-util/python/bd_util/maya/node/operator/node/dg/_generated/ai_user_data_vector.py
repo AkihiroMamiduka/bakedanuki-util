@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_user_data_vector import (
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiUserDataVector(DG):
+class GeneratedAiUserDataVector(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUserDataVector"
@@ -22,7 +22,9 @@ class _GeneratedAiUserDataVector(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

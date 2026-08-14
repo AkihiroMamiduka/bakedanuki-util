@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..custom import (
     Double3CompoundBaseAttrOperator,
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
@@ -44,7 +44,9 @@ class ComputeNodeColorAttrOperator(
 
 
 class ComputeNodeColorField(
-    Double3CompoundBaseField[ComputeNodeColorAttrOperator, ComputeNodeColorPlugOperator]
+    Double3CompoundBaseField[
+        ComputeNodeColorAttrOperator, ComputeNodeColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

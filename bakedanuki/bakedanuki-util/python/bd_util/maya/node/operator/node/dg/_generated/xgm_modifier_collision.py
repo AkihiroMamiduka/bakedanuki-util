@@ -1,13 +1,13 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.xgm_modifier_collision import ColliderField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedXgmModifierCollision(DG):
+class GeneratedXgmModifierCollision(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierCollision"
@@ -24,7 +24,11 @@ class _GeneratedXgmModifierCollision(DG):
     mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    collisionDistance = FloatField(default_value=0.009999999776482582, min_value=0.0010000000474974513, max_value=10.0)
+    collisionDistance = FloatField(
+        default_value=0.009999999776482582,
+        min_value=0.0010000000474974513,
+        max_value=10.0,
+    )
     cd = collisionDistance
 
     meshSampling = LongField(default_value=5, min_value=3, max_value=20)

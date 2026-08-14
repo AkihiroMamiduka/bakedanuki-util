@@ -1,0 +1,20 @@
+# coding: utf-8
+from .._core import DG
+from ....attr.define.node_attr.bd_dbl_l_weighted_average_multi import (
+    InputField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
+
+
+class GeneratedBdDblLWeightedAverageMulti(DG):
+    __slots__ = ()
+
+    NODE_TYPE = "bdDblL_WeightedAverageMulti"
+
+    input = InputField(multi=True, default_value=(0.0, 0.0))
+    i = input
+
+    output = DoubleLinearField(default_value=0.0, writable=False)
+    o = output

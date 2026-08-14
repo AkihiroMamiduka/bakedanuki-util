@@ -1,10 +1,10 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class _GeneratedRenderPassSet(DG):
+class GeneratedRenderPassSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderPassSet"

@@ -1,19 +1,21 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_sphere import AxisField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -21,7 +23,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     SAW_TOOTH_AT_POLE = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -44,7 +46,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -52,7 +54,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     SAWTOOTH_AT_POLE = 2
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -75,7 +77,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolySphere(DG):
+class GeneratedPolySphere(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySphere"
@@ -92,7 +94,9 @@ class _GeneratedPolySphere(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -110,13 +114,19 @@ class _GeneratedPolySphere(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    radius = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    radius = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     r = radius
 
-    subdivisionsAxis = LongField(default_value=20, min_value=3, soft_max_value=50)
+    subdivisionsAxis = LongField(
+        default_value=20, min_value=3, soft_max_value=50
+    )
     sa = subdivisionsAxis
 
-    subdivisionsHeight = LongField(default_value=20, min_value=3, soft_max_value=50)
+    subdivisionsHeight = LongField(
+        default_value=20, min_value=3, soft_max_value=50
+    )
     sh = subdivisionsHeight
 
     texture = TextureEnumField(default_value=1)

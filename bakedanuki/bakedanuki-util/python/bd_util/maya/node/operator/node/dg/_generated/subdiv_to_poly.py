@@ -4,18 +4,18 @@ from ....attr.define.node_attr.subdiv_to_poly import (
     InSubdCVIdField,
     OutSubdCVIdField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class FormatEnumPlugOperator(EnumPlugOperator):
+class FormatEnumPlugOperator(EnumPlugOperator["FormatEnumAttrOperator"]):
     __slots__ = ()
 
     UNIFORM = 0
@@ -24,7 +24,7 @@ class FormatEnumPlugOperator(EnumPlugOperator):
     VERTICES = 3
 
 
-class FormatEnumAttrOperator(EnumAttrOperator):
+class FormatEnumAttrOperator(EnumAttrOperator[FormatEnumPlugOperator]):
     __slots__ = ()
 
     UNIFORM = 0
@@ -49,7 +49,9 @@ class FormatEnumField(
     PLUG_CLS = FormatEnumPlugOperator
 
 
-class PolygonTypeEnumPlugOperator(EnumPlugOperator):
+class PolygonTypeEnumPlugOperator(
+    EnumPlugOperator["PolygonTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -57,7 +59,9 @@ class PolygonTypeEnumPlugOperator(EnumPlugOperator):
     POLYGONS = 2
 
 
-class PolygonTypeEnumAttrOperator(EnumAttrOperator):
+class PolygonTypeEnumAttrOperator(
+    EnumAttrOperator[PolygonTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -80,7 +84,7 @@ class PolygonTypeEnumField(
     PLUG_CLS = PolygonTypeEnumPlugOperator
 
 
-class _GeneratedSubdivToPoly(DG):
+class GeneratedSubdivToPoly(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdivToPoly"
@@ -100,10 +104,22 @@ class _GeneratedSubdivToPoly(DG):
     extractPointPosition = BoolField(default_value=False)
     epp = extractPointPosition
 
-    sampleCount = LongField(default_value=1, min_value=1, max_value=20, soft_min_value=1, soft_max_value=12)
+    sampleCount = LongField(
+        default_value=1,
+        min_value=1,
+        max_value=20,
+        soft_min_value=1,
+        soft_max_value=12,
+    )
     sc = sampleCount
 
-    depth = LongField(default_value=0, min_value=0, max_value=12, soft_min_value=0, soft_max_value=12)
+    depth = LongField(
+        default_value=0,
+        min_value=0,
+        max_value=12,
+        soft_min_value=0,
+        soft_max_value=12,
+    )
     d = depth
 
     maxPolys = LongField(default_value=0, min_value=0)
@@ -118,7 +134,13 @@ class _GeneratedSubdivToPoly(DG):
     shareUVs = BoolField(default_value=False)
     suv = shareUVs
 
-    level = LongField(default_value=0, min_value=0, max_value=12, soft_min_value=0, soft_max_value=12)
+    level = LongField(
+        default_value=0,
+        min_value=0,
+        max_value=12,
+        soft_min_value=0,
+        soft_max_value=12,
+    )
     l = level
 
     convertComp = BoolField(default_value=False)

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_uv_transform import _GeneratedAiUvTransform
+from ._generated.ai_uv_transform import GeneratedAiUvTransform
 
 
-class AiUvTransform(_GeneratedAiUvTransform):
+class AiUvTransform(GeneratedAiUvTransform):
     __slots__ = ()
 
     NODE_TYPE = "aiUvTransform"

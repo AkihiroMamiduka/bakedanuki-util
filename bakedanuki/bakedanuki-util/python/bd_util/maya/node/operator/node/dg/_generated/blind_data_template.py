@@ -4,10 +4,10 @@ from ....attr.define.node_attr.blind_data_template import (
     BdUserInfoField,
     BlindDataPresetsField,
 )
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedBlindDataTemplate(DG):
+class GeneratedBlindDataTemplate(DG):
     __slots__ = ()
 
     NODE_TYPE = "blindDataTemplate"

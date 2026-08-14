@@ -1,8 +1,10 @@
 # coding: utf-8
-from ._generated.adsk_prepare_render_globals import _GeneratedAdskPrepareRenderGlobals
+from ._generated.adsk_prepare_render_globals import (
+    GeneratedAdskPrepareRenderGlobals,
+)
 
 
-class AdskPrepareRenderGlobals(_GeneratedAdskPrepareRenderGlobals):
+class AdskPrepareRenderGlobals(GeneratedAdskPrepareRenderGlobals):
     __slots__ = ()
 
     NODE_TYPE = "adskPrepareRenderGlobals"

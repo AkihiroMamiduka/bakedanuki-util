@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.curve_normalizer_angle import _GeneratedCurveNormalizerAngle
+from ._generated.curve_normalizer_angle import GeneratedCurveNormalizerAngle
 
 
-class CurveNormalizerAngle(_GeneratedCurveNormalizerAngle):
+class CurveNormalizerAngle(GeneratedCurveNormalizerAngle):
     __slots__ = ()
 
     NODE_TYPE = "curveNormalizerAngle"

@@ -5,20 +5,22 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class Red_InterpEnumPlugOperator(EnumPlugOperator):
+class Red_InterpEnumPlugOperator(
+    EnumPlugOperator["Red_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +29,7 @@ class Red_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Red_InterpEnumAttrOperator(EnumAttrOperator):
+class Red_InterpEnumAttrOperator(EnumAttrOperator[Red_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -52,7 +54,9 @@ class Red_InterpEnumField(
     PLUG_CLS = Red_InterpEnumPlugOperator
 
 
-class Green_InterpEnumPlugOperator(EnumPlugOperator):
+class Green_InterpEnumPlugOperator(
+    EnumPlugOperator["Green_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -61,7 +65,9 @@ class Green_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Green_InterpEnumAttrOperator(EnumAttrOperator):
+class Green_InterpEnumAttrOperator(
+    EnumAttrOperator[Green_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -86,7 +92,9 @@ class Green_InterpEnumField(
     PLUG_CLS = Green_InterpEnumPlugOperator
 
 
-class Blue_InterpEnumPlugOperator(EnumPlugOperator):
+class Blue_InterpEnumPlugOperator(
+    EnumPlugOperator["Blue_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -95,7 +103,9 @@ class Blue_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Blue_InterpEnumAttrOperator(EnumAttrOperator):
+class Blue_InterpEnumAttrOperator(
+    EnumAttrOperator[Blue_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -120,9 +130,7 @@ class Blue_InterpEnumField(
     PLUG_CLS = Blue_InterpEnumPlugOperator
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "cr"),
@@ -140,9 +148,7 @@ class ColorPlugOperator(
     cb = colorB
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=0.5)
@@ -173,9 +179,7 @@ class ColorField(
     cb = colorB
 
 
-class RedPlugOperator(
-    CompoundPlugOperator["RedAttrOperator"]
-):
+class RedPlugOperator(CompoundPlugOperator["RedAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("red_Position", "rp"),
@@ -193,9 +197,7 @@ class RedPlugOperator(
     ri = red_Interp
 
 
-class RedAttrOperator(
-    CompoundAttrOperator[RedPlugOperator]
-):
+class RedAttrOperator(CompoundAttrOperator[RedPlugOperator]):
     __slots__ = ()
 
     red_Position = FloatField(default_value=0.0)
@@ -208,18 +210,14 @@ class RedAttrOperator(
     ri = red_Interp
 
 
-class RedField(
-    CompoundField[RedAttrOperator, RedPlugOperator]
-):
+class RedField(CompoundField[RedAttrOperator, RedPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RedAttrOperator
     PLUG_CLS = RedPlugOperator
 
 
-class GreenPlugOperator(
-    CompoundPlugOperator["GreenAttrOperator"]
-):
+class GreenPlugOperator(CompoundPlugOperator["GreenAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("green_Position", "gp"),
@@ -237,9 +235,7 @@ class GreenPlugOperator(
     gi = green_Interp
 
 
-class GreenAttrOperator(
-    CompoundAttrOperator[GreenPlugOperator]
-):
+class GreenAttrOperator(CompoundAttrOperator[GreenPlugOperator]):
     __slots__ = ()
 
     green_Position = FloatField(default_value=0.0)
@@ -252,18 +248,14 @@ class GreenAttrOperator(
     gi = green_Interp
 
 
-class GreenField(
-    CompoundField[GreenAttrOperator, GreenPlugOperator]
-):
+class GreenField(CompoundField[GreenAttrOperator, GreenPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = GreenAttrOperator
     PLUG_CLS = GreenPlugOperator
 
 
-class BluePlugOperator(
-    CompoundPlugOperator["BlueAttrOperator"]
-):
+class BluePlugOperator(CompoundPlugOperator["BlueAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("blue_Position", "bp"),
@@ -281,9 +273,7 @@ class BluePlugOperator(
     bi = blue_Interp
 
 
-class BlueAttrOperator(
-    CompoundAttrOperator[BluePlugOperator]
-):
+class BlueAttrOperator(CompoundAttrOperator[BluePlugOperator]):
     __slots__ = ()
 
     blue_Position = FloatField(default_value=0.0)
@@ -296,9 +286,7 @@ class BlueAttrOperator(
     bi = blue_Interp
 
 
-class BlueField(
-    CompoundField[BlueAttrOperator, BluePlugOperator]
-):
+class BlueField(CompoundField[BlueAttrOperator, BluePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = BlueAttrOperator

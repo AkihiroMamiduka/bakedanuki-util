@@ -6,12 +6,10 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar_range.double import DoubleField
+from ..std.at.scalar.numeric.range.double import DoubleField
 
 
-class AttributesPlugOperator(
-    CompoundPlugOperator["AttributesAttrOperator"]
-):
+class AttributesPlugOperator(CompoundPlugOperator["AttributesAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("attribute", "a"),
@@ -29,9 +27,7 @@ class AttributesPlugOperator(
     v = value
 
 
-class AttributesAttrOperator(
-    CompoundAttrOperator[AttributesPlugOperator]
-):
+class AttributesAttrOperator(CompoundAttrOperator[AttributesPlugOperator]):
     __slots__ = ()
 
     attribute = MessageField()

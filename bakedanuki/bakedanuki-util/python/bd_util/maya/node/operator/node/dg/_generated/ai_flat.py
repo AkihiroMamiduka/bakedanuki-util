@@ -9,7 +9,7 @@ from ....attr.define.node_attr.ai_flat import (
 )
 
 
-class _GeneratedAiFlat(DG):
+class GeneratedAiFlat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFlat"
@@ -23,7 +23,9 @@ class _GeneratedAiFlat(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

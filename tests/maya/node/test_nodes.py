@@ -101,10 +101,9 @@ def test_nodes_caches_accessors(new_scene):
     import bd_util
 
     nodes = bd_util.Nodes()
+    existing_accessor = nodes.existing.decomposeMatrix
 
     assert nodes.create is nodes.create
     assert nodes.existing is nodes.existing
-    assert (
-        nodes.existing.decomposeMatrix
-        is nodes.existing.decomposeMatrix
-    )
+    assert nodes.existing.decomposeMatrix is existing_accessor
+    assert nodes.existing.__dict__["decomposeMatrix"] is existing_accessor

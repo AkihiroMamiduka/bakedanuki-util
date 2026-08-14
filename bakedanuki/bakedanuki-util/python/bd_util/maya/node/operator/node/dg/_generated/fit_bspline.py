@@ -1,15 +1,17 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class KeepRangeEnumPlugOperator(EnumPlugOperator):
+class KeepRangeEnumPlugOperator(EnumPlugOperator["KeepRangeEnumAttrOperator"]):
     __slots__ = ()
 
     _0_TO_1 = 0
@@ -17,7 +19,7 @@ class KeepRangeEnumPlugOperator(EnumPlugOperator):
     _0_TO_HASH_SPANS = 2
 
 
-class KeepRangeEnumAttrOperator(EnumAttrOperator):
+class KeepRangeEnumAttrOperator(EnumAttrOperator[KeepRangeEnumPlugOperator]):
     __slots__ = ()
 
     _0_TO_1 = 0
@@ -40,7 +42,7 @@ class KeepRangeEnumField(
     PLUG_CLS = KeepRangeEnumPlugOperator
 
 
-class _GeneratedFitBspline(DG):
+class GeneratedFitBspline(DG):
     __slots__ = ()
 
     NODE_TYPE = "fitBspline"
@@ -48,7 +50,12 @@ class _GeneratedFitBspline(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    tolerance = DoubleLinearField(default_value=0.1, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.1,
+        min_value=1e-05,
+        soft_min_value=0.001,
+        soft_max_value=1.0,
+    )
     tol = tolerance
 
     outputCurve = DataNurbsCurveField(writable=False)

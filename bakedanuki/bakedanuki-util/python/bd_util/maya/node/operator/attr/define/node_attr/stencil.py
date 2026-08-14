@@ -1,12 +1,10 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -29,9 +27,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -311,9 +307,7 @@ class OutColorField(
     ocb = outColorB
 
 
-class ImagePlugOperator(
-    Float3CompoundBasePlugOperator["ImageAttrOperator"]
-):
+class ImagePlugOperator(Float3CompoundBasePlugOperator["ImageAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("imageR", "imr"),
@@ -331,9 +325,7 @@ class ImagePlugOperator(
     imb = imageB
 
 
-class ImageAttrOperator(
-    Float3CompoundBaseAttrOperator[ImagePlugOperator]
-):
+class ImageAttrOperator(Float3CompoundBaseAttrOperator[ImagePlugOperator]):
     __slots__ = ()
 
     imageR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)

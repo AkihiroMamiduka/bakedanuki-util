@@ -1,20 +1,22 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.generic import GenericField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class ComponentTypeEnumPlugOperator(EnumPlugOperator):
+class ComponentTypeEnumPlugOperator(
+    EnumPlugOperator["ComponentTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -24,7 +26,9 @@ class ComponentTypeEnumPlugOperator(EnumPlugOperator):
     OBJECT = 6
 
 
-class ComponentTypeEnumAttrOperator(EnumAttrOperator):
+class ComponentTypeEnumAttrOperator(
+    EnumAttrOperator[ComponentTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -51,7 +55,7 @@ class ComponentTypeEnumField(
     PLUG_CLS = ComponentTypeEnumPlugOperator
 
 
-class ElementsEnumPlugOperator(EnumPlugOperator):
+class ElementsEnumPlugOperator(EnumPlugOperator["ElementsEnumAttrOperator"]):
     __slots__ = ()
 
     FROM_INDICE_LIST = 0
@@ -59,7 +63,7 @@ class ElementsEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class ElementsEnumAttrOperator(EnumAttrOperator):
+class ElementsEnumAttrOperator(EnumAttrOperator[ElementsEnumPlugOperator]):
     __slots__ = ()
 
     FROM_INDICE_LIST = 0
@@ -82,7 +86,9 @@ class ElementsEnumField(
     PLUG_CLS = ElementsEnumPlugOperator
 
 
-class StrengthMapTypeEnumPlugOperator(EnumPlugOperator):
+class StrengthMapTypeEnumPlugOperator(
+    EnumPlugOperator["StrengthMapTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -90,7 +96,9 @@ class StrengthMapTypeEnumPlugOperator(EnumPlugOperator):
     TEXTURE = 2
 
 
-class StrengthMapTypeEnumAttrOperator(EnumAttrOperator):
+class StrengthMapTypeEnumAttrOperator(
+    EnumAttrOperator[StrengthMapTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -113,7 +121,9 @@ class StrengthMapTypeEnumField(
     PLUG_CLS = StrengthMapTypeEnumPlugOperator
 
 
-class GlueStrengthMapTypeEnumPlugOperator(EnumPlugOperator):
+class GlueStrengthMapTypeEnumPlugOperator(
+    EnumPlugOperator["GlueStrengthMapTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -121,7 +131,9 @@ class GlueStrengthMapTypeEnumPlugOperator(EnumPlugOperator):
     TEXTURE = 2
 
 
-class GlueStrengthMapTypeEnumAttrOperator(EnumAttrOperator):
+class GlueStrengthMapTypeEnumAttrOperator(
+    EnumAttrOperator[GlueStrengthMapTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -136,7 +148,10 @@ class GlueStrengthMapTypeEnumAttrOperator(EnumAttrOperator):
 
 
 class GlueStrengthMapTypeEnumField(
-    EnumField[GlueStrengthMapTypeEnumAttrOperator, GlueStrengthMapTypeEnumPlugOperator]
+    EnumField[
+        GlueStrengthMapTypeEnumAttrOperator,
+        GlueStrengthMapTypeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -144,7 +159,9 @@ class GlueStrengthMapTypeEnumField(
     PLUG_CLS = GlueStrengthMapTypeEnumPlugOperator
 
 
-class WeightMapTypeEnumPlugOperator(EnumPlugOperator):
+class WeightMapTypeEnumPlugOperator(
+    EnumPlugOperator["WeightMapTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -152,7 +169,9 @@ class WeightMapTypeEnumPlugOperator(EnumPlugOperator):
     TEXTURE = 2
 
 
-class WeightMapTypeEnumAttrOperator(EnumAttrOperator):
+class WeightMapTypeEnumAttrOperator(
+    EnumAttrOperator[WeightMapTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -175,7 +194,7 @@ class WeightMapTypeEnumField(
     PLUG_CLS = WeightMapTypeEnumPlugOperator
 
 
-class _GeneratedNComponent(DG):
+class GeneratedNComponent(DG):
     __slots__ = ()
 
     NODE_TYPE = "nComponent"
@@ -192,7 +211,9 @@ class _GeneratedNComponent(DG):
     elements = ElementsEnumField(default_value=0)
     el = elements
 
-    strength = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    strength = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     stn = strength
 
     strengthMap = FloatField(default_value=1.0)
@@ -201,7 +222,9 @@ class _GeneratedNComponent(DG):
     strengthPerVertex = DataDoubleArrayField()
     spv = strengthPerVertex
 
-    glueStrength = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    glueStrength = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     gst = glueStrength
 
     glueStrengthMap = FloatField(default_value=1.0)
@@ -210,7 +233,9 @@ class _GeneratedNComponent(DG):
     glueStrengthPerVertex = DataDoubleArrayField()
     gspv = glueStrengthPerVertex
 
-    weight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    weight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     wgh = weight
 
     weightMap = FloatField(default_value=1.0)
@@ -219,7 +244,9 @@ class _GeneratedNComponent(DG):
     weightPerVertex = DataDoubleArrayField()
     wpv = weightPerVertex
 
-    tangentStrength = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    tangentStrength = DoubleField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     tst = tangentStrength
 
     objectId = GenericField()

@@ -17,18 +17,20 @@ from ....attr.define.node_attr.bump2d import (
     VertexUvOneField,
     VertexUvTwoField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class BumpInterpEnumPlugOperator(EnumPlugOperator):
+class BumpInterpEnumPlugOperator(
+    EnumPlugOperator["BumpInterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     BUMP = 0
@@ -36,7 +38,7 @@ class BumpInterpEnumPlugOperator(EnumPlugOperator):
     OBJECT_SPACE_NORMALS = 2
 
 
-class BumpInterpEnumAttrOperator(EnumAttrOperator):
+class BumpInterpEnumAttrOperator(EnumAttrOperator[BumpInterpEnumPlugOperator]):
     __slots__ = ()
 
     BUMP = 0
@@ -59,7 +61,7 @@ class BumpInterpEnumField(
     PLUG_CLS = BumpInterpEnumPlugOperator
 
 
-class _GeneratedBump2d(DG):
+class GeneratedBump2d(DG):
     __slots__ = ()
 
     NODE_TYPE = "bump2d"
@@ -109,7 +111,9 @@ class _GeneratedBump2d(DG):
     rayOriginZ = rayOrigin.rayOriginZ
     roz = rayOriginZ
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     uvCoord = UvCoordField(default_value=(0.0, 0.0))
@@ -159,19 +163,27 @@ class _GeneratedBump2d(DG):
     adjustEdges = BoolField(default_value=False)
     ae = adjustEdges
 
-    bumpDepth = FloatField(default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0)
+    bumpDepth = FloatField(
+        default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0
+    )
     bd = bumpDepth
 
     bumpInterp = BumpInterpEnumField(default_value=0)
     bi = bumpInterp
 
-    bumpFilter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    bumpFilter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     bf = bumpFilter
 
-    bumpFilterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    bumpFilterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     bfo = bumpFilterOffset
 
-    bumpValue = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    bumpValue = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     bv = bumpValue
 
     provide3dInfo = BoolField(default_value=False)

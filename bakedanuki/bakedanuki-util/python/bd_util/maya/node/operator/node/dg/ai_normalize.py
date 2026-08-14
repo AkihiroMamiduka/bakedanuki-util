@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_normalize import _GeneratedAiNormalize
+from ._generated.ai_normalize import GeneratedAiNormalize
 
 
-class AiNormalize(_GeneratedAiNormalize):
+class AiNormalize(GeneratedAiNormalize):
     __slots__ = ()
 
     NODE_TYPE = "aiNormalize"

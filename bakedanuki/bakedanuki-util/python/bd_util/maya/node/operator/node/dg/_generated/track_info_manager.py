@@ -6,7 +6,7 @@ from ....attr.define.node_attr.track_info_manager import (
 )
 
 
-class _GeneratedTrackInfoManager(DG):
+class GeneratedTrackInfoManager(DG):
     __slots__ = ()
 
     NODE_TYPE = "trackInfoManager"

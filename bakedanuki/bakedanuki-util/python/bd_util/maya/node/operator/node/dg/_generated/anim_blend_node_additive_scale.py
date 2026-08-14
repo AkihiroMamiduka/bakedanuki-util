@@ -1,22 +1,26 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AccumulationModeEnumPlugOperator(EnumPlugOperator):
+class AccumulationModeEnumPlugOperator(
+    EnumPlugOperator["AccumulationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     ADDITIVE = 0
     MULTIPLY = 1
 
 
-class AccumulationModeEnumAttrOperator(EnumAttrOperator):
+class AccumulationModeEnumAttrOperator(
+    EnumAttrOperator[AccumulationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     ADDITIVE = 0
@@ -29,7 +33,9 @@ class AccumulationModeEnumAttrOperator(EnumAttrOperator):
 
 
 class AccumulationModeEnumField(
-    EnumField[AccumulationModeEnumAttrOperator, AccumulationModeEnumPlugOperator]
+    EnumField[
+        AccumulationModeEnumAttrOperator, AccumulationModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37,7 +43,7 @@ class AccumulationModeEnumField(
     PLUG_CLS = AccumulationModeEnumPlugOperator
 
 
-class _GeneratedAnimBlendNodeAdditiveScale(DG):
+class GeneratedAnimBlendNodeAdditiveScale(DG):
     __slots__ = ()
 
     NODE_TYPE = "animBlendNodeAdditiveScale"

@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,9 +116,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class InputPlugOperator(
-    Float3CompoundBasePlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(Float3CompoundBasePlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputR", "inputr"),
@@ -134,9 +134,7 @@ class InputPlugOperator(
     inputb = inputB
 
 
-class InputAttrOperator(
-    Float3CompoundBaseAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(Float3CompoundBaseAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputR = FloatField(default_value=1.0)
@@ -167,9 +165,7 @@ class InputField(
     inputb = inputB
 
 
-class InputYPlugOperator(
-    Float3CompoundBasePlugOperator["InputYAttrOperator"]
-):
+class InputYPlugOperator(Float3CompoundBasePlugOperator["InputYAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputYR", "input_Yr"),
@@ -187,9 +183,7 @@ class InputYPlugOperator(
     input_Yb = inputYB
 
 
-class InputYAttrOperator(
-    Float3CompoundBaseAttrOperator[InputYPlugOperator]
-):
+class InputYAttrOperator(Float3CompoundBaseAttrOperator[InputYPlugOperator]):
     __slots__ = ()
 
     inputYR = FloatField(default_value=1.0)
@@ -220,9 +214,7 @@ class InputYField(
     input_Yb = inputYB
 
 
-class InputZPlugOperator(
-    Float3CompoundBasePlugOperator["InputZAttrOperator"]
-):
+class InputZPlugOperator(Float3CompoundBasePlugOperator["InputZAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputZR", "input_Zr"),
@@ -240,9 +232,7 @@ class InputZPlugOperator(
     input_Zb = inputZB
 
 
-class InputZAttrOperator(
-    Float3CompoundBaseAttrOperator[InputZPlugOperator]
-):
+class InputZAttrOperator(Float3CompoundBaseAttrOperator[InputZPlugOperator]):
     __slots__ = ()
 
     inputZR = FloatField(default_value=1.0)
@@ -273,9 +263,7 @@ class InputZField(
     input_Zb = inputZB
 
 
-class ScalePlugOperator(
-    Float3CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Float3CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "scalex"),
@@ -293,9 +281,7 @@ class ScalePlugOperator(
     scalez = scaleZ
 
 
-class ScaleAttrOperator(
-    Float3CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Float3CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = FloatField(default_value=1.0)
@@ -326,9 +312,7 @@ class ScaleField(
     scalez = scaleZ
 
 
-class RotatePlugOperator(
-    Float3CompoundBasePlugOperator["RotateAttrOperator"]
-):
+class RotatePlugOperator(Float3CompoundBasePlugOperator["RotateAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("rotateX", "rotatex"),
@@ -346,9 +330,7 @@ class RotatePlugOperator(
     rotatez = rotateZ
 
 
-class RotateAttrOperator(
-    Float3CompoundBaseAttrOperator[RotatePlugOperator]
-):
+class RotateAttrOperator(Float3CompoundBaseAttrOperator[RotatePlugOperator]):
     __slots__ = ()
 
     rotateX = FloatField(default_value=0.0)
@@ -379,9 +361,7 @@ class RotateField(
     rotatez = rotateZ
 
 
-class OffsetPlugOperator(
-    Float3CompoundBasePlugOperator["OffsetAttrOperator"]
-):
+class OffsetPlugOperator(Float3CompoundBasePlugOperator["OffsetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("offsetX", "offsetx"),
@@ -399,9 +379,7 @@ class OffsetPlugOperator(
     offsetz = offsetZ
 
 
-class OffsetAttrOperator(
-    Float3CompoundBaseAttrOperator[OffsetPlugOperator]
-):
+class OffsetAttrOperator(Float3CompoundBaseAttrOperator[OffsetPlugOperator]):
     __slots__ = ()
 
     offsetX = FloatField(default_value=0.0)

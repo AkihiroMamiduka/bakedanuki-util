@@ -1,28 +1,28 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.double4 import Double4Field
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.custom import Double4Field
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class VersionEnumPlugOperator(EnumPlugOperator):
+class VersionEnumPlugOperator(EnumPlugOperator["VersionEnumAttrOperator"]):
     __slots__ = ()
 
     MAYA = 0
     SOFTIMAGE = 1
 
 
-class VersionEnumAttrOperator(EnumAttrOperator):
+class VersionEnumAttrOperator(EnumAttrOperator[VersionEnumPlugOperator]):
     __slots__ = ()
 
     MAYA = 0
@@ -43,7 +43,9 @@ class VersionEnumField(
     PLUG_CLS = VersionEnumPlugOperator
 
 
-class TerminationEnumPlugOperator(EnumPlugOperator):
+class TerminationEnumPlugOperator(
+    EnumPlugOperator["TerminationEnumAttrOperator"]
+):
     __slots__ = ()
 
     PERCENTAGE = 0
@@ -51,7 +53,9 @@ class TerminationEnumPlugOperator(EnumPlugOperator):
     TRIANGLE_COUNT = 2
 
 
-class TerminationEnumAttrOperator(EnumAttrOperator):
+class TerminationEnumAttrOperator(
+    EnumAttrOperator[TerminationEnumPlugOperator]
+):
     __slots__ = ()
 
     PERCENTAGE = 0
@@ -74,7 +78,9 @@ class TerminationEnumField(
     PLUG_CLS = TerminationEnumPlugOperator
 
 
-class UseVirtualSymmetryEnumPlugOperator(EnumPlugOperator):
+class UseVirtualSymmetryEnumPlugOperator(
+    EnumPlugOperator["UseVirtualSymmetryEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +88,9 @@ class UseVirtualSymmetryEnumPlugOperator(EnumPlugOperator):
     PLANE = 2
 
 
-class UseVirtualSymmetryEnumAttrOperator(EnumAttrOperator):
+class UseVirtualSymmetryEnumAttrOperator(
+    EnumAttrOperator[UseVirtualSymmetryEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -97,7 +105,9 @@ class UseVirtualSymmetryEnumAttrOperator(EnumAttrOperator):
 
 
 class UseVirtualSymmetryEnumField(
-    EnumField[UseVirtualSymmetryEnumAttrOperator, UseVirtualSymmetryEnumPlugOperator]
+    EnumField[
+        UseVirtualSymmetryEnumAttrOperator, UseVirtualSymmetryEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -105,7 +115,7 @@ class UseVirtualSymmetryEnumField(
     PLUG_CLS = UseVirtualSymmetryEnumPlugOperator
 
 
-class _GeneratedPolyReduce(DG):
+class GeneratedPolyReduce(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyReduce"
@@ -140,13 +150,19 @@ class _GeneratedPolyReduce(DG):
     useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    percentageAchieved = DoubleField(default_value=0.0, min_value=0.0, max_value=100.0, writable=False)
+    percentageAchieved = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=100.0, writable=False
+    )
     pa = percentageAchieved
 
-    vertexCountAchieved = LongField(default_value=0, min_value=0, writable=False)
+    vertexCountAchieved = LongField(
+        default_value=0, min_value=0, writable=False
+    )
     va = vertexCountAchieved
 
-    triangleCountAchieved = LongField(default_value=0, min_value=0, writable=False)
+    triangleCountAchieved = LongField(
+        default_value=0, min_value=0, writable=False
+    )
     ta = triangleCountAchieved
 
     vertexCountIn = LongField(default_value=0, min_value=0, writable=False)
@@ -197,40 +213,54 @@ class _GeneratedPolyReduce(DG):
     keepBorder = BoolField(default_value=True)
     kb = keepBorder
 
-    keepBorderWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    keepBorderWeight = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     kbw = keepBorderWeight
 
     keepMapBorder = BoolField(default_value=True)
     kmb = keepMapBorder
 
-    keepMapBorderWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    keepMapBorderWeight = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     kmw = keepMapBorderWeight
 
     keepColorBorder = BoolField(default_value=True)
     kcb = keepColorBorder
 
-    keepColorBorderWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    keepColorBorderWeight = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     kcw = keepColorBorderWeight
 
     keepFaceGroupBorder = BoolField(default_value=True)
     kfb = keepFaceGroupBorder
 
-    keepFaceGroupBorderWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    keepFaceGroupBorderWeight = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     kfw = keepFaceGroupBorderWeight
 
     keepHardEdge = BoolField(default_value=True)
     khe = keepHardEdge
 
-    keepHardEdgeWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    keepHardEdgeWeight = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     khw = keepHardEdgeWeight
 
     keepCreaseEdge = BoolField(default_value=True)
     kce = keepCreaseEdge
 
-    keepCreaseEdgeWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    keepCreaseEdgeWeight = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cew = keepCreaseEdgeWeight
 
-    keepQuadsWeight = DoubleField(default_value=0.0, min_value=0.0, max_value=10.0, soft_max_value=1.0)
+    keepQuadsWeight = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=10.0, soft_max_value=1.0
+    )
     kqw = keepQuadsWeight
 
     vertexWeights = DataDoubleArrayField()
@@ -269,5 +299,7 @@ class _GeneratedPolyReduce(DG):
     detail = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     d = detail
 
-    weights = DoubleField(multi=True, default_value=0.0, min_value=0.0, max_value=1.0)
+    weights = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0, max_value=1.0
+    )
     wts = weights

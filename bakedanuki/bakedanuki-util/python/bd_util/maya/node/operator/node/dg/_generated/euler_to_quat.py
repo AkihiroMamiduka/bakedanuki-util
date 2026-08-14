@@ -4,14 +4,16 @@ from ....attr.define.node_attr.euler_to_quat import (
     InputRotateField,
     OutputQuatField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 
 
-class InputRotateOrderEnumPlugOperator(EnumPlugOperator):
+class InputRotateOrderEnumPlugOperator(
+    EnumPlugOperator["InputRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -22,7 +24,9 @@ class InputRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class InputRotateOrderEnumAttrOperator(EnumAttrOperator):
+class InputRotateOrderEnumAttrOperator(
+    EnumAttrOperator[InputRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -43,7 +47,9 @@ class InputRotateOrderEnumAttrOperator(EnumAttrOperator):
 
 
 class InputRotateOrderEnumField(
-    EnumField[InputRotateOrderEnumAttrOperator, InputRotateOrderEnumPlugOperator]
+    EnumField[
+        InputRotateOrderEnumAttrOperator, InputRotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51,7 +57,7 @@ class InputRotateOrderEnumField(
     PLUG_CLS = InputRotateOrderEnumPlugOperator
 
 
-class _GeneratedEulerToQuat(DG):
+class GeneratedEulerToQuat(DG):
     __slots__ = ()
 
     NODE_TYPE = "eulerToQuat"
@@ -68,7 +74,9 @@ class _GeneratedEulerToQuat(DG):
     inputRotateOrder = InputRotateOrderEnumField(default_value=0)
     ro = inputRotateOrder
 
-    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
+    outputQuat = OutputQuatField(
+        default_value=(0.0, 0.0, 0.0, 0.0), writable=False
+    )
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

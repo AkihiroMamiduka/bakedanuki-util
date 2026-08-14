@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_sqrt import (
 )
 
 
-class _GeneratedAiSqrt(DG):
+class GeneratedAiSqrt(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSqrt"
@@ -21,7 +21,9 @@ class _GeneratedAiSqrt(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

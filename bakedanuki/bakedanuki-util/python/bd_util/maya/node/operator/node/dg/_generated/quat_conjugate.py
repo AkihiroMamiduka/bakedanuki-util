@@ -6,7 +6,7 @@ from ....attr.define.node_attr.quat_conjugate import (
 )
 
 
-class _GeneratedQuatConjugate(DG):
+class GeneratedQuatConjugate(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatConjugate"
@@ -22,7 +22,9 @@ class _GeneratedQuatConjugate(DG):
     inputQuatW = inputQuat.inputQuatW
     iqw = inputQuatW
 
-    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
+    outputQuat = OutputQuatField(
+        default_value=(0.0, 0.0, 0.0, 0.0), writable=False
+    )
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

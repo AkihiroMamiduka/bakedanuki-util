@@ -10,12 +10,16 @@ from ....attr.define.node_attr.set_range import (
 )
 
 
-class _GeneratedSetRange(DG):
+class GeneratedSetRange(DG):
     __slots__ = ()
 
     NODE_TYPE = "setRange"
 
-    value = ValueField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(5.0, 5.0, 5.0))
+    value = ValueField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(5.0, 5.0, 5.0),
+    )
     v = value
     valueX = value.valueX
     vx = valueX
@@ -24,7 +28,11 @@ class _GeneratedSetRange(DG):
     valueZ = value.valueZ
     vz = valueZ
 
-    min = MinField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    min = MinField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     n = min
     minX = min.minX
     nx = minX
@@ -33,7 +41,11 @@ class _GeneratedSetRange(DG):
     minZ = min.minZ
     nz = minZ
 
-    max = MaxField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    max = MaxField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     m = max
     maxX = max.maxX
     mx = maxX
@@ -42,7 +54,11 @@ class _GeneratedSetRange(DG):
     maxZ = max.maxZ
     mz = maxZ
 
-    oldMin = OldMinField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    oldMin = OldMinField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     on = oldMin
     oldMinX = oldMin.oldMinX
     onx = oldMinX
@@ -51,7 +67,11 @@ class _GeneratedSetRange(DG):
     oldMinZ = oldMin.oldMinZ
     onz = oldMinZ
 
-    oldMax = OldMaxField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    oldMax = OldMaxField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     om = oldMax
     oldMaxX = oldMax.oldMaxX
     omx = oldMaxX

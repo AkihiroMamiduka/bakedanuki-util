@@ -7,7 +7,7 @@ Generator は Maya の node type と attribute query 結果から、`NodeOperato
 
 主な目的は、Maya 標準 DG / DAG ノードを `NodeOperator` として扱える形へ機械的に変換することです。
 
-- Maya の node type から、`DG` / `DAG` / `Transform` / `Shape` を継承する非公開の生成 class を作る。
+- Maya の node type から、`DG` / `DAG` / `Transform` / `Shape` を継承する生成 class を内部の `_generated` package に作る。
 - 従来の公開 module path には、生成 class を継承する手書き可能な公開 wrapper を置く。
 - compound attribute が必要な場合は `attr.define.node_attr` 側に専用 Field / AttrOperator / PlugOperator を生成する。
 - 再生成時は生成 class だけを上書きし、公開 wrapper の手書き実装を保護する。
@@ -55,11 +55,11 @@ bd_util/maya/node/operator/node/dag/transform/_generated/<node_type_snake>.py
 bd_util/maya/node/operator/node/dag/shape/_generated/<node_type_snake>.py
 ```
 
-生成 class は `_GeneratedComposeMatrix` / `_GeneratedJoint` のような非公開名を持ち、
-node kind に応じた基底 class を継承します。
+生成 class は `GeneratedComposeMatrix` / `GeneratedJoint` のような名前を持ち、
+内部の `_generated` package に配置したうえで、node kind に応じた基底 class を継承します。
 
 ```python
-class _GeneratedComposeMatrix(DG):
+class GeneratedComposeMatrix(DG):
     ...
 ```
 
@@ -75,14 +75,34 @@ bd_util/maya/node/operator/node/dag/shape/<node_type_snake>.py
 ```
 
 ```python
-from ._generated.compose_matrix import _GeneratedComposeMatrix
+from ._generated.compose_matrix import GeneratedComposeMatrix
 
 
-class ComposeMatrix(_GeneratedComposeMatrix):
+class ComposeMatrix(GeneratedComposeMatrix):
     __slots__ = ()
 
     NODE_TYPE = "composeMatrix"
 ```
+
+### 名前変換
+
+Maya node type、Python class、module pathは別の名前として扱います。
+node type内の`_`はclass名ではPascalCaseの単語境界として除去し、module名では
+snake_caseの区切りとして維持します。
+
+| Maya node type | Python class | Generated class | Module |
+| --- | --- | --- | --- |
+| `bdDbl_Add` | `BdDblAdd` | `GeneratedBdDblAdd` | `bd_dbl_add.py` |
+| `MASH_Audio` | `MASHAudio` | `GeneratedMASHAudio` | `mash_audio.py` |
+| `multiplyDivide` | `MultiplyDivide` | `GeneratedMultiplyDivide` | `multiply_divide.py` |
+
+`NodeCreator`と`ExistingNode`のmethod名は、Maya node typeをそのまま使用します。
+そのため、`nodes.create.bdDbl_Add()`や`nodes.create.MASH_Audio()`として補完されます。
+
+異なるnode typeが同じPython class名またはmodule名へ変換される場合、Generatorは
+ファイルを書き出す前に`ValueError`を送出します。個別生成でも、正規化後の出力先が
+別node typeの既存ファイルと衝突する場合は上書きしません。実際に衝突するnode typeが
+追加された時点で、個別の名前overrideを検討します。
 
 `transform` / `shape` 本体の公開 class は、それぞれ既存の `_core.py` に維持します。
 
@@ -95,6 +115,27 @@ bd_util/maya/node/operator/node/dag/shape/_core.py
 
 `node_attr` 側のファイルは、compound attribute 用の専用 class が必要な場合に出力されます。
 単純な scalar / typed / enum attribute だけで構成できる場合は、node class 側だけで完結します。
+
+custom attribute の生成コードは、深い実装 module を直接参照せず、
+`attr.define.custom` の再エクスポートを import します。
+
+```python
+from ..custom import (
+    Float3CompoundBaseAttrOperator,
+    Float3CompoundBasePlugOperator,
+    Float3CompoundBaseField,
+    Float3Field,
+)
+```
+
+node class から custom Field を直接使う場合も、同じ公開面を参照します。
+
+```python
+from ....attr.define.custom import Float3Field
+```
+
+これにより、生成物の import を短く保ち、custom 以下の実装階層を変更しても
+生成コードへ影響が広がりにくくします。
 
 ## node kind
 
@@ -110,21 +151,21 @@ generate_node_class_file("transform", path, node_kind="transform")
 指定できる値は次の通りです。
 
 - `dg`
-  - `node/dg/_generated` に `_Generated<NodeClass>(DG)` を出力します。
+  - `node/dg/_generated` に `Generated<NodeClass>(DG)` を出力します。
   - 公開 wrapper は従来どおり `node/dg/<node_type_snake>.py` に置きます。
 - `dag`
-  - `node/dag/_generated` に `_Generated<NodeClass>(DAG)` を出力します。
+  - `node/dag/_generated` に `Generated<NodeClass>(DAG)` を出力します。
   - 公開 wrapper は従来どおり `node/dag/<node_type_snake>.py` に置きます。
 - `transform`
-  - `node/dag/transform/_generated` に、通常は `_Generated<NodeClass>(Transform)` を出力します。
-  - `node_type == "transform"` の場合は `transform.py` に `_GeneratedTransform(DAG)` を出力します。
-  - 手書きの `_core.py` にある公開 `Transform` は `_GeneratedTransform` を継承します。
+  - `node/dag/transform/_generated` に、通常は `Generated<NodeClass>(Transform)` を出力します。
+  - `node_type == "transform"` の場合は `transform.py` に `GeneratedTransform(DAG)` を出力します。
+  - 手書きの `_core.py` にある公開 `Transform` は `GeneratedTransform` を継承します。
   - `joint` など transform 派生 node では、`transform` で定義済みの attribute は生成しません。
     これにより、派生 class には固有 attribute だけが出力され、共通 attribute は `Transform` から継承されます。
 - `shape`
-  - `node/dag/shape/_generated` に、通常は `_Generated<NodeClass>(Shape)` を出力します。
-  - `node_type == "shape"` の場合は `shape.py` に `_GeneratedShape(DAG)` を出力します。
-  - 手書きの `_core.py` にある公開 `Shape` は `_GeneratedShape` を継承します。
+  - `node/dag/shape/_generated` に、通常は `Generated<NodeClass>(Shape)` を出力します。
+  - `node_type == "shape"` の場合は `shape.py` に `GeneratedShape(DAG)` を出力します。
+  - 手書きの `_core.py` にある公開 `Shape` は `GeneratedShape` を継承します。
 - `auto`
   - Maya の `cmds.nodeType(..., inherited=True, isTypeName=True)` を使い、transform / shape / DAG / DG を自動判定します。
 
@@ -203,6 +244,18 @@ output = DoubleField(default_value=0.0, writable=False)
 ```
 
 `category` は現行の `AttributeField(category=...)` に合わせ、取得できた最初の category を文字列として出力します。
+
+### Arnold の不定な default 値
+
+Maya 2025 / MtoA の一部 attribute は、`cmds.attributeQuery(..., listDefault=True)` と
+OpenMaya の attribute default query の双方で、`mayapy` プロセスごとに異なる
+未初期化値を返します。
+
+Generator は、複数プロセスで不定になることを確認した Arnold の6ノードタイプ・
+22 attribute だけ、生成時に `default_value` を省略します。通常の attribute query
+結果は変更せず、安定して取得できる `0.0`、`1.0`、`NaN` などの default 値も維持します。
+対象は数値の見た目では判定せず、`(node_type, canonical attribute name)`
+の明示リストで限定します。
 
 ## short_name alias
 
@@ -286,14 +339,25 @@ generate_node_class_file(
 enum attribute は専用の `EnumPlugOperator` / `EnumAttrOperator` / `EnumField` を node class 内に生成します。
 
 ```python
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(
+    EnumPlugOperator["OperationEnumAttrOperator"]
+):
     __slots__ = ()
 
     NO_OPERATION = 0
     SUM = 1
     SUBTRACT = 2
     AVERAGE = 3
+
+
+class OperationEnumAttrOperator(
+    EnumAttrOperator[OperationEnumPlugOperator]
+):
+    ...
 ```
+
+Plug / Attr の具象 class は互いを generic 型引数として指定します。
+先に定義する Plug 側では、後続の Attr class を文字列による前方参照にします。
 
 Maya の enum label に explicit value が含まれる場合は、それを反映します。
 
@@ -312,6 +376,9 @@ NAME_MAP = {
     RGBA_2: "RGBA",
 }
 ```
+
+`NAME_MAP` の key と label が 79 文字を超える場合は、生成時に label を
+括弧付きの複数行表現へ折り返します。
 
 compound child が enum の場合も、素の `EnumField()` ではなく専用の enum class を `node_attr` ファイル内に生成します。
 これにより、親 compound 経由や node 直下 alias 経由で child enum にアクセスした場合も `NAME_MAP` を保持できます。
@@ -452,6 +519,20 @@ import maya.cmds as cmds
 cmds.loadPlugin("mtoa", quiet=True)
 ```
 
+生成結果には、Maya実行環境と分離した共通のBlack設定を適用します。
+正式な出力先へ生成した後は、リポジトリ直下で次を実行してください。
+
+```powershell
+.\scripts\format.cmd
+```
+
+これにより、生成器自体をBlackへ依存させず、手書きコードと生成コードに
+同じformatを適用できます。整形後の状態は次で確認します。
+
+```powershell
+.\scripts\format.cmd -Check
+```
+
 ## 検証
 
 Generator まわりの pytest は次にあります。
@@ -501,6 +582,8 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 
 新しい NodeOperator class を追加または再生成した場合は、両方のstubも再生成してください。
 差分を発生させず、現在のstubが最新か確認する場合は `--check` を指定します。
+`--check`はBlackによる折り返しなどのformat差分を無視し、Python ASTとして
+生成内容が一致しているかを確認します。
 
 公開基底クラスの `Shape` は、具体的な Maya node type ではありません。
 そのため `Shape` クラス自体は継承用に維持しますが、実ノードを型別に包めない

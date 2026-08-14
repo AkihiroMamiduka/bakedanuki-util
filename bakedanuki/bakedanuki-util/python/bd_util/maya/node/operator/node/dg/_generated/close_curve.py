@@ -1,16 +1,18 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class PreserveShapeEnumPlugOperator(EnumPlugOperator):
+class PreserveShapeEnumPlugOperator(
+    EnumPlugOperator["PreserveShapeEnumAttrOperator"]
+):
     __slots__ = ()
 
     IGNORE = 0
@@ -18,7 +20,9 @@ class PreserveShapeEnumPlugOperator(EnumPlugOperator):
     BLEND = 2
 
 
-class PreserveShapeEnumAttrOperator(EnumAttrOperator):
+class PreserveShapeEnumAttrOperator(
+    EnumAttrOperator[PreserveShapeEnumPlugOperator]
+):
     __slots__ = ()
 
     IGNORE = 0
@@ -41,7 +45,7 @@ class PreserveShapeEnumField(
     PLUG_CLS = PreserveShapeEnumPlugOperator
 
 
-class _GeneratedCloseCurve(DG):
+class GeneratedCloseCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "closeCurve"
@@ -52,13 +56,17 @@ class _GeneratedCloseCurve(DG):
     preserveShape = PreserveShapeEnumField(default_value=1)
     ps = preserveShape
 
-    blendBias = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    blendBias = DoubleField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     bb = blendBias
 
     blendKnotInsertion = BoolField(default_value=False)
     bki = blendKnotInsertion
 
-    parameter = DoubleField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
+    parameter = DoubleField(
+        default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0
+    )
     p = parameter
 
     outputCurve = DataNurbsCurveField(writable=False)

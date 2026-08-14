@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.detach_surface import _GeneratedDetachSurface
+from ._generated.detach_surface import GeneratedDetachSurface
 
 
-class DetachSurface(_GeneratedDetachSurface):
+class DetachSurface(GeneratedDetachSurface):
     __slots__ = ()
 
     NODE_TYPE = "detachSurface"

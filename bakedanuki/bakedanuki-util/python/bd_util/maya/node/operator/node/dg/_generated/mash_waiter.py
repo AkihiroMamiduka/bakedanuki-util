@@ -7,22 +7,22 @@ from ....attr.define.node_attr.mash_waiter import (
     PublishedNodeInfoField,
     TranslateInPPField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -30,7 +30,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -53,7 +53,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -61,7 +63,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -84,7 +88,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class _GeneratedMASH_Waiter(DG):
+class GeneratedMASHWaiter(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Waiter"
@@ -149,7 +153,9 @@ class _GeneratedMASH_Waiter(DG):
     dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
+    memberWireframeColor = ShortField(
+        default_value=-1, min_value=-1, max_value=23
+    )
     mwc = memberWireframeColor
 
     channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
@@ -252,13 +258,19 @@ class _GeneratedMASH_Waiter(DG):
     useSetMembers = BoolField(default_value=False)
     useSM = useSetMembers
 
-    batchRenderMultiplier = LongField(default_value=1, min_value=1, soft_max_value=10)
+    batchRenderMultiplier = LongField(
+        default_value=1, min_value=1, soft_max_value=10
+    )
 
     pointCount = LongField(default_value=0, readable=False, writable=False)
 
-    showPercent = FloatField(default_value=100.0, min_value=0.0, max_value=100.0)
+    showPercent = FloatField(
+        default_value=100.0, min_value=0.0, max_value=100.0
+    )
 
-    numberOfOutputs = LongField(default_value=1, min_value=1, soft_max_value=100)
+    numberOfOutputs = LongField(
+        default_value=1, min_value=1, soft_max_value=100
+    )
     numO = numberOfOutputs
 
     ribArchives = DataStringField()
@@ -267,7 +279,13 @@ class _GeneratedMASH_Waiter(DG):
 
     emptyInstancer = BoolField(default_value=False)
 
-    labelColor = LabelColorField(default_value=(0.9450980424880981, 0.3529411852359772, 0.35686275362968445))
+    labelColor = LabelColorField(
+        default_value=(
+            0.9450980424880981,
+            0.3529411852359772,
+            0.35686275362968445,
+        )
+    )
     labelColorR = labelColor.labelColorR
     labelColorr = labelColorR
     labelColorG = labelColor.labelColorG

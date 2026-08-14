@@ -1,19 +1,23 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class SampleTypeEnumPlugOperator(EnumPlugOperator):
+class SampleTypeEnumPlugOperator(
+    EnumPlugOperator["SampleTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     ENTIRE_DOMAIN = 1
@@ -23,7 +27,7 @@ class SampleTypeEnumPlugOperator(EnumPlugOperator):
     ADAPTIVELY = 5
 
 
-class SampleTypeEnumAttrOperator(EnumAttrOperator):
+class SampleTypeEnumAttrOperator(EnumAttrOperator[SampleTypeEnumPlugOperator]):
     __slots__ = ()
 
     ENTIRE_DOMAIN = 1
@@ -50,7 +54,7 @@ class SampleTypeEnumField(
     PLUG_CLS = SampleTypeEnumPlugOperator
 
 
-class _GeneratedArubaTessellate(DG):
+class GeneratedArubaTessellate(DG):
     __slots__ = ()
 
     NODE_TYPE = "arubaTessellate"
@@ -61,13 +65,25 @@ class _GeneratedArubaTessellate(DG):
     outMesh = DataMeshField(writable=False)
     om = outMesh
 
-    chordalDeviation = DoubleField(default_value=0.0015, min_value=0.001, max_value=5.0, soft_min_value=0.001)
+    chordalDeviation = DoubleField(
+        default_value=0.0015,
+        min_value=0.001,
+        max_value=5.0,
+        soft_min_value=0.001,
+    )
     cd = chordalDeviation
 
-    minChordLength = DoubleField(default_value=0.01, min_value=0.01, max_value=10.0, soft_min_value=0.01)
+    minChordLength = DoubleField(
+        default_value=0.01, min_value=0.01, max_value=10.0, soft_min_value=0.01
+    )
     icl = minChordLength
 
-    maxChordLength = DoubleField(default_value=100.0, min_value=1.0, max_value=100.0, soft_min_value=0.01)
+    maxChordLength = DoubleField(
+        default_value=100.0,
+        min_value=1.0,
+        max_value=100.0,
+        soft_min_value=0.01,
+    )
     mcl = maxChordLength
 
     sampleType = SampleTypeEnumField(default_value=3)
@@ -79,8 +95,12 @@ class _GeneratedArubaTessellate(DG):
     samples = LongField(default_value=8, min_value=1, max_value=64)
     smp = samples
 
-    normalTolerance = DoubleField(default_value=0.0, min_value=0.0, max_value=90.0)
+    normalTolerance = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=90.0
+    )
     ntl = normalTolerance
 
-    tolerance = DoubleLinearField(default_value=0.1, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.1, soft_min_value=0.001, soft_max_value=1.0
+    )
     tol = tolerance

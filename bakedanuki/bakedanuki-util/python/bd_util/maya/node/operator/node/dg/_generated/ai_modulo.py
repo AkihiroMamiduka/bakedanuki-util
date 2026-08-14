@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_modulo import (
 )
 
 
-class _GeneratedAiModulo(DG):
+class GeneratedAiModulo(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiModulo"
@@ -22,7 +22,9 @@ class _GeneratedAiModulo(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

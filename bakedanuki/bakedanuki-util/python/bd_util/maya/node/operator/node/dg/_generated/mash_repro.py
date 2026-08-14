@@ -1,21 +1,23 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.mash_repro import InstancedGroupField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class NormalModeEnumPlugOperator(EnumPlugOperator):
+class NormalModeEnumPlugOperator(
+    EnumPlugOperator["NormalModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -23,7 +25,7 @@ class NormalModeEnumPlugOperator(EnumPlugOperator):
     USER_NORMALS = 2
 
 
-class NormalModeEnumAttrOperator(EnumAttrOperator):
+class NormalModeEnumAttrOperator(EnumAttrOperator[NormalModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -46,14 +48,18 @@ class NormalModeEnumField(
     PLUG_CLS = NormalModeEnumPlugOperator
 
 
-class LevelOfDetailEnumPlugOperator(EnumPlugOperator):
+class LevelOfDetailEnumPlugOperator(
+    EnumPlugOperator["LevelOfDetailEnumAttrOperator"]
+):
     __slots__ = ()
 
     GEOMETRY = 0
     BOUNDINGBOX = 1
 
 
-class LevelOfDetailEnumAttrOperator(EnumAttrOperator):
+class LevelOfDetailEnumAttrOperator(
+    EnumAttrOperator[LevelOfDetailEnumPlugOperator]
+):
     __slots__ = ()
 
     GEOMETRY = 0
@@ -74,7 +80,9 @@ class LevelOfDetailEnumField(
     PLUG_CLS = LevelOfDetailEnumPlugOperator
 
 
-class RotationOrderEnumPlugOperator(EnumPlugOperator):
+class RotationOrderEnumPlugOperator(
+    EnumPlugOperator["RotationOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -85,7 +93,9 @@ class RotationOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotationOrderEnumAttrOperator(EnumAttrOperator):
+class RotationOrderEnumAttrOperator(
+    EnumAttrOperator[RotationOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -114,14 +124,18 @@ class RotationOrderEnumField(
     PLUG_CLS = RotationOrderEnumPlugOperator
 
 
-class MotionBlurInstanceModeEnumPlugOperator(EnumPlugOperator):
+class MotionBlurInstanceModeEnumPlugOperator(
+    EnumPlugOperator["MotionBlurInstanceModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MOTION_BLUR_COMPATIBLE = 0
     CHANGING_TOPOLOGY = 1
 
 
-class MotionBlurInstanceModeEnumAttrOperator(EnumAttrOperator):
+class MotionBlurInstanceModeEnumAttrOperator(
+    EnumAttrOperator[MotionBlurInstanceModeEnumPlugOperator]
+):
     __slots__ = ()
 
     MOTION_BLUR_COMPATIBLE = 0
@@ -134,7 +148,10 @@ class MotionBlurInstanceModeEnumAttrOperator(EnumAttrOperator):
 
 
 class MotionBlurInstanceModeEnumField(
-    EnumField[MotionBlurInstanceModeEnumAttrOperator, MotionBlurInstanceModeEnumPlugOperator]
+    EnumField[
+        MotionBlurInstanceModeEnumAttrOperator,
+        MotionBlurInstanceModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -142,7 +159,7 @@ class MotionBlurInstanceModeEnumField(
     PLUG_CLS = MotionBlurInstanceModeEnumPlugOperator
 
 
-class _GeneratedMASH_Repro(DG):
+class GeneratedMASHRepro(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Repro"

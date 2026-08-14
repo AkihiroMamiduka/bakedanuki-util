@@ -1,12 +1,10 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
@@ -29,9 +27,7 @@ class StCoordPlugOperator(
     t = tCoord
 
 
-class StCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[StCoordPlugOperator]
-):
+class StCoordAttrOperator(Float2CompoundBaseAttrOperator[StCoordPlugOperator]):
     __slots__ = ()
 
     sCoord = FloatField(default_value=0.0)
@@ -171,7 +167,9 @@ class VertexStThreeAttrOperator(
 
 
 class VertexStThreeField(
-    Float2CompoundBaseField[VertexStThreeAttrOperator, VertexStThreePlugOperator]
+    Float2CompoundBaseField[
+        VertexStThreeAttrOperator, VertexStThreePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -201,9 +199,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -343,7 +339,9 @@ class VertexUvThreeAttrOperator(
 
 
 class VertexUvThreeField(
-    Float2CompoundBaseField[VertexUvThreeAttrOperator, VertexUvThreePlugOperator]
+    Float2CompoundBaseField[
+        VertexUvThreeAttrOperator, VertexUvThreePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -393,7 +391,9 @@ class VertexCameraOneAttrOperator(
 
 
 class VertexCameraOneField(
-    Float3CompoundBaseField[VertexCameraOneAttrOperator, VertexCameraOnePlugOperator]
+    Float3CompoundBaseField[
+        VertexCameraOneAttrOperator, VertexCameraOnePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -410,9 +410,7 @@ class VertexCameraOneField(
     c1z = vertexCameraOneZ
 
 
-class OutUvPlugOperator(
-    Float2CompoundBasePlugOperator["OutUvAttrOperator"]
-):
+class OutUvPlugOperator(Float2CompoundBasePlugOperator["OutUvAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outU", "ou"),
@@ -426,9 +424,7 @@ class OutUvPlugOperator(
     ov = outV
 
 
-class OutUvAttrOperator(
-    Float2CompoundBaseAttrOperator[OutUvPlugOperator]
-):
+class OutUvAttrOperator(Float2CompoundBaseAttrOperator[OutUvPlugOperator]):
     __slots__ = ()
 
     outU = FloatField(default_value=0.0, writable=False)
@@ -482,7 +478,9 @@ class OutVertexUvOneAttrOperator(
 
 
 class OutVertexUvOneField(
-    Float2CompoundBaseField[OutVertexUvOneAttrOperator, OutVertexUvOnePlugOperator]
+    Float2CompoundBaseField[
+        OutVertexUvOneAttrOperator, OutVertexUvOnePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -525,7 +523,9 @@ class OutVertexUvTwoAttrOperator(
 
 
 class OutVertexUvTwoField(
-    Float2CompoundBaseField[OutVertexUvTwoAttrOperator, OutVertexUvTwoPlugOperator]
+    Float2CompoundBaseField[
+        OutVertexUvTwoAttrOperator, OutVertexUvTwoPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -568,7 +568,9 @@ class OutVertexUvThreeAttrOperator(
 
 
 class OutVertexUvThreeField(
-    Float2CompoundBaseField[OutVertexUvThreeAttrOperator, OutVertexUvThreePlugOperator]
+    Float2CompoundBaseField[
+        OutVertexUvThreeAttrOperator, OutVertexUvThreePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -618,7 +620,9 @@ class OutVertexCameraOneAttrOperator(
 
 
 class OutVertexCameraOneField(
-    Float3CompoundBaseField[OutVertexCameraOneAttrOperator, OutVertexCameraOnePlugOperator]
+    Float3CompoundBaseField[
+        OutVertexCameraOneAttrOperator, OutVertexCameraOnePlugOperator
+    ]
 ):
     __slots__ = ()
 

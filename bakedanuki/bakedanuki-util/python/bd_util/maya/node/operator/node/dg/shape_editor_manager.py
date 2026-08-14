@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.shape_editor_manager import _GeneratedShapeEditorManager
+from ._generated.shape_editor_manager import GeneratedShapeEditorManager
 
 
-class ShapeEditorManager(_GeneratedShapeEditorManager):
+class ShapeEditorManager(GeneratedShapeEditorManager):
     __slots__ = ()
 
     NODE_TYPE = "shapeEditorManager"

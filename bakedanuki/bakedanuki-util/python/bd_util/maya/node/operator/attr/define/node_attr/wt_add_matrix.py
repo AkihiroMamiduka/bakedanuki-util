@@ -5,13 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
+from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.dt.matrix import DataMatrixField
 
 
-class WtMatrixPlugOperator(
-    CompoundPlugOperator["WtMatrixAttrOperator"]
-):
+class WtMatrixPlugOperator(CompoundPlugOperator["WtMatrixAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("matrixIn", "m"),
@@ -25,9 +23,7 @@ class WtMatrixPlugOperator(
     w = weightIn
 
 
-class WtMatrixAttrOperator(
-    CompoundAttrOperator[WtMatrixPlugOperator]
-):
+class WtMatrixAttrOperator(CompoundAttrOperator[WtMatrixPlugOperator]):
     __slots__ = ()
 
     matrixIn = DataMatrixField()
@@ -37,9 +33,7 @@ class WtMatrixAttrOperator(
     w = weightIn
 
 
-class WtMatrixField(
-    CompoundField[WtMatrixAttrOperator, WtMatrixPlugOperator]
-):
+class WtMatrixField(CompoundField[WtMatrixAttrOperator, WtMatrixPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = WtMatrixAttrOperator

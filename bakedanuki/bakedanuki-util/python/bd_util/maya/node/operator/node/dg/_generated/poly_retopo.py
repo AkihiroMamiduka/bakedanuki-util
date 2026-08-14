@@ -1,24 +1,32 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.poly_retopo import PivotField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
+from ....attr.define.std.at.scalar.unit.range.float_linear import (
+    FloatLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
-from ....attr.define.std.at.unit_scalar_range.float_linear import FloatLinearField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AxisPositionEnumPlugOperator(EnumPlugOperator):
+class AxisPositionEnumPlugOperator(
+    EnumPlugOperator["AxisPositionEnumAttrOperator"]
+):
     __slots__ = ()
 
     OBJECT = 1
@@ -26,7 +34,9 @@ class AxisPositionEnumPlugOperator(EnumPlugOperator):
     WORLD = 3
 
 
-class AxisPositionEnumAttrOperator(EnumAttrOperator):
+class AxisPositionEnumAttrOperator(
+    EnumAttrOperator[AxisPositionEnumPlugOperator]
+):
     __slots__ = ()
 
     OBJECT = 1
@@ -49,7 +59,7 @@ class AxisPositionEnumField(
     PLUG_CLS = AxisPositionEnumPlugOperator
 
 
-class AxisEnumPlugOperator(EnumPlugOperator):
+class AxisEnumPlugOperator(EnumPlugOperator["AxisEnumAttrOperator"]):
     __slots__ = ()
 
     PLUS_X_TO_MINUS_X = 1
@@ -60,7 +70,7 @@ class AxisEnumPlugOperator(EnumPlugOperator):
     MINUS_Z_TO_PLUS_Z = 6
 
 
-class AxisEnumAttrOperator(EnumAttrOperator):
+class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     __slots__ = ()
 
     PLUS_X_TO_MINUS_X = 1
@@ -80,16 +90,14 @@ class AxisEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class AxisEnumField(
-    EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]
-):
+class AxisEnumField(EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AxisEnumAttrOperator
     PLUG_CLS = AxisEnumPlugOperator
 
 
-class _GeneratedPolyRetopo(DG):
+class GeneratedPolyRetopo(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyRetopo"
@@ -133,28 +141,42 @@ class _GeneratedPolyRetopo(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    targetFaceCount = LongField(default_value=0, min_value=0, soft_max_value=100000)
+    targetFaceCount = LongField(
+        default_value=0, min_value=0, soft_max_value=100000
+    )
     tfc = targetFaceCount
 
-    targetFaceCountTolerance = LongField(default_value=10, min_value=1, max_value=100)
+    targetFaceCountTolerance = LongField(
+        default_value=10, min_value=1, max_value=100
+    )
     tft = targetFaceCountTolerance
 
-    topologyRegularity = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    topologyRegularity = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     trg = topologyRegularity
 
-    faceUniformity = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    faceUniformity = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     fun = faceUniformity
 
     anisotropy = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     a = anisotropy
 
-    targetEdgeDeviation = DoubleField(default_value=0.2929, min_value=0.0001, max_value=1.0)
+    targetEdgeDeviation = DoubleField(
+        default_value=0.2929, min_value=0.0001, max_value=1.0
+    )
     ted = targetEdgeDeviation
 
-    curveSingularitySeparation = DoubleField(default_value=0.1, min_value=0.0, max_value=100.0)
+    curveSingularitySeparation = DoubleField(
+        default_value=0.1, min_value=0.0, max_value=100.0
+    )
     css = curveSingularitySeparation
 
-    curveInfluenceDirection = DoubleField(default_value=0.01, min_value=0.0, max_value=100.0)
+    curveInfluenceDirection = DoubleField(
+        default_value=0.01, min_value=0.0, max_value=100.0
+    )
     cid = curveInfluenceDirection
 
     preserveHardEdges = BoolField(default_value=False)
@@ -163,7 +185,9 @@ class _GeneratedPolyRetopo(DG):
     edgesByAngle = BoolField(default_value=False)
     eba = edgesByAngle
 
-    angle = DoubleAngleField(default_value=29.999999999999996, min_value=0.0, max_value=180.0)
+    angle = DoubleAngleField(
+        default_value=29.999999999999996, min_value=0.0, max_value=180.0
+    )
     ang = angle
 
     useFeatureTags = BoolField(default_value=False)
@@ -205,7 +229,9 @@ class _GeneratedPolyRetopo(DG):
     shortEdgeTolerance = DoubleLinearField(default_value=0.0001, min_value=0.0)
     se = shortEdgeTolerance
 
-    thinTriangleAngleTolerance = DoubleAngleField(default_value=0.9740282517223996)
+    thinTriangleAngleTolerance = DoubleAngleField(
+        default_value=0.9740282517223996
+    )
     tt = thinTriangleAngleTolerance
 
     interactiveMode = BoolField(default_value=False)

@@ -1,10 +1,13 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, ClassVar, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
 
 # self
+from ..........value.scalar_compound.scalar_compound_value import (
+    ScalarCompoundValue,
+)
 from ........... import logger as u_logger
 from .._base import (
     NumericCompoundBasePlugOperator,
@@ -12,18 +15,22 @@ from .._base import (
     NumericCompoundBaseField,
 )
 
-A = TypeVar("A", bound="ShortCompoundBaseAttrOperator")
+A = TypeVar("A", bound="ShortCompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="ShortCompoundBasePlugOperator")
+P = TypeVar("P", bound="ShortCompoundBasePlugOperator[Any, Any]")
+
+V = TypeVar("V", bound=ScalarCompoundValue[int])
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class ShortCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A]):
+class ShortCompoundBasePlugOperator(
+    NumericCompoundBasePlugOperator[A, V, int]
+):
     __slots__ = ()
 
-    CHILD_M_ATTR_TYPE: int = om.MFnNumericData.kShort
+    CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnNumericData.kShort
 
     # get
     def _get_child_value(self, child_plug: om.MPlug) -> int:
@@ -31,7 +38,7 @@ class ShortCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A]):
 
     # set
     def _set_child_value(self, child_plug: om.MPlug, value: int) -> None:
-        self._node._dg_mod.newPlugValueShort(child_plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueShort(child_plug, value)
 
     def _set_child_value_direct(
         self,

@@ -11,12 +11,12 @@ from ....attr.define.node_attr.ai_imager_color_correct import (
     ShadowsOffsetField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiImagerColorCorrect(DG):
+class GeneratedAiImagerColorCorrect(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerColorCorrect"
@@ -28,13 +28,19 @@ class _GeneratedAiImagerColorCorrect(DG):
     layerSelection = DataStringField()
     layer_selection = layerSelection
 
-    mainSaturation = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    mainSaturation = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     main_saturation = mainSaturation
 
-    mainContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    mainContrast = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     main_contrast = mainContrast
 
-    mainGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    mainGamma = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
     main_gamma = mainGamma
 
     mainGain = MainGainField(default_value=(1.0, 1.0, 1.0))
@@ -55,13 +61,19 @@ class _GeneratedAiImagerColorCorrect(DG):
     mainOffsetB = mainOffset.mainOffsetB
     main_offsetb = mainOffsetB
 
-    shadowsSaturation = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    shadowsSaturation = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     shadows_saturation = shadowsSaturation
 
-    shadowsContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    shadowsContrast = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     shadows_contrast = shadowsContrast
 
-    shadowsGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    shadowsGamma = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
     shadows_gamma = shadowsGamma
 
     shadowsGain = ShadowsGainField(default_value=(1.0, 1.0, 1.0))
@@ -82,13 +94,19 @@ class _GeneratedAiImagerColorCorrect(DG):
     shadowsOffsetB = shadowsOffset.shadowsOffsetB
     shadows_offsetb = shadowsOffsetB
 
-    midtonesSaturation = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    midtonesSaturation = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     midtones_saturation = midtonesSaturation
 
-    midtonesContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    midtonesContrast = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     midtones_contrast = midtonesContrast
 
-    midtonesGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    midtonesGamma = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
     midtones_gamma = midtonesGamma
 
     midtonesGain = MidtonesGainField(default_value=(1.0, 1.0, 1.0))
@@ -109,13 +127,19 @@ class _GeneratedAiImagerColorCorrect(DG):
     midtonesOffsetB = midtonesOffset.midtonesOffsetB
     midtones_offsetb = midtonesOffsetB
 
-    highlightsSaturation = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    highlightsSaturation = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     highlights_saturation = highlightsSaturation
 
-    highlightsContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    highlightsContrast = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     highlights_contrast = highlightsContrast
 
-    highlightsGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    highlightsGamma = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
     highlights_gamma = highlightsGamma
 
     highlightsGain = HighlightsGainField(default_value=(1.0, 1.0, 1.0))

@@ -10,22 +10,33 @@ from .....transform import TransformMatrix
 from .._core import NodeOperator, DEFAULT_VALUE_AUTO_ADD_ATTR
 
 
+def _require_dag(value: object, argument_name: str) -> "DAG":
+    if not isinstance(value, DAG):
+        raise TypeError(
+            f"{argument_name} must be DAG; got {type(value).__name__}"
+        )
+    return value
+
+
 class DAG(NodeOperator):
     __slots__ = ("_dag_path",)
 
     def __init__(
         self,
-        *args,
-        **kwargs,
-    ):
-        auto_add_attr = kwargs.pop(
-            "auto_add_attr", DEFAULT_VALUE_AUTO_ADD_ATTR
-        )
-        rename_name = None
-        if kwargs.get("m_obj") is not None and kwargs.get("name"):
-            rename_name = kwargs.pop("name")
+        modifier_manager: ModifierManager,
+        name: str | None = None,
+        m_obj: om.MObject | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> None:
+        rename_name = name if m_obj is not None and name else None
+        super_name = None if rename_name is not None else name
 
-        super().__init__(*args, auto_add_attr=False, **kwargs)
+        super().__init__(
+            modifier_manager,
+            name=super_name,
+            m_obj=m_obj,
+            auto_add_attr=False,
+        )
 
         # dag_path
         self._dag_path = om.MDagPath.getAPathTo(self.m_obj)
@@ -41,8 +52,8 @@ class DAG(NodeOperator):
     def create(
         cls,
         modifier_manager: ModifierManager,
-        name=None,
-        auto_add_attr=DEFAULT_VALUE_AUTO_ADD_ATTR,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: "DAG | None" = None,
     ) -> Self:
@@ -57,7 +68,7 @@ class DAG(NodeOperator):
             parent.m_obj if parent is not None else om.MObject.kNullObj
         )
         m_obj = modifier_manager.dag_mod.createNode(cls.NODE_TYPE, parent_obj)
-        modifier_manager._record_pending_dag_parent(m_obj, parent_obj)
+        modifier_manager.record_pending_dag_parent(m_obj, parent_obj)
 
         # インスタンス生成
         return cls(
@@ -101,7 +112,7 @@ class DAG(NodeOperator):
         from ....existing_node import ExistingNode
 
         fn_dag = om.MFnDagNode(self.m_obj)
-        parents = []
+        parents: list[DAG] = []
         for index in range(fn_dag.parentCount()):
             parent_obj = fn_dag.parent(index)
             if parent_obj.hasFn(om.MFn.kWorld):
@@ -123,7 +134,7 @@ class DAG(NodeOperator):
         """local transform を維持して親変更を DAG modifier に積む。"""
         self._validate_set_parent(parent)
         self._dag_mod.reparentNode(self.m_obj, parent.m_obj)
-        self.modifier_manager._record_pending_dag_parent(
+        self.modifier_manager.record_pending_dag_parent(
             self.m_obj,
             parent.m_obj,
         )
@@ -134,8 +145,7 @@ class DAG(NodeOperator):
         parent: "DAG",
         modifier_manager: ModifierManager,
     ) -> None:
-        if not isinstance(parent, DAG):
-            raise TypeError(f"parent must be DAG; got {type(parent).__name__}")
+        parent = _require_dag(parent, "parent")
         if not parent.m_obj.hasFn(om.MFn.kTransform):
             raise TypeError("parent must be a transform DAG node")
         if parent.is_instanced:
@@ -160,16 +170,14 @@ class DAG(NodeOperator):
         self._validate_parent(parent, self.modifier_manager)
         if parent.m_obj == self.m_obj:
             raise ValueError("a DAG node cannot be parented to itself")
-        if self.modifier_manager._would_create_dag_cycle(
+        if self.modifier_manager.would_create_dag_cycle(
             self.m_obj,
             parent.m_obj,
         ):
-            raise ValueError(
-                "a DAG node cannot be parented to its descendant"
-            )
+            raise ValueError("a DAG node cannot be parented to its descendant")
 
     @property
-    def _cmd_access_name(self) -> str:
+    def cmd_access_name(self) -> str:
         return self.full_path
 
     def _get_instance_transform_matrix(
@@ -182,10 +190,7 @@ class DAG(NodeOperator):
 
     def get_relative_matrix(self, dst_dag: "DAG") -> TransformMatrix:
         """self の行列を dst_dag 自身の空間で表して返す。"""
-        if not isinstance(dst_dag, DAG):
-            raise TypeError(
-                f"dst_dag must be DAG; got {type(dst_dag).__name__}"
-            )
+        dst_dag = _require_dag(dst_dag, "dst_dag")
 
         src_world_matrix = self._get_instance_transform_matrix("worldMatrix")
         dst_world_inverse_matrix = dst_dag._get_instance_transform_matrix(
@@ -195,10 +200,7 @@ class DAG(NodeOperator):
 
     def get_local_matrix(self, dst_dag: "DAG") -> TransformMatrix:
         """self の worldMatrix を再現する dst_dag の local 行列を返す。"""
-        if not isinstance(dst_dag, DAG):
-            raise TypeError(
-                f"dst_dag must be DAG; got {type(dst_dag).__name__}"
-            )
+        dst_dag = _require_dag(dst_dag, "dst_dag")
 
         src_world_matrix = self._get_instance_transform_matrix("worldMatrix")
         dst_parent_inverse_matrix = dst_dag._get_instance_transform_matrix(

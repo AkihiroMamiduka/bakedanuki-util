@@ -7,7 +7,7 @@ from ....attr.define.node_attr.closest_point_on_surface import (
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedClosestPointOnSurface(DG):
+class GeneratedClosestPointOnSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "closestPointOnSurface"

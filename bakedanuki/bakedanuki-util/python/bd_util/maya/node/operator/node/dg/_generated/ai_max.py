@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_max import (
 )
 
 
-class _GeneratedAiMax(DG):
+class GeneratedAiMax(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMax"
@@ -22,7 +22,9 @@ class _GeneratedAiMax(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

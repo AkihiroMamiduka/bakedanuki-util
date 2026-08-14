@@ -1,18 +1,24 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.guide import BendVectorField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class JointGuideAxisEnumPlugOperator(EnumPlugOperator):
+class JointGuideAxisEnumPlugOperator(
+    EnumPlugOperator["JointGuideAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -23,7 +29,9 @@ class JointGuideAxisEnumPlugOperator(EnumPlugOperator):
     NONE = 5
 
 
-class JointGuideAxisEnumAttrOperator(EnumAttrOperator):
+class JointGuideAxisEnumAttrOperator(
+    EnumAttrOperator[JointGuideAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -52,7 +60,7 @@ class JointGuideAxisEnumField(
     PLUG_CLS = JointGuideAxisEnumPlugOperator
 
 
-class _GeneratedGuide(DG):
+class GeneratedGuide(DG):
     __slots__ = ()
 
     NODE_TYPE = "guide"

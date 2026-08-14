@@ -2,7 +2,7 @@
 from .._core import DG
 
 
-class _GeneratedValueOverride(DG):
+class GeneratedValueOverride(DG):
     __slots__ = ()
 
     NODE_TYPE = "valueOverride"

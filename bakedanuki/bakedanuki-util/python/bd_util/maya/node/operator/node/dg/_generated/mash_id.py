@@ -5,24 +5,26 @@ from ....attr.define.node_attr.mash_id import (
     MColourField,
     ProbabilityRampField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -31,7 +33,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -56,14 +60,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -76,7 +84,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -84,7 +95,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class IdtypeEnumPlugOperator(EnumPlugOperator):
+class IdtypeEnumPlugOperator(EnumPlugOperator["IdtypeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
@@ -93,7 +104,7 @@ class IdtypeEnumPlugOperator(EnumPlugOperator):
     FIXED = 5
 
 
-class IdtypeEnumAttrOperator(EnumAttrOperator):
+class IdtypeEnumAttrOperator(EnumAttrOperator[IdtypeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1
@@ -118,7 +129,7 @@ class IdtypeEnumField(
     PLUG_CLS = IdtypeEnumPlugOperator
 
 
-class LoopTypeEnumPlugOperator(EnumPlugOperator):
+class LoopTypeEnumPlugOperator(EnumPlugOperator["LoopTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 1
@@ -126,7 +137,7 @@ class LoopTypeEnumPlugOperator(EnumPlugOperator):
     OSCILLATE = 3
 
 
-class LoopTypeEnumAttrOperator(EnumAttrOperator):
+class LoopTypeEnumAttrOperator(EnumAttrOperator[LoopTypeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 1
@@ -149,7 +160,7 @@ class LoopTypeEnumField(
     PLUG_CLS = LoopTypeEnumPlugOperator
 
 
-class _GeneratedMASH_Id(DG):
+class GeneratedMASHId(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Id"
@@ -169,7 +180,9 @@ class _GeneratedMASH_Id(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -214,7 +227,9 @@ class _GeneratedMASH_Id(DG):
     inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    timeScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    timeScale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     enable = BoolField(default_value=True)
     en = enable
@@ -254,10 +269,14 @@ class _GeneratedMASH_Id(DG):
     numObjects = LongField(default_value=1, min_value=1, soft_max_value=30)
     nuob = numObjects
 
-    indexAnimateGap = LongField(default_value=0, min_value=0, soft_max_value=30)
+    indexAnimateGap = LongField(
+        default_value=0, min_value=0, soft_max_value=30
+    )
     inAnG = indexAnimateGap
 
-    randomCycleLimit = LongField(default_value=0, min_value=0, soft_max_value=30)
+    randomCycleLimit = LongField(
+        default_value=0, min_value=0, soft_max_value=30
+    )
 
     fixed = LongField(default_value=0, min_value=0, soft_max_value=30)
     fix = fixed
@@ -272,4 +291,6 @@ class _GeneratedMASH_Id(DG):
 
     useProbability = BoolField(default_value=False)
 
-    probabilityRamp = ProbabilityRampField(multi=True, default_value=(0.0, 0.0, 1.0))
+    probabilityRamp = ProbabilityRampField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )

@@ -6,10 +6,10 @@ from ....attr.define.node_attr.apply_rel3_floats_override import (
     OriginalField,
     OutField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class _GeneratedApplyRel3FloatsOverride(DG):
+class GeneratedApplyRel3FloatsOverride(DG):
     __slots__ = ()
 
     NODE_TYPE = "applyRel3FloatsOverride"

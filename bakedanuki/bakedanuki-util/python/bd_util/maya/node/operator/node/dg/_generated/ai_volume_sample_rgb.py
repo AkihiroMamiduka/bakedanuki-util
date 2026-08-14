@@ -5,16 +5,18 @@ from ....attr.define.node_attr.ai_volume_sample_rgb import (
     OutTransparencyField,
     PositionOffsetField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class InterpolationEnumPlugOperator(EnumPlugOperator):
+class InterpolationEnumPlugOperator(
+    EnumPlugOperator["InterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -22,7 +24,9 @@ class InterpolationEnumPlugOperator(EnumPlugOperator):
     TRICUBIC = 2
 
 
-class InterpolationEnumAttrOperator(EnumAttrOperator):
+class InterpolationEnumAttrOperator(
+    EnumAttrOperator[InterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -45,7 +49,7 @@ class InterpolationEnumField(
     PLUG_CLS = InterpolationEnumPlugOperator
 
 
-class _GeneratedAiVolumeSampleRgb(DG):
+class GeneratedAiVolumeSampleRgb(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiVolumeSampleRgb"
@@ -59,7 +63,9 @@ class _GeneratedAiVolumeSampleRgb(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -81,20 +87,38 @@ class _GeneratedAiVolumeSampleRgb(DG):
 
     interpolation = InterpolationEnumField(default_value=1)
 
-    gamma = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=3.0)
+    gamma = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=3.0
+    )
 
-    hueShift = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    hueShift = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     hue_shift = hueShift
 
-    saturation = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    saturation = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
 
-    contrast = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    contrast = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
 
-    contrastPivot = FloatField(default_value=0.18000000715255737, soft_min_value=0.0, soft_max_value=1.0)
+    contrastPivot = FloatField(
+        default_value=0.18000000715255737,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     contrast_pivot = contrastPivot
 
-    exposure = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    exposure = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
 
-    multiply = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    multiply = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
 
-    add = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    add = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )

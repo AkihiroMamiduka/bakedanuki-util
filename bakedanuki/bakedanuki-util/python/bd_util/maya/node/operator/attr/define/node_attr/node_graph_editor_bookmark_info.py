@@ -6,10 +6,10 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base import (
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..custom import (
     Double2CompoundBaseAttrOperator,
     Double2CompoundBasePlugOperator,
     Double2CompoundBaseField,
@@ -88,7 +88,9 @@ class ViewRectHighAttrOperator(
 
 
 class ViewRectHighField(
-    Double2CompoundBaseField[ViewRectHighAttrOperator, ViewRectHighPlugOperator]
+    Double2CompoundBaseField[
+        ViewRectHighAttrOperator, ViewRectHighPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -102,9 +104,7 @@ class ViewRectHighField(
     yh = viewYH
 
 
-class NodeInfoPlugOperator(
-    CompoundPlugOperator["NodeInfoAttrOperator"]
-):
+class NodeInfoPlugOperator(CompoundPlugOperator["NodeInfoAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("positionX", "x"),
@@ -126,9 +126,7 @@ class NodeInfoPlugOperator(
     dn = dependNode
 
 
-class NodeInfoAttrOperator(
-    CompoundAttrOperator[NodeInfoPlugOperator]
-):
+class NodeInfoAttrOperator(CompoundAttrOperator[NodeInfoPlugOperator]):
     __slots__ = ()
 
     positionX = FloatField(default_value=0.0)
@@ -144,9 +142,7 @@ class NodeInfoAttrOperator(
     dn = dependNode
 
 
-class NodeInfoField(
-    CompoundField[NodeInfoAttrOperator, NodeInfoPlugOperator]
-):
+class NodeInfoField(CompoundField[NodeInfoAttrOperator, NodeInfoPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NodeInfoAttrOperator

@@ -6,7 +6,7 @@ from ._base import (
     DoubleLinear2CompoundBaseAttrOperator,
     DoubleLinear2CompoundBaseField,
 )
-from .......std.at.unit_scalar_range.double_linear import DoubleLinearField
+from .......std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
 class DoubleLinear2PlugOperator(

@@ -9,27 +9,29 @@ from ....attr.define.node_attr.vector_extrude import (
     OutComponentsField,
     OuterBevelCurveField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class BevelStyleEnumPlugOperator(EnumPlugOperator):
+class BevelStyleEnumPlugOperator(
+    EnumPlugOperator["BevelStyleEnumAttrOperator"]
+):
     __slots__ = ()
 
     OUTER = 1
     INNER = 2
 
 
-class BevelStyleEnumAttrOperator(EnumAttrOperator):
+class BevelStyleEnumAttrOperator(EnumAttrOperator[BevelStyleEnumPlugOperator]):
     __slots__ = ()
 
     OUTER = 1
@@ -50,14 +52,14 @@ class BevelStyleEnumField(
     PLUG_CLS = BevelStyleEnumPlugOperator
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     DISTANCE_FIELD = 0
     NORMALS = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     DISTANCE_FIELD = 0
@@ -69,16 +71,14 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class BevelEnumPlugOperator(EnumPlugOperator):
+class BevelEnumPlugOperator(EnumPlugOperator["BevelEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -86,7 +86,7 @@ class BevelEnumPlugOperator(EnumPlugOperator):
     OUTSIDE = 2
 
 
-class BevelEnumAttrOperator(EnumAttrOperator):
+class BevelEnumAttrOperator(EnumAttrOperator[BevelEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -100,16 +100,14 @@ class BevelEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class BevelEnumField(
-    EnumField[BevelEnumAttrOperator, BevelEnumPlugOperator]
-):
+class BevelEnumField(EnumField[BevelEnumAttrOperator, BevelEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = BevelEnumAttrOperator
     PLUG_CLS = BevelEnumPlugOperator
 
 
-class _GeneratedVectorExtrude(DG):
+class GeneratedVectorExtrude(DG):
     __slots__ = ()
 
     NODE_TYPE = "vectorExtrude"
@@ -136,29 +134,59 @@ class _GeneratedVectorExtrude(DG):
 
     inputMesh = DataMeshField()
 
-    extrudeDistance = FloatField(default_value=2.5, soft_min_value=0.1, soft_max_value=10.0)
+    extrudeDistance = FloatField(
+        default_value=2.5, soft_min_value=0.1, soft_max_value=10.0
+    )
 
-    extrudeDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
+    extrudeDivisions = LongField(
+        default_value=4, min_value=1, soft_max_value=10
+    )
 
-    extrudeOffset = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
+    extrudeOffset = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.01,
+        soft_max_value=1.0,
+    )
 
-    bevelDistance = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
+    bevelDistance = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.01,
+        soft_max_value=1.0,
+    )
 
-    bevelOffset = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    bevelOffset = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
 
-    outerBevelDistance = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
+    outerBevelDistance = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.01,
+        soft_max_value=1.0,
+    )
 
-    outerBevelDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
+    outerBevelDivisions = LongField(
+        default_value=4, min_value=1, soft_max_value=10
+    )
 
     bevelDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
 
-    backBevelDistance = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
+    backBevelDistance = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.01,
+        soft_max_value=1.0,
+    )
 
-    backBevelOffset = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    backBevelOffset = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
 
-    backBevelDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
+    backBevelDivisions = LongField(
+        default_value=4, min_value=1, soft_max_value=10
+    )
 
-    frontBevelAdaptivity = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    frontBevelAdaptivity = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     inputComponents = TypedField()
     ics = inputComponents
@@ -191,13 +219,17 @@ class _GeneratedVectorExtrude(DG):
 
     vertexGroupIds = TypedField()
 
-    frontBevelCurve = FrontBevelCurveField(multi=True, default_value=(0.0, 0.0))
+    frontBevelCurve = FrontBevelCurveField(
+        multi=True, default_value=(0.0, 0.0)
+    )
 
     backBevelCurve = BackBevelCurveField(multi=True, default_value=(0.0, 0.0))
 
     extrudeCurve = ExtrudeCurveField(multi=True, default_value=(0.0, 0.0))
 
-    outerBevelCurve = OuterBevelCurveField(multi=True, default_value=(0.0, 0.0))
+    outerBevelCurve = OuterBevelCurveField(
+        multi=True, default_value=(0.0, 0.0)
+    )
 
     bevelStyle = BevelStyleEnumField(default_value=1)
 

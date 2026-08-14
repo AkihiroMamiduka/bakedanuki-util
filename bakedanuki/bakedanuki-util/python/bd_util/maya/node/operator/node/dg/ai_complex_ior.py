@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_complex_ior import _GeneratedAiComplexIor
+from ._generated.ai_complex_ior import GeneratedAiComplexIor
 
 
-class AiComplexIor(_GeneratedAiComplexIor):
+class AiComplexIor(GeneratedAiComplexIor):
     __slots__ = ()
 
     NODE_TYPE = "aiComplexIor"

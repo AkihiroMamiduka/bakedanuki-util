@@ -6,16 +6,14 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.generic import GenericField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.long import LongField
-from ..std.at.unit_scalar.time import TimeField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..std.at.scalar.unit.time import TimeField
 from ..std.dt.string import DataStringField
 
 
-class AttributePlugOperator(
-    CompoundPlugOperator["AttributeAttrOperator"]
-):
+class AttributePlugOperator(CompoundPlugOperator["AttributeAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input", "ai"),
@@ -41,9 +39,7 @@ class AttributePlugOperator(
     src = source
 
 
-class AttributeAttrOperator(
-    CompoundAttrOperator[AttributePlugOperator]
-):
+class AttributeAttrOperator(CompoundAttrOperator[AttributePlugOperator]):
     __slots__ = ()
 
     input = GenericField(readable=False)

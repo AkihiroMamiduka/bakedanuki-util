@@ -4,22 +4,24 @@ from ....attr.define.node_attr.mash_random import (
     FalloffObjectField,
     MColourField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -28,7 +30,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -53,14 +57,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -73,7 +81,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -81,7 +92,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class _GeneratedMASH_Random(DG):
+class GeneratedMASHRandom(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Random"
@@ -101,7 +112,9 @@ class _GeneratedMASH_Random(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -150,17 +163,29 @@ class _GeneratedMASH_Random(DG):
 
     enableZ = BoolField(default_value=True)
 
-    positionX = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    positionX = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    positionY = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    positionY = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    positionZ = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    positionZ = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    rotationX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    rotationX = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
 
-    rotationY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    rotationY = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
 
-    rotationZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    rotationZ = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
 
     scaleX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
@@ -193,26 +218,42 @@ class _GeneratedMASH_Random(DG):
     randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
     seed = randomSeed
 
-    maxNumber = FloatField(default_value=10.0, soft_min_value=-100.0, soft_max_value=100.0)
+    maxNumber = FloatField(
+        default_value=10.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     max = maxNumber
 
-    minNumber = FloatField(default_value=-10.0, soft_min_value=-100.0, soft_max_value=100.0)
+    minNumber = FloatField(
+        default_value=-10.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     min = minNumber
 
-    maxNumberX = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    maxNumberX = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     maxX = maxNumberX
 
-    minNumberX = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    minNumberX = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     minX = minNumberX
 
-    maxNumberY = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    maxNumberY = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     maxY = maxNumberY
 
-    minNumberY = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    minNumberY = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     minY = minNumberY
 
-    maxNumberZ = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    maxNumberZ = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     maxZ = maxNumberZ
 
-    minNumberZ = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    minNumberZ = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     minZ = minNumberZ

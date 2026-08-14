@@ -1,16 +1,14 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
 
 
-class InputPlugOperator(
-    Float3CompoundBasePlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(Float3CompoundBasePlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputX", "ix"),
@@ -28,9 +26,7 @@ class InputPlugOperator(
     iz = inputZ
 
 
-class InputAttrOperator(
-    Float3CompoundBaseAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(Float3CompoundBaseAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputX = FloatField(default_value=0.0)
@@ -61,9 +57,7 @@ class InputField(
     iz = inputZ
 
 
-class OutputPlugOperator(
-    Float3CompoundBasePlugOperator["OutputAttrOperator"]
-):
+class OutputPlugOperator(Float3CompoundBasePlugOperator["OutputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outputX", "ox"),
@@ -81,9 +75,7 @@ class OutputPlugOperator(
     oz = outputZ
 
 
-class OutputAttrOperator(
-    Float3CompoundBaseAttrOperator[OutputPlugOperator]
-):
+class OutputAttrOperator(Float3CompoundBaseAttrOperator[OutputPlugOperator]):
     __slots__ = ()
 
     outputX = FloatField(default_value=0.0, writable=False)

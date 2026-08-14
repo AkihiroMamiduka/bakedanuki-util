@@ -5,15 +5,17 @@ from ....attr.define.node_attr.blend_colors import (
     Color2Field,
     OutputField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator):
+class RenderPassModeEnumPlugOperator(
+    EnumPlugOperator["RenderPassModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -22,7 +24,9 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator):
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator):
+class RenderPassModeEnumAttrOperator(
+    EnumAttrOperator[RenderPassModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -34,7 +38,9 @@ class RenderPassModeEnumAttrOperator(EnumAttrOperator):
         PASS_THROUGH: "Pass through",
         APPLY_TO_RENDER_PASSES: "Apply to Render Passes",
         NO_CONTRIBUTION: "No Contribution",
-        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: "Write Shader Result to Beauty Passes",
+        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: (
+            "Write Shader Result to Beauty Passes"
+        ),
     }
 
 
@@ -47,7 +53,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedBlendColors(DG):
+class GeneratedBlendColors(DG):
     __slots__ = ()
 
     NODE_TYPE = "blendColors"
@@ -55,7 +61,11 @@ class _GeneratedBlendColors(DG):
     blender = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     b = blender
 
-    color1 = Color1Field(default_value=(1.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    color1 = Color1Field(
+        default_value=(1.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     c1 = color1
     color1R = color1.color1R
     c1r = color1R
@@ -64,7 +74,11 @@ class _GeneratedBlendColors(DG):
     color1B = color1.color1B
     c1b = color1B
 
-    color2 = Color2Field(default_value=(0.0, 0.0, 1.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    color2 = Color2Field(
+        default_value=(0.0, 0.0, 1.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     c2 = color2
     color2R = color2.color2R
     c2r = color2R

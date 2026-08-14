@@ -5,7 +5,7 @@ from ....attr.define.node_attr.ai_matrix_multiply_vector import (
     OutTransparencyField,
     OutValueField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
@@ -13,7 +13,7 @@ from ....attr.define.std.at.enum import (
 from ....attr.define.std.at.flt_matrix import FltMatrixField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     POINT = 0
@@ -21,7 +21,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     NORMAL = 2
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     POINT = 0
@@ -35,16 +35,14 @@ class TypeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class _GeneratedAiMatrixMultiplyVector(DG):
+class GeneratedAiMatrixMultiplyVector(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMatrixMultiplyVector"
@@ -58,7 +56,9 @@ class _GeneratedAiMatrixMultiplyVector(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

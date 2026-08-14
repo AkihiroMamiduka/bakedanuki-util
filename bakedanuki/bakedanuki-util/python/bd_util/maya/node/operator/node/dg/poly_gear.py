@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_gear import _GeneratedPolyGear
+from ._generated.poly_gear import GeneratedPolyGear
 
 
-class PolyGear(_GeneratedPolyGear):
+class PolyGear(GeneratedPolyGear):
     __slots__ = ()
 
     NODE_TYPE = "polyGear"

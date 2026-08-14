@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_wireframe import _GeneratedAiWireframe
+from ._generated.ai_wireframe import GeneratedAiWireframe
 
 
-class AiWireframe(_GeneratedAiWireframe):
+class AiWireframe(GeneratedAiWireframe):
     __slots__ = ()
 
     NODE_TYPE = "aiWireframe"

@@ -6,11 +6,11 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base import (
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..custom import (
     Double2CompoundBaseAttrOperator,
     Double2CompoundBasePlugOperator,
     Double2CompoundBaseField,
@@ -111,7 +111,9 @@ class ImagePositionAttrOperator(
 
 
 class ImagePositionField(
-    Double2CompoundBaseField[ImagePositionAttrOperator, ImagePositionPlugOperator]
+    Double2CompoundBaseField[
+        ImagePositionAttrOperator, ImagePositionPlugOperator
+    ]
 ):
     __slots__ = ()
 

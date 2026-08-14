@@ -15,23 +15,27 @@ from ....attr.define.node_attr.poly_extrude_face import (
     TaperCurveField,
     TranslateField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class LocalCenterEnumPlugOperator(EnumPlugOperator):
+class LocalCenterEnumPlugOperator(
+    EnumPlugOperator["LocalCenterEnumAttrOperator"]
+):
     __slots__ = ()
 
     MIDDLE = 0
@@ -39,7 +43,9 @@ class LocalCenterEnumPlugOperator(EnumPlugOperator):
     END = 2
 
 
-class LocalCenterEnumAttrOperator(EnumAttrOperator):
+class LocalCenterEnumAttrOperator(
+    EnumAttrOperator[LocalCenterEnumPlugOperator]
+):
     __slots__ = ()
 
     MIDDLE = 0
@@ -62,7 +68,7 @@ class LocalCenterEnumField(
     PLUG_CLS = LocalCenterEnumPlugOperator
 
 
-class _GeneratedPolyExtrudeFace(DG):
+class GeneratedPolyExtrudeFace(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyExtrudeFace"
@@ -142,7 +148,9 @@ class _GeneratedPolyExtrudeFace(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    random = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    random = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ran = random
 
     randomSeed = LongField(default_value=0)
@@ -226,22 +234,32 @@ class _GeneratedPolyExtrudeFace(DG):
     keepFacesTogether = BoolField(default_value=True)
     kft = keepFacesTogether
 
-    divisions = LongField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=25)
+    divisions = LongField(
+        default_value=1, min_value=1, soft_min_value=1, soft_max_value=25
+    )
     d = divisions
 
     inputProfile = DataNurbsCurveField()
     ipc = inputProfile
 
-    twist = DoubleAngleField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    twist = DoubleAngleField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
     twt = twist
 
-    taper = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=15.0)
+    taper = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=15.0
+    )
     tp = taper
 
     taperCurve = TaperCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
     c = taperCurve
 
-    smoothingAngle = DoubleAngleField(default_value=29.999999999999996, soft_min_value=0.0, soft_max_value=180.0)
+    smoothingAngle = DoubleAngleField(
+        default_value=29.999999999999996,
+        soft_min_value=0.0,
+        soft_max_value=180.0,
+    )
     sma = smoothingAngle
 
     maya2012 = BoolField(default_value=True)

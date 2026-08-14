@@ -1,17 +1,21 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class SubdivisionModeEnumPlugOperator(EnumPlugOperator):
+class SubdivisionModeEnumPlugOperator(
+    EnumPlugOperator["SubdivisionModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     QUADS = 0
@@ -21,7 +25,9 @@ class SubdivisionModeEnumPlugOperator(EnumPlugOperator):
     CIRCLE = 4
 
 
-class SubdivisionModeEnumAttrOperator(EnumAttrOperator):
+class SubdivisionModeEnumAttrOperator(
+    EnumAttrOperator[SubdivisionModeEnumPlugOperator]
+):
     __slots__ = ()
 
     QUADS = 0
@@ -48,7 +54,7 @@ class SubdivisionModeEnumField(
     PLUG_CLS = SubdivisionModeEnumPlugOperator
 
 
-class _GeneratedPolyDisc(DG):
+class GeneratedPolyDisc(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyDisc"
@@ -61,6 +67,10 @@ class _GeneratedPolyDisc(DG):
 
     subdivisions = LongField(default_value=3, min_value=0, soft_max_value=6)
 
-    radius = DoubleLinearField(default_value=1.0, min_value=0.001, soft_max_value=100.0)
+    radius = DoubleLinearField(
+        default_value=1.0, min_value=0.001, soft_max_value=100.0
+    )
 
-    heightBaseline = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )

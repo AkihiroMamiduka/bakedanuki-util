@@ -1,10 +1,13 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, ClassVar, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
 
 # self
+from ..........value.scalar_compound.scalar_compound_value import (
+    ScalarCompoundValue,
+)
 from ........... import logger as u_logger
 from .._base import (
     UnitCompoundBasePlugOperator,
@@ -12,20 +15,22 @@ from .._base import (
     UnitCompoundBaseField,
 )
 
-A = TypeVar("A", bound="LinearCompoundBaseAttrOperator")
+A = TypeVar("A", bound="LinearCompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="LinearCompoundBasePlugOperator")
+P = TypeVar("P", bound="LinearCompoundBasePlugOperator[Any, Any]")
+
+V = TypeVar("V", bound=ScalarCompoundValue[float])
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A]):
+class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
     __slots__ = ()
 
-    CHILD_M_ATTR_TYPE: int = om.MFnUnitAttribute.kDistance
+    CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnUnitAttribute.kDistance
 
-    def _prepare_child_limit_value(self, value):
+    def _prepare_child_limit_value(self, value: float) -> om.MDistance:
         return om.MDistance(value, om.MDistance.kCentimeters)
 
     # get
@@ -35,7 +40,9 @@ class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A]):
     # set
     def _set_child_value(self, child_plug: om.MPlug, value: float) -> None:
         value = om.MDistance(value, om.MDistance.kCentimeters)
-        self._node._dg_mod.newPlugValueMDistance(child_plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueMDistance(
+            child_plug, value
+        )
 
     def _set_child_value_direct(
         self,

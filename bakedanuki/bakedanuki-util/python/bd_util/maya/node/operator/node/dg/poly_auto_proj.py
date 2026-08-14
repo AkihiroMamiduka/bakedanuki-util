@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_auto_proj import _GeneratedPolyAutoProj
+from ._generated.poly_auto_proj import GeneratedPolyAutoProj
 
 
-class PolyAutoProj(_GeneratedPolyAutoProj):
+class PolyAutoProj(GeneratedPolyAutoProj):
     __slots__ = ()
 
     NODE_TYPE = "polyAutoProj"

@@ -10,14 +10,14 @@ from ....attr.define.node_attr.render_layer import (
     RenderPassInfoField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedRenderLayer(DG):
+class GeneratedRenderLayer(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderLayer"
@@ -44,7 +44,9 @@ class _GeneratedRenderLayer(DG):
     fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -53,7 +55,9 @@ class _GeneratedRenderLayer(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    global_ = BoolField(default_value=False, long_name="global", short_name="g")
+    global_ = BoolField(
+        default_value=False, long_name="global", short_name="g"
+    )
     g = global_
 
     renderInfo = RenderInfoField(default_value=(0.0, 1.0, 0.0))
@@ -71,7 +75,11 @@ class _GeneratedRenderLayer(DG):
     layerChildren = ShortField(multi=True, default_value=0, readable=False)
     rlc = layerChildren
 
-    renderPassInfo = RenderPassInfoField(default_value=(1.0, 0.0, 0.0, 0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0, 0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0, 1.0, 1.0, 1.0))
+    renderPassInfo = RenderPassInfoField(
+        default_value=(1.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0, 1.0, 1.0, 1.0),
+    )
     rp = renderPassInfo
     beauty = renderPassInfo.beauty
     b = beauty

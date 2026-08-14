@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.shader_override import _GeneratedShaderOverride
+from ._generated.shader_override import GeneratedShaderOverride
 
 
-class ShaderOverride(_GeneratedShaderOverride):
+class ShaderOverride(GeneratedShaderOverride):
     __slots__ = ()
 
     NODE_TYPE = "shaderOverride"

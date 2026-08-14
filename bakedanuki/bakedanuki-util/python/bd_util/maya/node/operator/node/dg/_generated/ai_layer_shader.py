@@ -14,12 +14,12 @@ from ....attr.define.node_attr.ai_layer_shader import (
     OutColorField,
     OutTransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiLayerShader(DG):
+class GeneratedAiLayerShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiLayerShader"
@@ -36,7 +36,9 @@ class _GeneratedAiLayerShader(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -67,7 +69,7 @@ class _GeneratedAiLayerShader(DG):
 
     name1 = DataStringField()
 
-    input1A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    input1A = FloatField(min_value=0.0, max_value=1.0)
     input1a = input1A
 
     input1 = Input1Field(default_value=(0.0, 0.0, 0.0))
@@ -84,7 +86,7 @@ class _GeneratedAiLayerShader(DG):
 
     name2 = DataStringField()
 
-    input2A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    input2A = FloatField(min_value=0.0, max_value=1.0)
     input2a = input2A
 
     input2 = Input2Field(default_value=(0.0, 0.0, 0.0))
@@ -118,7 +120,7 @@ class _GeneratedAiLayerShader(DG):
 
     name4 = DataStringField()
 
-    input4A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    input4A = FloatField(min_value=0.0, max_value=1.0)
     input4a = input4A
 
     input4 = Input4Field(default_value=(0.0, 0.0, 0.0))
@@ -135,7 +137,7 @@ class _GeneratedAiLayerShader(DG):
 
     name5 = DataStringField()
 
-    input5A = FloatField(default_value=3.363116314379561e-43, min_value=0.0, max_value=1.0)
+    input5A = FloatField(min_value=0.0, max_value=1.0)
     input5a = input5A
 
     input5 = Input5Field(default_value=(0.0, 0.0, 0.0))
@@ -169,7 +171,7 @@ class _GeneratedAiLayerShader(DG):
 
     name7 = DataStringField()
 
-    input7A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    input7A = FloatField(min_value=0.0, max_value=1.0)
     input7a = input7A
 
     input7 = Input7Field(default_value=(0.0, 0.0, 0.0))

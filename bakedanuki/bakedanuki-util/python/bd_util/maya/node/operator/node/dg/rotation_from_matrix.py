@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.rotation_from_matrix import _GeneratedRotationFromMatrix
+from ._generated.rotation_from_matrix import GeneratedRotationFromMatrix
 
 
-class RotationFromMatrix(_GeneratedRotationFromMatrix):
+class RotationFromMatrix(GeneratedRotationFromMatrix):
     __slots__ = ()
 
     NODE_TYPE = "rotationFromMatrix"

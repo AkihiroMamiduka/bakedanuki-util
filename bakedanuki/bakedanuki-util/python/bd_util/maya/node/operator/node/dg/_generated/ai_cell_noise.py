@@ -9,18 +9,18 @@ from ....attr.define.node_attr.ai_cell_noise import (
     PaletteField,
     ScaleField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class PatternEnumPlugOperator(EnumPlugOperator):
+class PatternEnumPlugOperator(EnumPlugOperator["PatternEnumAttrOperator"]):
     __slots__ = ()
 
     NOISE1 = 0
@@ -32,7 +32,7 @@ class PatternEnumPlugOperator(EnumPlugOperator):
     ALLIGATOR = 6
 
 
-class PatternEnumAttrOperator(EnumAttrOperator):
+class PatternEnumAttrOperator(EnumAttrOperator[PatternEnumPlugOperator]):
     __slots__ = ()
 
     NOISE1 = 0
@@ -63,7 +63,9 @@ class PatternEnumField(
     PLUG_CLS = PatternEnumPlugOperator
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator):
+class CoordSpaceEnumPlugOperator(
+    EnumPlugOperator["CoordSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -72,7 +74,7 @@ class CoordSpaceEnumPlugOperator(EnumPlugOperator):
     UV = 3
 
 
-class CoordSpaceEnumAttrOperator(EnumAttrOperator):
+class CoordSpaceEnumAttrOperator(EnumAttrOperator[CoordSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -97,7 +99,7 @@ class CoordSpaceEnumField(
     PLUG_CLS = CoordSpaceEnumPlugOperator
 
 
-class _GeneratedAiCellNoise(DG):
+class GeneratedAiCellNoise(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCellNoise"
@@ -111,7 +113,9 @@ class _GeneratedAiCellNoise(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -128,9 +132,16 @@ class _GeneratedAiCellNoise(DG):
 
     randomness = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    lacunarity = FloatField(default_value=1.9199999570846558, min_value=9.999999747378752e-05, soft_min_value=1.0, soft_max_value=5.0)
+    lacunarity = FloatField(
+        default_value=1.9199999570846558,
+        min_value=9.999999747378752e-05,
+        soft_min_value=1.0,
+        soft_max_value=5.0,
+    )
 
-    amplitude = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    amplitude = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     scaleX = scale.scaleX

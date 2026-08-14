@@ -5,21 +5,23 @@ from ....attr.define.node_attr.mash_color import (
     ColorField,
     MColourField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -28,7 +30,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -53,14 +57,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -73,7 +81,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -81,7 +92,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class UvTileModeEnumPlugOperator(EnumPlugOperator):
+class UvTileModeEnumPlugOperator(
+    EnumPlugOperator["UvTileModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 1
@@ -89,7 +102,7 @@ class UvTileModeEnumPlugOperator(EnumPlugOperator):
     UNIQUE = 3
 
 
-class UvTileModeEnumAttrOperator(EnumAttrOperator):
+class UvTileModeEnumAttrOperator(EnumAttrOperator[UvTileModeEnumPlugOperator]):
     __slots__ = ()
 
     PASS_THROUGH = 1
@@ -112,7 +125,7 @@ class UvTileModeEnumField(
     PLUG_CLS = UvTileModeEnumPlugOperator
 
 
-class BlendModeEnumPlugOperator(EnumPlugOperator):
+class BlendModeEnumPlugOperator(EnumPlugOperator["BlendModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 1
@@ -123,7 +136,7 @@ class BlendModeEnumPlugOperator(EnumPlugOperator):
     OVERLAY = 6
 
 
-class BlendModeEnumAttrOperator(EnumAttrOperator):
+class BlendModeEnumAttrOperator(EnumAttrOperator[BlendModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 1
@@ -152,7 +165,7 @@ class BlendModeEnumField(
     PLUG_CLS = BlendModeEnumPlugOperator
 
 
-class _GeneratedMASH_Color(DG):
+class GeneratedMASHColor(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Color"
@@ -172,7 +185,9 @@ class _GeneratedMASH_Color(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -232,7 +247,9 @@ class _GeneratedMASH_Color(DG):
 
     hueRandom = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    saturationRandom = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    saturationRandom = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     valueRandom = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 

@@ -5,16 +5,22 @@ from ....attr.define.node_attr.color_mask import (
     MaskField,
     OutColorField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedColorMask(DG):
+class GeneratedColorMask(DG):
     __slots__ = ()
 
     NODE_TYPE = "colorMask"
 
-    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
+    inColor = InColorField(
+        default_value=(
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+        )
+    )
     ic = inColor
     inColorR = inColor.inColorR
     icr = inColorR
@@ -38,7 +44,9 @@ class _GeneratedColorMask(DG):
     maskB = mask.maskB
     mb = maskB
 
-    maskAlpha = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    maskAlpha = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     ma = maskAlpha
 
     maskAlphaIsLuminance = BoolField(default_value=True)

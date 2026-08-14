@@ -6,23 +6,25 @@ from ....attr.define.node_attr.mash_delay import (
     TranslateInPPField,
     TranslateOutPPField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -31,7 +33,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -56,14 +60,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -76,7 +84,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -84,14 +95,14 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class DelayModeEnumPlugOperator(EnumPlugOperator):
+class DelayModeEnumPlugOperator(EnumPlugOperator["DelayModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 1
     FOLLOW_THE_LEADER = 2
 
 
-class DelayModeEnumAttrOperator(EnumAttrOperator):
+class DelayModeEnumAttrOperator(EnumAttrOperator[DelayModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 1
@@ -112,7 +123,7 @@ class DelayModeEnumField(
     PLUG_CLS = DelayModeEnumPlugOperator
 
 
-class _GeneratedMASH_Delay(DG):
+class GeneratedMASHDelay(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Delay"
@@ -132,7 +143,9 @@ class _GeneratedMASH_Delay(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -213,13 +226,19 @@ class _GeneratedMASH_Delay(DG):
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    timeStep = FloatField(default_value=10.0, soft_min_value=0.0, soft_max_value=10.0)
+    timeStep = FloatField(
+        default_value=10.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     ts = timeStep
 
-    offset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    offset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     off = offset
 
-    timeVariance = FloatField(default_value=0.0, min_value=0.0, soft_max_value=50.0)
+    timeVariance = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=50.0
+    )
     tva = timeVariance
 
     inTargetMatrix = MatrixField()

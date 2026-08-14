@@ -5,13 +5,13 @@ from ....attr.define.node_attr.ai_round_corners import (
     OutTransparencyField,
     OutValueField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiRoundCorners(DG):
+class GeneratedAiRoundCorners(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiRoundCorners"
@@ -25,7 +25,9 @@ class _GeneratedAiRoundCorners(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -36,7 +38,9 @@ class _GeneratedAiRoundCorners(DG):
 
     samples = LongField(default_value=6, min_value=0, soft_max_value=20)
 
-    radius = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=10.0)
+    radius = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=10.0
+    )
 
     normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalCamera = normal

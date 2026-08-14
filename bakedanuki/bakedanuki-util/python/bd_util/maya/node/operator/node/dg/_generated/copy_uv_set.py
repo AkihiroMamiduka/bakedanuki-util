@@ -4,7 +4,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedCopyUVSet(DG):
+class GeneratedCopyUVSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "copyUVSet"

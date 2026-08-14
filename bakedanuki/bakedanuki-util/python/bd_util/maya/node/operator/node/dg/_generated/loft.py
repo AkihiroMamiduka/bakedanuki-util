@@ -1,24 +1,24 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
     CUBIC = 3
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1
@@ -39,7 +39,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedLoft(DG):
+class GeneratedLoft(DG):
     __slots__ = ()
 
     NODE_TYPE = "loft"
@@ -68,7 +68,9 @@ class _GeneratedLoft(DG):
     reverseSurfaceNormals = BoolField(default_value=False)
     rsn = reverseSurfaceNormals
 
-    sectionSpans = LongField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=10)
+    sectionSpans = LongField(
+        default_value=1, min_value=1, soft_min_value=1, soft_max_value=10
+    )
     ss = sectionSpans
 
     createCusp = BoolField(multi=True, default_value=False)

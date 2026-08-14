@@ -17,11 +17,11 @@ from ....attr.define.node_attr.cloud import (
     RipplesField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedCloud(DG):
+class GeneratedCloud(DG):
     __slots__ = ()
 
     NODE_TYPE = "cloud"
@@ -59,13 +59,19 @@ class _GeneratedCloud(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
-    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = blend
 
     local = BoolField(default_value=False)
@@ -80,7 +86,11 @@ class _GeneratedCloud(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -89,7 +99,11 @@ class _GeneratedCloud(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -98,13 +112,21 @@ class _GeneratedCloud(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -152,13 +174,19 @@ class _GeneratedCloud(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     eyeToTextureMatrix = FltMatrixField()
     e2t = eyeToTextureMatrix
 
-    color1 = Color1Field(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    color1 = Color1Field(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c1 = color1
     color1R = color1.color1R
     c1r = color1R
@@ -167,7 +195,11 @@ class _GeneratedCloud(DG):
     color1B = color1.color1B
     c1b = color1B
 
-    color2 = Color2Field(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    color2 = Color2Field(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c2 = color2
     color2R = color2.color2R
     c2r = color2R
@@ -176,7 +208,9 @@ class _GeneratedCloud(DG):
     color2B = color2.color2B
     c2b = color2B
 
-    contrast = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    contrast = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     c = contrast
 
     softEdges = BoolField(default_value=True)
@@ -185,13 +219,19 @@ class _GeneratedCloud(DG):
     transpRange = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     tr = transpRange
 
-    centerThresh = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    centerThresh = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ct = centerThresh
 
-    edgeThresh = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    edgeThresh = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     et = edgeThresh
 
-    ripples = RipplesField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0))
+    ripples = RipplesField(
+        default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0)
+    )
     r = ripples
     ripplesX = ripples.ripplesX
     rx = ripplesX
@@ -207,8 +247,18 @@ class _GeneratedCloud(DG):
     depthMax = depth.depthMax
     dmx = depthMax
 
-    amplitude = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    amplitude = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=5.0,
+    )
     a = amplitude
 
-    ratio = FloatField(default_value=0.7070000171661377, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    ratio = FloatField(
+        default_value=0.7070000171661377,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     ra = ratio

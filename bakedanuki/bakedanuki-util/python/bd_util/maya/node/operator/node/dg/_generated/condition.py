@@ -5,15 +5,15 @@ from ....attr.define.node_attr.condition import (
     ColorIfTrueField,
     OutColorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     EQUAL = 0
@@ -24,7 +24,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     LESS_OR_EQUAL = 5
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     EQUAL = 0
@@ -53,7 +53,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedCondition(DG):
+class GeneratedCondition(DG):
     __slots__ = ()
 
     NODE_TYPE = "condition"

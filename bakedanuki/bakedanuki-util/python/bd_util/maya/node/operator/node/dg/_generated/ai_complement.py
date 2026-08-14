@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_complement import (
 )
 
 
-class _GeneratedAiComplement(DG):
+class GeneratedAiComplement(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiComplement"
@@ -21,7 +21,9 @@ class _GeneratedAiComplement(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

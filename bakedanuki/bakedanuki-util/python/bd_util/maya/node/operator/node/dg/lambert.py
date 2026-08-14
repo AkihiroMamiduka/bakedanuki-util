@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.lambert import _GeneratedLambert
+from ._generated.lambert import GeneratedLambert
 
 
-class Lambert(_GeneratedLambert):
+class Lambert(GeneratedLambert):
     __slots__ = ()
 
     NODE_TYPE = "lambert"

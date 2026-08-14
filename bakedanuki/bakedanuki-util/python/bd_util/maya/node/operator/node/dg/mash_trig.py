@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_trig import _GeneratedMASH_Trig
+from ._generated.mash_trig import GeneratedMASHTrig
 
 
-class MASH_Trig(_GeneratedMASH_Trig):
+class MASHTrig(GeneratedMASHTrig):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Trig"

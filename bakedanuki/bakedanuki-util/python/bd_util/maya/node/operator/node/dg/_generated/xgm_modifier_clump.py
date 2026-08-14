@@ -11,15 +11,17 @@ from ....attr.define.node_attr.xgm_modifier_clump import (
     OffsetScaleField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class _GeneratedXgmModifierClump(DG):
+class GeneratedXgmModifierClump(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierClump"
@@ -45,16 +47,22 @@ class _GeneratedXgmModifierClump(DG):
     clumpVolumize = BoolField(default_value=False)
     cvl = clumpVolumize
 
-    clumpVariance = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    clumpVariance = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     cvr = clumpVariance
 
-    preserveLength = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
+    preserveLength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=100.0
+    )
     pl = preserveLength
 
     pointDensity = FloatField(default_value=1.0)
     pd = pointDensity
 
-    pointDensityMask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    pointDensityMask = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     pdm = pointDensityMask
 
     pointRandomness = FloatField(default_value=1.0, min_value=0.0)
@@ -114,7 +122,9 @@ class _GeneratedXgmModifierClump(DG):
     flatness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     fl = flatness
 
-    flatnessScale = FlatnessScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
+    flatnessScale = FlatnessScaleField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
     fls = flatnessScale
 
     offset = FloatField(default_value=0.0)
@@ -129,7 +139,9 @@ class _GeneratedXgmModifierClump(DG):
     curlScale = CurlScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     cus = curlScale
 
-    orient = DoubleAngleField(default_value=0.0, min_value=0.0, max_value=360.0)
+    orient = DoubleAngleField(
+        default_value=0.0, min_value=0.0, max_value=360.0
+    )
     or_ = orient
 
     copy = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
@@ -153,7 +165,9 @@ class _GeneratedXgmModifierClump(DG):
     noiseFrequency = FloatField(default_value=0.0, min_value=0.0)
     nof = noiseFrequency
 
-    noiseCorrelation = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
+    noiseCorrelation = FloatField(
+        default_value=0.0, min_value=0.0, max_value=100.0
+    )
     noc = noiseCorrelation
 
     inMeshData = TypedField(readable=False)

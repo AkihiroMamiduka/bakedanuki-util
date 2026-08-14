@@ -4,19 +4,19 @@ from ....attr.define.node_attr.ai_imager_overlay import (
     BackgroundColorField,
     FontColorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ValignEnumPlugOperator(EnumPlugOperator):
+class ValignEnumPlugOperator(EnumPlugOperator["ValignEnumAttrOperator"]):
     __slots__ = ()
 
     TOP = 0
@@ -24,7 +24,7 @@ class ValignEnumPlugOperator(EnumPlugOperator):
     BOTTOM = 2
 
 
-class ValignEnumAttrOperator(EnumAttrOperator):
+class ValignEnumAttrOperator(EnumAttrOperator[ValignEnumPlugOperator]):
     __slots__ = ()
 
     TOP = 0
@@ -47,7 +47,7 @@ class ValignEnumField(
     PLUG_CLS = ValignEnumPlugOperator
 
 
-class HalignEnumPlugOperator(EnumPlugOperator):
+class HalignEnumPlugOperator(EnumPlugOperator["HalignEnumAttrOperator"]):
     __slots__ = ()
 
     LEFT = 0
@@ -55,7 +55,7 @@ class HalignEnumPlugOperator(EnumPlugOperator):
     RIGHT = 2
 
 
-class HalignEnumAttrOperator(EnumAttrOperator):
+class HalignEnumAttrOperator(EnumAttrOperator[HalignEnumPlugOperator]):
     __slots__ = ()
 
     LEFT = 0
@@ -78,7 +78,7 @@ class HalignEnumField(
     PLUG_CLS = HalignEnumPlugOperator
 
 
-class _GeneratedAiImagerOverlay(DG):
+class GeneratedAiImagerOverlay(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerOverlay"
@@ -130,10 +130,18 @@ class _GeneratedAiImagerOverlay(DG):
     fontColorB = fontColor.fontColorB
     font_colorb = fontColorB
 
-    backgroundOpacity = FloatField(default_value=0.699999988079071, min_value=0.0, max_value=1.0)
+    backgroundOpacity = FloatField(
+        default_value=0.699999988079071, min_value=0.0, max_value=1.0
+    )
     background_opacity = backgroundOpacity
 
-    backgroundColor = BackgroundColorField(default_value=(0.05000000074505806, 0.05000000074505806, 0.05000000074505806))
+    backgroundColor = BackgroundColorField(
+        default_value=(
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+        )
+    )
     background_color = backgroundColor
     backgroundColorR = backgroundColor.backgroundColorR
     background_colorr = backgroundColorR

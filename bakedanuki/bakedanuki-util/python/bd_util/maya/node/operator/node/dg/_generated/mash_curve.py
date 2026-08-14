@@ -8,24 +8,26 @@ from ....attr.define.node_attr.mash_curve import (
     TranslateOutPPField,
     UpVectorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar.time import TimeField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +36,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +63,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -79,7 +87,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -87,7 +98,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class _GeneratedMASH_Curve(DG):
+class GeneratedMASHCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Curve"
@@ -107,7 +118,9 @@ class _GeneratedMASH_Curve(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -158,13 +171,17 @@ class _GeneratedMASH_Curve(DG):
     enable = BoolField(default_value=True)
     en = enable
 
-    SimpleUEnvelope = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    SimpleUEnvelope = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     SimUEnv = SimpleUEnvelope
 
     SimpleValue = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     SimpleVal = SimpleValue
 
-    offsetAlongCurve = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    offsetAlongCurve = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     clipStart = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
@@ -199,18 +216,30 @@ class _GeneratedMASH_Curve(DG):
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    timeStepVar = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    timeStepVar = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     tstev = timeStepVar
 
-    velocityVariation = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    velocityVariation = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
 
-    velocityNoise = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    velocityNoise = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
 
-    velocityNoiseScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    velocityNoiseScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
 
-    curveScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    curveScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
 
-    curveRoll = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    curveRoll = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
 
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
@@ -234,14 +263,18 @@ class _GeneratedMASH_Curve(DG):
 
     parametricLength = BoolField(default_value=False)
 
-    timeStep = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
+    timeStep = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0
+    )
     ts = timeStep
 
     inCurves = DataNurbsCurveField(multi=True)
 
     aimCurve = DataNurbsCurveField()
 
-    timeSlide = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    timeSlide = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     tsli = timeSlide
 
     legacy2016 = BoolField(default_value=False)

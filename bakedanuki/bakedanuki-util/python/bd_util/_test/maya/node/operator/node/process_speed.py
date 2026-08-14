@@ -2,7 +2,10 @@
 
 # builtin
 import importlib.util
+from collections.abc import Callable, Iterable
+from importlib import import_module
 from pathlib import Path
+from typing import Any, cast
 
 # maya
 from maya import cmds
@@ -19,6 +22,8 @@ from ......maya.node.operator.node.dg.plus_minus_average import (
 from ......maya import scene as u_scene
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
+
+_set_attr = cast(Callable[..., None], cmds.setAttr)
 
 ACCURATE = False
 REPEAT_COUNT = 3
@@ -81,7 +86,6 @@ def main(
             create_connect_om_individual,
             create_connect_om_all_together,
             create_connect_node_operator_connect,
-            create_connect_node_operator__gt__,
         ),
         accurate=accurate,
         repeat_count=repeat_count,
@@ -195,7 +199,11 @@ def _run_get_set_benchmarks(accurate: bool, repeat_count: int):
     )
 
 
-def _run_benchmarks(funcs, accurate: bool, repeat_count: int):
+def _run_benchmarks(
+    funcs: Iterable[Callable[[], object]],
+    accurate: bool,
+    repeat_count: int,
+) -> None:
     pymel_available = None
     for func in funcs:
         if func.__name__.endswith("_pm"):
@@ -227,6 +235,11 @@ def _pymel_benchmarks_available() -> bool:
     )
 
 
+def pymel_benchmarks_available() -> bool:
+    """Return whether PyMEL has the caches required by this Maya version."""
+    return _pymel_benchmarks_available()
+
+
 def _pymel_cache_exists(cache_dir: Path, cache_name: str) -> bool:
     return any(
         (cache_dir / f"{cache_name}{extension}").is_file()
@@ -238,7 +251,11 @@ def _current_maya_version() -> str:
     return str(cmds.about(apiVersion=True))[:4]
 
 
-def _run_benchmark(func, accurate: bool, repeat_count: int):
+def _run_benchmark(
+    func: Callable[[], object],
+    accurate: bool,
+    repeat_count: int,
+) -> None:
     if not accurate:
         func()
         return
@@ -246,8 +263,13 @@ def _run_benchmark(func, accurate: bool, repeat_count: int):
     run_timed_repeat(func, repeat_count=repeat_count, log_each=False)
 
 
+def _pymel_core() -> Any:
+    """Load the optional PyMEL dependency at the benchmark boundary."""
+    return cast(Any, import_module("pymel.core"))
+
+
 def _create_om_value_plugs():
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     mod = om.MDGModifier()
     m_obj = mod.createNode("plusMinusAverage")
@@ -266,7 +288,7 @@ def _create_om_value_plugs():
 
 
 def _create_node_operator_value_node():
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     modifier_manager = ModifierManager()
     node = PlusMinusAverage.create(modifier_manager)
@@ -282,7 +304,7 @@ def _assert_benchmark_total(total: float):
 # set/get
 @timer
 def set_scalar_cmds():
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     node = cmds.createNode(
         "plusMinusAverage",
@@ -290,16 +312,16 @@ def set_scalar_cmds():
     )
     plug = f"{node}.input1D[0]"
     for _ in range(GET_SET_COUNT):
-        cmds.setAttr(plug, SCALAR_VALUE)
+        _set_attr(plug, SCALAR_VALUE)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def set_scalar_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     node = pm.createNode(
         "plusMinusAverage",
@@ -309,7 +331,7 @@ def set_scalar_pm():
     for _ in range(GET_SET_COUNT):
         plug.set(SCALAR_VALUE)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -320,7 +342,7 @@ def set_scalar_om():
         mod.newPlugValueFloat(plug, SCALAR_VALUE)
     mod.doIt()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -332,7 +354,7 @@ def set_scalar_node_operator_reuse_plug():
         plug.set(SCALAR_VALUE)
     modifier_manager.do_it_dg()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -343,33 +365,33 @@ def set_scalar_node_operator_natural_access():
         node.input1D[0].set(SCALAR_VALUE)
     modifier_manager.do_it_dg()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def get_scalar_cmds():
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     node = cmds.createNode(
         "plusMinusAverage",
         skipSelect=True,
     )
     plug = f"{node}.input1D[0]"
-    cmds.setAttr(plug, SCALAR_VALUE)
+    _set_attr(plug, SCALAR_VALUE)
 
     total = 0.0
     for _ in range(GET_SET_COUNT):
         total += cmds.getAttr(plug)
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def get_scalar_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     node = pm.createNode(
         "plusMinusAverage",
@@ -383,7 +405,7 @@ def get_scalar_pm():
         total += plug.get()
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -397,7 +419,7 @@ def get_scalar_om():
         total += plug.asFloat()
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -412,7 +434,7 @@ def get_scalar_node_operator_reuse_plug():
         total += plug.get()
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -426,12 +448,12 @@ def get_scalar_node_operator_natural_access():
         total += node.input1D[0].get()
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def set_compound_cmds():
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     node = cmds.createNode(
         "plusMinusAverage",
@@ -439,16 +461,16 @@ def set_compound_cmds():
     )
     plug = f"{node}.input3D[0]"
     for _ in range(GET_SET_COUNT):
-        cmds.setAttr(plug, *COMPOUND_VALUE, type="float3")
+        _set_attr(plug, *COMPOUND_VALUE, type="float3")
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def set_compound_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     node = pm.createNode(
         "plusMinusAverage",
@@ -458,7 +480,7 @@ def set_compound_pm():
     for _ in range(GET_SET_COUNT):
         plug.set(COMPOUND_VALUE)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -475,7 +497,7 @@ def set_compound_om():
         mod.newPlugValueFloat(child_2, z)
     mod.doIt()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -488,7 +510,7 @@ def set_compound_node_operator_reuse_plug():
         plug.set(x, y, z)
     modifier_manager.do_it_dg()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -500,19 +522,19 @@ def set_compound_node_operator_natural_access():
         node.input3D[0].set(x, y, z)
     modifier_manager.do_it_dg()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def get_compound_cmds():
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     node = cmds.createNode(
         "plusMinusAverage",
         skipSelect=True,
     )
     plug = f"{node}.input3D[0]"
-    cmds.setAttr(plug, *COMPOUND_VALUE, type="float3")
+    _set_attr(plug, *COMPOUND_VALUE, type="float3")
 
     total = 0.0
     for _ in range(GET_SET_COUNT):
@@ -520,14 +542,14 @@ def get_compound_cmds():
         total += x + y + z
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def get_compound_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     node = pm.createNode(
         "plusMinusAverage",
@@ -542,7 +564,7 @@ def get_compound_pm():
         total += value[0] + value[1] + value[2]
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -562,7 +584,7 @@ def get_compound_om():
         total += child_0.asFloat() + child_1.asFloat() + child_2.asFloat()
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -578,7 +600,7 @@ def get_compound_node_operator_reuse_plug():
         total += value[0] + value[1] + value[2]
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
@@ -593,14 +615,14 @@ def get_compound_node_operator_natural_access():
         total += value[0] + value[1] + value[2]
     _assert_benchmark_total(total)
 
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 # create
 @timer
 def create_one_cmds():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成
     cmds.createNode(
@@ -608,15 +630,15 @@ def create_one_cmds():
         skipSelect=True,
     )
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_one_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成
     pm.createNode(
@@ -624,13 +646,13 @@ def create_one_pm():
         skipSelect=True,
     )
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_one_om():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成
     mod = om.MDGModifier()
@@ -638,13 +660,13 @@ def create_one_om():
     mod.doIt()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_one_node_operator():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成
     modifier_manager = ModifierManager()
@@ -652,13 +674,13 @@ def create_one_node_operator():
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_many_cmds():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成
     for _ in range(COUNT):
@@ -667,15 +689,15 @@ def create_many_cmds():
             skipSelect=True,
         )
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_many_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成
     for _ in range(COUNT):
@@ -684,13 +706,13 @@ def create_many_pm():
             skipSelect=True,
         )
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_many_om_individual():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成
     mod = om.MDGModifier()
@@ -699,13 +721,13 @@ def create_many_om_individual():
         mod.doIt()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_many_om_all_together():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成
     mod = om.MDGModifier()
@@ -714,13 +736,13 @@ def create_many_om_all_together():
     mod.doIt()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_many_node_operator():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成
     modifier_manager = ModifierManager()
@@ -729,14 +751,14 @@ def create_many_node_operator():
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 # create_connect
 @timer
 def create_connect_cmds():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     parent_node = None
@@ -756,15 +778,15 @@ def create_connect_cmds():
         parent_node = node
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     parent_node = None
@@ -776,18 +798,18 @@ def create_connect_pm():
         )
         # ノードを接続
         if parent_node is not None:
-            parent_node.output3Dx >> node.input3D[0].input3Dx
+            _ = parent_node.output3Dx >> node.input3D[0].input3Dx
         # parent を置き換え
         parent_node = node
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_om_individual():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     mod = om.MDGModifier()
@@ -811,13 +833,13 @@ def create_connect_om_individual():
         parent_m_obj = m_obj
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_om_all_together():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     mod = om.MDGModifier()
@@ -841,13 +863,13 @@ def create_connect_om_all_together():
     mod.doIt()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_node_operator_connect():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     modifier_manager = ModifierManager()
@@ -863,36 +885,14 @@ def create_connect_node_operator_connect():
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
-
-
-@timer
-def create_connect_node_operator__gt__():
-    # 新規シーンを開く
-    cmds.file(new=True, force=True)
-
-    # ノードを作成し接続
-    modifier_manager = ModifierManager()
-    parent_node = None
-    for _ in range(COUNT):
-        # ノードを作成
-        node = PlusMinusAverage.create(modifier_manager)
-        # ノードを接続
-        if parent_node is not None:
-            parent_node.output3Dx > node.input3D[0].input3Dx
-        # parent を置き換え
-        parent_node = node
-    modifier_manager.do_it_dg()
-
-    # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 # create_connect_multi
 @timer
 def create_connect_multi_cmds():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     src = cmds.createNode(
@@ -912,15 +912,15 @@ def create_connect_multi_cmds():
         )
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_pm():
-    from pymel import core as pm
+    pm = _pymel_core()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     src = pm.createNode(
@@ -934,16 +934,16 @@ def create_connect_multi_pm():
             skipSelect=True,
         )
         # ノードを接続
-        src.output3Dx >> dst.input3D[0].input3Dx
+        _ = src.output3Dx >> dst.input3D[0].input3Dx
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_om_individual():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     mod = om.MDGModifier()
@@ -964,13 +964,13 @@ def create_connect_multi_om_individual():
         mod.doIt()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_om_all_together():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     mod = om.MDGModifier()
@@ -991,13 +991,13 @@ def create_connect_multi_om_all_together():
     mod.doIt()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_cmds_xyz():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     src = cmds.createNode(
@@ -1025,13 +1025,13 @@ def create_connect_multi_cmds_xyz():
         )
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_om_all_together_xyz():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     mod = om.MDGModifier()
@@ -1054,13 +1054,13 @@ def create_connect_multi_om_all_together_xyz():
     mod.doIt()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_node_operator():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     modifier_manager = ModifierManager()
@@ -1069,17 +1069,17 @@ def create_connect_multi_node_operator():
         # ノードを作成
         dst_node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
-        src_node.output3Dx > dst_node.input3D[0].input3Dx
+        src_node.output3Dx.connect(dst_node.input3D[0].input3Dx)
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_node_operator_natural_src_natural_dst():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     modifier_manager = ModifierManager()
@@ -1088,19 +1088,19 @@ def create_connect_multi_node_operator_natural_src_natural_dst():
         # ノードを作成
         dst_node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
-        src_node.output3Dx > dst_node.input3D[0].input3Dx
-        src_node.output3Dx > dst_node.input3D[0].input3Dy
-        src_node.output3Dx > dst_node.input3D[0].input3Dz
+        src_node.output3Dx.connect(dst_node.input3D[0].input3Dx)
+        src_node.output3Dx.connect(dst_node.input3D[0].input3Dy)
+        src_node.output3Dx.connect(dst_node.input3D[0].input3Dz)
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_node_operator_reuse_src_natural_dst():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     modifier_manager = ModifierManager()
@@ -1110,19 +1110,19 @@ def create_connect_multi_node_operator_reuse_src_natural_dst():
         # ノードを作成
         dst_node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
-        src_plug > dst_node.input3D[0].input3Dx
-        src_plug > dst_node.input3D[0].input3Dy
-        src_plug > dst_node.input3D[0].input3Dz
+        src_plug.connect(dst_node.input3D[0].input3Dx)
+        src_plug.connect(dst_node.input3D[0].input3Dy)
+        src_plug.connect(dst_node.input3D[0].input3Dz)
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_node_operator_natural_src_reuse_dst():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     modifier_manager = ModifierManager()
@@ -1132,19 +1132,19 @@ def create_connect_multi_node_operator_natural_src_reuse_dst():
         dst_node = PlusMinusAverage.create(modifier_manager)
         dst_input = dst_node.input3D[0]
         # ノードを接続
-        src_node.output3Dx > dst_input.input3Dx
-        src_node.output3Dx > dst_input.input3Dy
-        src_node.output3Dx > dst_input.input3Dz
+        src_node.output3Dx.connect(dst_input.input3Dx)
+        src_node.output3Dx.connect(dst_input.input3Dy)
+        src_node.output3Dx.connect(dst_input.input3Dz)
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 @timer
 def create_connect_multi_node_operator_reuse_src_reuse_dst():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     modifier_manager = ModifierManager()
@@ -1155,20 +1155,20 @@ def create_connect_multi_node_operator_reuse_src_reuse_dst():
         dst_node = PlusMinusAverage.create(modifier_manager)
         dst_input = dst_node.input3D[0]
         # ノードを接続
-        src_plug > dst_input.input3Dx
-        src_plug > dst_input.input3Dy
-        src_plug > dst_input.input3Dz
+        src_plug.connect(dst_input.input3Dx)
+        src_plug.connect(dst_input.input3Dy)
+        src_plug.connect(dst_input.input3Dz)
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
 
 # set_key
 @timer
 def set_key_node_operator():
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)
 
     # ノードを作成し接続
     modifier_manager = ModifierManager()
@@ -1180,4 +1180,4 @@ def set_key_node_operator():
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
-    cmds.file(new=True, force=True)
+    cmds.file(newFile=True, force=True)

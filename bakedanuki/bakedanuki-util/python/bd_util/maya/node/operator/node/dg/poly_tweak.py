@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_tweak import _GeneratedPolyTweak
+from ._generated.poly_tweak import GeneratedPolyTweak
 
 
-class PolyTweak(_GeneratedPolyTweak):
+class PolyTweak(GeneratedPolyTweak):
     __slots__ = ()
 
     NODE_TYPE = "polyTweak"

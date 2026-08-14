@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_flip_uv import _GeneratedPolyFlipUV
+from ._generated.poly_flip_uv import GeneratedPolyFlipUV
 
 
-class PolyFlipUV(_GeneratedPolyFlipUV):
+class PolyFlipUV(GeneratedPolyFlipUV):
     __slots__ = ()
 
     NODE_TYPE = "polyFlipUV"

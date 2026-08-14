@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.light_item_base import _GeneratedLightItemBase
+from ._generated.light_item_base import GeneratedLightItemBase
 
 
-class LightItemBase(_GeneratedLightItemBase):
+class LightItemBase(GeneratedLightItemBase):
     __slots__ = ()
 
     NODE_TYPE = "lightItemBase"

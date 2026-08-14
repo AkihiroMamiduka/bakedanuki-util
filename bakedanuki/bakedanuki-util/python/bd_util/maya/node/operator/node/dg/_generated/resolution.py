@@ -1,16 +1,16 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class FieldsEnumPlugOperator(EnumPlugOperator):
+class FieldsEnumPlugOperator(EnumPlugOperator["FieldsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -20,7 +20,7 @@ class FieldsEnumPlugOperator(EnumPlugOperator):
     BOTH_SEPARATE = 4
 
 
-class FieldsEnumAttrOperator(EnumAttrOperator):
+class FieldsEnumAttrOperator(EnumAttrOperator[FieldsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -47,14 +47,18 @@ class FieldsEnumField(
     PLUG_CLS = FieldsEnumPlugOperator
 
 
-class ZerothScanlineEnumPlugOperator(EnumPlugOperator):
+class ZerothScanlineEnumPlugOperator(
+    EnumPlugOperator["ZerothScanlineEnumAttrOperator"]
+):
     __slots__ = ()
 
     AT_TOP = 0
     AT_BOTTOM = 1
 
 
-class ZerothScanlineEnumAttrOperator(EnumAttrOperator):
+class ZerothScanlineEnumAttrOperator(
+    EnumAttrOperator[ZerothScanlineEnumPlugOperator]
+):
     __slots__ = ()
 
     AT_TOP = 0
@@ -75,7 +79,9 @@ class ZerothScanlineEnumField(
     PLUG_CLS = ZerothScanlineEnumPlugOperator
 
 
-class ImageSizeUnitsEnumPlugOperator(EnumPlugOperator):
+class ImageSizeUnitsEnumPlugOperator(
+    EnumPlugOperator["ImageSizeUnitsEnumAttrOperator"]
+):
     __slots__ = ()
 
     PIXELS = 0
@@ -86,7 +92,9 @@ class ImageSizeUnitsEnumPlugOperator(EnumPlugOperator):
     PICAS = 5
 
 
-class ImageSizeUnitsEnumAttrOperator(EnumAttrOperator):
+class ImageSizeUnitsEnumAttrOperator(
+    EnumAttrOperator[ImageSizeUnitsEnumPlugOperator]
+):
     __slots__ = ()
 
     PIXELS = 0
@@ -115,14 +123,18 @@ class ImageSizeUnitsEnumField(
     PLUG_CLS = ImageSizeUnitsEnumPlugOperator
 
 
-class PixelDensityUnitsEnumPlugOperator(EnumPlugOperator):
+class PixelDensityUnitsEnumPlugOperator(
+    EnumPlugOperator["PixelDensityUnitsEnumAttrOperator"]
+):
     __slots__ = ()
 
     PIXELS_SLASH_INCH = 0
     PIXELS_SLASH_CM = 1
 
 
-class PixelDensityUnitsEnumAttrOperator(EnumAttrOperator):
+class PixelDensityUnitsEnumAttrOperator(
+    EnumAttrOperator[PixelDensityUnitsEnumPlugOperator]
+):
     __slots__ = ()
 
     PIXELS_SLASH_INCH = 0
@@ -135,7 +147,9 @@ class PixelDensityUnitsEnumAttrOperator(EnumAttrOperator):
 
 
 class PixelDensityUnitsEnumField(
-    EnumField[PixelDensityUnitsEnumAttrOperator, PixelDensityUnitsEnumPlugOperator]
+    EnumField[
+        PixelDensityUnitsEnumAttrOperator, PixelDensityUnitsEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -143,15 +157,19 @@ class PixelDensityUnitsEnumField(
     PLUG_CLS = PixelDensityUnitsEnumPlugOperator
 
 
-class _GeneratedResolution(DG):
+class GeneratedResolution(DG):
     __slots__ = ()
 
     NODE_TYPE = "resolution"
 
-    width = LongField(default_value=960, min_value=2, soft_min_value=128, soft_max_value=8192)
+    width = LongField(
+        default_value=960, min_value=2, soft_min_value=128, soft_max_value=8192
+    )
     w = width
 
-    height = LongField(default_value=540, min_value=2, soft_min_value=128, soft_max_value=8192)
+    height = LongField(
+        default_value=540, min_value=2, soft_min_value=128, soft_max_value=8192
+    )
     h = height
 
     pixelAspect = FloatField(default_value=0.0)
@@ -160,7 +178,9 @@ class _GeneratedResolution(DG):
     aspectLock = BoolField(default_value=False)
     al = aspectLock
 
-    deviceAspectRatio = FloatField(default_value=1.7777776718139648, min_value=0.0, soft_max_value=10.0)
+    deviceAspectRatio = FloatField(
+        default_value=1.7777776718139648, min_value=0.0, soft_max_value=10.0
+    )
     dar = deviceAspectRatio
 
     lockDeviceAspectRatio = BoolField(default_value=False)

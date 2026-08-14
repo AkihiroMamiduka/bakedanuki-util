@@ -21,20 +21,22 @@ from ....attr.define.node_attr.anisotropic import (
     TriangleNormalCameraField,
     VrEdgeColorField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.addr import AddrField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class VrFillObjectEnumPlugOperator(EnumPlugOperator):
+class VrFillObjectEnumPlugOperator(
+    EnumPlugOperator["VrFillObjectEnumAttrOperator"]
+):
     __slots__ = ()
 
     DEFAULT_FILL = 0
@@ -48,7 +50,9 @@ class VrFillObjectEnumPlugOperator(EnumPlugOperator):
     NO_FILL = 8
 
 
-class VrFillObjectEnumAttrOperator(EnumAttrOperator):
+class VrFillObjectEnumAttrOperator(
+    EnumAttrOperator[VrFillObjectEnumPlugOperator]
+):
     __slots__ = ()
 
     DEFAULT_FILL = 0
@@ -83,7 +87,9 @@ class VrFillObjectEnumField(
     PLUG_CLS = VrFillObjectEnumPlugOperator
 
 
-class VrEdgeStyleEnumPlugOperator(EnumPlugOperator):
+class VrEdgeStyleEnumPlugOperator(
+    EnumPlugOperator["VrEdgeStyleEnumAttrOperator"]
+):
     __slots__ = ()
 
     DEFAULT = 0
@@ -92,7 +98,9 @@ class VrEdgeStyleEnumPlugOperator(EnumPlugOperator):
     NO_EDGES = 3
 
 
-class VrEdgeStyleEnumAttrOperator(EnumAttrOperator):
+class VrEdgeStyleEnumAttrOperator(
+    EnumAttrOperator[VrEdgeStyleEnumPlugOperator]
+):
     __slots__ = ()
 
     DEFAULT = 0
@@ -117,7 +125,9 @@ class VrEdgeStyleEnumField(
     PLUG_CLS = VrEdgeStyleEnumPlugOperator
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(
+    EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -125,7 +135,9 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(
+    EnumAttrOperator[MatteOpacityModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -140,7 +152,9 @@ class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
 
 
 class MatteOpacityModeEnumField(
-    EnumField[MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator]
+    EnumField[
+        MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -148,7 +162,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class _GeneratedAnisotropic(DG):
+class GeneratedAnisotropic(DG):
     __slots__ = ()
 
     NODE_TYPE = "anisotropic"
@@ -168,10 +182,14 @@ class _GeneratedAnisotropic(DG):
     rayInstance = LongField(default_value=0, readable=False)
     ryi = rayInstance
 
-    refractionLimit = ShortField(default_value=6, min_value=0, soft_max_value=10)
+    refractionLimit = ShortField(
+        default_value=6, min_value=0, soft_max_value=10
+    )
     rdl = refractionLimit
 
-    refractiveIndex = FloatField(default_value=1.0, min_value=0.01, soft_max_value=3.0)
+    refractiveIndex = FloatField(
+        default_value=1.0, min_value=0.01, soft_max_value=3.0
+    )
     rfi = refractiveIndex
 
     mediumRefractiveIndex = FloatField(default_value=1.0, readable=False)
@@ -180,10 +198,14 @@ class _GeneratedAnisotropic(DG):
     refractions = BoolField(default_value=False)
     rfc = refractions
 
-    diffuse = FloatField(default_value=0.800000011920929, min_value=0.0, soft_max_value=1.0)
+    diffuse = FloatField(
+        default_value=0.800000011920929, min_value=0.0, soft_max_value=1.0
+    )
     dc = diffuse
 
-    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0), readable=False)
+    rayDirection = RayDirectionField(
+        default_value=(0.0, 0.0, 1.0), readable=False
+    )
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -228,19 +250,29 @@ class _GeneratedAnisotropic(DG):
     incandescenceB = incandescence.incandescenceB
     ib = incandescenceB
 
-    translucence = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    translucence = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     tc = translucence
 
-    translucenceFocus = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    translucenceFocus = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     tcf = translucenceFocus
 
-    translucenceDepth = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=5.0)
+    translucenceDepth = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=5.0
+    )
     trsd = translucenceDepth
 
-    opacityDepth = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    opacityDepth = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     opad = opacityDepth
 
-    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    glowIntensity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     gi = glowIntensity
 
     vrOverwriteDefaults = BoolField(default_value=False)
@@ -276,22 +308,41 @@ class _GeneratedAnisotropic(DG):
     vrOutlinesAtIntersections = BoolField(default_value=True)
     vroi = vrOutlinesAtIntersections
 
-    materialAlphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    materialAlphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     maga = materialAlphaGain
 
     hideSource = BoolField(default_value=False)
     hs = hideSource
 
-    surfaceThickness = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    surfaceThickness = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     thik = surfaceThickness
 
-    shadowAttenuation = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    shadowAttenuation = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     fakc = shadowAttenuation
 
-    transparencyDepth = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    transparencyDepth = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
     trdp = transparencyDepth
 
-    lightAbsorbance = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    lightAbsorbance = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
     absb = lightAbsorbance
 
     chromaticAberration = BoolField(default_value=False)
@@ -306,7 +357,9 @@ class _GeneratedAnisotropic(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -315,7 +368,9 @@ class _GeneratedAnisotropic(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outGlowColor = OutGlowColorField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -366,10 +421,14 @@ class _GeneratedAnisotropic(DG):
     matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    matteOpacity = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outMatteOpacity = OutMatteOpacityField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR
@@ -387,7 +446,9 @@ class _GeneratedAnisotropic(DG):
     hardwareShaderB = hardwareShader.hardwareShaderB
     hwb = hardwareShaderB
 
-    reflectionLimit = ShortField(default_value=1, min_value=0, soft_max_value=10)
+    reflectionLimit = ShortField(
+        default_value=1, min_value=0, soft_max_value=10
+    )
     fll = reflectionLimit
 
     specularColor = SpecularColorField(default_value=(0.5, 0.5, 0.5))
@@ -399,7 +460,9 @@ class _GeneratedAnisotropic(DG):
     specularColorB = specularColor.specularColorB
     sb = specularColorB
 
-    reflectivity = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    reflectivity = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     rfl = reflectivity
 
     reflectedColor = ReflectedColorField(default_value=(0.0, 0.0, 0.0))
@@ -411,7 +474,9 @@ class _GeneratedAnisotropic(DG):
     reflectedColorB = reflectedColor.reflectedColorB
     rb = reflectedColorB
 
-    triangleNormalCamera = TriangleNormalCameraField(default_value=(0.0, 1.0, 0.0))
+    triangleNormalCamera = TriangleNormalCameraField(
+        default_value=(0.0, 1.0, 0.0)
+    )
     tnc = triangleNormalCamera
     triangleNormalCameraX = triangleNormalCamera.triangleNormalCameraX
     tnx = triangleNormalCameraX
@@ -420,7 +485,9 @@ class _GeneratedAnisotropic(DG):
     triangleNormalCameraZ = triangleNormalCamera.triangleNormalCameraZ
     tnz = triangleNormalCameraZ
 
-    reflectionSpecularity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    reflectionSpecularity = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     rsp = reflectionSpecularity
 
     tangentUCamera = TangentUCameraField(default_value=(1.0, 1.0, 1.0))
@@ -441,19 +508,27 @@ class _GeneratedAnisotropic(DG):
     tangentVCameraZ = tangentVCamera.tangentVCameraZ
     vtnz = tangentVCameraZ
 
-    spreadX = FloatField(default_value=13.0, min_value=0.1, soft_max_value=100.0)
+    spreadX = FloatField(
+        default_value=13.0, min_value=0.1, soft_max_value=100.0
+    )
     sprx = spreadX
 
-    spreadY = FloatField(default_value=3.0, min_value=0.1, soft_max_value=100.0)
+    spreadY = FloatField(
+        default_value=3.0, min_value=0.1, soft_max_value=100.0
+    )
     spry = spreadY
 
-    roughness = FloatField(default_value=0.699999988079071, min_value=0.01, max_value=1.0)
+    roughness = FloatField(
+        default_value=0.699999988079071, min_value=0.01, max_value=1.0
+    )
     roug = roughness
 
     angle = FloatField(default_value=0.0, min_value=0.0, max_value=360.0)
     angl = angle
 
-    fresnelRefractiveIndex = FloatField(default_value=6.0, min_value=1.0, max_value=20.0)
+    fresnelRefractiveIndex = FloatField(
+        default_value=6.0, min_value=1.0, max_value=20.0
+    )
     frfi = fresnelRefractiveIndex
 
     anisotropicReflectivity = BoolField(default_value=True)

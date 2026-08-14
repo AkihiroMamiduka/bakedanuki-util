@@ -1,8 +1,10 @@
 # coding: utf-8
-from ._generated.multiply_vector_by_matrix import _GeneratedMultiplyVectorByMatrix
+from ._generated.multiply_vector_by_matrix import (
+    GeneratedMultiplyVectorByMatrix,
+)
 
 
-class MultiplyVectorByMatrix(_GeneratedMultiplyVectorByMatrix):
+class MultiplyVectorByMatrix(GeneratedMultiplyVectorByMatrix):
     __slots__ = ()
 
     NODE_TYPE = "multiplyVectorByMatrix"

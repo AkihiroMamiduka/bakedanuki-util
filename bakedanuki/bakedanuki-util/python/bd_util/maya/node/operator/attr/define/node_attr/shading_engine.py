@@ -12,15 +12,15 @@ from ..std.at.light_data import (
     LightDataField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
+    Float3Field,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
 class PublishedNodeInfoPlugOperator(
@@ -103,7 +103,9 @@ class ChannelSetColorAttrOperator(
 
 
 class ChannelSetColorField(
-    Float3CompoundBaseField[ChannelSetColorAttrOperator, ChannelSetColorPlugOperator]
+    Float3CompoundBaseField[
+        ChannelSetColorAttrOperator, ChannelSetColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -135,10 +137,14 @@ class DefaultShadowsPlugOperator(
         ("dShadowBlindData", "dbld"),
     )
 
-    dShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    dShadowDirection = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     dsd = dShadowDirection
 
-    dShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    dShadowIntensity = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     dsi = dShadowIntensity
 
     dShadowAmbient = BoolField(default_value=False, readable=False)
@@ -165,10 +171,14 @@ class DefaultShadowsAttrOperator(
 ):
     __slots__ = ()
 
-    dShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    dShadowDirection = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     dsd = dShadowDirection
 
-    dShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    dShadowIntensity = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     dsi = dShadowIntensity
 
     dShadowAmbient = BoolField(default_value=False, readable=False)
@@ -198,10 +208,14 @@ class DefaultShadowsField(
     ATTR_CLS = DefaultShadowsAttrOperator
     PLUG_CLS = DefaultShadowsPlugOperator
 
-    dShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    dShadowDirection = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     dsd = dShadowDirection
 
-    dShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    dShadowIntensity = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     dsi = dShadowIntensity
 
     dShadowAmbient = BoolField(default_value=False, readable=False)
@@ -238,10 +252,14 @@ class LinkedShadowsPlugOperator(
         ("lShadowBlindData", "lbld"),
     )
 
-    lShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    lShadowDirection = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     lsd = lShadowDirection
 
-    lShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    lShadowIntensity = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     lsi = lShadowIntensity
 
     lShadowAmbient = BoolField(default_value=False, readable=False)
@@ -268,10 +286,14 @@ class LinkedShadowsAttrOperator(
 ):
     __slots__ = ()
 
-    lShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    lShadowDirection = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     lsd = lShadowDirection
 
-    lShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    lShadowIntensity = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     lsi = lShadowIntensity
 
     lShadowAmbient = BoolField(default_value=False, readable=False)
@@ -317,10 +339,14 @@ class IgnoredShadowsPlugOperator(
         ("xShadowBlindData", "xbld"),
     )
 
-    xShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    xShadowDirection = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     xsd = xShadowDirection
 
-    xShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    xShadowIntensity = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     xsi = xShadowIntensity
 
     xShadowAmbient = BoolField(default_value=False, readable=False)
@@ -347,10 +373,14 @@ class IgnoredShadowsAttrOperator(
 ):
     __slots__ = ()
 
-    xShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    xShadowDirection = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     xsd = xShadowDirection
 
-    xShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
+    xShadowIntensity = Float3Field(
+        default_value=(0.0, 0.0, 0.0), readable=False
+    )
     xsi = xShadowIntensity
 
     xShadowAmbient = BoolField(default_value=False, readable=False)
@@ -476,9 +506,7 @@ class AiCustomAOVsPlugOperator(
     aov_input = aovInput
 
 
-class AiCustomAOVsAttrOperator(
-    CompoundAttrOperator[AiCustomAOVsPlugOperator]
-):
+class AiCustomAOVsAttrOperator(CompoundAttrOperator[AiCustomAOVsPlugOperator]):
     __slots__ = ()
 
     aovName = DataStringField()
@@ -533,7 +561,9 @@ class AiSurfaceShaderAttrOperator(
 
 
 class AiSurfaceShaderField(
-    Float3CompoundBaseField[AiSurfaceShaderAttrOperator, AiSurfaceShaderPlugOperator]
+    Float3CompoundBaseField[
+        AiSurfaceShaderAttrOperator, AiSurfaceShaderPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -586,7 +616,9 @@ class AiVolumeShaderAttrOperator(
 
 
 class AiVolumeShaderField(
-    Float3CompoundBaseField[AiVolumeShaderAttrOperator, AiVolumeShaderPlugOperator]
+    Float3CompoundBaseField[
+        AiVolumeShaderAttrOperator, AiVolumeShaderPlugOperator
+    ]
 ):
     __slots__ = ()
 

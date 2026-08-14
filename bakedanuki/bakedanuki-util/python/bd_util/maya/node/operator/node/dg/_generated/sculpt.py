@@ -6,19 +6,21 @@ from ....attr.define.node_attr.sculpt import (
     InputField,
     StartPositionField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLIP = 0
@@ -26,7 +28,7 @@ class ModeEnumPlugOperator(EnumPlugOperator):
     STRETCH = 2
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     FLIP = 0
@@ -40,23 +42,23 @@ class ModeEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class InsideModeEnumPlugOperator(EnumPlugOperator):
+class InsideModeEnumPlugOperator(
+    EnumPlugOperator["InsideModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     RING = 0
     EVEN = 1
 
 
-class InsideModeEnumAttrOperator(EnumAttrOperator):
+class InsideModeEnumAttrOperator(EnumAttrOperator[InsideModeEnumPlugOperator]):
     __slots__ = ()
 
     RING = 0
@@ -77,14 +79,18 @@ class InsideModeEnumField(
     PLUG_CLS = InsideModeEnumPlugOperator
 
 
-class DropoffTypeEnumPlugOperator(EnumPlugOperator):
+class DropoffTypeEnumPlugOperator(
+    EnumPlugOperator["DropoffTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
     LINEAR = 1
 
 
-class DropoffTypeEnumAttrOperator(EnumAttrOperator):
+class DropoffTypeEnumAttrOperator(
+    EnumAttrOperator[DropoffTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -105,7 +111,7 @@ class DropoffTypeEnumField(
     PLUG_CLS = DropoffTypeEnumPlugOperator
 
 
-class _GeneratedSculpt(DG):
+class GeneratedSculpt(DG):
     __slots__ = ()
 
     NODE_TYPE = "sculpt"
@@ -122,13 +128,21 @@ class _GeneratedSculpt(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -155,10 +169,14 @@ class _GeneratedSculpt(DG):
     insideMode = InsideModeEnumField(default_value=1)
     im = insideMode
 
-    maximumDisplacement = DoubleLinearField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
+    maximumDisplacement = DoubleLinearField(
+        default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     md = maximumDisplacement
 
-    dropoffDistance = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    dropoffDistance = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     dd = dropoffDistance
 
     dropoffType = DropoffTypeEnumField(default_value=1)

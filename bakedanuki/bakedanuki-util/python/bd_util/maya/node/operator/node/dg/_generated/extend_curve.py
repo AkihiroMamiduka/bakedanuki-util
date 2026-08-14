@@ -1,18 +1,22 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.extend_curve import InputPointField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class ExtensionTypeEnumPlugOperator(EnumPlugOperator):
+class ExtensionTypeEnumPlugOperator(
+    EnumPlugOperator["ExtensionTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -20,7 +24,9 @@ class ExtensionTypeEnumPlugOperator(EnumPlugOperator):
     EXTRAPOLATE = 2
 
 
-class ExtensionTypeEnumAttrOperator(EnumAttrOperator):
+class ExtensionTypeEnumAttrOperator(
+    EnumAttrOperator[ExtensionTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -43,14 +49,18 @@ class ExtensionTypeEnumField(
     PLUG_CLS = ExtensionTypeEnumPlugOperator
 
 
-class ExtendMethodEnumPlugOperator(EnumPlugOperator):
+class ExtendMethodEnumPlugOperator(
+    EnumPlugOperator["ExtendMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     DISTANCE = 0
     POINT = 2
 
 
-class ExtendMethodEnumAttrOperator(EnumAttrOperator):
+class ExtendMethodEnumAttrOperator(
+    EnumAttrOperator[ExtendMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     DISTANCE = 0
@@ -71,7 +81,7 @@ class ExtendMethodEnumField(
     PLUG_CLS = ExtendMethodEnumPlugOperator
 
 
-class StartEnumPlugOperator(EnumPlugOperator):
+class StartEnumPlugOperator(EnumPlugOperator["StartEnumAttrOperator"]):
     __slots__ = ()
 
     END = 0
@@ -79,7 +89,7 @@ class StartEnumPlugOperator(EnumPlugOperator):
     BOTH = 2
 
 
-class StartEnumAttrOperator(EnumAttrOperator):
+class StartEnumAttrOperator(EnumAttrOperator[StartEnumPlugOperator]):
     __slots__ = ()
 
     END = 0
@@ -93,16 +103,14 @@ class StartEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class StartEnumField(
-    EnumField[StartEnumAttrOperator, StartEnumPlugOperator]
-):
+class StartEnumField(EnumField[StartEnumAttrOperator, StartEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = StartEnumAttrOperator
     PLUG_CLS = StartEnumPlugOperator
 
 
-class _GeneratedExtendCurve(DG):
+class GeneratedExtendCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "extendCurve"
@@ -140,7 +148,12 @@ class _GeneratedExtendCurve(DG):
     join = BoolField(default_value=True)
     jn = join
 
-    distance = DoubleLinearField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=20.0)
+    distance = DoubleLinearField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=20.0,
+    )
     d = distance
 
     removeMultipleKnots = BoolField(default_value=False)

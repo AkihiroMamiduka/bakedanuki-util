@@ -88,22 +88,27 @@ node.offset.set_direct(1.0, 2.0, 3.0)
 
 要素数が child 数と一致しない場合は `TypeError` を出します。
 
-## connect
+## connect / disconnect
 
-`connect()` は明示的に呼ぶことを推奨します。
+接続元の `connect()` / `disconnect()` は、`self` から引数のplugを操作します。
 
 ```python
 src.output.connect(dst.input)
+src.output.disconnect(dst.input)
 ```
 
-演算子 sugar も残します。
+接続先から操作する場合は `connect_from()` / `disconnect_from()` を使います。
+接続元には `PlugOperator`、`"node.attr"`、node名とattribute pathを並べた
+`list[str]` / `tuple[str, ...]` を渡せます。
 
 ```python
-src.output > dst.input
-src.output >> dst.multiInput
+dst.input.connect_from(src.output)
+dst.input.connect_from("src.output")
+dst.input.connect_from(["src", "output"])
+dst.input.disconnect_from("src.output")
 ```
 
-速度面では、明示的な `connect()` の方が意図も読みやすく、余計な演算子 dispatch を避けられます。
+いずれも `ModifierManager.dg_mod` へ操作を積み、`do_it_dg()` で実行します。
 
 ## 現状の注意点
 

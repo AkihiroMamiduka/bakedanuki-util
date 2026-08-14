@@ -1,13 +1,13 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyCollapseF(DG):
+class GeneratedPolyCollapseF(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCollapseF"
@@ -45,5 +45,7 @@ class _GeneratedPolyCollapseF(DG):
     useAreaThreshold = BoolField(default_value=False)
     uat = useAreaThreshold
 
-    areaThreshold = DoubleField(default_value=0.1, min_value=0.0, soft_max_value=1.0)
+    areaThreshold = DoubleField(
+        default_value=0.1, min_value=0.0, soft_max_value=1.0
+    )
     at = areaThreshold

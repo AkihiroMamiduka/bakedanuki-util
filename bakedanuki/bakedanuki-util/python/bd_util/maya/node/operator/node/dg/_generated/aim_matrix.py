@@ -5,11 +5,11 @@ from ....attr.define.node_attr.aim_matrix import (
     SecondaryField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 
 
-class _GeneratedAimMatrix(DG):
+class GeneratedAimMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "aimMatrix"

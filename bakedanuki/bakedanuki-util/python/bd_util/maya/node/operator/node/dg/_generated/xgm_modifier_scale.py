@@ -1,11 +1,11 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedXgmModifierScale(DG):
+class GeneratedXgmModifierScale(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierScale"
@@ -22,5 +22,9 @@ class _GeneratedXgmModifierScale(DG):
     mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    scale = FloatField(default_value=1.0, soft_min_value=0.10000000149011612, soft_max_value=10.0)
+    scale = FloatField(
+        default_value=1.0,
+        soft_min_value=0.10000000149011612,
+        soft_max_value=10.0,
+    )
     s = scale

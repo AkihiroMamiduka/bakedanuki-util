@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.smooth_curve import _GeneratedSmoothCurve
+from ._generated.smooth_curve import GeneratedSmoothCurve
 
 
-class SmoothCurve(_GeneratedSmoothCurve):
+class SmoothCurve(GeneratedSmoothCurve):
     __slots__ = ()
 
     NODE_TYPE = "smoothCurve"

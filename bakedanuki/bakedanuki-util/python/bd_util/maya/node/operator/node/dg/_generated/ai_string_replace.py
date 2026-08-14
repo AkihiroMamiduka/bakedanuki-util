@@ -1,16 +1,16 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OsEnumPlugOperator(EnumPlugOperator):
+class OsEnumPlugOperator(EnumPlugOperator["OsEnumAttrOperator"]):
     __slots__ = ()
 
     ANY = 0
@@ -19,7 +19,7 @@ class OsEnumPlugOperator(EnumPlugOperator):
     MAC = 3
 
 
-class OsEnumAttrOperator(EnumAttrOperator):
+class OsEnumAttrOperator(EnumAttrOperator[OsEnumPlugOperator]):
     __slots__ = ()
 
     ANY = 0
@@ -35,16 +35,14 @@ class OsEnumAttrOperator(EnumAttrOperator):
     }
 
 
-class OsEnumField(
-    EnumField[OsEnumAttrOperator, OsEnumPlugOperator]
-):
+class OsEnumField(EnumField[OsEnumAttrOperator, OsEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OsEnumAttrOperator
     PLUG_CLS = OsEnumPlugOperator
 
 
-class _GeneratedAiStringReplace(DG):
+class GeneratedAiStringReplace(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiStringReplace"

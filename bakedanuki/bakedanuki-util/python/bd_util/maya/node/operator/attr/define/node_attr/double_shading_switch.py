@@ -6,18 +6,16 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..custom import (
+    Float2Field,
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import Float2Field
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inDouble", "idl"),
@@ -31,9 +29,7 @@ class InputPlugOperator(
     is_ = inShape
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inDouble = Float2Field(default_value=(0.0, 0.0))
@@ -43,9 +39,7 @@ class InputAttrOperator(
     is_ = inShape
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -68,9 +62,7 @@ class DefaultPlugOperator(
     dc2 = defComp2
 
 
-class DefaultAttrOperator(
-    Float2CompoundBaseAttrOperator[DefaultPlugOperator]
-):
+class DefaultAttrOperator(Float2CompoundBaseAttrOperator[DefaultPlugOperator]):
     __slots__ = ()
 
     defComp1 = FloatField(default_value=0.0)
@@ -95,9 +87,7 @@ class DefaultField(
     dc2 = defComp2
 
 
-class OutputPlugOperator(
-    Float2CompoundBasePlugOperator["OutputAttrOperator"]
-):
+class OutputPlugOperator(Float2CompoundBasePlugOperator["OutputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outComp1", "oc1"),
@@ -111,9 +101,7 @@ class OutputPlugOperator(
     oc2 = outComp2
 
 
-class OutputAttrOperator(
-    Float2CompoundBaseAttrOperator[OutputPlugOperator]
-):
+class OutputAttrOperator(Float2CompoundBaseAttrOperator[OutputPlugOperator]):
     __slots__ = ()
 
     outComp1 = FloatField(default_value=0.0, writable=False)

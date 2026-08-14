@@ -4,17 +4,17 @@ from typing import Self
 from maya.api import OpenMaya as om
 
 from .._core import DAG
-from ._generated.transform import _GeneratedTransform
+from ._generated.transform import GeneratedTransform
 
 
-class Transform(_GeneratedTransform):
+class Transform(GeneratedTransform):
     __slots__ = ()
 
     NODE_TYPE = "transform"
 
     def set_parent(
         self,
-        parent: "Transform",
+        parent: DAG,
         *,
         preserve_world_transform: bool = False,
     ) -> Self:
@@ -28,7 +28,7 @@ class Transform(_GeneratedTransform):
         self._dag_mod.pythonCommandToExecute(
             self._parent_python_command(parent)
         )
-        self.modifier_manager._record_pending_dag_parent(
+        self.modifier_manager.record_pending_dag_parent(
             self.m_obj,
             parent.m_obj,
         )
@@ -52,7 +52,7 @@ class Transform(_GeneratedTransform):
             )
         else:
             self._dag_mod.reparentNode(self.m_obj)
-        self.modifier_manager._record_pending_dag_parent(
+        self.modifier_manager.record_pending_dag_parent(
             self.m_obj,
             om.MObject.kNullObj,
         )

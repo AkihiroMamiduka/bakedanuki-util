@@ -1,19 +1,21 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class NormalOrientationEnumPlugOperator(EnumPlugOperator):
+class NormalOrientationEnumPlugOperator(
+    EnumPlugOperator["NormalOrientationEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -21,7 +23,9 @@ class NormalOrientationEnumPlugOperator(EnumPlugOperator):
     EDGE_LOOP = 2
 
 
-class NormalOrientationEnumAttrOperator(EnumAttrOperator):
+class NormalOrientationEnumAttrOperator(
+    EnumAttrOperator[NormalOrientationEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -36,7 +40,9 @@ class NormalOrientationEnumAttrOperator(EnumAttrOperator):
 
 
 class NormalOrientationEnumField(
-    EnumField[NormalOrientationEnumAttrOperator, NormalOrientationEnumPlugOperator]
+    EnumField[
+        NormalOrientationEnumAttrOperator, NormalOrientationEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44,7 +50,7 @@ class NormalOrientationEnumField(
     PLUG_CLS = NormalOrientationEnumPlugOperator
 
 
-class AlignmentEnumPlugOperator(EnumPlugOperator):
+class AlignmentEnumPlugOperator(EnumPlugOperator["AlignmentEnumAttrOperator"]):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -52,7 +58,7 @@ class AlignmentEnumPlugOperator(EnumPlugOperator):
     SURFACE_AVERAGE = 2
 
 
-class AlignmentEnumAttrOperator(EnumAttrOperator):
+class AlignmentEnumAttrOperator(EnumAttrOperator[AlignmentEnumPlugOperator]):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -75,7 +81,9 @@ class AlignmentEnumField(
     PLUG_CLS = AlignmentEnumPlugOperator
 
 
-class SupportingEdgesEnumPlugOperator(EnumPlugOperator):
+class SupportingEdgesEnumPlugOperator(
+    EnumPlugOperator["SupportingEdgesEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -84,7 +92,9 @@ class SupportingEdgesEnumPlugOperator(EnumPlugOperator):
     BOTH_SIDES = 3
 
 
-class SupportingEdgesEnumAttrOperator(EnumAttrOperator):
+class SupportingEdgesEnumAttrOperator(
+    EnumAttrOperator[SupportingEdgesEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -109,7 +119,7 @@ class SupportingEdgesEnumField(
     PLUG_CLS = SupportingEdgesEnumPlugOperator
 
 
-class _GeneratedPolyCircularize(DG):
+class GeneratedPolyCircularize(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCircularize"
@@ -168,7 +178,9 @@ class _GeneratedPolyCircularize(DG):
     radialOffset = FloatField(default_value=0.0)
     ro = radialOffset
 
-    smoothingAngle = FloatField(default_value=30.0, min_value=0.0, max_value=180.0)
+    smoothingAngle = FloatField(
+        default_value=30.0, min_value=0.0, max_value=180.0
+    )
     sa = smoothingAngle
 
     divisions = LongField(default_value=0, min_value=0)

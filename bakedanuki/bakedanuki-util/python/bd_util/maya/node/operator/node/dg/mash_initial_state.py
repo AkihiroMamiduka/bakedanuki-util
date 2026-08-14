@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_initial_state import _GeneratedMASH_InitialState
+from ._generated.mash_initial_state import GeneratedMASHInitialState
 
 
-class MASH_InitialState(_GeneratedMASH_InitialState):
+class MASHInitialState(GeneratedMASHInitialState):
     __slots__ = ()
 
     NODE_TYPE = "MASH_InitialState"
