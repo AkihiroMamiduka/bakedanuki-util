@@ -4,10 +4,29 @@ from __future__ import annotations
 import os
 import re
 from pathlib import Path
+from typing import Protocol
 
 ENV_NAME = "MAYA_MODULE_PATH"
 PATH_SEPARATOR = ";"
 BAKEDANUKI_FOLDER_NAME = "bakedanuki"
+
+
+class _MayaCmds(Protocol):
+    def about(self, *, version: bool = ...) -> str: ...
+
+    def internalVar(self, *, userAppDir: bool = ...) -> str: ...
+
+    def confirmDialog(
+        self,
+        *,
+        title: str,
+        message: str,
+        button: str | list[str],
+        defaultButton: str,
+        cancelButton: str = ...,
+        dismissString: str = ...,
+        icon: str = ...,
+    ) -> str: ...
 
 
 def _norm_path(path: str) -> str:
@@ -215,7 +234,7 @@ def _target_modules_dir() -> Path:
     return _installer_dir() / "modules"
 
 
-def _maya_version(cmds) -> str:
+def _maya_version(cmds: _MayaCmds) -> str:
     version_text = str(cmds.about(version=True))
     match = re.search(r"\d{4}", version_text)
     if match:
@@ -223,12 +242,17 @@ def _maya_version(cmds) -> str:
     return version_text
 
 
-def _maya_env_path(cmds) -> Path:
+def _maya_env_path(cmds: _MayaCmds) -> Path:
     user_app_dir = Path(cmds.internalVar(userAppDir=True))
     return user_app_dir / _maya_version(cmds) / "Maya.env"
 
 
-def _confirm(cmds, title: str, message: str, icon: str = "question") -> bool:
+def _confirm(
+    cmds: _MayaCmds,
+    title: str,
+    message: str,
+    icon: str = "question",
+) -> bool:
     result = cmds.confirmDialog(
         title=title,
         message=message,
@@ -242,7 +266,10 @@ def _confirm(cmds, title: str, message: str, icon: str = "question") -> bool:
 
 
 def _message(
-    cmds, title: str, message: str, icon: str = "information"
+    cmds: _MayaCmds,
+    title: str,
+    message: str,
+    icon: str = "information",
 ) -> None:
     cmds.confirmDialog(
         title=title,
@@ -323,7 +350,7 @@ def _run() -> None:
         _cleanup_bytecode_cache()
 
 
-def onMayaDroppedPythonFile(*_args) -> None:
+def onMayaDroppedPythonFile(*_args: object) -> None:
     _run()
 
 
