@@ -104,5 +104,9 @@ Parallel、ノード接続、scene の保存と再読込、NodeOperator API を�
   依存しません。
 - 新しい node type を追加するときは [NODE_IDS.md](NODE_IDS.md) へ
   `MTypeId` を先に登録します。
-- production scene へ保存した `MTypeId`、attribute の long name / short name は
-  後から変更しません。
+- v1.0.0 未満では、`typeName`、attribute 構成・名前・default 値、計算仕様の破壊的変更を
+  原則として `0.x.0` の minor release で行う場合があります。`0.x.y` の patch release
+  では意図的に行いません。詳細は [Node Basics](docs/node-basics.md#compatibility-policy-before-v100)
+  を参照してください。
+- 一度公開した `MTypeId` は変更せず、削除した node の ID も別の node に再利用しません。
+  旧仕様と新仕様を共存させる場合は、新しい node type と未使用の `MTypeId` を追加します。

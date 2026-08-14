@@ -42,6 +42,8 @@ v0.1.0 以降の NodeOperator 基盤の改善に加え、Windows版 Maya 2025 / 
   IDE 補完を改善。
 - NodeOperator のノード作成、plug 解決、値取得の処理を高速化。
 - node class generator と生成 stub を、現在の型階層およびネイティブノードへ対応。
+- v1.0.0 未満の互換性方針を明文化。破壊的変更は原則として minor release で行い、
+  patch release では意図的に行わず、一度公開した `MTypeId` は変更・再利用しない方針を追加。
 
 ### Fixed
 

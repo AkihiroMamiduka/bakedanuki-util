@@ -80,11 +80,21 @@ public:
 `MTypeId` は scene 内で node type を識別します。新しい ID は実装前に
 [Node ID Registry](../NODE_IDS.md) へ登録してください。
 
-v1.0.0未満では将来の設計と使いやすさを優先し、`typeName`、attributeのlong name /
-short nameを含めて、必要な破壊的変更を積極的に行います。旧仕様との互換layerや段階的な
-deprecationは原則として設けません。永続APIとしての安定した互換性はv1.0.0以降を
-対象とします。ただし、Autodeskの固有ID blockから割り当てて配布した`MTypeId`は、
-scene fileの永続identityとしてv1.0.0未満でも変更しません。
+## Compatibility Policy Before v1.0.0
+
+v1.0.0 未満では、将来の設計と使いやすさを優先し、必要な破壊的変更を行います。
+安定した永続 API 互換性の提供は v1.0.0 以降を対象とします。
+
+- 破壊的変更は原則として `0.x.0` の minor release で行います。`typeName`、attribute の
+  構成・long name・short name・default 値、計算仕様を変更する場合があり、既存 scene の
+  移行やノードの再作成が必要になる可能性があります。
+- `0.x.y` の patch release では、意図的な破壊的変更を行いません。
+- 旧仕様との互換 layer や段階的な deprecation は原則として設けません。破壊的変更と
+  必要な移行手順はルートの `CHANGELOG.md` に記録します。
+- Autodesk の固有 ID block から割り当てて一度公開した `MTypeId` は、v1.0.0 未満でも
+  変更・再利用しません。node を削除した場合も、その ID は欠番として保持します。
+- 旧仕様との scene 互換性を保ったまま新仕様と共存させる必要がある場合は、旧 node を
+  維持し、新しい `typeName` と未使用の `MTypeId` を持つ別 node を追加します。
 
 ## Attribute Definition
 

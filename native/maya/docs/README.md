@@ -400,6 +400,8 @@
 - `compute()` は data block の入力から data block の出力を決める純粋な処理にする。
 - `kParallel` は速度指定ではなく、thread safety の保証として扱う。
 - background evaluation では current context と normal context を同一視しない。
-- node type、`MTypeId`、attribute 名は scene file の永続データである。
+- node type、`MTypeId`、attribute、計算仕様は scene file の互換性に影響するため、
+  [v1.0.0 未満の互換性方針](node-basics.md#compatibility-policy-before-v100)に従って変更する。
+- 一度公開した `MTypeId` は変更・再利用しない。
 - Maya の実行モードごとの差異は、実際の Maya でテストする。
 - 性能は Release build と現実的な DG で計測してから最適化する。

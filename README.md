@@ -8,6 +8,17 @@
 互換性維持よりも改善を選んで、必要な破壊的変更を積極的に行います。
 安定した API 互換性の提供は v1.0.0 以降を対象とします。
 
+## Compatibility Policy
+
+- 破壊的変更は原則として `0.x.0` の minor release で行います。公開 Python API に加え、
+  ネイティブノードの `typeName`、attribute 構成・名前・default 値、計算仕様も変更対象に
+  含まれ、既存 scene の移行やノードの再作成が必要になる場合があります。
+- `0.x.y` の patch release では、意図的な破壊的変更を行いません。
+- 破壊的変更と必要な移行手順は [CHANGELOG.md](CHANGELOG.md) に記録します。
+- Autodesk から取得した固有 ID block に基づき、一度公開した `MTypeId` は、
+  v1.0.0 未満でも変更・再利用しません。旧仕様と新仕様を共存させる必要がある場合は、
+  新しい node type と未使用の `MTypeId` を追加します。
+
 ## Installation
 
 `bakedanuki-util` は、Maya 2025 以降を対象とした Maya Module 形式の配布構成です。
