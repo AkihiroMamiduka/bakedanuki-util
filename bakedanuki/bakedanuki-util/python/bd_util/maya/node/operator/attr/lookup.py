@@ -159,10 +159,13 @@ def _get_attr_long_name(node: str, attr: str) -> str:
 def _lookup_floating_point_compound_attr_cls(
     node: str, attr: str, attribute_type: str
 ) -> _AttrOperatorClass:
-    child_attrs = cast(
-        list[str] | None,
-        cmds.attributeQuery(attr, node=node, listChildren=True),
-    ) or []
+    child_attrs = (
+        cast(
+            list[str] | None,
+            cmds.attributeQuery(attr, node=node, listChildren=True),
+        )
+        or []
+    )
     if not child_attrs:
         raise TypeError(
             "Unsupported floating point compound attribute: "
