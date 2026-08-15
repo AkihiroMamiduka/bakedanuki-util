@@ -26,6 +26,12 @@ class DoubleLinearPlugOperator(
 
     # set
     def set(self, value: float):
+        """
+        値をセットする: doubleLinear
+
+        Args:
+            value (float): 値
+        """
         value = om.MDistance(value, om.MDistance.kCentimeters)
         self._node.modifier_manager.dg_mod.newPlugValueMDistance(
             self.plug, value
