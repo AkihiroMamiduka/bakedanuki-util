@@ -114,6 +114,8 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "nurbsCurve",
         "nurbsSurface",
     }.issubset(node_creator.available_node_names())
+    assert "ambientLight" not in node_creator.available_node_names()
+    assert "aiStandIn" not in node_creator.available_node_names()
     assert "multiplyDivide" in dir(node_creator)
     assert "transform" in dir(node_creator)
     assert "joint" in dir(node_creator)
@@ -165,3 +167,5 @@ def test_node_creator_unknown_node_raises_attribute_error(new_scene):
 
     with pytest.raises(AttributeError):
         node_creator.not_existing_node()
+    with pytest.raises(AttributeError):
+        node_creator.ambientLight()

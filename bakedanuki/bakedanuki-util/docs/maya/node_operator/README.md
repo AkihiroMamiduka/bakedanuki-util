@@ -222,8 +222,9 @@ mod.do_it_dag()
 - `nurbsCurve`
 - `nurbsSurface`
 
-生成済みでも作成確認前の shape は `nodes.create` へ自動公開しません。
-`nodes.existing` では、生成済みの具体 shape class を引き続き利用できます。
+Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
+`nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。
+ただし、作成確認前の shape は `nodes.create` へ自動公開しません。
 `polyCube` のように Transform、Shape、history node をまとめて作る操作は、raw shape
 作成とは別の高レベル API として扱います。
 

@@ -766,9 +766,15 @@ from bd_util.maya.node.operator.node.dg.decompose_matrix import (
     DecomposeMatrix,
 )
 from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
+from bd_util.maya.node.operator.node.dag.shape.ai_stand_in import AiStandIn
+from bd_util.maya.node.operator.node.dag.shape.ambient_light import (
+    AmbientLight,
+)
+from bd_util.maya.node.operator.node.dag.shape.base_lattice import BaseLattice
 from bd_util.maya.node.operator.node.dag.shape.camera import Camera
 from bd_util.maya.node.operator.node.dag.shape.locator import Locator
 from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
+from bd_util.maya.node.operator.node.dag.shape.n_particle import NParticle
 from bd_util.maya.node.operator.node.dag.shape.nurbs_curve import NurbsCurve
 from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (
     NurbsSurface,
@@ -808,6 +814,16 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.nurbsSurface("existing_surface"),
         NurbsSurface,
+    )
+    assert_type(
+        nodes.existing.ambientLight("existing_ambient_light"),
+        AmbientLight,
+    )
+    assert_type(nodes.existing.nParticle("existing_n_particle"), NParticle)
+    assert_type(nodes.existing.aiStandIn("existing_stand_in"), AiStandIn)
+    assert_type(
+        nodes.existing.baseLattice("existing_base_lattice"),
+        BaseLattice,
     )
 
 

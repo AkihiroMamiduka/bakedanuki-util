@@ -187,6 +187,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 - `tests/maya/node/operator/node/dag/shape/test_create.py`
   - 親 Transform 必須の shape 作成、明示的な公開対象、同一 modifier での
     一括作成、undo / redo を検証します。
+- `tests/maya/node/operator/node/dag/shape/test_generated.py`
+  - concrete shape 81種の public / generated module 対応と import を検証します。
 - `tests/maya/node/operator/node/test_process_speed.py`
   - Maya バージョンに応じた PyMEL 比較ベンチマークの実行可否を検証します。
 

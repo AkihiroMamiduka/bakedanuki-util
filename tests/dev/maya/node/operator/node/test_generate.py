@@ -863,6 +863,47 @@ def test_generate_escapes_reserved_field_and_class_names():
     assert "cmp = compound" in node_code
 
 
+def test_generate_avoids_light_data_base_class_name_collision():
+    attr_infos = [
+        _attr(
+            "lightData",
+            "ltd",
+            "lightData",
+            number_of_children=1,
+        ),
+        _attr(
+            "lightData.lightAmbient",
+            "la",
+            "bool",
+            parent="lightData",
+        ),
+    ]
+
+    node_attr_code = generate_node_attr_code(
+        "exampleLight",
+        attr_infos=attr_infos,
+    )
+    assert node_attr_code is not None
+    compile(node_attr_code, "example_light_node_attr.py", "exec")
+
+    assert "class LightDataValuePlugOperator(" in node_attr_code
+    assert 'LightDataPlugOperator["LightDataValueAttrOperator"]' in (
+        node_attr_code
+    )
+    assert "class LightDataValueAttrOperator(" in node_attr_code
+    assert "class LightDataValueField(" in node_attr_code
+    assert "class LightDataPlugOperator(" not in node_attr_code
+
+    node_code = generate_node_class_code(
+        "exampleLight",
+        attr_infos=attr_infos,
+    )
+    compile(node_code, "example_light.py", "exec")
+
+    assert "LightDataValueField" in node_code
+    assert "lightData = LightDataValueField()" in node_code
+
+
 def test_generate_plus_minus_average_node_class_code():
     code = generate_node_class_code(
         "plusMinusAverage",

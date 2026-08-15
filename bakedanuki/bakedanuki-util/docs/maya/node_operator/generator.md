@@ -198,6 +198,9 @@ attribute 名は Python identifier として安全になるように変換され
 - `NodeOperator` の既存 API と衝突する field 名は `_` を追加して回避する。
   - `name` -> `name_`
   - `create` -> `create_`
+- 生成する compound class 名が imported base class 名と衝突する場合は、
+  `Value` suffix を追加する。
+  - `LightDataField` -> `LightDataValueField`
 
 Maya 側の本来の `long_name` / `short_name` と Python field 名が異なる場合は、Field constructor に `long_name=` / `short_name=` を明示します。
 
@@ -525,8 +528,8 @@ cmds.loadPlugin("mtoa", quiet=True)
 
 標準の shape snapshot は Maya 2025 で `mtoa` をロードした状態を基準とします。
 現在の作成確認済みサンプルは `mesh` / `camera` / `nurbsCurve` / `locator` /
-`nurbsSurface` です。全 shape 生成時も、まず調査用出力先で TODO、構文、import、
-node type 名衝突を確認してから正式出力へ反映します。
+`nurbsSurface` です。concrete shape 81種は正式 snapshot へ生成済みですが、
+再生成時もまず調査用出力先で TODO、構文、import、node type 名衝突を確認します。
 
 shape の attribute 取得には `MNodeClass` と type 指定の `attributeQuery` を使い、
 調査用 node instance は作成しません。これにより、作成時に特殊な初期化を要求する
@@ -618,7 +621,7 @@ Python キーワードと module 名が衝突する `and` / `or` / `not` は、`
 
 - `attributeType=None, dataType=None` の attribute はまだ自動解決できません。
 - DAG / shape 系では DG では目立たなかった attribute type が出る場合があります。未対応型は TODO として残し、型定義を追加してから再生成します。
-- 抽象 `shape` は `createNode()` できないため、静的な node type query で共通属性を生成します。
+- 抽象 `shape` と concrete shape は、静的な node type query で属性を生成します。
 - shape class の生成だけでは `nodes.create` の公開対象になりません。作成確認済み type を明示的に opt-in します。
 - 生成後は必ず git diff を確認します。
 - `_generated` package 以下は再生成時に上書きされるため、手書きコードを追加しません。

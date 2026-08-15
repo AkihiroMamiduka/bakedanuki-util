@@ -49,6 +49,8 @@
 - concrete shape も node instance を作らない静的 query へ統一し、Maya 2025 +
   MtoA の shape 81 種で attribute 取得、TODO なしのコード生成、構文確認、
   別 mayapy process 間の snapshot 比較を完了。
+- concrete shape 81種の generated class / public wrapper / node_attr を正式生成し、
+  `nodes.existing` の具体的な補完 stub へ反映。
 
 ## 決定済みのロードマップ
 
@@ -99,7 +101,7 @@ shape package 全体を無条件に公開しません。
 `camera` / `locator` / `mesh` / `nurbsCurve` / `nurbsSurface` の戻り値型、
 undo / redo、命名、親との `ModifierManager` 共有を検証済みです。
 
-全 shape class を生成した後も、`nodes.create` には作成検証済み type だけを
+全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
 
 ### 4. transform と shape の一括作成

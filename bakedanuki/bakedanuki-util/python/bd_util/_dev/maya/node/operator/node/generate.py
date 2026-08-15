@@ -1459,11 +1459,15 @@ _DIGIT_WORD: dict[str, str] = {
 }
 
 
-_GENERATED_COMPOUND_CLASS_NAME_COLLISIONS = {
-    "CompoundPlugOperator",
-    "CompoundAttrOperator",
-    "CompoundField",
-}
+_GENERATED_COMPOUND_CLASS_NAME_COLLISIONS: frozenset[str] = frozenset(
+    cls_name
+    for compound_base in (
+        *_GENERIC_COMPOUND_AT_BASE.values(),
+        *_SCALAR_COMPOUND_AT_BASE.values(),
+        _QUAT_COMPOUND_AT_BASE,
+    )
+    for cls_name in compound_base[:3]
+)
 
 _MAX_GENERATED_LINE_LENGTH = 79
 
