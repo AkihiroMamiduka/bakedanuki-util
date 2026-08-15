@@ -746,11 +746,7 @@ class GeneratedCamera(Shape):
     aiShutterType = AiShutterTypeEnumField(default_value=0, category="arnold")
     ai_shutter_type = aiShutterType
 
-    aiShutterCurve = AiShutterCurveField(
-        multi=True,
-        default_value=(float("nan"), 8.617985555597625e-43),
-        category="arnold",
-    )
+    aiShutterCurve = AiShutterCurveField(multi=True, category="arnold")
     ai_shutter_curve = aiShutterCurve
 
     aiRollingShutter = AiRollingShutterEnumField(

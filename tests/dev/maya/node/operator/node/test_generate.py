@@ -3,6 +3,7 @@ import math
 
 import pytest
 
+from bd_util._dev.maya.node.operator.node import generate as generate_module
 from bd_util._dev.maya.node.operator.node.generate import (
     _ARNOLD_UNRELIABLE_DEFAULT_ATTRS,
     _AT_TYPE_MAP,
@@ -102,6 +103,27 @@ def test_arnold_unreliable_default_attrs_are_narrowly_scoped():
             }
         ),
         "aiWriteInt": frozenset({"beautyA"}),
+        "camera": frozenset(
+            {
+                "aiShutterCurve",
+                "aiShutterCurveX",
+                "aiShutterCurveY",
+            }
+        ),
+        "stereoRigCamera": frozenset(
+            {
+                "aiShutterCurve",
+                "aiShutterCurveX",
+                "aiShutterCurveY",
+            }
+        ),
+        "ufeProxyCameraShape": frozenset(
+            {
+                "aiShutterCurve",
+                "aiShutterCurveX",
+                "aiShutterCurveY",
+            }
+        ),
     }
 
 
@@ -274,6 +296,56 @@ def test_generate_node_attr_omits_known_unreliable_arnold_child_default():
     assert "layerTintR = FloatField()" in code
     assert "layerTintG = FloatField()" in code
     assert "layerTintB = FloatField(default_value=1.0)" in code
+
+
+@pytest.mark.parametrize(
+    "node_type",
+    ["camera", "stereoRigCamera", "ufeProxyCameraShape"],
+)
+def test_generate_omits_uninitialized_arnold_camera_shutter_curve_defaults(
+    node_type,
+):
+    attr_infos = [
+        _attr(
+            "aiShutterCurve",
+            "ai_shutter_curve",
+            "float2",
+            default_value=[123.0, 456.0],
+            multi=True,
+            number_of_children=2,
+            category=["arnold"],
+        ),
+        _attr(
+            "aiShutterCurveX",
+            "ai_shutter_curvex",
+            "float",
+            default_value=[123.0],
+            parent="aiShutterCurve",
+        ),
+        _attr(
+            "aiShutterCurveY",
+            "ai_shutter_curvey",
+            "float",
+            default_value=[456.0],
+            parent="aiShutterCurve",
+        ),
+    ]
+
+    node_code = generate_node_class_code(
+        node_type,
+        attr_infos=attr_infos,
+        node_kind="shape",
+    )
+    node_attr_code = generate_node_attr_code(
+        node_type,
+        attr_infos=attr_infos,
+    )
+
+    assert "aiShutterCurve = AiShutterCurveField(multi=True" in node_code
+    assert "default_value" not in node_code
+    assert node_attr_code is not None
+    assert "aiShutterCurveX = FloatField()" in node_attr_code
+    assert "aiShutterCurveY = FloatField()" in node_attr_code
 
 
 def _plus_minus_average_attr_infos() -> list[AttrInfo]:
@@ -911,6 +983,32 @@ def test_generate_shape_base_queries_abstract_node_type():
     assert "class GeneratedShape(DAG):" in code
     assert "visibility = BoolField(default_value=True)" in code
     assert "worldMatrix = DataMatrixField(multi=True, writable=False)" in code
+
+
+def test_shape_attr_query_does_not_create_node(monkeypatch):
+    attr_infos = [_attr("outMesh", "out", "typed", data_type="mesh")]
+    queried_node_types = []
+
+    def get_by_type(node_type):
+        queried_node_types.append(node_type)
+        return attr_infos
+
+    def create_and_query(*args, **kwargs):
+        raise AssertionError("shape generation must not create a node")
+
+    monkeypatch.setattr(
+        generate_module,
+        "get_attribute_infos_by_type",
+        get_by_type,
+    )
+    monkeypatch.setattr(
+        generate_module,
+        "get_attribute_infos",
+        create_and_query,
+    )
+
+    assert generate_module._get_node_attr_infos("mesh", "shape") == attr_infos
+    assert queried_node_types == ["mesh"]
 
 
 def test_generate_concrete_shape_filters_shape_base_attributes():

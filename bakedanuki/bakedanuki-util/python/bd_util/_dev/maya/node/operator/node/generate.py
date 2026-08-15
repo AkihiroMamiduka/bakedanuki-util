@@ -231,6 +231,14 @@ _SKIPPED_DAG_NODE_TYPE_KEYWORDS: dict[str, str] = {
 
 # Maya 2025 / MtoA で default query がプロセス依存の未初期化値を返す
 # Arnold attribute。安定した metadata として生成コードへ埋め込まない。
+_ARNOLD_CAMERA_UNRELIABLE_DEFAULT_ATTRS: frozenset[str] = frozenset(
+    {
+        "aiShutterCurve",
+        "aiShutterCurveX",
+        "aiShutterCurveY",
+    }
+)
+
 _ARNOLD_UNRELIABLE_DEFAULT_ATTRS: dict[str, frozenset[str]] = {
     "aiAOVDriver": frozenset(
         {
@@ -278,6 +286,9 @@ _ARNOLD_UNRELIABLE_DEFAULT_ATTRS: dict[str, frozenset[str]] = {
             "beautyA",
         }
     ),
+    "camera": _ARNOLD_CAMERA_UNRELIABLE_DEFAULT_ATTRS,
+    "stereoRigCamera": _ARNOLD_CAMERA_UNRELIABLE_DEFAULT_ATTRS,
+    "ufeProxyCameraShape": _ARNOLD_CAMERA_UNRELIABLE_DEFAULT_ATTRS,
 }
 
 # node class 生成時の対象種別。
@@ -851,7 +862,7 @@ def _node_kind_inherited_node_type(
 
 
 def _get_node_attr_infos(node_type: str, node_kind: str) -> list[AttrInfo]:
-    if node_kind == _NODE_KIND_SHAPE and node_type == "shape":
+    if node_kind == _NODE_KIND_SHAPE:
         return get_attribute_infos_by_type(node_type)
     return get_attribute_infos(
         node_type,

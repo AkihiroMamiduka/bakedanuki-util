@@ -528,6 +528,13 @@ cmds.loadPlugin("mtoa", quiet=True)
 `nurbsSurface` です。全 shape 生成時も、まず調査用出力先で TODO、構文、import、
 node type 名衝突を確認してから正式出力へ反映します。
 
+shape の attribute 取得には `MNodeClass` と type 指定の `attributeQuery` を使い、
+調査用 node instance は作成しません。これにより、作成時に特殊な初期化を要求する
+shape や Maya を不安定にする shape を、一括生成中に `createNode()` することを避けます。
+Maya 2025 + MtoA では、登録された shape 81 種すべてについて静的 query と
+生成コードの構文確認が成功しています。別々の mayapy process 間でも snapshot を
+比較し、MtoA が camera 系へ追加する未初期化 default は生成コードへ埋め込みません。
+
 生成結果には、Maya実行環境と分離した共通のBlack設定を適用します。
 正式な出力先へ生成した後は、リポジトリ直下で次を実行してください。
 

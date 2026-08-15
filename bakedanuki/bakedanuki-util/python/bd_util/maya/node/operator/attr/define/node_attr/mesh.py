@@ -273,13 +273,13 @@ class ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBPlugOperator(
         ("vertexFaceColorB", "vfcb"),
     )
 
-    vertexFaceColorR = FloatField()
+    vertexFaceColorR = FloatField(default_value=0.0, max_value=1.0)
     vfcr = vertexFaceColorR
 
-    vertexFaceColorG = FloatField()
+    vertexFaceColorG = FloatField(default_value=0.0, max_value=1.0)
     vfcg = vertexFaceColorG
 
-    vertexFaceColorB = FloatField()
+    vertexFaceColorB = FloatField(default_value=0.0, max_value=1.0)
     vfcb = vertexFaceColorB
 
 
@@ -290,13 +290,13 @@ class ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBAttrOperator(
 ):
     __slots__ = ()
 
-    vertexFaceColorR = FloatField()
+    vertexFaceColorR = FloatField(default_value=0.0, max_value=1.0)
     vfcr = vertexFaceColorR
 
-    vertexFaceColorG = FloatField()
+    vertexFaceColorG = FloatField(default_value=0.0, max_value=1.0)
     vfcg = vertexFaceColorG
 
-    vertexFaceColorB = FloatField()
+    vertexFaceColorB = FloatField(default_value=0.0, max_value=1.0)
     vfcb = vertexFaceColorB
 
 
@@ -311,13 +311,13 @@ class ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField(
     ATTR_CLS = ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBAttrOperator
     PLUG_CLS = ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBPlugOperator
 
-    vertexFaceColorR = FloatField()
+    vertexFaceColorR = FloatField(default_value=0.0, max_value=1.0)
     vfcr = vertexFaceColorR
 
-    vertexFaceColorG = FloatField()
+    vertexFaceColorG = FloatField(default_value=0.0, max_value=1.0)
     vfcg = vertexFaceColorG
 
-    vertexFaceColorB = FloatField()
+    vertexFaceColorB = FloatField(default_value=0.0, max_value=1.0)
     vfcb = vertexFaceColorB
 
 
@@ -333,13 +333,13 @@ class NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZPlugOpera
         ("vertexFaceNormalZ", "vfnz"),
     )
 
-    vertexFaceNormalX = FloatField()
+    vertexFaceNormalX = FloatField(default_value=1.0000000200408773e20)
     vfnx = vertexFaceNormalX
 
-    vertexFaceNormalY = FloatField()
+    vertexFaceNormalY = FloatField(default_value=1.0000000200408773e20)
     vfny = vertexFaceNormalY
 
-    vertexFaceNormalZ = FloatField()
+    vertexFaceNormalZ = FloatField(default_value=1.0000000200408773e20)
     vfnz = vertexFaceNormalZ
 
 
@@ -350,13 +350,13 @@ class NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZAttrOpera
 ):
     __slots__ = ()
 
-    vertexFaceNormalX = FloatField()
+    vertexFaceNormalX = FloatField(default_value=1.0000000200408773e20)
     vfnx = vertexFaceNormalX
 
-    vertexFaceNormalY = FloatField()
+    vertexFaceNormalY = FloatField(default_value=1.0000000200408773e20)
     vfny = vertexFaceNormalY
 
-    vertexFaceNormalZ = FloatField()
+    vertexFaceNormalZ = FloatField(default_value=1.0000000200408773e20)
     vfnz = vertexFaceNormalZ
 
 
@@ -371,13 +371,13 @@ class NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField(
     ATTR_CLS = NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZAttrOperator
     PLUG_CLS = NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZPlugOperator
 
-    vertexFaceNormalX = FloatField()
+    vertexFaceNormalX = FloatField(default_value=1.0000000200408773e20)
     vfnx = vertexFaceNormalX
 
-    vertexFaceNormalY = FloatField()
+    vertexFaceNormalY = FloatField(default_value=1.0000000200408773e20)
     vfny = vertexFaceNormalY
 
-    vertexFaceNormalZ = FloatField()
+    vertexFaceNormalZ = FloatField(default_value=1.0000000200408773e20)
     vfnz = vertexFaceNormalZ
 
 
@@ -393,13 +393,13 @@ class ColorPerVertex_vertexColor_vertexColorRGBPlugOperator(
         ("vertexColorB", "vxcb"),
     )
 
-    vertexColorR = FloatField()
+    vertexColorR = FloatField(default_value=0.0)
     vxcr = vertexColorR
 
-    vertexColorG = FloatField()
+    vertexColorG = FloatField(default_value=0.0)
     vxcg = vertexColorG
 
-    vertexColorB = FloatField()
+    vertexColorB = FloatField(default_value=0.0)
     vxcb = vertexColorB
 
 
@@ -410,13 +410,13 @@ class ColorPerVertex_vertexColor_vertexColorRGBAttrOperator(
 ):
     __slots__ = ()
 
-    vertexColorR = FloatField()
+    vertexColorR = FloatField(default_value=0.0)
     vxcr = vertexColorR
 
-    vertexColorG = FloatField()
+    vertexColorG = FloatField(default_value=0.0)
     vxcg = vertexColorG
 
-    vertexColorB = FloatField()
+    vertexColorB = FloatField(default_value=0.0)
     vxcb = vertexColorB
 
 
@@ -431,13 +431,13 @@ class ColorPerVertex_vertexColor_vertexColorRGBField(
     ATTR_CLS = ColorPerVertex_vertexColor_vertexColorRGBAttrOperator
     PLUG_CLS = ColorPerVertex_vertexColor_vertexColorRGBPlugOperator
 
-    vertexColorR = FloatField()
+    vertexColorR = FloatField(default_value=0.0)
     vxcr = vertexColorR
 
-    vertexColorG = FloatField()
+    vertexColorG = FloatField(default_value=0.0)
     vxcg = vertexColorG
 
-    vertexColorB = FloatField()
+    vertexColorB = FloatField(default_value=0.0)
     vxcb = vertexColorB
 
 
@@ -453,11 +453,13 @@ class ColorPerVertex_vertexColor_vertexFaceColorPlugOperator(
     )
 
     vertexFaceColorRGB = (
-        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField()
+        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField(
+            default_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0)
+        )
     )
     frgb = vertexFaceColorRGB
 
-    vertexFaceAlpha = FloatField()
+    vertexFaceAlpha = FloatField(default_value=1.0, max_value=1.0)
     vfal = vertexFaceAlpha
 
 
@@ -469,11 +471,13 @@ class ColorPerVertex_vertexColor_vertexFaceColorAttrOperator(
     __slots__ = ()
 
     vertexFaceColorRGB = (
-        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField()
+        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField(
+            default_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0)
+        )
     )
     frgb = vertexFaceColorRGB
 
-    vertexFaceAlpha = FloatField()
+    vertexFaceAlpha = FloatField(default_value=1.0, max_value=1.0)
     vfal = vertexFaceAlpha
 
 
@@ -488,14 +492,6 @@ class ColorPerVertex_vertexColor_vertexFaceColorField(
     ATTR_CLS = ColorPerVertex_vertexColor_vertexFaceColorAttrOperator
     PLUG_CLS = ColorPerVertex_vertexColor_vertexFaceColorPlugOperator
 
-    vertexFaceColorRGB = (
-        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField()
-    )
-    frgb = vertexFaceColorRGB
-
-    vertexFaceAlpha = FloatField()
-    vfal = vertexFaceAlpha
-
 
 class NormalPerVertex_vertexNormal_vertexNormalXYZPlugOperator(
     Float3CompoundBasePlugOperator[
@@ -509,13 +505,13 @@ class NormalPerVertex_vertexNormal_vertexNormalXYZPlugOperator(
         ("vertexNormalZ", "vxnz"),
     )
 
-    vertexNormalX = FloatField()
+    vertexNormalX = FloatField(default_value=1.0000000200408773e20)
     vxnx = vertexNormalX
 
-    vertexNormalY = FloatField()
+    vertexNormalY = FloatField(default_value=1.0000000200408773e20)
     vxny = vertexNormalY
 
-    vertexNormalZ = FloatField()
+    vertexNormalZ = FloatField(default_value=1.0000000200408773e20)
     vxnz = vertexNormalZ
 
 
@@ -526,13 +522,13 @@ class NormalPerVertex_vertexNormal_vertexNormalXYZAttrOperator(
 ):
     __slots__ = ()
 
-    vertexNormalX = FloatField()
+    vertexNormalX = FloatField(default_value=1.0000000200408773e20)
     vxnx = vertexNormalX
 
-    vertexNormalY = FloatField()
+    vertexNormalY = FloatField(default_value=1.0000000200408773e20)
     vxny = vertexNormalY
 
-    vertexNormalZ = FloatField()
+    vertexNormalZ = FloatField(default_value=1.0000000200408773e20)
     vxnz = vertexNormalZ
 
 
@@ -547,13 +543,13 @@ class NormalPerVertex_vertexNormal_vertexNormalXYZField(
     ATTR_CLS = NormalPerVertex_vertexNormal_vertexNormalXYZAttrOperator
     PLUG_CLS = NormalPerVertex_vertexNormal_vertexNormalXYZPlugOperator
 
-    vertexNormalX = FloatField()
+    vertexNormalX = FloatField(default_value=1.0000000200408773e20)
     vxnx = vertexNormalX
 
-    vertexNormalY = FloatField()
+    vertexNormalY = FloatField(default_value=1.0000000200408773e20)
     vxny = vertexNormalY
 
-    vertexNormalZ = FloatField()
+    vertexNormalZ = FloatField(default_value=1.0000000200408773e20)
     vxnz = vertexNormalZ
 
 
@@ -566,7 +562,13 @@ class NormalPerVertex_vertexNormal_vertexFaceNormalPlugOperator(
     CHILD_ATTR_NAMES = (("vertexFaceNormalXYZ", "fnxy"),)
 
     vertexFaceNormalXYZ = (
-        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField()
+        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField(
+            default_value=(
+                1.0000000200408773e20,
+                1.0000000200408773e20,
+                1.0000000200408773e20,
+            )
+        )
     )
     fnxy = vertexFaceNormalXYZ
 
@@ -579,7 +581,13 @@ class NormalPerVertex_vertexNormal_vertexFaceNormalAttrOperator(
     __slots__ = ()
 
     vertexFaceNormalXYZ = (
-        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField()
+        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField(
+            default_value=(
+                1.0000000200408773e20,
+                1.0000000200408773e20,
+                1.0000000200408773e20,
+            )
+        )
     )
     fnxy = vertexFaceNormalXYZ
 
@@ -594,11 +602,6 @@ class NormalPerVertex_vertexNormal_vertexFaceNormalField(
 
     ATTR_CLS = NormalPerVertex_vertexNormal_vertexFaceNormalAttrOperator
     PLUG_CLS = NormalPerVertex_vertexNormal_vertexFaceNormalPlugOperator
-
-    vertexFaceNormalXYZ = (
-        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField()
-    )
-    fnxy = vertexFaceNormalXYZ
 
 
 class CompInstObjGroups_compObjectGroupsPlugOperator(
@@ -744,13 +747,17 @@ class ColorPerVertex_vertexColorPlugOperator(
         ("vertexFaceColor", "vfcl"),
     )
 
-    vertexColorRGB = ColorPerVertex_vertexColor_vertexColorRGBField()
+    vertexColorRGB = ColorPerVertex_vertexColor_vertexColorRGBField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     vrgb = vertexColorRGB
 
-    vertexAlpha = FloatField()
+    vertexAlpha = FloatField(default_value=1.0, max_value=1.0)
     vxal = vertexAlpha
 
-    vertexFaceColor = ColorPerVertex_vertexColor_vertexFaceColorField()
+    vertexFaceColor = ColorPerVertex_vertexColor_vertexFaceColorField(
+        multi=True
+    )
     vfcl = vertexFaceColor
 
 
@@ -759,13 +766,17 @@ class ColorPerVertex_vertexColorAttrOperator(
 ):
     __slots__ = ()
 
-    vertexColorRGB = ColorPerVertex_vertexColor_vertexColorRGBField()
+    vertexColorRGB = ColorPerVertex_vertexColor_vertexColorRGBField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     vrgb = vertexColorRGB
 
-    vertexAlpha = FloatField()
+    vertexAlpha = FloatField(default_value=1.0, max_value=1.0)
     vxal = vertexAlpha
 
-    vertexFaceColor = ColorPerVertex_vertexColor_vertexFaceColorField()
+    vertexFaceColor = ColorPerVertex_vertexColor_vertexFaceColorField(
+        multi=True
+    )
     vfcl = vertexFaceColor
 
 
@@ -790,10 +801,18 @@ class NormalPerVertex_vertexNormalPlugOperator(
         ("vertexFaceNormal", "vfnl"),
     )
 
-    vertexNormalXYZ = NormalPerVertex_vertexNormal_vertexNormalXYZField()
+    vertexNormalXYZ = NormalPerVertex_vertexNormal_vertexNormalXYZField(
+        default_value=(
+            1.0000000200408773e20,
+            1.0000000200408773e20,
+            1.0000000200408773e20,
+        )
+    )
     nxyz = vertexNormalXYZ
 
-    vertexFaceNormal = NormalPerVertex_vertexNormal_vertexFaceNormalField()
+    vertexFaceNormal = NormalPerVertex_vertexNormal_vertexFaceNormalField(
+        multi=True
+    )
     vfnl = vertexFaceNormal
 
 
@@ -802,10 +821,18 @@ class NormalPerVertex_vertexNormalAttrOperator(
 ):
     __slots__ = ()
 
-    vertexNormalXYZ = NormalPerVertex_vertexNormal_vertexNormalXYZField()
+    vertexNormalXYZ = NormalPerVertex_vertexNormal_vertexNormalXYZField(
+        default_value=(
+            1.0000000200408773e20,
+            1.0000000200408773e20,
+            1.0000000200408773e20,
+        )
+    )
     nxyz = vertexNormalXYZ
 
-    vertexFaceNormal = NormalPerVertex_vertexNormal_vertexFaceNormalField()
+    vertexFaceNormal = NormalPerVertex_vertexNormal_vertexFaceNormalField(
+        multi=True
+    )
     vfnl = vertexFaceNormal
 
 

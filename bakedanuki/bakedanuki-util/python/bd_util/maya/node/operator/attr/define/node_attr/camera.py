@@ -871,10 +871,10 @@ class AiShutterCurvePlugOperator(
         ("aiShutterCurveY", "ai_shutter_curvey"),
     )
 
-    aiShutterCurveX = FloatField(default_value=float("nan"))
+    aiShutterCurveX = FloatField()
     ai_shutter_curvex = aiShutterCurveX
 
-    aiShutterCurveY = FloatField(default_value=8.617985555597625e-43)
+    aiShutterCurveY = FloatField()
     ai_shutter_curvey = aiShutterCurveY
 
 
@@ -883,10 +883,10 @@ class AiShutterCurveAttrOperator(
 ):
     __slots__ = ()
 
-    aiShutterCurveX = FloatField(default_value=float("nan"))
+    aiShutterCurveX = FloatField()
     ai_shutter_curvex = aiShutterCurveX
 
-    aiShutterCurveY = FloatField(default_value=8.617985555597625e-43)
+    aiShutterCurveY = FloatField()
     ai_shutter_curvey = aiShutterCurveY
 
 

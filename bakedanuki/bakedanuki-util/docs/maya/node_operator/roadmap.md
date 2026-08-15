@@ -46,6 +46,9 @@
   作成確認済み shape として公開。
 - 抽象 `shape` の共通 attribute を静的 query から生成し、concrete shape の
   重複生成から除外。
+- concrete shape も node instance を作らない静的 query へ統一し、Maya 2025 +
+  MtoA の shape 81 種で attribute 取得、TODO なしのコード生成、構文確認、
+  別 mayapy process 間の snapshot 比較を完了。
 
 ## 決定済みのロードマップ
 
