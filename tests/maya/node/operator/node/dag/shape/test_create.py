@@ -39,11 +39,17 @@ def test_shape_common_attributes_are_generated_on_shape_base():
 @pytest.mark.parametrize(
     ("node_type", "class_name"),
     (
+        ("ambientLight", "AmbientLight"),
+        ("areaLight", "AreaLight"),
         ("camera", "Camera"),
+        ("directionalLight", "DirectionalLight"),
         ("locator", "Locator"),
         ("mesh", "Mesh"),
         ("nurbsCurve", "NurbsCurve"),
         ("nurbsSurface", "NurbsSurface"),
+        ("pointLight", "PointLight"),
+        ("spotLight", "SpotLight"),
+        ("volumeLight", "VolumeLight"),
     ),
 )
 def test_nodes_create_opted_in_shape(
@@ -113,6 +119,92 @@ def test_nodes_create_shapes_in_one_modifier_supports_undo_redo(
     mod.redo_it()
     assert maya_cmds.objExists("shape_parent")
     assert [shape.full_path for shape in shapes] == expected_paths
+
+
+def test_nodes_create_standard_lights_supports_undo_redo(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    light_types = (
+        "ambientLight",
+        "areaLight",
+        "directionalLight",
+        "pointLight",
+        "spotLight",
+        "volumeLight",
+    )
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+    parents = []
+    lights = []
+    for node_type in light_types:
+        parent = nodes.create.transform(name=f"{node_type}_parent")
+        light = getattr(nodes.create, node_type)(
+            name=f"{node_type}Shape",
+            parent=parent,
+        )
+        parents.append(parent)
+        lights.append(light)
+
+    mod.do_it_dag()
+
+    expected_paths = [light.full_path for light in lights]
+    for node_type, parent, light in zip(light_types, parents, lights):
+        assert light.full_path == (f"|{node_type}_parent|{node_type}Shape")
+        assert maya_cmds.nodeType(light.full_path) == node_type
+        assert maya_cmds.listRelatives(
+            parent.full_path,
+            shapes=True,
+            fullPath=True,
+        ) == [light.full_path]
+
+    mod.undo_it()
+    assert all(
+        not maya_cmds.objExists(f"{node_type}_parent")
+        for node_type in light_types
+    )
+
+    mod.redo_it()
+    assert [light.full_path for light in lights] == expected_paths
+    assert [maya_cmds.nodeType(light.full_path) for light in lights] == list(
+        light_types
+    )
+
+
+@pytest.mark.filterwarnings(
+    r"ignore:invalid escape sequence.*:DeprecationWarning",
+    r"ignore:find_module\(\) is deprecated.*:DeprecationWarning",
+    r"ignore:FileFinder\.find_loader\(\) is deprecated.*:DeprecationWarning",
+    r"ignore:the load_module\(\) method is deprecated.*:DeprecationWarning",
+)
+def test_nodes_create_standard_light_exposes_arnold_attribute_when_mtoa_loaded(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    try:
+        maya_cmds.loadPlugin("mtoa", quiet=True)
+    except Exception as exc:
+        pytest.skip(f"mtoa is unavailable: {exc}")
+
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+    parent = nodes.create.transform(name="area_light")
+    area_light = nodes.create.areaLight(
+        name="area_lightShape",
+        parent=parent,
+    )
+    mod.do_it_dag()
+
+    assert maya_cmds.attributeQuery(
+        "aiExposure",
+        node=area_light.full_path,
+        exists=True,
+    )
+    assert area_light.aiExposure.name == "aiExposure"
 
 
 def test_generic_create_supports_opted_in_shape(new_scene, maya_cmds):

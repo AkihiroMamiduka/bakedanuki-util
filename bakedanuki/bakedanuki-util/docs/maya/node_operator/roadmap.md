@@ -81,7 +81,7 @@ DAG path / instancing の方針確定後、次の階層取得 API を追加し�
 world を含めるか、shape を含めるか、列挙順、未実行の `MDagModifier` の
 変更を含めるかを仕様として固定します。
 
-### 3. 親 Transform 必須の shape 作成（第一サンプル完了）
+### 3. 親 Transform 必須の shape 作成（段階公開中）
 
 最初の shape 作成 API は、親 `Transform` を必須として公開します。
 
@@ -101,8 +101,14 @@ shape package 全体を無条件に公開しません。
 `camera` / `locator` / `mesh` / `nurbsCurve` / `nurbsSurface` の戻り値型、
 undo / redo、命名、親との `ModifierManager` 共有を検証済みです。
 
+第二段階として、Maya 標準 light shape の `ambientLight` / `areaLight` /
+`directionalLight` / `pointLight` / `spotLight` / `volumeLight` も同じ条件で検証し、
+`nodes.create` へ公開済みです。MtoA ロード時は、生成済みの Arnold attribute も
+利用できます。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
+Arnold 固有 shape の作成公開は、標準 light shape とは分けて検証します。
 
 ### 4. transform と shape の一括作成
 

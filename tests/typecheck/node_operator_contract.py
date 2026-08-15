@@ -416,6 +416,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double i
     DoubleAttrOperator,
     DoublePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.float import (
+    FloatPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolAttrOperator,
     BoolPlugOperator,
@@ -770,8 +773,12 @@ from bd_util.maya.node.operator.node.dag.shape.ai_stand_in import AiStandIn
 from bd_util.maya.node.operator.node.dag.shape.ambient_light import (
     AmbientLight,
 )
+from bd_util.maya.node.operator.node.dag.shape.area_light import AreaLight
 from bd_util.maya.node.operator.node.dag.shape.base_lattice import BaseLattice
 from bd_util.maya.node.operator.node.dag.shape.camera import Camera
+from bd_util.maya.node.operator.node.dag.shape.directional_light import (
+    DirectionalLight,
+)
 from bd_util.maya.node.operator.node.dag.shape.locator import Locator
 from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 from bd_util.maya.node.operator.node.dag.shape.n_particle import NParticle
@@ -779,6 +786,9 @@ from bd_util.maya.node.operator.node.dag.shape.nurbs_curve import NurbsCurve
 from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (
     NurbsSurface,
 )
+from bd_util.maya.node.operator.node.dag.shape.point_light import PointLight
+from bd_util.maya.node.operator.node.dag.shape.spot_light import SpotLight
+from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
 
 
@@ -806,6 +816,43 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     surface = nodes.create.nurbsSurface(name="surfaceShape", parent=parent)
     assert_type(surface, NurbsSurface)
     assert_type(surface.create_, DataNurbsSurfacePlugOperator)
+
+    ambient_light = nodes.create.ambientLight(
+        name="ambientLightShape",
+        parent=parent,
+    )
+    assert_type(ambient_light, AmbientLight)
+
+    area_light = nodes.create.areaLight(
+        name="areaLightShape",
+        parent=parent,
+    )
+    assert_type(area_light, AreaLight)
+    assert_type(area_light.aiExposure, FloatPlugOperator)
+
+    directional_light = nodes.create.directionalLight(
+        name="directionalLightShape",
+        parent=parent,
+    )
+    assert_type(directional_light, DirectionalLight)
+
+    point_light = nodes.create.pointLight(
+        name="pointLightShape",
+        parent=parent,
+    )
+    assert_type(point_light, PointLight)
+
+    spot_light = nodes.create.spotLight(
+        name="spotLightShape",
+        parent=parent,
+    )
+    assert_type(spot_light, SpotLight)
+
+    volume_light = nodes.create.volumeLight(
+        name="volumeLightShape",
+        parent=parent,
+    )
+    assert_type(volume_light, VolumeLight)
 
     assert_type(nodes.existing.mesh("existing_mesh"), Mesh)
     assert_type(nodes.existing.camera("existing_camera"), Camera)

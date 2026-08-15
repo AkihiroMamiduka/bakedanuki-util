@@ -21,11 +21,17 @@ _NODE_TYPE_PATTERN = re.compile(
 
 _CREATABLE_SHAPE_NODE_TYPES = frozenset(
     {
+        "ambientLight",
+        "areaLight",
         "camera",
+        "directionalLight",
         "locator",
         "mesh",
         "nurbsCurve",
         "nurbsSurface",
+        "pointLight",
+        "spotLight",
+        "volumeLight",
     }
 )
 

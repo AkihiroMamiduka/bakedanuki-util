@@ -6,11 +6,17 @@ from collections.abc import Callable
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 from ..operator.node.dag._core import DAG
+from ..operator.node.dag.shape.ambient_light import AmbientLight
+from ..operator.node.dag.shape.area_light import AreaLight
 from ..operator.node.dag.shape.camera import Camera
+from ..operator.node.dag.shape.directional_light import DirectionalLight
 from ..operator.node.dag.shape.locator import Locator
 from ..operator.node.dag.shape.mesh import Mesh
 from ..operator.node.dag.shape.nurbs_curve import NurbsCurve
 from ..operator.node.dag.shape.nurbs_surface import NurbsSurface
+from ..operator.node.dag.shape.point_light import PointLight
+from ..operator.node.dag.shape.spot_light import SpotLight
+from ..operator.node.dag.shape.volume_light import VolumeLight
 from ..operator.node.dag.transform._core import Transform
 from ..operator.node.dag.transform.joint import Joint
 from ..operator.node.dg.about_to_set_value_test_node import (
@@ -2115,6 +2121,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AlignSurface: ...
+    def ambientLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AmbientLight: ...
     def and_(
         self,
         name: str | None = None,
@@ -2340,6 +2353,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyRelOverride: ...
+    def areaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AreaLight: ...
     def arnoldAOVChildSelector(
         self,
         name: str | None = None,
@@ -3822,6 +3842,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Determinant: ...
+    def directionalLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DirectionalLight: ...
     def diskCache(
         self,
         name: str | None = None,
@@ -5277,6 +5304,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PlusMinusAverage: ...
+    def pointLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> PointLight: ...
     def pointMatrixMult(
         self,
         name: str | None = None,
@@ -6392,6 +6426,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SpBirailSrf: ...
+    def spotLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> SpotLight: ...
     def squareSrf(
         self,
         name: str | None = None,
@@ -6824,6 +6865,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> VolumeFog: ...
+    def volumeLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> VolumeLight: ...
     def volumeNoise(
         self,
         name: str | None = None,
