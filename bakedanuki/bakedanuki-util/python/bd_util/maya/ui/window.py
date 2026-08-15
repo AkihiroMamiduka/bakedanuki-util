@@ -4,10 +4,13 @@ from typing import TypeVar
 
 from PySide6 import QtWidgets
 
-from ...ui import WindowController
+from ...logger import get_logger
+from ...ui import SettingsPath, WindowController, WindowStateTracker
 from .main_window import get_main_window
+from .settings import create_window_state_store
 
 WindowT = TypeVar("WindowT", bound=QtWidgets.QWidget)
+logger = get_logger(__name__)
 
 
 class MayaWindowController(WindowController[WindowT]):
@@ -16,13 +19,41 @@ class MayaWindowController(WindowController[WindowT]):
     def __init__(
         self,
         factory: Callable[[QtWidgets.QWidget | None], WindowT],
+        *,
+        settings_path: str | SettingsPath | None = None,
     ) -> None:
         """Maya main windowを受け取るfactoryで初期化する。"""
-        # window生成時までMaya main windowの取得を遅延する。
+        # window生成時までMaya main windowとsettingsの取得を遅延する。
         self._maya_factory = factory
+        self._settings_path = (
+            None
+            if settings_path is None
+            else SettingsPath.from_value(settings_path)
+        )
+        self._state_tracker: WindowStateTracker | None = None
         super().__init__(self._create_window)
+
+    @property
+    def settings_path(self) -> SettingsPath | None:
+        """window stateの保存先を返す。"""
+        # 永続化が無効な場合はNoneを返す。
+        return self._settings_path
 
     def _create_window(self) -> WindowT:
         """現在のMaya main windowを親としてwindowを生成する。"""
         # 生成のたびに最新のMaya main windowをfactoryへ渡す。
-        return self._maya_factory(get_main_window())
+        window = self._maya_factory(get_main_window())
+
+        # settings pathが指定されたwindowだけstateの復元と保存を有効にする。
+        if self._settings_path is not None:
+            try:
+                store = create_window_state_store(self._settings_path)
+            except (OSError, RuntimeError) as error:
+                logger.warning(
+                    "UI settingsを初期化できませんでした: %s",
+                    error,
+                )
+            else:
+                self._state_tracker = WindowStateTracker(window, store)
+
+        return window

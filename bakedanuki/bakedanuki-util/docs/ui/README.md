@@ -47,3 +47,41 @@ simple_window.show()
 
 `get_main_window()`はbatch MayaとMaya初期化前には`None`を返します。そのため、これらの
 環境でmoduleをimportしてもMaya UIを取得しに行きません。
+
+## Window stateの保存
+
+`settings_path`を指定すると、windowの位置、サイズ、最大化状態をMayaのuser
+preferencesへ保存します。`QMainWindow`の場合は、dockとtoolbarのstateもgeometryと
+分離して保存します。
+
+```python
+controller = MayaWindowController(
+    MyWindow,
+    settings_path="tool_name/widget_a/func_a/my_window",
+)
+```
+
+先頭segmentはtool名、それ以降はtoolのINIファイル内のgroupとして扱います。
+
+```text
+<Maya userPrefDir>/
+└─ bakedanuki/
+   └─ tools/
+      └─ tool_name/
+         └─ ui.ini
+```
+
+`ui.ini`内では次のgroupとkeyに分かれます。
+
+```text
+widget_a/func_a/my_window/geometry
+widget_a/func_a/my_window/window_state
+widget_a/func_a/my_window/schema_version
+```
+
+window stateはclose eventで保存されます。タイトルバーのclose、`controller.close()`、
+`controller.dispose()`のいずれも同じ保存処理を通ります。`settings_path`を省略した場合は
+永続化を行いません。
+
+`settings_path`はplatformにかかわらず`/`で区切ります。絶対path、`.`、`..`、空segment、
+Windows予約名や使用できない文字は拒否されます。

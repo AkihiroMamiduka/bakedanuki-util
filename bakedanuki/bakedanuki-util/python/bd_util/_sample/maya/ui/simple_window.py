@@ -29,7 +29,10 @@ class SampleWindow(QtWidgets.QDialog):
 
 
 # module内で1つのwindow instanceを共有する。
-_controller = MayaWindowController(SampleWindow)
+_controller = MayaWindowController(
+    SampleWindow,
+    settings_path="bakedanuki_util/sample/simple_window",
+)
 
 
 def show() -> SampleWindow:
