@@ -800,6 +800,7 @@ from .operator.node.dg.lights_collection_selector import (
     LightsCollectionSelector,
 )
 from .operator.node.dg.list_item import ListItem
+from .operator.node.dag.shape.locator import Locator
 from .operator.node.dg.lod_thresholds import LodThresholds
 from .operator.node.dg.loft import Loft
 from .operator.node.dg.log import Log
@@ -872,7 +873,9 @@ from .operator.node.dg.node_graph_editor_bookmarks import (
 from .operator.node.dg.noise import Noise
 from .operator.node.dg.non_linear import NonLinear
 from .operator.node.dg.normalize import Normalize
+from .operator.node.dag.shape.nurbs_curve import NurbsCurve
 from .operator.node.dg.nurbs_curve_to_bezier import NurbsCurveToBezier
+from .operator.node.dag.shape.nurbs_surface import NurbsSurface
 from .operator.node.dg.nurbs_tessellate import NurbsTessellate
 from .operator.node.dg.nurbs_to_subdiv import NurbsToSubdiv
 from .operator.node.dg.nurbs_to_subdiv_proc import NurbsToSubdivProc
@@ -4727,6 +4730,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ListItem: ...
+    def locator(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Locator: ...
     def lodThresholds(
         self,
         node: str | om.MObject,
@@ -5022,11 +5030,21 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
+    def nurbsCurve(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> NurbsCurve: ...
     def nurbsCurveToBezier(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NurbsCurveToBezier: ...
+    def nurbsSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> NurbsSurface: ...
     def nurbsTessellate(
         self,
         node: str | om.MObject,

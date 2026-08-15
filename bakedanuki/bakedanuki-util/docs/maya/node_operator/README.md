@@ -175,7 +175,8 @@ mult_div = nodes.create.multiplyDivide(name="mult_div")
 modifier_manager.do_it_dg()
 ```
 
-内部の `NodeCreator` は DG ノード名と transform 系 DAG ノード名を lazy import し、`NodeOperator.create()` を呼びます。
+内部の `NodeCreator` は DG ノード名、transform 系 DAG ノード名、作成確認済みの
+shape ノード名を lazy import し、`NodeOperator.create()` を呼びます。
 生成メソッド名は `multiplyDivide` のような Maya nodeType 名に合わせています。
 `create()` には `plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも渡せます。
 IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
@@ -195,8 +196,36 @@ child = nodes.create.transform(name="child", parent=parent)
 mod.do_it_dag()
 ```
 
-shape 系ノードは transform 親の扱いが絡むため、現時点では作成 API には出していません。
-ただし `nodes.existing` 用の class 解決対象には含めています。
+shape 系ノードは、親 `Transform` を必須として作成します。親を省略して Maya に
+Transform を自動生成させる経路は公開しません。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+transform = nodes.create.transform(name="mesh")
+mesh = nodes.create.mesh(
+    name="meshShape",
+    parent=transform,
+)
+
+mod.do_it_dag()
+```
+
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の5種類です。
+
+- `camera`
+- `locator`
+- `mesh`
+- `nurbsCurve`
+- `nurbsSurface`
+
+生成済みでも作成確認前の shape は `nodes.create` へ自動公開しません。
+`nodes.existing` では、生成済みの具体 shape class を引き続き利用できます。
+`polyCube` のように Transform、Shape、history node をまとめて作る操作は、raw shape
+作成とは別の高レベル API として扱います。
 
 ## DAG の親子操作
 

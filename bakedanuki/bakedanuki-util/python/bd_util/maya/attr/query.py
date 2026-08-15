@@ -106,6 +106,12 @@ def get_data_type_name(node: str, attr: str) -> str | None:
     if attr_obj is None:
         return None
 
+    return get_data_type_name_from_attr(attr_obj)
+
+
+def get_data_type_name_from_attr(attr_obj: om.MObject) -> str | None:
+    """OpenMaya attribute object から data type 名を返す。"""
+
     if not attr_obj.hasFn(om.MFn.kTypedAttribute):
         return None
 
@@ -190,6 +196,14 @@ def get_attribute_type_name(node: str, attr: str) -> str | None:
     attr_obj = safe_query(get_attr, node, attr)
     if attr_obj is None:
         return None
+
+    return get_attribute_type_name_from_attr(attr_obj)
+
+
+def get_attribute_type_name_from_attr(
+    attr_obj: om.MObject,
+) -> str | None:
+    """OpenMaya attribute object から attribute type 名を返す。"""
 
     for resolver in (
         get_numeric_attribute_type_name,
@@ -364,6 +378,164 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
         path_name=path_name,
         enforcing_unique_name=enforcing_unique_name,
     )
+
+
+def get_attribute_info_by_type(node_type: str, attr: str) -> AttrInfo:
+    """node instance を作成せず、node type から attribute 情報を返す。"""
+    node_class = om.MNodeClass(node_type)
+    attr_obj = node_class.attribute(attr)
+    fn_attr = om.MFnAttribute(attr_obj)
+
+    short_name = safe_query(
+        cmds.attributeQuery,
+        attr,
+        type=node_type,
+        shortName=True,
+    )
+    if not isinstance(short_name, str):
+        short_name = fn_attr.shortName
+
+    path_name = getattr(fn_attr, "pathName", None)
+    if callable(path_name):
+        path_name = cast(Callable[[], object], path_name)()
+    if not isinstance(path_name, str):
+        path_name = None
+
+    enforcing_unique_name = getattr(fn_attr, "enforcingUniqueName", None)
+    if not isinstance(enforcing_unique_name, bool):
+        enforcing_unique_name = None
+
+    attribute_type = safe_query(
+        cmds.attributeQuery,
+        attr,
+        type=node_type,
+        attributeType=True,
+    )
+    if not isinstance(attribute_type, str):
+        attribute_type = get_attribute_type_name_from_attr(attr_obj)
+    data_type = get_data_type_name_from_attr(attr_obj)
+
+    default_value = safe_query(
+        cmds.attributeQuery,
+        attr,
+        type=node_type,
+        listDefault=True,
+    )
+    min_value = safe_query(
+        cmds.attributeQuery,
+        attr,
+        type=node_type,
+        minimum=True,
+    )
+    max_value = safe_query(
+        cmds.attributeQuery,
+        attr,
+        type=node_type,
+        maximum=True,
+    )
+    soft_min_value = safe_query(
+        cmds.attributeQuery,
+        attr,
+        type=node_type,
+        softMin=True,
+    )
+    soft_max_value = safe_query(
+        cmds.attributeQuery,
+        attr,
+        type=node_type,
+        softMax=True,
+    )
+    enum_name = _as_str_list(
+        safe_query(
+            cmds.attributeQuery,
+            attr,
+            type=node_type,
+            listEnum=True,
+        )
+    )
+    multi = _as_bool(
+        safe_query(
+            cmds.attributeQuery,
+            attr,
+            type=node_type,
+            multi=True,
+        )
+    )
+    number_of_children = _as_int(
+        safe_query(
+            cmds.attributeQuery,
+            attr,
+            type=node_type,
+            numberOfChildren=True,
+        )
+    )
+    parent = _as_str_list(
+        safe_query(
+            cmds.attributeQuery,
+            attr,
+            type=node_type,
+            listParent=True,
+        )
+    )
+    if not parent and not fn_attr.parent.isNull():
+        parent = [om.MFnAttribute(fn_attr.parent).name]
+    readable = _as_bool(
+        safe_query(
+            cmds.attributeQuery,
+            attr,
+            type=node_type,
+            readable=True,
+        )
+    )
+    writable = _as_bool(
+        safe_query(
+            cmds.attributeQuery,
+            attr,
+            type=node_type,
+            writable=True,
+        )
+    )
+    category = _as_str_list(
+        safe_query(
+            cmds.attributeQuery,
+            attr,
+            type=node_type,
+            categories=True,
+        )
+    )
+
+    return AttrInfo(
+        long_name=fn_attr.name,
+        short_name=short_name,
+        attribute_type=attribute_type,
+        data_type=data_type,
+        default_value=default_value,
+        min_value=min_value,
+        max_value=max_value,
+        soft_min_value=soft_min_value,
+        soft_max_value=soft_max_value,
+        enum_name=enum_name,
+        multi=multi,
+        number_of_children=number_of_children,
+        parent=parent,
+        readable=readable,
+        writable=writable,
+        category=category,
+        path_name=path_name,
+        enforcing_unique_name=enforcing_unique_name,
+    )
+
+
+def get_attribute_infos_by_type(node_type: str) -> list[AttrInfo]:
+    """node instance を作成せず、登録済み node type の属性を取得する。"""
+    node_class = om.MNodeClass(node_type)
+    return [
+        get_attribute_info_by_type(
+            node_type,
+            om.MFnAttribute(node_class.attribute(index)).name,
+        )
+        for index in range(node_class.attributeCount)
+    ]
 
 
 def get_attribute_infos(

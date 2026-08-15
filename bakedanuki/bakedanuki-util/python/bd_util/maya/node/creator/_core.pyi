@@ -6,6 +6,11 @@ from collections.abc import Callable
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 from ..operator.node.dag._core import DAG
+from ..operator.node.dag.shape.camera import Camera
+from ..operator.node.dag.shape.locator import Locator
+from ..operator.node.dag.shape.mesh import Mesh
+from ..operator.node.dag.shape.nurbs_curve import NurbsCurve
+from ..operator.node.dag.shape.nurbs_surface import NurbsSurface
 from ..operator.node.dag.transform._core import Transform
 from ..operator.node.dag.transform.joint import Joint
 from ..operator.node.dg.about_to_set_value_test_node import (
@@ -3365,6 +3370,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CacheFile: ...
+    def camera(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Camera: ...
     def cameraSet(
         self,
         name: str | None = None,
@@ -4497,6 +4509,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ListItem: ...
+    def locator(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Locator: ...
     def lodThresholds(
         self,
         name: str | None = None,
@@ -4892,6 +4911,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Membrane: ...
+    def mesh(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Mesh: ...
     def min(
         self,
         name: str | None = None,
@@ -5022,6 +5048,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeOperator: ...
+    def nurbsCurve(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NurbsCurve: ...
     def nurbsCurveToBezier(
         self,
         name: str | None = None,
@@ -5032,6 +5065,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NurbsTessellate: ...
+    def nurbsSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NurbsSurface: ...
     def nurbsToSubdiv(
         self,
         name: str | None = None,

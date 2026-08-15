@@ -433,6 +433,18 @@ from bd_util.maya.node.operator.attr.define.std.at.typed import (
 from bd_util.maya.node.operator.attr.define.std.dt.matrix import (
     DataMatrixPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.dt.mesh import (
+    DataMeshPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.dt.nurbs_curve import (
+    DataNurbsCurvePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.dt.nurbs_surface import (
+    DataNurbsSurfacePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.locator import (
+    LocalPositionPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.custom import (
     Double3PlugOperator,
 )
@@ -754,6 +766,49 @@ from bd_util.maya.node.operator.node.dg.decompose_matrix import (
     DecomposeMatrix,
 )
 from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
+from bd_util.maya.node.operator.node.dag.shape.camera import Camera
+from bd_util.maya.node.operator.node.dag.shape.locator import Locator
+from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
+from bd_util.maya.node.operator.node.dag.shape.nurbs_curve import NurbsCurve
+from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (
+    NurbsSurface,
+)
+from bd_util.maya.node.operator.node.dag.transform._core import Transform
+
+
+def shape_creation_contract(nodes: bdu.Nodes) -> None:
+    parent = nodes.create.transform(name="shape_parent")
+    assert_type(parent, Transform)
+
+    mesh = nodes.create.mesh(name="meshShape", parent=parent)
+    assert_type(mesh, Mesh)
+    assert_type(mesh.inMesh, DataMeshPlugOperator)
+    assert_type(mesh.visibility, BoolPlugOperator)
+
+    camera = nodes.create.camera(name="cameraShape", parent=parent)
+    assert_type(camera, Camera)
+    assert_type(camera.focalLength, DoublePlugOperator)
+
+    locator = nodes.create.locator(name="locatorShape", parent=parent)
+    assert_type(locator, Locator)
+    assert_type(locator.localPosition, LocalPositionPlugOperator)
+
+    curve = nodes.create.nurbsCurve(name="curveShape", parent=parent)
+    assert_type(curve, NurbsCurve)
+    assert_type(curve.create_, DataNurbsCurvePlugOperator)
+
+    surface = nodes.create.nurbsSurface(name="surfaceShape", parent=parent)
+    assert_type(surface, NurbsSurface)
+    assert_type(surface.create_, DataNurbsSurfacePlugOperator)
+
+    assert_type(nodes.existing.mesh("existing_mesh"), Mesh)
+    assert_type(nodes.existing.camera("existing_camera"), Camera)
+    assert_type(nodes.existing.locator("existing_locator"), Locator)
+    assert_type(nodes.existing.nurbsCurve("existing_curve"), NurbsCurve)
+    assert_type(
+        nodes.existing.nurbsSurface("existing_surface"),
+        NurbsSurface,
+    )
 
 
 def node_accessor_contract(nodes: bdu.Nodes) -> None:
@@ -3243,6 +3298,7 @@ def invalid_usage_contract(
     nodes.create.composeMatrix(
         unknown_option=True  # pyright: ignore[reportCallIssue]
     )
+    nodes.create.mesh()  # pyright: ignore[reportCallIssue]
     nodes.existing.decomposeMatrix(123)  # pyright: ignore[reportArgumentType]
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]

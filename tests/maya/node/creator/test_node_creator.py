@@ -106,23 +106,46 @@ def test_node_creator_available_node_names_for_completion(new_scene):
     assert "plusMinusAverage" in node_creator.available_node_names()
     assert "transform" in node_creator.available_node_names()
     assert "joint" in node_creator.available_node_names()
-    assert "mesh" not in node_creator.available_node_names()
+    assert "mesh" in node_creator.available_node_names()
+    assert {
+        "camera",
+        "locator",
+        "mesh",
+        "nurbsCurve",
+        "nurbsSurface",
+    }.issubset(node_creator.available_node_names())
     assert "multiplyDivide" in dir(node_creator)
     assert "transform" in dir(node_creator)
     assert "joint" in dir(node_creator)
+    assert "mesh" in dir(node_creator)
     assert "and_" in dir(node_creator)
 
 
-def test_node_creator_resolves_shape_class_without_creator(new_scene):
+def test_node_creator_creates_opted_in_shape(new_scene, maya_cmds):
     from bd_util.maya.node.creator import NodeCreator
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 
     node_creator = NodeCreator()
+    parent = node_creator.transform(name="mesh_parent")
+    mesh = node_creator.mesh(name="meshShape", parent=parent)
+    node_creator.modifier_manager.do_it_dag()
 
     assert node_creator.node_class("mesh") is Mesh
-    assert "mesh" not in dir(node_creator)
-    with pytest.raises(AttributeError):
+    assert isinstance(mesh, Mesh)
+    assert "mesh" in dir(node_creator)
+    assert mesh.full_path == "|mesh_parent|meshShape"
+    assert maya_cmds.nodeType(mesh.full_path) == "mesh"
+
+
+def test_node_creator_shape_requires_parent(new_scene):
+    from bd_util.maya.node.creator import NodeCreator
+
+    node_creator = NodeCreator()
+
+    with pytest.raises(TypeError, match="required keyword-only argument"):
         node_creator.mesh()
+    with pytest.raises(TypeError, match="parent is required"):
+        node_creator.create("mesh")
 
 
 def test_node_creator_supports_keyword_node_name_alias(new_scene):

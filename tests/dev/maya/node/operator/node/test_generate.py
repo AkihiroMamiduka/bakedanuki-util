@@ -900,6 +900,38 @@ def test_generate_shape_node_class_code():
     assert "TODO: face" not in code
 
 
+def test_generate_shape_base_queries_abstract_node_type():
+    code = generate_node_class_code(
+        "shape",
+        node_kind="shape",
+    )
+
+    compile(code, "shape.py", "exec")
+
+    assert "class GeneratedShape(DAG):" in code
+    assert "visibility = BoolField(default_value=True)" in code
+    assert "worldMatrix = DataMatrixField(multi=True, writable=False)" in code
+
+
+def test_generate_concrete_shape_filters_shape_base_attributes():
+    code = generate_node_class_code(
+        "mesh",
+        attr_infos=[
+            *_shape_like_attr_infos(),
+            _attr("visibility", "v", "bool", default_value=[True]),
+        ],
+        node_kind="shape",
+        inherited_attr_infos=[
+            _attr("visibility", "v", "bool", default_value=[True]),
+        ],
+    )
+
+    compile(code, "mesh.py", "exec")
+
+    assert "visibility = BoolField(" not in code
+    assert "outMesh = DataMeshField(writable=False)" in code
+
+
 def test_generate_field_init_args_include_attribute_metadata():
     code = generate_node_class_code(
         "metadataNode",

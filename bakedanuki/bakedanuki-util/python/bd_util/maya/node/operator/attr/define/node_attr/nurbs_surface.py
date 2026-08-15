@@ -14,14 +14,11 @@ from ..std.at.scalar.numeric.bool import BoolField
 from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.scalar.numeric.range.long import LongField
+from ..std.at.scalar.numeric.range.short import ShortField
 from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
-from ..std.at.scalar.unit.range.float_linear import FloatLinearField
 from ..std.at.typed import TypedField
 from ..std.dt.string import DataStringField
 from ..custom import (
-    Float3CompoundBaseAttrOperator,
-    Float3CompoundBasePlugOperator,
-    Float3CompoundBaseField,
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
@@ -31,12 +28,15 @@ from ..custom import (
     Double2CompoundBaseAttrOperator,
     Double2CompoundBasePlugOperator,
     Double2CompoundBaseField,
-    FloatLinear3CompoundBaseAttrOperator,
-    FloatLinear3CompoundBasePlugOperator,
-    FloatLinear3CompoundBaseField,
-    Long3CompoundBaseAttrOperator,
-    Long3CompoundBasePlugOperator,
-    Long3CompoundBaseField,
+    Float3CompoundBaseAttrOperator,
+    Float3CompoundBasePlugOperator,
+    Float3CompoundBaseField,
+    Short2CompoundBaseAttrOperator,
+    Short2CompoundBasePlugOperator,
+    Short2CompoundBaseField,
+    Long2CompoundBaseAttrOperator,
+    Long2CompoundBasePlugOperator,
+    Long2CompoundBaseField,
 )
 
 
@@ -261,346 +261,6 @@ class CollisionDepthVelocityMultiplier_collisionDepthVelocityMultiplier_InterpEn
     PLUG_CLS = CollisionDepthVelocityMultiplier_collisionDepthVelocityMultiplier_InterpEnumPlugOperator
 
 
-class ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBPlugOperator(
-    Float3CompoundBasePlugOperator[
-        "ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBAttrOperator"
-    ]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexFaceColorR", "vfcr"),
-        ("vertexFaceColorG", "vfcg"),
-        ("vertexFaceColorB", "vfcb"),
-    )
-
-    vertexFaceColorR = FloatField()
-    vfcr = vertexFaceColorR
-
-    vertexFaceColorG = FloatField()
-    vfcg = vertexFaceColorG
-
-    vertexFaceColorB = FloatField()
-    vfcb = vertexFaceColorB
-
-
-class ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBAttrOperator(
-    Float3CompoundBaseAttrOperator[
-        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    vertexFaceColorR = FloatField()
-    vfcr = vertexFaceColorR
-
-    vertexFaceColorG = FloatField()
-    vfcg = vertexFaceColorG
-
-    vertexFaceColorB = FloatField()
-    vfcb = vertexFaceColorB
-
-
-class ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField(
-    Float3CompoundBaseField[
-        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBAttrOperator,
-        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBAttrOperator
-    PLUG_CLS = ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBPlugOperator
-
-    vertexFaceColorR = FloatField()
-    vfcr = vertexFaceColorR
-
-    vertexFaceColorG = FloatField()
-    vfcg = vertexFaceColorG
-
-    vertexFaceColorB = FloatField()
-    vfcb = vertexFaceColorB
-
-
-class NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZPlugOperator(
-    Float3CompoundBasePlugOperator[
-        "NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZAttrOperator"
-    ]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexFaceNormalX", "vfnx"),
-        ("vertexFaceNormalY", "vfny"),
-        ("vertexFaceNormalZ", "vfnz"),
-    )
-
-    vertexFaceNormalX = FloatField()
-    vfnx = vertexFaceNormalX
-
-    vertexFaceNormalY = FloatField()
-    vfny = vertexFaceNormalY
-
-    vertexFaceNormalZ = FloatField()
-    vfnz = vertexFaceNormalZ
-
-
-class NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZAttrOperator(
-    Float3CompoundBaseAttrOperator[
-        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    vertexFaceNormalX = FloatField()
-    vfnx = vertexFaceNormalX
-
-    vertexFaceNormalY = FloatField()
-    vfny = vertexFaceNormalY
-
-    vertexFaceNormalZ = FloatField()
-    vfnz = vertexFaceNormalZ
-
-
-class NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField(
-    Float3CompoundBaseField[
-        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZAttrOperator,
-        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZAttrOperator
-    PLUG_CLS = NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZPlugOperator
-
-    vertexFaceNormalX = FloatField()
-    vfnx = vertexFaceNormalX
-
-    vertexFaceNormalY = FloatField()
-    vfny = vertexFaceNormalY
-
-    vertexFaceNormalZ = FloatField()
-    vfnz = vertexFaceNormalZ
-
-
-class ColorPerVertex_vertexColor_vertexColorRGBPlugOperator(
-    Float3CompoundBasePlugOperator[
-        "ColorPerVertex_vertexColor_vertexColorRGBAttrOperator"
-    ]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexColorR", "vxcr"),
-        ("vertexColorG", "vxcg"),
-        ("vertexColorB", "vxcb"),
-    )
-
-    vertexColorR = FloatField()
-    vxcr = vertexColorR
-
-    vertexColorG = FloatField()
-    vxcg = vertexColorG
-
-    vertexColorB = FloatField()
-    vxcb = vertexColorB
-
-
-class ColorPerVertex_vertexColor_vertexColorRGBAttrOperator(
-    Float3CompoundBaseAttrOperator[
-        ColorPerVertex_vertexColor_vertexColorRGBPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    vertexColorR = FloatField()
-    vxcr = vertexColorR
-
-    vertexColorG = FloatField()
-    vxcg = vertexColorG
-
-    vertexColorB = FloatField()
-    vxcb = vertexColorB
-
-
-class ColorPerVertex_vertexColor_vertexColorRGBField(
-    Float3CompoundBaseField[
-        ColorPerVertex_vertexColor_vertexColorRGBAttrOperator,
-        ColorPerVertex_vertexColor_vertexColorRGBPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = ColorPerVertex_vertexColor_vertexColorRGBAttrOperator
-    PLUG_CLS = ColorPerVertex_vertexColor_vertexColorRGBPlugOperator
-
-    vertexColorR = FloatField()
-    vxcr = vertexColorR
-
-    vertexColorG = FloatField()
-    vxcg = vertexColorG
-
-    vertexColorB = FloatField()
-    vxcb = vertexColorB
-
-
-class ColorPerVertex_vertexColor_vertexFaceColorPlugOperator(
-    CompoundPlugOperator[
-        "ColorPerVertex_vertexColor_vertexFaceColorAttrOperator"
-    ]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexFaceColorRGB", "frgb"),
-        ("vertexFaceAlpha", "vfal"),
-    )
-
-    vertexFaceColorRGB = (
-        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField()
-    )
-    frgb = vertexFaceColorRGB
-
-    vertexFaceAlpha = FloatField()
-    vfal = vertexFaceAlpha
-
-
-class ColorPerVertex_vertexColor_vertexFaceColorAttrOperator(
-    CompoundAttrOperator[
-        ColorPerVertex_vertexColor_vertexFaceColorPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    vertexFaceColorRGB = (
-        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField()
-    )
-    frgb = vertexFaceColorRGB
-
-    vertexFaceAlpha = FloatField()
-    vfal = vertexFaceAlpha
-
-
-class ColorPerVertex_vertexColor_vertexFaceColorField(
-    CompoundField[
-        ColorPerVertex_vertexColor_vertexFaceColorAttrOperator,
-        ColorPerVertex_vertexColor_vertexFaceColorPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = ColorPerVertex_vertexColor_vertexFaceColorAttrOperator
-    PLUG_CLS = ColorPerVertex_vertexColor_vertexFaceColorPlugOperator
-
-    vertexFaceColorRGB = (
-        ColorPerVertex_vertexColor_vertexFaceColor_vertexFaceColorRGBField()
-    )
-    frgb = vertexFaceColorRGB
-
-    vertexFaceAlpha = FloatField()
-    vfal = vertexFaceAlpha
-
-
-class NormalPerVertex_vertexNormal_vertexNormalXYZPlugOperator(
-    Float3CompoundBasePlugOperator[
-        "NormalPerVertex_vertexNormal_vertexNormalXYZAttrOperator"
-    ]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexNormalX", "vxnx"),
-        ("vertexNormalY", "vxny"),
-        ("vertexNormalZ", "vxnz"),
-    )
-
-    vertexNormalX = FloatField()
-    vxnx = vertexNormalX
-
-    vertexNormalY = FloatField()
-    vxny = vertexNormalY
-
-    vertexNormalZ = FloatField()
-    vxnz = vertexNormalZ
-
-
-class NormalPerVertex_vertexNormal_vertexNormalXYZAttrOperator(
-    Float3CompoundBaseAttrOperator[
-        NormalPerVertex_vertexNormal_vertexNormalXYZPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    vertexNormalX = FloatField()
-    vxnx = vertexNormalX
-
-    vertexNormalY = FloatField()
-    vxny = vertexNormalY
-
-    vertexNormalZ = FloatField()
-    vxnz = vertexNormalZ
-
-
-class NormalPerVertex_vertexNormal_vertexNormalXYZField(
-    Float3CompoundBaseField[
-        NormalPerVertex_vertexNormal_vertexNormalXYZAttrOperator,
-        NormalPerVertex_vertexNormal_vertexNormalXYZPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = NormalPerVertex_vertexNormal_vertexNormalXYZAttrOperator
-    PLUG_CLS = NormalPerVertex_vertexNormal_vertexNormalXYZPlugOperator
-
-    vertexNormalX = FloatField()
-    vxnx = vertexNormalX
-
-    vertexNormalY = FloatField()
-    vxny = vertexNormalY
-
-    vertexNormalZ = FloatField()
-    vxnz = vertexNormalZ
-
-
-class NormalPerVertex_vertexNormal_vertexFaceNormalPlugOperator(
-    CompoundPlugOperator[
-        "NormalPerVertex_vertexNormal_vertexFaceNormalAttrOperator"
-    ]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (("vertexFaceNormalXYZ", "fnxy"),)
-
-    vertexFaceNormalXYZ = (
-        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField()
-    )
-    fnxy = vertexFaceNormalXYZ
-
-
-class NormalPerVertex_vertexNormal_vertexFaceNormalAttrOperator(
-    CompoundAttrOperator[
-        NormalPerVertex_vertexNormal_vertexFaceNormalPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    vertexFaceNormalXYZ = (
-        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField()
-    )
-    fnxy = vertexFaceNormalXYZ
-
-
-class NormalPerVertex_vertexNormal_vertexFaceNormalField(
-    CompoundField[
-        NormalPerVertex_vertexNormal_vertexFaceNormalAttrOperator,
-        NormalPerVertex_vertexNormal_vertexFaceNormalPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = NormalPerVertex_vertexNormal_vertexFaceNormalAttrOperator
-    PLUG_CLS = NormalPerVertex_vertexNormal_vertexFaceNormalPlugOperator
-
-    vertexFaceNormalXYZ = (
-        NormalPerVertex_vertexNormal_vertexFaceNormal_vertexFaceNormalXYZField()
-    )
-    fnxy = vertexFaceNormalXYZ
-
-
 class CompInstObjGroups_compObjectGroupsPlugOperator(
     CompoundPlugOperator["CompInstObjGroups_compObjectGroupsAttrOperator"]
 ):
@@ -732,93 +392,6 @@ class ColorSet_colorSetPointsField(
 
     ATTR_CLS = ColorSet_colorSetPointsAttrOperator
     PLUG_CLS = ColorSet_colorSetPointsPlugOperator
-
-
-class ColorPerVertex_vertexColorPlugOperator(
-    CompoundPlugOperator["ColorPerVertex_vertexColorAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexColorRGB", "vrgb"),
-        ("vertexAlpha", "vxal"),
-        ("vertexFaceColor", "vfcl"),
-    )
-
-    vertexColorRGB = ColorPerVertex_vertexColor_vertexColorRGBField()
-    vrgb = vertexColorRGB
-
-    vertexAlpha = FloatField()
-    vxal = vertexAlpha
-
-    vertexFaceColor = ColorPerVertex_vertexColor_vertexFaceColorField()
-    vfcl = vertexFaceColor
-
-
-class ColorPerVertex_vertexColorAttrOperator(
-    CompoundAttrOperator[ColorPerVertex_vertexColorPlugOperator]
-):
-    __slots__ = ()
-
-    vertexColorRGB = ColorPerVertex_vertexColor_vertexColorRGBField()
-    vrgb = vertexColorRGB
-
-    vertexAlpha = FloatField()
-    vxal = vertexAlpha
-
-    vertexFaceColor = ColorPerVertex_vertexColor_vertexFaceColorField()
-    vfcl = vertexFaceColor
-
-
-class ColorPerVertex_vertexColorField(
-    CompoundField[
-        ColorPerVertex_vertexColorAttrOperator,
-        ColorPerVertex_vertexColorPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = ColorPerVertex_vertexColorAttrOperator
-    PLUG_CLS = ColorPerVertex_vertexColorPlugOperator
-
-
-class NormalPerVertex_vertexNormalPlugOperator(
-    CompoundPlugOperator["NormalPerVertex_vertexNormalAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexNormalXYZ", "nxyz"),
-        ("vertexFaceNormal", "vfnl"),
-    )
-
-    vertexNormalXYZ = NormalPerVertex_vertexNormal_vertexNormalXYZField()
-    nxyz = vertexNormalXYZ
-
-    vertexFaceNormal = NormalPerVertex_vertexNormal_vertexFaceNormalField()
-    vfnl = vertexFaceNormal
-
-
-class NormalPerVertex_vertexNormalAttrOperator(
-    CompoundAttrOperator[NormalPerVertex_vertexNormalPlugOperator]
-):
-    __slots__ = ()
-
-    vertexNormalXYZ = NormalPerVertex_vertexNormal_vertexNormalXYZField()
-    nxyz = vertexNormalXYZ
-
-    vertexFaceNormal = NormalPerVertex_vertexNormal_vertexFaceNormalField()
-    vfnl = vertexFaceNormal
-
-
-class NormalPerVertex_vertexNormalField(
-    CompoundField[
-        NormalPerVertex_vertexNormalAttrOperator,
-        NormalPerVertex_vertexNormalPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = NormalPerVertex_vertexNormalAttrOperator
-    PLUG_CLS = NormalPerVertex_vertexNormalPlugOperator
 
 
 class CompInstObjGroupsPlugOperator(
@@ -1325,456 +898,175 @@ class CollisionDepthVelocityMultiplierField(
     PLUG_CLS = CollisionDepthVelocityMultiplierPlugOperator
 
 
-class SmoothOffsetPlugOperator(
-    Float3CompoundBasePlugOperator["SmoothOffsetAttrOperator"]
+class MinMaxRangeUPlugOperator(
+    Double2CompoundBasePlugOperator["MinMaxRangeUAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("sofx", "sx"),
-        ("sofy", "sy"),
-        ("sofz", "sz"),
+        ("minValueU", "mnu"),
+        ("maxValueU", "mxu"),
     )
 
-    sofx = FloatField(default_value=0.0)
-    sx = sofx
+    minValueU = DoubleField(default_value=0.0, writable=False)
+    mnu = minValueU
 
-    sofy = FloatField(default_value=0.0)
-    sy = sofy
-
-    sofz = FloatField(default_value=0.0)
-    sz = sofz
+    maxValueU = DoubleField(default_value=0.0, writable=False)
+    mxu = maxValueU
 
 
-class SmoothOffsetAttrOperator(
-    Float3CompoundBaseAttrOperator[SmoothOffsetPlugOperator]
+class MinMaxRangeUAttrOperator(
+    Double2CompoundBaseAttrOperator[MinMaxRangeUPlugOperator]
 ):
     __slots__ = ()
 
-    sofx = FloatField(default_value=0.0)
-    sx = sofx
+    minValueU = DoubleField(default_value=0.0, writable=False)
+    mnu = minValueU
 
-    sofy = FloatField(default_value=0.0)
-    sy = sofy
+    maxValueU = DoubleField(default_value=0.0, writable=False)
+    mxu = maxValueU
 
-    sofz = FloatField(default_value=0.0)
-    sz = sofz
 
-
-class SmoothOffsetField(
-    Float3CompoundBaseField[SmoothOffsetAttrOperator, SmoothOffsetPlugOperator]
-):
-    __slots__ = ()
-
-    ATTR_CLS = SmoothOffsetAttrOperator
-    PLUG_CLS = SmoothOffsetPlugOperator
-
-    sofx = FloatField(default_value=0.0)
-    sx = sofx
-
-    sofy = FloatField(default_value=0.0)
-    sy = sofy
-
-    sofz = FloatField(default_value=0.0)
-    sz = sofz
-
-
-class PntsPlugOperator(
-    FloatLinear3CompoundBasePlugOperator["PntsAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("pntx", "px"),
-        ("pnty", "py"),
-        ("pntz", "pz"),
-    )
-
-    pntx = FloatLinearField(default_value=0.0)
-    px = pntx
-
-    pnty = FloatLinearField(default_value=0.0)
-    py = pnty
-
-    pntz = FloatLinearField(default_value=0.0)
-    pz = pntz
-
-
-class PntsAttrOperator(FloatLinear3CompoundBaseAttrOperator[PntsPlugOperator]):
-    __slots__ = ()
-
-    pntx = FloatLinearField(default_value=0.0)
-    px = pntx
-
-    pnty = FloatLinearField(default_value=0.0)
-    py = pnty
-
-    pntz = FloatLinearField(default_value=0.0)
-    pz = pntz
-
-
-class PntsField(
-    FloatLinear3CompoundBaseField[PntsAttrOperator, PntsPlugOperator]
-):
-    __slots__ = ()
-
-    ATTR_CLS = PntsAttrOperator
-    PLUG_CLS = PntsPlugOperator
-
-
-class VrtsPlugOperator(Float3CompoundBasePlugOperator["VrtsAttrOperator"]):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vrtx", "vx"),
-        ("vrty", "vy"),
-        ("vrtz", "vz"),
-    )
-
-    vrtx = FloatField(default_value=0.0)
-    vx = vrtx
-
-    vrty = FloatField(default_value=0.0)
-    vy = vrty
-
-    vrtz = FloatField(default_value=0.0)
-    vz = vrtz
-
-
-class VrtsAttrOperator(Float3CompoundBaseAttrOperator[VrtsPlugOperator]):
-    __slots__ = ()
-
-    vrtx = FloatField(default_value=0.0)
-    vx = vrtx
-
-    vrty = FloatField(default_value=0.0)
-    vy = vrty
-
-    vrtz = FloatField(default_value=0.0)
-    vz = vrtz
-
-
-class VrtsField(Float3CompoundBaseField[VrtsAttrOperator, VrtsPlugOperator]):
-    __slots__ = ()
-
-    ATTR_CLS = VrtsAttrOperator
-    PLUG_CLS = VrtsPlugOperator
-
-
-class EdgePlugOperator(Long3CompoundBasePlugOperator["EdgeAttrOperator"]):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("edg1", "e1"),
-        ("edg2", "e2"),
-        ("edgh", "eh"),
-    )
-
-    edg1 = LongField(default_value=0)
-    e1 = edg1
-
-    edg2 = LongField(default_value=0)
-    e2 = edg2
-
-    edgh = LongField(default_value=0)
-    eh = edgh
-
-
-class EdgeAttrOperator(Long3CompoundBaseAttrOperator[EdgePlugOperator]):
-    __slots__ = ()
-
-    edg1 = LongField(default_value=0)
-    e1 = edg1
-
-    edg2 = LongField(default_value=0)
-    e2 = edg2
-
-    edgh = LongField(default_value=0)
-    eh = edgh
-
-
-class EdgeField(Long3CompoundBaseField[EdgeAttrOperator, EdgePlugOperator]):
-    __slots__ = ()
-
-    ATTR_CLS = EdgeAttrOperator
-    PLUG_CLS = EdgePlugOperator
-
-
-class UvptPlugOperator(Float2CompoundBasePlugOperator["UvptAttrOperator"]):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("uvpx", "ux"),
-        ("uvpy", "uy"),
-    )
-
-    uvpx = FloatField(default_value=0.0)
-    ux = uvpx
-
-    uvpy = FloatField(default_value=0.0)
-    uy = uvpy
-
-
-class UvptAttrOperator(Float2CompoundBaseAttrOperator[UvptPlugOperator]):
-    __slots__ = ()
-
-    uvpx = FloatField(default_value=0.0)
-    ux = uvpx
-
-    uvpy = FloatField(default_value=0.0)
-    uy = uvpy
-
-
-class UvptField(Float2CompoundBaseField[UvptAttrOperator, UvptPlugOperator]):
-    __slots__ = ()
-
-    ATTR_CLS = UvptAttrOperator
-    PLUG_CLS = UvptPlugOperator
-
-
-class ColorsPlugOperator(CompoundPlugOperator["ColorsAttrOperator"]):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("colorR", "clrr"),
-        ("colorG", "clrg"),
-        ("colorB", "clrb"),
-        ("colorA", "clra"),
-    )
-
-    colorR = FloatField(default_value=0.0)
-    clrr = colorR
-
-    colorG = FloatField(default_value=0.0)
-    clrg = colorG
-
-    colorB = FloatField(default_value=0.0)
-    clrb = colorB
-
-    colorA = FloatField(default_value=0.0)
-    clra = colorA
-
-
-class ColorsAttrOperator(CompoundAttrOperator[ColorsPlugOperator]):
-    __slots__ = ()
-
-    colorR = FloatField(default_value=0.0)
-    clrr = colorR
-
-    colorG = FloatField(default_value=0.0)
-    clrg = colorG
-
-    colorB = FloatField(default_value=0.0)
-    clrb = colorB
-
-    colorA = FloatField(default_value=0.0)
-    clra = colorA
-
-
-class ColorsField(CompoundField[ColorsAttrOperator, ColorsPlugOperator]):
-    __slots__ = ()
-
-    ATTR_CLS = ColorsAttrOperator
-    PLUG_CLS = ColorsPlugOperator
-
-
-class NormalsPlugOperator(
-    Float3CompoundBasePlugOperator["NormalsAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("normalx", "nx"),
-        ("normaly", "ny"),
-        ("normalz", "nz"),
-    )
-
-    normalx = FloatField(default_value=1.0000000200408773e20)
-    nx = normalx
-
-    normaly = FloatField(default_value=1.0000000200408773e20)
-    ny = normaly
-
-    normalz = FloatField(default_value=1.0000000200408773e20)
-    nz = normalz
-
-
-class NormalsAttrOperator(Float3CompoundBaseAttrOperator[NormalsPlugOperator]):
-    __slots__ = ()
-
-    normalx = FloatField(default_value=1.0000000200408773e20)
-    nx = normalx
-
-    normaly = FloatField(default_value=1.0000000200408773e20)
-    ny = normaly
-
-    normalz = FloatField(default_value=1.0000000200408773e20)
-    nz = normalz
-
-
-class NormalsField(
-    Float3CompoundBaseField[NormalsAttrOperator, NormalsPlugOperator]
-):
-    __slots__ = ()
-
-    ATTR_CLS = NormalsAttrOperator
-    PLUG_CLS = NormalsPlugOperator
-
-
-class ColorPerVertexPlugOperator(
-    CompoundPlugOperator["ColorPerVertexAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (("vertexColor", "vclr"),)
-
-    vertexColor = ColorPerVertex_vertexColorField(multi=True)
-    vclr = vertexColor
-
-
-class ColorPerVertexAttrOperator(
-    CompoundAttrOperator[ColorPerVertexPlugOperator]
-):
-    __slots__ = ()
-
-    vertexColor = ColorPerVertex_vertexColorField(multi=True)
-    vclr = vertexColor
-
-
-class ColorPerVertexField(
-    CompoundField[ColorPerVertexAttrOperator, ColorPerVertexPlugOperator]
-):
-    __slots__ = ()
-
-    ATTR_CLS = ColorPerVertexAttrOperator
-    PLUG_CLS = ColorPerVertexPlugOperator
-
-    vertexColor = ColorPerVertex_vertexColorField(multi=True)
-    vclr = vertexColor
-
-
-class NormalPerVertexPlugOperator(
-    CompoundPlugOperator["NormalPerVertexAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (("vertexNormal", "vn"),)
-
-    vertexNormal = NormalPerVertex_vertexNormalField(multi=True)
-    vn = vertexNormal
-
-
-class NormalPerVertexAttrOperator(
-    CompoundAttrOperator[NormalPerVertexPlugOperator]
-):
-    __slots__ = ()
-
-    vertexNormal = NormalPerVertex_vertexNormalField(multi=True)
-    vn = vertexNormal
-
-
-class NormalPerVertexField(
-    CompoundField[NormalPerVertexAttrOperator, NormalPerVertexPlugOperator]
-):
-    __slots__ = ()
-
-    ATTR_CLS = NormalPerVertexAttrOperator
-    PLUG_CLS = NormalPerVertexPlugOperator
-
-    vertexNormal = NormalPerVertex_vertexNormalField(multi=True)
-    vn = vertexNormal
-
-
-class AiShadowColorPlugOperator(
-    Float3CompoundBasePlugOperator["AiShadowColorAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("aiShadowColorR", "ai_shadow_colorr"),
-        ("aiShadowColorG", "ai_shadow_colorg"),
-        ("aiShadowColorB", "ai_shadow_colorb"),
-    )
-
-    aiShadowColorR = FloatField(default_value=0.0)
-    ai_shadow_colorr = aiShadowColorR
-
-    aiShadowColorG = FloatField(default_value=0.0)
-    ai_shadow_colorg = aiShadowColorG
-
-    aiShadowColorB = FloatField(default_value=0.0)
-    ai_shadow_colorb = aiShadowColorB
-
-
-class AiShadowColorAttrOperator(
-    Float3CompoundBaseAttrOperator[AiShadowColorPlugOperator]
-):
-    __slots__ = ()
-
-    aiShadowColorR = FloatField(default_value=0.0)
-    ai_shadow_colorr = aiShadowColorR
-
-    aiShadowColorG = FloatField(default_value=0.0)
-    ai_shadow_colorg = aiShadowColorG
-
-    aiShadowColorB = FloatField(default_value=0.0)
-    ai_shadow_colorb = aiShadowColorB
-
-
-class AiShadowColorField(
-    Float3CompoundBaseField[
-        AiShadowColorAttrOperator, AiShadowColorPlugOperator
+class MinMaxRangeUField(
+    Double2CompoundBaseField[
+        MinMaxRangeUAttrOperator, MinMaxRangeUPlugOperator
     ]
 ):
     __slots__ = ()
 
-    ATTR_CLS = AiShadowColorAttrOperator
-    PLUG_CLS = AiShadowColorPlugOperator
+    ATTR_CLS = MinMaxRangeUAttrOperator
+    PLUG_CLS = MinMaxRangeUPlugOperator
 
-    aiShadowColorR = FloatField(default_value=0.0)
-    ai_shadow_colorr = aiShadowColorR
+    minValueU = DoubleField(default_value=0.0, writable=False)
+    mnu = minValueU
 
-    aiShadowColorG = FloatField(default_value=0.0)
-    ai_shadow_colorg = aiShadowColorG
-
-    aiShadowColorB = FloatField(default_value=0.0)
-    ai_shadow_colorb = aiShadowColorB
+    maxValueU = DoubleField(default_value=0.0, writable=False)
+    mxu = maxValueU
 
 
-class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
+class MinMaxRangeVPlugOperator(
+    Double2CompoundBasePlugOperator["MinMaxRangeVAttrOperator"]
+):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("colorRed", "scr"),
-        ("colorGreen", "scg"),
-        ("colorBlue", "scb"),
+        ("minValueV", "mnv"),
+        ("maxValueV", "mxv"),
     )
 
-    colorRed = FloatField(default_value=1.0)
-    scr = colorRed
+    minValueV = DoubleField(default_value=0.0, writable=False)
+    mnv = minValueV
 
-    colorGreen = FloatField(default_value=1.0)
-    scg = colorGreen
-
-    colorBlue = FloatField(default_value=1.0)
-    scb = colorBlue
+    maxValueV = DoubleField(default_value=0.0, writable=False)
+    mxv = maxValueV
 
 
-class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
-    __slots__ = ()
-
-    colorRed = FloatField(default_value=1.0)
-    scr = colorRed
-
-    colorGreen = FloatField(default_value=1.0)
-    scg = colorGreen
-
-    colorBlue = FloatField(default_value=1.0)
-    scb = colorBlue
-
-
-class ColorField(
-    Float3CompoundBaseField[ColorAttrOperator, ColorPlugOperator]
+class MinMaxRangeVAttrOperator(
+    Double2CompoundBaseAttrOperator[MinMaxRangeVPlugOperator]
 ):
     __slots__ = ()
 
-    ATTR_CLS = ColorAttrOperator
-    PLUG_CLS = ColorPlugOperator
+    minValueV = DoubleField(default_value=0.0, writable=False)
+    mnv = minValueV
 
-    colorRed = FloatField(default_value=1.0)
-    scr = colorRed
+    maxValueV = DoubleField(default_value=0.0, writable=False)
+    mxv = maxValueV
 
-    colorGreen = FloatField(default_value=1.0)
-    scg = colorGreen
 
-    colorBlue = FloatField(default_value=1.0)
-    scb = colorBlue
+class MinMaxRangeVField(
+    Double2CompoundBaseField[
+        MinMaxRangeVAttrOperator, MinMaxRangeVPlugOperator
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = MinMaxRangeVAttrOperator
+    PLUG_CLS = MinMaxRangeVPlugOperator
+
+    minValueV = DoubleField(default_value=0.0, writable=False)
+    mnv = minValueV
+
+    maxValueV = DoubleField(default_value=0.0, writable=False)
+    mxv = maxValueV
+
+
+class DegreeUVPlugOperator(
+    Short2CompoundBasePlugOperator["DegreeUVAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("degreeU", "du"),
+        ("degreeV", "dv"),
+    )
+
+    degreeU = ShortField(default_value=0, writable=False)
+    du = degreeU
+
+    degreeV = ShortField(default_value=0, writable=False)
+    dv = degreeV
+
+
+class DegreeUVAttrOperator(
+    Short2CompoundBaseAttrOperator[DegreeUVPlugOperator]
+):
+    __slots__ = ()
+
+    degreeU = ShortField(default_value=0, writable=False)
+    du = degreeU
+
+    degreeV = ShortField(default_value=0, writable=False)
+    dv = degreeV
+
+
+class DegreeUVField(
+    Short2CompoundBaseField[DegreeUVAttrOperator, DegreeUVPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DegreeUVAttrOperator
+    PLUG_CLS = DegreeUVPlugOperator
+
+    degreeU = ShortField(default_value=0, writable=False)
+    du = degreeU
+
+    degreeV = ShortField(default_value=0, writable=False)
+    dv = degreeV
+
+
+class SpansUVPlugOperator(
+    Long2CompoundBasePlugOperator["SpansUVAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("spansU", "su"),
+        ("spansV", "sv"),
+    )
+
+    spansU = LongField(default_value=0, writable=False)
+    su = spansU
+
+    spansV = LongField(default_value=0, writable=False)
+    sv = spansV
+
+
+class SpansUVAttrOperator(Long2CompoundBaseAttrOperator[SpansUVPlugOperator]):
+    __slots__ = ()
+
+    spansU = LongField(default_value=0, writable=False)
+    su = spansU
+
+    spansV = LongField(default_value=0, writable=False)
+    sv = spansV
+
+
+class SpansUVField(
+    Long2CompoundBaseField[SpansUVAttrOperator, SpansUVPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = SpansUVAttrOperator
+    PLUG_CLS = SpansUVPlugOperator
+
+    spansU = LongField(default_value=0, writable=False)
+    su = spansU
+
+    spansV = LongField(default_value=0, writable=False)
+    sv = spansV

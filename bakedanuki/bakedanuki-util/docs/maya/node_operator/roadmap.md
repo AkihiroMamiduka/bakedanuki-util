@@ -39,12 +39,19 @@
 - `lookup.py` の double4 / quat 解決対応。
 - 18 種類の compound 専用値型を追加し、scalar compound の
   `get()` / `value` / `value_direct` の戻り値へ接続。
+- DAG の `full_path` / `is_instanced` / `parent` / `parents` と、親変更時の
+  instancing 制約を追加。
+- 親 Transform 必須の raw shape 作成 API を追加。
+- `camera` / `locator` / `mesh` / `nurbsCurve` / `nurbsSurface` を最初の
+  作成確認済み shape として公開。
+- 抽象 `shape` の共通 attribute を静的 query から生成し、concrete shape の
+  重複生成から除外。
 
 ## 決定済みのロードマップ
 
 次の順序で、DAG 階層と shape 作成 API を整備します。
 
-### 1. DAG path と instancing の方針
+### 1. DAG path と instancing の方針（初期対応完了）
 
 子孫・先祖 traversal の実装前に、`MDagPath` と instanced DAG node の
 扱いを決めます。
@@ -52,8 +59,10 @@
 現在の `NodeOperator` は `MObject` を中心に扱うため、同じ node が複数の
 DAG path を持つ場合に、どの path の階層を返すかが曖昧になります。
 
-初期版で曖昧な操作を `RuntimeError` にするか、`ExistingNode` から
-具体的な `MDagPath` を保持できる設計へ拡張するかを先に決定します。
+初期版では `MDagPath.getAPathTo()` で path を保持し、複数 path が存在する
+node の単一 `parent` 取得や親変更は `RuntimeError` にします。すべての直接親は
+`parents` から取得できます。将来 path を明示的に選択する API が必要になった場合は、
+`ExistingNode` の入力と保持方法を拡張します。
 
 ### 2. DAG 階層 traversal
 
@@ -67,7 +76,7 @@ DAG path / instancing の方針確定後、次の階層取得 API を追加し�
 world を含めるか、shape を含めるか、列挙順、未実行の `MDagModifier` の
 変更を含めるかを仕様として固定します。
 
-### 3. 親 Transform 必須の shape 作成
+### 3. 親 Transform 必須の shape 作成（第一サンプル完了）
 
 最初の shape 作成 API は、親 `Transform` を必須として公開します。
 
@@ -83,8 +92,12 @@ Maya が transform を自動生成し、返される `MObject` も transform に
 場合があります。そのため、既存の DG / transform 作成 API と同じ形で
 shape package 全体を無条件に公開しません。
 
-まずは作成可能なことを確認できた shape type から限定して公開し、
-戻り値型、undo / redo、命名、親との `ModifierManager` 共有を検証します。
+作成可能なことを確認できた shape type から限定して公開します。第一サンプルとして
+`camera` / `locator` / `mesh` / `nurbsCurve` / `nurbsSurface` の戻り値型、
+undo / redo、命名、親との `ModifierManager` 共有を検証済みです。
+
+全 shape class を生成した後も、`nodes.create` には作成検証済み type だけを
+明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
 
 ### 4. transform と shape の一括作成
 

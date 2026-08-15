@@ -5,6 +5,7 @@ import pytest
 
 from bd_util.maya.attr.query import (
     get_attribute_info,
+    get_attribute_infos_by_type,
     get_attribute_infos,
 )
 
@@ -105,3 +106,21 @@ def test_get_attribute_infos_skips_created_node_without_node_type(
     infos = get_attribute_infos("Manipulator", mode_error_skip=True)
 
     assert isinstance(infos, list)
+
+
+def test_get_attribute_infos_by_type_supports_abstract_shape(
+    new_scene,
+    maya_cmds,
+):
+    before_nodes = maya_cmds.ls(long=True)
+
+    infos = get_attribute_infos_by_type("shape")
+    by_long_name = {info.long_name: info for info in infos}
+
+    assert by_long_name["visibility"].short_name == "v"
+    assert by_long_name["visibility"].attribute_type == "bool"
+    assert by_long_name["visibility"].default_value == [1.0]
+    assert by_long_name["worldMatrix"].data_type == "matrix"
+    assert by_long_name["worldMatrix"].multi is True
+    assert by_long_name["worldMatrix"].writable is False
+    assert maya_cmds.ls(long=True) == before_nodes

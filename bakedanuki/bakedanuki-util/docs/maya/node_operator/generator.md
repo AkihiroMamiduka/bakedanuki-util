@@ -166,13 +166,17 @@ generate_node_class_file("transform", path, node_kind="transform")
   - `node/dag/shape/_generated` に、通常は `Generated<NodeClass>(Shape)` を出力します。
   - `node_type == "shape"` の場合は `shape.py` に `GeneratedShape(DAG)` を出力します。
   - 手書きの `_core.py` にある公開 `Shape` は `GeneratedShape` を継承します。
+  - 抽象 `shape` の attribute は node instance を作成せず、`MNodeClass` と
+    `cmds.attributeQuery(..., type="shape")` から取得します。
+  - concrete shape では `Shape` に生成済みの共通 attribute を除外します。
 - `auto`
   - Maya の `cmds.nodeType(..., inherited=True, isTypeName=True)` を使い、transform / shape / DAG / DG を自動判定します。
 
 DG の既存呼び出しとの互換のため、デフォルトは `node_kind="dg"` です。
 
-現段階では、DAG node の生成は主に `ExistingNode` で既存 node を包む準備段階です。
-特に shape node の作成 API は transform 親の扱いが絡むため、`NodeCreator` への接続や shape 作成メソッドは後段で設計します。
+shape node は全生成と作成 API の公開を分けて扱います。生成済み class は
+`nodes.existing` から利用できますが、`nodes.create` には親 Transform 必須の
+作成テストを通した node type だけを明示的に公開します。
 
 ## 命名規則
 
@@ -519,6 +523,11 @@ import maya.cmds as cmds
 cmds.loadPlugin("mtoa", quiet=True)
 ```
 
+標準の shape snapshot は Maya 2025 で `mtoa` をロードした状態を基準とします。
+現在の作成確認済みサンプルは `mesh` / `camera` / `nurbsCurve` / `locator` /
+`nurbsSurface` です。全 shape 生成時も、まず調査用出力先で TODO、構文、import、
+node type 名衝突を確認してから正式出力へ反映します。
+
 生成結果には、Maya実行環境と分離した共通のBlack設定を適用します。
 正式な出力先へ生成した後は、リポジトリ直下で次を実行してください。
 
@@ -602,6 +611,8 @@ Python キーワードと module 名が衝突する `and` / `or` / `not` は、`
 
 - `attributeType=None, dataType=None` の attribute はまだ自動解決できません。
 - DAG / shape 系では DG では目立たなかった attribute type が出る場合があります。未対応型は TODO として残し、型定義を追加してから再生成します。
+- 抽象 `shape` は `createNode()` できないため、静的な node type query で共通属性を生成します。
+- shape class の生成だけでは `nodes.create` の公開対象になりません。作成確認済み type を明示的に opt-in します。
 - 生成後は必ず git diff を確認します。
 - `_generated` package 以下は再生成時に上書きされるため、手書きコードを追加しません。
 - 公開 wrapper は Generator が上書きしません。ノード固有のメソッドは公開 wrapper 側へ追加します。
