@@ -85,3 +85,88 @@ window stateはclose eventで保存されます。タイトルバーのclose、`
 
 `settings_path`はplatformにかかわらず`/`で区切ります。絶対path、`.`、`..`、空segment、
 Windows予約名や使用できない文字は拒否されます。
+
+## Mayaへドッキング可能なWindow
+
+`MayaDockableWindow`と`MayaDockableWindowController`は、Mayaの`workspaceControl`を
+利用して1つのdockable Widgetを管理します。通常windowとはMaya側のlifecycleが異なるため、
+`MayaWindowController`とは別のcontrollerとして提供します。
+
+```python
+from PySide6 import QtWidgets
+
+from bd_util.maya.ui import (
+    DockArea,
+    DockOptions,
+    DockRestoreSpec,
+    MayaDockableWindow,
+    MayaDockableWindowController,
+)
+
+
+class MyWindow(MayaDockableWindow):
+    def __init__(self) -> None:
+        super().__init__()
+        self.setWindowTitle("My Maya tool")
+
+        layout = QtWidgets.QVBoxLayout(self)
+        layout.addWidget(QtWidgets.QLabel("Dockable content"))
+
+
+controller = MayaDockableWindowController(
+    MyWindow,
+    control_id="myMayaTool",
+    restore=DockRestoreSpec(
+        module="my_tool.ui.main_window",
+        function="restore",
+    ),
+    dock_options=DockOptions(
+        area=DockArea.RIGHT,
+        floating=False,
+        initial_width=420,
+        retain=True,
+    ),
+)
+
+
+def show() -> MyWindow:
+    return controller.show()
+
+
+def restore() -> MyWindow:
+    return controller.restore()
+```
+
+`control_id`はQtの`objectName`として使われ、上の例ではMaya側に
+`myMayaToolWorkspaceControl`が作成されます。Mayaの保存状態と対応付けるため、release後は
+同じIDを維持してください。1つのIDにつき1つのWidgetを管理します。
+
+`DockRestoreSpec`には、Maya再起動時にもimportできるmoduleと復元関数を指定します。
+controllerが生成した`uiScript`からその関数が呼ばれ、`restore()`がMayaの復元中のlayoutへ
+Widgetを接続します。lambdaやlocal関数は復元先に指定できません。
+
+`controller.close()`は`retain`設定に従ってworkspaceControlを閉じ、Widgetの参照を保持します。
+`controller.dispose()`はworkspaceControlとWidgetを完全に削除するため、開発中のmodule reload
+前にも利用できます。`controller.reset_workspace_state()`は完全破棄に加えてMayaが保存した
+配置も削除し、次回表示で`DockOptions`の初期値を適用します。
+
+`DockOptions.allowed_area`は移動を許可する領域を制限し、既定値の`DockArea.ALL`では全領域を
+許可します。`MayaDockableWindow.dock_closed`と`floating_changed`を使うと、Maya側で閉じた
+ときとドッキング状態が変わったときをtool固有処理へ通知できます。
+
+同梱sampleはMayaのScript Editorから開けます。
+
+```python
+from bd_util._sample.maya.ui import dockable_window
+
+dockable_window.show()
+```
+
+### 状態保存の責務
+
+ドッキング位置、タブ構成、ドック幅、フローティング状態はMayaのworkspaceControlへ委ねます。
+内側のWidgetへ`WindowStateStore.restoreGeometry()`を適用するとMaya側の復元と競合するため、
+dockable Widgetのgeometry保存には使用しません。
+
+tool固有のSplitter幅、選択タブ、Viewの列幅などは、従来どおりtool単位の`ui.ini`へ保存する
+想定です。これらの内部状態を扱う共通基盤は、dockable Windowとは分離して追加できます。
