@@ -110,9 +110,15 @@ undo / redo、命名、親との `ModifierManager` 共有を検証済みです�
 `aiAreaLight` / `aiLightPortal` / `aiMeshLight` / `aiPhotometricLight` /
 `aiSkyDomeLight` を検証し、`nodes.create` へ公開済みです。
 
+第四段階として、残る Arnold 固有 shape の `aiCurveCollector` /
+`aiLightBlocker` / `aiStandIn` / `aiVolume` も raw shape としての作成、命名、
+親子関係、undo / redo を検証し、`nodes.create` へ公開済みです。ファイル指定や
+geometry・shader 接続などの用途別初期化は、高レベル API の候補として分離します。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
-light 以外の Arnold 固有 shape は、用途と作成前提ごとに分けて検証します。
+Arnold 固有 shape 9種はすべて作成確認済みです。その他の shape は、用途と
+作成前提ごとに分けて検証します。
 
 ### 4. transform と shape の一括作成
 

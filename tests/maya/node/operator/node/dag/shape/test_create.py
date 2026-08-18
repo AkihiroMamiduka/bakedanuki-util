@@ -269,6 +269,78 @@ def test_nodes_create_arnold_lights_supports_undo_redo(
     )
 
 
+@pytest.mark.filterwarnings(
+    r"ignore:invalid escape sequence.*:DeprecationWarning",
+    r"ignore:find_module\(\) is deprecated.*:DeprecationWarning",
+    r"ignore:FileFinder\.find_loader\(\) is deprecated.*:DeprecationWarning",
+    r"ignore:the load_module\(\) method is deprecated.*:DeprecationWarning",
+)
+def test_nodes_create_arnold_non_light_shapes_supports_undo_redo(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    try:
+        maya_cmds.loadPlugin("mtoa", quiet=True)
+    except Exception as exc:
+        pytest.skip(f"mtoa is unavailable: {exc}")
+
+    shape_types = (
+        "aiCurveCollector",
+        "aiLightBlocker",
+        "aiStandIn",
+        "aiVolume",
+    )
+    required_attrs = {
+        "aiCurveCollector": "visibility",
+        "aiLightBlocker": "shader",
+        "aiStandIn": "dso",
+        "aiVolume": "filename",
+    }
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+    parents = []
+    shapes = []
+    for node_type in shape_types:
+        parent = nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(nodes.create, node_type)(
+            name=f"{node_type}Shape",
+            parent=parent,
+        )
+        parents.append(parent)
+        shapes.append(shape)
+
+    mod.do_it_dag()
+
+    expected_paths = [shape.full_path for shape in shapes]
+    for node_type, parent, shape in zip(shape_types, parents, shapes):
+        assert shape.full_path == (f"|{node_type}_parent|{node_type}Shape")
+        assert maya_cmds.nodeType(shape.full_path) == node_type
+        assert maya_cmds.listRelatives(
+            parent.full_path,
+            shapes=True,
+            fullPath=True,
+        ) == [shape.full_path]
+        assert maya_cmds.attributeQuery(
+            required_attrs[node_type],
+            node=shape.full_path,
+            exists=True,
+        )
+
+    mod.undo_it()
+    assert all(
+        not maya_cmds.objExists(f"{node_type}_parent")
+        for node_type in shape_types
+    )
+
+    mod.redo_it()
+    assert [shape.full_path for shape in shapes] == expected_paths
+    assert [maya_cmds.nodeType(shape.full_path) for shape in shapes] == list(
+        shape_types
+    )
+
+
 def test_generic_create_supports_opted_in_shape(new_scene, maya_cmds):
     import bd_util as bdu
     from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (

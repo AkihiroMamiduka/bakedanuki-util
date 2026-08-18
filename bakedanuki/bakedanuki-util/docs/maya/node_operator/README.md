@@ -214,13 +214,17 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
-現在 `nodes.create` から作成できる shape は、動作確認済みの次の16種類です。
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の20種類です。
 
 - `aiAreaLight`
+- `aiCurveCollector`
+- `aiLightBlocker`
 - `aiLightPortal`
 - `aiMeshLight`
 - `aiPhotometricLight`
 - `aiSkyDomeLight`
+- `aiStandIn`
+- `aiVolume`
 - `ambientLight`
 - `areaLight`
 - `camera`
@@ -240,11 +244,15 @@ MtoA ロード時は、各 light に生成されている Arnold attribute も�
 Arnold 固有 light shape 5種は MtoA のロードを前提とし、指定した親 Transform と
 名前での作成、および一括 undo / redo を Maya 2025 + MtoA 上で確認済みです。
 
+残る Arnold 固有 shape 4種も、MtoA ロード下で raw shape としての作成と
+undo / redo を確認済みです。`aiStandIn.dso` や `aiVolume.filename` の値設定、
+geometry・shader 接続など、用途別の初期化はこの API では自動実行しません。
+
 Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 `nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。
 ただし、作成確認前の shape は `nodes.create` へ自動公開しません。
-`aiStandIn` / `aiVolume` / `aiCurveCollector` / `aiLightBlocker` など、light 以外の
-Arnold 固有 shape は用途ごとに分けて検証します。
+Arnold 固有 shape 9種はすべて作成確認済みですが、その他の shape は引き続き
+用途と作成前提ごとに分けて検証します。
 `polyCube` のように Transform、Shape、history node をまとめて作る操作は、raw shape
 作成とは別の高レベル API として扱います。
 

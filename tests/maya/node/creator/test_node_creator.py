@@ -109,10 +109,14 @@ def test_node_creator_available_node_names_for_completion(new_scene):
     assert "mesh" in node_creator.available_node_names()
     assert {
         "aiAreaLight",
+        "aiCurveCollector",
+        "aiLightBlocker",
         "aiLightPortal",
         "aiMeshLight",
         "aiPhotometricLight",
         "aiSkyDomeLight",
+        "aiStandIn",
+        "aiVolume",
         "ambientLight",
         "areaLight",
         "camera",
@@ -126,10 +130,10 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "volumeLight",
     }.issubset(node_creator.available_node_names())
     assert {
-        "aiCurveCollector",
-        "aiLightBlocker",
-        "aiStandIn",
-        "aiVolume",
+        "baseLattice",
+        "fluidShape",
+        "nParticle",
+        "ufeProxyCameraShape",
     }.isdisjoint(node_creator.available_node_names())
     assert "multiplyDivide" in dir(node_creator)
     assert "transform" in dir(node_creator)
@@ -183,4 +187,4 @@ def test_node_creator_unknown_node_raises_attribute_error(new_scene):
     with pytest.raises(AttributeError):
         node_creator.not_existing_node()
     with pytest.raises(AttributeError):
-        node_creator.aiStandIn()
+        node_creator.fluidShape()

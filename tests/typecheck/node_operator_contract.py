@@ -770,6 +770,12 @@ from bd_util.maya.node.operator.node.dg.decompose_matrix import (
 )
 from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
 from bd_util.maya.node.operator.node.dag.shape.ai_area_light import AiAreaLight
+from bd_util.maya.node.operator.node.dag.shape.ai_curve_collector import (
+    AiCurveCollector,
+)
+from bd_util.maya.node.operator.node.dag.shape.ai_light_blocker import (
+    AiLightBlocker,
+)
 from bd_util.maya.node.operator.node.dag.shape.ai_light_portal import (
     AiLightPortal,
 )
@@ -781,6 +787,7 @@ from bd_util.maya.node.operator.node.dag.shape.ai_sky_dome_light import (
     AiSkyDomeLight,
 )
 from bd_util.maya.node.operator.node.dag.shape.ai_stand_in import AiStandIn
+from bd_util.maya.node.operator.node.dag.shape.ai_volume import AiVolume
 from bd_util.maya.node.operator.node.dag.shape.ambient_light import (
     AmbientLight,
 )
@@ -895,6 +902,30 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         parent=parent,
     )
     assert_type(ai_sky_dome_light, AiSkyDomeLight)
+
+    ai_curve_collector = nodes.create.aiCurveCollector(
+        name="aiCurveCollectorShape",
+        parent=parent,
+    )
+    assert_type(ai_curve_collector, AiCurveCollector)
+
+    ai_light_blocker = nodes.create.aiLightBlocker(
+        name="aiLightBlockerShape",
+        parent=parent,
+    )
+    assert_type(ai_light_blocker, AiLightBlocker)
+
+    ai_stand_in = nodes.create.aiStandIn(
+        name="aiStandInShape",
+        parent=parent,
+    )
+    assert_type(ai_stand_in, AiStandIn)
+
+    ai_volume = nodes.create.aiVolume(
+        name="aiVolumeShape",
+        parent=parent,
+    )
+    assert_type(ai_volume, AiVolume)
 
     assert_type(nodes.existing.mesh("existing_mesh"), Mesh)
     assert_type(nodes.existing.camera("existing_camera"), Camera)

@@ -7,10 +7,14 @@ from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 from ..operator.node.dag._core import DAG
 from ..operator.node.dag.shape.ai_area_light import AiAreaLight
+from ..operator.node.dag.shape.ai_curve_collector import AiCurveCollector
+from ..operator.node.dag.shape.ai_light_blocker import AiLightBlocker
 from ..operator.node.dag.shape.ai_light_portal import AiLightPortal
 from ..operator.node.dag.shape.ai_mesh_light import AiMeshLight
 from ..operator.node.dag.shape.ai_photometric_light import AiPhotometricLight
 from ..operator.node.dag.shape.ai_sky_dome_light import AiSkyDomeLight
+from ..operator.node.dag.shape.ai_stand_in import AiStandIn
+from ..operator.node.dag.shape.ai_volume import AiVolume
 from ..operator.node.dag.shape.ambient_light import AmbientLight
 from ..operator.node.dag.shape.area_light import AreaLight
 from ..operator.node.dag.shape.camera import Camera
@@ -1513,6 +1517,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCurvature: ...
+    def aiCurveCollector(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiCurveCollector: ...
     def aiDisable(
         self,
         name: str | None = None,
@@ -1683,6 +1694,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLength: ...
+    def aiLightBlocker(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiLightBlocker: ...
     def aiLightDecay(
         self,
         name: str | None = None,
@@ -1946,6 +1964,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSqrt: ...
+    def aiStandIn(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiStandIn: ...
     def aiStandard(
         self,
         name: str | None = None,
@@ -2091,6 +2116,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiVectorToRgb: ...
+    def aiVolume(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiVolume: ...
     def aiVolumeCollector(
         self,
         name: str | None = None,
