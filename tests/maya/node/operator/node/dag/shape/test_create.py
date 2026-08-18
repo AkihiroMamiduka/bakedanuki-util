@@ -207,6 +207,68 @@ def test_nodes_create_standard_light_exposes_arnold_attribute_when_mtoa_loaded(
     assert area_light.aiExposure.name == "aiExposure"
 
 
+@pytest.mark.filterwarnings(
+    r"ignore:invalid escape sequence.*:DeprecationWarning",
+    r"ignore:find_module\(\) is deprecated.*:DeprecationWarning",
+    r"ignore:FileFinder\.find_loader\(\) is deprecated.*:DeprecationWarning",
+    r"ignore:the load_module\(\) method is deprecated.*:DeprecationWarning",
+)
+def test_nodes_create_arnold_lights_supports_undo_redo(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    try:
+        maya_cmds.loadPlugin("mtoa", quiet=True)
+    except Exception as exc:
+        pytest.skip(f"mtoa is unavailable: {exc}")
+
+    light_types = (
+        "aiAreaLight",
+        "aiLightPortal",
+        "aiMeshLight",
+        "aiPhotometricLight",
+        "aiSkyDomeLight",
+    )
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+    parents = []
+    lights = []
+    for node_type in light_types:
+        parent = nodes.create.transform(name=f"{node_type}_parent")
+        light = getattr(nodes.create, node_type)(
+            name=f"{node_type}Shape",
+            parent=parent,
+        )
+        parents.append(parent)
+        lights.append(light)
+
+    mod.do_it_dag()
+
+    expected_paths = [light.full_path for light in lights]
+    for node_type, parent, light in zip(light_types, parents, lights):
+        assert light.full_path == (f"|{node_type}_parent|{node_type}Shape")
+        assert maya_cmds.nodeType(light.full_path) == node_type
+        assert maya_cmds.listRelatives(
+            parent.full_path,
+            shapes=True,
+            fullPath=True,
+        ) == [light.full_path]
+
+    mod.undo_it()
+    assert all(
+        not maya_cmds.objExists(f"{node_type}_parent")
+        for node_type in light_types
+    )
+
+    mod.redo_it()
+    assert [light.full_path for light in lights] == expected_paths
+    assert [maya_cmds.nodeType(light.full_path) for light in lights] == list(
+        light_types
+    )
+
+
 def test_generic_create_supports_opted_in_shape(new_scene, maya_cmds):
     import bd_util as bdu
     from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (

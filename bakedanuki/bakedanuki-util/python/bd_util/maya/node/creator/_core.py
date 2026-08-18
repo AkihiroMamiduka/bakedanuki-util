@@ -21,6 +21,11 @@ _NODE_TYPE_PATTERN = re.compile(
 
 _CREATABLE_SHAPE_NODE_TYPES = frozenset(
     {
+        "aiAreaLight",
+        "aiLightPortal",
+        "aiMeshLight",
+        "aiPhotometricLight",
+        "aiSkyDomeLight",
         "ambientLight",
         "areaLight",
         "camera",

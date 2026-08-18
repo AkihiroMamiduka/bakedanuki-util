@@ -6,6 +6,11 @@ from collections.abc import Callable
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 from ..operator.node.dag._core import DAG
+from ..operator.node.dag.shape.ai_area_light import AiAreaLight
+from ..operator.node.dag.shape.ai_light_portal import AiLightPortal
+from ..operator.node.dag.shape.ai_mesh_light import AiMeshLight
+from ..operator.node.dag.shape.ai_photometric_light import AiPhotometricLight
+from ..operator.node.dag.shape.ai_sky_dome_light import AiSkyDomeLight
 from ..operator.node.dag.shape.ambient_light import AmbientLight
 from ..operator.node.dag.shape.area_light import AreaLight
 from ..operator.node.dag.shape.camera import Camera
@@ -1376,6 +1381,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAOVFilter: ...
+    def aiAreaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiAreaLight: ...
     def aiAtan(
         self,
         name: str | None = None,
@@ -1676,6 +1688,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLightDecay: ...
+    def aiLightPortal(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiLightPortal: ...
     def aiLog(
         self,
         name: str | None = None,
@@ -1726,6 +1745,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMerge: ...
+    def aiMeshLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiMeshLight: ...
     def aiMin(
         self,
         name: str | None = None,
@@ -1786,6 +1812,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiPassthrough: ...
+    def aiPhotometricLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiPhotometricLight: ...
     def aiPhysicalSky(
         self,
         name: str | None = None,
@@ -1896,6 +1929,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSky: ...
+    def aiSkyDomeLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiSkyDomeLight: ...
     def aiSpaceTransform(
         self,
         name: str | None = None,

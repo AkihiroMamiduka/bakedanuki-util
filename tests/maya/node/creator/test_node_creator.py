@@ -108,6 +108,11 @@ def test_node_creator_available_node_names_for_completion(new_scene):
     assert "joint" in node_creator.available_node_names()
     assert "mesh" in node_creator.available_node_names()
     assert {
+        "aiAreaLight",
+        "aiLightPortal",
+        "aiMeshLight",
+        "aiPhotometricLight",
+        "aiSkyDomeLight",
         "ambientLight",
         "areaLight",
         "camera",
@@ -120,7 +125,12 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "spotLight",
         "volumeLight",
     }.issubset(node_creator.available_node_names())
-    assert "aiStandIn" not in node_creator.available_node_names()
+    assert {
+        "aiCurveCollector",
+        "aiLightBlocker",
+        "aiStandIn",
+        "aiVolume",
+    }.isdisjoint(node_creator.available_node_names())
     assert "multiplyDivide" in dir(node_creator)
     assert "transform" in dir(node_creator)
     assert "joint" in dir(node_creator)

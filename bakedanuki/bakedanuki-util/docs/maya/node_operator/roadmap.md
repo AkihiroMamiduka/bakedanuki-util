@@ -106,9 +106,13 @@ undo / redo、命名、親との `ModifierManager` 共有を検証済みです�
 `nodes.create` へ公開済みです。MtoA ロード時は、生成済みの Arnold attribute も
 利用できます。
 
+第三段階として、MtoA をロードした Maya 上で Arnold 固有 light shape の
+`aiAreaLight` / `aiLightPortal` / `aiMeshLight` / `aiPhotometricLight` /
+`aiSkyDomeLight` を検証し、`nodes.create` へ公開済みです。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
-Arnold 固有 shape の作成公開は、標準 light shape とは分けて検証します。
+light 以外の Arnold 固有 shape は、用途と作成前提ごとに分けて検証します。
 
 ### 4. transform と shape の一括作成
 

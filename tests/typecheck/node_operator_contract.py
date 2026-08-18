@@ -769,6 +769,17 @@ from bd_util.maya.node.operator.node.dg.decompose_matrix import (
     DecomposeMatrix,
 )
 from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
+from bd_util.maya.node.operator.node.dag.shape.ai_area_light import AiAreaLight
+from bd_util.maya.node.operator.node.dag.shape.ai_light_portal import (
+    AiLightPortal,
+)
+from bd_util.maya.node.operator.node.dag.shape.ai_mesh_light import AiMeshLight
+from bd_util.maya.node.operator.node.dag.shape.ai_photometric_light import (
+    AiPhotometricLight,
+)
+from bd_util.maya.node.operator.node.dag.shape.ai_sky_dome_light import (
+    AiSkyDomeLight,
+)
 from bd_util.maya.node.operator.node.dag.shape.ai_stand_in import AiStandIn
 from bd_util.maya.node.operator.node.dag.shape.ambient_light import (
     AmbientLight,
@@ -853,6 +864,37 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         parent=parent,
     )
     assert_type(volume_light, VolumeLight)
+
+    ai_area_light = nodes.create.aiAreaLight(
+        name="aiAreaLightShape",
+        parent=parent,
+    )
+    assert_type(ai_area_light, AiAreaLight)
+    assert_type(ai_area_light.intensity, FloatPlugOperator)
+
+    ai_light_portal = nodes.create.aiLightPortal(
+        name="aiLightPortalShape",
+        parent=parent,
+    )
+    assert_type(ai_light_portal, AiLightPortal)
+
+    ai_mesh_light = nodes.create.aiMeshLight(
+        name="aiMeshLightShape",
+        parent=parent,
+    )
+    assert_type(ai_mesh_light, AiMeshLight)
+
+    ai_photometric_light = nodes.create.aiPhotometricLight(
+        name="aiPhotometricLightShape",
+        parent=parent,
+    )
+    assert_type(ai_photometric_light, AiPhotometricLight)
+
+    ai_sky_dome_light = nodes.create.aiSkyDomeLight(
+        name="aiSkyDomeLightShape",
+        parent=parent,
+    )
+    assert_type(ai_sky_dome_light, AiSkyDomeLight)
 
     assert_type(nodes.existing.mesh("existing_mesh"), Mesh)
     assert_type(nodes.existing.camera("existing_camera"), Camera)
