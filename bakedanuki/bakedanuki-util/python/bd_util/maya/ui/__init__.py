@@ -10,6 +10,7 @@ from .dock import (
 )
 from .main_window import get_main_window
 from .settings import (
+    create_ui_state_manager,
     create_window_state_store,
     get_ui_settings_file,
     get_ui_settings_root,
@@ -17,6 +18,7 @@ from .settings import (
 from .window import MayaWindowController
 
 __all__ = [
+    "create_ui_state_manager",
     "create_window_state_store",
     "DockArea",
     "DockOptions",

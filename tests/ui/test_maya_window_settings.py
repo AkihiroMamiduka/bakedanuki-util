@@ -3,7 +3,7 @@ from pathlib import Path
 
 from PySide6 import QtCore, QtWidgets
 
-from bd_util.maya.ui import MayaWindowController
+from bd_util.maya.ui import MayaWindowController, create_ui_state_manager
 from bd_util.maya.ui import settings as maya_ui_settings
 from bd_util.ui import SettingsPath
 
@@ -38,6 +38,11 @@ def test_settings_file_uses_tool_directory(monkeypatch, tmp_path) -> None:
     assert Path(store.file_name) == settings_file
     assert settings_file.parent.is_dir()
     assert store.settings_path.group_path == "widget_a/func_a/my_window"
+
+    # UI内部状態も同じtool単位のINIファイルとgroupを共有する。
+    manager = create_ui_state_manager(settings_path)
+    assert Path(manager.file_name) == settings_file
+    assert manager.settings_path == settings_path
 
 
 def test_maya_controller_restores_saved_geometry(

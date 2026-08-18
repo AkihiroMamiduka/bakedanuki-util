@@ -7,6 +7,7 @@ from ....maya.ui import (
     DockRestoreSpec,
     MayaDockableWindow,
     MayaDockableWindowController,
+    create_ui_state_manager,
 )
 
 
@@ -19,11 +20,33 @@ class SampleDockableWindow(MayaDockableWindow):
         super().__init__()
         self.setWindowTitle("bakedanuki-util dockable UI sample")
 
-        # sampleの用途と現在の表示形態を説明するlabelを作成する。
+        # sampleの用途と保存対象を説明するlabelを作成する。
         label = QtWidgets.QLabel(
-            "This window can be docked into Maya's main window."
+            "Splitter sizes, header state, and the selected tab are saved."
         )
         label.setWordWrap(True)
+
+        # 列幅と並び順を変更できるNode一覧を作成する。
+        self.node_tree = QtWidgets.QTreeWidget()
+        self.node_tree.setColumnCount(3)
+        self.node_tree.setHeaderLabels(["Name", "Type", "Status"])
+        self.node_tree.addTopLevelItem(
+            QtWidgets.QTreeWidgetItem(["root", "joint", "Ready"])
+        )
+        self.node_tree.addTopLevelItem(
+            QtWidgets.QTreeWidgetItem(["body_ctrl", "transform", "Ready"])
+        )
+
+        # 選択タブを変更できる右側の編集領域を作成する。
+        self.main_tabs = QtWidgets.QTabWidget()
+        self.main_tabs.addTab(QtWidgets.QTextEdit("Settings page"), "Settings")
+        self.main_tabs.addTab(QtWidgets.QTextEdit("Log page"), "Log")
+
+        # TreeとTabをリサイズ可能なSplitterへ格納する。
+        self.main_splitter = QtWidgets.QSplitter()
+        self.main_splitter.addWidget(self.node_tree)
+        self.main_splitter.addWidget(self.main_tabs)
+        self.main_splitter.setSizes([180, 260])
 
         # workspaceControlを閉じる操作を確認するbuttonを作成する。
         close_button = QtWidgets.QPushButton("Close")
@@ -32,8 +55,20 @@ class SampleDockableWindow(MayaDockableWindow):
         # 作成したWidgetを余白付きの縦方向へ配置する。
         layout = QtWidgets.QVBoxLayout(self)
         layout.addWidget(label)
-        layout.addStretch()
+        layout.addWidget(self.main_splitter)
         layout.addWidget(close_button)
+
+        # tool単位のui.iniへ保存するWidgetを固定keyで明示登録する。
+        self.ui_state = create_ui_state_manager(
+            "bakedanuki_util/sample/dockable_window"
+        )
+        self.ui_state.register_splitter("main_splitter", self.main_splitter)
+        self.ui_state.register_header("node_header", self.node_tree.header())
+        self.ui_state.register_tab_widget("main_tabs", self.main_tabs)
+
+        # UI構築後に復元し、Maya側のclose通知で現在状態を保存する。
+        self.ui_state.restore()
+        self.dock_closed.connect(self.ui_state.save)
 
 
 # Maya再起動時にimport可能な復元関数と固定control IDを登録する。
@@ -68,5 +103,10 @@ def restore() -> SampleDockableWindow:
 
 def dispose() -> None:
     """sample windowとworkspaceControlを完全に破棄する。"""
+    # dock closeを経由しない完全破棄でも現在のWidget状態を保存する。
+    window = _controller.window
+    if window is not None:
+        window.ui_state.save()
+
     # 開発中のmodule reload前に残っているMaya UIを削除する。
     _controller.dispose()
