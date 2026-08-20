@@ -24,6 +24,12 @@ from ..operator.node.dag.shape.base_lattice import BaseLattice
 from ..operator.node.dag.shape.bezier_curve import BezierCurve
 from ..operator.node.dag.shape.camera import Camera
 from ..operator.node.dag.shape.cluster_handle import ClusterHandle
+from ..operator.node.dag.shape.deform_bend import DeformBend
+from ..operator.node.dag.shape.deform_flare import DeformFlare
+from ..operator.node.dag.shape.deform_sine import DeformSine
+from ..operator.node.dag.shape.deform_squash import DeformSquash
+from ..operator.node.dag.shape.deform_twist import DeformTwist
+from ..operator.node.dag.shape.deform_wave import DeformWave
 from ..operator.node.dag.shape.directed_disc import DirectedDisc
 from ..operator.node.dag.shape.directional_light import DirectionalLight
 from ..operator.node.dag.shape.distance_dim_shape import DistanceDimShape
@@ -3967,6 +3973,48 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DeltaMush: ...
+    def deformBend(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformBend: ...
+    def deformFlare(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformFlare: ...
+    def deformSine(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformSine: ...
+    def deformSquash(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformSquash: ...
+    def deformTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformTwist: ...
+    def deformWave(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformWave: ...
     def detachCurve(
         self,
         name: str | None = None,

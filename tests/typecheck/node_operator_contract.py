@@ -813,6 +813,14 @@ from bd_util.maya.node.operator.node.dag.shape.camera import Camera
 from bd_util.maya.node.operator.node.dag.shape.cluster_handle import (
     ClusterHandle,
 )
+from bd_util.maya.node.operator.node.dag.shape.deform_bend import DeformBend
+from bd_util.maya.node.operator.node.dag.shape.deform_flare import DeformFlare
+from bd_util.maya.node.operator.node.dag.shape.deform_sine import DeformSine
+from bd_util.maya.node.operator.node.dag.shape.deform_squash import (
+    DeformSquash,
+)
+from bd_util.maya.node.operator.node.dag.shape.deform_twist import DeformTwist
+from bd_util.maya.node.operator.node.dag.shape.deform_wave import DeformWave
 from bd_util.maya.node.operator.node.dag.shape.directed_disc import (
     DirectedDisc,
 )
@@ -1067,6 +1075,48 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         soft_mod_handle.originX,
         double_linear.DoubleLinearPlugOperator,
     )
+
+    deform_bend = nodes.create.deformBend(
+        name="deformBendShape",
+        parent=parent,
+    )
+    assert_type(deform_bend, DeformBend)
+    assert_type(deform_bend.curvature, DoubleAnglePlugOperator)
+
+    deform_flare = nodes.create.deformFlare(
+        name="deformFlareShape",
+        parent=parent,
+    )
+    assert_type(deform_flare, DeformFlare)
+    assert_type(deform_flare.startFlareX, DoublePlugOperator)
+
+    deform_sine = nodes.create.deformSine(
+        name="deformSineShape",
+        parent=parent,
+    )
+    assert_type(deform_sine, DeformSine)
+    assert_type(deform_sine.amplitude, DoublePlugOperator)
+
+    deform_squash = nodes.create.deformSquash(
+        name="deformSquashShape",
+        parent=parent,
+    )
+    assert_type(deform_squash, DeformSquash)
+    assert_type(deform_squash.factor, DoublePlugOperator)
+
+    deform_twist = nodes.create.deformTwist(
+        name="deformTwistShape",
+        parent=parent,
+    )
+    assert_type(deform_twist, DeformTwist)
+    assert_type(deform_twist.startAngle, DoubleAnglePlugOperator)
+
+    deform_wave = nodes.create.deformWave(
+        name="deformWaveShape",
+        parent=parent,
+    )
+    assert_type(deform_wave, DeformWave)
+    assert_type(deform_wave.maxRadius, DoublePlugOperator)
 
     ambient_light = nodes.create.ambientLight(
         name="ambientLightShape",

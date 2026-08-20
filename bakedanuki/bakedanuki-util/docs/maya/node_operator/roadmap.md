@@ -136,6 +136,11 @@ NURBS geometry との接続などの用途別初期化は raw shape 作成と分
 用途別初期化は raw shape 作成と分離します。`SphereLocator` は Maya 2025 の
 標準状態で `invalid node type` となるため、未公開のまま維持します。
 
+第九段階として、Maya 標準の非線形 deformer 表示 shape `deformBend` /
+`deformFlare` / `deformSine` / `deformSquash` / `deformTwist` / `deformWave` を
+個別のシーンで検証し、`nodes.create` へ公開済みです。対応する deformer node
+との接続や `deformerData` の初期化は raw shape 作成と分離します。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
 Arnold 固有 shape 9種はすべて作成確認済みです。その他の shape は、用途と
