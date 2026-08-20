@@ -119,20 +119,24 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "aiVolume",
         "ambientLight",
         "areaLight",
+        "baseLattice",
+        "bezierCurve",
         "camera",
         "directionalLight",
+        "lattice",
         "locator",
         "mesh",
         "nurbsCurve",
         "nurbsSurface",
         "pointLight",
         "spotLight",
+        "subdiv",
         "volumeLight",
     }.issubset(node_creator.available_node_names())
     assert {
-        "baseLattice",
         "fluidShape",
         "nParticle",
+        "particle",
         "ufeProxyCameraShape",
     }.isdisjoint(node_creator.available_node_names())
     assert "multiplyDivide" in dir(node_creator)

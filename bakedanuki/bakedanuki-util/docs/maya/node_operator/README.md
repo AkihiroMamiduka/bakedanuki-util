@@ -214,7 +214,7 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
-現在 `nodes.create` から作成できる shape は、動作確認済みの次の20種類です。
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の24種類です。
 
 - `aiAreaLight`
 - `aiCurveCollector`
@@ -227,14 +227,18 @@ mod.do_it_dag()
 - `aiVolume`
 - `ambientLight`
 - `areaLight`
+- `baseLattice`
+- `bezierCurve`
 - `camera`
 - `directionalLight`
+- `lattice`
 - `locator`
 - `mesh`
 - `nurbsCurve`
 - `nurbsSurface`
 - `pointLight`
 - `spotLight`
+- `subdiv`
 - `volumeLight`
 
 Maya 標準 light shape 6種は、指定した親 Transform と名前での作成、および
@@ -247,6 +251,10 @@ Arnold 固有 light shape 5種は MtoA のロードを前提とし、指定し�
 残る Arnold 固有 shape 4種も、MtoA ロード下で raw shape としての作成と
 undo / redo を確認済みです。`aiStandIn.dso` や `aiVolume.filename` の値設定、
 geometry・shader 接続など、用途別の初期化はこの API では自動実行しません。
+
+Maya 標準 geometry shape の `baseLattice` / `bezierCurve` / `lattice` / `subdiv`
+も、raw shape としての作成と undo / redo を確認済みです。geometry データや
+lattice 分割数などの内容初期化は自動実行しません。
 
 Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 `nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。

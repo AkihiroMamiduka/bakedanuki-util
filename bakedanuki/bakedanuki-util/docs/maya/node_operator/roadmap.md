@@ -115,6 +115,10 @@ undo / redo、命名、親との `ModifierManager` 共有を検証済みです�
 親子関係、undo / redo を検証し、`nodes.create` へ公開済みです。ファイル指定や
 geometry・shader 接続などの用途別初期化は、高レベル API の候補として分離します。
 
+第五段階として、Maya 標準 geometry shape の `baseLattice` / `bezierCurve` /
+`lattice` / `subdiv` を個別のシーンで検証し、`nodes.create` へ公開済みです。
+geometry データや lattice 分割数などの内容初期化は raw shape 作成と分離します。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
 Arnold 固有 shape 9種はすべて作成確認済みです。その他の shape は、用途と

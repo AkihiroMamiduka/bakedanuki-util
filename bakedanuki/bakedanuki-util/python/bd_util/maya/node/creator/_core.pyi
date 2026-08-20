@@ -17,14 +17,18 @@ from ..operator.node.dag.shape.ai_stand_in import AiStandIn
 from ..operator.node.dag.shape.ai_volume import AiVolume
 from ..operator.node.dag.shape.ambient_light import AmbientLight
 from ..operator.node.dag.shape.area_light import AreaLight
+from ..operator.node.dag.shape.base_lattice import BaseLattice
+from ..operator.node.dag.shape.bezier_curve import BezierCurve
 from ..operator.node.dag.shape.camera import Camera
 from ..operator.node.dag.shape.directional_light import DirectionalLight
+from ..operator.node.dag.shape.lattice import Lattice
 from ..operator.node.dag.shape.locator import Locator
 from ..operator.node.dag.shape.mesh import Mesh
 from ..operator.node.dag.shape.nurbs_curve import NurbsCurve
 from ..operator.node.dag.shape.nurbs_surface import NurbsSurface
 from ..operator.node.dag.shape.point_light import PointLight
 from ..operator.node.dag.shape.spot_light import SpotLight
+from ..operator.node.dag.shape.subdiv import Subdiv
 from ..operator.node.dag.shape.volume_light import VolumeLight
 from ..operator.node.dag.transform._core import Transform
 from ..operator.node.dag.transform.joint import Joint
@@ -2512,6 +2516,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AxisFromMatrix: ...
+    def baseLattice(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> BaseLattice: ...
     def basicSelector(
         self,
         name: str | None = None,
@@ -3307,6 +3318,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BevelPlus: ...
+    def bezierCurve(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> BezierCurve: ...
     def bezierCurveToNurbs(
         self,
         name: str | None = None,
@@ -4513,6 +4531,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Lambert: ...
+    def lattice(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Lattice: ...
     def layeredShader(
         self,
         name: str | None = None,
@@ -6610,6 +6635,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdTweakUV: ...
+    def subdiv(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Subdiv: ...
     def subdivCollapse(
         self,
         name: str | None = None,

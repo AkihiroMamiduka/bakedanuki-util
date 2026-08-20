@@ -32,14 +32,18 @@ _CREATABLE_SHAPE_NODE_TYPES = frozenset(
         "aiVolume",
         "ambientLight",
         "areaLight",
+        "baseLattice",
+        "bezierCurve",
         "camera",
         "directionalLight",
+        "lattice",
         "locator",
         "mesh",
         "nurbsCurve",
         "nurbsSurface",
         "pointLight",
         "spotLight",
+        "subdiv",
         "volumeLight",
     }
 )

@@ -793,10 +793,12 @@ from bd_util.maya.node.operator.node.dag.shape.ambient_light import (
 )
 from bd_util.maya.node.operator.node.dag.shape.area_light import AreaLight
 from bd_util.maya.node.operator.node.dag.shape.base_lattice import BaseLattice
+from bd_util.maya.node.operator.node.dag.shape.bezier_curve import BezierCurve
 from bd_util.maya.node.operator.node.dag.shape.camera import Camera
 from bd_util.maya.node.operator.node.dag.shape.directional_light import (
     DirectionalLight,
 )
+from bd_util.maya.node.operator.node.dag.shape.lattice import Lattice
 from bd_util.maya.node.operator.node.dag.shape.locator import Locator
 from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 from bd_util.maya.node.operator.node.dag.shape.n_particle import NParticle
@@ -806,6 +808,7 @@ from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (
 )
 from bd_util.maya.node.operator.node.dag.shape.point_light import PointLight
 from bd_util.maya.node.operator.node.dag.shape.spot_light import SpotLight
+from bd_util.maya.node.operator.node.dag.shape.subdiv import Subdiv
 from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
 
@@ -834,6 +837,31 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     surface = nodes.create.nurbsSurface(name="surfaceShape", parent=parent)
     assert_type(surface, NurbsSurface)
     assert_type(surface.create_, DataNurbsSurfacePlugOperator)
+
+    base_lattice = nodes.create.baseLattice(
+        name="baseLatticeShape",
+        parent=parent,
+    )
+    assert_type(base_lattice, BaseLattice)
+
+    bezier_curve = nodes.create.bezierCurve(
+        name="bezierCurveShape",
+        parent=parent,
+    )
+    assert_type(bezier_curve, BezierCurve)
+    assert_type(bezier_curve.create_, DataNurbsCurvePlugOperator)
+
+    lattice = nodes.create.lattice(
+        name="latticeShape",
+        parent=parent,
+    )
+    assert_type(lattice, Lattice)
+
+    subdiv = nodes.create.subdiv(
+        name="subdivShape",
+        parent=parent,
+    )
+    assert_type(subdiv, Subdiv)
 
     ambient_light = nodes.create.ambientLight(
         name="ambientLightShape",
