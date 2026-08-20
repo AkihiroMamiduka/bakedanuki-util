@@ -21,12 +21,19 @@ from ..operator.node.dag.shape.base_lattice import BaseLattice
 from ..operator.node.dag.shape.bezier_curve import BezierCurve
 from ..operator.node.dag.shape.camera import Camera
 from ..operator.node.dag.shape.directional_light import DirectionalLight
+from ..operator.node.dag.shape.implicit_box import ImplicitBox
+from ..operator.node.dag.shape.implicit_cone import ImplicitCone
+from ..operator.node.dag.shape.implicit_sphere import ImplicitSphere
 from ..operator.node.dag.shape.lattice import Lattice
 from ..operator.node.dag.shape.locator import Locator
 from ..operator.node.dag.shape.mesh import Mesh
 from ..operator.node.dag.shape.nurbs_curve import NurbsCurve
 from ..operator.node.dag.shape.nurbs_surface import NurbsSurface
 from ..operator.node.dag.shape.point_light import PointLight
+from ..operator.node.dag.shape.render_box import RenderBox
+from ..operator.node.dag.shape.render_cone import RenderCone
+from ..operator.node.dag.shape.render_rect import RenderRect
+from ..operator.node.dag.shape.render_sphere import RenderSphere
 from ..operator.node.dag.shape.spot_light import SpotLight
 from ..operator.node.dag.shape.subdiv import Subdiv
 from ..operator.node.dag.shape.volume_light import VolumeLight
@@ -4469,6 +4476,27 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkSystem: ...
+    def implicitBox(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ImplicitBox: ...
+    def implicitCone(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ImplicitCone: ...
+    def implicitSphere(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ImplicitSphere: ...
     def insertKnotCurve(
         self,
         name: str | None = None,
@@ -6183,6 +6211,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RemapValue: ...
+    def renderBox(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RenderBox: ...
+    def renderCone(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RenderCone: ...
     def renderGlobals(
         self,
         name: str | None = None,
@@ -6218,6 +6260,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderQuality: ...
+    def renderRect(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RenderRect: ...
     def renderSettingsChildCollection(
         self,
         name: str | None = None,
@@ -6238,6 +6287,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderSetupLayer: ...
+    def renderSphere(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RenderSphere: ...
     def renderTarget(
         self,
         name: str | None = None,

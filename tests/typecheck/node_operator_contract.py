@@ -798,6 +798,13 @@ from bd_util.maya.node.operator.node.dag.shape.camera import Camera
 from bd_util.maya.node.operator.node.dag.shape.directional_light import (
     DirectionalLight,
 )
+from bd_util.maya.node.operator.node.dag.shape.implicit_box import ImplicitBox
+from bd_util.maya.node.operator.node.dag.shape.implicit_cone import (
+    ImplicitCone,
+)
+from bd_util.maya.node.operator.node.dag.shape.implicit_sphere import (
+    ImplicitSphere,
+)
 from bd_util.maya.node.operator.node.dag.shape.lattice import Lattice
 from bd_util.maya.node.operator.node.dag.shape.locator import Locator
 from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
@@ -807,6 +814,12 @@ from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (
     NurbsSurface,
 )
 from bd_util.maya.node.operator.node.dag.shape.point_light import PointLight
+from bd_util.maya.node.operator.node.dag.shape.render_box import RenderBox
+from bd_util.maya.node.operator.node.dag.shape.render_cone import RenderCone
+from bd_util.maya.node.operator.node.dag.shape.render_rect import RenderRect
+from bd_util.maya.node.operator.node.dag.shape.render_sphere import (
+    RenderSphere,
+)
 from bd_util.maya.node.operator.node.dag.shape.spot_light import SpotLight
 from bd_util.maya.node.operator.node.dag.shape.subdiv import Subdiv
 from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
@@ -862,6 +875,56 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         parent=parent,
     )
     assert_type(subdiv, Subdiv)
+
+    implicit_box = nodes.create.implicitBox(
+        name="implicitBoxShape",
+        parent=parent,
+    )
+    assert_type(implicit_box, ImplicitBox)
+
+    implicit_cone = nodes.create.implicitCone(
+        name="implicitConeShape",
+        parent=parent,
+    )
+    assert_type(implicit_cone, ImplicitCone)
+
+    implicit_sphere = nodes.create.implicitSphere(
+        name="implicitSphereShape",
+        parent=parent,
+    )
+    assert_type(implicit_sphere, ImplicitSphere)
+    assert_type(
+        implicit_sphere.radius,
+        double_linear.DoubleLinearPlugOperator,
+    )
+
+    render_box = nodes.create.renderBox(
+        name="renderBoxShape",
+        parent=parent,
+    )
+    assert_type(render_box, RenderBox)
+
+    render_cone = nodes.create.renderCone(
+        name="renderConeShape",
+        parent=parent,
+    )
+    assert_type(render_cone, RenderCone)
+
+    render_rect = nodes.create.renderRect(
+        name="renderRectShape",
+        parent=parent,
+    )
+    assert_type(render_rect, RenderRect)
+
+    render_sphere = nodes.create.renderSphere(
+        name="renderSphereShape",
+        parent=parent,
+    )
+    assert_type(render_sphere, RenderSphere)
+    assert_type(
+        render_sphere.radius,
+        double_linear.DoubleLinearPlugOperator,
+    )
 
     ambient_light = nodes.create.ambientLight(
         name="ambientLightShape",
