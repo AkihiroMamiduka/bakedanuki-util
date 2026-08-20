@@ -3,9 +3,9 @@ from collections.abc import Callable
 from functools import partial
 from typing import Generic, TypeVar
 
-from PySide6 import QtCore, QtWidgets
+from . import qt
 
-WindowT = TypeVar("WindowT", bound=QtWidgets.QWidget)
+WindowT = TypeVar("WindowT", bound=qt.QtWidgets.QWidget)
 
 
 class WindowController(Generic[WindowT]):
@@ -37,9 +37,9 @@ class WindowController(Generic[WindowT]):
 
         # 最小化されている場合は、他の表示状態を保ったまま解除する。
         state = window.windowState()
-        if state & QtCore.Qt.WindowState.WindowMinimized:
+        if state & qt.QtCore.Qt.WindowState.WindowMinimized:
             window.setWindowState(
-                state & ~QtCore.Qt.WindowState.WindowMinimized
+                state & ~qt.QtCore.Qt.WindowState.WindowMinimized
             )
 
         # windowを表示してユーザーが操作できる状態へ移動する。
@@ -71,7 +71,7 @@ class WindowController(Generic[WindowT]):
     def _on_window_destroyed(
         self,
         token: object,
-        _object: QtCore.QObject | None = None,
+        _object: qt.QtCore.QObject | None = None,
     ) -> None:
         """管理対象windowの破棄通知を処理する。"""
         # 現在管理中のwindowから届いた通知だけを状態へ反映する。

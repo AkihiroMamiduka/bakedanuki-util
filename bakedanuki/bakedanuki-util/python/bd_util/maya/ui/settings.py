@@ -2,9 +2,8 @@
 from pathlib import Path
 
 from maya import cmds
-from PySide6 import QtCore
 
-from ...ui import SettingsPath, UiStateManager, WindowStateStore
+from ...ui import SettingsPath, UiStateManager, WindowStateStore, qt
 
 
 def get_ui_settings_root() -> Path:
@@ -50,14 +49,14 @@ def create_ui_state_manager(
 
 def _create_ui_settings(
     settings_path: SettingsPath,
-) -> QtCore.QSettings:
+) -> qt.QtCore.QSettings:
     """settings pathに対応するMaya用QSettingsを生成する。"""
     # tool directoryを作成してINIファイルの保存先を準備する。
     settings_file = get_ui_settings_file(settings_path)
     settings_file.parent.mkdir(parents=True, exist_ok=True)
 
     # NativeFormatを避け、物理ファイルへ保存するQSettingsを生成する。
-    return QtCore.QSettings(
+    return qt.QtCore.QSettings(
         str(settings_file),
-        QtCore.QSettings.Format.IniFormat,
+        qt.QtCore.QSettings.Format.IniFormat,
     )

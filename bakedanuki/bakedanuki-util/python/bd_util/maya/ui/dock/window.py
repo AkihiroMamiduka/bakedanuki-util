@@ -1,7 +1,7 @@
 # coding: utf-8
 from typing import TYPE_CHECKING
 
-from PySide6 import QtCore, QtWidgets
+from ....ui import qt
 
 if TYPE_CHECKING:
 
@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
         def __init__(
             self,
-            parent: QtWidgets.QWidget | None = None,
+            parent: qt.QtWidgets.QWidget | None = None,
             *args: object,
             **kwargs: object,
         ) -> None: ...
@@ -21,15 +21,15 @@ else:
     )
 
 
-class MayaDockableWindow(_MayaQWidgetDockableMixin, QtWidgets.QWidget):
+class MayaDockableWindow(_MayaQWidgetDockableMixin, qt.QtWidgets.QWidget):
     """MayaのworkspaceControlへ格納できるWidgetの基底クラス。"""
 
-    dock_closed = QtCore.Signal()
-    floating_changed = QtCore.Signal(bool)
+    dock_closed = qt.Signal()
+    floating_changed = qt.Signal(bool)
 
     def __init__(
         self,
-        parent: QtWidgets.QWidget | None = None,
+        parent: qt.QtWidgets.QWidget | None = None,
     ) -> None:
         """Mayaのdockable mixinとQWidgetを初期化する。"""
         # MayaのMixinを先頭にしたMROを通してQt Widgetを初期化する。

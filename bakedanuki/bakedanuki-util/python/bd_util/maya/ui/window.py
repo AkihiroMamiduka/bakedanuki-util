@@ -2,14 +2,12 @@
 from collections.abc import Callable
 from typing import TypeVar
 
-from PySide6 import QtWidgets
-
 from ...logger import get_logger
-from ...ui import SettingsPath, WindowController, WindowStateTracker
+from ...ui import SettingsPath, WindowController, WindowStateTracker, qt
 from .main_window import get_main_window
 from .settings import create_window_state_store
 
-WindowT = TypeVar("WindowT", bound=QtWidgets.QWidget)
+WindowT = TypeVar("WindowT", bound=qt.QtWidgets.QWidget)
 logger = get_logger(__name__)
 
 
@@ -18,7 +16,7 @@ class MayaWindowController(WindowController[WindowT]):
 
     def __init__(
         self,
-        factory: Callable[[QtWidgets.QWidget | None], WindowT],
+        factory: Callable[[qt.QtWidgets.QWidget | None], WindowT],
         *,
         settings_path: str | SettingsPath | None = None,
     ) -> None:

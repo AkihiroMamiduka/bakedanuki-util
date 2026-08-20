@@ -3,11 +3,11 @@ from typing import cast
 
 from maya import OpenMayaUI as omui
 from maya import cmds
-from PySide6 import QtWidgets
-from shiboken6 import wrapInstance
+
+from ...ui import qt
 
 
-def get_main_window() -> QtWidgets.QWidget | None:
+def get_main_window() -> qt.QtWidgets.QWidget | None:
     """interactive Mayaのmain windowを取得する。"""
     # batch MayaとMaya初期化前ではUIへアクセスせずNoneを返す。
     try:
@@ -23,6 +23,6 @@ def get_main_window() -> QtWidgets.QWidget | None:
 
     # C++側のpointerをPySide6のQWidget wrapperへ変換する。
     return cast(
-        QtWidgets.QWidget,
-        wrapInstance(int(pointer), QtWidgets.QWidget),
+        qt.QtWidgets.QWidget,
+        qt.wrapInstance(int(pointer), qt.QtWidgets.QWidget),
     )

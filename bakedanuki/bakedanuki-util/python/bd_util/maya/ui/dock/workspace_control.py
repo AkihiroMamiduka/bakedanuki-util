@@ -4,9 +4,9 @@ from typing import cast
 
 from maya import OpenMayaUI as omui
 from maya import cmds
-from PySide6 import QtCore, QtWidgets
 
 from ....logger import get_logger
+from ....ui import qt
 from .options import DockArea
 
 logger = get_logger(__name__)
@@ -67,7 +67,7 @@ def find_control(name: str) -> int:
     return int(pointer)
 
 
-def attach(window: QtWidgets.QWidget, parent_pointer: int) -> None:
+def attach(window: qt.QtWidgets.QWidget, parent_pointer: int) -> None:
     """Widgetを指定workspaceControlへ接続する。"""
     # 固定objectNameからWidget pointerを解決してMaya layoutへ追加する。
     widget_pointer = find_control(window.objectName())
@@ -75,32 +75,32 @@ def attach(window: QtWidgets.QWidget, parent_pointer: int) -> None:
 
 
 def apply_allowed_area(
-    window: QtWidgets.QWidget,
+    window: qt.QtWidgets.QWidget,
     allowed_area: DockArea,
 ) -> bool:
     """親DockWidgetへ許可するドッキング領域を設定する。"""
     # Maya 2025のMixinがallowedAreaを適用しないためQt側のhostへ補完する。
     parent = window.parentWidget()
-    if not isinstance(parent, QtWidgets.QDockWidget):
+    if not isinstance(parent, qt.QtWidgets.QDockWidget):
         return False
 
     # 公開enumをQtのDockWidgetArea flagへ変換する。
     qt_area = {
-        DockArea.TOP: QtCore.Qt.DockWidgetArea.TopDockWidgetArea,
-        DockArea.LEFT: QtCore.Qt.DockWidgetArea.LeftDockWidgetArea,
-        DockArea.RIGHT: QtCore.Qt.DockWidgetArea.RightDockWidgetArea,
-        DockArea.BOTTOM: QtCore.Qt.DockWidgetArea.BottomDockWidgetArea,
-        DockArea.ALL: QtCore.Qt.DockWidgetArea.AllDockWidgetAreas,
+        DockArea.TOP: qt.QtCore.Qt.DockWidgetArea.TopDockWidgetArea,
+        DockArea.LEFT: qt.QtCore.Qt.DockWidgetArea.LeftDockWidgetArea,
+        DockArea.RIGHT: qt.QtCore.Qt.DockWidgetArea.RightDockWidgetArea,
+        DockArea.BOTTOM: qt.QtCore.Qt.DockWidgetArea.BottomDockWidgetArea,
+        DockArea.ALL: qt.QtCore.Qt.DockWidgetArea.AllDockWidgetAreas,
     }[allowed_area]
     parent.setAllowedAreas(qt_area)
     return True
 
 
-def register(name: str, window: QtWidgets.QWidget) -> None:
+def register(name: str, window: qt.QtWidgets.QWidget) -> None:
     """Maya mixinへworkspaceControlとWidgetの対応を登録する。"""
     # 復元後もdock closeとfloating変更のcallbackが届くよう対応を保持する。
     registry = cast(
-        dict[str, QtWidgets.QWidget],
+        dict[str, qt.QtWidgets.QWidget],
         maya_mixin.mixinWorkspaceControls,
     )
     registry[name] = window
@@ -110,7 +110,7 @@ def unregister(name: str) -> None:
     """Maya mixinからworkspaceControlの登録を解除する。"""
     # 完全破棄後に古いWidgetへcallbackが送られないよう参照を外す。
     registry = cast(
-        dict[str, QtWidgets.QWidget],
+        dict[str, qt.QtWidgets.QWidget],
         maya_mixin.mixinWorkspaceControls,
     )
     registry.pop(name, None)

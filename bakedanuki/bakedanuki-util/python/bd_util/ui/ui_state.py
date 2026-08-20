@@ -4,11 +4,10 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import ClassVar
 
-from PySide6 import QtCore, QtWidgets
-
 from .settings_path import SettingsPath
+from . import qt
 
-UiStateValue = QtCore.QByteArray | int
+UiStateValue = qt.QtCore.QByteArray | int
 _STATE_KEY_PATTERN = re.compile(r"^[A-Za-z_]\w*$", re.ASCII)
 
 
@@ -25,7 +24,7 @@ class _UiStateAdapter(ABC):
     @abstractmethod
     def restore_state(
         self,
-        settings: QtCore.QSettings,
+        settings: qt.QtCore.QSettings,
         state_key: str,
     ) -> bool:
         """QSettingsから状態を読み取りWidgetへ復元する。"""
@@ -37,26 +36,26 @@ class _SplitterStateAdapter(_UiStateAdapter):
     """QSplitterの分割位置を保存・復元する。"""
 
     state_type: ClassVar[str] = "splitter"
-    widget: QtWidgets.QSplitter
+    widget: qt.QtWidgets.QSplitter
 
-    def save_state(self) -> QtCore.QByteArray:
+    def save_state(self) -> qt.QtCore.QByteArray:
         """QSplitterの現在の状態を取得する。"""
         # Qt標準形式を使い、orientationや各領域のサイズをまとめて保存する。
         return self.widget.saveState()
 
     def restore_state(
         self,
-        settings: QtCore.QSettings,
+        settings: qt.QtCore.QSettings,
         state_key: str,
     ) -> bool:
         """保存済みのQSplitter状態を復元する。"""
         # INI内の値をQByteArrayとして読み取り、Qt標準処理へ渡す。
         state = settings.value(
             state_key,
-            QtCore.QByteArray(),
-            QtCore.QByteArray,
+            qt.QtCore.QByteArray(),
+            qt.QtCore.QByteArray,
         )
-        if not isinstance(state, QtCore.QByteArray) or state.isEmpty():
+        if not isinstance(state, qt.QtCore.QByteArray) or state.isEmpty():
             return False
         return self.widget.restoreState(state)
 
@@ -66,26 +65,26 @@ class _HeaderStateAdapter(_UiStateAdapter):
     """QHeaderViewの列幅と表示順を保存・復元する。"""
 
     state_type: ClassVar[str] = "header"
-    widget: QtWidgets.QHeaderView
+    widget: qt.QtWidgets.QHeaderView
 
-    def save_state(self) -> QtCore.QByteArray:
+    def save_state(self) -> qt.QtCore.QByteArray:
         """QHeaderViewの現在の状態を取得する。"""
         # Qt標準形式を使い、列幅や並び順などをまとめて保存する。
         return self.widget.saveState()
 
     def restore_state(
         self,
-        settings: QtCore.QSettings,
+        settings: qt.QtCore.QSettings,
         state_key: str,
     ) -> bool:
         """保存済みのQHeaderView状態を復元する。"""
         # INI内の値をQByteArrayとして読み取り、Qt標準処理へ渡す。
         state = settings.value(
             state_key,
-            QtCore.QByteArray(),
-            QtCore.QByteArray,
+            qt.QtCore.QByteArray(),
+            qt.QtCore.QByteArray,
         )
-        if not isinstance(state, QtCore.QByteArray) or state.isEmpty():
+        if not isinstance(state, qt.QtCore.QByteArray) or state.isEmpty():
             return False
         return self.widget.restoreState(state)
 
@@ -95,7 +94,7 @@ class _TabWidgetStateAdapter(_UiStateAdapter):
     """QTabWidgetで現在選択されているタブを保存・復元する。"""
 
     state_type: ClassVar[str] = "tab_widget"
-    widget: QtWidgets.QTabWidget
+    widget: qt.QtWidgets.QTabWidget
 
     def save_state(self) -> int | None:
         """QTabWidgetの現在のindexを取得する。"""
@@ -105,7 +104,7 @@ class _TabWidgetStateAdapter(_UiStateAdapter):
 
     def restore_state(
         self,
-        settings: QtCore.QSettings,
+        settings: qt.QtCore.QSettings,
         state_key: str,
     ) -> bool:
         """保存済みの選択タブを復元する。"""
@@ -127,7 +126,7 @@ class UiStateManager:
 
     def __init__(
         self,
-        settings: QtCore.QSettings,
+        settings: qt.QtCore.QSettings,
         settings_path: SettingsPath,
     ) -> None:
         """保存先QSettingsとsettings pathを受け取って初期化する。"""
@@ -157,7 +156,7 @@ class UiStateManager:
     def register_splitter(
         self,
         key: str,
-        widget: QtWidgets.QSplitter,
+        widget: qt.QtWidgets.QSplitter,
     ) -> None:
         """QSplitterの分割位置を保存対象として登録する。"""
         # Splitter専用adapterを共通登録処理へ渡す。
@@ -166,7 +165,7 @@ class UiStateManager:
     def register_header(
         self,
         key: str,
-        widget: QtWidgets.QHeaderView,
+        widget: qt.QtWidgets.QHeaderView,
     ) -> None:
         """QHeaderViewの列幅と表示順を保存対象として登録する。"""
         # Header専用adapterを共通登録処理へ渡す。
@@ -175,7 +174,7 @@ class UiStateManager:
     def register_tab_widget(
         self,
         key: str,
-        widget: QtWidgets.QTabWidget,
+        widget: qt.QtWidgets.QTabWidget,
     ) -> None:
         """QTabWidgetの選択タブを保存対象として登録する。"""
         # TabWidget専用adapterを共通登録処理へ渡す。
@@ -212,7 +211,7 @@ class UiStateManager:
 
         # Maya終了前にも反映されるよう変更内容を即座に同期する。
         self._settings.sync()
-        return self._settings.status() == QtCore.QSettings.Status.NoError
+        return self._settings.status() == qt.QtCore.QSettings.Status.NoError
 
     def restore(self) -> frozenset[str]:
         """保存済み状態を登録済みWidgetへ復元し、成功したkeyを返す。"""
@@ -274,7 +273,7 @@ class UiStateManager:
 
         # 削除結果をファイルへ反映して成否を返す。
         self._settings.sync()
-        return self._settings.status() == QtCore.QSettings.Status.NoError
+        return self._settings.status() == qt.QtCore.QSettings.Status.NoError
 
     def _register(self, key: object, adapter: _UiStateAdapter) -> None:
         """検証済みのkeyでWidget adapterを登録する。"""

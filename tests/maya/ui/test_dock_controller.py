@@ -83,7 +83,11 @@ def workspace_spy(monkeypatch) -> Iterator[dict[str, object]]:
     assert isinstance(calls, list)
 
     # test用objectを生存中のQt wrapperとしてcontrollerへ扱わせる。
-    monkeypatch.setattr(dock_controller, "isValid", lambda _window: True)
+    monkeypatch.setattr(
+        dock_controller.qt,
+        "isValid",
+        lambda _window: True,
+    )
 
     monkeypatch.setattr(
         dock_controller.workspace_control,

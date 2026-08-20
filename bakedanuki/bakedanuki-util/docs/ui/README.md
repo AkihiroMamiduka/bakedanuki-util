@@ -2,9 +2,54 @@
 
 UI utilityは、利用場所ではなく依存関係で分けます。
 
-- `bd_util.ui`には、Mayaを直接importしない汎用PySide6処理を置きます。
+- `bd_util.ui`には、Mayaを直接importしない汎用Qt処理を置きます。
 - `bd_util.maya.ui`には、Maya main windowやUI lifecycleへのadapterを置きます。
 - 依存は`bd_util.maya.ui`から`bd_util.ui`への一方向とし、逆方向には依存させません。
+
+## Qt binding facade
+
+`bd_util.ui.qt`は、Maya同梱Qt bindingのimport先を集約します。toolやパッケージ内部では
+`PySide`や`shiboken`を直接importせず、このmoduleを入口として使用します。
+
+```python
+from bd_util.ui import qt
+
+
+class MyWidget(qt.QWidget):
+    changed = qt.Signal()
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        label = qt.QLabel("My tool")
+        layout = qt.QVBoxLayout(self)
+        layout.addWidget(label)
+```
+
+頻出classは`qt.QLabel`のような短いaliasで公開します。公開aliasへ含まれないAPIも、元module
+から利用できます。
+
+```python
+painter_path = qt.QtGui.QPainterPath()
+```
+
+`QtCore`、`QtGui`、`QtWidgets`に加えて、`wrapInstance()`、`getCppPointer()`、`isValid()`も
+同じ入口から利用できます。診断用に現在のbinding情報も公開します。
+
+```python
+qt.QT_BINDING
+qt.QT_BINDING_VERSION
+qt.QT_BINDING_MAJOR_VERSION
+```
+
+実行時は新しいbinding候補から順に確認し、root packageが存在しない場合だけ次の候補へ
+切り替えます。発見したbinding内部のimport errorやDLLの読み込み失敗はfallbackで隠さず、
+そのまま送出します。PySideとshibokenは同じversionの組み合わせで読み込みます。
+
+現在の対応MayaはすべてPySide6です。将来bindingのimport先が変わった場合は`qt.py`の候補へ
+PySideとshibokenの組み合わせを追加します。module、頻出alias、利用側のimport方法は変更
+しません。公開aliasはversion間の互換性を維持する小さな集合に限定し、利用頻度の低いclassを
+網羅的に列挙しません。
 
 ## WindowController
 
@@ -19,13 +64,12 @@ loopへ削除を予約します。`WA_DeleteOnClose`などにより外部からw
 factoryはMaya main windowを引数として受け取ります。
 
 ```python
-from PySide6 import QtWidgets
-
 from bd_util.maya.ui import MayaWindowController
+from bd_util.ui import qt
 
 
-class MyWindow(QtWidgets.QDialog):
-    def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
+class MyWindow(qt.QDialog):
+    def __init__(self, parent: qt.QWidget | None = None) -> None:
         super().__init__(parent)
         self.setWindowTitle("My Maya tool")
 
@@ -160,8 +204,6 @@ windows/main/ui_state/widgets/main_tabs/state
 `MayaWindowController`とは別のcontrollerとして提供します。
 
 ```python
-from PySide6 import QtWidgets
-
 from bd_util.maya.ui import (
     DockArea,
     DockOptions,
@@ -169,6 +211,7 @@ from bd_util.maya.ui import (
     MayaDockableWindow,
     MayaDockableWindowController,
 )
+from bd_util.ui import qt
 
 
 class MyWindow(MayaDockableWindow):
@@ -176,8 +219,8 @@ class MyWindow(MayaDockableWindow):
         super().__init__()
         self.setWindowTitle("My Maya tool")
 
-        layout = QtWidgets.QVBoxLayout(self)
-        layout.addWidget(QtWidgets.QLabel("Dockable content"))
+        layout = qt.QVBoxLayout(self)
+        layout.addWidget(qt.QLabel("Dockable content"))
 
 
 controller = MayaDockableWindowController(

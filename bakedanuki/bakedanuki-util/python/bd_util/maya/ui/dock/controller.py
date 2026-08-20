@@ -4,9 +4,7 @@ from collections.abc import Callable
 from functools import partial
 from typing import Generic, TypeVar, cast
 
-from PySide6 import QtCore
-from shiboken6 import isValid
-
+from ....ui import qt
 from . import workspace_control
 from .options import DockOptions
 from .restore import DockRestoreSpec
@@ -141,7 +139,7 @@ class MayaDockableWindowController(Generic[WindowT]):
 
         # control生成前のWidgetがあれば通常のQt closeを実行する。
         window = self._window
-        if window is not None and isValid(window):
+        if window is not None and qt.isValid(window):
             window.close()
 
     def dispose(self) -> None:
@@ -160,7 +158,7 @@ class MayaDockableWindowController(Generic[WindowT]):
             return
 
         # controlへ未接続のWidgetだけQt event loopへ削除を予約する。
-        if window is not None and isValid(window):
+        if window is not None and qt.isValid(window):
             window.close()
             window.deleteLater()
 
@@ -177,7 +175,7 @@ class MayaDockableWindowController(Generic[WindowT]):
         """管理対象Widgetを必要に応じて生成する。"""
         # 生存中のWidgetがあれば同一instanceを再利用する。
         window = self._window
-        if window is not None and isValid(window):
+        if window is not None and qt.isValid(window):
             return window
 
         # 固定objectNameをshow前に設定してMaya側の名前を安定させる。
@@ -192,7 +190,7 @@ class MayaDockableWindowController(Generic[WindowT]):
     def _on_window_destroyed(
         self,
         token: object,
-        _object: QtCore.QObject | None = None,
+        _object: qt.QtCore.QObject | None = None,
     ) -> None:
         """管理対象Widgetの破棄通知を処理する。"""
         # 現在管理中のWidgetから届いた通知だけを状態へ反映する。

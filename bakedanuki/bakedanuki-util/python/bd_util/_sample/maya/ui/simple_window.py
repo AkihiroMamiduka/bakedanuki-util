@@ -1,13 +1,12 @@
 # coding: utf-8
-from PySide6 import QtWidgets
-
+from ....ui import qt
 from ....maya.ui import MayaWindowController
 
 
-class SampleWindow(QtWidgets.QDialog):
+class SampleWindow(qt.QDialog):
     """Maya main windowを親に持つsample dialog。"""
 
-    def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
+    def __init__(self, parent: qt.QWidget | None = None) -> None:
         """親widgetを受け取ってsample UIを構築する。"""
         # dialogの親とwindow固有の表示設定を初期化する。
         super().__init__(parent)
@@ -16,14 +15,12 @@ class SampleWindow(QtWidgets.QDialog):
         self.setMinimumWidth(320)
 
         # sampleの説明とwindowを閉じるbuttonを作成する。
-        label = QtWidgets.QLabel(
-            "This window is parented to Maya's main window."
-        )
-        close_button = QtWidgets.QPushButton("Close")
+        label = qt.QLabel("This window is parented to Maya's main window.")
+        close_button = qt.QPushButton("Close")
         close_button.clicked.connect(self.close)
 
         # 作成したwidgetを縦方向へ配置する。
-        layout = QtWidgets.QVBoxLayout(self)
+        layout = qt.QVBoxLayout(self)
         layout.addWidget(label)
         layout.addWidget(close_button)
 

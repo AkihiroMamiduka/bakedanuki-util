@@ -1,9 +1,8 @@
 # coding: utf-8
 from typing import ClassVar
 
-from PySide6 import QtCore, QtWidgets
-
 from .settings_path import SettingsPath
+from . import qt
 
 
 class WindowStateStore:
@@ -17,7 +16,7 @@ class WindowStateStore:
 
     def __init__(
         self,
-        settings: QtCore.QSettings,
+        settings: qt.QtCore.QSettings,
         settings_path: SettingsPath,
     ) -> None:
         """保存先QSettingsとsettings pathを受け取って初期化する。"""
@@ -37,7 +36,7 @@ class WindowStateStore:
         # 実際にQSettingsが解決した保存先を取得する。
         return self._settings.fileName()
 
-    def save(self, window: QtWidgets.QWidget) -> bool:
+    def save(self, window: qt.QtWidgets.QWidget) -> bool:
         """windowのgeometryと対応するstateを保存する。"""
         # window単位のgroupへschema versionとgeometryを保存する。
         self._settings.beginGroup(self._settings_path.group_path)
@@ -52,7 +51,7 @@ class WindowStateStore:
             )
 
             # QMainWindowの場合だけdockやtoolbarのstateも保存する。
-            if isinstance(window, QtWidgets.QMainWindow):
+            if isinstance(window, qt.QtWidgets.QMainWindow):
                 self._settings.setValue(
                     self._WINDOW_STATE_KEY,
                     window.saveState(self.WINDOW_STATE_VERSION),
@@ -64,9 +63,9 @@ class WindowStateStore:
 
         # Maya終了前にも反映されるよう変更内容を即座に同期する。
         self._settings.sync()
-        return self._settings.status() == QtCore.QSettings.Status.NoError
+        return self._settings.status() == qt.QtCore.QSettings.Status.NoError
 
-    def restore(self, window: QtWidgets.QWidget) -> bool:
+    def restore(self, window: qt.QtWidgets.QWidget) -> bool:
         """保存済みのgeometryと対応するstateをwindowへ復元する。"""
         # window単位のgroupから保存値をまとめて読み取る。
         self._settings.beginGroup(self._settings_path.group_path)
@@ -78,13 +77,13 @@ class WindowStateStore:
             )
             geometry = self._settings.value(
                 self._GEOMETRY_KEY,
-                QtCore.QByteArray(),
-                QtCore.QByteArray,
+                qt.QtCore.QByteArray(),
+                qt.QtCore.QByteArray,
             )
             window_state = self._settings.value(
                 self._WINDOW_STATE_KEY,
-                QtCore.QByteArray(),
-                QtCore.QByteArray,
+                qt.QtCore.QByteArray(),
+                qt.QtCore.QByteArray,
             )
         finally:
             self._settings.endGroup()
@@ -95,15 +94,18 @@ class WindowStateStore:
 
         # 有効なgeometryがある場合だけwindowへ復元する。
         geometry_restored = False
-        if isinstance(geometry, QtCore.QByteArray) and not geometry.isEmpty():
+        if (
+            isinstance(geometry, qt.QtCore.QByteArray)
+            and not geometry.isEmpty()
+        ):
             geometry_restored = window.restoreGeometry(geometry)
             if not geometry_restored:
                 self._remove_value(self._GEOMETRY_KEY)
 
         # QMainWindowにはgeometryと分離してdockやtoolbarも復元する。
         if (
-            isinstance(window, QtWidgets.QMainWindow)
-            and isinstance(window_state, QtCore.QByteArray)
+            isinstance(window, qt.QtWidgets.QMainWindow)
+            and isinstance(window_state, qt.QtCore.QByteArray)
             and not window_state.isEmpty()
             and not window.restoreState(
                 window_state,
@@ -127,7 +129,7 @@ class WindowStateStore:
 
         # 削除結果をファイルへ反映して成否を返す。
         self._settings.sync()
-        return self._settings.status() == QtCore.QSettings.Status.NoError
+        return self._settings.status() == qt.QtCore.QSettings.Status.NoError
 
     def _remove_value(self, key: str) -> None:
         """復元できなかった1つの保存値を削除する。"""
@@ -140,12 +142,12 @@ class WindowStateStore:
         self._settings.sync()
 
 
-class WindowStateTracker(QtCore.QObject):
+class WindowStateTracker(qt.QtCore.QObject):
     """windowの生成とcloseに合わせてstateを復元・保存する。"""
 
     def __init__(
         self,
-        window: QtWidgets.QWidget,
+        window: qt.QtWidgets.QWidget,
         store: WindowStateStore,
     ) -> None:
         """監視対象windowと保存処理を受け取って初期化する。"""
@@ -171,14 +173,14 @@ class WindowStateTracker(QtCore.QObject):
 
     def eventFilter(
         self,
-        watched: QtCore.QObject,
-        event: QtCore.QEvent,
+        watched: qt.QtCore.QObject,
+        event: qt.QtCore.QEvent,
     ) -> bool:
         """監視対象windowのclose eventでstateを保存する。"""
         # タイトルバーやcontroller経由のcloseを同じ経路で処理する。
         if (
             watched is self._window
-            and event.type() == QtCore.QEvent.Type.Close
+            and event.type() == qt.QtCore.QEvent.Type.Close
         ):
             self.save()
 

@@ -1,6 +1,6 @@
 from typing import assert_type
 
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
 from bd_util.maya.ui import (
     DockOptions,
@@ -11,7 +11,7 @@ from bd_util.maya.ui import (
     create_ui_state_manager,
     get_main_window,
 )
-from bd_util.ui import SettingsPath, UiStateManager, WindowController
+from bd_util.ui import SettingsPath, UiStateManager, WindowController, qt
 
 
 class SampleWindow(QtWidgets.QDialog):
@@ -20,6 +20,10 @@ class SampleWindow(QtWidgets.QDialog):
 
 class SampleDockableWindow(MayaDockableWindow):
     pass
+
+
+class FacadeWidget(qt.QWidget):
+    changed = qt.Signal()
 
 
 window_controller = WindowController(SampleWindow)
@@ -86,3 +90,8 @@ assert_type(
 assert_type(ui_state_manager.save(), bool)
 assert_type(ui_state_manager.restore(), frozenset[str])
 assert_type(ui_state_manager.clear(), bool)
+
+facade_widget = FacadeWidget()
+assert_type(facade_widget, FacadeWidget)
+assert_type(qt.QLabel(), QtWidgets.QLabel)
+assert_type(qt.QAction(), QtGui.QAction)
