@@ -4,7 +4,35 @@ from pathlib import Path
 import pytest
 from PySide6 import QtCore, QtWidgets
 
-from bd_util.ui import SettingsPath, UiStateManager
+from bd_util.ui import SettingsPath, UiStateManager, qt
+from bd_util.ui import ui_state as ui_state_module
+
+
+class _FailingStateAdapter(ui_state_module._UiStateAdapter):
+    """状態収集中に失敗するtest用adapter。"""
+
+    state_type = "failing"
+
+    def __init__(self, widget: QtWidgets.QWidget) -> None:
+        """生存判定に使用するWidgetを保持する。"""
+        self.widget = widget
+
+    @property
+    def state_object(self) -> QtCore.QObject:
+        """状態を所有するtest用Widgetを返す。"""
+        return self.widget
+
+    def save_state(self) -> None:
+        """状態収集失敗を再現する。"""
+        raise RuntimeError("test state collection failed")
+
+    def restore_state(
+        self,
+        settings: QtCore.QSettings,
+        state_key: str,
+    ) -> bool:
+        """testでは使用しない復元処理を定義する。"""
+        return False
 
 
 def _create_manager(
@@ -20,72 +48,150 @@ def _create_manager(
     return UiStateManager(settings, SettingsPath(settings_path))
 
 
-def _create_tree() -> QtWidgets.QTreeWidget:
-    """列状態を変更できるtest用TreeWidgetを生成する。"""
-    # HeaderViewが3列を管理する最小構成を作成する。
-    tree = QtWidgets.QTreeWidget()
-    tree.setColumnCount(3)
-    tree.setHeaderLabels(["Name", "Type", "Value"])
-    tree.addTopLevelItem(QtWidgets.QTreeWidgetItem(["node", "joint", "1"]))
-    return tree
-
-
 def test_save_and_restore_registered_widget_state(
     qt_application,
     tmp_path,
 ) -> None:
-    # 保存元となるSplitter、Header、TabWidgetを構築する。
+    # 保存元となるSplitterとTabWidgetを構築する。
     splitter = QtWidgets.QSplitter()
     splitter.addWidget(QtWidgets.QLabel("Left"))
     splitter.addWidget(QtWidgets.QLabel("Right"))
     splitter.resize(500, 200)
     splitter.setSizes([140, 360])
 
-    tree = _create_tree()
-    tree.header().resizeSection(0, 180)
-    tree.header().resizeSection(1, 120)
-    tree.header().moveSection(2, 0)
-
     tabs = QtWidgets.QTabWidget()
     tabs.addTab(QtWidgets.QWidget(), "First")
     tabs.addTab(QtWidgets.QWidget(), "Second")
     tabs.setCurrentIndex(1)
 
-    # 3種類のWidgetを明示登録して現在の状態を保存する。
+    # 2種類のWidgetを明示登録して現在の状態を保存する。
     settings_file = tmp_path / "ui.ini"
     first_manager = _create_manager(settings_file)
     first_manager.register_splitter("main_splitter", splitter)
-    first_manager.register_header("node_header", tree.header())
     first_manager.register_tab_widget("main_tabs", tabs)
     assert first_manager.save()
 
     # 保存後に各Widgetの状態を異なる値へ変更する。
     saved_splitter_state = splitter.saveState()
-    saved_header_state = tree.header().saveState()
     splitter.setSizes([400, 100])
-    tree.header().moveSection(0, 2)
-    tree.header().resizeSection(0, 60)
     tabs.setCurrentIndex(0)
 
-    # 新しいmanagerから登録済みの3種類をまとめて復元する。
+    # 新しいmanagerから登録済みの2種類をまとめて復元する。
     restored_manager = _create_manager(settings_file)
     restored_manager.register_splitter("main_splitter", splitter)
-    restored_manager.register_header("node_header", tree.header())
     restored_manager.register_tab_widget("main_tabs", tabs)
     restored_keys = restored_manager.restore()
 
     # Qt標準stateと選択indexが保存時の状態へ戻ることを確認する。
-    assert restored_keys == frozenset(
-        {"main_splitter", "node_header", "main_tabs"}
-    )
+    assert restored_keys == frozenset({"main_splitter", "main_tabs"})
     assert splitter.saveState() == saved_splitter_state
-    assert tree.header().saveState() == saved_header_state
     assert tabs.currentIndex() == 1
 
     # testで生成したtop level Widgetを削除する。
     splitter.deleteLater()
-    tree.deleteLater()
     tabs.deleteLater()
+    qt_application.processEvents()
+
+
+def test_save_preserves_deleted_widget_state_and_updates_live_widget(
+    qt_application,
+    tmp_path,
+) -> None:
+    # SplitterとTabを同じmanagerへ登録する。
+    splitter = QtWidgets.QSplitter()
+    splitter.addWidget(QtWidgets.QLabel("Left"))
+    splitter.addWidget(QtWidgets.QLabel("Right"))
+    splitter.resize(500, 200)
+    splitter.show()
+    qt_application.processEvents()
+
+    tabs = QtWidgets.QTabWidget()
+    tabs.addTab(QtWidgets.QWidget(), "First")
+    tabs.addTab(QtWidgets.QWidget(), "Second")
+
+    settings_file = tmp_path / "ui.ini"
+    manager = _create_manager(settings_file)
+    manager.register_splitter("main_splitter", splitter)
+    manager.register_tab_widget("main_tabs", tabs)
+
+    # 登録後のSplitter移動をsignal経由でmemoryへ退避する。
+    splitter.moveSplitter(180, 1)
+    saved_splitter_state = splitter.saveState()
+    tabs.setCurrentIndex(1)
+
+    # 永続化前にSplitterを破棄し、Tabだけを別の状態へ変更する。
+    splitter.deleteLater()
+    QtCore.QCoreApplication.sendPostedEvents(
+        None,
+        QtCore.QEvent.Type.DeferredDelete,
+    )
+    qt_application.processEvents()
+    assert not qt.isValid(splitter)
+    tabs.setCurrentIndex(0)
+
+    # 破棄前に退避したSplitter状態と、生存中のTab状態をまとめて保存する。
+    assert manager.save()
+
+    restored_splitter = QtWidgets.QSplitter()
+    restored_splitter.addWidget(QtWidgets.QLabel("Left"))
+    restored_splitter.addWidget(QtWidgets.QLabel("Right"))
+    restored_tabs = QtWidgets.QTabWidget()
+    restored_tabs.addTab(QtWidgets.QWidget(), "First")
+    restored_tabs.addTab(QtWidgets.QWidget(), "Second")
+    restored_tabs.setCurrentIndex(1)
+
+    restored_manager = _create_manager(settings_file)
+    restored_manager.register_splitter("main_splitter", restored_splitter)
+    restored_manager.register_tab_widget("main_tabs", restored_tabs)
+    assert restored_manager.restore() == frozenset(
+        {"main_splitter", "main_tabs"}
+    )
+    assert restored_splitter.saveState() == saved_splitter_state
+    assert restored_tabs.currentIndex() == 0
+
+    # testで生成した残りのtop level Widgetを削除する。
+    tabs.deleteLater()
+    restored_splitter.deleteLater()
+    restored_tabs.deleteLater()
+    qt_application.processEvents()
+
+
+def test_save_does_not_modify_settings_when_state_collection_fails(
+    qt_application,
+    tmp_path,
+) -> None:
+    # 保存済み状態を持つTabと、状態収集に失敗するWidgetを用意する。
+    tabs = QtWidgets.QTabWidget()
+    tabs.addTab(QtWidgets.QWidget(), "First")
+    tabs.addTab(QtWidgets.QWidget(), "Second")
+    tabs.setCurrentIndex(1)
+    failing_widget = QtWidgets.QWidget()
+
+    settings_file = tmp_path / "ui.ini"
+    manager = _create_manager(settings_file)
+    manager.register_tab_widget("main_tabs", tabs)
+    assert manager.save()
+
+    # Tabの変更後に後続adapterが失敗する保存処理を実行する。
+    tabs.setCurrentIndex(0)
+    manager._adapters["failing"] = _FailingStateAdapter(failing_widget)
+    with pytest.raises(RuntimeError, match="state collection failed"):
+        manager.save()
+
+    # 収集完了前にはQSettingsを更新せず、以前のTab状態を復元できることを確認する。
+    restored_tabs = QtWidgets.QTabWidget()
+    restored_tabs.addTab(QtWidgets.QWidget(), "First")
+    restored_tabs.addTab(QtWidgets.QWidget(), "Second")
+    restored_tabs.setCurrentIndex(0)
+    restored_manager = _create_manager(settings_file)
+    restored_manager.register_tab_widget("main_tabs", restored_tabs)
+    assert restored_manager.restore() == frozenset({"main_tabs"})
+    assert restored_tabs.currentIndex() == 1
+
+    # testで生成したWidgetを削除する。
+    tabs.deleteLater()
+    failing_widget.deleteLater()
+    restored_tabs.deleteLater()
     qt_application.processEvents()
 
 

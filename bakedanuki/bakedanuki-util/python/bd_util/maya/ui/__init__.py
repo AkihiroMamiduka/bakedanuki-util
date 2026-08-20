@@ -15,6 +15,7 @@ from .settings import (
     get_ui_settings_file,
     get_ui_settings_root,
 )
+from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
@@ -28,6 +29,7 @@ __all__ = [
     "get_ui_settings_root",
     "MayaDockableWindow",
     "MayaDockableWindowController",
+    "MayaUiStateTracker",
     "MayaWindowController",
     "restore_dockable",
 ]

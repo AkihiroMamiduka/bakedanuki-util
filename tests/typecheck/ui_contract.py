@@ -1,12 +1,13 @@
 from typing import assert_type
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtGui, QtWidgets
 
 from bd_util.maya.ui import (
     DockOptions,
     DockRestoreSpec,
     MayaDockableWindow,
     MayaDockableWindowController,
+    MayaUiStateTracker,
     MayaWindowController,
     create_ui_state_manager,
     get_main_window,
@@ -74,13 +75,6 @@ assert_type(
     None,
 )
 assert_type(
-    ui_state_manager.register_header(
-        "main_header",
-        QtWidgets.QHeaderView(QtCore.Qt.Orientation.Horizontal),
-    ),
-    None,
-)
-assert_type(
     ui_state_manager.register_tab_widget(
         "main_tabs",
         QtWidgets.QTabWidget(),
@@ -88,8 +82,18 @@ assert_type(
     None,
 )
 assert_type(ui_state_manager.save(), bool)
+assert_type(ui_state_manager.save_cached(), bool)
 assert_type(ui_state_manager.restore(), frozenset[str])
 assert_type(ui_state_manager.clear(), bool)
+
+ui_state_tracker = MayaUiStateTracker(
+    ui_state_manager,
+    SampleDockableWindow(),
+)
+assert_type(ui_state_tracker.manager, UiStateManager)
+assert_type(ui_state_tracker.restore(), None)
+assert_type(ui_state_tracker.save(), bool)
+assert_type(ui_state_tracker.dispose(), None)
 
 facade_widget = FacadeWidget()
 assert_type(facade_widget, FacadeWidget)

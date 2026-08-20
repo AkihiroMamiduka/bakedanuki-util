@@ -6,6 +6,7 @@ from ....maya.ui import (
     DockRestoreSpec,
     MayaDockableWindow,
     MayaDockableWindowController,
+    MayaUiStateTracker,
     create_ui_state_manager,
 )
 
@@ -20,12 +21,10 @@ class SampleDockableWindow(MayaDockableWindow):
         self.setWindowTitle("bakedanuki-util dockable UI sample")
 
         # sampleの用途と保存対象を説明するlabelを作成する。
-        label = qt.QLabel(
-            "Splitter sizes, header state, and the selected tab are saved."
-        )
+        label = qt.QLabel("Splitter sizes and the selected tab are saved.")
         label.setWordWrap(True)
 
-        # 列幅と並び順を変更できるNode一覧を作成する。
+        # Splitterの左側へ表示するNode一覧を作成する。
         self.node_tree = qt.QTreeWidget()
         self.node_tree.setColumnCount(3)
         self.node_tree.setHeaderLabels(["Name", "Type", "Status"])
@@ -62,12 +61,13 @@ class SampleDockableWindow(MayaDockableWindow):
             "bakedanuki_util/sample/dockable_window"
         )
         self.ui_state.register_splitter("main_splitter", self.main_splitter)
-        self.ui_state.register_header("node_header", self.node_tree.header())
         self.ui_state.register_tab_widget("main_tabs", self.main_tabs)
 
-        # UI構築後に復元し、Maya側のclose通知で現在状態を保存する。
-        self.ui_state.restore()
-        self.dock_closed.connect(self.ui_state.save)
+        # Maya終了前の保存とdock接続後の復元を管理するtrackerを作成する。
+        self.ui_state_tracker = MayaUiStateTracker(self.ui_state, self)
+
+        # 通常のdock closeでもMaya終了時と同じ保存処理を実行する。
+        self.dock_closed.connect(self.ui_state_tracker.save)
 
 
 # Maya再起動時にimport可能な復元関数と固定control IDを登録する。
@@ -91,13 +91,21 @@ _controller = MayaDockableWindowController(
 def show() -> SampleDockableWindow:
     """sample windowを表示してinstanceを返す。"""
     # 初回は生成し、2回目以降は同じworkspaceControlを再表示する。
-    return _controller.show()
+    window = _controller.show()
+
+    # workspaceControl接続後のlayout確定を待ってUI内部状態を復元する。
+    window.ui_state_tracker.restore()
+    return window
 
 
 def restore() -> SampleDockableWindow:
     """Mayaが復元したworkspaceControlへsample windowを接続する。"""
     # uiScript実行中のcurrent parentへWidgetを追加する。
-    return _controller.restore()
+    window = _controller.restore()
+
+    # Maya起動時もworkspaceControlへの接続完了後に復元を予約する。
+    window.ui_state_tracker.restore()
+    return window
 
 
 def dispose() -> None:
@@ -105,7 +113,8 @@ def dispose() -> None:
     # dock closeを経由しない完全破棄でも現在のWidget状態を保存する。
     window = _controller.window
     if window is not None:
-        window.ui_state.save()
+        window.ui_state_tracker.save()
+        window.ui_state_tracker.dispose()
 
     # 開発中のmodule reload前に残っているMaya UIを削除する。
     _controller.dispose()

@@ -2,6 +2,7 @@
 import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from functools import partial
 from typing import ClassVar
 
 from .settings_path import SettingsPath
@@ -15,6 +16,12 @@ class _UiStateAdapter(ABC):
     """1つのWidgetに対応する状態保存処理を定義する。"""
 
     state_type: ClassVar[str]
+
+    @property
+    @abstractmethod
+    def state_object(self) -> qt.QtCore.QObject:
+        """状態を所有するQt objectを返す。"""
+        raise NotImplementedError
 
     @abstractmethod
     def save_state(self) -> UiStateValue | None:
@@ -37,6 +44,11 @@ class _SplitterStateAdapter(_UiStateAdapter):
 
     state_type: ClassVar[str] = "splitter"
     widget: qt.QtWidgets.QSplitter
+
+    @property
+    def state_object(self) -> qt.QtCore.QObject:
+        """状態を所有するQSplitterを返す。"""
+        return self.widget
 
     def save_state(self) -> qt.QtCore.QByteArray:
         """QSplitterの現在の状態を取得する。"""
@@ -61,40 +73,16 @@ class _SplitterStateAdapter(_UiStateAdapter):
 
 
 @dataclass(frozen=True)
-class _HeaderStateAdapter(_UiStateAdapter):
-    """QHeaderViewの列幅と表示順を保存・復元する。"""
-
-    state_type: ClassVar[str] = "header"
-    widget: qt.QtWidgets.QHeaderView
-
-    def save_state(self) -> qt.QtCore.QByteArray:
-        """QHeaderViewの現在の状態を取得する。"""
-        # Qt標準形式を使い、列幅や並び順などをまとめて保存する。
-        return self.widget.saveState()
-
-    def restore_state(
-        self,
-        settings: qt.QtCore.QSettings,
-        state_key: str,
-    ) -> bool:
-        """保存済みのQHeaderView状態を復元する。"""
-        # INI内の値をQByteArrayとして読み取り、Qt標準処理へ渡す。
-        state = settings.value(
-            state_key,
-            qt.QtCore.QByteArray(),
-            qt.QtCore.QByteArray,
-        )
-        if not isinstance(state, qt.QtCore.QByteArray) or state.isEmpty():
-            return False
-        return self.widget.restoreState(state)
-
-
-@dataclass(frozen=True)
 class _TabWidgetStateAdapter(_UiStateAdapter):
     """QTabWidgetで現在選択されているタブを保存・復元する。"""
 
     state_type: ClassVar[str] = "tab_widget"
     widget: qt.QtWidgets.QTabWidget
+
+    @property
+    def state_object(self) -> qt.QtCore.QObject:
+        """状態を所有するQTabWidgetを返す。"""
+        return self.widget
 
     def save_state(self) -> int | None:
         """QTabWidgetの現在のindexを取得する。"""
@@ -134,6 +122,7 @@ class UiStateManager:
         self._settings = settings
         self._settings_path = settings_path
         self._adapters: dict[str, _UiStateAdapter] = {}
+        self._cached_states: dict[str, UiStateValue | None] = {}
 
     @property
     def settings_path(self) -> SettingsPath:
@@ -162,14 +151,9 @@ class UiStateManager:
         # Splitter専用adapterを共通登録処理へ渡す。
         self._register(key, _SplitterStateAdapter(widget))
 
-    def register_header(
-        self,
-        key: str,
-        widget: qt.QtWidgets.QHeaderView,
-    ) -> None:
-        """QHeaderViewの列幅と表示順を保存対象として登録する。"""
-        # Header専用adapterを共通登録処理へ渡す。
-        self._register(key, _HeaderStateAdapter(widget))
+        # 移動中は状態だけを退避し、QSettingsへの書き込みはsave時にまとめる。
+        widget.splitterMoved.connect(partial(self._capture_state, key))
+        self._capture_state(key)
 
     def register_tab_widget(
         self,
@@ -180,9 +164,40 @@ class UiStateManager:
         # TabWidget専用adapterを共通登録処理へ渡す。
         self._register(key, _TabWidgetStateAdapter(widget))
 
+        # 選択変更時に最新indexを退避して終了時の保存へ利用する。
+        widget.currentChanged.connect(partial(self._capture_state, key))
+        self._capture_state(key)
+
     def save(self) -> bool:
         """登録済みWidgetの現在の内部状態を保存する。"""
-        # settings path配下のui_state groupだけを今回の登録内容で更新する。
+        # 全Widgetの状態を先に収集し、途中の失敗で保存済み値を壊さないようにする。
+        for key, adapter in self._adapters.items():
+            state_object = adapter.state_object
+            if not qt.isValid(state_object):
+                continue
+
+            try:
+                state = adapter.save_state()
+            except RuntimeError:
+                # 状態取得中にC++ objectが破棄された場合は以前の保存値を維持する。
+                if not qt.isValid(state_object):
+                    continue
+                raise
+            self._cached_states[key] = state
+
+        # 収集に成功した最新状態をまとめて永続化する。
+        return self.save_cached()
+
+    def save_cached(self) -> bool:
+        """Widgetの変更時に退避した内部状態を保存する。"""
+        # 終了処理中のWidgetを再取得せず、破棄前に退避できた状態だけを使用する。
+        collected_states = {
+            key: (self._adapters[key], state)
+            for key, state in self._cached_states.items()
+            if key in self._adapters
+        }
+
+        # 状態収集後にsettings path配下の今回更新できるWidgetだけを書き換える。
         self._settings.beginGroup(self._settings_path.group_path)
         self._settings.beginGroup(self._STATE_GROUP)
         try:
@@ -191,11 +206,10 @@ class UiStateManager:
                 self.SCHEMA_VERSION,
             )
 
-            # 登録済みkeyだけを更新し、別managerが保存したWidget状態は維持する。
-            for key, adapter in self._adapters.items():
+            # 退避のないWidgetと別managerが保存したWidgetの状態は変更せず維持する。
+            for key, (adapter, state) in collected_states.items():
                 widget_group = f"{self._WIDGETS_GROUP}/{key}"
                 self._settings.remove(widget_group)
-                state = adapter.save_state()
                 if state is None:
                     continue
 
@@ -234,6 +248,10 @@ class UiStateManager:
 
             # 登録済みの型と保存時の型が一致する状態だけを復元する。
             for key, adapter in self._adapters.items():
+                state_object = adapter.state_object
+                if not qt.isValid(state_object):
+                    continue
+
                 widget_group = f"{self._WIDGETS_GROUP}/{key}"
                 state_type = self._settings.value(
                     f"{widget_group}/type",
@@ -242,16 +260,28 @@ class UiStateManager:
                 )
                 if not state_type:
                     continue
-                if (
-                    state_type != adapter.state_type
-                    or not adapter.restore_state(
-                        self._settings,
-                        f"{widget_group}/state",
+                try:
+                    state_restored = (
+                        state_type == adapter.state_type
+                        and adapter.restore_state(
+                            self._settings,
+                            f"{widget_group}/state",
+                        )
                     )
-                ):
+                except RuntimeError:
+                    # 復元中に破棄されたWidgetでは保存済み値を削除しない。
+                    if not qt.isValid(state_object):
+                        continue
+                    raise
+
+                if not state_restored:
                     self._settings.remove(widget_group)
+                    self._cached_states.pop(key, None)
                     removed_invalid_state = True
                     continue
+
+                # 復元直後の状態を退避し、次のsignal前に破棄されても維持する。
+                self._capture_state(key)
                 restored_keys.add(key)
         finally:
             self._settings.endGroup()
@@ -265,6 +295,7 @@ class UiStateManager:
     def clear(self) -> bool:
         """管理対象のUI stateをすべて削除する。"""
         # geometryなど同じsettings pathにある他の情報を残して専用groupだけ削除する。
+        self._cached_states.clear()
         self._settings.beginGroup(self._settings_path.group_path)
         try:
             self._settings.remove(self._STATE_GROUP)
@@ -289,3 +320,26 @@ class UiStateManager:
 
         # 呼び出し順を維持したdictへadapterを追加する。
         self._adapters[key] = adapter
+
+    def _capture_state(self, key: str, *_args: object) -> bool:
+        """Widgetが生存中に最新状態をmemoryへ退避する。"""
+        # signal発火元に対応する登録済みadapterだけを処理する。
+        adapter = self._adapters.get(key)
+        if adapter is None:
+            return False
+
+        state_object = adapter.state_object
+        if not qt.isValid(state_object):
+            return False
+
+        try:
+            state = adapter.save_state()
+        except RuntimeError:
+            # signal処理中にC++ objectが破棄された場合は以前の退避状態を維持する。
+            if not qt.isValid(state_object):
+                return False
+            raise
+
+        # QSettingsへ頻繁に書き込まず、次回saveがまとめて永続化する。
+        self._cached_states[key] = state
+        return True

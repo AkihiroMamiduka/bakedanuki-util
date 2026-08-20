@@ -136,13 +136,13 @@ Windows予約名や使用できない文字は拒否されます。
 第一弾では次のWidgetに対応しています。
 
 - `QSplitter`: 分割位置
-- `QHeaderView`: 列幅、表示順などQtが管理するheader state
 - `QTabWidget`: 現在選択されているタブ
 
-Mayaでは`create_ui_state_manager()`から生成します。
+Mayaでは`create_ui_state_manager()`から生成し、`MayaUiStateTracker`でMaya終了前の保存を
+管理します。
 
 ```python
-from bd_util.maya.ui import create_ui_state_manager
+from bd_util.maya.ui import MayaUiStateTracker, create_ui_state_manager
 
 
 self.ui_state = create_ui_state_manager(
@@ -152,29 +152,47 @@ self.ui_state.register_splitter(
     "main_splitter",
     self.main_splitter,
 )
-self.ui_state.register_header(
-    "node_header",
-    self.node_view.header(),
-)
 self.ui_state.register_tab_widget(
     "main_tabs",
     self.main_tabs,
 )
 
-# 全Widgetの構築と登録が完了してから復元する。
-self.ui_state.restore()
+# 全Widgetの構築と登録が完了したらMaya用trackerを生成する。
+self.ui_state_tracker = MayaUiStateTracker(self.ui_state, self)
+self.dock_closed.connect(self.ui_state_tracker.save)
 ```
 
-保存時は登録したWidgetの現在値をまとめて取得します。dockable WindowではMaya側のclose通知へ
-接続できます。
+`MayaUiStateTracker`は`MSceneMessage.kMayaExiting`でWidgetが破棄される前に状態を保存し、
+ownerの破棄時にはMaya callbackを解除します。dockable Windowでは通常のcloseも同じtrackerへ
+接続します。UI stateの復元は、controllerがworkspaceControlへWidgetを接続した後に予約します。
 
 ```python
-self.dock_closed.connect(self.ui_state.save)
+def show():
+    window = controller.show()
+    window.ui_state_tracker.restore()
+    return window
+
+
+def restore():
+    window = controller.restore()
+    window.ui_state_tracker.restore()
+    return window
 ```
+
+`MayaUiStateTracker.restore()`は次のQt event loopで一度だけ復元します。Mayaのlayout計算後に
+内部状態を適用し、同じWindowの再表示では保存済み状態を再適用しません。
 
 通常Windowでは`closeEvent()`などtoolの終了処理から`save()`を呼び出します。
 `clear()`はWidget内部状態だけを削除し、同じgroupに保存されたgeometryや他のtool設定は
 変更しません。
+
+Splitter移動とTab選択変更はsignalでmemoryへ退避し、通常closeまたはMaya終了時にまとめて
+永続化します。
+
+`save()`は生存中のWidgetから現在状態を取得してQSettingsへ書き込みます。
+`MayaUiStateTracker.save()`はMaya終了処理中のlayout状態で上書きせず、変更時に退避した状態を
+`save_cached()`で永続化します。C++ objectが破棄済みの場合や、有効なまま初期状態へ戻った
+場合でも、利用中の最新状態を維持できます。
 
 state keyは`main_splitter`のような固定識別子を指定します。異なるWidgetへの重複登録や、
 `/`を含むkeyは拒否されます。保存時のWidget種類と登録時の種類が異なる場合や、Qtが復元
@@ -191,8 +209,6 @@ windows/main/geometry
 windows/main/ui_state/schema_version
 windows/main/ui_state/widgets/main_splitter/type
 windows/main/ui_state/widgets/main_splitter/state
-windows/main/ui_state/widgets/node_header/type
-windows/main/ui_state/widgets/node_header/state
 windows/main/ui_state/widgets/main_tabs/type
 windows/main/ui_state/widgets/main_tabs/state
 ```
@@ -278,6 +294,6 @@ dockable_window.show()
 内側のWidgetへ`WindowStateStore.restoreGeometry()`を適用するとMaya側の復元と競合するため、
 dockable Widgetのgeometry保存には使用しません。
 
-tool固有のSplitter幅、選択タブ、Viewの列幅などは`UiStateManager`でtool単位の`ui.ini`へ
+tool固有のSplitter幅や選択タブは`UiStateManager`でtool単位の`ui.ini`へ
 保存します。Window geometryとは別の`ui_state` groupで管理するため、dockable Windowでも
 同じ仕組みを利用できます。
