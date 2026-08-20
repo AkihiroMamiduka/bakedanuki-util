@@ -16,11 +16,15 @@ from ..operator.node.dag.shape.ai_sky_dome_light import AiSkyDomeLight
 from ..operator.node.dag.shape.ai_stand_in import AiStandIn
 from ..operator.node.dag.shape.ai_volume import AiVolume
 from ..operator.node.dag.shape.ambient_light import AmbientLight
+from ..operator.node.dag.shape.angle_dimension import AngleDimension
+from ..operator.node.dag.shape.annotation_shape import AnnotationShape
+from ..operator.node.dag.shape.arc_length_dimension import ArcLengthDimension
 from ..operator.node.dag.shape.area_light import AreaLight
 from ..operator.node.dag.shape.base_lattice import BaseLattice
 from ..operator.node.dag.shape.bezier_curve import BezierCurve
 from ..operator.node.dag.shape.camera import Camera
 from ..operator.node.dag.shape.directional_light import DirectionalLight
+from ..operator.node.dag.shape.distance_dim_shape import DistanceDimShape
 from ..operator.node.dag.shape.implicit_box import ImplicitBox
 from ..operator.node.dag.shape.implicit_cone import ImplicitCone
 from ..operator.node.dag.shape.implicit_sphere import ImplicitSphere
@@ -29,6 +33,7 @@ from ..operator.node.dag.shape.locator import Locator
 from ..operator.node.dag.shape.mesh import Mesh
 from ..operator.node.dag.shape.nurbs_curve import NurbsCurve
 from ..operator.node.dag.shape.nurbs_surface import NurbsSurface
+from ..operator.node.dag.shape.param_dimension import ParamDimension
 from ..operator.node.dag.shape.point_light import PointLight
 from ..operator.node.dag.shape.render_box import RenderBox
 from ..operator.node.dag.shape.render_cone import RenderCone
@@ -2221,6 +2226,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AngleBetween: ...
+    def angleDimension(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AngleDimension: ...
     def animBlend(
         self,
         name: str | None = None,
@@ -2351,6 +2363,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Anisotropic: ...
+    def annotationShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AnnotationShape: ...
     def aovChildCollection(
         self,
         name: str | None = None,
@@ -2436,6 +2455,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyRelOverride: ...
+    def arcLengthDimension(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ArcLengthDimension: ...
     def areaLight(
         self,
         name: str | None = None,
@@ -3971,6 +3997,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DistanceBetween: ...
+    def distanceDimShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DistanceDimShape: ...
     def divide(
         self,
         name: str | None = None,
@@ -5344,6 +5377,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PairBlend: ...
+    def paramDimension(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ParamDimension: ...
     def parentMatrix(
         self,
         name: str | None = None,

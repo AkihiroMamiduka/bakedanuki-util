@@ -445,6 +445,9 @@ from bd_util.maya.node.operator.attr.define.std.dt.nurbs_curve import (
 from bd_util.maya.node.operator.attr.define.std.dt.nurbs_surface import (
     DataNurbsSurfacePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.dt.string import (
+    DataStringPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.locator import (
     LocalPositionPlugOperator,
 )
@@ -791,12 +794,24 @@ from bd_util.maya.node.operator.node.dag.shape.ai_volume import AiVolume
 from bd_util.maya.node.operator.node.dag.shape.ambient_light import (
     AmbientLight,
 )
+from bd_util.maya.node.operator.node.dag.shape.angle_dimension import (
+    AngleDimension,
+)
+from bd_util.maya.node.operator.node.dag.shape.annotation_shape import (
+    AnnotationShape,
+)
+from bd_util.maya.node.operator.node.dag.shape.arc_length_dimension import (
+    ArcLengthDimension,
+)
 from bd_util.maya.node.operator.node.dag.shape.area_light import AreaLight
 from bd_util.maya.node.operator.node.dag.shape.base_lattice import BaseLattice
 from bd_util.maya.node.operator.node.dag.shape.bezier_curve import BezierCurve
 from bd_util.maya.node.operator.node.dag.shape.camera import Camera
 from bd_util.maya.node.operator.node.dag.shape.directional_light import (
     DirectionalLight,
+)
+from bd_util.maya.node.operator.node.dag.shape.distance_dim_shape import (
+    DistanceDimShape,
 )
 from bd_util.maya.node.operator.node.dag.shape.implicit_box import ImplicitBox
 from bd_util.maya.node.operator.node.dag.shape.implicit_cone import (
@@ -812,6 +827,9 @@ from bd_util.maya.node.operator.node.dag.shape.n_particle import NParticle
 from bd_util.maya.node.operator.node.dag.shape.nurbs_curve import NurbsCurve
 from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (
     NurbsSurface,
+)
+from bd_util.maya.node.operator.node.dag.shape.param_dimension import (
+    ParamDimension,
 )
 from bd_util.maya.node.operator.node.dag.shape.point_light import PointLight
 from bd_util.maya.node.operator.node.dag.shape.render_box import RenderBox
@@ -925,6 +943,41 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         render_sphere.radius,
         double_linear.DoubleLinearPlugOperator,
     )
+
+    angle_dimension = nodes.create.angleDimension(
+        name="angleDimensionShape",
+        parent=parent,
+    )
+    assert_type(angle_dimension, AngleDimension)
+    assert_type(angle_dimension.angle, DoubleAnglePlugOperator)
+
+    annotation_shape = nodes.create.annotationShape(
+        name="annotationShape",
+        parent=parent,
+    )
+    assert_type(annotation_shape, AnnotationShape)
+    assert_type(annotation_shape.text, DataStringPlugOperator)
+
+    arc_length_dimension = nodes.create.arcLengthDimension(
+        name="arcLengthDimensionShape",
+        parent=parent,
+    )
+    assert_type(arc_length_dimension, ArcLengthDimension)
+    assert_type(arc_length_dimension.arcLength, DoublePlugOperator)
+
+    distance_dim_shape = nodes.create.distanceDimShape(
+        name="distanceDimShape",
+        parent=parent,
+    )
+    assert_type(distance_dim_shape, DistanceDimShape)
+    assert_type(distance_dim_shape.distance, DoublePlugOperator)
+
+    param_dimension = nodes.create.paramDimension(
+        name="paramDimensionShape",
+        parent=parent,
+    )
+    assert_type(param_dimension, ParamDimension)
+    assert_type(param_dimension.uParamValue, DoublePlugOperator)
 
     ambient_light = nodes.create.ambientLight(
         name="ambientLightShape",

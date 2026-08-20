@@ -214,7 +214,7 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
-現在 `nodes.create` から作成できる shape は、動作確認済みの次の31種類です。
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の36種類です。
 
 - `aiAreaLight`
 - `aiCurveCollector`
@@ -226,11 +226,15 @@ mod.do_it_dag()
 - `aiStandIn`
 - `aiVolume`
 - `ambientLight`
+- `angleDimension`
+- `annotationShape`
+- `arcLengthDimension`
 - `areaLight`
 - `baseLattice`
 - `bezierCurve`
 - `camera`
 - `directionalLight`
+- `distanceDimShape`
 - `implicitBox`
 - `implicitCone`
 - `implicitSphere`
@@ -239,6 +243,7 @@ mod.do_it_dag()
 - `mesh`
 - `nurbsCurve`
 - `nurbsSurface`
+- `paramDimension`
 - `pointLight`
 - `renderBox`
 - `renderCone`
@@ -266,6 +271,11 @@ lattice 分割数などの内容初期化は自動実行しません。
 Maya 標準 primitive shape の `implicitBox` / `implicitCone` / `implicitSphere` /
 `renderBox` / `renderCone` / `renderRect` / `renderSphere` も、raw shape としての
 作成と undo / redo を確認済みです。size や radius などの値設定は自動実行しません。
+
+Maya 標準の計測・注釈 shape `angleDimension` / `annotationShape` /
+`arcLengthDimension` / `distanceDimShape` / `paramDimension` も、raw shape としての
+作成と undo / redo を確認済みです。計測点、表示テキスト、NURBS geometry との接続
+など、用途別の初期化は自動実行しません。
 
 Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 `nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。
