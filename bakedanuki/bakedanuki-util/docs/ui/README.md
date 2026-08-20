@@ -138,6 +138,11 @@ Windows予約名や使用できない文字は拒否されます。
 - `QSplitter`: 分割位置
 - `QTabWidget`: 現在選択されているタブ
 
+`QHeaderView`の列幅・表示順は対応対象に含めません。MayaのworkspaceControlでは終了時の
+layout変更とWidget破棄の順序により、利用中のheader stateを安定して取得・復元できなかった
+ためです。必要なtoolでは`UiStateManager`へ含めず、tool側の要件に合わせて個別に管理します。
+`bd_util.ui.qt.QHeaderView`は通常のUI構築用Qt facadeとして引き続き利用できます。
+
 Mayaでは`create_ui_state_manager()`から生成し、`MayaUiStateTracker`でMaya終了前の保存を
 管理します。
 
@@ -162,9 +167,11 @@ self.ui_state_tracker = MayaUiStateTracker(self.ui_state, self)
 self.dock_closed.connect(self.ui_state_tracker.save)
 ```
 
-`MayaUiStateTracker`は`MSceneMessage.kMayaExiting`でWidgetが破棄される前に状態を保存し、
-ownerの破棄時にはMaya callbackを解除します。dockable Windowでは通常のcloseも同じtrackerへ
-接続します。UI stateの復元は、controllerがworkspaceControlへWidgetを接続した後に予約します。
+Maya終了時はQtの`closeEvent()`や`destroyed`だけでは保存処理の実行順を保証できません。
+`MayaUiStateTracker`は`MSceneMessage.kMayaExiting`を受け、Widgetから終了時に再取得せず、
+変更signalで退避済みの状態を保存します。ownerの破棄時にはMaya callbackを解除します。
+dockable Windowでは通常のcloseも同じtrackerへ接続します。UI stateの復元は、controllerが
+workspaceControlへWidgetを接続した後に予約します。
 
 ```python
 def show():
