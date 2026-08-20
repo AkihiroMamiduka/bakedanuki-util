@@ -23,6 +23,7 @@ from ..operator.node.dag.shape.area_light import AreaLight
 from ..operator.node.dag.shape.base_lattice import BaseLattice
 from ..operator.node.dag.shape.bezier_curve import BezierCurve
 from ..operator.node.dag.shape.camera import Camera
+from ..operator.node.dag.shape.cluster_flexor_shape import ClusterFlexorShape
 from ..operator.node.dag.shape.cluster_handle import ClusterHandle
 from ..operator.node.dag.shape.deform_bend import DeformBend
 from ..operator.node.dag.shape.deform_flare import DeformFlare
@@ -34,6 +35,8 @@ from ..operator.node.dag.shape.directed_disc import DirectedDisc
 from ..operator.node.dag.shape.directional_light import DirectionalLight
 from ..operator.node.dag.shape.distance_dim_shape import DistanceDimShape
 from ..operator.node.dag.shape.dropoff_locator import DropoffLocator
+from ..operator.node.dag.shape.flexor_shape import FlexorShape
+from ..operator.node.dag.shape.geo_connectable import GeoConnectable
 from ..operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
 )
@@ -3651,6 +3654,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Cluster: ...
+    def clusterFlexorShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ClusterFlexorShape: ...
     def clusterHandle(
         self,
         name: str | None = None,
@@ -4243,6 +4253,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FitBspline: ...
+    def flexorShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> FlexorShape: ...
     def floatComposite(
         self,
         name: str | None = None,
@@ -4313,6 +4330,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GammaCorrect: ...
+    def geoConnectable(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> GeoConnectable: ...
     def geoConnector(
         self,
         name: str | None = None,

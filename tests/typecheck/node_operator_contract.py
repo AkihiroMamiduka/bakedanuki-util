@@ -419,6 +419,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double i
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.float import (
     FloatPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.short import (
+    ShortPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolAttrOperator,
     BoolPlugOperator,
@@ -810,6 +813,9 @@ from bd_util.maya.node.operator.node.dag.shape.area_light import AreaLight
 from bd_util.maya.node.operator.node.dag.shape.base_lattice import BaseLattice
 from bd_util.maya.node.operator.node.dag.shape.bezier_curve import BezierCurve
 from bd_util.maya.node.operator.node.dag.shape.camera import Camera
+from bd_util.maya.node.operator.node.dag.shape.cluster_flexor_shape import (
+    ClusterFlexorShape,
+)
 from bd_util.maya.node.operator.node.dag.shape.cluster_handle import (
     ClusterHandle,
 )
@@ -832,6 +838,10 @@ from bd_util.maya.node.operator.node.dag.shape.distance_dim_shape import (
 )
 from bd_util.maya.node.operator.node.dag.shape.dropoff_locator import (
     DropoffLocator,
+)
+from bd_util.maya.node.operator.node.dag.shape.flexor_shape import FlexorShape
+from bd_util.maya.node.operator.node.dag.shape.geo_connectable import (
+    GeoConnectable,
 )
 from bd_util.maya.node.operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
@@ -1013,6 +1023,27 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(param_dimension, ParamDimension)
     assert_type(param_dimension.uParamValue, DoublePlugOperator)
+
+    cluster_flexor_shape = nodes.create.clusterFlexorShape(
+        name="clusterFlexorShape",
+        parent=parent,
+    )
+    assert_type(cluster_flexor_shape, ClusterFlexorShape)
+    assert_type(cluster_flexor_shape.currentDriver, ShortPlugOperator)
+
+    flexor_shape = nodes.create.flexorShape(
+        name="flexorShape",
+        parent=parent,
+    )
+    assert_type(flexor_shape, FlexorShape)
+    assert_type(flexor_shape.currentDriver, ShortPlugOperator)
+
+    geo_connectable = nodes.create.geoConnectable(
+        name="geoConnectableShape",
+        parent=parent,
+    )
+    assert_type(geo_connectable, GeoConnectable)
+    assert_type(geo_connectable.doVelocity, BoolPlugOperator)
 
     cluster_handle = nodes.create.clusterHandle(
         name="clusterHandleShape",

@@ -47,6 +47,7 @@ def test_shape_common_attributes_are_generated_on_shape_base():
         ("baseLattice", "BaseLattice"),
         ("bezierCurve", "BezierCurve"),
         ("camera", "Camera"),
+        ("clusterFlexorShape", "ClusterFlexorShape"),
         ("clusterHandle", "ClusterHandle"),
         ("deformBend", "DeformBend"),
         ("deformFlare", "DeformFlare"),
@@ -58,6 +59,8 @@ def test_shape_common_attributes_are_generated_on_shape_base():
         ("directionalLight", "DirectionalLight"),
         ("distanceDimShape", "DistanceDimShape"),
         ("dropoffLocator", "DropoffLocator"),
+        ("flexorShape", "FlexorShape"),
+        ("geoConnectable", "GeoConnectable"),
         ("hikFloorContactMarker", "HikFloorContactMarker"),
         ("implicitBox", "ImplicitBox"),
         ("implicitCone", "ImplicitCone"),
@@ -320,6 +323,55 @@ def test_nodes_create_helper_locator_shapes_supports_undo_redo(
         "orientationMarker",
         "positionMarker",
         "softModHandle",
+    )
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+    parents = []
+    shapes = []
+    for node_type in shape_types:
+        parent = nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(nodes.create, node_type)(
+            name=f"{node_type}Shape",
+            parent=parent,
+        )
+        parents.append(parent)
+        shapes.append(shape)
+
+    mod.do_it_dag()
+
+    expected_paths = [shape.full_path for shape in shapes]
+    for node_type, parent, shape in zip(shape_types, parents, shapes):
+        assert shape.full_path == (f"|{node_type}_parent|{node_type}Shape")
+        assert maya_cmds.nodeType(shape.full_path) == node_type
+        assert maya_cmds.listRelatives(
+            parent.full_path,
+            shapes=True,
+            fullPath=True,
+        ) == [shape.full_path]
+
+    mod.undo_it()
+    assert all(
+        not maya_cmds.objExists(f"{node_type}_parent")
+        for node_type in shape_types
+    )
+
+    mod.redo_it()
+    assert [shape.full_path for shape in shapes] == expected_paths
+    assert [maya_cmds.nodeType(shape.full_path) for shape in shapes] == list(
+        shape_types
+    )
+
+
+def test_nodes_create_deformation_connection_shapes_supports_undo_redo(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    shape_types = (
+        "clusterFlexorShape",
+        "flexorShape",
+        "geoConnectable",
     )
     mod = bdu.ModifierManager()
     nodes = bdu.Nodes(modifier_manager=mod)

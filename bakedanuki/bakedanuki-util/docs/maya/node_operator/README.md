@@ -214,7 +214,7 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
-現在 `nodes.create` から作成できる shape は、動作確認済みの次の50種類です。
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の53種類です。
 
 - `aiAreaLight`
 - `aiCurveCollector`
@@ -233,6 +233,7 @@ mod.do_it_dag()
 - `baseLattice`
 - `bezierCurve`
 - `camera`
+- `clusterFlexorShape`
 - `clusterHandle`
 - `deformBend`
 - `deformFlare`
@@ -244,6 +245,8 @@ mod.do_it_dag()
 - `directionalLight`
 - `distanceDimShape`
 - `dropoffLocator`
+- `flexorShape`
+- `geoConnectable`
 - `hikFloorContactMarker`
 - `implicitBox`
 - `implicitCone`
@@ -302,6 +305,10 @@ Maya 標準の非線形 deformer 表示 shape `deformBend` / `deformFlare` /
 `deformSine` / `deformSquash` / `deformTwist` / `deformWave` も、raw shape としての
 作成と undo / redo を確認済みです。対応する deformer node との接続や
 `deformerData` の初期化は自動実行しません。
+
+Maya 標準の deformation connection helper shape `clusterFlexorShape` /
+`flexorShape` / `geoConnectable` も、raw shape としての作成と undo / redo を
+確認済みです。driver、flexor、surface geometry などとの接続は自動実行しません。
 
 Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 `nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。
