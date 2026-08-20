@@ -35,15 +35,20 @@ from ..operator.node.dag.shape.directed_disc import DirectedDisc
 from ..operator.node.dag.shape.directional_light import DirectionalLight
 from ..operator.node.dag.shape.distance_dim_shape import DistanceDimShape
 from ..operator.node.dag.shape.dropoff_locator import DropoffLocator
+from ..operator.node.dag.shape.dynamic_constraint import DynamicConstraint
+from ..operator.node.dag.shape.dyn_holder import DynHolder
 from ..operator.node.dag.shape.environment_fog import EnvironmentFog
 from ..operator.node.dag.shape.flexor_shape import FlexorShape
 from ..operator.node.dag.shape.fluid_texture2_d import FluidTexture2D
 from ..operator.node.dag.shape.fluid_texture3_d import FluidTexture3D
+from ..operator.node.dag.shape.follicle import Follicle
 from ..operator.node.dag.shape.geo_connectable import GeoConnectable
 from ..operator.node.dag.shape.grease_plane import GreasePlane
 from ..operator.node.dag.shape.grease_plane_render_shape import (
     GreasePlaneRenderShape,
 )
+from ..operator.node.dag.shape.hair_constraint import HairConstraint
+from ..operator.node.dag.shape.hair_system import HairSystem
 from ..operator.node.dag.shape.height_field import HeightField
 from ..operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
@@ -73,6 +78,7 @@ from ..operator.node.dag.shape.sketch_plane import SketchPlane
 from ..operator.node.dag.shape.snapshot_shape import SnapshotShape
 from ..operator.node.dag.shape.soft_mod_handle import SoftModHandle
 from ..operator.node.dag.shape.spot_light import SpotLight
+from ..operator.node.dag.shape.spring import Spring
 from ..operator.node.dag.shape.stereo_rig_camera import StereoRigCamera
 from ..operator.node.dag.shape.stroke import Stroke
 from ..operator.node.dag.shape.subdiv import Subdiv
@@ -4134,6 +4140,13 @@ class NodeCreator:
         *,
         parent: Transform,
     ) -> DropoffLocator: ...
+    def dynamicConstraint(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DynamicConstraint: ...
     def dynController(
         self,
         name: str | None = None,
@@ -4144,6 +4157,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DynGlobals: ...
+    def dynHolder(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DynHolder: ...
     def editMetadata(
         self,
         name: str | None = None,
@@ -4342,6 +4362,13 @@ class NodeCreator:
         *,
         parent: Transform,
     ) -> FluidTexture3D: ...
+    def follicle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Follicle: ...
     def fourByFourMatrix(
         self,
         name: str | None = None,
@@ -4453,6 +4480,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Guide: ...
+    def hairConstraint(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> HairConstraint: ...
+    def hairSystem(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> HairSystem: ...
     def hairPhysicalShader(
         self,
         name: str | None = None,
@@ -6864,6 +6905,13 @@ class NodeCreator:
         *,
         parent: Transform,
     ) -> SpotLight: ...
+    def spring(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Spring: ...
     def squareSrf(
         self,
         name: str | None = None,

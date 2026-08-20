@@ -426,6 +426,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolAttrOperator,
     BoolPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.message import (
+    MessagePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit import (
     double_linear,
 )
@@ -839,6 +842,10 @@ from bd_util.maya.node.operator.node.dag.shape.distance_dim_shape import (
 from bd_util.maya.node.operator.node.dag.shape.dropoff_locator import (
     DropoffLocator,
 )
+from bd_util.maya.node.operator.node.dag.shape.dynamic_constraint import (
+    DynamicConstraint,
+)
+from bd_util.maya.node.operator.node.dag.shape.dyn_holder import DynHolder
 from bd_util.maya.node.operator.node.dag.shape.environment_fog import (
     EnvironmentFog,
 )
@@ -849,6 +856,7 @@ from bd_util.maya.node.operator.node.dag.shape.fluid_texture2_d import (
 from bd_util.maya.node.operator.node.dag.shape.fluid_texture3_d import (
     FluidTexture3D,
 )
+from bd_util.maya.node.operator.node.dag.shape.follicle import Follicle
 from bd_util.maya.node.operator.node.dag.shape.geo_connectable import (
     GeoConnectable,
 )
@@ -856,6 +864,10 @@ from bd_util.maya.node.operator.node.dag.shape.grease_plane import GreasePlane
 from bd_util.maya.node.operator.node.dag.shape.grease_plane_render_shape import (
     GreasePlaneRenderShape,
 )
+from bd_util.maya.node.operator.node.dag.shape.hair_constraint import (
+    HairConstraint,
+)
+from bd_util.maya.node.operator.node.dag.shape.hair_system import HairSystem
 from bd_util.maya.node.operator.node.dag.shape.height_field import HeightField
 from bd_util.maya.node.operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
@@ -908,6 +920,7 @@ from bd_util.maya.node.operator.node.dag.shape.soft_mod_handle import (
     SoftModHandle,
 )
 from bd_util.maya.node.operator.node.dag.shape.spot_light import SpotLight
+from bd_util.maya.node.operator.node.dag.shape.spring import Spring
 from bd_util.maya.node.operator.node.dag.shape.stereo_rig_camera import (
     StereoRigCamera,
 )
@@ -1204,6 +1217,48 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(height_field, HeightField)
     assert_type(height_field.heightScale, FloatPlugOperator)
+
+    dynamic_constraint = nodes.create.dynamicConstraint(
+        name="dynamicConstraintShape",
+        parent=parent,
+    )
+    assert_type(dynamic_constraint, DynamicConstraint)
+    assert_type(dynamic_constraint.enable, BoolPlugOperator)
+
+    dyn_holder = nodes.create.dynHolder(
+        name="dynHolderShape",
+        parent=parent,
+    )
+    assert_type(dyn_holder, DynHolder)
+    assert_type(dyn_holder.connectionsToMe, MessagePlugOperator)
+
+    follicle = nodes.create.follicle(
+        name="follicleShape",
+        parent=parent,
+    )
+    assert_type(follicle, Follicle)
+    assert_type(follicle.parameterU, DoublePlugOperator)
+
+    hair_constraint = nodes.create.hairConstraint(
+        name="hairConstraintShape",
+        parent=parent,
+    )
+    assert_type(hair_constraint, HairConstraint)
+    assert_type(hair_constraint.stiffness, DoublePlugOperator)
+
+    hair_system = nodes.create.hairSystem(
+        name="hairSystemShape",
+        parent=parent,
+    )
+    assert_type(hair_system, HairSystem)
+    assert_type(hair_system.collideStrength, FloatPlugOperator)
+
+    spring = nodes.create.spring(
+        name="springShape",
+        parent=parent,
+    )
+    assert_type(spring, Spring)
+    assert_type(spring.useStiffnessPS, BoolPlugOperator)
 
     grease_plane = nodes.create.greasePlane(
         name="greasePlaneShape",

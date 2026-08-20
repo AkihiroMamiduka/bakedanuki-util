@@ -162,6 +162,11 @@ stereo camera 接続などの用途別初期化は raw shape 作成と分離し�
 input、render geometry、line modifier などの接続や用途別初期化は raw shape 作成と
 分離します。
 
+第十四段階として、Maya 標準の hair・dynamics 補助 shape `dynamicConstraint` /
+`dynHolder` / `follicle` / `hairConstraint` / `hairSystem` / `spring` を個別のシーンで
+検証し、`nodes.create` へ公開済みです。simulation設定、constraint component、
+hair curve、surface、solverなどとの接続や用途別初期化は raw shape 作成と分離します。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
 Arnold 固有 shape 9種はすべて作成確認済みです。その他の shape は、用途と
