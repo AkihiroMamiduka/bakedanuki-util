@@ -846,6 +846,7 @@ from bd_util.maya.node.operator.node.dag.shape.geo_connectable import (
 from bd_util.maya.node.operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
 )
+from bd_util.maya.node.operator.node.dag.shape.image_plane import ImagePlane
 from bd_util.maya.node.operator.node.dag.shape.implicit_box import ImplicitBox
 from bd_util.maya.node.operator.node.dag.shape.implicit_cone import (
     ImplicitCone,
@@ -880,10 +881,17 @@ from bd_util.maya.node.operator.node.dag.shape.render_rect import RenderRect
 from bd_util.maya.node.operator.node.dag.shape.render_sphere import (
     RenderSphere,
 )
+from bd_util.maya.node.operator.node.dag.shape.sketch_plane import SketchPlane
+from bd_util.maya.node.operator.node.dag.shape.snapshot_shape import (
+    SnapshotShape,
+)
 from bd_util.maya.node.operator.node.dag.shape.soft_mod_handle import (
     SoftModHandle,
 )
 from bd_util.maya.node.operator.node.dag.shape.spot_light import SpotLight
+from bd_util.maya.node.operator.node.dag.shape.stereo_rig_camera import (
+    StereoRigCamera,
+)
 from bd_util.maya.node.operator.node.dag.shape.subdiv import Subdiv
 from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
@@ -1148,6 +1156,34 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(deform_wave, DeformWave)
     assert_type(deform_wave.maxRadius, DoublePlugOperator)
+
+    image_plane = nodes.create.imagePlane(
+        name="imagePlaneShape",
+        parent=parent,
+    )
+    assert_type(image_plane, ImagePlane)
+    assert_type(image_plane.imageName, DataStringPlugOperator)
+
+    sketch_plane = nodes.create.sketchPlane(
+        name="sketchPlaneShape",
+        parent=parent,
+    )
+    assert_type(sketch_plane, SketchPlane)
+    assert_type(sketch_plane.primaryVisibility, BoolPlugOperator)
+
+    snapshot_shape = nodes.create.snapshotShape(
+        name="snapshotShape",
+        parent=parent,
+    )
+    assert_type(snapshot_shape, SnapshotShape)
+    assert_type(snapshot_shape.showFrames, BoolPlugOperator)
+
+    stereo_rig_camera = nodes.create.stereoRigCamera(
+        name="stereoRigCameraShape",
+        parent=parent,
+    )
+    assert_type(stereo_rig_camera, StereoRigCamera)
+    assert_type(stereo_rig_camera.focalLength, DoublePlugOperator)
 
     ambient_light = nodes.create.ambientLight(
         name="ambientLightShape",

@@ -40,6 +40,7 @@ from ..operator.node.dag.shape.geo_connectable import GeoConnectable
 from ..operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
 )
+from ..operator.node.dag.shape.image_plane import ImagePlane
 from ..operator.node.dag.shape.implicit_box import ImplicitBox
 from ..operator.node.dag.shape.implicit_cone import ImplicitCone
 from ..operator.node.dag.shape.implicit_sphere import ImplicitSphere
@@ -57,8 +58,11 @@ from ..operator.node.dag.shape.render_box import RenderBox
 from ..operator.node.dag.shape.render_cone import RenderCone
 from ..operator.node.dag.shape.render_rect import RenderRect
 from ..operator.node.dag.shape.render_sphere import RenderSphere
+from ..operator.node.dag.shape.sketch_plane import SketchPlane
+from ..operator.node.dag.shape.snapshot_shape import SnapshotShape
 from ..operator.node.dag.shape.soft_mod_handle import SoftModHandle
 from ..operator.node.dag.shape.spot_light import SpotLight
+from ..operator.node.dag.shape.stereo_rig_camera import StereoRigCamera
 from ..operator.node.dag.shape.subdiv import Subdiv
 from ..operator.node.dag.shape.volume_light import VolumeLight
 from ..operator.node.dag.transform._core import Transform
@@ -4619,6 +4623,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkSystem: ...
+    def imagePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ImagePlane: ...
     def implicitBox(
         self,
         name: str | None = None,
@@ -6695,6 +6706,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SingleShadingSwitch: ...
+    def sketchPlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> SketchPlane: ...
     def skinBinding(
         self,
         name: str | None = None,
@@ -6725,6 +6743,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Snapshot: ...
+    def snapshotShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> SnapshotShape: ...
     def snow(
         self,
         name: str | None = None,
@@ -6779,6 +6804,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Stencil: ...
+    def stereoRigCamera(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> StereoRigCamera: ...
     def stitchAsNurbsShell(
         self,
         name: str | None = None,
