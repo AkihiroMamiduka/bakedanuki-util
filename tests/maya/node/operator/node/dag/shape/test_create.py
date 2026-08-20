@@ -108,6 +108,7 @@ def test_shape_common_attributes_are_generated_on_shape_base():
         ("stereoRigCamera", "StereoRigCamera"),
         ("stroke", "Stroke"),
         ("subdiv", "Subdiv"),
+        ("ufeProxyCameraShape", "UfeProxyCameraShape"),
         ("volumeLight", "VolumeLight"),
     ),
 )
@@ -550,6 +551,7 @@ def test_nodes_create_scene_display_shapes_supports_undo_redo(
         "sketchPlane",
         "snapshotShape",
         "stereoRigCamera",
+        "ufeProxyCameraShape",
     )
     mod = bdu.ModifierManager()
     nodes = bdu.Nodes(modifier_manager=mod)

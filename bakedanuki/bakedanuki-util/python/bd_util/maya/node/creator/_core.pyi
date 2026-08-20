@@ -88,6 +88,9 @@ from ..operator.node.dag.shape.spring import Spring
 from ..operator.node.dag.shape.stereo_rig_camera import StereoRigCamera
 from ..operator.node.dag.shape.stroke import Stroke
 from ..operator.node.dag.shape.subdiv import Subdiv
+from ..operator.node.dag.shape.ufe_proxy_camera_shape import (
+    UfeProxyCameraShape,
+)
 from ..operator.node.dag.shape.volume_light import VolumeLight
 from ..operator.node.dag.transform._core import Transform
 from ..operator.node.dag.transform.joint import Joint
@@ -7328,6 +7331,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Unfold3DUnfold: ...
+    def ufeProxyCameraShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> UfeProxyCameraShape: ...
     def uniformFalloff(
         self,
         name: str | None = None,

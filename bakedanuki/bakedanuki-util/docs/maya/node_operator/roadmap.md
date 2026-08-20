@@ -81,7 +81,7 @@ DAG path / instancing の方針確定後、次の階層取得 API を追加し�
 world を含めるか、shape を含めるか、列挙順、未実行の `MDagModifier` の
 変更を含めるかを仕様として固定します。
 
-### 3. 親 Transform 必須の shape 作成（段階公開中）
+### 3. 親 Transform 必須の shape 作成（段階公開完了）
 
 最初の shape 作成 API は、親 `Transform` を必須として公開します。
 
@@ -172,10 +172,14 @@ hair curve、surface、solverなどとの接続や用途別初期化は raw shap
 `nodes.create` へ公開済みです。geometry・particle data、initial state、nucleus・
 rigid solver などとの接続や用途別初期化は raw shape 作成と分離します。
 
+第十六段階として、Maya 標準の `ufeProxyCameraShape` を標準起動状態で検証し、
+`nodes.create` へ公開済みです。UFE scene item や camera との関連付けなどの用途別初期化は
+raw shape 作成と分離します。残る `SphereLocator` は node type 自体が登録されておらず、
+`MDagModifier.createNode()` が `invalid node type` となるため非公開のまま維持します。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
-明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
-Arnold 固有 shape 9種はすべて作成確認済みです。その他の shape は、用途と
-作成前提ごとに分けて検証します。
+明示的に opt-in します。生成済み concrete shape 81種のうち、Maya 2025 で
+作成可能な80種を公開済みです。
 
 ### 4. transform と shape の一括作成
 

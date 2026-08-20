@@ -214,7 +214,7 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
-現在 `nodes.create` から作成できる shape は、動作確認済みの次の79種類です。
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の80種類です。
 
 - `aiAreaLight`
 - `aiCurveCollector`
@@ -294,6 +294,7 @@ mod.do_it_dag()
 - `stereoRigCamera`
 - `stroke`
 - `subdiv`
+- `ufeProxyCameraShape`
 - `volumeLight`
 
 Maya 標準 light shape 6種は、指定した親 Transform と名前での作成、および
@@ -341,6 +342,10 @@ Maya 標準のシーン表示・カメラ補助 shape `imagePlane` / `sketchPlan
 確認済みです。画像ファイル、描画内容、snapshot frame、stereo camera 接続などの
 用途別初期化は自動実行しません。
 
+Maya 標準の UFE proxy camera shape `ufeProxyCameraShape` も、標準起動状態での
+raw shape 作成と undo / redo を確認済みです。UFE scene item や camera との関連付けなど、
+用途別初期化は自動実行しません。
+
 Maya 標準のレンダリング・環境表現補助 shape `environmentFog` / `fluidTexture2D` /
 `fluidTexture3D` / `heightField` も、raw shape としての作成と undo / redo を
 確認済みです。camera、fluid data、texture、displacement などとの接続や
@@ -363,9 +368,9 @@ geometry・particle data、initial state、nucleus・rigid solver などとの�
 
 Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 `nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。
-ただし、作成確認前の shape は `nodes.create` へ自動公開しません。
-Arnold 固有 shape 9種はすべて作成確認済みですが、その他の shape は引き続き
-用途と作成前提ごとに分けて検証します。
+このうち80種は作成確認済みで、`nodes.create` へ公開しています。残る
+`SphereLocator` は Maya 2025 の標準状態で node type が登録されていないため、
+非公開のまま維持します。
 `polyCube` のように Transform、Shape、history node をまとめて作る操作は、raw shape
 作成とは別の高レベル API として扱います。
 

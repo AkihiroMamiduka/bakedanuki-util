@@ -186,11 +186,11 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "stereoRigCamera",
         "stroke",
         "subdiv",
+        "ufeProxyCameraShape",
         "volumeLight",
     }.issubset(node_creator.available_node_names())
     assert {
         "SphereLocator",
-        "ufeProxyCameraShape",
     }.isdisjoint(node_creator.available_node_names())
     assert "multiplyDivide" in dir(node_creator)
     assert "transform" in dir(node_creator)
@@ -236,7 +236,9 @@ def test_node_creator_supports_keyword_node_name_alias(new_scene):
     assert node_creator.node_class("not_").NODE_TYPE == "not"
 
 
-def test_node_creator_unknown_node_raises_attribute_error(new_scene):
+def test_node_creator_unknown_or_unsupported_node_raises_attribute_error(
+    new_scene,
+):
     from bd_util.maya.node.creator import NodeCreator
 
     node_creator = NodeCreator()
@@ -244,4 +246,4 @@ def test_node_creator_unknown_node_raises_attribute_error(new_scene):
     with pytest.raises(AttributeError):
         node_creator.not_existing_node()
     with pytest.raises(AttributeError):
-        node_creator.ufeProxyCameraShape()
+        node_creator.SphereLocator()

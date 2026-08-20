@@ -99,6 +99,7 @@ _CREATABLE_SHAPE_NODE_TYPES = frozenset(
         "stereoRigCamera",
         "stroke",
         "subdiv",
+        "ufeProxyCameraShape",
         "volumeLight",
     }
 )

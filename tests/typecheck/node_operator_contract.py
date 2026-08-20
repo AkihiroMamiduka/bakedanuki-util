@@ -931,6 +931,9 @@ from bd_util.maya.node.operator.node.dag.shape.stereo_rig_camera import (
 )
 from bd_util.maya.node.operator.node.dag.shape.stroke import Stroke
 from bd_util.maya.node.operator.node.dag.shape.subdiv import Subdiv
+from bd_util.maya.node.operator.node.dag.shape.ufe_proxy_camera_shape import (
+    UfeProxyCameraShape,
+)
 from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
 
@@ -1379,6 +1382,13 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(stereo_rig_camera, StereoRigCamera)
     assert_type(stereo_rig_camera.focalLength, DoublePlugOperator)
+
+    ufe_proxy_camera_shape = nodes.create.ufeProxyCameraShape(
+        name="ufeProxyCameraShape",
+        parent=parent,
+    )
+    assert_type(ufe_proxy_camera_shape, UfeProxyCameraShape)
+    assert_type(ufe_proxy_camera_shape.focalLength, DoublePlugOperator)
 
     ambient_light = nodes.create.ambientLight(
         name="ambientLightShape",
