@@ -40,6 +40,10 @@ from ..operator.node.dag.shape.flexor_shape import FlexorShape
 from ..operator.node.dag.shape.fluid_texture2_d import FluidTexture2D
 from ..operator.node.dag.shape.fluid_texture3_d import FluidTexture3D
 from ..operator.node.dag.shape.geo_connectable import GeoConnectable
+from ..operator.node.dag.shape.grease_plane import GreasePlane
+from ..operator.node.dag.shape.grease_plane_render_shape import (
+    GreasePlaneRenderShape,
+)
 from ..operator.node.dag.shape.height_field import HeightField
 from ..operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
@@ -49,6 +53,7 @@ from ..operator.node.dag.shape.implicit_box import ImplicitBox
 from ..operator.node.dag.shape.implicit_cone import ImplicitCone
 from ..operator.node.dag.shape.implicit_sphere import ImplicitSphere
 from ..operator.node.dag.shape.lattice import Lattice
+from ..operator.node.dag.shape.line_modifier import LineModifier
 from ..operator.node.dag.shape.locator import Locator
 from ..operator.node.dag.shape.mesh import Mesh
 from ..operator.node.dag.shape.motion_trail_shape import MotionTrailShape
@@ -56,6 +61,8 @@ from ..operator.node.dag.shape.nurbs_curve import NurbsCurve
 from ..operator.node.dag.shape.nurbs_surface import NurbsSurface
 from ..operator.node.dag.shape.orientation_marker import OrientationMarker
 from ..operator.node.dag.shape.param_dimension import ParamDimension
+from ..operator.node.dag.shape.pfx_hair import PfxHair
+from ..operator.node.dag.shape.pfx_toon import PfxToon
 from ..operator.node.dag.shape.point_light import PointLight
 from ..operator.node.dag.shape.position_marker import PositionMarker
 from ..operator.node.dag.shape.render_box import RenderBox
@@ -67,6 +74,7 @@ from ..operator.node.dag.shape.snapshot_shape import SnapshotShape
 from ..operator.node.dag.shape.soft_mod_handle import SoftModHandle
 from ..operator.node.dag.shape.spot_light import SpotLight
 from ..operator.node.dag.shape.stereo_rig_camera import StereoRigCamera
+from ..operator.node.dag.shape.stroke import Stroke
 from ..operator.node.dag.shape.subdiv import Subdiv
 from ..operator.node.dag.shape.volume_light import VolumeLight
 from ..operator.node.dag.transform._core import Transform
@@ -4401,6 +4409,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GreasePencilSequence: ...
+    def greasePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> GreasePlane: ...
+    def greasePlaneRenderShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> GreasePlaneRenderShape: ...
     def greaterThan(
         self,
         name: str | None = None,
@@ -4842,6 +4864,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightsCollectionSelector: ...
+    def lineModifier(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> LineModifier: ...
     def listItem(
         self,
         name: str | None = None,
@@ -5601,6 +5630,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PassMatrix: ...
+    def pfxHair(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> PfxHair: ...
+    def pfxToon(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> PfxToon: ...
     def phong(
         self,
         name: str | None = None,
@@ -6853,6 +6896,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> StitchSrf: ...
+    def stroke(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Stroke: ...
     def strokeGlobals(
         self,
         name: str | None = None,

@@ -156,6 +156,12 @@ stereo camera 接続などの用途別初期化は raw shape 作成と分離し�
 `nodes.create` へ公開済みです。camera、fluid data、texture、displacement などとの
 接続や用途別初期化は raw shape 作成と分離します。
 
+第十三段階として、Maya 標準の描画・Paint Effects 補助 shape `greasePlane` /
+`greasePlaneRenderShape` / `lineModifier` / `pfxHair` / `pfxToon` / `stroke` を
+個別のシーンで検証し、`nodes.create` へ公開済みです。image、brush、hair / toon
+input、render geometry、line modifier などの接続や用途別初期化は raw shape 作成と
+分離します。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
 Arnold 固有 shape 9種はすべて作成確認済みです。その他の shape は、用途と

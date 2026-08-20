@@ -214,7 +214,7 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
-現在 `nodes.create` から作成できる shape は、動作確認済みの次の61種類です。
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の67種類です。
 
 - `aiAreaLight`
 - `aiCurveCollector`
@@ -250,6 +250,8 @@ mod.do_it_dag()
 - `fluidTexture2D`
 - `fluidTexture3D`
 - `geoConnectable`
+- `greasePlane`
+- `greasePlaneRenderShape`
 - `heightField`
 - `hikFloorContactMarker`
 - `imagePlane`
@@ -257,6 +259,7 @@ mod.do_it_dag()
 - `implicitCone`
 - `implicitSphere`
 - `lattice`
+- `lineModifier`
 - `locator`
 - `mesh`
 - `motionTrailShape`
@@ -264,6 +267,8 @@ mod.do_it_dag()
 - `nurbsSurface`
 - `orientationMarker`
 - `paramDimension`
+- `pfxHair`
+- `pfxToon`
 - `pointLight`
 - `positionMarker`
 - `renderBox`
@@ -275,6 +280,7 @@ mod.do_it_dag()
 - `softModHandle`
 - `spotLight`
 - `stereoRigCamera`
+- `stroke`
 - `subdiv`
 - `volumeLight`
 
@@ -327,6 +333,11 @@ Maya 標準のレンダリング・環境表現補助 shape `environmentFog` / `
 `fluidTexture3D` / `heightField` も、raw shape としての作成と undo / redo を
 確認済みです。camera、fluid data、texture、displacement などとの接続や
 用途別初期化は自動実行しません。
+
+Maya 標準の描画・Paint Effects 補助 shape `greasePlane` /
+`greasePlaneRenderShape` / `lineModifier` / `pfxHair` / `pfxToon` / `stroke` も、
+raw shape としての作成と undo / redo を確認済みです。image、brush、hair / toon
+input、render geometry、line modifier などの接続や用途別初期化は自動実行しません。
 
 Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 `nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。

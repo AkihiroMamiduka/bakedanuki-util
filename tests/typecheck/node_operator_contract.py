@@ -852,6 +852,10 @@ from bd_util.maya.node.operator.node.dag.shape.fluid_texture3_d import (
 from bd_util.maya.node.operator.node.dag.shape.geo_connectable import (
     GeoConnectable,
 )
+from bd_util.maya.node.operator.node.dag.shape.grease_plane import GreasePlane
+from bd_util.maya.node.operator.node.dag.shape.grease_plane_render_shape import (
+    GreasePlaneRenderShape,
+)
 from bd_util.maya.node.operator.node.dag.shape.height_field import HeightField
 from bd_util.maya.node.operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
@@ -865,6 +869,9 @@ from bd_util.maya.node.operator.node.dag.shape.implicit_sphere import (
     ImplicitSphere,
 )
 from bd_util.maya.node.operator.node.dag.shape.lattice import Lattice
+from bd_util.maya.node.operator.node.dag.shape.line_modifier import (
+    LineModifier,
+)
 from bd_util.maya.node.operator.node.dag.shape.locator import Locator
 from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 from bd_util.maya.node.operator.node.dag.shape.motion_trail_shape import (
@@ -881,6 +888,8 @@ from bd_util.maya.node.operator.node.dag.shape.orientation_marker import (
 from bd_util.maya.node.operator.node.dag.shape.param_dimension import (
     ParamDimension,
 )
+from bd_util.maya.node.operator.node.dag.shape.pfx_hair import PfxHair
+from bd_util.maya.node.operator.node.dag.shape.pfx_toon import PfxToon
 from bd_util.maya.node.operator.node.dag.shape.point_light import PointLight
 from bd_util.maya.node.operator.node.dag.shape.position_marker import (
     PositionMarker,
@@ -902,6 +911,7 @@ from bd_util.maya.node.operator.node.dag.shape.spot_light import SpotLight
 from bd_util.maya.node.operator.node.dag.shape.stereo_rig_camera import (
     StereoRigCamera,
 )
+from bd_util.maya.node.operator.node.dag.shape.stroke import Stroke
 from bd_util.maya.node.operator.node.dag.shape.subdiv import Subdiv
 from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
@@ -1194,6 +1204,51 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(height_field, HeightField)
     assert_type(height_field.heightScale, FloatPlugOperator)
+
+    grease_plane = nodes.create.greasePlane(
+        name="greasePlaneShape",
+        parent=parent,
+    )
+    assert_type(grease_plane, GreasePlane)
+    assert_type(grease_plane.lockedToCamera, BoolPlugOperator)
+
+    grease_plane_render_shape = nodes.create.greasePlaneRenderShape(
+        name="greasePlaneRenderShape",
+        parent=parent,
+    )
+    assert_type(grease_plane_render_shape, GreasePlaneRenderShape)
+    assert_type(
+        grease_plane_render_shape.visibleFraction,
+        FloatPlugOperator,
+    )
+
+    line_modifier = nodes.create.lineModifier(
+        name="lineModifierShape",
+        parent=parent,
+    )
+    assert_type(line_modifier, LineModifier)
+    assert_type(line_modifier.widthScale, DoublePlugOperator)
+
+    pfx_hair = nodes.create.pfxHair(
+        name="pfxHairShape",
+        parent=parent,
+    )
+    assert_type(pfx_hair, PfxHair)
+    assert_type(pfx_hair.drawAsMesh, BoolPlugOperator)
+
+    pfx_toon = nodes.create.pfxToon(
+        name="pfxToonShape",
+        parent=parent,
+    )
+    assert_type(pfx_toon, PfxToon)
+    assert_type(pfx_toon.displayPercent, DoublePlugOperator)
+
+    stroke = nodes.create.stroke(
+        name="strokeShape",
+        parent=parent,
+    )
+    assert_type(stroke, Stroke)
+    assert_type(stroke.motionBlurred, BoolPlugOperator)
 
     image_plane = nodes.create.imagePlane(
         name="imagePlaneShape",
