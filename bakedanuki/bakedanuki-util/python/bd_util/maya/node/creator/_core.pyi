@@ -23,22 +23,32 @@ from ..operator.node.dag.shape.area_light import AreaLight
 from ..operator.node.dag.shape.base_lattice import BaseLattice
 from ..operator.node.dag.shape.bezier_curve import BezierCurve
 from ..operator.node.dag.shape.camera import Camera
+from ..operator.node.dag.shape.cluster_handle import ClusterHandle
+from ..operator.node.dag.shape.directed_disc import DirectedDisc
 from ..operator.node.dag.shape.directional_light import DirectionalLight
 from ..operator.node.dag.shape.distance_dim_shape import DistanceDimShape
+from ..operator.node.dag.shape.dropoff_locator import DropoffLocator
+from ..operator.node.dag.shape.hik_floor_contact_marker import (
+    HikFloorContactMarker,
+)
 from ..operator.node.dag.shape.implicit_box import ImplicitBox
 from ..operator.node.dag.shape.implicit_cone import ImplicitCone
 from ..operator.node.dag.shape.implicit_sphere import ImplicitSphere
 from ..operator.node.dag.shape.lattice import Lattice
 from ..operator.node.dag.shape.locator import Locator
 from ..operator.node.dag.shape.mesh import Mesh
+from ..operator.node.dag.shape.motion_trail_shape import MotionTrailShape
 from ..operator.node.dag.shape.nurbs_curve import NurbsCurve
 from ..operator.node.dag.shape.nurbs_surface import NurbsSurface
+from ..operator.node.dag.shape.orientation_marker import OrientationMarker
 from ..operator.node.dag.shape.param_dimension import ParamDimension
 from ..operator.node.dag.shape.point_light import PointLight
+from ..operator.node.dag.shape.position_marker import PositionMarker
 from ..operator.node.dag.shape.render_box import RenderBox
 from ..operator.node.dag.shape.render_cone import RenderCone
 from ..operator.node.dag.shape.render_rect import RenderRect
 from ..operator.node.dag.shape.render_sphere import RenderSphere
+from ..operator.node.dag.shape.soft_mod_handle import SoftModHandle
 from ..operator.node.dag.shape.spot_light import SpotLight
 from ..operator.node.dag.shape.subdiv import Subdiv
 from ..operator.node.dag.shape.volume_light import VolumeLight
@@ -3635,6 +3645,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Cluster: ...
+    def clusterHandle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ClusterHandle: ...
     def collection(
         self,
         name: str | None = None,
@@ -3965,6 +3982,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Determinant: ...
+    def directedDisc(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DirectedDisc: ...
     def directionalLight(
         self,
         name: str | None = None,
@@ -4029,6 +4053,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DpBirailSrf: ...
+    def dropoffLocator(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DropoffLocator: ...
     def dynController(
         self,
         name: str | None = None,
@@ -4389,6 +4420,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKSkeletonGeneratorNode: ...
+    def hikFloorContactMarker(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> HikFloorContactMarker: ...
     def hikSolver(
         self,
         name: str | None = None,
@@ -5128,6 +5166,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MotionTrail: ...
+    def motionTrailShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> MotionTrailShape: ...
     def mountain(
         self,
         name: str | None = None,
@@ -5367,6 +5412,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeOperator: ...
+    def orientationMarker(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> OrientationMarker: ...
     def override(
         self,
         name: str | None = None,
@@ -6061,6 +6113,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PoseInterpolatorManager: ...
+    def positionMarker(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> PositionMarker: ...
     def postProcessList(
         self,
         name: str | None = None,
@@ -6604,6 +6663,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SoftMod: ...
+    def softModHandle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> SoftModHandle: ...
     def solidFractal(
         self,
         name: str | None = None,

@@ -214,7 +214,7 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
-現在 `nodes.create` から作成できる shape は、動作確認済みの次の36種類です。
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の44種類です。
 
 - `aiAreaLight`
 - `aiCurveCollector`
@@ -233,22 +233,30 @@ mod.do_it_dag()
 - `baseLattice`
 - `bezierCurve`
 - `camera`
+- `clusterHandle`
+- `directedDisc`
 - `directionalLight`
 - `distanceDimShape`
+- `dropoffLocator`
+- `hikFloorContactMarker`
 - `implicitBox`
 - `implicitCone`
 - `implicitSphere`
 - `lattice`
 - `locator`
 - `mesh`
+- `motionTrailShape`
 - `nurbsCurve`
 - `nurbsSurface`
+- `orientationMarker`
 - `paramDimension`
 - `pointLight`
+- `positionMarker`
 - `renderBox`
 - `renderCone`
 - `renderRect`
 - `renderSphere`
+- `softModHandle`
 - `spotLight`
 - `subdiv`
 - `volumeLight`
@@ -276,6 +284,13 @@ Maya 標準の計測・注釈 shape `angleDimension` / `annotationShape` /
 `arcLengthDimension` / `distanceDimShape` / `paramDimension` も、raw shape としての
 作成と undo / redo を確認済みです。計測点、表示テキスト、NURBS geometry との接続
 など、用途別の初期化は自動実行しません。
+
+Maya 標準の補助 locator・marker・handle shape `clusterHandle` / `directedDisc` /
+`dropoffLocator` / `hikFloorContactMarker` / `motionTrailShape` /
+`orientationMarker` / `positionMarker` / `softModHandle` も、raw shape としての作成と
+undo / redo を確認済みです。deformer、motion path、HIK などとの接続や用途別の
+初期化は自動実行しません。生成済みの `SphereLocator` class は Maya 2025 の
+標準状態で node type を作成できないため、`nodes.create` へは公開していません。
 
 Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 `nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。

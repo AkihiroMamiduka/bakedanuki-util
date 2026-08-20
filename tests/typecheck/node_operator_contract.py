@@ -429,6 +429,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.unit import (
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_angle import (
     DoubleAnglePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.time import (
+    TimePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.typed import (
     TypedAttrOperator,
     TypedPlugOperator,
@@ -807,11 +810,23 @@ from bd_util.maya.node.operator.node.dag.shape.area_light import AreaLight
 from bd_util.maya.node.operator.node.dag.shape.base_lattice import BaseLattice
 from bd_util.maya.node.operator.node.dag.shape.bezier_curve import BezierCurve
 from bd_util.maya.node.operator.node.dag.shape.camera import Camera
+from bd_util.maya.node.operator.node.dag.shape.cluster_handle import (
+    ClusterHandle,
+)
+from bd_util.maya.node.operator.node.dag.shape.directed_disc import (
+    DirectedDisc,
+)
 from bd_util.maya.node.operator.node.dag.shape.directional_light import (
     DirectionalLight,
 )
 from bd_util.maya.node.operator.node.dag.shape.distance_dim_shape import (
     DistanceDimShape,
+)
+from bd_util.maya.node.operator.node.dag.shape.dropoff_locator import (
+    DropoffLocator,
+)
+from bd_util.maya.node.operator.node.dag.shape.hik_floor_contact_marker import (
+    HikFloorContactMarker,
 )
 from bd_util.maya.node.operator.node.dag.shape.implicit_box import ImplicitBox
 from bd_util.maya.node.operator.node.dag.shape.implicit_cone import (
@@ -823,20 +838,32 @@ from bd_util.maya.node.operator.node.dag.shape.implicit_sphere import (
 from bd_util.maya.node.operator.node.dag.shape.lattice import Lattice
 from bd_util.maya.node.operator.node.dag.shape.locator import Locator
 from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
+from bd_util.maya.node.operator.node.dag.shape.motion_trail_shape import (
+    MotionTrailShape,
+)
 from bd_util.maya.node.operator.node.dag.shape.n_particle import NParticle
 from bd_util.maya.node.operator.node.dag.shape.nurbs_curve import NurbsCurve
 from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (
     NurbsSurface,
 )
+from bd_util.maya.node.operator.node.dag.shape.orientation_marker import (
+    OrientationMarker,
+)
 from bd_util.maya.node.operator.node.dag.shape.param_dimension import (
     ParamDimension,
 )
 from bd_util.maya.node.operator.node.dag.shape.point_light import PointLight
+from bd_util.maya.node.operator.node.dag.shape.position_marker import (
+    PositionMarker,
+)
 from bd_util.maya.node.operator.node.dag.shape.render_box import RenderBox
 from bd_util.maya.node.operator.node.dag.shape.render_cone import RenderCone
 from bd_util.maya.node.operator.node.dag.shape.render_rect import RenderRect
 from bd_util.maya.node.operator.node.dag.shape.render_sphere import (
     RenderSphere,
+)
+from bd_util.maya.node.operator.node.dag.shape.soft_mod_handle import (
+    SoftModHandle,
 )
 from bd_util.maya.node.operator.node.dag.shape.spot_light import SpotLight
 from bd_util.maya.node.operator.node.dag.shape.subdiv import Subdiv
@@ -978,6 +1005,68 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(param_dimension, ParamDimension)
     assert_type(param_dimension.uParamValue, DoublePlugOperator)
+
+    cluster_handle = nodes.create.clusterHandle(
+        name="clusterHandleShape",
+        parent=parent,
+    )
+    assert_type(cluster_handle, ClusterHandle)
+    assert_type(
+        cluster_handle.originX,
+        double_linear.DoubleLinearPlugOperator,
+    )
+
+    directed_disc = nodes.create.directedDisc(
+        name="directedDiscShape",
+        parent=parent,
+    )
+    assert_type(directed_disc, DirectedDisc)
+    assert_type(directed_disc.primaryVisibility, BoolPlugOperator)
+
+    dropoff_locator = nodes.create.dropoffLocator(
+        name="dropoffLocatorShape",
+        parent=parent,
+    )
+    assert_type(dropoff_locator, DropoffLocator)
+    assert_type(dropoff_locator.percent, FloatPlugOperator)
+
+    hik_floor_contact_marker = nodes.create.hikFloorContactMarker(
+        name="hikFloorContactMarkerShape",
+        parent=parent,
+    )
+    assert_type(hik_floor_contact_marker, HikFloorContactMarker)
+    assert_type(hik_floor_contact_marker.markerSize, DoublePlugOperator)
+
+    motion_trail_shape = nodes.create.motionTrailShape(
+        name="motionTrailShape",
+        parent=parent,
+    )
+    assert_type(motion_trail_shape, MotionTrailShape)
+    assert_type(motion_trail_shape.showFrames, BoolPlugOperator)
+
+    orientation_marker = nodes.create.orientationMarker(
+        name="orientationMarkerShape",
+        parent=parent,
+    )
+    assert_type(orientation_marker, OrientationMarker)
+    assert_type(orientation_marker.frontTwist, DoubleAnglePlugOperator)
+
+    position_marker = nodes.create.positionMarker(
+        name="positionMarkerShape",
+        parent=parent,
+    )
+    assert_type(position_marker, PositionMarker)
+    assert_type(position_marker.time, TimePlugOperator)
+
+    soft_mod_handle = nodes.create.softModHandle(
+        name="softModHandleShape",
+        parent=parent,
+    )
+    assert_type(soft_mod_handle, SoftModHandle)
+    assert_type(
+        soft_mod_handle.originX,
+        double_linear.DoubleLinearPlugOperator,
+    )
 
     ambient_light = nodes.create.ambientLight(
         name="ambientLightShape",
