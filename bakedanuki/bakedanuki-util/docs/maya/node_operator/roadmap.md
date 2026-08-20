@@ -151,6 +151,11 @@ raw shape 作成と分離します。
 `nodes.create` へ公開済みです。画像ファイル、描画内容、snapshot frame、
 stereo camera 接続などの用途別初期化は raw shape 作成と分離します。
 
+第十二段階として、Maya 標準のレンダリング・環境表現補助 shape `environmentFog` /
+`fluidTexture2D` / `fluidTexture3D` / `heightField` を個別のシーンで検証し、
+`nodes.create` へ公開済みです。camera、fluid data、texture、displacement などとの
+接続や用途別初期化は raw shape 作成と分離します。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
 Arnold 固有 shape 9種はすべて作成確認済みです。その他の shape は、用途と

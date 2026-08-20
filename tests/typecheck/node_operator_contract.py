@@ -839,10 +839,20 @@ from bd_util.maya.node.operator.node.dag.shape.distance_dim_shape import (
 from bd_util.maya.node.operator.node.dag.shape.dropoff_locator import (
     DropoffLocator,
 )
+from bd_util.maya.node.operator.node.dag.shape.environment_fog import (
+    EnvironmentFog,
+)
 from bd_util.maya.node.operator.node.dag.shape.flexor_shape import FlexorShape
+from bd_util.maya.node.operator.node.dag.shape.fluid_texture2_d import (
+    FluidTexture2D,
+)
+from bd_util.maya.node.operator.node.dag.shape.fluid_texture3_d import (
+    FluidTexture3D,
+)
 from bd_util.maya.node.operator.node.dag.shape.geo_connectable import (
     GeoConnectable,
 )
+from bd_util.maya.node.operator.node.dag.shape.height_field import HeightField
 from bd_util.maya.node.operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
 )
@@ -1156,6 +1166,34 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(deform_wave, DeformWave)
     assert_type(deform_wave.maxRadius, DoublePlugOperator)
+
+    environment_fog = nodes.create.environmentFog(
+        name="environmentFogShape",
+        parent=parent,
+    )
+    assert_type(environment_fog, EnvironmentFog)
+    assert_type(environment_fog.primaryVisibility, BoolPlugOperator)
+
+    fluid_texture_2d = nodes.create.fluidTexture2D(
+        name="fluidTexture2DShape",
+        parent=parent,
+    )
+    assert_type(fluid_texture_2d, FluidTexture2D)
+    assert_type(fluid_texture_2d.is2d, BoolPlugOperator)
+
+    fluid_texture_3d = nodes.create.fluidTexture3D(
+        name="fluidTexture3DShape",
+        parent=parent,
+    )
+    assert_type(fluid_texture_3d, FluidTexture3D)
+    assert_type(fluid_texture_3d.is2d, BoolPlugOperator)
+
+    height_field = nodes.create.heightField(
+        name="heightFieldShape",
+        parent=parent,
+    )
+    assert_type(height_field, HeightField)
+    assert_type(height_field.heightScale, FloatPlugOperator)
 
     image_plane = nodes.create.imagePlane(
         name="imagePlaneShape",

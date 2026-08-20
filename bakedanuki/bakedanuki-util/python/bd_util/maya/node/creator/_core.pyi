@@ -35,8 +35,12 @@ from ..operator.node.dag.shape.directed_disc import DirectedDisc
 from ..operator.node.dag.shape.directional_light import DirectionalLight
 from ..operator.node.dag.shape.distance_dim_shape import DistanceDimShape
 from ..operator.node.dag.shape.dropoff_locator import DropoffLocator
+from ..operator.node.dag.shape.environment_fog import EnvironmentFog
 from ..operator.node.dag.shape.flexor_shape import FlexorShape
+from ..operator.node.dag.shape.fluid_texture2_d import FluidTexture2D
+from ..operator.node.dag.shape.fluid_texture3_d import FluidTexture3D
 from ..operator.node.dag.shape.geo_connectable import GeoConnectable
+from ..operator.node.dag.shape.height_field import HeightField
 from ..operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
 )
@@ -4167,6 +4171,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EnvFog: ...
+    def environmentFog(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> EnvironmentFog: ...
     def envSky(
         self,
         name: str | None = None,
@@ -4309,6 +4320,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Flow: ...
+    def fluidTexture2D(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> FluidTexture2D: ...
+    def fluidTexture3D(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> FluidTexture3D: ...
     def fourByFourMatrix(
         self,
         name: str | None = None,
@@ -4431,6 +4456,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HardwareRenderingGlobals: ...
+    def heightField(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> HeightField: ...
     def hierarchyTestNode1(
         self,
         name: str | None = None,
