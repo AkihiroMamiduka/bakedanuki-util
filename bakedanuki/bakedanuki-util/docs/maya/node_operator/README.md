@@ -214,7 +214,7 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
-現在 `nodes.create` から作成できる shape は、動作確認済みの次の73種類です。
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の79種類です。
 
 - `aiAreaLight`
 - `aiCurveCollector`
@@ -249,6 +249,7 @@ mod.do_it_dag()
 - `dynHolder`
 - `environmentFog`
 - `flexorShape`
+- `fluidShape`
 - `fluidTexture2D`
 - `fluidTexture3D`
 - `follicle`
@@ -268,10 +269,14 @@ mod.do_it_dag()
 - `locator`
 - `mesh`
 - `motionTrailShape`
+- `nCloth`
+- `nParticle`
+- `nRigid`
 - `nurbsCurve`
 - `nurbsSurface`
 - `orientationMarker`
 - `paramDimension`
+- `particle`
 - `pfxHair`
 - `pfxToon`
 - `pointLight`
@@ -280,6 +285,7 @@ mod.do_it_dag()
 - `renderCone`
 - `renderRect`
 - `renderSphere`
+- `rigidBody`
 - `sketchPlane`
 - `snapshotShape`
 - `softModHandle`
@@ -349,6 +355,11 @@ Maya 標準の hair・dynamics 補助 shape `dynamicConstraint` / `dynHolder` / 
 `hairConstraint` / `hairSystem` / `spring` も、raw shape としての作成と undo / redo を
 確認済みです。simulation設定、constraint component、hair curve、surface、solver
 などとの接続や用途別初期化は自動実行しません。
+
+Maya 標準の simulation body shape `fluidShape` / `nCloth` / `nParticle` / `nRigid` /
+`particle` / `rigidBody` も、raw shape としての作成と undo / redo を確認済みです。
+geometry・particle data、initial state、nucleus・rigid solver などとの接続や用途別初期化は
+自動実行しません。
 
 Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 `nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。

@@ -850,6 +850,7 @@ from bd_util.maya.node.operator.node.dag.shape.environment_fog import (
     EnvironmentFog,
 )
 from bd_util.maya.node.operator.node.dag.shape.flexor_shape import FlexorShape
+from bd_util.maya.node.operator.node.dag.shape.fluid_shape import FluidShape
 from bd_util.maya.node.operator.node.dag.shape.fluid_texture2_d import (
     FluidTexture2D,
 )
@@ -889,7 +890,9 @@ from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 from bd_util.maya.node.operator.node.dag.shape.motion_trail_shape import (
     MotionTrailShape,
 )
+from bd_util.maya.node.operator.node.dag.shape.n_cloth import NCloth
 from bd_util.maya.node.operator.node.dag.shape.n_particle import NParticle
+from bd_util.maya.node.operator.node.dag.shape.n_rigid import NRigid
 from bd_util.maya.node.operator.node.dag.shape.nurbs_curve import NurbsCurve
 from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (
     NurbsSurface,
@@ -900,6 +903,7 @@ from bd_util.maya.node.operator.node.dag.shape.orientation_marker import (
 from bd_util.maya.node.operator.node.dag.shape.param_dimension import (
     ParamDimension,
 )
+from bd_util.maya.node.operator.node.dag.shape.particle import Particle
 from bd_util.maya.node.operator.node.dag.shape.pfx_hair import PfxHair
 from bd_util.maya.node.operator.node.dag.shape.pfx_toon import PfxToon
 from bd_util.maya.node.operator.node.dag.shape.point_light import PointLight
@@ -912,6 +916,7 @@ from bd_util.maya.node.operator.node.dag.shape.render_rect import RenderRect
 from bd_util.maya.node.operator.node.dag.shape.render_sphere import (
     RenderSphere,
 )
+from bd_util.maya.node.operator.node.dag.shape.rigid_body import RigidBody
 from bd_util.maya.node.operator.node.dag.shape.sketch_plane import SketchPlane
 from bd_util.maya.node.operator.node.dag.shape.snapshot_shape import (
     SnapshotShape,
@@ -1259,6 +1264,48 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(spring, Spring)
     assert_type(spring.useStiffnessPS, BoolPlugOperator)
+
+    fluid_shape = nodes.create.fluidShape(
+        name="fluidShape",
+        parent=parent,
+    )
+    assert_type(fluid_shape, FluidShape)
+    assert_type(fluid_shape.currentTime, TimePlugOperator)
+
+    n_cloth = nodes.create.nCloth(
+        name="nClothShape",
+        parent=parent,
+    )
+    assert_type(n_cloth, NCloth)
+    assert_type(n_cloth.thickness, FloatPlugOperator)
+
+    n_particle = nodes.create.nParticle(
+        name="nParticleShape",
+        parent=parent,
+    )
+    assert_type(n_particle, NParticle)
+    assert_type(n_particle.currentTime, TimePlugOperator)
+
+    n_rigid = nodes.create.nRigid(
+        name="nRigidShape",
+        parent=parent,
+    )
+    assert_type(n_rigid, NRigid)
+    assert_type(n_rigid.thickness, FloatPlugOperator)
+
+    particle = nodes.create.particle(
+        name="particleShape",
+        parent=parent,
+    )
+    assert_type(particle, Particle)
+    assert_type(particle.currentTime, TimePlugOperator)
+
+    rigid_body = nodes.create.rigidBody(
+        name="rigidBodyShape",
+        parent=parent,
+    )
+    assert_type(rigid_body, RigidBody)
+    assert_type(rigid_body.mass, DoublePlugOperator)
 
     grease_plane = nodes.create.greasePlane(
         name="greasePlaneShape",

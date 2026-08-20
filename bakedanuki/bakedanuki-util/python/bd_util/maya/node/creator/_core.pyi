@@ -39,6 +39,7 @@ from ..operator.node.dag.shape.dynamic_constraint import DynamicConstraint
 from ..operator.node.dag.shape.dyn_holder import DynHolder
 from ..operator.node.dag.shape.environment_fog import EnvironmentFog
 from ..operator.node.dag.shape.flexor_shape import FlexorShape
+from ..operator.node.dag.shape.fluid_shape import FluidShape
 from ..operator.node.dag.shape.fluid_texture2_d import FluidTexture2D
 from ..operator.node.dag.shape.fluid_texture3_d import FluidTexture3D
 from ..operator.node.dag.shape.follicle import Follicle
@@ -62,10 +63,14 @@ from ..operator.node.dag.shape.line_modifier import LineModifier
 from ..operator.node.dag.shape.locator import Locator
 from ..operator.node.dag.shape.mesh import Mesh
 from ..operator.node.dag.shape.motion_trail_shape import MotionTrailShape
+from ..operator.node.dag.shape.n_cloth import NCloth
+from ..operator.node.dag.shape.n_particle import NParticle
+from ..operator.node.dag.shape.n_rigid import NRigid
 from ..operator.node.dag.shape.nurbs_curve import NurbsCurve
 from ..operator.node.dag.shape.nurbs_surface import NurbsSurface
 from ..operator.node.dag.shape.orientation_marker import OrientationMarker
 from ..operator.node.dag.shape.param_dimension import ParamDimension
+from ..operator.node.dag.shape.particle import Particle
 from ..operator.node.dag.shape.pfx_hair import PfxHair
 from ..operator.node.dag.shape.pfx_toon import PfxToon
 from ..operator.node.dag.shape.point_light import PointLight
@@ -74,6 +79,7 @@ from ..operator.node.dag.shape.render_box import RenderBox
 from ..operator.node.dag.shape.render_cone import RenderCone
 from ..operator.node.dag.shape.render_rect import RenderRect
 from ..operator.node.dag.shape.render_sphere import RenderSphere
+from ..operator.node.dag.shape.rigid_body import RigidBody
 from ..operator.node.dag.shape.sketch_plane import SketchPlane
 from ..operator.node.dag.shape.snapshot_shape import SnapshotShape
 from ..operator.node.dag.shape.soft_mod_handle import SoftModHandle
@@ -4348,6 +4354,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Flow: ...
+    def fluidShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> FluidShape: ...
     def fluidTexture2D(
         self,
         name: str | None = None,
@@ -5413,11 +5426,32 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Mute: ...
+    def nCloth(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NCloth: ...
     def nComponent(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NComponent: ...
+    def nParticle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NParticle: ...
+    def nRigid(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NRigid: ...
     def nearestPointOnCurve(
         self,
         name: str | None = None,
@@ -5626,6 +5660,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ParentMatrix: ...
+    def particle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Particle: ...
     def particleAgeMapper(
         self,
         name: str | None = None,
@@ -6657,6 +6698,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RgbToHsv: ...
+    def rigidBody(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RigidBody: ...
     def rigidSolver(
         self,
         name: str | None = None,

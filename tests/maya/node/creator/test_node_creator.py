@@ -141,6 +141,7 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "dynHolder",
         "environmentFog",
         "flexorShape",
+        "fluidShape",
         "fluidTexture2D",
         "fluidTexture3D",
         "follicle",
@@ -160,10 +161,14 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "locator",
         "mesh",
         "motionTrailShape",
+        "nCloth",
+        "nParticle",
+        "nRigid",
         "nurbsCurve",
         "nurbsSurface",
         "orientationMarker",
         "paramDimension",
+        "particle",
         "pfxHair",
         "pfxToon",
         "pointLight",
@@ -172,6 +177,7 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "renderCone",
         "renderRect",
         "renderSphere",
+        "rigidBody",
         "sketchPlane",
         "snapshotShape",
         "softModHandle",
@@ -184,9 +190,6 @@ def test_node_creator_available_node_names_for_completion(new_scene):
     }.issubset(node_creator.available_node_names())
     assert {
         "SphereLocator",
-        "fluidShape",
-        "nParticle",
-        "particle",
         "ufeProxyCameraShape",
     }.isdisjoint(node_creator.available_node_names())
     assert "multiplyDivide" in dir(node_creator)
@@ -241,4 +244,4 @@ def test_node_creator_unknown_node_raises_attribute_error(new_scene):
     with pytest.raises(AttributeError):
         node_creator.not_existing_node()
     with pytest.raises(AttributeError):
-        node_creator.fluidShape()
+        node_creator.ufeProxyCameraShape()

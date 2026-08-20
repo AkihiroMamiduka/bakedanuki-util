@@ -167,6 +167,11 @@ input、render geometry、line modifier などの接続や用途別初期化は 
 検証し、`nodes.create` へ公開済みです。simulation設定、constraint component、
 hair curve、surface、solverなどとの接続や用途別初期化は raw shape 作成と分離します。
 
+第十五段階として、Maya 標準の simulation body shape `fluidShape` / `nCloth` /
+`nParticle` / `nRigid` / `particle` / `rigidBody` を個別のシーンで検証し、
+`nodes.create` へ公開済みです。geometry・particle data、initial state、nucleus・
+rigid solver などとの接続や用途別初期化は raw shape 作成と分離します。
+
 全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
 明示的に opt-in します。未検証 class は `nodes.existing` からの利用に限定します。
 Arnold 固有 shape 9種はすべて作成確認済みです。その他の shape は、用途と
