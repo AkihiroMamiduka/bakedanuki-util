@@ -940,8 +940,16 @@ from bd_util.maya.node.operator.node.dag.transform._core import Transform
 from bd_util.maya.node.operator.node.dag.transform.aim_constraint import (
     AimConstraint,
 )
+from bd_util.maya.node.operator.node.dag.transform.air_field import AirField
+from bd_util.maya.node.operator.node.dag.transform.drag_field import DragField
+from bd_util.maya.node.operator.node.dag.transform.fluid_emitter import (
+    FluidEmitter,
+)
 from bd_util.maya.node.operator.node.dag.transform.geometry_constraint import (
     GeometryConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.gravity_field import (
+    GravityField,
 )
 from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
     IkEffector,
@@ -949,6 +957,9 @@ from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
 from bd_util.maya.node.operator.node.dag.transform.ik_handle import IkHandle
 from bd_util.maya.node.operator.node.dag.transform.normal_constraint import (
     NormalConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.newton_field import (
+    NewtonField,
 )
 from bd_util.maya.node.operator.node.dag.transform.old_normal_constraint import (
     OldNormalConstraint,
@@ -965,11 +976,17 @@ from bd_util.maya.node.operator.node.dag.transform.parent_constraint import (
 from bd_util.maya.node.operator.node.dag.transform.point_constraint import (
     PointConstraint,
 )
+from bd_util.maya.node.operator.node.dag.transform.point_emitter import (
+    PointEmitter,
+)
 from bd_util.maya.node.operator.node.dag.transform.point_on_poly_constraint import (
     PointOnPolyConstraint,
 )
 from bd_util.maya.node.operator.node.dag.transform.pole_vector_constraint import (
     PoleVectorConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.radial_field import (
+    RadialField,
 )
 from bd_util.maya.node.operator.node.dag.transform.rigid_constraint import (
     RigidConstraint,
@@ -982,6 +999,18 @@ from bd_util.maya.node.operator.node.dag.transform.symmetry_constraint import (
 )
 from bd_util.maya.node.operator.node.dag.transform.tangent_constraint import (
     TangentConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.turbulence_field import (
+    TurbulenceField,
+)
+from bd_util.maya.node.operator.node.dag.transform.uniform_field import (
+    UniformField,
+)
+from bd_util.maya.node.operator.node.dag.transform.volume_axis_field import (
+    VolumeAxisField,
+)
+from bd_util.maya.node.operator.node.dag.transform.vortex_field import (
+    VortexField,
 )
 
 
@@ -1028,6 +1057,21 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     tangent_constraint = nodes.existing.tangentConstraint(
         "existing_tangent_constraint"
     )
+    air_field = nodes.existing.airField("existing_air_field")
+    drag_field = nodes.existing.dragField("existing_drag_field")
+    fluid_emitter = nodes.existing.fluidEmitter("existing_fluid_emitter")
+    gravity_field = nodes.existing.gravityField("existing_gravity_field")
+    newton_field = nodes.existing.newtonField("existing_newton_field")
+    point_emitter = nodes.existing.pointEmitter("existing_point_emitter")
+    radial_field = nodes.existing.radialField("existing_radial_field")
+    turbulence_field = nodes.existing.turbulenceField(
+        "existing_turbulence_field"
+    )
+    uniform_field = nodes.existing.uniformField("existing_uniform_field")
+    volume_axis_field = nodes.existing.volumeAxisField(
+        "existing_volume_axis_field"
+    )
+    vortex_field = nodes.existing.vortexField("existing_vortex_field")
 
     assert_type(handle, IkHandle)
     assert_type(handle.ikBlend, DoublePlugOperator)
@@ -1049,6 +1093,20 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(scale_constraint, ScaleConstraint)
     assert_type(symmetry_constraint, SymmetryConstraint)
     assert_type(tangent_constraint, TangentConstraint)
+    assert_type(air_field, AirField)
+    assert_type(air_field.magnitude, DoublePlugOperator)
+    assert_type(drag_field, DragField)
+    assert_type(fluid_emitter, FluidEmitter)
+    assert_type(fluid_emitter.rate, DoublePlugOperator)
+    assert_type(gravity_field, GravityField)
+    assert_type(newton_field, NewtonField)
+    assert_type(point_emitter, PointEmitter)
+    assert_type(radial_field, RadialField)
+    assert_type(turbulence_field, TurbulenceField)
+    assert_type(uniform_field, UniformField)
+    assert_type(volume_axis_field, VolumeAxisField)
+    assert_type(volume_axis_field.magnitude, DoublePlugOperator)
+    assert_type(vortex_field, VortexField)
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:

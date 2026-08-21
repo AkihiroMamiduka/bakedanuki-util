@@ -188,6 +188,9 @@ transform 派生 node も同じく、既存 node を具体型へ包む coverage 
 次のグループとしてconstraint系14種も生成し、`nodes.existing` の具体型と
 補完へ追加しています。constraint nodeも専用commandや接続を伴うため、
 `nodes.create` には公開しません。
+続いてfield / emitter系11種も同じ方針で生成します。`primitiveFalloff` は
+`dynBase` / `field` / `pointEmitter` を継承しない独立transformのため、
+このグループには含めません。
 `transform` / `joint` は引き続き作成確認済み type として公開します。
 
 ## 命名規則

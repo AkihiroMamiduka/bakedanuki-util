@@ -34,21 +34,32 @@ def test_transform_stub_includes_existing_only_concrete_classes():
 
     expected_classes = {
         "aimConstraint": "AimConstraint",
+        "airField": "AirField",
+        "dragField": "DragField",
+        "fluidEmitter": "FluidEmitter",
         "geometryConstraint": "GeometryConstraint",
+        "gravityField": "GravityField",
         "ikEffector": "IkEffector",
         "ikHandle": "IkHandle",
+        "newtonField": "NewtonField",
         "normalConstraint": "NormalConstraint",
         "oldNormalConstraint": "OldNormalConstraint",
         "oldTangentConstraint": "OldTangentConstraint",
         "orientConstraint": "OrientConstraint",
         "parentConstraint": "ParentConstraint",
         "pointConstraint": "PointConstraint",
+        "pointEmitter": "PointEmitter",
         "pointOnPolyConstraint": "PointOnPolyConstraint",
         "poleVectorConstraint": "PoleVectorConstraint",
+        "radialField": "RadialField",
         "rigidConstraint": "RigidConstraint",
         "scaleConstraint": "ScaleConstraint",
         "symmetryConstraint": "SymmetryConstraint",
         "tangentConstraint": "TangentConstraint",
+        "turbulenceField": "TurbulenceField",
+        "uniformField": "UniformField",
+        "volumeAxisField": "VolumeAxisField",
+        "vortexField": "VortexField",
     }
 
     assert {

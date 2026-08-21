@@ -1,0 +1,262 @@
+# coding: utf-8
+from .._core import Transform
+from .....attr.define.node_attr.turbulence_field import (
+    AxialMagnitudeField,
+    CurveRadiusField,
+    FalloffCurveField,
+    InputDataField,
+    OwnerCentroidField,
+    VolumeOffsetField,
+)
+from .....attr.define.std.at.scalar.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
+from .....attr.define.std.at.message import MessageField
+from .....attr.define.std.at.scalar.numeric.bool import BoolField
+from .....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from .....attr.define.std.at.scalar.numeric.range.long import LongField
+from .....attr.define.std.at.scalar.numeric.range.short import ShortField
+from .....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from .....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
+from .....attr.define.std.at.typed import TypedField
+from .....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
+from .....attr.define.std.dt.vector_array import DataVectorArrayField
+
+
+class VolumeShapeEnumPlugOperator(
+    EnumPlugOperator["VolumeShapeEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    NONE = 0
+    CUBE = 1
+    SPHERE = 2
+    CYLINDER = 3
+    CONE = 4
+    TORUS = 5
+    CURVE = 7
+
+
+class VolumeShapeEnumAttrOperator(
+    EnumAttrOperator[VolumeShapeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    NONE = 0
+    CUBE = 1
+    SPHERE = 2
+    CYLINDER = 3
+    CONE = 4
+    TORUS = 5
+    CURVE = 7
+
+    NAME_MAP = {
+        NONE: "None",
+        CUBE: "Cube",
+        SPHERE: "Sphere",
+        CYLINDER: "Cylinder",
+        CONE: "Cone",
+        TORUS: "Torus",
+        CURVE: "Curve",
+    }
+
+
+class VolumeShapeEnumField(
+    EnumField[VolumeShapeEnumAttrOperator, VolumeShapeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = VolumeShapeEnumAttrOperator
+    PLUG_CLS = VolumeShapeEnumPlugOperator
+
+
+class InterpolationTypeEnumPlugOperator(
+    EnumPlugOperator["InterpolationTypeEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    LINEAR = 0
+    QUADRATIC = 1
+
+
+class InterpolationTypeEnumAttrOperator(
+    EnumAttrOperator[InterpolationTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    LINEAR = 0
+    QUADRATIC = 1
+
+    NAME_MAP = {
+        LINEAR: "Linear",
+        QUADRATIC: "Quadratic",
+    }
+
+
+class InterpolationTypeEnumField(
+    EnumField[
+        InterpolationTypeEnumAttrOperator, InterpolationTypeEnumPlugOperator
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = InterpolationTypeEnumAttrOperator
+    PLUG_CLS = InterpolationTypeEnumPlugOperator
+
+
+class GeneratedTurbulenceField(Transform):
+    __slots__ = ()
+
+    NODE_TYPE = "turbulenceField"
+
+    owner = MessageField()
+    ow = owner
+
+    fromWhere = ShortField(default_value=0)
+    fw = fromWhere
+
+    subsetId = LongField(default_value=-1)
+    sid = subsetId
+
+    positional = BoolField(default_value=False, writable=False)
+    psl = positional
+
+    ownerCentroid = OwnerCentroidField(default_value=(0.0, 0.0, 0.0))
+    ocd = ownerCentroid
+    ownerCentroidX = ownerCentroid.ownerCentroidX
+    ocx = ownerCentroidX
+    ownerCentroidY = ownerCentroid.ownerCentroidY
+    ocy = ownerCentroidY
+    ownerCentroidZ = ownerCentroid.ownerCentroidZ
+    ocz = ownerCentroidZ
+
+    ownerPosData = DataVectorArrayField()
+    opd = ownerPosData
+
+    ownerVelData = DataVectorArrayField()
+    ovd = ownerVelData
+
+    magnitude = DoubleField(
+        default_value=1.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
+    mag = magnitude
+
+    attenuation = DoubleField(
+        default_value=0.0, min_value=0.0, soft_max_value=5.0
+    )
+    att = attenuation
+
+    maxDistance = DoubleLinearField(
+        default_value=-1.0, min_value=0.0, soft_max_value=100.0
+    )
+    max = maxDistance
+
+    applyPerVertex = BoolField(default_value=False)
+    apv = applyPerVertex
+
+    useMaxDistance = BoolField(default_value=False)
+    umd = useMaxDistance
+
+    inputData = InputDataField(multi=True)
+    ind = inputData
+
+    inputForce = DataVectorArrayField(multi=True)
+    inf = inputForce
+
+    outputForce = DataVectorArrayField(multi=True, writable=False)
+    of = outputForce
+
+    volumeShape = VolumeShapeEnumField(default_value=0)
+    vol = volumeShape
+
+    volumeExclusion = BoolField(default_value=False)
+    vex = volumeExclusion
+
+    trapInside = DoubleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
+    trin = trapInside
+
+    trapRadius = DoubleField(
+        default_value=2.0, soft_min_value=0.0, soft_max_value=10.0
+    )
+    trra = trapRadius
+
+    trapEnds = BoolField(default_value=True)
+    ten = trapEnds
+
+    volumeOffset = VolumeOffsetField(default_value=(0.0, 0.0, 0.0))
+    vfo = volumeOffset
+    volumeOffsetX = volumeOffset.volumeOffsetX
+    vox = volumeOffsetX
+    volumeOffsetY = volumeOffset.volumeOffsetY
+    voy = volumeOffsetY
+    volumeOffsetZ = volumeOffset.volumeOffsetZ
+    voz = volumeOffsetZ
+
+    sectionRadius = DoubleLinearField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
+    tsr = sectionRadius
+
+    volumeSweep = DoubleAngleField(
+        default_value=360.0, min_value=0.0, max_value=360.0
+    )
+    vsw = volumeSweep
+
+    inputPPData = TypedField(multi=True)
+    ppda = inputPPData
+
+    ownerPPData = TypedField()
+    oppd = ownerPPData
+
+    falloffCurve = FalloffCurveField(multi=True, default_value=(0.0, 0.0, 0))
+    fc = falloffCurve
+
+    axialMagnitude = AxialMagnitudeField(
+        multi=True, default_value=(0.0, 0.0, 0)
+    )
+    amag = axialMagnitude
+
+    curveRadius = CurveRadiusField(multi=True, default_value=(0.0, 0.0, 0))
+    crad = curveRadius
+
+    inputCurve = DataNurbsCurveField()
+    icv = inputCurve
+
+    frequency = DoubleField(
+        default_value=1.0, min_value=0.0, soft_max_value=100.0
+    )
+    frq = frequency
+
+    phaseX = DoubleField(
+        default_value=0.0, soft_min_value=-50.0, soft_max_value=50.0
+    )
+    phx = phaseX
+
+    phaseY = DoubleField(
+        default_value=0.0, soft_min_value=-50.0, soft_max_value=50.0
+    )
+    phy = phaseY
+
+    phaseZ = DoubleField(
+        default_value=0.0, soft_min_value=-50.0, soft_max_value=50.0
+    )
+    phz = phaseZ
+
+    noiseLevel = LongField(default_value=0, soft_min_value=0, soft_max_value=8)
+    nslv = noiseLevel
+
+    noiseRatio = DoubleField(
+        default_value=0.707, soft_min_value=0.0, soft_max_value=1.0
+    )
+    nsrt = noiseRatio
+
+    interpolationType = InterpolationTypeEnumField(default_value=0)
+    intr = interpolationType

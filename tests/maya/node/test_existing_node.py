@@ -214,6 +214,43 @@ def test_existing_node_wraps_constraint_transform(
     assert node.modifier_manager is modifier_manager
 
 
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("airField", "AirField"),
+        ("dragField", "DragField"),
+        ("fluidEmitter", "FluidEmitter"),
+        ("gravityField", "GravityField"),
+        ("newtonField", "NewtonField"),
+        ("pointEmitter", "PointEmitter"),
+        ("radialField", "RadialField"),
+        ("turbulenceField", "TurbulenceField"),
+        ("uniformField", "UniformField"),
+        ("volumeAxisField", "VolumeAxisField"),
+        ("vortexField", "VortexField"),
+    ],
+)
+def test_existing_node_wraps_field_and_emitter_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 

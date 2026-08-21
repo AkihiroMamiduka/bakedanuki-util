@@ -265,6 +265,7 @@ from .operator.node.dg.ai_write_rgba import AiWriteRgba
 from .operator.node.dg.ai_write_vector import AiWriteVector
 from .operator.node.dag.transform.aim_constraint import AimConstraint
 from .operator.node.dg.aim_matrix import AimMatrix
+from .operator.node.dag.transform.air_field import AirField
 from .operator.node.dg.align_curve import AlignCurve
 from .operator.node.dg.align_surface import AlignSurface
 from .operator.node.dag.shape.ambient_light import AmbientLight
@@ -713,6 +714,7 @@ from .operator.node.dg.dof import Dof
 from .operator.node.dg.dot_product import DotProduct
 from .operator.node.dg.double_shading_switch import DoubleShadingSwitch
 from .operator.node.dg.dp_birail_srf import DpBirailSrf
+from .operator.node.dag.transform.drag_field import DragField
 from .operator.node.dag.shape.dropoff_locator import DropoffLocator
 from .operator.node.dg.dyn_controller import DynController
 from .operator.node.dg.dyn_globals import DynGlobals
@@ -754,6 +756,7 @@ from .operator.node.dg.float_mask import FloatMask
 from .operator.node.dg.float_math import FloatMath
 from .operator.node.dg.floor import Floor
 from .operator.node.dg.flow import Flow
+from .operator.node.dag.transform.fluid_emitter import FluidEmitter
 from .operator.node.dag.shape.fluid_shape import FluidShape
 from .operator.node.dag.shape.fluid_texture2_d import FluidTexture2D
 from .operator.node.dag.shape.fluid_texture3_d import FluidTexture3D
@@ -771,6 +774,7 @@ from .operator.node.dg.geometry_filter import GeometryFilter
 from .operator.node.dg.global_cache_control import GlobalCacheControl
 from .operator.node.dg.global_stitch import GlobalStitch
 from .operator.node.dg.granite import Granite
+from .operator.node.dag.transform.gravity_field import GravityField
 from .operator.node.dg.grease_pencil_sequence import GreasePencilSequence
 from .operator.node.dag.shape.grease_plane import GreasePlane
 from .operator.node.dag.shape.grease_plane_render_shape import (
@@ -925,6 +929,7 @@ from .operator.node.dag.shape.n_rigid import NRigid
 from .operator.node.dg.nearest_point_on_curve import NearestPointOnCurve
 from .operator.node.dg.negate import Negate
 from .operator.node.dg.network import Network
+from .operator.node.dag.transform.newton_field import NewtonField
 from .operator.node.dg.node_graph_editor_bookmark_info import (
     NodeGraphEditorBookmarkInfo,
 )
@@ -993,6 +998,7 @@ from .operator.node.dg.place2d_texture import Place2dTexture
 from .operator.node.dg.planar_trim_surface import PlanarTrimSurface
 from .operator.node.dg.plus_minus_average import PlusMinusAverage
 from .operator.node.dag.transform.point_constraint import PointConstraint
+from .operator.node.dag.transform.point_emitter import PointEmitter
 from .operator.node.dag.shape.point_light import PointLight
 from .operator.node.dg.point_matrix_mult import PointMatrixMult
 from .operator.node.dg.point_on_curve_info import PointOnCurveInfo
@@ -1145,6 +1151,7 @@ from .operator.node.dg.quat_slerp import QuatSlerp
 from .operator.node.dg.quat_sub import QuatSub
 from .operator.node.dg.quat_to_axis_angle import QuatToAxisAngle
 from .operator.node.dg.quat_to_euler import QuatToEuler
+from .operator.node.dag.transform.radial_field import RadialField
 from .operator.node.dg.ramp import Ramp
 from .operator.node.dg.ramp_shader import RampShader
 from .operator.node.dg.rbf_srf import RbfSrf
@@ -1318,11 +1325,13 @@ from .operator.node.dg.trim import Trim
 from .operator.node.dg.trim_with_boundaries import TrimWithBoundaries
 from .operator.node.dg.triple_shading_switch import TripleShadingSwitch
 from .operator.node.dg.truncate import Truncate
+from .operator.node.dag.transform.turbulence_field import TurbulenceField
 from .operator.node.dg.tweak import Tweak
 from .operator.node.dg.type import Type
 from .operator.node.dg.type_extrude import TypeExtrude
 from .operator.node.dag.shape.ufe_proxy_camera_shape import UfeProxyCameraShape
 from .operator.node.dg.uniform_falloff import UniformFalloff
+from .operator.node.dag.transform.uniform_field import UniformField
 from .operator.node.dg.unit_conversion import UnitConversion
 from .operator.node.dg.unit_to_time_conversion import UnitToTimeConversion
 from .operator.node.dg.unknown import Unknown
@@ -1338,10 +1347,12 @@ from .operator.node.dg.vector_extrude import VectorExtrude
 from .operator.node.dg.vector_product import VectorProduct
 from .operator.node.dg.vertex_bake_set import VertexBakeSet
 from .operator.node.dg.view_color_manager import ViewColorManager
+from .operator.node.dag.transform.volume_axis_field import VolumeAxisField
 from .operator.node.dg.volume_fog import VolumeFog
 from .operator.node.dag.shape.volume_light import VolumeLight
 from .operator.node.dg.volume_noise import VolumeNoise
 from .operator.node.dg.volume_shader import VolumeShader
+from .operator.node.dag.transform.vortex_field import VortexField
 from .operator.node.dg.water import Water
 from .operator.node.dg.weight_geometry_filter import WeightGeometryFilter
 from .operator.node.dg.wire import Wire
@@ -2830,6 +2841,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AimMatrix: ...
+    @staticmethod
+    def airField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AirField: ...
     @staticmethod
     def alignCurve(
         node: str | om.MObject,
@@ -5033,6 +5050,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> DpBirailSrf: ...
     @staticmethod
+    def dragField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DragField: ...
+    @staticmethod
     def dropoffLocator(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5279,6 +5302,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Flow: ...
     @staticmethod
+    def fluidEmitter(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> FluidEmitter: ...
+    @staticmethod
     def fluidShape(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5380,6 +5409,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Granite: ...
+    @staticmethod
+    def gravityField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> GravityField: ...
     @staticmethod
     def greasePencilSequence(
         node: str | om.MObject,
@@ -6197,6 +6232,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Network: ...
     @staticmethod
+    def newtonField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> NewtonField: ...
+    @staticmethod
     def nodeGraphEditorBookmarkInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -6568,6 +6609,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PointConstraint: ...
+    @staticmethod
+    def pointEmitter(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> PointEmitter: ...
     @staticmethod
     def pointLight(
         node: str | om.MObject,
@@ -7444,6 +7491,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatToEuler: ...
+    @staticmethod
+    def radialField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> RadialField: ...
     @staticmethod
     def ramp(
         node: str | om.MObject,
@@ -8411,6 +8464,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Truncate: ...
     @staticmethod
+    def turbulenceField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> TurbulenceField: ...
+    @staticmethod
     def tweak(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8440,6 +8499,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> UniformFalloff: ...
+    @staticmethod
+    def uniformField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UniformField: ...
     @staticmethod
     def unitConversion(
         node: str | om.MObject,
@@ -8531,6 +8596,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> ViewColorManager: ...
     @staticmethod
+    def volumeAxisField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> VolumeAxisField: ...
+    @staticmethod
     def volumeFog(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8554,6 +8625,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> VolumeShader: ...
+    @staticmethod
+    def vortexField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> VortexField: ...
     @staticmethod
     def water(
         node: str | om.MObject,

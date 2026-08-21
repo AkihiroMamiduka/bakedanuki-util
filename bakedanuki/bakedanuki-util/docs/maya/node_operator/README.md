@@ -546,6 +546,9 @@ transform 派生 node は、既存 node の具体型対応と作成 API を分�
 constraint 系14種も `nodes.existing.aimConstraint()` /
 `nodes.existing.parentConstraint()` などから具体型として利用できます。
 これらも専用 command や接続を伴うため `nodes.create` には公開しません。
+field / emitter 系11種も `nodes.existing.airField()` /
+`nodes.existing.fluidEmitter()` などから具体型として利用できます。
+これらも dynamics 用の初期化や接続を伴うため `nodes.create` には公開しません。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 
