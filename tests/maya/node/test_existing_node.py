@@ -161,6 +161,21 @@ def test_existing_node_wraps_camera_shape(new_scene, maya_cmds):
     assert node.focalLength.long_name == "focalLength"
 
 
+def test_existing_node_wraps_generated_light_shape(new_scene, maya_cmds):
+    from bd_util.maya.node.operator.node.dag.shape.ambient_light import (
+        AmbientLight,
+    )
+
+    shape = maya_cmds.createNode("ambientLight", name="test_ambient_light")
+
+    node = ExistingNode(shape)
+
+    assert isinstance(node, AmbientLight)
+    assert node.NODE_TYPE == "ambientLight"
+    assert node.name == shape
+    assert node.intensity.long_name == "intensity"
+
+
 def test_existing_node_unknown_node_raises_value_error(new_scene):
     with pytest.raises(ValueError):
         ExistingNode("not_existing_node")

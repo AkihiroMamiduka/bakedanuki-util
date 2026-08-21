@@ -6,6 +6,92 @@ from collections.abc import Callable
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 from ..operator.node.dag._core import DAG
+from ..operator.node.dag.shape.ai_area_light import AiAreaLight
+from ..operator.node.dag.shape.ai_curve_collector import AiCurveCollector
+from ..operator.node.dag.shape.ai_light_blocker import AiLightBlocker
+from ..operator.node.dag.shape.ai_light_portal import AiLightPortal
+from ..operator.node.dag.shape.ai_mesh_light import AiMeshLight
+from ..operator.node.dag.shape.ai_photometric_light import AiPhotometricLight
+from ..operator.node.dag.shape.ai_sky_dome_light import AiSkyDomeLight
+from ..operator.node.dag.shape.ai_stand_in import AiStandIn
+from ..operator.node.dag.shape.ai_volume import AiVolume
+from ..operator.node.dag.shape.ambient_light import AmbientLight
+from ..operator.node.dag.shape.angle_dimension import AngleDimension
+from ..operator.node.dag.shape.annotation_shape import AnnotationShape
+from ..operator.node.dag.shape.arc_length_dimension import ArcLengthDimension
+from ..operator.node.dag.shape.area_light import AreaLight
+from ..operator.node.dag.shape.base_lattice import BaseLattice
+from ..operator.node.dag.shape.bezier_curve import BezierCurve
+from ..operator.node.dag.shape.camera import Camera
+from ..operator.node.dag.shape.cluster_flexor_shape import ClusterFlexorShape
+from ..operator.node.dag.shape.cluster_handle import ClusterHandle
+from ..operator.node.dag.shape.deform_bend import DeformBend
+from ..operator.node.dag.shape.deform_flare import DeformFlare
+from ..operator.node.dag.shape.deform_sine import DeformSine
+from ..operator.node.dag.shape.deform_squash import DeformSquash
+from ..operator.node.dag.shape.deform_twist import DeformTwist
+from ..operator.node.dag.shape.deform_wave import DeformWave
+from ..operator.node.dag.shape.directed_disc import DirectedDisc
+from ..operator.node.dag.shape.directional_light import DirectionalLight
+from ..operator.node.dag.shape.distance_dim_shape import DistanceDimShape
+from ..operator.node.dag.shape.dropoff_locator import DropoffLocator
+from ..operator.node.dag.shape.dynamic_constraint import DynamicConstraint
+from ..operator.node.dag.shape.dyn_holder import DynHolder
+from ..operator.node.dag.shape.environment_fog import EnvironmentFog
+from ..operator.node.dag.shape.flexor_shape import FlexorShape
+from ..operator.node.dag.shape.fluid_shape import FluidShape
+from ..operator.node.dag.shape.fluid_texture2_d import FluidTexture2D
+from ..operator.node.dag.shape.fluid_texture3_d import FluidTexture3D
+from ..operator.node.dag.shape.follicle import Follicle
+from ..operator.node.dag.shape.geo_connectable import GeoConnectable
+from ..operator.node.dag.shape.grease_plane import GreasePlane
+from ..operator.node.dag.shape.grease_plane_render_shape import (
+    GreasePlaneRenderShape,
+)
+from ..operator.node.dag.shape.hair_constraint import HairConstraint
+from ..operator.node.dag.shape.hair_system import HairSystem
+from ..operator.node.dag.shape.height_field import HeightField
+from ..operator.node.dag.shape.hik_floor_contact_marker import (
+    HikFloorContactMarker,
+)
+from ..operator.node.dag.shape.image_plane import ImagePlane
+from ..operator.node.dag.shape.implicit_box import ImplicitBox
+from ..operator.node.dag.shape.implicit_cone import ImplicitCone
+from ..operator.node.dag.shape.implicit_sphere import ImplicitSphere
+from ..operator.node.dag.shape.lattice import Lattice
+from ..operator.node.dag.shape.line_modifier import LineModifier
+from ..operator.node.dag.shape.locator import Locator
+from ..operator.node.dag.shape.mesh import Mesh
+from ..operator.node.dag.shape.motion_trail_shape import MotionTrailShape
+from ..operator.node.dag.shape.n_cloth import NCloth
+from ..operator.node.dag.shape.n_particle import NParticle
+from ..operator.node.dag.shape.n_rigid import NRigid
+from ..operator.node.dag.shape.nurbs_curve import NurbsCurve
+from ..operator.node.dag.shape.nurbs_surface import NurbsSurface
+from ..operator.node.dag.shape.orientation_marker import OrientationMarker
+from ..operator.node.dag.shape.param_dimension import ParamDimension
+from ..operator.node.dag.shape.particle import Particle
+from ..operator.node.dag.shape.pfx_hair import PfxHair
+from ..operator.node.dag.shape.pfx_toon import PfxToon
+from ..operator.node.dag.shape.point_light import PointLight
+from ..operator.node.dag.shape.position_marker import PositionMarker
+from ..operator.node.dag.shape.render_box import RenderBox
+from ..operator.node.dag.shape.render_cone import RenderCone
+from ..operator.node.dag.shape.render_rect import RenderRect
+from ..operator.node.dag.shape.render_sphere import RenderSphere
+from ..operator.node.dag.shape.rigid_body import RigidBody
+from ..operator.node.dag.shape.sketch_plane import SketchPlane
+from ..operator.node.dag.shape.snapshot_shape import SnapshotShape
+from ..operator.node.dag.shape.soft_mod_handle import SoftModHandle
+from ..operator.node.dag.shape.spot_light import SpotLight
+from ..operator.node.dag.shape.spring import Spring
+from ..operator.node.dag.shape.stereo_rig_camera import StereoRigCamera
+from ..operator.node.dag.shape.stroke import Stroke
+from ..operator.node.dag.shape.subdiv import Subdiv
+from ..operator.node.dag.shape.ufe_proxy_camera_shape import (
+    UfeProxyCameraShape,
+)
+from ..operator.node.dag.shape.volume_light import VolumeLight
 from ..operator.node.dag.transform._core import Transform
 from ..operator.node.dag.transform.joint import Joint
 from ..operator.node.dg.about_to_set_value_test_node import (
@@ -1272,6 +1358,7 @@ from ..operator.node.dg.bd_dbl_l3_weighted_average_multi import (
 from ..operator.node.dg.bd_dbl_l3_weighted_sum_multi import (
     BdDblL3WeightedSumMulti,
 )
+from ._shape_with_transform import ShapeWithTransformCreator
 
 class NodeCreator:
     def __init__(
@@ -1279,6 +1366,8 @@ class NodeCreator:
     ) -> None: ...
     @property
     def modifier_manager(self) -> ModifierManager: ...
+    @property
+    def with_transform(self) -> ShapeWithTransformCreator: ...
     def create(
         self,
         node_name: str,
@@ -1365,6 +1454,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiAOVFilter: ...
+    def aiAreaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiAreaLight: ...
     def aiAtan(
         self,
         name: str | None = None,
@@ -1490,6 +1586,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiCurvature: ...
+    def aiCurveCollector(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiCurveCollector: ...
     def aiDisable(
         self,
         name: str | None = None,
@@ -1660,11 +1763,25 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLength: ...
+    def aiLightBlocker(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiLightBlocker: ...
     def aiLightDecay(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiLightDecay: ...
+    def aiLightPortal(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiLightPortal: ...
     def aiLog(
         self,
         name: str | None = None,
@@ -1715,6 +1832,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiMerge: ...
+    def aiMeshLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiMeshLight: ...
     def aiMin(
         self,
         name: str | None = None,
@@ -1775,6 +1899,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiPassthrough: ...
+    def aiPhotometricLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiPhotometricLight: ...
     def aiPhysicalSky(
         self,
         name: str | None = None,
@@ -1885,6 +2016,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSky: ...
+    def aiSkyDomeLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiSkyDomeLight: ...
     def aiSpaceTransform(
         self,
         name: str | None = None,
@@ -1895,6 +2033,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiSqrt: ...
+    def aiStandIn(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiStandIn: ...
     def aiStandard(
         self,
         name: str | None = None,
@@ -2040,6 +2185,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AiVectorToRgb: ...
+    def aiVolume(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AiVolume: ...
     def aiVolumeCollector(
         self,
         name: str | None = None,
@@ -2110,6 +2262,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AlignSurface: ...
+    def ambientLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AmbientLight: ...
     def and_(
         self,
         name: str | None = None,
@@ -2120,6 +2279,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AngleBetween: ...
+    def angleDimension(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AngleDimension: ...
     def animBlend(
         self,
         name: str | None = None,
@@ -2250,6 +2416,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Anisotropic: ...
+    def annotationShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AnnotationShape: ...
     def aovChildCollection(
         self,
         name: str | None = None,
@@ -2335,6 +2508,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ApplyRelOverride: ...
+    def arcLengthDimension(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ArcLengthDimension: ...
+    def areaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> AreaLight: ...
     def arnoldAOVChildSelector(
         self,
         name: str | None = None,
@@ -2415,6 +2602,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> AxisFromMatrix: ...
+    def baseLattice(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> BaseLattice: ...
     def basicSelector(
         self,
         name: str | None = None,
@@ -3210,6 +3404,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BevelPlus: ...
+    def bezierCurve(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> BezierCurve: ...
     def bezierCurveToNurbs(
         self,
         name: str | None = None,
@@ -3365,6 +3566,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> CacheFile: ...
+    def camera(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Camera: ...
     def cameraSet(
         self,
         name: str | None = None,
@@ -3480,6 +3688,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Cluster: ...
+    def clusterFlexorShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ClusterFlexorShape: ...
+    def clusterHandle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ClusterHandle: ...
     def collection(
         self,
         name: str | None = None,
@@ -3795,6 +4017,48 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DeltaMush: ...
+    def deformBend(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformBend: ...
+    def deformFlare(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformFlare: ...
+    def deformSine(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformSine: ...
+    def deformSquash(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformSquash: ...
+    def deformTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformTwist: ...
+    def deformWave(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DeformWave: ...
     def detachCurve(
         self,
         name: str | None = None,
@@ -3810,6 +4074,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Determinant: ...
+    def directedDisc(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DirectedDisc: ...
+    def directionalLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DirectionalLight: ...
     def diskCache(
         self,
         name: str | None = None,
@@ -3835,6 +4113,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DistanceBetween: ...
+    def distanceDimShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DistanceDimShape: ...
     def divide(
         self,
         name: str | None = None,
@@ -3860,6 +4145,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DpBirailSrf: ...
+    def dropoffLocator(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DropoffLocator: ...
+    def dynamicConstraint(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DynamicConstraint: ...
     def dynController(
         self,
         name: str | None = None,
@@ -3870,6 +4169,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> DynGlobals: ...
+    def dynHolder(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> DynHolder: ...
     def editMetadata(
         self,
         name: str | None = None,
@@ -3905,6 +4211,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> EnvFog: ...
+    def environmentFog(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> EnvironmentFog: ...
     def envSky(
         self,
         name: str | None = None,
@@ -3995,6 +4308,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> FitBspline: ...
+    def flexorShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> FlexorShape: ...
     def floatComposite(
         self,
         name: str | None = None,
@@ -4040,6 +4360,34 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Flow: ...
+    def fluidShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> FluidShape: ...
+    def fluidTexture2D(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> FluidTexture2D: ...
+    def fluidTexture3D(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> FluidTexture3D: ...
+    def follicle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Follicle: ...
     def fourByFourMatrix(
         self,
         name: str | None = None,
@@ -4065,6 +4413,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GammaCorrect: ...
+    def geoConnectable(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> GeoConnectable: ...
     def geoConnector(
         self,
         name: str | None = None,
@@ -4100,6 +4455,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> GreasePencilSequence: ...
+    def greasePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> GreasePlane: ...
+    def greasePlaneRenderShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> GreasePlaneRenderShape: ...
     def greaterThan(
         self,
         name: str | None = None,
@@ -4130,6 +4499,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Guide: ...
+    def hairConstraint(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> HairConstraint: ...
+    def hairSystem(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> HairSystem: ...
     def hairPhysicalShader(
         self,
         name: str | None = None,
@@ -4155,6 +4538,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HardwareRenderingGlobals: ...
+    def heightField(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> HeightField: ...
     def hierarchyTestNode1(
         self,
         name: str | None = None,
@@ -4220,6 +4610,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> HIKSkeletonGeneratorNode: ...
+    def hikFloorContactMarker(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> HikFloorContactMarker: ...
     def hikSolver(
         self,
         name: str | None = None,
@@ -4340,6 +4737,34 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> IkSystem: ...
+    def imagePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ImagePlane: ...
+    def implicitBox(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ImplicitBox: ...
+    def implicitCone(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ImplicitCone: ...
+    def implicitSphere(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ImplicitSphere: ...
     def insertKnotCurve(
         self,
         name: str | None = None,
@@ -4402,6 +4827,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Lambert: ...
+    def lattice(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Lattice: ...
     def layeredShader(
         self,
         name: str | None = None,
@@ -4492,11 +4924,25 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> LightsCollectionSelector: ...
+    def lineModifier(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> LineModifier: ...
     def listItem(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ListItem: ...
+    def locator(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Locator: ...
     def lodThresholds(
         self,
         name: str | None = None,
@@ -4892,6 +5338,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Membrane: ...
+    def mesh(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Mesh: ...
     def min(
         self,
         name: str | None = None,
@@ -4917,6 +5370,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> MotionTrail: ...
+    def motionTrailShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> MotionTrailShape: ...
     def mountain(
         self,
         name: str | None = None,
@@ -4972,11 +5432,32 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Mute: ...
+    def nCloth(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NCloth: ...
     def nComponent(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NComponent: ...
+    def nParticle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NParticle: ...
+    def nRigid(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NRigid: ...
     def nearestPointOnCurve(
         self,
         name: str | None = None,
@@ -5022,6 +5503,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeOperator: ...
+    def nurbsCurve(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NurbsCurve: ...
     def nurbsCurveToBezier(
         self,
         name: str | None = None,
@@ -5032,6 +5520,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NurbsTessellate: ...
+    def nurbsSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> NurbsSurface: ...
     def nurbsToSubdiv(
         self,
         name: str | None = None,
@@ -5142,6 +5637,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeOperator: ...
+    def orientationMarker(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> OrientationMarker: ...
     def override(
         self,
         name: str | None = None,
@@ -5152,11 +5654,25 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PairBlend: ...
+    def paramDimension(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> ParamDimension: ...
     def parentMatrix(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> ParentMatrix: ...
+    def particle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Particle: ...
     def particleAgeMapper(
         self,
         name: str | None = None,
@@ -5202,6 +5718,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PassMatrix: ...
+    def pfxHair(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> PfxHair: ...
+    def pfxToon(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> PfxToon: ...
     def phong(
         self,
         name: str | None = None,
@@ -5237,6 +5767,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PlusMinusAverage: ...
+    def pointLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> PointLight: ...
     def pointMatrixMult(
         self,
         name: str | None = None,
@@ -5822,6 +6359,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> PoseInterpolatorManager: ...
+    def positionMarker(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> PositionMarker: ...
     def postProcessList(
         self,
         name: str | None = None,
@@ -6012,6 +6556,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RemapValue: ...
+    def renderBox(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RenderBox: ...
+    def renderCone(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RenderCone: ...
     def renderGlobals(
         self,
         name: str | None = None,
@@ -6047,6 +6605,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderQuality: ...
+    def renderRect(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RenderRect: ...
     def renderSettingsChildCollection(
         self,
         name: str | None = None,
@@ -6067,6 +6632,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RenderSetupLayer: ...
+    def renderSphere(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RenderSphere: ...
     def renderTarget(
         self,
         name: str | None = None,
@@ -6132,6 +6704,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> RgbToHsv: ...
+    def rigidBody(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> RigidBody: ...
     def rigidSolver(
         self,
         name: str | None = None,
@@ -6297,6 +6876,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SingleShadingSwitch: ...
+    def sketchPlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> SketchPlane: ...
     def skinBinding(
         self,
         name: str | None = None,
@@ -6327,6 +6913,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Snapshot: ...
+    def snapshotShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> SnapshotShape: ...
     def snow(
         self,
         name: str | None = None,
@@ -6337,6 +6930,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SoftMod: ...
+    def softModHandle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> SoftModHandle: ...
     def solidFractal(
         self,
         name: str | None = None,
@@ -6352,6 +6952,20 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SpBirailSrf: ...
+    def spotLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> SpotLight: ...
+    def spring(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Spring: ...
     def squareSrf(
         self,
         name: str | None = None,
@@ -6367,6 +6981,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Stencil: ...
+    def stereoRigCamera(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> StereoRigCamera: ...
     def stitchAsNurbsShell(
         self,
         name: str | None = None,
@@ -6377,6 +6998,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> StitchSrf: ...
+    def stroke(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Stroke: ...
     def strokeGlobals(
         self,
         name: str | None = None,
@@ -6457,6 +7085,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> SubdTweakUV: ...
+    def subdiv(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> Subdiv: ...
     def subdivCollapse(
         self,
         name: str | None = None,
@@ -6699,6 +7334,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Unfold3DUnfold: ...
+    def ufeProxyCameraShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> UfeProxyCameraShape: ...
     def uniformFalloff(
         self,
         name: str | None = None,
@@ -6784,6 +7426,13 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> VolumeFog: ...
+    def volumeLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+    ) -> VolumeLight: ...
     def volumeNoise(
         self,
         name: str | None = None,

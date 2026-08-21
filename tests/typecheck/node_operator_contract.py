@@ -416,9 +416,18 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double i
     DoubleAttrOperator,
     DoublePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.float import (
+    FloatPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.short import (
+    ShortPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolAttrOperator,
     BoolPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.at.message import (
+    MessagePlugOperator,
 )
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit import (
     double_linear,
@@ -426,12 +435,30 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.unit import (
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_angle import (
     DoubleAnglePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.time import (
+    TimePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.typed import (
     TypedAttrOperator,
     TypedPlugOperator,
 )
 from bd_util.maya.node.operator.attr.define.std.dt.matrix import (
     DataMatrixPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.dt.mesh import (
+    DataMeshPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.dt.nurbs_curve import (
+    DataNurbsCurvePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.dt.nurbs_surface import (
+    DataNurbsSurfacePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.dt.string import (
+    DataStringPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.locator import (
+    LocalPositionPlugOperator,
 )
 from bd_util.maya.node.operator.attr.define.custom import (
     Double3PlugOperator,
@@ -754,6 +781,746 @@ from bd_util.maya.node.operator.node.dg.decompose_matrix import (
     DecomposeMatrix,
 )
 from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
+from bd_util.maya.node.operator.node.dag.shape._core import Shape
+from bd_util.maya.node.operator.node.dag.shape.ai_area_light import AiAreaLight
+from bd_util.maya.node.operator.node.dag.shape.ai_curve_collector import (
+    AiCurveCollector,
+)
+from bd_util.maya.node.operator.node.dag.shape.ai_light_blocker import (
+    AiLightBlocker,
+)
+from bd_util.maya.node.operator.node.dag.shape.ai_light_portal import (
+    AiLightPortal,
+)
+from bd_util.maya.node.operator.node.dag.shape.ai_mesh_light import AiMeshLight
+from bd_util.maya.node.operator.node.dag.shape.ai_photometric_light import (
+    AiPhotometricLight,
+)
+from bd_util.maya.node.operator.node.dag.shape.ai_sky_dome_light import (
+    AiSkyDomeLight,
+)
+from bd_util.maya.node.operator.node.dag.shape.ai_stand_in import AiStandIn
+from bd_util.maya.node.operator.node.dag.shape.ai_volume import AiVolume
+from bd_util.maya.node.operator.node.dag.shape.ambient_light import (
+    AmbientLight,
+)
+from bd_util.maya.node.operator.node.dag.shape.angle_dimension import (
+    AngleDimension,
+)
+from bd_util.maya.node.operator.node.dag.shape.annotation_shape import (
+    AnnotationShape,
+)
+from bd_util.maya.node.operator.node.dag.shape.arc_length_dimension import (
+    ArcLengthDimension,
+)
+from bd_util.maya.node.operator.node.dag.shape.area_light import AreaLight
+from bd_util.maya.node.operator.node.dag.shape.base_lattice import BaseLattice
+from bd_util.maya.node.operator.node.dag.shape.bezier_curve import BezierCurve
+from bd_util.maya.node.operator.node.dag.shape.camera import Camera
+from bd_util.maya.node.operator.node.dag.shape.cluster_flexor_shape import (
+    ClusterFlexorShape,
+)
+from bd_util.maya.node.operator.node.dag.shape.cluster_handle import (
+    ClusterHandle,
+)
+from bd_util.maya.node.operator.node.dag.shape.deform_bend import DeformBend
+from bd_util.maya.node.operator.node.dag.shape.deform_flare import DeformFlare
+from bd_util.maya.node.operator.node.dag.shape.deform_sine import DeformSine
+from bd_util.maya.node.operator.node.dag.shape.deform_squash import (
+    DeformSquash,
+)
+from bd_util.maya.node.operator.node.dag.shape.deform_twist import DeformTwist
+from bd_util.maya.node.operator.node.dag.shape.deform_wave import DeformWave
+from bd_util.maya.node.operator.node.dag.shape.directed_disc import (
+    DirectedDisc,
+)
+from bd_util.maya.node.operator.node.dag.shape.directional_light import (
+    DirectionalLight,
+)
+from bd_util.maya.node.operator.node.dag.shape.distance_dim_shape import (
+    DistanceDimShape,
+)
+from bd_util.maya.node.operator.node.dag.shape.dropoff_locator import (
+    DropoffLocator,
+)
+from bd_util.maya.node.operator.node.dag.shape.dynamic_constraint import (
+    DynamicConstraint,
+)
+from bd_util.maya.node.operator.node.dag.shape.dyn_holder import DynHolder
+from bd_util.maya.node.operator.node.dag.shape.environment_fog import (
+    EnvironmentFog,
+)
+from bd_util.maya.node.operator.node.dag.shape.flexor_shape import FlexorShape
+from bd_util.maya.node.operator.node.dag.shape.fluid_shape import FluidShape
+from bd_util.maya.node.operator.node.dag.shape.fluid_texture2_d import (
+    FluidTexture2D,
+)
+from bd_util.maya.node.operator.node.dag.shape.fluid_texture3_d import (
+    FluidTexture3D,
+)
+from bd_util.maya.node.operator.node.dag.shape.follicle import Follicle
+from bd_util.maya.node.operator.node.dag.shape.geo_connectable import (
+    GeoConnectable,
+)
+from bd_util.maya.node.operator.node.dag.shape.grease_plane import GreasePlane
+from bd_util.maya.node.operator.node.dag.shape.grease_plane_render_shape import (
+    GreasePlaneRenderShape,
+)
+from bd_util.maya.node.operator.node.dag.shape.hair_constraint import (
+    HairConstraint,
+)
+from bd_util.maya.node.operator.node.dag.shape.hair_system import HairSystem
+from bd_util.maya.node.operator.node.dag.shape.height_field import HeightField
+from bd_util.maya.node.operator.node.dag.shape.hik_floor_contact_marker import (
+    HikFloorContactMarker,
+)
+from bd_util.maya.node.operator.node.dag.shape.image_plane import ImagePlane
+from bd_util.maya.node.operator.node.dag.shape.implicit_box import ImplicitBox
+from bd_util.maya.node.operator.node.dag.shape.implicit_cone import (
+    ImplicitCone,
+)
+from bd_util.maya.node.operator.node.dag.shape.implicit_sphere import (
+    ImplicitSphere,
+)
+from bd_util.maya.node.operator.node.dag.shape.lattice import Lattice
+from bd_util.maya.node.operator.node.dag.shape.line_modifier import (
+    LineModifier,
+)
+from bd_util.maya.node.operator.node.dag.shape.locator import Locator
+from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
+from bd_util.maya.node.operator.node.dag.shape.motion_trail_shape import (
+    MotionTrailShape,
+)
+from bd_util.maya.node.operator.node.dag.shape.n_cloth import NCloth
+from bd_util.maya.node.operator.node.dag.shape.n_particle import NParticle
+from bd_util.maya.node.operator.node.dag.shape.n_rigid import NRigid
+from bd_util.maya.node.operator.node.dag.shape.nurbs_curve import NurbsCurve
+from bd_util.maya.node.operator.node.dag.shape.nurbs_surface import (
+    NurbsSurface,
+)
+from bd_util.maya.node.operator.node.dag.shape.orientation_marker import (
+    OrientationMarker,
+)
+from bd_util.maya.node.operator.node.dag.shape.param_dimension import (
+    ParamDimension,
+)
+from bd_util.maya.node.operator.node.dag.shape.particle import Particle
+from bd_util.maya.node.operator.node.dag.shape.pfx_hair import PfxHair
+from bd_util.maya.node.operator.node.dag.shape.pfx_toon import PfxToon
+from bd_util.maya.node.operator.node.dag.shape.point_light import PointLight
+from bd_util.maya.node.operator.node.dag.shape.position_marker import (
+    PositionMarker,
+)
+from bd_util.maya.node.operator.node.dag.shape.render_box import RenderBox
+from bd_util.maya.node.operator.node.dag.shape.render_cone import RenderCone
+from bd_util.maya.node.operator.node.dag.shape.render_rect import RenderRect
+from bd_util.maya.node.operator.node.dag.shape.render_sphere import (
+    RenderSphere,
+)
+from bd_util.maya.node.operator.node.dag.shape.rigid_body import RigidBody
+from bd_util.maya.node.operator.node.dag.shape.sketch_plane import SketchPlane
+from bd_util.maya.node.operator.node.dag.shape.snapshot_shape import (
+    SnapshotShape,
+)
+from bd_util.maya.node.operator.node.dag.shape.soft_mod_handle import (
+    SoftModHandle,
+)
+from bd_util.maya.node.operator.node.dag.shape.spot_light import SpotLight
+from bd_util.maya.node.operator.node.dag.shape.spring import Spring
+from bd_util.maya.node.operator.node.dag.shape.stereo_rig_camera import (
+    StereoRigCamera,
+)
+from bd_util.maya.node.operator.node.dag.shape.stroke import Stroke
+from bd_util.maya.node.operator.node.dag.shape.subdiv import Subdiv
+from bd_util.maya.node.operator.node.dag.shape.ufe_proxy_camera_shape import (
+    UfeProxyCameraShape,
+)
+from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
+from bd_util.maya.node.operator.node.dag.transform._core import Transform
+
+
+def shape_creation_contract(nodes: bdu.Nodes) -> None:
+    parent = nodes.create.transform(name="shape_parent")
+    assert_type(parent, Transform)
+
+    mesh_transform, created_mesh = nodes.create.with_transform.mesh(
+        name="mesh"
+    )
+    assert_type(mesh_transform, Transform)
+    assert_type(created_mesh, Mesh)
+
+    camera_transform, created_camera = nodes.create.with_transform.camera(
+        name="camera",
+        shape_name="renderCameraShape",
+        parent=parent,
+    )
+    assert_type(camera_transform, Transform)
+    assert_type(created_camera, Camera)
+
+    dynamic_transform, dynamic_shape = nodes.create.with_transform.create(
+        "mesh", name="dynamicMesh"
+    )
+    assert_type(dynamic_transform, Transform)
+    assert_type(dynamic_shape, Shape)
+
+    mesh = nodes.create.mesh(name="meshShape", parent=parent)
+    assert_type(mesh, Mesh)
+    assert_type(mesh.inMesh, DataMeshPlugOperator)
+    assert_type(mesh.visibility, BoolPlugOperator)
+
+    camera = nodes.create.camera(name="cameraShape", parent=parent)
+    assert_type(camera, Camera)
+    assert_type(camera.focalLength, DoublePlugOperator)
+
+    locator = nodes.create.locator(name="locatorShape", parent=parent)
+    assert_type(locator, Locator)
+    assert_type(locator.localPosition, LocalPositionPlugOperator)
+
+    curve = nodes.create.nurbsCurve(name="curveShape", parent=parent)
+    assert_type(curve, NurbsCurve)
+    assert_type(curve.create_, DataNurbsCurvePlugOperator)
+
+    surface = nodes.create.nurbsSurface(name="surfaceShape", parent=parent)
+    assert_type(surface, NurbsSurface)
+    assert_type(surface.create_, DataNurbsSurfacePlugOperator)
+
+    base_lattice = nodes.create.baseLattice(
+        name="baseLatticeShape",
+        parent=parent,
+    )
+    assert_type(base_lattice, BaseLattice)
+
+    bezier_curve = nodes.create.bezierCurve(
+        name="bezierCurveShape",
+        parent=parent,
+    )
+    assert_type(bezier_curve, BezierCurve)
+    assert_type(bezier_curve.create_, DataNurbsCurvePlugOperator)
+
+    lattice = nodes.create.lattice(
+        name="latticeShape",
+        parent=parent,
+    )
+    assert_type(lattice, Lattice)
+
+    subdiv = nodes.create.subdiv(
+        name="subdivShape",
+        parent=parent,
+    )
+    assert_type(subdiv, Subdiv)
+
+    implicit_box = nodes.create.implicitBox(
+        name="implicitBoxShape",
+        parent=parent,
+    )
+    assert_type(implicit_box, ImplicitBox)
+
+    implicit_cone = nodes.create.implicitCone(
+        name="implicitConeShape",
+        parent=parent,
+    )
+    assert_type(implicit_cone, ImplicitCone)
+
+    implicit_sphere = nodes.create.implicitSphere(
+        name="implicitSphereShape",
+        parent=parent,
+    )
+    assert_type(implicit_sphere, ImplicitSphere)
+    assert_type(
+        implicit_sphere.radius,
+        double_linear.DoubleLinearPlugOperator,
+    )
+
+    render_box = nodes.create.renderBox(
+        name="renderBoxShape",
+        parent=parent,
+    )
+    assert_type(render_box, RenderBox)
+
+    render_cone = nodes.create.renderCone(
+        name="renderConeShape",
+        parent=parent,
+    )
+    assert_type(render_cone, RenderCone)
+
+    render_rect = nodes.create.renderRect(
+        name="renderRectShape",
+        parent=parent,
+    )
+    assert_type(render_rect, RenderRect)
+
+    render_sphere = nodes.create.renderSphere(
+        name="renderSphereShape",
+        parent=parent,
+    )
+    assert_type(render_sphere, RenderSphere)
+    assert_type(
+        render_sphere.radius,
+        double_linear.DoubleLinearPlugOperator,
+    )
+
+    angle_dimension = nodes.create.angleDimension(
+        name="angleDimensionShape",
+        parent=parent,
+    )
+    assert_type(angle_dimension, AngleDimension)
+    assert_type(angle_dimension.angle, DoubleAnglePlugOperator)
+
+    annotation_shape = nodes.create.annotationShape(
+        name="annotationShape",
+        parent=parent,
+    )
+    assert_type(annotation_shape, AnnotationShape)
+    assert_type(annotation_shape.text, DataStringPlugOperator)
+
+    arc_length_dimension = nodes.create.arcLengthDimension(
+        name="arcLengthDimensionShape",
+        parent=parent,
+    )
+    assert_type(arc_length_dimension, ArcLengthDimension)
+    assert_type(arc_length_dimension.arcLength, DoublePlugOperator)
+
+    distance_dim_shape = nodes.create.distanceDimShape(
+        name="distanceDimShape",
+        parent=parent,
+    )
+    assert_type(distance_dim_shape, DistanceDimShape)
+    assert_type(distance_dim_shape.distance, DoublePlugOperator)
+
+    param_dimension = nodes.create.paramDimension(
+        name="paramDimensionShape",
+        parent=parent,
+    )
+    assert_type(param_dimension, ParamDimension)
+    assert_type(param_dimension.uParamValue, DoublePlugOperator)
+
+    cluster_flexor_shape = nodes.create.clusterFlexorShape(
+        name="clusterFlexorShape",
+        parent=parent,
+    )
+    assert_type(cluster_flexor_shape, ClusterFlexorShape)
+    assert_type(cluster_flexor_shape.currentDriver, ShortPlugOperator)
+
+    flexor_shape = nodes.create.flexorShape(
+        name="flexorShape",
+        parent=parent,
+    )
+    assert_type(flexor_shape, FlexorShape)
+    assert_type(flexor_shape.currentDriver, ShortPlugOperator)
+
+    geo_connectable = nodes.create.geoConnectable(
+        name="geoConnectableShape",
+        parent=parent,
+    )
+    assert_type(geo_connectable, GeoConnectable)
+    assert_type(geo_connectable.doVelocity, BoolPlugOperator)
+
+    cluster_handle = nodes.create.clusterHandle(
+        name="clusterHandleShape",
+        parent=parent,
+    )
+    assert_type(cluster_handle, ClusterHandle)
+    assert_type(
+        cluster_handle.originX,
+        double_linear.DoubleLinearPlugOperator,
+    )
+
+    directed_disc = nodes.create.directedDisc(
+        name="directedDiscShape",
+        parent=parent,
+    )
+    assert_type(directed_disc, DirectedDisc)
+    assert_type(directed_disc.primaryVisibility, BoolPlugOperator)
+
+    dropoff_locator = nodes.create.dropoffLocator(
+        name="dropoffLocatorShape",
+        parent=parent,
+    )
+    assert_type(dropoff_locator, DropoffLocator)
+    assert_type(dropoff_locator.percent, FloatPlugOperator)
+
+    hik_floor_contact_marker = nodes.create.hikFloorContactMarker(
+        name="hikFloorContactMarkerShape",
+        parent=parent,
+    )
+    assert_type(hik_floor_contact_marker, HikFloorContactMarker)
+    assert_type(hik_floor_contact_marker.markerSize, DoublePlugOperator)
+
+    motion_trail_shape = nodes.create.motionTrailShape(
+        name="motionTrailShape",
+        parent=parent,
+    )
+    assert_type(motion_trail_shape, MotionTrailShape)
+    assert_type(motion_trail_shape.showFrames, BoolPlugOperator)
+
+    orientation_marker = nodes.create.orientationMarker(
+        name="orientationMarkerShape",
+        parent=parent,
+    )
+    assert_type(orientation_marker, OrientationMarker)
+    assert_type(orientation_marker.frontTwist, DoubleAnglePlugOperator)
+
+    position_marker = nodes.create.positionMarker(
+        name="positionMarkerShape",
+        parent=parent,
+    )
+    assert_type(position_marker, PositionMarker)
+    assert_type(position_marker.time, TimePlugOperator)
+
+    soft_mod_handle = nodes.create.softModHandle(
+        name="softModHandleShape",
+        parent=parent,
+    )
+    assert_type(soft_mod_handle, SoftModHandle)
+    assert_type(
+        soft_mod_handle.originX,
+        double_linear.DoubleLinearPlugOperator,
+    )
+
+    deform_bend = nodes.create.deformBend(
+        name="deformBendShape",
+        parent=parent,
+    )
+    assert_type(deform_bend, DeformBend)
+    assert_type(deform_bend.curvature, DoubleAnglePlugOperator)
+
+    deform_flare = nodes.create.deformFlare(
+        name="deformFlareShape",
+        parent=parent,
+    )
+    assert_type(deform_flare, DeformFlare)
+    assert_type(deform_flare.startFlareX, DoublePlugOperator)
+
+    deform_sine = nodes.create.deformSine(
+        name="deformSineShape",
+        parent=parent,
+    )
+    assert_type(deform_sine, DeformSine)
+    assert_type(deform_sine.amplitude, DoublePlugOperator)
+
+    deform_squash = nodes.create.deformSquash(
+        name="deformSquashShape",
+        parent=parent,
+    )
+    assert_type(deform_squash, DeformSquash)
+    assert_type(deform_squash.factor, DoublePlugOperator)
+
+    deform_twist = nodes.create.deformTwist(
+        name="deformTwistShape",
+        parent=parent,
+    )
+    assert_type(deform_twist, DeformTwist)
+    assert_type(deform_twist.startAngle, DoubleAnglePlugOperator)
+
+    deform_wave = nodes.create.deformWave(
+        name="deformWaveShape",
+        parent=parent,
+    )
+    assert_type(deform_wave, DeformWave)
+    assert_type(deform_wave.maxRadius, DoublePlugOperator)
+
+    environment_fog = nodes.create.environmentFog(
+        name="environmentFogShape",
+        parent=parent,
+    )
+    assert_type(environment_fog, EnvironmentFog)
+    assert_type(environment_fog.primaryVisibility, BoolPlugOperator)
+
+    fluid_texture_2d = nodes.create.fluidTexture2D(
+        name="fluidTexture2DShape",
+        parent=parent,
+    )
+    assert_type(fluid_texture_2d, FluidTexture2D)
+    assert_type(fluid_texture_2d.is2d, BoolPlugOperator)
+
+    fluid_texture_3d = nodes.create.fluidTexture3D(
+        name="fluidTexture3DShape",
+        parent=parent,
+    )
+    assert_type(fluid_texture_3d, FluidTexture3D)
+    assert_type(fluid_texture_3d.is2d, BoolPlugOperator)
+
+    height_field = nodes.create.heightField(
+        name="heightFieldShape",
+        parent=parent,
+    )
+    assert_type(height_field, HeightField)
+    assert_type(height_field.heightScale, FloatPlugOperator)
+
+    dynamic_constraint = nodes.create.dynamicConstraint(
+        name="dynamicConstraintShape",
+        parent=parent,
+    )
+    assert_type(dynamic_constraint, DynamicConstraint)
+    assert_type(dynamic_constraint.enable, BoolPlugOperator)
+
+    dyn_holder = nodes.create.dynHolder(
+        name="dynHolderShape",
+        parent=parent,
+    )
+    assert_type(dyn_holder, DynHolder)
+    assert_type(dyn_holder.connectionsToMe, MessagePlugOperator)
+
+    follicle = nodes.create.follicle(
+        name="follicleShape",
+        parent=parent,
+    )
+    assert_type(follicle, Follicle)
+    assert_type(follicle.parameterU, DoublePlugOperator)
+
+    hair_constraint = nodes.create.hairConstraint(
+        name="hairConstraintShape",
+        parent=parent,
+    )
+    assert_type(hair_constraint, HairConstraint)
+    assert_type(hair_constraint.stiffness, DoublePlugOperator)
+
+    hair_system = nodes.create.hairSystem(
+        name="hairSystemShape",
+        parent=parent,
+    )
+    assert_type(hair_system, HairSystem)
+    assert_type(hair_system.collideStrength, FloatPlugOperator)
+
+    spring = nodes.create.spring(
+        name="springShape",
+        parent=parent,
+    )
+    assert_type(spring, Spring)
+    assert_type(spring.useStiffnessPS, BoolPlugOperator)
+
+    fluid_shape = nodes.create.fluidShape(
+        name="fluidShape",
+        parent=parent,
+    )
+    assert_type(fluid_shape, FluidShape)
+    assert_type(fluid_shape.currentTime, TimePlugOperator)
+
+    n_cloth = nodes.create.nCloth(
+        name="nClothShape",
+        parent=parent,
+    )
+    assert_type(n_cloth, NCloth)
+    assert_type(n_cloth.thickness, FloatPlugOperator)
+
+    n_particle = nodes.create.nParticle(
+        name="nParticleShape",
+        parent=parent,
+    )
+    assert_type(n_particle, NParticle)
+    assert_type(n_particle.currentTime, TimePlugOperator)
+
+    n_rigid = nodes.create.nRigid(
+        name="nRigidShape",
+        parent=parent,
+    )
+    assert_type(n_rigid, NRigid)
+    assert_type(n_rigid.thickness, FloatPlugOperator)
+
+    particle = nodes.create.particle(
+        name="particleShape",
+        parent=parent,
+    )
+    assert_type(particle, Particle)
+    assert_type(particle.currentTime, TimePlugOperator)
+
+    rigid_body = nodes.create.rigidBody(
+        name="rigidBodyShape",
+        parent=parent,
+    )
+    assert_type(rigid_body, RigidBody)
+    assert_type(rigid_body.mass, DoublePlugOperator)
+
+    grease_plane = nodes.create.greasePlane(
+        name="greasePlaneShape",
+        parent=parent,
+    )
+    assert_type(grease_plane, GreasePlane)
+    assert_type(grease_plane.lockedToCamera, BoolPlugOperator)
+
+    grease_plane_render_shape = nodes.create.greasePlaneRenderShape(
+        name="greasePlaneRenderShape",
+        parent=parent,
+    )
+    assert_type(grease_plane_render_shape, GreasePlaneRenderShape)
+    assert_type(
+        grease_plane_render_shape.visibleFraction,
+        FloatPlugOperator,
+    )
+
+    line_modifier = nodes.create.lineModifier(
+        name="lineModifierShape",
+        parent=parent,
+    )
+    assert_type(line_modifier, LineModifier)
+    assert_type(line_modifier.widthScale, DoublePlugOperator)
+
+    pfx_hair = nodes.create.pfxHair(
+        name="pfxHairShape",
+        parent=parent,
+    )
+    assert_type(pfx_hair, PfxHair)
+    assert_type(pfx_hair.drawAsMesh, BoolPlugOperator)
+
+    pfx_toon = nodes.create.pfxToon(
+        name="pfxToonShape",
+        parent=parent,
+    )
+    assert_type(pfx_toon, PfxToon)
+    assert_type(pfx_toon.displayPercent, DoublePlugOperator)
+
+    stroke = nodes.create.stroke(
+        name="strokeShape",
+        parent=parent,
+    )
+    assert_type(stroke, Stroke)
+    assert_type(stroke.motionBlurred, BoolPlugOperator)
+
+    image_plane = nodes.create.imagePlane(
+        name="imagePlaneShape",
+        parent=parent,
+    )
+    assert_type(image_plane, ImagePlane)
+    assert_type(image_plane.imageName, DataStringPlugOperator)
+
+    sketch_plane = nodes.create.sketchPlane(
+        name="sketchPlaneShape",
+        parent=parent,
+    )
+    assert_type(sketch_plane, SketchPlane)
+    assert_type(sketch_plane.primaryVisibility, BoolPlugOperator)
+
+    snapshot_shape = nodes.create.snapshotShape(
+        name="snapshotShape",
+        parent=parent,
+    )
+    assert_type(snapshot_shape, SnapshotShape)
+    assert_type(snapshot_shape.showFrames, BoolPlugOperator)
+
+    stereo_rig_camera = nodes.create.stereoRigCamera(
+        name="stereoRigCameraShape",
+        parent=parent,
+    )
+    assert_type(stereo_rig_camera, StereoRigCamera)
+    assert_type(stereo_rig_camera.focalLength, DoublePlugOperator)
+
+    ufe_proxy_camera_shape = nodes.create.ufeProxyCameraShape(
+        name="ufeProxyCameraShape",
+        parent=parent,
+    )
+    assert_type(ufe_proxy_camera_shape, UfeProxyCameraShape)
+    assert_type(ufe_proxy_camera_shape.focalLength, DoublePlugOperator)
+
+    ambient_light = nodes.create.ambientLight(
+        name="ambientLightShape",
+        parent=parent,
+    )
+    assert_type(ambient_light, AmbientLight)
+
+    area_light = nodes.create.areaLight(
+        name="areaLightShape",
+        parent=parent,
+    )
+    assert_type(area_light, AreaLight)
+    assert_type(area_light.aiExposure, FloatPlugOperator)
+
+    directional_light = nodes.create.directionalLight(
+        name="directionalLightShape",
+        parent=parent,
+    )
+    assert_type(directional_light, DirectionalLight)
+
+    point_light = nodes.create.pointLight(
+        name="pointLightShape",
+        parent=parent,
+    )
+    assert_type(point_light, PointLight)
+
+    spot_light = nodes.create.spotLight(
+        name="spotLightShape",
+        parent=parent,
+    )
+    assert_type(spot_light, SpotLight)
+
+    volume_light = nodes.create.volumeLight(
+        name="volumeLightShape",
+        parent=parent,
+    )
+    assert_type(volume_light, VolumeLight)
+
+    ai_area_light = nodes.create.aiAreaLight(
+        name="aiAreaLightShape",
+        parent=parent,
+    )
+    assert_type(ai_area_light, AiAreaLight)
+    assert_type(ai_area_light.intensity, FloatPlugOperator)
+
+    ai_light_portal = nodes.create.aiLightPortal(
+        name="aiLightPortalShape",
+        parent=parent,
+    )
+    assert_type(ai_light_portal, AiLightPortal)
+
+    ai_mesh_light = nodes.create.aiMeshLight(
+        name="aiMeshLightShape",
+        parent=parent,
+    )
+    assert_type(ai_mesh_light, AiMeshLight)
+
+    ai_photometric_light = nodes.create.aiPhotometricLight(
+        name="aiPhotometricLightShape",
+        parent=parent,
+    )
+    assert_type(ai_photometric_light, AiPhotometricLight)
+
+    ai_sky_dome_light = nodes.create.aiSkyDomeLight(
+        name="aiSkyDomeLightShape",
+        parent=parent,
+    )
+    assert_type(ai_sky_dome_light, AiSkyDomeLight)
+
+    ai_curve_collector = nodes.create.aiCurveCollector(
+        name="aiCurveCollectorShape",
+        parent=parent,
+    )
+    assert_type(ai_curve_collector, AiCurveCollector)
+
+    ai_light_blocker = nodes.create.aiLightBlocker(
+        name="aiLightBlockerShape",
+        parent=parent,
+    )
+    assert_type(ai_light_blocker, AiLightBlocker)
+
+    ai_stand_in = nodes.create.aiStandIn(
+        name="aiStandInShape",
+        parent=parent,
+    )
+    assert_type(ai_stand_in, AiStandIn)
+
+    ai_volume = nodes.create.aiVolume(
+        name="aiVolumeShape",
+        parent=parent,
+    )
+    assert_type(ai_volume, AiVolume)
+
+    assert_type(nodes.existing.mesh("existing_mesh"), Mesh)
+    assert_type(nodes.existing.camera("existing_camera"), Camera)
+    assert_type(nodes.existing.locator("existing_locator"), Locator)
+    assert_type(nodes.existing.nurbsCurve("existing_curve"), NurbsCurve)
+    assert_type(
+        nodes.existing.nurbsSurface("existing_surface"),
+        NurbsSurface,
+    )
+    assert_type(
+        nodes.existing.ambientLight("existing_ambient_light"),
+        AmbientLight,
+    )
+    assert_type(nodes.existing.nParticle("existing_n_particle"), NParticle)
+    assert_type(nodes.existing.aiStandIn("existing_stand_in"), AiStandIn)
+    assert_type(
+        nodes.existing.baseLattice("existing_base_lattice"),
+        BaseLattice,
+    )
 
 
 def node_accessor_contract(nodes: bdu.Nodes) -> None:
@@ -3243,6 +4010,7 @@ def invalid_usage_contract(
     nodes.create.composeMatrix(
         unknown_option=True  # pyright: ignore[reportCallIssue]
     )
+    nodes.create.mesh()  # pyright: ignore[reportCallIssue]
     nodes.existing.decomposeMatrix(123)  # pyright: ignore[reportArgumentType]
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]

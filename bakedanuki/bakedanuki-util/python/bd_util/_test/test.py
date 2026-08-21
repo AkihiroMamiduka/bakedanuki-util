@@ -1,15 +1,23 @@
 # coding:utf-8
 
 # self
-from ..maya.node.creator._core import NodeCreator
+import bd_util as bdu
 
 
 def main():
-    creator = NodeCreator()
+    nodes = bdu.Nodes()
+    transform, loc = nodes.create.with_transform.locator(name="locator")
+    transform.translate.set(3, 6, 9)
+    loc.localScale.set(2, 3, 4)
 
-    cmp_m = creator.composeMatrix(name="cmp_m")
-    mult_m = creator.multMatrix(name="mult_m")
+    cam = nodes.create.camera(name="camera", parent=transform)
+    cam.focalLength.set(100)
 
-    cmp_m.outputMatrix.connect(mult_m.matrixIn[next])
+    jnt = nodes.create.joint(name="jnt_locator")
+    jnt.drawStyle.set(jnt.drawStyle.NONE)
+    jnt.rotate.set(45, 30, 90)
+    jnt_loc = nodes.create.locator(name=f"{jnt.name}Shape", parent=jnt)
+    jnt_loc.localScale.set(2, 5, 8)
 
-    creator.modifier_manager.do_it_dg()
+    nodes.modifier_manager.do_it_dag()
+    nodes.modifier_manager.do_it_dg()

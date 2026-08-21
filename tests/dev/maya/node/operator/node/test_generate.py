@@ -3,6 +3,7 @@ import math
 
 import pytest
 
+from bd_util._dev.maya.node.operator.node import generate as generate_module
 from bd_util._dev.maya.node.operator.node.generate import (
     _ARNOLD_UNRELIABLE_DEFAULT_ATTRS,
     _AT_TYPE_MAP,
@@ -102,6 +103,27 @@ def test_arnold_unreliable_default_attrs_are_narrowly_scoped():
             }
         ),
         "aiWriteInt": frozenset({"beautyA"}),
+        "camera": frozenset(
+            {
+                "aiShutterCurve",
+                "aiShutterCurveX",
+                "aiShutterCurveY",
+            }
+        ),
+        "stereoRigCamera": frozenset(
+            {
+                "aiShutterCurve",
+                "aiShutterCurveX",
+                "aiShutterCurveY",
+            }
+        ),
+        "ufeProxyCameraShape": frozenset(
+            {
+                "aiShutterCurve",
+                "aiShutterCurveX",
+                "aiShutterCurveY",
+            }
+        ),
     }
 
 
@@ -274,6 +296,56 @@ def test_generate_node_attr_omits_known_unreliable_arnold_child_default():
     assert "layerTintR = FloatField()" in code
     assert "layerTintG = FloatField()" in code
     assert "layerTintB = FloatField(default_value=1.0)" in code
+
+
+@pytest.mark.parametrize(
+    "node_type",
+    ["camera", "stereoRigCamera", "ufeProxyCameraShape"],
+)
+def test_generate_omits_uninitialized_arnold_camera_shutter_curve_defaults(
+    node_type,
+):
+    attr_infos = [
+        _attr(
+            "aiShutterCurve",
+            "ai_shutter_curve",
+            "float2",
+            default_value=[123.0, 456.0],
+            multi=True,
+            number_of_children=2,
+            category=["arnold"],
+        ),
+        _attr(
+            "aiShutterCurveX",
+            "ai_shutter_curvex",
+            "float",
+            default_value=[123.0],
+            parent="aiShutterCurve",
+        ),
+        _attr(
+            "aiShutterCurveY",
+            "ai_shutter_curvey",
+            "float",
+            default_value=[456.0],
+            parent="aiShutterCurve",
+        ),
+    ]
+
+    node_code = generate_node_class_code(
+        node_type,
+        attr_infos=attr_infos,
+        node_kind="shape",
+    )
+    node_attr_code = generate_node_attr_code(
+        node_type,
+        attr_infos=attr_infos,
+    )
+
+    assert "aiShutterCurve = AiShutterCurveField(multi=True" in node_code
+    assert "default_value" not in node_code
+    assert node_attr_code is not None
+    assert "aiShutterCurveX = FloatField()" in node_attr_code
+    assert "aiShutterCurveY = FloatField()" in node_attr_code
 
 
 def _plus_minus_average_attr_infos() -> list[AttrInfo]:
@@ -791,6 +863,47 @@ def test_generate_escapes_reserved_field_and_class_names():
     assert "cmp = compound" in node_code
 
 
+def test_generate_avoids_light_data_base_class_name_collision():
+    attr_infos = [
+        _attr(
+            "lightData",
+            "ltd",
+            "lightData",
+            number_of_children=1,
+        ),
+        _attr(
+            "lightData.lightAmbient",
+            "la",
+            "bool",
+            parent="lightData",
+        ),
+    ]
+
+    node_attr_code = generate_node_attr_code(
+        "exampleLight",
+        attr_infos=attr_infos,
+    )
+    assert node_attr_code is not None
+    compile(node_attr_code, "example_light_node_attr.py", "exec")
+
+    assert "class LightDataValuePlugOperator(" in node_attr_code
+    assert 'LightDataPlugOperator["LightDataValueAttrOperator"]' in (
+        node_attr_code
+    )
+    assert "class LightDataValueAttrOperator(" in node_attr_code
+    assert "class LightDataValueField(" in node_attr_code
+    assert "class LightDataPlugOperator(" not in node_attr_code
+
+    node_code = generate_node_class_code(
+        "exampleLight",
+        attr_infos=attr_infos,
+    )
+    compile(node_code, "example_light.py", "exec")
+
+    assert "LightDataValueField" in node_code
+    assert "lightData = LightDataValueField()" in node_code
+
+
 def test_generate_plus_minus_average_node_class_code():
     code = generate_node_class_code(
         "plusMinusAverage",
@@ -898,6 +1011,64 @@ def test_generate_shape_node_class_code():
     assert "face = TypedField(multi=True)" in code
     assert "fc = face" in code
     assert "TODO: face" not in code
+
+
+def test_generate_shape_base_queries_abstract_node_type():
+    code = generate_node_class_code(
+        "shape",
+        node_kind="shape",
+    )
+
+    compile(code, "shape.py", "exec")
+
+    assert "class GeneratedShape(DAG):" in code
+    assert "visibility = BoolField(default_value=True)" in code
+    assert "worldMatrix = DataMatrixField(multi=True, writable=False)" in code
+
+
+def test_shape_attr_query_does_not_create_node(monkeypatch):
+    attr_infos = [_attr("outMesh", "out", "typed", data_type="mesh")]
+    queried_node_types = []
+
+    def get_by_type(node_type):
+        queried_node_types.append(node_type)
+        return attr_infos
+
+    def create_and_query(*args, **kwargs):
+        raise AssertionError("shape generation must not create a node")
+
+    monkeypatch.setattr(
+        generate_module,
+        "get_attribute_infos_by_type",
+        get_by_type,
+    )
+    monkeypatch.setattr(
+        generate_module,
+        "get_attribute_infos",
+        create_and_query,
+    )
+
+    assert generate_module._get_node_attr_infos("mesh", "shape") == attr_infos
+    assert queried_node_types == ["mesh"]
+
+
+def test_generate_concrete_shape_filters_shape_base_attributes():
+    code = generate_node_class_code(
+        "mesh",
+        attr_infos=[
+            *_shape_like_attr_infos(),
+            _attr("visibility", "v", "bool", default_value=[True]),
+        ],
+        node_kind="shape",
+        inherited_attr_infos=[
+            _attr("visibility", "v", "bool", default_value=[True]),
+        ],
+    )
+
+    compile(code, "mesh.py", "exec")
+
+    assert "visibility = BoolField(" not in code
+    assert "outMesh = DataMeshField(writable=False)" in code
 
 
 def test_generate_field_init_args_include_attribute_metadata():

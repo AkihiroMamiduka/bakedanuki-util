@@ -166,13 +166,17 @@ generate_node_class_file("transform", path, node_kind="transform")
   - `node/dag/shape/_generated` に、通常は `Generated<NodeClass>(Shape)` を出力します。
   - `node_type == "shape"` の場合は `shape.py` に `GeneratedShape(DAG)` を出力します。
   - 手書きの `_core.py` にある公開 `Shape` は `GeneratedShape` を継承します。
+  - 抽象 `shape` の attribute は node instance を作成せず、`MNodeClass` と
+    `cmds.attributeQuery(..., type="shape")` から取得します。
+  - concrete shape では `Shape` に生成済みの共通 attribute を除外します。
 - `auto`
   - Maya の `cmds.nodeType(..., inherited=True, isTypeName=True)` を使い、transform / shape / DAG / DG を自動判定します。
 
 DG の既存呼び出しとの互換のため、デフォルトは `node_kind="dg"` です。
 
-現段階では、DAG node の生成は主に `ExistingNode` で既存 node を包む準備段階です。
-特に shape node の作成 API は transform 親の扱いが絡むため、`NodeCreator` への接続や shape 作成メソッドは後段で設計します。
+shape node は全生成と作成 API の公開を分けて扱います。生成済み class は
+`nodes.existing` から利用できますが、`nodes.create` には親 Transform 必須の
+作成テストを通した node type だけを明示的に公開します。
 
 ## 命名規則
 
@@ -194,6 +198,9 @@ attribute 名は Python identifier として安全になるように変換され
 - `NodeOperator` の既存 API と衝突する field 名は `_` を追加して回避する。
   - `name` -> `name_`
   - `create` -> `create_`
+- 生成する compound class 名が imported base class 名と衝突する場合は、
+  `Value` suffix を追加する。
+  - `LightDataField` -> `LightDataValueField`
 
 Maya 側の本来の `long_name` / `short_name` と Python field 名が異なる場合は、Field constructor に `long_name=` / `short_name=` を明示します。
 
@@ -519,6 +526,18 @@ import maya.cmds as cmds
 cmds.loadPlugin("mtoa", quiet=True)
 ```
 
+標準の shape snapshot は Maya 2025 で `mtoa` をロードした状態を基準とします。
+現在の作成確認済みサンプルは `mesh` / `camera` / `nurbsCurve` / `locator` /
+`nurbsSurface` です。concrete shape 81種は正式 snapshot へ生成済みですが、
+再生成時もまず調査用出力先で TODO、構文、import、node type 名衝突を確認します。
+
+shape の attribute 取得には `MNodeClass` と type 指定の `attributeQuery` を使い、
+調査用 node instance は作成しません。これにより、作成時に特殊な初期化を要求する
+shape や Maya を不安定にする shape を、一括生成中に `createNode()` することを避けます。
+Maya 2025 + MtoA では、登録された shape 81 種すべてについて静的 query と
+生成コードの構文確認が成功しています。別々の mayapy process 間でも snapshot を
+比較し、MtoA が camera 系へ追加する未初期化 default は生成コードへ埋め込みません。
+
 生成結果には、Maya実行環境と分離した共通のBlack設定を適用します。
 正式な出力先へ生成した後は、リポジトリ直下で次を実行してください。
 
@@ -570,17 +589,18 @@ print(errors)
 
 内部実装の `ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
 公開APIの `nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
-IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の2ファイルを生成します。
+IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の3ファイルを生成します。
 
 - `python/bd_util/maya/node/existing_node.pyi`
 - `python/bd_util/maya/node/nodes.pyi`
+- `python/bd_util/maya/node/creator/_shape_with_transform.pyi`
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
     python\bd_util\_dev\maya\node\operator\node\generate_existing_node_stub.py
 ```
 
-新しい NodeOperator class を追加または再生成した場合は、両方のstubも再生成してください。
+新しい NodeOperator class を追加または再生成した場合は、3つのstubも再生成してください。
 差分を発生させず、現在のstubが最新か確認する場合は `--check` を指定します。
 `--check`はBlackによる折り返しなどのformat差分を無視し、Python ASTとして
 生成内容が一致しているかを確認します。
@@ -588,6 +608,11 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 公開基底クラスの `Shape` は、具体的な Maya node type ではありません。
 そのため `Shape` クラス自体は継承用に維持しますが、実ノードを型別に包めない
 `nodes.existing.shape()` / `ExistingNode.shape()` は補完 stub の生成対象から除外します。
+
+`_shape_with_transform.pyi` は、一括作成を検証済み shape type に限定しながら、
+`nodes.create.with_transform.mesh()` のようなアクセスで `(Transform, Mesh)` まで
+具体的な戻り値型を追えるようにします。公開対象は
+`creator/_shape_types.py` と共有するため、実行時 API と補完候補がずれません。
 
 Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。
@@ -602,6 +627,8 @@ Python キーワードと module 名が衝突する `and` / `or` / `not` は、`
 
 - `attributeType=None, dataType=None` の attribute はまだ自動解決できません。
 - DAG / shape 系では DG では目立たなかった attribute type が出る場合があります。未対応型は TODO として残し、型定義を追加してから再生成します。
+- 抽象 `shape` と concrete shape は、静的な node type query で属性を生成します。
+- shape class の生成だけでは `nodes.create` の公開対象になりません。作成確認済み type を明示的に opt-in します。
 - 生成後は必ず git diff を確認します。
 - `_generated` package 以下は再生成時に上書きされるため、手書きコードを追加しません。
 - 公開 wrapper は Generator が上書きしません。ノード固有のメソッドは公開 wrapper 側へ追加します。

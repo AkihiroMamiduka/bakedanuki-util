@@ -10,6 +10,10 @@ from importlib import resources
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 from ..operator.node.dag._core import DAG
+from ..operator.node.dag.shape._core import Shape
+from ..operator.node.dag.transform._core import Transform
+from ._shape_types import CREATABLE_SHAPE_NODE_TYPES
+from ._shape_with_transform import ShapeWithTransformCreator
 
 _VALID_MODULE_NAME_PATTERN = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 _NODE_TYPE_PATTERN = re.compile(
@@ -56,6 +60,7 @@ class NodeCreator:
         "_modifier_manager",
         "_node_cls_cache",
         "_node_names_cache",
+        "_with_transform",
     )
 
     _DG_PACKAGE = "bd_util.maya.node.operator.node.dg"
@@ -71,6 +76,7 @@ class NodeCreator:
     _CREATOR_PACKAGES = (
         _DG_PACKAGE,
         _DAG_TRANSFORM_PACKAGE,
+        _DAG_SHAPE_PACKAGE,
     )
 
     def __init__(self, modifier_manager: ModifierManager | None = None):
@@ -79,10 +85,18 @@ class NodeCreator:
             tuple[tuple[str, ...], str], type[NodeOperator]
         ] = {}
         self._node_names_cache: tuple[str, ...] | None = None
+        self._with_transform = ShapeWithTransformCreator(
+            self._modifier_manager,
+            self._creator_node_class,
+        )
 
     @property
     def modifier_manager(self) -> ModifierManager:
         return self._modifier_manager
+
+    @property
+    def with_transform(self) -> ShapeWithTransformCreator:
+        return self._with_transform
 
     def create(
         self,
@@ -117,10 +131,16 @@ class NodeCreator:
         )
 
     def _creator_node_class(self, node_name: str) -> type[NodeOperator]:
-        return self._node_class_from_packages(
+        node_cls = self._node_class_from_packages(
             node_name,
             self._CREATOR_PACKAGES,
         )
+        if (
+            issubclass(node_cls, Shape)
+            and node_cls.NODE_TYPE not in CREATABLE_SHAPE_NODE_TYPES
+        ):
+            raise AttributeError(f"Unsupported node type: {node_name}")
+        return node_cls
 
     def _node_class_from_packages(
         self,
@@ -194,6 +214,11 @@ class NodeCreator:
                     )
                 except ValueError:
                     continue
+                if (
+                    package_name == self._DAG_SHAPE_PACKAGE
+                    and node_type not in CREATABLE_SHAPE_NODE_TYPES
+                ):
+                    continue
                 names.add(_node_type_to_creator_name(node_type))
 
         sorted_names = sorted(names)
@@ -206,7 +231,24 @@ class NodeCreator:
 
         node_cls = self._creator_node_class(node_name)
 
-        if issubclass(node_cls, DAG):
+        if issubclass(node_cls, Shape):
+
+            def _create_shape(
+                name: str | None = None,
+                auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+                *,
+                parent: Transform,
+            ) -> NodeOperator:
+                return node_cls.create(
+                    self._modifier_manager,
+                    name=name,
+                    auto_add_attr=auto_add_attr,
+                    parent=parent,
+                )
+
+            create_func: Callable[..., NodeOperator] = _create_shape
+
+        elif issubclass(node_cls, DAG):
 
             def _create_dag(
                 name: str | None = None,

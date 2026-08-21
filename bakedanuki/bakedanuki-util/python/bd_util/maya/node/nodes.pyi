@@ -89,6 +89,7 @@ from .operator.node.dg.mash_waiter import MASHWaiter
 from .operator.node.dg.mash_world import MASHWorld
 from .operator.node.dg.material_x_surface_shader import MaterialXSurfaceShader
 from .operator.node.dg.r_scontainer import RScontainer
+from .operator.node.dag.shape.sphere_locator import SphereLocator
 from .operator.node.dg.unfold3_d_optimize import Unfold3DOptimize
 from .operator.node.dg.unfold3_d_unfold import Unfold3DUnfold
 from .operator.node.dg.about_to_set_value_test_node import (
@@ -110,6 +111,7 @@ from .operator.node.dg.ai_aov_filter import AiAOVFilter
 from .operator.node.dg.ai_abs import AiAbs
 from .operator.node.dg.ai_add import AiAdd
 from .operator.node.dg.ai_ambient_occlusion import AiAmbientOcclusion
+from .operator.node.dag.shape.ai_area_light import AiAreaLight
 from .operator.node.dg.ai_atan import AiAtan
 from .operator.node.dg.ai_atmosphere_volume import AiAtmosphereVolume
 from .operator.node.dg.ai_axf_shader import AiAxfShader
@@ -135,6 +137,7 @@ from .operator.node.dg.ai_complex_ior import AiComplexIor
 from .operator.node.dg.ai_composite import AiComposite
 from .operator.node.dg.ai_cross import AiCross
 from .operator.node.dg.ai_curvature import AiCurvature
+from .operator.node.dag.shape.ai_curve_collector import AiCurveCollector
 from .operator.node.dg.ai_disable import AiDisable
 from .operator.node.dg.ai_distance import AiDistance
 from .operator.node.dg.ai_divide import AiDivide
@@ -169,7 +172,9 @@ from .operator.node.dg.ai_layer_float import AiLayerFloat
 from .operator.node.dg.ai_layer_rgba import AiLayerRgba
 from .operator.node.dg.ai_layer_shader import AiLayerShader
 from .operator.node.dg.ai_length import AiLength
+from .operator.node.dag.shape.ai_light_blocker import AiLightBlocker
 from .operator.node.dg.ai_light_decay import AiLightDecay
+from .operator.node.dag.shape.ai_light_portal import AiLightPortal
 from .operator.node.dg.ai_log import AiLog
 from .operator.node.dg.ai_look_switch import AiLookSwitch
 from .operator.node.dg.ai_material_x_shader import AiMaterialXShader
@@ -180,6 +185,7 @@ from .operator.node.dg.ai_matrix_transform import AiMatrixTransform
 from .operator.node.dg.ai_matte import AiMatte
 from .operator.node.dg.ai_max import AiMax
 from .operator.node.dg.ai_merge import AiMerge
+from .operator.node.dag.shape.ai_mesh_light import AiMeshLight
 from .operator.node.dg.ai_min import AiMin
 from .operator.node.dg.ai_mix_shader import AiMixShader
 from .operator.node.dg.ai_modulo import AiModulo
@@ -192,6 +198,7 @@ from .operator.node.dg.ai_normalize import AiNormalize
 from .operator.node.dg.ai_options import AiOptions
 from .operator.node.dg.ai_osl_shader import AiOslShader
 from .operator.node.dg.ai_passthrough import AiPassthrough
+from .operator.node.dag.shape.ai_photometric_light import AiPhotometricLight
 from .operator.node.dg.ai_physical_sky import AiPhysicalSky
 from .operator.node.dg.ai_pow import AiPow
 from .operator.node.dg.ai_ramp_float import AiRampFloat
@@ -214,8 +221,10 @@ from .operator.node.dg.ai_shuffle import AiShuffle
 from .operator.node.dg.ai_sign import AiSign
 from .operator.node.dg.ai_skin import AiSkin
 from .operator.node.dg.ai_sky import AiSky
+from .operator.node.dag.shape.ai_sky_dome_light import AiSkyDomeLight
 from .operator.node.dg.ai_space_transform import AiSpaceTransform
 from .operator.node.dg.ai_sqrt import AiSqrt
+from .operator.node.dag.shape.ai_stand_in import AiStandIn
 from .operator.node.dg.ai_standard import AiStandard
 from .operator.node.dg.ai_standard_hair import AiStandardHair
 from .operator.node.dg.ai_standard_surface import AiStandardSurface
@@ -245,6 +254,7 @@ from .operator.node.dg.ai_uv_projection import AiUvProjection
 from .operator.node.dg.ai_uv_transform import AiUvTransform
 from .operator.node.dg.ai_vector_map import AiVectorMap
 from .operator.node.dg.ai_vector_to_rgb import AiVectorToRgb
+from .operator.node.dag.shape.ai_volume import AiVolume
 from .operator.node.dg.ai_volume_collector import AiVolumeCollector
 from .operator.node.dg.ai_volume_sample_float import AiVolumeSampleFloat
 from .operator.node.dg.ai_volume_sample_rgb import AiVolumeSampleRgb
@@ -257,7 +267,9 @@ from .operator.node.dg.ai_write_vector import AiWriteVector
 from .operator.node.dg.aim_matrix import AimMatrix
 from .operator.node.dg.align_curve import AlignCurve
 from .operator.node.dg.align_surface import AlignSurface
+from .operator.node.dag.shape.ambient_light import AmbientLight
 from .operator.node.dg.angle_between import AngleBetween
+from .operator.node.dag.shape.angle_dimension import AngleDimension
 from .operator.node.dg.anim_blend import AnimBlend
 from .operator.node.dg.anim_blend_in_out import AnimBlendInOut
 from .operator.node.dg.anim_blend_node_additive import AnimBlendNodeAdditive
@@ -300,6 +312,7 @@ from .operator.node.dg.anim_curve_ut import AnimCurveUT
 from .operator.node.dg.anim_curve_uu import AnimCurveUU
 from .operator.node.dg.anim_layer import AnimLayer
 from .operator.node.dg.anisotropic import Anisotropic
+from .operator.node.dag.shape.annotation_shape import AnnotationShape
 from .operator.node.dg.aov_child_collection import AovChildCollection
 from .operator.node.dg.aov_collection import AovCollection
 from .operator.node.dg.apply_abs2_floats_override import (
@@ -325,6 +338,8 @@ from .operator.node.dg.apply_rel3_floats_override import (
 from .operator.node.dg.apply_rel_float_override import ApplyRelFloatOverride
 from .operator.node.dg.apply_rel_int_override import ApplyRelIntOverride
 from .operator.node.dg.apply_rel_override import ApplyRelOverride
+from .operator.node.dag.shape.arc_length_dimension import ArcLengthDimension
+from .operator.node.dag.shape.area_light import AreaLight
 from .operator.node.dg.arnold_aov_child_selector import ArnoldAOVChildSelector
 from .operator.node.dg.array_mapper import ArrayMapper
 from .operator.node.dg.aruba_tessellate import ArubaTessellate
@@ -341,6 +356,7 @@ from .operator.node.dg.avg_nurbs_surface_points import AvgNurbsSurfacePoints
 from .operator.node.dg.avg_surface_points import AvgSurfacePoints
 from .operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from .operator.node.dg.axis_from_matrix import AxisFromMatrix
+from .operator.node.dag.shape.base_lattice import BaseLattice
 from .operator.node.dg.basic_selector import BasicSelector
 from .operator.node.dg.bd_any_condition_dbl import BdAnyConditionDbl
 from .operator.node.dg.bd_any_condition_dbl_a import BdAnyConditionDblA
@@ -554,6 +570,7 @@ from .operator.node.dg.bd_rbf_position_falloff_weight import (
 from .operator.node.dg.bd_rbf_position_weight import BdRbfPositionWeight
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
+from .operator.node.dag.shape.bezier_curve import BezierCurve
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
 from .operator.node.dg.bifrost_board import BifrostBoard
 from .operator.node.dg.bifrost_geo_to_maya import BifrostGeoToMaya
@@ -609,6 +626,8 @@ from .operator.node.dg.closest_point_on_surface import ClosestPointOnSurface
 from .operator.node.dg.cloth import Cloth
 from .operator.node.dg.cloud import Cloud
 from .operator.node.dg.cluster import Cluster
+from .operator.node.dag.shape.cluster_flexor_shape import ClusterFlexorShape
+from .operator.node.dag.shape.cluster_handle import ClusterHandle
 from .operator.node.dg.collection import Collection
 from .operator.node.dg.color_composite import ColorComposite
 from .operator.node.dg.color_condition import ColorCondition
@@ -668,6 +687,12 @@ from .operator.node.dg.default_render_utility_list import (
 from .operator.node.dg.default_rendering_list import DefaultRenderingList
 from .operator.node.dg.default_shader_list import DefaultShaderList
 from .operator.node.dg.default_texture_list import DefaultTextureList
+from .operator.node.dag.shape.deform_bend import DeformBend
+from .operator.node.dag.shape.deform_flare import DeformFlare
+from .operator.node.dag.shape.deform_sine import DeformSine
+from .operator.node.dag.shape.deform_squash import DeformSquash
+from .operator.node.dag.shape.deform_twist import DeformTwist
+from .operator.node.dag.shape.deform_wave import DeformWave
 from .operator.node.dg.delete_color_set import DeleteColorSet
 from .operator.node.dg.delete_component import DeleteComponent
 from .operator.node.dg.delete_uv_set import DeleteUVSet
@@ -675,18 +700,24 @@ from .operator.node.dg.delta_mush import DeltaMush
 from .operator.node.dg.detach_curve import DetachCurve
 from .operator.node.dg.detach_surface import DetachSurface
 from .operator.node.dg.determinant import Determinant
+from .operator.node.dag.shape.directed_disc import DirectedDisc
+from .operator.node.dag.shape.directional_light import DirectionalLight
 from .operator.node.dg.disk_cache import DiskCache
 from .operator.node.dg.displacement_shader import DisplacementShader
 from .operator.node.dg.display_layer import DisplayLayer
 from .operator.node.dg.display_layer_manager import DisplayLayerManager
 from .operator.node.dg.distance_between import DistanceBetween
+from .operator.node.dag.shape.distance_dim_shape import DistanceDimShape
 from .operator.node.dg.divide import Divide
 from .operator.node.dg.dof import Dof
 from .operator.node.dg.dot_product import DotProduct
 from .operator.node.dg.double_shading_switch import DoubleShadingSwitch
 from .operator.node.dg.dp_birail_srf import DpBirailSrf
+from .operator.node.dag.shape.dropoff_locator import DropoffLocator
 from .operator.node.dg.dyn_controller import DynController
 from .operator.node.dg.dyn_globals import DynGlobals
+from .operator.node.dag.shape.dyn_holder import DynHolder
+from .operator.node.dag.shape.dynamic_constraint import DynamicConstraint
 from .operator.node.dg.edit_metadata import EditMetadata
 from .operator.node.dg.edits_manager import EditsManager
 from .operator.node.dg.env_ball import EnvBall
@@ -696,6 +727,7 @@ from .operator.node.dg.env_facade import EnvFacade
 from .operator.node.dg.env_fog import EnvFog
 from .operator.node.dg.env_sky import EnvSky
 from .operator.node.dg.env_sphere import EnvSphere
+from .operator.node.dag.shape.environment_fog import EnvironmentFog
 from .operator.node.dg.equal import Equal
 from .operator.node.dg.euler_to_quat import EulerToQuat
 from .operator.node.dg.explode_nurbs_shell import ExplodeNurbsShell
@@ -712,6 +744,7 @@ from .operator.node.dg.ffd import Ffd
 from .operator.node.dg.file import File
 from .operator.node.dg.fillet_curve import FilletCurve
 from .operator.node.dg.fit_bspline import FitBspline
+from .operator.node.dag.shape.flexor_shape import FlexorShape
 from .operator.node.dg.float_composite import FloatComposite
 from .operator.node.dg.float_condition import FloatCondition
 from .operator.node.dg.float_constant import FloatConstant
@@ -721,11 +754,16 @@ from .operator.node.dg.float_mask import FloatMask
 from .operator.node.dg.float_math import FloatMath
 from .operator.node.dg.floor import Floor
 from .operator.node.dg.flow import Flow
+from .operator.node.dag.shape.fluid_shape import FluidShape
+from .operator.node.dag.shape.fluid_texture2_d import FluidTexture2D
+from .operator.node.dag.shape.fluid_texture3_d import FluidTexture3D
+from .operator.node.dag.shape.follicle import Follicle
 from .operator.node.dg.four_by_four_matrix import FourByFourMatrix
 from .operator.node.dg.fractal import Fractal
 from .operator.node.dg.frame_cache import FrameCache
 from .operator.node.dg.game_fbx_exporter import GameFbxExporter
 from .operator.node.dg.gamma_correct import GammaCorrect
+from .operator.node.dag.shape.geo_connectable import GeoConnectable
 from .operator.node.dg.geo_connector import GeoConnector
 from .operator.node.dg.geom_bind import GeomBind
 from .operator.node.dg.geometry_filter import GeometryFilter
@@ -733,23 +771,33 @@ from .operator.node.dg.global_cache_control import GlobalCacheControl
 from .operator.node.dg.global_stitch import GlobalStitch
 from .operator.node.dg.granite import Granite
 from .operator.node.dg.grease_pencil_sequence import GreasePencilSequence
+from .operator.node.dag.shape.grease_plane import GreasePlane
+from .operator.node.dag.shape.grease_plane_render_shape import (
+    GreasePlaneRenderShape,
+)
 from .operator.node.dg.greater_than import GreaterThan
 from .operator.node.dg.grid import Grid
 from .operator.node.dg.group import Group
 from .operator.node.dg.group_id import GroupId
 from .operator.node.dg.group_parts import GroupParts
 from .operator.node.dg.guide import Guide
+from .operator.node.dag.shape.hair_constraint import HairConstraint
 from .operator.node.dg.hair_physical_shader import HairPhysicalShader
+from .operator.node.dag.shape.hair_system import HairSystem
 from .operator.node.dg.hair_tube_shader import HairTubeShader
 from .operator.node.dg.harden_point import HardenPoint
 from .operator.node.dg.hardware_render_globals import HardwareRenderGlobals
 from .operator.node.dg.hardware_rendering_globals import (
     HardwareRenderingGlobals,
 )
+from .operator.node.dag.shape.height_field import HeightField
 from .operator.node.dg.hierarchy_test_node1 import HierarchyTestNode1
 from .operator.node.dg.hierarchy_test_node2 import HierarchyTestNode2
 from .operator.node.dg.hierarchy_test_node3 import HierarchyTestNode3
 from .operator.node.dg.hierarchy_test_node4 import HierarchyTestNode4
+from .operator.node.dag.shape.hik_floor_contact_marker import (
+    HikFloorContactMarker,
+)
 from .operator.node.dg.hik_solver import HikSolver
 from .operator.node.dg.history_switch import HistorySwitch
 from .operator.node.dg.hold_matrix import HoldMatrix
@@ -767,6 +815,10 @@ from .operator.node.dg.ik_s_csolver import IkSCsolver
 from .operator.node.dg.ik_spline_solver import IkSplineSolver
 from .operator.node.dg.ik_spring_solver import IkSpringSolver
 from .operator.node.dg.ik_system import IkSystem
+from .operator.node.dag.shape.image_plane import ImagePlane
+from .operator.node.dag.shape.implicit_box import ImplicitBox
+from .operator.node.dag.shape.implicit_cone import ImplicitCone
+from .operator.node.dag.shape.implicit_sphere import ImplicitSphere
 from .operator.node.dg.insert_knot_curve import InsertKnotCurve
 from .operator.node.dg.insert_knot_surface import InsertKnotSurface
 from .operator.node.dg.intersect_surface import IntersectSurface
@@ -779,6 +831,7 @@ from .operator.node.dg.joint_ffd import JointFfd
 from .operator.node.dg.joint_lattice import JointLattice
 from .operator.node.dg.keying_group import KeyingGroup
 from .operator.node.dg.lambert import Lambert
+from .operator.node.dag.shape.lattice import Lattice
 from .operator.node.dg.layered_shader import LayeredShader
 from .operator.node.dg.layered_texture import LayeredTexture
 from .operator.node.dg.least_squares_modifier import LeastSquaresModifier
@@ -799,7 +852,9 @@ from .operator.node.dg.lights_collection import LightsCollection
 from .operator.node.dg.lights_collection_selector import (
     LightsCollectionSelector,
 )
+from .operator.node.dag.shape.line_modifier import LineModifier
 from .operator.node.dg.list_item import ListItem
+from .operator.node.dag.shape.locator import Locator
 from .operator.node.dg.lod_thresholds import LodThresholds
 from .operator.node.dg.loft import Loft
 from .operator.node.dg.log import Log
@@ -848,6 +903,7 @@ from .operator.node.dg.modulo import Modulo
 from .operator.node.dg.morph import Morph
 from .operator.node.dg.motion_path import MotionPath
 from .operator.node.dg.motion_trail import MotionTrail
+from .operator.node.dag.shape.motion_trail_shape import MotionTrailShape
 from .operator.node.dg.mountain import Mountain
 from .operator.node.dg.movie import Movie
 from .operator.node.dg.mp_birail_srf import MpBirailSrf
@@ -859,7 +915,10 @@ from .operator.node.dg.multiply_divide import MultiplyDivide
 from .operator.node.dg.multiply_point_by_matrix import MultiplyPointByMatrix
 from .operator.node.dg.multiply_vector_by_matrix import MultiplyVectorByMatrix
 from .operator.node.dg.mute import Mute
+from .operator.node.dag.shape.n_cloth import NCloth
 from .operator.node.dg.n_component import NComponent
+from .operator.node.dag.shape.n_particle import NParticle
+from .operator.node.dag.shape.n_rigid import NRigid
 from .operator.node.dg.nearest_point_on_curve import NearestPointOnCurve
 from .operator.node.dg.negate import Negate
 from .operator.node.dg.network import Network
@@ -872,7 +931,9 @@ from .operator.node.dg.node_graph_editor_bookmarks import (
 from .operator.node.dg.noise import Noise
 from .operator.node.dg.non_linear import NonLinear
 from .operator.node.dg.normalize import Normalize
+from .operator.node.dag.shape.nurbs_curve import NurbsCurve
 from .operator.node.dg.nurbs_curve_to_bezier import NurbsCurveToBezier
+from .operator.node.dag.shape.nurbs_surface import NurbsSurface
 from .operator.node.dg.nurbs_tessellate import NurbsTessellate
 from .operator.node.dg.nurbs_to_subdiv import NurbsToSubdiv
 from .operator.node.dg.nurbs_to_subdiv_proc import NurbsToSubdivProc
@@ -895,9 +956,12 @@ from .operator.node.dg.offset_surface import OffsetSurface
 from .operator.node.dg.old_blind_data_base import OldBlindDataBase
 from .operator.node.dg.old_geometry_constraint import OldGeometryConstraint
 from .operator.node.dg.optical_fx import OpticalFX
+from .operator.node.dag.shape.orientation_marker import OrientationMarker
 from .operator.node.dg.override import Override
 from .operator.node.dg.pair_blend import PairBlend
+from .operator.node.dag.shape.param_dimension import ParamDimension
 from .operator.node.dg.parent_matrix import ParentMatrix
+from .operator.node.dag.shape.particle import Particle
 from .operator.node.dg.particle_age_mapper import ParticleAgeMapper
 from .operator.node.dg.particle_cloud import ParticleCloud
 from .operator.node.dg.particle_color_mapper import ParticleColorMapper
@@ -907,6 +971,8 @@ from .operator.node.dg.particle_transp_mapper import ParticleTranspMapper
 from .operator.node.dg.partition import Partition
 from .operator.node.dg.pass_contribution_map import PassContributionMap
 from .operator.node.dg.pass_matrix import PassMatrix
+from .operator.node.dag.shape.pfx_hair import PfxHair
+from .operator.node.dag.shape.pfx_toon import PfxToon
 from .operator.node.dg.phong import Phong
 from .operator.node.dg.phong_e import PhongE
 from .operator.node.dg.pi import Pi
@@ -914,6 +980,7 @@ from .operator.node.dg.pick_matrix import PickMatrix
 from .operator.node.dg.place2d_texture import Place2dTexture
 from .operator.node.dg.planar_trim_surface import PlanarTrimSurface
 from .operator.node.dg.plus_minus_average import PlusMinusAverage
+from .operator.node.dag.shape.point_light import PointLight
 from .operator.node.dg.point_matrix_mult import PointMatrixMult
 from .operator.node.dg.point_on_curve_info import PointOnCurveInfo
 from .operator.node.dg.point_on_surface_info import PointOnSurfaceInfo
@@ -1031,6 +1098,7 @@ from .operator.node.dg.poly_unite import PolyUnite
 from .operator.node.dg.poly_unsmooth import PolyUnsmooth
 from .operator.node.dg.poly_wedge_face import PolyWedgeFace
 from .operator.node.dg.pose_interpolator_manager import PoseInterpolatorManager
+from .operator.node.dag.shape.position_marker import PositionMarker
 from .operator.node.dg.post_process_list import PostProcessList
 from .operator.node.dg.power import Power
 from .operator.node.dg.precomp_export import PrecompExport
@@ -1070,6 +1138,8 @@ from .operator.node.dg.rel_unique_override import RelUniqueOverride
 from .operator.node.dg.remap_color import RemapColor
 from .operator.node.dg.remap_hsv import RemapHsv
 from .operator.node.dg.remap_value import RemapValue
+from .operator.node.dag.shape.render_box import RenderBox
+from .operator.node.dag.shape.render_cone import RenderCone
 from .operator.node.dg.render_globals import RenderGlobals
 from .operator.node.dg.render_globals_list import RenderGlobalsList
 from .operator.node.dg.render_layer import RenderLayer
@@ -1077,6 +1147,7 @@ from .operator.node.dg.render_layer_manager import RenderLayerManager
 from .operator.node.dg.render_pass import RenderPass
 from .operator.node.dg.render_pass_set import RenderPassSet
 from .operator.node.dg.render_quality import RenderQuality
+from .operator.node.dag.shape.render_rect import RenderRect
 from .operator.node.dg.render_settings_child_collection import (
     RenderSettingsChildCollection,
 )
@@ -1085,6 +1156,7 @@ from .operator.node.dg.render_settings_collection import (
 )
 from .operator.node.dg.render_setup import RenderSetup
 from .operator.node.dg.render_setup_layer import RenderSetupLayer
+from .operator.node.dag.shape.render_sphere import RenderSphere
 from .operator.node.dg.render_target import RenderTarget
 from .operator.node.dg.rendered_image_source import RenderedImageSource
 from .operator.node.dg.reorder_uv_set import ReorderUVSet
@@ -1104,6 +1176,7 @@ from .operator.node.dg.reverse_curve import ReverseCurve
 from .operator.node.dg.reverse_surface import ReverseSurface
 from .operator.node.dg.revolve import Revolve
 from .operator.node.dg.rgb_to_hsv import RgbToHsv
+from .operator.node.dag.shape.rigid_body import RigidBody
 from .operator.node.dg.rigid_solver import RigidSolver
 from .operator.node.dg.rock import Rock
 from .operator.node.dg.rotate_helper import RotateHelper
@@ -1137,22 +1210,29 @@ from .operator.node.dg.simple_volume_shader import SimpleVolumeShader
 from .operator.node.dg.simplex_noise import SimplexNoise
 from .operator.node.dg.sin import Sin
 from .operator.node.dg.single_shading_switch import SingleShadingSwitch
+from .operator.node.dag.shape.sketch_plane import SketchPlane
 from .operator.node.dg.skin_binding import SkinBinding
 from .operator.node.dg.skin_cluster import SkinCluster
 from .operator.node.dg.smooth_curve import SmoothCurve
 from .operator.node.dg.smooth_step import SmoothStep
 from .operator.node.dg.smooth_tangent_srf import SmoothTangentSrf
 from .operator.node.dg.snapshot import Snapshot
+from .operator.node.dag.shape.snapshot_shape import SnapshotShape
 from .operator.node.dg.snow import Snow
 from .operator.node.dg.soft_mod import SoftMod
+from .operator.node.dag.shape.soft_mod_handle import SoftModHandle
 from .operator.node.dg.solid_fractal import SolidFractal
 from .operator.node.dg.solidify import Solidify
 from .operator.node.dg.sp_birail_srf import SpBirailSrf
+from .operator.node.dag.shape.spot_light import SpotLight
+from .operator.node.dag.shape.spring import Spring
 from .operator.node.dg.square_srf import SquareSrf
 from .operator.node.dg.standard_surface import StandardSurface
 from .operator.node.dg.stencil import Stencil
+from .operator.node.dag.shape.stereo_rig_camera import StereoRigCamera
 from .operator.node.dg.stitch_as_nurbs_shell import StitchAsNurbsShell
 from .operator.node.dg.stitch_srf import StitchSrf
+from .operator.node.dag.shape.stroke import Stroke
 from .operator.node.dg.stroke_globals import StrokeGlobals
 from .operator.node.dg.stucco import Stucco
 from .operator.node.dg.style_curve import StyleCurve
@@ -1169,6 +1249,7 @@ from .operator.node.dg.subd_map_sew_move import SubdMapSewMove
 from .operator.node.dg.subd_planar_proj import SubdPlanarProj
 from .operator.node.dg.subd_tweak import SubdTweak
 from .operator.node.dg.subd_tweak_uv import SubdTweakUV
+from .operator.node.dag.shape.subdiv import Subdiv
 from .operator.node.dg.subdiv_collapse import SubdivCollapse
 from .operator.node.dg.subdiv_component_id import SubdivComponentId
 from .operator.node.dg.subdiv_reverse_faces import SubdivReverseFaces
@@ -1217,6 +1298,7 @@ from .operator.node.dg.truncate import Truncate
 from .operator.node.dg.tweak import Tweak
 from .operator.node.dg.type import Type
 from .operator.node.dg.type_extrude import TypeExtrude
+from .operator.node.dag.shape.ufe_proxy_camera_shape import UfeProxyCameraShape
 from .operator.node.dg.uniform_falloff import UniformFalloff
 from .operator.node.dg.unit_conversion import UnitConversion
 from .operator.node.dg.unit_to_time_conversion import UnitToTimeConversion
@@ -1234,6 +1316,7 @@ from .operator.node.dg.vector_product import VectorProduct
 from .operator.node.dg.vertex_bake_set import VertexBakeSet
 from .operator.node.dg.view_color_manager import ViewColorManager
 from .operator.node.dg.volume_fog import VolumeFog
+from .operator.node.dag.shape.volume_light import VolumeLight
 from .operator.node.dg.volume_noise import VolumeNoise
 from .operator.node.dg.volume_shader import VolumeShader
 from .operator.node.dg.water import Water
@@ -1617,6 +1700,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RScontainer: ...
+    def SphereLocator(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> SphereLocator: ...
     def Unfold3DOptimize(
         self,
         node: str | om.MObject,
@@ -1702,6 +1790,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAmbientOcclusion: ...
+    def aiAreaLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AiAreaLight: ...
     def aiAtan(
         self,
         node: str | om.MObject,
@@ -1827,6 +1920,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCurvature: ...
+    def aiCurveCollector(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AiCurveCollector: ...
     def aiDisable(
         self,
         node: str | om.MObject,
@@ -1997,11 +2095,21 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLength: ...
+    def aiLightBlocker(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AiLightBlocker: ...
     def aiLightDecay(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLightDecay: ...
+    def aiLightPortal(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AiLightPortal: ...
     def aiLog(
         self,
         node: str | om.MObject,
@@ -2052,6 +2160,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMerge: ...
+    def aiMeshLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AiMeshLight: ...
     def aiMin(
         self,
         node: str | om.MObject,
@@ -2112,6 +2225,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiPassthrough: ...
+    def aiPhotometricLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AiPhotometricLight: ...
     def aiPhysicalSky(
         self,
         node: str | om.MObject,
@@ -2222,6 +2340,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSky: ...
+    def aiSkyDomeLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AiSkyDomeLight: ...
     def aiSpaceTransform(
         self,
         node: str | om.MObject,
@@ -2232,6 +2355,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSqrt: ...
+    def aiStandIn(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AiStandIn: ...
     def aiStandard(
         self,
         node: str | om.MObject,
@@ -2377,6 +2505,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiVectorToRgb: ...
+    def aiVolume(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AiVolume: ...
     def aiVolumeCollector(
         self,
         node: str | om.MObject,
@@ -2437,6 +2570,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AlignSurface: ...
+    def ambientLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AmbientLight: ...
     def and_(
         self,
         node: str | om.MObject,
@@ -2447,6 +2585,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AngleBetween: ...
+    def angleDimension(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AngleDimension: ...
     def animBlend(
         self,
         node: str | om.MObject,
@@ -2577,6 +2720,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Anisotropic: ...
+    def annotationShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AnnotationShape: ...
     def aovChildCollection(
         self,
         node: str | om.MObject,
@@ -2662,6 +2810,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyRelOverride: ...
+    def arcLengthDimension(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ArcLengthDimension: ...
+    def areaLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AreaLight: ...
     def arnoldAOVChildSelector(
         self,
         node: str | om.MObject,
@@ -2742,6 +2900,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AxisFromMatrix: ...
+    def baseLattice(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BaseLattice: ...
     def basicSelector(
         self,
         node: str | om.MObject,
@@ -3537,6 +3700,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BevelPlus: ...
+    def bezierCurve(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BezierCurve: ...
     def bezierCurveToNurbs(
         self,
         node: str | om.MObject,
@@ -3812,6 +3980,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Cluster: ...
+    def clusterFlexorShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ClusterFlexorShape: ...
+    def clusterHandle(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ClusterHandle: ...
     def collection(
         self,
         node: str | om.MObject,
@@ -4087,6 +4265,36 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DefaultTextureList: ...
+    def deformBend(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DeformBend: ...
+    def deformFlare(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DeformFlare: ...
+    def deformSine(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DeformSine: ...
+    def deformSquash(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DeformSquash: ...
+    def deformTwist(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DeformTwist: ...
+    def deformWave(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DeformWave: ...
     def deleteColorSet(
         self,
         node: str | om.MObject,
@@ -4122,6 +4330,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Determinant: ...
+    def directedDisc(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DirectedDisc: ...
+    def directionalLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DirectionalLight: ...
     def diskCache(
         self,
         node: str | om.MObject,
@@ -4147,6 +4365,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DistanceBetween: ...
+    def distanceDimShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DistanceDimShape: ...
     def divide(
         self,
         node: str | om.MObject,
@@ -4172,6 +4395,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DpBirailSrf: ...
+    def dropoffLocator(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DropoffLocator: ...
     def dynController(
         self,
         node: str | om.MObject,
@@ -4182,6 +4410,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DynGlobals: ...
+    def dynHolder(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DynHolder: ...
+    def dynamicConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> DynamicConstraint: ...
     def editMetadata(
         self,
         node: str | om.MObject,
@@ -4227,6 +4465,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EnvSphere: ...
+    def environmentFog(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> EnvironmentFog: ...
     def equal(
         self,
         node: str | om.MObject,
@@ -4307,6 +4550,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FitBspline: ...
+    def flexorShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> FlexorShape: ...
     def floatComposite(
         self,
         node: str | om.MObject,
@@ -4352,6 +4600,26 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Flow: ...
+    def fluidShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> FluidShape: ...
+    def fluidTexture2D(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> FluidTexture2D: ...
+    def fluidTexture3D(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> FluidTexture3D: ...
+    def follicle(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Follicle: ...
     def fourByFourMatrix(
         self,
         node: str | om.MObject,
@@ -4377,6 +4645,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GammaCorrect: ...
+    def geoConnectable(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> GeoConnectable: ...
     def geoConnector(
         self,
         node: str | om.MObject,
@@ -4412,6 +4685,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GreasePencilSequence: ...
+    def greasePlane(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> GreasePlane: ...
+    def greasePlaneRenderShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> GreasePlaneRenderShape: ...
     def greaterThan(
         self,
         node: str | om.MObject,
@@ -4442,11 +4725,21 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Guide: ...
+    def hairConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> HairConstraint: ...
     def hairPhysicalShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HairPhysicalShader: ...
+    def hairSystem(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> HairSystem: ...
     def hairTubeShader(
         self,
         node: str | om.MObject,
@@ -4467,6 +4760,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HardwareRenderingGlobals: ...
+    def heightField(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> HeightField: ...
     def hierarchyTestNode1(
         self,
         node: str | om.MObject,
@@ -4487,6 +4785,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode4: ...
+    def hikFloorContactMarker(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> HikFloorContactMarker: ...
     def hikSolver(
         self,
         node: str | om.MObject,
@@ -4572,6 +4875,26 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> IkSystem: ...
+    def imagePlane(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ImagePlane: ...
+    def implicitBox(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ImplicitBox: ...
+    def implicitCone(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ImplicitCone: ...
+    def implicitSphere(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ImplicitSphere: ...
     def insertKnotCurve(
         self,
         node: str | om.MObject,
@@ -4632,6 +4955,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Lambert: ...
+    def lattice(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Lattice: ...
     def layeredShader(
         self,
         node: str | om.MObject,
@@ -4722,11 +5050,21 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightsCollectionSelector: ...
+    def lineModifier(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> LineModifier: ...
     def listItem(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ListItem: ...
+    def locator(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Locator: ...
     def lodThresholds(
         self,
         node: str | om.MObject,
@@ -4917,6 +5255,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MotionTrail: ...
+    def motionTrailShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> MotionTrailShape: ...
     def mountain(
         self,
         node: str | om.MObject,
@@ -4972,11 +5315,26 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Mute: ...
+    def nCloth(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> NCloth: ...
     def nComponent(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NComponent: ...
+    def nParticle(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> NParticle: ...
+    def nRigid(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> NRigid: ...
     def nearestPointOnCurve(
         self,
         node: str | om.MObject,
@@ -5022,11 +5380,21 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
+    def nurbsCurve(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> NurbsCurve: ...
     def nurbsCurveToBezier(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NurbsCurveToBezier: ...
+    def nurbsSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> NurbsSurface: ...
     def nurbsTessellate(
         self,
         node: str | om.MObject,
@@ -5142,6 +5510,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
+    def orientationMarker(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> OrientationMarker: ...
     def override(
         self,
         node: str | om.MObject,
@@ -5152,11 +5525,21 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PairBlend: ...
+    def paramDimension(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ParamDimension: ...
     def parentMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ParentMatrix: ...
+    def particle(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Particle: ...
     def particleAgeMapper(
         self,
         node: str | om.MObject,
@@ -5202,6 +5585,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PassMatrix: ...
+    def pfxHair(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> PfxHair: ...
+    def pfxToon(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> PfxToon: ...
     def phong(
         self,
         node: str | om.MObject,
@@ -5237,6 +5630,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PlusMinusAverage: ...
+    def pointLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> PointLight: ...
     def pointMatrixMult(
         self,
         node: str | om.MObject,
@@ -5822,6 +6220,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PoseInterpolatorManager: ...
+    def positionMarker(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> PositionMarker: ...
     def postProcessList(
         self,
         node: str | om.MObject,
@@ -6007,6 +6410,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RemapValue: ...
+    def renderBox(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> RenderBox: ...
+    def renderCone(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> RenderCone: ...
     def renderGlobals(
         self,
         node: str | om.MObject,
@@ -6042,6 +6455,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderQuality: ...
+    def renderRect(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> RenderRect: ...
     def renderSettingsChildCollection(
         self,
         node: str | om.MObject,
@@ -6062,6 +6480,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderSetupLayer: ...
+    def renderSphere(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> RenderSphere: ...
     def renderTarget(
         self,
         node: str | om.MObject,
@@ -6127,6 +6550,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RgbToHsv: ...
+    def rigidBody(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> RigidBody: ...
     def rigidSolver(
         self,
         node: str | om.MObject,
@@ -6292,6 +6720,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SingleShadingSwitch: ...
+    def sketchPlane(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> SketchPlane: ...
     def skinBinding(
         self,
         node: str | om.MObject,
@@ -6322,6 +6755,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Snapshot: ...
+    def snapshotShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> SnapshotShape: ...
     def snow(
         self,
         node: str | om.MObject,
@@ -6332,6 +6770,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SoftMod: ...
+    def softModHandle(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> SoftModHandle: ...
     def solidFractal(
         self,
         node: str | om.MObject,
@@ -6347,6 +6790,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SpBirailSrf: ...
+    def spotLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> SpotLight: ...
+    def spring(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Spring: ...
     def squareSrf(
         self,
         node: str | om.MObject,
@@ -6362,6 +6815,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Stencil: ...
+    def stereoRigCamera(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> StereoRigCamera: ...
     def stitchAsNurbsShell(
         self,
         node: str | om.MObject,
@@ -6372,6 +6830,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> StitchSrf: ...
+    def stroke(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Stroke: ...
     def strokeGlobals(
         self,
         node: str | om.MObject,
@@ -6452,6 +6915,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdTweakUV: ...
+    def subdiv(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Subdiv: ...
     def subdivCollapse(
         self,
         node: str | om.MObject,
@@ -6682,6 +7150,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TypeExtrude: ...
+    def ufeProxyCameraShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> UfeProxyCameraShape: ...
     def uniformFalloff(
         self,
         node: str | om.MObject,
@@ -6767,6 +7240,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> VolumeFog: ...
+    def volumeLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> VolumeLight: ...
     def volumeNoise(
         self,
         node: str | om.MObject,

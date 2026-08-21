@@ -46,7 +46,11 @@ from typing import TypeGuard, cast
 
 # self
 from ...... import logger as u_logger
-from ......maya.attr.query import AttrInfo, get_attribute_infos
+from ......maya.attr.query import (
+    AttrInfo,
+    get_attribute_infos,
+    get_attribute_infos_by_type,
+)
 from ......maya.node.all_types import (
     get_dag_node_types,
     get_dg_node_types,
@@ -227,6 +231,14 @@ _SKIPPED_DAG_NODE_TYPE_KEYWORDS: dict[str, str] = {
 
 # Maya 2025 / MtoA で default query がプロセス依存の未初期化値を返す
 # Arnold attribute。安定した metadata として生成コードへ埋め込まない。
+_ARNOLD_CAMERA_UNRELIABLE_DEFAULT_ATTRS: frozenset[str] = frozenset(
+    {
+        "aiShutterCurve",
+        "aiShutterCurveX",
+        "aiShutterCurveY",
+    }
+)
+
 _ARNOLD_UNRELIABLE_DEFAULT_ATTRS: dict[str, frozenset[str]] = {
     "aiAOVDriver": frozenset(
         {
@@ -274,6 +286,9 @@ _ARNOLD_UNRELIABLE_DEFAULT_ATTRS: dict[str, frozenset[str]] = {
             "beautyA",
         }
     ),
+    "camera": _ARNOLD_CAMERA_UNRELIABLE_DEFAULT_ATTRS,
+    "stereoRigCamera": _ARNOLD_CAMERA_UNRELIABLE_DEFAULT_ATTRS,
+    "ufeProxyCameraShape": _ARNOLD_CAMERA_UNRELIABLE_DEFAULT_ATTRS,
 }
 
 # node class 生成時の対象種別。
@@ -841,7 +856,19 @@ def _node_kind_inherited_node_type(
 ) -> str | None:
     if node_kind == _NODE_KIND_TRANSFORM and node_type != "transform":
         return "transform"
+    if node_kind == _NODE_KIND_SHAPE and node_type != "shape":
+        return "shape"
     return None
+
+
+def _get_node_attr_infos(node_type: str, node_kind: str) -> list[AttrInfo]:
+    if node_kind == _NODE_KIND_SHAPE:
+        return get_attribute_infos_by_type(node_type)
+    return get_attribute_infos(
+        node_type,
+        mode_new_scene=True,
+        mode_error_skip=True,
+    )
 
 
 def _get_inherited_attr_infos(
@@ -859,11 +886,7 @@ def _get_inherited_attr_infos(
     if cached is not None:
         return cached
 
-    attr_infos = get_attribute_infos(
-        inherited_node_type,
-        mode_new_scene=True,
-        mode_error_skip=True,
-    )
+    attr_infos = _get_node_attr_infos(inherited_node_type, node_kind)
     _INHERITED_ATTR_INFOS_CACHE[inherited_node_type] = attr_infos
     return attr_infos
 
@@ -1436,11 +1459,15 @@ _DIGIT_WORD: dict[str, str] = {
 }
 
 
-_GENERATED_COMPOUND_CLASS_NAME_COLLISIONS = {
-    "CompoundPlugOperator",
-    "CompoundAttrOperator",
-    "CompoundField",
-}
+_GENERATED_COMPOUND_CLASS_NAME_COLLISIONS: frozenset[str] = frozenset(
+    cls_name
+    for compound_base in (
+        *_GENERIC_COMPOUND_AT_BASE.values(),
+        *_SCALAR_COMPOUND_AT_BASE.values(),
+        _QUAT_COMPOUND_AT_BASE,
+    )
+    for cls_name in compound_base[:3]
+)
 
 _MAX_GENERATED_LINE_LENGTH = 79
 
@@ -1982,11 +2009,7 @@ def generate_node_class_code(
     should_query_inherited_attrs = attr_infos is None
 
     if attr_infos is None:
-        attr_infos = get_attribute_infos(
-            node_type,
-            mode_new_scene=True,
-            mode_error_skip=True,
-        )
+        attr_infos = _get_node_attr_infos(node_type, resolved_node_kind)
 
     attr_infos = _omit_unreliable_default_values(node_type, attr_infos)
 
@@ -2292,11 +2315,7 @@ def generate_node_class_file(
         return
 
     if attr_infos is None:
-        attr_infos = get_attribute_infos(
-            node_type,
-            mode_new_scene=True,
-            mode_error_skip=True,
-        )
+        attr_infos = _get_node_attr_infos(node_type, resolved_node_kind)
 
     if inherited_attr_infos is None:
         inherited_attr_infos = _get_inherited_attr_infos(

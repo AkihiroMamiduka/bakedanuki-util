@@ -175,7 +175,8 @@ mult_div = nodes.create.multiplyDivide(name="mult_div")
 modifier_manager.do_it_dg()
 ```
 
-内部の `NodeCreator` は DG ノード名と transform 系 DAG ノード名を lazy import し、`NodeOperator.create()` を呼びます。
+内部の `NodeCreator` は DG ノード名、transform 系 DAG ノード名、作成確認済みの
+shape ノード名を lazy import し、`NodeOperator.create()` を呼びます。
 生成メソッド名は `multiplyDivide` のような Maya nodeType 名に合わせています。
 `create()` には `plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも渡せます。
 IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
@@ -195,8 +196,241 @@ child = nodes.create.transform(name="child", parent=parent)
 mod.do_it_dag()
 ```
 
-shape 系ノードは transform 親の扱いが絡むため、現時点では作成 API には出していません。
-ただし `nodes.existing` 用の class 解決対象には含めています。
+shape 系ノードは、親 `Transform` を必須として作成します。親を省略して Maya に
+Transform を自動生成させる経路は公開しません。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+transform = nodes.create.transform(name="mesh")
+mesh = nodes.create.mesh(
+    name="meshShape",
+    parent=transform,
+)
+
+mod.do_it_dag()
+```
+
+transform と shape を一度に用意する場合は、`nodes.create.with_transform` を使います。
+戻り値は `(Transform, concrete Shape)` の順で、両方が同じ `ModifierManager` に
+積まれます。`name` は transform 名を表し、`shape_name` を省略すると
+`{name}Shape` が使われます。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+transform, mesh = nodes.create.with_transform.mesh(name="mesh")
+
+mod.do_it_dag()
+```
+
+明示的な shape 名や、作成する transform の親も指定できます。
+
+```python
+group = nodes.create.transform(name="group")
+transform, camera = nodes.create.with_transform.camera(
+    name="camera",
+    shape_name="renderCameraShape",
+    parent=group,
+)
+
+mod.do_it_dag()
+```
+
+`nodes.create.mesh(parent=transform)` は親必須の raw shape 作成として維持します。
+一括作成は `nodes.create.with_transform.mesh()` という別入口にすることで、
+既存 API と transform 自動生成の意図を区別しています。
+
+### raw shape 作成と一括作成を分ける理由
+
+2つの入口は、作成するノード数だけでなく、引数と戻り値の意味も異なります。
+
+| API | 作成対象 | `name` | `parent` | 戻り値 |
+| --- | --- | --- | --- | --- |
+| `nodes.create.locator(parent=transform)` | Shapeのみ | Shape名 | Shapeの親Transform。必須 | `Locator` |
+| `nodes.create.with_transform.locator()` | Transform + Shape | Transform名 | 新規Transformの親。任意 | `tuple[Transform, Locator]` |
+
+`nodes.create.locator()` の `parent` を省略可能にし、その有無で処理を切り替える
+overload も技術的には実装できます。ただし、その設計では次の問題が生じます。
+
+- `parent` の指定漏れがエラーにならず、意図しない Transform 作成へ変わる。
+- 同じメソッドの戻り値が `Locator` または `tuple[Transform, Locator]` になる。
+- `parent: Transform | None` を渡すと戻り値も union になり、利用側で型の絞り込みが必要になる。
+- `name` と `parent` の意味が、同じメソッド内で条件によって変わる。
+- scene に1ノードを作る操作と2ノードを作る操作を、呼び出しから判別しにくい。
+
+戻り値を常に Shape のみにすれば union は避けられますが、自動作成した Transform を
+直接受け取れません。また、Transform の作成が呼び出し側から見えにくくなります。
+
+そのため、raw API は親の指定漏れを検出し、常に具体 Shape 型を返す入口として固定します。
+一括作成 API は Transform の生成を明示し、常に
+`tuple[Transform, concrete Shape]` を返す別入口として固定します。
+
+現在 `nodes.create` から作成できる shape は、動作確認済みの次の80種類です。
+
+- `aiAreaLight`
+- `aiCurveCollector`
+- `aiLightBlocker`
+- `aiLightPortal`
+- `aiMeshLight`
+- `aiPhotometricLight`
+- `aiSkyDomeLight`
+- `aiStandIn`
+- `aiVolume`
+- `ambientLight`
+- `angleDimension`
+- `annotationShape`
+- `arcLengthDimension`
+- `areaLight`
+- `baseLattice`
+- `bezierCurve`
+- `camera`
+- `clusterFlexorShape`
+- `clusterHandle`
+- `deformBend`
+- `deformFlare`
+- `deformSine`
+- `deformSquash`
+- `deformTwist`
+- `deformWave`
+- `directedDisc`
+- `directionalLight`
+- `distanceDimShape`
+- `dropoffLocator`
+- `dynamicConstraint`
+- `dynHolder`
+- `environmentFog`
+- `flexorShape`
+- `fluidShape`
+- `fluidTexture2D`
+- `fluidTexture3D`
+- `follicle`
+- `geoConnectable`
+- `greasePlane`
+- `greasePlaneRenderShape`
+- `hairConstraint`
+- `hairSystem`
+- `heightField`
+- `hikFloorContactMarker`
+- `imagePlane`
+- `implicitBox`
+- `implicitCone`
+- `implicitSphere`
+- `lattice`
+- `lineModifier`
+- `locator`
+- `mesh`
+- `motionTrailShape`
+- `nCloth`
+- `nParticle`
+- `nRigid`
+- `nurbsCurve`
+- `nurbsSurface`
+- `orientationMarker`
+- `paramDimension`
+- `particle`
+- `pfxHair`
+- `pfxToon`
+- `pointLight`
+- `positionMarker`
+- `renderBox`
+- `renderCone`
+- `renderRect`
+- `renderSphere`
+- `rigidBody`
+- `sketchPlane`
+- `snapshotShape`
+- `softModHandle`
+- `spotLight`
+- `spring`
+- `stereoRigCamera`
+- `stroke`
+- `subdiv`
+- `ufeProxyCameraShape`
+- `volumeLight`
+
+Maya 標準 light shape 6種は、指定した親 Transform と名前での作成、および
+同じ `ModifierManager` に積んだ一括 undo / redo を Maya 2025 上で確認済みです。
+MtoA ロード時は、各 light に生成されている Arnold attribute も戻り値型から利用できます。
+
+Arnold 固有 light shape 5種は MtoA のロードを前提とし、指定した親 Transform と
+名前での作成、および一括 undo / redo を Maya 2025 + MtoA 上で確認済みです。
+
+残る Arnold 固有 shape 4種も、MtoA ロード下で raw shape としての作成と
+undo / redo を確認済みです。`aiStandIn.dso` や `aiVolume.filename` の値設定、
+geometry・shader 接続など、用途別の初期化はこの API では自動実行しません。
+
+Maya 標準 geometry shape の `baseLattice` / `bezierCurve` / `lattice` / `subdiv`
+も、raw shape としての作成と undo / redo を確認済みです。geometry データや
+lattice 分割数などの内容初期化は自動実行しません。
+
+Maya 標準 primitive shape の `implicitBox` / `implicitCone` / `implicitSphere` /
+`renderBox` / `renderCone` / `renderRect` / `renderSphere` も、raw shape としての
+作成と undo / redo を確認済みです。size や radius などの値設定は自動実行しません。
+
+Maya 標準の計測・注釈 shape `angleDimension` / `annotationShape` /
+`arcLengthDimension` / `distanceDimShape` / `paramDimension` も、raw shape としての
+作成と undo / redo を確認済みです。計測点、表示テキスト、NURBS geometry との接続
+など、用途別の初期化は自動実行しません。
+
+Maya 標準の補助 locator・marker・handle shape `clusterHandle` / `directedDisc` /
+`dropoffLocator` / `hikFloorContactMarker` / `motionTrailShape` /
+`orientationMarker` / `positionMarker` / `softModHandle` も、raw shape としての作成と
+undo / redo を確認済みです。deformer、motion path、HIK などとの接続や用途別の
+初期化は自動実行しません。生成済みの `SphereLocator` class は Maya 2025 の
+標準状態で node type を作成できないため、`nodes.create` へは公開していません。
+
+Maya 標準の非線形 deformer 表示 shape `deformBend` / `deformFlare` /
+`deformSine` / `deformSquash` / `deformTwist` / `deformWave` も、raw shape としての
+作成と undo / redo を確認済みです。対応する deformer node との接続や
+`deformerData` の初期化は自動実行しません。
+
+Maya 標準の deformation connection helper shape `clusterFlexorShape` /
+`flexorShape` / `geoConnectable` も、raw shape としての作成と undo / redo を
+確認済みです。driver、flexor、surface geometry などとの接続は自動実行しません。
+
+Maya 標準のシーン表示・カメラ補助 shape `imagePlane` / `sketchPlane` /
+`snapshotShape` / `stereoRigCamera` も、raw shape としての作成と undo / redo を
+確認済みです。画像ファイル、描画内容、snapshot frame、stereo camera 接続などの
+用途別初期化は自動実行しません。
+
+Maya 標準の UFE proxy camera shape `ufeProxyCameraShape` も、標準起動状態での
+raw shape 作成と undo / redo を確認済みです。UFE scene item や camera との関連付けなど、
+用途別初期化は自動実行しません。
+
+Maya 標準のレンダリング・環境表現補助 shape `environmentFog` / `fluidTexture2D` /
+`fluidTexture3D` / `heightField` も、raw shape としての作成と undo / redo を
+確認済みです。camera、fluid data、texture、displacement などとの接続や
+用途別初期化は自動実行しません。
+
+Maya 標準の描画・Paint Effects 補助 shape `greasePlane` /
+`greasePlaneRenderShape` / `lineModifier` / `pfxHair` / `pfxToon` / `stroke` も、
+raw shape としての作成と undo / redo を確認済みです。image、brush、hair / toon
+input、render geometry、line modifier などの接続や用途別初期化は自動実行しません。
+
+Maya 標準の hair・dynamics 補助 shape `dynamicConstraint` / `dynHolder` / `follicle` /
+`hairConstraint` / `hairSystem` / `spring` も、raw shape としての作成と undo / redo を
+確認済みです。simulation設定、constraint component、hair curve、surface、solver
+などとの接続や用途別初期化は自動実行しません。
+
+Maya 標準の simulation body shape `fluidShape` / `nCloth` / `nParticle` / `nRigid` /
+`particle` / `rigidBody` も、raw shape としての作成と undo / redo を確認済みです。
+geometry・particle data、initial state、nucleus・rigid solver などとの接続や用途別初期化は
+自動実行しません。
+
+Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
+`nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。
+このうち80種は作成確認済みで、`nodes.create` へ公開しています。残る
+`SphereLocator` は Maya 2025 の標準状態で node type が登録されていないため、
+非公開のまま維持します。
+`polyCube` のように Transform、Shape、history node をまとめて作る操作は、raw shape
+作成とは別の高レベル API として扱います。
 
 ## DAG の親子操作
 

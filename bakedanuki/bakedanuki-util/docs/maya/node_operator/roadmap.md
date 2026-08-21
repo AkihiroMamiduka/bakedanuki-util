@@ -39,12 +39,28 @@
 - `lookup.py` の double4 / quat 解決対応。
 - 18 種類の compound 専用値型を追加し、scalar compound の
   `get()` / `value` / `value_direct` の戻り値へ接続。
+- DAG の `full_path` / `is_instanced` / `parent` / `parents` と、親変更時の
+  instancing 制約を追加。
+- 親 Transform 必須の raw shape 作成 API を追加。
+- `camera` / `locator` / `mesh` / `nurbsCurve` / `nurbsSurface` を最初の
+  作成確認済み shape として公開。
+- 抽象 `shape` の共通 attribute を静的 query から生成し、concrete shape の
+  重複生成から除外。
+- concrete shape も node instance を作らない静的 query へ統一し、Maya 2025 +
+  MtoA の shape 81 種で attribute 取得、TODO なしのコード生成、構文確認、
+  別 mayapy process 間の snapshot 比較を完了。
+- concrete shape 81種の generated class / public wrapper / node_attr を正式生成し、
+  `nodes.existing` の具体的な補完 stub へ反映。
+- Maya 2025 で作成可能な concrete shape 80種を、親 Transform 必須の
+  `nodes.create.<nodeType>()` へ公開。
+- 80種すべてについて `nodes.create.with_transform.<nodeType>()` を追加し、
+  Transform と具体 Shape の一括作成、命名、undo / redo、戻り値型の補完を整備。
 
 ## 決定済みのロードマップ
 
 次の順序で、DAG 階層と shape 作成 API を整備します。
 
-### 1. DAG path と instancing の方針
+### 1. DAG path と instancing の方針（初期対応完了）
 
 子孫・先祖 traversal の実装前に、`MDagPath` と instanced DAG node の
 扱いを決めます。
@@ -52,8 +68,10 @@
 現在の `NodeOperator` は `MObject` を中心に扱うため、同じ node が複数の
 DAG path を持つ場合に、どの path の階層を返すかが曖昧になります。
 
-初期版で曖昧な操作を `RuntimeError` にするか、`ExistingNode` から
-具体的な `MDagPath` を保持できる設計へ拡張するかを先に決定します。
+初期版では `MDagPath.getAPathTo()` で path を保持し、複数 path が存在する
+node の単一 `parent` 取得や親変更は `RuntimeError` にします。すべての直接親は
+`parents` から取得できます。将来 path を明示的に選択する API が必要になった場合は、
+`ExistingNode` の入力と保持方法を拡張します。
 
 ### 2. DAG 階層 traversal
 
@@ -67,7 +85,7 @@ DAG path / instancing の方針確定後、次の階層取得 API を追加し�
 world を含めるか、shape を含めるか、列挙順、未実行の `MDagModifier` の
 変更を含めるかを仕様として固定します。
 
-### 3. 親 Transform 必須の shape 作成
+### 3. 親 Transform 必須の shape 作成（段階公開完了）
 
 最初の shape 作成 API は、親 `Transform` を必須として公開します。
 
@@ -83,19 +101,118 @@ Maya が transform を自動生成し、返される `MObject` も transform に
 場合があります。そのため、既存の DG / transform 作成 API と同じ形で
 shape package 全体を無条件に公開しません。
 
-まずは作成可能なことを確認できた shape type から限定して公開し、
-戻り値型、undo / redo、命名、親との `ModifierManager` 共有を検証します。
+作成可能なことを確認できた shape type から限定して公開します。第一サンプルとして
+`camera` / `locator` / `mesh` / `nurbsCurve` / `nurbsSurface` の戻り値型、
+undo / redo、命名、親との `ModifierManager` 共有を検証済みです。
 
-### 4. transform と shape の一括作成
+第二段階として、Maya 標準 light shape の `ambientLight` / `areaLight` /
+`directionalLight` / `pointLight` / `spotLight` / `volumeLight` も同じ条件で検証し、
+`nodes.create` へ公開済みです。MtoA ロード時は、生成済みの Arnold attribute も
+利用できます。
 
-親 Transform 必須の API が安定した後、transform と shape を同じ
-`ModifierManager` に積んで一括作成する便利 API を検討します。
+第三段階として、MtoA をロードした Maya 上で Arnold 固有 light shape の
+`aiAreaLight` / `aiLightPortal` / `aiMeshLight` / `aiPhotometricLight` /
+`aiSkyDomeLight` を検証し、`nodes.create` へ公開済みです。
 
-shape 名と transform 名、戻り値を shape 単体にするか両方返すか、
-既存の `nodes.create.<nodeType>()` とどう区別するかを明示します。
+第四段階として、残る Arnold 固有 shape の `aiCurveCollector` /
+`aiLightBlocker` / `aiStandIn` / `aiVolume` も raw shape としての作成、命名、
+親子関係、undo / redo を検証し、`nodes.create` へ公開済みです。ファイル指定や
+geometry・shader 接続などの用途別初期化は、高レベル API の候補として分離します。
+
+第五段階として、Maya 標準 geometry shape の `baseLattice` / `bezierCurve` /
+`lattice` / `subdiv` を個別のシーンで検証し、`nodes.create` へ公開済みです。
+geometry データや lattice 分割数などの内容初期化は raw shape 作成と分離します。
+
+第六段階として、Maya 標準 primitive shape の `implicitBox` / `implicitCone` /
+`implicitSphere` / `renderBox` / `renderCone` / `renderRect` / `renderSphere` を
+個別のシーンで検証し、`nodes.create` へ公開済みです。size や radius などの
+値設定は raw shape 作成と分離します。
+
+第七段階として、Maya 標準の計測・注釈 shape `angleDimension` /
+`annotationShape` / `arcLengthDimension` / `distanceDimShape` / `paramDimension` を
+個別のシーンで検証し、`nodes.create` へ公開済みです。計測点、表示テキスト、
+NURBS geometry との接続などの用途別初期化は raw shape 作成と分離します。
+
+第八段階として、Maya 標準の補助 locator・marker・handle shape `clusterHandle` /
+`directedDisc` / `dropoffLocator` / `hikFloorContactMarker` / `motionTrailShape` /
+`orientationMarker` / `positionMarker` / `softModHandle` を個別のシーンで検証し、
+`nodes.create` へ公開済みです。deformer、motion path、HIK などとの接続や
+用途別初期化は raw shape 作成と分離します。`SphereLocator` は Maya 2025 の
+標準状態で `invalid node type` となるため、未公開のまま維持します。
+
+第九段階として、Maya 標準の非線形 deformer 表示 shape `deformBend` /
+`deformFlare` / `deformSine` / `deformSquash` / `deformTwist` / `deformWave` を
+個別のシーンで検証し、`nodes.create` へ公開済みです。対応する deformer node
+との接続や `deformerData` の初期化は raw shape 作成と分離します。
+
+第十段階として、Maya 標準の deformation connection helper shape
+`clusterFlexorShape` / `flexorShape` / `geoConnectable` を個別のシーンで検証し、
+`nodes.create` へ公開済みです。driver、flexor、surface geometry などとの接続は
+raw shape 作成と分離します。
+
+第十一段階として、Maya 標準のシーン表示・カメラ補助 shape `imagePlane` /
+`sketchPlane` / `snapshotShape` / `stereoRigCamera` を個別のシーンで検証し、
+`nodes.create` へ公開済みです。画像ファイル、描画内容、snapshot frame、
+stereo camera 接続などの用途別初期化は raw shape 作成と分離します。
+
+第十二段階として、Maya 標準のレンダリング・環境表現補助 shape `environmentFog` /
+`fluidTexture2D` / `fluidTexture3D` / `heightField` を個別のシーンで検証し、
+`nodes.create` へ公開済みです。camera、fluid data、texture、displacement などとの
+接続や用途別初期化は raw shape 作成と分離します。
+
+第十三段階として、Maya 標準の描画・Paint Effects 補助 shape `greasePlane` /
+`greasePlaneRenderShape` / `lineModifier` / `pfxHair` / `pfxToon` / `stroke` を
+個別のシーンで検証し、`nodes.create` へ公開済みです。image、brush、hair / toon
+input、render geometry、line modifier などの接続や用途別初期化は raw shape 作成と
+分離します。
+
+第十四段階として、Maya 標準の hair・dynamics 補助 shape `dynamicConstraint` /
+`dynHolder` / `follicle` / `hairConstraint` / `hairSystem` / `spring` を個別のシーンで
+検証し、`nodes.create` へ公開済みです。simulation設定、constraint component、
+hair curve、surface、solverなどとの接続や用途別初期化は raw shape 作成と分離します。
+
+第十五段階として、Maya 標準の simulation body shape `fluidShape` / `nCloth` /
+`nParticle` / `nRigid` / `particle` / `rigidBody` を個別のシーンで検証し、
+`nodes.create` へ公開済みです。geometry・particle data、initial state、nucleus・
+rigid solver などとの接続や用途別初期化は raw shape 作成と分離します。
+
+第十六段階として、Maya 標準の `ufeProxyCameraShape` を標準起動状態で検証し、
+`nodes.create` へ公開済みです。UFE scene item や camera との関連付けなどの用途別初期化は
+raw shape 作成と分離します。残る `SphereLocator` は node type 自体が登録されておらず、
+`MDagModifier.createNode()` が `invalid node type` となるため非公開のまま維持します。
+
+全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
+明示的に opt-in します。生成済み concrete shape 81種のうち、Maya 2025 で
+作成可能な80種を公開済みです。
+
+### 4. transform と shape の一括作成（対応完了）
+
+親 Transform 必須の raw shape 作成とは別に、次の一括作成 API を公開済みです。
+
+```python
+transform, mesh = nodes.create.with_transform.mesh(name="mesh")
+mod.do_it_dag()
+```
+
+`name` は transform 名、`shape_name` は shape 名です。`shape_name` の省略時は
+`name` に `Shape` を加えた名前を使います。戻り値は `(Transform, concrete Shape)`
+とし、両方を同じ `ModifierManager` に積みます。作成する transform の親は
+`parent` で指定できます。
+
+検証済み80種すべてについて具体 shape 型の補完を提供し、raw 作成は引き続き
+`nodes.create.<nodeType>(parent=transform)` として区別します。
+
+同じ `nodes.create.<nodeType>()` の `parent` の有無で切り替える方式は採用しません。
+その方式では、指定漏れによる意図しない Transform 作成、条件による戻り値型の変化、
+`name` と `parent` の意味の変化が生じるためです。raw API は常に Shape のみ、
+`with_transform` API は常に Transform と Shape の両方を作成する契約に固定します。
 
 `polyCube` のように history node も生成する primitive 作成は、raw shape
 作成とは別の高レベル API として扱います。
+
+ここまでを shape 系 NodeOperator と shape 作成 API の一区切りとします。
+次の主要作業は「2. DAG 階層 traversal」とし、直接の子、先祖、子孫の取得仕様を
+固めてから実装します。
 
 ## 将来の拡張候補
 
