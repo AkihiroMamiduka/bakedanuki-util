@@ -12,96 +12,13 @@ from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 from ..operator.node.dag._core import DAG
 from ..operator.node.dag.shape._core import Shape
 from ..operator.node.dag.transform._core import Transform
+from ._shape_types import CREATABLE_SHAPE_NODE_TYPES
+from ._shape_with_transform import ShapeWithTransformCreator
 
 _VALID_MODULE_NAME_PATTERN = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 _NODE_TYPE_PATTERN = re.compile(
     r"^\s*NODE_TYPE\s*=\s*[\"']([^\"']+)[\"']",
     re.MULTILINE,
-)
-
-_CREATABLE_SHAPE_NODE_TYPES = frozenset(
-    {
-        "aiAreaLight",
-        "aiCurveCollector",
-        "aiLightBlocker",
-        "aiLightPortal",
-        "aiMeshLight",
-        "aiPhotometricLight",
-        "aiSkyDomeLight",
-        "aiStandIn",
-        "aiVolume",
-        "ambientLight",
-        "angleDimension",
-        "annotationShape",
-        "arcLengthDimension",
-        "areaLight",
-        "baseLattice",
-        "bezierCurve",
-        "camera",
-        "clusterFlexorShape",
-        "clusterHandle",
-        "deformBend",
-        "deformFlare",
-        "deformSine",
-        "deformSquash",
-        "deformTwist",
-        "deformWave",
-        "directedDisc",
-        "directionalLight",
-        "distanceDimShape",
-        "dropoffLocator",
-        "dynamicConstraint",
-        "dynHolder",
-        "environmentFog",
-        "flexorShape",
-        "fluidShape",
-        "fluidTexture2D",
-        "fluidTexture3D",
-        "follicle",
-        "geoConnectable",
-        "greasePlane",
-        "greasePlaneRenderShape",
-        "hairConstraint",
-        "hairSystem",
-        "heightField",
-        "hikFloorContactMarker",
-        "imagePlane",
-        "implicitBox",
-        "implicitCone",
-        "implicitSphere",
-        "lattice",
-        "lineModifier",
-        "locator",
-        "mesh",
-        "motionTrailShape",
-        "nCloth",
-        "nParticle",
-        "nRigid",
-        "nurbsCurve",
-        "nurbsSurface",
-        "orientationMarker",
-        "paramDimension",
-        "particle",
-        "pfxHair",
-        "pfxToon",
-        "pointLight",
-        "positionMarker",
-        "renderBox",
-        "renderCone",
-        "renderRect",
-        "renderSphere",
-        "rigidBody",
-        "sketchPlane",
-        "snapshotShape",
-        "softModHandle",
-        "spotLight",
-        "spring",
-        "stereoRigCamera",
-        "stroke",
-        "subdiv",
-        "ufeProxyCameraShape",
-        "volumeLight",
-    }
 )
 
 
@@ -143,6 +60,7 @@ class NodeCreator:
         "_modifier_manager",
         "_node_cls_cache",
         "_node_names_cache",
+        "_with_transform",
     )
 
     _DG_PACKAGE = "bd_util.maya.node.operator.node.dg"
@@ -167,10 +85,18 @@ class NodeCreator:
             tuple[tuple[str, ...], str], type[NodeOperator]
         ] = {}
         self._node_names_cache: tuple[str, ...] | None = None
+        self._with_transform = ShapeWithTransformCreator(
+            self._modifier_manager,
+            self._creator_node_class,
+        )
 
     @property
     def modifier_manager(self) -> ModifierManager:
         return self._modifier_manager
+
+    @property
+    def with_transform(self) -> ShapeWithTransformCreator:
+        return self._with_transform
 
     def create(
         self,
@@ -211,7 +137,7 @@ class NodeCreator:
         )
         if (
             issubclass(node_cls, Shape)
-            and node_cls.NODE_TYPE not in _CREATABLE_SHAPE_NODE_TYPES
+            and node_cls.NODE_TYPE not in CREATABLE_SHAPE_NODE_TYPES
         ):
             raise AttributeError(f"Unsupported node type: {node_name}")
         return node_cls
@@ -290,7 +216,7 @@ class NodeCreator:
                     continue
                 if (
                     package_name == self._DAG_SHAPE_PACKAGE
-                    and node_type not in _CREATABLE_SHAPE_NODE_TYPES
+                    and node_type not in CREATABLE_SHAPE_NODE_TYPES
                 ):
                     continue
                 names.add(_node_type_to_creator_name(node_type))

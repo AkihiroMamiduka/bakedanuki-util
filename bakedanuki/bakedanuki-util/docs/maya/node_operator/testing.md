@@ -157,6 +157,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - 既存 DG / DAG / shape node の自動判定と型別アクセスを検証します。
 - `tests/maya/node/creator/test_node_creator.py`
   - node 作成、nodeType 解決、補完用 node 名を検証します。
+- `tests/maya/node/creator/test_shape_with_transform.py`
+  - transform と shape の一括作成、命名、親子関係、undo / redo を検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`
   - DG / DAG modifier の実行履歴と undo / redo を検証します。
 
@@ -202,7 +204,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 - `tests/dev/maya/node/operator/node/test_generate.py`
   - AttributeField と内部 `_generated` package の生成 NodeOperator、公開 wrapper の生成・保護、安全でない nodeType の除外を検証します。
 - `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
-  - `nodes.create` / `nodes.existing` の型情報を公開する stub の生成結果を検証します。
+  - `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の型情報を
+    公開する stub の生成結果を検証します。
 
 `mayapy.exe -m pytest tests` では、上記の Maya 実行テストと開発用 generator
 テストをまとめて実行します。

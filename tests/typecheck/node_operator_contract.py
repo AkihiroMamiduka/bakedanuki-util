@@ -781,6 +781,7 @@ from bd_util.maya.node.operator.node.dg.decompose_matrix import (
     DecomposeMatrix,
 )
 from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
+from bd_util.maya.node.operator.node.dag.shape._core import Shape
 from bd_util.maya.node.operator.node.dag.shape.ai_area_light import AiAreaLight
 from bd_util.maya.node.operator.node.dag.shape.ai_curve_collector import (
     AiCurveCollector,
@@ -941,6 +942,26 @@ from bd_util.maya.node.operator.node.dag.transform._core import Transform
 def shape_creation_contract(nodes: bdu.Nodes) -> None:
     parent = nodes.create.transform(name="shape_parent")
     assert_type(parent, Transform)
+
+    mesh_transform, created_mesh = nodes.create.with_transform.mesh(
+        name="mesh"
+    )
+    assert_type(mesh_transform, Transform)
+    assert_type(created_mesh, Mesh)
+
+    camera_transform, created_camera = nodes.create.with_transform.camera(
+        name="camera",
+        shape_name="renderCameraShape",
+        parent=parent,
+    )
+    assert_type(camera_transform, Transform)
+    assert_type(created_camera, Camera)
+
+    dynamic_transform, dynamic_shape = nodes.create.with_transform.create(
+        "mesh", name="dynamicMesh"
+    )
+    assert_type(dynamic_transform, Transform)
+    assert_type(dynamic_shape, Shape)
 
     mesh = nodes.create.mesh(name="meshShape", parent=parent)
     assert_type(mesh, Mesh)

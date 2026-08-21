@@ -181,13 +181,22 @@ raw shape 作成と分離します。残る `SphereLocator` は node type 自体
 明示的に opt-in します。生成済み concrete shape 81種のうち、Maya 2025 で
 作成可能な80種を公開済みです。
 
-### 4. transform と shape の一括作成
+### 4. transform と shape の一括作成（対応完了）
 
-親 Transform 必須の API が安定した後、transform と shape を同じ
-`ModifierManager` に積んで一括作成する便利 API を検討します。
+親 Transform 必須の raw shape 作成とは別に、次の一括作成 API を公開済みです。
 
-shape 名と transform 名、戻り値を shape 単体にするか両方返すか、
-既存の `nodes.create.<nodeType>()` とどう区別するかを明示します。
+```python
+transform, mesh = nodes.create.with_transform.mesh(name="mesh")
+mod.do_it_dag()
+```
+
+`name` は transform 名、`shape_name` は shape 名です。`shape_name` の省略時は
+`name` に `Shape` を加えた名前を使います。戻り値は `(Transform, concrete Shape)`
+とし、両方を同じ `ModifierManager` に積みます。作成する transform の親は
+`parent` で指定できます。
+
+検証済み80種すべてについて具体 shape 型の補完を提供し、raw 作成は引き続き
+`nodes.create.<nodeType>(parent=transform)` として区別します。
 
 `polyCube` のように history node も生成する primitive 作成は、raw shape
 作成とは別の高レベル API として扱います。

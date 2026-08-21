@@ -1358,6 +1358,7 @@ from ..operator.node.dg.bd_dbl_l3_weighted_average_multi import (
 from ..operator.node.dg.bd_dbl_l3_weighted_sum_multi import (
     BdDblL3WeightedSumMulti,
 )
+from ._shape_with_transform import ShapeWithTransformCreator
 
 class NodeCreator:
     def __init__(
@@ -1365,6 +1366,8 @@ class NodeCreator:
     ) -> None: ...
     @property
     def modifier_manager(self) -> ModifierManager: ...
+    @property
+    def with_transform(self) -> ShapeWithTransformCreator: ...
     def create(
         self,
         node_name: str,

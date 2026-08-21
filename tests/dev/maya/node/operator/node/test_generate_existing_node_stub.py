@@ -32,6 +32,24 @@ def test_shape_stub_excludes_abstract_base_class():
     assert all(definition.node_type != "shape" for definition in definitions)
 
 
+def test_shape_with_transform_stub_uses_only_creatable_shapes():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    definitions = stub_generator.collect_creatable_shape_definitions(
+        python_root
+    )
+
+    assert len(definitions) == 80
+    assert any(definition.node_type == "mesh" for definition in definitions)
+    assert all(
+        definition.node_type != "SphereLocator" for definition in definitions
+    )
+
+
 def test_underscore_node_type_uses_pascal_case_class_and_exact_method_name():
     import bd_util
     from bd_util._dev.maya.node.operator.node import (
@@ -77,6 +95,21 @@ def test_nodes_stub_matches_generated_code():
     assert stub_generator.stub_code_is_current(
         output_path,
         stub_generator.generate_nodes_stub_code(python_root),
+    )
+
+
+def test_shape_with_transform_stub_matches_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    output_path = stub_generator.shape_with_transform_stub_path(python_root)
+
+    assert stub_generator.stub_code_is_current(
+        output_path,
+        stub_generator.generate_shape_with_transform_stub_code(python_root),
     )
 
 

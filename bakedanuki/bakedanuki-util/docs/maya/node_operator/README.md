@@ -214,6 +214,39 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
+transform と shape を一度に用意する場合は、`nodes.create.with_transform` を使います。
+戻り値は `(Transform, concrete Shape)` の順で、両方が同じ `ModifierManager` に
+積まれます。`name` は transform 名を表し、`shape_name` を省略すると
+`{name}Shape` が使われます。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+transform, mesh = nodes.create.with_transform.mesh(name="mesh")
+
+mod.do_it_dag()
+```
+
+明示的な shape 名や、作成する transform の親も指定できます。
+
+```python
+group = nodes.create.transform(name="group")
+transform, camera = nodes.create.with_transform.camera(
+    name="camera",
+    shape_name="renderCameraShape",
+    parent=group,
+)
+
+mod.do_it_dag()
+```
+
+`nodes.create.mesh(parent=transform)` は親必須の raw shape 作成として維持します。
+一括作成は `nodes.create.with_transform.mesh()` という別入口にすることで、
+既存 API と transform 自動生成の意図を区別しています。
+
 現在 `nodes.create` から作成できる shape は、動作確認済みの次の80種類です。
 
 - `aiAreaLight`
