@@ -115,6 +115,9 @@ class MayaDockableWindowController(Generic[WindowT]):
         window.raise_()
         window.activateWindow()
 
+        # Mayaの保存配置反映後にfloating外枠が現在のscreen内か確認する。
+        workspace_control.schedule_ensure_on_screen(control_name, window)
+
         # 新しくworkspaceControlへ接続したWidgetへlifecycle開始を通知する。
         if attached_now:
             window.dock_attached.emit()
@@ -134,6 +137,12 @@ class MayaDockableWindowController(Generic[WindowT]):
             self._dock_options.allowed_area,
         )
 
+        # Maya再起動時の保存配置反映後にfloating外枠を確認する。
+        workspace_control.schedule_ensure_on_screen(
+            self.workspace_control_name,
+            window,
+        )
+
         # uiScriptによるMaya layoutへの接続完了をWidgetへ通知する。
         window.dock_attached.emit()
         return window
@@ -151,6 +160,17 @@ class MayaDockableWindowController(Generic[WindowT]):
         window = self._window
         if window is not None and qt.isValid(window):
             window.close()
+
+    def ensure_on_screen(self) -> bool:
+        """floating workspaceControlを現在のscreenへ補正する。"""
+        # 未生成または破棄済みのWidgetではMaya UIを操作しない。
+        window = self._window
+        if window is None or not qt.isValid(window):
+            return False
+        return workspace_control.ensure_on_screen(
+            self.workspace_control_name,
+            window,
+        )
 
     def dispose(self) -> None:
         """workspaceControlと管理中のWidgetを完全に破棄する。"""

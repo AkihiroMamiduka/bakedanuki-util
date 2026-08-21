@@ -1,16 +1,38 @@
 # coding: utf-8
 import importlib
-from typing import cast
+from collections.abc import Callable
+from functools import partial
+from typing import Protocol, cast
 
 from maya import OpenMayaUI as omui
 from maya import cmds
 
 from ....logger import get_logger
+from ....ui import ensure_window_on_screen as ensure_qt_window_on_screen
 from ....ui import qt
 from .options import DockArea
 
 logger = get_logger(__name__)
 maya_mixin = importlib.import_module("maya.app.general.mayaMixin")
+
+
+class _QTimerType(Protocol):
+    """PySide stub境界で使用するQTimer classの必要最小API。"""
+
+    @staticmethod
+    def singleShot(
+        milliseconds: int,
+        callback: Callable[[], None],
+    ) -> None:
+        """指定時間後にcallbackを一度だけ呼び出す。"""
+        raise NotImplementedError
+
+
+def _run_later(callback: Callable[[], None]) -> None:
+    """次のQt event loopでcallbackを一度だけ呼び出す。"""
+    # MayaによるworkspaceControlのlayout計算完了を0ms timerで待つ。
+    timer_type = cast(_QTimerType, qt.QtCore.QTimer)
+    timer_type.singleShot(0, callback)
 
 
 def exists(name: str) -> bool:
@@ -29,6 +51,12 @@ def close(name: str) -> None:
     """workspaceControlを閉じる。"""
     # retain設定に応じたMaya標準のclose処理を実行する。
     cmds.workspaceControl(name, edit=True, close=True)
+
+
+def is_floating(name: str) -> bool:
+    """workspaceControlがfloating状態か返す。"""
+    # Mayaが管理する現在の配置をqueryしてboolへ揃える。
+    return bool(cmds.workspaceControl(name, query=True, floating=True))
 
 
 def delete(name: str) -> None:
@@ -94,6 +122,84 @@ def apply_allowed_area(
     }[allowed_area]
     parent.setAllowedAreas(qt_area)
     return True
+
+
+def _is_maya_main_window(widget: qt.QtWidgets.QWidget) -> bool:
+    """WidgetがMayaのmain windowか返す。"""
+    # floating外枠の誤判定でMaya本体を移動しないようC++ pointerを比較する。
+    main_window_pointer = omui.MQtUtil.mainWindow()
+    if not main_window_pointer:
+        return False
+
+    try:
+        widget_pointers = qt.getCppPointer(widget)
+    except (RuntimeError, TypeError):
+        return False
+    return bool(
+        widget_pointers and int(widget_pointers[0]) == int(main_window_pointer)
+    )
+
+
+def find_floating_host(
+    name: str,
+    window: qt.QtWidgets.QWidget,
+) -> qt.QtWidgets.QWidget | None:
+    """workspaceControlを包むfloating最上位Widgetを返す。"""
+    # Maya 2025では内容Widgetの直接の親がQWidgetになるため名前で接続を確認する。
+    if not qt.isValid(window):
+        return None
+    workspace_widget = window.parent()
+    if (
+        not isinstance(workspace_widget, qt.QtWidgets.QWidget)
+        or workspace_widget.objectName() != name
+        or not qt.isValid(workspace_widget)
+    ):
+        return None
+
+    # 親階層の最上位Windowだけを外枠とし、Maya本体は必ず対象外にする。
+    floating_host = workspace_widget.window()
+    if (
+        floating_host is window
+        or not qt.isValid(floating_host)
+        or not floating_host.isWindow()
+        or _is_maya_main_window(floating_host)
+    ):
+        return None
+    return floating_host
+
+
+def ensure_on_screen(
+    name: str,
+    window: qt.QtWidgets.QWidget,
+) -> bool:
+    """floating workspaceControlの外枠を現在のscreenへ補正する。"""
+    # docked状態と破棄済みcontrolはMayaのlayout管理へ委ねる。
+    if not qt.isValid(window) or not exists(name) or not is_floating(name):
+        return False
+
+    # Maya versionごとの中間Widget差を吸収し、floating最上位外枠だけを補正する。
+    floating_host = find_floating_host(name, window)
+    if floating_host is None:
+        return False
+    return ensure_qt_window_on_screen(floating_host)
+
+
+def _ensure_on_screen_later(
+    name: str,
+    window: qt.QtWidgets.QWidget,
+) -> None:
+    """予約済みworkspaceControlの画面外補正を実行する。"""
+    # 補正有無は自動処理では公開せず、明示APIだけboolを返す。
+    ensure_on_screen(name, window)
+
+
+def schedule_ensure_on_screen(
+    name: str,
+    window: qt.QtWidgets.QWidget,
+) -> None:
+    """workspaceControl接続後の画面外補正を予約する。"""
+    # Mayaの保存配置が外枠へ反映された後にfloating状態とgeometryを確認する。
+    _run_later(partial(_ensure_on_screen_later, name, window))
 
 
 def register(name: str, window: qt.QtWidgets.QWidget) -> None:

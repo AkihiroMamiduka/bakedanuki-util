@@ -159,6 +159,20 @@ def workspace_spy(monkeypatch) -> Iterator[dict[str, object]]:
             ("tab_to", control_name, target)
         ),
     )
+    monkeypatch.setattr(
+        dock_controller.workspace_control,
+        "schedule_ensure_on_screen",
+        lambda control_name, window: calls.append(
+            ("schedule_ensure_on_screen", control_name, window)
+        ),
+    )
+    monkeypatch.setattr(
+        dock_controller.workspace_control,
+        "ensure_on_screen",
+        lambda control_name, window: (
+            calls.append(("ensure_on_screen", control_name, window)) or True
+        ),
+    )
     yield state
 
 
@@ -209,6 +223,11 @@ def test_show_creates_workspace_control(
         DockArea.ALL,
     ) in workspace_spy["calls"]
     assert window.dock_attached.emit_count == 1
+    assert (
+        "schedule_ensure_on_screen",
+        "sampleDockWorkspaceControl",
+        window,
+    ) in workspace_spy["calls"]
 
 
 def test_restore_attaches_window_to_current_parent(
@@ -231,6 +250,11 @@ def test_restore_attaches_window_to_current_parent(
         DockArea.ALL,
     ) in workspace_spy["calls"]
     assert window.dock_attached.emit_count == 1
+    assert (
+        "schedule_ensure_on_screen",
+        "sampleDockWorkspaceControl",
+        window,
+    ) in workspace_spy["calls"]
 
 
 def test_show_restores_existing_workspace_control(
@@ -279,6 +303,23 @@ def test_close_and_dispose_have_different_lifecycle(
     assert controller.window is None
     assert ("delete", "sampleDockWorkspaceControl") in workspace_spy["calls"]
     assert window.dock_about_to_dispose.emit_count == 1
+
+
+def test_controller_can_ensure_floating_window_on_screen(
+    workspace_spy,
+) -> None:
+    # 未生成時は何もせず、表示後はworkspaceControl adapterへ委譲する。
+    controller = _create_controller()
+    assert not controller.ensure_on_screen()
+    window = controller.show()
+    assert controller.ensure_on_screen()
+
+    # 固定control名と現在管理中のWidgetが補正処理へ渡される。
+    assert (
+        "ensure_on_screen",
+        "sampleDockWorkspaceControl",
+        window,
+    ) in workspace_spy["calls"]
 
 
 def test_reset_removes_saved_workspace_state(

@@ -69,6 +69,7 @@ dockable_controller = MayaDockableWindowController(
 assert_type(dockable_controller.window, SampleDockableWindow | None)
 assert_type(dockable_controller.show(), SampleDockableWindow)
 assert_type(dockable_controller.restore(), SampleDockableWindow)
+assert_type(dockable_controller.ensure_on_screen(), bool)
 assert_type(dockable_controller.control_id, str)
 assert_type(dockable_controller.workspace_control_name, str)
 

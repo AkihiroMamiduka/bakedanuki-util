@@ -382,6 +382,22 @@ Widgetを接続します。lambdaやlocal関数は復元先に指定できませ
 前にも利用できます。`controller.reset_workspace_state()`は完全破棄に加えてMayaが保存した
 配置も削除し、次回表示で`DockOptions`の初期値を適用します。
 
+floating workspaceControlは`show()`と`restore()`のlayout接続後、次のQt event loopで外枠の
+タイトル領域を確認します。現在接続中のscreenから外れている場合だけ、Mayaが位置管理に使う
+floating最上位Widgetへ`ensure_window_on_screen()`を適用します。Maya 2025では内容Widgetの
+直接の親が同名の`QWidget`になるため、その親階層から最上位Windowを取得します。docked状態、
+Maya main window、内側のWidget geometryは変更しないため、Mayaのworkspace layout管理とは
+競合しません。
+
+表示後に明示的な確認が必要な場合はcontrollerから実行できます。
+
+```python
+controller.ensure_on_screen()
+```
+
+Qtが接続中と認識しているscreenは補正対象外です。モニターの電源OFF後もOS上で接続中の場合は
+そのscreenの保存配置を維持します。
+
 `DockOptions.allowed_area`は移動を許可する領域を制限し、既定値の`DockArea.ALL`では全領域を
 許可します。`MayaDockableWindow.dock_closed`と`floating_changed`を使うと、Maya側で閉じた
 ときとドッキング状態が変わったときをtool固有処理へ通知できます。
@@ -412,6 +428,45 @@ dock_lifecycle.show()
 4. floatingとdockを切り替え、event logへ変更が記録されることを確認する。
 5. Mayaを終了・再起動し、workspaceControl、Splitter幅、選択タブが復元されることを確認する。
 6. `Reset`でWindowが再生成され、初期配置と初期Widget状態へ戻ることを確認する。
+
+floating workspaceControlの画面外救済は、Script Editorから次の順に確認できます。
+
+```python
+from maya import cmds
+from bd_util._dev.maya.ui import dock_lifecycle
+
+dock_lifecycle.show()
+cmds.workspaceControl(
+    "bdUtilDockLifecycleHarnessWorkspaceControl",
+    edit=True,
+    floating=True,
+)
+```
+
+floating表示へ切り替わった後、test用の画面外座標へ移動します。
+
+```python
+dock_lifecycle.move_offscreen_for_test()
+```
+
+明示APIまたは通常の`show()`で現在のscreenへ戻ることを確認します。
+
+```python
+dock_lifecycle.ensure_on_screen()
+
+# 再度画面外へ移動した場合は、show後の遅延処理でも自動補正される。
+dock_lifecycle.move_offscreen_for_test()
+dock_lifecycle.show()
+```
+
+同名の直下workspace widget、実際に補正するfloating外枠、Qtが認識しているscreenは次で
+確認できます。
+
+```python
+from pprint import pprint
+
+pprint(dock_lifecycle.diagnose())
+```
 
 module reloadは古いcontrollerとMaya callbackを残さないよう、完全破棄後に実行します。
 

@@ -10,6 +10,7 @@ from ....maya.ui import (
     reset_and_show_ui_layout,
     reset_ui_layout,
 )
+from ....maya.ui.dock import workspace_control
 from ....ui import qt
 
 _SETTINGS_PATH = "bakedanuki_util/dev/dock_lifecycle"
@@ -84,9 +85,9 @@ class DockLifecycleHarness(MayaDockableWindow):
             self.ui_state,
             self,
         )
-        self._append_event("window_created")
+        self.append_event("window_created")
 
-    def _append_event(self, name: str) -> None:
+    def append_event(self, name: str) -> None:
         """現在時刻とlifecycle event名を表示欄へ追加する。"""
         # 複数回のshowやcloseを目視で追える時刻付き文字列へ整形する。
         current_time = qt.QtCore.QTime.currentTime().toString("HH:mm:ss.zzz")
@@ -99,19 +100,19 @@ class DockLifecycleHarness(MayaDockableWindow):
 
     def _on_dock_attached(self) -> None:
         """workspaceControlへの接続完了を記録する。"""
-        self._append_event("dock_attached")
+        self.append_event("dock_attached")
 
     def _on_dock_closed(self) -> None:
         """workspaceControlの通常closeを記録する。"""
-        self._append_event("dock_closed")
+        self.append_event("dock_closed")
 
     def _on_dock_about_to_dispose(self) -> None:
         """workspaceControlの完全破棄直前を記録する。"""
-        self._append_event("dock_about_to_dispose")
+        self.append_event("dock_about_to_dispose")
 
     def _on_floating_changed(self, floating: bool) -> None:
         """workspaceControlのfloating変更を記録する。"""
-        self._append_event(f"floating_changed: {floating}")
+        self.append_event(f"floating_changed: {floating}")
 
 
 # Maya再起動時にもimportできる固定復元先でcontrollerを構築する。
@@ -166,3 +167,123 @@ def reset_and_show() -> DockLifecycleHarness:
     """UI配置をリセットして確認Windowを初期状態で再表示する。"""
     # Reset buttonから初期配置のworkspaceControlをすぐに確認できるよう再生成する。
     return reset_and_show_ui_layout(_controller, _SETTINGS_PATH)
+
+
+def diagnose() -> dict[str, object]:
+    """workspaceControl外枠と現在のscreen情報を返す。"""
+    # Maya controlと管理中Widgetの状態を安全に取得する。
+    control_name = _controller.workspace_control_name
+    control_exists = workspace_control.exists(control_name)
+    window = _controller.window
+    window_valid = window is not None and qt.isValid(window)
+    workspace_widget = (
+        window.parentWidget()
+        if window is not None and qt.isValid(window)
+        else None
+    )
+    floating_host = (
+        workspace_control.find_floating_host(control_name, window)
+        if window is not None and qt.isValid(window)
+        else None
+    )
+
+    # Qtが現在接続中と認識しているscreen一覧を記録する。
+    application = qt.QtGui.QGuiApplication.instance()
+    screens = (
+        ()
+        if not isinstance(application, qt.QtGui.QGuiApplication)
+        else tuple(
+            (screen.name(), screen.availableGeometry().getRect())
+            for screen in application.screens()
+        )
+    )
+
+    # Script Editorで比較しやすい基本型だけの診断結果を返す。
+    return {
+        "control_name": control_name,
+        "exists": control_exists,
+        "floating": (
+            workspace_control.is_floating(control_name)
+            if control_exists
+            else None
+        ),
+        "window_valid": window_valid,
+        "workspace_widget_type": (
+            type(workspace_widget).__name__
+            if workspace_widget is not None
+            else None
+        ),
+        "workspace_widget_name": (
+            workspace_widget.objectName()
+            if workspace_widget is not None
+            else None
+        ),
+        "workspace_geometry": (
+            workspace_widget.geometry().getRect()
+            if workspace_widget is not None
+            else None
+        ),
+        "workspace_frame_geometry": (
+            workspace_widget.frameGeometry().getRect()
+            if workspace_widget is not None
+            else None
+        ),
+        "floating_host_type": (
+            type(floating_host).__name__ if floating_host is not None else None
+        ),
+        "floating_host_name": (
+            floating_host.objectName() if floating_host is not None else None
+        ),
+        "floating_host_is_window": (
+            floating_host.isWindow() if floating_host is not None else None
+        ),
+        "floating_host_geometry": (
+            floating_host.geometry().getRect()
+            if floating_host is not None
+            else None
+        ),
+        "floating_host_frame_geometry": (
+            floating_host.frameGeometry().getRect()
+            if floating_host is not None
+            else None
+        ),
+        "screens": screens,
+    }
+
+
+def move_offscreen_for_test(
+    x: int = 50000,
+    y: int = 50000,
+) -> bool:
+    """floating workspaceControl外枠をtest用の画面外座標へ移動する。"""
+    # 自動生成はせず、表示済みfloating controlだけを明示的なtest対象にする。
+    control_name = _controller.workspace_control_name
+    window = _controller.window
+    if window is None or not qt.isValid(window):
+        raise RuntimeError("確認Windowを先にshowしてください")
+    if not workspace_control.exists(control_name):
+        raise RuntimeError("workspaceControlが存在しません")
+    if not workspace_control.is_floating(control_name):
+        raise RuntimeError("workspaceControlをfloating状態にしてください")
+
+    # Maya versionごとの親階層差を吸収してfloating最上位外枠だけを移動する。
+    floating_host = workspace_control.find_floating_host(
+        control_name,
+        window,
+    )
+    if floating_host is None:
+        raise RuntimeError("workspaceControl外枠を取得できません")
+    previous_position = floating_host.pos()
+    floating_host.move(x, y)
+    window.append_event(f"move_offscreen_for_test: {x}, {y}")
+    return floating_host.pos() != previous_position
+
+
+def ensure_on_screen() -> bool:
+    """floating workspaceControlを現在のscreenへ明示的に補正する。"""
+    # controllerの公開APIを呼び、結果をlifecycle logへ記録する。
+    corrected = _controller.ensure_on_screen()
+    window = _controller.window
+    if window is not None and qt.isValid(window):
+        window.append_event(f"ensure_on_screen: {corrected}")
+    return corrected
