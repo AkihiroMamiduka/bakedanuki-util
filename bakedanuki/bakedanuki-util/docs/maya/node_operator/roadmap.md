@@ -51,6 +51,10 @@
   別 mayapy process 間の snapshot 比較を完了。
 - concrete shape 81種の generated class / public wrapper / node_attr を正式生成し、
   `nodes.existing` の具体的な補完 stub へ反映。
+- Maya 2025 で作成可能な concrete shape 80種を、親 Transform 必須の
+  `nodes.create.<nodeType>()` へ公開。
+- 80種すべてについて `nodes.create.with_transform.<nodeType>()` を追加し、
+  Transform と具体 Shape の一括作成、命名、undo / redo、戻り値型の補完を整備。
 
 ## 決定済みのロードマップ
 
@@ -198,8 +202,17 @@ mod.do_it_dag()
 検証済み80種すべてについて具体 shape 型の補完を提供し、raw 作成は引き続き
 `nodes.create.<nodeType>(parent=transform)` として区別します。
 
+同じ `nodes.create.<nodeType>()` の `parent` の有無で切り替える方式は採用しません。
+その方式では、指定漏れによる意図しない Transform 作成、条件による戻り値型の変化、
+`name` と `parent` の意味の変化が生じるためです。raw API は常に Shape のみ、
+`with_transform` API は常に Transform と Shape の両方を作成する契約に固定します。
+
 `polyCube` のように history node も生成する primitive 作成は、raw shape
 作成とは別の高レベル API として扱います。
+
+ここまでを shape 系 NodeOperator と shape 作成 API の一区切りとします。
+次の主要作業は「2. DAG 階層 traversal」とし、直接の子、先祖、子孫の取得仕様を
+固めてから実装します。
 
 ## 将来の拡張候補
 

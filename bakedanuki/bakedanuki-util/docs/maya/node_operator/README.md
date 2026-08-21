@@ -247,6 +247,31 @@ mod.do_it_dag()
 一括作成は `nodes.create.with_transform.mesh()` という別入口にすることで、
 既存 API と transform 自動生成の意図を区別しています。
 
+### raw shape 作成と一括作成を分ける理由
+
+2つの入口は、作成するノード数だけでなく、引数と戻り値の意味も異なります。
+
+| API | 作成対象 | `name` | `parent` | 戻り値 |
+| --- | --- | --- | --- | --- |
+| `nodes.create.locator(parent=transform)` | Shapeのみ | Shape名 | Shapeの親Transform。必須 | `Locator` |
+| `nodes.create.with_transform.locator()` | Transform + Shape | Transform名 | 新規Transformの親。任意 | `tuple[Transform, Locator]` |
+
+`nodes.create.locator()` の `parent` を省略可能にし、その有無で処理を切り替える
+overload も技術的には実装できます。ただし、その設計では次の問題が生じます。
+
+- `parent` の指定漏れがエラーにならず、意図しない Transform 作成へ変わる。
+- 同じメソッドの戻り値が `Locator` または `tuple[Transform, Locator]` になる。
+- `parent: Transform | None` を渡すと戻り値も union になり、利用側で型の絞り込みが必要になる。
+- `name` と `parent` の意味が、同じメソッド内で条件によって変わる。
+- scene に1ノードを作る操作と2ノードを作る操作を、呼び出しから判別しにくい。
+
+戻り値を常に Shape のみにすれば union は避けられますが、自動作成した Transform を
+直接受け取れません。また、Transform の作成が呼び出し側から見えにくくなります。
+
+そのため、raw API は親の指定漏れを検出し、常に具体 Shape 型を返す入口として固定します。
+一括作成 API は Transform の生成を明示し、常に
+`tuple[Transform, concrete Shape]` を返す別入口として固定します。
+
 現在 `nodes.create` から作成できる shape は、動作確認済みの次の80種類です。
 
 - `aiAreaLight`
