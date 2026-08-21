@@ -173,6 +173,11 @@ def workspace_spy(monkeypatch) -> Iterator[dict[str, object]]:
             calls.append(("ensure_on_screen", control_name, window)) or True
         ),
     )
+    monkeypatch.setattr(
+        dock_controller,
+        "dispose_owned_callbacks",
+        lambda window: calls.append(("dispose_owned_callbacks", window)),
+    )
     yield state
 
 
@@ -298,11 +303,13 @@ def test_close_and_dispose_have_different_lifecycle(
     assert controller.window is window
     assert ("close", "sampleDockWorkspaceControl") in workspace_spy["calls"]
     assert window.dock_about_to_dispose.emit_count == 0
+    assert ("dispose_owned_callbacks", window) not in workspace_spy["calls"]
 
     controller.dispose()
     assert controller.window is None
     assert ("delete", "sampleDockWorkspaceControl") in workspace_spy["calls"]
     assert window.dock_about_to_dispose.emit_count == 1
+    assert ("dispose_owned_callbacks", window) in workspace_spy["calls"]
 
 
 def test_controller_can_ensure_floating_window_on_screen(

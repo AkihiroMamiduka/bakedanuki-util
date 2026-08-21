@@ -10,7 +10,9 @@ from bd_util.maya.ui import (
     reset_and_show_ui_layout,
 )
 from bd_util.maya.ui import settings as maya_ui_settings
+from bd_util.maya.ui import callback as maya_callback
 from bd_util.maya.ui import ui_state as maya_ui_state
+from bd_util.maya.ui import window as maya_window
 from bd_util.ui import SettingsPath
 
 _STATEFUL_SETTINGS_PATH = "tool_name/windows/stateful"
@@ -57,12 +59,12 @@ def _replace_maya_callbacks(monkeypatch) -> None:
     """Maya callback操作をtest用の固定処理へ置き換える。"""
     # Qt lifecycleだけを検証し、Maya終了callbackの実登録を避ける。
     monkeypatch.setattr(
-        maya_ui_state,
+        maya_callback,
         "_add_maya_exiting_callback",
         lambda _callback: 42,
     )
     monkeypatch.setattr(
-        maya_ui_state,
+        maya_callback,
         "_remove_callback",
         lambda _callback_id: None,
     )
@@ -153,6 +155,26 @@ def test_maya_controller_can_disable_settings(
 
     # testで生成したwindowを削除する。
     controller.dispose()
+    _process_deferred_deletes(qt_application)
+
+
+def test_maya_controller_disposes_owned_callbacks_immediately(
+    qt_application,
+    monkeypatch,
+) -> None:
+    # controllerがcallback解除へ渡したWindowを記録する。
+    disposed_owners: list[QtWidgets.QWidget] = []
+    monkeypatch.setattr(
+        maya_window,
+        "dispose_owned_callbacks",
+        lambda owner: disposed_owners.append(owner),
+    )
+    controller = MayaWindowController(QtWidgets.QDialog)
+    window = controller.show()
+
+    # DeferredDeleteより前に現在のWindowがcallback解除対象になる。
+    controller.dispose()
+    assert disposed_owners == [window]
     _process_deferred_deletes(qt_application)
 
 

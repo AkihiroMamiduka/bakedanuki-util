@@ -3,40 +3,21 @@ from collections.abc import Callable
 from typing import cast
 
 from bd_util.maya.ui import MayaDockableWindow, MayaUiStateTracker
+from bd_util.maya.ui import callback as maya_callback
 from bd_util.maya.ui import ui_state as maya_ui_state
 from bd_util.ui import UiStateManager, qt
 
 
-class _RecordingSignal:
-    """接続されたcallbackを記録して呼び出せるtest用signal。"""
-
-    def __init__(self) -> None:
-        """空のcallback一覧を生成する。"""
-        self.callbacks: list[Callable[..., object]] = []
-
-    def connect(self, callback: Callable[..., object]) -> None:
-        """指定callbackを接続済み一覧へ追加する。"""
-        self.callbacks.append(callback)
-
-    def disconnect(self, callback: Callable[..., object]) -> None:
-        """指定callbackを接続済み一覧から削除する。"""
-        self.callbacks.remove(callback)
-
-    def emit(self, *args: object) -> None:
-        """接続済みcallbackを登録順に呼び出す。"""
-        for callback in self.callbacks:
-            callback(*args)
-
-
-class _Owner:
+class _Owner(qt.QtCore.QObject):
     """QObjectのdestroyed signal境界だけを再現するtest用owner。"""
+
+    dock_attached = qt.Signal()
+    dock_closed = qt.Signal()
+    dock_about_to_dispose = qt.Signal()
 
     def __init__(self) -> None:
         """破棄通知用signalを生成する。"""
-        self.destroyed = _RecordingSignal()
-        self.dock_attached = _RecordingSignal()
-        self.dock_closed = _RecordingSignal()
-        self.dock_about_to_dispose = _RecordingSignal()
+        super().__init__()
         self.event_filters: list[qt.QtCore.QObject] = []
 
     def installEventFilter(self, event_filter: qt.QtCore.QObject) -> None:
@@ -92,12 +73,12 @@ def _create_tracker(
         removed.append(callback_id)
 
     monkeypatch.setattr(
-        maya_ui_state,
+        maya_callback,
         "_add_maya_exiting_callback",
         add_callback,
     )
     monkeypatch.setattr(
-        maya_ui_state,
+        maya_callback,
         "_remove_callback",
         remove_callback,
     )
@@ -134,14 +115,14 @@ def test_tracker_saves_and_removes_callback_on_maya_exit(monkeypatch) -> None:
     assert tracker.manager is manager
     assert manager.save_count == 1
     assert calls["removed"] == [42]
-    owner.destroyed.emit(None)
+    owner.destroyed.emit()
     assert calls["removed"] == [42]
 
 
 def test_tracker_removes_callback_when_owner_is_destroyed(monkeypatch) -> None:
     # Maya終了前にWindowが完全破棄される経路を再現する。
     _tracker, manager, owner, calls = _create_tracker(monkeypatch)
-    owner.destroyed.emit(None)
+    owner.destroyed.emit()
 
     # UI stateを保存せず、古いMaya callbackだけを解除する。
     assert manager.save_count == 0
@@ -213,7 +194,7 @@ def test_window_tracker_does_not_resave_after_close_and_delayed_destroy(
         cast(qt.QtCore.QObject, owner),
         qt.QtCore.QEvent(qt.QtCore.QEvent.Type.Close),
     )
-    owner.destroyed.emit(None)
+    owner.destroyed.emit()
 
     # close時の一度だけ保存し、reset後に古い状態を復活させない。
     assert manager.save_count == 1
@@ -229,7 +210,7 @@ def test_window_tracker_saves_cached_state_on_external_destroy(
         monkeypatch,
         bind_window=True,
     )
-    owner.destroyed.emit(None)
+    owner.destroyed.emit()
 
     # Widgetを再取得せず退避済み状態を保存してcallbackを解除する。
     assert manager.save_count == 1
@@ -269,7 +250,7 @@ def test_tracker_skips_delayed_restore_after_owner_is_destroyed(
     )
     tracker, manager, owner, _calls = _create_tracker(monkeypatch)
     tracker.restore()
-    owner.destroyed.emit(None)
+    owner.destroyed.emit()
 
     # 破棄済みWidgetへ保存状態を適用しない。
     scheduled_callbacks[0]()
@@ -304,7 +285,7 @@ def test_dockable_tracker_follows_controller_lifecycle(monkeypatch) -> None:
 
     # 解除後の通知とowner破棄では状態を重複保存しない。
     owner.dock_closed.emit()
-    owner.destroyed.emit(None)
+    owner.destroyed.emit()
     assert tracker.manager is manager
     assert manager.save_count == 2
     assert calls["removed"] == [42]
@@ -318,7 +299,7 @@ def test_dockable_tracker_saves_cached_state_on_external_destroy(
         monkeypatch,
         bind_dockable=True,
     )
-    owner.destroyed.emit(None)
+    owner.destroyed.emit()
 
     # Widgetを再取得せず退避済み状態を保存してcallbackを解除する。
     assert manager.save_count == 1
@@ -336,7 +317,7 @@ def test_tracker_ignores_callback_already_removed_by_maya(
         raise RuntimeError("callback already removed")
 
     monkeypatch.setattr(
-        maya_ui_state,
+        maya_callback,
         "_remove_callback",
         raise_removed_error,
     )

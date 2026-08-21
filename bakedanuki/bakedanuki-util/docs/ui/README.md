@@ -92,6 +92,57 @@ simple_window.show()
 `get_main_window()`はbatch MayaとMaya初期化前には`None`を返します。そのため、これらの
 環境でmoduleをimportしてもMaya UIを取得しに行きません。
 
+## Maya callbackのlifecycle管理
+
+`MayaCallbackRegistry`は、`MEventMessage`、`MSceneMessage`、`MNodeMessage`などが返す
+Maya callback IDを1つのQt ownerへ関連付けます。callback種別ごとの登録方法はMaya APIへ
+委ね、解除とlifecycleだけを共通化します。
+
+```python
+from maya.api import OpenMaya as om
+
+from bd_util.maya.ui import MayaCallbackRegistry
+from bd_util.ui import qt
+
+
+class MyWindow(qt.QDialog):
+    def __init__(self, parent: qt.QWidget | None = None) -> None:
+        super().__init__(parent)
+
+        # Window instanceが所有するMaya callbackをまとめて管理する。
+        self.maya_callbacks = MayaCallbackRegistry(self)
+        callback_id = om.MEventMessage.addEventCallback(
+            "SelectionChanged",
+            self._on_selection_changed,
+        )
+        self.maya_callbacks.register(int(callback_id))
+
+    def _on_selection_changed(self, *_args: object) -> None:
+        print("selection changed")
+```
+
+登録済みIDは`callback_ids`で確認でき、`remove()`では1件、`dispose()`では全件を解除します。
+全件解除は登録と逆順に行い、二重disposeとMaya側で解除済みのIDを許容します。破棄済みregistry
+への追加と、同じIDの重複登録はerrorにします。
+
+Qt ownerの`destroyed`と`MSceneMessage.kMayaExiting`でも自動解除します。さらに
+`MayaWindowController.dispose()`と`MayaDockableWindowController.dispose()`は、Qtの遅延破棄や
+workspaceControl削除を待たず、owner直下のregistryを即座に解除します。通常の`close()`では
+Window instanceを保持するためcallbackも維持され、同じinstanceの再表示で再登録されません。
+
+Maya終了前にtool固有処理が必要な場合は`on_maya_exiting`を指定できます。処理が例外を送出しても
+registryのcallback解除は必ず実行されます。
+
+```python
+self.maya_callbacks = MayaCallbackRegistry(
+    self,
+    on_maya_exiting=self.save_cached_state,
+)
+```
+
+`MayaUiStateTracker`のMaya終了callbackもこのregistryで管理します。tool側でtracker用callbackを
+個別に解除する必要はありません。
+
 ## Window stateの保存
 
 `settings_path`を指定すると、windowの位置、サイズ、最大化状態をMayaのuser
@@ -428,6 +479,22 @@ dock_lifecycle.show()
 4. floatingとdockを切り替え、event logへ変更が記録されることを確認する。
 5. Mayaを終了・再起動し、workspaceControl、Splitter幅、選択タブが復元されることを確認する。
 6. `Reset`でWindowが再生成され、初期配置と初期Widget状態へ戻ることを確認する。
+
+同じハーネスには`SelectionChanged` callbackも登録されています。次の操作でcallbackの寿命を
+確認できます。
+
+1. Maya上で選択を変更し、event logへ`selection_changed`が1行追加されることを確認する。
+2. `Close`後に選択を変更し、`dock_lifecycle.show()`で再表示すると同じWindowのlogへ記録されていることを確認する。
+3. `Dispose`後に`dock_lifecycle.show()`で新しいWindowを生成し、選択変更ごとに1行だけ追加されることを確認する。
+4. `dock_lifecycle.dispose()`後にmoduleをreloadし、古いcallbackによる二重記録がないことを確認する。
+
+管理中の利用側callback IDは診断結果から確認できます。
+
+```python
+from pprint import pprint
+
+pprint(dock_lifecycle.diagnose()["callback_ids"])
+```
 
 floating workspaceControlの画面外救済は、Script Editorから次の順に確認できます。
 

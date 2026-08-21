@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from .callback import MayaCallbackRegistry
 from .dock import (
     DockArea,
     DockOptions,
@@ -28,6 +29,7 @@ __all__ = [
     "get_main_window",
     "get_ui_settings_file",
     "get_ui_settings_root",
+    "MayaCallbackRegistry",
     "MayaDockableWindow",
     "MayaDockableWindowController",
     "MayaUiStateTracker",

@@ -1,8 +1,11 @@
 # coding: utf-8
+from maya.api import OpenMaya as om
+
 from ....maya.ui import (
     DockArea,
     DockOptions,
     DockRestoreSpec,
+    MayaCallbackRegistry,
     MayaDockableWindow,
     MayaDockableWindowController,
     MayaUiStateTracker,
@@ -28,8 +31,9 @@ class DockLifecycleHarness(MayaDockableWindow):
 
         # 手動確認する操作と期待する状態をWindow内へ表示する。
         instructions = qt.QLabel(
-            "Move the splitter and select another tab, then use Close, "
-            "Dispose, or Reset. Lifecycle events are recorded below."
+            "Move the splitter, select another tab, or change Maya "
+            "selection, then use Close, Dispose, or Reset. Lifecycle "
+            "events are recorded below."
         )
         instructions.setWordWrap(True)
 
@@ -85,6 +89,16 @@ class DockLifecycleHarness(MayaDockableWindow):
             self.ui_state,
             self,
         )
+
+        # Window instanceと同じ寿命でselection変更callbackを管理する。
+        self.maya_callbacks = MayaCallbackRegistry(self)
+        selection_callback_id = int(
+            om.MEventMessage.addEventCallback(
+                "SelectionChanged",
+                self._on_selection_changed,
+            )
+        )
+        self.maya_callbacks.register(selection_callback_id)
         self.append_event("window_created")
 
     def append_event(self, name: str) -> None:
@@ -113,6 +127,11 @@ class DockLifecycleHarness(MayaDockableWindow):
     def _on_floating_changed(self, floating: bool) -> None:
         """workspaceControlのfloating変更を記録する。"""
         self.append_event(f"floating_changed: {floating}")
+
+    def _on_selection_changed(self, *_args: object) -> None:
+        """Mayaの選択変更callbackを記録する。"""
+        # closeと再表示では維持され、完全破棄後は呼ばれないことを目視確認する。
+        self.append_event("selection_changed")
 
 
 # Maya再起動時にもimportできる固定復元先でcontrollerを構築する。
@@ -208,6 +227,11 @@ def diagnose() -> dict[str, object]:
             else None
         ),
         "window_valid": window_valid,
+        "callback_ids": (
+            window.maya_callbacks.callback_ids
+            if window is not None and qt.isValid(window)
+            else ()
+        ),
         "workspace_widget_type": (
             type(workspace_widget).__name__
             if workspace_widget is not None

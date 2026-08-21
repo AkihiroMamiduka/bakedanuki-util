@@ -5,6 +5,7 @@ from functools import partial
 from typing import Generic, TypeVar, cast
 
 from ....ui import qt
+from ..callback import dispose_owned_callbacks
 from . import workspace_control
 from .options import DockOptions
 from .restore import DockRestoreSpec
@@ -185,6 +186,7 @@ class MayaDockableWindowController(Generic[WindowT]):
         # Widgetが生存している間に保存とcallback解除の機会を通知する。
         if window is not None and qt.isValid(window):
             window.dock_about_to_dispose.emit()
+            dispose_owned_callbacks(window)
 
         # workspaceControlが存在する場合は格納WidgetごとMayaから削除する。
         if workspace_control.exists(control_name):

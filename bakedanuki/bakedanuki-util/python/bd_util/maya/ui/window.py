@@ -4,6 +4,7 @@ from typing import TypeVar
 
 from ...logger import get_logger
 from ...ui import SettingsPath, WindowController, WindowStateTracker, qt
+from .callback import dispose_owned_callbacks
 from .main_window import get_main_window
 from .settings import create_window_state_store
 
@@ -55,3 +56,11 @@ class MayaWindowController(WindowController[WindowT]):
                 self._state_tracker = WindowStateTracker(window, store)
 
         return window
+
+    def dispose(self) -> None:
+        """Maya callbackを解除して現在のwindowを完全破棄する。"""
+        # DeferredDeleteを待たず、Windowが所有するcallbackを先に解除する。
+        window = self.window
+        if window is not None and qt.isValid(window):
+            dispose_owned_callbacks(window)
+        super().dispose()

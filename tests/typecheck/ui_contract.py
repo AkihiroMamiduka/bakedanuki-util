@@ -5,6 +5,7 @@ from PySide6 import QtGui, QtWidgets
 from bd_util.maya.ui import (
     DockOptions,
     DockRestoreSpec,
+    MayaCallbackRegistry,
     MayaDockableWindow,
     MayaDockableWindowController,
     MayaUiStateTracker,
@@ -104,6 +105,14 @@ assert_type(ui_state_tracker.manager, UiStateManager)
 assert_type(ui_state_tracker.restore(), None)
 assert_type(ui_state_tracker.save(), bool)
 assert_type(ui_state_tracker.dispose(), None)
+
+callback_owner = SampleWindow()
+callback_registry = MayaCallbackRegistry(callback_owner)
+assert_type(callback_registry.callback_ids, tuple[int, ...])
+assert_type(callback_registry.is_disposed, bool)
+assert_type(callback_registry.register(42), int)
+assert_type(callback_registry.remove(42), bool)
+assert_type(callback_registry.dispose(), None)
 
 dockable_ui_state_tracker = MayaUiStateTracker.for_dockable(
     ui_state_manager,

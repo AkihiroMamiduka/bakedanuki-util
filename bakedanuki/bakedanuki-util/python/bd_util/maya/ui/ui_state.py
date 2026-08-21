@@ -4,9 +4,8 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Protocol, Self, cast
 
-from maya.api import OpenMaya as om
-
 from ...ui import UiStateManager, qt
+from .callback import MayaCallbackRegistry
 
 if TYPE_CHECKING:
     from .dock.window import MayaDockableWindow
@@ -77,23 +76,6 @@ class _WindowLifecycleFilter(qt.QtCore.QObject):
         return False
 
 
-def _add_maya_exiting_callback(callback: Callable[..., None]) -> int:
-    """Maya終了直前に呼ばれるcallbackを登録する。"""
-    # Qt Widgetが破棄される前に保存できるMaya固有の通知を使用する。
-    return int(
-        om.MSceneMessage.addCallback(
-            om.MSceneMessage.kMayaExiting,
-            callback,
-        )
-    )
-
-
-def _remove_callback(callback_id: int) -> None:
-    """登録済みMaya callbackを解除する。"""
-    # toolの完全破棄やmodule reload後に古いcallbackを残さない。
-    om.MMessage.removeCallback(callback_id)
-
-
 def _restore_later(callback: Callable[[], None]) -> None:
     """次のQt event loopでUI state復元処理を呼び出す。"""
     # Window表示またはworkspaceControl接続後のlayout計算を待つ。
@@ -110,16 +92,19 @@ class MayaUiStateTracker:
         owner: qt.QtCore.QObject,
     ) -> None:
         """保存処理とcallbackの所有者を受け取って監視を開始する。"""
-        # owner破棄時にcallbackを解除できるよう参照とIDを保持する。
+        # owner破棄時にUI連携とcallbackを解除できるよう参照を保持する。
         self._manager = manager
         self._owner: qt.QtCore.QObject | None = owner
         self._dockable_window: MayaDockableWindow | None = None
         self._window_lifecycle_filter: _WindowLifecycleFilter | None = None
         self._window_closed = False
-        self._callback_id: int | None = None
+        self._callback_registry: MayaCallbackRegistry | None = None
         self._restore_requested = False
         owner.destroyed.connect(self._on_owner_destroyed)
-        self._callback_id = _add_maya_exiting_callback(self._on_maya_exiting)
+        self._callback_registry = MayaCallbackRegistry(
+            owner,
+            on_maya_exiting=self._on_maya_exiting,
+        )
 
     @classmethod
     def for_window(
@@ -181,11 +166,11 @@ class MayaUiStateTracker:
         owner = self._owner
         dockable_window = self._dockable_window
         window_lifecycle_filter = self._window_lifecycle_filter
-        callback_id = self._callback_id
+        callback_registry = self._callback_registry
         self._owner = None
         self._dockable_window = None
         self._window_lifecycle_filter = None
-        self._callback_id = None
+        self._callback_registry = None
 
         # 手動破棄後にownerの遅いdestroyed通知がPython終了処理へ入るのを防ぐ。
         if owner is not None:
@@ -215,13 +200,8 @@ class MayaUiStateTracker:
         if window_lifecycle_filter is not None:
             window_lifecycle_filter.dispose()
 
-        if callback_id is None:
-            return
-        try:
-            _remove_callback(callback_id)
-        except RuntimeError:
-            # Maya終了処理で既に解除済みのcallbackは破棄完了として扱う。
-            pass
+        if callback_registry is not None:
+            callback_registry.dispose()
 
     def _on_maya_exiting(self, *_args: object) -> None:
         """Widget破棄前のMaya終了通知で状態を保存する。"""
