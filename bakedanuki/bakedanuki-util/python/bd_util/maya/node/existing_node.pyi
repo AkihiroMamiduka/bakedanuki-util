@@ -679,6 +679,7 @@ from .operator.node.dg.curve_info import CurveInfo
 from .operator.node.dg.curve_intersect import CurveIntersect
 from .operator.node.dg.curve_normalizer_angle import CurveNormalizerAngle
 from .operator.node.dg.curve_normalizer_linear import CurveNormalizerLinear
+from .operator.node.dag.transform.curve_var_group import CurveVarGroup
 from .operator.node.dg.curve_warp import CurveWarp
 from .operator.node.dag.transform.dag_container import DagContainer
 from .operator.node.dg.dag_pose import DagPose
@@ -775,6 +776,7 @@ from .operator.node.dg.geo_connector import GeoConnector
 from .operator.node.dg.geom_bind import GeomBind
 from .operator.node.dag.transform.geometry_constraint import GeometryConstraint
 from .operator.node.dg.geometry_filter import GeometryFilter
+from .operator.node.dag.transform.geometry_var_group import GeometryVarGroup
 from .operator.node.dg.global_cache_control import GlobalCacheControl
 from .operator.node.dg.global_stitch import GlobalStitch
 from .operator.node.dg.granite import Granite
@@ -917,6 +919,7 @@ from .operator.node.dg.maya_usd_proxy_shape_listener_base import (
 )
 from .operator.node.dg.membrane import Membrane
 from .operator.node.dag.shape.mesh import Mesh
+from .operator.node.dag.transform.mesh_var_group import MeshVarGroup
 from .operator.node.dg.min import Min
 from .operator.node.dg.modulo import Modulo
 from .operator.node.dg.morph import Morph
@@ -1296,6 +1299,9 @@ from .operator.node.dag.shape.subdiv import Subdiv
 from .operator.node.dg.subdiv_collapse import SubdivCollapse
 from .operator.node.dg.subdiv_component_id import SubdivComponentId
 from .operator.node.dg.subdiv_reverse_faces import SubdivReverseFaces
+from .operator.node.dag.transform.subdiv_surface_var_group import (
+    SubdivSurfaceVarGroup,
+)
 from .operator.node.dg.subdiv_to_nurbs import SubdivToNurbs
 from .operator.node.dg.subdiv_to_poly import SubdivToPoly
 from .operator.node.dg.subset_falloff import SubsetFalloff
@@ -1304,6 +1310,7 @@ from .operator.node.dg.sum import Sum
 from .operator.node.dg.surface_info import SurfaceInfo
 from .operator.node.dg.surface_luminance import SurfaceLuminance
 from .operator.node.dg.surface_shader import SurfaceShader
+from .operator.node.dag.transform.surface_var_group import SurfaceVarGroup
 from .operator.node.dg.svg_to_poly import SvgToPoly
 from .operator.node.dg.sweep_mesh_creator import SweepMeshCreator
 from .operator.node.dg.sweep_profile_converter import SweepProfileConverter
@@ -4870,6 +4877,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> CurveNormalizerLinear: ...
     @staticmethod
+    def curveVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> CurveVarGroup: ...
+    @staticmethod
     def curveWarp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5433,6 +5446,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GeometryFilter: ...
+    @staticmethod
+    def geometryVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> GeometryVarGroup: ...
     @staticmethod
     def globalCacheControl(
         node: str | om.MObject,
@@ -6177,6 +6196,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Mesh: ...
+    @staticmethod
+    def meshVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MeshVarGroup: ...
     @staticmethod
     def min(
         node: str | om.MObject,
@@ -8320,6 +8345,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> SubdivReverseFaces: ...
     @staticmethod
+    def subdivSurfaceVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> SubdivSurfaceVarGroup: ...
+    @staticmethod
     def subdivToNurbs(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8367,6 +8398,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SurfaceShader: ...
+    @staticmethod
+    def surfaceVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> SurfaceVarGroup: ...
     @staticmethod
     def svgToPoly(
         node: str | om.MObject,

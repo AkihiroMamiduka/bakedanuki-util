@@ -976,12 +976,42 @@ def test_generate_transform_node_class_code():
 @pytest.mark.parametrize(
     ("node_type", "base_node_type", "base_class_name", "base_module_name"),
     [
+        (
+            "curveVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
+        (
+            "geometryVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
         ("hikFKJoint", "joint", "Joint", "joint"),
         ("hikHandle", "ikHandle", "IkHandle", "ik_handle"),
         ("lookAt", "aimConstraint", "AimConstraint", "aim_constraint"),
+        (
+            "meshVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
+        (
+            "subdivSurfaceVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
+        (
+            "surfaceVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
     ],
 )
-def test_generate_transform_uses_existing_concrete_base(
+def test_generate_transform_uses_existing_base(
     node_type,
     base_node_type,
     base_class_name,

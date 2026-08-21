@@ -384,6 +384,61 @@ def test_existing_node_look_at_preserves_aim_constraint_base(
     assert isinstance(look_at, AimConstraint)
 
 
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("curveVarGroup", "CurveVarGroup"),
+        ("geometryVarGroup", "GeometryVarGroup"),
+        ("meshVarGroup", "MeshVarGroup"),
+        ("subdivSurfaceVarGroup", "SubdivSurfaceVarGroup"),
+        ("surfaceVarGroup", "SurfaceVarGroup"),
+    ],
+)
+def test_existing_node_wraps_var_group_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+def test_existing_node_var_groups_preserve_abstract_base(
+    new_scene,
+    maya_cmds,
+):
+    from bd_util.maya.node.operator.node.dag.transform.base_geometry_var_group import (
+        BaseGeometryVarGroup,
+    )
+
+    node_types = (
+        "curveVarGroup",
+        "geometryVarGroup",
+        "meshVarGroup",
+        "subdivSurfaceVarGroup",
+        "surfaceVarGroup",
+    )
+
+    nodes = [
+        ExistingNode(maya_cmds.createNode(node_type))
+        for node_type in node_types
+    ]
+
+    assert all(isinstance(node, BaseGeometryVarGroup) for node in nodes)
+
+
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 

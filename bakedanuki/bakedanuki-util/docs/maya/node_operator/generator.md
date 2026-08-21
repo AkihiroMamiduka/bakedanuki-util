@@ -202,6 +202,9 @@ HIK系では、既に具体型がある直近のnative基底を生成classの基
 scene / utility系では、`lookAt` がnativeで `aimConstraint` を継承するため、
 生成classも `AimConstraint` を基底にします。`dagContainer` / `fosterParent` /
 `place3dTexture` はtransform共通attribute以外を持たない空の具象classです。
+VarGroup系5種は、作成不能な抽象native type `baseGeometryVarGroup` の共通attributeを
+`BaseGeometryVarGroup` に生成し、その派生型として生成します。抽象基底自体は
+`nodes.existing` の型別メソッドには公開せず、具体5種だけを公開します。
 `transform` / `joint` は引き続き作成確認済み type として公開します。
 
 ## 命名規則

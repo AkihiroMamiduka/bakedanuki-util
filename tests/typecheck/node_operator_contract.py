@@ -419,6 +419,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double i
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.float import (
     FloatPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.long import (
+    LongPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.short import (
     ShortPlugOperator,
 )
@@ -941,11 +944,17 @@ from bd_util.maya.node.operator.node.dag.transform.aim_constraint import (
     AimConstraint,
 )
 from bd_util.maya.node.operator.node.dag.transform.air_field import AirField
+from bd_util.maya.node.operator.node.dag.transform.base_geometry_var_group import (
+    BaseGeometryVarGroup,
+)
 from bd_util.maya.node.operator.node.dag.transform.clip_ghost_shape import (
     ClipGhostShape,
 )
 from bd_util.maya.node.operator.node.dag.transform.collision_model import (
     CollisionModel,
+)
+from bd_util.maya.node.operator.node.dag.transform.curve_var_group import (
+    CurveVarGroup,
 )
 from bd_util.maya.node.operator.node.dag.transform.dag_container import (
     DagContainer,
@@ -959,6 +968,9 @@ from bd_util.maya.node.operator.node.dag.transform.foster_parent import (
 )
 from bd_util.maya.node.operator.node.dag.transform.geometry_constraint import (
     GeometryConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.geometry_var_group import (
+    GeometryVarGroup,
 )
 from bd_util.maya.node.operator.node.dag.transform.gravity_field import (
     GravityField,
@@ -984,6 +996,9 @@ from bd_util.maya.node.operator.node.dag.transform.instancer import Instancer
 from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 from bd_util.maya.node.operator.node.dag.transform.lod_group import LodGroup
 from bd_util.maya.node.operator.node.dag.transform.look_at import LookAt
+from bd_util.maya.node.operator.node.dag.transform.mesh_var_group import (
+    MeshVarGroup,
+)
 from bd_util.maya.node.operator.node.dag.transform.normal_constraint import (
     NormalConstraint,
 )
@@ -1032,6 +1047,12 @@ from bd_util.maya.node.operator.node.dag.transform.scale_constraint import (
 )
 from bd_util.maya.node.operator.node.dag.transform.symmetry_constraint import (
     SymmetryConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.subdiv_surface_var_group import (
+    SubdivSurfaceVarGroup,
+)
+from bd_util.maya.node.operator.node.dag.transform.surface_var_group import (
+    SurfaceVarGroup,
 )
 from bd_util.maya.node.operator.node.dag.transform.tangent_constraint import (
     TangentConstraint,
@@ -1135,6 +1156,17 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     lod_group = nodes.existing.lodGroup("existing_lod_group")
     look_at = nodes.existing.lookAt("existing_look_at")
     place3d_texture = nodes.existing.place3dTexture("existing_place3d_texture")
+    curve_var_group = nodes.existing.curveVarGroup("existing_curve_var_group")
+    geometry_var_group = nodes.existing.geometryVarGroup(
+        "existing_geometry_var_group"
+    )
+    mesh_var_group = nodes.existing.meshVarGroup("existing_mesh_var_group")
+    subdiv_surface_var_group = nodes.existing.subdivSurfaceVarGroup(
+        "existing_subdiv_surface_var_group"
+    )
+    surface_var_group = nodes.existing.surfaceVarGroup(
+        "existing_surface_var_group"
+    )
 
     assert_type(handle, IkHandle)
     assert_type(handle.ikBlend, DoublePlugOperator)
@@ -1211,6 +1243,20 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
 
     aim_constraint_base: AimConstraint = look_at
     assert aim_constraint_base is look_at
+    assert_type(curve_var_group, CurveVarGroup)
+    assert_type(curve_var_group.maxCreated, LongPlugOperator)
+    assert_type(curve_var_group.create_, DataNurbsCurvePlugOperator)
+    assert_type(geometry_var_group, GeometryVarGroup)
+    assert_type(geometry_var_group.create_, TypedPlugOperator)
+    assert_type(mesh_var_group, MeshVarGroup)
+    assert_type(mesh_var_group.create_, DataMeshPlugOperator)
+    assert_type(subdiv_surface_var_group, SubdivSurfaceVarGroup)
+    assert_type(subdiv_surface_var_group.create_, TypedPlugOperator)
+    assert_type(surface_var_group, SurfaceVarGroup)
+    assert_type(surface_var_group.create_, DataNurbsSurfacePlugOperator)
+
+    base_geometry_var_group: BaseGeometryVarGroup = curve_var_group
+    assert base_geometry_var_group is curve_var_group
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:

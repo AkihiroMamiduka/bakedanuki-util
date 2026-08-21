@@ -558,6 +558,9 @@ HIK 系5種も `nodes.existing.hikFKJoint()` /
 scene / utility 系6種も `nodes.existing.dagContainer()` /
 `nodes.existing.lookAt()` などから具体型として利用できます。
 `LookAt` はnative継承に合わせて `AimConstraint` の派生型として扱います。
+VarGroup 系5種も `nodes.existing.curveVarGroup()` /
+`nodes.existing.meshVarGroup()` などから具体型として利用できます。
+5種共通の抽象native基底は `BaseGeometryVarGroup` として型階層に保持します。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

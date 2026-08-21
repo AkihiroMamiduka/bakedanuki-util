@@ -317,9 +317,14 @@ _DAG_NODE_KINDS: frozenset[str] = frozenset(
 )
 
 _TRANSFORM_INHERITED_NODE_TYPES: dict[str, str] = {
+    "curveVarGroup": "baseGeometryVarGroup",
+    "geometryVarGroup": "baseGeometryVarGroup",
     "hikFKJoint": "joint",
     "hikHandle": "ikHandle",
     "lookAt": "aimConstraint",
+    "meshVarGroup": "baseGeometryVarGroup",
+    "subdivSurfaceVarGroup": "baseGeometryVarGroup",
+    "surfaceVarGroup": "baseGeometryVarGroup",
 }
 
 

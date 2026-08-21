@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import cast
 
-_ABSTRACT_NODE_TYPES = frozenset({"shape"})
+_ABSTRACT_NODE_TYPES = frozenset({"baseGeometryVarGroup", "shape"})
 
 
 @dataclass(frozen=True)

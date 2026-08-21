@@ -37,11 +37,13 @@ def test_transform_stub_includes_existing_only_concrete_classes():
         "airField": "AirField",
         "clipGhostShape": "ClipGhostShape",
         "collisionModel": "CollisionModel",
+        "curveVarGroup": "CurveVarGroup",
         "dagContainer": "DagContainer",
         "dragField": "DragField",
         "fluidEmitter": "FluidEmitter",
         "fosterParent": "FosterParent",
         "geometryConstraint": "GeometryConstraint",
+        "geometryVarGroup": "GeometryVarGroup",
         "gravityField": "GravityField",
         "hikEffector": "HikEffector",
         "hikFKJoint": "HikFKJoint",
@@ -53,6 +55,7 @@ def test_transform_stub_includes_existing_only_concrete_classes():
         "instancer": "Instancer",
         "lodGroup": "LodGroup",
         "lookAt": "LookAt",
+        "meshVarGroup": "MeshVarGroup",
         "newtonField": "NewtonField",
         "normalConstraint": "NormalConstraint",
         "nucleus": "Nucleus",
@@ -70,6 +73,8 @@ def test_transform_stub_includes_existing_only_concrete_classes():
         "rigidConstraint": "RigidConstraint",
         "scaleConstraint": "ScaleConstraint",
         "symmetryConstraint": "SymmetryConstraint",
+        "subdivSurfaceVarGroup": "SubdivSurfaceVarGroup",
+        "surfaceVarGroup": "SurfaceVarGroup",
         "tangentConstraint": "TangentConstraint",
         "textureDeformerHandle": "TextureDeformerHandle",
         "turbulenceField": "TurbulenceField",
@@ -84,7 +89,7 @@ def test_transform_stub_includes_existing_only_concrete_classes():
     } == expected_classes
 
 
-def test_shape_stub_excludes_abstract_base_class():
+def test_stub_excludes_abstract_base_classes():
     import bd_util
     from bd_util._dev.maya.node.operator.node import (
         generate_existing_node_stub as stub_generator,
@@ -93,7 +98,9 @@ def test_shape_stub_excludes_abstract_base_class():
     python_root = Path(bd_util.__file__).resolve().parent.parent
     definitions = stub_generator.collect_node_definitions(python_root)
 
-    assert all(definition.node_type != "shape" for definition in definitions)
+    assert {definition.node_type for definition in definitions}.isdisjoint(
+        {"baseGeometryVarGroup", "shape"}
+    )
 
 
 def test_shape_with_transform_stub_uses_only_creatable_shapes():

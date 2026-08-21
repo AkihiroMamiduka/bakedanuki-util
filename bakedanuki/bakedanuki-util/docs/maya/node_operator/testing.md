@@ -167,6 +167,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
     `IkHandle` の concrete base を維持することも検証します。
   - scene / utility 系6種もMaya上で作成し、`LookAt` が `AimConstraint` の
     concrete base を維持することも検証します。
+  - VarGroup 系5種もMaya上で作成し、作成不能な抽象native基底
+    `BaseGeometryVarGroup` を型階層として維持することも検証します。
 - `tests/maya/node/creator/test_node_creator.py`
   - node 作成、nodeType 解決、補完用 node 名を検証します。
   - concrete transform class が存在しても、allowlistにないtypeは
