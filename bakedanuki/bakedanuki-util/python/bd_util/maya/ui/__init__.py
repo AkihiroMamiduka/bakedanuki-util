@@ -8,6 +8,7 @@ from .dock import (
     MayaDockableWindowController,
     restore_dockable,
 )
+from .layout import reset_and_show_ui_layout, reset_ui_layout
 from .main_window import get_main_window
 from .settings import (
     create_ui_state_manager,
@@ -31,5 +32,7 @@ __all__ = [
     "MayaDockableWindowController",
     "MayaUiStateTracker",
     "MayaWindowController",
+    "reset_and_show_ui_layout",
+    "reset_ui_layout",
     "restore_dockable",
 ]

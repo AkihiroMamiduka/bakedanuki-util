@@ -227,6 +227,45 @@ windows/main/ui_state/widgets/main_tabs/type
 windows/main/ui_state/widgets/main_tabs/state
 ```
 
+## UI配置の統合リセット
+
+`reset_ui_layout()`は、controllerの完全破棄と保存済みUI配置の削除を正しい順序でまとめて
+実行します。通常Windowとdockable Windowの両方に利用でき、reset後はWindowを閉じた状態に
+します。
+
+```python
+from bd_util.maya.ui import reset_and_show_ui_layout, reset_ui_layout
+
+
+def reset_layout() -> bool:
+    return reset_ui_layout(
+        controller,
+        "tool_name/windows/main",
+    )
+
+
+def reset_and_show_layout():
+    return reset_and_show_ui_layout(
+        controller,
+        "tool_name/windows/main",
+    )
+```
+
+通常Windowでは`dispose()`後にgeometry、QMainWindow state、Widget内部状態を削除します。
+dockable Windowでは`reset_workspace_state()`によってworkspaceControl本体とMayaの保存配置も
+削除してから、同じINI stateを削除します。dispose時のclose eventやlifecycle trackerによる
+最終保存より後にINIをclearするため、resetした値が直後に復活しません。
+
+既定ではWindow stateとWidget内部状態の両方を削除します。片方を維持する場合は
+`clear_window_state=False`または`clear_widget_state=False`を指定します。同じsettings pathに
+保存されたtool固有設定や、別のsettings pathは削除しません。通常WindowのWindow stateを
+削除する場合、settings pathは`MayaWindowController`へ指定した保存先と一致させます。
+
+ユーザー操作からresetする場合は`reset_and_show_ui_layout()`を使うと、保存配置の削除後に
+同じcontrollerから初期状態のWindowを再生成して返します。通常Windowとdockable Windowの
+どちらでも具体的なWindow型が戻り値へ維持されます。QSettingsのclearが失敗した場合は、
+古い配置を復元しないよう再表示せず`RuntimeError`を送出します。
+
 ## Mayaへドッキング可能なWindow
 
 `MayaDockableWindow`と`MayaDockableWindowController`は、Mayaの`workspaceControl`を
@@ -319,7 +358,7 @@ dock_lifecycle.show()
 3. `Dispose`後に`dock_lifecycle.show()`を実行し、新しいWidgetへ状態が復元されることを確認する。
 4. floatingとdockを切り替え、event logへ変更が記録されることを確認する。
 5. Mayaを終了・再起動し、workspaceControl、Splitter幅、選択タブが復元されることを確認する。
-6. `Reset`後に`dock_lifecycle.show()`を実行し、初期配置と初期Widget状態へ戻ることを確認する。
+6. `Reset`でWindowが再生成され、初期配置と初期Widget状態へ戻ることを確認する。
 
 module reloadは古いcontrollerとMaya callbackを残さないよう、完全破棄後に実行します。
 

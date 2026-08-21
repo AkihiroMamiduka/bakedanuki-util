@@ -7,6 +7,8 @@ from ....maya.ui import (
     MayaDockableWindowController,
     MayaUiStateTracker,
     create_ui_state_manager,
+    reset_and_show_ui_layout,
+    reset_ui_layout,
 )
 from ....ui import qt
 
@@ -47,7 +49,7 @@ class DockLifecycleHarness(MayaDockableWindow):
         dispose_button = qt.QPushButton("Dispose")
         dispose_button.clicked.connect(dispose)
         reset_button = qt.QPushButton("Reset")
-        reset_button.clicked.connect(reset)
+        reset_button.clicked.connect(reset_and_show)
 
         button_layout = qt.QHBoxLayout()
         button_layout.addWidget(close_button)
@@ -154,10 +156,13 @@ def dispose() -> None:
     _controller.dispose()
 
 
-def reset() -> None:
+def reset() -> bool:
     """workspaceControl配置とWidget内部状態を初期値へ戻す。"""
-    # 現在状態を保存してWidgetを破棄した後、Maya側の配置を削除する。
-    _controller.reset_workspace_state()
+    # 完全破棄後にMayaとINIへ保存されたUI配置をまとめて削除する。
+    return reset_ui_layout(_controller, _SETTINGS_PATH)
 
-    # 破棄通知が保存したINI上のWidget内部状態を最後に削除する。
-    create_ui_state_manager(_SETTINGS_PATH).clear()
+
+def reset_and_show() -> DockLifecycleHarness:
+    """UI配置をリセットして確認Windowを初期状態で再表示する。"""
+    # Reset buttonから初期配置のworkspaceControlをすぐに確認できるよう再生成する。
+    return reset_and_show_ui_layout(_controller, _SETTINGS_PATH)

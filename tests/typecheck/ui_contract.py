@@ -11,6 +11,8 @@ from bd_util.maya.ui import (
     MayaWindowController,
     create_ui_state_manager,
     get_main_window,
+    reset_and_show_ui_layout,
+    reset_ui_layout,
 )
 from bd_util.ui import SettingsPath, UiStateManager, WindowController, qt
 
@@ -100,6 +102,35 @@ dockable_ui_state_tracker = MayaUiStateTracker.for_dockable(
     SampleDockableWindow(),
 )
 assert_type(dockable_ui_state_tracker, MayaUiStateTracker)
+assert_type(
+    reset_ui_layout(
+        dockable_controller,
+        "sample_tool/windows/main",
+    ),
+    bool,
+)
+assert_type(
+    reset_ui_layout(
+        maya_window_controller,
+        "sample_tool/windows/main",
+        clear_widget_state=False,
+    ),
+    bool,
+)
+assert_type(
+    reset_and_show_ui_layout(
+        dockable_controller,
+        "sample_tool/windows/main",
+    ),
+    SampleDockableWindow,
+)
+assert_type(
+    reset_and_show_ui_layout(
+        maya_window_controller,
+        "sample_tool/windows/main",
+    ),
+    SampleWindow,
+)
 
 facade_widget = FacadeWidget()
 assert_type(facade_widget, FacadeWidget)
