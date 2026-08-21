@@ -801,9 +801,14 @@ from .operator.node.dg.hierarchy_test_node1 import HierarchyTestNode1
 from .operator.node.dg.hierarchy_test_node2 import HierarchyTestNode2
 from .operator.node.dg.hierarchy_test_node3 import HierarchyTestNode3
 from .operator.node.dg.hierarchy_test_node4 import HierarchyTestNode4
+from .operator.node.dag.transform.hik_effector import HikEffector
+from .operator.node.dag.transform.hik_fk_joint import HikFKJoint
 from .operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
 )
+from .operator.node.dag.transform.hik_ground_plane import HikGroundPlane
+from .operator.node.dag.transform.hik_handle import HikHandle
+from .operator.node.dag.transform.hik_ik_effector import HikIKEffector
 from .operator.node.dg.hik_solver import HikSolver
 from .operator.node.dg.history_switch import HistorySwitch
 from .operator.node.dg.hold_matrix import HoldMatrix
@@ -5555,11 +5560,41 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode4: ...
     @staticmethod
+    def hikEffector(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikEffector: ...
+    @staticmethod
+    def hikFKJoint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikFKJoint: ...
+    @staticmethod
     def hikFloorContactMarker(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HikFloorContactMarker: ...
+    @staticmethod
+    def hikGroundPlane(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikGroundPlane: ...
+    @staticmethod
+    def hikHandle(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikHandle: ...
+    @staticmethod
+    def hikIKEffector(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikIKEffector: ...
     @staticmethod
     def hikSolver(
         node: str | om.MObject,

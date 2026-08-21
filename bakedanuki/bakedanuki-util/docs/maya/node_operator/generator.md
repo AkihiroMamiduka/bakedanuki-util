@@ -195,6 +195,10 @@ dynamics / deformer周辺のグループでは、`collisionModel` / `instancer` 
 `nucleus` / `primitiveFalloff` / `textureDeformerHandle` を生成します。
 `textureDeformerHandle` はtransform共通attribute以外を持たないため、生成classは
 `NODE_TYPE` だけを追加する空の具象classになります。
+HIK系では、既に具体型がある直近のnative基底を生成classの基底に使います。
+`hikFKJoint` は `Joint`、`hikHandle` は `IkHandle` を継承し、それぞれの基底で
+定義済みのattributeを重複生成しません。その他のHIK 3種は `Transform` を
+直接継承します。
 `transform` / `joint` は引き続き作成確認済み type として公開します。
 
 ## 命名規則

@@ -954,11 +954,25 @@ from bd_util.maya.node.operator.node.dag.transform.geometry_constraint import (
 from bd_util.maya.node.operator.node.dag.transform.gravity_field import (
     GravityField,
 )
+from bd_util.maya.node.operator.node.dag.transform.hik_effector import (
+    HikEffector,
+)
+from bd_util.maya.node.operator.node.dag.transform.hik_fk_joint import (
+    HikFKJoint,
+)
+from bd_util.maya.node.operator.node.dag.transform.hik_ground_plane import (
+    HikGroundPlane,
+)
+from bd_util.maya.node.operator.node.dag.transform.hik_handle import HikHandle
+from bd_util.maya.node.operator.node.dag.transform.hik_ik_effector import (
+    HikIKEffector,
+)
 from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
     IkEffector,
 )
 from bd_util.maya.node.operator.node.dag.transform.ik_handle import IkHandle
 from bd_util.maya.node.operator.node.dag.transform.instancer import Instancer
+from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 from bd_util.maya.node.operator.node.dag.transform.normal_constraint import (
     NormalConstraint,
 )
@@ -1092,6 +1106,13 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     texture_deformer_handle = nodes.existing.textureDeformerHandle(
         "existing_texture_deformer_handle"
     )
+    hik_effector = nodes.existing.hikEffector("existing_hik_effector")
+    hik_fk_joint = nodes.existing.hikFKJoint("existing_hik_fk_joint")
+    hik_ground_plane = nodes.existing.hikGroundPlane(
+        "existing_hik_ground_plane"
+    )
+    hik_handle = nodes.existing.hikHandle("existing_hik_handle")
+    hik_ik_effector = nodes.existing.hikIKEffector("existing_hik_ik_effector")
 
     assert_type(handle, IkHandle)
     assert_type(handle.ikBlend, DoublePlugOperator)
@@ -1137,6 +1158,21 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(primitive_falloff.start, DoublePlugOperator)
     assert_type(texture_deformer_handle, TextureDeformerHandle)
     assert_type(texture_deformer_handle.visibility, BoolPlugOperator)
+    assert_type(hik_effector, HikEffector)
+    assert_type(hik_effector.reachTranslation, DoublePlugOperator)
+    assert_type(hik_fk_joint, HikFKJoint)
+    assert_type(hik_fk_joint.segmentScaleCompensate, BoolPlugOperator)
+    assert_type(hik_ground_plane, HikGroundPlane)
+    assert_type(hik_ground_plane.length, DoublePlugOperator)
+    assert_type(hik_handle, HikHandle)
+    assert_type(hik_handle.ikBlend, DoublePlugOperator)
+    assert_type(hik_ik_effector, HikIKEffector)
+    assert_type(hik_ik_effector.reachRotation, DoublePlugOperator)
+
+    joint_base: Joint = hik_fk_joint
+    ik_handle_base: IkHandle = hik_handle
+    assert joint_base is hik_fk_joint
+    assert ik_handle_base is hik_handle
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:

@@ -552,6 +552,9 @@ field / emitter 系11種も `nodes.existing.airField()` /
 dynamics / deformer 周辺の5種も `nodes.existing.nucleus()` /
 `nodes.existing.primitiveFalloff()` などから具体型として利用できます。
 これらも専用の作成手順や接続を伴うため `nodes.create` には公開しません。
+HIK 系5種も `nodes.existing.hikFKJoint()` /
+`nodes.existing.hikHandle()` などから具体型として利用できます。
+`HikFKJoint` は `Joint`、`HikHandle` は `IkHandle` の継承関係も維持します。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

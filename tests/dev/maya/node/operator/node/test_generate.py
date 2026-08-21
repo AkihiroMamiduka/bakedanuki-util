@@ -973,6 +973,44 @@ def test_generate_transform_node_class_code():
     assert "ssc = segmentScaleCompensate" in code
 
 
+@pytest.mark.parametrize(
+    ("node_type", "base_node_type", "base_class_name", "base_module_name"),
+    [
+        ("hikFKJoint", "joint", "Joint", "joint"),
+        ("hikHandle", "ikHandle", "IkHandle", "ik_handle"),
+    ],
+)
+def test_generate_transform_uses_existing_concrete_base(
+    node_type,
+    base_node_type,
+    base_class_name,
+    base_module_name,
+):
+    code = generate_node_class_code(
+        node_type,
+        attr_infos=[
+            _attr("baseAttr", "ba", "double"),
+            _attr("derivedAttr", "da", "double"),
+        ],
+        node_kind="transform",
+        inherited_attr_infos=[_attr("baseAttr", "ba", "double")],
+    )
+
+    compile(code, f"{node_type}.py", "exec")
+
+    assert (
+        generate_module._node_kind_inherited_node_type(node_type, "transform")
+        == base_node_type
+    )
+    assert f"from ..{base_module_name} import {base_class_name}" in code
+    assert (
+        f"class Generated{generate_module._node_type_to_class_name(node_type)}({base_class_name}):"
+        in code
+    )
+    assert "baseAttr = DoubleField()" not in code
+    assert "derivedAttr = DoubleField()" in code
+
+
 def test_generate_transform_base_node_class_code():
     code = generate_node_class_code(
         "transform",

@@ -802,9 +802,14 @@ from .operator.node.dg.hierarchy_test_node1 import HierarchyTestNode1
 from .operator.node.dg.hierarchy_test_node2 import HierarchyTestNode2
 from .operator.node.dg.hierarchy_test_node3 import HierarchyTestNode3
 from .operator.node.dg.hierarchy_test_node4 import HierarchyTestNode4
+from .operator.node.dag.transform.hik_effector import HikEffector
+from .operator.node.dag.transform.hik_fk_joint import HikFKJoint
 from .operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
 )
+from .operator.node.dag.transform.hik_ground_plane import HikGroundPlane
+from .operator.node.dag.transform.hik_handle import HikHandle
+from .operator.node.dag.transform.hik_ik_effector import HikIKEffector
 from .operator.node.dg.hik_solver import HikSolver
 from .operator.node.dg.history_switch import HistorySwitch
 from .operator.node.dg.hold_matrix import HoldMatrix
@@ -4862,11 +4867,36 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode4: ...
+    def hikEffector(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> HikEffector: ...
+    def hikFKJoint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> HikFKJoint: ...
     def hikFloorContactMarker(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HikFloorContactMarker: ...
+    def hikGroundPlane(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> HikGroundPlane: ...
+    def hikHandle(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> HikHandle: ...
+    def hikIKEffector(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> HikIKEffector: ...
     def hikSolver(
         self,
         node: str | om.MObject,

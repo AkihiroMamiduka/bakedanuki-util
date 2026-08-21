@@ -163,6 +163,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
     `ModifierManager` 共有を検証します。
   - dynamics / deformer 周辺5種もMaya上で作成し、全型の concrete transform 型と
     `ModifierManager` 共有を検証します。
+  - HIK 系5種もMaya上で作成し、`HikFKJoint` / `HikHandle` が `Joint` /
+    `IkHandle` の concrete base を維持することも検証します。
 - `tests/maya/node/creator/test_node_creator.py`
   - node 作成、nodeType 解決、補完用 node 名を検証します。
   - concrete transform class が存在しても、allowlistにないtypeは
@@ -215,6 +217,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - AttributeField と内部 `_generated` package の生成 NodeOperator、公開 wrapper の生成・保護、安全でない nodeType の除外を検証します。
   - transform / shape のattribute queryが調査用node instanceを作らず、
     登録済みnode typeから静的に取得されることを検証します。
+  - concrete transform のnative基底が生成済みの場合、そのclassを継承して
+    基底attributeを重複生成しないことを検証します。
 - `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
   - `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の型情報を
     公開する stub の生成結果を検証します。

@@ -282,6 +282,61 @@ def test_existing_node_wraps_dynamics_and_deformer_transform(
     assert node.modifier_manager is modifier_manager
 
 
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("hikEffector", "HikEffector"),
+        ("hikFKJoint", "HikFKJoint"),
+        ("hikGroundPlane", "HikGroundPlane"),
+        ("hikHandle", "HikHandle"),
+        ("hikIKEffector", "HikIKEffector"),
+    ],
+)
+def test_existing_node_wraps_hik_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+def test_existing_node_hik_preserves_concrete_transform_base(
+    new_scene,
+    maya_cmds,
+):
+    from bd_util.maya.node.operator.node.dag.transform.hik_fk_joint import (
+        HikFKJoint,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.hik_handle import (
+        HikHandle,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.ik_handle import (
+        IkHandle,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+
+    hik_fk_joint = ExistingNode(maya_cmds.createNode("hikFKJoint"))
+    hik_handle = ExistingNode(maya_cmds.createNode("hikHandle"))
+
+    assert isinstance(hik_fk_joint, HikFKJoint)
+    assert isinstance(hik_fk_joint, Joint)
+    assert isinstance(hik_handle, HikHandle)
+    assert isinstance(hik_handle, IkHandle)
+
+
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 
