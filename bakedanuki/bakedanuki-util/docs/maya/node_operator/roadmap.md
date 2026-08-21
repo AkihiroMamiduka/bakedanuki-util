@@ -59,6 +59,9 @@
   allowlist による段階公開へ変更。
 - transform 派生 node の最初の既存 node 用サンプルとして、`ikHandle` /
   `ikEffector` の具体型と `nodes.existing` 補完を追加。
+- transform 派生 node の第二グループとして、constraint 系14種の具体型と
+  `nodes.existing` 補完を追加。Maya 2025 上で全型の作成と具体型解決を確認し、
+  専用 command / 接続を必要とするため `nodes.create` には非公開。
 
 ## 決定済みのロードマップ
 
@@ -85,8 +88,9 @@ traversal 中に transform 派生 node を具体型へ解決できない問題�
 先に transform 派生 NodeOperator の coverage を段階的に整備します。Maya 2025で
 登録された transform 派生134種のうち、manipulator等82種を既存規則で除外し、
 残る52種はinstanceを作らない静的query、コード生成、構文確認に成功しています。
-最初の代表型として `ikHandle` / `ikEffector` を追加し、その後に対象を広げてから
-traversal実装へ進みます。
+最初の代表型 `ikHandle` / `ikEffector` に続き、constraint 系14種を追加しました。
+現在は `transform` / `joint` を含む18種を具体型へ解決できます。残りを用途別の
+グループで広げてからtraversal実装へ進みます。
 
 - 直接の子。
 - 直接親から root 方向へ辿る先祖。

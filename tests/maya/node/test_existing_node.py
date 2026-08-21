@@ -174,6 +174,46 @@ def test_existing_node_wraps_ik_handle_and_effector(
     assert effector.hideDisplay.long_name == "hideDisplay"
 
 
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("aimConstraint", "AimConstraint"),
+        ("geometryConstraint", "GeometryConstraint"),
+        ("normalConstraint", "NormalConstraint"),
+        ("oldNormalConstraint", "OldNormalConstraint"),
+        ("oldTangentConstraint", "OldTangentConstraint"),
+        ("orientConstraint", "OrientConstraint"),
+        ("parentConstraint", "ParentConstraint"),
+        ("pointConstraint", "PointConstraint"),
+        ("pointOnPolyConstraint", "PointOnPolyConstraint"),
+        ("poleVectorConstraint", "PoleVectorConstraint"),
+        ("rigidConstraint", "RigidConstraint"),
+        ("scaleConstraint", "ScaleConstraint"),
+        ("symmetryConstraint", "SymmetryConstraint"),
+        ("tangentConstraint", "TangentConstraint"),
+    ],
+)
+def test_existing_node_wraps_constraint_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 

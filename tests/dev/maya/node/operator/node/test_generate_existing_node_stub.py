@@ -32,8 +32,29 @@ def test_transform_stub_includes_existing_only_concrete_classes():
         definition.node_type: definition for definition in definitions
     }
 
-    assert definitions_by_type["ikHandle"].class_name == "IkHandle"
-    assert definitions_by_type["ikEffector"].class_name == "IkEffector"
+    expected_classes = {
+        "aimConstraint": "AimConstraint",
+        "geometryConstraint": "GeometryConstraint",
+        "ikEffector": "IkEffector",
+        "ikHandle": "IkHandle",
+        "normalConstraint": "NormalConstraint",
+        "oldNormalConstraint": "OldNormalConstraint",
+        "oldTangentConstraint": "OldTangentConstraint",
+        "orientConstraint": "OrientConstraint",
+        "parentConstraint": "ParentConstraint",
+        "pointConstraint": "PointConstraint",
+        "pointOnPolyConstraint": "PointOnPolyConstraint",
+        "poleVectorConstraint": "PoleVectorConstraint",
+        "rigidConstraint": "RigidConstraint",
+        "scaleConstraint": "ScaleConstraint",
+        "symmetryConstraint": "SymmetryConstraint",
+        "tangentConstraint": "TangentConstraint",
+    }
+
+    assert {
+        node_type: definitions_by_type[node_type].class_name
+        for node_type in expected_classes
+    } == expected_classes
 
 
 def test_shape_stub_excludes_abstract_base_class():

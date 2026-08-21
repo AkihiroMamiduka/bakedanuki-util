@@ -157,6 +157,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - 既存 DG / DAG / shape node の自動判定と型別アクセスを検証します。
   - 作成APIへ公開しない `ikHandle` / `ikEffector` も具体型へ解決し、同じ
     `ModifierManager` を共有することを検証します。
+  - constraint 系14種をMaya上で作成し、全型が同じ `ModifierManager` を共有する
+    concrete transform 型へ解決されることを検証します。
 - `tests/maya/node/creator/test_node_creator.py`
   - node 作成、nodeType 解決、補完用 node 名を検証します。
   - concrete transform class が存在しても、allowlistにないtypeは

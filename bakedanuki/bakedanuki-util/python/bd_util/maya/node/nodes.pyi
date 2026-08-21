@@ -264,6 +264,7 @@ from .operator.node.dg.ai_write_float import AiWriteFloat
 from .operator.node.dg.ai_write_int import AiWriteInt
 from .operator.node.dg.ai_write_rgba import AiWriteRgba
 from .operator.node.dg.ai_write_vector import AiWriteVector
+from .operator.node.dag.transform.aim_constraint import AimConstraint
 from .operator.node.dg.aim_matrix import AimMatrix
 from .operator.node.dg.align_curve import AlignCurve
 from .operator.node.dg.align_surface import AlignSurface
@@ -766,6 +767,7 @@ from .operator.node.dg.gamma_correct import GammaCorrect
 from .operator.node.dag.shape.geo_connectable import GeoConnectable
 from .operator.node.dg.geo_connector import GeoConnector
 from .operator.node.dg.geom_bind import GeomBind
+from .operator.node.dag.transform.geometry_constraint import GeometryConstraint
 from .operator.node.dg.geometry_filter import GeometryFilter
 from .operator.node.dg.global_cache_control import GlobalCacheControl
 from .operator.node.dg.global_stitch import GlobalStitch
@@ -932,6 +934,7 @@ from .operator.node.dg.node_graph_editor_bookmarks import (
 )
 from .operator.node.dg.noise import Noise
 from .operator.node.dg.non_linear import NonLinear
+from .operator.node.dag.transform.normal_constraint import NormalConstraint
 from .operator.node.dg.normalize import Normalize
 from .operator.node.dag.shape.nurbs_curve import NurbsCurve
 from .operator.node.dg.nurbs_curve_to_bezier import NurbsCurveToBezier
@@ -957,11 +960,19 @@ from .operator.node.dg.offset_deformer import OffsetDeformer
 from .operator.node.dg.offset_surface import OffsetSurface
 from .operator.node.dg.old_blind_data_base import OldBlindDataBase
 from .operator.node.dg.old_geometry_constraint import OldGeometryConstraint
+from .operator.node.dag.transform.old_normal_constraint import (
+    OldNormalConstraint,
+)
+from .operator.node.dag.transform.old_tangent_constraint import (
+    OldTangentConstraint,
+)
 from .operator.node.dg.optical_fx import OpticalFX
+from .operator.node.dag.transform.orient_constraint import OrientConstraint
 from .operator.node.dag.shape.orientation_marker import OrientationMarker
 from .operator.node.dg.override import Override
 from .operator.node.dg.pair_blend import PairBlend
 from .operator.node.dag.shape.param_dimension import ParamDimension
+from .operator.node.dag.transform.parent_constraint import ParentConstraint
 from .operator.node.dg.parent_matrix import ParentMatrix
 from .operator.node.dag.shape.particle import Particle
 from .operator.node.dg.particle_age_mapper import ParticleAgeMapper
@@ -982,10 +993,17 @@ from .operator.node.dg.pick_matrix import PickMatrix
 from .operator.node.dg.place2d_texture import Place2dTexture
 from .operator.node.dg.planar_trim_surface import PlanarTrimSurface
 from .operator.node.dg.plus_minus_average import PlusMinusAverage
+from .operator.node.dag.transform.point_constraint import PointConstraint
 from .operator.node.dag.shape.point_light import PointLight
 from .operator.node.dg.point_matrix_mult import PointMatrixMult
 from .operator.node.dg.point_on_curve_info import PointOnCurveInfo
+from .operator.node.dag.transform.point_on_poly_constraint import (
+    PointOnPolyConstraint,
+)
 from .operator.node.dg.point_on_surface_info import PointOnSurfaceInfo
+from .operator.node.dag.transform.pole_vector_constraint import (
+    PoleVectorConstraint,
+)
 from .operator.node.dg.poly_append import PolyAppend
 from .operator.node.dg.poly_append_vertex import PolyAppendVertex
 from .operator.node.dg.poly_auto_proj import PolyAutoProj
@@ -1179,6 +1197,7 @@ from .operator.node.dg.reverse_surface import ReverseSurface
 from .operator.node.dg.revolve import Revolve
 from .operator.node.dg.rgb_to_hsv import RgbToHsv
 from .operator.node.dag.shape.rigid_body import RigidBody
+from .operator.node.dag.transform.rigid_constraint import RigidConstraint
 from .operator.node.dg.rigid_solver import RigidSolver
 from .operator.node.dg.rock import Rock
 from .operator.node.dg.rotate_helper import RotateHelper
@@ -1189,6 +1208,7 @@ from .operator.node.dg.round_constant_radius import RoundConstantRadius
 from .operator.node.dg.row_from_matrix import RowFromMatrix
 from .operator.node.dg.sampler import Sampler
 from .operator.node.dg.sampler_info import SamplerInfo
+from .operator.node.dag.transform.scale_constraint import ScaleConstraint
 from .operator.node.dg.scale_from_matrix import ScaleFromMatrix
 from .operator.node.dg.script import Script
 from .operator.node.dg.sculpt import Sculpt
@@ -1266,7 +1286,9 @@ from .operator.node.dg.surface_shader import SurfaceShader
 from .operator.node.dg.svg_to_poly import SvgToPoly
 from .operator.node.dg.sweep_mesh_creator import SweepMeshCreator
 from .operator.node.dg.sweep_profile_converter import SweepProfileConverter
+from .operator.node.dag.transform.symmetry_constraint import SymmetryConstraint
 from .operator.node.dg.tan import Tan
+from .operator.node.dag.transform.tangent_constraint import TangentConstraint
 from .operator.node.dg.tension import Tension
 from .operator.node.dg.tex_lattice import TexLattice
 from .operator.node.dg.texture_bake_set import TextureBakeSet
@@ -2557,6 +2579,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiWriteVector: ...
+    def aimConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> AimConstraint: ...
     def aimMatrix(
         self,
         node: str | om.MObject,
@@ -4662,6 +4689,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GeomBind: ...
+    def geometryConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> GeometryConstraint: ...
     def geometryFilter(
         self,
         node: str | om.MObject,
@@ -5382,6 +5414,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NonLinear: ...
+    def normalConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> NormalConstraint: ...
     def normalize(
         self,
         node: str | om.MObject,
@@ -5512,6 +5549,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> OldGeometryConstraint: ...
+    def oldNormalConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> OldNormalConstraint: ...
+    def oldTangentConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> OldTangentConstraint: ...
     def opticalFX(
         self,
         node: str | om.MObject,
@@ -5522,6 +5569,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
+    def orientConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> OrientConstraint: ...
     def orientationMarker(
         self,
         node: str | om.MObject,
@@ -5542,6 +5594,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ParamDimension: ...
+    def parentConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ParentConstraint: ...
     def parentMatrix(
         self,
         node: str | om.MObject,
@@ -5642,6 +5699,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PlusMinusAverage: ...
+    def pointConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> PointConstraint: ...
     def pointLight(
         self,
         node: str | om.MObject,
@@ -5657,11 +5719,21 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PointOnCurveInfo: ...
+    def pointOnPolyConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> PointOnPolyConstraint: ...
     def pointOnSurfaceInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PointOnSurfaceInfo: ...
+    def poleVectorConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> PoleVectorConstraint: ...
     def polyAppend(
         self,
         node: str | om.MObject,
@@ -6567,6 +6639,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RigidBody: ...
+    def rigidConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> RigidConstraint: ...
     def rigidSolver(
         self,
         node: str | om.MObject,
@@ -6617,6 +6694,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SamplerInfo: ...
+    def scaleConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> ScaleConstraint: ...
     def scaleFromMatrix(
         self,
         node: str | om.MObject,
@@ -7002,11 +7084,21 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SweepProfileConverter: ...
+    def symmetryConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> SymmetryConstraint: ...
     def tan(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Tan: ...
+    def tangentConstraint(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> TangentConstraint: ...
     def tension(
         self,
         node: str | om.MObject,

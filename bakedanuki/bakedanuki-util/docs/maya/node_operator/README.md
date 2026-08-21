@@ -543,6 +543,9 @@ transform 派生 node は、既存 node の具体型対応と作成 API を分�
 `ikHandle` / `ikEffector` は `nodes.existing.ikHandle()` /
 `nodes.existing.ikEffector()` から具体型として利用できますが、作成には専用の
 初期化手順が必要なため `nodes.create` には公開しません。
+constraint 系14種も `nodes.existing.aimConstraint()` /
+`nodes.existing.parentConstraint()` などから具体型として利用できます。
+これらも専用 command や接続を伴うため `nodes.create` には公開しません。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

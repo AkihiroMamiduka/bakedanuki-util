@@ -937,20 +937,118 @@ from bd_util.maya.node.operator.node.dag.shape.ufe_proxy_camera_shape import (
 )
 from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
+from bd_util.maya.node.operator.node.dag.transform.aim_constraint import (
+    AimConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.geometry_constraint import (
+    GeometryConstraint,
+)
 from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
     IkEffector,
 )
 from bd_util.maya.node.operator.node.dag.transform.ik_handle import IkHandle
+from bd_util.maya.node.operator.node.dag.transform.normal_constraint import (
+    NormalConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.old_normal_constraint import (
+    OldNormalConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.old_tangent_constraint import (
+    OldTangentConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.orient_constraint import (
+    OrientConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.parent_constraint import (
+    ParentConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.point_constraint import (
+    PointConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.point_on_poly_constraint import (
+    PointOnPolyConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.pole_vector_constraint import (
+    PoleVectorConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.rigid_constraint import (
+    RigidConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.scale_constraint import (
+    ScaleConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.symmetry_constraint import (
+    SymmetryConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.tangent_constraint import (
+    TangentConstraint,
+)
 
 
 def transform_existing_contract(nodes: bdu.Nodes) -> None:
     handle = nodes.existing.ikHandle("existing_ik_handle")
     effector = nodes.existing.ikEffector("existing_ik_effector")
+    aim_constraint = nodes.existing.aimConstraint("existing_aim_constraint")
+    geometry_constraint = nodes.existing.geometryConstraint(
+        "existing_geometry_constraint"
+    )
+    normal_constraint = nodes.existing.normalConstraint(
+        "existing_normal_constraint"
+    )
+    old_normal_constraint = nodes.existing.oldNormalConstraint(
+        "existing_old_normal_constraint"
+    )
+    old_tangent_constraint = nodes.existing.oldTangentConstraint(
+        "existing_old_tangent_constraint"
+    )
+    orient_constraint = nodes.existing.orientConstraint(
+        "existing_orient_constraint"
+    )
+    parent_constraint = nodes.existing.parentConstraint(
+        "existing_parent_constraint"
+    )
+    point_constraint = nodes.existing.pointConstraint(
+        "existing_point_constraint"
+    )
+    point_on_poly_constraint = nodes.existing.pointOnPolyConstraint(
+        "existing_point_on_poly_constraint"
+    )
+    pole_vector_constraint = nodes.existing.poleVectorConstraint(
+        "existing_pole_vector_constraint"
+    )
+    rigid_constraint = nodes.existing.rigidConstraint(
+        "existing_rigid_constraint"
+    )
+    scale_constraint = nodes.existing.scaleConstraint(
+        "existing_scale_constraint"
+    )
+    symmetry_constraint = nodes.existing.symmetryConstraint(
+        "existing_symmetry_constraint"
+    )
+    tangent_constraint = nodes.existing.tangentConstraint(
+        "existing_tangent_constraint"
+    )
 
     assert_type(handle, IkHandle)
     assert_type(handle.ikBlend, DoublePlugOperator)
     assert_type(effector, IkEffector)
     assert_type(effector.hideDisplay, BoolPlugOperator)
+    assert_type(aim_constraint, AimConstraint)
+    assert_type(geometry_constraint, GeometryConstraint)
+    assert_type(normal_constraint, NormalConstraint)
+    assert_type(old_normal_constraint, OldNormalConstraint)
+    assert_type(old_tangent_constraint, OldTangentConstraint)
+    assert_type(orient_constraint, OrientConstraint)
+    assert_type(parent_constraint, ParentConstraint)
+    assert_type(parent_constraint.lockOutput, BoolPlugOperator)
+    assert_type(point_constraint, PointConstraint)
+    assert_type(point_on_poly_constraint, PointOnPolyConstraint)
+    assert_type(pole_vector_constraint, PoleVectorConstraint)
+    assert_type(rigid_constraint, RigidConstraint)
+    assert_type(rigid_constraint.springStiffness, DoublePlugOperator)
+    assert_type(scale_constraint, ScaleConstraint)
+    assert_type(symmetry_constraint, SymmetryConstraint)
+    assert_type(tangent_constraint, TangentConstraint)
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:

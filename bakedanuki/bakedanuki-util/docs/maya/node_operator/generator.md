@@ -185,6 +185,9 @@ shape node は全生成と作成 API の公開を分けて扱います。生成�
 transform 派生 node も同じく、既存 node を具体型へ包む coverage と作成 API の
 公開を分けます。`ikHandle` / `ikEffector` は最初の既存 node 用サンプルとして
 生成しますが、特殊な作成手順を持つため `nodes.create` には公開しません。
+次のグループとしてconstraint系14種も生成し、`nodes.existing` の具体型と
+補完へ追加しています。constraint nodeも専用commandや接続を伴うため、
+`nodes.create` には公開しません。
 `transform` / `joint` は引き続き作成確認済み type として公開します。
 
 ## 命名規則

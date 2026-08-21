@@ -191,8 +191,22 @@ def test_node_creator_available_node_names_for_completion(new_scene):
     }.issubset(node_creator.available_node_names())
     assert {
         "SphereLocator",
+        "aimConstraint",
+        "geometryConstraint",
         "ikEffector",
         "ikHandle",
+        "normalConstraint",
+        "oldNormalConstraint",
+        "oldTangentConstraint",
+        "orientConstraint",
+        "parentConstraint",
+        "pointConstraint",
+        "pointOnPolyConstraint",
+        "poleVectorConstraint",
+        "rigidConstraint",
+        "scaleConstraint",
+        "symmetryConstraint",
+        "tangentConstraint",
     }.isdisjoint(node_creator.available_node_names())
     assert "multiplyDivide" in dir(node_creator)
     assert "transform" in dir(node_creator)
