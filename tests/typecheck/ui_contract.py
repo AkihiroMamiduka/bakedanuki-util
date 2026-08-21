@@ -102,6 +102,11 @@ dockable_ui_state_tracker = MayaUiStateTracker.for_dockable(
     SampleDockableWindow(),
 )
 assert_type(dockable_ui_state_tracker, MayaUiStateTracker)
+normal_ui_state_tracker = MayaUiStateTracker.for_window(
+    ui_state_manager,
+    SampleWindow(),
+)
+assert_type(normal_ui_state_tracker, MayaUiStateTracker)
 assert_type(
     reset_ui_layout(
         dockable_controller,

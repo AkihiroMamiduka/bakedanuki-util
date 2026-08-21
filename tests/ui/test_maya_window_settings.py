@@ -3,9 +3,42 @@ from pathlib import Path
 
 from PySide6 import QtCore, QtWidgets
 
-from bd_util.maya.ui import MayaWindowController, create_ui_state_manager
+from bd_util.maya.ui import (
+    MayaUiStateTracker,
+    MayaWindowController,
+    create_ui_state_manager,
+    reset_and_show_ui_layout,
+)
 from bd_util.maya.ui import settings as maya_ui_settings
+from bd_util.maya.ui import ui_state as maya_ui_state
 from bd_util.ui import SettingsPath
+
+_STATEFUL_SETTINGS_PATH = "tool_name/windows/stateful"
+
+
+class _StatefulWindow(QtWidgets.QDialog):
+    """通常WindowのWidget状態連携を確認するtest用dialog。"""
+
+    def __init__(
+        self,
+        parent: QtWidgets.QWidget | None = None,
+    ) -> None:
+        """選択タブとlifecycle trackerを持つdialogを生成する。"""
+        # 通常Windowとして表示できるTab Widgetを構築する。
+        super().__init__(parent)
+        self.main_tabs = QtWidgets.QTabWidget()
+        self.main_tabs.addTab(QtWidgets.QWidget(), "First")
+        self.main_tabs.addTab(QtWidgets.QWidget(), "Second")
+        layout = QtWidgets.QVBoxLayout(self)
+        layout.addWidget(self.main_tabs)
+
+        # 実際のMaya用QSettingsと通常Window trackerを接続する。
+        self.ui_state = create_ui_state_manager(_STATEFUL_SETTINGS_PATH)
+        self.ui_state.register_tab_widget("main_tabs", self.main_tabs)
+        self.ui_state_tracker = MayaUiStateTracker.for_window(
+            self.ui_state,
+            self,
+        )
 
 
 def _process_deferred_deletes(
@@ -18,6 +51,21 @@ def _process_deferred_deletes(
         QtCore.QEvent.Type.DeferredDelete,
     )
     application.processEvents()
+
+
+def _replace_maya_callbacks(monkeypatch) -> None:
+    """Maya callback操作をtest用の固定処理へ置き換える。"""
+    # Qt lifecycleだけを検証し、Maya終了callbackの実登録を避ける。
+    monkeypatch.setattr(
+        maya_ui_state,
+        "_add_maya_exiting_callback",
+        lambda _callback: 42,
+    )
+    monkeypatch.setattr(
+        maya_ui_state,
+        "_remove_callback",
+        lambda _callback_id: None,
+    )
 
 
 def test_settings_file_uses_tool_directory(monkeypatch, tmp_path) -> None:
@@ -104,5 +152,76 @@ def test_maya_controller_can_disable_settings(
     assert not tuple(tmp_path.iterdir())
 
     # testで生成したwindowを削除する。
+    controller.dispose()
+    _process_deferred_deletes(qt_application)
+
+
+def test_normal_window_tracker_restores_widget_state_after_dispose(
+    qt_application,
+    monkeypatch,
+    tmp_path,
+) -> None:
+    # Maya settingsと終了callbackをtest用実装へ切り替える。
+    monkeypatch.setattr(
+        maya_ui_settings,
+        "get_ui_settings_root",
+        lambda: tmp_path,
+    )
+    _replace_maya_callbacks(monkeypatch)
+    controller = MayaWindowController(
+        _StatefulWindow,
+        settings_path=_STATEFUL_SETTINGS_PATH,
+    )
+
+    # 最初のWindowで変更した選択タブをclose時に保存して完全破棄する。
+    first = controller.show()
+    qt_application.processEvents()
+    first.main_tabs.setCurrentIndex(1)
+    controller.dispose()
+    _process_deferred_deletes(qt_application)
+
+    # 新しいWindowのShow後に保存済み選択タブが一度だけ復元される。
+    second = controller.show()
+    qt_application.processEvents()
+    assert second is not first
+    assert second.main_tabs.currentIndex() == 1
+
+    # testで生成したWindowを完全破棄する。
+    controller.dispose()
+    _process_deferred_deletes(qt_application)
+
+
+def test_normal_window_reset_does_not_restore_state_on_delayed_destroy(
+    qt_application,
+    monkeypatch,
+    tmp_path,
+) -> None:
+    # Maya settingsと終了callbackをtest用実装へ切り替える。
+    monkeypatch.setattr(
+        maya_ui_settings,
+        "get_ui_settings_root",
+        lambda: tmp_path,
+    )
+    _replace_maya_callbacks(monkeypatch)
+    controller = MayaWindowController(
+        _StatefulWindow,
+        settings_path=_STATEFUL_SETTINGS_PATH,
+    )
+
+    # 変更済み状態を持つWindowをリセットして直ちに再表示する。
+    first = controller.show()
+    qt_application.processEvents()
+    first.main_tabs.setCurrentIndex(1)
+    second = reset_and_show_ui_layout(
+        controller,
+        _STATEFUL_SETTINGS_PATH,
+    )
+    _process_deferred_deletes(qt_application)
+
+    # 古いWindowの遅延破棄後も保存値が復活せず初期タブを維持する。
+    assert second is not first
+    assert second.main_tabs.currentIndex() == 0
+
+    # testで生成したWindowを完全破棄する。
     controller.dispose()
     _process_deferred_deletes(qt_application)

@@ -24,6 +24,59 @@ class _QTimerType(Protocol):
         raise NotImplementedError
 
 
+class _WindowLifecycleFilter(qt.QtCore.QObject):
+    """通常Windowの表示とcloseをtrackerへ通知するevent filter。"""
+
+    def __init__(
+        self,
+        window: qt.QtWidgets.QWidget,
+        on_shown: Callable[[], None],
+        on_closed: Callable[[], None],
+    ) -> None:
+        """監視対象Windowとlifecycle callbackを受け取って初期化する。"""
+        # trackerが所有する独立QObjectとしてWindowへevent filterを登録する。
+        super().__init__()
+        self._window: qt.QtWidgets.QWidget | None = window
+        self._on_shown: Callable[[], None] | None = on_shown
+        self._on_closed: Callable[[], None] | None = on_closed
+        window.installEventFilter(self)
+
+    def dispose(self) -> None:
+        """Windowからevent filterを解除してcallback参照を破棄する。"""
+        # 手動解除後に同じWindowからlifecycle通知を受けないよう接続を外す。
+        window = self._window
+        self._window = None
+        self._on_shown = None
+        self._on_closed = None
+        if window is None:
+            return
+        try:
+            window.removeEventFilter(self)
+        except RuntimeError:
+            # C++側で既に破棄されたWindowは解除済みとして扱う。
+            pass
+
+    def eventFilter(
+        self,
+        watched: qt.QtCore.QObject,
+        event: qt.QtCore.QEvent,
+    ) -> bool:
+        """通常WindowのShowとClose eventをcallbackへ変換する。"""
+        # 監視対象Windowへ届いたlifecycle eventだけをtrackerへ通知する。
+        if watched is self._window:
+            if event.type() == qt.QtCore.QEvent.Type.Show:
+                on_shown = self._on_shown
+                if on_shown is not None:
+                    on_shown()
+            elif event.type() == qt.QtCore.QEvent.Type.Close:
+                on_closed = self._on_closed
+                if on_closed is not None:
+                    on_closed()
+
+        # Window標準のevent処理は止めず、未処理としてQtへ返す。
+        return False
+
+
 def _add_maya_exiting_callback(callback: Callable[..., None]) -> int:
     """Maya終了直前に呼ばれるcallbackを登録する。"""
     # Qt Widgetが破棄される前に保存できるMaya固有の通知を使用する。
@@ -43,7 +96,7 @@ def _remove_callback(callback_id: int) -> None:
 
 def _restore_later(callback: Callable[[], None]) -> None:
     """次のQt event loopでUI state復元処理を呼び出す。"""
-    # workspaceControl接続後のlayout計算を待つため0ms timerへ登録する。
+    # Window表示またはworkspaceControl接続後のlayout計算を待つ。
     timer_type = cast(_QTimerType, qt.QtCore.QTimer)
     timer_type.singleShot(0, callback)
 
@@ -61,10 +114,28 @@ class MayaUiStateTracker:
         self._manager = manager
         self._owner: qt.QtCore.QObject | None = owner
         self._dockable_window: MayaDockableWindow | None = None
+        self._window_lifecycle_filter: _WindowLifecycleFilter | None = None
+        self._window_closed = False
         self._callback_id: int | None = None
         self._restore_requested = False
         owner.destroyed.connect(self._on_owner_destroyed)
         self._callback_id = _add_maya_exiting_callback(self._on_maya_exiting)
+
+    @classmethod
+    def for_window(
+        cls,
+        manager: UiStateManager,
+        window: qt.QtWidgets.QWidget,
+    ) -> Self:
+        """通常Windowのlifecycleへ接続したtrackerを生成する。"""
+        # Show後の復元とClose前の保存をQt event filterで自動化する。
+        tracker = cls(manager, window)
+        tracker._window_lifecycle_filter = _WindowLifecycleFilter(
+            window,
+            tracker._on_window_shown,
+            tracker._on_window_closed,
+        )
+        return tracker
 
     @classmethod
     def for_dockable(
@@ -87,14 +158,14 @@ class MayaUiStateTracker:
         return self._manager
 
     def restore(self) -> None:
-        """dock接続後の次のevent loopでUI stateを一度だけ復元する。"""
+        """layout接続後の次のevent loopでUI stateを一度だけ復元する。"""
         # 同じWindowの再表示で保存済み状態を繰り返し適用しない。
         if self._restore_requested or self._owner is None:
             return
         self._restore_requested = True
 
         # Mayaのlayout計算が完了してからWidget内部状態を反映する。
-        _restore_later(self._restore_after_attach)
+        _restore_later(self._restore_after_layout)
 
     def save(self) -> bool:
         """破棄前に退避したUI stateを保存する。"""
@@ -109,9 +180,11 @@ class MayaUiStateTracker:
         # 二重解除を避け、解除処理中の再入でも安全な状態へ先に変更する。
         owner = self._owner
         dockable_window = self._dockable_window
+        window_lifecycle_filter = self._window_lifecycle_filter
         callback_id = self._callback_id
         self._owner = None
         self._dockable_window = None
+        self._window_lifecycle_filter = None
         self._callback_id = None
 
         # 手動破棄後にownerの遅いdestroyed通知がPython終了処理へ入るのを防ぐ。
@@ -137,6 +210,10 @@ class MayaUiStateTracker:
                 )
             except (RuntimeError, TypeError):
                 pass
+
+        # 通常Windowのevent filterを外して手動破棄後の通知を止める。
+        if window_lifecycle_filter is not None:
+            window_lifecycle_filter.dispose()
 
         if callback_id is None:
             return
@@ -167,15 +244,30 @@ class MayaUiStateTracker:
         _object: qt.QtCore.QObject | None = None,
     ) -> None:
         """ownerが外部から破棄された場合の後始末を行う。"""
-        # dockable連携時だけ破棄前に退避済みの状態を最後に永続化する。
+        # 通常close後の遅延破棄ではreset後に古い状態を再保存しない。
         try:
-            if self._dockable_window is not None:
+            if self._dockable_window is not None or (
+                self._window_lifecycle_filter is not None
+                and not self._window_closed
+            ):
                 self.save()
         finally:
             self.dispose()
 
-    def _restore_after_attach(self) -> None:
-        """Mayaのlayout接続後に保存済みUI stateを復元する。"""
+    def _on_window_shown(self) -> None:
+        """通常Windowの表示時に状態復元を予約する。"""
+        # 再表示後の外部破棄を保存対象とし、復元自体は一度だけ予約する。
+        self._window_closed = False
+        self.restore()
+
+    def _on_window_closed(self) -> None:
+        """通常Windowのclose前に退避済み状態を保存する。"""
+        # close済みと先に記録し、直後の遅延破棄による二重保存を防ぐ。
+        self._window_closed = True
+        self.save()
+
+    def _restore_after_layout(self) -> None:
+        """Mayaのlayout計算後に保存済みUI stateを復元する。"""
         # 待機中にownerが破棄された場合は復元処理を実行しない。
         if self._owner is None:
             return

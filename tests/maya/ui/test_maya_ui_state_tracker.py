@@ -37,6 +37,15 @@ class _Owner:
         self.dock_attached = _RecordingSignal()
         self.dock_closed = _RecordingSignal()
         self.dock_about_to_dispose = _RecordingSignal()
+        self.event_filters: list[qt.QtCore.QObject] = []
+
+    def installEventFilter(self, event_filter: qt.QtCore.QObject) -> None:
+        """登録されたevent filterを記録する。"""
+        self.event_filters.append(event_filter)
+
+    def removeEventFilter(self, event_filter: qt.QtCore.QObject) -> None:
+        """登録済みevent filterを一覧から削除する。"""
+        self.event_filters.remove(event_filter)
 
 
 class _RecordingManager:
@@ -62,6 +71,7 @@ def _create_tracker(
     monkeypatch,
     *,
     bind_dockable: bool = False,
+    bind_window: bool = False,
 ) -> tuple[
     MayaUiStateTracker,
     _RecordingManager,
@@ -94,10 +104,17 @@ def _create_tracker(
 
     manager = _RecordingManager()
     owner = _Owner()
+    if bind_dockable and bind_window:
+        raise ValueError("dockableと通常Windowを同時に指定できません")
     if bind_dockable:
         tracker = MayaUiStateTracker.for_dockable(
             cast(UiStateManager, manager),
             cast(MayaDockableWindow, owner),
+        )
+    elif bind_window:
+        tracker = MayaUiStateTracker.for_window(
+            cast(UiStateManager, manager),
+            cast(qt.QtWidgets.QWidget, owner),
         )
     else:
         tracker = MayaUiStateTracker(
@@ -132,10 +149,91 @@ def test_tracker_removes_callback_when_owner_is_destroyed(monkeypatch) -> None:
 
 
 def test_tracker_save_can_be_used_for_normal_close(monkeypatch) -> None:
-    # dock closeから呼べる公開save処理を確認する。
+    # Window lifecycleから呼べる公開save処理を確認する。
     tracker, manager, _owner, _calls = _create_tracker(monkeypatch)
     assert tracker.save()
     assert manager.save_count == 1
+
+
+def test_window_tracker_restores_once_and_saves_on_each_close(
+    monkeypatch,
+) -> None:
+    # 通常WindowのShow後に呼ばれる遅延復元処理を記録する。
+    scheduled_callbacks: list[Callable[[], None]] = []
+    monkeypatch.setattr(
+        maya_ui_state,
+        "_restore_later",
+        scheduled_callbacks.append,
+    )
+    tracker, manager, owner, _calls = _create_tracker(
+        monkeypatch,
+        bind_window=True,
+    )
+    event_filter = owner.event_filters[0]
+
+    # 初回Show後だけ復元を予約し、Closeごとに退避済み状態を保存する。
+    event_filter.eventFilter(
+        cast(qt.QtCore.QObject, owner),
+        qt.QtCore.QEvent(qt.QtCore.QEvent.Type.Show),
+    )
+    event_filter.eventFilter(
+        cast(qt.QtCore.QObject, owner),
+        qt.QtCore.QEvent(qt.QtCore.QEvent.Type.Close),
+    )
+    assert len(scheduled_callbacks) == 1
+    assert manager.restore_count == 0
+    assert manager.save_count == 1
+
+    # 同じWindowの再表示では保存状態を再適用せず、次のcloseだけ保存する。
+    scheduled_callbacks[0]()
+    event_filter.eventFilter(
+        cast(qt.QtCore.QObject, owner),
+        qt.QtCore.QEvent(qt.QtCore.QEvent.Type.Show),
+    )
+    event_filter.eventFilter(
+        cast(qt.QtCore.QObject, owner),
+        qt.QtCore.QEvent(qt.QtCore.QEvent.Type.Close),
+    )
+    assert manager.restore_count == 1
+    assert len(scheduled_callbacks) == 1
+    assert manager.save_count == 2
+    assert tracker.manager is manager
+
+
+def test_window_tracker_does_not_resave_after_close_and_delayed_destroy(
+    monkeypatch,
+) -> None:
+    # controller.disposeと同じClose後の遅延破棄を再現する。
+    _tracker, manager, owner, calls = _create_tracker(
+        monkeypatch,
+        bind_window=True,
+    )
+    event_filter = owner.event_filters[0]
+    event_filter.eventFilter(
+        cast(qt.QtCore.QObject, owner),
+        qt.QtCore.QEvent(qt.QtCore.QEvent.Type.Close),
+    )
+    owner.destroyed.emit(None)
+
+    # close時の一度だけ保存し、reset後に古い状態を復活させない。
+    assert manager.save_count == 1
+    assert calls["removed"] == [42]
+    assert owner.event_filters == []
+
+
+def test_window_tracker_saves_cached_state_on_external_destroy(
+    monkeypatch,
+) -> None:
+    # Closeを通らず表示中の通常Windowが破棄される経路を再現する。
+    _tracker, manager, owner, calls = _create_tracker(
+        monkeypatch,
+        bind_window=True,
+    )
+    owner.destroyed.emit(None)
+
+    # Widgetを再取得せず退避済み状態を保存してcallbackを解除する。
+    assert manager.save_count == 1
+    assert calls["removed"] == [42]
 
 
 def test_tracker_restores_once_after_dock_is_attached(monkeypatch) -> None:

@@ -162,7 +162,16 @@ self.ui_state.register_tab_widget(
     self.main_tabs,
 )
 
-# dockable Windowでは全Widgetの登録後にlifecycle連携済みtrackerを生成する。
+# 通常Windowでは全Widgetの登録後にlifecycle連携済みtrackerを生成する。
+self.ui_state_tracker = MayaUiStateTracker.for_window(
+    self.ui_state,
+    self,
+)
+```
+
+dockable Windowでは`for_dockable()`を使用します。
+
+```python
 self.ui_state_tracker = MayaUiStateTracker.for_dockable(
     self.ui_state,
     self,
@@ -184,6 +193,17 @@ Maya終了時はQtの`closeEvent()`や`destroyed`だけでは保存処理の実�
 controllerが接続完了と完全破棄前を通知するため、tool側の`show()`、`restore()`、`dispose()`で
 trackerを個別に呼び出す必要はありません。
 
+`MayaUiStateTracker.for_window()`は通常Windowへevent filterを設定し、次の処理を接続します。
+
+- 初回`Show`: 次のQt event loopで一度だけ復元
+- `Close`: 退避済み状態を保存
+- `destroyed`: `Close`を通らない外部破棄では退避済み状態を保存し、callbackを解除
+- Maya終了: 退避済み状態を保存し、callbackを解除
+
+`MayaWindowController.dispose()`は`Close`後にQt event loopへ破棄を予約します。close時点で保存済みの
+Windowは、遅れて`destroyed`が届いても二重保存しません。これによりUI配置リセットでINIを削除した
+後に、古いWindowの状態が復活することを防ぎます。
+
 ```python
 def show():
     return controller.show()
@@ -193,12 +213,12 @@ def restore():
     return controller.restore()
 ```
 
-`MayaUiStateTracker.restore()`は次のQt event loopで一度だけ復元します。Mayaのlayout計算後に
-内部状態を適用し、同じWindowの再表示では保存済み状態を再適用しません。
+`MayaUiStateTracker.restore()`は次のQt event loopで一度だけ復元します。通常Windowの表示または
+workspaceControl接続後のlayout計算を待って内部状態を適用し、同じWindowの再表示では保存済み状態を
+再適用しません。`for_window()`と`for_dockable()`を使用する場合、tool側から`restore()`や`save()`を
+個別に呼び出す必要はありません。
 
-通常Windowでは`closeEvent()`などtoolの終了処理から`save()`を呼び出します。
-`clear()`はWidget内部状態だけを削除し、同じgroupに保存されたgeometryや他のtool設定は
-変更しません。
+`clear()`はWidget内部状態だけを削除し、同じgroupに保存されたgeometryや他のtool設定は変更しません。
 
 Splitter移動とTab選択変更はsignalでmemoryへ退避し、通常closeまたはMaya終了時にまとめて
 永続化します。
@@ -226,6 +246,24 @@ windows/main/ui_state/widgets/main_splitter/state
 windows/main/ui_state/widgets/main_tabs/type
 windows/main/ui_state/widgets/main_tabs/state
 ```
+
+### 通常Windowでのlifecycle統合確認
+
+同梱sampleをMayaのScript Editorから表示できます。
+
+```python
+from bd_util._sample.maya.ui import simple_window
+
+simple_window.show()
+```
+
+次の操作で、通常Windowの自動保存・復元とリセットを確認します。
+
+1. Splitter幅と選択タブを変更する。
+2. `Close`後に`simple_window.show()`を実行し、同じWindowと状態が維持されることを確認する。
+3. `simple_window.dispose()`後に`simple_window.show()`を実行し、新しいWindowへ状態が復元されることを確認する。
+4. `Reset layout`でWindowが再生成され、初期geometry、Splitter幅、選択タブへ戻ることを確認する。
+5. Mayaを終了・再起動して`simple_window.show()`を実行し、Splitter幅と選択タブが復元されることを確認する。
 
 ## UI配置の統合リセット
 
