@@ -199,6 +199,9 @@ HIK系では、既に具体型がある直近のnative基底を生成classの基
 `hikFKJoint` は `Joint`、`hikHandle` は `IkHandle` を継承し、それぞれの基底で
 定義済みのattributeを重複生成しません。その他のHIK 3種は `Transform` を
 直接継承します。
+scene / utility系では、`lookAt` がnativeで `aimConstraint` を継承するため、
+生成classも `AimConstraint` を基底にします。`dagContainer` / `fosterParent` /
+`place3dTexture` はtransform共通attribute以外を持たない空の具象classです。
 `transform` / `joint` は引き続き作成確認済み type として公開します。
 
 ## 命名規則

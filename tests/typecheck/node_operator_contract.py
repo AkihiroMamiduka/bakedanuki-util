@@ -941,12 +941,21 @@ from bd_util.maya.node.operator.node.dag.transform.aim_constraint import (
     AimConstraint,
 )
 from bd_util.maya.node.operator.node.dag.transform.air_field import AirField
+from bd_util.maya.node.operator.node.dag.transform.clip_ghost_shape import (
+    ClipGhostShape,
+)
 from bd_util.maya.node.operator.node.dag.transform.collision_model import (
     CollisionModel,
+)
+from bd_util.maya.node.operator.node.dag.transform.dag_container import (
+    DagContainer,
 )
 from bd_util.maya.node.operator.node.dag.transform.drag_field import DragField
 from bd_util.maya.node.operator.node.dag.transform.fluid_emitter import (
     FluidEmitter,
+)
+from bd_util.maya.node.operator.node.dag.transform.foster_parent import (
+    FosterParent,
 )
 from bd_util.maya.node.operator.node.dag.transform.geometry_constraint import (
     GeometryConstraint,
@@ -973,6 +982,8 @@ from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
 from bd_util.maya.node.operator.node.dag.transform.ik_handle import IkHandle
 from bd_util.maya.node.operator.node.dag.transform.instancer import Instancer
 from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+from bd_util.maya.node.operator.node.dag.transform.lod_group import LodGroup
+from bd_util.maya.node.operator.node.dag.transform.look_at import LookAt
 from bd_util.maya.node.operator.node.dag.transform.normal_constraint import (
     NormalConstraint,
 )
@@ -997,6 +1008,9 @@ from bd_util.maya.node.operator.node.dag.transform.point_constraint import (
 )
 from bd_util.maya.node.operator.node.dag.transform.point_emitter import (
     PointEmitter,
+)
+from bd_util.maya.node.operator.node.dag.transform.place3d_texture import (
+    Place3dTexture,
 )
 from bd_util.maya.node.operator.node.dag.transform.point_on_poly_constraint import (
     PointOnPolyConstraint,
@@ -1113,6 +1127,14 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     )
     hik_handle = nodes.existing.hikHandle("existing_hik_handle")
     hik_ik_effector = nodes.existing.hikIKEffector("existing_hik_ik_effector")
+    clip_ghost_shape = nodes.existing.clipGhostShape(
+        "existing_clip_ghost_shape"
+    )
+    dag_container = nodes.existing.dagContainer("existing_dag_container")
+    foster_parent = nodes.existing.fosterParent("existing_foster_parent")
+    lod_group = nodes.existing.lodGroup("existing_lod_group")
+    look_at = nodes.existing.lookAt("existing_look_at")
+    place3d_texture = nodes.existing.place3dTexture("existing_place3d_texture")
 
     assert_type(handle, IkHandle)
     assert_type(handle.ikBlend, DoublePlugOperator)
@@ -1173,6 +1195,22 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     ik_handle_base: IkHandle = hik_handle
     assert joint_base is hik_fk_joint
     assert ik_handle_base is hik_handle
+    assert_type(clip_ghost_shape, ClipGhostShape)
+    assert_type(clip_ghost_shape.showStartPose, BoolPlugOperator)
+    assert_type(dag_container, DagContainer)
+    assert_type(dag_container.visibility, BoolPlugOperator)
+    assert_type(foster_parent, FosterParent)
+    assert_type(foster_parent.visibility, BoolPlugOperator)
+    assert_type(lod_group, LodGroup)
+    assert_type(lod_group.minDistance, DoublePlugOperator)
+    assert_type(look_at, LookAt)
+    assert_type(look_at.distanceBetween, DoublePlugOperator)
+    assert_type(look_at.lockOutput, BoolPlugOperator)
+    assert_type(place3d_texture, Place3dTexture)
+    assert_type(place3d_texture.visibility, BoolPlugOperator)
+
+    aim_constraint_base: AimConstraint = look_at
+    assert aim_constraint_base is look_at
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:

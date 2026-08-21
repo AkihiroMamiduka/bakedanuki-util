@@ -617,6 +617,7 @@ from .operator.node.dg.choice import Choice
 from .operator.node.dg.chooser import Chooser
 from .operator.node.dg.clamp import Clamp
 from .operator.node.dg.clamp_range import ClampRange
+from .operator.node.dag.transform.clip_ghost_shape import ClipGhostShape
 from .operator.node.dg.clip_library import ClipLibrary
 from .operator.node.dg.clip_scheduler import ClipScheduler
 from .operator.node.dg.clip_to_ghost_data import ClipToGhostData
@@ -679,6 +680,7 @@ from .operator.node.dg.curve_intersect import CurveIntersect
 from .operator.node.dg.curve_normalizer_angle import CurveNormalizerAngle
 from .operator.node.dg.curve_normalizer_linear import CurveNormalizerLinear
 from .operator.node.dg.curve_warp import CurveWarp
+from .operator.node.dag.transform.dag_container import DagContainer
 from .operator.node.dg.dag_pose import DagPose
 from .operator.node.dg.data_block_test import DataBlockTest
 from .operator.node.dg.decompose_matrix import DecomposeMatrix
@@ -762,6 +764,7 @@ from .operator.node.dag.shape.fluid_shape import FluidShape
 from .operator.node.dag.shape.fluid_texture2_d import FluidTexture2D
 from .operator.node.dag.shape.fluid_texture3_d import FluidTexture3D
 from .operator.node.dag.shape.follicle import Follicle
+from .operator.node.dag.transform.foster_parent import FosterParent
 from .operator.node.dg.four_by_four_matrix import FourByFourMatrix
 from .operator.node.dg.fractal import Fractal
 from .operator.node.dg.frame_cache import FrameCache
@@ -869,9 +872,11 @@ from .operator.node.dg.lights_collection_selector import (
 from .operator.node.dag.shape.line_modifier import LineModifier
 from .operator.node.dg.list_item import ListItem
 from .operator.node.dag.shape.locator import Locator
+from .operator.node.dag.transform.lod_group import LodGroup
 from .operator.node.dg.lod_thresholds import LodThresholds
 from .operator.node.dg.loft import Loft
 from .operator.node.dg.log import Log
+from .operator.node.dag.transform.look_at import LookAt
 from .operator.node.dg.luminance import Luminance
 from .operator.node.dg.make_group import MakeGroup
 from .operator.node.dg.make_illustrator_curves import MakeIllustratorCurves
@@ -1003,6 +1008,7 @@ from .operator.node.dg.phong_e import PhongE
 from .operator.node.dg.pi import Pi
 from .operator.node.dg.pick_matrix import PickMatrix
 from .operator.node.dg.place2d_texture import Place2dTexture
+from .operator.node.dag.transform.place3d_texture import Place3dTexture
 from .operator.node.dg.planar_trim_surface import PlanarTrimSurface
 from .operator.node.dg.plus_minus_average import PlusMinusAverage
 from .operator.node.dag.transform.point_constraint import PointConstraint
@@ -4504,6 +4510,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> ClampRange: ...
     @staticmethod
+    def clipGhostShape(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> ClipGhostShape: ...
+    @staticmethod
     def clipLibrary(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -4863,6 +4875,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveWarp: ...
+    @staticmethod
+    def dagContainer(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DagContainer: ...
     @staticmethod
     def dagPose(
         node: str | om.MObject,
@@ -5349,6 +5367,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Follicle: ...
+    @staticmethod
+    def fosterParent(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> FosterParent: ...
     @staticmethod
     def fourByFourMatrix(
         node: str | om.MObject,
@@ -5944,6 +5968,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Locator: ...
     @staticmethod
+    def lodGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> LodGroup: ...
+    @staticmethod
     def lodThresholds(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5961,6 +5991,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Log: ...
+    @staticmethod
+    def lookAt(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> LookAt: ...
     @staticmethod
     def luminance(
         node: str | om.MObject,
@@ -6651,6 +6687,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Place2dTexture: ...
+    @staticmethod
+    def place3dTexture(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> Place3dTexture: ...
     @staticmethod
     def planarTrimSurface(
         node: str | om.MObject,

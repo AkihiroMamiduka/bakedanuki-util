@@ -555,6 +555,9 @@ dynamics / deformer 周辺の5種も `nodes.existing.nucleus()` /
 HIK 系5種も `nodes.existing.hikFKJoint()` /
 `nodes.existing.hikHandle()` などから具体型として利用できます。
 `HikFKJoint` は `Joint`、`HikHandle` は `IkHandle` の継承関係も維持します。
+scene / utility 系6種も `nodes.existing.dagContainer()` /
+`nodes.existing.lookAt()` などから具体型として利用できます。
+`LookAt` はnative継承に合わせて `AimConstraint` の派生型として扱います。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

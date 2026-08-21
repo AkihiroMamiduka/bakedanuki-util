@@ -337,6 +337,53 @@ def test_existing_node_hik_preserves_concrete_transform_base(
     assert isinstance(hik_handle, IkHandle)
 
 
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("clipGhostShape", "ClipGhostShape"),
+        ("dagContainer", "DagContainer"),
+        ("fosterParent", "FosterParent"),
+        ("lodGroup", "LodGroup"),
+        ("lookAt", "LookAt"),
+        ("place3dTexture", "Place3dTexture"),
+    ],
+)
+def test_existing_node_wraps_scene_utility_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+def test_existing_node_look_at_preserves_aim_constraint_base(
+    new_scene,
+    maya_cmds,
+):
+    from bd_util.maya.node.operator.node.dag.transform.aim_constraint import (
+        AimConstraint,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.look_at import LookAt
+
+    look_at = ExistingNode(maya_cmds.createNode("lookAt"))
+
+    assert isinstance(look_at, LookAt)
+    assert isinstance(look_at, AimConstraint)
+
+
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 

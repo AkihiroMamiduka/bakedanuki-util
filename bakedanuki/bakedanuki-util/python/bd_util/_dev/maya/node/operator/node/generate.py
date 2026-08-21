@@ -319,6 +319,7 @@ _DAG_NODE_KINDS: frozenset[str] = frozenset(
 _TRANSFORM_INHERITED_NODE_TYPES: dict[str, str] = {
     "hikFKJoint": "joint",
     "hikHandle": "ikHandle",
+    "lookAt": "aimConstraint",
 }
 
 

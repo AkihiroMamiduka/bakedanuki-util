@@ -978,6 +978,7 @@ def test_generate_transform_node_class_code():
     [
         ("hikFKJoint", "joint", "Joint", "joint"),
         ("hikHandle", "ikHandle", "IkHandle", "ik_handle"),
+        ("lookAt", "aimConstraint", "AimConstraint", "aim_constraint"),
     ],
 )
 def test_generate_transform_uses_existing_concrete_base(
