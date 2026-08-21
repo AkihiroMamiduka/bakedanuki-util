@@ -24,6 +24,9 @@ else:
 class MayaDockableWindow(_MayaQWidgetDockableMixin, qt.QtWidgets.QWidget):
     """MayaのworkspaceControlへ格納できるWidgetの基底クラス。"""
 
+    # controllerが管理するworkspaceControl lifecycleを公開する。
+    dock_attached = qt.Signal()
+    dock_about_to_dispose = qt.Signal()
     dock_closed = qt.Signal()
     floating_changed = qt.Signal(bool)
 

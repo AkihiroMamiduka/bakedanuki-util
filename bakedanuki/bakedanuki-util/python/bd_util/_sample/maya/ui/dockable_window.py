@@ -63,11 +63,11 @@ class SampleDockableWindow(MayaDockableWindow):
         self.ui_state.register_splitter("main_splitter", self.main_splitter)
         self.ui_state.register_tab_widget("main_tabs", self.main_tabs)
 
-        # Maya終了前の保存とdock接続後の復元を管理するtrackerを作成する。
-        self.ui_state_tracker = MayaUiStateTracker(self.ui_state, self)
-
-        # 通常のdock closeでもMaya終了時と同じ保存処理を実行する。
-        self.dock_closed.connect(self.ui_state_tracker.save)
+        # dock接続、close、完全破棄とMaya終了へ連携するtrackerを作成する。
+        self.ui_state_tracker = MayaUiStateTracker.for_dockable(
+            self.ui_state,
+            self,
+        )
 
 
 # Maya再起動時にimport可能な復元関数と固定control IDを登録する。
@@ -91,30 +91,16 @@ _controller = MayaDockableWindowController(
 def show() -> SampleDockableWindow:
     """sample windowを表示してinstanceを返す。"""
     # 初回は生成し、2回目以降は同じworkspaceControlを再表示する。
-    window = _controller.show()
-
-    # workspaceControl接続後のlayout確定を待ってUI内部状態を復元する。
-    window.ui_state_tracker.restore()
-    return window
+    return _controller.show()
 
 
 def restore() -> SampleDockableWindow:
     """Mayaが復元したworkspaceControlへsample windowを接続する。"""
-    # uiScript実行中のcurrent parentへWidgetを追加する。
-    window = _controller.restore()
-
-    # Maya起動時もworkspaceControlへの接続完了後に復元を予約する。
-    window.ui_state_tracker.restore()
-    return window
+    # uiScript実行中のcurrent parentへWidgetを追加してlifecycleを通知する。
+    return _controller.restore()
 
 
 def dispose() -> None:
     """sample windowとworkspaceControlを完全に破棄する。"""
-    # dock closeを経由しない完全破棄でも現在のWidget状態を保存する。
-    window = _controller.window
-    if window is not None:
-        window.ui_state_tracker.save()
-        window.ui_state_tracker.dispose()
-
-    # 開発中のmodule reload前に残っているMaya UIを削除する。
+    # controllerの破棄通知で状態保存とcallback解除を行ってからMaya UIを削除する。
     _controller.dispose()

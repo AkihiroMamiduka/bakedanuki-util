@@ -73,6 +73,7 @@ class MayaDockableWindowController(Generic[WindowT]):
     def show(self) -> WindowT:
         """ドッキングウィンドウを生成または再表示する。"""
         control_name = self.workspace_control_name
+        attached_now = False
 
         # 保存済みまたは非表示のworkspaceControlがあればMaya側から復元する。
         if workspace_control.exists(control_name):
@@ -85,6 +86,7 @@ class MayaDockableWindowController(Generic[WindowT]):
                 parent_pointer = workspace_control.find_control(control_name)
                 workspace_control.attach(window, parent_pointer)
                 workspace_control.register(control_name, window)
+                attached_now = True
         else:
             # 初回だけDockOptionsとuiScriptをMixinへ渡してcontrolを生成する。
             window = self._ensure_window()
@@ -96,6 +98,7 @@ class MayaDockableWindowController(Generic[WindowT]):
                 ),
             )
             workspace_control.register(control_name, window)
+            attached_now = True
 
             # 任意の対象が指定されている場合だけ初回配置をタブへ変更する。
             tab_target = self._dock_options.tab_to_control
@@ -111,6 +114,10 @@ class MayaDockableWindowController(Generic[WindowT]):
         # 現在のタブを前面へ移動し、キーボード操作対象にする。
         window.raise_()
         window.activateWindow()
+
+        # 新しくworkspaceControlへ接続したWidgetへlifecycle開始を通知する。
+        if attached_now:
+            window.dock_attached.emit()
         return window
 
     def restore(self) -> WindowT:
@@ -126,6 +133,9 @@ class MayaDockableWindowController(Generic[WindowT]):
             window,
             self._dock_options.allowed_area,
         )
+
+        # uiScriptによるMaya layoutへの接続完了をWidgetへ通知する。
+        window.dock_attached.emit()
         return window
 
     def close(self) -> None:
@@ -151,6 +161,10 @@ class MayaDockableWindowController(Generic[WindowT]):
         self._window = None
         self._window_token = None
         workspace_control.unregister(control_name)
+
+        # Widgetが生存している間に保存とcallback解除の機会を通知する。
+        if window is not None and qt.isValid(window):
+            window.dock_about_to_dispose.emit()
 
         # workspaceControlが存在する場合は格納WidgetごとMayaから削除する。
         if workspace_control.exists(control_name):

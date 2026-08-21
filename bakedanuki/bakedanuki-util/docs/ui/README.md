@@ -162,28 +162,35 @@ self.ui_state.register_tab_widget(
     self.main_tabs,
 )
 
-# 全Widgetの構築と登録が完了したらMaya用trackerを生成する。
-self.ui_state_tracker = MayaUiStateTracker(self.ui_state, self)
-self.dock_closed.connect(self.ui_state_tracker.save)
+# dockable Windowでは全Widgetの登録後にlifecycle連携済みtrackerを生成する。
+self.ui_state_tracker = MayaUiStateTracker.for_dockable(
+    self.ui_state,
+    self,
+)
 ```
 
 Maya終了時はQtの`closeEvent()`や`destroyed`だけでは保存処理の実行順を保証できません。
 `MayaUiStateTracker`は`MSceneMessage.kMayaExiting`を受け、Widgetから終了時に再取得せず、
 変更signalで退避済みの状態を保存します。ownerの破棄時にはMaya callbackを解除します。
-dockable Windowでは通常のcloseも同じtrackerへ接続します。UI stateの復元は、controllerが
-workspaceControlへWidgetを接続した後に予約します。
+
+`MayaUiStateTracker.for_dockable()`は`MayaDockableWindow`のlifecycle signalへ次の処理を
+接続します。
+
+- `dock_attached`: workspaceControl接続後、次のQt event loopで一度だけ復元
+- `dock_closed`: Widgetを保持する通常closeで退避済み状態を保存
+- `dock_about_to_dispose`: 完全破棄前に保存してMaya callbackを解除
+- `destroyed`: 外部から破棄された場合も退避済み状態を保存してcallbackを解除
+
+controllerが接続完了と完全破棄前を通知するため、tool側の`show()`、`restore()`、`dispose()`で
+trackerを個別に呼び出す必要はありません。
 
 ```python
 def show():
-    window = controller.show()
-    window.ui_state_tracker.restore()
-    return window
+    return controller.show()
 
 
 def restore():
-    window = controller.restore()
-    window.ui_state_tracker.restore()
-    return window
+    return controller.restore()
 ```
 
 `MayaUiStateTracker.restore()`は次のQt event loopで一度だけ復元します。Mayaのlayout計算後に
@@ -293,6 +300,36 @@ Widgetを接続します。lambdaやlocal関数は復元先に指定できませ
 from bd_util._sample.maya.ui import dockable_window
 
 dockable_window.show()
+```
+
+### 実Mayaでのlifecycle統合確認
+
+開発用ハーネスをMayaのScript Editorから表示できます。
+
+```python
+from bd_util._dev.maya.ui import dock_lifecycle
+
+dock_lifecycle.show()
+```
+
+次の操作で、workspaceControlとWidget内部状態を実Maya上で確認します。
+
+1. Splitter幅と選択タブを変更する。
+2. `Close`後に`dock_lifecycle.show()`を実行し、同じWidgetと状態が維持されることを確認する。
+3. `Dispose`後に`dock_lifecycle.show()`を実行し、新しいWidgetへ状態が復元されることを確認する。
+4. floatingとdockを切り替え、event logへ変更が記録されることを確認する。
+5. Mayaを終了・再起動し、workspaceControl、Splitter幅、選択タブが復元されることを確認する。
+6. `Reset`後に`dock_lifecycle.show()`を実行し、初期配置と初期Widget状態へ戻ることを確認する。
+
+module reloadは古いcontrollerとMaya callbackを残さないよう、完全破棄後に実行します。
+
+```python
+from importlib import reload
+from bd_util._dev.maya.ui import dock_lifecycle
+
+dock_lifecycle.dispose()
+reload(dock_lifecycle)
+dock_lifecycle.show()
 ```
 
 ### 状態保存の責務

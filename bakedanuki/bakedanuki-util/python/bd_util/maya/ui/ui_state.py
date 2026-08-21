@@ -1,9 +1,27 @@
 # coding: utf-8
+from __future__ import annotations
+
 from collections.abc import Callable
+from typing import TYPE_CHECKING, Protocol, Self, cast
 
 from maya.api import OpenMaya as om
 
 from ...ui import UiStateManager, qt
+
+if TYPE_CHECKING:
+    from .dock.window import MayaDockableWindow
+
+
+class _QTimerType(Protocol):
+    """PySide stub境界で使用するQTimer classの必要最小API。"""
+
+    @staticmethod
+    def singleShot(
+        milliseconds: int,
+        callback: Callable[[], None],
+    ) -> None:
+        """指定時間後にcallbackを一度だけ呼び出す。"""
+        raise NotImplementedError
 
 
 def _add_maya_exiting_callback(callback: Callable[..., None]) -> int:
@@ -26,7 +44,8 @@ def _remove_callback(callback_id: int) -> None:
 def _restore_later(callback: Callable[[], None]) -> None:
     """次のQt event loopでUI state復元処理を呼び出す。"""
     # workspaceControl接続後のlayout計算を待つため0ms timerへ登録する。
-    qt.QtCore.QTimer.singleShot(0, callback)
+    timer_type = cast(_QTimerType, qt.QtCore.QTimer)
+    timer_type.singleShot(0, callback)
 
 
 class MayaUiStateTracker:
@@ -41,10 +60,26 @@ class MayaUiStateTracker:
         # owner破棄時にcallbackを解除できるよう参照とIDを保持する。
         self._manager = manager
         self._owner: qt.QtCore.QObject | None = owner
+        self._dockable_window: MayaDockableWindow | None = None
         self._callback_id: int | None = None
         self._restore_requested = False
-        owner.destroyed.connect(self.dispose)
+        owner.destroyed.connect(self._on_owner_destroyed)
         self._callback_id = _add_maya_exiting_callback(self._on_maya_exiting)
+
+    @classmethod
+    def for_dockable(
+        cls,
+        manager: UiStateManager,
+        window: MayaDockableWindow,
+    ) -> Self:
+        """dockable Windowのlifecycleへ接続したtrackerを生成する。"""
+        # trackerを生成してからdock固有signalへ保存・復元処理を接続する。
+        tracker = cls(manager, window)
+        tracker._dockable_window = window
+        window.dock_attached.connect(tracker.restore)
+        window.dock_closed.connect(tracker.save)
+        window.dock_about_to_dispose.connect(tracker._on_dock_about_to_dispose)
+        return tracker
 
     @property
     def manager(self) -> UiStateManager:
@@ -73,14 +108,33 @@ class MayaUiStateTracker:
         """Maya終了callbackを解除する。"""
         # 二重解除を避け、解除処理中の再入でも安全な状態へ先に変更する。
         owner = self._owner
+        dockable_window = self._dockable_window
         callback_id = self._callback_id
         self._owner = None
+        self._dockable_window = None
         self._callback_id = None
 
         # 手動破棄後にownerの遅いdestroyed通知がPython終了処理へ入るのを防ぐ。
         if owner is not None:
             try:
-                owner.destroyed.disconnect(self.dispose)
+                owner.destroyed.disconnect(self._on_owner_destroyed)
+            except (RuntimeError, TypeError):
+                pass
+
+        # dockable連携を解除し、破棄処理後のsignalから再保存されないようにする。
+        if dockable_window is not None:
+            try:
+                dockable_window.dock_attached.disconnect(self.restore)
+            except (RuntimeError, TypeError):
+                pass
+            try:
+                dockable_window.dock_closed.disconnect(self.save)
+            except (RuntimeError, TypeError):
+                pass
+            try:
+                dockable_window.dock_about_to_dispose.disconnect(
+                    self._on_dock_about_to_dispose
+                )
             except (RuntimeError, TypeError):
                 pass
 
@@ -97,6 +151,26 @@ class MayaUiStateTracker:
         # 保存に失敗した場合もcallback IDを残さないよう必ず解除する。
         try:
             self.save()
+        finally:
+            self.dispose()
+
+    def _on_dock_about_to_dispose(self) -> None:
+        """dockable Windowの完全破棄前に状態保存とcallback解除を行う。"""
+        # module reload前にも退避済み状態を残し、古いMaya callbackを破棄する。
+        try:
+            self.save()
+        finally:
+            self.dispose()
+
+    def _on_owner_destroyed(
+        self,
+        _object: qt.QtCore.QObject | None = None,
+    ) -> None:
+        """ownerが外部から破棄された場合の後始末を行う。"""
+        # dockable連携時だけ破棄前に退避済みの状態を最後に永続化する。
+        try:
+            if self._dockable_window is not None:
+                self.save()
         finally:
             self.dispose()
 

@@ -19,11 +19,16 @@ class RecordingSignal:
         """接続されたcallbackを保持できる状態で初期化する。"""
         # controllerが登録した破棄通知を確認できるようlistを用意する。
         self.callbacks: list[object] = []
+        self.emit_count = 0
 
     def connect(self, callback: object) -> None:
         """callbackを接続済みlistへ追加する。"""
         # Qt eventを発生させず接続処理だけを記録する。
         self.callbacks.append(callback)
+
+    def emit(self) -> None:
+        """signalが送出された回数を記録する。"""
+        self.emit_count += 1
 
 
 class RecordingDockableWindow:
@@ -36,6 +41,8 @@ class RecordingDockableWindow:
         self.closed = False
         self.deleted_later = False
         self.destroyed = RecordingSignal()
+        self.dock_attached = RecordingSignal()
+        self.dock_about_to_dispose = RecordingSignal()
         self._object_name = ""
 
     def setObjectName(self, name: str) -> None:
@@ -201,6 +208,7 @@ def test_show_creates_workspace_control(
         window,
         DockArea.ALL,
     ) in workspace_spy["calls"]
+    assert window.dock_attached.emit_count == 1
 
 
 def test_restore_attaches_window_to_current_parent(
@@ -222,6 +230,7 @@ def test_restore_attaches_window_to_current_parent(
         window,
         DockArea.ALL,
     ) in workspace_spy["calls"]
+    assert window.dock_attached.emit_count == 1
 
 
 def test_show_restores_existing_workspace_control(
@@ -236,6 +245,20 @@ def test_show_restores_existing_workspace_control(
     assert ("restore", "sampleDockWorkspaceControl") in workspace_spy["calls"]
     assert ("attach", window, 202) in workspace_spy["calls"]
     assert window.show_arguments == []
+    assert window.dock_attached.emit_count == 1
+
+
+def test_show_does_not_repeat_attach_notification_for_retained_window(
+    workspace_spy,
+) -> None:
+    # 初回接続後に同じworkspaceControlとWidgetを再表示する。
+    controller = _create_controller()
+    window = controller.show()
+    workspace_spy["exists"] = True
+    assert controller.show() is window
+
+    # 物理的な再接続がない経路ではlifecycle開始を重複通知しない。
+    assert window.dock_attached.emit_count == 1
 
 
 def test_close_and_dispose_have_different_lifecycle(
@@ -250,10 +273,12 @@ def test_close_and_dispose_have_different_lifecycle(
     controller.close()
     assert controller.window is window
     assert ("close", "sampleDockWorkspaceControl") in workspace_spy["calls"]
+    assert window.dock_about_to_dispose.emit_count == 0
 
     controller.dispose()
     assert controller.window is None
     assert ("delete", "sampleDockWorkspaceControl") in workspace_spy["calls"]
+    assert window.dock_about_to_dispose.emit_count == 1
 
 
 def test_reset_removes_saved_workspace_state(

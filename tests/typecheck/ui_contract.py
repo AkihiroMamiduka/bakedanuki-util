@@ -95,6 +95,12 @@ assert_type(ui_state_tracker.restore(), None)
 assert_type(ui_state_tracker.save(), bool)
 assert_type(ui_state_tracker.dispose(), None)
 
+dockable_ui_state_tracker = MayaUiStateTracker.for_dockable(
+    ui_state_manager,
+    SampleDockableWindow(),
+)
+assert_type(dockable_ui_state_tracker, MayaUiStateTracker)
+
 facade_widget = FacadeWidget()
 assert_type(facade_widget, FacadeWidget)
 assert_type(qt.QLabel(), QtWidgets.QLabel)

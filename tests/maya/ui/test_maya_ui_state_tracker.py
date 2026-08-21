@@ -2,7 +2,7 @@
 from collections.abc import Callable
 from typing import cast
 
-from bd_util.maya.ui import MayaUiStateTracker
+from bd_util.maya.ui import MayaDockableWindow, MayaUiStateTracker
 from bd_util.maya.ui import ui_state as maya_ui_state
 from bd_util.ui import UiStateManager, qt
 
@@ -34,6 +34,9 @@ class _Owner:
     def __init__(self) -> None:
         """破棄通知用signalを生成する。"""
         self.destroyed = _RecordingSignal()
+        self.dock_attached = _RecordingSignal()
+        self.dock_closed = _RecordingSignal()
+        self.dock_about_to_dispose = _RecordingSignal()
 
 
 class _RecordingManager:
@@ -57,6 +60,8 @@ class _RecordingManager:
 
 def _create_tracker(
     monkeypatch,
+    *,
+    bind_dockable: bool = False,
 ) -> tuple[
     MayaUiStateTracker,
     _RecordingManager,
@@ -89,10 +94,16 @@ def _create_tracker(
 
     manager = _RecordingManager()
     owner = _Owner()
-    tracker = MayaUiStateTracker(
-        cast(UiStateManager, manager),
-        cast(qt.QtCore.QObject, owner),
-    )
+    if bind_dockable:
+        tracker = MayaUiStateTracker.for_dockable(
+            cast(UiStateManager, manager),
+            cast(MayaDockableWindow, owner),
+        )
+    else:
+        tracker = MayaUiStateTracker(
+            cast(UiStateManager, manager),
+            cast(qt.QtCore.QObject, owner),
+        )
     return tracker, manager, owner, calls
 
 
@@ -165,6 +176,55 @@ def test_tracker_skips_delayed_restore_after_owner_is_destroyed(
     # 破棄済みWidgetへ保存状態を適用しない。
     scheduled_callbacks[0]()
     assert manager.restore_count == 0
+
+
+def test_dockable_tracker_follows_controller_lifecycle(monkeypatch) -> None:
+    # dock接続後の復元処理をQt event loopへ予約できるよう記録する。
+    scheduled_callbacks: list[Callable[[], None]] = []
+    monkeypatch.setattr(
+        maya_ui_state,
+        "_restore_later",
+        scheduled_callbacks.append,
+    )
+    tracker, manager, owner, calls = _create_tracker(
+        monkeypatch,
+        bind_dockable=True,
+    )
+
+    # attachと通常closeをWindow signalからtrackerへ通知する。
+    owner.dock_attached.emit()
+    owner.dock_closed.emit()
+    assert len(scheduled_callbacks) == 1
+    scheduled_callbacks[0]()
+    assert manager.restore_count == 1
+    assert manager.save_count == 1
+
+    # 完全破棄直前は保存後にMaya callbackとdock signalを解除する。
+    owner.dock_about_to_dispose.emit()
+    assert manager.save_count == 2
+    assert calls["removed"] == [42]
+
+    # 解除後の通知とowner破棄では状態を重複保存しない。
+    owner.dock_closed.emit()
+    owner.destroyed.emit(None)
+    assert tracker.manager is manager
+    assert manager.save_count == 2
+    assert calls["removed"] == [42]
+
+
+def test_dockable_tracker_saves_cached_state_on_external_destroy(
+    monkeypatch,
+) -> None:
+    # controllerを経由しないWidget破棄を再現する。
+    _tracker, manager, owner, calls = _create_tracker(
+        monkeypatch,
+        bind_dockable=True,
+    )
+    owner.destroyed.emit(None)
+
+    # Widgetを再取得せず退避済み状態を保存してcallbackを解除する。
+    assert manager.save_count == 1
+    assert calls["removed"] == [42]
 
 
 def test_tracker_ignores_callback_already_removed_by_maya(
