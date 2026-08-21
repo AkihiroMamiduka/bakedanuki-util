@@ -1,5 +1,7 @@
 # coding:utf-8
 
+from maya import cmds
+
 # self
 import bd_util as bdu
 
@@ -18,6 +20,11 @@ def main():
     jnt.rotate.set(45, 30, 90)
     jnt_loc = nodes.create.locator(name=f"{jnt.name}Shape", parent=jnt)
     jnt_loc.localScale.set(2, 5, 8)
+
+    ik_handle = cmds.createNode("ikHandle", name="ik_handle")
+
+    ik_operator = nodes.existing.ikHandle(ik_handle)
+    ik_operator.poleVector.set(1, 2, 3)
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

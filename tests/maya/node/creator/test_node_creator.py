@@ -191,12 +191,31 @@ def test_node_creator_available_node_names_for_completion(new_scene):
     }.issubset(node_creator.available_node_names())
     assert {
         "SphereLocator",
+        "ikEffector",
+        "ikHandle",
     }.isdisjoint(node_creator.available_node_names())
     assert "multiplyDivide" in dir(node_creator)
     assert "transform" in dir(node_creator)
     assert "joint" in dir(node_creator)
     assert "mesh" in dir(node_creator)
     assert "and_" in dir(node_creator)
+
+
+def test_node_creator_does_not_create_existing_only_transform(new_scene):
+    from bd_util.maya.node.creator import NodeCreator
+    from bd_util.maya.node.operator.node.dag.transform.ik_handle import (
+        IkHandle,
+    )
+
+    node_creator = NodeCreator()
+
+    assert node_creator.node_class("ikHandle") is IkHandle
+    with pytest.raises(AttributeError, match="Unsupported node type"):
+        node_creator.create("ikHandle")
+    with pytest.raises(AttributeError, match="Unsupported node type"):
+        _ = node_creator.ikHandle
+    assert "ikHandle" not in node_creator.available_node_names()
+    assert "ikHandle" not in dir(node_creator)
 
 
 def test_node_creator_creates_opted_in_shape(new_scene, maya_cmds):

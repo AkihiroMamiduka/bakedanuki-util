@@ -20,6 +20,22 @@ def test_transform_stub_uses_public_manual_class():
     assert transform.module_name.endswith(".dag.transform._core")
 
 
+def test_transform_stub_includes_existing_only_concrete_classes():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    definitions = stub_generator.collect_node_definitions(python_root)
+    definitions_by_type = {
+        definition.node_type: definition for definition in definitions
+    }
+
+    assert definitions_by_type["ikHandle"].class_name == "IkHandle"
+    assert definitions_by_type["ikEffector"].class_name == "IkEffector"
+
+
 def test_shape_stub_excludes_abstract_base_class():
     import bd_util
     from bd_util._dev.maya.node.operator.node import (

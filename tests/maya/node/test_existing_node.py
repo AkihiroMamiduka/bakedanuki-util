@@ -134,6 +134,46 @@ def test_existing_node_wraps_joint(new_scene, maya_cmds):
     assert node.name == "test_joint"
 
 
+def test_existing_node_wraps_ik_handle_and_effector(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util
+    from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
+        IkEffector,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.ik_handle import (
+        IkHandle,
+    )
+
+    start_joint = maya_cmds.joint(name="start_joint", position=(0, 0, 0))
+    end_joint = maya_cmds.joint(name="end_joint", position=(5, 0, 0))
+    handle_name, effector_name = maya_cmds.ikHandle(
+        name="test_ik_handle",
+        startJoint=start_joint,
+        endEffector=end_joint,
+    )
+    modifier_manager = bd_util.ModifierManager()
+
+    handle = ExistingNode(
+        handle_name,
+        modifier_manager=modifier_manager,
+    )
+    effector = ExistingNode(
+        effector_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert isinstance(handle, IkHandle)
+    assert isinstance(effector, IkEffector)
+    assert handle.NODE_TYPE == "ikHandle"
+    assert effector.NODE_TYPE == "ikEffector"
+    assert handle.modifier_manager is modifier_manager
+    assert effector.modifier_manager is modifier_manager
+    assert handle.ikBlend.long_name == "ikBlend"
+    assert effector.hideDisplay.long_name == "hideDisplay"
+
+
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 

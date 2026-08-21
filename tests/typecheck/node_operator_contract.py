@@ -937,6 +937,20 @@ from bd_util.maya.node.operator.node.dag.shape.ufe_proxy_camera_shape import (
 )
 from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
+from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
+    IkEffector,
+)
+from bd_util.maya.node.operator.node.dag.transform.ik_handle import IkHandle
+
+
+def transform_existing_contract(nodes: bdu.Nodes) -> None:
+    handle = nodes.existing.ikHandle("existing_ik_handle")
+    effector = nodes.existing.ikEffector("existing_ik_effector")
+
+    assert_type(handle, IkHandle)
+    assert_type(handle.ikBlend, DoublePlugOperator)
+    assert_type(effector, IkEffector)
+    assert_type(effector.hideDisplay, BoolPlugOperator)
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:

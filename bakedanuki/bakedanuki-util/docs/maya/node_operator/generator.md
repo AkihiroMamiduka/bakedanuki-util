@@ -162,6 +162,10 @@ generate_node_class_file("transform", path, node_kind="transform")
   - 手書きの `_core.py` にある公開 `Transform` は `GeneratedTransform` を継承します。
   - `joint` など transform 派生 node では、`transform` で定義済みの attribute は生成しません。
     これにより、派生 class には固有 attribute だけが出力され、共通 attribute は `Transform` から継承されます。
+  - attribute は node instance を作成せず、`MNodeClass` と
+    `cmds.attributeQuery(..., type=<nodeType>)` から取得します。
+  - 生成済み class は `nodes.existing` から利用できますが、`nodes.create` には
+    `CREATABLE_TRANSFORM_NODE_TYPES` に明示した作成確認済み type だけを公開します。
 - `shape`
   - `node/dag/shape/_generated` に、通常は `Generated<NodeClass>(Shape)` を出力します。
   - `node_type == "shape"` の場合は `shape.py` に `GeneratedShape(DAG)` を出力します。
@@ -177,6 +181,11 @@ DG の既存呼び出しとの互換のため、デフォルトは `node_kind="d
 shape node は全生成と作成 API の公開を分けて扱います。生成済み class は
 `nodes.existing` から利用できますが、`nodes.create` には親 Transform 必須の
 作成テストを通した node type だけを明示的に公開します。
+
+transform 派生 node も同じく、既存 node を具体型へ包む coverage と作成 API の
+公開を分けます。`ikHandle` / `ikEffector` は最初の既存 node 用サンプルとして
+生成しますが、特殊な作成手順を持つため `nodes.create` には公開しません。
+`transform` / `joint` は引き続き作成確認済み type として公開します。
 
 ## 命名規則
 

@@ -862,7 +862,7 @@ def _node_kind_inherited_node_type(
 
 
 def _get_node_attr_infos(node_type: str, node_kind: str) -> list[AttrInfo]:
-    if node_kind == _NODE_KIND_SHAPE:
+    if node_kind in {_NODE_KIND_TRANSFORM, _NODE_KIND_SHAPE}:
         return get_attribute_infos_by_type(node_type)
     return get_attribute_infos(
         node_type,

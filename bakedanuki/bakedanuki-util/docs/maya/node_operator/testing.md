@@ -155,8 +155,12 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - `Nodes` の公開範囲、`nodes.create` / `nodes.existing` の共有状態を検証します。
 - `tests/maya/node/test_existing_node.py`
   - 既存 DG / DAG / shape node の自動判定と型別アクセスを検証します。
+  - 作成APIへ公開しない `ikHandle` / `ikEffector` も具体型へ解決し、同じ
+    `ModifierManager` を共有することを検証します。
 - `tests/maya/node/creator/test_node_creator.py`
   - node 作成、nodeType 解決、補完用 node 名を検証します。
+  - concrete transform class が存在しても、allowlistにないtypeは
+    `nodes.create` へ公開しないことを検証します。
 - `tests/maya/node/creator/test_shape_with_transform.py`
   - transform と shape の一括作成、命名、親子関係、undo / redo を検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`
@@ -203,6 +207,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 
 - `tests/dev/maya/node/operator/node/test_generate.py`
   - AttributeField と内部 `_generated` package の生成 NodeOperator、公開 wrapper の生成・保護、安全でない nodeType の除外を検証します。
+  - transform / shape のattribute queryが調査用node instanceを作らず、
+    登録済みnode typeから静的に取得されることを検証します。
 - `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
   - `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の型情報を
     公開する stub の生成結果を検証します。

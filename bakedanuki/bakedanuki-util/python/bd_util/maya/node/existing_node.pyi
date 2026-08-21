@@ -807,6 +807,8 @@ from .operator.node.dg.hyper_graph_info import HyperGraphInfo
 from .operator.node.dg.hyper_layout import HyperLayout
 from .operator.node.dg.hyper_view import HyperView
 from .operator.node.dg.ik2_bsolver import Ik2Bsolver
+from .operator.node.dag.transform.ik_effector import IkEffector
+from .operator.node.dag.transform.ik_handle import IkHandle
 from .operator.node.dg.ik_m_csolver import IkMCsolver
 from .operator.node.dg.ik_pa_solver import IkPASolver
 from .operator.node.dg.ik_r_psolver import IkRPsolver
@@ -5536,6 +5538,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Ik2Bsolver: ...
+    @staticmethod
+    def ikEffector(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> IkEffector: ...
+    @staticmethod
+    def ikHandle(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> IkHandle: ...
     @staticmethod
     def ikMCsolver(
         node: str | om.MObject,

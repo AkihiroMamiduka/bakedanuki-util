@@ -14,6 +14,7 @@ from ..operator.node.dag.shape._core import Shape
 from ..operator.node.dag.transform._core import Transform
 from ._shape_types import CREATABLE_SHAPE_NODE_TYPES
 from ._shape_with_transform import ShapeWithTransformCreator
+from ._transform_types import CREATABLE_TRANSFORM_NODE_TYPES
 
 _VALID_MODULE_NAME_PATTERN = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 _NODE_TYPE_PATTERN = re.compile(
@@ -140,6 +141,11 @@ class NodeCreator:
             and node_cls.NODE_TYPE not in CREATABLE_SHAPE_NODE_TYPES
         ):
             raise AttributeError(f"Unsupported node type: {node_name}")
+        if (
+            issubclass(node_cls, Transform)
+            and node_cls.NODE_TYPE not in CREATABLE_TRANSFORM_NODE_TYPES
+        ):
+            raise AttributeError(f"Unsupported node type: {node_name}")
         return node_cls
 
     def _node_class_from_packages(
@@ -217,6 +223,11 @@ class NodeCreator:
                 if (
                     package_name == self._DAG_SHAPE_PACKAGE
                     and node_type not in CREATABLE_SHAPE_NODE_TYPES
+                ):
+                    continue
+                if (
+                    package_name == self._DAG_TRANSFORM_PACKAGE
+                    and node_type not in CREATABLE_TRANSFORM_NODE_TYPES
                 ):
                     continue
                 names.add(_node_type_to_creator_name(node_type))

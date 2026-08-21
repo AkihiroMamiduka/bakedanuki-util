@@ -539,6 +539,11 @@ node = nodes.existing.decomposeMatrix("test_decompose_matrix")
 Maya 上の実際の nodeType が指定したメソッドと異なる場合は `TypeError` を送出します。
 自動判定する `nodes.existing("nodeName")` と型を明示する `nodes.existing.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
 
+transform 派生 node は、既存 node の具体型対応と作成 API を分けて段階公開します。
+`ikHandle` / `ikEffector` は `nodes.existing.ikHandle()` /
+`nodes.existing.ikEffector()` から具体型として利用できますが、作成には専用の
+初期化手順が必要なため `nodes.create` には公開しません。
+
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 
 `fn_node` は初回アクセス時に作られ、以降はキャッシュされます。

@@ -1052,6 +1052,35 @@ def test_shape_attr_query_does_not_create_node(monkeypatch):
     assert queried_node_types == ["mesh"]
 
 
+def test_transform_attr_query_does_not_create_node(monkeypatch):
+    attr_infos = [_attr("ikBlend", "ikBlend", "double")]
+    queried_node_types = []
+
+    def get_by_type(node_type):
+        queried_node_types.append(node_type)
+        return attr_infos
+
+    def create_and_query(*args, **kwargs):
+        raise AssertionError("transform generation must not create a node")
+
+    monkeypatch.setattr(
+        generate_module,
+        "get_attribute_infos_by_type",
+        get_by_type,
+    )
+    monkeypatch.setattr(
+        generate_module,
+        "get_attribute_infos",
+        create_and_query,
+    )
+
+    assert (
+        generate_module._get_node_attr_infos("ikHandle", "transform")
+        == attr_infos
+    )
+    assert queried_node_types == ["ikHandle"]
+
+
 def test_generate_concrete_shape_filters_shape_base_attributes():
     code = generate_node_class_code(
         "mesh",
