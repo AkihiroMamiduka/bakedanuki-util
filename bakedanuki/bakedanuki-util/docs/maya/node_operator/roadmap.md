@@ -77,6 +77,10 @@
 - transform 派生 node の第七グループとして、VarGroup 系5種の具体型と
   `nodes.existing` 補完を追加。作成不能な抽象native基底 `baseGeometryVarGroup` も
   `BaseGeometryVarGroup` として型階層に保持し、`nodes.create` には非公開。
+- transform 派生 node の第八グループとして、特殊transform
+  `ufeProxyTransform` / `unknownTransform` の具体型と `nodes.existing` 補完を追加。
+  `ufePath` はruntime-defined attributeとして補い、特殊用途のため
+  `nodes.create` には非公開。
 
 ## 決定済みのロードマップ
 
@@ -105,8 +109,9 @@ traversal 中に transform 派生 node を具体型へ解決できない問題�
 残る52種はinstanceを作らない静的query、コード生成、構文確認に成功しています。
 最初の代表型 `ikHandle` / `ikEffector` に続き、constraint 系14種を追加しました。
 さらにfield / emitter系11種、dynamics / deformer周辺5種、HIK系5種、
-scene / utility系6種、VarGroup系5種を追加し、現在は `transform` / `joint` を含む50種を
-具体型へ解決できます。残りを用途別のグループで広げてからtraversal実装へ進みます。
+scene / utility系6種、VarGroup系5種、特殊transform 2種を追加し、
+`transform` / `joint` を含む52種すべてを具体型へ解決できます。
+transform派生の事前整備が完了したため、次はtraversal実装へ進みます。
 
 - 直接の子。
 - 直接親から root 方向へ辿る先祖。

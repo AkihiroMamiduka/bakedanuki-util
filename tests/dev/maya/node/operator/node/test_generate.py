@@ -1061,6 +1061,23 @@ def test_generate_transform_base_node_class_code():
     assert "translate = TranslateField()" in code
 
 
+def test_ufe_proxy_transform_supplements_runtime_defined_ufe_path():
+    attr_infos = generate_module._get_node_attr_infos(
+        "ufeProxyTransform",
+        "transform",
+    )
+    ufe_paths = [
+        attr_info
+        for attr_info in attr_infos
+        if attr_info.long_name == "ufePath"
+    ]
+
+    assert len(ufe_paths) == 1
+    assert ufe_paths[0].short_name == "ufep"
+    assert ufe_paths[0].data_type == "string"
+    assert ufe_paths[0].enforcing_unique_name is True
+
+
 def test_generate_shape_node_class_code():
     code = generate_node_class_code(
         "mesh",

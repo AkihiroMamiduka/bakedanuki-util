@@ -439,6 +439,51 @@ def test_existing_node_var_groups_preserve_abstract_base(
     assert all(isinstance(node, BaseGeometryVarGroup) for node in nodes)
 
 
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("ufeProxyTransform", "UfeProxyTransform"),
+        ("unknownTransform", "UnknownTransform"),
+    ],
+)
+def test_existing_node_wraps_special_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+def test_existing_ufe_proxy_transform_exposes_runtime_defined_ufe_path(
+    new_scene,
+    maya_cmds,
+):
+    from bd_util.maya.node.operator.node.dag.transform.ufe_proxy_transform import (
+        UfeProxyTransform,
+    )
+
+    node_name = maya_cmds.createNode("ufeProxyTransform")
+    node = ExistingNode(node_name)
+
+    assert isinstance(node, UfeProxyTransform)
+    assert node.ufePath.long_name == "ufePath"
+    assert node.ufePath.short_name == "ufep"
+    assert node.ufePath.get() == ""
+
+
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 

@@ -1066,6 +1066,12 @@ from bd_util.maya.node.operator.node.dag.transform.turbulence_field import (
 from bd_util.maya.node.operator.node.dag.transform.uniform_field import (
     UniformField,
 )
+from bd_util.maya.node.operator.node.dag.transform.ufe_proxy_transform import (
+    UfeProxyTransform,
+)
+from bd_util.maya.node.operator.node.dag.transform.unknown_transform import (
+    UnknownTransform,
+)
 from bd_util.maya.node.operator.node.dag.transform.volume_axis_field import (
     VolumeAxisField,
 )
@@ -1167,6 +1173,12 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     surface_var_group = nodes.existing.surfaceVarGroup(
         "existing_surface_var_group"
     )
+    ufe_proxy_transform = nodes.existing.ufeProxyTransform(
+        "existing_ufe_proxy_transform"
+    )
+    unknown_transform = nodes.existing.unknownTransform(
+        "existing_unknown_transform"
+    )
 
     assert_type(handle, IkHandle)
     assert_type(handle.ikBlend, DoublePlugOperator)
@@ -1257,6 +1269,10 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
 
     base_geometry_var_group: BaseGeometryVarGroup = curve_var_group
     assert base_geometry_var_group is curve_var_group
+    assert_type(ufe_proxy_transform, UfeProxyTransform)
+    assert_type(ufe_proxy_transform.ufePath, DataStringPlugOperator)
+    assert_type(unknown_transform, UnknownTransform)
+    assert_type(unknown_transform.visibility, BoolPlugOperator)
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:

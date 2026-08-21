@@ -561,6 +561,9 @@ scene / utility 系6種も `nodes.existing.dagContainer()` /
 VarGroup 系5種も `nodes.existing.curveVarGroup()` /
 `nodes.existing.meshVarGroup()` などから具体型として利用できます。
 5種共通の抽象native基底は `BaseGeometryVarGroup` として型階層に保持します。
+特殊transformの `ufeProxyTransform` / `unknownTransform` も
+`nodes.existing` から具体型として利用できます。`UfeProxyTransform` では、
+各instanceへ追加される `ufePath` も静的なfieldとして公開します。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

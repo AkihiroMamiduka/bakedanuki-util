@@ -79,6 +79,8 @@ def test_transform_stub_includes_existing_only_concrete_classes():
         "textureDeformerHandle": "TextureDeformerHandle",
         "turbulenceField": "TurbulenceField",
         "uniformField": "UniformField",
+        "ufeProxyTransform": "UfeProxyTransform",
+        "unknownTransform": "UnknownTransform",
         "volumeAxisField": "VolumeAxisField",
         "vortexField": "VortexField",
     }

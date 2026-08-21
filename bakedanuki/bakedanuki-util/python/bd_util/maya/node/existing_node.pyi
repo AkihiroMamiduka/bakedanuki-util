@@ -1355,11 +1355,13 @@ from .operator.node.dg.tweak import Tweak
 from .operator.node.dg.type import Type
 from .operator.node.dg.type_extrude import TypeExtrude
 from .operator.node.dag.shape.ufe_proxy_camera_shape import UfeProxyCameraShape
+from .operator.node.dag.transform.ufe_proxy_transform import UfeProxyTransform
 from .operator.node.dg.uniform_falloff import UniformFalloff
 from .operator.node.dag.transform.uniform_field import UniformField
 from .operator.node.dg.unit_conversion import UnitConversion
 from .operator.node.dg.unit_to_time_conversion import UnitToTimeConversion
 from .operator.node.dg.unknown import Unknown
+from .operator.node.dag.transform.unknown_transform import UnknownTransform
 from .operator.node.dg.unpremultiply import Unpremultiply
 from .operator.node.dg.untrim import Untrim
 from .operator.node.dg.usd_preview_surface import UsdPreviewSurface
@@ -8645,6 +8647,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> UfeProxyCameraShape: ...
     @staticmethod
+    def ufeProxyTransform(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeProxyTransform: ...
+    @staticmethod
     def uniformFalloff(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8674,6 +8682,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Unknown: ...
+    @staticmethod
+    def unknownTransform(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UnknownTransform: ...
     @staticmethod
     def unpremultiply(
         node: str | om.MObject,

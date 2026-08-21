@@ -205,6 +205,10 @@ scene / utility系では、`lookAt` がnativeで `aimConstraint` を継承する
 VarGroup系5種は、作成不能な抽象native type `baseGeometryVarGroup` の共通attributeを
 `BaseGeometryVarGroup` に生成し、その派生型として生成します。抽象基底自体は
 `nodes.existing` の型別メソッドには公開せず、具体5種だけを公開します。
+`ufeProxyTransform` の `ufePath` は静的なnode class attributeではなく、Mayaが
+各instanceへ追加するuser-defined attributeです。Maya 2025での実挙動をgeneratorの
+runtime-defined attribute情報として補い、静的queryに現れる将来versionでは重複を
+避けます。`unknownTransform` はtransform共通attributeだけの空の具象classです。
 `transform` / `joint` は引き続き作成確認済み type として公開します。
 
 ## 命名規則

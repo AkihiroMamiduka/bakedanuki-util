@@ -238,6 +238,8 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "textureDeformerHandle",
         "turbulenceField",
         "uniformField",
+        "ufeProxyTransform",
+        "unknownTransform",
         "volumeAxisField",
         "vortexField",
     }.isdisjoint(node_creator.available_node_names())
