@@ -7,7 +7,36 @@ from bd_util.ui import (
     SettingsPath,
     WindowStateStore,
     WindowStateTracker,
+    ensure_window_on_screen,
 )
+from bd_util.ui import window_state
+
+
+class _Screen:
+    """available geometryだけを持つtest用screen。"""
+
+    def __init__(self, available_geometry: QtCore.QRect) -> None:
+        """固定のavailable geometryを保持する。"""
+        self._available_geometry = available_geometry
+
+    def availableGeometry(self) -> QtCore.QRect:
+        """test用の利用可能領域を返す。"""
+        return QtCore.QRect(self._available_geometry)
+
+
+def _replace_screens(
+    monkeypatch,
+    *available_geometries: QtCore.QRect,
+) -> None:
+    """Window配置処理が参照するscreenをtest用実装へ置き換える。"""
+    # 実際のモニター構成に依存しない固定screenを生成する。
+    screens = tuple(_Screen(geometry) for geometry in available_geometries)
+    monkeypatch.setattr(window_state, "_get_screens", lambda: screens)
+    monkeypatch.setattr(
+        window_state,
+        "_get_primary_screen",
+        lambda: None if not screens else screens[0],
+    )
 
 
 def _create_store(settings_file: Path) -> WindowStateStore:
@@ -44,6 +73,117 @@ def test_store_restores_dialog_geometry(qt_application, tmp_path) -> None:
     # testで生成したwidgetを削除する。
     source.deleteLater()
     restored.deleteLater()
+    qt_application.processEvents()
+
+
+def test_store_checks_screen_after_geometry_restore(
+    qt_application,
+    monkeypatch,
+    tmp_path,
+) -> None:
+    # 復元可能なgeometryと補正対象Windowの記録先を用意する。
+    store = _create_store(tmp_path / "ui.ini")
+    source = QtWidgets.QDialog()
+    source.setGeometry(120, 140, 420, 260)
+    assert store.save(source)
+    checked_windows: list[QtWidgets.QWidget] = []
+
+    def record_window(window: QtWidgets.QWidget) -> bool:
+        """screen確認対象のWindowを記録する。"""
+        checked_windows.append(window)
+        return False
+
+    monkeypatch.setattr(
+        window_state,
+        "ensure_window_on_screen",
+        record_window,
+    )
+
+    # restoreGeometry成功後に現在のscreen構成を必ず確認する。
+    restored = QtWidgets.QDialog()
+    assert store.restore(restored)
+    assert checked_windows == [restored]
+
+    # testで生成したWindowを削除する。
+    source.deleteLater()
+    restored.deleteLater()
+    qt_application.processEvents()
+
+
+def test_ensure_window_on_screen_keeps_accessible_geometry(
+    qt_application,
+    monkeypatch,
+) -> None:
+    # タイトル領域を十分に表示できる仮想screenとWindowを用意する。
+    _replace_screens(monkeypatch, QtCore.QRect(0, 0, 1000, 700))
+    window = QtWidgets.QDialog()
+    window.setGeometry(930, 100, 400, 300)
+    expected_geometry = window.geometry()
+
+    # タイトルの必要幅が見えているWindowは意図した配置を維持する。
+    assert not ensure_window_on_screen(window)
+    assert window.geometry() == expected_geometry
+
+    # testで生成したWindowを削除する。
+    window.deleteLater()
+    qt_application.processEvents()
+
+
+def test_ensure_window_on_screen_centers_offscreen_window(
+    qt_application,
+    monkeypatch,
+) -> None:
+    # 現在のscreenから完全に外れたWindowを再現する。
+    _replace_screens(monkeypatch, QtCore.QRect(0, 0, 1000, 700))
+    window = QtWidgets.QDialog()
+    window.setGeometry(2200, 1200, 400, 300)
+
+    # primary screenの中央へ元のサイズを維持して配置する。
+    assert ensure_window_on_screen(window)
+    assert window.geometry() == QtCore.QRect(300, 200, 400, 300)
+
+    # testで生成したWindowを削除する。
+    window.deleteLater()
+    qt_application.processEvents()
+
+
+def test_ensure_window_on_screen_fits_oversized_window(
+    qt_application,
+    monkeypatch,
+) -> None:
+    # 切断済みの大型screenにあったWindowを小さいscreenへ戻す。
+    _replace_screens(monkeypatch, QtCore.QRect(0, 0, 1000, 700))
+    window = QtWidgets.QDialog()
+    window.setGeometry(2200, 1200, 1400, 900)
+
+    # available geometryを超える幅と高さを縮めて全体を表示する。
+    assert ensure_window_on_screen(window)
+    assert window.geometry() == QtCore.QRect(0, 0, 1000, 700)
+
+    # testで生成したWindowを削除する。
+    window.deleteLater()
+    qt_application.processEvents()
+
+
+def test_ensure_window_on_screen_uses_largest_overlap(
+    qt_application,
+    monkeypatch,
+) -> None:
+    # タイトルだけが上へ外れ、右screenと大きく重なるWindowを用意する。
+    _replace_screens(
+        monkeypatch,
+        QtCore.QRect(0, 0, 1000, 700),
+        QtCore.QRect(1000, 0, 1000, 700),
+    )
+    window = QtWidgets.QDialog()
+    window.setGeometry(1200, -100, 400, 500)
+
+    # 現在のWindowと最も広く重なる右screenの中央へ配置する。
+    assert ensure_window_on_screen(window)
+    assert window.geometry() == QtCore.QRect(1300, 100, 400, 500)
+
+    # testで生成したWindowを削除する。
+    window.deleteLater()
     qt_application.processEvents()
 
 

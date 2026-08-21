@@ -127,6 +127,21 @@ window stateはclose eventで保存されます。タイトルバーのclose、`
 `controller.dispose()`のいずれも同じ保存処理を通ります。`settings_path`を省略した場合は
 永続化を行いません。
 
+保存済みgeometryの復元後は、Windowのタイトル領域が現在接続されているいずれかのscreenで
+操作可能か確認します。モニター切断、解像度変更、配置変更によってタイトル領域が画面外へ
+移動した場合は、現在のWindowと最も広く重なるscreen、Maya親Windowのscreen、Windowへ割り当て
+済みのscreen、primary screenの順に補正先を選びます。元のサイズを可能な限り維持し、screenの
+available geometryを超える場合は収まる大きさへ変更して中央へ配置します。
+
+既に操作可能なWindowは変更しません。表示中のWindowを明示的に確認する場合は、汎用Qt APIの
+`ensure_window_on_screen()`を使用できます。戻り値はgeometryを補正した場合だけ`True`です。
+
+```python
+from bd_util.ui import ensure_window_on_screen
+
+ensure_window_on_screen(window)
+```
+
 `settings_path`はplatformにかかわらず`/`で区切ります。絶対path、`.`、`..`、空segment、
 Windows予約名や使用できない文字は拒否されます。
 

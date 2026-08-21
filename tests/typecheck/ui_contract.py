@@ -14,7 +14,13 @@ from bd_util.maya.ui import (
     reset_and_show_ui_layout,
     reset_ui_layout,
 )
-from bd_util.ui import SettingsPath, UiStateManager, WindowController, qt
+from bd_util.ui import (
+    SettingsPath,
+    UiStateManager,
+    WindowController,
+    ensure_window_on_screen,
+    qt,
+)
 
 
 class SampleWindow(QtWidgets.QDialog):
@@ -32,6 +38,7 @@ class FacadeWidget(qt.QWidget):
 window_controller = WindowController(SampleWindow)
 assert_type(window_controller.window, SampleWindow | None)
 assert_type(window_controller.show(), SampleWindow)
+assert_type(ensure_window_on_screen(SampleWindow()), bool)
 
 maya_window_controller = MayaWindowController(SampleWindow)
 assert_type(maya_window_controller.window, SampleWindow | None)
