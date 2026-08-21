@@ -549,6 +549,9 @@ constraint 系14種も `nodes.existing.aimConstraint()` /
 field / emitter 系11種も `nodes.existing.airField()` /
 `nodes.existing.fluidEmitter()` などから具体型として利用できます。
 これらも dynamics 用の初期化や接続を伴うため `nodes.create` には公開しません。
+dynamics / deformer 周辺の5種も `nodes.existing.nucleus()` /
+`nodes.existing.primitiveFalloff()` などから具体型として利用できます。
+これらも専用の作成手順や接続を伴うため `nodes.create` には公開しません。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

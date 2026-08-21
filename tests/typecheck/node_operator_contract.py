@@ -941,6 +941,9 @@ from bd_util.maya.node.operator.node.dag.transform.aim_constraint import (
     AimConstraint,
 )
 from bd_util.maya.node.operator.node.dag.transform.air_field import AirField
+from bd_util.maya.node.operator.node.dag.transform.collision_model import (
+    CollisionModel,
+)
 from bd_util.maya.node.operator.node.dag.transform.drag_field import DragField
 from bd_util.maya.node.operator.node.dag.transform.fluid_emitter import (
     FluidEmitter,
@@ -955,12 +958,14 @@ from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
     IkEffector,
 )
 from bd_util.maya.node.operator.node.dag.transform.ik_handle import IkHandle
+from bd_util.maya.node.operator.node.dag.transform.instancer import Instancer
 from bd_util.maya.node.operator.node.dag.transform.normal_constraint import (
     NormalConstraint,
 )
 from bd_util.maya.node.operator.node.dag.transform.newton_field import (
     NewtonField,
 )
+from bd_util.maya.node.operator.node.dag.transform.nucleus import Nucleus
 from bd_util.maya.node.operator.node.dag.transform.old_normal_constraint import (
     OldNormalConstraint,
 )
@@ -985,6 +990,9 @@ from bd_util.maya.node.operator.node.dag.transform.point_on_poly_constraint impo
 from bd_util.maya.node.operator.node.dag.transform.pole_vector_constraint import (
     PoleVectorConstraint,
 )
+from bd_util.maya.node.operator.node.dag.transform.primitive_falloff import (
+    PrimitiveFalloff,
+)
 from bd_util.maya.node.operator.node.dag.transform.radial_field import (
     RadialField,
 )
@@ -999,6 +1007,9 @@ from bd_util.maya.node.operator.node.dag.transform.symmetry_constraint import (
 )
 from bd_util.maya.node.operator.node.dag.transform.tangent_constraint import (
     TangentConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.texture_deformer_handle import (
+    TextureDeformerHandle,
 )
 from bd_util.maya.node.operator.node.dag.transform.turbulence_field import (
     TurbulenceField,
@@ -1072,6 +1083,15 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
         "existing_volume_axis_field"
     )
     vortex_field = nodes.existing.vortexField("existing_vortex_field")
+    collision_model = nodes.existing.collisionModel("existing_collision_model")
+    instancer = nodes.existing.instancer("existing_instancer")
+    nucleus = nodes.existing.nucleus("existing_nucleus")
+    primitive_falloff = nodes.existing.primitiveFalloff(
+        "existing_primitive_falloff"
+    )
+    texture_deformer_handle = nodes.existing.textureDeformerHandle(
+        "existing_texture_deformer_handle"
+    )
 
     assert_type(handle, IkHandle)
     assert_type(handle.ikBlend, DoublePlugOperator)
@@ -1107,6 +1127,16 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(volume_axis_field, VolumeAxisField)
     assert_type(volume_axis_field.magnitude, DoublePlugOperator)
     assert_type(vortex_field, VortexField)
+    assert_type(collision_model, CollisionModel)
+    assert_type(collision_model.resilience, DoublePlugOperator)
+    assert_type(instancer, Instancer)
+    assert_type(instancer.displayPercentage, DoublePlugOperator)
+    assert_type(nucleus, Nucleus)
+    assert_type(nucleus.gravity, FloatPlugOperator)
+    assert_type(primitive_falloff, PrimitiveFalloff)
+    assert_type(primitive_falloff.start, DoublePlugOperator)
+    assert_type(texture_deformer_handle, TextureDeformerHandle)
+    assert_type(texture_deformer_handle.visibility, BoolPlugOperator)
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:

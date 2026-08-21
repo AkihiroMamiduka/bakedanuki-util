@@ -161,6 +161,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
     concrete transform 型へ解決されることを検証します。
   - field / emitter 系11種もMaya上で作成し、全型の concrete transform 型と
     `ModifierManager` 共有を検証します。
+  - dynamics / deformer 周辺5種もMaya上で作成し、全型の concrete transform 型と
+    `ModifierManager` 共有を検証します。
 - `tests/maya/node/creator/test_node_creator.py`
   - node 作成、nodeType 解決、補完用 node 名を検証します。
   - concrete transform class が存在しても、allowlistにないtypeは

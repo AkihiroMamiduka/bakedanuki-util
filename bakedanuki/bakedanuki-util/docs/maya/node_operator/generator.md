@@ -191,6 +191,10 @@ transform 派生 node も同じく、既存 node を具体型へ包む coverage 
 続いてfield / emitter系11種も同じ方針で生成します。`primitiveFalloff` は
 `dynBase` / `field` / `pointEmitter` を継承しない独立transformのため、
 このグループには含めません。
+dynamics / deformer周辺のグループでは、`collisionModel` / `instancer` /
+`nucleus` / `primitiveFalloff` / `textureDeformerHandle` を生成します。
+`textureDeformerHandle` はtransform共通attribute以外を持たないため、生成classは
+`NODE_TYPE` だけを追加する空の具象classになります。
 `transform` / `joint` は引き続き作成確認済み type として公開します。
 
 ## 命名規則

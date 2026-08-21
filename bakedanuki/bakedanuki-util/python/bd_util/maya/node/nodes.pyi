@@ -631,6 +631,7 @@ from .operator.node.dg.cluster import Cluster
 from .operator.node.dag.shape.cluster_flexor_shape import ClusterFlexorShape
 from .operator.node.dag.shape.cluster_handle import ClusterHandle
 from .operator.node.dg.collection import Collection
+from .operator.node.dag.transform.collision_model import CollisionModel
 from .operator.node.dg.color_composite import ColorComposite
 from .operator.node.dg.color_condition import ColorCondition
 from .operator.node.dg.color_constant import ColorConstant
@@ -829,6 +830,7 @@ from .operator.node.dag.shape.implicit_cone import ImplicitCone
 from .operator.node.dag.shape.implicit_sphere import ImplicitSphere
 from .operator.node.dg.insert_knot_curve import InsertKnotCurve
 from .operator.node.dg.insert_knot_surface import InsertKnotSurface
+from .operator.node.dag.transform.instancer import Instancer
 from .operator.node.dg.intersect_surface import IntersectSurface
 from .operator.node.dg.inverse_lerp import InverseLerp
 from .operator.node.dg.inverse_matrix import InverseMatrix
@@ -941,6 +943,7 @@ from .operator.node.dg.noise import Noise
 from .operator.node.dg.non_linear import NonLinear
 from .operator.node.dag.transform.normal_constraint import NormalConstraint
 from .operator.node.dg.normalize import Normalize
+from .operator.node.dag.transform.nucleus import Nucleus
 from .operator.node.dag.shape.nurbs_curve import NurbsCurve
 from .operator.node.dg.nurbs_curve_to_bezier import NurbsCurveToBezier
 from .operator.node.dag.shape.nurbs_surface import NurbsSurface
@@ -1129,6 +1132,7 @@ from .operator.node.dg.post_process_list import PostProcessList
 from .operator.node.dg.power import Power
 from .operator.node.dg.precomp_export import PrecompExport
 from .operator.node.dg.premultiply import Premultiply
+from .operator.node.dag.transform.primitive_falloff import PrimitiveFalloff
 from .operator.node.dg.project_curve import ProjectCurve
 from .operator.node.dg.project_tangent import ProjectTangent
 from .operator.node.dg.projection import Projection
@@ -1300,6 +1304,9 @@ from .operator.node.dg.tension import Tension
 from .operator.node.dg.tex_lattice import TexLattice
 from .operator.node.dg.texture_bake_set import TextureBakeSet
 from .operator.node.dg.texture_deformer import TextureDeformer
+from .operator.node.dag.transform.texture_deformer_handle import (
+    TextureDeformerHandle,
+)
 from .operator.node.dg.texture_to_geom import TextureToGeom
 from .operator.node.dg.time import Time
 from .operator.node.dg.time_editor import TimeEditor
@@ -4040,6 +4047,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Collection: ...
+    def collisionModel(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> CollisionModel: ...
     def colorComposite(
         self,
         node: str | om.MObject,
@@ -4980,6 +4992,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> InsertKnotSurface: ...
+    def instancer(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Instancer: ...
     def intersectSurface(
         self,
         node: str | om.MObject,
@@ -5465,6 +5482,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
+    def nucleus(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> Nucleus: ...
     def nurbsCurve(
         self,
         node: str | om.MObject,
@@ -6370,6 +6392,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Premultiply: ...
+    def primitiveFalloff(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> PrimitiveFalloff: ...
     def projectCurve(
         self,
         node: str | om.MObject,
@@ -7165,6 +7192,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TextureDeformer: ...
+    def textureDeformerHandle(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> TextureDeformerHandle: ...
     def textureToGeom(
         self,
         node: str | om.MObject,
