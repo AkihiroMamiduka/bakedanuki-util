@@ -41,6 +41,9 @@
   `get()` / `value` / `value_direct` の戻り値へ接続。
 - DAG の `full_path` / `is_instanced` / `parent` / `parents` と、親変更時の
   instancing 制約を追加。
+- DAG traversal の `children()` / `ancestors()` / `descendants()` を追加。
+  具体型解決、`ModifierManager`共有、実行済みscene状態、instancing時の列挙規則を
+  Maya 2025上で検証。
 - 親 Transform 必須の raw shape 作成 API を追加。
 - `camera` / `locator` / `mesh` / `nurbsCurve` / `nurbsSurface` を最初の
   作成確認済み shape として公開。
@@ -85,14 +88,14 @@
   `UnknownDag` として追加。Mayaが親Transformを自動作成するplaceholder nodeのため、
   `nodes.existing` のみに公開。
 
-## 決定済みのロードマップ
+## 完了済み: DAG / shape API roadmap
 
-次の順序で、DAG 階層と shape 作成 API を整備します。
+以下の順序で、DAG階層とshape作成APIを整備しました。
 
 ### 1. DAG path と instancing の方針（初期対応完了）
 
 子孫・先祖 traversal の実装前に、`MDagPath` と instanced DAG node の
-扱いを決めます。
+扱いを決めました。
 
 現在の `NodeOperator` は `MObject` を中心に扱うため、同じ node が複数の
 DAG path を持つ場合に、どの path の階層を返すかが曖昧になります。
@@ -102,9 +105,9 @@ node の単一 `parent` 取得や親変更は `RuntimeError` にします。す�
 `parents` から取得できます。将来 path を明示的に選択する API が必要になった場合は、
 `ExistingNode` の入力と保持方法を拡張します。
 
-### 2. DAG 階層 traversal
+### 2. DAG 階層 traversal（初期対応完了）
 
-DAG path / instancing の方針確定後、次の階層取得 API を追加します。
+DAG path / instancing の方針確定後、次の階層取得APIを追加しました。
 
 traversal 中に transform 派生 node を具体型へ解決できない問題を避けるため、
 先に transform 派生 NodeOperator の coverage を段階的に整備します。Maya 2025で
@@ -115,7 +118,7 @@ traversal 中に transform 派生 node を具体型へ解決できない問題�
 scene / utility系6種、VarGroup系5種、特殊transform 2種を追加し、
 `transform` / `joint` を含む52種すべてを具体型へ解決できます。
 さらにtransformでもshapeでもない `unknownDag` も具体型へ解決できます。
-DAG具体型の事前整備が完了したため、次はtraversal実装へ進みます。
+DAG具体型の事前整備を完了してからtraversalを実装しました。
 
 - 直接の子。
 - 直接親から root 方向へ辿る先祖。
@@ -138,11 +141,12 @@ instanced subtreeはMaya標準traversalと同様にDAG pathごとに再訪する
 `MObject`が複数回現れる場合があります。
 
 これで`children()` / `ancestors()` / `descendants()`の初期DAG traversalは完了です。
-Shape filterやpathを明示的に選択するAPIは、必要な利用例が揃った段階で検討します。
+Shape / type filterは次の拡張候補として検討します。pathを明示的に選択するAPIは、
+必要な利用例が揃った段階で検討します。
 
 ### 3. 親 Transform 必須の shape 作成（段階公開完了）
 
-最初の shape 作成 API は、親 `Transform` を必須として公開します。
+最初の shape 作成 API は、親 `Transform` を必須として公開しました。
 
 ```python
 mesh = nodes.create.mesh(
@@ -266,8 +270,74 @@ mod.do_it_dag()
 作成とは別の高レベル API として扱います。
 
 ここまでを shape 系 NodeOperator と shape 作成 API の一区切りとします。
-次の主要作業は「2. DAG 階層 traversal」とし、直接の子、先祖、子孫の取得仕様を
-固めてから実装します。
+その後、DAG path / instancing方針と初期DAG traversalまで実装し、当初予定した
+DAG / shape API roadmapは完了しました。
+
+## 次に検討する DAG traversal 拡張
+
+初期traversalの契約は維持したまま、次の利便APIを検討します。ここに記載する
+引数名と戻り値型は候補であり、Maya 2025の実挙動、IDE補完、Pyright contractを
+確認してから確定します。
+
+共通方針の候補です。
+
+- filterは返す結果だけに適用し、対象外nodeの子孫も探索する。filterを理由に
+  subtreeをpruneしない。
+- 結果はcacheせず、実行済みscene状態を都度取得する。
+- 自分自身とworldは含めない。
+- 結果はscene上のnode typeに対応する具体的な`DAG`系`NodeOperator`とし、
+  元nodeと同じ`ModifierManager`を共有する。
+- instancingは現在のMObject中心と`MDagPath.getAPathTo()`の方針を維持する。
+
+### 1. Shape filter
+
+TransformとShapeを両方返す現在の契約に、Shapeを除外または限定するfilterを追加する
+候補です。Shapeだけへの限定は後述のclass-based type filterへ`Shape`を渡す方法でも
+表現できます。一方、Shapeだけを除外する用途はpositiveなtype filterでは表現しにくいため、
+`include_shapes: bool = True`のような独立optionも候補とします。
+
+主な対象は`children()` / `descendants()`とし、child chainにも同じ規則を適用できる
+設計を検討します。祖先が通常Transformだけになる`ancestors()`へShape専用optionを
+追加する必要性は、実際のDAG構造を確認して判断します。
+
+`only` / `exclude` / `all`の三状態を単一のboolへ詰め込まず、呼び出し側で意味が
+読み取れるAPIにします。
+
+### 2. Type filter
+
+Maya node type名の文字列より、`Transform` / `Joint` / `Shape` / `Mesh`のような
+`DAG`系Python classを受け取る方式を第一候補とします。`isinstance()`に基づくfilterなら
+継承関係を利用でき、`type[T]`と組み合わせて戻り値を`tuple[T, ...]`として表現できます。
+
+filter対象外nodeも探索経路としては残します。例えば`Mesh`だけを要求した場合も、
+途中の`Transform`で探索を止めません。Maya node type文字列やexact type判定は、
+実際の用途が必要になった段階で別optionとして検討します。
+
+### 3. child indexを固定した末端までのchain
+
+各階層で同じchild indexだけを選び、子が存在しなくなるまで辿るAPIを検討します。
+これは全子孫を列挙する`descendants()`とは探索規則が異なるため、同メソッドへ
+`first_child_only=True`のようなmodeを追加するより、別メソッドを第一候補とします。
+
+候補名は`descendant_chain(child_index: int = 0)`です。自分自身は含めず、指定indexの
+子が存在しない時点で終了します。最初はindex 0専用として始める場合は、より明示的な
+`first_child_chain()`も候補です。
+
+### 4. 指定したDAGまでの範囲
+
+`ancestors()`とchild chain APIに、`until: DAG | None = None`のような境界引数を
+追加する候補です。境界nodeは結果へ含めるinclusiveな契約を第一候補とします。
+指定したDAGが探索path上に存在しない場合は`None`を返すことで、空tupleと
+「見つからなかった」を区別できます。
+
+引数省略時は現在どおり`tuple[DAG, ...]`を返し、境界指定時だけ
+`tuple[DAG, ...] | None`になるoverloadをPyright contractで固定します。比較は
+Python instanceやnode名ではなく`MObject` identityを使います。`ancestors()`では、
+instanced nodeが保持している1つのpath上に境界がなければ、別pathに同じDAGが
+存在しても`None`とします。
+
+実装は、まずShape / type filterの共通仕様を固め、次にchild chain、最後に境界引数を
+追加する順序を候補とします。
 
 ## 将来の拡張候補
 
@@ -279,7 +349,7 @@ compound 専用値型の利用例が集まり、演算の意味を固定でき�
 乗算・除算を最初の候補とします。要素積、内積、行列との演算、
 quaternion multiplication などは同じ演算子へ一律に割り当てません。
 
-## 近い作業候補
+## DAG traversal 拡張後の作業候補
 
 ### 1. docs の継続更新
 
@@ -293,19 +363,14 @@ quaternion multiplication などは同じ演算子へ一律に割り当てませ
 
 混在型や未対応型は fallback せず、明示的に unsupported として扱う方針です。
 
-### 3. pytest の移植
+### 3. legacy test の整理
 
-既存 `_test` のうち、仕様固定できるものを順次 pytest へ移します。
+当初の優先候補だったextra attribute、custom compound、keyframe、transformの
+built-in compound alias、connect / disconnect / next indexはpytest化済みです。
 
-優先候補:
-
-- extra attribute
-- custom compound
-- keyframe
-- transform の built-in compound alias
-- connect / disconnect / next index
-
-ベンチマークは `_test` に残します。
+残る`bd_util/_test`は、現行pytestと重複する古い手動test、調査用script、benchmarkを
+区別して整理します。仕様を追加で固定できるものだけpytestへ移し、benchmarkは
+`_test`に残します。
 
 ### 4. MPxCommand 連携
 
@@ -320,6 +385,10 @@ def undoIt(self):
 def redoIt(self):
     self.modifier_manager.redo_it()
 ```
+
+DAG traversal拡張の次に着手する大きな共有基盤の候補です。現在の`MPxCommandBase`が
+直接保持する単一`MDagModifier`を、DG / DAG双方の履歴を扱う`ModifierManager`へ
+移行する設計を固めます。
 
 ### 5. set_direct の扱い
 
