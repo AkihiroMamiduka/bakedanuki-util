@@ -239,6 +239,7 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "turbulenceField",
         "uniformField",
         "ufeProxyTransform",
+        "unknownDag",
         "unknownTransform",
         "volumeAxisField",
         "vortexField",
@@ -265,6 +266,21 @@ def test_node_creator_does_not_create_existing_only_transform(new_scene):
         _ = node_creator.ikHandle
     assert "ikHandle" not in node_creator.available_node_names()
     assert "ikHandle" not in dir(node_creator)
+
+
+def test_node_creator_does_not_create_existing_only_generic_dag(new_scene):
+    from bd_util.maya.node.creator import NodeCreator
+    from bd_util.maya.node.operator.node.dag.unknown_dag import UnknownDag
+
+    node_creator = NodeCreator()
+
+    assert node_creator.node_class("unknownDag") is UnknownDag
+    with pytest.raises(AttributeError, match="Unsupported node type"):
+        node_creator.create("unknownDag")
+    with pytest.raises(AttributeError, match="Unsupported node type"):
+        _ = node_creator.unknownDag
+    assert "unknownDag" not in node_creator.available_node_names()
+    assert "unknownDag" not in dir(node_creator)
 
 
 def test_node_creator_creates_opted_in_shape(new_scene, maya_cmds):

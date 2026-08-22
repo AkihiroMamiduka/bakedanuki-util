@@ -81,6 +81,9 @@
   `ufeProxyTransform` / `unknownTransform` の具体型と `nodes.existing` 補完を追加。
   `ufePath` はruntime-defined attributeとして補い、特殊用途のため
   `nodes.create` には非公開。
+- transformでもshapeでもない最後の汎用DAG `unknownDag` を、`DAG` 直系の
+  `UnknownDag` として追加。Mayaが親Transformを自動作成するplaceholder nodeのため、
+  `nodes.existing` のみに公開。
 
 ## 決定済みのロードマップ
 
@@ -111,7 +114,8 @@ traversal 中に transform 派生 node を具体型へ解決できない問題�
 さらにfield / emitter系11種、dynamics / deformer周辺5種、HIK系5種、
 scene / utility系6種、VarGroup系5種、特殊transform 2種を追加し、
 `transform` / `joint` を含む52種すべてを具体型へ解決できます。
-transform派生の事前整備が完了したため、次はtraversal実装へ進みます。
+さらにtransformでもshapeでもない `unknownDag` も具体型へ解決できます。
+DAG具体型の事前整備が完了したため、次はtraversal実装へ進みます。
 
 - 直接の子。
 - 直接親から root 方向へ辿る先祖。

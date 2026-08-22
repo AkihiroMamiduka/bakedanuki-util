@@ -939,6 +939,7 @@ from bd_util.maya.node.operator.node.dag.shape.ufe_proxy_camera_shape import (
     UfeProxyCameraShape,
 )
 from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
+from bd_util.maya.node.operator.node.dag.unknown_dag import UnknownDag
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
 from bd_util.maya.node.operator.node.dag.transform.aim_constraint import (
     AimConstraint,
@@ -1078,6 +1079,13 @@ from bd_util.maya.node.operator.node.dag.transform.volume_axis_field import (
 from bd_util.maya.node.operator.node.dag.transform.vortex_field import (
     VortexField,
 )
+
+
+def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
+    unknown_dag = nodes.existing.unknownDag("existing_unknown_dag")
+
+    assert_type(unknown_dag, UnknownDag)
+    assert_type(unknown_dag.visibility, BoolPlugOperator)
 
 
 def transform_existing_contract(nodes: bdu.Nodes) -> None:

@@ -1362,6 +1362,7 @@ from .operator.node.dag.transform.uniform_field import UniformField
 from .operator.node.dg.unit_conversion import UnitConversion
 from .operator.node.dg.unit_to_time_conversion import UnitToTimeConversion
 from .operator.node.dg.unknown import Unknown
+from .operator.node.dag.unknown_dag import UnknownDag
 from .operator.node.dag.transform.unknown_transform import UnknownTransform
 from .operator.node.dg.unpremultiply import Unpremultiply
 from .operator.node.dg.untrim import Untrim
@@ -7472,6 +7473,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Unknown: ...
+    def unknownDag(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> UnknownDag: ...
     def unknownTransform(
         self,
         node: str | om.MObject,

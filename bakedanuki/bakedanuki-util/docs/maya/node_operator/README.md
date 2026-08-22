@@ -565,6 +565,11 @@ VarGroup 系5種も `nodes.existing.curveVarGroup()` /
 `nodes.existing` から具体型として利用できます。`UfeProxyTransform` では、
 各instanceへ追加される `ufePath` も静的なfieldとして公開します。
 
+transformでもshapeでもない汎用DAGの `unknownDag` も、
+`nodes.existing.unknownDag()` から `UnknownDag` として利用できます。Mayaは
+`unknownDag` の作成時に親Transformも自動作成するため、戻り値と命名の契約が明確な
+`nodes.create` には公開しません。
+
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 
 `fn_node` は初回アクセス時に作られ、以降はキャッシュされます。

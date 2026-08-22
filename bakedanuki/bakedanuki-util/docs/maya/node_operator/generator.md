@@ -211,6 +211,11 @@ runtime-defined attribute情報として補い、静的queryに現れる将来ve
 避けます。`unknownTransform` はtransform共通attributeだけの空の具象classです。
 `transform` / `joint` は引き続き作成確認済み type として公開します。
 
+transformでもshapeでもない汎用DAGの `unknownDag` は、`DAG` 直系の
+`UnknownDag` として生成します。Maya 2025では `kUnknownDag` として作成でき、
+親Transformが自動作成されます。既存sceneのplaceholderを具体型へ包む用途に限定し、
+`nodes.existing` には公開しますが `nodes.create` には公開しません。
+
 ## 命名規則
 
 node type は次のように変換します。

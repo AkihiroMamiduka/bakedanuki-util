@@ -484,6 +484,36 @@ def test_existing_ufe_proxy_transform_exposes_runtime_defined_ufe_path(
     assert node.ufePath.get() == ""
 
 
+def test_existing_node_wraps_unknown_dag_with_concrete_parent(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util
+    from bd_util.maya.node.operator.node.dag.unknown_dag import UnknownDag
+    from bd_util.maya.node.operator.node.dag.transform._core import Transform
+
+    node_name = maya_cmds.createNode("unknownDag", name="unknownDag1")
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+    parent = node.parent
+
+    assert type(node) is UnknownDag
+    assert node.NODE_TYPE == "unknownDag"
+    assert node.modifier_manager is modifier_manager
+    assert node.full_path == "|transform1|unknownDag1"
+    assert node.visibility.long_name == "visibility"
+    assert type(parent) is Transform
+    assert parent.modifier_manager is modifier_manager
+    parents = node.parents
+    assert len(parents) == 1
+    assert parents[0].m_obj == parent.m_obj
+    assert parents[0].modifier_manager is modifier_manager
+
+
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 

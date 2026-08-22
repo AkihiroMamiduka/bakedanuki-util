@@ -171,10 +171,14 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
     `BaseGeometryVarGroup` を型階層として維持することも検証します。
   - `ufeProxyTransform` / `unknownTransform` もMaya上で作成し、具体型解決と
     runtime-defined `ufePath` の静的fieldを検証します。
+  - `unknownDag` もMaya上で作成し、`UnknownDag` への具体型解決、自動作成される
+    親`Transform`、同じ`ModifierManager`の共有を検証します。
 - `tests/maya/node/creator/test_node_creator.py`
   - node 作成、nodeType 解決、補完用 node 名を検証します。
   - concrete transform class が存在しても、allowlistにないtypeは
     `nodes.create` へ公開しないことを検証します。
+  - `unknownDag` の具体classを解決できても、汎用DAG作成APIには公開しないことを
+    検証します。
 - `tests/maya/node/creator/test_shape_with_transform.py`
   - transform と shape の一括作成、命名、親子関係、undo / redo を検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`
