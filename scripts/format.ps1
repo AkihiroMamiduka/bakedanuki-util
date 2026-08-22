@@ -14,7 +14,8 @@ $setupScript = Join-Path $PSScriptRoot "setup-format.ps1"
 $configPath = Join-Path $repoRoot "pyproject.toml"
 $formatTargets = @(
     (Join-Path $repoRoot "bakedanuki"),
-    (Join-Path $repoRoot "tests")
+    (Join-Path $repoRoot "tests"),
+    (Join-Path $repoRoot "scripts\test_ui_maya.py")
 )
 
 function Test-PythonEnvironment {

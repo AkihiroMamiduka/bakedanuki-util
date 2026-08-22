@@ -99,8 +99,13 @@ class MayaUiStateTracker:
         self._window_lifecycle_filter: _WindowLifecycleFilter | None = None
         self._window_closed = False
         self._callback_registry: MayaCallbackRegistry | None = None
+        self._owner_destroyed_connection: (
+            qt.QtCore.QMetaObject.Connection | None
+        ) = None
         self._restore_requested = False
-        owner.destroyed.connect(self._on_owner_destroyed)
+        self._owner_destroyed_connection = owner.destroyed.connect(
+            self._on_owner_destroyed
+        )
         self._callback_registry = MayaCallbackRegistry(
             owner,
             on_maya_exiting=self._on_maya_exiting,
@@ -167,15 +172,21 @@ class MayaUiStateTracker:
         dockable_window = self._dockable_window
         window_lifecycle_filter = self._window_lifecycle_filter
         callback_registry = self._callback_registry
+        owner_destroyed_connection = self._owner_destroyed_connection
         self._owner = None
         self._dockable_window = None
         self._window_lifecycle_filter = None
         self._callback_registry = None
+        self._owner_destroyed_connection = None
 
         # 手動破棄後にownerの遅いdestroyed通知がPython終了処理へ入るのを防ぐ。
-        if owner is not None:
+        if owner is not None and owner_destroyed_connection is not None:
             try:
-                owner.destroyed.disconnect(self._on_owner_destroyed)
+                disconnect = cast(
+                    Callable[[qt.QtCore.QMetaObject.Connection], bool],
+                    getattr(qt.QtCore.QObject, "disconnect"),
+                )
+                disconnect(owner_destroyed_connection)
             except (RuntimeError, TypeError):
                 pass
 

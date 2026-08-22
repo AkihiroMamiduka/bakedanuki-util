@@ -1,4 +1,5 @@
 # coding: utf-8
+import warnings
 from collections.abc import Callable
 from typing import cast
 
@@ -56,6 +57,22 @@ def test_registry_registers_and_disposes_callbacks_in_reverse_order(
     assert registry.callback_ids == ()
     assert registry.is_disposed
     assert calls["removed"] == [20, 10, 99]
+
+
+def test_registry_dispose_disconnects_owner_without_warning(
+    monkeypatch,
+) -> None:
+    # PySide 6.8でも警告を出さないownerとの接続解除を確認する。
+    calls = _replace_callback_api(monkeypatch)
+    owner = qt.QtCore.QObject()
+    registry = MayaCallbackRegistry(owner)
+
+    # signal instanceからbound methodを探さず、保持した接続を解除する。
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", RuntimeWarning)
+        registry.dispose()
+    owner.destroyed.emit()
+    assert calls["removed"] == [99]
 
 
 def test_registry_can_remove_one_callback(monkeypatch) -> None:

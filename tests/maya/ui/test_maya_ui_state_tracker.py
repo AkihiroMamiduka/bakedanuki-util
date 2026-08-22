@@ -1,4 +1,5 @@
 # coding: utf-8
+import warnings
 from collections.abc import Callable
 from typing import cast
 
@@ -325,3 +326,18 @@ def test_tracker_ignores_callback_already_removed_by_maya(
     # 解除済みcallbackを正常な破棄完了として扱う。
     tracker.dispose()
     tracker.dispose()
+
+
+def test_tracker_dispose_disconnects_owner_without_warning(
+    monkeypatch,
+) -> None:
+    # trackerと内部registryのowner接続をPySide 6.8でも警告なく解除する。
+    tracker, manager, owner, calls = _create_tracker(monkeypatch)
+
+    # 手動dispose後のdestroyed通知が保存や二重解除へ入らないことも確認する。
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", RuntimeWarning)
+        tracker.dispose()
+    owner.destroyed.emit()
+    assert manager.save_count == 0
+    assert calls["removed"] == [42]

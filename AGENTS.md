@@ -162,8 +162,18 @@ DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を
   - full pytest に加えて、必要に応じて DG モジュールの import sweep を検討してください。
 - Pythonコードを変更した場合
   - 原則として`.\scripts\format.cmd -Check`で整形状態を確認してください。
+- Qt facade、Window lifecycle、Maya UI adapterを変更した場合
+  - Maya 2025 / 2026 / 2027それぞれでUI互換性テストを実行してください。
 - ネイティブplug-in、build script、配布バイナリ、対応Maya versionを変更した場合
   - Maya 2025 / 2026 / 2027それぞれでbuildとnative testを実行してください。
+
+```powershell
+.\scripts\test-ui-maya-all.cmd
+```
+
+versionごとに実行する場合は`test-ui-maya2025.cmd`、`test-ui-maya2026.cmd`、
+`test-ui-maya2027.cmd`を使用します。各コマンドはQt facadeとMaya UI adapterを
+独立したmayapy processで検証します。
 
 ```powershell
 .\scripts\build-native-maya2025.cmd

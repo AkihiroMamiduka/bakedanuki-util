@@ -555,3 +555,55 @@ dockable Widgetのgeometry保存には使用しません。
 tool固有のSplitter幅や選択タブは`UiStateManager`でtool単位の`ui.ini`へ
 保存します。Window geometryとは別の`ui_state` groupで管理するため、dockable Windowでも
 同じ仕組みを利用できます。
+
+## Maya 2025 / 2026 / 2027 UI互換性確認
+
+Qt facade、Window lifecycle、Maya UI adapterの自動テストは、対応する各Mayaの`mayapy`で
+同じコマンドから実行できます。
+
+```powershell
+.\scripts\test-ui-maya2025.cmd
+.\scripts\test-ui-maya2026.cmd
+.\scripts\test-ui-maya2027.cmd
+
+# 3 versionを順番に確認する。
+.\scripts\test-ui-maya-all.cmd
+```
+
+各versionでは、Maya、Python、Qt bindingの実バージョンを表示した後、汎用Qt/UIテストと
+Maya APIを使うUIテストを独立したmayapy processで実行します。pytestを一時配置する手順は
+リポジトリ直下の`AGENTS.md`を参照してください。
+
+2026-08-21時点の確認結果です。
+
+| Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
+| --- | --- | --- | --- | --- |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 66 passed | 48 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 66 passed | 48 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 66 passed | 48 passed |
+
+Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
+ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って
+解除します。この方法はMaya 2025 / 2026同梱のPySide6 6.5でも利用できます。
+
+mayapyでは実際のworkspaceControl表示やMaya再起動後の復元までは確認できません。各versionの
+Maya Script Editorで次を実行し、同じハーネスを表示します。
+
+```python
+from pprint import pprint
+
+from bd_util._dev.maya.ui import dock_lifecycle
+
+window = dock_lifecycle.show()
+pprint(dock_lifecycle.diagnose())
+```
+
+各versionで、次の共通項目を確認します。
+
+1. dockとfloatingの切り替え、`Close`後の再表示、`Dispose`後の再生成ができる。
+2. Splitter幅、選択タブ、workspaceControlがMaya再起動後に復元される。
+3. `SelectionChanged`が1操作につき1行だけ記録され、module reload後に重複しない。
+4. `Reset`で初期配置と初期Widget状態へ戻り、新しいWindowが表示される。
+5. floating時に`move_offscreen_for_test()`後の`ensure_on_screen()`で画面内へ戻る。
+
+詳しい操作手順は前節の「実Mayaでのlifecycle統合確認」を参照してください。

@@ -1,5 +1,6 @@
 # coding: utf-8
 from collections.abc import Callable
+from typing import cast
 
 from maya.api import OpenMaya as om
 
@@ -50,7 +51,9 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         self._on_maya_exiting_callback = on_maya_exiting
         self._is_disposed = False
         self._maya_exiting_callback_id: int | None = None
-        owner.destroyed.connect(self._on_owner_destroyed)
+        self._owner_destroyed_connection: (
+            qt.QtCore.QMetaObject.Connection | None
+        ) = owner.destroyed.connect(self._on_owner_destroyed)
 
         # Maya終了時は利用側の処理後に全callbackを解除する。
         try:
@@ -108,15 +111,21 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         owner = self._owner
         callback_ids = tuple(reversed(self._callback_ids))
         maya_exiting_callback_id = self._maya_exiting_callback_id
+        owner_destroyed_connection = self._owner_destroyed_connection
         self._owner = None
         self._callback_ids.clear()
         self._maya_exiting_callback_id = None
+        self._owner_destroyed_connection = None
         self._on_maya_exiting_callback = None
 
         # 手動dispose後にownerの遅いdestroyed通知から再度呼ばれないようにする。
-        if owner is not None:
+        if owner is not None and owner_destroyed_connection is not None:
             try:
-                owner.destroyed.disconnect(self._on_owner_destroyed)
+                disconnect = cast(
+                    Callable[[qt.QtCore.QMetaObject.Connection], bool],
+                    getattr(qt.QtCore.QObject, "disconnect"),
+                )
+                disconnect(owner_destroyed_connection)
             except (RuntimeError, TypeError):
                 pass
 
