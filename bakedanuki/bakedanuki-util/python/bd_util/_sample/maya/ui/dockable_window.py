@@ -83,14 +83,14 @@ _controller = MayaDockableWindowController(
         floating=False,
         initial_width=320,
         initial_height=420,
-        retain=True,
+        retain=False,
     ),
 )
 
 
 def show() -> SampleDockableWindow:
     """sample windowを表示してinstanceを返す。"""
-    # 初回は生成し、2回目以降は同じworkspaceControlを再表示する。
+    # 表示中は同じWidgetを返し、close後は新しく生成する。
     return _controller.show()
 
 

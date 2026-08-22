@@ -39,12 +39,14 @@ class FacadeWidget(qt.QWidget):
 window_controller = WindowController(SampleWindow)
 assert_type(window_controller.window, SampleWindow | None)
 assert_type(window_controller.show(), SampleWindow)
+assert_type(window_controller.retain, bool)
 assert_type(ensure_window_on_screen(SampleWindow()), bool)
 
 maya_window_controller = MayaWindowController(SampleWindow)
 assert_type(maya_window_controller.window, SampleWindow | None)
 assert_type(maya_window_controller.show(), SampleWindow)
 assert_type(maya_window_controller.settings_path, SettingsPath | None)
+assert_type(maya_window_controller.retain, bool)
 
 persistent_maya_window_controller = MayaWindowController(
     SampleWindow,
@@ -73,6 +75,7 @@ assert_type(dockable_controller.restore(), SampleDockableWindow)
 assert_type(dockable_controller.ensure_on_screen(), bool)
 assert_type(dockable_controller.control_id, str)
 assert_type(dockable_controller.workspace_control_name, str)
+assert_type(dockable_controller.dock_options.retain, bool)
 
 ui_state_manager = create_ui_state_manager("sample_tool/windows/main")
 assert_type(ui_state_manager, UiStateManager)

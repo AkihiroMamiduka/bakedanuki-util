@@ -147,14 +147,15 @@ _controller = MayaDockableWindowController(
         floating=False,
         initial_width=560,
         initial_height=560,
-        retain=True,
+        # 既定policyとしてclose時にWindowとcallbackを完全破棄する。
+        retain=False,
     ),
 )
 
 
 def show() -> DockLifecycleHarness:
     """lifecycle確認Windowを表示する。"""
-    # 初回生成または保持済みworkspaceControlの再表示を実行する。
+    # 表示中は同じWidgetを返し、close後は新しく生成する。
     return _controller.show()
 
 
@@ -165,8 +166,8 @@ def restore() -> DockLifecycleHarness:
 
 
 def close() -> None:
-    """Widgetを保持したままworkspaceControlを閉じる。"""
-    # retain設定を使う通常close経路を実行する。
+    """workspaceControlとWidgetを完全に閉じる。"""
+    # retain=Falseの既定close経路でcallbackも解除する。
     _controller.close()
 
 

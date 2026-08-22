@@ -11,10 +11,16 @@ WindowT = TypeVar("WindowT", bound=qt.QtWidgets.QWidget)
 class WindowController(Generic[WindowT]):
     """factoryから生成した1つのwindowを管理する。"""
 
-    def __init__(self, factory: Callable[[], WindowT]) -> None:
-        """factoryを受け取りcontrollerを初期化する。"""
-        # windowの生成処理と現在の管理状態を保持する。
+    def __init__(
+        self,
+        factory: Callable[[], WindowT],
+        *,
+        retain: bool = False,
+    ) -> None:
+        """factoryとclose時のinstance保持設定で初期化する。"""
+        # windowの生成処理、close policy、現在の管理状態を保持する。
         self._factory = factory
+        self._retain = retain
         self._window: WindowT | None = None
         self._window_token: object | None = None
 
@@ -23,6 +29,11 @@ class WindowController(Generic[WindowT]):
         """現在管理しているwindowを返す。"""
         # windowが未生成または破棄済みの場合はNoneを返す。
         return self._window
+
+    @property
+    def retain(self) -> bool:
+        """close時にwindow instanceを保持するか返す。"""
+        return self._retain
 
     def show(self) -> WindowT:
         """必要に応じてwindowを生成し、表示して前面へ移動する。"""
@@ -33,6 +44,12 @@ class WindowController(Generic[WindowT]):
             token = object()
             self._window = window
             self._window_token = token
+
+            # 既定ではタイトルバーのcloseでもWindowを完全破棄する。
+            window.setAttribute(
+                qt.QtCore.Qt.WidgetAttribute.WA_DeleteOnClose,
+                not self._retain,
+            )
             window.destroyed.connect(partial(self._on_window_destroyed, token))
 
         # 最小化されている場合は、他の表示状態を保ったまま解除する。
@@ -49,11 +66,18 @@ class WindowController(Generic[WindowT]):
         return window
 
     def close(self) -> None:
-        """instanceを保持したまま現在のwindowを閉じる。"""
-        # 再表示に備えて参照を残し、Qtのclose処理だけを呼び出す。
+        """close policyに従って現在のwindowを閉じる。"""
         window = self._window
-        if window is not None:
-            window.close()
+        if window is None:
+            return
+
+        # 破棄policyでは参照と関連resourceを即座に解放する。
+        if not self._retain:
+            self.dispose()
+            return
+
+        # 保持policyでは同じinstanceを再表示できる状態で閉じる。
+        window.close()
 
     def dispose(self) -> None:
         """現在のwindowを閉じ、Qt event loopへ削除を予約する。"""

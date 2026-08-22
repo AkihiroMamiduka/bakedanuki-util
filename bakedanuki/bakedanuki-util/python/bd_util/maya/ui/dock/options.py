@@ -23,7 +23,7 @@ class DockOptions:
     initial_width: int | None = None
     initial_height: int | None = None
     minimum_width: int | None = None
-    retain: bool = True
+    retain: bool = False
     tab_to_control: str | None = None
 
     def __post_init__(self) -> None:

@@ -181,7 +181,10 @@ def workspace_spy(monkeypatch) -> Iterator[dict[str, object]]:
     yield state
 
 
-def _create_controller() -> MayaDockableWindowController:
+def _create_controller(
+    *,
+    retain: bool = False,
+) -> MayaDockableWindowController:
     """test共通のdockable controllerを生成する。"""
     # 固定ID、復元関数、初期ドッキング設定をまとめて作成する。
     return MayaDockableWindowController(
@@ -191,6 +194,7 @@ def _create_controller() -> MayaDockableWindowController:
         dock_options=DockOptions(
             area=DockArea.RIGHT,
             initial_width=360,
+            retain=retain,
             tab_to_control="AttributeEditor",
         ),
     )
@@ -211,7 +215,7 @@ def test_show_creates_workspace_control(
             "floating": False,
             "area": "right",
             "allowedArea": "all",
-            "retain": True,
+            "retain": False,
             "uiScript": (
                 "from bd_util.maya.ui import restore_dockable; "
                 "restore_dockable('sample_tool.ui', 'restore')"
@@ -290,7 +294,7 @@ def test_show_does_not_repeat_attach_notification_for_retained_window(
     assert window.dock_attached.emit_count == 1
 
 
-def test_close_and_dispose_have_different_lifecycle(
+def test_close_disposes_workspace_control_by_default(
     workspace_spy,
 ) -> None:
     # 表示済みのworkspaceControlが存在する状態へ切り替える。
@@ -298,13 +302,28 @@ def test_close_and_dispose_have_different_lifecycle(
     window = controller.show()
     workspace_spy["exists"] = True
 
-    # closeはinstanceを保持し、disposeはcontrolごと完全破棄する。
+    # 既定のcloseはcallbackを解除してcontrolごと完全破棄する。
+    controller.close()
+    assert controller.window is None
+    assert ("delete", "sampleDockWorkspaceControl") in workspace_spy["calls"]
+    assert window.dock_about_to_dispose.emit_count == 1
+    assert ("dispose_owned_callbacks", window) in workspace_spy["calls"]
+
+
+def test_close_can_retain_workspace_control(
+    workspace_spy,
+) -> None:
+    # 明示的な保持policyでworkspaceControlを生成する。
+    controller = _create_controller(retain=True)
+    window = controller.show()
+    workspace_spy["exists"] = True
+
+    # closeはinstanceとcallbackを維持し、disposeで完全破棄する。
     controller.close()
     assert controller.window is window
     assert ("close", "sampleDockWorkspaceControl") in workspace_spy["calls"]
     assert window.dock_about_to_dispose.emit_count == 0
     assert ("dispose_owned_callbacks", window) not in workspace_spy["calls"]
-
     controller.dispose()
     assert controller.window is None
     assert ("delete", "sampleDockWorkspaceControl") in workspace_spy["calls"]

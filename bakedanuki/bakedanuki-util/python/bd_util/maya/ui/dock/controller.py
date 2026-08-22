@@ -149,10 +149,15 @@ class MayaDockableWindowController(Generic[WindowT]):
         return window
 
     def close(self) -> None:
-        """再表示できる状態を残してworkspaceControlを閉じる。"""
+        """retain設定に従ってworkspaceControlを閉じる。"""
         control_name = self.workspace_control_name
 
-        # retain設定を含むMaya標準のclose動作へ委ねる。
+        # 破棄policyではcallbackを即時解除してcontrolごと削除する。
+        if not self._dock_options.retain:
+            self.dispose()
+            return
+
+        # 保持policyではMaya標準のcloseで非表示状態を維持する。
         if workspace_control.exists(control_name):
             workspace_control.close(control_name)
             return

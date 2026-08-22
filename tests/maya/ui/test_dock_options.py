@@ -32,6 +32,15 @@ def test_dock_options_create_mixin_arguments() -> None:
     }
 
 
+def test_dock_options_dispose_on_close_by_default() -> None:
+    # 既定値ではworkspaceControlをclose時に削除する。
+    options = DockOptions()
+
+    # MayaQWidgetDockableMixinへretain=Falseを渡す。
+    assert not options.retain
+    assert options.to_mixin_arguments("restore()")["retain"] is False
+
+
 @pytest.mark.parametrize(
     ("keyword", "value"),
     [

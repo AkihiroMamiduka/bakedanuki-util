@@ -4,6 +4,7 @@ from pathlib import Path
 from PySide6 import QtCore, QtWidgets
 
 from bd_util.maya.ui import (
+    MayaCallbackRegistry,
     MayaUiStateTracker,
     MayaWindowController,
     create_ui_state_manager,
@@ -41,6 +42,20 @@ class _StatefulWindow(QtWidgets.QDialog):
             self.ui_state,
             self,
         )
+
+
+class _CallbackWindow(QtWidgets.QDialog):
+    """Windowと同じ寿命でMaya callbackを所有するtest用dialog。"""
+
+    def __init__(
+        self,
+        parent: QtWidgets.QWidget | None = None,
+    ) -> None:
+        """固定callback IDをregistryへ登録する。"""
+        # タイトルバーのcloseで解除される利用側callbackを再現する。
+        super().__init__(parent)
+        self.maya_callbacks = MayaCallbackRegistry(self)
+        self.maya_callbacks.register(10)
 
 
 def _process_deferred_deletes(
@@ -115,6 +130,7 @@ def test_maya_controller_restores_saved_geometry(
     )
     first = first_controller.show()
     first.setGeometry(130, 150, 410, 270)
+    expected_geometry = first.geometry()
     first_controller.close()
     qt_application.processEvents()
 
@@ -124,7 +140,7 @@ def test_maya_controller_restores_saved_geometry(
         settings_path=settings_path,
     )
     second = second_controller.show()
-    assert second.geometry() == first.geometry()
+    assert second.geometry() == expected_geometry
     assert second_controller.settings_path == SettingsPath(settings_path)
 
     # testで生成したwindowを削除する。
@@ -176,6 +192,76 @@ def test_maya_controller_disposes_owned_callbacks_immediately(
     controller.dispose()
     assert disposed_owners == [window]
     _process_deferred_deletes(qt_application)
+
+
+def test_maya_controller_close_disposes_callbacks_by_default(
+    qt_application,
+    monkeypatch,
+) -> None:
+    # 既定policyのcloseでcallback解除へ渡したWindowを記録する。
+    disposed_owners: list[QtWidgets.QWidget] = []
+    monkeypatch.setattr(
+        maya_window,
+        "dispose_owned_callbacks",
+        lambda owner: disposed_owners.append(owner),
+    )
+    controller = MayaWindowController(QtWidgets.QDialog)
+    window = controller.show()
+
+    # closeを完全破棄として扱い、DeferredDeleteより前にcallbackを解除する。
+    controller.close()
+    assert controller.window is None
+    assert disposed_owners == [window]
+    _process_deferred_deletes(qt_application)
+
+
+def test_maya_controller_can_retain_callbacks_on_close(
+    qt_application,
+    monkeypatch,
+) -> None:
+    # 明示的な保持policyでcallback解除対象を記録する。
+    disposed_owners: list[QtWidgets.QWidget] = []
+    monkeypatch.setattr(
+        maya_window,
+        "dispose_owned_callbacks",
+        lambda owner: disposed_owners.append(owner),
+    )
+    controller = MayaWindowController(QtWidgets.QDialog, retain=True)
+    window = controller.show()
+
+    # closeでは同じWindowとcallbackを維持し、disposeで初めて解除する。
+    controller.close()
+    assert controller.window is window
+    assert disposed_owners == []
+    controller.dispose()
+    assert disposed_owners == [window]
+    _process_deferred_deletes(qt_application)
+
+
+def test_maya_window_close_button_removes_owned_callbacks(
+    qt_application,
+    monkeypatch,
+) -> None:
+    # Maya APIのcallback登録と解除を固定処理へ置き換える。
+    removed: list[int] = []
+    monkeypatch.setattr(
+        maya_callback,
+        "_add_maya_exiting_callback",
+        lambda _callback: 42,
+    )
+    monkeypatch.setattr(
+        maya_callback,
+        "_remove_callback",
+        removed.append,
+    )
+    controller = MayaWindowController(_CallbackWindow)
+    window = controller.show()
+
+    # タイトルバーの×相当でWindowを破棄し、全callbackを解除する。
+    window.close()
+    _process_deferred_deletes(qt_application)
+    assert controller.window is None
+    assert removed == [10, 42]
 
 
 def test_normal_window_tracker_restores_widget_state_after_dispose(

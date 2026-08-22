@@ -20,8 +20,9 @@ class MayaWindowController(WindowController[WindowT]):
         factory: Callable[[qt.QtWidgets.QWidget | None], WindowT],
         *,
         settings_path: str | SettingsPath | None = None,
+        retain: bool = False,
     ) -> None:
-        """Maya main windowを受け取るfactoryで初期化する。"""
+        """Maya用factory、保存先、close時の保持設定で初期化する。"""
         # window生成時までMaya main windowとsettingsの取得を遅延する。
         self._maya_factory = factory
         self._settings_path = (
@@ -30,7 +31,7 @@ class MayaWindowController(WindowController[WindowT]):
             else SettingsPath.from_value(settings_path)
         )
         self._state_tracker: WindowStateTracker | None = None
-        super().__init__(self._create_window)
+        super().__init__(self._create_window, retain=retain)
 
     @property
     def settings_path(self) -> SettingsPath | None:

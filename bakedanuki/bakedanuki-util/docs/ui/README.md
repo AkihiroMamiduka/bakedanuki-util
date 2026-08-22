@@ -23,8 +23,10 @@ UI utilityは、利用場所ではなく依存関係で分けます。
 7. module reload前は`dispose()`で古いWindow、workspaceControl、Maya callbackを完全に
    破棄してからreloadする。
 
-`close()`は同じWindow instanceとcallbackを維持した再表示用、`dispose()`は開発中のreloadや
-Windowの作り直し用です。通常操作でどちらを使うかをtool側で明確に分けます。
+controllerの`retain`は既定で`False`です。タイトルバーのcloseと`controller.close()`は
+Windowを完全破棄し、Windowが所有するMaya callbackも解除します。close後の再表示でも同じ
+instanceとcallbackを維持する必要があるtoolだけ、`retain=True`を明示します。`dispose()`は
+設定にかかわらず完全破棄するため、module reload前とUI配置resetに使用します。
 
 ## Qt binding facade
 
@@ -73,12 +75,14 @@ PySideとshibokenの組み合わせを追加します。module、頻出alias、�
 
 ## WindowController
 
-`WindowController`は、factoryが生成したwidgetを1つ保持します。`show()`を繰り返しても
-同じwidgetを再利用するため、意図しないtool windowの重複を防げます。
+`WindowController`は、factoryが生成した表示中のwidgetを1つ管理します。表示中に`show()`を
+繰り返しても同じwidgetを返すため、意図しないtool windowの重複を防げます。
 
-`close()`は再表示に備えてinstanceを保持します。`dispose()`はwindowを閉じ、Qt event
-loopへ削除を予約します。`WA_DeleteOnClose`などにより外部からwidgetが破棄された場合も、
-次の`show()`で新しいwidgetを生成します。
+既定の`retain=False`では`WA_DeleteOnClose`を有効にし、タイトルバーのcloseと
+`controller.close()`でwindowを完全破棄します。次の`show()`ではfactoryから新しいwindowを
+生成します。`retain=True`ではclose後もinstanceを保持し、次の`show()`で同じwindowを
+再表示します。`dispose()`は`retain`にかかわらずwindowを閉じ、Qt event loopへ削除を
+予約します。
 
 `MayaWindowController`は同じlifecycle管理にMaya main windowのparentingを加えます。
 factoryはMaya main windowを引数として受け取ります。
@@ -99,6 +103,15 @@ controller = MayaWindowController(MyWindow)
 
 def show() -> MyWindow:
     return controller.show()
+```
+
+非表示中も同じWindowとcallbackを維持するtoolでは保持を明示します。
+
+```python
+controller = MayaWindowController(
+    MyWindow,
+    retain=True,
+)
 ```
 
 同梱sampleはMayaのScript Editorから開けます。
@@ -147,8 +160,9 @@ class MyWindow(qt.QDialog):
 
 Qt ownerの`destroyed`と`MSceneMessage.kMayaExiting`でも自動解除します。さらに
 `MayaWindowController.dispose()`と`MayaDockableWindowController.dispose()`は、Qtの遅延破棄や
-workspaceControl削除を待たず、owner直下のregistryを即座に解除します。通常の`close()`では
-Window instanceを保持するためcallbackも維持され、同じinstanceの再表示で再登録されません。
+workspaceControl削除を待たず、owner直下のregistryを即座に解除します。既定の
+`retain=False`では`close()`も完全破棄を通るためcallbackを解除します。`retain=True`の
+closeだけはWindow instanceとcallbackを維持し、同じinstanceの再表示で再登録されません。
 
 Maya終了前にtool固有処理が必要な場合は`on_maya_exiting`を指定できます。処理が例外を送出しても
 registryのcallback解除は必ず実行されます。
@@ -272,7 +286,7 @@ Maya終了時はQtの`closeEvent()`や`destroyed`だけでは保存処理の実�
 接続します。
 
 - `dock_attached`: workspaceControl接続後、次のQt event loopで一度だけ復元
-- `dock_closed`: Widgetを保持する通常closeで退避済み状態を保存
+- `dock_closed`: workspaceControlのclose時に退避済み状態を保存
 - `dock_about_to_dispose`: 完全破棄前に保存してMaya callbackを解除
 - `destroyed`: 外部から破棄された場合も退避済み状態を保存してcallbackを解除
 
@@ -346,8 +360,8 @@ simple_window.show()
 次の操作で、通常Windowの自動保存・復元とリセットを確認します。
 
 1. Splitter幅と選択タブを変更する。
-2. `Close`後に`simple_window.show()`を実行し、同じWindowと状態が維持されることを確認する。
-3. `simple_window.dispose()`後に`simple_window.show()`を実行し、新しいWindowへ状態が復元されることを確認する。
+2. `Close`後に`simple_window.show()`を実行し、新しいWindowへ状態が復元されることを確認する。
+3. 表示中に`simple_window.show()`を再実行し、同じWindowが前面へ移動することを確認する。
 4. `Reset layout`でWindowが再生成され、初期geometry、Splitter幅、選択タブへ戻ることを確認する。
 5. Mayaを終了・再起動して`simple_window.show()`を実行し、Splitter幅と選択タブが復元されることを確認する。
 
@@ -427,7 +441,7 @@ controller = MayaDockableWindowController(
         area=DockArea.RIGHT,
         floating=False,
         initial_width=420,
-        retain=True,
+        retain=False,
     ),
 )
 
@@ -448,10 +462,14 @@ def restore() -> MyWindow:
 controllerが生成した`uiScript`からその関数が呼ばれ、`restore()`がMayaの復元中のlayoutへ
 Widgetを接続します。lambdaやlocal関数は復元先に指定できません。
 
-`controller.close()`は`retain`設定に従ってworkspaceControlを閉じ、Widgetの参照を保持します。
-`controller.dispose()`はworkspaceControlとWidgetを完全に削除するため、開発中のmodule reload
-前にも利用できます。`controller.reset_workspace_state()`は完全破棄に加えてMayaが保存した
-配置も削除し、次回表示で`DockOptions`の初期値を適用します。
+`DockOptions.retain`の既定値は`False`です。タイトルバーのcloseと`controller.close()`で
+workspaceControlとWidgetを削除し、Windowが所有するMaya callbackも解除します。次の
+`show()`では保存済みworkspace配置へ新しいWidgetを接続します。`retain=True`ではMaya標準の
+closeでworkspaceControlを非表示にし、同じWidgetとcallbackを維持します。
+
+`controller.dispose()`は`retain`にかかわらずworkspaceControlとWidgetを完全に削除するため、
+開発中のmodule reload前にも利用できます。`controller.reset_workspace_state()`は完全破棄に
+加えてMayaが保存した配置も削除し、次回表示で`DockOptions`の初期値を適用します。
 
 floating workspaceControlは`show()`と`restore()`のlayout接続後、次のQt event loopで外枠の
 タイトル領域を確認します。現在接続中のscreenから外れている場合だけ、Mayaが位置管理に使う
@@ -481,6 +499,9 @@ from bd_util._sample.maya.ui import dockable_window
 dockable_window.show()
 ```
 
+sampleは`retain=False`を使用します。close後の`show()`で新しいWidgetが生成され、Splitter幅と
+選択タブが復元されることを確認できます。
+
 ### 実Mayaでのlifecycle統合確認
 
 開発用ハーネスをMayaのScript Editorから表示できます。
@@ -491,11 +512,13 @@ from bd_util._dev.maya.ui import dock_lifecycle
 dock_lifecycle.show()
 ```
 
+このハーネスは既定の破棄policyを検証するため`retain=False`を指定しています。
+
 次の操作で、workspaceControlとWidget内部状態を実Maya上で確認します。
 
 1. Splitter幅と選択タブを変更する。
-2. `Close`後に`dock_lifecycle.show()`を実行し、同じWidgetと状態が維持されることを確認する。
-3. `Dispose`後に`dock_lifecycle.show()`を実行し、新しいWidgetへ状態が復元されることを確認する。
+2. `Close`後の`dock_lifecycle.diagnose()`でWindowとcallbackが残っていないことを確認する。
+3. `dock_lifecycle.show()`を実行し、新しいWidgetへ状態が復元されることを確認する。
 4. floatingとdockを切り替え、event logへ変更が記録されることを確認する。
 5. Mayaを終了・再起動し、workspaceControl、Splitter幅、選択タブが復元されることを確認する。
 6. `Reset`でWindowが再生成され、初期配置と初期Widget状態へ戻ることを確認する。
@@ -504,8 +527,8 @@ dock_lifecycle.show()
 確認できます。
 
 1. Maya上で選択を変更し、event logへ`selection_changed`が1行追加されることを確認する。
-2. `Close`後に選択を変更し、`dock_lifecycle.show()`で再表示すると同じWindowのlogへ記録されていることを確認する。
-3. `Dispose`後に`dock_lifecycle.show()`で新しいWindowを生成し、選択変更ごとに1行だけ追加されることを確認する。
+2. `Close`後に`dock_lifecycle.diagnose()`を実行し、`callback_ids`が空であることを確認する。
+3. `dock_lifecycle.show()`で新しいWindowを生成し、選択変更ごとに1行だけ追加されることを確認する。
 4. `dock_lifecycle.dispose()`後にmoduleをreloadし、古いcallbackによる二重記録がないことを確認する。
 
 管理中の利用側callback IDは診断結果から確認できます。
@@ -594,13 +617,13 @@ Qt facade、Window lifecycle、Maya UI adapterの自動テストは、対応す�
 Maya APIを使うUIテストを独立したmayapy processで実行します。pytestを一時配置する手順は
 リポジトリ直下の`AGENTS.md`を参照してください。
 
-2026-08-21時点の確認結果です。
+2026-08-22時点の確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 66 passed | 48 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 66 passed | 48 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 66 passed | 48 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 71 passed | 50 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 71 passed | 50 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 71 passed | 50 passed |
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って
@@ -639,8 +662,8 @@ UI基盤を変更・拡張するときは、次のcontractを維持します。
 - Maya終了時にWidgetから状態を再取得せず、変更signalで退避済みの状態を保存する。
 - ownerの`destroyed`接続は`QMetaObject.Connection`を保持して解除し、PySideのversion差を
   bound methodの再検索へ依存させない。
-- `close()`では利用中のinstanceを維持し、`dispose()`とUI配置resetではMaya callbackを
-  即時解除する。
+- closeの既定は`retain=False`とし、WindowとMaya callbackを完全破棄する。非表示中も処理を
+  継続する明確な要件があるtoolだけ`retain=True`を指定する。
 - QHeaderViewの列幅・表示順は共通保存へ追加せず、必要なtoolが個別に管理する。
 - Qt facade、Window lifecycle、Maya UI adapterの変更後は`test-ui-maya-all.cmd`を実行する。
   workspaceControl、再起動復元、実画面配置に関わる変更は各versionのMaya本体でも確認する。

@@ -59,7 +59,7 @@ class SampleWindow(qt.QDialog):
         )
 
 
-# module内で1つのwindow instanceを共有する。
+# module内でcontrollerを共有し、close後は新しいWindowを生成する。
 _controller = MayaWindowController(
     SampleWindow,
     settings_path=_SETTINGS_PATH,
@@ -68,7 +68,7 @@ _controller = MayaWindowController(
 
 def show() -> SampleWindow:
     """sample windowを表示してinstanceを返す。"""
-    # 既存windowがある場合はcontrollerから再表示する。
+    # 表示中は同じWindowを返し、close後は新しく生成する。
     return _controller.show()
 
 

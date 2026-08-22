@@ -28,7 +28,7 @@ def test_show_reuses_managed_window(qt_application) -> None:
         return window
 
     # 一度閉じたwindowを再表示する。
-    controller = WindowController(create_window)
+    controller = WindowController(create_window, retain=True)
     first = controller.show()
     controller.close()
     second = controller.show()
@@ -36,9 +36,47 @@ def test_show_reuses_managed_window(qt_application) -> None:
     # factoryが一度だけ呼ばれ、同じwindowが再利用されたことを確認する。
     assert first is second
     assert controller.window is first
+    assert controller.retain
+    assert not first.testAttribute(QtCore.Qt.WidgetAttribute.WA_DeleteOnClose)
     assert created_windows == [first]
 
     # testで生成したwindowを削除する。
+    controller.dispose()
+    _process_deferred_deletes(qt_application)
+
+
+def test_close_disposes_window_by_default(qt_application) -> None:
+    # 既定のclose policyで最初のWindowを表示する。
+    controller = WindowController(QtWidgets.QDialog)
+    first = controller.show()
+    assert not controller.retain
+    assert first.testAttribute(QtCore.Qt.WidgetAttribute.WA_DeleteOnClose)
+
+    # controller経由のcloseでは即座に参照を外して完全破棄する。
+    controller.close()
+    assert controller.window is None
+    _process_deferred_deletes(qt_application)
+
+    # 次のshowでは同じinstanceを再利用せず新しく生成する。
+    second = controller.show()
+    assert second is not first
+    controller.dispose()
+    _process_deferred_deletes(qt_application)
+
+
+def test_window_close_button_disposes_window_by_default(
+    qt_application,
+) -> None:
+    # タイトルバーのcloseと同じQWidget.close経路を実行する。
+    controller = WindowController(QtWidgets.QDialog)
+    first = controller.show()
+    first.close()
+    _process_deferred_deletes(qt_application)
+
+    # Qtの破棄通知で参照を外し、次のshowでは新しいWindowを生成する。
+    assert controller.window is None
+    second = controller.show()
+    assert second is not first
     controller.dispose()
     _process_deferred_deletes(qt_application)
 
