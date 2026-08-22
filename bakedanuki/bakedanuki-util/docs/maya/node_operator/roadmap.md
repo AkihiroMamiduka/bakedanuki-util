@@ -121,9 +121,14 @@ DAG具体型の事前整備が完了したため、次はtraversal実装へ進�
 - 直接親から root 方向へ辿る先祖。
 - depth-first で辿る子孫。
 
-戻り値は同じ `ModifierManager` を共有する `DAG` 系の `NodeOperator` とし、
-world を含めるか、shape を含めるか、列挙順、未実行の `MDagModifier` の
-変更を含めるかを仕様として固定します。
+第一段階として`children()`を追加しました。TransformとShapeを区別せず、
+Mayaのchild index順で直接の子だけを返します。自分自身、world、孫は含めません。
+戻り値は同じ`ModifierManager`を共有する具体的な`DAG`系`NodeOperator`です。
+結果はcacheせず、未実行の`MDagModifier`の変更は含めません。instanced childは
+MObject中心で取得し、保持pathは`MDagPath.getAPathTo()`が選ぶ現行方針を維持します。
+
+次の段階では、直接の親からroot方向へ返す`ancestors()`を追加します。その後、
+depth-first pre-orderの`descendants()`へ進みます。
 
 ### 3. 親 Transform 必須の shape 作成（段階公開完了）
 

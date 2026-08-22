@@ -784,6 +784,7 @@ from bd_util.maya.node.operator.node.dg.decompose_matrix import (
     DecomposeMatrix,
 )
 from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
+from bd_util.maya.node.operator.node.dag._core import DAG
 from bd_util.maya.node.operator.node.dag.shape._core import Shape
 from bd_util.maya.node.operator.node.dag.shape.ai_area_light import AiAreaLight
 from bd_util.maya.node.operator.node.dag.shape.ai_curve_collector import (
@@ -1086,6 +1087,7 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
 
     assert_type(unknown_dag, UnknownDag)
     assert_type(unknown_dag.visibility, BoolPlugOperator)
+    assert_type(unknown_dag.children(), tuple[DAG, ...])
 
 
 def transform_existing_contract(nodes: bdu.Nodes) -> None:

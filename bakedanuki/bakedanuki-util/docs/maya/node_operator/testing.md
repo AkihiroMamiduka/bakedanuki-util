@@ -206,6 +206,9 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - compound multi plug と次の空き logical index への接続を検証します。
 - `tests/maya/node/operator/node/dag/test_parent.py`
   - DAG の親子操作、undo / redo、循環する親子関係の防止を検証します。
+- `tests/maya/node/operator/node/dag/test_traversal.py`
+  - `children()`の直接の子、child index順、Transform / Shape / `UnknownDag`の
+    具体型解決、`ModifierManager`共有、未実行modifier、instancingを検証します。
 - `tests/maya/node/operator/node/dag/test_matrix.py`
   - DAG 間の relative / local matrix 計算を検証します。
 - `tests/maya/node/operator/node/dag/shape/test_create.py`

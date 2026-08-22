@@ -4,27 +4,31 @@ from maya import cmds
 
 # self
 import bd_util as bdu
+from .. import logger as u_logger
+
+logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def main():
     nodes = bdu.Nodes()
-    transform, loc = nodes.create.with_transform.locator(name="locator")
-    transform.translate.set(3, 6, 9)
-    loc.localScale.set(2, 3, 4)
+    transform_0 = nodes.create.transform(name="trsf_0")
+    joint_0 = nodes.create.joint(name="jnt_0", parent=transform_0)
+    transform_1 = nodes.create.transform(name="trsf_1", parent=joint_0)
+    joint_1 = nodes.create.joint(name="jnt_1", parent=transform_1)
 
-    cam = nodes.create.camera(name="camera", parent=transform)
-    cam.focalLength.set(100)
-
-    jnt = nodes.create.joint(name="jnt_locator")
-    jnt.drawStyle.set(jnt.drawStyle.NONE)
-    jnt.rotate.set(45, 30, 90)
-    jnt_loc = nodes.create.locator(name=f"{jnt.name}Shape", parent=jnt)
-    jnt_loc.localScale.set(2, 5, 8)
-
-    ik_handle = cmds.createNode("ikHandle", name="ik_handle")
-
-    ik_operator = nodes.existing.ikHandle(ik_handle)
-    ik_operator.poleVector.set(1, 2, 3)
+    logger.debug(f"joint_0.children(): {joint_0.children()}")
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
+
+    logger.debug(f"joint_0.children(): {joint_0.children()}")
+    children = joint_0.children()
+    for child in children:
+        logger.debug(child)
+        logger.debug(f"type(child): {type(child)}")
+
+    logger.debug(f"transform_1.children(): {transform_1.children()}")
+    children = transform_1.children()
+    for child in children:
+        logger.debug(child)
+        logger.debug(f"type(child): {type(child)}")

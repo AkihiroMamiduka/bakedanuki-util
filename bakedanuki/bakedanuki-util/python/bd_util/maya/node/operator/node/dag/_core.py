@@ -109,26 +109,37 @@ class DAG(NodeOperator):
     @property
     def parents(self) -> tuple["DAG", ...]:
         """ワールドを除く、すべての直接の親を返す。"""
-        from ....existing_node import ExistingNode
-
         fn_dag = om.MFnDagNode(self.m_obj)
         parents: list[DAG] = []
         for index in range(fn_dag.parentCount()):
             parent_obj = fn_dag.parent(index)
             if parent_obj.hasFn(om.MFn.kWorld):
                 continue
-            parent = ExistingNode(
-                parent_obj,
-                modifier_manager=self.modifier_manager,
-                auto_add_attr=False,
-            )
-            if not isinstance(parent, DAG):
-                raise TypeError(
-                    "DAG parent did not resolve to DAG: "
-                    f"{type(parent).__name__}"
-                )
-            parents.append(parent)
+            parents.append(self._wrap_existing_dag(parent_obj))
         return tuple(parents)
+
+    def children(self) -> tuple["DAG", ...]:
+        """Mayaのchild index順で、すべての直接の子を返す。"""
+        fn_dag = om.MFnDagNode(self.m_obj)
+        return tuple(
+            self._wrap_existing_dag(fn_dag.child(index))
+            for index in range(fn_dag.childCount())
+        )
+
+    def _wrap_existing_dag(self, m_obj: om.MObject) -> "DAG":
+        from ....existing_node import ExistingNode
+
+        node = ExistingNode(
+            m_obj,
+            modifier_manager=self.modifier_manager,
+            auto_add_attr=False,
+        )
+        if not isinstance(node, DAG):
+            raise TypeError(
+                "DAG hierarchy node did not resolve to DAG: "
+                f"{type(node).__name__}"
+            )
+        return node
 
     def set_parent(self, parent: "DAG") -> Self:
         """local transform を維持して親変更を DAG modifier に積む。"""
