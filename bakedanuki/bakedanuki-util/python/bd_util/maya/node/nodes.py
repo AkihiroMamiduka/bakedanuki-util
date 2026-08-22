@@ -8,6 +8,7 @@ from maya.api import OpenMaya as om
 from .creator import NodeCreator
 from .existing_node import ExistingNode
 from .modifier import ModifierManager
+from .node_types import NodeTypes
 from .operator.node._core import NodeOperator
 
 
@@ -69,6 +70,7 @@ class Nodes:
         "_modifier_manager",
         "_create",
         "_existing",
+        "_types",
     )
 
     def __init__(self, modifier_manager: ModifierManager | None = None):
@@ -80,6 +82,7 @@ class Nodes:
         self._existing = _ExistingNodeAccessor(
             modifier_manager=modifier_manager,
         )
+        self._types = NodeTypes()
 
     @property
     def modifier_manager(self) -> ModifierManager:
@@ -92,3 +95,7 @@ class Nodes:
     @property
     def existing(self) -> _ExistingNodeAccessor:
         return self._existing
+
+    @property
+    def types(self) -> NodeTypes:
+        return self._types

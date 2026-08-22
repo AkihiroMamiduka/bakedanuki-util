@@ -627,18 +627,20 @@ print(errors)
 
 内部実装の `ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
 公開APIの `nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
-IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の3ファイルを生成します。
+IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の5ファイルを生成します。
 
 - `python/bd_util/maya/node/existing_node.pyi`
 - `python/bd_util/maya/node/nodes.pyi`
 - `python/bd_util/maya/node/creator/_shape_with_transform.pyi`
+- `python/bd_util/maya/node/_node_type_registry.py`
+- `python/bd_util/maya/node/node_types.pyi`
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
     python\bd_util\_dev\maya\node\operator\node\generate_existing_node_stub.py
 ```
 
-新しい NodeOperator class を追加または再生成した場合は、3つのstubも再生成してください。
+新しい NodeOperator class を追加または再生成した場合は、これらの生成物も再生成してください。
 差分を発生させず、現在のstubが最新か確認する場合は `--check` を指定します。
 `--check`はBlackによる折り返しなどのformat差分を無視し、Python ASTとして
 生成内容が一致しているかを確認します。
@@ -652,8 +654,17 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 具体的な戻り値型を追えるようにします。公開対象は
 `creator/_shape_types.py` と共有するため、実行時 API と補完候補がずれません。
 
+`_node_type_registry.py` は、PascalCaseのPython class名とMaya node type名だけを
+保持します。`nodes.types` の初期化時に全NodeOperator moduleをimportせず、
+`nodes.types.Locator` のように参照されたclassだけを遅延importするためのregistryです。
+`node_types.pyi` は同じ定義からread-only propertyを生成し、
+`nodes.types.Locator` を `type[Locator]` として公開します。`NodeOperator` / `DAG` /
+`Shape` / `BaseGeometryVarGroup` はfilterにも使う公開基底classとして明示的に追加します。
+
 Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。
+`nodes.types.And` / `nodes.types.Or` / `nodes.types.Not` のruntime値は、それぞれの
+具体classです。
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `

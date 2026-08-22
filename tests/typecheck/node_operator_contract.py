@@ -1092,6 +1092,20 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(unknown_dag.descendants(), tuple[DAG, ...])
 
 
+def node_types_contract(nodes: bdu.Nodes) -> None:
+    assert_type(nodes.types.NodeOperator, type[NodeOperator])
+    assert_type(nodes.types.DAG, type[DAG])
+    assert_type(nodes.types.Transform, type[Transform])
+    assert_type(nodes.types.Shape, type[Shape])
+    assert_type(
+        nodes.types.BaseGeometryVarGroup,
+        type[BaseGeometryVarGroup],
+    )
+    assert_type(nodes.types.Locator, type[Locator])
+    assert_type(nodes.types.UnknownDag, type[UnknownDag])
+    assert_type(nodes.types.resolve("locator"), type[NodeOperator])
+
+
 def transform_existing_contract(nodes: bdu.Nodes) -> None:
     handle = nodes.existing.ikHandle("existing_ik_handle")
     effector = nodes.existing.ikEffector("existing_ik_effector")

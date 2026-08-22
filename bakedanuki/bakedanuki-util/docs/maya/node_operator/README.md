@@ -45,7 +45,9 @@
 - `python/bd_util/maya/node/modifier/_core.py`
   - `ModifierManager` です。
 - `python/bd_util/maya/node/nodes.py`
-  - `Nodes` です。ノード作成と既存ノード変換で同じ `ModifierManager` を共有する統合入口です。
+  - `Nodes` です。ノード作成、既存ノード変換、NodeOperator class参照の統合入口です。
+- `python/bd_util/maya/node/node_types.py`
+  - `nodes.types` を構成する、NodeOperator classの遅延参照accessorです。
 - `python/bd_util/maya/node/creator/_core.py`
   - `nodes.create` を構成する内部実装の `NodeCreator` です。
 - `python/bd_util/maya/node/existing_node.py`
@@ -67,16 +69,19 @@ flowchart TD
     NodeCreator["NodeCreator"]
     ExistingAccessor["nodes.existing"]
     ExistingNode["ExistingNode"]
+    NodeTypes["nodes.types"]
     OpenMaya["maya.api.OpenMaya"]
 
     Nodes --> NodeCreator
     Nodes --> ExistingAccessor
+    Nodes --> NodeTypes
     Nodes --> ModifierManager
     ExistingAccessor --> ExistingNode
     NodeCreator --> NodeOperator
     NodeCreator --> ModifierManager
     ExistingNode --> NodeOperator
     ExistingNode --> ModifierManager
+    NodeTypes --> NodeOperator
     NodeOperator --> DG
     NodeOperator --> DAG
     DAG --> Transform
@@ -145,6 +150,32 @@ assert existing.modifier_manager is modifier_manager
 ```python
 existing = nodes.existing("existing_node")
 ```
+
+生成済みの `NodeOperator` classを参照する場合は、`nodes.types` を使います。
+属性名はMaya node type名ではなく、Python classと同じPascalCaseです。
+
+```python
+transform_type = nodes.types.Transform
+locator_type = nodes.types.Locator
+shape_type = nodes.types.Shape
+
+assert issubclass(locator_type, shape_type)
+```
+
+`NodeOperator` / `DAG` / `Shape` / `BaseGeometryVarGroup` のような基底classと、
+`nodes.existing` が具体型へ解決できる生成済みclassを参照できます。作成可否とは
+独立しているため、`IkHandle` / `UnknownDag` / `SphereLocator` も対象です。
+実classは属性へ最初にアクセスしたときだけimportされ、結果はaccessor内でcacheされます。
+
+動的なMaya node type名から解決する場合は `resolve()` を使います。
+
+```python
+node_type = nodes.types.resolve("locator")
+```
+
+`resolve()` は正確なMaya node type名を受け取り、静的な戻り値型は
+`type[NodeOperator]`です。具体型のIDE補完が必要なコードでは
+`nodes.types.Locator` の形式を使います。
 
 `NodeCreator` / `ExistingNode` は `Nodes` の内部実装として維持しますが、`bd_util` の公開APIには含めません。
 ノード作成と既存ノード変換は、どちらも `Nodes` から利用します。

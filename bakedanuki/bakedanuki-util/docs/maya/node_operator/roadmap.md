@@ -309,6 +309,12 @@ Maya node type名の文字列より、`Transform` / `Joint` / `Shape` / `Mesh`�
 `DAG`系Python classを受け取る方式を第一候補とします。`isinstance()`に基づくfilterなら
 継承関係を利用でき、`type[T]`と組み合わせて戻り値を`tuple[T, ...]`として表現できます。
 
+filter実装の事前整備として、生成済みNodeOperator classを
+`nodes.types.Transform` / `nodes.types.Locator` のように参照できるAPIを追加しました。
+PascalCase属性は具体的な`type[T]`をstubで公開し、実classはアクセス時に遅延importします。
+`NodeOperator` / `DAG` / `Shape` / `BaseGeometryVarGroup` の基底classも参照できます。
+動的なMaya node type名には `nodes.types.resolve("locator")` を使用します。
+
 filter対象外nodeも探索経路としては残します。例えば`Mesh`だけを要求した場合も、
 途中の`Transform`で探索を止めません。Maya node type文字列やexact type判定は、
 実際の用途が必要になった段階で別optionとして検討します。

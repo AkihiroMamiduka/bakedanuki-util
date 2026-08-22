@@ -187,6 +187,36 @@ def test_shape_with_transform_stub_matches_generated_code():
     )
 
 
+def test_node_type_registry_matches_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    output_path = stub_generator.node_type_registry_path(python_root)
+
+    assert stub_generator.stub_code_is_current(
+        output_path,
+        stub_generator.generate_node_type_registry_code(python_root),
+    )
+
+
+def test_node_types_stub_matches_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    output_path = stub_generator.node_types_stub_path(python_root)
+
+    assert stub_generator.stub_code_is_current(
+        output_path,
+        stub_generator.generate_node_types_stub_code(python_root),
+    )
+
+
 def test_stub_code_is_current_ignores_formatting_only(tmp_path):
     from bd_util._dev.maya.node.operator.node import (
         generate_existing_node_stub as stub_generator,

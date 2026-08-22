@@ -6,6 +6,7 @@ from maya.api import OpenMaya as om
 
 from .creator import NodeCreator
 from .modifier import ModifierManager
+from .node_types import NodeTypes
 from .operator.node._core import NodeOperator
 from .operator.node.dg.ais_env_facade import AISEnvFacade
 from .operator.node.dg.alembic_node import AlembicNode
@@ -7695,3 +7696,5 @@ class Nodes:
     def create(self) -> NodeCreator: ...
     @property
     def existing(self) -> _ExistingNodeAccessor: ...
+    @property
+    def types(self) -> NodeTypes: ...
