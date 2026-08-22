@@ -438,15 +438,18 @@ Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 `DAG.parents` は直接の親を tuple で返し、ワールドは含めません。
 `DAG.children()` はTransformとShapeを区別せず、すべての直接の子をMayaの
 child index順で返します。自分自身、world、孫は含めません。
+`DAG.ancestors()` は保持中のpathを基準に、直接の親からroot方向へ返します。
+自分自身とworldは含めません。
 
 ```python
 parent = child.parent
 parents = child.parents
 children = parent.children()
+ancestors = child.ancestors()
 is_instanced = child.is_instanced
 ```
 
-`children()` の各要素はscene上のnode typeに対応する具体的な`DAG`系
+`children()` / `ancestors()` の各要素はscene上のnode typeに対応する具体的な`DAG`系
 `NodeOperator`で、元のnodeと同じ`ModifierManager`を共有します。結果はcacheせず、
 呼び出すたびに現在のsceneから取得します。同じ`ModifierManager`に積まれていても、
 未実行の`MDagModifier`による作成・親変更は`do_it_dag()`まで含めません。
@@ -489,6 +492,8 @@ mod.do_it_dag()
 すべての直接の親を調べる場合は `parents` を使用します。
 `children()` はMObject中心で直接の子を取得するため、instanced childも取得できます。
 返されたnodeの保持pathは従来どおり`MDagPath.getAPathTo()`が選んだ1つです。
+`ancestors()` はinstanced nodeでも例外にせず、同じく`getAPathTo()`で保持した
+1つのpathを基準に祖先を列挙します。すべての直接親が必要な場合は`parents`を使います。
 
 `full_path` は保持中の `MDagPath` からアクセスごとに取得します。
 親変更や rename の確定、および undo / redo 後も現在のフルパスを返します。

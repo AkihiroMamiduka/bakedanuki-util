@@ -127,8 +127,12 @@ Mayaのchild index順で直接の子だけを返します。自分自身、world
 結果はcacheせず、未実行の`MDagModifier`の変更は含めません。instanced childは
 MObject中心で取得し、保持pathは`MDagPath.getAPathTo()`が選ぶ現行方針を維持します。
 
-次の段階では、直接の親からroot方向へ返す`ancestors()`を追加します。その後、
-depth-first pre-orderの`descendants()`へ進みます。
+第二段階として`ancestors()`を追加しました。保持中の`MDagPath.getAPathTo()`の
+1つのpathを基準に、直接の親からroot方向へ列挙します。自分自身とworldは含めず、
+`children()`と同じく具体型、`ModifierManager`共有、都度取得、実行済みscene状態の
+契約を維持します。
+
+次の段階では、depth-first pre-orderの`descendants()`へ進みます。
 
 ### 3. 親 Transform 必須の shape 作成（段階公開完了）
 

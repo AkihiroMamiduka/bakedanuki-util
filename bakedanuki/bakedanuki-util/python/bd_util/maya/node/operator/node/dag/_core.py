@@ -126,6 +126,18 @@ class DAG(NodeOperator):
             for index in range(fn_dag.childCount())
         )
 
+    def ancestors(self) -> tuple["DAG", ...]:
+        """保持pathの直接親からroot方向へ、worldを除いて返す。"""
+        path = om.MDagPath(self._dag_path)
+        ancestors: list[DAG] = []
+        while path.length():
+            path.pop()
+            ancestor_obj = path.node()
+            if ancestor_obj.hasFn(om.MFn.kWorld):
+                break
+            ancestors.append(self._wrap_existing_dag(ancestor_obj))
+        return tuple(ancestors)
+
     def _wrap_existing_dag(self, m_obj: om.MObject) -> "DAG":
         from ....existing_node import ExistingNode
 

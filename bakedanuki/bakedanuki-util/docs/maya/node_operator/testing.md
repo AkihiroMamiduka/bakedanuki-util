@@ -209,6 +209,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 - `tests/maya/node/operator/node/dag/test_traversal.py`
   - `children()`の直接の子、child index順、Transform / Shape / `UnknownDag`の
     具体型解決、`ModifierManager`共有、未実行modifier、instancingを検証します。
+  - `ancestors()`の直接親からrootへの順序、world除外、具体型解決、未実行modifier、
+    cacheなし、instanced nodeで保持pathを基準にすることを検証します。
 - `tests/maya/node/operator/node/dag/test_matrix.py`
   - DAG 間の relative / local matrix 計算を検証します。
 - `tests/maya/node/operator/node/dag/shape/test_create.py`
