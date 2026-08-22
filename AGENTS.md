@@ -141,7 +141,7 @@ Maya実行環境とは分離した`.venv-format`を使用します。
 .\scripts\format.cmd -Check -Diff
 ```
 
-対象は`bakedanuki`と`tests`以下です。
+対象は`bakedanuki`と`tests`以下、および`scripts/test_ui_maya.py`です。
 外部由来のMaya API stubを置く`typings`は対象外です。
 
 ノード生成器はBlackを直接importしません。
@@ -366,6 +366,8 @@ node = nodes.existing("existing_node")
   - テスト方針です。
 - `bakedanuki/bakedanuki-util/docs/maya/node_operator/roadmap.md`
   - 今後の予定です。
+- `bakedanuki/bakedanuki-util/docs/ui/README.md`
+  - Maya UI共通基盤の現行仕様、導入手順、互換性確認です。
 
 README のコード例は、実際にユーザーが好んでいる短い書き方に寄せてください。
 

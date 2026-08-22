@@ -6,6 +6,26 @@ UI utilityは、利用場所ではなく依存関係で分けます。
 - `bd_util.maya.ui`には、Maya main windowやUI lifecycleへのadapterを置きます。
 - 依存は`bd_util.maya.ui`から`bd_util.ui`への一方向とし、逆方向には依存させません。
 
+## 新しいtoolへの導入
+
+新しいMaya toolでは、次の順にUI基盤を組み込みます。
+
+1. Mayaの通常Windowには`MayaWindowController`、workspaceControlを使うUIには
+   `MayaDockableWindowController`を選ぶ。
+2. controllerをmodule単位で1つ生成し、dockable Windowでは`control_id`と
+   `DockRestoreSpec`のmodule・functionをrelease後も維持する。
+3. 永続化する場合は`tool_name/windows/main`のような固定`settings_path`を決める。
+4. Widget内部状態は全Widgetを`UiStateManager`へ登録した後、通常Windowでは
+   `MayaUiStateTracker.for_window()`、dockable Windowでは`for_dockable()`へ接続する。
+5. tool固有のMaya callbackはWindowをownerとする`MayaCallbackRegistry`へ登録する。
+6. UIのreset操作には`reset_and_show_ui_layout()`を使い、破棄、保存状態削除、再表示の
+   順序をtool側で組み直さない。
+7. module reload前は`dispose()`で古いWindow、workspaceControl、Maya callbackを完全に
+   破棄してからreloadする。
+
+`close()`は同じWindow instanceとcallbackを維持した再表示用、`dispose()`は開発中のreloadや
+Windowの作り直し用です。通常操作でどちらを使うかをtool側で明確に分けます。
+
 ## Qt binding facade
 
 `bd_util.ui.qt`は、Maya同梱Qt bindingのimport先を集約します。toolやパッケージ内部では
@@ -607,3 +627,20 @@ pprint(dock_lifecycle.diagnose())
 5. floating時に`move_offscreen_for_test()`後の`ensure_on_screen()`で画面内へ戻る。
 
 詳しい操作手順は前節の「実Mayaでのlifecycle統合確認」を参照してください。
+
+## 保守時に維持する設計境界
+
+UI基盤を変更・拡張するときは、次のcontractを維持します。
+
+- `bd_util.ui`はMayaをimportせず、Maya固有処理は`bd_util.maya.ui`へ置く。
+- PySideとshibokenは利用側から直接importせず、`bd_util.ui.qt`をbinding境界とする。
+- dockable Windowの配置はworkspaceControlへ委ね、内側のWidgetへ通常Window用geometryを
+  復元しない。
+- Maya終了時にWidgetから状態を再取得せず、変更signalで退避済みの状態を保存する。
+- ownerの`destroyed`接続は`QMetaObject.Connection`を保持して解除し、PySideのversion差を
+  bound methodの再検索へ依存させない。
+- `close()`では利用中のinstanceを維持し、`dispose()`とUI配置resetではMaya callbackを
+  即時解除する。
+- QHeaderViewの列幅・表示順は共通保存へ追加せず、必要なtoolが個別に管理する。
+- Qt facade、Window lifecycle、Maya UI adapterの変更後は`test-ui-maya-all.cmd`を実行する。
+  workspaceControl、再起動復元、実画面配置に関わる変更は各versionのMaya本体でも確認する。

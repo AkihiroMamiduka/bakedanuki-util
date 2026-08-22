@@ -37,6 +37,11 @@
   - `AttributeField`, `AttrOperator`, `PlugOperator` により、クラス定義とインスタンス操作を分けて扱います。
 - Node class generator
   - Maya の DG ノード情報から `NodeOperator` 定義を生成する開発用ジェネレーターがあります。
+- Maya UI foundation
+  - PySide6のbinding facade、通常Window、workspaceControlを使うdockable Window、状態保存、
+    配置reset、Maya callback lifecycleを共通化します。
+  - Maya 2025 / 2026 / 2027で同じUI互換性テストを実行できます。
+  - 詳細は[UI utilities](docs/ui/README.md)を参照してください。
 
 ## Quick Example
 
