@@ -1089,6 +1089,7 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(unknown_dag.visibility, BoolPlugOperator)
     assert_type(unknown_dag.children(), tuple[DAG, ...])
     assert_type(unknown_dag.ancestors(), tuple[DAG, ...])
+    assert_type(unknown_dag.descendants(), tuple[DAG, ...])
 
 
 def transform_existing_contract(nodes: bdu.Nodes) -> None:

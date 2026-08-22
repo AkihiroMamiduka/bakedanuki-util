@@ -440,16 +440,20 @@ Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 child index順で返します。自分自身、world、孫は含めません。
 `DAG.ancestors()` は保持中のpathを基準に、直接の親からroot方向へ返します。
 自分自身とworldは含めません。
+`DAG.descendants()` は各階層のchild index順を維持したdepth-first pre-orderで、
+すべての子孫を返します。自分自身とworldは含めません。
 
 ```python
 parent = child.parent
 parents = child.parents
 children = parent.children()
 ancestors = child.ancestors()
+descendants = parent.descendants()
 is_instanced = child.is_instanced
 ```
 
-`children()` / `ancestors()` の各要素はscene上のnode typeに対応する具体的な`DAG`系
+`children()` / `ancestors()` / `descendants()` の各要素はscene上のnode typeに
+対応する具体的な`DAG`系
 `NodeOperator`で、元のnodeと同じ`ModifierManager`を共有します。結果はcacheせず、
 呼び出すたびに現在のsceneから取得します。同じ`ModifierManager`に積まれていても、
 未実行の`MDagModifier`による作成・親変更は`do_it_dag()`まで含めません。
@@ -494,6 +498,9 @@ mod.do_it_dag()
 返されたnodeの保持pathは従来どおり`MDagPath.getAPathTo()`が選んだ1つです。
 `ancestors()` はinstanced nodeでも例外にせず、同じく`getAPathTo()`で保持した
 1つのpathを基準に祖先を列挙します。すべての直接親が必要な場合は`parents`を使います。
+`descendants()` はMayaのdepth-first traversalと同様に、instanced subtreeへ
+複数のDAG pathから到達する場合はpathごとに再訪します。そのため、同じ`MObject`を
+包むnodeが結果に複数回現れることがあります。
 
 `full_path` は保持中の `MDagPath` からアクセスごとに取得します。
 親変更や rename の確定、および undo / redo 後も現在のフルパスを返します。

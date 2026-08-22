@@ -138,6 +138,16 @@ class DAG(NodeOperator):
             ancestors.append(self._wrap_existing_dag(ancestor_obj))
         return tuple(ancestors)
 
+    def descendants(self) -> tuple["DAG", ...]:
+        """すべての子孫をdepth-first pre-orderで返す。"""
+        descendants: list[DAG] = []
+        stack = list(reversed(self.children()))
+        while stack:
+            descendant = stack.pop()
+            descendants.append(descendant)
+            stack.extend(reversed(descendant.children()))
+        return tuple(descendants)
+
     def _wrap_existing_dag(self, m_obj: om.MObject) -> "DAG":
         from ....existing_node import ExistingNode
 

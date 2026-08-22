@@ -132,7 +132,13 @@ MObject中心で取得し、保持pathは`MDagPath.getAPathTo()`が選ぶ現行�
 `children()`と同じく具体型、`ModifierManager`共有、都度取得、実行済みscene状態の
 契約を維持します。
 
-次の段階では、depth-first pre-orderの`descendants()`へ進みます。
+第三段階として`descendants()`を追加しました。各階層のchild index順を維持した
+depth-first pre-orderで、すべての子孫を列挙します。自分自身とworldは含めません。
+instanced subtreeはMaya標準traversalと同様にDAG pathごとに再訪するため、同じ
+`MObject`が複数回現れる場合があります。
+
+これで`children()` / `ancestors()` / `descendants()`の初期DAG traversalは完了です。
+Shape filterやpathを明示的に選択するAPIは、必要な利用例が揃った段階で検討します。
 
 ### 3. 親 Transform 必須の shape 作成（段階公開完了）
 

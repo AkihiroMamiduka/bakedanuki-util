@@ -11,20 +11,23 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 def main():
     nodes = bdu.Nodes()
-    transform_0 = nodes.create.transform(name="trsf_0")
-    joint_0 = nodes.create.joint(name="jnt_0", parent=transform_0)
-    transform_1 = nodes.create.transform(name="trsf_1", parent=joint_0)
-    joint_1 = nodes.create.joint(name="jnt_1", parent=transform_1)
+    transform_0_a = nodes.create.transform(name="trsf_0")
+    joint_0_a = nodes.create.joint(name="jnt_0_a", parent=transform_0_a)
+    transform_1_a = nodes.create.transform(name="trsf_1_a", parent=joint_0_a)
+    joint_1_a = nodes.create.joint(name="jnt_1_a", parent=transform_1_a)
 
-    logger.debug(f"joint_1.ancestors(): {joint_1.ancestors()}")
+    joint_0_b = nodes.create.joint(name="jnt_0_b", parent=transform_0_a)
+    transform_1_b = nodes.create.transform(name="trsf_1_b", parent=joint_0_b)
+
+    logger.debug(f"transform_0_a.descendants(): {transform_0_a.descendants()}")
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    logger.debug(f"joint_1.ancestors(): {joint_1.ancestors()}")
-    for i, parent in enumerate(joint_1.ancestors()):
-        logger.debug(parent)
-        logger.debug(f"type(child): {type(parent)}")
-        parent.translate.set(1 * i, 2 * i, 3 * i)
+    logger.debug(f"transform_0_a.descendants(): {transform_0_a.descendants()}")
+    for i, child in enumerate(transform_0_a.descendants()):
+        logger.debug(child)
+        logger.debug(f"type(child): {type(child)}")
+        child.translate.set(1 * i, 2 * i, 3 * i)
 
     nodes.modifier_manager.do_it_dg()

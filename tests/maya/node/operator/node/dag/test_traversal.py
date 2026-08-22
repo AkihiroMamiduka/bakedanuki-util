@@ -262,3 +262,192 @@ def test_ancestors_uses_held_path_for_instanced_node(
         ancestor.modifier_manager is nodes.modifier_manager
         for ancestor in ancestors
     )
+
+
+def test_descendants_returns_depth_first_pre_order_with_concrete_nodes(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+    from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
+    from bd_util.maya.node.operator.node.dag.transform._core import Transform
+    from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+    from bd_util.maya.node.operator.node.dag.unknown_dag import UnknownDag
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    first_name = maya_cmds.createNode(
+        "joint",
+        name="first",
+        parent=root_name,
+    )
+    first_child_name = maya_cmds.createNode(
+        "transform",
+        name="first_child",
+        parent=first_name,
+    )
+    shape_name = maya_cmds.createNode(
+        "mesh",
+        name="meshShape",
+        parent=first_child_name,
+    )
+    maya_cmds.createNode(
+        "unknownDag",
+        name="unknown_child",
+        parent=first_name,
+    )
+    second_name = maya_cmds.createNode(
+        "transform",
+        name="second",
+        parent=root_name,
+    )
+    maya_cmds.createNode(
+        "joint",
+        name="second_child",
+        parent=second_name,
+    )
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    shape = nodes.existing.mesh(shape_name)
+
+    descendants = root.descendants()
+
+    assert tuple(type(descendant) for descendant in descendants) == (
+        Joint,
+        Transform,
+        Mesh,
+        UnknownDag,
+        Transform,
+        Joint,
+    )
+    assert tuple(descendant.name for descendant in descendants) == (
+        "first",
+        "first_child",
+        "meshShape",
+        "unknown_child",
+        "second",
+        "second_child",
+    )
+    assert all(
+        descendant.modifier_manager is nodes.modifier_manager
+        for descendant in descendants
+    )
+    assert all(descendant.m_obj != root.m_obj for descendant in descendants)
+    assert shape.descendants() == ()
+
+
+def test_descendants_reads_executed_scene_state_without_cache(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    old_parent_name = maya_cmds.createNode(
+        "transform",
+        name="old_parent",
+    )
+    reparented_name = maya_cmds.createNode(
+        "transform",
+        name="reparented_child",
+        parent=old_parent_name,
+    )
+    maya_cmds.createNode(
+        "joint",
+        name="reparented_grandchild",
+        parent=reparented_name,
+    )
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    pending_child = nodes.create.transform(
+        name="pending_child",
+        parent=root,
+    )
+    nodes.create.joint(
+        name="pending_grandchild",
+        parent=pending_child,
+    )
+    reparented_child = nodes.existing.transform(reparented_name)
+    reparented_child.set_parent(root)
+
+    assert root.descendants() == ()
+
+    nodes.modifier_manager.do_it_dag()
+
+    first_result = root.descendants()
+    assert tuple(descendant.name for descendant in first_result) == (
+        "pending_child",
+        "pending_grandchild",
+        "reparented_child",
+        "reparented_grandchild",
+    )
+
+    external_child_name = maya_cmds.createNode(
+        "transform",
+        name="external_child",
+        parent=root_name,
+    )
+    maya_cmds.createNode(
+        "mesh",
+        name="externalShape",
+        parent=external_child_name,
+    )
+
+    second_result = root.descendants()
+    assert tuple(descendant.name for descendant in second_result) == (
+        "pending_child",
+        "pending_grandchild",
+        "reparented_child",
+        "reparented_grandchild",
+        "external_child",
+        "externalShape",
+    )
+    assert second_result is not first_result
+
+
+def test_descendants_revisits_instanced_subtree_for_each_dag_path(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    branch_a_name = maya_cmds.createNode(
+        "transform",
+        name="branch_a",
+        parent=root_name,
+    )
+    branch_b_name = maya_cmds.createNode(
+        "transform",
+        name="branch_b",
+        parent=root_name,
+    )
+    instanced_name = maya_cmds.createNode(
+        "transform",
+        name="instanced_child",
+        parent=branch_a_name,
+    )
+    maya_cmds.createNode(
+        "mesh",
+        name="instancedShape",
+        parent=instanced_name,
+    )
+    maya_cmds.parent(instanced_name, branch_b_name, addObject=True)
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+
+    descendants = root.descendants()
+
+    assert tuple(descendant.name for descendant in descendants) == (
+        "branch_a",
+        "instanced_child",
+        "instancedShape",
+        "branch_b",
+        "instanced_child",
+        "instancedShape",
+    )
+    assert descendants[1].m_obj == descendants[4].m_obj
+    assert descendants[2].m_obj == descendants[5].m_obj
+    assert all(
+        descendant.modifier_manager is nodes.modifier_manager
+        for descendant in descendants
+    )
