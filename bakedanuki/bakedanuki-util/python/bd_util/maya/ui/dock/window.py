@@ -1,0 +1,49 @@
+# coding: utf-8
+from typing import TYPE_CHECKING
+
+from ....ui import qt
+
+if TYPE_CHECKING:
+
+    class _MayaQWidgetDockableMixin:
+        """型検査時にMaya mixinの初期化境界だけを表す。"""
+
+        def __init__(
+            self,
+            parent: qt.QtWidgets.QWidget | None = None,
+            *args: object,
+            **kwargs: object,
+        ) -> None: ...
+
+else:
+    from maya.app.general.mayaMixin import (
+        MayaQWidgetDockableMixin as _MayaQWidgetDockableMixin,
+    )
+
+
+class MayaDockableWindow(_MayaQWidgetDockableMixin, qt.QtWidgets.QWidget):
+    """MayaのworkspaceControlへ格納できるWidgetの基底クラス。"""
+
+    # controllerが管理するworkspaceControl lifecycleを公開する。
+    dock_attached = qt.Signal()
+    dock_about_to_dispose = qt.Signal()
+    dock_closed = qt.Signal()
+    floating_changed = qt.Signal(bool)
+
+    def __init__(
+        self,
+        parent: qt.QtWidgets.QWidget | None = None,
+    ) -> None:
+        """Mayaのdockable mixinとQWidgetを初期化する。"""
+        # MayaのMixinを先頭にしたMROを通してQt Widgetを初期化する。
+        super().__init__(parent=parent)
+
+    def dockCloseEventTriggered(self) -> None:
+        """workspaceControlが閉じられたことをsignalで通知する。"""
+        # 子WidgetのcloseEventに依存せず、Maya側のclose通知を公開する。
+        self.dock_closed.emit()
+
+    def floatingChanged(self, isFloating: bool) -> None:
+        """フローティング状態の変更をsignalで通知する。"""
+        # Mayaから渡された現在の状態を利用者向けsignalへ変換する。
+        self.floating_changed.emit(isFloating)

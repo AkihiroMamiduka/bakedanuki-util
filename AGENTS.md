@@ -141,7 +141,7 @@ Maya実行環境とは分離した`.venv-format`を使用します。
 .\scripts\format.cmd -Check -Diff
 ```
 
-対象は`bakedanuki`と`tests`以下です。
+対象は`bakedanuki`と`tests`以下、および`scripts/test_ui_maya.py`です。
 外部由来のMaya API stubを置く`typings`は対象外です。
 
 ノード生成器はBlackを直接importしません。
@@ -162,8 +162,18 @@ DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を
   - full pytest に加えて、必要に応じて DG モジュールの import sweep を検討してください。
 - Pythonコードを変更した場合
   - 原則として`.\scripts\format.cmd -Check`で整形状態を確認してください。
+- Qt facade、Window lifecycle、Maya UI adapterを変更した場合
+  - Maya 2025 / 2026 / 2027それぞれでUI互換性テストを実行してください。
 - ネイティブplug-in、build script、配布バイナリ、対応Maya versionを変更した場合
   - Maya 2025 / 2026 / 2027それぞれでbuildとnative testを実行してください。
+
+```powershell
+.\scripts\test-ui-maya-all.cmd
+```
+
+versionごとに実行する場合は`test-ui-maya2025.cmd`、`test-ui-maya2026.cmd`、
+`test-ui-maya2027.cmd`を使用します。各コマンドはQt facadeとMaya UI adapterを
+独立したmayapy processで検証します。
 
 ```powershell
 .\scripts\build-native-maya2025.cmd
@@ -356,6 +366,8 @@ node = nodes.existing("existing_node")
   - テスト方針です。
 - `bakedanuki/bakedanuki-util/docs/maya/node_operator/roadmap.md`
   - 今後の予定です。
+- `bakedanuki/bakedanuki-util/docs/ui/README.md`
+  - Maya UI共通基盤の現行仕様、導入手順、互換性確認です。
 
 README のコード例は、実際にユーザーが好んでいる短い書き方に寄せてください。
 
