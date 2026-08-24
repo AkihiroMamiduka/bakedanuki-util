@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import overload, Self, TypeVar
+from typing import Literal, overload, Self, TypeVar
 
 # maya
 from maya.api import OpenMaya as om
@@ -33,6 +33,24 @@ def _require_dag_type(
             f"got {value_name}"
         )
     return value
+
+
+def _require_bool(value: object, argument_name: str) -> bool:
+    if not isinstance(value, bool):
+        raise TypeError(
+            f"{argument_name} must be bool; got {type(value).__name__}"
+        )
+    return value
+
+
+def _matches_dag_type(
+    node: "DAG",
+    dag_type: type["DAG"],
+    include_subclasses: bool,
+) -> bool:
+    if include_subclasses:
+        return isinstance(node, dag_type)
+    return type(node) is dag_type
 
 
 class DAG(NodeOperator):
@@ -140,6 +158,7 @@ class DAG(NodeOperator):
         self,
         *,
         filter_type: None = None,
+        include_subclasses: Literal[True] = True,
     ) -> tuple["DAG", ...]: ...
 
     @overload
@@ -147,14 +166,23 @@ class DAG(NodeOperator):
         self,
         *,
         filter_type: type[_DAGType],
+        include_subclasses: bool = True,
     ) -> tuple[_DAGType, ...]: ...
 
     def children(
         self,
         *,
         filter_type: object = None,
+        include_subclasses: object = True,
     ) -> tuple["DAG", ...]:
         """Mayaのchild index順で、条件に一致する直接の子を返す。"""
+        include_subclasses_value = _require_bool(
+            include_subclasses,
+            "include_subclasses",
+        )
+        if filter_type is None and not include_subclasses_value:
+            raise ValueError("include_subclasses=False requires filter_type")
+
         fn_dag = om.MFnDagNode(self.m_obj)
         children = tuple(
             self._wrap_existing_dag(fn_dag.child(index))
@@ -165,7 +193,13 @@ class DAG(NodeOperator):
 
         dag_type = _require_dag_type(filter_type, "filter_type")
         return tuple(
-            child for child in children if isinstance(child, dag_type)
+            child
+            for child in children
+            if _matches_dag_type(
+                child,
+                dag_type,
+                include_subclasses_value,
+            )
         )
 
     def ancestors(self) -> tuple["DAG", ...]:
@@ -185,6 +219,7 @@ class DAG(NodeOperator):
         self,
         *,
         filter_type: None = None,
+        include_subclasses: Literal[True] = True,
     ) -> tuple["DAG", ...]: ...
 
     @overload
@@ -192,14 +227,23 @@ class DAG(NodeOperator):
         self,
         *,
         filter_type: type[_DAGType],
+        include_subclasses: bool = True,
     ) -> tuple[_DAGType, ...]: ...
 
     def descendants(
         self,
         *,
         filter_type: object = None,
+        include_subclasses: object = True,
     ) -> tuple["DAG", ...]:
         """条件に一致する子孫をdepth-first pre-orderで返す。"""
+        include_subclasses_value = _require_bool(
+            include_subclasses,
+            "include_subclasses",
+        )
+        if filter_type is None and not include_subclasses_value:
+            raise ValueError("include_subclasses=False requires filter_type")
+
         dag_type = (
             None
             if filter_type is None
@@ -209,7 +253,11 @@ class DAG(NodeOperator):
         stack = list(reversed(self.children()))
         while stack:
             descendant = stack.pop()
-            if dag_type is None or isinstance(descendant, dag_type):
+            if dag_type is None or _matches_dag_type(
+                descendant,
+                dag_type,
+                include_subclasses_value,
+            ):
                 descendants.append(descendant)
             stack.extend(reversed(descendant.children()))
         return tuple(descendants)

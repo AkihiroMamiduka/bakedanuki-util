@@ -1098,6 +1098,13 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
         tuple[Transform, ...],
     )
     assert_type(
+        unknown_dag.children(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        ),
+        tuple[Transform, ...],
+    )
+    assert_type(
         unknown_dag.children(filter_type=nodes.types.Shape),
         tuple[Shape, ...],
     )
@@ -1114,6 +1121,13 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(
         unknown_dag.descendants(filter_type=nodes.types.Transform),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.descendants(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        ),
         tuple[Transform, ...],
     )
     assert_type(
@@ -4417,6 +4431,12 @@ def invalid_usage_contract(
         "invalid_filter"
     ).descendants(  # pyright: ignore[reportCallIssue]
         filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").children(
+        include_subclasses=False  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").descendants(
+        include_subclasses=False  # pyright: ignore[reportArgumentType]
     )
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]

@@ -471,6 +471,8 @@ Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 child index順で返します。自分自身、world、孫は含めません。
 `filter_type=`へDAG系`NodeOperator` classを渡すと、`isinstance()`で一致する子だけを
 同じ順序で返します。省略時または`None`では、従来どおりすべての直接の子を返します。
+`include_subclasses=False`を併用すると、派生classを除き、指定classと完全一致する子だけを
+返します。
 `DAG.ancestors()` は保持中のpathを基準に、直接の親からroot方向へ返します。
 自分自身とworldは含めません。
 `DAG.descendants()` は各階層のchild index順を維持したdepth-first pre-orderで、
@@ -482,12 +484,20 @@ parent = child.parent
 parents = child.parents
 children = parent.children()
 transform_children = parent.children(filter_type=nodes.types.Transform)
+exact_transform_children = parent.children(
+    filter_type=nodes.types.Transform,
+    include_subclasses=False,
+)
 shape_children = parent.children(filter_type=nodes.types.Shape)
 locator_children = parent.children(filter_type=nodes.types.Locator)
 ancestors = child.ancestors()
 descendants = parent.descendants()
 transform_descendants = parent.descendants(
     filter_type=nodes.types.Transform,
+)
+exact_transform_descendants = parent.descendants(
+    filter_type=nodes.types.Transform,
+    include_subclasses=False,
 )
 shape_descendants = parent.descendants(filter_type=nodes.types.Shape)
 mesh_descendants = parent.descendants(filter_type=nodes.types.Mesh)
@@ -502,10 +512,13 @@ is_instanced = child.is_instanced
 
 `children(filter_type=...)` / `descendants(filter_type=...)` は継承関係を考慮します。
 例えば`Transform`には`Joint`などの派生classも含まれ、`Shape`にはconcrete shapeが
-含まれます。戻り値型は
+含まれます。`include_subclasses=False`を指定すると`type(node) is filter_type`で判定し、
+`Transform`だけを対象として`Joint`などを除外できます。`Shape`や`DAG`のような基底classを
+完全一致で指定した結果に該当nodeがなければ、空tupleを返します。戻り値型は
 `nodes.types.Locator`を渡した場合に`tuple[Locator, ...]`となるよう、
 `type[T]`とoverloadで公開します。DG系class、NodeOperator instance、複数classの
-tupleは受け取らず、`TypeError`にします。
+tupleは受け取らず、`TypeError`にします。`include_subclasses`はboolだけを受け取り、
+`filter_type`なしで`False`を指定した場合は`ValueError`にします。
 
 `descendants()`のfilterは結果だけに適用します。例えば`Mesh`を指定した場合、途中の
 `Transform`は結果へ含めませんが、そのsubtreeは探索し、末端の`Mesh`を返します。

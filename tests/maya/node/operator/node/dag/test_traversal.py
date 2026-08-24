@@ -175,6 +175,54 @@ def test_children_filters_by_dag_class_with_inheritance(
     assert root.children(filter_type=nodes.types.Locator) == ()
 
 
+def test_children_can_exclude_subclasses(new_scene, maya_cmds):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    maya_cmds.createNode(
+        "transform",
+        name="transform_child",
+        parent=root_name,
+    )
+    maya_cmds.createNode("joint", name="joint_child", parent=root_name)
+    maya_cmds.createNode("mesh", name="meshShape", parent=root_name)
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+
+    assert tuple(
+        child.name
+        for child in root.children(filter_type=nodes.types.Transform)
+    ) == ("transform_child", "joint_child")
+    assert tuple(
+        child.name
+        for child in root.children(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        )
+    ) == ("transform_child",)
+    assert tuple(
+        child.name
+        for child in root.children(
+            filter_type=nodes.types.Joint,
+            include_subclasses=False,
+        )
+    ) == ("joint_child",)
+    assert (
+        root.children(
+            filter_type=nodes.types.Shape,
+            include_subclasses=False,
+        )
+        == ()
+    )
+    assert tuple(
+        child.name
+        for child in root.children(
+            filter_type=nodes.types.Mesh,
+            include_subclasses=False,
+        )
+    ) == ("meshShape",)
+
+
 def test_children_rejects_non_dag_filter_type(new_scene, maya_cmds):
     import bd_util as bdu
 
@@ -471,6 +519,34 @@ def test_descendants_filters_results_without_pruning_subtrees(
         for descendant in root.descendants(filter_type=nodes.types.UnknownDag)
     ) == ("unknown_child",)
     assert root.descendants(filter_type=nodes.types.Locator) == ()
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        )
+    ) == ("branch_a", "nested")
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(
+            filter_type=nodes.types.Joint,
+            include_subclasses=False,
+        )
+    ) == ("branch_b",)
+    assert (
+        root.descendants(
+            filter_type=nodes.types.Shape,
+            include_subclasses=False,
+        )
+        == ()
+    )
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(
+            filter_type=nodes.types.Mesh,
+            include_subclasses=False,
+        )
+    ) == ("meshAShape", "meshBShape")
 
 
 def test_descendants_rejects_non_dag_filter_type(new_scene, maya_cmds):
@@ -492,6 +568,36 @@ def test_descendants_rejects_non_dag_filter_type(new_scene, maya_cmds):
             match="filter_type must be a DAG NodeOperator class",
         ):
             root.descendants(filter_type=filter_type)
+
+
+@pytest.mark.parametrize("traversal_name", ("children", "descendants"))
+def test_traversal_validates_include_subclasses(
+    new_scene,
+    maya_cmds,
+    traversal_name,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    traversal = getattr(root, traversal_name)
+
+    with pytest.raises(
+        ValueError,
+        match="include_subclasses=False requires filter_type",
+    ):
+        traversal(include_subclasses=False)
+
+    for include_subclasses in (None, 0, 1, "false"):
+        with pytest.raises(
+            TypeError,
+            match="include_subclasses must be bool",
+        ):
+            traversal(
+                filter_type=nodes.types.Transform,
+                include_subclasses=include_subclasses,
+            )
 
 
 def test_descendants_reads_executed_scene_state_without_cache(

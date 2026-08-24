@@ -24,10 +24,10 @@ def main():
 
     logger.debug(f"transform_0_a.descendants(): {transform_0_a.descendants()}")
     for i, child in enumerate(
-        transform_0_a.descendants(filter_type=nodes.types.Joint)
+        transform_0_a.descendants(
+            filter_type=nodes.types.Transform, include_subclasses=False
+        )
     ):
-        if not isinstance(child, nodes.types.Joint):
-            continue
         logger.debug(child)
         logger.debug(f"type(child): {type(child)}")
         child.translate.set(1 * i, 2 * i, 3 * i)
