@@ -291,17 +291,19 @@ DAG / shape API roadmapは完了しました。
 
 ### 1. Shape filter
 
-TransformとShapeを両方返す現在の契約に、Shapeを除外または限定するfilterを追加する
-候補です。Shapeだけへの限定は後述のclass-based type filterへ`Shape`を渡す方法でも
-表現できます。一方、Shapeだけを除外する用途はpositiveなtype filterでは表現しにくいため、
-`include_shapes: bool = True`のような独立optionも候補とします。
+`children()` / `descendants()`へ`include_shapes: bool = True`を追加しました。
+`False`ではMaya APIの`MFn.kShape`に一致するnodeを結果から除外します。Shapeだけへの
+限定はclass-based type filterへ`Shape`を渡すことで表現し、`only` / `exclude` / `all`の
+三状態を単一optionへ詰め込みません。type filterと併用した場合はAND条件です。
 
-主な対象は`children()` / `descendants()`とし、child chainにも同じ規則を適用できる
-設計を検討します。祖先が通常Transformだけになる`ancestors()`へShape専用optionを
-追加する必要性は、実際のDAG構造を確認して判断します。
+Shape filterも返す結果だけに適用し、`descendants()`の探索範囲は変更しません。
+戻り値型は`filter_type`の有無に従う従来のPyright contractを維持します。
 
-`only` / `exclude` / `all`の三状態を単一のboolへ詰め込まず、呼び出し側で意味が
-読み取れるAPIにします。
+Maya 2025ではShapeを親にnodeを作成すると、通常childではなく
+`shape->|child`形式のunderworld pathになります。`MFnDagNode(shape).childCount()`には
+列挙されず、pathには現行`ExistingNode`未対応の暗黙`dagNode`も含まれるため、
+underworld traversalは今回の対象外とします。Shapeが祖先になるのはこの対象外pathの
+場合であるため、`ancestors()`には`include_shapes`を追加しません。
 
 ### 2. Type filter
 

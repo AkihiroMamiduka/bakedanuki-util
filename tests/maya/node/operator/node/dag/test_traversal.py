@@ -173,6 +173,23 @@ def test_children_filters_by_dag_class_with_inheritance(
         for child in root.children(filter_type=nodes.types.UnknownDag)
     ) == ("unknown_child",)
     assert root.children(filter_type=nodes.types.Locator) == ()
+    assert tuple(
+        child.name for child in root.children(include_shapes=False)
+    ) == ("joint_child", "unknown_child")
+    assert tuple(
+        child.name
+        for child in root.children(
+            filter_type=nodes.types.DAG,
+            include_shapes=False,
+        )
+    ) == ("joint_child", "unknown_child")
+    assert (
+        root.children(
+            filter_type=nodes.types.Shape,
+            include_shapes=False,
+        )
+        == ()
+    )
 
 
 def test_children_can_exclude_subclasses(new_scene, maya_cmds):
@@ -600,6 +617,24 @@ def test_descendants_filters_results_without_pruning_subtrees(
             include_subclasses=False,
         )
     ) == ("meshAShape", "meshBShape")
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(include_shapes=False)
+    ) == ("branch_a", "branch_b", "nested", "unknown_child")
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(
+            filter_type=nodes.types.DAG,
+            include_shapes=False,
+        )
+    ) == ("branch_a", "branch_b", "nested", "unknown_child")
+    assert (
+        root.descendants(
+            filter_type=nodes.types.Shape,
+            include_shapes=False,
+        )
+        == ()
+    )
 
 
 def test_descendants_rejects_non_dag_filter_type(new_scene, maya_cmds):
@@ -654,6 +689,27 @@ def test_traversal_validates_include_subclasses(
                 filter_type=nodes.types.Transform,
                 include_subclasses=include_subclasses,
             )
+
+
+@pytest.mark.parametrize("traversal_name", ("children", "descendants"))
+def test_shape_filter_validates_include_shapes(
+    new_scene,
+    maya_cmds,
+    traversal_name,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    traversal = getattr(root, traversal_name)
+
+    for include_shapes in (None, 0, 1, "false"):
+        with pytest.raises(
+            TypeError,
+            match="include_shapes must be bool",
+        ):
+            traversal(include_shapes=include_shapes)
 
 
 def test_descendants_reads_executed_scene_state_without_cache(

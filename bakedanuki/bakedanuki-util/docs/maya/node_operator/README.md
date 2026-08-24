@@ -473,6 +473,8 @@ child index順で返します。自分自身、world、孫は含めません。
 同じ順序で返します。省略時または`None`では、従来どおりすべての直接の子を返します。
 `include_subclasses=False`を併用すると、派生classを除き、指定classと完全一致する子だけを
 返します。
+`include_shapes=False`を指定すると、Transformや`UnknownDag`などを残したまま、
+すべてのShape系nodeを結果から除外します。
 `DAG.ancestors()` は保持中のpathを基準に、直接の親からroot方向へ返します。
 自分自身とworldは含めません。`filter_type=`を指定した場合もrootまで辿り、
 一致した祖先だけを同じ順序で返します。
@@ -484,6 +486,7 @@ child index順で返します。自分自身、world、孫は含めません。
 parent = child.parent
 parents = child.parents
 children = parent.children()
+non_shape_children = parent.children(include_shapes=False)
 transform_children = parent.children(filter_type=nodes.types.Transform)
 exact_transform_children = parent.children(
     filter_type=nodes.types.Transform,
@@ -498,6 +501,7 @@ exact_transform_ancestors = child.ancestors(
     include_subclasses=False,
 )
 descendants = parent.descendants()
+non_shape_descendants = parent.descendants(include_shapes=False)
 transform_descendants = parent.descendants(
     filter_type=nodes.types.Transform,
 )
@@ -526,6 +530,13 @@ is_instanced = child.is_instanced
 `type[T]`とoverloadで公開します。DG系class、NodeOperator instance、複数classの
 tupleは受け取らず、`TypeError`にします。`include_subclasses`はboolだけを受け取り、
 `filter_type`なしで`False`を指定した場合は`ValueError`にします。
+
+`include_shapes`はboolだけを受け取り、初期値は`True`です。`False`では
+Maya APIの`MFn.kShape`に一致するnodeを結果から除外します。Shapeだけへの限定は
+`filter_type=nodes.types.Shape`で表現します。`filter_type`と併用した場合はAND条件とし、
+例えば`filter_type=nodes.types.Shape, include_shapes=False`は空tupleを返します。
+このoptionはShapeを通常の直接childとして列挙する`children()` / `descendants()`だけに
+提供し、`ancestors()`には追加しません。
 
 `descendants()`のfilterは結果だけに適用します。例えば`Mesh`を指定した場合、途中の
 `Transform`は結果へ含めませんが、そのsubtreeは探索し、末端の`Mesh`を返します。

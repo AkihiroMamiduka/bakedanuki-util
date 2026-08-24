@@ -53,6 +53,10 @@ def _matches_dag_type(
     return type(node) is dag_type
 
 
+def _matches_shape_filter(node: "DAG", include_shapes: bool) -> bool:
+    return include_shapes or not node.m_obj.hasFn(om.MFn.kShape)
+
+
 class DAG(NodeOperator):
     __slots__ = ("_dag_path",)
 
@@ -159,6 +163,7 @@ class DAG(NodeOperator):
         *,
         filter_type: None = None,
         include_subclasses: Literal[True] = True,
+        include_shapes: bool = True,
     ) -> tuple["DAG", ...]: ...
 
     @overload
@@ -167,6 +172,7 @@ class DAG(NodeOperator):
         *,
         filter_type: type[_DAGType],
         include_subclasses: bool = True,
+        include_shapes: bool = True,
     ) -> tuple[_DAGType, ...]: ...
 
     def children(
@@ -174,11 +180,16 @@ class DAG(NodeOperator):
         *,
         filter_type: object = None,
         include_subclasses: object = True,
+        include_shapes: object = True,
     ) -> tuple["DAG", ...]:
         """Mayaのchild index順で、条件に一致する直接の子を返す。"""
         include_subclasses_value = _require_bool(
             include_subclasses,
             "include_subclasses",
+        )
+        include_shapes_value = _require_bool(
+            include_shapes,
+            "include_shapes",
         )
         if filter_type is None and not include_subclasses_value:
             raise ValueError("include_subclasses=False requires filter_type")
@@ -189,13 +200,18 @@ class DAG(NodeOperator):
             for index in range(fn_dag.childCount())
         )
         if filter_type is None:
-            return children
+            return tuple(
+                child
+                for child in children
+                if _matches_shape_filter(child, include_shapes_value)
+            )
 
         dag_type = _require_dag_type(filter_type, "filter_type")
         return tuple(
             child
             for child in children
-            if _matches_dag_type(
+            if _matches_shape_filter(child, include_shapes_value)
+            and _matches_dag_type(
                 child,
                 dag_type,
                 include_subclasses_value,
@@ -259,6 +275,7 @@ class DAG(NodeOperator):
         *,
         filter_type: None = None,
         include_subclasses: Literal[True] = True,
+        include_shapes: bool = True,
     ) -> tuple["DAG", ...]: ...
 
     @overload
@@ -267,6 +284,7 @@ class DAG(NodeOperator):
         *,
         filter_type: type[_DAGType],
         include_subclasses: bool = True,
+        include_shapes: bool = True,
     ) -> tuple[_DAGType, ...]: ...
 
     def descendants(
@@ -274,11 +292,16 @@ class DAG(NodeOperator):
         *,
         filter_type: object = None,
         include_subclasses: object = True,
+        include_shapes: object = True,
     ) -> tuple["DAG", ...]:
         """条件に一致する子孫をdepth-first pre-orderで返す。"""
         include_subclasses_value = _require_bool(
             include_subclasses,
             "include_subclasses",
+        )
+        include_shapes_value = _require_bool(
+            include_shapes,
+            "include_shapes",
         )
         if filter_type is None and not include_subclasses_value:
             raise ValueError("include_subclasses=False requires filter_type")
@@ -292,10 +315,16 @@ class DAG(NodeOperator):
         stack = list(reversed(self.children()))
         while stack:
             descendant = stack.pop()
-            if dag_type is None or _matches_dag_type(
+            if _matches_shape_filter(
                 descendant,
-                dag_type,
-                include_subclasses_value,
+                include_shapes_value,
+            ) and (
+                dag_type is None
+                or _matches_dag_type(
+                    descendant,
+                    dag_type,
+                    include_subclasses_value,
+                )
             ):
                 descendants.append(descendant)
             stack.extend(reversed(descendant.children()))

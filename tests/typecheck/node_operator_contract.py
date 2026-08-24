@@ -1090,11 +1090,22 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(unknown_dag.children(), tuple[DAG, ...])
     assert_type(unknown_dag.children(filter_type=None), tuple[DAG, ...])
     assert_type(
+        unknown_dag.children(include_shapes=False),
+        tuple[DAG, ...],
+    )
+    assert_type(
         unknown_dag.children(filter_type=nodes.types.DAG),
         tuple[DAG, ...],
     )
     assert_type(
         unknown_dag.children(filter_type=nodes.types.Transform),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.children(
+            filter_type=nodes.types.Transform,
+            include_shapes=False,
+        ),
         tuple[Transform, ...],
     )
     assert_type(
@@ -1140,11 +1151,22 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(unknown_dag.descendants(), tuple[DAG, ...])
     assert_type(unknown_dag.descendants(filter_type=None), tuple[DAG, ...])
     assert_type(
+        unknown_dag.descendants(include_shapes=False),
+        tuple[DAG, ...],
+    )
+    assert_type(
         unknown_dag.descendants(filter_type=nodes.types.DAG),
         tuple[DAG, ...],
     )
     assert_type(
         unknown_dag.descendants(filter_type=nodes.types.Transform),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.descendants(
+            filter_type=nodes.types.Transform,
+            include_shapes=False,
+        ),
         tuple[Transform, ...],
     )
     assert_type(
@@ -4469,6 +4491,15 @@ def invalid_usage_contract(
     )
     nodes.existing.unknownDag("invalid_filter").descendants(
         include_subclasses=False  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").children(
+        include_shapes=0  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").descendants(
+        include_shapes=0  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").ancestors(
+        include_shapes=False  # pyright: ignore[reportCallIssue]
     )
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]
