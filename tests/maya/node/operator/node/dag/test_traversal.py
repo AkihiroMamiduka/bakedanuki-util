@@ -290,6 +290,59 @@ def test_ancestors_returns_direct_parent_to_root_with_concrete_nodes(
     )
     assert all(ancestor.m_obj != shape.m_obj for ancestor in ancestors)
     assert root.ancestors() == ()
+    assert tuple(
+        ancestor.name for ancestor in shape.ancestors(filter_type=None)
+    ) == ("transform_parent", "joint_parent", "root")
+    assert tuple(
+        ancestor.name
+        for ancestor in shape.ancestors(filter_type=nodes.types.DAG)
+    ) == ("transform_parent", "joint_parent", "root")
+    assert tuple(
+        ancestor.name
+        for ancestor in shape.ancestors(filter_type=nodes.types.Transform)
+    ) == ("transform_parent", "joint_parent", "root")
+    assert tuple(
+        ancestor.name
+        for ancestor in shape.ancestors(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        )
+    ) == ("transform_parent", "root")
+    assert tuple(
+        ancestor.name
+        for ancestor in shape.ancestors(
+            filter_type=nodes.types.Joint,
+            include_subclasses=False,
+        )
+    ) == ("joint_parent",)
+    assert shape.ancestors(filter_type=nodes.types.Shape) == ()
+    assert shape.ancestors(filter_type=nodes.types.Locator) == ()
+
+
+def test_ancestors_rejects_non_dag_filter_type(new_scene, maya_cmds):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    child_name = maya_cmds.createNode(
+        "transform",
+        name="child",
+        parent=root_name,
+    )
+    nodes = bdu.Nodes()
+    child = nodes.existing.transform(child_name)
+
+    invalid_filter_types = (
+        nodes.types.NodeOperator,
+        nodes.types.PlusMinusAverage,
+        child,
+        (nodes.types.Transform, nodes.types.Shape),
+    )
+    for filter_type in invalid_filter_types:
+        with pytest.raises(
+            TypeError,
+            match="filter_type must be a DAG NodeOperator class",
+        ):
+            child.ancestors(filter_type=filter_type)
 
 
 def test_ancestors_reads_executed_scene_state_without_cache(
@@ -570,7 +623,10 @@ def test_descendants_rejects_non_dag_filter_type(new_scene, maya_cmds):
             root.descendants(filter_type=filter_type)
 
 
-@pytest.mark.parametrize("traversal_name", ("children", "descendants"))
+@pytest.mark.parametrize(
+    "traversal_name",
+    ("children", "ancestors", "descendants"),
+)
 def test_traversal_validates_include_subclasses(
     new_scene,
     maya_cmds,

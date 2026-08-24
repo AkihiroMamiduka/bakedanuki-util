@@ -202,8 +202,41 @@ class DAG(NodeOperator):
             )
         )
 
-    def ancestors(self) -> tuple["DAG", ...]:
-        """保持pathの直接親からroot方向へ、worldを除いて返す。"""
+    @overload
+    def ancestors(
+        self,
+        *,
+        filter_type: None = None,
+        include_subclasses: Literal[True] = True,
+    ) -> tuple["DAG", ...]: ...
+
+    @overload
+    def ancestors(
+        self,
+        *,
+        filter_type: type[_DAGType],
+        include_subclasses: bool = True,
+    ) -> tuple[_DAGType, ...]: ...
+
+    def ancestors(
+        self,
+        *,
+        filter_type: object = None,
+        include_subclasses: object = True,
+    ) -> tuple["DAG", ...]:
+        """保持pathの直接親からroot方向へ、条件に一致する祖先を返す。"""
+        include_subclasses_value = _require_bool(
+            include_subclasses,
+            "include_subclasses",
+        )
+        if filter_type is None and not include_subclasses_value:
+            raise ValueError("include_subclasses=False requires filter_type")
+
+        dag_type = (
+            None
+            if filter_type is None
+            else _require_dag_type(filter_type, "filter_type")
+        )
         path = om.MDagPath(self._dag_path)
         ancestors: list[DAG] = []
         while path.length():
@@ -211,7 +244,13 @@ class DAG(NodeOperator):
             ancestor_obj = path.node()
             if ancestor_obj.hasFn(om.MFn.kWorld):
                 break
-            ancestors.append(self._wrap_existing_dag(ancestor_obj))
+            ancestor = self._wrap_existing_dag(ancestor_obj)
+            if dag_type is None or _matches_dag_type(
+                ancestor,
+                dag_type,
+                include_subclasses_value,
+            ):
+                ancestors.append(ancestor)
         return tuple(ancestors)
 
     @overload

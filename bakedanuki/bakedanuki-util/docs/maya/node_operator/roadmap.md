@@ -328,8 +328,12 @@ instanced subtreeのpathごとの再訪、具体型と`ModifierManager`共有、
 第三段階として、`children()` / `descendants()`へ`include_subclasses: bool = True`を
 追加しました。初期値では従来どおり`isinstance()`で派生型を含め、`False`では
 `type(node) is filter_type`による完全一致に切り替えます。探索範囲と列挙順は変えず、
-`filter_type`なしの`False`は意味を持たないため拒否します。次は`ancestors()`へ
-同じ型filterと完全一致optionをまとめて拡張します。
+`filter_type`なしの`False`は意味を持たないため拒否します。
+
+第四段階として、`ancestors()`へ同じ型filterと完全一致optionを拡張しました。
+保持中pathを直接親からrootまで辿る規則は維持し、filterは結果だけに適用します。
+これで`children()` / `ancestors()` / `descendants()`のclass-based type filterは
+同じ引数とPyright contractで利用できます。
 
 filter対象外nodeも探索経路としては残します。例えば`Mesh`だけを要求した場合も、
 途中の`Transform`で探索を止めません。Maya node type文字列は、実際の用途が必要に

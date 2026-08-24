@@ -474,7 +474,8 @@ child index順で返します。自分自身、world、孫は含めません。
 `include_subclasses=False`を併用すると、派生classを除き、指定classと完全一致する子だけを
 返します。
 `DAG.ancestors()` は保持中のpathを基準に、直接の親からroot方向へ返します。
-自分自身とworldは含めません。
+自分自身とworldは含めません。`filter_type=`を指定した場合もrootまで辿り、
+一致した祖先だけを同じ順序で返します。
 `DAG.descendants()` は各階層のchild index順を維持したdepth-first pre-orderで、
 すべての子孫を返します。自分自身とworldは含めません。
 `filter_type=`を指定した場合も探索範囲は変えず、一致した子孫だけを結果へ含めます。
@@ -491,6 +492,11 @@ exact_transform_children = parent.children(
 shape_children = parent.children(filter_type=nodes.types.Shape)
 locator_children = parent.children(filter_type=nodes.types.Locator)
 ancestors = child.ancestors()
+transform_ancestors = child.ancestors(filter_type=nodes.types.Transform)
+exact_transform_ancestors = child.ancestors(
+    filter_type=nodes.types.Transform,
+    include_subclasses=False,
+)
 descendants = parent.descendants()
 transform_descendants = parent.descendants(
     filter_type=nodes.types.Transform,
@@ -510,7 +516,8 @@ is_instanced = child.is_instanced
 呼び出すたびに現在のsceneから取得します。同じ`ModifierManager`に積まれていても、
 未実行の`MDagModifier`による作成・親変更は`do_it_dag()`まで含めません。
 
-`children(filter_type=...)` / `descendants(filter_type=...)` は継承関係を考慮します。
+`children(filter_type=...)` / `ancestors(filter_type=...)` /
+`descendants(filter_type=...)` は継承関係を考慮します。
 例えば`Transform`には`Joint`などの派生classも含まれ、`Shape`にはconcrete shapeが
 含まれます。`include_subclasses=False`を指定すると`type(node) is filter_type`で判定し、
 `Transform`だけを対象として`Joint`などを除外できます。`Shape`や`DAG`のような基底classを
@@ -524,6 +531,10 @@ tupleは受け取らず、`TypeError`にします。`include_subclasses`はbool�
 `Transform`は結果へ含めませんが、そのsubtreeは探索し、末端の`Mesh`を返します。
 列挙順、instanced subtreeのpathごとの再訪、実行済みscene状態を都度読む契約は、
 filterを指定しない場合と同じです。
+
+`ancestors()`のfilterも結果だけに適用します。途中の祖先が条件に一致しなくても、
+そこで探索を止めず、保持中pathのrootまで確認します。instanced nodeでは従来どおり
+保持中の1つのpathだけを基準にします。
 
 親変更は `set_parent()` で現在の `MDagModifier` に積みます。
 初期値では local transform を維持するため、親の transform に応じて world transform が変わります。

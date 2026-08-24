@@ -1113,6 +1113,30 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
         tuple[Locator, ...],
     )
     assert_type(unknown_dag.ancestors(), tuple[DAG, ...])
+    assert_type(unknown_dag.ancestors(filter_type=None), tuple[DAG, ...])
+    assert_type(
+        unknown_dag.ancestors(filter_type=nodes.types.DAG),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.ancestors(filter_type=nodes.types.Transform),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.ancestors(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        ),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.ancestors(filter_type=nodes.types.Shape),
+        tuple[Shape, ...],
+    )
+    assert_type(
+        unknown_dag.ancestors(filter_type=nodes.types.Locator),
+        tuple[Locator, ...],
+    )
     assert_type(unknown_dag.descendants(), tuple[DAG, ...])
     assert_type(unknown_dag.descendants(filter_type=None), tuple[DAG, ...])
     assert_type(
@@ -4429,10 +4453,18 @@ def invalid_usage_contract(
     )
     nodes.existing.unknownDag(
         "invalid_filter"
+    ).ancestors(  # pyright: ignore[reportCallIssue]
+        filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag(
+        "invalid_filter"
     ).descendants(  # pyright: ignore[reportCallIssue]
         filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
     )
     nodes.existing.unknownDag("invalid_filter").children(
+        include_subclasses=False  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").ancestors(
         include_subclasses=False  # pyright: ignore[reportArgumentType]
     )
     nodes.existing.unknownDag("invalid_filter").descendants(
