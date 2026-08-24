@@ -355,19 +355,21 @@ filter対象外nodeも探索経路としては残します。例えば`Mesh`だ�
 
 ### 4. 指定したDAGまでの範囲
 
-`ancestors()`とchild chain APIに、`until: DAG | None = None`のような境界引数を
-追加する候補です。境界nodeは結果へ含めるinclusiveな契約を第一候補とします。
-指定したDAGが探索path上に存在しない場合は`None`を返すことで、空tupleと
-「見つからなかった」を区別できます。
+第一段階として、`ancestors(until=...)`を追加しました。直接親から境界nodeまでを
+inclusiveに探索し、指定したDAGが保持中path上に存在しない場合は`None`を返します。
+自分自身は探索対象に含めないため、`until=self`も`None`です。
 
-引数省略時は現在どおり`tuple[DAG, ...]`を返し、境界指定時だけ
-`tuple[DAG, ...] | None`になるoverloadをPyright contractで固定します。比較は
-Python instanceやnode名ではなく`MObject` identityを使います。`ancestors()`では、
-instanced nodeが保持している1つのpath上に境界がなければ、別pathに同じDAGが
-存在しても`None`とします。
+比較はPython instanceやnode名ではなく`MObject` identityを使い、別の`Nodes`や
+`ModifierManager`から取得した同じscene nodeも境界として利用できます。instanced nodeは
+保持中の1つのpathだけを対象とし、別pathに境界が存在しても`None`とします。未実行の
+`MDagModifier`変更は`do_it_dag()`まで認識しません。
 
-実装は、まずShape / type filterの共通仕様を固め、次にchild chain、最後に境界引数を
-追加する順序を候補とします。
+境界検出はtype filterから独立させます。境界がfilterに一致しない場合もそこで探索を
+終了しますが、その境界は結果へ含めません。境界発見後の結果が0件なら空tuple、境界が
+見つからなければ`None`です。引数省略時と`None`は従来の`tuple[T, ...]`、DAG指定時は
+`tuple[T, ...] | None`になるoverloadをPyright contractで固定しました。
+
+次は同じ境界契約を`descendant_chain(until=...)`へ拡張します。
 
 ## 将来の拡張候補
 

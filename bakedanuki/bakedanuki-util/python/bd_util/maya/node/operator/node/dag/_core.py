@@ -224,7 +224,17 @@ class DAG(NodeOperator):
         *,
         filter_type: None = None,
         include_subclasses: Literal[True] = True,
+        until: None = None,
     ) -> tuple["DAG", ...]: ...
+
+    @overload
+    def ancestors(
+        self,
+        *,
+        filter_type: None = None,
+        include_subclasses: Literal[True] = True,
+        until: "DAG | None",
+    ) -> tuple["DAG", ...] | None: ...
 
     @overload
     def ancestors(
@@ -232,14 +242,25 @@ class DAG(NodeOperator):
         *,
         filter_type: type[_DAGType],
         include_subclasses: bool = True,
+        until: None = None,
     ) -> tuple[_DAGType, ...]: ...
+
+    @overload
+    def ancestors(
+        self,
+        *,
+        filter_type: type[_DAGType],
+        include_subclasses: bool = True,
+        until: "DAG | None",
+    ) -> tuple[_DAGType, ...] | None: ...
 
     def ancestors(
         self,
         *,
         filter_type: object = None,
         include_subclasses: object = True,
-    ) -> tuple["DAG", ...]:
+        until: object = None,
+    ) -> tuple["DAG", ...] | None:
         """保持pathの直接親からroot方向へ、条件に一致する祖先を返す。"""
         include_subclasses_value = _require_bool(
             include_subclasses,
@@ -253,8 +274,10 @@ class DAG(NodeOperator):
             if filter_type is None
             else _require_dag_type(filter_type, "filter_type")
         )
+        until_node = None if until is None else _require_dag(until, "until")
         path = om.MDagPath(self._dag_path)
         ancestors: list[DAG] = []
+        until_found = until_node is None
         while path.length():
             path.pop()
             ancestor_obj = path.node()
@@ -267,6 +290,11 @@ class DAG(NodeOperator):
                 include_subclasses_value,
             ):
                 ancestors.append(ancestor)
+            if until_node is not None and ancestor.m_obj == until_node.m_obj:
+                until_found = True
+                break
+        if not until_found:
+            return None
         return tuple(ancestors)
 
     @overload

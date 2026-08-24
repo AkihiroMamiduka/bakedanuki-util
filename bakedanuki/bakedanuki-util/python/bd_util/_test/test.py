@@ -31,8 +31,12 @@ def main():
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    for child in transform_0_a.descendant_chain():
-        logger.debug(child)
-        logger.debug(f"type(child): {type(child)}")
+    ancestors = joint_1_a.ancestors(
+        until=joint_0_a,
+    )
+    if not ancestors:
+        return
 
-    nodes.modifier_manager.do_it_dg()
+    for dag in ancestors:
+        logger.debug(dag)
+        logger.debug(f"type(child): {type(dag)}")

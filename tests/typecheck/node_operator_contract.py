@@ -1082,7 +1082,11 @@ from bd_util.maya.node.operator.node.dag.transform.vortex_field import (
 )
 
 
-def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
+def generic_dag_existing_contract(
+    nodes: bdu.Nodes,
+    until: DAG,
+    optional_until: DAG | None,
+) -> None:
     unknown_dag = nodes.existing.unknownDag("existing_unknown_dag")
 
     assert_type(unknown_dag, UnknownDag)
@@ -1125,6 +1129,15 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(unknown_dag.ancestors(), tuple[DAG, ...])
     assert_type(unknown_dag.ancestors(filter_type=None), tuple[DAG, ...])
+    assert_type(unknown_dag.ancestors(until=None), tuple[DAG, ...])
+    assert_type(
+        unknown_dag.ancestors(until=until),
+        tuple[DAG, ...] | None,
+    )
+    assert_type(
+        unknown_dag.ancestors(until=optional_until),
+        tuple[DAG, ...] | None,
+    )
     assert_type(
         unknown_dag.ancestors(filter_type=nodes.types.DAG),
         tuple[DAG, ...],
@@ -1132,6 +1145,20 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         unknown_dag.ancestors(filter_type=nodes.types.Transform),
         tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.ancestors(
+            filter_type=nodes.types.Transform,
+            until=until,
+        ),
+        tuple[Transform, ...] | None,
+    )
+    assert_type(
+        unknown_dag.ancestors(
+            filter_type=nodes.types.Transform,
+            until=optional_until,
+        ),
+        tuple[Transform, ...] | None,
     )
     assert_type(
         unknown_dag.ancestors(
@@ -4509,6 +4536,11 @@ def invalid_usage_contract(
     )
     nodes.existing.unknownDag("invalid_filter").descendant_chain(
         child_index="0"  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag(
+        "invalid_filter"
+    ).ancestors(  # pyright: ignore[reportCallIssue]
+        until=nodes.types.Transform  # pyright: ignore[reportArgumentType]
     )
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]

@@ -336,6 +336,85 @@ def test_ancestors_returns_direct_parent_to_root_with_concrete_nodes(
     assert shape.ancestors(filter_type=nodes.types.Locator) == ()
 
 
+def test_ancestors_until_is_inclusive_and_filter_independent(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    joint_name = maya_cmds.createNode(
+        "joint",
+        name="joint_parent",
+        parent=root_name,
+    )
+    transform_name = maya_cmds.createNode(
+        "transform",
+        name="transform_parent",
+        parent=joint_name,
+    )
+    shape_name = maya_cmds.createNode(
+        "mesh",
+        name="meshShape",
+        parent=transform_name,
+    )
+    unrelated_name = maya_cmds.createNode(
+        "transform",
+        name="unrelated",
+    )
+    nodes = bdu.Nodes()
+    shape = nodes.existing.mesh(shape_name)
+    joint = nodes.existing.joint(joint_name)
+    transform = nodes.existing.transform(transform_name)
+    unrelated = nodes.existing.transform(unrelated_name)
+    root_from_other_nodes = bdu.Nodes().existing.transform(root_name)
+
+    to_joint = shape.ancestors(until=joint)
+    to_root = shape.ancestors(until=root_from_other_nodes)
+
+    assert to_joint is not None
+    assert tuple(ancestor.name for ancestor in to_joint) == (
+        "transform_parent",
+        "joint_parent",
+    )
+    assert to_root is not None
+    assert tuple(ancestor.name for ancestor in to_root) == (
+        "transform_parent",
+        "joint_parent",
+        "root",
+    )
+    assert all(
+        ancestor.modifier_manager is nodes.modifier_manager
+        for ancestor in to_root
+    )
+    assert root_from_other_nodes.modifier_manager is not nodes.modifier_manager
+    assert tuple(
+        ancestor.name
+        for ancestor in shape.ancestors(
+            filter_type=nodes.types.Joint,
+            until=root_from_other_nodes,
+        )
+    ) == ("joint_parent",)
+    assert (
+        shape.ancestors(
+            filter_type=nodes.types.Joint,
+            until=transform,
+        )
+        == ()
+    )
+    assert tuple(
+        ancestor.name
+        for ancestor in shape.ancestors(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+            until=joint,
+        )
+    ) == ("transform_parent",)
+    assert shape.ancestors(until=unrelated) is None
+    assert shape.ancestors(until=shape) is None
+    assert root_from_other_nodes.ancestors(until=root_from_other_nodes) is None
+
+
 def test_ancestors_rejects_non_dag_filter_type(new_scene, maya_cmds):
     import bd_util as bdu
 
@@ -362,6 +441,19 @@ def test_ancestors_rejects_non_dag_filter_type(new_scene, maya_cmds):
             child.ancestors(filter_type=filter_type)
 
 
+def test_ancestors_rejects_non_dag_until(new_scene, maya_cmds):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    dg_node = nodes.create.composeMatrix(name="compose_matrix")
+
+    for until in ("root", nodes.types.Transform, dg_node, object()):
+        with pytest.raises(TypeError, match="until must be DAG"):
+            root.ancestors(until=until)
+
+
 def test_ancestors_reads_executed_scene_state_without_cache(
     new_scene,
     maya_cmds,
@@ -381,6 +473,7 @@ def test_ancestors_reads_executed_scene_state_without_cache(
     root.set_parent(pending_root)
 
     assert tuple(ancestor.name for ancestor in child.ancestors()) == ("root",)
+    assert child.ancestors(until=pending_root) is None
 
     nodes.modifier_manager.do_it_dag()
 
@@ -389,6 +482,9 @@ def test_ancestors_reads_executed_scene_state_without_cache(
         "root",
         "pending_root",
     )
+    assert tuple(
+        ancestor.name for ancestor in child.ancestors(until=pending_root)
+    ) == ("root", "pending_root")
 
     external_root_name = maya_cmds.createNode(
         "transform",
@@ -445,6 +541,18 @@ def test_ancestors_uses_held_path_for_instanced_node(
         ancestor.modifier_manager is nodes.modifier_manager
         for ancestor in ancestors
     )
+    selected_parent_name = expected_ancestor_names[0]
+    other_parent_name = (
+        parent_b_name
+        if selected_parent_name == parent_a_name
+        else parent_a_name
+    )
+    selected_parent = nodes.existing.transform(selected_parent_name)
+    other_parent = nodes.existing.transform(other_parent_name)
+    assert tuple(
+        ancestor.name for ancestor in child.ancestors(until=selected_parent)
+    ) == (selected_parent_name,)
+    assert child.ancestors(until=other_parent) is None
 
 
 def test_descendants_returns_depth_first_pre_order_with_concrete_nodes(

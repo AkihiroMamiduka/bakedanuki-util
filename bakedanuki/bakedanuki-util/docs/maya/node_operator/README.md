@@ -478,6 +478,8 @@ child index順で返します。自分自身、world、孫は含めません。
 `DAG.ancestors()` は保持中のpathを基準に、直接の親からroot方向へ返します。
 自分自身とworldは含めません。`filter_type=`を指定した場合もrootまで辿り、
 一致した祖先だけを同じ順序で返します。
+`until=`へDAGを指定すると、その境界までを探索し、境界が保持中pathになければ`None`を
+返します。
 `DAG.descendants()` は各階層のchild index順を維持したdepth-first pre-orderで、
 すべての子孫を返します。自分自身とworldは含めません。
 `filter_type=`を指定した場合も探索範囲は変えず、一致した子孫だけを結果へ含めます。
@@ -497,6 +499,7 @@ exact_transform_children = parent.children(
 shape_children = parent.children(filter_type=nodes.types.Shape)
 locator_children = parent.children(filter_type=nodes.types.Locator)
 ancestors = child.ancestors()
+ancestors_to_root = child.ancestors(until=root)
 transform_ancestors = child.ancestors(filter_type=nodes.types.Transform)
 exact_transform_ancestors = child.ancestors(
     filter_type=nodes.types.Transform,
@@ -551,6 +554,18 @@ filterを指定しない場合と同じです。
 `ancestors()`のfilterも結果だけに適用します。途中の祖先が条件に一致しなくても、
 そこで探索を止めず、保持中pathのrootまで確認します。instanced nodeでは従来どおり
 保持中の1つのpathだけを基準にします。
+
+`ancestors(until=boundary)`は直接親から境界までをinclusiveに探索します。境界は
+Python instanceや名前ではなく`MObject` identityで比較するため、別の`Nodes`や
+`ModifierManager`から取得した同じscene nodeも指定できます。境界が保持中pathに
+存在しなければ、途中までの結果ではなく`None`を返します。自分自身は祖先ではないため、
+`until=self`も`None`です。
+
+`until`による境界検出と`filter_type`による結果filterは独立しています。境界がfilterに
+一致しなくても発見済みとして探索を終了し、その境界だけを結果から除外します。
+この場合、境界が見つかってfilter結果が0件なら空tuple、境界自体が見つからなければ
+`None`です。`until`省略時または`None`では従来どおりtupleを返し、DAG指定時は
+`tuple[T, ...] | None`となるoverloadを公開します。
 
 `descendant_chain()`は`descendants()`とは異なる探索規則を持つ独立メソッドです。
 例えば`child_index=1`なら、rootでも次の階層でもindex 1だけを選びます。ある階層に
