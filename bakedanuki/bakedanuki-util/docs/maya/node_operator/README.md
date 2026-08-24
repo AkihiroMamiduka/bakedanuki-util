@@ -481,6 +481,8 @@ child index順で返します。自分自身、world、孫は含めません。
 `DAG.descendants()` は各階層のchild index順を維持したdepth-first pre-orderで、
 すべての子孫を返します。自分自身とworldは含めません。
 `filter_type=`を指定した場合も探索範囲は変えず、一致した子孫だけを結果へ含めます。
+`DAG.descendant_chain(child_index=0)`は、各階層で同じchild indexの子だけを選び、
+そのindexの子が存在しなくなるまで返します。自分自身とworldは含めません。
 
 ```python
 parent = child.parent
@@ -511,10 +513,13 @@ exact_transform_descendants = parent.descendants(
 )
 shape_descendants = parent.descendants(filter_type=nodes.types.Shape)
 mesh_descendants = parent.descendants(filter_type=nodes.types.Mesh)
+first_child_chain = parent.descendant_chain()
+second_child_chain = parent.descendant_chain(child_index=1)
 is_instanced = child.is_instanced
 ```
 
-`children()` / `ancestors()` / `descendants()` の各要素はscene上のnode typeに
+`children()` / `ancestors()` / `descendants()` / `descendant_chain()` の各要素は
+scene上のnode typeに
 対応する具体的な`DAG`系
 `NodeOperator`で、元のnodeと同じ`ModifierManager`を共有します。結果はcacheせず、
 呼び出すたびに現在のsceneから取得します。同じ`ModifierManager`に積まれていても、
@@ -546,6 +551,12 @@ filterを指定しない場合と同じです。
 `ancestors()`のfilterも結果だけに適用します。途中の祖先が条件に一致しなくても、
 そこで探索を止めず、保持中pathのrootまで確認します。instanced nodeでは従来どおり
 保持中の1つのpathだけを基準にします。
+
+`descendant_chain()`は`descendants()`とは異なる探索規則を持つ独立メソッドです。
+例えば`child_index=1`なら、rootでも次の階層でもindex 1だけを選びます。ある階層に
+index 1が存在しなければ、index 0などへfallbackせず、そこで終了します。Transformと
+Shapeを区別せずに選択し、選ばれたShapeも結果へ含めます。`child_index`は0以上のintだけを
+受け取り、boolなどの非intは`TypeError`、負数は`ValueError`にします。
 
 親変更は `set_parent()` で現在の `MDagModifier` に積みます。
 初期値では local transform を維持するため、親の transform に応じて world transform が変わります。

@@ -31,13 +31,8 @@ def main():
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    for i, child in enumerate(
-        transform_0_a.descendants(
-            include_shapes=False,
-        )
-    ):
+    for child in transform_0_a.descendant_chain():
         logger.debug(child)
         logger.debug(f"type(child): {type(child)}")
-        child.translate.set(1 * i, 2 * i, 3 * i)
 
     nodes.modifier_manager.do_it_dg()

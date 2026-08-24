@@ -330,6 +330,39 @@ class DAG(NodeOperator):
             stack.extend(reversed(descendant.children()))
         return tuple(descendants)
 
+    @overload
+    def descendant_chain(self) -> tuple["DAG", ...]: ...
+
+    @overload
+    def descendant_chain(
+        self,
+        child_index: int,
+    ) -> tuple["DAG", ...]: ...
+
+    def descendant_chain(
+        self,
+        child_index: object = 0,
+    ) -> tuple["DAG", ...]:
+        """各階層で同じchild indexを選び、末端まで返す。"""
+        if isinstance(child_index, bool) or not isinstance(child_index, int):
+            raise TypeError(
+                f"child_index must be int; got {type(child_index).__name__}"
+            )
+        if child_index < 0:
+            raise ValueError(
+                f"child_index must be non-negative; got {child_index}"
+            )
+
+        chain: list[DAG] = []
+        current = self
+        while True:
+            fn_dag = om.MFnDagNode(current.m_obj)
+            if child_index >= fn_dag.childCount():
+                break
+            current = self._wrap_existing_dag(fn_dag.child(child_index))
+            chain.append(current)
+        return tuple(chain)
+
     def _wrap_existing_dag(self, m_obj: om.MObject) -> "DAG":
         from ....existing_node import ExistingNode
 

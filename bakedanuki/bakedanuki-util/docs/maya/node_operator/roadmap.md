@@ -343,13 +343,15 @@ filter対象外nodeも探索経路としては残します。例えば`Mesh`だ�
 
 ### 3. child indexを固定した末端までのchain
 
-各階層で同じchild indexだけを選び、子が存在しなくなるまで辿るAPIを検討します。
-これは全子孫を列挙する`descendants()`とは探索規則が異なるため、同メソッドへ
-`first_child_only=True`のようなmodeを追加するより、別メソッドを第一候補とします。
+`descendant_chain(child_index: int = 0)`を追加しました。全子孫を列挙する
+`descendants()`へmodeを追加せず、探索規則が異なる独立メソッドとしています。
+各階層で同じchild indexだけを選び、そのindexの子が存在しない時点で終了します。
+別indexへのfallbackは行わず、自分自身とworldは含めません。
 
-候補名は`descendant_chain(child_index: int = 0)`です。自分自身は含めず、指定indexの
-子が存在しない時点で終了します。最初はindex 0専用として始める場合は、より明示的な
-`first_child_chain()`も候補です。
+結果はscene上のnode typeに対応する具体的な`DAG`系`NodeOperator`で、元nodeと同じ
+`ModifierManager`を共有します。結果はcacheせず、未実行の`MDagModifier`変更は
+`do_it_dag()`まで含めません。`child_index`は0以上のintとし、boolなどの非intと負数を
+区別して拒否します。
 
 ### 4. 指定したDAGまでの範囲
 

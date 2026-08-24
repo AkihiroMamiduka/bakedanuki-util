@@ -835,3 +835,159 @@ def test_descendants_revisits_instanced_subtree_for_each_dag_path(
         "instancedShape",
     )
     assert meshes[0].m_obj == meshes[1].m_obj
+
+
+def test_descendant_chain_uses_same_child_index_at_each_level(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+    from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
+    from bd_util.maya.node.operator.node.dag.transform._core import Transform
+    from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    branch_0_name = maya_cmds.createNode(
+        "transform",
+        name="branch_0",
+        parent=root_name,
+    )
+    branch_1_name = maya_cmds.createNode(
+        "joint",
+        name="branch_1",
+        parent=root_name,
+    )
+    branch_0_0_name = maya_cmds.createNode(
+        "joint",
+        name="branch_0_0",
+        parent=branch_0_name,
+    )
+    maya_cmds.createNode(
+        "transform",
+        name="branch_0_1",
+        parent=branch_0_name,
+    )
+    mesh_0_name = maya_cmds.createNode(
+        "mesh",
+        name="mesh_0Shape",
+        parent=branch_0_0_name,
+    )
+    maya_cmds.createNode(
+        "transform",
+        name="branch_1_0",
+        parent=branch_1_name,
+    )
+    branch_1_1_name = maya_cmds.createNode(
+        "transform",
+        name="branch_1_1",
+        parent=branch_1_name,
+    )
+    maya_cmds.createNode(
+        "mesh",
+        name="mesh_1Shape",
+        parent=branch_1_1_name,
+    )
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+
+    first_child_chain = root.descendant_chain()
+    second_child_chain = root.descendant_chain(child_index=1)
+
+    assert tuple(type(node) for node in first_child_chain) == (
+        Transform,
+        Joint,
+        Mesh,
+    )
+    assert tuple(node.name for node in first_child_chain) == (
+        "branch_0",
+        "branch_0_0",
+        "mesh_0Shape",
+    )
+    assert tuple(type(node) for node in second_child_chain) == (
+        Joint,
+        Transform,
+    )
+    assert tuple(node.name for node in second_child_chain) == (
+        "branch_1",
+        "branch_1_1",
+    )
+    assert all(
+        node.modifier_manager is nodes.modifier_manager
+        for node in first_child_chain + second_child_chain
+    )
+    assert root.descendant_chain(child_index=2) == ()
+    assert nodes.existing.mesh(mesh_0_name).descendant_chain() == ()
+
+
+def test_descendant_chain_reads_executed_scene_state_without_cache(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    pending_child = nodes.create.transform(
+        name="pending_child",
+        parent=root,
+    )
+    nodes.create.joint(
+        name="pending_grandchild",
+        parent=pending_child,
+    )
+
+    assert root.descendant_chain() == ()
+
+    nodes.modifier_manager.do_it_dag()
+
+    first_result = root.descendant_chain()
+    assert tuple(node.name for node in first_result) == (
+        "pending_child",
+        "pending_grandchild",
+    )
+
+    maya_cmds.createNode(
+        "mesh",
+        name="externalShape",
+        parent="pending_grandchild",
+    )
+
+    second_result = root.descendant_chain()
+    assert tuple(node.name for node in second_result) == (
+        "pending_child",
+        "pending_grandchild",
+        "externalShape",
+    )
+    assert second_result is not first_result
+
+
+@pytest.mark.parametrize(
+    "child_index",
+    (None, True, False, 0.0, "0"),
+)
+def test_descendant_chain_rejects_non_int_child_index(
+    new_scene,
+    maya_cmds,
+    child_index,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    root = bdu.Nodes().existing.transform(root_name)
+
+    with pytest.raises(TypeError, match="child_index must be int"):
+        root.descendant_chain(child_index=child_index)
+
+
+def test_descendant_chain_rejects_negative_child_index(new_scene, maya_cmds):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    root = bdu.Nodes().existing.transform(root_name)
+
+    with pytest.raises(
+        ValueError,
+        match="child_index must be non-negative",
+    ):
+        root.descendant_chain(child_index=-1)
