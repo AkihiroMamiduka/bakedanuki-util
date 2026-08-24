@@ -319,7 +319,11 @@ PascalCase属性は具体的な`type[T]`をstubで公開し、実classはアク�
 しました。filterは`isinstance()`に基づくため、`Transform`を指定すると`Joint`などの
 派生型も含まれます。引数省略時と`None`は従来どおり`tuple[DAG, ...]`、
 `type[T]`指定時は`tuple[T, ...]`としてPyright contractを固定しています。
-次は同じclass filterを、探索経路をpruneしない形で`descendants()`へ拡張します。
+
+第二段階として、同じclass filterを`descendants(filter_type=...)`へ拡張しました。
+filterは結果だけに適用し、対象外nodeのsubtreeをpruneしません。depth-first pre-order、
+instanced subtreeのpathごとの再訪、具体型と`ModifierManager`共有、実行済みscene状態を
+都度取得する契約を維持します。次は`ancestors()`へ同じ型filterを拡張します。
 
 filter対象外nodeも探索経路としては残します。例えば`Mesh`だけを要求した場合も、
 途中の`Transform`で探索を止めません。Maya node type文字列やexact type判定は、

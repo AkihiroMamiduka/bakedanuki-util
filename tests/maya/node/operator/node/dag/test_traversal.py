@@ -400,6 +400,100 @@ def test_descendants_returns_depth_first_pre_order_with_concrete_nodes(
     assert shape.descendants() == ()
 
 
+def test_descendants_filters_results_without_pruning_subtrees(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+    from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
+    from bd_util.maya.node.operator.node.dag.transform._core import Transform
+    from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+    from bd_util.maya.node.operator.node.dag.unknown_dag import UnknownDag
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    branch_a_name = maya_cmds.createNode(
+        "transform",
+        name="branch_a",
+        parent=root_name,
+    )
+    maya_cmds.createNode("mesh", name="meshAShape", parent=branch_a_name)
+    branch_b_name = maya_cmds.createNode(
+        "joint",
+        name="branch_b",
+        parent=root_name,
+    )
+    nested_name = maya_cmds.createNode(
+        "transform",
+        name="nested",
+        parent=branch_b_name,
+    )
+    maya_cmds.createNode("mesh", name="meshBShape", parent=nested_name)
+    maya_cmds.createNode(
+        "unknownDag",
+        name="unknown_child",
+        parent=root_name,
+    )
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+
+    assert tuple(
+        type(descendant) for descendant in root.descendants(filter_type=None)
+    ) == (Transform, Mesh, Joint, Transform, Mesh, UnknownDag)
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(filter_type=nodes.types.DAG)
+    ) == (
+        "branch_a",
+        "meshAShape",
+        "branch_b",
+        "nested",
+        "meshBShape",
+        "unknown_child",
+    )
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(filter_type=nodes.types.Transform)
+    ) == ("branch_a", "branch_b", "nested")
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(filter_type=nodes.types.Shape)
+    ) == ("meshAShape", "meshBShape")
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(filter_type=nodes.types.Mesh)
+    ) == ("meshAShape", "meshBShape")
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(filter_type=nodes.types.Joint)
+    ) == ("branch_b",)
+    assert tuple(
+        descendant.name
+        for descendant in root.descendants(filter_type=nodes.types.UnknownDag)
+    ) == ("unknown_child",)
+    assert root.descendants(filter_type=nodes.types.Locator) == ()
+
+
+def test_descendants_rejects_non_dag_filter_type(new_scene, maya_cmds):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+
+    invalid_filter_types = (
+        nodes.types.NodeOperator,
+        nodes.types.PlusMinusAverage,
+        root,
+        (nodes.types.Transform, nodes.types.Shape),
+    )
+    for filter_type in invalid_filter_types:
+        with pytest.raises(
+            TypeError,
+            match="filter_type must be a DAG NodeOperator class",
+        ):
+            root.descendants(filter_type=filter_type)
+
+
 def test_descendants_reads_executed_scene_state_without_cache(
     new_scene,
     maya_cmds,
@@ -516,3 +610,10 @@ def test_descendants_revisits_instanced_subtree_for_each_dag_path(
         descendant.modifier_manager is nodes.modifier_manager
         for descendant in descendants
     )
+
+    meshes = root.descendants(filter_type=nodes.types.Mesh)
+    assert tuple(mesh.name for mesh in meshes) == (
+        "instancedShape",
+        "instancedShape",
+    )
+    assert meshes[0].m_obj == meshes[1].m_obj

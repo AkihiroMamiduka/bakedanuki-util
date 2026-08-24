@@ -180,13 +180,37 @@ class DAG(NodeOperator):
             ancestors.append(self._wrap_existing_dag(ancestor_obj))
         return tuple(ancestors)
 
-    def descendants(self) -> tuple["DAG", ...]:
-        """すべての子孫をdepth-first pre-orderで返す。"""
+    @overload
+    def descendants(
+        self,
+        *,
+        filter_type: None = None,
+    ) -> tuple["DAG", ...]: ...
+
+    @overload
+    def descendants(
+        self,
+        *,
+        filter_type: type[_DAGType],
+    ) -> tuple[_DAGType, ...]: ...
+
+    def descendants(
+        self,
+        *,
+        filter_type: object = None,
+    ) -> tuple["DAG", ...]:
+        """条件に一致する子孫をdepth-first pre-orderで返す。"""
+        dag_type = (
+            None
+            if filter_type is None
+            else _require_dag_type(filter_type, "filter_type")
+        )
         descendants: list[DAG] = []
         stack = list(reversed(self.children()))
         while stack:
             descendant = stack.pop()
-            descendants.append(descendant)
+            if dag_type is None or isinstance(descendant, dag_type):
+                descendants.append(descendant)
             stack.extend(reversed(descendant.children()))
         return tuple(descendants)
 

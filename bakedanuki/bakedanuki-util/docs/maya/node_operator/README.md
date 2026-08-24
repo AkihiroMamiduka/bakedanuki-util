@@ -475,6 +475,7 @@ child index順で返します。自分自身、world、孫は含めません。
 自分自身とworldは含めません。
 `DAG.descendants()` は各階層のchild index順を維持したdepth-first pre-orderで、
 すべての子孫を返します。自分自身とworldは含めません。
+`filter_type=`を指定した場合も探索範囲は変えず、一致した子孫だけを結果へ含めます。
 
 ```python
 parent = child.parent
@@ -485,6 +486,11 @@ shape_children = parent.children(filter_type=nodes.types.Shape)
 locator_children = parent.children(filter_type=nodes.types.Locator)
 ancestors = child.ancestors()
 descendants = parent.descendants()
+transform_descendants = parent.descendants(
+    filter_type=nodes.types.Transform,
+)
+shape_descendants = parent.descendants(filter_type=nodes.types.Shape)
+mesh_descendants = parent.descendants(filter_type=nodes.types.Mesh)
 is_instanced = child.is_instanced
 ```
 
@@ -494,11 +500,17 @@ is_instanced = child.is_instanced
 呼び出すたびに現在のsceneから取得します。同じ`ModifierManager`に積まれていても、
 未実行の`MDagModifier`による作成・親変更は`do_it_dag()`まで含めません。
 
-`children(filter_type=...)` は継承関係を考慮します。例えば`Transform`には`Joint`などの
-派生classも含まれ、`Shape`にはconcrete shapeが含まれます。戻り値型は
+`children(filter_type=...)` / `descendants(filter_type=...)` は継承関係を考慮します。
+例えば`Transform`には`Joint`などの派生classも含まれ、`Shape`にはconcrete shapeが
+含まれます。戻り値型は
 `nodes.types.Locator`を渡した場合に`tuple[Locator, ...]`となるよう、
 `type[T]`とoverloadで公開します。DG系class、NodeOperator instance、複数classの
 tupleは受け取らず、`TypeError`にします。
+
+`descendants()`のfilterは結果だけに適用します。例えば`Mesh`を指定した場合、途中の
+`Transform`は結果へ含めませんが、そのsubtreeは探索し、末端の`Mesh`を返します。
+列挙順、instanced subtreeのpathごとの再訪、実行済みscene状態を都度読む契約は、
+filterを指定しない場合と同じです。
 
 親変更は `set_parent()` で現在の `MDagModifier` に積みます。
 初期値では local transform を維持するため、親の transform に応じて world transform が変わります。
