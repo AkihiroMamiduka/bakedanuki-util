@@ -315,6 +315,12 @@ PascalCase属性は具体的な`type[T]`をstubで公開し、実classはアク�
 `NodeOperator` / `DAG` / `Shape` / `BaseGeometryVarGroup` の基底classも参照できます。
 動的なMaya node type名には `nodes.types.resolve("locator")` を使用します。
 
+第一段階として、`children(filter_type=...)`へ単一のDAG系Python classを渡せるように
+しました。filterは`isinstance()`に基づくため、`Transform`を指定すると`Joint`などの
+派生型も含まれます。引数省略時と`None`は従来どおり`tuple[DAG, ...]`、
+`type[T]`指定時は`tuple[T, ...]`としてPyright contractを固定しています。
+次は同じclass filterを、探索経路をpruneしない形で`descendants()`へ拡張します。
+
 filter対象外nodeも探索経路としては残します。例えば`Mesh`だけを要求した場合も、
 途中の`Transform`で探索を止めません。Maya node type文字列やexact type判定は、
 実際の用途が必要になった段階で別optionとして検討します。

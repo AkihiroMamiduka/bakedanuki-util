@@ -1088,6 +1088,23 @@ def generic_dag_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(unknown_dag, UnknownDag)
     assert_type(unknown_dag.visibility, BoolPlugOperator)
     assert_type(unknown_dag.children(), tuple[DAG, ...])
+    assert_type(unknown_dag.children(filter_type=None), tuple[DAG, ...])
+    assert_type(
+        unknown_dag.children(filter_type=nodes.types.DAG),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.children(filter_type=nodes.types.Transform),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.children(filter_type=nodes.types.Shape),
+        tuple[Shape, ...],
+    )
+    assert_type(
+        unknown_dag.children(filter_type=nodes.types.Locator),
+        tuple[Locator, ...],
+    )
     assert_type(unknown_dag.ancestors(), tuple[DAG, ...])
     assert_type(unknown_dag.descendants(), tuple[DAG, ...])
 
@@ -4374,6 +4391,11 @@ def invalid_usage_contract(
     )
     nodes.create.mesh()  # pyright: ignore[reportCallIssue]
     nodes.existing.decomposeMatrix(123)  # pyright: ignore[reportArgumentType]
+    nodes.existing.unknownDag(
+        "invalid_filter"
+    ).children(  # pyright: ignore[reportCallIssue]
+        filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
+    )
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]
     nodes.create.wtAddMatrix().wtMatrix[

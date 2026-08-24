@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Self
+from typing import overload, Self, TypeVar
 
 # maya
 from maya.api import OpenMaya as om
@@ -9,11 +9,28 @@ from ....modifier import ModifierManager
 from .....transform import TransformMatrix
 from .._core import NodeOperator, DEFAULT_VALUE_AUTO_ADD_ATTR
 
+_DAGType = TypeVar("_DAGType", bound="DAG")
+
 
 def _require_dag(value: object, argument_name: str) -> "DAG":
     if not isinstance(value, DAG):
         raise TypeError(
             f"{argument_name} must be DAG; got {type(value).__name__}"
+        )
+    return value
+
+
+def _require_dag_type(
+    value: object,
+    argument_name: str,
+) -> type["DAG"]:
+    if not isinstance(value, type) or not issubclass(value, DAG):
+        value_name = (
+            value.__name__ if isinstance(value, type) else type(value).__name__
+        )
+        raise TypeError(
+            f"{argument_name} must be a DAG NodeOperator class; "
+            f"got {value_name}"
         )
     return value
 
@@ -118,12 +135,37 @@ class DAG(NodeOperator):
             parents.append(self._wrap_existing_dag(parent_obj))
         return tuple(parents)
 
-    def children(self) -> tuple["DAG", ...]:
-        """Mayaのchild index順で、すべての直接の子を返す。"""
+    @overload
+    def children(
+        self,
+        *,
+        filter_type: None = None,
+    ) -> tuple["DAG", ...]: ...
+
+    @overload
+    def children(
+        self,
+        *,
+        filter_type: type[_DAGType],
+    ) -> tuple[_DAGType, ...]: ...
+
+    def children(
+        self,
+        *,
+        filter_type: object = None,
+    ) -> tuple["DAG", ...]:
+        """Mayaのchild index順で、条件に一致する直接の子を返す。"""
         fn_dag = om.MFnDagNode(self.m_obj)
-        return tuple(
+        children = tuple(
             self._wrap_existing_dag(fn_dag.child(index))
             for index in range(fn_dag.childCount())
+        )
+        if filter_type is None:
+            return children
+
+        dag_type = _require_dag_type(filter_type, "filter_type")
+        return tuple(
+            child for child in children if isinstance(child, dag_type)
         )
 
     def ancestors(self) -> tuple["DAG", ...]:

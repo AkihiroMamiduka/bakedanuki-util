@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import annotations
 
+import pytest
+
 
 def test_children_returns_direct_concrete_nodes_in_child_index_order(
     new_scene,
@@ -129,6 +131,69 @@ def test_children_supports_instanced_child_with_mobject_semantics(
     assert child_from_b.is_instanced is True
     assert child_from_a.modifier_manager is nodes.modifier_manager
     assert child_from_b.modifier_manager is nodes.modifier_manager
+
+
+def test_children_filters_by_dag_class_with_inheritance(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+    from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
+    from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+    from bd_util.maya.node.operator.node.dag.unknown_dag import UnknownDag
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    maya_cmds.createNode("joint", name="joint_child", parent=root_name)
+    maya_cmds.createNode("mesh", name="meshShape", parent=root_name)
+    maya_cmds.createNode(
+        "unknownDag",
+        name="unknown_child",
+        parent=root_name,
+    )
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+
+    assert tuple(type(child) for child in root.children(filter_type=None)) == (
+        Joint,
+        Mesh,
+        UnknownDag,
+    )
+    assert tuple(
+        type(child) for child in root.children(filter_type=nodes.types.DAG)
+    ) == (Joint, Mesh, UnknownDag)
+    assert tuple(
+        child.name
+        for child in root.children(filter_type=nodes.types.Transform)
+    ) == ("joint_child",)
+    assert tuple(
+        child.name for child in root.children(filter_type=nodes.types.Shape)
+    ) == ("meshShape",)
+    assert tuple(
+        child.name
+        for child in root.children(filter_type=nodes.types.UnknownDag)
+    ) == ("unknown_child",)
+    assert root.children(filter_type=nodes.types.Locator) == ()
+
+
+def test_children_rejects_non_dag_filter_type(new_scene, maya_cmds):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+
+    invalid_filter_types = (
+        nodes.types.NodeOperator,
+        nodes.types.PlusMinusAverage,
+        root,
+        (nodes.types.Transform, nodes.types.Shape),
+    )
+    for filter_type in invalid_filter_types:
+        with pytest.raises(
+            TypeError,
+            match="filter_type must be a DAG NodeOperator class",
+        ):
+            root.children(filter_type=filter_type)
 
 
 def test_ancestors_returns_direct_parent_to_root_with_concrete_nodes(

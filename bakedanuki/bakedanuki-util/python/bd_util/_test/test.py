@@ -17,13 +17,15 @@ def main():
     joint_0_b = nodes.create.joint(name="jnt_0_b", parent=transform_0_a)
     _ = nodes.create.transform(name="trsf_1_b", parent=joint_0_b)
 
-    logger.debug(f"transform_0_a.descendants(): {transform_0_a.descendants()}")
+    logger.debug(f"transform_0_a.children(): {transform_0_a.children()}")
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    logger.debug(f"transform_0_a.descendants(): {transform_0_a.descendants()}")
-    for i, child in enumerate(transform_0_a.descendants()):
+    logger.debug(f"transform_0_a.children(): {transform_0_a.children()}")
+    for i, child in enumerate(
+        transform_0_a.children(filter_type=nodes.types.Joint)
+    ):
         if not isinstance(child, nodes.types.Joint):
             continue
         logger.debug(child)
