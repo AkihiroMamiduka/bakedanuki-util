@@ -18,16 +18,19 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
     __slots__ = ()
 
     # get
-    def get(self) -> om.MMatrix | None:
+    def get(self) -> TransformMatrix | None:
         try:
-            return self.transform_matrix.matrix
+            return TransformMatrix(self.plug)
         except ValueError:
             return None
 
-    @property
-    def transform_matrix(self) -> TransformMatrix:
-        """現在の plug 値を TransformMatrix のスナップショットで返す。"""
-        return TransformMatrix(self.plug)
+    def _require_value(self) -> TransformMatrix:
+        value = self.get()
+        if value is None:
+            raise ValueError(
+                f"Plug does not contain a matrix value: {self.plug.name()}"
+            )
+        return value
 
     @property
     def transformation_matrix(self) -> om.MTransformationMatrix | None:
@@ -38,47 +41,51 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
             om.MTransformationMatrix | None:
                 om.MTransformationMatrix 形式の値。matrix data が未設定なら None。
         """
-        matrix = self.get()
-        if matrix is None:
+        value = self.get()
+        if value is None:
             return None
-        return om.MTransformationMatrix(matrix)
+        return value.transformation_matrix
 
     @property
     def translate(self) -> tuple[float, float, float]:
-        return self.transform_matrix.translate
+        return self._require_value().translate
 
     @property
     def rotate(self) -> tuple[float, float, float]:
-        return self.transform_matrix.rotate
+        return self._require_value().rotate
 
     def get_rotate(
         self,
         order: RotationOrder = "xyz",
     ) -> tuple[float, float, float]:
-        return self.transform_matrix.get_rotate(order=order)
+        return self._require_value().get_rotate(order=order)
 
     @property
     def scale(self) -> tuple[float, float, float]:
-        return self.transform_matrix.scale
+        return self._require_value().scale
 
     @property
     def shear(self) -> tuple[float, float, float]:
-        return self.transform_matrix.shear
+        return self._require_value().shear
 
     @property
     def quat(self) -> tuple[float, float, float, float]:
-        return self.transform_matrix.quat
+        return self._require_value().quat
 
     # set
-    def set_direct(self, value: om.MMatrix):
+    def set_direct(
+        self,
+        value: TransformMatrix | om.MMatrix | om.MTransformationMatrix,
+    ) -> None:
         """
         MPlug に値を直接セットする
             その為、modifier.undoIt() 非対応です
 
         Args:
-            value (om.MMatrix): om.MMatrix 形式の値
+            value:
+                TransformMatrix、MMatrix、または MTransformationMatrix。
         """
-        matrix = om.MMatrix(value)
+        matrix = TransformMatrix(value).matrix
         matrix_obj = om.MFnMatrixData().create(matrix)
         self.plug.setMObject(matrix_obj)
 

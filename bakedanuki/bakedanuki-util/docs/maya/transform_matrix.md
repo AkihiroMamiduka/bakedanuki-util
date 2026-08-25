@@ -66,7 +66,7 @@ transformation_matrix = tm.transformation_matrix
 
 ## Matrix plug からの取得
 
-`DataMatrixPlugOperator` は、現在の plug 値を `TransformMatrix` として取得できます。
+`MatrixPlugOperator.get()` と `DataMatrixPlugOperator.get()` は、現在の plug 値を `TransformMatrix` のスナップショットとして取得します。
 
 ```python
 import bd_util as bdu
@@ -75,7 +75,12 @@ nodes = bdu.Nodes()
 node = nodes.existing.transform("test")
 world_matrix = node.worldMatrix[0]
 
-tm = world_matrix.transform_matrix
+tm = world_matrix.get()
+if tm is None:
+    raise ValueError("worldMatrix does not contain a matrix value")
+
+matrix = tm.matrix
+transformation_matrix = tm.transformation_matrix
 translate = world_matrix.translate
 rotate = world_matrix.rotate
 rotate_zyx = world_matrix.get_rotate(order="zyx")
@@ -84,20 +89,44 @@ shear = world_matrix.shear
 quat = world_matrix.quat
 ```
 
-各プロパティはアクセス時点の plug 値から、新しい `TransformMatrix` のスナップショットを作ります。複数成分を同じ評価時点の値として扱う場合は、`transform_matrix` を一度取得してから各成分へアクセスします。
+`DataMatrixPlugOperator` の各成分プロパティも、アクセス時点の plug 値から新しいスナップショットを作ります。複数成分を同じ評価時点の値として扱う場合は、`get()` を一度実行してから各成分へアクセスします。
 
 ```python
-tm = node.worldMatrix[0].transform_matrix
+tm = node.worldMatrix[0].get()
+if tm is None:
+    raise ValueError("worldMatrix does not contain a matrix value")
+
 translate = tm.translate
 rotate = tm.rotate
 scale = tm.scale
 ```
 
-既存の `get()` は `MMatrix`、`transformation_matrix` は `MTransformationMatrix` を返します。未設定のtyped matrix plugはmatrix data自体を持たないため、この2つは `None` を返します。分解には実体が必要なので、同じ状態で `transform_matrix` や各成分へアクセスすると `ValueError` を送出します。
+`MatrixPlugOperator.get()` は常に `TransformMatrix` を返します。未設定のtyped matrix plugはmatrix data自体を持たないため、`DataMatrixPlugOperator.get()` と plugの `transformation_matrix` は `None` を返します。同じ状態で各成分へアクセスすると `ValueError` を送出します。
+
+## Matrix plug への設定
+
+`MatrixPlugOperator.set()` と `DataMatrixPlugOperator.set_direct()` は、`TransformMatrix` / `MMatrix` / `MTransformationMatrix` を受け取ります。
+
+```python
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+src_node = nodes.existing.transform("src")
+mult_matrix = nodes.create.multMatrix(name="mult_matrix")
+
+src_world = src_node.worldMatrix[0].get()
+if src_world is None:
+    raise ValueError("worldMatrix does not contain a matrix value")
+
+mult_matrix.matrixIn[0].set(src_world)
+mod.do_it_dg()
+```
+
+typed matrix plugの `set_direct()` は即時反映され、`ModifierManager` の undo / redo履歴には入りません。
 
 ## 行列積
 
-`TransformMatrix` 同士を `*` で乗算すると、新しい `TransformMatrix` を返します。計算は TRS の各値ではなく、保持している `MMatrix` 同士で行います。
+`TransformMatrix` は `TransformMatrix` または `MMatrix` と `*` で乗算でき、新しい `TransformMatrix` を返します。`MMatrix * TransformMatrix` の順序にも対応します。計算は TRS の各値ではなく、保持している `MMatrix` で行います。
 
 ```python
 src_wm = bdu.TransformMatrix(f"{src}.worldMatrix[0]")
@@ -105,6 +134,10 @@ dst_pim = bdu.TransformMatrix(f"{dst}.parentInverseMatrix[0]")
 
 local_tm = src_wm * dst_pim
 local_translate = local_tm.translate
+
+maya_matrix = om.MMatrix()
+right_result = local_tm * maya_matrix
+left_result = maya_matrix * local_tm
 ```
 
 この例の結果は、src のワールド行列を dst の親空間へ変換した行列です。
@@ -120,7 +153,12 @@ relative_tm = src_dag.get_relative_matrix(dst_dag)
 内部では、各DAGパスの `instanceNumber()` に対応する配列要素を使って次の計算を行います。
 
 ```python
-relative_tm = src_dag.worldMatrix[src_index].transform_matrix * dst_dag.worldInverseMatrix[dst_index].transform_matrix
+src_world = src_dag.worldMatrix[src_index].get()
+dst_world_inverse = dst_dag.worldInverseMatrix[dst_index].get()
+if src_world is None or dst_world_inverse is None:
+    raise ValueError("matrix plug does not contain a matrix value")
+
+relative_tm = src_world * dst_world_inverse
 ```
 
 `get_local_matrix()` は、self の `worldMatrix` を再現するための dst 用local行列を返します。
@@ -132,7 +170,12 @@ local_tm = src_dag.get_local_matrix(dst_dag)
 計算は次のとおりです。
 
 ```python
-local_tm = src_dag.worldMatrix[src_index].transform_matrix * dst_dag.parentInverseMatrix[dst_index].transform_matrix
+src_world = src_dag.worldMatrix[src_index].get()
+dst_parent_inverse = dst_dag.parentInverseMatrix[dst_index].get()
+if src_world is None or dst_parent_inverse is None:
+    raise ValueError("matrix plug does not contain a matrix value")
+
+local_tm = src_world * dst_parent_inverse
 ```
 
 Mayaの `parentMatrix` には dst の `offsetParentMatrix` が既に合成されています。その逆行列である `parentInverseMatrix` を使うため、`get_local_matrix()` の結果にも `offsetParentMatrix` の補正が含まれます。

@@ -164,7 +164,7 @@ def test_get_rotate_validates_order(new_scene, maya_om):
         value.get_rotate(order=0)
 
 
-def test_multiplies_underlying_matrices(new_scene, maya_om):
+def test_multiplies_transform_matrices(new_scene, maya_om):
     from bd_util import TransformMatrix
 
     left_source = maya_om.MTransformationMatrix()
@@ -185,6 +185,36 @@ def test_multiplies_underlying_matrices(new_scene, maya_om):
     _assert_matrix_close(
         result.matrix,
         left_source.asMatrix() * right_source.asMatrix(),
+    )
+
+
+def test_multiplies_mmatrix_on_either_side(new_scene, maya_om):
+    from bd_util import TransformMatrix
+
+    left_source = maya_om.MTransformationMatrix()
+    left_source.setRotation(
+        maya_om.MEulerRotation(0.0, 0.0, math.radians(90.0))
+    )
+    right_source = maya_om.MTransformationMatrix()
+    right_source.setTranslation(
+        maya_om.MVector(2.0, 3.0, 4.0),
+        maya_om.MSpace.kTransform,
+    )
+    left = TransformMatrix(left_source)
+    right = right_source.asMatrix()
+
+    left_result = left * right
+    right_result = right * left
+
+    assert isinstance(left_result, TransformMatrix)
+    assert isinstance(right_result, TransformMatrix)
+    _assert_matrix_close(
+        left_result.matrix,
+        left_source.asMatrix() * right,
+    )
+    _assert_matrix_close(
+        right_result.matrix,
+        right * left_source.asMatrix(),
     )
 
 

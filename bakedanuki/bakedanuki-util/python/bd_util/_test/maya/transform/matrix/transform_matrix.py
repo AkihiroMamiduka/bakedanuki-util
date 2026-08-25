@@ -29,8 +29,10 @@ def test_transform_matrix():
     nodes.modifier_manager.do_it_dg()
 
     # local 値を取得
-    src_wm = src.wm[0].transform_matrix
-    dst_parent_wim = dst_parent.wim[0].transform_matrix
+    src_wm = src.wm[0].get()
+    dst_parent_wim = dst_parent.wim[0].get()
+    if src_wm is None or dst_parent_wim is None:
+        raise ValueError("matrix plug does not contain a matrix value")
 
     local_m = src_wm * dst_parent_wim
 

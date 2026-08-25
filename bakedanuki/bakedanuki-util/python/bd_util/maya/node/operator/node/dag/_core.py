@@ -478,7 +478,13 @@ class DAG(NodeOperator):
     ) -> TransformMatrix:
         instance_index = self._dag_path.instanceNumber()
         matrix_plug = getattr(self, attribute_name)[instance_index]
-        return matrix_plug.transform_matrix
+        value = matrix_plug.get()
+        if value is None:
+            raise ValueError(
+                f"Plug does not contain a matrix value: "
+                f"{matrix_plug.plug.name()}"
+            )
+        return value
 
     def get_relative_matrix(self, dst_dag: "DAG") -> TransformMatrix:
         """self の行列を dst_dag 自身の空間で表して返す。"""

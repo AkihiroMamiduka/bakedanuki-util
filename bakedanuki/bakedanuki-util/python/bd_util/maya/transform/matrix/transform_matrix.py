@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from types import NotImplementedType
-from typing import Literal
+from typing import Literal, overload
 
 from maya.api import OpenMaya as om
 
@@ -166,10 +166,38 @@ class TransformMatrix:
         """逆行列を新しい ``TransformMatrix`` として返す。"""
         return type(self)(self._matrix.inverse())
 
+    @overload
+    def __mul__(self, other: TransformMatrix) -> TransformMatrix: ...
+
+    @overload
+    def __mul__(self, other: om.MMatrix) -> TransformMatrix: ...
+
     def __mul__(
         self,
         other: object,
     ) -> TransformMatrix | NotImplementedType:
-        if not isinstance(other, TransformMatrix):
+        if isinstance(other, TransformMatrix):
+            other_matrix = other._matrix
+        elif isinstance(other, om.MMatrix):
+            other_matrix = other
+        else:
             return NotImplemented
-        return type(self)(self._matrix * other._matrix)
+        return type(self)(self._matrix * other_matrix)
+
+    @overload
+    def __rmul__(self, other: om.MMatrix) -> TransformMatrix: ...
+
+    @overload
+    def __rmul__(self, other: TransformMatrix) -> TransformMatrix: ...
+
+    def __rmul__(
+        self,
+        other: object,
+    ) -> TransformMatrix | NotImplementedType:
+        if isinstance(other, TransformMatrix):
+            other_matrix = other._matrix
+        elif isinstance(other, om.MMatrix):
+            other_matrix = other
+        else:
+            return NotImplemented
+        return type(self)(other_matrix * self._matrix)

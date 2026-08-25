@@ -4,6 +4,7 @@
 from maya.api import OpenMaya as om
 
 # self
+from .......transform.matrix.transform_matrix import TransformMatrix
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
@@ -11,12 +12,16 @@ class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
     __slots__ = ()
 
     # get
-    def get(self) -> om.MMatrix:
-        return om.MFnMatrixData(self.plug.asMObject()).matrix()
+    def get(self) -> TransformMatrix:
+        return TransformMatrix(self.plug)
 
     # set
-    def set(self, value: om.MMatrix):
-        mat_obj = om.MFnMatrixData().create(value)
+    def set(
+        self,
+        value: TransformMatrix | om.MMatrix | om.MTransformationMatrix,
+    ) -> None:
+        matrix = TransformMatrix(value).matrix
+        mat_obj = om.MFnMatrixData().create(matrix)
         self._node.modifier_manager.dg_mod.newPlugValue(self.plug, mat_obj)
 
     # add

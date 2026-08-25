@@ -1,4 +1,5 @@
 # coding:utf-8
+import random
 
 # self
 import bd_util as bdu
@@ -9,37 +10,49 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 def main():
     nodes = bdu.Nodes()
-    transform_0_a = nodes.create.transform(name="trsf_0")
-    joint_0_a = nodes.create.joint(name="jnt_0_a", parent=transform_0_a)
-    transform_1_a = nodes.create.transform(name="trsf_1_a", parent=joint_0_a)
-    joint_1_a = nodes.create.joint(name="jnt_1_a", parent=transform_1_a)
+    src_p = nodes.create.transform(name="src_parent")
+    src, _ = nodes.create.with_transform.locator(name="src", parent=src_p)
 
-    transform_0_a_loc = nodes.create.locator(
-        name="trsf_0_locatorShape", parent=transform_0_a
-    )
-    transform_0_a_loc.localScale.set(2, 3, 4)
+    dst_p = nodes.create.transform(name="dst_parent")
+    dst_a, _ = nodes.create.with_transform.locator(name="dst_a", parent=dst_p)
+    dst_b, _ = nodes.create.with_transform.locator(name="dst_b", parent=dst_p)
 
-    _, locator_0_a = nodes.create.with_transform.locator(
-        name="loc_0_a", parent=transform_0_a
-    )
-    locator_0_a.localPosition.set(1, 2, 3)
-    locator_0_a.localScale.set(5, 6, 7)
-
-    joint_0_b = nodes.create.joint(name="jnt_0_b", parent=transform_0_a)
-    _ = nodes.create.transform(name="trsf_1_b", parent=joint_0_b)
-
-    cnst = nodes.create.aimConstraint("aim_cnst", parent=transform_0_a)
-    cnst.translate.set(7, 8, 9)
+    for node in [src_p, src, dst_p]:
+        node.translate.set(1, 2, 3)
+        node.translate.set(
+            random.random(),
+            random.random(),
+            random.random(),
+        )
+        node.rotate.set(
+            random.randint(-360, 360),
+            random.randint(-360, 360),
+            random.randint(-360, 360),
+        )
+        node.scale.set(
+            random.random(),
+            random.random(),
+            random.random(),
+        )
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    descendant = transform_0_a.descendant_chain(
-        until=transform_1_a,
-    )
-    if not descendant:
-        return
+    # dst_a
+    src_wm = src.wm[0].get()
+    dst_pim = dst_a.pim[0].get()
+    if src_wm and dst_pim:
+        m = src_wm * dst_pim
+        dst_a.translate.set(m.translate)
+        dst_a.rotate.set(m.rotate)
+        dst_a.scale.set(m.scale)
+        dst_a.shear.set(m.shear)
 
-    for dag in descendant:
-        logger.debug(dag)
-        logger.debug(f"type(child): {type(dag)}")
+    # dst_b
+    m = src.get_local_matrix(dst_b)
+    dst_b.translate.set(m.translate)
+    dst_b.rotate.set(m.rotate)
+    dst_b.scale.set(m.scale)
+    dst_b.shear.set(m.shear)
+
+    nodes.modifier_manager.do_it_dg()

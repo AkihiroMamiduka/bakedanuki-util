@@ -62,10 +62,11 @@ local_tm = src_dag.get_local_matrix(dst_dag)
 translate = local_tm.translate
 inverse_tm = local_tm.inverse()
 
-world_translate = src_dag.worldMatrix[0].translate
+world_tm = src_dag.worldMatrix[0].get()
+world_translate = world_tm.translate if world_tm is not None else None
 ```
 
-matrix plug と `TransformMatrix` の `translate` / `rotate` / `scale` / `shear` / `quat` は、float の tuple として取得できます。`rotate` は XYZ order の degree です。
+matrix plug の `get()` は `TransformMatrix` を返します。`translate` / `rotate` / `scale` / `shear` / `quat` は、float の tuple として取得できます。`rotate` は XYZ order の degree です。
 
 詳細は [TransformMatrix](docs/maya/transform_matrix.md) を参照してください。
 

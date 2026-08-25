@@ -3549,7 +3549,14 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     assert_type(ComposeMatrix.outputMatrix, MatrixAttrOperator)
     assert_type(compose.outputMatrix, MatrixPlugOperator)
     assert_type(compose.omat, MatrixPlugOperator)
-    assert_type(compose.outputMatrix.get(), om.MMatrix)
+    matrix_value = compose.outputMatrix.get()
+    assert_type(matrix_value, bdu.TransformMatrix)
+    assert_type(matrix_value.matrix, om.MMatrix)
+    assert_type(matrix_value.__mul__(om.MMatrix()), bdu.TransformMatrix)
+    assert_type(matrix_value.__rmul__(om.MMatrix()), bdu.TransformMatrix)
+    assert_type(compose.outputMatrix.set(matrix_value), None)
+    assert_type(compose.outputMatrix.set(om.MMatrix()), None)
+    assert_type(compose.outputMatrix.set(om.MTransformationMatrix()), None)
     assert_type(compose.outputMatrix.connect(("target", "input")), None)
     assert_type(compose.outputMatrix.connect_from("source.output"), None)
     assert_type(compose.outputMatrix.disconnect(["target", "input"]), None)
@@ -3956,14 +3963,14 @@ def multi_compound_contract(nodes: bdu.Nodes) -> None:
     assert_type(wt_add_matrix.wtMatrix, WtMatrixPlugOperator)
     assert_type(wt_add_matrix.wtMatrix[0], WtMatrixPlugOperator)
     assert_type(wt_add_matrix.wtMatrix[next], WtMatrixPlugOperator)
-    assert_type(
-        wt_add_matrix.wtMatrix[next].matrixIn,
-        DataMatrixPlugOperator,
-    )
-    assert_type(
-        wt_add_matrix.wtMatrix[next].matrixIn.get(),
-        om.MMatrix | None,
-    )
+    matrix_in = wt_add_matrix.wtMatrix[next].matrixIn
+    assert_type(matrix_in, DataMatrixPlugOperator)
+    matrix_value = matrix_in.get()
+    assert_type(matrix_value, bdu.TransformMatrix | None)
+    assert_type(matrix_in.set_direct(om.MMatrix()), None)
+    assert_type(matrix_in.set_direct(om.MTransformationMatrix()), None)
+    if matrix_value is not None:
+        assert_type(matrix_in.set_direct(matrix_value), None)
 
 
 def condition_contract(nodes: bdu.Nodes) -> None:
