@@ -44,6 +44,9 @@
 - DAG traversal の `children()` / `ancestors()` / `descendants()` を追加。
   具体型解決、`ModifierManager`共有、実行済みscene状態、instancing時の列挙規則を
   Maya 2025上で検証。
+- DAG traversalへShape filter、class-based type filter、完全一致option、
+  固定child indexの`descendant_chain()`、`until`による境界指定を追加。
+  `nodes.types`から具体classを参照できる型・補完contractも整備。
 - 親 Transform 必須の raw shape 作成 API を追加。
 - `camera` / `locator` / `mesh` / `nurbsCurve` / `nurbsSurface` を最初の
   作成確認済み shape として公開。
@@ -141,8 +144,8 @@ instanced subtreeはMaya標準traversalと同様にDAG pathごとに再訪する
 `MObject`が複数回現れる場合があります。
 
 これで`children()` / `ancestors()` / `descendants()`の初期DAG traversalは完了です。
-Shape / type filterは次の拡張候補として検討します。pathを明示的に選択するAPIは、
-必要な利用例が揃った段階で検討します。
+Shape / type filterなどの利便APIも、後述のDAG traversal拡張として実装しました。
+pathを明示的に選択するAPIは、必要な利用例が揃った段階で検討します。
 
 ### 3. 親 Transform 必須の shape 作成（段階公開完了）
 
@@ -273,13 +276,13 @@ mod.do_it_dag()
 その後、DAG path / instancing方針と初期DAG traversalまで実装し、当初予定した
 DAG / shape API roadmapは完了しました。
 
-## 次に検討する DAG traversal 拡張
+## 完了済み: DAG traversal 拡張
 
-初期traversalの契約は維持したまま、次の利便APIを検討します。ここに記載する
-引数名と戻り値型は候補であり、Maya 2025の実挙動、IDE補完、Pyright contractを
-確認してから確定します。
+初期traversalの契約を維持したまま、次の利便APIを実装しました。ここに記載する
+引数名、戻り値型、探索規則は、Maya 2025の実挙動、IDE補完、Pyright contractを
+確認して確定した現行仕様です。
 
-共通方針の候補です。
+共通方針です。
 
 - filterは返す結果だけに適用し、対象外nodeの子孫も探索する。filterを理由に
   subtreeをpruneしない。
@@ -307,8 +310,8 @@ underworld traversalは今回の対象外とします。Shapeが祖先になる�
 
 ### 2. Type filter
 
-Maya node type名の文字列より、`Transform` / `Joint` / `Shape` / `Mesh`のような
-`DAG`系Python classを受け取る方式を第一候補とします。`isinstance()`に基づくfilterなら
+Maya node type名の文字列ではなく、`Transform` / `Joint` / `Shape` / `Mesh`のような
+`DAG`系Python classを受け取ります。`isinstance()`に基づくfilterなら
 継承関係を利用でき、`type[T]`と組み合わせて戻り値を`tuple[T, ...]`として表現できます。
 
 filter実装の事前整備として、生成済みNodeOperator classを
