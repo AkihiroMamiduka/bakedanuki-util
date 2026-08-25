@@ -1217,6 +1217,25 @@ def generic_dag_existing_contract(
         unknown_dag.descendant_chain(child_index=1),
         tuple[DAG, ...],
     )
+    assert_type(
+        unknown_dag.descendant_chain(until=None),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.descendant_chain(until=until),
+        tuple[DAG, ...] | None,
+    )
+    assert_type(
+        unknown_dag.descendant_chain(
+            child_index=1,
+            until=until,
+        ),
+        tuple[DAG, ...] | None,
+    )
+    assert_type(
+        unknown_dag.descendant_chain(until=optional_until),
+        tuple[DAG, ...] | None,
+    )
 
 
 def node_types_contract(nodes: bdu.Nodes) -> None:
@@ -4540,6 +4559,11 @@ def invalid_usage_contract(
     nodes.existing.unknownDag(
         "invalid_filter"
     ).ancestors(  # pyright: ignore[reportCallIssue]
+        until=nodes.types.Transform  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag(
+        "invalid_filter"
+    ).descendant_chain(  # pyright: ignore[reportCallIssue]
         until=nodes.types.Transform  # pyright: ignore[reportArgumentType]
     )
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]

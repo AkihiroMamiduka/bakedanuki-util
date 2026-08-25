@@ -369,7 +369,18 @@ inclusiveに探索し、指定したDAGが保持中path上に存在しない場�
 見つからなければ`None`です。引数省略時と`None`は従来の`tuple[T, ...]`、DAG指定時は
 `tuple[T, ...] | None`になるoverloadをPyright contractで固定しました。
 
-次は同じ境界契約を`descendant_chain(until=...)`へ拡張します。
+第二段階として、`descendant_chain(until=...)`へ同じ境界契約を拡張しました。各階層で
+指定したchild indexだけを選ぶ既存規則を維持し、その固定chain上で境界を発見した場合だけ
+境界までをinclusiveに返します。境界が別indexの兄弟や別subtreeにある場合、別方向へは
+探索せず`None`を返します。
+
+比較は`MObject` identityを使うため、別の`Nodes`や`ModifierManager`から取得した同じscene
+nodeも指定できます。自分自身はchainの対象外なので`until=self`は`None`です。未実行の
+`MDagModifier`変更は`do_it_dag()`まで含めず、引数省略時と`None`は従来の
+`tuple[DAG, ...]`、DAG指定時は`tuple[DAG, ...] | None`となるPyright contractを固定しました。
+
+これで当初予定したDAG traversal拡張のShape filter、class-based type filter、完全一致option、
+固定child index chain、祖先・chainの境界指定は完了です。
 
 ## 将来の拡張候補
 

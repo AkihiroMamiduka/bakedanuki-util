@@ -359,18 +359,27 @@ class DAG(NodeOperator):
         return tuple(descendants)
 
     @overload
-    def descendant_chain(self) -> tuple["DAG", ...]: ...
+    def descendant_chain(
+        self,
+        child_index: int = 0,
+        *,
+        until: None = None,
+    ) -> tuple["DAG", ...]: ...
 
     @overload
     def descendant_chain(
         self,
-        child_index: int,
-    ) -> tuple["DAG", ...]: ...
+        child_index: int = 0,
+        *,
+        until: "DAG | None",
+    ) -> tuple["DAG", ...] | None: ...
 
     def descendant_chain(
         self,
         child_index: object = 0,
-    ) -> tuple["DAG", ...]:
+        *,
+        until: object = None,
+    ) -> tuple["DAG", ...] | None:
         """各階層で同じchild indexを選び、末端まで返す。"""
         if isinstance(child_index, bool) or not isinstance(child_index, int):
             raise TypeError(
@@ -381,14 +390,21 @@ class DAG(NodeOperator):
                 f"child_index must be non-negative; got {child_index}"
             )
 
+        until_node = None if until is None else _require_dag(until, "until")
         chain: list[DAG] = []
         current = self
+        until_found = until_node is None
         while True:
             fn_dag = om.MFnDagNode(current.m_obj)
             if child_index >= fn_dag.childCount():
                 break
             current = self._wrap_existing_dag(fn_dag.child(child_index))
             chain.append(current)
+            if until_node is not None and current.m_obj == until_node.m_obj:
+                until_found = True
+                break
+        if not until_found:
+            return None
         return tuple(chain)
 
     def _wrap_existing_dag(self, m_obj: om.MObject) -> "DAG":

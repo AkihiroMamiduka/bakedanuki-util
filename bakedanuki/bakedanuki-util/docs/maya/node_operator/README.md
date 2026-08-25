@@ -484,7 +484,8 @@ child index順で返します。自分自身、world、孫は含めません。
 すべての子孫を返します。自分自身とworldは含めません。
 `filter_type=`を指定した場合も探索範囲は変えず、一致した子孫だけを結果へ含めます。
 `DAG.descendant_chain(child_index=0)`は、各階層で同じchild indexの子だけを選び、
-そのindexの子が存在しなくなるまで返します。自分自身とworldは含めません。
+そのindexの子が存在しなくなるまで返します。`until=`を指定すると、その固定chain上の
+境界までを返し、境界が見つからなければ`None`を返します。自分自身とworldは含めません。
 
 ```python
 parent = child.parent
@@ -518,6 +519,7 @@ shape_descendants = parent.descendants(filter_type=nodes.types.Shape)
 mesh_descendants = parent.descendants(filter_type=nodes.types.Mesh)
 first_child_chain = parent.descendant_chain()
 second_child_chain = parent.descendant_chain(child_index=1)
+chain_to_target = parent.descendant_chain(until=target)
 is_instanced = child.is_instanced
 ```
 
@@ -572,6 +574,14 @@ Python instanceや名前ではなく`MObject` identityで比較するため、�
 index 1が存在しなければ、index 0などへfallbackせず、そこで終了します。Transformと
 Shapeを区別せずに選択し、選ばれたShapeも結果へ含めます。`child_index`は0以上のintだけを
 受け取り、boolなどの非intは`TypeError`、負数は`ValueError`にします。
+
+`descendant_chain(until=boundary)`は、選択された固定child indexのchain上だけを探索し、
+境界までをinclusiveに返します。境界が別indexの兄弟や別subtreeに存在しても、その方向へは
+探索せず`None`を返します。境界比較は`ancestors(until=...)`と同じく`MObject` identityを
+使うため、別の`Nodes`や`ModifierManager`から取得した同じscene nodeも指定できます。
+自分自身はchainに含めないため、`until=self`は`None`です。未実行の`MDagModifier`変更も
+共通のtraversal契約どおり`do_it_dag()`まで探索へ反映しません。`until`省略時または
+`None`では従来どおり`tuple[DAG, ...]`、DAG指定時は`tuple[DAG, ...] | None`を返します。
 
 親変更は `set_parent()` で現在の `MDagModifier` に積みます。
 初期値では local transform を維持するため、親の transform に応じて world transform が変わります。

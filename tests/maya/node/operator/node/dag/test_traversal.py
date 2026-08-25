@@ -1027,6 +1027,72 @@ def test_descendant_chain_uses_same_child_index_at_each_level(
     assert nodes.existing.mesh(mesh_0_name).descendant_chain() == ()
 
 
+def test_descendant_chain_until_is_inclusive_on_selected_chain(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    branch_0_name = maya_cmds.createNode(
+        "transform",
+        name="branch_0",
+        parent=root_name,
+    )
+    branch_1_name = maya_cmds.createNode(
+        "joint",
+        name="branch_1",
+        parent=root_name,
+    )
+    target_name = maya_cmds.createNode(
+        "joint",
+        name="target",
+        parent=branch_0_name,
+    )
+    leaf_name = maya_cmds.createNode(
+        "mesh",
+        name="leafShape",
+        parent=target_name,
+    )
+    unrelated_name = maya_cmds.createNode(
+        "transform",
+        name="unrelated",
+    )
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    branch_1 = nodes.existing.joint(branch_1_name)
+    leaf = nodes.existing.mesh(leaf_name)
+    unrelated = nodes.existing.transform(unrelated_name)
+    target_from_other_nodes = bdu.Nodes().existing.joint(target_name)
+
+    to_target = root.descendant_chain(until=target_from_other_nodes)
+    to_leaf = root.descendant_chain(until=leaf)
+    second_child_to_branch = root.descendant_chain(
+        child_index=1,
+        until=branch_1,
+    )
+
+    assert to_target is not None
+    assert tuple(node.name for node in to_target) == ("branch_0", "target")
+    assert to_leaf is not None
+    assert tuple(node.name for node in to_leaf) == (
+        "branch_0",
+        "target",
+        "leafShape",
+    )
+    assert second_child_to_branch is not None
+    assert tuple(node.name for node in second_child_to_branch) == ("branch_1",)
+    assert all(
+        node.modifier_manager is nodes.modifier_manager for node in to_leaf
+    )
+    assert (
+        target_from_other_nodes.modifier_manager is not nodes.modifier_manager
+    )
+    assert root.descendant_chain(child_index=1, until=leaf) is None
+    assert root.descendant_chain(until=unrelated) is None
+    assert root.descendant_chain(until=root) is None
+
+
 def test_descendant_chain_reads_executed_scene_state_without_cache(
     new_scene,
     maya_cmds,
@@ -1040,12 +1106,13 @@ def test_descendant_chain_reads_executed_scene_state_without_cache(
         name="pending_child",
         parent=root,
     )
-    nodes.create.joint(
+    pending_grandchild = nodes.create.joint(
         name="pending_grandchild",
         parent=pending_child,
     )
 
     assert root.descendant_chain() == ()
+    assert root.descendant_chain(until=pending_grandchild) is None
 
     nodes.modifier_manager.do_it_dag()
 
@@ -1054,6 +1121,9 @@ def test_descendant_chain_reads_executed_scene_state_without_cache(
         "pending_child",
         "pending_grandchild",
     )
+    assert tuple(
+        node.name for node in root.descendant_chain(until=pending_grandchild)
+    ) == ("pending_child", "pending_grandchild")
 
     maya_cmds.createNode(
         "mesh",
@@ -1099,3 +1169,16 @@ def test_descendant_chain_rejects_negative_child_index(new_scene, maya_cmds):
         match="child_index must be non-negative",
     ):
         root.descendant_chain(child_index=-1)
+
+
+def test_descendant_chain_rejects_non_dag_until(new_scene, maya_cmds):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    dg_node = nodes.create.composeMatrix(name="compose_matrix")
+
+    for until in ("root", nodes.types.Transform, dg_node, object()):
+        with pytest.raises(TypeError, match="until must be DAG"):
+            root.descendant_chain(until=until)
