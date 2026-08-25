@@ -973,6 +973,75 @@ def test_generate_transform_node_class_code():
     assert "ssc = segmentScaleCompensate" in code
 
 
+@pytest.mark.parametrize(
+    ("node_type", "base_node_type", "base_class_name", "base_module_name"),
+    [
+        (
+            "curveVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
+        (
+            "geometryVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
+        ("hikFKJoint", "joint", "Joint", "joint"),
+        ("hikHandle", "ikHandle", "IkHandle", "ik_handle"),
+        ("lookAt", "aimConstraint", "AimConstraint", "aim_constraint"),
+        (
+            "meshVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
+        (
+            "subdivSurfaceVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
+        (
+            "surfaceVarGroup",
+            "baseGeometryVarGroup",
+            "BaseGeometryVarGroup",
+            "base_geometry_var_group",
+        ),
+    ],
+)
+def test_generate_transform_uses_existing_base(
+    node_type,
+    base_node_type,
+    base_class_name,
+    base_module_name,
+):
+    code = generate_node_class_code(
+        node_type,
+        attr_infos=[
+            _attr("baseAttr", "ba", "double"),
+            _attr("derivedAttr", "da", "double"),
+        ],
+        node_kind="transform",
+        inherited_attr_infos=[_attr("baseAttr", "ba", "double")],
+    )
+
+    compile(code, f"{node_type}.py", "exec")
+
+    assert (
+        generate_module._node_kind_inherited_node_type(node_type, "transform")
+        == base_node_type
+    )
+    assert f"from ..{base_module_name} import {base_class_name}" in code
+    assert (
+        f"class Generated{generate_module._node_type_to_class_name(node_type)}({base_class_name}):"
+        in code
+    )
+    assert "baseAttr = DoubleField()" not in code
+    assert "derivedAttr = DoubleField()" in code
+
+
 def test_generate_transform_base_node_class_code():
     code = generate_node_class_code(
         "transform",
@@ -990,6 +1059,23 @@ def test_generate_transform_base_node_class_code():
     assert "class GeneratedTransform(DAG):" in code
     assert 'NODE_TYPE = "transform"' in code
     assert "translate = TranslateField()" in code
+
+
+def test_ufe_proxy_transform_supplements_runtime_defined_ufe_path():
+    attr_infos = generate_module._get_node_attr_infos(
+        "ufeProxyTransform",
+        "transform",
+    )
+    ufe_paths = [
+        attr_info
+        for attr_info in attr_infos
+        if attr_info.long_name == "ufePath"
+    ]
+
+    assert len(ufe_paths) == 1
+    assert ufe_paths[0].short_name == "ufep"
+    assert ufe_paths[0].data_type == "string"
+    assert ufe_paths[0].enforcing_unique_name is True
 
 
 def test_generate_shape_node_class_code():
@@ -1050,6 +1136,35 @@ def test_shape_attr_query_does_not_create_node(monkeypatch):
 
     assert generate_module._get_node_attr_infos("mesh", "shape") == attr_infos
     assert queried_node_types == ["mesh"]
+
+
+def test_transform_attr_query_does_not_create_node(monkeypatch):
+    attr_infos = [_attr("ikBlend", "ikBlend", "double")]
+    queried_node_types = []
+
+    def get_by_type(node_type):
+        queried_node_types.append(node_type)
+        return attr_infos
+
+    def create_and_query(*args, **kwargs):
+        raise AssertionError("transform generation must not create a node")
+
+    monkeypatch.setattr(
+        generate_module,
+        "get_attribute_infos_by_type",
+        get_by_type,
+    )
+    monkeypatch.setattr(
+        generate_module,
+        "get_attribute_infos",
+        create_and_query,
+    )
+
+    assert (
+        generate_module._get_node_attr_infos("ikHandle", "transform")
+        == attr_infos
+    )
+    assert queried_node_types == ["ikHandle"]
 
 
 def test_generate_concrete_shape_filters_shape_base_attributes():

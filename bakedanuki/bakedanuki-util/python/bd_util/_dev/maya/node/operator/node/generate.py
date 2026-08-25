@@ -316,6 +316,42 @@ _DAG_NODE_KINDS: frozenset[str] = frozenset(
     }
 )
 
+_TRANSFORM_INHERITED_NODE_TYPES: dict[str, str] = {
+    "curveVarGroup": "baseGeometryVarGroup",
+    "geometryVarGroup": "baseGeometryVarGroup",
+    "hikFKJoint": "joint",
+    "hikHandle": "ikHandle",
+    "lookAt": "aimConstraint",
+    "meshVarGroup": "baseGeometryVarGroup",
+    "subdivSurfaceVarGroup": "baseGeometryVarGroup",
+    "surfaceVarGroup": "baseGeometryVarGroup",
+}
+
+_RUNTIME_DEFINED_ATTR_INFOS: dict[str, tuple[AttrInfo, ...]] = {
+    "ufeProxyTransform": (
+        AttrInfo(
+            long_name="ufePath",
+            short_name="ufep",
+            attribute_type="typed",
+            data_type="string",
+            default_value=None,
+            min_value=None,
+            max_value=None,
+            soft_min_value=None,
+            soft_max_value=None,
+            enum_name=None,
+            multi=False,
+            number_of_children=None,
+            parent=None,
+            readable=True,
+            writable=True,
+            category=[],
+            path_name="ufePath",
+            enforcing_unique_name=True,
+        ),
+    ),
+}
+
 
 def _get_skipped_dag_node_type_reason(node_type: str) -> str | None:
     reason = _SKIPPED_DAG_NODE_TYPES.get(node_type)
@@ -753,7 +789,10 @@ def _node_kind_base_class_name(node_type: str, node_kind: str) -> str:
     if node_kind == _NODE_KIND_TRANSFORM:
         if node_type == "transform":
             return "DAG"
-        return "Transform"
+        inherited_node_type = _TRANSFORM_INHERITED_NODE_TYPES.get(node_type)
+        if inherited_node_type is None:
+            return "Transform"
+        return _node_type_to_class_name(inherited_node_type)
     if node_kind == _NODE_KIND_SHAPE:
         if node_type == "shape":
             return "DAG"
@@ -769,7 +808,13 @@ def _node_kind_base_import_line(node_type: str, node_kind: str) -> str:
     if node_kind == _NODE_KIND_TRANSFORM:
         if node_type == "transform":
             return "from ..._core import DAG"
-        return "from .._core import Transform"
+        inherited_node_type = _TRANSFORM_INHERITED_NODE_TYPES.get(node_type)
+        if inherited_node_type is None:
+            return "from .._core import Transform"
+        return "from ..{} import {}".format(
+            _camel_to_snake(inherited_node_type),
+            _node_type_to_class_name(inherited_node_type),
+        )
     if node_kind == _NODE_KIND_SHAPE:
         if node_type == "shape":
             return "from ..._core import DAG"
@@ -855,15 +900,24 @@ def _node_kind_inherited_node_type(
     node_kind: str,
 ) -> str | None:
     if node_kind == _NODE_KIND_TRANSFORM and node_type != "transform":
-        return "transform"
+        return _TRANSFORM_INHERITED_NODE_TYPES.get(node_type, "transform")
     if node_kind == _NODE_KIND_SHAPE and node_type != "shape":
         return "shape"
     return None
 
 
 def _get_node_attr_infos(node_type: str, node_kind: str) -> list[AttrInfo]:
-    if node_kind == _NODE_KIND_SHAPE:
-        return get_attribute_infos_by_type(node_type)
+    if node_kind in {_NODE_KIND_TRANSFORM, _NODE_KIND_SHAPE}:
+        attr_infos = get_attribute_infos_by_type(node_type)
+        known_long_names = {attr_info.long_name for attr_info in attr_infos}
+        return [
+            *attr_infos,
+            *(
+                attr_info
+                for attr_info in _RUNTIME_DEFINED_ATTR_INFOS.get(node_type, ())
+                if attr_info.long_name not in known_long_names
+            ),
+        ]
     return get_attribute_infos(
         node_type,
         mode_new_scene=True,

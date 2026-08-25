@@ -263,7 +263,9 @@ from .operator.node.dg.ai_write_float import AiWriteFloat
 from .operator.node.dg.ai_write_int import AiWriteInt
 from .operator.node.dg.ai_write_rgba import AiWriteRgba
 from .operator.node.dg.ai_write_vector import AiWriteVector
+from .operator.node.dag.transform.aim_constraint import AimConstraint
 from .operator.node.dg.aim_matrix import AimMatrix
+from .operator.node.dag.transform.air_field import AirField
 from .operator.node.dg.align_curve import AlignCurve
 from .operator.node.dg.align_surface import AlignSurface
 from .operator.node.dag.shape.ambient_light import AmbientLight
@@ -615,6 +617,7 @@ from .operator.node.dg.choice import Choice
 from .operator.node.dg.chooser import Chooser
 from .operator.node.dg.clamp import Clamp
 from .operator.node.dg.clamp_range import ClampRange
+from .operator.node.dag.transform.clip_ghost_shape import ClipGhostShape
 from .operator.node.dg.clip_library import ClipLibrary
 from .operator.node.dg.clip_scheduler import ClipScheduler
 from .operator.node.dg.clip_to_ghost_data import ClipToGhostData
@@ -628,6 +631,7 @@ from .operator.node.dg.cluster import Cluster
 from .operator.node.dag.shape.cluster_flexor_shape import ClusterFlexorShape
 from .operator.node.dag.shape.cluster_handle import ClusterHandle
 from .operator.node.dg.collection import Collection
+from .operator.node.dag.transform.collision_model import CollisionModel
 from .operator.node.dg.color_composite import ColorComposite
 from .operator.node.dg.color_condition import ColorCondition
 from .operator.node.dg.color_constant import ColorConstant
@@ -675,7 +679,9 @@ from .operator.node.dg.curve_info import CurveInfo
 from .operator.node.dg.curve_intersect import CurveIntersect
 from .operator.node.dg.curve_normalizer_angle import CurveNormalizerAngle
 from .operator.node.dg.curve_normalizer_linear import CurveNormalizerLinear
+from .operator.node.dag.transform.curve_var_group import CurveVarGroup
 from .operator.node.dg.curve_warp import CurveWarp
+from .operator.node.dag.transform.dag_container import DagContainer
 from .operator.node.dg.dag_pose import DagPose
 from .operator.node.dg.data_block_test import DataBlockTest
 from .operator.node.dg.decompose_matrix import DecomposeMatrix
@@ -712,6 +718,7 @@ from .operator.node.dg.dof import Dof
 from .operator.node.dg.dot_product import DotProduct
 from .operator.node.dg.double_shading_switch import DoubleShadingSwitch
 from .operator.node.dg.dp_birail_srf import DpBirailSrf
+from .operator.node.dag.transform.drag_field import DragField
 from .operator.node.dag.shape.dropoff_locator import DropoffLocator
 from .operator.node.dg.dyn_controller import DynController
 from .operator.node.dg.dyn_globals import DynGlobals
@@ -753,10 +760,12 @@ from .operator.node.dg.float_mask import FloatMask
 from .operator.node.dg.float_math import FloatMath
 from .operator.node.dg.floor import Floor
 from .operator.node.dg.flow import Flow
+from .operator.node.dag.transform.fluid_emitter import FluidEmitter
 from .operator.node.dag.shape.fluid_shape import FluidShape
 from .operator.node.dag.shape.fluid_texture2_d import FluidTexture2D
 from .operator.node.dag.shape.fluid_texture3_d import FluidTexture3D
 from .operator.node.dag.shape.follicle import Follicle
+from .operator.node.dag.transform.foster_parent import FosterParent
 from .operator.node.dg.four_by_four_matrix import FourByFourMatrix
 from .operator.node.dg.fractal import Fractal
 from .operator.node.dg.frame_cache import FrameCache
@@ -765,10 +774,13 @@ from .operator.node.dg.gamma_correct import GammaCorrect
 from .operator.node.dag.shape.geo_connectable import GeoConnectable
 from .operator.node.dg.geo_connector import GeoConnector
 from .operator.node.dg.geom_bind import GeomBind
+from .operator.node.dag.transform.geometry_constraint import GeometryConstraint
 from .operator.node.dg.geometry_filter import GeometryFilter
+from .operator.node.dag.transform.geometry_var_group import GeometryVarGroup
 from .operator.node.dg.global_cache_control import GlobalCacheControl
 from .operator.node.dg.global_stitch import GlobalStitch
 from .operator.node.dg.granite import Granite
+from .operator.node.dag.transform.gravity_field import GravityField
 from .operator.node.dg.grease_pencil_sequence import GreasePencilSequence
 from .operator.node.dag.shape.grease_plane import GreasePlane
 from .operator.node.dag.shape.grease_plane_render_shape import (
@@ -794,9 +806,14 @@ from .operator.node.dg.hierarchy_test_node1 import HierarchyTestNode1
 from .operator.node.dg.hierarchy_test_node2 import HierarchyTestNode2
 from .operator.node.dg.hierarchy_test_node3 import HierarchyTestNode3
 from .operator.node.dg.hierarchy_test_node4 import HierarchyTestNode4
+from .operator.node.dag.transform.hik_effector import HikEffector
+from .operator.node.dag.transform.hik_fk_joint import HikFKJoint
 from .operator.node.dag.shape.hik_floor_contact_marker import (
     HikFloorContactMarker,
 )
+from .operator.node.dag.transform.hik_ground_plane import HikGroundPlane
+from .operator.node.dag.transform.hik_handle import HikHandle
+from .operator.node.dag.transform.hik_ik_effector import HikIKEffector
 from .operator.node.dg.hik_solver import HikSolver
 from .operator.node.dg.history_switch import HistorySwitch
 from .operator.node.dg.hold_matrix import HoldMatrix
@@ -807,6 +824,8 @@ from .operator.node.dg.hyper_graph_info import HyperGraphInfo
 from .operator.node.dg.hyper_layout import HyperLayout
 from .operator.node.dg.hyper_view import HyperView
 from .operator.node.dg.ik2_bsolver import Ik2Bsolver
+from .operator.node.dag.transform.ik_effector import IkEffector
+from .operator.node.dag.transform.ik_handle import IkHandle
 from .operator.node.dg.ik_m_csolver import IkMCsolver
 from .operator.node.dg.ik_pa_solver import IkPASolver
 from .operator.node.dg.ik_r_psolver import IkRPsolver
@@ -820,6 +839,7 @@ from .operator.node.dag.shape.implicit_cone import ImplicitCone
 from .operator.node.dag.shape.implicit_sphere import ImplicitSphere
 from .operator.node.dg.insert_knot_curve import InsertKnotCurve
 from .operator.node.dg.insert_knot_surface import InsertKnotSurface
+from .operator.node.dag.transform.instancer import Instancer
 from .operator.node.dg.intersect_surface import IntersectSurface
 from .operator.node.dg.inverse_lerp import InverseLerp
 from .operator.node.dg.inverse_matrix import InverseMatrix
@@ -854,9 +874,11 @@ from .operator.node.dg.lights_collection_selector import (
 from .operator.node.dag.shape.line_modifier import LineModifier
 from .operator.node.dg.list_item import ListItem
 from .operator.node.dag.shape.locator import Locator
+from .operator.node.dag.transform.lod_group import LodGroup
 from .operator.node.dg.lod_thresholds import LodThresholds
 from .operator.node.dg.loft import Loft
 from .operator.node.dg.log import Log
+from .operator.node.dag.transform.look_at import LookAt
 from .operator.node.dg.luminance import Luminance
 from .operator.node.dg.make_group import MakeGroup
 from .operator.node.dg.make_illustrator_curves import MakeIllustratorCurves
@@ -897,6 +919,7 @@ from .operator.node.dg.maya_usd_proxy_shape_listener_base import (
 )
 from .operator.node.dg.membrane import Membrane
 from .operator.node.dag.shape.mesh import Mesh
+from .operator.node.dag.transform.mesh_var_group import MeshVarGroup
 from .operator.node.dg.min import Min
 from .operator.node.dg.modulo import Modulo
 from .operator.node.dg.morph import Morph
@@ -921,6 +944,7 @@ from .operator.node.dag.shape.n_rigid import NRigid
 from .operator.node.dg.nearest_point_on_curve import NearestPointOnCurve
 from .operator.node.dg.negate import Negate
 from .operator.node.dg.network import Network
+from .operator.node.dag.transform.newton_field import NewtonField
 from .operator.node.dg.node_graph_editor_bookmark_info import (
     NodeGraphEditorBookmarkInfo,
 )
@@ -929,7 +953,9 @@ from .operator.node.dg.node_graph_editor_bookmarks import (
 )
 from .operator.node.dg.noise import Noise
 from .operator.node.dg.non_linear import NonLinear
+from .operator.node.dag.transform.normal_constraint import NormalConstraint
 from .operator.node.dg.normalize import Normalize
+from .operator.node.dag.transform.nucleus import Nucleus
 from .operator.node.dag.shape.nurbs_curve import NurbsCurve
 from .operator.node.dg.nurbs_curve_to_bezier import NurbsCurveToBezier
 from .operator.node.dag.shape.nurbs_surface import NurbsSurface
@@ -954,11 +980,19 @@ from .operator.node.dg.offset_deformer import OffsetDeformer
 from .operator.node.dg.offset_surface import OffsetSurface
 from .operator.node.dg.old_blind_data_base import OldBlindDataBase
 from .operator.node.dg.old_geometry_constraint import OldGeometryConstraint
+from .operator.node.dag.transform.old_normal_constraint import (
+    OldNormalConstraint,
+)
+from .operator.node.dag.transform.old_tangent_constraint import (
+    OldTangentConstraint,
+)
 from .operator.node.dg.optical_fx import OpticalFX
+from .operator.node.dag.transform.orient_constraint import OrientConstraint
 from .operator.node.dag.shape.orientation_marker import OrientationMarker
 from .operator.node.dg.override import Override
 from .operator.node.dg.pair_blend import PairBlend
 from .operator.node.dag.shape.param_dimension import ParamDimension
+from .operator.node.dag.transform.parent_constraint import ParentConstraint
 from .operator.node.dg.parent_matrix import ParentMatrix
 from .operator.node.dag.shape.particle import Particle
 from .operator.node.dg.particle_age_mapper import ParticleAgeMapper
@@ -977,12 +1011,21 @@ from .operator.node.dg.phong_e import PhongE
 from .operator.node.dg.pi import Pi
 from .operator.node.dg.pick_matrix import PickMatrix
 from .operator.node.dg.place2d_texture import Place2dTexture
+from .operator.node.dag.transform.place3d_texture import Place3dTexture
 from .operator.node.dg.planar_trim_surface import PlanarTrimSurface
 from .operator.node.dg.plus_minus_average import PlusMinusAverage
+from .operator.node.dag.transform.point_constraint import PointConstraint
+from .operator.node.dag.transform.point_emitter import PointEmitter
 from .operator.node.dag.shape.point_light import PointLight
 from .operator.node.dg.point_matrix_mult import PointMatrixMult
 from .operator.node.dg.point_on_curve_info import PointOnCurveInfo
+from .operator.node.dag.transform.point_on_poly_constraint import (
+    PointOnPolyConstraint,
+)
 from .operator.node.dg.point_on_surface_info import PointOnSurfaceInfo
+from .operator.node.dag.transform.pole_vector_constraint import (
+    PoleVectorConstraint,
+)
 from .operator.node.dg.poly_append import PolyAppend
 from .operator.node.dg.poly_append_vertex import PolyAppendVertex
 from .operator.node.dg.poly_auto_proj import PolyAutoProj
@@ -1102,6 +1145,7 @@ from .operator.node.dg.post_process_list import PostProcessList
 from .operator.node.dg.power import Power
 from .operator.node.dg.precomp_export import PrecompExport
 from .operator.node.dg.premultiply import Premultiply
+from .operator.node.dag.transform.primitive_falloff import PrimitiveFalloff
 from .operator.node.dg.project_curve import ProjectCurve
 from .operator.node.dg.project_tangent import ProjectTangent
 from .operator.node.dg.projection import Projection
@@ -1125,6 +1169,7 @@ from .operator.node.dg.quat_slerp import QuatSlerp
 from .operator.node.dg.quat_sub import QuatSub
 from .operator.node.dg.quat_to_axis_angle import QuatToAxisAngle
 from .operator.node.dg.quat_to_euler import QuatToEuler
+from .operator.node.dag.transform.radial_field import RadialField
 from .operator.node.dg.ramp import Ramp
 from .operator.node.dg.ramp_shader import RampShader
 from .operator.node.dg.rbf_srf import RbfSrf
@@ -1176,6 +1221,7 @@ from .operator.node.dg.reverse_surface import ReverseSurface
 from .operator.node.dg.revolve import Revolve
 from .operator.node.dg.rgb_to_hsv import RgbToHsv
 from .operator.node.dag.shape.rigid_body import RigidBody
+from .operator.node.dag.transform.rigid_constraint import RigidConstraint
 from .operator.node.dg.rigid_solver import RigidSolver
 from .operator.node.dg.rock import Rock
 from .operator.node.dg.rotate_helper import RotateHelper
@@ -1186,6 +1232,7 @@ from .operator.node.dg.round_constant_radius import RoundConstantRadius
 from .operator.node.dg.row_from_matrix import RowFromMatrix
 from .operator.node.dg.sampler import Sampler
 from .operator.node.dg.sampler_info import SamplerInfo
+from .operator.node.dag.transform.scale_constraint import ScaleConstraint
 from .operator.node.dg.scale_from_matrix import ScaleFromMatrix
 from .operator.node.dg.script import Script
 from .operator.node.dg.sculpt import Sculpt
@@ -1252,6 +1299,9 @@ from .operator.node.dag.shape.subdiv import Subdiv
 from .operator.node.dg.subdiv_collapse import SubdivCollapse
 from .operator.node.dg.subdiv_component_id import SubdivComponentId
 from .operator.node.dg.subdiv_reverse_faces import SubdivReverseFaces
+from .operator.node.dag.transform.subdiv_surface_var_group import (
+    SubdivSurfaceVarGroup,
+)
 from .operator.node.dg.subdiv_to_nurbs import SubdivToNurbs
 from .operator.node.dg.subdiv_to_poly import SubdivToPoly
 from .operator.node.dg.subset_falloff import SubsetFalloff
@@ -1260,14 +1310,20 @@ from .operator.node.dg.sum import Sum
 from .operator.node.dg.surface_info import SurfaceInfo
 from .operator.node.dg.surface_luminance import SurfaceLuminance
 from .operator.node.dg.surface_shader import SurfaceShader
+from .operator.node.dag.transform.surface_var_group import SurfaceVarGroup
 from .operator.node.dg.svg_to_poly import SvgToPoly
 from .operator.node.dg.sweep_mesh_creator import SweepMeshCreator
 from .operator.node.dg.sweep_profile_converter import SweepProfileConverter
+from .operator.node.dag.transform.symmetry_constraint import SymmetryConstraint
 from .operator.node.dg.tan import Tan
+from .operator.node.dag.transform.tangent_constraint import TangentConstraint
 from .operator.node.dg.tension import Tension
 from .operator.node.dg.tex_lattice import TexLattice
 from .operator.node.dg.texture_bake_set import TextureBakeSet
 from .operator.node.dg.texture_deformer import TextureDeformer
+from .operator.node.dag.transform.texture_deformer_handle import (
+    TextureDeformerHandle,
+)
 from .operator.node.dg.texture_to_geom import TextureToGeom
 from .operator.node.dg.time import Time
 from .operator.node.dg.time_editor import TimeEditor
@@ -1294,14 +1350,19 @@ from .operator.node.dg.trim import Trim
 from .operator.node.dg.trim_with_boundaries import TrimWithBoundaries
 from .operator.node.dg.triple_shading_switch import TripleShadingSwitch
 from .operator.node.dg.truncate import Truncate
+from .operator.node.dag.transform.turbulence_field import TurbulenceField
 from .operator.node.dg.tweak import Tweak
 from .operator.node.dg.type import Type
 from .operator.node.dg.type_extrude import TypeExtrude
 from .operator.node.dag.shape.ufe_proxy_camera_shape import UfeProxyCameraShape
+from .operator.node.dag.transform.ufe_proxy_transform import UfeProxyTransform
 from .operator.node.dg.uniform_falloff import UniformFalloff
+from .operator.node.dag.transform.uniform_field import UniformField
 from .operator.node.dg.unit_conversion import UnitConversion
 from .operator.node.dg.unit_to_time_conversion import UnitToTimeConversion
 from .operator.node.dg.unknown import Unknown
+from .operator.node.dag.unknown_dag import UnknownDag
+from .operator.node.dag.transform.unknown_transform import UnknownTransform
 from .operator.node.dg.unpremultiply import Unpremultiply
 from .operator.node.dg.untrim import Untrim
 from .operator.node.dg.usd_preview_surface import UsdPreviewSurface
@@ -1314,10 +1375,12 @@ from .operator.node.dg.vector_extrude import VectorExtrude
 from .operator.node.dg.vector_product import VectorProduct
 from .operator.node.dg.vertex_bake_set import VertexBakeSet
 from .operator.node.dg.view_color_manager import ViewColorManager
+from .operator.node.dag.transform.volume_axis_field import VolumeAxisField
 from .operator.node.dg.volume_fog import VolumeFog
 from .operator.node.dag.shape.volume_light import VolumeLight
 from .operator.node.dg.volume_noise import VolumeNoise
 from .operator.node.dg.volume_shader import VolumeShader
+from .operator.node.dag.transform.vortex_field import VortexField
 from .operator.node.dg.water import Water
 from .operator.node.dg.weight_geometry_filter import WeightGeometryFilter
 from .operator.node.dg.wire import Wire
@@ -2795,11 +2858,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> AiWriteVector: ...
     @staticmethod
+    def aimConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AimConstraint: ...
+    @staticmethod
     def aimMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AimMatrix: ...
+    @staticmethod
+    def airField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AirField: ...
     @staticmethod
     def alignCurve(
         node: str | om.MObject,
@@ -4445,6 +4520,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> ClampRange: ...
     @staticmethod
+    def clipGhostShape(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> ClipGhostShape: ...
+    @staticmethod
     def clipLibrary(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -4522,6 +4603,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Collection: ...
+    @staticmethod
+    def collisionModel(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> CollisionModel: ...
     @staticmethod
     def colorComposite(
         node: str | om.MObject,
@@ -4793,11 +4880,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> CurveNormalizerLinear: ...
     @staticmethod
+    def curveVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> CurveVarGroup: ...
+    @staticmethod
     def curveWarp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CurveWarp: ...
+    @staticmethod
+    def dagContainer(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DagContainer: ...
     @staticmethod
     def dagPose(
         node: str | om.MObject,
@@ -5002,6 +5101,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DpBirailSrf: ...
+    @staticmethod
+    def dragField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DragField: ...
     @staticmethod
     def dropoffLocator(
         node: str | om.MObject,
@@ -5249,6 +5354,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Flow: ...
     @staticmethod
+    def fluidEmitter(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> FluidEmitter: ...
+    @staticmethod
     def fluidShape(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5272,6 +5383,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Follicle: ...
+    @staticmethod
+    def fosterParent(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> FosterParent: ...
     @staticmethod
     def fourByFourMatrix(
         node: str | om.MObject,
@@ -5321,11 +5438,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> GeomBind: ...
     @staticmethod
+    def geometryConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> GeometryConstraint: ...
+    @staticmethod
     def geometryFilter(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GeometryFilter: ...
+    @staticmethod
+    def geometryVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> GeometryVarGroup: ...
     @staticmethod
     def globalCacheControl(
         node: str | om.MObject,
@@ -5344,6 +5473,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Granite: ...
+    @staticmethod
+    def gravityField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> GravityField: ...
     @staticmethod
     def greasePencilSequence(
         node: str | om.MObject,
@@ -5471,11 +5606,41 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode4: ...
     @staticmethod
+    def hikEffector(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikEffector: ...
+    @staticmethod
+    def hikFKJoint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikFKJoint: ...
+    @staticmethod
     def hikFloorContactMarker(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> HikFloorContactMarker: ...
+    @staticmethod
+    def hikGroundPlane(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikGroundPlane: ...
+    @staticmethod
+    def hikHandle(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikHandle: ...
+    @staticmethod
+    def hikIKEffector(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> HikIKEffector: ...
     @staticmethod
     def hikSolver(
         node: str | om.MObject,
@@ -5536,6 +5701,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Ik2Bsolver: ...
+    @staticmethod
+    def ikEffector(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> IkEffector: ...
+    @staticmethod
+    def ikHandle(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> IkHandle: ...
     @staticmethod
     def ikMCsolver(
         node: str | om.MObject,
@@ -5614,6 +5791,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> InsertKnotSurface: ...
+    @staticmethod
+    def instancer(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> Instancer: ...
     @staticmethod
     def intersectSurface(
         node: str | om.MObject,
@@ -5807,6 +5990,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Locator: ...
     @staticmethod
+    def lodGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> LodGroup: ...
+    @staticmethod
     def lodThresholds(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5824,6 +6013,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Log: ...
+    @staticmethod
+    def lookAt(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> LookAt: ...
     @staticmethod
     def luminance(
         node: str | om.MObject,
@@ -6005,6 +6200,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Mesh: ...
     @staticmethod
+    def meshVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MeshVarGroup: ...
+    @staticmethod
     def min(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -6149,6 +6350,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Network: ...
     @staticmethod
+    def newtonField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> NewtonField: ...
+    @staticmethod
     def nodeGraphEditorBookmarkInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -6173,6 +6380,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> NonLinear: ...
     @staticmethod
+    def normalConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> NormalConstraint: ...
+    @staticmethod
     def normalize(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -6184,6 +6397,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
+    @staticmethod
+    def nucleus(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> Nucleus: ...
     @staticmethod
     def nurbsCurve(
         node: str | om.MObject,
@@ -6329,6 +6548,18 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> OldGeometryConstraint: ...
     @staticmethod
+    def oldNormalConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> OldNormalConstraint: ...
+    @staticmethod
+    def oldTangentConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> OldTangentConstraint: ...
+    @staticmethod
     def opticalFX(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -6340,6 +6571,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
+    @staticmethod
+    def orientConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> OrientConstraint: ...
     @staticmethod
     def orientationMarker(
         node: str | om.MObject,
@@ -6364,6 +6601,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ParamDimension: ...
+    @staticmethod
+    def parentConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> ParentConstraint: ...
     @staticmethod
     def parentMatrix(
         node: str | om.MObject,
@@ -6473,6 +6716,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Place2dTexture: ...
     @staticmethod
+    def place3dTexture(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> Place3dTexture: ...
+    @staticmethod
     def planarTrimSurface(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -6484,6 +6733,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PlusMinusAverage: ...
+    @staticmethod
+    def pointConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> PointConstraint: ...
+    @staticmethod
+    def pointEmitter(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> PointEmitter: ...
     @staticmethod
     def pointLight(
         node: str | om.MObject,
@@ -6503,11 +6764,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> PointOnCurveInfo: ...
     @staticmethod
+    def pointOnPolyConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> PointOnPolyConstraint: ...
+    @staticmethod
     def pointOnSurfaceInfo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PointOnSurfaceInfo: ...
+    @staticmethod
+    def poleVectorConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> PoleVectorConstraint: ...
     @staticmethod
     def polyAppend(
         node: str | om.MObject,
@@ -7223,6 +7496,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Premultiply: ...
     @staticmethod
+    def primitiveFalloff(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> PrimitiveFalloff: ...
+    @staticmethod
     def projectCurve(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -7348,6 +7627,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> QuatToEuler: ...
+    @staticmethod
+    def radialField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> RadialField: ...
     @staticmethod
     def ramp(
         node: str | om.MObject,
@@ -7595,6 +7880,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> RigidBody: ...
     @staticmethod
+    def rigidConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> RigidConstraint: ...
+    @staticmethod
     def rigidSolver(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -7654,6 +7945,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SamplerInfo: ...
+    @staticmethod
+    def scaleConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> ScaleConstraint: ...
     @staticmethod
     def scaleFromMatrix(
         node: str | om.MObject,
@@ -8051,6 +8348,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> SubdivReverseFaces: ...
     @staticmethod
+    def subdivSurfaceVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> SubdivSurfaceVarGroup: ...
+    @staticmethod
     def subdivToNurbs(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8099,6 +8402,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> SurfaceShader: ...
     @staticmethod
+    def surfaceVarGroup(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> SurfaceVarGroup: ...
+    @staticmethod
     def svgToPoly(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8117,11 +8426,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> SweepProfileConverter: ...
     @staticmethod
+    def symmetryConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> SymmetryConstraint: ...
+    @staticmethod
     def tan(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Tan: ...
+    @staticmethod
+    def tangentConstraint(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> TangentConstraint: ...
     @staticmethod
     def tension(
         node: str | om.MObject,
@@ -8146,6 +8467,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TextureDeformer: ...
+    @staticmethod
+    def textureDeformerHandle(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> TextureDeformerHandle: ...
     @staticmethod
     def textureToGeom(
         node: str | om.MObject,
@@ -8291,6 +8618,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Truncate: ...
     @staticmethod
+    def turbulenceField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> TurbulenceField: ...
+    @staticmethod
     def tweak(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8315,11 +8648,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> UfeProxyCameraShape: ...
     @staticmethod
+    def ufeProxyTransform(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeProxyTransform: ...
+    @staticmethod
     def uniformFalloff(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> UniformFalloff: ...
+    @staticmethod
+    def uniformField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UniformField: ...
     @staticmethod
     def unitConversion(
         node: str | om.MObject,
@@ -8338,6 +8683,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Unknown: ...
+    @staticmethod
+    def unknownDag(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UnknownDag: ...
+    @staticmethod
+    def unknownTransform(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UnknownTransform: ...
     @staticmethod
     def unpremultiply(
         node: str | om.MObject,
@@ -8411,6 +8768,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> ViewColorManager: ...
     @staticmethod
+    def volumeAxisField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> VolumeAxisField: ...
+    @staticmethod
     def volumeFog(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8434,6 +8797,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> VolumeShader: ...
+    @staticmethod
+    def vortexField(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> VortexField: ...
     @staticmethod
     def water(
         node: str | om.MObject,

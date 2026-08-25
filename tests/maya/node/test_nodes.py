@@ -13,6 +13,7 @@ def test_nodes_can_import_from_bd_util(new_scene):
     assert nodes.modifier_manager is modifier_manager
     assert nodes.create.modifier_manager is modifier_manager
     assert nodes.existing.modifier_manager is modifier_manager
+    assert nodes.types is nodes.types
 
 
 def test_nodes_can_import_from_maya_node_package(new_scene):
@@ -30,8 +31,10 @@ def test_nodes_is_the_only_public_node_access_entry(new_scene):
     assert "ExistingNode" not in bd_util.__all__
     assert not hasattr(bd_util, "NodeCreator")
     assert not hasattr(bd_util, "ExistingNode")
+    assert not hasattr(bd_util, "NodeTypes")
     assert node_package.__all__ == ("Nodes",)
     assert not hasattr(node_package, "ExistingNode")
+    assert not hasattr(node_package, "NodeTypes")
 
 
 def test_nodes_create_and_existing_share_modifier_manager(
@@ -105,5 +108,6 @@ def test_nodes_caches_accessors(new_scene):
 
     assert nodes.create is nodes.create
     assert nodes.existing is nodes.existing
+    assert nodes.types is nodes.types
     assert nodes.existing.decomposeMatrix is existing_accessor
     assert nodes.existing.__dict__["decomposeMatrix"] is existing_accessor

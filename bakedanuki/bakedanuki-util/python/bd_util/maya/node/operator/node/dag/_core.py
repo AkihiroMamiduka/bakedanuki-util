@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Self
+from typing import Literal, overload, Self, TypeVar
 
 # maya
 from maya.api import OpenMaya as om
@@ -9,6 +9,8 @@ from ....modifier import ModifierManager
 from .....transform import TransformMatrix
 from .._core import NodeOperator, DEFAULT_VALUE_AUTO_ADD_ATTR
 
+_DAGType = TypeVar("_DAGType", bound="DAG")
+
 
 def _require_dag(value: object, argument_name: str) -> "DAG":
     if not isinstance(value, DAG):
@@ -16,6 +18,43 @@ def _require_dag(value: object, argument_name: str) -> "DAG":
             f"{argument_name} must be DAG; got {type(value).__name__}"
         )
     return value
+
+
+def _require_dag_type(
+    value: object,
+    argument_name: str,
+) -> type["DAG"]:
+    if not isinstance(value, type) or not issubclass(value, DAG):
+        value_name = (
+            value.__name__ if isinstance(value, type) else type(value).__name__
+        )
+        raise TypeError(
+            f"{argument_name} must be a DAG NodeOperator class; "
+            f"got {value_name}"
+        )
+    return value
+
+
+def _require_bool(value: object, argument_name: str) -> bool:
+    if not isinstance(value, bool):
+        raise TypeError(
+            f"{argument_name} must be bool; got {type(value).__name__}"
+        )
+    return value
+
+
+def _matches_dag_type(
+    node: "DAG",
+    dag_type: type["DAG"],
+    include_subclasses: bool,
+) -> bool:
+    if include_subclasses:
+        return isinstance(node, dag_type)
+    return type(node) is dag_type
+
+
+def _matches_shape_filter(node: "DAG", include_shapes: bool) -> bool:
+    return include_shapes or not node.m_obj.hasFn(om.MFn.kShape)
 
 
 class DAG(NodeOperator):
@@ -109,26 +148,279 @@ class DAG(NodeOperator):
     @property
     def parents(self) -> tuple["DAG", ...]:
         """ワールドを除く、すべての直接の親を返す。"""
-        from ....existing_node import ExistingNode
-
         fn_dag = om.MFnDagNode(self.m_obj)
         parents: list[DAG] = []
         for index in range(fn_dag.parentCount()):
             parent_obj = fn_dag.parent(index)
             if parent_obj.hasFn(om.MFn.kWorld):
                 continue
-            parent = ExistingNode(
-                parent_obj,
-                modifier_manager=self.modifier_manager,
-                auto_add_attr=False,
-            )
-            if not isinstance(parent, DAG):
-                raise TypeError(
-                    "DAG parent did not resolve to DAG: "
-                    f"{type(parent).__name__}"
-                )
-            parents.append(parent)
+            parents.append(self._wrap_existing_dag(parent_obj))
         return tuple(parents)
+
+    @overload
+    def children(
+        self,
+        *,
+        filter_type: None = None,
+        include_subclasses: Literal[True] = True,
+        include_shapes: bool = True,
+    ) -> tuple["DAG", ...]: ...
+
+    @overload
+    def children(
+        self,
+        *,
+        filter_type: type[_DAGType],
+        include_subclasses: bool = True,
+        include_shapes: bool = True,
+    ) -> tuple[_DAGType, ...]: ...
+
+    def children(
+        self,
+        *,
+        filter_type: object = None,
+        include_subclasses: object = True,
+        include_shapes: object = True,
+    ) -> tuple["DAG", ...]:
+        """Mayaのchild index順で、条件に一致する直接の子を返す。"""
+        include_subclasses_value = _require_bool(
+            include_subclasses,
+            "include_subclasses",
+        )
+        include_shapes_value = _require_bool(
+            include_shapes,
+            "include_shapes",
+        )
+        if filter_type is None and not include_subclasses_value:
+            raise ValueError("include_subclasses=False requires filter_type")
+
+        fn_dag = om.MFnDagNode(self.m_obj)
+        children = tuple(
+            self._wrap_existing_dag(fn_dag.child(index))
+            for index in range(fn_dag.childCount())
+        )
+        if filter_type is None:
+            return tuple(
+                child
+                for child in children
+                if _matches_shape_filter(child, include_shapes_value)
+            )
+
+        dag_type = _require_dag_type(filter_type, "filter_type")
+        return tuple(
+            child
+            for child in children
+            if _matches_shape_filter(child, include_shapes_value)
+            and _matches_dag_type(
+                child,
+                dag_type,
+                include_subclasses_value,
+            )
+        )
+
+    @overload
+    def ancestors(
+        self,
+        *,
+        filter_type: None = None,
+        include_subclasses: Literal[True] = True,
+        until: None = None,
+    ) -> tuple["DAG", ...]: ...
+
+    @overload
+    def ancestors(
+        self,
+        *,
+        filter_type: None = None,
+        include_subclasses: Literal[True] = True,
+        until: "DAG | None",
+    ) -> tuple["DAG", ...] | None: ...
+
+    @overload
+    def ancestors(
+        self,
+        *,
+        filter_type: type[_DAGType],
+        include_subclasses: bool = True,
+        until: None = None,
+    ) -> tuple[_DAGType, ...]: ...
+
+    @overload
+    def ancestors(
+        self,
+        *,
+        filter_type: type[_DAGType],
+        include_subclasses: bool = True,
+        until: "DAG | None",
+    ) -> tuple[_DAGType, ...] | None: ...
+
+    def ancestors(
+        self,
+        *,
+        filter_type: object = None,
+        include_subclasses: object = True,
+        until: object = None,
+    ) -> tuple["DAG", ...] | None:
+        """保持pathの直接親からroot方向へ、条件に一致する祖先を返す。"""
+        include_subclasses_value = _require_bool(
+            include_subclasses,
+            "include_subclasses",
+        )
+        if filter_type is None and not include_subclasses_value:
+            raise ValueError("include_subclasses=False requires filter_type")
+
+        dag_type = (
+            None
+            if filter_type is None
+            else _require_dag_type(filter_type, "filter_type")
+        )
+        until_node = None if until is None else _require_dag(until, "until")
+        path = om.MDagPath(self._dag_path)
+        ancestors: list[DAG] = []
+        until_found = until_node is None
+        while path.length():
+            path.pop()
+            ancestor_obj = path.node()
+            if ancestor_obj.hasFn(om.MFn.kWorld):
+                break
+            ancestor = self._wrap_existing_dag(ancestor_obj)
+            if dag_type is None or _matches_dag_type(
+                ancestor,
+                dag_type,
+                include_subclasses_value,
+            ):
+                ancestors.append(ancestor)
+            if until_node is not None and ancestor.m_obj == until_node.m_obj:
+                until_found = True
+                break
+        if not until_found:
+            return None
+        return tuple(ancestors)
+
+    @overload
+    def descendants(
+        self,
+        *,
+        filter_type: None = None,
+        include_subclasses: Literal[True] = True,
+        include_shapes: bool = True,
+    ) -> tuple["DAG", ...]: ...
+
+    @overload
+    def descendants(
+        self,
+        *,
+        filter_type: type[_DAGType],
+        include_subclasses: bool = True,
+        include_shapes: bool = True,
+    ) -> tuple[_DAGType, ...]: ...
+
+    def descendants(
+        self,
+        *,
+        filter_type: object = None,
+        include_subclasses: object = True,
+        include_shapes: object = True,
+    ) -> tuple["DAG", ...]:
+        """条件に一致する子孫をdepth-first pre-orderで返す。"""
+        include_subclasses_value = _require_bool(
+            include_subclasses,
+            "include_subclasses",
+        )
+        include_shapes_value = _require_bool(
+            include_shapes,
+            "include_shapes",
+        )
+        if filter_type is None and not include_subclasses_value:
+            raise ValueError("include_subclasses=False requires filter_type")
+
+        dag_type = (
+            None
+            if filter_type is None
+            else _require_dag_type(filter_type, "filter_type")
+        )
+        descendants: list[DAG] = []
+        stack = list(reversed(self.children()))
+        while stack:
+            descendant = stack.pop()
+            if _matches_shape_filter(
+                descendant,
+                include_shapes_value,
+            ) and (
+                dag_type is None
+                or _matches_dag_type(
+                    descendant,
+                    dag_type,
+                    include_subclasses_value,
+                )
+            ):
+                descendants.append(descendant)
+            stack.extend(reversed(descendant.children()))
+        return tuple(descendants)
+
+    @overload
+    def descendant_chain(
+        self,
+        child_index: int = 0,
+        *,
+        until: None = None,
+    ) -> tuple["DAG", ...]: ...
+
+    @overload
+    def descendant_chain(
+        self,
+        child_index: int = 0,
+        *,
+        until: "DAG | None",
+    ) -> tuple["DAG", ...] | None: ...
+
+    def descendant_chain(
+        self,
+        child_index: object = 0,
+        *,
+        until: object = None,
+    ) -> tuple["DAG", ...] | None:
+        """各階層で同じchild indexを選び、末端まで返す。"""
+        if isinstance(child_index, bool) or not isinstance(child_index, int):
+            raise TypeError(
+                f"child_index must be int; got {type(child_index).__name__}"
+            )
+        if child_index < 0:
+            raise ValueError(
+                f"child_index must be non-negative; got {child_index}"
+            )
+
+        until_node = None if until is None else _require_dag(until, "until")
+        chain: list[DAG] = []
+        current = self
+        until_found = until_node is None
+        while True:
+            fn_dag = om.MFnDagNode(current.m_obj)
+            if child_index >= fn_dag.childCount():
+                break
+            current = self._wrap_existing_dag(fn_dag.child(child_index))
+            chain.append(current)
+            if until_node is not None and current.m_obj == until_node.m_obj:
+                until_found = True
+                break
+        if not until_found:
+            return None
+        return tuple(chain)
+
+    def _wrap_existing_dag(self, m_obj: om.MObject) -> "DAG":
+        from ....existing_node import ExistingNode
+
+        node = ExistingNode(
+            m_obj,
+            modifier_manager=self.modifier_manager,
+            auto_add_attr=False,
+        )
+        if not isinstance(node, DAG):
+            raise TypeError(
+                "DAG hierarchy node did not resolve to DAG: "
+                f"{type(node).__name__}"
+            )
+        return node
 
     def set_parent(self, parent: "DAG") -> Self:
         """local transform を維持して親変更を DAG modifier に積む。"""

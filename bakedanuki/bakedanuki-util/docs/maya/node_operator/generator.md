@@ -162,6 +162,10 @@ generate_node_class_file("transform", path, node_kind="transform")
   - 手書きの `_core.py` にある公開 `Transform` は `GeneratedTransform` を継承します。
   - `joint` など transform 派生 node では、`transform` で定義済みの attribute は生成しません。
     これにより、派生 class には固有 attribute だけが出力され、共通 attribute は `Transform` から継承されます。
+  - attribute は node instance を作成せず、`MNodeClass` と
+    `cmds.attributeQuery(..., type=<nodeType>)` から取得します。
+  - 生成済み class は `nodes.existing` から利用できますが、`nodes.create` には
+    `CREATABLE_TRANSFORM_NODE_TYPES` に明示した作成確認済み type だけを公開します。
 - `shape`
   - `node/dag/shape/_generated` に、通常は `Generated<NodeClass>(Shape)` を出力します。
   - `node_type == "shape"` の場合は `shape.py` に `GeneratedShape(DAG)` を出力します。
@@ -177,6 +181,40 @@ DG の既存呼び出しとの互換のため、デフォルトは `node_kind="d
 shape node は全生成と作成 API の公開を分けて扱います。生成済み class は
 `nodes.existing` から利用できますが、`nodes.create` には親 Transform 必須の
 作成テストを通した node type だけを明示的に公開します。
+
+transform 派生 node も同じく、既存 node を具体型へ包む coverage と作成 API の
+公開を分けます。`ikHandle` / `ikEffector` は最初の既存 node 用サンプルとして
+生成しますが、特殊な作成手順を持つため `nodes.create` には公開しません。
+次のグループとしてconstraint系14種も生成し、`nodes.existing` の具体型と
+補完へ追加しています。constraint nodeも専用commandや接続を伴うため、
+`nodes.create` には公開しません。
+続いてfield / emitter系11種も同じ方針で生成します。`primitiveFalloff` は
+`dynBase` / `field` / `pointEmitter` を継承しない独立transformのため、
+このグループには含めません。
+dynamics / deformer周辺のグループでは、`collisionModel` / `instancer` /
+`nucleus` / `primitiveFalloff` / `textureDeformerHandle` を生成します。
+`textureDeformerHandle` はtransform共通attribute以外を持たないため、生成classは
+`NODE_TYPE` だけを追加する空の具象classになります。
+HIK系では、既に具体型がある直近のnative基底を生成classの基底に使います。
+`hikFKJoint` は `Joint`、`hikHandle` は `IkHandle` を継承し、それぞれの基底で
+定義済みのattributeを重複生成しません。その他のHIK 3種は `Transform` を
+直接継承します。
+scene / utility系では、`lookAt` がnativeで `aimConstraint` を継承するため、
+生成classも `AimConstraint` を基底にします。`dagContainer` / `fosterParent` /
+`place3dTexture` はtransform共通attribute以外を持たない空の具象classです。
+VarGroup系5種は、作成不能な抽象native type `baseGeometryVarGroup` の共通attributeを
+`BaseGeometryVarGroup` に生成し、その派生型として生成します。抽象基底自体は
+`nodes.existing` の型別メソッドには公開せず、具体5種だけを公開します。
+`ufeProxyTransform` の `ufePath` は静的なnode class attributeではなく、Mayaが
+各instanceへ追加するuser-defined attributeです。Maya 2025での実挙動をgeneratorの
+runtime-defined attribute情報として補い、静的queryに現れる将来versionでは重複を
+避けます。`unknownTransform` はtransform共通attributeだけの空の具象classです。
+`transform` / `joint` は引き続き作成確認済み type として公開します。
+
+transformでもshapeでもない汎用DAGの `unknownDag` は、`DAG` 直系の
+`UnknownDag` として生成します。Maya 2025では `kUnknownDag` として作成でき、
+親Transformが自動作成されます。既存sceneのplaceholderを具体型へ包む用途に限定し、
+`nodes.existing` には公開しますが `nodes.create` には公開しません。
 
 ## 命名規則
 
@@ -589,18 +627,20 @@ print(errors)
 
 内部実装の `ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
 公開APIの `nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
-IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の3ファイルを生成します。
+IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の5ファイルを生成します。
 
 - `python/bd_util/maya/node/existing_node.pyi`
 - `python/bd_util/maya/node/nodes.pyi`
 - `python/bd_util/maya/node/creator/_shape_with_transform.pyi`
+- `python/bd_util/maya/node/_node_type_registry.py`
+- `python/bd_util/maya/node/node_types.pyi`
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
     python\bd_util\_dev\maya\node\operator\node\generate_existing_node_stub.py
 ```
 
-新しい NodeOperator class を追加または再生成した場合は、3つのstubも再生成してください。
+新しい NodeOperator class を追加または再生成した場合は、これらの生成物も再生成してください。
 差分を発生させず、現在のstubが最新か確認する場合は `--check` を指定します。
 `--check`はBlackによる折り返しなどのformat差分を無視し、Python ASTとして
 生成内容が一致しているかを確認します。
@@ -614,8 +654,17 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 具体的な戻り値型を追えるようにします。公開対象は
 `creator/_shape_types.py` と共有するため、実行時 API と補完候補がずれません。
 
+`_node_type_registry.py` は、PascalCaseのPython class名とMaya node type名だけを
+保持します。`nodes.types` の初期化時に全NodeOperator moduleをimportせず、
+`nodes.types.Locator` のように参照されたclassだけを遅延importするためのregistryです。
+`node_types.pyi` は同じ定義からread-only propertyを生成し、
+`nodes.types.Locator` を `type[Locator]` として公開します。`NodeOperator` / `DAG` /
+`Shape` / `BaseGeometryVarGroup` はfilterにも使う公開基底classとして明示的に追加します。
+
 Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。
+`nodes.types.And` / `nodes.types.Or` / `nodes.types.Not` のruntime値は、それぞれの
+具体classです。
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `

@@ -134,6 +134,386 @@ def test_existing_node_wraps_joint(new_scene, maya_cmds):
     assert node.name == "test_joint"
 
 
+def test_existing_node_wraps_ik_handle_and_effector(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util
+    from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
+        IkEffector,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.ik_handle import (
+        IkHandle,
+    )
+
+    start_joint = maya_cmds.joint(name="start_joint", position=(0, 0, 0))
+    end_joint = maya_cmds.joint(name="end_joint", position=(5, 0, 0))
+    handle_name, effector_name = maya_cmds.ikHandle(
+        name="test_ik_handle",
+        startJoint=start_joint,
+        endEffector=end_joint,
+    )
+    modifier_manager = bd_util.ModifierManager()
+
+    handle = ExistingNode(
+        handle_name,
+        modifier_manager=modifier_manager,
+    )
+    effector = ExistingNode(
+        effector_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert isinstance(handle, IkHandle)
+    assert isinstance(effector, IkEffector)
+    assert handle.NODE_TYPE == "ikHandle"
+    assert effector.NODE_TYPE == "ikEffector"
+    assert handle.modifier_manager is modifier_manager
+    assert effector.modifier_manager is modifier_manager
+    assert handle.ikBlend.long_name == "ikBlend"
+    assert effector.hideDisplay.long_name == "hideDisplay"
+
+
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("aimConstraint", "AimConstraint"),
+        ("geometryConstraint", "GeometryConstraint"),
+        ("normalConstraint", "NormalConstraint"),
+        ("oldNormalConstraint", "OldNormalConstraint"),
+        ("oldTangentConstraint", "OldTangentConstraint"),
+        ("orientConstraint", "OrientConstraint"),
+        ("parentConstraint", "ParentConstraint"),
+        ("pointConstraint", "PointConstraint"),
+        ("pointOnPolyConstraint", "PointOnPolyConstraint"),
+        ("poleVectorConstraint", "PoleVectorConstraint"),
+        ("rigidConstraint", "RigidConstraint"),
+        ("scaleConstraint", "ScaleConstraint"),
+        ("symmetryConstraint", "SymmetryConstraint"),
+        ("tangentConstraint", "TangentConstraint"),
+    ],
+)
+def test_existing_node_wraps_constraint_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("airField", "AirField"),
+        ("dragField", "DragField"),
+        ("fluidEmitter", "FluidEmitter"),
+        ("gravityField", "GravityField"),
+        ("newtonField", "NewtonField"),
+        ("pointEmitter", "PointEmitter"),
+        ("radialField", "RadialField"),
+        ("turbulenceField", "TurbulenceField"),
+        ("uniformField", "UniformField"),
+        ("volumeAxisField", "VolumeAxisField"),
+        ("vortexField", "VortexField"),
+    ],
+)
+def test_existing_node_wraps_field_and_emitter_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("collisionModel", "CollisionModel"),
+        ("instancer", "Instancer"),
+        ("nucleus", "Nucleus"),
+        ("primitiveFalloff", "PrimitiveFalloff"),
+        ("textureDeformerHandle", "TextureDeformerHandle"),
+    ],
+)
+def test_existing_node_wraps_dynamics_and_deformer_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("hikEffector", "HikEffector"),
+        ("hikFKJoint", "HikFKJoint"),
+        ("hikGroundPlane", "HikGroundPlane"),
+        ("hikHandle", "HikHandle"),
+        ("hikIKEffector", "HikIKEffector"),
+    ],
+)
+def test_existing_node_wraps_hik_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+def test_existing_node_hik_preserves_concrete_transform_base(
+    new_scene,
+    maya_cmds,
+):
+    from bd_util.maya.node.operator.node.dag.transform.hik_fk_joint import (
+        HikFKJoint,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.hik_handle import (
+        HikHandle,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.ik_handle import (
+        IkHandle,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+
+    hik_fk_joint = ExistingNode(maya_cmds.createNode("hikFKJoint"))
+    hik_handle = ExistingNode(maya_cmds.createNode("hikHandle"))
+
+    assert isinstance(hik_fk_joint, HikFKJoint)
+    assert isinstance(hik_fk_joint, Joint)
+    assert isinstance(hik_handle, HikHandle)
+    assert isinstance(hik_handle, IkHandle)
+
+
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("clipGhostShape", "ClipGhostShape"),
+        ("dagContainer", "DagContainer"),
+        ("fosterParent", "FosterParent"),
+        ("lodGroup", "LodGroup"),
+        ("lookAt", "LookAt"),
+        ("place3dTexture", "Place3dTexture"),
+    ],
+)
+def test_existing_node_wraps_scene_utility_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+def test_existing_node_look_at_preserves_aim_constraint_base(
+    new_scene,
+    maya_cmds,
+):
+    from bd_util.maya.node.operator.node.dag.transform.aim_constraint import (
+        AimConstraint,
+    )
+    from bd_util.maya.node.operator.node.dag.transform.look_at import LookAt
+
+    look_at = ExistingNode(maya_cmds.createNode("lookAt"))
+
+    assert isinstance(look_at, LookAt)
+    assert isinstance(look_at, AimConstraint)
+
+
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("curveVarGroup", "CurveVarGroup"),
+        ("geometryVarGroup", "GeometryVarGroup"),
+        ("meshVarGroup", "MeshVarGroup"),
+        ("subdivSurfaceVarGroup", "SubdivSurfaceVarGroup"),
+        ("surfaceVarGroup", "SurfaceVarGroup"),
+    ],
+)
+def test_existing_node_wraps_var_group_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+def test_existing_node_var_groups_preserve_abstract_base(
+    new_scene,
+    maya_cmds,
+):
+    from bd_util.maya.node.operator.node.dag.transform.base_geometry_var_group import (
+        BaseGeometryVarGroup,
+    )
+
+    node_types = (
+        "curveVarGroup",
+        "geometryVarGroup",
+        "meshVarGroup",
+        "subdivSurfaceVarGroup",
+        "surfaceVarGroup",
+    )
+
+    nodes = [
+        ExistingNode(maya_cmds.createNode(node_type))
+        for node_type in node_types
+    ]
+
+    assert all(isinstance(node, BaseGeometryVarGroup) for node in nodes)
+
+
+@pytest.mark.parametrize(
+    ("node_type", "class_name"),
+    [
+        ("ufeProxyTransform", "UfeProxyTransform"),
+        ("unknownTransform", "UnknownTransform"),
+    ],
+)
+def test_existing_node_wraps_special_transform(
+    new_scene,
+    maya_cmds,
+    node_type,
+    class_name,
+):
+    import bd_util
+
+    node_name = maya_cmds.createNode(node_type)
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+
+    assert type(node).__name__ == class_name
+    assert node.NODE_TYPE == node_type
+    assert node.modifier_manager is modifier_manager
+
+
+def test_existing_ufe_proxy_transform_exposes_runtime_defined_ufe_path(
+    new_scene,
+    maya_cmds,
+):
+    from bd_util.maya.node.operator.node.dag.transform.ufe_proxy_transform import (
+        UfeProxyTransform,
+    )
+
+    node_name = maya_cmds.createNode("ufeProxyTransform")
+    node = ExistingNode(node_name)
+
+    assert isinstance(node, UfeProxyTransform)
+    assert node.ufePath.long_name == "ufePath"
+    assert node.ufePath.short_name == "ufep"
+    assert node.ufePath.get() == ""
+
+
+def test_existing_node_wraps_unknown_dag_with_concrete_parent(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util
+    from bd_util.maya.node.operator.node.dag.unknown_dag import UnknownDag
+    from bd_util.maya.node.operator.node.dag.transform._core import Transform
+
+    node_name = maya_cmds.createNode("unknownDag", name="unknownDag1")
+    modifier_manager = bd_util.ModifierManager()
+
+    node = ExistingNode(
+        node_name,
+        modifier_manager=modifier_manager,
+    )
+    parent = node.parent
+
+    assert type(node) is UnknownDag
+    assert node.NODE_TYPE == "unknownDag"
+    assert node.modifier_manager is modifier_manager
+    assert node.full_path == "|transform1|unknownDag1"
+    assert node.visibility.long_name == "visibility"
+    assert type(parent) is Transform
+    assert parent.modifier_manager is modifier_manager
+    parents = node.parents
+    assert len(parents) == 1
+    assert parents[0].m_obj == parent.m_obj
+    assert parents[0].modifier_manager is modifier_manager
+
+
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 

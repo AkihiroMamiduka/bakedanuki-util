@@ -20,7 +20,79 @@ def test_transform_stub_uses_public_manual_class():
     assert transform.module_name.endswith(".dag.transform._core")
 
 
-def test_shape_stub_excludes_abstract_base_class():
+def test_transform_stub_includes_existing_only_concrete_classes():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    definitions = stub_generator.collect_node_definitions(python_root)
+    definitions_by_type = {
+        definition.node_type: definition for definition in definitions
+    }
+
+    expected_classes = {
+        "aimConstraint": "AimConstraint",
+        "airField": "AirField",
+        "clipGhostShape": "ClipGhostShape",
+        "collisionModel": "CollisionModel",
+        "curveVarGroup": "CurveVarGroup",
+        "dagContainer": "DagContainer",
+        "dragField": "DragField",
+        "fluidEmitter": "FluidEmitter",
+        "fosterParent": "FosterParent",
+        "geometryConstraint": "GeometryConstraint",
+        "geometryVarGroup": "GeometryVarGroup",
+        "gravityField": "GravityField",
+        "hikEffector": "HikEffector",
+        "hikFKJoint": "HikFKJoint",
+        "hikGroundPlane": "HikGroundPlane",
+        "hikHandle": "HikHandle",
+        "hikIKEffector": "HikIKEffector",
+        "ikEffector": "IkEffector",
+        "ikHandle": "IkHandle",
+        "instancer": "Instancer",
+        "lodGroup": "LodGroup",
+        "lookAt": "LookAt",
+        "meshVarGroup": "MeshVarGroup",
+        "newtonField": "NewtonField",
+        "normalConstraint": "NormalConstraint",
+        "nucleus": "Nucleus",
+        "oldNormalConstraint": "OldNormalConstraint",
+        "oldTangentConstraint": "OldTangentConstraint",
+        "orientConstraint": "OrientConstraint",
+        "parentConstraint": "ParentConstraint",
+        "pointConstraint": "PointConstraint",
+        "pointEmitter": "PointEmitter",
+        "pointOnPolyConstraint": "PointOnPolyConstraint",
+        "poleVectorConstraint": "PoleVectorConstraint",
+        "place3dTexture": "Place3dTexture",
+        "primitiveFalloff": "PrimitiveFalloff",
+        "radialField": "RadialField",
+        "rigidConstraint": "RigidConstraint",
+        "scaleConstraint": "ScaleConstraint",
+        "symmetryConstraint": "SymmetryConstraint",
+        "subdivSurfaceVarGroup": "SubdivSurfaceVarGroup",
+        "surfaceVarGroup": "SurfaceVarGroup",
+        "tangentConstraint": "TangentConstraint",
+        "textureDeformerHandle": "TextureDeformerHandle",
+        "turbulenceField": "TurbulenceField",
+        "uniformField": "UniformField",
+        "ufeProxyTransform": "UfeProxyTransform",
+        "unknownDag": "UnknownDag",
+        "unknownTransform": "UnknownTransform",
+        "volumeAxisField": "VolumeAxisField",
+        "vortexField": "VortexField",
+    }
+
+    assert {
+        node_type: definitions_by_type[node_type].class_name
+        for node_type in expected_classes
+    } == expected_classes
+
+
+def test_stub_excludes_abstract_base_classes():
     import bd_util
     from bd_util._dev.maya.node.operator.node import (
         generate_existing_node_stub as stub_generator,
@@ -29,7 +101,9 @@ def test_shape_stub_excludes_abstract_base_class():
     python_root = Path(bd_util.__file__).resolve().parent.parent
     definitions = stub_generator.collect_node_definitions(python_root)
 
-    assert all(definition.node_type != "shape" for definition in definitions)
+    assert {definition.node_type for definition in definitions}.isdisjoint(
+        {"baseGeometryVarGroup", "shape"}
+    )
 
 
 def test_shape_with_transform_stub_uses_only_creatable_shapes():
@@ -110,6 +184,36 @@ def test_shape_with_transform_stub_matches_generated_code():
     assert stub_generator.stub_code_is_current(
         output_path,
         stub_generator.generate_shape_with_transform_stub_code(python_root),
+    )
+
+
+def test_node_type_registry_matches_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    output_path = stub_generator.node_type_registry_path(python_root)
+
+    assert stub_generator.stub_code_is_current(
+        output_path,
+        stub_generator.generate_node_type_registry_code(python_root),
+    )
+
+
+def test_node_types_stub_matches_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    output_path = stub_generator.node_types_stub_path(python_root)
+
+    assert stub_generator.stub_code_is_current(
+        output_path,
+        stub_generator.generate_node_types_stub_code(python_root),
     )
 
 

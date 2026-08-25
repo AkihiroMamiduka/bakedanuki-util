@@ -419,6 +419,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double i
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.float import (
     FloatPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.long import (
+    LongPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.short import (
     ShortPlugOperator,
 )
@@ -781,6 +784,7 @@ from bd_util.maya.node.operator.node.dg.decompose_matrix import (
     DecomposeMatrix,
 )
 from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
+from bd_util.maya.node.operator.node.dag._core import DAG
 from bd_util.maya.node.operator.node.dag.shape._core import Shape
 from bd_util.maya.node.operator.node.dag.shape.ai_area_light import AiAreaLight
 from bd_util.maya.node.operator.node.dag.shape.ai_curve_collector import (
@@ -936,7 +940,511 @@ from bd_util.maya.node.operator.node.dag.shape.ufe_proxy_camera_shape import (
     UfeProxyCameraShape,
 )
 from bd_util.maya.node.operator.node.dag.shape.volume_light import VolumeLight
+from bd_util.maya.node.operator.node.dag.unknown_dag import UnknownDag
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
+from bd_util.maya.node.operator.node.dag.transform.aim_constraint import (
+    AimConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.air_field import AirField
+from bd_util.maya.node.operator.node.dag.transform.base_geometry_var_group import (
+    BaseGeometryVarGroup,
+)
+from bd_util.maya.node.operator.node.dag.transform.clip_ghost_shape import (
+    ClipGhostShape,
+)
+from bd_util.maya.node.operator.node.dag.transform.collision_model import (
+    CollisionModel,
+)
+from bd_util.maya.node.operator.node.dag.transform.curve_var_group import (
+    CurveVarGroup,
+)
+from bd_util.maya.node.operator.node.dag.transform.dag_container import (
+    DagContainer,
+)
+from bd_util.maya.node.operator.node.dag.transform.drag_field import DragField
+from bd_util.maya.node.operator.node.dag.transform.fluid_emitter import (
+    FluidEmitter,
+)
+from bd_util.maya.node.operator.node.dag.transform.foster_parent import (
+    FosterParent,
+)
+from bd_util.maya.node.operator.node.dag.transform.geometry_constraint import (
+    GeometryConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.geometry_var_group import (
+    GeometryVarGroup,
+)
+from bd_util.maya.node.operator.node.dag.transform.gravity_field import (
+    GravityField,
+)
+from bd_util.maya.node.operator.node.dag.transform.hik_effector import (
+    HikEffector,
+)
+from bd_util.maya.node.operator.node.dag.transform.hik_fk_joint import (
+    HikFKJoint,
+)
+from bd_util.maya.node.operator.node.dag.transform.hik_ground_plane import (
+    HikGroundPlane,
+)
+from bd_util.maya.node.operator.node.dag.transform.hik_handle import HikHandle
+from bd_util.maya.node.operator.node.dag.transform.hik_ik_effector import (
+    HikIKEffector,
+)
+from bd_util.maya.node.operator.node.dag.transform.ik_effector import (
+    IkEffector,
+)
+from bd_util.maya.node.operator.node.dag.transform.ik_handle import IkHandle
+from bd_util.maya.node.operator.node.dag.transform.instancer import Instancer
+from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+from bd_util.maya.node.operator.node.dag.transform.lod_group import LodGroup
+from bd_util.maya.node.operator.node.dag.transform.look_at import LookAt
+from bd_util.maya.node.operator.node.dag.transform.mesh_var_group import (
+    MeshVarGroup,
+)
+from bd_util.maya.node.operator.node.dag.transform.normal_constraint import (
+    NormalConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.newton_field import (
+    NewtonField,
+)
+from bd_util.maya.node.operator.node.dag.transform.nucleus import Nucleus
+from bd_util.maya.node.operator.node.dag.transform.old_normal_constraint import (
+    OldNormalConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.old_tangent_constraint import (
+    OldTangentConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.orient_constraint import (
+    OrientConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.parent_constraint import (
+    ParentConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.point_constraint import (
+    PointConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.point_emitter import (
+    PointEmitter,
+)
+from bd_util.maya.node.operator.node.dag.transform.place3d_texture import (
+    Place3dTexture,
+)
+from bd_util.maya.node.operator.node.dag.transform.point_on_poly_constraint import (
+    PointOnPolyConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.pole_vector_constraint import (
+    PoleVectorConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.primitive_falloff import (
+    PrimitiveFalloff,
+)
+from bd_util.maya.node.operator.node.dag.transform.radial_field import (
+    RadialField,
+)
+from bd_util.maya.node.operator.node.dag.transform.rigid_constraint import (
+    RigidConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.scale_constraint import (
+    ScaleConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.symmetry_constraint import (
+    SymmetryConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.subdiv_surface_var_group import (
+    SubdivSurfaceVarGroup,
+)
+from bd_util.maya.node.operator.node.dag.transform.surface_var_group import (
+    SurfaceVarGroup,
+)
+from bd_util.maya.node.operator.node.dag.transform.tangent_constraint import (
+    TangentConstraint,
+)
+from bd_util.maya.node.operator.node.dag.transform.texture_deformer_handle import (
+    TextureDeformerHandle,
+)
+from bd_util.maya.node.operator.node.dag.transform.turbulence_field import (
+    TurbulenceField,
+)
+from bd_util.maya.node.operator.node.dag.transform.uniform_field import (
+    UniformField,
+)
+from bd_util.maya.node.operator.node.dag.transform.ufe_proxy_transform import (
+    UfeProxyTransform,
+)
+from bd_util.maya.node.operator.node.dag.transform.unknown_transform import (
+    UnknownTransform,
+)
+from bd_util.maya.node.operator.node.dag.transform.volume_axis_field import (
+    VolumeAxisField,
+)
+from bd_util.maya.node.operator.node.dag.transform.vortex_field import (
+    VortexField,
+)
+
+
+def generic_dag_existing_contract(
+    nodes: bdu.Nodes,
+    until: DAG,
+    optional_until: DAG | None,
+) -> None:
+    unknown_dag = nodes.existing.unknownDag("existing_unknown_dag")
+
+    assert_type(unknown_dag, UnknownDag)
+    assert_type(unknown_dag.visibility, BoolPlugOperator)
+    assert_type(unknown_dag.children(), tuple[DAG, ...])
+    assert_type(unknown_dag.children(filter_type=None), tuple[DAG, ...])
+    assert_type(
+        unknown_dag.children(include_shapes=False),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.children(filter_type=nodes.types.DAG),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.children(filter_type=nodes.types.Transform),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.children(
+            filter_type=nodes.types.Transform,
+            include_shapes=False,
+        ),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.children(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        ),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.children(filter_type=nodes.types.Shape),
+        tuple[Shape, ...],
+    )
+    assert_type(
+        unknown_dag.children(filter_type=nodes.types.Locator),
+        tuple[Locator, ...],
+    )
+    assert_type(unknown_dag.ancestors(), tuple[DAG, ...])
+    assert_type(unknown_dag.ancestors(filter_type=None), tuple[DAG, ...])
+    assert_type(unknown_dag.ancestors(until=None), tuple[DAG, ...])
+    assert_type(
+        unknown_dag.ancestors(until=until),
+        tuple[DAG, ...] | None,
+    )
+    assert_type(
+        unknown_dag.ancestors(until=optional_until),
+        tuple[DAG, ...] | None,
+    )
+    assert_type(
+        unknown_dag.ancestors(filter_type=nodes.types.DAG),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.ancestors(filter_type=nodes.types.Transform),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.ancestors(
+            filter_type=nodes.types.Transform,
+            until=until,
+        ),
+        tuple[Transform, ...] | None,
+    )
+    assert_type(
+        unknown_dag.ancestors(
+            filter_type=nodes.types.Transform,
+            until=optional_until,
+        ),
+        tuple[Transform, ...] | None,
+    )
+    assert_type(
+        unknown_dag.ancestors(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        ),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.ancestors(filter_type=nodes.types.Shape),
+        tuple[Shape, ...],
+    )
+    assert_type(
+        unknown_dag.ancestors(filter_type=nodes.types.Locator),
+        tuple[Locator, ...],
+    )
+    assert_type(unknown_dag.descendants(), tuple[DAG, ...])
+    assert_type(unknown_dag.descendants(filter_type=None), tuple[DAG, ...])
+    assert_type(
+        unknown_dag.descendants(include_shapes=False),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.descendants(filter_type=nodes.types.DAG),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.descendants(filter_type=nodes.types.Transform),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.descendants(
+            filter_type=nodes.types.Transform,
+            include_shapes=False,
+        ),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.descendants(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        ),
+        tuple[Transform, ...],
+    )
+    assert_type(
+        unknown_dag.descendants(filter_type=nodes.types.Shape),
+        tuple[Shape, ...],
+    )
+    assert_type(
+        unknown_dag.descendants(filter_type=nodes.types.Locator),
+        tuple[Locator, ...],
+    )
+    assert_type(unknown_dag.descendant_chain(), tuple[DAG, ...])
+    assert_type(unknown_dag.descendant_chain(1), tuple[DAG, ...])
+    assert_type(
+        unknown_dag.descendant_chain(child_index=1),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.descendant_chain(until=None),
+        tuple[DAG, ...],
+    )
+    assert_type(
+        unknown_dag.descendant_chain(until=until),
+        tuple[DAG, ...] | None,
+    )
+    assert_type(
+        unknown_dag.descendant_chain(
+            child_index=1,
+            until=until,
+        ),
+        tuple[DAG, ...] | None,
+    )
+    assert_type(
+        unknown_dag.descendant_chain(until=optional_until),
+        tuple[DAG, ...] | None,
+    )
+
+
+def node_types_contract(nodes: bdu.Nodes) -> None:
+    assert_type(nodes.types.NodeOperator, type[NodeOperator])
+    assert_type(nodes.types.DAG, type[DAG])
+    assert_type(nodes.types.Transform, type[Transform])
+    assert_type(nodes.types.Shape, type[Shape])
+    assert_type(
+        nodes.types.BaseGeometryVarGroup,
+        type[BaseGeometryVarGroup],
+    )
+    assert_type(nodes.types.Locator, type[Locator])
+    assert_type(nodes.types.UnknownDag, type[UnknownDag])
+    assert_type(nodes.types.resolve("locator"), type[NodeOperator])
+
+
+def transform_existing_contract(nodes: bdu.Nodes) -> None:
+    handle = nodes.existing.ikHandle("existing_ik_handle")
+    effector = nodes.existing.ikEffector("existing_ik_effector")
+    aim_constraint = nodes.existing.aimConstraint("existing_aim_constraint")
+    geometry_constraint = nodes.existing.geometryConstraint(
+        "existing_geometry_constraint"
+    )
+    normal_constraint = nodes.existing.normalConstraint(
+        "existing_normal_constraint"
+    )
+    old_normal_constraint = nodes.existing.oldNormalConstraint(
+        "existing_old_normal_constraint"
+    )
+    old_tangent_constraint = nodes.existing.oldTangentConstraint(
+        "existing_old_tangent_constraint"
+    )
+    orient_constraint = nodes.existing.orientConstraint(
+        "existing_orient_constraint"
+    )
+    parent_constraint = nodes.existing.parentConstraint(
+        "existing_parent_constraint"
+    )
+    point_constraint = nodes.existing.pointConstraint(
+        "existing_point_constraint"
+    )
+    point_on_poly_constraint = nodes.existing.pointOnPolyConstraint(
+        "existing_point_on_poly_constraint"
+    )
+    pole_vector_constraint = nodes.existing.poleVectorConstraint(
+        "existing_pole_vector_constraint"
+    )
+    rigid_constraint = nodes.existing.rigidConstraint(
+        "existing_rigid_constraint"
+    )
+    scale_constraint = nodes.existing.scaleConstraint(
+        "existing_scale_constraint"
+    )
+    symmetry_constraint = nodes.existing.symmetryConstraint(
+        "existing_symmetry_constraint"
+    )
+    tangent_constraint = nodes.existing.tangentConstraint(
+        "existing_tangent_constraint"
+    )
+    air_field = nodes.existing.airField("existing_air_field")
+    drag_field = nodes.existing.dragField("existing_drag_field")
+    fluid_emitter = nodes.existing.fluidEmitter("existing_fluid_emitter")
+    gravity_field = nodes.existing.gravityField("existing_gravity_field")
+    newton_field = nodes.existing.newtonField("existing_newton_field")
+    point_emitter = nodes.existing.pointEmitter("existing_point_emitter")
+    radial_field = nodes.existing.radialField("existing_radial_field")
+    turbulence_field = nodes.existing.turbulenceField(
+        "existing_turbulence_field"
+    )
+    uniform_field = nodes.existing.uniformField("existing_uniform_field")
+    volume_axis_field = nodes.existing.volumeAxisField(
+        "existing_volume_axis_field"
+    )
+    vortex_field = nodes.existing.vortexField("existing_vortex_field")
+    collision_model = nodes.existing.collisionModel("existing_collision_model")
+    instancer = nodes.existing.instancer("existing_instancer")
+    nucleus = nodes.existing.nucleus("existing_nucleus")
+    primitive_falloff = nodes.existing.primitiveFalloff(
+        "existing_primitive_falloff"
+    )
+    texture_deformer_handle = nodes.existing.textureDeformerHandle(
+        "existing_texture_deformer_handle"
+    )
+    hik_effector = nodes.existing.hikEffector("existing_hik_effector")
+    hik_fk_joint = nodes.existing.hikFKJoint("existing_hik_fk_joint")
+    hik_ground_plane = nodes.existing.hikGroundPlane(
+        "existing_hik_ground_plane"
+    )
+    hik_handle = nodes.existing.hikHandle("existing_hik_handle")
+    hik_ik_effector = nodes.existing.hikIKEffector("existing_hik_ik_effector")
+    clip_ghost_shape = nodes.existing.clipGhostShape(
+        "existing_clip_ghost_shape"
+    )
+    dag_container = nodes.existing.dagContainer("existing_dag_container")
+    foster_parent = nodes.existing.fosterParent("existing_foster_parent")
+    lod_group = nodes.existing.lodGroup("existing_lod_group")
+    look_at = nodes.existing.lookAt("existing_look_at")
+    place3d_texture = nodes.existing.place3dTexture("existing_place3d_texture")
+    curve_var_group = nodes.existing.curveVarGroup("existing_curve_var_group")
+    geometry_var_group = nodes.existing.geometryVarGroup(
+        "existing_geometry_var_group"
+    )
+    mesh_var_group = nodes.existing.meshVarGroup("existing_mesh_var_group")
+    subdiv_surface_var_group = nodes.existing.subdivSurfaceVarGroup(
+        "existing_subdiv_surface_var_group"
+    )
+    surface_var_group = nodes.existing.surfaceVarGroup(
+        "existing_surface_var_group"
+    )
+    ufe_proxy_transform = nodes.existing.ufeProxyTransform(
+        "existing_ufe_proxy_transform"
+    )
+    unknown_transform = nodes.existing.unknownTransform(
+        "existing_unknown_transform"
+    )
+
+    assert_type(handle, IkHandle)
+    assert_type(handle.ikBlend, DoublePlugOperator)
+    assert_type(effector, IkEffector)
+    assert_type(effector.hideDisplay, BoolPlugOperator)
+    assert_type(aim_constraint, AimConstraint)
+    assert_type(geometry_constraint, GeometryConstraint)
+    assert_type(normal_constraint, NormalConstraint)
+    assert_type(old_normal_constraint, OldNormalConstraint)
+    assert_type(old_tangent_constraint, OldTangentConstraint)
+    assert_type(orient_constraint, OrientConstraint)
+    assert_type(parent_constraint, ParentConstraint)
+    assert_type(parent_constraint.lockOutput, BoolPlugOperator)
+    assert_type(point_constraint, PointConstraint)
+    assert_type(point_on_poly_constraint, PointOnPolyConstraint)
+    assert_type(pole_vector_constraint, PoleVectorConstraint)
+    assert_type(rigid_constraint, RigidConstraint)
+    assert_type(rigid_constraint.springStiffness, DoublePlugOperator)
+    assert_type(scale_constraint, ScaleConstraint)
+    assert_type(symmetry_constraint, SymmetryConstraint)
+    assert_type(tangent_constraint, TangentConstraint)
+    assert_type(air_field, AirField)
+    assert_type(air_field.magnitude, DoublePlugOperator)
+    assert_type(drag_field, DragField)
+    assert_type(fluid_emitter, FluidEmitter)
+    assert_type(fluid_emitter.rate, DoublePlugOperator)
+    assert_type(gravity_field, GravityField)
+    assert_type(newton_field, NewtonField)
+    assert_type(point_emitter, PointEmitter)
+    assert_type(radial_field, RadialField)
+    assert_type(turbulence_field, TurbulenceField)
+    assert_type(uniform_field, UniformField)
+    assert_type(volume_axis_field, VolumeAxisField)
+    assert_type(volume_axis_field.magnitude, DoublePlugOperator)
+    assert_type(vortex_field, VortexField)
+    assert_type(collision_model, CollisionModel)
+    assert_type(collision_model.resilience, DoublePlugOperator)
+    assert_type(instancer, Instancer)
+    assert_type(instancer.displayPercentage, DoublePlugOperator)
+    assert_type(nucleus, Nucleus)
+    assert_type(nucleus.gravity, FloatPlugOperator)
+    assert_type(primitive_falloff, PrimitiveFalloff)
+    assert_type(primitive_falloff.start, DoublePlugOperator)
+    assert_type(texture_deformer_handle, TextureDeformerHandle)
+    assert_type(texture_deformer_handle.visibility, BoolPlugOperator)
+    assert_type(hik_effector, HikEffector)
+    assert_type(hik_effector.reachTranslation, DoublePlugOperator)
+    assert_type(hik_fk_joint, HikFKJoint)
+    assert_type(hik_fk_joint.segmentScaleCompensate, BoolPlugOperator)
+    assert_type(hik_ground_plane, HikGroundPlane)
+    assert_type(hik_ground_plane.length, DoublePlugOperator)
+    assert_type(hik_handle, HikHandle)
+    assert_type(hik_handle.ikBlend, DoublePlugOperator)
+    assert_type(hik_ik_effector, HikIKEffector)
+    assert_type(hik_ik_effector.reachRotation, DoublePlugOperator)
+
+    joint_base: Joint = hik_fk_joint
+    ik_handle_base: IkHandle = hik_handle
+    assert joint_base is hik_fk_joint
+    assert ik_handle_base is hik_handle
+    assert_type(clip_ghost_shape, ClipGhostShape)
+    assert_type(clip_ghost_shape.showStartPose, BoolPlugOperator)
+    assert_type(dag_container, DagContainer)
+    assert_type(dag_container.visibility, BoolPlugOperator)
+    assert_type(foster_parent, FosterParent)
+    assert_type(foster_parent.visibility, BoolPlugOperator)
+    assert_type(lod_group, LodGroup)
+    assert_type(lod_group.minDistance, DoublePlugOperator)
+    assert_type(look_at, LookAt)
+    assert_type(look_at.distanceBetween, DoublePlugOperator)
+    assert_type(look_at.lockOutput, BoolPlugOperator)
+    assert_type(place3d_texture, Place3dTexture)
+    assert_type(place3d_texture.visibility, BoolPlugOperator)
+
+    aim_constraint_base: AimConstraint = look_at
+    assert aim_constraint_base is look_at
+    assert_type(curve_var_group, CurveVarGroup)
+    assert_type(curve_var_group.maxCreated, LongPlugOperator)
+    assert_type(curve_var_group.create_, DataNurbsCurvePlugOperator)
+    assert_type(geometry_var_group, GeometryVarGroup)
+    assert_type(geometry_var_group.create_, TypedPlugOperator)
+    assert_type(mesh_var_group, MeshVarGroup)
+    assert_type(mesh_var_group.create_, DataMeshPlugOperator)
+    assert_type(subdiv_surface_var_group, SubdivSurfaceVarGroup)
+    assert_type(subdiv_surface_var_group.create_, TypedPlugOperator)
+    assert_type(surface_var_group, SurfaceVarGroup)
+    assert_type(surface_var_group.create_, DataNurbsSurfacePlugOperator)
+
+    base_geometry_var_group: BaseGeometryVarGroup = curve_var_group
+    assert base_geometry_var_group is curve_var_group
+    assert_type(ufe_proxy_transform, UfeProxyTransform)
+    assert_type(ufe_proxy_transform.ufePath, DataStringPlugOperator)
+    assert_type(unknown_transform, UnknownTransform)
+    assert_type(unknown_transform.visibility, BoolPlugOperator)
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:
@@ -4012,6 +4520,52 @@ def invalid_usage_contract(
     )
     nodes.create.mesh()  # pyright: ignore[reportCallIssue]
     nodes.existing.decomposeMatrix(123)  # pyright: ignore[reportArgumentType]
+    nodes.existing.unknownDag(
+        "invalid_filter"
+    ).children(  # pyright: ignore[reportCallIssue]
+        filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag(
+        "invalid_filter"
+    ).ancestors(  # pyright: ignore[reportCallIssue]
+        filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag(
+        "invalid_filter"
+    ).descendants(  # pyright: ignore[reportCallIssue]
+        filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").children(
+        include_subclasses=False  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").ancestors(
+        include_subclasses=False  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").descendants(
+        include_subclasses=False  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").children(
+        include_shapes=0  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").descendants(
+        include_shapes=0  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag("invalid_filter").ancestors(
+        include_shapes=False  # pyright: ignore[reportCallIssue]
+    )
+    nodes.existing.unknownDag("invalid_filter").descendant_chain(
+        child_index="0"  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag(
+        "invalid_filter"
+    ).ancestors(  # pyright: ignore[reportCallIssue]
+        until=nodes.types.Transform  # pyright: ignore[reportArgumentType]
+    )
+    nodes.existing.unknownDag(
+        "invalid_filter"
+    ).descendant_chain(  # pyright: ignore[reportCallIssue]
+        until=nodes.types.Transform  # pyright: ignore[reportArgumentType]
+    )
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]
     nodes.create.wtAddMatrix().wtMatrix[

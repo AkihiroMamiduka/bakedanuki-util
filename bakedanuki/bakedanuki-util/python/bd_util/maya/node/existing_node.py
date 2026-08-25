@@ -5,7 +5,7 @@ from collections.abc import Callable
 
 from maya.api import OpenMaya as om
 
-from .creator import NodeCreator
+from ._node_class_resolver import resolve_node_class
 from .modifier import ModifierManager
 from .operator.node._core import NodeOperator
 
@@ -21,7 +21,7 @@ class _ExistingNodeMeta(type):
         if cached is not None:
             return cached
 
-        node_cls = _get_node_cls(node_name, ModifierManager())
+        node_cls = _get_node_cls(node_name)
 
         def _wrap(
             node: str | om.MObject,
@@ -73,7 +73,7 @@ def _wrap_existing_node(
         modifier_manager = ModifierManager()
 
     if expected_node_cls is None:
-        node_cls = _get_node_cls(node_type, modifier_manager)
+        node_cls = _get_node_cls(node_type)
     else:
         node_cls = expected_node_cls
         if node_type != node_cls.NODE_TYPE:
@@ -110,13 +110,8 @@ def _get_node_type(m_obj: om.MObject) -> str:
     return om.MFnDependencyNode(m_obj).typeName
 
 
-def _get_node_cls(
-    node_type: str,
-    modifier_manager: ModifierManager,
-) -> type[NodeOperator]:
+def _get_node_cls(node_type: str) -> type[NodeOperator]:
     try:
-        return NodeCreator(modifier_manager=modifier_manager).node_class(
-            node_type
-        )
+        return resolve_node_class(node_type)
     except AttributeError as e:
         raise AttributeError(f"Unsupported node type: {node_type}") from e

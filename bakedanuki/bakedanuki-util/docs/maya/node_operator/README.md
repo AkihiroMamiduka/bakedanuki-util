@@ -45,7 +45,9 @@
 - `python/bd_util/maya/node/modifier/_core.py`
   - `ModifierManager` です。
 - `python/bd_util/maya/node/nodes.py`
-  - `Nodes` です。ノード作成と既存ノード変換で同じ `ModifierManager` を共有する統合入口です。
+  - `Nodes` です。ノード作成、既存ノード変換、NodeOperator class参照の統合入口です。
+- `python/bd_util/maya/node/node_types.py`
+  - `nodes.types` を構成する、NodeOperator classの遅延参照accessorです。
 - `python/bd_util/maya/node/creator/_core.py`
   - `nodes.create` を構成する内部実装の `NodeCreator` です。
 - `python/bd_util/maya/node/existing_node.py`
@@ -67,16 +69,19 @@ flowchart TD
     NodeCreator["NodeCreator"]
     ExistingAccessor["nodes.existing"]
     ExistingNode["ExistingNode"]
+    NodeTypes["nodes.types"]
     OpenMaya["maya.api.OpenMaya"]
 
     Nodes --> NodeCreator
     Nodes --> ExistingAccessor
+    Nodes --> NodeTypes
     Nodes --> ModifierManager
     ExistingAccessor --> ExistingNode
     NodeCreator --> NodeOperator
     NodeCreator --> ModifierManager
     ExistingNode --> NodeOperator
     ExistingNode --> ModifierManager
+    NodeTypes --> NodeOperator
     NodeOperator --> DG
     NodeOperator --> DAG
     DAG --> Transform
@@ -145,6 +150,32 @@ assert existing.modifier_manager is modifier_manager
 ```python
 existing = nodes.existing("existing_node")
 ```
+
+生成済みの `NodeOperator` classを参照する場合は、`nodes.types` を使います。
+属性名はMaya node type名ではなく、Python classと同じPascalCaseです。
+
+```python
+transform_type = nodes.types.Transform
+locator_type = nodes.types.Locator
+shape_type = nodes.types.Shape
+
+assert issubclass(locator_type, shape_type)
+```
+
+`NodeOperator` / `DAG` / `Shape` / `BaseGeometryVarGroup` のような基底classと、
+`nodes.existing` が具体型へ解決できる生成済みclassを参照できます。作成可否とは
+独立しているため、`IkHandle` / `UnknownDag` / `SphereLocator` も対象です。
+実classは属性へ最初にアクセスしたときだけimportされ、結果はaccessor内でcacheされます。
+
+動的なMaya node type名から解決する場合は `resolve()` を使います。
+
+```python
+node_type = nodes.types.resolve("locator")
+```
+
+`resolve()` は正確なMaya node type名を受け取り、静的な戻り値型は
+`type[NodeOperator]`です。具体型のIDE補完が必要なコードでは
+`nodes.types.Locator` の形式を使います。
 
 `NodeCreator` / `ExistingNode` は `Nodes` の内部実装として維持しますが、`bd_util` の公開APIには含めません。
 ノード作成と既存ノード変換は、どちらも `Nodes` から利用します。
@@ -436,12 +467,121 @@ Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
 
 `DAG.parent` は直接の親を返し、ワールド直下では `None` を返します。
 `DAG.parents` は直接の親を tuple で返し、ワールドは含めません。
+`DAG.children()` はTransformとShapeを区別せず、すべての直接の子をMayaの
+child index順で返します。自分自身、world、孫は含めません。
+`filter_type=`へDAG系`NodeOperator` classを渡すと、`isinstance()`で一致する子だけを
+同じ順序で返します。省略時または`None`では、従来どおりすべての直接の子を返します。
+`include_subclasses=False`を併用すると、派生classを除き、指定classと完全一致する子だけを
+返します。
+`include_shapes=False`を指定すると、Transformや`UnknownDag`などを残したまま、
+すべてのShape系nodeを結果から除外します。
+`DAG.ancestors()` は保持中のpathを基準に、直接の親からroot方向へ返します。
+自分自身とworldは含めません。`filter_type=`を指定した場合もrootまで辿り、
+一致した祖先だけを同じ順序で返します。
+`until=`へDAGを指定すると、その境界までを探索し、境界が保持中pathになければ`None`を
+返します。
+`DAG.descendants()` は各階層のchild index順を維持したdepth-first pre-orderで、
+すべての子孫を返します。自分自身とworldは含めません。
+`filter_type=`を指定した場合も探索範囲は変えず、一致した子孫だけを結果へ含めます。
+`DAG.descendant_chain(child_index=0)`は、各階層で同じchild indexの子だけを選び、
+そのindexの子が存在しなくなるまで返します。`until=`を指定すると、その固定chain上の
+境界までを返し、境界が見つからなければ`None`を返します。自分自身とworldは含めません。
 
 ```python
 parent = child.parent
 parents = child.parents
+children = parent.children()
+non_shape_children = parent.children(include_shapes=False)
+transform_children = parent.children(filter_type=nodes.types.Transform)
+exact_transform_children = parent.children(
+    filter_type=nodes.types.Transform,
+    include_subclasses=False,
+)
+shape_children = parent.children(filter_type=nodes.types.Shape)
+locator_children = parent.children(filter_type=nodes.types.Locator)
+ancestors = child.ancestors()
+ancestors_to_root = child.ancestors(until=root)
+transform_ancestors = child.ancestors(filter_type=nodes.types.Transform)
+exact_transform_ancestors = child.ancestors(
+    filter_type=nodes.types.Transform,
+    include_subclasses=False,
+)
+descendants = parent.descendants()
+non_shape_descendants = parent.descendants(include_shapes=False)
+transform_descendants = parent.descendants(
+    filter_type=nodes.types.Transform,
+)
+exact_transform_descendants = parent.descendants(
+    filter_type=nodes.types.Transform,
+    include_subclasses=False,
+)
+shape_descendants = parent.descendants(filter_type=nodes.types.Shape)
+mesh_descendants = parent.descendants(filter_type=nodes.types.Mesh)
+first_child_chain = parent.descendant_chain()
+second_child_chain = parent.descendant_chain(child_index=1)
+chain_to_target = parent.descendant_chain(until=target)
 is_instanced = child.is_instanced
 ```
+
+`children()` / `ancestors()` / `descendants()` / `descendant_chain()` の各要素は
+scene上のnode typeに
+対応する具体的な`DAG`系
+`NodeOperator`で、元のnodeと同じ`ModifierManager`を共有します。結果はcacheせず、
+呼び出すたびに現在のsceneから取得します。同じ`ModifierManager`に積まれていても、
+未実行の`MDagModifier`による作成・親変更は`do_it_dag()`まで含めません。
+
+`children(filter_type=...)` / `ancestors(filter_type=...)` /
+`descendants(filter_type=...)` は継承関係を考慮します。
+例えば`Transform`には`Joint`などの派生classも含まれ、`Shape`にはconcrete shapeが
+含まれます。`include_subclasses=False`を指定すると`type(node) is filter_type`で判定し、
+`Transform`だけを対象として`Joint`などを除外できます。`Shape`や`DAG`のような基底classを
+完全一致で指定した結果に該当nodeがなければ、空tupleを返します。戻り値型は
+`nodes.types.Locator`を渡した場合に`tuple[Locator, ...]`となるよう、
+`type[T]`とoverloadで公開します。DG系class、NodeOperator instance、複数classの
+tupleは受け取らず、`TypeError`にします。`include_subclasses`はboolだけを受け取り、
+`filter_type`なしで`False`を指定した場合は`ValueError`にします。
+
+`include_shapes`はboolだけを受け取り、初期値は`True`です。`False`では
+Maya APIの`MFn.kShape`に一致するnodeを結果から除外します。Shapeだけへの限定は
+`filter_type=nodes.types.Shape`で表現します。`filter_type`と併用した場合はAND条件とし、
+例えば`filter_type=nodes.types.Shape, include_shapes=False`は空tupleを返します。
+このoptionはShapeを通常の直接childとして列挙する`children()` / `descendants()`だけに
+提供し、`ancestors()`には追加しません。
+
+`descendants()`のfilterは結果だけに適用します。例えば`Mesh`を指定した場合、途中の
+`Transform`は結果へ含めませんが、そのsubtreeは探索し、末端の`Mesh`を返します。
+列挙順、instanced subtreeのpathごとの再訪、実行済みscene状態を都度読む契約は、
+filterを指定しない場合と同じです。
+
+`ancestors()`のfilterも結果だけに適用します。途中の祖先が条件に一致しなくても、
+そこで探索を止めず、保持中pathのrootまで確認します。instanced nodeでは従来どおり
+保持中の1つのpathだけを基準にします。
+
+`ancestors(until=boundary)`は直接親から境界までをinclusiveに探索します。境界は
+Python instanceや名前ではなく`MObject` identityで比較するため、別の`Nodes`や
+`ModifierManager`から取得した同じscene nodeも指定できます。境界が保持中pathに
+存在しなければ、途中までの結果ではなく`None`を返します。自分自身は祖先ではないため、
+`until=self`も`None`です。
+
+`until`による境界検出と`filter_type`による結果filterは独立しています。境界がfilterに
+一致しなくても発見済みとして探索を終了し、その境界だけを結果から除外します。
+この場合、境界が見つかってfilter結果が0件なら空tuple、境界自体が見つからなければ
+`None`です。`until`省略時または`None`では従来どおりtupleを返し、DAG指定時は
+`tuple[T, ...] | None`となるoverloadを公開します。
+
+`descendant_chain()`は`descendants()`とは異なる探索規則を持つ独立メソッドです。
+例えば`child_index=1`なら、rootでも次の階層でもindex 1だけを選びます。ある階層に
+index 1が存在しなければ、index 0などへfallbackせず、そこで終了します。Transformと
+Shapeを区別せずに選択し、選ばれたShapeも結果へ含めます。`child_index`は0以上のintだけを
+受け取り、boolなどの非intは`TypeError`、負数は`ValueError`にします。
+
+`descendant_chain(until=boundary)`は、選択された固定child indexのchain上だけを探索し、
+境界までをinclusiveに返します。境界が別indexの兄弟や別subtreeに存在しても、その方向へは
+探索せず`None`を返します。境界比較は`ancestors(until=...)`と同じく`MObject` identityを
+使うため、別の`Nodes`や`ModifierManager`から取得した同じscene nodeも指定できます。
+自分自身はchainに含めないため、`until=self`は`None`です。未実行の`MDagModifier`変更も
+共通のtraversal契約どおり`do_it_dag()`まで探索へ反映しません。`until`省略時または
+`None`では従来どおり`tuple[DAG, ...]`、DAG指定時は`tuple[DAG, ...] | None`を返します。
 
 親変更は `set_parent()` で現在の `MDagModifier` に積みます。
 初期値では local transform を維持するため、親の transform に応じて world transform が変わります。
@@ -479,6 +619,13 @@ mod.do_it_dag()
 
 インスタンス DAG は階層パスが複数あるため、`parent`、`set_parent()`、`set_parent_to_world()` は `RuntimeError` にします。
 すべての直接の親を調べる場合は `parents` を使用します。
+`children()` はMObject中心で直接の子を取得するため、instanced childも取得できます。
+返されたnodeの保持pathは従来どおり`MDagPath.getAPathTo()`が選んだ1つです。
+`ancestors()` はinstanced nodeでも例外にせず、同じく`getAPathTo()`で保持した
+1つのpathを基準に祖先を列挙します。すべての直接親が必要な場合は`parents`を使います。
+`descendants()` はMayaのdepth-first traversalと同様に、instanced subtreeへ
+複数のDAG pathから到達する場合はpathごとに再訪します。そのため、同じ`MObject`を
+包むnodeが結果に複数回現れることがあります。
 
 `full_path` は保持中の `MDagPath` からアクセスごとに取得します。
 親変更や rename の確定、および undo / redo 後も現在のフルパスを返します。
@@ -538,6 +685,37 @@ node = nodes.existing.decomposeMatrix("test_decompose_matrix")
 この例の `node` は IDE 上でも `DecomposeMatrix` として扱われます。
 Maya 上の実際の nodeType が指定したメソッドと異なる場合は `TypeError` を送出します。
 自動判定する `nodes.existing("nodeName")` と型を明示する `nodes.existing.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
+
+transform 派生 node は、既存 node の具体型対応と作成 API を分けて段階公開します。
+`ikHandle` / `ikEffector` は `nodes.existing.ikHandle()` /
+`nodes.existing.ikEffector()` から具体型として利用できますが、作成には専用の
+初期化手順が必要なため `nodes.create` には公開しません。
+constraint 系14種も `nodes.existing.aimConstraint()` /
+`nodes.existing.parentConstraint()` などから具体型として利用できます。
+これらも専用 command や接続を伴うため `nodes.create` には公開しません。
+field / emitter 系11種も `nodes.existing.airField()` /
+`nodes.existing.fluidEmitter()` などから具体型として利用できます。
+これらも dynamics 用の初期化や接続を伴うため `nodes.create` には公開しません。
+dynamics / deformer 周辺の5種も `nodes.existing.nucleus()` /
+`nodes.existing.primitiveFalloff()` などから具体型として利用できます。
+これらも専用の作成手順や接続を伴うため `nodes.create` には公開しません。
+HIK 系5種も `nodes.existing.hikFKJoint()` /
+`nodes.existing.hikHandle()` などから具体型として利用できます。
+`HikFKJoint` は `Joint`、`HikHandle` は `IkHandle` の継承関係も維持します。
+scene / utility 系6種も `nodes.existing.dagContainer()` /
+`nodes.existing.lookAt()` などから具体型として利用できます。
+`LookAt` はnative継承に合わせて `AimConstraint` の派生型として扱います。
+VarGroup 系5種も `nodes.existing.curveVarGroup()` /
+`nodes.existing.meshVarGroup()` などから具体型として利用できます。
+5種共通の抽象native基底は `BaseGeometryVarGroup` として型階層に保持します。
+特殊transformの `ufeProxyTransform` / `unknownTransform` も
+`nodes.existing` から具体型として利用できます。`UfeProxyTransform` では、
+各instanceへ追加される `ufePath` も静的なfieldとして公開します。
+
+transformでもshapeでもない汎用DAGの `unknownDag` も、
+`nodes.existing.unknownDag()` から `UnknownDag` として利用できます。Mayaは
+`unknownDag` の作成時に親Transformも自動作成するため、戻り値と命名の契約が明確な
+`nodes.create` には公開しません。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

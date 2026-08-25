@@ -77,6 +77,10 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 - enum plug と enum 定数。
 - `multi[index]` / `multi[next]` の具体的な plug 型。
 - `get()` の値型。
+- `nodes.types`から取得するNodeOperator classと、DAG traversalの
+  `filter_type`に応じた具体的なtuple要素型。
+- `ancestors(until=...)` / `descendant_chain(until=...)`の、引数省略時と
+  境界指定時で異なるoptional戻り値型。
 - 存在しない属性や不正な引数が型エラーになること。
 
 型エラーになるべき行は、対象の diagnostic rule を
@@ -155,8 +159,30 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - `Nodes` の公開範囲、`nodes.create` / `nodes.existing` の共有状態を検証します。
 - `tests/maya/node/test_existing_node.py`
   - 既存 DG / DAG / shape node の自動判定と型別アクセスを検証します。
+  - 作成APIへ公開しない `ikHandle` / `ikEffector` も具体型へ解決し、同じ
+    `ModifierManager` を共有することを検証します。
+  - constraint 系14種をMaya上で作成し、全型が同じ `ModifierManager` を共有する
+    concrete transform 型へ解決されることを検証します。
+  - field / emitter 系11種もMaya上で作成し、全型の concrete transform 型と
+    `ModifierManager` 共有を検証します。
+  - dynamics / deformer 周辺5種もMaya上で作成し、全型の concrete transform 型と
+    `ModifierManager` 共有を検証します。
+  - HIK 系5種もMaya上で作成し、`HikFKJoint` / `HikHandle` が `Joint` /
+    `IkHandle` の concrete base を維持することも検証します。
+  - scene / utility 系6種もMaya上で作成し、`LookAt` が `AimConstraint` の
+    concrete base を維持することも検証します。
+  - VarGroup 系5種もMaya上で作成し、作成不能な抽象native基底
+    `BaseGeometryVarGroup` を型階層として維持することも検証します。
+  - `ufeProxyTransform` / `unknownTransform` もMaya上で作成し、具体型解決と
+    runtime-defined `ufePath` の静的fieldを検証します。
+  - `unknownDag` もMaya上で作成し、`UnknownDag` への具体型解決、自動作成される
+    親`Transform`、同じ`ModifierManager`の共有を検証します。
 - `tests/maya/node/creator/test_node_creator.py`
   - node 作成、nodeType 解決、補完用 node 名を検証します。
+  - concrete transform class が存在しても、allowlistにないtypeは
+    `nodes.create` へ公開しないことを検証します。
+  - `unknownDag` の具体classを解決できても、汎用DAG作成APIには公開しないことを
+    検証します。
 - `tests/maya/node/creator/test_shape_with_transform.py`
   - transform と shape の一括作成、命名、親子関係、undo / redo を検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`
@@ -184,6 +210,21 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - compound multi plug と次の空き logical index への接続を検証します。
 - `tests/maya/node/operator/node/dag/test_parent.py`
   - DAG の親子操作、undo / redo、循環する親子関係の防止を検証します。
+- `tests/maya/node/operator/node/dag/test_traversal.py`
+  - `children()`の直接の子、child index順、Transform / Shape / `UnknownDag`の
+    具体型解決、`ModifierManager`共有、未実行modifier、instancingを検証します。
+  - `children()` / `descendants()`のShape除外、class-based type filter、
+    派生classを含む判定と完全一致判定、filterを理由に探索範囲を狭めないことを
+    検証します。
+  - `ancestors()`の直接親からrootへの順序、world除外、具体型解決、未実行modifier、
+    cacheなし、instanced nodeで保持pathを基準にすること、type filterを検証します。
+  - `descendants()`のdepth-first pre-order、Transform / Shape / `UnknownDag`の
+    具体型解決、未実行modifier、cacheなし、instanced subtreeのpath別再訪を検証します。
+  - `descendant_chain()`が各階層で同じchild indexだけを選び、別indexへfallbackせず、
+    TransformとShapeを区別しないことを検証します。
+  - `ancestors()` / `descendant_chain()`の`until`境界がinclusiveであること、
+    `MObject` identityによる比較、境界未発見時の`None`、未実行modifierを境界として
+    認識しないことを検証します。
 - `tests/maya/node/operator/node/dag/test_matrix.py`
   - DAG 間の relative / local matrix 計算を検証します。
 - `tests/maya/node/operator/node/dag/shape/test_create.py`
@@ -203,9 +244,36 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 
 - `tests/dev/maya/node/operator/node/test_generate.py`
   - AttributeField と内部 `_generated` package の生成 NodeOperator、公開 wrapper の生成・保護、安全でない nodeType の除外を検証します。
+  - transform / shape のattribute queryが調査用node instanceを作らず、
+    登録済みnode typeから静的に取得されることを検証します。
+  - concrete transform のnative基底が生成済みの場合、そのclassを継承して
+    基底attributeを重複生成しないことを検証します。
 - `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
   - `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の型情報を
     公開する stub の生成結果を検証します。
+
+### DAG traversal変更時の検証
+
+DAG traversalは共通の`DAG`基底実装と、公開APIのoverloadを同時に変更する可能性が
+あります。変更時は少なくとも次を確認します。
+
+```powershell
+$pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
+$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
+$env:PYTHONPATH = "$pytestTarget;$pythonPath"
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest `
+    tests\maya\node\operator\node\dag\test_traversal.py
+```
+
+- Maya上の列挙順、具体型解決、`ModifierManager`共有、instancing、実行済みscene状態は
+  `test_traversal.py`で固定します。
+- filter追加・変更では、filter対象外nodeを探索経路として残すかを明示的に検証します。
+- `until`などで戻り値がoptionalになる場合は、境界発見と結果filteringを分離し、
+  空tupleと`None`の意味を混同しないtestを追加します。
+- 引数や戻り値型を変更した場合は`tests/typecheck/node_operator_contract.py`も更新し、
+  `pyright --project pyrightconfig.json`を実行します。
+- `DAG`基底の共有実装を変更した場合は、targeted pytestとPyrightに加えてfull pytestを
+  実行します。
 
 `mayapy.exe -m pytest tests` では、上記の Maya 実行テストと開発用 generator
 テストをまとめて実行します。
