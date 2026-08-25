@@ -20,7 +20,7 @@ def test_transform_stub_uses_public_manual_class():
     assert transform.module_name.endswith(".dag.transform._core")
 
 
-def test_transform_stub_includes_existing_only_concrete_classes():
+def test_transform_stub_includes_concrete_classes():
     import bd_util
     from bd_util._dev.maya.node.operator.node import (
         generate_existing_node_stub as stub_generator,
@@ -124,6 +124,27 @@ def test_shape_with_transform_stub_uses_only_creatable_shapes():
     )
 
 
+def test_transform_creator_stub_uses_only_creatable_transforms():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    definitions = stub_generator.collect_creatable_transform_definitions(
+        python_root
+    )
+
+    assert len(definitions) == 52
+    assert any(
+        definition.node_type == "ikHandle" for definition in definitions
+    )
+    assert all(
+        definition.node_type != "baseGeometryVarGroup"
+        for definition in definitions
+    )
+
+
 def test_underscore_node_type_uses_pascal_case_class_and_exact_method_name():
     import bd_util
     from bd_util._dev.maya.node.operator.node import (
@@ -184,6 +205,21 @@ def test_shape_with_transform_stub_matches_generated_code():
     assert stub_generator.stub_code_is_current(
         output_path,
         stub_generator.generate_shape_with_transform_stub_code(python_root),
+    )
+
+
+def test_transform_creator_stub_matches_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    output_path = stub_generator.transform_creator_stub_path(python_root)
+
+    assert stub_generator.stub_code_is_current(
+        output_path,
+        stub_generator.generate_transform_creator_stub_code(python_root),
     )
 
 

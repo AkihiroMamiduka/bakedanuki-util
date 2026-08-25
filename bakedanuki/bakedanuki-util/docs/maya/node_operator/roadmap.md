@@ -63,30 +63,29 @@
   Transform と具体 Shape の一括作成、命名、undo / redo、戻り値型の補完を整備。
 - transform 派生 NodeOperator の生成と作成 API を分離し、`nodes.create` は
   allowlist による段階公開へ変更。
+- Maya 2025で作成可能なconcrete transform系52種すべてを、未接続・未初期化の
+  rawノードとして`nodes.create.<nodeType>()`へ公開。親指定、具体型、命名、
+  undo / redoと補完stubを検証。
 - transform 派生 node の最初の既存 node 用サンプルとして、`ikHandle` /
   `ikEffector` の具体型と `nodes.existing` 補完を追加。
 - transform 派生 node の第二グループとして、constraint 系14種の具体型と
-  `nodes.existing` 補完を追加。Maya 2025 上で全型の作成と具体型解決を確認し、
-  専用 command / 接続を必要とするため `nodes.create` には非公開。
+  `nodes.existing` 補完を追加。専用command相当の接続はraw作成と分離。
 - transform 派生 node の第三グループとして、field / emitter 系11種の具体型と
-  `nodes.existing` 補完を追加。Maya 2025 上で全型の作成と具体型解決を確認し、
-  dynamics 用の初期化・接続を必要とするため `nodes.create` には非公開。
+  `nodes.existing` 補完を追加。dynamics用の初期化・接続はraw作成と分離。
 - transform 派生 node の第四グループとして、dynamics / deformer 周辺5種の
-  具体型と `nodes.existing` 補完を追加。Maya 2025 上で全型の作成と具体型解決を
-  確認し、専用の作成手順・接続を必要とするため `nodes.create` には非公開。
+  具体型と `nodes.existing` 補完を追加。専用の作成手順・接続はraw作成と分離。
 - transform 派生 node の第五グループとして、HIK 系5種の具体型と
   `nodes.existing` 補完を追加。`hikFKJoint` / `hikHandle` はnative継承に合わせて
-  `Joint` / `IkHandle` を基底とし、専用作成手順のため `nodes.create` には非公開。
+  `Joint` / `IkHandle` を基底とし、専用作成手順はraw作成と分離。
 - transform 派生 node の第六グループとして、scene / utility 系6種の具体型と
   `nodes.existing` 補完を追加。`lookAt` はnative継承に合わせて `AimConstraint` を
-  基底とし、専用作成手順のため `nodes.create` には非公開。
+  基底とする。
 - transform 派生 node の第七グループとして、VarGroup 系5種の具体型と
   `nodes.existing` 補完を追加。作成不能な抽象native基底 `baseGeometryVarGroup` も
-  `BaseGeometryVarGroup` として型階層に保持し、`nodes.create` には非公開。
+  `BaseGeometryVarGroup` として型階層に保持し、抽象基底だけは`nodes.create`に非公開。
 - transform 派生 node の第八グループとして、特殊transform
   `ufeProxyTransform` / `unknownTransform` の具体型と `nodes.existing` 補完を追加。
-  `ufePath` はruntime-defined attributeとして補い、特殊用途のため
-  `nodes.create` には非公開。
+  `ufePath` はruntime-defined attributeとして補い、両方をraw作成へ公開。
 - transformでもshapeでもない最後の汎用DAG `unknownDag` を、`DAG` 直系の
   `UnknownDag` として追加。Mayaが親Transformを自動作成するplaceholder nodeのため、
   `nodes.existing` のみに公開。

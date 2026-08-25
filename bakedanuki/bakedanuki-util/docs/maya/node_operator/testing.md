@@ -249,8 +249,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - concrete transform のnative基底が生成済みの場合、そのclassを継承して
     基底attributeを重複生成しないことを検証します。
 - `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
-  - `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の型情報を
-    公開する stub の生成結果を検証します。
+  - `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の型情報と、
+    raw作成を公開するtransform系メソッドのstub生成結果を検証します。
 
 ### DAG traversal変更時の検証
 

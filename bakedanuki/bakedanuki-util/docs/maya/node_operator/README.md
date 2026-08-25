@@ -212,8 +212,9 @@ shape ノード名を lazy import し、`NodeOperator.create()` を呼びます�
 `create()` には `plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも渡せます。
 IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
 
-`transform` / `joint` は `nodes.create` から作成できます。
-作成時の親は `parent=` で指定でき、親子を同じ `MDagModifier` に積めます。
+Maya 2025で作成確認済みのconcrete transform系52種は、`nodes.create`から
+未接続・未初期化のrawノードとして作成できます。作成時の親は`parent=`で指定でき、
+親子を同じ`MDagModifier`に積めます。
 
 ```python
 import bd_util as bdu
@@ -222,10 +223,18 @@ mod = bdu.ModifierManager()
 nodes = bdu.Nodes(modifier_manager=mod)
 
 parent = nodes.create.transform(name="parent")
-child = nodes.create.transform(name="child", parent=parent)
+constraint = nodes.create.aimConstraint(
+    name="raw_aim_constraint",
+    parent=parent,
+)
 
 mod.do_it_dag()
 ```
+
+constraintのtarget接続、IKのjoint / solver設定、fieldのdynamics接続など、
+Mayaの専用commandが行う用途別初期化はraw作成に含めません。作成不能な抽象native基底
+`baseGeometryVarGroup`と、transform直系ではない`unknownDag`は`nodes.create`へ
+公開しません。
 
 shape 系ノードは、親 `Transform` を必須として作成します。親を省略して Maya に
 Transform を自動生成させる経路は公開しません。

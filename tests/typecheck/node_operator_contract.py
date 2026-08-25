@@ -1447,6 +1447,37 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(unknown_transform.visibility, BoolPlugOperator)
 
 
+def transform_creation_contract(nodes: bdu.Nodes) -> None:
+    parent = nodes.create.transform(name="transform_parent")
+
+    aim_constraint = nodes.create.aimConstraint(parent=parent)
+    ik_handle = nodes.create.ikHandle(parent=parent)
+    air_field = nodes.create.airField(parent=parent)
+    nucleus = nodes.create.nucleus(parent=parent)
+    hik_effector = nodes.create.hikEffector(parent=parent)
+    dag_container = nodes.create.dagContainer(parent=parent)
+    curve_var_group = nodes.create.curveVarGroup(parent=parent)
+    ufe_proxy_transform = nodes.create.ufeProxyTransform(parent=parent)
+    unknown_transform = nodes.create.unknownTransform(parent=parent)
+
+    assert_type(aim_constraint, AimConstraint)
+    assert_type(aim_constraint.lockOutput, BoolPlugOperator)
+    assert_type(ik_handle, IkHandle)
+    assert_type(ik_handle.ikBlend, DoublePlugOperator)
+    assert_type(air_field, AirField)
+    assert_type(air_field.magnitude, DoublePlugOperator)
+    assert_type(nucleus, Nucleus)
+    assert_type(nucleus.gravity, FloatPlugOperator)
+    assert_type(hik_effector, HikEffector)
+    assert_type(hik_effector.reachTranslation, DoublePlugOperator)
+    assert_type(dag_container, DagContainer)
+    assert_type(curve_var_group, CurveVarGroup)
+    assert_type(curve_var_group.create_, DataNurbsCurvePlugOperator)
+    assert_type(ufe_proxy_transform, UfeProxyTransform)
+    assert_type(ufe_proxy_transform.ufePath, DataStringPlugOperator)
+    assert_type(unknown_transform, UnknownTransform)
+
+
 def shape_creation_contract(nodes: bdu.Nodes) -> None:
     parent = nodes.create.transform(name="shape_parent")
     assert_type(parent, Transform)

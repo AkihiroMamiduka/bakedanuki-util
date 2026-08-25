@@ -100,6 +100,9 @@ def test_node_creator_caches_creator_and_node_class(new_scene):
 
 def test_node_creator_available_node_names_for_completion(new_scene):
     from bd_util.maya.node.creator import NodeCreator
+    from bd_util.maya.node.creator._transform_types import (
+        CREATABLE_TRANSFORM_NODE_TYPES,
+    )
 
     node_creator = NodeCreator()
 
@@ -189,83 +192,39 @@ def test_node_creator_available_node_names_for_completion(new_scene):
         "ufeProxyCameraShape",
         "volumeLight",
     }.issubset(node_creator.available_node_names())
+    assert CREATABLE_TRANSFORM_NODE_TYPES.issubset(
+        node_creator.available_node_names()
+    )
     assert {
         "SphereLocator",
-        "aimConstraint",
-        "airField",
         "baseGeometryVarGroup",
-        "clipGhostShape",
-        "collisionModel",
-        "curveVarGroup",
-        "dagContainer",
-        "dragField",
-        "fluidEmitter",
-        "fosterParent",
-        "geometryConstraint",
-        "geometryVarGroup",
-        "gravityField",
-        "hikEffector",
-        "hikFKJoint",
-        "hikGroundPlane",
-        "hikHandle",
-        "hikIKEffector",
-        "ikEffector",
-        "ikHandle",
-        "instancer",
-        "lodGroup",
-        "lookAt",
-        "meshVarGroup",
-        "newtonField",
-        "normalConstraint",
-        "nucleus",
-        "oldNormalConstraint",
-        "oldTangentConstraint",
-        "orientConstraint",
-        "parentConstraint",
-        "pointConstraint",
-        "pointEmitter",
-        "pointOnPolyConstraint",
-        "poleVectorConstraint",
-        "place3dTexture",
-        "primitiveFalloff",
-        "radialField",
-        "rigidConstraint",
-        "scaleConstraint",
-        "symmetryConstraint",
-        "subdivSurfaceVarGroup",
-        "surfaceVarGroup",
-        "tangentConstraint",
-        "textureDeformerHandle",
-        "turbulenceField",
-        "uniformField",
-        "ufeProxyTransform",
         "unknownDag",
-        "unknownTransform",
-        "volumeAxisField",
-        "vortexField",
     }.isdisjoint(node_creator.available_node_names())
     assert "multiplyDivide" in dir(node_creator)
     assert "transform" in dir(node_creator)
     assert "joint" in dir(node_creator)
+    assert "ikHandle" in dir(node_creator)
     assert "mesh" in dir(node_creator)
     assert "and_" in dir(node_creator)
 
 
-def test_node_creator_does_not_create_existing_only_transform(new_scene):
+def test_node_creator_does_not_create_abstract_transform(new_scene):
     from bd_util.maya.node.creator import NodeCreator
-    from bd_util.maya.node.operator.node.dag.transform.ik_handle import (
-        IkHandle,
+    from bd_util.maya.node.operator.node.dag.transform.base_geometry_var_group import (
+        BaseGeometryVarGroup,
     )
 
     node_creator = NodeCreator()
 
-    assert node_creator.node_class("ikHandle") is IkHandle
+    assert (
+        node_creator.node_class("baseGeometryVarGroup") is BaseGeometryVarGroup
+    )
     with pytest.raises(AttributeError, match="Unsupported node type"):
-        node_creator.create("ikHandle")
+        node_creator.create("baseGeometryVarGroup")
     with pytest.raises(AttributeError, match="Unsupported node type"):
-        _ = node_creator.ikHandle
-    assert "ikHandle" not in node_creator.available_node_names()
-    assert "ikHandle" not in dir(node_creator)
+        _ = node_creator.baseGeometryVarGroup
+    assert "baseGeometryVarGroup" not in node_creator.available_node_names()
+    assert "baseGeometryVarGroup" not in dir(node_creator)
 
 
 def test_node_creator_does_not_create_existing_only_generic_dag(new_scene):

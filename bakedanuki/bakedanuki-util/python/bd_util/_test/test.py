@@ -28,6 +28,9 @@ def main():
     joint_0_b = nodes.create.joint(name="jnt_0_b", parent=transform_0_a)
     _ = nodes.create.transform(name="trsf_1_b", parent=joint_0_b)
 
+    cnst = nodes.create.aimConstraint("aim_cnst", parent=transform_0_a)
+    cnst.translate.set(7, 8, 9)
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 

@@ -1359,8 +1359,9 @@ from ..operator.node.dg.bd_dbl_l3_weighted_sum_multi import (
     BdDblL3WeightedSumMulti,
 )
 from ._shape_with_transform import ShapeWithTransformCreator
+from ._transform_creator import _TransformNodeCreatorMixin
 
-class NodeCreator:
+class NodeCreator(_TransformNodeCreatorMixin):
     def __init__(
         self, modifier_manager: ModifierManager | None = None
     ) -> None: ...

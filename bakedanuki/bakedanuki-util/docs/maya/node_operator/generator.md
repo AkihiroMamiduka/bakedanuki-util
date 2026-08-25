@@ -183,11 +183,15 @@ shape node は全生成と作成 API の公開を分けて扱います。生成�
 作成テストを通した node type だけを明示的に公開します。
 
 transform 派生 node も同じく、既存 node を具体型へ包む coverage と作成 API の
-公開を分けます。`ikHandle` / `ikEffector` は最初の既存 node 用サンプルとして
-生成しますが、特殊な作成手順を持つため `nodes.create` には公開しません。
-次のグループとしてconstraint系14種も生成し、`nodes.existing` の具体型と
-補完へ追加しています。constraint nodeも専用commandや接続を伴うため、
-`nodes.create` には公開しません。
+公開を分けます。Maya 2025でraw作成、親指定、命名、undo / redoを確認した
+concrete transform系52種は`CREATABLE_TRANSFORM_NODE_TYPES`へ明示し、
+`nodes.create.<nodeType>()`から公開します。戻り値は各具体NodeOperator型です。
+constraintのtarget接続、IKのjoint / solver設定、fieldのdynamics接続など、
+専用commandが行う用途別初期化はraw作成に含めません。
+
+`ikHandle` / `ikEffector` は最初のtransform派生サンプルです。
+次のグループとしてconstraint系14種も生成し、`nodes.existing`と`nodes.create`の
+具体型補完へ追加しています。
 続いてfield / emitter系11種も同じ方針で生成します。`primitiveFalloff` は
 `dynBase` / `field` / `pointEmitter` を継承しない独立transformのため、
 このグループには含めません。
@@ -209,7 +213,8 @@ VarGroup系5種は、作成不能な抽象native type `baseGeometryVarGroup` の
 各instanceへ追加するuser-defined attributeです。Maya 2025での実挙動をgeneratorの
 runtime-defined attribute情報として補い、静的queryに現れる将来versionでは重複を
 避けます。`unknownTransform` はtransform共通attributeだけの空の具象classです。
-`transform` / `joint` は引き続き作成確認済み type として公開します。
+作成不能な抽象native基底`baseGeometryVarGroup`は型階層だけに保持し、
+`nodes.create`へ公開しません。
 
 transformでもshapeでもない汎用DAGの `unknownDag` は、`DAG` 直系の
 `UnknownDag` として生成します。Maya 2025では `kUnknownDag` として作成でき、
