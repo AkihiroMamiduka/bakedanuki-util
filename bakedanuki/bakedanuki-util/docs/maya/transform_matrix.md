@@ -40,14 +40,29 @@ matrix ではない plug を渡した場合は `TypeError` を送出します。
 ```python
 tm = bdu.TransformMatrix(f"{transform}.worldMatrix[0]")
 
-translate = tm.translate  # (x, y, z)
-rotate = tm.rotate        # XYZ order / degree
-scale = tm.scale          # (x, y, z)
-shear = tm.shear          # (xy, xz, yz)
-quat = tm.quat            # (x, y, z, w)
+translate = tm.translate  # DoubleLinear3(x, y, z)
+rotate = tm.rotate        # DoubleAngle3(x, y, z) / XYZ order / degree
+scale = tm.scale          # Double3(x, y, z)
+shear = tm.shear          # Double3(xy, xz, yz)
+quat = tm.quat            # Quat(x, y, z, w)
 ```
 
-すべての戻り値は `float` の tuple です。`rotate` は既存の angle plug API と同じく degree を返します。
+分解値は、対応するplugの `get()` と同じ値型を返します。
+
+- `translate`: `DoubleLinear3`
+- `rotate` / `get_rotate()`: `DoubleAngle3`
+- `scale` / `shear`: `Double3`
+- `quat`: `Quat`
+
+これらは読み取り専用のsequence値で、`.x` / `.y` / `.z` / `.w` による成分取得、indexアクセス、アンパックに対応します。従来と同じtupleが必要な場合は `.as_tuple()` を使用します。
+
+```python
+x = tm.translate.x
+x, y, z = tm.rotate
+scale_tuple = tm.scale.as_tuple()
+```
+
+`translate` は既存のlinear plug APIと同じくcentimeter、`rotate` はangle plug APIと同じくdegreeです。
 
 XYZ 以外の Euler 回転が必要な場合は `get_rotate()` で回転順序を指定します。
 

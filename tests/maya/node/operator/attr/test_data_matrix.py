@@ -37,6 +37,15 @@ def test_data_matrix_plug_gets_transform_matrix_values(
         matrix_plug.transformation_matrix,
         maya_om.MTransformationMatrix,
     )
+    assert isinstance(matrix_plug.translate, bdu.DoubleLinear3)
+    assert isinstance(matrix_plug.rotate, bdu.DoubleAngle3)
+    assert isinstance(
+        matrix_plug.get_rotate(order="zyx"),
+        bdu.DoubleAngle3,
+    )
+    assert isinstance(matrix_plug.scale, bdu.Double3)
+    assert isinstance(matrix_plug.shear, bdu.Double3)
+    assert isinstance(matrix_plug.quat, bdu.Quat)
     assert matrix_plug.translate == pytest.approx((1.0, 2.0, 3.0))
     assert matrix_plug.rotate == pytest.approx((10.0, 20.0, 30.0))
     assert matrix_plug.get_rotate(order="zyx") == pytest.approx(

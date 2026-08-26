@@ -6,6 +6,8 @@ from typing import Literal, overload
 
 from maya.api import OpenMaya as om
 
+from ...value import Double3, DoubleAngle3, DoubleLinear3, Quat
+
 RotationOrder = Literal["xyz", "yzx", "zxy", "xzy", "yxz", "zyx"]
 
 _ROTATION_ORDER_MAP: dict[str, int] = {
@@ -119,43 +121,44 @@ class TransformMatrix:
         return om.MTransformationMatrix(self._matrix)
 
     @property
-    def translate(self) -> tuple[float, float, float]:
+    def translate(self) -> DoubleLinear3:
         value = self.transformation_matrix.translation(om.MSpace.kTransform)
-        return (float(value.x), float(value.y), float(value.z))
+        return DoubleLinear3(float(value.x), float(value.y), float(value.z))
 
     @property
-    def rotate(self) -> tuple[float, float, float]:
+    def rotate(self) -> DoubleAngle3:
         """XYZ 順の Euler 回転を degree で返す。"""
         return self.get_rotate(order="xyz")
 
     def get_rotate(
         self,
         order: RotationOrder = "xyz",
-    ) -> tuple[float, float, float]:
+    ) -> DoubleAngle3:
         """指定した回転順序の Euler 回転を degree で返す。"""
         maya_order = _resolve_rotation_order(order)
 
         value = self.transformation_matrix.rotation()
         value.reorderIt(maya_order)
-        return tuple(
-            om.MAngle(component, om.MAngle.kRadians).asDegrees()
-            for component in (value.x, value.y, value.z)
+        return DoubleAngle3(
+            om.MAngle(value.x, om.MAngle.kRadians).asDegrees(),
+            om.MAngle(value.y, om.MAngle.kRadians).asDegrees(),
+            om.MAngle(value.z, om.MAngle.kRadians).asDegrees(),
         )
 
     @property
-    def scale(self) -> tuple[float, float, float]:
+    def scale(self) -> Double3:
         value = self.transformation_matrix.scale(om.MSpace.kTransform)
-        return (float(value[0]), float(value[1]), float(value[2]))
+        return Double3(float(value[0]), float(value[1]), float(value[2]))
 
     @property
-    def shear(self) -> tuple[float, float, float]:
+    def shear(self) -> Double3:
         value = self.transformation_matrix.shear(om.MSpace.kTransform)
-        return (float(value[0]), float(value[1]), float(value[2]))
+        return Double3(float(value[0]), float(value[1]), float(value[2]))
 
     @property
-    def quat(self) -> tuple[float, float, float, float]:
+    def quat(self) -> Quat:
         value = self.transformation_matrix.rotation(asQuaternion=True)
-        return (
+        return Quat(
             float(value.x),
             float(value.y),
             float(value.z),

@@ -41,7 +41,13 @@ def test_can_import_from_public_packages(new_scene):
 
 
 def test_accepts_matrix_value_sources(new_scene, maya_om):
-    from bd_util import TransformMatrix
+    from bd_util import (
+        Double3,
+        DoubleAngle3,
+        DoubleLinear3,
+        Quat,
+        TransformMatrix,
+    )
 
     source = _make_transformation_matrix(maya_om)
     wrappers = (
@@ -52,6 +58,11 @@ def test_accepts_matrix_value_sources(new_scene, maya_om):
 
     expected_quat = source.rotation(asQuaternion=True)
     for value in wrappers:
+        assert isinstance(value.translate, DoubleLinear3)
+        assert isinstance(value.rotate, DoubleAngle3)
+        assert isinstance(value.scale, Double3)
+        assert isinstance(value.shear, Double3)
+        assert isinstance(value.quat, Quat)
         assert value.translate == pytest.approx((1.0, 2.0, 3.0))
         assert value.rotate == pytest.approx((10.0, 20.0, 30.0))
         assert value.scale == pytest.approx((2.0, 3.0, 4.0))
@@ -137,12 +148,13 @@ def test_get_rotate_supports_maya_rotation_orders(
     order,
     maya_order,
 ):
-    from bd_util import TransformMatrix
+    from bd_util import DoubleAngle3, TransformMatrix
 
     source = _make_transformation_matrix(maya_om)
     value = TransformMatrix(source)
 
     rotate = value.get_rotate(order=order)
+    assert isinstance(rotate, DoubleAngle3)
     actual = maya_om.MEulerRotation(
         *(math.radians(component) for component in rotate),
         maya_order,

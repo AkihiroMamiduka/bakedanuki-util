@@ -9,6 +9,7 @@ from .......transform.matrix.transform_matrix import (
     RotationOrder,
     TransformMatrix,
 )
+from .......value import Double3, DoubleAngle3, DoubleLinear3, Quat
 from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -32,29 +33,29 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
         return self.get().transformation_matrix
 
     @property
-    def translate(self) -> tuple[float, float, float]:
+    def translate(self) -> DoubleLinear3:
         return self.get().translate
 
     @property
-    def rotate(self) -> tuple[float, float, float]:
+    def rotate(self) -> DoubleAngle3:
         return self.get().rotate
 
     def get_rotate(
         self,
         order: RotationOrder = "xyz",
-    ) -> tuple[float, float, float]:
+    ) -> DoubleAngle3:
         return self.get().get_rotate(order=order)
 
     @property
-    def scale(self) -> tuple[float, float, float]:
+    def scale(self) -> Double3:
         return self.get().scale
 
     @property
-    def shear(self) -> tuple[float, float, float]:
+    def shear(self) -> Double3:
         return self.get().shear
 
     @property
-    def quat(self) -> tuple[float, float, float, float]:
+    def quat(self) -> Quat:
         return self.get().quat
 
     # set
