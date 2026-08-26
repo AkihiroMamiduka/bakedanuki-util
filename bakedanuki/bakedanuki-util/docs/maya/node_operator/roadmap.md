@@ -39,6 +39,12 @@
 - `lookup.py` の double4 / quat 解決対応。
 - 18 種類の compound 専用値型を追加し、scalar compound の
   `get()` / `value` / `value_direct` の戻り値へ接続。
+- `MatrixPlugOperator.get()` / `DataMatrixPlugOperator.get()`を
+  `TransformMatrix`へ統一し、matrix plugの値設定、`MMatrix`との乗算、
+  typed matrixの未設定時エラーを同じ契約へ整理。
+- `TransformMatrix`の分解値をplugの`get()`と同じcompound専用値型へ統一。
+  translateはcentimeterの`DoubleLinear3`、Euler回転はdegreeの
+  `DoubleAngle3`、scale / shearは`Double3`、quaternionは`Quat`を返す。
 - DAG の `full_path` / `is_instanced` / `parent` / `parents` と、親変更時の
   instancing 制約を追加。
 - DAG traversal の `children()` / `ancestors()` / `descendants()` を追加。
@@ -394,6 +400,30 @@ compound 専用値型の利用例が集まり、演算の意味を固定でき�
 乗算・除算を最初の候補とします。要素積、内積、行列との演算、
 quaternion multiplication などは同じ演算子へ一律に割り当てません。
 
+`TransformMatrix`の分解値にもcompound専用値型を使用するため、今後は
+translate / scale / shear / Euler回転 / quaternionの用途が同じ値型APIへ
+集まります。ただし、単位付き値、要素値、Euler回転、quaternionでは妥当な演算が
+異なります。共通基底へ一律に演算を追加せず、具体的な利用例と戻り値型を
+型ごとに確定してから実装します。
+
+### matrix plugの成分アクセス
+
+matrix plugの主な値取得経路は、型やsnapshotの境界が明確な`get()`に統一します。
+
+```python
+tm = matrix_plug.get()
+translate = tm.translate
+```
+
+現在、`DataMatrixPlugOperator`は`translate` / `rotate` / `get_rotate()` /
+`scale` / `shear` / `quat`の委譲APIも持ちますが、`MatrixPlugOperator`は
+`get()`だけを提供します。将来この差を整理する場合は、利用例を確認したうえで、
+`MatrixPlugOperator`にも委譲APIを追加するか、両方を`get()`中心へ集約するかを
+破壊的変更が可能なminor releaseで判断します。
+
+委譲APIを維持・拡張する場合も、戻り値型、単位、未設定時の`ValueError`、
+アクセスごとに新しいsnapshotを取得する評価規則は`TransformMatrix`と揃えます。
+
 ## DAG traversal 拡張後の作業候補
 
 ### 1. docs の継続更新
@@ -463,4 +493,6 @@ DAG traversal拡張の次に着手する大きな共有基盤の候補です。�
 - `set_direct()` は undo 非対応です。
 - `lookup.py` は型追加時に更新漏れが起きやすいです。
 - unit 系の戻り値や入力単位は、実装と docs を常に揃える必要があります。
+- matrix plugの主な取得経路は`get() -> TransformMatrix`とし、成分委譲APIを
+  拡張するときも値型、単位、エラー、snapshotの契約を揃える必要があります。
 - 速度改善は、利便性を壊さない範囲で行います。

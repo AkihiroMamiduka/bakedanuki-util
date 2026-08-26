@@ -197,9 +197,11 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 - `tests/maya/node/operator/attr/test_keyframe.py`
   - animCurve の作成、query、削除、tangent 操作を検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
-  - typed matrix plug と `TransformMatrix` の連携を検証します。
+  - typed matrix plugと`TransformMatrix`の連携、常に具体型を返す`get()`、
+    未設定時の`ValueError`、分解値のcompound専用値型を検証します。
 - `tests/maya/node/operator/attr/test_matrix_attr.py`
-  - matrix plug の `TransformMatrix` 取得と値設定を検証します。
+  - matrix plugの`TransformMatrix`取得と、`TransformMatrix` / `MMatrix` /
+    `MTransformationMatrix`による値設定を検証します。
 - `tests/maya/value/test_scalar_compound.py`
   - compound 専用値型の immutable sequence、component access、型ごとの
     equality、演算未対応を検証します。
@@ -240,7 +242,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 ### TransformMatrix
 
 - `tests/maya/transform/matrix/test_transform_matrix.py`
-  - matrix の入力、snapshot、分解、`MMatrix` を含む乗算、逆行列を検証します。
+  - matrixの入力、snapshot、compound専用値型による分解、回転順序、
+    `MMatrix`を含む左右の乗算、逆行列を検証します。
 
 ### 開発用 generator
 
@@ -314,7 +317,8 @@ pytest 側では、ログ出力ではなく assert で仕様を固定します�
 - `set()` / `set_direct()` / `get()` の結果が一致する。
 - wrong count などの error が期待通り発生する。
 - DAG の親子操作が undo / redo に対応し、循環する親子関係を作らない。
-- `TransformMatrix` と matrix plug が同じ行列値を扱う。
+- `TransformMatrix`とmatrix plugが同じ行列値を扱い、分解値の具体型と単位が
+  対応するplugの`get()`と一致する。
 - `ModifierManager` の undo / redo が期待通り動作する。
 - `lookup_attr_cls()` が新しい型を解決できる。
 - generator の生成結果と `.pyi` stub が実装と一致する。

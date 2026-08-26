@@ -7,6 +7,24 @@
 
 ## [Unreleased]
 
+### Changed
+
+- `MatrixPlugOperator.get()` と `DataMatrixPlugOperator.get()` の戻り値を
+  `TransformMatrix` に統一。未設定のtyped matrix plugはidentity matrixや`None`へ
+  補完せず、値を取得できない場合は`ValueError`を送出する。
+- matrix plugの値設定が`TransformMatrix` / `MMatrix` /
+  `MTransformationMatrix`を受け取れるように変更。
+- `TransformMatrix`と`MMatrix`の左右両方向の乗算に対応し、結果を
+  `TransformMatrix`として返すように変更。
+- `TransformMatrix`の分解値をtupleからcompound専用値型へ変更。
+  `translate`は`DoubleLinear3`、`rotate` / `get_rotate()`は`DoubleAngle3`、
+  `scale` / `shear`は`Double3`、`quat`は`Quat`を返す。
+
+### Removed
+
+- matrix plugの`transform_matrix`プロパティを削除。`get()`が返す
+  `TransformMatrix`を使用する。
+
 ## [0.2.0] - 2026-08-14
 
 v0.1.0 以降の NodeOperator 基盤の改善に加え、Windows版 Maya 2025 / 2026 /
