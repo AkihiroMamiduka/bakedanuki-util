@@ -1262,6 +1262,30 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     assert_type(joint.rotation_to_rotate(), Joint)
     assert_type(joint.rotation_to_rotate_axis(), Joint)
     assert_type(joint.rotation_to_joint_orient(), Joint)
+    assert_type(
+        transform.set_rotate_axis_with_rotate((10.0, 20.0, 30.0)),
+        Transform,
+    )
+    assert_type(
+        transform.set_rotate_with_rotate_axis(10.0, 20.0, 30.0),
+        Transform,
+    )
+    assert_type(
+        joint.set_rotate_axis_with_rotate((10.0, 20.0, 30.0)),
+        Joint,
+    )
+    assert_type(
+        joint.set_rotate_with_rotate_axis(10.0, 20.0, 30.0),
+        Joint,
+    )
+    assert_type(
+        joint.set_joint_orient_with_rotate((10.0, 20.0, 30.0)),
+        Joint,
+    )
+    assert_type(
+        joint.set_rotate_with_joint_orient(10.0, 20.0, 30.0),
+        Joint,
+    )
 
 
 def connection_query_contract(nodes: bdu.Nodes) -> None:

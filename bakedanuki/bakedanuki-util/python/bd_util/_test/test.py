@@ -83,3 +83,13 @@ def main():
     dst_joint_rotate_axis.rotation_to_rotate_axis()
 
     nodes.modifier_manager.do_it_dg()
+
+    # transform
+    dst_trsf_rotate.set_rotate_with_rotate_axis(45, 90, 135)
+    dst_trsf_rotate_axis.set_rotate_axis_with_rotate(45, 90, 135)
+    # joint
+    dst_joint_joint_orient.set_joint_orient_with_rotate(45, 90, 135)
+    dst_joint_rotate.set_rotate_with_joint_orient(45, 90, 135)
+    dst_joint_rotate_axis.set_rotate_axis_with_rotate(45, 90, 135)
+
+    nodes.modifier_manager.do_it_dg()

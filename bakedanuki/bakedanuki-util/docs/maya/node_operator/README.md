@@ -662,17 +662,47 @@ joint.rotation_to_joint_orient()
 mod.do_it_dg()
 ```
 
+## 姿勢を維持した回転値の設定
+
+`Transform`では、現在の姿勢を維持したまま`rotateAxis`または`rotate`へ
+任意の回転値を設定できます。メソッド名の`with`より後ろにある属性が、
+設定による回転差分を吸収します。
+
+```python
+transform.set_rotate_axis_with_rotate((10.0, 20.0, 30.0))
+transform.set_rotate_with_rotate_axis(40.0, 50.0, 60.0)
+mod.do_it_dg()
+```
+
+`Joint`では継承する上記2メソッドに加えて、`jointOrient`と`rotate`の間でも
+同じ操作を利用できます。
+
+```python
+joint.set_joint_orient_with_rotate((10.0, 20.0, 30.0))
+joint.set_rotate_with_joint_orient(40.0, 50.0, 60.0)
+mod.do_it_dg()
+```
+
+設定対象には指定値がそのまま入り、補償先だけが姿勢維持に必要な値へ変わります。
+`Joint`で`rotateAxis`と`rotate`の間を補償する場合は`jointOrient`を変更せず、
+`jointOrient`と`rotate`の間を補償する場合は`rotateAxis`を変更しません。
+変更しない第三の回転属性は、lockや入力接続があっても検証対象に含めません。
+
+補償値は同じ回転を表すEuler解のうち、補償先の現在値に近い解を選びます。
+これにより、姿勢維持に不要な`360`度単位の変化を抑えます。
+入力はdegree単位で、3要素sequenceまたは3つの数値として指定できます。
+
 回転はEuler値の成分加算ではなく、Mayaの回転積と同じ順序でquaternionとして
-合成します。`rotate`へ集約するときは現在の`rotateOrder`でEuler値へ変換し、
-`rotateAxis`と`jointOrient`へ集約するときは固定XYZ順で変換します。
+合成・補償します。`rotate`の計算結果は現在の`rotateOrder`でEuler値へ変換し、
+`rotateAxis`と`jointOrient`の計算結果は固定XYZ順で変換します。
 
 値設定は現在の`MDGModifier`へ積まれ、各メソッドは自身を返します。
-同じmodifierへ積んだ未実行の値設定は集約計算から読み取れないため、先行する
-値設定がある場合は、集約前に`mod.do_it_dg()`で確定してください。
+同じmodifierへ積んだ未実行の値設定は回転計算から読み取れないため、先行する
+値設定がある場合は、操作前に`mod.do_it_dg()`で確定してください。
 
-対象となる回転plugまたはその子plugがlockされている場合や、animation curveを
+各操作で変更する回転plugまたはその子plugがlockされている場合や、animation curveを
 含む入力接続を持つ場合は、変更を積む前に`RuntimeError`を送出します。接続解除、
-keyframe削除、lock解除は自動実行しません。集約時点のlocal matrixは維持されますが、
+keyframe削除、lock解除は自動実行しません。操作時点のlocal matrixは維持されますが、
 回転属性の役割が変わるため、その後のrotate操作やIKに対する意味まで維持する操作では
 ありません。
 
