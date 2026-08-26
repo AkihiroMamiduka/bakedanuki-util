@@ -90,9 +90,11 @@ def test_next_index_connects_to_sequential_elements(
     modifier_manager.do_it_dg()
 
     for i, src in enumerate(sources):
-        assert dst.wtMatrix[i].matrixIn.src_plug == f"{src.name}.matrixSum"
+        assert (
+            dst.wtMatrix[i].matrixIn.src_plug_name() == f"{src.name}.matrixSum"
+        )
 
-    assert dst.wtMatrix[5].matrixIn.src_plug is None
+    assert dst.wtMatrix[5].matrixIn.src_plug() is None
 
 
 def test_refresh_next_index_rescans_existing_elements(
@@ -119,8 +121,8 @@ def test_refresh_next_index_rescans_existing_elements(
     extra_src.matrixSum.connect(dst.wtMatrix[next].matrixIn)
     modifier_manager.do_it_dg()
 
-    assert dst.wtMatrix[0].matrixIn.src_plug == "src_0.matrixSum"
-    assert dst.wtMatrix[1].matrixIn.src_plug == "src_1.matrixSum"
-    assert dst.wtMatrix[2].matrixIn.src_plug == "src_2.matrixSum"
-    assert dst.wtMatrix[5].matrixIn.src_plug == "src_external.matrixSum"
-    assert dst.wtMatrix[6].matrixIn.src_plug == "src_extra.matrixSum"
+    assert dst.wtMatrix[0].matrixIn.src_plug_name() == "src_0.matrixSum"
+    assert dst.wtMatrix[1].matrixIn.src_plug_name() == "src_1.matrixSum"
+    assert dst.wtMatrix[2].matrixIn.src_plug_name() == "src_2.matrixSum"
+    assert dst.wtMatrix[5].matrixIn.src_plug_name() == "src_external.matrixSum"
+    assert dst.wtMatrix[6].matrixIn.src_plug_name() == "src_extra.matrixSum"

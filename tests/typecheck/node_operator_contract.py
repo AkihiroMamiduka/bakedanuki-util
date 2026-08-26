@@ -1,9 +1,10 @@
-from typing import Literal, assert_type
+from typing import Any, Literal, assert_type
 
 import bd_util as bdu
 from maya.api import OpenMaya as om
 
 from bd_util.maya.node.operator.attr import KeyframeManager
+from bd_util.maya.node.operator.attr._core import PlugOperator
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_abs import (
     InputAttrOperator as AbsInputAttrOperator,
     InputPlugOperator as AbsInputPlugOperator,
@@ -1250,6 +1251,33 @@ def node_types_contract(nodes: bdu.Nodes) -> None:
     assert_type(nodes.types.Locator, type[Locator])
     assert_type(nodes.types.UnknownDag, type[UnknownDag])
     assert_type(nodes.types.resolve("locator"), type[NodeOperator])
+
+
+def connection_query_contract(nodes: bdu.Nodes) -> None:
+    src = nodes.existing.joint("existing_joint")
+    dst = nodes.existing.plusMinusAverage("existing_plus_minus_average")
+
+    assert_type(dst.input1D[0].src_plug(), PlugOperator[Any] | None)
+    assert_type(dst.input1D[0].src_name(), str | None)
+    assert_type(dst.input1D[0].src_plug_name(), str | None)
+    assert_type(src.translateX.dst_plugs(), tuple[PlugOperator[Any], ...])
+    assert_type(src.translateX.dst_names(), tuple[str, ...])
+    assert_type(src.translateX.dst_plug_names(), tuple[str, ...])
+
+    assert_type(
+        dst.input1D[0].src_plug(
+            filter_type=nodes.types.Joint,
+            include_subclasses=False,
+        ),
+        PlugOperator[Any] | None,
+    )
+    assert_type(
+        src.translateX.dst_plugs(
+            filter_type=nodes.types.PlusMinusAverage,
+            include_subclasses=True,
+        ),
+        tuple[PlugOperator[Any], ...],
+    )
 
 
 def transform_existing_contract(nodes: bdu.Nodes) -> None:

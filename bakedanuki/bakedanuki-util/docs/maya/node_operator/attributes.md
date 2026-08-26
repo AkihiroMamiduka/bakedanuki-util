@@ -47,6 +47,8 @@ class MyNode(NodeOperator):
 - `connect_next_index()`
 - `disconnect()`
 - `disconnect_from()`
+- `src_plug()` / `src_name()` / `src_plug_name()`
+- `dst_plugs()` / `dst_names()` / `dst_plug_names()`
 - `keyframe`
 - `add_attr()`
 - `cmds_add_attr()`
@@ -77,6 +79,48 @@ dst.multiInput.connect_next_index(src.output)
 
 `connect()` / `disconnect()` は接続元から接続先を指定します。
 `connect_from()` / `disconnect_from()` は接続先から接続元を指定します。
+
+## connection query
+
+接続元は単一の `PlugOperator`、接続先は複数の `PlugOperator` として取得します。
+
+```python
+source = dst.input.src_plug()
+source_node_name = dst.input.src_name()
+source_plug_name = dst.input.src_plug_name()
+
+destinations = src.output.dst_plugs()
+destination_node_names = src.output.dst_names()
+destination_plug_names = src.output.dst_plug_names()
+```
+
+接続元がない場合、`src_plug()` / `src_name()` / `src_plug_name()` は `None` を返します。
+接続先がない場合、destination 系メソッドは空 tuple を返します。
+
+`src_name()` / `dst_names()` は `NodeOperator.name`、
+`src_plug_name()` / `dst_plug_names()` は `PlugOperator.plug_name` を返します。
+同じノードの複数 plug が接続先の場合、`dst_names()` はノード名を重複させ、
+3 つの destination 系メソッドで要素数と順序を揃えます。
+
+接続照会は `MPlug.connectedTo()` と同じく、対象 plug 自身への直接接続だけを返します。
+multi / compound の親 plug から element や child の接続は集約しません。
+
+接続ノードの `NodeOperator` class で結果を絞り込めます。
+
+```python
+joint_source = dst.input.src_plug(
+    filter_type=nodes.types.Joint,
+)
+
+exact_joint_destinations = src.output.dst_plugs(
+    filter_type=nodes.types.Joint,
+    include_subclasses=False,
+)
+```
+
+`include_subclasses=True` が初期値です。
+`False` の場合は、解決された `NodeOperator` の class が `filter_type` と完全一致する接続だけを返します。
+`filter_type` なしで `include_subclasses=False` を指定すると `ValueError` を送出します。
 
 ## extra attribute
 

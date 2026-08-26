@@ -9,6 +9,9 @@
 
 ### Changed
 
+- `PlugOperator` の接続照会を `MPlug.connectedTo()` ベースへ変更。
+  接続先を具体的な `PlugOperator` として返し、`nodes.types` によるnode type filterと
+  subclassの包含指定に対応。ノード名・plug名は専用メソッドで取得する。
 - `MatrixPlugOperator.get()` と `DataMatrixPlugOperator.get()` の戻り値を
   `TransformMatrix` に統一。未設定のtyped matrix plugはidentity matrixや`None`へ
   補完せず、値を取得できない場合は`ValueError`を送出する。

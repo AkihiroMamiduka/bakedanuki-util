@@ -133,18 +133,33 @@ def test_connect_disconnect_methods(
     src.output3Dx.connect(dst.input3D[0].input3Dx)
     modifier_manager.do_it_dg()
 
-    assert dst.input3D[0].input3Dx.src_name == "src"
-    assert dst.input3D[0].input3Dx.src_plug == "src.output3Dx"
-    assert src.output3Dx.dst_names == ["dst"]
-    assert src.output3Dx.dst_plugs == ["dst.input3D[0].input3Dx"]
+    source = dst.input3D[0].input3Dx.src_plug()
+    assert source is not None
+    assert isinstance(source, type(src.output3Dx))
+    assert source.plug == src.output3Dx.plug
+    assert source.node.modifier_manager is modifier_manager
+    assert dst.input3D[0].input3Dx.src_name() == "src"
+    assert dst.input3D[0].input3Dx.src_plug_name() == src.output3Dx.plug_name
+
+    destinations = src.output3Dx.dst_plugs()
+    assert len(destinations) == 1
+    assert isinstance(destinations[0], type(dst.input3D[0].input3Dx))
+    assert destinations[0].plug == dst.input3D[0].input3Dx.plug
+    assert destinations[0].node.modifier_manager is modifier_manager
+    assert src.output3Dx.dst_names() == ("dst",)
+    assert src.output3Dx.dst_plug_names() == (
+        dst.input3D[0].input3Dx.plug_name,
+    )
 
     src.output3Dx.disconnect(dst.input3D[0].input3Dx)
     modifier_manager.do_it_dg()
 
-    assert dst.input3D[0].input3Dx.src_name is None
-    assert dst.input3D[0].input3Dx.src_plug is None
-    assert src.output3Dx.dst_names == []
-    assert src.output3Dx.dst_plugs == []
+    assert dst.input3D[0].input3Dx.src_plug() is None
+    assert dst.input3D[0].input3Dx.src_name() is None
+    assert dst.input3D[0].input3Dx.src_plug_name() is None
+    assert src.output3Dx.dst_plugs() == ()
+    assert src.output3Dx.dst_names() == ()
+    assert src.output3Dx.dst_plug_names() == ()
 
 
 def test_connect_disconnect_path_parts(
@@ -159,12 +174,12 @@ def test_connect_disconnect_path_parts(
     src.output3Dx.connect(target)
     modifier_manager.do_it_dg()
 
-    assert dst.input3D[0].input3Dx.src_plug == "src.output3Dx"
+    assert dst.input3D[0].input3Dx.src_plug_name() == src.output3Dx.plug_name
 
     src.output3Dx.disconnect(list(target))
     modifier_manager.do_it_dg()
 
-    assert dst.input3D[0].input3Dx.src_plug is None
+    assert dst.input3D[0].input3Dx.src_plug() is None
 
 
 def test_connect_disconnect_from_supported_sources(
@@ -186,8 +201,95 @@ def test_connect_disconnect_from_supported_sources(
     for source in sources:
         dst_plug.connect_from(source)
         modifier_manager.do_it_dg()
-        assert dst_plug.src_plug == "src.output3Dx"
+        assert dst_plug.src_plug_name() == src.output3Dx.plug_name
 
         dst_plug.disconnect_from(source)
         modifier_manager.do_it_dg()
-        assert dst_plug.src_plug is None
+        assert dst_plug.src_plug() is None
+
+
+def test_connection_queries_filter_node_types(
+    modifier_manager,
+):
+    nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    src = nodes.create.joint(name="src_joint")
+    dst = nodes.create.plusMinusAverage(name="dst")
+
+    src.translateX.connect(dst.input1D[0])
+    src.translateX.connect(dst.input1D[1])
+    modifier_manager.do_it_dag()
+    modifier_manager.do_it_dg()
+
+    source = dst.input1D[0].src_plug(filter_type=nodes.types.Joint)
+    assert source is not None
+    assert isinstance(source.node, nodes.types.Joint)
+    assert (
+        dst.input1D[0].src_name(filter_type=nodes.types.Joint) == "src_joint"
+    )
+    assert (
+        dst.input1D[0].src_plug_name(filter_type=nodes.types.Joint)
+        == src.translateX.plug_name
+    )
+
+    assert (
+        dst.input1D[0].src_plug(filter_type=nodes.types.Transform) is not None
+    )
+    assert (
+        dst.input1D[0].src_plug(
+            filter_type=nodes.types.Transform,
+            include_subclasses=False,
+        )
+        is None
+    )
+    assert (
+        dst.input1D[0].src_plug(
+            filter_type=nodes.types.Joint,
+            include_subclasses=False,
+        )
+        is not None
+    )
+    assert (
+        dst.input1D[0].src_plug(filter_type=nodes.types.PlusMinusAverage)
+        is None
+    )
+
+    destinations = src.translateX.dst_plugs(
+        filter_type=nodes.types.PlusMinusAverage,
+        include_subclasses=False,
+    )
+    assert len(destinations) == 2
+    assert src.translateX.dst_names() == ("dst", "dst")
+    assert src.translateX.dst_names() == tuple(
+        plug.node.name for plug in src.translateX.dst_plugs()
+    )
+    assert src.translateX.dst_plug_names() == tuple(
+        plug.plug_name for plug in src.translateX.dst_plugs()
+    )
+    assert src.translateX.dst_plugs(filter_type=nodes.types.Transform) == ()
+
+    # MPlug.connectedTo() と同じく、親multi plugから子の接続は集約しない。
+    assert dst.input1D.src_plug() is None
+
+
+def test_connection_queries_validate_filter_options(
+    plus_minus_average_node,
+):
+    plug = plus_minus_average_node.input1D[0]
+
+    with pytest.raises(
+        TypeError,
+        match="filter_type must be a NodeOperator class",
+    ):
+        plug.src_plug(filter_type=str)
+
+    with pytest.raises(
+        TypeError,
+        match="include_subclasses must be bool",
+    ):
+        plug.dst_plugs(include_subclasses=1)
+
+    with pytest.raises(
+        ValueError,
+        match="include_subclasses=False requires filter_type",
+    ):
+        plug.src_name(include_subclasses=False)

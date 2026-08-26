@@ -43,6 +43,28 @@ _NextValue = TypeVar("_NextValue")
 _NextDefault = TypeVar("_NextDefault")
 
 
+def _require_node_operator_type(
+    value: object,
+    argument_name: str,
+) -> type[NodeOperator]:
+    if not isinstance(value, type) or not issubclass(value, NodeOperator):
+        value_name = (
+            value.__name__ if isinstance(value, type) else type(value).__name__
+        )
+        raise TypeError(
+            f"{argument_name} must be a NodeOperator class; got {value_name}"
+        )
+    return value
+
+
+def _require_bool(value: object, argument_name: str) -> bool:
+    if not isinstance(value, bool):
+        raise TypeError(
+            f"{argument_name} must be bool; got {type(value).__name__}"
+        )
+    return value
+
+
 class _NextIndexSentinel(Protocol):
 
     @overload
@@ -644,73 +666,207 @@ class PlugOperator(Generic[A], ABC):
             self.refresh_next_index()
 
     # connection
-    @property
-    def src_name(self) -> str | None:
-        """
-        接続元のノード名を返す
+    def _wrap_connected_plug(self, m_plug: om.MPlug) -> PlugOperator[Any]:
+        from ...existing_node import ExistingNode
 
-        Returns:
-            str | None: 接続元ノード名。接続がなければ None。
-        """
-        result = cmds.listConnections(
-            self.plug_name,
+        node = ExistingNode(
+            m_plug.node(),
+            modifier_manager=self._node.modifier_manager,
+            auto_add_attr=False,
+        )
+
+        root_plug = m_plug
+        steps: list[tuple[str, int | om.MPlug]] = []
+        while True:
+            if root_plug.isElement:
+                steps.append(("element", root_plug.logicalIndex()))
+                root_plug = root_plug.array()
+                continue
+            if root_plug.isChild:
+                steps.append(("child", root_plug))
+                root_plug = root_plug.parent()
+                continue
+            break
+
+        root_long_name = om.MFnAttribute(root_plug.attribute()).name
+        root_attr = type(node).get_attr_operator(root_long_name)
+        if root_attr is None:
+            raise AttributeError(
+                "Connected plug attribute is not defined on "
+                f"{type(node).__name__}: {root_plug.name()}"
+            )
+
+        result = cast(PlugOperator[Any], getattr(node, root_attr.name))
+        if result.plug != root_plug:
+            raise RuntimeError(
+                "Connected root plug did not resolve to the expected "
+                f"PlugOperator: {root_plug.name()}"
+            )
+
+        for step_type, value in reversed(steps):
+            if step_type == "element":
+                result = result[cast(int, value)]
+                continue
+            result = self._resolve_connected_child(
+                result,
+                cast(om.MPlug, value),
+            )
+        return result
+
+    @staticmethod
+    def _resolve_connected_child(
+        parent: PlugOperator[Any],
+        child_m_plug: om.MPlug,
+    ) -> PlugOperator[Any]:
+        seen_fields: set[int] = set()
+        for owner in type(parent).__mro__:
+            for value in vars(owner).values():
+                if not isinstance(value, AttributeField):
+                    continue
+                field = cast(AttributeField[Any, Any], value)
+                field_id = id(field)
+                if field_id in seen_fields:
+                    continue
+                seen_fields.add(field_id)
+
+                try:
+                    child = field.__get__(parent, type(parent))
+                    child_plug = cast(PlugOperator[Any], child)
+                    if child_plug.plug == child_m_plug:
+                        return child_plug
+                except (AttributeError, RuntimeError):
+                    continue
+
+        raise AttributeError(
+            "Connected child plug is not defined on "
+            f"{type(parent).__name__}: {child_m_plug.name()}"
+        )
+
+    def _connected_plugs(
+        self,
+        *,
+        source: bool,
+        filter_type: type[NodeOperator] | None,
+        include_subclasses: bool,
+    ) -> tuple[PlugOperator[Any], ...]:
+        include_subclasses_value = _require_bool(
+            include_subclasses,
+            "include_subclasses",
+        )
+        if filter_type is None:
+            if not include_subclasses_value:
+                raise ValueError(
+                    "include_subclasses=False requires filter_type"
+                )
+            node_type = None
+        else:
+            node_type = _require_node_operator_type(
+                filter_type,
+                "filter_type",
+            )
+
+        connected_m_plugs = self.plug.connectedTo(source, not source)
+        connected_plugs: list[PlugOperator[Any]] = []
+        for connected_m_plug in connected_m_plugs:
+            connected_plug = self._wrap_connected_plug(connected_m_plug)
+            if node_type is not None:
+                connected_node = connected_plug.node
+                if include_subclasses_value:
+                    if not isinstance(connected_node, node_type):
+                        continue
+                elif type(connected_node) is not node_type:
+                    continue
+            connected_plugs.append(connected_plug)
+        return tuple(connected_plugs)
+
+    def src_plug(
+        self,
+        *,
+        filter_type: type[NodeOperator] | None = None,
+        include_subclasses: bool = True,
+    ) -> PlugOperator[Any] | None:
+        """直接接続されている接続元plugを返す。"""
+        plugs = self._connected_plugs(
             source=True,
-            destination=False,
-            plugs=False,
+            filter_type=filter_type,
+            include_subclasses=include_subclasses,
         )
-        if result:
-            return result[0]
-        return None
+        if not plugs:
+            return None
+        return plugs[0]
 
-    @property
-    def src_plug(self) -> str | None:
-        """
-        接続元の "node.attr" 形式の plug 文字列を返す
-
-        Returns:
-            str | None: 接続元の plug 文字列。接続がなければ None。
-        """
-        result = cmds.listConnections(
-            self.plug_name,
-            source=True,
-            destination=False,
-            plugs=True,
+    def src_name(
+        self,
+        *,
+        filter_type: type[NodeOperator] | None = None,
+        include_subclasses: bool = True,
+    ) -> str | None:
+        """直接接続されている接続元ノード名を返す。"""
+        plug = self.src_plug(
+            filter_type=filter_type,
+            include_subclasses=include_subclasses,
         )
-        if result:
-            return result[0]
-        return None
+        if plug is None:
+            return None
+        return plug.node.name
 
-    @property
-    def dst_names(self) -> list[str]:
-        """
-        接続先のノード名一覧を返す
+    def src_plug_name(
+        self,
+        *,
+        filter_type: type[NodeOperator] | None = None,
+        include_subclasses: bool = True,
+    ) -> str | None:
+        """直接接続されている接続元plug名を返す。"""
+        plug = self.src_plug(
+            filter_type=filter_type,
+            include_subclasses=include_subclasses,
+        )
+        if plug is None:
+            return None
+        return plug.plug_name
 
-        Returns:
-            list[str]: 接続先ノード名のリスト。接続がなければ空リスト。
-        """
-        result = cmds.listConnections(
-            self.plug_name,
+    def dst_plugs(
+        self,
+        *,
+        filter_type: type[NodeOperator] | None = None,
+        include_subclasses: bool = True,
+    ) -> tuple[PlugOperator[Any], ...]:
+        """直接接続されている接続先plugを返す。"""
+        return self._connected_plugs(
             source=False,
-            destination=True,
-            plugs=False,
+            filter_type=filter_type,
+            include_subclasses=include_subclasses,
         )
-        return result if result else []
 
-    @property
-    def dst_plugs(self) -> list[str]:
-        """
-        接続先の "node.attr" 形式の plug 文字列一覧を返す
-
-        Returns:
-            list[str]: 接続先の plug 文字列のリスト。接続がなければ空リスト。
-        """
-        result = cmds.listConnections(
-            self.plug_name,
-            source=False,
-            destination=True,
-            plugs=True,
+    def dst_names(
+        self,
+        *,
+        filter_type: type[NodeOperator] | None = None,
+        include_subclasses: bool = True,
+    ) -> tuple[str, ...]:
+        """直接接続されている接続先ノード名を返す。"""
+        return tuple(
+            plug.node.name
+            for plug in self.dst_plugs(
+                filter_type=filter_type,
+                include_subclasses=include_subclasses,
+            )
         )
-        return result if result else []
+
+    def dst_plug_names(
+        self,
+        *,
+        filter_type: type[NodeOperator] | None = None,
+        include_subclasses: bool = True,
+    ) -> tuple[str, ...]:
+        """直接接続されている接続先plug名を返す。"""
+        return tuple(
+            plug.plug_name
+            for plug in self.dst_plugs(
+                filter_type=filter_type,
+                include_subclasses=include_subclasses,
+            )
+        )
 
     # exists
     def exists(self) -> bool:
