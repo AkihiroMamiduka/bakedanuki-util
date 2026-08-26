@@ -424,6 +424,25 @@ translate = tm.translate
 委譲APIを維持・拡張する場合も、戻り値型、単位、未設定時の`ValueError`、
 アクセスごとに新しいsnapshotを取得する評価規則は`TransformMatrix`と揃えます。
 
+### connected plug の汎用解決
+
+現在のconnection queryは、`ExistingNode`で型を解決でき、対象attributeが
+`NodeOperator` / `AttributeField`に定義されているplugを`PlugOperator`として返します。
+この範囲に含まれない未知のplug-in node typeやruntime extra attributeにも対応する場合は、
+OpenMayaの`MObject` / `MPlug`から汎用wrapperへ解決する内部経路を追加する候補があります。
+
+ただし、未知のattributeから専用の具象`PlugOperator`を常に復元できるとは限りません。
+汎用fallbackを設ける場合は、次を先に決めます。
+
+- 「接続なし」と「接続はあるがwrapperへ未対応」を区別し、未対応を黙って`None`や空tupleにしない。
+- `cmds`へ戻さずOpenMayaで解決し、照会元の`ModifierManager`を共有する。
+- 既存nodeを変更しない`auto_add_attr=False`の原則を維持する。
+- scalar / compound / multi / message / typed attributeと未知のplug-in nodeをtest対象にする。
+- public APIの戻り値型とIDE補完を、汎用fallbackの責務に合わせて更新する。
+
+中間nodeを透過するconnection traversalはこの汎用解決とは別の機能です。
+追加する場合も、`MPlug.connectedTo()`相当の直接接続を返す既定仕様は変更しません。
+
 ## DAG traversal 拡張後の作業候補
 
 ### 1. docs の継続更新

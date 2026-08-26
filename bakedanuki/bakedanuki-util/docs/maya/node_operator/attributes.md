@@ -120,7 +120,34 @@ exact_joint_destinations = src.output.dst_plugs(
 
 `include_subclasses=True` が初期値です。
 `False` の場合は、解決された `NodeOperator` の class が `filter_type` と完全一致する接続だけを返します。
+接続があっても filter に一致しない場合は、source 系は `None`、destination 系は空 tuple を返します。
 `filter_type` なしで `include_subclasses=False` を指定すると `ValueError` を送出します。
+
+### connection query の設計境界
+
+`filter_type` が判定するのは、直接接続されているノードです。
+`unitConversion` などの中間ノードを通過して上流・下流を探索する機能ではありません。
+将来 pass-through traversal を追加する場合も、直接接続を返す初期動作は維持し、
+別の option または API として明示します。
+
+接続先の `MPlug` は `ExistingNode` を経由して `PlugOperator` へ解決します。
+このとき、照会元と同じ `ModifierManager` を引き継ぎ、既存ノードを変更しないよう
+`auto_add_attr=False` で包みます。結果は接続先を改めて解決した wrapper であり、
+別経路ですでに取得した `PlugOperator` との Python object identity は保証しません。
+同じ plug かどうかは `is` ではなく `MPlug` を表す `plug` で比較します。
+
+destination 系メソッドの順序は `MPlug.connectedTo()` の結果に従い、独自の sort は行いません。
+同一の scene 状態では `dst_plugs()` / `dst_names()` / `dst_plug_names()` の要素を
+同じ順序で対応させますが、この順序を接続作成順などの意味として扱わないでください。
+再現可能な順序が必要な処理では、呼び出し側で `plug_name` などを key に sort します。
+
+現在の `PlugOperator` への解決は、`ExistingNode` で型を解決でき、対象 attribute が
+その `NodeOperator` / `AttributeField` に定義されていることを前提とします。
+生成後に追加された未知の plug-in node type や runtime extra attribute など、
+この前提を満たさない接続は `AttributeError` になる場合があります。
+これは「接続なし」を表す `None` / 空 tuple とは別の状態です。
+name 系メソッドも対応する plug query の結果から名前を取得するため、同じ解決境界を持ちます。
+また、接続状態は scene 編集で変化するため、connection query の結果は cache しません。
 
 ## extra attribute
 
