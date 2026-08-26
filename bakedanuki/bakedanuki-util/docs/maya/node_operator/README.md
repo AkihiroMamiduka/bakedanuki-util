@@ -706,6 +706,29 @@ keyframe削除、lock解除は自動実行しません。操作時点のlocal ma
 回転属性の役割が変わるため、その後のrotate操作やIKに対する意味まで維持する操作では
 ありません。
 
+### 回転積と補償式（開発者向け）
+
+実装では、`rotateAxis`、`rotate`、`jointOrient`から得たquaternionをそれぞれ
+`A`、`R`、`J`と表し、回転部分を次の積として扱います。
+
+- Transform: `Q = A * R`
+- Joint: `Q = A * R * J`
+
+`A`と`J`は固定XYZ順、`R`は現在の`rotateOrder`でEuler値とquaternionを
+相互変換します。指定値を`A_target`、`R_target`、`J_target`としたとき、
+各メソッドの補償値は次の式で求めます。
+
+| メソッド | 補償式 | 変更しない属性 |
+| --- | --- | --- |
+| `set_rotate_axis_with_rotate(A_target)` | `R_new = inverse(A_target) * A * R` | Jointの`jointOrient` |
+| `set_rotate_with_rotate_axis(R_target)` | `A_new = A * R * inverse(R_target)` | Jointの`jointOrient` |
+| `set_joint_orient_with_rotate(J_target)` | `R_new = R * J * inverse(J_target)` | `rotateAxis` |
+| `set_rotate_with_joint_orient(R_target)` | `J_new = inverse(R_target) * R * J` | `rotateAxis` |
+
+`rotation_to_*()`も同じ回転積を使用し、集約先以外を単位回転にしたうえで
+集約先のEuler値へ変換します。積順またはEuler変換順を変更する場合は、全6種類の
+`rotateOrder`についてlocal matrix維持とundo / redoを検証してください。
+
 ## DAG の行列変換
 
 `DAG` は、2つのDAGノード間で行列を変換する共通メソッドを持ちます。
