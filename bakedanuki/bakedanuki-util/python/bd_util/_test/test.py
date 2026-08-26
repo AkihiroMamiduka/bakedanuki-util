@@ -1,4 +1,5 @@
 # coding:utf-8
+import random
 
 # self
 import bd_util as bdu
@@ -9,71 +10,76 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 def main():
     nodes = bdu.Nodes()
-    src = nodes.create.transform(name="src")
-    dst = nodes.create.joint(name="dst")
+    src_trsf = nodes.create.transform(name="src_transform")
+    dst_trsf_rotate = nodes.create.transform(name="dst_transform_rotate")
+    dst_trsf_rotate_axis = nodes.create.transform(
+        name="dst_transform_rotate_axis"
+    )
 
-    src.t.connect(dst.t)
-    src.r.connect(dst.r)
-    src.s.connect(dst.s)
-    src.sh.connect(dst.sh)
+    src_joint = nodes.create.joint(name="src_joint")
+    dst_joint_joint_orient = nodes.create.joint(name="dst_joint_joint_orient")
+    dst_joint_rotate = nodes.create.joint(name="dst_joint_rotate")
+    dst_joint_rotate_axis = nodes.create.joint(name="dst_joint_rotate_axis")
+
+    # transform
+    #   src
+    src_trsf.r.set(
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    src_trsf.rotateAxis.set(
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+
+    nodes.modifier_manager.do_it_dg()
+
+    rot = src_trsf.r.get()
+    r_axis = src_trsf.rotateAxis.get()
+    #   dst
+    #       rotate
+    dst_trsf_rotate.r.set(rot)
+    dst_trsf_rotate.rotateAxis.set(r_axis)
+    #       rotate_axis
+    dst_trsf_rotate_axis.r.set(rot)
+    dst_trsf_rotate_axis.rotateAxis.set(r_axis)
+    # joint
+    #   src
+    src_joint.jo.set(
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    src_joint.r.set(rot)
+    src_joint.rotateAxis.set(r_axis)
+
+    nodes.modifier_manager.do_it_dg()
+
+    jo = src_joint.jo.get()
+    #   dst
+    #       joint_orient
+    dst_joint_joint_orient.jo.set(jo)
+    dst_joint_joint_orient.r.set(rot)
+    dst_joint_joint_orient.rotateAxis.set(r_axis)
+    #       rotate
+    dst_joint_rotate.jo.set(jo)
+    dst_joint_rotate.r.set(rot)
+    dst_joint_rotate.rotateAxis.set(r_axis)
+    #       rotate_axis
+    dst_joint_rotate_axis.jo.set(jo)
+    dst_joint_rotate_axis.r.set(rot)
+    dst_joint_rotate_axis.rotateAxis.set(r_axis)
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    logger.debug("----")
-    src_plug = dst.t.src_plug()
-    logger.debug(f"src_plug      : {src_plug}")
-    logger.debug(f"type(src_plug): {type(src_plug)}")
+    dst_trsf_rotate.rotation_to_rotate()
+    dst_trsf_rotate_axis.rotation_to_rotate_axis()
 
-    src_name = dst.t.src_name()
-    logger.debug(f"src_name      : {src_name}")
-    logger.debug(f"type(src_name): {type(src_name)}")
+    dst_joint_joint_orient.rotation_to_joint_orient()
+    dst_joint_rotate.rotation_to_rotate()
+    dst_joint_rotate_axis.rotation_to_rotate_axis()
 
-    src_plug_name = dst.t.src_plug_name()
-    logger.debug(f"src_plug_name      : {src_plug_name}")
-    logger.debug(f"type(src_plug_name): {type(src_plug_name)}")
-
-    logger.debug("----")
-    src_plug = dst.t.src_plug(filter_type=nodes.types.Joint)
-    logger.debug(f"src_plug      : {src_plug}")
-    logger.debug(f"type(src_plug): {type(src_plug)}")
-
-    src_name = dst.t.src_name(filter_type=nodes.types.Joint)
-    logger.debug(f"src_name      : {src_name}")
-    logger.debug(f"type(src_name): {type(src_name)}")
-
-    src_plug_name = dst.t.src_plug_name(filter_type=nodes.types.Joint)
-    logger.debug(f"src_plug_name      : {src_plug_name}")
-    logger.debug(f"type(src_plug_name): {type(src_plug_name)}")
-
-    logger.debug("----")
-    dst_plugs = src.t.dst_plugs()
-    logger.debug(f"dst_plugs      : {dst_plugs}")
-    logger.debug(f"type(dst_plugs): {type(dst_plugs)}")
-
-    dst_names = src.t.dst_names()
-    logger.debug(f"dst_names      : {dst_names}")
-    logger.debug(f"type(dst_names): {type(dst_names)}")
-
-    dst_plug_names = dst.t.dst_plug_names()
-    logger.debug(f"dst_plug_names      : {dst_plug_names}")
-    logger.debug(f"type(dst_plug_names): {type(dst_plug_names)}")
-
-    logger.debug("----")
-    dst_plugs = src.t.dst_plugs(
-        filter_type=nodes.types.Transform, include_subclasses=False
-    )
-    logger.debug(f"dst_plugs      : {dst_plugs}")
-    logger.debug(f"type(dst_plugs): {type(dst_plugs)}")
-
-    dst_names = src.t.dst_names(
-        filter_type=nodes.types.Transform, include_subclasses=False
-    )
-    logger.debug(f"dst_names      : {dst_names}")
-    logger.debug(f"type(dst_names): {type(dst_names)}")
-
-    dst_plug_names = dst.t.dst_plug_names(
-        filter_type=nodes.types.Transform, include_subclasses=False
-    )
-    logger.debug(f"dst_plug_names      : {dst_plug_names}")
-    logger.debug(f"type(dst_plug_names): {type(dst_plug_names)}")
+    nodes.modifier_manager.do_it_dg()

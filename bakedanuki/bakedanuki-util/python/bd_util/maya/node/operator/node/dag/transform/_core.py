@@ -1,16 +1,99 @@
 # coding: utf-8
-from typing import Self
+from typing import ClassVar, Self
 
 from maya.api import OpenMaya as om
 
 from .._core import DAG
 from ._generated.transform import GeneratedTransform
 
+_RotationValue = tuple[float, float, float]
+
 
 class Transform(GeneratedTransform):
     __slots__ = ()
 
     NODE_TYPE = "transform"
+    _ZERO_ROTATION: ClassVar[_RotationValue] = (0.0, 0.0, 0.0)
+
+    @staticmethod
+    def _quaternion_to_rotation(
+        quaternion: om.MQuaternion,
+        order: int,
+    ) -> _RotationValue:
+        euler = quaternion.asEulerRotation()
+        euler.reorderIt(order)
+        return (
+            om.MAngle(euler.x, om.MAngle.kRadians).asDegrees(),
+            om.MAngle(euler.y, om.MAngle.kRadians).asDegrees(),
+            om.MAngle(euler.z, om.MAngle.kRadians).asDegrees(),
+        )
+
+    def rotation_to_rotate(self) -> Self:
+        """現在の回転を ``rotate`` へ集約して DG modifier に積む。"""
+        self._validate_rotation_plugs()
+        rotation = self._quaternion_to_rotation(
+            self._combined_rotation(),
+            self.rotateOrder.get(),
+        )
+        self._set_rotation_values(
+            rotate_axis=self._ZERO_ROTATION,
+            rotate=rotation,
+        )
+        return self
+
+    def rotation_to_rotate_axis(self) -> Self:
+        """現在の回転を ``rotateAxis`` へ集約して DG modifier に積む。"""
+        self._validate_rotation_plugs()
+        rotation = self._quaternion_to_rotation(
+            self._combined_rotation(),
+            om.MEulerRotation.kXYZ,
+        )
+        self._set_rotation_values(
+            rotate_axis=rotation,
+            rotate=self._ZERO_ROTATION,
+        )
+        return self
+
+    def _combined_rotation(self) -> om.MQuaternion:
+        fn_transform = om.MFnTransform(self.m_obj)
+        return fn_transform.rotateOrientation(
+            om.MSpace.kTransform
+        ) * fn_transform.rotation(asQuaternion=True)
+
+    def _rotation_m_plugs(self) -> tuple[om.MPlug, ...]:
+        return self.rotateAxis.plug, self.rotate.plug
+
+    def _validate_rotation_plugs(self) -> None:
+        blocked_plug_names: list[str] = []
+        for plug in self._rotation_m_plugs():
+            blocked_children = [
+                plug.child(index).name()
+                for index in range(plug.numChildren())
+                if plug.child(index).isDestination
+                or plug.child(index).isFreeToChange() != om.MPlug.kFreeToChange
+            ]
+            if blocked_children:
+                blocked_plug_names.extend(blocked_children)
+            elif (
+                plug.isDestination
+                or plug.isFreeToChange() != om.MPlug.kFreeToChange
+            ):
+                blocked_plug_names.append(plug.name())
+
+        if blocked_plug_names:
+            raise RuntimeError(
+                "Rotation plugs must be unlocked and have no incoming "
+                "connections: " + ", ".join(blocked_plug_names)
+            )
+
+    def _set_rotation_values(
+        self,
+        *,
+        rotate_axis: _RotationValue,
+        rotate: _RotationValue,
+    ) -> None:
+        self.rotateAxis.set(rotate_axis)
+        self.rotate.set(rotate)
 
     def set_parent(
         self,

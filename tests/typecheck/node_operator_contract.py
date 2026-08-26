@@ -1253,6 +1253,17 @@ def node_types_contract(nodes: bdu.Nodes) -> None:
     assert_type(nodes.types.resolve("locator"), type[NodeOperator])
 
 
+def transform_rotation_contract(nodes: bdu.Nodes) -> None:
+    transform = nodes.existing.transform("existing_transform")
+    joint = nodes.existing.joint("existing_joint")
+
+    assert_type(transform.rotation_to_rotate(), Transform)
+    assert_type(transform.rotation_to_rotate_axis(), Transform)
+    assert_type(joint.rotation_to_rotate(), Joint)
+    assert_type(joint.rotation_to_rotate_axis(), Joint)
+    assert_type(joint.rotation_to_joint_orient(), Joint)
+
+
 def connection_query_contract(nodes: bdu.Nodes) -> None:
     src = nodes.existing.joint("existing_joint")
     dst = nodes.existing.plusMinusAverage("existing_plus_minus_average")

@@ -639,6 +639,43 @@ mod.do_it_dag()
 `full_path` は保持中の `MDagPath` からアクセスごとに取得します。
 親変更や rename の確定、および undo / redo 後も現在のフルパスを返します。
 
+## Transform / Joint の回転集約
+
+`Transform` は、現在評価されている `rotateAxis` と `rotate` の回転を一方へ
+集約できます。集約後もlocal matrixは維持され、集約先以外の回転値は
+`(0.0, 0.0, 0.0)`になります。
+
+```python
+transform.rotation_to_rotate()
+# または
+transform.rotation_to_rotate_axis()
+mod.do_it_dg()
+```
+
+`Joint` では `rotateAxis`、`rotate`、`jointOrient` の3つをすべて合成します。
+継承する2メソッドに加えて、`jointOrient`への集約も利用できます。
+
+```python
+joint.rotation_to_rotate()
+joint.rotation_to_rotate_axis()
+joint.rotation_to_joint_orient()
+mod.do_it_dg()
+```
+
+回転はEuler値の成分加算ではなく、Mayaの回転積と同じ順序でquaternionとして
+合成します。`rotate`へ集約するときは現在の`rotateOrder`でEuler値へ変換し、
+`rotateAxis`と`jointOrient`へ集約するときは固定XYZ順で変換します。
+
+値設定は現在の`MDGModifier`へ積まれ、各メソッドは自身を返します。
+同じmodifierへ積んだ未実行の値設定は集約計算から読み取れないため、先行する
+値設定がある場合は、集約前に`mod.do_it_dg()`で確定してください。
+
+対象となる回転plugまたはその子plugがlockされている場合や、animation curveを
+含む入力接続を持つ場合は、変更を積む前に`RuntimeError`を送出します。接続解除、
+keyframe削除、lock解除は自動実行しません。集約時点のlocal matrixは維持されますが、
+回転属性の役割が変わるため、その後のrotate操作やIKに対する意味まで維持する操作では
+ありません。
+
 ## DAG の行列変換
 
 `DAG` は、2つのDAGノード間で行列を変換する共通メソッドを持ちます。
