@@ -76,9 +76,6 @@ node = nodes.existing.transform("test")
 world_matrix = node.worldMatrix[0]
 
 tm = world_matrix.get()
-if tm is None:
-    raise ValueError("worldMatrix does not contain a matrix value")
-
 matrix = tm.matrix
 transformation_matrix = tm.transformation_matrix
 translate = world_matrix.translate
@@ -93,15 +90,12 @@ quat = world_matrix.quat
 
 ```python
 tm = node.worldMatrix[0].get()
-if tm is None:
-    raise ValueError("worldMatrix does not contain a matrix value")
-
 translate = tm.translate
 rotate = tm.rotate
 scale = tm.scale
 ```
 
-`MatrixPlugOperator.get()` は常に `TransformMatrix` を返します。未設定のtyped matrix plugはmatrix data自体を持たないため、`DataMatrixPlugOperator.get()` と plugの `transformation_matrix` は `None` を返します。同じ状態で各成分へアクセスすると `ValueError` を送出します。
+`MatrixPlugOperator.get()` と `DataMatrixPlugOperator.get()` は、どちらも常に `TransformMatrix` を返します。未設定のtyped matrix plugはmatrix data自体を持たないため、`get()`、plugの `transformation_matrix`、および各成分へアクセスすると `ValueError` を送出します。未設定状態にidentity matrixを補完することはありません。
 
 ## Matrix plug への設定
 
@@ -115,9 +109,6 @@ src_node = nodes.existing.transform("src")
 mult_matrix = nodes.create.multMatrix(name="mult_matrix")
 
 src_world = src_node.worldMatrix[0].get()
-if src_world is None:
-    raise ValueError("worldMatrix does not contain a matrix value")
-
 mult_matrix.matrixIn[0].set(src_world)
 mod.do_it_dg()
 ```
@@ -155,9 +146,6 @@ relative_tm = src_dag.get_relative_matrix(dst_dag)
 ```python
 src_world = src_dag.worldMatrix[src_index].get()
 dst_world_inverse = dst_dag.worldInverseMatrix[dst_index].get()
-if src_world is None or dst_world_inverse is None:
-    raise ValueError("matrix plug does not contain a matrix value")
-
 relative_tm = src_world * dst_world_inverse
 ```
 
@@ -172,9 +160,6 @@ local_tm = src_dag.get_local_matrix(dst_dag)
 ```python
 src_world = src_dag.worldMatrix[src_index].get()
 dst_parent_inverse = dst_dag.parentInverseMatrix[dst_index].get()
-if src_world is None or dst_parent_inverse is None:
-    raise ValueError("matrix plug does not contain a matrix value")
-
 local_tm = src_world * dst_parent_inverse
 ```
 

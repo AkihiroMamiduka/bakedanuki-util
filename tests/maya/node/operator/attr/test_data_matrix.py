@@ -24,12 +24,10 @@ def test_data_matrix_plug_gets_transform_matrix_values(
     matrix_plug = node.wm[0]
 
     value = matrix_plug.get()
-    assert value is not None
     expected_quat = value.quat
 
     assert isinstance(value, bdu.TransformMatrix)
     current = matrix_plug.get()
-    assert current is not None
     _assert_matrix_close(current.matrix, value.matrix)
     _assert_matrix_close(
         matrix_plug.transformation_matrix.asMatrix(),
@@ -59,27 +57,27 @@ def test_get_reads_current_plug_value(
     node = bdu.Nodes().existing.transform(transform)
     matrix_plug = node.wm[0]
     first = matrix_plug.get()
-    assert first is not None
 
     maya_cmds.setAttr(f"{transform}.translateX", 8.0)
 
     second = matrix_plug.get()
-    assert second is not None
     assert first is not second
     assert first.translate == pytest.approx((0.0, 0.0, 0.0))
     assert second.translate == pytest.approx((8.0, 0.0, 0.0))
     assert matrix_plug.translate == pytest.approx((8.0, 0.0, 0.0))
 
 
-def test_unset_data_matrix_returns_none(new_scene, maya_cmds):
+def test_unset_data_matrix_raises_value_error(new_scene, maya_cmds):
     import bd_util as bdu
 
     node_name = maya_cmds.createNode("wtAddMatrix", name="wt_add_matrix")
     node = bdu.Nodes().existing.wtAddMatrix(node_name)
     matrix_plug = node.wtMatrix[0].matrixIn
 
-    assert matrix_plug.get() is None
-    assert matrix_plug.transformation_matrix is None
+    with pytest.raises(ValueError, match="does not contain a matrix value"):
+        matrix_plug.get()
+    with pytest.raises(ValueError, match="does not contain a matrix value"):
+        _ = matrix_plug.transformation_matrix
     with pytest.raises(ValueError, match="does not contain a matrix value"):
         _ = matrix_plug.translate
 

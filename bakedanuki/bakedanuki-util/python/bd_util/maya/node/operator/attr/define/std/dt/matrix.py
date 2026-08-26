@@ -18,59 +18,44 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
     __slots__ = ()
 
     # get
-    def get(self) -> TransformMatrix | None:
-        try:
-            return TransformMatrix(self.plug)
-        except ValueError:
-            return None
-
-    def _require_value(self) -> TransformMatrix:
-        value = self.get()
-        if value is None:
-            raise ValueError(
-                f"Plug does not contain a matrix value: {self.plug.name()}"
-            )
-        return value
+    def get(self) -> TransformMatrix:
+        return TransformMatrix(self.plug)
 
     @property
-    def transformation_matrix(self) -> om.MTransformationMatrix | None:
+    def transformation_matrix(self) -> om.MTransformationMatrix:
         """
         MPlug から om.MTransformationMatrix を取得する
 
         Returns:
-            om.MTransformationMatrix | None:
-                om.MTransformationMatrix 形式の値。matrix data が未設定なら None。
+            om.MTransformationMatrix: om.MTransformationMatrix 形式の値。
         """
-        value = self.get()
-        if value is None:
-            return None
-        return value.transformation_matrix
+        return self.get().transformation_matrix
 
     @property
     def translate(self) -> tuple[float, float, float]:
-        return self._require_value().translate
+        return self.get().translate
 
     @property
     def rotate(self) -> tuple[float, float, float]:
-        return self._require_value().rotate
+        return self.get().rotate
 
     def get_rotate(
         self,
         order: RotationOrder = "xyz",
     ) -> tuple[float, float, float]:
-        return self._require_value().get_rotate(order=order)
+        return self.get().get_rotate(order=order)
 
     @property
     def scale(self) -> tuple[float, float, float]:
-        return self._require_value().scale
+        return self.get().scale
 
     @property
     def shear(self) -> tuple[float, float, float]:
-        return self._require_value().shear
+        return self.get().shear
 
     @property
     def quat(self) -> tuple[float, float, float, float]:
-        return self._require_value().quat
+        return self.get().quat
 
     # set
     def set_direct(

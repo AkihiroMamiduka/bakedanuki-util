@@ -41,12 +41,11 @@ def main():
     # dst_a
     src_wm = src.wm[0].get()
     dst_pim = dst_a.pim[0].get()
-    if src_wm and dst_pim:
-        m = src_wm * dst_pim
-        dst_a.translate.set(m.translate)
-        dst_a.rotate.set(m.rotate)
-        dst_a.scale.set(m.scale)
-        dst_a.shear.set(m.shear)
+    m = src_wm * dst_pim
+    dst_a.translate.set(m.translate)
+    dst_a.rotate.set(m.rotate)
+    dst_a.scale.set(m.scale)
+    dst_a.shear.set(m.shear)
 
     # dst_b
     m = src.get_local_matrix(dst_b)

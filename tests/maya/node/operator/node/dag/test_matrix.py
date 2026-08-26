@@ -28,8 +28,6 @@ def test_get_relative_matrix_returns_src_in_dst_space(
     relative = src_dag.get_relative_matrix(dst_dag)
     src_world = src_dag.wm[0].get()
     dst_world_inverse = dst_dag.wim[0].get()
-    assert src_world is not None
-    assert dst_world_inverse is not None
     expected = src_world * dst_world_inverse
 
     _assert_matrix_close(relative.matrix, expected.matrix)
@@ -72,9 +70,6 @@ def test_get_local_matrix_handles_offset_parent_matrix(
     src_world = src_dag.wm[0].get()
     dst_parent_inverse = dst_dag.pim[0].get()
     dst_parent = dst_dag.pm[0].get()
-    assert src_world is not None
-    assert dst_parent_inverse is not None
-    assert dst_parent is not None
     expected = src_world * dst_parent_inverse
 
     _assert_matrix_close(local.matrix, expected.matrix)
@@ -116,8 +111,6 @@ def test_dag_matrix_methods_use_dag_path_instance_number(
     relative = src_dag.get_relative_matrix(dst_dag)
     src_world = src_dag.wm[1].get()
     dst_world_inverse = dst_dag.wim[0].get()
-    assert src_world is not None
-    assert dst_world_inverse is not None
     expected = src_world * dst_world_inverse
 
     _assert_matrix_close(relative.matrix, expected.matrix)

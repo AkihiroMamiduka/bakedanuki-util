@@ -3966,11 +3966,10 @@ def multi_compound_contract(nodes: bdu.Nodes) -> None:
     matrix_in = wt_add_matrix.wtMatrix[next].matrixIn
     assert_type(matrix_in, DataMatrixPlugOperator)
     matrix_value = matrix_in.get()
-    assert_type(matrix_value, bdu.TransformMatrix | None)
+    assert_type(matrix_value, bdu.TransformMatrix)
     assert_type(matrix_in.set_direct(om.MMatrix()), None)
     assert_type(matrix_in.set_direct(om.MTransformationMatrix()), None)
-    if matrix_value is not None:
-        assert_type(matrix_in.set_direct(matrix_value), None)
+    assert_type(matrix_in.set_direct(matrix_value), None)
 
 
 def condition_contract(nodes: bdu.Nodes) -> None:

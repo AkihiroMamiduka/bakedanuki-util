@@ -63,7 +63,7 @@ translate = local_tm.translate
 inverse_tm = local_tm.inverse()
 
 world_tm = src_dag.worldMatrix[0].get()
-world_translate = world_tm.translate if world_tm is not None else None
+world_translate = world_tm.translate
 ```
 
 matrix plug の `get()` は `TransformMatrix` を返します。`translate` / `rotate` / `scale` / `shear` / `quat` は、float の tuple として取得できます。`rotate` は XYZ order の degree です。
