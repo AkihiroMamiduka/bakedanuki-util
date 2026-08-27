@@ -234,6 +234,11 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 - `tests/maya/node/operator/node/dag/transform/test_rotation.py`
   - Transform / Jointの回転集約と姿勢維持した回転値設定、全rotateOrderでの
     local matrix維持、undo / redo、lock・入力接続・keyframeの拒否を検証します。
+- `tests/maya/node/operator/node/dag/transform/test_matching.py`
+  - Transform / JointのDAG原点とworld姿勢のマッチ、world / local / objectの
+    軸指定、offsetParentMatrix、全rotateOrder、undo / redo、lock・入力接続、
+    shape source、instanced DAGの拒否、非ゼロrotatePivotで位置補償しないことを
+    検証します。
 - `tests/maya/node/operator/node/dag/shape/test_create.py`
   - 親 Transform 必須の shape 作成、明示的な公開対象、同一 modifier での
     一括作成、undo / redo を検証します。

@@ -1,6 +1,7 @@
 # coding: utf-8
+import math
 from collections.abc import Sequence
-from typing import ClassVar, overload, Self
+from typing import cast, ClassVar, Literal, overload, Self
 
 from maya.api import OpenMaya as om
 
@@ -8,6 +9,12 @@ from .._core import DAG
 from ._generated.transform import GeneratedTransform
 
 _RotationValue = tuple[float, float, float]
+_PositionAxes = Literal["x", "y", "z", "xy", "xz", "yz", "xyz"]
+_PositionSpace = Literal["world", "local", "object"]
+
+_POSITION_AXES = frozenset(("x", "y", "z", "xy", "xz", "yz", "xyz"))
+_POSITION_AXIS_INDEX = {"x": 0, "y": 1, "z": 2}
+_POSITION_SPACES = frozenset(("world", "local", "object"))
 
 
 class Transform(GeneratedTransform):
@@ -78,8 +85,9 @@ class Transform(GeneratedTransform):
                 f"{method_name}([x, y, z]): {normalized_values}"
             )
 
+        scalar_values = cast(tuple[float, ...], normalized_values)
         try:
-            x, y, z = (float(component) for component in normalized_values)
+            x, y, z = (float(component) for component in scalar_values)
         except (TypeError, ValueError) as error:
             raise TypeError(
                 f"Expected either {method_name}(x, y, z) or "
@@ -111,6 +119,119 @@ class Transform(GeneratedTransform):
             rotate_axis=rotation,
             rotate=self._ZERO_ROTATION,
         )
+        return self
+
+    def match_position(
+        self,
+        source: DAG,
+        *,
+        axes: _PositionAxes = "xyz",
+        space: _PositionSpace = "world",
+    ) -> Self:
+        """DAG原点の位置を指定空間の軸に沿って ``source`` へ合わせる。"""
+        source = self._validate_match_source(source)
+        axes = self._validate_position_axes(axes)
+        space = self._validate_position_space(space)
+        self._validate_match_instances(source)
+        if self.m_obj == source.m_obj:
+            return self
+
+        source_position = source._get_instance_transform_matrix(
+            "worldMatrix"
+        ).translate
+        destination_position = self._get_instance_transform_matrix(
+            "worldMatrix"
+        ).translate
+        world_delta = om.MVector(
+            source_position.x - destination_position.x,
+            source_position.y - destination_position.y,
+            source_position.z - destination_position.z,
+        )
+        if axes != "xyz":
+            basis_rotation = self._position_basis_rotation(space)
+            basis_delta = world_delta.rotateBy(basis_rotation.inverse())
+            basis_components = (basis_delta.x, basis_delta.y, basis_delta.z)
+            masked_delta = om.MVector(
+                *(
+                    basis_components[index] if axis in axes else 0.0
+                    for axis, index in _POSITION_AXIS_INDEX.items()
+                )
+            )
+            world_delta = masked_delta.rotateBy(basis_rotation)
+
+        parent_inverse_matrix = self._get_instance_transform_matrix(
+            "parentInverseMatrix"
+        ).matrix
+        translate_delta = world_delta * parent_inverse_matrix
+        current_translate = self.translate.get()
+        translate_values = (
+            current_translate.x + translate_delta.x,
+            current_translate.y + translate_delta.y,
+            current_translate.z + translate_delta.z,
+        )
+        translate_plugs = (
+            self.translateX,
+            self.translateY,
+            self.translateZ,
+        )
+        changes = tuple(
+            (plug, value)
+            for plug, current_value, value in zip(
+                translate_plugs,
+                current_translate,
+                translate_values,
+            )
+            if not math.isclose(
+                current_value,
+                value,
+                rel_tol=1.0e-12,
+                abs_tol=1.0e-12,
+            )
+        )
+        self._validate_position_m_plugs(
+            tuple(plug.plug for plug, _ in changes)
+        )
+        for plug, value in changes:
+            plug.set(value)
+        return self
+
+    def match_rotation_to_rotate(self, source: DAG) -> Self:
+        """world姿勢を ``source`` へ合わせる ``rotate`` 値を積む。"""
+        source = self._validate_match_source(source)
+        self._validate_match_instances(source)
+        if self.m_obj == source.m_obj:
+            return self
+
+        self._validate_rotation_m_plugs((self.rotate.plug,))
+        rotate_order = self.rotateOrder.get()
+        current_rotate = self.rotate.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._rotate_from_combined_rotation(
+                self._match_local_rotation(source)
+            ),
+            rotate_order,
+            current_rotate,
+        )
+        self.rotate.set(rotation)
+        return self
+
+    def match_rotation_to_rotate_axis(self, source: DAG) -> Self:
+        """world姿勢を ``source`` へ合わせる ``rotateAxis`` 値を積む。"""
+        source = self._validate_match_source(source)
+        self._validate_match_instances(source)
+        if self.m_obj == source.m_obj:
+            return self
+
+        self._validate_rotation_m_plugs((self.rotateAxis.plug,))
+        current_rotate_axis = self.rotateAxis.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._rotate_axis_from_combined_rotation(
+                self._match_local_rotation(source)
+            ),
+            om.MEulerRotation.kXYZ,
+            current_rotate_axis,
+        )
+        self.rotateAxis.set(rotation)
         return self
 
     @overload
@@ -218,6 +339,81 @@ class Transform(GeneratedTransform):
             om.MSpace.kTransform
         ) * fn_transform.rotation(asQuaternion=True)
 
+    @staticmethod
+    def _validate_match_source(source: object) -> DAG:
+        if not isinstance(source, DAG):
+            raise TypeError(f"source must be DAG; got {type(source).__name__}")
+        return source
+
+    @staticmethod
+    def _validate_position_axes(axes: object) -> _PositionAxes:
+        if not isinstance(axes, str):
+            raise TypeError(f"axes must be str; got {type(axes).__name__}")
+        if axes not in _POSITION_AXES:
+            raise ValueError(
+                f"Unsupported position axes: {axes!r}. "
+                "Expected one of: x, y, z, xy, xz, yz, xyz"
+            )
+        return axes
+
+    @staticmethod
+    def _validate_position_space(space: object) -> _PositionSpace:
+        if not isinstance(space, str):
+            raise TypeError(f"space must be str; got {type(space).__name__}")
+        if space not in _POSITION_SPACES:
+            supported = ", ".join(sorted(_POSITION_SPACES))
+            raise ValueError(
+                f"Unsupported position space: {space!r}. "
+                f"Expected one of: {supported}"
+            )
+        return space
+
+    def _validate_match_instances(self, source: DAG) -> None:
+        instanced_nodes = tuple(
+            node.name for node in (self, source) if node.is_instanced
+        )
+        if instanced_nodes:
+            raise RuntimeError(
+                "Transform matching is not supported for instanced DAG "
+                "nodes: " + ", ".join(instanced_nodes)
+            )
+
+    def _position_basis_rotation(
+        self,
+        space: _PositionSpace,
+    ) -> om.MQuaternion:
+        if space == "world":
+            return om.MQuaternion()
+        attribute_name = "parentMatrix" if space == "local" else "worldMatrix"
+        transform_matrix = self._get_instance_transform_matrix(attribute_name)
+        return transform_matrix.transformation_matrix.rotation(
+            asQuaternion=True
+        )
+
+    def _match_local_rotation(self, source: DAG) -> om.MQuaternion:
+        local_matrix = source.get_local_matrix(self)
+        return local_matrix.transformation_matrix.rotation(asQuaternion=True)
+
+    def _rotate_from_combined_rotation(
+        self,
+        rotation: om.MQuaternion,
+    ) -> om.MQuaternion:
+        rotate_axis = self._rotation_to_quaternion(
+            self.rotateAxis.get().as_tuple(),
+            om.MEulerRotation.kXYZ,
+        )
+        return rotate_axis.inverse() * rotation
+
+    def _rotate_axis_from_combined_rotation(
+        self,
+        rotation: om.MQuaternion,
+    ) -> om.MQuaternion:
+        rotate = self._rotation_to_quaternion(
+            self.rotate.get().as_tuple(),
+            self.rotateOrder.get(),
+        )
+        return rotation * rotate.inverse()
+
     def _rotation_m_plugs(self) -> tuple[om.MPlug, ...]:
         return self.rotateAxis.plug, self.rotate.plug
 
@@ -245,6 +441,20 @@ class Transform(GeneratedTransform):
         if blocked_plug_names:
             raise RuntimeError(
                 "Rotation plugs must be unlocked and have no incoming "
+                "connections: " + ", ".join(blocked_plug_names)
+            )
+
+    @staticmethod
+    def _validate_position_m_plugs(plugs: tuple[om.MPlug, ...]) -> None:
+        blocked_plug_names = [
+            plug.name()
+            for plug in plugs
+            if plug.isDestination
+            or plug.isFreeToChange() != om.MPlug.kFreeToChange
+        ]
+        if blocked_plug_names:
+            raise RuntimeError(
+                "Position plugs must be unlocked and have no incoming "
                 "connections: " + ", ".join(blocked_plug_names)
             )
 

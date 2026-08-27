@@ -10,86 +10,180 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 def main():
     nodes = bdu.Nodes()
-    src_trsf = nodes.create.transform(name="src_transform")
-    dst_trsf_rotate = nodes.create.transform(name="dst_transform_rotate")
-    dst_trsf_rotate_axis = nodes.create.transform(
-        name="dst_transform_rotate_axis"
-    )
-
-    src_joint = nodes.create.joint(name="src_joint")
-    dst_joint_joint_orient = nodes.create.joint(name="dst_joint_joint_orient")
-    dst_joint_rotate = nodes.create.joint(name="dst_joint_rotate")
-    dst_joint_rotate_axis = nodes.create.joint(name="dst_joint_rotate_axis")
-
-    # transform
+    # translate
     #   src
-    src_trsf.r.set(
-        random.randint(-360, 360),
-        random.randint(-360, 360),
-        random.randint(-360, 360),
-    )
-    src_trsf.rotateAxis.set(
-        random.randint(-360, 360),
-        random.randint(-360, 360),
-        random.randint(-360, 360),
+    src_t_space = nodes.create.transform(name="src_t_space")
+    src_t, _ = nodes.create.with_transform.locator(
+        name="src_t", parent=src_t_space
     )
 
-    nodes.modifier_manager.do_it_dg()
-
-    rot = src_trsf.r.get()
-    r_axis = src_trsf.rotateAxis.get()
     #   dst
-    #       rotate
-    dst_trsf_rotate.r.set(rot)
-    dst_trsf_rotate.rotateAxis.set(r_axis)
-    #       rotate_axis
-    dst_trsf_rotate_axis.r.set(rot)
-    dst_trsf_rotate_axis.rotateAxis.set(r_axis)
-    # joint
+    dst_t_space = nodes.create.transform(name="dst_t_space")
+    dst_t = nodes.create.transform(name="dst_t", parent=dst_t_space)
+    #       world
+    dst_t_world_x = nodes.create.transform(
+        name="dst_t_world_x", parent=dst_t_space
+    )
+    dst_t_world_y = nodes.create.transform(
+        name="dst_t_world_y", parent=dst_t_space
+    )
+    dst_t_world_z = nodes.create.transform(
+        name="dst_t_world_z", parent=dst_t_space
+    )
+    #       local
+    dst_t_local_x = nodes.create.transform(
+        name="dst_t_local_x", parent=dst_t_space
+    )
+    dst_t_local_y = nodes.create.transform(
+        name="dst_t_local_y", parent=dst_t_space
+    )
+    dst_t_local_z = nodes.create.transform(
+        name="dst_t_local_z", parent=dst_t_space
+    )
+    #       object
+    dst_t_object_x = nodes.create.transform(
+        name="dst_t_object_x", parent=dst_t_space
+    )
+    dst_t_object_y = nodes.create.transform(
+        name="dst_t_object_y", parent=dst_t_space
+    )
+    dst_t_object_z = nodes.create.transform(
+        name="dst_t_object_z", parent=dst_t_space
+    )
+
+    # rotate
     #   src
-    src_joint.jo.set(
+    src_r_space = nodes.create.transform(name="src_r_space")
+    src_r, _ = nodes.create.with_transform.locator(
+        name="src_r", parent=src_r_space
+    )
+
+    #   dst
+    #       joint
+    dst_r_space = nodes.create.transform(name="dst_r_space")
+    dst_r_trsf_r = nodes.create.transform(
+        name="dst_r_trsf_r", parent=dst_r_space
+    )
+    dst_r_trsf_ra = nodes.create.transform(
+        name="dst_r_trsf_ra", parent=dst_r_space
+    )
+    dst_r_joint_jo = nodes.create.joint(
+        name="dst_r_joint_jo", parent=dst_r_space
+    )
+    dst_r_joint_r = nodes.create.joint(
+        name="dst_r_joint_r", parent=dst_r_space
+    )
+    dst_r_joint_ra = nodes.create.joint(
+        name="dst_r_joint_ra", parent=dst_r_space
+    )
+
+    # set
+    #   translate
+    #      src
+    src_t_space.t.set(random.random(), random.random(), random.random())
+    src_t_space.r.set(
         random.randint(-360, 360),
         random.randint(-360, 360),
         random.randint(-360, 360),
     )
-    src_joint.r.set(rot)
-    src_joint.rotateAxis.set(r_axis)
-
-    nodes.modifier_manager.do_it_dg()
-
-    jo = src_joint.jo.get()
-    #   dst
-    #       joint_orient
-    dst_joint_joint_orient.jo.set(jo)
-    dst_joint_joint_orient.r.set(rot)
-    dst_joint_joint_orient.rotateAxis.set(r_axis)
-    #       rotate
-    dst_joint_rotate.jo.set(jo)
-    dst_joint_rotate.r.set(rot)
-    dst_joint_rotate.rotateAxis.set(r_axis)
-    #       rotate_axis
-    dst_joint_rotate_axis.jo.set(jo)
-    dst_joint_rotate_axis.r.set(rot)
-    dst_joint_rotate_axis.rotateAxis.set(r_axis)
+    src_t_space.s.set(random.random(), random.random(), random.random())
+    src_t.t.set(random.random(), random.random(), random.random())
+    #      dst
+    dst_t_space.t.set(random.random(), random.random(), random.random())
+    dst_t_space.r.set(
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    dst_t_space.s.set(random.random(), random.random(), random.random())
+    #           object
+    t_object_r = (
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    dst_t_object_x.r.set(t_object_r)
+    dst_t_object_y.r.set(t_object_r)
+    dst_t_object_z.r.set(t_object_r)
+    #   rotate
+    #       src
+    src_r_space.r.set(
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    src_r.r.set(
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    #       dst
+    dst_r_space.r.set(
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    r_jo = (
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    r_r = (
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    r_ra = (
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    #           transform
+    #               r
+    dst_r_trsf_r.r.set(r_r)
+    dst_r_trsf_r.ra.set(r_ra)
+    #               ra
+    dst_r_trsf_ra.r.set(r_r)
+    dst_r_trsf_ra.ra.set(r_ra)
+    #           joint
+    #               jo
+    dst_r_joint_jo.jo.set(r_jo)
+    dst_r_joint_jo.r.set(r_r)
+    dst_r_joint_jo.ra.set(r_ra)
+    #               r
+    dst_r_joint_r.jo.set(r_jo)
+    dst_r_joint_r.r.set(r_r)
+    dst_r_joint_r.ra.set(r_ra)
+    #               ra
+    dst_r_joint_ra.jo.set(r_jo)
+    dst_r_joint_ra.r.set(r_r)
+    dst_r_joint_ra.ra.set(r_ra)
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    dst_trsf_rotate.rotation_to_rotate()
-    dst_trsf_rotate_axis.rotation_to_rotate_axis()
-
-    dst_joint_joint_orient.rotation_to_joint_orient()
-    dst_joint_rotate.rotation_to_rotate()
-    dst_joint_rotate_axis.rotation_to_rotate_axis()
-
-    nodes.modifier_manager.do_it_dg()
-
-    # transform
-    dst_trsf_rotate.set_rotate_with_rotate_axis(45, 90, 135)
-    dst_trsf_rotate_axis.set_rotate_axis_with_rotate(45, 90, 135)
-    # joint
-    dst_joint_joint_orient.set_joint_orient_with_rotate(45, 90, 135)
-    dst_joint_rotate.set_rotate_with_joint_orient(45, 90, 135)
-    dst_joint_rotate_axis.set_rotate_axis_with_rotate(45, 90, 135)
+    # match
+    #   translate
+    dst_t.match_position(src_t)
+    #       world
+    dst_t_world_x.match_position(src_t, axes="x", space="world")
+    dst_t_world_y.match_position(src_t, axes="y", space="world")
+    dst_t_world_z.match_position(src_t, axes="z", space="world")
+    #       local
+    dst_t_local_x.match_position(src_t, axes="x", space="local")
+    dst_t_local_y.match_position(src_t, axes="y", space="local")
+    dst_t_local_z.match_position(src_t, axes="z", space="local")
+    #       object
+    dst_t_object_x.match_position(src_t, axes="x", space="object")
+    dst_t_object_y.match_position(src_t, axes="y", space="object")
+    dst_t_object_z.match_position(src_t, axes="z", space="object")
+    #   rotate
+    #       transform
+    dst_r_trsf_r.match_rotation_to_rotate(src_r)
+    dst_r_trsf_ra.match_rotation_to_rotate_axis(src_r)
+    #       joint
+    dst_r_joint_jo.match_rotation_to_joint_orient(src_r)
+    dst_r_joint_r.match_rotation_to_rotate(src_r)
+    dst_r_joint_ra.match_rotation_to_rotate_axis(src_r)
 
     nodes.modifier_manager.do_it_dg()

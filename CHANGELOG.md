@@ -7,6 +7,15 @@
 
 ## [Unreleased]
 
+### Added
+
+- `Transform` / `Joint`に、指定したDAGノードへDAG原点のworld位置を合わせる
+  `match_position()`を追加。合わせる軸と、world / local / objectの基準空間を
+  指定できる。
+- `Transform` / `Joint`に、world姿勢を`rotate` / `rotateAxis` / `jointOrient`の
+  いずれか1属性だけで合わせる属性別マッチAPIを追加。非対象の回転属性と
+  translate / pivotは変更せず、rotate pivotに対する位置補償は行わない。
+
 ### Changed
 
 - `PlugOperator` の接続照会を `MPlug.connectedTo()` ベースへ変更。

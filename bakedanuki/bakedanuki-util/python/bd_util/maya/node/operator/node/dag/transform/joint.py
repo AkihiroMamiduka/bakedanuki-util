@@ -5,6 +5,7 @@ from typing import overload, Self
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
+from .._core import DAG
 from ._generated.joint import GeneratedJoint
 
 
@@ -22,6 +23,25 @@ class Joint(GeneratedJoint):
         )
         self.rotateAxis.set(self._ZERO_ROTATION)
         self.rotate.set(self._ZERO_ROTATION)
+        self.jointOrient.set(rotation)
+        return self
+
+    def match_rotation_to_joint_orient(self, source: DAG) -> Self:
+        """world姿勢を ``source`` へ合わせる ``jointOrient`` 値を積む。"""
+        source = self._validate_match_source(source)
+        self._validate_match_instances(source)
+        if self.m_obj == source.m_obj:
+            return self
+
+        self._validate_rotation_m_plugs((self.jointOrient.plug,))
+        current_joint_orient = self.jointOrient.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._joint_orient_from_combined_rotation(
+                self._match_local_rotation(source)
+            ),
+            om.MEulerRotation.kXYZ,
+            current_joint_orient,
+        )
         self.jointOrient.set(rotation)
         return self
 
@@ -128,6 +148,45 @@ class Joint(GeneratedJoint):
         return super()._combined_rotation() * oma.MFnIkJoint(
             self.m_obj
         ).orientation(asQuaternion=True)
+
+    def _rotate_from_combined_rotation(
+        self,
+        rotation: om.MQuaternion,
+    ) -> om.MQuaternion:
+        joint_orient = self._rotation_to_quaternion(
+            self.jointOrient.get().as_tuple(),
+            om.MEulerRotation.kXYZ,
+        )
+        return (
+            super()._rotate_from_combined_rotation(rotation)
+            * joint_orient.inverse()
+        )
+
+    def _rotate_axis_from_combined_rotation(
+        self,
+        rotation: om.MQuaternion,
+    ) -> om.MQuaternion:
+        joint_orient = self._rotation_to_quaternion(
+            self.jointOrient.get().as_tuple(),
+            om.MEulerRotation.kXYZ,
+        )
+        return super()._rotate_axis_from_combined_rotation(
+            rotation * joint_orient.inverse()
+        )
+
+    def _joint_orient_from_combined_rotation(
+        self,
+        rotation: om.MQuaternion,
+    ) -> om.MQuaternion:
+        rotate_axis = self._rotation_to_quaternion(
+            self.rotateAxis.get().as_tuple(),
+            om.MEulerRotation.kXYZ,
+        )
+        rotate = self._rotation_to_quaternion(
+            self.rotate.get().as_tuple(),
+            self.rotateOrder.get(),
+        )
+        return rotate.inverse() * rotate_axis.inverse() * rotation
 
     def _rotation_m_plugs(self) -> tuple[om.MPlug, ...]:
         return (*super()._rotation_m_plugs(), self.jointOrient.plug)

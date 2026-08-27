@@ -95,6 +95,10 @@
 - transformでもshapeでもない最後の汎用DAG `unknownDag` を、`DAG` 直系の
   `UnknownDag` として追加。Mayaが親Transformを自動作成するplaceholder nodeのため、
   `nodes.existing` のみに公開。
+- `Transform` / `Joint`に、指定したDAGへDAG原点のworld位置を合わせる
+  `match_position()`と、world姿勢を`rotate` / `rotateAxis` / `jointOrient`の
+  いずれか1属性だけで合わせる属性別マッチAPIを追加。部分軸のworld / local /
+  object基準、offsetParentMatrix、全rotateOrder、undo / redoをMaya 2025上で検証。
 
 ## 完了済み: DAG / shape API roadmap
 
@@ -391,6 +395,23 @@ nodeも指定できます。自分自身はchainの対象外なので`until=self
 固定child index chain、祖先・chainの境界指定は完了です。
 
 ## 将来の拡張候補
+
+### Transform / Joint マッチの拡張境界
+
+現行の位置・姿勢マッチは、非instanced DAGの評価済みscene状態を対象とする
+初期仕様まで完了しています。今後機能を広げる場合も、既存メソッドの意味を
+暗黙に変えず、次の境界を維持します。
+
+- instanced DAG対応は、src / dstのDAG pathを利用者が明示できるAPIとセットで
+  検討する。`MObject`から自動選択したpathへ黙ってマッチしない。
+- 姿勢マッチ時のDAG原点補償は、現行メソッドへ暗黙に追加しない。必要になった場合は
+  `translate`または`rotatePivotTranslate`のどちらで吸収するか、lock・入力接続、
+  undo / redoの単位を含めた明示的なopt-in APIとして設計する。
+- 姿勢の部分軸マッチを追加する場合は、Euler成分の単純な置換として扱わない。
+  基準空間、回転積、特異点付近の解、残す姿勢成分を先に定義してから別機能として
+  追加する。
+- 未実行modifierを暗黙評価する仕組みは追加しない。複数のマッチ結果が依存する場合は、
+  現行どおり操作間で`do_it_dg()`または`do_it_dag()`を実行する。
 
 ### compound 専用値型の演算
 

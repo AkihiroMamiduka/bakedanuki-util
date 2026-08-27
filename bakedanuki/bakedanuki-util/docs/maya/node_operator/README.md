@@ -729,6 +729,89 @@ keyframe削除、lock解除は自動実行しません。操作時点のlocal ma
 集約先のEuler値へ変換します。積順またはEuler変換順を変更する場合は、全6種類の
 `rotateOrder`についてlocal matrix維持とundo / redoを検証してください。
 
+## Transform / Joint の位置・姿勢マッチ
+
+`Transform`と`Joint`は、指定したDAGノードへDAG原点のworld位置を合わせられます。
+全軸を合わせる場合は、`axes`と`space`を省略します。
+
+```python
+dst.match_position(src)
+mod.do_it_dg()
+```
+
+`axes`には`"x"`、`"yz"`、`"xyz"`のように、合わせる軸を正順で指定します。
+一部の軸だけを合わせる場合は、`space`で基準となる姿勢を選べます。
+
+```python
+dst.match_position(src, axes="xz", space="object")
+mod.do_it_dg()
+```
+
+- `"world"`: world軸を基準にします。
+- `"local"`: `offsetParentMatrix`を含む実効親空間の軸を基準にします。
+- `"object"`: 操作前のdst自身のworld姿勢を基準にします。
+
+位置は`worldMatrix`の移動成分、つまりDAG原点です。`translate`値やrotate / scale
+pivotの位置そのものを合わせる操作ではありません。一部の軸を合わせる場合は、
+srcとdstのworld位置差を指定空間の軸へ射影し、選択した成分だけを残してから
+dstの`parentInverseMatrix`で`translate`差分へ変換します。このため、たとえば
+world X軸だけを選んでも、親の回転やscaleによっては複数の`translate`子plugが
+変わります。実際に値が変わる子plugだけをmodifierへ積みます。
+
+world姿勢のマッチは、値を変更する回転属性ごとにメソッドを分けています。
+
+```python
+transform.match_rotation_to_rotate(src)
+transform.match_rotation_to_rotate_axis(src)
+
+joint.match_rotation_to_rotate(src)
+joint.match_rotation_to_rotate_axis(src)
+joint.match_rotation_to_joint_orient(src)
+mod.do_it_dg()
+```
+
+各メソッドは名前に含まれる回転属性だけを変更し、残りの回転属性、`translate`、
+pivot、pivot translationは変更しません。`rotate`の結果はdstの`rotateOrder`、
+`rotateAxis`と`jointOrient`の結果は固定XYZ順のEuler値へ変換し、現在値に近い
+等価解を選びます。
+
+rotate pivotがDAG原点以外にある場合も、`translate`や`rotatePivotTranslate`による
+位置補償は行いません。そのため、姿勢マッチによってDAG原点のworld位置が動く場合が
+あります。姿勢とDAG原点の両方を合わせる場合は、先に姿勢を合わせてmodifierを実行し、
+続けて位置を合わせます。
+
+```python
+dst.match_rotation_to_rotate(src)
+mod.do_it_dg()
+
+dst.match_position(src)
+mod.do_it_dg()
+```
+
+マッチ計算は、操作時点で評価済みの行列と属性値を読み取ります。同じmodifierへ積んだ
+未実行の操作には依存できないため、依存する操作の間では`mod.do_it_dg()`または
+`mod.do_it_dag()`を実行してください。実際に変更するplugがlockされている場合や
+入力接続を持つ場合は、変更を積む前に`RuntimeError`を送出します。変更しないplugは
+検証対象に含めません。
+
+srcまたはdstがinstanced DAGの場合は、使用するDAG pathが曖昧になるため
+`RuntimeError`を送出します。負scaleやshearを含む行列の姿勢は、Mayaが
+`MTransformationMatrix`で返す等価な回転として扱います。
+
+### 姿勢マッチの回転式（開発者向け）
+
+srcのworld姿勢をdstの実効親空間へ変換して得た目標回転を`Q_target`とすると、
+変更対象の回転は次の式で求めます。`A`、`R`、`J`の定義と積順は、上記の
+「回転積と補償式」と同じです。
+
+| メソッド | 設定値 |
+| --- | --- |
+| Transformの`match_rotation_to_rotate()` | `R_new = inverse(A) * Q_target` |
+| Transformの`match_rotation_to_rotate_axis()` | `A_new = Q_target * inverse(R)` |
+| Jointの`match_rotation_to_rotate()` | `R_new = inverse(A) * Q_target * inverse(J)` |
+| Jointの`match_rotation_to_rotate_axis()` | `A_new = Q_target * inverse(J) * inverse(R)` |
+| Jointの`match_rotation_to_joint_orient()` | `J_new = inverse(R) * inverse(A) * Q_target` |
+
 ## DAG の行列変換
 
 `DAG` は、2つのDAGノード間で行列を変換する共通メソッドを持ちます。

@@ -1254,9 +1254,21 @@ def node_types_contract(nodes: bdu.Nodes) -> None:
 
 
 def transform_rotation_contract(nodes: bdu.Nodes) -> None:
+    source = nodes.existing.transform("source_transform")
     transform = nodes.existing.transform("existing_transform")
     joint = nodes.existing.joint("existing_joint")
 
+    assert_type(transform.match_position(source), Transform)
+    assert_type(
+        transform.match_position(source, axes="xz", space="object"),
+        Transform,
+    )
+    assert_type(transform.match_rotation_to_rotate(source), Transform)
+    assert_type(transform.match_rotation_to_rotate_axis(source), Transform)
+    assert_type(joint.match_position(source), Joint)
+    assert_type(joint.match_rotation_to_rotate(source), Joint)
+    assert_type(joint.match_rotation_to_rotate_axis(source), Joint)
+    assert_type(joint.match_rotation_to_joint_orient(source), Joint)
     assert_type(transform.rotation_to_rotate(), Transform)
     assert_type(transform.rotation_to_rotate_axis(), Transform)
     assert_type(joint.rotation_to_rotate(), Joint)
