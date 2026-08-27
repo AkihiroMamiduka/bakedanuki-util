@@ -70,7 +70,7 @@ name_ = DataStringField(long_name="name", short_name="nm")
 nm = name_
 ```
 
-## set / set_direct
+## get / set / set_direct / round
 
 値操作methodは`PlugOperator`基底ではなく、実際に対応するplug型だけが
 提供します。対応しないmethodはIDE補完にも表示されません。
@@ -83,6 +83,16 @@ undo / redo の対象にしたい処理ではこちらを使います。
 
 `value` / `value_direct` propertyは提供しません。取得には`get()`、
 編集には反映方法に応じて`set()`または`set_direct()`を使用します。
+
+浮動小数点のscalar / scalar compound型は`round(ndigits=0)`を提供します。
+現在のscene値をPython組み込みと同じ規則で丸め、`set()`と同じ
+`ModifierManager.dg_mod`へ積みます。matrix、typed data、quaternion、整数型には
+提供しません。
+
+```python
+node.translate.round(3)
+mod.do_it_dg()
+```
 
 compound 系の `set()` / `set_direct()` は展開引数と sequence の両方を受け取ります。
 

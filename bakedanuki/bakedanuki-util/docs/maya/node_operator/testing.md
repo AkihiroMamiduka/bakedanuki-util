@@ -77,7 +77,7 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 - enum plug と enum 定数。
 - `multi[index]` / `multi[next]` の具体的な plug 型。
 - `get()` の値型。
-- `get()` / `set()` / `set_direct()` が対応するplug型だけに存在すること。
+- `get()` / `set()` / `set_direct()` / `round()` が対応するplug型だけに存在すること。
 - `nodes.types`から取得するNodeOperator classと、DAG traversalの
   `filter_type`に応じた具体的なtuple要素型。
 - `ancestors(until=...)` / `descendant_chain(until=...)`の、引数省略時と
@@ -325,6 +325,8 @@ pytest 側では、ログ出力ではなく assert で仕様を固定します�
 - child plug access が正しい plug 名を指す。
 - `set()` / `set_direct()` / `get()` の結果が一致する。
 - 値操作methodが対応するplug型だけに存在し、未対応型と共通基底には存在しない。
+- `round()`がPythonと同じ偶数丸め、正負の`ndigits`、unit型の公開単位、
+  compound専用値型、ModifierManagerのundo / redoを維持する。
 - typed dataのdefault値が現在値だけでなく`MFnTypedAttribute.default`にも保持され、
   空文字列などのfalseyな値も失われない。
 - wrong count などの error が期待通り発生する。

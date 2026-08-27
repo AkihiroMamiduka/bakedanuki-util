@@ -6,11 +6,13 @@ from ._base import (
     Double4CompoundBasePlugOperator,
     Double4CompoundBaseField,
 )
+from ...._round import RoundCompoundPlugOperatorMixin
 from .......std.at.scalar.numeric.range.double import DoubleField
 
 
 class Double4PlugOperator(
-    Double4CompoundBasePlugOperator["Double4AttrOperator"]
+    RoundCompoundPlugOperatorMixin,
+    Double4CompoundBasePlugOperator["Double4AttrOperator"],
 ):
     __slots__ = ()
 

@@ -55,6 +55,7 @@ class MyNode(NodeOperator):
 - `get()`
 - `set()`
 - `set_direct()`
+- `round()`
 
 例えばscalar numericは`get()` / `set()`、typed matrixは`get()` /
 `set_direct()`を持ち、message、generic、mixed compoundなど値操作へ
@@ -68,6 +69,25 @@ class MyNode(NodeOperator):
 
 `set_direct()` は `MPlug` へ即時反映します。undo には参加しません。
 
+浮動小数点のscalar / scalar compound型は`round(ndigits=0)`を提供します。
+呼び出し時点の`get()`結果をPython組み込みの`round()`と同じ偶数丸めで
+処理し、`set()`と同じく`ModifierManager.dg_mod`経由で書き戻します。
+負の`ndigits`も指定できます。
+
+```python
+node.translate.round(3)
+node.translate.translateX.round(3)
+mod.do_it_dg()
+```
+
+angleはdegree、linearはcentimeter、timeはMaya UI time unitという、各型の
+`get()` / `set()`と同じ公開単位で丸めます。matrix、typed data、quaternion、
+整数型には`round()`を提供せず、`round_direct()`も提供しません。
+
+`round()`は呼び出し時点のscene値を読むため、先に積んだ`set()`の値を丸める場合は、
+一度`do_it_dg()`を実行してから呼び出します。animation curveのkeyframe値を
+一括処理する機能ではありません。
+
 ### 値操作methodの実装規則
 
 新しい`PlugOperator`型を追加するときは、その型で実行できる値操作だけを
@@ -75,23 +95,26 @@ class MyNode(NodeOperator):
 
 現在の代表的な対応関係は次の通りです。
 
-| plug family | `get()` | `set()` | `set_direct()` |
-| --- | --- | --- | --- |
-| scalar numeric / enum / unit | yes | yes | 原則no |
-| custom scalar compound | yes | yes | yes |
-| matrix / floatMatrix attribute | yes | yes | no |
-| string data | yes | yes | yes |
-| numeric / array / matrix data | yes | no | yes |
-| addr | yes | no | yes |
-| message / generic / lightData / mixed compound | no | no | no |
-| mesh / lattice / nurbs data | no | no | no |
+| plug family | `get()` | `set()` | `set_direct()` | `round()` |
+| --- | --- | --- | --- | --- |
+| floating scalar numeric / unit | yes | yes | 原則no | yes |
+| integral / bool / enum scalar | yes | yes | 原則no | no |
+| floating scalar compound | yes | yes | yes | yes |
+| integral scalar compound | yes | yes | yes | no |
+| quaternion | yes | yes | yes | no |
+| matrix / floatMatrix attribute | yes | yes | no | no |
+| string data | yes | yes | yes | no |
+| numeric / array / matrix data | yes | no | yes | no |
+| addr | yes | no | yes | no |
+| message / generic / lightData / mixed compound | no | no | no | no |
+| mesh / lattice / nurbs data | no | no | no | no |
 
 未対応操作を、`NotImplementedError`や`UnsupportedOperationError`を送出するだけの
 methodとして定義しません。`PlugOperator`や`DataTypePlugOperator`などの共通基底にも
 値操作methodを置きません。これにより、実行できない操作がIDE補完へ現れることを
 防ぎます。
 
-公開する`get()` / `set()` / `set_direct()`には、対象となるMaya型、Python側の
+公開する`get()` / `set()` / `set_direct()` / `round()`には、対象となるMaya型、Python側の
 値型、単位、ModifierManager経由か即時反映かをdocstringへ記載します。対応関係を
 変更した場合はruntimeのcapability testとPyright contractも同時に更新します。
 

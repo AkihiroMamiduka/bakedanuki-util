@@ -8,6 +8,7 @@ from .._base import (
     DoubleCompoundBaseAttrOperator,
     DoubleCompoundBaseField,
 )
+from ...._round import RoundCompoundPlugOperatorMixin
 
 A = TypeVar("A", bound="Double2CompoundBaseAttrOperator[Any]")
 
@@ -15,7 +16,8 @@ P = TypeVar("P", bound="Double2CompoundBasePlugOperator[Any]")
 
 
 class Double2CompoundBasePlugOperator(
-    DoubleCompoundBasePlugOperator[A, Double2]
+    RoundCompoundPlugOperatorMixin,
+    DoubleCompoundBasePlugOperator[A, Double2],
 ):
     __slots__ = ()
 

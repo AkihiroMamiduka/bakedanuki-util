@@ -14,6 +14,7 @@ from .._base import (
     ScalarCompoundBaseAttrOperator,
     ScalarCompoundBaseField,
 )
+from .._round import RoundCompoundPlugOperatorMixin
 
 A = TypeVar("A", bound="UnitCompoundBaseAttrOperator[Any]")
 
@@ -26,7 +27,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class UnitCompoundBasePlugOperator(
-    ScalarCompoundBasePlugOperator[A, V, float]
+    RoundCompoundPlugOperatorMixin,
+    ScalarCompoundBasePlugOperator[A, V, float],
 ):
     __slots__ = ()
 

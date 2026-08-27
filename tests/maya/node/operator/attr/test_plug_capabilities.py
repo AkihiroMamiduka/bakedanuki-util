@@ -4,7 +4,10 @@ from typing import Any
 import pytest
 
 from bd_util.maya.node.operator.attr._core import PlugOperator
-from bd_util.maya.node.operator.attr.define.custom import Double3PlugOperator
+from bd_util.maya.node.operator.attr.define.custom import (
+    Double3PlugOperator,
+    QuatPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.addr import AddrPlugOperator
 from bd_util.maya.node.operator.attr.define.std.at.compound import (
     CompoundPlugOperator,
@@ -18,8 +21,14 @@ from bd_util.maya.node.operator.attr.define.std.at.light_data import (
 from bd_util.maya.node.operator.attr.define.std.at.message import (
     MessagePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.matrix import (
+    MatrixPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double import (
     DoublePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.long import (
+    LongPlugOperator,
 )
 from bd_util.maya.node.operator.attr.define.std.at.typed import (
     TypedPlugOperator,
@@ -52,7 +61,14 @@ pytestmark = pytest.mark.maya
 def test_value_operations_are_absent_from_unsupported_plug_types(
     plug_cls: type[PlugOperator[Any]],
 ) -> None:
-    for method_name in ("get", "set", "set_direct", "value", "value_direct"):
+    for method_name in (
+        "get",
+        "set",
+        "set_direct",
+        "round",
+        "value",
+        "value_direct",
+    ):
         assert not hasattr(plug_cls, method_name)
 
 
@@ -61,28 +77,43 @@ def test_value_operations_are_absent_from_unsupported_plug_types(
     (
         (
             DoublePlugOperator,
-            ("get", "set"),
+            ("get", "set", "round"),
             ("set_direct", "value", "value_direct"),
         ),
         (
             Double3PlugOperator,
-            ("get", "set", "set_direct"),
+            ("get", "set", "set_direct", "round"),
             ("value", "value_direct"),
+        ),
+        (
+            LongPlugOperator,
+            ("get", "set"),
+            ("set_direct", "round", "value", "value_direct"),
+        ),
+        (
+            QuatPlugOperator,
+            ("get", "set", "set_direct"),
+            ("round", "value", "value_direct"),
+        ),
+        (
+            MatrixPlugOperator,
+            ("get", "set"),
+            ("set_direct", "round", "value", "value_direct"),
         ),
         (
             DataMatrixPlugOperator,
             ("get", "set_direct"),
-            ("set", "value", "value_direct"),
+            ("set", "round", "value", "value_direct"),
         ),
         (
             DataStringPlugOperator,
             ("get", "set", "set_direct"),
-            ("value", "value_direct"),
+            ("round", "value", "value_direct"),
         ),
         (
             AddrPlugOperator,
             ("get", "set_direct"),
-            ("set", "value", "value_direct"),
+            ("set", "round", "value", "value_direct"),
         ),
     ),
 )

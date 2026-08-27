@@ -14,6 +14,7 @@ from .._base import (
     NumericCompoundBaseAttrOperator,
     NumericCompoundBaseField,
 )
+from ..._round import RoundCompoundPlugOperatorMixin
 
 A = TypeVar("A", bound="FloatCompoundBaseAttrOperator[Any]")
 
@@ -26,7 +27,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class FloatCompoundBasePlugOperator(
-    NumericCompoundBasePlugOperator[A, V, float]
+    RoundCompoundPlugOperatorMixin,
+    NumericCompoundBasePlugOperator[A, V, float],
 ):
     __slots__ = ()
 

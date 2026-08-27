@@ -10,9 +10,13 @@ from ._base import (
     NumericRangeBasePlugOperator,
     NumericRangeBaseField,
 )
+from ..._round import RoundScalarPlugOperatorMixin
 
 
-class FloatPlugOperator(NumericRangeBasePlugOperator["FloatAttrOperator"]):
+class FloatPlugOperator(
+    RoundScalarPlugOperatorMixin,
+    NumericRangeBasePlugOperator["FloatAttrOperator"],
+):
     __slots__ = ()
 
     # get

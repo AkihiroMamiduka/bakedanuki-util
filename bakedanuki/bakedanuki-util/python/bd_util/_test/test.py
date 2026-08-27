@@ -162,6 +162,12 @@ def main():
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
+    src_t_space.t.round(3)
+    src_t_space.s.round(3)
+    src_t.t.round(3)
+
+    nodes.modifier_manager.do_it_dg()
+
     # match
     #   translate
     dst_t.match_position(src_t)

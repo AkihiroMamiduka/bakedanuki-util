@@ -10,9 +10,13 @@ from ._base import (
     NumericRangeBasePlugOperator,
     NumericRangeBaseField,
 )
+from ..._round import RoundScalarPlugOperatorMixin
 
 
-class DoublePlugOperator(NumericRangeBasePlugOperator["DoubleAttrOperator"]):
+class DoublePlugOperator(
+    RoundScalarPlugOperatorMixin,
+    NumericRangeBasePlugOperator["DoubleAttrOperator"],
+):
     __slots__ = ()
 
     # get
