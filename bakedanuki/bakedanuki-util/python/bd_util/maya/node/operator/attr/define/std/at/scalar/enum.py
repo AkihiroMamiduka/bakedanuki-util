@@ -55,6 +55,7 @@ class EnumPlugOperator(ScalarBasePlugOperator[A]):
 
     # get
     def get(self) -> int:
+        """enumプラグで選択されている項目のindexを取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
@@ -87,7 +88,15 @@ class EnumPlugOperator(ScalarBasePlugOperator[A]):
         return _index_by_name_from_name_map(self._active_name_map, name)
 
     # set
-    def set(self, value: int):
+    def set(self, value: int) -> None:
+        """enumプラグへ項目indexをModifierManager経由で設定する。
+
+        Args:
+            value: 設定するenum項目のindex。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         self._node.modifier_manager.dg_mod.newPlugValueShort(self.plug, value)
 
     # add

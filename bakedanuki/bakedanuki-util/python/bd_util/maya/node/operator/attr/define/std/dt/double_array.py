@@ -18,6 +18,7 @@ class DataDoubleArrayPlugOperator(
 
     # get
     def get(self) -> list[float]:
+        """doubleArray dataプラグの現在値をfloatリストで取得する。"""
         return self._get_array_values(om.MFnDoubleArrayData)
 
     # set

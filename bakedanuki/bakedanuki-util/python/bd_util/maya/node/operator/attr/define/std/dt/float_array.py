@@ -33,6 +33,7 @@ class DataFloatArrayPlugOperator(
 
     # get
     def get(self) -> list[float]:
+        """floatArray dataプラグの現在値をfloatリストで取得する。"""
         plug_name = self.plug.name()
         if not cmds.objExists(plug_name):
             return []

@@ -18,6 +18,7 @@ class DataShort2PlugOperator(
 
     # get
     def get(self) -> list[int]:
+        """short2 dataプラグの現在値を2要素のintリストで取得する。"""
         x, y = self._get_data()
         return [x, y]
 

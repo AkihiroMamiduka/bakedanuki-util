@@ -72,11 +72,17 @@ nm = name_
 
 ## set / set_direct
 
+値操作methodは`PlugOperator`基底ではなく、実際に対応するplug型だけが
+提供します。対応しないmethodはIDE補完にも表示されません。
+
 `set()` は `ModifierManager.dg_mod` 経由の編集です。
 undo / redo の対象にしたい処理ではこちらを使います。
 
 `set_direct()` は即時編集用です。
 速度計測や一時的な直接編集には便利ですが、`ModifierManager` の stack には積まれないため undo 対象外です。
+
+`value` / `value_direct` propertyは提供しません。取得には`get()`、
+編集には反映方法に応じて`set()`または`set_direct()`を使用します。
 
 compound 系の `set()` / `set_direct()` は展開引数と sequence の両方を受け取ります。
 

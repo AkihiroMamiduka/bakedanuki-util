@@ -24,6 +24,7 @@ class LongLongIntPlugOperator(
 
     # get
     def get(self) -> int:
+        """long long intプラグの現在値を64-bit整数で取得する。"""
         plug = self.plug
         plug_name = plug.name()
         if not cmds.objExists(plug_name):
@@ -36,6 +37,14 @@ class LongLongIntPlugOperator(
 
     # set
     def set(self, value: int) -> None:
+        """long long intプラグへ値をModifierManager経由で設定する。
+
+        Args:
+            value: 設定する64-bit整数値。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         plug = self.plug
 
         def set_value() -> None:
@@ -50,6 +59,14 @@ class LongLongIntPlugOperator(
         self._node.modifier_manager.dg_mod.pythonCommandToExecute(set_value)
 
     def set_direct(self, value: int) -> None:
+        """long long intプラグへ値を即時設定する。
+
+        Args:
+            value: 設定する64-bit整数値。
+
+        Notes:
+            ModifierManagerのundo / redo対象外。
+        """
         plug_name = self.plug.name()
         if not cmds.objExists(plug_name):
             raise RuntimeError(

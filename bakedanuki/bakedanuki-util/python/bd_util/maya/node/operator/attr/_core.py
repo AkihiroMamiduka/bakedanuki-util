@@ -1,6 +1,5 @@
 # coding: utf-8
 from __future__ import annotations
-from abc import ABC, abstractmethod
 from collections.abc import Iterator
 from typing import (
     TypeVar,
@@ -83,7 +82,7 @@ class _NextIndexSentinel(Protocol):
     ) -> _NextValue | _NextDefault: ...
 
 
-class PlugOperator(Generic[A], ABC):
+class PlugOperator(Generic[A]):
     __slots__ = (
         "_node",
         "_oprt_attr",
@@ -300,48 +299,6 @@ class PlugOperator(Generic[A], ABC):
         """
         return self._oprt_attr.type
 
-    # value
-    @property
-    def value(self) -> Any:
-        """
-        アトリビュートの値をゲットする
-
-        Returns:
-            Any: アトリビュートの値
-        """
-        return self.get()
-
-    @value.setter
-    def value(self, value: Any):
-        """
-        アトリビュートに値をセットする
-
-        Args:
-            value (Any): セットする値
-        """
-        self.set(value)
-
-    # value
-    @property
-    def value_direct(self) -> Any:
-        """
-        アトリビュートの値をゲットする
-
-        Returns:
-            Any: アトリビュートの値
-        """
-        return self.get()
-
-    @value_direct.setter
-    def value_direct(self, value: Any):
-        """
-        アトリビュートに値をセットする
-
-        Args:
-            value (Any): セットする値
-        """
-        self.set_direct(value)
-
     # [] アクセス
     def __getitem__(
         self,
@@ -468,30 +425,6 @@ class PlugOperator(Generic[A], ABC):
         """
         plug_str = ".".join(plug_str_list)
         return self._get_plug_from_str(plug_str)
-
-    # get
-    @abstractmethod
-    def get(self) -> Any:
-        """
-        プラグの値を取得する: サブクラスでオーバーライドして、適切な型で値を返すようにする
-        """
-        pass
-
-    # set
-    @abstractmethod
-    def set(self, value: Any):
-        """
-        プラグに値をセットする: サブクラスでオーバーライドして、適切な型の値をセットするようにする
-        """
-        pass
-
-    def set_direct(self, value: Any):
-        """
-        プラグに値を直接セットする: サブクラスでオーバーライドして、適切な型の値をセットするようにする
-        set() メソッドは、DGModifier を使用して値をセットするのに対し、
-        こちらは直接値をセットする為、即時反映され Undo が効かないことに注意が必要。
-        """
-        pass
 
     def _to_anim_curve_value(self, value: Any) -> Any:
         return value

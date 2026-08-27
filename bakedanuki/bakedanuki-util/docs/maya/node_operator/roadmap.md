@@ -38,7 +38,7 @@
 - compound child limit の public method 化。
 - `lookup.py` の double4 / quat 解決対応。
 - 18 種類の compound 専用値型を追加し、scalar compound の
-  `get()` / `value` / `value_direct` の戻り値へ接続。
+  `get()` の戻り値へ接続。
 - `MatrixPlugOperator.get()` / `DataMatrixPlugOperator.get()`を
   `TransformMatrix`へ統一し、matrix plugの値設定、`MMatrix`との乗算、
   typed matrixの未設定時エラーを同じ契約へ整理。

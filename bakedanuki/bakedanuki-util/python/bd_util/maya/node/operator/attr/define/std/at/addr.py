@@ -17,6 +17,7 @@ class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
 
     # get
     def get(self) -> int:
+        """addrプラグの現在値を整数で取得する。"""
         return self._get_data_handle().asAddr()
 
     def _get_data_handle(self):
@@ -27,11 +28,14 @@ class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
         return self._data_handle
 
     # set
-    def set(self, value: int):
+    def set_direct(self, value: int) -> None:
         """
-        MDataHandle を使用して、値をセットする
+        addrプラグへ整数値を即時設定する。
 
-        MPlug に直接セットする方法しかない為、undo 対応ができない点に注意。
+        MDataHandleを直接更新するため、ModifierManagerのundo / redo対象外。
+
+        Args:
+            value: 設定するアドレス値。
         """
 
         data_handle = self._get_data_handle()

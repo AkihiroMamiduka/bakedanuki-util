@@ -18,6 +18,7 @@ class DataDouble2PlugOperator(
 
     # get
     def get(self) -> list[float]:
+        """double2 dataプラグの現在値を2要素のfloatリストで取得する。"""
         x, y = self._get_data()
         return [x, y]
 

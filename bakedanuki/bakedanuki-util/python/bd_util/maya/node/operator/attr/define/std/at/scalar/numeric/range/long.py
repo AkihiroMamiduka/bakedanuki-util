@@ -17,13 +17,22 @@ class LongPlugOperator(NumericRangeBasePlugOperator["LongAttrOperator"]):
 
     # get
     def get(self) -> int:
+        """longプラグの現在値を整数で取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
         return plug.asInt()
 
     # set
-    def set(self, value: int):
+    def set(self, value: int) -> None:
+        """longプラグへ整数値をModifierManager経由で設定する。
+
+        Args:
+            value: 設定する整数値。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         self._node.modifier_manager.dg_mod.newPlugValueInt(self.plug, value)
 
     # add

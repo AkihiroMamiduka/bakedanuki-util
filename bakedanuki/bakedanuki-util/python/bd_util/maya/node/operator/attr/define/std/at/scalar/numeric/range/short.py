@@ -17,13 +17,22 @@ class ShortPlugOperator(NumericRangeBasePlugOperator["ShortAttrOperator"]):
 
     # get
     def get(self) -> int:
+        """shortプラグの現在値を整数で取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
         return plug.asShort()
 
     # set
-    def set(self, value: int):
+    def set(self, value: int) -> None:
+        """shortプラグへ整数値をModifierManager経由で設定する。
+
+        Args:
+            value: 設定する整数値。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         self._node.modifier_manager.dg_mod.newPlugValueShort(self.plug, value)
 
     # add

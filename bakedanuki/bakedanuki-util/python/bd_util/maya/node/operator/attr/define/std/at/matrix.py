@@ -13,6 +13,7 @@ class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
 
     # get
     def get(self) -> TransformMatrix:
+        """matrixプラグの現在値をTransformMatrixのsnapshotとして取得する。"""
         return TransformMatrix(self.plug)
 
     # set
@@ -20,6 +21,15 @@ class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
         self,
         value: TransformMatrix | om.MMatrix | om.MTransformationMatrix,
     ) -> None:
+        """matrixプラグへ行列値をModifierManager経由で設定する。
+
+        Args:
+            value: 設定するTransformMatrix、MMatrix、または
+                MTransformationMatrix。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         matrix = TransformMatrix(value).matrix
         mat_obj = om.MFnMatrixData().create(matrix)
         self._node.modifier_manager.dg_mod.newPlugValue(self.plug, mat_obj)

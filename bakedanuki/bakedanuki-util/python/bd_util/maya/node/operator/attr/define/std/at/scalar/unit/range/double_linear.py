@@ -19,18 +19,21 @@ class DoubleLinearPlugOperator(
 
     # get
     def get(self) -> float:
+        """doubleLinearプラグの現在値をcentimeter単位で取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
         return plug.asMDistance().asCentimeters()
 
     # set
-    def set(self, value: float):
-        """
-        値をセットする: doubleLinear
+    def set(self, value: float) -> None:
+        """doubleLinearプラグへcentimeter値をModifierManager経由で設定する。
 
         Args:
-            value (float): 値
+            value: 設定する距離。単位はcentimeter。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         value = om.MDistance(value, om.MDistance.kCentimeters)
         self._node.modifier_manager.dg_mod.newPlugValueMDistance(

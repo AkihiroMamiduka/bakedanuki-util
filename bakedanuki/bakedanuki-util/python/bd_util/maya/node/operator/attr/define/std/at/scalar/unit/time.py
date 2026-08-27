@@ -16,14 +16,24 @@ class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
 
     # get
     def get(self) -> float:
+        """timeプラグの現在値をMaya UIの時間単位で取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
-        return plug.asMTime()
+        return plug.asMTime().asUnits(om.MTime.uiUnit())
 
     # set
-    def set(self, value: float):
-        self._node.modifier_manager.dg_mod.newPlugValueMTime(self.plug, value)
+    def set(self, value: float) -> None:
+        """timeプラグへMaya UI時間単位の値をModifierManager経由で設定する。
+
+        Args:
+            value: 設定する時間。単位は現在のMaya UI time unit。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
+        time = om.MTime(value, om.MTime.uiUnit())
+        self._node.modifier_manager.dg_mod.newPlugValueMTime(self.plug, time)
 
     def _to_anim_curve_value(self, value: float) -> om.MTime:
         return om.MTime(value, om.MTime.uiUnit())

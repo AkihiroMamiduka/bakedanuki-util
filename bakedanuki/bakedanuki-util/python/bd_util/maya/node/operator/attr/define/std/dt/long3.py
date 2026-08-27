@@ -18,6 +18,7 @@ class DataLong3PlugOperator(
 
     # get
     def get(self) -> list[int]:
+        """long3 dataプラグの現在値を3要素のintリストで取得する。"""
         x, y, z = self._get_data()
         return [x, y, z]
 

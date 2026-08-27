@@ -18,6 +18,7 @@ class PointArrayPlugOperator(
 
     # get
     def get(self) -> list[tuple[float, float, float, float]]:
+        """pointArray dataプラグの現在値を4成分tupleのリストで取得する。"""
         return [
             (p.x, p.y, p.z, p.w)
             for p in self._get_array_values(om.MFnPointArrayData)

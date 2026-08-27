@@ -408,6 +408,9 @@ from bd_util.maya.node.operator.attr.define.std.at.matrix import (
     MatrixAttrOperator,
     MatrixPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.compound import (
+    CompoundPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar._base import (
     ScalarBaseAttrOperator,
     ScalarBasePlugOperator,
@@ -3659,8 +3662,6 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     )
     assert_type(compose.inputTranslate.inputTranslateX.get(), float)
     assert_type(compose.inputTranslate.get(), bdu.DoubleLinear3)
-    assert_type(compose.inputTranslate.value, bdu.DoubleLinear3)
-    assert_type(compose.inputTranslate.value_direct, bdu.DoubleLinear3)
     assert_type(compose.inputTranslate.get().x, float)
     assert_type(
         compose.inputTranslate.get().as_tuple(),
@@ -4644,6 +4645,12 @@ def double_linear_right_triangle_contract(nodes: bdu.Nodes) -> None:
 def invalid_usage_contract(
     nodes: bdu.Nodes,
     c: ComposeMatrix,
+    compound: CompoundPlugOperator[Any],
+    message: MessagePlugOperator,
+    typed: TypedPlugOperator,
+    mesh_data: DataMeshPlugOperator,
+    matrix_data: DataMatrixPlugOperator,
+    scalar: DoublePlugOperator,
 ) -> None:
     nodes.create.composeMatrix(
         unknown_option=True  # pyright: ignore[reportCallIssue]
@@ -4702,3 +4709,13 @@ def invalid_usage_contract(
         len
     ]  # pyright: ignore[reportArgumentType]
     c.x  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    compound.get()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    compound.set  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    compound.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    message.get()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    typed.set  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    mesh_data.get()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    matrix_data.set  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    scalar.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    scalar.value  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    scalar.value_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]

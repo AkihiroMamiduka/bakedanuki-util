@@ -27,13 +27,22 @@ class DoubleAnglePlugOperator(
 
     # get
     def get(self) -> float:
+        """doubleAngleプラグの現在値をdegree単位で取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
         return plug.asMAngle().asDegrees()
 
     # set
-    def set(self, value: float):
+    def set(self, value: float) -> None:
+        """doubleAngleプラグへdegree値をModifierManager経由で設定する。
+
+        Args:
+            value: 設定する角度。単位はdegree。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         self._node.modifier_manager.dg_mod.newPlugValueMAngle(
             self.plug, _float_to_angle(value)
         )

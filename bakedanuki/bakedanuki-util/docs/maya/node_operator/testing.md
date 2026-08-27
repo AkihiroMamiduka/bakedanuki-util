@@ -77,6 +77,7 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 - enum plug と enum 定数。
 - `multi[index]` / `multi[next]` の具体的な plug 型。
 - `get()` の値型。
+- `get()` / `set()` / `set_direct()` が対応するplug型だけに存在すること。
 - `nodes.types`から取得するNodeOperator classと、DAG traversalの
   `filter_type`に応じた具体的なtuple要素型。
 - `ancestors(until=...)` / `descendant_chain(until=...)`の、引数省略時と

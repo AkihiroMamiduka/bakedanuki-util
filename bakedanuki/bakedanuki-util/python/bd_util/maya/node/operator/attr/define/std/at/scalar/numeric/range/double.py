@@ -17,13 +17,22 @@ class DoublePlugOperator(NumericRangeBasePlugOperator["DoubleAttrOperator"]):
 
     # get
     def get(self) -> float:
+        """doubleプラグの現在値を浮動小数点数で取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
         return plug.asDouble()
 
     # set
-    def set(self, value: float):
+    def set(self, value: float) -> None:
+        """doubleプラグへ値をModifierManager経由で設定する。
+
+        Args:
+            value: 設定する浮動小数点値。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         self._node.modifier_manager.dg_mod.newPlugValueDouble(self.plug, value)
 
     # add

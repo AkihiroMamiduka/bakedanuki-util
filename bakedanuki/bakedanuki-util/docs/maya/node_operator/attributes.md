@@ -37,11 +37,8 @@ class MyNode(NodeOperator):
 
 `PlugOperator` は Maya scene 上の plug 操作を担当します。
 
-主な操作は次の通りです。
+すべての `PlugOperator` が持つ主な操作は次の通りです。
 
-- `get()`
-- `set()`
-- `set_direct()`
 - `connect()`
 - `connect_from()`
 - `connect_next_index()`
@@ -53,7 +50,21 @@ class MyNode(NodeOperator):
 - `add_attr()`
 - `cmds_add_attr()`
 
-`set()` は基本的に `ModifierManager.dg_mod` 経由で編集します。
+値操作はplug型が対応するものだけを提供します。
+
+- `get()`
+- `set()`
+- `set_direct()`
+
+例えばscalar numericは`get()` / `set()`、typed matrixは`get()` /
+`set_direct()`を持ち、message、generic、mixed compoundなど値操作へ
+対応しない型にはこれらのmethodがありません。利用できない操作を
+例外送出用methodとして残さないため、IDE補完にも表示されません。
+
+`value` / `value_direct` propertyは提供しません。値操作は型注釈と
+反映方法が明確な上記methodを使用します。
+
+`set()` は `ModifierManager.dg_mod` 経由で編集します。
 
 `set_direct()` は `MPlug` へ即時反映します。undo には参加しません。
 

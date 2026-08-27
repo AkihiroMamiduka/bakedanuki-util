@@ -18,14 +18,24 @@ class FloatAnglePlugOperator(
 
     # get
     def get(self) -> float:
+        """floatAngleプラグの現在値をdegree単位で取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
         return plug.asMAngle().asDegrees()
 
     # set
-    def set(self, value: float):
-        self._node.modifier_manager.dg_mod.newPlugValueMAngle(self.plug, value)
+    def set(self, value: float) -> None:
+        """floatAngleプラグへdegree値をModifierManager経由で設定する。
+
+        Args:
+            value: 設定する角度。単位はdegree。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
+        angle = om.MAngle(value, om.MAngle.kDegrees)
+        self._node.modifier_manager.dg_mod.newPlugValueMAngle(self.plug, angle)
 
     def _to_anim_curve_value(self, value: float) -> float:
         return om.MAngle(value, om.MAngle.kDegrees).asRadians()

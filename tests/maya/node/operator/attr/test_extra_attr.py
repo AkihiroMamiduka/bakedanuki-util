@@ -177,6 +177,11 @@ class ExtraCompoundTransform(Transform):
         category="bdAddAttrTest",
     )
     extraMultiDouble = AddAttr.at.double(multi=True)
+    extraDoubleAngle = AddAttr.at.double_angle(default_value=0.0)
+    extraDoubleLinear = AddAttr.at.double_linear(default_value=0.0)
+    extraFloatAngle = AddAttr.at.float_angle(default_value=0.0)
+    extraFloatLinear = AddAttr.at.float_linear(default_value=0.0)
+    extraTime = AddAttr.at.time(default_value=0.0)
     extraPlugOnlyEnum = PlugOnlyEnumField()
     extraPriorityEnum = PriorityEnumField()
     extraSimpleCompound = SimpleCompoundField(category="bdSimpleCompoundTest")
@@ -185,6 +190,7 @@ class ExtraCompoundTransform(Transform):
         long_name="extraNamedStringLong",
         short_name="ens",
     )
+    extraEmptyString = AddAttr.dt.string(default_value="")
 
 
 class ExtraLongLongNetwork(NodeOperator):
@@ -466,26 +472,27 @@ def test_compound_set_accepts_dedicated_value(
     modifier_manager.do_it_dg()
 
     assert extra_compound_node.extraDouble4.get() == value
-    assert extra_compound_node.extraDouble4.value == value
 
-    extra_compound_node.extraDouble4.value = bdu.Double4(
-        1.0,
-        2.0,
-        3.0,
-        4.0,
+    extra_compound_node.extraDouble4.set(
+        bdu.Double4(
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+        )
     )
     modifier_manager.do_it_dg()
 
-    assert extra_compound_node.extraDouble4.value == bdu.Double4(
+    assert extra_compound_node.extraDouble4.get() == bdu.Double4(
         1.0,
         2.0,
         3.0,
         4.0,
     )
 
-    extra_compound_node.extraDouble4.value_direct = value
+    extra_compound_node.extraDouble4.set_direct(value)
 
-    assert extra_compound_node.extraDouble4.value_direct == value
+    assert extra_compound_node.extraDouble4.get() == value
 
 
 @pytest.mark.parametrize(("attr_name", "values"), COMPOUND_SET_CASES)
@@ -576,6 +583,11 @@ def test_add_attr_factory_names_and_options(
     )
     assert node.extraNamedString.short_name == "ens"
     assert node.extraNamedString.get() == "hello"
+    default_object = om.MFnTypedAttribute(
+        node.extraNamedString.plug.attribute()
+    ).default
+    assert om.MFnStringData(default_object).string() == "hello"
+    assert node.extraEmptyString.get() == ""
     assert (
         maya_cmds.attributeQuery(
             "extraNamedStringLong",
@@ -606,6 +618,30 @@ def test_add_attr_factory_names_and_options(
         node=node.name,
         multi=True,
     )
+
+
+@pytest.mark.parametrize(
+    ("attr_name", "value"),
+    (
+        ("extraDoubleAngle", 135.5),
+        ("extraDoubleLinear", 12.25),
+        ("extraFloatAngle", -42.5),
+        ("extraFloatLinear", 7.75),
+        ("extraTime", 18.5),
+    ),
+)
+def test_scalar_unit_get_set_round_trip(
+    modifier_manager,
+    extra_compound_node,
+    attr_name,
+    value,
+):
+    plug = getattr(extra_compound_node, attr_name)
+
+    plug.set(value)
+    modifier_manager.do_it_dg()
+
+    assert plug.get() == pytest.approx(value)
 
 
 def test_extra_enum_field_can_be_defined_with_plug_only(

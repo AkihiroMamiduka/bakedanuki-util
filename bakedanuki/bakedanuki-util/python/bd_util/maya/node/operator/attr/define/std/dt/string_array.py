@@ -18,6 +18,7 @@ class DataStringArrayPlugOperator(
 
     # get
     def get(self) -> list[str]:
+        """stringArray dataプラグの現在値を文字列リストで取得する。"""
         return self._get_array_values(om.MFnStringArrayData)
 
     # set

@@ -18,6 +18,7 @@ class DataVectorArrayPlugOperator(
 
     # get
     def get(self) -> list[tuple[float, float, float]]:
+        """vectorArray dataプラグの現在値を3成分tupleのリストで取得する。"""
         return [
             (p.x, p.y, p.z)
             for p in self._get_array_values(om.MFnVectorArrayData)

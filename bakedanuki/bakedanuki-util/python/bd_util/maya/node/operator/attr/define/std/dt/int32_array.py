@@ -18,6 +18,7 @@ class DataInt32ArrayPlugOperator(
 
     # get
     def get(self) -> list[int]:
+        """Int32Array dataプラグの現在値をintリストで取得する。"""
         return self._get_array_values(om.MFnIntArrayData)
 
     # set

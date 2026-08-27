@@ -20,13 +20,22 @@ class BoolPlugOperator(NumericBasePlugOperator["BoolAttrOperator"]):
 
     # get
     def get(self) -> bool:
+        """boolプラグの現在値を取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
         return plug.asBool()
 
     # set
-    def set(self, value: bool):
+    def set(self, value: bool) -> None:
+        """boolプラグへ値をModifierManager経由で設定する。
+
+        Args:
+            value: 設定する真偽値。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         self._node.modifier_manager.dg_mod.newPlugValueBool(self.plug, value)
 
     # add

@@ -1,6 +1,6 @@
 # coding: utf-8
 from collections.abc import Callable
-from typing import Any, Never, TypeVar, Type, cast, Protocol
+from typing import Any, TypeVar, Type, cast, Protocol
 
 # self
 from ...._core import AttrOperator, PlugOperator, AttributeField
@@ -117,18 +117,6 @@ class CompoundPlugOperator(PlugOperator[A]):
             cls.CHILD_FIELDS = tuple(child_fields)
         else:
             cls.CHILD_FIELDS = tuple(getattr(cls, "CHILD_FIELDS", ()))
-
-    # get
-    def get(self) -> Never:
-        raise NotImplementedError(
-            "CompoundPlug does not support get operation"
-        )
-
-    # set
-    def set(self, value: Any) -> Never:
-        raise NotImplementedError(
-            "CompoundPlug does not support set operation"
-        )
 
     # add
     def add_attr(self):

@@ -1,5 +1,4 @@
 # coding: utf-8
-from collections.abc import Sequence
 from typing import Any, TypeVar, Type, cast
 
 # self
@@ -25,23 +24,8 @@ class QuatCompoundBasePlugOperator(Double4CompoundBasePlugOperator[A]):
     VALUE_TYPE = Quat
 
     def get(self) -> Quat:
+        """quaternion compoundプラグの現在値をQuatで取得する。"""
         return cast(Quat, super().get())
-
-    @property
-    def value(self) -> Quat:
-        return self.get()
-
-    @value.setter
-    def value(self, value: Sequence[int | float]) -> None:
-        self.set(value)
-
-    @property
-    def value_direct(self) -> Quat:
-        return self.get()
-
-    @value_direct.setter
-    def value_direct(self, value: Sequence[int | float]) -> None:
-        self.set_direct(value)
 
 
 class QuatCompoundBaseAttrOperator(Double4CompoundBaseAttrOperator[P]):

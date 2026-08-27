@@ -20,6 +20,11 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
 
     # get
     def get(self) -> TransformMatrix:
+        """matrix dataプラグの現在値をTransformMatrixのsnapshotとして取得する。
+
+        Raises:
+            ValueError: plugがmatrix dataを保持していない場合。
+        """
         return TransformMatrix(self.plug)
 
     @property

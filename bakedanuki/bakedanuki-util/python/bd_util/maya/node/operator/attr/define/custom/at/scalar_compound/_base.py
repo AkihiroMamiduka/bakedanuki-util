@@ -86,27 +86,16 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
         raise NotImplementedError
 
     def get(self) -> V:
+        """compoundプラグのchild値を対応するimmutable値型で取得する。
+
+        Returns:
+            ``VALUE_TYPE`` に指定されたscalar compound値。
+        """
         values = tuple(
             self._get_child_value(self.plug.child(i))
             for i in range(len(self._SUFFIXES))
         )
         return self.VALUE_TYPE.from_values(values)
-
-    @property
-    def value(self) -> V:
-        return self.get()
-
-    @value.setter
-    def value(self, value: Sequence[S]) -> None:
-        self.set(value)
-
-    @property
-    def value_direct(self) -> V:
-        return self.get()
-
-    @value_direct.setter
-    def value_direct(self, value: Sequence[S]) -> None:
-        self.set_direct(value)
 
     # set
     def _set_child_value(
@@ -164,6 +153,16 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
         value: S | Sequence[S],
         *values: S,
     ) -> None:
+        """compoundプラグの全child値をModifierManager経由で設定する。
+
+        Args:
+            value: 先頭成分、または全成分を格納したsequence。
+            *values: 展開形式で指定する残りの成分。
+
+        Notes:
+            child数と値数は一致する必要がある。変更は
+            ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         normalized_values = self._normalize_set_values((value, *values))
         plug = self.plug
         try:
@@ -179,6 +178,16 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
         value: S | Sequence[S],
         *values: S,
     ) -> None:
+        """compoundプラグの全child値を即時設定する。
+
+        Args:
+            value: 先頭成分、または全成分を格納したsequence。
+            *values: 展開形式で指定する残りの成分。
+
+        Notes:
+            child数と値数は一致する必要がある。ModifierManagerの
+            undo / redo対象外。
+        """
         normalized_values = self._normalize_set_values(
             (value, *values),
             "set_direct",

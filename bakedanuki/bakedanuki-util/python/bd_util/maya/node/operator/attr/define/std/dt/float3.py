@@ -18,6 +18,7 @@ class DataFloat3PlugOperator(
 
     # get
     def get(self) -> list[float]:
+        """float3 dataプラグの現在値を3要素のfloatリストで取得する。"""
         x, y, z = self._get_data()
         return [x, y, z]
 

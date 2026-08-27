@@ -18,6 +18,7 @@ class DataReflectanceRGBPlugOperator(
 
     # get
     def get(self) -> list[float]:
+        """reflectanceRGB dataプラグの現在値をfloatリストで取得する。"""
         x, y, z = self._get_data()
         return [x, y, z]
 
