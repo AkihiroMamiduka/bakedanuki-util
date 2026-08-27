@@ -68,6 +68,33 @@ class MyNode(NodeOperator):
 
 `set_direct()` は `MPlug` へ即時反映します。undo には参加しません。
 
+### 値操作methodの実装規則
+
+新しい`PlugOperator`型を追加するときは、その型で実行できる値操作だけを
+具象class、または全派生classが同じ操作へ対応する共通基底classに実装します。
+
+現在の代表的な対応関係は次の通りです。
+
+| plug family | `get()` | `set()` | `set_direct()` |
+| --- | --- | --- | --- |
+| scalar numeric / enum / unit | yes | yes | 原則no |
+| custom scalar compound | yes | yes | yes |
+| matrix / floatMatrix attribute | yes | yes | no |
+| string data | yes | yes | yes |
+| numeric / array / matrix data | yes | no | yes |
+| addr | yes | no | yes |
+| message / generic / lightData / mixed compound | no | no | no |
+| mesh / lattice / nurbs data | no | no | no |
+
+未対応操作を、`NotImplementedError`や`UnsupportedOperationError`を送出するだけの
+methodとして定義しません。`PlugOperator`や`DataTypePlugOperator`などの共通基底にも
+値操作methodを置きません。これにより、実行できない操作がIDE補完へ現れることを
+防ぎます。
+
+公開する`get()` / `set()` / `set_direct()`には、対象となるMaya型、Python側の
+値型、単位、ModifierManager経由か即時反映かをdocstringへ記載します。対応関係を
+変更した場合はruntimeのcapability testとPyright contractも同時に更新します。
+
 ## plug access
 
 ```python
@@ -216,6 +243,21 @@ numeric / unit 系では `default_value`、`min_value` / `max_value`、`soft_min
 `NodeOperator` 初期化時、`extra=True` の field は対象ノードに存在しなければ自動で追加されます。
 
 `cmds_add_attr()` が必要な型は `cmds` 経由、それ以外は OpenMaya 経由の `add_attr()` を使います。
+
+### typed dataのdefault値
+
+`MFnTypedAttribute`でdefault値に対応する型は、Python値をdata objectへ変換し、
+その`MObject`を`MFnTypedAttribute.create()`のdefault引数へ渡します。attributeを
+ノードへ追加してから`set_direct()`する方法は使いません。作成時に渡すことで、
+現在値だけでなくattribute definitionのdefault値としてMayaへ保持されます。
+
+`DataTypePlugOperator._add_attr_base()`は`default_object_factory`を受け取り、
+現在はstring dataが`MFnStringData`による変換を提供します。`None`はdefault未指定を
+表し、空文字列などのfalseyな値も有効なdefault値として扱います。
+
+新しいtyped data型で`default_value`を公開する場合は、対応する`MFn*Data.create()`で
+Python値から`MObject`を作るfactoryを実装し、`_add_attr_base()`へ渡します。
+factoryを用意できない型では`default_value`を公開しません。
 
 ### extra enum attribute
 

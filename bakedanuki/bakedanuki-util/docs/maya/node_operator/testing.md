@@ -324,6 +324,9 @@ pytest 側では、ログ出力ではなく assert で仕様を固定します�
 - alias が同じ `PlugOperator` instance を返す。
 - child plug access が正しい plug 名を指す。
 - `set()` / `set_direct()` / `get()` の結果が一致する。
+- 値操作methodが対応するplug型だけに存在し、未対応型と共通基底には存在しない。
+- typed dataのdefault値が現在値だけでなく`MFnTypedAttribute.default`にも保持され、
+  空文字列などのfalseyな値も失われない。
 - wrong count などの error が期待通り発生する。
 - DAG の親子操作が undo / redo に対応し、循環する親子関係を作らない。
 - `TransformMatrix`とmatrix plugが同じ行列値を扱い、分解値の具体型と単位が
