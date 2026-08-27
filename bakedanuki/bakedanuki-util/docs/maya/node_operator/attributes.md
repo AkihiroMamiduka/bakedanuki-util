@@ -84,9 +84,22 @@ angleはdegree、linearはcentimeter、timeはMaya UI time unitという、各�
 `get()` / `set()`と同じ公開単位で丸めます。matrix、typed data、quaternion、
 整数型には`round()`を提供せず、`round_direct()`も提供しません。
 
-`round()`は呼び出し時点のscene値を読むため、先に積んだ`set()`の値を丸める場合は、
-一度`do_it_dg()`を実行してから呼び出します。animation curveのkeyframe値を
-一括処理する機能ではありません。
+`round()`は呼び出し時点のscene値を読みます。未実行の`set()`は
+`ModifierManager`内に保留されており、`get()`からはまだ見えません。
+その値を丸める場合は、次のように一度sceneへ反映してから呼び出します。
+
+```python
+node.translate.set(0.506459506684667, 0.0, 0.0)
+mod.do_it_dg()
+
+node.translate.round(3)
+mod.do_it_dg()
+```
+
+`round()`自身はbatchingとundo / redoの実行境界を暗黙に変更しないため、
+`do_it_dg()`を自動実行しません。新しく設定する値を一度のbatchで丸めたい場合は、
+Python側で丸めてから`set()`へ渡します。animation curveのkeyframe値を
+一括処理する機能でもありません。
 
 ### 値操作methodの実装規則
 
