@@ -1,7 +1,8 @@
 # coding: utf-8
+import builtins
 import math
 from collections.abc import Sequence
-from typing import cast, ClassVar, Literal, overload, Self
+from typing import cast, ClassVar, Literal, overload, Protocol, Self
 
 from maya.api import OpenMaya as om
 
@@ -9,8 +10,20 @@ from .._core import DAG
 from ._generated.transform import GeneratedTransform
 
 _RotationValue = tuple[float, float, float]
+_Vector3Value = tuple[float, float, float]
 _PositionAxes = Literal["x", "y", "z", "xy", "xz", "yz", "xyz"]
 _PositionSpace = Literal["world", "local", "object"]
+JointChildCompensationAttr = Literal["rotate", "jointOrient"]
+
+
+class RoundScalarPlugProtocol(Protocol):
+    @property
+    def plug(self) -> om.MPlug: ...
+
+    def set(self, value: float) -> None: ...
+
+
+RoundChange = tuple[RoundScalarPlugProtocol, float]
 
 _POSITION_AXES = frozenset(("x", "y", "z", "xy", "xz", "yz", "xyz"))
 _POSITION_AXIS_INDEX = {"x": 0, "y": 1, "z": 2}
@@ -94,6 +107,401 @@ class Transform(GeneratedTransform):
                 f"{method_name}([x, y, z]): {normalized_values}"
             ) from error
         return x, y, z
+
+    @staticmethod
+    def _rounded_values(
+        values: _Vector3Value,
+        ndigits: int,
+    ) -> _Vector3Value:
+        return cast(
+            _Vector3Value,
+            tuple(builtins.round(value, ndigits) for value in values),
+        )
+
+    @staticmethod
+    def _require_compensate_children(value: object) -> bool:
+        if not isinstance(value, bool):
+            raise TypeError(
+                "compensate_children must be bool; "
+                f"got {type(value).__name__}"
+            )
+        return value
+
+    @staticmethod
+    def _require_compensate_child_translate(value: object) -> bool:
+        if not isinstance(value, bool):
+            raise TypeError(
+                "compensate_child_translate must be bool; "
+                f"got {type(value).__name__}"
+            )
+        return value
+
+    @staticmethod
+    def _require_joint_child_compensation_attr(
+        value: object,
+    ) -> JointChildCompensationAttr:
+        if not isinstance(value, str):
+            raise TypeError(
+                "joint_child_compensation_attr must be str; "
+                f"got {type(value).__name__}"
+            )
+        if value not in ("rotate", "jointOrient"):
+            raise ValueError(
+                "joint_child_compensation_attr must be 'rotate' or "
+                f"'jointOrient'; got {value!r}"
+            )
+        return value
+
+    @staticmethod
+    def _round_changes(
+        plugs: tuple[
+            RoundScalarPlugProtocol,
+            RoundScalarPlugProtocol,
+            RoundScalarPlugProtocol,
+        ],
+        current_values: _Vector3Value,
+        target_values: _Vector3Value,
+        *,
+        use_tolerance: bool = False,
+    ) -> tuple[RoundChange, ...]:
+        changes: list[RoundChange] = []
+        for plug, current_value, target_value in zip(
+            plugs,
+            current_values,
+            target_values,
+        ):
+            is_unchanged = (
+                math.isclose(
+                    current_value,
+                    target_value,
+                    rel_tol=1.0e-12,
+                    abs_tol=1.0e-12,
+                )
+                if use_tolerance
+                else current_value == target_value
+            )
+            if not is_unchanged:
+                changes.append((plug, target_value))
+        return tuple(changes)
+
+    def _translate_round_plugs(
+        self,
+    ) -> tuple[
+        RoundScalarPlugProtocol,
+        RoundScalarPlugProtocol,
+        RoundScalarPlugProtocol,
+    ]:
+        return (
+            cast(RoundScalarPlugProtocol, self.translateX),
+            cast(RoundScalarPlugProtocol, self.translateY),
+            cast(RoundScalarPlugProtocol, self.translateZ),
+        )
+
+    def _rotate_round_plugs(
+        self,
+    ) -> tuple[
+        RoundScalarPlugProtocol,
+        RoundScalarPlugProtocol,
+        RoundScalarPlugProtocol,
+    ]:
+        return (
+            cast(RoundScalarPlugProtocol, self.rotateX),
+            cast(RoundScalarPlugProtocol, self.rotateY),
+            cast(RoundScalarPlugProtocol, self.rotateZ),
+        )
+
+    @staticmethod
+    def _queue_round_changes(changes: tuple[RoundChange, ...]) -> None:
+        for plug, value in changes:
+            plug.set(value)
+
+    def _child_round_rotation_values(
+        self,
+        target_local_rotation: om.MQuaternion,
+        joint_child_compensation_attr: JointChildCompensationAttr,
+    ) -> _RotationValue:
+        current_rotate = self.rotate.get().as_tuple()
+        return self._quaternion_to_rotation(
+            self._rotate_from_combined_rotation(target_local_rotation),
+            self.rotateOrder.get(),
+            current_rotate,
+        )
+
+    def _child_round_rotation_plugs(
+        self,
+        joint_child_compensation_attr: JointChildCompensationAttr,
+    ) -> tuple[
+        RoundScalarPlugProtocol,
+        RoundScalarPlugProtocol,
+        RoundScalarPlugProtocol,
+    ]:
+        return self._rotate_round_plugs()
+
+    def _transformation_with_child_round_rotation(
+        self,
+        rotation: _RotationValue,
+        joint_child_compensation_attr: JointChildCompensationAttr,
+    ) -> om.MTransformationMatrix:
+        transformation = om.MFnTransform(self.m_obj).transformation()
+        transformation.setRotation(
+            self._rotation_to_euler(rotation, self.rotateOrder.get())
+        )
+        return transformation
+
+    def _round_with_child_compensation(
+        self,
+        *,
+        parent_changes: tuple[RoundChange, ...],
+        parent_changes_are_rotation: bool,
+        target_local_matrix: om.MMatrix,
+        compensate_child_rotation: bool,
+        compensate_child_translate: bool,
+        joint_child_compensation_attr: JointChildCompensationAttr,
+    ) -> Self:
+        if self.is_instanced:
+            raise RuntimeError(
+                "Child compensation is not supported for an instanced "
+                f"DAG node: {self.name}"
+            )
+
+        children = tuple(
+            child
+            for child in self.children(
+                filter_type=Transform,
+                include_shapes=False,
+            )
+            if child.inheritsTransform.get()
+        )
+        instanced_children = tuple(
+            child.name for child in children if child.is_instanced
+        )
+        if instanced_children:
+            raise RuntimeError(
+                "Child compensation is not supported for instanced child "
+                "DAG nodes: " + ", ".join(instanced_children)
+            )
+
+        position_changes: list[RoundChange] = []
+        rotation_changes: list[RoundChange] = []
+        if parent_changes_are_rotation:
+            rotation_changes.extend(parent_changes)
+        else:
+            position_changes.extend(parent_changes)
+
+        if children:
+            target_parent_world_matrix = (
+                target_local_matrix
+                * self._get_instance_transform_matrix("parentMatrix").matrix
+            )
+            for child in children:
+                child_world_matrix = child._get_instance_transform_matrix(
+                    "worldMatrix"
+                ).matrix
+                effective_parent_matrix = (
+                    child.offsetParentMatrix.get().matrix
+                    * target_parent_world_matrix
+                )
+                effective_parent_inverse = effective_parent_matrix.inverse()
+                child_transformation = om.MFnTransform(
+                    child.m_obj
+                ).transformation()
+
+                if compensate_child_rotation:
+                    target_local_matrix_for_child = (
+                        child_world_matrix * effective_parent_inverse
+                    )
+                    target_local_rotation = om.MTransformationMatrix(
+                        target_local_matrix_for_child
+                    ).rotation(asQuaternion=True)
+                    target_child_rotation = child._child_round_rotation_values(
+                        target_local_rotation,
+                        joint_child_compensation_attr,
+                    )
+                    current_child_rotation = (
+                        child._current_child_round_rotation_values(
+                            joint_child_compensation_attr
+                        )
+                    )
+                    rotation_changes.extend(
+                        self._round_changes(
+                            child._child_round_rotation_plugs(
+                                joint_child_compensation_attr
+                            ),
+                            current_child_rotation,
+                            target_child_rotation,
+                            use_tolerance=True,
+                        )
+                    )
+                    child_transformation = (
+                        child._transformation_with_child_round_rotation(
+                            target_child_rotation,
+                            joint_child_compensation_attr,
+                        )
+                    )
+
+                if compensate_child_translate:
+                    predicted_world_matrix = (
+                        child_transformation.asMatrix()
+                        * effective_parent_matrix
+                    )
+                    world_delta = om.MVector(
+                        child_world_matrix[12] - predicted_world_matrix[12],
+                        child_world_matrix[13] - predicted_world_matrix[13],
+                        child_world_matrix[14] - predicted_world_matrix[14],
+                    )
+                    translate_delta = world_delta * effective_parent_inverse
+                    current_translate = child.translate.get().as_tuple()
+                    target_translate = (
+                        current_translate[0] + translate_delta.x,
+                        current_translate[1] + translate_delta.y,
+                        current_translate[2] + translate_delta.z,
+                    )
+                    position_changes.extend(
+                        self._round_changes(
+                            child._translate_round_plugs(),
+                            current_translate,
+                            target_translate,
+                            use_tolerance=True,
+                        )
+                    )
+
+        self._validate_position_m_plugs(
+            tuple(plug.plug for plug, _ in position_changes)
+        )
+        self._validate_rotation_m_plugs(
+            tuple(plug.plug for plug, _ in rotation_changes)
+        )
+        self._queue_round_changes((*position_changes, *rotation_changes))
+        return self
+
+    def _current_child_round_rotation_values(
+        self,
+        joint_child_compensation_attr: JointChildCompensationAttr,
+    ) -> _RotationValue:
+        return self.rotate.get().as_tuple()
+
+    def round_translate(
+        self,
+        ndigits: int = 0,
+        *,
+        compensate_children: bool = False,
+    ) -> Self:
+        """``translate`` を丸め、必要に応じて子のworld位置を補償する。
+
+        Args:
+            ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world位置を維持するように子の ``translate`` を補償する。
+
+        Notes:
+            Python組み込みの ``round()`` と同じ偶数丸めを使用する。
+            値の単位はcentimeter。変更は ``ModifierManager.do_it_dg()`` の
+            実行時に反映される。
+        """
+        compensate_children = self._require_compensate_children(
+            compensate_children
+        )
+        current_translate = self.translate.get().as_tuple()
+        target_translate = self._rounded_values(current_translate, ndigits)
+        parent_changes = self._round_changes(
+            self._translate_round_plugs(),
+            current_translate,
+            target_translate,
+        )
+        if not parent_changes:
+            return self
+        if not compensate_children:
+            self._validate_position_m_plugs(
+                tuple(plug.plug for plug, _ in parent_changes)
+            )
+            self._queue_round_changes(parent_changes)
+            return self
+
+        target_transformation = om.MFnTransform(self.m_obj).transformation()
+        target_transformation.setTranslation(
+            om.MVector(*target_translate),
+            om.MSpace.kTransform,
+        )
+        return self._round_with_child_compensation(
+            parent_changes=parent_changes,
+            parent_changes_are_rotation=False,
+            target_local_matrix=target_transformation.asMatrix(),
+            compensate_child_rotation=False,
+            compensate_child_translate=True,
+            joint_child_compensation_attr="rotate",
+        )
+
+    def round_rotate(
+        self,
+        ndigits: int = 0,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """``rotate`` を丸め、必要に応じて子のworld姿勢を補償する。
+
+        Args:
+            ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            Python組み込みの ``round()`` と同じ偶数丸めを使用する。
+            値の単位はdegree。Transform子は ``rotate``、Joint子は既定で
+            ``rotate``を補償する。変更は ``ModifierManager.do_it_dg()`` の
+            実行時に反映される。
+        """
+        compensate_children = self._require_compensate_children(
+            compensate_children
+        )
+        compensate_child_translate = self._require_compensate_child_translate(
+            compensate_child_translate
+        )
+        joint_child_compensation_attr = (
+            self._require_joint_child_compensation_attr(
+                joint_child_compensation_attr
+            )
+        )
+        if compensate_child_translate and not compensate_children:
+            raise ValueError(
+                "compensate_child_translate=True requires "
+                "compensate_children=True"
+            )
+        current_rotate = self.rotate.get().as_tuple()
+        target_rotate = self._rounded_values(current_rotate, ndigits)
+        parent_changes = self._round_changes(
+            self._rotate_round_plugs(),
+            current_rotate,
+            target_rotate,
+        )
+        if not parent_changes:
+            return self
+        if not compensate_children:
+            self._validate_rotation_m_plugs(
+                tuple(plug.plug for plug, _ in parent_changes)
+            )
+            self._queue_round_changes(parent_changes)
+            return self
+
+        target_transformation = om.MFnTransform(self.m_obj).transformation()
+        target_transformation.setRotation(
+            self._rotation_to_euler(
+                target_rotate,
+                self.rotateOrder.get(),
+            )
+        )
+        return self._round_with_child_compensation(
+            parent_changes=parent_changes,
+            parent_changes_are_rotation=True,
+            target_local_matrix=target_transformation.asMatrix(),
+            compensate_child_rotation=True,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
 
     def rotation_to_rotate(self) -> Self:
         """現在の回転を ``rotate`` へ集約して DG modifier に積む。"""
@@ -424,9 +832,13 @@ class Transform(GeneratedTransform):
     def _validate_rotation_m_plugs(plugs: tuple[om.MPlug, ...]) -> None:
         blocked_plug_names: list[str] = []
         for plug in plugs:
+            try:
+                child_count = plug.numChildren()
+            except TypeError:
+                child_count = 0
             blocked_children = [
                 plug.child(index).name()
-                for index in range(plug.numChildren())
+                for index in range(child_count)
                 if plug.child(index).isDestination
                 or plug.child(index).isFreeToChange() != om.MPlug.kFreeToChange
             ]

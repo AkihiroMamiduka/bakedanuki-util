@@ -240,6 +240,12 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
     軸指定、offsetParentMatrix、全rotateOrder、undo / redo、lock・入力接続、
     shape source、instanced DAGの拒否、非ゼロrotatePivotで位置補償しないことを
     検証します。
+- `tests/maya/node/operator/node/dag/transform/test_transform_round.py`
+  - Transform / Jointの階層補償付き`translate` / `rotate` / `jointOrient`丸め、
+    補償ON / OFF、姿勢のみ／位置を含む補償、Joint子の`rotate` / `jointOrient`
+    選択、全rotateOrder、pivot、offsetParentMatrix、非一様scale / shear、
+    undo / redo、lock・入力接続、instanced DAG、`inheritsTransform=False`を
+    検証します。
 - `tests/maya/node/operator/node/dag/shape/test_create.py`
   - 親 Transform 必須の shape 作成、明示的な公開対象、同一 modifier での
     一括作成、undo / redo を検証します。

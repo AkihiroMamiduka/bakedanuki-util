@@ -812,6 +812,103 @@ srcのworld姿勢をdstの実効親空間へ変換して得た目標回転を`Q_
 | Jointの`match_rotation_to_rotate_axis()` | `A_new = Q_target * inverse(J) * inverse(R)` |
 | Jointの`match_rotation_to_joint_orient()` | `J_new = inverse(R) * inverse(A) * Q_target` |
 
+## 子のworld姿勢・位置を任意に補償する丸め
+
+`Transform`は`translate`または`rotate`を丸められます。`Joint`では
+`jointOrient`も対象にできます。既定では子を変更せず、対象属性だけを丸めます。
+
+```python
+transform.round_translate(3)
+transform.round_rotate(3)
+
+joint.round_joint_orient(3)
+mod.do_it_dg()
+```
+
+Python組み込みの`round()`と同じ偶数丸めを使用します。`translate`はcentimeter、
+`rotate` / `jointOrient`はdegree単位です。各メソッドは自身を返し、変更は現在の
+`MDGModifier`へ積みます。`do_it_dg()`は自動実行しません。
+
+直接のTransform / Joint子を補償する場合は、`compensate_children=True`を
+明示します。`round_translate()`は子の`translate`を変更してworld位置を維持します。
+回転系メソッドは、既定では子のworld姿勢だけを維持し、子の`translate`を変更しません。
+
+```python
+transform.round_translate(3, compensate_children=True)
+transform.round_rotate(3, compensate_children=True)
+joint.round_joint_orient(3, compensate_children=True)
+mod.do_it_dg()
+```
+
+回転を丸めながら子のworld位置も維持する場合は、子の`translate`補償を追加で
+有効にします。
+
+```python
+transform.round_rotate(
+    3,
+    compensate_children=True,
+    compensate_child_translate=True,
+)
+joint.round_joint_orient(
+    3,
+    compensate_children=True,
+    compensate_child_translate=True,
+)
+mod.do_it_dg()
+```
+
+`compensate_child_translate=True`は`compensate_children=True`と組み合わせる必要があり、
+単独で指定すると`ValueError`になります。
+
+補償対象と、既定で変更する子属性は次の通りです。
+
+| メソッド | 親の変更属性 | Transform子 | Joint子 | 維持対象 |
+| --- | --- | --- | --- | --- |
+| `round_translate()` | `translate` | `translate` | `translate` | world位置 |
+| `round_rotate()` | `rotate` | `rotate` | `rotate` | world姿勢 |
+| `round_joint_orient()` | `jointOrient` | `rotate` | `rotate` | world姿勢 |
+
+回転系メソッドでは、Joint子の補償先を`joint_child_compensation_attr`で選択できます。
+既定値は`"rotate"`です。
+
+```python
+joint.round_joint_orient(
+    3,
+    compensate_children=True,
+    joint_child_compensation_attr="jointOrient",
+)
+```
+
+| 指定値 | Joint子の補償属性 | 維持する属性 |
+| --- | --- | --- |
+| `"rotate"` | `rotate` | `jointOrient` |
+| `"jointOrient"` | `jointOrient` | `rotate` |
+
+`rotateAxis`、childのscale / shear、`offsetParentMatrix`は変更しません。Euler補償値は
+選択した属性の現在値に近い等価解を選びます。
+
+維持する位置は`worldMatrix`の移動成分、姿勢は`MTransformationMatrix`が返す
+quaternionです。`compensate_child_translate=False`では、非ゼロrotate pivotを含めて
+子のworld位置を保証しません。位置補償を有効にした場合も、非一様scaleやshearを含む
+完全なworld matrixの一致は保証しません。そのため、さらに下の子孫まで常に不変にする
+操作ではありません。shape子は補償対象外で、丸めるnode自身のshapeは親nodeとともに
+移動・回転します。`inheritsTransform=False`の子は親の変更を継承しないため処理しません。
+
+補償が必要なtargetまたは子がinstanced DAGの場合、補償先plugがlockされている場合、
+animation curveを含む入力接続を持つ場合は、変更を積む前に`RuntimeError`を送出します。
+`compensate_children=False`では子を取得・検証しません。回転系で
+`compensate_child_translate=False`の場合は子の`translate`も検証しません。
+丸め前後の親属性が同じ場合も子を検証せずno-opになります。
+
+計算は呼び出し時点のscene値を使用します。同じmodifierへ積まれた未実行の値設定や
+DAG変更は読み取れないため、依存する操作の間で`mod.do_it_dg()`または
+`mod.do_it_dag()`を実行してください。
+
+この操作は丸め差分を直接の子へ移します。補償後の子も続けて丸めると差分はさらに
+下の階層へ移り、最終的にはleafが差分を保持するか、leafのworld poseが変化します。
+階層内のすべてのlocal値を丸めながら、全nodeのworld poseを同時に維持する操作では
+ありません。
+
 ## DAG の行列変換
 
 `DAG` は、2つのDAGノード間で行列を変換する共通メソッドを持ちます。

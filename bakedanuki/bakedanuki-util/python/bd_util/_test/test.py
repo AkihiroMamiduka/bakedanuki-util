@@ -10,6 +10,97 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 def main():
     nodes = bdu.Nodes()
+    # create
+    #   transform
+    #       a
+    trsf_a_0 = nodes.create.transform(name="trsf_a_0")
+    trsf_a_1, _ = nodes.create.with_transform.locator(
+        name="trsf_a_1", parent=trsf_a_0
+    )
+    #       b
+    trsf_b_0 = nodes.create.transform(name="trsf_b_0")
+    trsf_b_1, _ = nodes.create.with_transform.locator(
+        name="trsf_b_1", parent=trsf_b_0
+    )
+    #   joint
+    #       a
+    joint_a_0 = nodes.create.joint(name="jnt_a_0")
+    joint_a_1 = nodes.create.joint(name="jnt_a_1", parent=joint_a_0)
+    #       b
+    joint_b_0 = nodes.create.joint(name="jnt_b_0")
+    joint_b_1 = nodes.create.joint(name="jnt_b_1", parent=joint_b_0)
+
+    # set
+    t_0 = (random.random(), random.random(), random.random())
+    r_0 = (random.random(), random.random(), random.random())
+    jo_0 = (random.random(), random.random(), random.random())
+    t_1 = (random.random(), random.random(), random.random())
+    r_1 = (random.random(), random.random(), random.random())
+    jo_1 = (random.random(), random.random(), random.random())
+    #   transform
+    #       0
+    #           t
+    trsf_a_0.t.set(t_0)
+    trsf_b_0.t.set(t_0)
+    #           r
+    trsf_a_0.r.set(r_0)
+    trsf_b_0.r.set(r_0)
+    #       1
+    #           t
+    trsf_a_1.t.set(t_1)
+    trsf_b_1.t.set(t_1)
+    #           r
+    trsf_a_1.r.set(r_1)
+    trsf_b_1.r.set(r_1)
+    #   joint
+    #       0
+    #           t
+    joint_a_0.t.set(t_0)
+    joint_b_0.t.set(t_0)
+    #           r
+    joint_a_0.r.set(r_0)
+    joint_b_0.r.set(r_0)
+    #           jo
+    joint_a_0.jo.set(jo_0)
+    joint_b_0.jo.set(jo_0)
+    #       1
+    #           t
+    joint_a_1.t.set(t_1)
+    joint_b_1.t.set(t_1)
+    #           r
+    joint_a_1.r.set(r_1)
+    joint_b_1.r.set(r_1)
+    #           r
+    joint_a_1.jo.set(jo_1)
+    joint_b_1.jo.set(jo_1)
+
+    # do_it
+    nodes.modifier_manager.do_it_dag()
+    nodes.modifier_manager.do_it_dg()
+
+    # round
+    #   transform
+    trsf_b_0.round_translate(3, compensate_children=True)
+    trsf_b_0.round_rotate(3, compensate_children=True)
+    #   joint
+    joint_b_0.round_translate(3, compensate_children=True)
+    joint_b_0.round_rotate(
+        3,
+        compensate_children=True,
+        compensate_child_translate=True,
+    )
+    joint_b_0.round_joint_orient(
+        3,
+        compensate_children=True,
+        compensate_child_translate=True,
+    )
+
+    # do_it
+    nodes.modifier_manager.do_it_dg()
+
+
+def match():
+    nodes = bdu.Nodes()
     # translate
     #   src
     src_t_space = nodes.create.transform(name="src_t_space")
