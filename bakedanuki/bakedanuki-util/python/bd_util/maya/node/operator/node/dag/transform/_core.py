@@ -222,6 +222,19 @@ class Transform(GeneratedTransform):
             cast(ScalarPlugProtocol, self.rotateZ),
         )
 
+    def _rotate_axis_value_plugs(
+        self,
+    ) -> tuple[
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
+    ]:
+        return (
+            cast(ScalarPlugProtocol, self.rotateAxisX),
+            cast(ScalarPlugProtocol, self.rotateAxisY),
+            cast(ScalarPlugProtocol, self.rotateAxisZ),
+        )
+
     @staticmethod
     def _queue_value_changes(changes: tuple[ValueChange, ...]) -> None:
         for plug, value in changes:
@@ -258,6 +271,29 @@ class Transform(GeneratedTransform):
         transformation.setRotation(
             self._rotation_to_euler(rotation, self.rotateOrder.get())
         )
+        return transformation
+
+    def _transformation_with_rotate_axis(
+        self,
+        rotate_axis: _RotationValue,
+    ) -> om.MTransformationMatrix:
+        transformation = om.MFnTransform(self.m_obj).transformation()
+        current_rotate_axis = self.rotateAxis.get().as_tuple()
+        proxy_rotation = (
+            self._rotation_to_quaternion(
+                current_rotate_axis,
+                om.MEulerRotation.kXYZ,
+            ).inverse()
+            * self._rotation_to_quaternion(
+                rotate_axis,
+                om.MEulerRotation.kXYZ,
+            )
+            * self._rotation_to_quaternion(
+                self.rotate.get().as_tuple(),
+                self.rotateOrder.get(),
+            )
+        )
+        transformation.setRotation(proxy_rotation)
         return transformation
 
     def _set_with_child_compensation(
@@ -493,6 +529,139 @@ class Transform(GeneratedTransform):
         return self.set_translate(
             target_translate,
             compensate_children=compensate_children,
+        )
+
+    @overload
+    def set_rotate_axis(
+        self,
+        value: Sequence[float],
+        /,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self: ...
+
+    @overload
+    def set_rotate_axis(
+        self,
+        value: float,
+        y: float,
+        z: float,
+        /,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self: ...
+
+    def set_rotate_axis(
+        self,
+        value: float | Sequence[float],
+        /,
+        *values: float,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """``rotateAxis`` を設定し、必要に応じて子のworld姿勢を補償する。
+
+        Args:
+            value: 3成分の値、またはX成分。
+            values: ``value`` がX成分の場合のY、Z成分。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            値の単位はdegreeで、回転順は固定XYZ。Transform子は ``rotate``、
+            Joint子は既定で ``rotate``を補償する。変更は
+            ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
+        rotate_axis = self._normalize_vector3_value(
+            value,
+            values,
+            "set_rotate_axis",
+        )
+        compensate_children = self._require_compensate_children(
+            compensate_children
+        )
+        compensate_child_translate = self._require_compensate_child_translate(
+            compensate_child_translate
+        )
+        joint_child_compensation_attr = (
+            self._require_joint_child_compensation_attr(
+                joint_child_compensation_attr
+            )
+        )
+        if compensate_child_translate and not compensate_children:
+            raise ValueError(
+                "compensate_child_translate=True requires "
+                "compensate_children=True"
+            )
+        current_rotate_axis = self.rotateAxis.get().as_tuple()
+        parent_changes = self._value_changes(
+            self._rotate_axis_value_plugs(),
+            current_rotate_axis,
+            rotate_axis,
+        )
+        if not parent_changes:
+            return self
+        if not compensate_children:
+            self._validate_rotation_m_plugs(
+                tuple(plug.plug for plug, _ in parent_changes)
+            )
+            self._queue_value_changes(parent_changes)
+            return self
+
+        target_transformation = self._transformation_with_rotate_axis(
+            rotate_axis
+        )
+        return self._set_with_child_compensation(
+            parent_changes=parent_changes,
+            parent_changes_are_rotation=True,
+            target_local_matrix=target_transformation.asMatrix(),
+            compensate_child_rotation=True,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
+
+    def round_rotate_axis(
+        self,
+        ndigits: int = 0,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """``rotateAxis`` を丸め、必要に応じて子のworld姿勢を補償する。
+
+        Args:
+            ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            Python組み込みの ``round()`` と同じ偶数丸めを使用する。
+            値の単位はdegreeで、回転順は固定XYZ。Transform子は ``rotate``、
+            Joint子は既定で ``rotate``を補償する。変更は
+            ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
+        current_rotate_axis = self.rotateAxis.get().as_tuple()
+        target_rotate_axis = self._rounded_values(
+            current_rotate_axis,
+            ndigits,
+        )
+        return self.set_rotate_axis(
+            target_rotate_axis,
+            compensate_children=compensate_children,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
         )
 
     @overload

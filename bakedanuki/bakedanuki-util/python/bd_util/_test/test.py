@@ -33,9 +33,11 @@ def main():
     # set
     t_0 = (random.random(), random.random(), random.random())
     r_0 = (random.random(), random.random(), random.random())
+    ra_0 = (random.random(), random.random(), random.random())
     jo_0 = (random.random(), random.random(), random.random())
     t_1 = (random.random(), random.random(), random.random())
     r_1 = (random.random(), random.random(), random.random())
+    ra_1 = (random.random(), random.random(), random.random())
     jo_1 = (random.random(), random.random(), random.random())
     #   transform
     #       0
@@ -45,6 +47,9 @@ def main():
     #           r
     trsf_a_0.r.set(r_0)
     trsf_b_0.r.set(r_0)
+    #           ra
+    trsf_a_0.ra.set(ra_0)
+    trsf_b_0.ra.set(ra_0)
     #       1
     #           t
     trsf_a_1.t.set(t_1)
@@ -52,6 +57,9 @@ def main():
     #           r
     trsf_a_1.r.set(r_1)
     trsf_b_1.r.set(r_1)
+    #           ra
+    trsf_a_1.ra.set(ra_1)
+    trsf_b_1.ra.set(ra_1)
     #   joint
     #       0
     #           t
@@ -60,6 +68,9 @@ def main():
     #           r
     joint_a_0.r.set(r_0)
     joint_b_0.r.set(r_0)
+    #           ra
+    joint_a_0.ra.set(ra_0)
+    joint_b_0.ra.set(ra_0)
     #           jo
     joint_a_0.jo.set(jo_0)
     joint_b_0.jo.set(jo_0)
@@ -70,7 +81,10 @@ def main():
     #           r
     joint_a_1.r.set(r_1)
     joint_b_1.r.set(r_1)
-    #           r
+    #           ra
+    joint_a_1.ra.set(ra_1)
+    joint_b_1.ra.set(ra_1)
+    #           jo
     joint_a_1.jo.set(jo_1)
     joint_b_1.jo.set(jo_1)
 
@@ -90,6 +104,14 @@ def main():
         compensate_child_translate=True,
     )
     nodes.modifier_manager.do_it_dg()
+    trsf_b_0.set_rotate_axis(
+        180,
+        225,
+        270,
+        compensate_children=True,
+        compensate_child_translate=True,
+    )
+    nodes.modifier_manager.do_it_dg()
     #   joint
     joint_b_0.set_translate(1, 2, 3, compensate_children=True)
     nodes.modifier_manager.do_it_dg()
@@ -105,6 +127,14 @@ def main():
         45,
         90,
         135,
+        compensate_children=True,
+        compensate_child_translate=True,
+    )
+    nodes.modifier_manager.do_it_dg()
+    joint_b_0.set_rotate_axis(
+        180,
+        225,
+        270,
         compensate_children=True,
         compensate_child_translate=True,
     )

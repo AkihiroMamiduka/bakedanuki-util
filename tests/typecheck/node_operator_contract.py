@@ -1276,6 +1276,22 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     assert_type(transform.set_translate((1.0, 2.0, 3.0)), Transform)
     assert_type(transform.set_translate(1.0, 2.0, 3.0), Transform)
     assert_type(joint.set_translate((1.0, 2.0, 3.0)), Joint)
+    assert_type(
+        transform.set_rotate_axis((10.0, 20.0, 30.0)),
+        Transform,
+    )
+    assert_type(
+        transform.set_rotate_axis(
+            10.0,
+            20.0,
+            30.0,
+            compensate_children=True,
+            compensate_child_translate=True,
+            joint_child_compensation_attr="jointOrient",
+        ),
+        Transform,
+    )
+    assert_type(joint.set_rotate_axis((10.0, 20.0, 30.0)), Joint)
     assert_type(transform.set_rotate((10.0, 20.0, 30.0)), Transform)
     assert_type(
         transform.set_rotate(
@@ -1301,6 +1317,10 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
         Joint,
     )
     transform.set_translate(1.0, 2.0)  # pyright: ignore[reportCallIssue]
+    transform.set_rotate_axis(  # pyright: ignore[reportCallIssue]
+        10.0,
+        20.0,
+    )
     transform.set_rotate("invalid")  # pyright: ignore[reportArgumentType]
     transform.set_joint_orient(  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
         (10.0, 20.0, 30.0)
@@ -1308,6 +1328,16 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     assert_type(transform.round_translate(3), Transform)
     assert_type(
         transform.round_translate(3, compensate_children=True),
+        Transform,
+    )
+    assert_type(transform.round_rotate_axis(3), Transform)
+    assert_type(
+        transform.round_rotate_axis(
+            3,
+            compensate_children=True,
+            compensate_child_translate=True,
+            joint_child_compensation_attr="jointOrient",
+        ),
         Transform,
     )
     assert_type(transform.round_rotate(3), Transform)
@@ -1325,6 +1355,7 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
         Transform,
     )
     assert_type(joint.round_translate(3), Joint)
+    assert_type(joint.round_rotate_axis(3), Joint)
     assert_type(joint.round_rotate(3), Joint)
     assert_type(joint.round_joint_orient(3), Joint)
     assert_type(
@@ -1337,6 +1368,10 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
         Joint,
     )
     transform.round_translate(3, False)  # pyright: ignore[reportCallIssue]
+    transform.round_rotate_axis(
+        3,
+        joint_child_compensation_attr="rotation",  # pyright: ignore[reportArgumentType]
+    )
     transform.round_rotate(
         3,
         compensate_children=1,  # pyright: ignore[reportArgumentType]

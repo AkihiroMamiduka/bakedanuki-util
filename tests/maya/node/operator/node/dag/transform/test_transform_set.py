@@ -9,6 +9,18 @@ pytestmark = pytest.mark.maya
 _SET_CASES = (
     ("transform", "set_translate", "translate", (4.125, -6.25, 8.5)),
     ("joint", "set_translate", "translate", (4.125, -6.25, 8.5)),
+    (
+        "transform",
+        "set_rotate_axis",
+        "rotateAxis",
+        (19.125, -28.25, 37.5),
+    ),
+    (
+        "joint",
+        "set_rotate_axis",
+        "rotateAxis",
+        (19.125, -28.25, 37.5),
+    ),
     ("transform", "set_rotate", "rotate", (41.25, -52.5, 63.75)),
     ("joint", "set_rotate", "rotate", (41.25, -52.5, 63.75)),
     (
@@ -20,6 +32,18 @@ _SET_CASES = (
 )
 
 _ROTATION_SET_CASES = (
+    (
+        "transform",
+        "set_rotate_axis",
+        "rotateAxis",
+        (19.125, -28.25, 37.5),
+    ),
+    (
+        "joint",
+        "set_rotate_axis",
+        "rotateAxis",
+        (19.125, -28.25, 37.5),
+    ),
     ("transform", "set_rotate", "rotate", (41.25, -52.5, 63.75)),
     ("joint", "set_rotate", "rotate", (41.25, -52.5, 63.75)),
     (
@@ -326,6 +350,43 @@ def test_rotation_set_selects_joint_child_attr_without_changing_translate(
         )
 
 
+@pytest.mark.parametrize("parent_type", ("transform", "joint"))
+def test_set_rotate_axis_compensates_with_gimbal_locked_target(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    parent_type,
+):
+    import bd_util as bdu
+
+    parent, transform_child, joint_child = _create_set_hierarchy(
+        maya_cmds,
+        maya_om,
+        parent_type,
+    )
+    original_world_matrices = {
+        child: _matrix(maya_cmds, child)
+        for child in (transform_child, joint_child)
+    }
+    nodes = bdu.Nodes()
+    node = getattr(nodes.existing, parent_type)(parent)
+
+    node.set_rotate_axis(
+        45.0,
+        90.0,
+        135.0,
+        compensate_children=True,
+        compensate_child_translate=True,
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    assert maya_cmds.getAttr(f"{parent}.rotateAxis")[0] == pytest.approx(
+        (45.0, 90.0, 135.0)
+    )
+    for child, original_world_matrix in original_world_matrices.items():
+        _assert_world_pose(maya_cmds, maya_om, child, original_world_matrix)
+
+
 @pytest.mark.parametrize(
     "joint_child_compensation_attr",
     ("rotate", "jointOrient"),
@@ -448,7 +509,12 @@ def test_rotate_compensation_keeps_equivalent_euler_near_gimbal_lock(
 
 @pytest.mark.parametrize(
     "method_name",
-    ("set_translate", "set_rotate", "set_joint_orient"),
+    (
+        "set_translate",
+        "set_rotate_axis",
+        "set_rotate",
+        "set_joint_orient",
+    ),
 )
 def test_node_set_rejects_invalid_vector_values(
     new_scene,

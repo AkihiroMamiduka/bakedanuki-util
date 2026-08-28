@@ -814,19 +814,26 @@ srcのworld姿勢をdstの実効親空間へ変換して得た目標回転を`Q_
 
 ## 子のworld姿勢・位置を任意に補償する属性値設定と丸め
 
-`Transform`は`set_translate()` / `set_rotate()`、`Joint`はこれらに加えて
-`set_joint_orient()`を持ちます。3成分sequenceまたは3つのscalarを指定できます。
+`Transform`は`set_translate()` / `set_rotate_axis()` / `set_rotate()`、`Joint`は
+これらに加えて`set_joint_orient()`を持ちます。3成分sequenceまたは3つのscalarを
+指定できます。
 
 ```python
 transform.set_translate((1.0, 2.0, 3.0))
+transform.set_rotate_axis((5.0, 0.0, 0.0))
 transform.set_rotate(10.0, 20.0, 30.0)
 joint.set_joint_orient((0.0, 15.0, 0.0))
 mod.do_it_dg()
 ```
 
-値はlocal属性値として扱い、`translate`はcentimeter、`rotate` / `jointOrient`は
-degree単位です。既定では子を変更せず、対象属性だけを設定します。各メソッドは自身を
-返し、変更を現在の`MDGModifier`へ積みます。`do_it_dg()`は自動実行しません。
+値はlocal属性値として扱い、`translate`はcentimeter、`rotateAxis` / `rotate` /
+`jointOrient`はdegree単位です。`rotateAxis` / `jointOrient`の回転順は固定XYZ、
+`rotate`は現在の`rotateOrder`です。既定では子を変更せず、対象属性だけを設定します。
+各メソッドは自身を返し、変更を現在の`MDGModifier`へ積みます。`do_it_dg()`は
+自動実行しません。
+
+`set_rotate_axis()`は自身の姿勢を変更する通常の値設定です。自身の姿勢を維持して
+差分を`rotate`で吸収する`set_rotate_axis_with_rotate()`とは用途が異なります。
 
 `node.translate.set()`などはplug値を設定する低レベルAPIです。`node.set_translate()`
 などは、DAG階層の補償を選択できる高レベルAPIです。
@@ -836,6 +843,7 @@ degree単位です。既定では子を変更せず、対象属性だけを設�
 
 ```python
 transform.round_translate(3)
+transform.round_rotate_axis(3)
 transform.round_rotate(3)
 
 joint.round_joint_orient(3)
@@ -849,6 +857,7 @@ world位置を維持します。回転系メソッドは、既定では子のwor
 
 ```python
 transform.set_translate((1.0, 2.0, 3.0), compensate_children=True)
+transform.set_rotate_axis((5.0, 0.0, 0.0), compensate_children=True)
 transform.set_rotate((10.0, 20.0, 30.0), compensate_children=True)
 joint.set_joint_orient((0.0, 15.0, 0.0), compensate_children=True)
 mod.do_it_dg()
@@ -880,6 +889,7 @@ mod.do_it_dg()
 | メソッド | 親の変更属性 | Transform子 | Joint子 | 維持対象 |
 | --- | --- | --- | --- | --- |
 | `set_translate()` / `round_translate()` | `translate` | `translate` | `translate` | world位置 |
+| `set_rotate_axis()` / `round_rotate_axis()` | `rotateAxis` | `rotate` | `rotate` | world姿勢 |
 | `set_rotate()` / `round_rotate()` | `rotate` | `rotate` | `rotate` | world姿勢 |
 | `set_joint_orient()` / `round_joint_orient()` | `jointOrient` | `rotate` | `rotate` | world姿勢 |
 
@@ -899,11 +909,11 @@ joint.round_joint_orient(
 | `"rotate"` | `rotate` | `jointOrient` |
 | `"jointOrient"` | `jointOrient` | `rotate` |
 
-`rotateAxis`、childのscale / shear、`offsetParentMatrix`は変更しません。Euler補償値は
+子の`rotateAxis`、scale / shear、`offsetParentMatrix`は変更しません。Euler補償値は
 選択した属性の現在値に近い等価解を選びます。
 
-`jointOrient`変更後のlocal matrix予測では、現在の`rotate`と変更前後の
-`jointOrient`から代理回転quaternionを計算し、Euler値を経由せずに使用します。
+`rotateAxis` / `jointOrient`変更後のlocal matrix予測では、現在の回転値と変更前後の
+対象属性から代理回転quaternionを計算し、Euler値を経由せずに使用します。
 属性へ設定するEuler補償値は、現在値に近い解が元のquaternionと等価であることを
 確認し、ジンバルロック付近で等価性を失う場合はfull spin単位の近傍解へ
 fallbackします。

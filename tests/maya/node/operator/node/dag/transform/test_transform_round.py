@@ -11,6 +11,8 @@ pytestmark = pytest.mark.maya
 _ROUND_CASES = (
     ("transform", "round_translate", "translate"),
     ("joint", "round_translate", "translate"),
+    ("transform", "round_rotate_axis", "rotateAxis"),
+    ("joint", "round_rotate_axis", "rotateAxis"),
     ("transform", "round_rotate", "rotate"),
     ("joint", "round_rotate", "rotate"),
     ("joint", "round_joint_orient", "jointOrient"),
@@ -88,7 +90,12 @@ def _create_round_hierarchy(maya_cmds, maya_om, parent_type):
     maya_cmds.setAttr(f"{parent}.translate", 1.23456, -2.34567, 3.45678)
     maya_cmds.setAttr(f"{parent}.rotate", 17.23456, -23.34567, 31.45678)
     maya_cmds.setAttr(f"{parent}.rotateOrder", 3)
-    maya_cmds.setAttr(f"{parent}.rotateAxis", 4.0, -5.0, 6.0)
+    maya_cmds.setAttr(
+        f"{parent}.rotateAxis",
+        4.12345,
+        -5.23456,
+        6.34567,
+    )
     maya_cmds.setAttr(f"{parent}.scale", 2.0, 3.0, 4.0)
     maya_cmds.setAttr(f"{parent}.shear", 0.2, -0.1, 0.15)
     maya_cmds.setAttr(f"{parent}.rotatePivot", 0.7, -0.8, 0.9)
@@ -229,6 +236,8 @@ def test_node_round_compensates_direct_child_world_pose_and_undo_redo(
 @pytest.mark.parametrize(
     ("parent_type", "method_name", "attribute_name"),
     (
+        ("transform", "round_rotate_axis", "rotateAxis"),
+        ("joint", "round_rotate_axis", "rotateAxis"),
         ("transform", "round_rotate", "rotate"),
         ("joint", "round_rotate", "rotate"),
         ("joint", "round_joint_orient", "jointOrient"),
@@ -250,7 +259,12 @@ def test_rotation_round_compensation_supports_all_rotate_orders(
     child = maya_cmds.createNode("joint", name="child", parent=parent)
     maya_cmds.setAttr(f"{parent}.rotateOrder", rotate_order)
     maya_cmds.setAttr(f"{parent}.rotate", 63.23456, -47.34567, 28.45678)
-    maya_cmds.setAttr(f"{parent}.rotateAxis", 7.0, -11.0, 13.0)
+    maya_cmds.setAttr(
+        f"{parent}.rotateAxis",
+        7.23456,
+        -11.34567,
+        13.45678,
+    )
     maya_cmds.setAttr(f"{child}.translate", 2.0, 3.0, 4.0)
     maya_cmds.setAttr(f"{child}.rotateOrder", rotate_order)
     maya_cmds.setAttr(f"{child}.rotate", -31.0, 42.0, -53.0)
@@ -345,6 +359,8 @@ def test_node_round_defaults_to_no_child_compensation(
 @pytest.mark.parametrize(
     ("parent_type", "method_name"),
     (
+        ("transform", "round_rotate_axis"),
+        ("joint", "round_rotate_axis"),
         ("transform", "round_rotate"),
         ("joint", "round_rotate"),
         ("joint", "round_joint_orient"),
@@ -410,6 +426,7 @@ def test_node_round_rejects_non_bool_compensate_children(
 
     for method_name in (
         "round_translate",
+        "round_rotate_axis",
         "round_rotate",
         "round_joint_orient",
     ):
@@ -421,7 +438,7 @@ def test_node_round_rejects_non_bool_compensate_children(
 
 @pytest.mark.parametrize(
     "method_name",
-    ("round_rotate", "round_joint_orient"),
+    ("round_rotate_axis", "round_rotate", "round_joint_orient"),
 )
 def test_rotation_round_rejects_invalid_child_compensation_options(
     new_scene,

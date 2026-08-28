@@ -99,10 +99,11 @@
   `match_position()`と、world姿勢を`rotate` / `rotateAxis` / `jointOrient`の
   いずれか1属性だけで合わせる属性別マッチAPIを追加。部分軸のworld / local /
   object基準、offsetParentMatrix、全rotateOrder、undo / redoをMaya 2025上で検証。
-- `Transform` / `Joint`に、`translate` / `rotate` / `jointOrient`の設定・丸めを行う
-  node-level APIを追加。丸めは共通の値設定経路を使用。子補償は既定で無効とし、
-  world姿勢、world位置、Joint子の`rotate` / `jointOrient`補償を個別に選択可能。
-  全rotateOrder、undo / redo、lock・入力接続・instanced DAGの拒否をMaya 2025上で検証。
+- `Transform` / `Joint`に、`translate` / `rotateAxis` / `rotate` / `jointOrient`の
+  設定・丸めを行うnode-level APIを追加。丸めは共通の値設定経路を使用。子補償は
+  既定で無効とし、world姿勢、world位置、Joint子の`rotate` / `jointOrient`補償を
+  個別に選択可能。全rotateOrder、undo / redo、lock・入力接続・instanced DAGの拒否を
+  Maya 2025上で検証。
 
 ## 完了済み: DAG / shape API roadmap
 
