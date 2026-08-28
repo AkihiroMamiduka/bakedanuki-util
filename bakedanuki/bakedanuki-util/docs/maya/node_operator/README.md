@@ -812,10 +812,27 @@ srcのworld姿勢をdstの実効親空間へ変換して得た目標回転を`Q_
 | Jointの`match_rotation_to_rotate_axis()` | `A_new = Q_target * inverse(J) * inverse(R)` |
 | Jointの`match_rotation_to_joint_orient()` | `J_new = inverse(R) * inverse(A) * Q_target` |
 
-## 子のworld姿勢・位置を任意に補償する丸め
+## 子のworld姿勢・位置を任意に補償する属性値設定と丸め
 
-`Transform`は`translate`または`rotate`を丸められます。`Joint`では
-`jointOrient`も対象にできます。既定では子を変更せず、対象属性だけを丸めます。
+`Transform`は`set_translate()` / `set_rotate()`、`Joint`はこれらに加えて
+`set_joint_orient()`を持ちます。3成分sequenceまたは3つのscalarを指定できます。
+
+```python
+transform.set_translate((1.0, 2.0, 3.0))
+transform.set_rotate(10.0, 20.0, 30.0)
+joint.set_joint_orient((0.0, 15.0, 0.0))
+mod.do_it_dg()
+```
+
+値はlocal属性値として扱い、`translate`はcentimeter、`rotate` / `jointOrient`は
+degree単位です。既定では子を変更せず、対象属性だけを設定します。各メソッドは自身を
+返し、変更を現在の`MDGModifier`へ積みます。`do_it_dg()`は自動実行しません。
+
+`node.translate.set()`などはplug値を設定する低レベルAPIです。`node.set_translate()`
+などは、DAG階層の補償を選択できる高レベルAPIです。
+
+丸めメソッドも同じ値設定経路を使用します。Python組み込みの`round()`と同じ
+偶数丸めで目標値を計算し、対応する`set_*()`へ渡します。
 
 ```python
 transform.round_translate(3)
@@ -825,27 +842,24 @@ joint.round_joint_orient(3)
 mod.do_it_dg()
 ```
 
-Python組み込みの`round()`と同じ偶数丸めを使用します。`translate`はcentimeter、
-`rotate` / `jointOrient`はdegree単位です。各メソッドは自身を返し、変更は現在の
-`MDGModifier`へ積みます。`do_it_dg()`は自動実行しません。
-
 直接のTransform / Joint子を補償する場合は、`compensate_children=True`を
-明示します。`round_translate()`は子の`translate`を変更してworld位置を維持します。
-回転系メソッドは、既定では子のworld姿勢だけを維持し、子の`translate`を変更しません。
+明示します。`set_translate()` / `round_translate()`は子の`translate`を変更して
+world位置を維持します。回転系メソッドは、既定では子のworld姿勢だけを維持し、
+子の`translate`を変更しません。
 
 ```python
-transform.round_translate(3, compensate_children=True)
-transform.round_rotate(3, compensate_children=True)
-joint.round_joint_orient(3, compensate_children=True)
+transform.set_translate((1.0, 2.0, 3.0), compensate_children=True)
+transform.set_rotate((10.0, 20.0, 30.0), compensate_children=True)
+joint.set_joint_orient((0.0, 15.0, 0.0), compensate_children=True)
 mod.do_it_dg()
 ```
 
-回転を丸めながら子のworld位置も維持する場合は、子の`translate`補償を追加で
-有効にします。
+回転値を設定しながら子のworld位置も維持する場合は、子の`translate`補償を
+追加で有効にします。丸めメソッドでも同じoptionを使用できます。
 
 ```python
-transform.round_rotate(
-    3,
+transform.set_rotate(
+    (10.0, 20.0, 30.0),
     compensate_children=True,
     compensate_child_translate=True,
 )
@@ -860,13 +874,14 @@ mod.do_it_dg()
 `compensate_child_translate=True`は`compensate_children=True`と組み合わせる必要があり、
 単独で指定すると`ValueError`になります。
 
-補償対象と、既定で変更する子属性は次の通りです。
+補償対象と、既定で変更する子属性は次の通りです。`set_*()`と対応する`round_*()`は
+同じ補償仕様です。
 
 | メソッド | 親の変更属性 | Transform子 | Joint子 | 維持対象 |
 | --- | --- | --- | --- | --- |
-| `round_translate()` | `translate` | `translate` | `translate` | world位置 |
-| `round_rotate()` | `rotate` | `rotate` | `rotate` | world姿勢 |
-| `round_joint_orient()` | `jointOrient` | `rotate` | `rotate` | world姿勢 |
+| `set_translate()` / `round_translate()` | `translate` | `translate` | `translate` | world位置 |
+| `set_rotate()` / `round_rotate()` | `rotate` | `rotate` | `rotate` | world姿勢 |
+| `set_joint_orient()` / `round_joint_orient()` | `jointOrient` | `rotate` | `rotate` | world姿勢 |
 
 回転系メソッドでは、Joint子の補償先を`joint_child_compensation_attr`で選択できます。
 既定値は`"rotate"`です。
@@ -887,6 +902,12 @@ joint.round_joint_orient(
 `rotateAxis`、childのscale / shear、`offsetParentMatrix`は変更しません。Euler補償値は
 選択した属性の現在値に近い等価解を選びます。
 
+`jointOrient`変更後のlocal matrix予測では、現在の`rotate`と変更前後の
+`jointOrient`から代理回転quaternionを計算し、Euler値を経由せずに使用します。
+属性へ設定するEuler補償値は、現在値に近い解が元のquaternionと等価であることを
+確認し、ジンバルロック付近で等価性を失う場合はfull spin単位の近傍解へ
+fallbackします。
+
 維持する位置は`worldMatrix`の移動成分、姿勢は`MTransformationMatrix`が返す
 quaternionです。`compensate_child_translate=False`では、非ゼロrotate pivotを含めて
 子のworld位置を保証しません。位置補償を有効にした場合も、非一様scaleやshearを含む
@@ -904,10 +925,10 @@ animation curveを含む入力接続を持つ場合は、変更を積む前に`R
 DAG変更は読み取れないため、依存する操作の間で`mod.do_it_dg()`または
 `mod.do_it_dag()`を実行してください。
 
-この操作は丸め差分を直接の子へ移します。補償後の子も続けて丸めると差分はさらに
-下の階層へ移り、最終的にはleafが差分を保持するか、leafのworld poseが変化します。
-階層内のすべてのlocal値を丸めながら、全nodeのworld poseを同時に維持する操作では
-ありません。
+子補償を有効にした設定・丸めは、親の変更差分を直接の子へ移します。補償後の子も
+続けて変更すると差分はさらに下の階層へ移り、最終的にはleafが差分を保持するか、
+leafのworld poseが変化します。階層内のすべてのlocal値を指定値へ変更しながら、
+全nodeのworld poseを同時に維持する操作ではありません。
 
 ## DAG の行列変換
 

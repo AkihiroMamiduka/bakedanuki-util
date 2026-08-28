@@ -78,24 +78,36 @@ def main():
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    # round
+    # set
     #   transform
-    trsf_b_0.round_translate(3, compensate_children=True)
-    trsf_b_0.round_rotate(3, compensate_children=True)
+    trsf_b_0.set_translate(1, 2, 3, compensate_children=True)
+    nodes.modifier_manager.do_it_dg()
+    trsf_b_0.set_rotate(
+        45,
+        90,
+        135,
+        compensate_children=True,
+        compensate_child_translate=True,
+    )
+    nodes.modifier_manager.do_it_dg()
     #   joint
-    joint_b_0.round_translate(3, compensate_children=True)
-    joint_b_0.round_rotate(
-        3,
+    joint_b_0.set_translate(1, 2, 3, compensate_children=True)
+    nodes.modifier_manager.do_it_dg()
+    joint_b_0.set_rotate(
+        45,
+        90,
+        135,
         compensate_children=True,
         compensate_child_translate=True,
     )
-    joint_b_0.round_joint_orient(
-        3,
+    nodes.modifier_manager.do_it_dg()
+    joint_b_0.set_joint_orient(
+        45,
+        90,
+        135,
         compensate_children=True,
         compensate_child_translate=True,
     )
-
-    # do_it
     nodes.modifier_manager.do_it_dg()
 
 

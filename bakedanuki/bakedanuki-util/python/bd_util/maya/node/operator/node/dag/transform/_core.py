@@ -16,14 +16,14 @@ _PositionSpace = Literal["world", "local", "object"]
 JointChildCompensationAttr = Literal["rotate", "jointOrient"]
 
 
-class RoundScalarPlugProtocol(Protocol):
+class ScalarPlugProtocol(Protocol):
     @property
     def plug(self) -> om.MPlug: ...
 
     def set(self, value: float) -> None: ...
 
 
-RoundChange = tuple[RoundScalarPlugProtocol, float]
+ValueChange = tuple[ScalarPlugProtocol, float]
 
 _POSITION_AXES = frozenset(("x", "y", "z", "xy", "xz", "yz", "xyz"))
 _POSITION_AXIS_INDEX = {"x": 0, "y": 1, "z": 2}
@@ -45,9 +45,21 @@ class Transform(GeneratedTransform):
         euler = quaternion.asEulerRotation()
         euler.reorderIt(order)
         if closest_to is not None:
-            euler = euler.closestSolution(
-                Transform._rotation_to_euler(closest_to, order)
+            closest_to_euler = Transform._rotation_to_euler(
+                closest_to,
+                order,
             )
+            closest_euler = euler.closestSolution(closest_to_euler)
+            if not quaternion.isEquivalent(
+                closest_euler.asQuaternion(),
+                1.0e-10,
+            ):
+                closest_euler = euler.closestCut(closest_to_euler)
+            if quaternion.isEquivalent(
+                closest_euler.asQuaternion(),
+                1.0e-10,
+            ):
+                euler = closest_euler
         return (
             om.MAngle(euler.x, om.MAngle.kRadians).asDegrees(),
             om.MAngle(euler.y, om.MAngle.kRadians).asDegrees(),
@@ -75,7 +87,7 @@ class Transform(GeneratedTransform):
         return cls._rotation_to_euler(rotation, order).asQuaternion()
 
     @staticmethod
-    def _normalize_rotation_value(
+    def _normalize_vector3_value(
         value: float | Sequence[float],
         values: tuple[float, ...],
         method_name: str,
@@ -153,18 +165,18 @@ class Transform(GeneratedTransform):
         return value
 
     @staticmethod
-    def _round_changes(
+    def _value_changes(
         plugs: tuple[
-            RoundScalarPlugProtocol,
-            RoundScalarPlugProtocol,
-            RoundScalarPlugProtocol,
+            ScalarPlugProtocol,
+            ScalarPlugProtocol,
+            ScalarPlugProtocol,
         ],
         current_values: _Vector3Value,
         target_values: _Vector3Value,
         *,
         use_tolerance: bool = False,
-    ) -> tuple[RoundChange, ...]:
-        changes: list[RoundChange] = []
+    ) -> tuple[ValueChange, ...]:
+        changes: list[ValueChange] = []
         for plug, current_value, target_value in zip(
             plugs,
             current_values,
@@ -184,38 +196,38 @@ class Transform(GeneratedTransform):
                 changes.append((plug, target_value))
         return tuple(changes)
 
-    def _translate_round_plugs(
+    def _translate_value_plugs(
         self,
     ) -> tuple[
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
     ]:
         return (
-            cast(RoundScalarPlugProtocol, self.translateX),
-            cast(RoundScalarPlugProtocol, self.translateY),
-            cast(RoundScalarPlugProtocol, self.translateZ),
+            cast(ScalarPlugProtocol, self.translateX),
+            cast(ScalarPlugProtocol, self.translateY),
+            cast(ScalarPlugProtocol, self.translateZ),
         )
 
-    def _rotate_round_plugs(
+    def _rotate_value_plugs(
         self,
     ) -> tuple[
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
     ]:
         return (
-            cast(RoundScalarPlugProtocol, self.rotateX),
-            cast(RoundScalarPlugProtocol, self.rotateY),
-            cast(RoundScalarPlugProtocol, self.rotateZ),
+            cast(ScalarPlugProtocol, self.rotateX),
+            cast(ScalarPlugProtocol, self.rotateY),
+            cast(ScalarPlugProtocol, self.rotateZ),
         )
 
     @staticmethod
-    def _queue_round_changes(changes: tuple[RoundChange, ...]) -> None:
+    def _queue_value_changes(changes: tuple[ValueChange, ...]) -> None:
         for plug, value in changes:
             plug.set(value)
 
-    def _child_round_rotation_values(
+    def _child_compensation_rotation_values(
         self,
         target_local_rotation: om.MQuaternion,
         joint_child_compensation_attr: JointChildCompensationAttr,
@@ -227,17 +239,17 @@ class Transform(GeneratedTransform):
             current_rotate,
         )
 
-    def _child_round_rotation_plugs(
+    def _child_compensation_rotation_plugs(
         self,
         joint_child_compensation_attr: JointChildCompensationAttr,
     ) -> tuple[
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
     ]:
-        return self._rotate_round_plugs()
+        return self._rotate_value_plugs()
 
-    def _transformation_with_child_round_rotation(
+    def _transformation_with_child_compensation_rotation(
         self,
         rotation: _RotationValue,
         joint_child_compensation_attr: JointChildCompensationAttr,
@@ -248,10 +260,10 @@ class Transform(GeneratedTransform):
         )
         return transformation
 
-    def _round_with_child_compensation(
+    def _set_with_child_compensation(
         self,
         *,
-        parent_changes: tuple[RoundChange, ...],
+        parent_changes: tuple[ValueChange, ...],
         parent_changes_are_rotation: bool,
         target_local_matrix: om.MMatrix,
         compensate_child_rotation: bool,
@@ -281,8 +293,8 @@ class Transform(GeneratedTransform):
                 "DAG nodes: " + ", ".join(instanced_children)
             )
 
-        position_changes: list[RoundChange] = []
-        rotation_changes: list[RoundChange] = []
+        position_changes: list[ValueChange] = []
+        rotation_changes: list[ValueChange] = []
         if parent_changes_are_rotation:
             rotation_changes.extend(parent_changes)
         else:
@@ -313,18 +325,20 @@ class Transform(GeneratedTransform):
                     target_local_rotation = om.MTransformationMatrix(
                         target_local_matrix_for_child
                     ).rotation(asQuaternion=True)
-                    target_child_rotation = child._child_round_rotation_values(
-                        target_local_rotation,
-                        joint_child_compensation_attr,
+                    target_child_rotation = (
+                        child._child_compensation_rotation_values(
+                            target_local_rotation,
+                            joint_child_compensation_attr,
+                        )
                     )
                     current_child_rotation = (
-                        child._current_child_round_rotation_values(
+                        child._current_child_compensation_rotation_values(
                             joint_child_compensation_attr
                         )
                     )
                     rotation_changes.extend(
-                        self._round_changes(
-                            child._child_round_rotation_plugs(
+                        self._value_changes(
+                            child._child_compensation_rotation_plugs(
                                 joint_child_compensation_attr
                             ),
                             current_child_rotation,
@@ -333,7 +347,7 @@ class Transform(GeneratedTransform):
                         )
                     )
                     child_transformation = (
-                        child._transformation_with_child_round_rotation(
+                        child._transformation_with_child_compensation_rotation(
                             target_child_rotation,
                             joint_child_compensation_attr,
                         )
@@ -357,8 +371,8 @@ class Transform(GeneratedTransform):
                         current_translate[2] + translate_delta.z,
                     )
                     position_changes.extend(
-                        self._round_changes(
-                            child._translate_round_plugs(),
+                        self._value_changes(
+                            child._translate_value_plugs(),
                             current_translate,
                             target_translate,
                             use_tolerance=True,
@@ -371,14 +385,90 @@ class Transform(GeneratedTransform):
         self._validate_rotation_m_plugs(
             tuple(plug.plug for plug, _ in rotation_changes)
         )
-        self._queue_round_changes((*position_changes, *rotation_changes))
+        self._queue_value_changes((*position_changes, *rotation_changes))
         return self
 
-    def _current_child_round_rotation_values(
+    def _current_child_compensation_rotation_values(
         self,
         joint_child_compensation_attr: JointChildCompensationAttr,
     ) -> _RotationValue:
         return self.rotate.get().as_tuple()
+
+    @overload
+    def set_translate(
+        self,
+        value: Sequence[float],
+        /,
+        *,
+        compensate_children: bool = False,
+    ) -> Self: ...
+
+    @overload
+    def set_translate(
+        self,
+        value: float,
+        y: float,
+        z: float,
+        /,
+        *,
+        compensate_children: bool = False,
+    ) -> Self: ...
+
+    def set_translate(
+        self,
+        value: float | Sequence[float],
+        /,
+        *values: float,
+        compensate_children: bool = False,
+    ) -> Self:
+        """``translate`` を設定し、必要に応じて子のworld位置を補償する。
+
+        Args:
+            value: 3成分の値、またはX成分。
+            values: ``value`` がX成分の場合のY、Z成分。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world位置を維持するように子の ``translate`` を補償する。
+
+        Notes:
+            値の単位はcentimeter。変更は ``ModifierManager.do_it_dg()`` の
+            実行時に反映される。
+        """
+        translate = self._normalize_vector3_value(
+            value,
+            values,
+            "set_translate",
+        )
+        compensate_children = self._require_compensate_children(
+            compensate_children
+        )
+        current_translate = self.translate.get().as_tuple()
+        parent_changes = self._value_changes(
+            self._translate_value_plugs(),
+            current_translate,
+            translate,
+        )
+        if not parent_changes:
+            return self
+        if not compensate_children:
+            self._validate_position_m_plugs(
+                tuple(plug.plug for plug, _ in parent_changes)
+            )
+            self._queue_value_changes(parent_changes)
+            return self
+
+        target_transformation = om.MFnTransform(self.m_obj).transformation()
+        target_transformation.setTranslation(
+            om.MVector(*translate),
+            om.MSpace.kTransform,
+        )
+        return self._set_with_child_compensation(
+            parent_changes=parent_changes,
+            parent_changes_are_rotation=False,
+            target_local_matrix=target_transformation.asMatrix(),
+            compensate_child_rotation=False,
+            compensate_child_translate=True,
+            joint_child_compensation_attr="rotate",
+        )
 
     def round_translate(
         self,
@@ -398,37 +488,112 @@ class Transform(GeneratedTransform):
             値の単位はcentimeter。変更は ``ModifierManager.do_it_dg()`` の
             実行時に反映される。
         """
+        current_translate = self.translate.get().as_tuple()
+        target_translate = self._rounded_values(current_translate, ndigits)
+        return self.set_translate(
+            target_translate,
+            compensate_children=compensate_children,
+        )
+
+    @overload
+    def set_rotate(
+        self,
+        value: Sequence[float],
+        /,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self: ...
+
+    @overload
+    def set_rotate(
+        self,
+        value: float,
+        y: float,
+        z: float,
+        /,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self: ...
+
+    def set_rotate(
+        self,
+        value: float | Sequence[float],
+        /,
+        *values: float,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """``rotate`` を設定し、必要に応じて子のworld姿勢を補償する。
+
+        Args:
+            value: 3成分の値、またはX成分。
+            values: ``value`` がX成分の場合のY、Z成分。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            値の単位はdegree。Transform子は ``rotate``、Joint子は既定で
+            ``rotate``を補償する。変更は ``ModifierManager.do_it_dg()`` の
+            実行時に反映される。
+        """
+        rotate = self._normalize_vector3_value(
+            value,
+            values,
+            "set_rotate",
+        )
         compensate_children = self._require_compensate_children(
             compensate_children
         )
-        current_translate = self.translate.get().as_tuple()
-        target_translate = self._rounded_values(current_translate, ndigits)
-        parent_changes = self._round_changes(
-            self._translate_round_plugs(),
-            current_translate,
-            target_translate,
+        compensate_child_translate = self._require_compensate_child_translate(
+            compensate_child_translate
+        )
+        joint_child_compensation_attr = (
+            self._require_joint_child_compensation_attr(
+                joint_child_compensation_attr
+            )
+        )
+        if compensate_child_translate and not compensate_children:
+            raise ValueError(
+                "compensate_child_translate=True requires "
+                "compensate_children=True"
+            )
+        current_rotate = self.rotate.get().as_tuple()
+        parent_changes = self._value_changes(
+            self._rotate_value_plugs(),
+            current_rotate,
+            rotate,
         )
         if not parent_changes:
             return self
         if not compensate_children:
-            self._validate_position_m_plugs(
+            self._validate_rotation_m_plugs(
                 tuple(plug.plug for plug, _ in parent_changes)
             )
-            self._queue_round_changes(parent_changes)
+            self._queue_value_changes(parent_changes)
             return self
 
         target_transformation = om.MFnTransform(self.m_obj).transformation()
-        target_transformation.setTranslation(
-            om.MVector(*target_translate),
-            om.MSpace.kTransform,
+        target_transformation.setRotation(
+            self._rotation_to_euler(
+                rotate,
+                self.rotateOrder.get(),
+            )
         )
-        return self._round_with_child_compensation(
+        return self._set_with_child_compensation(
             parent_changes=parent_changes,
-            parent_changes_are_rotation=False,
+            parent_changes_are_rotation=True,
             target_local_matrix=target_transformation.asMatrix(),
-            compensate_child_rotation=False,
-            compensate_child_translate=True,
-            joint_child_compensation_attr="rotate",
+            compensate_child_rotation=True,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
         )
 
     def round_rotate(
@@ -455,50 +620,11 @@ class Transform(GeneratedTransform):
             ``rotate``を補償する。変更は ``ModifierManager.do_it_dg()`` の
             実行時に反映される。
         """
-        compensate_children = self._require_compensate_children(
-            compensate_children
-        )
-        compensate_child_translate = self._require_compensate_child_translate(
-            compensate_child_translate
-        )
-        joint_child_compensation_attr = (
-            self._require_joint_child_compensation_attr(
-                joint_child_compensation_attr
-            )
-        )
-        if compensate_child_translate and not compensate_children:
-            raise ValueError(
-                "compensate_child_translate=True requires "
-                "compensate_children=True"
-            )
         current_rotate = self.rotate.get().as_tuple()
         target_rotate = self._rounded_values(current_rotate, ndigits)
-        parent_changes = self._round_changes(
-            self._rotate_round_plugs(),
-            current_rotate,
+        return self.set_rotate(
             target_rotate,
-        )
-        if not parent_changes:
-            return self
-        if not compensate_children:
-            self._validate_rotation_m_plugs(
-                tuple(plug.plug for plug, _ in parent_changes)
-            )
-            self._queue_round_changes(parent_changes)
-            return self
-
-        target_transformation = om.MFnTransform(self.m_obj).transformation()
-        target_transformation.setRotation(
-            self._rotation_to_euler(
-                target_rotate,
-                self.rotateOrder.get(),
-            )
-        )
-        return self._round_with_child_compensation(
-            parent_changes=parent_changes,
-            parent_changes_are_rotation=True,
-            target_local_matrix=target_transformation.asMatrix(),
-            compensate_child_rotation=True,
+            compensate_children=compensate_children,
             compensate_child_translate=compensate_child_translate,
             joint_child_compensation_attr=joint_child_compensation_attr,
         )
@@ -665,7 +791,7 @@ class Transform(GeneratedTransform):
         *values: float,
     ) -> Self:
         """姿勢を維持して ``rotateAxis`` を設定し、差分を ``rotate`` で吸収する。"""
-        rotate_axis = self._normalize_rotation_value(
+        rotate_axis = self._normalize_vector3_value(
             value,
             values,
             "set_rotate_axis_with_rotate",
@@ -716,7 +842,7 @@ class Transform(GeneratedTransform):
         *values: float,
     ) -> Self:
         """姿勢を維持して ``rotate`` を設定し、差分を ``rotateAxis`` で吸収する。"""
-        rotate = self._normalize_rotation_value(
+        rotate = self._normalize_vector3_value(
             value,
             values,
             "set_rotate_with_rotate_axis",

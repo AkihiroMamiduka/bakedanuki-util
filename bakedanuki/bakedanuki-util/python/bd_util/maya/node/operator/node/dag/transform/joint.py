@@ -6,7 +6,7 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from .._core import DAG
-from ._core import JointChildCompensationAttr, RoundScalarPlugProtocol
+from ._core import JointChildCompensationAttr, ScalarPlugProtocol
 from ._generated.joint import GeneratedJoint
 
 
@@ -15,20 +15,20 @@ class Joint(GeneratedJoint):
 
     NODE_TYPE = "joint"
 
-    def _joint_orient_round_plugs(
+    def _joint_orient_value_plugs(
         self,
     ) -> tuple[
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
     ]:
         return (
-            cast(RoundScalarPlugProtocol, self.jointOrientX),
-            cast(RoundScalarPlugProtocol, self.jointOrientY),
-            cast(RoundScalarPlugProtocol, self.jointOrientZ),
+            cast(ScalarPlugProtocol, self.jointOrientX),
+            cast(ScalarPlugProtocol, self.jointOrientY),
+            cast(ScalarPlugProtocol, self.jointOrientZ),
         )
 
-    def _current_child_round_rotation_values(
+    def _current_child_compensation_rotation_values(
         self,
         joint_child_compensation_attr: JointChildCompensationAttr,
     ) -> tuple[float, float, float]:
@@ -36,7 +36,7 @@ class Joint(GeneratedJoint):
             return self.rotate.get().as_tuple()
         return self.jointOrient.get().as_tuple()
 
-    def _child_round_rotation_values(
+    def _child_compensation_rotation_values(
         self,
         target_local_rotation: om.MQuaternion,
         joint_child_compensation_attr: JointChildCompensationAttr,
@@ -55,50 +55,151 @@ class Joint(GeneratedJoint):
             current_joint_orient,
         )
 
-    def _child_round_rotation_plugs(
+    def _child_compensation_rotation_plugs(
         self,
         joint_child_compensation_attr: JointChildCompensationAttr,
     ) -> tuple[
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
-        RoundScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
+        ScalarPlugProtocol,
     ]:
         if joint_child_compensation_attr == "rotate":
-            return self._rotate_round_plugs()
-        return self._joint_orient_round_plugs()
+            return self._rotate_value_plugs()
+        return self._joint_orient_value_plugs()
 
-    def _transformation_with_child_round_rotation(
+    def _transformation_with_child_compensation_rotation(
         self,
         rotation: tuple[float, float, float],
         joint_child_compensation_attr: JointChildCompensationAttr,
     ) -> om.MTransformationMatrix:
-        transformation = om.MFnTransform(self.m_obj).transformation()
-        rotate_order = self.rotateOrder.get()
         if joint_child_compensation_attr == "rotate":
+            transformation = om.MFnTransform(self.m_obj).transformation()
+            rotate_order = self.rotateOrder.get()
             transformation.setRotation(
                 self._rotation_to_euler(rotation, rotate_order)
             )
             return transformation
 
+        return self._transformation_with_joint_orient(rotation)
+
+    def _transformation_with_joint_orient(
+        self,
+        joint_orient: tuple[float, float, float],
+    ) -> om.MTransformationMatrix:
+        transformation = om.MFnTransform(self.m_obj).transformation()
+        rotate_order = self.rotateOrder.get()
         current_rotate = self.rotate.get().as_tuple()
         current_joint_orient = self.jointOrient.get().as_tuple()
-        proxy_rotate = self._quaternion_to_rotation(
+        proxy_rotation = (
             self._rotation_to_quaternion(current_rotate, rotate_order)
             * self._rotation_to_quaternion(
-                rotation,
+                joint_orient,
                 om.MEulerRotation.kXYZ,
             )
             * self._rotation_to_quaternion(
                 current_joint_orient,
                 om.MEulerRotation.kXYZ,
-            ).inverse(),
-            rotate_order,
-            current_rotate,
+            ).inverse()
         )
-        transformation.setRotation(
-            self._rotation_to_euler(proxy_rotate, rotate_order)
-        )
+        transformation.setRotation(proxy_rotation)
         return transformation
+
+    @overload
+    def set_joint_orient(
+        self,
+        value: Sequence[float],
+        /,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self: ...
+
+    @overload
+    def set_joint_orient(
+        self,
+        value: float,
+        y: float,
+        z: float,
+        /,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self: ...
+
+    def set_joint_orient(
+        self,
+        value: float | Sequence[float],
+        /,
+        *values: float,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """``jointOrient`` を設定し、必要に応じて子のworld姿勢を補償する。
+
+        Args:
+            value: 3成分の値、またはX成分。
+            values: ``value`` がX成分の場合のY、Z成分。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            値の単位はdegree。Transform子は ``rotate``、Joint子は既定で
+            ``rotate``を補償する。変更は ``ModifierManager.do_it_dg()`` の
+            実行時に反映される。
+        """
+        joint_orient = self._normalize_vector3_value(
+            value,
+            values,
+            "set_joint_orient",
+        )
+        compensate_children = self._require_compensate_children(
+            compensate_children
+        )
+        compensate_child_translate = self._require_compensate_child_translate(
+            compensate_child_translate
+        )
+        joint_child_compensation_attr = (
+            self._require_joint_child_compensation_attr(
+                joint_child_compensation_attr
+            )
+        )
+        if compensate_child_translate and not compensate_children:
+            raise ValueError(
+                "compensate_child_translate=True requires "
+                "compensate_children=True"
+            )
+        current_joint_orient = self.jointOrient.get().as_tuple()
+        parent_changes = self._value_changes(
+            self._joint_orient_value_plugs(),
+            current_joint_orient,
+            joint_orient,
+        )
+        if not parent_changes:
+            return self
+        if not compensate_children:
+            self._validate_rotation_m_plugs(
+                tuple(plug.plug for plug, _ in parent_changes)
+            )
+            self._queue_value_changes(parent_changes)
+            return self
+
+        target_transformation = self._transformation_with_joint_orient(
+            joint_orient
+        )
+        return self._set_with_child_compensation(
+            parent_changes=parent_changes,
+            parent_changes_are_rotation=True,
+            target_local_matrix=target_transformation.asMatrix(),
+            compensate_child_rotation=True,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
 
     def round_joint_orient(
         self,
@@ -124,65 +225,14 @@ class Joint(GeneratedJoint):
             ``rotate``を補償する。変更は ``ModifierManager.do_it_dg()`` の
             実行時に反映される。
         """
-        compensate_children = self._require_compensate_children(
-            compensate_children
-        )
-        compensate_child_translate = self._require_compensate_child_translate(
-            compensate_child_translate
-        )
-        joint_child_compensation_attr = (
-            self._require_joint_child_compensation_attr(
-                joint_child_compensation_attr
-            )
-        )
-        if compensate_child_translate and not compensate_children:
-            raise ValueError(
-                "compensate_child_translate=True requires "
-                "compensate_children=True"
-            )
         current_joint_orient = self.jointOrient.get().as_tuple()
         target_joint_orient = self._rounded_values(
             current_joint_orient,
             ndigits,
         )
-        parent_changes = self._round_changes(
-            self._joint_orient_round_plugs(),
-            current_joint_orient,
+        return self.set_joint_orient(
             target_joint_orient,
-        )
-        if not parent_changes:
-            return self
-        if not compensate_children:
-            self._validate_rotation_m_plugs(
-                tuple(plug.plug for plug, _ in parent_changes)
-            )
-            self._queue_round_changes(parent_changes)
-            return self
-
-        rotate_order = self.rotateOrder.get()
-        current_rotate = self.rotate.get().as_tuple()
-        proxy_rotate = self._quaternion_to_rotation(
-            self._rotation_to_quaternion(current_rotate, rotate_order)
-            * self._rotation_to_quaternion(
-                target_joint_orient,
-                om.MEulerRotation.kXYZ,
-            )
-            * self._rotation_to_quaternion(
-                current_joint_orient,
-                om.MEulerRotation.kXYZ,
-            ).inverse(),
-            rotate_order,
-            current_rotate,
-        )
-        target_transformation = om.MFnTransform(self.m_obj).transformation()
-        target_transformation.setRotation(
-            self._rotation_to_euler(proxy_rotate, rotate_order)
-        )
-        return self._round_with_child_compensation(
-            parent_changes=parent_changes,
-            parent_changes_are_rotation=True,
-            target_local_matrix=target_transformation.asMatrix(),
-            compensate_child_rotation=True,
+            compensate_children=compensate_children,
             compensate_child_translate=compensate_child_translate,
             joint_child_compensation_attr=joint_child_compensation_attr,
         )
@@ -241,7 +291,7 @@ class Joint(GeneratedJoint):
         *values: float,
     ) -> Self:
         """姿勢を維持して ``jointOrient`` を設定し、差分を ``rotate`` で吸収する。"""
-        joint_orient = self._normalize_rotation_value(
+        joint_orient = self._normalize_vector3_value(
             value,
             values,
             "set_joint_orient_with_rotate",
@@ -292,7 +342,7 @@ class Joint(GeneratedJoint):
         *values: float,
     ) -> Self:
         """姿勢を維持して ``rotate`` を設定し、差分を ``jointOrient`` で吸収する。"""
-        rotate = self._normalize_rotation_value(
+        rotate = self._normalize_vector3_value(
             value,
             values,
             "set_rotate_with_joint_orient",
