@@ -158,22 +158,15 @@ class Joint(GeneratedJoint):
             values,
             "set_joint_orient",
         )
-        compensate_children = self._require_compensate_children(
-            compensate_children
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
         )
-        compensate_child_translate = self._require_compensate_child_translate(
-            compensate_child_translate
-        )
-        joint_child_compensation_attr = (
-            self._require_joint_child_compensation_attr(
-                joint_child_compensation_attr
-            )
-        )
-        if compensate_child_translate and not compensate_children:
-            raise ValueError(
-                "compensate_child_translate=True requires "
-                "compensate_children=True"
-            )
         current_joint_orient = self.jointOrient.get().as_tuple()
         parent_changes = self._value_changes(
             self._joint_orient_value_plugs(),
@@ -249,14 +242,42 @@ class Joint(GeneratedJoint):
         self.jointOrient.set(rotation)
         return self
 
-    def match_rotation_to_joint_orient(self, source: DAG) -> Self:
-        """world姿勢を ``source`` へ合わせる ``jointOrient`` 値を積む。"""
+    def match_rotation_to_joint_orient(
+        self,
+        source: DAG,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """world姿勢を ``jointOrient`` で合わせ、必要に応じて子を補償する。
+
+        Args:
+            source: 姿勢を合わせるDAGノード。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            Transform子は ``rotate``、Joint子は既定で ``rotate`` を補償する。
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         source = self._validate_match_source(source)
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        )
         self._validate_match_instances(source)
         if self.m_obj == source.m_obj:
             return self
 
-        self._validate_rotation_m_plugs((self.jointOrient.plug,))
         current_joint_orient = self.jointOrient.get().as_tuple()
         rotation = self._quaternion_to_rotation(
             self._joint_orient_from_combined_rotation(
@@ -265,8 +286,12 @@ class Joint(GeneratedJoint):
             om.MEulerRotation.kXYZ,
             current_joint_orient,
         )
-        self.jointOrient.set(rotation)
-        return self
+        return self.set_joint_orient(
+            rotation,
+            compensate_children=compensate_children,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
 
     @overload
     def set_joint_orient_with_rotate(

@@ -69,6 +69,75 @@ def _set_offset_parent_rotation(maya_cmds, maya_om, node_name, z_degrees):
     )
 
 
+def _create_match_children(maya_cmds, maya_om, parent):
+    transform_child = maya_cmds.createNode(
+        "transform",
+        name="transform_child",
+        parent=parent,
+    )
+    joint_child = maya_cmds.createNode(
+        "joint",
+        name="joint_child",
+        parent=parent,
+    )
+    maya_cmds.setAttr(f"{transform_child}.translate", 4.0, -5.0, 6.0)
+    maya_cmds.setAttr(f"{transform_child}.rotate", 21.0, -32.0, 43.0)
+    maya_cmds.setAttr(f"{transform_child}.rotateOrder", 4)
+    maya_cmds.setAttr(f"{transform_child}.rotateAxis", 7.0, -8.0, 9.0)
+    maya_cmds.setAttr(f"{transform_child}.scale", 1.2, 0.8, 1.4)
+    maya_cmds.setAttr(f"{transform_child}.shear", 0.1, -0.05, 0.08)
+    maya_cmds.setAttr(f"{transform_child}.rotatePivot", 1.1, -1.2, 1.3)
+    _set_offset_parent_rotation(
+        maya_cmds,
+        maya_om,
+        transform_child,
+        19.0,
+    )
+
+    maya_cmds.setAttr(f"{joint_child}.translate", -3.0, 4.0, -5.0)
+    maya_cmds.setAttr(f"{joint_child}.rotate", -24.0, 35.0, -46.0)
+    maya_cmds.setAttr(f"{joint_child}.rotateOrder", 5)
+    maya_cmds.setAttr(f"{joint_child}.rotateAxis", -6.0, 7.0, -8.0)
+    maya_cmds.setAttr(f"{joint_child}.jointOrient", 12.0, -14.0, 16.0)
+    return transform_child, joint_child
+
+
+def _create_rotation_match_hierarchy(maya_cmds, maya_om, node_type):
+    source_parent = maya_cmds.createNode("transform", name="source_parent")
+    source = maya_cmds.createNode(
+        "transform",
+        name="source",
+        parent=source_parent,
+    )
+    destination_parent = maya_cmds.createNode(
+        "transform",
+        name="destination_parent",
+    )
+    destination = maya_cmds.createNode(
+        node_type,
+        name="destination",
+        parent=destination_parent,
+    )
+    maya_cmds.setAttr(f"{source_parent}.rotate", 17.0, -23.0, 31.0)
+    maya_cmds.setAttr(f"{source}.rotate", -42.0, 28.0, 73.0)
+    maya_cmds.setAttr(f"{destination_parent}.rotate", 11.0, 37.0, -19.0)
+    maya_cmds.setAttr(f"{destination}.translate", 1.0, -2.0, 3.0)
+    maya_cmds.setAttr(f"{destination}.rotateOrder", 3)
+    maya_cmds.setAttr(f"{destination}.rotateAxis", 9.0, -14.0, 21.0)
+    maya_cmds.setAttr(f"{destination}.rotate", 33.0, 16.0, -27.0)
+    maya_cmds.setAttr(f"{destination}.rotatePivot", 0.7, -0.8, 0.9)
+    if node_type == "joint":
+        maya_cmds.setAttr(
+            f"{destination}.jointOrient",
+            -12.0,
+            25.0,
+            38.0,
+        )
+    _set_offset_parent_rotation(maya_cmds, maya_om, destination, 23.0)
+    children = _create_match_children(maya_cmds, maya_om, destination)
+    return source, destination, children
+
+
 def test_match_position_matches_dag_origin_and_supports_undo_redo(
     new_scene,
     maya_cmds,
@@ -194,6 +263,58 @@ def test_match_position_projects_delta_onto_selected_space_axes(
     )
 
 
+@pytest.mark.parametrize("node_type", ("transform", "joint"))
+@pytest.mark.parametrize(
+    ("space", "axes"),
+    (("world", "xyz"), ("local", "x"), ("object", "yz")),
+)
+def test_match_position_can_compensate_direct_child_world_pose(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    node_type,
+    space,
+    axes,
+):
+    import bd_util as bdu
+
+    source = maya_cmds.createNode("transform", name="source")
+    parent = maya_cmds.createNode("transform", name="destination_parent")
+    destination = maya_cmds.createNode(
+        node_type,
+        name="destination",
+        parent=parent,
+    )
+    maya_cmds.setAttr(f"{source}.translate", 12.0, -7.0, 9.0)
+    maya_cmds.setAttr(f"{parent}.translate", 2.0, -3.0, 5.0)
+    maya_cmds.setAttr(f"{parent}.rotate", 17.0, 31.0, -23.0)
+    maya_cmds.setAttr(f"{destination}.translate", 1.0, 2.0, 3.0)
+    maya_cmds.setAttr(f"{destination}.rotate", 27.0, -19.0, 43.0)
+    _set_offset_parent_rotation(maya_cmds, maya_om, destination, 35.0)
+    children = _create_match_children(maya_cmds, maya_om, destination)
+    original_child_matrices = {
+        child: _matrix(maya_cmds, f"{child}.worldMatrix[0]")
+        for child in children
+    }
+
+    nodes = bdu.Nodes()
+    source_node = nodes.existing.transform(source)
+    destination_node = getattr(nodes.existing, node_type)(destination)
+    destination_node.match_position(
+        source_node,
+        axes=axes,
+        space=space,
+        compensate_children=True,
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    for child, original_matrix in original_child_matrices.items():
+        _assert_matrix_close(
+            _matrix(maya_cmds, f"{child}.worldMatrix[0]"),
+            original_matrix,
+        )
+
+
 def test_match_position_accepts_shape_source(
     new_scene,
     maya_cmds,
@@ -291,6 +412,7 @@ def test_match_position_rejects_connected_required_translate_plug(
         ("axes", 1, TypeError),
         ("space", "parent", ValueError),
         ("space", 1, TypeError),
+        ("compensate_children", 1, TypeError),
     ),
 )
 def test_match_position_rejects_invalid_options(
@@ -480,6 +602,123 @@ def test_match_rotation_does_not_compensate_dag_origin_for_rotate_pivot(
     )
 
 
+@pytest.mark.parametrize(
+    "joint_child_compensation_attr",
+    ("rotate", "jointOrient"),
+)
+@pytest.mark.parametrize(
+    ("node_type", "method_name"),
+    tuple(
+        (node_type, method_name)
+        for node_type, method_name, _ in _ROTATION_MATCH_CASES
+    ),
+)
+def test_match_rotation_can_compensate_direct_child_world_pose(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    node_type,
+    method_name,
+    joint_child_compensation_attr,
+):
+    import bd_util as bdu
+
+    source, destination, children = _create_rotation_match_hierarchy(
+        maya_cmds,
+        maya_om,
+        node_type,
+    )
+    original_child_positions = {
+        child: _world_position(maya_cmds, child) for child in children
+    }
+    original_child_rotations = {
+        child: _world_rotation(maya_cmds, maya_om, child) for child in children
+    }
+    joint_child = children[1]
+    original_joint_rotate = maya_cmds.getAttr(f"{joint_child}.rotate")[0]
+    original_joint_orient = maya_cmds.getAttr(f"{joint_child}.jointOrient")[0]
+
+    nodes = bdu.Nodes()
+    source_node = nodes.existing.transform(source)
+    destination_node = getattr(nodes.existing, node_type)(destination)
+    getattr(destination_node, method_name)(
+        source_node,
+        compensate_children=True,
+        compensate_child_translate=True,
+        joint_child_compensation_attr=joint_child_compensation_attr,
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    _assert_rotation_close(
+        _world_rotation(maya_cmds, maya_om, destination),
+        _world_rotation(maya_cmds, maya_om, source),
+    )
+    for child in children:
+        _assert_vector_close(
+            _world_position(maya_cmds, child),
+            original_child_positions[child],
+        )
+        _assert_rotation_close(
+            _world_rotation(maya_cmds, maya_om, child),
+            original_child_rotations[child],
+        )
+    if joint_child_compensation_attr == "rotate":
+        assert maya_cmds.getAttr(f"{joint_child}.jointOrient")[
+            0
+        ] == pytest.approx(original_joint_orient)
+    else:
+        assert maya_cmds.getAttr(f"{joint_child}.rotate")[0] == pytest.approx(
+            original_joint_rotate
+        )
+
+
+@pytest.mark.parametrize(
+    ("node_type", "method_name"),
+    tuple(
+        (node_type, method_name)
+        for node_type, method_name, _ in _ROTATION_MATCH_CASES
+    ),
+)
+def test_match_rotation_child_compensation_keeps_translate_by_default(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    node_type,
+    method_name,
+):
+    import bd_util as bdu
+
+    source, destination, children = _create_rotation_match_hierarchy(
+        maya_cmds,
+        maya_om,
+        node_type,
+    )
+    original_child_translates = {
+        child: maya_cmds.getAttr(f"{child}.translate")[0] for child in children
+    }
+    original_child_rotations = {
+        child: _world_rotation(maya_cmds, maya_om, child) for child in children
+    }
+
+    nodes = bdu.Nodes()
+    source_node = nodes.existing.transform(source)
+    destination_node = getattr(nodes.existing, node_type)(destination)
+    getattr(destination_node, method_name)(
+        source_node,
+        compensate_children=True,
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    for child in children:
+        assert maya_cmds.getAttr(f"{child}.translate")[0] == pytest.approx(
+            original_child_translates[child]
+        )
+        _assert_rotation_close(
+            _world_rotation(maya_cmds, maya_om, child),
+            original_child_rotations[child],
+        )
+
+
 def test_match_rotation_rejects_blocked_selected_plug(
     new_scene,
     maya_cmds,
@@ -488,6 +727,7 @@ def test_match_rotation_rejects_blocked_selected_plug(
 
     source = maya_cmds.createNode("transform", name="source")
     destination = maya_cmds.createNode("joint", name="destination")
+    maya_cmds.setAttr(f"{source}.rotateY", 20.0)
     maya_cmds.setAttr(f"{destination}.jointOrientY", lock=True)
     nodes = bdu.Nodes()
     source_node = nodes.existing.transform(source)
@@ -518,6 +758,122 @@ def test_match_rotation_ignores_blocked_untouched_rotation_plug(
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
         _world_rotation(maya_cmds, maya_om, source),
+    )
+
+
+@pytest.mark.parametrize(
+    "method_name",
+    (
+        "match_rotation_to_rotate_axis",
+        "match_rotation_to_rotate",
+        "match_rotation_to_joint_orient",
+    ),
+)
+@pytest.mark.parametrize(
+    ("options", "error_type", "message"),
+    (
+        ({"compensate_children": 1}, TypeError, "compensate_children"),
+        (
+            {"compensate_child_translate": 1},
+            TypeError,
+            "compensate_child_translate",
+        ),
+        (
+            {"compensate_child_translate": True},
+            ValueError,
+            "compensate_child_translate=True requires",
+        ),
+        (
+            {"joint_child_compensation_attr": 1},
+            TypeError,
+            "joint_child_compensation_attr",
+        ),
+        (
+            {"joint_child_compensation_attr": "rotation"},
+            ValueError,
+            "joint_child_compensation_attr",
+        ),
+    ),
+)
+def test_match_rotation_rejects_invalid_child_compensation_options(
+    new_scene,
+    maya_cmds,
+    method_name,
+    options,
+    error_type,
+    message,
+):
+    import bd_util as bdu
+
+    source = maya_cmds.createNode("transform", name="source")
+    destination = maya_cmds.createNode("joint", name="destination")
+    nodes = bdu.Nodes()
+    source_node = nodes.existing.transform(source)
+    destination_node = nodes.existing.joint(destination)
+
+    with pytest.raises(error_type, match=message):
+        getattr(destination_node, method_name)(source_node, **options)
+
+
+def test_match_rotation_validates_child_compensation_before_queueing(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    source = maya_cmds.createNode("transform", name="source")
+    destination = maya_cmds.createNode("transform", name="destination")
+    child = maya_cmds.createNode(
+        "joint",
+        name="child",
+        parent=destination,
+    )
+    maya_cmds.setAttr(f"{source}.rotate", 17.0, -23.0, 31.0)
+    maya_cmds.setAttr(f"{child}.translate", 2.0, 3.0, 4.0)
+    maya_cmds.setAttr(f"{child}.jointOrientX", lock=True)
+    original_rotate_axis = maya_cmds.getAttr(f"{destination}.rotateAxis")[0]
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+    source_node = nodes.existing.transform(source)
+    destination_node = nodes.existing.transform(destination)
+
+    with pytest.raises(RuntimeError, match=r"child\.jointOrientX"):
+        destination_node.match_rotation_to_rotate_axis(
+            source_node,
+            compensate_children=True,
+            joint_child_compensation_attr="jointOrient",
+        )
+
+    mod.do_it_dg()
+    assert maya_cmds.getAttr(f"{destination}.rotateAxis")[0] == pytest.approx(
+        original_rotate_axis
+    )
+
+
+def test_match_rotation_noop_ignores_blocked_child_compensation_plug(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    source = maya_cmds.createNode("transform", name="source")
+    destination = maya_cmds.createNode("transform", name="destination")
+    child = maya_cmds.createNode(
+        "joint",
+        name="child",
+        parent=destination,
+    )
+    maya_cmds.setAttr(f"{child}.rotateX", lock=True)
+    nodes = bdu.Nodes()
+    source_node = nodes.existing.transform(source)
+    destination_node = nodes.existing.transform(destination)
+
+    assert (
+        destination_node.match_rotation_to_rotate(
+            source_node,
+            compensate_children=True,
+        )
+        is destination_node
     )
 
 

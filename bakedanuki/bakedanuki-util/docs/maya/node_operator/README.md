@@ -747,6 +747,14 @@ dst.match_position(src, axes="xz", space="object")
 mod.do_it_dg()
 ```
 
+直接のTransform / Joint子のworld位置も維持する場合は、
+`compensate_children=True`を指定します。既定値は`False`です。
+
+```python
+dst.match_position(src, compensate_children=True)
+mod.do_it_dg()
+```
+
 - `"world"`: world軸を基準にします。
 - `"local"`: `offsetParentMatrix`を含む実効親空間の軸を基準にします。
 - `"object"`: 操作前のdst自身のworld姿勢を基準にします。
@@ -770,10 +778,45 @@ joint.match_rotation_to_joint_orient(src)
 mod.do_it_dg()
 ```
 
+回転系マッチでも、直接のTransform / Joint子を補償できます。既定では子の
+world姿勢だけを維持し、子の`translate`は変更しません。子のworld位置も
+維持する場合は、`compensate_child_translate=True`を追加します。
+
+```python
+joint.match_rotation_to_joint_orient(
+    src,
+    compensate_children=True,
+    compensate_child_translate=True,
+)
+mod.do_it_dg()
+```
+
+Joint子の姿勢補償先は`joint_child_compensation_attr`で`"rotate"`または
+`"jointOrient"`を選択でき、既定値は`"rotate"`です。
+
+```python
+joint.match_rotation_to_joint_orient(
+    src,
+    compensate_children=True,
+    joint_child_compensation_attr="jointOrient",
+)
+mod.do_it_dg()
+```
+
+`compensate_children`の既定値はすべて`False`です。
+`compensate_child_translate=True`は`compensate_children=True`と組み合わせる必要が
+あります。補償する直接の子、shape、`inheritsTransform=False`、instanced DAG、
+lock・入力接続の扱いは、後述する対応する`set_*()`と共通です。
+
 各メソッドは名前に含まれる回転属性だけを変更し、残りの回転属性、`translate`、
 pivot、pivot translationは変更しません。`rotate`の結果はdstの`rotateOrder`、
 `rotateAxis`と`jointOrient`の結果は固定XYZ順のEuler値へ変換し、現在値に近い
 等価解を選びます。
+
+マッチメソッドは目標となるlocal属性値を計算した後、それぞれ
+`set_translate()` / `set_rotate()` / `set_rotate_axis()` /
+`set_joint_orient()`へ委譲します。そのため、子補償、変更plugの検証、no-op判定、
+modifierへの変更予約は、直接値を設定するAPIと同じ経路を使用します。
 
 rotate pivotがDAG原点以外にある場合も、`translate`や`rotatePivotTranslate`による
 位置補償は行いません。そのため、姿勢マッチによってDAG原点のworld位置が動く場合が
@@ -792,7 +835,7 @@ mod.do_it_dg()
 未実行の操作には依存できないため、依存する操作の間では`mod.do_it_dg()`または
 `mod.do_it_dag()`を実行してください。実際に変更するplugがlockされている場合や
 入力接続を持つ場合は、変更を積む前に`RuntimeError`を送出します。変更しないplugは
-検証対象に含めません。
+検証対象に含めません。目標値が現在値と同じ場合は、子も検証せずno-opになります。
 
 srcまたはdstがinstanced DAGの場合は、使用するDAG pathが曖昧になるため
 `RuntimeError`を送出します。負scaleやshearを含む行列の姿勢は、Mayaが

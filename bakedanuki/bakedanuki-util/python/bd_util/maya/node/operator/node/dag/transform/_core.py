@@ -164,6 +164,39 @@ class Transform(GeneratedTransform):
             )
         return value
 
+    def _require_rotation_child_compensation_options(
+        self,
+        compensate_children: object,
+        compensate_child_translate: object,
+        joint_child_compensation_attr: object,
+    ) -> tuple[bool, bool, JointChildCompensationAttr]:
+        validated_compensate_children = self._require_compensate_children(
+            compensate_children
+        )
+        validated_compensate_child_translate = (
+            self._require_compensate_child_translate(
+                compensate_child_translate
+            )
+        )
+        validated_joint_child_compensation_attr = (
+            self._require_joint_child_compensation_attr(
+                joint_child_compensation_attr
+            )
+        )
+        if (
+            validated_compensate_child_translate
+            and not validated_compensate_children
+        ):
+            raise ValueError(
+                "compensate_child_translate=True requires "
+                "compensate_children=True"
+            )
+        return (
+            validated_compensate_children,
+            validated_compensate_child_translate,
+            validated_joint_child_compensation_attr,
+        )
+
     @staticmethod
     def _value_changes(
         plugs: tuple[
@@ -585,22 +618,15 @@ class Transform(GeneratedTransform):
             values,
             "set_rotate_axis",
         )
-        compensate_children = self._require_compensate_children(
-            compensate_children
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
         )
-        compensate_child_translate = self._require_compensate_child_translate(
-            compensate_child_translate
-        )
-        joint_child_compensation_attr = (
-            self._require_joint_child_compensation_attr(
-                joint_child_compensation_attr
-            )
-        )
-        if compensate_child_translate and not compensate_children:
-            raise ValueError(
-                "compensate_child_translate=True requires "
-                "compensate_children=True"
-            )
         current_rotate_axis = self.rotateAxis.get().as_tuple()
         parent_changes = self._value_changes(
             self._rotate_axis_value_plugs(),
@@ -718,22 +744,15 @@ class Transform(GeneratedTransform):
             values,
             "set_rotate",
         )
-        compensate_children = self._require_compensate_children(
-            compensate_children
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
         )
-        compensate_child_translate = self._require_compensate_child_translate(
-            compensate_child_translate
-        )
-        joint_child_compensation_attr = (
-            self._require_joint_child_compensation_attr(
-                joint_child_compensation_attr
-            )
-        )
-        if compensate_child_translate and not compensate_children:
-            raise ValueError(
-                "compensate_child_translate=True requires "
-                "compensate_children=True"
-            )
         current_rotate = self.rotate.get().as_tuple()
         parent_changes = self._value_changes(
             self._rotate_value_plugs(),
@@ -830,11 +849,26 @@ class Transform(GeneratedTransform):
         *,
         axes: _PositionAxes = "xyz",
         space: _PositionSpace = "world",
+        compensate_children: bool = False,
     ) -> Self:
-        """DAG原点の位置を指定空間の軸に沿って ``source`` へ合わせる。"""
+        """DAG原点の位置を合わせ、必要に応じて子のworld位置を補償する。
+
+        Args:
+            source: 位置を合わせるDAGノード。
+            axes: 位置を合わせる軸。
+            space: 部分軸を評価する空間。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world位置を維持するように子の ``translate`` を補償する。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         source = self._validate_match_source(source)
         axes = self._validate_position_axes(axes)
         space = self._validate_position_space(space)
+        compensate_children = self._require_compensate_children(
+            compensate_children
+        )
         self._validate_match_instances(source)
         if self.m_obj == source.m_obj:
             return self
@@ -872,40 +906,47 @@ class Transform(GeneratedTransform):
             current_translate.y + translate_delta.y,
             current_translate.z + translate_delta.z,
         )
-        translate_plugs = (
-            self.translateX,
-            self.translateY,
-            self.translateZ,
+        return self.set_translate(
+            translate_values,
+            compensate_children=compensate_children,
         )
-        changes = tuple(
-            (plug, value)
-            for plug, current_value, value in zip(
-                translate_plugs,
-                current_translate,
-                translate_values,
-            )
-            if not math.isclose(
-                current_value,
-                value,
-                rel_tol=1.0e-12,
-                abs_tol=1.0e-12,
-            )
-        )
-        self._validate_position_m_plugs(
-            tuple(plug.plug for plug, _ in changes)
-        )
-        for plug, value in changes:
-            plug.set(value)
-        return self
 
-    def match_rotation_to_rotate(self, source: DAG) -> Self:
-        """world姿勢を ``source`` へ合わせる ``rotate`` 値を積む。"""
+    def match_rotation_to_rotate(
+        self,
+        source: DAG,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """world姿勢を ``rotate`` で合わせ、必要に応じて子を補償する。
+
+        Args:
+            source: 姿勢を合わせるDAGノード。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            Transform子は ``rotate``、Joint子は既定で ``rotate`` を補償する。
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         source = self._validate_match_source(source)
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        )
         self._validate_match_instances(source)
         if self.m_obj == source.m_obj:
             return self
 
-        self._validate_rotation_m_plugs((self.rotate.plug,))
         rotate_order = self.rotateOrder.get()
         current_rotate = self.rotate.get().as_tuple()
         rotation = self._quaternion_to_rotation(
@@ -915,17 +956,49 @@ class Transform(GeneratedTransform):
             rotate_order,
             current_rotate,
         )
-        self.rotate.set(rotation)
-        return self
+        return self.set_rotate(
+            rotation,
+            compensate_children=compensate_children,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
 
-    def match_rotation_to_rotate_axis(self, source: DAG) -> Self:
-        """world姿勢を ``source`` へ合わせる ``rotateAxis`` 値を積む。"""
+    def match_rotation_to_rotate_axis(
+        self,
+        source: DAG,
+        *,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """world姿勢を ``rotateAxis`` で合わせ、必要に応じて子を補償する。
+
+        Args:
+            source: 姿勢を合わせるDAGノード。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            Transform子は ``rotate``、Joint子は既定で ``rotate`` を補償する。
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
         source = self._validate_match_source(source)
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        )
         self._validate_match_instances(source)
         if self.m_obj == source.m_obj:
             return self
 
-        self._validate_rotation_m_plugs((self.rotateAxis.plug,))
         current_rotate_axis = self.rotateAxis.get().as_tuple()
         rotation = self._quaternion_to_rotation(
             self._rotate_axis_from_combined_rotation(
@@ -934,8 +1007,12 @@ class Transform(GeneratedTransform):
             om.MEulerRotation.kXYZ,
             current_rotate_axis,
         )
-        self.rotateAxis.set(rotation)
-        return self
+        return self.set_rotate_axis(
+            rotation,
+            compensate_children=compensate_children,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
 
     @overload
     def set_rotate_axis_with_rotate(

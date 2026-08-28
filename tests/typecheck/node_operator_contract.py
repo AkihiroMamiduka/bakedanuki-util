@@ -1264,15 +1264,51 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
 
     assert_type(transform.match_position(source), Transform)
     assert_type(
-        transform.match_position(source, axes="xz", space="object"),
+        transform.match_position(
+            source,
+            axes="xz",
+            space="object",
+            compensate_children=True,
+        ),
         Transform,
     )
     assert_type(transform.match_rotation_to_rotate(source), Transform)
-    assert_type(transform.match_rotation_to_rotate_axis(source), Transform)
-    assert_type(joint.match_position(source), Joint)
+    assert_type(
+        transform.match_rotation_to_rotate_axis(
+            source,
+            compensate_children=True,
+            compensate_child_translate=True,
+            joint_child_compensation_attr="jointOrient",
+        ),
+        Transform,
+    )
+    assert_type(
+        joint.match_position(source, compensate_children=True),
+        Joint,
+    )
     assert_type(joint.match_rotation_to_rotate(source), Joint)
     assert_type(joint.match_rotation_to_rotate_axis(source), Joint)
-    assert_type(joint.match_rotation_to_joint_orient(source), Joint)
+    assert_type(
+        joint.match_rotation_to_joint_orient(
+            source,
+            compensate_children=True,
+            compensate_child_translate=True,
+            joint_child_compensation_attr="rotate",
+        ),
+        Joint,
+    )
+    transform.match_position(
+        source,
+        compensate_children=1,  # pyright: ignore[reportArgumentType]
+    )
+    transform.match_rotation_to_rotate(
+        source,
+        compensate_child_translate=1,  # pyright: ignore[reportArgumentType]
+    )
+    transform.match_rotation_to_rotate_axis(
+        source,
+        joint_child_compensation_attr="rotation",  # pyright: ignore[reportArgumentType]
+    )
     assert_type(transform.set_translate((1.0, 2.0, 3.0)), Transform)
     assert_type(transform.set_translate(1.0, 2.0, 3.0), Transform)
     assert_type(joint.set_translate((1.0, 2.0, 3.0)), Joint)

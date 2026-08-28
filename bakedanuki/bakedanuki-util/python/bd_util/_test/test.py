@@ -10,139 +10,6 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 def main():
     nodes = bdu.Nodes()
-    # create
-    #   transform
-    #       a
-    trsf_a_0 = nodes.create.transform(name="trsf_a_0")
-    trsf_a_1, _ = nodes.create.with_transform.locator(
-        name="trsf_a_1", parent=trsf_a_0
-    )
-    #       b
-    trsf_b_0 = nodes.create.transform(name="trsf_b_0")
-    trsf_b_1, _ = nodes.create.with_transform.locator(
-        name="trsf_b_1", parent=trsf_b_0
-    )
-    #   joint
-    #       a
-    joint_a_0 = nodes.create.joint(name="jnt_a_0")
-    joint_a_1 = nodes.create.joint(name="jnt_a_1", parent=joint_a_0)
-    #       b
-    joint_b_0 = nodes.create.joint(name="jnt_b_0")
-    joint_b_1 = nodes.create.joint(name="jnt_b_1", parent=joint_b_0)
-
-    # set
-    t_0 = (random.random(), random.random(), random.random())
-    r_0 = (random.random(), random.random(), random.random())
-    ra_0 = (random.random(), random.random(), random.random())
-    jo_0 = (random.random(), random.random(), random.random())
-    t_1 = (random.random(), random.random(), random.random())
-    r_1 = (random.random(), random.random(), random.random())
-    ra_1 = (random.random(), random.random(), random.random())
-    jo_1 = (random.random(), random.random(), random.random())
-    #   transform
-    #       0
-    #           t
-    trsf_a_0.t.set(t_0)
-    trsf_b_0.t.set(t_0)
-    #           r
-    trsf_a_0.r.set(r_0)
-    trsf_b_0.r.set(r_0)
-    #           ra
-    trsf_a_0.ra.set(ra_0)
-    trsf_b_0.ra.set(ra_0)
-    #       1
-    #           t
-    trsf_a_1.t.set(t_1)
-    trsf_b_1.t.set(t_1)
-    #           r
-    trsf_a_1.r.set(r_1)
-    trsf_b_1.r.set(r_1)
-    #           ra
-    trsf_a_1.ra.set(ra_1)
-    trsf_b_1.ra.set(ra_1)
-    #   joint
-    #       0
-    #           t
-    joint_a_0.t.set(t_0)
-    joint_b_0.t.set(t_0)
-    #           r
-    joint_a_0.r.set(r_0)
-    joint_b_0.r.set(r_0)
-    #           ra
-    joint_a_0.ra.set(ra_0)
-    joint_b_0.ra.set(ra_0)
-    #           jo
-    joint_a_0.jo.set(jo_0)
-    joint_b_0.jo.set(jo_0)
-    #       1
-    #           t
-    joint_a_1.t.set(t_1)
-    joint_b_1.t.set(t_1)
-    #           r
-    joint_a_1.r.set(r_1)
-    joint_b_1.r.set(r_1)
-    #           ra
-    joint_a_1.ra.set(ra_1)
-    joint_b_1.ra.set(ra_1)
-    #           jo
-    joint_a_1.jo.set(jo_1)
-    joint_b_1.jo.set(jo_1)
-
-    # do_it
-    nodes.modifier_manager.do_it_dag()
-    nodes.modifier_manager.do_it_dg()
-
-    # set
-    #   transform
-    trsf_b_0.set_translate(1, 2, 3, compensate_children=True)
-    nodes.modifier_manager.do_it_dg()
-    trsf_b_0.set_rotate(
-        45,
-        90,
-        135,
-        compensate_children=True,
-        compensate_child_translate=True,
-    )
-    nodes.modifier_manager.do_it_dg()
-    trsf_b_0.set_rotate_axis(
-        180,
-        225,
-        270,
-        compensate_children=True,
-        compensate_child_translate=True,
-    )
-    nodes.modifier_manager.do_it_dg()
-    #   joint
-    joint_b_0.set_translate(1, 2, 3, compensate_children=True)
-    nodes.modifier_manager.do_it_dg()
-    joint_b_0.set_rotate(
-        45,
-        90,
-        135,
-        compensate_children=True,
-        compensate_child_translate=True,
-    )
-    nodes.modifier_manager.do_it_dg()
-    joint_b_0.set_joint_orient(
-        45,
-        90,
-        135,
-        compensate_children=True,
-        compensate_child_translate=True,
-    )
-    nodes.modifier_manager.do_it_dg()
-    joint_b_0.set_rotate_axis(
-        180,
-        225,
-        270,
-        compensate_children=True,
-        compensate_child_translate=True,
-    )
-    nodes.modifier_manager.do_it_dg()
-
-
-def match():
-    nodes = bdu.Nodes()
     # translate
     #   src
     src_t_space = nodes.create.transform(name="src_t_space")
@@ -190,6 +57,7 @@ def match():
     src_r, _ = nodes.create.with_transform.locator(
         name="src_r", parent=src_r_space
     )
+    src_r_child = nodes.create.transform(name="src_r_child", parent=src_r)
 
     #   dst
     #       joint
@@ -197,17 +65,32 @@ def match():
     dst_r_trsf_r = nodes.create.transform(
         name="dst_r_trsf_r", parent=dst_r_space
     )
+    dst_r_trsf_r_child = nodes.create.transform(
+        name="dst_r_trsf_r_child", parent=dst_r_trsf_r
+    )
     dst_r_trsf_ra = nodes.create.transform(
         name="dst_r_trsf_ra", parent=dst_r_space
+    )
+    dst_r_trsf_ra_child = nodes.create.transform(
+        name="dst_r_trsf_ra_child", parent=dst_r_trsf_ra
     )
     dst_r_joint_jo = nodes.create.joint(
         name="dst_r_joint_jo", parent=dst_r_space
     )
+    dst_r_joint_jo_child = nodes.create.joint(
+        name="dst_r_joint_jo_child", parent=dst_r_joint_jo
+    )
     dst_r_joint_r = nodes.create.joint(
         name="dst_r_joint_r", parent=dst_r_space
     )
+    dst_r_joint_r_child = nodes.create.joint(
+        name="dst_r_joint_r_child", parent=dst_r_joint_r
+    )
     dst_r_joint_ra = nodes.create.joint(
         name="dst_r_joint_ra", parent=dst_r_space
+    )
+    dst_r_joint_ra_child = nodes.create.joint(
+        name="dst_r_joint_ra_child", parent=dst_r_joint_ra
     )
 
     # set
@@ -246,6 +129,11 @@ def match():
         random.randint(-360, 360),
     )
     src_r.r.set(
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+        random.randint(-360, 360),
+    )
+    src_r_child.r.set(
         random.randint(-360, 360),
         random.randint(-360, 360),
         random.randint(-360, 360),
@@ -295,9 +183,14 @@ def match():
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    src_t_space.t.round(3)
-    src_t_space.s.round(3)
-    src_t.t.round(3)
+    # match
+    #   rotate
+    #       child
+    dst_r_trsf_r_child.match_rotation_to_rotate(src_r_child)
+    dst_r_trsf_ra_child.match_rotation_to_rotate(src_r_child)
+    dst_r_joint_jo_child.match_rotation_to_rotate(src_r_child)
+    dst_r_joint_r_child.match_rotation_to_rotate(src_r_child)
+    dst_r_joint_ra_child.match_rotation_to_rotate(src_r_child)
 
     nodes.modifier_manager.do_it_dg()
 
@@ -318,11 +211,17 @@ def match():
     dst_t_object_z.match_position(src_t, axes="z", space="object")
     #   rotate
     #       transform
-    dst_r_trsf_r.match_rotation_to_rotate(src_r)
-    dst_r_trsf_ra.match_rotation_to_rotate_axis(src_r)
+    dst_r_trsf_r.match_rotation_to_rotate(src_r, compensate_children=True)
+    dst_r_trsf_ra.match_rotation_to_rotate_axis(
+        src_r, compensate_children=True
+    )
     #       joint
-    dst_r_joint_jo.match_rotation_to_joint_orient(src_r)
-    dst_r_joint_r.match_rotation_to_rotate(src_r)
-    dst_r_joint_ra.match_rotation_to_rotate_axis(src_r)
+    dst_r_joint_jo.match_rotation_to_joint_orient(
+        src_r, compensate_children=True
+    )
+    dst_r_joint_r.match_rotation_to_rotate(src_r, compensate_children=True)
+    dst_r_joint_ra.match_rotation_to_rotate_axis(
+        src_r, compensate_children=True
+    )
 
     nodes.modifier_manager.do_it_dg()
