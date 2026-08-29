@@ -13,6 +13,7 @@ _RotationValue = tuple[float, float, float]
 _Vector3Value = tuple[float, float, float]
 _PositionAxes = Literal["x", "y", "z", "xy", "xz", "yz", "xyz"]
 _PositionSpace = Literal["world", "local", "object"]
+TransformSpace = Literal["local", "world"]
 JointChildCompensationAttr = Literal["rotate", "jointOrient"]
 
 
@@ -28,6 +29,7 @@ ValueChange = tuple[ScalarPlugProtocol, float]
 _POSITION_AXES = frozenset(("x", "y", "z", "xy", "xz", "yz", "xyz"))
 _POSITION_AXIS_INDEX = {"x": 0, "y": 1, "z": 2}
 _POSITION_SPACES = frozenset(("world", "local", "object"))
+_TRANSFORM_SPACES = frozenset(("local", "world"))
 
 
 class Transform(GeneratedTransform):
@@ -136,6 +138,18 @@ class Transform(GeneratedTransform):
             raise TypeError(
                 "compensate_children must be bool; "
                 f"got {type(value).__name__}"
+            )
+        return value
+
+    @staticmethod
+    def _require_transform_space(value: object) -> TransformSpace:
+        if not isinstance(value, str):
+            raise TypeError(f"space must be str; got {type(value).__name__}")
+        if value not in _TRANSFORM_SPACES:
+            supported = ", ".join(sorted(_TRANSFORM_SPACES))
+            raise ValueError(
+                f"Unsupported transform space: {value!r}. "
+                f"Expected one of: {supported}"
             )
         return value
 
@@ -329,6 +343,79 @@ class Transform(GeneratedTransform):
         transformation.setRotation(proxy_rotation)
         return transformation
 
+    def _world_conversion_parent_inverse_matrix(self) -> om.MMatrix:
+        if self.is_instanced:
+            raise RuntimeError(
+                "World-space transform conversion is not supported for an "
+                f"instanced DAG node: {self.name}"
+            )
+
+        parent_matrix = self._get_instance_transform_matrix(
+            "parentMatrix"
+        ).matrix
+        parent_scale = om.MTransformationMatrix(parent_matrix).scale(
+            om.MSpace.kTransform
+        )
+        absolute_scale = tuple(abs(value) for value in parent_scale)
+        maximum_scale = max(absolute_scale)
+        if (
+            not all(math.isfinite(value) for value in absolute_scale)
+            or maximum_scale == 0.0
+            or min(absolute_scale) <= maximum_scale * 1.0e-12
+        ):
+            raise RuntimeError(
+                "World-space transform conversion requires an invertible "
+                f"effective parent matrix: {self.name}"
+            )
+
+        return self._get_instance_transform_matrix(
+            "parentInverseMatrix"
+        ).matrix
+
+    def _translate_from_world_position(
+        self,
+        position: _Vector3Value,
+    ) -> _Vector3Value:
+        parent_inverse_matrix = self._world_conversion_parent_inverse_matrix()
+        current_world_position = self._get_instance_transform_matrix(
+            "worldMatrix"
+        ).translate
+        world_delta = om.MVector(
+            position[0] - current_world_position.x,
+            position[1] - current_world_position.y,
+            position[2] - current_world_position.z,
+        )
+        translate_delta = world_delta * parent_inverse_matrix
+        current_translate = self.translate.get()
+        return (
+            current_translate.x + translate_delta.x,
+            current_translate.y + translate_delta.y,
+            current_translate.z + translate_delta.z,
+        )
+
+    def _local_rotation_from_world_matrix(
+        self,
+        world_matrix: om.MMatrix,
+    ) -> om.MQuaternion:
+        parent_inverse_matrix = self._world_conversion_parent_inverse_matrix()
+        local_matrix = world_matrix * parent_inverse_matrix
+        return om.MTransformationMatrix(local_matrix).rotation(
+            asQuaternion=True
+        )
+
+    def _local_rotation_from_world_rotation(
+        self,
+        rotation: _RotationValue,
+        order: int,
+    ) -> om.MQuaternion:
+        world_transformation = om.MTransformationMatrix()
+        world_transformation.setRotation(
+            self._rotation_to_euler(rotation, order)
+        )
+        return self._local_rotation_from_world_matrix(
+            world_transformation.asMatrix()
+        )
+
     def _set_with_child_compensation(
         self,
         *,
@@ -469,6 +556,7 @@ class Transform(GeneratedTransform):
         value: Sequence[float],
         /,
         *,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
     ) -> Self: ...
 
@@ -480,6 +568,7 @@ class Transform(GeneratedTransform):
         z: float,
         /,
         *,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
     ) -> Self: ...
 
@@ -488,13 +577,16 @@ class Transform(GeneratedTransform):
         value: float | Sequence[float],
         /,
         *values: float,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
     ) -> Self:
-        """``translate`` を設定し、必要に応じて子のworld位置を補償する。
+        """位置を ``translate`` へ設定し、必要に応じて子を補償する。
 
         Args:
             value: 3成分の値、またはX成分。
             values: ``value`` がX成分の場合のY、Z成分。
+            space: 値を解釈する空間。``"local"`` は属性値、``"world"`` は
+                DAG原点のworld位置として扱う。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world位置を維持するように子の ``translate`` を補償する。
 
@@ -507,14 +599,18 @@ class Transform(GeneratedTransform):
             values,
             "set_translate",
         )
+        space = self._require_transform_space(space)
         compensate_children = self._require_compensate_children(
             compensate_children
         )
+        if space == "world":
+            translate = self._translate_from_world_position(translate)
         current_translate = self.translate.get().as_tuple()
         parent_changes = self._value_changes(
             self._translate_value_plugs(),
             current_translate,
             translate,
+            use_tolerance=space == "world",
         )
         if not parent_changes:
             return self
@@ -570,6 +666,7 @@ class Transform(GeneratedTransform):
         value: Sequence[float],
         /,
         *,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
@@ -583,6 +680,7 @@ class Transform(GeneratedTransform):
         z: float,
         /,
         *,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
@@ -593,15 +691,18 @@ class Transform(GeneratedTransform):
         value: float | Sequence[float],
         /,
         *values: float,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
     ) -> Self:
-        """``rotateAxis`` を設定し、必要に応じて子のworld姿勢を補償する。
+        """姿勢を ``rotateAxis`` へ設定し、必要に応じて子を補償する。
 
         Args:
             value: 3成分の値、またはX成分。
             values: ``value`` がX成分の場合のY、Z成分。
+            space: 値を解釈する空間。``"local"`` は属性値、``"world"`` は
+                最終的なworld姿勢として扱う。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world姿勢を維持するように補償する。
             compensate_child_translate: ``True`` の場合、子の ``translate`` も
@@ -618,6 +719,7 @@ class Transform(GeneratedTransform):
             values,
             "set_rotate_axis",
         )
+        space = self._require_transform_space(space)
         (
             compensate_children,
             compensate_child_translate,
@@ -628,10 +730,22 @@ class Transform(GeneratedTransform):
             joint_child_compensation_attr,
         )
         current_rotate_axis = self.rotateAxis.get().as_tuple()
+        if space == "world":
+            rotate_axis = self._quaternion_to_rotation(
+                self._rotate_axis_from_combined_rotation(
+                    self._local_rotation_from_world_rotation(
+                        rotate_axis,
+                        om.MEulerRotation.kXYZ,
+                    )
+                ),
+                om.MEulerRotation.kXYZ,
+                current_rotate_axis,
+            )
         parent_changes = self._value_changes(
             self._rotate_axis_value_plugs(),
             current_rotate_axis,
             rotate_axis,
+            use_tolerance=space == "world",
         )
         if not parent_changes:
             return self
@@ -696,6 +810,7 @@ class Transform(GeneratedTransform):
         value: Sequence[float],
         /,
         *,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
@@ -709,6 +824,7 @@ class Transform(GeneratedTransform):
         z: float,
         /,
         *,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
@@ -719,15 +835,18 @@ class Transform(GeneratedTransform):
         value: float | Sequence[float],
         /,
         *values: float,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
     ) -> Self:
-        """``rotate`` を設定し、必要に応じて子のworld姿勢を補償する。
+        """姿勢を ``rotate`` へ設定し、必要に応じて子を補償する。
 
         Args:
             value: 3成分の値、またはX成分。
             values: ``value`` がX成分の場合のY、Z成分。
+            space: 値を解釈する空間。``"local"`` は属性値、``"world"`` は
+                最終的なworld姿勢として扱う。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world姿勢を維持するように補償する。
             compensate_child_translate: ``True`` の場合、子の ``translate`` も
@@ -744,6 +863,7 @@ class Transform(GeneratedTransform):
             values,
             "set_rotate",
         )
+        space = self._require_transform_space(space)
         (
             compensate_children,
             compensate_child_translate,
@@ -753,11 +873,24 @@ class Transform(GeneratedTransform):
             compensate_child_translate,
             joint_child_compensation_attr,
         )
+        rotate_order = self.rotateOrder.get()
         current_rotate = self.rotate.get().as_tuple()
+        if space == "world":
+            rotate = self._quaternion_to_rotation(
+                self._rotate_from_combined_rotation(
+                    self._local_rotation_from_world_rotation(
+                        rotate,
+                        rotate_order,
+                    )
+                ),
+                rotate_order,
+                current_rotate,
+            )
         parent_changes = self._value_changes(
             self._rotate_value_plugs(),
             current_rotate,
             rotate,
+            use_tolerance=space == "world",
         )
         if not parent_changes:
             return self
@@ -772,7 +905,7 @@ class Transform(GeneratedTransform):
         target_transformation.setRotation(
             self._rotation_to_euler(
                 rotate,
-                self.rotateOrder.get(),
+                rotate_order,
             )
         )
         return self._set_with_child_compensation(
@@ -896,15 +1029,12 @@ class Transform(GeneratedTransform):
             )
             world_delta = masked_delta.rotateBy(basis_rotation)
 
-        parent_inverse_matrix = self._get_instance_transform_matrix(
-            "parentInverseMatrix"
-        ).matrix
-        translate_delta = world_delta * parent_inverse_matrix
-        current_translate = self.translate.get()
-        translate_values = (
-            current_translate.x + translate_delta.x,
-            current_translate.y + translate_delta.y,
-            current_translate.z + translate_delta.z,
+        translate_values = self._translate_from_world_position(
+            (
+                destination_position.x + world_delta.x,
+                destination_position.y + world_delta.y,
+                destination_position.z + world_delta.z,
+            )
         )
         return self.set_translate(
             translate_values,
@@ -1171,8 +1301,10 @@ class Transform(GeneratedTransform):
         )
 
     def _match_local_rotation(self, source: DAG) -> om.MQuaternion:
-        local_matrix = source.get_local_matrix(self)
-        return local_matrix.transformation_matrix.rotation(asQuaternion=True)
+        source_world_matrix = source._get_instance_transform_matrix(
+            "worldMatrix"
+        ).matrix
+        return self._local_rotation_from_world_matrix(source_world_matrix)
 
     def _rotate_from_combined_rotation(
         self,

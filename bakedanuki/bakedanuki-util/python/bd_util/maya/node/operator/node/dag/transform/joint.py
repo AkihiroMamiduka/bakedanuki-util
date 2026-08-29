@@ -6,7 +6,11 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from .._core import DAG
-from ._core import JointChildCompensationAttr, ScalarPlugProtocol
+from ._core import (
+    JointChildCompensationAttr,
+    ScalarPlugProtocol,
+    TransformSpace,
+)
 from ._generated.joint import GeneratedJoint
 
 
@@ -110,6 +114,7 @@ class Joint(GeneratedJoint):
         value: Sequence[float],
         /,
         *,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
@@ -123,6 +128,7 @@ class Joint(GeneratedJoint):
         z: float,
         /,
         *,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
@@ -133,15 +139,18 @@ class Joint(GeneratedJoint):
         value: float | Sequence[float],
         /,
         *values: float,
+        space: TransformSpace = "local",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
     ) -> Self:
-        """``jointOrient`` を設定し、必要に応じて子のworld姿勢を補償する。
+        """姿勢を ``jointOrient`` へ設定し、必要に応じて子を補償する。
 
         Args:
             value: 3成分の値、またはX成分。
             values: ``value`` がX成分の場合のY、Z成分。
+            space: 値を解釈する空間。``"local"`` は属性値、``"world"`` は
+                最終的なworld姿勢として扱う。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world姿勢を維持するように補償する。
             compensate_child_translate: ``True`` の場合、子の ``translate`` も
@@ -158,6 +167,7 @@ class Joint(GeneratedJoint):
             values,
             "set_joint_orient",
         )
+        space = self._require_transform_space(space)
         (
             compensate_children,
             compensate_child_translate,
@@ -168,10 +178,22 @@ class Joint(GeneratedJoint):
             joint_child_compensation_attr,
         )
         current_joint_orient = self.jointOrient.get().as_tuple()
+        if space == "world":
+            joint_orient = self._quaternion_to_rotation(
+                self._joint_orient_from_combined_rotation(
+                    self._local_rotation_from_world_rotation(
+                        joint_orient,
+                        om.MEulerRotation.kXYZ,
+                    )
+                ),
+                om.MEulerRotation.kXYZ,
+                current_joint_orient,
+            )
         parent_changes = self._value_changes(
             self._joint_orient_value_plugs(),
             current_joint_orient,
             joint_orient,
+            use_tolerance=space == "world",
         )
         if not parent_changes:
             return self

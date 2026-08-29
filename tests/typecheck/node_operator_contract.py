@@ -1311,6 +1311,14 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(transform.set_translate((1.0, 2.0, 3.0)), Transform)
     assert_type(transform.set_translate(1.0, 2.0, 3.0), Transform)
+    assert_type(
+        transform.set_translate((1.0, 2.0, 3.0), space="world"),
+        Transform,
+    )
+    assert_type(
+        transform.set_translate(1.0, 2.0, 3.0, space="local"),
+        Transform,
+    )
     assert_type(joint.set_translate((1.0, 2.0, 3.0)), Joint)
     assert_type(
         transform.set_rotate_axis((10.0, 20.0, 30.0)),
@@ -1327,6 +1335,13 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
         ),
         Transform,
     )
+    assert_type(
+        transform.set_rotate_axis(
+            (10.0, 20.0, 30.0),
+            space="world",
+        ),
+        Transform,
+    )
     assert_type(joint.set_rotate_axis((10.0, 20.0, 30.0)), Joint)
     assert_type(transform.set_rotate((10.0, 20.0, 30.0)), Transform)
     assert_type(
@@ -1337,6 +1352,15 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
             compensate_children=True,
             compensate_child_translate=True,
             joint_child_compensation_attr="jointOrient",
+        ),
+        Transform,
+    )
+    assert_type(
+        transform.set_rotate(
+            10.0,
+            20.0,
+            30.0,
+            space="world",
         ),
         Transform,
     )
@@ -1352,7 +1376,22 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
         ),
         Joint,
     )
+    assert_type(
+        joint.set_joint_orient(
+            (10.0, 20.0, 30.0),
+            space="world",
+        ),
+        Joint,
+    )
     transform.set_translate(1.0, 2.0)  # pyright: ignore[reportCallIssue]
+    transform.set_translate(
+        (1.0, 2.0, 3.0),
+        space="object",  # pyright: ignore[reportArgumentType]
+    )
+    transform.set_rotate(
+        (10.0, 20.0, 30.0),
+        space=1,  # pyright: ignore[reportArgumentType]
+    )
     transform.set_rotate_axis(  # pyright: ignore[reportCallIssue]
         10.0,
         20.0,

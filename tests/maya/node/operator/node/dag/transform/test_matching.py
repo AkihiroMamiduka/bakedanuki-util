@@ -879,6 +879,58 @@ def test_match_rotation_noop_ignores_blocked_child_compensation_plug(
 
 @pytest.mark.parametrize(
     "method_name",
+    (
+        "match_position",
+        "match_rotation_to_rotate",
+        "match_rotation_to_rotate_axis",
+        "match_rotation_to_joint_orient",
+    ),
+)
+def test_match_methods_reject_effectively_singular_parent_matrix(
+    new_scene,
+    maya_cmds,
+    method_name,
+):
+    import bd_util as bdu
+
+    source = maya_cmds.createNode("transform", name="source")
+    parent = maya_cmds.createNode("transform", name="parent")
+    destination = maya_cmds.createNode(
+        "joint",
+        name="destination",
+        parent=parent,
+    )
+    maya_cmds.setAttr(f"{source}.translate", 1.0, 2.0, 3.0)
+    maya_cmds.setAttr(f"{source}.rotate", 10.0, 20.0, 30.0)
+    maya_cmds.setAttr(f"{parent}.scaleX", 0.0)
+    original_values = {
+        attribute_name: maya_cmds.getAttr(f"{destination}.{attribute_name}")[0]
+        for attribute_name in (
+            "translate",
+            "rotateAxis",
+            "rotate",
+            "jointOrient",
+        )
+    }
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+    source_node = nodes.existing.transform(source)
+    destination_node = nodes.existing.joint(destination)
+
+    with pytest.raises(
+        RuntimeError, match="invertible effective parent matrix"
+    ):
+        getattr(destination_node, method_name)(source_node)
+
+    mod.do_it_dg()
+    for attribute_name, original_value in original_values.items():
+        assert maya_cmds.getAttr(f"{destination}.{attribute_name}")[
+            0
+        ] == pytest.approx(original_value)
+
+
+@pytest.mark.parametrize(
+    "method_name",
     ("match_position", "match_rotation_to_rotate"),
 )
 def test_match_methods_require_dag_source(

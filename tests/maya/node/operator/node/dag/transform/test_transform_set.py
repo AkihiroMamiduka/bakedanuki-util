@@ -69,6 +69,23 @@ def _world_rotation(maya_om, matrix):
     )
 
 
+def _rotation_quaternion(maya_om, value, order):
+    radians = tuple(
+        maya_om.MAngle(component, maya_om.MAngle.kDegrees).asRadians()
+        for component in value
+    )
+    return maya_om.MEulerRotation(*radians, order).asQuaternion()
+
+
+def _quaternion_rotation_values(maya_om, quaternion, order):
+    euler = quaternion.asEulerRotation()
+    euler.reorderIt(order)
+    return tuple(
+        maya_om.MAngle(component, maya_om.MAngle.kRadians).asDegrees()
+        for component in (euler.x, euler.y, euler.z)
+    )
+
+
 def _assert_rotation_close(actual, expected, *, abs_tolerance=1.0e-9):
     dot = (
         actual.x * expected.x
@@ -89,6 +106,12 @@ def _assert_world_pose(maya_cmds, maya_om, node_name, expected_matrix):
         _world_rotation(maya_om, actual_matrix),
         _world_rotation(maya_om, expected_matrix),
     )
+
+
+def _rotation_attributes(node_type):
+    if node_type == "joint":
+        return "rotateAxis", "rotate", "jointOrient"
+    return "rotateAxis", "rotate"
 
 
 def _set_offset_parent_rotation(maya_cmds, maya_om, node_name, degrees):
@@ -151,6 +174,22 @@ def _create_set_hierarchy(maya_cmds, maya_om, parent_type):
     maya_cmds.setAttr(f"{joint_child}.rotateAxis", -6.0, 7.0, -8.0)
     maya_cmds.setAttr(f"{joint_child}.jointOrient", 12.0, -14.0, 16.0)
     return parent, transform_child, joint_child
+
+
+def _create_world_set_hierarchy(maya_cmds, maya_om, node_type):
+    grandparent = maya_cmds.createNode("transform", name="set_grandparent")
+    node, transform_child, joint_child = _create_set_hierarchy(
+        maya_cmds,
+        maya_om,
+        node_type,
+    )
+    maya_cmds.parent(node, grandparent, relative=True)
+    maya_cmds.setAttr(f"{grandparent}.translate", -3.0, 5.0, 7.0)
+    maya_cmds.setAttr(f"{grandparent}.rotate", -19.0, 29.0, -41.0)
+    maya_cmds.setAttr(f"{grandparent}.scale", -1.7, 0.6, 2.3)
+    maya_cmds.setAttr(f"{grandparent}.shear", -0.15, 0.08, 0.12)
+    _set_offset_parent_rotation(maya_cmds, maya_om, node, 27.0)
+    return node, transform_child, joint_child
 
 
 @pytest.mark.parametrize(
@@ -248,6 +287,172 @@ def test_node_set_accepts_three_scalar_arguments(
 
 
 @pytest.mark.parametrize(
+    ("node_type", "method_name", "attribute_name", "target_value"),
+    _SET_CASES,
+)
+def test_node_set_accepts_explicit_local_space(
+    new_scene,
+    maya_cmds,
+    node_type,
+    method_name,
+    attribute_name,
+    target_value,
+):
+    import bd_util as bdu
+
+    node_name = maya_cmds.createNode(node_type, name="node")
+    nodes = bdu.Nodes()
+    node = getattr(nodes.existing, node_type)(node_name)
+
+    getattr(node, method_name)(target_value, space="local")
+    nodes.modifier_manager.do_it_dg()
+
+    assert maya_cmds.getAttr(f"{node_name}.{attribute_name}")[
+        0
+    ] == pytest.approx(target_value)
+
+
+@pytest.mark.parametrize("node_type", ("transform", "joint"))
+def test_set_translate_world_space_sets_dag_origin_and_supports_undo_redo(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    node_type,
+):
+    import bd_util as bdu
+
+    node_name, _, _ = _create_world_set_hierarchy(
+        maya_cmds,
+        maya_om,
+        node_type,
+    )
+    target_position = (13.25, -17.5, 23.75)
+    original_matrix = _matrix(maya_cmds, node_name)
+    original_translate = maya_cmds.getAttr(f"{node_name}.translate")[0]
+    original_rotation_values = {
+        attribute_name: maya_cmds.getAttr(f"{node_name}.{attribute_name}")[0]
+        for attribute_name in _rotation_attributes(node_type)
+    }
+    mod = bdu.ModifierManager()
+    node = getattr(
+        bdu.Nodes(modifier_manager=mod).existing,
+        node_type,
+    )(node_name)
+
+    assert node.set_translate(target_position, space="world") is node
+    assert maya_cmds.getAttr(f"{node_name}.translate")[0] == pytest.approx(
+        original_translate
+    )
+
+    mod.do_it_dg()
+
+    assert _world_position(_matrix(maya_cmds, node_name)) == pytest.approx(
+        target_position,
+        abs=1.0e-9,
+    )
+    for attribute_name, original_value in original_rotation_values.items():
+        assert maya_cmds.getAttr(f"{node_name}.{attribute_name}")[
+            0
+        ] == pytest.approx(original_value)
+    matched_matrix = _matrix(maya_cmds, node_name)
+
+    mod.undo_it()
+    assert _matrix(maya_cmds, node_name) == pytest.approx(original_matrix)
+
+    mod.redo_it()
+    assert _matrix(maya_cmds, node_name) == pytest.approx(matched_matrix)
+
+
+@pytest.mark.parametrize("rotate_order", range(6))
+@pytest.mark.parametrize(
+    ("node_type", "method_name", "attribute_name", "target_value"),
+    _ROTATION_SET_CASES,
+)
+def test_rotation_set_world_space_sets_final_world_orientation(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    node_type,
+    method_name,
+    attribute_name,
+    target_value,
+    rotate_order,
+):
+    import bd_util as bdu
+
+    node_name, _, _ = _create_world_set_hierarchy(
+        maya_cmds,
+        maya_om,
+        node_type,
+    )
+    maya_cmds.setAttr(f"{node_name}.rotateOrder", rotate_order)
+    attribute_names = _rotation_attributes(node_type)
+    original_values = {
+        name: maya_cmds.getAttr(f"{node_name}.{name}")[0]
+        for name in attribute_names
+    }
+    original_translate = maya_cmds.getAttr(f"{node_name}.translate")[0]
+    original_rotation = _world_rotation(
+        maya_om,
+        _matrix(maya_cmds, node_name),
+    )
+    target_order = (
+        rotate_order
+        if attribute_name == "rotate"
+        else maya_om.MEulerRotation.kXYZ
+    )
+    target_rotation = _rotation_quaternion(
+        maya_om,
+        target_value,
+        target_order,
+    )
+    mod = bdu.ModifierManager()
+    node = getattr(
+        bdu.Nodes(modifier_manager=mod).existing,
+        node_type,
+    )(node_name)
+
+    assert (
+        getattr(node, method_name)(
+            target_value,
+            space="world",
+        )
+        is node
+    )
+    assert {
+        name: maya_cmds.getAttr(f"{node_name}.{name}")[0]
+        for name in attribute_names
+    } == original_values
+
+    mod.do_it_dg()
+
+    _assert_rotation_close(
+        _world_rotation(maya_om, _matrix(maya_cmds, node_name)),
+        target_rotation,
+    )
+    assert maya_cmds.getAttr(f"{node_name}.translate")[0] == pytest.approx(
+        original_translate
+    )
+    for name, original_value in original_values.items():
+        if name != attribute_name:
+            assert maya_cmds.getAttr(f"{node_name}.{name}")[
+                0
+            ] == pytest.approx(original_value)
+
+    mod.undo_it()
+    _assert_rotation_close(
+        _world_rotation(maya_om, _matrix(maya_cmds, node_name)),
+        original_rotation,
+    )
+
+    mod.redo_it()
+    _assert_rotation_close(
+        _world_rotation(maya_om, _matrix(maya_cmds, node_name)),
+        target_rotation,
+    )
+
+
+@pytest.mark.parametrize(
     ("parent_type", "method_name", "attribute_name", "target_value"),
     _SET_CASES,
 )
@@ -289,6 +494,71 @@ def test_node_set_can_compensate_direct_child_world_pose(
     assert maya_cmds.getAttr(f"{joint_child}.jointOrient")[0] == pytest.approx(
         original_joint_orient
     )
+
+
+@pytest.mark.parametrize(
+    ("node_type", "method_name", "attribute_name", "target_value"),
+    _SET_CASES,
+)
+def test_node_set_world_space_can_compensate_direct_child_world_pose(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    node_type,
+    method_name,
+    attribute_name,
+    target_value,
+):
+    import bd_util as bdu
+
+    node_name, transform_child, joint_child = _create_world_set_hierarchy(
+        maya_cmds,
+        maya_om,
+        node_type,
+    )
+    original_child_world_matrices = {
+        child: _matrix(maya_cmds, child)
+        for child in (transform_child, joint_child)
+    }
+    nodes = bdu.Nodes()
+    node = getattr(nodes.existing, node_type)(node_name)
+    options = {
+        "space": "world",
+        "compensate_children": True,
+    }
+    if method_name != "set_translate":
+        options["compensate_child_translate"] = True
+
+    getattr(node, method_name)(target_value, **options)
+    nodes.modifier_manager.do_it_dg()
+
+    if method_name == "set_translate":
+        assert _world_position(_matrix(maya_cmds, node_name)) == pytest.approx(
+            target_value,
+            abs=1.0e-9,
+        )
+    else:
+        rotate_order = maya_cmds.getAttr(f"{node_name}.rotateOrder")
+        target_order = (
+            rotate_order
+            if attribute_name == "rotate"
+            else maya_om.MEulerRotation.kXYZ
+        )
+        _assert_rotation_close(
+            _world_rotation(maya_om, _matrix(maya_cmds, node_name)),
+            _rotation_quaternion(
+                maya_om,
+                target_value,
+                target_order,
+            ),
+        )
+    for child, original_world_matrix in original_child_world_matrices.items():
+        _assert_world_pose(
+            maya_cmds,
+            maya_om,
+            child,
+            original_world_matrix,
+        )
 
 
 @pytest.mark.parametrize(
@@ -505,6 +775,159 @@ def test_rotate_compensation_keeps_equivalent_euler_near_gimbal_lock(
     nodes.modifier_manager.do_it_dg()
 
     _assert_world_pose(maya_cmds, maya_om, child, original_child_world)
+
+
+@pytest.mark.parametrize(
+    ("method_name", "attribute_name"),
+    (
+        ("set_translate", "translate"),
+        ("set_rotate_axis", "rotateAxis"),
+        ("set_rotate", "rotate"),
+        ("set_joint_orient", "jointOrient"),
+    ),
+)
+def test_node_set_world_space_noop_ignores_blocked_target_plug(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    method_name,
+    attribute_name,
+):
+    import bd_util as bdu
+
+    parent = maya_cmds.createNode("transform", name="parent")
+    node_name = maya_cmds.createNode("joint", name="joint", parent=parent)
+    maya_cmds.setAttr(f"{parent}.rotate", 17.0, -23.0, 31.0)
+    maya_cmds.setAttr(f"{node_name}.rotateOrder", 4)
+    maya_cmds.setAttr(f"{node_name}.rotateAxis", 7.0, -8.0, 9.0)
+    maya_cmds.setAttr(f"{node_name}.rotate", 21.0, -32.0, 43.0)
+    maya_cmds.setAttr(f"{node_name}.jointOrient", 12.0, -14.0, 16.0)
+    maya_cmds.setAttr(f"{node_name}.{attribute_name}X", lock=True)
+    original_value = maya_cmds.getAttr(f"{node_name}.{attribute_name}")[0]
+    world_matrix = _matrix(maya_cmds, node_name)
+    if method_name == "set_translate":
+        target_value = _world_position(world_matrix)
+    else:
+        target_order = (
+            maya_cmds.getAttr(f"{node_name}.rotateOrder")
+            if attribute_name == "rotate"
+            else maya_om.MEulerRotation.kXYZ
+        )
+        target_value = _quaternion_rotation_values(
+            maya_om,
+            _world_rotation(maya_om, world_matrix),
+            target_order,
+        )
+    nodes = bdu.Nodes()
+    node = nodes.existing.joint(node_name)
+
+    assert (
+        getattr(node, method_name)(
+            target_value,
+            space="world",
+        )
+        is node
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    assert maya_cmds.getAttr(f"{node_name}.{attribute_name}")[
+        0
+    ] == pytest.approx(original_value)
+
+
+@pytest.mark.parametrize(
+    ("method_name", "attribute_name"),
+    (
+        ("set_translate", "translate"),
+        ("set_rotate_axis", "rotateAxis"),
+        ("set_rotate", "rotate"),
+        ("set_joint_orient", "jointOrient"),
+    ),
+)
+def test_node_set_rejects_invalid_transform_space_without_queueing(
+    new_scene,
+    maya_cmds,
+    method_name,
+    attribute_name,
+):
+    import bd_util as bdu
+
+    node_name = maya_cmds.createNode("joint", name="joint")
+    original_value = maya_cmds.getAttr(f"{node_name}.{attribute_name}")[0]
+    mod = bdu.ModifierManager()
+    node = bdu.Nodes(modifier_manager=mod).existing.joint(node_name)
+
+    with pytest.raises(TypeError, match="space must be str"):
+        getattr(node, method_name)((10.0, 20.0, 30.0), space=1)
+    with pytest.raises(ValueError, match="Unsupported transform space"):
+        getattr(node, method_name)(
+            (10.0, 20.0, 30.0),
+            space="object",
+        )
+
+    mod.do_it_dg()
+    assert maya_cmds.getAttr(f"{node_name}.{attribute_name}")[
+        0
+    ] == pytest.approx(original_value)
+
+
+def test_node_set_world_space_rejects_instanced_dag_but_local_space_remains_valid(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    node_name = maya_cmds.createNode("transform", name="transform")
+    maya_cmds.instance(node_name, name="transform_instance")
+    nodes = bdu.Nodes()
+    node = nodes.existing.transform(node_name)
+
+    with pytest.raises(RuntimeError, match="instanced DAG node"):
+        node.set_translate((10.0, 20.0, 30.0), space="world")
+
+    node.set_translate((1.0, 2.0, 3.0), space="local")
+    nodes.modifier_manager.do_it_dg()
+    assert maya_cmds.getAttr(f"{node_name}.translate")[0] == pytest.approx(
+        (1.0, 2.0, 3.0)
+    )
+
+
+@pytest.mark.parametrize(
+    ("method_name", "attribute_name"),
+    (
+        ("set_translate", "translate"),
+        ("set_rotate_axis", "rotateAxis"),
+        ("set_rotate", "rotate"),
+        ("set_joint_orient", "jointOrient"),
+    ),
+)
+def test_node_set_world_space_rejects_effectively_singular_parent_matrix(
+    new_scene,
+    maya_cmds,
+    method_name,
+    attribute_name,
+):
+    import bd_util as bdu
+
+    parent = maya_cmds.createNode("transform", name="parent")
+    node_name = maya_cmds.createNode("joint", name="joint", parent=parent)
+    maya_cmds.setAttr(f"{parent}.scaleX", 0.0)
+    original_value = maya_cmds.getAttr(f"{node_name}.{attribute_name}")[0]
+    mod = bdu.ModifierManager()
+    node = bdu.Nodes(modifier_manager=mod).existing.joint(node_name)
+
+    with pytest.raises(
+        RuntimeError, match="invertible effective parent matrix"
+    ):
+        getattr(node, method_name)(
+            (10.0, 20.0, 30.0),
+            space="world",
+        )
+
+    mod.do_it_dg()
+    assert maya_cmds.getAttr(f"{node_name}.{attribute_name}")[
+        0
+    ] == pytest.approx(original_value)
 
 
 @pytest.mark.parametrize(

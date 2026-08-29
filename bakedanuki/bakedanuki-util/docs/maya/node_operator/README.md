@@ -869,11 +869,41 @@ joint.set_joint_orient((0.0, 15.0, 0.0))
 mod.do_it_dg()
 ```
 
-値はlocal属性値として扱い、`translate`はcentimeter、`rotateAxis` / `rotate` /
-`jointOrient`はdegree単位です。`rotateAxis` / `jointOrient`の回転順は固定XYZ、
-`rotate`は現在の`rotateOrder`です。既定では子を変更せず、対象属性だけを設定します。
-各メソッドは自身を返し、変更を現在の`MDGModifier`へ積みます。`do_it_dg()`は
-自動実行しません。
+`space`の既定値は`"local"`で、値をlocal属性値として扱います。明示的に
+`space="local"`を指定しても同じです。`translate`はcentimeter、`rotateAxis` /
+`rotate` / `jointOrient`はdegree単位です。`rotateAxis` / `jointOrient`の回転順は
+固定XYZ、`rotate`は現在の`rotateOrder`です。既定では子を変更せず、対象属性だけを
+設定します。各メソッドは自身を返し、変更を現在の`MDGModifier`へ積みます。
+`do_it_dg()`は自動実行しません。
+
+`space="world"`を指定すると、数値でworld目標を指定できます。
+
+```python
+transform.set_translate((10.0, 20.0, 30.0), space="world")
+transform.set_rotate((10.0, 20.0, 30.0), space="world")
+joint.set_joint_orient((0.0, 45.0, 0.0), space="world")
+mod.do_it_dg()
+```
+
+`set_translate()`の値は`worldMatrix`の移動成分、つまりDAG原点の目標world位置です。
+現在のDAG原点との差分を`parentInverseMatrix`で`translate`差分へ変換するため、
+rotate / scale pivotと`offsetParentMatrix`を含む現在のlocal matrixを維持したまま、
+対象の`translate`だけを変更します。
+
+回転系メソッドの値は最終的な目標world姿勢です。実効親空間へ変換後、メソッド名に
+対応する`rotateAxis` / `rotate` / `jointOrient`の1属性だけでその姿勢を実現し、
+残りの回転属性は変更しません。入力Euler値の回転順はlocal指定と同じく、
+`rotateAxis` / `jointOrient`が固定XYZ、`rotate`が現在の`rotateOrder`です。
+設定値は現在の対象属性値に近いquaternion等価なEuler解を選びます。
+
+world指定は評価済みの`worldMatrix`、`parentMatrix`、`parentInverseMatrix`を使用します。
+`offsetParentMatrix`、親の非一様scale / shear、負scaleもこの実効親行列を通じて
+反映されます。world pathが一意でないinstanced DAGと、scale 0などで実効親行列が
+数値的に非可逆な場合は、変更を積む前に`RuntimeError`を送出します。
+
+非ゼロrotate pivotがあるnodeへworld姿勢を設定すると、回転属性だけを変更するため
+DAG原点のworld位置が動く場合があります。姿勢と位置の両方を設定する場合は、先に
+world姿勢を設定して`mod.do_it_dg()`を実行し、続いてworld位置を設定してください。
 
 `set_rotate_axis()`は自身の姿勢を変更する通常の値設定です。自身の姿勢を維持して
 差分を`rotate`で吸収する`set_rotate_axis_with_rotate()`とは用途が異なります。
@@ -881,8 +911,8 @@ mod.do_it_dg()
 `node.translate.set()`などはplug値を設定する低レベルAPIです。`node.set_translate()`
 などは、DAG階層の補償を選択できる高レベルAPIです。
 
-丸めメソッドも同じ値設定経路を使用します。Python組み込みの`round()`と同じ
-偶数丸めで目標値を計算し、対応する`set_*()`へ渡します。
+丸めメソッドはlocal属性値を対象とします。Python組み込みの`round()`と同じ偶数丸めで
+目標値を計算し、対応する`set_*()`のlocal経路へ渡します。
 
 ```python
 transform.round_translate(3)
@@ -970,6 +1000,7 @@ quaternionです。`compensate_child_translate=False`では、非ゼロrotate pi
 
 補償が必要なtargetまたは子がinstanced DAGの場合、補償先plugがlockされている場合、
 animation curveを含む入力接続を持つ場合は、変更を積む前に`RuntimeError`を送出します。
+子補償を使用しない場合でも、`space="world"`のtargetがinstanced DAGの場合は拒否します。
 `compensate_children=False`では子を取得・検証しません。回転系で
 `compensate_child_translate=False`の場合は子の`translate`も検証しません。
 丸め前後の親属性が同じ場合も子を検証せずno-opになります。

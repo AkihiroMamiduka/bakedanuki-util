@@ -248,7 +248,8 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
     軸指定、offsetParentMatrix、全rotateOrder、undo / redo、lock・入力接続、
     shape source、instanced DAGの拒否、非ゼロrotatePivotでdst自身の位置を補償しない
     ことに加え、直接の子のworld姿勢・位置補償、Joint子の`rotate` /
-    `jointOrient`選択、既定の非補償、no-op、変更予約前の原子的な検証を検証します。
+    `jointOrient`選択、既定の非補償、no-op、非可逆な実効親行列の拒否、
+    変更予約前の原子的な検証を検証します。
 - `tests/maya/node/operator/node/dag/transform/test_transform_round.py`
   - Transform / Jointの階層補償付き`translate` / `rotateAxis` / `rotate` /
     `jointOrient`丸め、
@@ -258,9 +259,10 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
     検証します。
 - `tests/maya/node/operator/node/dag/transform/test_transform_set.py`
   - Transform / Jointの`translate` / `rotateAxis` / `rotate` / `jointOrient`設定、
-    sequence / 3 scalar入力、既定の非補償、world姿勢のみ／位置を含む補償、Joint子の
-    補償属性選択、ジンバルロック条件でのquaternion等価性、undo / redo、変更予約前の
-    原子的な検証を検証します。
+    sequence / 3 scalar入力、local / world空間、全rotateOrder、offsetParentMatrix、
+    非一様scale / shear、既定の非補償、world姿勢のみ／位置を含む補償、Joint子の
+    補償属性選択、ジンバルロック条件でのquaternion等価性、undo / redo、instanced DAGと
+    非可逆な実効親行列の拒否、変更予約前の原子的な検証を検証します。
 - `tests/maya/node/operator/node/dag/shape/test_create.py`
   - 親 Transform 必須の shape 作成、明示的な公開対象、同一 modifier での
     一括作成、undo / redo を検証します。

@@ -116,6 +116,10 @@
   既定で無効とし、world姿勢、world位置、Joint子の`rotate` / `jointOrient`補償を
   個別に選択可能。全rotateOrder、undo / redo、lock・入力接続・instanced DAGの拒否を
   Maya 2025上で検証。
+- 上記の属性値設定APIへ`space="local"` / `"world"`を追加。既定のlocal属性値設定を
+  維持し、world指定ではDAG原点または最終world姿勢を、対象の1属性だけで実現する
+  local値へ変換。match APIとworld→local変換を共有し、offsetParentMatrix、全rotateOrder、
+  非一様scale / shear、負scale、子補償、instanced DAGと非可逆な実効親行列の拒否を検証。
 
 ## 完了済み: DAG / shape API roadmap
 
