@@ -27,6 +27,7 @@ def main():
     m = bdu.TransformMatrix(
         translate=src.t.get(),
         rotate=src.r.get(),
+        rotate_order="xyz",
         scale=src.s.get(),
     )
     dst.opm.set(m)
