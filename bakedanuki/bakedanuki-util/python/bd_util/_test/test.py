@@ -40,7 +40,7 @@ def main():
 
     nodes.modifier_manager.do_it_dg()
 
-    dst.aim_to_joint_orient(
+    dst.aim_to_rotate_axis(
         src_aim,
         aim_axis=(0, 0, 1),
         up_target=src_up,
