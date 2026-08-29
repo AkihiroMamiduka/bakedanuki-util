@@ -1,14 +1,19 @@
 # coding: utf-8
 from __future__ import annotations
 
+from collections.abc import Sequence
 from types import NotImplementedType
-from typing import Literal, overload
+from typing import Literal, overload, TypeAlias
 
 from maya.api import OpenMaya as om
 
 from ...value import Double3, DoubleAngle3, DoubleLinear3, Quat
 
 RotationOrder = Literal["xyz", "yzx", "zxy", "xzy", "yxz", "zyx"]
+
+MatrixSequence: TypeAlias = (
+    Sequence[int | float] | Sequence[Sequence[int | float]]
+)
 
 _ROTATION_ORDER_MAP: dict[str, int] = {
     "xyz": om.MEulerRotation.kXYZ,
@@ -36,7 +41,11 @@ def _resolve_rotation_order(order: object) -> int:
 
 
 class TransformMatrix:
-    """Maya の transform 行列を合成・分解するスナップショット値。"""
+    """Mayaのtransform行列を合成・分解するsnapshot値。
+
+    matrix sequenceは、MMatrixと同じrow-major順のflat 16要素、または
+    4行4列として受け取る。
+    """
 
     __slots__ = ("_matrix",)
 
@@ -48,8 +57,21 @@ class TransformMatrix:
             | om.MPlug
             | om.MMatrix
             | om.MTransformationMatrix
+            | MatrixSequence
         ),
     ) -> None:
+        """指定したmatrix sourceの現在値をcopyして保持する。
+
+        Args:
+            value: TransformMatrix、matrix plug名、MPlug、MMatrix、
+                MTransformationMatrix、flat 16要素のmatrix sequence、
+                または4行4列のmatrix sequence。
+
+        Raises:
+            TypeError: 対応しないsource型の場合。
+            ValueError: plugを解決できない場合、matrix値を取得できない場合、
+                またはmatrix sequenceの形状・要素が不正な場合。
+        """
         self._matrix = self._to_matrix(value)
 
     @classmethod
@@ -61,6 +83,7 @@ class TransformMatrix:
             | om.MPlug
             | om.MMatrix
             | om.MTransformationMatrix
+            | MatrixSequence
         ),
     ) -> om.MMatrix:
         if isinstance(value, cls):
@@ -73,11 +96,45 @@ class TransformMatrix:
             value = cls._get_plug(value)
         if isinstance(value, om.MPlug):
             return cls._matrix_from_plug(value)
+        if isinstance(value, Sequence) and not isinstance(
+            value,
+            (str, bytes, bytearray),
+        ):
+            return cls._matrix_from_sequence(value)
         raise TypeError(
             "value must be TransformMatrix, matrix plug name, MPlug, "
-            "MMatrix, or MTransformationMatrix; "
+            "MMatrix, MTransformationMatrix, or a matrix sequence; "
             f"got {type(value).__name__}"
         )
+
+    @staticmethod
+    def _matrix_from_sequence(value: MatrixSequence) -> om.MMatrix:
+        error_message = (
+            "matrix sequence must contain exactly 16 numeric values "
+            "or four rows of four numeric values"
+        )
+
+        if len(value) == 16:
+            normalized_value: object = tuple(value)
+        elif len(value) == 4:
+            rows: list[tuple[int | float, ...]] = []
+            for row in value:
+                if not isinstance(row, Sequence) or isinstance(
+                    row,
+                    (str, bytes, bytearray),
+                ):
+                    raise ValueError(error_message)
+                if len(row) != 4:
+                    raise ValueError(error_message)
+                rows.append(tuple(row))
+            normalized_value = tuple(rows)
+        else:
+            raise ValueError(error_message)
+
+        try:
+            return om.MMatrix(normalized_value)
+        except (TypeError, ValueError, OverflowError) as error:
+            raise ValueError(error_message) from error
 
     @staticmethod
     def _get_plug(plug_name: str) -> om.MPlug:

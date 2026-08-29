@@ -102,11 +102,15 @@ def test_data_matrix_set_direct_is_immediate(new_scene, maya_cmds, maya_om):
         maya_om.MVector(1.0, 2.0, 3.0),
         maya_om.MSpace.kTransform,
     )
+    flat = tuple(value.asMatrix())
+    rows = tuple(flat[index : index + 4] for index in range(0, 16, 4))
 
     for source in (
         value.asMatrix(),
         value,
         bdu.TransformMatrix(value),
+        list(flat),
+        rows,
     ):
         matrix_plug.set_direct(source)
 

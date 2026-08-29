@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
+from array import array
 import math
 
 import pytest
@@ -26,6 +27,31 @@ def _make_transformation_matrix(maya_om):
     value.setScale((2.0, 3.0, 4.0), maya_om.MSpace.kTransform)
     value.setShear((0.1, 0.2, 0.3), maya_om.MSpace.kTransform)
     return value
+
+
+def _flat_matrix_values():
+    return (
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        4.0,
+        5.0,
+        6.0,
+        1.0,
+    )
+
+
+def _matrix_rows(values):
+    return tuple(values[index : index + 4] for index in range(0, 16, 4))
 
 
 def test_can_import_from_public_packages(new_scene):
@@ -75,6 +101,69 @@ def test_accepts_matrix_value_sources(new_scene, maya_om):
                 expected_quat.w,
             )
         )
+
+
+def test_accepts_flat_and_four_by_four_matrix_sequences(
+    new_scene,
+    maya_om,
+):
+    from bd_util import TransformMatrix
+
+    flat = _flat_matrix_values()
+    rows = _matrix_rows(flat)
+    sources = (
+        list(flat),
+        flat,
+        [list(row) for row in rows],
+        rows,
+        [tuple(row) for row in rows],
+        range(16),
+        array("d", flat),
+    )
+
+    for source in sources:
+        value = TransformMatrix(source)
+
+        _assert_matrix_close(value.matrix, maya_om.MMatrix(source))
+
+
+def test_matrix_sequence_input_is_a_snapshot(new_scene):
+    from bd_util import TransformMatrix
+
+    flat_source = list(_flat_matrix_values())
+    row_source = [list(row) for row in _matrix_rows(flat_source)]
+    from_flat = TransformMatrix(flat_source)
+    from_rows = TransformMatrix(row_source)
+
+    flat_source[12] = 100.0
+    row_source[3][0] = 200.0
+
+    assert from_flat.translate == pytest.approx((4.0, 5.0, 6.0))
+    assert from_rows.translate == pytest.approx((4.0, 5.0, 6.0))
+
+
+@pytest.mark.parametrize(
+    "source",
+    (
+        (),
+        (0.0,) * 15,
+        (0.0,) * 17,
+        ((0.0, 0.0, 0.0, 0.0),) * 3,
+        (
+            (0.0, 0.0, 0.0, 0.0),
+            (0.0, 0.0, 0.0, 0.0),
+            (0.0, 0.0, 0.0, 0.0),
+            (0.0, 0.0, 0.0),
+        ),
+        (object(),) * 16,
+        ("0.0",) * 16,
+    ),
+)
+def test_rejects_invalid_matrix_sequences(new_scene, source):
+    from bd_util import TransformMatrix
+
+    with pytest.raises(ValueError, match="exactly 16 numeric values"):
+        TransformMatrix(source)
 
 
 def test_accepts_matrix_plug_name_and_mplug(new_scene, maya_cmds, maya_om):
@@ -272,6 +361,8 @@ def test_constructor_rejects_unsupported_value(new_scene):
 
     with pytest.raises(TypeError, match="value must be"):
         TransformMatrix(object())
+    with pytest.raises(TypeError, match="value must be"):
+        TransformMatrix(value for value in range(16))
 
 
 def test_constructor_reports_invalid_plug(new_scene, maya_cmds):

@@ -6,6 +6,7 @@ from maya.api import OpenMaya as om
 # self
 from ........ import logger as u_logger
 from .......transform.matrix.transform_matrix import (
+    MatrixSequence,
     RotationOrder,
     TransformMatrix,
 )
@@ -66,7 +67,12 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
     # set
     def set_direct(
         self,
-        value: TransformMatrix | om.MMatrix | om.MTransformationMatrix,
+        value: (
+            TransformMatrix
+            | om.MMatrix
+            | om.MTransformationMatrix
+            | MatrixSequence
+        ),
     ) -> None:
         """
         MPlug に値を直接セットする
@@ -74,7 +80,8 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
 
         Args:
             value:
-                TransformMatrix、MMatrix、または MTransformationMatrix。
+                TransformMatrix、MMatrix、MTransformationMatrix、
+                flat 16要素、または4行4列のmatrix sequence。
         """
         matrix = TransformMatrix(value).matrix
         matrix_obj = om.MFnMatrixData().create(matrix)

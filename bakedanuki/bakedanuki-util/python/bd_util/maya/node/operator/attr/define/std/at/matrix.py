@@ -4,7 +4,10 @@
 from maya.api import OpenMaya as om
 
 # self
-from .......transform.matrix.transform_matrix import TransformMatrix
+from .......transform.matrix.transform_matrix import (
+    MatrixSequence,
+    TransformMatrix,
+)
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
@@ -19,13 +22,19 @@ class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
     # set
     def set(
         self,
-        value: TransformMatrix | om.MMatrix | om.MTransformationMatrix,
+        value: (
+            TransformMatrix
+            | om.MMatrix
+            | om.MTransformationMatrix
+            | MatrixSequence
+        ),
     ) -> None:
         """matrixプラグへ行列値をModifierManager経由で設定する。
 
         Args:
-            value: 設定するTransformMatrix、MMatrix、または
-                MTransformationMatrix。
+            value: 設定するTransformMatrix、MMatrix、
+                MTransformationMatrix、flat 16要素、または4行4列の
+                matrix sequence。
 
         Notes:
             変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。

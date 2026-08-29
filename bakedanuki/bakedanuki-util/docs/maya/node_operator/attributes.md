@@ -133,6 +133,44 @@ methodとして定義しません。`PlugOperator`や`DataTypePlugOperator`な�
 値型、単位、ModifierManager経由か即時反映かをdocstringへ記載します。対応関係を
 変更した場合はruntimeのcapability testとPyright contractも同時に更新します。
 
+## TransformMatrixの入力
+
+`TransformMatrix`は、matrix plugのsnapshotに加えて、次の値から作成できます。
+
+- `TransformMatrix`
+- matrix plug名 / `MPlug`
+- `MMatrix` / `MTransformationMatrix`
+- flat 16要素のnumeric sequence
+- 4行4列のnumeric sequence
+
+matrix sequenceの並びはMayaの`MMatrix`と同じrow-majorです。4行4列では各内側の
+sequenceを1行として扱い、移動成分は4行目の先頭3要素に置きます。
+
+```python
+import bd_util as bdu
+
+values = (
+    1.0, 0.0, 0.0, 0.0,
+    0.0, 1.0, 0.0, 0.0,
+    0.0, 0.0, 1.0, 0.0,
+    4.0, 5.0, 6.0, 1.0,
+)
+
+matrix = bdu.TransformMatrix(values)
+node.matrixIn[0].set(values)
+mod.do_it_dg()
+```
+
+`list` / `tuple`に限定せず、`range`や`array.array`など、長さを持ち繰り返し走査できる
+`Sequence`を受け取ります。generatorのような一度だけ走査する`Iterable`は対象外です。
+flatは正確に16要素、nestedは正確に4行4列である必要があり、不正な形状や非numeric
+要素には`ValueError`を送出します。元のmutable sequenceを後から変更しても、作成済みの
+`TransformMatrix`には影響しません。
+
+`MatrixPlugOperator.set()`と`DataMatrixPlugOperator.set_direct()`も同じmatrix sequenceを
+受け取ります。sequenceとの乗算やcolumn-majorの自動判定・自動転置は行いません。
+必要な場合は明示的に`TransformMatrix(sequence)`へ変換、または入力側で転置します。
+
 ## Channel Box公開状態とlock
 
 すべての`PlugOperator`は、plug単位のlock状態を切り替える次のmethodを持ちます。

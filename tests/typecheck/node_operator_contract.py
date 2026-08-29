@@ -3772,6 +3772,9 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
 
 
 def descriptor_contract(compose: ComposeMatrix) -> None:
+    flat_matrix_sequence = [0.0] * 16
+    matrix_rows = [[0.0] * 4 for _ in range(4)]
+
     assert_type(ComposeMatrix.outputMatrix, MatrixAttrOperator)
     assert_type(compose.outputMatrix, MatrixPlugOperator)
     assert_type(compose.omat, MatrixPlugOperator)
@@ -3792,9 +3795,16 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     assert_type(matrix_value.quat.w, float)
     assert_type(matrix_value.__mul__(om.MMatrix()), bdu.TransformMatrix)
     assert_type(matrix_value.__rmul__(om.MMatrix()), bdu.TransformMatrix)
+    assert_type(
+        bdu.TransformMatrix(flat_matrix_sequence),
+        bdu.TransformMatrix,
+    )
+    assert_type(bdu.TransformMatrix(matrix_rows), bdu.TransformMatrix)
     assert_type(compose.outputMatrix.set(matrix_value), None)
     assert_type(compose.outputMatrix.set(om.MMatrix()), None)
     assert_type(compose.outputMatrix.set(om.MTransformationMatrix()), None)
+    assert_type(compose.outputMatrix.set(flat_matrix_sequence), None)
+    assert_type(compose.outputMatrix.set(matrix_rows), None)
     assert_type(compose.outputMatrix.connect(("target", "input")), None)
     assert_type(compose.outputMatrix.connect_from("source.output"), None)
     assert_type(compose.outputMatrix.disconnect(["target", "input"]), None)
@@ -4204,6 +4214,9 @@ def scalar_base_contract(
 
 
 def multi_compound_contract(nodes: bdu.Nodes) -> None:
+    flat_matrix_sequence = [0.0] * 16
+    matrix_rows = [[0.0] * 4 for _ in range(4)]
+
     wt_add_matrix = nodes.create.wtAddMatrix(name="wt_add_matrix")
     assert_type(wt_add_matrix, WtAddMatrix)
 
@@ -4230,6 +4243,8 @@ def multi_compound_contract(nodes: bdu.Nodes) -> None:
     assert_type(matrix_in.set_direct(om.MMatrix()), None)
     assert_type(matrix_in.set_direct(om.MTransformationMatrix()), None)
     assert_type(matrix_in.set_direct(matrix_value), None)
+    assert_type(matrix_in.set_direct(flat_matrix_sequence), None)
+    assert_type(matrix_in.set_direct(matrix_rows), None)
 
 
 def condition_contract(nodes: bdu.Nodes) -> None:
@@ -4873,6 +4888,12 @@ def invalid_usage_contract(
         until=nodes.types.Transform  # pyright: ignore[reportArgumentType]
     )
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
+    bdu.TransformMatrix(
+        ["not a number"] * 16  # pyright: ignore[reportArgumentType]
+    )
+    bdu.TransformMatrix(
+        (value for value in range(16))  # pyright: ignore[reportArgumentType]
+    )
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]
     assert_type(c.inputTranslate.set_keyable(), None)
     assert_type(c.inputTranslate.set_channel_box_direct(), None)

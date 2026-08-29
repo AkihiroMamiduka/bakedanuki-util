@@ -206,10 +206,11 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - animCurve の作成、query、削除、tangent 操作を検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
   - typed matrix plugと`TransformMatrix`の連携、常に具体型を返す`get()`、
-    未設定時の`ValueError`、分解値のcompound専用値型を検証します。
+    未設定時の`ValueError`、分解値のcompound専用値型、flat 16要素 / 4行4列の
+    sequenceによるdirect設定を検証します。
 - `tests/maya/node/operator/attr/test_matrix_attr.py`
   - matrix plugの`TransformMatrix`取得と、`TransformMatrix` / `MMatrix` /
-    `MTransformationMatrix`による値設定を検証します。
+    `MTransformationMatrix` / matrix sequenceによるqueued値設定を検証します。
 - `tests/maya/value/test_scalar_compound.py`
   - compound 専用値型の immutable sequence、component access、型ごとの
     equality、演算未対応を検証します。
@@ -271,8 +272,9 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 ### TransformMatrix
 
 - `tests/maya/transform/matrix/test_transform_matrix.py`
-  - matrixの入力、snapshot、compound専用値型による分解、回転順序、
-    `MMatrix`を含む左右の乗算、逆行列を検証します。
+  - matrixの入力、flat 16要素 / 4行4列のsequenceと形状検証、snapshot、
+    compound専用値型による分解、回転順序、`MMatrix`を含む左右の乗算、
+    逆行列を検証します。
 
 ### 開発用 generator
 

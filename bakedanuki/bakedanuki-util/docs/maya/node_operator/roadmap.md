@@ -46,6 +46,9 @@
 - `MatrixPlugOperator.get()` / `DataMatrixPlugOperator.get()`を
   `TransformMatrix`へ統一し、matrix plugの値設定、`MMatrix`との乗算、
   typed matrixの未設定時エラーを同じ契約へ整理。
+- `TransformMatrix`とmatrix plugの値設定に、row-majorのflat 16要素 / 4行4列の
+  numeric sequence入力を追加。厳密な形状検証、snapshot、runtime / Pyright contractを
+  Maya 2025上で検証。
 - `TransformMatrix`の分解値をplugの`get()`と同じcompound専用値型へ統一。
   translateはcentimeterの`DoubleLinear3`、Euler回転はdegreeの
   `DoubleAngle3`、scale / shearは`Double3`、quaternionは`Quat`を返す。

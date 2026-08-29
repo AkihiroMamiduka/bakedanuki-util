@@ -43,10 +43,14 @@ def test_matrix_plug_set_accepts_supported_matrix_values(
     mod = bdu.ModifierManager()
     node = bdu.Nodes(modifier_manager=mod).existing.multMatrix(node_name)
     value = _make_transformation_matrix(maya_om)
+    flat = tuple(value.asMatrix())
+    rows = tuple(flat[index : index + 4] for index in range(0, 16, 4))
     sources = (
         value.asMatrix(),
         value,
         bdu.TransformMatrix(value),
+        list(flat),
+        rows,
     )
 
     for index, source in enumerate(sources):
