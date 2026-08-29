@@ -135,13 +135,9 @@ methodとして定義しません。`PlugOperator`や`DataTypePlugOperator`な�
 
 ## TransformMatrixの入力
 
-`TransformMatrix`は、matrix plugのsnapshotに加えて、次の値から作成できます。
-
-- `TransformMatrix`
-- matrix plug名 / `MPlug`
-- `MMatrix` / `MTransformationMatrix`
-- flat 16要素のnumeric sequence
-- 4行4列のnumeric sequence
+公開APIとしての作成方法、componentの単位・既定値・入力エラーは、
+[TransformMatrix](../transform_matrix.md#作成)を正本とします。この節ではmatrix plugとの
+接続に関わる仕様だけを記録します。
 
 matrix sequenceの並びはMayaの`MMatrix`と同じrow-majorです。4行4列では各内側の
 sequenceを1行として扱い、移動成分は4行目の先頭3要素に置きます。
@@ -173,49 +169,11 @@ flatは正確に16要素、nestedは正確に4行4列である必要があり、
 
 ### transform componentからの合成
 
-matrix sourceを渡さず、keyword-onlyのtransform componentから`composeMatrix` nodeと
-同じ規則で合成できます。すべてのcomponentは任意です。
-
-```python
-matrix = bdu.TransformMatrix(
-    translate=(1.0, 2.0, 3.0),
-    rotate=(10.0, 20.0, 30.0),
-    rotate_order="zyx",
-    scale=(2.0, 2.0, 2.0),
-    shear=(0.1, 0.2, 0.3),
-)
-```
-
-| argument | 単位 / 順序 | 省略時 |
-| --- | --- | --- |
-| `translate` | centimeterのXYZ | `(0, 0, 0)` |
-| `rotate` | degreeのXYZ Euler | identity rotation |
-| `quat` | `(x, y, z, w)` | identity rotation |
-| `rotate_order` | Euler回転順序 | `"xyz"` |
-| `scale` | XYZ | `(1, 1, 1)` |
-| `shear` | `(xy, xz, yz)` | `(0, 0, 0)` |
-
-`rotate`と`quat`はどちらも必須ではありません。両方を省略すればidentity rotationに
-なり、`TransformMatrix(translate=(1, 2, 3))`のような部分指定ができます。
-`TransformMatrix()`はidentity matrixを返します。
-
-quaternionで指定する場合は次のようにします。
-
-```python
-matrix = bdu.TransformMatrix(
-    translate=(1.0, 2.0, 3.0),
-    quat=(0.0, 0.0, 0.7071, 0.7071),
-    scale=(2.0, 2.0, 2.0),
-)
-```
-
-各componentは対応する`DoubleLinear3` / `DoubleAngle3` / `Double3` / `Quat`、または
-正しい要素数のnumeric `Sequence`を受け取ります。`rotate`と`quat`の同時指定、matrix
-sourceとcomponentの同時指定は`ValueError`です。non-zero quaternionはMayaと同じ規則で
-扱い、matrixをNaNにするzero quaternionは`ValueError`として拒否します。
-
-component入力は`MTransformationMatrix`で直接合成するsnapshot処理です。
-temporary DG nodeの作成やModifierManagerへの予約は行いません。
+`TransformMatrix`は、matrix sourceを渡さずkeyword-onlyのtransform componentからも
+作成できます。この処理は`MTransformationMatrix`による即時のsnapshot合成であり、
+temporary DG nodeの作成や`ModifierManager`への予約は行いません。詳細は
+[transform componentから作成](../transform_matrix.md#transform-componentから作成)を
+参照してください。
 
 ## Channel Box公開状態とlock
 

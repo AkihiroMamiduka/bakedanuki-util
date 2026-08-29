@@ -23,6 +23,15 @@ from_plug = bdu.TransformMatrix(selection.getPlug(0))
 
 from_matrix = bdu.TransformMatrix(om.MMatrix())
 from_transformation = bdu.TransformMatrix(om.MTransformationMatrix())
+
+from_flat = bdu.TransformMatrix(
+    (
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        4.0, 5.0, 6.0, 1.0,
+    )
+)
 ```
 
 コンストラクタは次の値を受け取ります。
@@ -32,8 +41,66 @@ from_transformation = bdu.TransformMatrix(om.MTransformationMatrix())
 - `MPlug`
 - `MMatrix`
 - `MTransformationMatrix`
+- 16要素のnumeric sequence
+- 4行4列のnumeric sequence
 
-matrix ではない plug を渡した場合は `TypeError` を送出します。
+matrix sequenceはMayaの`MMatrix`と同じrow-major順です。4行4列では各内側の
+sequenceを1行として扱い、移動成分は4行目の先頭3要素に置きます。flatは正確に
+16要素、nestedは正確に4行4列である必要があります。generatorのような一度だけ
+走査する`Iterable`ではなく、長さを持つ`Sequence`を受け取ります。
+
+matrixではないplugや未対応のsource型を渡した場合は`TypeError`、matrix sequenceの
+形状や要素が不正な場合は`ValueError`を送出します。入力値は作成時にコピーされるため、
+元のmutable sequenceや`MTransformationMatrix`を後から変更してもsnapshotには
+影響しません。
+
+### transform componentから作成
+
+sourceを渡さず、Mayaの`composeMatrix` nodeと同じtransform componentから行列を
+合成できます。componentはkeyword-onlyです。
+
+```python
+composed = bdu.TransformMatrix(
+    translate=(1.0, 2.0, 3.0),
+    rotate=(10.0, 20.0, 30.0),
+    rotate_order="zyx",
+    scale=(2.0, 2.0, 2.0),
+    shear=(0.1, 0.2, 0.3),
+)
+```
+
+| argument | 単位 / 順序 | 省略時 |
+| --- | --- | --- |
+| `translate` | centimeterのXYZ | `(0, 0, 0)` |
+| `rotate` | degreeのXYZ Euler | identity rotation |
+| `quat` | `(x, y, z, w)` | identity rotation |
+| `rotate_order` | Euler回転順序 | `"xyz"` |
+| `scale` | XYZ | `(1, 1, 1)` |
+| `shear` | `(xy, xz, yz)` | `(0, 0, 0)` |
+
+各componentには正しい要素数のnumeric `Sequence`を渡します。対応する公開値型の
+`DoubleLinear3` / `DoubleAngle3` / `Double3` / `Quat`もそのまま使用できます。
+
+すべてのcomponentは任意です。`TransformMatrix()`はidentity matrix、
+`TransformMatrix(translate=(1, 2, 3))`は移動だけを持つ行列を返します。
+`rotate`と`quat`はどちらか一方だけを指定でき、両方の同時指定は`ValueError`です。
+
+quaternionを使用する場合は次のように指定します。
+
+```python
+composed = bdu.TransformMatrix(
+    translate=(1.0, 2.0, 3.0),
+    quat=(0.0, 0.0, 0.7071, 0.7071),
+)
+```
+
+non-zero quaternionはMayaと同じ規則で扱います。行列をNaNにするzero quaternionは
+`ValueError`として拒否します。`rotate_order`はEulerの`rotate`にだけ適用され、
+`quat`使用時や回転を省略した場合は行列結果へ影響しません。
+
+matrix sourceとcomponentは同時指定できません。合成は
+`MTransformationMatrix`を使った即時のsnapshot処理であり、temporary DG nodeの作成や
+`ModifierManager`への処理予約は行いません。
 
 ## 値の取得
 
@@ -114,7 +181,9 @@ scale = tm.scale
 
 ## Matrix plug への設定
 
-`MatrixPlugOperator.set()` と `DataMatrixPlugOperator.set_direct()` は、`TransformMatrix` / `MMatrix` / `MTransformationMatrix` を受け取ります。
+`MatrixPlugOperator.set()` と `DataMatrixPlugOperator.set_direct()` は、
+`TransformMatrix` / `MMatrix` / `MTransformationMatrix`に加え、コンストラクタと同じ
+16要素または4行4列のmatrix sequenceを受け取ります。
 
 ```python
 mod = bdu.ModifierManager()
@@ -125,6 +194,14 @@ mult_matrix = nodes.create.multMatrix(name="mult_matrix")
 
 src_world = src_node.worldMatrix[0].get()
 mult_matrix.matrixIn[0].set(src_world)
+mult_matrix.matrixIn[1].set(
+    (
+        (1.0, 0.0, 0.0, 0.0),
+        (0.0, 1.0, 0.0, 0.0),
+        (0.0, 0.0, 1.0, 0.0),
+        (4.0, 5.0, 6.0, 1.0),
+    )
+)
 mod.do_it_dg()
 ```
 
