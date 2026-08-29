@@ -195,6 +195,13 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - Maya attribute 情報の取得と fallback を検証します。
 - `tests/maya/node/operator/attr/test_extra_attr.py`
   - extra attribute の追加、型解決、値設定を検証します。
+- `tests/maya/node/operator/attr/test_channel_state.py`
+  - scalar / scalar compoundのChannel Box 3状態、全plug型のlock / unlock、
+    queued / directの反映時期、undo / redo、compound child展開、multi element制約、
+    呼び出し順、作成予約中nodeへの適用を検証します。
+- `tests/maya/node/operator/attr/test_plug_capabilities.py`
+  - 値操作、Channel Box公開状態操作、lock操作が、対応する具象plug型だけの
+    runtime APIとして現れることを検証します。
 - `tests/maya/node/operator/attr/test_keyframe.py`
   - animCurve の作成、query、削除、tangent 操作を検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`

@@ -4191,6 +4191,16 @@ def scalar_base_contract(
         scalar_field,
         InputRotateOrderEnumField,
     )
+    assert_type(scalar_plug.set_keyable(), None)
+    assert_type(scalar_plug.set_keyable_direct(), None)
+    assert_type(scalar_plug.set_channel_box(), None)
+    assert_type(scalar_plug.set_channel_box_direct(), None)
+    assert_type(scalar_plug.set_hidden(), None)
+    assert_type(scalar_plug.set_hidden_direct(), None)
+    assert_type(scalar_plug.set_locked(), None)
+    assert_type(scalar_plug.set_locked_direct(), None)
+    assert_type(scalar_plug.set_unlocked(), None)
+    assert_type(scalar_plug.set_unlocked_direct(), None)
 
 
 def multi_compound_contract(nodes: bdu.Nodes) -> None:
@@ -4201,6 +4211,12 @@ def multi_compound_contract(nodes: bdu.Nodes) -> None:
     assert_type(wt_add_matrix.wtMatrix, WtMatrixPlugOperator)
     assert_type(wt_add_matrix.wtMatrix[0], WtMatrixPlugOperator)
     assert_type(wt_add_matrix.wtMatrix[next], WtMatrixPlugOperator)
+    assert_type(wt_add_matrix.wtMatrix[0].set_locked(), None)
+    assert_type(wt_add_matrix.wtMatrix[0].set_unlocked_direct(), None)
+    wt_add_matrix.wtMatrix[
+        0
+    ].set_keyable  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    assert_type(wt_add_matrix.wtMatrix[0].weightIn.set_keyable(), None)
     matrix_in = wt_add_matrix.wtMatrix[next].matrixIn
     assert_type(matrix_in, DataMatrixPlugOperator)
     matrix_value = matrix_in.get()
@@ -4858,6 +4874,14 @@ def invalid_usage_contract(
     )
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]
+    assert_type(c.inputTranslate.set_keyable(), None)
+    assert_type(c.inputTranslate.set_channel_box_direct(), None)
+    assert_type(c.inputTranslate.set_hidden(), None)
+    assert_type(compound.set_locked(), None)
+    assert_type(compound.set_locked_direct(), None)
+    assert_type(compound.set_unlocked(), None)
+    assert_type(compound.set_unlocked_direct(), None)
+    assert_type(quat.set_hidden_direct(), None)
     nodes.create.wtAddMatrix().wtMatrix[
         len
     ]  # pyright: ignore[reportArgumentType]
@@ -4866,14 +4890,20 @@ def invalid_usage_contract(
     compound.set  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     compound.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     compound.round  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    compound.set_keyable  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     message.get()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    message.set_hidden  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     typed.set  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     typed.round  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    typed.set_channel_box  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     mesh_data.get()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    mesh_data.set_keyable  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     matrix_data.set  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     matrix_data.round  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    matrix_data.set_hidden  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     integer.round  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     matrix.round  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    matrix.set_keyable  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     quat.round  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     assert_type(scalar.round(3), None)
     scalar.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]

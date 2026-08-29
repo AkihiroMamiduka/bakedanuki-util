@@ -35,6 +35,10 @@
 - `long2` / `long3` / `short2` / `short3` を custom compound 側へ移行。
 - unit compound の `double_angle2/3`、`double_linear2/3`、`float_angle2/3`、`float_linear2/3` を追加。
 - compound `get()` / `set()` / `set_direct()` を整備。
+- 全`PlugOperator`のlock / unlock APIと、scalar / scalar compoundだけに現れる
+  Channel Box 3状態のAPIを追加。undo対応のqueued methodと、即時反映するdirect methodを
+  分離し、compound child展開、multi element制約、runtime / Pyrightのcapability contractを
+  Maya 2025上で検証。
 - compound child limit の public method 化。
 - `lookup.py` の double4 / quat 解決対応。
 - 18 種類の compound 専用値型を追加し、scalar compound の

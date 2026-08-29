@@ -397,6 +397,59 @@ class PlugOperator(Generic[A]):
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} {self.plug_name}>"
 
+    def _set_locked_state(self, locked: bool, *, direct: bool) -> None:
+        plug = self.plug
+        if direct:
+            plug.isLocked = locked
+            return
+
+        def set_state() -> None:
+            plug_name = plug.name()
+            if not cmds.objExists(plug_name):
+                raise RuntimeError(
+                    "Lock state plug is not available when the queued "
+                    f"command executes: {plug_name!r}"
+                )
+            cmds.setAttr(plug_name, lock=locked)
+
+        self._node.modifier_manager.dg_mod.pythonCommandToExecute(set_state)
+
+    def set_locked(self) -> None:
+        """対象plug自体をlockする変更をModifierManagerへ予約する。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+            compound親では、子のlock継承はMaya標準挙動に従う。
+        """
+        self._set_locked_state(True, direct=False)
+
+    def set_locked_direct(self) -> None:
+        """対象MPlug自体を直接lock状態へ変更する。
+
+        Notes:
+            ModifierManagerのundo / redo対象外。
+            compound親では、子のlock継承はMaya標準挙動に従う。
+        """
+        self._set_locked_state(True, direct=True)
+
+    def set_unlocked(self) -> None:
+        """対象plug自体をunlockする変更をModifierManagerへ予約する。
+
+        Notes:
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+            compound親では、子自身のlock状態を上書きしない。
+        """
+        self._set_locked_state(False, direct=False)
+
+    def set_unlocked_direct(self) -> None:
+        """対象MPlug自体を直接unlock状態へ変更する。
+
+        Notes:
+            ModifierManagerのundo / redo対象外。
+            compound親では、子自身のlock状態を上書きしない。
+        """
+        self._set_locked_state(False, direct=True)
+
     def _get_plug_from_str(self, plug_str: str) -> om.MPlug:
         """
         "node.attr" 形式の文字列を MPlug に変換する

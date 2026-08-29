@@ -11,6 +11,7 @@ from ........value.scalar_compound.scalar_compound_value import (
     ScalarCompoundValue,
 )
 from ......... import logger as u_logger
+from ....._channel_state import ChannelBoxStateMixin
 from ....._core import AttrOperator, PlugOperator, AttributeField
 
 A = TypeVar("A", bound="AttrOperator[Any]")
@@ -28,7 +29,11 @@ _ChildMFnType = type[om.MFnNumericAttribute] | type[om.MFnUnitAttribute]
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
+class ScalarCompoundBasePlugOperator(
+    ChannelBoxStateMixin,
+    PlugOperator[A],
+    Generic[A, V, S],
+):
     __slots__ = ()
 
     CHILD_M_FN: ClassVar[_ChildMFnType]
@@ -79,6 +84,11 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V, S]):
                 )
             )
         cls.CHILD_ATTR_NAMES = child_attr_names
+
+    def _channel_box_state_plugs(self) -> tuple[om.MPlug, ...]:
+        self._require_indexed_channel_box_target()
+        plug = self.plug
+        return tuple(plug.child(i) for i in range(len(self._SUFFIXES)))
 
     # get
     @abstractmethod

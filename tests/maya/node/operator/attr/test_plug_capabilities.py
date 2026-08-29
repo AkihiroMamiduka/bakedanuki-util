@@ -42,8 +42,27 @@ from bd_util.maya.node.operator.attr.define.std.dt.mesh import (
 from bd_util.maya.node.operator.attr.define.std.dt.string import (
     DataStringPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.wt_add_matrix import (
+    WtMatrixPlugOperator,
+)
 
 pytestmark = pytest.mark.maya
+
+_LOCK_STATE_METHODS = (
+    "set_locked",
+    "set_locked_direct",
+    "set_unlocked",
+    "set_unlocked_direct",
+)
+
+_CHANNEL_STATE_METHODS = (
+    "set_keyable",
+    "set_keyable_direct",
+    "set_channel_box",
+    "set_channel_box_direct",
+    "set_hidden",
+    "set_hidden_direct",
+)
 
 
 @pytest.mark.parametrize(
@@ -125,4 +144,66 @@ def test_supported_plug_types_expose_only_available_value_operations(
     for method_name in available:
         assert hasattr(plug_cls, method_name)
     for method_name in unavailable:
+        assert not hasattr(plug_cls, method_name)
+
+
+@pytest.mark.parametrize(
+    "plug_cls",
+    (
+        PlugOperator,
+        CompoundPlugOperator,
+        GenericPlugOperator,
+        LightDataPlugOperator,
+        MessagePlugOperator,
+        TypedPlugOperator,
+        MatrixPlugOperator,
+        DataMatrixPlugOperator,
+        DataStringPlugOperator,
+        DataMeshPlugOperator,
+        WtMatrixPlugOperator,
+    ),
+)
+def test_all_plug_types_expose_lock_state_operations(
+    plug_cls: type[PlugOperator[Any]],
+) -> None:
+    for method_name in _LOCK_STATE_METHODS:
+        assert hasattr(plug_cls, method_name)
+
+
+@pytest.mark.parametrize(
+    "plug_cls",
+    (
+        DoublePlugOperator,
+        LongPlugOperator,
+        Double3PlugOperator,
+        QuatPlugOperator,
+    ),
+)
+def test_scalar_plug_types_expose_channel_state_operations(
+    plug_cls: type[PlugOperator[Any]],
+) -> None:
+    for method_name in _CHANNEL_STATE_METHODS:
+        assert hasattr(plug_cls, method_name)
+
+
+@pytest.mark.parametrize(
+    "plug_cls",
+    (
+        PlugOperator,
+        CompoundPlugOperator,
+        GenericPlugOperator,
+        LightDataPlugOperator,
+        MessagePlugOperator,
+        TypedPlugOperator,
+        MatrixPlugOperator,
+        DataMatrixPlugOperator,
+        DataStringPlugOperator,
+        DataMeshPlugOperator,
+        WtMatrixPlugOperator,
+    ),
+)
+def test_non_scalar_plug_types_hide_channel_state_operations(
+    plug_cls: type[PlugOperator[Any]],
+) -> None:
+    for method_name in _CHANNEL_STATE_METHODS:
         assert not hasattr(plug_cls, method_name)

@@ -49,6 +49,8 @@ class MyNode(NodeOperator):
 - `keyframe`
 - `add_attr()`
 - `cmds_add_attr()`
+- `set_locked()` / `set_unlocked()`
+- `set_locked_direct()` / `set_unlocked_direct()`
 
 値操作はplug型が対応するものだけを提供します。
 
@@ -130,6 +132,55 @@ methodとして定義しません。`PlugOperator`や`DataTypePlugOperator`な�
 公開する`get()` / `set()` / `set_direct()` / `round()`には、対象となるMaya型、Python側の
 値型、単位、ModifierManager経由か即時反映かをdocstringへ記載します。対応関係を
 変更した場合はruntimeのcapability testとPyright contractも同時に更新します。
+
+## Channel Box公開状態とlock
+
+すべての`PlugOperator`は、plug単位のlock状態を切り替える次のmethodを持ちます。
+
+- `set_locked()` / `set_unlocked()`
+- `set_locked_direct()` / `set_unlocked_direct()`
+
+bool引数で状態を切り替えるのではなく、目的が明確なmethodを使い分けます。
+compound親に対するlock操作は、その親plug自体へ設定します。子plugが親のlockを
+継承することや、親をunlockしても子自身に設定済みのlockが残ることはMaya標準の
+挙動に従います。
+
+Channel Boxで意味のあるscalar / scalar compound型は、公開状態を3状態へ正規化する
+次のmethodも持ちます。
+
+| 状態 | queued method | direct method | `keyable` | `channelBox` |
+| --- | --- | --- | --- | --- |
+| Keyable | `set_keyable()` | `set_keyable_direct()` | `True` | `False` |
+| Nonkeyable Displayed | `set_channel_box()` | `set_channel_box_direct()` | `False` | `True` |
+| Nonkeyable Hidden | `set_hidden()` | `set_hidden_direct()` | `False` | `False` |
+
+ここでの`set_hidden()`は、plugをChannel BoxのNonkeyable Hidden状態にする操作です。
+attribute定義をAttribute Editorなどから隠す`MFnAttribute.hidden`は変更しません。
+
+```python
+node.translate.set_hidden()
+node.visibility.set_locked()
+mod.do_it_dg()
+```
+
+suffixを持つscalar compoundに公開状態を設定した場合は、compound親のflagではなく、
+表示対象となる各scalar childへ展開します。mixed compoundやgeneric compoundの親には
+公開状態methodを提供しませんが、そのscalar childでは利用できます。string、message、
+matrix、typed dataなど、Channel Boxのscalar表示対象でない型にも公開状態methodを
+提供しません。このcapability分離により、利用できる型でだけIDE補完へ表示されます。
+
+multi attributeの未index親は公開状態の設定対象にできません。`plug[0]`や
+`plug[next]`のようにelementを選択してから使用します。scalar compoundのmultiでは、
+elementを選択した後、そのchildへ公開状態を展開します。
+
+通常methodはundo対応の`cmds.setAttr`を`ModifierManager.dg_mod`へ予約し、呼び出し順を
+保持します。呼び出しただけではsceneへ反映されず、`mod.do_it_dg()`を実行した時点で
+反映されます。作成を予約したばかりのnodeにも、DAG作成を反映した後のDG実行として
+同じbatchへ積めます。
+
+`*_direct()`は`MPlug`へ即時反映し、undo履歴には参加しません。Channel Box公開状態と
+lock状態は互いに独立した概念です。`set_lock_and_hide()`のような複合methodは設けず、
+必要な操作を順に呼び出します。
 
 ## plug access
 
