@@ -120,6 +120,17 @@
   維持し、world指定ではDAG原点または最終world姿勢を、対象の1属性だけで実現する
   local値へ変換。match APIとworld→local変換を共有し、offsetParentMatrix、全rotateOrder、
   非一様scale / shear、負scale、子補償、instanced DAGと非可逆な実効親行列の拒否を検証。
+- `Transform` / `Joint`に、Transform系nodeまたは名前、world / local座標をターゲットに
+  する属性別エイム姿勢APIを追加。任意のlocalエイム／アップ軸、明示的アップ、アップ
+  省略時の最短回転、rotate pivot基準のsnapshot計算、子補償をMaya 2025上で検証。
+- 直接のTransform系子へ向ける属性別エイム姿勢APIを追加。Shapeを除外した直接子index、
+  親空間アップ方向、既定で親軸へ合わせるエンド処理、全直接子のworld姿勢・位置の必須
+  補償、Joint子の既定`jointOrient`補償を検証。階層間で結果が依存する場合は各操作後の
+  `do_it_dg()`を必要とするsnapshot契約を維持。
+- 現在の合成姿勢を基準に、処理前の正軸を処理後の符号付き軸へ対応させる属性別の
+  軸リマップAPIを追加。2軸だけを指定して残りを右手系から決定し、3種類の軸pair、
+  処理後軸の全順列と全符号を組み合わせた72通り、全rotateOrder、子補償、undo / redo、
+  lockとPyright contractを検証。入力接続の拒否は対応する属性設定APIの共通経路を使用。
 
 ## 完了済み: DAG / shape API roadmap
 
@@ -416,6 +427,36 @@ nodeも指定できます。自分自身はchainの対象外なので`until=self
 固定child index chain、祖先・chainの境界指定は完了です。
 
 ## 将来の拡張候補
+
+### Joint chain単位の姿勢設定
+
+単一の`Transform` / `Joint`に対する値設定、姿勢マッチ、エイム、直接子エイム、軸リマップ
+までは完了しています。現時点で単一nodeの薄いaliasは増やさず、複数階層の反復処理を
+一貫した規則でまとめる必要が生じた場合に、Joint chain専用APIを検討します。
+
+chain APIを追加する場合は、既存の単一node APIを計算単位として、次の境界を先に
+固定します。
+
+- `aim_axis`と`up_axis`はchain全体のlocal軸規約とする。非rootでは、明示指定がなければ
+  `parent_up_vector=up_axis`として親の同じlocal軸方向を伝播する。
+- rootだけはworldまたは実効親空間のアップ方向／ターゲットを上書きできるようにする。
+  rootの規定値を決める際は、world固定か実効親空間かを引数名とともに明示する。
+- branchの選択はShapeを除外した直接のTransform系子indexとする。Shapeを含む生のDAG
+  indexを各階層で使う`descendant_chain()`とは別の契約として扱い、暗黙に流用しない。
+- 選択した子以外を含む全直接子のworld姿勢・位置を維持し、Joint子の補償先は
+  `jointOrient`を既定候補として、アニメーション用`rotate`を汚さない。
+- エンドJointは既定で親軸へ合わせる。全回転属性の無条件なゼロ化とは区別し、対象の
+  回転属性だけで合成ローカル回転を単位回転にする現行仕様を維持する。
+- 親空間アップと補償後の子位置は、直前の階層で確定したscene状態に依存する。
+  一括APIは階層ごとの`do_it_dg()`相当の評価とModifierManager履歴を明示的に管理し、
+  未実行modifierの値を読めるように見せない。
+- アップ方向とエイム方向が平行になる特異点では、現行どおりエラーを基本とする。
+  previous frameやchain平面を使うfallbackが必要なら、暗黙処理ではなく独立optionとして
+  仕様化する。
+
+このchain APIは、実際のrig構築側で反復コードとroot／branch／pole処理の利用例が
+集まってから追加します。現時点では、単一node APIを階層ごとに呼び、依存する操作間で
+`mod.do_it_dg()`を実行する方法を正式な構成要素とします。
 
 ### Transform / Joint マッチの拡張境界
 

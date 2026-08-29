@@ -250,6 +250,20 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
     ことに加え、直接の子のworld姿勢・位置補償、Joint子の`rotate` /
     `jointOrient`選択、既定の非補償、no-op、非可逆な実効親行列の拒否、
     変更予約前の原子的な検証を検証します。
+- `tests/maya/node/operator/node/dag/transform/test_aim.py`
+  - Transform / Jointの属性別エイム姿勢設定について、Transform系operator／名前／座標の
+    ターゲット、world / local座標、任意のエイム／アップ軸、アップ省略時の最短回転、
+    rotate pivot、offsetParentMatrix、全rotateOrder、undo / redo、lock、
+    instanced DAG、子補償を検証します。
+  - 直接子エイムについて、Shapeを除外したTransform系子index、全直接子のworld姿勢・
+    位置補償、親空間アップ方向、既定のエンド親合わせ、エンドのエラー選択、Joint子の
+    既定`jointOrient`補償、入力エラー時の原子性を検証します。
+- `tests/maya/node/operator/node/dag/transform/test_axis_remap.py`
+  - 処理前の正軸から処理後の符号付き軸への対応方向、2軸から決定する右手系、属性別の
+    `rotate` / `rotateAxis` / `jointOrient`設定、全rotateOrder、offsetParentMatrix、
+    undo / redo、lock、no-op、子のworld姿勢・位置補償を検証します。
+  - 3種類の処理前軸pair、処理後軸の全順列、全符号を組み合わせた72通りと、指定数、
+    重複軸、未対応文字列、子補償optionの入力エラーを検証します。
 - `tests/maya/node/operator/node/dag/transform/test_transform_round.py`
   - Transform / Jointの階層補償付き`translate` / `rotateAxis` / `rotate` /
     `jointOrient`丸め、
