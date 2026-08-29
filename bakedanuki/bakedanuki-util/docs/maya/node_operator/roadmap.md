@@ -49,6 +49,9 @@
 - `TransformMatrix`とmatrix plugの値設定に、row-majorのflat 16要素 / 4行4列の
   numeric sequence入力を追加。厳密な形状検証、snapshot、runtime / Pyright contractを
   Maya 2025上で検証。
+- `TransformMatrix`に、translate / Euler rotate / quaternion / scale / shearを
+  keyword-onlyで受け取るcomponent合成を追加。全componentの任意指定、matrix sourceとの
+  排他、全Euler回転順序とquaternionの`composeMatrix`等価性をMaya 2025上で検証。
 - `TransformMatrix`の分解値をplugの`get()`と同じcompound専用値型へ統一。
   translateはcentimeterの`DoubleLinear3`、Euler回転はdegreeの
   `DoubleAngle3`、scale / shearは`Double3`、quaternionは`Quat`を返す。

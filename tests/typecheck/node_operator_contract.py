@@ -3800,6 +3800,28 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         bdu.TransformMatrix,
     )
     assert_type(bdu.TransformMatrix(matrix_rows), bdu.TransformMatrix)
+    assert_type(
+        bdu.TransformMatrix(value=om.MMatrix()),
+        bdu.TransformMatrix,
+    )
+    assert_type(bdu.TransformMatrix(), bdu.TransformMatrix)
+    assert_type(
+        bdu.TransformMatrix(translate=bdu.DoubleLinear3(1.0, 2.0, 3.0)),
+        bdu.TransformMatrix,
+    )
+    assert_type(
+        bdu.TransformMatrix(
+            rotate=bdu.DoubleAngle3(10.0, 20.0, 30.0),
+            rotate_order="zyx",
+            scale=bdu.Double3(2.0, 3.0, 4.0),
+            shear=(0.1, 0.2, 0.3),
+        ),
+        bdu.TransformMatrix,
+    )
+    assert_type(
+        bdu.TransformMatrix(quat=bdu.Quat(0.0, 0.0, 0.0, 1.0)),
+        bdu.TransformMatrix,
+    )
     assert_type(compose.outputMatrix.set(matrix_value), None)
     assert_type(compose.outputMatrix.set(om.MMatrix()), None)
     assert_type(compose.outputMatrix.set(om.MTransformationMatrix()), None)
@@ -4893,6 +4915,16 @@ def invalid_usage_contract(
     )
     bdu.TransformMatrix(
         (value for value in range(16))  # pyright: ignore[reportArgumentType]
+    )
+    bdu.TransformMatrix(
+        om.MMatrix(),
+        translate=(1.0, 2.0, 3.0),
+    )  # pyright: ignore[reportCallIssue]
+    bdu.TransformMatrix(
+        rotate_order="invalid"  # pyright: ignore[reportArgumentType]
+    )
+    bdu.TransformMatrix(
+        translate=(1.0, "two", 3.0)  # pyright: ignore[reportArgumentType]
     )
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]
     assert_type(c.inputTranslate.set_keyable(), None)

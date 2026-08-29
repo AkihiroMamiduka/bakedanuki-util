@@ -171,6 +171,52 @@ flatは正確に16要素、nestedは正確に4行4列である必要があり、
 受け取ります。sequenceとの乗算やcolumn-majorの自動判定・自動転置は行いません。
 必要な場合は明示的に`TransformMatrix(sequence)`へ変換、または入力側で転置します。
 
+### transform componentからの合成
+
+matrix sourceを渡さず、keyword-onlyのtransform componentから`composeMatrix` nodeと
+同じ規則で合成できます。すべてのcomponentは任意です。
+
+```python
+matrix = bdu.TransformMatrix(
+    translate=(1.0, 2.0, 3.0),
+    rotate=(10.0, 20.0, 30.0),
+    rotate_order="zyx",
+    scale=(2.0, 2.0, 2.0),
+    shear=(0.1, 0.2, 0.3),
+)
+```
+
+| argument | 単位 / 順序 | 省略時 |
+| --- | --- | --- |
+| `translate` | centimeterのXYZ | `(0, 0, 0)` |
+| `rotate` | degreeのXYZ Euler | identity rotation |
+| `quat` | `(x, y, z, w)` | identity rotation |
+| `rotate_order` | Euler回転順序 | `"xyz"` |
+| `scale` | XYZ | `(1, 1, 1)` |
+| `shear` | `(xy, xz, yz)` | `(0, 0, 0)` |
+
+`rotate`と`quat`はどちらも必須ではありません。両方を省略すればidentity rotationに
+なり、`TransformMatrix(translate=(1, 2, 3))`のような部分指定ができます。
+`TransformMatrix()`はidentity matrixを返します。
+
+quaternionで指定する場合は次のようにします。
+
+```python
+matrix = bdu.TransformMatrix(
+    translate=(1.0, 2.0, 3.0),
+    quat=(0.0, 0.0, 0.7071, 0.7071),
+    scale=(2.0, 2.0, 2.0),
+)
+```
+
+各componentは対応する`DoubleLinear3` / `DoubleAngle3` / `Double3` / `Quat`、または
+正しい要素数のnumeric `Sequence`を受け取ります。`rotate`と`quat`の同時指定、matrix
+sourceとcomponentの同時指定は`ValueError`です。non-zero quaternionはMayaと同じ規則で
+扱い、matrixをNaNにするzero quaternionは`ValueError`として拒否します。
+
+component入力は`MTransformationMatrix`で直接合成するsnapshot処理です。
+temporary DG nodeの作成やModifierManagerへの予約は行いません。
+
 ## Channel Box公開状態とlock
 
 すべての`PlugOperator`は、plug単位のlock状態を切り替える次のmethodを持ちます。

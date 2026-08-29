@@ -273,8 +273,9 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 
 - `tests/maya/transform/matrix/test_transform_matrix.py`
   - matrixの入力、flat 16要素 / 4行4列のsequenceと形状検証、snapshot、
-    compound専用値型による分解、回転順序、`MMatrix`を含む左右の乗算、
-    逆行列を検証します。
+    keyword-only componentの既定値・部分指定・入力検証、全Euler回転順序 / quaternionでの
+    `composeMatrix` nodeとの等価性、compound専用値型による分解、`MMatrix`を含む
+    左右の乗算、逆行列を検証します。
 
 ### 開発用 generator
 

@@ -142,6 +142,181 @@ def test_matrix_sequence_input_is_a_snapshot(new_scene):
     assert from_rows.translate == pytest.approx((4.0, 5.0, 6.0))
 
 
+def test_component_defaults_create_identity_matrix(new_scene, maya_om):
+    from bd_util import TransformMatrix
+
+    value = TransformMatrix()
+
+    _assert_matrix_close(value.matrix, maya_om.MMatrix())
+    assert value.translate == pytest.approx((0.0, 0.0, 0.0))
+    assert value.rotate == pytest.approx((0.0, 0.0, 0.0))
+    assert value.scale == pytest.approx((1.0, 1.0, 1.0))
+    assert value.shear == pytest.approx((0.0, 0.0, 0.0))
+
+
+def test_translate_only_keeps_identity_rotation_scale_and_shear(new_scene):
+    from bd_util import TransformMatrix
+
+    value = TransformMatrix(translate=(1.0, 2.0, 3.0))
+
+    assert value.translate == pytest.approx((1.0, 2.0, 3.0))
+    assert value.rotate == pytest.approx((0.0, 0.0, 0.0))
+    assert value.scale == pytest.approx((1.0, 1.0, 1.0))
+    assert value.shear == pytest.approx((0.0, 0.0, 0.0))
+
+
+@pytest.mark.parametrize(
+    ("order", "maya_order"),
+    (
+        ("xyz", 0),
+        ("yzx", 1),
+        ("zxy", 2),
+        ("xzy", 3),
+        ("yxz", 4),
+        ("zyx", 5),
+    ),
+)
+def test_euler_components_match_compose_matrix_node(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    order,
+    maya_order,
+):
+    from bd_util import TransformMatrix
+
+    translate = (1.25, -2.5, 3.75)
+    rotate = (17.0, -28.0, 39.0)
+    scale = (2.0, -3.0, 4.0)
+    shear = (0.1, -0.2, 0.3)
+    value = TransformMatrix(
+        translate=translate,
+        rotate=rotate,
+        rotate_order=order,
+        scale=scale,
+        shear=shear,
+    )
+    node = maya_cmds.createNode("composeMatrix")
+    maya_cmds.setAttr(f"{node}.useEulerRotation", True)
+    maya_cmds.setAttr(f"{node}.inputRotateOrder", maya_order)
+    maya_cmds.setAttr(f"{node}.inputTranslate", *translate)
+    maya_cmds.setAttr(f"{node}.inputRotate", *rotate)
+    maya_cmds.setAttr(f"{node}.inputScale", *scale)
+    maya_cmds.setAttr(f"{node}.inputShear", *shear)
+
+    expected = maya_om.MMatrix(maya_cmds.getAttr(f"{node}.outputMatrix"))
+
+    _assert_matrix_close(value.matrix, expected)
+
+
+def test_quat_components_match_compose_matrix_node(
+    new_scene,
+    maya_cmds,
+    maya_om,
+):
+    from bd_util import TransformMatrix
+
+    translate = (1.25, -2.5, 3.75)
+    quat = (1.0, 2.0, 3.0, 4.0)
+    scale = (2.0, -3.0, 4.0)
+    shear = (0.1, -0.2, 0.3)
+    value = TransformMatrix(
+        translate=translate,
+        quat=quat,
+        rotate_order="zyx",
+        scale=scale,
+        shear=shear,
+    )
+    node = maya_cmds.createNode("composeMatrix")
+    maya_cmds.setAttr(f"{node}.useEulerRotation", False)
+    maya_cmds.setAttr(f"{node}.inputRotateOrder", 5)
+    maya_cmds.setAttr(f"{node}.inputTranslate", *translate)
+    maya_cmds.setAttr(f"{node}.inputQuat", *quat)
+    maya_cmds.setAttr(f"{node}.inputScale", *scale)
+    maya_cmds.setAttr(f"{node}.inputShear", *shear)
+
+    expected = maya_om.MMatrix(maya_cmds.getAttr(f"{node}.outputMatrix"))
+
+    _assert_matrix_close(value.matrix, expected)
+
+
+def test_component_input_accepts_public_value_types_and_is_a_snapshot(
+    new_scene,
+):
+    import bd_util as bdu
+
+    translate = [1.0, 2.0, 3.0]
+    value = bdu.TransformMatrix(
+        translate=translate,
+        rotate=bdu.DoubleAngle3(10.0, 20.0, 30.0),
+        scale=bdu.Double3(2.0, 3.0, 4.0),
+        shear=bdu.Double3(0.1, 0.2, 0.3),
+    )
+
+    translate[0] = 100.0
+
+    assert value.translate == pytest.approx((1.0, 2.0, 3.0))
+    assert value.rotate == pytest.approx((10.0, 20.0, 30.0))
+    assert value.scale == pytest.approx((2.0, 3.0, 4.0))
+    assert value.shear == pytest.approx((0.1, 0.2, 0.3))
+
+    quat_value = bdu.TransformMatrix(quat=bdu.Quat(1.0, 2.0, 3.0, 4.0))
+    assert isinstance(quat_value.quat, bdu.Quat)
+
+
+@pytest.mark.parametrize(
+    ("name", "kwargs"),
+    (
+        ("translate", {"translate": (1.0, 2.0)}),
+        ("rotate", {"rotate": (1.0, 2.0, 3.0, 4.0)}),
+        ("quat", {"quat": (0.0, 0.0, 1.0)}),
+        ("scale", {"scale": (1.0, 2.0)}),
+        ("shear", {"shear": (1.0, 2.0, 3.0, 4.0)}),
+        ("translate", {"translate": (1.0, "two", 3.0)}),
+    ),
+)
+def test_rejects_invalid_transform_components(new_scene, name, kwargs):
+    from bd_util import TransformMatrix
+
+    with pytest.raises(
+        ValueError,
+        match=rf"{name} must contain exactly .* numeric values",
+    ):
+        TransformMatrix(**kwargs)
+
+
+def test_rejects_conflicting_rotation_and_source_inputs(new_scene, maya_om):
+    from bd_util import TransformMatrix
+
+    with pytest.raises(ValueError, match="rotate and quat"):
+        TransformMatrix(
+            rotate=(10.0, 20.0, 30.0),
+            quat=(0.0, 0.0, 0.0, 1.0),
+        )
+    with pytest.raises(ValueError, match="zero quaternion"):
+        TransformMatrix(quat=(0.0, 0.0, 0.0, 0.0))
+    with pytest.raises(ValueError, match="cannot be combined"):
+        TransformMatrix(
+            maya_om.MMatrix(),
+            translate=(1.0, 2.0, 3.0),
+        )
+
+
+def test_component_constructor_validates_rotate_order(new_scene):
+    from bd_util import TransformMatrix
+
+    uppercase = TransformMatrix(
+        rotate=(0.0, 0.0, 0.0),
+        rotate_order="ZYX",
+    )
+
+    assert uppercase.rotate == pytest.approx((0.0, 0.0, 0.0))
+    with pytest.raises(ValueError, match="Unsupported rotation order"):
+        TransformMatrix(rotate_order="invalid")
+    with pytest.raises(TypeError, match="order must be str"):
+        TransformMatrix(rotate_order=0)
+
+
 @pytest.mark.parametrize(
     "source",
     (
@@ -362,7 +537,17 @@ def test_constructor_rejects_unsupported_value(new_scene):
     with pytest.raises(TypeError, match="value must be"):
         TransformMatrix(object())
     with pytest.raises(TypeError, match="value must be"):
+        TransformMatrix(None)
+    with pytest.raises(TypeError, match="value must be"):
         TransformMatrix(value for value in range(16))
+
+
+def test_constructor_preserves_keyword_value_input(new_scene, maya_om):
+    from bd_util import TransformMatrix
+
+    value = TransformMatrix(value=maya_om.MMatrix())
+
+    _assert_matrix_close(value.matrix, maya_om.MMatrix())
 
 
 def test_constructor_reports_invalid_plug(new_scene, maya_cmds):
