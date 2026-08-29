@@ -1004,6 +1004,66 @@ for joint in joints:
     mod.do_it_dg()
 ```
 
+## Transform / Joint の現在軸リマップ
+
+`Transform`と`Joint`は、処理前の軸を処理後の符号付き軸へ対応させて姿勢を
+設定できます。変更する回転属性ごとにメソッドを分けています。
+
+```python
+transform.remap_axes_to_rotate(x="-y", z="+x")
+transform.remap_axes_to_rotate_axis(x="-y", z="+x")
+
+joint.remap_axes_to_rotate(x="-y", z="+x")
+joint.remap_axes_to_rotate_axis(x="-y", z="+x")
+joint.remap_axes_to_joint_orient(x="-y", z="+x")
+mod.do_it_dg()
+```
+
+キーワードの`x`、`y`、`z`は処理前の正軸を表し、値は対応させる処理後の軸です。
+上記の指定は次の意味になります。
+
+```text
+処理前の +X = 処理後の -Y
+処理前の +Z = 処理後の +X
+処理前の +Y = 処理後の -Z  # 右手系から自動決定
+```
+
+値には`"x"`、`"y"`、`"z"`と、符号を明示した`"+x"`、`"-x"`などを使用
+できます。符号を省略した`"x"`と`"+x"`は同じ意味です。小文字だけを受け付けます。
+
+`x`、`y`、`z`のうち、異なる2つだけを指定してください。残る対応は右手系を維持する
+ように自動決定します。1つ以下または3つすべての指定と、`x="y", z="-y"`のように
+処理後の絶対軸が重複する指定は`ValueError`です。3軸を同時指定しないため、回転では
+表現できない左手系や反射の指定は発生しません。
+
+リマップは、操作時点に評価された回転全体を基準にします。Transformは`rotateAxis`と
+`rotate`、Jointはさらに`jointOrient`を含めた現在姿勢から目標姿勢を求め、メソッド名に
+含まれる回転属性だけを変更します。他の回転属性は維持し、対象属性の現在値に近いEuler
+解を選びます。
+
+現在軸同士の相対的な対応を指定するため、`space`引数はありません。親姿勢や
+`offsetParentMatrix`がある場合も、各処理前軸のworld方向と指定した処理後軸のworld方向が
+一致する姿勢になります。constraintや接続は作成せず、操作時点の姿勢を1回だけ設定します。
+依存する未実行操作がある場合は、先に`mod.do_it_dg()`または`mod.do_it_dag()`を実行して
+ください。
+
+直接のTransform / Joint子を補償する場合は、既存の姿勢設定APIと同じオプションを使用
+できます。既定では子を補償しません。
+
+```python
+joint.remap_axes_to_joint_orient(
+    x="-y",
+    z="+x",
+    compensate_children=True,
+    compensate_child_translate=True,
+    joint_child_compensation_attr="jointOrient",
+)
+mod.do_it_dg()
+```
+
+lock、入力接続、子補償、undo / redo、instanced DAGに関する挙動は、対応する回転属性の
+設定APIと共通です。入力エラー時はmodifierへ変更を積みません。
+
 ## 子のworld姿勢・位置を任意に補償する属性値設定と丸め
 
 `Transform`は`set_translate()` / `set_rotate_axis()` / `set_rotate()`、`Joint`は

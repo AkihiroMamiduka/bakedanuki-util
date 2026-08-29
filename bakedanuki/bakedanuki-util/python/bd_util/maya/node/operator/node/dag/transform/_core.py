@@ -15,6 +15,7 @@ _PositionAxes = Literal["x", "y", "z", "xy", "xz", "yz", "xyz"]
 _PositionSpace = Literal["world", "local", "object"]
 AimCoordinateSpace = Literal["world", "local"]
 ChildAimEndBehavior = Literal["error", "parent"]
+SignedAxis = Literal["x", "y", "z", "+x", "+y", "+z", "-x", "-y", "-z"]
 TransformSpace = Literal["local", "world"]
 JointChildCompensationAttr = Literal["rotate", "jointOrient"]
 
@@ -33,6 +34,12 @@ _POSITION_AXIS_INDEX = {"x": 0, "y": 1, "z": 2}
 _POSITION_SPACES = frozenset(("world", "local", "object"))
 _AIM_COORDINATE_SPACES = frozenset(("world", "local"))
 _CHILD_AIM_END_BEHAVIORS = frozenset(("error", "parent"))
+_AXIS_NAMES = ("x", "y", "z")
+_AXIS_VECTORS: dict[str, _Vector3Value] = {
+    "x": (1.0, 0.0, 0.0),
+    "y": (0.0, 1.0, 0.0),
+    "z": (0.0, 0.0, 1.0),
+}
 _TRANSFORM_SPACES = frozenset(("local", "world"))
 _AIM_VECTOR_EPSILON = 1.0e-12
 
@@ -1363,6 +1370,103 @@ class Transform(GeneratedTransform):
             joint_child_compensation_attr=joint_child_compensation_attr,
         )
 
+    def remap_axes_to_rotate(
+        self,
+        *,
+        x: SignedAxis | None = None,
+        y: SignedAxis | None = None,
+        z: SignedAxis | None = None,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """処理前から処理後への軸対応で姿勢を求め、``rotate`` へ設定する。
+
+        Args:
+            x: 処理前の正X軸を対応させる処理後の符号付き軸。
+            y: 処理前の正Y軸を対応させる処理後の符号付き軸。
+            z: 処理前の正Z軸を対応させる処理後の符号付き軸。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            ``x``、``y``、``z`` のうち2つだけを指定し、残る軸は右手系から
+            自動決定する。変更は ``ModifierManager.do_it_dg()`` の実行時に
+            反映される。
+        """
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        )
+        target_local_rotation = self._remapped_axes_local_rotation(
+            x=x,
+            y=y,
+            z=z,
+        )
+        rotate_order = self.rotateOrder.get()
+        current_rotate = self.rotate.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._rotate_from_combined_rotation(target_local_rotation),
+            rotate_order,
+            current_rotate,
+        )
+        return self.set_rotate(
+            rotation,
+            compensate_children=compensate_children,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
+
+    def remap_axes_to_rotate_axis(
+        self,
+        *,
+        x: SignedAxis | None = None,
+        y: SignedAxis | None = None,
+        z: SignedAxis | None = None,
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """軸対応で求めた姿勢を ``rotateAxis`` へ設定する。
+
+        引数と計算仕様は :meth:`remap_axes_to_rotate` と共通で、変更する回転属性
+        だけが異なる。
+        """
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        )
+        target_local_rotation = self._remapped_axes_local_rotation(
+            x=x,
+            y=y,
+            z=z,
+        )
+        current_rotate_axis = self.rotateAxis.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._rotate_axis_from_combined_rotation(target_local_rotation),
+            om.MEulerRotation.kXYZ,
+            current_rotate_axis,
+        )
+        return self.set_rotate_axis(
+            rotation,
+            compensate_children=compensate_children,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
+
     @overload
     def set_rotate_axis_with_rotate(
         self,
@@ -1467,6 +1571,89 @@ class Transform(GeneratedTransform):
         return fn_transform.rotateOrientation(
             om.MSpace.kTransform
         ) * fn_transform.rotation(asQuaternion=True)
+
+    @staticmethod
+    def _signed_axis_vector(
+        value: object,
+        argument_name: str,
+    ) -> tuple[str, om.MVector]:
+        if not isinstance(value, str):
+            raise TypeError(
+                f"{argument_name} must be a signed axis string; "
+                f"got {type(value).__name__}"
+            )
+        sign = 1.0
+        axis_name = value
+        if len(value) == 2 and value[0] in ("+", "-"):
+            sign = -1.0 if value[0] == "-" else 1.0
+            axis_name = value[1]
+        if axis_name not in _AXIS_VECTORS or len(value) not in (1, 2):
+            raise ValueError(
+                f"Unsupported signed axis for {argument_name}: {value!r}. "
+                "Expected x, y, z with an optional + or - prefix"
+            )
+        vector = _AXIS_VECTORS[axis_name]
+        return axis_name, om.MVector(
+            vector[0] * sign,
+            vector[1] * sign,
+            vector[2] * sign,
+        )
+
+    def _remapped_axes_local_rotation(
+        self,
+        *,
+        x: object,
+        y: object,
+        z: object,
+    ) -> om.MQuaternion:
+        specified_axes = tuple(
+            (axis_name, value)
+            for axis_name, value in zip(_AXIS_NAMES, (x, y, z))
+            if value is not None
+        )
+        if len(specified_axes) != 2:
+            raise ValueError(
+                "Axis remapping requires exactly two of x, y, and z; "
+                f"got {len(specified_axes)}"
+            )
+
+        remap_pairs: list[tuple[om.MVector, om.MVector]] = []
+        remapped_axis_names: list[str] = []
+        for source_axis_name, remapped_axis in specified_axes:
+            remapped_axis_name, remapped_axis_vector = (
+                self._signed_axis_vector(
+                    remapped_axis,
+                    source_axis_name,
+                )
+            )
+            remapped_axis_names.append(remapped_axis_name)
+            remap_pairs.append(
+                (
+                    remapped_axis_vector,
+                    om.MVector(*_AXIS_VECTORS[source_axis_name]),
+                )
+            )
+        if remapped_axis_names[0] == remapped_axis_names[1]:
+            raise ValueError(
+                "Remapped axes must use two distinct absolute axes; got "
+                f"{remapped_axis_names[0]!r} twice"
+            )
+
+        first_remapped_axis, first_source_axis = remap_pairs[0]
+        second_remapped_axis, second_source_axis = remap_pairs[1]
+        remap_rotation = first_remapped_axis.rotateTo(first_source_axis)
+        rotated_second_axis = second_remapped_axis.rotateBy(remap_rotation)
+        second_axis_angle = math.atan2(
+            first_source_axis * (rotated_second_axis ^ second_source_axis),
+            rotated_second_axis * second_source_axis,
+        )
+        remap_rotation *= om.MQuaternion(
+            second_axis_angle,
+            first_source_axis,
+        )
+        target_rotation = remap_rotation * self._combined_rotation()
+        target_rotation.normalizeIt()
+        return target_rotation
 
     @staticmethod
     def _aim_vector3_components(
