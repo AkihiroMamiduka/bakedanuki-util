@@ -931,6 +931,79 @@ Transform系でないノード名もエラーです。自身またはノード�
 場合は、world pathが一意でないため`RuntimeError`を送出します。エラー時はmodifierへ
 変更を積みません。
 
+### 直接の子へ向ける姿勢設定
+
+`Transform`と`Joint`は、Transform系の直接の子へlocal軸を向けることもできます。
+ジョイントチェーンなど、親から子へ順番に姿勢を設定する用途を想定しています。
+
+```python
+transform.aim_child_to_rotate()
+transform.aim_child_to_rotate_axis()
+
+joint.aim_child_to_rotate()
+joint.aim_child_to_rotate_axis()
+joint.aim_child_to_joint_orient()
+mod.do_it_dg()
+```
+
+対象の子は`child_index`で指定し、既定値は`0`です。indexはShapeを除外した直接の
+Transform系の子だけをMayaの子順序で数え、Jointも含みます。負数は`ValueError`、子が
+存在する状態で範囲外のindexを指定すると`IndexError`になります。未実行のDAG作成や
+reparentは参照されないため、必要に応じて先に`mod.do_it_dag()`を実行してください。
+
+```python
+joint.aim_child_to_joint_orient(
+    child_index=1,
+    aim_axis=(1.0, 0.0, 0.0),
+    up_target="up_target",
+    up_axis=(0.0, 0.0, 1.0),
+)
+mod.do_it_dg()
+```
+
+`up_target`の型と数値座標の`coordinate_space`は通常のエイム姿勢設定と共通です。
+代わりに`parent_up_vector`を指定すると、自身の実効親空間における方向ベクトルをworld
+方向へ変換し、ロールの基準として使用します。平行移動とベクトルの長さは使用しません。
+`up_target`と`parent_up_vector`は同時に指定できません。
+
+```python
+joint.aim_child_to_joint_orient(
+    aim_axis=(1.0, 0.0, 0.0),
+    up_axis=(0.0, 0.0, 1.0),
+    parent_up_vector=(0.0, 0.0, 1.0),
+)
+mod.do_it_dg()
+```
+
+子を向くために親を回転すると子自身も移動してしまうため、このAPIは直接のTransform系
+の子すべてについてworld姿勢とworld位置を常に補償します。補償の無効化はできません。
+Transform子は`rotate`を補償します。Joint子は既定で`jointOrient`を補償して`rotate`
+チャンネルを維持し、`joint_child_compensation_attr="rotate"`も選択できます。
+
+Transform系の子がないエンドノードでは、`end_behavior`に従います。
+
+- `"parent"`（既定）: 対象の回転属性だけを変更し、合成ローカル回転を単位回転へ
+  合わせます。一般的なクリーンなエンドJointでは`jointOrient=(0, 0, 0)`になります。
+- `"error"`: `ValueError`を送出し、modifierへ変更を積みません。
+
+`"parent"`は`rotate`、`rotateAxis`、`jointOrient`をすべて無条件にゼロへする動作では
+ありません。選択したメソッドの対象属性以外は維持します。また、エンドノードでは
+エイム軸とアップに関する引数を参照しません。
+
+`parent_up_vector`を親から子へ伝播させる場合、次の階層は更新後の親姿勢と補償後の位置を
+参照します。チェーンを順番に処理するときは、各階層で`mod.do_it_dg()`を実行してから
+次へ進んでください。
+
+```python
+for joint in joints:
+    joint.aim_child_to_joint_orient(
+        aim_axis=(1.0, 0.0, 0.0),
+        up_axis=(0.0, 0.0, 1.0),
+        parent_up_vector=(0.0, 0.0, 1.0),
+    )
+    mod.do_it_dg()
+```
+
 ## 子のworld姿勢・位置を任意に補償する属性値設定と丸め
 
 `Transform`は`set_translate()` / `set_rotate_axis()` / `set_rotate()`、`Joint`は

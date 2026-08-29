@@ -14,6 +14,7 @@ _Vector3Value = tuple[float, float, float]
 _PositionAxes = Literal["x", "y", "z", "xy", "xz", "yz", "xyz"]
 _PositionSpace = Literal["world", "local", "object"]
 AimCoordinateSpace = Literal["world", "local"]
+ChildAimEndBehavior = Literal["error", "parent"]
 TransformSpace = Literal["local", "world"]
 JointChildCompensationAttr = Literal["rotate", "jointOrient"]
 
@@ -31,6 +32,7 @@ _POSITION_AXES = frozenset(("x", "y", "z", "xy", "xz", "yz", "xyz"))
 _POSITION_AXIS_INDEX = {"x": 0, "y": 1, "z": 2}
 _POSITION_SPACES = frozenset(("world", "local", "object"))
 _AIM_COORDINATE_SPACES = frozenset(("world", "local"))
+_CHILD_AIM_END_BEHAVIORS = frozenset(("error", "parent"))
 _TRANSFORM_SPACES = frozenset(("local", "world"))
 _AIM_VECTOR_EPSILON = 1.0e-12
 
@@ -1260,6 +1262,107 @@ class Transform(GeneratedTransform):
             joint_child_compensation_attr=joint_child_compensation_attr,
         )
 
+    def aim_child_to_rotate(
+        self,
+        child_index: int = 0,
+        *,
+        aim_axis: Sequence[float] = (1.0, 0.0, 0.0),
+        up_target: "Transform | str | Sequence[float] | None" = None,
+        up_axis: Sequence[float] = (0.0, 1.0, 0.0),
+        parent_up_vector: Sequence[float] | None = None,
+        coordinate_space: AimCoordinateSpace = "world",
+        end_behavior: ChildAimEndBehavior = "parent",
+        joint_child_compensation_attr: JointChildCompensationAttr = "jointOrient",
+    ) -> Self:
+        """直接の子へ向けたworld姿勢を ``rotate`` へ設定する。
+
+        Args:
+            child_index: Transform系の直接の子における対象index。
+            aim_axis: 対象の子へ向けるlocal軸。
+            up_target: ロールを決めるTransform、ノード名、または3成分座標。
+            up_axis: アップ対象へ向けるlocal軸。
+            parent_up_vector: 親空間で解釈するアップ方向。
+            coordinate_space: 数値の ``up_target`` を解釈する空間。
+            end_behavior: Transform系の子がない場合の動作。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            直接のTransform / Joint子はworld姿勢と位置を常に補償する。
+            ``up_target`` と ``parent_up_vector`` は同時に指定できない。
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
+        joint_child_compensation_attr = (
+            self._require_joint_child_compensation_attr(
+                joint_child_compensation_attr
+            )
+        )
+        target_local_rotation = self._aim_child_local_rotation(
+            child_index,
+            aim_axis=aim_axis,
+            up_target=up_target,
+            up_axis=up_axis,
+            parent_up_vector=parent_up_vector,
+            coordinate_space=coordinate_space,
+            end_behavior=end_behavior,
+        )
+        rotate_order = self.rotateOrder.get()
+        current_rotate = self.rotate.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._rotate_from_combined_rotation(target_local_rotation),
+            rotate_order,
+            current_rotate,
+        )
+        return self.set_rotate(
+            rotation,
+            compensate_children=True,
+            compensate_child_translate=True,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
+
+    def aim_child_to_rotate_axis(
+        self,
+        child_index: int = 0,
+        *,
+        aim_axis: Sequence[float] = (1.0, 0.0, 0.0),
+        up_target: "Transform | str | Sequence[float] | None" = None,
+        up_axis: Sequence[float] = (0.0, 1.0, 0.0),
+        parent_up_vector: Sequence[float] | None = None,
+        coordinate_space: AimCoordinateSpace = "world",
+        end_behavior: ChildAimEndBehavior = "parent",
+        joint_child_compensation_attr: JointChildCompensationAttr = "jointOrient",
+    ) -> Self:
+        """直接の子へ向けたworld姿勢を ``rotateAxis`` へ設定する。
+
+        引数と計算仕様は :meth:`aim_child_to_rotate` と共通で、変更する回転属性
+        だけが異なる。
+        """
+        joint_child_compensation_attr = (
+            self._require_joint_child_compensation_attr(
+                joint_child_compensation_attr
+            )
+        )
+        target_local_rotation = self._aim_child_local_rotation(
+            child_index,
+            aim_axis=aim_axis,
+            up_target=up_target,
+            up_axis=up_axis,
+            parent_up_vector=parent_up_vector,
+            coordinate_space=coordinate_space,
+            end_behavior=end_behavior,
+        )
+        current_rotate_axis = self.rotateAxis.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._rotate_axis_from_combined_rotation(target_local_rotation),
+            om.MEulerRotation.kXYZ,
+            current_rotate_axis,
+        )
+        return self.set_rotate_axis(
+            rotation,
+            compensate_children=True,
+            compensate_child_translate=True,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
+
     @overload
     def set_rotate_axis_with_rotate(
         self,
@@ -1450,6 +1553,57 @@ class Transform(GeneratedTransform):
         return value
 
     @staticmethod
+    def _require_child_aim_index(value: object) -> int:
+        if isinstance(value, bool) or not isinstance(value, int):
+            raise TypeError(
+                f"child_index must be int; got {type(value).__name__}"
+            )
+        if value < 0:
+            raise ValueError(f"child_index must be non-negative; got {value}")
+        return value
+
+    @staticmethod
+    def _require_child_aim_end_behavior(
+        value: object,
+    ) -> ChildAimEndBehavior:
+        if not isinstance(value, str):
+            raise TypeError(
+                f"end_behavior must be str; got {type(value).__name__}"
+            )
+        if value not in _CHILD_AIM_END_BEHAVIORS:
+            supported = ", ".join(sorted(_CHILD_AIM_END_BEHAVIORS))
+            raise ValueError(
+                f"Unsupported child aim end behavior: {value!r}. "
+                f"Expected one of: {supported}"
+            )
+        return value
+
+    def _aim_child_target(
+        self,
+        child_index: object,
+        end_behavior: object,
+    ) -> "Transform | None":
+        child_index = self._require_child_aim_index(child_index)
+        end_behavior = self._require_child_aim_end_behavior(end_behavior)
+        children = self.children(
+            filter_type=Transform,
+            include_shapes=False,
+        )
+        if not children:
+            if end_behavior == "error":
+                raise ValueError(
+                    "Child aim requires a direct Transform child: "
+                    f"{self.name}"
+                )
+            return None
+        if child_index >= len(children):
+            raise IndexError(
+                f"child_index {child_index} is out of range for "
+                f"{len(children)} direct Transform children: {self.name}"
+            )
+        return children[child_index]
+
+    @staticmethod
     def _aim_target_path_from_name(
         node_name: str,
         argument_name: str,
@@ -1535,6 +1689,8 @@ class Transform(GeneratedTransform):
         up_target: object,
         up_axis: object,
         coordinate_space: object,
+        world_up_direction: om.MVector | None = None,
+        world_up_argument_name: str = "up_target",
     ) -> om.MQuaternion:
         coordinate_space = self._require_aim_coordinate_space(coordinate_space)
         if self.is_instanced:
@@ -1564,7 +1720,7 @@ class Transform(GeneratedTransform):
             "aim_target",
         )
 
-        if up_target is None:
+        if up_target is None and world_up_direction is None:
             current_world_rotation = self._get_instance_transform_matrix(
                 "worldMatrix"
             ).transformation_matrix.rotation(asQuaternion=True)
@@ -1586,14 +1742,18 @@ class Transform(GeneratedTransform):
             rotation.normalizeIt()
             return rotation
 
-        up_point = self._aim_target_world_point(
-            up_target,
-            coordinate_space,
-            "up_target",
-        )
+        if world_up_direction is None:
+            up_point = self._aim_target_world_point(
+                up_target,
+                coordinate_space,
+                "up_target",
+            )
+            raw_world_up_direction = up_point - origin
+        else:
+            raw_world_up_direction = world_up_direction
         world_up_direction = self._normalized_aim_direction(
-            up_point - origin,
-            "up_target",
+            raw_world_up_direction,
+            world_up_argument_name,
         )
         world_up_axis = world_up_direction - world_aim_axis * (
             world_up_direction * world_aim_axis
@@ -1601,8 +1761,8 @@ class Transform(GeneratedTransform):
         world_up_length = world_up_axis.length()
         if world_up_length <= _AIM_VECTOR_EPSILON:
             raise ValueError(
-                "up_target direction must not be parallel to the aim "
-                "direction"
+                f"{world_up_argument_name} direction must not be parallel "
+                "to the aim direction"
             )
         world_up_axis /= world_up_length
 
@@ -1624,6 +1784,8 @@ class Transform(GeneratedTransform):
         up_target: object,
         up_axis: object,
         coordinate_space: object,
+        world_up_direction: om.MVector | None = None,
+        world_up_argument_name: str = "up_target",
     ) -> om.MQuaternion:
         return self._local_rotation_from_world_quaternion(
             self._aim_world_rotation(
@@ -1632,7 +1794,54 @@ class Transform(GeneratedTransform):
                 up_target=up_target,
                 up_axis=up_axis,
                 coordinate_space=coordinate_space,
+                world_up_direction=world_up_direction,
+                world_up_argument_name=world_up_argument_name,
             )
+        )
+
+    def _aim_child_local_rotation(
+        self,
+        child_index: object,
+        *,
+        aim_axis: object,
+        up_target: object,
+        up_axis: object,
+        parent_up_vector: object,
+        coordinate_space: object,
+        end_behavior: object,
+    ) -> om.MQuaternion:
+        child = self._aim_child_target(child_index, end_behavior)
+        if child is None:
+            return om.MQuaternion()
+
+        if up_target is not None and parent_up_vector is not None:
+            raise ValueError(
+                "up_target and parent_up_vector cannot be specified together"
+            )
+
+        world_up_direction: om.MVector | None = None
+        if parent_up_vector is not None:
+            parent_up_direction = self._normalized_aim_axis(
+                parent_up_vector,
+                "parent_up_vector",
+            )
+            parent_rotation = self._get_instance_transform_matrix(
+                "parentMatrix"
+            ).transformation_matrix.rotation(asQuaternion=True)
+            world_up_direction = parent_up_direction.rotateBy(parent_rotation)
+
+        return self._aim_local_rotation(
+            child,
+            aim_axis=aim_axis,
+            up_target=up_target,
+            up_axis=up_axis,
+            coordinate_space=coordinate_space,
+            world_up_direction=world_up_direction,
+            world_up_argument_name=(
+                "parent_up_vector"
+                if parent_up_vector is not None
+                else "up_target"
+            ),
         )
 
     @staticmethod

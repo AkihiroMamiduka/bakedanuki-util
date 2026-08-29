@@ -13,6 +13,14 @@ _AIM_METHOD_CASES = (
     ("joint", "aim_to_joint_orient", "jointOrient"),
 )
 
+_CHILD_AIM_METHOD_CASES = (
+    ("transform", "aim_child_to_rotate", "rotate"),
+    ("transform", "aim_child_to_rotate_axis", "rotateAxis"),
+    ("joint", "aim_child_to_rotate", "rotate"),
+    ("joint", "aim_child_to_rotate_axis", "rotateAxis"),
+    ("joint", "aim_child_to_joint_orient", "jointOrient"),
+)
+
 
 def _matrix(maya_cmds, attribute):
     return maya_cmds.getAttr(attribute)
@@ -598,3 +606,353 @@ def test_aim_rejects_effectively_singular_parent_matrix(
 
     with pytest.raises(RuntimeError, match="invertible effective parent"):
         destination_node.aim_to_rotate((0.0, 10.0, 0.0))
+
+
+@pytest.mark.parametrize(
+    ("node_type", "method_name", "target_attribute"),
+    _CHILD_AIM_METHOD_CASES,
+)
+def test_child_aim_methods_select_transform_child_and_preserve_children(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    node_type,
+    method_name,
+    target_attribute,
+):
+    import bd_util as bdu
+
+    parent = maya_cmds.createNode("transform", name="destination_parent")
+    destination = maya_cmds.createNode(
+        node_type,
+        name="destination",
+        parent=parent,
+    )
+    maya_cmds.createNode("mesh", name="destinationShape", parent=destination)
+    first_child = maya_cmds.createNode(
+        "transform",
+        name="first_child",
+        parent=destination,
+    )
+    aimed_child = maya_cmds.createNode(
+        "joint",
+        name="aimed_child",
+        parent=destination,
+    )
+    maya_cmds.setAttr(f"{parent}.rotate", 13.0, -21.0, 8.0)
+    maya_cmds.setAttr(f"{destination}.translate", 1.0, 2.0, -3.0)
+    maya_cmds.setAttr(f"{destination}.rotateAxis", 7.0, -11.0, 17.0)
+    maya_cmds.setAttr(f"{destination}.rotate", 23.0, 5.0, -31.0)
+    maya_cmds.setAttr(f"{destination}.rotatePivot", 0.4, -0.3, 0.7)
+    if node_type == "joint":
+        maya_cmds.setAttr(f"{destination}.jointOrient", -9.0, 19.0, 27.0)
+    maya_cmds.setAttr(f"{first_child}.translate", -2.0, 3.0, 1.0)
+    maya_cmds.setAttr(f"{first_child}.rotate", 11.0, -17.0, 29.0)
+    maya_cmds.setAttr(f"{aimed_child}.translate", 5.0, 2.0, -1.0)
+    maya_cmds.setAttr(f"{aimed_child}.rotate", -13.0, 7.0, 19.0)
+    maya_cmds.setAttr(f"{aimed_child}.jointOrient", 3.0, -5.0, 11.0)
+
+    nodes = bdu.Nodes()
+    destination_node = getattr(nodes.existing, node_type)(destination)
+    attribute_names = _rotation_attributes(node_type)
+    original_values = {
+        name: tuple(getattr(destination_node, name).get())
+        for name in attribute_names
+    }
+    original_rotation = _world_rotation(maya_cmds, maya_om, destination)
+    original_origin = _world_rotate_pivot(maya_cmds, destination)
+    aimed_point = _world_rotate_pivot(maya_cmds, aimed_child)
+    original_child_matrices = {
+        child: _matrix(maya_cmds, f"{child}.worldMatrix[0]")
+        for child in (first_child, aimed_child)
+    }
+    up_point = (-4.0, 10.0, 6.0)
+    aim_axis = (1.0, 0.0, 0.0)
+    up_axis = (0.0, 0.0, 1.0)
+
+    assert (
+        getattr(destination_node, method_name)(
+            1,
+            aim_axis=aim_axis,
+            up_target=up_point,
+            up_axis=up_axis,
+        )
+        is destination_node
+    )
+    assert {
+        name: tuple(getattr(destination_node, name).get())
+        for name in attribute_names
+    } == original_values
+
+    nodes.modifier_manager.do_it_dg()
+
+    _assert_aim_axes(
+        maya_cmds,
+        maya_om,
+        destination,
+        aim_point=aimed_point,
+        aim_axis=aim_axis,
+        up_point=up_point,
+        up_axis=up_axis,
+        origin=original_origin,
+    )
+    for child, original_matrix in original_child_matrices.items():
+        _assert_matrix_close(
+            _matrix(maya_cmds, f"{child}.worldMatrix[0]"),
+            original_matrix,
+        )
+    for attribute_name, original_value in original_values.items():
+        if attribute_name != target_attribute:
+            assert getattr(
+                destination_node, attribute_name
+            ).get() == pytest.approx(original_value)
+
+    aimed_rotation = _world_rotation(maya_cmds, maya_om, destination)
+    nodes.modifier_manager.undo_it()
+    _assert_rotation_close(
+        _world_rotation(maya_cmds, maya_om, destination),
+        original_rotation,
+    )
+    nodes.modifier_manager.redo_it()
+    _assert_rotation_close(
+        _world_rotation(maya_cmds, maya_om, destination),
+        aimed_rotation,
+    )
+
+
+def test_child_aim_parent_up_vector_uses_effective_parent_orientation(
+    new_scene,
+    maya_cmds,
+    maya_om,
+):
+    import bd_util as bdu
+
+    parent = maya_cmds.createNode("transform", name="parent")
+    destination = maya_cmds.createNode(
+        "transform",
+        name="destination",
+        parent=parent,
+    )
+    child = maya_cmds.createNode(
+        "transform",
+        name="child",
+        parent=destination,
+    )
+    maya_cmds.setAttr(f"{parent}.rotate", 19.0, -37.0, 28.0)
+    maya_cmds.setAttr(f"{destination}.translate", 2.0, -1.0, 3.0)
+    maya_cmds.setAttr(f"{destination}.rotate", -17.0, 11.0, 23.0)
+    maya_cmds.setAttr(f"{child}.translate", 4.0, 2.0, -1.0)
+    original_child_matrix = _matrix(maya_cmds, f"{child}.worldMatrix[0]")
+    origin = maya_om.MPoint(*_world_rotate_pivot(maya_cmds, destination))
+    aim_point = _world_rotate_pivot(maya_cmds, child)
+    parent_matrix = maya_om.MMatrix(
+        _matrix(maya_cmds, f"{destination}.parentMatrix[0]")
+    )
+    parent_rotation = maya_om.MTransformationMatrix(parent_matrix).rotation(
+        asQuaternion=True
+    )
+    parent_up_vector = (0.0, 0.0, 2.0)
+    world_up_vector = maya_om.MVector(*parent_up_vector).rotateBy(
+        parent_rotation
+    )
+    up_point = origin + world_up_vector
+
+    nodes = bdu.Nodes()
+    destination_node = nodes.existing.transform(destination)
+    destination_node.aim_child_to_rotate(
+        aim_axis=(1.0, 0.0, 0.0),
+        up_axis=(0.0, 0.0, 1.0),
+        parent_up_vector=parent_up_vector,
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    _assert_aim_axes(
+        maya_cmds,
+        maya_om,
+        destination,
+        aim_point=aim_point,
+        aim_axis=(1.0, 0.0, 0.0),
+        up_point=(up_point.x, up_point.y, up_point.z),
+        up_axis=(0.0, 0.0, 1.0),
+        origin=(origin.x, origin.y, origin.z),
+    )
+    _assert_matrix_close(
+        _matrix(maya_cmds, f"{child}.worldMatrix[0]"),
+        original_child_matrix,
+    )
+
+
+@pytest.mark.parametrize(
+    ("node_type", "method_name", "target_attribute"),
+    _CHILD_AIM_METHOD_CASES,
+)
+def test_child_aim_end_defaults_to_effective_parent_orientation(
+    new_scene,
+    maya_cmds,
+    maya_om,
+    node_type,
+    method_name,
+    target_attribute,
+):
+    import bd_util as bdu
+
+    parent = maya_cmds.createNode("transform", name="parent")
+    destination = maya_cmds.createNode(
+        node_type,
+        name="destination",
+        parent=parent,
+    )
+    maya_cmds.createNode("mesh", name="destinationShape", parent=destination)
+    maya_cmds.setAttr(f"{parent}.rotate", 21.0, -32.0, 14.0)
+    maya_cmds.setAttr(f"{destination}.rotateAxis", 7.0, 13.0, -19.0)
+    maya_cmds.setAttr(f"{destination}.rotate", -23.0, 17.0, 29.0)
+    if node_type == "joint":
+        maya_cmds.setAttr(f"{destination}.jointOrient", 11.0, -5.0, 31.0)
+
+    nodes = bdu.Nodes()
+    destination_node = getattr(nodes.existing, node_type)(destination)
+    attribute_names = _rotation_attributes(node_type)
+    original_values = {
+        name: tuple(getattr(destination_node, name).get())
+        for name in attribute_names
+    }
+    expected_parent_rotation = maya_om.MTransformationMatrix(
+        maya_om.MMatrix(_matrix(maya_cmds, f"{destination}.parentMatrix[0]"))
+    ).rotation(asQuaternion=True)
+
+    assert getattr(destination_node, method_name)() is destination_node
+    nodes.modifier_manager.do_it_dg()
+
+    _assert_rotation_close(
+        _world_rotation(maya_cmds, maya_om, destination),
+        expected_parent_rotation,
+    )
+    for attribute_name, original_value in original_values.items():
+        if attribute_name != target_attribute:
+            assert getattr(
+                destination_node, attribute_name
+            ).get() == pytest.approx(original_value)
+
+
+def test_child_aim_end_can_raise_without_queueing_changes(
+    new_scene, maya_cmds
+):
+    import bd_util as bdu
+
+    destination = maya_cmds.createNode("transform", name="destination")
+    maya_cmds.setAttr(f"{destination}.rotate", 10.0, 20.0, 30.0)
+    nodes = bdu.Nodes()
+    destination_node = nodes.existing.transform(destination)
+    original_rotate = destination_node.rotate.get()
+
+    with pytest.raises(ValueError, match="direct Transform child"):
+        destination_node.aim_child_to_rotate(end_behavior="error")
+
+    nodes.modifier_manager.do_it_dg()
+    assert destination_node.rotate.get() == original_rotate
+
+
+@pytest.mark.parametrize(
+    ("arguments", "keyword_arguments", "error_type", "message"),
+    (
+        ((True,), {}, TypeError, "child_index"),
+        ((-1,), {}, ValueError, "child_index"),
+        ((1,), {}, IndexError, "out of range"),
+        ((), {"end_behavior": object()}, TypeError, "end_behavior"),
+        ((), {"end_behavior": "zero"}, ValueError, "end behavior"),
+        (
+            (),
+            {
+                "up_target": (0.0, 1.0, 0.0),
+                "parent_up_vector": (0.0, 0.0, 1.0),
+            },
+            ValueError,
+            "cannot be specified together",
+        ),
+        (
+            (),
+            {"parent_up_vector": (0.0, 0.0, 0.0)},
+            ValueError,
+            "parent_up_vector",
+        ),
+        (
+            (),
+            {"parent_up_vector": (1.0, 0.0, 0.0)},
+            ValueError,
+            "parallel",
+        ),
+        (
+            (),
+            {"joint_child_compensation_attr": "rotateAxis"},
+            ValueError,
+            "joint_child_compensation_attr",
+        ),
+    ),
+)
+def test_child_aim_rejects_invalid_values_without_queueing_changes(
+    new_scene,
+    maya_cmds,
+    arguments,
+    keyword_arguments,
+    error_type,
+    message,
+):
+    import bd_util as bdu
+
+    destination = maya_cmds.createNode("transform", name="destination")
+    child = maya_cmds.createNode(
+        "transform",
+        name="child",
+        parent=destination,
+    )
+    maya_cmds.setAttr(f"{child}.translateX", 5.0)
+    nodes = bdu.Nodes()
+    destination_node = nodes.existing.transform(destination)
+    original_rotate = destination_node.rotate.get()
+
+    with pytest.raises(error_type, match=message):
+        destination_node.aim_child_to_rotate(
+            *arguments,
+            **keyword_arguments,
+        )
+
+    nodes.modifier_manager.do_it_dg()
+    assert destination_node.rotate.get() == original_rotate
+
+
+def test_child_aim_defaults_joint_child_compensation_to_joint_orient(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    destination = maya_cmds.createNode("joint", name="destination")
+    child = maya_cmds.createNode("joint", name="child", parent=destination)
+    maya_cmds.setAttr(f"{child}.translate", 4.0, 2.0, 1.0)
+    maya_cmds.setAttr(f"{child}.rotate", 11.0, -17.0, 23.0)
+    maya_cmds.setAttr(f"{child}.jointOrient", -7.0, 13.0, 19.0)
+    original_child_matrix = _matrix(maya_cmds, f"{child}.worldMatrix[0]")
+    original_child_rotate = tuple(maya_cmds.getAttr(f"{child}.rotate")[0])
+    original_child_joint_orient = tuple(
+        maya_cmds.getAttr(f"{child}.jointOrient")[0]
+    )
+
+    nodes = bdu.Nodes()
+    destination_node = nodes.existing.joint(destination)
+    destination_node.aim_child_to_joint_orient(
+        aim_axis=(1.0, 0.0, 0.0),
+        up_axis=(0.0, 0.0, 1.0),
+        parent_up_vector=(0.0, 0.0, 1.0),
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    _assert_matrix_close(
+        _matrix(maya_cmds, f"{child}.worldMatrix[0]"),
+        original_child_matrix,
+    )
+    assert tuple(maya_cmds.getAttr(f"{child}.rotate")[0]) == pytest.approx(
+        original_child_rotate
+    )
+    assert tuple(
+        maya_cmds.getAttr(f"{child}.jointOrient")[0]
+    ) != pytest.approx(original_child_joint_orient)

@@ -8,6 +8,7 @@ from maya.api import OpenMayaAnim as oma
 from .._core import DAG
 from ._core import (
     AimCoordinateSpace,
+    ChildAimEndBehavior,
     JointChildCompensationAttr,
     ScalarPlugProtocol,
     Transform,
@@ -360,6 +361,50 @@ class Joint(GeneratedJoint):
             rotation,
             compensate_children=compensate_children,
             compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
+
+    def aim_child_to_joint_orient(
+        self,
+        child_index: int = 0,
+        *,
+        aim_axis: Sequence[float] = (1.0, 0.0, 0.0),
+        up_target: "Transform | str | Sequence[float] | None" = None,
+        up_axis: Sequence[float] = (0.0, 1.0, 0.0),
+        parent_up_vector: Sequence[float] | None = None,
+        coordinate_space: AimCoordinateSpace = "world",
+        end_behavior: ChildAimEndBehavior = "parent",
+        joint_child_compensation_attr: JointChildCompensationAttr = "jointOrient",
+    ) -> Self:
+        """直接の子へ向けたworld姿勢を ``jointOrient`` へ設定する。
+
+        引数と計算仕様は :meth:`Transform.aim_child_to_rotate` と共通で、変更する
+        回転属性だけが異なる。
+        """
+        joint_child_compensation_attr = (
+            self._require_joint_child_compensation_attr(
+                joint_child_compensation_attr
+            )
+        )
+        target_local_rotation = self._aim_child_local_rotation(
+            child_index,
+            aim_axis=aim_axis,
+            up_target=up_target,
+            up_axis=up_axis,
+            parent_up_vector=parent_up_vector,
+            coordinate_space=coordinate_space,
+            end_behavior=end_behavior,
+        )
+        current_joint_orient = self.jointOrient.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._joint_orient_from_combined_rotation(target_local_rotation),
+            om.MEulerRotation.kXYZ,
+            current_joint_orient,
+        )
+        return self.set_joint_orient(
+            rotation,
+            compensate_children=True,
+            compensate_child_translate=True,
             joint_child_compensation_attr=joint_child_compensation_attr,
         )
 

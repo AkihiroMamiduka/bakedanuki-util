@@ -10,43 +10,56 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 def main():
     nodes = bdu.Nodes()
-    src_aim, _ = nodes.create.with_transform.locator(name="src_aim")
-    src_up, _ = nodes.create.with_transform.locator(name="src_up")
-    dst_space = nodes.create.transform(name="dst_space")
-    dst = nodes.create.joint(name="dst", parent=dst_space)
-    dst_child = nodes.create.joint(name="dst_child", parent=dst)
+
+    j_root = nodes.create.joint(name="root")
+    j_0 = nodes.create.joint(name="j_0", parent=j_root)
+    j_1 = nodes.create.joint(name="j_1", parent=j_0)
+    j_2 = nodes.create.joint(name="j_2", parent=j_1)
+    j_3 = nodes.create.joint(name="j_3", parent=j_2)
+    j_4 = nodes.create.joint(name="j_4", parent=j_3)
 
     loc, _ = nodes.create.with_transform.locator(name="loc")
 
-    dst.jo.set_keyable()
-    dst.ra.set_keyable()
+    loc.t.set(0, 10, 0)
 
-    src_aim.t.set(random.random(), random.random(), random.random())
-    src_up.t.set(random.random(), random.random(), random.random())
-
-    dst_space.t.set(random.random(), random.random(), random.random())
-    dst_space.r.set(
-        random.randint(-360, 360) + random.random(),
-        random.randint(-360, 360) + random.random(),
-        random.randint(-360, 360) + random.random(),
+    j_root.set_translate(
+        abs(random.random()), abs(random.random()), abs(random.random())
     )
-
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    loc.set_translate(1, 1, 1, space="world")
-    dst_child.set_translate(1, 1, 1, space="world")
-    dst_child.set_rotate(0, 0, 0, space="world")
-
-    nodes.modifier_manager.do_it_dg()
-
-    dst.aim_to_rotate_axis(
-        src_aim,
-        aim_axis=(0, 0, 1),
-        up_target=src_up,
-        up_axis=(1, 0, 0),
-        compensate_children=True,
-        compensate_child_translate=True,
+    j_0.set_translate(
+        abs(random.random()), abs(random.random()), abs(random.random())
     )
-
     nodes.modifier_manager.do_it_dg()
+
+    j_1.set_translate(
+        abs(random.random()), abs(random.random()), abs(random.random())
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    j_2.set_translate(
+        abs(random.random()), abs(random.random()), abs(random.random())
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    j_3.set_translate(
+        abs(random.random()), abs(random.random()), abs(random.random())
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    j_4.set_translate(
+        abs(random.random()), abs(random.random()), abs(random.random())
+    )
+    nodes.modifier_manager.do_it_dg()
+
+    joints = [j_0, j_1, j_2, j_3, j_4]
+    up_axis = (0, 1, 0)
+    for j in joints:
+        j.aim_child_to_joint_orient(
+            up_axis=up_axis,
+            up_target=loc,
+        )
+        j.jo.set_keyable()
+        j.ra.set_keyable()
+        nodes.modifier_manager.do_it_dg()
