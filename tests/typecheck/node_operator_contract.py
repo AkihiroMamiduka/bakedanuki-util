@@ -1297,6 +1297,43 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
         ),
         Joint,
     )
+    assert_type(transform.aim_to_rotate(source), Transform)
+    assert_type(
+        transform.aim_to_rotate_axis(
+            "aim_target",
+            aim_axis=(-1.0, 0.0, 0.0),
+            up_target=(0.0, 10.0, 0.0),
+            up_axis=(0.0, 1.0, 0.0),
+            coordinate_space="world",
+            compensate_children=True,
+            compensate_child_translate=True,
+            joint_child_compensation_attr="jointOrient",
+        ),
+        Transform,
+    )
+    assert_type(joint.aim_to_rotate((10.0, 0.0, 0.0)), Joint)
+    assert_type(joint.aim_to_rotate_axis(source), Joint)
+    assert_type(
+        joint.aim_to_joint_orient(
+            source,
+            up_target="up_target",
+            coordinate_space="local",
+        ),
+        Joint,
+    )
+    transform.aim_to_rotate(
+        source,
+        coordinate_space="object",  # pyright: ignore[reportArgumentType]
+    )
+    transform.aim_to_rotate(object())  # pyright: ignore[reportArgumentType]
+    transform.aim_to_rotate_axis(
+        source,
+        compensate_children=1,  # pyright: ignore[reportArgumentType]
+    )
+    joint.aim_to_joint_orient(
+        source,
+        joint_child_compensation_attr="rotation",  # pyright: ignore[reportArgumentType]
+    )
     transform.match_position(
         source,
         compensate_children=1,  # pyright: ignore[reportArgumentType]

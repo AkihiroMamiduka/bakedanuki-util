@@ -13,6 +13,7 @@ _RotationValue = tuple[float, float, float]
 _Vector3Value = tuple[float, float, float]
 _PositionAxes = Literal["x", "y", "z", "xy", "xz", "yz", "xyz"]
 _PositionSpace = Literal["world", "local", "object"]
+AimCoordinateSpace = Literal["world", "local"]
 TransformSpace = Literal["local", "world"]
 JointChildCompensationAttr = Literal["rotate", "jointOrient"]
 
@@ -29,7 +30,9 @@ ValueChange = tuple[ScalarPlugProtocol, float]
 _POSITION_AXES = frozenset(("x", "y", "z", "xy", "xz", "yz", "xyz"))
 _POSITION_AXIS_INDEX = {"x": 0, "y": 1, "z": 2}
 _POSITION_SPACES = frozenset(("world", "local", "object"))
+_AIM_COORDINATE_SPACES = frozenset(("world", "local"))
 _TRANSFORM_SPACES = frozenset(("local", "world"))
+_AIM_VECTOR_EPSILON = 1.0e-12
 
 
 class Transform(GeneratedTransform):
@@ -408,10 +411,16 @@ class Transform(GeneratedTransform):
         rotation: _RotationValue,
         order: int,
     ) -> om.MQuaternion:
-        world_transformation = om.MTransformationMatrix()
-        world_transformation.setRotation(
-            self._rotation_to_euler(rotation, order)
+        return self._local_rotation_from_world_quaternion(
+            self._rotation_to_quaternion(rotation, order)
         )
+
+    def _local_rotation_from_world_quaternion(
+        self,
+        rotation: om.MQuaternion,
+    ) -> om.MQuaternion:
+        world_transformation = om.MTransformationMatrix()
+        world_transformation.setRotation(rotation)
         return self._local_rotation_from_world_matrix(
             world_transformation.asMatrix()
         )
@@ -1144,6 +1153,113 @@ class Transform(GeneratedTransform):
             joint_child_compensation_attr=joint_child_compensation_attr,
         )
 
+    def aim_to_rotate(
+        self,
+        aim_target: "Transform | str | Sequence[float]",
+        *,
+        aim_axis: Sequence[float] = (1.0, 0.0, 0.0),
+        up_target: "Transform | str | Sequence[float] | None" = None,
+        up_axis: Sequence[float] = (0.0, 1.0, 0.0),
+        coordinate_space: AimCoordinateSpace = "world",
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """エイムで求めたworld姿勢を ``rotate`` へ設定する。
+
+        Args:
+            aim_target: エイム対象のTransform、ノード名、または3成分座標。
+            aim_axis: エイム対象へ向けるlocal軸。
+            up_target: ロールを決めるTransform、ノード名、または3成分座標。
+            up_axis: アップ対象へ向けるlocal軸。
+            coordinate_space: 数値座標を解釈する空間。
+            compensate_children: ``True`` の場合、直接のTransform / Joint子の
+                world姿勢を維持するように補償する。
+            compensate_child_translate: ``True`` の場合、子の ``translate`` も
+                補償してworld位置を維持する。``compensate_children=True`` が必要。
+            joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
+
+        Notes:
+            ノードターゲットと自身のworld rotate pivotを基準に計算する。
+            ``up_target=None`` の場合は現在のロールを可能な限り維持する。
+            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        """
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        )
+        target_local_rotation = self._aim_local_rotation(
+            aim_target,
+            aim_axis=aim_axis,
+            up_target=up_target,
+            up_axis=up_axis,
+            coordinate_space=coordinate_space,
+        )
+        rotate_order = self.rotateOrder.get()
+        current_rotate = self.rotate.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._rotate_from_combined_rotation(target_local_rotation),
+            rotate_order,
+            current_rotate,
+        )
+        return self.set_rotate(
+            rotation,
+            compensate_children=compensate_children,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
+
+    def aim_to_rotate_axis(
+        self,
+        aim_target: "Transform | str | Sequence[float]",
+        *,
+        aim_axis: Sequence[float] = (1.0, 0.0, 0.0),
+        up_target: "Transform | str | Sequence[float] | None" = None,
+        up_axis: Sequence[float] = (0.0, 1.0, 0.0),
+        coordinate_space: AimCoordinateSpace = "world",
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """エイムで求めたworld姿勢を ``rotateAxis`` へ設定する。
+
+        引数と計算仕様は :meth:`aim_to_rotate` と共通で、変更する回転属性だけが
+        異なる。
+        """
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        )
+        target_local_rotation = self._aim_local_rotation(
+            aim_target,
+            aim_axis=aim_axis,
+            up_target=up_target,
+            up_axis=up_axis,
+            coordinate_space=coordinate_space,
+        )
+        current_rotate_axis = self.rotateAxis.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._rotate_axis_from_combined_rotation(target_local_rotation),
+            om.MEulerRotation.kXYZ,
+            current_rotate_axis,
+        )
+        return self.set_rotate_axis(
+            rotation,
+            compensate_children=compensate_children,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
+
     @overload
     def set_rotate_axis_with_rotate(
         self,
@@ -1248,6 +1364,276 @@ class Transform(GeneratedTransform):
         return fn_transform.rotateOrientation(
             om.MSpace.kTransform
         ) * fn_transform.rotation(asQuaternion=True)
+
+    @staticmethod
+    def _aim_vector3_components(
+        value: object,
+        argument_name: str,
+    ) -> _Vector3Value:
+        if not isinstance(value, Sequence) or isinstance(value, (str, bytes)):
+            raise TypeError(
+                f"{argument_name} must be a 3-component sequence; "
+                f"got {type(value).__name__}"
+            )
+        components: tuple[object, ...] = tuple(cast(Sequence[object], value))
+        if len(components) != 3 or any(
+            isinstance(component, Sequence)
+            and not isinstance(component, (str, bytes))
+            for component in components
+        ):
+            raise TypeError(
+                f"{argument_name} must be a 3-component sequence; "
+                f"got {components!r}"
+            )
+        scalar_components = cast(tuple[float, ...], components)
+        try:
+            normalized = cast(
+                _Vector3Value,
+                tuple(float(component) for component in scalar_components),
+            )
+        except (TypeError, ValueError) as error:
+            raise TypeError(
+                f"{argument_name} must contain numeric values; "
+                f"got {components!r}"
+            ) from error
+        if not all(math.isfinite(component) for component in normalized):
+            raise ValueError(
+                f"{argument_name} must contain only finite values; "
+                f"got {normalized!r}"
+            )
+        return normalized
+
+    @classmethod
+    def _normalized_aim_axis(
+        cls,
+        value: object,
+        argument_name: str,
+    ) -> om.MVector:
+        vector = om.MVector(*cls._aim_vector3_components(value, argument_name))
+        length = vector.length()
+        if length <= _AIM_VECTOR_EPSILON:
+            raise ValueError(f"{argument_name} must be non-zero")
+        return vector / length
+
+    @staticmethod
+    def _normalized_aim_direction(
+        vector: om.MVector,
+        argument_name: str,
+    ) -> om.MVector:
+        components = (vector.x, vector.y, vector.z)
+        if not all(math.isfinite(component) for component in components):
+            raise ValueError(
+                f"{argument_name} produced a non-finite direction"
+            )
+        length = vector.length()
+        if length <= _AIM_VECTOR_EPSILON:
+            raise ValueError(
+                f"{argument_name} must not coincide with this node's "
+                "rotate pivot"
+            )
+        return vector / length
+
+    @staticmethod
+    def _require_aim_coordinate_space(
+        value: object,
+    ) -> AimCoordinateSpace:
+        if not isinstance(value, str):
+            raise TypeError(
+                f"coordinate_space must be str; got {type(value).__name__}"
+            )
+        if value not in _AIM_COORDINATE_SPACES:
+            supported = ", ".join(sorted(_AIM_COORDINATE_SPACES))
+            raise ValueError(
+                f"Unsupported aim coordinate space: {value!r}. "
+                f"Expected one of: {supported}"
+            )
+        return value
+
+    @staticmethod
+    def _aim_target_path_from_name(
+        node_name: str,
+        argument_name: str,
+    ) -> om.MDagPath:
+        selection = om.MSelectionList()
+        try:
+            selection.add(node_name)
+        except RuntimeError as error:
+            raise ValueError(
+                f"{argument_name} node was not found or is ambiguous: "
+                f"{node_name!r}"
+            ) from error
+        if selection.length() != 1:
+            raise ValueError(
+                f"{argument_name} must resolve to exactly one node: "
+                f"{node_name!r}"
+            )
+        try:
+            dag_path = selection.getDagPath(0)
+        except (RuntimeError, TypeError) as error:
+            raise TypeError(
+                f"{argument_name} node must be a Transform: {node_name!r}"
+            ) from error
+        if not dag_path.node().hasFn(om.MFn.kTransform):
+            raise TypeError(
+                f"{argument_name} node must be a Transform: {node_name!r}"
+            )
+        return dag_path
+
+    @staticmethod
+    def _validate_aim_target_instance(
+        dag_path: om.MDagPath,
+        argument_name: str,
+    ) -> None:
+        if len(om.MDagPath.getAllPathsTo(dag_path.node())) > 1:
+            raise RuntimeError(
+                "Aim rotation is not supported for an instanced target "
+                f"node ({argument_name}): {dag_path.partialPathName()}"
+            )
+
+    def _aim_target_world_point(
+        self,
+        target: object,
+        coordinate_space: AimCoordinateSpace,
+        argument_name: str,
+    ) -> om.MPoint:
+        dag_path: om.MDagPath | None = None
+        if isinstance(target, Transform):
+            dag_path = target._dag_path
+        elif isinstance(target, str):
+            dag_path = self._aim_target_path_from_name(target, argument_name)
+
+        if dag_path is not None:
+            self._validate_aim_target_instance(dag_path, argument_name)
+            return om.MFnTransform(dag_path).rotatePivot(om.MSpace.kWorld)
+
+        try:
+            components = self._aim_vector3_components(target, argument_name)
+        except TypeError as error:
+            if isinstance(target, DAG):
+                raise TypeError(
+                    f"{argument_name} must be a Transform; "
+                    f"got {type(target).__name__}"
+                ) from error
+            raise TypeError(
+                f"{argument_name} must be a Transform, node name, or "
+                "3-component coordinate"
+            ) from error
+
+        point = om.MPoint(*components)
+        if coordinate_space == "local":
+            point = (
+                point
+                * self._get_instance_transform_matrix("parentMatrix").matrix
+            )
+        return point
+
+    def _aim_world_rotation(
+        self,
+        aim_target: object,
+        *,
+        aim_axis: object,
+        up_target: object,
+        up_axis: object,
+        coordinate_space: object,
+    ) -> om.MQuaternion:
+        coordinate_space = self._require_aim_coordinate_space(coordinate_space)
+        if self.is_instanced:
+            raise RuntimeError(
+                "Aim rotation is not supported for an instanced DAG node: "
+                f"{self.name}"
+            )
+
+        local_aim_axis = self._normalized_aim_axis(aim_axis, "aim_axis")
+        local_up_axis = self._normalized_aim_axis(up_axis, "up_axis")
+        local_up_axis = local_up_axis - local_aim_axis * (
+            local_up_axis * local_aim_axis
+        )
+        local_up_length = local_up_axis.length()
+        if local_up_length <= _AIM_VECTOR_EPSILON:
+            raise ValueError("aim_axis and up_axis must not be parallel")
+        local_up_axis /= local_up_length
+
+        origin = om.MFnTransform(self._dag_path).rotatePivot(om.MSpace.kWorld)
+        aim_point = self._aim_target_world_point(
+            aim_target,
+            coordinate_space,
+            "aim_target",
+        )
+        world_aim_axis = self._normalized_aim_direction(
+            aim_point - origin,
+            "aim_target",
+        )
+
+        if up_target is None:
+            current_world_rotation = self._get_instance_transform_matrix(
+                "worldMatrix"
+            ).transformation_matrix.rotation(asQuaternion=True)
+            current_world_aim_axis = local_aim_axis.rotateBy(
+                current_world_rotation
+            )
+            current_world_aim_axis.normalize()
+            aim_cross = current_world_aim_axis ^ world_aim_axis
+            aim_dot = current_world_aim_axis * world_aim_axis
+            if aim_cross.length() <= _AIM_VECTOR_EPSILON and aim_dot < 0.0:
+                current_world_up_axis = local_up_axis.rotateBy(
+                    current_world_rotation
+                )
+                current_world_up_axis.normalize()
+                aim_delta = om.MQuaternion(math.pi, current_world_up_axis)
+            else:
+                aim_delta = current_world_aim_axis.rotateTo(world_aim_axis)
+            rotation = current_world_rotation * aim_delta
+            rotation.normalizeIt()
+            return rotation
+
+        up_point = self._aim_target_world_point(
+            up_target,
+            coordinate_space,
+            "up_target",
+        )
+        world_up_direction = self._normalized_aim_direction(
+            up_point - origin,
+            "up_target",
+        )
+        world_up_axis = world_up_direction - world_aim_axis * (
+            world_up_direction * world_aim_axis
+        )
+        world_up_length = world_up_axis.length()
+        if world_up_length <= _AIM_VECTOR_EPSILON:
+            raise ValueError(
+                "up_target direction must not be parallel to the aim "
+                "direction"
+            )
+        world_up_axis /= world_up_length
+
+        aim_rotation = local_aim_axis.rotateTo(world_aim_axis)
+        rotated_up_axis = local_up_axis.rotateBy(aim_rotation)
+        up_angle = math.atan2(
+            world_aim_axis * (rotated_up_axis ^ world_up_axis),
+            rotated_up_axis * world_up_axis,
+        )
+        rotation = aim_rotation * om.MQuaternion(up_angle, world_aim_axis)
+        rotation.normalizeIt()
+        return rotation
+
+    def _aim_local_rotation(
+        self,
+        aim_target: object,
+        *,
+        aim_axis: object,
+        up_target: object,
+        up_axis: object,
+        coordinate_space: object,
+    ) -> om.MQuaternion:
+        return self._local_rotation_from_world_quaternion(
+            self._aim_world_rotation(
+                aim_target,
+                aim_axis=aim_axis,
+                up_target=up_target,
+                up_axis=up_axis,
+                coordinate_space=coordinate_space,
+            )
+        )
 
     @staticmethod
     def _validate_match_source(source: object) -> DAG:

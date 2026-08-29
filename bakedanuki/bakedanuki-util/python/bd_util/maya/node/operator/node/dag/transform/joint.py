@@ -7,8 +7,10 @@ from maya.api import OpenMayaAnim as oma
 
 from .._core import DAG
 from ._core import (
+    AimCoordinateSpace,
     JointChildCompensationAttr,
     ScalarPlugProtocol,
+    Transform,
     TransformSpace,
 )
 from ._generated.joint import GeneratedJoint
@@ -305,6 +307,52 @@ class Joint(GeneratedJoint):
             self._joint_orient_from_combined_rotation(
                 self._match_local_rotation(source)
             ),
+            om.MEulerRotation.kXYZ,
+            current_joint_orient,
+        )
+        return self.set_joint_orient(
+            rotation,
+            compensate_children=compensate_children,
+            compensate_child_translate=compensate_child_translate,
+            joint_child_compensation_attr=joint_child_compensation_attr,
+        )
+
+    def aim_to_joint_orient(
+        self,
+        aim_target: "Transform | str | Sequence[float]",
+        *,
+        aim_axis: Sequence[float] = (1.0, 0.0, 0.0),
+        up_target: "Transform | str | Sequence[float] | None" = None,
+        up_axis: Sequence[float] = (0.0, 1.0, 0.0),
+        coordinate_space: AimCoordinateSpace = "world",
+        compensate_children: bool = False,
+        compensate_child_translate: bool = False,
+        joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
+    ) -> Self:
+        """エイムで求めたworld姿勢を ``jointOrient`` へ設定する。
+
+        引数と計算仕様は :meth:`Transform.aim_to_rotate` と共通で、変更する
+        回転属性だけが異なる。
+        """
+        (
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        ) = self._require_rotation_child_compensation_options(
+            compensate_children,
+            compensate_child_translate,
+            joint_child_compensation_attr,
+        )
+        target_local_rotation = self._aim_local_rotation(
+            aim_target,
+            aim_axis=aim_axis,
+            up_target=up_target,
+            up_axis=up_axis,
+            coordinate_space=coordinate_space,
+        )
+        current_joint_orient = self.jointOrient.get().as_tuple()
+        rotation = self._quaternion_to_rotation(
+            self._joint_orient_from_combined_rotation(target_local_rotation),
             om.MEulerRotation.kXYZ,
             current_joint_orient,
         )

@@ -855,6 +855,82 @@ srcのworld姿勢をdstの実効親空間へ変換して得た目標回転を`Q_
 | Jointの`match_rotation_to_rotate_axis()` | `A_new = Q_target * inverse(J) * inverse(R)` |
 | Jointの`match_rotation_to_joint_orient()` | `J_new = inverse(R) * inverse(A) * Q_target` |
 
+## Transform / Joint のエイム姿勢設定
+
+`Transform`と`Joint`は、指定したターゲットへlocal軸を向けてworld姿勢を設定できます。
+変更する回転属性ごとにメソッドを分けています。
+
+```python
+aim_target = nodes.existing("aim_target")
+
+transform.aim_to_rotate(aim_target)
+transform.aim_to_rotate_axis("aim_target")
+
+joint.aim_to_rotate(aim_target)
+joint.aim_to_rotate_axis(aim_target)
+joint.aim_to_joint_orient(aim_target)
+mod.do_it_dg()
+```
+
+`aim_target`と任意の`up_target`には、Transform系NodeOperator、Transform系ノード名、
+または3成分座標を指定できます。NodeOperatorとノード名は、そのTransformのworld
+`rotatePivot`をターゲット位置として扱います。shapeやDGノードは受け付けません。
+
+```python
+transform.aim_to_rotate(
+    (10.0, 5.0, -2.0),
+    aim_axis=(-1.0, 0.0, 0.0),
+    up_target="up_target",
+    up_axis=(0.0, 1.0, 0.0),
+)
+mod.do_it_dg()
+```
+
+`aim_axis`と`up_axis`はlocal軸で、既定値はそれぞれ`(1.0, 0.0, 0.0)`と
+`(0.0, 1.0, 0.0)`です。軸の長さは無視して正規化するため、負方向や任意方向の
+3成分ベクトルも使用できます。2軸は平行でない必要があります。アップはエイム方向へ
+直交する平面へ射影し、ロールを決める基準として使用します。
+
+`up_target`を省略すると、操作前のworldエイム軸からターゲット方向への最短回転を
+現在の姿勢へ適用し、ロールを可能な限り維持します。エイム方向が完全に反対の場合は、
+操作前のworldアップ軸を180度回転の軸として使用します。
+
+数値座標の解釈空間は`coordinate_space`で指定します。既定値は`"world"`です。
+
+- `"world"`: world座標として扱います。
+- `"local"`: 操作対象の`offsetParentMatrix`を含む実効親空間の座標として扱います。
+
+`coordinate_space`は数値座標だけに適用し、NodeOperatorとノード名のターゲットは常に
+world `rotatePivot`として評価します。同じ呼び出しの`aim_target`と`up_target`に指定した
+数値座標は、共通の`coordinate_space`を使用します。
+
+エイム計算の始点は、操作時点に評価された自身のworld `rotatePivot`です。メソッドは
+計算時点の姿勢とターゲット位置を使用して回転値を1回だけ設定し、constraintやDG接続は
+作成しません。ターゲットが後から移動しても追従しません。また、回転後に自身のworld
+`rotatePivot`やDAG原点が移動する構成でも再計算は行いません。依存する未実行操作がある
+場合は、先に`mod.do_it_dg()`または`mod.do_it_dag()`を実行してください。
+
+各メソッドは名前に含まれる回転属性だけを変更し、目標world quaternionから現在値に
+近いEuler解を求めます。回転属性の合成、`rotateOrder`、実効親行列、子補償、lock・
+入力接続、undo / redoの仕様は、対応するworld姿勢設定および姿勢マッチAPIと共通です。
+
+```python
+joint.aim_to_joint_orient(
+    aim_target,
+    up_target="up_target",
+    compensate_children=True,
+    compensate_child_translate=True,
+    joint_child_compensation_attr="jointOrient",
+)
+mod.do_it_dg()
+```
+
+ゼロ軸、非有限値、平行なエイム／アップ軸、自身のrotate pivotと一致するターゲット、
+エイム方向と平行な明示的アップ方向は`ValueError`になります。存在しない、曖昧、または
+Transform系でないノード名もエラーです。自身またはノードターゲットがinstanced DAGの
+場合は、world pathが一意でないため`RuntimeError`を送出します。エラー時はmodifierへ
+変更を積みません。
+
 ## 子のworld姿勢・位置を任意に補償する属性値設定と丸め
 
 `Transform`は`set_translate()` / `set_rotate_axis()` / `set_rotate()`、`Joint`は
