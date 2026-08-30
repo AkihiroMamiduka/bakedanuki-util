@@ -166,7 +166,7 @@ def test_translate_only_keeps_identity_rotation_scale_and_shear(new_scene):
 
 
 @pytest.mark.parametrize(
-    ("order", "maya_order"),
+    ("rotate_order_name", "maya_order"),
     (
         ("xyz", 0),
         ("yzx", 1),
@@ -180,7 +180,7 @@ def test_euler_components_match_compose_matrix_node(
     new_scene,
     maya_cmds,
     maya_om,
-    order,
+    rotate_order_name,
     maya_order,
 ):
     from bd_util import TransformMatrix
@@ -189,12 +189,15 @@ def test_euler_components_match_compose_matrix_node(
     rotate = (17.0, -28.0, 39.0)
     scale = (2.0, -3.0, 4.0)
     shear = (0.1, -0.2, 0.3)
-    value = TransformMatrix(
-        translate=translate,
-        rotate=rotate,
-        rotate_order=order,
-        scale=scale,
-        shear=shear,
+    values = (
+        TransformMatrix(
+            translate=translate,
+            rotate=rotate,
+            rotate_order=rotate_order,
+            scale=scale,
+            shear=shear,
+        )
+        for rotate_order in (rotate_order_name, maya_order)
     )
     node = maya_cmds.createNode("composeMatrix")
     maya_cmds.setAttr(f"{node}.useEulerRotation", True)
@@ -206,7 +209,8 @@ def test_euler_components_match_compose_matrix_node(
 
     expected = maya_om.MMatrix(maya_cmds.getAttr(f"{node}.outputMatrix"))
 
-    _assert_matrix_close(value.matrix, expected)
+    for value in values:
+        _assert_matrix_close(value.matrix, expected)
 
 
 def test_quat_components_match_compose_matrix_node(
@@ -311,10 +315,16 @@ def test_component_constructor_validates_rotate_order(new_scene):
     )
 
     assert uppercase.rotate == pytest.approx((0.0, 0.0, 0.0))
+    assert TransformMatrix(rotate_order=5).rotate == pytest.approx(
+        (0.0, 0.0, 0.0)
+    )
     with pytest.raises(ValueError, match="Unsupported rotation order"):
         TransformMatrix(rotate_order="invalid")
-    with pytest.raises(TypeError, match="order must be str"):
-        TransformMatrix(rotate_order=0)
+    with pytest.raises(ValueError, match="Unsupported rotation order index"):
+        TransformMatrix(rotate_order=6)
+    for rotate_order in (True, 0.0, object()):
+        with pytest.raises(TypeError, match="rotate_order must be str or int"):
+            TransformMatrix(rotate_order=rotate_order)
 
 
 @pytest.mark.parametrize(
@@ -396,7 +406,7 @@ def test_returned_open_maya_values_are_copies(new_scene, maya_om):
 
 
 @pytest.mark.parametrize(
-    ("order", "maya_order"),
+    ("rotate_order_name", "maya_order"),
     (
         ("xyz", 0),
         ("yzx", 1),
@@ -409,7 +419,7 @@ def test_returned_open_maya_values_are_copies(new_scene, maya_om):
 def test_get_rotate_supports_maya_rotation_orders(
     new_scene,
     maya_om,
-    order,
+    rotate_order_name,
     maya_order,
 ):
     from bd_util import DoubleAngle3, TransformMatrix
@@ -417,15 +427,17 @@ def test_get_rotate_supports_maya_rotation_orders(
     source = _make_transformation_matrix(maya_om)
     value = TransformMatrix(source)
 
-    rotate = value.get_rotate(order=order)
-    assert isinstance(rotate, DoubleAngle3)
-    actual = maya_om.MEulerRotation(
-        *(math.radians(component) for component in rotate),
-        maya_order,
-    ).asMatrix()
     expected = source.rotation(asQuaternion=True).asMatrix()
 
-    _assert_matrix_close(actual, expected)
+    for rotate_order in (rotate_order_name, maya_order):
+        rotate = value.get_rotate(rotate_order=rotate_order)
+        assert isinstance(rotate, DoubleAngle3)
+        actual = maya_om.MEulerRotation(
+            *(math.radians(component) for component in rotate),
+            maya_order,
+        ).asMatrix()
+
+        _assert_matrix_close(actual, expected)
 
 
 def test_get_rotate_validates_order(new_scene, maya_om):
@@ -433,11 +445,17 @@ def test_get_rotate_validates_order(new_scene, maya_om):
 
     value = TransformMatrix(maya_om.MMatrix())
 
-    assert value.get_rotate(order="XYZ") == pytest.approx((0.0, 0.0, 0.0))
+    assert value.get_rotate(rotate_order="XYZ") == pytest.approx(
+        (0.0, 0.0, 0.0)
+    )
+    assert value.get_rotate(rotate_order=0) == pytest.approx((0.0, 0.0, 0.0))
     with pytest.raises(ValueError, match="Unsupported rotation order"):
-        value.get_rotate(order="invalid")
-    with pytest.raises(TypeError, match="order must be str"):
-        value.get_rotate(order=0)
+        value.get_rotate(rotate_order="invalid")
+    with pytest.raises(ValueError, match="Unsupported rotation order index"):
+        value.get_rotate(rotate_order=-1)
+    for rotate_order in (True, 0.0, object()):
+        with pytest.raises(TypeError, match="rotate_order must be str or int"):
+            value.get_rotate(rotate_order=rotate_order)
 
 
 def test_multiplies_transform_matrices(new_scene, maya_om):

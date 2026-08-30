@@ -33,6 +33,8 @@
   - 将来的に MPxCommand の undo / redo へ組み込みやすい形を目指しています。
 - `TransformMatrix`
   - matrix plug や `MMatrix` を、合成・逆行列・TRS 分解が可能なスナップショット値として扱います。
+- `Quat`
+  - Quaternion plugのraw値をimmutableに保持し、積・変換・逆元・正規化・補間を扱います。
 - Attribute / Plug helpers
   - `AttributeField`, `AttrOperator`, `PlugOperator` により、クラス定義とインスタンス操作を分けて扱います。
 - Node class generator
@@ -66,9 +68,29 @@ world_tm = src_dag.worldMatrix[0].get()
 world_translate = world_tm.translate
 ```
 
-matrix plug の `get()` は `TransformMatrix` を返します。`translate` / `rotate` / `scale` / `shear` / `quat` は、float の tuple として取得できます。`rotate` は XYZ order の degree です。
+matrix plug の `get()` は `TransformMatrix` を返します。`translate` / `rotate` /
+`scale` / `shear` / `quat` は、対応するimmutableなsnapshot値として取得できます。
+`rotate` は XYZ order の degree です。
 
 詳細は [TransformMatrix](docs/maya/transform_matrix.md) を参照してください。
+
+### Quaternion
+
+```python
+import bd_util as bdu
+
+aim = bdu.Quat.from_vectors(
+    source=(1.0, 0.0, 0.0),
+    target=(0.0, 1.0, 0.0),
+)
+offset = bdu.Quat.from_euler((0.0, 30.0, 0.0), rotate_order="xyz")
+result = aim * offset
+rotate = result.to_euler(rotate_order="xyz")
+```
+
+`Quat`は`(x, y, z, w)`順のraw値を保持し、作成時の自動正規化や`q` / `-q`の
+符号統一を行いません。Euler変換の`rotate_order`には回転順序名またはMayaの
+`rotateOrder` indexを渡せます。詳細は[Quat](docs/maya/quaternion.md)を参照してください。
 
 ### Unified Node Access
 
@@ -349,6 +371,7 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 詳細な設計メモは `docs/` 以下にあります。
 
 - [TransformMatrix](docs/maya/transform_matrix.md)
+- [Quat](docs/maya/quaternion.md)
 - [NodeOperator Overview](docs/maya/node_operator/README.md)
 - [Attributes](docs/maya/node_operator/attributes.md)
 - [Core](docs/maya/node_operator/core.md)

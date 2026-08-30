@@ -19,7 +19,8 @@
 - alias は同じ logical plug なら同じ instance を返す。
 - `set_direct()` は便利用途として残すが undo 対象外と明記する。
 - custom compound は低レベル型と意味付き alias を分ける。
-- `Quat` は `Double4` の意味付き alias として扱う。
+- `Quat` は `Double4` の意味付き値型として扱い、raw値を保持したまま
+  Quaternion固有の演算を提供する。
 
 ## 完了済みの大きな流れ
 
@@ -51,10 +52,14 @@
   Maya 2025上で検証。
 - `TransformMatrix`に、translate / Euler rotate / quaternion / scale / shearを
   keyword-onlyで受け取るcomponent合成を追加。全componentの任意指定、matrix sourceとの
-  排他、全Euler回転順序とquaternionの`composeMatrix`等価性をMaya 2025上で検証。
+  排他、回転順序名とMayaの0〜5のindex、全Euler回転順序とquaternionの
+  `composeMatrix`等価性をMaya 2025上で検証。
 - `TransformMatrix`の分解値をplugの`get()`と同じcompound専用値型へ統一。
   translateはcentimeterの`DoubleLinear3`、Euler回転はdegreeの
   `DoubleAngle3`、scale / shearは`Double3`、quaternionは`Quat`を返す。
+- `Quat`にidentity / sequence / `MQuaternion` constructor、Euler / axis-angle /
+  2-vector / matrixからの作成、Quaternion積、変換、逆元、共役、正規化、
+  shortest-path slerp、raw状態と等価性の照会を追加。
 - DAG の `full_path` / `is_instanced` / `parent` / `parents` と、親変更時の
   instancing 制約を追加。
 - DAG traversal の `children()` / `ancestors()` / `descendants()` を追加。
@@ -486,8 +491,9 @@ quaternion multiplication などは同じ演算子へ一律に割り当てませ
 `TransformMatrix`の分解値にもcompound専用値型を使用するため、今後は
 translate / scale / shear / Euler回転 / quaternionの用途が同じ値型APIへ
 集まります。ただし、単位付き値、要素値、Euler回転、quaternionでは妥当な演算が
-異なります。共通基底へ一律に演算を追加せず、具体的な利用例と戻り値型を
-型ごとに確定してから実装します。
+異なります。Quaternion固有の演算は`Quat`へ追加済みです。残る値型についても
+共通基底へ一律に演算を追加せず、具体的な利用例と戻り値型を型ごとに確定してから
+実装します。
 
 ### matrix plugの成分アクセス
 

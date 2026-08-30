@@ -3906,6 +3906,8 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
 def descriptor_contract(compose: ComposeMatrix) -> None:
     flat_matrix_sequence = [0.0] * 16
     matrix_rows = [[0.0] * 4 for _ in range(4)]
+    rotate_order = compose.inputRotateOrder.get()
+    assert_type(rotate_order, int)
 
     assert_type(ComposeMatrix.outputMatrix, MatrixAttrOperator)
     assert_type(compose.outputMatrix, MatrixPlugOperator)
@@ -3920,11 +3922,78 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         tuple[float, float, float],
     )
     assert_type(matrix_value.rotate, bdu.DoubleAngle3)
-    assert_type(matrix_value.get_rotate(order="zyx"), bdu.DoubleAngle3)
+    assert_type(
+        matrix_value.get_rotate(rotate_order="zyx"),
+        bdu.DoubleAngle3,
+    )
+    assert_type(
+        matrix_value.get_rotate(rotate_order=rotate_order),
+        bdu.DoubleAngle3,
+    )
     assert_type(matrix_value.scale, bdu.Double3)
     assert_type(matrix_value.shear, bdu.Double3)
     assert_type(matrix_value.quat, bdu.Quat)
     assert_type(matrix_value.quat.w, float)
+    quat_value = matrix_value.quat
+    maya_quat = om.MQuaternion()
+    assert_type(bdu.Quat(), bdu.Quat)
+    assert_type(bdu.Quat(0.0, 0.0, 0.0, 1.0), bdu.Quat)
+    assert_type(bdu.Quat((0.0, 0.0, 0.0, 1.0)), bdu.Quat)
+    assert_type(bdu.Quat(maya_quat), bdu.Quat)
+    assert_type(
+        bdu.Quat.from_euler(
+            (10.0, 20.0, 30.0),
+            rotate_order="zyx",
+        ),
+        bdu.Quat,
+    )
+    assert_type(
+        bdu.Quat.from_euler(
+            (10.0, 20.0, 30.0),
+            rotate_order=rotate_order,
+        ),
+        bdu.Quat,
+    )
+    assert_type(
+        bdu.Quat.from_axis_angle((0.0, 1.0, 0.0), 45.0),
+        bdu.Quat,
+    )
+    assert_type(
+        bdu.Quat.from_vectors(
+            (1.0, 0.0, 0.0),
+            (0.0, 1.0, 0.0),
+            factor=0.5,
+        ),
+        bdu.Quat,
+    )
+    assert_type(bdu.Quat.from_matrix(matrix_value), bdu.Quat)
+    assert_type(quat_value.quaternion, om.MQuaternion)
+    assert_type(quat_value.length, float)
+    assert_type(quat_value.length_squared, float)
+    assert_type(quat_value.is_finite(), bool)
+    assert_type(quat_value.is_zero(), bool)
+    assert_type(quat_value.is_unit(), bool)
+    assert_type(quat_value.is_equivalent(maya_quat), bool)
+    assert_type(
+        quat_value.to_euler(rotate_order="zyx"),
+        bdu.DoubleAngle3,
+    )
+    assert_type(
+        quat_value.to_euler(rotate_order=rotate_order),
+        bdu.DoubleAngle3,
+    )
+    axis, angle = quat_value.to_axis_angle()
+    assert_type(axis, bdu.Double3)
+    assert_type(angle, float)
+    assert_type(quat_value.to_transform_matrix(), bdu.TransformMatrix)
+    assert_type(quat_value.normalized(), bdu.Quat)
+    assert_type(quat_value.inverse(), bdu.Quat)
+    assert_type(quat_value.conjugate(), bdu.Quat)
+    assert_type(quat_value.slerp(maya_quat, 0.5), bdu.Quat)
+    assert_type(-quat_value, bdu.Quat)
+    assert_type(quat_value * bdu.Quat(), bdu.Quat)
+    assert_type(quat_value.__mul__(maya_quat), bdu.Quat)
+    assert_type(quat_value.__rmul__(maya_quat), bdu.Quat)
     assert_type(matrix_value.__mul__(om.MMatrix()), bdu.TransformMatrix)
     assert_type(matrix_value.__rmul__(om.MMatrix()), bdu.TransformMatrix)
     assert_type(
@@ -3947,6 +4016,13 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
             rotate_order="zyx",
             scale=bdu.Double3(2.0, 3.0, 4.0),
             shear=(0.1, 0.2, 0.3),
+        ),
+        bdu.TransformMatrix,
+    )
+    assert_type(
+        bdu.TransformMatrix(
+            rotate=bdu.DoubleAngle3(10.0, 20.0, 30.0),
+            rotate_order=rotate_order,
         ),
         bdu.TransformMatrix,
     )
@@ -4390,7 +4466,14 @@ def multi_compound_contract(nodes: bdu.Nodes) -> None:
     assert_type(matrix_value, bdu.TransformMatrix)
     assert_type(matrix_in.translate, bdu.DoubleLinear3)
     assert_type(matrix_in.rotate, bdu.DoubleAngle3)
-    assert_type(matrix_in.get_rotate(order="zyx"), bdu.DoubleAngle3)
+    assert_type(
+        matrix_in.get_rotate(rotate_order="zyx"),
+        bdu.DoubleAngle3,
+    )
+    assert_type(
+        matrix_in.get_rotate(rotate_order=5),
+        bdu.DoubleAngle3,
+    )
     assert_type(matrix_in.scale, bdu.Double3)
     assert_type(matrix_in.shear, bdu.Double3)
     assert_type(matrix_in.quat, bdu.Quat)

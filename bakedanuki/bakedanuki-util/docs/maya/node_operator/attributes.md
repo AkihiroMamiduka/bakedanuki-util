@@ -607,12 +607,16 @@ import 元の module を基準にした相対 import を使用します。
 専用値型は `Sequence` として index access、slice、iteration、unpack、
 `tuple()` / `list()` への変換に対応します。値は変更できず、hashable です。
 
-初期実装では四則演算を持ちません。
+通常のcompound専用値型は四則演算を持ちません。
 
 ```python
 bdu.Double2(1.0, 2.0) + bdu.Double2(3.0, 4.0)
 # TypeError
 ```
+
+`Quat`だけはQuaternion固有の積・変換・逆元・正規化・補間を持ちます。
+component-wise演算やscalarとの乗算は提供しません。詳細は
+[Quat](../quaternion.md)を参照してください。
 
 `set()` と `set_direct()` は、展開引数と sequence の両方を受け取ります。
 専用値型も sequence としてそのまま渡せます。

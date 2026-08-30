@@ -309,9 +309,18 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
 
 - `tests/maya/transform/matrix/test_transform_matrix.py`
   - matrixの入力、flat 16要素 / 4行4列のsequenceと形状検証、snapshot、
-    keyword-only componentの既定値・部分指定・入力検証、全Euler回転順序 / quaternionでの
-    `composeMatrix` nodeとの等価性、compound専用値型による分解、`MMatrix`を含む
-    左右の乗算、逆行列を検証します。
+    keyword-only componentの既定値・部分指定・入力検証、回転順序名とMaya indexによる
+    全Euler回転順序 / quaternionでの`composeMatrix` nodeとの等価性、compound専用値型に
+    よる分解、`MMatrix`を含む左右の乗算、逆行列を検証します。
+
+### Quat
+
+- `tests/maya/value/test_quat.py`
+  - identity / component / sequence / `MQuaternion` constructorとsnapshot、
+    回転順序名とMaya indexによる全Euler回転順序、axis-angle、2-vector、matrixとの
+    相互変換、raw lengthと状態照会、
+    `MQuaternion`と一致する左右の積・逆元・共役・正規化・符号反転・slerp、
+    raw equalityと`q` / `-q`の等価性、zero Quaternionの境界挙動を検証します。
 
 ### 開発用 generator
 

@@ -40,7 +40,7 @@ def test_data_matrix_plug_gets_transform_matrix_values(
     assert isinstance(matrix_plug.translate, bdu.DoubleLinear3)
     assert isinstance(matrix_plug.rotate, bdu.DoubleAngle3)
     assert isinstance(
-        matrix_plug.get_rotate(order="zyx"),
+        matrix_plug.get_rotate(rotate_order="zyx"),
         bdu.DoubleAngle3,
     )
     assert isinstance(matrix_plug.scale, bdu.Double3)
@@ -48,8 +48,11 @@ def test_data_matrix_plug_gets_transform_matrix_values(
     assert isinstance(matrix_plug.quat, bdu.Quat)
     assert matrix_plug.translate == pytest.approx((1.0, 2.0, 3.0))
     assert matrix_plug.rotate == pytest.approx((10.0, 20.0, 30.0))
-    assert matrix_plug.get_rotate(order="zyx") == pytest.approx(
-        value.get_rotate(order="zyx")
+    assert matrix_plug.get_rotate(rotate_order="zyx") == pytest.approx(
+        value.get_rotate(rotate_order="zyx")
+    )
+    assert matrix_plug.get_rotate(rotate_order=5) == pytest.approx(
+        value.get_rotate(rotate_order=5)
     )
     assert matrix_plug.scale == pytest.approx((2.0, 3.0, 4.0))
     assert matrix_plug.shear == pytest.approx((0.1, 0.2, 0.3))

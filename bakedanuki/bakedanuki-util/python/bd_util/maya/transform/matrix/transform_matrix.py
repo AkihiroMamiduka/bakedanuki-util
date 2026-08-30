@@ -4,13 +4,15 @@ from __future__ import annotations
 from collections.abc import Sequence
 from numbers import Real
 from types import NotImplementedType
-from typing import cast, Literal, overload, TypeAlias
+from typing import cast, overload, TypeAlias
 
 from maya.api import OpenMaya as om
 
+from ..._rotation import (
+    resolve_rotation_order as _resolve_rotation_order,
+    RotationOrder,
+)
 from ...value import Double3, DoubleAngle3, DoubleLinear3, Quat
-
-RotationOrder = Literal["xyz", "yzx", "zxy", "xzy", "yxz", "zyx"]
 
 MatrixSequence: TypeAlias = (
     Sequence[int | float] | Sequence[Sequence[int | float]]
@@ -20,30 +22,6 @@ MatrixSource: TypeAlias = (
 )
 
 _UNSET = object()
-
-_ROTATION_ORDER_MAP: dict[str, int] = {
-    "xyz": om.MEulerRotation.kXYZ,
-    "yzx": om.MEulerRotation.kYZX,
-    "zxy": om.MEulerRotation.kZXY,
-    "xzy": om.MEulerRotation.kXZY,
-    "yxz": om.MEulerRotation.kYXZ,
-    "zyx": om.MEulerRotation.kZYX,
-}
-
-
-def _resolve_rotation_order(order: object) -> int:
-    if not isinstance(order, str):
-        raise TypeError(f"order must be str; got {type(order).__name__}")
-
-    normalized_order = order.lower()
-    try:
-        return _ROTATION_ORDER_MAP[normalized_order]
-    except KeyError as error:
-        supported = ", ".join(_ROTATION_ORDER_MAP)
-        raise ValueError(
-            f"Unsupported rotation order: {order!r}. "
-            f"Expected one of: {supported}"
-        ) from error
 
 
 class TransformMatrix:
@@ -327,14 +305,14 @@ class TransformMatrix:
     @property
     def rotate(self) -> DoubleAngle3:
         """XYZ 順の Euler 回転を degree で返す。"""
-        return self.get_rotate(order="xyz")
+        return self.get_rotate(rotate_order="xyz")
 
     def get_rotate(
         self,
-        order: RotationOrder = "xyz",
+        rotate_order: RotationOrder = "xyz",
     ) -> DoubleAngle3:
         """指定した回転順序の Euler 回転を degree で返す。"""
-        maya_order = _resolve_rotation_order(order)
+        maya_order = _resolve_rotation_order(rotate_order)
 
         value = self.transformation_matrix.rotation()
         value.reorderIt(maya_order)

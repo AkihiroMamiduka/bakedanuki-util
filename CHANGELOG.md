@@ -9,6 +9,10 @@
 
 ### Added
 
+- `Quat`をimmutableなraw Quaternion値のまま拡張。identity / sequence /
+  `MQuaternion` constructor、Euler / axis-angle / 2-vector / matrixからの作成、
+  Quaternion積、変換、逆元、共役、正規化、shortest-path slerp、状態と等価性の
+  照会に対応。Euler変換の`rotate_order`は回転順序名とMayaの0〜5のindexを受け取る。
 - `Transform` / `Joint`に、指定したDAGノードへDAG原点のworld位置を合わせる
   `match_position()`を追加。合わせる軸と、world / local / objectの基準空間を
   指定できる。
@@ -31,6 +35,8 @@
 - `TransformMatrix`の分解値をtupleからcompound専用値型へ変更。
   `translate`は`DoubleLinear3`、`rotate` / `get_rotate()`は`DoubleAngle3`、
   `scale` / `shear`は`Double3`、`quat`は`Quat`を返す。
+- `TransformMatrix.get_rotate()`の引数名を`order`から`rotate_order`へ変更し、
+  回転順序名に加えてMayaの`rotateOrder` indexを受け取るように変更。
 
 ### Removed
 

@@ -74,7 +74,7 @@ composed = bdu.TransformMatrix(
 | `translate` | centimeterのXYZ | `(0, 0, 0)` |
 | `rotate` | degreeのXYZ Euler | identity rotation |
 | `quat` | `(x, y, z, w)` | identity rotation |
-| `rotate_order` | Euler回転順序 | `"xyz"` |
+| `rotate_order` | Euler回転順序名または0〜5のindex | `"xyz"` |
 | `scale` | XYZ | `(1, 1, 1)` |
 | `shear` | `(xy, xz, yz)` | `(0, 0, 0)` |
 
@@ -84,6 +84,8 @@ composed = bdu.TransformMatrix(
 すべてのcomponentは任意です。`TransformMatrix()`はidentity matrix、
 `TransformMatrix(translate=(1, 2, 3))`は移動だけを持つ行列を返します。
 `rotate`と`quat`はどちらか一方だけを指定でき、両方の同時指定は`ValueError`です。
+`rotate_order`のindexはMayaの`transform.rotateOrder`と同じく、`0: xyz`、
+`1: yzx`、`2: zxy`、`3: xzy`、`4: yxz`、`5: zyx`です。
 
 quaternionを使用する場合は次のように指定します。
 
@@ -134,10 +136,13 @@ scale_tuple = tm.scale.as_tuple()
 XYZ 以外の Euler 回転が必要な場合は `get_rotate()` で回転順序を指定します。
 
 ```python
-rotate_zyx = tm.get_rotate(order="zyx")
+rotate_zyx = tm.get_rotate(rotate_order="zyx")
 ```
 
-対応する値は `xyz` / `yzx` / `zxy` / `xzy` / `yxz` / `zyx` です。大文字と小文字は区別しません。
+回転順序名は `xyz` / `yzx` / `zxy` / `xzy` / `yxz` / `zyx` に対応し、
+大文字と小文字は区別しません。integerは`MEulerRotation` /
+`transform.rotateOrder`の0〜5を意味し、`MTransformationMatrix`のrotation order定数とは
+値体系が異なります。
 
 生の OpenMaya 値が必要な場合は、コピーを取得できます。
 
@@ -162,7 +167,8 @@ matrix = tm.matrix
 transformation_matrix = tm.transformation_matrix
 translate = world_matrix.translate
 rotate = world_matrix.rotate
-rotate_zyx = world_matrix.get_rotate(order="zyx")
+rotate_zyx = world_matrix.get_rotate(rotate_order="zyx")
+rotate_for_node = world_matrix.get_rotate(rotate_order=node.rotateOrder.get())
 scale = world_matrix.scale
 shear = world_matrix.shear
 quat = world_matrix.quat

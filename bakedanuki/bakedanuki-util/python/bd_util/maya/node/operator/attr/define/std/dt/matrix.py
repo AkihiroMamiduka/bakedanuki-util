@@ -48,9 +48,9 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
 
     def get_rotate(
         self,
-        order: RotationOrder = "xyz",
+        rotate_order: RotationOrder = "xyz",
     ) -> DoubleAngle3:
-        return self.get().get_rotate(order=order)
+        return self.get().get_rotate(rotate_order=rotate_order)
 
     @property
     def scale(self) -> Double3:
