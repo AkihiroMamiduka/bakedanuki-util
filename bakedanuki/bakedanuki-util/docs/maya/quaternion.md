@@ -257,3 +257,28 @@ node.inputQuat.set(result)
 
 `Quat`コンストラクタはplug名や`MPlug`を直接解決しません。scene値の取得と設定は
 `PlugOperator`、Quaternion値の計算は`Quat`が担当します。
+
+## 設計契約と今後の拡張
+
+現時点で`Quat`は、Quaternionの作成、Mayaで日常的に必要な形式との相互変換、
+合成、逆元、正規化、補間、状態と等価性の照会を持ち、value-level APIとしての
+完了条件を満たしています。
+
+今後も次の契約を維持します。
+
+- `Quat`はsceneやplugへの参照を持たない、immutableなraw snapshot値とする。
+- component順は`(x, y, z, w)`、公開APIのangleはdegreeとする。
+- 演算は暗黙に正規化、符号統一、clamp、zeroや非有限値の置換を行わない。
+- Maya APIに対応する演算は、通常値だけでなくzeroなどの境界挙動も
+  `MQuaternion`と一致させる。
+- `==`とhashは保存されたraw値、orientationの比較は`is_equivalent()`で扱う。
+- scene値の取得と設定は`PlugOperator`、行列の合成と分解は`TransformMatrix`へ
+  分離する。
+
+scalar / component-wise乗算、Eulerのturn数や元の回転順序の復元、plug名や`MPlug`の
+直接解決は、責務や意味が異なるため意図的に提供しません。
+
+vector回転、dot、nlerp、squadなどを将来追加する場合は、一般的なQuaternion APIを
+網羅すること自体を目的にせず、具体的な利用例、単位、raw値への扱い、zeroでの挙動、
+戻り値型を先に確定します。Maya APIに対応する処理は実挙動を確認し、runtime testと
+Pyright contractを同時に追加します。
