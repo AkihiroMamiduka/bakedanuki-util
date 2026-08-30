@@ -13,6 +13,8 @@
   `MQuaternion` constructor、Euler / axis-angle / 2-vector / matrixからの作成、
   Quaternion積、変換、逆元、共役、正規化、shortest-path slerp、状態と等価性の
   照会に対応。Euler変換の`rotate_order`は回転順序名とMayaの0〜5のindexを受け取る。
+- `Double2` / `Double3` / `Double4`、`Float2` / `Float3`に、同じ具体型同士の
+  加減算、scalarによる乗除算、符号反転を追加。
 - `Transform` / `Joint`に、指定したDAGノードへDAG原点のworld位置を合わせる
   `match_position()`を追加。合わせる軸と、world / local / objectの基準空間を
   指定できる。
@@ -22,6 +24,9 @@
 
 ### Changed
 
+- `Quat`を`Double4`の派生型から、`Scalar4[float]`を直接共有する独立した具体型へ変更。
+  double4 plugの物理表現は共有しつつ、numeric値型のcomponent-wise演算が
+  Quaternionへ波及しない型階層へ整理。
 - `PlugOperator` の接続照会を `MPlug.connectedTo()` ベースへ変更。
   接続先を具体的な `PlugOperator` として返し、`nodes.types` によるnode type filterと
   subclassの包含指定に対応。ノード名・plug名は専用メソッドで取得する。

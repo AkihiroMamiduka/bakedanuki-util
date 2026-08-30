@@ -607,15 +607,20 @@ import 元の module を基準にした相対 import を使用します。
 専用値型は `Sequence` として index access、slice、iteration、unpack、
 `tuple()` / `list()` への変換に対応します。値は変更できず、hashable です。
 
-通常のcompound専用値型は四則演算を持ちません。
+浮動小数点のnumeric値型である`Double2` / `Double3` / `Double4`、
+`Float2` / `Float3`は、同じ具体型同士の加減算、scalarによる乗除算、符号反転を
+提供します。
 
 ```python
-bdu.Double2(1.0, 2.0) + bdu.Double2(3.0, 4.0)
-# TypeError
+value = bdu.Double2(1.0, 2.0) + bdu.Double2(3.0, 4.0)
+# Double2(4.0, 6.0)
 ```
 
-`Quat`だけはQuaternion固有の積・変換・逆元・正規化・補間を持ちます。
-component-wise演算やscalarとの乗算は提供しません。詳細は
+要素積、異なる具体型同士の演算、unit値型と整数値型の演算は定義しません。詳細は
+[Numeric Compound Values](../numeric_compound_values.md)を参照してください。
+
+`Quat`はこれらのnumeric値型とは別に、Quaternion固有の積・変換・逆元・正規化・
+補間を持ちます。component-wise演算やscalarとの乗算は提供しません。詳細は
 [Quat](../quaternion.md)を参照してください。
 
 `set()` と `set_direct()` は、展開引数と sequence の両方を受け取ります。

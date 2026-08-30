@@ -33,6 +33,9 @@
   - 将来的に MPxCommand の undo / redo へ組み込みやすい形を目指しています。
 - `TransformMatrix`
   - matrix plug や `MMatrix` を、合成・逆行列・TRS 分解が可能なスナップショット値として扱います。
+- Numeric compound values
+  - `Double2` / `Double3` / `Double4`、`Float2` / `Float3`をimmutableな値として扱い、
+    同型同士の加減算とscalarによる乗除算を行えます。
 - `Quat`
   - Quaternion plugのraw値をimmutableに保持し、積・変換・逆元・正規化・補間を扱います。
 - Attribute / Plug helpers
@@ -73,6 +76,22 @@ matrix plug の `get()` は `TransformMatrix` を返します。`translate` / `r
 `rotate` は XYZ order の degree です。
 
 詳細は [TransformMatrix](docs/maya/transform_matrix.md) を参照してください。
+
+### Numeric Compound Values
+
+```python
+import bd_util as bdu
+
+left = bdu.Double3(1.0, 2.0, 3.0)
+right = bdu.Double3(3.0, 2.0, 1.0)
+
+center = (left + right) * 0.5
+# Double3(2.0, 2.0, 2.0)
+```
+
+演算結果は元と同じ具体型の新しい値です。要素積、異なる型同士の演算、unit値型の
+演算は暗黙に定義しません。詳細は
+[Numeric Compound Values](docs/maya/numeric_compound_values.md)を参照してください。
 
 ### Quaternion
 
@@ -371,6 +390,7 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 詳細な設計メモは `docs/` 以下にあります。
 
 - [TransformMatrix](docs/maya/transform_matrix.md)
+- [Numeric Compound Values](docs/maya/numeric_compound_values.md)
 - [Quat](docs/maya/quaternion.md)
 - [NodeOperator Overview](docs/maya/node_operator/README.md)
 - [Attributes](docs/maya/node_operator/attributes.md)

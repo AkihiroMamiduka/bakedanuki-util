@@ -7,10 +7,10 @@ from .numeric import (
     Float3,
     Long2,
     Long3,
-    Quat,
     Short2,
     Short3,
 )
+from .quaternion import Quat
 from .unit import (
     DoubleAngle2,
     DoubleAngle3,

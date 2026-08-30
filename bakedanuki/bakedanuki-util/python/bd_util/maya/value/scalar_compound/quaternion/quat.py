@@ -9,18 +9,18 @@ from typing import cast, overload, Self, TYPE_CHECKING
 
 from maya.api import OpenMaya as om
 
-from ......._rotation import resolve_rotation_order, RotationOrder
-from .....unit.angle.double3 import DoubleAngle3
-from ...double3 import Double3
-from ..double4 import Double4
+from ...._rotation import resolve_rotation_order, RotationOrder
+from ..numeric.double.double3 import Double3
+from ..scalar4 import Scalar4
+from ..unit.angle.double3 import DoubleAngle3
 
 if TYPE_CHECKING:
-    from .......transform import TransformMatrix
+    from ....transform import TransformMatrix
 
 _UNSET = object()
 
 
-class Quat(Double4):
+class Quat(Scalar4[float]):
     """Maya規約のraw Quaternionを保持するimmutableなsnapshot値。"""
 
     __slots__ = ()
@@ -161,7 +161,7 @@ class Quat(Double4):
         ),
     ) -> Self:
         """transform matrixの回転成分からQuaternionを作る。"""
-        from .......transform import TransformMatrix
+        from ....transform import TransformMatrix
 
         return cls(TransformMatrix(value).quat)
 
@@ -237,7 +237,7 @@ class Quat(Double4):
 
     def to_transform_matrix(self) -> TransformMatrix:
         """回転だけを持つTransformMatrixを返す。"""
-        from .......transform import TransformMatrix
+        from ....transform import TransformMatrix
 
         return TransformMatrix(quat=self)
 

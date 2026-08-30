@@ -19,8 +19,9 @@
 - alias は同じ logical plug なら同じ instance を返す。
 - `set_direct()` は便利用途として残すが undo 対象外と明記する。
 - custom compound は低レベル型と意味付き alias を分ける。
-- `Quat` は `Double4` の意味付き値型として扱い、raw値を保持したまま
-  Quaternion固有の演算を提供する。
+- `Quat` と `Double4` は、4つの`float`を保持する`Scalar4[float]`を共有するが、
+  継承関係を持たない別の具体型として扱う。plugの物理表現はdouble4を共有しても、
+  値型の演算体系は分離する。
 
 ## 完了済みの大きな流れ
 
@@ -60,6 +61,9 @@
 - `Quat`にidentity / sequence / `MQuaternion` constructor、Euler / axis-angle /
   2-vector / matrixからの作成、Quaternion積、変換、逆元、共役、正規化、
   shortest-path slerp、raw状態と等価性の照会を追加。
+- `Double2` / `Double3` / `Double4`、`Float2` / `Float3`に、同じ具体型同士の
+  加減算、scalarによる乗除算、符号反転を追加。immutable性と正確な戻り値型を維持し、
+  unit値型、整数値型、`Quat`へは演算を波及させない構成へ分離。
 - DAG の `full_path` / `is_instanced` / `parent` / `parents` と、親変更時の
   instancing 制約を追加。
 - DAG traversal の `children()` / `ancestors()` / `descendants()` を追加。
@@ -480,20 +484,24 @@ chain APIを追加する場合は、既存の単一node APIを計算単位とし
 - 未実行modifierを暗黙評価する仕組みは追加しない。複数のマッチ結果が依存する場合は、
   現行どおり操作間で`do_it_dg()`または`do_it_dag()`を実行する。
 
-### compound 専用値型の演算
+### compound 専用値型の演算（第一段階完了）
 
-compound 専用値型の利用例が集まり、演算の意味を固定できてから追加します。
+浮動小数点のnumeric値型である`Double2` / `Double3` / `Double4`、
+`Float2` / `Float3`には、次の基本演算を追加しました。
 
-通常の numeric compound では、同じ型同士の加算・減算、scalar との
-乗算・除算を最初の候補とします。要素積、内積、行列との演算、
-quaternion multiplication などは同じ演算子へ一律に割り当てません。
+- 同じ具体型同士の加算・減算
+- `int` / `float` scalarとの乗算、scalarを左辺にした乗算、scalarによる除算
+- 符号反転
+- 元の値を変更せず、同じ具体型の新しい値を返す
 
-`TransformMatrix`の分解値にもcompound専用値型を使用するため、今後は
-translate / scale / shear / Euler回転 / quaternionの用途が同じ値型APIへ
-集まります。ただし、単位付き値、要素値、Euler回転、quaternionでは妥当な演算が
-異なります。Quaternion固有の演算は`Quat`へ追加済みです。残る値型についても
-共通基底へ一律に演算を追加せず、具体的な利用例と戻り値型を型ごとに確定してから
-実装します。
+要素積、内積、行列との演算、異なる型同士の暗黙変換は定義していません。
+`bool`もscalarとして受け取りません。unit値型、整数値型、`Quat`には共通基底から
+演算を波及させず、用途ごとに演算の意味を確定します。Quaternion固有の演算は
+`Quat`へ実装済みです。
+
+今後、要素積や内積が必要になった場合は、`*`へ複数の意味を持たせず、用途を表す
+named methodとして検討します。unit値型や整数値型も、戻り値の次元・単位・丸め・
+overflowの契約を先に決めてから個別に追加します。
 
 ### matrix plugの成分アクセス
 

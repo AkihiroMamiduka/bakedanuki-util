@@ -1,6 +1,7 @@
 # coding: utf-8
 
 # self
+from ...........value import Double4
 from ._base import (
     Double4CompoundBaseAttrOperator,
     Double4CompoundBasePlugOperator,
@@ -12,9 +13,11 @@ from .......std.at.scalar.numeric.range.double import DoubleField
 
 class Double4PlugOperator(
     RoundCompoundPlugOperatorMixin,
-    Double4CompoundBasePlugOperator["Double4AttrOperator"],
+    Double4CompoundBasePlugOperator["Double4AttrOperator", Double4],
 ):
     __slots__ = ()
+
+    VALUE_TYPE = Double4
 
     x = DoubleField()
     y = DoubleField()

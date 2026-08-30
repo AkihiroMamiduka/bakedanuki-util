@@ -8,6 +8,10 @@ snapshot値です。Quaternionの作成、変換、積、逆元、正規化、�
 非有限値の置換は行いません。この方針はQuaternion compound plugと
 `bdUtilNodes`のQuaternion nodeに共通です。
 
+`Quat`は`Double4`の派生型ではありません。どちらも4つの`float`を保持するため
+共通の`Scalar4[float]`を利用しますが、component-wiseなnumeric値と回転を表す
+Quaternionでは演算の意味が異なるため、独立した具体型として扱います。
+
 ## 作成
 
 公開APIから利用できます。

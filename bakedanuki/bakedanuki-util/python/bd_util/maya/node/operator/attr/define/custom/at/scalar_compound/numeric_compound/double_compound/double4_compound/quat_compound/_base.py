@@ -18,14 +18,10 @@ P = TypeVar("P", bound="QuatCompoundBasePlugOperator[Any]")
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class QuatCompoundBasePlugOperator(Double4CompoundBasePlugOperator[A]):
+class QuatCompoundBasePlugOperator(Double4CompoundBasePlugOperator[A, Quat]):
     __slots__ = ()
 
     VALUE_TYPE = Quat
-
-    def get(self) -> Quat:
-        """quaternion compoundプラグの現在値をQuatで取得する。"""
-        return cast(Quat, super().get())
 
 
 class QuatCompoundBaseAttrOperator(Double4CompoundBaseAttrOperator[P]):

@@ -3932,6 +3932,21 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     )
     assert_type(matrix_value.scale, bdu.Double3)
     assert_type(matrix_value.shear, bdu.Double3)
+    double2_value = bdu.Double2(1.0, 2.0)
+    double3_value = bdu.Double3(1.0, 2.0, 3.0)
+    double4_value = bdu.Double4(1.0, 2.0, 3.0, 4.0)
+    float2_value = bdu.Float2(1.0, 2.0)
+    float3_value = bdu.Float3(1.0, 2.0, 3.0)
+    assert_type(double2_value + bdu.Double2(3.0, 4.0), bdu.Double2)
+    assert_type(double3_value + bdu.Double3(4.0, 5.0, 6.0), bdu.Double3)
+    assert_type(double3_value - bdu.Double3(4.0, 5.0, 6.0), bdu.Double3)
+    assert_type(double3_value * 2.0, bdu.Double3)
+    assert_type(2.0 * double3_value, bdu.Double3)
+    assert_type(double3_value / 2.0, bdu.Double3)
+    assert_type(-double3_value, bdu.Double3)
+    assert_type(double4_value + bdu.Double4(5.0, 6.0, 7.0, 8.0), bdu.Double4)
+    assert_type(float2_value * 2.0, bdu.Float2)
+    assert_type(float3_value / 2.0, bdu.Float3)
     assert_type(matrix_value.quat, bdu.Quat)
     assert_type(matrix_value.quat.w, float)
     quat_value = matrix_value.quat
@@ -5073,6 +5088,41 @@ def invalid_usage_contract(
     matrix: MatrixPlugOperator,
     quat: QuatPlugOperator,
 ) -> None:
+    def accepts_double4(value: bdu.Double4) -> None:
+        assert_type(value, bdu.Double4)
+
+    accepts_double4(bdu.Quat())  # pyright: ignore[reportArgumentType]
+    bdu.Double3(
+        1.0, 2.0, 3.0
+    ) + bdu.Float3(  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+        1.0,
+        2.0,
+        3.0,
+    )
+    bdu.Double3(
+        1.0, 2.0, 3.0
+    ) * bdu.Double3(  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+        1.0,
+        2.0,
+        3.0,
+    )
+    bdu.DoubleLinear3(
+        1.0, 2.0, 3.0
+    ) + bdu.DoubleLinear3(  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+        1.0,
+        2.0,
+        3.0,
+    )
+    bdu.Long3(
+        1, 2, 3
+    ) + bdu.Long3(  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+        1,
+        2,
+        3,
+    )
+    (
+        bdu.Quat() + bdu.Quat()
+    )  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
     nodes.create.composeMatrix(
         unknown_option=True  # pyright: ignore[reportCallIssue]
     )

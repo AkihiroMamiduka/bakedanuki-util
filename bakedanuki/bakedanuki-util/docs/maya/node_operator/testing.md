@@ -233,7 +233,9 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     `MTransformationMatrix` / matrix sequenceによるqueued値設定を検証します。
 - `tests/maya/value/test_scalar_compound.py`
   - compound 専用値型の immutable sequence、component access、型ごとの
-    equality、演算未対応を検証します。
+    equalityを検証します。
+  - 浮動小数点numeric値型の同型加減算、scalar乗除算、符号反転、元の値の不変性、
+    exactな戻り値型と、cross-type・要素積・unit / 整数値型の非対応境界を検証します。
 
 ### NodeOperator
 
@@ -321,6 +323,9 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     相互変換、raw lengthと状態照会、
     `MQuaternion`と一致する左右の積・逆元・共役・正規化・符号反転・slerp、
     raw equalityと`q` / `-q`の等価性、zero Quaternionの境界挙動を検証します。
+- `tests/maya/value/test_scalar_compound.py`
+  - `Quat`が`Double4`の派生型ではないことと、numeric値型のcomponent-wise演算が
+    `Quat`へ波及せず、Quaternion積だけを維持することを検証します。
 
 ### 開発用 generator
 
