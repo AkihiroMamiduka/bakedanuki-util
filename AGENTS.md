@@ -87,28 +87,24 @@ Get-Content -Raw -Encoding UTF8 README.md
 
 テストは `mayapy` で実行してください。通常の Python では Maya API が import できません。
 
-`pytest` が Maya Python から見えない場合は、まず一時ディレクトリへ入れます。
+pytestは`requirements-test.txt`に固定し、repository直下の`.test`へ
+target installします。初回だけ次を実行してください。
 
 ```powershell
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pip install --target $env:TEMP\codex-mayapy-pytest pytest
+.\scripts\setup-test.cmd
 ```
 
-テスト実行時は、pytest の配置先と `bakedanuki/bakedanuki-util/python` の両方を `PYTHONPATH` に入れるのが安全です。
+既存環境を明示的に作り直す場合です。
 
 ```powershell
-$pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
-$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
-$env:PYTHONPATH = "$pytestTarget;$pythonPath"
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
+.\scripts\setup-test.cmd -ForceRecreate
 ```
 
-特定テストだけ実行する例です。
+Maya 2025でfull pytestまたは特定テストだけを実行する例です。
 
 ```powershell
-$pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
-$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
-$env:PYTHONPATH = "$pytestTarget;$pythonPath"
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests\maya\node\operator\attr\test_extra_attr.py
+.\scripts\test-pytest-maya2025.cmd
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr\test_extra_attr.py
 ```
 
 `swig/python detected a memory leak ...` のような表示がテスト終了後に出ることがあります。pytest の終了コードが成功であれば、通常は非失敗ログとして扱ってください。
@@ -150,7 +146,33 @@ DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を
 
 ## Verification Policy
 
-変更内容に応じて検証範囲を選んでください。
+作業完了前の最終検証は、個別commandを組み立てず、必ず統一入口を使用してください。
+
+```powershell
+.\scripts\verify.cmd
+```
+
+通常の`verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
+3 versionのUI互換性test、`git diff --check`を順に実行し、途中の失敗で停止します。
+
+native plug-in、build script、配布binary、対応Maya versionを変更した場合です。
+
+```powershell
+.\scripts\verify.cmd -IncludeNative
+```
+
+リリース前は、3 versionのnative build/testに加えて、各versionのstaged plug-inを
+必須にしたfull pytestを実行します。
+
+```powershell
+.\scripts\verify.cmd -Release
+```
+
+targeted pytestや個別scriptは開発中の切り分けに使用できますが、最終確認の
+`verify.cmd`を省略しないでください。必要なMaya、pytest、toolchain、staged plug-inが
+ない場合はskipせず明確に失敗させます。
+
+変更内容に応じた開発中の確認範囲です。
 
 - README や docs のみ
   - `git diff --check -- <changed-files>` で十分なことが多いです。
@@ -161,46 +183,11 @@ DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を
 - DG ノード生成、node attr 解決、共通 import に関わる変更
   - full pytest に加えて、必要に応じて DG モジュールの import sweep を検討してください。
 - Pythonコードを変更した場合
-  - 原則として`.\scripts\format.cmd -Check`で整形状態を確認してください。
+  - 開発中も原則として`.\scripts\format.cmd -Check`で整形状態を確認してください。
 - Qt facade、Window lifecycle、Maya UI adapterを変更した場合
   - Maya 2025 / 2026 / 2027それぞれでUI互換性テストを実行してください。
 - ネイティブplug-in、build script、配布バイナリ、対応Maya versionを変更した場合
-  - Maya 2025 / 2026 / 2027それぞれでbuildとnative testを実行してください。
-
-```powershell
-.\scripts\test-ui-maya-all.cmd
-```
-
-versionごとに実行する場合は`test-ui-maya2025.cmd`、`test-ui-maya2026.cmd`、
-`test-ui-maya2027.cmd`を使用します。各コマンドはQt facadeとMaya UI adapterを
-独立したmayapy processで検証します。
-
-```powershell
-.\scripts\build-native-maya2025.cmd
-.\scripts\test-native-maya2025.cmd
-.\scripts\build-native-maya2026.cmd
-.\scripts\test-native-maya2026.cmd
-.\scripts\build-native-maya2027.cmd
-.\scripts\test-native-maya2027.cmd
-```
-
-リリース前は、配布対象versionそれぞれの`mayapy`と対応するstaged plug-inを使用して
-full pytestも実行してください。
-
-全体テストです。
-
-```powershell
-$pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
-$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
-$env:PYTHONPATH = "$pytestTarget;$pythonPath"
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
-```
-
-差分チェックです。
-
-```powershell
-git diff --check
-```
+  - 最終確認に`-IncludeNative`を指定してください。
 
 CRLF warning はこの環境で出ることがあります。`git diff --check` が終了コード 0 なら、基本的には非ブロッキングとして扱ってください。
 
@@ -286,10 +273,19 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
 - `pyrightconfig.json` の diagnostic を repository 全体で安易に無効化しない。
   個別抑制が必要な場合も対象 rule を明記し、抑制範囲を最小限にする。
 
-通常の `pyright --project pyrightconfig.json` は型・補完 contract を検証します。
+通常の `.\scripts\typecheck-maya2025.cmd` は型・補完 contract を検証します。
 実装ファイルや特定階層の警告を総点検するときは、対象 path を明示して実行します。
 詳細なコマンドは `bakedanuki/bakedanuki-util/docs/maya/node_operator/testing.md` を
 参照してください。
+
+型チェック専用環境は初回に作成します。通常開発ではMaya 2025、対応version間の
+PySide6 stub差分まで確認する場合は一括scriptを使用してください。
+
+```powershell
+.\scripts\setup-typecheck.cmd
+.\scripts\typecheck-maya2025.cmd
+.\scripts\typecheck-maya-all.cmd
+```
 
 ## NodeOperator Usage Conventions
 

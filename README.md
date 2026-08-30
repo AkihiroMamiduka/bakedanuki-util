@@ -85,11 +85,25 @@ Maya API の型スタブは `typings/maya` に同梱しています。
 Pyright の型・補完 contract と pytest の実行方法は、
 [testing.md](bakedanuki/bakedanuki-util/docs/maya/node_operator/testing.md) を参照してください。
 
+通常開発の最終確認は、整形、型contract、full pytest、UI互換性test、差分確認を
+まとめた統一commandを使用します。必要なtest・型チェック環境は初回に自動作成されます。
+
+```powershell
+.\scripts\verify.cmd
+```
+
+native変更とリリース前の検証範囲です。
+
+```powershell
+.\scripts\verify.cmd -IncludeNative
+.\scripts\verify.cmd -Release
+```
+
 ### Maya C++ Plug-ins
 
 C++ source は配布用 `bakedanuki` フォルダへ含めず、リポジトリ直下の
-`native/maya` で管理します。Maya 2025 / 2026 / 2027 向けの build と test は
-次のコマンドです。
+`native/maya` で管理します。最終確認には`verify.cmd -IncludeNative`を使用します。
+versionごとのbuildとtestを個別に切り分ける場合は次のコマンドです。
 
 ```powershell
 .\scripts\build-native-maya2025.cmd

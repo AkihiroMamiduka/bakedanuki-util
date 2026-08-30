@@ -8,7 +8,7 @@ $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $mayapy = "C:\Program Files\Autodesk\Maya$MayaVersion\bin\mayapy.exe"
-$pytestTarget = Join-Path $env:TEMP "codex-mayapy-pytest"
+$pytestTarget = Join-Path $repoRoot ".test"
 $runner = Join-Path $PSScriptRoot "test_ui_maya.py"
 $pythonPath = Join-Path $repoRoot "bakedanuki\bakedanuki-util\python"
 
@@ -18,7 +18,7 @@ if (-not (Test-Path -LiteralPath $mayapy -PathType Leaf)) {
 if (-not (Test-Path -LiteralPath (Join-Path $pytestTarget "pytest"))) {
     throw (
         "pytest was not found at $pytestTarget. Install it with the " +
-        "mayapy command documented in AGENTS.md."
+        "setup-test command documented in AGENTS.md."
     )
 }
 if (-not (Test-Path -LiteralPath $runner -PathType Leaf)) {

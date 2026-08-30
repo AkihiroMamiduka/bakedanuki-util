@@ -614,8 +614,8 @@ Qt facade、Window lifecycle、Maya UI adapterの自動テストは、対応す�
 ```
 
 各versionでは、Maya、Python、Qt bindingの実バージョンを表示した後、汎用Qt/UIテストと
-Maya APIを使うUIテストを独立したmayapy processで実行します。pytestを一時配置する手順は
-リポジトリ直下の`AGENTS.md`を参照してください。
+Maya APIを使うUIテストを独立したmayapy processで実行します。pytestはrepository直下の
+`.test`から読み込み、統一検証では`.\scripts\verify.cmd`が3 versionを実行します。
 
 2026-08-22時点の確認結果です。
 
@@ -665,5 +665,6 @@ UI基盤を変更・拡張するときは、次のcontractを維持します。
 - closeの既定は`retain=False`とし、WindowとMaya callbackを完全破棄する。非表示中も処理を
   継続する明確な要件があるtoolだけ`retain=True`を指定する。
 - QHeaderViewの列幅・表示順は共通保存へ追加せず、必要なtoolが個別に管理する。
-- Qt facade、Window lifecycle、Maya UI adapterの変更後は`test-ui-maya-all.cmd`を実行する。
+- Qt facade、Window lifecycle、Maya UI adapterの変更中は`test-ui-maya-all.cmd`で
+  切り分け、最終確認は`verify.cmd`を実行する。
   workspaceControl、再起動復元、実画面配置に関わる変更は各versionのMaya本体でも確認する。

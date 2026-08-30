@@ -6,31 +6,44 @@
 
 ## 推奨実行方法
 
-Maya API を使うテストは `mayapy.exe` で実行します。
-
-PowerShell では、パスにスペースが含まれる executable を呼ぶため先頭に `&` が必要です。
+最終検証は統一入口から実行します。
 
 ```powershell
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
+.\scripts\verify.cmd
 ```
 
-通常開発ではMaya 2025を基準にします。リリース前はMaya 2025 / 2026 / 2027の
-各`mayapy`と対応する`plug-ins/maya<version>/bdUtilNodes.mll`を指定し、
-全テストを実行します。ネイティブテストはversion別scriptから実行できます。
+通常modeでは次を順に実行し、途中の失敗で停止します。
+
+1. Black format check。
+2. Maya 2025 / 2026 / 2027のPyright型contract。
+3. Maya 2025のfull pytest。
+4. Maya 2025 / 2026 / 2027のUI互換性test。
+5. `git diff --check`。
+
+native変更とリリース前の検証です。
 
 ```powershell
-.\scripts\test-native-maya2025.cmd
-.\scripts\test-native-maya2026.cmd
-.\scripts\test-native-maya2027.cmd
+.\scripts\verify.cmd -IncludeNative
+.\scripts\verify.cmd -Release
 ```
 
-Codex 側の mayapy に pytest が入っていない場合は、target install した pytest の場所を `PYTHONPATH` に足して実行します。
+`-IncludeNative`は通常modeに3 versionのnative build/testを追加します。
+`-Release`はその全項目に加えて、各versionのstaged plug-inを必須にしたfull pytestを
+実行します。個別scriptは開発中の切り分け用で、最終確認では`verify.cmd`を使用します。
+
+pytestは`requirements-test.txt`に固定し、repository直下の`.test`へtarget installします。
+`verify.cmd`は環境がない場合に自動作成します。手動で作成・再作成する場合です。
 
 ```powershell
-$pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
-$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
-$env:PYTHONPATH = "$pytestTarget;$pythonPath"
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
+.\scripts\setup-test.cmd
+.\scripts\setup-test.cmd -ForceRecreate
+```
+
+Maya 2025を基準にfull pytestまたはtargeted pytestだけを切り分ける場合です。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr/test_extra_attr.py
 ```
 
 ## Black format
@@ -93,27 +106,39 @@ Maya API stub はリポジトリの `typings/maya` に同梱しています。
 `pyrightconfig.json` の `stubPath` を通して Pyright / Pylance から参照されるため、
 開発環境ごとに `maya-stubs` をインストールする必要はありません。
 
-Pyright CLI は、Maya 環境へ常設せず一時ディレクトリへ
-インストールできます。
+Pyright CLIはMaya環境へ常設せず、repository直下の`.typecheck`へ
+target installします。初回だけ次を実行してください。
 
 ```powershell
-$pyrightTarget = Join-Path $env:TEMP 'codex-mayapy-pyright'
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pip install `
-    --upgrade `
-    --target $pyrightTarget `
-    -r requirements-typecheck.txt
-
-$env:PYTHONPATH = $pyrightTarget
-$env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pyright `
-    --project pyrightconfig.json `
-    --pythonpath "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe"
+.\scripts\setup-typecheck.cmd
 ```
 
-期待する結果は `0 errors, 0 warnings, 0 informations` です。
+通常開発ではMaya 2025を基準に実行します。
+
+```powershell
+.\scripts\typecheck-maya2025.cmd
+```
+
+Maya同梱のPySide6 stub差分も含めて対応versionを一括確認する場合は、
+次を実行します。
+
+```powershell
+.\scripts\typecheck-maya-all.cmd
+```
+
+versionごとのscriptとして`typecheck-maya2025.cmd`、
+`typecheck-maya2026.cmd`、`typecheck-maya2027.cmd`も使用できます。
+各scriptは対象versionの`mayapy.exe`をPyrightの`--pythonpath`へ指定します。
+期待する結果はそれぞれ `0 errors, 0 warnings, 0 informations` です。
+
+型チェック環境が起動できない場合は、明示的に作り直します。
+
+```powershell
+.\scripts\setup-typecheck.cmd -ForceRecreate
+```
 
 このcontractは静的解析用で、Maya sceneを作成するruntime testではありません。
-通常の挙動は引き続き `mayapy -m pytest tests` で検証します。
+通常の挙動は引き続き`.\scripts\test-pytest-maya2025.cmd`で検証します。
 
 ### 実装ファイルの診断確認
 
@@ -125,17 +150,12 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
 使い、対象 path を明示します。例えば `_test` 全体を確認する場合は次の通りです。
 
 ```powershell
-$pyrightTarget = Join-Path $env:TEMP 'codex-mayapy-pyright'
-$env:PYTHONPATH = $pyrightTarget
-$env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pyright `
-    --project pyrightconfig.json `
-    --pythonpath "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
-    bakedanuki/bakedanuki-util/python/bd_util/_test
+.\scripts\typecheck-maya2025.cmd bakedanuki/bakedanuki-util/python/bd_util/_test
 ```
 
-通常の Python や Node.js 版 Pyright から実行すると、stub は見つかっていても Maya の
-実 module source を解決できず、`reportMissingModuleSource` が出ることがあります。
+Mayaの解析interpreterを指定せずに通常のPythonやNode.js版Pyrightを実行すると、
+stubは見つかっていてもMayaの実module sourceを解決できず、
+`reportMissingModuleSource`が出ることがあります。
 コードの型不備と混同せず、最終判定は上記の `mayapy.exe` を指定した方法で行います。
 
 診断を修正するときは次を基準にします。
@@ -311,10 +331,7 @@ DAG traversalは共通の`DAG`基底実装と、公開APIのoverloadを同時に
 あります。変更時は少なくとも次を確認します。
 
 ```powershell
-$pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
-$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
-$env:PYTHONPATH = "$pytestTarget;$pythonPath"
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest `
+.\scripts\test-pytest-maya2025.cmd `
     tests\maya\node\operator\node\dag\test_traversal.py
 ```
 
@@ -324,12 +341,12 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 - `until`などで戻り値がoptionalになる場合は、境界発見と結果filteringを分離し、
   空tupleと`None`の意味を混同しないtestを追加します。
 - 引数や戻り値型を変更した場合は`tests/typecheck/node_operator_contract.py`も更新し、
-  `pyright --project pyrightconfig.json`を実行します。
+  `.\scripts\typecheck-maya2025.cmd`を実行します。
 - `DAG`基底の共有実装を変更した場合は、targeted pytestとPyrightに加えてfull pytestを
   実行します。
 
-`mayapy.exe -m pytest tests` では、上記の Maya 実行テストと開発用 generator
-テストをまとめて実行します。
+`.\scripts\test-pytest-maya2025.cmd`では、上記のMaya実行テストと開発用generator
+テストをまとめて実行します。最終確認は`.\scripts\verify.cmd`から実行します。
 
 ## MtoA 由来の warning
 
@@ -494,6 +511,8 @@ console には scenario ごとの median / min / max を表示します。
 
 ## 現行 snapshot
 
-このドキュメント作成時点では、直近の開発確認で `mayapy -m pytest tests` が通っている状態を前提にしています。
+このドキュメント作成時点では、直近の開発確認で`.\scripts\verify.cmd`が
+通っている状態を前提にしています。
 
-docs 変更のみの場合、通常は pytest の再実行より `git diff --check` で十分です。
+docs変更のみでも最終確認は`.\scripts\verify.cmd`を使用します。
+編集中の局所確認には`git diff --check -- <changed-files>`を使用できます。

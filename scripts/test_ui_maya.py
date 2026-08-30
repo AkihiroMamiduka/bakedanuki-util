@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import argparse
-import os
 import platform
 import sys
 from pathlib import Path
 
 _REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
 _PYTHON_ROOT = _REPOSITORY_ROOT / "bakedanuki" / "bakedanuki-util" / "python"
-_PYTEST_ROOT = Path(os.environ["TEMP"]) / "codex-mayapy-pytest"
+_PYTEST_ROOT = _REPOSITORY_ROOT / ".test"
 _TEST_PATHS = {
     "qt": _REPOSITORY_ROOT / "tests" / "ui",
     "maya": _REPOSITORY_ROOT / "tests" / "maya" / "ui",
@@ -20,7 +19,7 @@ _TEST_PATHS = {
 def _prepare_import_paths() -> None:
     """pytestとbd_utilのimportパスを追加する。"""
 
-    # リポジトリ内実装と一時配置したpytestを優先して読み込む。
+    # リポジトリ内実装とtest専用環境のpytestを優先して読み込む。
     sys.path[:0] = [str(_PYTEST_ROOT), str(_PYTHON_ROOT)]
 
 
