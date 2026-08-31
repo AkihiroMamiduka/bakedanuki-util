@@ -14,11 +14,13 @@ $repoRoot = [System.IO.Path]::GetFullPath(
 )
 $mayapy = "C:\Program Files\Autodesk\Maya$MayaVersion\bin\mayapy.exe"
 $pytestTarget = Join-Path $repoRoot ".test"
-$pythonPath = Join-Path $repoRoot "bakedanuki\bakedanuki-util\python"
+$packageRoot = Join-Path $repoRoot "bakedanuki\bakedanuki-util"
+$pythonPath = Join-Path $packageRoot "python"
+$mayaPluginPath = Join-Path $packageRoot "plug-ins\maya$MayaVersion"
 $testsPath = Join-Path $repoRoot "tests"
 $pluginPath = Join-Path (
-    $repoRoot
-) "bakedanuki\bakedanuki-util\plug-ins\maya$MayaVersion\bdUtilNodes.mll"
+    $mayaPluginPath
+) "bdUtilNodes.mll"
 
 if (-not (Test-Path -LiteralPath $mayapy -PathType Leaf)) {
     throw "Maya $MayaVersion mayapy was not found at $mayapy."
@@ -34,9 +36,11 @@ if ($RequirePlugin -and -not (Test-Path -LiteralPath $pluginPath -PathType Leaf)
 }
 
 $previousPythonPath = $env:PYTHONPATH
+$previousMayaPluginPath = $env:MAYA_PLUG_IN_PATH
 $previousPluginPath = $env:BD_UTIL_NODES_PLUGIN_PATH
 try {
     $env:PYTHONPATH = "$pytestTarget;$pythonPath"
+    $env:MAYA_PLUG_IN_PATH = "$mayaPluginPath;$previousMayaPluginPath"
     $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
 
     if (Test-Path -LiteralPath $pluginPath -PathType Leaf) {
@@ -61,6 +65,7 @@ try {
 }
 finally {
     $env:PYTHONPATH = $previousPythonPath
+    $env:MAYA_PLUG_IN_PATH = $previousMayaPluginPath
     $env:BD_UTIL_NODES_PLUGIN_PATH = $previousPluginPath
 }
 

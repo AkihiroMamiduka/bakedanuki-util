@@ -101,6 +101,31 @@ class ModifierManager:
         self._done_stack = redone_modifiers
         self._redo_stack = []
 
+    def rollback(self) -> None:
+        """Undo executed history and discard all pending command state.
+
+        Unlike ``undo_it()``, rollback is terminal. It also clears pending
+        modifiers and does not retain redo history. Every executed modifier is
+        given a chance to undo even if an earlier undo operation fails.
+        """
+        errors: list[Exception] = []
+        try:
+            for executed_modifier in reversed(self._done_stack):
+                try:
+                    executed_modifier.undo_it()
+                except Exception as error:
+                    errors.append(error)
+        finally:
+            self.clear()
+
+        if errors:
+            first_error = errors[0]
+            for error in errors[1:]:
+                first_error.add_note(
+                    f"Another modifier rollback also failed: {error!r}"
+                )
+            raise first_error
+
     def clear(self):
         self._dg_mod = om.MDGModifier()
         self._dag_mod = om.MDagModifier()

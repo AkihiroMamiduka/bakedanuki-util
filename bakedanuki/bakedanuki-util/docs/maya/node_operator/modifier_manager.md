@@ -38,6 +38,7 @@ modifier_manager.do_it_dag()
 modifier_manager.undo_it()
 modifier_manager.redo_it()
 modifier_manager.clear()
+modifier_manager.rollback()
 ```
 
 `record_pending_dag_parent()` と `would_create_dag_cycle()` は、
@@ -97,9 +98,15 @@ DAG `NodeOperator` 経由の作成・親変更では、現在の `MDagModifier` 
 
 ## MPxCommand との関係
 
-将来的には MPxCommand の `doIt()` / `undoIt()` / `redoIt()` 内で `ModifierManager` を保持し、各 command が必要な Maya 操作を manager に積む形を想定します。
+`MPxCommandBase`はcommandごとに一つの`ModifierManager`と、それを共有する`Nodes`を
+保持します。command側の`undoIt()`では`modifier_manager.undo_it()`、`redoIt()`では
+`modifier_manager.redo_it()`を呼びます。
 
-このとき command 側の `undoIt()` では `modifier_manager.undo_it()`、`redoIt()` では `modifier_manager.redo_it()` を呼ぶだけに近づけるのが狙いです。
+初回実行の途中で失敗した場合は`rollback()`が実行済み履歴を逆順にundoし、pending、
+done、redoの全状態を破棄します。通常の`undo_it()`と異なり、redo用履歴は残しません。
+
+operationとMPxCommandの責務、登録、型付きfacadeを含む運用方針は
+[MPxCommand](../mpx_command.md)を参照してください。
 
 ## 注意点
 

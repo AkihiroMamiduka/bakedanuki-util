@@ -25,8 +25,12 @@ from .maya.value import (
     Short2,
     Short3,
 )
-from .maya.mpx_cmd.base.cmd import MPxCommandBase
-from .maya.mpx_cmd.base.loader import LoaderBase
+from .maya.mpx_cmd import (
+    CommandResult,
+    MPxCommandBase,
+    deregister_commands,
+    register_commands,
+)
 
 # パッケージのバージョン
 __version__ = _version.__version__
@@ -36,7 +40,9 @@ __all__ = [
     "reload_package",
     "timer",
     "MPxCommandBase",
-    "LoaderBase",
+    "CommandResult",
+    "register_commands",
+    "deregister_commands",
     "ModifierManager",
     "Nodes",
     "TransformMatrix",

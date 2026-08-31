@@ -64,6 +64,9 @@
 - `Double2` / `Double3` / `Double4`、`Float2` / `Float3`に、同じ具体型同士の
   加減算、scalarによる乗除算、符号反転を追加。immutable性と正確な戻り値型を維持し、
   unit値型、整数値型、`Quat`へは演算を波及させない構成へ分離。
+- `MPxCommandBase`をAPI 2.0と`ModifierManager`へ統一。型付きparameter、明示的な
+  DG / DAG実行境界、undo / redo、初回失敗時rollback、結果設定、複数commandの
+  登録rollback、typed facadeの運用をruntime / Pyright testとsampleで固定。
 - DAG の `full_path` / `is_instanced` / `parent` / `parents` と、親変更時の
   instancing 制約を追加。
 - DAG traversal の `children()` / `ancestors()` / `descendants()` を追加。
@@ -563,23 +566,18 @@ built-in compound alias、connect / disconnect / next indexはpytest化済みで
 区別して整理します。仕様を追加で固定できるものだけpytestへ移し、benchmarkは
 `_test`に残します。
 
-### 4. MPxCommand 連携
+### 4. MPxCommand の実commandへの展開
 
-`ModifierManager` を MPxCommand の undo / redo に組み込む設計を固めます。
+`ModifierManager`を組み込んだAPI 2.0の`MPxCommandBase`、失敗時rollback、登録helper、
+typed facadeの基本設計は完了しました。現行仕様は[MPxCommand](../mpx_command.md)を
+参照してください。
 
-目標は command ごとの実装を次の形に近づけることです。
+今後、独立したMaya undo単位が必要な利用者向け処理を追加するときは、再利用可能な
+operationを先に定義し、MPxCommand adapterとtyped facadeを組み合わせます。
 
-```python
-def undoIt(self):
-    self.modifier_manager.undo_it()
-
-def redoIt(self):
-    self.modifier_manager.redo_it()
-```
-
-DAG traversal拡張の次に着手する大きな共有基盤の候補です。現在の`MPxCommandBase`が
-直接保持する単一`MDagModifier`を、DG / DAG双方の履歴を扱う`ModifierManager`へ
-移行する設計を固めます。
+すべてのhelperをcommand化せず、UIやShelfなどから一つのCtrl+Zで戻したい公開操作だけを
+対象にします。実commandの共通flagやresult schemaが複数集まった段階で、facadeやstubの
+生成を追加するか判断します。
 
 ### 5. set_direct の扱い
 
