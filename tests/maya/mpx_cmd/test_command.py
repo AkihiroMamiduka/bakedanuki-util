@@ -54,6 +54,7 @@ def test_failure_rolls_back_executed_modifier_history(
         command(nodeName="bdu_mpx_failed_node")
 
     assert not maya_cmds.objExists("bdu_mpx_failed_node")
+    assert not maya_cmds.objExists("bdu_mpx_failed_node_dg")
 
 
 def test_no_op_command_does_not_enter_maya_undo_queue(

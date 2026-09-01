@@ -37,7 +37,10 @@ class _FailAfterExecuteCommand(MPxCommandBase[_FailureParams]):
         return _FailureParams(node_name=node_name)
 
     def execute(self, params: _FailureParams) -> CommandResult | None:
-        self.nodes.create.plusMinusAverage(name=params.node_name)
+        self.nodes.create.transform(name=params.node_name)
+        self.modifier_manager.do_it_dag()
+
+        self.nodes.create.plusMinusAverage(name=f"{params.node_name}_dg")
         self.modifier_manager.do_it_dg()
         raise RuntimeError("intentional MPxCommand failure")
 

@@ -153,6 +153,11 @@ DG / DAGの実行境界は`apply_*()`へまとめます。
 redo stackをすべて破棄します。rollback自体でも失敗した場合は、元の例外へその情報を
 noteとして追加します。
 
+`apply_*()`内で`do_it_dg()` / `do_it_dag()`を複数回実行しても、すべて同じ
+`ModifierManager`の履歴へ順番に記録されます。その後に例外が送出された場合は、完了済みの
+実行境界をまとめて逆順にrollbackします。`apply_*()`側で例外を握りつぶしたり、独自に
+rollbackしたりせず、必要なら情報を付加して再送出し、command境界へ処理を任せます。
+
 この保証は共有`ModifierManager`を通った変更だけに適用されます。operationが独自managerや
 直接編集を使うとrollbackできません。
 
@@ -176,6 +181,24 @@ print(result.node_names)
 この場合、保持している`mod`から`undo_it()` / `redo_it()`はできますが、実行自体は
 Mayaのグローバルundo queueへ一つのcommandとして登録されません。UI、Shelf、menuなど
 利用者の操作としてCtrl+Zへ参加させる場合は、型付きfacadeからMPxCommandを呼びます。
+
+また、直接呼び出した`apply_*()`の例外は`MPxCommandBase`を通らないため、自動rollback
+されません。直接利用でも処理全体をatomicにしたい場合は、専用managerを用意し、最外側の
+呼び出し境界でrollbackします。
+
+```python
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+try:
+    result = apply_complex_operation(nodes, params)
+except Exception:
+    mod.rollback()
+    raise
+```
+
+`apply_*()`自身ではなく最外側でrollbackすることで、同じoperationをMPxCommand内から
+呼んだ場合の自動rollbackと責務が重複しません。
 
 すべてのhelperをMPxCommand化する必要はありません。利用者にとって独立したundo単位だけを
 commandにし、一つのcommandから複数operationを組み合わせます。command内部から別の
