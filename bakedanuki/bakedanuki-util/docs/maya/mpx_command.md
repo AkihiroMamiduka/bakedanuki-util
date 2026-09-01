@@ -21,10 +21,11 @@ API 2.0専用基盤です。Maya 2025以降を対象とし、API 1.0の
 - operation
   - ノード作成、値設定、接続など、再利用するscene処理です。
   - 呼び出し側から`Nodes`を受け取り、同じ`ModifierManager`へ操作を積みます。
+  - `queue_*()`は積むだけ、`apply_*()`は必要な実行境界を含むworkflow全体を表します。
   - command名、flag、`MArgDatabase`、plug-inのロードを知りません。
 - MPxCommand adapter
-  - Mayaの引数を型付きparameterへ変換し、operationを組み合わせます。
-  - `do_it_dg()` / `do_it_dag()`の実行境界と結果のserializeを担当します。
+  - Mayaの引数を型付きparameterへ変換し、`apply_*()`を呼びます。
+  - richなoperation resultをMaya用のprimitiveへserializeします。
 - 型付きPython facade
   - 必要なplug-inをロードし、動的な`maya.cmds` commandを呼びます。
   - 公開引数と戻り値に静的な型を与え、Mayaのraw結果を正規化します。
@@ -48,6 +49,11 @@ class CreateTransformsParams:
     count: int = 2
 
 
+@dataclass(frozen=True, slots=True)
+class CreateTransformsResult:
+    node_names: tuple[str, ...]
+
+
 def queue_create_transforms(
     nodes: bdu.Nodes,
     params: CreateTransformsParams,
@@ -55,6 +61,17 @@ def queue_create_transforms(
     return tuple(
         nodes.create.transform(name=f"{params.prefix}{index + 1}")
         for index in range(params.count)
+    )
+
+
+def apply_create_transforms(
+    nodes: bdu.Nodes,
+    params: CreateTransformsParams,
+) -> CreateTransformsResult:
+    transforms = queue_create_transforms(nodes, params)
+    nodes.modifier_manager.do_it_dag()
+    return CreateTransformsResult(
+        node_names=tuple(transform.name for transform in transforms)
     )
 ```
 
@@ -102,19 +119,18 @@ class CreateTransformsCommand(
         self,
         params: CreateTransformsParams,
     ) -> bdu.CommandResult:
-        transforms = queue_create_transforms(self.nodes, params)
-        self.modifier_manager.do_it_dag()
-        return [transform.name for transform in transforms]
+        result = apply_create_transforms(self.nodes, params)
+        return list(result.node_names)
 ```
 
-`execute()`は処理本体をすべて記述する場所ではなく、commandとしてのworkflowを
-組み立てる場所です。ただし、一行にする必要はありません。複数operationの順序、
-中間評価、DG / DAGの実行境界、結果の組み立ては`execute()`の責務です。
+`execute()`はMaya commandのadapterです。型付きparameterを`apply_*()`へ渡し、戻された
+rich resultをMayaが扱えるprimitiveへ変換します。通常のscene処理、中間評価、
+DG / DAGの実行境界は`apply_*()`へまとめます。
 
 基盤はpending modifierを自動実行しません。未実行操作を読む必要があるworkflowでは、
-依存する処理の間に`do_it_dg()` / `do_it_dag()`を明示します。operation側で中間実行が
-不可欠な場合も、渡された`nodes.modifier_manager`を使い、その事実をoperationの契約へ
-記載します。
+`apply_*()`内の依存する処理の間に`do_it_dg()` / `do_it_dag()`を明示します。複数の
+実行境界を機械的に別関数へ分ける必要はありません。意味のある再利用単位だけを
+`queue_*()`などへ切り出します。
 
 ## lifecycleとrollback
 
@@ -150,11 +166,11 @@ import bd_util as bdu
 mod = bdu.ModifierManager()
 nodes = bdu.Nodes(modifier_manager=mod)
 
-transforms = queue_create_transforms(
+result = apply_create_transforms(
     nodes,
     CreateTransformsParams(prefix="direct", count=2),
 )
-mod.do_it_dag()
+print(result.node_names)
 ```
 
 この場合、保持している`mod`から`undo_it()` / `redo_it()`はできますが、実行自体は
@@ -270,9 +286,9 @@ query / edit modeで戻り値型が異なる場合は、単純な差ならfacade
 - `set_transform_translation/`
   - 既存transformのlocal translationを変更するサンプルです。
 - 各command packageの`operation.py`
-  - parameter、result、再利用可能なoperationです。
+  - parameter、result、`queue_*()`、実行境界を所有する`apply_*()`です。
 - 各command packageの`mpx_command.py`
-  - 引数解析とworkflowを担当するMPxCommand adapterです。
+  - 引数解析、`apply_*()`呼び出し、結果のserializeを担当する薄いadapterです。
 - 各command packageの`facade.py`
   - 動的command呼び出しと結果変換を行う型付きfacadeです。
 - `_plugin.py`

@@ -32,3 +32,18 @@ def queue_set_transform_translation(
     transform = nodes.existing.transform(params.node_name)
     transform.set_translate(params.translation)
     return transform
+
+
+def apply_set_transform_translation(
+    nodes: Nodes,
+    params: SetTransformTranslationParams,
+) -> SetTransformTranslationResult:
+    """Set local translation and execute the required DG boundary."""
+    transform = queue_set_transform_translation(nodes, params)
+    current_translation = transform.translate.get().as_tuple()
+    if current_translation != params.translation.as_tuple():
+        nodes.modifier_manager.do_it_dg()
+    return SetTransformTranslationResult(
+        node_name=transform.name,
+        translation=params.translation,
+    )

@@ -151,3 +151,62 @@ def test_set_transform_translation_no_op_stays_out_of_undo_queue(
     )
 
     assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+
+
+def test_apply_create_transforms_can_be_used_directly(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+    from bd_util._sample.maya.mpx_cmd import (
+        CreateTransformsParams,
+        apply_create_transforms,
+    )
+
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+
+    result = apply_create_transforms(
+        nodes,
+        CreateTransformsParams(prefix="directApply", count=2),
+    )
+
+    assert result.node_names == ("directApply1", "directApply2")
+    assert all(maya_cmds.objExists(name) for name in result.node_names)
+
+    mod.undo_it()
+    assert all(not maya_cmds.objExists(name) for name in result.node_names)
+
+
+def test_apply_set_transform_translation_can_be_used_directly(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+    from bd_util._sample.maya.mpx_cmd import (
+        SetTransformTranslationParams,
+        apply_set_transform_translation,
+    )
+
+    node_name = maya_cmds.createNode("transform", name="directApplyTarget")
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+
+    result = apply_set_transform_translation(
+        nodes,
+        SetTransformTranslationParams(
+            node_name=node_name,
+            translation=bdu.DoubleLinear3(4.0, 5.0, 6.0),
+        ),
+    )
+
+    assert result.node_name == node_name
+    assert result.translation.as_tuple() == (4.0, 5.0, 6.0)
+    assert maya_cmds.getAttr(f"{node_name}.translate")[0] == pytest.approx(
+        (4.0, 5.0, 6.0)
+    )
+
+    mod.undo_it()
+    assert maya_cmds.getAttr(f"{node_name}.translate")[0] == pytest.approx(
+        (0.0, 0.0, 0.0)
+    )

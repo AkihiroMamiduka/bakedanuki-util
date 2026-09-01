@@ -7,7 +7,7 @@ from .....maya.mpx_cmd import CommandResult, MPxCommandBase
 from .....maya.value import DoubleLinear3
 from .operation import (
     SetTransformTranslationParams,
-    queue_set_transform_translation,
+    apply_set_transform_translation,
 )
 
 
@@ -56,8 +56,5 @@ class SetTransformTranslationCommand(
         self,
         params: SetTransformTranslationParams,
     ) -> CommandResult:
-        transform = queue_set_transform_translation(self.nodes, params)
-        current_translation = transform.translate.get().as_tuple()
-        if current_translation != params.translation.as_tuple():
-            self.modifier_manager.do_it_dg()
-        return transform.name
+        result = apply_set_transform_translation(self.nodes, params)
+        return result.node_name

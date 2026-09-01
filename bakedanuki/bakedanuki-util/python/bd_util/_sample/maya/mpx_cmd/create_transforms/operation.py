@@ -33,3 +33,15 @@ def queue_create_transforms(
         nodes.create.transform(name=f"{params.prefix}{index + 1}")
         for index in range(params.count)
     )
+
+
+def apply_create_transforms(
+    nodes: Nodes,
+    params: CreateTransformsParams,
+) -> CreateTransformsResult:
+    """Create transforms and execute the operation's DAG boundary."""
+    transforms = queue_create_transforms(nodes, params)
+    nodes.modifier_manager.do_it_dag()
+    return CreateTransformsResult(
+        node_names=tuple(transform.name for transform in transforms)
+    )

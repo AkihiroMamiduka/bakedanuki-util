@@ -4,7 +4,7 @@ from __future__ import annotations
 from maya.api import OpenMaya as om
 
 from .....maya.mpx_cmd import CommandResult, MPxCommandBase
-from .operation import CreateTransformsParams, queue_create_transforms
+from .operation import CreateTransformsParams, apply_create_transforms
 
 
 class CreateTransformsCommand(MPxCommandBase[CreateTransformsParams]):
@@ -35,9 +35,5 @@ class CreateTransformsCommand(MPxCommandBase[CreateTransformsParams]):
         self,
         params: CreateTransformsParams,
     ) -> CommandResult:
-        transforms = queue_create_transforms(self.nodes, params)
-
-        # The command workflow owns evaluation and transaction boundaries.
-        self.modifier_manager.do_it_dag()
-
-        return [transform.name for transform in transforms]
+        result = apply_create_transforms(self.nodes, params)
+        return list(result.node_names)
