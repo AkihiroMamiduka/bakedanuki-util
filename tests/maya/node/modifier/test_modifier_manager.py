@@ -146,3 +146,27 @@ def test_clear_resets_current_modifiers_and_history(
 
     with pytest.raises(RuntimeError):
         manager.undo_it()
+
+
+def test_rollback_undoes_history_and_discards_pending_state(
+    modifier_manager,
+    maya_cmds,
+):
+    manager = modifier_manager
+
+    executed_obj = manager.dg_mod.createNode("plusMinusAverage")
+    manager.dg_mod.renameNode(executed_obj, "manager_rollback_executed")
+    manager.do_it_dg()
+
+    pending_obj = manager.dag_mod.createNode("transform")
+    manager.dag_mod.renameNode(pending_obj, "manager_rollback_pending")
+
+    manager.rollback()
+
+    assert not maya_cmds.objExists("manager_rollback_executed")
+    assert not maya_cmds.objExists("manager_rollback_pending")
+    assert not manager.can_undo
+    assert not manager.can_redo
+
+    manager.do_it_dag()
+    assert not maya_cmds.objExists("manager_rollback_pending")

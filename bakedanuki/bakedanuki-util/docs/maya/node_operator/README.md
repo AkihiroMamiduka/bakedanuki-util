@@ -1338,5 +1338,6 @@ alias や child plug は同じ logical plug を指す場合、同じ `PlugOperat
 - [core.md](core.md)
 - [generator.md](generator.md)
 - [modifier_manager.md](modifier_manager.md)
+- [MPxCommand](../mpx_command.md)
 - [testing.md](testing.md)
 - [roadmap.md](roadmap.md)

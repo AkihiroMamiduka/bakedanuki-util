@@ -30,7 +30,9 @@
   - `nodes.create.transform()` / `nodes.existing.transform()` のように用途を明示できます。
 - `ModifierManager`
   - `MDGModifier` / `MDagModifier` をまとめて扱う管理クラスです。
-  - 将来的に MPxCommand の undo / redo へ組み込みやすい形を目指しています。
+  - `MPxCommandBase`のundo / redoと失敗時rollbackを構成します。
+- `MPxCommandBase`
+  - 再利用可能なscene処理をMayaのcommandとundo queueへ接続するAPI 2.0基盤です。
 - `TransformMatrix`
   - matrix plug や `MMatrix` を、合成・逆行列・TRS 分解が可能なスナップショット値として扱います。
 - Numeric compound values
@@ -396,6 +398,7 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 - [Attributes](docs/maya/node_operator/attributes.md)
 - [Core](docs/maya/node_operator/core.md)
 - [ModifierManager](docs/maya/node_operator/modifier_manager.md)
+- [MPxCommand](docs/maya/mpx_command.md)
 - [Generator](docs/maya/node_operator/generator.md)
 - [Testing](docs/maya/node_operator/testing.md)
 - [Roadmap](docs/maya/node_operator/roadmap.md)
