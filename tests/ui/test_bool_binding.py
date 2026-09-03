@@ -10,6 +10,9 @@ import pytest
 from bd_util.ui import (
     BoolCheckBox,
     BoolComboBox,
+    BoolPushButton,
+    BoolRadioButtonGroup,
+    BoolStatusLabel,
     BoolValue,
     BoolValueStore,
     BoolViewModel,
@@ -32,6 +35,15 @@ from bd_util.ui.binding.bool.view.check_box import (
 )
 from bd_util.ui.binding.bool.view.combo_box import (
     BoolComboBox as ModuleBoolComboBox,
+)
+from bd_util.ui.binding.bool.view.push_button import (
+    BoolPushButton as ModuleBoolPushButton,
+)
+from bd_util.ui.binding.bool.view.radio_button_group import (
+    BoolRadioButtonGroup as ModuleBoolRadioButtonGroup,
+)
+from bd_util.ui.binding.bool.view.status_label import (
+    BoolStatusLabel as ModuleBoolStatusLabel,
 )
 from bd_util.ui.binding.bool.view_model import (
     BoolViewModel as ModuleBoolViewModel,
@@ -191,6 +203,9 @@ def test_role_modules_share_public_class_definitions() -> None:
     assert ModuleBoolViewModel is BoolViewModel
     assert ModuleBoolCheckBox is BoolCheckBox
     assert ModuleBoolComboBox is BoolComboBox
+    assert ModuleBoolPushButton is BoolPushButton
+    assert ModuleBoolRadioButtonGroup is BoolRadioButtonGroup
+    assert ModuleBoolStatusLabel is BoolStatusLabel
 
 
 def test_python_attribute_store_updates_dataclass_from_ui_and_python(
@@ -468,36 +483,65 @@ def test_qobject_store_destruction_disables_command(
     assert not view_model.set_value_command.execute(False)
 
 
-def test_checkbox_combobox_and_python_share_the_same_command(
+def test_all_bool_views_and_python_share_the_same_command(
     qt_application: qt.QApplication,
 ) -> None:
-    # Store付きViewModelを表示する2つのViewを生成する。
+    # Store付きViewModelを表示・操作するすべてのViewを生成する。
     view_model = BoolViewModel(False)
     store = _BoolStore(False)
     view_model.attach_store(store)
     checkbox = BoolCheckBox(view_model, "Visibility")
     combo_box = BoolComboBox(view_model)
+    push_button = BoolPushButton(view_model)
+    radio_group = BoolRadioButtonGroup(view_model)
+    status_label = BoolStatusLabel(
+        view_model,
+        false_text="Status: Off",
+        true_text="Status: On",
+    )
 
-    # CheckBox入力はCommandを経由してComboBoxとStoreも更新する。
+    # CheckBox入力はCommandを経由してすべてのViewとStoreを更新する。
     checkbox.click()
     assert checkbox.isChecked()
     assert combo_box.currentData() is True
+    assert push_button.isChecked()
+    assert push_button.text() == "On"
+    assert radio_group.true_button.isChecked()
+    assert not radio_group.false_button.isChecked()
+    assert status_label.text() == "Status: On"
     assert view_model.value.value is True
     assert store.writes == [True]
 
-    # ComboBox入力も同じCommandを通りCheckBoxへ反映される。
+    # ComboBox、PushButton、RadioButtonも同じCommandを共有する。
     combo_box.setCurrentIndex(combo_box.findData(False))
     assert not checkbox.isChecked()
     assert store.writes == [True, False]
 
-    # Python入力も同じCommandを通り、両方のViewへ反映される。
-    assert view_model.set_value_command.execute(True)
+    push_button.click()
     assert checkbox.isChecked()
     assert combo_box.currentData() is True
     assert store.writes == [True, False, True]
 
+    radio_group.false_button.click()
+    assert not checkbox.isChecked()
+    assert not push_button.isChecked()
+    assert status_label.text() == "Status: Off"
+    assert store.writes == [True, False, True, False]
+
+    # Python入力も同じCommandを通り、すべてのViewへ反映される。
+    assert view_model.set_value_command.execute(True)
+    assert checkbox.isChecked()
+    assert combo_box.currentData() is True
+    assert push_button.isChecked()
+    assert radio_group.true_button.isChecked()
+    assert status_label.text() == "Status: On"
+    assert store.writes == [True, False, True, False, True]
+
     checkbox.deleteLater()
     combo_box.deleteLater()
+    push_button.deleteLater()
+    radio_group.deleteLater()
+    status_label.deleteLater()
     qt_application.processEvents()
 
 
@@ -649,6 +693,160 @@ def test_combobox_keeps_temporary_view_model_alive(
     qt_application.processEvents()
 
 
+def test_push_radio_and_status_views_use_distinct_representations(
+    qt_application: qt.QApplication,
+) -> None:
+    # 同じboolを押下状態、排他選択、読み取り専用文字列で表現する。
+    view_model = BoolViewModel(False)
+    push_button = BoolPushButton(
+        view_model,
+        false_text="Disabled",
+        true_text="Enabled",
+    )
+    radio_group = BoolRadioButtonGroup(
+        view_model,
+        false_text="Hidden",
+        true_text="Visible",
+    )
+    status_label = BoolStatusLabel(
+        view_model,
+        false_text="Status: Hidden",
+        true_text="Status: Visible",
+    )
+
+    assert push_button.isCheckable()
+    assert not push_button.isChecked()
+    assert push_button.text() == "Disabled"
+    assert radio_group.false_button.text() == "Hidden"
+    assert radio_group.false_button.isChecked()
+    assert not radio_group.true_button.isChecked()
+    assert status_label.text() == "Status: Hidden"
+
+    assert view_model.set_value_command.execute(True)
+    assert push_button.isChecked()
+    assert push_button.text() == "Enabled"
+    assert not radio_group.false_button.isChecked()
+    assert radio_group.true_button.isChecked()
+    assert status_label.text() == "Status: Visible"
+
+    push_button.deleteLater()
+    radio_group.deleteLater()
+    status_label.deleteLater()
+    qt_application.processEvents()
+
+
+def test_push_and_radio_views_restore_normalized_store_value(
+    qt_application: qt.QApplication,
+) -> None:
+    # True要求をFalseへ正規化するStoreをすべての入力Viewで共有する。
+    data = _NormalizingBoolAttribute()
+    view_model = BoolViewModel()
+    view_model.attach_store(PythonBoolAttributeStore(data, "visible"))
+    push_button = BoolPushButton(view_model)
+    radio_group = BoolRadioButtonGroup(view_model)
+
+    push_button.click()
+    assert data.visible is False
+    assert not push_button.isChecked()
+    assert radio_group.false_button.isChecked()
+
+    radio_group.true_button.click()
+    assert data.visible is False
+    assert not push_button.isChecked()
+    assert radio_group.false_button.isChecked()
+    assert not radio_group.true_button.isChecked()
+
+    push_button.deleteLater()
+    radio_group.deleteLater()
+    qt_application.processEvents()
+
+
+def test_new_input_views_follow_command_availability_but_status_stays_visible(
+    qt_application: qt.QApplication,
+) -> None:
+    # 読み取り専用Storeでは入力Viewだけを無効にする。
+    view_model = BoolViewModel(False)
+    store = _BoolStore(True, writable=False)
+    view_model.attach_store(store)
+    push_button = BoolPushButton(view_model)
+    radio_group = BoolRadioButtonGroup(view_model)
+    status_label = BoolStatusLabel(view_model)
+
+    assert not push_button.isEnabled()
+    assert not radio_group.isEnabled()
+    assert status_label.isEnabled()
+    assert status_label.text() == "On"
+
+    # 書き込み可能へ戻ると入力Viewを再度有効にする。
+    store.writable = True
+    assert not view_model.refresh_from_store(store)
+    assert push_button.isEnabled()
+    assert radio_group.isEnabled()
+    assert status_label.isEnabled()
+
+    push_button.deleteLater()
+    radio_group.deleteLater()
+    status_label.deleteLater()
+    qt_application.processEvents()
+
+
+def test_new_views_disable_when_view_model_is_destroyed(
+    qt_application: qt.QApplication,
+) -> None:
+    # 3つのViewとは別のownerにViewModelを持たせる。
+    view_model_owner = qt.QObject()
+    view_model = BoolViewModel(False, view_model_owner)
+    push_button = BoolPushButton(view_model)
+    radio_group = BoolRadioButtonGroup(view_model)
+    status_label = BoolStatusLabel(view_model)
+
+    view_model_owner.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        view_model_owner,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
+    qt_application.processEvents()
+
+    assert not qt.isValid(view_model)
+    for view in (push_button, radio_group, status_label):
+        assert not view.isEnabled()
+        with pytest.raises(RuntimeError, match="ViewModelは破棄"):
+            _ = view.view_model
+
+    # programmaticな状態変更でも破棄済みCommandへ到達しない。
+    push_button.setChecked(True)
+    radio_group.true_button.click()
+
+    push_button.deleteLater()
+    radio_group.deleteLater()
+    status_label.deleteLater()
+    qt_application.processEvents()
+
+
+def test_new_views_keep_temporary_view_models_alive(
+    qt_application: qt.QApplication,
+) -> None:
+    # factoryが各ViewModelを一時値として渡し、Viewだけを返す構成を再現する。
+    push_button = BoolPushButton(BoolViewModel(False))
+    radio_group = BoolRadioButtonGroup(BoolViewModel(False))
+    status_label = BoolStatusLabel(BoolViewModel(False))
+    gc.collect()
+    qt_application.processEvents()
+
+    # 各Viewがbinding先を保持し、Python入力も引き続き反映できる。
+    assert push_button.view_model.set_value_command.execute(True)
+    assert push_button.isChecked()
+    assert radio_group.view_model.set_value_command.execute(True)
+    assert radio_group.true_button.isChecked()
+    assert status_label.view_model.set_value_command.execute(True)
+    assert status_label.text() == "On"
+
+    push_button.deleteLater()
+    radio_group.deleteLater()
+    status_label.deleteLater()
+    qt_application.processEvents()
+
+
 def test_external_refresh_updates_views_without_command_feedback(
     qt_application: qt.QApplication,
 ) -> None:
@@ -659,11 +857,19 @@ def test_external_refresh_updates_views_without_command_feedback(
     first = BoolCheckBox(view_model, "First")
     second = BoolCheckBox(view_model, "Second")
     combo_box = BoolComboBox(view_model)
+    push_button = BoolPushButton(view_model)
+    radio_group = BoolRadioButtonGroup(view_model)
+    status_label = BoolStatusLabel(view_model)
     toggled_events: list[bool] = []
     index_events: list[int] = []
+    push_events: list[bool] = []
+    radio_events: list[bool] = []
     first.toggled.connect(toggled_events.append)
     second.toggled.connect(toggled_events.append)
     combo_box.currentIndexChanged.connect(index_events.append)
+    push_button.toggled.connect(push_events.append)
+    radio_group.false_button.toggled.connect(radio_events.append)
+    radio_group.true_button.toggled.connect(radio_events.append)
 
     # Maya callback相当の同期ではViewのsignalとStore書き込みを発生させない。
     store.value = True
@@ -671,13 +877,21 @@ def test_external_refresh_updates_views_without_command_feedback(
     assert first.isChecked()
     assert second.isChecked()
     assert combo_box.currentData() is True
+    assert push_button.isChecked()
+    assert radio_group.true_button.isChecked()
+    assert status_label.text() == "On"
     assert toggled_events == []
     assert index_events == []
+    assert push_events == []
+    assert radio_events == []
     assert store.writes == []
 
     first.deleteLater()
     second.deleteLater()
     combo_box.deleteLater()
+    push_button.deleteLater()
+    radio_group.deleteLater()
+    status_label.deleteLater()
     qt_application.processEvents()
 
 

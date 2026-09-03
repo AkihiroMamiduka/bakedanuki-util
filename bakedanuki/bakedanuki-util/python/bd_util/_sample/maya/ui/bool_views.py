@@ -6,6 +6,9 @@ from ....maya.ui import MayaBoolPlugView, MayaWindowController
 from ....ui import (
     BoolCheckBox,
     BoolComboBox,
+    BoolPushButton,
+    BoolRadioButtonGroup,
+    BoolStatusLabel,
     BoolViewModel,
     PythonBoolAttributeStore,
     qt,
@@ -30,8 +33,8 @@ def _require_node_name(value: object) -> str:
     return value
 
 
-class VisibilityCheckBoxWindow(qt.QDialog):
-    """複数Viewとtransform.visibilityの同期を確認するsample Window。"""
+class BoolViewsWindow(qt.QDialog):
+    """複数のbool Viewとtransform.visibilityの同期を確認するsample Window。"""
 
     def __init__(
         self,
@@ -40,9 +43,9 @@ class VisibilityCheckBoxWindow(qt.QDialog):
     ) -> None:
         """同期対象のtransform名とMaya親Windowを受け取る。"""
         super().__init__(parent)
-        self.setObjectName("bdUtilVisibilityCheckBoxSampleWindow")
-        self.setWindowTitle("bakedanuki-util visibility binding")
-        self.resize(420, 220)
+        self.setObjectName("bdUtilBoolViewsSampleWindow")
+        self.setWindowTitle("bakedanuki-util bool views")
+        self.resize(460, 300)
 
         # 既存transformを型付きNodeOperatorとして取得する。
         nodes = Nodes()
@@ -65,22 +68,41 @@ class VisibilityCheckBoxWindow(qt.QDialog):
             self,
         )
 
-        # ViewはViewModelだけを参照し、Maya固有処理を持たない。
-        node_label = qt.QLabel(f"Target: {self.node_name}")
-        self.visibility_checkbox = BoolCheckBox(
+        # すべてのQt Viewは同じViewModelだけを参照する。
+        self.check_box = BoolCheckBox(
             self.view_model,
-            "Visibility",
+            "Visible",
             self,
         )
-        self.visibility_combo_box = BoolComboBox(
+        self.combo_box = BoolComboBox(
             self.view_model,
             false_text="Off",
             true_text="On",
             parent=self,
         )
+        self.push_button = BoolPushButton(
+            self.view_model,
+            false_text="Off",
+            true_text="On",
+            parent=self,
+        )
+        self.radio_button_group = BoolRadioButtonGroup(
+            self.view_model,
+            false_text="Off",
+            true_text="On",
+            parent=self,
+        )
+        self.status_label = BoolStatusLabel(
+            self.view_model,
+            false_text="Status: Off",
+            true_text="Status: On",
+            parent=self,
+        )
+
+        node_label = qt.QLabel(f"Target: {self.node_name}")
         description = qt.QLabel(
-            "Data Store、Checkbox、ComboBox、Python、"
-            "Attribute Editor、undo / redoを同期します。"
+            "Data Store、すべてのView、Python、Attribute Editor、"
+            "undo / redoを同期します。"
         )
         self.print_value_button = qt.QPushButton(
             "Print Data Value",
@@ -90,16 +112,22 @@ class VisibilityCheckBoxWindow(qt.QDialog):
         close_button = qt.QPushButton("Close")
         close_button.clicked.connect(self.close)
 
+        form_layout = qt.QFormLayout()
+        form_layout.addRow("BoolCheckBox", self.check_box)
+        form_layout.addRow("BoolComboBox", self.combo_box)
+        form_layout.addRow("BoolPushButton", self.push_button)
+        form_layout.addRow("BoolRadioButtonGroup", self.radio_button_group)
+        form_layout.addRow("BoolStatusLabel", self.status_label)
+
         layout = qt.QVBoxLayout(self)
         layout.addWidget(node_label)
-        layout.addWidget(self.visibility_checkbox)
-        layout.addWidget(self.visibility_combo_box)
+        layout.addLayout(form_layout)
         layout.addWidget(description)
         layout.addWidget(self.print_value_button)
         layout.addWidget(close_button)
 
-    def set_visibility(self, value: bool) -> bool:
-        """sample Windowと同じCommandからvisibilityを変更する。"""
+    def set_value(self, value: bool) -> bool:
+        """sample Windowと同じCommandからbool値を変更する。"""
         return self.view_model.set_value_command.execute(value)
 
     @qt.Slot(bool)
@@ -114,19 +142,17 @@ class VisibilityCheckBoxWindow(qt.QDialog):
 _target_node_name: str | None = None
 
 
-def _create_window(
-    parent: qt.QWidget | None,
-) -> VisibilityCheckBoxWindow:
+def _create_window(parent: qt.QWidget | None) -> BoolViewsWindow:
     """現在指定されているtransform用のsample Windowを生成する。"""
     if _target_node_name is None:
         raise RuntimeError("同期対象のtransformが指定されていません")
-    return VisibilityCheckBoxWindow(_target_node_name, parent)
+    return BoolViewsWindow(_target_node_name, parent)
 
 
 _controller = MayaWindowController(_create_window)
 
 
-def show(node: str) -> VisibilityCheckBoxWindow:
+def show(node: str) -> BoolViewsWindow:
     """指定transformと同期するsample Windowを表示する。"""
     node = _require_node_name(node)
 
@@ -145,12 +171,12 @@ def show(node: str) -> VisibilityCheckBoxWindow:
     return _controller.show()
 
 
-def set_visibility(value: bool) -> bool:
+def set_value(value: bool) -> bool:
     """表示中sampleのCommandをPythonから実行する。"""
     window = _controller.window
     if window is None:
-        raise RuntimeError("visibility checkbox sampleは表示されていません")
-    return window.set_visibility(value)
+        raise RuntimeError("bool views sampleは表示されていません")
+    return window.set_value(value)
 
 
 def dispose() -> None:

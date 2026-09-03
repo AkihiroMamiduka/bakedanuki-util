@@ -4,6 +4,9 @@ from . import qt
 from .binding import (
     BoolCheckBox,
     BoolComboBox,
+    BoolPushButton,
+    BoolRadioButtonGroup,
+    BoolStatusLabel,
     BoolValue,
     BoolValueStore,
     BoolViewModel,
@@ -22,6 +25,9 @@ from .window_state import (
 __all__ = [
     "BoolCheckBox",
     "BoolComboBox",
+    "BoolPushButton",
+    "BoolRadioButtonGroup",
+    "BoolStatusLabel",
     "BoolValue",
     "BoolValueStore",
     "BoolViewModel",

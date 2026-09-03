@@ -22,6 +22,9 @@ from bd_util.maya.ui import (
 from bd_util.ui import (
     BoolCheckBox,
     BoolComboBox,
+    BoolPushButton,
+    BoolRadioButtonGroup,
+    BoolStatusLabel,
     BoolValue,
     BoolValueStore,
     BoolViewModel,
@@ -214,6 +217,32 @@ bool_combo_box = BoolComboBox(
 )
 assert_type(bool_combo_box, BoolComboBox)
 assert_type(bool_combo_box.view_model, BoolViewModel)
+
+bool_push_button = BoolPushButton(
+    bool_view_model,
+    false_text="Off",
+    true_text="On",
+)
+assert_type(bool_push_button, BoolPushButton)
+assert_type(bool_push_button.view_model, BoolViewModel)
+
+bool_radio_button_group = BoolRadioButtonGroup(
+    bool_view_model,
+    false_text="Off",
+    true_text="On",
+)
+assert_type(bool_radio_button_group, BoolRadioButtonGroup)
+assert_type(bool_radio_button_group.view_model, BoolViewModel)
+assert_type(bool_radio_button_group.false_button, QtWidgets.QRadioButton)
+assert_type(bool_radio_button_group.true_button, QtWidgets.QRadioButton)
+
+bool_status_label = BoolStatusLabel(
+    bool_view_model,
+    false_text="Status: Off",
+    true_text="Status: On",
+)
+assert_type(bool_status_label, BoolStatusLabel)
+assert_type(bool_status_label.view_model, BoolViewModel)
 
 transform = Nodes().existing.transform("sampleTransform")
 maya_store_view_model = BoolViewModel()

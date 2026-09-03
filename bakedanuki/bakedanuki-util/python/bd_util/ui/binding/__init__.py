@@ -3,6 +3,9 @@
 from .bool import (
     BoolCheckBox,
     BoolComboBox,
+    BoolPushButton,
+    BoolRadioButtonGroup,
+    BoolStatusLabel,
     BoolValue,
     BoolValueStore,
     BoolViewModel,
@@ -13,6 +16,9 @@ from .bool import (
 __all__ = [
     "BoolCheckBox",
     "BoolComboBox",
+    "BoolPushButton",
+    "BoolRadioButtonGroup",
+    "BoolStatusLabel",
     "BoolValue",
     "BoolValueStore",
     "BoolViewModel",
