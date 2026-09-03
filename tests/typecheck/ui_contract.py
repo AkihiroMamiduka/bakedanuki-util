@@ -1,11 +1,15 @@
+from dataclasses import dataclass
 from typing import assert_type
 
 from PySide6 import QtGui, QtWidgets
 
+from bd_util import Nodes
 from bd_util.maya.ui import (
     DockOptions,
     DockRestoreSpec,
     MayaCallbackRegistry,
+    MayaBoolPlugStore,
+    MayaBoolPlugView,
     MayaDockableWindow,
     MayaDockableWindowController,
     MayaUiStateTracker,
@@ -16,7 +20,13 @@ from bd_util.maya.ui import (
     reset_ui_layout,
 )
 from bd_util.ui import (
+    BoolCheckBox,
+    BoolValue,
+    BoolValueStore,
+    BoolViewModel,
+    PythonBoolAttributeStore,
     SettingsPath,
+    SetBoolCommand,
     UiStateManager,
     WindowController,
     ensure_window_on_screen,
@@ -26,6 +36,11 @@ from bd_util.ui import (
 
 class SampleWindow(QtWidgets.QDialog):
     pass
+
+
+@dataclass
+class SampleBoolData:
+    visible: bool = True
 
 
 class SampleDockableWindow(MayaDockableWindow):
@@ -161,3 +176,65 @@ facade_widget = FacadeWidget()
 assert_type(facade_widget, FacadeWidget)
 assert_type(qt.QLabel(), QtWidgets.QLabel)
 assert_type(qt.QAction(), QtGui.QAction)
+
+bool_view_model = BoolViewModel(False)
+assert_type(bool_view_model.value, BoolValue)
+assert_type(bool_view_model.value.value, bool)
+assert_type(bool_view_model.set_value_command, SetBoolCommand)
+assert_type(bool_view_model.set_value_command.can_execute, bool)
+assert_type(bool_view_model.set_value_command.execute(True), bool)
+assert_type(bool_view_model.store, BoolValueStore | None)
+
+sample_bool_data = SampleBoolData()
+python_bool_store = PythonBoolAttributeStore(sample_bool_data, "visible")
+assert_type(
+    python_bool_store,
+    PythonBoolAttributeStore[SampleBoolData],
+)
+assert_type(python_bool_store.instance, SampleBoolData)
+assert_type(python_bool_store.attribute_name, str)
+assert_type(python_bool_store.is_available, bool)
+assert_type(python_bool_store.is_writable, bool)
+assert_type(python_bool_store.read(), bool)
+assert_type(python_bool_store.write(False), bool)
+assert_type(bool_view_model.attach_store(python_bool_store), None)
+
+bool_checkbox = BoolCheckBox(
+    bool_view_model,
+    "Visibility",
+)
+assert_type(bool_checkbox, BoolCheckBox)
+assert_type(bool_checkbox.view_model, BoolViewModel)
+
+transform = Nodes().existing.transform("sampleTransform")
+maya_store_view_model = BoolViewModel()
+maya_bool_store = MayaBoolPlugStore(
+    maya_store_view_model,
+    transform.visibility,
+    SampleWindow(),
+)
+assert_type(maya_store_view_model.attach_store(maya_bool_store), None)
+assert_type(maya_bool_store, MayaBoolPlugStore)
+assert_type(maya_bool_store.view_model, BoolViewModel)
+assert_type(maya_bool_store.is_available, bool)
+assert_type(maya_bool_store.is_writable, bool)
+assert_type(maya_bool_store.is_disposed, bool)
+assert_type(maya_bool_store.read(), bool)
+assert_type(maya_bool_store.write(False), bool)
+assert_type(maya_bool_store.refresh(), bool)
+assert_type(maya_bool_store.dispose(), None)
+
+maya_bool_view = MayaBoolPlugView(
+    bool_view_model,
+    transform.visibility,
+    SampleWindow(),
+)
+assert_type(maya_bool_view, MayaBoolPlugView)
+assert_type(maya_bool_view.view_model, BoolViewModel)
+assert_type(maya_bool_view.is_available, bool)
+assert_type(maya_bool_view.is_writable, bool)
+assert_type(maya_bool_view.is_synchronized, bool)
+assert_type(maya_bool_view.last_sync_error, Exception | None)
+assert_type(maya_bool_view.is_disposed, bool)
+assert_type(maya_bool_view.sync_from_view_model(), bool)
+assert_type(maya_bool_view.dispose(), None)

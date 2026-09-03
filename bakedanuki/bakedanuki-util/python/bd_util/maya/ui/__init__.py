@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from .binding import MayaBoolPlugStore, MayaBoolPlugView
 from .callback import MayaCallbackRegistry
 from .dock import (
     DockArea,
@@ -30,6 +31,8 @@ __all__ = [
     "get_ui_settings_file",
     "get_ui_settings_root",
     "MayaCallbackRegistry",
+    "MayaBoolPlugStore",
+    "MayaBoolPlugView",
     "MayaDockableWindow",
     "MayaDockableWindowController",
     "MayaUiStateTracker",

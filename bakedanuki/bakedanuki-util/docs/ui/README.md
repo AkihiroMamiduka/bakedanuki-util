@@ -3,7 +3,7 @@
 UI utilityは、利用場所ではなく依存関係で分けます。
 
 - `bd_util.ui`には、Mayaを直接importしない汎用Qt処理を置きます。
-- `bd_util.maya.ui`には、Maya main windowやUI lifecycleへのadapterを置きます。
+- `bd_util.maya.ui`には、Maya main windowやUI lifecycleとの連携処理を置きます。
 - 依存は`bd_util.maya.ui`から`bd_util.ui`への一方向とし、逆方向には依存させません。
 
 ## 新しいtoolへの導入
@@ -124,6 +124,170 @@ simple_window.show()
 
 `get_main_window()`はbatch MayaとMaya初期化前には`None`を返します。そのため、これらの
 環境でmoduleをimportしてもMaya UIを取得しに行きません。
+
+## Boolデータとチェックボックスの同期
+
+`BoolViewModel`は、読み取り専用の`BoolValue`と、UI／Pythonから共有する
+`SetBoolCommand`を管理します。`BoolCheckBox`はViewModelだけを参照し、ユーザー入力を
+Commandへ渡し、`BoolValue.changed`から表示を更新します。
+
+`BoolValueStore`は、ViewModelがbool値の正本を読み書きするための共通境界です。Storeを
+接続しない場合はViewModel内の`BoolValue`が値を保持し、Storeを接続した場合は
+Storeの確定値を`BoolValue`からViewへ公開します。
+
+実装は役割ごとに分け、交換可能なViewだけを`view`以下へまとめています。
+
+```text
+bd_util/ui/binding/bool/
+├─ value.py
+├─ store.py
+├─ command.py
+├─ view_model.py
+└─ view/
+   └─ check_box.py
+```
+
+利用側は内部配置へ依存せず、従来どおり`bd_util.ui`からimportできます。
+
+```python
+from bd_util.ui import BoolCheckBox, BoolViewModel
+
+view_model = BoolViewModel(False)
+checkbox = BoolCheckBox(view_model, "Enabled")
+
+# Pythonからの入力もUIと同じCommandを使用する。
+view_model.set_value_command.execute(True)
+```
+
+同じ値への変更では通知を送出しません。ViewModelからチェックボックスへ値を適用するときは
+signalをblockするため、表示更新からCommandが再実行されません。
+
+### Python objectのbool attributeを正本にする
+
+`PythonBoolAttributeStore`は、dataclassを含む任意のPython objectとattribute名を受け取り、
+そのbool attributeをViewModelの正本として接続します。リグ固有の型には依存しません。
+
+```python
+from dataclasses import dataclass
+
+from bd_util.ui import BoolCheckBox, BoolViewModel, PythonBoolAttributeStore
+
+
+@dataclass
+class ToolData:
+    visible_by_default: bool = True
+
+
+data = ToolData()
+store = PythonBoolAttributeStore(data, "visible_by_default")
+
+view_model = BoolViewModel()
+view_model.attach_store(store)
+checkbox = BoolCheckBox(view_model, "Visible by default")
+
+# UIと同じCommandからdataclass fieldを書き換える。
+view_model.set_value_command.execute(False)
+assert data.visible_by_default is False
+```
+
+構築時にattributeの存在と現在値のbool型を検証します。mutable dataclass、slots付き
+dataclass、通常attribute、propertyを扱い、frozen dataclassとsetterを持たないpropertyは
+読み取り専用です。任意objectの書き込み可否は完全には事前判定できないため、独自の
+`__setattr__()`や状態依存setterが拒否した例外は書き込み時にそのまま通知します。
+`__getattr__()`だけで動的に生成されるattributeは対象外です。
+
+plain dataclassは変更通知を持ちません。外部から直接代入した場合は、接続したStoreを指定して
+明示的に再読み込みします。常時同期したい変更はCommand経由に統一してください。
+
+```python
+data.visible_by_default = True
+view_model.refresh_from_store(store)
+```
+
+1つの`BoolViewModel`へ接続できるStoreは1つです。Storeの動的な差し替えは
+行いません。
+
+### Maya bool plugを正本にする
+
+`MayaBoolPlugStore`はMaya bool plug自体を正本とします。構築しただけではViewModelへ
+接続せず、`attach_store()`で明示的に接続します。
+
+```python
+from bd_util.maya.ui import MayaBoolPlugStore
+from bd_util.ui import BoolViewModel
+
+maya_view_model = BoolViewModel()
+maya_store = MayaBoolPlugStore(maya_view_model, node.visibility, owner)
+maya_view_model.attach_store(maya_store)
+```
+
+UI／Pythonからの要求は`cmds.setAttr()`でMayaへ書き込まれるため、Maya標準のundo / redoへ
+入ります。Maya外部からの直接変更、undo / redo、入力接続やアニメーションによる評価変更は、
+Maya callbackから実値を読み直してViewModelへ反映します。callbackは既存の
+`MayaCallbackRegistry`でownerと同じ寿命に管理されます。
+
+同期対象がlock済み、入力接続済み、または削除済みの場合、Commandとチェックボックスは
+無効になります。
+
+### Python Storeの値をMaya bool plugへ同期する
+
+`MayaBoolPlugView`は、ViewModelに接続済みのPython Storeを正本とし、Maya bool plugを
+入力・表示装置として同期します。生成前にStoreをViewModelへ接続してください。
+
+```python
+from bd_util.maya.ui import MayaBoolPlugView
+
+view_model.attach_store(store)
+maya_view = MayaBoolPlugView(view_model, node.visibility, owner)
+```
+
+Storeの確定値はMaya plugへ反映されます。Attribute EditorやMaya Pythonからの外部入力は、
+Maya callback完了後の次のQt event loopでCommandを経由してStoreへ反映されます。
+
+Maya plugがlock済みまたは入力接続済みで、Storeとplugの値が一致しない場合は、
+Storeの確定値を変更せず非同期状態にします。`is_synchronized`で同期状態、
+`last_sync_error`または`sync_failed` signalで直近の同期失敗を確認できます。
+再び書き込み可能になった時は最新のStore値を自動的に再適用します。明示的に再試行する
+場合は`sync_from_view_model()`を使用できます。
+
+1つの`BoolViewModel`へ接続できる`MayaBoolPlugView`は1つです。Viewを`dispose()`すると
+接続枠が解放され、同じViewModelへ新しいMaya Viewを接続できます。
+
+### transform.visibility sample
+
+MayaのScript Editorで次を実行すると、作成したcubeの`visibility`と同期するチェックボックスを
+表示できます。
+
+```python
+from maya import cmds
+from bd_util._sample.maya.ui import visibility_checkbox
+
+node = cmds.polyCube(name="bdVisibilityBindingSample")[0]
+window = visibility_checkbox.show(node)
+```
+
+このsampleは、dataclassの`VisibilityData`を`PythonBoolAttributeStore`で正本とし、
+`MayaBoolPlugView`でtransformの`visibility`を入力・表示装置として接続します。
+
+表示後は、チェックボックス、Attribute Editor、次のPython入力、Mayaのundo / redoの
+いずれから変更しても同じ値へ同期します。Mayaからの外部入力は、スクリプトの
+実行がQtに制御を返した次のevent loopでdataclass Storeへ反映されます。
+
+Windowの`Print Data Value`ボタンを押すと、その時点の内部データをMaya Script Editorへ
+`VisibilityData.visible_by_default = True`の形式で出力します。
+
+```python
+visibility_checkbox.set_visibility(False)
+cmds.setAttr(f"{node}.visibility", True)
+cmds.undo()
+cmds.redo()
+```
+
+sampleを完全に破棄する場合です。
+
+```python
+visibility_checkbox.dispose()
+```
 
 ## Maya callbackのlifecycle管理
 
@@ -601,7 +765,7 @@ tool固有のSplitter幅や選択タブは`UiStateManager`でtool単位の`ui.in
 
 ## Maya 2025 / 2026 / 2027 UI互換性確認
 
-Qt facade、Window lifecycle、Maya UI adapterの自動テストは、対応する各Mayaの`mayapy`で
+Qt facade、Window lifecycle、Maya UI連携の自動テストは、対応する各Mayaの`mayapy`で
 同じコマンドから実行できます。
 
 ```powershell
@@ -665,6 +829,6 @@ UI基盤を変更・拡張するときは、次のcontractを維持します。
 - closeの既定は`retain=False`とし、WindowとMaya callbackを完全破棄する。非表示中も処理を
   継続する明確な要件があるtoolだけ`retain=True`を指定する。
 - QHeaderViewの列幅・表示順は共通保存へ追加せず、必要なtoolが個別に管理する。
-- Qt facade、Window lifecycle、Maya UI adapterの変更中は`test-ui-maya-all.cmd`で
+- Qt facade、Window lifecycle、Maya UI連携の変更中は`test-ui-maya-all.cmd`で
   切り分け、最終確認は`verify.cmd`を実行する。
   workspaceControl、再起動復元、実画面配置に関わる変更は各versionのMaya本体でも確認する。
