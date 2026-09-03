@@ -9,6 +9,7 @@ import pytest
 
 from bd_util.ui import (
     BoolCheckBox,
+    BoolComboBox,
     BoolValue,
     BoolValueStore,
     BoolViewModel,
@@ -28,6 +29,9 @@ from bd_util.ui.binding.bool.store import (
 from bd_util.ui.binding.bool.value import BoolValue as ModuleBoolValue
 from bd_util.ui.binding.bool.view.check_box import (
     BoolCheckBox as ModuleBoolCheckBox,
+)
+from bd_util.ui.binding.bool.view.combo_box import (
+    BoolComboBox as ModuleBoolComboBox,
 )
 from bd_util.ui.binding.bool.view_model import (
     BoolViewModel as ModuleBoolViewModel,
@@ -186,6 +190,7 @@ def test_role_modules_share_public_class_definitions() -> None:
     assert ModuleSetBoolCommand is SetBoolCommand
     assert ModuleBoolViewModel is BoolViewModel
     assert ModuleBoolCheckBox is BoolCheckBox
+    assert ModuleBoolComboBox is BoolComboBox
 
 
 def test_python_attribute_store_updates_dataclass_from_ui_and_python(
@@ -463,53 +468,216 @@ def test_qobject_store_destruction_disables_command(
     assert not view_model.set_value_command.execute(False)
 
 
-def test_checkbox_and_python_share_the_same_command(
+def test_checkbox_combobox_and_python_share_the_same_command(
     qt_application: qt.QApplication,
 ) -> None:
-    # Store付きViewModelを表示するチェックボックスを生成する。
+    # Store付きViewModelを表示する2つのViewを生成する。
     view_model = BoolViewModel(False)
     store = _BoolStore(False)
     view_model.attach_store(store)
     checkbox = BoolCheckBox(view_model, "Visibility")
+    combo_box = BoolComboBox(view_model)
 
-    # UI操作はCommandを経由してStoreとデータを更新する。
+    # CheckBox入力はCommandを経由してComboBoxとStoreも更新する。
     checkbox.click()
     assert checkbox.isChecked()
+    assert combo_box.currentData() is True
     assert view_model.value.value is True
     assert store.writes == [True]
 
-    # Python入力も同じCommandを通り、同じViewへ反映される。
-    assert view_model.set_value_command.execute(False)
+    # ComboBox入力も同じCommandを通りCheckBoxへ反映される。
+    combo_box.setCurrentIndex(combo_box.findData(False))
     assert not checkbox.isChecked()
     assert store.writes == [True, False]
 
+    # Python入力も同じCommandを通り、両方のViewへ反映される。
+    assert view_model.set_value_command.execute(True)
+    assert checkbox.isChecked()
+    assert combo_box.currentData() is True
+    assert store.writes == [True, False, True]
+
     checkbox.deleteLater()
+    combo_box.deleteLater()
+    qt_application.processEvents()
+
+
+def test_combobox_keeps_display_text_separate_from_bool_data(
+    qt_application: qt.QApplication,
+) -> None:
+    # 同じ表示文言でもboolの判定をitem dataへ分離したViewを生成する。
+    view_model = BoolViewModel(False)
+    combo_box = BoolComboBox(
+        view_model,
+        false_text="Visibility",
+        true_text="Visibility",
+    )
+
+    assert combo_box.count() == 2
+    assert combo_box.itemText(0) == "Visibility"
+    assert combo_box.itemData(0) is False
+    assert combo_box.itemText(1) == "Visibility"
+    assert combo_box.itemData(1) is True
+    assert combo_box.currentText() == "Visibility"
+    assert combo_box.currentData() is False
+
+    # 文言が同じでも選択項目のitem dataからTrueを入力する。
+    combo_box.setCurrentIndex(1)
+    assert view_model.value.value is True
+    assert combo_box.currentText() == "Visibility"
+    assert combo_box.currentData() is True
+
+    combo_box.deleteLater()
+    qt_application.processEvents()
+
+
+def test_combobox_restores_actual_value_when_store_rejects_request(
+    qt_application: qt.QApplication,
+) -> None:
+    # True要求をFalseへ正規化するStoreを接続する。
+    data = _NormalizingBoolAttribute()
+    view_model = BoolViewModel()
+    view_model.attach_store(PythonBoolAttributeStore(data, "visible"))
+    combo_box = BoolComboBox(view_model)
+    true_index = combo_box.findData(True)
+
+    # UIが先にTrueを表示してもStoreの確定実値へ戻す。
+    blocker = qt.QtCore.QSignalBlocker(combo_box)
+    combo_box.setCurrentIndex(true_index)
+    del blocker
+    combo_box._request_index(true_index)
+
+    assert data.visible is False
+    assert view_model.value.value is False
+    assert combo_box.currentData() is False
+
+    combo_box.deleteLater()
+    qt_application.processEvents()
+
+
+def test_combobox_restores_actual_value_when_store_write_raises(
+    qt_application: qt.QApplication,
+) -> None:
+    # 書き込み時に失敗するStoreを接続する。
+    view_model = BoolViewModel(False)
+    store = _BoolStore(False)
+    store.write_error = RuntimeError("write failed")
+    view_model.attach_store(store)
+    combo_box = BoolComboBox(view_model)
+    true_index = combo_box.findData(True)
+
+    # 先行表示したUIをStoreの実値へ復帰し、元の例外は維持する。
+    blocker = qt.QtCore.QSignalBlocker(combo_box)
+    combo_box.setCurrentIndex(true_index)
+    del blocker
+    with pytest.raises(RuntimeError, match="write failed"):
+        combo_box._request_index(true_index)
+
+    assert store.value is False
+    assert view_model.value.value is False
+    assert combo_box.currentData() is False
+
+    combo_box.deleteLater()
+    qt_application.processEvents()
+
+
+def test_combobox_follows_command_availability(
+    qt_application: qt.QApplication,
+) -> None:
+    # Storeの書き込み可否をComboBoxの有効状態へ反映する。
+    view_model = BoolViewModel(True)
+    store = _BoolStore(True)
+    view_model.attach_store(store)
+    combo_box = BoolComboBox(view_model)
+    assert combo_box.isEnabled()
+
+    store.writable = False
+    assert not view_model.refresh_from_store(store)
+    assert not combo_box.isEnabled()
+
+    store.writable = True
+    assert not view_model.refresh_from_store(store)
+    assert combo_box.isEnabled()
+
+    combo_box.deleteLater()
+    qt_application.processEvents()
+
+
+def test_combobox_disables_when_view_model_is_destroyed(
+    qt_application: qt.QApplication,
+) -> None:
+    # ComboBoxとは別のownerにViewModelを持たせる。
+    view_model_owner = qt.QObject()
+    view_model = BoolViewModel(False, view_model_owner)
+    combo_box = BoolComboBox(view_model)
+    assert combo_box.isEnabled()
+
+    # ViewModelだけを先に破棄しても、残るViewから古いQObjectを呼ばない。
+    view_model_owner.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        view_model_owner,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
+    qt_application.processEvents()
+    assert not qt.isValid(view_model)
+    assert not combo_box.isEnabled()
+    with pytest.raises(RuntimeError, match="ViewModelは破棄"):
+        _ = combo_box.view_model
+
+    # programmaticなindex変更で破棄済みCommandへ到達しない。
+    combo_box.setCurrentIndex(combo_box.findData(True))
+    assert combo_box.currentData() is True
+
+    combo_box.deleteLater()
+    qt_application.processEvents()
+
+
+def test_combobox_keeps_temporary_view_model_alive(
+    qt_application: qt.QApplication,
+) -> None:
+    # factoryがViewModelを一時値として渡し、Viewだけを返す構成を再現する。
+    combo_box = BoolComboBox(BoolViewModel(False))
+    gc.collect()
+    qt_application.processEvents()
+
+    # Viewがbinding先を保持し、Python入力も引き続き反映できる。
+    assert combo_box.isEnabled()
+    view_model = combo_box.view_model
+    assert view_model.set_value_command.execute(True)
+    assert combo_box.currentData() is True
+
+    combo_box.deleteLater()
     qt_application.processEvents()
 
 
 def test_external_refresh_updates_views_without_command_feedback(
     qt_application: qt.QApplication,
 ) -> None:
-    # 1つのViewModelを表示する2つのViewを用意する。
+    # 1つのViewModelを表示する複数のViewを用意する。
     view_model = BoolViewModel(False)
     store = _BoolStore(False)
     view_model.attach_store(store)
     first = BoolCheckBox(view_model, "First")
     second = BoolCheckBox(view_model, "Second")
+    combo_box = BoolComboBox(view_model)
     toggled_events: list[bool] = []
+    index_events: list[int] = []
     first.toggled.connect(toggled_events.append)
     second.toggled.connect(toggled_events.append)
+    combo_box.currentIndexChanged.connect(index_events.append)
 
     # Maya callback相当の同期ではViewのsignalとStore書き込みを発生させない。
     store.value = True
     assert view_model.refresh_from_store(cast(BoolValueStore, store))
     assert first.isChecked()
     assert second.isChecked()
+    assert combo_box.currentData() is True
     assert toggled_events == []
+    assert index_events == []
     assert store.writes == []
 
     first.deleteLater()
     second.deleteLater()
+    combo_box.deleteLater()
     qt_application.processEvents()
 
 

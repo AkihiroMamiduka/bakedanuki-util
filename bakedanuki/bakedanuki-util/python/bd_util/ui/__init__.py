@@ -3,6 +3,7 @@
 from . import qt
 from .binding import (
     BoolCheckBox,
+    BoolComboBox,
     BoolValue,
     BoolValueStore,
     BoolViewModel,
@@ -20,6 +21,7 @@ from .window_state import (
 
 __all__ = [
     "BoolCheckBox",
+    "BoolComboBox",
     "BoolValue",
     "BoolValueStore",
     "BoolViewModel",

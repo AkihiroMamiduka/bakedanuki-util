@@ -2,6 +2,7 @@
 
 from .bool import (
     BoolCheckBox,
+    BoolComboBox,
     BoolValue,
     BoolValueStore,
     BoolViewModel,
@@ -11,6 +12,7 @@ from .bool import (
 
 __all__ = [
     "BoolCheckBox",
+    "BoolComboBox",
     "BoolValue",
     "BoolValueStore",
     "BoolViewModel",

@@ -28,13 +28,33 @@ def test_visibility_checkbox_sample_uses_dataclass_store(
     try:
         assert window.data.visible_by_default is True
         assert window.visibility_checkbox.isChecked()
+        assert window.visibility_combo_box.currentData() is True
 
         window.visibility_checkbox.click()
         assert window.data.visible_by_default is False
+        assert window.visibility_combo_box.currentData() is False
         assert not cmds.getAttr(f"{node_name}.visibility")
 
-        assert window.set_visibility(True)
+        window.visibility_combo_box.setCurrentIndex(
+            window.visibility_combo_box.findData(True)
+        )
         assert window.data.visible_by_default is True
+        assert window.visibility_checkbox.isChecked()
+        assert cmds.getAttr(f"{node_name}.visibility")
+
+        assert window.set_visibility(False)
+        assert window.data.visible_by_default is False
+        assert not window.visibility_checkbox.isChecked()
+        assert window.visibility_combo_box.currentData() is False
+        assert not cmds.getAttr(f"{node_name}.visibility")
+
+        # Mayaからの外部入力も遅延callback後に全Viewと正本へ反映する。
+        cmds.setAttr(f"{node_name}.visibility", True)
+        qt_application.processEvents()
+        qt_application.processEvents()
+        assert window.data.visible_by_default is True
+        assert window.visibility_checkbox.isChecked()
+        assert window.visibility_combo_box.currentData() is True
         assert cmds.getAttr(f"{node_name}.visibility")
 
         window.print_value_button.click()

@@ -5,6 +5,7 @@ from .... import Nodes
 from ....maya.ui import MayaBoolPlugView, MayaWindowController
 from ....ui import (
     BoolCheckBox,
+    BoolComboBox,
     BoolViewModel,
     PythonBoolAttributeStore,
     qt,
@@ -30,7 +31,7 @@ def _require_node_name(value: object) -> str:
 
 
 class VisibilityCheckBoxWindow(qt.QDialog):
-    """transform.visibilityとの同期を確認するsample Window。"""
+    """複数Viewとtransform.visibilityの同期を確認するsample Window。"""
 
     def __init__(
         self,
@@ -41,7 +42,7 @@ class VisibilityCheckBoxWindow(qt.QDialog):
         super().__init__(parent)
         self.setObjectName("bdUtilVisibilityCheckBoxSampleWindow")
         self.setWindowTitle("bakedanuki-util visibility binding")
-        self.resize(420, 180)
+        self.resize(420, 220)
 
         # 既存transformを型付きNodeOperatorとして取得する。
         nodes = Nodes()
@@ -71,9 +72,15 @@ class VisibilityCheckBoxWindow(qt.QDialog):
             "Visibility",
             self,
         )
+        self.visibility_combo_box = BoolComboBox(
+            self.view_model,
+            false_text="Off",
+            true_text="On",
+            parent=self,
+        )
         description = qt.QLabel(
-            "Data Store、Checkbox、Python、Attribute Editor、"
-            "undo / redoを同期します。"
+            "Data Store、Checkbox、ComboBox、Python、"
+            "Attribute Editor、undo / redoを同期します。"
         )
         self.print_value_button = qt.QPushButton(
             "Print Data Value",
@@ -86,6 +93,7 @@ class VisibilityCheckBoxWindow(qt.QDialog):
         layout = qt.QVBoxLayout(self)
         layout.addWidget(node_label)
         layout.addWidget(self.visibility_checkbox)
+        layout.addWidget(self.visibility_combo_box)
         layout.addWidget(description)
         layout.addWidget(self.print_value_button)
         layout.addWidget(close_button)

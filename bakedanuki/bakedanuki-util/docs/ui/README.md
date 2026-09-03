@@ -125,11 +125,40 @@ simple_window.show()
 `get_main_window()`はbatch MayaとMaya初期化前には`None`を返します。そのため、これらの
 環境でmoduleをimportしてもMaya UIを取得しに行きません。
 
-## Boolデータとチェックボックスの同期
+## StoreベースのMVVMによるbool値同期
+
+このbindingは、構成要素としてはModel、Store、ViewModel、Viewの4つを持ちます。
+`MVSVM`と捉えると役割を整理しやすい構成ですが、一般的なパターン名ではないため、
+このドキュメントでは「StoreベースのMVVM」と呼びます。
+
+- Model: dataclassやMaya nodeなど、tool固有のデータと規則を持つ本体
+- Store: Model内の1つのbool値を、共通の読み書き契約としてViewModelへ公開するModel層の境界
+- ViewModel: 読み取り専用の現在値と、値を変更するCommandをViewへ公開する
+- View: `BoolCheckBox`、`BoolComboBox`、`MayaBoolPlugView`などの表示・入力装置
+
+```text
+Model
+  ↕
+BoolValueStore
+  ↕
+BoolViewModel
+  ├─ BoolCheckBox
+  ├─ BoolComboBox
+  └─ MayaBoolPlugView
+```
+
+Storeは広い意味ではModel側に属しますが、tool全体のModelそのものではありません。
+たとえばdataclassを正本にする場合、dataclassがModel、`PythonBoolAttributeStore`が
+その中の指定された1属性を公開する境界です。Maya plugを正本にする場合は
+`MayaBoolPlugStore`を使い、Python Storeを正本にしてMaya plugを同期先とする場合は
+`MayaBoolPlugView`を使います。
+
+複数のViewは互いを直接参照しません。同じViewModelを参照することで、Viewが増えても
+正本と同期経路を1つに保ちます。
 
 `BoolViewModel`は、読み取り専用の`BoolValue`と、UI／Pythonから共有する
-`SetBoolCommand`を管理します。`BoolCheckBox`はViewModelだけを参照し、ユーザー入力を
-Commandへ渡し、`BoolValue.changed`から表示を更新します。
+`SetBoolCommand`を管理します。`BoolCheckBox`と`BoolComboBox`はViewModelだけを参照し、
+ユーザー入力をCommandへ渡し、`BoolValue.changed`から表示を更新します。
 
 `BoolValueStore`は、ViewModelがbool値の正本を読み書きするための共通境界です。Storeを
 接続しない場合はViewModel内の`BoolValue`が値を保持し、Storeを接続した場合は
@@ -144,23 +173,28 @@ bd_util/ui/binding/bool/
 ├─ command.py
 ├─ view_model.py
 └─ view/
-   └─ check_box.py
+   ├─ _connection.py
+   ├─ check_box.py
+   └─ combo_box.py
 ```
 
 利用側は内部配置へ依存せず、従来どおり`bd_util.ui`からimportできます。
 
 ```python
-from bd_util.ui import BoolCheckBox, BoolViewModel
+from bd_util.ui import BoolCheckBox, BoolComboBox, BoolViewModel
 
 view_model = BoolViewModel(False)
 checkbox = BoolCheckBox(view_model, "Enabled")
+combo_box = BoolComboBox(view_model, false_text="Off", true_text="On")
 
-# Pythonからの入力もUIと同じCommandを使用する。
+# Pythonからの入力も両方のViewと同じCommandを使用する。
 view_model.set_value_command.execute(True)
 ```
 
-同じ値への変更では通知を送出しません。ViewModelからチェックボックスへ値を適用するときは
-signalをblockするため、表示更新からCommandが再実行されません。
+`BoolValue.changed`は値が実際に変わった場合だけ通知します。ViewModelからQt Viewへ値を
+適用するときはsignalをblockするため、表示更新からCommandが再実行されません。
+`BoolComboBox`の表示文字列とbool値は分離され、各項目のitem dataに`False`／`True`を
+保持します。そのため、表示を翻訳した場合や同じ文字列にした場合も値の意味は変わりません。
 
 ### Python objectのbool attributeを正本にする
 
@@ -255,8 +289,8 @@ Storeの確定値を変更せず非同期状態にします。`is_synchronized`�
 
 ### transform.visibility sample
 
-MayaのScript Editorで次を実行すると、作成したcubeの`visibility`と同期するチェックボックスを
-表示できます。
+MayaのScript Editorで次を実行すると、作成したcubeの`visibility`と同期するチェックボックスと
+Off／Onコンボボックスを表示できます。
 
 ```python
 from maya import cmds
@@ -269,9 +303,10 @@ window = visibility_checkbox.show(node)
 このsampleは、dataclassの`VisibilityData`を`PythonBoolAttributeStore`で正本とし、
 `MayaBoolPlugView`でtransformの`visibility`を入力・表示装置として接続します。
 
-表示後は、チェックボックス、Attribute Editor、次のPython入力、Mayaのundo / redoの
-いずれから変更しても同じ値へ同期します。Mayaからの外部入力は、スクリプトの
-実行がQtに制御を返した次のevent loopでdataclass Storeへ反映されます。
+表示後は、チェックボックス、コンボボックス、Attribute Editor、次のPython入力、Mayaの
+undo / redoのいずれから変更しても、dataclass、両方のQt View、Maya plugが同じ値へ同期します。
+Mayaからの外部入力は、スクリプトの実行がQtに制御を返した次のevent loopでdataclass Storeへ
+反映されます。
 
 Windowの`Print Data Value`ボタンを押すと、その時点の内部データをMaya Script Editorへ
 `VisibilityData.visible_by_default = True`の形式で出力します。
@@ -781,13 +816,13 @@ Qt facade、Window lifecycle、Maya UI連携の自動テストは、対応する
 Maya APIを使うUIテストを独立したmayapy processで実行します。pytestはrepository直下の
 `.test`から読み込み、統一検証では`.\scripts\verify.cmd`が3 versionを実行します。
 
-2026-08-22時点の確認結果です。
+2026-09-03時点の確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 71 passed | 50 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 71 passed | 50 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 71 passed | 50 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 102 passed | 89 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 102 passed | 89 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 102 passed | 89 passed |
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って

@@ -21,6 +21,7 @@ from bd_util.maya.ui import (
 )
 from bd_util.ui import (
     BoolCheckBox,
+    BoolComboBox,
     BoolValue,
     BoolValueStore,
     BoolViewModel,
@@ -205,6 +206,14 @@ bool_checkbox = BoolCheckBox(
 )
 assert_type(bool_checkbox, BoolCheckBox)
 assert_type(bool_checkbox.view_model, BoolViewModel)
+
+bool_combo_box = BoolComboBox(
+    bool_view_model,
+    false_text="Off",
+    true_text="On",
+)
+assert_type(bool_combo_box, BoolComboBox)
+assert_type(bool_combo_box.view_model, BoolViewModel)
 
 transform = Nodes().existing.transform("sampleTransform")
 maya_store_view_model = BoolViewModel()
