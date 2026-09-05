@@ -322,25 +322,41 @@ Storeの確定値を変更せず非同期状態にします。`is_synchronized`�
 
 ### bool Views sample
 
-MayaのScript Editorで次を実行すると、作成したcubeの`visibility`と同期する全bool Viewを
-表示できます。
+MayaのScript Editorで次を実行すると、任意のPython object内のbool attributeを正本とし、
+作成したcubeの`visibility`を任意のMaya Viewとして同期する全bool Viewを表示できます。
 
 ```python
 from maya import cmds
 from bd_util._sample.maya.ui import bool_views
 
+data = bool_views.VisibilityData()
 node = cmds.polyCube(name="bdVisibilityBindingSample")[0]
-window = bool_views.show(node)
+window = bool_views.show(
+    data,
+    "visible_by_default",
+    maya_node_name=node,
+    maya_attribute_name="visibility",
+)
 ```
 
-このsampleは、dataclassの`VisibilityData`を`PythonBoolAttributeStore`で正本とし、
-`MayaBoolPlugView`でtransformの`visibility`を入力・表示装置として接続します。
+`data`にはdataclassに限らず、書き込み可能なbool attributeを持つPython objectを渡せます。
+第2引数には、そのobject内で正本として扱うattribute名を指定します。
+`maya_node_name`と`maya_attribute_name`は組で指定する任意引数です。両方を省略すると、
+Maya nodeとは同期せず、PythonデータとQt Viewだけで動作します。
 
-Windowには`BoolCheckBox`、`BoolComboBox`、`BoolPushButton`、`BoolRadioButtonGroup`、
-`BoolStatusLabel`を配置します。入力可能な4つのQt View、Attribute Editor、次のPython入力、
-Mayaのundo / redoのいずれから変更しても、dataclass、全Qt View、Maya plugが同じ値へ同期します。
-Mayaからの外部入力は、スクリプトの実行がQtに制御を返した次のevent loopでdataclass Storeへ
-反映されます。
+```python
+window = bool_views.show(data, "visible_by_default")
+```
+
+内部では、指定したPython attributeを`PythonBoolAttributeStore`で正本とし、Maya指定が
+ある場合だけ`MayaBoolPlugView`を入力・表示装置として接続します。Maya側にはtransformの
+`visibility`に限らず、任意のscalar bool attributeを指定できます。
+
+`BoolViewsWidget`には`BoolCheckBox`、`BoolComboBox`、`BoolPushButton`、
+`BoolRadioButtonGroup`、`BoolStatusLabel`を配置します。Maya Viewを指定した場合、入力可能な
+4つのQt View、Attribute Editor、次のPython入力、Mayaのundo / redoのいずれから変更しても、
+Python object、全Qt View、Maya plugが同じ値へ同期します。Mayaからの外部入力は、スクリプトの
+実行がQtに制御を返した次のevent loopでPython Storeへ反映されます。
 
 Windowの`Print Data Value`ボタンを押すと、その時点の内部データをMaya Script Editorへ
 `VisibilityData.visible_by_default = True`の形式で出力します。
@@ -350,6 +366,50 @@ bool_views.set_value(False)
 cmds.setAttr(f"{node}.visibility", True)
 cmds.undo()
 cmds.redo()
+```
+
+Python objectを別処理から直接変更した場合は、明示的に正本から再読込できます。
+
+```python
+data.visible_by_default = False
+bool_views.refresh_from_data()
+```
+
+sampleは関連ファイルを1つのpackageへまとめています。`BoolViewsWindow`はWidgetを配置する
+だけとし、`BoolViewsWidget`がStore、ViewModel、任意のMaya View、全Qt Viewを所有します。
+`BoolViewsWindowManager`はWindow生成時のbinding引数とlifecycleを管理し、module-levelの
+`show()`、`set_value()`、`refresh_from_data()`、`dispose()`は既定Managerへ処理を委譲します。
+
+ManagerはWindow生成中だけ引数を保持し、生成後には破棄します。そのため、module-levelの
+可変な引数や関数内の`global`宣言を必要とせず、最後に渡したdataへの不要な参照も残しません。
+
+```text
+bd_util/_sample/maya/ui/bool_views/
+├─ __init__.py
+├─ data.py
+├─ widget.py
+└─ window.py
+```
+
+既存Windowやlayoutへ取り付ける例です。Window側はこのWidgetを生成して配置するだけで、
+同じbinding一式を利用できます。
+
+```python
+widget = bool_views.BoolViewsWidget(
+    data,
+    "visible_by_default",
+    maya_node_name=node,
+    maya_attribute_name="visibility",
+    parent=parent,
+)
+layout.addWidget(widget)
+```
+
+複数の独立したWindow管理が必要な場合は、Managerを個別に生成できます。
+
+```python
+manager = bool_views.BoolViewsWindowManager()
+window = manager.show(data, "visible_by_default")
 ```
 
 sampleを完全に破棄する場合です。
@@ -854,9 +914,9 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 107 passed | 89 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 107 passed | 89 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 107 passed | 89 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 110 passed | 89 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 110 passed | 89 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 110 passed | 89 passed |
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って

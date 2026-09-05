@@ -4,6 +4,12 @@ from typing import assert_type
 from PySide6 import QtGui, QtWidgets
 
 from bd_util import Nodes
+from bd_util._sample.maya.ui.bool_views import (
+    BoolViewsWidget,
+    BoolViewsWindow,
+    BoolViewsWindowManager,
+    VisibilityData,
+)
 from bd_util.maya.ui import (
     DockOptions,
     DockRestoreSpec,
@@ -202,6 +208,38 @@ assert_type(python_bool_store.is_writable, bool)
 assert_type(python_bool_store.read(), bool)
 assert_type(python_bool_store.write(False), bool)
 assert_type(bool_view_model.attach_store(python_bool_store), None)
+
+# sampleのFeature WidgetとWindow管理APIが具体型を維持することを確認する。
+sample_visibility_data = VisibilityData()
+bool_views_widget = BoolViewsWidget(
+    sample_visibility_data,
+    "visible_by_default",
+)
+assert_type(bool_views_widget, BoolViewsWidget)
+assert_type(bool_views_widget.value, bool)
+assert_type(bool_views_widget.maya_view, MayaBoolPlugView | None)
+assert_type(bool_views_widget.set_value(False), bool)
+assert_type(bool_views_widget.refresh_from_data(), bool)
+
+bool_views_window = BoolViewsWindow(
+    sample_visibility_data,
+    "visible_by_default",
+)
+assert_type(bool_views_window, BoolViewsWindow)
+assert_type(bool_views_window.bool_views_widget, BoolViewsWidget)
+
+bool_views_window_manager = BoolViewsWindowManager()
+assert_type(bool_views_window_manager.window, BoolViewsWindow | None)
+assert_type(
+    bool_views_window_manager.show(
+        sample_visibility_data,
+        "visible_by_default",
+    ),
+    BoolViewsWindow,
+)
+assert_type(bool_views_window_manager.set_value(False), bool)
+assert_type(bool_views_window_manager.refresh_from_data(), bool)
+assert_type(bool_views_window_manager.dispose(), None)
 
 bool_checkbox = BoolCheckBox(
     bool_view_model,
