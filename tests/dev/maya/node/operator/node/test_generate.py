@@ -773,6 +773,11 @@ def test_generate_untyped_value_double4_keeps_double4_semantics():
     assert code is not None
     assert "Double4CompoundBasePlugOperator" in code
     assert "QuatCompoundBasePlugOperator" not in code
+    assert "from ......value import Double4" in code
+    assert (
+        'Double4CompoundBasePlugOperator["ValueAttrOperator", Double4]' in code
+    )
+    assert "VALUE_TYPE = Double4" in code
 
 
 def test_generate_sanitizes_invalid_names_and_skips_dotted_short_aliases():
@@ -1613,6 +1618,100 @@ def test_generate_node_class_file_supports_keyword_module_wrapper(tmp_path):
     assert "from importlib import import_module" in code
     assert 'f"{__package__}._generated.and"' in code
     assert "class And(GeneratedAnd):" in code
+
+
+def test_generate_node_class_file_outputs_versioned_overlay(tmp_path):
+    attr_infos = [
+        _attr(
+            "input",
+            "i",
+            "double3",
+            number_of_children=3,
+        ),
+        _attr("inputX", "ix", "double", parent="input"),
+        _attr("inputY", "iy", "double", parent="input"),
+        _attr("inputZ", "iz", "double", parent="input"),
+    ]
+
+    generate_node_class_file(
+        "versionedNode",
+        tmp_path,
+        attr_infos=attr_infos,
+        maya_version=2026,
+    )
+
+    node_dir = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dg",
+    )
+    generated_path = node_dir / "_generated_maya2026" / "versioned_node.py"
+    public_path = node_dir / "versioned_node.py"
+    node_attr_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "attr",
+        "define",
+        "node_attr_maya2026",
+        "versioned_node.py",
+    )
+
+    assert generated_path.exists()
+    assert node_attr_path.exists()
+    generated_code = generated_path.read_text(encoding="utf-8")
+    public_code = public_path.read_text(encoding="utf-8")
+    assert "define.node_attr_maya2026.versioned_node" in generated_code
+    assert "if TYPE_CHECKING:" in public_code
+    assert "._generated_maya2026.versioned_node" in public_code
+    assert "._generated.versioned_node" in public_code
+
+
+def test_versioned_overlay_uses_baseline_wrapper_for_existing_node(tmp_path):
+    attr_infos = [_attr("input", "in", "float")]
+    generate_node_class_file(
+        "versionedNode",
+        tmp_path,
+        attr_infos=attr_infos,
+    )
+    public_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dg",
+        "versioned_node.py",
+    )
+    public_path.unlink()
+
+    generate_node_class_file(
+        "versionedNode",
+        tmp_path,
+        attr_infos=attr_infos,
+        maya_version=2026,
+    )
+
+    public_code = public_path.read_text(encoding="utf-8")
+    assert "TYPE_CHECKING" not in public_code
+    assert "._generated.versioned_node" in public_code
+
+
+def test_generate_node_class_file_rejects_unsupported_maya_version(tmp_path):
+    with pytest.raises(
+        ValueError,
+        match="Unsupported generated Maya version: 2028",
+    ):
+        generate_node_class_file(
+            "versionedNode",
+            tmp_path,
+            attr_infos=[_attr("input", "in", "float")],
+            maya_version=2028,
+        )
 
 
 def test_generate_node_class_file_skips_unsafe_dag_node_type(tmp_path):

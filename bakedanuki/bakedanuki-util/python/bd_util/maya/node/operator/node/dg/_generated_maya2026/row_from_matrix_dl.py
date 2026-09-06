@@ -1,0 +1,22 @@
+# coding: utf-8
+from .._core import DG
+from ....attr.define.custom import Double4Field
+from ....attr.define.std.at.matrix import MatrixField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+
+
+class GeneratedRowFromMatrixDL(DG):
+    __slots__ = ()
+
+    NODE_TYPE = "rowFromMatrixDL"
+
+    input = LongField(
+        default_value=0, min_value=0, max_value=3, readable=False
+    )
+    i = input
+
+    matrix = MatrixField(readable=False)
+    m = matrix
+
+    output = Double4Field(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
+    o = output

@@ -79,12 +79,16 @@ Generatorは生成コードを直接Blackへ依存させません。
 
 ## Pyright 型・補完 contract
 
-`tests/typecheck/node_operator_contract.py` は、公開 API を利用したときに
+`tests/typecheck/node_operator_contract.py` と
+`tests/typecheck/node_operator_maya_version_contract.py` は、公開 API を利用したときに
 Pyright が解決する型を `typing.assert_type()` で固定します。
 
 現在は次の経路を検証します。
 
 - `nodes.create` / `nodes.existing` の具体的な node 戻り値型。
+- `typing_maya_version="2025" / "2026" / "2027"` ごとの `nodes.create` /
+  `nodes.existing` / `nodes.types` の候補とversioned attribute schema。省略時は
+  3 version共通面と共通型を検証します。
 - `AttributeField` の class access と instance access。
 - compound child と alias の具体的な plug 型。
 - enum plug と enum 定数。
@@ -138,7 +142,10 @@ versionごとのscriptとして`typecheck-maya2025.cmd`、
 ```
 
 このcontractは静的解析用で、Maya sceneを作成するruntime testではありません。
-通常の挙動は引き続き`.\scripts\test-pytest-maya2025.cmd`で検証します。
+`typing_maya_version` は実行時には破棄され、実行Mayaの選択、version不一致検査、
+node availabilityの変更には使われません。
+runtime挙動は各versionの`.\scripts\test-pytest-maya2025.cmd`、
+`.\scripts\test-pytest-maya2026.cmd`、`.\scripts\test-pytest-maya2027.cmd`で検証します。
 
 ### 実装ファイルの診断確認
 
@@ -178,6 +185,10 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
 
 - `tests/maya/node/test_nodes.py`
   - `Nodes` の公開範囲、`nodes.create` / `nodes.existing` の共有状態を検証します。
+- `tests/maya/node/test_maya_version.py`
+  - 実行中Mayaからのmajor version判定、sparse overlayの検索順、version固有nodeの
+    availability、変更されたattribute schemaが実行Mayaへ追従することを検証します。
+  - `typing_maya_version`を指定しないruntime経路で、新旧nodeの作成可否も検証します。
 - `tests/maya/node/test_existing_node.py`
   - 既存 DG / DAG / shape node の自動判定と型別アクセスを検証します。
   - 作成APIへ公開しない `ikHandle` / `ikEffector` も具体型へ解決し、同じ
@@ -338,6 +349,16 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
 - `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
   - `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の型情報と、
     raw作成を公開するtransform系メソッドのstub生成結果を検証します。
+- `tests/dev/maya/node/operator/node/test_version_schema.py`
+  - 固定plugin profile、version別inventory、生成対象数、availability registryとの同期、
+    Maya 2025のbaseline追加node、Maya 2026 / 2027の物理overlay全体を検証します。
+
+version schemaとoverlayだけを切り分ける場合は、次を実行します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd `
+    tests\dev\maya\node\operator\node\test_version_schema.py
+```
 
 ### DAG traversal変更時の検証
 
@@ -523,10 +544,26 @@ $env:PYMEL_CONF = Resolve-Path `
 比較結果そのものは Git 管理されません。CSV には各 repeat の生データを保存し、
 console には scenario ごとの median / min / max を表示します。
 
-## 現行 snapshot
+## version別生成snapshotの受け入れ確認
 
-このドキュメント作成時点では、直近の開発確認で`.\scripts\verify.cmd`が
-通っている状態を前提にしています。
+NodeOperator の生成snapshotはMaya 2025を基準とし、Maya 2026 / 2027の
+schema差分をsparse overlayとして保持します。実行時importは実Maya version、
+Pyright contractは`typing_maya_version`だけを参照し、両者を独立に検証します。
 
-docs変更のみでも最終確認は`.\scripts\verify.cmd`を使用します。
-編集中の局所確認には`git diff --check -- <changed-files>`を使用できます。
+各versionのsparse overlayは、対応する実Maya環境の`mayapy`で固定plugin profileを
+ロードして生成します。生成成功だけでruntime test、Pyright、全体検証まで成功したとは
+扱いません。snapshotの受け入れ確認には次の入口を使用します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd
+.\scripts\test-pytest-maya2026.cmd
+.\scripts\test-pytest-maya2027.cmd
+.\scripts\typecheck-maya-all.cmd
+.\scripts\verify.cmd
+```
+
+リリース前に3 versionすべてのfull pytestとstaged native plug-inまで確認する場合は、
+`.\scripts\verify.cmd -Release`を使用します。snapshotの合否は、この文書の記述ではなく
+最新のcommand結果で判断します。
+
+docs変更のみの局所確認には`git diff --check -- <changed-files>`を使用できます。

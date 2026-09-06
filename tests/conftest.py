@@ -9,3 +9,15 @@ PACKAGE_PYTHON_DIR = ROOT_DIR / "bakedanuki" / "bakedanuki-util" / "python"
 
 if str(PACKAGE_PYTHON_DIR) not in sys.path:
     sys.path.insert(0, str(PACKAGE_PYTHON_DIR))
+
+
+def pytest_configure(config):
+    try:
+        import maya.standalone
+    except Exception:
+        return
+
+    try:
+        maya.standalone.initialize(name="python")
+    except Exception:
+        pass

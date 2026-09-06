@@ -7,6 +7,7 @@ import re
 from collections.abc import Iterator
 from importlib import resources
 
+from ._maya_version import require_node_name_available
 from .operator.node._core import NodeOperator
 
 DG_NODE_PACKAGE = "bd_util.maya.node.operator.node.dg"
@@ -81,6 +82,7 @@ class _NodeClassResolver:
         packages: tuple[str, ...] = NODE_CLASS_PACKAGES,
     ) -> type[NodeOperator]:
         module_name = _normalize_node_name(node_name)
+        require_node_name_available(module_name)
         cache_key = (packages, module_name)
 
         cached = self._node_cls_cache.get(cache_key)

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Literal
 
 from maya.api import OpenMaya as om
 
@@ -73,7 +74,15 @@ class Nodes:
         "_types",
     )
 
-    def __init__(self, modifier_manager: ModifierManager | None = None):
+    def __init__(
+        self,
+        modifier_manager: ModifierManager | None = None,
+        *,
+        typing_maya_version: Literal["2025", "2026", "2027"] | None = None,
+    ):
+        # This argument is intentionally type-checker-only. Runtime schema
+        # selection always follows the Maya process that imports bd_util.
+        del typing_maya_version
         if modifier_manager is None:
             modifier_manager = ModifierManager()
 

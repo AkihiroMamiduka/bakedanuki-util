@@ -16,6 +16,19 @@ def test_nodes_can_import_from_bd_util(new_scene):
     assert nodes.types is nodes.types
 
 
+def test_typing_maya_version_does_not_select_the_runtime_maya(new_scene):
+    from bd_util import Nodes
+    from bd_util.maya.node._maya_version import maya_major_version
+
+    typing_version = "2027" if maya_major_version() < 2027 else "2025"
+    nodes = Nodes(typing_maya_version=typing_version)
+
+    assert "plusMinusAverage" in nodes.create.available_node_names()
+    assert ("absoluteDL" in nodes.create.available_node_names()) == (
+        maya_major_version() >= 2026
+    )
+
+
 def test_nodes_can_import_from_maya_node_package(new_scene):
     from bd_util.maya.node import Nodes
 

@@ -11,7 +11,7 @@
 ## 現在固まっている方針
 
 - Maya 専用パッケージとして割り切る。
-- Maya 2025 / Python 3.11.4 以降を対象にする。
+- Maya 2025 / 2026 / 2027、Python 3.11.4 以降を対象にする。
 - `ModifierManager` を経由して `MDGModifier` / `MDagModifier` を扱う。
 - `AttributeField` は entry point / descriptor に専念する。
 - `AttrOperator` は定義情報を持つ。
@@ -31,6 +31,11 @@
 - NodeOperator / PlugOperator の modifier 参照を manager 経由へ移行。
 - Pyright による node 作成、descriptor、compound / multi、戻り値型の
   contract test を追加。
+- Maya 2025を基準に、2026 / 2027の変更・新規node schemaをsparse overlay化。
+  実行Mayaの自動判定と、IDE専用の`typing_maya_version`を分離し、未指定時は
+  3 version共通面、指定時はversion固有の補完を返すcontractを追加。
+  version間比較用の固定plugin profileと専用CLIを用意し、Maya 2027実機での
+  overlay生成まで完了。再生成後の受け入れ確認範囲は`testing.md`に分離して記録。
 - plug cache / indexed plug cache / child direct index などの速度改善。
 - custom scalar compound の階層整理。
 - `double2` / `double3` / `double4` / `float2` / `float3` などを custom compound 側へ移行。

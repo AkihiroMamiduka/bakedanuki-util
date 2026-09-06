@@ -8,7 +8,7 @@
 
 ## Status
 
-- Target: Maya 2025 以降 / Python 3.11.4 以降
+- Target: Maya 2025 / 2026 / 2027 / Python 3.11.4 以降
 - Release verification: Windows / Maya 2025 / 2026 / 2027
 - Bundled native plug-in: Windows / Maya 2025 / 2026 / 2027
 - Runtime: Maya 専用
@@ -44,6 +44,8 @@
   - `AttributeField`, `AttrOperator`, `PlugOperator` により、クラス定義とインスタンス操作を分けて扱います。
 - Node class generator
   - Maya の DG ノード情報から `NodeOperator` 定義を生成する開発用ジェネレーターがあります。
+  - Maya 2025を基準に、固定plugin profileからMaya 2026 / 2027のschema差分だけを
+    sparse overlayとして生成します。
 - Maya UI foundation
   - PySide6のbinding facade、通常Window、workspaceControlを使うdockable Window、状態保存、
     配置reset、Maya callback lifecycleを共通化します。
@@ -78,6 +80,19 @@ matrix plug の `get()` は `TransformMatrix` を返します。`translate` / `r
 `rotate` は XYZ order の degree です。
 
 詳細は [TransformMatrix](docs/maya/transform_matrix.md) を参照してください。
+
+### Maya version 別の NodeOperator 補完
+
+実行時の NodeOperator schema は Maya 2025 / 2026 / 2027 から自動判定されます。
+IDE の補完対象だけを明示する場合は、`typing_maya_version` を指定できます。
+
+```python
+nodes = bdu.Nodes(typing_maya_version="2027")
+```
+
+この指定は`nodes.create` / `nodes.existing` / `nodes.types`の静的な見え方だけを選び、
+実行 Maya の選択、version 検証、利用可能 node の変更には使われません。省略時は、
+対応する3 versionに共通する安全な補完面になります。
 
 ### Numeric Compound Values
 
@@ -372,20 +387,25 @@ print(bdu.__file__)
 
 ## Testing
 
-テストは `pytest` を使用しています。Maya API を使うため、通常の Python ではなく `mayapy` で実行します。
+テストは `pytest` を使用しています。Maya API を使うため、通常の Python ではなく
+`mayapy` で実行します。依存関係は `requirements-test.txt` に固定し、リポジトリ直下の
+`.test` へ配置します。初回だけ次を実行してください。
 
 ```powershell
-$pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
-$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
-$env:PYTHONPATH = "$pytestTarget;$pythonPath"
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
+.\scripts\setup-test.cmd
 ```
 
-環境によっては、Maya Python 側に `pytest` を追加する必要があります。
+各 Maya version の full pytest は次の入口から実行します。
 
 ```powershell
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pip install --target $env:TEMP\codex-mayapy-pytest pytest
+.\scripts\test-pytest-maya2025.cmd
+.\scripts\test-pytest-maya2026.cmd
+.\scripts\test-pytest-maya2027.cmd
 ```
+
+通常の最終検証は `.\scripts\verify.cmd`、native plug-in を含める場合は
+`.\scripts\verify.cmd -IncludeNative`、リリース前は `.\scripts\verify.cmd -Release` を
+使用します。
 
 ## Documentation
 
@@ -413,7 +433,9 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
   なる場合があり、破壊的変更と移行手順はルートの `CHANGELOG.md` に記録します。
 - 一度公開した `MTypeId` は v1.0.0 未満でも変更・再利用しません。旧仕様と新仕様を
   共存させる場合は、新しい node type と未使用の `MTypeId` を追加します。
-- 現在は Maya 2025 以降を前提にしています。
+- 現在は Maya 2025 / 2026 / 2027を対象にしています。NodeOperatorのversion別生成と
+  検証範囲は[Generator](docs/maya/node_operator/generator.md)と
+  [Testing](docs/maya/node_operator/testing.md)を参照してください。
 - `NodeOperator` / `AttributeField` / `PlugOperator` 周辺は、利便性と速度の両立を重視して継続的に調整しています。
 - 生成済み DG ノード定義は増えていますが、すべてのノード操作が十分に検証済みとは限りません。
 

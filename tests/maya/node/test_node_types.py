@@ -57,11 +57,17 @@ def test_node_types_resolves_exact_maya_node_type_names(new_scene):
 
 def test_node_types_has_completion_names_and_caches_classes(new_scene):
     import bd_util
+    from bd_util.maya.node._maya_version import maya_major_version
 
     node_types = bd_util.Nodes().types
     class_names = node_types.available_class_names()
 
-    assert len(class_names) == 1258
+    expected_counts = {
+        2025: 1268,
+        2026: 1327,
+        2027: 1336,
+    }
+    assert len(class_names) == expected_counts[maya_major_version()]
     assert class_names == tuple(sorted(class_names))
     assert {
         "NodeOperator",
@@ -76,6 +82,16 @@ def test_node_types_has_completion_names_and_caches_classes(new_scene):
     }.issubset(class_names)
     assert set(class_names).issubset(dir(node_types))
     assert node_types.Locator is node_types.Locator
+
+
+def test_node_types_can_import_every_available_class(new_scene):
+    import bd_util
+
+    node_types = bd_util.Nodes().types
+
+    for class_name in node_types.available_class_names():
+        node_cls = getattr(node_types, class_name)
+        assert node_cls.__name__ == class_name
 
 
 def test_node_types_rejects_unknown_or_non_class_attribute(new_scene):

@@ -6,6 +6,7 @@ import re
 from collections.abc import Callable
 from importlib import resources
 
+from .._maya_version import is_node_type_available
 from .._node_class_resolver import (
     CREATOR_PACKAGES,
     DAG_SHAPE_NODE_PACKAGE,
@@ -128,6 +129,8 @@ class NodeCreator:
                     package_name == DAG_TRANSFORM_NODE_PACKAGE
                     and node_type not in CREATABLE_TRANSFORM_NODE_TYPES
                 ):
+                    continue
+                if not is_node_type_available(node_type):
                     continue
                 names.add(_node_type_to_creator_name(node_type))
 

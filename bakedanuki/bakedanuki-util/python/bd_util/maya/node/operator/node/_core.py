@@ -10,6 +10,7 @@ from maya.api import OpenMaya as om
 from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
 from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
+from ..._maya_version import require_node_type_available
 from ...modifier import ModifierManager
 
 if TYPE_CHECKING:
@@ -263,6 +264,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     ) -> Self:
         if cls.NODE_TYPE is None:
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
+        require_node_type_available(cls.NODE_TYPE)
 
         # ノード作成
         m_obj = modifier_manager.dg_mod.createNode(cls.NODE_TYPE)

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from .._maya_version import is_node_type_available
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 from ..operator.node.dag._core import DAG
@@ -49,7 +50,13 @@ class ShapeWithTransformCreator:
         )
 
     def available_node_names(self) -> tuple[str, ...]:
-        return tuple(sorted(CREATABLE_SHAPE_NODE_TYPES))
+        return tuple(
+            sorted(
+                node_type
+                for node_type in CREATABLE_SHAPE_NODE_TYPES
+                if is_node_type_available(node_type)
+            )
+        )
 
     def __getattr__(
         self,

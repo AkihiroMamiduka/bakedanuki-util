@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
+from ._maya_version import is_node_type_available
 from ._node_class_resolver import resolve_node_class
 from ._node_type_registry import NODE_TYPE_BY_CLASS_NAME
 from .operator.node._core import NodeOperator
@@ -41,7 +42,16 @@ class NodeTypes:
         return node_cls
 
     def available_class_names(self) -> tuple[str, ...]:
-        return _NODE_CLASS_NAMES
+        return tuple(
+            sorted(
+                set(_BASE_NODE_CLASSES)
+                | {
+                    class_name
+                    for class_name, node_type in NODE_TYPE_BY_CLASS_NAME.items()
+                    if is_node_type_available(node_type)
+                }
+            )
+        )
 
     def __getattr__(self, class_name: str) -> type[NodeOperator]:
         if class_name.startswith("_"):
@@ -68,4 +78,6 @@ class NodeTypes:
         return node_cls
 
     def __dir__(self) -> list[str]:
-        return sorted(set(super().__dir__()) | set(_NODE_CLASS_NAMES))
+        return sorted(
+            set(super().__dir__()) | set(self.available_class_names())
+        )

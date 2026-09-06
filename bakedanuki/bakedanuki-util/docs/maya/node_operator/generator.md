@@ -63,6 +63,22 @@ class GeneratedComposeMatrix(DG):
     ...
 ```
 
+Maya 2025 を基準 snapshot とし、2026 / 2027 で schema が変わった class は
+`_generated_maya2026` / `_generated_maya2027` へ差分だけを出力します。
+
+```python
+generate_node_class_file(
+    "absolute",
+    path,
+    node_kind="dg",
+    maya_version=2026,
+)
+```
+
+実行時は `_generated` package の検索順を起動中の Maya に合わせます。Maya 2027 では
+2027差分、2026差分、2025基準の順に解決されるため、変更のない class を version ごとに
+複製しません。compound 定義も `node_attr_maya2026` / `node_attr_maya2027` に分離します。
+
 従来の公開 module path には、生成 class を継承する公開 wrapper を置きます。
 公開 wrapper が存在しない場合は Generator が初期形を作成しますが、既存ファイルは
 再生成時に上書きしません。
@@ -561,17 +577,87 @@ import maya.standalone
 maya.standalone.initialize(name="python")
 ```
 
-生成される attribute は、実行時に Maya へロードされている plugin に依存します。
-例えば `mesh` の Arnold attribute を含めたい場合、mayapy では生成前に `mtoa` をロードします。
+### Maya version 別 snapshot の再生成
+
+正式な Maya 2025 / 2026 / 2027 snapshot を更新するときは、個別に plugin を
+ロードして `generate_node_class_file()` を繰り返すのではなく、version overlay 用の
+CLI を使用します。リポジトリ直下から Maya 2027 を生成する例です。
+
+```powershell
+$mayaVersion = "2027"
+$pythonRoot = (Resolve-Path `
+    .\bakedanuki\bakedanuki-util\python
+).Path
+$pluginRoot = (Resolve-Path `
+    ".\bakedanuki\bakedanuki-util\plug-ins\maya$mayaVersion"
+).Path
+$env:PYTHONPATH = $pythonRoot
+$env:MAYA_PLUG_IN_PATH = "$pluginRoot;$env:MAYA_PLUG_IN_PATH"
+
+& "C:\Program Files\Autodesk\Maya$mayaVersion\bin\mayapy.exe" -m `
+    bd_util._dev.maya.node.operator.node.generate_version_schema `
+    --maya-version $mayaVersion
+```
+
+`--maya-version` と実行中の `mayapy` の major version が一致しない場合、CLI は
+生成前にエラーにします。`--src-dir` を省略すると package 本体の `python` directoryへ
+出力します。調査用directoryへ生成する場合だけ、明示的に `--src-dir` を指定します。
+
+多数の node を process ごとに分ける場合は、`--shard-count` と `--shard-index` を
+指定できます。例えば4分割では、同じ `--shard-count 4` に対して
+`--shard-index 0` から `3` までをそれぞれ実行します。全indexを実行しない限り、
+そのversionのoverlayは完成しません。
+
+CLI が生成するのは、`version_schema.py` に記録した次の対象です。
+
+| Maya | 登録 node | 生成対象 | skip | sparse生成 target |
+| --- | ---: | ---: | ---: | ---: |
+| 2025 | 1417 | 1297 | 120 | 10 baseline補完 |
+| 2026 | 1476 | 1356 | 120 | 153（新規64 + 変更89） |
+| 2027 | 1485 | 1365 | 120 | 64（新規9 + 変更55） |
+
+左3列は固定profileで取得したversion全体のinventoryです。右端はCLIが実際に
+再生成する差分数で、全登録nodeを毎version複製する数ではありません。
+Maya 2025の10件は、後続versionとの差分や廃止を表現するために既存の基準snapshotへ
+追加したnodeです。
+Maya 2026で廃止された5件はoverlayの生成対象には含めず、`version_schema.py`の
+廃止一覧とruntimeのversion registryで利用可能期間を管理します。
+
+version比較では、ロード済みpluginの違いをschema差分として誤検出しないよう、
+次の固定plugin profileを使用します。正確な順序と対象のsource of truthは
+`python/bd_util/_dev/maya/node/operator/node/version_schema.py`です。
+
+```text
+共通:
+mayaHIK, invertShape, curveWarp, hairPhysicalShader, ikSpringSolver, sweep,
+lookdevKit, Type, bifrostGraph, modelingToolkit, MayaMuscle, matrixNodes,
+polyBoolean, bdUtilNodes, MASH, poseInterpolator, ik2Bsolver, xgenToolkit,
+gameFbxExporter, Unfold3D, mtoa, rotateHelper, AbcImport, sceneAssembly,
+gpuCache, mayaUsdPlugin, quatNodes, LookdevXMaya
+
+Maya 2026 / 2027で追加:
+dynamicGeometryAttributes（ik2Bsolverの直前）
+```
+
+profileにはversion別の`bdUtilNodes`も含むため、実行前に対応する
+`plug-ins/maya<version>`を`MAYA_PLUG_IN_PATH`へ追加します。要求したpluginを
+ロードできなければ、その環境の結果でsnapshotを更新せず、原因を解消してから
+再実行します。
+
+個別の `generate_node_class_file()` で生成される attribute は、実行時に Maya へ
+ロードされているpluginに依存します。例えば単独調査で `mesh` の Arnold attributeを
+含めたい場合は、生成前に `mtoa` をロードできます。
 
 ```python
 import maya.cmds as cmds
 cmds.loadPlugin("mtoa", quiet=True)
 ```
 
-標準の shape snapshot は Maya 2025 で `mtoa` をロードした状態を基準とします。
-現在の作成確認済みサンプルは `mesh` / `camera` / `nurbsCurve` / `locator` /
-`nurbsSurface` です。concrete shape 81種は正式 snapshot へ生成済みですが、
+既存の基準 shape snapshot は Maya 2025 で `mtoa` をロードした状態から始めています。
+version間の正式な比較・再生成では、上記の固定profileを使用します。
+最初の作成確認は `mesh` / `camera` / `nurbsCurve` / `locator` / `nurbsSurface` の
+5種から開始しました。現在はconcrete shape 81種を正式snapshotへ生成し、このうち
+作成可能な80種を`nodes.create`へ公開しています。
 再生成時もまず調査用出力先で TODO、構文、import、node type 名衝突を確認します。
 
 shape の attribute 取得には `MNodeClass` と type 指定の `attributeQuery` を使い、
@@ -601,6 +687,8 @@ Generator まわりの pytest は次にあります。
 
 ```text
 tests/dev/maya/node/operator/node/test_generate.py
+tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py
+tests/dev/maya/node/operator/node/test_version_schema.py
 ```
 
 代表的な検証項目は次の通りです。
@@ -632,17 +720,19 @@ print(errors)
 
 内部実装の `ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
 公開APIの `nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
-IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の5ファイルを生成します。
+IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の7ファイルを生成します。
 
 - `python/bd_util/maya/node/existing_node.pyi`
 - `python/bd_util/maya/node/nodes.pyi`
+- `python/bd_util/maya/node/_versioned_accessors.pyi`
 - `python/bd_util/maya/node/creator/_shape_with_transform.pyi`
+- `python/bd_util/maya/node/creator/_transform_creator.pyi`
 - `python/bd_util/maya/node/_node_type_registry.py`
 - `python/bd_util/maya/node/node_types.pyi`
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
-    python\bd_util\_dev\maya\node\operator\node\generate_existing_node_stub.py
+    .\bakedanuki\bakedanuki-util\python\bd_util\_dev\maya\node\operator\node\generate_existing_node_stub.py
 ```
 
 新しい NodeOperator class を追加または再生成した場合は、これらの生成物も再生成してください。
@@ -666,6 +756,11 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 `nodes.types.Locator` を `type[Locator]` として公開します。`NodeOperator` / `DAG` /
 `Shape` / `BaseGeometryVarGroup` はfilterにも使う公開基底classとして明示的に追加します。
 
+`_versioned_accessors.pyi` は、3 version共通面と Maya 2025 / 2026 / 2027ごとの
+`nodes.create` / `nodes.existing` / `nodes.types`を保持します。`nodes.pyi`の
+`typing_maya_version` overloadは、この静的accessorだけを選択します。実行中Mayaの
+version判定やnode availabilityには使用しません。
+
 Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。
 `nodes.types.And` / `nodes.types.Or` / `nodes.types.Not` のruntime値は、それぞれの
@@ -673,7 +768,7 @@ Python キーワードと module 名が衝突する `and` / `or` / `not` は、`
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
-    python\bd_util\_dev\maya\node\operator\node\generate_existing_node_stub.py `
+    .\bakedanuki\bakedanuki-util\python\bd_util\_dev\maya\node\operator\node\generate_existing_node_stub.py `
     --check
 ```
 

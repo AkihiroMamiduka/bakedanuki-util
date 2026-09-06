@@ -140,6 +140,36 @@ modifier_manager.do_it_dag()
 `nodes.existing` は、同じ `ModifierManager` を使う既存ノードアクセサです。
 したがって、各呼び出しで `modifier_manager=` を繰り返す必要はありません。
 
+Maya 2025 / 2026 / 2027 の実行 schema は、起動中の Maya から自動判定します。
+IDE の補完対象だけを固定したい場合は `typing_maya_version` を指定します。
+
+```python
+nodes = bdu.Nodes(
+    modifier_manager=modifier_manager,
+    typing_maya_version="2027",
+)
+```
+
+この引数は Pylance / Pyright 向けの型選択だけに使います。例えば Maya 2025 上で
+`"2027"` を指定しても version 不一致エラーにはならず、実行時には Maya 2025 の
+schema と利用可能ノードが使われます。指定を省略した場合、IDE には3 versionで共通の
+安全な API 面が提示されます。version 固有ノードや attribute まで補完したいコードで
+のみ指定してください。この指定で実行時にversion固有nodeが有効になるわけではなく、
+起動中のMayaで利用できないnodeへアクセスした場合は`AttributeError`になります。
+
+補完面は`nodes.create`、`nodes.existing`、`nodes.types`の3入口をまとめて選択します。
+実行時schemaと補完stubの生成方法は[Generator](generator.md)、version別の検証入口は
+[Testing](testing.md)を参照してください。
+
+補完stubに含まれない生成済みNodeOperatorを意図的に動的指定する場合は、文字列APIを
+escape hatchとして使用できます。
+
+```python
+created = nodes.create.create("pluginNode")
+existing = nodes.existing("pluginNode")
+node_cls = nodes.types.resolve("pluginNode")
+```
+
 ```python
 assert created.modifier_manager is modifier_manager
 assert existing.modifier_manager is modifier_manager

@@ -6,6 +6,7 @@ from maya.api import OpenMaya as om
 
 # self
 from ....modifier import ModifierManager
+from ...._maya_version import require_node_type_available
 from .....transform import TransformMatrix
 from .._core import NodeOperator, DEFAULT_VALUE_AUTO_ADD_ATTR
 
@@ -98,6 +99,7 @@ class DAG(NodeOperator):
     ) -> Self:
         if cls.NODE_TYPE is None:
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
+        require_node_type_available(cls.NODE_TYPE)
 
         if parent is not None:
             cls._validate_parent(parent, modifier_manager)

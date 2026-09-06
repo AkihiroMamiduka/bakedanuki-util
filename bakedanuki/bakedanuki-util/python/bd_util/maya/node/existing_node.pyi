@@ -91,13 +91,17 @@ from .operator.node.dg.r_scontainer import RScontainer
 from .operator.node.dag.shape.sphere_locator import SphereLocator
 from .operator.node.dg.unfold3_d_optimize import Unfold3DOptimize
 from .operator.node.dg.unfold3_d_unfold import Unfold3DUnfold
+from .operator.node.dg.usd_default_settings import UsdDefaultSettings
 from .operator.node.dg.about_to_set_value_test_node import (
     AboutToSetValueTestNode,
 )
 from .operator.node.dg.abs_override import AbsOverride
 from .operator.node.dg.abs_unique_override import AbsUniqueOverride
 from .operator.node.dg.absolute import Absolute
+from .operator.node.dg.absolute_dl import AbsoluteDL
 from .operator.node.dg.acos import Acos
+from .operator.node.dg.acos_dl import AcosDL
+from .operator.node.dg.add_dl import AddDL
 from .operator.node.dg.add_double_linear import AddDoubleLinear
 from .operator.node.dg.add_matrix import AddMatrix
 from .operator.node.dg.adsk_material import AdskMaterial
@@ -131,6 +135,7 @@ from .operator.node.dg.ai_color_correct import AiColorCorrect
 from .operator.node.dg.ai_color_jitter import AiColorJitter
 from .operator.node.dg.ai_color_to_float import AiColorToFloat
 from .operator.node.dg.ai_compare import AiCompare
+from .operator.node.dg.ai_compare_string import AiCompareString
 from .operator.node.dg.ai_complement import AiComplement
 from .operator.node.dg.ai_complex_ior import AiComplexIor
 from .operator.node.dg.ai_composite import AiComposite
@@ -150,6 +155,8 @@ from .operator.node.dg.ai_float_to_matrix import AiFloatToMatrix
 from .operator.node.dg.ai_float_to_rgba import AiFloatToRgba
 from .operator.node.dg.ai_fog import AiFog
 from .operator.node.dg.ai_fraction import AiFraction
+from .operator.node.dag.shape.ai_gaussian_splat import AiGaussianSplat
+from .operator.node.dg.ai_gaussian_splat_shader import AiGaussianSplatShader
 from .operator.node.dg.ai_gobo import AiGobo
 from .operator.node.dg.ai_hair import AiHair
 from .operator.node.dg.ai_image import AiImage
@@ -159,6 +166,7 @@ from .operator.node.dg.ai_imager_denoiser_noice import AiImagerDenoiserNoice
 from .operator.node.dg.ai_imager_denoiser_oidn import AiImagerDenoiserOidn
 from .operator.node.dg.ai_imager_denoiser_optix import AiImagerDenoiserOptix
 from .operator.node.dg.ai_imager_exposure import AiImagerExposure
+from .operator.node.dg.ai_imager_inference import AiImagerInference
 from .operator.node.dg.ai_imager_lens_effects import AiImagerLensEffects
 from .operator.node.dg.ai_imager_light_mixer import AiImagerLightMixer
 from .operator.node.dg.ai_imager_overlay import AiImagerOverlay
@@ -174,6 +182,7 @@ from .operator.node.dg.ai_length import AiLength
 from .operator.node.dag.shape.ai_light_blocker import AiLightBlocker
 from .operator.node.dg.ai_light_decay import AiLightDecay
 from .operator.node.dag.shape.ai_light_portal import AiLightPortal
+from .operator.node.dg.ai_line import AiLine
 from .operator.node.dg.ai_log import AiLog
 from .operator.node.dg.ai_look_switch import AiLookSwitch
 from .operator.node.dg.ai_material_x_shader import AiMaterialXShader
@@ -190,10 +199,12 @@ from .operator.node.dg.ai_mix_shader import AiMixShader
 from .operator.node.dg.ai_modulo import AiModulo
 from .operator.node.dg.ai_motion_vector import AiMotionVector
 from .operator.node.dg.ai_multiply import AiMultiply
+from .operator.node.dg.ai_nearest_points import AiNearestPoints
 from .operator.node.dg.ai_negate import AiNegate
 from .operator.node.dg.ai_noise import AiNoise
 from .operator.node.dg.ai_normal_map import AiNormalMap
 from .operator.node.dg.ai_normalize import AiNormalize
+from .operator.node.dg.ai_open_pbr_surface import AiOpenPBRSurface
 from .operator.node.dg.ai_options import AiOptions
 from .operator.node.dg.ai_osl_shader import AiOslShader
 from .operator.node.dg.ai_passthrough import AiPassthrough
@@ -215,6 +226,7 @@ from .operator.node.dg.ai_rgba_to_float import AiRgbaToFloat
 from .operator.node.dg.ai_round_corners import AiRoundCorners
 from .operator.node.dg.ai_set_parameter import AiSetParameter
 from .operator.node.dg.ai_set_transform import AiSetTransform
+from .operator.node.dg.ai_shader_to_rgba import AiShaderToRgba
 from .operator.node.dg.ai_shadow_matte import AiShadowMatte
 from .operator.node.dg.ai_shuffle import AiShuffle
 from .operator.node.dg.ai_sign import AiSign
@@ -236,6 +248,7 @@ from .operator.node.dg.ai_subtract import AiSubtract
 from .operator.node.dg.ai_switch import AiSwitch
 from .operator.node.dg.ai_switch_operator import AiSwitchOperator
 from .operator.node.dg.ai_thin_film import AiThinFilm
+from .operator.node.dg.ai_tone_zones import AiToneZones
 from .operator.node.dg.ai_toon import AiToon
 from .operator.node.dg.ai_trace_set import AiTraceSet
 from .operator.node.dg.ai_trigo import AiTrigo
@@ -270,6 +283,7 @@ from .operator.node.dg.align_curve import AlignCurve
 from .operator.node.dg.align_surface import AlignSurface
 from .operator.node.dag.shape.ambient_light import AmbientLight
 from .operator.node.dg.angle_between import AngleBetween
+from .operator.node.dg.angle_between_dl import AngleBetweenDL
 from .operator.node.dag.shape.angle_dimension import AngleDimension
 from .operator.node.dg.anim_blend import AnimBlend
 from .operator.node.dg.anim_blend_in_out import AnimBlendInOut
@@ -311,6 +325,7 @@ from .operator.node.dg.anim_curve_ua import AnimCurveUA
 from .operator.node.dg.anim_curve_ul import AnimCurveUL
 from .operator.node.dg.anim_curve_ut import AnimCurveUT
 from .operator.node.dg.anim_curve_uu import AnimCurveUU
+from .operator.node.dg.anim_in_context_node import AnimInContextNode
 from .operator.node.dg.anim_layer import AnimLayer
 from .operator.node.dg.anisotropic import Anisotropic
 from .operator.node.dag.shape.annotation_shape import AnnotationShape
@@ -345,18 +360,23 @@ from .operator.node.dg.arnold_aov_child_selector import ArnoldAOVChildSelector
 from .operator.node.dg.array_mapper import ArrayMapper
 from .operator.node.dg.aruba_tessellate import ArubaTessellate
 from .operator.node.dg.asin import Asin
+from .operator.node.dg.asin_dl import AsinDL
 from .operator.node.dg.atan import Atan
 from .operator.node.dg.atan2 import Atan2
+from .operator.node.dg.atan2_dl import Atan2DL
+from .operator.node.dg.atan_dl import AtanDL
 from .operator.node.dg.attach_curve import AttachCurve
 from .operator.node.dg.attach_surface import AttachSurface
 from .operator.node.dg.attr_hierarchy_test import AttrHierarchyTest
 from .operator.node.dg.audio import Audio
 from .operator.node.dg.average import Average
+from .operator.node.dg.average_dl import AverageDL
 from .operator.node.dg.avg_curves import AvgCurves
 from .operator.node.dg.avg_nurbs_surface_points import AvgNurbsSurfacePoints
 from .operator.node.dg.avg_surface_points import AvgSurfacePoints
 from .operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from .operator.node.dg.axis_from_matrix import AxisFromMatrix
+from .operator.node.dg.axis_from_matrix_dl import AxisFromMatrixDL
 from .operator.node.dag.shape.base_lattice import BaseLattice
 from .operator.node.dg.basic_selector import BasicSelector
 from .operator.node.dg.bd_any_condition_dbl import BdAnyConditionDbl
@@ -574,7 +594,12 @@ from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dag.shape.bezier_curve import BezierCurve
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
 from .operator.node.dg.bifrost_board import BifrostBoard
+from .operator.node.dg.bifrost_closure_converter import BifrostClosureConverter
 from .operator.node.dg.bifrost_geo_to_maya import BifrostGeoToMaya
+from .operator.node.dag.shape.bifrost_graph_shape import BifrostGraphShape
+from .operator.node.dag.transform.bifrost_rigging_container import (
+    BifrostRiggingContainer,
+)
 from .operator.node.dg.blend_color_sets import BlendColorSets
 from .operator.node.dg.blend_colors import BlendColors
 from .operator.node.dg.blend_device import BlendDevice
@@ -607,6 +632,7 @@ from .operator.node.dag.shape.camera import Camera
 from .operator.node.dg.camera_set import CameraSet
 from .operator.node.dg.camera_view import CameraView
 from .operator.node.dg.ceil import Ceil
+from .operator.node.dg.ceil_dl import CeilDL
 from .operator.node.dg.channels import Channels
 from .operator.node.dg.character import Character
 from .operator.node.dg.character_map import CharacterMap
@@ -617,6 +643,7 @@ from .operator.node.dg.choice import Choice
 from .operator.node.dg.chooser import Chooser
 from .operator.node.dg.clamp import Clamp
 from .operator.node.dg.clamp_range import ClampRange
+from .operator.node.dg.clamp_range_dl import ClampRangeDL
 from .operator.node.dag.transform.clip_ghost_shape import ClipGhostShape
 from .operator.node.dg.clip_library import ClipLibrary
 from .operator.node.dg.clip_scheduler import ClipScheduler
@@ -642,6 +669,7 @@ from .operator.node.dg.color_mask import ColorMask
 from .operator.node.dg.color_math import ColorMath
 from .operator.node.dg.color_profile import ColorProfile
 from .operator.node.dg.column_from_matrix import ColumnFromMatrix
+from .operator.node.dg.column_from_matrix_dl import ColumnFromMatrixDL
 from .operator.node.dg.combination_shape import CombinationShape
 from .operator.node.dg.compact_plug_array_test import CompactPlugArrayTest
 from .operator.node.dg.component_falloff import ComponentFalloff
@@ -660,6 +688,7 @@ from .operator.node.dg.controller import Controller
 from .operator.node.dg.copy_color_set import CopyColorSet
 from .operator.node.dg.copy_uv_set import CopyUVSet
 from .operator.node.dg.cos import Cos
+from .operator.node.dg.cos_dl import CosDL
 from .operator.node.dg.cpv_color import CpvColor
 from .operator.node.dg.crater import Crater
 from .operator.node.dg.crease_set import CreaseSet
@@ -667,6 +696,7 @@ from .operator.node.dg.create_color_set import CreateColorSet
 from .operator.node.dg.create_ptex_uv import CreatePtexUV
 from .operator.node.dg.create_uv_set import CreateUVSet
 from .operator.node.dg.cross_product import CrossProduct
+from .operator.node.dg.cross_product_dl import CrossProductDL
 from .operator.node.dg.cryptomatte import Cryptomatte
 from .operator.node.dg.curve_from_mesh_co_m import CurveFromMeshCoM
 from .operator.node.dg.curve_from_mesh_edge import CurveFromMeshEdge
@@ -705,6 +735,11 @@ from .operator.node.dg.delta_mush import DeltaMush
 from .operator.node.dg.detach_curve import DetachCurve
 from .operator.node.dg.detach_surface import DetachSurface
 from .operator.node.dg.determinant import Determinant
+from .operator.node.dg.determinant_dl import DeterminantDL
+from .operator.node.dg.dga_delta import DgaDelta
+from .operator.node.dg.dga_tension import DgaTension
+from .operator.node.dg.dga_to_array import DgaToArray
+from .operator.node.dg.dga_visualizer import DgaVisualizer
 from .operator.node.dag.shape.directed_disc import DirectedDisc
 from .operator.node.dag.shape.directional_light import DirectionalLight
 from .operator.node.dg.disk_cache import DiskCache
@@ -712,10 +747,13 @@ from .operator.node.dg.displacement_shader import DisplacementShader
 from .operator.node.dg.display_layer import DisplayLayer
 from .operator.node.dg.display_layer_manager import DisplayLayerManager
 from .operator.node.dg.distance_between import DistanceBetween
+from .operator.node.dg.distance_between_dl import DistanceBetweenDL
 from .operator.node.dag.shape.distance_dim_shape import DistanceDimShape
 from .operator.node.dg.divide import Divide
+from .operator.node.dg.divide_dl import DivideDL
 from .operator.node.dg.dof import Dof
 from .operator.node.dg.dot_product import DotProduct
+from .operator.node.dg.dot_product_dl import DotProductDL
 from .operator.node.dg.double_shading_switch import DoubleShadingSwitch
 from .operator.node.dg.dp_birail_srf import DpBirailSrf
 from .operator.node.dag.transform.drag_field import DragField
@@ -735,6 +773,7 @@ from .operator.node.dg.env_sky import EnvSky
 from .operator.node.dg.env_sphere import EnvSphere
 from .operator.node.dag.shape.environment_fog import EnvironmentFog
 from .operator.node.dg.equal import Equal
+from .operator.node.dg.equal_dl import EqualDL
 from .operator.node.dg.euler_to_quat import EulerToQuat
 from .operator.node.dg.explode_nurbs_shell import ExplodeNurbsShell
 from .operator.node.dg.expression import Expression
@@ -759,6 +798,7 @@ from .operator.node.dg.float_logic import FloatLogic
 from .operator.node.dg.float_mask import FloatMask
 from .operator.node.dg.float_math import FloatMath
 from .operator.node.dg.floor import Floor
+from .operator.node.dg.floor_dl import FloorDL
 from .operator.node.dg.flow import Flow
 from .operator.node.dag.transform.fluid_emitter import FluidEmitter
 from .operator.node.dag.shape.fluid_shape import FluidShape
@@ -779,6 +819,7 @@ from .operator.node.dg.geometry_filter import GeometryFilter
 from .operator.node.dag.transform.geometry_var_group import GeometryVarGroup
 from .operator.node.dg.global_cache_control import GlobalCacheControl
 from .operator.node.dg.global_stitch import GlobalStitch
+from .operator.node.dag.shape.gpu_cache import GpuCache
 from .operator.node.dg.granite import Granite
 from .operator.node.dag.transform.gravity_field import GravityField
 from .operator.node.dg.grease_pencil_sequence import GreasePencilSequence
@@ -787,6 +828,7 @@ from .operator.node.dag.shape.grease_plane_render_shape import (
     GreasePlaneRenderShape,
 )
 from .operator.node.dg.greater_than import GreaterThan
+from .operator.node.dg.greater_than_dl import GreaterThanDL
 from .operator.node.dg.grid import Grid
 from .operator.node.dg.group import Group
 from .operator.node.dg.group_id import GroupId
@@ -842,6 +884,7 @@ from .operator.node.dg.insert_knot_surface import InsertKnotSurface
 from .operator.node.dag.transform.instancer import Instancer
 from .operator.node.dg.intersect_surface import IntersectSurface
 from .operator.node.dg.inverse_lerp import InverseLerp
+from .operator.node.dg.inverse_lerp_dl import InverseLerpDL
 from .operator.node.dg.inverse_matrix import InverseMatrix
 from .operator.node.dg.jiggle import Jiggle
 from .operator.node.dag.transform.joint import Joint
@@ -856,8 +899,11 @@ from .operator.node.dg.layered_texture import LayeredTexture
 from .operator.node.dg.least_squares_modifier import LeastSquaresModifier
 from .operator.node.dg.leather import Leather
 from .operator.node.dg.length import Length
+from .operator.node.dg.length_dl import LengthDL
 from .operator.node.dg.lerp import Lerp
+from .operator.node.dg.lerp_dl import LerpDL
 from .operator.node.dg.less_than import LessThan
+from .operator.node.dg.less_than_dl import LessThanDL
 from .operator.node.dg.light_editor import LightEditor
 from .operator.node.dg.light_fog import LightFog
 from .operator.node.dg.light_group import LightGroup
@@ -878,6 +924,7 @@ from .operator.node.dag.transform.lod_group import LodGroup
 from .operator.node.dg.lod_thresholds import LodThresholds
 from .operator.node.dg.loft import Loft
 from .operator.node.dg.log import Log
+from .operator.node.dg.log_dl import LogDL
 from .operator.node.dag.transform.look_at import LookAt
 from .operator.node.dg.luminance import Luminance
 from .operator.node.dg.make_group import MakeGroup
@@ -909,8 +956,16 @@ from .operator.node.dg.material_template_override import (
 )
 from .operator.node.dg.material_x_material import MaterialXMaterial
 from .operator.node.dg.max import Max
+from .operator.node.dg.max_dl import MaxDL
 from .operator.node.dg.maya_usd_geom_node import MayaUsdGeomNode
+from .operator.node.dag.shape.maya_usd_geometry_gizmo_shape import (
+    MayaUsdGeometryGizmoShape,
+)
 from .operator.node.dg.maya_usd_layer_manager import MayaUsdLayerManager
+from .operator.node.dag.shape.maya_usd_proxy_shape import MayaUsdProxyShape
+from .operator.node.dag.shape.maya_usd_proxy_shape_base import (
+    MayaUsdProxyShapeBase,
+)
 from .operator.node.dg.maya_usd_proxy_shape_listener import (
     MayaUsdProxyShapeListener,
 )
@@ -921,7 +976,9 @@ from .operator.node.dg.membrane import Membrane
 from .operator.node.dag.shape.mesh import Mesh
 from .operator.node.dag.transform.mesh_var_group import MeshVarGroup
 from .operator.node.dg.min import Min
+from .operator.node.dg.min_dl import MinDL
 from .operator.node.dg.modulo import Modulo
+from .operator.node.dg.modulo_dl import ModuloDL
 from .operator.node.dg.morph import Morph
 from .operator.node.dg.motion_path import MotionPath
 from .operator.node.dg.motion_trail import MotionTrail
@@ -929,13 +986,21 @@ from .operator.node.dag.shape.motion_trail_shape import MotionTrailShape
 from .operator.node.dg.mountain import Mountain
 from .operator.node.dg.movie import Movie
 from .operator.node.dg.mp_birail_srf import MpBirailSrf
+from .operator.node.dg.mult_dl import MultDL
 from .operator.node.dg.mult_double_linear import MultDoubleLinear
 from .operator.node.dg.mult_matrix import MultMatrix
 from .operator.node.dg.multilister_light import MultilisterLight
 from .operator.node.dg.multiply import Multiply
+from .operator.node.dg.multiply_dl import MultiplyDL
 from .operator.node.dg.multiply_divide import MultiplyDivide
 from .operator.node.dg.multiply_point_by_matrix import MultiplyPointByMatrix
+from .operator.node.dg.multiply_point_by_matrix_dl import (
+    MultiplyPointByMatrixDL,
+)
 from .operator.node.dg.multiply_vector_by_matrix import MultiplyVectorByMatrix
+from .operator.node.dg.multiply_vector_by_matrix_dl import (
+    MultiplyVectorByMatrixDL,
+)
 from .operator.node.dg.mute import Mute
 from .operator.node.dag.shape.n_cloth import NCloth
 from .operator.node.dg.n_component import NComponent
@@ -943,6 +1008,7 @@ from .operator.node.dag.shape.n_particle import NParticle
 from .operator.node.dag.shape.n_rigid import NRigid
 from .operator.node.dg.nearest_point_on_curve import NearestPointOnCurve
 from .operator.node.dg.negate import Negate
+from .operator.node.dg.negate_dl import NegateDL
 from .operator.node.dg.network import Network
 from .operator.node.dag.transform.newton_field import NewtonField
 from .operator.node.dg.node_graph_editor_bookmark_info import (
@@ -955,6 +1021,7 @@ from .operator.node.dg.noise import Noise
 from .operator.node.dg.non_linear import NonLinear
 from .operator.node.dag.transform.normal_constraint import NormalConstraint
 from .operator.node.dg.normalize import Normalize
+from .operator.node.dg.normalize_dl import NormalizeDL
 from .operator.node.dag.transform.nucleus import Nucleus
 from .operator.node.dag.shape.nurbs_curve import NurbsCurve
 from .operator.node.dg.nurbs_curve_to_bezier import NurbsCurveToBezier
@@ -986,6 +1053,7 @@ from .operator.node.dag.transform.old_normal_constraint import (
 from .operator.node.dag.transform.old_tangent_constraint import (
     OldTangentConstraint,
 )
+from .operator.node.dg.open_pbr_surface import OpenPBRSurface
 from .operator.node.dg.optical_fx import OpticalFX
 from .operator.node.dag.transform.orient_constraint import OrientConstraint
 from .operator.node.dag.shape.orientation_marker import OrientationMarker
@@ -1018,6 +1086,7 @@ from .operator.node.dag.transform.point_constraint import PointConstraint
 from .operator.node.dag.transform.point_emitter import PointEmitter
 from .operator.node.dag.shape.point_light import PointLight
 from .operator.node.dg.point_matrix_mult import PointMatrixMult
+from .operator.node.dg.point_matrix_mult_dl import PointMatrixMultDL
 from .operator.node.dg.point_on_curve_info import PointOnCurveInfo
 from .operator.node.dag.transform.point_on_poly_constraint import (
     PointOnPolyConstraint,
@@ -1113,6 +1182,7 @@ from .operator.node.dg.poly_remesh import PolyRemesh
 from .operator.node.dg.poly_retopo import PolyRetopo
 from .operator.node.dg.poly_separate import PolySeparate
 from .operator.node.dg.poly_sew_edge import PolySewEdge
+from .operator.node.dg.poly_smart_bevel import PolySmartBevel
 from .operator.node.dg.poly_smart_extrude import PolySmartExtrude
 from .operator.node.dg.poly_smooth import PolySmooth
 from .operator.node.dg.poly_smooth_face import PolySmoothFace
@@ -1143,6 +1213,7 @@ from .operator.node.dg.pose_interpolator_manager import PoseInterpolatorManager
 from .operator.node.dag.shape.position_marker import PositionMarker
 from .operator.node.dg.post_process_list import PostProcessList
 from .operator.node.dg.power import Power
+from .operator.node.dg.power_dl import PowerDL
 from .operator.node.dg.precomp_export import PrecompExport
 from .operator.node.dg.premultiply import Premultiply
 from .operator.node.dag.transform.primitive_falloff import PrimitiveFalloff
@@ -1226,14 +1297,18 @@ from .operator.node.dg.rigid_solver import RigidSolver
 from .operator.node.dg.rock import Rock
 from .operator.node.dg.rotate_helper import RotateHelper
 from .operator.node.dg.rotate_vector import RotateVector
+from .operator.node.dg.rotate_vector_dl import RotateVectorDL
 from .operator.node.dg.rotation_from_matrix import RotationFromMatrix
 from .operator.node.dg.round import Round
 from .operator.node.dg.round_constant_radius import RoundConstantRadius
+from .operator.node.dg.round_dl import RoundDL
 from .operator.node.dg.row_from_matrix import RowFromMatrix
+from .operator.node.dg.row_from_matrix_dl import RowFromMatrixDL
 from .operator.node.dg.sampler import Sampler
 from .operator.node.dg.sampler_info import SamplerInfo
 from .operator.node.dag.transform.scale_constraint import ScaleConstraint
 from .operator.node.dg.scale_from_matrix import ScaleFromMatrix
+from .operator.node.dg.scale_from_matrix_dl import ScaleFromMatrixDL
 from .operator.node.dg.script import Script
 from .operator.node.dg.sculpt import Sculpt
 from .operator.node.dg.selection_list_operator import SelectionListOperator
@@ -1249,18 +1324,21 @@ from .operator.node.dg.shape_editor_manager import ShapeEditorManager
 from .operator.node.dg.shell_deformer import ShellDeformer
 from .operator.node.dg.shell_tessellate import ShellTessellate
 from .operator.node.dg.shot import Shot
+from .operator.node.dg.shot_label import ShotLabel
 from .operator.node.dg.shrink_wrap import ShrinkWrap
 from .operator.node.dg.simple_selector import SimpleSelector
 from .operator.node.dg.simple_test_node import SimpleTestNode
 from .operator.node.dg.simple_volume_shader import SimpleVolumeShader
 from .operator.node.dg.simplex_noise import SimplexNoise
 from .operator.node.dg.sin import Sin
+from .operator.node.dg.sin_dl import SinDL
 from .operator.node.dg.single_shading_switch import SingleShadingSwitch
 from .operator.node.dag.shape.sketch_plane import SketchPlane
 from .operator.node.dg.skin_binding import SkinBinding
 from .operator.node.dg.skin_cluster import SkinCluster
 from .operator.node.dg.smooth_curve import SmoothCurve
 from .operator.node.dg.smooth_step import SmoothStep
+from .operator.node.dg.smooth_step_dl import SmoothStepDL
 from .operator.node.dg.smooth_tangent_srf import SmoothTangentSrf
 from .operator.node.dg.snapshot import Snapshot
 from .operator.node.dag.shape.snapshot_shape import SnapshotShape
@@ -1306,7 +1384,9 @@ from .operator.node.dg.subdiv_to_nurbs import SubdivToNurbs
 from .operator.node.dg.subdiv_to_poly import SubdivToPoly
 from .operator.node.dg.subset_falloff import SubsetFalloff
 from .operator.node.dg.subtract import Subtract
+from .operator.node.dg.subtract_dl import SubtractDL
 from .operator.node.dg.sum import Sum
+from .operator.node.dg.sum_dl import SumDL
 from .operator.node.dg.surface_info import SurfaceInfo
 from .operator.node.dg.surface_luminance import SurfaceLuminance
 from .operator.node.dg.surface_shader import SurfaceShader
@@ -1316,6 +1396,7 @@ from .operator.node.dg.sweep_mesh_creator import SweepMeshCreator
 from .operator.node.dg.sweep_profile_converter import SweepProfileConverter
 from .operator.node.dag.transform.symmetry_constraint import SymmetryConstraint
 from .operator.node.dg.tan import Tan
+from .operator.node.dg.tan_dl import TanDL
 from .operator.node.dag.transform.tangent_constraint import TangentConstraint
 from .operator.node.dg.tension import Tension
 from .operator.node.dg.tex_lattice import TexLattice
@@ -1345,15 +1426,27 @@ from .operator.node.dg.transfer_falloff import TransferFalloff
 from .operator.node.dag.transform._core import Transform
 from .operator.node.dg.transform_geometry import TransformGeometry
 from .operator.node.dg.translation_from_matrix import TranslationFromMatrix
+from .operator.node.dg.translation_from_matrix_dl import (
+    TranslationFromMatrixDL,
+)
 from .operator.node.dg.transpose_matrix import TransposeMatrix
 from .operator.node.dg.trim import Trim
 from .operator.node.dg.trim_with_boundaries import TrimWithBoundaries
 from .operator.node.dg.triple_shading_switch import TripleShadingSwitch
 from .operator.node.dg.truncate import Truncate
+from .operator.node.dg.truncate_dl import TruncateDL
 from .operator.node.dag.transform.turbulence_field import TurbulenceField
 from .operator.node.dg.tweak import Tweak
 from .operator.node.dg.type import Type
 from .operator.node.dg.type_extrude import TypeExtrude
+from .operator.node.dag.shape.ufe_light_area import UfeLightArea
+from .operator.node.dag.shape.ufe_light_cylinder import UfeLightCylinder
+from .operator.node.dag.shape.ufe_light_default import UfeLightDefault
+from .operator.node.dag.shape.ufe_light_directional import UfeLightDirectional
+from .operator.node.dag.shape.ufe_light_disk import UfeLightDisk
+from .operator.node.dag.shape.ufe_light_dome import UfeLightDome
+from .operator.node.dag.shape.ufe_light_sphere import UfeLightSphere
+from .operator.node.dag.shape.ufe_light_spot import UfeLightSpot
 from .operator.node.dag.shape.ufe_proxy_camera_shape import UfeProxyCameraShape
 from .operator.node.dag.transform.ufe_proxy_transform import UfeProxyTransform
 from .operator.node.dg.uniform_falloff import UniformFalloff
@@ -1388,6 +1481,7 @@ from .operator.node.dg.wood import Wood
 from .operator.node.dg.wrap import Wrap
 from .operator.node.dg.wt_add_matrix import WtAddMatrix
 from .operator.node.dg.xgm_curve_to_spline import XgmCurveToSpline
+from .operator.node.dag.shape.xgm_description import XgmDescription
 from .operator.node.dg.xgm_hair_mapping import XgmHairMapping
 from .operator.node.dg.xgm_make_guide import XgmMakeGuide
 from .operator.node.dg.xgm_modifier_base import XgmModifierBase
@@ -1403,6 +1497,9 @@ from .operator.node.dg.xgm_modifier_sculpt import XgmModifierSculpt
 from .operator.node.dg.xgm_se_expr import XgmSeExpr
 from .operator.node.dg.xgm_spline_base import XgmSplineBase
 from .operator.node.dg.xgm_spline_cache import XgmSplineCache
+from .operator.node.dag.shape.xgm_spline_description import (
+    XgmSplineDescription,
+)
 
 class ExistingNode:
     def __new__(
@@ -1850,6 +1947,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Unfold3DUnfold: ...
     @staticmethod
+    def UsdDefaultSettings(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UsdDefaultSettings: ...
+    @staticmethod
     def aboutToSetValueTestNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -1874,11 +1977,29 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Absolute: ...
     @staticmethod
+    def absoluteDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AbsoluteDL: ...
+    @staticmethod
     def acos(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Acos: ...
+    @staticmethod
+    def acosDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AcosDL: ...
+    @staticmethod
+    def addDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AddDL: ...
     @staticmethod
     def addDoubleLinear(
         node: str | om.MObject,
@@ -2066,6 +2187,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> AiCompare: ...
     @staticmethod
+    def aiCompareString(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AiCompareString: ...
+    @staticmethod
     def aiComplement(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2180,6 +2307,18 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> AiFraction: ...
     @staticmethod
+    def aiGaussianSplat(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AiGaussianSplat: ...
+    @staticmethod
+    def aiGaussianSplatShader(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AiGaussianSplatShader: ...
+    @staticmethod
     def aiGobo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2233,6 +2372,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiImagerExposure: ...
+    @staticmethod
+    def aiImagerInference(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AiImagerInference: ...
     @staticmethod
     def aiImagerLensEffects(
         node: str | om.MObject,
@@ -2323,6 +2468,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiLightPortal: ...
+    @staticmethod
+    def aiLine(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AiLine: ...
     @staticmethod
     def aiLog(
         node: str | om.MObject,
@@ -2420,6 +2571,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> AiMultiply: ...
     @staticmethod
+    def aiNearestPoints(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AiNearestPoints: ...
+    @staticmethod
     def aiNegate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2443,6 +2600,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiNormalize: ...
+    @staticmethod
+    def aiOpenPBRSurface(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AiOpenPBRSurface: ...
     @staticmethod
     def aiOptions(
         node: str | om.MObject,
@@ -2570,6 +2733,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> AiSetTransform: ...
     @staticmethod
+    def aiShaderToRgba(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AiShaderToRgba: ...
+    @staticmethod
     def aiShadowMatte(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2695,6 +2864,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AiThinFilm: ...
+    @staticmethod
+    def aiToneZones(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AiToneZones: ...
     @staticmethod
     def aiToon(
         node: str | om.MObject,
@@ -2906,6 +3081,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> AngleBetween: ...
     @staticmethod
+    def angleBetweenDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AngleBetweenDL: ...
+    @staticmethod
     def angleDimension(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -3055,6 +3236,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AnimCurveUU: ...
+    @staticmethod
+    def animInContextNode(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AnimInContextNode: ...
     @staticmethod
     def animLayer(
         node: str | om.MObject,
@@ -3212,6 +3399,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Asin: ...
     @staticmethod
+    def asinDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AsinDL: ...
+    @staticmethod
     def atan(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -3223,6 +3416,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Atan2: ...
+    @staticmethod
+    def atan2DL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> Atan2DL: ...
+    @staticmethod
+    def atanDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AtanDL: ...
     @staticmethod
     def attachCurve(
         node: str | om.MObject,
@@ -3254,6 +3459,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Average: ...
     @staticmethod
+    def averageDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AverageDL: ...
+    @staticmethod
     def avgCurves(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -3283,6 +3494,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> AxisFromMatrix: ...
+    @staticmethod
+    def axisFromMatrixDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> AxisFromMatrixDL: ...
     @staticmethod
     def baseLattice(
         node: str | om.MObject,
@@ -4262,11 +4479,29 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BifrostBoard: ...
     @staticmethod
+    def bifrostClosureConverter(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BifrostClosureConverter: ...
+    @staticmethod
     def bifrostGeoToMaya(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BifrostGeoToMaya: ...
+    @staticmethod
+    def bifrostGraphShape(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BifrostGraphShape: ...
+    @staticmethod
+    def bifrostRiggingContainer(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BifrostRiggingContainer: ...
     @staticmethod
     def blendColorSets(
         node: str | om.MObject,
@@ -4460,6 +4695,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Ceil: ...
     @staticmethod
+    def ceilDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> CeilDL: ...
+    @staticmethod
     def channels(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -4519,6 +4760,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ClampRange: ...
+    @staticmethod
+    def clampRangeDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> ClampRangeDL: ...
     @staticmethod
     def clipGhostShape(
         node: str | om.MObject,
@@ -4670,6 +4917,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> ColumnFromMatrix: ...
     @staticmethod
+    def columnFromMatrixDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> ColumnFromMatrixDL: ...
+    @staticmethod
     def combinationShape(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -4766,6 +5019,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Cos: ...
     @staticmethod
+    def cosDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> CosDL: ...
+    @staticmethod
     def cpvColor(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -4807,6 +5066,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> CrossProduct: ...
+    @staticmethod
+    def crossProductDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> CrossProductDL: ...
     @staticmethod
     def cryptomatte(
         node: str | om.MObject,
@@ -5024,6 +5289,36 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Determinant: ...
     @staticmethod
+    def determinantDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DeterminantDL: ...
+    @staticmethod
+    def dgaDelta(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DgaDelta: ...
+    @staticmethod
+    def dgaTension(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DgaTension: ...
+    @staticmethod
+    def dgaToArray(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DgaToArray: ...
+    @staticmethod
+    def dgaVisualizer(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DgaVisualizer: ...
+    @staticmethod
     def directedDisc(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5066,6 +5361,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> DistanceBetween: ...
     @staticmethod
+    def distanceBetweenDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DistanceBetweenDL: ...
+    @staticmethod
     def distanceDimShape(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5078,6 +5379,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Divide: ...
     @staticmethod
+    def divideDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DivideDL: ...
+    @staticmethod
     def dof(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5089,6 +5396,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> DotProduct: ...
+    @staticmethod
+    def dotProductDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> DotProductDL: ...
     @staticmethod
     def doubleShadingSwitch(
         node: str | om.MObject,
@@ -5203,6 +5516,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Equal: ...
+    @staticmethod
+    def equalDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> EqualDL: ...
     @staticmethod
     def eulerToQuat(
         node: str | om.MObject,
@@ -5348,6 +5667,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Floor: ...
     @staticmethod
+    def floorDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> FloorDL: ...
+    @staticmethod
     def flow(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5468,6 +5793,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> GlobalStitch: ...
     @staticmethod
+    def gpuCache(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> GpuCache: ...
+    @staticmethod
     def granite(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5503,6 +5834,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> GreaterThan: ...
+    @staticmethod
+    def greaterThanDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> GreaterThanDL: ...
     @staticmethod
     def grid(
         node: str | om.MObject,
@@ -5810,6 +6147,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> InverseLerp: ...
     @staticmethod
+    def inverseLerpDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> InverseLerpDL: ...
+    @staticmethod
     def inverseMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -5894,17 +6237,35 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Length: ...
     @staticmethod
+    def lengthDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> LengthDL: ...
+    @staticmethod
     def lerp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Lerp: ...
     @staticmethod
+    def lerpDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> LerpDL: ...
+    @staticmethod
     def lessThan(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> LessThan: ...
+    @staticmethod
+    def lessThanDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> LessThanDL: ...
     @staticmethod
     def lightEditor(
         node: str | om.MObject,
@@ -6013,6 +6374,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Log: ...
+    @staticmethod
+    def logDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> LogDL: ...
     @staticmethod
     def lookAt(
         node: str | om.MObject,
@@ -6164,17 +6531,41 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Max: ...
     @staticmethod
+    def maxDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MaxDL: ...
+    @staticmethod
     def mayaUsdGeomNode(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MayaUsdGeomNode: ...
     @staticmethod
+    def mayaUsdGeometryGizmoShape(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MayaUsdGeometryGizmoShape: ...
+    @staticmethod
     def mayaUsdLayerManager(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MayaUsdLayerManager: ...
+    @staticmethod
+    def mayaUsdProxyShape(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MayaUsdProxyShape: ...
+    @staticmethod
+    def mayaUsdProxyShapeBase(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MayaUsdProxyShapeBase: ...
     @staticmethod
     def mayaUsdProxyShapeListener(
         node: str | om.MObject,
@@ -6212,11 +6603,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Min: ...
     @staticmethod
+    def minDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MinDL: ...
+    @staticmethod
     def modulo(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Modulo: ...
+    @staticmethod
+    def moduloDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> ModuloDL: ...
     @staticmethod
     def morph(
         node: str | om.MObject,
@@ -6260,6 +6663,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> MpBirailSrf: ...
     @staticmethod
+    def multDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MultDL: ...
+    @staticmethod
     def multDoubleLinear(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -6284,6 +6693,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Multiply: ...
     @staticmethod
+    def multiplyDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MultiplyDL: ...
+    @staticmethod
     def multiplyDivide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -6296,11 +6711,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> MultiplyPointByMatrix: ...
     @staticmethod
+    def multiplyPointByMatrixDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MultiplyPointByMatrixDL: ...
+    @staticmethod
     def multiplyVectorByMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> MultiplyVectorByMatrix: ...
+    @staticmethod
+    def multiplyVectorByMatrixDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> MultiplyVectorByMatrixDL: ...
     @staticmethod
     def mute(
         node: str | om.MObject,
@@ -6343,6 +6770,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Negate: ...
+    @staticmethod
+    def negateDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> NegateDL: ...
     @staticmethod
     def network(
         node: str | om.MObject,
@@ -6391,6 +6824,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Normalize: ...
+    @staticmethod
+    def normalizeDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> NormalizeDL: ...
     @staticmethod
     def not_(
         node: str | om.MObject,
@@ -6559,6 +6998,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> OldTangentConstraint: ...
+    @staticmethod
+    def openPBRSurface(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> OpenPBRSurface: ...
     @staticmethod
     def opticalFX(
         node: str | om.MObject,
@@ -6757,6 +7202,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> PointMatrixMult: ...
+    @staticmethod
+    def pointMatrixMultDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> PointMatrixMultDL: ...
     @staticmethod
     def pointOnCurveInfo(
         node: str | om.MObject,
@@ -7304,6 +7755,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> PolySewEdge: ...
     @staticmethod
+    def polySmartBevel(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> PolySmartBevel: ...
+    @staticmethod
     def polySmartExtrude(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -7483,6 +7940,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Power: ...
+    @staticmethod
+    def powerDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> PowerDL: ...
     @staticmethod
     def precompExport(
         node: str | om.MObject,
@@ -7910,6 +8373,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> RotateVector: ...
     @staticmethod
+    def rotateVectorDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> RotateVectorDL: ...
+    @staticmethod
     def rotationFromMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -7928,11 +8397,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> RoundConstantRadius: ...
     @staticmethod
+    def roundDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> RoundDL: ...
+    @staticmethod
     def rowFromMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> RowFromMatrix: ...
+    @staticmethod
+    def rowFromMatrixDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> RowFromMatrixDL: ...
     @staticmethod
     def sampler(
         node: str | om.MObject,
@@ -7957,6 +8438,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ScaleFromMatrix: ...
+    @staticmethod
+    def scaleFromMatrixDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> ScaleFromMatrixDL: ...
     @staticmethod
     def script(
         node: str | om.MObject,
@@ -8048,6 +8535,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Shot: ...
     @staticmethod
+    def shotLabel(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> ShotLabel: ...
+    @staticmethod
     def shrinkWrap(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8084,6 +8577,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Sin: ...
     @staticmethod
+    def sinDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> SinDL: ...
+    @staticmethod
     def singleShadingSwitch(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8119,6 +8618,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> SmoothStep: ...
+    @staticmethod
+    def smoothStepDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> SmoothStepDL: ...
     @staticmethod
     def smoothTangentSrf(
         node: str | om.MObject,
@@ -8378,11 +8883,23 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Subtract: ...
     @staticmethod
+    def subtractDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> SubtractDL: ...
+    @staticmethod
     def sum(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Sum: ...
+    @staticmethod
+    def sumDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> SumDL: ...
     @staticmethod
     def surfaceInfo(
         node: str | om.MObject,
@@ -8437,6 +8954,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> Tan: ...
+    @staticmethod
+    def tanDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> TanDL: ...
     @staticmethod
     def tangentConstraint(
         node: str | om.MObject,
@@ -8588,6 +9111,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> TranslationFromMatrix: ...
     @staticmethod
+    def translationFromMatrixDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> TranslationFromMatrixDL: ...
+    @staticmethod
     def transposeMatrix(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8618,6 +9147,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> Truncate: ...
     @staticmethod
+    def truncateDL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> TruncateDL: ...
+    @staticmethod
     def turbulenceField(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8641,6 +9176,54 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> TypeExtrude: ...
+    @staticmethod
+    def ufeLightArea(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeLightArea: ...
+    @staticmethod
+    def ufeLightCylinder(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeLightCylinder: ...
+    @staticmethod
+    def ufeLightDefault(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeLightDefault: ...
+    @staticmethod
+    def ufeLightDirectional(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeLightDirectional: ...
+    @staticmethod
+    def ufeLightDisk(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeLightDisk: ...
+    @staticmethod
+    def ufeLightDome(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeLightDome: ...
+    @staticmethod
+    def ufeLightSphere(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeLightSphere: ...
+    @staticmethod
+    def ufeLightSpot(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> UfeLightSpot: ...
     @staticmethod
     def ufeProxyCameraShape(
         node: str | om.MObject,
@@ -8846,6 +9429,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> XgmCurveToSpline: ...
     @staticmethod
+    def xgmDescription(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> XgmDescription: ...
+    @staticmethod
     def xgmHairMapping(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -8935,3 +9524,9 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> XgmSplineCache: ...
+    @staticmethod
+    def xgmSplineDescription(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> XgmSplineDescription: ...

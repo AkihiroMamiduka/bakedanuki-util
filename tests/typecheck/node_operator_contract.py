@@ -1844,7 +1844,7 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="mesh"
     )
     assert_type(mesh_transform, Transform)
-    assert_type(created_mesh, Mesh)
+    assert isinstance(created_mesh, Mesh)
 
     camera_transform, created_camera = nodes.create.with_transform.camera(
         name="camera",
@@ -1861,7 +1861,7 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(dynamic_shape, Shape)
 
     mesh = nodes.create.mesh(name="meshShape", parent=parent)
-    assert_type(mesh, Mesh)
+    assert isinstance(mesh, Mesh)
     assert_type(mesh.inMesh, DataMeshPlugOperator)
     assert_type(mesh.visibility, BoolPlugOperator)
 
@@ -1874,11 +1874,11 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(locator.localPosition, LocalPositionPlugOperator)
 
     curve = nodes.create.nurbsCurve(name="curveShape", parent=parent)
-    assert_type(curve, NurbsCurve)
+    assert isinstance(curve, NurbsCurve)
     assert_type(curve.create_, DataNurbsCurvePlugOperator)
 
     surface = nodes.create.nurbsSurface(name="surfaceShape", parent=parent)
-    assert_type(surface, NurbsSurface)
+    assert isinstance(surface, NurbsSurface)
     assert_type(surface.create_, DataNurbsSurfacePlugOperator)
 
     base_lattice = nodes.create.baseLattice(
@@ -1891,7 +1891,7 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="bezierCurveShape",
         parent=parent,
     )
-    assert_type(bezier_curve, BezierCurve)
+    assert isinstance(bezier_curve, BezierCurve)
     assert_type(bezier_curve.create_, DataNurbsCurvePlugOperator)
 
     lattice = nodes.create.lattice(
@@ -2176,7 +2176,7 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="hairSystemShape",
         parent=parent,
     )
-    assert_type(hair_system, HairSystem)
+    assert isinstance(hair_system, HairSystem)
     assert_type(hair_system.collideStrength, FloatPlugOperator)
 
     spring = nodes.create.spring(
@@ -2197,28 +2197,28 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="nClothShape",
         parent=parent,
     )
-    assert_type(n_cloth, NCloth)
+    assert isinstance(n_cloth, NCloth)
     assert_type(n_cloth.thickness, FloatPlugOperator)
 
     n_particle = nodes.create.nParticle(
         name="nParticleShape",
         parent=parent,
     )
-    assert_type(n_particle, NParticle)
+    assert isinstance(n_particle, NParticle)
     assert_type(n_particle.currentTime, TimePlugOperator)
 
     n_rigid = nodes.create.nRigid(
         name="nRigidShape",
         parent=parent,
     )
-    assert_type(n_rigid, NRigid)
+    assert isinstance(n_rigid, NRigid)
     assert_type(n_rigid.thickness, FloatPlugOperator)
 
     particle = nodes.create.particle(
         name="particleShape",
         parent=parent,
     )
-    assert_type(particle, Particle)
+    assert isinstance(particle, Particle)
     assert_type(particle.currentTime, TimePlugOperator)
 
     rigid_body = nodes.create.rigidBody(
@@ -2232,14 +2232,14 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="greasePlaneShape",
         parent=parent,
     )
-    assert_type(grease_plane, GreasePlane)
+    assert isinstance(grease_plane, GreasePlane)
     assert_type(grease_plane.lockedToCamera, BoolPlugOperator)
 
     grease_plane_render_shape = nodes.create.greasePlaneRenderShape(
         name="greasePlaneRenderShape",
         parent=parent,
     )
-    assert_type(grease_plane_render_shape, GreasePlaneRenderShape)
+    assert isinstance(grease_plane_render_shape, GreasePlaneRenderShape)
     assert_type(
         grease_plane_render_shape.visibleFraction,
         FloatPlugOperator,
@@ -2277,7 +2277,7 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="imagePlaneShape",
         parent=parent,
     )
-    assert_type(image_plane, ImagePlane)
+    assert isinstance(image_plane, ImagePlane)
     assert_type(image_plane.imageName, DataStringPlugOperator)
 
     sketch_plane = nodes.create.sketchPlane(
@@ -2318,7 +2318,7 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="areaLightShape",
         parent=parent,
     )
-    assert_type(area_light, AreaLight)
+    assert isinstance(area_light, AreaLight)
     assert_type(area_light.aiExposure, FloatPlugOperator)
 
     directional_light = nodes.create.directionalLight(
@@ -2331,25 +2331,25 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="pointLightShape",
         parent=parent,
     )
-    assert_type(point_light, PointLight)
+    assert isinstance(point_light, PointLight)
 
     spot_light = nodes.create.spotLight(
         name="spotLightShape",
         parent=parent,
     )
-    assert_type(spot_light, SpotLight)
+    assert isinstance(spot_light, SpotLight)
 
     volume_light = nodes.create.volumeLight(
         name="volumeLightShape",
         parent=parent,
     )
-    assert_type(volume_light, VolumeLight)
+    assert isinstance(volume_light, VolumeLight)
 
     ai_area_light = nodes.create.aiAreaLight(
         name="aiAreaLightShape",
         parent=parent,
     )
-    assert_type(ai_area_light, AiAreaLight)
+    assert isinstance(ai_area_light, AiAreaLight)
     assert_type(ai_area_light.intensity, FloatPlugOperator)
 
     ai_light_portal = nodes.create.aiLightPortal(
@@ -2362,13 +2362,13 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="aiMeshLightShape",
         parent=parent,
     )
-    assert_type(ai_mesh_light, AiMeshLight)
+    assert isinstance(ai_mesh_light, AiMeshLight)
 
     ai_photometric_light = nodes.create.aiPhotometricLight(
         name="aiPhotometricLightShape",
         parent=parent,
     )
-    assert_type(ai_photometric_light, AiPhotometricLight)
+    assert isinstance(ai_photometric_light, AiPhotometricLight)
 
     ai_sky_dome_light = nodes.create.aiSkyDomeLight(
         name="aiSkyDomeLightShape",
@@ -2392,19 +2392,19 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         name="aiStandInShape",
         parent=parent,
     )
-    assert_type(ai_stand_in, AiStandIn)
+    assert isinstance(ai_stand_in, AiStandIn)
 
     ai_volume = nodes.create.aiVolume(
         name="aiVolumeShape",
         parent=parent,
     )
-    assert_type(ai_volume, AiVolume)
+    assert isinstance(ai_volume, AiVolume)
 
-    assert_type(nodes.existing.mesh("existing_mesh"), Mesh)
+    assert isinstance(nodes.existing.mesh("existing_mesh"), Mesh)
     assert_type(nodes.existing.camera("existing_camera"), Camera)
     assert_type(nodes.existing.locator("existing_locator"), Locator)
-    assert_type(nodes.existing.nurbsCurve("existing_curve"), NurbsCurve)
-    assert_type(
+    assert isinstance(nodes.existing.nurbsCurve("existing_curve"), NurbsCurve)
+    assert isinstance(
         nodes.existing.nurbsSurface("existing_surface"),
         NurbsSurface,
     )
@@ -2412,8 +2412,10 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         nodes.existing.ambientLight("existing_ambient_light"),
         AmbientLight,
     )
-    assert_type(nodes.existing.nParticle("existing_n_particle"), NParticle)
-    assert_type(nodes.existing.aiStandIn("existing_stand_in"), AiStandIn)
+    assert isinstance(
+        nodes.existing.nParticle("existing_n_particle"), NParticle
+    )
+    assert isinstance(nodes.existing.aiStandIn("existing_stand_in"), AiStandIn)
     assert_type(
         nodes.existing.baseLattice("existing_base_lattice"),
         BaseLattice,

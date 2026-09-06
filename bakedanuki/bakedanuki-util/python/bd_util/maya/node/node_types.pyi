@@ -17,7 +17,10 @@ from .operator.node.dg.abs_unique_override import (
     AbsUniqueOverride as _AbsUniqueOverride,
 )
 from .operator.node.dg.absolute import Absolute as _Absolute
+from .operator.node.dg.absolute_dl import AbsoluteDL as _AbsoluteDL
 from .operator.node.dg.acos import Acos as _Acos
+from .operator.node.dg.acos_dl import AcosDL as _AcosDL
+from .operator.node.dg.add_dl import AddDL as _AddDL
 from .operator.node.dg.add_double_linear import (
     AddDoubleLinear as _AddDoubleLinear,
 )
@@ -65,6 +68,9 @@ from .operator.node.dg.ai_color_to_float import (
     AiColorToFloat as _AiColorToFloat,
 )
 from .operator.node.dg.ai_compare import AiCompare as _AiCompare
+from .operator.node.dg.ai_compare_string import (
+    AiCompareString as _AiCompareString,
+)
 from .operator.node.dg.ai_complement import AiComplement as _AiComplement
 from .operator.node.dg.ai_complex_ior import AiComplexIor as _AiComplexIor
 from .operator.node.dg.ai_composite import AiComposite as _AiComposite
@@ -88,6 +94,12 @@ from .operator.node.dg.ai_float_to_matrix import (
 from .operator.node.dg.ai_float_to_rgba import AiFloatToRgba as _AiFloatToRgba
 from .operator.node.dg.ai_fog import AiFog as _AiFog
 from .operator.node.dg.ai_fraction import AiFraction as _AiFraction
+from .operator.node.dag.shape.ai_gaussian_splat import (
+    AiGaussianSplat as _AiGaussianSplat,
+)
+from .operator.node.dg.ai_gaussian_splat_shader import (
+    AiGaussianSplatShader as _AiGaussianSplatShader,
+)
 from .operator.node.dg.ai_gobo import AiGobo as _AiGobo
 from .operator.node.dg.ai_hair import AiHair as _AiHair
 from .operator.node.dg.ai_image import AiImage as _AiImage
@@ -108,6 +120,9 @@ from .operator.node.dg.ai_imager_denoiser_optix import (
 )
 from .operator.node.dg.ai_imager_exposure import (
     AiImagerExposure as _AiImagerExposure,
+)
+from .operator.node.dg.ai_imager_inference import (
+    AiImagerInference as _AiImagerInference,
 )
 from .operator.node.dg.ai_imager_lens_effects import (
     AiImagerLensEffects as _AiImagerLensEffects,
@@ -140,6 +155,7 @@ from .operator.node.dg.ai_light_decay import AiLightDecay as _AiLightDecay
 from .operator.node.dag.shape.ai_light_portal import (
     AiLightPortal as _AiLightPortal,
 )
+from .operator.node.dg.ai_line import AiLine as _AiLine
 from .operator.node.dg.ai_log import AiLog as _AiLog
 from .operator.node.dg.ai_look_switch import AiLookSwitch as _AiLookSwitch
 from .operator.node.dg.ai_material_x_shader import (
@@ -166,10 +182,16 @@ from .operator.node.dg.ai_motion_vector import (
     AiMotionVector as _AiMotionVector,
 )
 from .operator.node.dg.ai_multiply import AiMultiply as _AiMultiply
+from .operator.node.dg.ai_nearest_points import (
+    AiNearestPoints as _AiNearestPoints,
+)
 from .operator.node.dg.ai_negate import AiNegate as _AiNegate
 from .operator.node.dg.ai_noise import AiNoise as _AiNoise
 from .operator.node.dg.ai_normal_map import AiNormalMap as _AiNormalMap
 from .operator.node.dg.ai_normalize import AiNormalize as _AiNormalize
+from .operator.node.dg.ai_open_pbr_surface import (
+    AiOpenPBRSurface as _AiOpenPBRSurface,
+)
 from .operator.node.dg.ai_options import AiOptions as _AiOptions
 from .operator.node.dg.ai_osl_shader import AiOslShader as _AiOslShader
 from .operator.node.dg.ai_passthrough import AiPassthrough as _AiPassthrough
@@ -198,6 +220,9 @@ from .operator.node.dg.ai_set_parameter import (
 )
 from .operator.node.dg.ai_set_transform import (
     AiSetTransform as _AiSetTransform,
+)
+from .operator.node.dg.ai_shader_to_rgba import (
+    AiShaderToRgba as _AiShaderToRgba,
 )
 from .operator.node.dg.ai_shadow_matte import AiShadowMatte as _AiShadowMatte
 from .operator.node.dg.ai_shuffle import AiShuffle as _AiShuffle
@@ -234,6 +259,7 @@ from .operator.node.dg.ai_switch_operator import (
     AiSwitchOperator as _AiSwitchOperator,
 )
 from .operator.node.dg.ai_thin_film import AiThinFilm as _AiThinFilm
+from .operator.node.dg.ai_tone_zones import AiToneZones as _AiToneZones
 from .operator.node.dg.ai_toon import AiToon as _AiToon
 from .operator.node.dg.ai_trace_set import AiTraceSet as _AiTraceSet
 from .operator.node.dg.ai_trigo import AiTrigo as _AiTrigo
@@ -293,6 +319,9 @@ from .operator.node.dag.shape.ambient_light import (
     AmbientLight as _AmbientLight,
 )
 from .operator.node.dg.angle_between import AngleBetween as _AngleBetween
+from .operator.node.dg.angle_between_dl import (
+    AngleBetweenDL as _AngleBetweenDL,
+)
 from .operator.node.dag.shape.angle_dimension import (
     AngleDimension as _AngleDimension,
 )
@@ -348,6 +377,9 @@ from .operator.node.dg.anim_curve_ua import AnimCurveUA as _AnimCurveUA
 from .operator.node.dg.anim_curve_ul import AnimCurveUL as _AnimCurveUL
 from .operator.node.dg.anim_curve_ut import AnimCurveUT as _AnimCurveUT
 from .operator.node.dg.anim_curve_uu import AnimCurveUU as _AnimCurveUU
+from .operator.node.dg.anim_in_context_node import (
+    AnimInContextNode as _AnimInContextNode,
+)
 from .operator.node.dg.anim_layer import AnimLayer as _AnimLayer
 from .operator.node.dg.anisotropic import Anisotropic as _Anisotropic
 from .operator.node.dag.shape.annotation_shape import (
@@ -412,8 +444,11 @@ from .operator.node.dg.aruba_tessellate import (
     ArubaTessellate as _ArubaTessellate,
 )
 from .operator.node.dg.asin import Asin as _Asin
+from .operator.node.dg.asin_dl import AsinDL as _AsinDL
 from .operator.node.dg.atan import Atan as _Atan
 from .operator.node.dg.atan2 import Atan2 as _Atan2
+from .operator.node.dg.atan2_dl import Atan2DL as _Atan2DL
+from .operator.node.dg.atan_dl import AtanDL as _AtanDL
 from .operator.node.dg.attach_curve import AttachCurve as _AttachCurve
 from .operator.node.dg.attach_surface import AttachSurface as _AttachSurface
 from .operator.node.dg.attr_hierarchy_test import (
@@ -421,6 +456,7 @@ from .operator.node.dg.attr_hierarchy_test import (
 )
 from .operator.node.dg.audio import Audio as _Audio
 from .operator.node.dg.average import Average as _Average
+from .operator.node.dg.average_dl import AverageDL as _AverageDL
 from .operator.node.dg.avg_curves import AvgCurves as _AvgCurves
 from .operator.node.dg.avg_nurbs_surface_points import (
     AvgNurbsSurfacePoints as _AvgNurbsSurfacePoints,
@@ -433,6 +469,9 @@ from .operator.node.dg.axis_angle_to_quat import (
 )
 from .operator.node.dg.axis_from_matrix import (
     AxisFromMatrix as _AxisFromMatrix,
+)
+from .operator.node.dg.axis_from_matrix_dl import (
+    AxisFromMatrixDL as _AxisFromMatrixDL,
 )
 from .operator.node.dag.shape.base_lattice import BaseLattice as _BaseLattice
 from .operator.node.dg.basic_selector import BasicSelector as _BasicSelector
@@ -791,8 +830,17 @@ from .operator.node.dg.bezier_curve_to_nurbs import (
     BezierCurveToNurbs as _BezierCurveToNurbs,
 )
 from .operator.node.dg.bifrost_board import BifrostBoard as _BifrostBoard
+from .operator.node.dg.bifrost_closure_converter import (
+    BifrostClosureConverter as _BifrostClosureConverter,
+)
 from .operator.node.dg.bifrost_geo_to_maya import (
     BifrostGeoToMaya as _BifrostGeoToMaya,
+)
+from .operator.node.dag.shape.bifrost_graph_shape import (
+    BifrostGraphShape as _BifrostGraphShape,
+)
+from .operator.node.dag.transform.bifrost_rigging_container import (
+    BifrostRiggingContainer as _BifrostRiggingContainer,
 )
 from .operator.node.dg.blend_color_sets import (
     BlendColorSets as _BlendColorSets,
@@ -842,6 +890,7 @@ from .operator.node.dag.shape.camera import Camera as _Camera
 from .operator.node.dg.camera_set import CameraSet as _CameraSet
 from .operator.node.dg.camera_view import CameraView as _CameraView
 from .operator.node.dg.ceil import Ceil as _Ceil
+from .operator.node.dg.ceil_dl import CeilDL as _CeilDL
 from .operator.node.dg.channels import Channels as _Channels
 from .operator.node.dg.character import Character as _Character
 from .operator.node.dg.character_map import CharacterMap as _CharacterMap
@@ -854,6 +903,7 @@ from .operator.node.dg.choice import Choice as _Choice
 from .operator.node.dg.chooser import Chooser as _Chooser
 from .operator.node.dg.clamp import Clamp as _Clamp
 from .operator.node.dg.clamp_range import ClampRange as _ClampRange
+from .operator.node.dg.clamp_range_dl import ClampRangeDL as _ClampRangeDL
 from .operator.node.dag.transform.clip_ghost_shape import (
     ClipGhostShape as _ClipGhostShape,
 )
@@ -897,6 +947,9 @@ from .operator.node.dg.color_profile import ColorProfile as _ColorProfile
 from .operator.node.dg.column_from_matrix import (
     ColumnFromMatrix as _ColumnFromMatrix,
 )
+from .operator.node.dg.column_from_matrix_dl import (
+    ColumnFromMatrixDL as _ColumnFromMatrixDL,
+)
 from .operator.node.dg.combination_shape import (
     CombinationShape as _CombinationShape,
 )
@@ -927,6 +980,7 @@ from .operator.node.dg.controller import Controller as _Controller
 from .operator.node.dg.copy_color_set import CopyColorSet as _CopyColorSet
 from .operator.node.dg.copy_uv_set import CopyUVSet as _CopyUVSet
 from .operator.node.dg.cos import Cos as _Cos
+from .operator.node.dg.cos_dl import CosDL as _CosDL
 from .operator.node.dg.cpv_color import CpvColor as _CpvColor
 from .operator.node.dg.crater import Crater as _Crater
 from .operator.node.dg.crease_set import CreaseSet as _CreaseSet
@@ -936,6 +990,9 @@ from .operator.node.dg.create_color_set import (
 from .operator.node.dg.create_ptex_uv import CreatePtexUV as _CreatePtexUV
 from .operator.node.dg.create_uv_set import CreateUVSet as _CreateUVSet
 from .operator.node.dg.cross_product import CrossProduct as _CrossProduct
+from .operator.node.dg.cross_product_dl import (
+    CrossProductDL as _CrossProductDL,
+)
 from .operator.node.dg.cryptomatte import Cryptomatte as _Cryptomatte
 from .operator.node.dg.curve_from_mesh_co_m import (
     CurveFromMeshCoM as _CurveFromMeshCoM,
@@ -1018,6 +1075,11 @@ from .operator.node.dg.delta_mush import DeltaMush as _DeltaMush
 from .operator.node.dg.detach_curve import DetachCurve as _DetachCurve
 from .operator.node.dg.detach_surface import DetachSurface as _DetachSurface
 from .operator.node.dg.determinant import Determinant as _Determinant
+from .operator.node.dg.determinant_dl import DeterminantDL as _DeterminantDL
+from .operator.node.dg.dga_delta import DgaDelta as _DgaDelta
+from .operator.node.dg.dga_tension import DgaTension as _DgaTension
+from .operator.node.dg.dga_to_array import DgaToArray as _DgaToArray
+from .operator.node.dg.dga_visualizer import DgaVisualizer as _DgaVisualizer
 from .operator.node.dag.shape.directed_disc import (
     DirectedDisc as _DirectedDisc,
 )
@@ -1035,12 +1097,17 @@ from .operator.node.dg.display_layer_manager import (
 from .operator.node.dg.distance_between import (
     DistanceBetween as _DistanceBetween,
 )
+from .operator.node.dg.distance_between_dl import (
+    DistanceBetweenDL as _DistanceBetweenDL,
+)
 from .operator.node.dag.shape.distance_dim_shape import (
     DistanceDimShape as _DistanceDimShape,
 )
 from .operator.node.dg.divide import Divide as _Divide
+from .operator.node.dg.divide_dl import DivideDL as _DivideDL
 from .operator.node.dg.dof import Dof as _Dof
 from .operator.node.dg.dot_product import DotProduct as _DotProduct
+from .operator.node.dg.dot_product_dl import DotProductDL as _DotProductDL
 from .operator.node.dg.double_shading_switch import (
     DoubleShadingSwitch as _DoubleShadingSwitch,
 )
@@ -1068,6 +1135,7 @@ from .operator.node.dag.shape.environment_fog import (
     EnvironmentFog as _EnvironmentFog,
 )
 from .operator.node.dg.equal import Equal as _Equal
+from .operator.node.dg.equal_dl import EqualDL as _EqualDL
 from .operator.node.dg.euler_to_quat import EulerToQuat as _EulerToQuat
 from .operator.node.dg.explode_nurbs_shell import (
     ExplodeNurbsShell as _ExplodeNurbsShell,
@@ -1096,6 +1164,7 @@ from .operator.node.dg.float_logic import FloatLogic as _FloatLogic
 from .operator.node.dg.float_mask import FloatMask as _FloatMask
 from .operator.node.dg.float_math import FloatMath as _FloatMath
 from .operator.node.dg.floor import Floor as _Floor
+from .operator.node.dg.floor_dl import FloorDL as _FloorDL
 from .operator.node.dg.flow import Flow as _Flow
 from .operator.node.dag.transform.fluid_emitter import (
     FluidEmitter as _FluidEmitter,
@@ -1136,6 +1205,7 @@ from .operator.node.dg.global_cache_control import (
     GlobalCacheControl as _GlobalCacheControl,
 )
 from .operator.node.dg.global_stitch import GlobalStitch as _GlobalStitch
+from .operator.node.dag.shape.gpu_cache import GpuCache as _GpuCache
 from .operator.node.dg.granite import Granite as _Granite
 from .operator.node.dag.transform.gravity_field import (
     GravityField as _GravityField,
@@ -1148,6 +1218,7 @@ from .operator.node.dag.shape.grease_plane_render_shape import (
     GreasePlaneRenderShape as _GreasePlaneRenderShape,
 )
 from .operator.node.dg.greater_than import GreaterThan as _GreaterThan
+from .operator.node.dg.greater_than_dl import GreaterThanDL as _GreaterThanDL
 from .operator.node.dg.grid import Grid as _Grid
 from .operator.node.dg.group import Group as _Group
 from .operator.node.dg.group_id import GroupId as _GroupId
@@ -1283,6 +1354,7 @@ from .operator.node.dg.intersect_surface import (
     IntersectSurface as _IntersectSurface,
 )
 from .operator.node.dg.inverse_lerp import InverseLerp as _InverseLerp
+from .operator.node.dg.inverse_lerp_dl import InverseLerpDL as _InverseLerpDL
 from .operator.node.dg.inverse_matrix import InverseMatrix as _InverseMatrix
 from .operator.node.dg.jiggle import Jiggle as _Jiggle
 from .operator.node.dag.transform.joint import Joint as _Joint
@@ -1299,8 +1371,11 @@ from .operator.node.dg.least_squares_modifier import (
 )
 from .operator.node.dg.leather import Leather as _Leather
 from .operator.node.dg.length import Length as _Length
+from .operator.node.dg.length_dl import LengthDL as _LengthDL
 from .operator.node.dg.lerp import Lerp as _Lerp
+from .operator.node.dg.lerp_dl import LerpDL as _LerpDL
 from .operator.node.dg.less_than import LessThan as _LessThan
+from .operator.node.dg.less_than_dl import LessThanDL as _LessThanDL
 from .operator.node.dg.light_editor import LightEditor as _LightEditor
 from .operator.node.dg.light_fog import LightFog as _LightFog
 from .operator.node.dg.light_group import LightGroup as _LightGroup
@@ -1327,6 +1402,7 @@ from .operator.node.dag.transform.lod_group import LodGroup as _LodGroup
 from .operator.node.dg.lod_thresholds import LodThresholds as _LodThresholds
 from .operator.node.dg.loft import Loft as _Loft
 from .operator.node.dg.log import Log as _Log
+from .operator.node.dg.log_dl import LogDL as _LogDL
 from .operator.node.dag.transform.look_at import LookAt as _LookAt
 from .operator.node.dg.luminance import Luminance as _Luminance
 from .operator.node.dg.mash_audio import MASHAudio as _MASHAudio
@@ -1441,11 +1517,21 @@ from .operator.node.dg.material_x_surface_shader import (
     MaterialXSurfaceShader as _MaterialXSurfaceShader,
 )
 from .operator.node.dg.max import Max as _Max
+from .operator.node.dg.max_dl import MaxDL as _MaxDL
 from .operator.node.dg.maya_usd_geom_node import (
     MayaUsdGeomNode as _MayaUsdGeomNode,
 )
+from .operator.node.dag.shape.maya_usd_geometry_gizmo_shape import (
+    MayaUsdGeometryGizmoShape as _MayaUsdGeometryGizmoShape,
+)
 from .operator.node.dg.maya_usd_layer_manager import (
     MayaUsdLayerManager as _MayaUsdLayerManager,
+)
+from .operator.node.dag.shape.maya_usd_proxy_shape import (
+    MayaUsdProxyShape as _MayaUsdProxyShape,
+)
+from .operator.node.dag.shape.maya_usd_proxy_shape_base import (
+    MayaUsdProxyShapeBase as _MayaUsdProxyShapeBase,
 )
 from .operator.node.dg.maya_usd_proxy_shape_listener import (
     MayaUsdProxyShapeListener as _MayaUsdProxyShapeListener,
@@ -1459,7 +1545,9 @@ from .operator.node.dag.transform.mesh_var_group import (
     MeshVarGroup as _MeshVarGroup,
 )
 from .operator.node.dg.min import Min as _Min
+from .operator.node.dg.min_dl import MinDL as _MinDL
 from .operator.node.dg.modulo import Modulo as _Modulo
+from .operator.node.dg.modulo_dl import ModuloDL as _ModuloDL
 from .operator.node.dg.morph import Morph as _Morph
 from .operator.node.dg.motion_path import MotionPath as _MotionPath
 from .operator.node.dg.motion_trail import MotionTrail as _MotionTrail
@@ -1469,6 +1557,7 @@ from .operator.node.dag.shape.motion_trail_shape import (
 from .operator.node.dg.mountain import Mountain as _Mountain
 from .operator.node.dg.movie import Movie as _Movie
 from .operator.node.dg.mp_birail_srf import MpBirailSrf as _MpBirailSrf
+from .operator.node.dg.mult_dl import MultDL as _MultDL
 from .operator.node.dg.mult_double_linear import (
     MultDoubleLinear as _MultDoubleLinear,
 )
@@ -1477,12 +1566,19 @@ from .operator.node.dg.multilister_light import (
     MultilisterLight as _MultilisterLight,
 )
 from .operator.node.dg.multiply import Multiply as _Multiply
+from .operator.node.dg.multiply_dl import MultiplyDL as _MultiplyDL
 from .operator.node.dg.multiply_divide import MultiplyDivide as _MultiplyDivide
 from .operator.node.dg.multiply_point_by_matrix import (
     MultiplyPointByMatrix as _MultiplyPointByMatrix,
 )
+from .operator.node.dg.multiply_point_by_matrix_dl import (
+    MultiplyPointByMatrixDL as _MultiplyPointByMatrixDL,
+)
 from .operator.node.dg.multiply_vector_by_matrix import (
     MultiplyVectorByMatrix as _MultiplyVectorByMatrix,
+)
+from .operator.node.dg.multiply_vector_by_matrix_dl import (
+    MultiplyVectorByMatrixDL as _MultiplyVectorByMatrixDL,
 )
 from .operator.node.dg.mute import Mute as _Mute
 from .operator.node.dag.shape.n_cloth import NCloth as _NCloth
@@ -1493,6 +1589,7 @@ from .operator.node.dg.nearest_point_on_curve import (
     NearestPointOnCurve as _NearestPointOnCurve,
 )
 from .operator.node.dg.negate import Negate as _Negate
+from .operator.node.dg.negate_dl import NegateDL as _NegateDL
 from .operator.node.dg.network import Network as _Network
 from .operator.node.dag.transform.newton_field import (
     NewtonField as _NewtonField,
@@ -1509,6 +1606,7 @@ from .operator.node.dag.transform.normal_constraint import (
     NormalConstraint as _NormalConstraint,
 )
 from .operator.node.dg.normalize import Normalize as _Normalize
+from .operator.node.dg.normalize_dl import NormalizeDL as _NormalizeDL
 from .operator.node.dag.transform.nucleus import Nucleus as _Nucleus
 from .operator.node.dag.shape.nurbs_curve import NurbsCurve as _NurbsCurve
 from .operator.node.dg.nurbs_curve_to_bezier import (
@@ -1567,6 +1665,9 @@ from .operator.node.dag.transform.old_normal_constraint import (
 )
 from .operator.node.dag.transform.old_tangent_constraint import (
     OldTangentConstraint as _OldTangentConstraint,
+)
+from .operator.node.dg.open_pbr_surface import (
+    OpenPBRSurface as _OpenPBRSurface,
 )
 from .operator.node.dg.optical_fx import OpticalFX as _OpticalFX
 from .operator.node.dag.transform.orient_constraint import (
@@ -1631,6 +1732,9 @@ from .operator.node.dag.transform.point_emitter import (
 from .operator.node.dag.shape.point_light import PointLight as _PointLight
 from .operator.node.dg.point_matrix_mult import (
     PointMatrixMult as _PointMatrixMult,
+)
+from .operator.node.dg.point_matrix_mult_dl import (
+    PointMatrixMultDL as _PointMatrixMultDL,
 )
 from .operator.node.dg.point_on_curve_info import (
     PointOnCurveInfo as _PointOnCurveInfo,
@@ -1785,6 +1889,9 @@ from .operator.node.dg.poly_remesh import PolyRemesh as _PolyRemesh
 from .operator.node.dg.poly_retopo import PolyRetopo as _PolyRetopo
 from .operator.node.dg.poly_separate import PolySeparate as _PolySeparate
 from .operator.node.dg.poly_sew_edge import PolySewEdge as _PolySewEdge
+from .operator.node.dg.poly_smart_bevel import (
+    PolySmartBevel as _PolySmartBevel,
+)
 from .operator.node.dg.poly_smart_extrude import (
     PolySmartExtrude as _PolySmartExtrude,
 )
@@ -1835,6 +1942,7 @@ from .operator.node.dg.post_process_list import (
     PostProcessList as _PostProcessList,
 )
 from .operator.node.dg.power import Power as _Power
+from .operator.node.dg.power_dl import PowerDL as _PowerDL
 from .operator.node.dg.precomp_export import PrecompExport as _PrecompExport
 from .operator.node.dg.premultiply import Premultiply as _Premultiply
 from .operator.node.dag.transform.primitive_falloff import (
@@ -1947,6 +2055,9 @@ from .operator.node.dg.rigid_solver import RigidSolver as _RigidSolver
 from .operator.node.dg.rock import Rock as _Rock
 from .operator.node.dg.rotate_helper import RotateHelper as _RotateHelper
 from .operator.node.dg.rotate_vector import RotateVector as _RotateVector
+from .operator.node.dg.rotate_vector_dl import (
+    RotateVectorDL as _RotateVectorDL,
+)
 from .operator.node.dg.rotation_from_matrix import (
     RotationFromMatrix as _RotationFromMatrix,
 )
@@ -1954,7 +2065,11 @@ from .operator.node.dg.round import Round as _Round
 from .operator.node.dg.round_constant_radius import (
     RoundConstantRadius as _RoundConstantRadius,
 )
+from .operator.node.dg.round_dl import RoundDL as _RoundDL
 from .operator.node.dg.row_from_matrix import RowFromMatrix as _RowFromMatrix
+from .operator.node.dg.row_from_matrix_dl import (
+    RowFromMatrixDL as _RowFromMatrixDL,
+)
 from .operator.node.dg.sampler import Sampler as _Sampler
 from .operator.node.dg.sampler_info import SamplerInfo as _SamplerInfo
 from .operator.node.dag.transform.scale_constraint import (
@@ -1962,6 +2077,9 @@ from .operator.node.dag.transform.scale_constraint import (
 )
 from .operator.node.dg.scale_from_matrix import (
     ScaleFromMatrix as _ScaleFromMatrix,
+)
+from .operator.node.dg.scale_from_matrix_dl import (
+    ScaleFromMatrixDL as _ScaleFromMatrixDL,
 )
 from .operator.node.dg.script import Script as _Script
 from .operator.node.dg.sculpt import Sculpt as _Sculpt
@@ -1986,6 +2104,7 @@ from .operator.node.dg.shell_tessellate import (
     ShellTessellate as _ShellTessellate,
 )
 from .operator.node.dg.shot import Shot as _Shot
+from .operator.node.dg.shot_label import ShotLabel as _ShotLabel
 from .operator.node.dg.shrink_wrap import ShrinkWrap as _ShrinkWrap
 from .operator.node.dg.simple_selector import SimpleSelector as _SimpleSelector
 from .operator.node.dg.simple_test_node import (
@@ -1996,6 +2115,7 @@ from .operator.node.dg.simple_volume_shader import (
 )
 from .operator.node.dg.simplex_noise import SimplexNoise as _SimplexNoise
 from .operator.node.dg.sin import Sin as _Sin
+from .operator.node.dg.sin_dl import SinDL as _SinDL
 from .operator.node.dg.single_shading_switch import (
     SingleShadingSwitch as _SingleShadingSwitch,
 )
@@ -2004,6 +2124,7 @@ from .operator.node.dg.skin_binding import SkinBinding as _SkinBinding
 from .operator.node.dg.skin_cluster import SkinCluster as _SkinCluster
 from .operator.node.dg.smooth_curve import SmoothCurve as _SmoothCurve
 from .operator.node.dg.smooth_step import SmoothStep as _SmoothStep
+from .operator.node.dg.smooth_step_dl import SmoothStepDL as _SmoothStepDL
 from .operator.node.dg.smooth_tangent_srf import (
     SmoothTangentSrf as _SmoothTangentSrf,
 )
@@ -2076,7 +2197,9 @@ from .operator.node.dg.subdiv_to_nurbs import SubdivToNurbs as _SubdivToNurbs
 from .operator.node.dg.subdiv_to_poly import SubdivToPoly as _SubdivToPoly
 from .operator.node.dg.subset_falloff import SubsetFalloff as _SubsetFalloff
 from .operator.node.dg.subtract import Subtract as _Subtract
+from .operator.node.dg.subtract_dl import SubtractDL as _SubtractDL
 from .operator.node.dg.sum import Sum as _Sum
+from .operator.node.dg.sum_dl import SumDL as _SumDL
 from .operator.node.dg.surface_info import SurfaceInfo as _SurfaceInfo
 from .operator.node.dg.surface_luminance import (
     SurfaceLuminance as _SurfaceLuminance,
@@ -2096,6 +2219,7 @@ from .operator.node.dag.transform.symmetry_constraint import (
     SymmetryConstraint as _SymmetryConstraint,
 )
 from .operator.node.dg.tan import Tan as _Tan
+from .operator.node.dg.tan_dl import TanDL as _TanDL
 from .operator.node.dag.transform.tangent_constraint import (
     TangentConstraint as _TangentConstraint,
 )
@@ -2155,6 +2279,9 @@ from .operator.node.dg.transform_geometry import (
 from .operator.node.dg.translation_from_matrix import (
     TranslationFromMatrix as _TranslationFromMatrix,
 )
+from .operator.node.dg.translation_from_matrix_dl import (
+    TranslationFromMatrixDL as _TranslationFromMatrixDL,
+)
 from .operator.node.dg.transpose_matrix import (
     TransposeMatrix as _TransposeMatrix,
 )
@@ -2166,12 +2293,37 @@ from .operator.node.dg.triple_shading_switch import (
     TripleShadingSwitch as _TripleShadingSwitch,
 )
 from .operator.node.dg.truncate import Truncate as _Truncate
+from .operator.node.dg.truncate_dl import TruncateDL as _TruncateDL
 from .operator.node.dag.transform.turbulence_field import (
     TurbulenceField as _TurbulenceField,
 )
 from .operator.node.dg.tweak import Tweak as _Tweak
 from .operator.node.dg.type import Type as _Type
 from .operator.node.dg.type_extrude import TypeExtrude as _TypeExtrude
+from .operator.node.dag.shape.ufe_light_area import (
+    UfeLightArea as _UfeLightArea,
+)
+from .operator.node.dag.shape.ufe_light_cylinder import (
+    UfeLightCylinder as _UfeLightCylinder,
+)
+from .operator.node.dag.shape.ufe_light_default import (
+    UfeLightDefault as _UfeLightDefault,
+)
+from .operator.node.dag.shape.ufe_light_directional import (
+    UfeLightDirectional as _UfeLightDirectional,
+)
+from .operator.node.dag.shape.ufe_light_disk import (
+    UfeLightDisk as _UfeLightDisk,
+)
+from .operator.node.dag.shape.ufe_light_dome import (
+    UfeLightDome as _UfeLightDome,
+)
+from .operator.node.dag.shape.ufe_light_sphere import (
+    UfeLightSphere as _UfeLightSphere,
+)
+from .operator.node.dag.shape.ufe_light_spot import (
+    UfeLightSpot as _UfeLightSpot,
+)
 from .operator.node.dag.shape.ufe_proxy_camera_shape import (
     UfeProxyCameraShape as _UfeProxyCameraShape,
 )
@@ -2199,6 +2351,9 @@ from .operator.node.dag.transform.unknown_transform import (
 )
 from .operator.node.dg.unpremultiply import Unpremultiply as _Unpremultiply
 from .operator.node.dg.untrim import Untrim as _Untrim
+from .operator.node.dg.usd_default_settings import (
+    UsdDefaultSettings as _UsdDefaultSettings,
+)
 from .operator.node.dg.usd_preview_surface import (
     UsdPreviewSurface as _UsdPreviewSurface,
 )
@@ -2233,6 +2388,9 @@ from .operator.node.dg.wrap import Wrap as _Wrap
 from .operator.node.dg.wt_add_matrix import WtAddMatrix as _WtAddMatrix
 from .operator.node.dg.xgm_curve_to_spline import (
     XgmCurveToSpline as _XgmCurveToSpline,
+)
+from .operator.node.dag.shape.xgm_description import (
+    XgmDescription as _XgmDescription,
 )
 from .operator.node.dg.xgm_hair_mapping import (
     XgmHairMapping as _XgmHairMapping,
@@ -2273,6 +2431,9 @@ from .operator.node.dg.xgm_spline_base import XgmSplineBase as _XgmSplineBase
 from .operator.node.dg.xgm_spline_cache import (
     XgmSplineCache as _XgmSplineCache,
 )
+from .operator.node.dag.shape.xgm_spline_description import (
+    XgmSplineDescription as _XgmSplineDescription,
+)
 
 class NodeTypes:
     def resolve(
@@ -2291,7 +2452,13 @@ class NodeTypes:
     @property
     def Absolute(self) -> type[_Absolute]: ...
     @property
+    def AbsoluteDL(self) -> type[_AbsoluteDL]: ...
+    @property
     def Acos(self) -> type[_Acos]: ...
+    @property
+    def AcosDL(self) -> type[_AcosDL]: ...
+    @property
+    def AddDL(self) -> type[_AddDL]: ...
     @property
     def AddDoubleLinear(self) -> type[_AddDoubleLinear]: ...
     @property
@@ -2355,6 +2522,8 @@ class NodeTypes:
     @property
     def AiCompare(self) -> type[_AiCompare]: ...
     @property
+    def AiCompareString(self) -> type[_AiCompareString]: ...
+    @property
     def AiComplement(self) -> type[_AiComplement]: ...
     @property
     def AiComplexIor(self) -> type[_AiComplexIor]: ...
@@ -2393,6 +2562,10 @@ class NodeTypes:
     @property
     def AiFraction(self) -> type[_AiFraction]: ...
     @property
+    def AiGaussianSplat(self) -> type[_AiGaussianSplat]: ...
+    @property
+    def AiGaussianSplatShader(self) -> type[_AiGaussianSplatShader]: ...
+    @property
     def AiGobo(self) -> type[_AiGobo]: ...
     @property
     def AiHair(self) -> type[_AiHair]: ...
@@ -2410,6 +2583,8 @@ class NodeTypes:
     def AiImagerDenoiserOptix(self) -> type[_AiImagerDenoiserOptix]: ...
     @property
     def AiImagerExposure(self) -> type[_AiImagerExposure]: ...
+    @property
+    def AiImagerInference(self) -> type[_AiImagerInference]: ...
     @property
     def AiImagerLensEffects(self) -> type[_AiImagerLensEffects]: ...
     @property
@@ -2440,6 +2615,8 @@ class NodeTypes:
     def AiLightDecay(self) -> type[_AiLightDecay]: ...
     @property
     def AiLightPortal(self) -> type[_AiLightPortal]: ...
+    @property
+    def AiLine(self) -> type[_AiLine]: ...
     @property
     def AiLog(self) -> type[_AiLog]: ...
     @property
@@ -2473,6 +2650,8 @@ class NodeTypes:
     @property
     def AiMultiply(self) -> type[_AiMultiply]: ...
     @property
+    def AiNearestPoints(self) -> type[_AiNearestPoints]: ...
+    @property
     def AiNegate(self) -> type[_AiNegate]: ...
     @property
     def AiNoise(self) -> type[_AiNoise]: ...
@@ -2480,6 +2659,8 @@ class NodeTypes:
     def AiNormalMap(self) -> type[_AiNormalMap]: ...
     @property
     def AiNormalize(self) -> type[_AiNormalize]: ...
+    @property
+    def AiOpenPBRSurface(self) -> type[_AiOpenPBRSurface]: ...
     @property
     def AiOptions(self) -> type[_AiOptions]: ...
     @property
@@ -2523,6 +2704,8 @@ class NodeTypes:
     @property
     def AiSetTransform(self) -> type[_AiSetTransform]: ...
     @property
+    def AiShaderToRgba(self) -> type[_AiShaderToRgba]: ...
+    @property
     def AiShadowMatte(self) -> type[_AiShadowMatte]: ...
     @property
     def AiShuffle(self) -> type[_AiShuffle]: ...
@@ -2564,6 +2747,8 @@ class NodeTypes:
     def AiSwitchOperator(self) -> type[_AiSwitchOperator]: ...
     @property
     def AiThinFilm(self) -> type[_AiThinFilm]: ...
+    @property
+    def AiToneZones(self) -> type[_AiToneZones]: ...
     @property
     def AiToon(self) -> type[_AiToon]: ...
     @property
@@ -2637,6 +2822,8 @@ class NodeTypes:
     @property
     def AngleBetween(self) -> type[_AngleBetween]: ...
     @property
+    def AngleBetweenDL(self) -> type[_AngleBetweenDL]: ...
+    @property
     def AngleDimension(self) -> type[_AngleDimension]: ...
     @property
     def AnimBlend(self) -> type[_AnimBlend]: ...
@@ -2691,6 +2878,8 @@ class NodeTypes:
     @property
     def AnimCurveUU(self) -> type[_AnimCurveUU]: ...
     @property
+    def AnimInContextNode(self) -> type[_AnimInContextNode]: ...
+    @property
     def AnimLayer(self) -> type[_AnimLayer]: ...
     @property
     def Anisotropic(self) -> type[_Anisotropic]: ...
@@ -2743,9 +2932,15 @@ class NodeTypes:
     @property
     def Asin(self) -> type[_Asin]: ...
     @property
+    def AsinDL(self) -> type[_AsinDL]: ...
+    @property
     def Atan(self) -> type[_Atan]: ...
     @property
     def Atan2(self) -> type[_Atan2]: ...
+    @property
+    def Atan2DL(self) -> type[_Atan2DL]: ...
+    @property
+    def AtanDL(self) -> type[_AtanDL]: ...
     @property
     def AttachCurve(self) -> type[_AttachCurve]: ...
     @property
@@ -2757,6 +2952,8 @@ class NodeTypes:
     @property
     def Average(self) -> type[_Average]: ...
     @property
+    def AverageDL(self) -> type[_AverageDL]: ...
+    @property
     def AvgCurves(self) -> type[_AvgCurves]: ...
     @property
     def AvgNurbsSurfacePoints(self) -> type[_AvgNurbsSurfacePoints]: ...
@@ -2766,6 +2963,8 @@ class NodeTypes:
     def AxisAngleToQuat(self) -> type[_AxisAngleToQuat]: ...
     @property
     def AxisFromMatrix(self) -> type[_AxisFromMatrix]: ...
+    @property
+    def AxisFromMatrixDL(self) -> type[_AxisFromMatrixDL]: ...
     @property
     def BaseGeometryVarGroup(self) -> type[_BaseGeometryVarGroup]: ...
     @property
@@ -3133,7 +3332,13 @@ class NodeTypes:
     @property
     def BifrostBoard(self) -> type[_BifrostBoard]: ...
     @property
+    def BifrostClosureConverter(self) -> type[_BifrostClosureConverter]: ...
+    @property
     def BifrostGeoToMaya(self) -> type[_BifrostGeoToMaya]: ...
+    @property
+    def BifrostGraphShape(self) -> type[_BifrostGraphShape]: ...
+    @property
+    def BifrostRiggingContainer(self) -> type[_BifrostRiggingContainer]: ...
     @property
     def BlendColorSets(self) -> type[_BlendColorSets]: ...
     @property
@@ -3199,6 +3404,8 @@ class NodeTypes:
     @property
     def Ceil(self) -> type[_Ceil]: ...
     @property
+    def CeilDL(self) -> type[_CeilDL]: ...
+    @property
     def Channels(self) -> type[_Channels]: ...
     @property
     def Character(self) -> type[_Character]: ...
@@ -3218,6 +3425,8 @@ class NodeTypes:
     def Clamp(self) -> type[_Clamp]: ...
     @property
     def ClampRange(self) -> type[_ClampRange]: ...
+    @property
+    def ClampRangeDL(self) -> type[_ClampRangeDL]: ...
     @property
     def ClipGhostShape(self) -> type[_ClipGhostShape]: ...
     @property
@@ -3269,6 +3478,8 @@ class NodeTypes:
     @property
     def ColumnFromMatrix(self) -> type[_ColumnFromMatrix]: ...
     @property
+    def ColumnFromMatrixDL(self) -> type[_ColumnFromMatrixDL]: ...
+    @property
     def CombinationShape(self) -> type[_CombinationShape]: ...
     @property
     def CompactPlugArrayTest(self) -> type[_CompactPlugArrayTest]: ...
@@ -3305,6 +3516,8 @@ class NodeTypes:
     @property
     def Cos(self) -> type[_Cos]: ...
     @property
+    def CosDL(self) -> type[_CosDL]: ...
+    @property
     def CpvColor(self) -> type[_CpvColor]: ...
     @property
     def Crater(self) -> type[_Crater]: ...
@@ -3318,6 +3531,8 @@ class NodeTypes:
     def CreateUVSet(self) -> type[_CreateUVSet]: ...
     @property
     def CrossProduct(self) -> type[_CrossProduct]: ...
+    @property
+    def CrossProductDL(self) -> type[_CrossProductDL]: ...
     @property
     def Cryptomatte(self) -> type[_Cryptomatte]: ...
     @property
@@ -3399,6 +3614,16 @@ class NodeTypes:
     @property
     def Determinant(self) -> type[_Determinant]: ...
     @property
+    def DeterminantDL(self) -> type[_DeterminantDL]: ...
+    @property
+    def DgaDelta(self) -> type[_DgaDelta]: ...
+    @property
+    def DgaTension(self) -> type[_DgaTension]: ...
+    @property
+    def DgaToArray(self) -> type[_DgaToArray]: ...
+    @property
+    def DgaVisualizer(self) -> type[_DgaVisualizer]: ...
+    @property
     def DirectedDisc(self) -> type[_DirectedDisc]: ...
     @property
     def DirectionalLight(self) -> type[_DirectionalLight]: ...
@@ -3413,13 +3638,19 @@ class NodeTypes:
     @property
     def DistanceBetween(self) -> type[_DistanceBetween]: ...
     @property
+    def DistanceBetweenDL(self) -> type[_DistanceBetweenDL]: ...
+    @property
     def DistanceDimShape(self) -> type[_DistanceDimShape]: ...
     @property
     def Divide(self) -> type[_Divide]: ...
     @property
+    def DivideDL(self) -> type[_DivideDL]: ...
+    @property
     def Dof(self) -> type[_Dof]: ...
     @property
     def DotProduct(self) -> type[_DotProduct]: ...
+    @property
+    def DotProductDL(self) -> type[_DotProductDL]: ...
     @property
     def DoubleShadingSwitch(self) -> type[_DoubleShadingSwitch]: ...
     @property
@@ -3458,6 +3689,8 @@ class NodeTypes:
     def EnvironmentFog(self) -> type[_EnvironmentFog]: ...
     @property
     def Equal(self) -> type[_Equal]: ...
+    @property
+    def EqualDL(self) -> type[_EqualDL]: ...
     @property
     def EulerToQuat(self) -> type[_EulerToQuat]: ...
     @property
@@ -3507,6 +3740,8 @@ class NodeTypes:
     @property
     def Floor(self) -> type[_Floor]: ...
     @property
+    def FloorDL(self) -> type[_FloorDL]: ...
+    @property
     def Flow(self) -> type[_Flow]: ...
     @property
     def FluidEmitter(self) -> type[_FluidEmitter]: ...
@@ -3547,6 +3782,8 @@ class NodeTypes:
     @property
     def GlobalStitch(self) -> type[_GlobalStitch]: ...
     @property
+    def GpuCache(self) -> type[_GpuCache]: ...
+    @property
     def Granite(self) -> type[_Granite]: ...
     @property
     def GravityField(self) -> type[_GravityField]: ...
@@ -3558,6 +3795,8 @@ class NodeTypes:
     def GreasePlaneRenderShape(self) -> type[_GreasePlaneRenderShape]: ...
     @property
     def GreaterThan(self) -> type[_GreaterThan]: ...
+    @property
+    def GreaterThanDL(self) -> type[_GreaterThanDL]: ...
     @property
     def Grid(self) -> type[_Grid]: ...
     @property
@@ -3693,6 +3932,8 @@ class NodeTypes:
     @property
     def InverseLerp(self) -> type[_InverseLerp]: ...
     @property
+    def InverseLerpDL(self) -> type[_InverseLerpDL]: ...
+    @property
     def InverseMatrix(self) -> type[_InverseMatrix]: ...
     @property
     def Jiggle(self) -> type[_Jiggle]: ...
@@ -3721,9 +3962,15 @@ class NodeTypes:
     @property
     def Length(self) -> type[_Length]: ...
     @property
+    def LengthDL(self) -> type[_LengthDL]: ...
+    @property
     def Lerp(self) -> type[_Lerp]: ...
     @property
+    def LerpDL(self) -> type[_LerpDL]: ...
+    @property
     def LessThan(self) -> type[_LessThan]: ...
+    @property
+    def LessThanDL(self) -> type[_LessThanDL]: ...
     @property
     def LightEditor(self) -> type[_LightEditor]: ...
     @property
@@ -3760,6 +4007,8 @@ class NodeTypes:
     def Loft(self) -> type[_Loft]: ...
     @property
     def Log(self) -> type[_Log]: ...
+    @property
+    def LogDL(self) -> type[_LogDL]: ...
     @property
     def LookAt(self) -> type[_LookAt]: ...
     @property
@@ -3907,9 +4156,19 @@ class NodeTypes:
     @property
     def Max(self) -> type[_Max]: ...
     @property
+    def MaxDL(self) -> type[_MaxDL]: ...
+    @property
     def MayaUsdGeomNode(self) -> type[_MayaUsdGeomNode]: ...
     @property
+    def MayaUsdGeometryGizmoShape(
+        self,
+    ) -> type[_MayaUsdGeometryGizmoShape]: ...
+    @property
     def MayaUsdLayerManager(self) -> type[_MayaUsdLayerManager]: ...
+    @property
+    def MayaUsdProxyShape(self) -> type[_MayaUsdProxyShape]: ...
+    @property
+    def MayaUsdProxyShapeBase(self) -> type[_MayaUsdProxyShapeBase]: ...
     @property
     def MayaUsdProxyShapeListener(
         self,
@@ -3927,7 +4186,11 @@ class NodeTypes:
     @property
     def Min(self) -> type[_Min]: ...
     @property
+    def MinDL(self) -> type[_MinDL]: ...
+    @property
     def Modulo(self) -> type[_Modulo]: ...
+    @property
+    def ModuloDL(self) -> type[_ModuloDL]: ...
     @property
     def Morph(self) -> type[_Morph]: ...
     @property
@@ -3943,6 +4206,8 @@ class NodeTypes:
     @property
     def MpBirailSrf(self) -> type[_MpBirailSrf]: ...
     @property
+    def MultDL(self) -> type[_MultDL]: ...
+    @property
     def MultDoubleLinear(self) -> type[_MultDoubleLinear]: ...
     @property
     def MultMatrix(self) -> type[_MultMatrix]: ...
@@ -3951,11 +4216,17 @@ class NodeTypes:
     @property
     def Multiply(self) -> type[_Multiply]: ...
     @property
+    def MultiplyDL(self) -> type[_MultiplyDL]: ...
+    @property
     def MultiplyDivide(self) -> type[_MultiplyDivide]: ...
     @property
     def MultiplyPointByMatrix(self) -> type[_MultiplyPointByMatrix]: ...
     @property
+    def MultiplyPointByMatrixDL(self) -> type[_MultiplyPointByMatrixDL]: ...
+    @property
     def MultiplyVectorByMatrix(self) -> type[_MultiplyVectorByMatrix]: ...
+    @property
+    def MultiplyVectorByMatrixDL(self) -> type[_MultiplyVectorByMatrixDL]: ...
     @property
     def Mute(self) -> type[_Mute]: ...
     @property
@@ -3970,6 +4241,8 @@ class NodeTypes:
     def NearestPointOnCurve(self) -> type[_NearestPointOnCurve]: ...
     @property
     def Negate(self) -> type[_Negate]: ...
+    @property
+    def NegateDL(self) -> type[_NegateDL]: ...
     @property
     def Network(self) -> type[_Network]: ...
     @property
@@ -3990,6 +4263,8 @@ class NodeTypes:
     def NormalConstraint(self) -> type[_NormalConstraint]: ...
     @property
     def Normalize(self) -> type[_Normalize]: ...
+    @property
+    def NormalizeDL(self) -> type[_NormalizeDL]: ...
     @property
     def Not(self) -> type[_NodeOperator]: ...
     @property
@@ -4046,6 +4321,8 @@ class NodeTypes:
     def OldNormalConstraint(self) -> type[_OldNormalConstraint]: ...
     @property
     def OldTangentConstraint(self) -> type[_OldTangentConstraint]: ...
+    @property
+    def OpenPBRSurface(self) -> type[_OpenPBRSurface]: ...
     @property
     def OpticalFX(self) -> type[_OpticalFX]: ...
     @property
@@ -4112,6 +4389,8 @@ class NodeTypes:
     def PointLight(self) -> type[_PointLight]: ...
     @property
     def PointMatrixMult(self) -> type[_PointMatrixMult]: ...
+    @property
+    def PointMatrixMultDL(self) -> type[_PointMatrixMultDL]: ...
     @property
     def PointOnCurveInfo(self) -> type[_PointOnCurveInfo]: ...
     @property
@@ -4295,6 +4574,8 @@ class NodeTypes:
     @property
     def PolySewEdge(self) -> type[_PolySewEdge]: ...
     @property
+    def PolySmartBevel(self) -> type[_PolySmartBevel]: ...
+    @property
     def PolySmartExtrude(self) -> type[_PolySmartExtrude]: ...
     @property
     def PolySmooth(self) -> type[_PolySmooth]: ...
@@ -4354,6 +4635,8 @@ class NodeTypes:
     def PostProcessList(self) -> type[_PostProcessList]: ...
     @property
     def Power(self) -> type[_Power]: ...
+    @property
+    def PowerDL(self) -> type[_PowerDL]: ...
     @property
     def PrecompExport(self) -> type[_PrecompExport]: ...
     @property
@@ -4505,13 +4788,19 @@ class NodeTypes:
     @property
     def RotateVector(self) -> type[_RotateVector]: ...
     @property
+    def RotateVectorDL(self) -> type[_RotateVectorDL]: ...
+    @property
     def RotationFromMatrix(self) -> type[_RotationFromMatrix]: ...
     @property
     def Round(self) -> type[_Round]: ...
     @property
     def RoundConstantRadius(self) -> type[_RoundConstantRadius]: ...
     @property
+    def RoundDL(self) -> type[_RoundDL]: ...
+    @property
     def RowFromMatrix(self) -> type[_RowFromMatrix]: ...
+    @property
+    def RowFromMatrixDL(self) -> type[_RowFromMatrixDL]: ...
     @property
     def Sampler(self) -> type[_Sampler]: ...
     @property
@@ -4520,6 +4809,8 @@ class NodeTypes:
     def ScaleConstraint(self) -> type[_ScaleConstraint]: ...
     @property
     def ScaleFromMatrix(self) -> type[_ScaleFromMatrix]: ...
+    @property
+    def ScaleFromMatrixDL(self) -> type[_ScaleFromMatrixDL]: ...
     @property
     def Script(self) -> type[_Script]: ...
     @property
@@ -4553,6 +4844,8 @@ class NodeTypes:
     @property
     def Shot(self) -> type[_Shot]: ...
     @property
+    def ShotLabel(self) -> type[_ShotLabel]: ...
+    @property
     def ShrinkWrap(self) -> type[_ShrinkWrap]: ...
     @property
     def SimpleSelector(self) -> type[_SimpleSelector]: ...
@@ -4565,6 +4858,8 @@ class NodeTypes:
     @property
     def Sin(self) -> type[_Sin]: ...
     @property
+    def SinDL(self) -> type[_SinDL]: ...
+    @property
     def SingleShadingSwitch(self) -> type[_SingleShadingSwitch]: ...
     @property
     def SketchPlane(self) -> type[_SketchPlane]: ...
@@ -4576,6 +4871,8 @@ class NodeTypes:
     def SmoothCurve(self) -> type[_SmoothCurve]: ...
     @property
     def SmoothStep(self) -> type[_SmoothStep]: ...
+    @property
+    def SmoothStepDL(self) -> type[_SmoothStepDL]: ...
     @property
     def SmoothTangentSrf(self) -> type[_SmoothTangentSrf]: ...
     @property
@@ -4665,7 +4962,11 @@ class NodeTypes:
     @property
     def Subtract(self) -> type[_Subtract]: ...
     @property
+    def SubtractDL(self) -> type[_SubtractDL]: ...
+    @property
     def Sum(self) -> type[_Sum]: ...
+    @property
+    def SumDL(self) -> type[_SumDL]: ...
     @property
     def SurfaceInfo(self) -> type[_SurfaceInfo]: ...
     @property
@@ -4684,6 +4985,8 @@ class NodeTypes:
     def SymmetryConstraint(self) -> type[_SymmetryConstraint]: ...
     @property
     def Tan(self) -> type[_Tan]: ...
+    @property
+    def TanDL(self) -> type[_TanDL]: ...
     @property
     def TangentConstraint(self) -> type[_TangentConstraint]: ...
     @property
@@ -4735,6 +5038,8 @@ class NodeTypes:
     @property
     def TranslationFromMatrix(self) -> type[_TranslationFromMatrix]: ...
     @property
+    def TranslationFromMatrixDL(self) -> type[_TranslationFromMatrixDL]: ...
+    @property
     def TransposeMatrix(self) -> type[_TransposeMatrix]: ...
     @property
     def Trim(self) -> type[_Trim]: ...
@@ -4745,6 +5050,8 @@ class NodeTypes:
     @property
     def Truncate(self) -> type[_Truncate]: ...
     @property
+    def TruncateDL(self) -> type[_TruncateDL]: ...
+    @property
     def TurbulenceField(self) -> type[_TurbulenceField]: ...
     @property
     def Tweak(self) -> type[_Tweak]: ...
@@ -4752,6 +5059,22 @@ class NodeTypes:
     def Type(self) -> type[_Type]: ...
     @property
     def TypeExtrude(self) -> type[_TypeExtrude]: ...
+    @property
+    def UfeLightArea(self) -> type[_UfeLightArea]: ...
+    @property
+    def UfeLightCylinder(self) -> type[_UfeLightCylinder]: ...
+    @property
+    def UfeLightDefault(self) -> type[_UfeLightDefault]: ...
+    @property
+    def UfeLightDirectional(self) -> type[_UfeLightDirectional]: ...
+    @property
+    def UfeLightDisk(self) -> type[_UfeLightDisk]: ...
+    @property
+    def UfeLightDome(self) -> type[_UfeLightDome]: ...
+    @property
+    def UfeLightSphere(self) -> type[_UfeLightSphere]: ...
+    @property
+    def UfeLightSpot(self) -> type[_UfeLightSpot]: ...
     @property
     def UfeProxyCameraShape(self) -> type[_UfeProxyCameraShape]: ...
     @property
@@ -4778,6 +5101,8 @@ class NodeTypes:
     def Unpremultiply(self) -> type[_Unpremultiply]: ...
     @property
     def Untrim(self) -> type[_Untrim]: ...
+    @property
+    def UsdDefaultSettings(self) -> type[_UsdDefaultSettings]: ...
     @property
     def UsdPreviewSurface(self) -> type[_UsdPreviewSurface]: ...
     @property
@@ -4825,6 +5150,8 @@ class NodeTypes:
     @property
     def XgmCurveToSpline(self) -> type[_XgmCurveToSpline]: ...
     @property
+    def XgmDescription(self) -> type[_XgmDescription]: ...
+    @property
     def XgmHairMapping(self) -> type[_XgmHairMapping]: ...
     @property
     def XgmMakeGuide(self) -> type[_XgmMakeGuide]: ...
@@ -4854,3 +5181,5 @@ class NodeTypes:
     def XgmSplineBase(self) -> type[_XgmSplineBase]: ...
     @property
     def XgmSplineCache(self) -> type[_XgmSplineCache]: ...
+    @property
+    def XgmSplineDescription(self) -> type[_XgmSplineDescription]: ...

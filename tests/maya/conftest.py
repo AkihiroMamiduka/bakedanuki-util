@@ -4,18 +4,6 @@ from __future__ import annotations
 import pytest
 
 
-def pytest_configure(config):
-    try:
-        import maya.standalone
-    except Exception:
-        return
-
-    try:
-        maya.standalone.initialize(name="python")
-    except Exception:
-        pass
-
-
 @pytest.fixture
 def maya_cmds():
     return pytest.importorskip("maya.cmds")

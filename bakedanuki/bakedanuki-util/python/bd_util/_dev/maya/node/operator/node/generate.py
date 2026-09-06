@@ -853,29 +853,96 @@ def _node_kind_public_output_file_name(
     return _node_type_to_file_name(node_type)
 
 
-def _generated_package_parts(node_kind: str) -> tuple[str, ...]:
-    return (*_node_kind_output_rel_parts(node_kind), "_generated")
+_SUPPORTED_GENERATED_MAYA_VERSIONS = frozenset({2025, 2026, 2027})
+
+
+def _normalize_generated_maya_version(
+    maya_version: int | None,
+) -> int | None:
+    if maya_version is None or maya_version == 2025:
+        return None
+    if maya_version not in _SUPPORTED_GENERATED_MAYA_VERSIONS:
+        raise ValueError(f"Unsupported generated Maya version: {maya_version}")
+    return maya_version
+
+
+def _generated_package_name(maya_version: int | None) -> str:
+    normalized_version = _normalize_generated_maya_version(maya_version)
+    if normalized_version is None:
+        return "_generated"
+    return f"_generated_maya{normalized_version}"
+
+
+def _node_attr_package_name(maya_version: int | None) -> str:
+    normalized_version = _normalize_generated_maya_version(maya_version)
+    if normalized_version is None:
+        return "node_attr"
+    return f"node_attr_maya{normalized_version}"
+
+
+def _generated_package_parts(
+    node_kind: str,
+    maya_version: int | None = None,
+) -> tuple[str, ...]:
+    return (
+        *_node_kind_output_rel_parts(node_kind),
+        _generated_package_name(maya_version),
+    )
 
 
 def _generate_public_node_class_code(
     node_type: str,
     node_kind: str,
+    maya_version: int | None = None,
 ) -> str:
     class_name = _node_type_to_class_name(node_type)
     generated_class_name = _node_kind_class_name(node_type, node_kind)
     module_name = _camel_to_snake(node_type)
 
+    generated_package_name = _generated_package_name(maya_version)
+
     if keyword.iskeyword(module_name):
+        if maya_version is None or maya_version == 2025:
+            import_lines = [
+                "from importlib import import_module",
+                "",
+                f"{generated_class_name} = import_module(",
+                f'    f"{{__package__}}._generated.{module_name}"',
+                f").{generated_class_name}",
+            ]
+        else:
+            import_lines = [
+                "from importlib import import_module",
+                "from typing import TYPE_CHECKING",
+                "",
+                "generated_package = (",
+                f'    "{generated_package_name}" if TYPE_CHECKING else "_generated"',
+                ")",
+                "",
+                f"{generated_class_name} = import_module(",
+                f'    f"{{__package__}}.{{generated_package}}.{module_name}"',
+                f").{generated_class_name}",
+            ]
+    elif maya_version is not None and maya_version != 2025:
         import_lines = [
-            "from importlib import import_module",
+            "from typing import TYPE_CHECKING",
             "",
-            f"{generated_class_name} = import_module(",
-            f'    f"{{__package__}}._generated.{module_name}"',
-            f").{generated_class_name}",
+            "if TYPE_CHECKING:",
+            "    from .{}.{} import {}".format(
+                generated_package_name,
+                module_name,
+                generated_class_name,
+            ),
+            "else:",
+            "    from ._generated.{} import {}".format(
+                module_name,
+                generated_class_name,
+            ),
         ]
     else:
         import_lines = [
-            "from ._generated.{} import {}".format(
+            "from .{}.{} import {}".format(
+                generated_package_name,
                 module_name,
                 generated_class_name,
             )
@@ -1841,6 +1908,7 @@ def generate_node_attr_code(
 
     # 各 compound アトリビュートのクラスブロックを生成
     class_blocks: list[list[str]] = []
+    requires_double4_value = False
 
     compound_field_classes = {
         _attr_long_name(info): _long_name_to_compound_class_names(
@@ -1873,6 +1941,12 @@ def generate_node_attr_code(
         plug_cls_name, attr_cls_name, field_cls_name = (
             _long_name_to_compound_class_names(parent_long)
         )
+
+        if base_plug_cls == "Double4CompoundBasePlugOperator":
+            requires_double4_value = True
+            base_plug_expr = f'{base_plug_cls}["{attr_cls_name}", Double4]'
+        else:
+            base_plug_expr = f'{base_plug_cls}["{attr_cls_name}"]'
 
         # 子アトリビュート行の生成
         child_body_lines: list[str] = []
@@ -1945,9 +2019,12 @@ def generate_node_attr_code(
         # Plug クラスブロック
         plug_block: list[str] = _build_class_header_lines(
             plug_cls_name,
-            f'{base_plug_cls}["{attr_cls_name}"]',
+            base_plug_expr,
         )
         plug_block.append("    __slots__ = ()")
+        if base_plug_cls == "Double4CompoundBasePlugOperator":
+            plug_block.append("")
+            plug_block.append("    VALUE_TYPE = Double4")
         if children:
             plug_block.append("    CHILD_ATTR_NAMES = (")
             for child_info in children:
@@ -2003,6 +2080,8 @@ def generate_node_attr_code(
 
     # インポート行の生成 (モジュールパスでソート、同一モジュール内はクラス名でソート)
     import_lines: list[str] = []
+    if requires_double4_value:
+        import_lines.append("from ......value import Double4")
     for mod_path in sorted(
         module_imports.keys(),
         key=lambda path: (0 if path.startswith("std.") else 1, path),
@@ -2039,6 +2118,7 @@ def generate_node_class_code(
     *,
     node_kind: str = _NODE_KIND_DG,
     inherited_attr_infos: list[AttrInfo] | None = None,
+    maya_version: int | None = None,
 ) -> str:
     """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python コードを生成する。
 
@@ -2055,11 +2135,15 @@ def generate_node_class_code(
             ``"shape"`` / ``"auto"`` のいずれか。
         inherited_attr_infos (list[AttrInfo] | None): 継承元ノードで定義済みの
             属性情報。指定された属性は生成対象から除外する。
+        maya_version (int | None): version 別 overlay 用の Maya major version。
+            ``None`` / ``2025`` は基準 package、``2026`` 以降は対応する
+            versioned ``node_attr`` package を参照する。
 
     Returns:
         str: 生成された Python コード文字列
     """
     resolved_node_kind = _resolve_node_kind(node_type, node_kind)
+    normalized_maya_version = _normalize_generated_maya_version(maya_version)
     should_query_inherited_attrs = attr_infos is None
 
     if attr_infos is None:
@@ -2268,7 +2352,11 @@ def generate_node_class_code(
         snake_type = _camel_to_snake(node_type)
         import_lines.extend(
             _build_import_lines(
-                f"{attr_import_prefix}.define.node_attr.{snake_type}",
+                "{}.define.{}.{}".format(
+                    attr_import_prefix,
+                    _node_attr_package_name(normalized_maya_version),
+                    snake_type,
+                ),
                 sorted(node_attr_imports),
             )
         )
@@ -2320,6 +2408,7 @@ def generate_node_class_file(
     include_skipped: bool = False,
     node_kind: str = _NODE_KIND_DG,
     inherited_attr_infos: list[AttrInfo] | None = None,
+    maya_version: int | None = None,
 ) -> None:
     """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python ファイルを生成する。
 
@@ -2356,8 +2445,12 @@ def generate_node_class_file(
             ``"shape"`` / ``"auto"`` のいずれか。
         inherited_attr_infos (list[AttrInfo] | None): 継承元ノードで定義済みの
             属性情報。指定された属性は生成対象から除外する。
+        maya_version (int | None): 出力する Maya major version。``None`` /
+            ``2025`` は基準 snapshot、``2026`` / ``2027`` は sparse overlay
+            package へ出力する。
     """
     resolved_node_kind = _resolve_node_kind(node_type, node_kind)
+    normalized_maya_version = _normalize_generated_maya_version(maya_version)
 
     skip_reason = None
     if resolved_node_kind == _NODE_KIND_DG:
@@ -2383,10 +2476,17 @@ def generate_node_class_file(
     )
 
     generated_package_path = pathlib.Path(src_dir).joinpath(
-        *_generated_package_parts(resolved_node_kind)
+        *_generated_package_parts(
+            resolved_node_kind,
+            normalized_maya_version,
+        )
     )
     output_path = generated_package_path.joinpath(
         _node_type_to_file_name(node_type)
+    )
+    baseline_generated_path = pathlib.Path(src_dir).joinpath(
+        *_generated_package_parts(resolved_node_kind),
+        _node_type_to_file_name(node_type),
     )
     public_output_path = (
         pathlib.Path(src_dir)
@@ -2406,10 +2506,19 @@ def generate_node_class_file(
     if node_attr_code:
         node_attr_path = (
             pathlib.Path(src_dir)
-            .joinpath(*_NODE_ATTR_OUTPUT_REL_PARTS)
+            .joinpath(
+                *_NODE_ATTR_OUTPUT_REL_PARTS[:-1],
+                _node_attr_package_name(normalized_maya_version),
+            )
             .joinpath(_node_type_to_file_name(node_type))
         )
         node_attr_path.parent.mkdir(parents=True, exist_ok=True)
+        node_attr_init_path = node_attr_path.parent / "__init__.py"
+        if not node_attr_init_path.exists():
+            node_attr_init_path.write_text(
+                "# coding: utf-8\n",
+                encoding="utf-8",
+            )
         node_attr_path.write_text(node_attr_code, encoding="utf-8")
 
     # メインのノードクラスファイルを生成
@@ -2418,6 +2527,7 @@ def generate_node_class_file(
         attr_infos=attr_infos,
         node_kind=resolved_node_kind,
         inherited_attr_infos=[],
+        maya_version=normalized_maya_version,
     )
     if not code:
         logger.warning(
@@ -2437,10 +2547,16 @@ def generate_node_class_file(
 
     if not public_output_path.exists():
         public_output_path.parent.mkdir(parents=True, exist_ok=True)
+        public_wrapper_maya_version = (
+            normalized_maya_version
+            if not baseline_generated_path.exists()
+            else None
+        )
         public_output_path.write_text(
             _generate_public_node_class_code(
                 node_type,
                 resolved_node_kind,
+                public_wrapper_maya_version,
             ),
             encoding="utf-8",
         )
@@ -2453,6 +2569,7 @@ def generate_specific_node_class_file_core(
     *,
     include_skipped: bool = False,
     node_kind: str = _NODE_KIND_DG,
+    maya_version: int | None = None,
 ) -> None:
     node_types = tuple(func_get_node_types())
     _validate_node_type_name_collisions(node_types)
@@ -2463,6 +2580,7 @@ def generate_specific_node_class_file_core(
             src_dir,
             include_skipped=include_skipped,
             node_kind=node_kind,
+            maya_version=maya_version,
         )
 
 
@@ -2471,12 +2589,14 @@ def generate_dg_node_class_files(
     src_dir: str | pathlib.Path,
     *,
     include_skipped: bool = False,
+    maya_version: int | None = None,
 ) -> None:
     generate_specific_node_class_file_core(
         src_dir=src_dir,
         func_get_node_types=get_dg_node_types,
         include_skipped=include_skipped,
         node_kind=_NODE_KIND_DG,
+        maya_version=maya_version,
     )
 
 
@@ -2485,12 +2605,14 @@ def generate_dag_node_class_files(
     src_dir: str | pathlib.Path,
     *,
     include_skipped: bool = False,
+    maya_version: int | None = None,
 ) -> None:
     generate_specific_node_class_file_core(
         src_dir=src_dir,
         func_get_node_types=get_dag_node_types,
         include_skipped=include_skipped,
         node_kind=_NODE_KIND_AUTO,
+        maya_version=maya_version,
     )
 
 
@@ -2499,12 +2621,14 @@ def generate_transform_node_class_files(
     src_dir: str | pathlib.Path,
     *,
     include_skipped: bool = False,
+    maya_version: int | None = None,
 ) -> None:
     generate_specific_node_class_file_core(
         src_dir=src_dir,
         func_get_node_types=get_transform_types,
         include_skipped=include_skipped,
         node_kind=_NODE_KIND_TRANSFORM,
+        maya_version=maya_version,
     )
 
 
@@ -2513,10 +2637,12 @@ def generate_shape_node_class_files(
     src_dir: str | pathlib.Path,
     *,
     include_skipped: bool = False,
+    maya_version: int | None = None,
 ) -> None:
     generate_specific_node_class_file_core(
         src_dir=src_dir,
         func_get_node_types=get_shape_types,
         include_skipped=include_skipped,
         node_kind=_NODE_KIND_SHAPE,
+        maya_version=maya_version,
     )

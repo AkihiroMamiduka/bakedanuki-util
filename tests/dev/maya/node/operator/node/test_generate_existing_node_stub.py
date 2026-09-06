@@ -1,4 +1,5 @@
 # coding: utf-8
+import ast
 from pathlib import Path
 
 
@@ -190,6 +191,89 @@ def test_nodes_stub_matches_generated_code():
     assert stub_generator.stub_code_is_current(
         output_path,
         stub_generator.generate_nodes_stub_code(python_root),
+    )
+
+
+def test_versioned_accessors_stub_matches_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    output_path = stub_generator.versioned_accessors_stub_path(python_root)
+
+    assert stub_generator.stub_code_is_current(
+        output_path,
+        stub_generator.generate_versioned_accessors_stub_code(python_root),
+    )
+
+
+def test_versioned_creator_surfaces_follow_node_availability():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    tree = ast.parse(
+        stub_generator.generate_versioned_accessors_stub_code(python_root)
+    )
+    classes = {
+        statement.name: statement
+        for statement in tree.body
+        if isinstance(statement, ast.ClassDef)
+    }
+
+    def method_names(class_name: str) -> set[str]:
+        return {
+            statement.name
+            for statement in classes[class_name].body
+            if isinstance(statement, ast.FunctionDef)
+        }
+
+    common_names = method_names("_NodeCreatorCommon")
+    maya_2025_names = method_names("_NodeCreatorMaya2025")
+    maya_2026_names = method_names("_NodeCreatorMaya2026")
+    maya_2027_names = method_names("_NodeCreatorMaya2027")
+
+    assert "absolute" in common_names
+    assert "__getattr__" not in common_names
+    assert {"addDoubleLinear", "absoluteDL", "shotLabel"}.isdisjoint(
+        common_names
+    )
+    assert "addDoubleLinear" in maya_2025_names
+    assert "absoluteDL" not in maya_2025_names
+    assert "addDoubleLinear" not in maya_2026_names
+    assert "absoluteDL" in maya_2026_names
+    assert "shotLabel" not in maya_2026_names
+    assert {"absoluteDL", "shotLabel"}.issubset(maya_2027_names)
+
+    existing_common_names = method_names("_ExistingNodeAccessorCommon")
+    assert "__getattr__" not in existing_common_names
+
+    node_types_common_names = method_names("_NodeTypesCommon")
+    node_types_2025_names = method_names("_NodeTypesMaya2025")
+    node_types_2026_names = method_names("_NodeTypesMaya2026")
+    node_types_2027_names = method_names("_NodeTypesMaya2027")
+
+    assert "Absolute" in node_types_common_names
+    assert {"AddDoubleLinear", "AbsoluteDL", "ShotLabel"}.isdisjoint(
+        node_types_common_names
+    )
+    assert "AddDoubleLinear" in node_types_2025_names
+    assert "AbsoluteDL" not in node_types_2025_names
+    assert "AddDoubleLinear" not in node_types_2026_names
+    assert "AbsoluteDL" in node_types_2026_names
+    assert "ShotLabel" not in node_types_2026_names
+    assert {"AbsoluteDL", "ShotLabel"}.issubset(node_types_2027_names)
+
+    standard_surface_2026 = classes["_StandardSurfaceMaya2026"]
+    assert len(standard_surface_2026.bases) == 1
+    assert isinstance(standard_surface_2026.bases[0], ast.Name)
+    assert (
+        standard_surface_2026.bases[0].id
+        == "_GeneratedStandardSurfaceMaya2026"
     )
 
 

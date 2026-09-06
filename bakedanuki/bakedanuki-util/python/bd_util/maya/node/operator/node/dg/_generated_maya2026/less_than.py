@@ -1,0 +1,19 @@
+# coding: utf-8
+from .._core import DG
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+
+
+class GeneratedLessThan(DG):
+    __slots__ = ()
+
+    NODE_TYPE = "lessThan"
+
+    input1 = DoubleField(default_value=0.0)
+    i1 = input1
+
+    input2 = DoubleField(default_value=0.0)
+    i2 = input2
+
+    output = BoolField(default_value=False, writable=False)
+    o = output
