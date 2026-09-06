@@ -128,7 +128,7 @@ simple_window.show()
 ## StoreベースのMVVMによるbool値同期
 
 通常の利用では、`BoolBinding.from_attribute()`でPythonのbool属性とViewModelを
-まとめて作成し、そのViewModelを必要なViewへ渡します。
+まとめて作成し、Bindingを必要なViewへ渡します。
 
 ```python
 from dataclasses import dataclass
@@ -144,10 +144,27 @@ class ToolWidget(qt.QWidget):
     def __init__(self, data: ToolData, parent=None):
         super().__init__(parent)
         self.binding = BoolBinding.from_attribute(data, "visible", parent=self)
-        self.check_box = BoolCheckBox(self.binding.view_model, "Visible", self)
+        self.check_box = BoolCheckBox(self.binding, "Visible", self)
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.check_box)
 ```
+
+5種類のQt Bool Viewは、第1引数に`BoolBinding`（`MayaBoolBinding`を含む）と
+`BoolViewModel`の両方を受け付けます。View内部の入力・表示はどちらでも同じViewModelへ
+接続され、`view.view_model`から具体的な`BoolViewModel`を取得できます。
+既存の`view_model=`キーワードも使用できます。
+
+```python
+check_box = BoolCheckBox(binding, "Visible")
+another_view = BoolCheckBox(view_model=binding.view_model, text="Visible")
+assert check_box.view_model is another_view.view_model
+```
+
+Bindingを渡したViewは、そのBindingも参照保持します。Viewを閉じる際にBindingの
+`dispose()`を呼んだり、BindingやViewModelのQt parentを変更したりはしません。
+共有Bindingの終了は引き続きownerが管理します。Bindingの明示終了やQt親の破棄は
+Viewからの参照保持では防がず、残っているViewは従来の終了・破棄通知で無効になります。
+終了済みのBindingを新しいViewへ渡すと`RuntimeError`になります。
 
 `binding.set_value(False)`はUIと同じCommandを実行し、正本の実値が変わったか返します。
 `binding.value`は最後に同期した確定値です。`data.visible`へ直接代入した場合は
@@ -157,7 +174,7 @@ class ToolWidget(qt.QWidget):
 
 bindingは専用ViewModelをQtの子として所有します。単一Widgetでは`parent=self`を指定し、
 複数Windowで共有する場合はWindowから独立したbindingをManagerなどで保持して、各Windowへ
-同じ`binding.view_model`を渡します。`dispose()`は直ちに入力と同期を停止し、bindingと
+同じBindingまたは`binding.view_model`を渡します。`dispose()`は直ちに入力と同期を停止し、bindingと
 ViewModelのQObjectを遅延破棄します。親の破棄でも終了し、`is_disposed`で確認できます。
 終了したbindingは再利用しません。Pythonデータや外部から渡されたStore自体は破棄・再parentしません。
 
@@ -1153,18 +1170,18 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-06時点の確認結果です。
+2026-09-07時点の確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 128 passed | 98 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 128 passed | 98 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 128 passed | 98 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 154 passed | 98 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 154 passed | 98 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 154 passed | 98 passed |
 
-2026-09-06の`verify.cmd`は、Black、3 versionのPyright contract、Maya 2025 full pytest、
+2026-09-07の`verify.cmd`は、Black、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`まで成功しました。
-full pytestは`2564 passed, 85 skipped`です。全体実行ではMaya初期化が先になるため
-Widgetを必要とする85件がskipされますが、上表のUI専用processではskipなしで確認しています。
+全体実行ではMaya初期化が先になるためWidgetを必要とするtestがskipされますが、
+上表のUI専用processではskipなしで確認しています。
 以前記録していた`test_plugin_metadata_matches_runtime`の不一致も今回の実行では再現していません。
 Maya本体での手動表示・操作確認は今回の自動テスト結果に含めません。
 
@@ -1199,6 +1216,8 @@ pprint(dock_lifecycle.diagnose())
 UI基盤を変更・拡張するときは、次のcontractを維持します。
 
 - `bd_util.ui`はMayaをimportせず、Maya固有処理は`bd_util.maya.ui`へ置く。
+- Qt Bool Viewは生成時にBindingからViewModelを解決し、入力・表示はViewModelへ接続する。
+  受け取ったBindingは参照保持し、Qt parentや共有Bindingの終了責任は引き取らない。
 - PySideとshibokenは利用側から直接importせず、`bd_util.ui.qt`をbinding境界とする。
 - bool bindingのViewModelはViewを所有・破棄せず、破棄通知からのUI操作を遅延させる。
   View生成順の制約を利用側へ戻さず、共有時は個々のWindowから独立したownerを使う。

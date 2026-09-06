@@ -7,7 +7,7 @@ from ... import qt
 from .store import BoolValueStore, PythonBoolAttributeStore
 from .view_model import BoolViewModel
 
-_StoreT = TypeVar("_StoreT", bound=BoolValueStore)
+_StoreT = TypeVar("_StoreT", bound=BoolValueStore, covariant=True)
 _InstanceT = TypeVar("_InstanceT")
 
 

@@ -40,26 +40,26 @@ class BoolViewsWidget(qt.QWidget):
         self.view_model = self.binding.view_model
         self.maya_view = self.binding.maya_view
 
-        # 入力可能なQt Viewをすべて同じViewModelへ接続する。
+        # 入力可能なQt Viewへ同じBindingを渡す。
         self.check_box = BoolCheckBox(
-            self.view_model,
+            self.binding,
             "Visible",
             self,
         )
         self.combo_box = BoolComboBox(
-            self.view_model,
+            self.binding,
             false_text="Off",
             true_text="On",
             parent=self,
         )
         self.push_button = BoolPushButton(
-            self.view_model,
+            self.binding,
             false_text="Off",
             true_text="On",
             parent=self,
         )
         self.radio_button_group = BoolRadioButtonGroup(
-            self.view_model,
+            self.binding,
             false_text="Off",
             true_text="On",
             parent=self,
@@ -67,7 +67,7 @@ class BoolViewsWidget(qt.QWidget):
 
         # 読み取り専用Viewも同じ確定値を表示する。
         self.status_label = BoolStatusLabel(
-            self.view_model,
+            self.binding,
             false_text="Status: Off",
             true_text="Status: On",
             parent=self,

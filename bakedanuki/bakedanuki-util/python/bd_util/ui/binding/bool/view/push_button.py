@@ -2,8 +2,11 @@
 from __future__ import annotations
 
 from .... import qt
+from ..binding import BoolBinding
+from ..store import BoolValueStore
 from ..view_model import BoolViewModel
 from ._connection import connect_queued_qt_signal, disconnect_qt_connection
+from ._source import resolve_bool_view_source
 
 
 class BoolPushButton(qt.QPushButton):
@@ -11,13 +14,15 @@ class BoolPushButton(qt.QPushButton):
 
     def __init__(
         self,
-        view_model: BoolViewModel,
+        view_model: BoolViewModel | BoolBinding[BoolValueStore],
         false_text: str = "Off",
         true_text: str = "On",
         parent: qt.QWidget | None = None,
     ) -> None:
-        """ViewModel、False／Trueの表示文字列、任意の親Widgetで初期化する。"""
+        """ViewModelまたはBinding、False／Trueの表示文字列で初期化する。"""
+        view_model, binding = resolve_bool_view_source(view_model)
         super().__init__(parent)
+        self._binding = binding
         # Viewだけを保持するfactory構成でもbinding先を存続させる。
         self._view_model = view_model
         self._false_text = false_text

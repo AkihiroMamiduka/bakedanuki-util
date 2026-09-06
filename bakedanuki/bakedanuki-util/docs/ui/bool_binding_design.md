@@ -131,6 +131,22 @@ ownerやMaya adapter自体の破棄時には、callback IDの解除は即座に�
 外部StoreのQt parentは変更せず、そのStoreの破棄責任も引き取りません。
 `MayaBoolBinding`は同じownerに任意のMaya Viewを1つ追加し、同期状態は`maya_view`へ公開します。
 
+Qt Bool Viewの第1引数は`BoolViewModel | BoolBinding[BoolValueStore]`です。
+`view/_source.py`で生成前に入力元を検証し、ViewModelと参照保持用のBindingへ解決します。
+Viewはその後もViewModelのCommandと通知だけを使い、StoreやMaya Viewを直接操作しません。
+`view_model=`キーワードと`view.view_model: BoolViewModel`は維持します。
+
+`BoolBinding`のStore型引数は共変です。公開Storeは読み取り専用propertyで、生成後に
+別Storeを受け取るAPIもないため、具体的な`PythonBoolAttributeStore[T]`を持つBindingを
+共通のStore境界へ渡せます。呼び出し元の`binding.store.instance`では具体型Tが残ります。
+実行時に失われる型引数のcastは、引数を解決する共通処理の境界に限定します。
+
+ViewがBindingを受け取った場合は、ViewModelに加えてBinding自体も参照保持します。
+これは、一時生成した親なしBindingがViewを返すfactoryから脱落しないためです。
+`setParent()`による所有権移動や、Viewを閉じた際の共有Bindingの`dispose()`は行いません。
+明示終了済み・Qt破棄済みBindingは既存の`binding.view_model`の検証で拒否します。
+ViewModelを直接渡す経路も継続し、既存のqueued破棄通知を利用します。
+
 明示的なbindingの`dispose()`は、Maya callbackを即座に解除し、ViewModelの`dispose()`で
 CommandとStore再読込を停止してからQt削除を予約します。`BoolViewModel.dispose()`自体は
 QObjectを削除しません。値変更通知のslot内で終了した場合も、処理の後半でCommandが再び
@@ -142,7 +158,7 @@ QObjectを削除しません。値変更通知のslot内で終了した場合も
 名前からのplug解決はMaya基盤の`bool_plug_resolver.py`へ移し、`resolve_bool_plug()`として
 公開しています。最上位の単一boolに範囲を限定し、配列・compound・子属性・属性パスを拒否します。
 
-- `minimal.py`: `BoolBinding.from_attribute()`とCheckBoxだけで接続する入口。
+- `minimal.py`: `BoolBinding.from_attribute()`の結果を直接CheckBoxへ渡す入口。
 - `bool_views/widget.py`: 自己完結するFeature Widget。渡されたPython object・属性名から
   `MayaBoolBinding`とQt View一式を構築する。
 - `bool_views/window.py`: WindowはFeature WidgetとMaya指定を保持し、Managerは構成による
@@ -150,7 +166,7 @@ QObjectを削除しません。値変更通知のslot内で終了した場合も
 - `shared_bool_views/manager.py`: Windowから独立した`MayaBoolBinding`を保持する。
   Window A／Bの生成・再表示・終了をControllerへ委譲する。
 - `shared_bool_views/widget.py`と`window.py`: 受け取った共有ViewModelを表示する。
-  WindowごとのStoreやMaya Viewは作らない。
+  ViewModelを直接渡す例として残し、WindowごとのStoreやMaya Viewは作らない。
 
 最初の組み込み例には`minimal`、全View一覧には`bool_views`、表示の寿命とbindingの寿命を分ける例には
 `shared_bool_views`を使います。共有するのは1つのViewModelであり、複数のViewModel同士を
@@ -186,12 +202,13 @@ Managerインスタンスを上位のtool Controllerなどで保持してくだ�
 | --- | --- |
 | Value・Store・Command・全Qt View・破棄順 | [tests/ui/test_bool_binding.py](../../../../tests/ui/test_bool_binding.py) |
 | 組み立てAPI・明示終了・最小sample | [tests/ui/test_bool_binding_facade.py](../../../../tests/ui/test_bool_binding_facade.py) |
+| ViewへのBinding直接入力・一時参照・共有寿命 | [tests/ui/test_bool_view_source.py](../../../../tests/ui/test_bool_view_source.py) |
 | Maya組み立て・名前解決・callback解放 | [tests/maya/ui/test_maya_bool_binding_facade.py](../../../../tests/maya/ui/test_maya_bool_binding_facade.py) |
 | 自己完結WidgetとWindow Manager | [tests/ui/test_bool_views_sample.py](../../../../tests/ui/test_bool_views_sample.py) |
 | 複数Window・再表示・共有Maya callback | [tests/ui/test_shared_bool_views_sample.py](../../../../tests/ui/test_shared_bool_views_sample.py) |
 | Mayaを正本とする同期 | [tests/maya/ui/test_bool_plug_binding.py](../../../../tests/maya/ui/test_bool_plug_binding.py) |
 | Python正本とMaya View・保留入力・同期失敗 | [tests/maya/ui/test_bool_plug_view.py](../../../../tests/maya/ui/test_bool_plug_view.py) |
-| 公開APIの型・補完 | [ui_contract.py](../../../../tests/typecheck/ui_contract.py)、[shared_bool_views_contract.py](../../../../tests/typecheck/shared_bool_views_contract.py) |
+| 公開APIの型・補完 | [ui_contract.py](../../../../tests/typecheck/ui_contract.py)、[bool_view_source_contract.py](../../../../tests/typecheck/bool_view_source_contract.py)、[shared_bool_views_contract.py](../../../../tests/typecheck/shared_bool_views_contract.py) |
 
 特に、同値Command／refreshが保留中のMaya入力より優先されること、初期同期に失敗しても
 callbackを残さないこと、`dispose()`後に保留入力を適用しないことを維持します。

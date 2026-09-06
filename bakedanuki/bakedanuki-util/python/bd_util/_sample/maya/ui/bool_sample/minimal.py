@@ -20,7 +20,7 @@ class MinimalBoolWidget(qt.QWidget):
         self.binding = BoolBinding.from_attribute(
             data, "visible_by_default", parent=self
         )
-        self.check_box = BoolCheckBox(self.binding.view_model, "Visible", self)
+        self.check_box = BoolCheckBox(self.binding, "Visible", self)
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.check_box)
 
