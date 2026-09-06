@@ -1079,7 +1079,7 @@ Qt facade、Window lifecycle、Maya UI連携の自動テストは、対応する
 Maya APIを使うUIテストを独立したmayapy processで実行します。pytestはrepository直下の
 `.test`から読み込み、統一検証では`.\scripts\verify.cmd`が3 versionを実行します。
 
-2026-09-06時点の確認結果です。
+2026-09-06に`test-ui-maya-all.cmd`を単独実行した際の確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
@@ -1088,13 +1088,18 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 | 2027 | 3.13.9 | PySide6 6.8.3 | 121 passed | 92 passed |
 
 上表はUI専用テストの結果であり、repository全体の統合検証成功とは区別します。
-2026-09-06の`verify.cmd`はBlackと3 versionのPyright contractが成功した後、
-Maya 2025 full pytestで`1 failed, 2520 passed, 78 skipped`となりました。
-失敗は`test_plugin_metadata_matches_runtime`の1件で、staged plug-inの`apiVersion`が
-`20250000`、実行中Mayaが`20250303`という不一致です。native plug-inと検証環境の
-整合性は別途確認が必要で、UI変更を理由にこの検証を無効化しません。
-`verify.cmd`はそこで停止するため、上表のUI専用テストは`test-ui-maya-all.cmd`で
-別途実行した結果です。
+同日の最新作業ツリーで`verify.cmd`を再実行し、Black、3 versionのPyright contract、
+Maya 2025 full pytest、3 versionのUI互換性テスト、`git diff --check`まで成功しました。
+Maya 2025 full pytestは`2558 passed, 78 skipped`です。統一検証内のUIテストは、
+各versionで`tests/ui`が`43 passed, 78 skipped`、`tests/maya/ui`が`92 passed`でした。
+この実行ではMaya standaloneが生成したapplicationが`QApplication`ではないため、
+`QApplication`を必要とする78件がskipされており、上表の単独実行結果と区別します。
+
+以前の`test_plugin_metadata_matches_runtime`の失敗は、staged plug-inの`apiVersion`が
+`20250000`、実行中Mayaが`20250303`という不一致によるものでした。
+コミット`be634885`で更新された現在のバイナリでは、両方が`20250303`で一致し、
+当該テストも成功しています。この不一致は解消済みで、検証条件は変更していません。
+通常の`verify.cmd`はnative buildを行わず、配置済みのstaged plug-inを使用します。
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って
