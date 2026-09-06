@@ -3,7 +3,7 @@
 UI utilityは、利用場所ではなく依存関係で分けます。
 
 - `bd_util.ui`には、Mayaを直接importしない汎用Qt処理を置きます。
-- `bd_util.maya.ui`には、Maya main windowやUI lifecycleへのadapterを置きます。
+- `bd_util.maya.ui`には、Maya main windowやUI lifecycleとの連携処理を置きます。
 - 依存は`bd_util.maya.ui`から`bd_util.ui`への一方向とし、逆方向には依存させません。
 
 ## 新しいtoolへの導入
@@ -124,6 +124,468 @@ simple_window.show()
 
 `get_main_window()`はbatch MayaとMaya初期化前には`None`を返します。そのため、これらの
 環境でmoduleをimportしてもMaya UIを取得しに行きません。
+
+## StoreベースのMVVMによるbool値同期
+
+このbindingは、構成要素としてはModel、Store、ViewModel、Viewの4つを持ちます。
+`MVSVM`と捉えると役割を整理しやすい構成ですが、一般的なパターン名ではないため、
+このドキュメントでは「StoreベースのMVVM」と呼びます。
+
+設計判断の理由、破棄時の注意点、今後の拡張時に確認する項目は
+[bool bindingの設計・保守メモ](bool_binding_design.md)にまとめています。
+このREADMEは公開APIと実行例、設計・保守メモは実装を読み進める際の補足として使ってください。
+
+- Model: dataclassやMaya nodeなど、tool固有のデータと規則を持つ本体
+- Store: Model内の1つのbool値を、共通の読み書き契約としてViewModelへ公開するModel層の境界
+- ViewModel: 読み取り専用の現在値と、値を変更するCommandをViewへ公開する
+- View: bool値を表示・入力するQt Widgetや`MayaBoolPlugView`
+
+```text
+Model
+  ↕
+BoolValueStore
+  ↕
+BoolViewModel
+  ├─ BoolCheckBox
+  ├─ BoolComboBox
+  ├─ BoolPushButton
+  ├─ BoolRadioButtonGroup
+  ├─ BoolStatusLabel
+  └─ MayaBoolPlugView
+```
+
+Storeは広い意味ではModel側に属しますが、tool全体のModelそのものではありません。
+たとえばdataclassを正本にする場合、dataclassがModel、`PythonBoolAttributeStore`が
+その中の指定された1属性を公開する境界です。Maya plugを正本にする場合は
+`MayaBoolPlugStore`を使い、Python Storeを正本にしてMaya plugを同期先とする場合は
+`MayaBoolPlugView`を使います。
+
+複数のViewは互いを直接参照しません。同じViewModelを参照することで、Viewが増えても
+正本と同期経路を1つに保ちます。
+
+ViewModelの`parent`には、Viewの生成順ではなくbinding全体の寿命を管理するownerを
+指定します。1つのFeature Widgetだけで利用する場合は、そのWidgetを生成時からparentに
+指定できます。ViewModelの破棄通知は次のevent loopでViewへ反映されるため、QObjectの
+子登録順を利用側で調整する必要はありません。
+
+複数Windowで共有する場合は、いずれかのWindowではなく、両方より長く存続するtoolの
+ControllerなどをViewModelのownerにします。各WindowのViewは同じViewModelを参照するだけ
+なので、一方のWindowを閉じても残ったViewとの同期を継続できます。
+
+```text
+Tool Controller
+├─ BoolViewModel
+├─ Window A ─ Bool View ─┐
+└─ Window B ─ Bool View ─┴─→ 共通のBoolViewModel
+```
+
+低レベルAPIでは、共通ownerとViewModelをtoolのControllerなどが保持し、各Windowには
+Viewだけを配置します。
+
+```python
+from bd_util.ui import (
+    BoolCheckBox,
+    BoolComboBox,
+    BoolViewModel,
+    PythonBoolAttributeStore,
+    qt,
+)
+
+binding_owner = qt.QObject()  # 実際のtoolではControllerが保持する。
+view_model = BoolViewModel(parent=binding_owner)
+view_model.attach_store(PythonBoolAttributeStore(data, "visible"))
+
+first_view = BoolCheckBox(view_model, parent=window_a)
+second_view = BoolComboBox(view_model, parent=window_b)
+```
+
+Maya plugも共有する場合、`MayaBoolPlugView`はWindowごとに作らず、同じ共通ownerの下へ
+1つだけ作成します。すべてのWindowを閉じても同期を維持するか、tool終了時に破棄するかは、
+View数ではなくControllerのlifecycleで決めます。
+
+`BoolViewModel`は、読み取り専用の`BoolValue`と、UI／Pythonから共有する
+`SetBoolCommand`を管理します。各ViewはViewModelだけを参照し、入力可能なViewはユーザー入力を
+Commandへ渡し、すべてのViewが`BoolValue.changed`から表示を更新します。
+
+`BoolValueStore`は、ViewModelがbool値の正本を読み書きするための共通境界です。Storeを
+接続しない場合はViewModel内の`BoolValue`が値を保持し、Storeを接続した場合は
+Storeの確定値を`BoolValue`からViewへ公開します。
+
+実装は役割ごとに分け、交換可能なViewだけを`view`以下へまとめています。
+
+```text
+bd_util/ui/binding/bool/
+├─ value.py
+├─ store.py
+├─ command.py
+├─ view_model.py
+└─ view/
+   ├─ _connection.py
+   ├─ check_box.py
+   ├─ combo_box.py
+   ├─ push_button.py
+   ├─ radio_button_group.py
+   └─ status_label.py
+```
+
+利用側は内部配置へ依存せず、従来どおり`bd_util.ui`からimportできます。
+
+```python
+from bd_util.ui import (
+    BoolCheckBox,
+    BoolComboBox,
+    BoolPushButton,
+    BoolRadioButtonGroup,
+    BoolStatusLabel,
+    BoolViewModel,
+)
+
+view_model = BoolViewModel(False)
+checkbox = BoolCheckBox(view_model, "Enabled")
+combo_box = BoolComboBox(view_model, false_text="Off", true_text="On")
+push_button = BoolPushButton(view_model, false_text="Off", true_text="On")
+radio_group = BoolRadioButtonGroup(view_model, false_text="Off", true_text="On")
+status_label = BoolStatusLabel(
+    view_model,
+    false_text="Status: Off",
+    true_text="Status: On",
+)
+
+# Pythonからの入力も入力可能なViewと同じCommandを使用する。
+view_model.set_value_command.execute(True)
+```
+
+`BoolValue.changed`は値が実際に変わった場合だけ通知します。ViewModelからQt Viewへ値を
+適用するときはsignalをblockするため、表示更新からCommandが再実行されません。
+`BoolComboBox`の表示文字列とbool値は分離され、各項目のitem dataに`False`／`True`を
+保持します。そのため、表示を翻訳した場合や同じ文字列にした場合も値の意味は変わりません。
+
+各Qt Viewの役割は次のとおりです。
+
+| View | 入力 | 表現 |
+| --- | --- | --- |
+| `BoolCheckBox` | あり | checked状態 |
+| `BoolComboBox` | あり | boolのitem dataを持つFalse／True項目 |
+| `BoolPushButton` | あり | checkableな押下状態とFalse／True文字列 |
+| `BoolRadioButtonGroup` | あり | `false_button`と`true_button`の排他選択 |
+| `BoolStatusLabel` | なし | False／True文字列だけを表示 |
+
+入力可能なViewは`SetBoolCommand.can_execute`に有効状態を合わせます。
+`BoolStatusLabel`は読み取り専用なので、Storeが書き込み不可でも現在値を表示し続けます。
+
+### Python objectのbool attributeを正本にする
+
+`PythonBoolAttributeStore`は、dataclassを含む任意のPython objectとattribute名を受け取り、
+そのbool attributeをViewModelの正本として接続します。リグ固有の型には依存しません。
+
+```python
+from dataclasses import dataclass
+
+from bd_util.ui import BoolCheckBox, BoolViewModel, PythonBoolAttributeStore
+
+
+@dataclass
+class ToolData:
+    visible_by_default: bool = True
+
+
+data = ToolData()
+store = PythonBoolAttributeStore(data, "visible_by_default")
+
+view_model = BoolViewModel()
+view_model.attach_store(store)
+checkbox = BoolCheckBox(view_model, "Visible by default")
+
+# UIと同じCommandからdataclass fieldを書き換える。
+view_model.set_value_command.execute(False)
+assert data.visible_by_default is False
+```
+
+構築時にattributeの存在と現在値のbool型を検証します。mutable dataclass、slots付き
+dataclass、通常attribute、propertyを扱い、frozen dataclassとsetterを持たないpropertyは
+読み取り専用です。任意objectの書き込み可否は完全には事前判定できないため、独自の
+`__setattr__()`や状態依存setterが拒否した例外は書き込み時にそのまま通知します。
+`__getattr__()`だけで動的に生成されるattributeは対象外です。
+
+plain dataclassは変更通知を持ちません。外部から直接代入した場合は、接続したStoreを指定して
+明示的に再読み込みします。常時同期したい変更はCommand経由に統一してください。
+
+```python
+data.visible_by_default = True
+view_model.refresh_from_store(store)
+```
+
+1つの`BoolViewModel`へ接続できるStoreは1つです。Storeの動的な差し替えは
+行いません。
+
+### Maya bool plugを正本にする
+
+`MayaBoolPlugStore`はMaya bool plug自体を正本とします。構築しただけではViewModelへ
+接続せず、`attach_store()`で明示的に接続します。
+
+```python
+from bd_util.maya.ui import MayaBoolPlugStore
+from bd_util.ui import BoolViewModel
+
+maya_view_model = BoolViewModel()
+maya_store = MayaBoolPlugStore(maya_view_model, node.visibility, owner)
+maya_view_model.attach_store(maya_store)
+```
+
+UI／Pythonからの要求は`cmds.setAttr()`でMayaへ書き込まれるため、Maya標準のundo / redoへ
+入ります。Maya外部からの直接変更、undo / redo、入力接続やアニメーションによる評価変更は、
+Maya callbackから実値を読み直してViewModelへ反映します。callbackは既存の
+`MayaCallbackRegistry`でownerと同じ寿命に管理されます。
+
+同期対象がlock済み、入力接続済み、または削除済みの場合、Commandと入力可能なQt Viewは
+無効になります。読み取り専用Viewは最後に確定した値を表示します。
+
+### Python Storeの値をMaya bool plugへ同期する
+
+`MayaBoolPlugView`は、ViewModelに接続済みのPython Storeを正本とし、Maya bool plugを
+入力・表示装置として同期します。生成前にStoreをViewModelへ接続してください。
+
+```python
+from bd_util.maya.ui import MayaBoolPlugView
+
+view_model.attach_store(store)
+maya_view = MayaBoolPlugView(view_model, node.visibility, owner)
+```
+
+Storeの確定値はMaya plugへ反映されます。Attribute EditorやMaya Pythonからの外部入力は、
+Maya callback完了後の次のQt event loopでCommandを経由してStoreへ反映されます。
+
+Maya plugがlock済みまたは入力接続済みで、Storeとplugの値が一致しない場合は、
+Storeの確定値を変更せず非同期状態にします。`is_synchronized`で同期状態、
+`last_sync_error`または`sync_failed` signalで直近の同期失敗を確認できます。
+再び書き込み可能になった時は最新のStore値を自動的に再適用します。明示的に再試行する
+場合は`sync_from_view_model()`を使用できます。
+
+1つの`BoolViewModel`へ接続できる`MayaBoolPlugView`は1つです。Viewを`dispose()`すると
+接続枠が解放され、同じViewModelへ新しいMaya Viewを接続できます。
+
+### bool Views sample
+
+bool系sampleは`bd_util/_sample/maya/ui/bool_sample/`以下へまとめています。
+共通のplug解決処理とdataを直下へ置き、単一Window版と共有Window版をそれぞれのpackageで
+管理します。
+
+```text
+bd_util/_sample/maya/ui/bool_sample/
+├─ __init__.py
+├─ bool_plug.py              # 共通のMaya bool plug解決処理
+├─ data.py                   # 共通のVisibilityData
+├─ bool_views/               # 単一Window版
+│  ├─ __init__.py
+│  ├─ widget.py
+│  └─ window.py
+└─ shared_bool_views/        # 共有Window版
+   ├─ __init__.py
+   ├─ manager.py
+   ├─ widget.py
+   └─ window.py
+```
+
+MayaのScript Editorで次を実行すると、任意のPython object内のbool attributeを正本とし、
+作成したcubeの`visibility`を任意のMaya Viewとして同期する全bool Viewを表示できます。
+
+```python
+from maya import cmds
+from bd_util._sample.maya.ui.bool_sample import bool_views
+
+data = bool_views.VisibilityData()
+node = cmds.polyCube(name="bdVisibilityBindingSample")[0]
+window = bool_views.show(
+    data,
+    "visible_by_default",
+    maya_node_name=node,
+    maya_attribute_name="visibility",
+)
+```
+
+`data`にはdataclassに限らず、書き込み可能なbool attributeを持つPython objectを渡せます。
+第2引数には、そのobject内で正本として扱うattribute名を指定します。
+`maya_node_name`と`maya_attribute_name`は組で指定する任意引数です。両方を省略すると、
+Maya nodeとは同期せず、PythonデータとQt Viewだけで動作します。
+
+```python
+window = bool_views.show(data, "visible_by_default")
+```
+
+内部では、指定したPython attributeを`PythonBoolAttributeStore`で正本とし、Maya指定が
+ある場合だけ`MayaBoolPlugView`を入力・表示装置として接続します。Maya側にはtransformの
+`visibility`に限らず、任意のscalar bool attributeを指定できます。
+
+`BoolViewsWidget`には`BoolCheckBox`、`BoolComboBox`、`BoolPushButton`、
+`BoolRadioButtonGroup`、`BoolStatusLabel`を配置します。Maya Viewを指定した場合、入力可能な
+4つのQt View、Attribute Editor、次のPython入力、Mayaのundo / redoのいずれから変更しても、
+Python object、全Qt View、Maya plugが同じ値へ同期します。Mayaからの外部入力は、スクリプトの
+実行がQtに制御を返した次のevent loopでPython Storeへ反映されます。
+
+Windowの`Print Data Value`ボタンを押すと、その時点の内部データをMaya Script Editorへ
+`VisibilityData.visible_by_default = True`の形式で出力します。
+
+```python
+bool_views.set_value(False)
+cmds.setAttr(f"{node}.visibility", True)
+cmds.undo()
+cmds.redo()
+```
+
+Python objectを別処理から直接変更した場合は、明示的に正本から再読込できます。
+
+```python
+data.visible_by_default = False
+bool_views.refresh_from_data()
+```
+
+sampleは関連ファイルを1つのpackageへまとめています。`BoolViewsWindow`はWidgetを配置する
+だけとし、`BoolViewsWidget`がStore、ViewModel、任意のMaya View、全Qt Viewを所有します。
+ViewModelは通常のQt所有としてFeature Widgetをparentにし、子の登録順に依存せず破棄できます。
+`BoolViewsWindowManager`はWindow生成時のbinding引数とlifecycleを管理し、module-levelの
+`show()`、`set_value()`、`refresh_from_data()`、`dispose()`は既定Managerへ処理を委譲します。
+
+この`BoolViewsWidget`は1つのWindow内でbinding一式を確認する自己完結sampleです。複数Windowで
+共有する場合は、前述の低レベルAPIを使ってtoolのControllerがStore、ViewModel、任意の
+`MayaBoolPlugView`を1組だけ所有します。後述の`shared_bool_views`が、その実行可能なsampleです。
+複数の値型でも同じ共有構成が必要になった段階で、これらを束ねる`BindingSession`の共通化を
+検討します。
+
+ManagerはWindow生成中だけ引数を保持し、生成後には破棄します。そのため、module-levelの
+可変な引数や関数内の`global`宣言を必要とせず、最後に渡したdataへの不要な参照も残しません。
+
+既存Windowやlayoutへ取り付ける例です。Window側はこのWidgetを生成して配置するだけで、
+同じbinding一式を利用できます。
+
+```python
+widget = bool_views.BoolViewsWidget(
+    data,
+    "visible_by_default",
+    maya_node_name=node,
+    maya_attribute_name="visibility",
+    parent=parent,
+)
+layout.addWidget(widget)
+```
+
+複数の独立したWindow管理が必要な場合は、Managerを個別に生成できます。
+
+```python
+manager = bool_views.BoolViewsWindowManager()
+window = manager.show(data, "visible_by_default")
+```
+
+sampleを完全に破棄する場合です。
+
+```python
+bool_views.dispose()
+```
+
+### 1つのViewModelを複数Windowで共有するsample
+
+`shared_bool_views`は、1つの`BoolViewModel`をWindow A / Bで共有するsampleです。
+両方に全5種類のBool Viewと`Print Data Value`ボタンを配置し、片方を閉じた後の同期と
+再表示まで確認できます。MayaのScript EditorのPythonタブで次を実行してください。
+
+```python
+from bd_util._sample.maya.ui.bool_sample import shared_bool_views
+
+data = shared_bool_views.VisibilityData()
+manager = shared_bool_views.SharedBoolViewsManager(
+    data,
+    "visible_by_default",
+)
+window_a, window_b = manager.show()
+```
+
+引数は既存sampleと同じく、任意のPython objectと正本にするbool attribute名です。
+`VisibilityData`は`bool_sample/data.py`に置いた共通dataclassです。Managerを操作できるよう、
+`manager`変数を保持してください。
+
+責務は次のように分けています。
+
+| class | 責務 |
+| --- | --- |
+| `SharedBoolViewsManager` | Python Store、共通のQt owner、ViewModel、任意のMaya View、2つのWindow Controllerを保持する |
+| `SharedBoolViewsWidget` | 外部ViewModelを受け取り、5種類のViewを接続する。正本の出力はsignalでManagerへ要求する |
+| `SharedBoolViewsWindow` | Widgetと、そのWindowだけを閉じるボタンを配置する |
+
+共通のQt ownerはWindowの子にせず、ViewModelとMaya Viewだけの寿命を管理します。
+Window自体のQt parentは、既存の`MayaWindowController`を通してMaya main windowになります。
+各Widgetは渡されたViewModelのparentを変更しません。
+
+node名から任意のbool plugを解決する処理は、両sampleで共用する
+`bd_util/_sample/maya/ui/bool_sample/bool_plug.py`へまとめています。
+
+Window A / BのいずれかのViewを操作すると、相手WindowとPython正本へ反映されます。
+次の式でも、同じViewModel instanceであることを確認できます。
+
+```python
+print(
+    window_a.bool_views_widget.view_model
+    is window_b.bool_views_widget.view_model
+    is manager.view_model
+)  # True
+
+manager.set_value(False)  # 両Windowと共通のCommandから入力する。
+manager.print_data_value()  # 各WindowのPrint Data Valueボタンと同じ処理。
+```
+
+×ボタンまたは`Close Window A / B`で片方を閉じても、もう一方の操作は継続できます。
+閉じたWindowは、その後のScript Editor操作で再表示できます。
+
+```python
+window_a = manager.show_a()  # Aだけ再表示する。
+window_b = manager.show_b()  # Bだけ再表示する。
+window_a, window_b = manager.show()  # 両方を表示する。
+```
+
+生存中のWindowは再利用し、破棄済みのWindowだけを再生成します。再生成したViewは同じ
+ViewModelの現在値を初期表示します。両方のWindowを閉じた場合も、共有bindingは継続します。
+
+Python objectのattributeをCommandを使わず直接変更した場合は、明示的に再読込します。
+
+```python
+data.visible_by_default = True
+manager.refresh_from_data()
+```
+
+Maya nodeも同期する場合は、現在のManagerを終了してから任意のnode名・attribute名を
+指定したManagerを作成します。次の例は確認用cubeを追加します。
+
+```python
+from maya import cmds
+
+manager.dispose()
+node = cmds.polyCube(name="bdSharedBoolViewsSample")[0]
+manager = shared_bool_views.SharedBoolViewsManager(
+    data,
+    "visible_by_default",
+    maya_node_name=node,
+    maya_attribute_name="visibility",
+)
+window_a, window_b = manager.show()
+```
+
+生成時にはPython正本の現在値がMaya plugへ反映されます。`MayaBoolPlugView`はWindowごとに
+作らず、共通ownerの下に1つだけ作成します。Attribute Editor、Maya Python、undo / redo
+からの変更は、Qtへ制御が戻った後のevent loopで両Windowと正本へ反映されます。
+両Windowを閉じた状態でも、Maya nodeとPython正本の同期は継続します。
+
+```python
+cmds.setAttr(f"{node}.visibility", False)
+```
+
+確認終了時は、Windowを閉じる操作とは別に、次を実行してください。
+
+```python
+manager.dispose()
+```
+
+`dispose()`はMaya callbackを即座に解除し、両Windowと共有QObjectの削除をQtへ予約します。
+保留中のMaya入力も以後は反映しません。渡したPythonデータの値やMaya nodeは削除・復元しません。
+終了したManagerは再利用せず、新しいManagerを生成してください。構成を変更する場合も、
+古いManagerを`dispose()`してから作成します。
 
 ## Maya callbackのlifecycle管理
 
@@ -601,7 +1063,7 @@ tool固有のSplitter幅や選択タブは`UiStateManager`でtool単位の`ui.in
 
 ## Maya 2025 / 2026 / 2027 UI互換性確認
 
-Qt facade、Window lifecycle、Maya UI adapterの自動テストは、対応する各Mayaの`mayapy`で
+Qt facade、Window lifecycle、Maya UI連携の自動テストは、対応する各Mayaの`mayapy`で
 同じコマンドから実行できます。
 
 ```powershell
@@ -617,13 +1079,22 @@ Qt facade、Window lifecycle、Maya UI adapterの自動テストは、対応す�
 Maya APIを使うUIテストを独立したmayapy processで実行します。pytestはrepository直下の
 `.test`から読み込み、統一検証では`.\scripts\verify.cmd`が3 versionを実行します。
 
-2026-08-22時点の確認結果です。
+2026-09-06時点の確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 71 passed | 50 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 71 passed | 50 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 71 passed | 50 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 121 passed | 92 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 121 passed | 92 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 121 passed | 92 passed |
+
+上表はUI専用テストの結果であり、repository全体の統合検証成功とは区別します。
+2026-09-06の`verify.cmd`はBlackと3 versionのPyright contractが成功した後、
+Maya 2025 full pytestで`1 failed, 2520 passed, 78 skipped`となりました。
+失敗は`test_plugin_metadata_matches_runtime`の1件で、staged plug-inの`apiVersion`が
+`20250000`、実行中Mayaが`20250303`という不一致です。native plug-inと検証環境の
+整合性は別途確認が必要で、UI変更を理由にこの検証を無効化しません。
+`verify.cmd`はそこで停止するため、上表のUI専用テストは`test-ui-maya-all.cmd`で
+別途実行した結果です。
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って
@@ -657,6 +1128,9 @@ UI基盤を変更・拡張するときは、次のcontractを維持します。
 
 - `bd_util.ui`はMayaをimportせず、Maya固有処理は`bd_util.maya.ui`へ置く。
 - PySideとshibokenは利用側から直接importせず、`bd_util.ui.qt`をbinding境界とする。
+- bool bindingのViewModelはViewを所有・破棄せず、破棄通知からのUI操作を遅延させる。
+  View生成順の制約を利用側へ戻さず、共有時は個々のWindowから独立したownerを使う。
+  詳細と回帰テストの入口は[設計・保守メモ](bool_binding_design.md)を参照する。
 - dockable Windowの配置はworkspaceControlへ委ね、内側のWidgetへ通常Window用geometryを
   復元しない。
 - Maya終了時にWidgetから状態を再取得せず、変更signalで退避済みの状態を保存する。
@@ -665,6 +1139,6 @@ UI基盤を変更・拡張するときは、次のcontractを維持します。
 - closeの既定は`retain=False`とし、WindowとMaya callbackを完全破棄する。非表示中も処理を
   継続する明確な要件があるtoolだけ`retain=True`を指定する。
 - QHeaderViewの列幅・表示順は共通保存へ追加せず、必要なtoolが個別に管理する。
-- Qt facade、Window lifecycle、Maya UI adapterの変更中は`test-ui-maya-all.cmd`で
+- Qt facade、Window lifecycle、Maya UI連携の変更中は`test-ui-maya-all.cmd`で
   切り分け、最終確認は`verify.cmd`を実行する。
   workspaceControl、再起動復元、実画面配置に関わる変更は各versionのMaya本体でも確認する。
