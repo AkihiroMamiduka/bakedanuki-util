@@ -356,6 +356,8 @@ node = nodes.existing("existing_node")
   - Attribute / Plug / AddAttr 周辺です。
 - `bakedanuki/bakedanuki-util/docs/maya/node_operator/modifier_manager.md`
   - ModifierManager の設計です。
+- `bakedanuki/bakedanuki-util/docs/maya/node_operator/maya_versions.md`
+  - Maya version別runtime schema、IDE補完、次version追加手順です。
 - `bakedanuki/bakedanuki-util/docs/maya/node_operator/generator.md`
   - ノード生成器の設計です。
 - `bakedanuki/bakedanuki-util/docs/maya/node_operator/testing.md`

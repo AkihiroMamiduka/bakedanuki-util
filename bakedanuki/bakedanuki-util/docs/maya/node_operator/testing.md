@@ -546,6 +546,9 @@ console には scenario ごとの median / min / max を表示します。
 
 ## version別生成snapshotの受け入れ確認
 
+新しい対応versionの登録箇所と追加順序は
+[Maya Version Support](maya_versions.md)を参照してください。
+
 NodeOperator の生成snapshotはMaya 2025を基準とし、Maya 2026 / 2027の
 schema差分をsparse overlayとして保持します。実行時importは実Maya version、
 Pyright contractは`typing_maya_version`だけを参照し、両者を独立に検証します。

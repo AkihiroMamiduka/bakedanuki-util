@@ -2,7 +2,8 @@
 
 このドキュメントは、`bd_util.maya.node.operator` 周辺の現行仕様を共有するためのメモです。
 
-対象は Maya 2025 / Python 3.11.4 以降です。まだ 1.0.0 前の開発中 API として扱い、利便性と OpenMaya に近い速度の両立を優先します。
+対象は Maya 2025 / 2026 / 2027、Python 3.11.4 以降です。まだ 1.0.0 前の
+開発中 API として扱い、利便性と OpenMaya に近い速度の両立を優先します。
 
 ## 目的
 
@@ -159,7 +160,8 @@ schema と利用可能ノードが使われます。指定を省略した場合�
 
 補完面は`nodes.create`、`nodes.existing`、`nodes.types`の3入口をまとめて選択します。
 実行時schemaと補完stubの生成方法は[Generator](generator.md)、version別の検証入口は
-[Testing](testing.md)を参照してください。
+[Testing](testing.md)、次のMaya versionを追加する保守手順は
+[Maya Version Support](maya_versions.md)を参照してください。
 
 補完stubに含まれない生成済みNodeOperatorを意図的に動的指定する場合は、文字列APIを
 escape hatchとして使用できます。

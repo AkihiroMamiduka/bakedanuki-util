@@ -579,6 +579,9 @@ maya.standalone.initialize(name="python")
 
 ### Maya version 別 snapshot の再生成
 
+次のMaya versionを正式対応へ追加する場合は、先に
+[Maya Version Support](maya_versions.md)の全体チェックリストを確認してください。
+
 正式な Maya 2025 / 2026 / 2027 snapshot を更新するときは、個別に plugin を
 ロードして `generate_node_class_file()` を繰り返すのではなく、version overlay 用の
 CLI を使用します。リポジトリ直下から Maya 2027 を生成する例です。
