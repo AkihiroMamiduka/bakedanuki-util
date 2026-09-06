@@ -18,6 +18,18 @@ class _StoreAttachmentValidator(Protocol):
         raise NotImplementedError
 
 
+class _QueuedSignal(Protocol):
+    """QueuedConnectionを指定できるQt signalの型境界。"""
+
+    def connect(
+        self,
+        slot: Callable[[], None],
+        connection_type: qt.Qt.ConnectionType,
+    ) -> qt.QtCore.QMetaObject.Connection:
+        """slotを指定した接続方式で接続する。"""
+        raise NotImplementedError
+
+
 def _require_bool(value: object, argument_name: str) -> bool:
     """値をboolとして検証して返す。"""
     if not isinstance(value, bool):
@@ -79,7 +91,7 @@ class BoolViewModel(qt.QObject):
         value: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
-        """メモリ上の初期値と任意のQt ownerで初期化する。"""
+        """メモリ上の初期値とbindingの寿命を管理するownerで初期化する。"""
         super().__init__(parent)
         self._value = _MutableBoolValue(value, self)
         self._set_value_command = _MutableSetBoolCommand(
@@ -124,8 +136,12 @@ class BoolViewModel(qt.QObject):
         self._store = store
         try:
             if isinstance(store, qt.QObject):
-                self._store_destroyed_connection = store.destroyed.connect(
-                    self._on_store_destroyed
+                self._store_destroyed_connection = cast(
+                    _QueuedSignal,
+                    store.destroyed,
+                ).connect(
+                    self._on_store_destroyed,
+                    qt.Qt.ConnectionType.QueuedConnection,
                 )
             self.refresh_from_store(store)
         except Exception:
@@ -228,10 +244,8 @@ class BoolViewModel(qt.QObject):
         if store is not self._store:
             raise ValueError("通知元はこのBoolViewModelへ接続されていません")
 
-    def _on_store_destroyed(
-        self,
-        _object: qt.QObject | None = None,
-    ) -> None:
-        """QObject Storeの破棄をCommand状態へ反映する。"""
+    @qt.Slot()
+    def _on_store_destroyed(self) -> None:
+        """QObject Store破棄後のCommand停止をevent loopで反映する。"""
         self._store_destroyed_connection = None
         self._set_value_command.set_can_execute(False)

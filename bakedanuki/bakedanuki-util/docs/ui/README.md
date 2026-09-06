@@ -159,6 +159,46 @@ Storeは広い意味ではModel側に属しますが、tool全体のModelその�
 複数のViewは互いを直接参照しません。同じViewModelを参照することで、Viewが増えても
 正本と同期経路を1つに保ちます。
 
+ViewModelの`parent`には、Viewの生成順ではなくbinding全体の寿命を管理するownerを
+指定します。1つのFeature Widgetだけで利用する場合は、そのWidgetを生成時からparentに
+指定できます。ViewModelの破棄通知は次のevent loopでViewへ反映されるため、QObjectの
+子登録順を利用側で調整する必要はありません。
+
+複数Windowで共有する場合は、いずれかのWindowではなく、両方より長く存続するtoolの
+ControllerなどをViewModelのownerにします。各WindowのViewは同じViewModelを参照するだけ
+なので、一方のWindowを閉じても残ったViewとの同期を継続できます。
+
+```text
+Tool Controller
+├─ BoolViewModel
+├─ Window A ─ Bool View ─┐
+└─ Window B ─ Bool View ─┴─→ 共通のBoolViewModel
+```
+
+低レベルAPIでは、共通ownerとViewModelをtoolのControllerなどが保持し、各Windowには
+Viewだけを配置します。
+
+```python
+from bd_util.ui import (
+    BoolCheckBox,
+    BoolComboBox,
+    BoolViewModel,
+    PythonBoolAttributeStore,
+    qt,
+)
+
+binding_owner = qt.QObject()  # 実際のtoolではControllerが保持する。
+view_model = BoolViewModel(parent=binding_owner)
+view_model.attach_store(PythonBoolAttributeStore(data, "visible"))
+
+first_view = BoolCheckBox(view_model, parent=window_a)
+second_view = BoolComboBox(view_model, parent=window_b)
+```
+
+Maya plugも共有する場合、`MayaBoolPlugView`はWindowごとに作らず、同じ共通ownerの下へ
+1つだけ作成します。すべてのWindowを閉じても同期を維持するか、tool終了時に破棄するかは、
+View数ではなくControllerのlifecycleで決めます。
+
 `BoolViewModel`は、読み取り専用の`BoolValue`と、UI／Pythonから共有する
 `SetBoolCommand`を管理します。各ViewはViewModelだけを参照し、入力可能なViewはユーザー入力を
 Commandへ渡し、すべてのViewが`BoolValue.changed`から表示を更新します。
@@ -377,8 +417,14 @@ bool_views.refresh_from_data()
 
 sampleは関連ファイルを1つのpackageへまとめています。`BoolViewsWindow`はWidgetを配置する
 だけとし、`BoolViewsWidget`がStore、ViewModel、任意のMaya View、全Qt Viewを所有します。
+ViewModelは通常のQt所有としてFeature Widgetをparentにし、子の登録順に依存せず破棄できます。
 `BoolViewsWindowManager`はWindow生成時のbinding引数とlifecycleを管理し、module-levelの
 `show()`、`set_value()`、`refresh_from_data()`、`dispose()`は既定Managerへ処理を委譲します。
+
+この`BoolViewsWidget`は1つのWindow内でbinding一式を確認する自己完結sampleです。複数Windowで
+共有する場合は、前述の低レベルAPIを使ってtoolのControllerがStore、ViewModel、任意の
+`MayaBoolPlugView`を1組だけ所有します。複数の値型でも同じ共有構成が必要になった段階で、
+これらを束ねる`BindingSession`の共通化を検討します。
 
 ManagerはWindow生成中だけ引数を保持し、生成後には破棄します。そのため、module-levelの
 可変な引数や関数内の`global`宣言を必要とせず、最後に渡したdataへの不要な参照も残しません。

@@ -27,6 +27,18 @@ class _QTimerType(Protocol):
         raise NotImplementedError
 
 
+class _QueuedSignal(Protocol):
+    """PySide stubの型と実際のqueued connectの差を吸収する。"""
+
+    def connect(
+        self,
+        slot: Callable[[], None],
+        connection_type: qt.Qt.ConnectionType,
+    ) -> qt.QtCore.QMetaObject.Connection:
+        """slotを指定した接続方式で登録する。"""
+        raise NotImplementedError
+
+
 def _run_later(callback: Callable[[], None]) -> None:
     """次のQt event loopでcallbackを一度だけ呼び出す。"""
     timer_type = cast(_QTimerType, qt.QtCore.QTimer)
@@ -92,6 +104,22 @@ class _MayaBoolPlugCallbackRegistry(MayaCallbackRegistry):
 
     disposed = qt.Signal()
 
+    def __init__(self, owner: qt.QObject) -> None:
+        """callback ownerと破棄経路の状態を保持して初期化する。"""
+        self._owner_is_being_destroyed = False
+        self._endpoint_is_being_destroyed = False
+        super().__init__(owner)
+
+    @property
+    def owner_is_being_destroyed(self) -> bool:
+        """ownerのQObject破棄通知から解除中か返す。"""
+        return self._owner_is_being_destroyed
+
+    @property
+    def endpoint_is_being_destroyed(self) -> bool:
+        """endpointのQObject破棄通知から解除中か返す。"""
+        return self._endpoint_is_being_destroyed
+
     def dispose(
         self,
         _object: qt.QObject | None = None,
@@ -101,6 +129,18 @@ class _MayaBoolPlugCallbackRegistry(MayaCallbackRegistry):
             return
         super().dispose(_object)
         self.disposed.emit()
+
+    @qt.Slot()
+    def _on_owner_destroyed(self) -> None:
+        """owner破棄中の同期通知を識別してcallbackを解除する。"""
+        self._owner_is_being_destroyed = True
+        super()._on_owner_destroyed()
+
+    @qt.Slot()
+    def dispose_from_endpoint_destruction(self) -> None:
+        """endpoint破棄中の同期通知を識別してcallbackを解除する。"""
+        self._endpoint_is_being_destroyed = True
+        self.dispose()
 
 
 class _MayaBoolPlugEndpoint(qt.QObject):
@@ -136,13 +176,21 @@ class _MayaBoolPlugEndpoint(qt.QObject):
         ) = self._registry.disposed.connect(self._on_registry_disposed)
         self._owner_destroyed_connection: (
             qt.QtCore.QMetaObject.Connection | None
-        ) = owner.destroyed.connect(self._on_owner_destroyed)
+        ) = cast(_QueuedSignal, owner.destroyed).connect(
+            self._on_owner_destroyed,
+            qt.Qt.ConnectionType.QueuedConnection,
+        )
         self._view_model_destroyed_connection: (
             qt.QtCore.QMetaObject.Connection | None
-        ) = view_model.destroyed.connect(self._on_view_model_destroyed)
+        ) = cast(_QueuedSignal, view_model.destroyed).connect(
+            self._on_view_model_destroyed,
+            qt.Qt.ConnectionType.QueuedConnection,
+        )
         self._self_destroyed_connection: (
             qt.QtCore.QMetaObject.Connection | None
-        ) = self.destroyed.connect(self._registry.dispose)
+        ) = self.destroyed.connect(
+            self._registry.dispose_from_endpoint_destruction
+        )
 
         try:
             self._register_callbacks()
@@ -216,7 +264,11 @@ class _MayaBoolPlugEndpoint(qt.QObject):
         set_attr(self._cmds_plug_name(), value)
         return self._read_plug()
 
-    def _dispose_endpoint(self) -> bool:
+    def _dispose_endpoint(
+        self,
+        *,
+        notify_view_model: bool = True,
+    ) -> bool:
         """破棄順に依存せずcallbackと同期状態を停止する。"""
         if self._is_disposed:
             return False
@@ -225,7 +277,7 @@ class _MayaBoolPlugEndpoint(qt.QObject):
         self._disconnect_lifecycle_connections()
         self._registry.dispose()
         try:
-            self._on_endpoint_unavailable()
+            self._on_endpoint_unavailable(notify_view_model)
         finally:
             self._view_model = None
         return True
@@ -332,7 +384,7 @@ class _MayaBoolPlugEndpoint(qt.QObject):
         """subclass固有の方向でplugの状態を同期する。"""
         raise NotImplementedError
 
-    def _on_endpoint_unavailable(self) -> None:
+    def _on_endpoint_unavailable(self, notify_view_model: bool) -> None:
         """subclassへnodeまたはbindingの利用終了を通知する。"""
         raise NotImplementedError
 
@@ -373,14 +425,21 @@ class _MayaBoolPlugEndpoint(qt.QObject):
 
     def _on_registry_disposed(self) -> None:
         """controllerなどによるregistryの先行解除へ追従する。"""
+        if (
+            self._registry.owner_is_being_destroyed
+            or self._registry.endpoint_is_being_destroyed
+        ):
+            return
         self._dispose_endpoint()
 
-    def _on_owner_destroyed(self, *_args: object) -> None:
-        """owner破棄時に同期を安全に停止する。"""
-        self._dispose_endpoint()
+    @qt.Slot()
+    def _on_owner_destroyed(self) -> None:
+        """owner破棄後に残ったendpointを通知なしで停止する。"""
+        self._dispose_endpoint(notify_view_model=False)
 
-    def _on_view_model_destroyed(self, *_args: object) -> None:
-        """ViewModel破棄時にcallbackを安全に停止する。"""
+    @qt.Slot()
+    def _on_view_model_destroyed(self) -> None:
+        """ViewModelのQObject tree破棄後にcallbackを停止する。"""
         self._dispose_endpoint()
 
 
@@ -423,8 +482,10 @@ class MayaBoolPlugStore(_MayaBoolPlugEndpoint):
         """Maya callbackを接続済みViewModelへ反映する。"""
         return self.refresh()
 
-    def _on_endpoint_unavailable(self) -> None:
+    def _on_endpoint_unavailable(self, notify_view_model: bool) -> None:
         """このStoreが正本の場合だけCommandを無効化する。"""
+        if not notify_view_model:
+            return
         view_model = self._valid_view_model()
         if view_model is not None and view_model.store is self:
             view_model.store_became_unavailable(self)
@@ -662,8 +723,9 @@ class MayaBoolPlugView(_MayaBoolPlugEndpoint):
         self._last_sync_error = error
         self.sync_failed.emit(error)
 
-    def _on_endpoint_unavailable(self) -> None:
+    def _on_endpoint_unavailable(self, notify_view_model: bool) -> None:
         """Viewだけを停止し、StoreとCommandには影響させない。"""
+        del notify_view_model
         self._is_synchronized = False
         _disconnect_qt_connection(self._value_changed_connection)
         self._value_changed_connection = None

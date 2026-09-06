@@ -7,13 +7,21 @@ from dataclasses import dataclass
 import pytest
 from maya import cmds, standalone
 
+from bd_util import Nodes
 from bd_util._sample.maya.ui.bool_views import (
     BoolViewsWidget,
     BoolViewsWindow,
     BoolViewsWindowManager,
     VisibilityData,
 )
-from bd_util.ui import qt
+from bd_util.maya.ui import MayaBoolPlugView
+from bd_util.ui import (
+    BoolCheckBox,
+    BoolComboBox,
+    BoolViewModel,
+    PythonBoolAttributeStore,
+    qt,
+)
 
 
 @dataclass
@@ -128,6 +136,34 @@ def test_bool_views_widget_requires_maya_names_as_pair(
         BoolViewsWidget(data, "enabled", maya_attribute_name="visibility")
 
 
+def test_bool_views_widget_destroys_binding_without_order_contract(
+    qt_application: qt.QApplication,
+) -> None:
+    # ViewModelを最初の子として持つ通常のQt所有構成を生成する。
+    widget = BoolViewsWidget(SampleBoolData(), "enabled")
+    view_model = widget.view_model
+    views = (
+        widget.check_box,
+        widget.combo_box,
+        widget.push_button,
+        widget.radio_button_group,
+        widget.status_label,
+    )
+    assert view_model.parent() is widget
+
+    # 子の登録順に依存せずFeature Widget全体を安全に破棄する。
+    widget.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        widget,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
+    qt_application.processEvents()
+
+    assert not qt.isValid(widget)
+    assert not qt.isValid(view_model)
+    assert all(not qt.isValid(view) for view in views)
+
+
 def test_bool_views_window_manager_owns_arguments_and_lifecycle(
     qt_application: qt.QApplication,
     maya_standalone: None,
@@ -216,6 +252,73 @@ def test_bool_views_window_mounts_self_contained_widget(
         window.deleteLater()
         qt.QtCore.QCoreApplication.sendPostedEvents(
             window,
+            qt.QtCore.QEvent.Type.DeferredDelete,
+        )
+        qt_application.processEvents()
+        cmds.file(new=True, force=True)
+
+
+def test_shared_binding_survives_one_window_with_maya_view(
+    qt_application: qt.QApplication,
+    maya_standalone: None,
+) -> None:
+    # Window外のownerへStore、ViewModel、Maya Viewの寿命を集約する。
+    cmds.file(new=True, force=True)
+    node_name = cmds.createNode("transform", name="sharedBoolViewTest")
+    node = Nodes().existing.transform(node_name)
+    plug_name = f"{node_name}.visibility"
+    binding_owner = qt.QObject()
+    data = SampleBoolData(False)
+    view_model = BoolViewModel(parent=binding_owner)
+    view_model.attach_store(PythonBoolAttributeStore(data, "enabled"))
+    maya_view = MayaBoolPlugView(
+        view_model,
+        node.visibility,
+        binding_owner,
+    )
+
+    # 2つのWindowはbindingを所有せず、同じViewModelを表示する。
+    first_window = qt.QWidget()
+    second_window = qt.QWidget()
+    first_view = BoolCheckBox(view_model, parent=first_window)
+    second_view = BoolComboBox(view_model, parent=second_window)
+    try:
+        first_view.click()
+        assert data.enabled is True
+        assert second_view.currentData() is True
+        assert bool(cmds.getAttr(plug_name)) is True
+
+        # 一方のWindowを閉じても残りのViewとMaya同期を維持する。
+        first_window.deleteLater()
+        qt.QtCore.QCoreApplication.sendPostedEvents(
+            first_window,
+            qt.QtCore.QEvent.Type.DeferredDelete,
+        )
+        qt_application.processEvents()
+
+        assert not qt.isValid(first_window)
+        assert qt.isValid(view_model)
+        assert not maya_view.is_disposed
+        assert qt.isValid(second_view)
+
+        cmds.setAttr(plug_name, False)
+        qt_application.processEvents()
+        qt_application.processEvents()
+        assert data.enabled is False
+        assert second_view.currentData() is False
+
+        second_view.setCurrentIndex(second_view.findData(True))
+        assert data.enabled is True
+        assert bool(cmds.getAttr(plug_name)) is True
+    finally:
+        # Windowとは独立して、toolのbinding ownerを最後に破棄する。
+        if qt.isValid(first_window):
+            first_window.deleteLater()
+        if qt.isValid(second_window):
+            second_window.deleteLater()
+        binding_owner.deleteLater()
+        qt.QtCore.QCoreApplication.sendPostedEvents(
+            None,
             qt.QtCore.QEvent.Type.DeferredDelete,
         )
         qt_application.processEvents()

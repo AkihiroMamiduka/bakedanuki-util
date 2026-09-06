@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from .... import qt
 from ..view_model import BoolViewModel
+from ._connection import connect_queued_qt_signal
 
 
 class BoolStatusLabel(qt.QLabel):
@@ -24,7 +25,10 @@ class BoolStatusLabel(qt.QLabel):
         self._update_text(view_model.value.value)
 
         view_model.value.changed.connect(self._update_text)
-        view_model.destroyed.connect(self._on_view_model_destroyed)
+        connect_queued_qt_signal(
+            view_model.destroyed,
+            self._on_view_model_destroyed,
+        )
 
     @property
     def view_model(self) -> BoolViewModel:
@@ -45,10 +49,8 @@ class BoolStatusLabel(qt.QLabel):
             return None
         return view_model
 
-    def _on_view_model_destroyed(
-        self,
-        _object: qt.QObject | None = None,
-    ) -> None:
-        """ViewModel破棄後は最終表示を残して無効状態にする。"""
+    @qt.Slot()
+    def _on_view_model_destroyed(self) -> None:
+        """次のevent loopで最終表示を残して無効状態にする。"""
         if qt.isValid(self):
             self.setEnabled(False)

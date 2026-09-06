@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from .... import qt
 from ..view_model import BoolViewModel
-from ._connection import disconnect_qt_connection
+from ._connection import connect_queued_qt_signal, disconnect_qt_connection
 
 
 class BoolPushButton(qt.QPushButton):
@@ -33,7 +33,10 @@ class BoolPushButton(qt.QPushButton):
         view_model.set_value_command.can_execute_changed.connect(
             self.setEnabled
         )
-        view_model.destroyed.connect(self._on_view_model_destroyed)
+        connect_queued_qt_signal(
+            view_model.destroyed,
+            self._on_view_model_destroyed,
+        )
 
     @property
     def view_model(self) -> BoolViewModel:
@@ -80,9 +83,7 @@ class BoolPushButton(qt.QPushButton):
         if qt.isValid(self):
             self.setEnabled(False)
 
-    def _on_view_model_destroyed(
-        self,
-        _object: qt.QObject | None = None,
-    ) -> None:
-        """ViewModel破棄後のUI入力を安全に停止する。"""
+    @qt.Slot()
+    def _on_view_model_destroyed(self) -> None:
+        """次のevent loopでViewModel破棄後のUI入力を停止する。"""
         self._disable_binding()

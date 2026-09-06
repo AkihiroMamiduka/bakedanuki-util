@@ -531,6 +531,28 @@ def test_owner_destruction_disposes_view_but_keeps_store_usable(
     assert data.visible is True
 
 
+def test_view_model_destruction_queues_maya_view_disposal(
+    bool_plug_view: _ViewContext,
+) -> None:
+    # destroyed通知中はViewへ同期再入せず、次のevent loopで停止する。
+    view_model = bool_plug_view.view_model
+    view_model.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        view_model,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
+
+    assert not qt.isValid(view_model)
+    assert not bool_plug_view.view.is_disposed
+
+    _process_events()
+
+    assert bool_plug_view.view.is_disposed
+    assert not bool_plug_view.view.is_available
+    with pytest.raises(RuntimeError, match="ViewModelは破棄"):
+        _ = bool_plug_view.view.view_model
+
+
 def test_view_keeps_temporary_view_model_alive(
     new_scene,
     maya_cmds,

@@ -339,12 +339,21 @@ def test_owner_destruction_stops_store_with_external_view_model(
         owner,
     )
     view_model.attach_store(store)
+    registry = store._registry
+    assert registry.callback_ids
 
     owner.deleteLater()
     qt.QtCore.QCoreApplication.sendPostedEvents(
         owner,
         qt.QtCore.QEvent.Type.DeferredDelete,
     )
+
+    # QObject tree破棄中はViewModelへ通知せず、callbackだけを即時解除する。
+    assert registry.is_disposed
+    assert registry.callback_ids == ()
+    assert view_model.set_value_command.can_execute
+
+    # 残ったViewModelは次のevent loopでStoreの利用終了へ追従する。
     qt.QtCore.QCoreApplication.processEvents()
 
     assert store.is_disposed
@@ -352,6 +361,47 @@ def test_owner_destruction_stops_store_with_external_view_model(
     assert not view_model.set_value_command.can_execute
     maya_cmds.setAttr(f"{node_name}.visibility", False)
     assert view_model.value.value is True
+
+
+def test_shared_owner_destruction_does_not_notify_view_synchronously(
+    new_scene,
+    maya_cmds,
+) -> None:
+    # Store、ViewModel、View相当の購読先を同じownerの寿命へ揃える。
+    node_name = maya_cmds.createNode(
+        "transform",
+        name="sharedOwnerLifetimeTest",
+    )
+    node = Nodes().existing.transform(node_name)
+    owner = qt.QObject()
+    destruction_events: list[object] = []
+    owner.destroyed.connect(lambda: destruction_events.append("owner"))
+    view_model = BoolViewModel(False, owner)
+    store = MayaBoolPlugStore(
+        view_model,
+        node.visibility,
+        owner,
+    )
+    view_model.attach_store(store)
+    registry = store._registry
+    assert registry.callback_ids
+    view_model.set_value_command.can_execute_changed.connect(
+        lambda value: destruction_events.append(("view", value))
+    )
+
+    # owner破棄中はcallbackだけを解除し、View向けsignalを同期発火しない。
+    owner.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        owner,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
+
+    assert destruction_events == ["owner"]
+    assert registry.is_disposed
+    assert registry.callback_ids == ()
+    assert not qt.isValid(owner)
+    assert not qt.isValid(view_model)
+    assert not qt.isValid(store)
 
 
 def test_view_model_destruction_disposes_store_safely(
@@ -378,17 +428,48 @@ def test_view_model_destruction_disposes_store_safely(
     bool_binding.store.dispose()
 
 
+def test_maya_callback_stops_store_while_view_model_cleanup_is_queued(
+    bool_binding,
+    maya_cmds,
+) -> None:
+    # destroyed通知からQObject treeへ同期再入せず、Qt処理まで解除を遅延する。
+    view_model = bool_binding.view_model
+    view_model.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        view_model,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
+
+    assert not qt.isValid(view_model)
+    assert not bool_binding.store.is_disposed
+
+    # 遅延解除前にMaya callbackが来ても、無効なVMを使わず即座に自己停止する。
+    maya_cmds.setAttr(f"{bool_binding.node_name}.visibility", False)
+    assert bool_binding.store.is_disposed
+    assert not bool_binding.store.is_available
+    qt.QtCore.QCoreApplication.processEvents()
+
+
 def test_store_qobject_destruction_stops_callbacks(
     bool_binding,
     maya_cmds,
 ) -> None:
     # disposeを直接呼ばずStoreのC++ objectを破棄する。
     store = bool_binding.store
+    registry = store._registry
+    assert registry.callback_ids
     store.deleteLater()
     qt.QtCore.QCoreApplication.sendPostedEvents(
         store,
         qt.QtCore.QEvent.Type.DeferredDelete,
     )
+
+    # self破棄中はViewModelへ通知せず、callbackだけを即時解除する。
+    assert registry.is_disposed
+    assert registry.callback_ids == ()
+    assert bool_binding.view_model.set_value_command.can_execute
+
+    # 次のevent loopでViewModelもStoreの破棄へ追従する。
     qt.QtCore.QCoreApplication.processEvents()
 
     # registryとViewModelの両方が破棄通知へ追従する。

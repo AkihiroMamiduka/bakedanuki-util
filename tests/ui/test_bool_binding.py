@@ -466,21 +466,36 @@ def test_view_model_rejects_second_store() -> None:
 def test_qobject_store_destruction_disables_command(
     qt_application: qt.QApplication,
 ) -> None:
-    # QObject Storeを接続し、外部からC++ objectを破棄する。
+    # QObject Storeと、それを表示するViewを別々の寿命で生成する。
     view_model = BoolViewModel(False)
     store = _QObjectBoolStore(True)
     view_model.attach_store(store)
+    checkbox = BoolCheckBox(view_model)
     store.deleteLater()
     qt.QtCore.QCoreApplication.sendPostedEvents(
         store,
         qt.QtCore.QEvent.Type.DeferredDelete,
     )
+
+    # Storeのdestroyed通知中は残ったViewへ同期再入しない。
+    assert not qt.isValid(store)
+    assert qt.isValid(checkbox)
+    assert checkbox.isEnabled()
+
+    # 次のevent loopでCommandと残ったViewを安全に停止する。
     qt_application.processEvents()
 
-    # 無効なStoreへCommandがアクセスしないよう即座に停止する。
     assert not qt.isValid(store)
     assert not view_model.set_value_command.can_execute
     assert not view_model.set_value_command.execute(False)
+    assert qt.isValid(checkbox)
+    assert not checkbox.isEnabled()
+
+    checkbox.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        checkbox,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
 
 
 def test_all_bool_views_and_python_share_the_same_command(
@@ -661,6 +676,10 @@ def test_combobox_disables_when_view_model_is_destroyed(
         view_model_owner,
         qt.QtCore.QEvent.Type.DeferredDelete,
     )
+    # destroyed通知だけではUIを同期操作せず、次のevent loopへ処理を渡す。
+    assert not qt.isValid(view_model)
+    assert combo_box.isEnabled()
+
     qt_application.processEvents()
     assert not qt.isValid(view_model)
     assert not combo_box.isEnabled()
@@ -805,6 +824,11 @@ def test_new_views_disable_when_view_model_is_destroyed(
         view_model_owner,
         qt.QtCore.QEvent.Type.DeferredDelete,
     )
+    # destroyed通知だけではUIを同期操作せず、次のevent loopへ処理を渡す。
+    assert not qt.isValid(view_model)
+    for view in (push_button, radio_group, status_label):
+        assert view.isEnabled()
+
     qt_application.processEvents()
 
     assert not qt.isValid(view_model)
@@ -929,6 +953,10 @@ def test_checkbox_disables_when_view_model_is_destroyed(
         view_model_owner,
         qt.QtCore.QEvent.Type.DeferredDelete,
     )
+    # destroyed通知だけではUIを同期操作せず、次のevent loopへ処理を渡す。
+    assert not qt.isValid(view_model)
+    assert checkbox.isEnabled()
+
     qt_application.processEvents()
     assert not qt.isValid(view_model)
     assert not checkbox.isEnabled()
@@ -942,6 +970,81 @@ def test_checkbox_disables_when_view_model_is_destroyed(
 
     checkbox.deleteLater()
     qt_application.processEvents()
+
+
+def test_all_bool_views_are_safe_when_shared_parent_destroys_view_model_first(
+    qt_application: qt.QApplication,
+) -> None:
+    # ViewModelを先、すべてのViewを後から同じparentへ登録する。
+    parent = qt.QWidget()
+    view_model = BoolViewModel(False, parent)
+    views = (
+        BoolCheckBox(view_model, parent=parent),
+        BoolComboBox(view_model, parent=parent),
+        BoolPushButton(view_model, parent=parent),
+        BoolRadioButtonGroup(view_model, parent=parent),
+        BoolStatusLabel(view_model, parent=parent),
+    )
+
+    # parent破棄中の同期UI操作に依存せず、全QObjectを安全に破棄する。
+    parent.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        parent,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
+    qt_application.processEvents()
+
+    assert not qt.isValid(parent)
+    assert not qt.isValid(view_model)
+    assert all(not qt.isValid(view) for view in views)
+
+
+def test_view_model_owned_outside_windows_is_shared_after_one_window_closes(
+    qt_application: qt.QApplication,
+) -> None:
+    # 両Windowより長寿命なownerへ共有ViewModelとStoreを保持する。
+    binding_owner = qt.QObject()
+    data = _BoolAttributeData(False)
+    view_model = BoolViewModel(parent=binding_owner)
+    view_model.attach_store(PythonBoolAttributeStore(data, "visible"))
+
+    # 異なるWindowのViewから同じViewModelを参照する。
+    first_window = qt.QWidget()
+    second_window = qt.QWidget()
+    first_view = BoolCheckBox(view_model, parent=first_window)
+    second_view = BoolComboBox(view_model, parent=second_window)
+
+    first_view.click()
+    assert data.visible is True
+    assert second_view.currentData() is True
+
+    # 一方のWindowだけを閉じても共有ViewModelと残りのViewを維持する。
+    first_window.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        first_window,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
+    qt_application.processEvents()
+
+    assert not qt.isValid(first_window)
+    assert not qt.isValid(first_view)
+    assert qt.isValid(view_model)
+    assert qt.isValid(second_view)
+    assert view_model.set_value_command.execute(False)
+    assert data.visible is False
+    assert second_view.currentData() is False
+
+    # 最後にWindowとbinding ownerをそれぞれの責務で破棄する。
+    second_window.deleteLater()
+    binding_owner.deleteLater()
+    qt.QtCore.QCoreApplication.sendPostedEvents(
+        None,
+        qt.QtCore.QEvent.Type.DeferredDelete,
+    )
+    qt_application.processEvents()
+
+    assert not qt.isValid(second_window)
+    assert not qt.isValid(view_model)
 
 
 def test_checkbox_keeps_temporary_view_model_alive(
