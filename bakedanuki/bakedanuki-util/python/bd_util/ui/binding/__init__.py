@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from .bool import (
+    BoolBinding,
     BoolCheckBox,
     BoolComboBox,
     BoolPushButton,
@@ -14,6 +15,7 @@ from .bool import (
 )
 
 __all__ = [
+    "BoolBinding",
     "BoolCheckBox",
     "BoolComboBox",
     "BoolPushButton",

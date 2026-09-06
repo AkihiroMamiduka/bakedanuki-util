@@ -1,19 +1,16 @@
 # coding: utf-8
 from __future__ import annotations
 
-from ......maya.node.operator.node._core import NodeOperator
-from ......maya.ui import MayaBoolPlugView
+from ......maya.ui import MayaBoolBinding
 from ......ui import (
     BoolCheckBox,
     BoolComboBox,
     BoolPushButton,
     BoolRadioButtonGroup,
     BoolStatusLabel,
-    BoolViewModel,
-    PythonBoolAttributeStore,
     qt,
 )
-from ..bool_plug import resolve_bool_plug, validate_maya_view_names
+from ..bool_plug import resolve_optional_bool_plug
 
 
 class BoolViewsWidget(qt.QWidget):
@@ -29,41 +26,19 @@ class BoolViewsWidget(qt.QWidget):
         parent: qt.QWidget | None = None,
     ) -> None:
         """値の正本と任意のMaya同期先を受け取って初期化する。"""
-        # Maya Viewの指定はWidget生成前にnode名とattribute名の組で検証する。
-        maya_view_names = validate_maya_view_names(
+        plug = resolve_optional_bool_plug(
             maya_node_name,
             maya_attribute_name,
         )
         super().__init__(parent)
 
-        # Python object内の指定attributeを値の正本としてViewModelへ接続する。
-        self.data = data
-        self.store = PythonBoolAttributeStore(data, data_attribute_name)
-        self.view_model = BoolViewModel(parent=self)
-        self.view_model.attach_store(self.store)
-
-        # Maya指定がない場合も同じWidget APIになるよう空の同期状態を用意する。
-        self.maya_node: NodeOperator | None = None
-        self.maya_node_name: str | None = None
-        self.maya_attribute_name: str | None = None
-        self.maya_view: MayaBoolPlugView | None = None
-        self._maya_node_argument: str | None = None
-
-        # Maya指定がある場合だけplugを入力・表示用Viewとして接続する。
-        if maya_view_names is not None:
-            requested_node_name, requested_attribute_name = maya_view_names
-            self.maya_node, plug = resolve_bool_plug(
-                requested_node_name,
-                requested_attribute_name,
-            )
-            self.maya_node_name = self.maya_node.cmd_access_name
-            self.maya_attribute_name = requested_attribute_name
-            self._maya_node_argument = requested_node_name
-            self.maya_view = MayaBoolPlugView(
-                self.view_model,
-                plug,
-                self,
-            )
+        self.binding = MayaBoolBinding.from_attribute(
+            data, data_attribute_name, maya_plug=plug, parent=self
+        )
+        self.data = self.binding.store.instance
+        self.store = self.binding.store
+        self.view_model = self.binding.view_model
+        self.maya_view = self.binding.maya_view
 
         # 入力可能なQt Viewをすべて同じViewModelへ接続する。
         self.check_box = BoolCheckBox(
@@ -104,8 +79,8 @@ class BoolViewsWidget(qt.QWidget):
         )
         maya_view_name = (
             "None"
-            if self.maya_node_name is None
-            else f"{self.maya_node_name}.{self.maya_attribute_name}"
+            if plug is None
+            else f"{plug.node.cmd_access_name}.{maya_attribute_name}"
         )
         maya_label = qt.QLabel(f"Maya View: {maya_view_name}")
 
@@ -144,53 +119,17 @@ class BoolViewsWidget(qt.QWidget):
     @property
     def value(self) -> bool:
         """ViewModelが現在公開している確定値を返す。"""
-        return self.view_model.value.value
+        return self.binding.value
 
     def set_value(self, value: bool) -> bool:
         """UI入力と同じCommandからbool値を変更する。"""
         # Python入力も各Qt Viewと同じ値変更Commandへ集約する。
-        return self.view_model.set_value_command.execute(value)
+        return self.binding.set_value(value)
 
     def refresh_from_data(self) -> bool:
         """Python objectのattributeを正本としてViewへ再反映する。"""
         # 外部で直接変更されたPython attributeをStoreから読み直す。
-        return self.view_model.refresh_from_store(self.store)
-
-    def matches_configuration(
-        self,
-        data: object,
-        data_attribute_name: str,
-        maya_node_name: str | None,
-        maya_attribute_name: str | None,
-    ) -> bool:
-        """指定内容が現在のbinding構成と同じか返す。"""
-        # 比較対象のMaya指定も生成時と同じ規則で検証する。
-        maya_view_names = validate_maya_view_names(
-            maya_node_name,
-            maya_attribute_name,
-        )
-
-        # Python正本が異なるか利用不能なら別構成として扱う。
-        if (
-            self.data is not data
-            or self.store.attribute_name != data_attribute_name
-            or not self.store.is_available
-        ):
-            return False
-
-        # Maya指定がない構成ではMaya Viewを持たないことを確認する。
-        if maya_view_names is None:
-            return self.maya_view is None
-
-        # Maya Viewが破棄済みなら同じ引数でもWindowを作り直す。
-        if self.maya_view is None or not self.maya_view.is_available:
-            return False
-
-        # Python正本とMaya指定の両方が一致した場合だけ再利用する。
-        return (
-            self._maya_node_argument == maya_view_names[0]
-            and self.maya_attribute_name == maya_view_names[1]
-        )
+        return self.binding.refresh()
 
     @qt.Slot(bool)
     def _print_data_value(self, _checked: bool = False) -> None:

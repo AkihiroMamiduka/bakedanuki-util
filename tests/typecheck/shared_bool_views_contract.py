@@ -6,7 +6,7 @@ from bd_util._sample.maya.ui.bool_sample.shared_bool_views import (
     SharedBoolViewsWidget,
     SharedBoolViewsWindow,
 )
-from bd_util.maya.ui import MayaBoolPlugView
+from bd_util.maya.ui import MayaBoolBinding, MayaBoolPlugView
 from bd_util.ui import BoolViewModel, PythonBoolAttributeStore, qt
 
 # sampleの公開入口からManager、Window、Widgetまで型と補完を追えることを確認する。
@@ -19,6 +19,7 @@ manager = SharedBoolViewsManager(
 )
 assert_type(manager.data, object)
 assert_type(manager.store, PythonBoolAttributeStore[object])
+assert_type(manager.binding, MayaBoolBinding[PythonBoolAttributeStore[object]])
 assert_type(manager.view_model, BoolViewModel)
 assert_type(manager.maya_view, MayaBoolPlugView | None)
 assert_type(manager.value, bool)

@@ -2,6 +2,7 @@
 
 from . import qt
 from .binding import (
+    BoolBinding,
     BoolCheckBox,
     BoolComboBox,
     BoolPushButton,
@@ -23,6 +24,7 @@ from .window_state import (
 )
 
 __all__ = [
+    "BoolBinding",
     "BoolCheckBox",
     "BoolComboBox",
     "BoolPushButton",

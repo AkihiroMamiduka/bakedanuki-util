@@ -4,9 +4,9 @@ from __future__ import annotations
 from functools import partial
 from typing import Literal
 
-from ......maya.ui import MayaBoolPlugView, MayaWindowController
-from ......ui import BoolViewModel, PythonBoolAttributeStore, qt
-from ..bool_plug import resolve_bool_plug, validate_maya_view_names
+from ......maya.ui import MayaBoolBinding, MayaWindowController
+from ......ui import qt
+from ..bool_plug import resolve_optional_bool_plug
 from .window import SharedBoolViewsWindow
 
 
@@ -22,19 +22,23 @@ class SharedBoolViewsManager:
         maya_attribute_name: str | None = None,
     ) -> None:
         """任意のPython bool attributeと任意のMaya同期先を共有する。"""
-        # 引数を先に検証し、Python objectの指定attributeを正本にする。
-        maya_view_names = validate_maya_view_names(
+        plug = resolve_optional_bool_plug(
             maya_node_name,
             maya_attribute_name,
         )
-        self.data = data
-        self.store = PythonBoolAttributeStore(data, data_attribute_name)
-
-        # 個々のWindowから独立したQObjectへ共有ViewModelの寿命を集約する。
-        self._binding_owner = qt.QObject()
-        self.view_model = BoolViewModel(parent=self._binding_owner)
-        self.maya_view: MayaBoolPlugView | None = None
-        self._maya_description = "None"
+        # bindingは個々のWindowから独立してManagerが保持する。
+        self.binding = MayaBoolBinding.from_attribute(
+            data, data_attribute_name, maya_plug=plug
+        )
+        self.data = self.binding.store.instance
+        self.store = self.binding.store
+        self.view_model = self.binding.view_model
+        self.maya_view = self.binding.maya_view
+        self._maya_description = (
+            "None"
+            if plug is None
+            else f"{plug.node.cmd_access_name}.{maya_attribute_name}"
+        )
         self._is_disposed = False
 
         # 各Windowの生成・再表示・破棄には既存のControllerを使用する。
@@ -44,24 +48,6 @@ class SharedBoolViewsManager:
         self._controller_b = MayaWindowController(
             partial(self._create_window, "B")
         )
-
-        # Window生成前にStoreを接続し、Maya指定時も共通のViewを1つだけ作る。
-        try:
-            self.view_model.attach_store(self.store)
-            if maya_view_names is not None:
-                node, plug = resolve_bool_plug(*maya_view_names)
-                self._maya_description = (
-                    f"{node.cmd_access_name}.{maya_view_names[1]}"
-                )
-                self.maya_view = MayaBoolPlugView(
-                    self.view_model,
-                    plug,
-                    self._binding_owner,
-                )
-        except Exception:
-            # 初期同期に失敗した場合も途中生成したQObjectを残さない。
-            self.dispose()
-            raise
 
     @property
     def window_a(self) -> SharedBoolViewsWindow | None:
@@ -76,17 +62,13 @@ class SharedBoolViewsManager:
     @property
     def is_disposed(self) -> bool:
         """Managerが終了済みか、共有QObjectが破棄済みか返す。"""
-        return (
-            self._is_disposed
-            or not qt.isValid(self._binding_owner)
-            or not qt.isValid(self.view_model)
-        )
+        return self._is_disposed or self.binding.is_disposed
 
     @property
     def value(self) -> bool:
         """共有ViewModelが現在公開している確定値を返す。"""
         self._require_active()
-        return self.view_model.value.value
+        return self.binding.value
 
     def show(self) -> tuple[SharedBoolViewsWindow, SharedBoolViewsWindow]:
         """両Windowを表示し、A、Bの順で返す。"""
@@ -106,12 +88,12 @@ class SharedBoolViewsManager:
     def set_value(self, value: bool) -> bool:
         """全Windowと共通のCommandをPythonから実行する。"""
         self._require_active()
-        return self.view_model.set_value_command.execute(value)
+        return self.binding.set_value(value)
 
     def refresh_from_data(self) -> bool:
         """Python objectを直接変更した後、全Viewへ現在値を再反映する。"""
         self._require_active()
-        return self.view_model.refresh_from_store(self.store)
+        return self.binding.refresh()
 
     def print_data_value(self) -> None:
         """表示のsnapshotではなく、正本値をScript Editorへ出力する。"""
@@ -129,14 +111,9 @@ class SharedBoolViewsManager:
         self._is_disposed = True
 
         # 遅延削除を待たずMaya同期を停止してから両Windowを閉じる。
-        if self.maya_view is not None and qt.isValid(self.maya_view):
-            self.maya_view.dispose()
+        self.binding.dispose()
         self._controller_a.dispose()
         self._controller_b.dispose()
-
-        # 共有ViewModelとMaya ViewのQObject本体はownerと一緒に破棄する。
-        if qt.isValid(self._binding_owner):
-            self._binding_owner.deleteLater()
 
     def _create_window(
         self,

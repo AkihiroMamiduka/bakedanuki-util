@@ -1,6 +1,11 @@
 # coding: utf-8
 
-from .binding import MayaBoolPlugStore, MayaBoolPlugView
+from .binding import (
+    MayaBoolBinding,
+    MayaBoolPlugStore,
+    MayaBoolPlugView,
+    resolve_bool_plug,
+)
 from .callback import MayaCallbackRegistry
 from .dock import (
     DockArea,
@@ -31,6 +36,7 @@ __all__ = [
     "get_ui_settings_file",
     "get_ui_settings_root",
     "MayaCallbackRegistry",
+    "MayaBoolBinding",
     "MayaBoolPlugStore",
     "MayaBoolPlugView",
     "MayaDockableWindow",
@@ -39,5 +45,6 @@ __all__ = [
     "MayaWindowController",
     "reset_and_show_ui_layout",
     "reset_ui_layout",
+    "resolve_bool_plug",
     "restore_dockable",
 ]
