@@ -131,6 +131,10 @@ simple_window.show()
 `MVSVM`と捉えると役割を整理しやすい構成ですが、一般的なパターン名ではないため、
 このドキュメントでは「StoreベースのMVVM」と呼びます。
 
+設計判断の理由、破棄時の注意点、今後の拡張時に確認する項目は
+[bool bindingの設計・保守メモ](bool_binding_design.md)にまとめています。
+このREADMEは公開APIと実行例、設計・保守メモは実装を読み進める際の補足として使ってください。
+
 - Model: dataclassやMaya nodeなど、tool固有のデータと規則を持つ本体
 - Store: Model内の1つのbool値を、共通の読み書き契約としてViewModelへ公開するModel層の境界
 - ViewModel: 読み取り専用の現在値と、値を変更するCommandをViewへ公開する
@@ -1083,6 +1087,15 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 | 2026 | 3.11.9 | PySide6 6.5.3 | 121 passed | 92 passed |
 | 2027 | 3.13.9 | PySide6 6.8.3 | 121 passed | 92 passed |
 
+上表はUI専用テストの結果であり、repository全体の統合検証成功とは区別します。
+2026-09-06の`verify.cmd`はBlackと3 versionのPyright contractが成功した後、
+Maya 2025 full pytestで`1 failed, 2520 passed, 78 skipped`となりました。
+失敗は`test_plugin_metadata_matches_runtime`の1件で、staged plug-inの`apiVersion`が
+`20250000`、実行中Mayaが`20250303`という不一致です。native plug-inと検証環境の
+整合性は別途確認が必要で、UI変更を理由にこの検証を無効化しません。
+`verify.cmd`はそこで停止するため、上表のUI専用テストは`test-ui-maya-all.cmd`で
+別途実行した結果です。
+
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って
 解除します。この方法はMaya 2025 / 2026同梱のPySide6 6.5でも利用できます。
@@ -1115,6 +1128,9 @@ UI基盤を変更・拡張するときは、次のcontractを維持します。
 
 - `bd_util.ui`はMayaをimportせず、Maya固有処理は`bd_util.maya.ui`へ置く。
 - PySideとshibokenは利用側から直接importせず、`bd_util.ui.qt`をbinding境界とする。
+- bool bindingのViewModelはViewを所有・破棄せず、破棄通知からのUI操作を遅延させる。
+  View生成順の制約を利用側へ戻さず、共有時は個々のWindowから独立したownerを使う。
+  詳細と回帰テストの入口は[設計・保守メモ](bool_binding_design.md)を参照する。
 - dockable Windowの配置はworkspaceControlへ委ね、内側のWidgetへ通常Window用geometryを
   復元しない。
 - Maya終了時にWidgetから状態を再取得せず、変更signalで退避済みの状態を保存する。
