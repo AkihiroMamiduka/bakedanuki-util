@@ -1,14 +1,13 @@
 # coding: utf-8
 from __future__ import annotations
 
-from collections.abc import Iterator
 from dataclasses import dataclass
 
 import pytest
-from maya import cmds, standalone
+from maya import cmds
 
 from bd_util import Nodes
-from bd_util._sample.maya.ui.bool_views import (
+from bd_util._sample.maya.ui.bool_sample.bool_views import (
     BoolViewsWidget,
     BoolViewsWindow,
     BoolViewsWindowManager,
@@ -29,27 +28,6 @@ class SampleBoolData:
     """任意のPython objectとattribute名を渡せることを確認するdata。"""
 
     enabled: bool = True
-
-
-@pytest.fixture(scope="session")
-def maya_standalone(
-    qt_application: qt.QApplication,
-) -> Iterator[None]:
-    """QApplication生成後にMayaを初期化し、test session終了まで維持する。"""
-    # UI生成後にMayaを初期化し、既に初期化済みの環境も許容する。
-    initialized_here = False
-    try:
-        standalone.initialize(name="python")
-        initialized_here = True
-    except RuntimeError:
-        pass
-
-    # Maya UI APIを後続testでも安全に使えるようsession中は維持する。
-    yield
-
-    # このfixtureが初期化した場合だけsession終了時に解放する。
-    if initialized_here:
-        standalone.uninitialize()
 
 
 def _assert_value(

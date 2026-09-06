@@ -362,12 +362,32 @@ Storeの確定値を変更せず非同期状態にします。`is_synchronized`�
 
 ### bool Views sample
 
+bool系sampleは`bd_util/_sample/maya/ui/bool_sample/`以下へまとめています。
+共通のplug解決処理とdataを直下へ置き、単一Window版と共有Window版をそれぞれのpackageで
+管理します。
+
+```text
+bd_util/_sample/maya/ui/bool_sample/
+├─ __init__.py
+├─ bool_plug.py              # 共通のMaya bool plug解決処理
+├─ data.py                   # 共通のVisibilityData
+├─ bool_views/               # 単一Window版
+│  ├─ __init__.py
+│  ├─ widget.py
+│  └─ window.py
+└─ shared_bool_views/        # 共有Window版
+   ├─ __init__.py
+   ├─ manager.py
+   ├─ widget.py
+   └─ window.py
+```
+
 MayaのScript Editorで次を実行すると、任意のPython object内のbool attributeを正本とし、
 作成したcubeの`visibility`を任意のMaya Viewとして同期する全bool Viewを表示できます。
 
 ```python
 from maya import cmds
-from bd_util._sample.maya.ui import bool_views
+from bd_util._sample.maya.ui.bool_sample import bool_views
 
 data = bool_views.VisibilityData()
 node = cmds.polyCube(name="bdVisibilityBindingSample")[0]
@@ -423,19 +443,12 @@ ViewModelは通常のQt所有としてFeature Widgetをparentにし、子の登�
 
 この`BoolViewsWidget`は1つのWindow内でbinding一式を確認する自己完結sampleです。複数Windowで
 共有する場合は、前述の低レベルAPIを使ってtoolのControllerがStore、ViewModel、任意の
-`MayaBoolPlugView`を1組だけ所有します。複数の値型でも同じ共有構成が必要になった段階で、
-これらを束ねる`BindingSession`の共通化を検討します。
+`MayaBoolPlugView`を1組だけ所有します。後述の`shared_bool_views`が、その実行可能なsampleです。
+複数の値型でも同じ共有構成が必要になった段階で、これらを束ねる`BindingSession`の共通化を
+検討します。
 
 ManagerはWindow生成中だけ引数を保持し、生成後には破棄します。そのため、module-levelの
 可変な引数や関数内の`global`宣言を必要とせず、最後に渡したdataへの不要な参照も残しません。
-
-```text
-bd_util/_sample/maya/ui/bool_views/
-├─ __init__.py
-├─ data.py
-├─ widget.py
-└─ window.py
-```
 
 既存Windowやlayoutへ取り付ける例です。Window側はこのWidgetを生成して配置するだけで、
 同じbinding一式を利用できます。
@@ -463,6 +476,112 @@ sampleを完全に破棄する場合です。
 ```python
 bool_views.dispose()
 ```
+
+### 1つのViewModelを複数Windowで共有するsample
+
+`shared_bool_views`は、1つの`BoolViewModel`をWindow A / Bで共有するsampleです。
+両方に全5種類のBool Viewと`Print Data Value`ボタンを配置し、片方を閉じた後の同期と
+再表示まで確認できます。MayaのScript EditorのPythonタブで次を実行してください。
+
+```python
+from bd_util._sample.maya.ui.bool_sample import shared_bool_views
+
+data = shared_bool_views.VisibilityData()
+manager = shared_bool_views.SharedBoolViewsManager(
+    data,
+    "visible_by_default",
+)
+window_a, window_b = manager.show()
+```
+
+引数は既存sampleと同じく、任意のPython objectと正本にするbool attribute名です。
+`VisibilityData`は`bool_sample/data.py`に置いた共通dataclassです。Managerを操作できるよう、
+`manager`変数を保持してください。
+
+責務は次のように分けています。
+
+| class | 責務 |
+| --- | --- |
+| `SharedBoolViewsManager` | Python Store、共通のQt owner、ViewModel、任意のMaya View、2つのWindow Controllerを保持する |
+| `SharedBoolViewsWidget` | 外部ViewModelを受け取り、5種類のViewを接続する。正本の出力はsignalでManagerへ要求する |
+| `SharedBoolViewsWindow` | Widgetと、そのWindowだけを閉じるボタンを配置する |
+
+共通のQt ownerはWindowの子にせず、ViewModelとMaya Viewだけの寿命を管理します。
+Window自体のQt parentは、既存の`MayaWindowController`を通してMaya main windowになります。
+各Widgetは渡されたViewModelのparentを変更しません。
+
+node名から任意のbool plugを解決する処理は、両sampleで共用する
+`bd_util/_sample/maya/ui/bool_sample/bool_plug.py`へまとめています。
+
+Window A / BのいずれかのViewを操作すると、相手WindowとPython正本へ反映されます。
+次の式でも、同じViewModel instanceであることを確認できます。
+
+```python
+print(
+    window_a.bool_views_widget.view_model
+    is window_b.bool_views_widget.view_model
+    is manager.view_model
+)  # True
+
+manager.set_value(False)  # 両Windowと共通のCommandから入力する。
+manager.print_data_value()  # 各WindowのPrint Data Valueボタンと同じ処理。
+```
+
+×ボタンまたは`Close Window A / B`で片方を閉じても、もう一方の操作は継続できます。
+閉じたWindowは、その後のScript Editor操作で再表示できます。
+
+```python
+window_a = manager.show_a()  # Aだけ再表示する。
+window_b = manager.show_b()  # Bだけ再表示する。
+window_a, window_b = manager.show()  # 両方を表示する。
+```
+
+生存中のWindowは再利用し、破棄済みのWindowだけを再生成します。再生成したViewは同じ
+ViewModelの現在値を初期表示します。両方のWindowを閉じた場合も、共有bindingは継続します。
+
+Python objectのattributeをCommandを使わず直接変更した場合は、明示的に再読込します。
+
+```python
+data.visible_by_default = True
+manager.refresh_from_data()
+```
+
+Maya nodeも同期する場合は、現在のManagerを終了してから任意のnode名・attribute名を
+指定したManagerを作成します。次の例は確認用cubeを追加します。
+
+```python
+from maya import cmds
+
+manager.dispose()
+node = cmds.polyCube(name="bdSharedBoolViewsSample")[0]
+manager = shared_bool_views.SharedBoolViewsManager(
+    data,
+    "visible_by_default",
+    maya_node_name=node,
+    maya_attribute_name="visibility",
+)
+window_a, window_b = manager.show()
+```
+
+生成時にはPython正本の現在値がMaya plugへ反映されます。`MayaBoolPlugView`はWindowごとに
+作らず、共通ownerの下に1つだけ作成します。Attribute Editor、Maya Python、undo / redo
+からの変更は、Qtへ制御が戻った後のevent loopで両Windowと正本へ反映されます。
+両Windowを閉じた状態でも、Maya nodeとPython正本の同期は継続します。
+
+```python
+cmds.setAttr(f"{node}.visibility", False)
+```
+
+確認終了時は、Windowを閉じる操作とは別に、次を実行してください。
+
+```python
+manager.dispose()
+```
+
+`dispose()`はMaya callbackを即座に解除し、両Windowと共有QObjectの削除をQtへ予約します。
+保留中のMaya入力も以後は反映しません。渡したPythonデータの値やMaya nodeは削除・復元しません。
+終了したManagerは再利用せず、新しいManagerを生成してください。構成を変更する場合も、
+古いManagerを`dispose()`してから作成します。
 
 ## Maya callbackのlifecycle管理
 
@@ -956,13 +1075,13 @@ Qt facade、Window lifecycle、Maya UI連携の自動テストは、対応する
 Maya APIを使うUIテストを独立したmayapy processで実行します。pytestはrepository直下の
 `.test`から読み込み、統一検証では`.\scripts\verify.cmd`が3 versionを実行します。
 
-2026-09-03時点の確認結果です。
+2026-09-06時点の確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 110 passed | 89 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 110 passed | 89 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 110 passed | 89 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 121 passed | 92 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 121 passed | 92 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 121 passed | 92 passed |
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って

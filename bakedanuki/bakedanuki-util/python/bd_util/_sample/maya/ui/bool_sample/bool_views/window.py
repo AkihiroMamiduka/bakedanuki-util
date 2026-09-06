@@ -3,8 +3,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .....maya.ui import MayaWindowController
-from .....ui import qt
+from ......maya.ui import MayaWindowController
+from ......ui import qt
 from .widget import BoolViewsWidget
 
 

@@ -4,7 +4,7 @@ from typing import assert_type
 from PySide6 import QtGui, QtWidgets
 
 from bd_util import Nodes
-from bd_util._sample.maya.ui.bool_views import (
+from bd_util._sample.maya.ui.bool_sample.bool_views import (
     BoolViewsWidget,
     BoolViewsWindow,
     BoolViewsWindowManager,

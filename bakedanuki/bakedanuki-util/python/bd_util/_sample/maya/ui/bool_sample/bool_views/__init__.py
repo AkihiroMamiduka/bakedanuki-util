@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # sample利用側が内部ファイルを意識せずimportできる入口をまとめる。
-from .data import VisibilityData
+from ..data import VisibilityData
 from .widget import BoolViewsWidget
 from .window import (
     BoolViewsWindow,
