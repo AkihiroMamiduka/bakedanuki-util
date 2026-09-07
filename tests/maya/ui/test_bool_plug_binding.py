@@ -166,6 +166,36 @@ def test_command_writes_with_maya_undo_and_redo(
     assert events == [False, True, False]
 
 
+def test_direct_store_write_still_notifies_its_view_model(
+    bool_binding,
+) -> None:
+    events = []
+    bool_binding.view_model.value.changed.connect(events.append)
+    assert bool_binding.store.write(False) is False
+    _process_events()
+    assert bool_binding.view_model.value.value is False
+    assert events == [False]
+
+
+def test_changed_slot_can_replace_value_during_store_write(
+    bool_binding,
+) -> None:
+    events = []
+    view_model = bool_binding.view_model
+
+    def restore_true(value):
+        events.append(value)
+        if not value:
+            view_model.set_value_command.execute(True)
+
+    view_model.value.changed.connect(restore_true)
+    assert not view_model.set_value_command.execute(False)
+    _process_events()
+    assert bool_binding.store.read() is True
+    assert view_model.value.value is True
+    assert events == [False, True]
+
+
 def test_external_maya_change_updates_data_without_write_back(
     bool_binding,
     maya_cmds,

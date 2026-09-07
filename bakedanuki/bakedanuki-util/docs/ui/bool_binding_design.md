@@ -60,6 +60,9 @@ Viewがその通知を受けて表示を更新します。setterで要求値が�
 
 - `BoolValue.changed`は公開値が変わったときだけ通知する。
 - Qt Viewへの表示更新では入力signalを抑制し、Commandへの折り返しを防ぐ。
+- Maya Store自身の書き込みcallbackは確定値を取得するまで抑制し、その後にrefreshする。
+  `changed` slotでBindingを終了しても破棄済みplugを再読込せず、slotから別の値を設定した
+  場合は最新のMaya値を採用する。Storeへの直接writeでも変更通知を維持する。
 - `SetBoolCommand.executed`と`BoolViewModel.store_refreshed`は、同値でも通知する経路がある。
   Maya入力の反映が保留中でも、後から確定したPython側の同値要求を優先するために使う。
   `changed`だけで足りると判断して削除しない。
@@ -131,10 +134,20 @@ ownerやMaya adapter自体の破棄時には、callback IDの解除は即座に�
 外部StoreのQt parentは変更せず、そのStoreの破棄責任も引き取りません。
 `MayaBoolBinding`は同じownerに任意のMaya Viewを1つ追加し、同期状態は`maya_view`へ公開します。
 
+`MayaBoolPlugBinding`はMaya plugを正本とし、`MayaBoolPlugStore`と専用ViewModelを所有します。
+Storeのcallback先とattach先を同じViewModelにするため、`BoolBinding._initialize()`で
+ViewModelを作成した後にStore factoryを呼びます。この入口はconstructor専用で、
+通常の`BoolBinding(store)`も同じ初期化処理へ委譲します。Storeの差し替えには使用しません。
+外部から渡されたStoreの終了責任は引き取りませんが、Maya plug版で内部生成したStoreは
+Bindingの`dispose()`から即座に終了します。途中で構築・初期読込が失敗してもcallbackを解除します。
+Maya callback registryはownerを保持するため、最後のPython参照やViewの消滅によるGCを
+終了条件にはしません。Qt parentの破棄または明示的な`dispose()`で管理します。
+
 `BoolBinding.changed`は`view_model.value.changed`を返す読み取り専用propertyです。
 Qtの送信元は既存の`BoolValue`のままで、signalの中継接続や変更判定を追加しません。
 通知タイミング・引数・接続解除は元のsignalと共通で、具体的な`SignalInstance`の型を公開します。
-`MayaBoolBinding`もこれを継承します。初期値の再通知、同値の通知、Maya同期完了の通知は行いません。
+`MayaBoolBinding`・`MayaBoolPlugBinding`もこれを継承します。初期値の再通知、同値の通知、
+Maya同期完了の通知は行いません。
 終了後の取得は既存の`view_model`と同じ検証で拒否し、通知中の`dispose()`にも対応します。
 
 Qt Bool Viewの第1引数は`BoolViewModel | BoolBinding[BoolValueStore]`です。
@@ -165,6 +178,8 @@ QObjectを削除しません。値変更通知のslot内で終了した場合も
 公開しています。最上位の単一boolに範囲を限定し、配列・compound・子属性・属性パスを拒否します。
 
 - `minimal.py`: `BoolBinding.from_attribute()`の結果を直接CheckBoxへ渡す入口。
+- `maya_plug.py`: 既存Maya bool plugを正本にする最小WidgetとWindow。`show()`は対象を
+  検証してから前のWindowを置き換え、`dispose()`はnodeを残してUIとcallbackを終了する。
 - `multi_attribute/widget.py`: 3つのbool属性に個別のBindingを作り、`changed`でプレビューの
   表示と編集可否を更新する。初期値を別途適用し、データへ直接代入した場合は
   `refresh_from_data()`で全Bindingを読み直す。編集可否は親の設定欄に適用し、
@@ -217,6 +232,9 @@ Managerインスタンスを上位のtool Controllerなどで保持してくだ�
 | 組み立てAPI・変更通知・明示終了・最小sample | [tests/ui/test_bool_binding_facade.py](../../../../tests/ui/test_bool_binding_facade.py) |
 | ViewへのBinding直接入力・一時参照・共有寿命 | [tests/ui/test_bool_view_source.py](../../../../tests/ui/test_bool_view_source.py) |
 | Maya組み立て・名前解決・callback解放 | [tests/maya/ui/test_maya_bool_binding_facade.py](../../../../tests/maya/ui/test_maya_bool_binding_facade.py) |
+| Maya plug正本の組み立て・初期読込・終了・構築失敗 | [tests/maya/ui/test_maya_bool_plug_binding_facade.py](../../../../tests/maya/ui/test_maya_bool_plug_binding_facade.py) |
+| Maya plug版の全View・共有寿命・サンプル | [tests/ui/test_maya_bool_plug_binding_sample.py](../../../../tests/ui/test_maya_bool_plug_binding_sample.py) |
+| Maya plug版の型・補完 | [maya_bool_plug_binding_contract.py](../../../../tests/typecheck/maya_bool_plug_binding_contract.py) |
 | 自己完結WidgetとWindow Manager | [tests/ui/test_bool_views_sample.py](../../../../tests/ui/test_bool_views_sample.py) |
 | 複数属性・UI連動・初期表示・編集禁止中の更新 | [tests/ui/test_multi_attribute_bool_sample.py](../../../../tests/ui/test_multi_attribute_bool_sample.py) |
 | 複数Window・再表示・共有Maya callback | [tests/ui/test_shared_bool_views_sample.py](../../../../tests/ui/test_shared_bool_views_sample.py) |

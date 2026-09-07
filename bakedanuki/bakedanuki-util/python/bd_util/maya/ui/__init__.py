@@ -2,6 +2,7 @@
 
 from .binding import (
     MayaBoolBinding,
+    MayaBoolPlugBinding,
     MayaBoolPlugStore,
     MayaBoolPlugView,
     resolve_bool_plug,
@@ -37,6 +38,7 @@ __all__ = [
     "get_ui_settings_root",
     "MayaCallbackRegistry",
     "MayaBoolBinding",
+    "MayaBoolPlugBinding",
     "MayaBoolPlugStore",
     "MayaBoolPlugView",
     "MayaDockableWindow",

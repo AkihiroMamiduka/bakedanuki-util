@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
+from collections.abc import Callable
 from typing import Generic, TypeVar
 
 from ... import qt
@@ -21,12 +22,21 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         parent: qt.QObject | None = None,
     ) -> None:
         """外部Storeを参照し、専用ViewModelをこのbindingの子として作る。"""
+        self._initialize(lambda _view_model: store, parent=parent)
+
+    def _initialize(
+        self,
+        create_store: Callable[[BoolViewModel], _StoreT],
+        *,
+        parent: qt.QObject | None,
+    ) -> None:
+        """constructorから一度だけ呼び、専用ViewModelに対応するStoreを作る。"""
         super().__init__(parent)
-        self._store = store
         self._is_disposed = False
         self._view_model = BoolViewModel(parent=self)
         try:
-            self._view_model.attach_store(store)
+            self._store = create_store(self._view_model)
+            self._view_model.attach_store(self._store)
         except Exception:
             self.dispose()
             raise

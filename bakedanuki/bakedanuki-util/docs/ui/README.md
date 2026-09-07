@@ -149,7 +149,7 @@ class ToolWidget(qt.QWidget):
         layout.addWidget(self.check_box)
 ```
 
-5種類のQt Bool Viewは、第1引数に`BoolBinding`（`MayaBoolBinding`を含む）と
+5種類のQt Bool Viewは、第1引数に`BoolBinding`（`MayaBoolBinding`・`MayaBoolPlugBinding`を含む）と
 `BoolViewModel`の両方を受け付けます。View内部の入力・表示はどちらでも同じViewModelへ
 接続され、`view.view_model`から具体的な`BoolViewModel`を取得できます。
 既存の`view_model=`キーワードも使用できます。
@@ -174,7 +174,7 @@ Viewからの参照保持では防がず、残っているViewは従来の終了
 
 値の変更は`binding.changed.connect(callback)`で購読できます。callbackには確定後のbool値を
 渡し、Qt操作・`set_value()`・`refresh()`のどの経路でも公開値が変わったときだけ通知します。
-`MayaBoolBinding`でも同じAPIを使用でき、Mayaから取り込んだ値変更も対象です。
+`MayaBoolBinding`・`MayaBoolPlugBinding`でも同じAPIを使用でき、Mayaから取り込んだ値変更も対象です。
 
 ```python
 def on_changed(value: bool) -> None:
@@ -212,8 +212,8 @@ self.binding = MayaBoolBinding.from_attribute(
 ```
 
 `MayaBoolBinding`もPython側を正本とし、作成時にはその値をMayaへ反映します。
-`maya_plug=None`ならPythonのみで動作します。Maya自体を正本にする既存の
-`MayaBoolPlugStore`は後述の低レベルAPIで使用します。
+`maya_plug=None`ならPythonのみで動作します。Maya plug自体を正本にする場合は、
+次の`MayaBoolPlugBinding`を使用します。
 `resolve_bool_plug(node_name, attribute_name)`は既存nodeの最上位scalar boolを取得する入口です。
 標準・追加attributeの長い名前と短い名前を扱い、配列、compound、子attribute、属性パスは拒否します。
 nodeやattributeの作成は行いません。
@@ -223,6 +223,38 @@ Maya同期の状態は`binding.maya_view.is_synchronized`、直近の失敗は`l
 lockなどによるMaya側の同期失敗でPython側の編集は停止しません。`dispose()`ではMaya callbackを
 即座に解除し、保留中のMaya入力も取り消します。初期同期の失敗時もcallbackを残しません。
 Mayaのundo / redoはadapterのMaya書き込みに対して働き、Pythonだけの変更を登録する機能ではありません。
+
+Maya plugを正本にする場合は、StoreとViewModelをまとめて作る`MayaBoolPlugBinding`を使います。
+
+```python
+from bd_util.maya.ui import MayaBoolPlugBinding, resolve_bool_plug
+from bd_util.ui import BoolCheckBox
+
+self.binding = MayaBoolPlugBinding(
+    resolve_bool_plug("myTransform", "visibility"), parent=self
+)
+self.check_box = BoolCheckBox(self.binding, "Visible", self)
+# 型付きNodeOperatorがあればMayaBoolPlugBinding(node.visibility, parent=self)。
+```
+
+作成時にはMayaの現在値を読み取り、初期値を書き戻しません。`value`・`changed`・
+`set_value()`・`refresh()`・`dispose()`は通常のBindingと同じです。
+`binding.store`は具体的な`MayaBoolPlugStore`で、`store.plug_operator`から対象plugを取得できます。
+Qt操作とPython入力はMayaのundo対象になり、Maya側の変更・undo / redoもViewへ反映されます。
+lockや入力接続があると入力用Viewは無効になり、読み取り専用Viewは現在値を表示します。
+
+このBindingはStoreと専用ViewModelを所有します。単一Widgetでは`parent=self`を指定し、
+複数Windowで共有する場合はWindowから独立したownerを使います。親なしで使う場合は
+Managerなどが保持して`dispose()`を呼びます。Maya callbackもownerを参照するため、
+Python参照の消滅や最後のViewを閉じる操作を、callbackの終了条件として使いません。
+`dispose()`はcallbackを即座に解除し、QObjectの削除を予約します。Maya nodeや属性値は残します。
+node削除などでStoreが終了した場合は入力を停止します。対象を再作成した場合はBindingも新しく作ります。
+
+| 正本 | 組み立てAPI | 作成時の動作 |
+| --- | --- | --- |
+| Python属性 | `BoolBinding.from_attribute(data, "visible")` | Python属性を読み取る |
+| Python属性＋Mayaへの同期 | `MayaBoolBinding.from_attribute(data, "visible", maya_plug=plug)` | Python属性をMayaへ反映する |
+| Maya plug | `MayaBoolPlugBinding(plug)` | Mayaの現在値を読み取る |
 
 最小sample → 複数属性とUI連動 → Maya同期付きの例 → 全View一覧 → 複数Window共有の順に確認できます。
 
@@ -478,6 +510,27 @@ Storeの確定値を変更せず非同期状態にします。`is_synchronized`�
 1つの`BoolViewModel`へ接続できる`MayaBoolPlugView`は1つです。Viewを`dispose()`すると
 接続枠が解放され、同じViewModelへ新しいMaya Viewを接続できます。
 
+### Maya plugを正本にするsample
+
+`maya_plug`は、シーン上の既存bool属性をCheckBoxとStatusLabelで表示・編集します。
+MayaのScript Editorから次を実行してください。`pCube1`は対象node名へ置き換えます。
+
+```python
+from bd_util._sample.maya.ui.bool_sample import maya_plug
+
+window = maya_plug.show("pCube1", "visibility")
+window.widget.binding.changed.connect(print)
+window.widget.binding.set_value(False)
+```
+
+中心の実装は[maya_plug.py](../../python/bd_util/_sample/maya/ui/bool_sample/maya_plug.py)です。
+`show()`は対象を解決してから前のサンプルWindowを置き換えます。閉じた後の再表示では、
+その時点のMayaの値を読み取ります。対象が見つからない場合は、表示中のWindowを維持して例外を返します。
+`maya_plug.dispose()`でWindowとBindingを終了できます。サンプルはnodeを作成・削除しません。
+
+Attribute Editorからの変更、lockの切り替え、undo / redo、Windowの閉じ直しで、
+値と編集可否が追従することを確認できます。自作Windowには`MayaPlugBoolWidget(plug, parent=...)`を組み込めます。
+
 ### 複数のbool属性とUI連動のsample
 
 `multi_attribute`は、1つのdataclassにある3属性を、それぞれの`BoolBinding`で編集する例です。
@@ -541,6 +594,7 @@ bd_util/_sample/maya/ui/bool_sample/
 ├─ bool_plug.py              # sampleの任意Maya指定の検証
 ├─ data.py                   # 共通のVisibilityData
 ├─ minimal.py                # Python属性＋CheckBoxの最小版
+├─ maya_plug.py              # 既存Maya bool plugを正本にする版
 ├─ multi_attribute/          # 複数bool属性とUI連動
 │  ├─ __init__.py
 │  ├─ data.py
@@ -1254,13 +1308,13 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 165 passed | 98 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 165 passed | 98 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 165 passed | 98 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 173 passed | 113 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 173 passed | 113 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 173 passed | 113 passed |
 
 2026-09-07の`verify.cmd`は、Black、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`まで成功しました。
-full pytestは`2564 passed, 122 skipped`です。全体実行ではMaya初期化が先になるため
+full pytestは`2579 passed, 130 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、
 上表のUI専用processではskipなしで確認しています。
 以前記録していた`test_plugin_metadata_matches_runtime`の不一致も今回の実行では再現していません。
