@@ -165,6 +165,12 @@ QObjectを削除しません。値変更通知のslot内で終了した場合も
 公開しています。最上位の単一boolに範囲を限定し、配列・compound・子属性・属性パスを拒否します。
 
 - `minimal.py`: `BoolBinding.from_attribute()`の結果を直接CheckBoxへ渡す入口。
+- `multi_attribute/widget.py`: 3つのbool属性に個別のBindingを作り、`changed`でプレビューの
+  表示と編集可否を更新する。初期値を別途適用し、データへ直接代入した場合は
+  `refresh_from_data()`で全Bindingを読み直す。編集可否は親の設定欄に適用し、
+  Bool View自身のCommand実行可否を上書きしない。UIを無効にしても属性値は保持する。
+- `multi_attribute/data.py`と`window.py`: サンプル固有の表示設定と、既存Controllerによる
+  Window管理。各BindingはWidgetが所有し、再表示では新しいデータを作る。
 - `bool_views/widget.py`: 自己完結するFeature Widget。渡されたPython object・属性名から
   `MayaBoolBinding`とQt View一式を構築する。
 - `bool_views/window.py`: WindowはFeature WidgetとMaya指定を保持し、Managerは構成による
@@ -174,8 +180,9 @@ QObjectを削除しません。値変更通知のslot内で終了した場合も
 - `shared_bool_views/widget.py`と`window.py`: 受け取った共有ViewModelを表示する。
   ViewModelを直接渡す例として残し、WindowごとのStoreやMaya Viewは作らない。
 
-最初の組み込み例には`minimal`、全View一覧には`bool_views`、表示の寿命とbindingの寿命を分ける例には
-`shared_bool_views`を使います。共有するのは1つのViewModelであり、複数のViewModel同士を
+最初の組み込み例には`minimal`、複数属性とUI連動には`multi_attribute`、全View一覧には
+`bool_views`、表示の寿命とbindingの寿命を分ける例には`shared_bool_views`を使います。
+共有Window版で共有するのは1つのViewModelであり、複数のViewModel同士を
 同期する仕組みではありません。
 
 共有サンプルでは両Windowを閉じてもbindingは存続します。Managerを変数などで保持し、
@@ -211,10 +218,11 @@ Managerインスタンスを上位のtool Controllerなどで保持してくだ�
 | ViewへのBinding直接入力・一時参照・共有寿命 | [tests/ui/test_bool_view_source.py](../../../../tests/ui/test_bool_view_source.py) |
 | Maya組み立て・名前解決・callback解放 | [tests/maya/ui/test_maya_bool_binding_facade.py](../../../../tests/maya/ui/test_maya_bool_binding_facade.py) |
 | 自己完結WidgetとWindow Manager | [tests/ui/test_bool_views_sample.py](../../../../tests/ui/test_bool_views_sample.py) |
+| 複数属性・UI連動・初期表示・編集禁止中の更新 | [tests/ui/test_multi_attribute_bool_sample.py](../../../../tests/ui/test_multi_attribute_bool_sample.py) |
 | 複数Window・再表示・共有Maya callback | [tests/ui/test_shared_bool_views_sample.py](../../../../tests/ui/test_shared_bool_views_sample.py) |
 | Mayaを正本とする同期 | [tests/maya/ui/test_bool_plug_binding.py](../../../../tests/maya/ui/test_bool_plug_binding.py) |
 | Python正本とMaya View・保留入力・同期失敗 | [tests/maya/ui/test_bool_plug_view.py](../../../../tests/maya/ui/test_bool_plug_view.py) |
-| 公開APIの型・補完 | [ui_contract.py](../../../../tests/typecheck/ui_contract.py)、[bool_view_source_contract.py](../../../../tests/typecheck/bool_view_source_contract.py)、[shared_bool_views_contract.py](../../../../tests/typecheck/shared_bool_views_contract.py) |
+| 公開APIの型・補完 | [ui_contract.py](../../../../tests/typecheck/ui_contract.py)、[bool_view_source_contract.py](../../../../tests/typecheck/bool_view_source_contract.py)、[multi_attribute_bool_sample_contract.py](../../../../tests/typecheck/multi_attribute_bool_sample_contract.py)、[shared_bool_views_contract.py](../../../../tests/typecheck/shared_bool_views_contract.py) |
 
 特に、同値Command／refreshが保留中のMaya入力より優先されること、初期同期に失敗しても
 callbackを残さないこと、`dispose()`後に保留入力を適用しないことを維持します。

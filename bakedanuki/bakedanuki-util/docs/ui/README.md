@@ -224,7 +224,7 @@ lockなどによるMaya側の同期失敗でPython側の編集は停止しませ
 即座に解除し、保留中のMaya入力も取り消します。初期同期の失敗時もcallbackを残しません。
 Mayaのundo / redoはadapterのMaya書き込みに対して働き、Pythonだけの変更を登録する機能ではありません。
 
-最小sample → Maya同期付きの例 → 全View一覧 → 複数Window共有の順に確認できます。
+最小sample → 複数属性とUI連動 → Maya同期付きの例 → 全View一覧 → 複数Window共有の順に確認できます。
 
 ```python
 from bd_util._sample.maya.ui.bool_sample import minimal
@@ -234,6 +234,9 @@ window.widget.binding.changed.connect(print)
 window.widget.binding.set_value(False)
 minimal.dispose()
 ```
+
+複数属性の例は`from bd_util._sample.maya.ui.bool_sample import multi_attribute`、
+`multi_attribute.show()`で開きます。詳しい使い方は後述の「複数のbool属性とUI連動のsample」を参照してください。
 
 以下では、これらの組み立てAPIが利用している各部品と低レベルAPIを説明します。
 
@@ -475,10 +478,61 @@ Storeの確定値を変更せず非同期状態にします。`is_synchronized`�
 1つの`BoolViewModel`へ接続できる`MayaBoolPlugView`は1つです。Viewを`dispose()`すると
 接続枠が解放され、同じViewModelへ新しいMaya Viewを接続できます。
 
+### 複数のbool属性とUI連動のsample
+
+`multi_attribute`は、1つのdataclassにある3属性を、それぞれの`BoolBinding`で編集する例です。
+MayaのScript Editorから表示でき、Qtのプレビューで表示設定の効果を確認できます。
+
+```python
+from bd_util._sample.maya.ui.bool_sample import multi_attribute
+
+window = multi_attribute.show()
+widget = window.widget
+```
+
+| 操作 | データ属性 | 変更時の動作 |
+| --- | --- | --- |
+| Visible | `visible` | プレビュー全体を表示・非表示にする |
+| Show labels | `show_labels` | プレビュー内のラベルを表示・非表示にする |
+| Allow editing | `allow_editing` | Display options欄の編集を許可・禁止する |
+
+`Visible`をオフにしても`show_labels`の値は保持されます。`Allow editing`をオフにしても
+表示設定の値は保持され、Pythonからの変更は引き続き表示へ反映されます。
+編集禁止はこの画面の操作可否であり、Storeへの書き込み禁止を設定するものではありません。
+
+```python
+widget.editing_binding.set_value(False)
+widget.labels_binding.set_value(False)  # 編集禁止中でもPython入力は反映する。
+widget.editing_binding.set_value(True)
+
+# データへ直接代入した場合は、3つのBindingを明示的に読み直す。
+widget.data.visible = False
+widget.data.show_labels = True
+widget.refresh_from_data()
+
+multi_attribute.dispose()
+```
+
+中心の実装は[multi_attribute/widget.py](../../python/bd_util/_sample/maya/ui/bool_sample/multi_attribute/widget.py)です。
+各Bool ViewへBindingを直接渡し、`changed`をプレビューや設定欄へ接続しています。
+
+```python
+self.editing_binding.changed.connect(self.options_group.setEnabled)
+self.options_group.setEnabled(self.editing_binding.value)
+```
+
+`changed`は接続時に現在値を通知しないため、初期表示を別途適用します。
+編集可否は親の設定欄へ適用し、Bool View自身が持つCommandの実行可否と両立させます。
+表示と編集可否の連動規則はこのFeature Widgetへ置き、bool共通基盤へ追加していません。
+
+自作Windowへ組み込む場合は、`DisplayOptionsWidget(data, parent=...)`へ
+`DisplayOptionsData`を渡します。3つのBindingはWidgetをownerとし、Widgetと一緒に終了します。
+サンプルのWindowを閉じた後に`show()`すると、新しいデータと初期設定で再表示します。
+
 ### bool Views sample
 
 bool系sampleは`bd_util/_sample/maya/ui/bool_sample/`以下へまとめています。
-最小版と共通data・任意引数の検証を直下へ置き、全View一覧と共有Window版をそれぞれのpackageで
+最小版と共通data・任意引数の検証を直下へ置き、複数属性版・全View一覧・共有Window版をそれぞれのpackageで
 管理します。plugの解決は基盤の`resolve_bool_plug()`へ委譲します。
 
 ```text
@@ -487,6 +541,11 @@ bd_util/_sample/maya/ui/bool_sample/
 ├─ bool_plug.py              # sampleの任意Maya指定の検証
 ├─ data.py                   # 共通のVisibilityData
 ├─ minimal.py                # Python属性＋CheckBoxの最小版
+├─ multi_attribute/          # 複数bool属性とUI連動
+│  ├─ __init__.py
+│  ├─ data.py
+│  ├─ widget.py
+│  └─ window.py
 ├─ bool_views/               # 単一Window版
 │  ├─ __init__.py
 │  ├─ widget.py
@@ -1195,13 +1254,13 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 157 passed | 98 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 157 passed | 98 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 157 passed | 98 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 165 passed | 98 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 165 passed | 98 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 165 passed | 98 passed |
 
 2026-09-07の`verify.cmd`は、Black、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`まで成功しました。
-full pytestは`2564 passed, 114 skipped`です。全体実行ではMaya初期化が先になるため
+full pytestは`2564 passed, 122 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、
 上表のUI専用processではskipなしで確認しています。
 以前記録していた`test_plugin_metadata_matches_runtime`の不一致も今回の実行では再現していません。
