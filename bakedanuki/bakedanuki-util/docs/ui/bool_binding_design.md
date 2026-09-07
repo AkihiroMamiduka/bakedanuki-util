@@ -131,6 +131,12 @@ ownerやMaya adapter自体の破棄時には、callback IDの解除は即座に�
 外部StoreのQt parentは変更せず、そのStoreの破棄責任も引き取りません。
 `MayaBoolBinding`は同じownerに任意のMaya Viewを1つ追加し、同期状態は`maya_view`へ公開します。
 
+`BoolBinding.changed`は`view_model.value.changed`を返す読み取り専用propertyです。
+Qtの送信元は既存の`BoolValue`のままで、signalの中継接続や変更判定を追加しません。
+通知タイミング・引数・接続解除は元のsignalと共通で、具体的な`SignalInstance`の型を公開します。
+`MayaBoolBinding`もこれを継承します。初期値の再通知、同値の通知、Maya同期完了の通知は行いません。
+終了後の取得は既存の`view_model`と同じ検証で拒否し、通知中の`dispose()`にも対応します。
+
 Qt Bool Viewの第1引数は`BoolViewModel | BoolBinding[BoolValueStore]`です。
 `view/_source.py`で生成前に入力元を検証し、ViewModelと参照保持用のBindingへ解決します。
 Viewはその後もViewModelのCommandと通知だけを使い、StoreやMaya Viewを直接操作しません。
@@ -201,7 +207,7 @@ Managerインスタンスを上位のtool Controllerなどで保持してくだ�
 | 対象 | 回帰テスト |
 | --- | --- |
 | Value・Store・Command・全Qt View・破棄順 | [tests/ui/test_bool_binding.py](../../../../tests/ui/test_bool_binding.py) |
-| 組み立てAPI・明示終了・最小sample | [tests/ui/test_bool_binding_facade.py](../../../../tests/ui/test_bool_binding_facade.py) |
+| 組み立てAPI・変更通知・明示終了・最小sample | [tests/ui/test_bool_binding_facade.py](../../../../tests/ui/test_bool_binding_facade.py) |
 | ViewへのBinding直接入力・一時参照・共有寿命 | [tests/ui/test_bool_view_source.py](../../../../tests/ui/test_bool_view_source.py) |
 | Maya組み立て・名前解決・callback解放 | [tests/maya/ui/test_maya_bool_binding_facade.py](../../../../tests/maya/ui/test_maya_bool_binding_facade.py) |
 | 自己完結WidgetとWindow Manager | [tests/ui/test_bool_views_sample.py](../../../../tests/ui/test_bool_views_sample.py) |

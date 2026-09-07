@@ -37,21 +37,29 @@ def test_maya_binding_syncs_and_dispose_cancels_pending_input(
     view_model = binding.view_model
     view = binding.maya_view
     assert view is not None
+    changes = []
+    binding.changed.connect(changes.append)
     try:
+        assert changes == []
         assert view.parent() is binding
         assert view.is_synchronized
         assert not maya_cmds.getAttr(f"{name}.visibility")
         assert binding.set_value(True)
         assert maya_cmds.getAttr(f"{name}.visibility")
+        _process_events()
+        assert changes == [True]
         maya_cmds.undo()
         _process_events()
         assert data.enabled is False
+        assert changes == [True, False]
         maya_cmds.redo()
         _process_events()
         assert data.enabled is True
+        assert changes == [True, False, True]
         maya_cmds.setAttr(f"{name}.visibility", False)
         _process_events()
         assert data.enabled is False
+        assert changes == [True, False, True, False]
         maya_cmds.setAttr(f"{name}.visibility", True)
         binding.dispose()
         assert view.is_disposed
@@ -61,6 +69,7 @@ def test_maya_binding_syncs_and_dispose_cancels_pending_input(
         assert not view_model.set_value_command.execute(True)
         _process_events()
         assert data.enabled is False
+        assert changes == [True, False, True, False]
         assert maya_cmds.objExists(name)
     finally:
         binding.dispose()
@@ -76,10 +85,13 @@ def test_maya_binding_exposes_sync_failure_and_keeps_python_editable(
     )
     view = binding.maya_view
     assert view is not None
+    changes = []
+    binding.changed.connect(changes.append)
     try:
         maya_cmds.setAttr(f"{name}.visibility", lock=True)
         assert binding.set_value(True)
         assert binding.value
+        assert changes == [True]
         assert not view.is_synchronized
         assert view.last_sync_error is not None
         assert binding.view_model.set_value_command.can_execute
@@ -87,6 +99,7 @@ def test_maya_binding_exposes_sync_failure_and_keeps_python_editable(
         view.sync_from_view_model()
         assert view.is_synchronized
         assert view.last_sync_error is None
+        assert changes == [True]
     finally:
         binding.dispose()
         _process_events()

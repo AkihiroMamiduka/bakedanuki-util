@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import assert_type
 
+from PySide6 import QtCore
+
 from bd_util.maya.ui import MayaBoolBinding
 from bd_util.ui import (
     BoolBinding,
@@ -13,6 +15,10 @@ from bd_util.ui import (
     BoolViewModel,
     PythonBoolAttributeStore,
 )
+
+
+def on_changed(value: bool) -> None:
+    assert_type(value, bool)
 
 
 @dataclass
@@ -51,6 +57,16 @@ assert_type(binding.store.instance, ToolData)
 assert_type(other_binding.store.instance, OtherData)
 assert_type(maya_binding, MayaBoolBinding[PythonBoolAttributeStore[ToolData]])
 assert_type(custom_binding.store, CustomStore)
+
+for observable_binding in (
+    binding,
+    other_binding,
+    maya_binding,
+    custom_binding,
+):
+    assert_type(observable_binding.changed, QtCore.SignalInstance)
+    observable_binding.changed.connect(on_changed)
+    observable_binding.changed.disconnect(on_changed)
 
 # Storeの具体型を保った各Bindingと、生のViewModelを全Viewへ渡せる。
 for source in (

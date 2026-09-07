@@ -61,6 +61,11 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         return self.view_model.value.value
 
     @property
+    def changed(self) -> qt.QtCore.SignalInstance:
+        """確定値の変更をboolで通知する既存signalを返す。"""
+        return self.view_model.value.changed
+
+    @property
     def is_disposed(self) -> bool:
         """明示終了またはQt ownerの破棄によって終了したか返す。"""
         return (

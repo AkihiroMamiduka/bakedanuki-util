@@ -172,6 +172,26 @@ Viewからの参照保持では防がず、残っているViewは従来の終了
 `binding.store.instance`には渡したdataの具体型が残り、IDEで属性を補完できます。
 独自のPython Storeを使う場合は`BoolBinding(store, parent=owner)`で接続できます。
 
+値の変更は`binding.changed.connect(callback)`で購読できます。callbackには確定後のbool値を
+渡し、Qt操作・`set_value()`・`refresh()`のどの経路でも公開値が変わったときだけ通知します。
+`MayaBoolBinding`でも同じAPIを使用でき、Mayaから取り込んだ値変更も対象です。
+
+```python
+def on_changed(value: bool) -> None:
+    print(f"Visible: {value}")
+
+
+binding.changed.connect(on_changed)
+# 購読を解除する場合。
+binding.changed.disconnect(on_changed)
+```
+
+接続時に現在値を再通知する機能はありません。初期表示には`binding.value`を使います。
+同値の設定・refreshや、要求が拒否されて実値が変わらなかった場合も通知しません。
+Python属性への直接代入は`refresh()`まで通知されません。Maya同期の成功・失敗は
+後述の`maya_view`で確認します。`changed`は既存の`view_model.value.changed`を返すpropertyで、
+終了後の取得は`value`と同様に`RuntimeError`になります。
+
 bindingは専用ViewModelをQtの子として所有します。単一Widgetでは`parent=self`を指定し、
 複数Windowで共有する場合はWindowから独立したbindingをManagerなどで保持して、各Windowへ
 同じBindingまたは`binding.view_model`を渡します。`dispose()`は直ちに入力と同期を停止し、bindingと
@@ -210,6 +230,7 @@ Mayaのundo / redoはadapterのMaya書き込みに対して働き、Pythonだけ
 from bd_util._sample.maya.ui.bool_sample import minimal
 
 window = minimal.show()
+window.widget.binding.changed.connect(print)
 window.widget.binding.set_value(False)
 minimal.dispose()
 ```
@@ -1174,13 +1195,14 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 154 passed | 98 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 154 passed | 98 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 154 passed | 98 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 157 passed | 98 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 157 passed | 98 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 157 passed | 98 passed |
 
 2026-09-07の`verify.cmd`は、Black、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`まで成功しました。
-全体実行ではMaya初期化が先になるためWidgetを必要とするtestがskipされますが、
+full pytestは`2564 passed, 114 skipped`です。全体実行ではMaya初期化が先になるため
+Widgetを必要とするtestがskipされますが、
 上表のUI専用processではskipなしで確認しています。
 以前記録していた`test_plugin_metadata_matches_runtime`の不一致も今回の実行では再現していません。
 Maya本体での手動表示・操作確認は今回の自動テスト結果に含めません。
