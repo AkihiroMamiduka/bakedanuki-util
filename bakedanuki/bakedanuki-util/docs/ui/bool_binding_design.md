@@ -2,6 +2,7 @@
 
 bool UI基盤を読み直すときや、新しいView・値型を追加するときのための設計メモです。
 公開API、引数、サンプル実行例は[UI README](README.md)を参照してください。
+各名称の意味と利用コードとの対応は[このパッケージでのMVVMの役割](mvvm_roles.md)を参照してください。
 ここでは、現在の構造を選んだ理由と、変更時に維持したい境界を説明します。
 
 ## コードを読む順番
@@ -16,7 +17,7 @@ bool UI基盤を読み直すときや、新しいView・値型を追加すると
 | 4 | [view_model.py](../../python/bd_util/ui/binding/bool/view_model.py) | Storeの確定値を採用するHub |
 | 5 | [view/check_box.py](../../python/bd_util/ui/binding/bool/view/check_box.py) | 入力と表示更新を分ける最小のQt View |
 | 6 | [Maya binding/bool_plug.py](../../python/bd_util/maya/ui/binding/bool_plug.py) | MayaをStoreまたはViewとして扱うadapter |
-| 7 | [binding.py](../../python/bd_util/ui/binding/bool/binding.py)・[Maya bool_binding.py](../../python/bd_util/maya/ui/binding/bool_binding.py) | 1属性の組み立てと終了操作 |
+| 7 | [binding.py](../../python/bd_util/ui/binding/bool/binding.py)・[Maya bool_binding.py](../../python/bd_util/maya/ui/binding/bool_binding.py)・[Maya bool_plug_binding.py](../../python/bd_util/maya/ui/binding/bool_plug_binding.py) | 1属性の組み立てと終了操作 |
 | 8 | [bool_sample](../../python/bd_util/_sample/maya/ui/bool_sample) | 最小Widget・全View・共有Managerへの組み込み方 |
 
 `BoolValueStore`はStoreの契約名であり、Model全体を表す基底クラスではありません。

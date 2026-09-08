@@ -272,18 +272,25 @@ minimal.dispose()
 
 以下では、これらの組み立てAPIが利用している各部品と低レベルAPIを説明します。
 
-このbindingは、構成要素としてはModel、Store、ViewModel、Viewの4つを持ちます。
-`MVSVM`と捉えると役割を整理しやすい構成ですが、一般的なパターン名ではないため、
-このドキュメントでは「StoreベースのMVVM」と呼びます。
+このドキュメントでは、この構成を「StoreベースのMVVM」と呼びます。
+Model・ViewModel・Viewを基本とし、値へのアクセスをStore、現在値と変更通知をValue、
+変更要求をCommandに分けています。Bindingはこれらの組み立て・操作・終了をまとめます。
+
+各名称の役割、入力と表示の流れ、Bindingを使うコードとの対応は
+[このパッケージでのMVVMの役割](mvvm_roles.md)にまとめています。
 
 設計判断の理由、破棄時の注意点、今後の拡張時に確認する項目は
 [bool bindingの設計・保守メモ](bool_binding_design.md)にまとめています。
-このREADMEは公開APIと実行例、設計・保守メモは実装を読み進める際の補足として使ってください。
+用語と役割の理解には上記ページ、公開APIと実行例にはこのREADME、
+実装を読み進める際の補足には設計・保守メモを使ってください。
 
 - Model: dataclassやMaya nodeなど、tool固有のデータと規則を持つ本体
 - Store: Model内の1つのbool値を、共通の読み書き契約としてViewModelへ公開するModel層の境界
-- ViewModel: 読み取り専用の現在値と、値を変更するCommandをViewへ公開する
+- Value: 読み取り専用の現在値と変更通知を公開する
+- Command: 値の変更要求を受け付け、実行可否を公開する
+- ViewModel: Storeの実値を確定し、ValueとCommandをViewへ公開する
 - View: bool値を表示・入力するQt Widgetや`MayaBoolPlugView`
+- Binding: Storeと専用ViewModelの組み立て、利用者向けの操作、寿命管理をまとめる
 
 ```text
 Model
