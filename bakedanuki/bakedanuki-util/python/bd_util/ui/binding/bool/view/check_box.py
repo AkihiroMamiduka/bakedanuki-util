@@ -2,8 +2,11 @@
 from __future__ import annotations
 
 from .... import qt
+from ..binding import BoolBinding
+from ..store import BoolValueStore
 from ..view_model import BoolViewModel
 from ._connection import connect_queued_qt_signal, disconnect_qt_connection
+from ._source import resolve_bool_view_source
 
 
 class BoolCheckBox(qt.QCheckBox):
@@ -11,12 +14,14 @@ class BoolCheckBox(qt.QCheckBox):
 
     def __init__(
         self,
-        view_model: BoolViewModel,
+        view_model: BoolViewModel | BoolBinding[BoolValueStore],
         text: str = "",
         parent: qt.QWidget | None = None,
     ) -> None:
-        """ViewModel、表示文字列、任意の親Widgetで初期化する。"""
+        """ViewModelまたはBinding、表示文字列、親Widgetで初期化する。"""
+        view_model, binding = resolve_bool_view_source(view_model)
         super().__init__(text, parent)
+        self._binding = binding
         # Viewだけを保持するfactory構成でもbinding先を存続させる。
         self._view_model = view_model
         self.setTristate(False)

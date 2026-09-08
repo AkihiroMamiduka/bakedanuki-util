@@ -48,6 +48,17 @@ def _run_tests(target: str) -> int:
     # Mayaごとのmayapyプロセス内でpytestを起動する。
     import pytest
 
+    # root conftestのMaya初期化より先にWidget用applicationを確保する。
+    application = None
+    if target == "qt":
+        from bd_util.ui import qt
+
+        application = qt.QApplication.instance()
+        if application is None:
+            application = qt.QApplication([])
+        if not isinstance(application, qt.QApplication):
+            raise RuntimeError("Qt/UI testにはQApplicationが必要です")
+
     return pytest.main(["-p", "no:cacheprovider", str(_TEST_PATHS[target])])
 
 

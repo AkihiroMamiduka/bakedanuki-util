@@ -446,13 +446,34 @@ class _MayaBoolPlugEndpoint(qt.QObject):
 class MayaBoolPlugStore(_MayaBoolPlugEndpoint):
     """Maya bool plugをbool値の正本として扱うStore。"""
 
+    def __init__(
+        self,
+        view_model: BoolViewModel,
+        plug: BoolPlugOperator,
+        owner: qt.QObject,
+    ) -> None:
+        self._write_depth = 0
+        super().__init__(view_model, plug, owner)
+
     def read(self) -> bool:
         """Maya bool plugの現在値を返す。"""
         return self._read_plug()
 
     def write(self, value: bool) -> bool:
         """Maya undo対応のsetAttrで値を設定し、確定値を返す。"""
-        return self._write_plug(value)
+        # changed slotが終了しても、書き込み後の確定値は先に取得しておく。
+        self._write_depth += 1
+        try:
+            actual_value = self._write_plug(value)
+        finally:
+            self._write_depth -= 1
+        self.refresh()
+        # slotから別の値を設定した場合は、その最新値を優先する。
+        return self._read_plug() if self.is_available else actual_value
+
+    def _callbacks_are_suppressed(self) -> bool:
+        """自身の書き込み通知は確定値の取得後にまとめて反映する。"""
+        return self._write_depth > 0
 
     def refresh(self) -> bool:
         """Maya plugの実値と書き込み可否をViewModelへ同期する。"""

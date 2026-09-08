@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 from ......maya.ui import MayaWindowController
 from ......ui import qt
+from ..bool_plug import validate_maya_view_names
 from .widget import BoolViewsWidget
 
 
@@ -21,6 +22,9 @@ class BoolViewsWindow(qt.QDialog):
         parent: qt.QWidget | None = None,
     ) -> None:
         """BoolViewsWidgetへbinding設定を渡してWindowへ配置する。"""
+        self.maya_view_names = validate_maya_view_names(
+            maya_node_name, maya_attribute_name
+        )
         # Window自体には表示に必要な最小限の設定だけを行う。
         super().__init__(parent)
         self.setObjectName("bdUtilBoolViewsSampleWindow")
@@ -81,16 +85,14 @@ class BoolViewsWindowManager:
         maya_attribute_name: str | None = None,
     ) -> BoolViewsWindow:
         """指定したbinding構成のsample Windowを表示する。"""
+        maya_view_names = validate_maya_view_names(
+            maya_node_name, maya_attribute_name
+        )
         # 同じ構成のWindowは再利用し、異なる構成なら完全に作り直す。
         current_window = self._controller.window
         if current_window is not None:
-            same_configuration = (
-                current_window.bool_views_widget.matches_configuration(
-                    data,
-                    data_attribute_name,
-                    maya_node_name,
-                    maya_attribute_name,
-                )
+            same_configuration = self._matches_configuration(
+                current_window, data, data_attribute_name, maya_view_names
             )
             if not same_configuration:
                 self._controller.dispose()
@@ -154,6 +156,28 @@ class BoolViewsWindowManager:
         if window is None:
             raise RuntimeError("bool views sampleは表示されていません")
         return window
+
+    def _matches_configuration(
+        self,
+        window: BoolViewsWindow,
+        data: object,
+        data_attribute_name: str,
+        maya_view_names: tuple[str, str] | None,
+    ) -> bool:
+        """生存中のbindingが同じ構成ならWindowを再利用する。"""
+        binding = window.bool_views_widget.binding
+        if (
+            binding.is_disposed
+            or binding.store.instance is not data
+            or binding.store.attribute_name != data_attribute_name
+            or not binding.store.is_available
+            or window.maya_view_names != maya_view_names
+        ):
+            return False
+        maya_view = binding.maya_view
+        if maya_view_names is None:
+            return maya_view is None
+        return maya_view is not None and maya_view.is_available
 
 
 # 短いmodule-level APIで共有する既定Managerを1つだけ保持する。

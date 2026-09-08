@@ -4,6 +4,9 @@ from typing import assert_type
 from PySide6 import QtGui, QtWidgets
 
 from bd_util import Nodes
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.bool import (
+    BoolPlugOperator,
+)
 from bd_util._sample.maya.ui.bool_sample.bool_views import (
     BoolViewsWidget,
     BoolViewsWindow,
@@ -14,6 +17,7 @@ from bd_util.maya.ui import (
     DockOptions,
     DockRestoreSpec,
     MayaCallbackRegistry,
+    MayaBoolBinding,
     MayaBoolPlugStore,
     MayaBoolPlugView,
     MayaDockableWindow,
@@ -24,8 +28,10 @@ from bd_util.maya.ui import (
     get_main_window,
     reset_and_show_ui_layout,
     reset_ui_layout,
+    resolve_bool_plug,
 )
 from bd_util.ui import (
+    BoolBinding,
     BoolCheckBox,
     BoolComboBox,
     BoolPushButton,
@@ -194,6 +200,7 @@ assert_type(bool_view_model.set_value_command, SetBoolCommand)
 assert_type(bool_view_model.set_value_command.can_execute, bool)
 assert_type(bool_view_model.set_value_command.execute(True), bool)
 assert_type(bool_view_model.store, BoolValueStore | None)
+assert_type(bool_view_model.is_disposed, bool)
 
 sample_bool_data = SampleBoolData()
 python_bool_store = PythonBoolAttributeStore(sample_bool_data, "visible")
@@ -208,6 +215,23 @@ assert_type(python_bool_store.is_writable, bool)
 assert_type(python_bool_store.read(), bool)
 assert_type(python_bool_store.write(False), bool)
 assert_type(bool_view_model.attach_store(python_bool_store), None)
+
+bool_binding = BoolBinding.from_attribute(sample_bool_data, "visible")
+assert_type(
+    bool_binding, BoolBinding[PythonBoolAttributeStore[SampleBoolData]]
+)
+assert_type(bool_binding.store, PythonBoolAttributeStore[SampleBoolData])
+assert_type(bool_binding.store.instance, SampleBoolData)
+assert_type(bool_binding.view_model, BoolViewModel)
+assert_type(bool_binding.value, bool)
+assert_type(bool_binding.is_disposed, bool)
+assert_type(bool_binding.set_value(False), bool)
+assert_type(bool_binding.refresh(), bool)
+assert_type(
+    BoolBinding(python_bool_store),
+    BoolBinding[PythonBoolAttributeStore[SampleBoolData]],
+)
+assert_type(bool_binding.dispose(), None)
 
 # sampleのFeature WidgetとWindow管理APIが具体型を維持することを確認する。
 sample_visibility_data = VisibilityData()
@@ -283,6 +307,25 @@ assert_type(bool_status_label, BoolStatusLabel)
 assert_type(bool_status_label.view_model, BoolViewModel)
 
 transform = Nodes().existing.transform("sampleTransform")
+resolved_bool_plug = resolve_bool_plug("sampleTransform", "visibility")
+assert_type(resolved_bool_plug, BoolPlugOperator)
+maya_bool_binding = MayaBoolBinding.from_attribute(
+    sample_bool_data,
+    "visible",
+    maya_plug=transform.visibility,
+    parent=callback_owner,
+)
+assert_type(
+    maya_bool_binding,
+    MayaBoolBinding[PythonBoolAttributeStore[SampleBoolData]],
+)
+assert_type(maya_bool_binding.store.instance, SampleBoolData)
+assert_type(maya_bool_binding.view_model, BoolViewModel)
+assert_type(maya_bool_binding.maya_view, MayaBoolPlugView | None)
+assert_type(maya_bool_binding.value, bool)
+assert_type(maya_bool_binding.refresh(), bool)
+assert_type(maya_bool_binding.set_value(False), bool)
+assert_type(maya_bool_binding.dispose(), None)
 maya_store_view_model = BoolViewModel()
 maya_bool_store = MayaBoolPlugStore(
     maya_store_view_model,

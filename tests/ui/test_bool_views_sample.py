@@ -117,7 +117,7 @@ def test_bool_views_widget_requires_maya_names_as_pair(
 def test_bool_views_widget_destroys_binding_without_order_contract(
     qt_application: qt.QApplication,
 ) -> None:
-    # ViewModelを最初の子として持つ通常のQt所有構成を生成する。
+    # bindingがViewModelを所有し、Widgetがbinding全体を所有する。
     widget = BoolViewsWidget(SampleBoolData(), "enabled")
     view_model = widget.view_model
     views = (
@@ -127,7 +127,8 @@ def test_bool_views_widget_destroys_binding_without_order_contract(
         widget.radio_button_group,
         widget.status_label,
     )
-    assert view_model.parent() is widget
+    assert view_model.parent() is widget.binding
+    assert widget.binding.parent() is widget
 
     # 子の登録順に依存せずFeature Widget全体を安全に破棄する。
     widget.deleteLater()

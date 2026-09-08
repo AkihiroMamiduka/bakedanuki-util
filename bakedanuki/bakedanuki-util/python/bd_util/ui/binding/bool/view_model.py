@@ -93,6 +93,7 @@ class BoolViewModel(qt.QObject):
     ) -> None:
         """メモリ上の初期値とbindingの寿命を管理するownerで初期化する。"""
         super().__init__(parent)
+        self._is_disposed = False
         self._value = _MutableBoolValue(value, self)
         self._set_value_command = _MutableSetBoolCommand(
             self._request_value,
@@ -118,8 +119,22 @@ class BoolViewModel(qt.QObject):
         """現在接続されている値の正本を返す。"""
         return self._store
 
+    @property
+    def is_disposed(self) -> bool:
+        """入力とStoreからの同期を終了したか返す。"""
+        return self._is_disposed or not qt.isValid(self)
+
+    def dispose(self) -> None:
+        """入力と同期を停止する。QObjectの破棄はownerへ任せる。"""
+        if self.is_disposed:
+            return
+        self._is_disposed = True
+        self._set_value_command.set_can_execute(False)
+
     def attach_store(self, store: BoolValueStore) -> None:
         """値の正本を接続し、その実値を初期同期する。"""
+        if self.is_disposed:
+            raise RuntimeError("BoolViewModelは終了しています")
         current_store = self._store
         if current_store is store:
             return
@@ -148,12 +163,14 @@ class BoolViewModel(qt.QObject):
             _disconnect_qt_connection(self._store_destroyed_connection)
             self._store_destroyed_connection = None
             self._store = None
-            self._set_value_command.set_can_execute(True)
+            self._set_value_command.set_can_execute(not self.is_disposed)
             raise
 
     def refresh_from_store(self, store: BoolValueStore) -> bool:
         """接続Storeの実値と書き込み可否をViewModelへ同期する。"""
         self._require_attached_store(store)
+        if self.is_disposed:
+            return False
         available = _require_bool(
             store.is_available,
             "store.is_available",
@@ -168,9 +185,12 @@ class BoolViewModel(qt.QObject):
             "store.is_writable",
         )
         # changed slotがStoreを破棄しても古い状態で再度enableしない。
-        self._set_value_command.set_can_execute(writable)
+        self._set_value_command.set_can_execute(
+            writable and not self.is_disposed
+        )
         changed = self._commit_value(value)
-        self.store_refreshed.emit(value)
+        if not self.is_disposed:
+            self.store_refreshed.emit(value)
         return changed
 
     def store_became_unavailable(self, store: BoolValueStore) -> None:
@@ -181,6 +201,8 @@ class BoolViewModel(qt.QObject):
     def _request_value(self, value: bool) -> bool:
         """Commandからの変更要求を処理して実値を確定する。"""
         value = _require_bool(value, "value")
+        if self.is_disposed:
+            return False
         store = self._store
         if store is None:
             return self._commit_value(value)
@@ -201,6 +223,8 @@ class BoolViewModel(qt.QObject):
             return False
 
         current_value = _require_bool(store.read(), "store.read()")
+        if self.is_disposed:
+            return False
         if value == current_value:
             self._commit_value(current_value)
             return False
@@ -232,11 +256,15 @@ class BoolViewModel(qt.QObject):
         except Exception:
             self._set_value_command.set_can_execute(False)
             raise
-        self._set_value_command.set_can_execute(writable)
+        self._set_value_command.set_can_execute(
+            writable and not self.is_disposed
+        )
         return changed
 
     def _commit_value(self, value: bool) -> bool:
         """すべての入力経路から到達する唯一のデータ確定処理。"""
+        if self.is_disposed:
+            return False
         return self._value.replace(value)
 
     def _require_attached_store(self, store: BoolValueStore) -> None:

@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from .binding import BoolBinding
 from .command import SetBoolCommand
 from .store import BoolValueStore, PythonBoolAttributeStore
 from .value import BoolValue
@@ -13,6 +14,7 @@ from .view import (
 )
 
 __all__ = [
+    "BoolBinding",
     "BoolCheckBox",
     "BoolComboBox",
     "BoolPushButton",
