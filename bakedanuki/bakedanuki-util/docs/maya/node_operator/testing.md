@@ -95,6 +95,8 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 - `multi[index]` / `multi[next]` の具体的な plug 型。
 - `get()` の値型。
 - `get()` / `set()` / `set_direct()` / `round()` が対応するplug型だけに存在すること。
+- scalar plugの`keyframe.set()`、tangent指定、`None`戻り値とqueryの型。
+- 単体`KeyframeManager`の`modifier_manager`引数と、廃止した`keyframe.set_direct()`の非公開。
 - `nodes.types`から取得するNodeOperator classと、DAG traversalの
   `filter_type`に応じた具体的なtuple要素型。
 - `ancestors(until=...)` / `descendant_chain(until=...)`の、引数省略時と
@@ -234,7 +236,12 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
   - 値操作、Channel Box公開状態操作、lock操作が、対応する具象plug型だけの
     runtime APIとして現れることを検証します。
 - `tests/maya/node/operator/attr/test_keyframe.py`
-  - animCurve の作成、query、削除、tangent 操作を検証します。
+  - `keyframe.set()`の実行、animCurve作成、query、単体MPlugからの使用、
+    Maya標準のtangent挙動と従来の即時挿入・削除・tangent操作を検証します。
+- `tests/maya/node/operator/attr/test_keyframe_undo.py`
+  - 予約、既存キー更新、undo / redo、作成・改名待ちのplug、queryの再探索、
+    角度・距離・時間の単位変換と予約後の単位変更を検証します。
+  - 不正な引数やキーを設定できない場合のエラー、部分変更の復元も検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
   - typed matrix plugと`TransformMatrix`の連携、常に具体型を返す`get()`、
     未設定時の`ValueError`、分解値のcompound専用値型、flat 16要素 / 4行4列の

@@ -4089,6 +4089,36 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     )
     assert_type(compose.inputRotateOrder.XYZ, Literal[0])
     assert_type(compose.inputRotateOrder.keyframe, KeyframeManager)
+    assert_type(compose.inputRotateOrder.keyframe.set(0, frame=1.0), None)
+
+
+def keyframe_contract(
+    compose: ComposeMatrix,
+    plug: om.MPlug,
+    mod: bdu.ModifierManager,
+) -> None:
+    keyframe = compose.inputRotate.inputRotateX.keyframe
+    assert_type(keyframe, KeyframeManager)
+    assert_type(keyframe.set(90.0, frame=24.0), None)
+    assert_type(
+        keyframe.set(
+            0.0,
+            frame=1.0,
+            in_tangent_type="linear",
+            out_tangent_type=keyframe.tangent.step,
+        ),
+        None,
+    )
+    assert_type(keyframe.frames(), list[float])
+    assert_type(keyframe.key_count(), int)
+    assert_type(keyframe.has_key(1.0), bool)
+    assert_type(KeyframeManager(plug, modifier_manager=mod), KeyframeManager)
+    assert_type(
+        KeyframeManager(plug, modifier_manager=mod).set(1.0, 1.0), None
+    )
+    keyframe.set("invalid", frame=1.0)  # pyright: ignore[reportArgumentType]
+    keyframe.set(1.0, frame="invalid")  # pyright: ignore[reportArgumentType]
+    keyframe.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 
 def bd_dbl3_add_descriptor_contract(

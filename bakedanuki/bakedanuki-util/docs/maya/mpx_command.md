@@ -158,6 +158,12 @@ noteとして追加します。
 実行境界をまとめて逆順にrollbackします。`apply_*()`側で例外を握りつぶしたり、独自に
 rollbackしたりせず、必要なら情報を付加して再送出し、command境界へ処理を任せます。
 
+`do_it_dg()` / `do_it_dag()`の内部で失敗した場合は、managerがまず失敗modifier自体を
+undoし、部分変更の復元を試みます。pending操作とredo履歴を破棄したうえで元の例外を
+再送出し、command基盤のrollbackがそれ以前に成功したmodifier履歴を戻します。
+部分変更の復元に失敗した場合も元の例外を維持し、復元失敗の情報をnoteへ追加します。
+この場合、失敗したmodifierによる変更が残る可能性があります。
+
 この保証は共有`ModifierManager`を通った変更だけに適用されます。operationが独自managerや
 直接編集を使うとrollbackできません。
 

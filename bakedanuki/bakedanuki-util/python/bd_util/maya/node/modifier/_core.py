@@ -90,13 +90,16 @@ class ModifierManager:
             raise RuntimeError("Cannot redo while modifier history is active.")
 
         redone_modifiers: list[_ExecutedModifier] = []
-        try:
-            for executed_modifier in self._redo_stack:
+        for executed_modifier in self._redo_stack:
+            try:
                 executed_modifier.do_it()
-                redone_modifiers.append(executed_modifier)
-        except Exception:
-            self._done_stack = redone_modifiers
-            raise
+            except Exception as error:
+                self._done_stack = redone_modifiers
+                self._recover_failed_modifier(
+                    executed_modifier.modifier, error
+                )
+                raise
+            redone_modifiers.append(executed_modifier)
 
         self._done_stack = redone_modifiers
         self._redo_stack = []
@@ -127,11 +130,14 @@ class ModifierManager:
             raise first_error
 
     def clear(self):
+        self._clear_pending_modifiers()
+        self._done_stack = []
+        self._redo_stack = []
+
+    def _clear_pending_modifiers(self):
         self._dg_mod = om.MDGModifier()
         self._dag_mod = om.MDagModifier()
         self._pending_dag_parents = {}
-        self._done_stack = []
-        self._redo_stack = []
 
     def record_pending_dag_parent(
         self,
@@ -187,11 +193,30 @@ class ModifierManager:
         else:
             raise ValueError(f"Unsupported modifier kind: {kind}")
 
-        modifier.doIt()
+        try:
+            modifier.doIt()
+        except Exception as error:
+            self._recover_failed_modifier(modifier, error)
+            raise
 
         self._done_stack.append(_ExecutedModifier(kind, modifier))
         self._redo_stack = []
         self._replace_current_modifier(kind)
+
+    def _recover_failed_modifier(
+        self,
+        modifier: om.MDGModifier | om.MDagModifier,
+        error: Exception,
+    ) -> None:
+        try:
+            modifier.undoIt()
+        except Exception as rollback_error:
+            error.add_note(
+                f"Failed modifier rollback also failed: {rollback_error!r}"
+            )
+        finally:
+            self._clear_pending_modifiers()
+            self._redo_stack = []
 
     def _replace_current_modifier(self, kind: ModifierKind):
         if kind == "dg":

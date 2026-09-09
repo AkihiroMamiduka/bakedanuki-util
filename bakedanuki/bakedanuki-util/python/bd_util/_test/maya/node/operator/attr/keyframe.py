@@ -28,7 +28,7 @@ def set_key():
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
     for i in range(COUNT):
-        plug.keyframe.set_direct(i, i)
+        plug.keyframe.set(i, i)
     modifier_manager.do_it_dg()
 
 
@@ -39,10 +39,10 @@ def insert_key():
     node = PlusMinusAverage.create(modifier_manager, name="test_insert_key")
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
-    plug.keyframe.set_direct(100, 100)
-    plug.keyframe.set_direct(200, 200)
-    plug.keyframe.insert_direct(150, breakdown=False)
+    plug.keyframe.set(100, 100)
+    plug.keyframe.set(200, 200)
     modifier_manager.do_it_dg()
+    plug.keyframe.insert_direct(150, breakdown=False)
 
 
 def delete_key():
@@ -52,11 +52,11 @@ def delete_key():
     node = PlusMinusAverage.create(modifier_manager, name="test_delete_key")
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
-    plug.keyframe.set_direct(100, 100)
-    plug.keyframe.set_direct(200, 200)
+    plug.keyframe.set(100, 100)
+    plug.keyframe.set(200, 200)
+    modifier_manager.do_it_dg()
     plug.keyframe.delete_key(100)
     plug.keyframe.delete_keys(start_frame=200, end_frame=200)
-    modifier_manager.do_it_dg()
 
 
 def set_tangent():
@@ -72,10 +72,11 @@ def set_tangent():
         (tangent.fast, tangent.flat),
         (tangent.linear, tangent.plateau),
         (tangent.slow, tangent.spline),
-        (tangent.step, tangent.stepnext),
+        (tangent.auto, tangent.step),
+        (tangent.stepnext, tangent.stepnext),
     ]
     for i, (in_tangent, out_tangent) in enumerate(tangent_types):
-        plug.keyframe.set_direct(
+        plug.keyframe.set(
             i,
             i * 10,
             in_tangent_type=in_tangent,

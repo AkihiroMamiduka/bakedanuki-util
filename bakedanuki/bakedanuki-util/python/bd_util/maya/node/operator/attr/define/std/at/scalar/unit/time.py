@@ -35,9 +35,6 @@ class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
         time = om.MTime(value, om.MTime.uiUnit())
         self._node.modifier_manager.dg_mod.newPlugValueMTime(self.plug, time)
 
-    def _to_anim_curve_value(self, value: float) -> om.MTime:
-        return om.MTime(value, om.MTime.uiUnit())
-
     def _from_anim_curve_value(self, value: om.MTime | float) -> float:
         if isinstance(value, om.MTime):
             return value.asUnits(om.MTime.uiUnit())

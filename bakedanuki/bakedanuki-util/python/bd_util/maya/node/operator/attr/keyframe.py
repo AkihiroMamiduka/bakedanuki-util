@@ -1,14 +1,23 @@
 # coding: utf-8
 from __future__ import annotations
 
-from typing import Any, Callable
+import math
+from typing import Any, Callable, TypedDict
 
 # maya
+from maya import cmds
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
+from ...modifier import ModifierManager
+
 ValueConverter = Callable[[Any], Any]
 TangentTypeValue = int | str | None
+
+
+class _TangentFlags(TypedDict, total=False):
+    inTangentType: str
+    outTangentType: str
 
 
 class TangentType:
@@ -38,6 +47,9 @@ _TANGENT_TYPE_MAP = {
 }
 _VALID_TANGENT_TYPES = set(_TANGENT_TYPE_MAP.values()) | {
     oma.MFnAnimCurve.kTangentGlobal,
+}
+_TANGENT_TYPE_NAMES = {
+    value: name for name, value in _TANGENT_TYPE_MAP.items()
 }
 
 
@@ -72,23 +84,22 @@ class KeyframeManager:
     __slots__ = (
         "_plug",
         "_plug_name",
-        "_value_converter",
         "_value_reader",
-        "_anim_curve_obj",
+        "_modifier_manager",
     )
 
     def __init__(
         self,
         plug: om.MPlug,
         plug_name: str | None = None,
-        value_converter: ValueConverter | None = None,
         value_reader: ValueConverter | None = None,
+        *,
+        modifier_manager: ModifierManager | None = None,
     ):
         self._plug = plug
         self._plug_name = plug_name or str(plug)
-        self._value_converter = value_converter or _identity
         self._value_reader = value_reader or _identity
-        self._anim_curve_obj: om.MObject | None = None
+        self._modifier_manager = modifier_manager
 
     @property
     def plug(self) -> om.MPlug:
@@ -110,20 +121,11 @@ class KeyframeManager:
         modifier = om.MDGModifier()
         modifier.deleteNode(anim_curve_obj)
         modifier.doIt()
-        self._anim_curve_obj = None
         return True
 
     #   get
     def _get_anim_curve_obj(self) -> om.MObject | None:
-        anim_curve_obj = self._cached_anim_curve_obj()
-        if anim_curve_obj is not None:
-            return anim_curve_obj
-
-        anim_curve_obj = self._find_upstream_anim_curve_obj()
-        if anim_curve_obj is not None:
-            self._anim_curve_obj = anim_curve_obj
-            return anim_curve_obj
-        return None
+        return self._find_upstream_anim_curve_obj()
 
     def _get_anim_curve_fn(self) -> oma.MFnAnimCurve | None:
         anim_curve_obj = self._get_anim_curve_obj()
@@ -133,40 +135,6 @@ class KeyframeManager:
         fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
         self._validate_time_input_anim_curve(fn_anim_curve)
         return fn_anim_curve
-
-    def _get_or_create_anim_curve_fn(self) -> oma.MFnAnimCurve:
-        anim_curve_obj = self._get_or_create_anim_curve_obj()
-        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-        self._validate_time_input_anim_curve(fn_anim_curve)
-        return fn_anim_curve
-
-    def _get_or_create_anim_curve_obj(self) -> om.MObject:
-        anim_curve_obj = self._get_anim_curve_obj()
-        if anim_curve_obj is not None:
-            return anim_curve_obj
-
-        if self.plug.isDestination:
-            raise RuntimeError(
-                f"{self.plug_name} is already connected, "
-                "but no upstream time-input animCurve was found."
-            )
-
-        anim_curve_obj = self._create_anim_curve_obj()
-        self._anim_curve_obj = anim_curve_obj
-        return anim_curve_obj
-
-    def _cached_anim_curve_obj(self) -> om.MObject | None:
-        anim_curve_obj = self._anim_curve_obj
-        if anim_curve_obj is None or anim_curve_obj.isNull():
-            return None
-        try:
-            fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-        except RuntimeError:
-            self._anim_curve_obj = None
-            return None
-        if not fn_anim_curve.isTimeInput:
-            return None
-        return anim_curve_obj
 
     def _validate_time_input_anim_curve(
         self,
@@ -202,27 +170,6 @@ class KeyframeManager:
                 return anim_curve_obj
             iter_graph.next()
         return None
-
-    #   create
-    def _create_anim_curve_obj(self) -> om.MObject:
-        if not om.MFnAttribute(self.plug.attribute()).writable:
-            raise RuntimeError(f"{self.plug_name} is not writable.")
-
-        fn_anim_curve = oma.MFnAnimCurve()
-        anim_curve_type = fn_anim_curve.timedAnimCurveTypeForPlug(self.plug)
-        if anim_curve_type == oma.MFnAnimCurve.kAnimCurveUnknown:
-            raise RuntimeError(
-                f"Cannot determine timed animCurve type for {self.plug_name}."
-            )
-
-        modifier = om.MDGModifier()
-        anim_curve_obj = fn_anim_curve.create(
-            self.plug,
-            anim_curve_type,
-            modifier,
-        )
-        modifier.doIt()
-        return anim_curve_obj
 
     #   disconnect
     def _disconnect_anim_curve_outputs(self, anim_curve_obj: om.MObject):
@@ -278,21 +225,96 @@ class KeyframeManager:
         return self._find_key_index(frame) is not None
 
     #   set
-    def set_direct(
+    def set(
         self,
-        value: Any,
+        value: float,
         frame: float,
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
-    ):
-        fn_anim_curve = self._get_or_create_anim_curve_fn()
+    ) -> None:
+        """キー設定をModifierManagerへ予約する。
 
-        fn_anim_curve.addKey(
-            om.MTime(frame, om.MTime.uiUnit()),
-            self._value_converter(value),
-            _to_tangent_type(in_tangent_type),
-            _to_tangent_type(out_tangent_type),
-        )
+        Args:
+            value: 角度はdegree、距離はcentimeter、time属性は予約時の
+                Maya UI時間単位。それ以外はscalar値。
+            frame: 予約時のMaya UI時間単位で指定する時刻。
+            in_tangent_type: 入力側tangent。NoneはMayaの既定値。
+            out_tangent_type: 出力側tangent。NoneはMayaの既定値。
+
+        Notes:
+            do_it_dg()で実行し、managerのundo / redo対象になる。
+            対象カーブやanimation layer、blendはcmds.setKeyframeに従う。
+            キーを設定できなかった場合は実行時にRuntimeErrorを送出する。
+        """
+        manager = self._modifier_manager
+        if manager is None:
+            raise RuntimeError(
+                "KeyframeManager.set() requires a ModifierManager."
+            )
+
+        value = float(value)
+        frame = float(frame)
+        if not math.isfinite(value) or not math.isfinite(frame):
+            raise ValueError("Keyframe value and frame must be finite.")
+        in_type = _TANGENT_TYPE_NAMES.get(_to_tangent_type(in_tangent_type))
+        out_type = _TANGENT_TYPE_NAMES.get(_to_tangent_type(out_tangent_type))
+        plug = self.plug
+        if plug.isArray or plug.isCompound:
+            raise TypeError("KeyframeManager.set() requires a scalar plug.")
+        if not om.MFnAttribute(plug.attribute()).writable:
+            raise RuntimeError(f"{self.plug_name} is not writable.")
+
+        time = om.MTime(frame, om.MTime.uiUnit())
+        key_value = self._key_value(value)
+
+        def set_keyframe() -> None:
+            plug_name = plug.name()
+            if not cmds.objExists(plug_name):
+                raise RuntimeError(
+                    "Keyframe plug is not available when the queued "
+                    f"command executes: {plug_name!r}"
+                )
+            tangent_flags: _TangentFlags = {}
+            if in_type is not None:
+                tangent_flags["inTangentType"] = in_type
+            if out_type is not None:
+                tangent_flags["outTangentType"] = out_type
+            count = cmds.setKeyframe(
+                plug_name,
+                time=time.asUnits(om.MTime.uiUnit()),
+                value=self._command_value(key_value),
+                **tangent_flags,
+            )
+            if not count:
+                raise RuntimeError(f"No keyframe was set on {plug_name!r}.")
+
+        manager.dg_mod.pythonCommandToExecute(set_keyframe)
+
+    def _key_value(
+        self, value: float
+    ) -> float | om.MAngle | om.MDistance | om.MTime:
+        attribute = self.plug.attribute()
+        if attribute.hasFn(om.MFn.kUnitAttribute):
+            unit_type = om.MFnUnitAttribute(attribute).unitType()
+            if unit_type == om.MFnUnitAttribute.kAngle:
+                return om.MAngle(value, om.MAngle.kDegrees)
+            if unit_type == om.MFnUnitAttribute.kDistance:
+                return om.MDistance(value, om.MDistance.kCentimeters)
+            if unit_type == om.MFnUnitAttribute.kTime:
+                return om.MTime(value, om.MTime.uiUnit())
+        return value
+
+    @staticmethod
+    def _command_value(
+        value: float | om.MAngle | om.MDistance | om.MTime,
+    ) -> float:
+        if isinstance(value, om.MAngle):
+            return value.asUnits(om.MAngle.uiUnit())
+        if isinstance(value, om.MDistance):
+            return value.asUnits(om.MDistance.uiUnit())
+        if isinstance(value, om.MTime):
+            return value.asUnits(om.MTime.uiUnit())
+        return value
 
     def set_tangent(
         self,

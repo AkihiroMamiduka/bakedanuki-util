@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import partial
 
+from maya import cmds
 from maya.api import OpenMaya as om
 
 from bd_util.maya.mpx_cmd import (
@@ -45,6 +47,18 @@ class _FailAfterExecuteCommand(MPxCommandBase[_FailureParams]):
         raise RuntimeError("intentional MPxCommand failure")
 
 
+class _SetKeyframesCommand(_FailAfterExecuteCommand):
+    COMMAND_NAME = "bduTestMpxSetKeyframes"
+
+    def execute(self, params: _FailureParams) -> None:
+        node = self.nodes.existing.transform(params.node_name)
+        node.scale.scaleX.set(2.0)
+        self.modifier_manager.do_it_dg()
+        node.translate.translateX.keyframe.set(10.0, frame=1.0)
+        node.translate.translateY.keyframe.set(20.0, frame=2.0)
+        self.modifier_manager.do_it_dg()
+
+
 class _NoOpCommand(MPxCommandBase[None]):
     COMMAND_NAME = "bduTestMpxNoOp"
 
@@ -57,8 +71,34 @@ class _NoOpCommand(MPxCommandBase[None]):
         return "no-op"
 
 
+class _FailDuringExecuteCommand(_FailAfterExecuteCommand):
+    COMMAND_NAME = "bduTestMpxFailDuringExecute"
+
+    def execute(self, params: _FailureParams) -> CommandResult | None:
+        self.nodes.create.transform(name=f"{params.node_name}_dag")
+        self.modifier_manager.do_it_dag()
+
+        target = self.nodes.existing.transform(params.node_name)
+        target.translateY.set(12.0)
+        modifier = self.modifier_manager.dg_mod
+        modifier.pythonCommandToExecute(
+            partial(
+                cmds.setKeyframe,
+                f"{params.node_name}.translateX",
+                time=1,
+                value=7,
+            )
+        )
+        modifier.pythonCommandToExecute(
+            partial(cmds.setKeyframe, "missing_node.translateX", time=1)
+        )
+        self.modifier_manager.do_it_dg()
+
+
 COMMAND_TYPES = (
+    _SetKeyframesCommand,
     _FailAfterExecuteCommand,
+    _FailDuringExecuteCommand,
     _NoOpCommand,
 )
 

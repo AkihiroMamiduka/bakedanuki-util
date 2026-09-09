@@ -479,9 +479,6 @@ class PlugOperator(Generic[A]):
         plug_str = ".".join(plug_str_list)
         return self._get_plug_from_str(plug_str)
 
-    def _to_anim_curve_value(self, value: Any) -> Any:
-        return value
-
     def _from_anim_curve_value(self, value: Any) -> Any:
         return value
 
@@ -490,8 +487,8 @@ class PlugOperator(Generic[A]):
             self._keyframe_manager = KeyframeManager(
                 plug=self.plug,
                 plug_name=self.plug_name,
-                value_converter=self._to_anim_curve_value,
                 value_reader=self._from_anim_curve_value,
+                modifier_manager=self._node.modifier_manager,
             )
         return self._keyframe_manager
 

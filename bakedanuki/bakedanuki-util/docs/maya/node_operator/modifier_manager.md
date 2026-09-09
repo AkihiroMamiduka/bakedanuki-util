@@ -90,6 +90,21 @@ DAG `NodeOperator` 経由の作成・親変更では、現在の `MDagModifier` 
 
 これは一般的な undo / redo と同じ扱いです。
 
+## modifier実行中の失敗
+
+`do_it_dg()` / `do_it_dag()`の途中で例外が発生した場合は、失敗したmodifier自体の
+`undoIt()`を呼び、その実行内ですでに反映された変更の復元を試みます。失敗した操作を
+再実行しないよう、DG / DAG両方のpending操作、未実行の親関係、redo履歴を破棄します。
+それ以前に成功したmodifier履歴は保持するため、直接利用する呼び出し側は
+`undo_it()`や`rollback()`でその履歴も戻せます。
+
+`redo_it()`の途中で失敗した場合も、失敗したmodifierの部分変更を復元し、残りのredoと
+pending操作を破棄します。それまでに再実行が成功した履歴はundo可能な状態で保持します。
+
+失敗したmodifierの復元自体でも例外が発生した場合は、元の実行例外へnoteを付加して
+再送出します。この場合は変更が残る可能性があります。破棄された失敗modifierを
+managerから再実行したり、再度undoしたりはしません。
+
 ## clear
 
 `clear()` は現在の modifier、done stack、redo stack をすべて初期化します。
@@ -104,6 +119,8 @@ DAG `NodeOperator` 経由の作成・親変更では、現在の `MDagModifier` 
 
 初回実行の途中で失敗した場合は`rollback()`が実行済み履歴を逆順にundoし、pending、
 done、redoの全状態を破棄します。通常の`undo_it()`と異なり、redo用履歴は残しません。
+modifier実行中の失敗では、上記の部分変更の復元に続いて、command基盤がそれ以前の
+成功済み履歴をrollbackします。
 
 operationとMPxCommandの責務、登録、型付きfacadeを含む運用方針は
 [MPxCommand](../mpx_command.md)を参照してください。

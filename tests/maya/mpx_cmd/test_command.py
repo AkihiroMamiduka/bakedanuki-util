@@ -57,6 +57,64 @@ def test_failure_rolls_back_executed_modifier_history(
     assert not maya_cmds.objExists("bdu_mpx_failed_node_dg")
 
 
+def test_failure_during_modifier_execution_rolls_back_partial_edits(
+    mpx_test_plugin,
+    maya_cmds,
+):
+    node_name = maya_cmds.createNode(
+        "transform", name="bdu_mpx_failure_target"
+    )
+    maya_cmds.flushUndo()
+    command = getattr(maya_cmds, "bduTestMpxFailDuringExecute")
+
+    with pytest.raises(RuntimeError):
+        command(nodeName=node_name)
+
+    assert not maya_cmds.objExists(f"{node_name}_dag")
+    assert maya_cmds.getAttr(f"{node_name}.translateY") == 0.0
+    assert not maya_cmds.listConnections(
+        f"{node_name}.translateX", source=True, destination=False
+    )
+    assert not maya_cmds.ls(type="animCurve")
+    assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+
+
+@pytest.mark.parametrize("locked", [False, True])
+def test_keyframe_set_uses_command_undo_redo_and_failure_rollback(
+    mpx_test_plugin,
+    maya_cmds,
+    locked,
+):
+    node_name = maya_cmds.createNode("transform", name="keyframeTarget")
+    if locked:
+        maya_cmds.setAttr(f"{node_name}.translateY", lock=True)
+    maya_cmds.flushUndo()
+    command = getattr(maya_cmds, "bduTestMpxSetKeyframes")
+
+    if locked:
+        with pytest.raises(RuntimeError):
+            command(nodeName=node_name)
+        assert maya_cmds.getAttr(f"{node_name}.scaleX") == 1.0
+        assert not maya_cmds.ls(type="animCurve")
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+
+    command(nodeName=node_name)
+    for _ in range(2):
+        assert maya_cmds.getAttr(f"{node_name}.scaleX") == 2.0
+        assert maya_cmds.keyframe(
+            f"{node_name}.translateX", query=True, valueChange=True
+        ) == [10.0]
+        assert maya_cmds.keyframe(
+            f"{node_name}.translateY", query=True, valueChange=True
+        ) == [20.0]
+        maya_cmds.undo()
+        assert maya_cmds.getAttr(f"{node_name}.scaleX") == 1.0
+        assert not maya_cmds.ls(type="animCurve")
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        maya_cmds.redo()
+
+
 def test_no_op_command_does_not_enter_maya_undo_queue(
     mpx_test_plugin,
     maya_cmds,
