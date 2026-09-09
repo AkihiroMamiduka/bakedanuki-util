@@ -6,8 +6,13 @@ from .binding import (
     MayaBoolPlugStore,
     MayaBoolPlugView,
     resolve_bool_plug,
+    MayaFloatPlug,
+    MayaFloatPlugBinding,
+    MayaFloatPlugStore,
+    resolve_float_plug,
 )
 from .callback import MayaCallbackRegistry
+from .channel_box import get_channel_box_precision
 from .dock import (
     DockArea,
     DockOptions,
@@ -28,11 +33,16 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "MayaFloatPlug",
+    "MayaFloatPlugBinding",
+    "MayaFloatPlugStore",
+    "resolve_float_plug",
     "create_ui_state_manager",
     "create_window_state_store",
     "DockArea",
     "DockOptions",
     "DockRestoreSpec",
+    "get_channel_box_precision",
     "get_main_window",
     "get_ui_settings_file",
     "get_ui_settings_root",

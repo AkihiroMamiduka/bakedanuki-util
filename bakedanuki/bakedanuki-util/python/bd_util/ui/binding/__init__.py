@@ -14,7 +14,24 @@ from .bool import (
     SetBoolCommand,
 )
 
+from .float import (
+    FloatBinding,
+    FloatPresentation,
+    FloatSpinBox,
+    FloatValue,
+    FloatValueStore,
+    FloatViewModel,
+    SetFloatCommand,
+)
+
 __all__ = [
+    "FloatBinding",
+    "FloatPresentation",
+    "FloatSpinBox",
+    "FloatValue",
+    "FloatValueStore",
+    "FloatViewModel",
+    "SetFloatCommand",
     "BoolBinding",
     "BoolCheckBox",
     "BoolComboBox",

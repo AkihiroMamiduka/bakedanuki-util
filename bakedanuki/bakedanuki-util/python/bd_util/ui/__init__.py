@@ -11,6 +11,13 @@ from .binding import (
     BoolValue,
     BoolValueStore,
     BoolViewModel,
+    FloatBinding,
+    FloatPresentation,
+    FloatSpinBox,
+    FloatValue,
+    FloatValueStore,
+    FloatViewModel,
+    SetFloatCommand,
     PythonBoolAttributeStore,
     SetBoolCommand,
 )
@@ -24,6 +31,13 @@ from .window_state import (
 )
 
 __all__ = [
+    "FloatBinding",
+    "FloatPresentation",
+    "FloatSpinBox",
+    "FloatValue",
+    "FloatValueStore",
+    "FloatViewModel",
+    "SetFloatCommand",
     "BoolBinding",
     "BoolCheckBox",
     "BoolComboBox",

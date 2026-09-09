@@ -221,7 +221,8 @@ Managerインスタンスを上位のtool Controllerなどで保持してくだ�
   Pylance向けの型情報と、PySide6の対応version間の接続・切断方法も確認する。
 - 破棄順の安全性は新しいViewでも維持する。単独破棄と、共通親による一括破棄の両方を試す。
 - 現状は1つのViewModelにStoreは1つ、Maya Viewは最大1つ。Storeの動的差し替えや
-  複数Maya View、bool以外の値型、汎用の共有Sessionは未実装として扱う。
+  複数Maya View、汎用の共有Sessionは未実装として扱う。
+  浮動小数点値は[Float基盤](float_binding.md)で扱い、BoolBindingへ型を混在させない。
   `BoolBinding`はbool 1属性の組み立て補助に留め、汎用SessionやView一括生成へ拡張する場合は
   実際の用途を確認してから検討する。
 

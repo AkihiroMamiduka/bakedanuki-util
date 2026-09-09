@@ -817,6 +817,25 @@ manager.dispose()
 終了したManagerは再利用せず、新しいManagerを生成してください。構成を変更する場合も、
 古いManagerを`dispose()`してから作成します。
 
+## 浮動小数点値のMVVMとQDoubleSpinBox
+
+`MayaFloatPlugBinding`は既存Maya属性を正本として読み取り、`FloatSpinBox`で編集します。
+単位なしのfloat/double、距離、角度に対応し、表示・入力は現在のMaya表示単位へ追従します。
+Pythonからの`binding.value`／`set_value()`は既存PlugOperatorと同じcm／degree固定です。
+
+```python
+from bd_util._sample.maya.ui.float_sample import maya_plug
+
+# 既存transformの名前を指定する。nodeや属性は作成しない。
+window = maya_plug.show("pCube1")
+```
+
+サンプルは`translateX`、`rotateX`、`scaleX`にそれぞれ独立したBindingを作ります。
+`maya_plug.dispose()`またはWindowのcloseでUIとcallbackを終了します。
+API、単位、丸め、対応範囲は[浮動小数点binding](float_binding.md)を参照してください。
+サンプルの小数桁数はWindow生成時にChannel BoxのChange Precision設定から取得します。
+桁数設定の変更は次回表示時に反映し、距離・角度の単位変更は表示中も追従します。
+
 ## Maya callbackのlifecycle管理
 
 `MayaCallbackRegistry`は、`MEventMessage`、`MSceneMessage`、`MNodeMessage`などが返す
@@ -1311,41 +1330,20 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-<<<<<<< HEAD
-2026-09-06に`test-ui-maya-all.cmd`を単独実行した際の確認結果です。
-=======
-2026-09-07時点の確認結果です。
->>>>>>> feature/mvvm-bool
+2026-09-08に浮動小数点bindingと起動時のChannel Box桁数反映を追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 173 passed | 113 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 173 passed | 113 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 173 passed | 113 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 200 passed | 146 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 200 passed | 146 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 200 passed | 146 passed |
 
-<<<<<<< HEAD
-上表はUI専用テストの結果であり、repository全体の統合検証成功とは区別します。
-同日の最新作業ツリーで`verify.cmd`を再実行し、Black、3 versionのPyright contract、
-Maya 2025 full pytest、3 versionのUI互換性テスト、`git diff --check`まで成功しました。
-Maya 2025 full pytestは`2558 passed, 78 skipped`です。統一検証内のUIテストは、
-各versionで`tests/ui`が`43 passed, 78 skipped`、`tests/maya/ui`が`92 passed`でした。
-この実行ではMaya standaloneが生成したapplicationが`QApplication`ではないため、
-`QApplication`を必要とする78件がskipされており、上表の単独実行結果と区別します。
-
-以前の`test_plugin_metadata_matches_runtime`の失敗は、staged plug-inの`apiVersion`が
-`20250000`、実行中Mayaが`20250303`という不一致によるものでした。
-コミット`be634885`で更新された現在のバイナリでは、両方が`20250303`で一致し、
-当該テストも成功しています。この不一致は解消済みで、検証条件は変更していません。
-通常の`verify.cmd`はnative buildを行わず、配置済みのstaged plug-inを使用します。
-=======
-2026-09-07の`verify.cmd`は、Black、3 versionのPyright contract、Maya 2025 full pytest、
-上表の3 version UI互換性テスト、`git diff --check`まで成功しました。
-full pytestは`2579 passed, 130 skipped`です。全体実行ではMaya初期化が先になるため
-Widgetを必要とするtestがskipされますが、
-上表のUI専用processではskipなしで確認しています。
-以前記録していた`test_plugin_metadata_matches_runtime`の不一致も今回の実行では再現していません。
-Maya本体での手動表示・操作確認は今回の自動テスト結果に含めません。
->>>>>>> feature/mvvm-bool
+`verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
+上表の3 version UI互換性テスト、`git diff --check`を実行します。
+Maya 2025 full pytestは`2612 passed, 157 skipped`です。全体実行ではMaya初期化が先になるため
+Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
+Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
+Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って
