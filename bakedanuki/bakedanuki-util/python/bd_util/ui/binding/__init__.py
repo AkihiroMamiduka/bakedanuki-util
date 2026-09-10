@@ -30,6 +30,7 @@ from .float import (
     FloatValue,
     FloatValueStore,
     FloatViewModel,
+    PythonFloatAttributeStore,
     SetFloatCommand,
 )
 
@@ -47,6 +48,7 @@ __all__ = [
     "FloatValue",
     "FloatValueStore",
     "FloatViewModel",
+    "PythonFloatAttributeStore",
     "SetFloatCommand",
     "BoolBinding",
     "BoolCheckBox",

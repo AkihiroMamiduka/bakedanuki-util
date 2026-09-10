@@ -5,10 +5,12 @@ from collections.abc import Callable
 from typing import Generic, TypeVar
 
 from ... import qt
-from .store import FloatValueStore
+from .presentation import FloatPresentation
+from .store import FloatValueStore, PythonFloatAttributeStore
 from .view_model import FloatViewModel
 
 _StoreT = TypeVar("_StoreT", bound=FloatValueStore, covariant=True)
+_InstanceT = TypeVar("_InstanceT")
 
 
 class FloatBinding(qt.QObject, Generic[_StoreT]):
@@ -39,6 +41,22 @@ class FloatBinding(qt.QObject, Generic[_StoreT]):
         except Exception:
             self.dispose()
             raise
+
+    @staticmethod
+    def from_attribute(
+        instance: _InstanceT,
+        attribute_name: str,
+        *,
+        presentation: FloatPresentation | None = None,
+        parent: qt.QObject | None = None,
+    ) -> FloatBinding[PythonFloatAttributeStore[_InstanceT]]:
+        """Pythonの数値属性を正本とするStoreとBindingを組み立てる。"""
+        return FloatBinding(
+            PythonFloatAttributeStore(
+                instance, attribute_name, presentation=presentation
+            ),
+            parent=parent,
+        )
 
     @property
     def store(self) -> _StoreT:

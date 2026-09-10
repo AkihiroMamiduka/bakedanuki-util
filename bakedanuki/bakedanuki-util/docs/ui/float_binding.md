@@ -3,6 +3,7 @@
 Maya属性を正本として、単一の浮動小数点値をQtの`QDoubleSpinBox`で編集します。
 役割分担は[既存のMVVM](mvvm_roles.md)と同じで、Storeが実値を読み書きし、
 ViewModelが確定値とCommandの実行可否を公開し、Viewが入力と表示を担当します。
+Python objectを正本にする場合は[Python属性の浮動小数点binding](python_float_binding.md)を使用します。
 
 ## 最小の組み込み
 
@@ -51,6 +52,8 @@ binding.dispose()
 | `FloatViewModel` | Value、Command、単一Store、表示情報を仲介する |
 | `FloatValueStore` | `read()`、`write()`、`is_available`、`is_writable`、`presentation`の契約 |
 | `FloatBinding(store, parent=...)` | 外部Storeと専用ViewModelを組み立てる。外部Storeは所有しない |
+| `FloatBinding.from_attribute(instance, attribute_name, ...)` | Python属性用StoreとBindingを生成する |
+| `PythonFloatAttributeStore` | Python属性の有限値・入力範囲を検証し、setter適用後の実値を返す |
 | `MayaFloatPlugBinding(plug, parent=...)` | `MayaFloatPlugStore`と専用ViewModel、callbackを所有する |
 | `binding.value` / `changed` / `set_value()` / `refresh()` | bool Bindingと同じ利用窓口 |
 | `FloatPresentation` | immutableな表示倍率・suffix・公開単位でのhard limit |
@@ -162,7 +165,8 @@ Windowを開いている間にChange Precisionを変更しても桁数は変わ�
 `resolve_float_plug()`は属性名のみを受け取り、属性パス、配列、配列要素、配列配下の子、
 compound全体、整数、bool、time、typed dataは拒否します。
 `double3`／`float3`全体の編集は[3成分binding](float3_binding.md)を使用します。
-Python属性用Storeの便利API、Python正本をMaya Viewへ同期する構成は後続対応です。
+Python属性は`FloatBinding.from_attribute()`で接続できます。
+Python正本をMaya Viewへ同期する構成は後続対応です。
 共通の`FloatValueStore`を実装した独自Storeは使用できます。
 
 ## 検証

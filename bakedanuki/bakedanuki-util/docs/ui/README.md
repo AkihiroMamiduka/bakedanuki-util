@@ -836,6 +836,22 @@ API、単位、丸め、対応範囲は[浮動小数点binding](float_binding.md
 サンプルの小数桁数はWindow生成時にChannel BoxのChange Precision設定から取得します。
 桁数設定の変更は次回表示時に反映し、距離・角度の単位変更は表示中も追従します。
 
+## Python属性を正本にする浮動小数点binding
+
+`FloatBinding.from_attribute()`はPython objectやdataclassの数値属性を正本とし、
+既存の`FloatSpinBox`で編集します。生成される`PythonFloatAttributeStore`は正本の具体型を
+維持し、setterによる補正・拒否、有限値の検証、読み取り専用属性に対応します。
+表示単位と範囲は`FloatPresentation`で明示でき、直接代入後は`binding.refresh()`で同期します。
+
+```python
+from bd_util._sample.maya.ui.float_sample import minimal
+
+window = minimal.show()
+```
+
+サンプルは1つのPython属性を3桁と6桁のSpinBoxで共有し、直接代入とrefreshも試せます。
+API、単位、範囲、寿命は[Python属性の浮動小数点binding](python_float_binding.md)を参照してください。
+
 ## 3成分の浮動小数点値とXYZ編集
 
 `MayaFloat3PlugBinding`と`Float3SpinBox`は、`translate`・`rotate`・`scale`を
@@ -1347,17 +1363,17 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-09に3成分の浮動小数点bindingを追加した作業ツリーでの確認結果です。
+2026-09-10にPython属性の単一float bindingを追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 214 passed | 176 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 214 passed | 176 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 214 passed | 176 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 251 passed | 176 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 251 passed | 176 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 251 passed | 176 passed |
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2642 passed, 171 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2667 passed, 183 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。

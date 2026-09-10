@@ -127,7 +127,8 @@ Windowから独立したownerを指定し、そのownerが終了を管理しま�
 独自Storeは`Float3ValueStore`を実装できます。`components`は3つの`FloatValueStore`で、
 全体と各軸は同じ正本を参照し、`write()`は書き込み後の実値を返します。
 外部変更は`binding.refresh()`で読み直します。外部Storeの所有権はBindingへ移しません。
-Python属性用Storeの便利APIや、Python正本をMaya Viewへ同期する構成は後続対応です。
+3成分のPython属性用Storeの便利APIや、Python正本をMaya Viewへ同期する構成は後続対応です。
+単一値は[Python属性の浮動小数点binding](python_float_binding.md)を使用できます。
 
 ## サンプルと対応範囲
 
