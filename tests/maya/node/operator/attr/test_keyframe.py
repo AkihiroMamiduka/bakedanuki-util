@@ -199,8 +199,9 @@ def test_keyframe_property_sets_tangent_type_on_existing_key(
             in_tangent_type=tangent.flat,
             out_tangent_type=tangent.linear,
         )
-        is True
+        is None
     )
+    plus_minus_average_node.modifier_manager.do_it_dg()
     assert maya_cmds.keyTangent(
         "test_input1D_0_",
         query=True,
@@ -213,17 +214,21 @@ def test_keyframe_property_sets_tangent_type_on_existing_key(
     ) == ["linear"]
 
 
-def test_keyframe_property_set_tangent_returns_false_for_missing_key(
+def test_keyframe_property_set_tangent_ignores_missing_key(
     plus_minus_average_node,
 ):
     keyframe = plus_minus_average_node.input1D[0].keyframe
 
-    assert keyframe.set_tangent(10.0, in_tangent_type="linear") is False
+    assert keyframe.set_tangent(10.0, in_tangent_type="linear") is None
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    assert keyframe.frames() == []
 
     keyframe.set(12.5, frame=1.0)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
-    assert keyframe.set_tangent(10.0, in_tangent_type="linear") is False
+    assert keyframe.set_tangent(10.0, in_tangent_type="linear") is None
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    assert keyframe.frames() == [1.0]
 
 
 def test_keyframe_property_rejects_unknown_tangent_type_name(
@@ -277,7 +282,7 @@ def test_keyframe_manager_can_be_used_with_mplug_directly(
     assert maya_cmds.getAttr("test.input1D[0]", time=3.0) == pytest.approx(3.5)
 
 
-def test_keyframe_manager_insert_direct_inserts_key_on_existing_anim_curve(
+def test_keyframe_manager_insert_inserts_key_on_existing_anim_curve(
     plus_minus_average_node,
     maya_cmds,
     maya_om,
@@ -294,12 +299,14 @@ def test_keyframe_manager_insert_direct_inserts_key_on_existing_anim_curve(
     selection.add("test.input1D[0]")
     plug = selection.getPlug(0)
 
-    index = KeyframeManager(
+    result = KeyframeManager(
         plug,
         plug_name="test.input1D[0]",
-    ).insert_direct(frame=5.0)
+        modifier_manager=node.modifier_manager,
+    ).insert(frame=5.0)
 
-    assert index == 1
+    assert result is None
+    node.modifier_manager.do_it_dg()
     assert maya_cmds.keyframe(
         "test.input1D[0]",
         query=True,
@@ -313,7 +320,7 @@ def test_keyframe_manager_insert_direct_inserts_key_on_existing_anim_curve(
     ) == pytest.approx([expected_value])
 
 
-def test_keyframe_property_insert_direct_is_available_from_scalar_plug(
+def test_keyframe_property_insert_is_available_from_scalar_plug(
     plus_minus_average_node,
     maya_cmds,
 ):
@@ -322,9 +329,9 @@ def test_keyframe_property_insert_direct_is_available_from_scalar_plug(
     node.input1D[0].keyframe.set(10.0, frame=10.0)
     node.modifier_manager.do_it_dg()
 
-    index = node.input1D[0].keyframe.insert_direct(frame=5.0)
+    assert node.input1D[0].keyframe.insert(frame=5.0) is None
+    node.modifier_manager.do_it_dg()
 
-    assert index == 1
     assert maya_cmds.keyframe(
         "test.input1D[0]",
         query=True,
@@ -341,18 +348,23 @@ def test_keyframe_property_delete_key_removes_key_at_frame(
     keyframe.set(3.0, frame=3.0)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
-    assert keyframe.delete_key(2.0) is True
+    assert keyframe.delete_key(2.0) is None
+    plus_minus_average_node.modifier_manager.do_it_dg()
     assert keyframe.frames() == [1.0, 3.0]
     assert keyframe.values() == pytest.approx([1.0, 3.0])
-    assert keyframe.delete_key(2.0) is False
+    assert keyframe.delete_key(2.0) is None
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    assert keyframe.frames() == [1.0, 3.0]
 
 
-def test_keyframe_property_delete_key_returns_false_without_anim_curve(
+def test_keyframe_property_delete_key_ignores_missing_anim_curve(
     plus_minus_average_node,
 ):
     keyframe = plus_minus_average_node.input1D[0].keyframe
 
-    assert keyframe.delete_key(1.0) is False
+    assert keyframe.delete_key(1.0) is None
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    assert not keyframe.has_anim_curve()
 
 
 def test_keyframe_property_delete_keys_removes_keys_in_range(
@@ -363,7 +375,8 @@ def test_keyframe_property_delete_keys_removes_keys_in_range(
         keyframe.set(frame, frame=frame)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
-    assert keyframe.delete_keys(start_frame=2.0, end_frame=3.0) == 2
+    assert keyframe.delete_keys(start_frame=2.0, end_frame=3.0) is None
+    plus_minus_average_node.modifier_manager.do_it_dg()
     assert keyframe.frames() == [1.0, 4.0]
     assert keyframe.values() == pytest.approx([1.0, 4.0])
 
@@ -376,17 +389,20 @@ def test_keyframe_property_delete_keys_without_range_removes_all_keys(
     keyframe.set(2.0, frame=2.0)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
-    assert keyframe.delete_keys() == 2
+    assert keyframe.delete_keys() is None
+    plus_minus_average_node.modifier_manager.do_it_dg()
     assert keyframe.key_count() == 0
     assert keyframe.frames() == []
 
 
-def test_keyframe_property_delete_keys_returns_zero_without_anim_curve(
+def test_keyframe_property_delete_keys_ignores_missing_anim_curve(
     plus_minus_average_node,
 ):
     keyframe = plus_minus_average_node.input1D[0].keyframe
 
-    assert keyframe.delete_keys() == 0
+    assert keyframe.delete_keys() is None
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    assert not keyframe.has_anim_curve()
 
 
 def test_keyframe_property_delete_keys_rejects_reversed_range(
@@ -400,13 +416,14 @@ def test_keyframe_property_delete_keys_rejects_reversed_range(
         keyframe.delete_keys(start_frame=2.0, end_frame=1.0)
 
 
-def test_keyframe_property_insert_direct_requires_existing_anim_curve(
+def test_keyframe_property_insert_requires_existing_anim_curve_at_execution(
     plus_minus_average_node,
 ):
     node = plus_minus_average_node
 
+    node.input1D[0].keyframe.insert(frame=5.0)
     with pytest.raises(RuntimeError, match="no upstream time-input animCurve"):
-        node.input1D[0].keyframe.insert_direct(frame=5.0)
+        node.modifier_manager.do_it_dg()
 
 
 def test_keyframe_property_reuses_upstream_anim_curve_from_new_operator(
@@ -461,19 +478,23 @@ def test_delete_anim_curve_removes_managed_anim_curve(
         KeyframeManager(
             plug,
             plug_name="test.input1D[0]",
+            modifier_manager=node.modifier_manager,
         ).delete_anim_curve()
-        is True
+        is None
     )
+    node.modifier_manager.do_it_dg()
     assert maya_cmds.objExists("test") is True
     assert maya_cmds.objExists("test_input1D_0_") is False
 
 
-def test_delete_anim_curve_returns_false_without_anim_curve(
+def test_delete_anim_curve_ignores_missing_anim_curve(
     plus_minus_average_node,
 ):
     node = plus_minus_average_node
 
-    assert node.input1D[0].keyframe.delete_anim_curve() is False
+    assert node.input1D[0].keyframe.delete_anim_curve() is None
+    node.modifier_manager.do_it_dg()
+    assert not node.input1D[0].keyframe.has_anim_curve()
 
 
 def test_keyframe_property_converts_angle_value_to_anim_curve_radians(

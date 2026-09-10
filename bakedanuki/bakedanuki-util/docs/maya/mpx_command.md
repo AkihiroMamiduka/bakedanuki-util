@@ -138,7 +138,7 @@ DG / DAGの実行境界は`apply_*()`へまとめます。
 
 - `doIt()`
   - `MArgDatabase`の生成、`parse_arguments()`、`execute()`、`setResult()`を順に実行します。
-  - 成功後に実行済みmodifier履歴がある場合だけundoableになります。
+  - 成功後に実行済み履歴がある場合だけundoableになります。
 - `undoIt()`
   - 共有`ModifierManager`の履歴を逆順にundoします。
 - `redoIt()`
@@ -146,10 +146,12 @@ DG / DAGの実行境界は`apply_*()`へまとめます。
 - `isUndoable()`
   - 初回実行が成功し、managerに実行済み履歴がある場合だけ`True`を返します。
 
-照会やno-op commandはmodifier履歴を作らないため、Mayaのundo queueへ入りません。
+実行境界を作らない照会やno-op commandは履歴を作らないため、Mayaのundo queueへ
+入りません。変更を予約して実行境界を作った場合は、結果的に対象がなく変更しなかった
+操作でも履歴を持つ場合があります。
 
 `execute()`または結果設定が例外を送出すると、基盤は`ModifierManager.rollback()`を
-呼びます。rollbackは実行済みmodifierを逆順にundoし、未実行modifier、done stack、
+呼びます。rollbackは実行済み履歴を逆順にundoし、未実行操作、done stack、
 redo stackをすべて破棄します。rollback自体でも失敗した場合は、元の例外へその情報を
 noteとして追加します。
 
@@ -158,11 +160,13 @@ noteとして追加します。
 実行境界をまとめて逆順にrollbackします。`apply_*()`側で例外を握りつぶしたり、独自に
 rollbackしたりせず、必要なら情報を付加して再送出し、command境界へ処理を任せます。
 
-`do_it_dg()` / `do_it_dag()`の内部で失敗した場合は、managerがまず失敗modifier自体を
-undoし、部分変更の復元を試みます。pending操作とredo履歴を破棄したうえで元の例外を
-再送出し、command基盤のrollbackがそれ以前に成功したmodifier履歴を戻します。
+`do_it_dg()` / `do_it_dag()`の内部で失敗した場合は、managerがまず失敗した操作の
+部分変更と同じ実行境界内の成功済み操作を逆順に戻します。pending操作とredo履歴を
+破棄したうえで元の例外を再送出し、command基盤のrollbackがそれ以前の実行境界で
+成功した履歴を戻します。`MAnimCurveChange`を使用するkeyframe編集もこの履歴に含み、
+DG操作と混在した実行順を保って復元します。
 部分変更の復元に失敗した場合も元の例外を維持し、復元失敗の情報をnoteへ追加します。
-この場合、失敗したmodifierによる変更が残る可能性があります。
+この場合、失敗した実行境界による変更が残る可能性があります。
 
 この保証は共有`ModifierManager`を通った変更だけに適用されます。operationが独自managerや
 直接編集を使うとrollbackできません。

@@ -115,6 +115,84 @@ def test_keyframe_set_uses_command_undo_redo_and_failure_rollback(
         maya_cmds.redo()
 
 
+def _animation_state(maya_cmds, plug_name):
+    return (
+        maya_cmds.keyframe(plug_name, query=True, timeChange=True),
+        maya_cmds.keyframe(plug_name, query=True, valueChange=True),
+        maya_cmds.keyTangent(plug_name, query=True, inTangentType=True),
+        maya_cmds.keyTangent(plug_name, query=True, outTangentType=True),
+        maya_cmds.listConnections(
+            plug_name, source=True, destination=False, plugs=True
+        ),
+    )
+
+
+@pytest.mark.parametrize(
+    "command_name",
+    [
+        "bduTestMpxEditKeyframes",
+        "bduTestMpxFailAfterAnimationEdit",
+        "bduTestMpxFailDuringAnimationEdit",
+    ],
+)
+def test_animation_edits_share_command_history_and_restore_on_failure(
+    mpx_test_plugin,
+    maya_cmds,
+    command_name,
+):
+    node_name = maya_cmds.createNode("transform", name="animationEditTarget")
+    tx = f"{node_name}.translateX"
+    ty = f"{node_name}.translateY"
+    for frame in (1, 3):
+        maya_cmds.setKeyframe(
+            tx,
+            time=frame,
+            value=frame,
+            inTangentType="linear",
+            outTangentType="linear",
+        )
+    maya_cmds.setKeyframe(ty, time=1, value=10)
+    initial_x = _animation_state(maya_cmds, tx)
+    initial_y = _animation_state(maya_cmds, ty)
+    initial_curves = sorted(maya_cmds.ls(type="animCurve"))
+    maya_cmds.flushUndo()
+    command = getattr(maya_cmds, command_name)
+
+    if command_name != "bduTestMpxEditKeyframes":
+        with pytest.raises(RuntimeError, match="intentional animation"):
+            command(nodeName=node_name)
+        assert _animation_state(maya_cmds, tx) == initial_x
+        assert _animation_state(maya_cmds, ty) == initial_y
+        assert sorted(maya_cmds.ls(type="animCurve")) == initial_curves
+        assert maya_cmds.getAttr(f"{node_name}.scaleX") == 1.0
+        assert not maya_cmds.objExists(f"{node_name}_dag")
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+
+    command(nodeName=node_name)
+    final_x = _animation_state(maya_cmds, tx)
+    assert final_x[0] == [1.0, 2.0, 5.0]
+    assert final_x[1] == pytest.approx([1.0, 2.0, 5.0])
+    assert final_x[2][1] == "linear"
+    assert final_x[3][1] == "linear"
+    for _ in range(2):
+        assert _animation_state(maya_cmds, tx) == final_x
+        assert not maya_cmds.listConnections(
+            ty, source=True, destination=False
+        )
+        assert maya_cmds.getAttr(f"{node_name}.scaleX") == 2.0
+        assert maya_cmds.objExists(f"{node_name}_dag")
+        assert len(maya_cmds.ls(type="animCurve")) == 1
+        maya_cmds.undo()
+        assert _animation_state(maya_cmds, tx) == initial_x
+        assert _animation_state(maya_cmds, ty) == initial_y
+        assert sorted(maya_cmds.ls(type="animCurve")) == initial_curves
+        assert maya_cmds.getAttr(f"{node_name}.scaleX") == 1.0
+        assert not maya_cmds.objExists(f"{node_name}_dag")
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        maya_cmds.redo()
+
+
 def test_no_op_command_does_not_enter_maya_undo_queue(
     mpx_test_plugin,
     maya_cmds,

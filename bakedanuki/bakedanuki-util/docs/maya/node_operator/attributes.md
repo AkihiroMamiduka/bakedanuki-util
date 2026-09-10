@@ -137,9 +137,9 @@ methodとして定義しません。`PlugOperator`や`DataTypePlugOperator`な�
 
 ## キーフレーム
 
-scalar plugの`keyframe.set(value, frame, ...) -> None`は、同じ`ModifierManager`へ
-キー設定を予約します。`mod.do_it_dg()`まではsceneへ反映せず、値設定や接続と
-同じ履歴でundo / redoできます。
+scalar plugの`keyframe`による変更操作は、同じ`ModifierManager`へ予約します。
+`mod.do_it_dg()`まではsceneへ反映せず、値設定や接続と同じ履歴でundo / redoできます。
+すべての変更methodの戻り値は`None`です。
 
 ```python
 import bd_util as bdu
@@ -157,29 +157,31 @@ mod.undo_it()
 mod.redo_it()
 ```
 
-戻り値は設定個数ではなく`None`です。`frames()`や`key_count()`などのqueryも
-実行前のsceneを読み、予約中のキーは含みません。`set()`は`do_it_dg()`を
-暗黙に呼び出しません。MayaのUndoキューへの登録は
+`frames()`や`key_count()`などのqueryは実行済みのsceneだけを読み、予約中の変更は
+含みません。変更methodは`do_it_dg()`を暗黙に呼び出しません。MayaのUndoキューへの登録は
 [ModifierManagerのMPxCommand連携](modifier_manager.md)を参照してください。
 
 ### 引数と単位
 
 | 引数 / plug型 | 公開単位 |
 | --- | --- |
-| `frame` | `set()`を呼んだ時点のMaya UI時間単位 |
+| `frame` / `start_frame` / `end_frame` | 各変更methodを呼んだ時点のMaya UI時間単位 |
 | angleの`value` | degree |
 | linearの`value` | centimeter |
 | time属性の`value` | `set()`を呼んだ時点のMaya UI時間単位 |
 | その他scalarの`value` | numeric値。bool / enumも数値で指定 |
 
 angle / linearは通常の`PlugOperator.set()`と同じ固定単位です。時刻とtime属性の
-値は予約時の時間単位で捕捉し、実行時に`cmds`が使用するUI単位へ換算します。
+値は予約時の時間単位で捕捉します。`set()`は実行時に`cmds`が使用するUI単位へ換算し、
+挿入・tangent変更・キー削除は捕捉した時刻をAPIで使用します。
 予約後にangle / linear / timeのUI単位を変更しても、予約した物理量は維持します。
-`value`と`frame`にNaNや無限大は指定できません。
+`value`や時刻の引数にNaNや無限大は指定できません。有限値、不正なtangent、
+`delete_keys()`の逆転した範囲は予約時に検証します。
 
 `in_tangent_type` / `out_tangent_type`には`"linear"`などの文字列、または
-`keyframe.tangent.linear`などの定数を指定できます。`None`はMayaの既定値を
-使用します。`in_tangent_type="step"`はMayaが警告を出して入力側を既定値にするため、
+`keyframe.tangent.linear`などの定数を指定できます。`set()`の`None`はMayaの既定値を
+使用し、`set_tangent()`の`None`はその側のtangentを変更しません。
+`set()`の`in_tangent_type="step"`はMayaが警告を出して入力側を既定値にするため、
 step補間は`out_tangent_type="step"`へ指定してください。Maya 2027では入力側の
 `"stepnext"`も同様に既定値になります。どちらも出力側へ指定することで、
 対応するMaya version間で共通の設定として使用できます。
@@ -218,38 +220,59 @@ keyframe.set(90.0, frame=24.0)
 mod.do_it_dg()
 ```
 
-`modifier_manager`を省略したインスタンスで`set()`を呼ぶと`RuntimeError`です。
-queryや従来の即時操作だけを行う場合は省略できます。
+`modifier_manager`を省略したインスタンスで変更methodを呼ぶと`RuntimeError`です。
+queryだけを行う場合は省略できます。
 
-### 即時操作と旧APIからの移行
+### キーの挿入・編集・削除
 
-`keyframe.set_direct()`は廃止しました。呼び出しを`keyframe.set()`へ置き換え、
-設定したキーをquery・挿入・削除する前に`mod.do_it_dg()`を明示してください。
+| method | 実行時の処理 | 対象がない場合 |
+| --- | --- | --- |
+| `insert(frame, breakdown=False)` | 前後のカーブ形状を保ってキーを挿入 | カーブがなければ`RuntimeError` |
+| `set_tangent(frame, ...)` | 指定した側のtangent typeを変更 | カーブ・キーがなければ何もしない |
+| `delete_key(frame)` | 指定時刻のキーを削除 | カーブ・キーがなければ何もしない |
+| `delete_keys(start_frame=None, end_frame=None)` | 指定範囲のキーを削除 | カーブ・該当キーがなければ何もしない |
+| `delete_anim_curve()` | カーブノード全体を削除 | カーブがなければ何もしない |
+
+`delete_keys()`の境界は両端を含み、`None`を指定した側には境界を設けません。
+両方省略すると全キーを削除します。キー削除には`MFnAnimCurve.remove()`を使用し、
+最後のキーを削除しても空のカーブは残します。
+
+挿入・tangent変更・キー削除は、`MAnimCurveChange`へ変更を記録します。
+カーブノードの削除も同じmanagerの履歴へ含め、Undoでキー・tangent・接続を復元します。
+`delete_anim_curve()`は、このplugとの接続だけを切る操作ではありません。
+同じカーブを共有する別のplugがある場合も、カーブ全体とその接続を削除します。
+カーブの全出力接続を先に切断・反映してから、別の`MDGModifier`でカーブノードを
+削除します。接続先ノードが連鎖して削除されることを避けるため、この2段階を
+同じmanagerの実行境界内で順に処理します。
+
+対象カーブとキーは実行時に解決するため、同じ`do_it_dg()`へ予約した設定・編集を
+呼び出した順に反映できます。
 
 ```python
 keyframe.set(0.0, frame=1.0)
 keyframe.set(90.0, frame=24.0)
+keyframe.insert(frame=12.0)
+keyframe.set_tangent(frame=12.0, out_tangent_type="linear")
 mod.do_it_dg()
 
 frames = keyframe.frames()
 ```
 
-今回予約方式へ変更したのは`set()`のみです。次の操作は従来どおり即時に反映し、
-`ModifierManager`のundo / redoには参加しません。
-
-| method | 戻り値 |
-| --- | --- |
-| `insert_direct(frame, breakdown=False)` | 挿入したキーのindex |
-| `set_tangent(frame, ...)` | 対象キーの有無を表すbool |
-| `delete_key(frame)` | 削除したかを表すbool |
-| `delete_keys(start_frame=None, end_frame=None)` | 削除したキー数 |
-| `delete_anim_curve()` | 削除したかを表すbool |
-
-これらの即時操作とqueryは、上流で最初に見つかったtime-input animCurveを
+これらの編集操作とqueryは、上流で最初に見つかったtime-input animCurveを
 対象にする従来の探索を使用します。animation layer全体の合成値や、`set()`で
-Mayaが選んだlayerのカーブを必ず扱うAPIではありません。カーブはqueryごとに
-探索し、Undo後の古いカーブをキャッシュしません。即時操作を混ぜた場合、
-その変更まで`mod.undo_it()`で復元されるとは限らない点に注意してください。
+Mayaが選んだlayerのカーブを必ず扱うAPIではありません。カーブはquery時・編集実行時に
+探索し、Undoや再接続をまたいで古いカーブをキャッシュしません。
+
+`set()`の`MAnimCurveChange`方式への移行、一括キー設定、編集対象カーブ・layerを
+明示するAPIは今後の検討対象です。現在の`set()`は`cmds.setKeyframe()`を使用します。
+
+### 旧APIからの移行
+
+`keyframe.set_direct()`と`keyframe.insert_direct()`は廃止しました。
+それぞれ`keyframe.set()`と`keyframe.insert()`へ置き換えてください。
+挿入index、変更したかを示すbool、削除したキー数は返さず、変更methodはすべて
+`None`を返します。結果をqueryする前に`mod.do_it_dg()`を明示してください。
+設定から挿入・編集・削除までを同じ予約列へ積むだけであれば、途中の実行は不要です。
 
 ## TransformMatrixの入力
 

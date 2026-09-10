@@ -41,8 +41,8 @@ def insert_key():
     plug = node.input3D[0].input3Dx
     plug.keyframe.set(100, 100)
     plug.keyframe.set(200, 200)
+    plug.keyframe.insert(150, breakdown=False)
     modifier_manager.do_it_dg()
-    plug.keyframe.insert_direct(150, breakdown=False)
 
 
 def delete_key():
@@ -57,6 +57,7 @@ def delete_key():
     modifier_manager.do_it_dg()
     plug.keyframe.delete_key(100)
     plug.keyframe.delete_keys(start_frame=200, end_frame=200)
+    modifier_manager.do_it_dg()
 
 
 def set_tangent():

@@ -1,8 +1,10 @@
 # ModifierManager
 
-`ModifierManager` は `MDGModifier` と `MDagModifier` をまとめて扱うための管理クラスです。
+`ModifierManager` は `MDGModifier`、`MDagModifier`、`MAnimCurveChange`による変更を
+まとめて扱うための管理クラスです。
 
-目的は、複数の DG / DAG 操作を 1 つの作業単位として undo / redo できるようにすることです。
+目的は、複数のDG / DAG操作とanimation curve編集を1つの作業単位として
+undo / redoできるようにすることです。
 
 ## 基本方針
 
@@ -10,7 +12,9 @@
 
 一度 `doIt()` した modifier は閉じた履歴として保存し、次の操作には新しい modifier を使います。
 
-`ModifierManager` 全体では、それら複数の modifier をまとめて 1 つのコマンド履歴として扱います。
+DGの予約列には`MAnimCurveChange`を使用する編集も含められます。通常のDG操作と
+animation curve編集の呼び出し順を保持し、1回の`do_it_dg()`を1つの実行済み履歴として
+保存します。`ModifierManager`全体では、これら複数の実行済み履歴をまとめて扱います。
 
 ## lifecycle
 
@@ -18,14 +22,14 @@
 sequenceDiagram
     participant User
     participant Manager as ModifierManager
-    participant Current as Current Modifier
+    participant Current as Pending Operations
     participant History as Done Stack
 
     User->>Current: 操作を追加
     User->>Manager: do_it_dg() / do_it_dag()
-    Manager->>Current: doIt()
-    Manager->>History: executed modifier を保存
-    Manager->>Manager: current modifier を新規作成
+    Manager->>Current: 選択したDG / DAGの予約列を順に実行
+    Manager->>History: 実行した操作群を1履歴として保存
+    Manager->>Manager: 次の予約列を用意
 ```
 
 ## public API
@@ -33,6 +37,8 @@ sequenceDiagram
 ```python
 modifier_manager.dg_mod
 modifier_manager.dag_mod
+modifier_manager.queue_dg_modifier(callback)
+modifier_manager.queue_anim_curve_change(callback)
 modifier_manager.do_it_dg()
 modifier_manager.do_it_dag()
 modifier_manager.undo_it()
@@ -48,19 +54,19 @@ DAG `NodeOperator` が未実行の親関係を管理するための連携 API �
 ## 使用例
 
 ```python
-from bd_util.maya.node.modifier import ModifierManager
-from bd_util.maya.node.operator.node.dg.plus_minus_average import PlusMinusAverage
+import bd_util as bdu
 
-modifier_manager = ModifierManager()
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
 
-node = PlusMinusAverage.create(modifier_manager, name="test_pma")
+node = nodes.create.plusMinusAverage(name="test_pma")
 node.input1D[0].set(1.0)
 node.input1D[1].set(2.0)
 
-modifier_manager.do_it_dg()
+mod.do_it_dg()
 
-modifier_manager.undo_it()
-modifier_manager.redo_it()
+mod.undo_it()
+mod.redo_it()
 ```
 
 ## DG / DAG の混在
@@ -69,9 +75,54 @@ DG と DAG の操作は 1 つの `ModifierManager` に混在できます。
 
 ただし `MDGModifier` に溜まった操作は `do_it_dg()`、`MDagModifier` に溜まった操作は `do_it_dag()` で確定します。
 
-undo 時は実行済み modifier を逆順に `undoIt()` します。
+undo時は実行済み履歴を逆順に戻し、各履歴内の操作も逆順に`undoIt()`します。
 
-redo 時は undo 済み modifier を順番に `doIt()` します。
+redo時は元の順序で再実行します。native modifierには`doIt()`、animation curveの
+変更キャッシュには`redoIt()`を呼びます。
+
+## animation curve編集の予約
+
+`queue_anim_curve_change(callback: Callable[[MAnimCurveChange], None]) -> None`は、
+変更キャッシュを受け取るcallbackをDGの予約列へ追加します。callbackは初回の
+`do_it_dg()`でのみ呼ばれ、通常のDG操作の間でも予約した順序で実行します。
+
+callbackでは、渡されたキャッシュを`MFnAnimCurve`の`change`引数へ渡して編集します。
+scene上のカーブの取得もcallback内で行えば、その直前に予約した作成・接続・キー設定を
+反映した状態から編集できます。Undoではキャッシュの`undoIt()`、Redoでは`redoIt()`を
+使用し、callback自体は再実行しません。
+
+このAPIは`KeyframeManager`の挿入・tangent変更・キー削除が使用します。通常の
+利用コードは`plug.keyframe`経由で操作し、独自のanimation curve編集を組み込む場合に
+だけcallbackを直接予約します。callback内の変更は必ず渡されたキャッシュへ記録し、
+別のmodifierの直接実行やキャッシュを渡さないAPI編集を混ぜないでください。
+キャッシュに記録されない変更はundoや失敗時の復元の対象になりません。
+
+`MAnimCurveChange`はノードの作成・接続・削除を記録するものではありません。
+これらはDGの変更として同じmanagerへ予約します。`KeyframeManager.delete_anim_curve()`も
+この分担に従います。
+
+## 実行時に対象を解決するDG操作
+
+`queue_dg_modifier(callback: Callable[[MDGModifier], None]) -> None`は、実行時のsceneを
+参照してDG操作を組み立てるcallbackを予約します。callbackは初回の`do_it_dg()`で
+一度だけ呼ばれ、渡されたmodifierへ操作を積みます。その直後にmanagerがmodifierの
+`doIt()`を実行します。Undo / Redoは同じmodifierの`undoIt()` / `doIt()`を使用し、
+callbackを呼び直して対象を再探索することはありません。
+
+callback内では渡されたmodifierへ予約するだけにし、`doIt()`や別のscene編集を
+直接実行しないでください。通常のDG予約やanimation curve編集と同じ順序・履歴で
+管理され、callbackまたはmodifier実行の失敗も同じ実行境界の復元対象になります。
+
+`KeyframeManager.delete_anim_curve()`はこの入口を2回使用します。実行時に見つけた
+カーブの全出力接続を先に切断・反映し、その後に別のmodifierでカーブを削除します。
+切断と削除を同じnative modifierへまとめると、接続先ノードまで削除される場合が
+あるため、内部の実行を分けます。利用側の`do_it_dg()`は1回のままで、Undo時は
+カーブノードの復元、出力接続の復元の順に戻します。
+
+`queue_dg_modifier()`と`queue_anim_curve_change()`は現在のDG bufferを区切り、
+後続の操作用に新しい`MDGModifier`を用意します。`dg_mod`を直接使用する場合は
+各操作時に取得し、これらの予約methodやkeyframe編集、`do_it_dg()`をまたいで
+古いmodifierを再利用しないでください。bufferを区切るだけではsceneへ反映しません。
 
 ## 未実行の DAG 親関係
 
@@ -92,22 +143,25 @@ DAG `NodeOperator` 経由の作成・親変更では、現在の `MDagModifier` 
 
 ## modifier実行中の失敗
 
-`do_it_dg()` / `do_it_dag()`の途中で例外が発生した場合は、失敗したmodifier自体の
-`undoIt()`を呼び、その実行内ですでに反映された変更の復元を試みます。失敗した操作を
+`do_it_dg()` / `do_it_dag()`の途中で例外が発生した場合は、失敗した操作の部分変更と、
+同じ実行境界内ですでに成功した操作を逆順に戻します。DG操作とanimation curve編集を
+混在させた場合も、その1回の実行で反映した変更全体の復元を試みます。失敗した操作を
 再実行しないよう、DG / DAG両方のpending操作、未実行の親関係、redo履歴を破棄します。
-それ以前に成功したmodifier履歴は保持するため、直接利用する呼び出し側は
+それ以前の実行境界で成功した履歴は保持するため、直接利用する呼び出し側は
 `undo_it()`や`rollback()`でその履歴も戻せます。
 
-`redo_it()`の途中で失敗した場合も、失敗したmodifierの部分変更を復元し、残りのredoと
-pending操作を破棄します。それまでに再実行が成功した履歴はundo可能な状態で保持します。
+`redo_it()`の途中で失敗した場合も、失敗した履歴内の部分変更を復元し、残りのredoと
+pending操作を破棄します。それ以前の履歴の再実行が成功していれば、undo可能な状態で
+保持します。
 
-失敗したmodifierの復元自体でも例外が発生した場合は、元の実行例外へnoteを付加して
-再送出します。この場合は変更が残る可能性があります。破棄された失敗modifierを
+復元自体でも例外が発生した場合は、元の実行例外へnoteを付加して
+再送出します。この場合は変更が残る可能性があります。破棄された失敗履歴を
 managerから再実行したり、再度undoしたりはしません。
 
 ## clear
 
-`clear()` は現在の modifier、done stack、redo stack をすべて初期化します。
+`clear()`は未実行のmodifier・callback、done stack、redo stackをすべて初期化します。
+scene上の変更は戻しません。変更も戻して履歴を破棄する場合は`rollback()`を使用します。
 
 テストや一時的な作業単位を破棄したい場合に使います。
 

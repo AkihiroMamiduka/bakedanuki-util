@@ -2,6 +2,7 @@ from typing import Any, Literal, assert_type
 
 import bd_util as bdu
 from maya.api import OpenMaya as om
+from maya.api import OpenMayaAnim as oma
 
 from bd_util.maya.node.operator.attr import KeyframeManager
 from bd_util.maya.node.operator.attr._core import PlugOperator
@@ -4092,6 +4093,21 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     assert_type(compose.inputRotateOrder.keyframe.set(0, frame=1.0), None)
 
 
+def modifier_callback_contract(mod: bdu.ModifierManager) -> None:
+    def edit_curve(change: oma.MAnimCurveChange) -> None:
+        assert_type(change, oma.MAnimCurveChange)
+
+    def prepare_dg(modifier: om.MDGModifier) -> None:
+        assert_type(modifier, om.MDGModifier)
+
+    assert_type(mod.queue_anim_curve_change(edit_curve), None)
+    assert_type(mod.queue_dg_modifier(prepare_dg), None)
+    mod.queue_anim_curve_change(
+        prepare_dg  # pyright: ignore[reportArgumentType]
+    )
+    mod.queue_dg_modifier(edit_curve)  # pyright: ignore[reportArgumentType]
+
+
 def keyframe_contract(
     compose: ComposeMatrix,
     plug: om.MPlug,
@@ -4112,6 +4128,11 @@ def keyframe_contract(
     assert_type(keyframe.frames(), list[float])
     assert_type(keyframe.key_count(), int)
     assert_type(keyframe.has_key(1.0), bool)
+    assert_type(keyframe.insert(12.0, breakdown=True), None)
+    assert_type(keyframe.set_tangent(12.0, out_tangent_type="linear"), None)
+    assert_type(keyframe.delete_key(12.0), None)
+    assert_type(keyframe.delete_keys(start_frame=1.0, end_frame=24.0), None)
+    assert_type(keyframe.delete_anim_curve(), None)
     assert_type(KeyframeManager(plug, modifier_manager=mod), KeyframeManager)
     assert_type(
         KeyframeManager(plug, modifier_manager=mod).set(1.0, 1.0), None
@@ -4119,6 +4140,7 @@ def keyframe_contract(
     keyframe.set("invalid", frame=1.0)  # pyright: ignore[reportArgumentType]
     keyframe.set(1.0, frame="invalid")  # pyright: ignore[reportArgumentType]
     keyframe.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    keyframe.insert_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 
 def bd_dbl3_add_descriptor_contract(

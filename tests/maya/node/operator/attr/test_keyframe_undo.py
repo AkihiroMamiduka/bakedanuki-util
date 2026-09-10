@@ -204,12 +204,25 @@ def test_invalid_arguments_do_not_queue_or_create_curve(
     assert not maya_cmds.ls(type="animCurve")
 
 
+@pytest.mark.parametrize(
+    "method,args",
+    [
+        ("set", (1, 1)),
+        ("insert", (1,)),
+        ("set_tangent", (1,)),
+        ("delete_key", (1,)),
+        ("delete_keys", ()),
+        ("delete_anim_curve", ()),
+    ],
+)
 def test_standalone_manager_requires_explicit_modifier(
     plus_minus_average_node,
+    method,
+    args,
 ):
     keyframe = KeyframeManager(plus_minus_average_node.input1D[0].plug)
     with pytest.raises(RuntimeError, match="requires a ModifierManager"):
-        keyframe.set(1, frame=1)
+        getattr(keyframe, method)(*args)
 
 
 def test_zero_keys_failure_restores_earlier_queued_key(new_scene, maya_cmds):
@@ -245,3 +258,310 @@ def test_queries_follow_reconnected_curve(new_scene, maya_cmds):
     maya_cmds.connectAttr(source, first + ".translateX", force=True)
     assert keyframe.frames() == [3.0]
     assert keyframe.values() == [4.0]
+
+
+@pytest.fixture
+def existing_keyframe(new_scene, maya_cmds):
+    name = maya_cmds.createNode("transform", name="keyTarget")
+    for frame, value in ((1, 2), (5, 8), (9, 4)):
+        maya_cmds.setKeyframe(
+            name + ".translateX",
+            time=frame,
+            value=value,
+            inTangentType="spline",
+            outTangentType="spline",
+        )
+    mod = bdu.ModifierManager()
+    keyframe = (
+        bdu.Nodes(modifier_manager=mod)
+        .existing(name)
+        .translate.translateX.keyframe
+    )
+    maya_cmds.flushUndo()
+    return mod, keyframe
+
+
+def _curve_state(maya_cmds, keyframe):
+    plug_name = keyframe.plug.name()
+    state = {
+        "frames": keyframe.frames(),
+        "values": keyframe.values(),
+        "breakdowns": maya_cmds.keyframe(
+            plug_name, query=True, breakdown=True
+        ),
+    }
+    for flag in (
+        "inTangentType",
+        "outTangentType",
+        "inAngle",
+        "outAngle",
+        "inWeight",
+        "outWeight",
+        "lock",
+        "weightLock",
+        "weightedTangents",
+    ):
+        state[flag] = maya_cmds.keyTangent(
+            plug_name, query=True, **{flag: True}
+        )
+    return state
+
+
+def _assert_curve_state(actual, expected):
+    assert actual.keys() == expected.keys()
+    numeric = {
+        "frames",
+        "values",
+        "inAngle",
+        "outAngle",
+        "inWeight",
+        "outWeight",
+    }
+    for field in actual:
+        if field in numeric and expected[field] is not None:
+            assert actual[field] == pytest.approx(expected[field]), field
+        else:
+            assert actual[field] == expected[field], field
+
+
+@pytest.mark.parametrize(
+    "method,kwargs,expected_frames",
+    [
+        ("insert", {"frame": 3, "breakdown": True}, [1.0, 3.0, 5.0, 9.0]),
+        (
+            "set_tangent",
+            {
+                "frame": 5,
+                "in_tangent_type": "flat",
+                "out_tangent_type": "linear",
+            },
+            [1.0, 5.0, 9.0],
+        ),
+        ("delete_key", {"frame": 5}, [1.0, 9.0]),
+        ("delete_keys", {"start_frame": 1, "end_frame": 5}, [9.0]),
+        ("delete_keys", {}, []),
+    ],
+)
+def test_edits_are_deferred_and_restore_complete_curve_on_undo_redo(
+    existing_keyframe, maya_cmds, method, kwargs, expected_frames
+):
+    mod, keyframe = existing_keyframe
+    before = _curve_state(maya_cmds, keyframe)
+    assert getattr(keyframe, method)(**kwargs) is None
+    assert not mod.can_undo
+    _assert_curve_state(_curve_state(maya_cmds, keyframe), before)
+    mod.do_it_dg()
+    assert keyframe.frames() == expected_frames
+    assert keyframe.has_anim_curve()
+    after = _curve_state(maya_cmds, keyframe)
+    assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+    for _ in range(2):
+        mod.undo_it()
+        _assert_curve_state(_curve_state(maya_cmds, keyframe), before)
+        mod.redo_it()
+        _assert_curve_state(_curve_state(maya_cmds, keyframe), after)
+
+
+def test_insert_preserves_shape_and_breakdown(existing_keyframe, maya_cmds):
+    mod, keyframe = existing_keyframe
+    frames = [i / 4 for i in range(4, 37)]
+    before = [maya_cmds.getAttr(keyframe.plug.name(), time=t) for t in frames]
+    keyframe.insert(3, breakdown=True)
+    mod.do_it_dg()
+    after = [maya_cmds.getAttr(keyframe.plug.name(), time=t) for t in frames]
+    assert after == pytest.approx(before)
+    assert maya_cmds.keyframe(
+        keyframe.plug.name(), query=True, time=(3, 3), breakdown=True
+    ) == [3.0]
+
+
+@pytest.mark.parametrize("method", ["delete_key", "delete_keys"])
+def test_deleting_last_key_keeps_empty_curve(
+    existing_keyframe, maya_cmds, method
+):
+    mod, keyframe = existing_keyframe
+    curve = maya_cmds.listConnections(keyframe.plug.name(), source=True)[0]
+    if method == "delete_key":
+        for frame in keyframe.frames():
+            keyframe.delete_key(frame)
+    else:
+        keyframe.delete_keys()
+    mod.do_it_dg()
+    assert keyframe.frames() == []
+    assert maya_cmds.objExists(curve)
+    assert keyframe.has_anim_curve()
+    mod.undo_it()
+    assert keyframe.frames() == [1.0, 5.0, 9.0]
+    mod.redo_it()
+    assert keyframe.has_anim_curve()
+    assert keyframe.frames() == []
+
+
+@pytest.mark.parametrize("delete_curve", [False, True])
+def test_set_edit_delete_set_order_on_pending_renamed_node(
+    new_scene, maya_cmds, delete_curve
+):
+    mod = bdu.ModifierManager()
+    node = bdu.Nodes(modifier_manager=mod).create.plusMinusAverage(
+        name="oldName"
+    )
+    keyframe = node.input1D[0].keyframe
+    keyframe.set(1, 1)
+    keyframe.set(9, 9)
+    keyframe.insert(5)
+    mod.dg_mod.renameNode(keyframe.plug.node(), "newName")
+    keyframe.set_tangent(5, in_tangent_type="flat")
+    if delete_curve:
+        keyframe.delete_anim_curve()
+    else:
+        keyframe.delete_keys()
+    keyframe.set(7, 3)
+    mod.do_it_dg()
+    assert keyframe.frames() == [3.0]
+    assert keyframe.values() == [7.0]
+    assert maya_cmds.objExists("newName")
+    for _ in range(2):
+        mod.undo_it()
+        assert not maya_cmds.objExists("newName")
+        assert not maya_cmds.ls(type="animCurve")
+        mod.redo_it()
+        assert keyframe.frames() == [3.0]
+        assert keyframe.values() == [7.0]
+
+
+def test_delete_anim_curve_restores_all_shared_connections(
+    existing_keyframe, maya_cmds
+):
+    mod, keyframe = existing_keyframe
+    second = maya_cmds.createNode("transform", name="sharedTarget")
+    output = maya_cmds.listConnections(keyframe.plug.name(), plugs=True)[0]
+    curve = output.split(".")[0]
+    maya_cmds.connectAttr(output, second + ".translateX")
+    before = _curve_state(maya_cmds, keyframe)
+    keyframe.delete_anim_curve()
+    assert maya_cmds.objExists(curve)
+    mod.do_it_dg()
+    assert not maya_cmds.objExists(curve)
+    assert not keyframe.has_anim_curve()
+    assert not maya_cmds.listConnections(second + ".translateX", source=True)
+    for _ in range(2):
+        mod.undo_it()
+        _assert_curve_state(_curve_state(maya_cmds, keyframe), before)
+        assert maya_cmds.isConnected(output, second + ".translateX")
+        mod.redo_it()
+        assert not maya_cmds.objExists(curve)
+
+
+@pytest.mark.parametrize(
+    "method,kwargs,expected_frames",
+    [
+        ("insert", {"frame": 3}, [1.25, 3.75, 6.25, 11.25]),
+        (
+            "set_tangent",
+            {"frame": 5, "in_tangent_type": "flat"},
+            [1.25, 6.25, 11.25],
+        ),
+        ("delete_key", {"frame": 5}, [1.25, 11.25]),
+        ("delete_keys", {"start_frame": 1, "end_frame": 5}, [11.25]),
+        ("delete_keys", {"end_frame": 5}, [11.25]),
+        ("delete_keys", {"start_frame": 5}, [1.25]),
+    ],
+)
+def test_edits_capture_time_units_when_queued(
+    existing_keyframe, maya_cmds, method, kwargs, expected_frames
+):
+    mod, keyframe = existing_keyframe
+    getattr(keyframe, method)(**kwargs)
+    maya_cmds.currentUnit(time="ntsc")
+    mod.do_it_dg()
+    assert keyframe.frames() == pytest.approx(expected_frames)
+    if method == "set_tangent":
+        assert maya_cmds.keyTangent(
+            keyframe.plug.name(),
+            query=True,
+            time=(6.25, 6.25),
+            inTangentType=True,
+        ) == ["flat"]
+    mod.undo_it()
+    assert keyframe.frames() == pytest.approx([1.25, 6.25, 11.25])
+    mod.redo_it()
+    assert keyframe.frames() == pytest.approx(expected_frames)
+
+
+@pytest.mark.parametrize(
+    "method,kwargs",
+    [
+        ("insert", {"frame": float("nan")}),
+        ("set_tangent", {"frame": float("inf")}),
+        (
+            "set_tangent",
+            {
+                "frame": 5,
+                "in_tangent_type": "flat",
+                "out_tangent_type": "invalid",
+            },
+        ),
+        ("delete_key", {"frame": float("-inf")}),
+        ("delete_keys", {"start_frame": float("nan")}),
+        ("delete_keys", {"end_frame": float("inf")}),
+        ("delete_keys", {"start_frame": 9, "end_frame": 1}),
+    ],
+)
+def test_invalid_edits_do_not_queue_partial_changes(
+    existing_keyframe, maya_cmds, method, kwargs
+):
+    mod, keyframe = existing_keyframe
+    before = _curve_state(maya_cmds, keyframe)
+    with pytest.raises(ValueError):
+        getattr(keyframe, method)(**kwargs)
+    mod.do_it_dg()
+    _assert_curve_state(_curve_state(maya_cmds, keyframe), before)
+
+
+@pytest.mark.parametrize("delete_curve", [False, True])
+def test_failed_insert_rolls_back_previous_edits_in_flush(
+    existing_keyframe, maya_cmds, delete_curve
+):
+    mod, keyframe = existing_keyframe
+    before = _curve_state(maya_cmds, keyframe)
+    second = maya_cmds.createNode("transform")
+    missing = (
+        bdu.Nodes(modifier_manager=mod)
+        .existing(second)
+        .translate.translateX.keyframe
+    )
+    keyframe.set(12, 12)
+    keyframe.delete_key(5)
+    if delete_curve:
+        keyframe.delete_anim_curve()
+    missing.insert(3)
+    with pytest.raises(RuntimeError, match="no upstream time-input animCurve"):
+        mod.do_it_dg()
+    _assert_curve_state(_curve_state(maya_cmds, keyframe), before)
+    assert not mod.can_undo
+    assert not mod.can_redo
+    keyframe.insert(3)
+    mod.do_it_dg()
+    assert keyframe.frames() == [1.0, 3.0, 5.0, 9.0]
+
+
+def test_delete_range_includes_negative_fractional_endpoints(
+    new_scene, maya_cmds
+):
+    name = maya_cmds.createNode("plusMinusAverage")
+    for frame in (-2.5, -1.25, 0.125, 1.5):
+        maya_cmds.setKeyframe(name + ".input1D[0]", time=frame, value=frame)
+    mod = bdu.ModifierManager()
+    keyframe = (
+        bdu.Nodes(modifier_manager=mod).existing(name).input1D[0].keyframe
+    )
+    keyframe.delete_keys(start_frame=-1.25, end_frame=0.125)
+    maya_cmds.currentUnit(time="ntsc")
+    mod.do_it_dg()
+    assert keyframe.frames() == pytest.approx([-3.125, 1.875])
+    mod.undo_it()
+    assert keyframe.frames() == pytest.approx(
+        [-3.125, -1.5625, 0.15625, 1.875]
+    )
+    mod.redo_it()
+    assert keyframe.frames() == pytest.approx([-3.125, 1.875])

@@ -111,17 +111,29 @@ class KeyframeManager:
 
     # anim_curve
     #   delete
-    def delete_anim_curve(self) -> bool:
-        anim_curve_obj = self._get_anim_curve_obj()
-        if anim_curve_obj is None:
-            return False
+    def delete_anim_curve(self) -> None:
+        """上流の時間入力カーブ全体の削除を予約する。共有先との接続も削除する。"""
+        manager = self._require_modifier_manager()
+        anim_curve_obj: om.MObject | None = None
 
-        self._disconnect_anim_curve_outputs(anim_curve_obj)
+        def disconnect_curve(modifier: om.MDGModifier) -> None:
+            nonlocal anim_curve_obj
+            anim_curve_obj = self._get_anim_curve_obj()
+            if anim_curve_obj is None:
+                return
+            output = om.MFnDependencyNode(anim_curve_obj).findPlug(
+                "output", False
+            )
+            for destination in output.connectedTo(False, True):
+                modifier.disconnect(output, destination)
 
-        modifier = om.MDGModifier()
-        modifier.deleteNode(anim_curve_obj)
-        modifier.doIt()
-        return True
+        def delete_curve(modifier: om.MDGModifier) -> None:
+            if anim_curve_obj is not None:
+                modifier.deleteNode(anim_curve_obj)
+
+        # deleteNodeは予約時にも接続先を調べるため、切断の実行後に予約する。
+        manager.queue_dg_modifier(disconnect_curve)
+        manager.queue_dg_modifier(delete_curve)
 
     #   get
     def _get_anim_curve_obj(self) -> om.MObject | None:
@@ -170,25 +182,6 @@ class KeyframeManager:
                 return anim_curve_obj
             iter_graph.next()
         return None
-
-    #   disconnect
-    def _disconnect_anim_curve_outputs(self, anim_curve_obj: om.MObject):
-        try:
-            output_plug = om.MFnDependencyNode(anim_curve_obj).findPlug(
-                "output",
-                False,
-            )
-        except RuntimeError:
-            return
-
-        destination_plugs = output_plug.connectedTo(False, True)
-        if not destination_plugs:
-            return
-
-        modifier = om.MDGModifier()
-        for destination_plug in destination_plugs:
-            modifier.disconnect(output_plug, destination_plug)
-        modifier.doIt()
 
     # keyframe
     #   query
@@ -246,11 +239,7 @@ class KeyframeManager:
             対象カーブやanimation layer、blendはcmds.setKeyframeに従う。
             キーを設定できなかった場合は実行時にRuntimeErrorを送出する。
         """
-        manager = self._modifier_manager
-        if manager is None:
-            raise RuntimeError(
-                "KeyframeManager.set() requires a ModifierManager."
-            )
+        manager = self._require_modifier_manager()
 
         value = float(value)
         frame = float(frame)
@@ -321,84 +310,121 @@ class KeyframeManager:
         frame: float,
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
-    ) -> bool:
-        fn_anim_curve = self._get_anim_curve_fn()
-        if fn_anim_curve is None:
-            return False
-
-        index = self._find_key_index(frame, fn_anim_curve)
-        if index is None:
-            return False
-
-        if in_tangent_type is not None:
-            fn_anim_curve.setInTangentType(
-                index,
-                _to_tangent_type(in_tangent_type),
-            )
-        if out_tangent_type is not None:
-            fn_anim_curve.setOutTangentType(
-                index,
-                _to_tangent_type(out_tangent_type),
-            )
-        return True
-
-    #   insert
-    def insert_direct(self, frame: float, breakdown: bool = False) -> int:
-        fn_anim_curve = self._get_anim_curve_fn()
-        if fn_anim_curve is None:
-            raise RuntimeError(
-                f"{self.plug_name} has no upstream time-input animCurve "
-                "to insert a key."
-            )
-
-        return fn_anim_curve.insertKey(
-            om.MTime(frame, om.MTime.uiUnit()),
-            breakdown,
+    ) -> None:
+        """tangent変更を予約する。実行時にキーがなければ何もしない。"""
+        manager = self._require_modifier_manager()
+        time = self._key_time(frame)
+        in_type = (
+            _to_tangent_type(in_tangent_type)
+            if in_tangent_type is not None
+            else None
+        )
+        out_type = (
+            _to_tangent_type(out_tangent_type)
+            if out_tangent_type is not None
+            else None
         )
 
+        def set_key_tangent(change: oma.MAnimCurveChange) -> None:
+            fn_anim_curve = self._get_anim_curve_fn()
+            if fn_anim_curve is None:
+                return
+            index = fn_anim_curve.find(time)
+            if index is None:
+                return
+            if in_type is not None:
+                fn_anim_curve.setInTangentType(index, in_type, change)
+            if out_type is not None:
+                fn_anim_curve.setOutTangentType(index, out_type, change)
+
+        manager.queue_anim_curve_change(set_key_tangent)
+
+    #   insert
+    def insert(self, frame: float, breakdown: bool = False) -> None:
+        """カーブ形状を保つキー挿入を予約する。カーブがなければ実行時に失敗する。"""
+        manager = self._require_modifier_manager()
+        time = self._key_time(frame)
+
+        def insert_key(change: oma.MAnimCurveChange) -> None:
+            fn_anim_curve = self._get_anim_curve_fn()
+            if fn_anim_curve is None:
+                raise RuntimeError(
+                    f"{self.plug_name} has no upstream time-input animCurve "
+                    "to insert a key."
+                )
+            fn_anim_curve.insertKey(time, breakdown, change)
+
+        manager.queue_anim_curve_change(insert_key)
+
     #   delete
-    def delete_key(self, frame: float) -> bool:
-        fn_anim_curve = self._get_anim_curve_fn()
-        if fn_anim_curve is None:
-            return False
+    def delete_key(self, frame: float) -> None:
+        """キー削除を予約する。キーがなければ何もせず、空のカーブは残す。"""
+        manager = self._require_modifier_manager()
+        time = self._key_time(frame)
 
-        index = self._find_key_index(frame, fn_anim_curve)
-        if index is None:
-            return False
+        def remove_key(change: oma.MAnimCurveChange) -> None:
+            fn_anim_curve = self._get_anim_curve_fn()
+            if fn_anim_curve is None:
+                return
+            index = fn_anim_curve.find(time)
+            if index is not None:
+                fn_anim_curve.remove(index, change)
 
-        fn_anim_curve.remove(index)
-        return True
+        manager.queue_anim_curve_change(remove_key)
 
     def delete_keys(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
-    ) -> int:
-        fn_anim_curve = self._get_anim_curve_fn()
-        if fn_anim_curve is None:
-            return 0
-
+    ) -> None:
+        """両端を含む範囲のキー削除を予約する。省略した端は制限しない。"""
+        manager = self._require_modifier_manager()
+        start_time = (
+            self._key_time(start_frame).asUnits(om.MTime.kSeconds)
+            if start_frame is not None
+            else None
+        )
+        end_time = (
+            self._key_time(end_frame).asUnits(om.MTime.kSeconds)
+            if end_frame is not None
+            else None
+        )
         if (
-            start_frame is not None
-            and end_frame is not None
-            and start_frame > end_frame
+            start_time is not None
+            and end_time is not None
+            and start_time > end_time
         ):
             raise ValueError(
                 "start_frame must be less than or equal to end_frame."
             )
 
-        indices = [
-            i
-            for i in range(fn_anim_curve.numKeys)
-            if self._is_frame_in_range(
-                self._key_frame(fn_anim_curve, i),
-                start_frame,
-                end_frame,
+        def remove_keys(change: oma.MAnimCurveChange) -> None:
+            fn_anim_curve = self._get_anim_curve_fn()
+            if fn_anim_curve is None:
+                return
+            for index in reversed(range(fn_anim_curve.numKeys)):
+                if self._is_frame_in_range(
+                    fn_anim_curve.input(index).asUnits(om.MTime.kSeconds),
+                    start_time,
+                    end_time,
+                ):
+                    fn_anim_curve.remove(index, change)
+
+        manager.queue_anim_curve_change(remove_keys)
+
+    def _require_modifier_manager(self) -> ModifierManager:
+        if self._modifier_manager is None:
+            raise RuntimeError(
+                "KeyframeManager mutation requires a ModifierManager."
             )
-        ]
-        for index in reversed(indices):
-            fn_anim_curve.remove(index)
-        return len(indices)
+        return self._modifier_manager
+
+    @staticmethod
+    def _key_time(frame: float) -> om.MTime:
+        frame = float(frame)
+        if not math.isfinite(frame):
+            raise ValueError("Keyframe frame must be finite.")
+        return om.MTime(frame, om.MTime.uiUnit())
 
     def _find_key_index(
         self,
