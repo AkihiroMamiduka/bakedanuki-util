@@ -1,4 +1,13 @@
 # coding: utf-8
+from .float3 import (
+    Float3,
+    Float3Binding,
+    Float3SpinBox,
+    Float3Value,
+    Float3ValueStore,
+    Float3ViewModel,
+    SetFloat3Command,
+)
 
 from .bool import (
     BoolBinding,
@@ -25,6 +34,13 @@ from .float import (
 )
 
 __all__ = [
+    "Float3",
+    "Float3Binding",
+    "Float3SpinBox",
+    "Float3Value",
+    "Float3ValueStore",
+    "Float3ViewModel",
+    "SetFloat3Command",
     "FloatBinding",
     "FloatPresentation",
     "FloatSpinBox",

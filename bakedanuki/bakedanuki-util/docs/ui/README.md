@@ -836,6 +836,23 @@ API、単位、丸め、対応範囲は[浮動小数点binding](float_binding.md
 サンプルの小数桁数はWindow生成時にChannel BoxのChange Precision設定から取得します。
 桁数設定の変更は次回表示時に反映し、距離・角度の単位変更は表示中も追従します。
 
+## 3成分の浮動小数点値とXYZ編集
+
+`MayaFloat3PlugBinding`と`Float3SpinBox`は、`translate`・`rotate`・`scale`を
+それぞれXYZの行として編集します。各軸は既存のscalar基盤を使い、単位・桁数・精度保持の
+規則を引き継ぎます。Yだけをlockした場合でもX・Zは編集できます。
+
+```python
+from bd_util._sample.maya.ui.float3_sample import maya_plug
+
+window = maya_plug.show("pCube1")
+window.widget.translate_binding.set_value((100.0, 200.0, 300.0))
+```
+
+各軸の入力はその軸だけを書き換え、他の成分の実値を保持します。
+`set_value()`は全成分を事前検証し、1回のMaya Undoで戻せる一括設定を行います。
+API、対応属性、Storeの構成は[3成分binding](float3_binding.md)を参照してください。
+
 ## Maya callbackのlifecycle管理
 
 `MayaCallbackRegistry`は、`MEventMessage`、`MSceneMessage`、`MNodeMessage`などが返す
@@ -1330,17 +1347,17 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-08に浮動小数点bindingと起動時のChannel Box桁数反映を追加した作業ツリーでの確認結果です。
+2026-09-09に3成分の浮動小数点bindingを追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 200 passed | 146 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 200 passed | 146 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 200 passed | 146 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 214 passed | 176 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 214 passed | 176 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 214 passed | 176 passed |
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2612 passed, 157 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2642 passed, 171 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。

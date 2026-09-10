@@ -2,6 +2,13 @@
 
 from . import qt
 from .binding import (
+    Float3,
+    Float3Binding,
+    Float3SpinBox,
+    Float3Value,
+    Float3ValueStore,
+    Float3ViewModel,
+    SetFloat3Command,
     BoolBinding,
     BoolCheckBox,
     BoolComboBox,
@@ -31,6 +38,13 @@ from .window_state import (
 )
 
 __all__ = [
+    "Float3",
+    "Float3Binding",
+    "Float3SpinBox",
+    "Float3Value",
+    "Float3ValueStore",
+    "Float3ViewModel",
+    "SetFloat3Command",
     "FloatBinding",
     "FloatPresentation",
     "FloatSpinBox",

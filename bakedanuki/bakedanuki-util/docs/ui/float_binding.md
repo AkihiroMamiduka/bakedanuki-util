@@ -161,8 +161,9 @@ Windowを開いている間にChange Precisionを変更しても桁数は変わ�
 対応対象は既存scalarのfloat/double・距離・角度と、配列配下ではないcompoundのscalar子です。
 `resolve_float_plug()`は属性名のみを受け取り、属性パス、配列、配列要素、配列配下の子、
 compound全体、整数、bool、time、typed dataは拒否します。
-`double3`全体を編集するView、Python属性用Storeの便利API、Python正本をMaya Viewへ
-同期する構成は後続対応です。共通の`FloatValueStore`を実装した独自Storeは使用できます。
+`double3`／`float3`全体の編集は[3成分binding](float3_binding.md)を使用します。
+Python属性用Storeの便利API、Python正本をMaya Viewへ同期する構成は後続対応です。
+共通の`FloatValueStore`を実装した独自Storeは使用できます。
 
 ## 検証
 
