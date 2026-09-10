@@ -24,6 +24,10 @@
 
 ### Changed
 
+- `KeyframeManager.set()`を`set_key()`へ、`insert()`を`insert_key()`へ改名する
+  破壊的変更。旧名のaliasは提供せず、`plug.keyframe.set_key()` /
+  `plug.keyframe.insert_key()`へ移行する。引数、`None`戻り値、予約実行、
+  Undo / Redoの仕様は維持する。
 - `Quat`を`Double4`の派生型から、`Scalar4[float]`を直接共有する独立した具体型へ変更。
   double4 plugの物理表現は共有しつつ、numeric値型のcomponent-wise演算が
   Quaternionへ波及しない型階層へ整理。

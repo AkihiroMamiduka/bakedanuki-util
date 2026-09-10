@@ -98,10 +98,14 @@ def main() -> None:
                 keyframe = baseline.KeyframeManager(
                     keyframe.plug, modifier_manager=manager
                 )
+                # The historical baseline predates the set_key() rename.
+                set_key = keyframe.set
+            else:
+                set_key = keyframe.set_key
             before = snapshot(keyframe)
             start = perf_counter()
             for frame in range(count):
-                keyframe.set(
+                set_key(
                     frame + 1,
                     frame,
                     in_tangent_type="linear",

@@ -67,9 +67,9 @@ def test_set_routes_new_curve_to_cmds_then_uses_api_for_later_keys(
     keyframe = _keyframe(mod, name)
     maya_cmds.flushUndo()
 
-    keyframe.set(1, 1)
-    keyframe.set(2, 2)
-    keyframe.set(3, 2)
+    keyframe.set_key(1, 1)
+    keyframe.set_key(2, 2)
+    keyframe.set_key(3, 2)
     assert set_keyframe_calls == []
     assert keyframe.frames() == ([1.0] if existing_curve else [])
     mod.do_it_dg()
@@ -111,10 +111,10 @@ def test_set_resolves_direct_curve_after_queued_reconnection(
     first_output = keyframe.plug.sourceWithConversion()
     set_keyframe_calls.clear()
 
-    keyframe.set(2, 2)
+    keyframe.set_key(2, 2)
     mod.dg_mod.disconnect(first_output, keyframe.plug)
     mod.dg_mod.connect(second_output, keyframe.plug)
-    keyframe.set(4, 4)
+    keyframe.set_key(4, 4)
     mod.do_it_dg()
     assert set_keyframe_calls == []
     final_first = _curve_state(maya_cmds, first_curve)
@@ -148,10 +148,10 @@ def test_set_switches_back_to_cmds_after_queued_curve_deletion(
     keyframe = _keyframe(mod, name)
     set_keyframe_calls.clear()
 
-    keyframe.set(2, 2)
+    keyframe.set_key(2, 2)
     keyframe.delete_anim_curve()
-    keyframe.set(30, 3)
-    keyframe.set(40, 4)
+    keyframe.set_key(30, 3)
+    keyframe.set_key(40, 4)
     mod.do_it_dg()
     assert len(set_keyframe_calls) == 1
     recreated_curve = _source_curve(maya_cmds, keyframe.plug.name())
@@ -202,8 +202,8 @@ def test_partial_api_set_failure_restores_cmds_and_api_edits_in_the_flush(
 
     monkeypatch.setattr(oma, "MFnAnimCurve", FailingAnimCurve)
     set_keyframe_calls.clear()
-    keyframe.set(20, 2)
-    keyframe.set(30, 3)
+    keyframe.set_key(20, 2)
+    keyframe.set_key(30, 3)
     with pytest.raises(
         RuntimeError, match="intentional failure after API key edit"
     ):
@@ -242,9 +242,9 @@ def test_failed_cmds_fallback_restores_prior_api_edit_and_new_curve(
     z_keys = _keyframe(mod, name, "translateZ")
     set_keyframe_calls.clear()
 
-    x_keys.set(2, 2)
-    y_keys.set(3, 3)
-    z_keys.set(4, 4)
+    x_keys.set_key(2, 2)
+    y_keys.set_key(3, 3)
+    z_keys.set_key(4, 4)
     with pytest.raises(RuntimeError):
         mod.do_it_dg()
 
@@ -288,7 +288,7 @@ def test_conversion_node_uses_cmds_instead_of_treating_source_as_direct_curve(
     )
     set_keyframe_calls.clear()
 
-    keyframe.set(12, 2)
+    keyframe.set_key(12, 2)
     mod.do_it_dg()
     assert len(set_keyframe_calls) == 1
     assert _curve_state(maya_cmds, curve) == expected
@@ -327,7 +327,7 @@ def test_locked_base_layer_blocks_set_on_an_unrelated_direct_curve(
     before = _curve_state(maya_cmds, curve)
     set_keyframe_calls.clear()
 
-    keyframe.set(12, 2)
+    keyframe.set_key(12, 2)
     with pytest.raises(RuntimeError):
         mod.do_it_dg()
 
@@ -367,7 +367,7 @@ def test_animation_layer_member_fallback_matches_cmds_value_resolution(
     keyframe = _keyframe(mod, name)
     set_keyframe_calls.clear()
 
-    keyframe.set(12, 2)
+    keyframe.set_key(12, 2)
     mod.do_it_dg()
     assert len(set_keyframe_calls) == 1
     actual_curve = maya_cmds.animLayer(
@@ -416,7 +416,7 @@ def test_connected_curve_uses_conservative_cmds_fallback(
     keyframe = _keyframe(mod, name)
     set_keyframe_calls.clear()
 
-    keyframe.set(2, 2)
+    keyframe.set_key(2, 2)
     mod.do_it_dg()
     assert len(set_keyframe_calls) == 1
     after = _curve_state(maya_cmds, curve)

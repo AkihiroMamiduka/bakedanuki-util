@@ -55,8 +55,8 @@ class _SetKeyframesCommand(_FailAfterExecuteCommand):
         node = self.nodes.existing.transform(params.node_name)
         node.scale.scaleX.set(2.0)
         self.modifier_manager.do_it_dg()
-        node.translate.translateX.keyframe.set(10.0, frame=1.0)
-        node.translate.translateY.keyframe.set(20.0, frame=2.0)
+        node.translate.translateX.keyframe.set_key(10.0, frame=1.0)
+        node.translate.translateY.keyframe.set_key(20.0, frame=2.0)
         self.modifier_manager.do_it_dg()
 
 
@@ -70,8 +70,8 @@ class _EditKeyframesCommand(_FailAfterExecuteCommand):
         node.scaleX.set(2.0)
         self.modifier_manager.do_it_dg()
         keyframe = node.translateX.keyframe
-        keyframe.set(5.0, frame=5.0)
-        keyframe.insert(frame=2.0)
+        keyframe.set_key(5.0, frame=5.0)
+        keyframe.insert_key(frame=2.0)
         keyframe.set_tangent(
             frame=2.0, in_tangent_type="linear", out_tangent_type="linear"
         )

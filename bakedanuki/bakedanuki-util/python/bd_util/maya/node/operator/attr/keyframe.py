@@ -230,7 +230,7 @@ class KeyframeManager:
         return self._find_key_index(frame) is not None
 
     #   set
-    def set(
+    def set_key(
         self,
         value: float,
         frame: float,
@@ -262,7 +262,9 @@ class KeyframeManager:
         out_type = _to_tangent_type(out_tangent_type)
         plug = self.plug
         if plug.isArray or plug.isCompound:
-            raise TypeError("KeyframeManager.set() requires a scalar plug.")
+            raise TypeError(
+                "KeyframeManager.set_key() requires a scalar plug."
+            )
         if not om.MFnAttribute(plug.attribute()).writable:
             raise RuntimeError(f"{self.plug_name} is not writable.")
 
@@ -431,7 +433,7 @@ class KeyframeManager:
         manager.queue_anim_curve_change(set_key_tangent)
 
     #   insert
-    def insert(self, frame: float, breakdown: bool = False) -> None:
+    def insert_key(self, frame: float, breakdown: bool = False) -> None:
         """カーブ形状を保つキー挿入を予約する。カーブがなければ実行時に失敗する。"""
         manager = self._require_modifier_manager()
         time = self._key_time(frame)

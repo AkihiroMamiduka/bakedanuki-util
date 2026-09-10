@@ -28,7 +28,7 @@ def set_key():
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
     for i in range(COUNT):
-        plug.keyframe.set(i, i)
+        plug.keyframe.set_key(i, i)
     modifier_manager.do_it_dg()
 
 
@@ -39,9 +39,9 @@ def insert_key():
     node = PlusMinusAverage.create(modifier_manager, name="test_insert_key")
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
-    plug.keyframe.set(100, 100)
-    plug.keyframe.set(200, 200)
-    plug.keyframe.insert(150, breakdown=False)
+    plug.keyframe.set_key(100, 100)
+    plug.keyframe.set_key(200, 200)
+    plug.keyframe.insert_key(150, breakdown=False)
     modifier_manager.do_it_dg()
 
 
@@ -52,8 +52,8 @@ def delete_key():
     node = PlusMinusAverage.create(modifier_manager, name="test_delete_key")
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
-    plug.keyframe.set(100, 100)
-    plug.keyframe.set(200, 200)
+    plug.keyframe.set_key(100, 100)
+    plug.keyframe.set_key(200, 200)
     modifier_manager.do_it_dg()
     plug.keyframe.delete_key(100)
     plug.keyframe.delete_keys(start_frame=200, end_frame=200)
@@ -77,7 +77,7 @@ def set_tangent():
         (tangent.stepnext, tangent.stepnext),
     ]
     for i, (in_tangent, out_tangent) in enumerate(tangent_types):
-        plug.keyframe.set(
+        plug.keyframe.set_key(
             i,
             i * 10,
             in_tangent_type=in_tangent,

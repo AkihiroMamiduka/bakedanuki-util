@@ -38,7 +38,7 @@ def test_keyframe_property_creates_anim_curve_for_float_plug(
 ):
     node = plus_minus_average_node
 
-    node.input1D[0].keyframe.set(12.5, frame=10.0)
+    node.input1D[0].keyframe.set_key(12.5, frame=10.0)
     node.modifier_manager.do_it_dg()
 
     assert maya_cmds.getAttr("test.input1D[0]", time=10.0) == pytest.approx(
@@ -70,8 +70,8 @@ def test_keyframe_property_reads_key_frames_and_values(
     plus_minus_average_node,
 ):
     keyframe = plus_minus_average_node.input1D[0].keyframe
-    keyframe.set(1.5, frame=1.0)
-    keyframe.set(2.5, frame=2.0)
+    keyframe.set_key(1.5, frame=1.0)
+    keyframe.set_key(2.5, frame=2.0)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
     assert keyframe.has_anim_curve() is True
@@ -102,7 +102,7 @@ def test_keyframe_property_sets_in_and_out_tangent_type(
     node = plus_minus_average_node
     expected_in_type = _expected_in_tangent_type(maya_cmds, tangent_type)
 
-    node.input1D[0].keyframe.set(
+    node.input1D[0].keyframe.set_key(
         12.5,
         frame=10.0,
         in_tangent_type=tangent_type,
@@ -132,7 +132,7 @@ def test_keyframe_property_sets_tangent_type_from_constant(
     tangent = node.input1D[0].keyframe.tangent
     expected_in_type = _expected_in_tangent_type(maya_cmds, tangent_type)
 
-    node.input1D[0].keyframe.set(
+    node.input1D[0].keyframe.set_key(
         12.5,
         frame=10.0,
         in_tangent_type=getattr(tangent, tangent_type),
@@ -159,7 +159,7 @@ def test_keyframe_property_sets_different_in_and_out_tangent_types(
     node = plus_minus_average_node
     tangent = node.input1D[0].keyframe.tangent
 
-    node.input1D[0].keyframe.set(
+    node.input1D[0].keyframe.set_key(
         12.5,
         frame=10.0,
         in_tangent_type=tangent.linear,
@@ -185,7 +185,7 @@ def test_keyframe_property_sets_tangent_type_on_existing_key(
 ):
     keyframe = plus_minus_average_node.input1D[0].keyframe
     tangent = keyframe.tangent
-    keyframe.set(
+    keyframe.set_key(
         12.5,
         frame=10.0,
         in_tangent_type=tangent.linear,
@@ -223,7 +223,7 @@ def test_keyframe_property_set_tangent_ignores_missing_key(
     plus_minus_average_node.modifier_manager.do_it_dg()
     assert keyframe.frames() == []
 
-    keyframe.set(12.5, frame=1.0)
+    keyframe.set_key(12.5, frame=1.0)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
     assert keyframe.set_tangent(10.0, in_tangent_type="linear") is None
@@ -237,7 +237,7 @@ def test_keyframe_property_rejects_unknown_tangent_type_name(
     node = plus_minus_average_node
 
     with pytest.raises(ValueError, match="Unsupported tangent type"):
-        node.input1D[0].keyframe.set(
+        node.input1D[0].keyframe.set_key(
             12.5,
             frame=10.0,
             in_tangent_type="unknown",
@@ -250,7 +250,7 @@ def test_keyframe_property_rejects_unknown_tangent_type_value(
     node = plus_minus_average_node
 
     with pytest.raises(ValueError, match="Unsupported tangent type"):
-        node.input1D[0].keyframe.set(
+        node.input1D[0].keyframe.set_key(
             12.5,
             frame=10.0,
             in_tangent_type=999999,
@@ -273,7 +273,7 @@ def test_keyframe_manager_can_be_used_with_mplug_directly(
         plug,
         plug_name="test.input1D[0]",
         modifier_manager=manager,
-    ).set(
+    ).set_key(
         3.5,
         frame=3.0,
     )
@@ -290,8 +290,8 @@ def test_keyframe_manager_insert_inserts_key_on_existing_anim_curve(
     from bd_util.maya.node.operator.attr import KeyframeManager
 
     node = plus_minus_average_node
-    node.input1D[0].keyframe.set(1.0, frame=1.0)
-    node.input1D[0].keyframe.set(10.0, frame=10.0)
+    node.input1D[0].keyframe.set_key(1.0, frame=1.0)
+    node.input1D[0].keyframe.set_key(10.0, frame=10.0)
     node.modifier_manager.do_it_dg()
     expected_value = maya_cmds.getAttr("test.input1D[0]", time=5.0)
 
@@ -303,7 +303,7 @@ def test_keyframe_manager_insert_inserts_key_on_existing_anim_curve(
         plug,
         plug_name="test.input1D[0]",
         modifier_manager=node.modifier_manager,
-    ).insert(frame=5.0)
+    ).insert_key(frame=5.0)
 
     assert result is None
     node.modifier_manager.do_it_dg()
@@ -325,11 +325,11 @@ def test_keyframe_property_insert_is_available_from_scalar_plug(
     maya_cmds,
 ):
     node = plus_minus_average_node
-    node.input1D[0].keyframe.set(1.0, frame=1.0)
-    node.input1D[0].keyframe.set(10.0, frame=10.0)
+    node.input1D[0].keyframe.set_key(1.0, frame=1.0)
+    node.input1D[0].keyframe.set_key(10.0, frame=10.0)
     node.modifier_manager.do_it_dg()
 
-    assert node.input1D[0].keyframe.insert(frame=5.0) is None
+    assert node.input1D[0].keyframe.insert_key(frame=5.0) is None
     node.modifier_manager.do_it_dg()
 
     assert maya_cmds.keyframe(
@@ -343,9 +343,9 @@ def test_keyframe_property_delete_key_removes_key_at_frame(
     plus_minus_average_node,
 ):
     keyframe = plus_minus_average_node.input1D[0].keyframe
-    keyframe.set(1.0, frame=1.0)
-    keyframe.set(2.0, frame=2.0)
-    keyframe.set(3.0, frame=3.0)
+    keyframe.set_key(1.0, frame=1.0)
+    keyframe.set_key(2.0, frame=2.0)
+    keyframe.set_key(3.0, frame=3.0)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
     assert keyframe.delete_key(2.0) is None
@@ -372,7 +372,7 @@ def test_keyframe_property_delete_keys_removes_keys_in_range(
 ):
     keyframe = plus_minus_average_node.input1D[0].keyframe
     for frame in (1.0, 2.0, 3.0, 4.0):
-        keyframe.set(frame, frame=frame)
+        keyframe.set_key(frame, frame=frame)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
     assert keyframe.delete_keys(start_frame=2.0, end_frame=3.0) is None
@@ -385,8 +385,8 @@ def test_keyframe_property_delete_keys_without_range_removes_all_keys(
     plus_minus_average_node,
 ):
     keyframe = plus_minus_average_node.input1D[0].keyframe
-    keyframe.set(1.0, frame=1.0)
-    keyframe.set(2.0, frame=2.0)
+    keyframe.set_key(1.0, frame=1.0)
+    keyframe.set_key(2.0, frame=2.0)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
     assert keyframe.delete_keys() is None
@@ -409,7 +409,7 @@ def test_keyframe_property_delete_keys_rejects_reversed_range(
     plus_minus_average_node,
 ):
     keyframe = plus_minus_average_node.input1D[0].keyframe
-    keyframe.set(1.0, frame=1.0)
+    keyframe.set_key(1.0, frame=1.0)
     plus_minus_average_node.modifier_manager.do_it_dg()
 
     with pytest.raises(ValueError, match="start_frame"):
@@ -421,7 +421,7 @@ def test_keyframe_property_insert_requires_existing_anim_curve_at_execution(
 ):
     node = plus_minus_average_node
 
-    node.input1D[0].keyframe.insert(frame=5.0)
+    node.input1D[0].keyframe.insert_key(frame=5.0)
     with pytest.raises(RuntimeError, match="no upstream time-input animCurve"):
         node.modifier_manager.do_it_dg()
 
@@ -433,11 +433,11 @@ def test_keyframe_property_reuses_upstream_anim_curve_from_new_operator(
     maya_cmds,
 ):
     node = plus_minus_average_node
-    node.input1D[0].keyframe.set(1.0, frame=1.0)
+    node.input1D[0].keyframe.set_key(1.0, frame=1.0)
     modifier_manager.do_it_dg()
 
     same_node = plus_minus_average_cls(modifier_manager, name="test")
-    same_node.input1D[0].keyframe.set(2.0, frame=2.0)
+    same_node.input1D[0].keyframe.set_key(2.0, frame=2.0)
     modifier_manager.do_it_dg()
 
     source_plugs = maya_cmds.listConnections(
@@ -467,7 +467,7 @@ def test_delete_anim_curve_removes_managed_anim_curve(
     from bd_util.maya.node.operator.attr import KeyframeManager
 
     node = plus_minus_average_node
-    node.input1D[0].keyframe.set(1.0, frame=1.0)
+    node.input1D[0].keyframe.set_key(1.0, frame=1.0)
     node.modifier_manager.do_it_dg()
 
     selection = maya_om.MSelectionList()
@@ -507,7 +507,7 @@ def test_keyframe_property_converts_angle_value_to_anim_curve_radians(
     modifier_manager.do_it_dag()
     modifier_manager.do_it_dg()
 
-    node.rotate.rotateX.keyframe.set(90.0, frame=10.0)
+    node.rotate.rotateX.keyframe.set_key(90.0, frame=10.0)
     modifier_manager.do_it_dg()
 
     assert maya_cmds.getAttr(
@@ -530,4 +530,4 @@ def test_keyframe_property_rejects_output_plug(plus_minus_average_node):
     node = plus_minus_average_node
 
     with pytest.raises(RuntimeError, match="not writable"):
-        node.output3Dx.keyframe.set(1.0, frame=1.0)
+        node.output3Dx.keyframe.set_key(1.0, frame=1.0)

@@ -91,7 +91,7 @@ scene上のカーブの取得もcallback内で行えば、その直前に予約�
 反映した状態から編集できます。Undoではキャッシュの`undoIt()`、Redoでは`redoIt()`を
 使用し、callback自体は再実行しません。
 
-このAPIは`KeyframeManager.set()`のAPI経路と、挿入・tangent変更・キー削除が使用します。
+このAPIは`KeyframeManager.set_key()`のAPI経路と、挿入・tangent変更・キー削除が使用します。
 通常の利用コードは`plug.keyframe`経由で操作し、独自のanimation curve編集を組み込む場合に
 だけcallbackを直接予約します。callback内の変更は必ず渡されたキャッシュへ記録し、
 別のmodifierの直接実行やキャッシュを渡さないAPI編集を混ぜないでください。
@@ -113,7 +113,7 @@ callback内では渡されたmodifierへ予約するだけにし、`doIt()`や�
 直接実行しないでください。通常のDG予約やanimation curve編集と同じ順序・履歴で
 管理され、callbackまたはmodifier実行の失敗も同じ実行境界の復元対象になります。
 
-`KeyframeManager.set()`は、この入口で実行時のscene状態から編集経路を選択します。
+`KeyframeManager.set_key()`は、この入口で実行時のscene状態から編集経路を選択します。
 cmdsへ委譲する場合は供給されたmodifierへcommandを予約し、API経路では後続の
 `queue_anim_curve_change()`で編集します。これにより、作成から追加・上書きまでを
 同じ実行境界へ積み、Undo / Redoでは初回に選択した経路の記録を再利用できます。

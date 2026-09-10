@@ -148,7 +148,7 @@ def test_public_set_matches_cmds_curve_state_and_undo_redo(
         (1.0, 0.5, "spline", "flat"),
     )
     for frame, value, in_type, out_type in edits:
-        keyframe.set(value, frame, in_type, out_type)
+        keyframe.set_key(value, frame, in_type, out_type)
     _assert_curve_state(_curve_state(actual_curve), before)
 
     # Global defaults are sampled at execution, while existing curve weighting stays.

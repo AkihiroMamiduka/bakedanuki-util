@@ -11,20 +11,20 @@ def main():
     nodes = bdu.Nodes()
 
     trsf = nodes.create.transform(name="test")
-    trsf.tx.keyframe.set(
+    trsf.tx.keyframe.set_key(
         -100,
         frame=-100,
         in_tangent_type="linear",
         out_tangent_type="linear",
     )
-    trsf.tx.keyframe.set(
+    trsf.tx.keyframe.set_key(
         100,
         frame=100,
         in_tangent_type="linear",
         out_tangent_type="linear",
     )
 
-    trsf.tx.keyframe.insert(frame=15)
+    trsf.tx.keyframe.insert_key(frame=15)
     trsf.tx.keyframe.set_tangent(
         frame=15,
         in_tangent_type="flat",
@@ -34,7 +34,7 @@ def main():
     # trsf.tx.keyframe.delete_key(15)
     # trsf.tx.keyframe.delete_keys(-200, 200)
 
-    # trsf.tx.keyframe.set(
+    # trsf.tx.keyframe.set_key(
     #     100,
     #     frame=10,
     #     in_tangent_type="linear",

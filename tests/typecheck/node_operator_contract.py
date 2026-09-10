@@ -4094,7 +4094,7 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     )
     assert_type(compose.inputRotateOrder.XYZ, Literal[0])
     assert_type(compose.inputRotateOrder.keyframe, KeyframeManager)
-    assert_type(compose.inputRotateOrder.keyframe.set(0, frame=1.0), None)
+    assert_type(compose.inputRotateOrder.keyframe.set_key(0, frame=1.0), None)
 
 
 def modifier_callback_contract(mod: bdu.ModifierManager) -> None:
@@ -4122,7 +4122,7 @@ def keyframe_contract(
     tangent_name: TangentTypeName = "linear"
     tangent_value: TangentTypeValue = keyframe.tangent.flat
     assert_type(
-        keyframe.set(
+        keyframe.set_key(
             90.0,
             frame=24.0,
             in_tangent_type=tangent_name,
@@ -4130,9 +4130,9 @@ def keyframe_contract(
         ),
         None,
     )
-    assert_type(keyframe.set(90.0, frame=24.0), None)
+    assert_type(keyframe.set_key(90.0, frame=24.0), None)
     assert_type(
-        keyframe.set(
+        keyframe.set_key(
             0.0,
             frame=1.0,
             in_tangent_type="linear",
@@ -4143,18 +4143,24 @@ def keyframe_contract(
     assert_type(keyframe.frames(), list[float])
     assert_type(keyframe.key_count(), int)
     assert_type(keyframe.has_key(1.0), bool)
-    assert_type(keyframe.insert(12.0, breakdown=True), None)
+    assert_type(keyframe.insert_key(12.0, breakdown=True), None)
     assert_type(keyframe.set_tangent(12.0, out_tangent_type="linear"), None)
     assert_type(keyframe.delete_key(12.0), None)
     assert_type(keyframe.delete_keys(start_frame=1.0, end_frame=24.0), None)
     assert_type(keyframe.delete_anim_curve(), None)
     assert_type(KeyframeManager(plug, modifier_manager=mod), KeyframeManager)
     assert_type(
-        KeyframeManager(plug, modifier_manager=mod).set(1.0, 1.0), None
+        KeyframeManager(plug, modifier_manager=mod).set_key(1.0, 1.0), None
     )
-    keyframe.set("invalid", frame=1.0)  # pyright: ignore[reportArgumentType]
-    keyframe.set(1.0, frame="invalid")  # pyright: ignore[reportArgumentType]
-    keyframe.set(
+    keyframe.set_key(
+        "invalid",  # pyright: ignore[reportArgumentType]
+        frame=1.0,
+    )
+    keyframe.set_key(
+        1.0,
+        frame="invalid",  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_key(
         1.0,
         frame=1.0,
         in_tangent_type="linera",  # pyright: ignore[reportArgumentType]
@@ -4163,6 +4169,8 @@ def keyframe_contract(
         1.0,
         out_tangent_type="unknown",  # pyright: ignore[reportArgumentType]
     )
+    keyframe.set  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    keyframe.insert  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     keyframe.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     keyframe.insert_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 

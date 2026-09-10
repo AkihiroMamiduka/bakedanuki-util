@@ -95,9 +95,10 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 - `multi[index]` / `multi[next]` の具体的な plug 型。
 - `get()` の値型。
 - `get()` / `set()` / `set_direct()` / `round()` が対応するplug型だけに存在すること。
-- scalar plugのkeyframe設定・挿入・tangent変更・削除、変更methodの`None`戻り値とqueryの型。
+- scalar plugの`keyframe.set_key()` / `insert_key()`、tangent変更・削除、変更methodの
+  `None`戻り値とqueryの型。
 - 単体`KeyframeManager`の`modifier_manager`引数と、廃止した`keyframe.set_direct()` /
-  `keyframe.insert_direct()`の非公開。
+  `keyframe.insert_direct()`および旧名`keyframe.set()` / `keyframe.insert()`の非公開。
 - `nodes.types`から取得するNodeOperator classと、DAG traversalの
   `filter_type`に応じた具体的なtuple要素型。
 - `ancestors(until=...)` / `descendant_chain(until=...)`の、引数省略時と
@@ -239,7 +240,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
   - 値操作、Channel Box公開状態操作、lock操作が、対応する具象plug型だけの
     runtime APIとして現れることを検証します。
 - `tests/maya/node/operator/attr/test_keyframe.py`
-  - `keyframe.set()`の実行、animCurve作成、query、単体MPlugからの使用、
+  - `keyframe.set_key()`の実行、animCurve作成、query、単体MPlugからの使用、
     Maya標準のtangent挙動と予約方式の挿入・削除・tangent操作を検証します。
   - 対象がない場合の挿入エラーと編集・削除のno-op、カーブ全体の削除、
     `None`戻り値を検証します。
@@ -256,7 +257,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
   - API / cmdsの途中失敗で同じ実行境界の変更を戻し、Undo / Redoでは初回の
     callbackを再実行しないことを検証します。
 - `tests/maya/node/operator/attr/test_keyframe_set_equivalence.py`
-  - numeric / unit / bool / enum属性で、公開`set()`と`cmds.setKeyframe()`の結果を比較します。
+  - numeric / unit / bool / enum属性で、公開`set_key()`と`cmds.setKeyframe()`の結果を比較します。
     weighted tangent、単位変更、breakdown、tangent lock、カーブのinfinity設定を含め、
     追加・上書きとUndo / Redo後の状態を検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
@@ -486,10 +487,10 @@ NodeOperator は生の `maya.api.OpenMaya` より速くなることは基本的�
 
 速度比較では 1 回ごとの揺れが大きいため、判断が難しい場合は accurate mode の median を見ます。
 
-## KeyframeManager.set()の実装比較
+## KeyframeManager.set_key()の実装比較
 
-`python/bd_util/_dev/maya/benchmark_keyframe_set.py`は、旧cmds実装と現行実装の
-公開`set()`を、同じ現行`ModifierManager`上で比較します。repository rootから、
+`python/bd_util/_dev/maya/benchmark_keyframe_set.py`は、旧cmds実装の公開`set()`と
+現行実装の`set_key()`を、同じ現行`ModifierManager`上で比較します。repository rootから、
 独立したmayapyプロセスで実行してください。各計測でsceneを破棄するため、
 作業中のMayaからは実行しません。
 

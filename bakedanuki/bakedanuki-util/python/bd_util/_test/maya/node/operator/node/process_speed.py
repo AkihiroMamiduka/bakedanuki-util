@@ -1176,7 +1176,7 @@ def set_key_node_operator():
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
     for i in range(COUNT):
-        plug.keyframe.set(i, i)
+        plug.keyframe.set_key(i, i)
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
