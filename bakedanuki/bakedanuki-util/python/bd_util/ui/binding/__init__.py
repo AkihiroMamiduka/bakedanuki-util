@@ -6,6 +6,7 @@ from .float3 import (
     Float3Value,
     Float3ValueStore,
     Float3ViewModel,
+    PythonFloat3AttributeStore,
     SetFloat3Command,
 )
 
@@ -41,6 +42,7 @@ __all__ = [
     "Float3Value",
     "Float3ValueStore",
     "Float3ViewModel",
+    "PythonFloat3AttributeStore",
     "SetFloat3Command",
     "FloatBinding",
     "FloatPresentation",

@@ -869,6 +869,19 @@ window.widget.translate_binding.set_value((100.0, 200.0, 300.0))
 `set_value()`は全成分を事前検証し、1回のMaya Undoで戻せる一括設定を行います。
 API、対応属性、Storeの構成は[3成分binding](float3_binding.md)を参照してください。
 
+Python objectの3成分tupleは`Float3Binding.from_attribute(data, "offset", parent=...)`で
+接続できます。各軸は他成分の最新値を保持してsetterへ渡し、setterによる全軸の補正も
+再同期します。`FloatPresentation`は全軸共通またはXYZごとに指定できます。
+
+```python
+from bd_util._sample.maya.ui.float3_sample import minimal
+
+window = minimal.show()
+```
+
+サンプルは3桁と6桁のXYZ Viewを共有し、一括編集、Python属性への直接代入、refreshを試せます。
+対応する値の型と失敗時の扱いは[Python属性の3成分binding](python_float3_binding.md)を参照してください。
+
 ## Maya callbackのlifecycle管理
 
 `MayaCallbackRegistry`は、`MEventMessage`、`MSceneMessage`、`MNodeMessage`などが返す
@@ -1363,17 +1376,17 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-10にPython属性の単一float bindingを追加した作業ツリーでの確認結果です。
+2026-09-10にPython属性の3成分float bindingを追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 251 passed | 176 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 251 passed | 176 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 251 passed | 176 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 302 passed | 176 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 302 passed | 176 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 302 passed | 176 passed |
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2667 passed, 183 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2690 passed, 211 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。

@@ -3,6 +3,7 @@
 Mayaの`translate`・`rotate`・`scale`などの3成分属性を正本として、XYZのSpinBoxで編集します。
 [scalarの浮動小数点binding](float_binding.md)を各軸で再利用し、3成分の確定値と一括変更を
 `Float3ViewModel`でまとめます。Maya固有処理は`bd_util.maya.ui`に置きます。
+Python属性を正本にする場合は[Python属性の3成分binding](python_float3_binding.md)を使用します。
 
 ## 最小の組み込み
 
@@ -51,6 +52,8 @@ nodeや属性を自動作成せず、終了時にもMayaデータを削除・復
 | `Float3ViewModel.value` / `set_value_command` | 全体の確定値と一括Command |
 | `Float3ValueStore` | 各軸のStore、一括`read()`／`write()`、利用・編集可否の契約 |
 | `Float3Binding(store, parent=...)` | 外部Storeと専用ViewModelを組み立てる |
+| `Float3Binding.from_attribute(instance, attribute_name, ...)` | Python属性の3成分StoreとBindingを生成する |
+| `PythonFloat3AttributeStore` | 3成分tupleの各軸・一括変更を属性のsetterへ渡す |
 | `MayaFloat3PlugBinding(plug, parent=...)` | Maya Store、専用ViewModel、callbackを所有する |
 | `binding.value` / `changed` / `set_value()` / `refresh()` | scalar Bindingと同じ利用窓口 |
 | `Float3SpinBox(source, parent=None, decimals=6, single_step=0.1)` | XYZラベルと3つの`FloatSpinBox`を横に並べるView |
@@ -127,7 +130,9 @@ Windowから独立したownerを指定し、そのownerが終了を管理しま�
 独自Storeは`Float3ValueStore`を実装できます。`components`は3つの`FloatValueStore`で、
 全体と各軸は同じ正本を参照し、`write()`は書き込み後の実値を返します。
 外部変更は`binding.refresh()`で読み直します。外部Storeの所有権はBindingへ移しません。
-3成分のPython属性用Storeの便利APIや、Python正本をMaya Viewへ同期する構成は後続対応です。
+3成分のPython属性は`Float3Binding.from_attribute()`で接続できます。
+各軸の変更要求後にも全体を再同期し、編集軸が同値でも他軸のsetter補正を反映します。
+Python正本をMaya Viewへ同期する構成は後続対応です。
 単一値は[Python属性の浮動小数点binding](python_float_binding.md)を使用できます。
 
 ## サンプルと対応範囲

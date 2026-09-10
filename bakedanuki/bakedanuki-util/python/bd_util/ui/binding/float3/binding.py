@@ -1,13 +1,17 @@
 # coding: utf-8
+from __future__ import annotations
+
 from collections.abc import Callable, Sequence
 from typing import Generic, TypeVar
 
 from ... import qt
-from .store import Float3ValueStore
+from ..float.presentation import FloatPresentation
+from .store import Float3ValueStore, PythonFloat3AttributeStore
 from .value import Float3
 from .view_model import Float3ViewModel
 
 _StoreT = TypeVar("_StoreT", bound=Float3ValueStore, covariant=True)
+_InstanceT = TypeVar("_InstanceT")
 
 
 class Float3Binding(qt.QObject, Generic[_StoreT]):
@@ -35,6 +39,26 @@ class Float3Binding(qt.QObject, Generic[_StoreT]):
         except Exception:
             self.dispose()
             raise
+
+    @staticmethod
+    def from_attribute(
+        instance: _InstanceT,
+        attribute_name: str,
+        *,
+        presentation: (
+            FloatPresentation
+            | tuple[FloatPresentation, FloatPresentation, FloatPresentation]
+            | None
+        ) = None,
+        parent: qt.QObject | None = None,
+    ) -> Float3Binding[PythonFloat3AttributeStore[_InstanceT]]:
+        """Python属性の3成分tupleを正本とするStoreとBindingを作る。"""
+        return Float3Binding(
+            PythonFloat3AttributeStore(
+                instance, attribute_name, presentation=presentation
+            ),
+            parent=parent,
+        )
 
     @property
     def store(self) -> _StoreT:

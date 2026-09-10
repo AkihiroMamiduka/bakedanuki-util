@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from ... import qt
 from ..float.view_model import FloatViewModel
 from ..float.view._connection import connect_queued_qt_signal
@@ -31,6 +33,31 @@ class _MutableSetFloat3Command(SetFloat3Command):
             self.can_execute_changed.emit(value)
 
 
+class _ComponentFloatViewModel(FloatViewModel):
+    """各軸の変更要求が終わった時点で、親の3成分を再同期する。"""
+
+    def __init__(
+        self, after_write: Callable[[], None], parent: qt.QObject
+    ) -> None:
+        """確定値が同じ場合にも呼ぶ同期処理を保持する。"""
+        self._after_write = after_write
+        super().__init__(parent=parent)
+
+    def _request_value(self, value: float) -> bool:
+        """他軸だけが補正された場合や失敗時にも親の正本を読み直す。"""
+        try:
+            changed = super()._request_value(value)
+        except Exception:
+            # 同期の失敗で元のsetter例外を隠さない。
+            try:
+                self._after_write()
+            except Exception:
+                pass
+            raise
+        self._after_write()
+        return changed
+
+
 class Float3ViewModel(qt.QObject):
     """各軸のFloatViewModelと3成分の確定値・一括Commandをまとめる。"""
 
@@ -44,7 +71,10 @@ class Float3ViewModel(qt.QObject):
         self._store: Float3ValueStore | None = None
         self._value = _MutableFloat3Value(self)
         self._command = _MutableSetFloat3Command(self._request_value, self)
-        self._components = tuple(FloatViewModel(parent=self) for _ in range(3))
+        self._components = tuple(
+            _ComponentFloatViewModel(self._refresh_after_component_write, self)
+            for _ in range(3)
+        )
 
         # scalar側の確定・編集可否通知から全体の状態を同期する。
         for component in self._components:
@@ -158,18 +188,29 @@ class Float3ViewModel(qt.QObject):
                 if require_float3(store.read()) == actual:
                     return changed
             return changed
+        except Exception:
+            # 外部更新で正本が読めなくなった場合も、全軸の入力を停止する。
+            self._disable_commands()
+            raise
         finally:
             self._refreshing = False
 
     def _request_value(self, value: Float3) -> bool:
         """一括書き込み中の全体通知をまとめ、処理後に正本を読み直す。"""
         store = self._store
-        if self.is_disposed or store is None or not store.is_available:
+        if self.is_disposed or store is None:
             return False
-        if not store.is_writable:
-            self.refresh()
-            return False
-        before = require_float3(store.read())
+        try:
+            if not store.is_available:
+                self._disable_commands()
+                return False
+            if not store.is_writable:
+                self.refresh()
+                return False
+            before = require_float3(store.read())
+        except Exception:
+            self._disable_commands()
+            raise
         if value == before:
             self.refresh()
             return False
@@ -189,8 +230,18 @@ class Float3ViewModel(qt.QObject):
         self.refresh()
         return actual != before
 
+    def _refresh_after_component_write(self) -> None:
+        """各軸の処理後に全体を同期し、読めない正本は全軸の入力を止める。"""
+        try:
+            self.refresh()
+        except Exception:
+            self._disable_commands()
+            raise
+
     def _disable_commands(self) -> None:
         """正本が利用できなくなった場合に全成分の入力を停止する。"""
+        if self.is_disposed:
+            return
         self._command.set_can_execute(False)
         for component in self._components:
             if self.is_disposed:
