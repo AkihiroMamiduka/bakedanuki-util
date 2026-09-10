@@ -181,6 +181,20 @@ angle / linearは通常の`PlugOperator.set()`と同じ固定単位です。時�
 `in_tangent_type` / `out_tangent_type`には`"linear"`などの文字列、または
 `keyframe.tangent.linear`などの定数を指定できます。`set()`の`None`はMayaの既定値を
 使用し、`set_tangent()`の`None`はその側のtangentを変更しません。
+
+両methodのtangent引数は`TangentTypeName | int | None`で型付けしています。
+`TangentTypeName`は次の小文字の文字列を列挙した`Literal`で、対応するIDEでは
+引数の文字列補完候補になり、未対応の名前やタイプミスは型チェックで検出できます。
+
+`"auto"`, `"clamped"`, `"fast"`, `"flat"`, `"linear"`, `"plateau"`,
+`"slow"`, `"spline"`, `"step"`, `"stepnext"`
+
+変数や自作関数の引数にも型を付ける場合は、
+`bd_util.maya.node.operator.attr`から`TangentTypeName`（文字列のみ）、または
+`TangentTypeValue`（整数定数・`None`も含む）をimportできます。任意の`str`ではなく
+これらの型を使うと、候補を保ったままキーフレームmethodへ渡せます。
+実行時の大文字・小文字を区別しない解釈と、不正な値の検証は従来どおりです。
+
 `set()`の`in_tangent_type="step"`はMayaが警告を出して入力側を既定値にするため、
 step補間は`out_tangent_type="step"`へ指定してください。Maya 2027では入力側の
 `"stepnext"`も同様に既定値になります。どちらも出力側へ指定することで、

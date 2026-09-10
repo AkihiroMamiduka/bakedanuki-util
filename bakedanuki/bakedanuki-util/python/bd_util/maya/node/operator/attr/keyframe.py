@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import math
-from typing import Any, Callable, TypedDict
+from typing import Any, Callable, Literal, TypedDict
 
 # maya
 from maya import cmds
@@ -12,7 +12,19 @@ from maya.api import OpenMayaAnim as oma
 from ...modifier import ModifierManager
 
 ValueConverter = Callable[[Any], Any]
-TangentTypeValue = int | str | None
+TangentTypeName = Literal[
+    "auto",
+    "clamped",
+    "fast",
+    "flat",
+    "linear",
+    "plateau",
+    "slow",
+    "spline",
+    "step",
+    "stepnext",
+]
+TangentTypeValue = TangentTypeName | int | None
 
 
 class _TangentFlags(TypedDict, total=False):
@@ -57,7 +69,7 @@ def _identity(value: Any) -> Any:
     return value
 
 
-def _to_tangent_type(tangent_type: TangentTypeValue) -> int:
+def _to_tangent_type(tangent_type: int | str | None) -> int:
     if tangent_type is None:
         return oma.MFnAnimCurve.kTangentGlobal
 

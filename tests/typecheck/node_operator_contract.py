@@ -4,7 +4,11 @@ import bd_util as bdu
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
-from bd_util.maya.node.operator.attr import KeyframeManager
+from bd_util.maya.node.operator.attr import (
+    KeyframeManager,
+    TangentTypeName,
+    TangentTypeValue,
+)
 from bd_util.maya.node.operator.attr._core import PlugOperator
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_abs import (
     InputAttrOperator as AbsInputAttrOperator,
@@ -4115,6 +4119,17 @@ def keyframe_contract(
 ) -> None:
     keyframe = compose.inputRotate.inputRotateX.keyframe
     assert_type(keyframe, KeyframeManager)
+    tangent_name: TangentTypeName = "linear"
+    tangent_value: TangentTypeValue = keyframe.tangent.flat
+    assert_type(
+        keyframe.set(
+            90.0,
+            frame=24.0,
+            in_tangent_type=tangent_name,
+            out_tangent_type=tangent_value,
+        ),
+        None,
+    )
     assert_type(keyframe.set(90.0, frame=24.0), None)
     assert_type(
         keyframe.set(
@@ -4139,6 +4154,15 @@ def keyframe_contract(
     )
     keyframe.set("invalid", frame=1.0)  # pyright: ignore[reportArgumentType]
     keyframe.set(1.0, frame="invalid")  # pyright: ignore[reportArgumentType]
+    keyframe.set(
+        1.0,
+        frame=1.0,
+        in_tangent_type="linera",  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_tangent(
+        1.0,
+        out_tangent_type="unknown",  # pyright: ignore[reportArgumentType]
+    )
     keyframe.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     keyframe.insert_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 

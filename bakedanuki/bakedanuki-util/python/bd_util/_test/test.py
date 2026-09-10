@@ -15,12 +15,12 @@ def main():
         -100,
         frame=-100,
         in_tangent_type="linear",
-        out_tangent_type="linear",
+        out_tangent_type="step",
     )
     trsf.tx.keyframe.set(
         100,
         frame=100,
-        in_tangent_type="linear",
+        in_tangent_type="slow",
         out_tangent_type="linear",
     )
 
