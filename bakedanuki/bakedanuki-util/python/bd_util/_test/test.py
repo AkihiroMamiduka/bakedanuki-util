@@ -15,12 +15,12 @@ def main():
         -100,
         frame=-100,
         in_tangent_type="linear",
-        out_tangent_type="step",
+        out_tangent_type="linear",
     )
     trsf.tx.keyframe.set(
         100,
         frame=100,
-        in_tangent_type="slow",
+        in_tangent_type="linear",
         out_tangent_type="linear",
     )
 
@@ -31,17 +31,17 @@ def main():
         out_tangent_type="step",
     )
 
-    trsf.tx.keyframe.delete_key(15)
-    trsf.tx.keyframe.delete_keys(-200, 200)
+    # trsf.tx.keyframe.delete_key(15)
+    # trsf.tx.keyframe.delete_keys(-200, 200)
 
-    trsf.tx.keyframe.set(
-        100,
-        frame=10,
-        in_tangent_type="linear",
-        out_tangent_type="linear",
-    )
+    # trsf.tx.keyframe.set(
+    #     100,
+    #     frame=10,
+    #     in_tangent_type="linear",
+    #     out_tangent_type="linear",
+    # )
 
-    trsf.tx.keyframe.delete_anim_curve()
+    # trsf.tx.keyframe.delete_anim_curve()
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

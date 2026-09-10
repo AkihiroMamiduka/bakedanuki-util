@@ -172,8 +172,9 @@ mod.redo_it()
 | その他scalarの`value` | numeric値。bool / enumも数値で指定 |
 
 angle / linearは通常の`PlugOperator.set()`と同じ固定単位です。時刻とtime属性の
-値は予約時の時間単位で捕捉します。`set()`は実行時に`cmds`が使用するUI単位へ換算し、
-挿入・tangent変更・キー削除は捕捉した時刻をAPIで使用します。
+値は予約時の時間単位で捕捉します。`set()`のAPI経路ではangleをradian、linearを
+centimeterとして渡し、cmds経路では実行時のUI単位へ換算します。
+挿入・tangent変更・キー削除も捕捉した時刻をAPIで使用します。
 予約後にangle / linear / timeのUI単位を変更しても、予約した物理量は維持します。
 `value`や時刻の引数にNaNや無限大は指定できません。有限値、不正なtangent、
 `delete_keys()`の逆転した範囲は予約時に検証します。
@@ -199,16 +200,41 @@ angle / linearは通常の`PlugOperator.set()`と同じ固定単位です。時�
 step補間は`out_tangent_type="step"`へ指定してください。Maya 2027では入力側の
 `"stepnext"`も同様に既定値になります。どちらも出力側へ指定することで、
 対応するMaya version間で共通の設定として使用できます。
-既存キーの上書きでは、`cmds.setKeyframe()`はvalueを更新して既存tangentを維持します。
-上書き時に指定したtangent引数で既存tangentを変更することはありません。
+既存キーの上書きではvalueを更新して既存tangent typeを維持し、指定したtangent引数で
+既存tangent typeを変更することはありません。変更する場合は`set_tangent()`を使用します。
+API経路の上書きにも`addKey()`を使用します。valueだけを変更する`setValue()`と異なり、
+breakdownやtangent lockの更新も`cmds.setKeyframe()`と同じ挙動に揃えるためです。
 
 ### 対象カーブと実行時エラー
 
-設定は`MDGModifier.pythonCommandToExecute()`から`cmds.setKeyframe()`を実行します。
-対象のanimCurveの選択・作成、animation layerへの値の解決、必要なblend nodeの
-作成はMaya標準の挙動に従います。通常のキー設定では独自の上流カーブ探索を行いません。
-現在の`set()`にはlayer指定や`insertBlend`指定の引数はなく、Maya側の状態・設定が
-適用されます。[Autodesk setKeyframe](https://help.autodesk.com/cloudhelp/2026/ENU/Maya-Tech-Docs/CommandsPython/setKeyframe.html)
+`set()`は実行時の接続・型・scene状態からAPI経路かcmds経路を選択します。
+対象plugに直接接続した既存のTA / TL / TUカーブがあり、plugとカーブの型が一致する
+単純な構成では、`MFnAnimCurve.addKey()`と`MAnimCurveChange`で追加・上書きします。
+API経路の対象plugは、boolを除くscalar numericとangle / linearです。
+
+次のいずれかに該当する場合は、`MDGModifier.pythonCommandToExecute()`から
+`cmds.setKeyframe()`を実行します。
+
+- カーブの新規作成、blend nodeやunitConversionを経由する接続、共有カーブ。
+- カーブのinputに明示的な接続がある場合、またはplugとカーブの型が一致しない場合。
+- scene内にanimation layerが1つでもある場合。対象plugがlayerに属さなくても含みます。
+- 対象plug、カーブのoutputやkeyTimeValueがlockされている場合、または対象node・
+  カーブnodeがlockされているかreference由来の場合。
+- bool / enum / time属性、TTカーブなどAPI経路の対象外の型。
+- 入力側tangentが`step` / `stepnext`、またはTAカーブの`rotationInterpolation`が1以外の場合。
+
+cmds経路ではカーブの選択・作成、animation layerへの値の解決、必要なblend nodeの
+作成をMayaへ委ねます。現在の`set()`にはlayer指定や`insertBlend`指定の引数はなく、
+Maya側の状態・設定が適用されます。layerを一律にcmdsへ委ねるのは、BaseAnimationの
+lockが、layerに属さない直接接続カーブへのキー設定も禁止するためです。
+[Autodesk setKeyframe](https://help.autodesk.com/cloudhelp/2026/ENU/Maya-Tech-Docs/CommandsPython/setKeyframe.html)
+
+通常のキー設定では上流の最初のカーブを探索して編集することはありません。
+先行する作成・接続・キー設定が反映された時点で経路を判定するため、同じ予約列で
+1個目のキーをcmdsで作成し、後続のキーをAPIで追加することもできます。
+どちらの経路も同じ`do_it_dg()`の履歴へ含み、途中の失敗ではその実行境界の変更を戻します。
+カーブの取得結果を別の`set()`の探索に再利用する永続キャッシュは持ちません。
+Undo / Redoは初回実行で記録したmodifierと変更キャッシュを使用し、経路を再判定しません。
 
 対象plugの名前は実行時に`MPlug`から取得するため、予約後の改名にも追従します。
 非scalar plug、不正なtangent名、書き込み不可の属性などは予約時に拒否します。
@@ -277,8 +303,8 @@ frames = keyframe.frames()
 Mayaが選んだlayerのカーブを必ず扱うAPIではありません。カーブはquery時・編集実行時に
 探索し、Undoや再接続をまたいで古いカーブをキャッシュしません。
 
-`set()`の`MAnimCurveChange`方式への移行、一括キー設定、編集対象カーブ・layerを
-明示するAPIは今後の検討対象です。現在の`set()`は`cmds.setKeyframe()`を使用します。
+`set()`のAPI経路の対象拡張、一括キー設定、編集対象カーブ・layerを明示するAPIは
+今後の検討対象です。今回の実装は既存の単純なカーブへのAPI編集を対象とします。
 
 ### 旧APIからの移行
 

@@ -250,6 +250,15 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     設定から編集への順序、不正な引数やキーを設定できない場合のエラー、
     部分変更の復元も検証します。
   - キー削除後の空カーブ保持と、manager必須の変更操作を検証します。
+- `tests/maya/node/operator/attr/test_keyframe_set_backend.py`
+  - 初回カーブ作成のcmds経路と後続キーのAPI経路、予約した再接続・カーブ削除後の
+    経路の再判定、unitConversionのある接続へのcmds委譲を検証します。
+  - API / cmdsの途中失敗で同じ実行境界の変更を戻し、Undo / Redoでは初回の
+    callbackを再実行しないことを検証します。
+- `tests/maya/node/operator/attr/test_keyframe_set_equivalence.py`
+  - numeric / unit / bool / enum属性で、公開`set()`と`cmds.setKeyframe()`の結果を比較します。
+    weighted tangent、単位変更、breakdown、tangent lock、カーブのinfinity設定を含め、
+    追加・上書きとUndo / Redo後の状態を検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
   - typed matrix plugと`TransformMatrix`の連携、常に具体型を返す`get()`、
     未設定時の`ValueError`、分解値のcompound専用値型、flat 16要素 / 4行4列の
@@ -476,6 +485,50 @@ NodeOperator は生の `maya.api.OpenMaya` より速くなることは基本的�
 - descriptor access 時の cache key 改善
 
 速度比較では 1 回ごとの揺れが大きいため、判断が難しい場合は accurate mode の median を見ます。
+
+## KeyframeManager.set()の実装比較
+
+`python/bd_util/_dev/maya/benchmark_keyframe_set.py`は、旧cmds実装と現行実装の
+公開`set()`を、同じ現行`ModifierManager`上で比較します。repository rootから、
+独立したmayapyプロセスで実行してください。各計測でsceneを破棄するため、
+作業中のMayaからは実行しません。
+
+```powershell
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -B `
+    .\bakedanuki\bakedanuki-util\python\bd_util\_dev\maya\benchmark_keyframe_set.py
+```
+
+既定ではcommit `1172c8db4eb6503d5eed42c208774192d69d2592`の`keyframe.py`を
+`git show`で読み込みます。新規カーブ、既存1キーがあるカーブ、全キーの上書きの
+3条件を、各10 / 100 / 1,000キーで比較します。対象はtransformの`tx`、単位は
+cm / degree / film、tangentはlinearでweightを使用しません。ウォームアップ後の
+5回の中央値をJSONで出力し、予約・実行・その合計・Undo・Redoの時間を分けて記録します。
+
+scene準備と状態assertは測定区間に含めず、各計測でUndo / Redoを2往復して復元を
+確認します。`--keys 10 100`、`--repeats 3`、`--baseline <revision>`で条件を変更できます。
+Maya 2026 / 2027では実行するmayapyのversionを変更してください。
+
+2026-09-10に同一Windows環境で測定した、transform.translateXへの1000キー設定の
+結果です。単位はmsで「旧cmds実装 → 現行実装」を示します。各versionは別プロセスで
+順に実行し、他のMayaテスト・ベンチとは並行実行していません。
+
+| Maya | 条件 | 予約＋実行 | Undo | Redo |
+| --- | --- | --- | --- | --- |
+| 2025 | 新規カーブ | 36.62 → 20.93 | 86.32 → 2.44 | 82.75 → 2.30 |
+| 2025 | 既存カーブ | 37.48 → 21.15 | 87.95 → 2.40 | 84.08 → 2.30 |
+| 2025 | 全キー上書き | 37.35 → 21.97 | 172.89 → 2.47 | 168.81 → 2.52 |
+| 2026 | 新規カーブ | 39.09 → 23.34 | 81.30 → 2.58 | 77.88 → 2.45 |
+| 2026 | 既存カーブ | 47.53 → 25.52 | 90.95 → 2.63 | 83.98 → 2.52 |
+| 2026 | 全キー上書き | 38.61 → 24.27 | 159.31 → 2.60 | 156.24 → 2.71 |
+| 2027 | 新規カーブ | 36.60 → 23.49 | 79.92 → 2.68 | 75.82 → 2.53 |
+| 2027 | 既存カーブ | 35.67 → 22.93 | 78.50 → 2.42 | 75.16 → 2.33 |
+| 2027 | 全キー上書き | 35.59 → 23.52 | 157.97 → 2.40 | 151.21 → 2.52 |
+
+この単純な接続の測定では、予約＋実行が約1.5〜1.9倍高速でした。
+新規カーブも最初の1キーはcmdsへ委譲し、後続をAPIで処理しています。
+レイヤーなどcmdsへ委譲する構成の速度向上を示す結果ではありません。
+予約処理そのものは、実行時の経路選択と変更キャッシュの準備によって増えます。
+永続キャッシュや一括キー設定はまだ導入しておらず、さらに高速化する場合の検討対象です。
 
 ## 競合パッケージとの同条件ベンチマーク
 

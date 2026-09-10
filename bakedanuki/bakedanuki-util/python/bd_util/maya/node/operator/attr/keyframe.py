@@ -248,7 +248,8 @@ class KeyframeManager:
 
         Notes:
             do_it_dg()で実行し、managerのundo / redo対象になる。
-            対象カーブやanimation layer、blendはcmds.setKeyframeに従う。
+            単純な既存カーブはAPIで編集し、作成やlayer、blendなどは
+            cmds.setKeyframeに委譲する。
             キーを設定できなかった場合は実行時にRuntimeErrorを送出する。
         """
         manager = self._require_modifier_manager()
@@ -257,8 +258,8 @@ class KeyframeManager:
         frame = float(frame)
         if not math.isfinite(value) or not math.isfinite(frame):
             raise ValueError("Keyframe value and frame must be finite.")
-        in_type = _TANGENT_TYPE_NAMES.get(_to_tangent_type(in_tangent_type))
-        out_type = _TANGENT_TYPE_NAMES.get(_to_tangent_type(out_tangent_type))
+        in_type = _to_tangent_type(in_tangent_type)
+        out_type = _to_tangent_type(out_tangent_type)
         plug = self.plug
         if plug.isArray or plug.isCompound:
             raise TypeError("KeyframeManager.set() requires a scalar plug.")
@@ -267,6 +268,7 @@ class KeyframeManager:
 
         time = om.MTime(frame, om.MTime.uiUnit())
         key_value = self._key_value(value)
+        fn_anim_curve: oma.MFnAnimCurve | None = None
 
         def set_keyframe() -> None:
             plug_name = plug.name()
@@ -276,10 +278,12 @@ class KeyframeManager:
                     f"command executes: {plug_name!r}"
                 )
             tangent_flags: _TangentFlags = {}
-            if in_type is not None:
-                tangent_flags["inTangentType"] = in_type
-            if out_type is not None:
-                tangent_flags["outTangentType"] = out_type
+            in_name = _TANGENT_TYPE_NAMES.get(in_type)
+            out_name = _TANGENT_TYPE_NAMES.get(out_type)
+            if in_name is not None:
+                tangent_flags["inTangentType"] = in_name
+            if out_name is not None:
+                tangent_flags["outTangentType"] = out_name
             count = cmds.setKeyframe(
                 plug_name,
                 time=time.asUnits(om.MTime.uiUnit()),
@@ -289,7 +293,82 @@ class KeyframeManager:
             if not count:
                 raise RuntimeError(f"No keyframe was set on {plug_name!r}.")
 
-        manager.dg_mod.pythonCommandToExecute(set_keyframe)
+        def prepare_keyframe(modifier: om.MDGModifier) -> None:
+            nonlocal fn_anim_curve
+            fn_anim_curve = self._api_set_curve(in_type)
+            if fn_anim_curve is None:
+                modifier.pythonCommandToExecute(set_keyframe)
+
+        def set_api_keyframe(change: oma.MAnimCurveChange) -> None:
+            if fn_anim_curve is None:
+                return
+            if isinstance(key_value, om.MAngle):
+                api_value = key_value.asRadians()
+            elif isinstance(key_value, om.MDistance):
+                api_value = key_value.asCentimeters()
+            else:
+                api_value = key_value
+            # addKeyは上書き時のbreakdown・tangent lockもcmdsと同じく更新する。
+            fn_anim_curve.addKey(time, api_value, in_type, out_type, change)
+
+        manager.queue_dg_modifier(prepare_keyframe)
+        manager.queue_anim_curve_change(set_api_keyframe)
+
+    def _api_set_curve(self, in_type: int) -> oma.MFnAnimCurve | None:
+        """cmdsと同じ編集ができる単純な直接接続だけを、実行時に解決する。"""
+        plug = self.plug
+        if plug.isLocked or in_type in (
+            TangentType.step,
+            TangentType.stepnext,
+        ):
+            return None
+        attribute = plug.attribute()
+        if attribute.hasFn(om.MFn.kNumericAttribute):
+            if (
+                om.MFnNumericAttribute(attribute).numericType()
+                == om.MFnNumericData.kBoolean
+            ):
+                return None
+        elif attribute.hasFn(om.MFn.kUnitAttribute):
+            if (
+                om.MFnUnitAttribute(attribute).unitType()
+                == om.MFnUnitAttribute.kTime
+            ):
+                return None
+        else:
+            return None
+        source = plug.sourceWithConversion()
+        if source.isNull or not source.node().hasFn(om.MFn.kAnimCurve):
+            return None
+        fn_anim_curve = oma.MFnAnimCurve(source.node())
+        if (
+            fn_anim_curve.animCurveType
+            != fn_anim_curve.timedAnimCurveTypeForPlug(plug)
+        ):
+            return None
+        if (
+            fn_anim_curve.isLocked
+            or fn_anim_curve.isFromReferencedFile
+            or source != fn_anim_curve.findPlug("output", False)
+            or source.isLocked
+            or len(source.connectedTo(False, True)) != 1
+            or fn_anim_curve.findPlug("input", False).isDestination
+            or fn_anim_curve.findPlug("keyTimeValue", False).isLocked
+        ):
+            return None
+        if (
+            fn_anim_curve.animCurveType == oma.MFnAnimCurve.kAnimCurveTA
+            and fn_anim_curve.findPlug("rotationInterpolation", False).asInt()
+            != 1
+        ):
+            return None
+        node = om.MFnDependencyNode(plug.node())
+        if node.isLocked or node.isFromReferencedFile:
+            return None
+        # BaseAnimationのlockも、直接接続カーブへのキー設定を禁止する。
+        if not om.MItDependencyNodes(om.MFn.kAnimLayer).isDone():
+            return None
+        return fn_anim_curve
 
     def _key_value(
         self, value: float
