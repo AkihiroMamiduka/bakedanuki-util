@@ -495,8 +495,10 @@ target.tx.keyframe.set_key_data(keys)
 mod.do_it_dg()
 ```
 
-`get_key_data()`は両端を含む既存キーの`list[KeyData]`を返します。
-範囲端にキーを作るclip処理ではありません。`set_key_data()`には時刻が昇順で
+`get_key_data(start_frame=None, end_frame=None, *, include_boundaries=True)`は、
+両端を含む区間の`list[KeyData]`を返します。既定で指定境界を補完し、区間の形状を保つ
+接線を取得します。既存キーだけが必要な場合は`include_boundaries=False`を指定します。
+範囲省略時は全キーの情報をそのまま取得します。`set_key_data()`には時刻が昇順で
 重複しない列を渡します。同時刻のキー情報を上書きし、その他のキーを削除せず、
 既存のinfinityも維持します。ただしauto等の接線は前後キーの変更により再計算されます。
 `weighted`引数はありません。既存カーブの設定を維持し、新規カーブはMayaの
@@ -508,6 +510,49 @@ mod.do_it_dg()
 時間の拡大縮小に合わせてweightedのhandleも伸縮したい場合は、接線Xも明示的に変更します。
 空の列は何も予約しません。`get_key_data()`だけではweightedやFPSを保存できないため、
 ファイル保存には`AnimCurveData`を使ってください。
+
+### 指定区間のカーブを切り出す
+
+`get_curve_data(start_frame=None, end_frame=None, *, include_boundaries=True)`にも
+同じ範囲指定を使用できます。キーに加えてweighted・秒/フレーム・infinityを保持するので、
+形状を保って別カーブへ復元する場合はこちらを使います。
+
+```python
+data = source.tx.keyframe.get_curve_data(-50, 50)
+if data is not None:
+    target.tx.keyframe.set_curve_data(data)
+    mod.do_it_dg()
+
+# キー情報だけを取得する場合も、既定で境界を補完する。
+keys = source.tx.keyframe.get_key_data(-50, 50)
+existing_keys = source.tx.keyframe.get_key_data(-50, 50, include_boundaries=False)
+```
+
+元のキーが-100 / 100だけでも、境界補完では-50 / 50に相当する2キーを返します。
+Mayaの`insertKey()`相当の挿入で隣接接線も調整し、区間内の形状を保存します。
+連続接線は再計算を防ぐため`fixed`に変換し、接線とweightのlockを解除したデータを返します。
+out tangentの`step` / `stepnext`と既存キーのbreakdownは維持します。
+新しい境界キーはbreakdownではありません。これらは返すデータだけの変更です。
+
+取得元のカーブ、選択、現在時刻、Undo / Redo履歴、保留中のmodifierは変更しません。
+sceneに追加しない作業用カーブで処理し、成功・失敗のどちらでも解放します。
+API編集が変更するsceneのmodified flagも、呼び出し前の状態に戻します。
+
+境界は既存キーと重複させず、同じstart / endは1キーになります。
+`None`の側には境界を補完せず、既存キーを取得します。範囲を両方省略した場合は、
+接線の種類やlockも含めて元のデータをそのまま取得します。
+未接続の`get_curve_data()`は`None`、空カーブは`keys=()`、`get_key_data()`はどちらも`[]`です。
+カーブがなくても、逆転した範囲・非有限の時刻・bool以外の`include_boundaries`は拒否します。
+
+最初・最後のキーより外側は、constant / linearのinfinityを評価して境界を補います。
+cycle / cycleRelative / oscillateの繰り返し領域を含む境界補完は`RuntimeError`です。
+これらも既存キーの時刻範囲内なら切り出せます。1キーのカーブは定数として扱います。
+範囲外の繰り返しをベイクする場合は`sample_values()`を使用してください。
+
+形状の保持対象は切り出した区間内です。infinity設定は引き継ぎますが、切り出し後の
+区間外の評価値や繰り返し周期が元と一致するとは限りません。
+`set_key_data()`で復元するときは、移植先のweighted設定の違いや残っているキーによって
+形状が変わる場合があります。区間全体の復元には`set_curve_data()`を使用してください。
 
 ### カーブのweighted設定
 
@@ -538,7 +583,7 @@ Mayaへ委譲します。weightedをFalseへ変えてからTrueへ戻しても�
 共有出力、入力や設定属性への接続、unitConversion・constraint等の中間node、
 quaternion補間、animation layerが存在するsceneは明示的に拒否します。
 復元先のplug・node・curveのlockやreferenceも編集時に拒否します。
-time出力・driven key・custom tangentの保存、範囲clip、layer構造、キー削減は今後の対象です。
+time出力・driven key・custom tangentの保存、layer構造、キー削減は今後の対象です。
 node名や独自属性、Graph Editorの表示設定はこのsnapshotの対象外です。
 接線の保存・復元にはMayaの浮動小数点精度による丸めが含まれます。
 

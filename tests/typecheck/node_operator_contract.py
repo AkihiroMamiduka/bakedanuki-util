@@ -4180,6 +4180,20 @@ def keyframe_contract(
     assert_type(keyframe.frames(), list[float])
     assert_type(keyframe.get_keys(), list[tuple[float, float]])
     assert_type(keyframe.get_key_data(1, 24), list[KeyData])
+    assert_type(
+        keyframe.get_key_data(1, 24, include_boundaries=False), list[KeyData]
+    )
+    assert_type(keyframe.get_curve_data(1, 24), AnimCurveData | None)
+    assert_type(
+        keyframe.get_curve_data(end_frame=24, include_boundaries=False),
+        AnimCurveData | None,
+    )
+    keyframe.get_key_data(
+        include_boundaries=1  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.get_curve_data(
+        start_frame="1"  # pyright: ignore[reportArgumentType]
+    )
     assert_type(keyframe.get_weighted(), bool | None)
     assert_type(keyframe.set_weighted(True), None)
     keyframe.set_weighted(1)  # pyright: ignore[reportArgumentType]

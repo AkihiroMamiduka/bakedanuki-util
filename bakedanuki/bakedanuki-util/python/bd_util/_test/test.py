@@ -27,8 +27,9 @@ def main():
     if curve_data is not None:
         trsf.tz.keyframe.set_curve_data(curve_data)
 
-    key_data = trsf.tx.keyframe.get_key_data(-100, 100)
+    key_data = trsf.tx.keyframe.get_key_data(-50, 50)
     trsf.rx.keyframe.set_key_data(key_data)
+    key_data = trsf.tx.keyframe.get_key_data(-25, 25)
     trsf.sx.keyframe.set_key_data(key_data)
 
     nodes.modifier_manager.do_it_dg()

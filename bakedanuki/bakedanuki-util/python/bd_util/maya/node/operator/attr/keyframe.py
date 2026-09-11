@@ -126,9 +126,32 @@ class KeyframeManager:
     def plug_name(self) -> str:
         return self._plug_name
 
-    def get_curve_data(self) -> AnimCurveData | None:
-        """直接接続のTA/TL/TUカーブ全体を取得する。未接続ならNone。"""
-        return _keyframe_snapshot.capture_curve(self.plug)
+    def get_curve_data(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        include_boundaries: bool = True,
+    ) -> AnimCurveData | None:
+        """カーブ情報を取得する。既定で指定境界を補完し、区間の形状を保つ。
+
+        範囲省略時は全体を取得する。未接続ならNone。元のカーブは変更しない。
+        境界補完では連続接線をfixedにし、weightedと時間単位を保持する。
+        Falseなら範囲内の既存キーだけを取得し、接線の種類を維持する。
+        """
+        if type(include_boundaries) is not bool:
+            raise TypeError("include_boundaries must be a bool.")
+        start = (
+            self._key_time(start_frame) if start_frame is not None else None
+        )
+        end = self._key_time(end_frame) if end_frame is not None else None
+        if start is not None and end is not None and start > end:
+            raise ValueError(
+                "start_frame must be less than or equal to end_frame."
+            )
+        return _keyframe_snapshot.capture_curve(
+            self.plug, start, end, include_boundaries=include_boundaries
+        )
 
     def get_weighted(self) -> bool | None:
         """直接接続カーブのweightedを取得する。カーブがなければNone。"""
@@ -151,25 +174,18 @@ class KeyframeManager:
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
+        *,
+        include_boundaries: bool = True,
     ) -> list[KeyData]:
-        """両端を含む範囲の既存キー情報を取得する。範囲端にキーは追加しない。"""
-        start = (
-            self._key_time(start_frame) if start_frame is not None else None
+        """区間のキー情報を取得する。既定で指定境界を補完し、元カーブは変更しない。
+
+        include_boundaries=Falseなら既存キーだけを返す。カーブ無し・空カーブは[]。
+        weightedと時間単位も保持する場合はget_curve_data()を使用する。
+        """
+        data = self.get_curve_data(
+            start_frame, end_frame, include_boundaries=include_boundaries
         )
-        end = self._key_time(end_frame) if end_frame is not None else None
-        if start is not None and end is not None and start > end:
-            raise ValueError(
-                "start_frame must be less than or equal to end_frame."
-            )
-        data = self.get_curve_data()
-        if data is None:
-            return []
-        return [
-            key
-            for key in data.keys
-            if (start is None or key.frame >= start.asUnits(om.MTime.uiUnit()))
-            and (end is None or key.frame <= end.asUnits(om.MTime.uiUnit()))
-        ]
+        return [] if data is None else list(data.keys)
 
     def set_key_data(
         self,

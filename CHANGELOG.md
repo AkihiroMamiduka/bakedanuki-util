@@ -9,6 +9,10 @@
 
 ### Added
 
+- `get_curve_data()`に範囲指定を追加し、`get_key_data()`と共通の境界補完を実装。
+  既定の`include_boundaries=True`では、元カーブを変更せずに境界キーと調整後の接線を取得する。
+  連続接線をfixed化し、step / stepnext、weighted、単位を保持して区間を切り出す。
+  constant / linearの範囲外補完に対応。cycle系の範囲外補完は明示的に拒否する。
 - `KeyframeManager.get_weighted()` / `set_weighted()`を追加。単純な直接接続カーブの
   weightedを照会・変更し、接線の変換はMaya標準処理に委譲する。変更は予約実行とUndo / Redoに対応。
 - `KeyData` / `AnimCurveData`と、`KeyframeManager`の`get_key_data()` /
@@ -41,6 +45,9 @@
 
 ### Changed
 
+- `get_key_data(start_frame, end_frame)`は、既定で境界を補完する破壊的変更。
+  既存キーと元の接線情報だけを取得する場合は`include_boundaries=False`を指定する。
+  範囲無指定の取得と`get_keys()`の仕様は維持する。
 - `KeyData`を直接編集可能に変更。設定予約時とJSON出力時に再検証し、独立コピーを保持する。
   `set_key_data()`の`weighted`引数を廃止し、既存カーブの設定を維持、新規はnonweightedとする。
   接線XYをweighted相当の共通表現へ統一し、保存schemaを2へ更新。

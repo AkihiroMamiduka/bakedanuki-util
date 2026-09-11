@@ -136,9 +136,9 @@ def test_partial_keys_preserve_other_fixed_keys_and_infinity(maya_cmds):
     mod = bdu.ModifierManager()
     keyframe = KeyframeManager(plug, modifier_manager=mod)
     before = _curve_state(curve)
-    keys = keyframe.get_key_data(5, 5)
+    keys = keyframe.get_key_data(5, 5, include_boundaries=False)
     assert len(keys) == 1
-    assert keyframe.get_key_data(5.1, 8.9) == []
+    assert keyframe.get_key_data(5.1, 8.9, include_boundaries=False) == []
     assert (
         KeyData.from_dict(json.loads(json.dumps(keys[0].to_dict()))) == keys[0]
     )

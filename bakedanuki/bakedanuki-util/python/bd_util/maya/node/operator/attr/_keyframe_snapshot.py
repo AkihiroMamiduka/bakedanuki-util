@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import math
+from dataclasses import replace
 from typing import cast
 
+from maya import cmds
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
@@ -154,11 +156,38 @@ def queue_weighted(
     manager.queue_anim_curve_change(edit)
 
 
-def capture_curve(plug: om.MPlug) -> AnimCurveData | None:
+def capture_curve(
+    plug: om.MPlug,
+    start: om.MTime | None = None,
+    end: om.MTime | None = None,
+    *,
+    include_boundaries: bool = True,
+) -> AnimCurveData | None:
     unit = om.MTime.uiUnit()
     curve = direct_curve(plug)
     if curve is None:
         return None
+    data = _capture_curve(curve, curve_type_for_plug(plug), unit)
+    if start is None and end is None:
+        return data
+    if include_boundaries and data.keys:
+        data = _clip_curve(curve, data, start, end, unit)
+    lower = None if start is None else start.asUnits(unit)
+    upper = None if end is None else end.asUnits(unit)
+    return replace(
+        data,
+        keys=tuple(
+            key
+            for key in data.keys
+            if (lower is None or key.frame >= lower)
+            and (upper is None or key.frame <= upper)
+        ),
+    )
+
+
+def _capture_curve(
+    curve: oma.MFnAnimCurve, curve_type: CurveTypeName, unit: int
+) -> AnimCurveData:
     tangent_names = {value: name for name, value in _TANGENTS.items()}
     infinity_names = {value: name for name, value in _INFINITY.items()}
     scale = (
@@ -208,7 +237,7 @@ def capture_curve(plug: om.MPlug) -> AnimCurveData | None:
             )
         )
     return AnimCurveData(
-        curve_type=curve_type_for_plug(plug),
+        curve_type=curve_type,
         seconds_per_frame=om.MTime(1.0, unit).asUnits(om.MTime.kSeconds),
         weighted=curve.isWeighted,
         pre_infinity=cast(
@@ -219,6 +248,139 @@ def capture_curve(plug: om.MPlug) -> AnimCurveData | None:
         ),
         keys=tuple(keys),
     )
+
+
+def _freeze_tangents(curve: oma.MFnAnimCurve) -> None:
+    for i in range(curve.numKeys):
+        curve.setTangentsLocked(i, False)
+        curve.setWeightsLocked(i, False)
+        curve.setInTangentType(i, oma.MFnAnimCurve.kTangentFixed)
+        if curve.outTangentType(i) not in (
+            oma.MFnAnimCurve.kTangentStep,
+            oma.MFnAnimCurve.kTangentStepNext,
+        ):
+            curve.setOutTangentType(i, oma.MFnAnimCurve.kTangentFixed)
+
+
+def _extend_curve(
+    curve: oma.MFnAnimCurve, time: om.MTime, value: float
+) -> None:
+    before = time < curve.input(0)
+    neighbor = 0 if before else curve.numKeys - 1
+    old_time, old_value = curve.input(neighbor), curve.value(neighbor)
+    i = curve.addKey(
+        time,
+        value,
+        oma.MFnAnimCurve.kTangentFixed,
+        oma.MFnAnimCurve.kTangentFixed,
+    )
+    neighbor = i + 1 if before else i - 1
+    x = abs((time - old_time).asUnits(om.MTime.kSeconds))
+    y = old_value - value if before else value - old_value
+    for index, incoming in ((i, not before), (neighbor, before)):
+        curve.setTangentsLocked(index, False)
+        curve.setWeightsLocked(index, False)
+        setter = (
+            curve.setInTangentType if incoming else curve.setOutTangentType
+        )
+        setter(index, oma.MFnAnimCurve.kTangentFixed)
+        curve.setTangent(index, x, y, incoming, convertUnits=False)
+
+
+def _clip_curve(
+    source: oma.MFnAnimCurve,
+    data: AnimCurveData,
+    start: om.MTime | None,
+    end: om.MTime | None,
+    unit: int,
+) -> AnimCurveData:
+    bounds = tuple(time for time in (start, end) if time is not None)
+    for time in bounds:
+        if time < source.input(0):
+            infinity = source.preInfinityType
+        elif time > source.input(source.numKeys - 1):
+            infinity = source.postInfinityType
+        else:
+            continue
+        if source.numKeys > 1 and infinity not in (
+            oma.MFnAnimCurve.kConstant,
+            oma.MFnAnimCurve.kLinear,
+        ):
+            raise RuntimeError(
+                "Boundary completion outside cyclic infinity is not supported."
+            )
+    modified = cmds.file(query=True, modified=True)
+    modifier = om.MDGModifier()
+    curve = oma.MFnAnimCurve(modifier.createNode(data.curve_type))
+    try:
+        curve.setIsWeighted(data.weighted)
+        times = tuple(
+            om.MTime(key.frame * data.seconds_per_frame, om.MTime.kSeconds)
+            for key in data.keys
+        )
+        _restore_key_data(curve, data, times, oma.MAnimCurveChange())
+        _freeze_tangents(curve)
+        for time in bounds:
+            if curve.find(time) is not None:
+                continue
+            if time < curve.input(0) or time > curve.input(curve.numKeys - 1):
+                _extend_curve(curve, time, source.evaluate(time))
+            else:
+                curve.insertKey(time)
+        _freeze_tangents(curve)
+        return replace(
+            _capture_curve(curve, data.curve_type, unit),
+            pre_infinity=data.pre_infinity,
+            post_infinity=data.post_infinity,
+        )
+    finally:
+        # doItしない作業用nodeはmodifier破棄で解放する。API編集のdirty flagも戻す。
+        del curve, modifier
+        if not modified:
+            cmds.file(modified=False)
+
+
+def _restore_key_data(
+    curve: oma.MFnAnimCurve,
+    data: AnimCurveData,
+    times: tuple[om.MTime, ...],
+    change: oma.MAnimCurveChange,
+) -> None:
+    scale = math.pi / 180.0 if data.curve_type == "animCurveTA" else 1.0
+    indices: list[int] = []
+    for key, time in zip(data.keys, times):
+        indices.append(
+            curve.addKey(
+                time,
+                key.value * scale,
+                oma.MFnAnimCurve.kTangentFixed,
+                oma.MFnAnimCurve.kTangentFixed,
+                change,
+            )
+        )
+    for key, i in zip(data.keys, indices):
+        curve.setTangentsLocked(i, False, change)
+        curve.setWeightsLocked(i, False, change)
+        for is_in, xy, tangent_type in (
+            (True, key.in_tangent_xy, key.in_tangent_type),
+            (False, key.out_tangent_xy, key.out_tangent_type),
+        ):
+            curve.setTangent(
+                i,
+                xy[0],
+                xy[1] * scale,
+                is_in,
+                change=change,
+                convertUnits=False,
+            )
+            setter = (
+                curve.setInTangentType if is_in else curve.setOutTangentType
+            )
+            setter(i, _TANGENTS[tangent_type], change)
+        curve.setIsBreakdown(i, key.breakdown, change)
+    for key, i in zip(data.keys, indices):
+        curve.setWeightsLocked(i, key.weights_locked, change)
+        curve.setTangentsLocked(i, key.tangents_locked, change)
 
 
 def queue_restore(
@@ -263,43 +425,7 @@ def queue_restore(
             weighted = data.weighted if replace else False
             if curve.isWeighted != weighted:
                 curve.setIsWeighted(weighted, change)
-        scale = math.pi / 180.0 if data.curve_type == "animCurveTA" else 1.0
-        indices: list[int] = []
-        for key, time in zip(data.keys, times):
-            indices.append(
-                curve.addKey(
-                    time,
-                    key.value * scale,
-                    oma.MFnAnimCurve.kTangentFixed,
-                    oma.MFnAnimCurve.kTangentFixed,
-                    change,
-                )
-            )
-        for key, i in zip(data.keys, indices):
-            curve.setTangentsLocked(i, False, change)
-            curve.setWeightsLocked(i, False, change)
-            for is_in, xy, tangent_type in (
-                (True, key.in_tangent_xy, key.in_tangent_type),
-                (False, key.out_tangent_xy, key.out_tangent_type),
-            ):
-                curve.setTangent(
-                    i,
-                    xy[0],
-                    xy[1] * scale,
-                    is_in,
-                    change=change,
-                    convertUnits=False,
-                )
-                setter = (
-                    curve.setInTangentType
-                    if is_in
-                    else curve.setOutTangentType
-                )
-                setter(i, _TANGENTS[tangent_type], change)
-            curve.setIsBreakdown(i, key.breakdown, change)
-        for key, i in zip(data.keys, indices):
-            curve.setWeightsLocked(i, key.weights_locked, change)
-            curve.setTangentsLocked(i, key.tangents_locked, change)
+        _restore_key_data(curve, data, times, change)
         if replace:
             curve.setPreInfinityType(_INFINITY[data.pre_infinity], change)
             curve.setPostInfinityType(_INFINITY[data.post_infinity], change)

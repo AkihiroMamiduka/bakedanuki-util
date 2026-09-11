@@ -287,6 +287,12 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     Maya標準変換の比較、未対応schemaの拒否、weighted取得・変更のUndo / Redoを検証します。
   - `tests/maya/mpx_cmd/test_command.py`では、カーブ復元・部分キー編集・weighted変更を
     1 commandとして実行し、MayaのUndo / Redoと失敗時rollbackも確認します。
+- `tests/maya/node/operator/attr/test_keyframe_clip.py`
+  - 境界補完の既定値、既存キーだけの取得、片側範囲・同一境界・空カーブ・単一キーを検証します。
+  - weighted / nonweighted、接線各種、単位・FPS、constant / linearの範囲外、
+    cycle系の範囲外の拒否、JSON復元後の区間内評価値と反復Undo / Redoを検証します。
+  - 元カーブ・scene node・選択・現在時刻・Undo / Redo・保留中処理・modified flagの保持と、
+    成功・例外時の作業用カーブの解放を検証します。
 - `tests/maya/node/operator/attr/test_keyframe_get_keys.py`
   - 実在キーの昇順取得、範囲の両端包含・片側指定・非キー端点、カーブ無し・空カーブ・
     unitlessカーブ、カーブの有無によらない不正範囲の拒否を検証します。
