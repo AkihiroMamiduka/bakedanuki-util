@@ -98,6 +98,9 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 - scalar plugの`keyframe.set_key()` / `set_keys()` / `insert_key()`、tangent変更・削除、
   変更methodの`None`戻り値とqueryの型。`set_keys()`の`(frame, value)` iterable入力と
   tangent引数、`get_keys()`の`list[tuple[float, float]]`戻り値の型。
+- `get_key_data()` / `get_curve_data()`の範囲指定、`include_boundaries`、戻り値型。
+  KeyDataの直接編集、JSON変換、`set_key_data()` / `set_curve_data()`、weighted操作の型と、
+  廃止した`set_key_data(weighted=...)`引数の拒否。
 - 単体`KeyframeManager`の`modifier_manager`引数と、廃止した`keyframe.set_direct()` /
   `keyframe.insert_direct()`および旧名`keyframe.set()` / `keyframe.insert()`の非公開。
 - `nodes.types`から取得するNodeOperator classと、DAG traversalの
@@ -611,6 +614,27 @@ Redoは約1.7〜2.0 msです。レイヤーなどcmdsへ委譲する構成では
 
 pair形式でも`set_key()`の反復より約4.3〜4.6倍高速でした。
 各試行でキーの状態とUndo / Redoの復元も確認しています。
+
+### 詳細データAPIの性能測定候補
+
+上記の設定ベンチマークは、詳細な接線情報の取得・復元や境界補完の性能を測定していません。
+これらを測定する専用benchmarkは未実装です。追加する場合は、少なくとも次を分離します。
+
+- `get_key_data()` / `get_curve_data()`の全体取得、範囲取得、境界補完あり・なし。
+  元カーブの総キー数と、返す区間のキー数を別々に変える。現在の境界補完は元カーブ全体の
+  snapshotと作業用カーブを作るため、小区間でも元の総キー数に依存する。
+- `set_key_data()` / `set_curve_data()`の入力コピー・検証を含む予約時間、`do_it_dg()`の
+  実行時間、Undo / Redo時間。新規・既存カーブ、部分上書き・全体置換を区別する。
+- JSONへの変換・保存・読み込みはMaya上のカーブ処理と別計測にする。
+  tangent等を復元しない`set_keys()`とは処理内容が異なるため、単純な速度倍率で結論を出さない。
+
+weighted / nonweighted、TA / TL / TU、キー数を変え、同じMaya version・scene・
+単位・global tangent設定で比較します。warm-upを除いた反復中央値と、可能なら
+メモリ使用量も記録します。他の重いMaya処理と並行せず測定します。
+
+速度改善後も区間内の評価値、元カーブの不変性、modified flag、Undo / Redo、例外時の
+作業用node解放を確認します。実機検証の入口は`test_keyframe_data.py`と`test_keyframe_clip.py`です。
+現行の対応範囲・単位・コピー契約を維持したうえで、測定で支配的だった処理から改善します。
 
 ## 競合パッケージとの同条件ベンチマーク
 

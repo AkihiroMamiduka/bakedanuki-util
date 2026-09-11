@@ -39,6 +39,12 @@
   - 生成 class を継承する手書き可能な公開 wrapper です。Transform / Shape 派生 node も同じ分離方針です。
 - `python/bd_util/maya/node/operator/attr/_core.py`
   - `AttributeField` / `AttrOperator` / `PlugOperator` の中核です。
+- `python/bd_util/maya/node/operator/attr/keyframe.py`
+  - `KeyframeManager`の公開APIと、キー設定時のAPI / cmds経路の選択です。
+- `python/bd_util/maya/node/operator/attr/keyframe_data.py`
+  - 編集可能な`KeyData`と、カーブ共通設定を持つ`AnimCurveData`です。
+- `python/bd_util/maya/node/operator/attr/_keyframe_snapshot.py`
+  - カーブ情報の取得・復元、指定範囲の境界補完の内部実装です。
 - `python/bd_util/maya/node/operator/attr/extra/add_attr.py`
   - extra attribute 作成用の `AddAttr` API です。
 - `python/bd_util/maya/node/operator/attr/lookup.py`
@@ -1366,6 +1372,8 @@ alias や child plug は同じ logical plug を指す場合、同じ `PlugOperat
 
 ## 関連ドキュメント
 
+- [KeyframeManagerの開発状況と次の候補](roadmap.md#keyframemanagerの開発状況と次の候補)
+- [キーフレームの現行仕様](attributes.md#キーフレーム)
 - [attributes.md](attributes.md)
 - [core.md](core.md)
 - [generator.md](generator.md)

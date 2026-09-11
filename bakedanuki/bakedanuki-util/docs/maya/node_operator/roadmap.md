@@ -17,7 +17,8 @@
 - `AttrOperator` は定義情報を持つ。
 - `PlugOperator` は scene 上の plug 操作を担当する。
 - alias は同じ logical plug なら同じ instance を返す。
-- `set_direct()` は便利用途として残すが undo 対象外と明記する。
+- plug値設定の`set_direct()`は便利用途として残すがundo対象外と明記する。
+  `keyframe.set_direct()`は廃止済みで、互換aliasは提供しない。
 - custom compound は低レベル型と意味付き alias を分ける。
 - `Quat` と `Double4` は、4つの`float`を保持する`Scalar4[float]`を共有するが、
   継承関係を持たない別の具体型として扱う。plugの物理表現はdouble4を共有しても、
@@ -148,6 +149,74 @@
   軸リマップAPIを追加。2軸だけを指定して残りを右手系から決定し、3種類の軸pair、
   処理後軸の全順列と全符号を組み合わせた72通り、全rotateOrder、子補償、undo / redo、
   lockとPyright contractを検証。入力接続の拒否は対応する属性設定APIの共通経路を使用。
+
+## KeyframeManagerの開発状況と次の候補
+
+2026-09-11時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
+詳細データの保存・復元、指定範囲の境界補完まで実装し、利用者による動作確認も完了しています。
+範囲切り出しの初期版を未着手の項目として再実装する必要はありません。
+現行仕様は[キーフレーム](attributes.md#キーフレーム)、
+履歴管理は[ModifierManager](modifier_manager.md)、検証方法は[testing.md](testing.md)を参照します。
+
+### 完了した機能と用途
+
+| 用途 | API / 状態 |
+| --- | --- |
+| 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。予約実行、Undo / Redo、途中失敗時rollbackに対応 |
+| 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
+| 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる |
+| 実在キーの時刻・値 | `get_keys()`。指定範囲に存在するキーだけを返し、境界補完は行わない |
+| 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元に対応 |
+| カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
+| 区間の切り出し | 両方の詳細取得APIに`start_frame` / `end_frame` / `include_boundaries=True`を実装。境界キーと調整後の接線を取得 |
+
+### 次の開発でも維持する契約
+
+- queryは実行済みsceneだけを読み、保留中modifierを暗黙に実行しない。
+  変更は同じModifierManagerへ予約し、MPxCommandのUndo / Redoと失敗時rollbackへ参加させる。
+- `KeyData`は直接編集可能。予約時に再検証して独立コピーし、予約後の編集が実行内容や
+  Undo / Redoに波及しない。`AnimCurveData`の共通設定は不変で、変更には`dataclasses.replace()`を使う。
+- 詳細データの公開値はdegree / cm / unitless。接線XYは取得元のweightedによらずweighted相当の表現。
+  Xは秒、Yは公開値と同じ単位。保存データの復元時は`seconds_per_frame`を保持する。
+- `set_key_data()`は既存カーブのweightedを維持し、新規はnonweighted。
+  weightedを含めて形状を復元する場合は`set_curve_data()`を使う。
+- 境界補完は既定で有効。範囲指定時は形状を優先して連続接線をfixed化し、接線・weightの
+  lockを解除する。既存キーと元の接線情報だけが必要なら`include_boundaries=False`。
+  範囲無指定では接線名・lockを維持した全体取得になる。
+- 元カーブが-100 / 100の2キーでも、`get_key_data(-50, 50)`は補完した2キーを返す。
+  同じ範囲の`get_keys()`は空list。毎フレームの値が必要な場合は`sample_values()`を使う。
+- v1.0.0未満では互換aliasや旧形式の変換処理を残すことより、APIと実装の整理を優先する。
+  現行JSONはschema 2のみ対応。旧schema 1の変換や廃止した`weighted`引数は復活させない。
+
+### 未着手の候補と着手時の論点
+
+次の着手順は未確定です。対象カーブの選択ルールの整理と、詳細データAPIの性能測定を
+先に行い、利用例に合わせて機能拡張へ進めることを提案しています。
+
+| 候補 | 現状と、実装前に決めること |
+| --- | --- |
+| 対象カーブの選択ルール | `set_key()` / `set_keys()`はAPI・cmdsを選択する。従来のquery・挿入・削除等は上流の最初の時間入力カーブ、詳細データ・weighted操作は単純な直接接続カーブが対象。これらの差を整理し、カーブ・layerを明示するAPIの必要性を決める |
+| 詳細データAPIの性能測定 | 既存の設定ベンチマークは`set_key()` / `set_keys()`が中心。取得、コピー・検証、境界補完、復元、Undo / Redoを別々に測定する。測定条件は[詳細データAPIの性能測定候補](testing.md#詳細データapiの性能測定候補)を参照 |
+| キー削減・最適化 | データ取得・編集・再設定の土台は完成。自動削減は未実装。同値キーでも接線により途中の値が変わるため、許容誤差、区間内の評価方法、step系・breakdown・境界キーの保持方針を先に決める |
+| 対応カーブ・接続の拡張 | 詳細データは直接接続TA / TL / TUが中心。time出力、driven key、quaternion補間、custom tangent、layer・中間node・共有カーブは個別に仕様化する |
+| 繰り返し領域の切り出し | constant / linearの範囲外補完は完成。cycle / cycleRelative / oscillateの範囲外は現在エラー。対応するなら必要な周期のキー展開、周期境界の不連続、出力量の扱いを決める |
+| アニメーションライブラリー向けの一括操作 | 単一カーブのJSON保存・復元は完成。複数node・属性の束ね方、移植先との対応付けは未実装。汎用データ処理とrig固有の対応付け・座標変換の責務を分ける |
+
+### 実装を引き継ぐ際の参照先
+
+- `python/bd_util/maya/node/operator/attr/keyframe.py`: 公開APIと通常キー設定の経路選択。
+- 同階層の`keyframe_data.py`: KeyData / AnimCurveDataの型、単位表現、検証、JSON変換。
+- 同階層の`_keyframe_snapshot.py`: 直接接続の制約、snapshot、復元、境界補完。
+  境界補完では`MDGModifier.createNode()`で確保した作業用カーブを使い、`doIt()`せずに
+  Mayaの挿入処理を適用する。元カーブへの一時挿入とUndoに置き換えない。
+  作業用nodeの解放と、API編集で変わるscene modified flagの復元を成功・例外時とも維持する。
+- `tests/maya/node/operator/attr/test_keyframe_clip.py` / `test_keyframe_data.py`:
+  形状・単位・履歴・副作用・例外時の解放を確認する主なテスト。
+  MPxCommand連携は`tests/maya/mpx_cmd/test_command.py`、補完は`tests/typecheck/node_operator_contract.py`。
+
+境界補完の検証時点では、Maya 2025 / 2026 / 2027でclip・dataの関連256件が成功し、
+`scripts/verify.cmd`も成功しています。新しい変更の最終検証は、過去の結果で代用せず
+repositoryの現行`AGENTS.md`に従って実行します。
 
 ## 完了済み: DAG / shape API roadmap
 
@@ -586,7 +655,8 @@ operationを先に定義し、MPxCommand adapterとtyped facadeを組み合わ�
 
 ### 5. set_direct の扱い
 
-`set_direct()` は高速で便利ですが、undo には参加しません。
+plug値設定の`set_direct()`は高速で便利ですが、undoには参加しません。
+KeyframeManagerの`set_direct()`は廃止済みです。
 
 今後も明確に「即時編集用」として扱い、undo が必要な処理では `set()` と `ModifierManager` を使います。
 
@@ -609,7 +679,7 @@ operationを先に定義し、MPxCommand adapterとtyped facadeを組み合わ�
 ## watch points
 
 - `NodeOperator.__getitem__()` の文字列パス解析は未確定です。
-- `set_direct()` は undo 非対応です。
+- plug値設定の`set_direct()`はundo非対応です。keyframeの変更APIはUndo対応です。
 - `lookup.py` は型追加時に更新漏れが起きやすいです。
 - unit 系の戻り値や入力単位は、実装と docs を常に揃える必要があります。
 - matrix plugの主な取得経路は`get() -> TransformMatrix`とし、成分委譲APIを
