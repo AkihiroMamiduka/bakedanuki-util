@@ -5,6 +5,11 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from bd_util.maya.node.operator.attr import (
+    AnimCurveData,
+    CurveTypeName,
+    InfinityTypeName,
+    KeyData,
+    KeyTangentTypeName,
     KeyframeManager,
     TangentTypeName,
     TangentTypeValue,
@@ -4174,6 +4179,51 @@ def keyframe_contract(
     )
     assert_type(keyframe.frames(), list[float])
     assert_type(keyframe.get_keys(), list[tuple[float, float]])
+    assert_type(keyframe.get_key_data(1, 24), list[KeyData])
+    assert_type(keyframe.get_weighted(), bool | None)
+    assert_type(keyframe.set_weighted(True), None)
+    keyframe.set_weighted(1)  # pyright: ignore[reportArgumentType]
+    curve_data = keyframe.get_curve_data()
+    assert_type(curve_data, AnimCurveData | None)
+    if curve_data is not None:
+        assert_type(curve_data.keys, tuple[KeyData, ...])
+        assert_type(curve_data.curve_type, CurveTypeName)
+        assert_type(curve_data.pre_infinity, InfinityTypeName)
+        assert_type(curve_data.seconds_per_frame, float)
+        assert_type(curve_data.to_dict(), dict[str, object])
+        assert_type(
+            AnimCurveData.from_dict(curve_data.to_dict()), AnimCurveData
+        )
+        assert_type(keyframe.set_curve_data(curve_data), None)
+        assert_type(
+            keyframe.set_key_data(
+                curve_data.keys,
+                seconds_per_frame=curve_data.seconds_per_frame,
+            ),
+            None,
+        )
+        for key_data in curve_data.keys:
+            assert_type(key_data.in_tangent_type, KeyTangentTypeName)
+            key_data.frame += 10.0
+            key_data.value *= 2.0
+            key_data.in_tangent_type = "fixed"
+            key_data.out_tangent_xy = (0.5, 1.0)
+            assert_type(key_data.frame, float)
+            assert_type(key_data.value, float)
+            assert_type(key_data.in_tangent_xy, tuple[float, float])
+            assert_type(KeyData.from_dict(key_data.to_dict()), KeyData)
+    keyframe.set_curve_data({})  # pyright: ignore[reportArgumentType]
+    keyframe.set_key_data(
+        [(1.0, 2.0)],  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_key_data(
+        [],
+        weighted=False,  # pyright: ignore[reportCallIssue]
+    )
+    bad_tangent: KeyTangentTypeName = (
+        "typo"  # pyright: ignore[reportAssignmentType]
+    )
+    _ = bad_tangent
     assert_type(
         keyframe.get_keys(start_frame=1.0, end_frame=24.0),
         list[tuple[float, float]],

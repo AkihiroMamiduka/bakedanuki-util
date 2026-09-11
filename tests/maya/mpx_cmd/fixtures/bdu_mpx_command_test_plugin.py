@@ -60,6 +60,35 @@ class _SetKeyframesCommand(_FailAfterExecuteCommand):
         self.modifier_manager.do_it_dg()
 
 
+class _RestoreKeyDataCommand(_FailAfterExecuteCommand):
+    COMMAND_NAME = "bduTestMpxRestoreKeyData"
+
+    def execute(self, params: _FailureParams) -> None:
+        node = self.nodes.existing.transform(params.node_name)
+        data = node.tx.keyframe.get_curve_data()
+        if data is None:
+            raise RuntimeError("Missing source curve.")
+        keys = node.tx.keyframe.get_key_data()
+        for key in keys:
+            key.frame += 10
+            key.value *= 2
+        node.ty.keyframe.set_curve_data(data)
+        node.ty.keyframe.set_weighted(False)
+        node.ty.keyframe.set_key_data(keys)
+        node.tz.keyframe.set_curve_data(data)
+        keys[0].value = 1000
+        data.keys[0].value = 2000
+        self.modifier_manager.do_it_dg()
+
+
+class _FailAfterRestoreKeyDataCommand(_RestoreKeyDataCommand):
+    COMMAND_NAME = "bduTestMpxFailAfterRestoreKeyData"
+
+    def execute(self, params: _FailureParams) -> None:
+        super().execute(params)
+        raise RuntimeError("intentional curve data failure")
+
+
 class _EditKeyframesCommand(_FailAfterExecuteCommand):
     COMMAND_NAME = "bduTestMpxEditKeyframes"
 
@@ -151,6 +180,8 @@ class _FailDuringExecuteCommand(_FailAfterExecuteCommand):
 
 
 COMMAND_TYPES = (
+    _RestoreKeyDataCommand,
+    _FailAfterRestoreKeyDataCommand,
     _SetKeyframesCommand,
     _EditKeyframesCommand,
     _FailAfterAnimationEditCommand,

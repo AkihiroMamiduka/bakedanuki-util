@@ -9,6 +9,13 @@
 
 ### Added
 
+- `KeyframeManager.get_weighted()` / `set_weighted()`を追加。単純な直接接続カーブの
+  weightedを照会・変更し、接線の変換はMaya標準処理に委譲する。変更は予約実行とUndo / Redoに対応。
+- `KeyData` / `AnimCurveData`と、`KeyframeManager`の`get_key_data()` /
+  `set_key_data()` / `get_curve_data()` / `set_curve_data()`を追加。
+  単純な直接接続のTA/TL/TUカーブについて、接線・lock・breakdown・weighted・infinityを
+  JSON経由でも保存・復元できる。degree / cmと保存時の時間単位を保持し、
+  遅延実行・Undo / Redo・途中失敗時rollbackに対応する。
 - scalar plugに`sample_values(*, frames)`を追加。constraint・layer・計算ノードを含む
   指定時刻の評価済み値を、`set_keys()`へ渡せる`(frame, value)`のlistで取得する。
   公開単位と入力順を維持し、現在時刻・Undo履歴・保留中modifierを変更しない。
@@ -34,6 +41,10 @@
 
 ### Changed
 
+- `KeyData`を直接編集可能に変更。設定予約時とJSON出力時に再検証し、独立コピーを保持する。
+  `set_key_data()`の`weighted`引数を廃止し、既存カーブの設定を維持、新規はnonweightedとする。
+  接線XYをweighted相当の共通表現へ統一し、保存schemaを2へ更新。
+  `AnimCurveData.from_dict()`はschema 2のみを受け付け、旧形式の変換処理は提供しない。
 - `KeyframeManager.set_keys()`の入力を、別々の`values` / `frames`から
   `(frame, value)`のpair列へ変更する破壊的変更。旧引数は提供しない。
   `set_keys(zip(frames, values, strict=True), ...)`で移行でき、単位・共通tangent・

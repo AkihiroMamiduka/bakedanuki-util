@@ -127,6 +127,61 @@ def _animation_state(maya_cmds, plug_name):
     )
 
 
+@pytest.mark.parametrize("existing", [False, True])
+@pytest.mark.parametrize("fail", [False, True])
+def test_curve_data_and_weighted_share_maya_command_history(
+    mpx_test_plugin, maya_cmds, existing, fail
+):
+    from bd_util.maya.node.operator.attr import KeyframeManager
+    from maya.api import OpenMaya as om
+
+    name = maya_cmds.createNode("transform", name="curveDataTarget")
+    for frame in (1, 3):
+        maya_cmds.setKeyframe(name + ".tx", time=frame, value=frame)
+    maya_cmds.keyTangent(name + ".tx", edit=True, weightedTangents=True)
+    if existing:
+        maya_cmds.setKeyframe(name + ".ty", time=7, value=5)
+    selection = om.MSelectionList()
+    for axis in ("tx", "ty", "tz"):
+        selection.add(name + "." + axis)
+    src, dst, other = [KeyframeManager(selection.getPlug(i)) for i in range(3)]
+    before = dst.get_curve_data()
+    source = src.get_curve_data()
+    maya_cmds.flushUndo()
+    command_name = (
+        "bduTestMpxFailAfterRestoreKeyData"
+        if fail
+        else "bduTestMpxRestoreKeyData"
+    )
+    command = getattr(maya_cmds, command_name)
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional curve data failure"
+        ):
+            command(nodeName=name)
+        assert dst.get_curve_data() == before
+        assert other.get_curve_data() is None
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    command(nodeName=name)
+    for _ in range(2):
+        assert dst.get_keys() == [
+            (1.0, 1.0),
+            (3.0, 3.0),
+            (11.0, 2.0),
+            (13.0, 6.0),
+        ]
+        assert dst.get_weighted() is False
+        assert other.get_keys() == [(1.0, 1.0), (3.0, 3.0)]
+        assert other.get_weighted() is True
+        assert src.get_curve_data() == source
+        maya_cmds.undo()
+        assert dst.get_curve_data() == before
+        assert other.get_curve_data() is None
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        maya_cmds.redo()
+
+
 @pytest.mark.parametrize(
     "command_name",
     [

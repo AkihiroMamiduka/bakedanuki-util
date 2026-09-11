@@ -6,7 +6,20 @@ from .keyframe import (
     TangentTypeValue,
 )
 
+from .keyframe_data import (
+    AnimCurveData,
+    CurveTypeName,
+    InfinityTypeName,
+    KeyData,
+    KeyTangentTypeName,
+)
+
 __all__ = (
+    "AnimCurveData",
+    "CurveTypeName",
+    "InfinityTypeName",
+    "KeyData",
+    "KeyTangentTypeName",
     "KeyframeManager",
     "TangentType",
     "TangentTypeName",

@@ -277,6 +277,16 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     constraint削除後の再キー設定からUndo / Redoまでを検証します。
   - 現在時刻・Undo履歴・保留中modifierを変更しないことと、ネストした評価時刻からの
     呼び出しや途中例外でも、元の評価コンテキストへ復帰することを検証します。
+- `tests/maya/node/operator/attr/test_keyframe_data.py`
+  - KeyData / AnimCurveDataのJSON往復、接線type・XY・lock・breakdown、weightedと
+    infinity、単位・FPS変更後の復元を検証します。
+  - 新規・既存・空カーブ、部分上書き、保留中の処理順、反復Undo / Redo、
+    復元途中の失敗と既存履歴の保持を検証します。
+  - キー間と範囲外の評価値、未対応接続・lock・layerの拒否、入力検証も対象です。
+  - 変更可能なKeyDataの予約時再検証・コピー、予約後の編集、weighted間の適用と
+    Maya標準変換の比較、未対応schemaの拒否、weighted取得・変更のUndo / Redoを検証します。
+  - `tests/maya/mpx_cmd/test_command.py`では、カーブ復元・部分キー編集・weighted変更を
+    1 commandとして実行し、MayaのUndo / Redoと失敗時rollbackも確認します。
 - `tests/maya/node/operator/attr/test_keyframe_get_keys.py`
   - 実在キーの昇順取得、範囲の両端包含・片側指定・非キー端点、カーブ無し・空カーブ・
     unitlessカーブ、カーブの有無によらない不正範囲の拒否を検証します。

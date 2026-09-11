@@ -11,6 +11,8 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
+from . import _keyframe_snapshot
+from .keyframe_data import AnimCurveData, KeyData
 
 ValueConverter = Callable[[Any], Any]
 TangentTypeName = Literal[
@@ -123,6 +125,85 @@ class KeyframeManager:
     @property
     def plug_name(self) -> str:
         return self._plug_name
+
+    def get_curve_data(self) -> AnimCurveData | None:
+        """直接接続のTA/TL/TUカーブ全体を取得する。未接続ならNone。"""
+        return _keyframe_snapshot.capture_curve(self.plug)
+
+    def get_weighted(self) -> bool | None:
+        """直接接続カーブのweightedを取得する。カーブがなければNone。"""
+        curve = _keyframe_snapshot.direct_curve(self.plug)
+        return None if curve is None else bool(curve.isWeighted)
+
+    def set_weighted(self, weighted: bool) -> None:
+        """カーブ全体のweighted変更を予約する。未接続なら実行時に失敗する。"""
+        manager = self._require_modifier_manager()
+        _keyframe_snapshot.queue_weighted(manager, self.plug, weighted)
+
+    def set_curve_data(self, data: AnimCurveData) -> None:
+        """全キー・weighted・infinityの置換を予約する。保存時の時間単位を使用。"""
+        manager = self._require_modifier_manager()
+        _keyframe_snapshot.queue_restore(
+            manager, self.plug, data, replace=True
+        )
+
+    def get_key_data(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+    ) -> list[KeyData]:
+        """両端を含む範囲の既存キー情報を取得する。範囲端にキーは追加しない。"""
+        start = (
+            self._key_time(start_frame) if start_frame is not None else None
+        )
+        end = self._key_time(end_frame) if end_frame is not None else None
+        if start is not None and end is not None and start > end:
+            raise ValueError(
+                "start_frame must be less than or equal to end_frame."
+            )
+        data = self.get_curve_data()
+        if data is None:
+            return []
+        return [
+            key
+            for key in data.keys
+            if (start is None or key.frame >= start.asUnits(om.MTime.uiUnit()))
+            and (end is None or key.frame <= end.asUnits(om.MTime.uiUnit()))
+        ]
+
+    def set_key_data(
+        self,
+        keys: Iterable[KeyData],
+        *,
+        seconds_per_frame: float | None = None,
+    ) -> None:
+        """指定キーの情報を上書き予約する。既存カーブのweightedは維持する。
+
+        frameは既定で呼び出し時のUI時間単位。保存データから使う場合は
+        AnimCurveDataのseconds_per_frameを明示する。新規カーブはnonweighted。
+        キーは時刻の昇順・重複なしで渡す。infinityと他のキーは置換しないが、
+        autoなどの接線は前後のキー変更によりMayaが再計算する。
+        nonweightedへの適用では接線の重みが失われる。
+        入力を再検証して独立コピーし、予約後の編集は実行内容へ反映しない。
+        """
+        manager = self._require_modifier_manager()
+        rate = (
+            om.MTime(1.0, om.MTime.uiUnit()).asUnits(om.MTime.kSeconds)
+            if seconds_per_frame is None
+            else seconds_per_frame
+        )
+        data = AnimCurveData(
+            curve_type=_keyframe_snapshot.curve_type_for_plug(self.plug),
+            seconds_per_frame=rate,
+            weighted=False,
+            pre_infinity="constant",
+            post_infinity="constant",
+            keys=tuple(keys),
+        )
+        if data.keys:
+            _keyframe_snapshot.queue_restore(
+                manager, self.plug, data, replace=False
+            )
 
     # anim_curve
     #   delete

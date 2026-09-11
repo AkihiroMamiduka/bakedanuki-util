@@ -417,10 +417,135 @@ Mayaが選んだlayerのカーブを必ず扱うAPIではありません。カ�
 
 キー設定のAPI経路の対象拡張と、編集対象カーブ・layerを明示するAPIは今後の検討対象です。
 現在のAPI経路は既存の単純なカーブへの編集を対象とします。
-任意時刻のplug値は`sample_values()`で取得します。`KeyData` / `AnimCurveData`による
-詳細なキー・カーブ情報の保存と復元は次段階の対象で、現在は提供していません。
+任意時刻のplug値は`sample_values()`で取得します。
+
+### キー情報とカーブ全体の保存・復元
+
+`get_curve_data() -> AnimCurveData | None`と`set_curve_data(data)`で、
+直接接続の単純な時間入力カーブを保存・復元できます。復元は既存カーブの全キーと
+weighted・pre/post infinityを置換し、未接続なら空の場合もカーブを作成します。
+カーブが未接続なら取得結果は`None`、接続された空カーブなら`keys=()`です。
+
+```python
+import json
+from pathlib import Path
+
+import bd_util as bdu
+from bd_util.maya.node.operator.attr import AnimCurveData
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+source = nodes.existing.transform("source_ctrl")
+target = nodes.existing.transform("target_ctrl")
+
+data = source.tx.keyframe.get_curve_data()
+if data is not None:
+    path = Path("animation.json")
+    path.write_text(json.dumps(data.to_dict(), indent=2), encoding="utf-8")
+    restored = AnimCurveData.from_dict(json.loads(path.read_text(encoding="utf-8")))
+    target.tx.keyframe.set_curve_data(restored)
+    mod.do_it_dg()
+```
+
+`KeyData`は変更可能なdataclassで、`key.frame += 10`のように直接編集できます。
+`AnimCurveData`の共通設定は変更不能ですが、`data.keys`内の各`KeyData`は編集できます。
+共通設定を変更したデータを作る場合は`dataclasses.replace()`を使います。
+どちらもMayaのnodeやplugへの参照を持ちません。
+`AnimCurveData`の構築・設定予約時には各キーを再検証して独立コピーするため、
+予約後のデータ編集は実行内容やUndo / Redoへ影響しません。
+`to_dict()`も再検証して独立した辞書を返します。`from_dict()`と合わせて、
+未知・欠落field、未対応schema、非有限数、無効な接線名、時刻の重複・逆順などを拒否します。
+
+| データ | 内容 |
+| --- | --- |
+| `KeyData` | `frame`, `value`, `in_tangent_type`, `out_tangent_type`, `in_tangent_xy`, `out_tangent_xy`, `tangents_locked`, `weights_locked`, `breakdown` |
+| `AnimCurveData` | `schema_version=2`, `curve_type`, `seconds_per_frame`, `weighted`, `pre_infinity`, `post_infinity`, `keys: tuple[KeyData, ...]` |
+
+`frame`は取得時のUI時間単位、`value`はdegree / cm / unitlessです。
+接線XYは取得元のweightedにかかわらず、weighted相当のtangent vector表現です。
+Xは秒、Yは値と同じ公開単位で、Bezier handleの変位の3倍を表します。
+nonweightedからの取得では、方向を維持してXを隣接キーまでの秒数へ換算します。
+隣接キーがない先頭のin / 末尾のout（1キーの場合は両方）は、Mayaのweighted切り替えと
+同様に元のベクトルを保持します。表示上のangle / weightとは異なる値です。
+nonweightedへ適用するとMayaが正規化するため、重みは失われ、形状が変わり得ます。
+元の方向が同じでも異なる重みを持つweightedカーブを、同じキー数・時刻・値のまま
+nonweightedで常に再現できるわけではありません。
+保存時の`seconds_per_frame`を使って復元するため、FPSが変わっても物理的な時刻を保ちます。
+同じフレーム番号へ合わせたい場合は、その値を移植先の秒/フレームへ明示的に変更します。
+curve typeとschema versionが公開値・接線の単位規則も規定します。
+`AnimCurveData.from_dict()`は現行のschema 2のみを受け付けます。
+未対応schemaは`ValueError`になり、旧形式の変換処理は提供しません。
+旧データが必要な場合はsceneから取得し直してください。
+
+詳細データ用の`KeyTangentTypeName`はIDEで補完でき、従来の10種類に加えて
+`fixed` / `autocustom` / `autoease` / `automix`を保持します。
+キー作成時の既定値を意味する`None` / `global`はsnapshotには使用しません。
+`InfinityTypeName`は`constant` / `linear` / `cycle` / `cycleRelative` / `oscillate`です。
+これらと`CurveTypeName`は`bd_util.maya.node.operator.attr`からimportできます。
+
+一部のキーを扱う場合は、次の対を使います。
+
+```python
+keys = source.tx.keyframe.get_key_data(start_frame=1, end_frame=24)
+for key in keys:
+    key.frame += 10.0
+    key.value += 10.0
+
+target.tx.keyframe.set_key_data(keys)
+mod.do_it_dg()
+```
+
+`get_key_data()`は両端を含む既存キーの`list[KeyData]`を返します。
+範囲端にキーを作るclip処理ではありません。`set_key_data()`には時刻が昇順で
+重複しない列を渡します。同時刻のキー情報を上書きし、その他のキーを削除せず、
+既存のinfinityも維持します。ただしauto等の接線は前後キーの変更により再計算されます。
+`weighted`引数はありません。既存カーブの設定を維持し、新規カーブはMayaの
+グローバル設定にかかわらずnonweightedで作成します。接線は移植先の設定へ適用します。
+取得元の形状をweightedも含めて復元したい場合は`set_curve_data()`を使ってください。
+`seconds_per_frame`省略時は呼び出し時のUI時間単位を、明示時はその時間単位を使います。
+保存したデータから設定する場合は`set_key_data(data.keys, seconds_per_frame=data.seconds_per_frame)`
+のように渡せます。`frame`変更はキーの時刻だけを変更し、保存された接線XYは変えません。
+時間の拡大縮小に合わせてweightedのhandleも伸縮したい場合は、接線Xも明示的に変更します。
+空の列は何も予約しません。`get_key_data()`だけではweightedやFPSを保存できないため、
+ファイル保存には`AnimCurveData`を使ってください。
+
+### カーブのweighted設定
+
+`get_weighted() -> bool | None`は実行済みカーブの設定を取得し、未接続なら`None`です。
+`set_weighted(weighted: bool)`はカーブ全体の変更を予約します。同じ設定なら変更せず、
+実行時にカーブがなければエラーです。対象範囲・lock / reference等の制約はカーブデータと共通です。
+
+```python
+keyframe = target.tx.keyframe
+keyframe.set_keys([(1, 0), (24, 10)])
+keyframe.set_weighted(True)
+mod.do_it_dg()
+
+weighted = keyframe.get_weighted()  # True
+```
+
+変更には`MFnAnimCurve.setIsWeighted()`と`MAnimCurveChange`を使い、接線の変換も
+Mayaへ委譲します。weightedをFalseへ変えてからTrueへ戻しても失われた重みは戻りません。
+元の状態への復元にはUndoを使ってください。
+
+取得は実行済みscene状態のsnapshotで、予約中の操作を実行しません。
+編集は入力データを予約時に捕捉し、接続先・lock・layerなどは実行時に検査します。
+新規nodeと接続は`MDGModifier`、キーとカーブ設定は`MAnimCurveChange`の履歴に入り、
+`ModifierManager` / `MPxCommand`のUndo・Redo・失敗時rollbackに参加します。
+
+初期対応はnumeric / angle / distanceのscalar plugへ直接接続した
+`animCurveTA` / `animCurveTL` / `animCurveTU`です。enum plugは対象外です。
+共有出力、入力や設定属性への接続、unitConversion・constraint等の中間node、
+quaternion補間、animation layerが存在するsceneは明示的に拒否します。
+復元先のplug・node・curveのlockやreferenceも編集時に拒否します。
+time出力・driven key・custom tangentの保存、範囲clip、layer構造、キー削減は今後の対象です。
+node名や独自属性、Graph Editorの表示設定はこのsnapshotの対象外です。
+接線の保存・復元にはMayaの浮動小数点精度による丸めが含まれます。
 
 ### 旧APIからの移行
+
+`set_key_data(keys, weighted=...)`の`weighted`引数は廃止しました。引数を削除すると
+既存カーブの設定を維持します。設定自体を変更したい場合は`set_weighted()`を明示します。
 
 `set_keys()`の旧形式`set_keys(values, frames=frames, ...)`は廃止しました。
 時刻と値を`(frame, value)`のpairへまとめて渡してください。別々の列を持つ既存コードでは、
