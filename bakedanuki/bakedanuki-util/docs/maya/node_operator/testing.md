@@ -96,7 +96,8 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 - `get()` の値型。
 - `get()` / `set()` / `set_direct()` / `round()` が対応するplug型だけに存在すること。
 - scalar plugの`keyframe.set_key()` / `set_keys()` / `insert_key()`、tangent変更・削除、
-  変更methodの`None`戻り値とqueryの型。`set_keys()`のiterable入力とtangent引数の型。
+  変更methodの`None`戻り値とqueryの型。`set_keys()`の`(frame, value)` iterable入力と
+  tangent引数、`get_keys()`の`list[tuple[float, float]]`戻り値の型。
 - 単体`KeyframeManager`の`modifier_manager`引数と、廃止した`keyframe.set_direct()` /
   `keyframe.insert_direct()`および旧名`keyframe.set()` / `keyframe.insert()`の非公開。
 - `nodes.types`から取得するNodeOperator classと、DAG traversalの
@@ -262,13 +263,20 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     追加・上書きとUndo / Redo後の状態を検証します。
 - `tests/maya/node/operator/attr/test_keyframe_set_keys.py`
   - `set_keys()`と`set_key()`の順次呼び出しを、未整列・重複時刻を含む入力で比較します。
-    iterableの捕捉、呼び出し入口の単位、空入力、不正な入力やgeneratorの失敗で
+    `(frame, value)`のpair列の捕捉、呼び出し入口の単位、空入力、不正な入力やgeneratorの失敗で
     バッチの一部を予約しないことを検証します。
 - `tests/maya/node/operator/attr/test_keyframe_set_keys_backend.py`
   - バッチ内のカーブ取得・経路判定の再利用、新規作成後のAPIへの切り替え、bool・
     unitConversion・共有カーブ・layerでのcmds委譲を検証します。
   - API編集・再判定・後続cmdsの途中失敗で先行する変更を戻し、Undo / Redoでは
     初回のcallbackを再実行しないことを検証します。
+- `tests/maya/node/operator/attr/test_keyframe_get_keys.py`
+  - 実在キーの昇順取得、範囲の両端包含・片側指定・非キー端点、カーブ無し・空カーブ・
+    unitlessカーブ、カーブの有無によらない不正範囲の拒否を検証します。
+  - TA / TL / TU / TTの公開単位、bool / enumもfloatのpairで返すこと、UI単位変更、
+    `set_keys()`との往復と、予約を実行しないsnapshot取得を検証します。
+  - unitConversionを経由してもカーブ型から単位を換算することと、constraintの
+    合成結果をsamplingしないことを検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
   - typed matrix plugと`TransformMatrix`の連携、常に具体型を返す`get()`、
     未設定時の`ValueError`、分解値のcompound専用値型、flat 16要素 / 4行4列の
@@ -546,6 +554,8 @@ Maya 2026 / 2027では実行するmayapyのversionを変更してください。
 別の呼び出しをまたぐ永続キャッシュは導入していません。
 
 同日に一括APIを追加した状態で、同じ条件・5回の中央値を再測定した結果です。
+この表の`set_keys()`は、当時の`values`と`frames`を別々に渡す形式です。
+現在の`(frame, value)` pair形式への変更前の測定であり、変更後の実測値ではありません。
 各versionのプロセスを順に実行し、他のMayaテスト・ベンチとは並行実行していません。
 以下は1,000キーの予約＋実行時間（ms）です。
 
@@ -561,10 +571,23 @@ Maya 2026 / 2027では実行するmayapyのversionを変更してください。
 | 2027 | 既存カーブ | 35.46 | 23.74 | 5.81 |
 | 2027 | 全キー上書き | 35.64 | 24.39 | 5.73 |
 
-このAPI経路を利用できる構成では、`set_keys()`は`set_key()`の反復より約4.0〜4.8倍、
+このAPI経路を利用できる構成では、当時の`set_keys()`は`set_key()`の反復より約4.0〜4.8倍、
 旧cmds実装より約5.9〜8.0倍高速でした。一括設定のUndoは約1.9〜2.2 ms、
 Redoは約1.7〜2.0 msです。レイヤーなどcmdsへ委譲する構成では、同じ速度向上を
 保証するものではありません。
+
+2026-09-11に`set_keys()`を`(frame, value)`入力へ変更した後、Maya 2025で
+`--keys 1000 --repeats 5`を再測定しました。他のMayaプロセスと並行実行せず、
+上記と同じ条件で測定した予約＋実行時間（ms）です。
+
+| 条件 | 旧cmds実装 | `set_key()`の反復 | pair形式の`set_keys()` |
+| --- | --- | --- | --- |
+| 新規カーブ | 36.79 | 21.83 | 4.89 |
+| 既存カーブ | 35.44 | 21.50 | 4.71 |
+| 全キー上書き | 35.91 | 21.49 | 5.02 |
+
+pair形式でも`set_key()`の反復より約4.3〜4.6倍高速でした。
+各試行でキーの状態とUndo / Redoの復元も確認しています。
 
 ## 競合パッケージとの同条件ベンチマーク
 

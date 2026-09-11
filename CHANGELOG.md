@@ -9,8 +9,11 @@
 
 ### Added
 
-- `KeyframeManager.set_keys(values, *, frames, ...)`を追加。単位・tangent・
-  予約実行とUndo / Redoは`set_key()`と共通で、全入力を捕捉・検証してから入力順に
+- `KeyframeManager.get_keys(start_frame=None, end_frame=None)`を追加。上流の
+  time-inputカーブに実在するキーを、範囲の両端を含む`(frame, value)`のlistで返す。
+  予約中の操作は実行せず、値の単位は取得したカーブ型から換算する。
+- `KeyframeManager.set_keys(keys, ...)`を追加。`keys`は`(frame, value)`の列。
+  単位・tangent・予約実行とUndo / Redoは`set_key()`と共通で、全入力を捕捉・検証してから入力順に
   設定する。単純なカーブではバッチ内の取得と変更キャッシュを共有し、新規作成や
   複雑な接続ではMaya標準のキー設定を使用する。
 - `Quat`をimmutableなraw Quaternion値のまま拡張。identity / sequence /
@@ -28,6 +31,10 @@
 
 ### Changed
 
+- `KeyframeManager.set_keys()`の入力を、別々の`values` / `frames`から
+  `(frame, value)`のpair列へ変更する破壊的変更。旧引数は提供しない。
+  `set_keys(zip(frames, values, strict=True), ...)`で移行でき、単位・共通tangent・
+  予約実行・Undo / Redoの仕様は維持する。
 - `KeyframeManager.set()`を`set_key()`へ、`insert()`を`insert_key()`へ改名する
   破壊的変更。旧名のaliasは提供せず、`plug.keyframe.set_key()` /
   `plug.keyframe.insert_key()`へ移行する。引数、`None`戻り値、予約実行、

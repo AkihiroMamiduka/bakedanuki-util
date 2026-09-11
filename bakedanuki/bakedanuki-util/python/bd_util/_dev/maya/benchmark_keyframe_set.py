@@ -106,8 +106,7 @@ def main() -> None:
             start = perf_counter()
             if backend == "batch":
                 keyframe.set_keys(
-                    range(1, count + 1),
-                    frames=range(count),
+                    ((frame, frame + 1) for frame in range(count)),
                     in_tangent_type="linear",
                     out_tangent_type="linear",
                 )

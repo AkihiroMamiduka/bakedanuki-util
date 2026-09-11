@@ -157,20 +157,20 @@ mod.undo_it()
 mod.redo_it()
 ```
 
-`frames()`や`key_count()`などのqueryは実行済みのsceneだけを読み、予約中の変更は
+`get_keys()`や`frames()`、`key_count()`などのqueryは実行済みのsceneだけを読み、予約中の変更は
 含みません。変更methodは`do_it_dg()`を暗黙に呼び出しません。MayaのUndoキューへの登録は
 [ModifierManagerのMPxCommand連携](modifier_manager.md)を参照してください。
 
 ### 複数キーをまとめて設定する
 
-`set_keys(values, *, frames, in_tangent_type=None, out_tangent_type=None) -> None`は、
-複数キーをまとめて予約します。`values`とkeyword専用の`frames`には、同じ個数の
-`Iterable[float]`を渡します。単位・tangent・実行時の経路選択は`set_key()`と同じです。
+`set_keys(keys, *, in_tangent_type=None, out_tangent_type=None) -> None`は、
+複数キーをまとめて予約します。`keys`には`(frame, value)`の列を
+`Iterable[tuple[float, float]]`として渡します。pair内は時刻、値の順です。
+単位・tangent・実行時の経路選択は`set_key()`と同じです。
 
 ```python
 keyframe.set_keys(
-    [0.0, 45.0, 90.0],
-    frames=[1.0, 12.0, 24.0],
+    [(1.0, 0.0), (12.0, 45.0), (24.0, 90.0)],
     in_tangent_type="linear",
     out_tangent_type="linear",
 )
@@ -178,24 +178,56 @@ mod.do_it_dg()
 ```
 
 listだけでなくgeneratorも呼び出し時にすべて読み取り、値・時刻を捕捉してから予約します。
-長さの不一致やNaN・無限大は`ValueError`、配列の代わりに渡した`str` / `bytes`は
-`TypeError`です。入力の読み取りや検証に失敗しても、この呼び出しの一部だけを予約する
-ことはありません。両方が空ならキーを予約しませんが、managerや対象plugなどの前提は
-通常どおり検証します。
+各要素が2要素のpairでない場合やNaN・無限大を拒否し、列やpairの代わりに
+`str` / `bytes`を渡すこともできません。入力の読み取りや検証に失敗しても、
+この呼び出しの一部だけを予約することはありません。空の列ならキーを予約しませんが、
+managerや対象plugなどの前提は通常どおり検証します。
 
 入力を並べ替えず、その順序で設定します。同じ時刻が複数あれば後の値で上書きします。
 tangent引数は全キー共通で、既存キーのtangent typeを維持する仕様も`set_key()`と同じです。
 時刻とtime属性の値には、generatorを読み取る前の呼び出し入口のUI時間単位を使用します。
 
+### 実在するキーを取得する
+
+`get_keys(start_frame=None, end_frame=None) -> list[tuple[float, float]]`は、
+`(frame, value)`のlistを時刻の昇順で返します。上流で最初に見つかったtime-input
+animCurveを対象にし、指定範囲に実在するキーだけを取得します。カーブや該当キーが
+なければ空listです。範囲は両端を含み、`None`の側には境界を設けません。
+範囲端にキーがなくても、補間したキーを追加することはありません。
+NaN・無限大や逆転した範囲は、カーブの有無にかかわらず`ValueError`です。
+
+```python
+keys = keyframe.get_keys()
+segment_keys = keyframe.get_keys(start_frame=12.0, end_frame=24.0)
+```
+
+同じ単位のキー設定には、戻り値をそのまま`set_keys(keys)`へ渡せます。
+queryは即座に実行済みのsceneを読み、予約中の変更をflushしません。
+`ModifierManager`を省略した`KeyframeManager`からも使用できます。
+引数と戻り値のframeは、呼び出し時点のMaya UI時間単位です。
+valueは対象plugの型ではなく、取得したカーブの型から次の単位へ換算します。
+
+| カーブ型 | valueの単位 |
+| --- | --- |
+| TA | degree |
+| TL | centimeter |
+| TU | numeric値 |
+| TT | 呼び出し時点のMaya UI時間単位 |
+
+取得値はカーブに保存されたキーの値です。unitConversionやblend nodeを経由していても、
+それらによる変換後のplug値やconstraintの計算結果をsamplingすることはありません。
+pairにはtangentやweighted、infinityなどの情報を含まないため、カーブ形状全体の
+保存・復元用データではありません。
+
 ### 引数と単位
 
 | 引数 / plug型 | 公開単位 |
 | --- | --- |
-| `frame` / `frames`の各要素 / `start_frame` / `end_frame` | 各変更methodを呼んだ時点のMaya UI時間単位 |
-| angleの`value` / `values`の各要素 | degree |
-| linearの`value` / `values`の各要素 | centimeter |
-| time属性の`value` / `values`の各要素 | `set_key()` / `set_keys()`を呼んだ時点のMaya UI時間単位 |
-| その他scalarの`value` / `values`の各要素 | numeric値。bool / enumも数値で指定 |
+| `frame` / pairのframe / `start_frame` / `end_frame` | 各methodを呼んだ時点のMaya UI時間単位 |
+| angleの`value` / pairのvalue | degree |
+| linearの`value` / pairのvalue | centimeter |
+| time属性の`value` / pairのvalue | `set_key()` / `set_keys()`を呼んだ時点のMaya UI時間単位 |
+| その他scalarの`value` / pairのvalue | numeric値。bool / enumも数値で指定 |
 
 angle / linearは通常の`PlugOperator.set()`と同じ固定単位です。時刻とtime属性の
 値は予約時の時間単位で捕捉します。キー設定のAPI経路ではangleをradian、linearを
@@ -338,8 +370,21 @@ Mayaが選んだlayerのカーブを必ず扱うAPIではありません。カ�
 
 キー設定のAPI経路の対象拡張と、編集対象カーブ・layerを明示するAPIは今後の検討対象です。
 現在のAPI経路は既存の単純なカーブへの編集を対象とします。
+任意時刻のplug値のsampling、`KeyData` / `AnimCurveData`による詳細なキー・カーブ情報の
+保存と復元は次段階の対象で、現在は提供していません。
 
 ### 旧APIからの移行
+
+`set_keys()`の旧形式`set_keys(values, frames=frames, ...)`は廃止しました。
+時刻と値を`(frame, value)`のpairへまとめて渡してください。別々の列を持つ既存コードでは、
+`zip(..., strict=True)`を使うと、列の長さが異なる場合も切り捨てずに検出できます。
+
+```python
+keyframe.set_keys(zip(frames, values, strict=True), out_tangent_type="linear")
+```
+
+旧`values` / `frames`引数との互換入口は提供しません。
+単位、共通tangent、入力順・同時刻の上書き、予約実行とUndo / Redoの仕様は維持します。
 
 キー設定・挿入のmethod名を変更しました。旧名のaliasは提供しません。
 

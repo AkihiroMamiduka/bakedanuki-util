@@ -66,8 +66,7 @@ def test_set_keys_matches_sequential_set_key_with_unsorted_duplicate_inputs(
 
     assert (
         keyframe.set_keys(
-            values,
-            frames=frames,
+            zip(frames, values),
             in_tangent_type=in_type,
             out_tangent_type=out_type,
         )
@@ -99,22 +98,21 @@ def test_set_keys_snapshots_inputs_and_creates_curve_only_on_execution(
     maya_cmds, use_generator
 ):
     mod, keyframe = _new_keyframe(maya_cmds)
-    values = [9.0, 2.0, 7.0]
-    frames = [3.0, 1.0, 3.0]
+    keys = [[3.0, 9.0], [1.0, 2.0], [3.0, 7.0]]
     consumed = []
 
-    def generate(label, items):
+    def generate(items):
         for item in items:
-            consumed.append((label, item))
+            consumed.append(item)
             yield item
 
-    value_input = generate("values", values) if use_generator else values
-    frame_input = generate("frames", frames) if use_generator else frames
-    keyframe.set_keys(value_input, frames=frame_input)
+    key_input = generate(keys) if use_generator else keys
+    keyframe.set_keys(key_input)
     if use_generator:
-        assert len(consumed) == 6
-    values[:] = [100.0]
-    frames[:] = [100.0]
+        assert len(consumed) == 3
+    for pair in keys:
+        pair[:] = [100.0, 100.0]
+    keys[:] = [[200.0, 200.0]]
     assert not keyframe.has_anim_curve()
     assert not mod.can_undo
     mod.do_it_dg()
@@ -141,7 +139,7 @@ def test_set_keys_captures_units_before_execution(
 ):
     mod, keyframe = _new_keyframe(maya_cmds, attribute_type)
     maya_cmds.currentUnit(linear="m", angle="rad", time="film")
-    keyframe.set_keys([90.0, 180.0], frames=[12.0, 24.0])
+    keyframe.set_keys([(12.0, 90.0), (24.0, 180.0)])
     maya_cmds.currentUnit(linear="mm", angle="deg", time="ntsc")
     mod.do_it_dg()
     curve = oma.MFnAnimCurve(keyframe.plug.sourceWithConversion().node())
@@ -160,12 +158,12 @@ def test_set_keys_captures_units_before_execution(
 def test_set_keys_captures_entry_units_before_consuming_generator(maya_cmds):
     mod, keyframe = _new_keyframe(maya_cmds, "time")
 
-    def values():
-        yield 12.0
+    def keys():
+        yield 12.0, 12.0
         maya_cmds.currentUnit(time="ntsc")
-        yield 24.0
+        yield 24.0, 24.0
 
-    keyframe.set_keys(values(), frames=[12.0, 24.0])
+    keyframe.set_keys(keys())
     mod.do_it_dg()
     curve = oma.MFnAnimCurve(keyframe.plug.sourceWithConversion().node())
     assert keyframe.frames() == [15.0, 30.0]
@@ -176,29 +174,36 @@ def test_set_keys_captures_entry_units_before_consuming_generator(maya_cmds):
 
 
 @pytest.mark.parametrize(
-    "values,frames,error",
+    "keys,error",
     [
-        ([1.0], [1.0, 2.0], ValueError),
-        ([1.0, 2.0], [1.0], ValueError),
-        ([], [1.0], ValueError),
-        ([1.0], [], ValueError),
-        ([1.0, float("nan")], [1.0, 2.0], ValueError),
-        ([1.0, float("inf")], [1.0, 2.0], ValueError),
-        ([1.0, 2.0], [1.0, float("-inf")], ValueError),
-        ("12", [1.0, 2.0], TypeError),
-        (b"12", [1.0, 2.0], TypeError),
-        ([1.0, 2.0], "12", TypeError),
-        ([1.0, 2.0], b"12", TypeError),
-        ([1.0, object()], [1.0, 2.0], TypeError),
+        (None, TypeError),
+        (1.0, TypeError),
+        ("12", TypeError),
+        (b"12", TypeError),
+        ([(1.0, 1.0), ()], ValueError),
+        ([(1.0, 1.0), (2.0,)], ValueError),
+        ([(1.0, 1.0), (2.0, 2.0, 2.0)], ValueError),
+        ([(1.0, 1.0), []], ValueError),
+        ([(1.0, 1.0), [2.0]], ValueError),
+        ([(1.0, 1.0), [2.0, 2.0, 2.0]], ValueError),
+        ([(1.0, 1.0), 2.0], TypeError),
+        ([(1.0, 1.0), "22"], TypeError),
+        ([(1.0, 1.0), b"22"], TypeError),
+        ([(1.0, 1.0), (2.0, float("nan"))], ValueError),
+        ([(1.0, 1.0), (float("nan"), 2.0)], ValueError),
+        ([(1.0, 1.0), (2.0, float("inf"))], ValueError),
+        ([(1.0, 1.0), (float("-inf"), 2.0)], ValueError),
+        ([(1.0, 1.0), (2.0, object())], TypeError),
+        ([(1.0, 1.0), (object(), 2.0)], TypeError),
     ],
 )
 def test_invalid_set_keys_preserves_previously_pending_operations(
-    maya_cmds, values, frames, error
+    maya_cmds, keys, error
 ):
     mod, keyframe = _new_keyframe(maya_cmds)
     keyframe.set_key(3.0, 3.0)
     with pytest.raises(error):
-        keyframe.set_keys(values, frames=frames)
+        keyframe.set_keys(keys)
     keyframe.set_key(9.0, 9.0)
     mod.do_it_dg()
     assert keyframe.frames() == [3.0, 9.0]
@@ -207,28 +212,37 @@ def test_invalid_set_keys_preserves_previously_pending_operations(
     assert not keyframe.has_anim_curve()
 
 
-def test_generator_failure_does_not_queue_part_of_batch(maya_cmds):
+@pytest.mark.parametrize("failure_in_pair", [False, True])
+def test_generator_failure_does_not_queue_part_of_batch(
+    maya_cmds, failure_in_pair
+):
     mod, keyframe = _new_keyframe(maya_cmds)
     keyframe.set_key(3.0, 3.0)
 
-    def values():
-        yield 1.0
+    def broken_pair():
+        yield 2.0
         raise RuntimeError("input generation failed")
 
+    def keys():
+        yield 1.0, 1.0
+        if failure_in_pair:
+            yield broken_pair()
+        else:
+            raise RuntimeError("input generation failed")
+
     with pytest.raises(RuntimeError, match="input generation failed"):
-        keyframe.set_keys(values(), frames=[1.0, 2.0])
+        keyframe.set_keys(keys())
     mod.do_it_dg()
     assert keyframe.frames() == [3.0]
     assert keyframe.values() == [3.0]
 
 
-def test_invalid_tangent_does_not_queue_batch(maya_cmds):
+@pytest.mark.parametrize("keys", [[], [(1.0, 1.0), (2.0, 2.0)]])
+def test_invalid_tangent_does_not_queue_batch(maya_cmds, keys):
     mod, keyframe = _new_keyframe(maya_cmds)
     keyframe.set_key(3.0, 3.0)
     with pytest.raises(ValueError, match="Unsupported tangent type"):
-        keyframe.set_keys(
-            [1.0, 2.0], frames=[1.0, 2.0], out_tangent_type="unknown"
-        )
+        keyframe.set_keys(keys, out_tangent_type="unknown")
     mod.do_it_dg()
     assert keyframe.frames() == [3.0]
 
@@ -237,28 +251,60 @@ def test_empty_set_keys_does_not_replace_pending_modifier(maya_cmds):
     mod, keyframe = _new_keyframe(maya_cmds)
     keyframe.set_key(3.0, 3.0)
     pending = mod.dg_mod
-    assert keyframe.set_keys([], frames=iter(())) is None
+    assert keyframe.set_keys(iter(())) is None
     assert mod.dg_mod is pending
     assert not keyframe.has_anim_curve()
     mod.do_it_dg()
     assert keyframe.frames() == [3.0]
 
 
-@pytest.mark.parametrize("values,frames", [([], []), ([1.0], [1.0])])
-def test_set_keys_requires_modifier_manager(maya_cmds, values, frames):
+@pytest.mark.parametrize("keys", [[], [(1.0, 1.0)]])
+def test_set_keys_requires_modifier_manager(maya_cmds, keys):
     _, keyframe = _new_keyframe(maya_cmds)
     standalone = KeyframeManager(keyframe.plug)
     with pytest.raises(RuntimeError, match="requires a ModifierManager"):
-        standalone.set_keys(values, frames=frames)
+        standalone.set_keys(keys)
 
 
-def test_set_keys_rejects_compound_plug(maya_cmds):
+@pytest.mark.parametrize("keys", [[], [(1.0, 1.0)]])
+def test_set_keys_rejects_compound_plug(maya_cmds, keys):
     node = maya_cmds.createNode("transform")
     selection = om.MSelectionList()
     selection.add(node + ".translate")
     mod = bdu.ModifierManager()
     keyframe = KeyframeManager(selection.getPlug(0), modifier_manager=mod)
     with pytest.raises(TypeError, match="scalar"):
-        keyframe.set_keys([1.0], frames=[1.0])
+        keyframe.set_keys(keys)
     mod.do_it_dg()
     assert not maya_cmds.ls(type="animCurve")
+
+
+@pytest.mark.parametrize("keys", [[], [(1.0, 1.0)]])
+def test_set_keys_rejects_non_writable_plug(maya_cmds, keys):
+    node = maya_cmds.createNode("multiplyDivide")
+    selection = om.MSelectionList()
+    selection.add(node + ".outputX")
+    mod = bdu.ModifierManager()
+    keyframe = KeyframeManager(selection.getPlug(0), modifier_manager=mod)
+    with pytest.raises(RuntimeError, match="not writable"):
+        keyframe.set_keys(keys)
+    mod.do_it_dg()
+    assert not maya_cmds.ls(type="animCurve")
+
+
+def test_set_keys_accepts_iterable_pairs(maya_cmds):
+    mod, keyframe = _new_keyframe(maya_cmds)
+    keyframe.set_keys([iter((3.0, 9.0)), iter((1.0, 2.0)), iter((3.0, 7.0))])
+    mod.do_it_dg()
+    assert keyframe.frames() == [1.0, 3.0]
+    assert keyframe.values() == [2.0, 7.0]
+
+
+def test_set_keys_rejects_old_frames_keyword_without_queuing(maya_cmds):
+    mod, keyframe = _new_keyframe(maya_cmds)
+    keyframe.set_key(3.0, 3.0)
+    with pytest.raises(TypeError, match="frames"):
+        keyframe.set_keys([1.0], frames=[1.0])
+    mod.do_it_dg()
+    assert keyframe.frames() == [3.0]
+    assert keyframe.values() == [3.0]

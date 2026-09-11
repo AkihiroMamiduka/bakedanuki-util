@@ -229,6 +229,61 @@ class KeyframeManager:
             for i in range(fn_anim_curve.numKeys)
         ]
 
+    def get_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+    ) -> list[tuple[float, float]]:
+        """上流の最初の時間入力カーブから、実在キーを時刻順に取得する。
+
+        範囲は両端を含み、Noneの端は制限しない。frameとtime値は現在の
+        UI時間単位、angle値はdegree、linear値はcentimeter。
+        保留中の変更は実行せず、constraintやlayerの合成結果も評価しない。
+        """
+        time_unit = om.MTime.uiUnit()
+        start_time = (
+            self._key_time(start_frame) if start_frame is not None else None
+        )
+        end_time = self._key_time(end_frame) if end_frame is not None else None
+        if (
+            start_time is not None
+            and end_time is not None
+            and start_time > end_time
+        ):
+            raise ValueError(
+                "start_frame must be less than or equal to end_frame."
+            )
+        fn_anim_curve = self._get_anim_curve_fn()
+        if fn_anim_curve is None or not fn_anim_curve.numKeys:
+            return []
+
+        start_index = 0
+        end_index = fn_anim_curve.numKeys
+        if start_time is not None:
+            start_index = fn_anim_curve.findClosest(start_time)
+            if fn_anim_curve.input(start_index) < start_time:
+                start_index += 1
+        if end_time is not None:
+            end_index = fn_anim_curve.findClosest(end_time)
+            if fn_anim_curve.input(end_index) <= end_time:
+                end_index += 1
+
+        curve_type = fn_anim_curve.animCurveType
+        keys: list[tuple[float, float]] = []
+        for index in range(start_index, end_index):
+            time = fn_anim_curve.input(index)
+            value = (
+                fn_anim_curve.evaluate(time)
+                if curve_type == oma.MFnAnimCurve.kAnimCurveTT
+                else fn_anim_curve.value(index)
+            )
+            if isinstance(value, om.MTime):
+                value = value.asUnits(time_unit)
+            elif curve_type == oma.MFnAnimCurve.kAnimCurveTA:
+                value = math.degrees(value)
+            keys.append((time.asUnits(time_unit), float(value)))
+        return keys
+
     def has_key(self, frame: float) -> bool:
         return self._find_key_index(frame) is not None
 
@@ -271,42 +326,41 @@ class KeyframeManager:
 
     def set_keys(
         self,
-        values: Iterable[float],
+        keys: Iterable[tuple[float, float]],
         *,
-        frames: Iterable[float],
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
         """複数キーの設定をまとめて予約する。単位はset_key()と同じ。
 
-        valuesとframesは同じ個数の有限値を渡す。全入力を呼び出し時に
+        keysは(frame, value)のペアを渡す。全入力を呼び出し時に
         捕捉・検証し、入力順で設定する。同じ時刻は後の値で上書きする。
-        tangent引数は全キー共通で、両方が空なら何も予約しない。
+        tangent引数は全キー共通で、keysが空なら何も予約しない。
         """
         manager = self._require_modifier_manager()
         time_unit = om.MTime.uiUnit()
         in_type = _to_tangent_type(in_tangent_type)
         out_type = _to_tangent_type(out_tangent_type)
         self._validate_set_target("set_keys")
-        if isinstance(values, (str, bytes)) or isinstance(
-            frames, (str, bytes)
-        ):
-            raise TypeError("values and frames must be iterables of numbers.")
-        value_items = tuple(float(value) for value in values)
-        frame_items = tuple(float(frame) for frame in frames)
-        if len(value_items) != len(frame_items):
-            raise ValueError("values and frames must have the same length.")
-        if not all(math.isfinite(value) for value in value_items) or not all(
-            math.isfinite(frame) for frame in frame_items
-        ):
-            raise ValueError("Keyframe values and frames must be finite.")
-        if not value_items:
+        if isinstance(keys, (str, bytes)):
+            raise TypeError(
+                "keys must be an iterable of (frame, value) pairs."
+            )
+        captured_keys: list[_CapturedKey] = []
+        for key in keys:
+            if isinstance(key, (str, bytes)):
+                raise TypeError("Each key must be a (frame, value) pair.")
+            frame, value = key
+            frame = float(frame)
+            value = float(value)
+            if not math.isfinite(frame) or not math.isfinite(value):
+                raise ValueError("Keyframe frames and values must be finite.")
+            captured_keys.append(
+                (om.MTime(frame, time_unit), self._key_value(value, time_unit))
+            )
+        if not captured_keys:
             return
-        keys = tuple(
-            (om.MTime(frame, time_unit), self._key_value(value, time_unit))
-            for value, frame in zip(value_items, frame_items)
-        )
-        self._queue_set_keys(manager, keys, in_type, out_type)
+        self._queue_set_keys(manager, tuple(captured_keys), in_type, out_type)
 
     def _validate_set_target(self, method: str) -> None:
         plug = self.plug

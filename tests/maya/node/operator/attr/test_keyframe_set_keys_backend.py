@@ -106,7 +106,7 @@ def test_batch_reuses_routing_and_function_set_in_input_order(
     frames = [5, 2, 5, 4]
     values = [50, 20, 55, 40]
 
-    assert keyframe.set_keys(values, frames=frames) is None
+    assert keyframe.set_keys(zip(frames, values)) is None
     assert commands == routes == edits == []
     assert _scene_state(maya_cmds, name + ".translateX") == before
     mod.do_it_dg()
@@ -170,7 +170,7 @@ def test_batch_fallback_runs_each_key_as_cmds_and_restores_scene(
     routes = _record_routes(monkeypatch)
     edits = _record_api_edits(monkeypatch)
 
-    keyframe.set_keys([0, 1, 0, 1], frames=[3, 1, 3, 4])
+    keyframe.set_keys([(3, 0), (1, 1), (3, 0), (4, 1)])
     mod.do_it_dg()
 
     assert [kwargs["time"] for _, kwargs in commands] == [3.0, 1.0, 3.0, 4.0]
@@ -206,7 +206,7 @@ def test_batch_api_failure_restores_bootstrap_and_all_partial_key_edits(
     commands = _record_commands(monkeypatch, maya_cmds)
     edits = _record_api_edits(monkeypatch, fail_at=3)
 
-    keyframe.set_keys([50, 20, 55, 40, 60], frames=[5, 2, 5, 4, 6])
+    keyframe.set_keys([(5, 50), (2, 20), (5, 55), (4, 40), (6, 60)])
     with pytest.raises(
         RuntimeError, match="intentional failure during batch API edit"
     ):
@@ -241,7 +241,7 @@ def test_batch_recheck_failure_restores_the_successful_first_cmds_key(
     routes = _record_routes(monkeypatch, fail_at=2)
     edits = _record_api_edits(monkeypatch)
 
-    keyframe.set_keys([10, 20, 30], frames=[1, 2, 3])
+    keyframe.set_keys([(1, 10), (2, 20), (3, 30)])
     with pytest.raises(
         RuntimeError, match="intentional remaining batch preparation failure"
     ):
@@ -272,7 +272,7 @@ def test_batch_later_cmds_failure_restores_previous_commands(
     commands = _record_commands(monkeypatch, maya_cmds, fail_at=3)
     edits = _record_api_edits(monkeypatch)
 
-    keyframe.set_keys([0, 1, 0, 1], frames=[1, 2, 1, 4])
+    keyframe.set_keys([(1, 0), (2, 1), (1, 0), (4, 1)])
     with pytest.raises(RuntimeError):
         mod.do_it_dg()
 
