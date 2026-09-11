@@ -105,6 +105,53 @@ mod.do_it_dg()
 Python側で丸めてから`set()`へ渡します。animation curveのkeyframe値を
 一括処理する機能でもありません。
 
+### 指定時刻の値をサンプリングする
+
+scalar plugの`sample_values(*, frames: Iterable[float]) -> list[tuple[float, float]]`は、
+指定時刻の評価済み値を`(frame, value)`のlistで返します。キーがない時刻や、
+constraint・unitConversion・animation layer・計算ノードで駆動されたplugにも使用できます。
+上流カーブの実在キーを返す`keyframe.get_keys()`とは取得対象が異なります。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+source = nodes.existing.transform("source_ctrl")
+target = nodes.existing.transform("target_ctrl")
+
+samples = source.tx.sample_values(frames=range(1, 25))
+target.tx.keyframe.set_keys(
+    samples, in_tangent_type="linear", out_tangent_type="linear"
+)
+mod.do_it_dg()
+```
+
+`frames`はgeneratorも使用でき、全入力を捕捉・検証してから値を取得します。
+順序と重複を維持し、空入力は空listです。NaN・無限大は`ValueError`、
+列の代わりに渡した`str` / `bytes`は`TypeError`です。multi属性は要素を指定してください。
+compoundやmatrix、typed dataにはこのmethodを提供しません。
+
+frameとtime属性のvalueは、generatorを読む前の呼び出し入口のMaya UI時間単位です。
+angleのvalueはdegree、linearのvalueはcentimeterです。valueはすべてfloatとして返し、
+bool / enum / 整数は数値、charは文字コードになります。単位は`set_keys()`に対応します。
+
+queryは呼び出し時点のsceneを読み、保留中の変更をflushしません。
+タイムスライダーの現在時刻やUndo履歴は変更せず、評価コンテキストを各時刻へ
+一時的に切り替えます。Python APIに`MDGContextGuard`は公開されていないため、
+`MDGContext.makeCurrent()`を使い、評価の成功・失敗のどちらでも元のコンテキストへ戻します。
+取得結果は値のsnapshotであり、その後のscene変更には追従しません。
+
+constraintを削除して打ち直す場合は、必要な全属性・全時刻を先に取得し、
+その後に削除とキー設定を予約します。別の親空間を持つコントローラー間の姿勢転送は、
+local属性値のコピーに加えて座標変換が必要になるため、上位の転送処理で扱います。
+
+このmethodは各時刻を独立に評価します。dynamicsや、前フレームに依存する
+parentConstraintのno flipなど、順次評価・simulation・事前cacheを必要とする動作を
+汎用的にベイクする機能ではありません。
+[Autodesk parentConstraint](https://help.autodesk.com/cloudhelp/2025/ENU/Maya-Tech-Docs/CommandsPython/parentConstraint.html)、
+[Autodesk bakeResults](https://help.autodesk.com/cloudhelp/2025/ENU/Maya-Tech-Docs/CommandsPython/bakeResults.html)
+
 ### 値操作methodの実装規則
 
 新しい`PlugOperator`型を追加するときは、その型で実行できる値操作だけを
@@ -370,8 +417,8 @@ Mayaが選んだlayerのカーブを必ず扱うAPIではありません。カ�
 
 キー設定のAPI経路の対象拡張と、編集対象カーブ・layerを明示するAPIは今後の検討対象です。
 現在のAPI経路は既存の単純なカーブへの編集を対象とします。
-任意時刻のplug値のsampling、`KeyData` / `AnimCurveData`による詳細なキー・カーブ情報の
-保存と復元は次段階の対象で、現在は提供していません。
+任意時刻のplug値は`sample_values()`で取得します。`KeyData` / `AnimCurveData`による
+詳細なキー・カーブ情報の保存と復元は次段階の対象で、現在は提供していません。
 
 ### 旧APIからの移行
 

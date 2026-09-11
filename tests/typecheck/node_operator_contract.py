@@ -4117,7 +4117,39 @@ def keyframe_contract(
     plug: om.MPlug,
     mod: bdu.ModifierManager,
 ) -> None:
+    samples = compose.inputRotate.inputRotateX.sample_values(
+        frames=range(1, 25)
+    )
+    assert_type(samples, list[tuple[float, float]])
+    assert_type(
+        compose.inputTranslate.inputTranslateX.sample_values(
+            frames=[1.0, 2.5]
+        ),
+        list[tuple[float, float]],
+    )
+    assert_type(
+        compose.inputRotateOrder.sample_values(
+            frames=(float(i) for i in range(3))
+        ),
+        list[tuple[float, float]],
+    )
+    assert_type(
+        compose.useEulerRotation.sample_values(frames=[]),
+        list[tuple[float, float]],
+    )
+    assert_type(
+        compose.inputScale.inputScaleX.sample_values(frames=[1]),
+        list[tuple[float, float]],
+    )
+    compose.inputRotate.inputRotateX.sample_values(
+        frames=["invalid"],  # pyright: ignore[reportArgumentType]
+    )
+    compose.inputRotate.inputRotateX.sample_values(
+        frames=1.0,  # pyright: ignore[reportArgumentType]
+    )
+    compose.inputRotate.sample_values  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     keyframe = compose.inputRotate.inputRotateX.keyframe
+    assert_type(keyframe.set_keys(samples), None)
     assert_type(keyframe, KeyframeManager)
     tangent_name: TangentTypeName = "linear"
     tangent_value: TangentTypeValue = keyframe.tangent.flat

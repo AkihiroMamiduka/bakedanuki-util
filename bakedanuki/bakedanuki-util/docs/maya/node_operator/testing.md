@@ -270,6 +270,13 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     unitConversion・共有カーブ・layerでのcmds委譲を検証します。
   - API編集・再判定・後続cmdsの途中失敗で先行する変更を戻し、Undo / Redoでは
     初回のcallbackを再実行しないことを検証します。
+- `tests/maya/node/operator/attr/test_scalar_sampling.py`
+  - scalarの`sample_values()`の入力順・重複、型別の公開単位、UI単位変更、
+    generatorの捕捉、不正入力、空入力、multi要素を検証します。
+  - constraint・計算ノード・unitConversion・layer合成後の評価値と、
+    constraint削除後の再キー設定からUndo / Redoまでを検証します。
+  - 現在時刻・Undo履歴・保留中modifierを変更しないことと、ネストした評価時刻からの
+    呼び出しや途中例外でも、元の評価コンテキストへ復帰することを検証します。
 - `tests/maya/node/operator/attr/test_keyframe_get_keys.py`
   - 実在キーの昇順取得、範囲の両端包含・片側指定・非キー端点、カーブ無し・空カーブ・
     unitlessカーブ、カーブの有無によらない不正範囲の拒否を検証します。

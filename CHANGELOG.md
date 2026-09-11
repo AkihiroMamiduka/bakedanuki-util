@@ -9,6 +9,9 @@
 
 ### Added
 
+- scalar plugに`sample_values(*, frames)`を追加。constraint・layer・計算ノードを含む
+  指定時刻の評価済み値を、`set_keys()`へ渡せる`(frame, value)`のlistで取得する。
+  公開単位と入力順を維持し、現在時刻・Undo履歴・保留中modifierを変更しない。
 - `KeyframeManager.get_keys(start_frame=None, end_frame=None)`を追加。上流の
   time-inputカーブに実在するキーを、範囲の両端を含む`(frame, value)`のlistで返す。
   予約中の操作は実行せず、値の単位は取得したカーブ型から換算する。
