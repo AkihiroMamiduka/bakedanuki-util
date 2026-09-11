@@ -867,7 +867,7 @@ window = maya_view.show("pCube1")
 
 既存transformのtranslateX・rotateX・scaleXへサンプルのPython初期値を適用します。
 API、精度、Undo/Redo、同期失敗の扱いは[Python正本とMaya View](python_float_maya_binding.md)を
-参照してください。Pythonの3成分tupleとMaya compound全体の同期は後続対応です。
+参照してください。Pythonの3成分tupleとMaya compound全体は`MayaFloat3Binding`で同期できます。
 
 ## 3成分の浮動小数点値とXYZ編集
 
@@ -898,6 +898,22 @@ window = minimal.show()
 
 サンプルは3桁と6桁のXYZ Viewを共有し、一括編集、Python属性への直接代入、refreshを試せます。
 対応する値の型と失敗時の扱いは[Python属性の3成分binding](python_float3_binding.md)を参照してください。
+
+### Python正本とMayaの3成分同期
+
+`MayaFloat3Binding.from_attribute()`はPython tupleを正本として、QtのXYZ ViewとMayaの
+translate・rotate・scaleを同期します。初期値はPythonからMayaへ適用し、親属性の一括変更は
+setter 1回、Mayaへの一括反映も1回のUndoで扱います。単位と表示精度は単一値版と共通です。
+一部の軸がlock・入力接続で書けない場合もPython編集を続け、一括同期は部分反映せず保留します。
+
+```python
+from bd_util._sample.maya.ui.float3_sample import maya_view
+
+window = maya_view.show("pCube1")
+```
+
+API、単位、Undo/Redo、寿命、手動確認手順は[Python正本とMaya Viewの3成分同期](python_float3_maya_binding.md)を
+参照してください。
 
 ## Maya callbackのlifecycle管理
 
@@ -1393,17 +1409,17 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-10にPython正本とMaya Viewの単一float同期を追加した作業ツリーでの確認結果です。
+2026-09-11にPython正本とMaya Viewの3成分同期を追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 311 passed | 205 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 311 passed | 205 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 311 passed | 205 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 320 passed | 244 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 320 passed | 244 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 320 passed | 244 passed |
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2719 passed, 220 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2758 passed, 229 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。

@@ -50,6 +50,7 @@ nodeや属性を自動作成せず、終了時にもMayaデータを削除・復
 | `SetFloat3Command.execute(values)` | 3成分の変更を要求し、実値が変わったかboolで返す |
 | `Float3ViewModel.x` / `y` / `z` | 各軸を担当する既存の`FloatViewModel` |
 | `Float3ViewModel.value` / `set_value_command` | 全体の確定値と一括Command |
+| `Float3ViewModel.store_refreshed(object)` | 同値の場合も、正本の再読込完了を確定tupleで通知する |
 | `Float3ValueStore` | 各軸のStore、一括`read()`／`write()`、利用・編集可否の契約 |
 | `Float3Binding(store, parent=...)` | 外部Storeと専用ViewModelを組み立てる |
 | `Float3Binding.from_attribute(instance, attribute_name, ...)` | Python属性の3成分StoreとBindingを生成する |
@@ -132,7 +133,7 @@ Windowから独立したownerを指定し、そのownerが終了を管理しま�
 外部変更は`binding.refresh()`で読み直します。外部Storeの所有権はBindingへ移しません。
 3成分のPython属性は`Float3Binding.from_attribute()`で接続できます。
 各軸の変更要求後にも全体を再同期し、編集軸が同値でも他軸のsetter補正を反映します。
-Python正本をMaya Viewへ同期する構成は後続対応です。
+Python正本をMaya Viewへ同期する場合は[MayaFloat3Binding](python_float3_maya_binding.md)を使います。
 単一値は[Python属性の浮動小数点binding](python_float_binding.md)を使用できます。
 
 ## サンプルと対応範囲

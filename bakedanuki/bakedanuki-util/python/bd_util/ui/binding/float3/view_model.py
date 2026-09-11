@@ -61,6 +61,8 @@ class _ComponentFloatViewModel(FloatViewModel):
 class Float3ViewModel(qt.QObject):
     """各軸のFloatViewModelと3成分の確定値・一括Commandをまとめる。"""
 
+    store_refreshed = qt.Signal(object)
+
     def __init__(self, parent: qt.QObject | None = None) -> None:
         """各軸のViewModelを所有し、単一のStoreの接続を待つ。"""
         super().__init__(parent)
@@ -183,6 +185,9 @@ class Float3ViewModel(qt.QObject):
                 if self.is_disposed:
                     return changed
                 changed = self._value.replace(actual) or changed
+                if self.is_disposed or not store.is_available:
+                    return changed
+                self.store_refreshed.emit(actual)
                 if self.is_disposed or not store.is_available:
                     return changed
                 if require_float3(store.read()) == actual:

@@ -161,5 +161,5 @@ dataを省略した場合はサンプル既定値を使います。nodeは作成
 - `tests/typecheck/maya_float_binding_contract.py`: 公開API、Storeの具体型、Qt View・サンプルの補完。
 
 最終検証は`scripts/verify.cmd`で行います。Mayaを正本とする単一値・3成分版、および
-Pythonだけの単一値・3成分版も回帰確認します。Pythonの3成分tupleからMayaのcompound全体へ
-同期する専用Bindingは後続対応です。
+Pythonだけの単一値・3成分版も回帰確認します。Pythonの3成分tupleからMayaのcompound全体へは
+[MayaFloat3Binding](python_float3_maya_binding.md)で同期できます。

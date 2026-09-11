@@ -120,8 +120,9 @@ setterが拒否・補正した場合は実値を採用します。値を変更�
 残ったViewの入力を停止します。Python objectの値を削除・復元しません。
 複数Windowで共有する場合は、Windowから独立したownerでBindingを管理します。
 
-Pythonデータの変更はMayaのUndoへ登録しません。Pythonを正本とするMaya plugへの同期は
-後続対応です。Maya属性を正本とする場合は既存の`MayaFloat3PlugBinding`を使います。
+Pythonだけの変更はMayaのUndoへ登録しません。Pythonを正本としてMaya plugへも同期する場合は
+[MayaFloat3Binding](python_float3_maya_binding.md)を使います。
+Maya属性を正本とする場合は既存の`MayaFloat3PlugBinding`を使います。
 
 ## サンプルと検証
 
