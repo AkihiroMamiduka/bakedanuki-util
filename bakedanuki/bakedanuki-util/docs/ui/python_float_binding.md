@@ -124,7 +124,7 @@ Bindingの`dispose()`やownerの破棄で残ったViewの入力を停止しま�
 
 Pythonデータの変更はMayaのUndoへ登録しません。これは既存のPython bool版と同じ扱いです。
 Python属性の3成分版は[Python属性の3成分binding](python_float3_binding.md)を使用します。
-Pythonを正本としてMaya plugへ同期する構成は後続対応です。
+Pythonを正本としてMaya plugへ同期する場合は[MayaFloatBinding](python_float_maya_binding.md)を使用します。
 
 ## サンプルと検証
 

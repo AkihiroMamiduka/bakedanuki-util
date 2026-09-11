@@ -166,7 +166,7 @@ Windowを開いている間にChange Precisionを変更しても桁数は変わ�
 compound全体、整数、bool、time、typed dataは拒否します。
 `double3`／`float3`全体の編集は[3成分binding](float3_binding.md)を使用します。
 Python属性は`FloatBinding.from_attribute()`で接続できます。
-Python正本をMaya Viewへ同期する構成は後続対応です。
+Python正本をMaya Viewへ同期する場合は[MayaFloatBinding](python_float_maya_binding.md)を使用します。
 共通の`FloatValueStore`を実装した独自Storeは使用できます。
 
 ## 検証

@@ -13,6 +13,8 @@ from .binding import (
     MayaFloatPlug,
     MayaFloatPlugBinding,
     MayaFloatPlugStore,
+    MayaFloatPlugView,
+    MayaFloatBinding,
     resolve_float_plug,
 )
 from .callback import MayaCallbackRegistry
@@ -44,6 +46,8 @@ __all__ = [
     "MayaFloatPlug",
     "MayaFloatPlugBinding",
     "MayaFloatPlugStore",
+    "MayaFloatPlugView",
+    "MayaFloatBinding",
     "resolve_float_plug",
     "create_ui_state_manager",
     "create_window_state_store",

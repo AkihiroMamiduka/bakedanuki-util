@@ -32,6 +32,7 @@ class FloatPlugValue:
     """Maya内部単位・既存APIの公開単位・画面単位の変換境界。"""
 
     def __init__(self, plug: om.MPlug) -> None:
+        """plugの単位種別と格納精度を保持する。"""
         self.plug = plug
         self.kind = float_plug_kind(plug)
         self._is_float32 = self.kind == "number" and (
@@ -40,6 +41,7 @@ class FloatPlugValue:
         )
 
     def read(self) -> float:
+        """Mayaの実値をcm・degree・単位なしの公開値へ変換する。"""
         if self.kind == "distance":
             value = self.plug.asMDistance().asCentimeters()
         elif self.kind == "angle":
@@ -49,6 +51,7 @@ class FloatPlugValue:
         return require_float(value)
 
     def to_ui(self, value: float) -> float:
+        """公開値をsetAttrが受け取る現在単位と格納精度へ変換する。"""
         value = require_float(value)
         original_value = value
         if self.kind == "distance":
@@ -70,8 +73,25 @@ class FloatPlugValue:
             raise ValueError("valueはMayaの書き込み単位では小さすぎます")
         return require_float(value)
 
+    def matches(self, value: float) -> bool:
+        """書き込みで得られる格納値と比較し、Python値の精度を保持する。"""
+        ui_value = self.to_ui(value)
+        if self.kind == "distance":
+            expected = om.MDistance(
+                ui_value, om.MDistance.uiUnit()
+            ).asCentimeters()
+            actual = self.plug.asMDistance().asCentimeters()
+        elif self.kind == "angle":
+            expected = om.MAngle(ui_value, om.MAngle.uiUnit()).asRadians()
+            actual = self.plug.asMAngle().asRadians()
+        else:
+            expected = ui_value
+            actual = self.plug.asDouble()
+        return require_float(actual) == require_float(expected)
+
     @property
     def presentation(self) -> FloatPresentation:
+        """現在の表示単位と公開単位でのMaya属性範囲を返す。"""
         if self.kind == "number":
             attribute = om.MFnNumericAttribute(self.plug.attribute())
             minimum = (
@@ -104,6 +124,7 @@ class FloatPlugValue:
         return FloatPresentation(self.to_ui(1.0), suffix, minimum, maximum)
 
     def _unit_bound(self, value: object) -> float:
+        """距離・角度属性の境界値を公開単位へ変換する。"""
         if self.kind == "distance":
             return cast(om.MDistance, value).asCentimeters()
         return cast(om.MAngle, value).asDegrees()

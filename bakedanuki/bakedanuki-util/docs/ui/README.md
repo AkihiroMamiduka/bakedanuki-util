@@ -852,6 +852,23 @@ window = minimal.show()
 サンプルは1つのPython属性を3桁と6桁のSpinBoxで共有し、直接代入とrefreshも試せます。
 API、単位、範囲、寿命は[Python属性の浮動小数点binding](python_float_binding.md)を参照してください。
 
+## Python属性とMaya Viewの浮動小数点同期
+
+`MayaFloatBinding.from_attribute()`はPython属性を正本とし、Qt WidgetとMaya属性を同期します。
+初期値はPythonからMayaへ適用し、Maya側の編集はCommand経由でPythonへ渡します。
+距離はcm、角度はdegreeでPythonに保持し、Qt表示はMayaの現在単位に追従します。
+Maya側のlock・接続などによる同期失敗は、Python Storeの編集可否とは別に公開します。
+
+```python
+from bd_util._sample.maya.ui.float_sample import maya_view
+
+window = maya_view.show("pCube1")
+```
+
+既存transformのtranslateX・rotateX・scaleXへサンプルのPython初期値を適用します。
+API、精度、Undo/Redo、同期失敗の扱いは[Python正本とMaya View](python_float_maya_binding.md)を
+参照してください。Pythonの3成分tupleとMaya compound全体の同期は後続対応です。
+
 ## 3成分の浮動小数点値とXYZ編集
 
 `MayaFloat3PlugBinding`と`Float3SpinBox`は、`translate`・`rotate`・`scale`を
@@ -1376,17 +1393,17 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-10にPython属性の3成分float bindingを追加した作業ツリーでの確認結果です。
+2026-09-10にPython正本とMaya Viewの単一float同期を追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 302 passed | 176 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 302 passed | 176 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 302 passed | 176 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 311 passed | 205 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 311 passed | 205 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 311 passed | 205 passed |
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2690 passed, 211 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2719 passed, 220 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。

@@ -108,6 +108,9 @@ class FloatViewModel(qt.QObject):
             self,
         )
         self._store: FloatValueStore | None = None
+        self._presentation_adapter: (
+            Callable[[FloatPresentation], FloatPresentation] | None
+        ) = None
         self._store_destroyed_connection: (
             qt.QtCore.QMetaObject.Connection | None
         ) = None
@@ -193,7 +196,7 @@ class FloatViewModel(qt.QObject):
             return False
 
         value = require_float(store.read(), "store.read()")
-        presentation = require_presentation(store.presentation)
+        presentation = self._adapt_presentation(store.presentation)
         if presentation != self._presentation:
             self._presentation = presentation
             self.presentation_changed.emit(presentation)
@@ -223,6 +226,36 @@ class FloatViewModel(qt.QObject):
         """接続Storeが利用できなくなったことを反映する。"""
         self._require_attached_store(store)
         self._set_value_command.set_can_execute(False)
+
+    def _adapt_presentation(
+        self, presentation: FloatPresentation
+    ) -> FloatPresentation:
+        """Storeの表示情報へ接続先固有の単位変換を適用する。"""
+        presentation = require_presentation(presentation)
+        adapter = self._presentation_adapter
+        return (
+            require_presentation(adapter(presentation))
+            if adapter is not None
+            else presentation
+        )
+
+    def set_presentation_adapter(
+        self,
+        adapter: Callable[[FloatPresentation], FloatPresentation] | None,
+        *,
+        notify: bool = True,
+    ) -> None:
+        """Maya adapter用の表示変換を設定し、正本への入力なしで再表示する。"""
+        self._presentation_adapter = adapter
+        if not notify or self.is_disposed:
+            return
+        store = self._store
+        if store is None or not store.is_available:
+            return
+        presentation = self._adapt_presentation(store.presentation)
+        if presentation != self._presentation:
+            self._presentation = presentation
+            self.presentation_changed.emit(presentation)
 
     def _request_value(self, value: float) -> bool:
         """Commandからの変更要求を処理して実値を確定する。"""
