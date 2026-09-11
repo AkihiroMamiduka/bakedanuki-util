@@ -12,7 +12,7 @@ from .....maya.ui import (
     get_channel_box_precision,
     resolve_float_plug,
 )
-from .....ui import FloatSpinBox, qt
+from .....ui import FloatLabel, FloatSpinBox, qt
 
 _TransformPlugs: TypeAlias = tuple[MayaFloatPlug, MayaFloatPlug, MayaFloatPlug]
 
@@ -23,6 +23,7 @@ class TransformFloatWidget(qt.QWidget):
     def __init__(
         self, plugs: _TransformPlugs, parent: qt.QWidget | None = None
     ) -> None:
+        """各BindingをSpinBoxとコピー可能な数値ラベルで共有する。"""
         super().__init__(parent)
         decimals = get_channel_box_precision()
         self.translate_x_binding = MayaFloatPlugBinding(plugs[0], parent=self)
@@ -37,16 +38,36 @@ class TransformFloatWidget(qt.QWidget):
         self.scale_x = FloatSpinBox(
             self.scale_x_binding, self, decimals=decimals, single_step=0.01
         )
+        self.translate_x_label = FloatLabel(
+            self.translate_x_binding, self, decimals=decimals
+        )
+        self.rotate_x_label = FloatLabel(
+            self.rotate_x_binding, self, decimals=decimals
+        )
+        self.scale_x_label = FloatLabel(
+            self.scale_x_binding, self, decimals=decimals
+        )
+
+        # 同じ確定値を編集用と表示用で共有し、lock中もラベルからコピーできる。
         layout = qt.QFormLayout(self)
-        layout.addRow("Translate X", self.translate_x)
-        layout.addRow("Rotate X", self.rotate_x)
-        layout.addRow("Scale X", self.scale_x)
+        for title, spin_box, label in (
+            ("Translate X", self.translate_x, self.translate_x_label),
+            ("Rotate X", self.rotate_x, self.rotate_x_label),
+            ("Scale X", self.scale_x, self.scale_x_label),
+        ):
+            row = qt.QHBoxLayout()
+            row.addWidget(spin_box)
+            row.addWidget(label, 1)
+            layout.addRow(title, row)
 
 
 class TransformFloatWindow(qt.QDialog):
+    """Maya属性の編集・表示を共有するWidgetを所有するWindow。"""
+
     def __init__(
         self, plugs: _TransformPlugs, parent: qt.QWidget | None = None
     ) -> None:
+        """指定plugの共有表示WidgetをWindowへ配置する。"""
         super().__init__(parent)
         self.setObjectName("bdUtilTransformFloatSampleWindow")
         self.setWindowTitle("bakedanuki-util Transform")
@@ -71,6 +92,7 @@ def show(node_name: str) -> TransformFloatWindow:
     def create_window(
         parent: qt.QWidget | None = None,
     ) -> TransformFloatWindow:
+        """解決済みの既存plugを使ってWindowを生成する。"""
         return TransformFloatWindow(plugs, parent)
 
     controller = MayaWindowController(create_window)

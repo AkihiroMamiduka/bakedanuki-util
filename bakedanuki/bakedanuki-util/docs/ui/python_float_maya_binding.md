@@ -142,6 +142,8 @@ window = maya_view.show("pCube1", data)
 既存transformのtranslateX・rotateX・scaleXへPython初期値を適用します。
 dataを省略した場合はサンプル既定値を使います。nodeは作成しません。
 3行の表示桁数は起動時のChannel Box設定を使い、Translate Xには6桁の共有Viewも配置します。
+各SpinBoxの横には、同じBindingと桁数を使う[FloatLabel](float_label.md)を配置します。
+ラベルはPythonの確定値を表示し、Mayaへの同期保留中もその値を選択・コピーできます。
 
 1. Qt・Channel Boxの双方から編集し、Pythonデータと表示が揃うことを確認する。
 2. Preferencesの距離・角度単位を変更し、Python値を維持したまま表示が切り替わることを確認する。

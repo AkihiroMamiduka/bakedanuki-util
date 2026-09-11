@@ -26,6 +26,7 @@ from .bool import (
 
 from .float import (
     FloatBinding,
+    FloatLabel,
     FloatPresentation,
     FloatSpinBox,
     FloatValue,
@@ -45,6 +46,7 @@ __all__ = [
     "PythonFloat3AttributeStore",
     "SetFloat3Command",
     "FloatBinding",
+    "FloatLabel",
     "FloatPresentation",
     "FloatSpinBox",
     "FloatValue",

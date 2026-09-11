@@ -88,6 +88,7 @@ class FloatViewModel(qt.QObject):
 
     store_refreshed = qt.Signal(float)
     presentation_changed = qt.Signal(object)
+    disposed = qt.Signal()
 
     def __init__(
         self,
@@ -146,6 +147,9 @@ class FloatViewModel(qt.QObject):
             return
         self._is_disposed = True
         self._set_value_command.set_can_execute(False)
+        # 読み取り専用Viewにも、編集可否とは別に明示終了を通知する。
+        if qt.isValid(self):
+            self.disposed.emit()
 
     def attach_store(self, store: FloatValueStore) -> None:
         """値の正本を接続し、その実値を初期同期する。"""

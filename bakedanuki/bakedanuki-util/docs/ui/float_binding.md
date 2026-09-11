@@ -50,6 +50,7 @@ binding.dispose()
 | `FloatValue.value` / `changed(float)` | 最後に同期した確定値と、実値が変わったときの通知 |
 | `SetFloatCommand.execute(value)` | 公開単位で変更を要求し、実値が変わったかboolで返す |
 | `FloatViewModel` | Value、Command、単一Store、表示情報を仲介する |
+| `FloatViewModel.disposed` | 読み取り専用Viewにも、編集可否と区別して明示終了を1回通知する |
 | `FloatValueStore` | `read()`、`write()`、`is_available`、`is_writable`、`presentation`の契約 |
 | `FloatBinding(store, parent=...)` | 外部Storeと専用ViewModelを組み立てる。外部Storeは所有しない |
 | `FloatBinding.from_attribute(instance, attribute_name, ...)` | Python属性用StoreとBindingを生成する |
@@ -58,10 +59,12 @@ binding.dispose()
 | `binding.value` / `changed` / `set_value()` / `refresh()` | bool Bindingと同じ利用窓口 |
 | `FloatPresentation` | immutableな表示倍率・suffix・公開単位でのhard limit |
 | `FloatSpinBox(source, parent=None, decimals=6, single_step=0.1)` | 共通のQDoubleSpinBox View |
+| `FloatLabel(source, parent=None, decimals=6)` | 値と単位を表示し、選択・コピーできるQLabel View |
 | `get_channel_box_precision()` | MayaのChange Precision設定を取得し、intで返す |
 
 汎用APIは`bd_util.ui`、Maya APIは`bd_util.maya.ui`からimportします。
 Storeの`write()`は成功可否ではなく、書き込み後のfloat実値を返します。
+SpinBoxとラベルは同じBindingを共有できます。ラベルの仕様は[FloatLabel](float_label.md)を参照してください。
 公開数値APIは有限のfloatとintを受け取り、floatへ正規化します。
 bool、文字列、NaN、無限大は拒否します。`Float`という名前はPythonの数値型を表し、
 Mayaの32bit floatだけを意味するものではありません。

@@ -1,10 +1,16 @@
 # coding: utf-8
-"""Pythonのfloat属性を2つのSpinBoxで共有する最小sample。"""
+"""Pythonのfloat属性をSpinBoxと数値ラベルで共有する最小sample。"""
 
 from __future__ import annotations
 
 from .....maya.ui import MayaWindowController
-from .....ui import FloatBinding, FloatPresentation, FloatSpinBox, qt
+from .....ui import (
+    FloatBinding,
+    FloatLabel,
+    FloatPresentation,
+    FloatSpinBox,
+    qt,
+)
 from .data import WeightData
 
 
@@ -30,6 +36,8 @@ class MinimalFloatWidget(qt.QWidget):
         self.linked_spin_box = FloatSpinBox(
             self.binding, self, decimals=6, single_step=0.01
         )
+        self.value_label = FloatLabel(self.binding, self, decimals=3)
+        self.linked_value_label = FloatLabel(self.binding, self, decimals=6)
         self.data_label = qt.QLabel(self)
         self.set_data_button = qt.QPushButton("Set data to 0.25", self)
         self.refresh_button = qt.QPushButton("Refresh views", self)
@@ -39,8 +47,18 @@ class MinimalFloatWidget(qt.QWidget):
 
         # Pythonの実値とViewを並べ、直接代入と同期の違いを確認できるようにする。
         form = qt.QFormLayout()
-        form.addRow("Weight (3 decimals)", self.spin_box)
-        form.addRow("Weight (6 decimals)", self.linked_spin_box)
+        for title, spin_box, label in (
+            ("Weight (3 decimals)", self.spin_box, self.value_label),
+            (
+                "Weight (6 decimals)",
+                self.linked_spin_box,
+                self.linked_value_label,
+            ),
+        ):
+            row = qt.QHBoxLayout()
+            row.addWidget(spin_box)
+            row.addWidget(label, 1)
+            form.addRow(title, row)
         buttons = qt.QHBoxLayout()
         buttons.addWidget(self.set_data_button)
         buttons.addWidget(self.refresh_button)

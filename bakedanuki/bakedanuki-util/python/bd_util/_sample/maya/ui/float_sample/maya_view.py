@@ -13,7 +13,7 @@ from .....maya.ui import (
     get_channel_box_precision,
     resolve_float_plug,
 )
-from .....ui import FloatSpinBox, qt
+from .....ui import FloatLabel, FloatSpinBox, qt
 from .data import TransformFloatData
 
 
@@ -56,13 +56,35 @@ class TransformFloatWidget(qt.QWidget):
         self.linked_translate_x = FloatSpinBox(
             self.translate_x_binding, self, decimals=6, single_step=0.1
         )
+        self.translate_x_label = FloatLabel(
+            self.translate_x_binding, self, decimals=decimals
+        )
+        self.linked_translate_x_label = FloatLabel(
+            self.translate_x_binding, self, decimals=6
+        )
+        self.rotate_x_label = FloatLabel(
+            self.rotate_x_binding, self, decimals=decimals
+        )
+        self.scale_x_label = FloatLabel(
+            self.scale_x_binding, self, decimals=decimals
+        )
 
         # Pythonの実値と共有Viewを並べ、表示精度とデータの精度を確認する。
         form = qt.QFormLayout()
-        form.addRow("Translate X", self.translate_x)
-        form.addRow("Translate X (6 decimals)", self.linked_translate_x)
-        form.addRow("Rotate X", self.rotate_x)
-        form.addRow("Scale X", self.scale_x)
+        for title, spin_box, label in (
+            ("Translate X", self.translate_x, self.translate_x_label),
+            (
+                "Translate X (6 decimals)",
+                self.linked_translate_x,
+                self.linked_translate_x_label,
+            ),
+            ("Rotate X", self.rotate_x, self.rotate_x_label),
+            ("Scale X", self.scale_x, self.scale_x_label),
+        ):
+            row = qt.QHBoxLayout()
+            row.addWidget(spin_box)
+            row.addWidget(label, 1)
+            form.addRow(title, row)
         self.data_label = qt.QLabel(self)
         self.result_label = qt.QLabel(self)
         self.set_data_button = qt.QPushButton("Set Python data", self)

@@ -134,7 +134,7 @@ from bd_util._sample.maya.ui.float_sample import minimal
 window = minimal.show()
 ```
 
-1つの`WeightData.weight`を3桁と6桁のSpinBoxで共有します。
+1つの`WeightData.weight`を3桁と6桁のSpinBoxと[FloatLabel](float_label.md)で共有します。
 `Data value`はPythonの実値を表示します。
 
 1. 一方のSpinBoxを編集し、もう一方と`Data value`が更新されることを確認する。
