@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Iterable
 from typing import Any, Callable, Literal, TypedDict
 
 # maya
@@ -25,6 +26,8 @@ TangentTypeName = Literal[
     "stepnext",
 ]
 TangentTypeValue = TangentTypeName | int | None
+_KeyValue = float | om.MAngle | om.MDistance | om.MTime
+_CapturedKey = tuple[om.MTime, _KeyValue]
 
 
 class _TangentFlags(TypedDict, total=False):
@@ -260,61 +263,139 @@ class KeyframeManager:
             raise ValueError("Keyframe value and frame must be finite.")
         in_type = _to_tangent_type(in_tangent_type)
         out_type = _to_tangent_type(out_tangent_type)
+        self._validate_set_target("set_key")
+
+        time = om.MTime(frame, om.MTime.uiUnit())
+        key_value = self._key_value(value)
+        self._queue_set_keys(manager, ((time, key_value),), in_type, out_type)
+
+    def set_keys(
+        self,
+        values: Iterable[float],
+        *,
+        frames: Iterable[float],
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+    ) -> None:
+        """複数キーの設定をまとめて予約する。単位はset_key()と同じ。
+
+        valuesとframesは同じ個数の有限値を渡す。全入力を呼び出し時に
+        捕捉・検証し、入力順で設定する。同じ時刻は後の値で上書きする。
+        tangent引数は全キー共通で、両方が空なら何も予約しない。
+        """
+        manager = self._require_modifier_manager()
+        time_unit = om.MTime.uiUnit()
+        in_type = _to_tangent_type(in_tangent_type)
+        out_type = _to_tangent_type(out_tangent_type)
+        self._validate_set_target("set_keys")
+        if isinstance(values, (str, bytes)) or isinstance(
+            frames, (str, bytes)
+        ):
+            raise TypeError("values and frames must be iterables of numbers.")
+        value_items = tuple(float(value) for value in values)
+        frame_items = tuple(float(frame) for frame in frames)
+        if len(value_items) != len(frame_items):
+            raise ValueError("values and frames must have the same length.")
+        if not all(math.isfinite(value) for value in value_items) or not all(
+            math.isfinite(frame) for frame in frame_items
+        ):
+            raise ValueError("Keyframe values and frames must be finite.")
+        if not value_items:
+            return
+        keys = tuple(
+            (om.MTime(frame, time_unit), self._key_value(value, time_unit))
+            for value, frame in zip(value_items, frame_items)
+        )
+        self._queue_set_keys(manager, keys, in_type, out_type)
+
+    def _validate_set_target(self, method: str) -> None:
         plug = self.plug
         if plug.isArray or plug.isCompound:
             raise TypeError(
-                "KeyframeManager.set_key() requires a scalar plug."
+                f"KeyframeManager.{method}() requires a scalar plug."
             )
         if not om.MFnAttribute(plug.attribute()).writable:
             raise RuntimeError(f"{self.plug_name} is not writable.")
 
-        time = om.MTime(frame, om.MTime.uiUnit())
-        key_value = self._key_value(value)
+    def _queue_set_keys(
+        self,
+        manager: ModifierManager,
+        keys: tuple[_CapturedKey, ...],
+        in_type: int,
+        out_type: int,
+    ) -> None:
+        plug = self.plug
         fn_anim_curve: oma.MFnAnimCurve | None = None
+        api_start = 0
+        tangent_flags: _TangentFlags = {}
+        in_name = _TANGENT_TYPE_NAMES.get(in_type)
+        out_name = _TANGENT_TYPE_NAMES.get(out_type)
+        if in_name is not None:
+            tangent_flags["inTangentType"] = in_name
+        if out_name is not None:
+            tangent_flags["outTangentType"] = out_name
 
-        def set_keyframe() -> None:
-            plug_name = plug.name()
-            if not cmds.objExists(plug_name):
-                raise RuntimeError(
-                    "Keyframe plug is not available when the queued "
-                    f"command executes: {plug_name!r}"
+        def queue_command_key(
+            modifier: om.MDGModifier, key: _CapturedKey
+        ) -> None:
+            time, key_value = key
+
+            def set_keyframe() -> None:
+                plug_name = plug.name()
+                if not cmds.objExists(plug_name):
+                    raise RuntimeError(
+                        "Keyframe plug is not available when the queued "
+                        f"command executes: {plug_name!r}"
+                    )
+                count = cmds.setKeyframe(
+                    plug_name,
+                    time=time.asUnits(om.MTime.uiUnit()),
+                    value=self._command_value(key_value),
+                    **tangent_flags,
                 )
-            tangent_flags: _TangentFlags = {}
-            in_name = _TANGENT_TYPE_NAMES.get(in_type)
-            out_name = _TANGENT_TYPE_NAMES.get(out_type)
-            if in_name is not None:
-                tangent_flags["inTangentType"] = in_name
-            if out_name is not None:
-                tangent_flags["outTangentType"] = out_name
-            count = cmds.setKeyframe(
-                plug_name,
-                time=time.asUnits(om.MTime.uiUnit()),
-                value=self._command_value(key_value),
-                **tangent_flags,
-            )
-            if not count:
-                raise RuntimeError(f"No keyframe was set on {plug_name!r}.")
+                if not count:
+                    raise RuntimeError(
+                        f"No keyframe was set on {plug_name!r}."
+                    )
 
-        def prepare_keyframe(modifier: om.MDGModifier) -> None:
+            # 複数cmdsを1 callbackへまとめると、途中失敗時に変更が残る。
+            modifier.pythonCommandToExecute(set_keyframe)
+
+        def prepare_first_key(modifier: om.MDGModifier) -> None:
             nonlocal fn_anim_curve
             fn_anim_curve = self._api_set_curve(in_type)
             if fn_anim_curve is None:
-                modifier.pythonCommandToExecute(set_keyframe)
+                queue_command_key(modifier, keys[0])
 
-        def set_api_keyframe(change: oma.MAnimCurveChange) -> None:
+        def prepare_remaining_keys(modifier: om.MDGModifier) -> None:
+            nonlocal fn_anim_curve, api_start
+            if fn_anim_curve is not None:
+                return
+            api_start = 1
+            fn_anim_curve = self._api_set_curve(in_type)
+            if fn_anim_curve is None:
+                for key in keys[1:]:
+                    queue_command_key(modifier, key)
+
+        def set_api_keys(change: oma.MAnimCurveChange) -> None:
             if fn_anim_curve is None:
                 return
-            if isinstance(key_value, om.MAngle):
-                api_value = key_value.asRadians()
-            elif isinstance(key_value, om.MDistance):
-                api_value = key_value.asCentimeters()
-            else:
-                api_value = key_value
-            # addKeyは上書き時のbreakdown・tangent lockもcmdsと同じく更新する。
-            fn_anim_curve.addKey(time, api_value, in_type, out_type, change)
+            for time, key_value in keys[api_start:]:
+                if isinstance(key_value, om.MAngle):
+                    api_value = key_value.asRadians()
+                elif isinstance(key_value, om.MDistance):
+                    api_value = key_value.asCentimeters()
+                else:
+                    api_value = key_value
+                # addKeyは上書き時のbreakdown・tangent lockもcmdsと同じく更新する。
+                fn_anim_curve.addKey(
+                    time, api_value, in_type, out_type, change
+                )
 
-        manager.queue_dg_modifier(prepare_keyframe)
-        manager.queue_anim_curve_change(set_api_keyframe)
+        manager.queue_dg_modifier(prepare_first_key)
+        if len(keys) > 1:
+            manager.queue_dg_modifier(prepare_remaining_keys)
+        manager.queue_anim_curve_change(set_api_keys)
 
     def _api_set_curve(self, in_type: int) -> oma.MFnAnimCurve | None:
         """cmdsと同じ編集ができる単純な直接接続だけを、実行時に解決する。"""
@@ -373,8 +454,8 @@ class KeyframeManager:
         return fn_anim_curve
 
     def _key_value(
-        self, value: float
-    ) -> float | om.MAngle | om.MDistance | om.MTime:
+        self, value: float, time_unit: int | None = None
+    ) -> _KeyValue:
         attribute = self.plug.attribute()
         if attribute.hasFn(om.MFn.kUnitAttribute):
             unit_type = om.MFnUnitAttribute(attribute).unitType()
@@ -383,7 +464,10 @@ class KeyframeManager:
             if unit_type == om.MFnUnitAttribute.kDistance:
                 return om.MDistance(value, om.MDistance.kCentimeters)
             if unit_type == om.MFnUnitAttribute.kTime:
-                return om.MTime(value, om.MTime.uiUnit())
+                return om.MTime(
+                    value,
+                    om.MTime.uiUnit() if time_unit is None else time_unit,
+                )
         return value
 
     @staticmethod

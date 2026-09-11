@@ -4144,6 +4144,23 @@ def keyframe_contract(
     assert_type(keyframe.key_count(), int)
     assert_type(keyframe.has_key(1.0), bool)
     assert_type(keyframe.insert_key(12.0, breakdown=True), None)
+    assert_type(
+        keyframe.set_keys(
+            [0.0, 90.0],
+            frames=(1.0, 24.0),
+            in_tangent_type=tangent_name,
+            out_tangent_type=tangent_value,
+        ),
+        None,
+    )
+    assert_type(
+        keyframe.set_keys(
+            (float(value) for value in range(3)),
+            frames=range(3),
+            out_tangent_type="linear",
+        ),
+        None,
+    )
     assert_type(keyframe.set_tangent(12.0, out_tangent_type="linear"), None)
     assert_type(keyframe.delete_key(12.0), None)
     assert_type(keyframe.delete_keys(start_frame=1.0, end_frame=24.0), None)
@@ -4168,6 +4185,19 @@ def keyframe_contract(
     keyframe.set_tangent(
         1.0,
         out_tangent_type="unknown",  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_keys(
+        1.0,  # pyright: ignore[reportArgumentType]
+        frames=[1.0],
+    )
+    keyframe.set_keys(
+        [1.0],
+        frames=["invalid"],  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_keys(
+        [1.0],
+        frames=[1.0],
+        in_tangent_type="linera",  # pyright: ignore[reportArgumentType]
     )
     keyframe.set  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     keyframe.insert  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]

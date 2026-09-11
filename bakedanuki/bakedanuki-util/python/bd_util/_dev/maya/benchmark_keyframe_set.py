@@ -104,13 +104,21 @@ def main() -> None:
                 set_key = keyframe.set_key
             before = snapshot(keyframe)
             start = perf_counter()
-            for frame in range(count):
-                set_key(
-                    frame + 1,
-                    frame,
+            if backend == "batch":
+                keyframe.set_keys(
+                    range(1, count + 1),
+                    frames=range(count),
                     in_tangent_type="linear",
                     out_tangent_type="linear",
                 )
+            else:
+                for frame in range(count):
+                    set_key(
+                        frame + 1,
+                        frame,
+                        in_tangent_type="linear",
+                        out_tangent_type="linear",
+                    )
             queued = perf_counter()
             manager.do_it_dg()
             done = perf_counter()
@@ -149,7 +157,8 @@ def main() -> None:
         for case in ("new", "existing", "overwrite"):
             for count in args.keys:
                 samples = {
-                    backend: [] for backend in ("cmds_baseline", "current")
+                    backend: []
+                    for backend in ("cmds_baseline", "current", "batch")
                 }
                 for repeat in range(args.repeats + 1):
                     order = list(samples)

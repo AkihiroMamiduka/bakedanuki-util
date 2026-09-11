@@ -9,6 +9,10 @@
 
 ### Added
 
+- `KeyframeManager.set_keys(values, *, frames, ...)`を追加。単位・tangent・
+  予約実行とUndo / Redoは`set_key()`と共通で、全入力を捕捉・検証してから入力順に
+  設定する。単純なカーブではバッチ内の取得と変更キャッシュを共有し、新規作成や
+  複雑な接続ではMaya標準のキー設定を使用する。
 - `Quat`をimmutableなraw Quaternion値のまま拡張。identity / sequence /
   `MQuaternion` constructor、Euler / axis-angle / 2-vector / matrixからの作成、
   Quaternion積、変換、逆元、共役、正規化、shortest-path slerp、状態と等価性の

@@ -161,18 +161,44 @@ mod.redo_it()
 含みません。変更methodは`do_it_dg()`を暗黙に呼び出しません。MayaのUndoキューへの登録は
 [ModifierManagerのMPxCommand連携](modifier_manager.md)を参照してください。
 
+### 複数キーをまとめて設定する
+
+`set_keys(values, *, frames, in_tangent_type=None, out_tangent_type=None) -> None`は、
+複数キーをまとめて予約します。`values`とkeyword専用の`frames`には、同じ個数の
+`Iterable[float]`を渡します。単位・tangent・実行時の経路選択は`set_key()`と同じです。
+
+```python
+keyframe.set_keys(
+    [0.0, 45.0, 90.0],
+    frames=[1.0, 12.0, 24.0],
+    in_tangent_type="linear",
+    out_tangent_type="linear",
+)
+mod.do_it_dg()
+```
+
+listだけでなくgeneratorも呼び出し時にすべて読み取り、値・時刻を捕捉してから予約します。
+長さの不一致やNaN・無限大は`ValueError`、配列の代わりに渡した`str` / `bytes`は
+`TypeError`です。入力の読み取りや検証に失敗しても、この呼び出しの一部だけを予約する
+ことはありません。両方が空ならキーを予約しませんが、managerや対象plugなどの前提は
+通常どおり検証します。
+
+入力を並べ替えず、その順序で設定します。同じ時刻が複数あれば後の値で上書きします。
+tangent引数は全キー共通で、既存キーのtangent typeを維持する仕様も`set_key()`と同じです。
+時刻とtime属性の値には、generatorを読み取る前の呼び出し入口のUI時間単位を使用します。
+
 ### 引数と単位
 
 | 引数 / plug型 | 公開単位 |
 | --- | --- |
-| `frame` / `start_frame` / `end_frame` | 各変更methodを呼んだ時点のMaya UI時間単位 |
-| angleの`value` | degree |
-| linearの`value` | centimeter |
-| time属性の`value` | `set_key()`を呼んだ時点のMaya UI時間単位 |
-| その他scalarの`value` | numeric値。bool / enumも数値で指定 |
+| `frame` / `frames`の各要素 / `start_frame` / `end_frame` | 各変更methodを呼んだ時点のMaya UI時間単位 |
+| angleの`value` / `values`の各要素 | degree |
+| linearの`value` / `values`の各要素 | centimeter |
+| time属性の`value` / `values`の各要素 | `set_key()` / `set_keys()`を呼んだ時点のMaya UI時間単位 |
+| その他scalarの`value` / `values`の各要素 | numeric値。bool / enumも数値で指定 |
 
 angle / linearは通常の`PlugOperator.set()`と同じ固定単位です。時刻とtime属性の
-値は予約時の時間単位で捕捉します。`set_key()`のAPI経路ではangleをradian、linearを
+値は予約時の時間単位で捕捉します。キー設定のAPI経路ではangleをradian、linearを
 centimeterとして渡し、cmds経路では実行時のUI単位へ換算します。
 挿入・tangent変更・キー削除も捕捉した時刻をAPIで使用します。
 予約後にangle / linear / timeのUI単位を変更しても、予約した物理量は維持します。
@@ -180,10 +206,10 @@ centimeterとして渡し、cmds経路では実行時のUI単位へ換算しま�
 `delete_keys()`の逆転した範囲は予約時に検証します。
 
 `in_tangent_type` / `out_tangent_type`には`"linear"`などの文字列、または
-`keyframe.tangent.linear`などの定数を指定できます。`set_key()`の`None`はMayaの既定値を
-使用し、`set_tangent()`の`None`はその側のtangentを変更しません。
+`keyframe.tangent.linear`などの定数を指定できます。`set_key()` / `set_keys()`の`None`は
+Mayaの既定値を使用し、`set_tangent()`の`None`はその側のtangentを変更しません。
 
-両methodのtangent引数は`TangentTypeName | int | None`で型付けしています。
+これらのmethodのtangent引数は`TangentTypeName | int | None`で型付けしています。
 `TangentTypeName`は次の小文字の文字列を列挙した`Literal`で、対応するIDEでは
 引数の文字列補完候補になり、未対応の名前やタイプミスは型チェックで検出できます。
 
@@ -196,8 +222,8 @@ centimeterとして渡し、cmds経路では実行時のUI単位へ換算しま�
 これらの型を使うと、候補を保ったままキーフレームmethodへ渡せます。
 実行時の大文字・小文字を区別しない解釈と、不正な値の検証は従来どおりです。
 
-`set_key()`の`in_tangent_type="step"`はMayaが警告を出して入力側を既定値にするため、
-step補間は`out_tangent_type="step"`へ指定してください。Maya 2027では入力側の
+`set_key()` / `set_keys()`の`in_tangent_type="step"`はMayaが警告を出して入力側を
+既定値にするため、step補間は`out_tangent_type="step"`へ指定してください。Maya 2027では入力側の
 `"stepnext"`も同様に既定値になります。どちらも出力側へ指定することで、
 対応するMaya version間で共通の設定として使用できます。
 既存キーの上書きではvalueを更新して既存tangent typeを維持し、指定したtangent引数で
@@ -207,7 +233,7 @@ breakdownやtangent lockの更新も`cmds.setKeyframe()`と同じ挙動に揃え
 
 ### 対象カーブと実行時エラー
 
-`set_key()`は実行時の接続・型・scene状態からAPI経路かcmds経路を選択します。
+`set_key()` / `set_keys()`は実行時の接続・型・scene状態からAPI経路かcmds経路を選択します。
 対象plugに直接接続した既存のTA / TL / TUカーブがあり、plugとカーブの型が一致する
 単純な構成では、`MFnAnimCurve.addKey()`と`MAnimCurveChange`で追加・上書きします。
 API経路の対象plugは、boolを除くscalar numericとangle / linearです。
@@ -224,7 +250,7 @@ API経路の対象plugは、boolを除くscalar numericとangle / linearです�
 - 入力側tangentが`step` / `stepnext`、またはTAカーブの`rotationInterpolation`が1以外の場合。
 
 cmds経路ではカーブの選択・作成、animation layerへの値の解決、必要なblend nodeの
-作成をMayaへ委ねます。現在の`set_key()`にはlayer指定や`insertBlend`指定の引数はなく、
+作成をMayaへ委ねます。キー設定にはlayer指定や`insertBlend`指定の引数はなく、
 Maya側の状態・設定が適用されます。layerを一律にcmdsへ委ねるのは、BaseAnimationの
 lockが、layerに属さない直接接続カーブへのキー設定も禁止するためです。
 [Autodesk setKeyframe](https://help.autodesk.com/cloudhelp/2026/ENU/Maya-Tech-Docs/CommandsPython/setKeyframe.html)
@@ -232,8 +258,15 @@ lockが、layerに属さない直接接続カーブへのキー設定も禁止�
 通常のキー設定では上流の最初のカーブを探索して編集することはありません。
 先行する作成・接続・キー設定が反映された時点で経路を判定するため、同じ予約列で
 1個目のキーをcmdsで作成し、後続のキーをAPIで追加することもできます。
+
+`set_keys()`では、単純な既存カーブの取得と経路判定をバッチ内で再利用し、1つの
+`MFnAnimCurve`と`MAnimCurveChange`で、入力順に`addKey()`を呼びます。`addKeys()`は
+使用しません。カーブがなければ最初の1キーをcmdsで作成・反映し、残りのキーを
+APIで扱えるか再判定します。layerや複雑な接続などでは全キーをcmdsへ委譲し、
+途中の失敗を戻せるよう、1キーずつ別のcommand callbackとして予約します。
+
 どちらの経路も同じ`do_it_dg()`の履歴へ含み、途中の失敗ではその実行境界の変更を戻します。
-カーブの取得結果を別の`set_key()`の探索に再利用する永続キャッシュは持ちません。
+カーブの取得結果を別の`set_key()` / `set_keys()`の探索に再利用する永続キャッシュは持ちません。
 Undo / Redoは初回実行で記録したmodifierと変更キャッシュを使用し、経路を再判定しません。
 
 対象plugの名前は実行時に`MPlug`から取得するため、予約後の改名にも追従します。
@@ -245,7 +278,7 @@ lockや既存driven keyの接続などによりMayaがキーを1個も設定し�
 ### MPlugから使用する
 
 `KeyframeManager`を単体で使用する場合は、`modifier_manager`をkeywordで渡します。
-`set_key()`の単位はscalar `PlugOperator`経由と同じです。
+`set_key()` / `set_keys()`の単位はscalar `PlugOperator`経由と同じです。
 
 ```python
 import bd_util as bdu
@@ -299,12 +332,12 @@ frames = keyframe.frames()
 ```
 
 これらの編集操作とqueryは、上流で最初に見つかったtime-input animCurveを
-対象にする従来の探索を使用します。animation layer全体の合成値や、`set_key()`で
+対象にする従来の探索を使用します。animation layer全体の合成値や、`set_key()` / `set_keys()`で
 Mayaが選んだlayerのカーブを必ず扱うAPIではありません。カーブはquery時・編集実行時に
 探索し、Undoや再接続をまたいで古いカーブをキャッシュしません。
 
-`set_key()`のAPI経路の対象拡張、一括キー設定、編集対象カーブ・layerを明示するAPIは
-今後の検討対象です。今回の実装は既存の単純なカーブへのAPI編集を対象とします。
+キー設定のAPI経路の対象拡張と、編集対象カーブ・layerを明示するAPIは今後の検討対象です。
+現在のAPI経路は既存の単純なカーブへの編集を対象とします。
 
 ### 旧APIからの移行
 

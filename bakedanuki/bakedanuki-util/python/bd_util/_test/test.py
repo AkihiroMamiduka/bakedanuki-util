@@ -11,37 +11,19 @@ def main():
     nodes = bdu.Nodes()
 
     trsf = nodes.create.transform(name="test")
-    trsf.tx.keyframe.set_key(
-        -100,
-        frame=-100,
-        in_tangent_type="linear",
-        out_tangent_type="linear",
-    )
-    trsf.tx.keyframe.set_key(
-        100,
-        frame=100,
-        in_tangent_type="linear",
-        out_tangent_type="linear",
-    )
+    values = [i for i in range(10000)]
 
-    trsf.tx.keyframe.insert_key(frame=15)
-    trsf.tx.keyframe.set_tangent(
-        frame=15,
-        in_tangent_type="flat",
-        out_tangent_type="step",
-    )
+    trsf.tx.keyframe.set_keys(values, frames=values)
+    trsf.ty.keyframe.set_keys(values, frames=values)
+    trsf.tz.keyframe.set_keys(values, frames=values)
 
-    # trsf.tx.keyframe.delete_key(15)
-    # trsf.tx.keyframe.delete_keys(-200, 200)
+    trsf.rx.keyframe.set_keys(values, frames=values)
+    trsf.ry.keyframe.set_keys(values, frames=values)
+    trsf.rz.keyframe.set_keys(values, frames=values)
 
-    # trsf.tx.keyframe.set_key(
-    #     100,
-    #     frame=10,
-    #     in_tangent_type="linear",
-    #     out_tangent_type="linear",
-    # )
-
-    # trsf.tx.keyframe.delete_anim_curve()
+    trsf.sx.keyframe.set_keys(values, frames=values)
+    trsf.sy.keyframe.set_keys(values, frames=values)
+    trsf.sz.keyframe.set_keys(values, frames=values)
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
