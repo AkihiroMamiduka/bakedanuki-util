@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from typing import Protocol, cast
+from weakref import ReferenceType, ref
 
 from ... import qt
 from ._validation import require_float
@@ -39,6 +40,13 @@ def _require_bool(value: object, argument_name: str) -> bool:
             f"{argument_name}にはboolを指定してください: "
             f"{type(value).__name__}"
         )
+    return value
+
+
+def _require_edit_owner(value: object) -> qt.QObject:
+    """連続編集を所有する生存中のQt objectを検証する。"""
+    if not isinstance(value, qt.QObject) or not qt.isValid(value):
+        raise TypeError("ownerには生存中のQObjectを指定してください")
     return value
 
 
@@ -89,6 +97,8 @@ class FloatViewModel(qt.QObject):
     store_refreshed = qt.Signal(float)
     presentation_changed = qt.Signal(object)
     disposed = qt.Signal()
+    edit_started = qt.Signal()
+    edit_finished = qt.Signal()
 
     def __init__(
         self,
@@ -100,6 +110,10 @@ class FloatViewModel(qt.QObject):
         """メモリ上の初期値とbindingの寿命を管理するownerで初期化する。"""
         super().__init__(parent)
         self._is_disposed = False
+        self._edit_owner: ReferenceType[qt.QObject] | None = None
+        self._edit_owner_connection: (
+            qt.QtCore.QMetaObject.Connection | None
+        ) = None
         self._presentation = require_presentation(
             presentation if presentation is not None else FloatPresentation()
         )
@@ -146,10 +160,53 @@ class FloatViewModel(qt.QObject):
         if self.is_disposed:
             return
         self._is_disposed = True
+        self.end_edit()
         self._set_value_command.set_can_execute(False)
         # 読み取り専用Viewにも、編集可否とは別に明示終了を通知する。
         if qt.isValid(self):
             self.disposed.emit()
+
+    @property
+    def is_editing(self) -> bool:
+        """Viewが開始した連続編集が継続中か返す。"""
+        return self._edit_owner is not None and not self.is_disposed
+
+    def begin_edit(self, owner: qt.QObject) -> bool:
+        """1つのViewによる連続編集を開始し、owner破棄時にも終了する。"""
+        owner = _require_edit_owner(owner)
+        if self.is_disposed or not self._set_value_command.can_execute:
+            return False
+        if self._edit_owner is not None:
+            if self._edit_owner() is owner:
+                return True
+            raise RuntimeError("別のViewによる連続編集が進行中です")
+        self._edit_owner = ref(owner)
+        self._edit_owner_connection = owner.destroyed.connect(
+            self._on_edit_owner_destroyed
+        )
+        self.edit_started.emit()
+        return self._owns_edit(owner)
+
+    def _owns_edit(self, owner: qt.QObject) -> bool:
+        """通知slotによる終了・再開始後も、現在の編集ownerを読み直す。"""
+        return self._edit_owner is not None and self._edit_owner() is owner
+
+    def end_edit(self, owner: qt.QObject | None = None) -> None:
+        """連続編集を確定終了する。owner省略時は現在の編集を終了する。"""
+        if self._edit_owner is None:
+            return
+        if owner is not None and self._edit_owner() is not owner:
+            return
+        self._edit_owner = None
+        _disconnect_qt_connection(self._edit_owner_connection)
+        self._edit_owner_connection = None
+        if qt.isValid(self):
+            self.edit_finished.emit()
+
+    @qt.Slot()
+    def _on_edit_owner_destroyed(self) -> None:
+        """入力Viewの破棄時に連続編集を確定終了する。"""
+        self.end_edit()
 
     def attach_store(self, store: FloatValueStore) -> None:
         """値の正本を接続し、その実値を初期同期する。"""
@@ -229,6 +286,7 @@ class FloatViewModel(qt.QObject):
     def store_became_unavailable(self, store: FloatValueStore) -> None:
         """接続Storeが利用できなくなったことを反映する。"""
         self._require_attached_store(store)
+        self.end_edit()
         self._set_value_command.set_can_execute(False)
 
     def _adapt_presentation(

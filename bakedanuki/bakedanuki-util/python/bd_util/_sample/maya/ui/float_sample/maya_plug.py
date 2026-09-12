@@ -12,7 +12,7 @@ from .....maya.ui import (
     get_channel_box_precision,
     resolve_float_plug,
 )
-from .....ui import FloatLabel, FloatSpinBox, qt
+from .....ui import FloatLabel, FloatSlider, FloatSpinBox, qt
 
 _TransformPlugs: TypeAlias = tuple[MayaFloatPlug, MayaFloatPlug, MayaFloatPlug]
 
@@ -23,7 +23,7 @@ class TransformFloatWidget(qt.QWidget):
     def __init__(
         self, plugs: _TransformPlugs, parent: qt.QWidget | None = None
     ) -> None:
-        """各BindingをSpinBoxとコピー可能な数値ラベルで共有する。"""
+        """各BindingをSlider・SpinBox・コピー可能な数値ラベルで共有する。"""
         super().__init__(parent)
         decimals = get_channel_box_precision()
         self.translate_x_binding = MayaFloatPlugBinding(plugs[0], parent=self)
@@ -47,15 +47,41 @@ class TransformFloatWidget(qt.QWidget):
         self.scale_x_label = FloatLabel(
             self.scale_x_binding, self, decimals=decimals
         )
+        # 操作範囲はcm・degree・単位なしで指定し、表示単位の変更でも維持する。
+        self.translate_x_slider = FloatSlider(
+            self.translate_x_binding,
+            self,
+            minimum=-100,
+            maximum=100,
+            steps=2000,
+        )
+        self.rotate_x_slider = FloatSlider(
+            self.rotate_x_binding, self, minimum=-180, maximum=180, steps=3600
+        )
+        self.scale_x_slider = FloatSlider(
+            self.scale_x_binding, self, minimum=0, maximum=3, steps=3000
+        )
 
         # 同じ確定値を編集用と表示用で共有し、lock中もラベルからコピーできる。
         layout = qt.QFormLayout(self)
-        for title, spin_box, label in (
-            ("Translate X", self.translate_x, self.translate_x_label),
-            ("Rotate X", self.rotate_x, self.rotate_x_label),
-            ("Scale X", self.scale_x, self.scale_x_label),
+        for title, spin_box, label, slider in (
+            (
+                "Translate X",
+                self.translate_x,
+                self.translate_x_label,
+                self.translate_x_slider,
+            ),
+            (
+                "Rotate X",
+                self.rotate_x,
+                self.rotate_x_label,
+                self.rotate_x_slider,
+            ),
+            ("Scale X", self.scale_x, self.scale_x_label, self.scale_x_slider),
         ):
             row = qt.QHBoxLayout()
+            slider.setMinimumWidth(160)
+            row.addWidget(slider, 1)
             row.addWidget(spin_box)
             row.addWidget(label, 1)
             layout.addRow(title, row)

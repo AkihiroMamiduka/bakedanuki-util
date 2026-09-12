@@ -60,6 +60,7 @@ binding.dispose()
 | `FloatPresentation` | immutableな表示倍率・suffix・公開単位でのhard limit |
 | `FloatSpinBox(source, parent=None, decimals=6, single_step=0.1)` | 共通のQDoubleSpinBox View |
 | `FloatLabel(source, parent=None, decimals=6)` | 値と単位を表示し、選択・コピーできるQLabel View |
+| `FloatSlider(source, parent=None, minimum=..., maximum=..., steps=1000)` | 公開単位の有限範囲を連続編集するQSlider View |
 | `get_channel_box_precision()` | MayaのChange Precision設定を取得し、intで返す |
 
 汎用APIは`bd_util.ui`、Maya APIは`bd_util.maya.ui`からimportします。
@@ -121,8 +122,8 @@ Channel Box自体が未生成でも取得できます。スクリプトでChanne
 
 `single_step`は表示単位での刻み幅です。Mayaの単位変更後も数値の刻み幅は維持します。
 キーボード入力はEnter／フォーカス移動で確定し、矢印・ホイールはstepごとに反映します。
-Mayaへの各書き込みは標準Undo／Redo対象です。押しっぱなしなどの連続操作を1回のUndoへ
-まとめるtransactionは今回の範囲に含めません。
+Mayaへの各書き込みは標準Undo／Redo対象です。SpinBoxの各変更は個別に確定します。
+[FloatSlider](float_slider.md)はViewModelの連続編集APIを使い、ドラッグ中の書き込みをUndo 1回へまとめます。
 
 Maya属性のhard min/maxを表示単位に変換して範囲へ反映します。soft limitは入力制限に
 使いません。範囲なしの側はQt doubleの有限範囲を使用します。今回のtransformの3属性には

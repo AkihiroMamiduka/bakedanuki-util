@@ -12,6 +12,7 @@ from ....ui import FloatViewModel, qt
 from ....ui.binding.float._validation import require_float
 from .float_plug_resolver import MayaFloatPlug, require_float_plug
 from ._float_plug_value import FloatPlugValue
+from ._float_edit import FloatEditUndo
 from ..callback import MayaCallbackRegistry
 
 
@@ -156,6 +157,8 @@ class FloatPlugEndpoint(qt.QObject):
         self._node_was_removed = False
         self._refresh_scheduled = False
         self._is_disposed = False
+        self._edit_undo = FloatEditUndo(view_model)
+        self._registry.disposed.connect(self._edit_undo.dispose)
 
         self._registry_disposed_connection: (
             qt.QtCore.QMetaObject.Connection | None
@@ -253,7 +256,8 @@ class FloatPlugEndpoint(qt.QObject):
         if self._codec.to_ui(current_value) == ui_value:
             return current_value
         set_attr = cast(Callable[[str, float], None], cmds.setAttr)
-        set_attr(self._cmds_plug_name(), ui_value)
+        with self._edit_undo.write():
+            set_attr(self._cmds_plug_name(), ui_value)
         return self._read_plug()
 
     def _dispose_endpoint(
@@ -265,6 +269,7 @@ class FloatPlugEndpoint(qt.QObject):
         if self._is_disposed:
             return False
         self._is_disposed = True
+        self._edit_undo.dispose()
         self._refresh_scheduled = False
         self._disconnect_lifecycle_connections()
         self._registry.dispose()

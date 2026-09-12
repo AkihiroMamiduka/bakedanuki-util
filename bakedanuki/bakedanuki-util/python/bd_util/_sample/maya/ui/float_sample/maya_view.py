@@ -13,7 +13,7 @@ from .....maya.ui import (
     get_channel_box_precision,
     resolve_float_plug,
 )
-from .....ui import FloatLabel, FloatSpinBox, qt
+from .....ui import FloatLabel, FloatSlider, FloatSpinBox, qt
 from .data import TransformFloatData
 
 
@@ -68,20 +68,54 @@ class TransformFloatWidget(qt.QWidget):
         self.scale_x_label = FloatLabel(
             self.scale_x_binding, self, decimals=decimals
         )
+        # Pythonの公開値に対する操作範囲を、各Viewから共有する。
+        self.translate_x_slider = FloatSlider(
+            self.translate_x_binding,
+            self,
+            minimum=-100,
+            maximum=100,
+            steps=2000,
+        )
+        self.linked_translate_x_slider = FloatSlider(
+            self.translate_x_binding,
+            self,
+            minimum=-100,
+            maximum=100,
+            steps=2000,
+        )
+        self.rotate_x_slider = FloatSlider(
+            self.rotate_x_binding, self, minimum=-180, maximum=180, steps=3600
+        )
+        self.scale_x_slider = FloatSlider(
+            self.scale_x_binding, self, minimum=0, maximum=3, steps=3000
+        )
 
         # Pythonの実値と共有Viewを並べ、表示精度とデータの精度を確認する。
         form = qt.QFormLayout()
-        for title, spin_box, label in (
-            ("Translate X", self.translate_x, self.translate_x_label),
+        for title, spin_box, label, slider in (
+            (
+                "Translate X",
+                self.translate_x,
+                self.translate_x_label,
+                self.translate_x_slider,
+            ),
             (
                 "Translate X (6 decimals)",
                 self.linked_translate_x,
                 self.linked_translate_x_label,
+                self.linked_translate_x_slider,
             ),
-            ("Rotate X", self.rotate_x, self.rotate_x_label),
-            ("Scale X", self.scale_x, self.scale_x_label),
+            (
+                "Rotate X",
+                self.rotate_x,
+                self.rotate_x_label,
+                self.rotate_x_slider,
+            ),
+            ("Scale X", self.scale_x, self.scale_x_label, self.scale_x_slider),
         ):
             row = qt.QHBoxLayout()
+            slider.setMinimumWidth(160)
+            row.addWidget(slider, 1)
             row.addWidget(spin_box)
             row.addWidget(label, 1)
             form.addRow(title, row)
