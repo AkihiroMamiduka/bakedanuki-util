@@ -99,7 +99,8 @@ Bindingを渡した場合は複合Viewが参照保持し、Viewだけを保持�
 
 ## サンプルと確認
 
-既存の`maya_plug.py`・`minimal.py`・`maya_view.py`を複合Viewで組み立てる形へ更新しています。
+既存の`maya_plug.py`・`minimal.py`・`maya_view.py`は、このクラスを継承する
+[FloatRangeSliderSpinBox](float_range_slider_spin_box.md)を使用し、両端の範囲編集も確認できます。
 共有ラベルと、各子Viewへの従来のサンプル変数も引き続き使用できます。
 
 ```python

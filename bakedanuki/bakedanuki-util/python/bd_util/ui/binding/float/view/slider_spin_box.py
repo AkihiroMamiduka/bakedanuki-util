@@ -54,8 +54,7 @@ class FloatSliderSpinBox(qt.QWidget):
             self.spin_box = FloatSpinBox(
                 view_model, self, decimals=decimals, single_step=single_step
             )
-            layout = qt.QHBoxLayout(self)
-            layout.setContentsMargins(0, 0, 0, 0)
+            layout = self._create_layout()
             layout.addWidget(self.slider, 1)
             layout.addWidget(self.spin_box)
             self.setSizePolicy(
@@ -69,6 +68,12 @@ class FloatSliderSpinBox(qt.QWidget):
             self.setParent(None)
             self.deleteLater()
             raise
+
+    def _create_layout(self) -> qt.QHBoxLayout:
+        """派生Viewでも入力部品を共有できるよう、配置先の行を作る。"""
+        layout = qt.QHBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        return layout
 
     @property
     def view_model(self) -> FloatViewModel:

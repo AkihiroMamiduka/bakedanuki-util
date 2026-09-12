@@ -37,6 +37,7 @@ SliderとSpinBoxを1つのWidgetとして配置する場合は[FloatSliderSpinBo
 | `slider.view_model` | 生存中のViewModelを返す。終了後は例外を送出する |
 | `slider.floatRange()` | 指定した公開単位の操作範囲を返す |
 | `slider.setFloatRange(minimum, maximum)` | 値を書き換えずに操作範囲を変更する |
+| `slider.floatRangeChanged(float, float)` | 設定した公開単位範囲が変わった後に通知する。実値やhard limitだけの変更では通知しない |
 | `slider.effectiveFloatRange()` | hard limitとの共通範囲。操作できる幅がなければ`None` |
 | `slider.value()` / `setValue(position)` | Qt標準の**整数位置**を取得・設定する |
 | `binding.value` / `binding.set_value(value)` | 正本の浮動小数点値を取得・変更する |
@@ -56,6 +57,8 @@ Qtの`setRange()`・`setMinimum()`・`setMaximum()`は内部の整数範囲用�
 `0～steps`を維持し、浮動小数点の操作範囲変更には`setFloatRange()`を使ってください。
 Qtの`singleStep`は1位置、`pageStep`は分割数の約1/10です。これらのQt APIは整数位置単位で使えます。
 今回のViewは線形スライダーです。soft limitの自動取得、対数目盛り、自動範囲拡張は追加していません。
+
+ユーザーが表示単位で両端を編集する場合は[FloatRangeSliderSpinBox](float_range_slider_spin_box.md)を使用できます。
 
 ## 連続編集とUndo
 

@@ -217,6 +217,42 @@ def test_unwritable_disposed_and_destroyed_sources(qt_application):
         flush()
 
 
+def test_input_enabled_combines_local_setting_with_store_writability(
+    qt_application,
+):
+    owner = qt.QWidget()
+    store = Store()
+    binding = FloatBinding(store, parent=owner)
+    view = FloatSpinBox(binding, owner)
+    try:
+        view.setInputEnabled(False)
+        for writable in (False, True):
+            store.is_writable = writable
+            store.value = 2.5
+            binding.refresh()
+            assert not view.isEnabled()
+            assert view.value() == 2.5
+        view.setValue(5)
+        assert store.writes == 0
+        assert view.value() == 2.5
+        store.is_writable = False
+        binding.refresh()
+        view.setInputEnabled(True)
+        assert view.isInputEnabled()
+        assert not view.isEnabled()
+        store.is_writable = True
+        binding.refresh()
+        assert view.isEnabled()
+        view.setValue(5)
+        assert store.value == 5
+        with pytest.raises(TypeError):
+            view.setInputEnabled(1)
+        assert view.isInputEnabled()
+    finally:
+        owner.deleteLater()
+        flush()
+
+
 def test_shared_parent_destruction_does_not_reenter_views(qt_application):
     owner = qt.QWidget()
     binding = FloatBinding(Store(), parent=owner)

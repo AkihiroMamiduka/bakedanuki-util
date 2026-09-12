@@ -12,7 +12,7 @@ from .....maya.ui import (
     get_channel_box_precision,
     resolve_float_plug,
 )
-from .....ui import FloatLabel, FloatSliderSpinBox, qt
+from .....ui import FloatLabel, FloatRangeSliderSpinBox, qt
 
 _TransformPlugs: TypeAlias = tuple[MayaFloatPlug, MayaFloatPlug, MayaFloatPlug]
 
@@ -29,8 +29,13 @@ class TransformFloatWidget(qt.QWidget):
         self.translate_x_binding = MayaFloatPlugBinding(plugs[0], parent=self)
         self.rotate_x_binding = MayaFloatPlugBinding(plugs[1], parent=self)
         self.scale_x_binding = MayaFloatPlugBinding(plugs[2], parent=self)
-        # 操作範囲はcm・degree・単位なしで指定し、入力Viewを1つのWidgetへまとめる。
-        self.translate_x_editor = FloatSliderSpinBox(
+        # 操作範囲は公開単位で指定し、数値欄を固定幅・ボタンなしで省スペースにする。
+        width_min_max = 40
+        width_value = 100
+        enabled_min_max = False
+        enabled_value = True
+        decimals_min_max = 0
+        self.translate_x_editor = FloatRangeSliderSpinBox(
             self.translate_x_binding,
             self,
             minimum=-100,
@@ -38,8 +43,19 @@ class TransformFloatWidget(qt.QWidget):
             steps=2000,
             decimals=decimals,
             single_step=0.1,
+            minimum_width=width_min_max,
+            maximum_width=width_min_max,
+            minimum_enabled=enabled_min_max,
+            maximum_enabled=enabled_min_max,
+            value_width=width_value,
+            value_enabled=enabled_value,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            minimum_decimals=decimals_min_max,
+            maximum_decimals=decimals_min_max,
+            value_show_buttons=False,
         )
-        self.rotate_x_editor = FloatSliderSpinBox(
+        self.rotate_x_editor = FloatRangeSliderSpinBox(
             self.rotate_x_binding,
             self,
             minimum=-180,
@@ -47,8 +63,19 @@ class TransformFloatWidget(qt.QWidget):
             steps=3600,
             decimals=decimals,
             single_step=1.0,
+            minimum_width=width_min_max,
+            maximum_width=width_min_max,
+            minimum_enabled=enabled_min_max,
+            maximum_enabled=enabled_min_max,
+            value_width=width_value,
+            value_enabled=enabled_value,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            minimum_decimals=decimals_min_max,
+            maximum_decimals=decimals_min_max,
+            value_show_buttons=False,
         )
-        self.scale_x_editor = FloatSliderSpinBox(
+        self.scale_x_editor = FloatRangeSliderSpinBox(
             self.scale_x_binding,
             self,
             minimum=0,
@@ -56,6 +83,17 @@ class TransformFloatWidget(qt.QWidget):
             steps=3000,
             decimals=decimals,
             single_step=0.01,
+            minimum_width=width_min_max,
+            maximum_width=width_min_max,
+            minimum_enabled=enabled_min_max,
+            maximum_enabled=enabled_min_max,
+            value_width=width_value,
+            value_enabled=enabled_value,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            minimum_decimals=decimals_min_max,
+            maximum_decimals=decimals_min_max,
+            value_show_buttons=False,
         )
         self.translate_x = self.translate_x_editor.spin_box
         self.rotate_x = self.rotate_x_editor.spin_box
@@ -88,7 +126,9 @@ class TransformFloatWidget(qt.QWidget):
             ("Scale X", self.scale_x_editor, self.scale_x_label),
         ):
             row = qt.QHBoxLayout()
-            editor.slider.setMinimumWidth(160)
+            # 伸縮するSliderだけ初期表示の操作幅を確保し、固定幅の指定は維持する。
+            if editor.slider.minimumWidth() != editor.slider.maximumWidth():
+                editor.slider.setMinimumWidth(160)
             row.addWidget(editor, 1)
             row.addWidget(label, 1)
             layout.addRow(title, row)

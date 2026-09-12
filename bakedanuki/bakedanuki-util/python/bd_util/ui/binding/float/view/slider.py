@@ -16,6 +16,8 @@ from ._source import resolve_float_view_source
 class FloatSlider(qt.QSlider):
     """公開単位の有限範囲を整数位置へ写像し、確定値を連続編集するView。"""
 
+    floatRangeChanged = qt.Signal(float, float)
+
     _EDIT_KEYS: ClassVar[frozenset[qt.Qt.Key]] = frozenset(
         (
             qt.Qt.Key.Key_Left,
@@ -102,6 +104,7 @@ class FloatSlider(qt.QSlider):
             self._finish_edit()
             self._float_range = float_range
             self._render()
+            self.floatRangeChanged.emit(*float_range)
 
     def effectiveFloatRange(self) -> tuple[float, float] | None:
         """hard limitと交差する有効範囲を返し、操作不可ならNoneを返す。"""

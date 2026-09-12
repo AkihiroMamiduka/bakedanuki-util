@@ -145,7 +145,7 @@ dataを省略した場合はサンプル既定値を使います。nodeは作成
 各SpinBoxの横には、同じBindingと桁数を使う[FloatLabel](float_label.md)を配置します。
 ラベルはPythonの確定値を表示し、Mayaへの同期保留中もその値を選択・コピーできます。
 各行には[FloatSlider](float_slider.md)も配置し、ドラッグ中の即時同期とUndo 1回での復元を確認できます。
-SliderとSpinBoxは[FloatSliderSpinBox](float_slider_spin_box.md)でまとめ、`translate_x_editor`などから取得できます。
+SliderとSpinBoxは範囲編集付きの[FloatRangeSliderSpinBox](float_range_slider_spin_box.md)でまとめ、`translate_x_editor`などから取得できます。
 
 1. Qt・Channel Boxの双方から編集し、Pythonデータと表示が揃うことを確認する。
 2. Preferencesの距離・角度単位を変更し、Python値を維持したまま表示が切り替わることを確認する。

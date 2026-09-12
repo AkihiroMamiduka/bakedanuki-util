@@ -6,6 +6,7 @@ from bd_util.ui import (
     FloatBinding,
     FloatSlider,
     FloatSliderSpinBox,
+    FloatRangeSliderSpinBox,
     FloatSpinBox,
     FloatViewModel,
     qt,
@@ -77,10 +78,10 @@ assert_type(
     FloatSliderSpinBox,
 )
 assert_type(
-    maya_plug.show("pCube1").widget.translate_x_editor, FloatSliderSpinBox
+    maya_plug.show("pCube1").widget.translate_x_editor, FloatRangeSliderSpinBox
 )
 assert_type(
     maya_view.show("pCube1").widget.linked_translate_x_editor,
-    FloatSliderSpinBox,
+    FloatRangeSliderSpinBox,
 )
-assert_type(minimal.show().widget.editor, FloatSliderSpinBox)
+assert_type(minimal.show().widget.editor, FloatRangeSliderSpinBox)

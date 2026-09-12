@@ -4,7 +4,13 @@ from .command import SetFloatCommand
 from .presentation import FloatPresentation
 from .store import FloatValueStore, PythonFloatAttributeStore
 from .value import FloatValue
-from .view import FloatLabel, FloatSlider, FloatSliderSpinBox, FloatSpinBox
+from .view import (
+    FloatLabel,
+    FloatSlider,
+    FloatSliderSpinBox,
+    FloatSpinBox,
+    FloatRangeSliderSpinBox,
+)
 from .view_model import FloatViewModel
 
 __all__ = [
@@ -12,6 +18,7 @@ __all__ = [
     "FloatLabel",
     "FloatSlider",
     "FloatSliderSpinBox",
+    "FloatRangeSliderSpinBox",
     "FloatPresentation",
     "FloatSpinBox",
     "FloatValue",

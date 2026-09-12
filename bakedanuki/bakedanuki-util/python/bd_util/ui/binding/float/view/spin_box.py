@@ -39,6 +39,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         super().__init__(parent)
         self._binding = binding
         self._view_model = view_model
+        self._input_enabled = True
 
         # 表示桁数・刻み幅を設定し、入力途中の逐次確定と値の循環を止める。
         self.setDecimals(decimals)
@@ -48,7 +49,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
 
         # 入力通知を接続する前に、確定値と編集可否を初期表示する。
         self._render()
-        self.setEnabled(view_model.set_value_command.can_execute)
+        self._update_enabled()
 
         # ユーザー入力とViewModel側の値・表示情報・編集可否を接続する。
         self._input_connection: qt.QtCore.QMetaObject.Connection | None = (
@@ -57,7 +58,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         view_model.value.changed.connect(self._update_value)
         view_model.presentation_changed.connect(self._update_presentation)
         view_model.set_value_command.can_execute_changed.connect(
-            self.setEnabled
+            self._update_enabled
         )
 
         # QObjectの破棄が完了してから、次のevent loopで入力を停止する。
@@ -73,12 +74,38 @@ class FloatSpinBox(qt.QDoubleSpinBox):
             raise RuntimeError("表示対象のFloatViewModelは破棄されています")
         return view_model
 
+    def isInputEnabled(self) -> bool:
+        """正本の編集可否とは独立した、この入力欄の操作設定を返す。"""
+        return self._input_enabled
+
+    def setInputEnabled(self, enabled: bool) -> None:
+        """表示更新を継続しながら、この入力欄からの値変更を許可・禁止する。"""
+        if type(enabled) is not bool:
+            raise TypeError("enabledにはboolを指定してください")
+        self._input_enabled = enabled
+        self._update_enabled()
+
+    @qt.Slot()
+    def _update_enabled(self) -> None:
+        """View固有の操作設定と正本の編集可否を組み合わせる。"""
+        view_model = self._valid_view_model()
+        self.setEnabled(
+            self._input_enabled
+            and view_model is not None
+            and not view_model.is_disposed
+            and view_model.set_value_command.can_execute
+        )
+
     def _request_value(self, value: float) -> None:
         """表示単位の入力をCommandへ渡し、実行後の確定値を再表示する。"""
         # 入力元が破棄済みなら、Commandを実行せず接続を終了する。
         view_model = self._valid_view_model()
         if view_model is None:
             self._disable_binding()
+            return
+        # 明示的に無効化した入力は、setValueによる通知も正本へ渡さない。
+        if not self._input_enabled:
+            self._render()
             return
 
         # 公開単位へ変換して値の変更を要求する。

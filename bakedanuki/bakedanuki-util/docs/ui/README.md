@@ -857,8 +857,20 @@ API、精度、寿命、確認手順は[FloatLabel](float_label.md)を参照し�
 `FloatSliderSpinBox(binding, minimum=-100, maximum=100, decimals=3)`で、横並びの編集Viewを
 1つのWidgetとして配置できます。内部の`editor.slider`と`editor.spin_box`にも型補完つきでアクセスできます。
 各Viewが同じ正本を共有し、スライダーの操作範囲外の数値もSpinBoxから入力できます。
-既存の単一値サンプルは、この複合Viewと共有ラベルを並べる構成です。
 API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slider_spin_box.md)を参照してください。
+
+### 最小値・最大値を編集する複合View
+
+`FloatRangeSliderSpinBox(binding, minimum=-100, maximum=100, decimals=3)`は、Sliderの両端に
+最小値／最大値欄を備えた複合Viewです。現在の表示単位で操作範囲を変更でき、値やMayaのUndoには影響しません。
+範囲はViewごとに保持し、hard limitによる実際の操作範囲や不正入力の理由も表示します。
+`slider_width`・`minimum_width`・`maximum_width`・`value_width`は指定時に固定幅、未指定なら伸縮します。
+`minimum_enabled`・`maximum_enabled`・`value_enabled`で各数値欄の操作可否を指定できます。
+`minimum_show_buttons`・`maximum_show_buttons`・`value_show_buttons`は各欄の増減ボタンを設定します。
+Min／Maxの桁数は`minimum_decimals`・`maximum_decimals`（既定0桁）、現在値は`decimals`で独立して指定します。
+現在値欄を無効にしても、Sliderからの操作と正本からの表示更新は継続します。
+`maya_plug`・`maya_view`・`minimal`サンプルは、このViewと共有ラベルを並べる構成です。
+API、単位・精度、確認手順は[FloatRangeSliderSpinBox](float_range_slider_spin_box.md)を参照してください。
 
 ## Python属性を正本にする浮動小数点binding
 
@@ -1433,17 +1445,22 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-12にFloatSliderSpinBoxと複合Viewのサンプルを追加した作業ツリーでの確認結果です。
+2026-09-12にFloatRangeSliderSpinBoxの個別ボタン表示・現在値の操作可否・Min／Maxの小数桁数を追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 437 passed | 244 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 437 passed | 244 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 437 passed | 244 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 510 passed | 244 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 510 passed | 244 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 510 passed | 244 passed |
+
+本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した結果です。
+範囲編集Viewを追加した際に、WindowsのシステムclipboardへQtから直接書き込む処理も失敗し、
+通常環境の統一検証が既存のFloatLabelコピーtestで停止したため、同じoffscreen環境を使用しています。同じコピー操作を含めて
+全件成功しています。Windowsのシステムclipboardとの連携と、Maya本体での手動操作は未確認です。
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2758 passed, 346 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2758 passed, 419 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。
