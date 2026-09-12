@@ -94,9 +94,7 @@ def queue_weighted(
     def edit(change: oma.MAnimCurveChange) -> None:
         curve = resolve_curve(target, write=True)
         if curve is None:
-            raise RuntimeError(
-                "No directly connected animCurve to set weighted."
-            )
+            raise RuntimeError("No channel animCurve to set weighted.")
         if curve.isWeighted != weighted:
             curve.setIsWeighted(weighted, change)
 
@@ -364,6 +362,11 @@ def queue_restore(
             return
         if not isinstance(target, om.MPlug):
             raise RuntimeError("The explicit animCurve is not available.")
+        if not target.sourceWithConversion().isNull:
+            raise RuntimeError(
+                "Cannot create curve data on a connected plug without a channel animCurve; "
+                "create its animation with set_key() first."
+            )
         obj = modifier.createNode(data.curve_type)
         created_curve = oma.MFnAnimCurve(obj)
         modifier.connect(created_curve.findPlug("output", False), target)

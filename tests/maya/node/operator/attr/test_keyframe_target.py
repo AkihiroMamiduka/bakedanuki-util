@@ -104,15 +104,8 @@ def _restrict(cmds, keyframe, kind):
 @pytest.mark.parametrize(
     "kind",
     [
-        "conversion",
-        "constraint",
-        "multiple_upstream",
-        "pair_blend",
         "shared",
-        "time_input",
-        "driven",
         "quaternion",
-        "layer_unrelated",
         "layer_member",
     ],
 )
@@ -261,3 +254,51 @@ def test_referenced_curve_can_be_read_but_not_edited(
         mod.do_it_dg()
     assert keyframe.get_curve_data() == before
     assert not mod.can_undo
+
+
+@pytest.mark.parametrize(
+    "kind", ["conversion", "pair_blend", "time_input", "layer_unrelated"]
+)
+@pytest.mark.parametrize("method,kwargs", QUERIES)
+def test_channel_queries_follow_standard_connections(
+    maya_cmds, kind, method, kwargs
+):
+    keyframe, mod = _target(maya_cmds)
+    expected = getattr(keyframe, method)(**kwargs)
+    _restrict(maya_cmds, keyframe, kind)
+    assert getattr(keyframe, method)(**kwargs) == expected
+    assert not mod.can_undo
+
+
+@pytest.mark.parametrize("kind", ["constraint", "multiple_upstream", "driven"])
+def test_excluded_drivers_are_not_the_channels_animation(maya_cmds, kind):
+    keyframe, mod = _target(maya_cmds)
+    _restrict(maya_cmds, keyframe, kind)
+    states = {
+        name: _state(oma.MFnAnimCurve(_object(name)))
+        for name in maya_cmds.ls(type="animCurve")
+    }
+    assert not keyframe.has_anim_curve() and not keyframe.has_key(1)
+    assert keyframe.key_count() == 0
+    assert keyframe.frames() == keyframe.values() == keyframe.get_keys() == []
+    assert keyframe.get_curve_data() is keyframe.get_weighted() is None
+    assert keyframe.get_key_data() == []
+    keyframe.delete_keys()
+    keyframe.delete_anim_curve()
+    keyframe.set_tangent(1, out_tangent_type="flat")
+    mod.do_it_dg()
+    assert {
+        name: _state(oma.MFnAnimCurve(_object(name)))
+        for name in maya_cmds.ls(type="animCurve")
+    } == states
+    mod.undo_it()
+    mod.redo_it()
+    with pytest.raises(RuntimeError, match="no channel"):
+        keyframe.insert_key(2)
+        mod.do_it_dg()
+
+
+def _object(name):
+    selection = om.MSelectionList()
+    selection.add(name)
+    return selection.getDependNode(0)

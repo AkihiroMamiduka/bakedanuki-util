@@ -299,8 +299,6 @@ def test_restore_failure_rolls_back_entire_batch(
         "key_lock",
         "layer",
         "shared",
-        "input",
-        "conversion",
         "quaternion",
     ],
 )
@@ -326,17 +324,10 @@ def test_reject_unsupported_destination_without_changes(
     elif restriction == "key_lock":
         maya_cmds.setAttr(curve.name() + ".ktv[1].kv", lock=True)
     elif restriction == "layer":
-        maya_cmds.animLayer("Layer")
+        maya_cmds.animLayer("Layer", attribute=plug.name())
     elif restriction == "shared":
         other = maya_cmds.createNode("transform")
         maya_cmds.connectAttr(curve.name() + ".output", other + ".rx")
-    elif restriction == "input":
-        maya_cmds.connectAttr("time1.outTime", curve.name() + ".input")
-    elif restriction == "conversion":
-        maya_cmds.disconnectAttr(curve.name() + ".output", plug.name())
-        conversion = maya_cmds.createNode("unitConversion")
-        maya_cmds.connectAttr(curve.name() + ".output", conversion + ".input")
-        maya_cmds.connectAttr(conversion + ".output", plug.name())
     else:
         curve.findPlug("rotationInterpolation", False).setInt(2)
     with pytest.raises(RuntimeError):
@@ -613,7 +604,7 @@ def test_weighted_missing_curve_invalid_input_and_manager(maya_cmds):
         with pytest.raises(TypeError):
             keyframe.set_weighted(invalid)
     keyframe.set_weighted(True)
-    with pytest.raises(RuntimeError, match="No directly connected"):
+    with pytest.raises(RuntimeError, match="No channel"):
         mod.do_it_dg()
     assert keyframe.get_weighted() is None
     assert not mod.can_undo

@@ -3059,6 +3059,33 @@ class _XgmSplineDescriptionMaya2027(
     _GeneratedXgmSplineDescriptionMaya2027
 ): ...
 
+AnimCurveTANode = _AnimCurveTA | _AnimCurveTAMaya2027
+
+AnimCurveTLNode = _AnimCurveTL | _AnimCurveTLMaya2027
+
+AnimCurveTTNode = _AnimCurveTT | _AnimCurveTTMaya2027
+
+AnimCurveTUNode = _AnimCurveTU | _AnimCurveTUMaya2027
+
+AnimCurveUANode = _AnimCurveUA | _AnimCurveUAMaya2027
+
+AnimCurveULNode = _AnimCurveUL | _AnimCurveULMaya2027
+
+AnimCurveUTNode = _AnimCurveUT | _AnimCurveUTMaya2027
+
+AnimCurveUUNode = _AnimCurveUU | _AnimCurveUUMaya2027
+
+AnimCurveNode = (
+    AnimCurveTANode
+    | AnimCurveTLNode
+    | AnimCurveTTNode
+    | AnimCurveTUNode
+    | AnimCurveUANode
+    | AnimCurveULNode
+    | AnimCurveUTNode
+    | AnimCurveUUNode
+)
+
 class _ShapeWithTransformCreatorCommon:
     @property
     def modifier_manager(self) -> ModifierManager: ...

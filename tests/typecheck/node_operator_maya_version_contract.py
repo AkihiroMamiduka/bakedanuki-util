@@ -1,6 +1,7 @@
 from typing import assert_type
 
 import bd_util as bdu
+from bd_util.maya.node.operator.attr import CurveKeyframeManager
 
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double import (
     DoubleAttrOperator,
@@ -58,6 +59,13 @@ nodes_common = bdu.Nodes()
 nodes_2025 = bdu.Nodes(typing_maya_version="2025")
 nodes_2026 = bdu.Nodes(typing_maya_version="2026")
 nodes_2027 = bdu.Nodes(typing_maya_version="2027")
+for version_nodes in (nodes_2025, nodes_2026, nodes_2027):
+    curve_candidates = version_nodes.existing.transform(
+        "target"
+    ).translate.translateX.keyframe.find_anim_curves(
+        filter_type=version_nodes.types.AnimCurveTL
+    )
+    assert_type(curve_candidates[0].keyframe, CurveKeyframeManager)
 bdu.Nodes(  # pyright: ignore[reportCallIssue]
     typing_maya_version="2028"  # pyright: ignore[reportArgumentType]
 )

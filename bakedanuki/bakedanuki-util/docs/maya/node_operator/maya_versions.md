@@ -143,6 +143,11 @@ stub生成器は同じmixinをversion別classにも継承させるため、`.key
 引き続き生成時に拒否します。旧versionの公開wrapper全体を継承して、新versionで削除された
 属性を再公開する方法は使用しません。
 
+同じstub生成器は、全対応schemaを含む`AnimCurveTANode`等の型aliasと、全8型を束ねる
+`AnimCurveNode`も生成します。`find_anim_curves()`はこの型情報を使い、`nodes.types`の
+version別クラスをfilterに渡した場合も具体型と`.keyframe`の補完を保持します。
+これらは`_versioned_accessors.pyi`内の型検査専用aliasで、実行時のimport対象ではありません。
+
 ### 3. 固定 profile で schema 差分を確定する
 
 1. 既存 version と同じ固定 plugin profile を対象 version の `mayapy` でロードします。

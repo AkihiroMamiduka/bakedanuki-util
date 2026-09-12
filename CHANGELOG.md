@@ -9,6 +9,10 @@
 
 ### Added
 
+- 調査用の`KeyframeManager.find_anim_curves()`で上流のanimCurve候補を列挙し、具体ノード型の
+  tupleとして返す。型filter、名前順、重複排除、各経路の最初のカーブでの探索停止に対応。
+  layer・blend weight・未対応のdriven keyも候補として扱い、選択したTA / TL / TUは
+  共通の`ModifierManager`で明示編集できる。
 - TA / TL / TUノードに`keyframe: CurveKeyframeManager`を追加。カーブを明示して
   生の値・接線・詳細データを取得・編集でき、未接続・共有出力・時間入力接続にも対応する。
   ノード同一性、予約時の独立コピー、Undo / Redo、失敗時rollbackを保持する。
@@ -19,17 +23,17 @@
   既定の`include_boundaries=True`では、元カーブを変更せずに境界キーと調整後の接線を取得する。
   連続接線をfixed化し、step / stepnext、weighted、単位を保持して区間を切り出す。
   constant / linearの範囲外補完に対応。cycle系の範囲外補完は明示的に拒否する。
-- `KeyframeManager.get_weighted()` / `set_weighted()`を追加。単純な直接接続カーブの
+- `KeyframeManager.get_weighted()` / `set_weighted()`を追加。チャンネルのカーブの
   weightedを照会・変更し、接線の変換はMaya標準処理に委譲する。変更は予約実行とUndo / Redoに対応。
 - `KeyData` / `AnimCurveData`と、`KeyframeManager`の`get_key_data()` /
   `set_key_data()` / `get_curve_data()` / `set_curve_data()`を追加。
-  単純な直接接続のTA/TL/TUカーブについて、接線・lock・breakdown・weighted・infinityを
+  TA/TL/TUカーブについて、接線・lock・breakdown・weighted・infinityを
   JSON経由でも保存・復元できる。degree / cmと保存時の時間単位を保持し、
   遅延実行・Undo / Redo・途中失敗時rollbackに対応する。
 - scalar plugに`sample_values(*, frames)`を追加。constraint・layer・計算ノードを含む
   指定時刻の評価済み値を、`set_keys()`へ渡せる`(frame, value)`のlistで取得する。
   公開単位と入力順を維持し、現在時刻・Undo履歴・保留中modifierを変更しない。
-- `KeyframeManager.get_keys(start_frame=None, end_frame=None)`を追加。単純な直接接続の
+- `KeyframeManager.get_keys(start_frame=None, end_frame=None)`を追加。チャンネルの
   time-inputカーブに実在するキーを、範囲の両端を含む`(frame, value)`のlistで返す。
   予約中の操作は実行せず、値の単位は取得したカーブ型から換算する。
 - `KeyframeManager.set_keys(keys, ...)`を追加。`keys`は`(frame, value)`の列。
@@ -51,11 +55,13 @@
 
 ### Changed
 
-- KeyframeManagerのquery・挿入・接線変更・削除を、単純な直接接続の時間入力カーブへ
-  限定する破壊的変更。constraint等の上流探索、共有カーブ削除を暗黙に行わず、
-  未対応構成を`RuntimeError`にする。直接接続resolverを詳細データ操作と共有し、
-  編集時のlock / reference検査を統一。通常の`set_key()` / `set_keys()`のMaya委譲は維持する。
-  移行は直接接続した非共有の属性からの操作、または合成値を取得する`sample_values()`を使用する。
+- KeyframeManagerのquery・挿入・接線変更・削除・詳細データ操作を、そのチャンネル自身の
+  時間入力カーブへ統一。単位変換、pairBlendの同軸・currentDriver入力、blendWeightedの
+  入力index順に対応し、DG全体で最初のカーブを選ぶ旧探索を置き換える破壊的変更。
+  driven key・別軸・weight・constraintのdriverは除外し、空カーブも対象にする。
+  無関係なlayerは許可し、対象属性のlayer blend・未対応utility・共有出力は明示エラー。
+  通常の`set_key()` / `set_keys()`のMaya委譲と、Undo / Redo・rollbackは維持する。
+  詳細データの新規復元は元のplugが未接続の場合だけとし、対象のない既存接続を上書きしない。
 - 詳細データの補完なし範囲取得と、境界補完後の再取得を必要なキー範囲に限定し、
   範囲外の詳細データ生成・重複コピーを削減する。隣接時刻による接線換算と形状保持は維持する。
 - `get_key_data(start_frame, end_frame)`は、既定で境界を補完する破壊的変更。

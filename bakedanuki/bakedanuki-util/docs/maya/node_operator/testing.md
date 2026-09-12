@@ -290,6 +290,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     Maya標準変換の比較、未対応schemaの拒否、weighted取得・変更のUndo / Redoを検証します。
   - `tests/maya/mpx_cmd/test_command.py`では、カーブ復元・部分キー編集・weighted変更を
     1 commandとして実行し、MayaのUndo / Redoと失敗時rollbackも確認します。
+    未接続・直接接続に加え、pairBlend越しの復元も対象です。
 - `tests/maya/node/operator/attr/test_keyframe_clip.py`
   - 境界補完の既定値、既存キーだけの取得、片側範囲・同一境界・空カーブ・単一キーを検証します。
   - weighted / nonweighted、接線各種、単位・FPS、constant / linearの範囲外、
@@ -301,13 +302,22 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     カーブの有無によらない不正範囲の拒否を検証します。
   - TA / TL / TU / TTの公開単位、bool / enumもfloatのpairで返すこと、UI単位変更、
     `set_keys()`との往復と、予約を実行しないsnapshot取得を検証します。
-  - カーブ型から単位を換算することと、constraint越しの取得を拒否することを検証します。
+  - カーブ型から単位を換算することと、constraintのdriverのキーを取得しないことを検証します。
 - `tests/maya/node/operator/attr/test_keyframe_target.py`
-  - query・挿入・削除・weighted操作で共通の直接接続ルールを検証します。
-    unitConversion、constraint、複数上流カーブ、pairBlend、共有出力、入力接続、driven key、
-    quaternion補間、layerのあるsceneを拒否し、上流カーブと履歴を変更しないことを確認します。
+  - query・挿入・削除・weighted操作で共通のチャンネル選択ルールを検証します。
+    unitConversion・pairBlend・時間入力接続・無関係なlayerを許可し、driven keyやconstraintの
+    driverを対象から除外します。共有出力、quaternion補間、対象属性のlayer blendは拒否します。
   - queryと編集のlock / reference制約の違い、実行時の再接続、set→query→editの対象一致、
     Undo / Redoと同じbatchの先行変更のrollbackを検証します。
+- `tests/maya/node/operator/attr/test_keyframe_channel.py`
+  - Mayaがconstraint用に作るpairBlendでtranslate / rotateの全6軸を検証します。
+    別軸・constraint driver・blend weightを変えず、取得・編集・削除・詳細復元を行います。
+  - currentDriverとMayaのquery / setKeyframeの対象一致、blendWeightedのsparse入力index順、
+    driven keyを通り越さないこと、単位変換係数のカーブを編集しないことを確認します。
+  - 空カーブの取得・復元、入れ子のblend、保留中の接続変更、予約後の対象変更、
+    Undo / Redoと失敗時rollback、対象のない復元で既存接続を保つことを検証します。
+  - queryがscene、選択、現在時刻、Undo / Redo、modifier、modified flagを変更しないことと、
+    未対応utilityで軸を推測せずエラーにすることを確認します。
 - `tests/maya/node/operator/attr/test_curve_keyframe.py`
   - TA / TL / TUノードの明示指定、作成待ちqueryの拒否、改名・再接続・削除時のnode同一性、
     公開単位と予約時の時間単位、共有出力・時間入力・message接続を検証します。
@@ -316,6 +326,13 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
   - layer内の生カーブ値と合成値を区別し、所属layerのlockを尊重します。
   - `tests/maya/mpx_cmd/test_command.py`は明示カーブの復元・weighted・キー編集を
     MayaのUndo / Redoと例外時rollbackで検証します。補完は`node_operator_contract.py`が対象です。
+- `tests/maya/node/operator/attr/test_keyframe_discovery.py`
+  - 全8型の具体wrapper、型filter、名前順、共有候補の重複排除と、driven key / time driverを
+    通り越さない探索を検証します。layerのbase・加算・weight、mute / lock、constraint、
+    world-space依存、別軸入力とmessage接続の扱いも確認します。
+  - 未接続出力の依存入力補完、sparse array indexの区別と要素数の保持、scene / 時刻 /
+    選択 / Undo / modifierへの副作用がないこと、改名・再接続後の明示編集を検証します。
+    型filterと返却型、`.keyframe`の補完は`node_operator_contract.py`で検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
   - typed matrix plugと`TransformMatrix`の連携、常に具体型を返す`get()`、
     未設定時の`ValueError`、分解値のcompound専用値型、flat 16要素 / 4行4列の

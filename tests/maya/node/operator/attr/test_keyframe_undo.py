@@ -535,7 +535,7 @@ def test_failed_insert_rolls_back_previous_edits_in_flush(
     if delete_curve:
         keyframe.delete_anim_curve()
     missing.insert_key(3)
-    with pytest.raises(RuntimeError, match="no directly connected animCurve"):
+    with pytest.raises(RuntimeError, match="no channel animCurve"):
         mod.do_it_dg()
     _assert_curve_state(_curve_state(maya_cmds, keyframe), before)
     assert not mod.can_undo

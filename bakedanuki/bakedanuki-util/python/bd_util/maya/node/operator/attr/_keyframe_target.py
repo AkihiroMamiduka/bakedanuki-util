@@ -36,7 +36,7 @@ def resolve_curve(
     target: Target, *, write: bool = False
 ) -> oma.MFnAnimCurve | None:
     if isinstance(target, om.MPlug):
-        return direct_curve(target, write=write)
+        return channel_curve(target, write=write)
     return explicit_curve(target, write=write)
 
 
@@ -53,12 +53,20 @@ def explicit_curve(
             "The explicit animCurve is not available in the scene."
         )
     curve = oma.MFnAnimCurve(target.node)
+    _check_curve_inputs(curve)
+    if write:
+        _check_editable_curve(curve)
+        _check_owning_layers(curve)
+    return curve
+
+
+def _check_curve_inputs(curve: oma.MFnAnimCurve) -> None:
     if (
         curve.animCurveType == oma.MFnAnimCurve.kAnimCurveTA
         and curve.findPlug("rotationInterpolation", False).asInt() != 1
     ):
         raise RuntimeError(
-            "Explicit curve operations require independent scalar rotation interpolation."
+            "Curve operations require independent scalar rotation interpolation."
         )
     for plug in curve.getConnections():
         if (
@@ -67,12 +75,115 @@ def explicit_curve(
             and not plug.attribute().hasFn(om.MFn.kMessageAttribute)
         ):
             raise RuntimeError(
-                "Explicit curve operations do not support driven curve attributes."
+                "Curve operations do not support driven curve attributes."
             )
+
+
+def channel_curve(
+    plug: om.MPlug, *, write: bool = False
+) -> oma.MFnAnimCurve | None:
+    """Resolve this channel, retaining axes and the pairBlend keying input.
+
+    Driven keys and constraint drivers are not the channel's time animation.
+    blendWeighted inputs are searched by logical index; weights are ignored.
+    """
+    handle = om.MObjectHandle(plug.node())
+    if not handle.isAlive() or not handle.isValid():
+        raise RuntimeError("The keyframe plug is not available in the scene.")
+    _check_channel_plug(plug, write=write)
+    pending = [plug]
+    visited: set[str] = set()
+    while pending:
+        destination = pending.pop()
+        name = destination.name()
+        if name in visited:
+            continue
+        visited.add(name)
+        source = destination.sourceWithConversion()
+        if source.isNull:
+            continue
+        node = om.MFnDependencyNode(source.node())
+        attribute = om.MFnAttribute(source.attribute()).name
+        if source.node().hasFn(om.MFn.kAnimCurve):
+            curve = oma.MFnAnimCurve(source.node())
+            if attribute != "output" or not curve.isTimeInput:
+                continue
+            if curve.animCurveType != curve.timedAnimCurveTypeForPlug(plug):
+                raise RuntimeError(
+                    f"{plug.name()} requires a time-input curve of the matching type."
+                )
+            if len(source.connectedTo(False, True)) != 1:
+                raise RuntimeError(
+                    f"{plug.name()} requires an unshared animation curve."
+                )
+            _check_curve_inputs(curve)
+            if write:
+                _check_editable_curve(curve)
+                _check_owning_layers(curve)
+            return curve
+        if (
+            node.typeName
+            in (
+                "unitConversion",
+                "unitToTimeConversion",
+                "timeToUnitConversion",
+            )
+            and attribute == "output"
+        ):
+            pending.append(node.findPlug("input", False))
+        elif node.typeName == "pairBlend" and attribute in (
+            "outTranslateX",
+            "outTranslateY",
+            "outTranslateZ",
+            "outRotateX",
+            "outRotateY",
+            "outRotateZ",
+        ):
+            driver = node.findPlug("currentDriver", False).asInt()
+            if driver not in (1, 2):
+                raise RuntimeError("Unsupported pairBlend currentDriver.")
+            pending.append(node.findPlug(f"in{attribute[3:]}{driver}", False))
+        elif node.typeName == "blendWeighted" and attribute == "output":
+            inputs = node.findPlug("input", False)
+            pending.extend(
+                inputs.elementByLogicalIndex(index)
+                for index in sorted(
+                    inputs.getExistingArrayAttributeIndices(), reverse=True
+                )
+            )
+        elif source.node().hasFn(om.MFn.kConstraint):
+            continue
+        elif node.typeName.startswith("animBlendNode"):
+            raise RuntimeError(
+                "Channel curve operations require explicit animation layer selection."
+            )
+        else:
+            raise RuntimeError(
+                f"Cannot resolve the channel through {source.name()} ({node.typeName}); "
+                "use an explicit curve for this connection."
+            )
+    return None
+
+
+def _check_channel_plug(plug: om.MPlug, *, write: bool) -> None:
+    attribute = plug.attribute()
+    if (
+        plug.isArray
+        or plug.isCompound
+        or not (
+            attribute.hasFn(om.MFn.kNumericAttribute)
+            or attribute.hasFn(om.MFn.kUnitAttribute)
+            or attribute.hasFn(om.MFn.kEnumAttribute)
+        )
+    ):
+        raise RuntimeError(
+            "Keyframe operations require a scalar numeric or unit plug."
+        )
     if write:
-        _check_editable_curve(curve)
-        _check_owning_layers(curve)
-    return curve
+        _check_editable_node(om.MFnDependencyNode(plug.node()))
+        if not om.MFnAttribute(attribute).writable:
+            raise RuntimeError(f"{plug.name()} is not writable.")
+        _check_editable_plug(plug)
 
 
 def _check_owning_layers(curve: oma.MFnAnimCurve) -> None:
@@ -129,33 +240,15 @@ def deletion_connections(
 def direct_curve(
     plug: om.MPlug, *, write: bool = False
 ) -> oma.MFnAnimCurve | None:
-    """Return a simple direct time-input curve; only an unconnected plug is None.
+    """Check eligibility for the set_key/set_keys API fast path.
 
-    Resolve at query time or first edit execution, never across undo/reconnect.
-    Layer selection and upstream traversal need their own explicit policies.
+    Other connections and scene states use Maya's setKeyframe value resolution.
     """
-    attribute = plug.attribute()
-    if (
-        plug.isArray
-        or plug.isCompound
-        or not (
-            attribute.hasFn(om.MFn.kNumericAttribute)
-            or attribute.hasFn(om.MFn.kUnitAttribute)
-            or attribute.hasFn(om.MFn.kEnumAttribute)
-        )
-    ):
-        raise RuntimeError(
-            "Keyframe operations require a scalar numeric or unit plug."
-        )
+    _check_channel_plug(plug, write=write)
     if not om.MItDependencyNodes(om.MFn.kAnimLayer).isDone():
         raise RuntimeError(
             "Direct curve operations do not support scenes with animation layers."
         )
-    if write:
-        _check_editable_node(om.MFnDependencyNode(plug.node()))
-        if not om.MFnAttribute(attribute).writable:
-            raise RuntimeError(f"{plug.name()} is not writable.")
-        _check_editable_plug(plug)
     source = plug.sourceWithConversion()
     if source.isNull:
         return None

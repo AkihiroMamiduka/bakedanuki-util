@@ -668,6 +668,17 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
             ]
         )
 
+    curve_aliases = []
+    for suffix in ("TA", "TL", "TT", "TU", "UA", "UL", "UT", "UU"):
+        definition = definitions_by_type[f"animCurve{suffix}"]
+        alias = f"AnimCurve{suffix}Node"
+        curve_aliases.append(alias)
+        return_type = _common_return_type(
+            python_root, definition, version_ranges
+        )
+        lines.extend(["", f"{alias} = {return_type}"])
+    lines.extend(["", "AnimCurveNode = " + " | ".join(curve_aliases)])
+
     common_definitions = tuple(
         definition
         for definition in definitions

@@ -4,7 +4,7 @@ from __future__ import annotations
 import math
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
-from typing import Any, Callable, Literal, TypedDict
+from typing import TYPE_CHECKING, Any, Callable, Literal, TypedDict, overload
 
 # maya
 from maya import cmds
@@ -12,8 +12,12 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
-from . import _keyframe_snapshot, _keyframe_target
+from . import _keyframe_discovery, _keyframe_snapshot, _keyframe_target
+from ._keyframe_discovery import CurveNode
 from .keyframe_data import AnimCurveData, KeyData
+
+if TYPE_CHECKING:
+    from ._keyframe_discovery import AnimCurveNode
 
 ValueConverter = Callable[[Any], Any]
 TangentTypeName = Literal[
@@ -158,7 +162,7 @@ class _KeyframeOperations(ABC):
     ) -> AnimCurveData | None:
         """カーブ情報を取得する。既定で指定境界を補完し、区間の形状を保つ。
 
-        範囲省略時は全体を取得する。未接続ならNone。元のカーブは変更しない。
+        範囲省略時は全体を取得する。対象カーブがなければNone。元のカーブは変更しない。
         境界補完では連続接線をfixedにし、weightedと時間単位を保持する。
         Falseなら範囲内の既存キーだけを取得し、接線の種類を維持する。
         """
@@ -182,7 +186,7 @@ class _KeyframeOperations(ABC):
         return None if curve is None else bool(curve.isWeighted)
 
     def set_weighted(self, weighted: bool) -> None:
-        """カーブ全体のweighted変更を予約する。未接続なら実行時に失敗する。"""
+        """カーブ全体のweighted変更を予約する。対象がなければ実行時に失敗する。"""
         manager = self._require_modifier_manager()
         _keyframe_snapshot.queue_weighted(manager, self._target, weighted)
 
@@ -467,7 +471,7 @@ class _KeyframeOperations(ABC):
             fn_anim_curve = self._get_anim_curve_fn(write=True)
             if fn_anim_curve is None:
                 raise RuntimeError(
-                    "The target has no directly connected animCurve to insert a key."
+                    "The target has no channel animCurve to insert a key."
                 )
             fn_anim_curve.insertKey(time, breakdown, change)
 
@@ -575,7 +579,7 @@ class _KeyframeOperations(ABC):
 
 
 class KeyframeManager(_KeyframeOperations):
-    """属性に対するキー設定と、直接接続カーブの操作。"""
+    """属性に対するキー設定と、そのチャンネルのカーブ操作。"""
 
     __slots__ = ("_plug", "_plug_name", "_value_reader")
 
@@ -599,6 +603,28 @@ class KeyframeManager(_KeyframeOperations):
     @property
     def plug_name(self) -> str:
         return self._plug_name
+
+    @overload
+    def find_anim_curves(
+        self, *, filter_type: None = None
+    ) -> tuple[AnimCurveNode, ...]: ...
+
+    @overload
+    def find_anim_curves(
+        self, *, filter_type: type[CurveNode]
+    ) -> tuple[CurveNode, ...]: ...
+
+    def find_anim_curves(
+        self, *, filter_type: object = None
+    ) -> tuple[AnimCurveNode, ...]:
+        """上流の候補をnode名順で返す。各経路の最初のカーブで探索を止める。
+
+        Mayaの依存関係に従うため、別軸やblend weightも候補に含み得る。
+        filter_typeは返却型だけを絞り込み、探索の停止位置は変えない。
+        """
+        return _keyframe_discovery.find_anim_curves(
+            self.plug, self._modifier_manager, filter_type
+        )
 
     def values(self) -> list[Any]:
         fn_anim_curve = self._get_anim_curve_fn()

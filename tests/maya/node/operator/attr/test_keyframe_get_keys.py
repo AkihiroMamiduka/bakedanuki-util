@@ -217,7 +217,7 @@ def test_get_keys_uses_curve_units_independently_of_custom_value_reader(
     _assert_pairs(standalone.get_keys(), expected)
 
 
-def test_get_keys_rejects_constraint_instead_of_selecting_driver_keys(
+def test_get_keys_excludes_constraint_driver_keys(
     maya_cmds,
 ):
     driver = maya_cmds.createNode("transform", name="getKeysDriver")
@@ -234,10 +234,8 @@ def test_get_keys_rejects_constraint_instead_of_selecting_driver_keys(
         )
     keyframe = bdu.Nodes().existing(target).translateX.keyframe
 
-    with pytest.raises(RuntimeError, match="directly connected"):
-        keyframe.get_keys()
-    with pytest.raises(RuntimeError, match="directly connected"):
-        keyframe.get_keys(2.0, 10.0)
+    assert keyframe.get_keys() == []
+    assert keyframe.get_keys(2.0, 10.0) == []
     assert [
         maya_cmds.getAttr(target + ".translateX", time=frame)
         for frame in (1.0, 6.0, 11.0)

@@ -422,7 +422,7 @@ def test_keyframe_property_insert_requires_existing_anim_curve_at_execution(
     node = plus_minus_average_node
 
     node.input1D[0].keyframe.insert_key(frame=5.0)
-    with pytest.raises(RuntimeError, match="no directly connected animCurve"):
+    with pytest.raises(RuntimeError, match="no channel animCurve"):
         node.modifier_manager.do_it_dg()
 
 

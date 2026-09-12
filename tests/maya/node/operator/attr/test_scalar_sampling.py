@@ -160,8 +160,7 @@ def test_sample_values_evaluates_constraint_result(
     samples = target_plug.sample_values(frames=[11, 1, 6])
 
     _assert_samples(samples, [(11.0, 15.0), (1.0, 5.0), (6.0, 10.0)])
-    with pytest.raises(RuntimeError, match="directly connected"):
-        target_plug.keyframe.get_keys()
+    assert target_plug.keyframe.get_keys() == []
     assert getattr(driver, attribute).keyframe.get_keys() == [
         (1.0, 0.0),
         (11.0, 10.0),

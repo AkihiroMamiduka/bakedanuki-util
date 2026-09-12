@@ -41,9 +41,14 @@
   - `AttributeField` / `AttrOperator` / `PlugOperator` の中核です。
 - `python/bd_util/maya/node/operator/attr/keyframe.py`
   - 属性経由の`KeyframeManager`、カーブ明示指定の`CurveKeyframeManager`と共通操作です。
+    通常の取得・編集は、単位変換やpairBlend越しでも同じチャンネルのカーブを自動解決します。
     明示指定はTA / TL / TUノードの`.keyframe`から使用します。
+    調査用の`find_anim_curves()`では、上流候補を具体ノード型のtupleとして取得できます。
+- `python/bd_util/maya/node/operator/attr/_keyframe_discovery.py`
+  - DG依存関係の候補列挙と型filter。layer所属や合成値の解決とは分離しています。
 - `python/bd_util/maya/node/operator/attr/_keyframe_target.py`
-  - 直接接続・明示指定カーブの解決、ノード同一性と書込み可否の検査です。
+  - チャンネル・明示指定カーブの解決、ノード同一性と書込み可否の検査です。
+    通常キー設定のAPI高速経路には、別の直接接続判定を使用します。
 - `python/bd_util/maya/node/operator/attr/keyframe_data.py`
   - 編集可能な`KeyData`と、カーブ共通設定を持つ`AnimCurveData`です。
 - `python/bd_util/maya/node/operator/attr/_keyframe_snapshot.py`

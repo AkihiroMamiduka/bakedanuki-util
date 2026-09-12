@@ -152,12 +152,15 @@
 
 ## KeyframeManagerの開発状況と次の候補
 
-2026-09-11時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
+2026-09-12時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
 詳細データの保存・復元、指定範囲の境界補完まで実装し、利用者による動作確認も完了しています。
 範囲切り出しの初期版を未着手の項目として再実装する必要はありません。
-続く開発でquery・挿入・削除の対象を単純な直接接続へ整理し、詳細データ用の性能測定と
-範囲取得の改善を追加しました。さらにTA / TL / TUノードの`.keyframe`による
-明示カーブ操作を実装しました。layer指定と上流探索は、利用者が希望する今後の拡張です。
+続く開発で詳細データ用の性能測定と範囲取得の改善、TA / TL / TUノードの`.keyframe`による
+明示カーブ操作と、`find_anim_curves()`による接続調査用の上流候補取得を実装しました。
+通常のquery・編集は、そのチャンネル自身のカーブを自動解決します。単位変換、
+pairBlendの同じ軸・currentDriver入力、blendWeightedの入力index順の探索に対応し、
+driven key・別軸・weight・constraintのdriverを対象から除外します。
+layer名による選択は、利用者が希望する今後の拡張です。
 現行仕様は[キーフレーム](attributes.md#キーフレーム)、
 履歴管理は[ModifierManager](modifier_manager.md)、検証方法は[testing.md](testing.md)を参照します。
 
@@ -172,22 +175,26 @@
 | 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元に対応 |
 | カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
 | 区間の切り出し | 両方の詳細取得APIに`start_frame` / `end_frame` / `include_boundaries=True`を実装。境界キーと調整後の接線を取得 |
-| 対象選択の初期整理 | 通常キー設定のMaya委譲を維持。query・挿入・削除・詳細データは直接接続の共通規則を使用し、未対応構成を明示的に拒否 |
+| チャンネルの自動選択 | 通常キー設定のMaya委譲を維持。query・挿入・削除・詳細データは同じチャンネルをたどる共通規則を使用。単位変換・pairBlend・blendWeighted越しの取得・編集に対応 |
 | 明示カーブ操作 | TA / TL / TUノードの`.keyframe`は`CurveKeyframeManager`。ノード同一性を保持し、未接続・共有出力・時間入力接続を持つカーブ自身の取得・編集・削除・保存復元に対応 |
+| 接続調査用の候補取得 | `find_anim_curves()`で具体ノードのtupleを取得。全8型、型filter、名前順、重複排除、各経路の最初のカーブでの停止に対応。通常の対象選択とは独立した補助API |
 | 詳細データの性能測定 | 専用benchmarkで取得・予約・実行・Undo / Redo・JSON変換を分離。補完なしの取得と補完後の返却データは指定範囲だけを詳細取得 |
 
 ### 次の開発でも維持する契約
 
 - queryは実行済みsceneだけを読み、保留中modifierを暗黙に実行しない。
   変更は同じModifierManagerへ予約し、MPxCommandのUndo / Redoと失敗時rollbackへ参加させる。
-- 既存カーブのquery・編集は単純な直接接続が既定。未対応の接続構成を「キーなし」と
-  混同せず、上流の最初の1本を暗黙に選ばない。通常キー設定のMayaによる値解決は維持する。
+- 既存カーブのquery・編集は、そのチャンネル自身の最初の時間入力カーブを使用する。
+  DG全体の候補列で先頭を選ばず、軸とkeying入力を保つ。pairBlendはcurrentDriver、
+  blendWeightedは入力index順。空カーブも対象に含め、driven keyやconstraintのdriverへは進まない。
+  未対応の中間ノード・layer選択は明示エラーとし、通常キー設定のMayaによる値解決は維持する。
 - `KeyData`は直接編集可能。予約時に再検証して独立コピーし、予約後の編集が実行内容や
   Undo / Redoに波及しない。`AnimCurveData`の共通設定は不変で、変更には`dataclasses.replace()`を使う。
 - 詳細データの公開値はdegree / cm / unitless。接線XYは取得元のweightedによらずweighted相当の表現。
   Xは秒、Yは公開値と同じ単位。保存データの復元時は`seconds_per_frame`を保持する。
 - `set_key_data()`は既存カーブのweightedを維持し、新規はnonweighted。
   weightedを含めて形状を復元する場合は`set_curve_data()`を使う。
+  自動新規作成は元のplugが未接続の場合だけ。対象カーブのない既存接続を上書きしない。
 - 境界補完は既定で有効。範囲指定時は形状を優先して連続接線をfixed化し、接線・weightの
   lockを解除する。既存キーと元の接線情報だけが必要なら`include_boundaries=False`。
   範囲無指定では接線名・lockを維持した全体取得になる。
@@ -198,13 +205,15 @@
 
 ### 未着手の候補と着手時の論点
 
-明示カーブ操作の次は、上流候補の列挙、layer指定の順を想定しています。
-探索対象・複数候補の表現を決め、明示カーブ操作へ接続します。
-layer対応と上流探索は将来の対応対象として利用者と合意しています。
+通常のチャンネル選択まで実装したため、次は「1 plug × 1 layer」を前提とする
+layer名による選択を想定しています。DG依存関係の候補列とは分け、
+Mayaの属性とlayerの対応を解決する入口を検討します。
+生カーブの編集と合成後の値指定を分け、BaseAnimation、未登録属性、カーブ未作成時、
+locked / referenced layerの扱いを次の仕様判断に含めます。
 
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
-| layer指定・上流探索 | 直接接続resolverと明示カーブ指定は実装済み。明示curveはnode同一性、plug起点は実行時の接続を基準にする。今後は探索経路・複数候補の表現・layer選択を追加する。現在もlayer内の生カーブを直接操作でき、所属layerのlockを検査するが、合成後のplug値を実現するlayer値の逆算は未対応 |
+| layer指定 | チャンネル自動選択、明示カーブ指定、調査用候補取得は実装済み。次は属性とlayer名から対象を解決するAPIを検討する。現在もlayer内の生カーブを直接操作でき、所属layerのlockを検査するが、合成後のplug値を実現するlayer値の逆算は未対応 |
 | 詳細データAPIの追加最適化 | 専用benchmarkと範囲取得の改善は実装済み。補完は作業用カーブ全体へ依存し、復元時のlock検査も移植先キー数の影響を受ける。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
 | キー削減・最適化 | データ取得・編集・再設定の土台は完成。自動削減は未実装。同値キーでも接線により途中の値が変わるため、許容誤差、区間内の評価方法、step系・breakdown・境界キーの保持方針を先に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
@@ -214,8 +223,11 @@ layer対応と上流探索は将来の対応対象として利用者と合意し
 ### 実装を引き継ぐ際の参照先
 
 - `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作と通常キー設定の経路選択。
-- 同階層の`_keyframe_target.py`: 直接接続・明示指定resolverと編集時のlock / reference検査。
+- 同階層の`_keyframe_target.py`: チャンネル・明示指定resolverと編集時のlock / reference検査。
+  通常キー設定のAPI高速経路判定は、別の厳格な直接接続helperに維持する。
   作成待ちnodeは`MObjectHandle.object()`がnullになるため、明示対象は元のMObjectも保持する。
+- 同階層の`_keyframe_discovery.py`: DG依存関係の候補列挙。iteratorには探索終了まで
+  生存するroot MPlugを渡す。未接続出力の依存入力補完と、array indexの区別にも注意する。
 - 同階層の`keyframe_data.py`: KeyData / AnimCurveDataの型、単位表現、検証、JSON変換。
 - 同階層の`_keyframe_snapshot.py`: 詳細データの型制約、snapshot、復元、境界補完。
   境界補完では`MDGModifier.createNode()`で確保した作業用カーブを使い、`doIt()`せずに
@@ -225,7 +237,11 @@ layer対応と上流探索は将来の対応対象として利用者と合意し
   形状・単位・履歴・副作用・例外時の解放を確認する主なテスト。
   MPxCommand連携は`tests/maya/mpx_cmd/test_command.py`、補完は`tests/typecheck/node_operator_contract.py`。
 - `test_keyframe_target.py`: 対象選択、未対応接続の拒否、実行時再解決と失敗時rollback。
+- `test_keyframe_channel.py`: pairBlend全6軸、currentDriver、単位変換、blendWeightedの入力順、
+  空カーブ・入れ子・保留中接続、非対象カーブと中間ノードの保持、取得・編集・復元と履歴。
 - `test_curve_keyframe.py`: 明示カーブの単位、node同一性、共有・入力接続、layer lock、履歴、詳細データ。
+- `test_keyframe_discovery.py`: 全8型、型filter、複数経路・weight・constraint、queryの副作用、
+  候補選択後の明示編集と履歴。探索はlayer所属や現在値への寄与を判定するAPIではない。
 - `python/bd_util/_dev/maya/benchmark_keyframe_data.py`: 現行コードまたは指定commitの詳細データ性能測定。
 
 境界補完の検証時点では、Maya 2025 / 2026 / 2027でclip・dataの関連256件が成功し、

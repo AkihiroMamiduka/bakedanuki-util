@@ -1,4 +1,9 @@
-from typing import Any, Literal, assert_type
+from typing import TYPE_CHECKING, Any, Literal, assert_type
+
+if TYPE_CHECKING:
+    from bd_util.maya.node.operator.attr._keyframe_discovery import (
+        AnimCurveNode,
+    )
 
 import bd_util as bdu
 from maya.api import OpenMaya as om
@@ -4164,6 +4169,33 @@ def explicit_curve_keyframe_contract(
         1, 2, out_tangent_type="invalid"  # pyright: ignore[reportArgumentType]
     )
     keyframe.plug  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+
+
+def curve_discovery_contract(nodes: bdu.Nodes) -> None:
+    keyframe = nodes.existing.transform("target").translate.translateX.keyframe
+    candidates = keyframe.find_anim_curves()
+    assert_type(candidates, tuple[AnimCurveNode, ...])
+    for candidate in candidates:
+        assert_type(candidate.name, str)
+        assert_type(candidate.modifier_manager, bdu.ModifierManager)
+        if isinstance(candidate, nodes.types.AnimCurveTL):
+            assert_type(candidate.keyframe, CurveKeyframeManager)
+    curves = keyframe.find_anim_curves(filter_type=nodes.types.AnimCurveTL)
+    assert_type(curves[0].keyframe, CurveKeyframeManager)
+    for curve in curves:
+        assert_type(curve.keyframe.get_curve_data(), AnimCurveData)
+        assert_type(curve.keyframe.set_key(2, 1), None)
+    for driven in keyframe.find_anim_curves(
+        filter_type=nodes.types.AnimCurveUU
+    ):
+        assert_type(driven.input.get(), float)
+        driven.keyframe  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    keyframe.find_anim_curves(  # pyright: ignore[reportCallIssue]
+        filter_type=nodes.types.Transform  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.find_anim_curves(  # pyright: ignore[reportCallIssue]
+        filter_type="animCurveTL"  # pyright: ignore[reportArgumentType]
+    )
 
 
 def keyframe_contract(
