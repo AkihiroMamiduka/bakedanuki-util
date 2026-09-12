@@ -9,6 +9,10 @@
 
 ### Added
 
+- TA / TL / TUノードに`keyframe: CurveKeyframeManager`を追加。カーブを明示して
+  生の値・接線・詳細データを取得・編集でき、未接続・共有出力・時間入力接続にも対応する。
+  ノード同一性、予約時の独立コピー、Undo / Redo、失敗時rollbackを保持する。
+  Maya 2027を含む補完stubにも、schemaとは独立した共通操作を生成する。
 - 詳細データAPI用benchmarkを追加。全体・範囲取得、境界補完、復元の予約・実行・
   Undo / Redo、JSON変換を個別測定し、指定commitとの比較も可能にする。
 - `get_curve_data()`に範囲指定を追加し、`get_key_data()`と共通の境界補完を実装。

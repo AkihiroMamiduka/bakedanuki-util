@@ -378,7 +378,8 @@ queryだけを行う場合は省略できます。
 
 ### カーブを取得・編集する場合の選択ルール
 
-通常のキー設定と、既存カーブを取得・編集する操作には次の違いがあります。
+属性の`KeyframeManager`では、通常のキー設定と既存カーブの取得・編集に次の違いがあります。
+ノードを直接指定する操作は、後述の[カーブを明示して操作する](#カーブを明示して操作する)を参照します。
 
 | 操作 | 対象の決定 |
 | --- | --- |
@@ -402,9 +403,77 @@ layerを含むsceneでも通常のキー設定はMayaへ委譲できますが、
 現在の対応範囲に従って失敗します。同じ実行単位で未対応の編集を続けて失敗した場合は、
 先行するキー設定もrollbackします。layerの合成後のplug値と、生カーブの値は別の値です。
 たとえばbase値が1のとき、plugへ12を設定するとlayer側には11が保存される場合があります。
-将来のlayer指定・上流探索では、対象カーブと値の意味を明示するAPIを追加する方針です。
+カーブを明示した生の値の操作は`CurveKeyframeManager`で行えます。
+layer名による選択と上流候補の探索は今後の拡張です。
+
+### カーブを明示して操作する
+
+`nodes.existing.animCurveTA(...)` / `animCurveTL(...)` / `animCurveTU(...)`の
+`.keyframe`は、そのノード自身を対象にした`CurveKeyframeManager`を返します。
+`nodes.create`でも同じ入口を使用でき、ノード作成とキー編集をまとめて予約できます。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+curve = nodes.existing.animCurveTL("walk_tx")
+data = curve.keyframe.get_curve_data(start_frame=1, end_frame=24)
+copy = nodes.create.animCurveTL(name="walk_tx_copy")
+copy.keyframe.set_curve_data(data)
+copy.keyframe.set_key(12.0, frame=10.0)
+mod.do_it_dg()
+```
+
+`CurveKeyframeManager`は`bd_util.maya.node.operator.attr`からもimportできます。
+`CurveKeyframeManager(m_obj, modifier_manager=mod)`の`m_obj`はTA / TL / TUの
+`MObject`です。queryだけならmanagerを省略できます。型の分からない名前は
+`nodes.existing(name)`で実行時に具体ノードへ解決できます。
+カーブ自身の入口は`curve.keyframe`です。`curve.output.keyframe`は出力属性を対象とする
+従来の`KeyframeManager`なので、カーブ自身の編集には使いません。
+
+| 項目 | 明示カーブの契約 |
+| --- | --- |
+| 対象 | 作成時に指定したノードそのもの。改名・出力の再接続でも対象は変わらず、同名の別ノードへ取り替えない |
+| 時刻・値 | `frame`は呼出し時のUI時間単位で表したカーブ自身の入力時刻。TAはdegree、TLはcm、TUはunitless |
+| 接続 | 出力先なし、共有出力、中間ノードへの出力、`input`の時間接続、message接続を許可 |
+| 非対応 | TT、unitless入力のdriven key、TAの独立scalar以外の補間、`input`・message以外の入力接続 |
+| 取得 | `get_keys()` / `frames()` / `values()`等。空カーブは空list、`get_curve_data()`は空の場合も`AnimCurveData`、`get_weighted()`は`bool` |
+| 編集 | `set_key()` / `set_keys()`、挿入、接線変更、キー削除、weighted変更、詳細データ復元を同じmanagerへ予約 |
+| 詳細データ | 属性経由と同じschema 2、境界補完、公開単位、予約時の再検証・独立コピーを使用。復元先の型は一致が必要 |
+| 削除済み・作成待ち | queryは`RuntimeError`。保留中modifierを実行しない。作成待ちノードへの編集予約は可能で、実行時に存在を検査 |
+
+`set_key()` / `set_keys()`はカーブ自身の値を`MFnAnimCurve`で設定します。
+同時刻は入力順で上書きし、`step` / `stepnext`の指定は出力接線だけを受け付けます。
+時間入力が別のノードで変換されていても、scene時刻からの逆算は行いません。
+たとえばsceneの10フレーム時にカーブへ20フレーム相当の時間が入る構成では、
+`set_key(value, frame=20)`がその入力位置を編集します。
+
+共有カーブを編集すると全出力先へ反映されます。編集時はカーブノードとその属性の
+lock / reference、所属animation layerのlock / referenceを検査します。
+出力先の属性lockはカーブ自身の値を固定するものではないため、キー編集を制限しません。
+無関係なlayerの存在やlockも操作を制限しません。
+レイヤー内の生カーブを指定することはできますが、layer選択・合成後の値解決は行いません。
+たとえばbase値1に加算されるカーブへ20を設定すると、合成値は21になります。
+
+`set_curve_data()`は既存ノードの全キー・weighted・infinityを置換し、接続は維持します。
+`set_key_data()`は作成待ちを含め指定ノードのweightedとinfinityを維持します。
+属性経由で未接続時に自動作成する場合のnonweighted規則とは、ノード作成の責務が異なります。
+
+`delete_anim_curve()`は共有先を含めカーブノード全体を削除します。
+削除では入力・出力・messageの全接続端についてlock / referenceを事前検査し、
+全接続を切断・反映してからノードを削除します。接続先を連鎖して削除せず、
+Undoで同じノードと全接続を復元します。ロックされた接続先があれば切断前に拒否します。
+最後のキーだけを削除した場合は空のカーブを残します。
+
+queryは実行済みsceneだけを参照し、編集条件は初回実行時に再検査します。
+予約後の改名・接続変更・lock変更・削除を考慮し、Redoでは初回の変更を再生します。
+同じbatchで後続操作が失敗した場合は、先行するキー編集・接続変更・削除もrollbackします。
 
 ### キーの挿入・編集・削除
+
+以下の対象なしの挙動と直接接続の制約は、属性経由の`KeyframeManager`についての説明です。
 
 | method | 実行時の処理 | 対象がない場合 |
 | --- | --- | --- |

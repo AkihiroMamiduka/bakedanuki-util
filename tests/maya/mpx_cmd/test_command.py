@@ -248,6 +248,38 @@ def test_animation_edits_share_command_history_and_restore_on_failure(
         maya_cmds.redo()
 
 
+@pytest.mark.parametrize("fail", [False, True])
+def test_explicit_curve_data_edits_participate_in_command_history(
+    mpx_test_plugin, maya_cmds, fail
+):
+    import bd_util as bdu
+
+    name = maya_cmds.createNode("animCurveTL")
+    for frame in (1, 5):
+        maya_cmds.setKeyframe(name, time=frame, value=frame)
+    keyframe = bdu.Nodes().existing.animCurveTL(name).keyframe
+    before = keyframe.get_curve_data()
+    maya_cmds.flushUndo()
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional explicit curve failure"
+        ):
+            maya_cmds.bduTestMpxFailAfterExplicitCurve(nodeName=name)
+        assert keyframe.get_curve_data() == before
+        assert maya_cmds.undoInfo(q=True, undoQueueEmpty=True)
+        return
+    maya_cmds.bduTestMpxEditExplicitCurve(nodeName=name)
+    after = keyframe.get_curve_data()
+    for _ in range(2):
+        assert keyframe.get_keys() == [(3, 30), (5, 15)]
+        assert keyframe.get_weighted() is True
+        maya_cmds.undo()
+        assert keyframe.get_curve_data() == before
+        assert maya_cmds.undoInfo(q=True, undoQueueEmpty=True)
+        maya_cmds.redo()
+        assert keyframe.get_curve_data() == after
+
+
 def test_no_op_command_does_not_enter_maya_undo_queue(
     mpx_test_plugin,
     maya_cmds,

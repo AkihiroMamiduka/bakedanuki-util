@@ -483,10 +483,10 @@ def _version_facade_requires_override(
     )
 
 
-def _node_wrapper_is_schema_only(
+def _node_wrapper_class(
     python_root: Path,
     definition: NodeDefinition,
-) -> bool:
+) -> ast.ClassDef | None:
     module_parts = definition.module_name.lstrip(".").split(".")
     wrapper_path = (
         (python_root / "bd_util" / "maya" / "node")
@@ -497,7 +497,7 @@ def _node_wrapper_is_schema_only(
         wrapper_path.read_text(encoding="utf-8"),
         filename=str(wrapper_path),
     )
-    wrapper_class = next(
+    return next(
         (
             statement
             for statement in tree.body
@@ -506,6 +506,13 @@ def _node_wrapper_is_schema_only(
         ),
         None,
     )
+
+
+def _node_wrapper_is_schema_only(
+    python_root: Path,
+    definition: NodeDefinition,
+) -> bool:
+    wrapper_class = _node_wrapper_class(python_root, definition)
     if wrapper_class is None:
         return False
 
@@ -532,6 +539,23 @@ def _node_wrapper_is_schema_only(
             continue
         return False
     return True
+
+
+def _node_wrapper_mixins(
+    python_root: Path, definition: NodeDefinition
+) -> tuple[str, ...]:
+    wrapper = _node_wrapper_class(python_root, definition)
+    generated = f"Generated{definition.class_name}"
+    if (
+        wrapper is None
+        or not wrapper.bases
+        or not all(isinstance(base, ast.Name) for base in wrapper.bases)
+        or ast.unparse(wrapper.bases[0]) != generated
+    ):
+        raise ValueError(
+            f"Versioned wrapper {definition.class_name} requires a generated base followed by named behavior mixins."
+        )
+    return tuple(ast.unparse(base) for base in wrapper.bases[1:])
 
 
 def generate_versioned_accessors_stub_code(python_root: Path) -> str:
@@ -616,7 +640,22 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
         for definition, maya_version in variants
     )
 
+    mixins_by_type = {
+        definition.node_type: _node_wrapper_mixins(python_root, definition)
+        for definition, _ in variants
+    }
+    for definition in definitions:
+        for mixin in mixins_by_type.get(definition.node_type, ()):
+            lines.append(
+                f"from {definition.module_name} import {mixin} as _{definition.class_name}{mixin}"
+            )
+
     for definition, maya_version in variants:
+        bases = [f"_Generated{definition.class_name}Maya{maya_version}"]
+        bases.extend(
+            f"_{definition.class_name}{mixin}"
+            for mixin in mixins_by_type[definition.node_type]
+        )
         lines.extend(
             [
                 "",
@@ -624,7 +663,7 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
                 "class {}(".format(
                     _versioned_type_name(definition, maya_version)
                 ),
-                f"    _Generated{definition.class_name}Maya{maya_version}",
+                "    " + ", ".join(bases),
                 "): ...",
             ]
         )

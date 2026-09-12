@@ -308,6 +308,14 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     quaternion補間、layerのあるsceneを拒否し、上流カーブと履歴を変更しないことを確認します。
   - queryと編集のlock / reference制約の違い、実行時の再接続、set→query→editの対象一致、
     Undo / Redoと同じbatchの先行変更のrollbackを検証します。
+- `tests/maya/node/operator/attr/test_curve_keyframe.py`
+  - TA / TL / TUノードの明示指定、作成待ちqueryの拒否、改名・再接続・削除時のnode同一性、
+    公開単位と予約時の時間単位、共有出力・時間入力・message接続を検証します。
+  - 詳細データ・境界補完・JSON復元の共通処理、入力コピー、元カーブとmodified flagの保持、
+    lock / referenceの再検査、全接続の削除前検査、反復Undo / Redoと失敗時rollbackを確認します。
+  - layer内の生カーブ値と合成値を区別し、所属layerのlockを尊重します。
+  - `tests/maya/mpx_cmd/test_command.py`は明示カーブの復元・weighted・キー編集を
+    MayaのUndo / Redoと例外時rollbackで検証します。補完は`node_operator_contract.py`が対象です。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
   - typed matrix plugと`TransformMatrix`の連携、常に具体型を返す`get()`、
     未設定時の`ValueError`、分解値のcompound専用値型、flat 16要素 / 4行4列の

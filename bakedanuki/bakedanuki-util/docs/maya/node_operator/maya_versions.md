@@ -136,6 +136,13 @@ unloadします。配布先の `.mll` が Maya にロードされていると上
 `Literal` union、version facade も新versionを含むようにします。`nodes.pyi` 自体は
 generatorから再生成します。
 
+version別schemaを持つ公開wrapperへ共通操作を追加するときは、生成baseの後ろに
+名前付きのbehavior mixinを継承させます。例えばTA / TL / TUの`AnimCurveKeyframes`です。
+stub生成器は同じmixinをversion別classにも継承させるため、`.keyframe`等の手書きAPIを
+全versionで補完できます。mixinはschema属性を定義せず、公開wrapper本体への独自member追加は
+引き続き生成時に拒否します。旧versionの公開wrapper全体を継承して、新versionで削除された
+属性を再公開する方法は使用しません。
+
 ### 3. 固定 profile で schema 差分を確定する
 
 1. 既存 version と同じ固定 plugin profile を対象 version の `mayapy` でロードします。

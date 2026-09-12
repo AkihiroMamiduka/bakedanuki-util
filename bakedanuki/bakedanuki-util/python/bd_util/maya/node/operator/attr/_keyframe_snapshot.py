@@ -1,4 +1,4 @@
-"""単純な直接接続カーブのsnapshotと、ModifierManager経由の復元。"""
+"""選択済みカーブのsnapshotと、ModifierManager経由の復元。"""
 
 from __future__ import annotations
 
@@ -71,22 +71,28 @@ def curve_type_for_plug(plug: om.MPlug) -> CurveTypeName:
     )
 
 
-def direct_curve(
-    plug: om.MPlug, *, write: bool = False
+def curve_type_for_target(target: _keyframe_target.Target) -> CurveTypeName:
+    if isinstance(target, om.MPlug):
+        return curve_type_for_plug(target)
+    return target.curve_type
+
+
+def resolve_curve(
+    target: _keyframe_target.Target, *, write: bool = False
 ) -> oma.MFnAnimCurve | None:
-    curve_type_for_plug(plug)
-    return _keyframe_target.direct_curve(plug, write=write)
+    curve_type_for_target(target)
+    return _keyframe_target.resolve_curve(target, write=write)
 
 
 def queue_weighted(
-    manager: ModifierManager, plug: om.MPlug, weighted: object
+    manager: ModifierManager, target: _keyframe_target.Target, weighted: object
 ) -> None:
     if not isinstance(weighted, bool):
         raise TypeError("weighted must be a bool.")
-    curve_type_for_plug(plug)
+    curve_type_for_target(target)
 
     def edit(change: oma.MAnimCurveChange) -> None:
-        curve = direct_curve(plug, write=True)
+        curve = resolve_curve(target, write=True)
         if curve is None:
             raise RuntimeError(
                 "No directly connected animCurve to set weighted."
@@ -98,17 +104,17 @@ def queue_weighted(
 
 
 def capture_curve(
-    plug: om.MPlug,
+    target: _keyframe_target.Target,
     start: om.MTime | None = None,
     end: om.MTime | None = None,
     *,
     include_boundaries: bool = True,
 ) -> AnimCurveData | None:
     unit = om.MTime.uiUnit()
-    curve = direct_curve(plug)
+    curve = resolve_curve(target)
     if curve is None:
         return None
-    curve_type = curve_type_for_plug(plug)
+    curve_type = curve_type_for_target(target)
     if (
         include_boundaries
         and curve.numKeys
@@ -332,15 +338,15 @@ def _restore_key_data(
 
 def queue_restore(
     manager: ModifierManager,
-    plug: om.MPlug,
+    target: _keyframe_target.Target,
     data: object,
     *,
     replace: bool,
 ) -> None:
     data = copy_curve_data(data)
-    if data.curve_type != curve_type_for_plug(plug):
+    if data.curve_type != curve_type_for_target(target):
         raise ValueError(
-            "AnimCurveData curve_type does not match the destination plug."
+            "AnimCurveData curve_type does not match the destination."
         )
     times = tuple(
         om.MTime(key.frame * data.seconds_per_frame, om.MTime.kSeconds)
@@ -353,12 +359,14 @@ def queue_restore(
 
     def prepare(modifier: om.MDGModifier) -> None:
         nonlocal curve, created
-        curve = direct_curve(plug, write=True)
+        curve = resolve_curve(target, write=True)
         if curve is not None:
             return
+        if not isinstance(target, om.MPlug):
+            raise RuntimeError("The explicit animCurve is not available.")
         obj = modifier.createNode(data.curve_type)
         created_curve = oma.MFnAnimCurve(obj)
-        modifier.connect(created_curve.findPlug("output", False), plug)
+        modifier.connect(created_curve.findPlug("output", False), target)
         curve = created_curve
         created = True
 

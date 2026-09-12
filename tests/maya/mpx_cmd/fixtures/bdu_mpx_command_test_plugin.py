@@ -143,6 +143,30 @@ class _FailDuringAnimationEditCommand(_EditKeyframesCommand):
         self.modifier_manager.do_it_dg()
 
 
+class _EditExplicitCurveCommand(_FailAfterExecuteCommand):
+    COMMAND_NAME = "bduTestMpxEditExplicitCurve"
+
+    def execute(self, params: _FailureParams) -> None:
+        keyframe = self.nodes.existing.animCurveTL(params.node_name).keyframe
+        data = keyframe.get_curve_data()
+        for key in data.keys:
+            key.value += 10
+        keyframe.set_curve_data(data)
+        keyframe.set_weighted(True)
+        keyframe.set_key(30, 3)
+        keyframe.delete_key(1)
+        data.keys[0].value = 999
+        self.modifier_manager.do_it_dg()
+
+
+class _FailAfterExplicitCurveCommand(_EditExplicitCurveCommand):
+    COMMAND_NAME = "bduTestMpxFailAfterExplicitCurve"
+
+    def execute(self, params: _FailureParams) -> None:
+        super().execute(params)
+        raise RuntimeError("intentional explicit curve failure")
+
+
 class _NoOpCommand(MPxCommandBase[None]):
     COMMAND_NAME = "bduTestMpxNoOp"
 
@@ -180,6 +204,8 @@ class _FailDuringExecuteCommand(_FailAfterExecuteCommand):
 
 
 COMMAND_TYPES = (
+    _EditExplicitCurveCommand,
+    _FailAfterExplicitCurveCommand,
     _RestoreKeyDataCommand,
     _FailAfterRestoreKeyDataCommand,
     _SetKeyframesCommand,

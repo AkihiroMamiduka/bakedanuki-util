@@ -6,6 +6,7 @@ from maya.api import OpenMayaAnim as oma
 
 from bd_util.maya.node.operator.attr import (
     AnimCurveData,
+    CurveKeyframeManager,
     CurveTypeName,
     InfinityTypeName,
     KeyData,
@@ -4115,6 +4116,54 @@ def modifier_callback_contract(mod: bdu.ModifierManager) -> None:
         prepare_dg  # pyright: ignore[reportArgumentType]
     )
     mod.queue_dg_modifier(edit_curve)  # pyright: ignore[reportArgumentType]
+
+
+def explicit_curve_keyframe_contract(
+    nodes: bdu.Nodes, obj: om.MObject
+) -> None:
+    assert_type(
+        nodes.existing.animCurveTA("curve").keyframe, CurveKeyframeManager
+    )
+    assert_type(
+        nodes.existing.animCurveTL("curve").keyframe, CurveKeyframeManager
+    )
+    assert_type(
+        nodes.existing.animCurveTU("curve").keyframe, CurveKeyframeManager
+    )
+    keyframe = nodes.create.animCurveTL(name="curve").keyframe
+    assert_type(keyframe, CurveKeyframeManager)
+    assert_type(CurveKeyframeManager(obj), CurveKeyframeManager)
+    assert_type(keyframe.get_curve_data(), AnimCurveData)
+    assert_type(keyframe.get_weighted(), bool)
+    assert_type(keyframe.get_keys(1, 24), list[tuple[float, float]])
+    assert_type(
+        keyframe.get_key_data(1, 24, include_boundaries=False), list[KeyData]
+    )
+    assert_type(keyframe.frames(), list[float])
+    assert_type(keyframe.values(), list[float])
+    assert_type(keyframe.set_key(10, 3, out_tangent_type="step"), None)
+    assert_type(
+        keyframe.set_keys([(1, 2)], in_tangent_type=keyframe.tangent.auto),
+        None,
+    )
+    assert_type(keyframe.set_curve_data(keyframe.get_curve_data()), None)
+    assert_type(
+        keyframe.set_key_data(
+            keyframe.get_key_data(), seconds_per_frame=1 / 24
+        ),
+        None,
+    )
+    assert_type(keyframe.set_weighted(True), None)
+    assert_type(keyframe.insert_key(2), None)
+    assert_type(keyframe.set_tangent(2, out_tangent_type="flat"), None)
+    assert_type(keyframe.delete_key(2), None)
+    assert_type(keyframe.delete_keys(1, 3), None)
+    assert_type(keyframe.delete_anim_curve(), None)
+    CurveKeyframeManager("curve")  # pyright: ignore[reportArgumentType]
+    keyframe.set_key(
+        1, 2, out_tangent_type="invalid"  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.plug  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 
 def keyframe_contract(

@@ -1,5 +1,6 @@
 # coding: utf-8
 from .keyframe import (
+    CurveKeyframeManager,
     KeyframeManager,
     TangentType,
     TangentTypeName,
@@ -15,6 +16,7 @@ from .keyframe_data import (
 )
 
 __all__ = (
+    "CurveKeyframeManager",
     "AnimCurveData",
     "CurveTypeName",
     "InfinityTypeName",
