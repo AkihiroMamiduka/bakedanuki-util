@@ -236,8 +236,9 @@ def test_sample_python_initial_value_shared_views_refresh_retry_and_reopen(
         assert node.rotate.rotateX.get() == 20
         assert node.scale.scaleX.get() == 2
         cmds.currentUnit(linear="m", angle="rad")
-        assert widget.translate_x.suffix() == " m"
-        assert widget.rotate_x.suffix() == " rad"
+        assert widget.translate_x.suffix() == widget.rotate_x.suffix() == ""
+        assert widget.translate_x_editor.minimum_spin_box.suffix() == ""
+        assert widget.rotate_x_editor.maximum_spin_box.suffix() == ""
         cmds.setAttr(f"{node.cmd_access_name}.tx", lock=True)
         widget.translate_x_binding.set_value(50)
         widget.retry_button.click()

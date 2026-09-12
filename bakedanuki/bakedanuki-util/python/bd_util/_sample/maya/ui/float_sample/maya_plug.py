@@ -31,10 +31,13 @@ class TransformFloatWidget(qt.QWidget):
         self.scale_x_binding = MayaFloatPlugBinding(plugs[2], parent=self)
         # 操作範囲は公開単位で指定し、数値欄を固定幅・ボタンなしで省スペースにする。
         width_min_max = 40
-        width_value = 100
+        width_value = 130
         enabled_min_max = False
         enabled_value = True
         decimals_min_max = 0
+        show_minimum_unit = False
+        show_maximum_unit = False
+        show_value_unit = False
         self.translate_x_editor = FloatRangeSliderSpinBox(
             self.translate_x_binding,
             self,
@@ -49,6 +52,9 @@ class TransformFloatWidget(qt.QWidget):
             maximum_enabled=enabled_min_max,
             value_width=width_value,
             value_enabled=enabled_value,
+            minimum_show_unit=show_minimum_unit,
+            maximum_show_unit=show_maximum_unit,
+            value_show_unit=show_value_unit,
             minimum_show_buttons=False,
             maximum_show_buttons=False,
             minimum_decimals=decimals_min_max,
@@ -69,6 +75,9 @@ class TransformFloatWidget(qt.QWidget):
             maximum_enabled=enabled_min_max,
             value_width=width_value,
             value_enabled=enabled_value,
+            minimum_show_unit=show_minimum_unit,
+            maximum_show_unit=show_maximum_unit,
+            value_show_unit=show_value_unit,
             minimum_show_buttons=False,
             maximum_show_buttons=False,
             minimum_decimals=decimals_min_max,
@@ -79,7 +88,7 @@ class TransformFloatWidget(qt.QWidget):
             self.scale_x_binding,
             self,
             minimum=0,
-            maximum=3,
+            maximum=100,
             steps=3000,
             decimals=decimals,
             single_step=0.01,
@@ -89,6 +98,9 @@ class TransformFloatWidget(qt.QWidget):
             maximum_enabled=enabled_min_max,
             value_width=width_value,
             value_enabled=enabled_value,
+            minimum_show_unit=show_minimum_unit,
+            maximum_show_unit=show_maximum_unit,
+            value_show_unit=show_value_unit,
             minimum_show_buttons=False,
             maximum_show_buttons=False,
             minimum_decimals=decimals_min_max,

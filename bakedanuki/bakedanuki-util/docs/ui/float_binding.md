@@ -60,6 +60,7 @@ binding.dispose()
 | `FloatPresentation` | immutableな表示倍率・suffix・公開単位でのhard limit |
 | `FloatSpinBox(source, parent=None, decimals=6, single_step=0.1)` | 共通のQDoubleSpinBox View |
 | `spin_box.isInputEnabled()` / `setInputEnabled(enabled)` | このSpinBoxからの操作設定を取得・変更する。表示更新と他Viewの編集は継続する |
+| `spin_box.isUnitVisible()` / `setUnitVisible(visible)` | 単位文字の表示設定を取得・変更する。表示・入力の単位変換は維持する |
 | `FloatLabel(source, parent=None, decimals=6)` | 値と単位を表示し、選択・コピーできるQLabel View |
 | `FloatSlider(source, parent=None, minimum=..., maximum=..., steps=1000)` | 公開単位の有限範囲を連続編集するQSlider View |
 | `FloatSliderSpinBox(source, parent=None, minimum=..., maximum=..., decimals=6)` | SliderとSpinBoxを1つのWidgetへまとめる複合View |
@@ -74,6 +75,9 @@ SliderとSpinBoxをまとめて配置する場合は[FloatSliderSpinBox](float_s
 `setInputEnabled(False)`はMayaのlock解除などによる編集可否の更新後も維持します。
 `True`に戻した場合も、正本のlock・接続・終了による編集制限は優先します。
 この設定で無効化した欄への`setValue()`は正本を変更せず、確定値を再表示します。
+`setUnitVisible(False)`では末尾の単位文字だけを省略し、現在の表示単位への換算は継続します。
+通常の`FloatSpinBox`は既定で単位を表示しますが、`FloatRangeSliderSpinBox`の現在値欄は
+`value_show_unit=False`を既定とします。表示の切替は未確定入力を破棄して確定値を再表示し、正本を変更しません。
 公開数値APIは有限のfloatとintを受け取り、floatへ正規化します。
 bool、文字列、NaN、無限大は拒否します。`Float`という名前はPythonの数値型を表し、
 Mayaの32bit floatだけを意味するものではありません。

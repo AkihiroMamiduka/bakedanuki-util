@@ -325,7 +325,10 @@ def test_samples_share_sliders_and_release_callbacks_on_close(
         )
         slider.setSliderDown(True)
         slider.setValue(750)
-        assert label.text() == spin.text()
+        assert (
+            label.text().removesuffix(spin.view_model.presentation.suffix)
+            == spin.text()
+        )
         if sample_name == "minimal":
             assert widget.linked_slider.value() == 750
         elif sample_name == "maya_view":

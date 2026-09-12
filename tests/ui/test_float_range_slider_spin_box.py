@@ -169,6 +169,7 @@ def test_units_and_precision_discard_pending_text_without_writes(owner):
         decimals=6,
         minimum_decimals=6,
         maximum_decimals=4,
+        maximum_show_unit=True,
     )
     editor.minimum_spin_box.lineEdit().setText("-999")
     binding.view_model.set_presentation_adapter(
@@ -336,6 +337,9 @@ def test_invalid_widths_leave_no_partial_widget(owner, field, value, error):
         ("minimum_show_buttons", "False"),
         ("maximum_show_buttons", None),
         ("value_show_buttons", 0),
+        ("value_show_unit", "False"),
+        ("minimum_show_unit", 0),
+        ("maximum_show_unit", None),
     ],
 )
 def test_invalid_flags_leave_no_partial_widget(owner, field, value):
@@ -424,7 +428,7 @@ def test_fixed_widths_and_absent_prefix_survive_units_range_and_precision(
     editor.setDecimals(15)
     editor.setMinimumDecimals(15)
     editor.setMaximumDecimals(15)
-    assert editor.minimum_spin_box.suffix() == " m"
+    assert editor.minimum_spin_box.suffix() == ""
     assert editor.maximum_spin_box.value() == pytest.approx(1234.56789)
     for child, width in (
         (editor.slider, 160),
@@ -698,3 +702,111 @@ def test_value_disabled_keeps_slider_and_shared_views_live(owner, physical):
     editor.spin_box.setInputEnabled(True)
     assert not editor.spin_box.isEnabled()
     assert not editor.slider.isEnabled()
+
+
+@pytest.mark.parametrize(
+    "minimum_show_unit,maximum_show_unit",
+    [(False, False), (False, True), (True, False), (True, True)],
+)
+def test_unit_visibility_keeps_conversion_limits_precision_and_other_views(
+    owner,
+    minimum_show_unit,
+    maximum_show_unit,
+):
+    @dataclass
+    class Data:
+        value: float = 123.456789
+
+    data = Data()
+    binding = FloatBinding.from_attribute(
+        data,
+        "value",
+        parent=owner,
+        presentation=FloatPresentation(0.01, " m", minimum=0, maximum=200),
+    )
+    editor = FloatRangeSliderSpinBox(
+        binding,
+        owner,
+        minimum=-100,
+        maximum=300,
+        decimals=6,
+        minimum_show_unit=minimum_show_unit,
+        maximum_show_unit=maximum_show_unit,
+    )
+    other = FloatRangeSliderSpinBox(
+        binding,
+        owner,
+        minimum=-100,
+        maximum=300,
+        decimals=6,
+        value_show_unit=True,
+    )
+    label = FloatLabel(binding, owner, decimals=6)
+    assert not editor.spin_box.isUnitVisible()
+    assert editor.spin_box.suffix() == ""
+    assert editor.spin_box.text() == "1.234568"
+    assert editor.spin_box.minimum() == 0
+    assert editor.spin_box.maximum() == 2
+    assert editor.minimum_spin_box.suffix() == (
+        " m" if minimum_show_unit else ""
+    )
+    assert editor.maximum_spin_box.suffix() == (
+        " m" if maximum_show_unit else ""
+    )
+    assert (
+        other.minimum_spin_box.suffix()
+        == other.maximum_spin_box.suffix()
+        == ""
+    )
+    assert other.spin_box.text() == label.text() == "1.234568 m"
+    changes = []
+    binding.changed.connect(changes.append)
+    editor.spin_box.lineEdit().setText("99")
+    editor.spin_box.setUnitVisible(True)
+    enter(editor.spin_box, editor.spin_box.text())
+    editor.spin_box.setUnitVisible(False)
+    editor.setDecimals(9)
+    assert editor.spin_box.text() == "1.234567890"
+    assert data.value == 123.456789
+    assert changes == []
+    binding.view_model.set_presentation_adapter(
+        lambda p: FloatPresentation(0.001, " units", minimum=0, maximum=200)
+    )
+    assert editor.spin_box.suffix() == ""
+    assert editor.spin_box.value() == pytest.approx(0.123456789)
+    assert editor.spin_box.maximum() == 0.2
+    assert other.spin_box.suffix() == " units"
+    assert editor.minimum_spin_box.suffix() == (
+        " units" if minimum_show_unit else ""
+    )
+    assert editor.maximum_spin_box.suffix() == (
+        " units" if maximum_show_unit else ""
+    )
+    enter(editor.spin_box, "0.15")
+    assert binding.value == data.value == 150
+    assert label.text() == other.spin_box.text() == "0.150000 units"
+    assert editor.floatRange() == (-100, 300)
+    editor.setMinimumDecimals(3)
+    editor.setMaximumDecimals(3)
+    enter(editor.minimum_spin_box, "-0.2" + editor.minimum_spin_box.suffix())
+    enter(editor.maximum_spin_box, "0.5" + editor.maximum_spin_box.suffix())
+    assert editor.floatRange() == (-200, 500)
+    assert other.floatRange() == (-100, 300)
+    assert editor.minimum_spin_box.suffix() == (
+        " units" if minimum_show_unit else ""
+    )
+    assert editor.maximum_spin_box.suffix() == (
+        " units" if maximum_show_unit else ""
+    )
+    assert binding.value == data.value == 150
+    assert changes == [150]
+    editor.spin_box.setInputEnabled(False)
+    editor.spin_box.setUnitVisible(True)
+    assert editor.spin_box.text() == "0.150000000 units"
+    assert not editor.spin_box.isEnabled()
+    with pytest.raises(TypeError):
+        editor.spin_box.setUnitVisible(0)
+    assert editor.spin_box.isUnitVisible()
+    binding.dispose()
+    with pytest.raises(RuntimeError):
+        editor.spin_box.setUnitVisible(False)

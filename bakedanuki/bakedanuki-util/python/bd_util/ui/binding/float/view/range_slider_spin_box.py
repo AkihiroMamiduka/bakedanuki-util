@@ -57,8 +57,11 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         value_show_buttons: bool = True,
         minimum_decimals: int = 0,
         maximum_decimals: int = 0,
+        minimum_show_unit: bool = False,
+        maximum_show_unit: bool = False,
+        value_show_unit: bool = False,
     ) -> None:
-        """公開単位の範囲と、各部品の固定幅・操作可否・ボタン表示を指定する。"""
+        """公開単位の範囲と、各部品の幅・操作可否・桁数・表示設定を指定する。"""
         # 不正な表示設定で、親に生成途中のWidgetを残さない。
         slider_width = _require_width(slider_width, "slider_width")
         minimum_width = _require_width(minimum_width, "minimum_width")
@@ -78,6 +81,13 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         )
         minimum_decimals = require_decimals(minimum_decimals)
         maximum_decimals = require_decimals(maximum_decimals)
+        minimum_show_unit = _require_bool(
+            minimum_show_unit, "minimum_show_unit"
+        )
+        maximum_show_unit = _require_bool(
+            maximum_show_unit, "maximum_show_unit"
+        )
+        value_show_unit = _require_bool(value_show_unit, "value_show_unit")
         super().__init__(
             view_model,
             parent,
@@ -89,6 +99,8 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         )
         self._minimum_enabled = minimum_enabled
         self._maximum_enabled = maximum_enabled
+        self._minimum_show_unit = minimum_show_unit
+        self._maximum_show_unit = maximum_show_unit
         try:
             # 範囲入力は値のCommandへ接続せず、このSliderの設定だけを編集する。
             self.minimum_spin_box = self._create_bound("Slider minimum")
@@ -123,6 +135,7 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
                 )
             ):
                 self._row.addStretch(1)
+            self.spin_box.setUnitVisible(value_show_unit)
             self.spin_box.setInputEnabled(value_enabled)
             if not value_enabled:
                 self.setFocusProxy(self.slider)
@@ -342,14 +355,16 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
             )
             self.range_status_label.show()
             return
-        for spin_box, value, enabled in zip(
+        # 単位の換算と文字の表示を分け、各欄の非表示設定を更新後も維持する。
+        for spin_box, value, enabled, show_unit in zip(
             (self.minimum_spin_box, self.maximum_spin_box),
             display_range,
             (self._minimum_enabled, self._maximum_enabled),
+            (self._minimum_show_unit, self._maximum_show_unit),
         ):
             blocker = qt.QtCore.QSignalBlocker(spin_box)
             try:
-                spin_box.setSuffix(presentation.suffix)
+                spin_box.setSuffix(presentation.suffix if show_unit else "")
                 spin_box.setValue(value)
                 spin_box.setEnabled(enabled)
             finally:

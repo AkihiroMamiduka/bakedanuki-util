@@ -40,6 +40,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         self._binding = binding
         self._view_model = view_model
         self._input_enabled = True
+        self._unit_visible = True
 
         # 表示桁数・刻み幅を設定し、入力途中の逐次確定と値の循環を止める。
         self.setDecimals(decimals)
@@ -73,6 +74,20 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         if view_model is None:
             raise RuntimeError("表示対象のFloatViewModelは破棄されています")
         return view_model
+
+    def isUnitVisible(self) -> bool:
+        """表示単位の文字を現在値の末尾へ表示する設定を返す。"""
+        return self._unit_visible
+
+    def setUnitVisible(self, visible: bool) -> None:
+        """値の単位変換を維持し、単位文字の表示だけを切り替える。"""
+        if type(visible) is not bool:
+            raise TypeError("visibleにはboolを指定してください")
+        if self.view_model.is_disposed:
+            raise RuntimeError("表示対象のFloatViewModelは終了しています")
+        self._unit_visible = visible
+        # 未確定入力を破棄し、文字の切替を値変更として正本へ書き戻さない。
+        self._render()
 
     def isInputEnabled(self) -> bool:
         """正本の編集可否とは独立した、この入力欄の操作設定を返す。"""
@@ -140,7 +155,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         # 表示の丸めや範囲更新によるvalueChangedを正本へ書き戻さない。
         blocker = qt.QtCore.QSignalBlocker(self)
         try:
-            self.setSuffix(presentation.suffix)
+            self.setSuffix(presentation.suffix if self._unit_visible else "")
             self.setRange(minimum, maximum)
             self.setValue(value)
         finally:

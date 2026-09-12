@@ -67,8 +67,10 @@ def test_sample_precision_units_parent_edit_and_window_lifetime(scene):
         press_key(view, qt.Qt.Key.Key_Return)
     assert cmds.undoInfo(query=True, undoQueueEmpty=True)
     cmds.currentUnit(linear="m", angle="rad")
-    assert widget.translate_x.suffix() == " m"
-    assert widget.rotate_x.suffix() == " rad"
+    assert widget.translate_x.suffix() == ""
+    assert widget.rotate_x.suffix() == ""
+    assert widget.translate_x_editor.minimum_spin_box.suffix() == ""
+    assert widget.rotate_x_editor.maximum_spin_box.suffix() == ""
     assert widget.scale_x.suffix() == ""
     assert widget.translate_x.value() == 1.001235
     assert widget.rotate_x.value() == round(
@@ -143,8 +145,7 @@ def test_channel_box_precision_is_read_on_open_without_rounding_scene(
     cmds.currentUnit(linear="m", angle="rad")
     flush()
     assert all(view.decimals() == decimals for view in views)
-    assert views[0].suffix() == " m"
-    assert views[1].suffix() == " rad"
+    assert views[0].suffix() == views[1].suffix() == ""
 
     replacement = sample.show(scene)
     flush()

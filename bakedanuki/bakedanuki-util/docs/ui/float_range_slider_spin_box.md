@@ -2,7 +2,8 @@
 
 `FloatRangeSliderSpinBox`は、スライダーの左右に最小値／最大値の入力欄を追加した単一値の複合Viewです。
 `FloatSliderSpinBox`を継承し、現在値の同期・単位変換・連続編集・Undo・寿命の処理を共有します。
-入力欄には数値と単位を表示し、最小値／最大値の役割はツールチップとアクセシビリティ用の名前で補います。
+Min／Max欄と現在値欄は既定で数値のみを表示し、単位文字の表示を個別に指定できます。
+最小値／最大値の役割はツールチップとアクセシビリティ用の名前で補います。
 
 ```text
 [最小値] ─── Slider ─── [最大値] [現在値]
@@ -55,13 +56,14 @@ Maya正本なら`MayaFloatPlugBinding`、Python正本とMaya同期なら`MayaFlo
 | `editor.maximumDecimals()` / `setMaximumDecimals(decimals)` | Maxだけの表示・入力桁数を取得・変更する |
 | `editor.singleStep()` / `setSingleStep(single_step)` | 現在値の刻み幅を取得・変更する。Min／Maxの刻み幅は各桁数に応じて補正する |
 | `editor.spin_box.isInputEnabled()` / `setInputEnabled(enabled)` | 現在値欄の操作設定を取得・変更する。Mayaの編集制限は維持する |
+| `editor.spin_box.isUnitVisible()` / `setUnitVisible(visible)` | 現在値欄の単位文字の表示設定を取得・変更する。値の単位変換は維持する |
 | `editor.range_status_label` | 入力拒否や実際の操作範囲を表示する`QLabel` |
 | `editor.rangeEditRejected(str)` | 不正な範囲入力を復元した後、理由を通知するsignal |
 | `editor.slider.floatRangeChanged(float, float)` | 設定した公開単位範囲が変更された後のsignal |
 
 `bd_util.ui`、`bd_util.ui.binding`、`bd_util.ui.binding.float`、`bd_util.ui.binding.float.view`からimportできます。
 
-## 幅・操作可否・ボタン表示・小数桁数
+## 幅・操作可否・表示設定
 
 コンストラクタでは、次のkeyword引数も指定できます。
 
@@ -79,6 +81,9 @@ Maya正本なら`MayaFloatPlugBinding`、Python正本とMaya同期なら`MayaFlo
 | `value_show_buttons` | `bool` | `True` | 現在値の増減ボタンを表示する |
 | `minimum_decimals` | `int` | `0` | Minの表示・入力の小数桁数 |
 | `maximum_decimals` | `int` | `0` | Maxの表示・入力の小数桁数 |
+| `minimum_show_unit` | `bool` | `False` | Min欄にcm・degなどの単位文字を表示する |
+| `maximum_show_unit` | `bool` | `False` | Max欄にcm・degなどの単位文字を表示する |
+| `value_show_unit` | `bool` | `False` | 現在値欄にcm・degなどの単位文字を表示する |
 
 共通の`show_buttons`引数は廃止し、3つの個別引数へ置き換えています。
 既存の`decimals`引数と`setDecimals()`は現在値専用です。Min／Maxの桁数には影響しません。
@@ -106,6 +111,19 @@ MayaやPython正本からの表示更新は継続します。lock解除・接続
 有効な入力欄では文字の直接入力や上下キーによる増減を引き続き使用できます。
 幅・操作可否・ボタン表示・桁数の設定自体では、現在値やMayaのUndoを変更しません。
 
+`minimum_show_unit`・`maximum_show_unit`・`value_show_unit`は、各欄の末尾の単位文字を個別に設定します。
+全て既定値は`False`で、`True`にした欄だけ単位文字を表示します。
+非表示でもMayaの現在の表示単位への追従、入力時の単位変換、hard limitの換算は維持します。
+例えば100cmは表示単位がmなら`1.000000`となり、そこで`2`を入力すると正本へ200cmを設定します。
+Min／Max欄も現在の表示単位で範囲を編集し、例えばm表示でMaxに`2`を入力すれば操作範囲の上限を200cmにします。
+範囲の編集では正本の値を変更しません。単位・桁数・値・範囲の更新後も表示設定を維持し、
+共有ラベル・他Viewの単位表示や、有効範囲の案内に付ける単位文字は変更しません。
+`double`など単位のない属性は、`True`でも単位文字を追加しません。
+
+生成後は`editor.spin_box.setUnitVisible(True)`で単位文字を表示できます。
+切替時は未確定入力を破棄して確定値を再表示し、正本やUndoを変更しません。
+この複合Viewに含まれない通常の`FloatSpinBox`は、従来どおり単位文字を表示します。
+
 ```python
 # 数値欄を固定幅にし、スライダーが残りの幅を使う構成。
 editor = FloatRangeSliderSpinBox(
@@ -124,6 +142,9 @@ editor = FloatRangeSliderSpinBox(
     value_show_buttons=True,
     minimum_decimals=0,
     maximum_decimals=2,
+    minimum_show_unit=False,
+    maximum_show_unit=True,
+    value_show_unit=False,
 )
 ```
 
@@ -189,8 +210,9 @@ editor.setFloatRange(-10, 10)  # cm
 異なる範囲を設定できます。Maya連携サンプルは現在値と数値ラベルにWindow生成時の
 Channel Box桁数を使用し、Min／Maxは既定の0桁を使用します。
 
-`maya_plug`では既存の30／30／100の固定幅・Min／Max入力無効・ボタンなし設定を使用します。
-`enabled_value`変数で現在値の操作可否を指定できます。
+`maya_plug`では既存の40／40／130の固定幅・Min／Max入力無効・ボタンなし設定を使用します。
+`enabled_value`変数で現在値の操作可否、`show_minimum_unit`・`show_maximum_unit`・`show_value_unit`で
+各欄の単位文字の表示を指定できます。全欄の単位文字は既定で非表示とし、共有ラベルでは単位を確認できます。
 `maya_view`は80／80／100の固定幅・ボタンなしで、`linked_translate_x_editor`の数値欄は全て無効です。
 共有ViewもSliderからは編集できます。
 `minimal.editor`は80／80／100の固定幅・ボタンなしでMin／Maxが2桁、
@@ -208,6 +230,7 @@ Channel Box桁数を使用し、Min／Maxは既定の0桁を使用します。
 7. Windowの幅を変え、固定幅の欄と未指定のWidgetの伸縮を確認する。
 8. 数値欄を無効にした共有Viewで、単位変更やlock解除後も無効表示を維持し、Slider操作で表示が更新されることを確認する。
 9. Min／Maxの桁数を別々に変更し、実際の範囲と現在値が保たれ、0桁の上下操作が1刻みになることを確認する。
+10. 3つの`*_show_unit`を個別に指定し、Mayaの表示単位変更後も数値・範囲の換算と入力が正しく行われることを確認する。
 
 `tests/ui/test_float_range_slider_spin_box.py`は範囲・入力・精度・寿命、
 `tests/ui/test_float_range_slider_spin_box_maya.py`はMayaとの単位同期・Undo・callback・サンプル、

@@ -187,12 +187,16 @@ def test_transform_samples_share_labels_channel_precision_and_reopen(
             (widget.scale_x, widget.scale_x_label),
         ):
             assert label.decimals() == 4
-            assert label.text() == spin.text()
+            assert spin.suffix() == ""
+            assert (
+                label.text()
+                == spin.text() + spin.view_model.presentation.suffix
+            )
         widget.translate_x.setValue(5.125)
         assert widget.translate_x_label.text() == "5.1250 cm"
         cmds.currentUnit(linear="m", angle="rad")
         assert widget.translate_x_label.text() == "0.0513 m"
-        assert widget.rotate_x_label.text() == widget.rotate_x.text()
+        assert widget.rotate_x_label.text() == widget.rotate_x.text() + " rad"
         if source == "python":
             assert widget.linked_translate_x_label.decimals() == 6
             widget.set_data_button.click()

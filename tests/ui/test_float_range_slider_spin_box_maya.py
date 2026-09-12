@@ -48,8 +48,9 @@ def scene(qt_application, maya_standalone):
 
 @pytest.mark.parametrize("source", ["maya", "python"])
 @pytest.mark.parametrize("attribute", ["tx", "rx", "sx"])
+@pytest.mark.parametrize("value_show_unit", [False, True])
 def test_bound_edits_follow_units_preserve_values_and_create_no_undo(
-    scene, source, attribute
+    scene, source, attribute, value_show_unit
 ):
     owner, node = scene
 
@@ -83,6 +84,9 @@ def test_bound_edits_follow_units_preserve_values_and_create_no_undo(
         minimum_show_buttons=False,
         maximum_show_buttons=False,
         value_show_buttons=False,
+        minimum_show_unit=value_show_unit,
+        maximum_show_unit=not value_show_unit,
+        value_show_unit=value_show_unit,
     )
     second = FloatRangeSliderSpinBox(
         binding,
@@ -93,6 +97,7 @@ def test_bound_edits_follow_units_preserve_values_and_create_no_undo(
         minimum_enabled=False,
         maximum_enabled=False,
         value_enabled=False,
+        value_show_unit=not value_show_unit,
     )
     label = FloatLabel(binding, owner, decimals=12)
     assert tuple(om.MMessage.nodeCallbacks(node.m_obj)) == before
@@ -103,7 +108,23 @@ def test_bound_edits_follow_units_preserve_values_and_create_no_undo(
     assert editor.maximum_spin_box.value() == pytest.approx(
         presentation.to_display(100)
     )
-    assert editor.minimum_spin_box.suffix() == editor.spin_box.suffix()
+    assert editor.minimum_spin_box.suffix() == (
+        presentation.suffix if value_show_unit else ""
+    )
+    assert editor.maximum_spin_box.suffix() == (
+        "" if value_show_unit else presentation.suffix
+    )
+    assert (
+        second.minimum_spin_box.suffix()
+        == second.maximum_spin_box.suffix()
+        == ""
+    )
+    assert editor.spin_box.suffix() == (
+        presentation.suffix if value_show_unit else ""
+    )
+    assert second.spin_box.suffix() == (
+        "" if value_show_unit else presentation.suffix
+    )
     assert editor.floatRange() == (-100, 100)
     assert not second.minimum_spin_box.isEnabled()
     assert not second.maximum_spin_box.isEnabled()
@@ -141,8 +162,13 @@ def test_bound_edits_follow_units_preserve_values_and_create_no_undo(
     for position in (200, 500, 750):
         editor.slider.setValue(position)
         assert binding.value == pytest.approx(plug.get())
-        assert editor.spin_box.text() == label.text()
-        assert second.spin_box.text() == label.text()
+        numeric_text = label.text().removesuffix(presentation.suffix)
+        assert editor.spin_box.text() == (
+            label.text() if value_show_unit else numeric_text
+        )
+        assert second.spin_box.text() == (
+            numeric_text if value_show_unit else label.text()
+        )
         if source == "python":
             assert data.value == binding.value
     # 範囲変更で進行中のドラッグを確定し、次のMaya操作をUndoへ混ぜない。
@@ -225,6 +251,11 @@ def test_locked_parent_allows_range_settings_and_deletion_keeps_shared_callbacks
     assert not editor.spin_box.isEnabled()
     assert editor.minimum_spin_box.isEnabled()
     cmds.flushUndo()
+
+    editor.spin_box.setUnitVisible(True)
+    editor.spin_box.setUnitVisible(False)
+    assert binding.value == 0
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
     editor.minimum_spin_box.setValue(-1)
     assert editor.floatRange() == (-1, 100)
     assert binding.value == 0
@@ -262,21 +293,30 @@ def test_samples_expose_bound_controls_with_independent_ranges(scene, module):
     assert (
         editor.minimum_spin_box.minimumWidth()
         == editor.minimum_spin_box.maximumWidth()
-        == (30 if module is maya_plug else 80)
+        == (40 if module is maya_plug else 80)
     )
     assert (
         editor.maximum_spin_box.minimumWidth()
         == editor.maximum_spin_box.maximumWidth()
-        == (30 if module is maya_plug else 80)
+        == (40 if module is maya_plug else 80)
     )
     assert (
-        editor.spin_box.minimumWidth() == editor.spin_box.maximumWidth() == 100
+        editor.spin_box.minimumWidth()
+        == editor.spin_box.maximumWidth()
+        == (130 if module is maya_plug else 100)
     )
     assert (
         editor.spin_box.buttonSymbols()
         == qt.QtWidgets.QAbstractSpinBox.ButtonSymbols.NoButtons
     )
     original = editor.view_model.value.value
+    assert not editor.spin_box.isUnitVisible()
+    assert editor.spin_box.suffix() == ""
+    assert (
+        editor.minimum_spin_box.suffix()
+        == editor.maximum_spin_box.suffix()
+        == ""
+    )
     editor.maximum_spin_box.setValue(0.75)
     assert editor.view_model.value.value == original
     if module is minimal:

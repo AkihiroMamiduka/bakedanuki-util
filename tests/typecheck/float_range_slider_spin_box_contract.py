@@ -50,6 +50,9 @@ editor = FloatRangeSliderSpinBox(
     value_show_buttons=False,
     minimum_decimals=0,
     maximum_decimals=2,
+    minimum_show_unit=False,
+    maximum_show_unit=True,
+    value_show_unit=False,
 )
 assert_type(editor.view_model, FloatViewModel)
 assert_type(editor.slider, FloatSlider)
@@ -68,6 +71,8 @@ assert_type(editor.maximumDecimals(), int)
 assert_type(editor.setMaximumDecimals(2), None)
 assert_type(editor.spin_box.isInputEnabled(), bool)
 assert_type(editor.spin_box.setInputEnabled(False), None)
+assert_type(editor.spin_box.isUnitVisible(), bool)
+assert_type(editor.spin_box.setUnitVisible(True), None)
 assert_type(editor.singleStep(), float)
 assert_type(editor.setSingleStep(0.25), None)
 assert_type(

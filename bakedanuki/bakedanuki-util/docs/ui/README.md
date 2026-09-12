@@ -869,6 +869,8 @@ API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slide
 `minimum_show_buttons`・`maximum_show_buttons`・`value_show_buttons`は各欄の増減ボタンを設定します。
 Min／Maxの桁数は`minimum_decimals`・`maximum_decimals`（既定0桁）、現在値は`decimals`で独立して指定します。
 現在値欄を無効にしても、Sliderからの操作と正本からの表示更新は継続します。
+`minimum_show_unit`・`maximum_show_unit`・`value_show_unit`は各欄の単位文字の表示を個別に指定します（全て既定`False`）。
+単位文字を省略しても、Mayaの表示単位への追従と表示・入力の数値換算は継続します。
 `maya_plug`・`maya_view`・`minimal`サンプルは、このViewと共有ラベルを並べる構成です。
 API、単位・精度、確認手順は[FloatRangeSliderSpinBox](float_range_slider_spin_box.md)を参照してください。
 
@@ -1445,13 +1447,13 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-12にFloatRangeSliderSpinBoxの個別ボタン表示・現在値の操作可否・Min／Maxの小数桁数を追加した作業ツリーでの確認結果です。
+2026-09-12にFloatRangeSliderSpinBoxのMin／Max／現在値欄へ単位文字の個別表示設定を追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 510 passed | 244 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 510 passed | 244 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 510 passed | 244 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 523 passed | 244 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 523 passed | 244 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 523 passed | 244 passed |
 
 本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した結果です。
 範囲編集Viewを追加した際に、WindowsのシステムclipboardへQtから直接書き込む処理も失敗し、
@@ -1460,7 +1462,7 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2758 passed, 419 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2758 passed, 432 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。
