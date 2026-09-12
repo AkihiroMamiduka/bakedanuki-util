@@ -285,7 +285,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     infinity、単位・FPS変更後の復元を検証します。
   - 新規・既存・空カーブ、部分上書き、保留中の処理順、反復Undo / Redo、
     復元途中の失敗と既存履歴の保持を検証します。
-  - キー間と範囲外の評価値、未対応接続・lock・layerの拒否、入力検証も対象です。
+  - キー間と範囲外の評価値、未対応接続・lockの拒否、layer付き属性のベース取得・復元、入力検証も対象です。
   - 変更可能なKeyDataの予約時再検証・コピー、予約後の編集、weighted間の適用と
     Maya標準変換の比較、未対応schemaの拒否、weighted取得・変更のUndo / Redoを検証します。
   - `tests/maya/mpx_cmd/test_command.py`では、カーブ復元・部分キー編集・weighted変更を
@@ -306,7 +306,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
 - `tests/maya/node/operator/attr/test_keyframe_target.py`
   - query・挿入・削除・weighted操作で共通のチャンネル選択ルールを検証します。
     unitConversion・pairBlend・時間入力接続・無関係なlayerを許可し、driven keyやconstraintの
-    driverを対象から除外します。共有出力、quaternion補間、対象属性のlayer blendは拒否します。
+    driverを対象から除外します。共有出力、quaternion補間を拒否し、layer付き属性はベースを選びます。
   - queryと編集のlock / reference制約の違い、実行時の再接続、set→query→editの対象一致、
     Undo / Redoと同じbatchの先行変更のrollbackを検証します。
 - `tests/maya/node/operator/attr/test_keyframe_channel.py`
@@ -318,6 +318,26 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     Undo / Redoと失敗時rollback、対象のない復元で既存接続を保つことを検証します。
   - queryがscene、選択、現在時刻、Undo / Redo、modifier、modified flagを変更しないことと、
     未対応utilityで軸を推測せずエラーにすることを確認します。
+- `tests/maya/node/operator/attr/test_keyframe_anim_layer.py`
+  - `anim_layer()`が元のmanagerを変更せず、plugとModifierManagerを共有することを検証します。
+    BaseAnimation、加算・上書きlayer、登録済み属性、未作成・空カーブの対象解決を確認します。
+  - layerを明示したMayaのキー設定と、生カーブの取得・挿入・接線・削除・weighted・詳細復元を
+    検証します。別layer・別軸のカーブを保持し、合成値と生カーブ値を区別します。
+  - layer名の入力検証、改名後の同一性、同名再作成、登録解除、lock / referenceの再検査と、
+    保留中modifierをqueryで実行しないこと、変更のUndo / Redo・失敗時rollbackを確認します。
+  - カーブ未作成時の詳細復元を拒否し、find_anim_curvesの候補がlayer指定で絞り込まれないことを
+    確認します。同名DAG・alias・sparse配列要素の区別と、pairBlendを併用した軸の選択も対象です。
+    返却型と操作methodの補完は`node_operator_contract.py`で検証します。
+  - `tests/maya/mpx_cmd/test_command.py`では先行するキー設定でカーブを作成してから詳細復元・
+    weighted変更・挿入・削除を1 commandで実行し、MayaのUndo / Redoと失敗時rollbackを確認します。
+- `tests/maya/node/operator/attr/test_keyframe_default_layer.py`
+  - layer未指定のキー設定・取得・挿入・接線変更・削除・詳細データ・weighted操作が
+    ベース（root）layerを対象とすることを検証します。別layer・別軸・weightを保持します。
+  - 選択layer・preferredと3種類のkeying modeからの独立、rootの改名、予約後のlayer作成と選択変更、
+    layerなし・未所属属性、未作成・空のベースカーブ、lockの検査を確認します。
+    無関係なlayerがあるsceneで、未所属のbool / enum / time属性へのキー設定も検証します。
+  - カーブ未作成時の詳細復元と先行するキー設定、Undo / Redo・途中失敗時rollback、
+    queryの副作用がないこと、sample_valuesの合成値の保持を確認します。
 - `tests/maya/node/operator/attr/test_curve_keyframe.py`
   - TA / TL / TUノードの明示指定、作成待ちqueryの拒否、改名・再接続・削除時のnode同一性、
     公開単位と予約時の時間単位、共有出力・時間入力・message接続を検証します。

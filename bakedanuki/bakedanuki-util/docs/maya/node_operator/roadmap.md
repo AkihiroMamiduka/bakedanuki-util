@@ -160,7 +160,11 @@
 通常のquery・編集は、そのチャンネル自身のカーブを自動解決します。単位変換、
 pairBlendの同じ軸・currentDriver入力、blendWeightedの入力index順の探索に対応し、
 driven key・別軸・weight・constraintのdriverを対象から除外します。
-layer名による選択は、利用者が希望する今後の拡張です。
+続いて`anim_layer(name)`による「1 plug × 1 layer」の操作入口を実装しました。
+既存layerを指定し、BaseAnimationと登録済み属性の取得・編集・詳細データ復元、
+Mayaにlayerを明示したキー設定を、共通のModifierManagerで扱えます。
+layer未指定の入口も、キー設定・取得・編集をsceneのベース（root）layerへ統一しました。
+Mayaの選択layer・preferred・keying modeから独立し、rootの改名にも追従します。
 現行仕様は[キーフレーム](attributes.md#キーフレーム)、
 履歴管理は[ModifierManager](modifier_manager.md)、検証方法は[testing.md](testing.md)を参照します。
 
@@ -175,7 +179,8 @@ layer名による選択は、利用者が希望する今後の拡張です。
 | 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元に対応 |
 | カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
 | 区間の切り出し | 両方の詳細取得APIに`start_frame` / `end_frame` / `include_boundaries=True`を実装。境界キーと調整後の接線を取得 |
-| チャンネルの自動選択 | 通常キー設定のMaya委譲を維持。query・挿入・削除・詳細データは同じチャンネルをたどる共通規則を使用。単位変換・pairBlend・blendWeighted越しの取得・編集に対応 |
+| チャンネルの自動選択 | layer未指定はベース（root）に固定。layerなし・未所属属性は単位変換・pairBlend・blendWeighted越しの通常チャンネル探索を使用。キー設定の値解決はMayaに委譲し、query・挿入・削除・詳細データも同じ対象を扱う |
+| layer指定 | `anim_layer(name)`は元managerを変えず、同じplugとModifierManagerを共有するKeyframeManagerを返す。既存layerのノード同一性・改名追従、BaseAnimationと登録済み属性、空カーブ、書込み時のlock / reference検査に対応 |
 | 明示カーブ操作 | TA / TL / TUノードの`.keyframe`は`CurveKeyframeManager`。ノード同一性を保持し、未接続・共有出力・時間入力接続を持つカーブ自身の取得・編集・削除・保存復元に対応 |
 | 接続調査用の候補取得 | `find_anim_curves()`で具体ノードのtupleを取得。全8型、型filter、名前順、重複排除、各経路の最初のカーブでの停止に対応。通常の対象選択とは独立した補助API |
 | 詳細データの性能測定 | 専用benchmarkで取得・予約・実行・Undo / Redo・JSON変換を分離。補完なしの取得と補完後の返却データは指定範囲だけを詳細取得 |
@@ -184,17 +189,26 @@ layer名による選択は、利用者が希望する今後の拡張です。
 
 - queryは実行済みsceneだけを読み、保留中modifierを暗黙に実行しない。
   変更は同じModifierManagerへ予約し、MPxCommandのUndo / Redoと失敗時rollbackへ参加させる。
-- 既存カーブのquery・編集は、そのチャンネル自身の最初の時間入力カーブを使用する。
+- layer未指定は、キー設定・query・編集・詳細データをsceneのベース（root）layerへ固定する。
+  `BaseAnimation`の名前を固定せず、query・初回実行時にrootを解決する。
+  選択layer・preferred・keying modeで対象を変えず、lockされていても別layerへ退避しない。
+  layerなし・未所属属性は、そのチャンネル自身の最初の時間入力カーブを使用する。
   DG全体の候補列で先頭を選ばず、軸とkeying入力を保つ。pairBlendはcurrentDriver、
   blendWeightedは入力index順。空カーブも対象に含め、driven keyやconstraintのdriverへは進まない。
-  未対応の中間ノード・layer選択は明示エラーとし、通常キー設定のMayaによる値解決は維持する。
+  未対応の中間ノードは明示エラーとし、キー設定のMayaによる値解決は維持する。
+- layerを指定する場合は`anim_layer()`を使用する。元の入口は変更せず、別layerの入口とも
+  ModifierManagerを共有する。指定layerの同一性を保持し、所属はquery・初回実行時に再検査する。
+  キー設定は元のplugに対する値をMayaへ渡し、取得・詳細復元はlayer自身の生カーブ値を扱う。
+  layer作成・属性登録・選択layerへの自動切替は行わず、find_anim_curvesの診断範囲も変えない。
+  sample_valuesは元のplugの合成後の評価値を返し、layerのカーブ値の取得とは分ける。
 - `KeyData`は直接編集可能。予約時に再検証して独立コピーし、予約後の編集が実行内容や
   Undo / Redoに波及しない。`AnimCurveData`の共通設定は不変で、変更には`dataclasses.replace()`を使う。
 - 詳細データの公開値はdegree / cm / unitless。接線XYは取得元のweightedによらずweighted相当の表現。
   Xは秒、Yは公開値と同じ単位。保存データの復元時は`seconds_per_frame`を保持する。
 - `set_key_data()`は既存カーブのweightedを維持し、新規はnonweighted。
   weightedを含めて形状を復元する場合は`set_curve_data()`を使う。
-  自動新規作成は元のplugが未接続の場合だけ。対象カーブのない既存接続を上書きしない。
+  自動新規作成はlayer未指定・未所属で元のplugが未接続の場合だけ。対象カーブのない既存接続を上書きしない。
+  layer付き属性のベースまたは指定layerのカーブが未作成なら、同じ入口のset_keyを先に実行または予約する。
 - 境界補完は既定で有効。範囲指定時は形状を優先して連続接線をfixed化し、接線・weightの
   lockを解除する。既存キーと元の接線情報だけが必要なら`include_boundaries=False`。
   範囲無指定では接線名・lockを維持した全体取得になる。
@@ -205,15 +219,13 @@ layer名による選択は、利用者が希望する今後の拡張です。
 
 ### 未着手の候補と着手時の論点
 
-通常のチャンネル選択まで実装したため、次は「1 plug × 1 layer」を前提とする
-layer名による選択を想定しています。DG依存関係の候補列とは分け、
-Mayaの属性とlayerの対応を解決する入口を検討します。
-生カーブの編集と合成後の値指定を分け、BaseAnimation、未登録属性、カーブ未作成時、
-locked / referenced layerの扱いを次の仕様判断に含めます。
+通常のチャンネル選択、既定のベース選択、layer名による選択は実装済みです。
+次の着手順はまだ確定していません。layer構造の管理や自動選択を追加する場合は、
+ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
-| layer指定 | チャンネル自動選択、明示カーブ指定、調査用候補取得は実装済み。次は属性とlayer名から対象を解決するAPIを検討する。現在もlayer内の生カーブを直接操作でき、所属layerのlockを検査するが、合成後のplug値を実現するlayer値の逆算は未対応 |
+| layer操作の拡張 | 既定のベース選択、既存layerの明示指定とMayaによる値解決は実装済み。layerの作成・属性登録、auto / best layerの選択、階層やweightを含む一括保存は未実装。自動選択を追加する場合も未指定のベース選択は維持し、評価時点、scene状態を変える責務、保存範囲を個別に決める |
 | 詳細データAPIの追加最適化 | 専用benchmarkと範囲取得の改善は実装済み。補完は作業用カーブ全体へ依存し、復元時のlock検査も移植先キー数の影響を受ける。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
 | キー削減・最適化 | データ取得・編集・再設定の土台は完成。自動削減は未実装。同値キーでも接線により途中の値が変わるため、許容誤差、区間内の評価方法、step系・breakdown・境界キーの保持方針を先に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
@@ -222,8 +234,11 @@ locked / referenced layerの扱いを次の仕様判断に含めます。
 
 ### 実装を引き継ぐ際の参照先
 
-- `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作と通常キー設定の経路選択。
-- 同階層の`_keyframe_target.py`: チャンネル・明示指定resolverと編集時のlock / reference検査。
+- `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作、anim_layerの入口とキー設定の経路選択。
+- 同階層の`_keyframe_target.py`: チャンネル・既定ベース・指定layer・明示指定resolverと編集時のlock / reference検査。
+  既定ベースはsceneのrootを解決し、明示layerは元のplugとMObjectを保持する。
+  対象カーブはMayaの属性とlayerの対応から解決する。
+  BaseAnimationのfindCurveForPlugは通常の非所属属性を返さないため、チャンネル解決へ補完する。
   通常キー設定のAPI高速経路判定は、別の厳格な直接接続helperに維持する。
   作成待ちnodeは`MObjectHandle.object()`がnullになるため、明示対象は元のMObjectも保持する。
 - 同階層の`_keyframe_discovery.py`: DG依存関係の候補列挙。iteratorには探索終了まで
@@ -239,6 +254,10 @@ locked / referenced layerの扱いを次の仕様判断に含めます。
 - `test_keyframe_target.py`: 対象選択、未対応接続の拒否、実行時再解決と失敗時rollback。
 - `test_keyframe_channel.py`: pairBlend全6軸、currentDriver、単位変換、blendWeightedの入力順、
   空カーブ・入れ子・保留中接続、非対象カーブと中間ノードの保持、取得・編集・復元と履歴。
+- `test_keyframe_anim_layer.py`: 指定layerとBaseAnimation、合成値と生カーブ値、未作成・空カーブ、
+  改名・所属変更・lock、別layerの保持、予約実行と履歴。型補完はnode_operator_contract.py。
+- `test_keyframe_default_layer.py`: 未指定時のベース選択、選択layer・preferred・keying modeからの独立、
+  rootの改名・予約後の作成、別layerの保持、ベースの取得・編集・復元と履歴。
 - `test_curve_keyframe.py`: 明示カーブの単位、node同一性、共有・入力接続、layer lock、履歴、詳細データ。
 - `test_keyframe_discovery.py`: 全8型、型filter、複数経路・weight・constraint、queryの副作用、
   候補選択後の明示編集と履歴。探索はlayer所属や現在値への寄与を判定するAPIではない。

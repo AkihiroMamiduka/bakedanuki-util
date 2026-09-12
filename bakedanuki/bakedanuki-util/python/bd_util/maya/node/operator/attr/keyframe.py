@@ -372,6 +372,7 @@ class _KeyframeOperations(ABC):
 
         Notes:
             do_it_dg()で実行し、managerのundo / redo対象になる。
+            属性経由の対象は、ベースまたはanim_layer()で指定したレイヤー。
             属性経由では必要に応じてcmds.setKeyframeへ委譲する。
             カーブ明示指定では、カーブ自身の値をAPIで編集する。
             キーを設定できなかった場合は実行時にRuntimeErrorを送出する。
@@ -579,7 +580,7 @@ class _KeyframeOperations(ABC):
 
 
 class KeyframeManager(_KeyframeOperations):
-    """属性に対するキー設定と、そのチャンネルのカーブ操作。"""
+    """属性に対するキー設定とカーブ操作。レイヤー未指定時はベースを扱う。"""
 
     __slots__ = ("_plug", "_plug_name", "_value_reader")
 
@@ -603,6 +604,22 @@ class KeyframeManager(_KeyframeOperations):
     @property
     def plug_name(self) -> str:
         return self._plug_name
+
+    def anim_layer(self, name: str) -> KeyframeManager:
+        """指定レイヤー用の操作入口を返す。元の入口とmanagerは共有する。
+
+        レイヤーは既存ノードを保持し、所属・接続・lockは取得時と実行時に検査する。
+        キー設定はMayaの値解決、取得・詳細復元はレイヤーの生カーブを扱う。
+        """
+        target = _keyframe_target.LayerTarget(self.plug, name)
+        result = KeyframeManager(
+            self.plug,
+            self._plug_name,
+            self._value_reader,
+            modifier_manager=self._modifier_manager,
+        )
+        result._target = target
+        return result
 
     @overload
     def find_anim_curves(
@@ -653,6 +670,11 @@ class KeyframeManager(_KeyframeOperations):
         out_type: int,
     ) -> None:
         plug = self.plug
+        layer_target = (
+            self._target
+            if isinstance(self._target, _keyframe_target.LayerTarget)
+            else None
+        )
         fn_anim_curve: oma.MFnAnimCurve | None = None
         api_start = 0
         tangent_flags: _TangentFlags = {}
@@ -669,18 +691,36 @@ class KeyframeManager(_KeyframeOperations):
             time, key_value = key
 
             def set_keyframe() -> None:
-                plug_name = plug.name()
+                plug_name = _keyframe_target.plug_path(plug)
                 if not cmds.objExists(plug_name):
                     raise RuntimeError(
                         "Keyframe plug is not available when the queued "
                         f"command executes: {plug_name!r}"
                     )
-                count = cmds.setKeyframe(
-                    plug_name,
-                    time=time.asUnits(om.MTime.uiUnit()),
-                    value=self._command_value(key_value),
-                    **tangent_flags,
+                target_layer = layer_target or _keyframe_target.base_layer(
+                    plug
                 )
+                if target_layer is None:
+                    count = cmds.setKeyframe(
+                        plug_name,
+                        time=time.asUnits(om.MTime.uiUnit()),
+                        value=self._command_value(key_value),
+                        **tangent_flags,
+                    )
+                else:
+                    if layer_target is not None:
+                        _keyframe_target.layer_curve(target_layer, write=True)
+                    # Default plug assignment retains Maya's graph support.
+                    name = _keyframe_target.layer_name(
+                        target_layer, write=True
+                    )
+                    count = cmds.setKeyframe(
+                        plug_name,
+                        time=time.asUnits(om.MTime.uiUnit()),
+                        value=self._command_value(key_value),
+                        animLayer=name,
+                        **tangent_flags,
+                    )
                 if not count:
                     raise RuntimeError(
                         f"No keyframe was set on {plug_name!r}."
@@ -719,6 +759,8 @@ class KeyframeManager(_KeyframeOperations):
 
     def _api_set_curve(self, in_type: int) -> oma.MFnAnimCurve | None:
         """cmdsと同じ編集ができる単純な直接接続だけを、実行時に解決する。"""
+        if isinstance(self._target, _keyframe_target.LayerTarget):
+            return None
         plug = self.plug
         if plug.isLocked or in_type in (
             TangentType.step,

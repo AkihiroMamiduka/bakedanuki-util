@@ -106,7 +106,6 @@ def _restrict(cmds, keyframe, kind):
     [
         "shared",
         "quaternion",
-        "layer_member",
     ],
 )
 @pytest.mark.parametrize("method,kwargs", QUERIES + EDITS)
@@ -257,7 +256,14 @@ def test_referenced_curve_can_be_read_but_not_edited(
 
 
 @pytest.mark.parametrize(
-    "kind", ["conversion", "pair_blend", "time_input", "layer_unrelated"]
+    "kind",
+    [
+        "conversion",
+        "pair_blend",
+        "time_input",
+        "layer_unrelated",
+        "layer_member",
+    ],
 )
 @pytest.mark.parametrize("method,kwargs", QUERIES)
 def test_channel_queries_follow_standard_connections(

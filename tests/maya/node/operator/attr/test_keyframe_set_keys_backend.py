@@ -174,6 +174,12 @@ def test_batch_fallback_runs_each_key_as_cmds_and_restores_scene(
     mod.do_it_dg()
 
     assert [kwargs["time"] for _, kwargs in commands] == [3.0, 1.0, 3.0, 4.0]
+    if kind == "layer":
+        base = maya_cmds.animLayer(query=True, root=True)
+        assert all(kwargs["animLayer"] == base for _, kwargs in commands)
+        assert not maya_cmds.animLayer(
+            layer, query=True, findCurveForPlug=plug_name
+        )
     assert len(routes) == 2
     assert edits == []
     after = _scene_state(maya_cmds, plug_name)

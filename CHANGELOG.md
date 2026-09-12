@@ -9,6 +9,11 @@
 
 ### Added
 
+- `KeyframeManager.anim_layer(name)`で、指定した既存animation layer用の操作入口を取得する。
+  元のmanagerを変えずに同じ`ModifierManager`を共有し、BaseAnimationと登録済み属性の
+  キー設定・取得・編集・詳細データ復元に対応。layerの改名に追従してノード同一性を保持する。
+  キー設定はMayaへlayerを明示して値を解決し、取得・詳細復元は選択カーブ自身の値を扱う。
+  空カーブ、実行時の所属・lock / reference検査、Undo / Redo、失敗時rollbackに対応する。
 - 調査用の`KeyframeManager.find_anim_curves()`で上流のanimCurve候補を列挙し、具体ノード型の
   tupleとして返す。型filter、名前順、重複排除、各経路の最初のカーブでの探索停止に対応。
   layer・blend weight・未対応のdriven keyも候補として扱い、選択したTA / TL / TUは
@@ -55,13 +60,19 @@
 
 ### Changed
 
+- layer未指定の`KeyframeManager`は、キー設定・取得・編集・詳細データ操作をsceneの
+  ベース（root）layerへ統一する破壊的変更。Mayaの選択layer・preferred・keying modeに
+  設定先を委ねず、rootの改名にも追従する。layerがないsceneは通常のチャンネルを扱う。
+  別layerは`anim_layer(name)`で指定する。`sample_values()`の合成後のplug評価と
+  `find_anim_curves()`の診断範囲、Undo / Redo・rollbackは維持する。
 - KeyframeManagerのquery・挿入・接線変更・削除・詳細データ操作を、そのチャンネル自身の
   時間入力カーブへ統一。単位変換、pairBlendの同軸・currentDriver入力、blendWeightedの
   入力index順に対応し、DG全体で最初のカーブを選ぶ旧探索を置き換える破壊的変更。
   driven key・別軸・weight・constraintのdriverは除外し、空カーブも対象にする。
-  無関係なlayerは許可し、対象属性のlayer blend・未対応utility・共有出力は明示エラー。
-  通常の`set_key()` / `set_keys()`のMaya委譲と、Undo / Redo・rollbackは維持する。
-  詳細データの新規復元は元のplugが未接続の場合だけとし、対象のない既存接続を上書きしない。
+  layer付き属性は既定のベースまたは`anim_layer()`で指定したlayerを対象とし、
+  未対応utility、共有出力は明示エラー。キー設定のMayaによる値解決と、Undo / Redo・rollbackは維持する。
+  詳細データの自動新規復元はlayer未指定・未所属で元のplugが未接続の場合だけとし、
+  対象のない既存接続を上書きしない。layerのカーブ未作成時は先行する`set_key()`で作成する。
 - 詳細データの補完なし範囲取得と、境界補完後の再取得を必要なキー範囲に限定し、
   範囲外の詳細データ生成・重複コピーを削減する。隣接時刻による接線換算と形状保持は維持する。
 - `get_key_data(start_frame, end_frame)`は、既定で境界を補完する破壊的変更。
@@ -143,6 +154,8 @@ v0.1.0 以降の NodeOperator 基盤の改善に加え、Windows版 Maya 2025 / 
 
 ### Fixed
 
+- キー設定のMaya commandへ完全なplugパスを渡し、別のDAG階層にある同名nodeを
+  巻き込んでキー設定する問題を修正。layerの所属確認・対象照会でもaliasと配列indexを区別する。
 - `FltMatrix` と `longLongInt` attribute の値取得・設定が動作しない問題を修正。
 - compound attribute の一部で不定な default value を生成する問題を修正。
 - Maya command へ文字列ではなく `MPlug` を渡していた箇所を修正。

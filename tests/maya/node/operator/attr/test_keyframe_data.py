@@ -297,7 +297,7 @@ def test_restore_failure_rolls_back_entire_batch(
         "node_lock",
         "curve_lock",
         "key_lock",
-        "layer",
+        "base_layer_lock",
         "shared",
         "quaternion",
     ],
@@ -323,8 +323,11 @@ def test_reject_unsupported_destination_without_changes(
         maya_cmds.lockNode(curve.name(), lock=True)
     elif restriction == "key_lock":
         maya_cmds.setAttr(curve.name() + ".ktv[1].kv", lock=True)
-    elif restriction == "layer":
+    elif restriction == "base_layer_lock":
         maya_cmds.animLayer("Layer", attribute=plug.name())
+        maya_cmds.animLayer(
+            maya_cmds.animLayer(query=True, root=True), edit=True, lock=True
+        )
     elif restriction == "shared":
         other = maya_cmds.createNode("transform")
         maya_cmds.connectAttr(curve.name() + ".output", other + ".rx")

@@ -91,8 +91,7 @@ def test_layer_curves_and_weight_are_candidates_even_when_muted_and_locked(
     assert set(_names(keyframe)) == expected
     maya_cmds.animLayer(layer, edit=True, mute=True, lock=True)
     assert set(_names(keyframe)) == expected
-    with pytest.raises(RuntimeError, match="animation layer"):
-        keyframe.get_keys()
+    assert keyframe.get_keys() == [(1.0, 2.0)]
 
 
 def test_constraint_and_world_space_dependencies(maya_cmds):

@@ -288,6 +288,73 @@ def test_explicit_curve_data_edits_participate_in_command_history(
         assert keyframe.get_curve_data() == after
 
 
+@pytest.mark.parametrize("fail", [False, True])
+def test_layer_key_creation_restore_and_deletion_share_command_history(
+    mpx_test_plugin, maya_cmds, fail
+):
+    import bd_util as bdu
+
+    name = maya_cmds.createNode("transform", name="layerCommandTarget")
+    for axis in ("tx", "ty", "tz"):
+        for frame in (1, 5):
+            maya_cmds.setKeyframe(name + "." + axis, time=frame, value=frame)
+    layer = maya_cmds.animLayer("MpxLayer")
+    for axis in ("tx", "ty", "tz"):
+        maya_cmds.animLayer(layer, edit=True, attribute=name + "." + axis)
+        if axis != "ty":
+            for frame in (1, 5):
+                maya_cmds.setKeyframe(
+                    name + "." + axis,
+                    animLayer=layer,
+                    time=frame,
+                    value=frame * 2,
+                )
+    node = bdu.Nodes().existing.transform(name)
+    target = node.ty.keyframe.anim_layer(layer)
+    other = node.tz.keyframe.anim_layer(layer)
+
+    def states():
+        return {
+            curve: bdu.Nodes().existing(curve).keyframe.get_curve_data()
+            for curve in maya_cmds.ls(type="animCurve")
+        }
+
+    before = states()
+    blends = maya_cmds.animLayer(layer, query=True, blendNodes=True)
+    connections = {
+        blend: maya_cmds.listConnections(blend, connections=True, plugs=True)
+        for blend in blends
+    }
+    maya_cmds.flushUndo()
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional animation layer failure"
+        ):
+            maya_cmds.bduTestMpxFailAfterLayerKeyframes(nodeName=name)
+        assert states() == before
+        assert target.get_curve_data() is None
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    maya_cmds.bduTestMpxEditLayerKeyframes(nodeName=name)
+    after = states()
+    for _ in range(2):
+        assert target.frames() == [3, 5]
+        assert target.get_weighted() is True
+        assert not other.has_anim_curve()
+        assert all(maya_cmds.objExists(blend) for blend in blends)
+        assert states() == after
+        maya_cmds.undo()
+        assert states() == before
+        assert {
+            blend: maya_cmds.listConnections(
+                blend, connections=True, plugs=True
+            )
+            for blend in blends
+        } == connections
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        maya_cmds.redo()
+
+
 def test_no_op_command_does_not_enter_maya_undo_queue(
     mpx_test_plugin,
     maya_cmds,

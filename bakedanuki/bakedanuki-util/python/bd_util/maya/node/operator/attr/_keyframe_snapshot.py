@@ -74,6 +74,8 @@ def curve_type_for_plug(plug: om.MPlug) -> CurveTypeName:
 def curve_type_for_target(target: _keyframe_target.Target) -> CurveTypeName:
     if isinstance(target, om.MPlug):
         return curve_type_for_plug(target)
+    if isinstance(target, _keyframe_target.LayerTarget):
+        return curve_type_for_plug(target.plug)
     return target.curve_type
 
 
@@ -360,6 +362,10 @@ def queue_restore(
         curve = resolve_curve(target, write=True)
         if curve is not None:
             return
+        if isinstance(target, _keyframe_target.LayerTarget):
+            raise RuntimeError(
+                "No animation layer curve to restore; create it with set_key() first."
+            )
         if not isinstance(target, om.MPlug):
             raise RuntimeError("The explicit animCurve is not available.")
         if not target.sourceWithConversion().isNull:

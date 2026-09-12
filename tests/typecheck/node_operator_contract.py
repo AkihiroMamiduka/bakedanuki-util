@@ -4237,6 +4237,13 @@ def keyframe_contract(
     keyframe = compose.inputRotate.inputRotateX.keyframe
     assert_type(keyframe.set_keys(samples), None)
     assert_type(keyframe, KeyframeManager)
+    layer_keyframe = keyframe.anim_layer("Correction")
+    assert_type(layer_keyframe, KeyframeManager)
+    assert_type(layer_keyframe.anim_layer("Secondary"), KeyframeManager)
+    assert_type(layer_keyframe.set_keys(samples), None)
+    assert_type(layer_keyframe.get_curve_data(), AnimCurveData | None)
+    assert_type(layer_keyframe.get_keys(), list[tuple[float, float]])
+    keyframe.anim_layer(None)  # pyright: ignore[reportArgumentType]
     tangent_name: TangentTypeName = "linear"
     tangent_value: TangentTypeValue = keyframe.tangent.flat
     assert_type(

@@ -167,6 +167,33 @@ class _FailAfterExplicitCurveCommand(_EditExplicitCurveCommand):
         raise RuntimeError("intentional explicit curve failure")
 
 
+class _EditLayerKeyframesCommand(_FailAfterExecuteCommand):
+    COMMAND_NAME = "bduTestMpxEditLayerKeyframes"
+
+    def execute(self, params: _FailureParams) -> None:
+        node = self.nodes.existing.transform(params.node_name)
+        source = node.tx.keyframe.anim_layer("MpxLayer")
+        target = node.ty.keyframe.anim_layer("MpxLayer")
+        data = source.get_curve_data()
+        if data is None:
+            raise RuntimeError("Missing source layer curve.")
+        target.set_keys([(1, 10), (5, 20)])
+        target.set_curve_data(data)
+        target.set_weighted(True)
+        target.insert_key(3)
+        target.delete_key(1)
+        node.tz.keyframe.anim_layer("MpxLayer").delete_anim_curve()
+        self.modifier_manager.do_it_dg()
+
+
+class _FailAfterLayerKeyframesCommand(_EditLayerKeyframesCommand):
+    COMMAND_NAME = "bduTestMpxFailAfterLayerKeyframes"
+
+    def execute(self, params: _FailureParams) -> None:
+        super().execute(params)
+        raise RuntimeError("intentional animation layer failure")
+
+
 class _NoOpCommand(MPxCommandBase[None]):
     COMMAND_NAME = "bduTestMpxNoOp"
 
@@ -204,6 +231,8 @@ class _FailDuringExecuteCommand(_FailAfterExecuteCommand):
 
 
 COMMAND_TYPES = (
+    _EditLayerKeyframesCommand,
+    _FailAfterLayerKeyframesCommand,
     _EditExplicitCurveCommand,
     _FailAfterExplicitCurveCommand,
     _RestoreKeyDataCommand,

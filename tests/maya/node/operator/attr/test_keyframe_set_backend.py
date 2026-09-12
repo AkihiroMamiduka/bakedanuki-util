@@ -331,13 +331,13 @@ def test_locked_base_layer_blocks_set_on_an_unrelated_direct_curve(
     with pytest.raises(RuntimeError):
         mod.do_it_dg()
 
-    assert len(set_keyframe_calls) == 1
+    assert not set_keyframe_calls
     assert _curve_state(maya_cmds, curve) == before
     assert not mod.can_undo
     assert not mod.can_redo
 
 
-def test_animation_layer_member_fallback_matches_cmds_value_resolution(
+def test_animation_layer_member_defaults_to_explicit_base_value_resolution(
     new_scene,
     maya_cmds,
     set_keyframe_calls,
@@ -351,17 +351,26 @@ def test_animation_layer_member_fallback_matches_cmds_value_resolution(
         maya_cmds.animLayer(
             layer, edit=True, attribute=node_name + ".translateX"
         )
+        maya_cmds.setKeyframe(
+            node_name + ".translateX", animLayer=layer, time=1, value=3
+        )
     maya_cmds.animLayer(layer, edit=True, selected=True, preferred=True)
+    base = maya_cmds.animLayer(query=True, root=True)
     expected_plug = expected_node + ".translateX"
     plug_name = name + ".translateX"
-    maya_cmds.setKeyframe(expected_plug, time=2, value=12)
+    maya_cmds.setKeyframe(expected_plug, time=2, value=12, animLayer=base)
     expected_curve = maya_cmds.animLayer(
-        layer, query=True, findCurveForPlug=expected_plug
+        base, query=True, findCurveForPlug=expected_plug
     )[0]
     expected_state = _curve_state(maya_cmds, expected_curve)
     before_layer_curve = maya_cmds.animLayer(
         layer, query=True, findCurveForPlug=plug_name
     )
+    before_layer_state = _curve_state(maya_cmds, before_layer_curve[0])
+    actual_curve = maya_cmds.animLayer(
+        base, query=True, findCurveForPlug=plug_name
+    )[0]
+    before_base_state = _curve_state(maya_cmds, actual_curve)
     before_curves = sorted(maya_cmds.ls(type="animCurve"))
     mod = bdu.ModifierManager()
     keyframe = _keyframe(mod, name)
@@ -370,18 +379,19 @@ def test_animation_layer_member_fallback_matches_cmds_value_resolution(
     keyframe.set_key(12, 2)
     mod.do_it_dg()
     assert len(set_keyframe_calls) == 1
-    actual_curve = maya_cmds.animLayer(
-        layer, query=True, findCurveForPlug=plug_name
-    )[0]
-    assert expected_state[1] == [11.0]
     for _ in range(2):
         assert _curve_state(maya_cmds, actual_curve) == expected_state
+        assert (
+            _curve_state(maya_cmds, before_layer_curve[0])
+            == before_layer_state
+        )
         maya_cmds.currentTime(0)
         maya_cmds.currentTime(2)
         assert maya_cmds.getAttr(plug_name) == pytest.approx(
             maya_cmds.getAttr(expected_plug)
         )
         mod.undo_it()
+        assert _curve_state(maya_cmds, actual_curve) == before_base_state
         assert (
             maya_cmds.animLayer(layer, query=True, findCurveForPlug=plug_name)
             == before_layer_curve

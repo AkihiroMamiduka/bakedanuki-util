@@ -1,7 +1,10 @@
 from typing import assert_type
 
 import bd_util as bdu
-from bd_util.maya.node.operator.attr import CurveKeyframeManager
+from bd_util.maya.node.operator.attr import (
+    CurveKeyframeManager,
+    KeyframeManager,
+)
 
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double import (
     DoubleAttrOperator,
@@ -66,6 +69,11 @@ for version_nodes in (nodes_2025, nodes_2026, nodes_2027):
         filter_type=version_nodes.types.AnimCurveTL
     )
     assert_type(curve_candidates[0].keyframe, CurveKeyframeManager)
+    layer_keyframe = version_nodes.existing.transform(
+        "target"
+    ).translate.translateX.keyframe.anim_layer("Correction")
+    assert_type(layer_keyframe, KeyframeManager)
+    assert_type(layer_keyframe.get_keys(), list[tuple[float, float]])
 bdu.Nodes(  # pyright: ignore[reportCallIssue]
     typing_maya_version="2028"  # pyright: ignore[reportArgumentType]
 )

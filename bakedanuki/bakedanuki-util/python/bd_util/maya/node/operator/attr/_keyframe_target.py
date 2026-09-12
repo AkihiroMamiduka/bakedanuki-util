@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import cast
+
 from maya import cmds
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
@@ -29,15 +31,140 @@ class CurveTarget:
         self.curve_type: CurveTypeName = name
 
 
-Target = om.MPlug | CurveTarget
+class LayerTarget:
+    __slots__ = ("plug", "node", "handle")
+
+    def __init__(self, plug: om.MPlug, name: object) -> None:
+        if not isinstance(name, str):
+            raise TypeError("Animation layer name must be a string.")
+        if not name:
+            raise ValueError("Animation layer name must not be empty.")
+        if any(character in name for character in ".*?[]"):
+            raise ValueError("Animation layer name must identify one node.")
+        selection = om.MSelectionList()
+        try:
+            selection.add(name)
+            node = selection.getDependNode(0)
+        except RuntimeError as exc:
+            raise ValueError(
+                f"Animation layer does not exist: {name!r}."
+            ) from exc
+        if selection.length() != 1 or not node.hasFn(om.MFn.kAnimLayer):
+            raise ValueError(f"Expected an animation layer: {name!r}.")
+        self.plug = plug
+        self.node = node
+        self.handle = om.MObjectHandle(node)
+        if not self.handle.isValid():
+            raise ValueError("Animation layer must exist in the scene.")
+
+
+Target = om.MPlug | CurveTarget | LayerTarget
+
+
+def base_layer(plug: om.MPlug) -> LayerTarget | None:
+    """Resolve the scene's current root layer without creating any layers."""
+    if om.MItDependencyNodes(om.MFn.kAnimLayer).isDone():
+        return None
+    name = cmds.animLayer(query=True, root=True)
+    if not isinstance(name, str) or not name:
+        raise RuntimeError("The base animation layer is not available.")
+    return LayerTarget(plug, name)
+
+
+def plug_path(plug: om.MPlug) -> str:
+    """Use an unambiguous command argument even for duplicate DAG names."""
+    node = plug.node()
+    name = (
+        om.MFnDagNode(node).fullPathName()
+        if node.hasFn(om.MFn.kDagNode)
+        else om.MFnDependencyNode(node).name()
+    )
+    attribute = plug.partialName(
+        includeNonMandatoryIndices=True,
+        includeInstancedIndices=True,
+        useAlias=False,
+        useFullAttributePath=True,
+        useLongNames=True,
+    )
+    return f"{name}.{attribute}"
 
 
 def resolve_curve(
     target: Target, *, write: bool = False
 ) -> oma.MFnAnimCurve | None:
     if isinstance(target, om.MPlug):
+        layer = base_layer(target)
+        if layer is not None:
+            return layer_curve(layer, write=write)
         return channel_curve(target, write=write)
+    if isinstance(target, LayerTarget):
+        return layer_curve(target, write=write)
     return explicit_curve(target, write=write)
+
+
+def layer_name(target: LayerTarget, *, write: bool = False) -> str:
+    """Revalidate membership without executing pending modifiers or changing UI."""
+    if not target.handle.isAlive() or not target.handle.isValid():
+        raise RuntimeError(
+            "The animation layer is not available in the scene."
+        )
+    plug = target.plug
+    handle = om.MObjectHandle(plug.node())
+    if not handle.isAlive() or not handle.isValid():
+        raise RuntimeError("The keyframe plug is not available in the scene.")
+    _check_channel_plug(plug, write=write)
+    layer = om.MFnDependencyNode(target.node)
+    name = layer.name()
+    if write:
+        _check_editable_node(layer)
+        if layer.findPlug("lock", False).asBool():
+            raise RuntimeError(f"Cannot edit locked animation layer {name}.")
+    if name != cmds.animLayer(query=True, root=True) and not _layer_member(
+        name, plug
+    ):
+        raise RuntimeError(
+            f"{plug.name()} is not a member of animation layer {name}."
+        )
+    return name
+
+
+def _layer_member(name: str, plug: om.MPlug) -> bool:
+    members = cast(
+        list[str] | None, cmds.animLayer(name, query=True, attribute=True)
+    )
+    for member in members or ():
+        selection = om.MSelectionList()
+        selection.add(member)
+        if plug_path(selection.getPlug(0)) == plug_path(plug):
+            return True
+    return False
+
+
+def layer_curve(
+    target: LayerTarget, *, write: bool = False
+) -> oma.MFnAnimCurve | None:
+    name = layer_name(target, write=write)
+    curves = cast(
+        list[str] | None,
+        cmds.animLayer(
+            name, query=True, findCurveForPlug=plug_path(target.plug)
+        ),
+    )
+    if not curves:
+        if name == cmds.animLayer(query=True, root=True):
+            iterator = om.MItDependencyNodes(om.MFn.kAnimLayer)
+            while not iterator.isDone():
+                layer = om.MFnDependencyNode(iterator.thisNode()).name()
+                if _layer_member(layer, target.plug):
+                    return None
+                iterator.next()
+            return channel_curve(target.plug, write=write)
+        return None
+    selection = om.MSelectionList()
+    selection.add(curves[0])
+    curve = oma.MFnAnimCurve(selection.getDependNode(0))
+    _check_channel_curve(curve, target.plug, write=write)
+    return curve
 
 
 def explicit_curve(
@@ -108,18 +235,7 @@ def channel_curve(
             curve = oma.MFnAnimCurve(source.node())
             if attribute != "output" or not curve.isTimeInput:
                 continue
-            if curve.animCurveType != curve.timedAnimCurveTypeForPlug(plug):
-                raise RuntimeError(
-                    f"{plug.name()} requires a time-input curve of the matching type."
-                )
-            if len(source.connectedTo(False, True)) != 1:
-                raise RuntimeError(
-                    f"{plug.name()} requires an unshared animation curve."
-                )
-            _check_curve_inputs(curve)
-            if write:
-                _check_editable_curve(curve)
-                _check_owning_layers(curve)
+            _check_channel_curve(curve, plug, write=write)
             return curve
         if (
             node.typeName
@@ -163,6 +279,23 @@ def channel_curve(
                 "use an explicit curve for this connection."
             )
     return None
+
+
+def _check_channel_curve(
+    curve: oma.MFnAnimCurve, plug: om.MPlug, *, write: bool
+) -> None:
+    if curve.animCurveType != curve.timedAnimCurveTypeForPlug(plug):
+        raise RuntimeError(
+            f"{plug.name()} requires a time-input curve of the matching type."
+        )
+    if len(curve.findPlug("output", False).connectedTo(False, True)) != 1:
+        raise RuntimeError(
+            f"{plug.name()} requires an unshared animation curve."
+        )
+    _check_curve_inputs(curve)
+    if write:
+        _check_editable_curve(curve)
+        _check_owning_layers(curve)
 
 
 def _check_channel_plug(plug: om.MPlug, *, write: bool) -> None:

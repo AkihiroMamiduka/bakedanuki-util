@@ -188,6 +188,13 @@ scalar plugの`keyframe`による変更操作は、同じ`ModifierManager`へ予
 `mod.do_it_dg()`まではsceneへ反映せず、値設定や接続と同じ履歴でundo / redoできます。
 すべての変更methodの戻り値は`None`です。
 
+layer未指定の`.keyframe`は、sceneのベース（root）layerを対象にします。
+キー設定だけでなく、取得・挿入・接線変更・削除・詳細データ・weighted操作も同じ対象です。
+layerがないsceneでは通常のアニメーションカーブを扱い、別layerには
+`.keyframe.anim_layer("Correction")`を使用します。Mayaの選択layer・preferred・keying modeで
+対象は変わりません。`BaseAnimation`という名前を固定せず、query・初回実行時にrootを特定します。
+予約後のrootの作成・改名にも対応し、ベースがlockされていても別layerへ切り替えません。
+
 ```python
 import bd_util as bdu
 
@@ -316,7 +323,8 @@ breakdownやtangent lockの更新も`cmds.setKeyframe()`と同じ挙動に揃え
 
 ### 対象カーブと実行時エラー
 
-`set_key()` / `set_keys()`は実行時の接続・型・scene状態からAPI経路かcmds経路を選択します。
+layerを指定しない`set_key()` / `set_keys()`は、実行時の接続・型・scene状態から
+API経路かcmds経路を選択します。
 対象plugに直接接続した既存のTA / TL / TUカーブがあり、plugとカーブの型が一致する
 単純な構成では、`MFnAnimCurve.addKey()`と`MAnimCurveChange`で追加・上書きします。
 API経路の対象plugは、boolを除くscalar numericとangle / linearです。
@@ -332,10 +340,12 @@ API経路の対象plugは、boolを除くscalar numericとangle / linearです�
 - bool / enum / time属性、TTカーブなどAPI経路の対象外の型。
 - 入力側tangentが`step` / `stepnext`、またはTAカーブの`rotationInterpolation`が1以外の場合。
 
-cmds経路ではカーブの選択・作成、animation layerへの値の解決、必要なblend nodeの
-作成をMayaへ委ねます。キー設定にはlayer指定や`insertBlend`指定の引数はなく、
-Maya側の状態・設定が適用されます。layerを一律にcmdsへ委ねるのは、BaseAnimationの
-lockが、layerに属さない直接接続カーブへのキー設定も禁止するためです。
+cmds経路では対象layerを決めたうえで、カーブの作成、animation layerへの値の解決、
+必要なblend nodeの作成をMayaへ委ねます。layer未指定ならsceneのrootを`animLayer`へ明示し、
+Mayaの選択状態にかかわらずベースへ設定します。sceneにlayerがなければ通常のキー設定です。
+別layerを指定する場合は、後述の`anim_layer()`で操作入口を取得してください。
+`insertBlend`指定の引数はありません。layerがある場合はcmds経路を使用し、
+対象plugがlayer未所属でもrootのlock / referenceを検査します。
 [Autodesk setKeyframe](https://help.autodesk.com/cloudhelp/2026/ENU/Maya-Tech-Docs/CommandsPython/setKeyframe.html)
 
 通常のキー設定では上流の最初のカーブを探索して編集することはありません。
@@ -381,7 +391,8 @@ queryだけを行う場合は省略できます。
 
 ### カーブを取得・編集する場合の選択ルール
 
-属性の`KeyframeManager`は、そのチャンネル自身の時間入力カーブを取得・編集します。
+layer未指定の`KeyframeManager`は、そのチャンネルのベースの時間入力カーブを取得・編集します。
+layerがないsceneやlayer未所属の属性は、通常のチャンネル探索を使用します。
 通常の`pairBlend`構成でも、利用者がカーブを探して指定する必要はありません。
 ノードを直接指定する操作は、後述の[カーブを明示して操作する](#カーブを明示して操作する)を参照します。
 
@@ -394,13 +405,15 @@ mod.do_it_dg()
 
 | 操作 | 対象の決定 |
 | --- | --- |
-| `set_key()` / `set_keys()` | 単純な直接接続ならAPI、その他はMayaの`setKeyframe`に対象選択・値解決を委譲 |
-| `has_anim_curve()` / `key_count()` / `frames()` / `values()` / `has_key()` / `get_keys()` | チャンネル自身の時間入力カーブ。TA / TL / TU / TT、scalar numeric / bool / enum / unit plug |
+| `set_key()` / `set_keys()` | ベースまたは指定layerへ設定。layerのない単純な直接接続ならAPI、その他は対象layerを明示したMayaの`setKeyframe`で値を解決 |
+| `has_anim_curve()` / `key_count()` / `frames()` / `values()` / `has_key()` / `get_keys()` | ベースまたは指定layerの時間入力カーブ。TA / TL / TU / TT、scalar numeric / bool / enum / unit plug |
 | 挿入・接線変更・キー削除・カーブ削除 | 上記と同じカーブを、書込み可否を検査して編集 |
 | 詳細データ・weighted操作 | 同じ対象選択に加え、TA / TL / TUとnumeric / angle / distance plugに限定。enum・timeは対象外 |
 | `find_anim_curves()` | 接続調査用に上流のDG依存関係にある候補を列挙。全8型を含み、通常操作の対象選択には使用しない |
 
-探索は接続先plugから次の規則で進み、最初に見つかった対象カーブを使用します。
+layer付き属性は、元のplugと対象layerの対応からカーブを解決します。ベースにカーブが
+未作成でも別layerのカーブは選びません。通常のチャンネル探索では接続先plugから
+次の規則で進み、最初に見つかった対象カーブを使用します。
 ノード名やDG全体の列挙順で選ぶことはありません。
 
 | 接続 | たどる入力 |
@@ -419,9 +432,10 @@ Mayaの`keyframe` queryと`setKeyframe`のキー設定先に合わせていま�
 対象カーブは元のplugと型が一致し、カーブの`output`接続先が1つである必要があります。
 カーブの`input`への時間接続とmessage接続は許可し、それ以外の設定属性への入力、
 共有出力、TAの独立scalar以外の補間は拒否します。
-animation layerのblendを通る属性や、`multiplyDivide`等の未対応の中間ノードは
+通常のチャンネル探索で`multiplyDivide`等の未対応の中間ノードを通る場合は
 `RuntimeError`です。`has_anim_curve()`も未対応構成を`False`として扱いません。
-対象属性と無関係なanimation layerがsceneにあるだけなら、取得・編集を制限しません。
+対象属性と無関係なanimation layerがsceneにある場合も通常のチャンネルを取得でき、
+編集時はベースのlock / referenceを検査します。
 
 未接続、driven keyのみ、constraintのみ等で対象カーブがなければ、
 `has_anim_curve()`は`False`、キー列は空、`get_curve_data()` / `get_weighted()`は`None`です。
@@ -433,13 +447,73 @@ lock、reference、属性の書込み可否を検査します。対象なしの�
 前提条件を満たした場合に適用します。接続やlockはquery時・編集の初回実行時に解決し、
 別の呼び出しへキャッシュしません。Redoでは初回に記録した対象への変更を再生します。
 
-layerに属する属性の通常のキー設定はMayaへ委譲できますが、その直後のカーブqueryは
-layer選択が未対応のため失敗します。同じ実行単位で未対応の編集を続けて失敗した場合は、
-先行するキー設定もrollbackします。layerの合成後のplug値と、生カーブの値は別の値です。
-たとえばbase値が1のとき、plugへ12を設定するとlayer側には11が保存される場合があります。
-カーブを明示した生の値の操作は`CurveKeyframeManager`で行えます。
-上流候補は`find_anim_curves()`で取得できます。今後のlayer名による選択は、
-「1 plug × 1 layer」のカーブを扱う拡張として検討します。
+layerに属する属性も、未指定ならベースへのキー設定とカーブquery・編集を同じ入口で行えます。
+別layerの取得・編集には`anim_layer()`を使用します。
+同じ実行単位で未対応の編集を続けて失敗した場合は、先行するキー設定もrollbackします。
+
+### アニメーションレイヤーを指定する
+
+`anim_layer(name: str) -> KeyframeManager`は、「1 plug × 1 layer」を対象とする
+操作入口を返します。元の`KeyframeManager`を変更せず、同じplugと`ModifierManager`を
+共有するため、別のlayerや通常のノード操作とまとめて予約できます。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+node = nodes.existing.transform("ctrl")
+
+# Correctionは既存layerで、ctrl.translateYが登録されている前提。
+keyframe = node.translate.translateY.keyframe.anim_layer("Correction")
+keyframe.set_keys([(1.0, 12.0), (24.0, 18.0)])
+keyframe.set_tangent(frame=1.0, out_tangent_type="linear")
+mod.do_it_dg()
+
+keys = keyframe.get_keys()
+data = keyframe.get_curve_data()
+```
+
+指定するlayerはsceneに存在する必要があります。空の名前、存在しない名前、
+animation layer以外のnodeは`ValueError`、文字列以外は`TypeError`です。
+属性名やwildcardを含む指定も`ValueError`です。
+layerは名前だけでなくノード同一性を保持し、取得後・予約後の改名にも追従します。
+削除後に同名のlayerを作成しても対象は差し替わらず、query・実行時にエラーになります。
+属性の所属確認・対象照会・キー設定では、別のDAG階層にある同名node、alias、配列の
+logical indexを区別します。
+
+root以外では、元の属性が指定layerに登録済みであることをquery・実行時に検査します。
+未登録なら`RuntimeError`です。rootには通常のlayer未所属属性も指定できます。
+ベースを扱うだけならlayer指定は不要です。明示する場合は、rootの現在の名前を指定してください。
+layerの作成、属性の自動登録、選択中のlayerやbest layerへの自動切替は行いません。
+
+| 操作 | 指定layerでの意味 |
+| --- | --- |
+| `set_key()` / `set_keys()` | 元のplugとlayerをMayaの`setKeyframe`へ明示。plugに指定した値から、layerに保存する値をMayaが解決し、必要なら最初のカーブを作成 |
+| キー・時刻・値の取得、挿入・接線変更・削除 | 指定layerのカーブだけを取得・編集。別layer・別軸・weightは対象外 |
+| 詳細データ・weighted操作 | 指定layerの生カーブを取得・復元。型・単位・境界補完の契約は通常の詳細データAPIと共通 |
+| `find_anim_curves()` | 元のplugのDG依存関係を調査。指定layerでは絞り込まず、通常の入口と同じ候補を返す |
+
+キー設定の指定値と、カーブ自身に保存される値は異なる場合があります。
+たとえばbase値が1の加算layerで`set_key(12.0, frame=1.0)`を実行すると、
+layer側には11が保存される場合があります。`get_keys()`や`get_curve_data()`はこの11を
+取得し、`set_key_data()` / `set_curve_data()`は生の値をそのまま復元します。
+合成後のplug値が必要な場合は、元のplugの`sample_values()`を使用してください。
+保存データにはlayer名やlayer構造を含めず、移植先は復元先の入口で決めます。
+layer未指定ならベース、別layerへ移植するなら`anim_layer()`を指定します。
+
+登録済み属性でもカーブ未作成なら、`has_anim_curve()`は`False`、キー列は空、
+`get_curve_data()` / `get_weighted()`は`None`です。最後のキーを削除して空になった
+カーブは引き続き選択し、`has_anim_curve()`は`True`になります。
+layer指定の`set_key_data()` / `set_curve_data()`は既存カーブへ復元します。
+カーブ未作成なら、先に同じ入口の`set_key()`で作成してください。
+作成と復元は同じ`do_it_dg()`へ順に予約できます。
+
+queryは保留中modifierを実行せず、lock / reference / mute / weightを理由に読み取りを
+制限しません。変更時は指定layerと元のplug・node・対象curveのlock / reference等を
+事前検査します。Mayaの明示キー設定がlayer lockを無視する場合も、API側で拒否します。
+muteやweightが0でも生カーブは編集対象になり、最終評価への反映はMayaのlayer状態に従います。
+予約後の所属変更も初回実行時に再検査し、Undo / Redo・途中失敗時rollbackは通常操作と共通です。
 
 ### カーブを明示して操作する
 
@@ -565,6 +639,7 @@ queryは実行済みsceneだけを読み、保留中modifierを実行しませ�
 新しい共通managerを渡します。編集後は`curve.modifier_manager.do_it_dg()`で実行できます。
 
 この候補列には別軸やweightも含むため、先頭の候補を通常操作の対象としては使いません。
+`anim_layer()`で取得した入口でも、候補を指定layerだけに絞り込みません。
 探索したカーブの`.keyframe`へ渡す値は
 カーブ自身の生の値です。layer名による選択、layerの新規作成、合成後のplug値からの逆算は
 このAPIでは行いません。
@@ -613,12 +688,17 @@ frames = keyframe.frames()
 
 `get_curve_data() -> AnimCurveData | None`と`set_curve_data(data)`で、
 そのチャンネルの時間入力カーブを保存・復元できます。復元は既存カーブの全キーと
-weighted・pre/post infinityを置換し、未接続なら空の場合もカーブを作成します。
+weighted・pre/post infinityを置換します。layer未指定・未所属の未接続plugなら、
+空のデータを渡した場合もカーブを作成します。
 対象カーブがなければ取得結果は`None`、接続された空カーブなら`keys=()`です。
-新規カーブを自動作成するのは、元のplugに入力接続がない場合だけです。
+layer未指定で新規カーブを自動作成するのは、属性がlayer未所属で、元のplugに入力接続がない場合だけです。
 constraint・driven key・空入力のpairBlend等が接続され、チャンネルのカーブがない場合は、
 `set_curve_data()` / `set_key_data()`の実行時にエラーにして既存接続を保ちます。
 必要なアニメーション接続は先に`set_key()`でMayaに作成させてください。
+layerに属する属性のベースカーブが未作成の場合も、先行する`set_key()`が必要です。
+`anim_layer()`を指定した復元は、対象layerの既存カーブへ適用します。未作成なら同様に
+先行する`set_key()`で作成してください。作成と復元は同じ`do_it_dg()`へ順に予約できます。
+復元によるlayerの作成・属性登録は行いません。
 取得元・復元先に中間ノードがあっても、保存・復元するのは生カーブの形状です。
 
 ```python
@@ -783,12 +863,17 @@ node名や独自属性、Graph Editorの表示設定はこのsnapshotの対象�
 
 ### 旧APIからの移行
 
+layer未指定のキー設定は、Mayaの選択layer・preferred・keying modeへ委ねず、sceneの
+ベース（root）layerへ固定します。取得・編集・詳細復元もベースを対象にします。
+これまでMayaの選択状態に依存していた処理は、`anim_layer(name)`で対象を明示してください。
+layerなしの通常カーブ、`sample_values()`の合成後のplug評価、`find_anim_curves()`の候補範囲は維持します。
+
 query・挿入・接線変更・削除は、DG全体で最初に見つかった上流カーブではなく、
 上記の規則でチャンネル自身のカーブを選びます。直接接続に限定していた規則も拡張し、
 同じ入口から単位変換やpairBlendをたどれるようになりました。共有出力の制約は維持します。
 合成後の値が目的なら`sample_values()`を使用してください。独自構成の調査には
 `find_anim_curves()`を使い、選択したTA / TL / TUノードの`.keyframe`で明示編集できます。
-layer名による選択は未実装で、旧探索を有効にする互換optionは提供しません。
+layer名による選択には`anim_layer()`を使用します。旧探索を有効にする互換optionは提供しません。
 
 `set_key_data(keys, weighted=...)`の`weighted`引数は廃止しました。引数を削除すると
 既存カーブの設定を維持します。設定自体を変更したい場合は`set_weighted()`を明示します。
