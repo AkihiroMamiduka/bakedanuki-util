@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import math
-from dataclasses import replace
 from typing import cast
 
 from maya import cmds
@@ -11,6 +10,7 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
+from . import _keyframe_target
 from .keyframe_data import (
     AnimCurveData,
     CurveTypeName,
@@ -71,70 +71,11 @@ def curve_type_for_plug(plug: om.MPlug) -> CurveTypeName:
     )
 
 
-def _check_editable_plug(plug: om.MPlug) -> None:
-    if plug.isLocked:
-        raise RuntimeError(
-            f"Cannot restore curve data: {plug.name()} is locked."
-        )
-    if plug.isArray:
-        # animCurveのinternal arrayはphysical indexアクセスを受け付けない。
-        for i in plug.getExistingArrayAttributeIndices():
-            _check_editable_plug(plug.elementByLogicalIndex(i))
-    elif plug.isCompound:
-        for i in range(plug.numChildren()):
-            _check_editable_plug(plug.child(i))
-
-
 def direct_curve(
     plug: om.MPlug, *, write: bool = False
 ) -> oma.MFnAnimCurve | None:
-    expected = curve_type_for_plug(plug)
-    if not om.MItDependencyNodes(om.MFn.kAnimLayer).isDone():
-        raise RuntimeError(
-            "Curve data does not support scenes with animation layers."
-        )
-    if write:
-        node = om.MFnDependencyNode(plug.node())
-        if (
-            node.isLocked
-            or node.isFromReferencedFile
-            or not om.MFnAttribute(plug.attribute()).writable
-        ):
-            raise RuntimeError(
-                "Curve data destination must be writable, local and unlocked."
-            )
-        _check_editable_plug(plug)
-    source = plug.sourceWithConversion()
-    if source.isNull:
-        return None
-    if not source.node().hasFn(om.MFn.kAnimCurve):
-        raise RuntimeError(
-            "Curve data requires a directly connected animCurve."
-        )
-    curve = oma.MFnAnimCurve(source.node())
-    if (
-        curve.animCurveType != _CURVES[expected]
-        or source != curve.findPlug("output", False)
-        or len(source.connectedTo(False, True)) != 1
-        or any(p.isDestination for p in curve.getConnections())
-        or (
-            expected == "animCurveTA"
-            and curve.findPlug("rotationInterpolation", False).asInt() != 1
-        )
-    ):
-        raise RuntimeError(
-            "Curve data requires a simple, unshared time-input curve."
-        )
-    if write:
-        if curve.isLocked or curve.isFromReferencedFile:
-            raise RuntimeError(
-                "Curve data cannot edit locked or referenced curves."
-            )
-        for i in range(curve.attributeCount()):
-            attribute = curve.attribute(i)
-            if om.MFnAttribute(attribute).parent.isNull():
-                _check_editable_plug(curve.findPlug(attribute, False))
-    return curve
+    curve_type_for_plug(plug)
+    return _keyframe_target.direct_curve(plug, write=write)
 
 
 def queue_weighted(
@@ -167,26 +108,23 @@ def capture_curve(
     curve = direct_curve(plug)
     if curve is None:
         return None
-    data = _capture_curve(curve, curve_type_for_plug(plug), unit)
-    if start is None and end is None:
-        return data
-    if include_boundaries and data.keys:
-        data = _clip_curve(curve, data, start, end, unit)
-    lower = None if start is None else start.asUnits(unit)
-    upper = None if end is None else end.asUnits(unit)
-    return replace(
-        data,
-        keys=tuple(
-            key
-            for key in data.keys
-            if (lower is None or key.frame >= lower)
-            and (upper is None or key.frame <= upper)
-        ),
-    )
+    curve_type = curve_type_for_plug(plug)
+    if (
+        include_boundaries
+        and curve.numKeys
+        and (start is not None or end is not None)
+    ):
+        data = _capture_curve(curve, curve_type, unit)
+        return _clip_curve(curve, data, start, end, unit)
+    return _capture_curve(curve, curve_type, unit, start, end)
 
 
 def _capture_curve(
-    curve: oma.MFnAnimCurve, curve_type: CurveTypeName, unit: int
+    curve: oma.MFnAnimCurve,
+    curve_type: CurveTypeName,
+    unit: int,
+    start: om.MTime | None = None,
+    end: om.MTime | None = None,
 ) -> AnimCurveData:
     tangent_names = {value: name for name, value in _TANGENTS.items()}
     infinity_names = {value: name for name, value in _INFINITY.items()}
@@ -195,8 +133,19 @@ def _capture_curve(
         if curve.animCurveType == oma.MFnAnimCurve.kAnimCurveTA
         else 1.0
     )
+    count = curve.numKeys
+    weighted = curve.isWeighted
+    first, stop = 0, count
+    if count and start is not None:
+        first = curve.findClosest(start)
+        if curve.input(first) < start:
+            first += 1
+    if count and end is not None:
+        stop = curve.findClosest(end)
+        if curve.input(stop) <= end:
+            stop += 1
     keys: list[KeyData] = []
-    for i in range(curve.numKeys):
+    for i in range(first, stop):
         try:
             in_type = tangent_names[curve.inTangentType(i)]
             out_type = tangent_names[curve.outTangentType(i)]
@@ -206,7 +155,7 @@ def _capture_curve(
             ) from exc
         in_x, in_y = curve.getTangentXY(i, True)
         out_x, out_y = curve.getTangentXY(i, False)
-        if not curve.isWeighted:
+        if not weighted:
             in_span = (
                 (curve.input(i) - curve.input(i - 1)).asUnits(
                     om.MTime.kSeconds
@@ -218,7 +167,7 @@ def _capture_curve(
                 (curve.input(i + 1) - curve.input(i)).asUnits(
                     om.MTime.kSeconds
                 )
-                if i + 1 < curve.numKeys
+                if i + 1 < count
                 else None
             )
             in_x, in_y = weighted_tangent_xy((in_x, in_y), in_span)
@@ -239,7 +188,7 @@ def _capture_curve(
     return AnimCurveData(
         curve_type=curve_type,
         seconds_per_frame=om.MTime(1.0, unit).asUnits(om.MTime.kSeconds),
-        weighted=curve.isWeighted,
+        weighted=weighted,
         pre_infinity=cast(
             InfinityTypeName, infinity_names[curve.preInfinityType]
         ),
@@ -314,6 +263,8 @@ def _clip_curve(
     curve = oma.MFnAnimCurve(modifier.createNode(data.curve_type))
     try:
         curve.setIsWeighted(data.weighted)
+        curve.setPreInfinityType(_INFINITY[data.pre_infinity])
+        curve.setPostInfinityType(_INFINITY[data.post_infinity])
         times = tuple(
             om.MTime(key.frame * data.seconds_per_frame, om.MTime.kSeconds)
             for key in data.keys
@@ -328,11 +279,7 @@ def _clip_curve(
             else:
                 curve.insertKey(time)
         _freeze_tangents(curve)
-        return replace(
-            _capture_curve(curve, data.curve_type, unit),
-            pre_infinity=data.pre_infinity,
-            post_infinity=data.post_infinity,
-        )
+        return _capture_curve(curve, data.curve_type, unit, start, end)
     finally:
         # doItしない作業用nodeはmodifier破棄で解放する。API編集のdirty flagも戻す。
         del curve, modifier

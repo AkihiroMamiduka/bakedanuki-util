@@ -155,6 +155,8 @@
 2026-09-11時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
 詳細データの保存・復元、指定範囲の境界補完まで実装し、利用者による動作確認も完了しています。
 範囲切り出しの初期版を未着手の項目として再実装する必要はありません。
+続く開発でquery・挿入・削除の対象を単純な直接接続へ整理し、詳細データ用の性能測定と
+範囲取得の改善を追加しました。layer指定と上流探索は、利用者が希望する今後の拡張です。
 現行仕様は[キーフレーム](attributes.md#キーフレーム)、
 履歴管理は[ModifierManager](modifier_manager.md)、検証方法は[testing.md](testing.md)を参照します。
 
@@ -169,11 +171,15 @@
 | 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元に対応 |
 | カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
 | 区間の切り出し | 両方の詳細取得APIに`start_frame` / `end_frame` / `include_boundaries=True`を実装。境界キーと調整後の接線を取得 |
+| 対象選択の初期整理 | 通常キー設定のMaya委譲を維持。query・挿入・削除・詳細データは直接接続の共通規則を使用し、未対応構成を明示的に拒否 |
+| 詳細データの性能測定 | 専用benchmarkで取得・予約・実行・Undo / Redo・JSON変換を分離。補完なしの取得と補完後の返却データは指定範囲だけを詳細取得 |
 
 ### 次の開発でも維持する契約
 
 - queryは実行済みsceneだけを読み、保留中modifierを暗黙に実行しない。
   変更は同じModifierManagerへ予約し、MPxCommandのUndo / Redoと失敗時rollbackへ参加させる。
+- 既存カーブのquery・編集は単純な直接接続が既定。未対応の接続構成を「キーなし」と
+  混同せず、上流の最初の1本を暗黙に選ばない。通常キー設定のMayaによる値解決は維持する。
 - `KeyData`は直接編集可能。予約時に再検証して独立コピーし、予約後の編集が実行内容や
   Undo / Redoに波及しない。`AnimCurveData`の共通設定は不変で、変更には`dataclasses.replace()`を使う。
 - 詳細データの公開値はdegree / cm / unitless。接線XYは取得元のweightedによらずweighted相当の表現。
@@ -190,13 +196,13 @@
 
 ### 未着手の候補と着手時の論点
 
-次の着手順は未確定です。対象カーブの選択ルールの整理と、詳細データAPIの性能測定を
-先に行い、利用例に合わせて機能拡張へ進めることを提案しています。
+次の着手順は未確定です。対象選択の初期整理と性能測定の結果を基準に、利用例に合わせて
+機能を拡張します。layer対応と上流探索は将来の対応対象として利用者と合意しています。
 
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
-| 対象カーブの選択ルール | `set_key()` / `set_keys()`はAPI・cmdsを選択する。従来のquery・挿入・削除等は上流の最初の時間入力カーブ、詳細データ・weighted操作は単純な直接接続カーブが対象。これらの差を整理し、カーブ・layerを明示するAPIの必要性を決める |
-| 詳細データAPIの性能測定 | 既存の設定ベンチマークは`set_key()` / `set_keys()`が中心。取得、コピー・検証、境界補完、復元、Undo / Redoを別々に測定する。測定条件は[詳細データAPIの性能測定候補](testing.md#詳細データapiの性能測定候補)を参照 |
+| layer指定・上流探索 | 共通の直接接続resolverは実装済み。今後は候補列挙・明示カーブ指定・layer指定を追加する。探索経路、複数候補、共有カーブ、time入力の扱いを決め、合成後のplug値指定と生カーブ値編集を区別する。明示curveはnode同一性、plug起点は実行時の接続を基準にする方針を検討 |
+| 詳細データAPIの追加最適化 | 専用benchmarkと範囲取得の改善は実装済み。補完は作業用カーブ全体へ依存し、復元時のlock検査も移植先キー数の影響を受ける。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
 | キー削減・最適化 | データ取得・編集・再設定の土台は完成。自動削減は未実装。同値キーでも接線により途中の値が変わるため、許容誤差、区間内の評価方法、step系・breakdown・境界キーの保持方針を先に決める |
 | 対応カーブ・接続の拡張 | 詳細データは直接接続TA / TL / TUが中心。time出力、driven key、quaternion補間、custom tangent、layer・中間node・共有カーブは個別に仕様化する |
 | 繰り返し領域の切り出し | constant / linearの範囲外補完は完成。cycle / cycleRelative / oscillateの範囲外は現在エラー。対応するなら必要な周期のキー展開、周期境界の不連続、出力量の扱いを決める |
@@ -205,14 +211,17 @@
 ### 実装を引き継ぐ際の参照先
 
 - `python/bd_util/maya/node/operator/attr/keyframe.py`: 公開APIと通常キー設定の経路選択。
+- 同階層の`_keyframe_target.py`: 共通の直接接続resolverと編集時のlock / reference検査。
 - 同階層の`keyframe_data.py`: KeyData / AnimCurveDataの型、単位表現、検証、JSON変換。
-- 同階層の`_keyframe_snapshot.py`: 直接接続の制約、snapshot、復元、境界補完。
+- 同階層の`_keyframe_snapshot.py`: 詳細データの型制約、snapshot、復元、境界補完。
   境界補完では`MDGModifier.createNode()`で確保した作業用カーブを使い、`doIt()`せずに
   Mayaの挿入処理を適用する。元カーブへの一時挿入とUndoに置き換えない。
   作業用nodeの解放と、API編集で変わるscene modified flagの復元を成功・例外時とも維持する。
 - `tests/maya/node/operator/attr/test_keyframe_clip.py` / `test_keyframe_data.py`:
   形状・単位・履歴・副作用・例外時の解放を確認する主なテスト。
   MPxCommand連携は`tests/maya/mpx_cmd/test_command.py`、補完は`tests/typecheck/node_operator_contract.py`。
+- `test_keyframe_target.py`: 対象選択、未対応接続の拒否、実行時再解決と失敗時rollback。
+- `python/bd_util/_dev/maya/benchmark_keyframe_data.py`: 現行コードまたは指定commitの詳細データ性能測定。
 
 境界補完の検証時点では、Maya 2025 / 2026 / 2027でclip・dataの関連256件が成功し、
 `scripts/verify.cmd`も成功しています。新しい変更の最終検証は、過去の結果で代用せず

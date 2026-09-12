@@ -237,9 +237,10 @@ tangent引数は全キー共通で、既存キーのtangent typeを維持する�
 ### 実在するキーを取得する
 
 `get_keys(start_frame=None, end_frame=None) -> list[tuple[float, float]]`は、
-`(frame, value)`のlistを時刻の昇順で返します。上流で最初に見つかったtime-input
-animCurveを対象にし、指定範囲に実在するキーだけを取得します。カーブや該当キーが
-なければ空listです。範囲は両端を含み、`None`の側には境界を設けません。
+`(frame, value)`のlistを時刻の昇順で返します。単純な直接接続のtime-input
+animCurveを対象にし、指定範囲に実在するキーだけを取得します。未接続・空カーブ・
+該当キーなしは空list、未対応の接続構成は`RuntimeError`です。
+範囲は両端を含み、`None`の側には境界を設けません。
 範囲端にキーがなくても、補間したキーを追加することはありません。
 NaN・無限大や逆転した範囲は、カーブの有無にかかわらず`ValueError`です。
 
@@ -261,8 +262,8 @@ valueは対象plugの型ではなく、取得したカーブの型から次の�
 | TU | numeric値 |
 | TT | 呼び出し時点のMaya UI時間単位 |
 
-取得値はカーブに保存されたキーの値です。unitConversionやblend nodeを経由していても、
-それらによる変換後のplug値やconstraintの計算結果をsamplingすることはありません。
+取得値はカーブに保存されたキーの値です。unitConversion・blend node・constraintを
+経由した取得は対象外です。合成・変換後のplug値には`sample_values()`を使用します。
 pairにはtangentやweighted、infinityなどの情報を含まないため、カーブ形状全体の
 保存・復元用データではありません。
 
@@ -321,7 +322,7 @@ API経路の対象plugは、boolを除くscalar numericとangle / linearです�
 `cmds.setKeyframe()`を実行します。
 
 - カーブの新規作成、blend nodeやunitConversionを経由する接続、共有カーブ。
-- カーブのinputに明示的な接続がある場合、またはplugとカーブの型が一致しない場合。
+- カーブのinputや設定属性に明示的な入力接続がある場合、またはplugとカーブの型が一致しない場合。
 - scene内にanimation layerが1つでもある場合。対象plugがlayerに属さなくても含みます。
 - 対象plug、カーブのoutputやkeyTimeValueがlockされている場合、または対象node・
   カーブnodeがlockされているかreference由来の場合。
@@ -375,6 +376,34 @@ mod.do_it_dg()
 `modifier_manager`を省略したインスタンスで変更methodを呼ぶと`RuntimeError`です。
 queryだけを行う場合は省略できます。
 
+### カーブを取得・編集する場合の選択ルール
+
+通常のキー設定と、既存カーブを取得・編集する操作には次の違いがあります。
+
+| 操作 | 対象の決定 |
+| --- | --- |
+| `set_key()` / `set_keys()` | 単純な直接接続ならAPI、その他はMayaの`setKeyframe`に対象選択・値解決を委譲 |
+| `has_anim_curve()` / `key_count()` / `frames()` / `values()` / `has_key()` / `get_keys()` | 単純な直接接続の時間入力カーブ。TA / TL / TU / TT、scalar numeric / bool / enum / unit plug |
+| 挿入・接線変更・キー削除・カーブ削除 | 上記と同じカーブを、書込み可否を検査して編集 |
+| 詳細データ・weighted操作 | 同じ直接接続の規則に加え、TA / TL / TUとnumeric / angle / distance plugに限定。enum・timeは対象外 |
+
+直接接続は、対象plugと型が一致するanimCurveの`output`が、そのplugだけへ接続した
+構成です。共有出力、unitConversion・constraint・pairBlend等の中間node、driven key、
+カーブへの入力接続、TAのquaternion補間を拒否します。現段階では対象属性と無関係でも、
+sceneにanimation layerが存在すると、取得・編集は`RuntimeError`です。
+`has_anim_curve()`も未対応構成を`False`として扱いません。
+
+queryはlock・referenceによる読み取りを制限しません。編集時は対象plug・node・curveの
+lock、reference、属性の書込み可否を検査します。未接続時の戻り値やno-opは、これらの
+前提条件を満たした場合に適用します。接続やlockはquery時・編集の初回実行時に解決し、
+別の呼び出しへキャッシュしません。Redoでは初回に記録した対象への変更を再生します。
+
+layerを含むsceneでも通常のキー設定はMayaへ委譲できますが、その直後のカーブqueryは
+現在の対応範囲に従って失敗します。同じ実行単位で未対応の編集を続けて失敗した場合は、
+先行するキー設定もrollbackします。layerの合成後のplug値と、生カーブの値は別の値です。
+たとえばbase値が1のとき、plugへ12を設定するとlayer側には11が保存される場合があります。
+将来のlayer指定・上流探索では、対象カーブと値の意味を明示するAPIを追加する方針です。
+
 ### キーの挿入・編集・削除
 
 | method | 実行時の処理 | 対象がない場合 |
@@ -392,7 +421,7 @@ queryだけを行う場合は省略できます。
 挿入・tangent変更・キー削除は、`MAnimCurveChange`へ変更を記録します。
 カーブノードの削除も同じmanagerの履歴へ含め、Undoでキー・tangent・接続を復元します。
 `delete_anim_curve()`は、このplugとの接続だけを切る操作ではありません。
-同じカーブを共有する別のplugがある場合も、カーブ全体とその接続を削除します。
+同じカーブを共有する別のplugがある場合は、実行時に拒否してカーブと接続を維持します。
 カーブの全出力接続を先に切断・反映してから、別の`MDGModifier`でカーブノードを
 削除します。接続先ノードが連鎖して削除されることを避けるため、この2段階を
 同じmanagerの実行境界内で順に処理します。
@@ -410,14 +439,8 @@ mod.do_it_dg()
 frames = keyframe.frames()
 ```
 
-これらの編集操作とqueryは、上流で最初に見つかったtime-input animCurveを
-対象にする従来の探索を使用します。animation layer全体の合成値や、`set_key()` / `set_keys()`で
-Mayaが選んだlayerのカーブを必ず扱うAPIではありません。カーブはquery時・編集実行時に
-探索し、Undoや再接続をまたいで古いカーブをキャッシュしません。
-
-キー設定のAPI経路の対象拡張と、編集対象カーブ・layerを明示するAPIは今後の検討対象です。
-現在のAPI経路は既存の単純なカーブへの編集を対象とします。
-任意時刻のplug値は`sample_values()`で取得します。
+これらの操作は上記の直接接続の規則を共有します。constraint先の属性からドライバー側の
+カーブを暗黙に編集することはありません。任意時刻のplug値は`sample_values()`で取得します。
 
 ### キー情報とカーブ全体の保存・復元
 
@@ -588,6 +611,11 @@ node名や独自属性、Graph Editorの表示設定はこのsnapshotの対象�
 接線の保存・復元にはMayaの浮動小数点精度による丸めが含まれます。
 
 ### 旧APIからの移行
+
+query・挿入・接線変更・削除は、最初の上流カーブを選ぶ動作から、単純な直接接続に限定する
+破壊的変更です。共有カーブの削除も拒否するようになりました。元のカーブへ直接接続した
+非共有の属性から操作するか、合成後の値が目的なら`sample_values()`を使用してください。
+上流探索・layer指定の公開APIは未実装で、旧探索を有効にする互換optionは提供しません。
 
 `set_key_data(keys, weighted=...)`の`weighted`引数は廃止しました。引数を削除すると
 既存カーブの設定を維持します。設定自体を変更したい場合は`set_weighted()`を明示します。

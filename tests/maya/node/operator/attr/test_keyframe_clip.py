@@ -181,6 +181,42 @@ def test_existing_keys_only_and_unbounded_query_preserve_metadata(maya_cmds):
     )
 
 
+@pytest.mark.parametrize("weighted", [False, True])
+@pytest.mark.parametrize(
+    "bounds",
+    [
+        (None, None),
+        (None, -50),
+        (50, None),
+        (-50, 50),
+        (-49, 49),
+        (0, 0),
+        (1, 1),
+        (-200, -150),
+        (150, 200),
+        (-100, -100),
+        (100, 100),
+    ],
+)
+def test_existing_key_ranges_preserve_full_snapshot_tangents(
+    maya_cmds, weighted, bounds
+):
+    manager, source = _source(maya_cmds, weighted)
+    full = manager.get_curve_data()
+    lower, upper = bounds
+    expected = tuple(
+        key
+        for key in full.keys
+        if (lower is None or key.frame >= lower)
+        and (upper is None or key.frame <= upper)
+    )
+    data = manager.get_curve_data(*bounds, include_boundaries=False)
+    assert data.keys == expected
+    assert data.seconds_per_frame == full.seconds_per_frame
+    assert data.weighted == full.weighted
+    assert manager.get_curve_data() == full
+
+
 @pytest.mark.parametrize("modified", [False, True])
 @pytest.mark.parametrize("fail", [False, True])
 def test_query_preserves_scene_history_pending_work_and_temporary_nodes(

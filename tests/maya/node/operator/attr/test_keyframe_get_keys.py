@@ -84,18 +84,14 @@ def test_get_keys_returns_only_existing_keys_in_inclusive_range(
     _assert_pairs(keyframe.get_keys(start, end), expected)
 
 
-@pytest.mark.parametrize("curve_state", ["absent", "empty", "unitless"])
+@pytest.mark.parametrize("curve_state", ["absent", "empty"])
 def test_get_keys_returns_empty_without_time_input_keys(
     maya_cmds, curve_state
 ):
     keyframe = _new_keyframe(maya_cmds)
     if curve_state != "absent":
-        curve = maya_cmds.createNode(
-            "animCurveUU" if curve_state == "unitless" else "animCurveTU"
-        )
+        curve = maya_cmds.createNode("animCurveTU")
         maya_cmds.connectAttr(curve + ".output", keyframe.plug.name())
-        if curve_state == "unitless":
-            maya_cmds.setKeyframe(curve, float=1.0, value=10.0)
 
     assert keyframe.get_keys() == []
     assert keyframe.get_keys(start_frame=1.0, end_frame=9.0) == []
@@ -203,34 +199,25 @@ def test_get_keys_does_not_flush_pending_edits_and_returns_a_snapshot(
         ("time", [6.0, 12.0]),
     ],
 )
-def test_get_keys_uses_upstream_curve_units_instead_of_target_plug_reader(
+def test_get_keys_uses_curve_units_independently_of_custom_value_reader(
     maya_cmds, source_type, values
 ):
     source = _new_keyframe(maya_cmds, source_type)
     _seed_keys(maya_cmds, source, zip([1.0, 11.0], values))
-    output = maya_cmds.listConnections(
-        source.plug.name(), source=True, destination=False, plugs=True
-    )[0]
-    conversion = maya_cmds.createNode("unitConversion")
-    target = maya_cmds.createNode("transform", name="convertedGetKeysTarget")
-    maya_cmds.connectAttr(output, conversion + ".input")
-    maya_cmds.connectAttr(conversion + ".output", target + ".rotateX")
-    maya_cmds.setAttr(conversion + ".conversionFactor", 2.0)
-    keyframe = bdu.Nodes().existing(target).rotateX.keyframe
     expected = list(zip([1.0, 11.0], values))
 
-    _assert_pairs(keyframe.get_keys(), expected)
+    _assert_pairs(source.get_keys(), expected)
 
     def reject_plug_value_reader(value):
         raise AssertionError("get_keys must convert by the curve type")
 
     standalone = KeyframeManager(
-        keyframe.plug, value_reader=reject_plug_value_reader
+        source.plug, value_reader=reject_plug_value_reader
     )
     _assert_pairs(standalone.get_keys(), expected)
 
 
-def test_get_keys_returns_upstream_keys_without_sampling_constraint_result(
+def test_get_keys_rejects_constraint_instead_of_selecting_driver_keys(
     maya_cmds,
 ):
     driver = maya_cmds.createNode("transform", name="getKeysDriver")
@@ -247,8 +234,10 @@ def test_get_keys_returns_upstream_keys_without_sampling_constraint_result(
         )
     keyframe = bdu.Nodes().existing(target).translateX.keyframe
 
-    assert keyframe.get_keys() == [(1.0, 0.0), (11.0, 10.0)]
-    assert keyframe.get_keys(2.0, 10.0) == []
+    with pytest.raises(RuntimeError, match="directly connected"):
+        keyframe.get_keys()
+    with pytest.raises(RuntimeError, match="directly connected"):
+        keyframe.get_keys(2.0, 10.0)
     assert [
         maya_cmds.getAttr(target + ".translateX", time=frame)
         for frame in (1.0, 6.0, 11.0)

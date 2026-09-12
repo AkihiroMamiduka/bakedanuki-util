@@ -422,11 +422,11 @@ def test_keyframe_property_insert_requires_existing_anim_curve_at_execution(
     node = plus_minus_average_node
 
     node.input1D[0].keyframe.insert_key(frame=5.0)
-    with pytest.raises(RuntimeError, match="no upstream time-input animCurve"):
+    with pytest.raises(RuntimeError, match="no directly connected animCurve"):
         node.modifier_manager.do_it_dg()
 
 
-def test_keyframe_property_reuses_upstream_anim_curve_from_new_operator(
+def test_keyframe_property_reuses_direct_anim_curve_from_new_operator(
     modifier_manager,
     plus_minus_average_cls,
     plus_minus_average_node,

@@ -257,6 +257,7 @@ def test_queries_follow_reconnected_curve(new_scene, maya_cmds):
     )
     assert keyframe.values() == [2.0]
     source = maya_cmds.listConnections(second + ".translateX", plugs=True)[0]
+    maya_cmds.disconnectAttr(source, second + ".translateX")
     maya_cmds.connectAttr(source, first + ".translateX", force=True)
     assert keyframe.frames() == [3.0]
     assert keyframe.values() == [4.0]
@@ -431,27 +432,24 @@ def test_set_edit_delete_set_order_on_pending_renamed_node(
         assert keyframe.values() == [7.0]
 
 
-def test_delete_anim_curve_restores_all_shared_connections(
+def test_delete_anim_curve_rejects_shared_curve_without_changing_connections(
     existing_keyframe, maya_cmds
 ):
     mod, keyframe = existing_keyframe
     second = maya_cmds.createNode("transform", name="sharedTarget")
     output = maya_cmds.listConnections(keyframe.plug.name(), plugs=True)[0]
     curve = output.split(".")[0]
-    maya_cmds.connectAttr(output, second + ".translateX")
     before = _curve_state(maya_cmds, keyframe)
+    maya_cmds.connectAttr(output, second + ".translateX")
     keyframe.delete_anim_curve()
     assert maya_cmds.objExists(curve)
-    mod.do_it_dg()
-    assert not maya_cmds.objExists(curve)
-    assert not keyframe.has_anim_curve()
-    assert not maya_cmds.listConnections(second + ".translateX", source=True)
-    for _ in range(2):
-        mod.undo_it()
-        _assert_curve_state(_curve_state(maya_cmds, keyframe), before)
-        assert maya_cmds.isConnected(output, second + ".translateX")
-        mod.redo_it()
-        assert not maya_cmds.objExists(curve)
+    with pytest.raises(RuntimeError, match="unshared"):
+        mod.do_it_dg()
+    assert maya_cmds.objExists(curve)
+    assert maya_cmds.isConnected(output, keyframe.plug.name())
+    assert maya_cmds.isConnected(output, second + ".translateX")
+    maya_cmds.disconnectAttr(output, second + ".translateX")
+    _assert_curve_state(_curve_state(maya_cmds, keyframe), before)
 
 
 @pytest.mark.parametrize(
@@ -537,7 +535,7 @@ def test_failed_insert_rolls_back_previous_edits_in_flush(
     if delete_curve:
         keyframe.delete_anim_curve()
     missing.insert_key(3)
-    with pytest.raises(RuntimeError, match="no upstream time-input animCurve"):
+    with pytest.raises(RuntimeError, match="no directly connected animCurve"):
         mod.do_it_dg()
     _assert_curve_state(_curve_state(maya_cmds, keyframe), before)
     assert not mod.can_undo

@@ -41,6 +41,8 @@
   - `AttributeField` / `AttrOperator` / `PlugOperator` の中核です。
 - `python/bd_util/maya/node/operator/attr/keyframe.py`
   - `KeyframeManager`の公開APIと、キー設定時のAPI / cmds経路の選択です。
+- `python/bd_util/maya/node/operator/attr/_keyframe_target.py`
+  - query・編集で共有する直接接続カーブの解決と、書込み可否の検査です。
 - `python/bd_util/maya/node/operator/attr/keyframe_data.py`
   - 編集可能な`KeyData`と、カーブ共通設定を持つ`AnimCurveData`です。
 - `python/bd_util/maya/node/operator/attr/_keyframe_snapshot.py`

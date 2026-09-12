@@ -251,7 +251,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
 - `tests/maya/node/operator/attr/test_keyframe_undo.py`
   - 予約、既存キー更新、undo / redo、作成・改名待ちのplug、queryの再探索、
     角度・距離・時間の単位変換と予約後の単位変更を検証します。
-  - 挿入・tangent変更・キー削除・共有カーブ削除のundo / redo、同じ予約列の
+  - 挿入・tangent変更・キー削除のundo / redo、共有カーブ削除の拒否、同じ予約列の
     設定から編集への順序、不正な引数やキーを設定できない場合のエラー、
     部分変更の復元も検証します。
   - キー削除後の空カーブ保持と、manager必須の変更操作を検証します。
@@ -298,11 +298,16 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     成功・例外時の作業用カーブの解放を検証します。
 - `tests/maya/node/operator/attr/test_keyframe_get_keys.py`
   - 実在キーの昇順取得、範囲の両端包含・片側指定・非キー端点、カーブ無し・空カーブ・
-    unitlessカーブ、カーブの有無によらない不正範囲の拒否を検証します。
+    カーブの有無によらない不正範囲の拒否を検証します。
   - TA / TL / TU / TTの公開単位、bool / enumもfloatのpairで返すこと、UI単位変更、
     `set_keys()`との往復と、予約を実行しないsnapshot取得を検証します。
-  - unitConversionを経由してもカーブ型から単位を換算することと、constraintの
-    合成結果をsamplingしないことを検証します。
+  - カーブ型から単位を換算することと、constraint越しの取得を拒否することを検証します。
+- `tests/maya/node/operator/attr/test_keyframe_target.py`
+  - query・挿入・削除・weighted操作で共通の直接接続ルールを検証します。
+    unitConversion、constraint、複数上流カーブ、pairBlend、共有出力、入力接続、driven key、
+    quaternion補間、layerのあるsceneを拒否し、上流カーブと履歴を変更しないことを確認します。
+  - queryと編集のlock / reference制約の違い、実行時の再接続、set→query→editの対象一致、
+    Undo / Redoと同じbatchの先行変更のrollbackを検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
   - typed matrix plugと`TransformMatrix`の連携、常に具体型を返す`get()`、
     未設定時の`ValueError`、分解値のcompound専用値型、flat 16要素 / 4行4列の
@@ -615,26 +620,64 @@ Redoは約1.7〜2.0 msです。レイヤーなどcmdsへ委譲する構成では
 pair形式でも`set_key()`の反復より約4.3〜4.6倍高速でした。
 各試行でキーの状態とUndo / Redoの復元も確認しています。
 
-### 詳細データAPIの性能測定候補
+### 詳細データAPIの性能測定
 
-上記の設定ベンチマークは、詳細な接線情報の取得・復元や境界補完の性能を測定していません。
-これらを測定する専用benchmarkは未実装です。追加する場合は、少なくとも次を分離します。
+`python/bd_util/_dev/maya/benchmark_keyframe_data.py`は、詳細データを専用に測定します。
+sceneを毎回破棄するため、作業中のMayaではなく、repository rootから独立したmayapyで
+実行します。他のMayaテスト・benchmarkと並行実行せず、versionごとに順番に測定します。
 
-- `get_key_data()` / `get_curve_data()`の全体取得、範囲取得、境界補完あり・なし。
-  元カーブの総キー数と、返す区間のキー数を別々に変える。現在の境界補完は元カーブ全体の
-  snapshotと作業用カーブを作るため、小区間でも元の総キー数に依存する。
-- `set_key_data()` / `set_curve_data()`の入力コピー・検証を含む予約時間、`do_it_dg()`の
-  実行時間、Undo / Redo時間。新規・既存カーブ、部分上書き・全体置換を区別する。
-- JSONへの変換・保存・読み込みはMaya上のカーブ処理と別計測にする。
-  tangent等を復元しない`set_keys()`とは処理内容が異なるため、単純な速度倍率で結論を出さない。
+```powershell
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -B `
+    .\bakedanuki\bakedanuki-util\python\bd_util\_dev\maya\benchmark_keyframe_data.py `
+    --output .\benchmark_results\keyframe_data\current.json
+```
 
-weighted / nonweighted、TA / TL / TU、キー数を変え、同じMaya version・scene・
-単位・global tangent設定で比較します。warm-upを除いた反復中央値と、可能なら
-メモリ使用量も記録します。他の重いMaya処理と並行せず測定します。
+既定は100 / 1,000 / 10,000キー、TA / TL / TU、weighted / nonweighted、取得区間10キー、
+warm-upを除く5回です。単位はcm / degree / film、global tangentはauto / nonweightedに
+固定します。`--keys`、`--window`、`--curve-types`、`--repeats`で条件を変更できます。
+`--operations get restore json`で測定群を選べます。準備・検証を除外し、次を個別に記録します。
 
-速度改善後も区間内の評価値、元カーブの不変性、modified flag、Undo / Redo、例外時の
-作業用node解放を確認します。実機検証の入口は`test_keyframe_data.py`と`test_keyframe_clip.py`です。
-現行の対応範囲・単位・コピー契約を維持したうえで、測定で支配的だった処理から改善します。
+- 取得: 両詳細APIの全体、既存キーだけ、既存キー上の境界補完、キー間の境界補完、
+  constant / linearの範囲外補完。総キー数と返却区間を別々に変える。
+- 復元: 全体置換と部分上書きについて、新規・既存を区別する。入力コピー・検証を含む
+  予約、`do_it_dg()`、Undo、Redoを分離し、2往復の履歴復元を検査する。
+  部分上書きでは入力キー数を固定したまま、移植先の総キー数の影響を測定できる。
+- JSON: `to_dict()`、`json.dumps()`、`json.loads()`、`from_dict()`を分離する。
+  ファイルI/Oとメモリ使用量は測定対象外。接線を保存しない`set_keys()`との単純な倍率比較はしない。
+
+結果JSONはMaya version、commit、対象実装ファイルのSHA-256、条件、各試行のmsと中央値を含みます。
+通常は作業ツリーを読み、`--source-revision 574239b1`を追加すると、checkoutを変更せずに
+そのcommitのkeyframe / data / snapshot / target各moduleを読み込んで比較できます。
+そのcommitにtarget moduleがない場合は読み込みません。ModifierManager等の共通基盤は
+現行実装を使うため、keyframe周辺以外も変更されたcommit間の完全な環境比較ではありません。
+
+2026-09-12のMaya 2025、TL、10,000キー、3回中央値で、`574239b1`と範囲取得改善後を
+比較した結果です。単位はms、既存キー取得は10キー、キー間の境界補完は内部10キー＋境界2キーです。
+
+| weighted | 取得条件 | 変更前 | 改善後 |
+| --- | --- | --- | --- |
+| False | `get_curve_data()`の既存キーのみ | 110.91 | 0.26 |
+| True | 同上 | 101.40 | 0.27 |
+| False | `get_curve_data()`のキー間境界補完 | 440.10 | 286.46 |
+| True | 同上 | 395.35 | 260.04 |
+
+同日、Maya 2026 / 2027でも1,000キー、同じ10キー区間、TA / TL / TUの全組合せで
+3回中央値を比較しました。下表は3種類の型とweightedの有無による中央値の最小〜最大です。
+
+| Maya | 既存キーのみ・変更前 → 改善後 | キー間境界補完・変更前 → 改善後 |
+| --- | --- | --- |
+| 2026 | 10.65〜13.65 → 0.22〜0.29 ms | 46.40〜57.33 → 31.73〜34.28 ms |
+| 2027 | 10.33〜13.56 → 0.26〜0.30 ms | 46.64〜51.59 → 30.16〜33.96 ms |
+
+補完なしの取得は指定indexのキーだけを詳細取得します。nonweightedの接線換算には、
+範囲外も含めた隣接キーとの時間幅を維持します。境界補完後の再取得も返却範囲に限定しました。
+境界補完の元snapshotと作業用カーブは引き続き全キーを扱うため、総キー数への依存は残ります。
+この測定値は特定条件の比較で、全体取得や復元を同じ割合で高速化するものではありません。
+
+追加の改善候補は予約時の重複コピー、復元先の全attribute / key lock検査、作業用カーブの
+必要区間への縮小です。形状・入力検証・独立コピーを保つことを条件に、測定結果から選びます。
+回帰確認では区間内の評価値、元カーブの不変性、modified flag、Undo / Redo、例外時の
+作業用node解放を維持します。実機検証の入口は`test_keyframe_data.py`と`test_keyframe_clip.py`です。
 
 ## 競合パッケージとの同条件ベンチマーク
 

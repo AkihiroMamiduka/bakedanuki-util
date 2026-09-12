@@ -9,6 +9,8 @@
 
 ### Added
 
+- 詳細データAPI用benchmarkを追加。全体・範囲取得、境界補完、復元の予約・実行・
+  Undo / Redo、JSON変換を個別測定し、指定commitとの比較も可能にする。
 - `get_curve_data()`に範囲指定を追加し、`get_key_data()`と共通の境界補完を実装。
   既定の`include_boundaries=True`では、元カーブを変更せずに境界キーと調整後の接線を取得する。
   連続接線をfixed化し、step / stepnext、weighted、単位を保持して区間を切り出す。
@@ -23,7 +25,7 @@
 - scalar plugに`sample_values(*, frames)`を追加。constraint・layer・計算ノードを含む
   指定時刻の評価済み値を、`set_keys()`へ渡せる`(frame, value)`のlistで取得する。
   公開単位と入力順を維持し、現在時刻・Undo履歴・保留中modifierを変更しない。
-- `KeyframeManager.get_keys(start_frame=None, end_frame=None)`を追加。上流の
+- `KeyframeManager.get_keys(start_frame=None, end_frame=None)`を追加。単純な直接接続の
   time-inputカーブに実在するキーを、範囲の両端を含む`(frame, value)`のlistで返す。
   予約中の操作は実行せず、値の単位は取得したカーブ型から換算する。
 - `KeyframeManager.set_keys(keys, ...)`を追加。`keys`は`(frame, value)`の列。
@@ -45,6 +47,13 @@
 
 ### Changed
 
+- KeyframeManagerのquery・挿入・接線変更・削除を、単純な直接接続の時間入力カーブへ
+  限定する破壊的変更。constraint等の上流探索、共有カーブ削除を暗黙に行わず、
+  未対応構成を`RuntimeError`にする。直接接続resolverを詳細データ操作と共有し、
+  編集時のlock / reference検査を統一。通常の`set_key()` / `set_keys()`のMaya委譲は維持する。
+  移行は直接接続した非共有の属性からの操作、または合成値を取得する`sample_values()`を使用する。
+- 詳細データの補完なし範囲取得と、境界補完後の再取得を必要なキー範囲に限定し、
+  範囲外の詳細データ生成・重複コピーを削減する。隣接時刻による接線換算と形状保持は維持する。
 - `get_key_data(start_frame, end_frame)`は、既定で境界を補完する破壊的変更。
   既存キーと元の接線情報だけを取得する場合は`include_boundaries=False`を指定する。
   範囲無指定の取得と`get_keys()`の仕様は維持する。

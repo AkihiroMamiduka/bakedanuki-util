@@ -11,7 +11,7 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
-from . import _keyframe_snapshot
+from . import _keyframe_snapshot, _keyframe_target
 from .keyframe_data import AnimCurveData, KeyData
 
 ValueConverter = Callable[[Any], Any]
@@ -224,15 +224,16 @@ class KeyframeManager:
     # anim_curve
     #   delete
     def delete_anim_curve(self) -> None:
-        """上流の時間入力カーブ全体の削除を予約する。共有先との接続も削除する。"""
+        """単純な直接接続カーブ全体の削除を予約する。共有カーブは拒否する。"""
         manager = self._require_modifier_manager()
         anim_curve_obj: om.MObject | None = None
 
         def disconnect_curve(modifier: om.MDGModifier) -> None:
             nonlocal anim_curve_obj
-            anim_curve_obj = self._get_anim_curve_obj()
-            if anim_curve_obj is None:
+            curve = self._get_anim_curve_fn(write=True)
+            if curve is None:
                 return
+            anim_curve_obj = curve.object()
             output = om.MFnDependencyNode(anim_curve_obj).findPlug(
                 "output", False
             )
@@ -248,57 +249,15 @@ class KeyframeManager:
         manager.queue_dg_modifier(delete_curve)
 
     #   get
-    def _get_anim_curve_obj(self) -> om.MObject | None:
-        return self._find_upstream_anim_curve_obj()
-
-    def _get_anim_curve_fn(self) -> oma.MFnAnimCurve | None:
-        anim_curve_obj = self._get_anim_curve_obj()
-        if anim_curve_obj is None:
-            return None
-
-        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-        self._validate_time_input_anim_curve(fn_anim_curve)
-        return fn_anim_curve
-
-    def _validate_time_input_anim_curve(
-        self,
-        fn_anim_curve: oma.MFnAnimCurve,
-    ):
-        if not fn_anim_curve.isTimeInput:
-            raise RuntimeError(
-                f"{fn_anim_curve.name()} is not a time-input animCurve."
-            )
-
-    #   find
-    def _find_upstream_anim_curve_obj(self) -> om.MObject | None:
-        try:
-            iter_graph = om.MItDependencyGraph(
-                self.plug,
-                om.MFn.kAnimCurve,
-                om.MItDependencyGraph.kUpstream,
-                om.MItDependencyGraph.kDepthFirst,
-                om.MItDependencyGraph.kNodeLevel,
-                om.MItDependencyGraph.kDependsOn,
-            )
-        except RuntimeError:
-            return None
-
-        while not iter_graph.isDone():
-            anim_curve_obj = iter_graph.currentNode()
-            try:
-                fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-            except RuntimeError:
-                iter_graph.next()
-                continue
-            if fn_anim_curve.isTimeInput:
-                return anim_curve_obj
-            iter_graph.next()
-        return None
+    def _get_anim_curve_fn(
+        self, *, write: bool = False
+    ) -> oma.MFnAnimCurve | None:
+        return _keyframe_target.direct_curve(self.plug, write=write)
 
     # keyframe
     #   query
     def has_anim_curve(self) -> bool:
-        return self._get_anim_curve_obj() is not None
+        return self._get_anim_curve_fn() is not None
 
     def key_count(self) -> int:
         fn_anim_curve = self._get_anim_curve_fn()
@@ -331,7 +290,7 @@ class KeyframeManager:
         start_frame: float | None = None,
         end_frame: float | None = None,
     ) -> list[tuple[float, float]]:
-        """上流の最初の時間入力カーブから、実在キーを時刻順に取得する。
+        """単純な直接接続の時間入力カーブから、実在キーを時刻順に取得する。
 
         範囲は両端を含み、Noneの端は制限しない。frameとtime値は現在の
         UI時間単位、angle値はdegree、linear値はcentimeter。
@@ -571,36 +530,24 @@ class KeyframeManager:
                 return None
         else:
             return None
-        source = plug.sourceWithConversion()
-        if source.isNull or not source.node().hasFn(om.MFn.kAnimCurve):
+        try:
+            fn_anim_curve = _keyframe_target.direct_curve(plug)
+        except RuntimeError:
+            # Direct curve queries reject unsupported graphs; plug assignment
+            # delegates their target selection and value resolution to Maya.
             return None
-        fn_anim_curve = oma.MFnAnimCurve(source.node())
-        if (
-            fn_anim_curve.animCurveType
-            != fn_anim_curve.timedAnimCurveTypeForPlug(plug)
-        ):
+        if fn_anim_curve is None:
             return None
+        source = fn_anim_curve.findPlug("output", False)
         if (
             fn_anim_curve.isLocked
             or fn_anim_curve.isFromReferencedFile
-            or source != fn_anim_curve.findPlug("output", False)
             or source.isLocked
-            or len(source.connectedTo(False, True)) != 1
-            or fn_anim_curve.findPlug("input", False).isDestination
             or fn_anim_curve.findPlug("keyTimeValue", False).isLocked
-        ):
-            return None
-        if (
-            fn_anim_curve.animCurveType == oma.MFnAnimCurve.kAnimCurveTA
-            and fn_anim_curve.findPlug("rotationInterpolation", False).asInt()
-            != 1
         ):
             return None
         node = om.MFnDependencyNode(plug.node())
         if node.isLocked or node.isFromReferencedFile:
-            return None
-        # BaseAnimationのlockも、直接接続カーブへのキー設定を禁止する。
-        if not om.MItDependencyNodes(om.MFn.kAnimLayer).isDone():
             return None
         return fn_anim_curve
 
@@ -654,7 +601,7 @@ class KeyframeManager:
         )
 
         def set_key_tangent(change: oma.MAnimCurveChange) -> None:
-            fn_anim_curve = self._get_anim_curve_fn()
+            fn_anim_curve = self._get_anim_curve_fn(write=True)
             if fn_anim_curve is None:
                 return
             index = fn_anim_curve.find(time)
@@ -674,10 +621,10 @@ class KeyframeManager:
         time = self._key_time(frame)
 
         def insert_key(change: oma.MAnimCurveChange) -> None:
-            fn_anim_curve = self._get_anim_curve_fn()
+            fn_anim_curve = self._get_anim_curve_fn(write=True)
             if fn_anim_curve is None:
                 raise RuntimeError(
-                    f"{self.plug_name} has no upstream time-input animCurve "
+                    f"{self.plug_name} has no directly connected animCurve "
                     "to insert a key."
                 )
             fn_anim_curve.insertKey(time, breakdown, change)
@@ -691,7 +638,7 @@ class KeyframeManager:
         time = self._key_time(frame)
 
         def remove_key(change: oma.MAnimCurveChange) -> None:
-            fn_anim_curve = self._get_anim_curve_fn()
+            fn_anim_curve = self._get_anim_curve_fn(write=True)
             if fn_anim_curve is None:
                 return
             index = fn_anim_curve.find(time)
@@ -727,7 +674,7 @@ class KeyframeManager:
             )
 
         def remove_keys(change: oma.MAnimCurveChange) -> None:
-            fn_anim_curve = self._get_anim_curve_fn()
+            fn_anim_curve = self._get_anim_curve_fn(write=True)
             if fn_anim_curve is None:
                 return
             for index in reversed(range(fn_anim_curve.numKeys)):
