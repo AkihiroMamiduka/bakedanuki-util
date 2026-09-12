@@ -5,30 +5,12 @@ from math import isfinite
 from typing import ClassVar
 
 from .... import qt
-from .._validation import require_float
+from .._validation import require_slider_range, require_slider_steps
 from ..binding import FloatBinding
 from ..store import FloatValueStore
 from ..view_model import FloatViewModel
 from ._connection import connect_queued_qt_signal
 from ._source import resolve_float_view_source
-
-
-def _require_range(minimum: float, maximum: float) -> tuple[float, float]:
-    """有限で昇順の操作範囲を、公開単位の値として検証する。"""
-    minimum = require_float(minimum, "minimum")
-    maximum = require_float(maximum, "maximum")
-    if minimum >= maximum:
-        raise ValueError("minimumはmaximum未満にしてください")
-    return minimum, maximum
-
-
-def _require_steps(value: object) -> int:
-    """Qtの整数位置に収まる正の分割数を検証する。"""
-    if isinstance(value, bool) or not isinstance(value, int):
-        raise TypeError("stepsには整数を指定してください")
-    if not 1 <= value <= 2147483647:
-        raise ValueError("stepsは1～2147483647にしてください")
-    return value
 
 
 class FloatSlider(qt.QSlider):
@@ -59,8 +41,8 @@ class FloatSlider(qt.QSlider):
     ) -> None:
         """操作範囲と分割数を指定し、BindingまたはViewModelを共有する。"""
         view_model, binding = resolve_float_view_source(view_model)
-        float_range = _require_range(minimum, maximum)
-        steps = _require_steps(steps)
+        float_range = require_slider_range(minimum, maximum)
+        steps = require_slider_steps(steps)
         if orientation not in (
             qt.Qt.Orientation.Horizontal,
             qt.Qt.Orientation.Vertical,
@@ -115,7 +97,7 @@ class FloatSlider(qt.QSlider):
 
     def setFloatRange(self, minimum: float, maximum: float) -> None:
         """操作範囲だけを変更し、正本の値は変更しない。"""
-        float_range = _require_range(minimum, maximum)
+        float_range = require_slider_range(minimum, maximum)
         if float_range != self._float_range:
             self._finish_edit()
             self._float_range = float_range

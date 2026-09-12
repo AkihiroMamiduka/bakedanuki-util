@@ -7,9 +7,8 @@ from .....maya.ui import MayaWindowController
 from .....ui import (
     FloatBinding,
     FloatLabel,
-    FloatSlider,
+    FloatSliderSpinBox,
     FloatPresentation,
-    FloatSpinBox,
     qt,
 )
 from .data import WeightData
@@ -31,18 +30,28 @@ class MinimalFloatWidget(qt.QWidget):
         )
 
         # Viewの丸めが正本に戻らないことを、異なる表示桁数で確認する。
-        self.spin_box = FloatSpinBox(
-            self.binding, self, decimals=3, single_step=0.01
+        self.editor = FloatSliderSpinBox(
+            self.binding,
+            self,
+            minimum=0,
+            maximum=1,
+            decimals=3,
+            single_step=0.01,
         )
-        self.linked_spin_box = FloatSpinBox(
-            self.binding, self, decimals=6, single_step=0.01
+        self.linked_editor = FloatSliderSpinBox(
+            self.binding,
+            self,
+            minimum=0,
+            maximum=1,
+            decimals=6,
+            single_step=0.01,
         )
+        self.spin_box = self.editor.spin_box
+        self.linked_spin_box = self.linked_editor.spin_box
+        self.slider = self.editor.slider
+        self.linked_slider = self.linked_editor.slider
         self.value_label = FloatLabel(self.binding, self, decimals=3)
         self.linked_value_label = FloatLabel(self.binding, self, decimals=6)
-        self.slider = FloatSlider(self.binding, self, minimum=0, maximum=1)
-        self.linked_slider = FloatSlider(
-            self.binding, self, minimum=0, maximum=1
-        )
         self.data_label = qt.QLabel(self)
         self.set_data_button = qt.QPushButton("Set data to 0.25", self)
         self.refresh_button = qt.QPushButton("Refresh views", self)
@@ -52,24 +61,21 @@ class MinimalFloatWidget(qt.QWidget):
 
         # Pythonの実値とViewを並べ、直接代入と同期の違いを確認できるようにする。
         form = qt.QFormLayout()
-        for title, spin_box, label, slider in (
+        for title, editor, label in (
             (
                 "Weight (3 decimals)",
-                self.spin_box,
+                self.editor,
                 self.value_label,
-                self.slider,
             ),
             (
                 "Weight (6 decimals)",
-                self.linked_spin_box,
+                self.linked_editor,
                 self.linked_value_label,
-                self.linked_slider,
             ),
         ):
             row = qt.QHBoxLayout()
-            slider.setMinimumWidth(160)
-            row.addWidget(slider, 1)
-            row.addWidget(spin_box)
+            editor.slider.setMinimumWidth(160)
+            row.addWidget(editor, 1)
             row.addWidget(label, 1)
             form.addRow(title, row)
         buttons = qt.QHBoxLayout()

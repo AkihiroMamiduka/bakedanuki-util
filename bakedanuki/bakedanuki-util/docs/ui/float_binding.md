@@ -61,11 +61,13 @@ binding.dispose()
 | `FloatSpinBox(source, parent=None, decimals=6, single_step=0.1)` | 共通のQDoubleSpinBox View |
 | `FloatLabel(source, parent=None, decimals=6)` | 値と単位を表示し、選択・コピーできるQLabel View |
 | `FloatSlider(source, parent=None, minimum=..., maximum=..., steps=1000)` | 公開単位の有限範囲を連続編集するQSlider View |
+| `FloatSliderSpinBox(source, parent=None, minimum=..., maximum=..., decimals=6)` | SliderとSpinBoxを1つのWidgetへまとめる複合View |
 | `get_channel_box_precision()` | MayaのChange Precision設定を取得し、intで返す |
 
 汎用APIは`bd_util.ui`、Maya APIは`bd_util.maya.ui`からimportします。
 Storeの`write()`は成功可否ではなく、書き込み後のfloat実値を返します。
 SpinBoxとラベルは同じBindingを共有できます。ラベルの仕様は[FloatLabel](float_label.md)を参照してください。
+SliderとSpinBoxをまとめて配置する場合は[FloatSliderSpinBox](float_slider_spin_box.md)を使用できます。
 公開数値APIは有限のfloatとintを受け取り、floatへ正規化します。
 bool、文字列、NaN、無限大は拒否します。`Float`という名前はPythonの数値型を表し、
 Mayaの32bit floatだけを意味するものではありません。

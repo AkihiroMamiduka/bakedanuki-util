@@ -27,6 +27,8 @@ Maya属性が正本なら`MayaFloatPlugBinding`、Python正本とMaya同期な�
 同じ引数へ渡します。これらのBindingが既存のMaya callbackとUndo管理を担当します。
 SliderからMayaはimportしません。
 
+SliderとSpinBoxを1つのWidgetとして配置する場合は[FloatSliderSpinBox](float_slider_spin_box.md)を使用できます。
+
 ## 公開APIと操作範囲
 
 | API | 内容 |

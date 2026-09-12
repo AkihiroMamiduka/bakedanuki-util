@@ -12,7 +12,7 @@ from .....maya.ui import (
     get_channel_box_precision,
     resolve_float_plug,
 )
-from .....ui import FloatLabel, FloatSlider, FloatSpinBox, qt
+from .....ui import FloatLabel, FloatSliderSpinBox, qt
 
 _TransformPlugs: TypeAlias = tuple[MayaFloatPlug, MayaFloatPlug, MayaFloatPlug]
 
@@ -29,15 +29,40 @@ class TransformFloatWidget(qt.QWidget):
         self.translate_x_binding = MayaFloatPlugBinding(plugs[0], parent=self)
         self.rotate_x_binding = MayaFloatPlugBinding(plugs[1], parent=self)
         self.scale_x_binding = MayaFloatPlugBinding(plugs[2], parent=self)
-        self.translate_x = FloatSpinBox(
-            self.translate_x_binding, self, decimals=decimals, single_step=0.1
+        # 操作範囲はcm・degree・単位なしで指定し、入力Viewを1つのWidgetへまとめる。
+        self.translate_x_editor = FloatSliderSpinBox(
+            self.translate_x_binding,
+            self,
+            minimum=-100,
+            maximum=100,
+            steps=2000,
+            decimals=decimals,
+            single_step=0.1,
         )
-        self.rotate_x = FloatSpinBox(
-            self.rotate_x_binding, self, decimals=decimals, single_step=1.0
+        self.rotate_x_editor = FloatSliderSpinBox(
+            self.rotate_x_binding,
+            self,
+            minimum=-180,
+            maximum=180,
+            steps=3600,
+            decimals=decimals,
+            single_step=1.0,
         )
-        self.scale_x = FloatSpinBox(
-            self.scale_x_binding, self, decimals=decimals, single_step=0.01
+        self.scale_x_editor = FloatSliderSpinBox(
+            self.scale_x_binding,
+            self,
+            minimum=0,
+            maximum=3,
+            steps=3000,
+            decimals=decimals,
+            single_step=0.01,
         )
+        self.translate_x = self.translate_x_editor.spin_box
+        self.rotate_x = self.rotate_x_editor.spin_box
+        self.scale_x = self.scale_x_editor.spin_box
+        self.translate_x_slider = self.translate_x_editor.slider
+        self.rotate_x_slider = self.rotate_x_editor.slider
+        self.scale_x_slider = self.scale_x_editor.slider
         self.translate_x_label = FloatLabel(
             self.translate_x_binding, self, decimals=decimals
         )
@@ -47,42 +72,24 @@ class TransformFloatWidget(qt.QWidget):
         self.scale_x_label = FloatLabel(
             self.scale_x_binding, self, decimals=decimals
         )
-        # 操作範囲はcm・degree・単位なしで指定し、表示単位の変更でも維持する。
-        self.translate_x_slider = FloatSlider(
-            self.translate_x_binding,
-            self,
-            minimum=-100,
-            maximum=100,
-            steps=2000,
-        )
-        self.rotate_x_slider = FloatSlider(
-            self.rotate_x_binding, self, minimum=-180, maximum=180, steps=3600
-        )
-        self.scale_x_slider = FloatSlider(
-            self.scale_x_binding, self, minimum=0, maximum=3, steps=3000
-        )
-
         # 同じ確定値を編集用と表示用で共有し、lock中もラベルからコピーできる。
         layout = qt.QFormLayout(self)
-        for title, spin_box, label, slider in (
+        for title, editor, label in (
             (
                 "Translate X",
-                self.translate_x,
+                self.translate_x_editor,
                 self.translate_x_label,
-                self.translate_x_slider,
             ),
             (
                 "Rotate X",
-                self.rotate_x,
+                self.rotate_x_editor,
                 self.rotate_x_label,
-                self.rotate_x_slider,
             ),
-            ("Scale X", self.scale_x, self.scale_x_label, self.scale_x_slider),
+            ("Scale X", self.scale_x_editor, self.scale_x_label),
         ):
             row = qt.QHBoxLayout()
-            slider.setMinimumWidth(160)
-            row.addWidget(slider, 1)
-            row.addWidget(spin_box)
+            editor.slider.setMinimumWidth(160)
+            row.addWidget(editor, 1)
             row.addWidget(label, 1)
             layout.addRow(title, row)
 

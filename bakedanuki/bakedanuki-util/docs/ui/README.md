@@ -852,6 +852,14 @@ API、精度、寿命、確認手順は[FloatLabel](float_label.md)を参照し�
 既存の`maya_plug`・`minimal`・`maya_view`サンプルで共有表示を確認できます。
 操作範囲、入力単位、Undoと中断の仕様は[FloatSlider](float_slider.md)を参照してください。
 
+### SliderとSpinBoxの複合View
+
+`FloatSliderSpinBox(binding, minimum=-100, maximum=100, decimals=3)`で、横並びの編集Viewを
+1つのWidgetとして配置できます。内部の`editor.slider`と`editor.spin_box`にも型補完つきでアクセスできます。
+各Viewが同じ正本を共有し、スライダーの操作範囲外の数値もSpinBoxから入力できます。
+既存の単一値サンプルは、この複合Viewと共有ラベルを並べる構成です。
+API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slider_spin_box.md)を参照してください。
+
 ## Python属性を正本にする浮動小数点binding
 
 `FloatBinding.from_attribute()`はPython objectやdataclassの数値属性を正本とし、
@@ -1425,17 +1433,17 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-12にFloatSliderと連続編集・Undo管理を追加した作業ツリーでの確認結果です。
+2026-09-12にFloatSliderSpinBoxと複合Viewのサンプルを追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 408 passed | 244 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 408 passed | 244 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 408 passed | 244 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 437 passed | 244 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 437 passed | 244 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 437 passed | 244 passed |
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2758 passed, 317 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2758 passed, 346 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。
