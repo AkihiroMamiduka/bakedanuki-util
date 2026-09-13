@@ -47,6 +47,9 @@
     キー設定は対象layerを明示してMayaが値を解決し、取得・詳細復元はそのlayerの生カーブを扱います。
     明示指定はTA / TL / TUノードの`.keyframe`から使用します。
     調査用の`find_anim_curves()`では、上流候補を具体ノード型のtupleとして取得できます。
+- `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`
+  - `nodes.create.animLayer()`のベース・階層を含む作成と、`add_plugs()` / `add_nodes()`の登録です。
+    作成待ちの戻り値を`.keyframe.anim_layer(layer)`へ渡し、キー設定まで一括予約できます。
 - `python/bd_util/maya/node/operator/attr/_keyframe_discovery.py`
   - DG依存関係の候補列挙と型filter。layer所属や合成値の解決とは分離しています。
 - `python/bd_util/maya/node/operator/attr/_keyframe_target.py`
@@ -110,6 +113,26 @@ flowchart TD
     NodeOperator --> ModifierManager
     ModifierManager --> OpenMaya
 ```
+
+### アニメーションレイヤーを作ってキーを設定する
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+
+layer = nodes.create.animLayer(name="Correction")
+layer.add_nodes([ctrl])
+ctrl.tx.keyframe.anim_layer(layer).set_keys([(1, 0), (24, 12)])
+mod.do_it_dg()
+```
+
+指定属性だけなら`layer.add_plugs([ctrl.translate, ctrl.rotate])`を使用します。
+`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録し、子孫やshapeを自動で含めません。
+加算layerが既定で、上書きは`override=True`です。
+詳しくは[アニメーションレイヤーの作成と登録](attributes.md#アニメーションレイヤーの作成と登録)を参照してください。
 
 ## アクセスモデル
 

@@ -411,7 +411,9 @@ def _append_creator_method(
             ("        auto_add_attr: bool = " "DEFAULT_VALUE_AUTO_ADD_ATTR,"),
         ]
     )
-    if definition.module_name.startswith(".operator.node.dag.shape."):
+    if definition.node_type == "animLayer":
+        lines.extend(["        *,", "        override: bool = False,"])
+    elif definition.module_name.startswith(".operator.node.dag.shape."):
         lines.extend(
             [
                 "        *,",
@@ -678,6 +680,15 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
         )
         lines.extend(["", f"{alias} = {return_type}"])
     lines.extend(["", "AnimCurveNode = " + " | ".join(curve_aliases)])
+    lines.extend(
+        [
+            "",
+            "AnimLayerNode = "
+            + _common_return_type(
+                python_root, definitions_by_type["animLayer"], version_ranges
+            ),
+        ]
+    )
 
     common_definitions = tuple(
         definition

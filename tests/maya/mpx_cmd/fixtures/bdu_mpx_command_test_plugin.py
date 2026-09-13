@@ -194,6 +194,27 @@ class _FailAfterLayerKeyframesCommand(_EditLayerKeyframesCommand):
         raise RuntimeError("intentional animation layer failure")
 
 
+class _CreateAnimLayerCommand(_FailAfterExecuteCommand):
+    COMMAND_NAME = "bduTestMpxCreateAnimLayer"
+
+    def execute(self, params: _FailureParams) -> None:
+        node = self.nodes.existing.transform(params.node_name)
+        layer = self.nodes.create.animLayer(name="CreatedLayer", override=True)
+        layer.weight.set(0.5)
+        layer.add_nodes([node])
+        layer.add_plugs([node.translate])
+        node.tx.keyframe.anim_layer(layer).set_key(12, frame=3)
+        self.modifier_manager.do_it_dg()
+
+
+class _FailAfterCreateAnimLayerCommand(_CreateAnimLayerCommand):
+    COMMAND_NAME = "bduTestMpxFailAfterCreateAnimLayer"
+
+    def execute(self, params: _FailureParams) -> None:
+        super().execute(params)
+        raise RuntimeError("intentional layer creation failure")
+
+
 class _NoOpCommand(MPxCommandBase[None]):
     COMMAND_NAME = "bduTestMpxNoOp"
 
@@ -231,6 +252,8 @@ class _FailDuringExecuteCommand(_FailAfterExecuteCommand):
 
 
 COMMAND_TYPES = (
+    _CreateAnimLayerCommand,
+    _FailAfterCreateAnimLayerCommand,
     _EditLayerKeyframesCommand,
     _FailAfterLayerKeyframesCommand,
     _EditExplicitCurveCommand,

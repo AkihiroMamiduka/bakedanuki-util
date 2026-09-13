@@ -142,6 +142,11 @@ queryは呼び出し時点のsceneを読み、保留中の変更をflushしま�
 `MDGContext.makeCurrent()`を使い、評価の成功・失敗のどちらでも元のコンテキストへ戻します。
 取得結果は値のsnapshotであり、その後のscene変更には追従しません。
 
+既知の制約として、Maya 2025では新規layerへの初回キー設定直後に、先頭サンプルが
+設定前の値になる場合があります。nativeの`cmds.animLayer()` / `cmds.setKeyframe()`で
+構築しても再現し、現在時刻での通常評価とは異なる結果になります。
+MDGContextのキャッシュを含む追加調査は[roadmap](roadmap.md#未着手の候補と着手時の論点)に記録しています。
+
 constraintを削除して打ち直す場合は、必要な全属性・全時刻を先に取得し、
 その後に削除とキー設定を予約します。別の親空間を持つコントローラー間の姿勢転送は、
 local属性値のコピーに加えて座標変換が必要になるため、上位の転送処理で扱います。
@@ -453,9 +458,10 @@ layerに属する属性も、未指定ならベースへのキー設定とカー
 
 ### アニメーションレイヤーを指定する
 
-`anim_layer(name: str) -> KeyframeManager`は、「1 plug × 1 layer」を対象とする
+`anim_layer(name: str | AnimLayerNode) -> KeyframeManager`は、「1 plug × 1 layer」を対象とする
 操作入口を返します。元の`KeyframeManager`を変更せず、同じplugと`ModifierManager`を
 共有するため、別のlayerや通常のノード操作とまとめて予約できます。
+`AnimLayerNode`は対応Maya versionの`AnimLayer`を表す型です。
 
 ```python
 import bd_util as bdu
@@ -474,9 +480,12 @@ keys = keyframe.get_keys()
 data = keyframe.get_curve_data()
 ```
 
-指定するlayerはsceneに存在する必要があります。空の名前、存在しない名前、
-animation layer以外のnodeは`ValueError`、文字列以外は`TypeError`です。
+文字列で指定するlayerはsceneに存在する必要があります。空の名前、存在しない名前、
+animation layer以外のnode名は`ValueError`、文字列・`AnimLayer`以外は`TypeError`です。
 属性名やwildcardを含む指定も`ValueError`です。
+`nodes.create.animLayer()`の戻り値は作成待ちでも渡せます。名前を先に検索せず、
+作成・登録・キー設定を同じModifierManagerへ順に予約してください。
+実行前のqueryは`RuntimeError`で、作成や登録を暗黙に実行しません。
 layerは名前だけでなくノード同一性を保持し、取得後・予約後の改名にも追従します。
 削除後に同名のlayerを作成しても対象は差し替わらず、query・実行時にエラーになります。
 属性の所属確認・対象照会・キー設定では、別のDAG階層にある同名node、alias、配列の
@@ -485,7 +494,8 @@ logical indexを区別します。
 root以外では、元の属性が指定layerに登録済みであることをquery・実行時に検査します。
 未登録なら`RuntimeError`です。rootには通常のlayer未所属属性も指定できます。
 ベースを扱うだけならlayer指定は不要です。明示する場合は、rootの現在の名前を指定してください。
-layerの作成、属性の自動登録、選択中のlayerやbest layerへの自動切替は行いません。
+`anim_layer()`自体はlayerの作成、属性の自動登録、選択中のlayerやbest layerへの自動切替を行いません。
+作成・登録には次節の`nodes.create.animLayer()`と`add_plugs()` / `add_nodes()`を使用します。
 
 | 操作 | 指定layerでの意味 |
 | --- | --- |
@@ -514,6 +524,63 @@ queryは保留中modifierを実行せず、lock / reference / mute / weightを�
 事前検査します。Mayaの明示キー設定がlayer lockを無視する場合も、API側で拒否します。
 muteやweightが0でも生カーブは編集対象になり、最終評価への反映はMayaのlayer状態に従います。
 予約後の所属変更も初回実行時に再検査し、Undo / Redo・途中失敗時rollbackは通常操作と共通です。
+
+### アニメーションレイヤーの作成と登録
+
+`nodes.create.animLayer(name=None, override=False)`は、sceneのベース（root）の直下へ
+layerの作成を予約し、通常の`AnimLayer`を返します。既定は加算layer、`override=True`は
+上書きlayerです。rootがなければベースも同じbatchで作成します。既存rootは現在の名前で
+解決し、同じbatchで複数layerを作る場合も共有します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+other = nodes.existing.transform("other_ctrl")
+
+layer = nodes.create.animLayer(name="Correction")
+layer.add_plugs([ctrl.translate, ctrl.rotate])
+layer.add_nodes([other])
+layer.weight.set(0.5)
+
+keyframe = ctrl.tx.keyframe.anim_layer(layer)
+keyframe.set_keys([(1.0, 12.0), (24.0, 18.0)])
+mod.do_it_dg()
+```
+
+| API | 入力と登録範囲 |
+| --- | --- |
+| `add_plugs(plugs) -> None` | `PlugOperator`・`MPlug`・プラグ名のiterable。指定したプラグを登録。非keyableも指定可能 |
+| `add_nodes(nodes) -> None` | `NodeOperator`・`MObject`・ノード名のiterable。ノード自身のkeyable・未lock・書込み可能な対応プラグを初回実行時に列挙 |
+
+単一対象でも`[ctrl.tx]` / `[ctrl]`のように列で渡します。compoundはleafへ展開し、
+配列親は実行時の既存要素だけを展開します。配列の一部だけなら`ctrl.samples[3]`を指定します。
+空の配列から新しい要素を作らず、重複指定・既存所属は二重登録しません。空入力は何もしません。
+
+対応型はbool・short・long（int）・float・double、angle・linear・time、enumです。
+byte / char、message、matrix、typed dataなどは対象外です。`add_nodes()`はこれらと
+非keyable・lockされたプラグを除外し、dynamic属性も含む対応プラグだけを登録します。
+子孫DAGノードやshapeは自動で含めません。必要ならそれぞれを明示してください。
+登録できる型と、KeyframeManagerの詳細データで扱えるカーブ型の制約は別です。
+
+`add_plugs()`は、未対応型やlockされたleafを1つでも含むとエラーです。両APIとも
+lock・referenceされたノード、lockされたlayerへの書込みを拒否します。ベースは個別の
+所属登録が不要なため、rootへの明示登録もエラーです。Mayaが登録を見送った場合も
+成功扱いにせず、同じ実行batchを巻き戻します。
+
+入力列は予約時にコピーし、ノード・属性の同一性を保持します。名前で渡した対象も
+改名に追従します。削除・同名再作成されたノードや明示属性へは置き換わりません。
+`add_nodes()`の属性列挙と、lock・keyable・所属の検査は実行時なので、先行予約の変更を反映します。
+別ModifierManagerで作成した対象を渡す場合は、その作成を先に実行してください。
+通常のDAG作成と同様に、作成待ちのtransformは先に`do_it_dag()`が必要です。
+
+既存layerには`nodes.existing.animLayer("Correction")`で同じ登録APIを使用できます。
+作成・登録は選択ノードや選択layer・preferredを変更しません。ノード作成と初期値には
+MDGModifierを使用し、階層接続・所属とblend nodeの構築はMayaの`animLayer`へ委譲します。
+その変更もModifierManagerとMPxCommandのUndo / Redo・失敗時rollbackへ参加します。
+[Autodesk animLayer](https://help.autodesk.com/cloudhelp/2025/ENU/Maya-Tech-Docs/CommandsPython/animLayer.html)
 
 ### カーブを明示して操作する
 

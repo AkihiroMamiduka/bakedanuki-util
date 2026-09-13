@@ -35,6 +35,14 @@ class LayerTarget:
     __slots__ = ("plug", "node", "handle")
 
     def __init__(self, plug: om.MPlug, name: object) -> None:
+        if isinstance(name, om.MObject):
+            handle = om.MObjectHandle(name)
+            if not handle.isAlive() or not name.hasFn(om.MFn.kAnimLayer):
+                raise TypeError("Expected an animation layer node.")
+            self.plug = plug
+            self.node = name
+            self.handle = handle
+            return
         if not isinstance(name, str):
             raise TypeError("Animation layer name must be a string.")
         if not name:
@@ -116,7 +124,7 @@ def layer_name(target: LayerTarget, *, write: bool = False) -> str:
     layer = om.MFnDependencyNode(target.node)
     name = layer.name()
     if write:
-        _check_editable_node(layer)
+        check_editable_node(layer)
         if layer.findPlug("lock", False).asBool():
             raise RuntimeError(f"Cannot edit locked animation layer {name}.")
     if name != cmds.animLayer(query=True, root=True) and not _layer_member(
@@ -313,7 +321,7 @@ def _check_channel_plug(plug: om.MPlug, *, write: bool) -> None:
             "Keyframe operations require a scalar numeric or unit plug."
         )
     if write:
-        _check_editable_node(om.MFnDependencyNode(plug.node()))
+        check_editable_node(om.MFnDependencyNode(plug.node()))
         if not om.MFnAttribute(attribute).writable:
             raise RuntimeError(f"{plug.name()} is not writable.")
         _check_editable_plug(plug)
@@ -346,7 +354,7 @@ def _check_owning_layers(curve: oma.MFnAnimCurve) -> None:
         selection = om.MSelectionList()
         selection.add(name)
         layer = om.MFnDependencyNode(selection.getDependNode(0))
-        _check_editable_node(layer)
+        check_editable_node(layer)
         if layer.findPlug("lock", False).asBool():
             raise RuntimeError(
                 f"Cannot edit a curve on locked animation layer {name}."
@@ -363,7 +371,7 @@ def deletion_connections(
         pairs.extend((plug, dest) for dest in plug.connectedTo(False, True))
         for pair in pairs:
             for endpoint in pair:
-                _check_editable_node(om.MFnDependencyNode(endpoint.node()))
+                check_editable_node(om.MFnDependencyNode(endpoint.node()))
                 _check_editable_plug(endpoint)
             if pair not in connections:
                 connections.append(pair)
@@ -410,14 +418,14 @@ def direct_curve(
 
 
 def _check_editable_curve(curve: oma.MFnAnimCurve) -> None:
-    _check_editable_node(curve)
+    check_editable_node(curve)
     for i in range(curve.attributeCount()):
         attribute = curve.attribute(i)
         if om.MFnAttribute(attribute).parent.isNull():
             _check_editable_plug(curve.findPlug(attribute, False))
 
 
-def _check_editable_node(node: om.MFnDependencyNode) -> None:
+def check_editable_node(node: om.MFnDependencyNode) -> None:
     if node.isLocked or node.isFromReferencedFile:
         raise RuntimeError(
             f"Cannot edit locked or referenced node {node.name()}."

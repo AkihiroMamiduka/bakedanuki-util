@@ -165,6 +165,8 @@ driven key・別軸・weight・constraintのdriverを対象から除外します
 Mayaにlayerを明示したキー設定を、共通のModifierManagerで扱えます。
 layer未指定の入口も、キー設定・取得・編集をsceneのベース（root）layerへ統一しました。
 Mayaの選択layer・preferred・keying modeから独立し、rootの改名にも追従します。
+layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り値へ`add_plugs()` / `add_nodes()`で
+対象を登録し、その戻り値を`anim_layer(layer)`へ渡してキー設定まで一括予約できます。
 現行仕様は[キーフレーム](attributes.md#キーフレーム)、
 履歴管理は[ModifierManager](modifier_manager.md)、検証方法は[testing.md](testing.md)を参照します。
 
@@ -181,6 +183,7 @@ Mayaの選択layer・preferred・keying modeから独立し、rootの改名に�
 | 区間の切り出し | 両方の詳細取得APIに`start_frame` / `end_frame` / `include_boundaries=True`を実装。境界キーと調整後の接線を取得 |
 | チャンネルの自動選択 | layer未指定はベース（root）に固定。layerなし・未所属属性は単位変換・pairBlend・blendWeighted越しの通常チャンネル探索を使用。キー設定の値解決はMayaに委譲し、query・挿入・削除・詳細データも同じ対象を扱う |
 | layer指定 | `anim_layer(name)`は元managerを変えず、同じplugとModifierManagerを共有するKeyframeManagerを返す。既存layerのノード同一性・改名追従、BaseAnimationと登録済み属性、空カーブ、書込み時のlock / reference検査に対応 |
+| layer作成・登録 | `nodes.create.animLayer(name=..., override=False)`でroot直下へ作成。rootがなければ同時作成。`add_plugs()`は明示leaf、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録。作成待ちlayerを`anim_layer()`へ渡し、登録・キー設定まで共通履歴で実行可能 |
 | 明示カーブ操作 | TA / TL / TUノードの`.keyframe`は`CurveKeyframeManager`。ノード同一性を保持し、未接続・共有出力・時間入力接続を持つカーブ自身の取得・編集・削除・保存復元に対応 |
 | 接続調査用の候補取得 | `find_anim_curves()`で具体ノードのtupleを取得。全8型、型filter、名前順、重複排除、各経路の最初のカーブでの停止に対応。通常の対象選択とは独立した補助API |
 | 詳細データの性能測定 | 専用benchmarkで取得・予約・実行・Undo / Redo・JSON変換を分離。補完なしの取得と補完後の返却データは指定範囲だけを詳細取得 |
@@ -199,7 +202,9 @@ Mayaの選択layer・preferred・keying modeから独立し、rootの改名に�
 - layerを指定する場合は`anim_layer()`を使用する。元の入口は変更せず、別layerの入口とも
   ModifierManagerを共有する。指定layerの同一性を保持し、所属はquery・初回実行時に再検査する。
   キー設定は元のplugに対する値をMayaへ渡し、取得・詳細復元はlayer自身の生カーブ値を扱う。
-  layer作成・属性登録・選択layerへの自動切替は行わず、find_anim_curvesの診断範囲も変えない。
+  この入口でlayer作成・属性登録・選択layerへの自動切替は行わず、find_anim_curvesの診断範囲も変えない。
+  作成・登録はAnimLayer側の明示APIを使う。add_nodesは自身の対応属性だけを実行時に列挙し、
+  add_plugsは指定対象が未対応・lockならエラーにする。選択状態を変えず、同一batchのrollbackを保つ。
   sample_valuesは元のplugの合成後の評価値を返し、layerのカーブ値の取得とは分ける。
 - `KeyData`は直接編集可能。予約時に再検証して独立コピーし、予約後の編集が実行内容や
   Undo / Redoに波及しない。`AnimCurveData`の共通設定は不変で、変更には`dataclasses.replace()`を使う。
@@ -225,7 +230,8 @@ Mayaの選択layer・preferred・keying modeから独立し、rootの改名に�
 
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
-| layer操作の拡張 | 既定のベース選択、既存layerの明示指定とMayaによる値解決は実装済み。layerの作成・属性登録、auto / best layerの選択、階層やweightを含む一括保存は未実装。自動選択を追加する場合も未指定のベース選択は維持し、評価時点、scene状態を変える責務、保存範囲を個別に決める |
+| layer操作の拡張 | ベース選択、明示指定、作成・属性登録は実装済み。登録解除・階層や並び順の管理、auto / best layerの選択、階層やweightを含む一括保存は未実装。自動選択を追加する場合も未指定のベース選択は維持し、評価時点、scene状態を変える責務、保存範囲を個別に決める |
+| layer作成直後のsampling | Maya 2025で、新規layerの最初のキー設定直後にsample_valuesの先頭サンプルが旧値になるケースを確認。Maya標準コマンドでlayerを構築しても再現する。通常のシーン評価は正しく、MDGContextのキャッシュとキー設定によるdirty伝播を切り分ける。現在時刻・Undo履歴を変更しないquery契約を維持して改善する |
 | 詳細データAPIの追加最適化 | 専用benchmarkと範囲取得の改善は実装済み。補完は作業用カーブ全体へ依存し、復元時のlock検査も移植先キー数の影響を受ける。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
 | キー削減・最適化 | データ取得・編集・再設定の土台は完成。自動削減は未実装。同値キーでも接線により途中の値が変わるため、許容誤差、区間内の評価方法、step系・breakdown・境界キーの保持方針を先に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
@@ -235,6 +241,10 @@ Mayaの選択layer・preferred・keying modeから独立し、rootの改名に�
 ### 実装を引き継ぐ際の参照先
 
 - `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作、anim_layerの入口とキー設定の経路選択。
+- `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`: layer作成と登録の共通mixin。
+  作成待ちMObjectを保つため、rootとlayerはMDGModifierで作成し、rootのoverrideをTrueにする。
+  native animLayerでparentと所属接続を構築し、登録後の照会は別のqueue_dg_modifierで行う。
+  照会だけのpythonCommandToExecuteはMayaで失敗するため使用しない。
 - 同階層の`_keyframe_target.py`: チャンネル・既定ベース・指定layer・明示指定resolverと編集時のlock / reference検査。
   既定ベースはsceneのrootを解決し、明示layerは元のplugとMObjectを保持する。
   対象カーブはMayaの属性とlayerの対応から解決する。
@@ -256,6 +266,8 @@ Mayaの選択layer・preferred・keying modeから独立し、rootの改名に�
   空カーブ・入れ子・保留中接続、非対象カーブと中間ノードの保持、取得・編集・復元と履歴。
 - `test_keyframe_anim_layer.py`: 指定layerとBaseAnimation、合成値と生カーブ値、未作成・空カーブ、
   改名・所属変更・lock、別layerの保持、予約実行と履歴。型補完はnode_operator_contract.py。
+- `tests/maya/node/operator/node/dg/test_anim_layer.py`: 作成・登録・キー設定の一括実行、native比較、
+  入力型・compound・配列・非keyable、ノード自身の属性列挙、重複・同一性・lock / reference、rollback。
 - `test_keyframe_default_layer.py`: 未指定時のベース選択、選択layer・preferred・keying modeからの独立、
   rootの改名・予約後の作成、別layerの保持、ベースの取得・編集・復元と履歴。
 - `test_curve_keyframe.py`: 明示カーブの単位、node同一性、共有・入力接続、layer lock、履歴、詳細データ。

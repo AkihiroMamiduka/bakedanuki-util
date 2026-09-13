@@ -9,6 +9,10 @@
 
 ### Added
 
+- `nodes.create.animLayer(name=..., override=False)`で、ベースと階層接続を含めたlayer作成を予約する。
+  `AnimLayer.add_plugs()`は明示プラグ、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録する。
+  compound・既存配列要素の展開、重複排除、選択状態の保持、実行時検査、Undo / Redo・rollbackに対応。
+  作成待ちの`AnimLayer`も`KeyframeManager.anim_layer()`へ渡せ、作成・登録・キー設定を一括実行できる。
 - `KeyframeManager.anim_layer(name)`で、指定した既存animation layer用の操作入口を取得する。
   元のmanagerを変えずに同じ`ModifierManager`を共有し、BaseAnimationと登録済み属性の
   キー設定・取得・編集・詳細データ復元に対応。layerの改名に追従してノード同一性を保持する。

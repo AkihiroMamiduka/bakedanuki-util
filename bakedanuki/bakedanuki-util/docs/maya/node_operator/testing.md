@@ -318,6 +318,17 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     Undo / Redoと失敗時rollback、対象のない復元で既存接続を保つことを検証します。
   - queryがscene、選択、現在時刻、Undo / Redo、modifier、modified flagを変更しないことと、
     未対応utilityで軸を推測せずエラーにすることを確認します。
+- `tests/maya/node/operator/node/dg/test_anim_layer.py`
+  - ベースと加算・Override layerの作成、rootの改名・名前衝突、複数layerでのroot共有、選択の保持を検証します。
+  - 作成・weight設定・add_plugs / add_nodes・キー設定を1回のdo_it_dgで実行し、Undo / Redoを2往復します。
+    作成待ちqueryは実行しないこと、TL / TA / TUの生カーブ値がnative操作と一致することを確認します。
+  - PlugOperator / MPlug / 名前、NodeOperator / MObject / 名前、compound・sparse配列・非keyable、
+    ノード自身のkeyable属性・dynamic属性と非対象の子孫・shape、byte / char等の除外を検証します。
+  - 予約後の入力列変更、改名、ノード・属性の削除と同名再作成、同名DAG、作成待ちDGとdynamic属性、
+    lock / reference、既存登録と重複、native失敗・黙示的な登録見送り・後続失敗でのrollbackを確認します。
+  - `tests/maya/mpx_cmd/test_command.py`ではlayer作成・登録・キー設定のコマンド単位のUndo / Redoと、
+    実行後失敗によるrollbackを検証します。評価時刻はMAnimControlで変え、検証自体でcmds.currentTimeの
+    Undo履歴を追加しないようにします。型補完は共通・3 versionのnode_operator contractが対象です。
 - `tests/maya/node/operator/attr/test_keyframe_anim_layer.py`
   - `anim_layer()`が元のmanagerを変更せず、plugとModifierManagerを共有することを検証します。
     BaseAnimation、加算・上書きlayer、登録済み属性、未作成・空カーブの対象解決を確認します。
@@ -723,6 +734,26 @@ warm-upを除く5回です。単位はcm / degree / film、global tangentはauto
 必要区間への縮小です。形状・入力検証・独立コピーを保つことを条件に、測定結果から選びます。
 回帰確認では区間内の評価値、元カーブの不変性、modified flag、Undo / Redo、例外時の
 作業用node解放を維持します。実機検証の入口は`test_keyframe_data.py`と`test_keyframe_clip.py`です。
+
+### 新規layerの先頭サンプルに関する調査候補
+
+Maya 2025の新規sceneで、以下を実行すると`sample_values()`の先頭値が0、次の値が12となる
+ケースを確認しています。layerを本パッケージで作成しても、nativeで作成しても再現します。
+新規layerの構築と通常の現在時刻の評価は正常で、MDGContextのキャッシュを含む
+sampling側の追加調査が必要です。検証専用のsceneで実行してください。
+
+```python
+from maya import cmds
+import bd_util as bdu
+
+cmds.createNode("transform", name="sampling_ctrl")
+layer = cmds.animLayer("SamplingLayer")
+cmds.setAttr(layer + ".weight", 0.5)
+cmds.animLayer(layer, edit=True, attribute="sampling_ctrl.translate")
+cmds.setKeyframe("sampling_ctrl.ty", animLayer=layer, time=3, value=12)
+ctrl = bdu.Nodes().existing.transform("sampling_ctrl")
+print(ctrl.ty.sample_values(frames=[3, 5]))
+```
 
 ## 競合パッケージとの同条件ベンチマーク
 

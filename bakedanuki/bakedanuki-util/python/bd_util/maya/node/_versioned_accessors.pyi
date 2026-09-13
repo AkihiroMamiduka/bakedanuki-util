@@ -2879,6 +2879,9 @@ from .operator.node.dg.anim_curve_tl import (
 from .operator.node.dg.anim_curve_tu import (
     AnimCurveKeyframes as _AnimCurveTUAnimCurveKeyframes,
 )
+from .operator.node.dg.anim_layer import (
+    AnimLayerOperations as _AnimLayerAnimLayerOperations,
+)
 
 class _MASHWaiterMaya2027(_GeneratedMASHWaiterMaya2027): ...
 class _AbsoluteMaya2026(_GeneratedAbsoluteMaya2026): ...
@@ -2937,7 +2940,9 @@ class _AnimCurveUAMaya2027(_GeneratedAnimCurveUAMaya2027): ...
 class _AnimCurveULMaya2027(_GeneratedAnimCurveULMaya2027): ...
 class _AnimCurveUTMaya2027(_GeneratedAnimCurveUTMaya2027): ...
 class _AnimCurveUUMaya2027(_GeneratedAnimCurveUUMaya2027): ...
-class _AnimLayerMaya2027(_GeneratedAnimLayerMaya2027): ...
+class _AnimLayerMaya2027(
+    _GeneratedAnimLayerMaya2027, _AnimLayerAnimLayerOperations
+): ...
 class _AreaLightMaya2026(_GeneratedAreaLightMaya2026): ...
 class _AsinMaya2026(_GeneratedAsinMaya2026): ...
 class _AtanMaya2026(_GeneratedAtanMaya2026): ...
@@ -3085,6 +3090,8 @@ AnimCurveNode = (
     | AnimCurveUTNode
     | AnimCurveUUNode
 )
+
+AnimLayerNode = _AnimLayer | _AnimLayerMaya2027
 
 class _ShapeWithTransformCreatorCommon:
     @property
@@ -5677,6 +5684,8 @@ class _NodeCreatorCommon:
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        override: bool = False,
     ) -> _AnimLayer | _AnimLayerMaya2027: ...
     def anisotropic(
         self,
@@ -11052,6 +11061,8 @@ class _NodeCreatorMaya2025(_NodeCreatorCommon):
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        override: bool = False,
     ) -> _AnimLayer: ...
     def areaLight(
         self,
@@ -11783,6 +11794,8 @@ class _NodeCreatorMaya2026(_NodeCreatorCommon):
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        override: bool = False,
     ) -> _AnimLayer: ...
     def areaLight(
         self,
@@ -12774,6 +12787,8 @@ class _NodeCreatorMaya2027(_NodeCreatorCommon):
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        override: bool = False,
     ) -> _AnimLayerMaya2027: ...
     def areaLight(
         self,

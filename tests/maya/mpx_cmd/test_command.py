@@ -355,6 +355,45 @@ def test_layer_key_creation_restore_and_deletion_share_command_history(
         maya_cmds.redo()
 
 
+@pytest.mark.parametrize("existing_root", [False, True])
+@pytest.mark.parametrize("fail", [False, True])
+def test_layer_creation_and_membership_share_command_history(
+    mpx_test_plugin, maya_cmds, existing_root, fail
+):
+    import bd_util as bdu
+    from maya.api import OpenMaya as om
+    from maya.api import OpenMayaAnim as oma
+
+    name = maya_cmds.createNode("transform", name="target")
+    if existing_root:
+        maya_cmds.animLayer("Existing")
+    before = set(maya_cmds.ls())
+    maya_cmds.flushUndo()
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional layer creation failure"
+        ):
+            maya_cmds.bduTestMpxFailAfterCreateAnimLayer(nodeName=name)
+        assert set(maya_cmds.ls()) == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    maya_cmds.bduTestMpxCreateAnimLayer(nodeName=name)
+    node = bdu.Nodes().existing.transform(name)
+    keyframe = node.tx.keyframe.anim_layer("CreatedLayer")
+    after = set(maya_cmds.ls())
+    data = keyframe.get_curve_data()
+    assert data is not None
+    for _ in range(2):
+        oma.MAnimControl.setCurrentTime(om.MTime(3, om.MTime.uiUnit()))
+        assert maya_cmds.getAttr(name + ".tx") == pytest.approx(12)
+        assert keyframe.get_curve_data() == data
+        assert set(maya_cmds.ls()) == after
+        maya_cmds.undo()
+        assert set(maya_cmds.ls()) == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        maya_cmds.redo()
+
+
 def test_no_op_command_does_not_enter_maya_undo_queue(
     mpx_test_plugin,
     maya_cmds,

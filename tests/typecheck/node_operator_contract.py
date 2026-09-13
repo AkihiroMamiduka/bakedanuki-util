@@ -4729,6 +4729,27 @@ def bd_dbl_multiply_descriptor_contract(
     assert_type(multi.output.get(), float)
 
 
+def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
+    layer = nodes.create.animLayer(name="Correction", override=True)
+    node = nodes.existing.transform("ctrl")
+    assert_type(layer.weight.set(0.5), None)
+    assert_type(
+        layer.add_plugs([node.tx, node.translate, node.ty.plug, "ctrl.tz"]),
+        None,
+    )
+    assert_type(layer.add_nodes([node, node.m_obj, "other"]), None)
+    assert_type(node.tx.keyframe.anim_layer(layer), KeyframeManager)
+    existing = nodes.existing.animLayer("Existing")
+    assert_type(existing.add_nodes([node]), None)
+    assert_type(node.tx.keyframe.anim_layer(existing), KeyframeManager)
+    layer.add_plugs([node])  # pyright: ignore[reportArgumentType]
+    layer.add_nodes([node.tx])  # pyright: ignore[reportArgumentType]
+    nodes.create.animLayer(
+        override="bad"  # pyright: ignore[reportArgumentType]
+    )
+    node.tx.keyframe.anim_layer(node)  # pyright: ignore[reportArgumentType]
+
+
 def scalar_base_contract(
     attr: InputRotateOrderEnumAttrOperator,
     plug: InputRotateOrderEnumPlugOperator,

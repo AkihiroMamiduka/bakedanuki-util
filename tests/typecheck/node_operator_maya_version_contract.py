@@ -63,6 +63,18 @@ nodes_2025 = bdu.Nodes(typing_maya_version="2025")
 nodes_2026 = bdu.Nodes(typing_maya_version="2026")
 nodes_2027 = bdu.Nodes(typing_maya_version="2027")
 for version_nodes in (nodes_2025, nodes_2026, nodes_2027):
+    layer = version_nodes.create.animLayer(name="Correction", override=True)
+    node = version_nodes.existing.transform("ctrl")
+    assert_type(layer.weight.set(0.5), None)
+    assert_type(layer.add_plugs([node.translate, node.tx]), None)
+    assert_type(layer.add_nodes([node]), None)
+    assert_type(node.tx.keyframe.anim_layer(layer), KeyframeManager)
+    assert_type(
+        node.tx.keyframe.anim_layer(
+            version_nodes.existing.animLayer("Existing")
+        ),
+        KeyframeManager,
+    )
     curve_candidates = version_nodes.existing.transform(
         "target"
     ).translate.translateX.keyframe.find_anim_curves(

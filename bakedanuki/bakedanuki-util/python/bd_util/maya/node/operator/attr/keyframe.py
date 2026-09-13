@@ -17,6 +17,9 @@ from ._keyframe_discovery import CurveNode
 from .keyframe_data import AnimCurveData, KeyData
 
 if TYPE_CHECKING:
+    from ..._versioned_accessors import (  # pyright: ignore[reportMissingModuleSource]
+        AnimLayerNode,
+    )
     from ._keyframe_discovery import AnimCurveNode
 
 ValueConverter = Callable[[Any], Any]
@@ -605,13 +608,17 @@ class KeyframeManager(_KeyframeOperations):
     def plug_name(self) -> str:
         return self._plug_name
 
-    def anim_layer(self, name: str) -> KeyframeManager:
+    def anim_layer(self, name: str | AnimLayerNode) -> KeyframeManager:
         """指定レイヤー用の操作入口を返す。元の入口とmanagerは共有する。
 
-        レイヤーは既存ノードを保持し、所属・接続・lockは取得時と実行時に検査する。
+        既存名または作成待ちを含むAnimLayerを保持し、所属・接続・lockは取得時と実行時に検査する。
         キー設定はMayaの値解決、取得・詳細復元はレイヤーの生カーブを扱う。
         """
-        target = _keyframe_target.LayerTarget(self.plug, name)
+        from ..node._core import NodeOperator
+
+        target = _keyframe_target.LayerTarget(
+            self.plug, name.m_obj if isinstance(name, NodeOperator) else name
+        )
         result = KeyframeManager(
             self.plug,
             self._plug_name,

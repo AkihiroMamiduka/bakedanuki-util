@@ -5,6 +5,7 @@ import keyword
 import re
 from collections.abc import Callable
 from importlib import resources
+from typing import TYPE_CHECKING, cast
 
 from .._maya_version import is_node_type_available
 from .._node_class_resolver import (
@@ -21,6 +22,9 @@ from ..operator.node.dag.transform._core import Transform
 from ._shape_types import CREATABLE_SHAPE_NODE_TYPES
 from ._shape_with_transform import ShapeWithTransformCreator
 from ._transform_types import CREATABLE_TRANSFORM_NODE_TYPES
+
+if TYPE_CHECKING:
+    from ..operator.node.dg.anim_layer import AnimLayer
 
 _NODE_TYPE_PATTERN = re.compile(
     r"^\s*NODE_TYPE\s*=\s*[\"']([^\"']+)[\"']",
@@ -86,6 +90,21 @@ class NodeCreator:
 
     def node_class(self, node_name: str) -> type[NodeOperator]:
         return resolve_node_class(node_name)
+
+    def animLayer(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        override: bool = False,
+    ) -> AnimLayer:
+        """ベースと階層接続を含むアニメーションレイヤーの作成を予約する。"""
+        node_cls = cast(
+            "type[AnimLayer]", self._creator_node_class("animLayer")
+        )
+        return node_cls.create(
+            self._modifier_manager, name, auto_add_attr, override=override
+        )
 
     def _creator_node_class(self, node_name: str) -> type[NodeOperator]:
         node_cls = resolve_node_class(node_name, CREATOR_PACKAGES)
