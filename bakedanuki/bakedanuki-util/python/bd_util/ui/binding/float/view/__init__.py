@@ -4,6 +4,7 @@ from .label import FloatLabel
 from .slider import FloatSlider
 from .slider_spin_box import FloatSliderSpinBox
 from .range_slider_spin_box import FloatRangeSliderSpinBox
+from .step_spin_box import FloatStepMode, FloatStepSpinBox
 
 __all__ = [
     "FloatSpinBox",
@@ -11,4 +12,6 @@ __all__ = [
     "FloatSlider",
     "FloatSliderSpinBox",
     "FloatRangeSliderSpinBox",
+    "FloatStepMode",
+    "FloatStepSpinBox",
 ]

@@ -48,6 +48,85 @@ def scene(qt_application, maya_standalone):
 
 @pytest.mark.parametrize("source", ["maya", "python"])
 @pytest.mark.parametrize("attribute", ["tx", "rx", "sx"])
+def test_step_edit_preserves_maya_undo_and_follows_display_unit(
+    scene, source, attribute
+):
+    owner, node = scene
+
+    @dataclass
+    class Data:
+        value: float = 10
+
+    path = f"{node.cmd_access_name}.{attribute}"
+    cmds.setAttr(path, 10)
+    plug = resolve_float_plug(node.cmd_access_name, attribute)
+    binding = (
+        MayaFloatPlugBinding(plug, parent=owner)
+        if source == "maya"
+        else MayaFloatBinding.from_attribute(
+            Data(), "value", maya_plug=plug, parent=owner
+        )
+    )
+    before = tuple(om.MMessage.nodeCallbacks(node.m_obj))
+    editor = FloatRangeSliderSpinBox(
+        binding,
+        owner,
+        minimum=-100,
+        maximum=100,
+        decimals=12,
+        single_step=15,
+        step_mode="multiplicative",
+        step_show_unit=True,
+    )
+    other = FloatRangeSliderSpinBox(binding, owner, minimum=-100, maximum=100)
+    assert tuple(om.MMessage.nodeCallbacks(node.m_obj)) == before
+    cmds.flushUndo()
+    editor.step_spin_box.stepDown()
+    assert editor.singleStep() == 1.5
+    assert binding.value == cmds.getAttr(path) == 10
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+    cmds.currentUnit(linear="m", angle="rad")
+    flush()
+    assert editor.singleStep() == editor.step_spin_box.value() == 1.5
+    assert (
+        editor.step_spin_box.suffix() == binding.view_model.presentation.suffix
+    )
+    assert other.step_spin_box.suffix() == ""
+    assert other.singleStep() == 0.1
+
+    cmds.setAttr(path, lock=True)
+    flush()
+    assert editor.spin_box.isEnabled() is (source == "python")
+    assert editor.step_spin_box.isEnabled()
+    editor.setSingleStep(0.25)
+    cmds.setAttr(path, lock=False)
+    flush()
+    cmds.flushUndo()
+    editor.step_spin_box.stepUp()
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+    presentation = binding.view_model.presentation
+    editor.spin_box.stepUp()
+    changed = presentation.from_display(presentation.to_display(10) + 2.5)
+    assert binding.value == pytest.approx(changed)
+    assert other.spin_box.value() == pytest.approx(
+        presentation.to_display(changed), abs=1e-6
+    )
+    cmds.undo()
+    flush()
+    assert binding.value == pytest.approx(10)
+    assert editor.singleStep() == 2.5
+    cmds.redo()
+    flush()
+    assert binding.value == pytest.approx(changed)
+    assert editor.singleStep() == 2.5
+    binding.dispose()
+    flush()
+    assert not editor.step_spin_box.isEnabled()
+    assert tuple(om.MMessage.nodeCallbacks(node.m_obj)) == ()
+
+
+@pytest.mark.parametrize("source", ["maya", "python"])
+@pytest.mark.parametrize("attribute", ["tx", "rx", "sx"])
 @pytest.mark.parametrize("value_show_unit", [False, True])
 def test_bound_edits_follow_units_preserve_values_and_create_no_undo(
     scene, source, attribute, value_show_unit

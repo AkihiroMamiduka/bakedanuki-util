@@ -32,12 +32,14 @@ class TransformFloatWidget(qt.QWidget):
         # 操作範囲は公開単位で指定し、数値欄を固定幅・ボタンなしで省スペースにする。
         width_min_max = 40
         width_value = 130
+        width_step = 80
         enabled_min_max = False
         enabled_value = True
         decimals_min_max = 0
         show_minimum_unit = False
         show_maximum_unit = False
         show_value_unit = False
+        show_step_unit = False
         self.translate_x_editor = FloatRangeSliderSpinBox(
             self.translate_x_binding,
             self,
@@ -46,6 +48,9 @@ class TransformFloatWidget(qt.QWidget):
             steps=2000,
             decimals=decimals,
             single_step=0.1,
+            step_mode="multiplicative",
+            step_width=width_step,
+            step_show_unit=show_step_unit,
             minimum_width=width_min_max,
             maximum_width=width_min_max,
             minimum_enabled=enabled_min_max,
@@ -68,7 +73,11 @@ class TransformFloatWidget(qt.QWidget):
             maximum=180,
             steps=3600,
             decimals=decimals,
-            single_step=1.0,
+            single_step=15.0,
+            step_mode="additive",
+            step_increment=15.0,
+            step_width=width_step,
+            step_show_unit=show_step_unit,
             minimum_width=width_min_max,
             maximum_width=width_min_max,
             minimum_enabled=enabled_min_max,
@@ -92,6 +101,9 @@ class TransformFloatWidget(qt.QWidget):
             steps=3000,
             decimals=decimals,
             single_step=0.01,
+            step_mode="multiplicative",
+            step_width=width_step,
+            step_show_unit=show_step_unit,
             minimum_width=width_min_max,
             maximum_width=width_min_max,
             minimum_enabled=enabled_min_max,

@@ -39,6 +39,8 @@ class MinimalFloatWidget(qt.QWidget):
             minimum_decimals=2,
             maximum_decimals=2,
             single_step=0.01,
+            step_mode="multiplicative",
+            step_width=80,
             minimum_width=80,
             maximum_width=80,
             value_width=100,
@@ -59,6 +61,8 @@ class MinimalFloatWidget(qt.QWidget):
             minimum_enabled=False,
             maximum_enabled=False,
             value_enabled=False,
+            step_enabled=False,
+            step_show_buttons=False,
             minimum_show_buttons=False,
             value_show_buttons=False,
         )

@@ -10,6 +10,8 @@ from .view import (
     FloatSliderSpinBox,
     FloatSpinBox,
     FloatRangeSliderSpinBox,
+    FloatStepMode,
+    FloatStepSpinBox,
 )
 from .view_model import FloatViewModel
 
@@ -19,6 +21,8 @@ __all__ = [
     "FloatSlider",
     "FloatSliderSpinBox",
     "FloatRangeSliderSpinBox",
+    "FloatStepMode",
+    "FloatStepSpinBox",
     "FloatPresentation",
     "FloatSpinBox",
     "FloatValue",

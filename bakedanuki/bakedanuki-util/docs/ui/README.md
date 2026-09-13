@@ -871,6 +871,11 @@ Min／Maxの桁数は`minimum_decimals`・`maximum_decimals`（既定0桁）、�
 現在値欄を無効にしても、Sliderからの操作と正本からの表示更新は継続します。
 `minimum_show_unit`・`maximum_show_unit`・`value_show_unit`は各欄の単位文字の表示を個別に指定します（全て既定`False`）。
 単位文字を省略しても、Mayaの表示単位への追従と表示・入力の数値換算は継続します。
+現在値の右側のstep欄で、そのViewの現在値の刻み幅を変更できます。
+`step_mode="additive"`は`step_increment`（既定1）ずつ増減し、`"multiplicative"`は10倍／1/10倍にします。
+`step_width`・`step_enabled`・`step_show_buttons`・`step_show_unit`でstep欄も個別に設定できます。
+step変更はMin／Maxや他Viewの刻み幅、スライダー分割数、正本の値、MayaのUndoを変更しません。
+Mayaの単位変更時は刻み幅の数値を維持し、新しい表示単位で解釈します。
 `maya_plug`・`maya_view`・`minimal`サンプルは、このViewと共有ラベルを並べる構成です。
 API、単位・精度、確認手順は[FloatRangeSliderSpinBox](float_range_slider_spin_box.md)を参照してください。
 
@@ -1447,13 +1452,13 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-12にFloatRangeSliderSpinBoxのMin／Max／現在値欄へ単位文字の個別表示設定を追加した作業ツリーでの確認結果です。
+2026-09-13にFloatRangeSliderSpinBoxへ加算／桁変更モードのstep入力欄を追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 523 passed | 244 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 523 passed | 244 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 523 passed | 244 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 561 passed | 244 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 561 passed | 244 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 561 passed | 244 passed |
 
 本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した結果です。
 範囲編集Viewを追加した際に、WindowsのシステムclipboardへQtから直接書き込む処理も失敗し、
@@ -1462,7 +1467,7 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2758 passed, 432 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestも成功しています（3228件を収集）。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。

@@ -4,12 +4,18 @@ from __future__ import annotations
 from sys import float_info
 
 from .... import qt
-from .._validation import require_decimals, require_float, require_slider_range
+from .._validation import require_decimals, require_slider_range
 from ..binding import FloatBinding
 from ..store import FloatValueStore
 from ..view_model import FloatViewModel
 from ._connection import connect_queued_qt_signal
 from .slider_spin_box import FloatSliderSpinBox
+from .step_spin_box import (
+    FloatStepMode,
+    FloatStepSpinBox,
+    require_step,
+    require_step_mode,
+)
 
 
 def _require_width(value: object, argument_name: str) -> int | None:
@@ -45,21 +51,27 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         steps: int = 1000,
         decimals: int = 6,
         single_step: float = 0.1,
+        step_mode: FloatStepMode = "additive",
+        step_increment: float = 1.0,
         slider_width: int | None = None,
         minimum_width: int | None = None,
         maximum_width: int | None = None,
         value_width: int | None = None,
+        step_width: int | None = None,
         minimum_enabled: bool = True,
         maximum_enabled: bool = True,
         value_enabled: bool = True,
+        step_enabled: bool = True,
         minimum_show_buttons: bool = True,
         maximum_show_buttons: bool = True,
         value_show_buttons: bool = True,
+        step_show_buttons: bool = True,
         minimum_decimals: int = 0,
         maximum_decimals: int = 0,
         minimum_show_unit: bool = False,
         maximum_show_unit: bool = False,
         value_show_unit: bool = False,
+        step_show_unit: bool = False,
     ) -> None:
         """公開単位の範囲と、各部品の幅・操作可否・桁数・表示設定を指定する。"""
         # 不正な表示設定で、親に生成途中のWidgetを残さない。
@@ -67,6 +79,15 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         minimum_width = _require_width(minimum_width, "minimum_width")
         maximum_width = _require_width(maximum_width, "maximum_width")
         value_width = _require_width(value_width, "value_width")
+        step_width = _require_width(step_width, "step_width")
+        single_step = require_step(single_step, "single_step")
+        step_mode = require_step_mode(step_mode)
+        step_increment = require_step(step_increment, "step_increment")
+        step_enabled = _require_bool(step_enabled, "step_enabled")
+        step_show_buttons = _require_bool(
+            step_show_buttons, "step_show_buttons"
+        )
+        step_show_unit = _require_bool(step_show_unit, "step_show_unit")
         minimum_enabled = _require_bool(minimum_enabled, "minimum_enabled")
         maximum_enabled = _require_bool(maximum_enabled, "maximum_enabled")
         value_enabled = _require_bool(value_enabled, "value_enabled")
@@ -101,12 +122,23 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         self._maximum_enabled = maximum_enabled
         self._minimum_show_unit = minimum_show_unit
         self._maximum_show_unit = maximum_show_unit
+        self._step_enabled = step_enabled
+        self._step_show_unit = step_show_unit
+        self._bound_single_step = single_step
         try:
             # 範囲入力は値のCommandへ接続せず、このSliderの設定だけを編集する。
             self.minimum_spin_box = self._create_bound("Slider minimum")
             self.maximum_spin_box = self._create_bound("Slider maximum")
             self._row.insertWidget(0, self.minimum_spin_box)
             self._row.insertWidget(2, self.maximum_spin_box)
+            self.step_spin_box = FloatStepSpinBox(
+                self,
+                value=single_step,
+                step_mode=step_mode,
+                step_increment=step_increment,
+            )
+            self._row.addWidget(self.step_spin_box)
+            self.step_spin_box.setEnabled(step_enabled)
 
             # 各入力欄のボタン表示を独立させ、未指定幅の部品へ余白を配分する。
             buttons = qt.QtWidgets.QAbstractSpinBox.ButtonSymbols
@@ -114,6 +146,7 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
                 (self.minimum_spin_box, minimum_show_buttons),
                 (self.maximum_spin_box, maximum_show_buttons),
                 (self.spin_box, value_show_buttons),
+                (self.step_spin_box, step_show_buttons),
             ):
                 spin_box.setButtonSymbols(
                     buttons.UpDownArrows if show_buttons else buttons.NoButtons
@@ -123,6 +156,7 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
                 (self.minimum_spin_box, minimum_width),
                 (self.maximum_spin_box, maximum_width),
                 (self.spin_box, value_width),
+                (self.step_spin_box, step_width),
             ):
                 self._configure_width(widget, width)
             if all(
@@ -132,6 +166,7 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
                     minimum_width,
                     maximum_width,
                     value_width,
+                    step_width,
                 )
             ):
                 self._row.addStretch(1)
@@ -144,10 +179,13 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
             self.setSingleStep(single_step)
             self.minimum_spin_box.valueChanged.connect(self._request_minimum)
             self.maximum_spin_box.valueChanged.connect(self._request_maximum)
+            self.step_spin_box.valueChanged.connect(self._request_step)
+            self._refresh_step()
 
             # 外部APIと単位変更も同じ表示へ集約し、未確定の古い単位入力を破棄する。
             self.slider.floatRangeChanged.connect(self._refresh_range)
             self.view_model.presentation_changed.connect(self._refresh_range)
+            self.view_model.presentation_changed.connect(self._refresh_step)
             self.view_model.disposed.connect(self._stop_range_editing)
             connect_queued_qt_signal(
                 self.view_model.destroyed, self._stop_range_editing
@@ -155,6 +193,7 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
             qt.QWidget.setTabOrder(self.minimum_spin_box, self.slider)
             qt.QWidget.setTabOrder(self.slider, self.maximum_spin_box)
             qt.QWidget.setTabOrder(self.maximum_spin_box, self.spin_box)
+            qt.QWidget.setTabOrder(self.spin_box, self.step_spin_box)
         except Exception:
             # 範囲の表示変換が失敗しても、共有している正本を終了しない。
             self.setParent(None)
@@ -262,12 +301,42 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         return self.spin_box.singleStep()
 
     def setSingleStep(self, single_step: float) -> None:
-        """現在値の刻み幅を指定し、Min／Maxは各桁数で操作できる幅へ補正する。"""
-        single_step = require_float(single_step, "single_step")
-        if single_step <= 0:
-            raise ValueError("single_stepには正の値を指定してください")
+        """現在値だけの刻み幅を変更し、step欄にも反映する。"""
+        single_step = require_step(single_step, "single_step")
+        if self._view_model.is_disposed:
+            raise RuntimeError("編集対象のFloatViewModelは終了しています")
         self.spin_box.setSingleStep(single_step)
-        self._refresh_bound_steps()
+        self._refresh_step()
+
+    @qt.Slot(float)
+    def _request_step(self, value: float) -> None:
+        """step入力をこのViewだけへ適用し、無効欄への変更は復元する。"""
+        if self._view_model.is_disposed:
+            self._stop_range_editing()
+            return
+        if self._step_enabled:
+            self.setSingleStep(value)
+        else:
+            self._refresh_step()
+
+    @qt.Slot()
+    def _refresh_step(self) -> None:
+        """刻み幅の数値を維持し、単位文字と入力可否を更新する。"""
+        if self._view_model.is_disposed:
+            self._stop_range_editing()
+            return
+        blocker = qt.QtCore.QSignalBlocker(self.step_spin_box)
+        try:
+            suffix = (
+                self.view_model.presentation.suffix
+                if self._step_show_unit
+                else ""
+            )
+            self.step_spin_box.setSuffix(suffix)
+            self.step_spin_box.setValue(self.singleStep())
+            self.step_spin_box.setEnabled(self._step_enabled)
+        finally:
+            del blocker
 
     def _refresh_bound_steps(self) -> None:
         """0桁は1刻み、それ以外は指定刻み幅を表示可能な最小幅以上にする。"""
@@ -276,7 +345,7 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
             spin_box.setSingleStep(
                 1.0
                 if decimals == 0
-                else max(self.singleStep(), 10.0**-decimals)
+                else max(self._bound_single_step, 10.0**-decimals)
             )
 
     def _refresh_current_value(self) -> None:
@@ -347,7 +416,8 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
             )
         except ValueError:
             # 表示単位でoverflowした場合は古い単位の入力を止め、APIでの範囲変更を待つ。
-            self._stop_range_editing()
+            self.minimum_spin_box.setEnabled(False)
+            self.maximum_spin_box.setEnabled(False)
             self.minimum_spin_box.clear()
             self.maximum_spin_box.clear()
             self.range_status_label.setText(
@@ -388,7 +458,8 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
 
     @qt.Slot()
     def _stop_range_editing(self) -> None:
-        """正本の終了後は範囲入力も停止し、破棄済みWidgetには触れない。"""
+        """正本の終了後は範囲・step入力も停止し、破棄済みWidgetには触れない。"""
         if qt.isValid(self):
             self.minimum_spin_box.setEnabled(False)
             self.maximum_spin_box.setEnabled(False)
+            self.step_spin_box.setEnabled(False)

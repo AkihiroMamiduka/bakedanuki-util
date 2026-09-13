@@ -8,6 +8,8 @@ from bd_util.ui import (
     FloatRangeSliderSpinBox,
     FloatSlider,
     FloatSpinBox,
+    FloatStepMode,
+    FloatStepSpinBox,
     FloatViewModel,
     qt,
 )
@@ -38,6 +40,12 @@ editor = FloatRangeSliderSpinBox(
     steps=1000,
     decimals=4,
     single_step=0.1,
+    step_mode="multiplicative",
+    step_increment=15,
+    step_width=80,
+    step_enabled=True,
+    step_show_buttons=False,
+    step_show_unit=False,
     slider_width=None,
     minimum_width=80,
     maximum_width=80,
@@ -59,6 +67,12 @@ assert_type(editor.slider, FloatSlider)
 assert_type(editor.spin_box, FloatSpinBox)
 assert_type(editor.minimum_spin_box, qt.QDoubleSpinBox)
 assert_type(editor.maximum_spin_box, qt.QDoubleSpinBox)
+assert_type(editor.step_spin_box, FloatStepSpinBox)
+assert_type(editor.step_spin_box.stepMode(), FloatStepMode)
+assert_type(editor.step_spin_box.setValue(15), None)
+assert_type(
+    FloatStepSpinBox(step_mode="additive", step_increment=15), FloatStepSpinBox
+)
 assert_type(editor.range_status_label, qt.QLabel)
 assert_type(editor.floatRange(), tuple[float, float])
 assert_type(editor.setFloatRange(-1, 1), None)

@@ -192,7 +192,8 @@ def test_units_and_precision_discard_pending_text_without_writes(owner):
     assert binding.value == data.value == 12.3456789
     assert editor.floatRange() == (-123.456789, 300)
     editor.setSingleStep(0.25)
-    assert editor.singleStep() == editor.maximum_spin_box.singleStep() == 0.25
+    assert editor.singleStep() == editor.step_spin_box.value() == 0.25
+    assert editor.maximum_spin_box.singleStep() == 0.1
 
 
 def test_precision_restores_hard_limits_without_changing_value(owner):
@@ -316,6 +317,8 @@ def test_display_overflow_disables_bounds_and_recovers_without_data_loss(
         ("value_width", True, TypeError),
         ("slider_width", 80.5, TypeError),
         ("maximum_width", "80", TypeError),
+        ("step_width", 0, ValueError),
+        ("step_width", True, TypeError),
     ],
 )
 def test_invalid_widths_leave_no_partial_widget(owner, field, value, error):
@@ -340,6 +343,9 @@ def test_invalid_widths_leave_no_partial_widget(owner, field, value, error):
         ("value_show_unit", "False"),
         ("minimum_show_unit", 0),
         ("maximum_show_unit", None),
+        ("step_enabled", 1),
+        ("step_show_buttons", 0),
+        ("step_show_unit", "False"),
     ],
 )
 def test_invalid_flags_leave_no_partial_widget(owner, field, value):
@@ -355,10 +361,10 @@ def test_invalid_flags_leave_no_partial_widget(owner, field, value):
 @pytest.mark.parametrize(
     "widths",
     [
-        (None, None, None, None),
-        (None, 60, 70, 90),
-        (160, None, 70, None),
-        (160, 60, 70, 90),
+        (None, None, None, None, None),
+        (None, 60, 70, 90, 80),
+        (160, None, 70, None, None),
+        (160, 60, 70, 90, 80),
     ],
 )
 def test_widths_fix_requested_fields_and_stretch_unspecified_fields(
@@ -373,6 +379,7 @@ def test_widths_fix_requested_fields_and_stretch_unspecified_fields(
         minimum_width=widths[1],
         maximum_width=widths[2],
         value_width=widths[3],
+        step_width=widths[4],
     )
     layout = qt.QVBoxLayout(owner)
     layout.addWidget(editor)
@@ -384,6 +391,7 @@ def test_widths_fix_requested_fields_and_stretch_unspecified_fields(
         editor.minimum_spin_box,
         editor.maximum_spin_box,
         editor.spin_box,
+        editor.step_spin_box,
     )
     before = [child.width() for child in children]
     owner.resize(2600, 200)
