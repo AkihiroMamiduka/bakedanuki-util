@@ -59,6 +59,7 @@ nodeや属性を自動作成せず、終了時にもMayaデータを削除・復
 | `binding.value` / `changed` / `set_value()` / `refresh()` | scalar Bindingと同じ利用窓口 |
 | `Float3SpinBox(source, parent=None, decimals=6, single_step=0.1)` | XYZラベルと3つの`FloatSpinBox`を横に並べるView |
 | `view.x_spin_box` / `y_spin_box` / `z_spin_box` | 各軸の`FloatSpinBox` |
+| `Float3Label(source, parent=None, decimals=6)` | XYZの確定値を表示する、コピー可能な読み取り専用View |
 
 ViewはStore接続済みの`Float3ViewModel`または`Float3Binding`を受け取ります。
 同じBindingを複数Viewへ渡せるほか、`FloatSpinBox(binding.view_model.x)`で1軸だけを
@@ -148,8 +149,9 @@ window.widget.scale_binding.set_value((1.0, 2.0, -1.0))
 maya_plug.dispose()
 ```
 
-Translate・Rotate・Scaleの3行に、各XYZのSpinBoxを表示します。
+Translate・Rotate・Scaleの3行に、各XYZのSpinBoxと共有する`Float3Label`を表示します。
 刻み幅は順に0.1、1.0、0.01で、各表示単位を使います。
+ラベルの表示・コピー・寿命は[Float3Label](float3_label.md)を参照してください。
 対象3属性を検証してから既存Windowを置き換えるため、無効なnode名で現在のWindowを閉じません。
 
 対応対象はnumeric attributeの`double3`／`float3`です。3つの子はすべて浮動小数点scalarで、

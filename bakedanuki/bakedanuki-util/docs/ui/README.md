@@ -942,6 +942,15 @@ window = minimal.show()
 サンプルは3桁と6桁のXYZ Viewを共有し、一括編集、Python属性への直接代入、refreshを試せます。
 対応する値の型と失敗時の扱いは[Python属性の3成分binding](python_float3_binding.md)を参照してください。
 
+### XYZの数値表示ラベル
+
+`Float3Label(binding, decimals=6)`はX・Y・Zの`FloatLabel`を横に並べる読み取り専用Viewです。
+既存の`Float3SpinBox`とBindingを共有し、各軸の単位追従・表示精度・選択コピーを再利用します。
+`x_label`・`y_label`・`z_label`で各値欄へアクセスし、`setDecimals()`で全軸の表示桁数を変更できます。
+lock・接続・読み取り専用でも表示とコピーを継続し、正本の終了後は各値欄を無効化します。
+3成分サンプルの`maya_plug`・`maya_view`・`minimal`に、既存の編集欄と共有するラベルを追加しています。
+API、コピー範囲、同期と寿命は[Float3Label](float3_label.md)を参照してください。
+
 ### Python正本とMayaの3成分同期
 
 `MayaFloat3Binding.from_attribute()`はPython tupleを正本として、QtのXYZ ViewとMayaの
@@ -1452,13 +1461,13 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-13にFloatRangeSliderSpinBoxへ加算／桁変更モードのstep入力欄を追加した作業ツリーでの確認結果です。
+2026-09-13にFloat3Labelと3成分サンプルの共有ラベルを追加した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 561 passed | 244 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 561 passed | 244 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 561 passed | 244 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 590 passed | 244 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 590 passed | 244 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 590 passed | 244 passed |
 
 本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した結果です。
 範囲編集Viewを追加した際に、WindowsのシステムclipboardへQtから直接書き込む処理も失敗し、
@@ -1467,7 +1476,7 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestも成功しています（3228件を収集）。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2758 passed, 499 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。

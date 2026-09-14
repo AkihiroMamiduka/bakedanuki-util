@@ -2,6 +2,7 @@
 from .float3 import (
     Float3,
     Float3Binding,
+    Float3Label,
     Float3SpinBox,
     Float3Value,
     Float3ValueStore,
@@ -44,6 +45,7 @@ from .float import (
 __all__ = [
     "Float3",
     "Float3Binding",
+    "Float3Label",
     "Float3SpinBox",
     "Float3Value",
     "Float3ValueStore",

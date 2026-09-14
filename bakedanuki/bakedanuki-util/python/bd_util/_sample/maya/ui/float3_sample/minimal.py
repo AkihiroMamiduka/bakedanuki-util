@@ -4,7 +4,13 @@
 from __future__ import annotations
 
 from .....maya.ui import MayaWindowController
-from .....ui import Float3Binding, Float3SpinBox, FloatPresentation, qt
+from .....ui import (
+    Float3Binding,
+    Float3Label,
+    Float3SpinBox,
+    FloatPresentation,
+    qt,
+)
 from .data import OffsetData
 
 
@@ -26,6 +32,8 @@ class MinimalFloat3Widget(qt.QWidget):
         # 正本の精度を保持したまま、表示桁数の違う2つのViewを作る。
         self.spin_box = Float3SpinBox(self.binding, self, decimals=3)
         self.linked_spin_box = Float3SpinBox(self.binding, self, decimals=6)
+        self.value_label = Float3Label(self.binding, self, decimals=3)
+        self.linked_value_label = Float3Label(self.binding, self, decimals=6)
         self.data_label = qt.QLabel(self)
         self.set_value_button = qt.QPushButton("Set XYZ to (4, 5, 6)", self)
         self.set_data_button = qt.QPushButton("Set data to (7, 8, 9)", self)
@@ -37,8 +45,18 @@ class MinimalFloat3Widget(qt.QWidget):
 
         # 同期済みの表示とPythonの実値を並べ、各入力経路を試せるようにする。
         form = qt.QFormLayout()
-        form.addRow("Offset (3 decimals)", self.spin_box)
-        form.addRow("Offset (6 decimals)", self.linked_spin_box)
+        for name, spin_box, label in (
+            ("Offset (3 decimals)", self.spin_box, self.value_label),
+            (
+                "Offset (6 decimals)",
+                self.linked_spin_box,
+                self.linked_value_label,
+            ),
+        ):
+            row = qt.QHBoxLayout()
+            row.addWidget(spin_box, 1)
+            row.addWidget(label, 1)
+            form.addRow(name, row)
         buttons = qt.QHBoxLayout()
         for button in (
             self.set_value_button,

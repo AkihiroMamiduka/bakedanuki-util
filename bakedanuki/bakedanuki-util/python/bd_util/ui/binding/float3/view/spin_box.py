@@ -1,33 +1,11 @@
 # coding: utf-8
-from typing import cast
-
 from .... import qt
 from ...float._validation import require_decimals, require_float
 from ...float.view.spin_box import FloatSpinBox
 from ..binding import Float3Binding
 from ..store import Float3ValueStore
 from ..view_model import Float3ViewModel
-
-
-def _resolve_source(
-    source: object,
-) -> tuple[Float3ViewModel, Float3Binding[Float3ValueStore] | None]:
-    """入力元を検証し、表示対象と参照保持するBindingへ解決する。"""
-    binding = None
-    if isinstance(source, Float3Binding):
-        binding = cast(Float3Binding[Float3ValueStore], source)
-        view_model = binding.view_model
-    elif isinstance(source, Float3ViewModel):
-        view_model = source
-    else:
-        raise TypeError(
-            "view_modelにはFloat3ViewModelまたはFloat3Bindingを指定してください"
-        )
-    if view_model.is_disposed or view_model.store is None:
-        raise RuntimeError(
-            "表示対象のFloat3ViewModelには有効なStore接続が必要です"
-        )
-    return view_model, binding
+from ._source import resolve_float3_view_source
 
 
 class Float3SpinBox(qt.QWidget):
@@ -43,7 +21,7 @@ class Float3SpinBox(qt.QWidget):
     ) -> None:
         """共有ViewModelと各軸共通の表示・入力設定で初期化する。"""
         # Widget生成前に入力元と設定を検証する。
-        view_model, binding = _resolve_source(view_model)
+        view_model, binding = resolve_float3_view_source(view_model)
         decimals = require_decimals(decimals)
         single_step = require_float(single_step, "single_step")
         if single_step <= 0:
