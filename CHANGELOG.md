@@ -68,6 +68,10 @@
 
 ### Changed
 
+- animation layerへの所属確認を、全属性の列挙から対象plugのnative照会へ変更する。
+  配列・compoundのlock検査もMPlug.isFreeToChangeを使い、通常の未lockカーブのPython巡回を削減する。
+  所属・lockの実行時再検査、個別キーのlock拒否、Undo / Redoとrollbackは維持する。
+  詳細データbenchmarkに直接接続・ベース・加算・Overrideと所属属性数の指定を追加する。
 - layer未指定の`KeyframeManager`は、キー設定・取得・編集・詳細データ操作をsceneの
   ベース（root）layerへ統一する破壊的変更。Mayaの選択layer・preferred・keying modeに
   設定先を委ねず、rootの改名にも追従する。layerがないsceneは通常のチャンネルを扱う。

@@ -137,15 +137,8 @@ def layer_name(target: LayerTarget, *, write: bool = False) -> str:
 
 
 def _layer_member(name: str, plug: om.MPlug) -> bool:
-    members = cast(
-        list[str] | None, cmds.animLayer(name, query=True, attribute=True)
-    )
-    for member in members or ():
-        selection = om.MSelectionList()
-        selection.add(member)
-        if plug_path(selection.getPlug(0)) == plug_path(plug):
-            return True
-    return False
+    """A registered plug has a layer input even before its curve is created."""
+    return bool(cmds.animLayer(name, query=True, layeredPlug=plug_path(plug)))
 
 
 def _is_layered(plug: om.MPlug) -> bool:
@@ -490,6 +483,11 @@ def check_editable_node(node: om.MFnDependencyNode) -> None:
 def _check_editable_plug(plug: om.MPlug) -> None:
     if plug.isLocked:
         raise RuntimeError(f"Cannot edit locked plug {plug.name()}.")
+    if not (plug.isArray or plug.isCompound):
+        return
+    # Maya checks descendants without materializing every key plug in Python.
+    if plug.isFreeToChange(False, True) == om.MPlug.kFreeToChange:
+        return
     if plug.isArray:
         # animCurve internal arrays do not support physical index access.
         for index in plug.getExistingArrayAttributeIndices():

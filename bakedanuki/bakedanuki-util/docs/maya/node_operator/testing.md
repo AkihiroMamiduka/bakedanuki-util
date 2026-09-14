@@ -326,6 +326,8 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     driverを対象から除外します。共有出力、quaternion補間を拒否し、layer付き属性はベースを選びます。
   - queryと編集のlock / reference制約の違い、実行時の再接続、set→query→editの対象一致、
     Undo / Redoと同じbatchの先行変更のrollbackを検証します。
+  - キー配列のelement・value・tangent、sparseな追加配列とcompoundの子属性について、
+    予約後のlockを検出し、解除後には復元できることを直接接続・layer付き属性で確認します。
 - `tests/maya/node/operator/attr/test_keyframe_channel.py`
   - Mayaがconstraint用に作るpairBlendでtranslate / rotateの全6軸を検証します。
     別軸・constraint driver・blend weightを変えず、取得・編集・削除・詳細復元を行います。
@@ -708,6 +710,11 @@ sceneを毎回破棄するため、作業中のMayaではなく、repository roo
 既定は100 / 1,000 / 10,000キー、TA / TL / TU、weighted / nonweighted、取得区間10キー、
 warm-upを除く5回です。単位はcm / degree / film、global tangentはauto / nonweightedに
 固定します。`--keys`、`--window`、`--curve-types`、`--repeats`で条件を変更できます。
+`--targets direct base additive override`で、直接接続、layer付き属性の既定ベース、
+明示した加算・Override layerを比較できます。省略時は`direct`です。
+`--layer-members 500`のように、1 layerに登録する属性数も変更できます（既定1）。
+測定対象は最後に登録し、それ以外はキーを持たないtransformのtranslateXです。
+scene・layer・属性・既存キーの準備は測定時間に含めません。
 `--operations get restore json`で測定群を選べます。準備・検証を除外し、次を個別に記録します。
 
 - 取得: 両詳細APIの全体、既存キーだけ、既存キー上の境界補完、キー間の境界補完、
@@ -718,10 +725,12 @@ warm-upを除く5回です。単位はcm / degree / film、global tangentはauto
 - JSON: `to_dict()`、`json.dumps()`、`json.loads()`、`from_dict()`を分離する。
   ファイルI/Oとメモリ使用量は測定対象外。接線を保存しない`set_keys()`との単純な倍率比較はしない。
 
-結果JSONはMaya version、commit、対象実装ファイルのSHA-256、条件、各試行のmsと中央値を含みます。
+結果JSONはMaya version、commit、対象実装とbenchmark自身のSHA-256、
+接続構成・所属属性数を含む条件、各試行のmsと中央値を含みます。
 通常は作業ツリーを読み、`--source-revision 574239b1`を追加すると、checkoutを変更せずに
-そのcommitのkeyframe / data / snapshot / target各moduleを読み込んで比較できます。
-そのcommitにtarget moduleがない場合は読み込みません。ModifierManager等の共通基盤は
+そのcommitのkeyframe / data / snapshot / target / command各moduleを依存順に読み込んで比較できます。
+そのcommitにtarget / command moduleがない場合は読み込みません。過去のcommitで未対応の
+layer構成は指定できません。ModifierManager等の共通基盤は
 現行実装を使うため、keyframe周辺以外も変更されたcommit間の完全な環境比較ではありません。
 
 2026-09-12のMaya 2025、TL、10,000キー、3回中央値で、`574239b1`と範囲取得改善後を
@@ -747,8 +756,46 @@ warm-upを除く5回です。単位はcm / degree / film、global tangentはauto
 境界補完の元snapshotと作業用カーブは引き続き全キーを扱うため、総キー数への依存は残ります。
 この測定値は特定条件の比較で、全体取得や復元を同じ割合で高速化するものではありません。
 
-追加の改善候補は予約時の重複コピー、復元先の全attribute / key lock検査、作業用カーブの
-必要区間への縮小です。形状・入力検証・独立コピーを保つことを条件に、測定結果から選びます。
+layer所属確認は単一plugのlayeredPlug照会へ変更し、全属性名の列挙・解決を省略しました。
+配列・compoundのlock検査はMPlug.isFreeToChangeで子孫が変更可能か確認し、
+通常の未lockカーブでキーごとのMPlugをPythonへ取り出す処理を省略します。
+変更不可の場合は従来の個別巡回でlocked plugを特定するため、接続による変更不可とlockを区別します。
+いずれも永続キャッシュは使わず、所属・lockはqueryまたは初回実行時に再検査します。
+
+2026-09-14、Maya 2025、TL / nonweighted、1,000キー、3回中央値で、
+`9585aef1`と上記の改善後を比較した結果です。layer付き条件の所属属性数は500、
+既存キー取得・部分復元は10キーです。復元は予約時間を除いた`do_it_dg()`の時間です。
+
+| 対象 | 操作 | 変更前 | 改善後 |
+| --- | --- | --- | --- |
+| 加算layer | `get_curve_data()`の既存キーのみ | 7.11 ms | 0.32 ms |
+| 加算layer | `get_curve_data()`のキー間境界補完 | 35.18 ms | 28.37 ms |
+| 加算layer | `set_key_data()`のカーブ新規作成 | 33.38 ms | 1.20 ms |
+| 加算layer | `set_key_data()`の既存キー上書き | 11.87 ms | 0.77 ms |
+| 直接接続 | `set_key_data()`の既存キー上書き | 4.42 ms | 0.37 ms |
+
+Maya 2026 / 2027では、加算layer・100所属属性・1,000キー・3回中央値で、
+TA / TL / TUとweightedの有無を比較しました。6通りの最小〜最大は次のとおりです。
+
+| Maya | 10キー取得・変更前 → 改善後 | 10キー上書き実行・変更前 → 改善後 |
+| --- | --- | --- |
+| 2026 | 1.34〜1.52 → 0.25〜0.29 ms | 6.06〜6.70 → 0.53〜0.66 ms |
+| 2027 | 1.40〜2.61 → 0.27〜0.30 ms | 6.66〜7.02 → 0.53〜0.62 ms |
+
+Maya 2025の500所属属性の条件を再測定する例です。改善前を測る場合は`--source-revision 9585aef1`を追加し、
+出力先を分けます。結果は接続構成・キー数・所属属性数に依存し、全体取得や境界補完が
+同じ割合で高速化するわけではありません。
+
+```powershell
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -B `
+    .\bakedanuki\bakedanuki-util\python\bd_util\_dev\maya\benchmark_keyframe_data.py `
+    --keys 1000 --curve-types animCurveTL --repeats 3 `
+    --targets direct base additive override --layer-members 500 --operations get restore `
+    --output .\benchmark_results\keyframe_layers\current-maya2025.json
+```
+
+追加の改善候補は予約時の重複コピーと、作業用カーブの必要区間への縮小です。
+形状・入力検証・独立コピーを保つことを条件に、測定結果から選びます。
 回帰確認では区間内の評価値、元カーブの不変性、modified flag、Undo / Redo、例外時の
 作業用node解放を維持します。実機検証の入口は`test_keyframe_data.py`と`test_keyframe_clip.py`です。
 

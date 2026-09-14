@@ -175,6 +175,58 @@ def test_direct_queries_allow_locks_but_edits_revalidate_at_execution(
     assert not mod.can_undo
 
 
+@pytest.mark.parametrize("method", ["set_curve_data", "set_key_data"])
+@pytest.mark.parametrize("layered", [False, True])
+@pytest.mark.parametrize(
+    "attribute",
+    ["ktv[1]", "ktv[1].kv", "kix[1]", "guard[17].flag", "guard", "pair.child"],
+)
+def test_curve_restore_checks_locked_array_and_compound_descendants(
+    maya_cmds, method, layered, attribute
+):
+    keyframe, mod = _target(maya_cmds)
+    curve = oma.MFnAnimCurve(keyframe.plug.sourceWithConversion().node())
+    maya_cmds.addAttr(
+        curve.name(),
+        longName="guard",
+        attributeType="compound",
+        numberOfChildren=1,
+        multi=True,
+    )
+    maya_cmds.addAttr(
+        curve.name(), longName="flag", attributeType="double", parent="guard"
+    )
+    maya_cmds.setAttr(curve.name() + ".guard[17].flag", 1)
+    maya_cmds.addAttr(
+        curve.name(),
+        longName="pair",
+        attributeType="compound",
+        numberOfChildren=1,
+    )
+    maya_cmds.addAttr(
+        curve.name(), longName="child", attributeType="double", parent="pair"
+    )
+    if layered:
+        maya_cmds.animLayer("Layer", attribute=keyframe.plug.name())
+    before = keyframe.get_curve_data()
+    data = before if method == "set_curve_data" else before.keys
+    getattr(keyframe, method)(data)
+    maya_cmds.setAttr(curve.name() + "." + attribute, lock=True)
+    assert keyframe.get_curve_data() == before
+    with pytest.raises(RuntimeError, match="locked"):
+        mod.do_it_dg()
+    assert keyframe.get_curve_data() == before
+    assert maya_cmds.getAttr(curve.name() + ".guard", multiIndices=True) == [
+        17
+    ]
+    assert not mod.can_undo
+    maya_cmds.setAttr(curve.name() + "." + attribute, lock=False)
+    getattr(keyframe, method)(data)
+    mod.do_it_dg()
+    mod.undo_it()
+    assert keyframe.get_curve_data() == before
+
+
 def test_simple_set_query_edit_share_curve_and_reconnect_is_resolved_late(
     maya_cmds,
 ):

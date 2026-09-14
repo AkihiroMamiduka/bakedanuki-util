@@ -169,6 +169,8 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 対象を登録し、その戻り値を`anim_layer(layer)`へ渡してキー設定まで一括予約できます。
 詳細データ復元も、登録済み属性のベース・指定layerにカーブがなければ自動作成します。
 事前の仮キーは不要で、内部の作成用キーを残さず、同じ履歴で作成から復元まで扱えます。
+この自動作成も利用者による動作確認まで完了しています。
+続いてlayer構成・所属属性数を指定する性能測定を追加し、所属照会と復元時のlock検査を改善しました。
 現行仕様は[キーフレーム](attributes.md#キーフレーム)、
 履歴管理は[ModifierManager](modifier_manager.md)、検証方法は[testing.md](testing.md)を参照します。
 
@@ -188,7 +190,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | layer作成・登録 | `nodes.create.animLayer(name=..., override=False)`でroot直下へ作成。rootがなければ同時作成。`add_plugs()`は明示leaf、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録。作成待ちlayerを`anim_layer()`へ渡し、登録・キー設定まで共通履歴で実行可能 |
 | 明示カーブ操作 | TA / TL / TUノードの`.keyframe`は`CurveKeyframeManager`。ノード同一性を保持し、未接続・共有出力・時間入力接続を持つカーブ自身の取得・編集・削除・保存復元に対応 |
 | 接続調査用の候補取得 | `find_anim_curves()`で具体ノードのtupleを取得。全8型、型filter、名前順、重複排除、各経路の最初のカーブでの停止に対応。通常の対象選択とは独立した補助API |
-| 詳細データの性能測定 | 専用benchmarkで取得・予約・実行・Undo / Redo・JSON変換を分離。補完なしの取得と補完後の返却データは指定範囲だけを詳細取得 |
+| 詳細データの性能測定 | 専用benchmarkで取得・予約・実行・Undo / Redo・JSON変換を分離。直接接続・ベース・加算・Overrideと所属属性数を指定可能。指定範囲だけの詳細取得に加え、所属確認とlock検査のPython巡回を削減 |
 
 ### 次の開発でも維持する契約
 
@@ -237,7 +239,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録は実装済み。登録解除・階層や並び順の管理、auto / best layerの選択、階層やweightを含む一括保存は未実装。自動選択を追加する場合も未指定のベース選択は維持し、評価時点、scene状態を変える責務、保存範囲を個別に決める |
-| 詳細データAPIの追加最適化 | 専用benchmarkと範囲取得の改善は実装済み。補完は作業用カーブ全体へ依存し、復元時のlock検査も移植先キー数の影響を受ける。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
+| 詳細データAPIの追加最適化 | 範囲取得、layer所属確認、通常の未lockカーブの検査を改善済み。境界補完は引き続き作業用カーブ全体へ依存する。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
 | キー削減・最適化 | データ取得・編集・再設定の土台は完成。自動削減は未実装。同値キーでも接線により途中の値が変わるため、許容誤差、区間内の評価方法、step系・breakdown・境界キーの保持方針を先に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
 | 繰り返し領域の切り出し | constant / linearの範囲外補完は完成。cycle / cycleRelative / oscillateの範囲外は現在エラー。対応するなら必要な周期のキー展開、周期境界の不連続、出力量の扱いを決める |
@@ -255,6 +257,8 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 - 同階層の`_keyframe_target.py`: チャンネル・既定ベース・指定layer・明示指定resolverと編集時のlock / reference検査。
   既定ベースはsceneのrootを解決し、明示layerは元のplugとMObjectを保持する。
   対象カーブはMayaの属性とlayerの対応から解決する。
+  所属確認は全属性名の列挙ではなく、layeredPlugで対象plugのlayer入力を照会する。
+  lockのない配列・compoundはMPlug.isFreeToChangeで子孫を検査し、必要な場合だけ個別に巡回する。
   BaseAnimationのfindCurveForPlugは通常の非所属属性を返さないため、チャンネル解決へ補完する。
   通常キー設定のAPI高速経路判定は、別の厳格な直接接続helperに維持する。
   作成待ちnodeは`MObjectHandle.object()`がnullになるため、明示対象は元のMObjectも保持する。
