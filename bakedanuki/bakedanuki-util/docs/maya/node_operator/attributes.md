@@ -138,14 +138,17 @@ bool / enum / 整数は数値、charは文字コードになります。単位�
 
 queryは呼び出し時点のsceneを読み、保留中の変更をflushしません。
 タイムスライダーの現在時刻やUndo履歴は変更せず、評価コンテキストを各時刻へ
-一時的に切り替えます。Python APIに`MDGContextGuard`は公開されていないため、
-`MDGContext.makeCurrent()`を使い、評価の成功・失敗のどちらでも元のコンテキストへ戻します。
+一時的に切り替えます。`MDGContext.makeCurrent()`を使い、評価の成功・失敗のどちらでも
+元のコンテキストへ戻します。
 取得結果は値のsnapshotであり、その後のscene変更には追従しません。
 
-既知の制約として、Maya 2025では新規layerへの初回キー設定直後に、先頭サンプルが
-設定前の値になる場合があります。nativeの`cmds.animLayer()` / `cmds.setKeyframe()`で
-構築しても再現し、現在時刻での通常評価とは異なる結果になります。
-MDGContextのキャッシュを含む追加調査は[roadmap](roadmap.md#未着手の候補と着手時の論点)に記録しています。
+新規layerへの初回キー設定直後に先頭サンプルが古い値になる問題に対応し、空でない入力では
+対象plugの上流カーブを列挙し、その出力から`cmds.dgdirty(..., propagation=True)`で
+再評価を伝播してから値を読みます。準備は呼び出しごとに1回、値の取得は引き続きOpenMayaです。
+キー・接続・layer構造・modified flagやUndo / Redo履歴は変更しません。
+計算ノードの未接続出力やdriven curveの入力側も辿り、空入力では再評価準備も行いません。
+この内部探索は、各経路の最初のカーブで停止する公開`find_anim_curves()`とは用途が異なります。
+[Autodesk dgdirty](https://help.autodesk.com/cloudhelp/2025/ENU/Maya-Tech-Docs/CommandsPython/dgdirty.html)
 
 constraintを削除して打ち直す場合は、必要な全属性・全時刻を先に取得し、
 その後に削除とキー設定を予約します。別の親空間を持つコントローラー間の姿勢転送は、

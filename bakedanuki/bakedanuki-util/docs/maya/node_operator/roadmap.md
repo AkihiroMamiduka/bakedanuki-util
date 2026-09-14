@@ -176,7 +176,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | --- | --- |
 | 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。予約実行、Undo / Redo、途中失敗時rollbackに対応 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
-| 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる |
+| 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
 | 実在キーの時刻・値 | `get_keys()`。指定範囲に存在するキーだけを返し、境界補完は行わない |
 | 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元に対応 |
 | カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
@@ -206,6 +206,8 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
   作成・登録はAnimLayer側の明示APIを使う。add_nodesは自身の対応属性だけを実行時に列挙し、
   add_plugsは指定対象が未対応・lockならエラーにする。選択状態を変えず、同一batchのrollbackを保つ。
   sample_valuesは元のplugの合成後の評価値を返し、layerのカーブ値の取得とは分ける。
+  取得前に関連する上流カーブから再評価を伝播するが、現在時刻・選択・modified flag・履歴や
+  保留中modifierは変えない。公開find_anim_curvesの最初のカーブで停止する契約も維持する。
 - `KeyData`は直接編集可能。予約時に再検証して独立コピーし、予約後の編集が実行内容や
   Undo / Redoに波及しない。`AnimCurveData`の共通設定は不変で、変更には`dataclasses.replace()`を使う。
 - 詳細データの公開値はdegree / cm / unitless。接線XYは取得元のweightedによらずweighted相当の表現。
@@ -231,7 +233,6 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録は実装済み。登録解除・階層や並び順の管理、auto / best layerの選択、階層やweightを含む一括保存は未実装。自動選択を追加する場合も未指定のベース選択は維持し、評価時点、scene状態を変える責務、保存範囲を個別に決める |
-| layer作成直後のsampling | Maya 2025で、新規layerの最初のキー設定直後にsample_valuesの先頭サンプルが旧値になるケースを確認。Maya標準コマンドでlayerを構築しても再現する。通常のシーン評価は正しく、MDGContextのキャッシュとキー設定によるdirty伝播を切り分ける。現在時刻・Undo履歴を変更しないquery契約を維持して改善する |
 | 詳細データAPIの追加最適化 | 専用benchmarkと範囲取得の改善は実装済み。補完は作業用カーブ全体へ依存し、復元時のlock検査も移植先キー数の影響を受ける。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
 | キー削減・最適化 | データ取得・編集・再設定の土台は完成。自動削減は未実装。同値キーでも接線により途中の値が変わるため、許容誤差、区間内の評価方法、step系・breakdown・境界キーの保持方針を先に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
@@ -253,6 +254,11 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
   作成待ちnodeは`MObjectHandle.object()`がnullになるため、明示対象は元のMObjectも保持する。
 - 同階層の`_keyframe_discovery.py`: DG依存関係の候補列挙。iteratorには探索終了まで
   生存するroot MPlugを渡す。未接続出力の依存入力補完と、array indexの区別にも注意する。
+  `curve_objects()`をsamplingの再評価準備にも使用する。samplingだけはカーブの入力側へ進み、
+  未接続のカーブ出力ではinputを探索起点へ補完する。公開find_anim_curvesの停止条件は変えない。
+- 同階層の`define/std/at/scalar/_base.py`: sample_valuesの入力捕捉、上流カーブからの
+  再評価伝播、MDGContext切替と公開単位での読み取り。関連回帰テストは
+  `test_scalar_sampling.py`と`test_scalar_sampling_layers.py`。
 - 同階層の`keyframe_data.py`: KeyData / AnimCurveDataの型、単位表現、検証、JSON変換。
 - 同階層の`_keyframe_snapshot.py`: 詳細データの型制約、snapshot、復元、境界補完。
   境界補完では`MDGModifier.createNode()`で確保した作業用カーブを使い、`doIt()`せずに

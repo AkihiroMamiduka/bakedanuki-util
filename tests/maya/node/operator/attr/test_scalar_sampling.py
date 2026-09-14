@@ -71,16 +71,11 @@ def _assert_samples(actual, expected):
 
 
 def _replace_reader(monkeypatch, operator, read):
-    original = operator.plug
+    from bd_util.maya.node.operator.attr.define.std.at.scalar import _base
 
-    class ReadProbe:
-        def __getattr__(self, name):
-            return getattr(original, name)
-
-        def asDouble(self):
-            return read(original)
-
-    monkeypatch.setattr(operator, "_m_plug", ReadProbe())
+    monkeypatch.setattr(
+        _base, "_sample_reader", lambda plug, unit: lambda: read(operator.plug)
+    )
 
 
 @pytest.mark.parametrize("changed_units", [False, True])

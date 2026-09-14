@@ -158,6 +158,9 @@ v0.1.0 以降の NodeOperator 基盤の改善に加え、Windows版 Maya 2025 / 
 
 ### Fixed
 
+- 新規animation layerへの初回キー設定直後に`sample_values()`の先頭値が古い値になる問題を修正。
+  対象plugの上流カーブから再評価を伝播してから読み取り、現在時刻・選択・modified flag・
+  Undo / Redo履歴・保留中modifierを保持する。計算出力やdriven curve越しの依存関係にも対応。
 - キー設定のMaya commandへ完全なplugパスを渡し、別のDAG階層にある同名nodeを
   巻き込んでキー設定する問題を修正。layerの所属確認・対象照会でもaliasと配列indexを区別する。
 - `FltMatrix` と `longLongInt` attribute の値取得・設定が動作しない問題を修正。

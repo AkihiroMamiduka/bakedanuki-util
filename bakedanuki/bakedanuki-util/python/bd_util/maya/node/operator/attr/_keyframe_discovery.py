@@ -28,12 +28,16 @@ def _leaves(plug: om.MPlug) -> Iterator[om.MPlug]:
         yield plug
 
 
-def _roots(plug: om.MPlug) -> list[om.MPlug]:
+def _roots(plug: om.MPlug, *, traverse_inputs: bool) -> list[om.MPlug]:
     roots = [plug]
     names = {plug.name()}
-    if plug.isDestination or plug.node().hasFn(om.MFn.kAnimCurve):
+    if plug.isDestination:
         return roots
     node = om.MFnDependencyNode(plug.node())
+    if plug.node().hasFn(om.MFn.kAnimCurve):
+        if traverse_inputs and plug == node.findPlug("output", False):
+            roots.append(node.findPlug("input", False))
+        return roots
     # MItDependencyGraph omits internal dependencies of unconsumed outputs.
     attributes: om.MObjectArray = node.getAffectingAttributes(plug.attribute())
     for attribute in attributes:
@@ -48,6 +52,57 @@ def _roots(plug: om.MPlug) -> list[om.MPlug]:
                 names.add(name)
                 roots.append(leaf)
     return roots
+
+
+def curve_objects(
+    plug: om.MPlug, *, traverse_inputs: bool = False
+) -> tuple[om.MObject, ...]:
+    """Collect upstream curves; sampling also follows animation-driven inputs."""
+    handle = om.MObjectHandle(plug.node())
+    if not handle.isAlive() or not handle.isValid():
+        raise RuntimeError("The discovery plug is not available in the scene.")
+    attribute = plug.attribute()
+    if (
+        plug.isArray
+        or plug.isCompound
+        or not (
+            attribute.hasFn(om.MFn.kNumericAttribute)
+            or attribute.hasFn(om.MFn.kUnitAttribute)
+            or attribute.hasFn(om.MFn.kEnumAttribute)
+        )
+    ):
+        raise TypeError(
+            "Curve discovery requires a scalar numeric or unit plug."
+        )
+
+    objects: list[om.MObject] = []
+    # Keep each root MPlug alive until iteration finishes (Maya retains it).
+    for root in _roots(plug, traverse_inputs=traverse_inputs):
+        iterator = om.MItDependencyGraph(
+            root,
+            om.MFn.kInvalid,
+            om.MItDependencyGraph.kUpstream,
+            om.MItDependencyGraph.kBreadthFirst,
+            om.MItDependencyGraph.kPlugLevel,
+            om.MItDependencyGraph.kDependsOn,
+        )
+        iterator.traversingOverWorldSpaceDependents = True
+        while not iterator.isDone():
+            current: om.MPlug = iterator.currentPlug()
+            if current.attribute().hasFn(om.MFn.kMessageAttribute):
+                iterator.prune()
+            elif current.node().hasFn(om.MFn.kAnimCurve):
+                node = current.node()
+                output = om.MFnDependencyNode(node).findPlug("output", False)
+                if current == output:
+                    if node not in objects:
+                        objects.append(node)
+                    if not traverse_inputs:
+                        iterator.prune()
+                elif current != root and not traverse_inputs:
+                    iterator.prune()
+            iterator.next()
+    return tuple(objects)
 
 
 def find_anim_curves(
@@ -77,49 +132,7 @@ def find_anim_curves(
         raise TypeError(
             "filter_type must be a concrete animCurve NodeOperator class."
         )
-    handle = om.MObjectHandle(plug.node())
-    if not handle.isAlive() or not handle.isValid():
-        raise RuntimeError("The discovery plug is not available in the scene.")
-    attribute = plug.attribute()
-    if (
-        plug.isArray
-        or plug.isCompound
-        or not (
-            attribute.hasFn(om.MFn.kNumericAttribute)
-            or attribute.hasFn(om.MFn.kUnitAttribute)
-            or attribute.hasFn(om.MFn.kEnumAttribute)
-        )
-    ):
-        raise TypeError(
-            "Curve discovery requires a scalar numeric or unit plug."
-        )
-
-    objects: list[om.MObject] = []
-    # Keep each root MPlug alive until iteration finishes (Maya retains it).
-    for root in _roots(plug):
-        iterator = om.MItDependencyGraph(
-            root,
-            om.MFn.kInvalid,
-            om.MItDependencyGraph.kUpstream,
-            om.MItDependencyGraph.kBreadthFirst,
-            om.MItDependencyGraph.kPlugLevel,
-            om.MItDependencyGraph.kDependsOn,
-        )
-        iterator.traversingOverWorldSpaceDependents = True
-        while not iterator.isDone():
-            current: om.MPlug = iterator.currentPlug()
-            if current.attribute().hasFn(om.MFn.kMessageAttribute):
-                iterator.prune()
-            elif current.node().hasFn(om.MFn.kAnimCurve):
-                node = current.node()
-                output = om.MFnDependencyNode(node).findPlug("output", False)
-                if current == output:
-                    if node not in objects:
-                        objects.append(node)
-                    iterator.prune()
-                elif current != root:
-                    iterator.prune()
-            iterator.next()
+    objects = curve_objects(plug)
 
     manager = (
         modifier_manager if modifier_manager is not None else ModifierManager()

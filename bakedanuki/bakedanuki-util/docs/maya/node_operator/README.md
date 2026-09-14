@@ -52,6 +52,8 @@
     作成待ちの戻り値を`.keyframe.anim_layer(layer)`へ渡し、キー設定まで一括予約できます。
 - `python/bd_util/maya/node/operator/attr/_keyframe_discovery.py`
   - DG依存関係の候補列挙と型filter。layer所属や合成値の解決とは分離しています。
+    内部のカーブ列挙はsample_valuesの再評価準備でも使用し、こちらは入力側のカーブまで辿ります。
+    sample_valuesは初回キー設定直後の古いキャッシュを再評価してから、OpenMayaで値を取得します。
 - `python/bd_util/maya/node/operator/attr/_keyframe_target.py`
   - チャンネル・指定layer・明示指定カーブの解決、ノード同一性と書込み可否の検査です。
     通常キー設定のAPI高速経路には、別の直接接続判定を使用します。

@@ -4,16 +4,36 @@ from collections.abc import Callable, Iterable
 from typing import Any, TypeVar, Type, cast
 
 # maya
+from maya import cmds
 from maya.api import OpenMaya as om
 
 # self
 from ....._channel_state import ChannelBoxStateMixin
 from ....._core import AttrOperator, PlugOperator, AttributeField
 from .....keyframe import KeyframeManager
+from ....._keyframe_discovery import curve_objects
 
 A = TypeVar("A", bound="ScalarBaseAttrOperator[Any]")
 
 P = TypeVar("P", bound="ScalarBasePlugOperator[Any]")
+
+
+def _sample_reader(plug: om.MPlug, time_unit: int) -> Callable[[], float]:
+    attribute = plug.attribute()
+    if attribute.hasFn(om.MFn.kUnitAttribute):
+        unit_type = om.MFnUnitAttribute(attribute).unitType()
+        if unit_type == om.MFnUnitAttribute.kAngle:
+            return lambda: plug.asMAngle().asDegrees()
+        if unit_type == om.MFnUnitAttribute.kDistance:
+            return lambda: plug.asMDistance().asCentimeters()
+        if unit_type == om.MFnUnitAttribute.kTime:
+            return lambda: plug.asMTime().asUnits(time_unit)
+        raise TypeError("Unsupported scalar unit type.")
+    if attribute.hasFn(om.MFn.kNumericAttribute) or attribute.hasFn(
+        om.MFn.kEnumAttribute
+    ):
+        return plug.asDouble
+    raise TypeError("sample_values() requires a numeric or unit plug.")
 
 
 class ScalarBasePlugOperator(ChannelBoxStateMixin, PlugOperator[A]):
@@ -47,28 +67,19 @@ class ScalarBasePlugOperator(ChannelBoxStateMixin, PlugOperator[A]):
         plug = self.plug
         if plug.isArray or plug.isCompound:
             raise TypeError("sample_values() requires a scalar plug.")
-        attribute = plug.attribute()
-        read_value: Callable[[], float]
-        if attribute.hasFn(om.MFn.kUnitAttribute):
-            unit_type = om.MFnUnitAttribute(attribute).unitType()
-            if unit_type == om.MFnUnitAttribute.kAngle:
-                read_value = lambda: plug.asMAngle().asDegrees()
-            elif unit_type == om.MFnUnitAttribute.kDistance:
-                read_value = lambda: plug.asMDistance().asCentimeters()
-            elif unit_type == om.MFnUnitAttribute.kTime:
-                read_value = lambda: plug.asMTime().asUnits(time_unit)
-            else:
-                raise TypeError("Unsupported scalar unit type.")
-        elif attribute.hasFn(om.MFn.kNumericAttribute) or attribute.hasFn(
-            om.MFn.kEnumAttribute
-        ):
-            read_value = plug.asDouble
-        else:
-            raise TypeError("sample_values() requires a numeric or unit plug.")
+        read_value = _sample_reader(plug, time_unit)
+        if frame_items:
+            outputs = [
+                om.MFnDependencyNode(node).name() + ".output"
+                for node in curve_objects(plug, traverse_inputs=True)
+            ]
+            if outputs:
+                # setKeyframe can leave downstream timed-context input data stale.
+                cmds.dgdirty(*outputs, propagation=True)
 
         samples: list[tuple[float, float]] = []
         for frame in frame_items:
-            # Python APIにはMDGContextGuardがなく、contextの寿命も保持する必要がある。
+            # contextの寿命を読み取り終了まで保持し、呼出元のcontextへ戻す。
             context = om.MDGContext(om.MTime(frame, time_unit))
             previous = context.makeCurrent()
             try:

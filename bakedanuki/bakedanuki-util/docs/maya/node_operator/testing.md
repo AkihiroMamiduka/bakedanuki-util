@@ -280,6 +280,14 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     constraint削除後の再キー設定からUndo / Redoまでを検証します。
   - 現在時刻・Undo履歴・保留中modifierを変更しないことと、ネストした評価時刻からの
     呼び出しや途中例外でも、元の評価コンテキストへ復帰することを検証します。
+- `tests/maya/node/operator/attr/test_scalar_sampling_layers.py`
+  - native / 本パッケージによる加算・Override layerの作成と初回キー設定直後に、TL / TA / TUの
+    最初の1点・複数時刻・重複・範囲外のサンプルが正しい合成値になることを検証します。
+  - キー再設定とUndo / Redo、weight・muteの変更、未接続の計算出力、driven curve越しの
+    上流依存関係、lock・referenceされた対象の読み取りを確認します。
+  - 正常時・例外時の外側の評価コンテキスト、現在時刻・選択・modified flag・Undo / Redo・
+    保留中modifierとカーブデータの保持を検証します。無関係なノードへのdirty通知がないこと、
+    空入力・不正入力でキャッシュを無効化しないことも対象です。
 - `tests/maya/node/operator/attr/test_keyframe_data.py`
   - KeyData / AnimCurveDataのJSON往復、接線type・XY・lock・breakdown、weightedと
     infinity、単位・FPS変更後の復元を検証します。
@@ -735,12 +743,15 @@ warm-upを除く5回です。単位はcm / degree / film、global tangentはauto
 回帰確認では区間内の評価値、元カーブの不変性、modified flag、Undo / Redo、例外時の
 作業用node解放を維持します。実機検証の入口は`test_keyframe_data.py`と`test_keyframe_clip.py`です。
 
-### 新規layerの先頭サンプルに関する調査候補
+### 新規layerの先頭サンプルの回帰確認
 
-Maya 2025の新規sceneで、以下を実行すると`sample_values()`の先頭値が0、次の値が12となる
-ケースを確認しています。layerを本パッケージで作成しても、nativeで作成しても再現します。
-新規layerの構築と通常の現在時刻の評価は正常で、MDGContextのキャッシュを含む
-sampling側の追加調査が必要です。検証専用のsceneで実行してください。
+修正前はMaya 2025 / 2026 / 2027の新規sceneで、以下の先頭値が0、次の値が12となりました。
+明示context付きMPlug、現在のcontextを切り替えたMPlug、cmds.getAttr(time=...)でも再現し、
+単なる二重読み取りや通常時刻の評価では解消しませんでした。カーブの出力は更新済みでも
+下流のtimed contextの入力に古い値が残るケースを、上流出力からのdirty伝播で回避します。
+シーン全体へのdgdirtyや現在時刻の往復は使用せず、対象の上流カーブ出力を1回の
+`cmds.dgdirty(..., propagation=True)`へ渡し、値はOpenMayaで読み取ります。
+修正後の結果は`[(3.0, 12.0), (5.0, 12.0)]`です。検証専用のsceneで実行してください。
 
 ```python
 from maya import cmds
