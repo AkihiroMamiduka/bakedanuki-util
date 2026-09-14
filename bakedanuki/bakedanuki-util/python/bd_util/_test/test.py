@@ -12,10 +12,21 @@ def main():
 
     trsf = nodes.create.transform(name="test")
 
+    layer = nodes.create.animLayer(name="Sample")
+
+    nodes.modifier_manager.do_it_dag()
+    nodes.modifier_manager.do_it_dg()
+
     trsf.tx.keyframe.set_key(-100, frame=-100, out_tangent_type="flat")
     trsf.tx.keyframe.set_key(100, frame=100, in_tangent_type="flat")
 
-    nodes.modifier_manager.do_it_dag()
+    nodes.modifier_manager.do_it_dg()
+
+    layer.add_nodes([trsf])
+    trsf.tx.keyframe.anim_layer(layer).set_keys(
+        [(i, i * 2) for i in range(-100, 101)]
+    )
+
     nodes.modifier_manager.do_it_dg()
 
     samples = trsf.tx.sample_values(frames=range(-100, 101))

@@ -518,9 +518,10 @@ layer未指定ならベース、別layerへ移植するなら`anim_layer()`を�
 登録済み属性でもカーブ未作成なら、`has_anim_curve()`は`False`、キー列は空、
 `get_curve_data()` / `get_weighted()`は`None`です。最後のキーを削除して空になった
 カーブは引き続き選択し、`has_anim_curve()`は`True`になります。
-layer指定の`set_key_data()` / `set_curve_data()`は既存カーブへ復元します。
-カーブ未作成なら、先に同じ入口の`set_key()`で作成してください。
-作成と復元は同じ`do_it_dg()`へ順に予約できます。
+`set_key_data()` / `set_curve_data()`は、登録済み属性の対象カーブがなければ作成して復元します。
+layer未指定ならベース、`anim_layer()`を指定すればそのlayerへ作成します。
+事前の`set_key()`は不要で、内部の作成用キーも残りません。
+layer作成・属性登録・詳細データ復元を、同じ`do_it_dg()`へ順に予約できます。
 
 queryは保留中modifierを実行せず、lock / reference / mute / weightを理由に読み取りを
 制限しません。変更時は指定layerと元のplug・node・対象curveのlock / reference等を
@@ -758,17 +759,20 @@ frames = keyframe.frames()
 
 `get_curve_data() -> AnimCurveData | None`と`set_curve_data(data)`で、
 そのチャンネルの時間入力カーブを保存・復元できます。復元は既存カーブの全キーと
-weighted・pre/post infinityを置換します。layer未指定・未所属の未接続plugなら、
-空のデータを渡した場合もカーブを作成します。
+weighted・pre/post infinityを置換します。未接続plug、または登録済み属性のベース・指定layerで
+対象カーブが未作成なら、空のデータを渡した場合もカーブを作成します。
 対象カーブがなければ取得結果は`None`、接続された空カーブなら`keys=()`です。
-layer未指定で新規カーブを自動作成するのは、属性がlayer未所属で、元のplugに入力接続がない場合だけです。
-constraint・driven key・空入力のpairBlend等が接続され、チャンネルのカーブがない場合は、
-`set_curve_data()` / `set_key_data()`の実行時にエラーにして既存接続を保ちます。
-必要なアニメーション接続は先に`set_key()`でMayaに作成させてください。
-layerに属する属性のベースカーブが未作成の場合も、先行する`set_key()`が必要です。
-`anim_layer()`を指定した復元は、対象layerの既存カーブへ適用します。未作成なら同様に
-先行する`set_key()`で作成してください。作成と復元は同じ`do_it_dg()`へ順に予約できます。
-復元によるlayerの作成・属性登録は行いません。
+
+layer上の新規作成ではMaya標準のキー設定で接続を構築し、作成用キーをすべて除去してから
+詳細データを適用します。weightが0・muteのlayerでも、生のカーブ値を復元します。
+利用者による仮キーの設定は不要です。復元によるlayerの作成・属性登録は行わず、
+必要な作成・登録は同じModifierManagerへ先に予約できます。
+通常の未接続plugでは、引き続きOpenMayaでカーブを直接作成します。
+
+対象の入力にconstraint・driven key・空入力のpairBlend・blendWeighted等が接続され、
+チャンネルのカーブがない場合は、両復元APIの実行時にエラーにして既存接続を保ちます。
+layerの入力側にこれらが接続されている場合も同様です。
+これらの構成では、必要なアニメーション接続を先に`set_key()`でMayaに作成させてください。
 取得元・復元先に中間ノードがあっても、保存・復元するのは生カーブの形状です。
 
 ```python
@@ -846,6 +850,9 @@ mod.do_it_dg()
 範囲省略時は全キーの情報をそのまま取得します。`set_key_data()`には時刻が昇順で
 重複しない列を渡します。同時刻のキー情報を上書きし、その他のキーを削除せず、
 既存のinfinityも維持します。ただしauto等の接線は前後キーの変更により再計算されます。
+たとえば既存の0フレームキーに対して-50 / 50の2キーを渡すと、0フレームキーも残ります。
+`set_curve_data()`なら全キーを置換するため、同じ入力では-50 / 50の2キーになります。
+一方、両APIが自動作成したカーブには入力データのキーだけが入り、作成用の仮キーは残りません。
 `weighted`引数はありません。既存カーブの設定を維持し、新規カーブはMayaの
 グローバル設定にかかわらずnonweightedで作成します。接線は移植先の設定へ適用します。
 取得元の形状をweightedも含めて復元したい場合は`set_curve_data()`を使ってください。

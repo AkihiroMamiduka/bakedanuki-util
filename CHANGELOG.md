@@ -9,6 +9,10 @@
 
 ### Added
 
+- `set_curve_data()` / `set_key_data()`で、登録済み属性のベース・指定layerにカーブを自動作成する。
+  事前の`set_key()`が不要になり、内部の作成用キーも残さない。全置換／追加・上書き、
+  weighted・時間単位の契約を維持し、layer作成・登録との一括予約、Undo / Redo・rollbackに対応。
+  layer入力にあるconstraint・driven key・空入力のpairBlend等の接続は自動で組み替えない。
 - `nodes.create.animLayer(name=..., override=False)`で、ベースと階層接続を含めたlayer作成を予約する。
   `AnimLayer.add_plugs()`は明示プラグ、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録する。
   compound・既存配列要素の展開、重複排除、選択状態の保持、実行時検査、Undo / Redo・rollbackに対応。
@@ -75,8 +79,8 @@
   driven key・別軸・weight・constraintのdriverは除外し、空カーブも対象にする。
   layer付き属性は既定のベースまたは`anim_layer()`で指定したlayerを対象とし、
   未対応utility、共有出力は明示エラー。キー設定のMayaによる値解決と、Undo / Redo・rollbackは維持する。
-  詳細データの自動新規復元はlayer未指定・未所属で元のplugが未接続の場合だけとし、
-  対象のない既存接続を上書きしない。layerのカーブ未作成時は先行する`set_key()`で作成する。
+  詳細データの自動新規復元は未接続plugと登録済みlayerの空き入力を対象とし、
+  対象カーブのないその他の既存接続は上書きしない。
 - 詳細データの補完なし範囲取得と、境界補完後の再取得を必要なキー範囲に限定し、
   範囲外の詳細データ生成・重複コピーを削減する。隣接時刻による接線換算と形状保持は維持する。
 - `get_key_data(start_frame, end_frame)`は、既定で境界を補完する破壊的変更。

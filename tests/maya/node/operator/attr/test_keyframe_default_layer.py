@@ -253,9 +253,7 @@ def test_empty_base_curve_stays_selected_for_restore(maya_cmds):
 
 
 @pytest.mark.parametrize("method", DATA_EDITS)
-def test_missing_base_queries_do_not_flush_and_restore_follows_first_key(
-    maya_cmds, method
-):
+def test_missing_base_queries_do_not_flush_pending_restore(maya_cmds, method):
     target = maya_cmds.createNode("transform")
     layer = maya_cmds.animLayer("Correction", attribute=target + ".ty")
     for frame, value in ((1, 12), (5, 16)):
@@ -267,14 +265,6 @@ def test_missing_base_queries_do_not_flush_and_restore_follows_first_key(
     keyframe = _manager(target + ".ty", mod)
     data = keyframe.anim_layer(layer).get_curve_data()
     before = _states(maya_cmds)
-    getattr(keyframe, method)(
-        data if method == "set_curve_data" else data.keys
-    )
-    with pytest.raises(RuntimeError):
-        mod.do_it_dg()
-    assert _states(maya_cmds) == before
-    assert not mod.can_undo
-    keyframe.set_key(0, 1)
     getattr(keyframe, method)(
         data if method == "set_curve_data" else data.keys
     )

@@ -167,6 +167,8 @@ layer未指定の入口も、キー設定・取得・編集をsceneのベース�
 Mayaの選択layer・preferred・keying modeから独立し、rootの改名にも追従します。
 layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り値へ`add_plugs()` / `add_nodes()`で
 対象を登録し、その戻り値を`anim_layer(layer)`へ渡してキー設定まで一括予約できます。
+詳細データ復元も、登録済み属性のベース・指定layerにカーブがなければ自動作成します。
+事前の仮キーは不要で、内部の作成用キーを残さず、同じ履歴で作成から復元まで扱えます。
 現行仕様は[キーフレーム](attributes.md#キーフレーム)、
 履歴管理は[ModifierManager](modifier_manager.md)、検証方法は[testing.md](testing.md)を参照します。
 
@@ -178,7 +180,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
 | 実在キーの時刻・値 | `get_keys()`。指定範囲に存在するキーだけを返し、境界補完は行わない |
-| 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元に対応 |
+| 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元と、未接続plug・登録済みlayerのカーブ自動作成に対応 |
 | カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
 | 区間の切り出し | 両方の詳細取得APIに`start_frame` / `end_frame` / `include_boundaries=True`を実装。境界キーと調整後の接線を取得 |
 | チャンネルの自動選択 | layer未指定はベース（root）に固定。layerなし・未所属属性は単位変換・pairBlend・blendWeighted越しの通常チャンネル探索を使用。キー設定の値解決はMayaに委譲し、query・挿入・削除・詳細データも同じ対象を扱う |
@@ -214,8 +216,10 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
   Xは秒、Yは公開値と同じ単位。保存データの復元時は`seconds_per_frame`を保持する。
 - `set_key_data()`は既存カーブのweightedを維持し、新規はnonweighted。
   weightedを含めて形状を復元する場合は`set_curve_data()`を使う。
-  自動新規作成はlayer未指定・未所属で元のplugが未接続の場合だけ。対象カーブのない既存接続を上書きしない。
-  layer付き属性のベースまたは指定layerのカーブが未作成なら、同じ入口のset_keyを先に実行または予約する。
+  未接続plugと、登録済み属性のベース・指定layerの空き入力へカーブを自動作成する。
+  内部の作成用キーは両APIとも除去する。set_curve_dataは全置換、set_key_dataは既存キーを維持した追加・上書き。
+  layer自体の作成・属性登録は明示APIを先に予約する。対象カーブのないconstraint・driven key・
+  pairBlend等の既存接続を自動で組み替えず、layerの入力側も同じ条件で検査する。
 - 境界補完は既定で有効。範囲指定時は形状を優先して連続接線をfixed化し、接線・weightの
   lockを解除する。既存キーと元の接線情報だけが必要なら`include_boundaries=False`。
   範囲無指定では接線名・lockを維持した全体取得になる。
@@ -242,6 +246,8 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 ### 実装を引き継ぐ際の参照先
 
 - `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作、anim_layerの入口とキー設定の経路選択。
+- 同階層の`_keyframe_command.py`: native setKeyframeの予約、対象layerとUI単位の実行時解決。
+  通常のキー設定と、詳細復元時のlayerカーブ作成で共有する。後者だけnoResolveとinsertBlend=Falseを使う。
 - `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`: layer作成と登録の共通mixin。
   作成待ちMObjectを保つため、rootとlayerはMDGModifierで作成し、rootのoverrideをTrueにする。
   native animLayerでparentと所属接続を構築し、登録後の照会は別のqueue_dg_modifierで行う。
@@ -261,6 +267,8 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
   `test_scalar_sampling.py`と`test_scalar_sampling_layers.py`。
 - 同階層の`keyframe_data.py`: KeyData / AnimCurveDataの型、単位表現、検証、JSON変換。
 - 同階層の`_keyframe_snapshot.py`: 詳細データの型制約、snapshot、復元、境界補完。
+  復元先の作成準備とMAnimCurveChangeによる復元を順に予約する。layerで新規作成した場合は
+  API編集前に作成用キーを除去し、途中失敗では接続・ノードの作成までrollbackする。
   境界補完では`MDGModifier.createNode()`で確保した作業用カーブを使い、`doIt()`せずに
   Mayaの挿入処理を適用する。元カーブへの一時挿入とUndoに置き換えない。
   作業用nodeの解放と、API編集で変わるscene modified flagの復元を成功・例外時とも維持する。

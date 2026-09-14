@@ -127,7 +127,9 @@ def _animation_state(maya_cmds, plug_name):
     )
 
 
-@pytest.mark.parametrize("connection", ["new", "direct", "pair_blend"])
+@pytest.mark.parametrize(
+    "connection", ["new", "direct", "pair_blend", "layer"]
+)
 @pytest.mark.parametrize("fail", [False, True])
 def test_curve_data_and_weighted_share_maya_command_history(
     mpx_test_plugin, maya_cmds, connection, fail
@@ -139,7 +141,7 @@ def test_curve_data_and_weighted_share_maya_command_history(
     for frame in (1, 3):
         maya_cmds.setKeyframe(name + ".tx", time=frame, value=frame)
     maya_cmds.keyTangent(name + ".tx", edit=True, weightedTangents=True)
-    if connection != "new":
+    if connection in ("direct", "pair_blend"):
         maya_cmds.setKeyframe(name + ".ty", time=7, value=5)
     if connection == "pair_blend":
         source_plug = maya_cmds.listConnections(
@@ -149,6 +151,10 @@ def test_curve_data_and_weighted_share_maya_command_history(
         maya_cmds.disconnectAttr(source_plug, name + ".ty")
         maya_cmds.connectAttr(source_plug, blend + ".inTranslateY1")
         maya_cmds.connectAttr(blend + ".outTranslateY", name + ".ty")
+    if connection == "layer":
+        layer = maya_cmds.animLayer("DataLayer")
+        maya_cmds.animLayer(layer, edit=True, attribute=name + ".translate")
+        maya_cmds.animLayer(layer, edit=True, selected=True, preferred=True)
     selection = om.MSelectionList()
     for axis in ("tx", "ty", "tz"):
         selection.add(name + "." + axis)

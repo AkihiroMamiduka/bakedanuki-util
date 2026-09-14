@@ -148,6 +148,66 @@ def _layer_member(name: str, plug: om.MPlug) -> bool:
     return False
 
 
+def _is_layered(plug: om.MPlug) -> bool:
+    iterator = om.MItDependencyNodes(om.MFn.kAnimLayer)
+    while not iterator.isDone():
+        name = om.MFnDependencyNode(iterator.thisNode()).name()
+        if _layer_member(name, plug):
+            return True
+        iterator.next()
+    return False
+
+
+def creation_layer(target: Target) -> LayerTarget | None:
+    """Select a layer for data restoration without adopting other connections."""
+    if isinstance(target, LayerTarget):
+        layer = target
+    elif isinstance(target, om.MPlug) and _is_layered(target):
+        layer = base_layer(target)
+    else:
+        return None
+    if layer is not None:
+        _check_layer_creation_input(layer)
+    return layer
+
+
+def _check_layer_creation_input(target: LayerTarget) -> None:
+    name = layer_name(target, write=True)
+    destination = target.plug
+    if name != cmds.animLayer(query=True, root=True):
+        layered_plug = cmds.animLayer(
+            name, query=True, layeredPlug=plug_path(destination)
+        )
+        if not isinstance(layered_plug, str) or not layered_plug:
+            raise RuntimeError("The animation layer input is not available.")
+        selection = om.MSelectionList()
+        selection.add(layered_plug)
+        destination = selection.getPlug(0)
+    else:
+        # Maya's layeredPlug query does not return the root layer's input.
+        visited: set[str] = set()
+        while destination.name() not in visited:
+            visited.add(destination.name())
+            source = destination.sourceWithConversion()
+            if source.isNull:
+                break
+            node = om.MFnDependencyNode(source.node())
+            attribute = om.MFnAttribute(source.attribute()).name
+            if not node.typeName.startswith(
+                "animBlendNode"
+            ) or attribute not in ("output", "outputX", "outputY", "outputZ"):
+                break
+            suffix = attribute.removeprefix("output")
+            destination = node.findPlug("inputA" + suffix, False)
+    if not destination.sourceWithConversion().isNull:
+        raise RuntimeError(
+            "Cannot create curve data on a connected animation layer input; "
+            "create its animation with set_key() first."
+        )
+    check_editable_node(om.MFnDependencyNode(destination.node()))
+    _check_editable_plug(destination)
+
+
 def layer_curve(
     target: LayerTarget, *, write: bool = False
 ) -> oma.MFnAnimCurve | None:
@@ -160,13 +220,8 @@ def layer_curve(
     )
     if not curves:
         if name == cmds.animLayer(query=True, root=True):
-            iterator = om.MItDependencyNodes(om.MFn.kAnimLayer)
-            while not iterator.isDone():
-                layer = om.MFnDependencyNode(iterator.thisNode()).name()
-                if _layer_member(layer, target.plug):
-                    return None
-                iterator.next()
-            return channel_curve(target.plug, write=write)
+            if not _is_layered(target.plug):
+                return channel_curve(target.plug, write=write)
         return None
     selection = om.MSelectionList()
     selection.add(curves[0])

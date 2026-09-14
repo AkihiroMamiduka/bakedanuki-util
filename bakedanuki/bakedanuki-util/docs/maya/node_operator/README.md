@@ -45,6 +45,7 @@
     layerがないsceneでは、単位変換やpairBlend越しでも同じチャンネルのカーブを自動解決します。
     `.anim_layer("Correction")`で、既存layer用の`KeyframeManager`を取得できます。
     キー設定は対象layerを明示してMayaが値を解決し、取得・詳細復元はそのlayerの生カーブを扱います。
+    詳細復元は登録済み属性のカーブがなければ自動作成し、事前の仮キーを必要としません。
     明示指定はTA / TL / TUノードの`.keyframe`から使用します。
     調査用の`find_anim_curves()`では、上流候補を具体ノード型のtupleとして取得できます。
 - `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`
@@ -57,6 +58,8 @@
 - `python/bd_util/maya/node/operator/attr/_keyframe_target.py`
   - チャンネル・指定layer・明示指定カーブの解決、ノード同一性と書込み可否の検査です。
     通常キー設定のAPI高速経路には、別の直接接続判定を使用します。
+- `python/bd_util/maya/node/operator/attr/_keyframe_command.py`
+  - 通常キー設定と詳細復元時のlayerカーブ作成で共有する、Maya標準commandの予約です。
 - `python/bd_util/maya/node/operator/attr/keyframe_data.py`
   - 編集可能な`KeyData`と、カーブ共通設定を持つ`AnimCurveData`です。
 - `python/bd_util/maya/node/operator/attr/_keyframe_snapshot.py`

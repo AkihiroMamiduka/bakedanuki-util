@@ -4,15 +4,19 @@ from __future__ import annotations
 import math
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
-from typing import TYPE_CHECKING, Any, Callable, Literal, TypedDict, overload
+from typing import TYPE_CHECKING, Any, Callable, Literal, overload
 
 # maya
-from maya import cmds
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
-from . import _keyframe_discovery, _keyframe_snapshot, _keyframe_target
+from . import (
+    _keyframe_command,
+    _keyframe_discovery,
+    _keyframe_snapshot,
+    _keyframe_target,
+)
 from ._keyframe_discovery import CurveNode
 from .keyframe_data import AnimCurveData, KeyData
 
@@ -38,11 +42,6 @@ TangentTypeName = Literal[
 TangentTypeValue = TangentTypeName | int | None
 _KeyValue = float | om.MAngle | om.MDistance | om.MTime
 _CapturedKey = tuple[om.MTime, _KeyValue]
-
-
-class _TangentFlags(TypedDict, total=False):
-    inTangentType: str
-    outTangentType: str
 
 
 class TangentType:
@@ -194,7 +193,11 @@ class _KeyframeOperations(ABC):
         _keyframe_snapshot.queue_weighted(manager, self._target, weighted)
 
     def set_curve_data(self, data: AnimCurveData) -> None:
-        """全キー・weighted・infinityの置換を予約する。保存時の時間単位を使用。"""
+        """全キー・weighted・infinityの置換を予約する。保存時の時間単位を使用。
+
+        未接続属性・登録済みlayerで対象カーブがなければ作成する。
+        layerの作成や属性登録は行わない。
+        """
         manager = self._require_modifier_manager()
         _keyframe_snapshot.queue_restore(
             manager, self._target, data, replace=True
@@ -227,6 +230,7 @@ class _KeyframeOperations(ABC):
 
         frameは既定で呼び出し時のUI時間単位。保存データから使う場合は
         AnimCurveDataのseconds_per_frameを明示する。新規カーブはnonweighted。
+        未接続属性・登録済みlayerでカーブがなければ作成し、仮キーは残さない。
         キーは時刻の昇順・重複なしで渡す。infinityと他のキーは置換しないが、
         autoなどの接線は前後のキー変更によりMayaが再計算する。
         nonweightedへの適用では接線の重みが失われる。
@@ -684,57 +688,23 @@ class KeyframeManager(_KeyframeOperations):
         )
         fn_anim_curve: oma.MFnAnimCurve | None = None
         api_start = 0
-        tangent_flags: _TangentFlags = {}
         in_name = _TANGENT_TYPE_NAMES.get(in_type)
         out_name = _TANGENT_TYPE_NAMES.get(out_type)
-        if in_name is not None:
-            tangent_flags["inTangentType"] = in_name
-        if out_name is not None:
-            tangent_flags["outTangentType"] = out_name
 
         def queue_command_key(
             modifier: om.MDGModifier, key: _CapturedKey
         ) -> None:
             time, key_value = key
 
-            def set_keyframe() -> None:
-                plug_name = _keyframe_target.plug_path(plug)
-                if not cmds.objExists(plug_name):
-                    raise RuntimeError(
-                        "Keyframe plug is not available when the queued "
-                        f"command executes: {plug_name!r}"
-                    )
-                target_layer = layer_target or _keyframe_target.base_layer(
-                    plug
-                )
-                if target_layer is None:
-                    count = cmds.setKeyframe(
-                        plug_name,
-                        time=time.asUnits(om.MTime.uiUnit()),
-                        value=self._command_value(key_value),
-                        **tangent_flags,
-                    )
-                else:
-                    if layer_target is not None:
-                        _keyframe_target.layer_curve(target_layer, write=True)
-                    # Default plug assignment retains Maya's graph support.
-                    name = _keyframe_target.layer_name(
-                        target_layer, write=True
-                    )
-                    count = cmds.setKeyframe(
-                        plug_name,
-                        time=time.asUnits(om.MTime.uiUnit()),
-                        value=self._command_value(key_value),
-                        animLayer=name,
-                        **tangent_flags,
-                    )
-                if not count:
-                    raise RuntimeError(
-                        f"No keyframe was set on {plug_name!r}."
-                    )
-
-            # 複数cmdsを1 callbackへまとめると、途中失敗時に変更が残る。
-            modifier.pythonCommandToExecute(set_keyframe)
+            _keyframe_command.queue_key(
+                modifier,
+                plug,
+                time,
+                key_value,
+                layer=layer_target,
+                in_tangent_type=in_name,
+                out_tangent_type=out_name,
+            )
 
         def prepare_first_key(modifier: om.MDGModifier) -> None:
             nonlocal fn_anim_curve
@@ -825,18 +795,6 @@ class KeyframeManager(_KeyframeOperations):
                     value,
                     om.MTime.uiUnit() if time_unit is None else time_unit,
                 )
-        return value
-
-    @staticmethod
-    def _command_value(
-        value: float | om.MAngle | om.MDistance | om.MTime,
-    ) -> float:
-        if isinstance(value, om.MAngle):
-            return value.asUnits(om.MAngle.uiUnit())
-        if isinstance(value, om.MDistance):
-            return value.asUnits(om.MDistance.uiUnit())
-        if isinstance(value, om.MTime):
-            return value.asUnits(om.MTime.uiUnit())
         return value
 
 

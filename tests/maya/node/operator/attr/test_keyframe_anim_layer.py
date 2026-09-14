@@ -273,7 +273,7 @@ def test_missing_layer_curve_queries_do_not_flush_pending_key_creation(
 
 
 @pytest.mark.parametrize("method", DATA_EDITS)
-def test_restore_requires_existing_layer_curve_and_preserves_membership(
+def test_restore_creates_layer_curve_and_preserves_membership(
     maya_cmds, method
 ):
     original, _, layers = _layered(maya_cmds)
@@ -287,13 +287,23 @@ def test_restore_requires_existing_layer_curve_and_preserves_membership(
     getattr(keyframe, method)(
         data if method == "set_curve_data" else data.keys
     )
-    with pytest.raises(RuntimeError):
-        mod.do_it_dg()
+    assert keyframe.get_curve_data() is None
     assert _states(maya_cmds) == before
+    mod.do_it_dg()
+    assert keyframe.get_keys() == [(key.frame, key.value) for key in data.keys]
+    selected = _curve_name(maya_cmds, layers[0], keyframe.plug.name())
+    after = _states(maya_cmds)
+    assert {
+        name: state for name, state in after.items() if name != selected
+    } == before
     assert (
         maya_cmds.animLayer(layers[0], query=True, attribute=True) == members
     )
-    assert not mod.can_undo
+    for _ in range(2):
+        mod.undo_it()
+        assert _states(maya_cmds) == before
+        mod.redo_it()
+        assert _states(maya_cmds) == after
 
 
 @pytest.mark.parametrize("method", ["get_keys", "set_key", "delete_key"])

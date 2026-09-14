@@ -298,7 +298,16 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     Maya標準変換の比較、未対応schemaの拒否、weighted取得・変更のUndo / Redoを検証します。
   - `tests/maya/mpx_cmd/test_command.py`では、カーブ復元・部分キー編集・weighted変更を
     1 commandとして実行し、MayaのUndo / Redoと失敗時rollbackも確認します。
-    未接続・直接接続に加え、pairBlend越しの復元も対象です。
+    未接続・直接接続・pairBlend越しの復元と、layer上のベースカーブ自動作成も対象です。
+- `tests/maya/node/operator/attr/test_keyframe_restore_creation.py`
+  - ベース・明示ベース・加算・Override layerの未作成カーブへ、TA / TL / TUの詳細データを復元します。
+    全置換・部分適用・空カーブでの作成、内部の仮キー除去、空キー列のno-opを検証します。
+  - weightedの形状・単位、weightが0・mute時の生値復元、既存の手動キーを残す部分適用、
+    同じbatchでのlayer作成・add_nodes / add_plugs・改名・復元を確認します。
+  - ノード・接続・別軸・別layer・選択・現在時刻・履歴・保留中queryの保持、反復Undo / Redo、
+    復元途中・後続失敗のrollback、実行時のlockと未登録属性の拒否を検証します。
+  - constraint・driven key・空入力のpairBlend・blendWeightedを自動で組み替えないことを、
+    layerなし・無関係なlayer・layer入力側の構成で確認します。
 - `tests/maya/node/operator/attr/test_keyframe_clip.py`
   - 境界補完の既定値、既存キーだけの取得、片側範囲・同一境界・空カーブ・単一キーを検証します。
   - weighted / nonweighted、接線各種、単位・FPS、constant / linearの範囲外、
@@ -344,10 +353,10 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     検証します。別layer・別軸のカーブを保持し、合成値と生カーブ値を区別します。
   - layer名の入力検証、改名後の同一性、同名再作成、登録解除、lock / referenceの再検査と、
     保留中modifierをqueryで実行しないこと、変更のUndo / Redo・失敗時rollbackを確認します。
-  - カーブ未作成時の詳細復元を拒否し、find_anim_curvesの候補がlayer指定で絞り込まれないことを
+  - カーブ未作成時の詳細復元と所属の保持、find_anim_curvesの候補がlayer指定で絞り込まれないことを
     確認します。同名DAG・alias・sparse配列要素の区別と、pairBlendを併用した軸の選択も対象です。
     返却型と操作methodの補完は`node_operator_contract.py`で検証します。
-  - `tests/maya/mpx_cmd/test_command.py`では先行するキー設定でカーブを作成してから詳細復元・
+  - `tests/maya/mpx_cmd/test_command.py`ではカーブ未作成のlayerへ直接、詳細復元・
     weighted変更・挿入・削除を1 commandで実行し、MayaのUndo / Redoと失敗時rollbackを確認します。
 - `tests/maya/node/operator/attr/test_keyframe_default_layer.py`
   - layer未指定のキー設定・取得・挿入・接線変更・削除・詳細データ・weighted操作が
@@ -355,7 +364,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
   - 選択layer・preferredと3種類のkeying modeからの独立、rootの改名、予約後のlayer作成と選択変更、
     layerなし・未所属属性、未作成・空のベースカーブ、lockの検査を確認します。
     無関係なlayerがあるsceneで、未所属のbool / enum / time属性へのキー設定も検証します。
-  - カーブ未作成時の詳細復元と先行するキー設定、Undo / Redo・途中失敗時rollback、
+  - カーブ未作成時の詳細復元とqueryの保留、Undo / Redo・途中失敗時rollback、
     queryの副作用がないこと、sample_valuesの合成値の保持を確認します。
 - `tests/maya/node/operator/attr/test_curve_keyframe.py`
   - TA / TL / TUノードの明示指定、作成待ちqueryの拒否、改名・再接続・削除時のnode同一性、

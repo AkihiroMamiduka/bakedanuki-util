@@ -10,7 +10,7 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
-from . import _keyframe_target
+from . import _keyframe_command, _keyframe_target
 from .keyframe_data import (
     AnimCurveData,
     CurveTypeName,
@@ -362,10 +362,18 @@ def queue_restore(
         curve = resolve_curve(target, write=True)
         if curve is not None:
             return
-        if isinstance(target, _keyframe_target.LayerTarget):
-            raise RuntimeError(
-                "No animation layer curve to restore; create it with set_key() first."
+        layer = _keyframe_target.creation_layer(target)
+        if layer is not None:
+            _keyframe_command.queue_key(
+                modifier,
+                layer.plug,
+                om.MTime(0, om.MTime.kSeconds),
+                0.0,
+                layer=layer,
+                raw=True,
             )
+            created = True
+            return
         if not isinstance(target, om.MPlug):
             raise RuntimeError("The explicit animCurve is not available.")
         if not target.sourceWithConversion().isNull:
@@ -380,9 +388,12 @@ def queue_restore(
         created = True
 
     def restore(change: oma.MAnimCurveChange) -> None:
+        nonlocal curve
+        if curve is None and created:
+            curve = resolve_curve(target, write=True)
         if curve is None:
             raise RuntimeError("Curve data destination was not prepared.")
-        if replace:
+        if replace or created:
             for i in reversed(range(curve.numKeys)):
                 curve.remove(i, change)
         if replace or created:
@@ -390,7 +401,7 @@ def queue_restore(
             if curve.isWeighted != weighted:
                 curve.setIsWeighted(weighted, change)
         _restore_key_data(curve, data, times, change)
-        if replace:
+        if replace or created:
             curve.setPreInfinityType(_INFINITY[data.pre_infinity], change)
             curve.setPostInfinityType(_INFINITY[data.post_infinity], change)
 

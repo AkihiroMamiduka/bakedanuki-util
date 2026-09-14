@@ -177,7 +177,6 @@ class _EditLayerKeyframesCommand(_FailAfterExecuteCommand):
         data = source.get_curve_data()
         if data is None:
             raise RuntimeError("Missing source layer curve.")
-        target.set_keys([(1, 10), (5, 20)])
         target.set_curve_data(data)
         target.set_weighted(True)
         target.insert_key(3)
