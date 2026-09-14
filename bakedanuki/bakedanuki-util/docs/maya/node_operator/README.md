@@ -1411,8 +1411,15 @@ alias や child plug は同じ logical plug を指す場合、同じ `PlugOperat
 
 ## 関連ドキュメント
 
+KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元、layer構成を含む性能改善まで
+実装・動作確認済みです。次の着手はキーフレーム移動で、メソッド名と仕様は未確定です。
+新しいチャットで開発を続ける場合は、
+[開始手順](roadmap.md#新しいチャットでの開始手順)と
+[キーフレーム移動の検討事項](roadmap.md#次の着手はキーフレーム移動)を参照してください。
+
 - [KeyframeManagerの開発状況と次の候補](roadmap.md#keyframemanagerの開発状況と次の候補)
 - [キーフレームの現行仕様](attributes.md#キーフレーム)
+- [KeyframeManagerの引き継ぎ時点の検証](testing.md#keyframemanagerの引き継ぎ時点の検証)
 - [attributes.md](attributes.md)
 - [core.md](core.md)
 - [generator.md](generator.md)

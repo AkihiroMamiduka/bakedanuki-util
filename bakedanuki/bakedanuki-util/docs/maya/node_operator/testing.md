@@ -595,6 +595,45 @@ ps.main(accurate=True, repeat_count=3)
 
 PyMEL の比較ベンチマークは、現在の Maya バージョン用キャッシュが PyMEL に含まれる場合のみ実行します。未対応の Maya バージョンでは PyMEL の計測だけをスキップし、その他の比較は継続します。
 
+## KeyframeManagerの引き継ぎ時点の検証
+
+2026-09-14、`dc4fa1ee`（レイヤー対応後の性能測定と高速化）までの実装で、
+次を確認済みです。利用者によるMaya上での動作確認とcommit / pushも完了しています。
+この記録は過去の検証結果で、新しい実装変更の最終検証を代替するものではありません。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各1,542件成功 |
+| `scripts/verify.cmd` | 成功。Black、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 3,912件成功、130件skip |
+| `_keyframe_target.py`・`benchmark_keyframe_data.py`を明示した型チェック | 3 versionともerror / warningなし |
+| 詳細データbenchmarkの最終smoke | 3 versionでTA / TL / TU、weighted / nonweighted、直接接続・ベース・加算・Overrideの取得・復元・JSONを確認 |
+
+関連pytestの実行範囲です。Maya 2026 / 2027も同じ引数を対応versionのscriptへ渡します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr tests\maya\mpx_cmd tests\maya\node\operator\node\dg\test_anim_layer.py -q --tb=short
+```
+
+次のキーフレーム移動は未実装です。下記は、[仕様の検討](roadmap.md#次の着手はキーフレーム移動)に
+合わせて追加する検証候補であり、上記の成功件数には含まれません。
+
+- 単一・複数・全体のうち採用した対象指定、正負の移動、subframe、範囲端、
+  FPS変更、対象なし・移動量0、不正入力と、仕様で定めた衝突時の挙動。
+- 複数キーが互いの元時刻へ移る場合と、移動対象外のキーをまたぐ場合。
+  処理順による一時的な重複と、最終結果の重複を区別し、元キーが余分に残らないこと。
+- 値・接線type / XY / lock・breakdown・weighted・infinityについて仕様で定めた保持や再計算、
+  移動対象外のキーと隣接区間の評価。TA / TL / TU、weightedの有無、auto・fixed・step系を含める。
+- 直接接続・対応済みの上流チャンネル・ベース・加算・Override・明示カーブ指定の対象一致。
+  非対象のlayer・軸・weightと接続を保持し、予約後の対象変更、lock / referenceを検査すること。
+- 同一batchの先行キー設定からの移動、保留中query、反復Undo / Redo、
+  移動途中・後続処理の失敗時rollback、MPxCommandからの履歴と型・IDE補完。
+
+実装時は既存の`test_keyframe_undo.py`、`test_keyframe_target.py`、
+`test_keyframe_channel.py`、`test_keyframe_anim_layer.py`、
+`test_keyframe_default_layer.py`、`test_curve_keyframe.py`を参照してください。
+新しいテストの配置・対象範囲は、採用した仕様と変更箇所に合わせて決めます。
+
 ## ベンチマークの見方
 
 NodeOperator は生の `maya.api.OpenMaya` より速くなることは基本的にありません。

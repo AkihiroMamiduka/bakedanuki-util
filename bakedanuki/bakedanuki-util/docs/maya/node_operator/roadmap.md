@@ -171,6 +171,9 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 事前の仮キーは不要で、内部の作成用キーを残さず、同じ履歴で作成から復元まで扱えます。
 この自動作成も利用者による動作確認まで完了しています。
 続いてlayer構成・所属属性数を指定する性能測定を追加し、所属照会と復元時のlock検査を改善しました。
+2026-09-14時点で、この性能改善も利用者による動作確認とcommit / pushまで完了しています。
+次の着手は[キーフレーム移動](#次の着手はキーフレーム移動)です。メソッドは未実装で、
+具体的な仕様とAPI名は、新しいチャットで調査・提案してから決めます。
 現行仕様は[キーフレーム](attributes.md#キーフレーム)、
 履歴管理は[ModifierManager](modifier_manager.md)、検証方法は[testing.md](testing.md)を参照します。
 
@@ -233,17 +236,60 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 ### 未着手の候補と着手時の論点
 
 通常のチャンネル選択、既定のベース選択、layer名による選択は実装済みです。
-次の着手順はまだ確定していません。layer構造の管理や自動選択を追加する場合は、
+利用者の指定により、キーフレーム移動を最優先にします。その後はキー削減、
+複数node・属性の一括保存・復元の順を推奨していますが、移動以降の着手順は未確定です。
+layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
-| layer操作の拡張 | ベース選択、明示指定、作成・属性登録は実装済み。登録解除・階層や並び順の管理、auto / best layerの選択、階層やweightを含む一括保存は未実装。自動選択を追加する場合も未指定のベース選択は維持し、評価時点、scene状態を変える責務、保存範囲を個別に決める |
-| 詳細データAPIの追加最適化 | 範囲取得、layer所属確認、通常の未lockカーブの検査を改善済み。境界補完は引き続き作業用カーブ全体へ依存する。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
+| キーフレーム移動（次の着手） | 未実装。単一キー・範囲・全体の対象指定、絶対時刻・相対移動、移動先のキーとの衝突、接線等の保持を検討する。値方向の移動も含めるか、メソッド名・引数・戻り値は実装着手時に提案する |
 | キー削減・最適化 | データ取得・編集・再設定の土台は完成。自動削減は未実装。同値キーでも接線により途中の値が変わるため、許容誤差、区間内の評価方法、step系・breakdown・境界キーの保持方針を先に決める |
-| 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
-| 繰り返し領域の切り出し | constant / linearの範囲外補完は完成。cycle / cycleRelative / oscillateの範囲外は現在エラー。対応するなら必要な周期のキー展開、周期境界の不連続、出力量の扱いを決める |
 | アニメーションライブラリー向けの一括操作 | 単一カーブのJSON保存・復元は完成。複数node・属性の束ね方、移植先との対応付けは未実装。汎用データ処理とrig固有の対応付け・座標変換の責務を分ける |
+| layer操作の拡張 | ベース選択、明示指定、作成・属性登録は実装済み。登録解除・階層や並び順の管理、auto / best layerの選択、階層やweightを含む一括保存は未実装。自動選択を追加する場合も未指定のベース選択は維持し、評価時点、scene状態を変える責務、保存範囲を個別に決める |
+| 繰り返し領域の切り出し | constant / linearの範囲外補完は完成。cycle / cycleRelative / oscillateの範囲外は現在エラー。対応するなら必要な周期のキー展開、周期境界の不連続、出力量の扱いを決める |
+| 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
+| 詳細データAPIの追加最適化 | 範囲取得、layer所属確認、通常の未lockカーブの検査を改善済み。境界補完は引き続き作業用カーブ全体へ依存する。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
+
+### 次の着手はキーフレーム移動
+
+次のチャットでは、まず現行コードとMaya APIの実挙動を調査し、推奨する初期仕様と
+利用例を提示します。ここでは機能の優先順位だけを確定し、API名や引数は固定しません。
+仕様を判断する際の主な論点です。
+
+- 時刻方向の移動から始めるか、値方向も含めるか。単一キー、範囲内の既存キー、
+  カーブ全体をどのように指定し、絶対時刻と相対移動をどのメソッドで表すか。
+- 移動先に対象外のキーがある場合の衝突方針と、複数キーが互いの元時刻へ移る場合の処理。
+  途中の編集順による衝突と、最終結果の時刻重複を区別する。
+- 移動対象がない場合、空カーブ、移動量0、同じ時刻への移動の扱い。
+  範囲の両端、負の時刻、subframe、予約後のFPS変更も既存の時間単位の契約と整合させる。
+- 値、接線type・XY、tangent / weight lock、breakdown、weighted・infinityの扱い。
+  一部のキーを移す場合の隣接区間への影響と、auto等の接線再計算を確認する。
+
+実装の出発点は、`keyframe.py`の`_KeyframeOperations`と既存の対象resolverです。
+属性経由・`anim_layer()`・明示カーブ指定で同じ操作を使うことを検討し、
+既定ベース、実行時の対象解決とlock / reference検査、ModifierManagerの予約実行、
+Undo / Redo・途中失敗時rollbackの契約を維持します。
+変更経路は`MAnimCurveChange`を使う既存API編集を第一候補とし、キー順の入れ替わりと
+接線への影響をmayapyで確認して選びます。
+
+詳細データの時刻を書き換えて`set_key_data()`を呼ぶだけでは、元の時刻のキーが残ります。
+また、既定の範囲取得は境界キーの補完や接線のfixed化を行います。
+移動実装へ詳細データAPIを流用する場合は、追加・全置換・境界補完の契約を確認し、
+移動対象外のキーまで意図せず変更しない構成を選びます。
+検証候補は[引き継ぎ時点の検証](testing.md#keyframemanagerの引き継ぎ時点の検証)を参照します。
+
+### 新しいチャットでの開始手順
+
+1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
+   この引き継ぎ時点の実装は`dc4fa1ee`（レイヤー対応後の性能測定と高速化）まで反映済み。
+   既存変更を戻さず、利用者の許可なくcommit / pushしない。
+2. この節の完了範囲・維持する契約・キーフレーム移動の論点を読み、
+   `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
+3. 以下の実装とテストを起点に、キーフレーム移動の仕様・APIを調査して提案する。
+   移動メソッドは今回のドキュメント更新では実装していない。
+4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
+   `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 
 ### 実装を引き継ぐ際の参照先
 
@@ -254,7 +300,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
   作成待ちMObjectを保つため、rootとlayerはMDGModifierで作成し、rootのoverrideをTrueにする。
   native animLayerでparentと所属接続を構築し、登録後の照会は別のqueue_dg_modifierで行う。
   照会だけのpythonCommandToExecuteはMayaで失敗するため使用しない。
-- 同階層の`_keyframe_target.py`: チャンネル・既定ベース・指定layer・明示指定resolverと編集時のlock / reference検査。
+- `python/bd_util/maya/node/operator/attr/_keyframe_target.py`: チャンネル・既定ベース・指定layer・明示指定resolverと編集時のlock / reference検査。
   既定ベースはsceneのrootを解決し、明示layerは元のplugとMObjectを保持する。
   対象カーブはMayaの属性とlayerの対応から解決する。
   所属確認は全属性名の列挙ではなく、layeredPlugで対象plugのlayer入力を照会する。
@@ -279,6 +325,10 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 - `tests/maya/node/operator/attr/test_keyframe_clip.py` / `test_keyframe_data.py`:
   形状・単位・履歴・副作用・例外時の解放を確認する主なテスト。
   MPxCommand連携は`tests/maya/mpx_cmd/test_command.py`、補完は`tests/typecheck/node_operator_contract.py`。
+- `test_keyframe_undo.py`: API編集の予約実行・Undo / Redoと、途中失敗時rollback。
+  キーフレーム移動の履歴検証も、この既存パターンを参照する。
+- `test_keyframe_restore_creation.py`: 未作成のベース・指定layerカーブへの詳細復元、
+  内部の作成用キー除去、既存キーを残す部分適用、同一batchの作成・登録・復元とrollback。
 - `test_keyframe_target.py`: 対象選択、未対応接続の拒否、実行時再解決と失敗時rollback。
 - `test_keyframe_channel.py`: pairBlend全6軸、currentDriver、単位変換、blendWeightedの入力順、
   空カーブ・入れ子・保留中接続、非対象カーブと中間ノードの保持、取得・編集・復元と履歴。
@@ -293,9 +343,9 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
   候補選択後の明示編集と履歴。探索はlayer所属や現在値への寄与を判定するAPIではない。
 - `python/bd_util/_dev/maya/benchmark_keyframe_data.py`: 現行コードまたは指定commitの詳細データ性能測定。
 
-境界補完の検証時点では、Maya 2025 / 2026 / 2027でclip・dataの関連256件が成功し、
-`scripts/verify.cmd`も成功しています。新しい変更の最終検証は、過去の結果で代用せず
-repositoryの現行`AGENTS.md`に従って実行します。
+直近の自動検証と利用者による動作確認は、
+[引き継ぎ時点の検証](testing.md#keyframemanagerの引き継ぎ時点の検証)を参照してください。
+新しい変更の最終検証は、過去の結果で代用せずrepositoryの現行`AGENTS.md`に従って実行します。
 
 ## 完了済み: DAG / shape API roadmap
 
