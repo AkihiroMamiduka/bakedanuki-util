@@ -98,10 +98,12 @@ ViewModelの`presentation: FloatPresentation`は以下を持ちます。
 
 - `scale`: 公開値に掛ける表示倍率。正の有限値。
 - `suffix`: 数値に添える単位表記。
+- `unit_kind`: 公開値の種別。既定は`"number"`、距離は`"distance"`（cm）、角度は`"angle"`（degree）。
 - `minimum` / `maximum`: 公開単位でのhard limit。`None`はその側の制限なし。
 - `to_display(value)` / `from_display(value)`: 相互変換。
 
 `linearUnitChanged`／`angularUnitChanged`はMaya adapterが監視します。
+Maya adapterは属性型から`unit_kind`も設定します。この種別は[範囲・stepの復元](float_view_settings.md)の互換性判定にも使用します。
 単位変更では`presentation_changed`を通知し、値・suffix・範囲を再表示します。
 正本の数値は変更せず、`binding.changed`も値が変わらなければ通知しません。
 変更時の未確定テキストは破棄し、確定済みの値を新しい単位で表示します。

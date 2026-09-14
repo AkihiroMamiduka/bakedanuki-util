@@ -141,6 +141,7 @@ window = minimal.show()
 2. `Set data to 0.25`でPython属性だけを変更し、Viewの表示がそのままであることを確認する。
 3. `Refresh views`で両Viewへ現在値が反映されることを確認する。
 4. close後に`minimal.show()`を呼び、新しいデータとWindowで再表示できることを確認する。
+   各ViewのMin／Max・stepは[保存済み設定から復元](float_view_settings.md)する。
 
 表示中の`show()`は同じWindowを前面へ出します。`minimal.dispose()`で明示終了できます。
 サンプルはMaya nodeやcallbackを作成せず、Channel Boxの表示設定にも依存しません。

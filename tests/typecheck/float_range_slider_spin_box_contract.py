@@ -11,6 +11,10 @@ from bd_util.ui import (
     FloatStepMode,
     FloatStepSpinBox,
     FloatViewModel,
+    FloatPresentation,
+    FloatUnitKind,
+    SettingsPath,
+    UiStateManager,
     qt,
 )
 from bd_util.ui.binding import FloatRangeSliderSpinBox as BindingEditor
@@ -20,6 +24,7 @@ from bd_util.maya.ui import (
     MayaFloatBinding,
     MayaFloatPlugBinding,
     MayaFloat3PlugBinding,
+    MayaUiStateTracker,
 )
 from bd_util._sample.maya.ui.float_sample import maya_plug, maya_view, minimal
 
@@ -135,3 +140,18 @@ assert_type(
     FloatRangeSliderSpinBox,
 )
 assert_type(minimal.show().widget.editor, FloatRangeSliderSpinBox)
+settings = UiStateManager(
+    qt.QtCore.QSettings(), SettingsPath("tool/editor_settings/main")
+)
+assert_type(
+    settings.register_float_range_slider_spin_box("value", editor), None
+)
+assert_type(settings.registered_keys, tuple[str, ...])
+assert_type(settings.restore(), frozenset[str])
+editor.settingsChanged.connect(lambda: None)
+assert_type(FloatPresentation(unit_kind="distance").unit_kind, FloatUnitKind)
+assert_type(maya_plug.show("pCube1").editor_settings, UiStateManager)
+assert_type(
+    maya_view.show("pCube1").editor_settings_tracker, MayaUiStateTracker
+)
+assert_type(minimal.show().editor_settings, UiStateManager)

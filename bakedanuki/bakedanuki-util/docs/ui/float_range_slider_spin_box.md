@@ -230,7 +230,7 @@ step欄は現在値の`decimals`から独立して精度を保持し、不要な
 `step_enabled=False`ではstep欄を無効にし、欄への`setValue()`も確定値へ戻します。
 設定APIの`editor.setSingleStep()`は使用できます。Maya属性のlock・接続や`value_enabled=False`は
 View設定であるstep欄を無効にしません。正本の終了時はstep欄も無効化します。
-Windowを作り直すと、生成時の刻み幅へ戻ります。
+保存対象へ登録していないViewは、Windowを作り直すと生成時の刻み幅へ戻ります。
 
 `FloatStepSpinBox(parent=None, *, value=0.1, step_mode="additive", step_increment=1.0)`は単独でも使用できます。
 `stepMode()`でモード、`value()`で編集中の刻み幅、`singleStep()`で加算量を取得し、`valueChanged(float)`で確定を通知します。
@@ -250,10 +250,9 @@ hard limitの共通範囲を使用します。両者が異なる場合は入力�
 属性がlock・接続中・読み取り専用でも、`minimum_enabled`／`maximum_enabled`が`True`の範囲入力は編集できます。
 Bindingの明示終了・ViewModelのQt破棄時には、範囲・step入力も無効化します。
 Viewの破棄で共有Bindingは終了しません。Maya callbackもこのViewには追加しません。
-範囲のファイル保存・復元は行わず、Windowを作り直すと生成時の範囲へ戻ります。
-
-範囲・stepの保存／復元と初期設定へ戻す操作は、今後の任意拡張の候補です。
-責務分担、単位の扱い、検証観点は[浮動小数点MVVMの今後の拡張](float_roadmap.md)を参照してください。
+範囲・stepは、[UiStateManagerへの明示登録](float_view_settings.md)で保存・復元できます。
+未登録ならWindowを作り直すと生成時の設定へ戻ります。既存の3サンプルは保存を有効にしています。
+初期設定へ戻す専用操作は[今後の拡張候補](float_roadmap.md)です。
 
 ## サンプルと確認
 

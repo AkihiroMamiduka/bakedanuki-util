@@ -73,9 +73,9 @@ binding = Float3Binding.from_attribute(
     data,
     "offset",
     presentation=(
-        FloatPresentation(scale=0.01, suffix=" m", minimum=-100, maximum=100),
-        FloatPresentation(scale=0.01, suffix=" m", minimum=-200, maximum=200),
-        FloatPresentation(scale=0.01, suffix=" m", minimum=-300, maximum=300),
+        FloatPresentation(scale=0.01, suffix=" m", minimum=-100, maximum=100, unit_kind="distance"),
+        FloatPresentation(scale=0.01, suffix=" m", minimum=-200, maximum=200, unit_kind="distance"),
+        FloatPresentation(scale=0.01, suffix=" m", minimum=-300, maximum=300, unit_kind="distance"),
     ),
 )
 ```
@@ -143,6 +143,7 @@ window = minimal.show()
 3. `Set data to (7, 8, 9)`でPython属性だけを変更する。
 4. `Refresh views`で最新のtupleが両Viewへ反映されることを確認する。
 5. close後に`minimal.show()`を呼び、新しいデータとWindowで再表示する。
+   各View・各軸のMin／Max・stepは[保存済み設定から復元](float_view_settings.md)する。
 
 `Data value`はPythonの実値を表示します。表示中の`show()`は同じWindowを前面へ出し、
 `minimal.dispose()`はWindowとBindingを終了します。サンプルはMaya nodeを作成・変更しません。

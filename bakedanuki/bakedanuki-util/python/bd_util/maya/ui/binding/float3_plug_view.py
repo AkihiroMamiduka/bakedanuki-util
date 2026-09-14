@@ -91,6 +91,7 @@ class _ComponentPlugView(FloatPlugEndpoint):
             maya_presentation.suffix,
             presentation.minimum,
             presentation.maximum,
+            unit_kind=maya_presentation.unit_kind,
         )
 
     def _callbacks_are_suppressed(self) -> bool:

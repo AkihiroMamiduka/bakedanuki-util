@@ -2,8 +2,22 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Literal, TypeAlias
 
 from ._validation import require_float, require_suffix
+
+FloatUnitKind: TypeAlias = Literal["number", "distance", "angle"]
+
+
+def require_unit_kind(value: object) -> FloatUnitKind:
+    """表示文字列から推測せず、明示された公開値の単位種別を検証する。"""
+    if value == "number":
+        return "number"
+    if value == "distance":
+        return "distance"
+    if value == "angle":
+        return "angle"
+    raise ValueError("unit_kindにはnumber・distance・angleを指定してください")
 
 
 @dataclass(frozen=True)
@@ -11,6 +25,7 @@ class FloatPresentation:
     """公開値から表示値への倍率・単位表記・正本のhard limit。
 
     minimum/maximumは公開値の単位。Noneはその側の制限なしを表す。
+    unit_kindは公開値の種別で、distanceはcm、angleはdegreeを使う。
     decimalsや操作時の刻み幅は各Viewが選ぶ。
     """
 
@@ -18,12 +33,14 @@ class FloatPresentation:
     suffix: str = ""
     minimum: float | None = None
     maximum: float | None = None
+    unit_kind: FloatUnitKind = "number"
 
     def __post_init__(self) -> None:
         scale = require_float(self.scale, "scale")
         if scale <= 0:
             raise ValueError("scaleには正の値を指定してください")
         require_suffix(self.suffix)
+        require_unit_kind(self.unit_kind)
         for name, value in (
             ("minimum", self.minimum),
             ("maximum", self.maximum),

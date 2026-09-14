@@ -6,6 +6,7 @@ from sys import float_info
 from .... import qt
 from .._validation import require_decimals, require_slider_range
 from ..binding import FloatBinding
+from ..presentation import FloatUnitKind
 from ..store import FloatValueStore
 from ..view_model import FloatViewModel
 from ._connection import connect_queued_qt_signal
@@ -40,6 +41,7 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
     """最小値・最大値を表示単位で編集できる、View固有の操作範囲付きView。"""
 
     rangeEditRejected = qt.Signal(str)
+    settingsChanged = qt.Signal()
 
     def __init__(
         self,
@@ -125,6 +127,9 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         self._step_enabled = step_enabled
         self._step_show_unit = step_show_unit
         self._bound_single_step = single_step
+        self._last_settings: (
+            tuple[float, float, float, FloatUnitKind] | None
+        ) = None
         try:
             # 範囲入力は値のCommandへ接続せず、このSliderの設定だけを編集する。
             self.minimum_spin_box = self._create_bound("Slider minimum")
@@ -186,6 +191,13 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
             self.slider.floatRangeChanged.connect(self._refresh_range)
             self.view_model.presentation_changed.connect(self._refresh_range)
             self.view_model.presentation_changed.connect(self._refresh_step)
+            self.slider.floatRangeChanged.connect(
+                self._notify_settings_changed
+            )
+            self.view_model.presentation_changed.connect(
+                self._notify_settings_changed
+            )
+            self._notify_settings_changed()
             self.view_model.disposed.connect(self._stop_range_editing)
             connect_queued_qt_signal(
                 self.view_model.destroyed, self._stop_range_editing
@@ -307,6 +319,21 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
             raise RuntimeError("編集対象のFloatViewModelは終了しています")
         self.spin_box.setSingleStep(single_step)
         self._refresh_step()
+        self._notify_settings_changed()
+
+    @qt.Slot()
+    def _notify_settings_changed(self) -> None:
+        """操作範囲・step・単位種別が変わった場合だけ、確定設定を通知する。"""
+        if self._view_model.is_disposed:
+            return
+        settings = (
+            *self.floatRange(),
+            self.singleStep(),
+            self.view_model.presentation.unit_kind,
+        )
+        if settings != self._last_settings:
+            self._last_settings = settings
+            self.settingsChanged.emit()
 
     @qt.Slot(float)
     def _request_step(self, value: float) -> None:

@@ -3,7 +3,11 @@
 
 from __future__ import annotations
 
-from .....maya.ui import MayaWindowController
+from .....maya.ui import (
+    MayaWindowController,
+    MayaUiStateTracker,
+    create_ui_state_manager,
+)
 from .....ui import (
     FloatBinding,
     FloatLabel,
@@ -141,9 +145,24 @@ class MinimalFloatWindow(qt.QDialog):
         super().__init__(parent)
         self.setObjectName("bdUtilMinimalFloatSampleWindow")
         self.setWindowTitle("bakedanuki-util float")
+        # 保存先を先に準備し、失敗時にMayaのBindingを残さない。
+        self.editor_settings = create_ui_state_manager(
+            "float_sample/editor_settings/minimal"
+        )
         self.widget = MinimalFloatWidget(WeightData(), self)
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.widget)
+
+        # 正本の再作成とは独立して、2つのViewの操作設定を復元する。
+        self.editor_settings.register_float_range_slider_spin_box(
+            "value", self.widget.editor
+        )
+        self.editor_settings.register_float_range_slider_spin_box(
+            "linked", self.widget.linked_editor
+        )
+        self.editor_settings_tracker = MayaUiStateTracker.for_window(
+            self.editor_settings, self
+        )
 
 
 _controller = MayaWindowController(MinimalFloatWindow)

@@ -7,6 +7,28 @@ from maya import standalone
 from PySide6 import QtWidgets
 
 
+@pytest.fixture(autouse=True)
+def isolate_sample_editor_settings(monkeypatch, tmp_path):
+    """永続化サンプルの検証を実ユーザーの設定と他testから隔離する。"""
+    from bd_util.maya.ui import settings as maya_settings
+    from bd_util.ui import qt
+
+    create_settings = maya_settings._create_ui_settings
+
+    def create_sample_settings(path):
+        """浮動小数点サンプルだけをtestごとの一時INIへ差し替える。"""
+        if path.tool_name in {"float_sample", "float3_sample"}:
+            return qt.QtCore.QSettings(
+                str(tmp_path / f"{path.tool_name}.ini"),
+                qt.QtCore.QSettings.Format.IniFormat,
+            )
+        return create_settings(path)
+
+    monkeypatch.setattr(
+        maya_settings, "_create_ui_settings", create_sample_settings
+    )
+
+
 @pytest.fixture(scope="session")
 def qt_application() -> Iterator[QtWidgets.QApplication]:
     """QWidget testで共有するQApplicationを提供する。"""

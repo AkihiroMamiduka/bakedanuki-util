@@ -17,6 +17,8 @@ from bd_util.ui import (
     Float3Label,
     Float3SliderSpinBox,
     Float3RangeSliderSpinBox,
+    SettingsPath,
+    UiStateManager,
     qt,
 )
 from bd_util._sample.maya.ui.float3_sample import maya_plug, maya_view, minimal
@@ -158,12 +160,27 @@ def test_each_axis_drag_is_one_undo_and_tracks_units_and_other_views(
 
 
 def test_drag_limits_maya_rereads_per_position_without_delaying_other_axes(
-    scene, monkeypatch, view_factory
+    scene, monkeypatch, view_factory, tmp_path
 ):
     owner, node = scene
     binding = make_binding(owner, node, "maya")
     original = binding.value
     view = view_factory(binding, owner, minimum=0, maximum=100)
+    if isinstance(view, Float3RangeSliderSpinBox):
+        settings = qt.QtCore.QSettings(
+            str(tmp_path / "drag.ini"), qt.QtCore.QSettings.Format.IniFormat
+        )
+        manager = UiStateManager(
+            settings, SettingsPath("tool/editor_settings/main")
+        )
+        manager.register_float3_range_slider_spin_box("axes", view)
+
+        def reject_capture(*args):
+            pytest.fail("現在値のドラッグでは設定を再取得しない")
+
+        monkeypatch.setattr(
+            type(manager._adapters["axes_x"]), "save_state", reject_capture
+        )
     read = FloatPlugValue.read
     reads = 0
 

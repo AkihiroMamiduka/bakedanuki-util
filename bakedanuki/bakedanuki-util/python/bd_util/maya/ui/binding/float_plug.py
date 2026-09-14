@@ -338,6 +338,7 @@ class MayaFloatPlugView(FloatPlugEndpoint):
         return FloatPresentation(
             scale=maya_presentation.scale,
             suffix=maya_presentation.suffix,
+            unit_kind=maya_presentation.unit_kind,
             minimum=presentation.minimum,
             maximum=presentation.maximum,
         )

@@ -162,14 +162,14 @@ def test_python_initial_commands_maya_input_undo_and_redo(
 
 
 @pytest.mark.parametrize(
-    "attribute,value,scale,suffix",
+    "attribute,value,scale,suffix,kind",
     [
-        ("tx", 100.123456789, 0.01, " m"),
-        ("rx", 90.123456789, 0.017453292519943295, " rad"),
+        ("tx", 100.123456789, 0.01, " m", "distance"),
+        ("rx", 90.123456789, 0.017453292519943295, " rad", "angle"),
     ],
 )
 def test_units_preserve_python_precision_pending_input_and_model_limits(
-    node, attribute, value, scale, suffix
+    node, attribute, value, scale, suffix, kind
 ):
     data = Data(value)
     plug = resolve_float_plug(node.cmd_access_name, attribute)
@@ -189,7 +189,7 @@ def test_units_preserve_python_precision_pending_input_and_model_limits(
         assert data.value == value
         assert events == []
         assert binding.view_model.presentation == FloatPresentation(
-            scale, suffix, -500, 500
+            scale, suffix, -500, 500, unit_kind=kind
         )
         assert binding.store.presentation == presentation
         assert not binding.set_value(value)

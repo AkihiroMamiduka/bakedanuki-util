@@ -9,6 +9,8 @@ from .....maya.ui import (
     MayaFloat3Plug,
     MayaFloat3PlugBinding,
     MayaWindowController,
+    MayaUiStateTracker,
+    create_ui_state_manager,
     get_channel_box_precision,
     resolve_float3_plug,
 )
@@ -119,9 +121,26 @@ class TransformFloat3Window(qt.QDialog):
         self.setObjectName("bdUtilTransformFloat3SampleWindow")
         self.setWindowTitle("bakedanuki-util Transform XYZ")
         self.setMinimumWidth(720)
+        # 保存先を先に準備し、失敗時にMayaのBindingを残さない。
+        self.editor_settings = create_ui_state_manager(
+            "float3_sample/editor_settings/maya_plug"
+        )
         self.widget = TransformFloat3Widget(plugs, self)
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.widget)
+
+        # 各ViewのXYZ設定を、Window配置とは別の保存先へ登録する。
+        for key, editor in (
+            ("translate", self.widget.translate),
+            ("rotate", self.widget.rotate),
+            ("scale", self.widget.scale),
+        ):
+            self.editor_settings.register_float3_range_slider_spin_box(
+                key, editor
+            )
+        self.editor_settings_tracker = MayaUiStateTracker.for_window(
+            self.editor_settings, self
+        )
 
 
 _controller: MayaWindowController[TransformFloat3Window] | None = None

@@ -8,7 +8,7 @@ from maya.api import OpenMaya as om
 
 from ....ui import FloatPresentation
 from ....ui.binding.float._validation import require_float
-from .float_plug_resolver import float_plug_kind
+from .float_plug_resolver import FloatPlugKind, float_plug_kind
 
 _DISTANCE_SUFFIXES = {
     om.MDistance.kMillimeters: " mm",
@@ -34,7 +34,7 @@ class FloatPlugValue:
     def __init__(self, plug: om.MPlug) -> None:
         """plugの単位種別と格納精度を保持する。"""
         self.plug = plug
-        self.kind = float_plug_kind(plug)
+        self.kind: FloatPlugKind = float_plug_kind(plug)
         self._is_float32 = self.kind == "number" and (
             om.MFnNumericAttribute(plug.attribute()).numericType()
             == om.MFnNumericData.kFloat
@@ -121,7 +121,9 @@ class FloatPlugValue:
             if self.kind == "distance"
             else _ANGLE_SUFFIXES[om.MAngle.uiUnit()]
         )
-        return FloatPresentation(self.to_ui(1.0), suffix, minimum, maximum)
+        return FloatPresentation(
+            self.to_ui(1.0), suffix, minimum, maximum, unit_kind=self.kind
+        )
 
     def _unit_bound(self, value: object) -> float:
         """距離・角度属性の境界値を公開単位へ変換する。"""

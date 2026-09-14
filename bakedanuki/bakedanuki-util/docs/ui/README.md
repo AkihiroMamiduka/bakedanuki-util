@@ -972,7 +972,8 @@ Min・スライダー・Max・現在値・stepを備え、操作範囲とstepは
 API・単位・Undo・サンプルは[Float3RangeSliderSpinBox](float3_range_slider_spin_box.md)を参照してください。
 
 単一値・3成分のMVVMとView拡張について、予定した機能実装はここまでで完了しています。
-完了範囲、今後の範囲・step保存／復元とリセットの候補、拡張時に維持する仕様は
+Min／Max・stepの保存・復元は[操作設定の保存](float_view_settings.md)を参照してください。
+完了範囲、今後のリセットの候補、拡張時に維持する仕様は
 [浮動小数点MVVMの到達点と今後の拡張](float_roadmap.md)にまとめています。
 
 ### Python正本とMayaの3成分同期
@@ -1099,10 +1100,16 @@ Windows予約名や使用できない文字は拒否されます。
 ## Widget内部状態の保存
 
 `UiStateManager`は、明示登録したWidgetの内部状態を同じtool単位の`ui.ini`へ保存します。
-第一弾では次のWidgetに対応しています。
+次のWidgetに対応しています。
 
 - `QSplitter`: 分割位置
 - `QTabWidget`: 現在選択されているタブ
+- `FloatRangeSliderSpinBox`: Min／Max・step
+- `Float3RangeSliderSpinBox`: XYZ各軸のMin／Max・step
+
+数値Viewは`register_float_range_slider_spin_box()`／`register_float3_range_slider_spin_box()`で登録します。
+配置リセットで設定を保持するため、`tool/editor_settings/main`など配置とは別のsettings_pathを使用してください。
+単位・形式・終了時の保存とサンプルは[Min／Max・stepの保存と復元](float_view_settings.md)にまとめています。
 
 `QHeaderView`の列幅・表示順は対応対象に含めません。MayaのworkspaceControlでは終了時の
 layout変更とWidget破棄の順序により、利用中のheader stateを安定して取得・復元できなかった
@@ -1485,13 +1492,13 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-14にFloat3RangeSliderSpinBoxを追加し、3成分サンプルを範囲・step編集付きViewへ更新した作業ツリーでの確認結果です。
+2026-09-14にMin／Max・stepの保存・復元を追加し、単一値・3成分の6サンプルへ組み込んだ作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 670 passed | 244 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 670 passed | 244 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 670 passed | 244 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 726 passed | 244 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 726 passed | 244 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 726 passed | 244 passed |
 
 本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した結果です。
 範囲編集Viewを追加した際に、WindowsのシステムclipboardへQtから直接書き込む処理も失敗し、
@@ -1500,7 +1507,7 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2758 passed, 579 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2761 passed, 632 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。

@@ -10,6 +10,8 @@ from .....maya.ui import (
     MayaFloatBinding,
     MayaFloatPlug,
     MayaWindowController,
+    MayaUiStateTracker,
+    create_ui_state_manager,
     get_channel_box_precision,
     resolve_float_plug,
 )
@@ -247,6 +249,10 @@ class TransformFloatWindow(qt.QDialog):
     ) -> None:
         """データと既存plugを受け取り、サンプルWidgetを配置する。"""
         super().__init__(parent)
+        # 保存先を先に準備し、失敗時にMayaのBindingを残さない。
+        self.editor_settings = create_ui_state_manager(
+            "float_sample/editor_settings/maya_view"
+        )
         self.setObjectName("bdUtilPythonFloatMayaViewSampleWindow")
         self.setWindowTitle("bakedanuki-util Python float / Maya")
         try:
@@ -264,6 +270,20 @@ class TransformFloatWindow(qt.QDialog):
             raise
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.widget)
+
+        # 共有Viewも個別の設定として、Window配置とは別に保存する。
+        for key, editor in (
+            ("translate_x", self.widget.translate_x_editor),
+            ("rotate_x", self.widget.rotate_x_editor),
+            ("scale_x", self.widget.scale_x_editor),
+            ("linked_translate_x", self.widget.linked_translate_x_editor),
+        ):
+            self.editor_settings.register_float_range_slider_spin_box(
+                key, editor
+            )
+        self.editor_settings_tracker = MayaUiStateTracker.for_window(
+            self.editor_settings, self
+        )
 
 
 _controller: MayaWindowController[TransformFloatWindow] | None = None

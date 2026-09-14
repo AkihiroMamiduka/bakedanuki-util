@@ -113,9 +113,10 @@ window = maya_plug.show("pCube1")
 数値欄の単位文字は非表示、共有ラベルには表示します。
 
 Min／Max・stepを変更して他軸・他Viewの設定が保たれること、ドラッグの即時同期とUndo、
-単位変更、lock・接続、close後の再表示を確認してください。範囲とstepの保存・復元はこのViewには含みません。
-
-保存／復元と初期設定へ戻す操作を追加する際の設計案は、[浮動小数点MVVMの今後の拡張](float_roadmap.md)を参照してください。
+単位変更、lock・接続、close後の再表示を確認してください。
+範囲・stepは[UiStateManagerへの明示登録](float_view_settings.md)で軸ごとに保存・復元できます。
+既存の3サンプルは保存を有効にしており、close後の再生成でも各軸の設定を保持します。
+初期設定へ戻す専用操作は[今後の拡張候補](float_roadmap.md)です。
 
 `tests/ui/test_float3_range_slider_spin_box.py`は軸別設定・範囲・入力・寿命を検証します。
 `tests/ui/test_float3_slider_spin_box_maya.py`は両方の3成分スライダーでMaya同期・Undo・callback・

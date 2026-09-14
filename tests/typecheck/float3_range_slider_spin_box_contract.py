@@ -11,12 +11,15 @@ from bd_util.ui import (
     FloatSpinBox,
     FloatStepSpinBox,
     FloatStepMode,
+    SettingsPath,
+    UiStateManager,
     qt,
 )
 from bd_util.ui.binding import Float3RangeSliderSpinBox as BindingView
 from bd_util.ui.binding.float3 import Float3RangeSliderSpinBox as PackageView
 from bd_util.ui.binding.float3.view import Float3RangeSliderSpinBox as View
 from bd_util.maya.ui import MayaFloat3Binding, MayaFloat3PlugBinding
+from bd_util._sample.maya.ui.float3_sample import maya_plug, maya_view, minimal
 
 
 @dataclass
@@ -72,6 +75,13 @@ assert_type(view.y_editor.effectiveFloatRange(), tuple[float, float] | None)
 assert_type(view.z_editor.setFloatRange(-50, 50), None)
 assert_type(view.x_editor.setSingleStep(0.25), None)
 assert_type(view.x_editor.singleStep(), float)
+settings = UiStateManager(
+    qt.QtCore.QSettings(), SettingsPath("tool/editor_settings/main")
+)
+assert_type(settings.register_float3_range_slider_spin_box("axes", view), None)
+assert_type(maya_plug.show("pCube1").editor_settings, UiStateManager)
+assert_type(maya_view.show("pCube1").editor_settings, UiStateManager)
+assert_type(minimal.show().editor_settings, UiStateManager)
 assert_type(
     BindingView(binding, minimum=0, maximum=10), Float3RangeSliderSpinBox
 )

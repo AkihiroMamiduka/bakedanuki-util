@@ -3,7 +3,11 @@
 
 from __future__ import annotations
 
-from .....maya.ui import MayaWindowController
+from .....maya.ui import (
+    MayaWindowController,
+    MayaUiStateTracker,
+    create_ui_state_manager,
+)
 from .....ui import (
     Float3Binding,
     Float3Label,
@@ -139,9 +143,24 @@ class MinimalFloat3Window(qt.QDialog):
         self.setObjectName("bdUtilMinimalFloat3SampleWindow")
         self.setWindowTitle("bakedanuki-util float3")
         self.setMinimumWidth(720)
+        # 保存先を先に準備し、失敗時にMayaのBindingを残さない。
+        self.editor_settings = create_ui_state_manager(
+            "float3_sample/editor_settings/minimal"
+        )
         self.widget = MinimalFloat3Widget(OffsetData(), self)
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.widget)
+
+        # 表示桁数が違う共有Viewでも、範囲とstepは軸ごとに保存する。
+        self.editor_settings.register_float3_range_slider_spin_box(
+            "value", self.widget.spin_box
+        )
+        self.editor_settings.register_float3_range_slider_spin_box(
+            "linked", self.widget.linked_spin_box
+        )
+        self.editor_settings_tracker = MayaUiStateTracker.for_window(
+            self.editor_settings, self
+        )
 
 
 _controller = MayaWindowController(MinimalFloat3Window)

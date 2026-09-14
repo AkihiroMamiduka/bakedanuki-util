@@ -1,7 +1,7 @@
 # coding: utf-8
 from .binding import FloatBinding
 from .command import SetFloatCommand
-from .presentation import FloatPresentation
+from .presentation import FloatPresentation, FloatUnitKind
 from .store import FloatValueStore, PythonFloatAttributeStore
 from .value import FloatValue
 from .view import (
@@ -24,6 +24,7 @@ __all__ = [
     "FloatStepMode",
     "FloatStepSpinBox",
     "FloatPresentation",
+    "FloatUnitKind",
     "FloatSpinBox",
     "FloatValue",
     "FloatValueStore",
