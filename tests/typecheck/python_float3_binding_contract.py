@@ -7,6 +7,7 @@ from bd_util.ui import (
     Float3,
     Float3Binding,
     Float3SpinBox,
+    Float3SliderSpinBox,
     Float3ValueStore,
     FloatPresentation,
     FloatValueStore,
@@ -72,5 +73,5 @@ assert_type(per_axis.store, PythonFloat3AttributeStore[OffsetData])
 window = minimal.show()
 assert_type(window, minimal.MinimalFloat3Window)
 assert_type(window.widget.binding.store.instance, OffsetData)
-assert_type(window.widget.linked_spin_box, Float3SpinBox)
+assert_type(window.widget.linked_spin_box, Float3SliderSpinBox)
 assert_type(minimal.dispose(), None)

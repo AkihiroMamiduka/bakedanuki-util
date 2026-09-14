@@ -13,7 +13,7 @@ from .....maya.ui import (
     get_channel_box_precision,
     resolve_float3_plug,
 )
-from .....ui import Float3Label, Float3SpinBox, qt
+from .....ui import Float3Label, Float3SliderSpinBox, qt
 from .data import TransformFloat3Data
 
 
@@ -44,17 +44,41 @@ class TransformFloat3Widget(qt.QWidget):
             self.scale_binding,
         )
         decimals = get_channel_box_precision()
-        self.translate = Float3SpinBox(
-            self.translate_binding, self, decimals=decimals, single_step=0.1
+        self.translate = Float3SliderSpinBox(
+            self.translate_binding,
+            self,
+            minimum=-100,
+            maximum=100,
+            steps=2000,
+            decimals=decimals,
+            single_step=0.1,
         )
-        self.rotate = Float3SpinBox(
-            self.rotate_binding, self, decimals=decimals, single_step=1.0
+        self.rotate = Float3SliderSpinBox(
+            self.rotate_binding,
+            self,
+            minimum=-180,
+            maximum=180,
+            steps=3600,
+            decimals=decimals,
+            single_step=1.0,
         )
-        self.scale = Float3SpinBox(
-            self.scale_binding, self, decimals=decimals, single_step=0.01
+        self.scale = Float3SliderSpinBox(
+            self.scale_binding,
+            self,
+            minimum=0,
+            maximum=3,
+            steps=3000,
+            decimals=decimals,
+            single_step=0.01,
         )
-        self.linked_translate = Float3SpinBox(
-            self.translate_binding, self, decimals=6, single_step=0.1
+        self.linked_translate = Float3SliderSpinBox(
+            self.translate_binding,
+            self,
+            minimum=-10,
+            maximum=10,
+            steps=2000,
+            decimals=6,
+            single_step=0.1,
         )
         self.translate_label = Float3Label(
             self.translate_binding, self, decimals=decimals
@@ -69,9 +93,9 @@ class TransformFloat3Widget(qt.QWidget):
             self.translate_binding, self, decimals=6
         )
 
-        # Pythonの実値と共有Viewを並べ、表示精度とデータの精度を確認する。
-        form = qt.QFormLayout()
-        for name, spin_box, label in (
+        # 属性ごとに編集欄と共有ラベルをまとめ、Pythonの実値も表示する。
+        form = qt.QVBoxLayout()
+        for name, editor, label in (
             ("Translate", self.translate, self.translate_label),
             (
                 "Translate (6 decimals)",
@@ -81,10 +105,11 @@ class TransformFloat3Widget(qt.QWidget):
             ("Rotate", self.rotate, self.rotate_label),
             ("Scale", self.scale, self.scale_label),
         ):
-            row = qt.QHBoxLayout()
-            row.addWidget(spin_box, 1)
-            row.addWidget(label, 1)
-            form.addRow(name, row)
+            group = qt.QGroupBox(name, self)
+            column = qt.QVBoxLayout(group)
+            column.addWidget(editor)
+            column.addWidget(label)
+            form.addWidget(group)
         self.data_label = qt.QLabel(self)
         self.result_label = qt.QLabel(self)
         self.set_data_button = qt.QPushButton("Set Python data", self)
@@ -168,6 +193,7 @@ class TransformFloat3Window(qt.QDialog):
         super().__init__(parent)
         self.setObjectName("bdUtilPythonFloat3MayaViewSampleWindow")
         self.setWindowTitle("bakedanuki-util Python float3 / Maya")
+        self.setMinimumWidth(520)
         try:
             self.widget = TransformFloat3Widget(data, plugs, self)
         except Exception:

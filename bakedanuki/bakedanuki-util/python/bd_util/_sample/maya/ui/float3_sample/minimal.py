@@ -7,7 +7,7 @@ from .....maya.ui import MayaWindowController
 from .....ui import (
     Float3Binding,
     Float3Label,
-    Float3SpinBox,
+    Float3SliderSpinBox,
     FloatPresentation,
     qt,
 )
@@ -30,8 +30,12 @@ class MinimalFloat3Widget(qt.QWidget):
         )
 
         # 正本の精度を保持したまま、表示桁数の違う2つのViewを作る。
-        self.spin_box = Float3SpinBox(self.binding, self, decimals=3)
-        self.linked_spin_box = Float3SpinBox(self.binding, self, decimals=6)
+        self.spin_box = Float3SliderSpinBox(
+            self.binding, self, minimum=-10, maximum=10, decimals=3
+        )
+        self.linked_spin_box = Float3SliderSpinBox(
+            self.binding, self, minimum=-100, maximum=100, decimals=6
+        )
         self.value_label = Float3Label(self.binding, self, decimals=3)
         self.linked_value_label = Float3Label(self.binding, self, decimals=6)
         self.data_label = qt.QLabel(self)
@@ -44,8 +48,8 @@ class MinimalFloat3Widget(qt.QWidget):
         self.binding.changed.connect(self._on_value_changed)
 
         # 同期済みの表示とPythonの実値を並べ、各入力経路を試せるようにする。
-        form = qt.QFormLayout()
-        for name, spin_box, label in (
+        form = qt.QVBoxLayout()
+        for name, editor, label in (
             ("Offset (3 decimals)", self.spin_box, self.value_label),
             (
                 "Offset (6 decimals)",
@@ -53,10 +57,11 @@ class MinimalFloat3Widget(qt.QWidget):
                 self.linked_value_label,
             ),
         ):
-            row = qt.QHBoxLayout()
-            row.addWidget(spin_box, 1)
-            row.addWidget(label, 1)
-            form.addRow(name, row)
+            group = qt.QGroupBox(name, self)
+            column = qt.QVBoxLayout(group)
+            column.addWidget(editor)
+            column.addWidget(label)
+            form.addWidget(group)
         buttons = qt.QHBoxLayout()
         for button in (
             self.set_value_button,
@@ -107,6 +112,7 @@ class MinimalFloat3Window(qt.QDialog):
         super().__init__(parent)
         self.setObjectName("bdUtilMinimalFloat3SampleWindow")
         self.setWindowTitle("bakedanuki-util float3")
+        self.setMinimumWidth(520)
         self.widget = MinimalFloat3Widget(OffsetData(), self)
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.widget)

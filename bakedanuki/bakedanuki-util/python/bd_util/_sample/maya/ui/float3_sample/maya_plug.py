@@ -12,7 +12,7 @@ from .....maya.ui import (
     get_channel_box_precision,
     resolve_float3_plug,
 )
-from .....ui import Float3Label, Float3SpinBox, qt
+from .....ui import Float3Label, Float3SliderSpinBox, qt
 
 _TransformPlugs: TypeAlias = tuple[
     MayaFloat3Plug, MayaFloat3Plug, MayaFloat3Plug
@@ -33,14 +33,32 @@ class TransformFloat3Widget(qt.QWidget):
         self.translate_binding = MayaFloat3PlugBinding(plugs[0], parent=self)
         self.rotate_binding = MayaFloat3PlugBinding(plugs[1], parent=self)
         self.scale_binding = MayaFloat3PlugBinding(plugs[2], parent=self)
-        self.translate = Float3SpinBox(
-            self.translate_binding, self, decimals=decimals, single_step=0.1
+        self.translate = Float3SliderSpinBox(
+            self.translate_binding,
+            self,
+            minimum=-100,
+            maximum=100,
+            steps=2000,
+            decimals=decimals,
+            single_step=0.1,
         )
-        self.rotate = Float3SpinBox(
-            self.rotate_binding, self, decimals=decimals, single_step=1.0
+        self.rotate = Float3SliderSpinBox(
+            self.rotate_binding,
+            self,
+            minimum=-180,
+            maximum=180,
+            steps=3600,
+            decimals=decimals,
+            single_step=1.0,
         )
-        self.scale = Float3SpinBox(
-            self.scale_binding, self, decimals=decimals, single_step=0.01
+        self.scale = Float3SliderSpinBox(
+            self.scale_binding,
+            self,
+            minimum=0,
+            maximum=3,
+            steps=3000,
+            decimals=decimals,
+            single_step=0.01,
         )
         self.translate_label = Float3Label(
             self.translate_binding, self, decimals=decimals
@@ -52,17 +70,18 @@ class TransformFloat3Widget(qt.QWidget):
             self.scale_binding, self, decimals=decimals
         )
 
-        # 同じ3成分を編集欄とコピー可能なラベルで共有する。
-        layout = qt.QFormLayout(self)
-        for name, spin_box, label in (
+        # 属性ごとにXYZ編集欄をまとめ、その下に共有ラベルを並べる。
+        layout = qt.QVBoxLayout(self)
+        for name, editor, label in (
             ("Translate", self.translate, self.translate_label),
             ("Rotate", self.rotate, self.rotate_label),
             ("Scale", self.scale, self.scale_label),
         ):
-            row = qt.QHBoxLayout()
-            row.addWidget(spin_box, 1)
-            row.addWidget(label, 1)
-            layout.addRow(name, row)
+            group = qt.QGroupBox(name, self)
+            column = qt.QVBoxLayout(group)
+            column.addWidget(editor)
+            column.addWidget(label)
+            layout.addWidget(group)
 
 
 class TransformFloat3Window(qt.QDialog):
@@ -75,6 +94,7 @@ class TransformFloat3Window(qt.QDialog):
         super().__init__(parent)
         self.setObjectName("bdUtilTransformFloat3SampleWindow")
         self.setWindowTitle("bakedanuki-util Transform XYZ")
+        self.setMinimumWidth(520)
         self.widget = TransformFloat3Widget(plugs, self)
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.widget)

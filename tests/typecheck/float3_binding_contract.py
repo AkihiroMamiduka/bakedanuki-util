@@ -16,6 +16,7 @@ from bd_util.ui import (
     Float3,
     Float3Binding,
     Float3SpinBox,
+    Float3SliderSpinBox,
     Float3Value,
     Float3ValueStore,
     Float3ViewModel,
@@ -65,7 +66,7 @@ assert_type(view.x(), int)
 assert_type(FloatSpinBox(binding.view_model.x), FloatSpinBox)
 window = sample.show("sampleTransform")
 assert_type(window, sample.TransformFloat3Window)
-assert_type(window.widget.translate, Float3SpinBox)
+assert_type(window.widget.translate, Float3SliderSpinBox)
 assert_type(
     window.widget.rotate_binding, MayaFloat3PlugBinding[MayaFloat3Plug]
 )

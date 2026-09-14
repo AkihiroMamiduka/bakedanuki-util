@@ -951,6 +951,19 @@ lock・接続・読み取り専用でも表示とコピーを継続し、正本�
 3成分サンプルの`maya_plug`・`maya_view`・`minimal`に、既存の編集欄と共有するラベルを追加しています。
 API、コピー範囲、同期と寿命は[Float3Label](float3_label.md)を参照してください。
 
+### XYZのスライダーと数値入力
+
+`Float3SliderSpinBox(binding, minimum=-100, maximum=100)`は、各軸の`FloatSliderSpinBox`を
+縦3行に並べます。操作範囲は全軸共通の数値またはXYZの3成分Sequenceで指定します。
+`x_editor`・`y_editor`・`z_editor`から各軸のスライダーと数値入力へアクセスできます。
+各軸のドラッグ中も正本と共有Viewを更新し、Maya連携時はドラッグをUndo 1回にまとめます。
+単位・精度保持・部分lock・寿命は既存基盤を使い、View自体はcallbackを追加しません。
+3成分サンプルの編集欄をこのViewへ更新し、共有ラベルを各グループの下段に配置しています。
+設定、単位、Undo、サンプルの範囲は[Float3SliderSpinBox](float3_slider_spin_box.md)を参照してください。
+軸編集内の重複する全体再同期を編集完了時へ集約し、ドラッグの即時反映を保ちながら読込を削減しています。
+通知のタイミングは[3成分binding](float3_binding.md#各軸の編集と一括変更)、計測結果は上記Viewのドキュメントに記載しています。
+Min／Max・step編集欄を含む3成分Viewは、次の`Float3RangeSliderSpinBox`で対応する予定です。
+
 ### Python正本とMayaの3成分同期
 
 `MayaFloat3Binding.from_attribute()`はPython tupleを正本として、QtのXYZ ViewとMayaの
@@ -1461,13 +1474,13 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-2026-09-13にFloat3Labelと3成分サンプルの共有ラベルを追加した作業ツリーでの確認結果です。
+2026-09-14にFloat3SliderSpinBoxを追加し、3成分の軸編集時の重複再同期を削減した作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 590 passed | 244 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 590 passed | 244 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 590 passed | 244 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 640 passed | 244 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 640 passed | 244 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 640 passed | 244 passed |
 
 本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した結果です。
 範囲編集Viewを追加した際に、WindowsのシステムclipboardへQtから直接書き込む処理も失敗し、
@@ -1476,7 +1489,7 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
-Maya 2025 full pytestは`2758 passed, 499 skipped`です。全体実行ではMaya初期化が先になるため
+Maya 2025 full pytestは`2758 passed, 549 skipped`です。全体実行ではMaya初期化が先になるため
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。

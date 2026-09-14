@@ -157,7 +157,8 @@ window = maya_view.show("pCube1", data)
 ```
 
 既存transformへPython初期値を適用します。data省略時はサンプル既定値を使い、nodeは作成しません。
-Translate・Rotate・ScaleのXYZ行は起動時のChannel Box桁数を使い、Translateには6桁の共有行も表示します。
+Translate・Rotate・Scaleは[Float3SliderSpinBox](float3_slider_spin_box.md)で縦3行ずつ編集し、
+起動時のChannel Box桁数を使います。Translateには6桁の共有編集欄も表示し、各グループの下段に共有ラベルを配置します。
 
 1. QtとChannel Boxから各軸・親属性を編集し、Python tupleと共有Viewの同期を確認する。
 2. Preferencesの距離・角度単位を変更し、Python値を維持したまま表示単位が変わることを確認する。

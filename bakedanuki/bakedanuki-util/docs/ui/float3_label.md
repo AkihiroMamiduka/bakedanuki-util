@@ -92,7 +92,8 @@ window = maya_plug.show("pCube1")
 window.widget.translate_label.setDecimals(6)
 ```
 
-`maya_plug`と`maya_view`では`translate_label`・`rotate_label`・`scale_label`を既存のXYZ SpinBoxへ並べています。
+`maya_plug`と`maya_view`では`translate_label`・`rotate_label`・`scale_label`を
+各属性の[Float3SliderSpinBox](float3_slider_spin_box.md)の下段へ並べています。
 `maya_view`の`linked_translate_label`は6桁、その他は起動時のChannel Box桁数を使います。
 `minimal`の`value_label`は3桁、`linked_value_label`は6桁で、同じPython tupleを表示します。
 

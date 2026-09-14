@@ -37,18 +37,24 @@ class _ComponentFloatViewModel(FloatViewModel):
     """各軸の変更要求が終わった時点で、親の3成分を再同期する。"""
 
     def __init__(
-        self, after_write: Callable[[], None], parent: qt.QObject
+        self,
+        before_write: Callable[[], None],
+        after_write: Callable[[], None],
+        parent: qt.QObject,
     ) -> None:
-        """確定値が同じ場合にも呼ぶ同期処理を保持する。"""
+        """親の同期をまとめる開始処理と、同値でも呼ぶ完了処理を保持する。"""
+        self._before_write = before_write
         self._after_write = after_write
         super().__init__(parent=parent)
 
     def _request_value(self, value: float) -> bool:
         """他軸だけが補正された場合や失敗時にも親の正本を読み直す。"""
+        # scalarの値確定とStore通知を、親では1回の編集として扱う。
+        self._before_write()
         try:
             changed = super()._request_value(value)
-        except Exception:
-            # 同期の失敗で元のsetter例外を隠さない。
+        except BaseException:
+            # 中断時も編集を閉じ、同期の失敗で元のsetter例外を隠さない。
             try:
                 self._after_write()
             except Exception:
@@ -74,7 +80,11 @@ class Float3ViewModel(qt.QObject):
         self._value = _MutableFloat3Value(self)
         self._command = _MutableSetFloat3Command(self._request_value, self)
         self._components = tuple(
-            _ComponentFloatViewModel(self._refresh_after_component_write, self)
+            _ComponentFloatViewModel(
+                self._begin_component_write,
+                self._refresh_after_component_write,
+                self,
+            )
             for _ in range(3)
         )
 
@@ -235,8 +245,13 @@ class Float3ViewModel(qt.QObject):
         self.refresh()
         return actual != before
 
+    def _begin_component_write(self) -> None:
+        """各軸の処理中に届く全体の再同期を、最外側の編集完了へまとめる。"""
+        self._write_depth += 1
+
     def _refresh_after_component_write(self) -> None:
-        """各軸の処理後に全体を同期し、読めない正本は全軸の入力を止める。"""
+        """編集完了時に全体を即時同期し、読めない正本は全軸の入力を止める。"""
+        self._write_depth -= 1
         try:
             self.refresh()
         except Exception:

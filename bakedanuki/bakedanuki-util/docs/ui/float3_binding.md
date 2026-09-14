@@ -60,6 +60,7 @@ nodeや属性を自動作成せず、終了時にもMayaデータを削除・復
 | `Float3SpinBox(source, parent=None, decimals=6, single_step=0.1)` | XYZラベルと3つの`FloatSpinBox`を横に並べるView |
 | `view.x_spin_box` / `y_spin_box` / `z_spin_box` | 各軸の`FloatSpinBox` |
 | `Float3Label(source, parent=None, decimals=6)` | XYZの確定値を表示する、コピー可能な読み取り専用View |
+| `Float3SliderSpinBox(source, parent=None, minimum=..., maximum=..., ...)` | XYZのスライダーと数値入力を縦3行に並べるView |
 
 ViewはStore接続済みの`Float3ViewModel`または`Float3Binding`を受け取ります。
 同じBindingを複数Viewへ渡せるほか、`FloatSpinBox(binding.view_model.x)`で1軸だけを
@@ -84,11 +85,17 @@ SpinBoxからの編集は、その軸のscalar Commandで処理します。Xを�
 不正な成分があれば書き込み前に拒否し、一部だけを変更しません。
 Mayaでは親属性へのsetAttrが子のhard limitを適用しないため、Store側で事前に確認します。
 
-各軸の編集は1回のUndo、一括設定も3成分まとめて1回のUndoです。
+各軸の数値入力は1回のUndo、一括設定も3成分まとめて1回のUndoです。
+`Float3SliderSpinBox`のスライダーは各軸のドラッグを1回のUndoへまとめます。
+軸Commandの処理中に届く値確定・Store再読込の通知は、最外側の編集完了時の全体再同期へまとめます。
+ドラッグの位置変更ごとに、Commandが戻る前にXYZと共有Viewを同期します。
+各componentの`value.changed`は成分の途中通知です。全体の確定tupleを使う処理は、
+`binding.changed`／`view_model.store_refreshed`、または最外側のCommand完了後に実行してください。
+全体の通知slotがさらに値を変更した場合は、最新の正本へ揃うまで必要な再同期を行います。
 通常の一括設定では、中間tupleを公開せず`binding.changed`へ確定後のtupleを1回通知します。
 通知先がさらに編集した場合は、その結果も読み直して同期します。
 同じ格納値への再設定では変更通知やUndoを増やしません。float属性はfloat32への丸め結果で
-同値を判定します。連続stepを1回のUndoへまとめる機能は含めません。
+同値を判定します。SpinBoxの連続stepを1回のUndoへまとめる機能は含めません。
 
 一括変更は[AutodeskのsetAttr仕様](https://help.autodesk.com/cloudhelp/2026/ENU/Maya-Tech-Docs/CommandsPython/setAttr.html)
 に従い、既存PlugOperatorのModifierManagerへ積む`set()`とは独立した即時編集として扱います。
@@ -149,7 +156,9 @@ window.widget.scale_binding.set_value((1.0, 2.0, -1.0))
 maya_plug.dispose()
 ```
 
-Translate・Rotate・Scaleの3行に、各XYZのSpinBoxと共有する`Float3Label`を表示します。
+Translate・Rotate・Scaleのグループごとに、各XYZのスライダーと数値入力を縦3行に並べます。
+各グループの下段には共有する`Float3Label`を表示します。
+操作範囲とUndoは[Float3SliderSpinBox](float3_slider_spin_box.md)を参照してください。
 刻み幅は順に0.1、1.0、0.01で、各表示単位を使います。
 ラベルの表示・コピー・寿命は[Float3Label](float3_label.md)を参照してください。
 対象3属性を検証してから既存Windowを置き換えるため、無効なnode名で現在のWindowを閉じません。
@@ -162,6 +171,7 @@ Translate・Rotate・Scaleの3行に、各XYZのSpinBoxと共有する`Float3Lab
 ## 検証
 
 - `tests/ui/test_float3_binding.py`: 独自Store、共有View、精度保持、再入、失敗復旧、サンプルと寿命。
+- `tests/ui/test_float3_refresh_batch.py`: 軸編集内の通知集約、入れ子の編集、同期中の再編集、失敗・中断後の復旧。
 - `tests/maya/ui/test_float3_plug_binding.py`: 単位、各軸・一括変更、Undo／Redo、lock・接続、float32、callback。
 - `tests/typecheck/float3_binding_contract.py`: 公開API、各軸、具体PlugOperator、サンプルの型・ドット補完。
 
