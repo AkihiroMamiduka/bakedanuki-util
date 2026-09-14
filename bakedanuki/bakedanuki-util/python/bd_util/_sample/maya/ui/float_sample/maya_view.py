@@ -1,0 +1,324 @@
+# coding: utf-8
+"""Python正本の3つの単一float属性をQtとMayaへ同期するサンプル。"""
+
+from __future__ import annotations
+
+from collections.abc import Callable
+from typing import cast
+
+from .....maya.ui import (
+    MayaFloatBinding,
+    MayaFloatPlug,
+    MayaWindowController,
+    MayaUiStateTracker,
+    create_ui_state_manager,
+    get_channel_box_precision,
+    resolve_float_plug,
+)
+from .....ui import FloatLabel, FloatRangeSliderSpinBox, qt
+from .data import TransformFloatData
+
+
+class TransformFloatWidget(qt.QWidget):
+    """Pythonの各属性と、既存transformのX属性を共有Viewで編集する。"""
+
+    def __init__(
+        self,
+        data: TransformFloatData,
+        plugs: tuple[MayaFloatPlug, MayaFloatPlug, MayaFloatPlug],
+        parent: qt.QWidget | None = None,
+    ) -> None:
+        """単位の異なる3つのBindingを作り、Python初期値をMayaへ反映する。"""
+        super().__init__(parent)
+        self.data = data
+        self.translate_x_binding = MayaFloatBinding.from_attribute(
+            data, "translate_x", maya_plug=plugs[0], parent=self
+        )
+        self.rotate_x_binding = MayaFloatBinding.from_attribute(
+            data, "rotate_x", maya_plug=plugs[1], parent=self
+        )
+        self.scale_x_binding = MayaFloatBinding.from_attribute(
+            data, "scale_x", maya_plug=plugs[2], parent=self
+        )
+        self.bindings = (
+            self.translate_x_binding,
+            self.rotate_x_binding,
+            self.scale_x_binding,
+        )
+        decimals = get_channel_box_precision()
+        # 数値欄を固定幅・ボタンなしにし、スライダーへ余白を配分する。
+        self.translate_x_editor = FloatRangeSliderSpinBox(
+            self.translate_x_binding,
+            self,
+            minimum=-100,
+            maximum=100,
+            steps=2000,
+            decimals=decimals,
+            single_step=0.1,
+            step_mode="multiplicative",
+            step_width=80,
+            minimum_width=80,
+            maximum_width=80,
+            value_width=100,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            value_show_buttons=False,
+        )
+        self.rotate_x_editor = FloatRangeSliderSpinBox(
+            self.rotate_x_binding,
+            self,
+            minimum=-180,
+            maximum=180,
+            steps=3600,
+            decimals=decimals,
+            single_step=15.0,
+            step_mode="additive",
+            step_increment=15.0,
+            step_width=80,
+            minimum_width=80,
+            maximum_width=80,
+            value_width=100,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            value_show_buttons=False,
+        )
+        self.scale_x_editor = FloatRangeSliderSpinBox(
+            self.scale_x_binding,
+            self,
+            minimum=0,
+            maximum=3,
+            steps=3000,
+            decimals=decimals,
+            single_step=0.01,
+            step_mode="multiplicative",
+            step_width=80,
+            minimum_width=80,
+            maximum_width=80,
+            value_width=100,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            value_show_buttons=False,
+        )
+        # 共有Viewは数値欄を無効にし、Sliderからの編集と表示更新を継続する。
+        self.linked_translate_x_editor = FloatRangeSliderSpinBox(
+            self.translate_x_binding,
+            self,
+            minimum=-100,
+            maximum=100,
+            steps=2000,
+            decimals=6,
+            single_step=0.1,
+            minimum_width=80,
+            maximum_width=80,
+            value_width=100,
+            minimum_enabled=False,
+            maximum_enabled=False,
+            value_enabled=False,
+            step_enabled=False,
+            step_width=80,
+            step_show_buttons=False,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            value_show_buttons=False,
+        )
+        self.translate_x = self.translate_x_editor.spin_box
+        self.rotate_x = self.rotate_x_editor.spin_box
+        self.scale_x = self.scale_x_editor.spin_box
+        self.linked_translate_x = self.linked_translate_x_editor.spin_box
+        self.translate_x_slider = self.translate_x_editor.slider
+        self.rotate_x_slider = self.rotate_x_editor.slider
+        self.scale_x_slider = self.scale_x_editor.slider
+        self.linked_translate_x_slider = self.linked_translate_x_editor.slider
+        self.translate_x_label = FloatLabel(
+            self.translate_x_binding, self, decimals=decimals
+        )
+        self.linked_translate_x_label = FloatLabel(
+            self.translate_x_binding, self, decimals=6
+        )
+        self.rotate_x_label = FloatLabel(
+            self.rotate_x_binding, self, decimals=decimals
+        )
+        self.scale_x_label = FloatLabel(
+            self.scale_x_binding, self, decimals=decimals
+        )
+        # Pythonの実値と共有Viewを並べ、表示精度とデータの精度を確認する。
+        form = qt.QFormLayout()
+        for title, editor, label in (
+            (
+                "Translate X",
+                self.translate_x_editor,
+                self.translate_x_label,
+            ),
+            (
+                "Translate X (6 decimals)",
+                self.linked_translate_x_editor,
+                self.linked_translate_x_label,
+            ),
+            (
+                "Rotate X",
+                self.rotate_x_editor,
+                self.rotate_x_label,
+            ),
+            ("Scale X", self.scale_x_editor, self.scale_x_label),
+        ):
+            row = qt.QHBoxLayout()
+            # 伸縮するSliderだけ初期表示の操作幅を確保し、固定幅の指定は維持する。
+            if editor.slider.minimumWidth() != editor.slider.maximumWidth():
+                editor.slider.setMinimumWidth(160)
+            row.addWidget(editor, 1)
+            row.addWidget(label, 1)
+            form.addRow(title, row)
+        self.data_label = qt.QLabel(self)
+        self.result_label = qt.QLabel(self)
+        self.set_data_button = qt.QPushButton("Set Python data", self)
+        self.refresh_button = qt.QPushButton("Refresh views", self)
+        self.retry_button = qt.QPushButton("Retry Maya sync", self)
+        self.set_data_button.clicked.connect(self._set_data)
+        self.refresh_button.clicked.connect(self._refresh_views)
+        self.retry_button.clicked.connect(self._retry_sync)
+        for binding in self.bindings:
+            binding.changed.connect(self._update_data_label)
+        buttons = qt.QHBoxLayout()
+        buttons.addWidget(self.set_data_button)
+        buttons.addWidget(self.refresh_button)
+        buttons.addWidget(self.retry_button)
+        layout = qt.QVBoxLayout(self)
+        layout.addLayout(form)
+        layout.addWidget(self.data_label)
+        layout.addLayout(buttons)
+        layout.addWidget(self.result_label)
+        self._update_data_label()
+
+    @qt.Slot()
+    def _set_data(self) -> None:
+        """Python正本だけを変更し、明示refreshとの違いを確認する。"""
+        self.data.translate_x = 10.0
+        self.data.rotate_x = 20.0
+        self.data.scale_x = 2.0
+        self._update_data_label()
+
+    @qt.Slot()
+    def _refresh_views(self) -> None:
+        """正本を読み直し、全Qt ViewとMaya属性へ同期する。"""
+        for binding in self.bindings:
+            binding.refresh()
+        self._update_data_label()
+        self._show_sync_result()
+
+    @qt.Slot()
+    def _retry_sync(self) -> None:
+        """最後に確定したPython値を再同期し、成否を表示する。"""
+        for binding in self.bindings:
+            if binding.maya_view is not None:
+                try:
+                    binding.maya_view.sync_from_view_model()
+                except Exception:
+                    pass
+        self._show_sync_result()
+
+    def _show_sync_result(self) -> None:
+        """明示操作した時点のMaya同期状態を表示する。"""
+        states: list[str] = []
+        for binding in self.bindings:
+            view = binding.maya_view
+            state = (
+                "OK"
+                if view is not None and view.is_synchronized
+                else "Pending"
+            )
+            states.append(f"{binding.store.attribute_name}: {state}")
+        self.result_label.setText("Last sync check: " + ", ".join(states))
+
+    @qt.Slot()
+    def _update_data_label(self) -> None:
+        """表示用の丸めを加えず、Python値を公開単位付きで表示する。"""
+        self.data_label.setText(
+            f"Python: {self.data.translate_x!r} cm / "
+            f"{self.data.rotate_x!r} deg / {self.data.scale_x!r}"
+        )
+
+
+class TransformFloatWindow(qt.QDialog):
+    """Python正本とMaya Viewの同期サンプルを所有するWindow。"""
+
+    def __init__(
+        self,
+        data: TransformFloatData,
+        plugs: tuple[MayaFloatPlug, MayaFloatPlug, MayaFloatPlug],
+        parent: qt.QWidget | None = None,
+    ) -> None:
+        """データと既存plugを受け取り、サンプルWidgetを配置する。"""
+        super().__init__(parent)
+        # 保存先を先に準備し、失敗時にMayaのBindingを残さない。
+        self.editor_settings = create_ui_state_manager(
+            "float_sample/editor_settings/maya_view"
+        )
+        self.setObjectName("bdUtilPythonFloatMayaViewSampleWindow")
+        self.setWindowTitle("bakedanuki-util Python float / Maya")
+        try:
+            self.widget = TransformFloatWidget(data, plugs, self)
+        except Exception:
+            # 途中の属性だけ接続できた場合も、生成済みBindingを終了する。
+            find_children = cast(
+                Callable[[type[qt.QObject]], list[qt.QObject]],
+                getattr(self, "findChildren"),
+            )
+            for child in find_children(qt.QObject):
+                if isinstance(child, MayaFloatBinding):
+                    child.dispose()
+            self.deleteLater()
+            raise
+        layout = qt.QVBoxLayout(self)
+        layout.addWidget(self.widget)
+
+        # 共有Viewも個別の設定として、Window配置とは別に保存する。
+        for key, editor in (
+            ("translate_x", self.widget.translate_x_editor),
+            ("rotate_x", self.widget.rotate_x_editor),
+            ("scale_x", self.widget.scale_x_editor),
+            ("linked_translate_x", self.widget.linked_translate_x_editor),
+        ):
+            self.editor_settings.register_float_range_slider_spin_box(
+                key, editor
+            )
+        self.editor_settings_tracker = MayaUiStateTracker.for_window(
+            self.editor_settings, self
+        )
+
+
+_controller: MayaWindowController[TransformFloatWindow] | None = None
+
+
+def show(
+    node_name: str, data: TransformFloatData | None = None
+) -> TransformFloatWindow:
+    """指定transformへPython初期値を適用し、同期Windowを表示する。"""
+    global _controller
+    plugs = (
+        resolve_float_plug(node_name, "translateX"),
+        resolve_float_plug(node_name, "rotateX"),
+        resolve_float_plug(node_name, "scaleX"),
+    )
+    source = data if data is not None else TransformFloatData()
+    dispose()
+
+    def create_window(
+        parent: qt.QWidget | None = None,
+    ) -> TransformFloatWindow:
+        """同じPython正本を参照するWindowを生成する。"""
+        return TransformFloatWindow(source, plugs, parent)
+
+    _controller = MayaWindowController(create_window)
+    try:
+        return _controller.show()
+    except Exception:
+        dispose()
+        raise
+
+
+def dispose() -> None:
+    """Windowとcallbackを終了し、PythonとMayaの値は残す。"""
+    global _controller
+    if _controller is not None:
+        _controller.dispose()
+        _controller = None

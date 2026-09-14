@@ -1,41 +1,25 @@
 # coding: utf-8
+from __future__ import annotations
+
 import re
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from functools import partial
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 from .settings_path import SettingsPath
 from . import qt
+from ._ui_state_adapter import UiStateAdapter as _UiStateAdapter
+from ._ui_state_adapter import UiStateValue, require_widget
 
-UiStateValue = qt.QtCore.QByteArray | int
+if TYPE_CHECKING:
+    from .binding.float.view.range_slider_spin_box import (
+        FloatRangeSliderSpinBox,
+    )
+    from .binding.float3.view.range_slider_spin_box import (
+        Float3RangeSliderSpinBox,
+    )
+
 _STATE_KEY_PATTERN = re.compile(r"^[A-Za-z_]\w*$", re.ASCII)
-
-
-class _UiStateAdapter(ABC):
-    """1つのWidgetに対応する状態保存処理を定義する。"""
-
-    state_type: ClassVar[str]
-
-    @property
-    @abstractmethod
-    def state_object(self) -> qt.QtCore.QObject:
-        """状態を所有するQt objectを返す。"""
-        raise NotImplementedError
-
-    @abstractmethod
-    def save_state(self) -> UiStateValue | None:
-        """Widgetから保存可能な状態を取得する。"""
-        raise NotImplementedError
-
-    @abstractmethod
-    def restore_state(
-        self,
-        settings: qt.QtCore.QSettings,
-        state_key: str,
-    ) -> bool:
-        """QSettingsから状態を読み取りWidgetへ復元する。"""
-        raise NotImplementedError
 
 
 @dataclass(frozen=True)
@@ -172,15 +156,14 @@ class UiStateManager:
         """登録済みWidgetの現在の内部状態を保存する。"""
         # 全Widgetの状態を先に収集し、途中の失敗で保存済み値を壊さないようにする。
         for key, adapter in self._adapters.items():
-            state_object = adapter.state_object
-            if not qt.isValid(state_object):
+            if not adapter.is_available:
                 continue
 
             try:
                 state = adapter.save_state()
             except RuntimeError:
                 # 状態取得中にC++ objectが破棄された場合は以前の保存値を維持する。
-                if not qt.isValid(state_object):
+                if not adapter.is_available:
                     continue
                 raise
             self._cached_states[key] = state
@@ -248,8 +231,7 @@ class UiStateManager:
 
             # 登録済みの型と保存時の型が一致する状態だけを復元する。
             for key, adapter in self._adapters.items():
-                state_object = adapter.state_object
-                if not qt.isValid(state_object):
+                if not adapter.is_available:
                     continue
 
                 widget_group = f"{self._WIDGETS_GROUP}/{key}"
@@ -270,7 +252,7 @@ class UiStateManager:
                     )
                 except RuntimeError:
                     # 復元中に破棄されたWidgetでは保存済み値を削除しない。
-                    if not qt.isValid(state_object):
+                    if not adapter.is_available:
                         continue
                     raise
 
@@ -308,6 +290,12 @@ class UiStateManager:
 
     def _register(self, key: object, adapter: _UiStateAdapter) -> None:
         """検証済みのkeyでWidget adapterを登録する。"""
+        self._validate_key(key)
+        assert isinstance(key, str)
+        self._adapters[key] = adapter
+
+    def _validate_key(self, key: object) -> None:
+        """登録前に識別子の形式と重複を検証する。"""
         # QSettingsの階層を壊さない単純な固定識別子だけを許可する。
         if not isinstance(key, str):
             raise TypeError("UI state keyには文字列を指定してください")
@@ -318,9 +306,6 @@ class UiStateManager:
         if key in self._adapters:
             raise ValueError(f"UI state keyは既に登録されています: {key}")
 
-        # 呼び出し順を維持したdictへadapterを追加する。
-        self._adapters[key] = adapter
-
     def _capture_state(self, key: str, *_args: object) -> bool:
         """Widgetが生存中に最新状態をmemoryへ退避する。"""
         # signal発火元に対応する登録済みadapterだけを処理する。
@@ -328,18 +313,56 @@ class UiStateManager:
         if adapter is None:
             return False
 
-        state_object = adapter.state_object
-        if not qt.isValid(state_object):
+        if not adapter.is_available:
             return False
 
         try:
             state = adapter.save_state()
         except RuntimeError:
             # signal処理中にC++ objectが破棄された場合は以前の退避状態を維持する。
-            if not qt.isValid(state_object):
+            if not adapter.is_available:
                 return False
             raise
 
         # QSettingsへ頻繁に書き込まず、次回saveがまとめて永続化する。
         self._cached_states[key] = state
         return True
+
+    def register_float_range_slider_spin_box(
+        self, key: str, widget: FloatRangeSliderSpinBox
+    ) -> None:
+        """単一値ViewのMin・Max・stepを明示登録し、確定設定の変更を退避する。"""
+        from ._float_view_state import FloatRangeStateAdapter
+
+        self._validate_key(key)
+        adapter = FloatRangeStateAdapter(widget)
+        adapter.require_available()
+        self._register(key, adapter)
+        widget.settingsChanged.connect(partial(self._capture_state, key))
+        self._capture_state(key)
+
+    def register_float3_range_slider_spin_box(
+        self, key: str, widget: Float3RangeSliderSpinBox
+    ) -> None:
+        """3成分をkey_x・key_y・key_zへ独立登録し、全軸を先に検証する。"""
+        from .binding.float3.view.range_slider_spin_box import (
+            Float3RangeSliderSpinBox,
+        )
+        from ._float_view_state import FloatRangeStateAdapter
+
+        self._validate_key(key)
+        require_widget(widget, Float3RangeSliderSpinBox)
+        if not qt.isValid(widget):
+            raise RuntimeError("登録対象のViewは破棄されています")
+        entries = tuple(
+            zip(
+                (f"{key}_x", f"{key}_y", f"{key}_z"),
+                (widget.x_editor, widget.y_editor, widget.z_editor),
+            )
+        )
+        # Zの重複や終了済みViewでも、X・Yだけが登録される状態を残さない。
+        for axis_key, editor in entries:
+            self._validate_key(axis_key)
+            FloatRangeStateAdapter(editor).require_available()
+        for axis_key, editor in entries:
+            self.register_float_range_slider_spin_box(axis_key, editor)

@@ -817,6 +817,181 @@ manager.dispose()
 終了したManagerは再利用せず、新しいManagerを生成してください。構成を変更する場合も、
 古いManagerを`dispose()`してから作成します。
 
+## 浮動小数点値のMVVMとQDoubleSpinBox
+
+`MayaFloatPlugBinding`は既存Maya属性を正本として読み取り、`FloatSpinBox`で編集します。
+単位なしのfloat/double、距離、角度に対応し、表示・入力は現在のMaya表示単位へ追従します。
+Pythonからの`binding.value`／`set_value()`は既存PlugOperatorと同じcm／degree固定です。
+
+```python
+from bd_util._sample.maya.ui.float_sample import maya_plug
+
+# 既存transformの名前を指定する。nodeや属性は作成しない。
+window = maya_plug.show("pCube1")
+```
+
+サンプルは`translateX`、`rotateX`、`scaleX`にそれぞれ独立したBindingを作ります。
+`maya_plug.dispose()`またはWindowのcloseでUIとcallbackを終了します。
+API、単位、丸め、対応範囲は[浮動小数点binding](float_binding.md)を参照してください。
+サンプルの小数桁数はWindow生成時にChannel BoxのChange Precision設定から取得します。
+桁数設定の変更は次回表示時に反映し、距離・角度の単位変更は表示中も追従します。
+
+### 数値と単位の表示・コピー
+
+`FloatLabel(binding, decimals=6)`は、SpinBoxと同じBindingを共有できる読み取り専用の数値ラベルです。
+現在の表示単位と指定桁数で表示し、文字列の選択・コピーに対応します。表示の丸めは正本へ戻さず、
+lock・接続・Pythonの読み取り専用属性でも表示を継続します。Binding終了時には最終表示を残して無効化します。
+単一値サンプルの`maya_plug`・`minimal`・`maya_view`へ、SpinBoxと対になる共有ラベルを追加しています。
+API、精度、寿命、確認手順は[FloatLabel](float_label.md)を参照してください。
+
+### スライダーによる連続編集
+
+`FloatSlider(binding, minimum=-100, maximum=100)`は、公開単位の有限範囲を操作するViewです。
+ドラッグ中も正本・SpinBox・Labelへ即時反映し、Mayaへの一連の書き込みをUndo 1回にまとめます。
+範囲外の正本値や表示精度は維持し、つまみの表示位置だけを範囲内へ制限します。
+既存の`maya_plug`・`minimal`・`maya_view`サンプルで共有表示を確認できます。
+操作範囲、入力単位、Undoと中断の仕様は[FloatSlider](float_slider.md)を参照してください。
+
+### SliderとSpinBoxの複合View
+
+`FloatSliderSpinBox(binding, minimum=-100, maximum=100, decimals=3)`で、横並びの編集Viewを
+1つのWidgetとして配置できます。内部の`editor.slider`と`editor.spin_box`にも型補完つきでアクセスできます。
+各Viewが同じ正本を共有し、スライダーの操作範囲外の数値もSpinBoxから入力できます。
+API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slider_spin_box.md)を参照してください。
+
+### 最小値・最大値を編集する複合View
+
+`FloatRangeSliderSpinBox(binding, minimum=-100, maximum=100, decimals=3)`は、Sliderの両端に
+最小値／最大値欄を備えた複合Viewです。現在の表示単位で操作範囲を変更でき、値やMayaのUndoには影響しません。
+範囲はViewごとに保持し、hard limitによる実際の操作範囲や不正入力の理由も表示します。
+`slider_width`・`minimum_width`・`maximum_width`・`value_width`は指定時に固定幅、未指定なら伸縮します。
+`minimum_enabled`・`maximum_enabled`・`value_enabled`で各数値欄の操作可否を指定できます。
+`minimum_show_buttons`・`maximum_show_buttons`・`value_show_buttons`は各欄の増減ボタンを設定します。
+Min／Maxの桁数は`minimum_decimals`・`maximum_decimals`（既定0桁）、現在値は`decimals`で独立して指定します。
+現在値欄を無効にしても、Sliderからの操作と正本からの表示更新は継続します。
+`minimum_show_unit`・`maximum_show_unit`・`value_show_unit`は各欄の単位文字の表示を個別に指定します（全て既定`False`）。
+単位文字を省略しても、Mayaの表示単位への追従と表示・入力の数値換算は継続します。
+現在値の右側のstep欄で、そのViewの現在値の刻み幅を変更できます。
+`step_mode="additive"`は`step_increment`（既定1）ずつ増減し、`"multiplicative"`は10倍／1/10倍にします。
+`step_width`・`step_enabled`・`step_show_buttons`・`step_show_unit`でstep欄も個別に設定できます。
+step変更はMin／Maxや他Viewの刻み幅、スライダー分割数、正本の値、MayaのUndoを変更しません。
+Mayaの単位変更時は刻み幅の数値を維持し、新しい表示単位で解釈します。
+`maya_plug`・`maya_view`・`minimal`サンプルは、このViewと共有ラベルを並べる構成です。
+API、単位・精度、確認手順は[FloatRangeSliderSpinBox](float_range_slider_spin_box.md)を参照してください。
+
+## Python属性を正本にする浮動小数点binding
+
+`FloatBinding.from_attribute()`はPython objectやdataclassの数値属性を正本とし、
+既存の`FloatSpinBox`で編集します。生成される`PythonFloatAttributeStore`は正本の具体型を
+維持し、setterによる補正・拒否、有限値の検証、読み取り専用属性に対応します。
+表示単位と範囲は`FloatPresentation`で明示でき、直接代入後は`binding.refresh()`で同期します。
+
+```python
+from bd_util._sample.maya.ui.float_sample import minimal
+
+window = minimal.show()
+```
+
+サンプルは1つのPython属性を3桁と6桁のSpinBoxと数値ラベルで共有し、直接代入とrefreshも試せます。
+API、単位、範囲、寿命は[Python属性の浮動小数点binding](python_float_binding.md)を参照してください。
+
+## Python属性とMaya Viewの浮動小数点同期
+
+`MayaFloatBinding.from_attribute()`はPython属性を正本とし、Qt WidgetとMaya属性を同期します。
+初期値はPythonからMayaへ適用し、Maya側の編集はCommand経由でPythonへ渡します。
+距離はcm、角度はdegreeでPythonに保持し、Qt表示はMayaの現在単位に追従します。
+Maya側のlock・接続などによる同期失敗は、Python Storeの編集可否とは別に公開します。
+
+```python
+from bd_util._sample.maya.ui.float_sample import maya_view
+
+window = maya_view.show("pCube1")
+```
+
+既存transformのtranslateX・rotateX・scaleXへサンプルのPython初期値を適用します。
+API、精度、Undo/Redo、同期失敗の扱いは[Python正本とMaya View](python_float_maya_binding.md)を
+参照してください。Pythonの3成分tupleとMaya compound全体は`MayaFloat3Binding`で同期できます。
+
+## 3成分の浮動小数点値とXYZ編集
+
+`MayaFloat3PlugBinding`と`Float3SpinBox`は、`translate`・`rotate`・`scale`を
+それぞれXYZの行として編集します。各軸は既存のscalar基盤を使い、単位・桁数・精度保持の
+規則を引き継ぎます。Yだけをlockした場合でもX・Zは編集できます。
+
+```python
+from bd_util._sample.maya.ui.float3_sample import maya_plug
+
+window = maya_plug.show("pCube1")
+window.widget.translate_binding.set_value((100.0, 200.0, 300.0))
+```
+
+各軸の入力はその軸だけを書き換え、他の成分の実値を保持します。
+`set_value()`は全成分を事前検証し、1回のMaya Undoで戻せる一括設定を行います。
+API、対応属性、Storeの構成は[3成分binding](float3_binding.md)を参照してください。
+
+Python objectの3成分tupleは`Float3Binding.from_attribute(data, "offset", parent=...)`で
+接続できます。各軸は他成分の最新値を保持してsetterへ渡し、setterによる全軸の補正も
+再同期します。`FloatPresentation`は全軸共通またはXYZごとに指定できます。
+
+```python
+from bd_util._sample.maya.ui.float3_sample import minimal
+
+window = minimal.show()
+```
+
+サンプルは3桁と6桁のXYZ Viewを共有し、一括編集、Python属性への直接代入、refreshを試せます。
+対応する値の型と失敗時の扱いは[Python属性の3成分binding](python_float3_binding.md)を参照してください。
+
+### XYZの数値表示ラベル
+
+`Float3Label(binding, decimals=6)`はX・Y・Zの`FloatLabel`を横に並べる読み取り専用Viewです。
+既存の`Float3SpinBox`とBindingを共有し、各軸の単位追従・表示精度・選択コピーを再利用します。
+`x_label`・`y_label`・`z_label`で各値欄へアクセスし、`setDecimals()`で全軸の表示桁数を変更できます。
+lock・接続・読み取り専用でも表示とコピーを継続し、正本の終了後は各値欄を無効化します。
+3成分サンプルの`maya_plug`・`maya_view`・`minimal`に、既存の編集欄と共有するラベルを追加しています。
+API、コピー範囲、同期と寿命は[Float3Label](float3_label.md)を参照してください。
+
+### XYZのスライダーと数値入力
+
+`Float3SliderSpinBox(binding, minimum=-100, maximum=100)`は、各軸の`FloatSliderSpinBox`を
+縦3行に並べます。操作範囲は全軸共通の数値またはXYZの3成分Sequenceで指定します。
+`x_editor`・`y_editor`・`z_editor`から各軸のスライダーと数値入力へアクセスできます。
+各軸のドラッグ中も正本と共有Viewを更新し、Maya連携時はドラッグをUndo 1回にまとめます。
+単位・精度保持・部分lock・寿命は既存基盤を使い、View自体はcallbackを追加しません。
+設定、単位、Undoは[Float3SliderSpinBox](float3_slider_spin_box.md)を参照してください。
+軸編集内の重複する全体再同期を編集完了時へ集約し、ドラッグの即時反映を保ちながら読込を削減しています。
+通知のタイミングは[3成分binding](float3_binding.md#各軸の編集と一括変更)、計測結果は上記Viewのドキュメントに記載しています。
+
+### XYZの範囲・step編集付きスライダー
+
+`Float3RangeSliderSpinBox`は各軸の`FloatRangeSliderSpinBox`を縦3行に並べます。
+Min・スライダー・Max・現在値・stepを備え、操作範囲とstepはそのView・その軸だけの設定として扱います。
+範囲は全軸共通またはXYZ別に指定でき、幅・編集可否・ボタン・単位表示・stepモードは生成時に全軸へ適用します。
+`x_editor`・`y_editor`・`z_editor`から各軸の範囲やstepを個別に調整できます。
+3成分サンプルをこのViewへ更新し、共有ラベルを各グループの下段に配置しています。
+API・単位・Undo・サンプルは[Float3RangeSliderSpinBox](float3_range_slider_spin_box.md)を参照してください。
+
+単一値・3成分のMVVMとView拡張について、予定した機能実装はここまでで完了しています。
+Min／Max・stepの保存・復元は[操作設定の保存](float_view_settings.md)を参照してください。
+完了範囲、今後のリセットの候補、拡張時に維持する仕様は
+[浮動小数点MVVMの到達点と今後の拡張](float_roadmap.md)にまとめています。
+
+### Python正本とMayaの3成分同期
+
+`MayaFloat3Binding.from_attribute()`はPython tupleを正本として、QtのXYZ ViewとMayaの
+translate・rotate・scaleを同期します。初期値はPythonからMayaへ適用し、親属性の一括変更は
+setter 1回、Mayaへの一括反映も1回のUndoで扱います。単位と表示精度は単一値版と共通です。
+一部の軸がlock・入力接続で書けない場合もPython編集を続け、一括同期は部分反映せず保留します。
+
+```python
+from bd_util._sample.maya.ui.float3_sample import maya_view
+
+window = maya_view.show("pCube1")
+```
+
+API、単位、Undo/Redo、寿命、手動確認手順は[Python正本とMaya Viewの3成分同期](python_float3_maya_binding.md)を
+参照してください。
+
 ## Maya callbackのlifecycle管理
 
 `MayaCallbackRegistry`は、`MEventMessage`、`MSceneMessage`、`MNodeMessage`などが返す
@@ -925,10 +1100,16 @@ Windows予約名や使用できない文字は拒否されます。
 ## Widget内部状態の保存
 
 `UiStateManager`は、明示登録したWidgetの内部状態を同じtool単位の`ui.ini`へ保存します。
-第一弾では次のWidgetに対応しています。
+次のWidgetに対応しています。
 
 - `QSplitter`: 分割位置
 - `QTabWidget`: 現在選択されているタブ
+- `FloatRangeSliderSpinBox`: Min／Max・step
+- `Float3RangeSliderSpinBox`: XYZ各軸のMin／Max・step
+
+数値Viewは`register_float_range_slider_spin_box()`／`register_float3_range_slider_spin_box()`で登録します。
+配置リセットで設定を保持するため、`tool/editor_settings/main`など配置とは別のsettings_pathを使用してください。
+単位・形式・終了時の保存とサンプルは[Min／Max・stepの保存と復元](float_view_settings.md)にまとめています。
 
 `QHeaderView`の列幅・表示順は対応対象に含めません。MayaのworkspaceControlでは終了時の
 layout変更とWidget破棄の順序により、利用中のheader stateを安定して取得・復元できなかった
@@ -1311,41 +1492,28 @@ Maya APIを使うUIテストを独立したmayapy processで実行します。py
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
 
-<<<<<<< HEAD
-2026-09-06に`test-ui-maya-all.cmd`を単独実行した際の確認結果です。
-=======
-2026-09-07時点の確認結果です。
->>>>>>> feature/mvvm-bool
+2026-09-14にMin／Max・stepの保存・復元を追加し、単一値・3成分の6サンプルへ組み込んだ作業ツリーでの確認結果です。
 
 | Maya | Python | Qt binding | `tests/ui` | `tests/maya/ui` |
 | --- | --- | --- | --- | --- |
-| 2025 | 3.11.4 | PySide6 6.5.3 | 173 passed | 113 passed |
-| 2026 | 3.11.9 | PySide6 6.5.3 | 173 passed | 113 passed |
-| 2027 | 3.13.9 | PySide6 6.8.3 | 173 passed | 113 passed |
+| 2025 | 3.11.4 | PySide6 6.5.3 | 726 passed | 244 passed |
+| 2026 | 3.11.9 | PySide6 6.5.3 | 726 passed | 244 passed |
+| 2027 | 3.13.9 | PySide6 6.8.3 | 726 passed | 244 passed |
 
-<<<<<<< HEAD
-上表はUI専用テストの結果であり、repository全体の統合検証成功とは区別します。
-同日の最新作業ツリーで`verify.cmd`を再実行し、Black、3 versionのPyright contract、
-Maya 2025 full pytest、3 versionのUI互換性テスト、`git diff --check`まで成功しました。
-Maya 2025 full pytestは`2558 passed, 78 skipped`です。統一検証内のUIテストは、
-各versionで`tests/ui`が`43 passed, 78 skipped`、`tests/maya/ui`が`92 passed`でした。
-この実行ではMaya standaloneが生成したapplicationが`QApplication`ではないため、
-`QApplication`を必要とする78件がskipされており、上表の単独実行結果と区別します。
+本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した結果です。
+範囲編集Viewを追加した際に、WindowsのシステムclipboardへQtから直接書き込む処理も失敗し、
+通常環境の統一検証が既存のFloatLabelコピーtestで停止したため、同じoffscreen環境を使用しています。同じコピー操作を含めて
+全件成功しています。Windowsのシステムclipboardとの実際の連携は、このoffscreen検証では確認していません。
 
-以前の`test_plugin_metadata_matches_runtime`の失敗は、staged plug-inの`apiVersion`が
-`20250000`、実行中Mayaが`20250303`という不一致によるものでした。
-コミット`be634885`で更新された現在のバイナリでは、両方が`20250303`で一致し、
-当該テストも成功しています。この不一致は解消済みで、検証条件は変更していません。
-通常の`verify.cmd`はnative buildを行わず、配置済みのstaged plug-inを使用します。
-=======
-2026-09-07の`verify.cmd`は、Black、3 versionのPyright contract、Maya 2025 full pytest、
-上表の3 version UI互換性テスト、`git diff --check`まで成功しました。
-full pytestは`2579 passed, 130 skipped`です。全体実行ではMaya初期化が先になるため
-Widgetを必要とするtestがskipされますが、
-上表のUI専用processではskipなしで確認しています。
-以前記録していた`test_plugin_metadata_matches_runtime`の不一致も今回の実行では再現していません。
-Maya本体での手動表示・操作確認は今回の自動テスト結果に含めません。
->>>>>>> feature/mvvm-bool
+`verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
+上表の3 version UI互換性テスト、`git diff --check`を実行します。
+Maya 2025 full pytestは`2761 passed, 632 skipped`です。全体実行ではMaya初期化が先になるため
+Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
+Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
+Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。
+別途、Min／Max・stepの保存・復元までユーザーから動作確認・push完了の報告を受けています。
+今回の完了範囲と確認記録は[浮動小数点MVVMの到達点](float_roadmap.md)、
+次回の変更で注意する既定値・キー・形式・リセットは[保存機能の開発時の引き継ぎ](float_view_settings.md#開発時の引き継ぎ)を参照してください。
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って

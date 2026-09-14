@@ -1,0 +1,157 @@
+# coding: utf-8
+from dataclasses import dataclass
+from typing import assert_type
+
+from bd_util import Nodes
+from bd_util.ui import (
+    FloatBinding,
+    FloatRangeSliderSpinBox,
+    FloatSlider,
+    FloatSpinBox,
+    FloatStepMode,
+    FloatStepSpinBox,
+    FloatViewModel,
+    FloatPresentation,
+    FloatUnitKind,
+    SettingsPath,
+    UiStateManager,
+    qt,
+)
+from bd_util.ui.binding import FloatRangeSliderSpinBox as BindingEditor
+from bd_util.ui.binding.float import FloatRangeSliderSpinBox as PackageEditor
+from bd_util.ui.binding.float.view import FloatRangeSliderSpinBox as ViewEditor
+from bd_util.maya.ui import (
+    MayaFloatBinding,
+    MayaFloatPlugBinding,
+    MayaFloat3PlugBinding,
+    MayaUiStateTracker,
+)
+from bd_util._sample.maya.ui.float_sample import maya_plug, maya_view, minimal
+
+
+@dataclass
+class Data:
+    value: float = 0.5
+
+
+owner = qt.QWidget()
+data = Data()
+binding = FloatBinding.from_attribute(data, "value", parent=owner)
+editor = FloatRangeSliderSpinBox(
+    binding,
+    owner,
+    minimum=-10,
+    maximum=10,
+    steps=1000,
+    decimals=4,
+    single_step=0.1,
+    step_mode="multiplicative",
+    step_increment=15,
+    step_width=80,
+    step_enabled=True,
+    step_show_buttons=False,
+    step_show_unit=False,
+    slider_width=None,
+    minimum_width=80,
+    maximum_width=80,
+    value_width=100,
+    minimum_enabled=False,
+    maximum_enabled=True,
+    value_enabled=False,
+    minimum_show_buttons=False,
+    maximum_show_buttons=True,
+    value_show_buttons=False,
+    minimum_decimals=0,
+    maximum_decimals=2,
+    minimum_show_unit=False,
+    maximum_show_unit=True,
+    value_show_unit=False,
+)
+assert_type(editor.view_model, FloatViewModel)
+assert_type(editor.slider, FloatSlider)
+assert_type(editor.spin_box, FloatSpinBox)
+assert_type(editor.minimum_spin_box, qt.QDoubleSpinBox)
+assert_type(editor.maximum_spin_box, qt.QDoubleSpinBox)
+assert_type(editor.step_spin_box, FloatStepSpinBox)
+assert_type(editor.step_spin_box.stepMode(), FloatStepMode)
+assert_type(editor.step_spin_box.setValue(15), None)
+assert_type(
+    FloatStepSpinBox(step_mode="additive", step_increment=15), FloatStepSpinBox
+)
+assert_type(editor.range_status_label, qt.QLabel)
+assert_type(editor.floatRange(), tuple[float, float])
+assert_type(editor.setFloatRange(-1, 1), None)
+assert_type(editor.effectiveFloatRange(), tuple[float, float] | None)
+assert_type(editor.decimals(), int)
+assert_type(editor.setDecimals(6), None)
+assert_type(editor.minimumDecimals(), int)
+assert_type(editor.setMinimumDecimals(0), None)
+assert_type(editor.maximumDecimals(), int)
+assert_type(editor.setMaximumDecimals(2), None)
+assert_type(editor.spin_box.isInputEnabled(), bool)
+assert_type(editor.spin_box.setInputEnabled(False), None)
+assert_type(editor.spin_box.isUnitVisible(), bool)
+assert_type(editor.spin_box.setUnitVisible(True), None)
+assert_type(editor.singleStep(), float)
+assert_type(editor.setSingleStep(0.25), None)
+assert_type(
+    BindingEditor(binding, minimum=0, maximum=1), FloatRangeSliderSpinBox
+)
+assert_type(
+    PackageEditor(binding.view_model, minimum=0, maximum=1),
+    FloatRangeSliderSpinBox,
+)
+assert_type(
+    ViewEditor(FloatViewModel(), minimum=0, maximum=1, slider_width=160),
+    FloatRangeSliderSpinBox,
+)
+node = Nodes().existing.transform("pCube1")
+assert_type(
+    FloatRangeSliderSpinBox(
+        MayaFloatPlugBinding(node.translate.translateX),
+        minimum=-100,
+        maximum=100,
+    ),
+    FloatRangeSliderSpinBox,
+)
+assert_type(
+    FloatRangeSliderSpinBox(
+        MayaFloatBinding.from_attribute(
+            data, "value", maya_plug=node.translate.translateX
+        ),
+        minimum=-100,
+        maximum=100,
+    ),
+    FloatRangeSliderSpinBox,
+)
+assert_type(
+    FloatRangeSliderSpinBox(
+        MayaFloat3PlugBinding(node.translate).view_model.x,
+        minimum=-100,
+        maximum=100,
+    ),
+    FloatRangeSliderSpinBox,
+)
+assert_type(
+    maya_plug.show("pCube1").widget.translate_x_editor, FloatRangeSliderSpinBox
+)
+assert_type(
+    maya_view.show("pCube1").widget.linked_translate_x_editor,
+    FloatRangeSliderSpinBox,
+)
+assert_type(minimal.show().widget.editor, FloatRangeSliderSpinBox)
+settings = UiStateManager(
+    qt.QtCore.QSettings(), SettingsPath("tool/editor_settings/main")
+)
+assert_type(
+    settings.register_float_range_slider_spin_box("value", editor), None
+)
+assert_type(settings.registered_keys, tuple[str, ...])
+assert_type(settings.restore(), frozenset[str])
+editor.settingsChanged.connect(lambda: None)
+assert_type(FloatPresentation(unit_kind="distance").unit_kind, FloatUnitKind)
+assert_type(maya_plug.show("pCube1").editor_settings, UiStateManager)
+assert_type(
+    maya_view.show("pCube1").editor_settings_tracker, MayaUiStateTracker
+)
+assert_type(minimal.show().editor_settings, UiStateManager)
