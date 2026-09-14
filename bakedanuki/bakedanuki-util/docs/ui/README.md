@@ -971,6 +971,10 @@ Min・スライダー・Max・現在値・stepを備え、操作範囲とstepは
 3成分サンプルをこのViewへ更新し、共有ラベルを各グループの下段に配置しています。
 API・単位・Undo・サンプルは[Float3RangeSliderSpinBox](float3_range_slider_spin_box.md)を参照してください。
 
+単一値・3成分のMVVMとView拡張について、予定した機能実装はここまでで完了しています。
+完了範囲、今後の範囲・step保存／復元とリセットの候補、拡張時に維持する仕様は
+[浮動小数点MVVMの到達点と今後の拡張](float_roadmap.md)にまとめています。
+
 ### Python正本とMayaの3成分同期
 
 `MayaFloat3Binding.from_attribute()`はPython tupleを正本として、QtのXYZ ViewとMayaの

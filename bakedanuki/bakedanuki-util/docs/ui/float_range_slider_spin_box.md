@@ -252,6 +252,9 @@ Bindingの明示終了・ViewModelのQt破棄時には、範囲・step入力も�
 Viewの破棄で共有Bindingは終了しません。Maya callbackもこのViewには追加しません。
 範囲のファイル保存・復元は行わず、Windowを作り直すと生成時の範囲へ戻ります。
 
+範囲・stepの保存／復元と初期設定へ戻す操作は、今後の任意拡張の候補です。
+責務分担、単位の扱い、検証観点は[浮動小数点MVVMの今後の拡張](float_roadmap.md)を参照してください。
+
 ## サンプルと確認
 
 既存の`maya_plug.py`・`maya_view.py`・`minimal.py`で、このViewを使用します。

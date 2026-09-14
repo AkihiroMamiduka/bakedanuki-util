@@ -115,6 +115,8 @@ window = maya_plug.show("pCube1")
 Min／Max・stepを変更して他軸・他Viewの設定が保たれること、ドラッグの即時同期とUndo、
 単位変更、lock・接続、close後の再表示を確認してください。範囲とstepの保存・復元はこのViewには含みません。
 
+保存／復元と初期設定へ戻す操作を追加する際の設計案は、[浮動小数点MVVMの今後の拡張](float_roadmap.md)を参照してください。
+
 `tests/ui/test_float3_range_slider_spin_box.py`は軸別設定・範囲・入力・寿命を検証します。
 `tests/ui/test_float3_slider_spin_box_maya.py`は両方の3成分スライダーでMaya同期・Undo・callback・
 読込回数を確認し、範囲・step編集の単位変更とUndoからの独立性も検証します。

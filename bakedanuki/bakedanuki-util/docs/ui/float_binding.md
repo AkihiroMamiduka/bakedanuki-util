@@ -170,8 +170,12 @@ window.widget.translate_x_binding.set_value(100.0)
 maya_plug.dispose()
 ```
 
-3行のSpinBoxを表示します。刻み幅はTranslate Xが0.1、Rotate Xが1.0、Scale Xが0.01で、
-それぞれ表示単位で指定しています。対象を検証してから前のWindowを置き換えます。
+現在のサンプルは、Translate X・Rotate X・Scale Xそれぞれの
+[FloatRangeSliderSpinBox](float_range_slider_spin_box.md)と共有する`FloatLabel`を3行で表示します。
+初期stepは順に0.1、15、0.01で、それぞれ表示単位で指定しています。
+Translate X・Scale Xのstep欄は10倍／1/10倍、Rotate Xは15ずつ増減します。
+各行の複合Viewには`translate_x_editor`・`rotate_x_editor`・`scale_x_editor`でアクセスできます。
+数値欄の単位文字は非表示、共有ラベルには表示します。対象を検証してから前のWindowを置き換えます。
 nodeや属性を自動作成せず、close・disposeでもMayaデータは残します。
 3つのViewの小数桁数はWindow生成時にChannel Boxの設定から一度だけ取得します。
 Windowを開いている間にChange Precisionを変更しても桁数は変わらず、次の`show()`で反映します。
