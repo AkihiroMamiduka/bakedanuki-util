@@ -1503,7 +1503,7 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した結果です。
 範囲編集Viewを追加した際に、WindowsのシステムclipboardへQtから直接書き込む処理も失敗し、
 通常環境の統一検証が既存のFloatLabelコピーtestで停止したため、同じoffscreen環境を使用しています。同じコピー操作を含めて
-全件成功しています。Windowsのシステムclipboardとの連携と、Maya本体での手動操作は未確認です。
+全件成功しています。Windowsのシステムclipboardとの実際の連携は、このoffscreen検証では確認していません。
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。
@@ -1511,6 +1511,9 @@ Maya 2025 full pytestは`2761 passed, 632 skipped`です。全体実行ではMay
 Widgetを必要とするtestがskipされますが、上表のUI専用processではskipなしで確認しています。
 Maya 2027には`QtTest`が同梱されていないため、入力テストは標準のQt key eventを使います。
 Maya本体での手動表示・操作確認は、この自動テスト結果に含めません。
+別途、Min／Max・stepの保存・復元までユーザーから動作確認・push完了の報告を受けています。
+今回の完了範囲と確認記録は[浮動小数点MVVMの到達点](float_roadmap.md)、
+次回の変更で注意する既定値・キー・形式・リセットは[保存機能の開発時の引き継ぎ](float_view_settings.md#開発時の引き継ぎ)を参照してください。
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って

@@ -96,6 +96,50 @@ QByteArray内のJSONには`version=1`、`unit_kind`、`minimum`、`maximum`、`s
 不正な行は設定を適用せず保存データを除去し、現在の設定を維持します。初回復元なら生成時設定が残ります。
 他View・他軸の有効な保存データは引き続き復元します。形式全体の未知schemaは既存managerの仕様で無視します。
 
+## 開発時の引き継ぎ
+
+### 既定値・保存キー・形式を変更するとき
+
+登録時にはその時点の設定も退避するため、ユーザーが編集していない初期設定も終了時に保存します。
+有効な保存値がある場合は、次のWindow生成時に引数で指定したMin／Max・stepより保存値が優先されます。
+サンプルや製品の既定値を変更して確認するときは、一時INIなど保存値のない環境と、既存設定のある環境の両方を使用してください。
+
+settings_path・key・XYZへ展開するkeyは保存データの識別子です。変更しても旧データを自動で移動・削除しません。
+既存設定を引き継ぐなら移行処理を用意し、引き継がないなら新しい識別子を使う意図を明確にします。
+同じkeyの役割や公開単位を変更するときは、旧設定を誤って適用しないかも確認してください。
+
+manager全体の`SCHEMA_VERSION`と、各行のJSONの`version`は別のものです。
+範囲・stepの保存形式を拡張する場合は、まず行のadapter内で互換性・移行・拒否方針を決め、
+SplitterやTabにも影響するmanager全体のschema変更が必要か判断してください。
+現在は旧形式からの自動移行を提供せず、対応外の行versionは不正な行として削除します。
+
+`FloatPresentation`の等価比較には`unit_kind`も含まれます。
+表示倍率・suffix・hard limitが同じでも、距離・角度・通常数値の種別が違えば別のpresentationです。
+Maya adapterを変更した場合は、種別の引き継ぎと、比較するテストの期待値も確認してください。
+
+### リセットと終了処理を拡張するとき
+
+`manager.clear()`はそのsettings_pathの`ui_state`全体と、そのmanagerの退避値を消去します。
+登録したViewや画面上のMin／Max・stepは変更しません。1行だけの削除APIでもありません。
+表示中の設定を保持したまま`save()`や設定変更を行うと、その設定が再び保存対象になります。
+別managerのmemory内の退避値も消去しないため、終了前保存との順序にも注意してください。
+将来の初期設定リセットでは、対象Viewへの初期値適用と次回起動時の保存結果を一緒に検証します。
+
+終了時は退避済みの値を使う構成を維持します。新しいadapterでも、QWidgetが生存しているだけで
+Bindingも利用できるとは判断せず、取得不能なら退避値と保存済みデータを保持してください。
+設定変更通知を追加する場合も、現在値のドラッグごとの再取得やファイル書き込みは増やさない方針です。
+
+### 実装の入口
+
+以下は内部実装の参照先です。ツールからは上記の公開登録APIとViewのsetterを使用します。
+
+| 変更内容 | 主な参照先 |
+| --- | --- |
+| 確定設定の通知 | [FloatRangeSliderSpinBox](../../python/bd_util/ui/binding/float/view/range_slider_spin_box.py) |
+| 行の保存形式・単位判定・事前検証 | [FloatRangeStateAdapter](../../python/bd_util/ui/_float_view_state.py) |
+| 登録・XYZ展開・退避・保存 | [UiStateManager](../../python/bd_util/ui/ui_state.py) |
+| Window／dock／Maya終了との接続 | [MayaUiStateTracker](../../python/bd_util/maya/ui/ui_state.py) |
+
 ## サンプルと確認
 
 `float_sample`と`float3_sample`の`maya_plug.py`・`maya_view.py`・`minimal.py`は保存を有効にしています。
