@@ -12,7 +12,7 @@ from .....maya.ui import (
     get_channel_box_precision,
     resolve_float3_plug,
 )
-from .....ui import Float3Label, Float3SliderSpinBox, qt
+from .....ui import Float3Label, Float3RangeSliderSpinBox, qt
 
 _TransformPlugs: TypeAlias = tuple[
     MayaFloat3Plug, MayaFloat3Plug, MayaFloat3Plug
@@ -33,7 +33,7 @@ class TransformFloat3Widget(qt.QWidget):
         self.translate_binding = MayaFloat3PlugBinding(plugs[0], parent=self)
         self.rotate_binding = MayaFloat3PlugBinding(plugs[1], parent=self)
         self.scale_binding = MayaFloat3PlugBinding(plugs[2], parent=self)
-        self.translate = Float3SliderSpinBox(
+        self.translate = Float3RangeSliderSpinBox(
             self.translate_binding,
             self,
             minimum=-100,
@@ -41,17 +41,33 @@ class TransformFloat3Widget(qt.QWidget):
             steps=2000,
             decimals=decimals,
             single_step=0.1,
+            step_mode="multiplicative",
+            minimum_width=60,
+            maximum_width=60,
+            value_width=max(130, 55 + 8 * decimals),
+            step_width=80,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            value_show_buttons=False,
         )
-        self.rotate = Float3SliderSpinBox(
+        self.rotate = Float3RangeSliderSpinBox(
             self.rotate_binding,
             self,
             minimum=-180,
             maximum=180,
             steps=3600,
             decimals=decimals,
-            single_step=1.0,
+            single_step=15.0,
+            step_increment=15.0,
+            minimum_width=60,
+            maximum_width=60,
+            value_width=max(130, 55 + 8 * decimals),
+            step_width=80,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            value_show_buttons=False,
         )
-        self.scale = Float3SliderSpinBox(
+        self.scale = Float3RangeSliderSpinBox(
             self.scale_binding,
             self,
             minimum=0,
@@ -59,6 +75,14 @@ class TransformFloat3Widget(qt.QWidget):
             steps=3000,
             decimals=decimals,
             single_step=0.01,
+            step_mode="multiplicative",
+            minimum_width=60,
+            maximum_width=60,
+            value_width=max(130, 55 + 8 * decimals),
+            step_width=80,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            value_show_buttons=False,
         )
         self.translate_label = Float3Label(
             self.translate_binding, self, decimals=decimals
@@ -94,7 +118,7 @@ class TransformFloat3Window(qt.QDialog):
         super().__init__(parent)
         self.setObjectName("bdUtilTransformFloat3SampleWindow")
         self.setWindowTitle("bakedanuki-util Transform XYZ")
-        self.setMinimumWidth(520)
+        self.setMinimumWidth(720)
         self.widget = TransformFloat3Widget(plugs, self)
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.widget)

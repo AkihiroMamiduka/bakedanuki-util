@@ -32,6 +32,7 @@ def texts(view):
 def spin_texts(view):
     return tuple(
         spin.text()
+        + ("" if spin.isUnitVisible() else spin.view_model.presentation.suffix)
         for spin in (view.x_spin_box, view.y_spin_box, view.z_spin_box)
     )
 

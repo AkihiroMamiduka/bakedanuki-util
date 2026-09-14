@@ -13,7 +13,12 @@ from bd_util.maya.ui import (
 )
 from bd_util.maya.ui.binding._float_edit import FloatEditUndo
 from bd_util.maya.ui.binding._float_plug_value import FloatPlugValue
-from bd_util.ui import Float3Label, Float3SliderSpinBox, qt
+from bd_util.ui import (
+    Float3Label,
+    Float3SliderSpinBox,
+    Float3RangeSliderSpinBox,
+    qt,
+)
 from bd_util._sample.maya.ui.float3_sample import maya_plug, maya_view, minimal
 
 
@@ -66,19 +71,27 @@ def make_binding(owner, node, source, attribute="translate"):
     )
 
 
+@pytest.fixture(params=[Float3SliderSpinBox, Float3RangeSliderSpinBox])
+def view_factory(request):
+    def create(binding, parent, **kwargs):
+        if request.param is Float3RangeSliderSpinBox:
+            kwargs["value_show_unit"] = True
+        return request.param(binding, parent, **kwargs)
+
+    return create
+
+
 @pytest.mark.parametrize("source", ["maya", "python"])
 @pytest.mark.parametrize("attribute", ["translate", "rotate", "scale"])
 def test_each_axis_drag_is_one_undo_and_tracks_units_and_other_views(
-    scene, source, attribute
+    scene, source, attribute, view_factory
 ):
     owner, node = scene
     binding = make_binding(owner, node, source, attribute)
     original = binding.value
     before = tuple(om.MMessage.nodeCallbacks(node.m_obj))
-    view = Float3SliderSpinBox(
-        binding, owner, minimum=-100, maximum=100, decimals=3
-    )
-    linked = Float3SliderSpinBox(
+    view = view_factory(binding, owner, minimum=-100, maximum=100, decimals=3)
+    linked = view_factory(
         binding.view_model, owner, minimum=-100, maximum=100, decimals=3
     )
     label = Float3Label(binding, owner, decimals=3)
@@ -145,12 +158,12 @@ def test_each_axis_drag_is_one_undo_and_tracks_units_and_other_views(
 
 
 def test_drag_limits_maya_rereads_per_position_without_delaying_other_axes(
-    scene, monkeypatch
+    scene, monkeypatch, view_factory
 ):
     owner, node = scene
     binding = make_binding(owner, node, "maya")
     original = binding.value
-    view = Float3SliderSpinBox(binding, owner, minimum=0, maximum=100)
+    view = view_factory(binding, owner, minimum=0, maximum=100)
     read = FloatPlugValue.read
     reads = 0
 
@@ -174,13 +187,13 @@ def test_drag_limits_maya_rereads_per_position_without_delaying_other_axes(
 
 @pytest.mark.parametrize("source", ["maya", "python"])
 def test_switching_axis_ends_previous_edit_and_closing_other_view_does_not(
-    scene, source
+    scene, source, view_factory
 ):
     owner, node = scene
     binding = make_binding(owner, node, source)
     original = binding.value
-    view = Float3SliderSpinBox(binding, owner, minimum=0, maximum=100)
-    other = Float3SliderSpinBox(binding, owner, minimum=0, maximum=100)
+    view = view_factory(binding, owner, minimum=0, maximum=100)
+    other = view_factory(binding, owner, minimum=0, maximum=100)
     cmds.flushUndo()
     view.x_editor.slider.setSliderDown(True)
     view.x_editor.slider.setValue(300)
@@ -207,13 +220,15 @@ def test_switching_axis_ends_previous_edit_and_closing_other_view_does_not(
     assert cmds.undoInfo(q=True, undoQueueEmpty=True)
 
 
-def test_axis_and_parent_lock_connection_and_callback_release(scene):
+def test_axis_and_parent_lock_connection_and_callback_release(
+    scene, view_factory
+):
     owner, node = scene
     path = f"{node.cmd_access_name}.translate"
     baseline = tuple(om.MMessage.nodeCallbacks(node.m_obj))
     binding = make_binding(owner, node, "maya")
     before = tuple(om.MMessage.nodeCallbacks(node.m_obj))
-    view = Float3SliderSpinBox(binding, owner, minimum=0, maximum=100)
+    view = view_factory(binding, owner, minimum=0, maximum=100)
     label = Float3Label(binding, owner)
     view.y_editor.slider.setSliderDown(True)
     view.y_editor.slider.setValue(300)
@@ -242,6 +257,10 @@ def test_axis_and_parent_lock_connection_and_callback_release(scene):
         view.z_editor.slider.value(),
     ) == (200, 400, 600)
     assert not view.x_spin_box.isEnabled()
+    if isinstance(view, Float3RangeSliderSpinBox):
+        assert view.x_editor.minimum_spin_box.isEnabled()
+        assert view.y_editor.maximum_spin_box.isEnabled()
+        assert view.z_editor.step_spin_box.isEnabled()
     assert label.x_label.text() == "20.000000 cm"
     view.deleteLater()
     flush()
@@ -252,6 +271,70 @@ def test_axis_and_parent_lock_connection_and_callback_release(scene):
     binding.dispose()
     flush()
     assert tuple(om.MMessage.nodeCallbacks(node.m_obj)) == baseline
+
+
+@pytest.mark.parametrize("source", ["maya", "python"])
+@pytest.mark.parametrize("attribute", ["translate", "rotate", "scale"])
+def test_range_and_step_edits_remain_local_across_units_and_undo(
+    scene, source, attribute
+):
+    owner, node = scene
+    binding = make_binding(owner, node, source, attribute)
+    original = binding.value
+    view = Float3RangeSliderSpinBox(
+        binding,
+        owner,
+        minimum=-100,
+        maximum=100,
+        minimum_decimals=6,
+        maximum_decimals=6,
+        single_step=15,
+        step_mode="multiplicative",
+        minimum_show_unit=True,
+        step_show_unit=True,
+    )
+    linked = Float3RangeSliderSpinBox(binding, owner, minimum=-10, maximum=10)
+    cmds.currentUnit(linear="m", angle="rad")
+    flush()
+    cmds.flushUndo()
+    presentation = view.view_model.y.presentation
+    editor = view.y_editor
+    assert (
+        editor.minimum_spin_box.suffix()
+        == editor.step_spin_box.suffix()
+        == presentation.suffix
+    )
+    assert editor.maximum_spin_box.suffix() == editor.spin_box.suffix() == ""
+    assert editor.minimum_spin_box.value() == pytest.approx(
+        presentation.to_display(-100), abs=1e-6
+    )
+    editor.minimum_spin_box.setValue(presentation.to_display(-200))
+    editor.step_spin_box.stepDown()
+    assert editor.singleStep() == 1.5
+    low, high = editor.floatRange()
+    assert low == pytest.approx(-200, abs=1e-4)
+    assert high == 100
+    assert (
+        view.x_editor.floatRange() == view.z_editor.floatRange() == (-100, 100)
+    )
+    assert linked.y_editor.floatRange() == (-10, 10)
+    assert linked.y_editor.singleStep() == 0.1
+    assert binding.value == pytest.approx(original)
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+    editor.slider.setSliderDown(True)
+    editor.slider.setValue(600)
+    editor.slider.setValue(800)
+    editor.slider.setSliderDown(False)
+    cmds.undo()
+    flush()
+    assert binding.value == pytest.approx(original)
+    assert editor.floatRange() == (low, high)
+    assert editor.singleStep() == 1.5
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+    cmds.currentUnit(linear="cm", angle="deg")
+    flush()
+    assert editor.floatRange() == (low, high)
+    assert editor.singleStep() == 1.5
 
 
 @pytest.mark.parametrize("sample", ["maya", "python_maya", "python"])
@@ -271,7 +354,7 @@ def test_samples_close_during_drag_release_callbacks_and_reopen(scene, sample):
         if sample == "python"
         else window.widget.translate
     )
-    assert isinstance(editor, Float3SliderSpinBox)
+    assert isinstance(editor, Float3RangeSliderSpinBox)
     assert editor.x_editor.spin_box is editor.x_spin_box
     editor.z_editor.slider.setSliderDown(True)
     editor.z_editor.slider.setValue(750)

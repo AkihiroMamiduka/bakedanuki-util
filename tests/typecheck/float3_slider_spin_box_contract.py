@@ -6,6 +6,7 @@ from bd_util import Nodes
 from bd_util.ui import (
     Float3Binding,
     Float3SliderSpinBox,
+    Float3RangeSliderSpinBox,
     Float3ViewModel,
     FloatSlider,
     FloatSliderSpinBox,
@@ -67,8 +68,10 @@ assert_type(
     ),
     Float3SliderSpinBox,
 )
-assert_type(maya_plug.show("pCube1").widget.translate, Float3SliderSpinBox)
 assert_type(
-    maya_view.show("pCube1").widget.linked_translate, Float3SliderSpinBox
+    maya_plug.show("pCube1").widget.translate, Float3RangeSliderSpinBox
 )
-assert_type(minimal.show().widget.spin_box, Float3SliderSpinBox)
+assert_type(
+    maya_view.show("pCube1").widget.linked_translate, Float3RangeSliderSpinBox
+)
+assert_type(minimal.show().widget.spin_box, Float3RangeSliderSpinBox)

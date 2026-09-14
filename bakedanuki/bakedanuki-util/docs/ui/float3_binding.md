@@ -61,6 +61,7 @@ nodeや属性を自動作成せず、終了時にもMayaデータを削除・復
 | `view.x_spin_box` / `y_spin_box` / `z_spin_box` | 各軸の`FloatSpinBox` |
 | `Float3Label(source, parent=None, decimals=6)` | XYZの確定値を表示する、コピー可能な読み取り専用View |
 | `Float3SliderSpinBox(source, parent=None, minimum=..., maximum=..., ...)` | XYZのスライダーと数値入力を縦3行に並べるView |
+| `Float3RangeSliderSpinBox(source, parent=None, minimum=..., maximum=..., ...)` | 各軸のMin・スライダー・Max・現在値・stepを縦3行に並べるView |
 
 ViewはStore接続済みの`Float3ViewModel`または`Float3Binding`を受け取ります。
 同じBindingを複数Viewへ渡せるほか、`FloatSpinBox(binding.view_model.x)`で1軸だけを
@@ -158,8 +159,8 @@ maya_plug.dispose()
 
 Translate・Rotate・Scaleのグループごとに、各XYZのスライダーと数値入力を縦3行に並べます。
 各グループの下段には共有する`Float3Label`を表示します。
-操作範囲とUndoは[Float3SliderSpinBox](float3_slider_spin_box.md)を参照してください。
-刻み幅は順に0.1、1.0、0.01で、各表示単位を使います。
+操作範囲・step編集とUndoは[Float3RangeSliderSpinBox](float3_range_slider_spin_box.md)を参照してください。
+刻み幅は順に0.1、15、0.01で、各表示単位を使います。
 ラベルの表示・コピー・寿命は[Float3Label](float3_label.md)を参照してください。
 対象3属性を検証してから既存Windowを置き換えるため、無効なnode名で現在のWindowを閉じません。
 

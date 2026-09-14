@@ -15,7 +15,7 @@ from bd_util.ui import (
     Float3Binding,
     Float3ValueStore,
     Float3SpinBox,
-    Float3SliderSpinBox,
+    Float3RangeSliderSpinBox,
     PythonFloat3AttributeStore,
     qt,
 )
@@ -52,7 +52,7 @@ window = maya_view.show("pCube1", data)
 assert_type(
     window.widget.translate_binding.store.instance, TransformFloat3Data
 )
-assert_type(window.widget.linked_translate, Float3SliderSpinBox)
+assert_type(window.widget.linked_translate, Float3RangeSliderSpinBox)
 assert_type(maya_view.dispose(), None)
 
 # 直接Viewを構築する場合も、親plugから子属性の補完を辿れる。

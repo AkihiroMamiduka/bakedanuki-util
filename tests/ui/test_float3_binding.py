@@ -274,8 +274,10 @@ def test_sample_units_precision_parent_changes_and_reopen(scene, precision):
     assert tuple(scene.translate.get()) == before
     assert cmds.undoInfo(q=True, undoQueueEmpty=True)
     cmds.currentUnit(linear="m", angle="rad")
-    assert widget.translate.x_spin_box.suffix() == " m"
-    assert widget.rotate.z_spin_box.suffix() == " rad"
+    assert widget.translate.x_spin_box.suffix() == ""
+    assert widget.rotate.z_spin_box.suffix() == ""
+    assert widget.translate.view_model.x.presentation.suffix == " m"
+    assert widget.rotate.view_model.z.presentation.suffix == " rad"
     assert widget.scale.y_spin_box.suffix() == ""
     widget.translate.x_spin_box.setValue(2)
     assert tuple(scene.translate.get()) == (200, before[1], before[2])

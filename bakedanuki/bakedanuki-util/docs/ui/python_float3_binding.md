@@ -135,7 +135,7 @@ window = minimal.show()
 ```
 
 1つの`OffsetData.offset`を3桁と6桁のXYZ Viewで共有します。
-編集欄は[Float3SliderSpinBox](float3_slider_spin_box.md)で、操作範囲はそれぞれ-10～10、-100～100です。
+編集欄は[Float3RangeSliderSpinBox](float3_range_slider_spin_box.md)で、初期操作範囲はそれぞれ-10～10、-100～100です。
 各編集欄の下段に同じBindingの`Float3Label`を配置しています。
 
 1. Xだけを編集し、他軸の実値の精度が維持されることを確認する。

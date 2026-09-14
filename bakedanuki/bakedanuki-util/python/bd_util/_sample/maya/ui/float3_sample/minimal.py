@@ -7,7 +7,7 @@ from .....maya.ui import MayaWindowController
 from .....ui import (
     Float3Binding,
     Float3Label,
-    Float3SliderSpinBox,
+    Float3RangeSliderSpinBox,
     FloatPresentation,
     qt,
 )
@@ -30,11 +30,37 @@ class MinimalFloat3Widget(qt.QWidget):
         )
 
         # 正本の精度を保持したまま、表示桁数の違う2つのViewを作る。
-        self.spin_box = Float3SliderSpinBox(
-            self.binding, self, minimum=-10, maximum=10, decimals=3
+        self.spin_box = Float3RangeSliderSpinBox(
+            self.binding,
+            self,
+            minimum=-10,
+            maximum=10,
+            decimals=3,
+            minimum_decimals=2,
+            maximum_decimals=2,
+            step_mode="multiplicative",
+            minimum_width=80,
+            maximum_width=80,
+            value_width=130,
+            step_width=80,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            value_show_buttons=False,
         )
-        self.linked_spin_box = Float3SliderSpinBox(
-            self.binding, self, minimum=-100, maximum=100, decimals=6
+        self.linked_spin_box = Float3RangeSliderSpinBox(
+            self.binding,
+            self,
+            minimum=-100,
+            maximum=100,
+            decimals=6,
+            step_mode="multiplicative",
+            minimum_width=80,
+            maximum_width=80,
+            value_width=130,
+            step_width=80,
+            minimum_show_buttons=False,
+            maximum_show_buttons=False,
+            value_show_buttons=False,
         )
         self.value_label = Float3Label(self.binding, self, decimals=3)
         self.linked_value_label = Float3Label(self.binding, self, decimals=6)
@@ -112,7 +138,7 @@ class MinimalFloat3Window(qt.QDialog):
         super().__init__(parent)
         self.setObjectName("bdUtilMinimalFloat3SampleWindow")
         self.setWindowTitle("bakedanuki-util float3")
-        self.setMinimumWidth(520)
+        self.setMinimumWidth(720)
         self.widget = MinimalFloat3Widget(OffsetData(), self)
         layout = qt.QVBoxLayout(self)
         layout.addWidget(self.widget)

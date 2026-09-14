@@ -258,8 +258,10 @@ def test_sample_initial_values_precision_refresh_retry_close_and_reopen(node):
         assert tuple(node.rotate.get()) == pytest.approx((20, 40, 60))
         assert tuple(node.scale.get()) == (2, 3, 4)
         cmds.currentUnit(linear="m", angle="rad")
-        assert widget.translate.x_spin_box.suffix() == " m"
-        assert widget.rotate.y_spin_box.suffix() == " rad"
+        assert widget.translate.x_spin_box.suffix() == ""
+        assert widget.rotate.y_spin_box.suffix() == ""
+        assert widget.translate.view_model.x.presentation.suffix == " m"
+        assert widget.rotate.view_model.y.presentation.suffix == " rad"
         cmds.setAttr(f"{node.cmd_access_name}.ty", lock=True)
         widget.translate_binding.set_value((50, 60, 70))
         widget.retry_button.click()

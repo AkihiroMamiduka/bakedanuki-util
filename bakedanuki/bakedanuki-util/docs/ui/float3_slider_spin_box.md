@@ -110,7 +110,7 @@ Python正本とMaya同期では、Pythonの編集可否を優先し、Mayaへ書
 同値入力時の他軸変更、setter補正、失敗時の実値復旧も確認します。
 通知先から再編集された場合は、確定値が揃うまで必要な再同期を継続します。
 
-2026-09-14にMaya 2025の`mayapy`で`maya_plug`サンプルのtranslateXを計測した結果です。
+2026-09-14にMaya 2025の`mayapy`で、Float3SliderSpinBoxを使っていた時点の`maya_plug`サンプルのtranslateXを計測した結果です。
 
 | 位置変更1回あたり | 集約前 | 集約後 |
 | --- | --- | --- |
@@ -143,6 +143,7 @@ window = maya_plug.show("pCube1")
 ```
 
 `maya_plug`はMaya正本、`maya_view`はPython正本とMaya同期、`minimal`はPython属性のみのサンプルです。
+現在のサンプルの編集欄は、Min／Max・step編集を備える[Float3RangeSliderSpinBox](float3_range_slider_spin_box.md)です。
 属性ごとのグループに縦3行の編集欄を配置し、その下に共有する`Float3Label`を表示します。
 
 | サンプルの編集欄 | スライダーの範囲 | 分割数 |
@@ -167,4 +168,4 @@ window = maya_plug.show("pCube1")
 `tests/typecheck/float3_slider_spin_box_contract.py`は公開APIの型補完を検証します。
 最終検証は`scripts/verify.cmd`を使用し、[UI README](README.md)へ結果を記載します。
 
-操作範囲をUI上から変更するMin／Max欄とstep編集欄の3成分化は、次の`Float3RangeSliderSpinBox`で対応する予定です。
+操作範囲をUI上から変更するMin／Max欄とstep編集欄は、`Float3RangeSliderSpinBox`が提供します。
