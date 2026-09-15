@@ -4171,6 +4171,44 @@ def explicit_curve_keyframe_contract(
     keyframe.plug  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 
+def keyframe_move_contract(nodes: bdu.Nodes) -> None:
+    channel = nodes.existing.transform("ctrl").tx.keyframe
+    layer = channel.anim_layer("Correction")
+    curve = nodes.existing.animCurveTL("curve").keyframe
+    for keyframe in (channel, layer, curve):
+        assert_type(keyframe.move_key(10, offset_frames=15), None)
+        assert_type(
+            keyframe.move_key(10, to_frame=15, insert_missing=True), None
+        )
+        assert_type(keyframe.move_keys(10, 20, offset_frames=15), None)
+        assert_type(keyframe.move_keys(10, 20, to_start_frame=20), None)
+        assert_type(keyframe.move_keys(10, 20, to_end_frame=30), None)
+        assert_type(keyframe.move_keys(10, None, offset_frames=15), None)
+        assert_type(keyframe.move_keys(None, 20, offset_frames=15), None)
+        assert_type(keyframe.move_keys(to_start_frame=0), None)
+        assert_type(
+            keyframe.move_keys(to_end_frame=100, insert_missing=True), None
+        )
+        keyframe.move_key(10)  # pyright: ignore[reportCallIssue]
+        keyframe.move_keys()  # pyright: ignore[reportCallIssue]
+        keyframe.move_key(  # pyright: ignore[reportCallIssue]
+            10,
+            offset_frames=1,
+            to_frame=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_keys(  # pyright: ignore[reportCallIssue]
+            to_start_frame=10,
+            to_end_frame=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_keys(
+            offset_frames=1,
+            insert_missing=1,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_key(
+            "10", to_frame=20  # pyright: ignore[reportArgumentType]
+        )
+
+
 def curve_discovery_contract(nodes: bdu.Nodes) -> None:
     keyframe = nodes.existing.transform("target").translate.translateX.keyframe
     candidates = keyframe.find_anim_curves()

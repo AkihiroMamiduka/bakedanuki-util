@@ -26,6 +26,8 @@ QUERIES = (
     ("get_weighted", {}),
 )
 EDITS = (
+    ("move_key", {"frame": 1, "to_frame": 5}),
+    ("move_keys", {"offset_frames": 2}),
     ("insert_key", {"frame": 3}),
     ("set_tangent", {"frame": 1, "out_tangent_type": "flat"}),
     ("delete_key", {"frame": 1}),

@@ -755,6 +755,94 @@ frames = keyframe.frames()
 これらの操作は上記のチャンネル選択の規則を共有します。constraint先の属性からドライバー側の
 カーブを暗黙に編集することはありません。任意時刻のplug値は`sample_values()`で取得します。
 
+### キーを時間方向へ移動する
+
+`move_key()` / `move_keys()`は、移動対象を位置引数、移動方法をkeyword引数で指定します。
+戻り値は`None`で、同じModifierManagerへ予約します。値方向の移動や時間の拡大縮小は行いません。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+keyframe = ctrl.tx.keyframe
+
+keyframe.move_keys(10, 20, offset_frames=15)
+mod.do_it_dg()
+```
+
+| 用途 | 呼び出し例 |
+| --- | --- |
+| 単一キーを相対移動 | `move_key(10, offset_frames=15)` |
+| 単一キーを絶対移動 | `move_key(10, to_frame=15)` |
+| 範囲を相対移動 | `move_keys(10, 20, offset_frames=15)` |
+| 開始境界を20へ合わせる | `move_keys(10, 20, to_start_frame=20)` |
+| 終了境界を30へ合わせる | `move_keys(10, 20, to_end_frame=30)` |
+| 10以降を移動 | `move_keys(10, None, offset_frames=15)` |
+| 20以前を移動 | `move_keys(None, 20, offset_frames=15)` |
+| 全体を移動 | `move_keys(offset_frames=-5)` |
+| 最初のキーを0へ合わせる | `move_keys(to_start_frame=0)` |
+
+`move_key(frame, *, offset_frames=None, to_frame=None, insert_missing=False)`は、
+移動量または移動先のどちらか1つを必ず指定します。
+`move_keys(start_frame=None, end_frame=None, *, offset_frames=None, to_start_frame=None,
+to_end_frame=None, insert_missing=False)`も、移動方法3種類のうち1つだけ指定します。
+指定なし・複数指定、非有限数、逆転した範囲、bool以外の`insert_missing`は予約時に拒否します。
+型・補完でも移動方法の排他指定を検査します。
+
+範囲は両端を含み、`None`の側は無制限です。明示した境界は、その数値自体を
+絶対移動の基準にします。例えば12～28の範囲に20のキーしかなくても、
+`move_keys(12, 28, to_start_frame=20)`は+8の移動なので、キーは28へ移ります。
+基準側が`None`の場合は対象キーの最初・最後を基準にします。対象キーは初回実行時に
+決定するため、同じbatchの先行キー設定や移動も反映します。
+
+時刻と移動量は呼び出し時のUI時間単位で捕捉します。負の時刻・subframeを許可し、
+整数フレームへ丸めません。予約後にFPSを変更しても物理的な時刻・移動量を維持します。
+時刻の一致はMayaの時間精度に従います。指定するのはカーブ自身の入力時刻で、
+接続された時間driverからscene時刻を逆算しません。
+Mayaで表現できないほど大きな時刻・移動量は拒否し、移動先の計算が表現範囲を
+超えた場合も、別の時刻へ折り返さず実行を失敗させてrollbackします。
+
+移動先と同時刻の対象外キーは削除し、移動元の値・接線・lock・breakdownで置き換えます。
+途中のキーは残し、移動対象同士が互いの元時刻へ移る場合は両方を移動します。
+例えばキーが0・10・20・30にある場合、10→20なら元の20だけを置換し、
+10→25なら20は残ります。0・10を+10した場合は元の20を置換し、0・10の両キーが
+10・20へ移ります。キーindexは移動後に変わる場合があります。
+
+既定の`insert_missing=False`は実在キーだけを移動します。`True`なら、単一移動では
+元の指定時刻、範囲移動では明示した開始・終了時刻に欠けているキーを挿入してから移します。
+両端が同時刻なら1キー、`None`側には追加しません。対象区間に実在キーがなくても、
+空でないカーブがあれば境界を補えます。新しいキーはbreakdownではありません。
+
+```python
+keyframe.move_key(12, to_frame=15, insert_missing=True)
+keyframe.move_keys(40, 50, to_start_frame=60, insert_missing=True)
+mod.do_it_dg()
+```
+
+挿入はMayaの`insertKey()`でカーブ自身の補間・infinity評価に基づいて行い、
+境界の値は両方とも挿入前のカーブから取得します。先の挿入による繰り返し周期の変化で、
+後の境界値が変わることを防ぎます。隣接接線が調整される場合があります。
+これは詳細データの範囲切り出しとは別で、
+区間全体の接線を一律fixed化する処理や、繰り返し領域のベイクは行いません。
+挿入後の接線情報を移動し、auto・linear等は新しい前後関係に応じて再計算されます。
+部分移動では対象外の隣接区間も形状が変わり得ます。fixed接線の方向・重み、
+既存キーの接線type・lock・breakdown、カーブのweighted・infinity設定は維持します。
+
+カーブなし・空カーブ・対象キーなしは何も変更しません。カーブを新規作成せず、
+移動量0（同じ時刻への絶対移動を含む）では境界挿入も行いません。
+これらのno-opでも通常のmanager・対象構成・lock / reference検査は適用します。
+対象選択は他の編集と共通で、属性経由はベースまたは`anim_layer()`の指定先、
+明示カーブはそのノード自身です。属性経由のTA / TL / TU / TTとbool・enum等も扱えます。
+明示カーブの入口は引き続きTA / TL / TUです。
+
+内部では順序を維持できる移動に`setInput()`を使い、上書き・飛び越しでは必要なキーだけを
+削除・再挿入します。公開の詳細データAPIや全カーブ置換は経由しません。
+挿入・削除・移動・接線復元を1つの`MAnimCurveChange`へ記録し、Undo / Redoでは
+上書きされたキーも復元します。途中失敗時は同じ実行batchの先行変更もrollbackします。
+queryは保留中modifierを実行せず、Redoは初回に記録した対象への変更を再生します。
+
 ### キー情報とカーブ全体の保存・復元
 
 `get_curve_data() -> AnimCurveData | None`と`set_curve_data(data)`で、

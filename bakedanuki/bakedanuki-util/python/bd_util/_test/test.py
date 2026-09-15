@@ -33,6 +33,10 @@ def main():
     trsf.ty.keyframe.set_keys(
         samples, in_tangent_type="auto", out_tangent_type="auto"
     )
+    offset_samples = [(f + 200, v) for f, v in samples]
+    trsf.ty.keyframe.set_keys(
+        offset_samples, in_tangent_type="auto", out_tangent_type="auto"
+    )
 
     curve_data = trsf.tx.keyframe.get_curve_data()
     if curve_data is not None:
@@ -42,5 +46,9 @@ def main():
     trsf.rx.keyframe.set_key_data(key_data)
     key_data = trsf.tx.keyframe.get_key_data(-25, 25)
     trsf.sx.keyframe.set_key_data(key_data)
+
+    nodes.modifier_manager.do_it_dg()
+
+    trsf.ty.keyframe.move_keys(-50, 50, to_start_frame=150)
 
     nodes.modifier_manager.do_it_dg()

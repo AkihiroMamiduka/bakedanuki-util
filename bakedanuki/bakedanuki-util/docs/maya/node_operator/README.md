@@ -1412,10 +1412,11 @@ alias や child plug は同じ logical plug を指す場合、同じ `PlugOperat
 ## 関連ドキュメント
 
 KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元、layer構成を含む性能改善まで
-実装・動作確認済みです。次の着手はキーフレーム移動で、メソッド名と仕様は未確定です。
+実装・動作確認済みです。続いて時間方向の`move_key()` / `move_keys()`を実装しました。
+相対・絶対移動、移動先キーの置換、任意の境界挿入（`insert_missing=False`が既定）を扱います。
 新しいチャットで開発を続ける場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と
-[キーフレーム移動の検討事項](roadmap.md#次の着手はキーフレーム移動)を参照してください。
+[キーフレーム移動の現行仕様](attributes.md#キーを時間方向へ移動する)を参照してください。
 
 - [KeyframeManagerの開発状況と次の候補](roadmap.md#keyframemanagerの開発状況と次の候補)
 - [キーフレームの現行仕様](attributes.md#キーフレーム)

@@ -615,24 +615,48 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr tests\maya\mpx_cmd tests\maya\node\operator\node\dg\test_anim_layer.py -q --tb=short
 ```
 
-次のキーフレーム移動は未実装です。下記は、[仕様の検討](roadmap.md#次の着手はキーフレーム移動)に
-合わせて追加する検証候補であり、上記の成功件数には含まれません。
+## キーフレーム移動の検証
 
-- 単一・複数・全体のうち採用した対象指定、正負の移動、subframe、範囲端、
-  FPS変更、対象なし・移動量0、不正入力と、仕様で定めた衝突時の挙動。
+2026-09-15に`move_key()` / `move_keys()`と専用の`test_keyframe_move.py`を追加しました。
+以下は移動実装の検証範囲であり、上の引き継ぎ時点の成功件数には含まれません。
+
+- 単一・範囲・全体の相対移動と開始/終了基準の絶対移動、正負の移動、subframe、範囲端、
+  FPS変更、対象なし・移動量0、不正入力、移動先の対象外キーの置換。
+- `insert_missing`の既定False、明示境界だけの補完、同時刻境界の重複排除、
+  実在キーのない区間、infinity領域での値取得、挿入から移動までの履歴。
 - 複数キーが互いの元時刻へ移る場合と、移動対象外のキーをまたぐ場合。
   処理順による一時的な重複と、最終結果の重複を区別し、元キーが余分に残らないこと。
 - 値・接線type / XY / lock・breakdown・weighted・infinityについて仕様で定めた保持や再計算、
-  移動対象外のキーと隣接区間の評価。TA / TL / TU、weightedの有無、auto・fixed・step系を含める。
+  移動対象外のキーと隣接区間の評価。TA / TL / TU / TT、weightedの有無、auto・fixed・step系を含める。
 - 直接接続・対応済みの上流チャンネル・ベース・加算・Override・明示カーブ指定の対象一致。
   非対象のlayer・軸・weightと接続を保持し、予約後の対象変更、lock / referenceを検査すること。
 - 同一batchの先行キー設定からの移動、保留中query、反復Undo / Redo、
   移動途中・後続処理の失敗時rollback、MPxCommandからの履歴と型・IDE補完。
 
-実装時は既存の`test_keyframe_undo.py`、`test_keyframe_target.py`、
-`test_keyframe_channel.py`、`test_keyframe_anim_layer.py`、
-`test_keyframe_default_layer.py`、`test_curve_keyframe.py`を参照してください。
-新しいテストの配置・対象範囲は、採用した仕様と変更箇所に合わせて決めます。
+`test_keyframe_target.py`と`test_curve_keyframe.py`の共通編集パラメーターにも移動を登録し、
+上流チャンネル・指定layer・既定ベース・明示カーブのlock / reference等を検査します。
+`tests/maya/mpx_cmd/test_command.py`はMaya標準Undo / Redoとcommand失敗時の復元、
+`tests/typecheck/node_operator_contract.py`は3入口の引数・戻り値・排他指定を検査します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
+```
+
+Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.cmd`を使用します。
+
+2026-09-15、移動実装追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 移動専用pytest | Maya 2025で261件成功。下記の関連・全体テストにも含む |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2026 / 2027で各1,861件成功、プロセス正常終了。Maya 2025は下記のfull pytestで同じ範囲を確認 |
+| `scripts/verify.cmd` | 成功。Black、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 4,413件成功、632件skip。Qt/UIの対象は専用ランナーでも別途実行 |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+通常実行は既存のクリップボードテスト1件で停止したため、
+`QT_QPA_PLATFORM=offscreen`をプロセス環境に設定して`verify.cmd`全体を再実行し、成功しました。
+テストの除外やUI実装の変更はしていません。移動APIのMaya画面上での手動操作確認は未実施です。
 
 ## ベンチマークの見方
 
