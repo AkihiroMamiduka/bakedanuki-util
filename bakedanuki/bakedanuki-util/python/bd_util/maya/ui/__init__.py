@@ -1,6 +1,9 @@
 # coding: utf-8
 
 from .binding import (
+    MayaBoolPlugsBinding,
+    MayaFloatPlugsBinding,
+    MayaPlugTargetState,
     MayaFloat3Binding,
     MayaFloat3PlugView,
     MayaFloat3Plug,
@@ -41,6 +44,9 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "MayaBoolPlugsBinding",
+    "MayaFloatPlugsBinding",
+    "MayaPlugTargetState",
     "MayaFloat3Binding",
     "MayaFloat3PlugView",
     "MayaFloat3Plug",

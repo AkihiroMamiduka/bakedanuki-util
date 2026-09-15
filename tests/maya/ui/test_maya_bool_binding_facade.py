@@ -159,6 +159,7 @@ def test_resolver_accepts_standard_and_dynamic_bool_names(
 def test_resolver_rejects_missing_non_bool_and_non_scalar_attributes(
     new_scene, maya_cmds
 ):
+    """非bool・compound自身・配列を拒否し、compoundの子は除外しない。"""
     name = maya_cmds.createNode("transform")
     maya_cmds.addAttr(
         name, longName="boolArray", attributeType="bool", multi=True
@@ -175,15 +176,15 @@ def test_resolver_rejects_missing_non_bool_and_non_scalar_attributes(
     for attribute in (
         "translateX",
         "translate",
-        "boolArray",
         "boolGroup",
-        "boolChild",
     ):
         with pytest.raises(TypeError, match="bool"):
             resolve_bool_plug(name, attribute)
+    with pytest.raises(TypeError, match="配列"):
+        resolve_bool_plug(name, "boolArray")
     with pytest.raises(AttributeError, match="存在しません"):
         resolve_bool_plug(name, "missing")
-    for attribute in ("boolArray[0]", "boolGroup.boolChild", ""):
+    for attribute in ("boolArray[0]", ""):
         with pytest.raises(ValueError):
             resolve_bool_plug(name, attribute)
     with pytest.raises(TypeError, match="str"):

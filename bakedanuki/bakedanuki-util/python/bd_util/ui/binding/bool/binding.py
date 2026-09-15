@@ -33,13 +33,17 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         """constructorから一度だけ呼び、専用ViewModelに対応するStoreを作る。"""
         super().__init__(parent)
         self._is_disposed = False
-        self._view_model = BoolViewModel(parent=self)
+        self._view_model = self._create_view_model()
         try:
             self._store = create_store(self._view_model)
             self._view_model.attach_store(self._store)
         except Exception:
             self.dispose()
             raise
+
+    def _create_view_model(self) -> BoolViewModel:
+        """正本の構成に対応する専用ViewModelを生成する。"""
+        return BoolViewModel(parent=self)
 
     @staticmethod
     def from_attribute(

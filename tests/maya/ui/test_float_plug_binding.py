@@ -192,7 +192,6 @@ def test_hard_limits_use_public_units_and_ignore_soft_limits(
         "rotateOrder",
         "matrix",
         "missing",
-        "translate.translateX",
     ],
 )
 def test_resolver_rejects_non_scalar_or_non_float_attributes(

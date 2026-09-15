@@ -214,8 +214,9 @@ self.binding = MayaBoolBinding.from_attribute(
 `MayaBoolBinding`もPython側を正本とし、作成時にはその値をMayaへ反映します。
 `maya_plug=None`ならPythonのみで動作します。Maya plug自体を正本にする場合は、
 次の`MayaBoolPlugBinding`を使用します。
-`resolve_bool_plug(node_name, attribute_name)`は既存nodeの最上位scalar boolを取得する入口です。
-標準・追加attributeの長い名前と短い名前を扱い、配列、compound、子attribute、属性パスは拒否します。
+`resolve_bool_plug(node_name, attribute_name)`は既存nodeのscalar boolを取得する入口です。
+標準・追加attributeの長名・短名・compoundの相対属性pathを扱い、配列とその配下、
+compound全体は拒否します。子attributeは祖先のlock・入力接続も尊重します。
 nodeやattributeの作成は行いません。
 
 Maya同期の状態は`binding.maya_view.is_synchronized`、直近の失敗は`last_sync_error`／
@@ -281,6 +282,12 @@ Model・ViewModel・Viewを基本とし、値へのアクセスをStore、現在
 
 設計判断の理由、破棄時の注意点、今後の拡張時に確認する項目は
 [bool bindingの設計・保守メモ](bool_binding_design.md)にまとめています。
+
+複数のMaya属性へ同じ値を明示入力する場合は、
+[MayaBoolPlugsBinding / MayaFloatPlugsBinding](plugs_binding.md) を使います。
+先頭を代表として表示し、選択や表示更新では値を変更せず、入力時だけ一括反映します。
+混在状態・個別の編集可否・一回のUndo・失敗時の復旧を提供します。
+既存ノードの選択・属性列挙は [inspection](../maya/node_operator/inspection.md) を参照してください。
 用語と役割の理解には上記ページ、公開APIと実行例にはこのREADME、
 実装を読み進める際の補足には設計・保守メモを使ってください。
 
@@ -645,7 +652,7 @@ window = bool_views.show(data, "visible_by_default")
 ```
 
 内部では`MayaBoolBinding.from_attribute()`でPython属性と任意のMaya Viewを接続します。
-Maya側にはtransformの`visibility`に限らず、最上位のscalar bool attributeを指定できます。
+Maya側にはtransformの`visibility`に限らず、配列配下ではないscalar bool attributeを指定できます。
 
 `BoolViewsWidget`には`BoolCheckBox`、`BoolComboBox`、`BoolPushButton`、
 `BoolRadioButtonGroup`、`BoolStatusLabel`を配置します。Maya Viewを指定した場合、入力可能な

@@ -14,8 +14,13 @@ from .float_plug import MayaFloatPlugStore, MayaFloatPlugView
 from .float_binding import MayaFloatBinding
 from .float_plug_binding import MayaFloatPlugBinding
 from .float_plug_resolver import MayaFloatPlug, resolve_float_plug
+from .plugs_binding import MayaBoolPlugsBinding, MayaFloatPlugsBinding
+from .plugs_state import MayaPlugTargetState
 
 __all__ = [
+    "MayaBoolPlugsBinding",
+    "MayaFloatPlugsBinding",
+    "MayaPlugTargetState",
     "MayaFloat3Binding",
     "MayaFloat3PlugView",
     "MayaFloat3Plug",

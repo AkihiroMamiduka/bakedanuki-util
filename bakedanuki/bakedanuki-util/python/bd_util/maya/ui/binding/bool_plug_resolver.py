@@ -8,6 +8,7 @@ from typing import cast
 from maya.api import OpenMaya as om
 
 from ...node import Nodes
+from ...node._attribute_lookup import attribute_path, find_attribute_plug
 from ...node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolAttrOperator,
     BoolPlugOperator,
@@ -31,22 +32,29 @@ def _dynamic_bool_plug(
     node: NodeOperator,
     attribute_name: str,
 ) -> BoolPlugOperator:
-    """NodeOperatorに未定義のdynamic bool attributeを型付きPlugへ変換する。"""
-    # Maya nodeから指定名のMPlugを直接検索する。
+    """既存bool属性を親pathを維持した型付きPlugへ変換する。"""
+    # 名前が重複するcompound子は完全なpathでのみ解決する
     try:
-        m_plug = node.fn_node.findPlug(attribute_name, False)
-    except RuntimeError as e:
+        m_plug = find_attribute_plug(node.fn_node, attribute_name)
+    except AttributeError as e:
         raise AttributeError(
             f"Maya node '{node.cmd_access_name}'にattribute "
             f"'{attribute_name}'は存在しません"
         ) from e
 
-    # この入口では最上位の単一attributeだけを扱う。
-    if m_plug.isArray or m_plug.isCompound or m_plug.isChild:
+    # 配列に属さないscalarならcompoundの子も受け入れる
+    if m_plug.isCompound:
         raise TypeError(
             f"Maya attribute '{node.cmd_access_name}.{attribute_name}'には"
-            "最上位のscalar boolを指定してください"
+            "scalar boolを指定してください"
         )
+    ancestor = m_plug
+    while True:
+        if ancestor.isArray or ancestor.isElement:
+            raise TypeError("配列配下のplugには対応していません")
+        if not ancestor.isChild:
+            break
+        ancestor = ancestor.parent()
 
     # numeric attributeの中でもboolean型だけを同期対象として受け入れる。
     attribute = m_plug.attribute()
@@ -64,14 +72,19 @@ def _dynamic_bool_plug(
 
     # 動的attributeの正式名から型付きBoolPlugOperatorを組み立てる。
     attribute_fn = om.MFnAttribute(attribute)
-    long_name = cast(str, attribute_fn.name)
+    path = attribute_path(m_plug)
+    long_name = (
+        cast(str, attribute_fn.name)
+        if attribute_fn.enforcingUniqueName
+        else path
+    )
     short_name = cast(str, attribute_fn.shortName)
     attribute_operator = BoolAttrOperator(
         node_cls=type(node),
         name=long_name,
         long_name=long_name,
         short_name=short_name,
-        attr_path=long_name,
+        attr_path=path,
     )
     return BoolPlugOperator(
         node=node,
@@ -84,27 +97,14 @@ def resolve_bool_plug(
     node_name: str,
     attribute_name: str,
 ) -> BoolPlugOperator:
-    """既存nodeの最上位scalar boolを長い名前または短い名前で取得する。"""
+    """既存scalar boolを長名・短名・compoundの相対pathで取得する。"""
     node_name = _require_name(node_name, "node_name")
     attribute_name = _require_name(attribute_name, "attribute_name")
-    if any(character in attribute_name for character in ".[]"):
+    if any(character in attribute_name for character in "[]"):
         raise ValueError(
-            "attribute_nameには最上位の単一attribute名を指定してください"
+            "attribute_nameには単一の属性名か相対pathを指定してください"
         )
     # scene上の既存nodeを汎用NodeOperatorとして取得する。
     node = Nodes().existing(node_name)
 
-    # 定義済みattributeはNodeOperatorの型付きアクセスを優先する。
-    try:
-        plug = node[attribute_name]
-    except AttributeError:
-        # 追加attributeはMaya APIから型を確認して動的に解決する。
-        return _dynamic_bool_plug(node, attribute_name)
-
-    # 定義済みattributeもbool型でなければ同期対象から除外する。
-    if not isinstance(plug, BoolPlugOperator):
-        return _dynamic_bool_plug(node, attribute_name)
-    m_plug = plug.plug
-    if m_plug.isArray or m_plug.isCompound or m_plug.isChild:
-        raise TypeError("最上位のscalar boolを指定してください")
-    return plug
+    return _dynamic_bool_plug(node, attribute_name)

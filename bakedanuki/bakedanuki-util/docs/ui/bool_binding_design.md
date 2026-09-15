@@ -176,7 +176,10 @@ QObjectを削除しません。値変更通知のslot内で終了した場合も
 関連ファイルはすべて`bd_util/_sample/maya/ui/bool_sample/`以下にあります。
 共通の`data.py`はサンプルデータ、`bool_plug.py`は任意Maya指定の組み合わせの検証です。
 名前からのplug解決はMaya基盤の`bool_plug_resolver.py`へ移し、`resolve_bool_plug()`として
-公開しています。最上位の単一boolに範囲を限定し、配列・compound・子属性・属性パスを拒否します。
+公開しています。単一boolと配列配下でないcompound子に対応し、長名・短名・相対属性pathを
+受け取ります。配列とその配下、compound全体は拒否します。子の編集可否は祖先のlock・接続も尊重します。
+複数Maya属性の一括入力には [MayaBoolPlugsBinding](plugs_binding.md) を使い、
+各属性の変更通知を別の属性の書込みへ転送しないでください。
 
 - `minimal.py`: `BoolBinding.from_attribute()`の結果を直接CheckBoxへ渡す入口。
 - `maya_plug.py`: 既存Maya bool plugを正本にする最小WidgetとWindow。`show()`は対象を

@@ -71,6 +71,15 @@ def _require_bool_plug(value: object) -> BoolPlugOperator:
             "plugにはBoolPlugOperatorを指定してください: "
             f"{type(value).__name__}"
         )
+    plug = value.plug
+    if plug.isCompound:
+        raise TypeError("plugにはscalar boolを指定してください")
+    while True:
+        if plug.isArray or plug.isElement:
+            raise TypeError("配列配下のplugには対応していません")
+        if not plug.isChild:
+            break
+        plug = plug.parent()
     return value
 
 
@@ -165,6 +174,10 @@ class _MayaBoolPlugEndpoint(qt.QObject):
         self._view_model_ref: ReferenceType[BoolViewModel] = ref(view_model)
         self._plug_operator = plug
         self._plug = plug.plug
+        self._attribute_handle = om.MObjectHandle(self._plug.attribute())
+        self._watched_plugs = [self._plug]
+        while self._watched_plugs[-1].isChild:
+            self._watched_plugs.append(self._watched_plugs[-1].parent())
         self._node_handle = om.MObjectHandle(self._plug.node())
         self._registry = _MayaBoolPlugCallbackRegistry(owner)
         self._node_was_removed = False
@@ -218,6 +231,7 @@ class _MayaBoolPlugEndpoint(qt.QObject):
             not self.is_disposed
             and not self._node_was_removed
             and self._node_handle.isValid()
+            and self._attribute_handle.isValid()
         )
 
     @property
@@ -229,8 +243,9 @@ class _MayaBoolPlugEndpoint(qt.QObject):
             attribute = om.MFnAttribute(self._plug.attribute())
             return (
                 attribute.writable
-                and not self._plug.isLocked
-                and not self._plug.isDestination
+                and self._plug.isFreeToChange(True, False)
+                == om.MPlug.kFreeToChange
+                and not any(plug.isDestination for plug in self._watched_plugs)
             )
         except RuntimeError:
             return False
@@ -346,11 +361,11 @@ class _MayaBoolPlugEndpoint(qt.QObject):
         )
 
     def _matches_plug(self, plug: om.MPlug) -> bool:
-        """callback対象が同期中のplug自身か返す。"""
+        """callback対象が同期中のplugかその親か返す。"""
         if not self.is_available:
             return False
         try:
-            return plug == self._plug
+            return any(plug == watched for watched in self._watched_plugs)
         except RuntimeError:
             return False
 
@@ -397,6 +412,9 @@ class _MayaBoolPlugEndpoint(qt.QObject):
     ) -> None:
         """直接変更、接続、lock変更を同期する。"""
         if not self._matches_plug(plug) or self._callbacks_are_suppressed():
+            return
+        if _message & om.MNodeMessage.kAttributeRemoved:
+            self._dispose_endpoint()
             return
         self._on_attribute_message(_message)
         if self._DEFER_ATTRIBUTE_CHANGES:
@@ -452,6 +470,7 @@ class MayaBoolPlugStore(_MayaBoolPlugEndpoint):
         plug: BoolPlugOperator,
         owner: qt.QObject,
     ) -> None:
+        """ViewModelとbool plugを接続し、書き込み中の再入状態を初期化する。"""
         self._write_depth = 0
         super().__init__(view_model, plug, owner)
 

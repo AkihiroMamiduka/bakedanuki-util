@@ -9,6 +9,17 @@
 
 ### Added
 
+- `MayaBoolPlugsBinding` / `MayaFloatPlugsBinding` を追加。先頭を代表として複数属性を
+  既存MVVM Viewへ接続し、明示入力時だけ編集可能な対象へ一括適用する。
+  混在値・対象ごとの編集可否と理由、代表値への明示統一、全対象の事前検証、
+  一回のUndo、Slider連続編集、途中失敗時の復旧、callback解放に対応する。
+- `bd_util.maya.node` に `selected_node_names()` / `inspect_scalar_attributes()` と
+  immutableな `ScalarAttributeInfo` を追加。sceneを作成・変更せず、object選択と
+  bool・float・距離・角度の既存scalar属性情報を取得する。
+- bool / float plug resolverがcompoundの相対属性pathに対応する。
+  bool Bindingはcompound子属性と、祖先のlock・接続・値変更の監視にも対応する。
+  従来の最上位属性名・短名は維持する。非一意な子名は正式pathを指定する。
+  既存scene・設定の移行は不要。
 - `set_curve_data()` / `set_key_data()`で、登録済み属性のベース・指定layerにカーブを自動作成する。
   事前の`set_key()`が不要になり、内部の作成用キーも残さない。全置換／追加・上書き、
   weighted・時間単位の契約を維持し、layer作成・登録との一括予約、Undo / Redo・rollbackに対応。

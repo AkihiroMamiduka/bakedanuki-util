@@ -6,6 +6,7 @@ from typing import Literal, TypeAlias, cast
 from maya.api import OpenMaya as om
 
 from ...node import Nodes
+from ...node._attribute_lookup import attribute_path, find_attribute_plug
 from ...node.operator.attr.define.std.at.scalar.numeric.range.double import (
     DoubleAttrOperator,
     DoublePlugOperator,
@@ -85,32 +86,27 @@ def require_float_plug(value: object) -> MayaFloatPlug:
 
 
 def resolve_float_plug(node_name: str, attribute_name: str) -> MayaFloatPlug:
-    """既存scalar属性を長名・短名・compoundの子の名前から解決する。"""
+    """既存scalar属性を長名・短名・compoundの相対pathから解決する。"""
     node_name = _require_name(node_name, "node_name")
     attribute_name = _require_name(attribute_name, "attribute_name")
-    if any(character in attribute_name for character in ".[]"):
+    if any(character in attribute_name for character in "[]"):
         raise ValueError(
-            "attribute_nameには属性パスではなく単一の属性名を指定してください"
+            "attribute_nameには単一の属性名か相対pathを指定してください"
         )
     node = Nodes().existing(node_name)
     try:
-        plug = node.fn_node.findPlug(attribute_name, False)
-    except RuntimeError as error:
+        plug = find_attribute_plug(node.fn_node, attribute_name)
+    except AttributeError as error:
         raise AttributeError(
             f"属性が見つかりません: {node_name}.{attribute_name}"
         ) from error
     kind = float_plug_kind(plug)
     attribute = om.MFnAttribute(plug.attribute())
-    long_name = cast(str, attribute.name)
-    short_name = cast(str, attribute.shortName)
-    path = cast(
-        str,
-        plug.partialName(
-            includeNodeName=False,
-            useFullAttributePath=True,
-            useLongNames=True,
-        ),
+    path = attribute_path(plug)
+    long_name = (
+        cast(str, attribute.name) if attribute.enforcingUniqueName else path
     )
+    short_name = cast(str, attribute.shortName)
     if kind == "distance":
         return DoubleLinearPlugOperator(
             node=node,

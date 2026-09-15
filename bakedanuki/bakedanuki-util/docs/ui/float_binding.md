@@ -4,6 +4,8 @@ Maya属性を正本として、単一の浮動小数点値をQtの`QDoubleSpinBo
 役割分担は[既存のMVVM](mvvm_roles.md)と同じで、Storeが実値を読み書きし、
 ViewModelが確定値とCommandの実行可否を公開し、Viewが入力と表示を担当します。
 Python objectを正本にする場合は[Python属性の浮動小数点binding](python_float_binding.md)を使用します。
+複数のMaya属性へ同じ値を入力する場合は
+[MayaFloatPlugsBinding](plugs_binding.md)を使用します。
 
 ## 最小の組み込み
 
@@ -184,8 +186,9 @@ Windowを開いている間にChange Precisionを変更しても桁数は変わ�
 距離・角度の単位変更は、引き続きWindowを開いたまま追従します。
 
 対応対象は既存scalarのfloat/double・距離・角度と、配列配下ではないcompoundのscalar子です。
-`resolve_float_plug()`は属性名のみを受け取り、属性パス、配列、配列要素、配列配下の子、
-compound全体、整数、bool、time、typed dataは拒否します。
+`resolve_float_plug()`は長名・短名・compoundの相対属性pathを受け取ります。
+非一意な子名には正式pathを指定します。配列、配列要素、配列配下の子、compound全体、
+整数、bool、time、typed dataは拒否します。
 `double3`／`float3`全体の編集は[3成分binding](float3_binding.md)を使用します。
 Python属性は`FloatBinding.from_attribute()`で接続できます。
 Python正本をMaya Viewへ同期する場合は[MayaFloatBinding](python_float_maya_binding.md)を使用します。

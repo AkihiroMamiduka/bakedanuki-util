@@ -35,7 +35,8 @@ def test_nodes_can_import_from_maya_node_package(new_scene):
     assert Nodes.__name__ == "Nodes"
 
 
-def test_nodes_is_the_only_public_node_access_entry(new_scene):
+def test_nodes_and_inspection_are_public_node_entries(new_scene):
+    """nodeの操作入口と読み取り専用の調査APIだけを公開する。"""
     import bd_util
     from bd_util.maya import node as node_package
 
@@ -45,7 +46,13 @@ def test_nodes_is_the_only_public_node_access_entry(new_scene):
     assert not hasattr(bd_util, "NodeCreator")
     assert not hasattr(bd_util, "ExistingNode")
     assert not hasattr(bd_util, "NodeTypes")
-    assert node_package.__all__ == ("Nodes",)
+    assert set(node_package.__all__) == {
+        "Nodes",
+        "ScalarAttributeInfo",
+        "ScalarAttributeKind",
+        "inspect_scalar_attributes",
+        "selected_node_names",
+    }
     assert not hasattr(node_package, "ExistingNode")
     assert not hasattr(node_package, "NodeTypes")
 

@@ -74,6 +74,19 @@ class FloatEditUndo:
         if FloatEditUndo._active is self:
             FloatEditUndo._active = None
 
+    @classmethod
+    def finish_active(cls) -> None:
+        """別の一括入力を既存のドラッグ履歴へ混入させず終了する。"""
+        active = cls._active
+        if active is None:
+            return
+        if active._write_depth:
+            raise RuntimeError("連続編集中のMaya書き込みへ再入できません")
+        active.finish()
+        view_model = active._view_model()
+        if view_model is not None and not view_model.is_disposed:
+            view_model.end_edit()
+
     def dispose(self) -> None:
         """Maya endpointの終了時に、UndoとViewModelへの接続を解放する。"""
         self.finish()
