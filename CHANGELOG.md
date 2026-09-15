@@ -9,6 +9,10 @@
 
 ### Added
 
+- `FloatValueStepSpinBox` を追加。値欄とstep欄を組み合わせ、加算・桁変更によるstep編集、
+  表示単位への追従、設定変更通知に対応する。step変更は正本・Undo履歴を変更しない。
+  `bd_util.ui` から利用でき、既存の単一・複数属性Bindingを受け取る。
+  既存API・scene・設定の移行は不要。
 - `MayaBoolPlugsBinding` / `MayaFloatPlugsBinding` を追加。先頭を代表として複数属性を
   既存MVVM Viewへ接続し、明示入力時だけ編集可能な対象へ一括適用する。
   混在値・対象ごとの編集可否と理由、代表値への明示統一、全対象の事前検証、

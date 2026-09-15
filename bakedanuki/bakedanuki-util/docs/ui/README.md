@@ -866,6 +866,13 @@ API、精度、寿命、確認手順は[FloatLabel](float_label.md)を参照し�
 各Viewが同じ正本を共有し、スライダーの操作範囲外の数値もSpinBoxから入力できます。
 API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slider_spin_box.md)を参照してください。
 
+### 値とstepの複合View
+
+`FloatValueStepSpinBox(binding, single_step=1, step_mode="multiplicative")`で、
+値入力とstep入力を横に配置できます。step変更はViewの刻み幅だけに作用し、正本を変更しません。
+属性別の初期値や設定保持は利用側で決定します。
+APIと単位・寿命の契約は[FloatValueStepSpinBox](float_value_step_spin_box.md)を参照してください。
+
 ### 最小値・最大値を編集する複合View
 
 `FloatRangeSliderSpinBox(binding, minimum=-100, maximum=100, decimals=3)`は、Sliderの両端に

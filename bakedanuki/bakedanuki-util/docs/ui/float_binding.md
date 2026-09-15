@@ -67,6 +67,7 @@ binding.dispose()
 | `FloatSlider(source, parent=None, minimum=..., maximum=..., steps=1000)` | 公開単位の有限範囲を連続編集するQSlider View |
 | `FloatSliderSpinBox(source, parent=None, minimum=..., maximum=..., decimals=6)` | SliderとSpinBoxを1つのWidgetへまとめる複合View |
 | `FloatRangeSliderSpinBox(source, parent=None, minimum=..., maximum=..., decimals=6)` | Min／Maxを表示単位で編集できる複合View |
+| `FloatValueStepSpinBox(source, parent=None, single_step=0.1)` | 値入力とstep編集を横に並べる複合View |
 | `get_channel_box_precision()` | MayaのChange Precision設定を取得し、intで返す |
 
 汎用APIは`bd_util.ui`、Maya APIは`bd_util.maya.ui`からimportします。
@@ -74,6 +75,7 @@ Storeの`write()`は成功可否ではなく、書き込み後のfloat実値を�
 SpinBoxとラベルは同じBindingを共有できます。ラベルの仕様は[FloatLabel](float_label.md)を参照してください。
 SliderとSpinBoxをまとめて配置する場合は[FloatSliderSpinBox](float_slider_spin_box.md)を使用できます。
 操作範囲もUIから編集する場合は[FloatRangeSliderSpinBox](float_range_slider_spin_box.md)を使用できます。
+値とstepをまとめて配置する場合は[FloatValueStepSpinBox](float_value_step_spin_box.md)を使用できます。
 `setInputEnabled(False)`はMayaのlock解除などによる編集可否の更新後も維持します。
 `True`に戻した場合も、正本のlock・接続・終了による編集制限は優先します。
 この設定で無効化した欄への`setValue()`は正本を変更せず、確定値を再表示します。
