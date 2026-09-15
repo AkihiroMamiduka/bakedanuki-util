@@ -843,6 +843,66 @@ mod.do_it_dg()
 上書きされたキーも復元します。途中失敗時は同じ実行batchの先行変更もrollbackします。
 queryは保留中modifierを実行せず、Redoは初回に記録した対象への変更を再生します。
 
+### 手動接線を維持してキーを削減する
+
+`reduce_keys(start_frame=None, end_frame=None, *, tolerance, preserve_breakdowns=True)`は、
+元カーブとの値の誤差を指定して、不要なキーの削除を予約します。戻り値は`None`です。
+属性・`anim_layer()`・明示カーブで同じ操作を使用します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+
+ctrl.tx.keyframe.reduce_keys(10, 100, tolerance=0.01)
+ctrl.rz.keyframe.reduce_keys(tolerance=0.1)
+mod.do_it_dg()
+```
+
+上の例はtranslateXの10～100フレームを0.01 cm、rotateZの全体を0.1 degreeの
+許容誤差で削減します。`tolerance`は必須の非負・有限数で、TAはdegree、TLはcm、
+TUはunitlessです。sceneの表示単位に依存せず、時間のずれや回転姿勢・ワールド座標での
+距離を意味しません。layerでは、そのlayer自身の生カーブ値を比較します。
+
+範囲は両端包含です。`None`側は無制限で、明示した境界にキーを挿入することはありません。
+指定範囲に実在する最初・最後のキーを必ず残し、削減対象が3キー未満なら何もしません。
+対象カーブなし・空カーブでも新規作成しません。負の時刻・subframeに対応し、
+範囲は呼び出し時のUI時間単位で捕捉します。対象とキーは初回実行時に解決するため、
+同じbatchで先に予約したキー設定も削減できます。queryは保留中の処理を実行しません。
+
+保持する情報と変更の範囲です。
+
+- 残すキーの時刻・値・接線type・tangent / weight lock・breakdownを保持します。
+  手動のfixed接線は方向・重みも維持し、削減のための接線再設定を行いません。
+  auto・linear等の接線はMayaが前後のキーから再計算し、その結果も誤差判定に含めます。
+- `preserve_breakdowns=True`ではbreakdownを削除候補から除外します。
+  `False`を明示すればbreakdownも候補にできますが、範囲内の両端キーは残します。
+- step / stepnextの値が切り替わる区間は両側のキーを保護します。
+  値が同じstep区間では、形状を保てる中間キーを削除できます。
+- 最初～最後の実在キー間では指定範囲外の形状を維持し、linear infinityの外挿傾きも保持します。
+  カーブのweighted・infinity設定や、接続・レイヤーの選択状態は変更しません。
+  cycle / cycleRelative / oscillateでは、範囲内の形状変更が他の周期にも反映されます。
+
+誤差は削減途中のカーブではなく、初回実行時の元カーブと常に比較します。
+キー時刻とキー間の両方を扱い、キー値が同じでも途中に膨らみがある場合は削減を拒否します。
+内部ではBezier区間を分割し、制御点から得られる誤差上界を検査します。
+毎フレーム等の固定間隔サンプリングだけで許可する処理ではありません。
+`tolerance=0`も使用できますが、浮動小数点の丸め誤差として公開値で
+`max(1e-12, 32 ULP)`を許容し、数学的な完全一致を保証する指定ではありません。
+
+初期版はTA / TL / TUに対応します。TT、driven key、quaternion補間、custom tangentは
+未対応です。weighted接線で制御点の時刻が逆転する区間や、分割上限内に誤差を確認できない
+候補は保守的に残します。前のキーから順に1回ずつ候補を検査するため、
+キー数の最小化やMaya標準Key Reducerと同じ結果を保証するAPIではありません。
+
+削減候補はsceneへ登録しない作業用カーブで計画します。本体への変更は
+`MFnAnimCurve.remove()`だけで、全カーブ置換・キーの移動・再設定は行いません。
+適用後も誤差と保持情報を確認し、想定外の結果や途中失敗では同じbatchの先行変更まで
+rollbackします。全削除を同じ`MAnimCurveChange`へ記録し、Undo / Redoに対応します。
+通常の対象resolverとlock / reference検査を使用し、no-opでも書込み可否を検査します。
+
 ### キー情報とカーブ全体の保存・復元
 
 `get_curve_data() -> AnimCurveData | None`と`set_curve_data(data)`で、
@@ -1022,7 +1082,7 @@ Mayaへ委譲します。weightedをFalseへ変えてからTrueへ戻しても�
 `animCurveTA` / `animCurveTL` / `animCurveTU`に対応します。enum・time plugは対象外です。
 中間ノードやカーブ設定の対応範囲は上記のチャンネル選択規則と共通です。
 復元先のplug・node・curveのlockやreferenceも編集時に拒否します。
-time出力・driven key・custom tangentの保存、layer構造、キー削減は今後の対象です。
+time出力・driven key・custom tangentの保存、layer構造は今後の対象です。
 node名や独自属性、Graph Editorの表示設定はこのsnapshotの対象外です。
 接線の保存・復元にはMayaの浮動小数点精度による丸めが含まれます。
 

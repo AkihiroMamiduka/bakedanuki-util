@@ -20,6 +20,9 @@ def main():
     trsf.tx.keyframe.set_key(-100, frame=-100, out_tangent_type="flat")
     trsf.tx.keyframe.set_key(100, frame=100, in_tangent_type="flat")
 
+    trsf.rx.keyframe.set_key(-100, frame=-100, out_tangent_type="flat")
+    trsf.rx.keyframe.set_key(100, frame=100, in_tangent_type="flat")
+
     nodes.modifier_manager.do_it_dg()
 
     layer.add_nodes([trsf])
@@ -33,22 +36,15 @@ def main():
     trsf.ty.keyframe.set_keys(
         samples, in_tangent_type="auto", out_tangent_type="auto"
     )
-    offset_samples = [(f + 200, v) for f, v in samples]
-    trsf.ty.keyframe.set_keys(
-        offset_samples, in_tangent_type="auto", out_tangent_type="auto"
+
+    samples = trsf.rx.sample_values(frames=range(-100, 101))
+    trsf.ry.keyframe.set_keys(
+        samples, in_tangent_type="auto", out_tangent_type="auto"
     )
-
-    curve_data = trsf.tx.keyframe.get_curve_data()
-    if curve_data is not None:
-        trsf.tz.keyframe.set_curve_data(curve_data)
-
-    key_data = trsf.tx.keyframe.get_key_data(-50, 50)
-    trsf.rx.keyframe.set_key_data(key_data)
-    key_data = trsf.tx.keyframe.get_key_data(-25, 25)
-    trsf.sx.keyframe.set_key_data(key_data)
 
     nodes.modifier_manager.do_it_dg()
 
-    trsf.ty.keyframe.move_keys(-50, 50, to_start_frame=150)
+    trsf.ty.keyframe.reduce_keys(-50, 50, tolerance=0.01)
+    trsf.ry.keyframe.reduce_keys(-50, 50, tolerance=1)
 
     nodes.modifier_manager.do_it_dg()

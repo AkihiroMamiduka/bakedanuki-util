@@ -289,6 +289,7 @@ def test_shared_curve_and_time_driver_edit_delete_restore_all_connections(
 
 
 EDITS = [
+    ("reduce_keys", ()),
     ("move_key", (1,)),
     ("move_keys", ()),
     ("set_key", (20, 3)),
@@ -305,6 +306,9 @@ EDITS = [
 
 
 def _queue_edit(keyframe, method, args):
+    if method == "reduce_keys":
+        keyframe.reduce_keys(*args, tolerance=0.01)
+        return
     if method in ("move_key", "move_keys"):
         getattr(keyframe, method)(*args, offset_frames=4)
         return

@@ -8,7 +8,7 @@ import bd_util as bdu
 from bd_util.maya.node.operator.attr import KeyframeManager
 from test_keyframe_channel import _manager, _states
 from test_keyframe_set_equivalence import restore_animation_preferences
-from test_keyframe_target import EDITS, QUERIES
+from test_keyframe_target import EDITS, QUERIES, _prepare_reduction
 
 pytestmark = pytest.mark.maya
 
@@ -174,6 +174,8 @@ def test_layer_edits_preserve_other_curves_and_repeat_undo_redo(
     original, mod, layers = _layered(maya_cmds, channel, override=override)
     keyframe = original.anim_layer(layers[0])
     selected = _curve_name(maya_cmds, layers[0], original.plug.name())
+    if method == "reduce_keys":
+        _prepare_reduction(maya_cmds, selected)
     before = _states(maya_cmds)
     blend_nodes = set(maya_cmds.ls(type="animBlendNodeBase"))
     _queue_edit(keyframe, method)

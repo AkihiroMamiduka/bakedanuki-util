@@ -656,7 +656,41 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
 
 通常実行は既存のクリップボードテスト1件で停止したため、
 `QT_QPA_PLATFORM=offscreen`をプロセス環境に設定して`verify.cmd`全体を再実行し、成功しました。
-テストの除外やUI実装の変更はしていません。移動APIのMaya画面上での手動操作確認は未実施です。
+テストの除外やUI実装の変更はしていません。
+その後、移動APIは利用者によるMaya画面上での動作確認とpushまで完了しました（`218751db`）。
+
+## キー削減の検証
+
+`test_keyframe_reduce.py`では、手動接線を維持する`reduce_keys()`を検証します。
+
+- TA / TL / TU、weighted / nonweighted、相対的なキー密度・負の時刻・subframe、
+  部分範囲・全体・実在境界の保持、予約後のFPS / 表示単位変更。
+- fixed接線・lock・breakdown・weighted / infinity設定の保持、step / stepnextの切り替わり。
+  auto・spline等の再計算後も、初回実行時の元カーブとの誤差内にあること。
+- Bezier区間の値とMayaネイティブ評価の照合、同値キー間の膨らみ、
+  累積削減誤差の高密度サンプル検証、範囲外形状・linear infinityの外挿傾き。
+- 誤差を判定できないweighted区間の保護、カーブなし・空カーブ・対象なし・不正引数。
+- 作業用カーブやmodified flagを残さないこと、予約後の再接続・改名、
+  既定ベース・明示layer・共有出力の明示カーブ、先行キー設定からの削減。
+- 作業用カーブでの失敗・適用後検査の失敗・後続処理の失敗時rollbackと反復Undo / Redo。
+
+共通の`test_keyframe_target.py` / `test_curve_keyframe.py`にも削減を登録し、
+派生するチャンネル・layer・lock / reference等のテストを実行します。
+専用MPxCommand fixtureでMaya標準Undo / Redoとcommand失敗時の復元を確認し、
+型・補完contractは3つの入口の引数と戻り値を検査します。
+
+関連pytestは移動実装時と同じattr・MPxCommand・AnimLayerの範囲を3バージョンで実行し、
+最終確認には`scripts/verify.cmd`を使用します。キー削減の利用者による手動確認は未実施です。
+
+2026-09-15、キー削減追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各1,993件成功、プロセス正常終了 |
+| Bezier分割の計算改善後の削減専用pytest・MPxCommand | 3 versionで各137件成功。削減専用は102件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black、3 versionの型・補完contract、full pytest、UI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 4,545件成功、632件skip。Qt/UI対象は専用ランナーでも別途実行 |
+| 上記のUI互換性 | 3 versionで各Qt/UI 726件・Maya UI 244件成功 |
 
 ## ベンチマークの見方
 

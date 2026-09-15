@@ -4171,6 +4171,30 @@ def explicit_curve_keyframe_contract(
     keyframe.plug  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 
+def keyframe_reduction_contract(nodes: bdu.Nodes) -> None:
+    channel = nodes.existing.transform("ctrl").tx.keyframe
+    layer = channel.anim_layer("Correction")
+    curve = nodes.existing.animCurveTL("curve").keyframe
+    for keyframe in (channel, layer, curve):
+        assert_type(keyframe.reduce_keys(tolerance=0.01), None)
+        assert_type(keyframe.reduce_keys(10, 100, tolerance=0.01), None)
+        assert_type(keyframe.reduce_keys(None, 100, tolerance=0), None)
+        assert_type(
+            keyframe.reduce_keys(
+                10, None, tolerance=0, preserve_breakdowns=False
+            ),
+            None,
+        )
+        keyframe.reduce_keys()  # pyright: ignore[reportCallIssue]
+        keyframe.reduce_keys(
+            tolerance="0.1",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.reduce_keys(
+            tolerance=0,
+            preserve_breakdowns=1,  # pyright: ignore[reportArgumentType]
+        )
+
+
 def keyframe_move_contract(nodes: bdu.Nodes) -> None:
     channel = nodes.existing.transform("ctrl").tx.keyframe
     layer = channel.anim_layer("Correction")

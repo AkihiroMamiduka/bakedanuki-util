@@ -32,6 +32,16 @@ def mpx_test_plugin(new_scene, maya_cmds):
 
 
 @pytest.fixture
+def reduce_test_plugin(new_scene, maya_cmds):
+    name = "bdu_mpx_keyframe_reduce_test_plugin"
+    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+    maya_cmds.loadPlugin(str(path), quiet=True)
+    yield
+    maya_cmds.flushUndo()
+    maya_cmds.unloadPlugin(name)
+
+
+@pytest.fixture
 def move_test_plugin(new_scene, maya_cmds):
     name = "bdu_mpx_keyframe_move_test_plugin"
     path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
@@ -169,6 +179,50 @@ def test_move_keys_uses_maya_undo_redo_and_command_failure_rollback(
         assert [k.get_curve_data() for k in managers] == before
         maya_cmds.redo()
         assert [k.get_curve_data() for k in managers] == after
+
+
+@pytest.mark.parametrize("fail", [False, True])
+def test_reduce_keys_uses_maya_undo_redo_and_command_failure_rollback(
+    reduce_test_plugin, maya_cmds, fail
+):
+    import bd_util as bdu
+
+    node = maya_cmds.createNode("transform")
+    for i in range(11):
+        maya_cmds.setKeyframe(
+            node + ".tx",
+            time=i,
+            value=i,
+            inTangentType="linear",
+            outTangentType="linear",
+        )
+    keyframe = bdu.Nodes().existing.transform(node).tx.keyframe
+    before = keyframe.get_curve_data()
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterReduceKeyframes"
+            if fail
+            else "bduTestMpxReduceKeyframes"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional keyframe reduction failure"
+        ):
+            command(nodeName=node)
+        assert keyframe.get_curve_data() == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    command(nodeName=node)
+    assert keyframe.frames() == [0, 10]
+    after = keyframe.get_curve_data()
+    for _ in range(3):
+        maya_cmds.undo()
+        assert keyframe.get_curve_data() == before
+        maya_cmds.redo()
+        assert keyframe.get_curve_data() == after
 
 
 def _animation_state(maya_cmds, plug_name):

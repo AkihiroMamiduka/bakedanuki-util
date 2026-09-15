@@ -15,6 +15,7 @@ from . import (
     _keyframe_command,
     _keyframe_discovery,
     _keyframe_move,
+    _keyframe_reduce,
     _keyframe_snapshot,
     _keyframe_target,
 )
@@ -649,6 +650,30 @@ class _KeyframeOperations(ABC):
             to_start_frame=to_start_frame,
             to_end_frame=to_end_frame,
             insert_missing=insert_missing,
+        )
+
+    def reduce_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        tolerance: float,
+        preserve_breakdowns: bool = True,
+    ) -> None:
+        """元カーブとの値の誤差内でキーを削減する予約。戻り値はNone。
+
+        範囲は両端包含、None側は無制限。範囲内の最初・最後と、既定ではbreakdownを残す。
+        toleranceはdegree / cm / unitlessの非負数。キー間も比較し、判定できない候補は残す。
+        残るキーの時刻・値・手動接線を保持し、auto等の再計算も誤差判定に含める。
+        TA / TL / TUに対応。対象解決・編集は初回実行時、範囲の時間単位は予約時に捕捉する。
+        """
+        _keyframe_reduce.queue_reduce(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            tolerance,
+            preserve_breakdowns,
         )
 
     def _require_modifier_manager(self) -> ModifierManager:

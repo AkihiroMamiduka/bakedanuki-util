@@ -64,6 +64,9 @@
   - 編集可能な`KeyData`と、カーブ共通設定を持つ`AnimCurveData`です。
 - `python/bd_util/maya/node/operator/attr/_keyframe_snapshot.py`
   - カーブ情報の取得・復元、指定範囲の境界補完の内部実装です。
+- `python/bd_util/maya/node/operator/attr/_keyframe_reduce.py` / `_keyframe_error.py`
+  - `reduce_keys()`の削減計画とBezier区間の誤差判定です。残すキーの手動接線を維持し、
+    元カーブとの誤差内に収まる候補だけを削除します。
 - `python/bd_util/maya/node/operator/attr/extra/add_attr.py`
   - extra attribute 作成用の `AddAttr` API です。
 - `python/bd_util/maya/node/operator/attr/lookup.py`
@@ -1412,11 +1415,12 @@ alias や child plug は同じ logical plug を指す場合、同じ `PlugOperat
 ## 関連ドキュメント
 
 KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元、layer構成を含む性能改善まで
-実装・動作確認済みです。続いて時間方向の`move_key()` / `move_keys()`を実装しました。
-相対・絶対移動、移動先キーの置換、任意の境界挿入（`insert_missing=False`が既定）を扱います。
+実装・動作確認済みです。時間方向の`move_key()` / `move_keys()`も利用者確認・push済みです。
+続いて、手動接線を維持するキー削減`reduce_keys()`を実装しました。
 新しいチャットで開発を続ける場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と
-[キーフレーム移動の現行仕様](attributes.md#キーを時間方向へ移動する)を参照してください。
+[キーフレーム移動](attributes.md#キーを時間方向へ移動する)・
+[キー削減](attributes.md#手動接線を維持してキーを削減する)の現行仕様を参照してください。
 
 - [KeyframeManagerの開発状況と次の候補](roadmap.md#keyframemanagerの開発状況と次の候補)
 - [キーフレームの現行仕様](attributes.md#キーフレーム)

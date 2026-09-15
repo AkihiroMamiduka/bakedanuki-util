@@ -14,6 +14,7 @@ from test_keyframe_target import (
     EDITS,
     QUERIES,
     _object,
+    _prepare_reduction,
     _restrict,
     _state,
     _target,
@@ -111,6 +112,8 @@ def test_channel_edits_touch_only_selected_curve_and_restore_connections(
     node, keyframes, curves, blend, mod = _standard(maya_cmds, family)
     keyframe = keyframes[axis]
     selected = curves[axis]
+    if method == "reduce_keys":
+        _prepare_reduction(maya_cmds, selected)
     original = _states(maya_cmds)
     connections = maya_cmds.listConnections(
         blend, connections=True, plugs=True

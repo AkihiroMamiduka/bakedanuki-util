@@ -26,6 +26,7 @@ QUERIES = (
     ("get_weighted", {}),
 )
 EDITS = (
+    ("reduce_keys", {"tolerance": 0.01}),
     ("move_key", {"frame": 1, "to_frame": 5}),
     ("move_keys", {"offset_frames": 2}),
     ("insert_key", {"frame": 3}),
@@ -35,6 +36,22 @@ EDITS = (
     ("delete_anim_curve", {}),
     ("set_weighted", {"weighted": True}),
 )
+
+
+def _prepare_reduction(cmds, name):
+    curve = oma.MFnAnimCurve(om.MSelectionList().add(name).getDependNode(0))
+    time = om.MTime(
+        (
+            curve.input(0).asUnits(om.MTime.kSeconds)
+            + curve.input(1).asUnits(om.MTime.kSeconds)
+        )
+        / 2,
+        om.MTime.kSeconds,
+    )
+    curve.addKey(time, (curve.value(0) + curve.value(1)) / 2)
+    for i in range(curve.numKeys):
+        curve.setInTangentType(i, curve.kTangentLinear)
+        curve.setOutTangentType(i, curve.kTangentLinear)
 
 
 def _state(curve):
