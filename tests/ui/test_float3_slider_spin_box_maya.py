@@ -78,7 +78,10 @@ def view_factory(request):
     def create(binding, parent, **kwargs):
         if request.param is Float3RangeSliderSpinBox:
             kwargs["value_show_unit"] = True
-        return request.param(binding, parent, **kwargs)
+        view = request.param(binding, parent, **kwargs)
+        for spin in (view.x_spin_box, view.y_spin_box, view.z_spin_box):
+            spin.setUnitVisible(True)
+        return view
 
     return create
 

@@ -159,8 +159,9 @@ def test_failed_write_recovers_actual_value(qt_application):
         flush()
 
 
+@pytest.mark.parametrize("show_unit", [False, True])
 def test_presentation_change_cancels_pending_text_without_writing(
-    qt_application,
+    qt_application, show_unit
 ):
     store = Store(
         value=100.0,
@@ -173,12 +174,16 @@ def test_presentation_change_cancels_pending_text_without_writing(
     changes = []
     binding.changed.connect(changes.append)
     try:
+        assert not view.isUnitVisible()
+        assert view.suffix() == ""
+        if show_unit:
+            view.setUnitVisible(True)
         view.selectAll()
         type_text(view, "250")
         store.presentation = FloatPresentation(0.01, " m", -200.0, 300.0)
         assert not binding.refresh()
         assert view.value() == 1.0
-        assert view.suffix() == " m"
+        assert view.suffix() == (" m" if show_unit else "")
         assert (view.minimum(), view.maximum()) == (-2.0, 3.0)
         press_key(view, qt.Qt.Key.Key_Return)
         assert store.writes == 0

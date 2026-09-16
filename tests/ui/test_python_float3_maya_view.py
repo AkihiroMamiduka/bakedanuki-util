@@ -64,7 +64,7 @@ def test_shared_widgets_units_pending_input_and_unedited_enter_preserve_precisio
         )
         assert data.value == initial
         cmds.currentUnit(linear="m")
-        assert first.x_spin_box.suffix() == second.z_spin_box.suffix() == " m"
+        assert first.x_spin_box.suffix() == second.z_spin_box.suffix() == ""
         assert first.y_spin_box.minimum() == -5
         assert first.z_spin_box.maximum() == 5
         assert data.value == initial
@@ -149,6 +149,7 @@ def test_separate_view_owner_destruction_keeps_python_editable_and_allows_replac
     spin = Float3SpinBox(source)
     before = tuple(node.translate.get())
     try:
+        spin.y_spin_box.setUnitVisible(True)
         assert spin.y_spin_box.suffix() == " cm"
         owner.deleteLater()
         flush()

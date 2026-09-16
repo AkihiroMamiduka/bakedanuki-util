@@ -69,6 +69,9 @@ def test_composite_shares_units_history_and_out_of_range_input(
     )
     before = tuple(om.MMessage.nodeCallbacks(node.m_obj))
     editor = FloatSliderSpinBox(binding, owner, minimum=-100, maximum=100)
+    assert not editor.spin_box.isUnitVisible()
+    assert editor.spin_box.suffix() == ""
+    editor.spin_box.setUnitVisible(True)
     label = FloatLabel(binding, owner)
     assert tuple(om.MMessage.nodeCallbacks(node.m_obj)) == before
     cmds.currentUnit(linear="m", angle="rad")

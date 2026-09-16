@@ -33,7 +33,7 @@ class FloatValueStepSpinBox(qt.QWidget):
         single_step: float = 0.1,
         step_mode: FloatStepMode = "additive",
         step_increment: float = 1.0,
-        step_show_unit: bool = True,
+        step_show_unit: bool = False,
     ) -> None:
         """共有する入力元と、値・step欄の表示と操作設定を指定する。"""
         # 子Widgetを作る前に入力元と操作設定を検証する

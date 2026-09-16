@@ -25,7 +25,7 @@ editor = FloatValueStepSpinBox(
 | `single_step=0.1` | 値欄の初期刻み幅。正の有限値 |
 | `step_mode="additive"` | step欄の上下操作。`additive` または `multiplicative` |
 | `step_increment=1.0` | additiveでstep欄自身を増減する幅 |
-| `step_show_unit=True` | step欄に現在の表示単位を付けるか |
+| `step_show_unit=False` | step欄に現在の表示単位を付けるか |
 | `.spin_box` | 値欄の `FloatSpinBox` |
 | `.step_spin_box` | 刻み幅欄の `FloatStepSpinBox` |
 | `.view_model` | 共有するViewModel。終了後は例外 |
@@ -37,6 +37,9 @@ stepを加減算します。additiveで15刻みにする場合は、初期値と
 step欄には正の有限値を直接入力することもできます。
 
 子Widgetを公開しているため、幅・prefix・ボタン表示などは利用側で指定できます。
+値欄・step欄の単位文字は既定で非表示です。値欄は
+`editor.spin_box.setUnitVisible(True)`、step欄は生成時の`step_show_unit=True`で表示できます。
+単位文字を省略しても、現在の表示単位での入力・換算は継続します。
 値の刻み幅は複合Viewの `setSingleStep()` で変更すると、両欄の表示と変更通知が揃います。
 
 ```python
@@ -50,7 +53,7 @@ editor.setSingleStep(0.1)
 - 初期表示、step変更、単位変更では正本へ書き込みません。
 - stepはこのView固有の設定です。同じBindingを使う別Viewのstepへ伝播しません。
 - `single_step` と `step_increment` は表示単位です。単位変更時も数値を維持し、
-  suffixを更新します。例: 1 cmから表示単位をmへ変えるとstepは1 mです。
+  単位文字の表示が有効ならsuffixも更新します。例: 1 cmから表示単位をmへ変えるとstepは1 mです。
 - 単位変更時はstep欄の古い未確定入力を捨てます。stepの小数精度は値欄と独立です。
 - 値のhard limit、型・単位変換、複数対象への適用、Undoは既存のViewとBindingへ委譲します。
 - 値が読取り専用でもstep設定は変更できます。入力元が終了・Qt破棄された場合は両欄を停止します。

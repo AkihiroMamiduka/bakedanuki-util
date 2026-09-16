@@ -122,6 +122,9 @@ def test_axis_hard_limits_and_display_units_are_independent(owner):
     )
     view.x_editor.slider.setValue(1000)
     assert binding.value == (5, 5, 2)
+    assert view.x_spin_box.text() == "0.050000"
+    assert not view.x_spin_box.isUnitVisible()
+    view.x_spin_box.setUnitVisible(True)
     assert view.x_spin_box.text() == "0.050000 m"
     assert view.x_spin_box.singleStep() == 0.25
     assert not view.y_editor.slider.isEnabled()

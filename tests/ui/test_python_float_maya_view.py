@@ -64,7 +64,7 @@ def test_shared_widgets_units_and_unedited_enter_preserve_python_precision(
             )
         assert data.value == 1.23456789123
         cmds.currentUnit(linear="m")
-        assert first.suffix() == second.suffix() == " m"
+        assert first.suffix() == second.suffix() == ""
         assert first.minimum() == -5
         assert first.maximum() == 5
         assert data.value == 1.23456789123
@@ -140,6 +140,7 @@ def test_separate_maya_view_owner_restores_python_units_without_disabling_input(
     )
     spin = FloatSpinBox(binding)
     try:
+        spin.setUnitVisible(True)
         assert spin.suffix() == " cm"
         owner.deleteLater()
         flush()

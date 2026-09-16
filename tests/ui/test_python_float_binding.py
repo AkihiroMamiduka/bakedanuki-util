@@ -80,6 +80,8 @@ def test_presentation_converts_only_view_and_limits_python_requests(
     view = FloatSpinBox(binding, decimals=3)
     try:
         assert view.value() == 12.5
+        assert view.suffix() == ""
+        view.setUnitVisible(True)
         assert view.suffix() == " %"
         assert (view.minimum(), view.maximum()) == (0, 100)
         view.setValue(75)

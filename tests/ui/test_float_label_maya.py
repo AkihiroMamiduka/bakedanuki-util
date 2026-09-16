@@ -61,6 +61,7 @@ def test_units_external_input_and_history_are_shared_without_label_writes(
     )
     label = FloatLabel(binding, decimals=3)
     spin = FloatSpinBox(binding, decimals=3)
+    spin.setUnitVisible(True)
     try:
         cmds.undoInfo(state=True)
         cmds.currentUnit(linear="m", angle="rad")

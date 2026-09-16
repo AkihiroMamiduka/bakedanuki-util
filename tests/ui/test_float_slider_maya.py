@@ -67,6 +67,7 @@ def test_drag_updates_all_views_live_and_undo_redo_once(
     )
     slider = FloatSlider(binding, owner, minimum=-100, maximum=100)
     spin = FloatSpinBox(binding, owner)
+    spin.setUnitVisible(True)
     label = FloatLabel(binding, owner)
     cmds.currentUnit(linear="m", angle="rad")
     flush()

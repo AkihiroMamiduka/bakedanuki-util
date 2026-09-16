@@ -3,6 +3,8 @@
 `FloatSliderSpinBox`は、`FloatSlider`と`FloatSpinBox`を横に並べた単一値の複合Viewです。
 1つのWidgetとしてlayoutへ追加し、内部の両Viewで同じBinding／ViewModelを共有します。
 値の同期・単位変換・Undoは既存の基盤を使い、複合View独自の値やMaya callbackは追加しません。
+値欄の単位文字は既定で非表示です。`editor.spin_box.setUnitVisible(True)`で表示できます。
+文字を省略しても現在の表示単位への換算は継続します。
 
 ## 最小の組み込み
 

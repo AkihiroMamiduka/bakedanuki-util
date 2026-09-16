@@ -100,13 +100,25 @@ def test_step_changes_only_view_and_value_input_writes_once(
     assert other.spin_box.value() == 0.501
 
 
-def test_additive_step_and_unit_changes_preserve_numeric_step(owner):
+@pytest.mark.parametrize("show_unit", [False, True])
+def test_additive_step_and_unit_changes_preserve_numeric_step(
+    owner, show_unit
+):
     """加算stepと単位変更を値編集から分離し、古い単位の保留入力を捨てる。"""
     data = Data()
     binding = FloatBinding.from_attribute(data, "value", parent=owner)
+    unit_options = {"step_show_unit": True} if show_unit else {}
     editor = FloatValueStepSpinBox(
-        binding, owner, single_step=15, step_mode="additive", step_increment=15
+        binding,
+        owner,
+        single_step=15,
+        step_mode="additive",
+        step_increment=15,
+        **unit_options,
     )
+    assert not editor.spin_box.isUnitVisible()
+    if show_unit:
+        editor.spin_box.setUnitVisible(True)
     editor.step_spin_box.stepUp()
     assert editor.singleStep() == 30
     enter(editor.step_spin_box, "7.5")
@@ -115,7 +127,11 @@ def test_additive_step_and_unit_changes_preserve_numeric_step(owner):
         lambda p: FloatPresentation(scale=0.01, suffix=" m")
     )
     assert editor.singleStep() == editor.step_spin_box.value() == 7.5
-    assert editor.step_spin_box.suffix() == editor.spin_box.suffix() == " m"
+    assert (
+        editor.step_spin_box.suffix()
+        == editor.spin_box.suffix()
+        == (" m" if show_unit else "")
+    )
     assert "999" not in editor.step_spin_box.text()
     assert data.writes == []
 

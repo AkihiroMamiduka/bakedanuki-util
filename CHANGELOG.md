@@ -83,6 +83,11 @@
 
 ### Changed
 
+- `FloatSpinBox`の単位文字表示と`FloatValueStepSpinBox.step_show_unit`の既定値を
+  非表示へ変更する。`FloatSliderSpinBox`、`Float3SpinBox`、
+  `Float3SliderSpinBox`の値欄にも適用される。
+  従来の表示が必要な場合は値欄へ`setUnitVisible(True)`、step欄の生成時に
+  `step_show_unit=True`を明示する。数値の単位換算は維持し、scene・設定の移行は不要。
 - animation layerへの所属確認を、全属性の列挙から対象plugのnative照会へ変更する。
   配列・compoundのlock検査もMPlug.isFreeToChangeを使い、通常の未lockカーブのPython巡回を削減する。
   所属・lockの実行時再検査、個別キーのlock拒否、Undo / Redoとrollbackは維持する。

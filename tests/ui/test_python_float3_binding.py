@@ -149,6 +149,9 @@ def test_per_axis_units_and_limits_keep_public_values(qt_application):
     view = Float3SpinBox(binding)
     try:
         assert tuple(axis.value() for axis in axes(view)) == (1, 50, 180)
+        assert tuple(axis.suffix() for axis in axes(view)) == ("", "", "")
+        for axis in axes(view):
+            axis.setUnitVisible(True)
         assert tuple(axis.suffix() for axis in axes(view)) == (
             " m",
             " %",

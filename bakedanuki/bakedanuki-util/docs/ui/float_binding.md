@@ -80,8 +80,9 @@ SliderとSpinBoxをまとめて配置する場合は[FloatSliderSpinBox](float_s
 `True`に戻した場合も、正本のlock・接続・終了による編集制限は優先します。
 この設定で無効化した欄への`setValue()`は正本を変更せず、確定値を再表示します。
 `setUnitVisible(False)`では末尾の単位文字だけを省略し、現在の表示単位への換算は継続します。
-通常の`FloatSpinBox`は既定で単位を表示しますが、`FloatRangeSliderSpinBox`の現在値欄は
-`value_show_unit=False`を既定とします。表示の切替は未確定入力を破棄して確定値を再表示し、正本を変更しません。
+`FloatSpinBox`と、それを使う複合Viewの値欄は既定で単位文字を省略します。
+表示する場合は`setUnitVisible(True)`を使用します。`FloatRangeSliderSpinBox`では
+`value_show_unit=True`でも指定できます。表示の切替は未確定入力を破棄して確定値を再表示し、正本を変更しません。
 公開数値APIは有限のfloatとintを受け取り、floatへ正規化します。
 bool、文字列、NaN、無限大は拒否します。`Float`という名前はPythonの数値型を表し、
 Mayaの32bit floatだけを意味するものではありません。

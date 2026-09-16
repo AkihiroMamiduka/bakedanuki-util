@@ -16,6 +16,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
     """公開値を表示単位に変換して編集するQDoubleSpinBox。
 
     decimalsは表示・入力の小数桁数、single_stepは表示単位での刻み幅。
+    単位文字は既定で省略し、setUnitVisible(True)で表示できる。
     表示の丸めや単位変更を正本へ書き戻さない。
     """
 
@@ -40,7 +41,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         self._binding = binding
         self._view_model = view_model
         self._input_enabled = True
-        self._unit_visible = True
+        self._unit_visible = False
 
         # 表示桁数・刻み幅を設定し、入力途中の逐次確定と値の循環を止める。
         self.setDecimals(decimals)
