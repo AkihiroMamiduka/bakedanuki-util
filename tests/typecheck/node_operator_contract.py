@@ -5629,7 +5629,7 @@ def invalid_usage_contract(
 
 
 def animation_clip_contract(
-    mod: bdu.ModifierManager, nodes: bdu.Nodes
+    mod: bdu.ModifierManager, nodes: bdu.Nodes, optional_frame: float | None
 ) -> None:
     clip = bdu.AnimationClip.capture(
         ["ctrl", nodes.existing("other")],
@@ -5656,8 +5656,33 @@ def animation_clip_contract(
         ["ctrl"],
         layer_mode="invalid",  # pyright: ignore[reportArgumentType]
     )
-    clip.restore(mod, mode="invalid")  # pyright: ignore[reportArgumentType]
+    clip.restore(
+        mod,
+        mode="invalid",  # pyright: ignore[reportArgumentType]
+    )
     bdu.AnimationClip.capture(
         ["ctrl"],
         include_static="yes",  # pyright: ignore[reportArgumentType]
+    )
+    assert_type(clip.restore(mod, offset_frames=15), None)
+    assert_type(
+        clip.restore(mod, to_start_frame=100, mode="replace_range"), None
+    )
+    assert_type(clip.restore(mod, to_end_frame=120), None)
+    assert_type(clip.restore(mod, offset_frames=optional_frame), None)
+    assert_type(clip.restore(mod, to_start_frame=optional_frame), None)
+    assert_type(clip.restore(mod, to_end_frame=optional_frame), None)
+    clip.restore(  # pyright: ignore[reportCallIssue]
+        mod,
+        offset_frames=1,
+        to_start_frame=10,  # pyright: ignore[reportArgumentType]
+    )
+    clip.restore(  # pyright: ignore[reportCallIssue]
+        mod,
+        to_start_frame=10,
+        to_end_frame=20,  # pyright: ignore[reportArgumentType]
+    )
+    clip.restore(
+        mod,
+        offset_frames="15",  # pyright: ignore[reportArgumentType]
     )

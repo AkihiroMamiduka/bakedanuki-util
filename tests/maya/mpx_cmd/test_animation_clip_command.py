@@ -20,7 +20,8 @@ def clip_plugin(new_scene, maya_cmds):
 
 @pytest.mark.parametrize("mode", ["flatten", "preserve"])
 @pytest.mark.parametrize("fail", [False, True])
-def test_clip_command_history(clip_plugin, maya_cmds, mode, fail):
+@pytest.mark.parametrize("offset", [0, 90])
+def test_clip_command_history(clip_plugin, maya_cmds, mode, fail, offset):
     cmds = maya_cmds
     source = cmds.createNode("transform")
     cmds.setKeyframe(source + ".tx", time=1, value=2)
@@ -38,6 +39,7 @@ def test_clip_command_history(clip_plugin, maya_cmds, mode, fail):
         .existing.transform(source)
         .tx.sample_values(frames=[1, 3, 5])
     )
+    expected = [(frame + offset, value) for frame, value in expected]
     cmds.file(new=True, force=True)
     target = cmds.createNode("transform")
     cmds.setKeyframe(target + ".tx", time=2, value=30)
@@ -53,7 +55,9 @@ def test_clip_command_history(clip_plugin, maya_cmds, mode, fail):
         with pytest.raises(
             RuntimeError, match="intentional animation clip failure"
         ):
-            command(clipData=clip.to_json(), nodeName=target)
+            command(
+                clipData=clip.to_json(), nodeName=target, offsetFrames=offset
+            )
         assert set(cmds.ls()) == before_nodes
         assert (
             bdu.Nodes().existing.transform(target).tx.keyframe.get_curve_data()
@@ -61,11 +65,11 @@ def test_clip_command_history(clip_plugin, maya_cmds, mode, fail):
         )
         assert cmds.undoInfo(query=True, undoQueueEmpty=True)
         return
-    command(clipData=clip.to_json(), nodeName=target)
+    command(clipData=clip.to_json(), nodeName=target, offsetFrames=offset)
     after_nodes = set(cmds.ls())
     for _ in range(3):
         assert bdu.Nodes().existing.transform(target).tx.sample_values(
-            frames=[1, 3, 5]
+            frames=[1 + offset, 3 + offset, 5 + offset]
         ) == pytest.approx(expected)
         cmds.undo()
         assert set(cmds.ls()) == before_nodes

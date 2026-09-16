@@ -24,6 +24,7 @@ from ._animation_clip_capture import (
     plug_for,
     sample,
 )
+from ._animation_clip_time import shifted_for_restore
 from .modifier import ModifierManager
 from .nodes import Nodes
 from .operator.attr import _keyframe_target, _keyframe_snapshot
@@ -121,11 +122,38 @@ def _same_setting(actual: LayerSettingData, saved: LayerSettingData) -> bool:
         if any(
             not math.isclose(x, y, rel_tol=1e-12, abs_tol=1e-12)
             for x, y in zip(
-                (a.frame, a.value, *a.in_tangent_xy, *a.out_tangent_xy),
-                (b.frame, b.value, *b.in_tangent_xy, *b.out_tangent_xy),
+                (a.frame, a.value),
+                (b.frame, b.value),
             )
         ):
             return False
+        for actual_xy, saved_xy in (
+            (a.in_tangent_xy, b.in_tangent_xy),
+            (a.out_tangent_xy, b.out_tangent_xy),
+        ):
+            if not expected.weighted:
+                # Nonweighted boundary tangents can be renormalized by Maya.
+                actual_length = math.hypot(*actual_xy) or 1.0
+                saved_length = math.hypot(*saved_xy) or 1.0
+                actual_xy = (
+                    actual_xy[0] / actual_length,
+                    actual_xy[1] / actual_length,
+                )
+                saved_xy = (
+                    saved_xy[0] / saved_length,
+                    saved_xy[1] / saved_length,
+                )
+            if any(
+                # Maya rounds weighted tangent lengths when restoring them.
+                not math.isclose(
+                    x,
+                    y,
+                    rel_tol=1e-7 if expected.weighted else 1e-12,
+                    abs_tol=1e-12,
+                )
+                for x, y in zip(actual_xy, saved_xy)
+            ):
+                return False
     return True
 
 
@@ -174,6 +202,9 @@ def restore(
     targets: Iterable[NodeOperator | om.MObject | str] | None,
     namespace: str | None,
     mode: RestoreMode,
+    offset_frames: float | None,
+    to_start_frame: float | None,
+    to_end_frame: float | None,
     restore_layer_settings: bool,
     tolerance: float,
 ) -> None:
@@ -198,7 +229,12 @@ def restore(
         namespace = namespace.strip(":")
     if isinstance(targets, (str, NodeOperator, om.MObject)):
         raise TypeError("targets must be an iterable of nodes.")
-    data = AnimationClip.from_dict(clip.to_dict())
+    data = shifted_for_restore(
+        AnimationClip.from_dict(clip.to_dict()),
+        offset_frames=offset_frames,
+        to_start_frame=to_start_frame,
+        to_end_frame=to_end_frame,
+    )
     destination: tuple[str | om.MObject, ...]
     if targets is None:
         destination = tuple(

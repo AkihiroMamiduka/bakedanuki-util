@@ -64,8 +64,17 @@ def main():
         include_channel_box=True,
     )
 
-    dst_1 = nodes.create.transform(name="dst_0")
+    dst_1 = nodes.create.transform(name="dst_1")
     clip.restore(nodes.modifier_manager, targets=[dst_1])
+
+    dst_1_0 = nodes.create.transform(name="dst_1_0")
+    clip.restore(nodes.modifier_manager, targets=[dst_1_0], offset_frames=100)
+
+    dst_1_1 = nodes.create.transform(name="dst_1_1")
+    clip.restore(nodes.modifier_manager, targets=[dst_1_1], to_start_frame=200)
+
+    dst_1_2 = nodes.create.transform(name="dst_1_2")
+    clip.restore(nodes.modifier_manager, targets=[dst_1_2], to_end_frame=300)
 
     dst_2 = nodes.create.transform(name="dst_2")
     clip.restore(nodes.modifier_manager, targets=[dst_2], mode="replace_all")

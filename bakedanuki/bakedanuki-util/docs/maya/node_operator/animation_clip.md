@@ -47,6 +47,9 @@ clip.restore(
     targets=None,
     namespace=None,
     mode="merge",
+    offset_frames=None,
+    to_start_frame=None,
+    to_end_frame=None,
     restore_layer_settings=False,
     tolerance=1e-6,
 ) -> None
@@ -175,6 +178,54 @@ selected / preferred等のUI状態は保存しません。
 rootの設定も同じ規則です。既存のlocked / referenced layerを自動解除して編集することはありません。
 新規layerの保存されたlock状態は、カーブ復元後に設定します。
 
+## 復元時刻の指定
+
+`restore()`に`offset_frames` / `to_start_frame` / `to_end_frame`を指定すると、
+保存区間・全nodeのキー・layerとrootの設定カーブを同じ時間だけ平行移動して復元します。
+同時に指定できるのは最大1つです。全省略時は従来の保存時刻へ復元します。
+
+保存・復元先が同じFPSで、保存区間が10〜30の場合です。
+
+| 指定 | 復元区間 |
+| --- | --- |
+| 指定なし | 10〜30 |
+| `offset_frames=15` | 25〜45 |
+| `to_start_frame=100` | 100〜120 |
+| `to_end_frame=100` | 80〜100 |
+
+```python
+clip.restore(mod, to_start_frame=100, mode="replace_range")
+mod.do_it_dg()
+```
+
+絶対時刻合わせは`clip.start_frame` / `clip.end_frame`を基準にします。
+属性ごとの先頭・末尾キーは基準にしません。保存区間が10〜30で、ある属性のキーが15から
+始まる場合、`to_start_frame=100`ではそのキーは105へ移ります。
+1時刻だけのclipでも開始・終了のどちらの指定でも配置できます。
+
+新しい3引数は`restore()`呼び出し時のMaya UI時間単位で捕捉します。
+負の時刻とsubframeを許可し、整数フレームへ丸めません。保存された動きの長さは秒で維持します。
+例えば24fpsで保存した24〜48のclipを30fpsで`to_start_frame=90`とすると、90〜120へ復元します。
+予約後にFPSを変更しても、予約時に決めた物理的な時刻・移動量を維持します。
+複数の時刻指定、bool・文字列・非有限数、Mayaの表現範囲を超える時刻、
+移動後にキーや区間が時刻精度の限界で重なる指定は、予約前に拒否します。
+
+時刻指定は元のclipやJSONを変更せず、復元用のコピーに適用します。同じclipを複数の時刻へ予約できます。
+移動量0や同じ時刻への位置合わせも通常の復元であり、処理を省略しません。
+`merge`で同じnodeへ別時刻に復元した場合は、元時刻のキーも残ります。
+`replace_range`の置換範囲は移動後の保存区間です。`replace_all`は対象カーブ全体を置換します。
+戻り値は`None`で、変更は`ModifierManager`へ予約し、Undo / Redo・失敗時rollbackへ参加します。
+
+レイヤー保持ではweight等の設定キーも移動し、既存layerとは移動後の時刻で比較します。
+設定が不一致なら既定でエラーとなり、明示的な`restore_layer_settings=True`で設定を全置換します。
+この設定置換は`mode`とは別の指定で、共有layerの対象外属性にも影響します。
+nonweighted設定カーブの接線は、Mayaによるベクトル長の正規化を許容し、方向を比較します。
+weighted設定カーブは方向・長さの両方を比較し、Mayaによる微小な丸め誤差を許容します。
+合成保存では、移動先時刻の他layerの影響を考慮して値を設定・検証します。
+
+時刻以外のキー情報は変更せず、接線・lock・breakdown・weighted・infinityは既存の復元規則に従います。
+時間拡縮はこのAPIに含みません。移動指定は復元時のoptionなので、JSONはschema 2のままです。
+
 ## 復元先と置換方法
 
 - 既定: 保存したnode名へ復元します。DAG nodeはfull pathを保存し、曖昧な短縮名照合をしません。
@@ -189,7 +240,7 @@ rootの設定も同じ規則です。既存のlocked / referenced layerを自動
 | --- | --- | --- |
 | `merge`（既定） | 追加・上書き | 同時刻だけ上書きし、他のキーを残す |
 | `replace_all` | 全置換 | 対象カーブの全キーを置換する |
-| `replace_range` | 部分置換 | 保存区間の既存キーを両端込みで削除して復元し、外側のキーを残す |
+| `replace_range` | 部分置換 | 移動指定後の保存区間の既存キーを両端込みで削除して復元し、外側のキーを残す |
 
 保存データに含まれない属性・チャンネルは置換対象にしません。
 部分置換はキー保持の契約で、境界をまたぐ補間やauto接線の再計算は影響を受け得ます。
@@ -214,4 +265,5 @@ clip = bdu.AnimationClip.from_dict(data)
 
 時間は`seconds_per_frame`を保存し、移植時に秒としての位置・長さを保ちます。
 例えば24fpsの24フレームは、30fpsのsceneでは30フレームへ復元されます。
-時刻の移動・拡縮、リグ固有の属性対応、ワールド空間への変換はこのAPIに含みません。
+復元時刻の移動は`restore()`で指定できます。時間拡縮、リグ固有の属性対応、
+ワールド空間への変換はこのAPIに含みません。

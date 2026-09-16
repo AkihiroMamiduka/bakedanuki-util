@@ -10,7 +10,7 @@ from bd_util.maya.mpx_cmd import (
 )
 
 
-class _RestoreClipCommand(MPxCommandBase[tuple[str, str]]):
+class _RestoreClipCommand(MPxCommandBase[tuple[str, str, float]]):
     COMMAND_NAME = "bduTestMpxRestoreClip"
 
     @classmethod
@@ -18,19 +18,29 @@ class _RestoreClipCommand(MPxCommandBase[tuple[str, str]]):
         syntax = om.MSyntax()
         syntax.addFlag("-d", "-clipData", om.MSyntax.kString)
         syntax.addFlag("-n", "-nodeName", om.MSyntax.kString)
+        syntax.addFlag("-o", "-offsetFrames", om.MSyntax.kDouble)
         return syntax
 
     def parse_arguments(
         self, arg_database: om.MArgDatabase
-    ) -> tuple[str, str]:
-        return arg_database.flagArgumentString(
-            "-clipData", 0
-        ), arg_database.flagArgumentString("-nodeName", 0)
+    ) -> tuple[str, str, float]:
+        return (
+            arg_database.flagArgumentString("-clipData", 0),
+            arg_database.flagArgumentString("-nodeName", 0),
+            (
+                arg_database.flagArgumentDouble("-offsetFrames", 0)
+                if arg_database.isFlagSet("-offsetFrames")
+                else 0.0
+            ),
+        )
 
-    def execute(self, params: tuple[str, str]) -> None:
-        data, node = params
+    def execute(self, params: tuple[str, str, float]) -> None:
+        data, node, offset = params
         AnimationClip.from_json(data).restore(
-            self.modifier_manager, targets=[node], mode="replace_all"
+            self.modifier_manager,
+            targets=[node],
+            mode="replace_all",
+            offset_frames=offset,
         )
         self.modifier_manager.do_it_dg()
 
@@ -38,7 +48,7 @@ class _RestoreClipCommand(MPxCommandBase[tuple[str, str]]):
 class _FailRestoreClipCommand(_RestoreClipCommand):
     COMMAND_NAME = "bduTestMpxFailRestoreClip"
 
-    def execute(self, params: tuple[str, str]) -> None:
+    def execute(self, params: tuple[str, str, float]) -> None:
         super().execute(params)
         raise RuntimeError("intentional animation clip failure")
 

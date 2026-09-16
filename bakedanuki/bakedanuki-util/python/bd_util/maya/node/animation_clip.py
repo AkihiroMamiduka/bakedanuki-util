@@ -6,7 +6,7 @@ import json
 import math
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
-from typing import TYPE_CHECKING, Literal, cast
+from typing import TYPE_CHECKING, Literal, cast, overload
 
 from .operator.attr.keyframe_data import AnimCurveData
 
@@ -343,6 +343,7 @@ class AnimationClip:
             sample_by=sample_by,
         )
 
+    @overload
     def restore(
         self,
         modifier_manager: ModifierManager,
@@ -350,6 +351,53 @@ class AnimationClip:
         targets: Iterable[NodeOperator | om.MObject | str] | None = None,
         namespace: str | None = None,
         mode: RestoreMode = "merge",
+        offset_frames: float | None = None,
+        to_start_frame: None = None,
+        to_end_frame: None = None,
+        restore_layer_settings: bool = False,
+        tolerance: float = 1e-6,
+    ) -> None: ...
+
+    @overload
+    def restore(
+        self,
+        modifier_manager: ModifierManager,
+        *,
+        targets: Iterable[NodeOperator | om.MObject | str] | None = None,
+        namespace: str | None = None,
+        mode: RestoreMode = "merge",
+        offset_frames: None = None,
+        to_start_frame: float,
+        to_end_frame: None = None,
+        restore_layer_settings: bool = False,
+        tolerance: float = 1e-6,
+    ) -> None: ...
+
+    @overload
+    def restore(
+        self,
+        modifier_manager: ModifierManager,
+        *,
+        targets: Iterable[NodeOperator | om.MObject | str] | None = None,
+        namespace: str | None = None,
+        mode: RestoreMode = "merge",
+        offset_frames: None = None,
+        to_start_frame: None = None,
+        to_end_frame: float,
+        restore_layer_settings: bool = False,
+        tolerance: float = 1e-6,
+    ) -> None: ...
+
+    def restore(
+        self,
+        modifier_manager: ModifierManager,
+        *,
+        targets: Iterable[NodeOperator | om.MObject | str] | None = None,
+        namespace: str | None = None,
+        mode: RestoreMode = "merge",
+        offset_frames: float | None = None,
+        to_start_frame: float | None = None,
+        to_end_frame: float | None = None,
         restore_layer_settings: bool = False,
         tolerance: float = 1e-6,
     ) -> None:
@@ -358,6 +406,8 @@ class AnimationClip:
         合成値はベースへ逆算設定し、サンプル時刻で検証する。失敗時は全体を戻す。
         preserveは生値を復元。設定不一致の既存layerを変更する場合だけ
         restore_layer_settings=Trueを指定する。予約後のデータ編集は反映しない。
+        時刻指定は3種類から最大1つ。保存区間を基準に全キーとlayer設定を平行移動する。
+        時刻と移動量は呼び出し時のUI時間単位。未指定・移動量0でも通常の復元を行う。
         """
         from ._animation_clip_restore import restore
 
@@ -367,6 +417,9 @@ class AnimationClip:
             targets=targets,
             namespace=namespace,
             mode=mode,
+            offset_frames=offset_frames,
+            to_start_frame=to_start_frame,
+            to_end_frame=to_end_frame,
             restore_layer_settings=restore_layer_settings,
             tolerance=tolerance,
         )
