@@ -1,4 +1,16 @@
 # coding: utf-8
+from .enum import (
+    EnumBinding,
+    EnumComboBox,
+    EnumDefinition,
+    EnumItem,
+    EnumLabel,
+    EnumValue,
+    EnumValueStore,
+    EnumViewModel,
+    PythonEnumAttributeStore,
+    SetEnumCommand,
+)
 from .float3 import (
     Float3,
     Float3Binding,
@@ -48,6 +60,16 @@ from .float import (
 )
 
 __all__ = [
+    "EnumBinding",
+    "EnumComboBox",
+    "EnumDefinition",
+    "EnumItem",
+    "EnumLabel",
+    "EnumValue",
+    "EnumValueStore",
+    "EnumViewModel",
+    "PythonEnumAttributeStore",
+    "SetEnumCommand",
     "Float3",
     "Float3Binding",
     "Float3Label",

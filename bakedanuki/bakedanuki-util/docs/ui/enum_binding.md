@@ -1,0 +1,184 @@
+# enum binding
+
+Python属性またはMaya enum属性の整数値を正本とし、コンボボックスと表示ラベルで共有します。
+値は`int`、同期と選択肢の管理は`EnumViewModel`が担当します。
+Pythonの`Enum`／`IntEnum` classを作る必要はありません。
+
+## Python属性を正本にする
+
+```python
+from dataclasses import dataclass
+
+from bd_util.ui import EnumBinding, EnumComboBox, EnumDefinition, EnumLabel, qt
+
+
+@dataclass
+class Settings:
+    mode: int = 5
+
+
+class ModeWidget(qt.QWidget):
+    def __init__(self, data: Settings, parent=None):
+        super().__init__(parent)
+        definition = EnumDefinition.from_mapping(
+            {0: "Off", 5: "Preview", 10: "Final"}
+        )
+        self.binding = EnumBinding.from_attribute(
+            data, "mode", definition=definition, parent=self
+        )
+        self.combo_box = EnumComboBox(self.binding, self)
+        self.label = EnumLabel(self.binding, self)
+        layout = qt.QHBoxLayout(self)
+        layout.addWidget(self.combo_box)
+        layout.addWidget(self.label)
+```
+
+属性への直接代入後は`binding.refresh()`で読み直します。
+`set_value()`とViewからの入力はsetter適用後の実値を採用します。
+dataclass、slots、property、descriptorを扱い、frozen dataclassとsetterのないpropertyは
+表示専用です。getter失敗や不正な型で読み直せなくなった場合は入力を停止し、
+属性の修復後に`refresh()`すると復帰します。Python単独の変更はMaya Undoへ登録しません。
+
+## Maya属性を正本にする
+
+```python
+import bd_util as bdu
+from bd_util.maya.ui import MayaEnumPlugBinding
+from bd_util.ui import EnumComboBox
+
+nodes = bdu.Nodes()
+node = nodes.existing.transform("pCube1")
+binding = MayaEnumPlugBinding(node.rotateOrder, parent=owner)
+combo_box = EnumComboBox(binding, parent=widget)
+binding.set_value(node.rotateOrder.ZYX)
+```
+
+`owner`はBindingの寿命を管理するQObject、`widget`はViewを配置するQWidgetです。
+名前から取得する場合は`resolve_enum_plug("settings", "mode")`を使用します。
+長名、短名、compound内のscalar enumの相対pathを解決します。
+配列と配列要素、および配列配下のcompound子は対象外です。
+
+作成時はMayaの現在値と実際の属性定義を読み、初期値を書き戻しません。
+標準属性と追加属性の両方に対応します。生成classの`NAME_MAP`ではなく、シーン上の
+項目定義を優先します。整数値はOpenMayaの`MPlug.asShort()`から読み取ります。
+項目一覧は標準属性の`attributeQuery(listEnum=True)`または追加属性の
+`addAttr(query=True, enumName=True)`から読み、値と項目名を`MFnEnumAttribute`で確認します。
+飛び番や負数を含む定義を扱い、定義文字列が同じ場合は解析結果を再利用します。
+
+Viewからの変更は`cmds.setAttr()`で即時確定し、MayaのUndo／Redoに追従します。
+ModifierManagerへ操作を積む`EnumPlugOperator.set()`は、この即時編集には使いません。
+外部変更はcallbackから読み直し、同じ値を書き戻しません。
+lock、親compoundのlock、入力接続は編集を無効化しますが、読み取りと表示は継続します。
+上流のdirty通知後は次のQt event loopで値を読み直します。
+
+## Python正本とMayaを双方向同期する
+
+```python
+from bd_util.maya.ui import MayaEnumBinding, resolve_enum_plug
+
+binding = MayaEnumBinding.from_attribute(
+    data,
+    "mode",
+    definition=definition,
+    maya_plug=resolve_enum_plug("settings", "mode"),
+    parent=owner,
+)
+```
+
+初期同期はPythonからMayaへ行います。項目定義はPython側で明示し、Maya側と
+**値と項目名の対応が一致すること**を要求します。項目の表示順は比較しません。
+項目名の別名変換やMayaのenum定義の書き換えは行いません。
+初期不一致は例外となり、構築中のcallbackを解除します。
+`maya_plug=None`ではPythonとQtのみを接続します。
+
+Maya入力はcallback中に書き戻さず、次のQt event loopでCommandへ渡します。
+同値のPython Commandや`refresh()`も、先に届いていた未処理のMaya入力より優先します。
+Mayaのlock、入力接続、定義不一致ではPython正本を維持し、Python側の編集を継続します。
+定義や書き込み可否が復旧した後はPython値を再同期します。
+
+`binding.maya_view`は`is_synchronized`、`last_sync_error`、`sync_failed`、
+`sync_from_view_model()`を公開します。同期失敗はPythonの変更を巻き戻しません。
+Undo／Redoで復元された値がPythonのsetterで補正された場合、復元値への再書き込みを
+保留してRedo履歴を維持します。Python Command、`refresh()`、明示再同期で再適用できます。
+PythonとMayaをまとめたUndo transactionは提供しません。
+1つのViewModelに接続できるMaya Viewは1つです。
+
+## 値・定義・通知
+
+| API | 内容 |
+| --- | --- |
+| `EnumItem(value, name)` | 整数値と空でない項目名。不変データ |
+| `EnumDefinition(items)` | EnumItemのtuple。値と項目名はそれぞれ一意 |
+| `EnumDefinition.from_mapping({value: name})` | mappingの順序を保って定義を作る |
+| `definition.item_for_value(value)` | 対応するEnumItem。未定義ならNone |
+| `EnumValueStore` | read／write、definition、is_available、is_writableの契約 |
+| `binding.value` / `changed` | 最後に同期した整数値と、実値が変わったときの通知 |
+| `binding.definition` / `definition_changed` | 最後に同期した選択肢と、その変更通知 |
+| `binding.is_value_defined` | 公開値が現在の選択肢に含まれるか |
+| `binding.set_value(value)` | 変更要求。正本の実値が変わったかboolで返す |
+| `binding.refresh()` | 値・定義・編集可否の再取得。公開値が変わったか返す |
+| `binding.store.instance` | Python正本のobject。具体型とIDE補完を維持する |
+| `binding.dispose()` | 入力と同期を終了する |
+
+Python属性には生成時の不変な定義を指定します。実行中に定義を変更する独自Storeは、
+新しい`EnumDefinition`を返した後に`refresh()`を呼びます。Maya Storeでは通常の
+`addAttr(edit=True, enumName=...)`とUndo／Redoのcallbackで再取得します。
+独自plug-inなど通知を出さない経路で定義を変えた場合も、`refresh()`で再取得できます。
+
+項目名だけの変更では`definition_changed`だけを通知します。
+値と定義は通知前に一緒に確定し、通知slotから読み取る状態の不一致を防ぎます。
+Valueは読み取り専用で、変更はCommandを通します。Storeなしの低レベル利用では
+`EnumViewModel(value=5, definition=definition)`でメモリ上の値を扱えます。
+
+## 未定義値とView
+
+Maya enumには飛び番の間の未定義値が入ることがあり、選択中の項目を定義から削除しても
+現在値は残ります。この基盤では、書き込み要求は定義内の整数に限定し、読み取りでは
+正本の未定義整数をそのまま保持します。自動clampや先頭項目への置換は行いません。
+bool、float、文字列、Noneからの暗黙変換は拒否します。
+
+`EnumComboBox`と`EnumLabel`は未定義値を`未定義 (5)`のように表示します。
+ComboBoxのcurrentIndexは-1になり、有効な項目を選ぶことで正本を修正できます。
+空の定義は表示可能ですが、Commandと入力Viewを無効化します。
+setterが返した未定義整数も正本の確定値として表示します。
+
+Viewは`EnumBinding[EnumValueStore]`または`EnumViewModel`を受け取ります。
+同じBindingを複数のViewへ渡せます。ComboBoxの位置はenumの整数値と独立し、
+各itemDataは`EnumItem`です。`currentData().value`で整数値を取得できます。
+Python整数をQtの固定幅整数へ狭めず、Maya側だけがenumのshort値を扱います。
+ラベルは項目名をplain textで表示し、文字の選択・コピーを許可します。
+
+`combo_box.setInputEnabled(False)`はそのViewからの編集だけを停止します。
+他Viewからの変更と表示更新は継続し、Storeのlock解除後もこの設定を維持します。
+表示更新はsignalを抑制して行い、Commandへ折り返しません。
+
+Bindingは専用ViewModelと内部生成したMaya adapterを所有します。外部Storeの所有権は
+移しません。ViewはBindingを参照保持しますが、閉じたViewが共有Bindingを終了することは
+ありません。共有する場合は各Windowから独立したownerを指定してください。
+node／対象属性削除ではcallbackを終了し、削除Undo後は新しいBindingを作ります。
+Maya Viewだけが終了した場合はPythonの編集を継続できます。
+
+## サンプルと検証
+
+```python
+from bd_util._sample.maya.ui.enum_sample import minimal, maya_plug, maya_view
+
+window = minimal.show()  # nodeを作らずPython属性を共有する
+window.data.mode = 1
+window.binding.refresh()  # 未定義値を表示する
+
+window = maya_plug.show("pCube1")  # rotateOrderの現在値を正本にする
+window = maya_view.show("pCube1")  # Python初期値5をrotateOrderへ適用する
+```
+
+任意の追加属性は`maya_plug.show("settings", "mode")`で指定します。
+Python正本のサンプルでは`maya_view.show(..., definition=definition)`で対応する定義を
+渡せます。各moduleの`dispose()`で終了します。Maya nodeは作成・削除しません。
+
+- `tests/ui/test_enum_binding.py`: 型、属性、共有View、未定義値、通知、寿命。
+- `tests/ui/test_enum_sample.py`: サンプルの共有と終了。
+- `tests/maya/ui/test_enum_plug_binding.py`: 実定義、Undo／Redo、callback、lock・接続。
+- `tests/maya/ui/test_enum_plug_view.py`: 双方向同期、定義不一致、Python正本の保持。
+- `tests/typecheck/enum_binding_contract.py`: 公開APIと正本objectの型・補完。
+
+最終検証は`scripts/verify.cmd`を使用し、Maya 2025／2026／2027の型・UI互換性を確認します。

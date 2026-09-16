@@ -1,6 +1,12 @@
 # coding: utf-8
 
 from .binding import (
+    MayaEnumBinding,
+    MayaEnumPlug,
+    MayaEnumPlugBinding,
+    MayaEnumPlugStore,
+    MayaEnumPlugView,
+    resolve_enum_plug,
     MayaBoolPlugsBinding,
     MayaFloatPlugsBinding,
     MayaPlugTargetState,
@@ -44,6 +50,12 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "MayaEnumBinding",
+    "MayaEnumPlug",
+    "MayaEnumPlugBinding",
+    "MayaEnumPlugStore",
+    "MayaEnumPlugView",
+    "resolve_enum_plug",
     "MayaBoolPlugsBinding",
     "MayaFloatPlugsBinding",
     "MayaPlugTargetState",

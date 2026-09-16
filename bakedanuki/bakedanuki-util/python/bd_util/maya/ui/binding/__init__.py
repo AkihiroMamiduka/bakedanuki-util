@@ -1,4 +1,8 @@
 # coding: utf-8
+from .enum_binding import MayaEnumBinding
+from .enum_plug import MayaEnumPlugStore, MayaEnumPlugView
+from .enum_plug_binding import MayaEnumPlugBinding
+from .enum_plug_resolver import MayaEnumPlug, resolve_enum_plug
 from .float3_plug import MayaFloat3PlugStore
 from .float3_binding import MayaFloat3Binding
 from .float3_plug_view import MayaFloat3PlugView
@@ -18,6 +22,12 @@ from .plugs_binding import MayaBoolPlugsBinding, MayaFloatPlugsBinding
 from .plugs_state import MayaPlugTargetState
 
 __all__ = [
+    "MayaEnumBinding",
+    "MayaEnumPlug",
+    "MayaEnumPlugBinding",
+    "MayaEnumPlugStore",
+    "MayaEnumPlugView",
+    "resolve_enum_plug",
     "MayaBoolPlugsBinding",
     "MayaFloatPlugsBinding",
     "MayaPlugTargetState",
