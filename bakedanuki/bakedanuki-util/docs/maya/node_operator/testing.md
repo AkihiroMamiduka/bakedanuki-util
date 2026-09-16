@@ -725,6 +725,9 @@ Blackは4,445ファイル、3 versionのPyright contractはすべて成功、May
 同日の`include_static`追加後は、次の関連範囲がMaya 2025 / 2026 / 2027それぞれ
 2,117件成功しました。静的属性の専用テスト33件と、上流判定のテスト1件を追加しています。
 変更した実装ファイルを明示したPyright検証も、エラー・警告0件でした。
+追加後の最終`verify.cmd`も成功しました（`QT_QPA_PLATFORM=offscreen`）。
+Blackは4,446ファイル、3 versionの型・補完contractはすべて成功、Maya 2025 full pytestは
+4,644件成功・632件skip、Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
 
 ```powershell
 .\scripts\test-pytest-maya2025.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
