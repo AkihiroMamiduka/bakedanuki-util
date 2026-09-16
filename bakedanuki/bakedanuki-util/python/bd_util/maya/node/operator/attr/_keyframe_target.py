@@ -127,7 +127,7 @@ def layer_name(target: LayerTarget, *, write: bool = False) -> str:
         check_editable_node(layer)
         if layer.findPlug("lock", False).asBool():
             raise RuntimeError(f"Cannot edit locked animation layer {name}.")
-    if name != cmds.animLayer(query=True, root=True) and not _layer_member(
+    if name != cmds.animLayer(query=True, root=True) and not layer_member(
         name, plug
     ):
         raise RuntimeError(
@@ -136,7 +136,7 @@ def layer_name(target: LayerTarget, *, write: bool = False) -> str:
     return name
 
 
-def _layer_member(name: str, plug: om.MPlug) -> bool:
+def layer_member(name: str, plug: om.MPlug) -> bool:
     """A registered plug has a layer input even before its curve is created."""
     return bool(cmds.animLayer(name, query=True, layeredPlug=plug_path(plug)))
 
@@ -145,7 +145,7 @@ def _is_layered(plug: om.MPlug) -> bool:
     iterator = om.MItDependencyNodes(om.MFn.kAnimLayer)
     while not iterator.isDone():
         name = om.MFnDependencyNode(iterator.thisNode()).name()
-        if _layer_member(name, plug):
+        if layer_member(name, plug):
             return True
         iterator.next()
     return False

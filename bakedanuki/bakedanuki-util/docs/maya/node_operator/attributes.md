@@ -512,6 +512,8 @@ root以外では、元の属性が指定layerに登録済みであることをqu
 layer側には11が保存される場合があります。`get_keys()`や`get_curve_data()`はこの11を
 取得し、`set_key_data()` / `set_curve_data()`は生の値をそのまま復元します。
 合成後のplug値が必要な場合は、元のplugの`sample_values()`を使用してください。
+複数node・属性をまとめて合成保存したり、layer構造を含めて保存する場合は
+[`bdu.AnimationClip`](animation_clip.md)を使用します。詳細データAPIはenumのTUカーブも扱えます。
 保存データにはlayer名やlayer構造を含めず、移植先は復元先の入口で決めます。
 layer未指定ならベース、別layerへ移植するなら`anim_layer()`を指定します。
 

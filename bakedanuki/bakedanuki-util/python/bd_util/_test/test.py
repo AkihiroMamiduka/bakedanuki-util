@@ -48,3 +48,37 @@ def main():
     trsf.ry.keyframe.reduce_keys(-50, 50, tolerance=1)
 
     nodes.modifier_manager.do_it_dg()
+
+    clip = bdu.AnimationClip.capture(
+        [trsf],
+        include_channel_box=True,
+    )
+
+    dst_0 = nodes.create.transform(name="dst_0")
+    clip.restore(nodes.modifier_manager, targets=[dst_0])
+
+    clip = bdu.AnimationClip.capture(
+        [trsf],
+        start_frame=-50,
+        end_frame=50,
+        include_channel_box=True,
+    )
+
+    dst_1 = nodes.create.transform(name="dst_0")
+    clip.restore(nodes.modifier_manager, targets=[dst_1])
+
+    dst_2 = nodes.create.transform(name="dst_2")
+    clip.restore(nodes.modifier_manager, targets=[dst_2], mode="replace_all")
+
+    clip = bdu.AnimationClip.capture(
+        [trsf],
+        start_frame=-50,
+        end_frame=50,
+        layer_mode="preserve",
+    )
+
+    dst_3 = nodes.create.transform(name="dst_3")
+    clip.restore(nodes.modifier_manager, targets=[dst_3])
+
+    nodes.modifier_manager.do_it_dag()
+    nodes.modifier_manager.do_it_dg()

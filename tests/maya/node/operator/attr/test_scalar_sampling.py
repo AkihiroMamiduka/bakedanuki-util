@@ -74,7 +74,7 @@ def _replace_reader(monkeypatch, operator, read):
     from bd_util.maya.node.operator.attr.define.std.at.scalar import _base
 
     monkeypatch.setattr(
-        _base, "_sample_reader", lambda plug, unit: lambda: read(operator.plug)
+        _base, "sample_reader", lambda plug, unit: lambda: read(operator.plug)
     )
 
 

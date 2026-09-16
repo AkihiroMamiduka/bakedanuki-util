@@ -24,7 +24,7 @@ def _validate_name(name: object) -> None:
         raise ValueError("name must be a nonempty node name.")
 
 
-def _object(value: object) -> om.MObject:
+def node_object(value: object) -> om.MObject:
     if isinstance(value, NodeOperator):
         node = value.m_obj
     elif isinstance(value, om.MObject):
@@ -46,7 +46,7 @@ def _object(value: object) -> om.MObject:
     return node
 
 
-def _live(node: om.MObject) -> om.MFnDependencyNode:
+def live_node(node: om.MObject) -> om.MFnDependencyNode:
     handle = om.MObjectHandle(node)
     if not handle.isAlive() or not handle.isValid():
         raise RuntimeError("The node is not available in the scene.")
@@ -54,7 +54,7 @@ def _live(node: om.MObject) -> om.MFnDependencyNode:
 
 
 def _editable_layer(node: om.MObject) -> str:
-    fn = _live(node)
+    fn = live_node(node)
     _keyframe_target.check_editable_node(fn)
     name = fn.name()
     if not node.hasFn(om.MFn.kAnimLayer):
@@ -69,13 +69,13 @@ def _editable_layer(node: om.MObject) -> str:
 
 
 @dataclass(frozen=True, slots=True)
-class _Plug:
+class PlugIdentity:
     plug: om.MPlug
     node: om.MObjectHandle
     attribute: om.MObjectHandle
 
     @classmethod
-    def capture(cls, value: object) -> _Plug:
+    def capture(cls, value: object) -> PlugIdentity:
         if isinstance(value, PlugOperator):
             plug = value.plug
         elif isinstance(value, om.MPlug):
@@ -121,18 +121,18 @@ class _Plug:
         return self.plug
 
 
-def _leaves(plug: om.MPlug) -> Iterator[om.MPlug]:
+def leaf_plugs(plug: om.MPlug) -> Iterator[om.MPlug]:
     if plug.isArray:
         for index in sorted(plug.getExistingArrayAttributeIndices()):
-            yield from _leaves(plug.elementByLogicalIndex(index))
+            yield from leaf_plugs(plug.elementByLogicalIndex(index))
     elif plug.isCompound:
         for index in range(plug.numChildren()):
-            yield from _leaves(plug.child(index))
+            yield from leaf_plugs(plug.child(index))
     else:
         yield plug
 
 
-def _locked(plug: om.MPlug) -> bool:
+def locked_plug(plug: om.MPlug) -> bool:
     while True:
         if plug.isLocked:
             return True
@@ -144,7 +144,7 @@ def _locked(plug: om.MPlug) -> bool:
             return False
 
 
-def _supported(plug: om.MPlug) -> bool:
+def supported_plug(plug: om.MPlug) -> bool:
     attribute = plug.attribute()
     if not om.MFnAttribute(attribute).writable:
         return False
@@ -201,8 +201,8 @@ class AnimLayerOperations(NodeOperator):
             nonlocal root
             root_name = cmds.animLayer(query=True, root=True)
             if root_name:
-                root = _object(root_name)
-                _keyframe_target.check_editable_node(_live(root))
+                root = node_object(root_name)
+                _keyframe_target.check_editable_node(live_node(root))
             else:
                 root = modifier.createNode("animLayer")
                 modifier.renameNode(root, "BaseAnimation")
@@ -222,8 +222,8 @@ class AnimLayerOperations(NodeOperator):
                 raise RuntimeError(
                     "The base animation layer was not prepared."
                 )
-            root_name = _live(root).name()
-            layer_name = _live(result.m_obj).name()
+            root_name = live_node(root).name()
+            layer_name = live_node(result.m_obj).name()
             modifier.pythonCommandToExecute(
                 lambda: cmds.animLayer(layer_name, edit=True, parent=root_name)
             )
@@ -237,7 +237,7 @@ class AnimLayerOperations(NodeOperator):
         """指定プラグを登録予約する。compound・既存array要素を展開し、不正な対象は拒否する。"""
         if isinstance(plugs, (str, PlugOperator, om.MPlug)):
             raise TypeError("plugs must be an iterable of plugs.")
-        captured = tuple(_Plug.capture(plug) for plug in plugs)
+        captured = tuple(PlugIdentity.capture(plug) for plug in plugs)
         self._queue_membership(captured, ())
 
     def add_nodes(
@@ -246,11 +246,11 @@ class AnimLayerOperations(NodeOperator):
         """ノード自身のkeyable・未lockの対応プラグを実行時に列挙して登録する。"""
         if isinstance(nodes, (str, NodeOperator, om.MObject)):
             raise TypeError("nodes must be an iterable of nodes.")
-        captured = tuple(_object(node) for node in nodes)
+        captured = tuple(node_object(node) for node in nodes)
         self._queue_membership((), captured)
 
     def _queue_membership(
-        self, plugs: tuple[_Plug, ...], nodes: tuple[om.MObject, ...]
+        self, plugs: tuple[PlugIdentity, ...], nodes: tuple[om.MObject, ...]
     ) -> None:
         if not plugs and not nodes:
             return
@@ -262,19 +262,19 @@ class AnimLayerOperations(NodeOperator):
             candidates: list[om.MPlug] = []
             for target in plugs:
                 plug = target.resolve()
-                _keyframe_target.check_editable_node(_live(plug.node()))
-                for leaf in _leaves(plug):
-                    if not _supported(leaf):
+                _keyframe_target.check_editable_node(live_node(plug.node()))
+                for leaf in leaf_plugs(plug):
+                    if not supported_plug(leaf):
                         raise TypeError(
                             f"Unsupported animation layer plug: {_keyframe_target.plug_path(leaf)}"
                         )
-                    if _locked(leaf):
+                    if locked_plug(leaf):
                         raise RuntimeError(
                             f"Cannot register locked plug: {_keyframe_target.plug_path(leaf)}"
                         )
                     candidates.append(leaf)
             for node in nodes:
-                fn = _live(node)
+                fn = live_node(node)
                 _keyframe_target.check_editable_node(fn)
                 for index in range(fn.attributeCount()):
                     attribute = fn.attribute(index)
@@ -282,10 +282,10 @@ class AnimLayerOperations(NodeOperator):
                         continue
                     candidates.extend(
                         leaf
-                        for leaf in _leaves(fn.findPlug(attribute, False))
+                        for leaf in leaf_plugs(fn.findPlug(attribute, False))
                         if leaf.isKeyable
-                        and not _locked(leaf)
-                        and _supported(leaf)
+                        and not locked_plug(leaf)
+                        and supported_plug(leaf)
                     )
             registered = _members(name)
             for plug in candidates:
@@ -300,7 +300,7 @@ class AnimLayerOperations(NodeOperator):
                 modifier.pythonCommandToExecute(add)
 
         def verify(modifier: om.MDGModifier) -> None:
-            if added and not added.issubset(_members(_live(layer).name())):
+            if added and not added.issubset(_members(live_node(layer).name())):
                 raise RuntimeError(
                     "Maya could not register all requested animation layer plugs."
                 )

@@ -152,6 +152,12 @@ DAG `NodeOperator` 経由の作成・親変更では、現在の `MDagModifier` 
 
 ## modifier実行中の失敗
 
+`queue_dg_batch(callback)`は、実行時のsceneを参照して複合操作を組み立てる入口です。
+callbackには内部managerが渡されます。callbackはそのmanagerへ操作を予約するだけにし、
+即時編集や`do_it_dg()`を呼びません。callbackは初回だけ実行し、Undo / Redoは構築済みの履歴を
+使用します。内部の失敗・後続操作の失敗とも、外側の実行境界に含めてrollbackします。
+`AnimationClip.restore()`はこの入口で、layer作成・所属登録・キー復元・結果検査をまとめます。
+
 `do_it_dg()` / `do_it_dag()`の途中で例外が発生した場合は、失敗した操作の部分変更と、
 同じ実行境界内ですでに成功した操作を逆順に戻します。DG操作とanimation curve編集を
 混在させた場合も、その1回の実行で反映した変更全体の復元を試みます。失敗した操作を

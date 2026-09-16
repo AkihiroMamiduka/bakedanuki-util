@@ -58,6 +58,7 @@ def curve_type_for_plug(plug: om.MPlug) -> CurveTypeName:
     if not (
         attr.hasFn(om.MFn.kNumericAttribute)
         or attr.hasFn(om.MFn.kUnitAttribute)
+        or attr.hasFn(om.MFn.kEnumAttribute)
     ):
         raise RuntimeError(
             "Curve data requires a numeric, angle or distance plug."

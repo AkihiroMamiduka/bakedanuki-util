@@ -6,8 +6,13 @@ if TYPE_CHECKING:
     )
 
 import bd_util as bdu
+from bd_util.maya.node.animation_clip import (
+    NodeAnimationData,
+    AnimationLayerData,
+)
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
+
 
 from bd_util.maya.node.operator.attr import (
     AnimCurveData,
@@ -5621,3 +5626,33 @@ def invalid_usage_contract(
     scalar.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     scalar.value  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     scalar.value_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+
+
+def animation_clip_contract(
+    mod: bdu.ModifierManager, nodes: bdu.Nodes
+) -> None:
+    clip = bdu.AnimationClip.capture(
+        ["ctrl", nodes.existing("other")],
+        attributes=["translate"],
+        include_channel_box=True,
+    )
+    assert_type(clip, bdu.AnimationClip)
+    assert_type(clip.nodes, tuple[NodeAnimationData, ...])
+    assert_type(clip.layers, tuple[AnimationLayerData, ...])
+    assert_type(clip.to_json(), str)
+    assert_type(bdu.AnimationClip.from_json(clip.to_json()), bdu.AnimationClip)
+    assert_type(
+        clip.restore(
+            mod, targets=["target", "other_target"], mode="replace_range"
+        ),
+        None,
+    )
+    assert_type(
+        clip.restore(mod, namespace="character", restore_layer_settings=True),
+        None,
+    )
+    bdu.AnimationClip.capture(
+        ["ctrl"],
+        layer_mode="invalid",  # pyright: ignore[reportArgumentType]
+    )
+    clip.restore(mod, mode="invalid")  # pyright: ignore[reportArgumentType]

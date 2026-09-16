@@ -692,6 +692,37 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
 | 上記のMaya 2025 full pytest | 4,545件成功、632件skip。Qt/UI対象は専用ランナーでも別途実行 |
 | 上記のUI互換性 | 3 versionで各Qt/UI 726件・Maya UI 244件成功 |
 
+## AnimationClipの検証
+
+仕様は[AnimationClip](animation_clip.md)を参照してください。
+
+- `tests/maya/node/test_animation_clip.py`: 合成保存・layer保持、keyable / channelBox / 明示属性、
+  static・compound・sparse array・enum・単位、JSON、範囲とFPS、名前空間とnode順対応、
+  全置換・部分置換・merge、接線・lock・breakdown・weighted・infinity、layer階層・順序・
+  設定競合・root設定、保留中操作と同一性、合成結果の検査、失敗時の全体rollbackを検証します。
+- `tests/maya/mpx_cmd/test_animation_clip_command.py`と同階層`fixtures`の専用plug-in:
+  `cmds.undo()` / `cmds.redo()`によるlayer作成・キー復元の履歴と、command失敗時rollbackを検証します。
+- `tests/maya/node/modifier/test_modifier_manager.py`: `queue_dg_batch()`の準備一回、
+  初回・後続失敗、Undo / Redoを検証します。
+- `tests/typecheck/node_operator_contract.py`: `bdu.AnimationClip`の入口、データ型とJSON・復元の
+  戻り値型、modeのLiteral補完を検証します。
+
+2026-09-16時点で、次の関連範囲はMaya 2025 / 2026 / 2027それぞれ2,083件成功しました。
+新機能のclip・専用MPxCommandは61件です。検証実績はこの時点の変更に対するもので、
+以後の変更を自動的に保証するものではありません。
+
+同日の最終`verify.cmd`も成功しました（`QT_QPA_PLATFORM=offscreen`）。
+Blackは4,445ファイル、3 versionのPyright contractはすべて成功、Maya 2025 full pytestは
+4,610件成功・632件skip、Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
+`git diff --check`も成功しています。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/test_animation_clip.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/test_animation_clip.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/test_animation_clip.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\verify.cmd
+```
+
 ## ベンチマークの見方
 
 NodeOperator は生の `maya.api.OpenMaya` より速くなることは基本的にありません。
