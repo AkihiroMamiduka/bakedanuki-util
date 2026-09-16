@@ -6,6 +6,7 @@ from bd_util.ui import (
     FloatBinding,
     FloatSlider,
     FloatSliderSpinBox,
+    FloatSliderSpinBoxOrder,
     FloatRangeSliderSpinBox,
     FloatSpinBox,
     FloatViewModel,
@@ -14,6 +15,8 @@ from bd_util.ui import (
 from bd_util.ui.binding import FloatSliderSpinBox as BindingEditor
 from bd_util.ui.binding.float import FloatSliderSpinBox as PackageEditor
 from bd_util.ui.binding.float.view import FloatSliderSpinBox as ViewEditor
+
+order: FloatSliderSpinBoxOrder = "value_slider"
 from bd_util.maya.ui import (
     MayaFloatBinding,
     MayaFloatPlugBinding,
@@ -34,6 +37,7 @@ editor = FloatSliderSpinBox(
     steps=2000,
     decimals=3,
     single_step=0.1,
+    layout_order=order,
 )
 assert_type(editor.view_model, FloatViewModel)
 assert_type(editor.slider, FloatSlider)
@@ -44,6 +48,7 @@ assert_type(editor.spin_box.decimals(), int)
 assert_type(editor.spin_box.setDecimals(6), None)
 assert_type(editor.spin_box.singleStep(), float)
 assert_type(editor.spin_box.setSingleStep(0.25), None)
+assert_type(editor.layoutOrder(), FloatSliderSpinBoxOrder)
 assert_type(BindingEditor(binding, minimum=0, maximum=1), FloatSliderSpinBox)
 assert_type(
     PackageEditor(binding.view_model, minimum=0, maximum=1), FloatSliderSpinBox

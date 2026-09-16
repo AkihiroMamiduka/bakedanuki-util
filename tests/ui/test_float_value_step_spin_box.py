@@ -100,6 +100,41 @@ def test_step_changes_only_view_and_value_input_writes_once(
     assert other.spin_box.value() == 0.501
 
 
+def test_field_widths_default_and_fixed_alignment(owner):
+    """step欄の既定幅と、値欄指定時の左寄せ配置を確認する。"""
+    binding = FloatBinding.from_attribute(Data(), "value", parent=owner)
+    default = FloatValueStepSpinBox(binding, owner)
+    custom = FloatValueStepSpinBox(
+        binding, owner, value_width=90, step_width=80
+    )
+    assert (
+        default.step_spin_box.minimumWidth()
+        == default.step_spin_box.maximumWidth()
+        == 68
+    )
+    default.step_spin_box.setValue(1000)
+    owner.show()
+    flush()
+    line_edit = default.step_spin_box.lineEdit()
+    assert (
+        line_edit.fontMetrics().horizontalAdvance("1000")
+        <= line_edit.contentsRect().width()
+    )
+    assert (
+        custom.step_spin_box.minimumWidth()
+        == custom.step_spin_box.maximumWidth()
+        == 80
+    )
+    assert (
+        custom.spin_box.minimumWidth() == custom.spin_box.maximumWidth() == 90
+    )
+    layout = custom.layout()
+    assert isinstance(layout, qt.QHBoxLayout)
+    assert layout.itemAt(0).widget() is custom.spin_box
+    assert layout.itemAt(1).widget() is custom.step_spin_box
+    assert layout.itemAt(2).spacerItem() is not None
+
+
 @pytest.mark.parametrize("show_unit", [False, True])
 def test_additive_step_and_unit_changes_preserve_numeric_step(
     owner, show_unit
@@ -180,6 +215,10 @@ def test_qt_deletion_of_source_stops_step_and_view_keeps_binding_alive(owner):
         ({"step_increment": -1}, ValueError),
         ({"decimals": -1}, ValueError),
         ({"step_show_unit": 1}, TypeError),
+        ({"value_width": True}, TypeError),
+        ({"value_width": 0}, ValueError),
+        ({"step_width": True}, TypeError),
+        ({"step_width": 0}, ValueError),
     ],
 )
 def test_invalid_constructor_leaves_no_partial_view(owner, settings, error):

@@ -80,6 +80,31 @@ def test_children_share_confirmation_without_duplicate_writes(owner):
     assert data.writes == [0.75, 0.234]
 
 
+@pytest.mark.parametrize(
+    "layout_order,first_name,second_name",
+    [
+        ("slider_value", "slider", "spin_box"),
+        ("value_slider", "spin_box", "slider"),
+    ],
+)
+def test_layout_order_controls_child_positions(
+    owner, layout_order, first_name, second_name
+):
+    """指定した順序でSliderと値欄を配置する。"""
+    editor = FloatSliderSpinBox(
+        FloatViewModel(parent=owner),
+        owner,
+        minimum=0,
+        maximum=1,
+        layout_order=layout_order,
+    )
+    layout = editor.layout()
+    assert isinstance(layout, qt.QHBoxLayout)
+    assert layout.itemAt(0).widget() is getattr(editor, first_name)
+    assert layout.itemAt(1).widget() is getattr(editor, second_name)
+    assert editor.layoutOrder() == layout_order
+
+
 def test_slider_range_does_not_limit_numeric_input(owner):
     @dataclass
     class Data:
@@ -150,6 +175,8 @@ def test_setter_correction_failure_and_readonly_state_are_shared(owner):
         ({"decimals": -1}, ValueError),
         ({"single_step": 0}, ValueError),
         ({"single_step": float("nan")}, ValueError),
+        ({"layout_order": True}, TypeError),
+        ({"layout_order": "unknown"}, ValueError),
     ],
 )
 def test_invalid_child_settings_leave_no_partial_widget(owner, kwargs, error):

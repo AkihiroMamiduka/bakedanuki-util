@@ -26,6 +26,8 @@ editor = FloatValueStepSpinBox(
 | `step_mode="additive"` | step欄の上下操作。`additive` または `multiplicative` |
 | `step_increment=1.0` | additiveでstep欄自身を増減する幅 |
 | `step_show_unit=False` | step欄に現在の表示単位を付けるか |
+| `value_width=None` | 値欄の固定幅。未指定なら残り幅に合わせて伸縮 |
+| `step_width=68` | 上下ボタンを含め、4桁を表示できるstep欄の固定幅 |
 | `.spin_box` | 値欄の `FloatSpinBox` |
 | `.step_spin_box` | 刻み幅欄の `FloatStepSpinBox` |
 | `.view_model` | 共有するViewModel。終了後は例外 |
@@ -43,7 +45,7 @@ step欄には正の有限値を直接入力することもできます。
 値の刻み幅は複合Viewの `setSingleStep()` で変更すると、両欄の表示と変更通知が揃います。
 
 ```python
-editor.step_spin_box.setFixedWidth(112)
+editor = FloatValueStepSpinBox(binding, value_width=90, step_width=80)
 editor.step_spin_box.setPrefix("step ")
 editor.setSingleStep(0.1)
 ```

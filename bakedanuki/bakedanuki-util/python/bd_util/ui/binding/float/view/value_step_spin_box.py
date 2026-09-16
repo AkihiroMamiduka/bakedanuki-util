@@ -19,6 +19,17 @@ from .step_spin_box import (
 __all__ = ["FloatValueStepSpinBox"]
 
 
+def _require_width(value: object, argument_name: str) -> int | None:
+    """自動伸縮のNone、またはQtの有効範囲内の固定幅を検証する。"""
+    if value is None:
+        return None
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise TypeError(f"{argument_name}にはintまたはNoneを指定してください")
+    if not 1 <= value <= 16777215:
+        raise ValueError(f"{argument_name}は1～16777215にしてください")
+    return value
+
+
 class FloatValueStepSpinBox(qt.QWidget):
     """値と表示単位での刻み幅を横に並べ、刻み幅を正本へ書かないView。"""
 
@@ -34,6 +45,8 @@ class FloatValueStepSpinBox(qt.QWidget):
         step_mode: FloatStepMode = "additive",
         step_increment: float = 1.0,
         step_show_unit: bool = False,
+        value_width: int | None = None,
+        step_width: int = 68,
     ) -> None:
         """共有する入力元と、値・step欄の表示と操作設定を指定する。"""
         # 子Widgetを作る前に入力元と操作設定を検証する
@@ -46,6 +59,10 @@ class FloatValueStepSpinBox(qt.QWidget):
         step_increment = require_step(step_increment, "step_increment")
         if type(step_show_unit) is not bool:
             raise TypeError("step_show_unitにはboolを指定してください")
+        value_width = _require_width(value_width, "value_width")
+        validated_step_width = _require_width(step_width, "step_width")
+        if validated_step_width is None:
+            raise TypeError("step_widthにはintを指定してください")
         super().__init__(parent)
         self._binding = binding
         self._view_model = view_model
@@ -66,11 +83,15 @@ class FloatValueStepSpinBox(qt.QWidget):
             self.step_spin_box.setSizePolicy(
                 qt.QSizePolicy.Policy.Ignored, qt.QSizePolicy.Policy.Fixed
             )
-            self.step_spin_box.setMinimumWidth(72)
+            if value_width is not None:
+                self.spin_box.setFixedWidth(value_width)
+            self.step_spin_box.setFixedWidth(validated_step_width)
             layout = qt.QHBoxLayout(self)
             layout.setContentsMargins(0, 0, 0, 0)
-            layout.addWidget(self.spin_box, 2)
-            layout.addWidget(self.step_spin_box, 1)
+            layout.addWidget(self.spin_box, 1 if value_width is None else 0)
+            layout.addWidget(self.step_spin_box)
+            if value_width is not None:
+                layout.addStretch(1)
             self.setSizePolicy(
                 qt.QSizePolicy.Policy.Expanding, qt.QSizePolicy.Policy.Fixed
             )

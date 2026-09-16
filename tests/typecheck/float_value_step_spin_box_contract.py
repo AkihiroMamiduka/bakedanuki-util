@@ -14,7 +14,9 @@ from bd_util.ui import (
 )
 
 binding = MayaFloatPlugsBinding([resolve_float_plug("node", "translateX")])
-editor = FloatValueStepSpinBox(binding, step_mode="multiplicative")
+editor = FloatValueStepSpinBox(
+    binding, step_mode="multiplicative", value_width=90, step_width=68
+)
 assert_type(editor.view_model, FloatViewModel)
 assert_type(editor.spin_box, FloatSpinBox)
 assert_type(editor.step_spin_box, FloatStepSpinBox)

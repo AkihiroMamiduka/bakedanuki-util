@@ -83,6 +83,11 @@
 
 ### Changed
 
+- `FloatValueStepSpinBox`のstep欄を4桁表示できる68 pxへ縮小し、`value_width`と
+  `step_width`で各欄の固定幅を指定できるようにする。固定した欄は左へ詰め、
+  余白を右端へ配置する。`FloatSliderSpinBox`へ`layout_order`を追加し、
+  従来の`"slider_value"`に加えて`"value_slider"`を選択可能にする。
+  既定のSlider順序、値、scene、設定形式の移行は不要。
 - `FloatSpinBox`の単位文字表示と`FloatValueStepSpinBox.step_show_unit`の既定値を
   非表示へ変更する。`FloatSliderSpinBox`、`Float3SpinBox`、
   `Float3SliderSpinBox`の値欄にも適用される。
