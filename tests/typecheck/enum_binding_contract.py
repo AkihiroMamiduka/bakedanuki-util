@@ -6,6 +6,8 @@ import bd_util as bdu
 from bd_util.maya.ui import (
     MayaEnumBinding,
     MayaEnumPlugBinding,
+    MayaEnumPlugsBinding,
+    MayaPlugTargetState,
     MayaEnumPlugStore,
     MayaEnumPlugView,
     resolve_enum_plug,
@@ -82,3 +84,21 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     node = nodes.existing.transform("pCube1")
     typed_binding = MayaEnumPlugBinding(node.rotateOrder, parent=owner)
     typed_binding.set_value(node.rotateOrder.XYZ)
+    group = MayaEnumPlugsBinding([node.rotateOrder], parent=owner)
+    assert_type(group.value, int)
+    assert_type(group.definition, EnumDefinition)
+    assert_type(group.view_model, EnumViewModel)
+    assert_type(group.store.read(), int)
+    assert_type(group.store.definition, EnumDefinition)
+    assert_type(group.is_mixed, bool)
+    assert_type(group.target_count, int)
+    assert_type(group.writable_count, int)
+    assert_type(group.target_states, tuple[MayaPlugTargetState, ...])
+    assert_type(group.state_changed, qt.QtCore.SignalInstance)
+    assert_type(group.edit_failed, qt.QtCore.SignalInstance)
+    assert_type(group.set_value(5), bool)
+    assert_type(group.apply_representative_value(), bool)
+    assert_type(group.refresh(), bool)
+    EnumComboBox(group, widget)
+    EnumRadioButtonGroup(group, widget)
+    EnumLabel(group, widget)

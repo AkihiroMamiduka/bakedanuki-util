@@ -18,7 +18,7 @@ from ._float_edit import FloatEditUndo
 from ._float_plug_endpoint import run_later
 from .plugs_state import MayaPlugTargetState
 
-_ValueT = TypeVar("_ValueT", bool, float)
+_ValueT = TypeVar("_ValueT", bool, float, int)
 
 
 class PlugValueCodec(Protocol[_ValueT]):
@@ -269,8 +269,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         set_attr = cast(Callable[[str, _ValueT], None], cmds.setAttr)
         try:
             for target, before, requested in plan:
-                if self.is_disposed or not target.state().is_writable:
-                    raise RuntimeError("入力中に対象属性の状態が変わりました")
+                self._validate_write_target(target, requested)
                 applied.append((target, before))
                 set_attr(target.name(), requested)
         except Exception as error:
@@ -286,6 +285,13 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                     "属性の入力と復旧に失敗しました", failures
                 )
             raise
+
+    def _validate_write_target(
+        self, target: PlugTarget[_ValueT], requested: _ValueT
+    ) -> None:
+        """書込み直前に対象の利用可否を再確認する。"""
+        if self.is_disposed or not target.state().is_writable:
+            raise RuntimeError("入力中に対象属性の状態が変わりました")
 
     def _read_state(self) -> bool:
         """状態と全実値を読み、混在だけが変わった場合も検出する。"""

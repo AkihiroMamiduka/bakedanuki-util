@@ -13,6 +13,7 @@ enum属性の編集には[enum binding](enum_binding.md)を使用できます。
 `MayaEnumBinding`はPython正本とMayaを双方向同期します。
 `EnumComboBox`・`EnumRadioButtonGroup`・`EnumLabel`は同じBindingを共有し、
 飛び番・負数・未定義値にも対応します。ラジオボタンは横並び・縦並びを選べます。
+`MayaEnumPlugsBinding`は同じ定義の複数属性を一括編集し、混在状態とUndoに対応します。
 
 新しいMaya toolでは、次の順にUI基盤を組み込みます。
 
@@ -290,7 +291,7 @@ Model・ViewModel・Viewを基本とし、値へのアクセスをStore、現在
 [bool bindingの設計・保守メモ](bool_binding_design.md)にまとめています。
 
 複数のMaya属性へ同じ値を明示入力する場合は、
-[MayaBoolPlugsBinding / MayaFloatPlugsBinding](plugs_binding.md) を使います。
+[MayaBoolPlugsBinding / MayaFloatPlugsBinding / MayaEnumPlugsBinding](plugs_binding.md) を使います。
 先頭を代表として表示し、選択や表示更新では値を変更せず、入力時だけ一括反映します。
 混在状態・個別の編集可否・一回のUndo・失敗時の復旧を提供します。
 既存ノードの選択・属性列挙は [inspection](../maya/node_operator/inspection.md) を参照してください。

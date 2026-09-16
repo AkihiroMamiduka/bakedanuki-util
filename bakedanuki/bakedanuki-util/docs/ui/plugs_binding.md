@@ -1,7 +1,7 @@
 # 複数のMaya属性を一つの入力で編集する
 
-`MayaBoolPlugsBinding`と`MayaFloatPlugsBinding`は、順序付きの属性群を既存の
-`BoolComboBox`、`FloatSpinBox`、`FloatSliderSpinBox`などへ接続します。
+`MayaBoolPlugsBinding`、`MayaFloatPlugsBinding`、`MayaEnumPlugsBinding`は、順序付きの属性群を既存の
+`BoolComboBox`、`FloatSpinBox`、`FloatSliderSpinBox`、`EnumComboBox`、`EnumRadioButtonGroup`などへ接続します。
 先頭属性を代表として表示し、ユーザーの入力時だけ編集可能な対象へ同じ値を適用します。
 
 ```python
@@ -49,6 +49,51 @@ readonlyの後続に異なる値が残る場合、入力後も`is_mixed`はTrue�
 既存のComboBoxやSpinBoxは未変更の入力をCommandにしません。
 表示と同じ値へ揃える操作は、明示的なボタンなどから
 `apply_representative_value()`を呼び出してください。
+`EnumRadioButtonGroup`は選択済みボタンのクリックもCommandへ渡すため、
+現在選択中の項目をクリックして揃えることもできます。
+
+## enum属性群
+
+```python
+from bd_util.maya.ui import MayaEnumPlugsBinding, resolve_enum_plug
+from bd_util.ui import EnumComboBox, EnumLabel, EnumRadioButtonGroup
+
+binding = MayaEnumPlugsBinding(
+    [resolve_enum_plug(name, "rotateOrder") for name in ("pCube1", "pCube2")],
+    parent=owner,
+)
+combo_box = EnumComboBox(binding, parent=widget)
+radio_group = EnumRadioButtonGroup(binding, parent=widget)
+label = EnumLabel(binding, parent=widget)
+binding.set_value(5)  # 編集可能な全対象のrotateOrderをzyxへ設定する
+```
+
+`owner`はBindingを所有するQObject、`widget`はViewの親QWidgetです。
+生成済みの`node.rotateOrder`など、型付きEnumPlugOperatorの列も指定できます。
+scalar enumと配列配下ではないcompound子に対応し、配列・配列要素は対象外です。
+標準属性と追加属性を同じAPIで扱います。
+
+全対象で**整数値と項目名の対応**を一致させてください。項目の並び順は一致条件に含めず、
+先頭属性の定義順で表示します。構築時の不一致は、ロックされた対象も含めて例外にします。
+実行中に利用可能な対象の定義が不一致になった場合は、全体のCommandを無効化します。
+不一致の対象は`target_states`の`is_writable=False`と`reason`で確認できます。
+定義が再び揃えば入力を再開し、削除済み対象の定義は比較から除外します。
+定義そのものや項目名を自動で変更しません。
+
+`writable_count`はロック・接続・定義不一致を除いた対象数です。
+代表のロックや定義不一致でグループ全体が停止している間も、0とは限りません。
+グループの入力可否は`view_model.set_value_command.can_execute`を参照してください。
+定義変更も`state_changed`で通知します。`definition`／`definition_changed`は代表の定義、
+`is_mixed`は整数値の混在を示します。
+
+負数・飛び番・未定義の現在値は、[単一enum基盤](enum_binding.md)と同じように保持します。
+`set_value()`と`apply_representative_value()`で新たに書き込めるのは定義内の整数だけです。
+未定義の代表値を揃える要求は、書込み前に例外にします。
+入力直前にも定義を再確認し、先行する書込みのcallbackが後続の定義を変更した場合は
+残りの入力を停止して値を復旧します。外部処理が変更した定義の書き戻しは行いません。
+
+Maya属性群が正本なので、Python正本用の`MayaEnumPlugView`は追加接続できません。
+同じBindingをQt View間で共有して使用してください。
 
 ## 表示と入力の分離
 
@@ -68,7 +113,7 @@ soft limitは入力制限に使いません。
 
 ## Undo、失敗復旧、終了
 
-boolの確定・数値の確定は対象群をまとめてUndo一回になります。
+bool・enum・数値の確定は対象群をまとめてUndo一回になります。
 floatのドラッグは、各位置を全対象へ即時反映し、全ドラッグをUndo一回にまとめます。
 全てが同じ格納値になる要求では書込みやUndoを追加しません。
 代表と同値でも後続に差分がある場合は、一括入力を実行します。
@@ -86,9 +131,24 @@ callbackはnodeごとにまとめ、dirty通知を次のQt event loopで集約�
 
 ## 検証
 
+既存のノードを使うenumサンプルです。起動時に値を揃えたり、ノードを作成・削除したりしません。
+
+```python
+from bd_util._sample.maya.ui.enum_sample import maya_plugs
+
+window = maya_plugs.show(["pCube1", "pCube2"])
+# 追加属性の場合: maya_plugs.show(["settingsA", "settingsB"], "mode")
+```
+
+ComboBox・RadioButtonGroup・Labelに加え、混在、編集可能件数、対象ごとの除外理由を表示します。
+「代表値に揃える」は明示入力、Refreshは読取り専用です。`maya_plugs.dispose()`で終了します。
+
 - `tests/maya/ui/test_plugs_binding.py`: 無書込み初期表示、混在、同値揃え、範囲、
   単位、lock・接続、単発・連続Undo、部分失敗の復旧、削除とcallback解放。
 - `tests/ui/test_plugs_binding_views.py`: 既存ComboBox・SpinBox・Sliderとの接続。
 - `tests/typecheck/maya_plugs_binding_contract.py`: 状態APIと既存Viewへの受け渡し型。
+- `tests/maya/ui/test_enum_plugs_binding.py`: enum定義の一致・変更、未定義値、混在、Undo、途中失敗、寿命。
+- `tests/ui/test_enum_plugs_binding_views.py`: enum Viewの共有、同値選択、複数プラグのサンプル。
+- `tests/typecheck/enum_binding_contract.py`: enum属性群の値・状態・Viewへの受け渡し型。
 
 開発中はtargeted pytest、最終確認は`scripts/verify.cmd`を使用します。

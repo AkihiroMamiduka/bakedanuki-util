@@ -7,6 +7,7 @@ from maya.api import OpenMaya as om
 
 from ....ui import EnumDefinition, EnumViewModel, qt
 from .enum_plug_resolver import MayaEnumPlug
+from ._plugs_store import PlugsStore
 from ._enum_view_attachment import (
     claim_view_slot,
     release_view_slot,
@@ -114,7 +115,7 @@ class MayaEnumPlugView(EnumPlugEndpoint):
             raise RuntimeError(
                 "MayaEnumPlugViewの作成前に有効なEnumViewModelへStoreを接続してください"
             )
-        if isinstance(view_model.store, MayaEnumPlugStore):
+        if isinstance(view_model.store, (MayaEnumPlugStore, PlugsStore)):
             raise RuntimeError(
                 "MayaEnumPlugViewにはPython側を正本とするStoreを接続してください"
             )

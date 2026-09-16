@@ -71,6 +71,17 @@ ModifierManagerへ操作を積む`EnumPlugOperator.set()`は、この即時編�
 lock、親compoundのlock、入力接続は編集を無効化しますが、読み取りと表示は継続します。
 上流のdirty通知後は次のQt event loopで値を読み直します。
 
+## 複数のMaya属性を一括編集する
+
+`MayaEnumPlugsBinding([plug_a, plug_b], parent=owner)`を同じEnum Viewへ渡せます。
+先頭の値・選択肢を表示し、ユーザー入力時だけ編集可能な対象へ同じ整数値を適用します。
+構築・refresh・外部変更では他の属性へ書き戻しません。
+全対象で整数値と項目名の対応を一致させ、実行中の不一致では一括入力を停止します。
+
+`is_mixed`、`target_states`、`writable_count`、`state_changed`で混在や入力可否を表示できます。
+`apply_representative_value()`は代表と同値の入力を明示的に全対象へ適用します。
+詳細とサンプルは[複数プラグ基盤](plugs_binding.md#enum属性群)を参照してください。
+
 ## Python正本とMayaを双方向同期する
 
 ```python
