@@ -52,7 +52,10 @@ def test_roundtrip_and_history(maya_cmds, layer_mode, mode):
     target = _node(cmds, "target", ((-1, -4), (3, 100), (7, 20)))
     before = cmds.keyframe(target + ".tx", query=True, valueChange=True)
     clip = AnimationClip.capture(
-        [source], attributes=["tx", "ty"], layer_mode=layer_mode
+        [source],
+        attributes=["tx", "ty"],
+        layer_mode=layer_mode,
+        include_static=True,
     )
     assert AnimationClip.from_json(clip.to_json()) == clip
     mod = bdu.ModifierManager()
@@ -93,7 +96,11 @@ def test_auto_attributes_and_explicit_nonkeyable(maya_cmds):
     def names(**kwargs):
         return {
             ch.attribute
-            for ch in AnimationClip.capture([node], **kwargs).nodes[0].channels
+            for ch in AnimationClip.capture(
+                [node], include_static=True, **kwargs
+            )
+            .nodes[0]
+            .channels
         }
 
     assert "shown" not in names()
@@ -215,13 +222,14 @@ def test_static_range_and_subframes(maya_cmds):
     node = _node(cmds, "source", ())
     cmds.setAttr(node + ".tx", 7)
     with pytest.raises(ValueError, match="Explicit start_frame"):
-        AnimationClip.capture([node], attributes=["tx"])
+        AnimationClip.capture([node], attributes=["tx"], include_static=True)
     clip = AnimationClip.capture(
         [node],
         attributes=["tx"],
         start_frame=-1.5,
         end_frame=0.3,
         sample_by=0.5,
+        include_static=True,
     )
     assert [
         key.frame for key in clip.nodes[0].channels[0].curve.keys
@@ -591,6 +599,7 @@ def test_explicit_nonkeyable_and_sparse_array_restore(maya_cmds, layer_mode):
     clip = AnimationClip.capture(
         [source],
         attributes=["values"],
+        include_static=True,
         start_frame=1,
         end_frame=5,
         layer_mode=layer_mode,

@@ -5635,6 +5635,7 @@ def animation_clip_contract(
         ["ctrl", nodes.existing("other")],
         attributes=["translate"],
         include_channel_box=True,
+        include_static=True,
     )
     assert_type(clip, bdu.AnimationClip)
     assert_type(clip.nodes, tuple[NodeAnimationData, ...])
@@ -5656,3 +5657,7 @@ def animation_clip_contract(
         layer_mode="invalid",  # pyright: ignore[reportArgumentType]
     )
     clip.restore(mod, mode="invalid")  # pyright: ignore[reportArgumentType]
+    bdu.AnimationClip.capture(
+        ["ctrl"],
+        include_static="yes",  # pyright: ignore[reportArgumentType]
+    )

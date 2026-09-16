@@ -702,10 +702,16 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
   設定競合・root設定、保留中操作と同一性、合成結果の検査、失敗時の全体rollbackを検証します。
 - `tests/maya/mpx_cmd/test_animation_clip_command.py`と同階層`fixtures`の専用plug-in:
   `cmds.undo()` / `cmds.redo()`によるlayer作成・キー復元の履歴と、command失敗時rollbackを検証します。
+- `tests/maya/node/test_animation_clip_static.py`: `include_static`の既定除外・明示取得、
+  明示属性・compoundへの適用、定数キー・空カーブ、constraint / expression / time / driven key、
+  layer再現に必要な定数値とweight・親のweight、回転3軸の依存、layer限定、空nodeの順番維持、
+  保留中編集の非実行とscene状態、復元先の対象外キーの維持を検証します。
+- `tests/maya/node/operator/attr/test_keyframe_discovery.py`: 上流探索に加え、
+  未接続outputの内部依存を含むアニメーション判定も検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`: `queue_dg_batch()`の準備一回、
   初回・後続失敗、Undo / Redoを検証します。
 - `tests/typecheck/node_operator_contract.py`: `bdu.AnimationClip`の入口、データ型とJSON・復元の
-  戻り値型、modeのLiteral補完を検証します。
+  戻り値型、modeのLiteral補完と`include_static`のbool型を検証します。
 
 2026-09-16時点で、次の関連範囲はMaya 2025 / 2026 / 2027それぞれ2,083件成功しました。
 新機能のclip・専用MPxCommandは61件です。検証実績はこの時点の変更に対するもので、
@@ -716,10 +722,14 @@ Blackは4,445ファイル、3 versionのPyright contractはすべて成功、May
 4,610件成功・632件skip、Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
 `git diff --check`も成功しています。
 
+同日の`include_static`追加後は、次の関連範囲がMaya 2025 / 2026 / 2027それぞれ
+2,117件成功しました。静的属性の専用テスト33件と、上流判定のテスト1件を追加しています。
+変更した実装ファイルを明示したPyright検証も、エラー・警告0件でした。
+
 ```powershell
-.\scripts\test-pytest-maya2025.cmd tests/maya/node/test_animation_clip.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
-.\scripts\test-pytest-maya2026.cmd tests/maya/node/test_animation_clip.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
-.\scripts\test-pytest-maya2027.cmd tests/maya/node/test_animation_clip.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
 .\scripts\verify.cmd
 ```
 

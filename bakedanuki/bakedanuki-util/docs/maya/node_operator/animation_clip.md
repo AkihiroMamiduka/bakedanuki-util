@@ -33,6 +33,7 @@ AnimationClip.capture(
     *,
     attributes=None,
     include_channel_box=False,
+    include_static=False,
     start_frame=None,
     end_frame=None,
     layer_mode="flatten",
@@ -60,6 +61,8 @@ clip.restore(
 - `include_channel_box=True`: keyableに加え、非keyableでchannelBox表示の属性も収集します。
 - `attributes=["tx", "rotate", "customValue"]`: 各nodeに共通の属性名を指定します。
   明示時はkeyable / channelBox条件を適用しません。compoundと既存array要素はleafへ展開します。
+- `include_static=False`（既定）: 収集した候補から、キーも時間依存もない静的な属性を除外します。
+  属性を明示した場合にも適用します。静的な属性の値も保存するときは`True`を指定します。
 - 対応型はTA / TL / TUカーブに対応する数値、bool、enum、angle、distanceです。
   自動収集では非対応型を除外し、明示した非対応型や存在しない属性はエラーです。
   time属性・matrix・string・messageは対象外です。
@@ -71,6 +74,41 @@ clip.restore(
 
 対象node順を保存します。属性パスはaliasを解決したlong name・compound経路・logical indexです。
 空の対象、重複node、全属性が非対応、選択layerに対象チャンネルがない場合はエラーです。
+静的な属性の除外によって全体の対象がなくなった場合も`ValueError`です。
+一部のnodeだけ対象がなくなった場合は、そのnodeを空のチャンネル一覧として残し、
+`targets`の順番・個数による対応付けを維持します。
+
+### 静的な属性を含める場合
+
+```python
+clip = bdu.AnimationClip.capture(
+    ["ctrlA", "ctrlB"],
+    start_frame=10,
+    end_frame=30,
+    include_static=True,
+)
+```
+
+静的かどうかは保存区間の値の変化量ではなく、キーとDGの依存関係で判定します。
+1キーだけの属性、全キーが同じ値の属性、指定区間の外にだけキーがある属性も保存します。
+キー数0のカーブだけが接続されている属性は、アニメーションありとは見なしません。
+
+合成保存では上流のキー・時間node・expressionを探索するため、constraintや計算nodeを
+経由して動く属性も含めます。Mayaが宣言した依存関係に基づく判定であり、
+weightが0のlayerや一定値のexpressionなど、結果が一定でも依存がある属性は残します。
+未接続の静的属性や、静的な値からの接続だけを持つ属性は既定で除外します。
+
+レイヤー保持では指定layerの生値と、その再現に必要な親・rootの設定のアニメーションを
+判定します。保存しないlayerのチャンネルにキーがあるだけでは対象にしません。
+属性を対象に残した場合は、選択範囲のlayerにある静的な生値も保持します。
+例えば「ベースの固定値5 + 上位layerのアニメーション」ではベースの5も保存し、
+「ベースのアニメーション + 上位layerの固定値」では上位layerの固定値も保存します。
+回転layerでは3軸が相互に影響するため、候補に含まれる他の回転軸の生値も保持します。
+保存対象外のlayerのチャンネルを、この補完のために追加することはありません。
+
+`include_static=True`は従来と同じ収集範囲です。取得時に保存元へキーを追加しませんが、
+静的な値を含むclipを復元すると、その属性にもキーが作られます。
+保存データから除外した属性は、全置換を指定しても復元先の値・キーを変更しません。
 
 ## 合成保存（既定）
 
@@ -81,7 +119,8 @@ clip.restore(
 刻みが割り切れない場合も終了時刻を含めます。数値はlinear、bool / 整数 / enumはstepで復元します。
 キー削減は自動実行しません。元カーブのキー数・接線を保持する方式ではありません。
 
-キーのない属性も保存区間を通して評価し、一定値ならその値を持つサンプルとして保存します。
+対象に含めた属性はキーがなくても保存区間を通して評価し、
+一定値ならその値を持つサンプルとして保存します。
 constraintやexpressionも評価対象ですが、履歴依存のsimulationを時刻順に実行する機能はありません。
 推定キー範囲はsimulationや無限の動きを表すものではないため、必要な範囲を明示してください。
 

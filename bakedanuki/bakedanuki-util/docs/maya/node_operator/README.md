@@ -22,6 +22,7 @@
 - `python/bd_util/maya/node/animation_clip.py`
   - 複数node・属性の保存・復元を行う`bdu.AnimationClip`です。既定の合成保存、layer保持、
     名前空間・対象リストによる対応付け、追加・全置換・部分置換、JSONを扱います。
+    静的な属性は既定で除外し、`include_static=True`で保存対象に含めます。
     詳細は[AnimationClip](animation_clip.md)を参照してください。
 
 - `python/bd_util/maya/node/operator/node/_core.py`

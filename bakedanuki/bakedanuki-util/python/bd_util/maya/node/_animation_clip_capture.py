@@ -22,7 +22,7 @@ from .animation_clip import (
     finite_number,
 )
 from .operator.attr import _keyframe_target, _keyframe_snapshot
-from .operator.attr._keyframe_discovery import curve_objects
+from .operator.attr._keyframe_discovery import curve_objects, has_animation
 from .operator.attr.define.std.at.scalar._base import sample_reader
 from .operator.attr.keyframe import KeyframeManager
 from .operator.attr.keyframe_data import AnimCurveData, KeyData
@@ -198,11 +198,63 @@ def capture_settings(
     return tuple(result)
 
 
+def channel_layers(
+    plug: om.MPlug,
+    root: str | None,
+    tree: list[tuple[str, str | None]],
+    selected: set[str | None],
+) -> list[str | None]:
+    return ([None] if root in selected else []) + [
+        name
+        for name, _ in tree
+        if name in selected and _keyframe_target.layer_member(name, plug)
+    ]
+
+
+def preserved_animation(
+    plug: om.MPlug,
+    root: str | None,
+    tree: list[tuple[str, str | None]],
+    selected: set[str | None],
+    settings_cache: dict[str, bool],
+) -> bool:
+    parents = dict(tree)
+    for layer in channel_layers(plug, root, tree, selected):
+        raw = layer_input(plug, layer)
+        if has_animation(raw):
+            return True
+        if (
+            raw.isChild
+            and live_node(raw.node()).typeName
+            == "animBlendNodeAdditiveRotation"
+            and any(
+                has_animation(sibling) for sibling in leaf_plugs(raw.parent())
+            )
+        ):
+            return True
+        if layer is None:
+            if raw.name() == plug.name():
+                continue
+            layer = root
+        while layer is not None:
+            if layer not in settings_cache:
+                fn = live_node(node_object(layer))
+                settings_cache[layer] = any(
+                    has_animation(fn.findPlug(attr, False))
+                    for attr in LAYER_SETTINGS
+                )
+            if settings_cache[layer]:
+                return True
+            layer = None if layer == root else parents[layer] or root
+    return False
+
+
 def capture(
     nodes: Iterable[NodeOperator | om.MObject | str],
     *,
     attributes: Iterable[str] | None,
     include_channel_box: bool,
+    include_static: bool,
     start_frame: float | None,
     end_frame: float | None,
     layer_mode: LayerMode,
@@ -213,6 +265,8 @@ def capture(
         raise TypeError("nodes must be an iterable of nodes.")
     if type(include_channel_box) is not bool:
         raise TypeError("include_channel_box must be a bool.")
+    if type(include_static) is not bool:
+        raise TypeError("include_static must be a bool.")
     if layer_mode not in ("flatten", "preserve"):
         raise ValueError("layer_mode must be flatten or preserve.")
     if layers is not None and layer_mode != "preserve":
@@ -290,6 +344,43 @@ def capture(
         selected.add(root)
     if not selected.issubset({root, *(name for name, _ in tree)}):
         raise ValueError("Unknown animation layer in layers.")
+    if not include_static:
+        settings_cache: dict[str, bool] = {}
+        collected = [
+            (
+                node,
+                tuple(
+                    plug
+                    for plug in plugs
+                    if (
+                        has_animation(plug)
+                        if layer_mode == "flatten"
+                        else preserved_animation(
+                            plug, root, tree, selected, settings_cache
+                        )
+                    )
+                ),
+            )
+            for node, plugs in collected
+        ]
+        if not any(plugs for _, plugs in collected):
+            raise ValueError(
+                "No animated attributes were selected. "
+                "Use include_static=True to capture static values."
+            )
+        if layers is None:
+            selected = {
+                root,
+                *(
+                    name
+                    for name, _ in tree
+                    if any(
+                        _keyframe_target.layer_member(name, plug)
+                        for _, plugs in collected
+                        for plug in plugs
+                    )
+                ),
+            }
     parents = dict(tree)
     required = {name for name in selected if name is not None and name != root}
     for name in tuple(required):
@@ -309,16 +400,12 @@ def capture(
                         curve_objects(plug, traverse_inputs=True)
                     )
                 else:
-                    choices: list[_keyframe_target.Target] = (
-                        [plug] if root in selected else []
-                    )
-                    choices.extend(
-                        _keyframe_target.LayerTarget(plug, name)
-                        for name, _ in tree
-                        if name in selected
-                        and _keyframe_target.layer_member(name, plug)
-                    )
-                    for target in choices:
+                    for layer in channel_layers(plug, root, tree, selected):
+                        target = (
+                            plug
+                            if layer is None
+                            else _keyframe_target.LayerTarget(plug, layer)
+                        )
                         curve = _keyframe_target.resolve_curve(target)
                         if curve is not None:
                             range_curves.append(curve.object())
@@ -374,13 +461,7 @@ def capture(
                     )
                 )
                 continue
-            targets = ([None] if root in selected else []) + [
-                name
-                for name, _ in tree
-                if name in selected
-                and _keyframe_target.layer_member(name, plug)
-            ]
-            for layer in targets:
+            for layer in channel_layers(plug, root, tree, selected):
                 manager = KeyframeManager(plug)
                 if layer is not None:
                     manager = manager.anim_layer(layer)

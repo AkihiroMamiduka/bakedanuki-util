@@ -244,6 +244,8 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 複数node・属性の一括保存・復元は`bdu.AnimationClip`として実装しました。
 合成保存とlayer保持、keyable / channelBox収集、名前空間・対象node順での対応付け、
 追加・全置換・部分置換、schema 2 JSONを扱います。[仕様](animation_clip.md)を参照してください。
+静的な属性は既定で除外し、`include_static=True`で含めます。
+上流のアニメーションや、layer再現に必要な静的な生値は保持します。
 次の着手順は未確定です。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。

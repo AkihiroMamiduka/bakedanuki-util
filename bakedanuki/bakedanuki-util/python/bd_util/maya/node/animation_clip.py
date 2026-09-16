@@ -314,6 +314,7 @@ class AnimationClip:
         *,
         attributes: Iterable[str] | None = None,
         include_channel_box: bool = False,
+        include_static: bool = False,
         start_frame: float | None = None,
         end_frame: float | None = None,
         layer_mode: LayerMode = "flatten",
@@ -323,6 +324,8 @@ class AnimationClip:
         """即時取得。既定はkeyable属性の最終値を1フレーム間隔で合成保存する。
 
         attributesは各nodeに共通の属性名。compoundと既存array要素はleafへ展開。
+        静的な属性は既定で除外し、include_static=Trueで含める。
+        キー・時間依存がある属性と、レイヤー再現に必要な静的な生値は保持する。
         layersはpreserve専用で、省略時はベースと対象属性の所属layerを保存する。
         指定layerの親は構造・設定のみ保存する。queryは保留中modifierを実行しない。
         """
@@ -332,6 +335,7 @@ class AnimationClip:
             nodes,
             attributes=attributes,
             include_channel_box=include_channel_box,
+            include_static=include_static,
             start_frame=start_frame,
             end_frame=end_frame,
             layer_mode=layer_mode,
