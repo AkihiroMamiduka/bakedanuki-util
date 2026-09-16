@@ -4,6 +4,10 @@ Python属性またはMaya enum属性の整数値を正本とし、コンボボ�
 値は`int`、同期と選択肢の管理は`EnumViewModel`が担当します。
 Pythonの`Enum`／`IntEnum` classを作る必要はありません。
 
+今回の実装は複数Mayaプラグの一括編集まで完了しています。
+完了範囲・設計判断・拡張時の注意点・確認記録は
+[enum MVVMの到達点と今後の拡張](enum_roadmap.md)を参照してください。
+
 ## Python属性を正本にする
 
 ```python
@@ -223,6 +227,8 @@ Python正本のサンプルでは`maya_view.show(..., definition=definition)`で
 - `tests/ui/test_enum_sample.py`: サンプルの共有と終了。
 - `tests/maya/ui/test_enum_plug_binding.py`: 実定義、Undo／Redo、callback、lock・接続。
 - `tests/maya/ui/test_enum_plug_view.py`: 双方向同期、定義不一致、Python正本の保持。
+- `tests/maya/ui/test_enum_plugs_binding.py`: 複数属性の定義一致、混在、Undo、失敗復旧、寿命。
+- `tests/ui/test_enum_plugs_binding_views.py`: 一括編集用Viewとサンプル。
 - `tests/typecheck/enum_binding_contract.py`: 公開APIと正本objectの型・補完。
 
 最終検証は`scripts/verify.cmd`を使用し、Maya 2025／2026／2027の型・UI互換性を確認します。

@@ -14,6 +14,8 @@ enum属性の編集には[enum binding](enum_binding.md)を使用できます。
 `EnumComboBox`・`EnumRadioButtonGroup`・`EnumLabel`は同じBindingを共有し、
 飛び番・負数・未定義値にも対応します。ラジオボタンは横並び・縦並びを選べます。
 `MayaEnumPlugsBinding`は同じ定義の複数属性を一括編集し、混在状態とUndoに対応します。
+enum基盤は今回の合意範囲まで実装・動作確認を完了しています。
+設計判断と次回開発への引き継ぎは[enum MVVMの到達点と今後の拡張](enum_roadmap.md)を参照してください。
 
 新しいMaya toolでは、次の順にUI基盤を組み込みます。
 
@@ -1535,6 +1537,8 @@ Maya本体での手動表示・操作確認は、この自動テスト結果に�
 別途、Min／Max・stepの保存・復元までユーザーから動作確認・push完了の報告を受けています。
 今回の完了範囲と確認記録は[浮動小数点MVVMの到達点](float_roadmap.md)、
 次回の変更で注意する既定値・キー・形式・リセットは[保存機能の開発時の引き継ぎ](float_view_settings.md#開発時の引き継ぎ)を参照してください。
+enumと複数プラグ一括編集の完了時点（2026-09-17）の検証結果、およびユーザーの動作確認報告は
+[enum MVVMの到達点](enum_roadmap.md#検証記録と再開時の確認)に記録しています。
 
 Maya 2027のPySide6 6.8では、bound methodを指定するsignal切断が`RuntimeWarning`になるため、
 ownerの`destroyed`接続は`QMetaObject.Connection`を保持し、その接続オブジェクトを使って
