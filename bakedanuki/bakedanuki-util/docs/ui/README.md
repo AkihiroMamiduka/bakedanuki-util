@@ -11,7 +11,8 @@ UI utilityは、利用場所ではなく依存関係で分けます。
 enum属性の編集には[enum binding](enum_binding.md)を使用できます。
 `EnumBinding`はPython属性、`MayaEnumPlugBinding`はMaya属性を正本とし、
 `MayaEnumBinding`はPython正本とMayaを双方向同期します。
-`EnumComboBox`と`EnumLabel`は同じBindingを共有し、飛び番・負数・未定義値にも対応します。
+`EnumComboBox`・`EnumRadioButtonGroup`・`EnumLabel`は同じBindingを共有し、
+飛び番・負数・未定義値にも対応します。ラジオボタンは横並び・縦並びを選べます。
 
 新しいMaya toolでは、次の順にUI基盤を組み込みます。
 

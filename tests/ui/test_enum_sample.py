@@ -26,10 +26,18 @@ def test_minimal_sample_shares_views_and_reopens(
         assert window.data.mode == 10
         assert window.linked_combo_box.currentIndex() == 3
         assert window.label.text() == "Final"
+        assert window.radio_group.button_for_value(10).isChecked()
+        window.vertical_radio_group.button_for_value(-2).click()
+        assert window.data.mode == -2
+        assert window.combo_box.currentIndex() == 0
+        assert window.radio_group.button_for_value(-2).isChecked()
         window.data.mode = 1
         window.refresh_button.click()
         assert window.label.text() == "未定義 (1)"
         assert window.value_label.text() == "1"
+        assert not any(
+            button.isChecked() for button in window.radio_group.buttons
+        )
         window.close()
         flush()
         assert not qt.isValid(window)
@@ -52,10 +60,16 @@ def test_maya_samples_share_views_and_release_callbacks(
         window.combo_box.setCurrentIndex(3)
         assert cmds.getAttr(node + ".rotateOrder") == 3
         assert window.label.text() == "xzy"
+        window.radio_group.button_for_value(4).click()
+        assert cmds.getAttr(node + ".rotateOrder") == 4
+        assert window.vertical_radio_group.button_for_value(4).isChecked()
         maya_plug.dispose()
         flush()
         window = maya_view.show(node, data=data)
         assert cmds.getAttr(node + ".rotateOrder") == 5
+        window.vertical_radio_group.button_for_value(2).click()
+        assert data.mode == cmds.getAttr(node + ".rotateOrder") == 2
+        assert window.radio_group.button_for_value(2).isChecked()
         registries = window.findChildren(MayaCallbackRegistry)
         assert len(registries) == 1
         cmds.setAttr(node + ".rotateOrder", 1)
@@ -67,6 +81,8 @@ def test_maya_samples_share_views_and_release_callbacks(
             == 1
         )
         assert window.label.text() == "yzx"
+        assert window.radio_group.button_for_value(1).isChecked()
+        assert window.vertical_radio_group.button_for_value(1).isChecked()
         window.close()
         flush()
         assert all(registry.callback_ids == () for registry in registries)

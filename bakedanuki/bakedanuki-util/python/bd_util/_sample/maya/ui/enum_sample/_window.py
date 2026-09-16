@@ -1,11 +1,18 @@
 # coding: utf-8
 from collections.abc import Callable
 
-from .....ui import EnumBinding, EnumComboBox, EnumLabel, EnumValueStore, qt
+from .....ui import (
+    EnumBinding,
+    EnumComboBox,
+    EnumLabel,
+    EnumRadioButtonGroup,
+    EnumValueStore,
+    qt,
+)
 
 
 class EnumSampleWindow(qt.QDialog):
-    """2つの選択Viewとラベルで同じBindingを共有する。"""
+    """コンボボックス・ラジオボタン・ラベルで同じBindingを共有する。"""
 
     def __init__(
         self,
@@ -23,6 +30,10 @@ class EnumSampleWindow(qt.QDialog):
             raise
         self.combo_box = EnumComboBox(self.binding, self)
         self.linked_combo_box = EnumComboBox(self.binding, self)
+        self.radio_group = EnumRadioButtonGroup(self.binding, self)
+        self.vertical_radio_group = EnumRadioButtonGroup(
+            self.binding, self, orientation=qt.Qt.Orientation.Vertical
+        )
         self.label = EnumLabel(self.binding, self)
         self.value_label = qt.QLabel(self)
         self.refresh_button = qt.QPushButton("Refresh", self)
@@ -32,6 +43,8 @@ class EnumSampleWindow(qt.QDialog):
         layout = qt.QFormLayout(self)
         layout.addRow("選択", self.combo_box)
         layout.addRow("共有View", self.linked_combo_box)
+        layout.addRow("ラジオ（横）", self.radio_group)
+        layout.addRow("ラジオ（縦）", self.vertical_radio_group)
         layout.addRow("項目名", self.label)
         layout.addRow("整数値", self.value_label)
         layout.addRow(self.refresh_button)

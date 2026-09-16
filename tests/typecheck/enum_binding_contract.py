@@ -16,6 +16,7 @@ from bd_util.ui import (
     EnumDefinition,
     EnumItem,
     EnumLabel,
+    EnumRadioButtonGroup,
     EnumValue,
     EnumViewModel,
     PythonEnumAttributeStore,
@@ -53,6 +54,16 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     assert_type(combo.view_model, EnumViewModel)
     combo.setInputEnabled(False)
     EnumLabel(binding.view_model, widget)
+    radio = EnumRadioButtonGroup(
+        binding, widget, orientation=qt.Qt.Orientation.Vertical
+    )
+    assert_type(radio.view_model, EnumViewModel)
+    assert_type(radio.buttons, tuple[qt.QRadioButton, ...])
+    assert_type(radio.button_for_value(5), qt.QRadioButton | None)
+    assert_type(radio.orientation(), qt.Qt.Orientation)
+    assert_type(radio.isInputEnabled(), bool)
+    radio.setInputEnabled(False)
+    EnumRadioButtonGroup(binding.view_model, widget)
     plug = resolve_enum_plug("settings", "mode")
     maya_binding = MayaEnumBinding.from_attribute(
         Data(), "mode", definition=definition, maya_plug=plug, parent=owner
@@ -61,10 +72,12 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     assert_type(maya_binding.store.instance, Data)
     assert_type(maya_binding.maya_view, MayaEnumPlugView | None)
     EnumComboBox(maya_binding, widget)
+    EnumRadioButtonGroup(maya_binding, widget)
     plug_binding = MayaEnumPlugBinding(plug, parent=owner)
     assert_type(plug_binding.store, MayaEnumPlugStore)
     assert_type(plug_binding.value, int)
     EnumLabel(plug_binding, widget)
+    EnumRadioButtonGroup(plug_binding, widget)
     nodes = bdu.Nodes()
     node = nodes.existing.transform("pCube1")
     typed_binding = MayaEnumPlugBinding(node.rotateOrder, parent=owner)

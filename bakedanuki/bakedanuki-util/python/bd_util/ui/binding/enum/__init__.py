@@ -4,7 +4,7 @@ from .command import SetEnumCommand
 from .definition import EnumDefinition, EnumItem
 from .store import EnumValueStore, PythonEnumAttributeStore
 from .value import EnumValue
-from .view import EnumComboBox, EnumLabel
+from .view import EnumComboBox, EnumLabel, EnumRadioButtonGroup
 from .view_model import EnumViewModel
 
 __all__ = [
@@ -13,6 +13,7 @@ __all__ = [
     "EnumDefinition",
     "EnumItem",
     "EnumLabel",
+    "EnumRadioButtonGroup",
     "EnumValue",
     "EnumValueStore",
     "EnumViewModel",

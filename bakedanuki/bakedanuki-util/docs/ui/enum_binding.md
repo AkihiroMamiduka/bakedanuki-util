@@ -1,6 +1,6 @@
 # enum binding
 
-Python属性またはMaya enum属性の整数値を正本とし、コンボボックスと表示ラベルで共有します。
+Python属性またはMaya enum属性の整数値を正本とし、コンボボックス・ラジオボタン・表示ラベルで共有します。
 値は`int`、同期と選択肢の管理は`EnumViewModel`が担当します。
 Pythonの`Enum`／`IntEnum` classを作る必要はありません。
 
@@ -158,6 +158,37 @@ Bindingは専用ViewModelと内部生成したMaya adapterを所有します。�
 node／対象属性削除ではcallbackを終了し、削除Undo後は新しいBindingを作ります。
 Maya Viewだけが終了した場合はPythonの編集を継続できます。
 
+## ラジオボタンで選択する
+
+```python
+from bd_util.ui import EnumRadioButtonGroup, qt
+
+radio_group = EnumRadioButtonGroup(binding, parent=widget)
+vertical_group = EnumRadioButtonGroup(
+    binding, parent=widget, orientation=qt.Qt.Orientation.Vertical
+)
+```
+
+`EnumRadioButtonGroup`も同じBindingまたはViewModelを受け取り、3種類の正本・同期方式で
+共通に使用できます。`orientation`の既定は`Horizontal`です。配置方向は構築時に指定し、
+`orientation()`で取得します。
+
+ボタンは定義順に並び、位置やQtのbutton IDとは独立したPython整数でCommandへ渡します。
+負数・飛び番・大きなPython整数も扱えます。項目名の`&`は文字として表示します。
+未定義値では全ボタンの選択を解除し、定義が空でなければ選び直せます。
+未定義の整数値も表示したい場合は、同じBindingの`EnumLabel`を併置してください。
+定義の変更はボタンの追加・削除・名前・順序へ反映し、値を書き戻しません。
+
+`buttons`は現在の定義順の`tuple[QRadioButton, ...]`、
+`button_for_value(value)`は対応するボタンまたは`None`を返します。
+定義変更時はボタンを作り直すため、ボタン参照を長期間保持せず必要時に取得してください。
+値の変更には`binding.set_value()`を使い、ボタンの`setChecked()`は使いません。
+選択済みボタンをクリックした場合も同値のCommandを実行します。
+
+`setInputEnabled(False)`はそのViewの入力だけを停止し、表示更新は継続します。
+Storeのlock解除後もこの設定を維持します。setterの拒否・補正・例外時には正本の実値へ
+選択を戻し、Bindingの終了時には入力を無効化します。
+
 ## サンプルと検証
 
 ```python
@@ -174,8 +205,10 @@ window = maya_view.show("pCube1")  # Python初期値5をrotateOrderへ適用す�
 任意の追加属性は`maya_plug.show("settings", "mode")`で指定します。
 Python正本のサンプルでは`maya_view.show(..., definition=definition)`で対応する定義を
 渡せます。各moduleの`dispose()`で終了します。Maya nodeは作成・削除しません。
+全サンプルに横並び・縦並びのラジオボタンを配置し、コンボボックス・ラベルと共有します。
 
 - `tests/ui/test_enum_binding.py`: 型、属性、共有View、未定義値、通知、寿命。
+- `tests/ui/test_enum_radio_button_group.py`: 配置、定義変更、整数値、入力可否、寿命、Maya Undo／Redo。
 - `tests/ui/test_enum_sample.py`: サンプルの共有と終了。
 - `tests/maya/ui/test_enum_plug_binding.py`: 実定義、Undo／Redo、callback、lock・接続。
 - `tests/maya/ui/test_enum_plug_view.py`: 双方向同期、定義不一致、Python正本の保持。
