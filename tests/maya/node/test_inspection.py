@@ -45,6 +45,7 @@ def test_inspection_reports_leaf_flags_types_names_and_limits_scope(
     assert by_name["rotateX"].kind == "angle"
     assert by_name["scaleX"].kind == "number"
     assert by_name["visibility"].kind == "bool"
+    assert by_name["rotateOrder"].kind == "enum"
     assert by_name["translateX"].keyable
     assert not by_name["translateX"].channel_box
     assert by_name["translateX"].path == "translate.translateX"
@@ -58,6 +59,42 @@ def test_inspection_reports_leaf_flags_types_names_and_limits_scope(
     )
     with pytest.raises(FrozenInstanceError):
         by_name["amount"].name = "changed"
+
+
+def test_enum_inspection_reports_scalars_and_omits_arrays(new_scene) -> None:
+    """enumの表示フラグとcompound子を返し、配列配下は列挙しない。"""
+    node = cmds.createNode("transform")
+    cmds.addAttr(node, longName="mode", attributeType="enum", enumName="A:B")
+    cmds.setAttr(node + ".mode", channelBox=True)
+    for name, multi in (("group", False), ("records", True)):
+        cmds.addAttr(
+            node,
+            longName=name,
+            attributeType="compound",
+            numberOfChildren=1,
+            multi=multi,
+        )
+        cmds.addAttr(
+            node,
+            longName=name + "Mode",
+            parent=name,
+            attributeType="enum",
+            enumName="A:B",
+            keyable=True,
+        )
+    cmds.addAttr(
+        node,
+        longName="modes",
+        attributeType="enum",
+        enumName="A:B",
+        multi=True,
+    )
+    infos = {info.path: info for info in inspect_scalar_attributes(node)}
+    assert infos["mode"].kind == "enum"
+    assert infos["mode"].channel_box and not infos["mode"].keyable
+    assert infos["group.groupMode"].kind == "enum"
+    assert infos["group.groupMode"].keyable
+    assert {"modes", "records.recordsMode"}.isdisjoint(infos)
 
 
 def test_inspection_and_selection_do_not_change_scene_or_undo(

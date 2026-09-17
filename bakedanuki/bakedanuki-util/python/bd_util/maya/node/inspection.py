@@ -11,7 +11,9 @@ from maya.api import OpenMaya as om
 
 from ._attribute_lookup import attribute_path
 
-ScalarAttributeKind: TypeAlias = Literal["bool", "number", "distance", "angle"]
+ScalarAttributeKind: TypeAlias = Literal[
+    "bool", "number", "distance", "angle", "enum"
+]
 
 __all__ = [
     "ScalarAttributeKind",
@@ -78,7 +80,7 @@ def _node_function(node_name: object) -> om.MFnDependencyNode:
 
 
 def _scalar_kind(plug: om.MPlug) -> ScalarAttributeKind | None:
-    """配列配下を除くbool・float/double・距離・角度だけを分類する。"""
+    """配列配下を除くbool・float/double・距離・角度・enumを分類する。"""
     if plug.isCompound:
         return None
     ancestor = plug
@@ -89,6 +91,8 @@ def _scalar_kind(plug: om.MPlug) -> ScalarAttributeKind | None:
             break
         ancestor = ancestor.parent()
     attribute = plug.attribute()
+    if attribute.hasFn(om.MFn.kEnumAttribute):
+        return "enum"
     if attribute.hasFn(om.MFn.kNumericAttribute):
         numeric_type = om.MFnNumericAttribute(attribute).numericType()
         if numeric_type == om.MFnNumericData.kBoolean:

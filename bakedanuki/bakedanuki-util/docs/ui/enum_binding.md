@@ -120,6 +120,12 @@ PythonとMayaをまとめたUndo transactionは提供しません。
 
 ## 値・定義・通知
 
+Binding構築前に対象の定義を比較する場合は、`bd_util.maya.ui`の
+`read_enum_definition(resolve_enum_plug(node_name, attribute_path))`を使います。
+現在のMaya属性から`EnumDefinition`を取得し、callbackの登録やscene・値・Undoの変更は
+行いません。生成classの`NAME_MAP`ではなく、呼び出した時点の実定義を読みます。
+`definition.matches(other)`で表示順に依存しない値と項目名の一致を判定できます。
+
 | API | 内容 |
 | --- | --- |
 | `EnumItem(value, name)` | 整数値と空でない項目名。不変データ |

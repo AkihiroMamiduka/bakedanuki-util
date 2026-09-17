@@ -9,6 +9,13 @@
 
 ### Added
 
+- `bd_util.maya.ui.read_enum_definition(plug)`を追加。Bindingやcallbackを作らず、
+  scalar enumの現在の実定義を`EnumDefinition`として取得する。scene・値・Undoは変更しない。
+- `inspect_scalar_attributes()`の列挙対象と`ScalarAttributeKind`に`enum`を追加。
+  配列配下ではないcompound子にも対応する。既存利用側は`kind == "enum"`を処理するか
+  明示的に除外すること。Channel Editorはenum対応版toolsと組み合わせて更新する。
+  既存scene・保存設定の変換は不要。
+
 - `FloatValueStepSpinBox` を追加。値欄とstep欄を組み合わせ、加算・桁変更によるstep編集、
   表示単位への追従、設定変更通知に対応する。step変更は正本・Undo履歴を変更しない。
   `bd_util.ui` から利用でき、既存の単一・複数属性Bindingを受け取る。

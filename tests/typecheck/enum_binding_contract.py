@@ -11,6 +11,7 @@ from bd_util.maya.ui import (
     MayaEnumPlugStore,
     MayaEnumPlugView,
     resolve_enum_plug,
+    read_enum_definition,
 )
 from bd_util.ui import (
     EnumBinding,
@@ -67,6 +68,7 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     radio.setInputEnabled(False)
     EnumRadioButtonGroup(binding.view_model, widget)
     plug = resolve_enum_plug("settings", "mode")
+    assert_type(read_enum_definition(plug), EnumDefinition)
     maya_binding = MayaEnumBinding.from_attribute(
         Data(), "mode", definition=definition, maya_plug=plug, parent=owner
     )
@@ -82,6 +84,7 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     EnumRadioButtonGroup(plug_binding, widget)
     nodes = bdu.Nodes()
     node = nodes.existing.transform("pCube1")
+    assert_type(read_enum_definition(node.rotateOrder), EnumDefinition)
     typed_binding = MayaEnumPlugBinding(node.rotateOrder, parent=owner)
     typed_binding.set_value(node.rotateOrder.XYZ)
     group = MayaEnumPlugsBinding([node.rotateOrder], parent=owner)

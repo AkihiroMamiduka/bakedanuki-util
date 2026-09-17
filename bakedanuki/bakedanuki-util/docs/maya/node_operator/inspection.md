@@ -21,18 +21,21 @@ DAGはフルpath、DGはnode名を返し、componentとplugの選択は除外し
 変更しないため、クリックした履歴の順とは限りません。
 
 `inspect_scalar_attributes()`はMayaの属性定義順に`ScalarAttributeInfo`のtupleを
-返します。bool、float/double、距離、角度のscalarだけを扱い、compoundの子も
-含めます。配列自身と配列配下、整数、enum、time、文字列等は含めません。
+返します。bool、float/double、距離、角度、enumのscalarを扱い、compoundの子も
+含めます。配列自身と配列配下、整数、time、文字列等は含めません。
 
 `ScalarAttributeInfo`は変更不能で、`name`（長名）、`path`（長名の完全な相対属性
 path）、`nice_name`、`kind`、`keyable`、`channel_box`を持ちます。`kind`は
-`bool`、`number`、`distance`、`angle`のいずれかです。表示フラグによる除外、表示順の
+`bool`、`number`、`distance`、`angle`、`enum`のいずれかです。表示フラグによる除外、表示順の
 並べ替え、複数nodeの同名対応は利用側が決めます。
 
 MayaのChannel Boxに対応する表示条件は`keyable or channel_box`です。親compoundが
 非表示でも子はkeyableにできるため、親のフラグで子を除外しません。
 
 `resolve_bool_plug()`と`resolve_float_plug()`は`info.path`を受け取れます。
+enumには`resolve_enum_plug()`を使用します。`bd_util.maya.ui.read_enum_definition(plug)`で
+callbackを作らず実定義を取得し、`EnumDefinition.matches()`で整数値と項目名の対応を
+比較できます。表示順だけの違いは一致とみなします。
 従来の長名・短名も使えますが、同じleaf名が複数ある場合は`ValueError`となるため、
 完全な相対pathを渡してください。boolのcompound子は親のlock、入力接続、削除へ
 追従し、書き込みできない状態ではCommandを無効にします。
