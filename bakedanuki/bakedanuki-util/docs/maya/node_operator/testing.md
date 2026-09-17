@@ -701,7 +701,7 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
   全置換・部分置換・merge、接線・lock・breakdown・weighted・infinity、layer階層・順序・
   設定競合・root設定、保留中操作と同一性、合成結果の検査、失敗時の全体rollbackを検証します。
 - `tests/maya/mpx_cmd/test_animation_clip_command.py`と同階層`fixtures`の専用plug-in:
-  時刻移動の有無それぞれで、`cmds.undo()` / `cmds.redo()`によるlayer作成・キー復元の履歴と、
+  時刻移動・時間拡縮の有無それぞれで、`cmds.undo()` / `cmds.redo()`によるlayer作成・キー復元の履歴と、
   command失敗時rollbackを検証します。
 - `tests/maya/node/test_animation_clip_static.py`: `include_static`の既定除外・明示取得、
   明示属性・compoundへの適用、定数キー・空カーブ、constraint / expression / time / driven key、
@@ -712,12 +712,17 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
   データの非変更・複数予約、不正引数の予約前拒否、接線等の詳細情報の保持、
   layerとrootの設定カーブの移動・比較・上書き、weighted接線の丸めとnonweighted接線の正規化、
   移動先layerの合成値解決、保留中node作成・後続失敗のrollback、Undo / Redoを検証します。
+- `tests/maya/node/test_animation_clip_scale.py`: 倍率・長さ・両端指定、配置との組み合わせ、
+  全node共通の基準、保存区間の境界、TA / TL / TUの各接線・weighted・lock・breakdown・infinity、
+  `fast` / `slow`のMaya標準再計算、レイヤー設定の比較・再利用・区間外キー、
+  置換mode・衝突、FPS変更前後の予約、データの非変更・複数予約、1時刻clip・不正引数・精度限界、
+  移動先layerの合成値解決、保留中node作成・後続失敗・Undo / Redoを検証します。
 - `tests/maya/node/operator/attr/test_keyframe_discovery.py`: 上流探索に加え、
   未接続outputの内部依存を含むアニメーション判定も検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`: `queue_dg_batch()`の準備一回、
   初回・後続失敗、Undo / Redoを検証します。
 - `tests/typecheck/node_operator_contract.py`: `bdu.AnimationClip`の入口、データ型とJSON・復元の
-  戻り値型、modeのLiteral補完、`include_static`のbool型、復元時刻3引数の型と排他指定を検証します。
+  戻り値型、modeのLiteral補完、`include_static`のbool型、復元時刻・拡縮引数の型と組み合わせを検証します。
 
 2026-09-16時点で、次の関連範囲はMaya 2025 / 2026 / 2027それぞれ2,083件成功しました。
 新機能のclip・専用MPxCommandは61件です。検証実績はこの時点の変更に対するもので、
@@ -742,10 +747,17 @@ Blackは4,446ファイル、3 versionの型・補完contractはすべて成功�
 3 versionの型・補完contractはすべて成功、Maya 2025 full pytestは4,710件成功・632件skip、
 Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
 
+同日の時間拡縮追加後は、次の関連範囲がMaya 2025 / 2026 / 2027それぞれ2,457件成功しました。
+時間拡縮の専用テスト266件と、MPxCommandの時間拡縮8件を追加しています。
+変更した実装3ファイルを明示したMaya 2025のPyright検証も、エラー・警告0件でした。
+最終`verify.cmd`も成功しました（`QT_QPA_PLATFORM=offscreen`）。Blackは4,449ファイル、
+3 versionの型・補完contract、Maya 2025 full pytestが成功しました。
+Qt/UIは各versionで726件、Maya UIは各versionで244件成功しています。
+
 ```powershell
-.\scripts\test-pytest-maya2025.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/test_animation_clip_time.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
-.\scripts\test-pytest-maya2026.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/test_animation_clip_time.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
-.\scripts\test-pytest-maya2027.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/test_animation_clip_time.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/test_animation_clip_time.py tests/maya/node/test_animation_clip_scale.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/test_animation_clip_time.py tests/maya/node/test_animation_clip_scale.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/test_animation_clip_time.py tests/maya/node/test_animation_clip_scale.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
 .\scripts\verify.cmd
 ```
 

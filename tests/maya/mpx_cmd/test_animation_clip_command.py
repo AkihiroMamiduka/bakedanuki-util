@@ -21,7 +21,10 @@ def clip_plugin(new_scene, maya_cmds):
 @pytest.mark.parametrize("mode", ["flatten", "preserve"])
 @pytest.mark.parametrize("fail", [False, True])
 @pytest.mark.parametrize("offset", [0, 90])
-def test_clip_command_history(clip_plugin, maya_cmds, mode, fail, offset):
+@pytest.mark.parametrize("scale", [1, 2])
+def test_clip_command_history(
+    clip_plugin, maya_cmds, mode, fail, offset, scale
+):
     cmds = maya_cmds
     source = cmds.createNode("transform")
     cmds.setKeyframe(source + ".tx", time=1, value=2)
@@ -39,7 +42,9 @@ def test_clip_command_history(clip_plugin, maya_cmds, mode, fail, offset):
         .existing.transform(source)
         .tx.sample_values(frames=[1, 3, 5])
     )
-    expected = [(frame + offset, value) for frame, value in expected]
+    expected = [
+        (1 + (frame - 1) * scale + offset, value) for frame, value in expected
+    ]
     cmds.file(new=True, force=True)
     target = cmds.createNode("transform")
     cmds.setKeyframe(target + ".tx", time=2, value=30)
@@ -56,7 +61,10 @@ def test_clip_command_history(clip_plugin, maya_cmds, mode, fail, offset):
             RuntimeError, match="intentional animation clip failure"
         ):
             command(
-                clipData=clip.to_json(), nodeName=target, offsetFrames=offset
+                clipData=clip.to_json(),
+                nodeName=target,
+                offsetFrames=offset,
+                timeScale=scale,
             )
         assert set(cmds.ls()) == before_nodes
         assert (
@@ -65,12 +73,22 @@ def test_clip_command_history(clip_plugin, maya_cmds, mode, fail, offset):
         )
         assert cmds.undoInfo(query=True, undoQueueEmpty=True)
         return
-    command(clipData=clip.to_json(), nodeName=target, offsetFrames=offset)
+    command(
+        clipData=clip.to_json(),
+        nodeName=target,
+        offsetFrames=offset,
+        timeScale=scale,
+    )
     after_nodes = set(cmds.ls())
     for _ in range(3):
-        assert bdu.Nodes().existing.transform(target).tx.sample_values(
-            frames=[1 + offset, 3 + offset, 5 + offset]
-        ) == pytest.approx(expected)
+        actual = (
+            bdu.Nodes()
+            .existing.transform(target)
+            .tx.sample_values(frames=[frame for frame, _ in expected])
+        )
+        assert len(actual) == len(expected)
+        for actual_pair, expected_pair in zip(actual, expected):
+            assert actual_pair == pytest.approx(expected_pair)
         cmds.undo()
         assert set(cmds.ls()) == before_nodes
         assert (

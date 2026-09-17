@@ -202,7 +202,7 @@ def test_time_units_are_captured_at_booking(
     "timing,error",
     [
         (dict(offset_frames=0, to_start_frame=10), ValueError),
-        (dict(to_start_frame=0, to_end_frame=20), ValueError),
+        (dict(to_start_frame=20, to_end_frame=0), ValueError),
         (dict(offset_frames=1, to_end_frame=20), ValueError),
         (dict(offset_frames=float("nan")), ValueError),
         (dict(to_start_frame=float("inf")), ValueError),

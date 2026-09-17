@@ -1,4 +1,4 @@
-"""復元予約時にclipの時間を移す。sceneと元のclipは変更しない。"""
+"""復元予約時にclipの時間を拡縮・移動する。sceneと元のclipは変更しない。"""
 
 from __future__ import annotations
 
@@ -21,62 +21,132 @@ def _time(seconds: float) -> om.MTime:
     return time
 
 
-def _shift_curve(data: AnimCurveData, seconds: float) -> AnimCurveData:
-    offset = seconds / data.seconds_per_frame
-    keys = tuple(replace(key, frame=key.frame + offset) for key in data.keys)
-    times = tuple(_time(key.frame * data.seconds_per_frame) for key in keys)
-    if any(a >= b for a, b in zip(times, times[1:])):
-        raise ValueError("Shifted clip keys coincide at Maya time precision.")
-    return replace(data, keys=keys)
+def _positive(value: object, name: str) -> float:
+    number = finite_number(value, name)
+    if number <= 0:
+        raise ValueError(f"{name} must be positive.")
+    return number
 
 
-def shifted_for_restore(
+def transformed_for_restore(
     data: AnimationClip,
     *,
     offset_frames: float | None,
     to_start_frame: float | None,
     to_end_frame: float | None,
+    time_scale: float | None,
+    duration_frames: float | None,
 ) -> AnimationClip:
-    specified = [
-        (name, value)
-        for name, value in (
-            ("offset_frames", offset_frames),
-            ("to_start_frame", to_start_frame),
-            ("to_end_frame", to_end_frame),
-        )
-        if value is not None
-    ]
-    if len(specified) > 1:
-        raise ValueError("Specify at most one clip restore time argument.")
-    if not specified:
-        return data
-    name, value = specified[0]
-    rate = om.MTime(1, om.MTime.uiUnit()).asUnits(om.MTime.kSeconds)
-    seconds = finite_number(value, name) * rate
-    _time(seconds)
-    if name == "to_start_frame":
-        seconds -= data.start_frame * data.seconds_per_frame
-    elif name == "to_end_frame":
-        seconds -= data.end_frame * data.seconds_per_frame
-    _time(seconds)
-    if seconds == 0:
-        return data
-    offset = seconds / data.seconds_per_frame
-    start = data.start_frame + offset
-    end = data.end_frame + offset
-    start_time = _time(start * data.seconds_per_frame)
-    end_time = _time(end * data.seconds_per_frame)
-    if data.start_frame < data.end_frame and start_time >= end_time:
+    fit_range = to_start_frame is not None and to_end_frame is not None
+    if offset_frames is not None and (
+        to_start_frame is not None or to_end_frame is not None
+    ):
         raise ValueError(
-            "Shifted clip range collapses at Maya time precision."
+            "offset_frames cannot be combined with target bounds."
         )
+    if time_scale is not None and duration_frames is not None:
+        raise ValueError("Specify either time_scale or duration_frames.")
+    if fit_range and (time_scale is not None or duration_frames is not None):
+        raise ValueError(
+            "Target bounds cannot be combined with a scale or duration."
+        )
+    if all(
+        value is None
+        for value in (
+            offset_frames,
+            to_start_frame,
+            to_end_frame,
+            time_scale,
+            duration_frames,
+        )
+    ):
+        return data
+    rate = om.MTime(1, om.MTime.uiUnit()).asUnits(om.MTime.kSeconds)
+
+    def seconds(value: float, name: str) -> float:
+        result = finite_number(value, name) * rate
+        _time(result)
+        return result
+
+    source_start = data.start_frame * data.seconds_per_frame
+    source_duration = (
+        data.end_frame - data.start_frame
+    ) * data.seconds_per_frame
+    start = (
+        source_start
+        if to_start_frame is None
+        else seconds(to_start_frame, "to_start_frame")
+    )
+    end = (
+        None if to_end_frame is None else seconds(to_end_frame, "to_end_frame")
+    )
+    scale = 1.0 if time_scale is None else _positive(time_scale, "time_scale")
+    if fit_range or duration_frames is not None:
+        if source_duration <= 0:
+            raise ValueError(
+                "Cannot fit a single-time clip to a duration or range."
+            )
+        duration = (
+            end - start
+            if fit_range and end is not None
+            else _positive(duration_frames, "duration_frames") * rate
+        )
+        scale = _positive(duration / source_duration, "time_scale")
+    duration = finite_number(source_duration * scale, "scaled duration")
+    if offset_frames is not None:
+        start += seconds(offset_frames, "offset_frames")
+    if end is None:
+        end = start + duration
+    elif not fit_range:
+        start = end - duration
+    if data.start_frame < data.end_frame and _time(start) >= _time(end):
+        raise ValueError(
+            "Transformed clip range collapses at Maya time precision."
+        )
+    _time(start)
+    _time(end)
+
+    def frame(value: float, curve_rate: float) -> float:
+        source_first = data.start_frame * (data.seconds_per_frame / curve_rate)
+        source_last = data.end_frame * (data.seconds_per_frame / curve_rate)
+        # Exact boundary placement also keeps replace_range inclusive.
+        if value == source_first:
+            return start / curve_rate
+        if value == source_last:
+            return end / curve_rate
+        return (value - source_first) * scale + start / curve_rate
+
+    def curve(item: AnimCurveData) -> AnimCurveData:
+        keys = tuple(
+            replace(
+                key,
+                frame=frame(key.frame, item.seconds_per_frame),
+                in_tangent_xy=(
+                    key.in_tangent_xy[0] * scale,
+                    key.in_tangent_xy[1],
+                ),
+                out_tangent_xy=(
+                    key.out_tangent_xy[0] * scale,
+                    key.out_tangent_xy[1],
+                ),
+            )
+            for key in item.keys
+        )
+        times = tuple(
+            _time(key.frame * item.seconds_per_frame) for key in keys
+        )
+        if any(a >= b for a, b in zip(times, times[1:])):
+            raise ValueError(
+                "Transformed clip keys coincide at Maya time precision."
+            )
+        return replace(item, keys=keys)
 
     def settings(
         items: tuple[LayerSettingData, ...],
     ) -> tuple[LayerSettingData, ...]:
         return tuple(
             (
-                replace(item, curve=_shift_curve(item.curve, seconds))
+                replace(item, curve=curve(item.curve))
                 if item.curve is not None
                 else item
             )
@@ -85,15 +155,13 @@ def shifted_for_restore(
 
     return replace(
         data,
-        start_frame=start,
-        end_frame=end,
+        start_frame=start / data.seconds_per_frame,
+        end_frame=end / data.seconds_per_frame,
         nodes=tuple(
             replace(
                 node,
                 channels=tuple(
-                    replace(
-                        channel, curve=_shift_curve(channel.curve, seconds)
-                    )
+                    replace(channel, curve=curve(channel.curve))
                     for channel in node.channels
                 ),
             )

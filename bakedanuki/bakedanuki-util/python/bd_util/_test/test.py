@@ -57,6 +57,14 @@ def main():
     dst_0 = nodes.create.transform(name="dst_0")
     clip.restore(nodes.modifier_manager, targets=[dst_0])
 
+    dst_0_0 = nodes.create.transform(name="dst_0_0")
+    clip.restore(
+        nodes.modifier_manager,
+        targets=[dst_0_0],
+        to_start_frame=0,
+        to_end_frame=500,
+    )
+
     clip = bdu.AnimationClip.capture(
         [trsf],
         start_frame=-50,

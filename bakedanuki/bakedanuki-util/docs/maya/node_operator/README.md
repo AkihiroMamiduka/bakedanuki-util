@@ -24,6 +24,7 @@
     名前空間・対象リストによる対応付け、追加・全置換・部分置換、JSONを扱います。
     静的な属性は既定で除外し、`include_static=True`で保存対象に含めます。
     復元時刻は`offset_frames` / `to_start_frame` / `to_end_frame`のいずれかで指定できます。
+    `time_scale` / `duration_frames`による時間拡縮と、開始・終了の両端指定による区間合わせにも対応します。
     詳細は[AnimationClip](animation_clip.md)を参照してください。
 
 - `python/bd_util/maya/node/operator/node/_core.py`

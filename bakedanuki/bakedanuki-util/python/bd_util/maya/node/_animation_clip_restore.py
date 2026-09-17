@@ -24,7 +24,7 @@ from ._animation_clip_capture import (
     plug_for,
     sample,
 )
-from ._animation_clip_time import shifted_for_restore
+from ._animation_clip_time import transformed_for_restore
 from .modifier import ModifierManager
 from .nodes import Nodes
 from .operator.attr import _keyframe_target, _keyframe_snapshot
@@ -107,7 +107,7 @@ def _same_setting(actual: LayerSettingData, saved: LayerSettingData) -> bool:
         actual.curve.keys
     ) != len(expected.keys):
         return False
-    for a, b in zip(actual.curve.keys, expected.keys):
+    for index, (a, b) in enumerate(zip(actual.curve.keys, expected.keys)):
         if (
             replace(
                 a,
@@ -127,12 +127,22 @@ def _same_setting(actual: LayerSettingData, saved: LayerSettingData) -> bool:
             )
         ):
             return False
-        for actual_xy, saved_xy in (
-            (a.in_tangent_xy, b.in_tangent_xy),
-            (a.out_tangent_xy, b.out_tangent_xy),
+        for actual_xy, saved_xy, tangent, outside in (
+            (a.in_tangent_xy, b.in_tangent_xy, b.in_tangent_type, index == 0),
+            (
+                a.out_tangent_xy,
+                b.out_tangent_xy,
+                b.out_tangent_type,
+                index == len(expected.keys) - 1,
+            ),
         ):
-            if not expected.weighted:
-                # Nonweighted boundary tangents can be renormalized by Maya.
+            # Maya derives these legacy tangents from type and key spacing.
+            # Editing their angle or weight changes their type to fixed.
+            if tangent in ("fast", "slow"):
+                continue
+            if not expected.weighted or outside:
+                # Endpoint length affects neither interpolation nor infinity.
+                # Maya can renormalize it when restoring automatic tangents.
                 actual_length = math.hypot(*actual_xy) or 1.0
                 saved_length = math.hypot(*saved_xy) or 1.0
                 actual_xy = (
@@ -205,6 +215,8 @@ def restore(
     offset_frames: float | None,
     to_start_frame: float | None,
     to_end_frame: float | None,
+    time_scale: float | None,
+    duration_frames: float | None,
     restore_layer_settings: bool,
     tolerance: float,
 ) -> None:
@@ -229,11 +241,13 @@ def restore(
         namespace = namespace.strip(":")
     if isinstance(targets, (str, NodeOperator, om.MObject)):
         raise TypeError("targets must be an iterable of nodes.")
-    data = shifted_for_restore(
+    data = transformed_for_restore(
         AnimationClip.from_dict(clip.to_dict()),
         offset_frames=offset_frames,
         to_start_frame=to_start_frame,
         to_end_frame=to_end_frame,
+        time_scale=time_scale,
+        duration_frames=duration_frames,
     )
     destination: tuple[str | om.MObject, ...]
     if targets is None:
