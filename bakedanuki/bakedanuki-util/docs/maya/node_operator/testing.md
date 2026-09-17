@@ -659,6 +659,45 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
 テストの除外やUI実装の変更はしていません。
 その後、移動APIは利用者によるMaya画面上での動作確認とpushまで完了しました（`218751db`）。
 
+## キーフレーム時間拡縮の検証
+
+`test_keyframe_scale.py`では、`scale_keys()`の時間拡縮と配置先の置換を検証します。
+
+- 倍率・長さ・両端合わせ、相対配置・開始/終了合わせ、明示境界と実在キーの違い、
+  片側省略・全体・単一キー、負の時刻・subframe、元区間と配置先の重なり。
+- 既定の`replace_range`と`merge`、欠けた境界も含めた配置先区間の置換、対象外fixedキーの保持。
+- TA / TL / TU / TT、weighted / nonweighted、14種類の接線、値・lock・breakdown・infinity、
+  密なサンプルでの形状照合と`fast` / `slow`のMaya標準拡縮との照合。
+- 短いweighted接線が下限補正されないこと、TTで再現できない接線のrollback。
+  境界挿入前の値評価、区間外のinfinity補完、挿入を伴う反復Undo / Redo。
+- カーブなし・空カーブ・対象なし・恒等変換、0幅区間・不正引数・時刻の表現限界と精度限界、
+  予約後のFPS / 表示単位変更、no-opでもmanager・write検査を通すこと。
+- 保留中node作成と先行キー編集、queryの非実行、再接続・改名、bool・enum等の属性。
+  挿入後・削除後・再挿入後の失敗時に、同じbatchの先行変更もrollbackすること。
+
+`test_keyframe_target.py` / `test_curve_keyframe.py`の共通編集一覧にも拡縮を登録しています。
+通常チャンネル・既定ベース・明示layer・明示カーブの対象選択、上流接続、lock / reference、
+非対象layerのキー・weight保持を、既存の共通テストで検証します。
+専用MPxCommand fixtureはMaya標準Undo / Redoとcommand失敗時rollback、型contractは
+属性・layer・明示カーブの3入口、戻り値、排他引数、modeと境界補完の補完を検証します。
+
+2026-09-17、下記の関連pytestはMaya 2025 / 2026 / 2027それぞれ2,360件成功しました。
+変更した実装3ファイルと型contractを明示したMaya 2025のPyright検証も、エラー・警告0件でした。
+その後、長さ指定の丸めで恒等変換が不要な境界挿入をしないように補強し、
+時間拡縮の専用pytestは3 versionで各322件成功しました。
+補強後の最終`verify.cmd`も`QT_QPA_PLATFORM=offscreen`で成功しました。
+Blackは4,452ファイル、3 versionの型・補完contractはすべて成功、Maya 2025 full pytestは
+5,336件成功・632件skip、Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
+`git diff --check`も成功しています。
+利用者によるMaya画面上での`scale_keys()`の動作確認は未実施です。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
+.\scripts\verify.cmd
+```
+
 ## キー削減の検証
 
 `test_keyframe_reduce.py`では、手動接線を維持する`reduce_keys()`を検証します。

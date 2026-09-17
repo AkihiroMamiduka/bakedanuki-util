@@ -410,7 +410,7 @@ def test_mid_edit_failure_rolls_back_insert_overwrite_and_earlier_edits(
     helper = (
         "_set_inputs"
         if stage in ("after_insert", "after_set_input")
-        else "_restore"
+        else "restore_keys"
     )
     original = getattr(_keyframe_move, helper)
 

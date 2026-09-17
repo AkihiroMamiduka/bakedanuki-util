@@ -26,6 +26,7 @@ QUERIES = (
     ("get_weighted", {}),
 )
 EDITS = (
+    ("scale_keys", {"time_scale": 2}),
     ("reduce_keys", {"tolerance": 0.01}),
     ("move_key", {"frame": 1, "to_frame": 5}),
     ("move_keys", {"offset_frames": 2}),

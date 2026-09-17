@@ -4200,6 +4200,77 @@ def keyframe_reduction_contract(nodes: bdu.Nodes) -> None:
         )
 
 
+def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
+    channel = nodes.existing.transform("ctrl").tx.keyframe
+    layer = channel.anim_layer("Correction")
+    curve = nodes.existing.animCurveTL("curve").keyframe
+    for keyframe in (channel, layer, curve):
+        assert_type(keyframe.scale_keys(time_scale=2), None)
+        assert_type(
+            keyframe.scale_keys(10, 30, time_scale=2, offset_frames=optional),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(10, None, duration_frames=20, offset_frames=5),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(
+                None, 30, time_scale=2, to_start_frame=optional
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(duration_frames=20, to_start_frame=optional),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(
+                time_scale=2, to_end_frame=optional, mode="merge"
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(
+                duration_frames=20, to_end_frame=optional, insert_missing=True
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(
+                10,
+                30,
+                to_start_frame=100,
+                to_end_frame=140,
+                mode="replace_range",
+            ),
+            None,
+        )
+        keyframe.scale_keys()  # pyright: ignore[reportCallIssue]
+        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
+            time_scale=2,
+            duration_frames=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
+            time_scale=2,
+            to_start_frame=10,
+            to_end_frame=30,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
+            time_scale=2,
+            offset_frames=1,
+            to_start_frame=10,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(
+            time_scale=2,
+            mode="replace_all",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(
+            time_scale=2,
+            insert_missing=1,  # pyright: ignore[reportArgumentType]
+        )
+
+
 def keyframe_move_contract(nodes: bdu.Nodes) -> None:
     channel = nodes.existing.transform("ctrl").tx.keyframe
     layer = channel.anim_layer("Correction")

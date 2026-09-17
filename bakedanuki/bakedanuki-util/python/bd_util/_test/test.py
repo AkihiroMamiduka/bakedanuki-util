@@ -65,6 +65,16 @@ def main():
         to_end_frame=500,
     )
 
+    dst_0_1 = nodes.create.transform(name="dst_0_1")
+    clip.restore(
+        nodes.modifier_manager,
+        targets=[dst_0_1],
+    )
+    dst_0_1.tx.keyframe.scale_keys(-50, 50, time_scale=0.5)
+    dst_0_1.ty.keyframe.scale_keys(
+        -50, 50, to_start_frame=-25, to_end_frame=25
+    )
+
     clip = bdu.AnimationClip.capture(
         [trsf],
         start_frame=-50,

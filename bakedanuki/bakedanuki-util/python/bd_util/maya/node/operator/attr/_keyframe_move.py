@@ -11,7 +11,7 @@ from ...modifier import ModifierManager
 from . import _keyframe_target
 
 
-def _checked_time(time: om.MTime, seconds: float) -> om.MTime:
+def checked_time(time: om.MTime, seconds: float) -> om.MTime:
     if not math.isfinite(seconds) or not math.isclose(
         time.asUnits(om.MTime.kSeconds), seconds, rel_tol=1e-12, abs_tol=1e-8
     ):
@@ -22,7 +22,7 @@ def _checked_time(time: om.MTime, seconds: float) -> om.MTime:
 
 
 @dataclass(frozen=True)
-class _Key:
+class CapturedKey:
     value: float | om.MTime
     in_type: int
     out_type: int
@@ -33,9 +33,9 @@ class _Key:
     breakdown: bool
 
 
-def _capture(curve: oma.MFnAnimCurve, index: int) -> _Key:
+def capture_key(curve: oma.MFnAnimCurve, index: int) -> CapturedKey:
     time_output = curve.animCurveType == oma.MFnAnimCurve.kAnimCurveTT
-    return _Key(
+    return CapturedKey(
         (
             curve.evaluate(curve.input(index))
             if time_output
@@ -59,9 +59,9 @@ def _capture(curve: oma.MFnAnimCurve, index: int) -> _Key:
     )
 
 
-def _restore(
+def restore_keys(
     curve: oma.MFnAnimCurve,
-    keys: tuple[_Key, ...],
+    keys: tuple[CapturedKey, ...],
     destinations: tuple[om.MTime, ...],
     change: oma.MAnimCurveChange,
 ) -> None:
@@ -91,7 +91,7 @@ def _restore(
         curve.setTangentsLocked(index, key.tangents_locked, change)
 
 
-def _insert_boundaries(
+def insert_boundaries(
     curve: oma.MFnAnimCurve,
     times: list[om.MTime],
     change: oma.MAnimCurveChange,
@@ -169,7 +169,7 @@ def _move(
             assert to_end is not None
             destination = to_end
             anchor = end if end is not None else selected[-1]
-        offset = _checked_time(
+        offset = checked_time(
             destination - anchor,
             destination.asUnits(om.MTime.kSeconds)
             - anchor.asUnits(om.MTime.kSeconds),
@@ -178,7 +178,7 @@ def _move(
         return
     seconds_offset = offset.asUnits(om.MTime.kSeconds)
     destinations = tuple(
-        _checked_time(
+        checked_time(
             time + offset, time.asUnits(om.MTime.kSeconds) + seconds_offset
         )
         for time in selected
@@ -188,7 +188,7 @@ def _move(
             "Moved keys coincide or change order at Maya time precision."
         )
 
-    _insert_boundaries(curve, missing, change)
+    insert_boundaries(curve, missing, change)
     times = [curve.input(i) for i in range(curve.numKeys)]
     first = 0 if start is None else bisect_left(times, start)
     stop = len(times) if end is None else bisect_right(times, end)
@@ -207,10 +207,10 @@ def _move(
         _set_inputs(curve, indices, destinations, change)
         return
 
-    keys = tuple(_capture(curve, i) for i in indices)
+    keys = tuple(capture_key(curve, i) for i in indices)
     for index in sorted(set(indices) | collisions, reverse=True):
         curve.remove(index, change)
-    _restore(curve, keys, destinations, change)
+    restore_keys(curve, keys, destinations, change)
     if any(curve.find(time) is None for time in destinations):
         raise RuntimeError("Maya did not restore the moved keys.")
 
@@ -246,7 +246,7 @@ def queue_move(
         value = float(frame)
         if not math.isfinite(value):
             raise ValueError("Keyframe frames and offsets must be finite.")
-        return _checked_time(
+        return checked_time(
             om.MTime(value, unit),
             value * om.MTime(1, unit).asUnits(om.MTime.kSeconds),
         )

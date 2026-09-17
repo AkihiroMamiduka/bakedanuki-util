@@ -185,6 +185,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | --- | --- |
 | 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。予約実行、Undo / Redo、途中失敗時rollbackに対応 |
 | 時間方向への移動 | `move_key()` / `move_keys()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、`insert_missing=False`を既定とする境界挿入。属性・layer・明示カーブで同じ操作を使用 |
+| 時間方向への拡縮 | `scale_keys()`。正の倍率・長さ・両端合わせ、基準区間の境界補完、配置先の部分置き換え（既定）とmerge。接線Xも拡縮し、Undo / Redo・rollbackに対応 |
 | キー削減 | `reduce_keys()`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
@@ -251,13 +252,15 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 続いて`time_scale` / `duration_frames`による正の時間拡縮と、開始・終了の両端指定による区間合わせを実装しました。
 全キーとlayer設定の時刻・接線Xを変換します。フレーム引数は予約時のUI時間単位で捕捉し、
 予約後のFPS変更でも秒単位の配置・長さを維持します。逆再生は未対応です。
+さらにKeyframeManagerの`scale_keys()`を追加しました。既存キーの時間拡縮と、
+配置先区間の部分置き換え（既定）・同時刻だけの上書き（merge）に対応します。
 その後の着手順は未確定です。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
-| 移動の拡張 | 時間方向の初期版とAnimationClip復元時の正の時間拡縮は実装済み。値方向の移動、KeyframeManagerによるscene上の時間拡縮は未実装。layerの生値と合成後の値、範囲外キーとの衝突を個別に決める |
+| 移動の拡張 | 時間方向の移動、AnimationClip復元時とKeyframeManagerによる正の時間拡縮は実装済み。値方向の移動は未実装。layerの生値と合成後の値の扱いを個別に決める |
 | キー削減の拡張・最適化 | 手動接線を維持する初期版は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
 | アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元時刻指定と正の時間拡縮は実装済み。逆再生やrig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録、AnimationClipによる階層・順序・weight等の保存復元は実装済み。登録解除や階層・順序を個別編集する公開API、auto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
@@ -304,16 +307,31 @@ weightedの制御点時刻が逆転する区間や分割上限で未判定の候
 実カーブにはキー削除だけを適用し、削除後の再検査・Undo / Redo・rollbackに対応します。
 キー数の最小化やMaya標準フィルタとの結果一致を保証するものではありません。
 
+### キーフレーム時間拡縮の実装
+
+`scale_keys()`を両Manager共通の操作へ追加しました。
+倍率・長さと配置の組み合わせ、移動先の両端指定、`insert_missing=False`を既定とする境界補完を扱います。
+明示した元境界を基準にし、`None`側は対象キーの端を使います。
+`mode="replace_range"`を既定にし、変換後の基準区間内を置換します。`merge`は同時刻だけを上書きします。
+いずれも元キーは移動し、重なった元区間・配置先も全対象を確保してから編集します。
+
+`_keyframe_scale.py`が引数捕捉、実行時の配置計画、削除・接線Xの拡縮・再挿入を扱います。
+`_keyframe_move.py`の境界挿入・キー情報捕捉・TT復元helperを共有します。
+TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighted接線が
+下限補正されることを避けます。bulk挿入の種類・lock配列と、その後の種類設定を組み合わせ、
+初回とRedoの両方でメタデータを維持します。TTの表現限界は検査し、再現できなければrollbackします。
+仕様は[時間拡縮](attributes.md#キーを時間方向へ拡縮する)、検証は[時間拡縮テスト](testing.md#キーフレーム時間拡縮の検証)を参照してください。
+
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   性能改善・移動APIは利用者確認済みで`218751db`まで反映した。続いてキー削減を追加した。
+   AnimationClip復元時の時間拡縮までは利用者確認・push済み（`ab120369`）。続いて`scale_keys()`を追加した。
    commit / push状況は実際の作業ツリーと履歴を確認する。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
-2. この節の完了範囲・維持する契約・キーフレーム移動の仕様を読み、
+2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
-   時間方向の移動・キー削減を未実装として再開発しない。キー削減の利用者確認状況は別途確認する。
+   移動・キー削減・AnimationClip・時間拡縮を未実装として再開発しない。`scale_keys()`の利用者確認状況は別途確認する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 
@@ -322,6 +340,8 @@ weightedの制御点時刻が逆転する区間や分割上限で未判定の候
 - `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作、anim_layerの入口とキー設定の経路選択。
 - 同階層の`_keyframe_move.py`: 移動引数の検証・捕捉、実行時の対象範囲と移動先の計画、
   境界挿入、setInputと削除・再挿入の経路。`test_keyframe_move.py`が専用の回帰テスト。
+- 同階層の`_keyframe_scale.py`: 時間拡縮の配置計画と部分置き換え、接線の変換・再挿入。
+  `test_keyframe_scale.py`とMPxCommandの専用fixtureが履歴を含む回帰テスト。
 - 同階層の`_keyframe_command.py`: native setKeyframeの予約、対象layerとUI単位の実行時解決。
   通常のキー設定と、詳細復元時のlayerカーブ作成で共有する。後者だけnoResolveとinsertBlend=Falseを使う。
 - `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`: layer作成と登録の共通mixin。

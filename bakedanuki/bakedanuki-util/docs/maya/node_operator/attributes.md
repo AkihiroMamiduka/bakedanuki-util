@@ -845,6 +845,91 @@ mod.do_it_dg()
 上書きされたキーも復元します。途中失敗時は同じ実行batchの先行変更もrollbackします。
 queryは保留中modifierを実行せず、Redoは初回に記録した対象への変更を再生します。
 
+### キーを時間方向へ拡縮する
+
+`scale_keys(start_frame=None, end_frame=None, *, time_scale=None, duration_frames=None,
+offset_frames=None, to_start_frame=None, to_end_frame=None, mode="replace_range",
+insert_missing=False)`は、既存カーブのキーを時間方向に拡縮します。
+戻り値は`None`で、同じModifierManagerへ予約します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+
+# 10〜30の動きを100〜140へ収め、配置先区間の既存キーを置き換える
+ctrl.tx.keyframe.scale_keys(10, 30, to_start_frame=100, to_end_frame=140)
+mod.do_it_dg()
+```
+
+| 用途 | 呼び出し例 | 変換後の基準区間 |
+| --- | --- | --- |
+| 開始位置を固定して2倍 | `scale_keys(10, 30, time_scale=2)` | 10〜50 |
+| 15フレームの長さへ | `scale_keys(10, 30, duration_frames=15)` | 10〜25 |
+| 開始と終了を指定 | `scale_keys(10, 30, to_start_frame=100, to_end_frame=140)` | 100〜140 |
+| 2倍にして終了を固定 | `scale_keys(10, 30, time_scale=2, to_end_frame=30)` | -10〜30 |
+| 2倍にして開始を指定 | `scale_keys(10, 30, time_scale=2, to_start_frame=100)` | 100〜140 |
+| 拡縮して相対移動 | `scale_keys(10, 30, duration_frames=10, offset_frames=5)` | 15〜25 |
+| 全体を半分の長さへ | `scale_keys(time_scale=0.5)` | 最初のキーを固定 |
+| 10以降を2倍 | `scale_keys(10, None, time_scale=2)` | 10を固定 |
+| 30以前を2倍 | `scale_keys(None, 30, time_scale=2)` | 対象の最初のキーを固定 |
+
+拡縮方法は、正の`time_scale`、正の`duration_frames`、移動先の両端指定のいずれか1つです。
+長さは終了と開始の差で、10〜30は20フレームと数えます。倍率・長さには配置方法を1つ
+組み合わせられます。`offset_frames`と移動先境界の併用、倍率と長さの併用、
+両端指定と倍率・長さの併用は拒否します。配置だけを指定する場合は`move_keys()`を使います。
+配置省略は基準区間の開始を固定し、逆再生・倍率0・区間の0幅への圧縮は扱いません。
+
+範囲は両端を含みます。明示した境界はキーの有無にかかわらず基準にし、`None`側は
+対象キーの最初・最後を使います。例えば10・30にはキーがなく、15・25にキーがある場合、
+`scale_keys(10, 30, time_scale=2)`は基準区間を10〜50へ変換し、実在キーを20・40へ移します。
+10を固定して、その時刻からの距離を2倍にする計算です。キーを境界へ寄せる操作ではありません。
+
+既定の`insert_missing=False`は実在キーだけを拡縮します。`True`なら、既存の空でない
+カーブに対して、明示した元の境界を補ってから拡縮します。上の例では10・20・40・50に
+キーが配置されます。`None`側には挿入しません。区間内に実在キーがなくても補完できます。
+両方の境界値は挿入前に評価し、Mayaの`insertKey()`を使用します。挿入による隣接接線の
+調整を含めて拡縮します。繰り返し領域のベイクや全接線のfixed化は行いません。
+
+| mode | 配置先の既存キー |
+| --- | --- |
+| `replace_range`（既定、部分置き換え） | 変換後の基準区間内を両端込みで置き換える |
+| `merge` | 変換後のキーと同時刻の既存キーだけを上書きし、他は残す |
+
+部分置き換えの範囲は実在キーの端ではなく、変換後の基準区間全体です。上の例では
+キーが20・40にしかなくても、10〜50にある対象外キーを削除します。
+どちらのmodeでも元キーは移動し、コピーとして残しません。全対象キーを確保してから
+削除・再配置するため、元区間と配置先が重なっても対象キーを失いません。
+それ以外のキーを押し出したり、全カーブを置換したりはしません。
+
+キーの値・接線の種類・lock・breakdown、カーブのweighted・infinity設定を維持し、
+接線のXも同じ倍率で変換します。auto等はMayaが再計算するため、部分拡縮では
+対象外の隣接区間も形状が変わり得ます。対象外キーの保持は、区間外の評価値の不変を
+保証するものではありません。旧来の`fast` / `slow`は全体拡縮でもMaya標準の固定された
+傾きへ再計算されるため、幾何学的な形状の拡縮とは異なります。
+
+属性経由はTA / TL / TU / TT、明示カーブはTA / TL / TUに対応します。
+TA / TL / TUは`addKeysWithTangents()`で短いweighted接線をそのまま復元します。
+TTは角度・重みのAPIを使い、Mayaの下限補正等によりweightedのfixed接線を再現できない
+極端な圧縮はエラーにしてrollbackします。
+未指定はベース、別layerは`anim_layer()`で明示します。layerのweight等の設定や他layerは
+自動拡縮しません。時間driverが接続されていても、引数はカーブ自身の入力時刻です。
+
+対象とキーは初回実行時に解決し、同じbatchの先行キー編集を反映します。
+フレーム引数は予約時のUI時間単位で捕捉し、予約後のFPS変更でも秒単位の配置・長さを維持します。
+負の時刻・subframeを許可し、整数に丸めません。非有限数・bool・文字列は数値指定として拒否します。
+表現範囲外の時刻や、精度限界でキー・区間が重なる拡縮はエラーにします。
+
+カーブなし・空カーブ・対象キーなしは、境界補完を行う場合を除き何も変更しません。
+カーブは新規作成せず、恒等変換（倍率1で配置も同じ）では境界挿入も行いません。
+元の基準区間が0幅なら長さ・両端指定を拒否します。正の倍率は許可し、
+単一キーでも接線を拡縮します。引数だけで判定できる不正は予約前、対象キーに依存する不正は
+初回実行時に拒否します。no-opでもmanager・対象構成・lock / reference検査を適用します。
+queryは保留中の編集を実行しません。Undo / Redoでは置換されたキーも含めて復元し、
+途中失敗時は同じbatchの先行編集もrollbackします。
+
 ### 手動接線を維持してキーを削減する
 
 `reduce_keys(start_frame=None, end_frame=None, *, tolerance, preserve_breakdowns=True)`は、

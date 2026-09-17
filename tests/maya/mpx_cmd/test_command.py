@@ -52,6 +52,16 @@ def move_test_plugin(new_scene, maya_cmds):
 
 
 @pytest.fixture
+def scale_test_plugin(new_scene, maya_cmds):
+    name = "bdu_mpx_keyframe_scale_test_plugin"
+    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+    maya_cmds.loadPlugin(str(path), quiet=True)
+    yield
+    maya_cmds.flushUndo()
+    maya_cmds.unloadPlugin(name)
+
+
+@pytest.fixture
 def sample_commands_plugin(new_scene, maya_cmds):
     yield
 
@@ -223,6 +233,50 @@ def test_reduce_keys_uses_maya_undo_redo_and_command_failure_rollback(
         assert keyframe.get_curve_data() == before
         maya_cmds.redo()
         assert keyframe.get_curve_data() == after
+
+
+@pytest.mark.parametrize("fail", [False, True])
+def test_scale_keys_uses_maya_history_and_command_failure_rollback(
+    scale_test_plugin, maya_cmds, fail
+):
+    import bd_util as bdu
+
+    name = maya_cmds.createNode("transform")
+    for attr in ("tx", "ty"):
+        for frame, value in ((0, 0), (10, 4), (20, 2), (30, 7)):
+            maya_cmds.setKeyframe(name + "." + attr, time=frame, value=value)
+        maya_cmds.keyTangent(
+            name + "." + attr, edit=True, weightedTangents=True
+        )
+    node = bdu.Nodes().existing.transform(name)
+    managers = [node.tx.keyframe, node.ty.keyframe]
+    before = [k.get_curve_data() for k in managers]
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterScaleKeyframes"
+            if fail
+            else "bduTestMpxScaleKeyframes"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional keyframe scaling failure"
+        ):
+            command(nodeName=name)
+        assert [k.get_curve_data() for k in managers] == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    command(nodeName=name)
+    assert managers[0].get_keys() == [(0, 0), (20, 4), (40, 2)]
+    assert managers[1].frames() == [0, 10, 20, 30, 32]
+    after = [k.get_curve_data() for k in managers]
+    for _ in range(3):
+        maya_cmds.undo()
+        assert [k.get_curve_data() for k in managers] == before
+        maya_cmds.redo()
+        assert [k.get_curve_data() for k in managers] == after
 
 
 def _animation_state(maya_cmds, plug_name):

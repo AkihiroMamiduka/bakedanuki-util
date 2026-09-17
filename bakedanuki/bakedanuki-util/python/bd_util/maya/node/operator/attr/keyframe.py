@@ -16,6 +16,7 @@ from . import (
     _keyframe_discovery,
     _keyframe_move,
     _keyframe_reduce,
+    _keyframe_scale,
     _keyframe_snapshot,
     _keyframe_target,
 )
@@ -649,6 +650,146 @@ class _KeyframeOperations(ABC):
             offset_frames=offset_frames,
             to_start_frame=to_start_frame,
             to_end_frame=to_end_frame,
+            insert_missing=insert_missing,
+        )
+
+    @overload
+    def scale_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        time_scale: float,
+        duration_frames: None = None,
+        offset_frames: float | None = None,
+        to_start_frame: None = None,
+        to_end_frame: None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        time_scale: None = None,
+        duration_frames: float,
+        offset_frames: float | None = None,
+        to_start_frame: None = None,
+        to_end_frame: None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        time_scale: float,
+        duration_frames: None = None,
+        offset_frames: None = None,
+        to_start_frame: float | None,
+        to_end_frame: None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        time_scale: None = None,
+        duration_frames: float,
+        offset_frames: None = None,
+        to_start_frame: float | None,
+        to_end_frame: None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        time_scale: float,
+        duration_frames: None = None,
+        offset_frames: None = None,
+        to_start_frame: None = None,
+        to_end_frame: float | None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        time_scale: None = None,
+        duration_frames: float,
+        offset_frames: None = None,
+        to_start_frame: None = None,
+        to_end_frame: float | None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        time_scale: None = None,
+        duration_frames: None = None,
+        offset_frames: None = None,
+        to_start_frame: float,
+        to_end_frame: float,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    def scale_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        time_scale: float | None = None,
+        duration_frames: float | None = None,
+        offset_frames: float | None = None,
+        to_start_frame: float | None = None,
+        to_end_frame: float | None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        insert_missing: bool = False,
+    ) -> None:
+        """両端を含むキー範囲の時間拡縮を予約する。戻り値はNone。
+
+        正の倍率・長さ・移動先の両端指定のいずれかを指定する。配置省略は開始を固定。
+        明示境界を基準とし、None側は対象キーの端を使う。接線Xも拡縮し、値は保持する。
+        既定は配置先区間の置換。mergeは同時刻だけを上書きする。元キーは残さない。
+        insert_missing=Trueは明示境界を補う。恒等変換・空カーブは変更しない。
+        フレーム引数は予約時のUI時間単位で捕捉し、対象キーは初回実行時に解決する。
+        """
+        _keyframe_scale.queue_scale(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            time_scale=time_scale,
+            duration_frames=duration_frames,
+            offset_frames=offset_frames,
+            to_start_frame=to_start_frame,
+            to_end_frame=to_end_frame,
+            mode=mode,
             insert_missing=insert_missing,
         )
 
