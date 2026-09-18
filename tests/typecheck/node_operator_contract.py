@@ -5929,6 +5929,26 @@ def animation_clip_contract(
     assert_type(clip.layers, tuple[AnimationLayerData, ...])
     assert_type(clip.to_json(), str)
     assert_type(bdu.AnimationClip.from_json(clip.to_json()), bdu.AnimationClip)
+    assert_type(clip.reduce_keys(tolerance=0.01), bdu.AnimationClip)
+    assert_type(
+        clip.reduce_keys(-50, 50, tolerance=0, preserve_breakdowns=False),
+        bdu.AnimationClip,
+    )
+    assert_type(
+        clip.reduce_keys(optional_frame, None, tolerance=0.1).nodes,
+        tuple[NodeAnimationData, ...],
+    )
+    assert_type(
+        clip.reduce_keys(None, optional_frame, tolerance=0.1).to_json(), str
+    )
+    clip.reduce_keys()  # pyright: ignore[reportCallIssue]
+    clip.reduce_keys(0, 10, 0.01)  # pyright: ignore[reportCallIssue]
+    clip.reduce_keys(tolerance="0.1")  # pyright: ignore[reportArgumentType]
+    clip.reduce_keys("0", tolerance=0.1)  # pyright: ignore[reportArgumentType]
+    clip.reduce_keys(
+        tolerance=0.1,
+        preserve_breakdowns=1,  # pyright: ignore[reportArgumentType]
+    )
     assert_type(
         clip.restore(
             mod, targets=["target", "other_target"], mode="replace_range"

@@ -41,6 +41,14 @@ AnimationClip.capture(
     sample_by=1.0,
 ) -> AnimationClip
 
+clip.reduce_keys(
+    start_frame=None,
+    end_frame=None,
+    *,
+    tolerance,
+    preserve_breakdowns=True,
+) -> AnimationClip
+
 clip.restore(
     modifier_manager,
     *,
@@ -122,7 +130,8 @@ weightが0のlayerや一定値のexpressionなど、結果が一定でも依存�
 
 `sample_by`は取得時のMaya UI時間単位で、既定は1フレームです。開始時刻から等間隔に採取し、
 刻みが割り切れない場合も終了時刻を含めます。数値はlinear、bool / 整数 / enumはstepで復元します。
-キー削減は自動実行しません。元カーブのキー数・接線を保持する方式ではありません。
+キー削減は自動実行しません。保存後に`clip.reduce_keys()`を明示して削減できます。
+合成保存は元カーブのキー数・接線を保持する方式ではありません。
 
 対象に含めた属性はキーがなくても保存区間を通して評価し、
 一定値ならその値を持つサンプルとして保存します。
@@ -304,6 +313,58 @@ layer設定の比較でも、この2種類の接線はキー時刻・値・種�
 merge / 部分置換では既存カーブの
 weighted / infinityを維持するため、nonweightedへの復元では接線の重みが失われます。
 新規カーブでは保存したweighted / infinityを使用します。
+
+## 保存データのキー削減
+
+`reduce_keys()`は全nodeの属性チャンネルを対象に、削減済みの新しい`AnimationClip`を即時に返します。
+flatten / preserveの両方に対応し、元clip・scene・MayaのUndo履歴・保留中modifierは変更しません。
+削減自体に`ModifierManager`は不要です。戻り値を受け取って保存・復元してください。
+
+```python
+reduced_clip = clip.reduce_keys(-50, 50, tolerance=0.01)
+
+# 全体・片側の範囲も指定できます。
+reduced_clip = clip.reduce_keys(tolerance=0.01)
+reduced_clip = clip.reduce_keys(10, None, tolerance=0.01)
+
+reduced_clip.restore(mod, targets=targets, mode="replace_all")
+mod.do_it_dg()
+text = reduced_clip.to_json()
+```
+
+- 範囲は両端包含で、`None`側は無制限です。時間は**clipに保存されたフレーム単位**を使います。
+  24fpsで保存したclipの10〜20は、sceneを30fpsへ変更しても保存時の10〜20を指します。
+  負の時刻・subframeにも対応します。保存範囲そのもの、`seconds_per_frame`、`sample_by`は変更しません。
+- 範囲内の最初・最後の実在キーを残し、境界キーは追加しません。3キー未満・対象なしは同内容の独立コピーです。
+  定数カーブも範囲内の両端を保持し、チャンネル・空node・node順を削除しません。
+- `tolerance`は必須の非負・有限数です。各保存カーブの削減前後の絶対誤差を、
+  TAはdegree、TLはcm、TUはunitlessで指定します。sceneの表示単位には依存しません。
+- 既存の[キー削減](attributes.md#手動接線を維持してキーを削減する)と同じ判定を使います。
+  キー時刻だけでなくキー間の形状も確認し、削減途中ではなく削減開始前のカーブと比較します。
+  `tolerance=0`でも浮動小数点の丸めは許容します。キー数の最小化は保証しません。
+- 残すキーの時刻・値・接線type・lock・breakdownを維持し、fixed接線の方向・重みを調整しません。
+  auto・linear等のMayaによる再計算も誤差判定に含めます。nonweighted接線の保存XYは、
+  削減後の隣接キー間隔に合わせて再取得するため長さが変わる場合がありますが、手動接線の方向変更ではありません。
+- `preserve_breakdowns=True`ではbreakdownを残します。`False`でも範囲内の両端とstep系の値の切り替わりは保護します。
+  範囲外の実在キー間の形状・linear infinityの傾きも維持します。周期infinityでは変更が他の周期にも反映されます。
+- layerとrootの設定カーブ（weight・mute等）は削減しません。設定の変更は共有layerの他属性にも影響し、
+  等価な間引きでも既存layerとの設定一致判定が変わるためです。layer構造・順序も維持します。
+- JSONから読み込んだclipや、元nodeが既にないclipも削減できます。内部評価にはMaya実行環境が必要です。
+  全チャンネルの処理が成功した場合だけ結果を返し、失敗時も元clipを保持します。JSONは引き続きschema 2です。
+
+### 許容誤差と復元先のレイヤー
+
+許容誤差は保存データのカーブに対する値であり、復元先の最終合成値の誤差を保証しません。
+preserveでは各layerの生カーブごとに判定するため、合成すると誤差が加算・増幅される場合があります。
+
+flattenの復元は残っているキー時刻だけで値を逆算・検証します。例えば0・1・2フレームで
+保存値がすべて5のclipを両端だけに削減すると、保存カーブの誤差は0です。しかし復元先の加算layerが
+同時刻で0・10・0なら、元clipはベースを5・-5・5として合成値5・5・5を再現できても、
+削減後のclipではベースに両端の5だけを設定し、中間の合成値が15になる場合があります。
+削除した時刻を自動的に再サンプリングしたり、補償キーを追加したりする機能は含めません。
+
+`restore(tolerance=...)`は残ったサンプル時刻の値解決を検証する別の許容誤差です。
+復元先の既存キーや隣接接線も結果へ影響するため、削減前後の保存カーブの比較と復元後の結果を区別してください。
 
 ## データとJSON
 

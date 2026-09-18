@@ -816,7 +816,7 @@ command失敗時rollbackを確認します。型contractは3入口のピボッ�
 型・補完contractも属性・指定layer・明示カーブの3入口で新名と排他引数を検査します。
 `AnimationClip.restore()`の引数と検証は維持しています。
 本書の過去の実装・検証記録もAPI名は現在の名前で表記しますが、過去の成功件数は当時の実績です。
-名称整理後の利用者によるMaya画面上の動作確認は未実施です。
+その後、名称整理も利用者によるMaya画面上の動作確認・pushまで完了しました（`b90965c0`）。
 
 2026-09-18、名称整理後に改めて実行した検証結果です。
 
@@ -902,6 +902,33 @@ command失敗時rollbackを確認します。型contractは3入口のピボッ�
 ## AnimationClipの検証
 
 仕様は[AnimationClip](animation_clip.md)を参照してください。
+
+### 保存データのキー削減
+
+`test_animation_clip_reduce.py`は、`AnimationClip.reduce_keys()`の次の契約を検証します。
+
+- flatten / preserve、TA / TL / TU、全体・両端包含・片側指定・対象なし、境界を挿入しないこと。
+- 実カーブの削減との比較、weighted / nonweighted、fixed / auto / linear等の形状とメタデータ保持。
+  キー間の膨らみ、短いweighted接線、breakdown保護とstepの切り替わり。
+- 許容誤差の公開値単位、保存時FPS・任意のseconds_per_frame、負時刻・subframe、sceneのFPS変更。
+- 元clipとの独立、schema 2 JSON往復、空node・空カーブ・node順、rootとlayerの設定維持・既存layer再利用。
+- 元nodeを削除した後の処理、sceneのnode・modified flag・現在時刻・選択・Undo / Redo履歴と保留中編集の維持。
+  復元・削減・再取得の失敗や後続チャンネルの失敗で部分変更を残さないこと。
+- 削減済みclipの復元予約、Undo / Redo・後続失敗時rollback・予約後の独立コピー。
+  保存カーブの誤差と、復元先の加算layerによる最終合成値の誤差を区別すること。
+
+2026-09-18、クリップ削減追加後に実行した検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・AnimationClip・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,805件成功、プロセス正常終了 |
+| 変更実装4ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,461ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+利用者によるMaya画面上でのクリップ削減の確認は未実施です。
+
+### 保存・復元の既存テスト
 
 - `tests/maya/node/test_animation_clip.py`: 合成保存・layer保持、keyable / channelBox / 明示属性、
   static・compound・sparse array・enum・単位、JSON、範囲とFPS、名前空間とnode順対応、

@@ -296,7 +296,7 @@ def _plan(
             cmds.file(modified=False)
 
 
-def _reduce(
+def reduce_curve(
     curve: oma.MFnAnimCurve,
     start: om.MTime | None,
     end: om.MTime | None,
@@ -378,6 +378,17 @@ def _reduce(
         )
 
 
+def validate_options(tolerance: object, preserve_breakdowns: bool) -> float:
+    if isinstance(tolerance, bool) or not isinstance(tolerance, (float, int)):
+        raise TypeError("tolerance must be a number.")
+    tolerance = float(tolerance)
+    if not math.isfinite(tolerance) or tolerance < 0:
+        raise ValueError("tolerance must be finite and nonnegative.")
+    if type(preserve_breakdowns) is not bool:
+        raise TypeError("preserve_breakdowns must be a bool.")
+    return tolerance
+
+
 def queue_reduce(
     manager: ModifierManager,
     target: _keyframe_target.Target,
@@ -386,13 +397,7 @@ def queue_reduce(
     tolerance: object,
     preserve_breakdowns: bool,
 ) -> None:
-    if isinstance(tolerance, bool) or not isinstance(tolerance, (float, int)):
-        raise TypeError("tolerance must be a number.")
-    tolerance = float(tolerance)
-    if not math.isfinite(tolerance) or tolerance < 0:
-        raise ValueError("tolerance must be finite and nonnegative.")
-    if type(preserve_breakdowns) is not bool:
-        raise TypeError("preserve_breakdowns must be a bool.")
+    tolerance = validate_options(tolerance, preserve_breakdowns)
     unit = om.MTime.uiUnit()
 
     def capture(frame: float | None) -> om.MTime | None:
@@ -423,6 +428,8 @@ def queue_reduce(
     def edit(change: oma.MAnimCurveChange) -> None:
         curve = _keyframe_snapshot.resolve_curve(target, write=True)
         if curve is not None:
-            _reduce(curve, start, end, tolerance, preserve_breakdowns, change)
+            reduce_curve(
+                curve, start, end, tolerance, preserve_breakdowns, change
+            )
 
     manager.queue_anim_curve_change(edit)

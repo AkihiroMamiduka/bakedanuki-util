@@ -278,7 +278,12 @@ nonweighted接線は正規化し、weighted接線は変換後の長さを保持�
 時間・値の編集引数を`offset` / `scale` / `pivot`等へ短縮し、旧名のaliasは提供しません。
 対象を選ぶ`frame` / `start_frame` / `end_frame`と、既存の編集処理は維持します。
 `AnimationClip.restore()`の引数は変更しません。対応表は[旧APIからの移行](attributes.md#旧apiからの移行)を参照してください。
-名称整理後の利用者による動作確認は未実施です。
+名称整理も利用者による動作確認・pushまで完了しました（`b90965c0`）。
+続いて`AnimationClip.reduce_keys()`を追加しました。時間範囲と許容誤差を指定して、
+全nodeの属性チャンネルの保存カーブを削減した独立clipを返します。時間は保存フレーム単位です。
+元clip・scene・保留中modifier、layerとrootの設定は維持します。既存の削減コアを共有し、
+作業用カーブで評価します。許容誤差は各保存カーブに対するもので、復元先の最終合成値は保証しません。
+クリップ削減の利用者による動作確認は未実施です。仕様は[AnimationClip](animation_clip.md#保存データのキー削減)を参照してください。
 それ以降の着手順は未確定です。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
@@ -286,7 +291,7 @@ layer構造の管理や自動選択を追加する場合は、
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
 | 移動の拡張 | 時間方向の移動、AnimationClip復元時とKeyframeManagerによる正の時間拡縮、既存キーの生値の設定・加算・拡縮は実装済み。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
-| キー削減の拡張・最適化 | 手動接線を維持する初期版は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
+| キー削減の拡張・最適化 | 手動接線を維持する実カーブ操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
 | アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元時刻指定と正の時間拡縮は実装済み。逆再生やrig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録、AnimationClipによる階層・順序・weight等の保存復元は実装済み。登録解除や階層・順序を個別編集する公開API、auto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
@@ -362,19 +367,22 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   時間拡縮のピボット指定まで利用者確認・push済み（`f0def8ab`）。続いて時間・値編集の名称を整理した。
+   時間・値編集の名称整理まで利用者確認・push済み（`b90965c0`）。続いてAnimationClipの保存データ削減を追加した。
    commit / push状況は実際の作業ツリーと履歴を確認する。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
 2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
-   名称整理後の利用者確認状況は別途確認する。過去の実装・検証記録も本文では現行API名で表記する。
+   AnimationClipのキー削減の利用者確認状況は別途確認する。過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 
 ### 実装を引き継ぐ際の参照先
 
+- `python/bd_util/maya/node/_animation_clip_reduce.py`: 保存時間単位による範囲と全チャンネルの処理。
+  `_keyframe_snapshot.reduce_curve_data()`で未登録カーブへ復元し、`_keyframe_reduce.reduce_curve()`を共有する。
+  削減後の接線情報を再取得して元のframe・valueと時間単位を維持する。`test_animation_clip_reduce.py`が回帰テスト。
 - `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作、anim_layerの入口とキー設定の経路選択。
 - 同階層の`_keyframe_move.py`: 移動引数の検証・捕捉、実行時の対象範囲と移動先の計画、
   境界挿入、setInputと削除・再挿入の経路。拡縮・値編集とも復元helperを共有する。

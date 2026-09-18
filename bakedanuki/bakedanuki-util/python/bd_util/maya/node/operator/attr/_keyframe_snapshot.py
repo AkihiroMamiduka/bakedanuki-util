@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from dataclasses import replace as replace_data
 from typing import cast
 
 from maya import cmds
@@ -10,7 +11,7 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
-from . import _keyframe_command, _keyframe_target
+from . import _keyframe_command, _keyframe_move, _keyframe_target
 from .keyframe_data import (
     AnimCurveData,
     CurveTypeName,
@@ -335,6 +336,93 @@ def _restore_key_data(
     for key, i in zip(data.keys, indices):
         curve.setWeightsLocked(i, key.weights_locked, change)
         curve.setTangentsLocked(i, key.tangents_locked, change)
+
+
+def reduce_curve_data(
+    data: AnimCurveData,
+    start: om.MTime | None,
+    end: om.MTime | None,
+    tolerance: float,
+    preserve_breakdowns: bool,
+) -> AnimCurveData:
+    """検証済みの独立したsnapshotを、未登録カーブで削減する。"""
+    from ._keyframe_reduce import reduce_curve
+
+    times = tuple(
+        _keyframe_move.checked_time(
+            om.MTime(key.frame * data.seconds_per_frame, om.MTime.kSeconds),
+            key.frame * data.seconds_per_frame,
+        )
+        for key in data.keys
+    )
+    if any(a >= b for a, b in zip(times, times[1:])):
+        raise ValueError("KeyData frames coincide at Maya time precision.")
+    if (
+        sum(
+            (start is None or time >= start) and (end is None or time <= end)
+            for time in times
+        )
+        < 3
+    ):
+        return data
+    scale = math.pi / 180.0 if data.curve_type == "animCurveTA" else 1.0
+
+    def tangent(xy: tuple[float, float]) -> tuple[float, float]:
+        x, y = xy[0], xy[1] * scale
+        if not data.weighted:
+            length = math.hypot(x, y)
+            if not math.isfinite(length):
+                raise ValueError("Nonweighted tangent length must be finite.")
+            return (x / length, y / length) if length else (1.0, 0.0)
+        return x, y
+
+    keys = tuple(
+        _keyframe_move.CapturedKey(
+            key.value * scale,
+            _TANGENTS[key.in_tangent_type],
+            _TANGENTS[key.out_tangent_type],
+            tangent(key.in_tangent_xy),
+            tangent(key.out_tangent_xy),
+            key.tangents_locked,
+            key.weights_locked,
+            key.breakdown,
+        )
+        for key in data.keys
+    )
+    modified = cmds.file(query=True, modified=True)
+    modifier = om.MDGModifier()
+    work = oma.MFnAnimCurve()
+    change = oma.MAnimCurveChange()
+    try:
+        work.setObject(modifier.createNode(data.curve_type))
+        work.setIsWeighted(data.weighted)
+        work.setPreInfinityType(_INFINITY[data.pre_infinity])
+        work.setPostInfinityType(_INFINITY[data.post_infinity])
+        # Bulk restoration preserves short weighted handles that setTangent clamps.
+        _keyframe_move.restore_keys(work, keys, times, change)
+        reduce_curve(work, start, end, tolerance, preserve_breakdowns, change)
+        if work.numKeys == len(data.keys):
+            return data
+        captured = _capture_curve(work, data.curve_type, om.MTime.kSeconds)
+        original = {
+            time.asUnits(om.MTime.kSeconds): key
+            for time, key in zip(times, data.keys)
+        }
+        return replace_data(
+            data,
+            keys=tuple(
+                replace_data(
+                    key,
+                    frame=original[key.frame].frame,
+                    value=original[key.frame].value,
+                )
+                for key in captured.keys
+            ),
+        )
+    finally:
+        del change, work, modifier
+        if not modified:
+            cmds.file(modified=False)
 
 
 def queue_restore(

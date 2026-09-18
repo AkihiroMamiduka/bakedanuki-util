@@ -343,6 +343,32 @@ class AnimationClip:
             sample_by=sample_by,
         )
 
+    def reduce_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        tolerance: float,
+        preserve_breakdowns: bool = True,
+    ) -> AnimationClip:
+        """保存カーブのキーを削減した独立したclipを即時に返す。
+
+        元clip・scene・保留中modifierは変更しない。対象は全nodeの属性チャンネルで、
+        layerとrootの設定カーブは維持する。時間はclipに保存されたフレーム単位。
+        両端包含、None側は無制限。範囲内の最初・最後の実在キーを残し、挿入はしない。
+        toleranceは非負の絶対誤差（degree / cm / unitless）。手動接線を調整せず、
+        自動接線の再計算も含めて判定する。復元先でのレイヤー合成誤差は保証しない。
+        """
+        from ._animation_clip_reduce import reduce_keys
+
+        return reduce_keys(
+            self,
+            start_frame,
+            end_frame,
+            tolerance=tolerance,
+            preserve_breakdowns=preserve_breakdowns,
+        )
+
     @overload
     def restore(
         self,

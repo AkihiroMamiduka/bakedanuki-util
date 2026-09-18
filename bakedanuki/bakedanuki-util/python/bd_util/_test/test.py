@@ -175,5 +175,20 @@ def main():
         interpolate_end=75,
     )
 
+    clip = bdu.AnimationClip.capture(
+        [trsf],
+        include_channel_box=True,
+    )
+    dst_7_0 = nodes.create.transform(name="dst_7_0")
+    clip.restore(nodes.modifier_manager, targets=[dst_7_0])
+
+    dst_7_1 = nodes.create.transform(name="dst_7_1")
+    reduced_clip = clip.reduce_keys(tolerance=0.01)
+    reduced_clip.restore(nodes.modifier_manager, targets=[dst_7_1])
+
+    dst_7_2 = nodes.create.transform(name="dst_7_2")
+    reduced_clip = clip.reduce_keys(-50, 50, tolerance=0.01)
+    reduced_clip.restore(nodes.modifier_manager, targets=[dst_7_2])
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

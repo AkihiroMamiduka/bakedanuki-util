@@ -1250,6 +1250,9 @@ TUはunitlessです。sceneの表示単位に依存せず、時間のずれや�
 rollbackします。全削除を同じ`MAnimCurveChange`へ記録し、Undo / Redoに対応します。
 通常の対象resolverとlock / reference検査を使用し、no-opでも書込み可否を検査します。
 
+保存済みの複数カーブをまとめて削減する場合は、[AnimationClip.reduce_keys()](animation_clip.md#保存データのキー削減)を使用できます。
+こちらはsceneへの予約ではなく、元の保存データを維持して削減済みの新しいclipを返します。
+
 ### キー情報とカーブ全体の保存・復元
 
 `get_curve_data() -> AnimCurveData | None`と`set_curve_data(data)`で、

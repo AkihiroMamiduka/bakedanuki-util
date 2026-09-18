@@ -26,6 +26,7 @@
     復元時刻は`offset_frames` / `to_start_frame` / `to_end_frame`のいずれかで指定できます。
     `time_scale` / `duration_frames`による時間拡縮と、開始・終了の両端指定による区間合わせにも対応します。
     詳細は[AnimationClip](animation_clip.md)を参照してください。
+    `reduce_keys()`で全属性チャンネルの保存データを削減し、独立した新しいclipとして保存・復元できます。
 
 - `python/bd_util/maya/node/operator/node/_core.py`
   - `NodeOperator` の基底クラスです。
@@ -1444,7 +1445,9 @@ KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元
 ピボット指定も利用者確認・push済みです（`f0def8ab`）。
 時間方向の操作名を`move_frame()` / `move_frames()` / `scale_frames()`へ整理し、
 時間・値の編集引数を`offset` / `scale` / `pivot`等へ短縮しました。旧名のaliasは提供しません。
-対応表は[旧APIからの移行](attributes.md#旧apiからの移行)を参照してください。名称整理後の利用者確認は未実施です。
+対応表は[旧APIからの移行](attributes.md#旧apiからの移行)を参照してください。名称整理も利用者確認・push済みです（`b90965c0`）。
+続いて`AnimationClip.reduce_keys()`を追加しました。元clip・sceneとレイヤー設定を維持し、
+全属性チャンネルの保存カーブを削減した新しいclipを返します。クリップ削減の利用者確認は未実施です。
 補間移動・補間拡縮とも、対象キー同士の衝突・順序逆転を拒否します。
 新しいチャットで開発を続ける場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と
