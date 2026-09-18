@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from collections.abc import Generator, Sequence
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from dataclasses import dataclass
 from typing import Literal, Protocol, TypeAlias
 
@@ -16,6 +16,7 @@ from ...node.operator.node._core import NodeOperator
 from ..callback import MayaCallbackRegistry
 from ._float_edit import FloatEditUndo
 from ._float_plug_endpoint import run_later
+from .edit_session import MayaEditSession
 
 ChannelDisplayState: TypeAlias = Literal["keyable", "channel_box", "hidden"]
 _Operation: TypeAlias = Literal["display", "lock"]
@@ -278,11 +279,16 @@ class MayaChannelStateBinding(qt.QObject):
             self._refreshing = False
         return changed
 
-    def set_display_state(self, state: ChannelDisplayState) -> bool:
-        """公開状態を三状態へ正規化し、差分だけを一回のUndoで適用する。"""
+    def set_display_state(
+        self,
+        state: ChannelDisplayState,
+        *,
+        edit_session: MayaEditSession | None = None,
+    ) -> bool:
+        """公開状態の差分を、単独または共有セッションのUndoで適用する。"""
         if state not in ("keyable", "channel_box", "hidden"):
             raise ValueError("stateにはkeyable/channel_box/hiddenを指定します")
-        return self._request("display", state)
+        return self._request("display", state, edit_session)
 
     def set_locked(self, locked: bool) -> bool:
         """親lockを変更せず、対象自身のlock差分だけを一括適用する。"""
@@ -291,7 +297,10 @@ class MayaChannelStateBinding(qt.QObject):
         return self._request("lock", locked)
 
     def _request(
-        self, operation: _Operation, value: ChannelDisplayState | bool
+        self,
+        operation: _Operation,
+        value: ChannelDisplayState | bool,
+        edit_session: MayaEditSession | None = None,
     ) -> bool:
         """対象と差分を先に確認し、失敗時は変更済みフラグを復旧する。"""
         if self.is_disposed:
@@ -324,7 +333,11 @@ class MayaChannelStateBinding(qt.QObject):
         FloatEditUndo.finish_active()
         self._writing = True
         try:
-            with self._undo_chunk():
+            with (
+                edit_session.write()
+                if edit_session is not None
+                else nullcontext()
+            ), self._undo_chunk():
                 self._execute(plan, operation)
         except Exception as error:
             self._writing = False

@@ -9,6 +9,12 @@
 
 ### Added
 
+- `bd_util.ui.RadioButtonSweep`を追加。標準ラジオボタンへ任意参加の左ドラッグ選択を
+  追加し、表示範囲内の通過順判定、通常クリック・キー入力、中断と監視解除を扱う。
+- `bd_util.maya.ui.MayaEditSession`を追加。複数の入力先へまたがる書込みを一回の
+  Undoにまとめ、差分の初回書込みまでchunkを遅延し、再入した終了要求は書込み後に処理する。
+  `MayaChannelStateBinding.set_display_state()`へ任意の`edit_session`引数を追加。
+  引数省略時の一回Undoは維持し、既存呼出し・scene・保存設定の移行は不要。
 - `MayaChannelStateBinding`を追加。複数scalar属性のKeyable / ChannelBox / Hideと
   lockを値入力から独立して編集できる。混在表示、操作別の編集可否、親lockの説明、
   差分だけの一回Undo、途中失敗の復旧、外部変更の同期、callback解放に対応する。

@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from .binding import (
+    MayaEditSession,
     ChannelDisplayState,
     MayaChannelStatePlug,
     MayaChannelTargetState,
@@ -57,6 +58,7 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "MayaEditSession",
     "ChannelDisplayState",
     "MayaChannelStatePlug",
     "MayaChannelTargetState",

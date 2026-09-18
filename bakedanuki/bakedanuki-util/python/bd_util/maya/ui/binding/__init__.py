@@ -1,4 +1,5 @@
 # coding: utf-8
+from .edit_session import MayaEditSession
 from .channel_state_binding import (
     ChannelDisplayState,
     MayaChannelStatePlug,
@@ -34,6 +35,7 @@ from .plugs_binding import (
 from .plugs_state import MayaPlugTargetState
 
 __all__ = [
+    "MayaEditSession",
     "ChannelDisplayState",
     "MayaChannelStatePlug",
     "MayaChannelTargetState",

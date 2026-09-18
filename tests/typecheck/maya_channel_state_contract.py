@@ -8,6 +8,7 @@ from bd_util.maya.ui import (
     MayaChannelStateBinding,
     MayaChannelStateSnapshot,
     MayaChannelTargetState,
+    MayaEditSession,
     resolve_bool_plug,
     resolve_enum_plug,
     resolve_float_plug,
@@ -32,6 +33,12 @@ assert_type(binding.state.targets[0].parent_locked, bool)
 assert_type(binding.state.targets[0].can_set_display, bool)
 assert_type(binding.state.targets[0].can_set_locked, bool)
 assert_type(binding.set_display_state("channel_box"), bool)
+assert_type(
+    binding.set_display_state(
+        "hidden", edit_session=MayaEditSession(qt.QObject())
+    ),
+    bool,
+)
 assert_type(binding.set_locked(False), bool)
 assert_type(binding.refresh(), bool)
 assert_type(binding.dispose(), None)

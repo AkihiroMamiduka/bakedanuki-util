@@ -93,6 +93,51 @@ node lockなどMayaが属性変更を通知しない状態は、`refresh()`ま�
 Qt owner破棄とMaya終了時にも解除され、終了状態は`is_disposed`で確認できます。
 型付き入力契約`MayaChannelStatePlug`も同じ公開入口から利用できます。
 
+## ラジオボタンのなぞり選択と共有Undo
+
+`bd_util.ui.RadioButtonSweep(scope)`へ`add_button(radio)`で標準の`QRadioButton`を
+登録すると、左ドラッグで通過したボタンを選択できます。各行の排他グループは利用側で
+構成します。Mayaへの依存はなく、登録ボタンの通常の`click()`を使います。
+`scope`にはボタンを含むWidgetを指定し、スクロール領域では`QScrollArea`本体を渡します。
+操作補助を存続する本体が所有し、hostが差し替えられるviewportは判定時に取得します。
+
+- 押下直後は標準操作を維持し、Qtのドラッグ開始距離を超えると`started`を通知します。
+- 経路上の有効・可視なボタンを通過順に選択し、選択済みのボタンは再入力しません。
+  同じ行の別の選択肢へ移動したり、元の選択肢へ戻ったりする操作も可能です。
+- 判定はscope（スクロール領域では現在のviewport）の表示範囲内に限ります。文字部分もクリック領域として扱い、
+  未登録のボタンやチェックボックスは対象にしません。
+- release、Escape、フォーカス・マウス取得喪失、非表示、無効化で終了し、`finished`を通知します。
+  他のキー入力でも終了して通常処理へ渡します。自動スクロールはせず、なぞり中はホイールを消費します。
+- 行の差し替え前に`clear()`、外部状態変更で`finish()`、Window終了・reload前に`dispose()`を呼びます。
+  アプリケーションのイベント監視は押下中だけ有効です。
+
+`bd_util.maya.ui.MayaEditSession(owner, chunk_name="ContinuousEdit")`は、Viewや属性型に
+依存しないUndoのまとまりです。`begin()`で開始し、差分を書き込む部分だけを`write()`で
+囲んで、操作終了時に`finish()`します。`is_editing`で追加入力が可能か確認できます。
+所有者破棄時も閉じますが、利用側は選択・scene変更やreloadの前に明示的に終了してください。
+これはUndo chunkを開く仕組みなので、無関係なMaya commandを実行する前にも終了が必要です。
+
+状態編集Bindingでは次のように複数行を共有できます。なぞり中も即時反映する用途では、
+`begin()`と`finish()`を操作の開始・終了通知へ接続します。
+
+```python
+from bd_util.maya.ui import MayaEditSession
+
+session = MayaEditSession(widget)
+session.begin()
+try:
+    binding_a.set_display_state("hidden", edit_session=session)
+    binding_b.set_display_state("channel_box", edit_session=session)
+finally:
+    session.finish()
+```
+
+状態Bindingは実際に差分がある場合だけ`write()`を使い、無変更ならUndo履歴を増やしません。
+Undo無効設定は変更せず、書込み中の終了要求は内側のchunkを閉じてから反映します。
+例外時にもセッションは終了しますが、過去の成功した入力の自動rollbackはしません。
+利用側では`finished`を操作補助の終了へも接続し、失敗後の追加入力を止めます。
+Channel Editorはこの構成を使い、フィルターによる行の除外だけを操作終了まで保留します。
+
 ## Qt binding facade
 
 `bd_util.ui.qt`は、Maya同梱Qt bindingのimport先を集約します。toolやパッケージ内部では

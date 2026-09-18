@@ -11,6 +11,7 @@ from maya.api import OpenMaya as om
 from bd_util.maya.ui import (
     ChannelDisplayState,
     MayaChannelStateBinding,
+    MayaEditSession,
     resolve_float_plug,
 )
 from bd_util.ui import qt
@@ -52,6 +53,78 @@ def _binding(nodes: list[str], owner: qt.QObject) -> MayaChannelStateBinding:
     return MayaChannelStateBinding(
         [resolve_float_plug(node, "weight") for node in nodes], parent=owner
     )
+
+
+def test_shared_session_groups_bindings_and_ignores_noop(
+    scene: tuple[list[str], qt.QObject],
+) -> None:
+    """別Bindingの変更を一回でUndo/Redoし、無変更では履歴を作らない。"""
+    nodes, owner = scene
+    first, second = _binding(nodes[:1], owner), _binding(nodes[1:], owner)
+    session = MayaEditSession(owner)
+    session.begin()
+    assert not first.set_display_state("keyable", edit_session=session)
+    session.finish()
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+    session.begin()
+    first.set_display_state("hidden", edit_session=session)
+    _events()
+    second.set_display_state("channel_box", edit_session=session)
+    session.finish()
+    cmds.undo()
+    assert all(_raw(node) == (True, False, False) for node in nodes)
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+    cmds.redo()
+    assert _raw(nodes[0]) == (False, False, False)
+    assert _raw(nodes[1]) == (False, True, False)
+
+
+def test_session_finish_inside_write_closes_in_order(
+    scene: tuple[list[str], qt.QObject], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Maya書込みcallbackからの終了を内側chunkの後へ延期する。"""
+    nodes, owner = scene
+    binding = _binding(nodes, owner)
+    session = MayaEditSession(owner)
+    original = binding._write
+
+    def interrupt(target, raw, operation):
+        """書込み中の終了要求を発生させて通常の書込みを継続する。"""
+        session.finish()
+        original(target, raw, operation)
+
+    monkeypatch.setattr(binding, "_write", interrupt)
+    session.begin()
+    binding.set_display_state("hidden", edit_session=session)
+    assert not session.is_editing
+    cmds.undo()
+    assert all(_raw(node) == (True, False, False) for node in nodes)
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+
+
+def test_session_preserves_disabled_undo_and_owner_disposal(
+    scene: tuple[list[str], qt.QObject],
+) -> None:
+    """Undo無効設定を保ち、QObjectの破棄時にも開いたchunkを閉じる。"""
+    nodes, owner = scene
+    binding = _binding(nodes, owner)
+    session = MayaEditSession(owner)
+    cmds.undoInfo(state=False)
+    try:
+        session.begin()
+        binding.set_display_state("hidden", edit_session=session)
+        session.finish()
+        assert not cmds.undoInfo(query=True, state=True)
+    finally:
+        cmds.undoInfo(state=True)
+    cmds.flushUndo()
+    session.begin()
+    binding.set_display_state("keyable", edit_session=session)
+    owner.deleteLater()
+    _events()
+    cmds.undo()
+    assert all(_raw(node) == (False, False, False) for node in nodes)
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)
 
 
 @pytest.mark.parametrize(
