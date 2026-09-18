@@ -9,6 +9,11 @@
 
 ### Added
 
+- `MayaChannelStateBinding`を追加。複数scalar属性のKeyable / ChannelBox / Hideと
+  lockを値入力から独立して編集できる。混在表示、操作別の編集可否、親lockの説明、
+  差分だけの一回Undo、途中失敗の復旧、外部変更の同期、callback解放に対応する。
+  enumの項目定義が異なる対象も扱える。HideはChannel Boxの公開状態だけを変更し、
+  `MFnAttribute.hidden`や属性値、入力接続は変更しない。既存scene・設定の移行は不要。
 - `bd_util.maya.ui.read_enum_definition(plug)`を追加。Bindingやcallbackを作らず、
   scalar enumの現在の実定義を`EnumDefinition`として取得する。scene・値・Undoは変更しない。
 - `inspect_scalar_attributes()`の列挙対象と`ScalarAttributeKind`に`enum`を追加。

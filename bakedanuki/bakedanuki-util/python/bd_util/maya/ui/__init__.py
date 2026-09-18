@@ -1,6 +1,11 @@
 # coding: utf-8
 
 from .binding import (
+    ChannelDisplayState,
+    MayaChannelStatePlug,
+    MayaChannelTargetState,
+    MayaChannelStateSnapshot,
+    MayaChannelStateBinding,
     MayaEnumBinding,
     MayaEnumPlug,
     MayaEnumPlugBinding,
@@ -52,6 +57,11 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "ChannelDisplayState",
+    "MayaChannelStatePlug",
+    "MayaChannelTargetState",
+    "MayaChannelStateSnapshot",
+    "MayaChannelStateBinding",
     "MayaEnumBinding",
     "MayaEnumPlug",
     "MayaEnumPlugBinding",

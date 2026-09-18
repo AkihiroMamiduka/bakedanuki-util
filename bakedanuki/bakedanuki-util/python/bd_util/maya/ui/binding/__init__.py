@@ -1,4 +1,11 @@
 # coding: utf-8
+from .channel_state_binding import (
+    ChannelDisplayState,
+    MayaChannelStatePlug,
+    MayaChannelTargetState,
+    MayaChannelStateSnapshot,
+    MayaChannelStateBinding,
+)
 from .enum_binding import MayaEnumBinding
 from .enum_definition import read_enum_definition
 from .enum_plug import MayaEnumPlugStore, MayaEnumPlugView
@@ -27,6 +34,11 @@ from .plugs_binding import (
 from .plugs_state import MayaPlugTargetState
 
 __all__ = [
+    "ChannelDisplayState",
+    "MayaChannelStatePlug",
+    "MayaChannelTargetState",
+    "MayaChannelStateSnapshot",
+    "MayaChannelStateBinding",
     "MayaEnumBinding",
     "MayaEnumPlug",
     "MayaEnumPlugBinding",

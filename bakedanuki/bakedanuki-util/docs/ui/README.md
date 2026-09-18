@@ -37,6 +37,62 @@ Windowを完全破棄し、Windowが所有するMaya callbackも解除します�
 instanceとcallbackを維持する必要があるtoolだけ、`retain=True`を明示します。`dispose()`は
 設定にかかわらず完全破棄するため、module reload前とUI配置resetに使用します。
 
+## 属性の公開状態とlock
+
+`bd_util.maya.ui.MayaChannelStateBinding`は、複数scalar属性のChannel Box公開状態と
+lockを属性値から独立して編集します。配列配下ではないnumeric・unit・enumの既存
+`PlugOperator`を渡します。compoundは子を指定し、enumの項目定義一致は要求しません。
+
+```python
+from bd_util.maya.ui import MayaChannelStateBinding, resolve_float_plug
+
+binding = MayaChannelStateBinding(
+    [resolve_float_plug(name, "translateX") for name in ("ctrlA", "ctrlB")],
+    parent=widget,
+)
+binding.set_display_state("channel_box")
+binding.set_locked(True)
+```
+
+| `ChannelDisplayState` | `keyable` | `channelBox` |
+| --- | --- | --- |
+| `"keyable"` | `True` | `False` |
+| `"channel_box"` | `False` | `True` |
+| `"hidden"` | `False` | `False` |
+
+HideはChannel Boxの公開状態であり、`MFnAttribute.hidden`は変更しません。
+読み取りはsceneを書き換えず、入力時だけ上表の状態へ変更します。
+表示フラグとlockは独立し、表示操作では値・lock・入力接続を変更しません。
+
+`binding.state`はimmutableな`MayaChannelStateSnapshot`です。先頭の代表状態を
+`display_state` / `locked`、利用可能な対象の混在を`display_mixed` / `lock_mixed`、
+操作可否を`can_set_display` / `can_set_locked`で取得します。`target_count`、
+`display_writable_count`、`lock_writable_count`と、対象ごとの`targets`も参照できます。
+`MayaChannelTargetState`には`plug_name`、`is_available`、`parent_locked`、
+`display_reason` / `lock_reason`と操作別の可否があります。
+
+値がlock中または入力接続中でも表示操作は可能です。親compoundがlock中の対象は
+lock操作から除外し、親を暗黙にunlockしません。node自体がlock中の場合もlock操作から
+除外します。代表が操作不可なら該当操作全体を停止し、後続の操作不可属性は除外します。
+node lockなどMayaが属性変更を通知しない状態は、`refresh()`または入力直前に再判定します。
+
+属性定義の初期設定で`keyable`と`channelBox`が両方Trueの特殊状態も存在します。
+この状態はKeyableとして表示しますが、Maya標準Undoで元へ復元できないため表示変更を
+拒否し、`display_reason`へ理由を返します。後続対象だけが該当する場合は表示操作から
+除外します。lock操作にはこの制約を適用しません。
+
+初期構築と`refresh()`は書き込まず、各setterは実変更の有無をboolで返します。
+全対象の差分だけを一回のMaya標準Undoにまとめ、無変更時は履歴を増やしません。
+表示フラグは個別の`setAttr`として記録するため、Undoで対象ごとの元フラグへ戻ります。
+途中失敗では適用済み対象の表示またはlockを同じchunk内で逆順に復旧します。
+復旧も失敗した場合は`ExceptionGroup`で両方の原因を通知します。
+
+`state_changed`で再描画し、`edit_failed(str)`で失敗理由を表示できます。channelBoxだけの
+外部変更、親lock変更、改名、Undo / Redoに追従し、削除済み対象はUndoや同名再作成で
+自動再接続しません。終了時は`dispose()`を呼び、callbackを即時解除します。
+Qt owner破棄とMaya終了時にも解除され、終了状態は`is_disposed`で確認できます。
+型付き入力契約`MayaChannelStatePlug`も同じ公開入口から利用できます。
+
 ## Qt binding facade
 
 `bd_util.ui.qt`は、Maya同梱Qt bindingのimport先を集約します。toolやパッケージ内部では
