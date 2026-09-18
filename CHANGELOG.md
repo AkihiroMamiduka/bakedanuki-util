@@ -95,6 +95,11 @@
 
 ### Changed
 
+- `MayaBoolPlugsBinding` / `MayaFloatPlugsBinding` / `MayaEnumPlugsBinding`の
+  dirty通知を対象plug・compound祖先へ絞り込み、無関係な属性変更での再同期を抑える。
+  各nodeのcallbackへ所属対象だけを渡し、複数選択時の全node走査も省く。
+  接続先・時間変更・親属性の同期、単位変更、Undo／Redo、削除と終了時の解放は維持する。
+  公開API・scene・保存設定の移行は不要。
 - `FloatValueStepSpinBox`のstep欄を4桁表示できる68 pxへ縮小し、`value_width`と
   `step_width`で各欄の固定幅を指定できるようにする。固定した欄は左へ詰め、
   余白を右端へ配置する。`FloatSliderSpinBox`へ`layout_order`を追加し、

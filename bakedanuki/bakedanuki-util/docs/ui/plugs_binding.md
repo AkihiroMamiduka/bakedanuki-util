@@ -124,7 +124,12 @@ floatのドラッグは、各位置を全対象へ即時反映し、全ドラッ
 `ExceptionGroup`として通知します。復旧に成功した失敗操作は、値を変えない
 Undo項目として残る場合があります。既存のUndo履歴を削除して隠しません。
 
-callbackはnodeごとにまとめ、dirty通知を次のQt event loopで集約します。
+callbackはBinding内でnodeごとにまとめ、各callbackへそのnodeの対象だけを渡します。
+複数選択でも通知のたびに全nodeの対象を走査しません。同じnodeの複数属性も維持します。
+dirty通知は対象plugとcompound祖先だけを照合し、関係するBindingの再読取りを
+次のQt event loopへ集約します。無関係な属性のdirtyでは値・編集可否・ViewModelを更新しません。
+接続先の再計算やアニメーションによるdirtyも同じ対象判定で同期します。
+単位変更・Undo／Redo・明示的な`refresh()`では従来どおり全対象を再同期します。
 対象削除は無効状態として保持し、削除Undoや同名再作成へ自動再接続しません。
 明示終了・Qt ownerの破棄・Maya終了でcallbackと開いているUndoを解除します。
 選択変更やWindow closeを所有するcontrollerは、Viewを破棄する前にBindingを終了させてください。
@@ -148,6 +153,8 @@ ComboBox・RadioButtonGroup・Labelに加え、混在、編集可能件数、対
 - `tests/ui/test_plugs_binding_views.py`: 既存ComboBox・SpinBox・Sliderとの接続。
 - `tests/typecheck/maya_plugs_binding_contract.py`: 状態APIと既存Viewへの受け渡し型。
 - `tests/maya/ui/test_enum_plugs_binding.py`: enum定義の一致・変更、未定義値、混在、Undo、途中失敗、寿命。
+- `tests/maya/ui/test_plugs_binding_notifications.py`: 無関係なdirtyによる再読取りの抑止、
+  接続先・計算出力・時間変更の同期、親compound、同一nodeの複数対象、削除と遅延同期の終了。
 - `tests/ui/test_enum_plugs_binding_views.py`: enum Viewの共有、同値選択、複数プラグのサンプル。
 - `tests/typecheck/enum_binding_contract.py`: enum属性群の値・状態・Viewへの受け渡し型。
 

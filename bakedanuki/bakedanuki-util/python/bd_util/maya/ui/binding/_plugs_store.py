@@ -334,7 +334,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         raise NotImplementedError
 
     def _schedule_refresh(self, *_args: object) -> None:
-        """dirty通知をQt event loopごとに一回の再読取りへまとめる。"""
+        """関連するdirty・単位・Undo通知を一回の再読取りへまとめる。"""
         if self.is_disposed or self._refresh_scheduled or self._write_depth:
             return
         self._refresh_scheduled = True
@@ -346,32 +346,38 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self.refresh()
 
     def _register_callbacks(self) -> None:
-        """node単位で監視を共有し、単位とUndo後も表示を同期する。"""
-        visited: set[int] = set()
+        """監視nodeごとの対象をcallbackへ渡し、別nodeの走査を省く。"""
+        groups: list[tuple[om.MObject, list[PlugTarget[_ValueT]]]] = []
         for target in self._targets:
-            identity = target.node_handle.hashCode()
-            if identity in visited:
-                continue
-            visited.add(identity)
             node = target.plug.node()
+            for registered_node, targets in groups:
+                if node == registered_node:
+                    targets.append(target)
+                    break
+            else:
+                groups.append((node, [target]))
+
+        # 実体でまとめた対象だけを保持し、改名やhash値の衝突に依存しない
+        for node, targets in groups:
+            node_targets = tuple(targets)
             self._registry.register(
                 int(
                     om.MNodeMessage.addAttributeChangedCallback(
-                        node, self._on_attribute_changed
+                        node, self._on_attribute_changed, node_targets
                     )
                 )
             )
             self._registry.register(
                 int(
                     om.MNodeMessage.addNodeDirtyPlugCallback(
-                        node, self._schedule_refresh
+                        node, self._on_plug_dirty, node_targets
                     )
                 )
             )
             self._registry.register(
                 int(
                     om.MNodeMessage.addNodePreRemovalCallback(
-                        node, self._on_node_removed
+                        node, self._on_node_removed, node_targets
                     )
                 )
             )
@@ -394,11 +400,13 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         message: int,
         plug: om.MPlug,
         _other_plug: om.MPlug,
-        _client_data: object,
+        client_data: object,
     ) -> None:
-        """対象と祖先の値・状態・削除の変更を同期する。"""
+        """変更nodeの対象と祖先だけを照合し、値・状態・削除を同期する。"""
+        if self.is_disposed:
+            return
         matched = False
-        for target in self._targets:
+        for target in cast(tuple[PlugTarget[_ValueT], ...], client_data):
             if not target.is_available:
                 continue
             if any(plug == watched for watched in target.watched):
@@ -408,14 +416,25 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         if matched and not self._write_depth:
             self.refresh()
 
-    def _on_node_removed(self, node: om.MObject, *_args: object) -> None:
-        """削除予定nodeの属性を恒久的に無効化する。"""
-        for target in self._targets:
-            if (
-                target.node_handle.isValid()
-                and target.node_handle.object() == node
+    def _on_plug_dirty(
+        self, _node: om.MObject, plug: om.MPlug, client_data: object
+    ) -> None:
+        """対象または祖先がdirtyになった場合だけ、評価後の再読取りを予約する。"""
+        if self.is_disposed or self._refresh_scheduled or self._write_depth:
+            return
+        for target in cast(tuple[PlugTarget[_ValueT], ...], client_data):
+            if target.is_available and any(
+                plug == watched for watched in target.watched
             ):
-                target.removed = True
+                self._schedule_refresh()
+                return
+
+    def _on_node_removed(self, _node: om.MObject, client_data: object) -> None:
+        """削除予定nodeの属性を恒久的に無効化する。"""
+        if self.is_disposed:
+            return
+        for target in cast(tuple[PlugTarget[_ValueT], ...], client_data):
+            target.removed = True
         if not self._write_depth:
             self.refresh()
 
