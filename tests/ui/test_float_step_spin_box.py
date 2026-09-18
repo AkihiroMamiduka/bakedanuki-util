@@ -57,6 +57,25 @@ def test_additive_step_uses_configured_increment_and_stays_positive(
     )
 
 
+@pytest.mark.parametrize(
+    "value", [1e-323, 1e-250, 0.1, 15.0, 1e100, float_info.max]
+)
+@pytest.mark.parametrize("mode", ["additive", "multiplicative"])
+def test_initial_value_preserves_full_precision_and_finite_bounds(
+    owner, value, mode
+):
+    """初期化順によらず、極小値から最大値まで初期値と入力範囲を保つ。"""
+    spin = FloatStepSpinBox(owner, value=value, step_mode=mode)
+    assert spin.value() == value
+    assert float(spin.cleanText()) == value
+    assert spin.hasAcceptableInput()
+    assert spin.minimum() == 1e-323
+    assert spin.maximum() == float_info.max
+    assert spin.decimals() == 323
+    assert spin.singleStep() == 1.0
+    assert spin.stepMode() == mode
+
+
 def test_multiplicative_step_preserves_mantissa_and_repeated_round_trip(owner):
     spin = FloatStepSpinBox(owner, value=15, step_mode="multiplicative")
     for expected in (1.5, 0.15, 0.015, 0.0015, 0.00015):

@@ -167,12 +167,24 @@ def test_resolvers_accept_long_short_and_full_compound_paths(
         attributeType="bool",
         parent="options",
     )
-    for name in ("enabled", "ena", "options.enabled", "opts.ena"):
+    for name in (
+        "enabled",
+        "ena",
+        "options.enabled",
+        "opts.ena",
+        ".options.ena",
+    ):
         assert (
             resolve_bool_plug(node, name).plug
             == resolve_bool_plug(node, "enabled").plug
         )
-    for name in ("translateX", "tx", "translate.translateX", "t.tx"):
+    for name in (
+        "translateX",
+        "tx",
+        "translate.translateX",
+        "t.tx",
+        ".t.translateX",
+    ):
         assert (
             resolve_float_plug(node, name).plug
             == resolve_float_plug(node, "tx").plug
@@ -187,6 +199,35 @@ def test_resolvers_accept_long_short_and_full_compound_paths(
         resolve_bool_plug(node, info.path).plug
         == resolve_bool_plug(node, "enabled").plug
     )
+
+
+@pytest.mark.parametrize(
+    "name,error",
+    [
+        ("axisAlias", AttributeError),
+        ("translate.axisAlias", AttributeError),
+        ("rotationAlias.translateX", AttributeError),
+        ("rotate.translateX", AttributeError),
+        ("missing.translateX", AttributeError),
+        (".translateX", AttributeError),
+        ("translate.translate.translateX", AttributeError),
+        ("translateX.child", AttributeError),
+        ("translate..translateX", ValueError),
+        ("translateX.", ValueError),
+        ("translateX[0]", ValueError),
+        ("translate*", ValueError),
+        ("translate?", ValueError),
+    ],
+)
+def test_resolvers_reject_aliases_and_incorrect_parent_paths(
+    new_scene, name: str, error: type[Exception]
+) -> None:
+    """一意なleafを直接取得できても、aliasや不完全な親pathは受理しない。"""
+    node = cmds.createNode("transform")
+    cmds.aliasAttr("axisAlias", node + ".translateX")
+    cmds.aliasAttr("rotationAlias", node + ".translate")
+    with pytest.raises(error):
+        resolve_float_plug(node, name)
 
 
 def test_non_unique_leaf_requires_canonical_path(new_scene) -> None:

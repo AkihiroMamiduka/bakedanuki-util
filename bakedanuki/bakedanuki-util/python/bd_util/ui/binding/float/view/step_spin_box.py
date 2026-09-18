@@ -49,7 +49,10 @@ class FloatStepSpinBox(qt.QDoubleSpinBox):
         self._step_mode: FloatStepMode = step_mode
         # 表示桁数から独立して小さい刻み幅を保持し、末尾の0は表示時に省く。
         self.setDecimals(323)
-        self.setRange(1e-323, float_info.max)
+        # 下限で初期値0を補正すると長い極小値表記になるため、先に正しい値を入れる
+        self.setMaximum(float_info.max)
+        self.setValue(value)
+        self.setMinimum(1e-323)
         self.setSingleStep(step_increment)
         self.setKeyboardTracking(False)
         self.setWrapping(False)
@@ -66,7 +69,6 @@ class FloatStepSpinBox(qt.QDoubleSpinBox):
         self.setToolTip(
             f"Value step ({operation}); the current value is preserved."
         )
-        self.setValue(value)
 
     def stepMode(self) -> FloatStepMode:
         """生成時に選択した増減モードを返す。"""

@@ -107,6 +107,12 @@
 
 ### Changed
 
+- 既存属性の解決で、名前が一意な属性はMaya APIから直接取得する。
+  長名・短名と完全な親pathを確認し、非一意名は既存の全件検索で判定する。
+  aliasの拒否、曖昧な名前のエラー、配列制限を維持し、キャッシュは追加しない。
+- `FloatStepSpinBox`の初期化順を調整し、下限設定時に不要な極小値を一時表示する
+  処理を省く。初期値、精度、最小値・最大値、加算・倍率操作は維持する。
+  どちらも既存API・scene・保存設定の移行は不要。
 - `MayaBoolPlugsBinding` / `MayaFloatPlugsBinding` / `MayaEnumPlugsBinding`の
   dirty通知を対象plug・compound祖先へ絞り込み、無関係な属性変更での再同期を抑える。
   各nodeのcallbackへ所属対象だけを渡し、複数選択時の全node走査も省く。
