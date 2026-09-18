@@ -9,6 +9,12 @@
 
 ### Added
 
+- `bd_util.ui.CheckBoxSweep`を追加。チェックボックスの押下時がOFF・混在ならON、
+  ONならOFFへなぞった対象を揃える。同じ対象は一操作一回だけ入力し、
+  `add_button(..., on_change=...)`でBindingなどへ明示入力を委譲できる。
+  マウス追跡と中断処理は`RadioButtonSweep`と共用し、既存の公開APIを維持する。
+- `MayaChannelStateBinding.set_locked()`へ任意の`edit_session`引数を追加し、
+  複数行のlock変更も共有Undoに対応。省略時の動作は維持し、既存呼出し・scene・設定の移行は不要。
 - `bd_util.ui.RadioButtonSweep`を追加。標準ラジオボタンへ任意参加の左ドラッグ選択を
   追加し、表示範囲内の通過順判定、通常クリック・キー入力、中断と監視解除を扱う。
 - `bd_util.maya.ui.MayaEditSession`を追加。複数の入力先へまたがる書込みを一回の

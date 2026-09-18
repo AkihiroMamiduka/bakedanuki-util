@@ -55,6 +55,7 @@ from .binding import (
 )
 from .settings_path import SettingsPath
 from .radio_button_sweep import RadioButtonSweep
+from .check_box_sweep import CheckBoxSweep
 from .ui_state import UiStateManager
 from .window import WindowController
 from .window_state import (
@@ -64,6 +65,7 @@ from .window_state import (
 )
 
 __all__ = [
+    "CheckBoxSweep",
     "RadioButtonSweep",
     "EnumBinding",
     "EnumComboBox",

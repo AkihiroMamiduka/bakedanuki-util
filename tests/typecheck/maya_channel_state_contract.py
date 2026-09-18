@@ -40,5 +40,9 @@ assert_type(
     bool,
 )
 assert_type(binding.set_locked(False), bool)
+assert_type(
+    binding.set_locked(True, edit_session=MayaEditSession(qt.QObject())),
+    bool,
+)
 assert_type(binding.refresh(), bool)
 assert_type(binding.dispose(), None)

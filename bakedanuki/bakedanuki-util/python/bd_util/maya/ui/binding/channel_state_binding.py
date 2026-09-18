@@ -290,11 +290,13 @@ class MayaChannelStateBinding(qt.QObject):
             raise ValueError("stateにはkeyable/channel_box/hiddenを指定します")
         return self._request("display", state, edit_session)
 
-    def set_locked(self, locked: bool) -> bool:
+    def set_locked(
+        self, locked: bool, *, edit_session: MayaEditSession | None = None
+    ) -> bool:
         """親lockを変更せず、対象自身のlock差分だけを一括適用する。"""
         if type(locked) is not bool:
             raise TypeError("lockedにはboolを指定してください")
-        return self._request("lock", locked)
+        return self._request("lock", locked, edit_session)
 
     def _request(
         self,

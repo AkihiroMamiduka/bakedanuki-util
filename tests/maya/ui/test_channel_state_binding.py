@@ -102,6 +102,34 @@ def test_session_finish_inside_write_closes_in_order(
     assert cmds.undoInfo(query=True, undoQueueEmpty=True)
 
 
+@pytest.mark.parametrize("locked", [True, False])
+def test_shared_lock_session_groups_bindings_and_ignores_noop(
+    scene: tuple[list[str], qt.QObject], locked: bool
+) -> None:
+    """複数Bindingのlock変更を一回でUndo/Redoし、同値要求は省く。"""
+    nodes, owner = scene
+    for node in nodes:
+        cmds.setAttr(node + ".weight", lock=not locked)
+    first, second = _binding(nodes[:1], owner), _binding(nodes[1:], owner)
+    session = MayaEditSession(owner)
+    cmds.flushUndo()
+    session.begin()
+    assert not first.set_locked(not locked, edit_session=session)
+    session.finish()
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+    session.begin()
+    assert first.set_locked(locked, edit_session=session)
+    assert second.set_locked(locked, edit_session=session)
+    assert not second.set_locked(locked, edit_session=session)
+    session.finish()
+    assert all(_raw(node) == (True, False, locked) for node in nodes)
+    cmds.undo()
+    assert all(_raw(node) == (True, False, not locked) for node in nodes)
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+    cmds.redo()
+    assert all(_raw(node) == (True, False, locked) for node in nodes)
+
+
 def test_session_preserves_disabled_undo_and_owner_disposal(
     scene: tuple[list[str], qt.QObject],
 ) -> None:
@@ -276,6 +304,48 @@ def test_undo_disabled_setting_is_not_changed(
         assert [_raw(n)[2] for n in nodes] == [True] * 3
     finally:
         cmds.undoInfo(state=True)
+
+
+@pytest.mark.parametrize("restricted_index", [0, 1])
+@pytest.mark.parametrize("restriction", ["parent", "node"])
+def test_shared_lock_session_preserves_restricted_targets(
+    scene: tuple[list[str], qt.QObject],
+    restricted_index: int,
+    restriction: str,
+) -> None:
+    """代表対象なら行を拒否し、後続だけなら除外して親・nodeを維持する。"""
+    nodes, owner = scene
+    for node in nodes:
+        cmds.setAttr(node + ".tx", lock=True)
+    restricted = nodes[restricted_index]
+    if restriction == "parent":
+        cmds.setAttr(restricted + ".translate", lock=True)
+    else:
+        cmds.lockNode(restricted, lock=True)
+    binding = MayaChannelStateBinding(
+        [resolve_float_plug(node, "tx") for node in nodes], parent=owner
+    )
+    cmds.flushUndo()
+    session = MayaEditSession(owner)
+    session.begin()
+    assert binding.set_locked(False, edit_session=session) == (
+        restricted_index != 0
+    )
+    session.finish()
+    assert cmds.getAttr(restricted + ".tx", lock=True)
+    if restriction == "parent":
+        assert cmds.getAttr(restricted + ".translate", lock=True)
+    else:
+        assert cmds.lockNode(restricted, query=True, lock=True) == [True]
+    if restricted_index == 0:
+        assert all(cmds.getAttr(node + ".tx", lock=True) for node in nodes)
+        assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+    else:
+        assert not cmds.getAttr(nodes[0] + ".tx", lock=True)
+        assert not cmds.getAttr(nodes[2] + ".tx", lock=True)
+        cmds.undo()
+        assert all(cmds.getAttr(node + ".tx", lock=True) for node in nodes)
+        assert cmds.undoInfo(query=True, undoQueueEmpty=True)
 
 
 @pytest.mark.parametrize("special_index", [0, 1])

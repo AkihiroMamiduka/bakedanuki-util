@@ -93,7 +93,7 @@ node lockなどMayaが属性変更を通知しない状態は、`refresh()`ま�
 Qt owner破棄とMaya終了時にも解除され、終了状態は`is_disposed`で確認できます。
 型付き入力契約`MayaChannelStatePlug`も同じ公開入口から利用できます。
 
-## ラジオボタンのなぞり選択と共有Undo
+## ボタンのなぞり操作と共有Undo
 
 `bd_util.ui.RadioButtonSweep(scope)`へ`add_button(radio)`で標準の`QRadioButton`を
 登録すると、左ドラッグで通過したボタンを選択できます。各行の排他グループは利用側で
@@ -110,6 +110,19 @@ Qt owner破棄とMaya終了時にも解除され、終了状態は`is_disposed`�
   他のキー入力でも終了して通常処理へ渡します。自動スクロールはせず、なぞり中はホイールを消費します。
 - 行の差し替え前に`clear()`、外部状態変更で`finish()`、Window終了・reload前に`dispose()`を呼びます。
   アプリケーションのイベント監視は押下中だけ有効です。
+
+`bd_util.ui.CheckBoxSweep(scope)`は、同じマウス追跡・中断処理を使ってチェックボックスを
+なぞれます。`add_button(check_box)`で登録し、押下時が`Checked`ならOFF、
+`Unchecked`・`PartiallyChecked`ならONを適用値として固定します。
+同値は書き込まず、混在表示が残っていても同じボタンへの入力は一操作一回です。
+ラジオボタンとチェックボックスは、それぞれ登録された種類だけを操作します。
+
+既定では`setCheckState()`で表示を変更します。`clicked`は発行しません。
+Binding接続には`add_button(check_box, on_change=set_locked)`のように
+`Callable[[bool], None]`を渡してください。なぞり中はこの入力先だけを呼び、
+書込み・表示同期・操作拒否時の復元を入力先へ委ねます。
+通常クリック・キーボード入力は元のWidgetへ渡すため、別途`clicked`へ同じ入力先を接続します。
+開始／終了通知、`is_active`、`finish()`・`clear()`・`dispose()`もラジオ版と共通です。
 
 `bd_util.maya.ui.MayaEditSession(owner, chunk_name="ContinuousEdit")`は、Viewや属性型に
 依存しないUndoのまとまりです。`begin()`で開始し、差分を書き込む部分だけを`write()`で
@@ -128,6 +141,7 @@ session.begin()
 try:
     binding_a.set_display_state("hidden", edit_session=session)
     binding_b.set_display_state("channel_box", edit_session=session)
+    binding_c.set_locked(True, edit_session=session)
 finally:
     session.finish()
 ```
