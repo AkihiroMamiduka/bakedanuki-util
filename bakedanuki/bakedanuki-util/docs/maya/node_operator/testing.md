@@ -617,7 +617,7 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 
 ## キーフレーム移動の検証
 
-2026-09-15に`move_key()` / `move_keys()`と専用の`test_keyframe_move.py`を追加しました。
+2026-09-15に`move_frame()` / `move_frames()`と専用の`test_keyframe_move.py`を追加しました。
 以下は移動実装の検証範囲であり、上の引き継ぎ時点の成功件数には含まれません。
 
 - 単一・範囲・全体の相対移動と開始/終了基準の絶対移動、正負の移動、subframe、範囲端、
@@ -661,7 +661,7 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
 
 ## キーフレーム移動の補間の検証
 
-`test_keyframe_move_interpolation.py`では、`move_keys()`の補間による移動量の重み付けを検証します。
+`test_keyframe_move_interpolation.py`では、`move_frames()`の補間による移動量の重み付けを検証します。
 
 - 移動前の時刻によるlinear / smoothstep、相対移動と元範囲を基準にした開始・終了合わせ、
   片側補間・片側省略・幅0の元範囲、負の時刻・subframe、実在キーのない元範囲。
@@ -675,7 +675,7 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
   保留中作成・先行編集とqueryの非実行、再接続・改名、反復Undo / Redo。
 - 境界挿入後・時刻変更後・削除後・再挿入後の失敗で同一batch全体をrollbackすること。
 
-共通の`test_keyframe_target.py` / `test_curve_keyframe.py`でも`move_keys()`へ補間を指定し、
+共通の`test_keyframe_target.py` / `test_curve_keyframe.py`でも`move_frames()`へ補間を指定し、
 チャンネル・既定ベース・指定layer・明示カーブ・lock / referenceを検証します。
 MPxCommand fixtureには補間移動と境界挿入の組み合わせを追加し、Maya標準Undo / Redoと
 command失敗時rollbackを検証します。型contractは3種類の配置方法と補間引数を検査します。
@@ -704,7 +704,7 @@ push済みコミットと一時フォルダーで比較し、現在の実装と�
 
 ## キーフレーム時間拡縮の検証
 
-`test_keyframe_scale.py`では、`scale_keys()`の時間拡縮と配置先の置換を検証します。
+`test_keyframe_scale.py`では、`scale_frames()`の時間拡縮と配置先の置換を検証します。
 
 - 倍率・長さ・両端合わせ、相対配置・開始/終了合わせ、明示境界と実在キーの違い、
   片側省略・全体・単一キー、負の時刻・subframe、元区間と配置先の重なり。
@@ -732,7 +732,7 @@ push済みコミットと一時フォルダーで比較し、現在の実装と�
 Blackは4,452ファイル、3 versionの型・補完contractはすべて成功、Maya 2025 full pytestは
 5,336件成功・632件skip、Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
 `git diff --check`も成功しています。
-その後、利用者によるMaya画面上での`scale_keys()`の動作確認とpushまで完了しました（`66dee785`）。
+その後、利用者によるMaya画面上での`scale_frames()`の動作確認とpushまで完了しました（`66dee785`）。
 
 ```powershell
 .\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
@@ -743,7 +743,7 @@ Blackは4,452ファイル、3 versionの型・補完contractはすべて成功�
 
 ## キーフレーム時間拡縮の補間の検証
 
-`test_keyframe_scale_interpolation.py`は、`scale_keys()`の時刻と接線Xへの影響度を検証します。
+`test_keyframe_scale_interpolation.py`は、`scale_frames()`の時刻と接線Xへの影響度を検証します。
 
 - 元時刻によるlinear / smoothstepと既定値、倍率・長さ・両端合わせと各配置方法。
   主区間だけを基準にすること、片側省略・キーのない主区間・幅0・負の時刻・subframe。
@@ -777,7 +777,7 @@ module内で共有し、シーンは各caseで初期化します。型contract�
 
 ## キーフレーム時間拡縮のピボット指定の検証
 
-`test_keyframe_scale_pivot.py`では、`scale_keys()`の`pivot_frame`を検証します。
+`test_keyframe_scale_pivot.py`では、`scale_frames()`の`pivot`を検証します。
 
 - 中央・開始・終了・区間外のピボット、明示Noneと従来動作、正の倍率・長さ、拡縮後の相対移動。
   片側省略・全体・単一キー、負の時刻・subframe、ピボットにキーがなくても挿入しないこと。
@@ -793,7 +793,7 @@ module内で共有し、シーンは各caseで初期化します。型contract�
 共通の対象選択テストもピボットを指定し、ベース・指定layer・明示カーブとlock / referenceを確認します。
 MPxCommandのfixtureでは倍率・長さ・補間・境界挿入とピボットを組み合わせ、Maya標準の履歴と
 command失敗時rollbackを確認します。型contractは3入口のピボット指定と排他引数を検査します。
-利用者によるMaya画面上でのピボット指定の動作確認は未実施です。
+その後、利用者によるMaya画面上でのピボット指定の動作確認・pushまで完了しました（`f0def8ab`）。
 
 2026-09-18、ピボット指定追加後の検証結果です。
 
@@ -802,6 +802,28 @@ command失敗時rollbackを確認します。型contractは3入口のピボッ�
 | ピボット指定の専用pytest | 112件。下記の関連・全体テストにも含む |
 | attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,285件成功、プロセス正常終了 |
 | 変更実装2ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,459ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,259件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+## キーフレーム編集APIの名称整理の検証
+
+時間方向は`move_frame()` / `move_frames()` / `scale_frames()`に改名し、
+時間・値の編集引数を`offset` / `to` / `to_start` / `to_end` / `scale` / `duration` / `pivot`へ整理しました。
+旧メソッド名・旧keyword引数のaliasは提供しません。変更対応表は[旧APIからの移行](attributes.md#旧apiからの移行)を参照してください。
+
+既存の移動・時間拡縮・値編集・共通resolver・MPxCommandのテストと手動サンプルを新名へ更新しています。
+型・補完contractも属性・指定layer・明示カーブの3入口で新名と排他引数を検査します。
+`AnimationClip.restore()`の引数と検証は維持しています。
+本書の過去の実装・検証記録もAPI名は現在の名前で表記しますが、過去の成功件数は当時の実績です。
+名称整理後の利用者によるMaya画面上の動作確認は未実施です。
+
+2026-09-18、名称整理後に改めて実行した検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,285件成功、プロセス正常終了 |
+| 変更実装3ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
 | `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,459ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
 | 上記のMaya 2025 full pytest | 6,259件成功、632件skip |
 | 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |

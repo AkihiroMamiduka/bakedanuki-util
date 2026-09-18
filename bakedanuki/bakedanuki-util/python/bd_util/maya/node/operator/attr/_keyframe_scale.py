@@ -73,7 +73,7 @@ def _placement(
                 om.MTime.kSeconds
             )
         assert duration is not None
-        time_scale = _positive(duration / source_duration, "time_scale")
+        time_scale = _positive(duration / source_duration, "scale")
         if pivot is not None and _time(duration) == end - start:
             time_scale = 1
     assert time_scale is not None
@@ -270,18 +270,16 @@ def queue_scale(
     fit = to_start_frame is not None and to_end_frame is not None
     if sum((time_scale is not None, duration_frames is not None, fit)) != 1:
         raise ValueError(
-            "Specify exactly one of time_scale, duration_frames, or both target bounds."
+            "Specify exactly one of scale, duration, or both target bounds."
         )
     if offset_frames is not None and (
         to_start_frame is not None or to_end_frame is not None
     ):
-        raise ValueError(
-            "offset_frames cannot be combined with target bounds."
-        )
+        raise ValueError("offset cannot be combined with target bounds.")
     if pivot_frame is not None and (
         to_start_frame is not None or to_end_frame is not None
     ):
-        raise ValueError("pivot_frame cannot be combined with target bounds.")
+        raise ValueError("pivot cannot be combined with target bounds.")
     if mode not in ("replace_range", "merge"):
         raise ValueError("mode must be 'replace_range' or 'merge'.")
     if type(insert_missing) is not bool:
@@ -294,23 +292,23 @@ def queue_scale(
     start, end = capture(start_frame, "start_frame"), capture(
         end_frame, "end_frame"
     )
-    to_start, to_end = capture(to_start_frame, "to_start_frame"), capture(
-        to_end_frame, "to_end_frame"
+    to_start, to_end = capture(to_start_frame, "to_start"), capture(
+        to_end_frame, "to_end"
     )
-    offset_time = capture(offset_frames, "offset_frames")
-    pivot = capture(pivot_frame, "pivot_frame")
+    offset_time = capture(offset_frames, "offset")
+    pivot = capture(pivot_frame, "pivot")
     offset = (
         None if offset_time is None else offset_time.asUnits(om.MTime.kSeconds)
     )
     duration = (
         None
         if duration_frames is None
-        else _positive(duration_frames, "duration_frames") * rate
+        else _positive(duration_frames, "duration") * rate
     )
     if duration is not None:
         _time(duration)
     if time_scale is not None:
-        time_scale = _positive(time_scale, "time_scale")
+        time_scale = _positive(time_scale, "scale")
     influence = Influence(
         start,
         end,
@@ -319,7 +317,7 @@ def queue_scale(
         interpolation,
     )
     if to_start is not None and to_end is not None and to_start >= to_end:
-        raise ValueError("to_end_frame must be greater than to_start_frame.")
+        raise ValueError("to_end must be greater than to_start.")
     if start is not None and end is not None:
         _placement(
             start, end, time_scale, duration, offset, to_start, to_end, pivot

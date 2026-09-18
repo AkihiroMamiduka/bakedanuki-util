@@ -295,10 +295,10 @@ EDITS = [
     ("add_values", ()),
     ("scale_value", (1,)),
     ("scale_values", ()),
-    ("scale_keys", ()),
+    ("scale_frames", ()),
     ("reduce_keys", ()),
-    ("move_key", (1,)),
-    ("move_keys", ()),
+    ("move_frame", (1,)),
+    ("move_frames", ()),
     ("set_key", (20, 3)),
     ("set_keys", ([(3, 20)],)),
     ("insert_key", (3,)),
@@ -317,17 +317,17 @@ def _queue_edit(keyframe, method, args):
         getattr(keyframe, method)(*args, value=50)
         return
     if method in ("add_value", "add_values"):
-        getattr(keyframe, method)(*args, offset_value=5)
+        getattr(keyframe, method)(*args, offset=5)
         return
     if method in ("scale_value", "scale_values"):
-        getattr(keyframe, method)(*args, value_scale=2)
+        getattr(keyframe, method)(*args, scale=2)
         return
-    if method == "scale_keys":
-        keyframe.scale_keys(
+    if method == "scale_frames":
+        keyframe.scale_frames(
             1,
             5,
-            time_scale=1.25,
-            pivot_frame=3,
+            scale=1.25,
+            pivot=3,
             interpolate_start=-3,
             interpolate_end=13,
         )
@@ -335,13 +335,13 @@ def _queue_edit(keyframe, method, args):
     if method == "reduce_keys":
         keyframe.reduce_keys(*args, tolerance=0.01)
         return
-    if method == "move_keys":
-        keyframe.move_keys(
-            1, 5, offset_frames=2, interpolate_start=-3, interpolate_end=9
+    if method == "move_frames":
+        keyframe.move_frames(
+            1, 5, offset=2, interpolate_start=-3, interpolate_end=9
         )
         return
-    if method == "move_key":
-        getattr(keyframe, method)(*args, offset_frames=4)
+    if method == "move_frame":
+        getattr(keyframe, method)(*args, offset=4)
         return
     if method == "set_key_data":
         args = (keyframe.get_key_data(),)

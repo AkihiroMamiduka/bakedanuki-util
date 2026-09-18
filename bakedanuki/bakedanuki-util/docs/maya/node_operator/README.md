@@ -74,7 +74,7 @@
   - カーブ情報の取得・復元、指定範囲の境界補完の内部実装です。
 - `python/bd_util/maya/node/operator/attr/_keyframe_move.py` / `_keyframe_scale.py`
   - 既存キーの移動・正の時間拡縮と、それぞれの影響度の補間です。境界挿入・キー情報の捕捉・復元を共有し、
-    `scale_keys()`は配置先区間の部分置き換えを既定とします。
+    `scale_frames()`は配置先区間の部分置き換えを既定とします。
 - `python/bd_util/maya/node/operator/attr/_keyframe_influence.py`
   - 移動・時間拡縮・値編集で共有する補間境界の検証と、linear / smoothstepの影響度計算です。
 - `python/bd_util/maya/node/operator/attr/_keyframe_value.py`
@@ -1430,16 +1430,21 @@ alias や child plug は同じ logical plug を指す場合、同じ `PlugOperat
 
 ## 関連ドキュメント
 
+以下は名称整理前の実装・確認履歴も現行API名で表記しています。
+
 KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元、layer構成を含む性能改善まで
-実装・動作確認済みです。時間方向の`move_key()` / `move_keys()`も利用者確認・push済みです。
+実装・動作確認済みです。時間方向の`move_frame()` / `move_frames()`も利用者確認・push済みです。
 続いて、手動接線を維持するキー削減`reduce_keys()`を実装しました。
-時間拡縮の`scale_keys()`も追加し、倍率・長さ・両端合わせ、既定の部分置き換えとmergeに対応します。
+時間拡縮の`scale_frames()`も追加し、倍率・長さ・両端合わせ、既定の部分置き換えとmergeに対応します。
 `set_value(s)` / `add_value(s)` / `scale_value(s)`による値編集と、既存キーへの補間ウェイトも
-利用者確認・push済みです。`move_keys()`の補間も利用者確認・push済みです（`9a63af85`）。
-続いて`scale_keys()`にも補間指定を追加しました。元時刻から時刻・接線Xへの影響度を求め、
+利用者確認・push済みです。`move_frames()`の補間も利用者確認・push済みです（`9a63af85`）。
+続いて`scale_frames()`にも補間指定を追加しました。元時刻から時刻・接線Xへの影響度を求め、
 部分置き換えは主区間の配置先だけを対象にします。補間拡縮も利用者確認・push済みです（`fbf9c033`）。
-続いて`pivot_frame`を追加し、任意時刻を基準にした拡縮と、その後の相対移動に対応しました。
-ピボット指定の利用者確認は未実施です。
+続いて`pivot`を追加し、任意時刻を基準にした拡縮と、その後の相対移動に対応しました。
+ピボット指定も利用者確認・push済みです（`f0def8ab`）。
+時間方向の操作名を`move_frame()` / `move_frames()` / `scale_frames()`へ整理し、
+時間・値の編集引数を`offset` / `scale` / `pivot`等へ短縮しました。旧名のaliasは提供しません。
+対応表は[旧APIからの移行](attributes.md#旧apiからの移行)を参照してください。名称整理後の利用者確認は未実施です。
 補間移動・補間拡縮とも、対象キー同士の衝突・順序逆転を拒否します。
 新しいチャットで開発を続ける場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と

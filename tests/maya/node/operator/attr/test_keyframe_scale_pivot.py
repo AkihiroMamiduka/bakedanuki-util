@@ -23,72 +23,72 @@ pytestmark = pytest.mark.maya
     [
         (
             (10, 30),
-            dict(time_scale=2, pivot_frame=20),
+            dict(scale=2, pivot=20),
             [(0, 4), (20, 2), (40, 7)],
         ),
         (
             (10, 30),
-            dict(duration_frames=10, pivot_frame=20),
+            dict(duration=10, pivot=20),
             [(0, 0), (15, 4), (20, 2), (25, 7)],
         ),
         (
             (10, 30),
-            dict(time_scale=2, pivot_frame=30),
+            dict(scale=2, pivot=30),
             [(-10, 4), (10, 2), (30, 7)],
         ),
         (
             (10, 30),
-            dict(time_scale=2, pivot_frame=10),
+            dict(scale=2, pivot=10),
             [(0, 0), (10, 4), (30, 2), (50, 7)],
         ),
         (
             (10, 30),
-            dict(time_scale=2, pivot_frame=None),
+            dict(scale=2, pivot=None),
             [(0, 0), (10, 4), (30, 2), (50, 7)],
         ),
         (
             (10, 30),
-            dict(time_scale=2, pivot_frame=-10),
+            dict(scale=2, pivot=-10),
             [(0, 0), (30, 4), (50, 2), (70, 7)],
         ),
         (
             (10, 30),
-            dict(time_scale=0.5, pivot_frame=20, offset_frames=5),
+            dict(scale=0.5, pivot=20, offset=5),
             [(0, 0), (20, 4), (25, 2), (30, 7)],
         ),
         (
             (10, 30),
-            dict(duration_frames=10, pivot_frame=20, offset_frames=5),
+            dict(duration=10, pivot=20, offset=5),
             [(0, 0), (20, 4), (25, 2), (30, 7)],
         ),
         (
             (10, 30),
-            dict(time_scale=1, pivot_frame=100, offset_frames=-2),
+            dict(scale=1, pivot=100, offset=-2),
             [(0, 0), (8, 4), (18, 2), (28, 7)],
         ),
         (
             (10, None),
-            dict(time_scale=0.5, pivot_frame=20),
+            dict(scale=0.5, pivot=20),
             [(0, 0), (15, 4), (20, 2), (25, 7)],
         ),
         (
             (None, 20),
-            dict(time_scale=0.5, pivot_frame=20),
+            dict(scale=0.5, pivot=20),
             [(10, 0), (15, 4), (20, 2), (30, 7)],
         ),
         (
             (),
-            dict(time_scale=0.5, pivot_frame=20),
+            dict(scale=0.5, pivot=20),
             [(10, 0), (15, 4), (20, 2), (25, 7)],
         ),
         (
             (10, 10),
-            dict(time_scale=2, pivot_frame=20),
+            dict(scale=2, pivot=20),
             [(0, 4), (20, 2), (30, 7)],
         ),
         (
             (10, 30),
-            dict(time_scale=2, pivot_frame=None, to_end_frame=30),
+            dict(scale=2, pivot=None, to_end=30),
             [(-10, 4), (10, 2), (30, 7)],
         ),
     ],
@@ -96,7 +96,7 @@ pytestmark = pytest.mark.maya
 def test_pivot_placement_and_offset(maya_cmds, bounds, timing, expected):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    assert keys.scale_keys(*bounds, **timing) is None
+    assert keys.scale_frames(*bounds, **timing) is None
     assert keys.get_keys() == [(0, 0), (10, 4), (20, 2), (30, 7)]
     assert _curve_state(curve) == before
     mod.do_it_dg()
@@ -108,7 +108,7 @@ def test_pivot_placement_and_offset(maya_cmds, bounds, timing, expected):
 def test_missing_boundaries_still_define_pivoted_replacement(maya_cmds, mode):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    keys.scale_keys(12, 28, time_scale=2, pivot_frame=20, mode=mode)
+    keys.scale_frames(12, 28, scale=2, pivot=20, mode=mode)
     mod.do_it_dg()
     assert keys.get_keys() == (
         [(0, 0), (20, 2)]
@@ -126,8 +126,8 @@ def test_fade_collision_outside_pivoted_replacement_is_overwritten(
     for frame in (21.25, 22, 42, 46):
         curve.addKey(_time(frame), frame)
     before = _curve_state(curve)
-    keys.scale_keys(
-        10, 20, time_scale=0.5, pivot_frame=70, interpolate_start=0, mode=mode
+    keys.scale_frames(
+        10, 20, scale=0.5, pivot=70, interpolate_start=0, mode=mode
     )
     mod.do_it_dg()
     expected = [
@@ -168,7 +168,7 @@ def test_shape_and_metadata_survive_pivot_scaling(
 
     samples = [i / 4 for i in range(-12, 132)]
     expected = [value(f) for f in samples]
-    keys.scale_keys(time_scale=scale, pivot_frame=pivot)
+    keys.scale_frames(scale=scale, pivot=pivot)
     mod.do_it_dg()
     assert keys.frames() == [
         pivot + (f - pivot) * scale for f in (0, 10, 20, 30)
@@ -185,9 +185,7 @@ def test_shape_and_metadata_survive_pivot_scaling(
 
 
 @pytest.mark.parametrize("interpolation", ["linear", "smoothstep"])
-@pytest.mark.parametrize(
-    "timing", [dict(time_scale=1.5), dict(duration_frames=15)]
-)
+@pytest.mark.parametrize("timing", [dict(scale=1.5), dict(duration=15)])
 @pytest.mark.parametrize("offset", [0, 1])
 def test_falloff_weights_pivot_transform_and_offset(
     maya_cmds, interpolation, timing, offset
@@ -201,12 +199,12 @@ def test_falloff_weights_pivot_transform_and_offset(
     frames, values = keys.frames(), keys.values()
     quarter = 0.25 if interpolation == "linear" else 0.15625
     weights = [0, quarter, 0.5, 1, 1, 0.5, quarter, 0]
-    keys.scale_keys(
+    keys.scale_frames(
         10,
         20,
         **timing,
-        pivot_frame=15,
-        offset_frames=offset,
+        pivot=15,
+        offset=offset,
         interpolate_start=0,
         interpolate_end=30,
         interpolation=interpolation,
@@ -236,11 +234,11 @@ def test_pivoted_internal_collision_or_reversal_rolls_back(maya_cmds, pivot):
     keys, mod, curve = _curve(maya_cmds)
     before = _curve_state(curve)
     keys.set_key(99, frame=80)
-    keys.scale_keys(
+    keys.scale_frames(
         10,
         20,
-        time_scale=2,
-        pivot_frame=pivot,
+        scale=2,
+        pivot=pivot,
         interpolate_start=0,
         interpolate_end=30,
     )
@@ -254,11 +252,11 @@ def test_pivoted_internal_collision_or_reversal_rolls_back(maya_cmds, pivot):
 def test_pivot_is_not_an_insertion_boundary(maya_cmds, insert):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    keys.scale_keys(
+    keys.scale_frames(
         12,
         18,
-        time_scale=0.5,
-        pivot_frame=15,
+        scale=0.5,
+        pivot=15,
         insert_missing=insert,
         interpolate_start=5,
         interpolate_end=25,
@@ -271,29 +269,25 @@ def test_pivot_is_not_an_insertion_boundary(maya_cmds, insert):
 
 
 @pytest.mark.parametrize("pivot", [-1e12, 1e12])
-@pytest.mark.parametrize(
-    "timing", [dict(time_scale=1), dict(duration_frames=4)]
-)
+@pytest.mark.parametrize("timing", [dict(scale=1), dict(duration=4)])
 def test_identity_with_distant_pivot_does_not_insert_or_modify(
     maya_cmds, pivot, timing
 ):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     maya_cmds.file(modified=False)
-    keys.scale_keys(1, 5, **timing, pivot_frame=pivot, insert_missing=True)
+    keys.scale_frames(1, 5, **timing, pivot=pivot, insert_missing=True)
     mod.do_it_dg()
     assert _curve_state(curve) == before
     assert not maya_cmds.file(query=True, modified=True)
 
 
-@pytest.mark.parametrize(
-    "timing", [dict(time_scale=0.5), dict(duration_frames=15)]
-)
+@pytest.mark.parametrize("timing", [dict(scale=0.5), dict(duration=15)])
 @pytest.mark.parametrize("kind", ["animCurveTL", "animCurveTT"])
 def test_pivot_offset_and_duration_use_booking_units(maya_cmds, timing, kind):
     keys, mod, curve = _make(maya_cmds, kind, True)
     before = _curve_state(curve)
-    keys.scale_keys(**timing, pivot_frame=20, offset_frames=0.25)
+    keys.scale_frames(**timing, pivot=20, offset=0.25)
     maya_cmds.currentUnit(
         time="ntsc", linear="m", angle="rad", updateAnimation=True
     )
@@ -312,7 +306,7 @@ def test_small_scale_preserves_representable_destination(maya_cmds, pivot):
     curve.addKey(_time(pivot), 0)
     curve.addKey(_time(1e12 + pivot), 1)
     before = _curve_state(curve)
-    keys.scale_keys(time_scale=1e-12, pivot_frame=pivot)
+    keys.scale_frames(scale=1e-12, pivot=pivot)
     mod.do_it_dg()
     assert keys.frames() == pytest.approx([pivot, pivot + 1], abs=1e-7)
     _history(mod, curve, before, _curve_state(curve))
@@ -321,7 +315,7 @@ def test_small_scale_preserves_representable_destination(maya_cmds, pivot):
 def test_negative_subframe_pivot(maya_cmds):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    keys.scale_keys(time_scale=0.5, pivot_frame=-0.25)
+    keys.scale_frames(scale=0.5, pivot=-0.25)
     mod.do_it_dg()
     assert keys.frames() == [-0.125, 4.875, 9.875, 14.875]
     _history(mod, curve, before, _curve_state(curve))
@@ -341,7 +335,7 @@ def test_invalid_pivot_is_rejected_before_booking(maya_cmds, pivot, error):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     with pytest.raises(error):
-        keys.scale_keys(time_scale=2, pivot_frame=pivot)
+        keys.scale_frames(scale=2, pivot=pivot)
     mod.do_it_dg()
     assert _curve_state(curve) == before
 
@@ -349,19 +343,19 @@ def test_invalid_pivot_is_rejected_before_booking(maya_cmds, pivot, error):
 @pytest.mark.parametrize(
     "timing",
     [
-        dict(time_scale=2, to_start_frame=10),
-        dict(time_scale=2, to_end_frame=30),
-        dict(duration_frames=10, to_start_frame=10),
-        dict(duration_frames=10, to_end_frame=30),
-        dict(to_start_frame=10, to_end_frame=30),
+        dict(scale=2, to_start=10),
+        dict(scale=2, to_end=30),
+        dict(duration=10, to_start=10),
+        dict(duration=10, to_end=30),
+        dict(to_start=10, to_end=30),
     ],
 )
 @pytest.mark.parametrize("pivot", [0, 20])
 def test_pivot_and_target_bounds_are_exclusive(maya_cmds, timing, pivot):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    with pytest.raises(ValueError, match="pivot_frame cannot be combined"):
-        keys.scale_keys(10, 30, **timing, pivot_frame=pivot)
+    with pytest.raises(ValueError, match="pivot cannot be combined"):
+        keys.scale_frames(10, 30, **timing, pivot=pivot)
     mod.do_it_dg()
     assert _curve_state(curve) == before
 
@@ -370,7 +364,7 @@ def test_unrepresentable_pivoted_placement_rolls_back_prior_edit(maya_cmds):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     keys.set_key(99, frame=80)
-    keys.scale_keys(time_scale=1e300, pivot_frame=20)
+    keys.scale_frames(scale=1e300, pivot=20)
     with pytest.raises(ValueError):
         mod.do_it_dg()
     _assert_state(_curve_state(curve), before)
@@ -393,11 +387,11 @@ def test_failure_rolls_back_boundary_insertion_and_prior_work(
         raise RuntimeError("injected pivot failure")
 
     monkeypatch.setattr(_keyframe_move, helper, fail)
-    keys.scale_keys(
+    keys.scale_frames(
         12,
         18,
-        time_scale=0.5,
-        pivot_frame=15,
+        scale=0.5,
+        pivot=15,
         insert_missing=True,
         interpolate_start=5,
         interpolate_end=25,
@@ -416,8 +410,8 @@ def test_pending_creation_and_sequential_editing(maya_cmds):
         .keyframe
     )
     keys.set_keys([(0, 0), (10, 4), (20, 2), (30, 7)])
-    keys.move_keys(offset_frames=5)
-    keys.scale_keys(time_scale=0.5, pivot_frame=20, offset_frames=2)
+    keys.move_frames(offset=5)
+    keys.scale_frames(scale=0.5, pivot=20, offset=2)
     with pytest.raises(RuntimeError):
         keys.frames()
     assert not maya_cmds.objExists("pendingPivot")
@@ -435,10 +429,10 @@ def test_pending_creation_and_sequential_editing(maya_cmds):
 def test_noop_requires_manager_and_write_access(maya_cmds, scale):
     keys, mod, curve = _make(maya_cmds)
     with pytest.raises(RuntimeError, match="ModifierManager"):
-        CurveKeyframeManager(curve.object()).scale_keys(
-            time_scale=scale, pivot_frame=20
+        CurveKeyframeManager(curve.object()).scale_frames(
+            scale=scale, pivot=20
         )
-    keys.scale_keys(time_scale=scale, pivot_frame=20)
+    keys.scale_frames(scale=scale, pivot=20)
     maya_cmds.lockNode(curve.name(), lock=True)
     with pytest.raises(RuntimeError, match="locked"):
         mod.do_it_dg()

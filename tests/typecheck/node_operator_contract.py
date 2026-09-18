@@ -4205,15 +4205,15 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
     layer = channel.anim_layer("Correction")
     curve = nodes.existing.animCurveTL("curve").keyframe
     for keyframe in (channel, layer, curve):
-        assert_type(keyframe.scale_keys(time_scale=2), None)
-        assert_type(keyframe.scale_keys(time_scale=2, pivot_frame=20), None)
+        assert_type(keyframe.scale_frames(scale=2), None)
+        assert_type(keyframe.scale_frames(scale=2, pivot=20), None)
         assert_type(
-            keyframe.scale_keys(
+            keyframe.scale_frames(
                 10,
                 30,
-                time_scale=2,
-                offset_frames=optional,
-                pivot_frame=optional,
+                scale=2,
+                offset=optional,
+                pivot=optional,
                 interpolate_start=optional,
                 interpolate_end=50,
                 interpolation="linear",
@@ -4221,53 +4221,53 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
             None,
         )
         assert_type(
-            keyframe.scale_keys(
+            keyframe.scale_frames(
                 10,
                 None,
-                duration_frames=20,
-                offset_frames=5,
-                pivot_frame=optional,
+                duration=20,
+                offset=5,
+                pivot=optional,
                 interpolate_start=0,
             ),
             None,
         )
         assert_type(
-            keyframe.scale_keys(
+            keyframe.scale_frames(
                 None,
                 30,
-                time_scale=2,
-                to_start_frame=optional,
+                scale=2,
+                to_start=optional,
                 interpolate_end=optional,
             ),
             None,
         )
         assert_type(
-            keyframe.scale_keys(
+            keyframe.scale_frames(
                 10,
                 30,
-                duration_frames=20,
-                to_start_frame=optional,
+                duration=20,
+                to_start=optional,
                 interpolate_start=0,
             ),
             None,
         )
         assert_type(
-            keyframe.scale_keys(
+            keyframe.scale_frames(
                 10,
                 30,
-                time_scale=2,
-                to_end_frame=optional,
+                scale=2,
+                to_end=optional,
                 mode="merge",
                 interpolate_end=50,
             ),
             None,
         )
         assert_type(
-            keyframe.scale_keys(
+            keyframe.scale_frames(
                 10,
                 30,
-                duration_frames=20,
-                to_end_frame=optional,
+                duration=20,
+                to_end=optional,
                 insert_missing=True,
                 interpolate_start=0,
                 interpolate_end=50,
@@ -4275,11 +4275,11 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
             None,
         )
         assert_type(
-            keyframe.scale_keys(
+            keyframe.scale_frames(
                 10,
                 30,
-                to_start_frame=100,
-                to_end_frame=140,
+                to_start=100,
+                to_end=140,
                 mode="replace_range",
                 interpolate_start=optional,
                 interpolate_end=optional,
@@ -4287,69 +4287,69 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
             ),
             None,
         )
-        keyframe.scale_keys()  # pyright: ignore[reportCallIssue]
-        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
-            time_scale=2,
-            duration_frames=20,  # pyright: ignore[reportArgumentType]
+        keyframe.scale_frames()  # pyright: ignore[reportCallIssue]
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            duration=20,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
-            time_scale=2,
-            to_start_frame=10,
-            to_end_frame=30,  # pyright: ignore[reportArgumentType]
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            to_start=10,
+            to_end=30,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
-            time_scale=2,
-            offset_frames=1,
-            to_start_frame=10,  # pyright: ignore[reportArgumentType]
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            offset=1,
+            to_start=10,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(
-            time_scale=2,
+        keyframe.scale_frames(
+            scale=2,
             mode="replace_all",  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(
-            time_scale=2,
+        keyframe.scale_frames(
+            scale=2,
             insert_missing=1,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(
-            time_scale=2,
+        keyframe.scale_frames(
+            scale=2,
             interpolate_start="0",  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(
-            time_scale=2,
+        keyframe.scale_frames(
+            scale=2,
             interpolate_end="50",  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(
-            time_scale=2,
+        keyframe.scale_frames(
+            scale=2,
             interpolation="spline",  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(
-            time_scale=2,
-            pivot_frame="20",  # pyright: ignore[reportArgumentType]
+        keyframe.scale_frames(
+            scale=2,
+            pivot="20",  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
-            time_scale=2,
-            to_start_frame=10,
-            pivot_frame=20,  # pyright: ignore[reportArgumentType]
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            to_start=10,
+            pivot=20,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
-            time_scale=2,
-            to_end_frame=30,
-            pivot_frame=20,  # pyright: ignore[reportArgumentType]
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            to_end=30,
+            pivot=20,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
-            duration_frames=20,
-            to_start_frame=10,
-            pivot_frame=20,  # pyright: ignore[reportArgumentType]
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            duration=20,
+            to_start=10,
+            pivot=20,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
-            duration_frames=20,
-            to_end_frame=30,
-            pivot_frame=20,  # pyright: ignore[reportArgumentType]
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            duration=20,
+            to_end=30,
+            pivot=20,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.scale_keys(
-            to_start_frame=10,
-            to_end_frame=30,
-            pivot_frame=20,  # pyright: ignore[reportArgumentType]
+        keyframe.scale_frames(
+            to_start=10,
+            to_end=30,
+            pivot=20,  # pyright: ignore[reportArgumentType]
         )
 
 
@@ -4360,12 +4360,10 @@ def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
     for keyframe in (channel, layer, curve):
         assert_type(keyframe.set_value(10, value=5), None)
         assert_type(keyframe.set_values(value=5), None)
-        assert_type(keyframe.add_value(10, offset_value=-5), None)
-        assert_type(keyframe.add_values(offset_value=-5), None)
-        assert_type(
-            keyframe.scale_value(10, value_scale=-2, pivot_value=1), None
-        )
-        assert_type(keyframe.scale_values(value_scale=0), None)
+        assert_type(keyframe.add_value(10, offset=-5), None)
+        assert_type(keyframe.add_values(offset=-5), None)
+        assert_type(keyframe.scale_value(10, scale=-2, pivot=1), None)
+        assert_type(keyframe.scale_values(scale=0), None)
         assert_type(
             keyframe.set_values(
                 optional,
@@ -4380,7 +4378,7 @@ def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
             keyframe.add_values(
                 20,
                 optional,
-                offset_value=5,
+                offset=5,
                 interpolate_start=optional,
                 insert_missing=True,
             ),
@@ -4390,8 +4388,8 @@ def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
             keyframe.scale_values(
                 20,
                 30,
-                value_scale=0.5,
-                pivot_value=1,
+                scale=0.5,
+                pivot=1,
                 interpolate_start=10,
                 interpolate_end=40,
                 interpolation="smoothstep",
@@ -4401,10 +4399,10 @@ def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
         )
         assert_type(keyframe.set_value(10, value=5, insert_missing=True), None)
         assert_type(
-            keyframe.add_value(10, offset_value=5, insert_missing=True), None
+            keyframe.add_value(10, offset=5, insert_missing=True), None
         )
         assert_type(
-            keyframe.scale_value(10, value_scale=2, insert_missing=True), None
+            keyframe.scale_value(10, scale=2, insert_missing=True), None
         )
         keyframe.set_value(10, 5)  # pyright: ignore[reportCallIssue]
         keyframe.add_values()  # pyright: ignore[reportCallIssue]
@@ -4414,14 +4412,14 @@ def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
         )
         keyframe.add_value(
             10,
-            offset_value="5",  # pyright: ignore[reportArgumentType]
+            offset="5",  # pyright: ignore[reportArgumentType]
         )
         keyframe.scale_values(
-            value_scale=2,
-            pivot_value=None,  # pyright: ignore[reportArgumentType]
+            scale=2,
+            pivot=None,  # pyright: ignore[reportArgumentType]
         )
         keyframe.add_values(
-            offset_value=5,
+            offset=5,
             interpolation="spline",  # pyright: ignore[reportArgumentType]
         )
         keyframe.set_value(
@@ -4434,7 +4432,7 @@ def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
         )
         keyframe.add_value(
             10,
-            offset_value=5,
+            offset=5,
             interpolate_start=0,  # pyright: ignore[reportCallIssue]
         )
 
@@ -4444,41 +4442,39 @@ def keyframe_move_contract(nodes: bdu.Nodes) -> None:
     layer = channel.anim_layer("Correction")
     curve = nodes.existing.animCurveTL("curve").keyframe
     for keyframe in (channel, layer, curve):
-        assert_type(keyframe.move_key(10, offset_frames=15), None)
+        assert_type(keyframe.move_frame(10, offset=15), None)
+        assert_type(keyframe.move_frame(10, to=15, insert_missing=True), None)
+        assert_type(keyframe.move_frames(10, 20, offset=15), None)
+        assert_type(keyframe.move_frames(10, 20, to_start=20), None)
+        assert_type(keyframe.move_frames(10, 20, to_end=30), None)
+        assert_type(keyframe.move_frames(10, None, offset=15), None)
+        assert_type(keyframe.move_frames(None, 20, offset=15), None)
+        assert_type(keyframe.move_frames(to_start=0), None)
         assert_type(
-            keyframe.move_key(10, to_frame=15, insert_missing=True), None
-        )
-        assert_type(keyframe.move_keys(10, 20, offset_frames=15), None)
-        assert_type(keyframe.move_keys(10, 20, to_start_frame=20), None)
-        assert_type(keyframe.move_keys(10, 20, to_end_frame=30), None)
-        assert_type(keyframe.move_keys(10, None, offset_frames=15), None)
-        assert_type(keyframe.move_keys(None, 20, offset_frames=15), None)
-        assert_type(keyframe.move_keys(to_start_frame=0), None)
-        assert_type(
-            keyframe.move_keys(
+            keyframe.move_frames(
                 20,
                 30,
-                offset_frames=5,
+                offset=5,
                 interpolate_start=10,
                 interpolate_end=40,
             ),
             None,
         )
         assert_type(
-            keyframe.move_keys(
+            keyframe.move_frames(
                 20,
                 30,
-                to_start_frame=25,
+                to_start=25,
                 interpolate_start=10,
                 interpolation="linear",
             ),
             None,
         )
         assert_type(
-            keyframe.move_keys(
+            keyframe.move_frames(
                 20,
                 30,
-                to_end_frame=35,
+                to_end=35,
                 interpolate_end=40,
                 interpolation="smoothstep",
                 insert_missing=True,
@@ -4486,49 +4482,45 @@ def keyframe_move_contract(nodes: bdu.Nodes) -> None:
             None,
         )
         assert_type(
-            keyframe.move_keys(
-                20, None, offset_frames=5, interpolate_start=10
-            ),
+            keyframe.move_frames(20, None, offset=5, interpolate_start=10),
             None,
         )
         assert_type(
-            keyframe.move_keys(None, 30, offset_frames=-5, interpolate_end=40),
+            keyframe.move_frames(None, 30, offset=-5, interpolate_end=40),
             None,
         )
         assert_type(
-            keyframe.move_keys(to_end_frame=100, insert_missing=True), None
+            keyframe.move_frames(to_end=100, insert_missing=True), None
         )
-        keyframe.move_key(10)  # pyright: ignore[reportCallIssue]
-        keyframe.move_keys()  # pyright: ignore[reportCallIssue]
-        keyframe.move_key(  # pyright: ignore[reportCallIssue]
+        keyframe.move_frame(10)  # pyright: ignore[reportCallIssue]
+        keyframe.move_frames()  # pyright: ignore[reportCallIssue]
+        keyframe.move_frame(  # pyright: ignore[reportCallIssue]
             10,
-            offset_frames=1,
-            to_frame=20,  # pyright: ignore[reportArgumentType]
+            offset=1,
+            to=20,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.move_keys(  # pyright: ignore[reportCallIssue]
-            to_start_frame=10,
-            to_end_frame=20,  # pyright: ignore[reportArgumentType]
+        keyframe.move_frames(  # pyright: ignore[reportCallIssue]
+            to_start=10,
+            to_end=20,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.move_keys(
-            offset_frames=1,
+        keyframe.move_frames(
+            offset=1,
             insert_missing=1,  # pyright: ignore[reportArgumentType]
         )
-        keyframe.move_key(
-            "10", to_frame=20  # pyright: ignore[reportArgumentType]
-        )
-        keyframe.move_keys(
-            offset_frames=1,
+        keyframe.move_frame("10", to=20)  # pyright: ignore[reportArgumentType]
+        keyframe.move_frames(
+            offset=1,
             interpolation="spline",  # pyright: ignore[reportArgumentType]
         )
-        keyframe.move_keys(
+        keyframe.move_frames(
             10,
             20,
-            offset_frames=1,
+            offset=1,
             interpolate_start="0",  # pyright: ignore[reportArgumentType]
         )
-        keyframe.move_key(
+        keyframe.move_frame(
             10,
-            offset_frames=1,
+            offset=1,
             interpolate_start=0,  # pyright: ignore[reportCallIssue]
         )
 

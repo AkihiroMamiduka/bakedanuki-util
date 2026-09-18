@@ -187,11 +187,9 @@ def queue_value(
         start_frame = end_frame = _number(start_frame, "frame")
     amount = _number(
         amount,
-        {"set": "value", "add": "offset_value", "scale": "value_scale"}[
-            operation
-        ],
+        {"set": "value", "add": "offset", "scale": "scale"}[operation],
     )
-    pivot = _number(pivot_value, "pivot_value")
+    pivot = _number(pivot_value, "pivot")
     if type(insert_missing) is not bool:
         raise TypeError("insert_missing must be a bool.")
     rate = om.MTime(1, om.MTime.uiUnit()).asUnits(om.MTime.kSeconds)

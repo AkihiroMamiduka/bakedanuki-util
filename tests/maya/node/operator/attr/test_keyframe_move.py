@@ -87,76 +87,76 @@ def _history(mod, curve, before, after):
     "method,args,kwargs,expected",
     [
         (
-            "move_key",
+            "move_frame",
             (10,),
-            {"to_frame": 15},
+            {"to": 15},
             [(0, 0), (15, 4), (20, 2), (30, 7)],
         ),
-        ("move_key", (10,), {"offset_frames": 10}, [(0, 0), (20, 4), (30, 7)]),
+        ("move_frame", (10,), {"offset": 10}, [(0, 0), (20, 4), (30, 7)]),
         (
-            "move_key",
+            "move_frame",
             (10,),
-            {"to_frame": 25},
+            {"to": 25},
             [(0, 0), (20, 2), (25, 4), (30, 7)],
         ),
         (
-            "move_keys",
+            "move_frames",
             (10, 20),
-            {"offset_frames": 10},
+            {"offset": 10},
             [(0, 0), (20, 4), (30, 2)],
         ),
         (
-            "move_keys",
+            "move_frames",
             (10, 20),
-            {"to_start_frame": 20},
+            {"to_start": 20},
             [(0, 0), (20, 4), (30, 2)],
         ),
         (
-            "move_keys",
+            "move_frames",
             (10, 20),
-            {"to_end_frame": 30},
+            {"to_end": 30},
             [(0, 0), (20, 4), (30, 2)],
         ),
         (
-            "move_keys",
+            "move_frames",
             (10, None),
-            {"offset_frames": -15},
+            {"offset": -15},
             [(-5, 4), (0, 0), (5, 2), (15, 7)],
         ),
         (
-            "move_keys",
+            "move_frames",
             (None, 20),
-            {"offset_frames": 15},
+            {"offset": 15},
             [(15, 0), (25, 4), (30, 7), (35, 2)],
         ),
         (
-            "move_keys",
+            "move_frames",
             (),
-            {"to_start_frame": -5},
+            {"to_start": -5},
             [(-5, 0), (5, 4), (15, 2), (25, 7)],
         ),
         (
-            "move_keys",
+            "move_frames",
             (),
-            {"to_end_frame": 25},
+            {"to_end": 25},
             [(-5, 0), (5, 4), (15, 2), (25, 7)],
         ),
         (
-            "move_keys",
+            "move_frames",
             (12, 28),
-            {"to_start_frame": 20},
+            {"to_start": 20},
             [(0, 0), (10, 4), (28, 2), (30, 7)],
         ),
         (
-            "move_keys",
+            "move_frames",
             (12, 28),
-            {"to_end_frame": 40},
+            {"to_end": 40},
             [(0, 0), (10, 4), (30, 7), (32, 2)],
         ),
         (
-            "move_key",
+            "move_frame",
             (10,),
-            {"offset_frames": -10.25},
+            {"offset": -10.25},
             [(-0.25, 4), (0, 0), (20, 2), (30, 7)],
         ),
     ],
@@ -188,7 +188,7 @@ def test_metadata_and_curve_settings_survive_all_move_paths(
 ):
     keyframe, mod, curve = _make(maya_cmds, kind, weighted, tangent)
     before = _curve_state(curve)
-    keyframe.move_key(10, to_frame=destination)
+    keyframe.move_frame(10, to=destination)
     mod.do_it_dg()
     index = curve.find(_time(destination))
     after = _curve_state(curve)
@@ -231,7 +231,7 @@ def test_whole_curve_translation_preserves_evaluation(
     keyframe, mod, curve = _make(maya_cmds, weighted=weighted, tangent=tangent)
     frames = [i / 4 for i in range(-20, 141)]
     values = [curve.evaluate(_time(f)) for f in frames]
-    keyframe.move_keys(offset_frames=offset)
+    keyframe.move_frames(offset=offset)
     mod.do_it_dg()
     assert [
         curve.evaluate(_time(f + offset)) for f in frames
@@ -248,7 +248,7 @@ def test_missing_boundaries_insert_values_and_restore_history(
     before = _curve_state(curve)
     boundaries = sorted({f for f in args if f is not None})
     values = {f: curve.evaluate(_time(f)) for f in boundaries}
-    keyframe.move_keys(*args, offset_frames=40, insert_missing=True)
+    keyframe.move_frames(*args, offset=40, insert_missing=True)
     assert _curve_state(curve) == before
     mod.do_it_dg()
     for frame, value in values.items():
@@ -266,11 +266,11 @@ def test_missing_boundaries_insert_values_and_restore_history(
 def test_single_missing_key_and_absolute_missing_boundaries(maya_cmds):
     keyframe, mod, curve = _make(maya_cmds)
     expected = curve.evaluate(_time(12))
-    keyframe.move_key(12, to_frame=15, insert_missing=True)
+    keyframe.move_frame(12, to=15, insert_missing=True)
     mod.do_it_dg()
     assert curve.find(_time(12)) is None
     assert curve.evaluate(_time(15)) == pytest.approx(expected)
-    keyframe.move_keys(12, 18, to_end_frame=28, insert_missing=True)
+    keyframe.move_frames(12, 18, to_end=28, insert_missing=True)
     mod.do_it_dg()
     assert keyframe.frames() == [0, 10, 20, 22, 25, 28, 30]
 
@@ -279,11 +279,11 @@ def test_single_missing_key_and_absolute_missing_boundaries(maya_cmds):
 @pytest.mark.parametrize(
     "method,args,kwargs",
     [
-        ("move_key", (12,), {"to_frame": 12}),
-        ("move_key", (10,), {"offset_frames": 0}),
-        ("move_keys", (12, 18), {"offset_frames": 0}),
-        ("move_keys", (12, 18), {"to_start_frame": 12}),
-        ("move_keys", (), {"to_end_frame": 30}),
+        ("move_frame", (12,), {"to": 12}),
+        ("move_frame", (10,), {"offset": 0}),
+        ("move_frames", (12, 18), {"offset": 0}),
+        ("move_frames", (12, 18), {"to_start": 12}),
+        ("move_frames", (), {"to_end": 30}),
     ],
 )
 def test_zero_move_does_not_insert_or_change_scene(
@@ -301,7 +301,7 @@ def test_zero_move_does_not_insert_or_change_scene(
 @pytest.mark.parametrize(
     "empty", ["missing_curve", "empty_curve", "missing_keys"]
 )
-@pytest.mark.parametrize("method", ["move_key", "move_keys"])
+@pytest.mark.parametrize("method", ["move_frame", "move_frames"])
 def test_missing_targets_are_noops(maya_cmds, empty, method):
     if empty == "missing_curve":
         node = maya_cmds.createNode("transform")
@@ -318,9 +318,9 @@ def test_missing_targets_are_noops(maya_cmds, empty, method):
                 curve.remove(i)
     before = keyframe.get_keys()
     nodes = set(maya_cmds.ls())
-    args = (12,) if method == "move_key" else (12, 18)
+    args = (12,) if method == "move_frame" else (12, 18)
     getattr(keyframe, method)(
-        *args, offset_frames=10, insert_missing=empty != "missing_keys"
+        *args, offset=10, insert_missing=empty != "missing_keys"
     )
     mod.do_it_dg()
     assert keyframe.get_keys() == before
@@ -330,32 +330,32 @@ def test_missing_targets_are_noops(maya_cmds, empty, method):
 @pytest.mark.parametrize(
     "method,args,kwargs,error",
     [
-        ("move_key", (10,), {}, ValueError),
-        ("move_key", (10,), {"offset_frames": 1, "to_frame": 20}, ValueError),
-        ("move_key", (None,), {"to_frame": 20}, TypeError),
-        ("move_key", (float("nan"),), {"to_frame": 20}, ValueError),
-        ("move_key", (10,), {"to_frame": float("inf")}, ValueError),
-        ("move_keys", (), {}, ValueError),
-        ("move_keys", (20, 10), {"offset_frames": 1}, ValueError),
-        ("move_keys", (), {"offset_frames": float("nan")}, ValueError),
-        ("move_keys", (), {"to_start_frame": float("inf")}, ValueError),
-        ("move_keys", (), {"to_end_frame": float("inf")}, ValueError),
+        ("move_frame", (10,), {}, ValueError),
+        ("move_frame", (10,), {"offset": 1, "to": 20}, ValueError),
+        ("move_frame", (None,), {"to": 20}, TypeError),
+        ("move_frame", (float("nan"),), {"to": 20}, ValueError),
+        ("move_frame", (10,), {"to": float("inf")}, ValueError),
+        ("move_frames", (), {}, ValueError),
+        ("move_frames", (20, 10), {"offset": 1}, ValueError),
+        ("move_frames", (), {"offset": float("nan")}, ValueError),
+        ("move_frames", (), {"to_start": float("inf")}, ValueError),
+        ("move_frames", (), {"to_end": float("inf")}, ValueError),
         (
-            "move_keys",
+            "move_frames",
             (),
-            {"to_start_frame": 10, "to_end_frame": 20},
+            {"to_start": 10, "to_end": 20},
             ValueError,
         ),
         (
-            "move_keys",
+            "move_frames",
             (),
-            {"offset_frames": 1, "to_end_frame": 20},
+            {"offset": 1, "to_end": 20},
             ValueError,
         ),
         (
-            "move_keys",
+            "move_frames",
             (),
-            {"offset_frames": 1, "insert_missing": 1},
+            {"offset": 1, "insert_missing": 1},
             TypeError,
         ),
     ],
@@ -376,12 +376,12 @@ def test_invalid_arguments_do_not_queue_partial_work(
 )
 @pytest.mark.parametrize(
     "kwargs",
-    [{"offset_frames": 15}, {"to_start_frame": 25}, {"to_end_frame": 35}],
+    [{"offset": 15}, {"to_start": 25}, {"to_end": 35}],
 )
 def test_units_captured_before_execution_and_redo(maya_cmds, kind, kwargs):
     keyframe, mod, curve = _make(maya_cmds, kind, True)
     before = _curve_state(curve)
-    keyframe.move_keys(10, 20, **kwargs)
+    keyframe.move_frames(10, 20, **kwargs)
     maya_cmds.currentUnit(
         time="ntsc", angle="rad", linear="m", updateAnimation=True
     )
@@ -421,11 +421,11 @@ def test_mid_edit_failure_rolls_back_insert_overwrite_and_earlier_edits(
 
     monkeypatch.setattr(_keyframe_move, helper, fail)
     if stage == "after_insert":
-        keyframe.move_key(12, to_frame=15, insert_missing=True)
+        keyframe.move_frame(12, to=15, insert_missing=True)
     elif stage == "after_set_input":
-        keyframe.move_key(10, to_frame=12)
+        keyframe.move_frame(10, to=12)
     else:
-        keyframe.move_key(10, to_frame=20)
+        keyframe.move_frame(10, to=20)
     with pytest.raises(RuntimeError, match="injected move failure"):
         mod.do_it_dg()
     _assert_state(_curve_state(curve), before)
@@ -437,8 +437,8 @@ def test_pending_creation_and_sequential_moves(maya_cmds):
     curve = bdu.Nodes(modifier_manager=mod).create.animCurveTL(name="pending")
     keyframe = curve.keyframe
     keyframe.set_keys([(10, 4), (20, 2)])
-    keyframe.move_key(10, to_frame=15)
-    keyframe.move_keys(to_start_frame=30)
+    keyframe.move_frame(10, to=15)
+    keyframe.move_frames(to_start=30)
     with pytest.raises(RuntimeError):
         keyframe.frames()
     assert not maya_cmds.objExists("pending")
@@ -459,7 +459,7 @@ def test_numeric_discrete_channels_use_existing_edit_target_scope(
     mod = bdu.ModifierManager()
     keyframe = KeyframeManager(plug, modifier_manager=mod)
     before = _curve_state(curve)
-    keyframe.move_key(5, to_frame=9)
+    keyframe.move_frame(5, to=9)
     mod.do_it_dg()
     assert keyframe.frames() == [1, 9]
     _history(mod, curve, before, _curve_state(curve))
@@ -477,7 +477,7 @@ def test_missing_key_outside_key_span_uses_curve_value(
     curve.setPostInfinityType(getattr(curve, "k" + infinity))
     value = curve.evaluate(_time(frame))
     before = _curve_state(curve)
-    keyframe.move_key(frame, to_frame=15, insert_missing=True)
+    keyframe.move_frame(frame, to=15, insert_missing=True)
     mod.do_it_dg()
     assert curve.find(_time(frame)) is None
     assert curve.evaluate(_time(15)) == pytest.approx(value)
@@ -495,7 +495,7 @@ def test_both_exterior_boundaries_sample_before_changing_infinity_period(
     curve.setPostInfinityType(getattr(curve, "k" + infinity))
     before = _curve_state(curve)
     samples = [curve.evaluate(_time(frame)) for frame in bounds]
-    keyframe.move_keys(*bounds, offset_frames=100, insert_missing=True)
+    keyframe.move_frames(*bounds, offset=100, insert_missing=True)
     mod.do_it_dg()
     for frame, value in zip(bounds, samples):
         actual = curve.evaluate(_time(frame + 100))
@@ -509,12 +509,12 @@ def test_both_exterior_boundaries_sample_before_changing_infinity_period(
 def test_subframe_selection_and_maya_precision_noop(maya_cmds):
     keyframe, mod, curve = _make(maya_cmds)
     curve.addKey(_time(10.25), 12)
-    keyframe.move_keys(10.25, 10.25, offset_frames=0.25)
+    keyframe.move_frames(10.25, 10.25, offset=0.25)
     mod.do_it_dg()
     assert keyframe.frames() == [0, 10, 10.5, 20, 30]
     mod.clear()
     before = _curve_state(curve)
-    keyframe.move_key(10, to_frame=10 + 1e-10, insert_missing=True)
+    keyframe.move_frame(10, to=10 + 1e-10, insert_missing=True)
     mod.do_it_dg()
     assert _curve_state(curve) == before
 
@@ -544,7 +544,7 @@ def test_explicit_shared_curve_uses_input_time_and_keeps_connections(
     connections = maya_cmds.listConnections(
         curve.name(), connections=True, plugs=True
     )
-    keyframe.move_key(10, to_frame=20)
+    keyframe.move_frame(10, to=20)
     renamed = maya_cmds.rename(curve.name(), "renamedCurve")
     mod.do_it_dg()
     assert keyframe.frames() == [0, 20, 30]
@@ -564,7 +564,7 @@ def test_channel_reconnection_and_rename_are_resolved_at_execution(maya_cmds):
     original_before, replacement_before = _curve_state(original), _curve_state(
         replacement
     )
-    keyframe.move_key(10, to_frame=20)
+    keyframe.move_frame(10, to=20)
     maya_cmds.disconnectAttr(original.name() + ".output", plug.name())
     maya_cmds.connectAttr(replacement.name() + ".output", plug.name())
     maya_cmds.rename(om.MFnDependencyNode(plug.node()).name(), "renamedTarget")
@@ -578,8 +578,8 @@ def test_channel_reconnection_and_rename_are_resolved_at_execution(maya_cmds):
 def test_noop_does_not_bypass_manager_or_write_requirements(maya_cmds, offset):
     keyframe, mod, curve = _make(maya_cmds)
     with pytest.raises(RuntimeError, match="ModifierManager"):
-        CurveKeyframeManager(curve.object()).move_keys(offset_frames=offset)
-    keyframe.move_key(12, offset_frames=offset)
+        CurveKeyframeManager(curve.object()).move_frames(offset=offset)
+    keyframe.move_frame(12, offset=offset)
     maya_cmds.lockNode(curve.name(), lock=True)
     with pytest.raises(RuntimeError, match="locked"):
         mod.do_it_dg()
@@ -588,10 +588,10 @@ def test_noop_does_not_bypass_manager_or_write_requirements(maya_cmds, offset):
 @pytest.mark.parametrize(
     "kwargs",
     [
-        {"offset_frames": 1e20},
-        {"to_start_frame": 1e20},
-        {"start_frame": -1e20, "offset_frames": 1},
-        {"end_frame": 1e20, "offset_frames": 1},
+        {"offset": 1e20},
+        {"to_start": 1e20},
+        {"start_frame": -1e20, "offset": 1},
+        {"end_frame": 1e20, "offset": 1},
     ],
 )
 def test_unrepresentable_times_do_not_wrap_into_other_frames(
@@ -600,7 +600,7 @@ def test_unrepresentable_times_do_not_wrap_into_other_frames(
     keyframe, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     with pytest.raises(ValueError, match="representable"):
-        keyframe.move_keys(**kwargs)
+        keyframe.move_frames(**kwargs)
     mod.do_it_dg()
     assert _curve_state(curve) == before
 
@@ -610,7 +610,7 @@ def test_destination_overflow_rolls_back_earlier_edits(maya_cmds):
     curve.addKey(_time(1e12), 4)
     before = _curve_state(curve)
     keyframe.set_key(12, frame=12)
-    keyframe.move_keys(offset_frames=1e12)
+    keyframe.move_frames(offset=1e12)
     with pytest.raises(ValueError, match="representable"):
         mod.do_it_dg()
     _assert_state(_curve_state(curve), before)

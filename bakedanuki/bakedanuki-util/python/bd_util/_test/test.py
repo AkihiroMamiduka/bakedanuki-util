@@ -70,10 +70,8 @@ def main():
         nodes.modifier_manager,
         targets=[dst_0_1],
     )
-    dst_0_1.tx.keyframe.scale_keys(-50, 50, time_scale=0.5)
-    dst_0_1.ty.keyframe.scale_keys(
-        -50, 50, to_start_frame=-25, to_end_frame=25
-    )
+    dst_0_1.tx.keyframe.scale_frames(-50, 50, scale=0.5)
+    dst_0_1.ty.keyframe.scale_frames(-50, 50, to_start=-25, to_end=25)
 
     clip = bdu.AnimationClip.capture(
         [trsf],
@@ -121,10 +119,10 @@ def main():
         -50, 50, value=25, interpolate_start=-75, interpolate_end=75
     )
     dst_4_2.tx.keyframe.add_values(
-        -50, 50, offset_value=25, interpolate_start=-75, interpolate_end=75
+        -50, 50, offset=25, interpolate_start=-75, interpolate_end=75
     )
     dst_4_3.tx.keyframe.scale_values(
-        -50, 50, value_scale=2, interpolate_start=-75, interpolate_end=75
+        -50, 50, scale=2, interpolate_start=-75, interpolate_end=75
     )
 
     clip = bdu.AnimationClip.capture(
@@ -136,17 +134,17 @@ def main():
     dst_5_2 = nodes.create.transform(name="dst_5_2")
     for target in [dst_5_0, dst_5_1, dst_5_2]:
         clip.restore(nodes.modifier_manager, targets=[target])
-    dst_5_1.tx.keyframe.move_keys(
+    dst_5_1.tx.keyframe.move_frames(
         -25,
         25,
-        offset_frames=25,
+        offset=25,
         interpolate_start=-50,
         interpolate_end=75,
     )
-    dst_5_2.tx.keyframe.move_keys(
+    dst_5_2.tx.keyframe.move_frames(
         -25,
         25,
-        offset_frames=25,
+        offset=25,
         interpolate_start=-50,
         interpolate_end=75,
         interpolation="linear",
@@ -161,18 +159,18 @@ def main():
     dst_6_2 = nodes.create.transform(name="dst_6_2")
     for target in [dst_6_0, dst_6_1, dst_6_2]:
         clip.restore(nodes.modifier_manager, targets=[target])
-    dst_6_1.tx.keyframe.scale_keys(
+    dst_6_1.tx.keyframe.scale_frames(
         -50,
         50,
-        time_scale=0.5,
+        scale=0.5,
         interpolate_start=-75,
         interpolate_end=75,
     )
-    dst_6_2.tx.keyframe.scale_keys(
+    dst_6_2.tx.keyframe.scale_frames(
         -50,
         50,
-        time_scale=0.5,
-        pivot_frame=0,
+        scale=0.5,
+        pivot=0,
         interpolate_start=-75,
         interpolate_end=75,
     )

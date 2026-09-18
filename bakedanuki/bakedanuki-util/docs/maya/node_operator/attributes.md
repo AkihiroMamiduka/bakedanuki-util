@@ -759,7 +759,12 @@ frames = keyframe.frames()
 
 ### キーを時間方向へ移動する
 
-`move_key()` / `move_keys()`は、移動対象を位置引数、移動方法をkeyword引数で指定します。
+時間方向の操作は`move_frame()` / `move_frames()` / `scale_frames()`、
+値方向の操作は`set_value(s)` / `add_value(s)` / `scale_value(s)`で表します。
+操作量は`offset`、倍率は`scale`、拡縮の基準は`pivot`に統一しています。
+対象キーを選ぶ`frame` / `start_frame` / `end_frame`は、値方向の操作でも時刻なので名前を維持します。
+
+`move_frame()` / `move_frames()`は、移動対象を位置引数、移動方法をkeyword引数で指定します。
 戻り値は`None`で、同じModifierManagerへ予約します。値方向の移動や時間の拡大縮小は行いません。
 
 ```python
@@ -770,33 +775,33 @@ nodes = bdu.Nodes(modifier_manager=mod)
 ctrl = nodes.existing.transform("ctrl")
 keyframe = ctrl.tx.keyframe
 
-keyframe.move_keys(10, 20, offset_frames=15)
+keyframe.move_frames(10, 20, offset=15)
 mod.do_it_dg()
 ```
 
 | 用途 | 呼び出し例 |
 | --- | --- |
-| 単一キーを相対移動 | `move_key(10, offset_frames=15)` |
-| 単一キーを絶対移動 | `move_key(10, to_frame=15)` |
-| 範囲を相対移動 | `move_keys(10, 20, offset_frames=15)` |
-| 開始境界を20へ合わせる | `move_keys(10, 20, to_start_frame=20)` |
-| 終了境界を30へ合わせる | `move_keys(10, 20, to_end_frame=30)` |
-| 10以降を移動 | `move_keys(10, None, offset_frames=15)` |
-| 20以前を移動 | `move_keys(None, 20, offset_frames=15)` |
-| 全体を移動 | `move_keys(offset_frames=-5)` |
-| 最初のキーを0へ合わせる | `move_keys(to_start_frame=0)` |
+| 単一キーを相対移動 | `move_frame(10, offset=15)` |
+| 単一キーを絶対移動 | `move_frame(10, to=15)` |
+| 範囲を相対移動 | `move_frames(10, 20, offset=15)` |
+| 開始境界を20へ合わせる | `move_frames(10, 20, to_start=20)` |
+| 終了境界を30へ合わせる | `move_frames(10, 20, to_end=30)` |
+| 10以降を移動 | `move_frames(10, None, offset=15)` |
+| 20以前を移動 | `move_frames(None, 20, offset=15)` |
+| 全体を移動 | `move_frames(offset=-5)` |
+| 最初のキーを0へ合わせる | `move_frames(to_start=0)` |
 
-`move_key(frame, *, offset_frames=None, to_frame=None, insert_missing=False)`は、
+`move_frame(frame, *, offset=None, to=None, insert_missing=False)`は、
 移動量または移動先のどちらか1つを必ず指定します。
-`move_keys(start_frame=None, end_frame=None, *, offset_frames=None, to_start_frame=None,
-to_end_frame=None, interpolate_start=None, interpolate_end=None, interpolation="smoothstep",
+`move_frames(start_frame=None, end_frame=None, *, offset=None, to_start=None,
+to_end=None, interpolate_start=None, interpolate_end=None, interpolation="smoothstep",
 insert_missing=False)`も、移動方法3種類のうち1つだけ指定します。
 指定なし・複数指定、非有限数、逆転した範囲、bool以外の`insert_missing`は予約時に拒否します。
 型・補完でも移動方法の排他指定を検査します。
 
 範囲は両端を含み、`None`の側は無制限です。明示した境界は、その数値自体を
 絶対移動の基準にします。例えば12～28の範囲に20のキーしかなくても、
-`move_keys(12, 28, to_start_frame=20)`は+8の移動なので、キーは28へ移ります。
+`move_frames(12, 28, to_start=20)`は+8の移動なので、キーは28へ移ります。
 基準側が`None`の場合は対象キーの最初・最後を基準にします。対象キーは初回実行時に
 決定するため、同じbatchの先行キー設定や移動も反映します。
 
@@ -820,8 +825,8 @@ Mayaで表現できないほど大きな時刻・移動量は拒否し、移動�
 補間指定時は、後述する補間開始・終了の境界も補います。
 
 ```python
-keyframe.move_key(12, to_frame=15, insert_missing=True)
-keyframe.move_keys(40, 50, to_start_frame=60, insert_missing=True)
+keyframe.move_frame(12, to=15, insert_missing=True)
+keyframe.move_frames(40, 50, to_start=60, insert_missing=True)
 mod.do_it_dg()
 ```
 
@@ -851,13 +856,13 @@ queryは保留中modifierを実行せず、Redoは初回に記録した対象へ
 
 #### 移動量を範囲の外側へならす
 
-`move_keys()`には、値編集と同じ`interpolate_start` / `interpolate_end` /
-`interpolation`を指定できます。単一の`move_key()`には追加していません。
+`move_frames()`には、値編集と同じ`interpolate_start` / `interpolate_end` /
+`interpolation`を指定できます。単一の`move_frame()`には追加していません。
 
 ```python
-keyframe.move_keys(
+keyframe.move_frames(
     20, 30,
-    offset_frames=5,
+    offset=5,
     interpolate_start=10,
     interpolate_end=40,
     interpolation="smoothstep",
@@ -886,7 +891,7 @@ mod.do_it_dg()
 補間引数を省略した側と`None`の範囲境界は、従来の範囲指定に従います。
 補間境界の単位も予約時のUI時間単位で捕捉します。
 
-`to_start_frame` / `to_end_frame`は、補間区間を含める前の元範囲から移動量を求め、
+`to_start` / `to_end`は、補間区間を含める前の元範囲から移動量を求め、
 各キーに同じ規則で重み付けします。明示境界を基準にする既存の仕様は変わりません。
 元範囲にキーがなくても、移動量を確定できれば補間区間の既存キーを移動できます。
 絶対移動の基準側が`None`で元範囲にキーがない場合は何も変更せず、
@@ -913,8 +918,8 @@ rollbackします。影響度0の端点キーもこの検査に含めます。
 
 ### キーを時間方向へ拡縮する
 
-`scale_keys(start_frame=None, end_frame=None, *, time_scale=None, duration_frames=None,
-offset_frames=None, to_start_frame=None, to_end_frame=None, pivot_frame=None, mode="replace_range",
+`scale_frames(start_frame=None, end_frame=None, *, scale=None, duration=None,
+offset=None, to_start=None, to_end=None, pivot=None, mode="replace_range",
 interpolate_start=None, interpolate_end=None, interpolation="smoothstep",
 insert_missing=False)`は、既存カーブのキーを時間方向に拡縮します。
 戻り値は`None`で、同じModifierManagerへ予約します。
@@ -927,51 +932,51 @@ nodes = bdu.Nodes(modifier_manager=mod)
 ctrl = nodes.existing.transform("ctrl")
 
 # 10〜30の動きを100〜140へ収め、配置先区間の既存キーを置き換える
-ctrl.tx.keyframe.scale_keys(10, 30, to_start_frame=100, to_end_frame=140)
+ctrl.tx.keyframe.scale_frames(10, 30, to_start=100, to_end=140)
 mod.do_it_dg()
 ```
 
 | 用途 | 呼び出し例 | 変換後の基準区間 |
 | --- | --- | --- |
-| 開始位置を固定して2倍 | `scale_keys(10, 30, time_scale=2)` | 10〜50 |
-| 20を固定して2倍 | `scale_keys(10, 30, time_scale=2, pivot_frame=20)` | 0〜40 |
-| 20を固定して10フレームの長さへ | `scale_keys(10, 30, duration_frames=10, pivot_frame=20)` | 15〜25 |
-| 15フレームの長さへ | `scale_keys(10, 30, duration_frames=15)` | 10〜25 |
-| 開始と終了を指定 | `scale_keys(10, 30, to_start_frame=100, to_end_frame=140)` | 100〜140 |
-| 2倍にして終了を固定 | `scale_keys(10, 30, time_scale=2, to_end_frame=30)` | -10〜30 |
-| 2倍にして開始を指定 | `scale_keys(10, 30, time_scale=2, to_start_frame=100)` | 100〜140 |
-| 拡縮して相対移動 | `scale_keys(10, 30, duration_frames=10, offset_frames=5)` | 15〜25 |
-| 全体を半分の長さへ | `scale_keys(time_scale=0.5)` | 最初のキーを固定 |
-| 10以降を2倍 | `scale_keys(10, None, time_scale=2)` | 10を固定 |
-| 30以前を2倍 | `scale_keys(None, 30, time_scale=2)` | 対象の最初のキーを固定 |
+| 開始位置を固定して2倍 | `scale_frames(10, 30, scale=2)` | 10〜50 |
+| 20を固定して2倍 | `scale_frames(10, 30, scale=2, pivot=20)` | 0〜40 |
+| 20を固定して10フレームの長さへ | `scale_frames(10, 30, duration=10, pivot=20)` | 15〜25 |
+| 15フレームの長さへ | `scale_frames(10, 30, duration=15)` | 10〜25 |
+| 開始と終了を指定 | `scale_frames(10, 30, to_start=100, to_end=140)` | 100〜140 |
+| 2倍にして終了を固定 | `scale_frames(10, 30, scale=2, to_end=30)` | -10〜30 |
+| 2倍にして開始を指定 | `scale_frames(10, 30, scale=2, to_start=100)` | 100〜140 |
+| 拡縮して相対移動 | `scale_frames(10, 30, duration=10, offset=5)` | 15〜25 |
+| 全体を半分の長さへ | `scale_frames(scale=0.5)` | 最初のキーを固定 |
+| 10以降を2倍 | `scale_frames(10, None, scale=2)` | 10を固定 |
+| 30以前を2倍 | `scale_frames(None, 30, scale=2)` | 対象の最初のキーを固定 |
 
-拡縮方法は、正の`time_scale`、正の`duration_frames`、移動先の両端指定のいずれか1つです。
+拡縮方法は、正の`scale`、正の`duration`、移動先の両端指定のいずれか1つです。
 長さは終了と開始の差で、10〜30は20フレームと数えます。倍率・長さには配置方法を1つ
-組み合わせられます。`offset_frames`と移動先境界の併用、倍率と長さの併用、
-両端指定と倍率・長さの併用は拒否します。配置だけを指定する場合は`move_keys()`を使います。
+組み合わせられます。`offset`と移動先境界の併用、倍率と長さの併用、
+両端指定と倍率・長さの併用は拒否します。配置だけを指定する場合は`move_frames()`を使います。
 ピボットと配置を省略すると基準区間の開始を固定します。逆再生・倍率0・区間の0幅への圧縮は扱いません。
 
 範囲は両端を含みます。明示した境界はキーの有無にかかわらず元区間の境界として扱い、`None`側は
 対象キーの最初・最後を使います。例えば10・30にはキーがなく、15・25にキーがある場合、
-`scale_keys(10, 30, time_scale=2)`は基準区間を10〜50へ変換し、実在キーを20・40へ移します。
+`scale_frames(10, 30, scale=2)`は基準区間を10〜50へ変換し、実在キーを20・40へ移します。
 10を固定して、その時刻からの距離を2倍にする計算です。キーを境界へ寄せる操作ではありません。
 
-`pivot_frame`には、拡縮で固定する基準時刻を指定できます。元時刻を`t`、倍率を`s`、
+`pivot`には、拡縮で固定する基準時刻を指定できます。元時刻を`t`、倍率を`s`、
 ピボットを`p`とすると、変換後は`p + (t - p) * s`です。例えば10・20・30のキーへ
-`time_scale=2, pivot_frame=20`を指定すると、0・20・40へ移ります。
-`duration_frames`とも併用でき、元区間の長さから倍率を求めて同じ変換を使います。
-`offset_frames`は拡縮した後に加えるため、併用時はピボット位置もその量だけ移動します。
+`scale=2, pivot=20`を指定すると、0・20・40へ移ります。
+`duration`とも併用でき、元区間の長さから倍率を求めて同じ変換を使います。
+`offset`は拡縮した後に加えるため、併用時はピボット位置もその量だけ移動します。
 
 ```python
 # 20を中心に2倍へ広げてから、全体を5フレーム移動する
-ctrl.tx.keyframe.scale_keys(10, 30, time_scale=2, pivot_frame=20, offset_frames=5)
+ctrl.tx.keyframe.scale_frames(10, 30, scale=2, pivot=20, offset=5)
 mod.do_it_dg()
 ```
 
 ピボットは区間外・負の時刻・subframeも指定でき、そこにキーがある必要はありません。
 `insert_missing=True`でも、ピボット指定だけを理由にキーを追加しません。
-`pivot_frame=None`は従来どおりの配置規則を使います。
-ピボットを明示した場合、`to_start_frame` / `to_end_frame`との併用は予約時に拒否します。
+`pivot=None`は従来どおりの配置規則を使います。
+ピボットを明示した場合、`to_start` / `to_end`との併用は予約時に拒否します。
 配置先の境界を合わせる指定では最終的な変換がそこで決まり、ピボット指定の効果がなくなるためです。
 ピボットの時間単位も予約時に捕捉し、bool・文字列・非有限数・表現範囲外の時刻を拒否します。
 
@@ -1022,7 +1027,7 @@ queryは保留中の編集を実行しません。Undo / Redoでは置換され�
 
 #### 時間拡縮の影響を前後へならす
 
-`scale_keys()`も`move_keys()`・値編集と同じ`interpolate_start` / `interpolate_end`を受け取ります。
+`scale_frames()`も`move_frames()`・値編集と同じ`interpolate_start` / `interpolate_end`を受け取ります。
 補間区間の既存キーまで対象を広げ、元時刻から計算した影響度`w`で拡縮を弱めます。
 主区間は影響度1、補間開始・終了は0です。片側指定もでき、補間する側には
 明示した主区間の境界が必要です。`interpolate_start < start_frame`、
@@ -1031,9 +1036,9 @@ queryは保留中の編集を実行しません。Undo / Redoでは置換され�
 
 ```python
 keys = ctrl.tx.keyframe
-keys.scale_keys(
+keys.scale_frames(
     20, 30,
-    time_scale=1.5,
+    scale=1.5,
     interpolate_start=10,
     interpolate_end=50,
     interpolation="smoothstep",
@@ -1055,7 +1060,7 @@ mod.do_it_dg()
 
 最初に、補間区間を含めず主区間だけから通常の時間変換`F(t)`と倍率`s`を決めます。
 各キーの変換は`new_time = t + (F(t) - t) * w`です。
-`pivot_frame`があれば`F(t)`にピボットを反映し、`offset_frames`も含めた変化量へ影響度を掛けます。
+`pivot`があれば`F(t)`にピボットを反映し、`offset`も含めた変化量へ影響度を掛けます。
 部分置き換えはピボットを考慮した主区間の配置先だけで、補間範囲までは広げません。
 倍率・長さ・両端合わせと、相対配置・開始/終了合わせのすべてで同じ計算を使います。
 `None`側の基準は主区間の実在キー（境界補完指定時は補った主境界も含む）から求めます。
@@ -1093,16 +1098,16 @@ mod.do_it_dg()
 | 操作 | 単一キー | 範囲内のキー |
 | --- | --- | --- |
 | 同じ値へ設定 | `set_value(10, value=5)` | `set_values(10, 30, value=5)` |
-| 値を加算 | `add_value(10, offset_value=5)` | `add_values(10, 30, offset_value=5)` |
-| 値を拡縮 | `scale_value(10, value_scale=2, pivot_value=1)` | `scale_values(10, 30, value_scale=2, pivot_value=1)` |
+| 値を加算 | `add_value(10, offset=5)` | `add_values(10, 30, offset=5)` |
+| 値を拡縮 | `scale_value(10, scale=2, pivot=1)` | `scale_values(10, 30, scale=2, pivot=1)` |
 
 複数形の`start_frame=None, end_frame=None`は、`None`側を無制限とします。
-両方省略すればカーブ全体、`add_values(10, None, offset_value=5)`なら10以降、
-`add_values(None, 30, offset_value=5)`なら30以前です。開始と終了が同じでも使えます。
+両方省略すればカーブ全体、`add_values(10, None, offset=5)`なら10以降、
+`add_values(None, 30, offset=5)`なら30以前です。開始と終了が同じでも使えます。
 `set_values()`の`value`は全対象キーへ設定する1つの数値です。時刻ごとに異なる値を
 渡す場合やカーブを新規作成する場合は、従来の`set_key()` / `set_keys()`を使います。
 
-拡縮は`pivot_value + (元の値 - pivot_value) * value_scale`です。`pivot_value`の既定は0で、
+拡縮は`pivot + (元の値 - pivot) * scale`です。`pivot`の既定は0で、
 倍率0はピボット値へまとめ、負の倍率はピボットを中心に反転します。
 
 値・加算量・ピボットは**対象カーブ自身の生値**です。角度はdegree、距離はcm、
@@ -1131,7 +1136,7 @@ keys = nodes.existing.transform("ctrl").tx.keyframe
 
 keys.add_values(
     20, 30,
-    offset_value=5,
+    offset=5,
     interpolate_start=10,
     interpolate_end=40,
 )
@@ -1152,8 +1157,8 @@ mod.do_it_dg()
 | 操作 | 影響度を含む計算 |
 | --- | --- |
 | set | `(1 - w) * 元の値 + w * value` |
-| add | `元の値 + w * offset_value` |
-| scale | `pivot_value + (元の値 - pivot_value) * 実効倍率`。実効倍率は`1 + w * (value_scale - 1)` |
+| add | `元の値 + w * offset` |
+| scale | `pivot + (元の値 - pivot) * 実効倍率`。実効倍率は`1 + w * (scale - 1)` |
 
 #### 接線と境界挿入
 
@@ -1429,6 +1434,32 @@ node名や独自属性、Graph Editorの表示設定はこのsnapshotの対象�
 接線の保存・復元にはMayaの浮動小数点精度による丸めが含まれます。
 
 ### 旧APIからの移行
+
+時間方向・値方向の編集APIを整理しました。旧メソッド名・旧keyword引数のaliasは提供しません。
+以下は`KeyframeManager`と`CurveKeyframeManager`に共通です。
+
+| 変更対象 | 旧名 | 新名 |
+| --- | --- | --- |
+| 時間方向のメソッド | `move_key` / `move_keys` / `scale_keys` | `move_frame` / `move_frames` / `scale_frames` |
+| 時間方向の移動量・値の加算量 | `offset_frames` / `offset_value` | `offset` |
+| 単一キーの移動先 | `to_frame` | `to` |
+| 範囲の配置先 | `to_start_frame` / `to_end_frame` | `to_start` / `to_end` |
+| 時間・値の倍率 | `time_scale` / `value_scale` | `scale` |
+| 時間拡縮後の長さ | `duration_frames` | `duration` |
+| 時間・値の拡縮基準 | `pivot_frame` / `pivot_value` | `pivot` |
+
+```python
+keyframe.move_frame(10, to=15)
+keyframe.move_frames(10, 30, offset=5)
+keyframe.scale_frames(10, 30, scale=2, pivot=20)
+keyframe.scale_frames(10, 30, duration=10, to_start=100)
+keyframe.add_values(10, 30, offset=5)
+keyframe.scale_values(10, 30, scale=2, pivot=0)
+```
+
+対象指定の`frame` / `start_frame` / `end_frame`、`set_value(s)`の`value`、
+補間・置換・境界挿入の引数は維持します。単位・既定値・戻り値・編集処理も従来どおりです。
+`AnimationClip.restore()`はこの改名の対象に含めず、`offset_frames` / `time_scale`等を引き続き使用します。
 
 layer未指定のキー設定は、Mayaの選択layer・preferred・keying modeへ委ねず、sceneの
 ベース（root）layerへ固定します。取得・編集・詳細復元もベースを対象にします。

@@ -33,9 +33,7 @@ def _curve(cmds, kind="animCurveTL", weighted=False, tangent="fixed"):
 
 @pytest.mark.parametrize("interpolation", ["linear", "smoothstep"])
 @pytest.mark.parametrize("offset", [-4, 4])
-@pytest.mark.parametrize(
-    "placement", ["offset_frames", "to_start_frame", "to_end_frame"]
-)
+@pytest.mark.parametrize("placement", ["offset", "to_start", "to_end"])
 def test_weights_use_original_times_for_relative_and_absolute_moves(
     maya_cmds, interpolation, offset, placement
 ):
@@ -44,14 +42,9 @@ def test_weights_use_original_times_for_relative_and_absolute_moves(
         curve.addKey(_time(frame), frame)
     before = _curve_state(curve)
     frames, values = keys.frames(), keys.values()
-    amount = (
-        offset
-        + {"offset_frames": 0, "to_start_frame": 10, "to_end_frame": 20}[
-            placement
-        ]
-    )
+    amount = offset + {"offset": 0, "to_start": 10, "to_end": 20}[placement]
     assert (
-        keys.move_keys(
+        keys.move_frames(
             10,
             20,
             **{placement: amount},
@@ -86,8 +79,8 @@ def test_tangents_metadata_and_history_survive_nonuniform_movement(
 ):
     keys, mod, curve = _curve(maya_cmds, kind, weighted, tangent)
     before = _curve_state(curve)
-    keys.move_keys(
-        10, 20, offset_frames=offset, interpolate_start=0, interpolate_end=30
+    keys.move_frames(
+        10, 20, offset=offset, interpolate_start=0, interpolate_end=30
     )
     mod.do_it_dg()
     after = _curve_state(curve)
@@ -117,10 +110,10 @@ def test_internal_collisions_and_reversals_roll_back_prior_edits(
     keys, mod, curve = _curve(maya_cmds)
     before = _curve_state(curve)
     keys.set_key(99, frame=80)
-    keys.move_keys(
+    keys.move_frames(
         10,
         20,
-        offset_frames=offset,
+        offset=offset,
         interpolate_start=0,
         interpolate_end=30,
         interpolation=interpolation,
@@ -135,8 +128,8 @@ def test_internal_collisions_and_reversals_roll_back_prior_edits(
 def test_stationary_fade_endpoint_is_protected_from_overwrite(maya_cmds):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    keys.move_keys(
-        10, 20, offset_frames=10, interpolate_start=0, interpolate_end=30
+    keys.move_frames(
+        10, 20, offset=10, interpolate_start=0, interpolate_end=30
     )
     with pytest.raises(ValueError, match="coincide"):
         mod.do_it_dg()
@@ -152,10 +145,10 @@ def test_external_collision_and_crossing_keep_existing_move_policy(
     keys, mod, curve = _curve(maya_cmds, weighted=weighted)
     before = _curve_state(curve)
     if side == "start":
-        kwargs = dict(interpolate_start=0, offset_frames=offset)
+        kwargs = dict(interpolate_start=0, offset=offset)
         mapping = {0: 0, 5: 5 + offset / 2, 10: 10 + offset, 20: 20 + offset}
     else:
-        kwargs = dict(interpolate_end=30, offset_frames=-offset)
+        kwargs = dict(interpolate_end=30, offset=-offset)
         mapping = {
             10: 10 - offset,
             20: 20 - offset,
@@ -170,7 +163,7 @@ def test_external_collision_and_crossing_keep_existing_move_policy(
     for (frame, value), data in zip(keys.get_keys(), before["keys"]):
         if frame in mapping:
             expected[mapping[frame]] = (value, data)
-    keys.move_keys(10, 20, **kwargs)
+    keys.move_frames(10, 20, **kwargs)
     mod.do_it_dg()
     assert keys.get_keys() == [(f, expected[f][0]) for f in sorted(expected)]
     for (f, (_, data)), actual in zip(
@@ -201,10 +194,10 @@ def test_only_four_explicit_boundaries_are_inserted_and_sampled_before_editing(
     if interpolation == "smoothstep":
         weights = [w * w * (3 - 2 * w) for w in weights]
     expected_frames = [f + 2 * w for f, w in zip(frames, weights)]
-    keys.move_keys(
+    keys.move_frames(
         start,
         end,
-        offset_frames=2,
+        offset=2,
         interpolate_start=low,
         interpolate_end=high,
         interpolation=interpolation,
@@ -228,8 +221,8 @@ def test_colliding_missing_boundary_is_checked_before_insertion(
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     # With no key at 25 the two core keys keep their order. An explicit insertion protects 25.
-    keys.move_keys(
-        10, 20, offset_frames=6, interpolate_end=25, insert_missing=insert
+    keys.move_frames(
+        10, 20, offset=6, interpolate_end=25, insert_missing=insert
     )
     if insert:
         with pytest.raises(ValueError, match="change order"):
@@ -246,32 +239,32 @@ def test_colliding_missing_boundary_is_checked_before_insertion(
     [
         (
             (10, None),
-            dict(to_start_frame=14, interpolate_start=0),
+            dict(to_start=14, interpolate_start=0),
             [0, 7, 14, 24, 29, 34],
         ),
         (
             (None, 20),
-            dict(to_end_frame=16, interpolate_end=30),
+            dict(to_end=16, interpolate_end=30),
             [-4, 1, 6, 16, 23, 30],
         ),
         (
             (10, 20),
-            dict(to_start_frame=14, interpolate_end=30),
+            dict(to_start=14, interpolate_end=30),
             [0, 5, 14, 24, 27, 30],
         ),
         (
             (10, 20),
-            dict(to_end_frame=16, interpolate_start=0),
+            dict(to_end=16, interpolate_start=0),
             [0, 3, 6, 16, 25, 30],
         ),
         (
             (None, 20),
-            dict(to_start_frame=2, interpolate_end=30),
+            dict(to_start=2, interpolate_end=30),
             [2, 7, 12, 22, 26, 30],
         ),
         (
             (10, None),
-            dict(to_end_frame=28, interpolate_start=0),
+            dict(to_end=28, interpolate_start=0),
             [0, 4, 8, 18, 23, 28],
         ),
     ],
@@ -281,7 +274,7 @@ def test_one_sided_and_open_ranges_keep_core_absolute_anchor(
 ):
     keys, mod, curve = _curve(maya_cmds)
     before = _curve_state(curve)
-    keys.move_keys(*bounds, **kwargs)
+    keys.move_frames(*bounds, **kwargs)
     mod.do_it_dg()
     assert keys.frames() == expected
     _history(mod, curve, before, _curve_state(curve))
@@ -290,10 +283,10 @@ def test_one_sided_and_open_ranges_keep_core_absolute_anchor(
 def test_missing_core_keys_still_move_existing_fade_keys(maya_cmds):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    keys.move_keys(
+    keys.move_frames(
         12,
         18,
-        to_start_frame=14,
+        to_start=14,
         interpolate_start=0,
         interpolate_end=30,
         interpolation="linear",
@@ -307,10 +300,10 @@ def test_missing_core_keys_still_move_existing_fade_keys(maya_cmds):
 def test_implicit_absolute_anchor_requires_core_key(maya_cmds, insert):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    keys.move_keys(
+    keys.move_frames(
         None,
         -5,
-        to_start_frame=-4,
+        to_start=-4,
         interpolate_end=10,
         insert_missing=insert,
         interpolation="linear",
@@ -325,13 +318,13 @@ def test_implicit_absolute_anchor_requires_core_key(maya_cmds, insert):
 
 @pytest.mark.parametrize(
     "placement",
-    [dict(offset_frames=0), dict(to_start_frame=12), dict(to_end_frame=18)],
+    [dict(offset=0), dict(to_start=12), dict(to_end=18)],
 )
 def test_zero_move_never_inserts_boundaries(maya_cmds, placement):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     maya_cmds.file(modified=False)
-    keys.move_keys(
+    keys.move_frames(
         12,
         18,
         **placement,
@@ -350,9 +343,7 @@ def test_only_zero_weight_keys_are_noop(maya_cmds):
     curve.remove(1)
     before = _curve_state(curve)
     maya_cmds.file(modified=False)
-    keys.move_keys(
-        10, 20, offset_frames=5, interpolate_start=0, interpolate_end=30
-    )
+    keys.move_frames(10, 20, offset=5, interpolate_start=0, interpolate_end=30)
     mod.do_it_dg()
     assert _curve_state(curve) == before
     assert not maya_cmds.file(query=True, modified=True)
@@ -382,7 +373,7 @@ def test_invalid_interpolation_is_rejected_before_booking(
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     with pytest.raises(error):
-        keys.move_keys(*bounds, offset_frames=5, **kwargs)
+        keys.move_frames(*bounds, offset=5, **kwargs)
     mod.do_it_dg()
     assert _curve_state(curve) == before
 
@@ -392,14 +383,14 @@ def test_invalid_interpolation_is_rejected_before_booking(
 )
 @pytest.mark.parametrize(
     "placement",
-    [dict(offset_frames=4), dict(to_start_frame=14), dict(to_end_frame=24)],
+    [dict(offset=4), dict(to_start=14), dict(to_end=24)],
 )
 def test_all_time_arguments_are_captured_at_booking(
     maya_cmds, kind, placement
 ):
     keys, mod, curve = _curve(maya_cmds, kind, weighted=True)
     before = _curve_state(curve)
-    keys.move_keys(
+    keys.move_frames(
         10, 20, **placement, interpolate_start=0, interpolate_end=30
     )
     maya_cmds.currentUnit(
@@ -434,16 +425,16 @@ def test_partial_failure_rolls_back_boundary_insertion_and_prior_work(
 
     monkeypatch.setattr(_keyframe_move, helper, fail)
     if stage in ("insert", "set_input"):
-        keys.move_keys(
+        keys.move_frames(
             12,
             18,
-            offset_frames=2,
+            offset=2,
             interpolate_start=5,
             interpolate_end=25,
             insert_missing=True,
         )
     else:
-        keys.move_keys(10, 20, offset_frames=12, interpolate_start=0)
+        keys.move_frames(10, 20, offset=12, interpolate_start=0)
     with pytest.raises(RuntimeError, match="injected interpolation failure"):
         mod.do_it_dg()
     _assert_state(_curve_state(curve), before)
@@ -465,10 +456,10 @@ def test_missing_targets_do_not_create_curves(maya_cmds, empty):
             curve.remove(i)
     before = keys.get_keys()
     nodes = set(maya_cmds.ls())
-    keys.move_keys(
+    keys.move_frames(
         50,
         60,
-        offset_frames=2,
+        offset=2,
         interpolate_start=40,
         interpolate_end=70,
         insert_missing=empty != "range",
@@ -488,12 +479,8 @@ def test_pending_keys_and_sequential_edits_are_used_without_query_flush(
         .keyframe
     )
     keys.set_keys([(0, 0), (5, 1), (10, 2), (20, 3), (25, 4), (30, 5)])
-    keys.add_values(
-        10, 20, offset_value=2, interpolate_start=0, interpolate_end=30
-    )
-    keys.move_keys(
-        10, 20, offset_frames=4, interpolate_start=0, interpolate_end=30
-    )
+    keys.add_values(10, 20, offset=2, interpolate_start=0, interpolate_end=30)
+    keys.move_frames(10, 20, offset=4, interpolate_start=0, interpolate_end=30)
     with pytest.raises(RuntimeError):
         keys.get_keys()
     assert not maya_cmds.objExists("pendingFalloff")
@@ -513,9 +500,7 @@ def test_reconnection_and_rename_are_resolved_at_execution(maya_cmds):
     keys = KeyframeManager(plug, modifier_manager=mod)
     _, _, replacement = _curve(maya_cmds)
     before, original_before = _curve_state(replacement), _curve_state(original)
-    keys.move_keys(
-        10, 20, offset_frames=4, interpolate_start=0, interpolate_end=30
-    )
+    keys.move_frames(10, 20, offset=4, interpolate_start=0, interpolate_end=30)
     maya_cmds.disconnectAttr(original.name() + ".output", plug.name())
     maya_cmds.connectAttr(replacement.name() + ".output", plug.name())
     maya_cmds.rename(om.MFnDependencyNode(plug.node()).name(), "renamedTarget")
@@ -530,12 +515,10 @@ def test_interpolation_requires_manager_and_write_access_even_for_noop(
     maya_cmds, offset
 ):
     keys, mod, curve = _make(maya_cmds)
-    kwargs = dict(
-        offset_frames=offset, interpolate_start=0, interpolate_end=30
-    )
+    kwargs = dict(offset=offset, interpolate_start=0, interpolate_end=30)
     with pytest.raises(RuntimeError, match="ModifierManager"):
-        CurveKeyframeManager(curve.object()).move_keys(10, 20, **kwargs)
-    keys.move_keys(10, 20, **kwargs)
+        CurveKeyframeManager(curve.object()).move_frames(10, 20, **kwargs)
+    keys.move_frames(10, 20, **kwargs)
     maya_cmds.lockNode(curve.name(), lock=True)
     with pytest.raises(RuntimeError, match="locked"):
         mod.do_it_dg()
@@ -546,8 +529,8 @@ def test_negative_times_and_subframe_offsets(maya_cmds):
     for i in range(curve.numKeys):
         curve.setInput(i, curve.input(i) - _time(20))
     before = _curve_state(curve)
-    keys.move_keys(
-        -10, 0, offset_frames=0.5, interpolate_start=-20, interpolate_end=10
+    keys.move_frames(
+        -10, 0, offset=0.5, interpolate_start=-20, interpolate_end=10
     )
     mod.do_it_dg()
     assert keys.frames() == [-20, -14.75, -9.5, 0.5, 5.25, 10]
@@ -576,7 +559,7 @@ def test_reinsertion_preserves_short_weighted_and_raw_nonweighted_tangents(
         convertUnits=False,
     )
     before = _curve_state(curve)
-    keys.move_keys(10, 20, offset_frames=12, interpolate_start=0)
+    keys.move_frames(10, 20, offset=12, interpolate_start=0)
     mod.do_it_dg()
     after = _curve_state(curve)
     assert keys.frames() == [0, 11, 22, 25, 30, 32]
@@ -598,9 +581,7 @@ def test_short_weighted_time_tangent_is_preserved_or_rolls_back(
     curve.insertKey(_time(10.01))
     before = _curve_state(curve)
     keys.set_key(99, frame=80)
-    keys.move_keys(
-        10, 20, offset_frames=40 if reinsert else 1, interpolate_start=0
-    )
+    keys.move_frames(10, 20, offset=40 if reinsert else 1, interpolate_start=0)
     if reinsert:
         with pytest.raises(RuntimeError, match="weighted time tangent"):
             mod.do_it_dg()
@@ -620,9 +601,7 @@ def test_short_weighted_time_tangent_is_preserved_or_rolls_back(
 def test_zero_width_core_supports_falloff(maya_cmds):
     keys, mod, curve = _curve(maya_cmds)
     before = _curve_state(curve)
-    keys.move_keys(
-        10, 10, offset_frames=2, interpolate_start=0, interpolate_end=20
-    )
+    keys.move_frames(10, 10, offset=2, interpolate_start=0, interpolate_end=20)
     mod.do_it_dg()
     assert keys.frames() == [0, 6, 12, 20, 25, 30]
     _history(mod, curve, before, _curve_state(curve))

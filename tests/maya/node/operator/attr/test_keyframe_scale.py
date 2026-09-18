@@ -25,43 +25,43 @@ pytestmark = pytest.mark.maya
 @pytest.mark.parametrize(
     "args,timing,expected",
     [
-        ((10, 30), dict(time_scale=2), [(0, 0), (10, 4), (30, 2), (50, 7)]),
+        ((10, 30), dict(scale=2), [(0, 0), (10, 4), (30, 2), (50, 7)]),
         (
             (10, 30),
-            dict(duration_frames=10),
+            dict(duration=10),
             [(0, 0), (10, 4), (15, 2), (20, 7)],
         ),
         (
             (10, 30),
-            dict(to_start_frame=100, to_end_frame=140),
+            dict(to_start=100, to_end=140),
             [(0, 0), (100, 4), (120, 2), (140, 7)],
         ),
         (
             (10, 30),
-            dict(time_scale=2, to_end_frame=30),
+            dict(scale=2, to_end=30),
             [(-10, 4), (10, 2), (30, 7)],
         ),
         (
             (10, 30),
-            dict(duration_frames=10, to_end_frame=40),
+            dict(duration=10, to_end=40),
             [(0, 0), (30, 4), (35, 2), (40, 7)],
         ),
         (
             (10, 30),
-            dict(time_scale=0.5, offset_frames=-10.25),
+            dict(scale=0.5, offset=-10.25),
             [(-0.25, 4), (4.75, 2), (9.75, 7)],
         ),
         (
             (10, None),
-            dict(time_scale=2, to_start_frame=20),
+            dict(scale=2, to_start=20),
             [(0, 0), (20, 4), (40, 2), (60, 7)],
         ),
-        ((None, 20), dict(time_scale=2), [(0, 0), (20, 4), (40, 2)]),
-        ((), dict(time_scale=0.5), [(0, 0), (5, 4), (10, 2), (15, 7)]),
-        ((12, 28), dict(time_scale=2), [(0, 0), (10, 4), (28, 2)]),
+        ((None, 20), dict(scale=2), [(0, 0), (20, 4), (40, 2)]),
+        ((), dict(scale=0.5), [(0, 0), (5, 4), (10, 2), (15, 7)]),
+        ((12, 28), dict(scale=2), [(0, 0), (10, 4), (28, 2)]),
         (
             (12, 28),
-            dict(duration_frames=8, to_start_frame=40),
+            dict(duration=8, to_start=40),
             [(0, 0), (10, 4), (30, 7), (44, 2)],
         ),
     ],
@@ -69,7 +69,7 @@ pytestmark = pytest.mark.maya
 def test_placement_and_overlapping_ranges(maya_cmds, args, timing, expected):
     keyframe, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    assert keyframe.scale_keys(*args, **timing) is None
+    assert keyframe.scale_frames(*args, **timing) is None
     assert keyframe.frames() == [0, 10, 20, 30]
     assert _curve_state(curve) == before
     mod.do_it_dg()
@@ -81,8 +81,8 @@ def test_placement_and_overlapping_ranges(maya_cmds, args, timing, expected):
 @pytest.mark.parametrize(
     "timing",
     [
-        dict(time_scale=2, to_start_frame=30),
-        dict(to_start_frame=30, to_end_frame=50),
+        dict(scale=2, to_start=30),
+        dict(to_start=30, to_end=50),
     ],
 )
 def test_destination_range_includes_missing_bounds_and_only_merge_retains_interior(
@@ -92,7 +92,7 @@ def test_destination_range_includes_missing_bounds_and_only_merge_retains_interi
     for frame, value in ((31, 31), (35, 35), (40, 40), (50, 50), (51, 51)):
         curve.addKey(_time(frame), value)
     before = _curve_state(curve)
-    keyframe.scale_keys(15, 25, mode=mode, **timing)
+    keyframe.scale_frames(15, 25, mode=mode, **timing)
     mod.do_it_dg()
     expected = [(0, 0), (10, 4), (40, 2), (51, 51)]
     if mode == "merge":
@@ -156,7 +156,7 @@ def test_shape_metadata_and_history(maya_cmds, kind, weighted, tangent, scale):
             om.MSelectionList().add(reference).getDependNode(0)
         )
         expected = [value(fn, t * scale) for t in samples]
-    keyframe.scale_keys(time_scale=scale, to_start_frame=40)
+    keyframe.scale_frames(scale=scale, to_start=40)
     mod.do_it_dg()
     after = _curve_state(curve)
     assert before["curve"] == after["curve"]
@@ -196,9 +196,7 @@ def test_missing_boundaries_sample_original_curve(maya_cmds, kind, bounds):
         )
     )
     values = [curve.evaluate(_time(f)) for f in frames]
-    keyframe.scale_keys(
-        *bounds, time_scale=2, to_start_frame=60, insert_missing=True
-    )
+    keyframe.scale_frames(*bounds, scale=2, to_start=60, insert_missing=True)
     mod.do_it_dg()
     for frame, wanted in zip(frames, values):
         result = curve.evaluate(_time(60 + (frame - low) * 2))
@@ -214,12 +212,12 @@ def test_missing_boundaries_sample_original_curve(maya_cmds, kind, bounds):
 @pytest.mark.parametrize(
     "bounds,timing",
     [
-        ((12, 18), dict(time_scale=1)),
-        ((12, 18), dict(duration_frames=6)),
-        ((1, 5), dict(duration_frames=4)),
-        ((12, 28), dict(to_start_frame=12, to_end_frame=28)),
-        ((), dict(time_scale=1, offset_frames=0)),
-        ((), dict(duration_frames=30, to_end_frame=30)),
+        ((12, 18), dict(scale=1)),
+        ((12, 18), dict(duration=6)),
+        ((1, 5), dict(duration=4)),
+        ((12, 28), dict(to_start=12, to_end=28)),
+        ((), dict(scale=1, offset=0)),
+        ((), dict(duration=30, to_end=30)),
     ],
 )
 def test_identity_is_noop_without_inserting(
@@ -228,7 +226,7 @@ def test_identity_is_noop_without_inserting(
     keyframe, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     maya_cmds.file(modified=False)
-    keyframe.scale_keys(*bounds, **timing, insert_missing=insert_missing)
+    keyframe.scale_frames(*bounds, **timing, insert_missing=insert_missing)
     mod.do_it_dg()
     assert _curve_state(curve) == before
     assert not maya_cmds.file(query=True, modified=True)
@@ -250,11 +248,11 @@ def test_no_target_does_not_erase_destination_or_create_curve(
             .tx.keyframe
         )
     before, nodes = keyframe.get_keys(), set(maya_cmds.ls())
-    keyframe.scale_keys(
+    keyframe.scale_frames(
         12,
         18,
-        to_start_frame=0,
-        to_end_frame=30,
+        to_start=0,
+        to_end=30,
         insert_missing=empty != "keys",
     )
     mod.do_it_dg()
@@ -266,35 +264,35 @@ def test_no_target_does_not_erase_destination_or_create_curve(
     "bounds,kwargs,error",
     [
         ((), {}, ValueError),
-        ((), dict(to_start_frame=30), ValueError),
-        ((), dict(time_scale=2, duration_frames=10), ValueError),
+        ((), dict(to_start=30), ValueError),
+        ((), dict(scale=2, duration=10), ValueError),
         (
             (),
-            dict(time_scale=2, to_start_frame=10, to_end_frame=20),
+            dict(scale=2, to_start=10, to_end=20),
             ValueError,
         ),
         (
             (),
-            dict(time_scale=2, offset_frames=10, to_end_frame=20),
+            dict(scale=2, offset=10, to_end=20),
             ValueError,
         ),
-        ((), dict(to_start_frame=10, to_end_frame=10), ValueError),
-        ((), dict(to_start_frame=20, to_end_frame=10), ValueError),
-        ((20, 10), dict(time_scale=2), ValueError),
-        ((10, 10), dict(duration_frames=10), ValueError),
-        ((10, 10), dict(to_start_frame=20, to_end_frame=30), ValueError),
-        ((), dict(time_scale=0), ValueError),
-        ((), dict(time_scale=-2), ValueError),
-        ((), dict(time_scale=float("inf")), ValueError),
-        ((), dict(duration_frames=float("nan")), ValueError),
-        ((), dict(duration_frames=0), ValueError),
-        ((), dict(time_scale=True), TypeError),
-        ((), dict(time_scale="2"), TypeError),
-        ((True, 10), dict(time_scale=2), TypeError),
-        ((), dict(time_scale=2, to_start_frame=float("inf")), ValueError),
-        ((), dict(time_scale=2, offset_frames=1e300), ValueError),
-        ((), dict(time_scale=2, mode="replace_all"), ValueError),
-        ((), dict(time_scale=2, insert_missing=1), TypeError),
+        ((), dict(to_start=10, to_end=10), ValueError),
+        ((), dict(to_start=20, to_end=10), ValueError),
+        ((20, 10), dict(scale=2), ValueError),
+        ((10, 10), dict(duration=10), ValueError),
+        ((10, 10), dict(to_start=20, to_end=30), ValueError),
+        ((), dict(scale=0), ValueError),
+        ((), dict(scale=-2), ValueError),
+        ((), dict(scale=float("inf")), ValueError),
+        ((), dict(duration=float("nan")), ValueError),
+        ((), dict(duration=0), ValueError),
+        ((), dict(scale=True), TypeError),
+        ((), dict(scale="2"), TypeError),
+        ((True, 10), dict(scale=2), TypeError),
+        ((), dict(scale=2, to_start=float("inf")), ValueError),
+        ((), dict(scale=2, offset=1e300), ValueError),
+        ((), dict(scale=2, mode="replace_all"), ValueError),
+        ((), dict(scale=2, insert_missing=1), TypeError),
     ],
 )
 def test_invalid_arguments_are_rejected_before_queuing(
@@ -303,7 +301,7 @@ def test_invalid_arguments_are_rejected_before_queuing(
     keyframe, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     with pytest.raises(error):
-        keyframe.scale_keys(*bounds, **kwargs)
+        keyframe.scale_frames(*bounds, **kwargs)
     mod.do_it_dg()
     assert _curve_state(curve) == before
 
@@ -311,9 +309,9 @@ def test_invalid_arguments_are_rejected_before_queuing(
 @pytest.mark.parametrize(
     "timing",
     [
-        dict(time_scale=2, to_start_frame=40),
-        dict(duration_frames=60, to_end_frame=100),
-        dict(to_start_frame=40, to_end_frame=100),
+        dict(scale=2, to_start=40),
+        dict(duration=60, to_end=100),
+        dict(to_start=40, to_end=100),
     ],
 )
 @pytest.mark.parametrize(
@@ -322,7 +320,7 @@ def test_invalid_arguments_are_rejected_before_queuing(
 def test_units_captured_at_booking(maya_cmds, timing, kind):
     keyframe, mod, curve = _make(maya_cmds, kind, True)
     before = _curve_state(curve)
-    keyframe.scale_keys(**timing)
+    keyframe.scale_frames(**timing)
     maya_cmds.currentUnit(
         time="ntsc", angle="rad", linear="m", updateAnimation=True
     )
@@ -348,9 +346,7 @@ def test_partial_failure_rolls_back_every_edit(maya_cmds, monkeypatch, stage):
         raise RuntimeError("injected scaling failure")
 
     monkeypatch.setattr(module, helper, fail)
-    keyframe.scale_keys(
-        12, 18, to_start_frame=0, to_end_frame=30, insert_missing=True
-    )
+    keyframe.scale_frames(12, 18, to_start=0, to_end=30, insert_missing=True)
     with pytest.raises(RuntimeError, match="injected scaling failure"):
         mod.do_it_dg()
     _assert_state(_curve_state(curve), before)
@@ -362,9 +358,9 @@ def test_pending_creation_and_sequential_editing(maya_cmds):
     node = bdu.Nodes(modifier_manager=mod).create.animCurveTL(name="pending")
     keyframe = node.keyframe
     keyframe.set_keys([(10, 4), (20, 2), (30, 7)])
-    keyframe.move_keys(offset_frames=10)
-    keyframe.scale_keys(time_scale=2)
-    keyframe.scale_keys(to_start_frame=0, to_end_frame=10)
+    keyframe.move_frames(offset=10)
+    keyframe.scale_frames(scale=2)
+    keyframe.scale_frames(to_start=0, to_end=10)
     with pytest.raises(RuntimeError):
         keyframe.frames()
     assert not maya_cmds.objExists("pending")
@@ -384,7 +380,7 @@ def test_partial_edit_preserves_unaffected_fixed_keys(
 ):
     keyframe, mod, curve = _make(maya_cmds, weighted=weighted)
     before = _curve_state(curve)
-    keyframe.scale_keys(10, 20, time_scale=0.5, to_start_frame=22, mode=mode)
+    keyframe.scale_frames(10, 20, scale=0.5, to_start=22, mode=mode)
     mod.do_it_dg()
     after = _curve_state(curve)
     assert keyframe.frames() == [0, 22, 27, 30]
@@ -402,7 +398,7 @@ def test_very_short_weighted_fixed_tangents_are_not_clamped(maya_cmds, kind):
         curve.setTangent(i, om.MAngle(0), 0.01, True)
         curve.setTangent(i, om.MAngle(0), 0.01, False)
     before = _curve_state(curve)
-    keyframe.scale_keys(time_scale=0.01)
+    keyframe.scale_frames(scale=0.01)
     mod.do_it_dg()
     for actual, expected in zip(_curve_state(curve)["keys"], before["keys"]):
         assert actual["numeric"][2] == pytest.approx(
@@ -419,7 +415,7 @@ def test_unrepresentable_weighted_time_tangent_rolls_back(maya_cmds):
         curve.setTangent(i, om.MAngle(0), 0.01, True)
         curve.setTangent(i, om.MAngle(0), 0.01, False)
     before = _curve_state(curve)
-    keyframe.scale_keys(time_scale=0.01)
+    keyframe.scale_frames(scale=0.01)
     with pytest.raises(RuntimeError, match="weighted time tangent"):
         mod.do_it_dg()
     _assert_state(_curve_state(curve), before)
@@ -428,16 +424,16 @@ def test_unrepresentable_weighted_time_tangent_rolls_back(maya_cmds):
 @pytest.mark.parametrize(
     "timing",
     [
-        dict(time_scale=1e-20),
-        dict(time_scale=1e300),
-        dict(time_scale=1e-5, to_start_frame=1e12),
+        dict(scale=1e-20),
+        dict(scale=1e300),
+        dict(scale=1e-5, to_start=1e12),
     ],
 )
 def test_collapsed_keys_or_overflow_roll_back_prior_work(maya_cmds, timing):
     keyframe, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     keyframe.set_key(99, frame=80)
-    keyframe.scale_keys(**timing)
+    keyframe.scale_frames(**timing)
     with pytest.raises(ValueError):
         mod.do_it_dg()
     _assert_state(_curve_state(curve), before)
@@ -445,14 +441,14 @@ def test_collapsed_keys_or_overflow_roll_back_prior_work(maya_cmds, timing):
 
 @pytest.mark.parametrize(
     "timing",
-    [dict(duration_frames=10), dict(to_start_frame=10, to_end_frame=20)],
+    [dict(duration=10), dict(to_start=10, to_end=20)],
 )
 def test_zero_width_inferred_at_execution_is_rejected(maya_cmds, timing):
     keyframe, mod, curve = _make(maya_cmds)
     for i in (3, 2, 1):
         curve.remove(i)
     before = _curve_state(curve)
-    keyframe.scale_keys(**timing)
+    keyframe.scale_frames(**timing)
     with pytest.raises(ValueError, match="zero-width"):
         mod.do_it_dg()
     assert _curve_state(curve) == before
@@ -461,7 +457,7 @@ def test_zero_width_inferred_at_execution_is_rejected(maya_cmds, timing):
 def test_single_key_at_pivot_keeps_time_and_scales_tangent(maya_cmds):
     keyframe, mod, curve = _make(maya_cmds, weighted=True)
     before = _curve_state(curve)
-    keyframe.scale_keys(10, 10, time_scale=2)
+    keyframe.scale_frames(10, 10, scale=2)
     mod.do_it_dg()
     after = _curve_state(curve)
     assert keyframe.frames() == [0, 10, 20, 30]
@@ -475,8 +471,8 @@ def test_single_key_at_pivot_keeps_time_and_scales_tangent(maya_cmds):
 def test_noop_still_requires_manager_and_write_access(maya_cmds, scale):
     keyframe, mod, curve = _make(maya_cmds)
     with pytest.raises(RuntimeError, match="ModifierManager"):
-        CurveKeyframeManager(curve.object()).scale_keys(time_scale=scale)
-    keyframe.scale_keys(time_scale=scale)
+        CurveKeyframeManager(curve.object()).scale_frames(scale=scale)
+    keyframe.scale_frames(scale=scale)
     maya_cmds.lockNode(curve.name(), lock=True)
     with pytest.raises(RuntimeError, match="locked"):
         mod.do_it_dg()
@@ -489,7 +485,7 @@ def test_reconnection_and_rename_before_execution(maya_cmds):
     _, _, replacement = _make(maya_cmds)
     before = _curve_state(replacement)
     original_before = _curve_state(original)
-    keyframe.scale_keys(time_scale=2)
+    keyframe.scale_frames(scale=2)
     maya_cmds.disconnectAttr(original.name() + ".output", plug.name())
     maya_cmds.connectAttr(replacement.name() + ".output", plug.name())
     maya_cmds.rename(om.MFnDependencyNode(plug.node()).name(), "renamedTarget")
@@ -505,7 +501,7 @@ def test_discrete_channels_keep_values(maya_cmds, attribute_type):
     mod = bdu.ModifierManager()
     keyframe = KeyframeManager(plug, modifier_manager=mod)
     before = _curve_state(curve)
-    keyframe.scale_keys(time_scale=2)
+    keyframe.scale_frames(scale=2)
     mod.do_it_dg()
     assert keyframe.frames() == [1, 9, 17]
     assert keyframe.values() == [1, 3, 2]

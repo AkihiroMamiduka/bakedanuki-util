@@ -26,13 +26,13 @@ pytestmark = pytest.mark.maya
 EDITS = [
     ("set_value", (10,), dict(value=5), [0, 5, 2, 7]),
     ("set_values", (10, 20), dict(value=5), [0, 5, 5, 7]),
-    ("add_value", (10,), dict(offset_value=-3), [0, 1, 2, 7]),
-    ("add_values", (10, 20), dict(offset_value=-3), [0, 1, -1, 7]),
-    ("scale_value", (10,), dict(value_scale=2, pivot_value=10), [0, -2, 2, 7]),
+    ("add_value", (10,), dict(offset=-3), [0, 1, 2, 7]),
+    ("add_values", (10, 20), dict(offset=-3), [0, 1, -1, 7]),
+    ("scale_value", (10,), dict(scale=2, pivot=10), [0, -2, 2, 7]),
     (
         "scale_values",
         (10, 20),
-        dict(value_scale=2, pivot_value=10),
+        dict(scale=2, pivot=10),
         [0, -2, -6, 7],
     ),
 ]
@@ -66,7 +66,7 @@ def test_six_methods_are_deferred_and_keep_times(
 )
 def test_inclusive_and_open_ranges(maya_cmds, bounds, expected):
     keys, mod, curve = _make(maya_cmds)
-    keys.add_values(*bounds, offset_value=1)
+    keys.add_values(*bounds, offset=1)
     mod.do_it_dg()
     assert keys.values() == expected
 
@@ -86,8 +86,8 @@ def test_values_metadata_and_history(
     before = _curve_state(curve)
     kwargs = {
         "set": dict(value=5),
-        "add": dict(offset_value=3),
-        "scale": dict(value_scale=-2, pivot_value=1),
+        "add": dict(offset=3),
+        "scale": dict(scale=-2, pivot=1),
     }[operation]
     getattr(keys, operation + "_value")(10, **kwargs)
     mod.do_it_dg()
@@ -147,7 +147,7 @@ def test_whole_curve_scale_transforms_shape(maya_cmds, kind, weighted, scale):
 
     frames = [i / 4 for i in range(-20, 141)]
     original = [evaluate(f) for f in frames]
-    keys.scale_values(value_scale=scale, pivot_value=1)
+    keys.scale_values(scale=scale, pivot=1)
     mod.do_it_dg()
     pivot = (
         math.pi / 180
@@ -181,8 +181,8 @@ def test_falloff_weights_existing_keys_and_tangents(
     before = _curve_state(curve)
     kwargs = {
         "set": dict(value=6),
-        "add": dict(offset_value=4),
-        "scale": dict(value_scale=-3, pivot_value=1),
+        "add": dict(offset=4),
+        "scale": dict(scale=-3, pivot=1),
     }[operation]
     getattr(keys, operation + "_values")(
         20,
@@ -219,10 +219,10 @@ def test_falloff_weights_existing_keys_and_tangents(
 def test_one_sided_falloff_defaults_to_smoothstep(maya_cmds, side):
     keys, mod, curve = _falloff_curve(maya_cmds)
     if side == "start":
-        keys.add_values(20, offset_value=4, interpolate_start=10)
+        keys.add_values(20, offset=4, interpolate_start=10)
         expected = [2, 2, 2.625, 4, 6, 6, 6, 6, 6, 6, 6]
     else:
-        keys.add_values(None, 30, offset_value=4, interpolate_end=40)
+        keys.add_values(None, 30, offset=4, interpolate_end=40)
         expected = [6, 6, 6, 6, 6, 6, 6, 4, 2.625, 2, 2]
     mod.do_it_dg()
     assert keys.values() == expected
@@ -239,7 +239,7 @@ def test_sparse_keys_are_not_resampled_or_re_eased(maya_cmds, interpolation):
     keys.add_values(
         10,
         20,
-        offset_value=5,
+        offset=5,
         interpolate_start=0,
         interpolate_end=30,
         interpolation=interpolation,
@@ -279,8 +279,8 @@ def test_explicit_insertion_adds_only_core_and_fade_boundaries(
     ]
     kwargs = {
         "set": dict(value=9),
-        "add": dict(offset_value=5),
-        "scale": dict(value_scale=2, pivot_value=1),
+        "add": dict(offset=5),
+        "scale": dict(scale=2, pivot=1),
     }[operation]
     getattr(keys, operation + "_values")(
         start,
@@ -316,8 +316,8 @@ def test_explicit_insertion_adds_only_core_and_fade_boundaries(
     "method,kwargs",
     [
         ("set_value", dict(value=9)),
-        ("add_value", dict(offset_value=5)),
-        ("scale_value", dict(value_scale=2)),
+        ("add_value", dict(offset=5)),
+        ("scale_value", dict(scale=2)),
     ],
 )
 def test_single_missing_subframe(maya_cmds, insert, method, kwargs):
@@ -342,8 +342,8 @@ def test_single_missing_subframe(maya_cmds, insert, method, kwargs):
 @pytest.mark.parametrize(
     "method,kwargs",
     [
-        ("add_values", dict(offset_value=0)),
-        ("scale_values", dict(value_scale=1)),
+        ("add_values", dict(offset=0)),
+        ("scale_values", dict(scale=1)),
     ],
 )
 def test_identity_is_noop_even_with_insertion(maya_cmds, method, kwargs):
@@ -389,27 +389,27 @@ def test_missing_and_empty_curves_are_not_created(
     "method,args,kwargs,error",
     [
         ("set_value", (None,), dict(value=1), TypeError),
-        ("add_value", (True,), dict(offset_value=1), TypeError),
-        ("scale_value", ("1",), dict(value_scale=2), TypeError),
+        ("add_value", (True,), dict(offset=1), TypeError),
+        ("scale_value", ("1",), dict(scale=2), TypeError),
         ("set_values", (20, 10), dict(value=1), ValueError),
-        ("add_values", (float("nan"), None), dict(offset_value=1), ValueError),
-        ("scale_values", (1e300, None), dict(value_scale=2), ValueError),
+        ("add_values", (float("nan"), None), dict(offset=1), ValueError),
+        ("scale_values", (1e300, None), dict(scale=2), ValueError),
         ("set_values", (), dict(value=True), TypeError),
         ("set_values", (), dict(value=float("inf")), ValueError),
-        ("add_values", (), dict(offset_value="1"), TypeError),
-        ("add_values", (), dict(offset_value=float("nan")), ValueError),
-        ("scale_values", (), dict(value_scale=float("inf")), ValueError),
-        ("scale_values", (), dict(value_scale=10**1000), ValueError),
+        ("add_values", (), dict(offset="1"), TypeError),
+        ("add_values", (), dict(offset=float("nan")), ValueError),
+        ("scale_values", (), dict(scale=float("inf")), ValueError),
+        ("scale_values", (), dict(scale=10**1000), ValueError),
         (
             "scale_values",
             (),
-            dict(value_scale=2, pivot_value=False),
+            dict(scale=2, pivot=False),
             TypeError,
         ),
         (
             "scale_values",
             (),
-            dict(value_scale=2, pivot_value=float("inf")),
+            dict(scale=2, pivot=float("inf")),
             ValueError,
         ),
         ("set_values", (), dict(value=1, interpolate_start=0), ValueError),
@@ -474,8 +474,8 @@ def test_units_are_captured_at_booking(maya_cmds, kind, operation):
     before = _curve_state(curve)
     kwargs = {
         "set": dict(value=9),
-        "add": dict(offset_value=5),
-        "scale": dict(value_scale=2, pivot_value=1),
+        "add": dict(offset=5),
+        "scale": dict(scale=2, pivot=1),
     }[operation]
     getattr(keys, operation + "_values")(
         10, 20, interpolate_start=0, interpolate_end=30, **kwargs
@@ -526,9 +526,9 @@ def test_partial_failure_rolls_back_prior_work(maya_cmds, monkeypatch, stage):
 
     monkeypatch.setattr(module, helper, fail)
     if stage == "value":
-        keys.add_values(12, 18, offset_value=5, insert_missing=True)
+        keys.add_values(12, 18, offset=5, insert_missing=True)
     else:
-        keys.scale_values(12, 18, value_scale=2, insert_missing=True)
+        keys.scale_values(12, 18, scale=2, insert_missing=True)
     with pytest.raises(RuntimeError, match="injected value failure"):
         mod.do_it_dg()
     _assert_state(_curve_state(curve), before)
@@ -544,8 +544,8 @@ def test_pending_creation_and_sequential_operations(maya_cmds):
     )
     keys.set_keys([(10, 4), (20, 2), (30, 7)])
     keys.set_value(10, value=5)
-    keys.add_values(offset_value=1)
-    keys.scale_values(value_scale=-2, pivot_value=1)
+    keys.add_values(offset=1)
+    keys.scale_values(scale=-2, pivot=1)
     with pytest.raises(RuntimeError):
         keys.values()
     assert not maya_cmds.objExists("pendingValues")
@@ -569,8 +569,8 @@ def test_discrete_channels_edit_raw_curve_values(
     before = _curve_state(curve)
     kwargs = {
         "set": dict(value=1.5),
-        "add": dict(offset_value=0.5),
-        "scale": dict(value_scale=0.5),
+        "add": dict(offset=0.5),
+        "scale": dict(scale=0.5),
     }[operation]
     getattr(keys, operation + "_values")(**kwargs)
     mod.do_it_dg()
@@ -588,9 +588,7 @@ def test_discrete_channels_edit_raw_curve_values(
 @pytest.mark.parametrize("operation", ["add", "scale"])
 def test_noop_still_requires_manager_and_write_access(maya_cmds, operation):
     keys, mod, curve = _make(maya_cmds)
-    kwargs = (
-        dict(offset_value=0) if operation == "add" else dict(value_scale=1)
-    )
+    kwargs = dict(offset=0) if operation == "add" else dict(scale=1)
     with pytest.raises(RuntimeError, match="ModifierManager"):
         getattr(CurveKeyframeManager(curve.object()), operation + "_values")(
             **kwargs
@@ -607,11 +605,7 @@ def test_value_overflow_rolls_back_prior_edits(maya_cmds, operation):
     curve.setValue(1, 1e308)
     before = _curve_state(curve)
     keys.set_key(99, frame=80)
-    kwargs = (
-        dict(offset_value=1e308)
-        if operation == "add"
-        else dict(value_scale=1e308)
-    )
+    kwargs = dict(offset=1e308) if operation == "add" else dict(scale=1e308)
     getattr(keys, operation + "_values")(**kwargs)
     with pytest.raises(ValueError, match="finite"):
         mod.do_it_dg()
@@ -633,8 +627,8 @@ def test_layer_values_are_raw_and_do_not_resolve_composed_result(
     other = original.anim_layer(layers[1]).get_curve_data()
     kwargs = {
         "set": dict(value=5),
-        "add": dict(offset_value=3),
-        "scale": dict(value_scale=-2, pivot_value=1),
+        "add": dict(offset=3),
+        "scale": dict(scale=-2, pivot=1),
     }[operation]
     getattr(keys, operation + "_values")(**kwargs)
     mod.do_it_dg()
@@ -657,8 +651,8 @@ def test_reconnection_and_rename_before_execution(maya_cmds, operation):
     original_before = _curve_state(original)
     kwargs = {
         "set": dict(value=5),
-        "add": dict(offset_value=3),
-        "scale": dict(value_scale=-2, pivot_value=1),
+        "add": dict(offset=3),
+        "scale": dict(scale=-2, pivot=1),
     }[operation]
     getattr(keys, operation + "_values")(**kwargs)
     maya_cmds.disconnectAttr(original.name() + ".output", plug.name())
@@ -699,7 +693,7 @@ def test_short_weighted_and_unnormalized_nonweighted_tangents(
     )
     before = _curve_state(curve)
     keys.scale_values(
-        10, 10, value_scale=scale, interpolate_start=0, interpolate_end=20
+        10, 10, scale=scale, interpolate_start=0, interpolate_end=20
     )
     mod.do_it_dg()
     after = _curve_state(curve)
@@ -733,7 +727,7 @@ def test_set_same_value_keeps_tangents_but_can_insert_boundary(maya_cmds):
 def test_tt_value_precision_limit_rolls_back(maya_cmds):
     keys, mod, curve = _make(maya_cmds, "animCurveTT")
     before = _curve_state(curve)
-    keys.add_value(10, offset_value=1)
+    keys.add_value(10, offset=1)
     keys.set_value(20, value=1e300)
     with pytest.raises(ValueError, match="representable time"):
         mod.do_it_dg()

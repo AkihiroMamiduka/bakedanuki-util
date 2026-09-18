@@ -545,34 +545,34 @@ class _KeyframeOperations(ABC):
         manager.queue_anim_curve_change(remove_keys)
 
     @overload
-    def move_key(
+    def move_frame(
         self,
         frame: float,
         *,
-        offset_frames: float,
-        to_frame: None = None,
+        offset: float,
+        to: None = None,
         insert_missing: bool = False,
     ) -> None: ...
 
     @overload
-    def move_key(
+    def move_frame(
         self,
         frame: float,
         *,
-        offset_frames: None = None,
-        to_frame: float,
+        offset: None = None,
+        to: float,
         insert_missing: bool = False,
     ) -> None: ...
 
-    def move_key(
+    def move_frame(
         self,
         frame: float,
         *,
-        offset_frames: float | None = None,
-        to_frame: float | None = None,
+        offset: float | None = None,
+        to: float | None = None,
         insert_missing: bool = False,
     ) -> None:
-        """指定時刻のキー移動を予約する。offset_frames / to_frameは一方だけ。
+        """指定時刻のキー移動を予約する。offset / toは一方だけ。
 
         時刻と移動量は予約時のUI時間単位。移動先の既存キーは置換する。
         insert_missing=Trueなら、欠けた元キーを形状を保って挿入してから移す。
@@ -584,21 +584,21 @@ class _KeyframeOperations(ABC):
             self._target,
             frame,
             frame,
-            offset_frames=offset_frames,
-            to_start_frame=to_frame,
+            offset_frames=offset,
+            to_start_frame=to,
             to_end_frame=None,
             insert_missing=insert_missing,
         )
 
     @overload
-    def move_keys(
+    def move_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        offset_frames: float,
-        to_start_frame: None = None,
-        to_end_frame: None = None,
+        offset: float,
+        to_start: None = None,
+        to_end: None = None,
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
@@ -606,14 +606,14 @@ class _KeyframeOperations(ABC):
     ) -> None: ...
 
     @overload
-    def move_keys(
+    def move_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        offset_frames: None = None,
-        to_start_frame: float,
-        to_end_frame: None = None,
+        offset: None = None,
+        to_start: float,
+        to_end: None = None,
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
@@ -621,28 +621,28 @@ class _KeyframeOperations(ABC):
     ) -> None: ...
 
     @overload
-    def move_keys(
+    def move_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        offset_frames: None = None,
-        to_start_frame: None = None,
-        to_end_frame: float,
+        offset: None = None,
+        to_start: None = None,
+        to_end: float,
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None: ...
 
-    def move_keys(
+    def move_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        offset_frames: float | None = None,
-        to_start_frame: float | None = None,
-        to_end_frame: float | None = None,
+        offset: float | None = None,
+        to_start: float | None = None,
+        to_end: float | None = None,
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
@@ -664,9 +664,9 @@ class _KeyframeOperations(ABC):
             self._target,
             start_frame,
             end_frame,
-            offset_frames=offset_frames,
-            to_start_frame=to_start_frame,
-            to_end_frame=to_end_frame,
+            offset_frames=offset,
+            to_start_frame=to_start,
+            to_end_frame=to_end,
             interpolate_start=interpolate_start,
             interpolate_end=interpolate_end,
             interpolation=interpolation,
@@ -674,17 +674,17 @@ class _KeyframeOperations(ABC):
         )
 
     @overload
-    def scale_keys(
+    def scale_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        time_scale: float,
-        duration_frames: None = None,
-        offset_frames: float | None = None,
-        to_start_frame: None = None,
-        to_end_frame: None = None,
-        pivot_frame: float | None = None,
+        scale: float,
+        duration: None = None,
+        offset: float | None = None,
+        to_start: None = None,
+        to_end: None = None,
+        pivot: float | None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -693,17 +693,17 @@ class _KeyframeOperations(ABC):
     ) -> None: ...
 
     @overload
-    def scale_keys(
+    def scale_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        time_scale: None = None,
-        duration_frames: float,
-        offset_frames: float | None = None,
-        to_start_frame: None = None,
-        to_end_frame: None = None,
-        pivot_frame: float | None = None,
+        scale: None = None,
+        duration: float,
+        offset: float | None = None,
+        to_start: None = None,
+        to_end: None = None,
+        pivot: float | None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -712,17 +712,17 @@ class _KeyframeOperations(ABC):
     ) -> None: ...
 
     @overload
-    def scale_keys(
+    def scale_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        time_scale: float,
-        duration_frames: None = None,
-        offset_frames: None = None,
-        to_start_frame: float | None,
-        to_end_frame: None = None,
-        pivot_frame: None = None,
+        scale: float,
+        duration: None = None,
+        offset: None = None,
+        to_start: float | None,
+        to_end: None = None,
+        pivot: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -731,17 +731,17 @@ class _KeyframeOperations(ABC):
     ) -> None: ...
 
     @overload
-    def scale_keys(
+    def scale_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        time_scale: None = None,
-        duration_frames: float,
-        offset_frames: None = None,
-        to_start_frame: float | None,
-        to_end_frame: None = None,
-        pivot_frame: None = None,
+        scale: None = None,
+        duration: float,
+        offset: None = None,
+        to_start: float | None,
+        to_end: None = None,
+        pivot: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -750,17 +750,17 @@ class _KeyframeOperations(ABC):
     ) -> None: ...
 
     @overload
-    def scale_keys(
+    def scale_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        time_scale: float,
-        duration_frames: None = None,
-        offset_frames: None = None,
-        to_start_frame: None = None,
-        to_end_frame: float | None,
-        pivot_frame: None = None,
+        scale: float,
+        duration: None = None,
+        offset: None = None,
+        to_start: None = None,
+        to_end: float | None,
+        pivot: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -769,17 +769,17 @@ class _KeyframeOperations(ABC):
     ) -> None: ...
 
     @overload
-    def scale_keys(
+    def scale_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        time_scale: None = None,
-        duration_frames: float,
-        offset_frames: None = None,
-        to_start_frame: None = None,
-        to_end_frame: float | None,
-        pivot_frame: None = None,
+        scale: None = None,
+        duration: float,
+        offset: None = None,
+        to_start: None = None,
+        to_end: float | None,
+        pivot: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -788,17 +788,17 @@ class _KeyframeOperations(ABC):
     ) -> None: ...
 
     @overload
-    def scale_keys(
+    def scale_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        time_scale: None = None,
-        duration_frames: None = None,
-        offset_frames: None = None,
-        to_start_frame: float,
-        to_end_frame: float,
-        pivot_frame: None = None,
+        scale: None = None,
+        duration: None = None,
+        offset: None = None,
+        to_start: float,
+        to_end: float,
+        pivot: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -806,17 +806,17 @@ class _KeyframeOperations(ABC):
         insert_missing: bool = False,
     ) -> None: ...
 
-    def scale_keys(
+    def scale_frames(
         self,
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        time_scale: float | None = None,
-        duration_frames: float | None = None,
-        offset_frames: float | None = None,
-        to_start_frame: float | None = None,
-        to_end_frame: float | None = None,
-        pivot_frame: float | None = None,
+        scale: float | None = None,
+        duration: float | None = None,
+        offset: float | None = None,
+        to_start: float | None = None,
+        to_end: float | None = None,
+        pivot: float | None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -827,7 +827,7 @@ class _KeyframeOperations(ABC):
 
         正の倍率・長さ・移動先の両端指定のいずれかを指定する。
         明示境界を基準とし、None側は対象キーの端を使う。接線Xも拡縮し、値は保持する。
-        pivot_frameは拡縮の基準時刻。配置先の境界とは併用不可。offsetは拡縮後に加える。
+        pivotは拡縮の基準時刻。配置先の境界とは併用不可。offsetは拡縮後に加える。
         ピボットにキーは補わない。省略時は主区間の開始を基準にする。
         既定は配置先区間の置換。mergeは同時刻だけを上書きする。元キーは残さない。
         補間区間の既存キーは元時刻で重み付けし、時刻と接線Xの拡縮を弱める。
@@ -840,12 +840,12 @@ class _KeyframeOperations(ABC):
             self._target,
             start_frame,
             end_frame,
-            time_scale=time_scale,
-            duration_frames=duration_frames,
-            pivot_frame=pivot_frame,
-            offset_frames=offset_frames,
-            to_start_frame=to_start_frame,
-            to_end_frame=to_end_frame,
+            time_scale=scale,
+            duration_frames=duration,
+            pivot_frame=pivot,
+            offset_frames=offset,
+            to_start_frame=to_start,
+            to_end_frame=to_end,
             mode=mode,
             interpolate_start=interpolate_start,
             interpolate_end=interpolate_end,
@@ -912,12 +912,12 @@ class _KeyframeOperations(ABC):
         self,
         frame: float,
         *,
-        offset_value: float,
+        offset: float,
         insert_missing: bool = False,
     ) -> None:
         """指定時刻の既存キーへ値を加算する予約。手動接線は維持する。
 
-        単位はset_valueと同じ。offset_value=0では境界挿入も行わない。
+        単位はset_valueと同じ。offset=0では境界挿入も行わない。
         """
         _keyframe_value.queue_value(
             self._require_modifier_manager(),
@@ -925,7 +925,7 @@ class _KeyframeOperations(ABC):
             frame,
             frame,
             operation="add",
-            amount=offset_value,
+            amount=offset,
             insert_missing=insert_missing,
             single=True,
         )
@@ -935,7 +935,7 @@ class _KeyframeOperations(ABC):
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        offset_value: float,
+        offset: float,
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
@@ -943,7 +943,7 @@ class _KeyframeOperations(ABC):
     ) -> None:
         """範囲内の既存キーへ値を加算する予約。手動接線は維持する。
 
-        補間指定時は外側の既存キーへもoffset_value * 影響度を加算する。
+        補間指定時は外側の既存キーへもoffset * 影響度を加算する。
         範囲・単位・補間・境界挿入はset_valuesと同じ。加算量0は挿入もしない。
         """
         _keyframe_value.queue_value(
@@ -952,7 +952,7 @@ class _KeyframeOperations(ABC):
             start_frame,
             end_frame,
             operation="add",
-            amount=offset_value,
+            amount=offset,
             interpolate_start=interpolate_start,
             interpolate_end=interpolate_end,
             interpolation=interpolation,
@@ -963,14 +963,14 @@ class _KeyframeOperations(ABC):
         self,
         frame: float,
         *,
-        value_scale: float,
-        pivot_value: float = 0,
+        scale: float,
+        pivot: float = 0,
         insert_missing: bool = False,
     ) -> None:
-        """指定時刻の既存キーをpivot_value基準で値方向へ拡縮する予約。
+        """指定時刻の既存キーをpivot基準で値方向へ拡縮する予約。
 
         接線Yも拡縮し、nonweighted接線は正規化する。0・負の倍率にも対応。
-        pivot_valueの単位はset_valueと同じ。倍率1では境界挿入も行わない。
+        pivotの単位はset_valueと同じ。倍率1では境界挿入も行わない。
         """
         _keyframe_value.queue_value(
             self._require_modifier_manager(),
@@ -978,8 +978,8 @@ class _KeyframeOperations(ABC):
             frame,
             frame,
             operation="scale",
-            amount=value_scale,
-            pivot_value=pivot_value,
+            amount=scale,
+            pivot_value=pivot,
             insert_missing=insert_missing,
             single=True,
         )
@@ -989,16 +989,16 @@ class _KeyframeOperations(ABC):
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
-        value_scale: float,
-        pivot_value: float = 0,
+        scale: float,
+        pivot: float = 0,
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None:
-        """範囲内の既存キーをpivot_value基準で値方向へ拡縮する予約。
+        """範囲内の既存キーをpivot基準で値方向へ拡縮する予約。
 
-        実効倍率は1 + 影響度 * (value_scale - 1)。接線Yも同じ倍率で拡縮し、
+        実効倍率は1 + 影響度 * (scale - 1)。接線Yも同じ倍率で拡縮し、
         nonweighted接線は正規化する。接線型・lock・breakdownは維持する。
         範囲・単位・補間・境界挿入はset_valuesと同じ。倍率1は挿入もしない。
         """
@@ -1008,8 +1008,8 @@ class _KeyframeOperations(ABC):
             start_frame,
             end_frame,
             operation="scale",
-            amount=value_scale,
-            pivot_value=pivot_value,
+            amount=scale,
+            pivot_value=pivot,
             interpolate_start=interpolate_start,
             interpolate_end=interpolate_end,
             interpolation=interpolation,

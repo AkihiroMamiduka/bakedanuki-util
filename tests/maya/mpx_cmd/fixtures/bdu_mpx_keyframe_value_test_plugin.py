@@ -24,17 +24,17 @@ class _EditKeyframeValuesCommand(MPxCommandBase[str]):
     def execute(self, params: str) -> None:
         node = self.nodes.existing.transform(params)
         node.tx.keyframe.set_values(10, 20, value=3)
-        node.tx.keyframe.add_value(10, offset_value=2)
-        node.tx.keyframe.scale_value(20, value_scale=-2, pivot_value=1)
+        node.tx.keyframe.add_value(10, offset=2)
+        node.tx.keyframe.scale_value(20, scale=-2, pivot=1)
         node.ty.keyframe.set_value(10, value=3)
         node.ty.keyframe.add_values(
-            10, 20, offset_value=2, interpolate_start=0, interpolate_end=30
+            10, 20, offset=2, interpolate_start=0, interpolate_end=30
         )
         node.ty.keyframe.scale_values(
             12,
             18,
-            value_scale=-2,
-            pivot_value=1,
+            scale=-2,
+            pivot=1,
             interpolate_start=5,
             interpolate_end=25,
             insert_missing=True,

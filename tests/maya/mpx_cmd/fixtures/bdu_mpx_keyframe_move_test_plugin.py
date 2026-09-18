@@ -32,26 +32,26 @@ class _MoveKeyframesCommand(MPxCommandBase[tuple[str, bool]]):
         name, interpolate = params
         node = self.nodes.existing.transform(name)
         if interpolate:
-            node.tx.keyframe.move_keys(
+            node.tx.keyframe.move_frames(
                 10,
                 20,
-                offset_frames=4,
+                offset=4,
                 interpolate_start=0,
                 interpolate_end=30,
             )
-            node.ty.keyframe.move_keys(
+            node.ty.keyframe.move_frames(
                 12,
                 18,
-                to_start_frame=14,
+                to_start=14,
                 interpolate_start=5,
                 interpolate_end=25,
                 interpolation="linear",
                 insert_missing=True,
             )
         else:
-            node.tx.keyframe.move_key(10, to_frame=20)
-            node.ty.keyframe.move_keys(
-                12, 18, to_start_frame=40, insert_missing=True
+            node.tx.keyframe.move_frame(10, to=20)
+            node.ty.keyframe.move_frames(
+                12, 18, to_start=40, insert_missing=True
             )
         self.modifier_manager.do_it_dg()
 

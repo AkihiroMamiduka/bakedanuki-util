@@ -161,7 +161,7 @@ def test_keyframe_set_uses_command_undo_redo_and_failure_rollback(
 
 @pytest.mark.parametrize("fail", [False, True])
 @pytest.mark.parametrize("interpolate", [False, True])
-def test_move_keys_uses_maya_undo_redo_and_command_failure_rollback(
+def test_move_frames_uses_maya_undo_redo_and_command_failure_rollback(
     move_test_plugin, new_scene, maya_cmds, fail, interpolate
 ):
     from maya.api import OpenMaya as om
@@ -258,7 +258,7 @@ def test_reduce_keys_uses_maya_undo_redo_and_command_failure_rollback(
 
 @pytest.mark.parametrize("fail", [False, True])
 @pytest.mark.parametrize("interpolate", [False, True])
-def test_scale_keys_uses_maya_history_and_command_failure_rollback(
+def test_scale_frames_uses_maya_history_and_command_failure_rollback(
     scale_test_plugin, new_scene, maya_cmds, fail, interpolate
 ):
     import bd_util as bdu

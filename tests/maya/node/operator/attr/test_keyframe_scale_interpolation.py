@@ -37,14 +37,14 @@ def _curve(cmds, kind="animCurveTL", weighted=False, tangent="fixed"):
 @pytest.mark.parametrize(
     "timing,scale,low",
     [
-        (dict(time_scale=1.25), 1.25, 10),
-        (dict(duration_frames=12.5), 1.25, 10),
-        (dict(to_start_frame=11, to_end_frame=23.5), 1.25, 11),
-        (dict(time_scale=0.5, offset_frames=2), 0.5, 12),
-        (dict(time_scale=0.5, to_start_frame=12), 0.5, 12),
-        (dict(time_scale=0.5, to_end_frame=17), 0.5, 12),
-        (dict(duration_frames=5, to_start_frame=12), 0.5, 12),
-        (dict(duration_frames=5, to_end_frame=17), 0.5, 12),
+        (dict(scale=1.25), 1.25, 10),
+        (dict(duration=12.5), 1.25, 10),
+        (dict(to_start=11, to_end=23.5), 1.25, 11),
+        (dict(scale=0.5, offset=2), 0.5, 12),
+        (dict(scale=0.5, to_start=12), 0.5, 12),
+        (dict(scale=0.5, to_end=17), 0.5, 12),
+        (dict(duration=5, to_start=12), 0.5, 12),
+        (dict(duration=5, to_end=17), 0.5, 12),
     ],
 )
 def test_original_time_weights_and_all_placement_forms(
@@ -58,7 +58,7 @@ def test_original_time_weights_and_all_placement_forms(
     quarter = 0.25 if interpolation == "linear" else 0.15625
     weights = [0, quarter, 0.5, 1, 1, 0.5, quarter, 0]
     assert (
-        keys.scale_keys(
+        keys.scale_frames(
             10,
             20,
             **timing,
@@ -84,8 +84,8 @@ def test_documented_example(maya_cmds):
     frames = [10, 15, 20, 25, 30, 40, 50]
     for f in frames:
         curve.addKey(_time(f), f)
-    keys.scale_keys(
-        20, 30, time_scale=1.5, interpolate_start=10, interpolate_end=50
+    keys.scale_frames(
+        20, 30, scale=1.5, interpolate_start=10, interpolate_end=50
     )
     mod.do_it_dg()
     assert keys.frames() == [10, 13.75, 20, 27.5, 35, 45, 50]
@@ -95,8 +95,8 @@ def test_documented_example(maya_cmds):
 def test_default_interpolation_is_smoothstep(maya_cmds):
     keys, mod, curve = _curve(maya_cmds)
     curve.addKey(_time(2.5), 99)
-    keys.scale_keys(
-        10, 20, time_scale=1.5, interpolate_start=0, interpolate_end=30
+    keys.scale_frames(
+        10, 20, scale=1.5, interpolate_start=0, interpolate_end=30
     )
     mod.do_it_dg()
     assert keys.frames()[1] == pytest.approx(1.9140625)
@@ -105,10 +105,10 @@ def test_default_interpolation_is_smoothstep(maya_cmds):
 def test_duplicate_main_boundary_is_inserted_once(maya_cmds):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    keys.scale_keys(
+    keys.scale_frames(
         15,
         15,
-        time_scale=0.5,
+        scale=0.5,
         interpolate_start=5,
         interpolate_end=25,
         interpolation="linear",
@@ -124,8 +124,8 @@ def test_unrepresentable_weighted_time_tangent_rolls_back(maya_cmds):
     assert curve.getTangentAngleWeight(curve.find(_time(5)), True)[1] == 0
     before = _curve_state(curve)
     keys.set_key(99, frame=80)
-    keys.scale_keys(
-        10, 20, time_scale=1.5, interpolate_start=0, interpolate_end=30
+    keys.scale_frames(
+        10, 20, scale=1.5, interpolate_start=0, interpolate_end=30
     )
     with pytest.raises(RuntimeError, match="weighted time tangent"):
         mod.do_it_dg()
@@ -136,10 +136,10 @@ def test_unrepresentable_weighted_time_tangent_rolls_back(maya_cmds):
 @pytest.mark.parametrize("scale", [1, 1.5])
 def test_even_noop_requires_manager_and_write_access(maya_cmds, scale):
     keys, mod, curve = _make(maya_cmds)
-    kwargs = dict(time_scale=scale, interpolate_start=0, interpolate_end=30)
+    kwargs = dict(scale=scale, interpolate_start=0, interpolate_end=30)
     with pytest.raises(RuntimeError, match="ModifierManager"):
-        CurveKeyframeManager(curve.object()).scale_keys(10, 20, **kwargs)
-    keys.scale_keys(10, 20, **kwargs)
+        CurveKeyframeManager(curve.object()).scale_frames(10, 20, **kwargs)
+    keys.scale_frames(10, 20, **kwargs)
     maya_cmds.lockNode(curve.name(), lock=True)
     with pytest.raises(RuntimeError, match="locked"):
         mod.do_it_dg()
@@ -161,8 +161,8 @@ def test_effective_tangent_scale_values_metadata_and_history(
     captured = [
         _keyframe_move.capture_key(curve, i) for i in range(curve.numKeys)
     ]
-    keys.scale_keys(
-        10, 20, time_scale=scale, interpolate_start=0, interpolate_end=30
+    keys.scale_frames(
+        10, 20, scale=scale, interpolate_start=0, interpolate_end=30
     )
     mod.do_it_dg()
     after = _curve_state(curve)
@@ -211,11 +211,11 @@ def test_replacement_uses_only_main_destination_and_overwrites_fade_collision(
         curve.addKey(_time(f), f)
     before = _curve_state(curve)
     # Core 10..20 -> 40..45, fade key 5 -> 21.25, outside the replaced range.
-    keys.scale_keys(
+    keys.scale_frames(
         10,
         20,
-        time_scale=0.5,
-        to_start_frame=40,
+        scale=0.5,
+        to_start=40,
         interpolate_start=0,
         mode=mode,
     )
@@ -241,7 +241,7 @@ def test_stationary_selected_endpoint_survives_replacement(maya_cmds):
     curve.remove(curve.find(_time(20)))
     before = _curve_state(curve)
     # No key at the main end 20. Nominal destination 10..30 includes fixed fade endpoint 30.
-    keys.scale_keys(10, 20, time_scale=2, interpolate_end=30)
+    keys.scale_frames(10, 20, scale=2, interpolate_end=30)
     mod.do_it_dg()
     assert keys.frames() == [0, 10, 30]
     assert _curve_state(curve)["keys"][-1] == before["keys"][-1]
@@ -259,10 +259,10 @@ def test_selected_collision_and_reversal_roll_back_prior_work(
     keys, mod, curve = _curve(maya_cmds)
     before = _curve_state(curve)
     keys.set_key(99, frame=80)
-    keys.scale_keys(
+    keys.scale_frames(
         10,
         20,
-        time_scale=scale,
+        scale=scale,
         interpolate_start=0,
         interpolate_end=30,
         insert_missing=insert,
@@ -277,8 +277,8 @@ def test_selected_collision_and_reversal_roll_back_prior_work(
 def test_missing_fade_endpoint_is_not_a_virtual_key(maya_cmds, insert):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    keys.scale_keys(
-        10, 20, time_scale=2, interpolate_end=25, insert_missing=insert
+    keys.scale_frames(
+        10, 20, scale=2, interpolate_end=25, insert_missing=insert
     )
     if insert:
         with pytest.raises(ValueError, match="change order"):
@@ -302,10 +302,10 @@ def test_four_boundaries_sample_original_curve(maya_cmds, kind, exterior):
         max(0, min(1, (f - low) / (start - low), (high - f) / (high - end)))
         for f in frames
     ]
-    keys.scale_keys(
+    keys.scale_frames(
         start,
         end,
-        time_scale=0.75,
+        scale=0.75,
         interpolate_start=low,
         interpolate_end=high,
         interpolation="linear",
@@ -333,18 +333,18 @@ def test_four_boundaries_sample_original_curve(maya_cmds, kind, exterior):
     [
         (
             (10, None),
-            dict(time_scale=0.5, interpolate_start=0),
+            dict(scale=0.5, interpolate_start=0),
             [0, 6.25, 10, 15, 17.5, 20],
         ),
         (
             (None, 20),
-            dict(duration_frames=10, interpolate_end=30),
+            dict(duration=10, interpolate_end=30),
             [0, 2.5, 5, 10, 18.75, 30],
         ),
         (
             (12, 18),
             dict(
-                time_scale=0.5,
+                scale=0.5,
                 interpolate_start=0,
                 interpolate_end=30,
                 interpolation="linear",
@@ -354,7 +354,7 @@ def test_four_boundaries_sample_original_curve(maya_cmds, kind, exterior):
         (
             (10, 10),
             dict(
-                time_scale=1.5,
+                scale=1.5,
                 interpolate_start=0,
                 interpolate_end=30,
                 interpolation="linear",
@@ -368,7 +368,7 @@ def test_open_empty_core_and_zero_width_ranges(
 ):
     keys, mod, curve = _curve(maya_cmds)
     before = _curve_state(curve)
-    keys.scale_keys(*bounds, **timing)
+    keys.scale_frames(*bounds, **timing)
     mod.do_it_dg()
     assert keys.frames() == pytest.approx(expected)
     _history(mod, curve, before, _curve_state(curve))
@@ -378,10 +378,10 @@ def test_open_empty_core_and_zero_width_ranges(
 def test_missing_implicit_anchor_uses_only_main_keys(maya_cmds, insert):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
-    keys.scale_keys(
+    keys.scale_frames(
         None,
         -5,
-        time_scale=0.5,
+        scale=0.5,
         interpolate_end=10,
         interpolation="linear",
         insert_missing=insert,
@@ -396,16 +396,16 @@ def test_missing_implicit_anchor_uses_only_main_keys(maya_cmds, insert):
 @pytest.mark.parametrize(
     "timing",
     [
-        dict(time_scale=1),
-        dict(duration_frames=6),
-        dict(to_start_frame=12, to_end_frame=18),
+        dict(scale=1),
+        dict(duration=6),
+        dict(to_start=12, to_end=18),
     ],
 )
 def test_identity_never_inserts_boundaries(maya_cmds, timing):
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     maya_cmds.file(modified=False)
-    keys.scale_keys(
+    keys.scale_frames(
         12,
         18,
         **timing,
@@ -424,8 +424,8 @@ def test_only_zero_weight_keys_are_noop(maya_cmds):
     curve.remove(1)
     before = _curve_state(curve)
     maya_cmds.file(modified=False)
-    keys.scale_keys(
-        10, 20, time_scale=1.5, interpolate_start=0, interpolate_end=30
+    keys.scale_frames(
+        10, 20, scale=1.5, interpolate_start=0, interpolate_end=30
     )
     mod.do_it_dg()
     assert _curve_state(curve) == before
@@ -456,7 +456,7 @@ def test_invalid_interpolation_is_rejected_before_booking(
     keys, mod, curve = _make(maya_cmds)
     before = _curve_state(curve)
     with pytest.raises(error):
-        keys.scale_keys(*bounds, time_scale=1.5, **kwargs)
+        keys.scale_frames(*bounds, scale=1.5, **kwargs)
     mod.do_it_dg()
     assert _curve_state(curve) == before
 
@@ -469,11 +469,11 @@ def test_units_negative_times_and_subframes(maya_cmds, kind):
     for i in range(curve.numKeys):
         curve.setInput(i, curve.input(i) - _time(20))
     before = _curve_state(curve)
-    keys.scale_keys(
+    keys.scale_frames(
         -10,
         0,
-        time_scale=0.5,
-        offset_frames=0.5,
+        scale=0.5,
+        offset=0.5,
         interpolate_start=-20,
         interpolate_end=10,
     )
@@ -508,10 +508,10 @@ def test_partial_failure_rolls_back_insertions_and_prior_edits(
         raise RuntimeError("injected scaling interpolation failure")
 
     monkeypatch.setattr(_keyframe_move, helper, fail)
-    keys.scale_keys(
+    keys.scale_frames(
         12,
         18,
-        time_scale=0.75,
+        scale=0.75,
         interpolate_start=5,
         interpolate_end=25,
         insert_missing=True,
@@ -538,10 +538,10 @@ def test_no_target_never_creates_curve(maya_cmds, empty):
             curve.remove(i)
     before = keys.get_keys()
     nodes = set(maya_cmds.ls())
-    keys.scale_keys(
+    keys.scale_frames(
         50,
         60,
-        time_scale=0.75,
+        scale=0.75,
         interpolate_start=40,
         interpolate_end=70,
         insert_missing=empty != "range",
@@ -559,11 +559,9 @@ def test_pending_creation_and_sequential_edits_never_query_flush(maya_cmds):
         .keyframe
     )
     keys.set_keys([(0, 0), (5, 1), (10, 2), (20, 3), (25, 4), (30, 5)])
-    keys.add_values(
-        10, 20, offset_value=2, interpolate_start=0, interpolate_end=30
-    )
-    keys.scale_keys(
-        10, 20, time_scale=1.5, interpolate_start=0, interpolate_end=30
+    keys.add_values(10, 20, offset=2, interpolate_start=0, interpolate_end=30)
+    keys.scale_frames(
+        10, 20, scale=1.5, interpolate_start=0, interpolate_end=30
     )
     with pytest.raises(RuntimeError):
         keys.get_keys()
