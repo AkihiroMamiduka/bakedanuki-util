@@ -10,6 +10,7 @@ from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
 from . import _keyframe_move, _keyframe_target
+from ._keyframe_influence import Influence
 
 
 def _number(value: object, name: str) -> float:
@@ -99,8 +100,7 @@ def _scaled_key(
 
 def _scale(
     curve: oma.MFnAnimCurve,
-    start: om.MTime | None,
-    end: om.MTime | None,
+    influence: Influence,
     *,
     time_scale: float | None,
     duration: float | None,
@@ -113,20 +113,31 @@ def _scale(
 ) -> None:
     if not curve.numKeys:
         return
+    start, end = influence.start, influence.end
     times = [curve.input(i) for i in range(curve.numKeys)]
     first = 0 if start is None else bisect_left(times, start)
     stop = len(times) if end is None else bisect_right(times, end)
+    core = times[first:stop]
+    if insert_missing:
+        for boundary in (start, end):
+            if boundary is not None and boundary not in core:
+                core.insert(bisect_left(core, boundary), boundary)
+    if not core and (start is None or end is None):
+        return
+    source_start = core[0] if start is None else start
+    source_end = core[-1] if end is None else end
+    low, high = influence.low, influence.high
+    first = 0 if low is None else bisect_left(times, low)
+    stop = len(times) if high is None else bisect_right(times, high)
     selected = times[first:stop]
     missing: list[om.MTime] = []
     if insert_missing:
-        for boundary in (start, end):
+        for boundary in influence.boundaries:
             if boundary is not None and boundary not in selected:
                 selected.insert(bisect_left(selected, boundary), boundary)
                 missing.append(boundary)
     if not selected:
         return
-    source_start = selected[0] if start is None else start
-    source_end = selected[-1] if end is None else end
     scale, destination_start, destination_end = _placement(
         source_start,
         source_end,
@@ -144,50 +155,73 @@ def _scale(
     ):
         return
 
-    def destination(time: om.MTime) -> om.MTime:
-        if time == source_start:
+    def destination(time: om.MTime, weight: float) -> om.MTime:
+        if weight == 0:
+            return time
+        if weight == 1 and time == source_start:
             return destination_start
-        if time == source_end:
+        if weight == 1 and time == source_end:
             return destination_end
-        return _time(
+        seconds = time.asUnits(om.MTime.kSeconds)
+        transformed = (
             destination_start.asUnits(om.MTime.kSeconds)
-            + (
-                time.asUnits(om.MTime.kSeconds)
-                - source_start.asUnits(om.MTime.kSeconds)
-            )
-            * scale
+            + (seconds - source_start.asUnits(om.MTime.kSeconds)) * scale
+        )
+        return _time(
+            transformed
+            if weight == 1
+            else seconds + (transformed - seconds) * weight
         )
 
-    destinations = tuple(destination(time) for time in selected)
+    weights = tuple(influence.weight(time) for time in selected)
+    destinations = tuple(
+        destination(time, weight) for time, weight in zip(selected, weights)
+    )
     if any(a >= b for a, b in zip(destinations, destinations[1:])):
-        raise ValueError("Scaled keys coincide at Maya time precision.")
+        raise ValueError(
+            "Scaled keys coincide or change order at Maya time precision."
+        )
+    scales = tuple((1 - weight) + weight * scale for weight in weights)
+    updated = tuple(
+        i
+        for i, (time, dest, factor) in enumerate(
+            zip(selected, destinations, scales)
+        )
+        if time != dest or factor != 1
+    )
+    if not updated:
+        return
     _keyframe_move.insert_boundaries(curve, missing, change)
     times = [curve.input(i) for i in range(curve.numKeys)]
-    first = 0 if start is None else bisect_left(times, start)
-    stop = len(times) if end is None else bisect_right(times, end)
+    first = 0 if low is None else bisect_left(times, low)
+    stop = len(times) if high is None else bisect_right(times, high)
     if times[first:stop] != selected:
         raise RuntimeError("Maya did not insert the requested boundary keys.")
-    keys = tuple(
-        _scaled_key(_keyframe_move.capture_key(curve, i), scale)
-        for i in range(first, stop)
-    )
-    removed = set(range(first, stop))
+    keys: list[_keyframe_move.CapturedKey] = []
+    for i in updated:
+        key = _keyframe_move.capture_key(curve, first + i)
+        keys.append(_scaled_key(key, scales[i]) if scales[i] != 1 else key)
+    removed = {first + i for i in updated}
     if mode == "replace_range":
         removed.update(
-            range(
+            i
+            for i in range(
                 bisect_left(times, destination_start),
                 bisect_right(times, destination_end),
             )
+            if not first <= i < stop
         )
-    else:
-        removed.update(
-            index
-            for time in destinations
-            if (index := curve.find(time)) is not None
-        )
+    removed.update(
+        index
+        for time in destinations
+        if (index := curve.find(time)) is not None
+        and not first <= index < stop
+    )
     for index in sorted(removed, reverse=True):
         curve.remove(index, change)
-    _keyframe_move.restore_keys(curve, keys, destinations, change)
+    _keyframe_move.restore_keys(
+        curve, tuple(keys), tuple(destinations[i] for i in updated), change
+    )
     if any(curve.find(time) is None for time in destinations):
         raise RuntimeError("Maya did not restore the scaled keys.")
 
@@ -205,6 +239,9 @@ def queue_scale(
     to_end_frame: float | None,
     mode: Literal["replace_range", "merge"],
     insert_missing: bool,
+    interpolate_start: float | None = None,
+    interpolate_end: float | None = None,
+    interpolation: Literal["linear", "smoothstep"] = "smoothstep",
 ) -> None:
     fit = to_start_frame is not None and to_end_frame is not None
     if sum((time_scale is not None, duration_frames is not None, fit)) != 1:
@@ -245,10 +282,13 @@ def queue_scale(
         _time(duration)
     if time_scale is not None:
         time_scale = _positive(time_scale, "time_scale")
-    if start is not None and end is not None and start > end:
-        raise ValueError(
-            "start_frame must be less than or equal to end_frame."
-        )
+    influence = Influence(
+        start,
+        end,
+        capture(interpolate_start, "interpolate_start"),
+        capture(interpolate_end, "interpolate_end"),
+        interpolation,
+    )
     if to_start is not None and to_end is not None and to_start >= to_end:
         raise ValueError("to_end_frame must be greater than to_start_frame.")
     if start is not None and end is not None:
@@ -259,8 +299,7 @@ def queue_scale(
         if curve is not None:
             _scale(
                 curve,
-                start,
-                end,
+                influence,
                 time_scale=time_scale,
                 duration=duration,
                 offset=offset,

@@ -32,7 +32,16 @@ EDITS = (
     ("add_values", {"offset_value": 5}),
     ("scale_value", {"frame": 1, "value_scale": 2}),
     ("scale_values", {"value_scale": 2}),
-    ("scale_keys", {"time_scale": 2}),
+    (
+        "scale_keys",
+        {
+            "start_frame": 1,
+            "end_frame": 5,
+            "time_scale": 1.25,
+            "interpolate_start": -3,
+            "interpolate_end": 13,
+        },
+    ),
     ("reduce_keys", {"tolerance": 0.01}),
     ("move_key", {"frame": 1, "to_frame": 5}),
     (

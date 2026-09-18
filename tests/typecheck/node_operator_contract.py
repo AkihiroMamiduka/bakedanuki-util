@@ -4207,32 +4207,67 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
     for keyframe in (channel, layer, curve):
         assert_type(keyframe.scale_keys(time_scale=2), None)
         assert_type(
-            keyframe.scale_keys(10, 30, time_scale=2, offset_frames=optional),
-            None,
-        )
-        assert_type(
-            keyframe.scale_keys(10, None, duration_frames=20, offset_frames=5),
-            None,
-        )
-        assert_type(
             keyframe.scale_keys(
-                None, 30, time_scale=2, to_start_frame=optional
-            ),
-            None,
-        )
-        assert_type(
-            keyframe.scale_keys(duration_frames=20, to_start_frame=optional),
-            None,
-        )
-        assert_type(
-            keyframe.scale_keys(
-                time_scale=2, to_end_frame=optional, mode="merge"
+                10,
+                30,
+                time_scale=2,
+                offset_frames=optional,
+                interpolate_start=optional,
+                interpolate_end=50,
+                interpolation="linear",
             ),
             None,
         )
         assert_type(
             keyframe.scale_keys(
-                duration_frames=20, to_end_frame=optional, insert_missing=True
+                10,
+                None,
+                duration_frames=20,
+                offset_frames=5,
+                interpolate_start=0,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(
+                None,
+                30,
+                time_scale=2,
+                to_start_frame=optional,
+                interpolate_end=optional,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(
+                10,
+                30,
+                duration_frames=20,
+                to_start_frame=optional,
+                interpolate_start=0,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(
+                10,
+                30,
+                time_scale=2,
+                to_end_frame=optional,
+                mode="merge",
+                interpolate_end=50,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_keys(
+                10,
+                30,
+                duration_frames=20,
+                to_end_frame=optional,
+                insert_missing=True,
+                interpolate_start=0,
+                interpolate_end=50,
             ),
             None,
         )
@@ -4243,6 +4278,9 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
                 to_start_frame=100,
                 to_end_frame=140,
                 mode="replace_range",
+                interpolate_start=optional,
+                interpolate_end=optional,
+                interpolation="smoothstep",
             ),
             None,
         )
@@ -4268,6 +4306,18 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
         keyframe.scale_keys(
             time_scale=2,
             insert_missing=1,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(
+            time_scale=2,
+            interpolate_start="0",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(
+            time_scale=2,
+            interpolate_end="50",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(
+            time_scale=2,
+            interpolation="spline",  # pyright: ignore[reportArgumentType]
         )
 
 

@@ -682,7 +682,7 @@ command失敗時rollbackを検証します。型contractは3種類の配置方�
 影響度計算とキー復元を共有するため、通常移動・時間拡縮・値編集も回帰テストに含めます。
 
 関連pytestの範囲と最終検証方法は通常移動・時間拡縮と同じです。
-利用者によるMaya画面上での補間移動の動作確認は未実施です。
+その後、補間移動も利用者によるMaya画面上の動作確認・pushまで完了しました（`9a63af85`）。
 
 2026-09-18、補間移動追加後の検証結果です。
 
@@ -740,6 +740,40 @@ Blackは4,452ファイル、3 versionの型・補完contractはすべて成功�
 .\scripts\test-pytest-maya2027.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
 .\scripts\verify.cmd
 ```
+
+## キーフレーム時間拡縮の補間の検証
+
+`test_keyframe_scale_interpolation.py`は、`scale_keys()`の時刻と接線Xへの影響度を検証します。
+
+- 元時刻によるlinear / smoothstepと既定値、倍率・長さ・両端合わせと各配置方法。
+  主区間だけを基準にすること、片側省略・キーのない主区間・幅0・負の時刻・subframe。
+- 主区間の配置先だけの部分置き換え、merge、置換範囲外の補間キーの衝突上書き。
+  動かない端点が置換範囲内でも保持されること、主ピボットの接線だけの拡縮。
+- 対象キーの衝突・順序逆転の拒否、欠けた補間端点を仮キーとせず、明示挿入時のみ検査すること。
+- TA / TL / TU / TT、weightedの有無、fixed・auto・linear・step系、実効倍率による接線X、
+  値・種類・lock・breakdown・infinityの保持と反復Undo / Redo。
+  復元できないTTのweighted接線は同じbatch全体をrollbackすること。
+- 最大4境界の事前評価・挿入・重複除去、恒等変換や影響度0だけの場合は変更しないこと。
+  no-opでもmanagerとwrite検査を通すこと、対象なし・空カーブ・不正引数。
+- 予約時のFPS捕捉、保留中の作成・先行編集・queryの非実行。
+  挿入後・捕捉後・削除後・復元後の失敗で先行編集も含めてrollbackすること。
+
+`test_keyframe_target.py` / `test_curve_keyframe.py`も補間拡縮を指定し、ベース・指定layer・
+明示カーブとlock / referenceを検証します。MPxCommandは補間拡縮と境界挿入を追加し、
+Maya標準Undo / Redo・command失敗時rollbackを確認します。登録は移動のfixtureと同じく
+module内で共有し、シーンは各caseで初期化します。型contractは3入口と全配置形式の補間引数を検査します。
+利用者によるMaya画面上での補間拡縮の動作確認は未実施です。
+
+2026-09-18、補間拡縮追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 補間拡縮の専用pytest | 150件。下記の関連・全体テストにも含む |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,173件成功、プロセス正常終了 |
+| 変更実装2ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,458ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,147件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
 
 ## キーフレーム値編集の検証
 

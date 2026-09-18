@@ -53,8 +53,10 @@ def move_test_plugin():
     maya_cmds.unloadPlugin(name)
 
 
-@pytest.fixture
-def scale_test_plugin(new_scene, maya_cmds):
+@pytest.fixture(scope="module")
+def scale_test_plugin():
+    # Share registration across cases, as for the move command on Maya 2027.
+    maya_cmds = pytest.importorskip("maya.cmds")
     name = "bdu_mpx_keyframe_scale_test_plugin"
     path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
     maya_cmds.loadPlugin(str(path), quiet=True)
@@ -255,8 +257,9 @@ def test_reduce_keys_uses_maya_undo_redo_and_command_failure_rollback(
 
 
 @pytest.mark.parametrize("fail", [False, True])
+@pytest.mark.parametrize("interpolate", [False, True])
 def test_scale_keys_uses_maya_history_and_command_failure_rollback(
-    scale_test_plugin, maya_cmds, fail
+    scale_test_plugin, new_scene, maya_cmds, fail, interpolate
 ):
     import bd_util as bdu
 
@@ -283,13 +286,19 @@ def test_scale_keys_uses_maya_history_and_command_failure_rollback(
         with pytest.raises(
             RuntimeError, match="intentional keyframe scaling failure"
         ):
-            command(nodeName=name)
+            command(nodeName=name, interpolate=interpolate)
         assert [k.get_curve_data() for k in managers] == before
         assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
         return
-    command(nodeName=name)
-    assert managers[0].get_keys() == [(0, 0), (20, 4), (40, 2)]
-    assert managers[1].frames() == [0, 10, 20, 30, 32]
+    command(nodeName=name, interpolate=interpolate)
+    if interpolate:
+        assert managers[0].get_keys() == [(0, 0), (10, 4), (25, 2), (30, 7)]
+        assert managers[1].frames() == pytest.approx(
+            [0, 5, 10 + 10 / 7, 13, 16, 20 - 15 / 7, 25, 30]
+        )
+    else:
+        assert managers[0].get_keys() == [(0, 0), (20, 4), (40, 2)]
+        assert managers[1].frames() == [0, 10, 20, 30, 32]
     after = [k.get_curve_data() for k in managers]
     for _ in range(3):
         maya_cmds.undo()

@@ -152,5 +152,29 @@ def main():
         interpolation="linear",
     )
 
+    clip = bdu.AnimationClip.capture(
+        [trsf],
+        include_channel_box=True,
+    )
+    dst_6_0 = nodes.create.transform(name="dst_6_0")
+    dst_6_1 = nodes.create.transform(name="dst_6_1")
+    dst_6_2 = nodes.create.transform(name="dst_6_2")
+    for target in [dst_6_0, dst_6_1, dst_6_2]:
+        clip.restore(nodes.modifier_manager, targets=[target])
+    dst_6_1.tx.keyframe.scale_keys(
+        -50,
+        50,
+        time_scale=0.5,
+        interpolate_start=-75,
+        interpolate_end=75,
+    )
+    dst_6_2.tx.keyframe.scale_keys(
+        -50,
+        50,
+        time_scale=0.5,
+        interpolate_start=-75,
+        interpolate_end=75,
+    )
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

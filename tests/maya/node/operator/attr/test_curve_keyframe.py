@@ -323,7 +323,9 @@ def _queue_edit(keyframe, method, args):
         getattr(keyframe, method)(*args, value_scale=2)
         return
     if method == "scale_keys":
-        keyframe.scale_keys(*args, time_scale=2)
+        keyframe.scale_keys(
+            1, 5, time_scale=1.25, interpolate_start=-3, interpolate_end=13
+        )
         return
     if method == "reduce_keys":
         keyframe.reduce_keys(*args, tolerance=0.01)
