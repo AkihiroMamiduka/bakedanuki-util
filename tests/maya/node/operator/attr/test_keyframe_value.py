@@ -12,7 +12,6 @@ from bd_util.maya.node.operator.attr import (
 )
 from bd_util.maya.node.operator.attr import (
     _keyframe_move,
-    _keyframe_scale,
     _keyframe_value,
 )
 from test_keyframe_move import _assert_state, _history, _make, _time
@@ -515,8 +514,8 @@ def test_partial_failure_rolls_back_prior_work(maya_cmds, monkeypatch, stage):
     module, helper = {
         "insert": (_keyframe_move, "insert_boundaries"),
         "value": (_keyframe_value, "_set_value"),
-        "remove": (_keyframe_scale, "restore_scaled_keys"),
-        "restore": (_keyframe_scale, "restore_scaled_keys"),
+        "remove": (_keyframe_move, "restore_keys"),
+        "restore": (_keyframe_move, "restore_keys"),
     }[stage]
     original = getattr(module, helper)
 

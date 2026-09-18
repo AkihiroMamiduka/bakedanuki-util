@@ -4373,6 +4373,47 @@ def keyframe_move_contract(nodes: bdu.Nodes) -> None:
         assert_type(keyframe.move_keys(None, 20, offset_frames=15), None)
         assert_type(keyframe.move_keys(to_start_frame=0), None)
         assert_type(
+            keyframe.move_keys(
+                20,
+                30,
+                offset_frames=5,
+                interpolate_start=10,
+                interpolate_end=40,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.move_keys(
+                20,
+                30,
+                to_start_frame=25,
+                interpolate_start=10,
+                interpolation="linear",
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.move_keys(
+                20,
+                30,
+                to_end_frame=35,
+                interpolate_end=40,
+                interpolation="smoothstep",
+                insert_missing=True,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.move_keys(
+                20, None, offset_frames=5, interpolate_start=10
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.move_keys(None, 30, offset_frames=-5, interpolate_end=40),
+            None,
+        )
+        assert_type(
             keyframe.move_keys(to_end_frame=100, insert_missing=True), None
         )
         keyframe.move_key(10)  # pyright: ignore[reportCallIssue]
@@ -4392,6 +4433,21 @@ def keyframe_move_contract(nodes: bdu.Nodes) -> None:
         )
         keyframe.move_key(
             "10", to_frame=20  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_keys(
+            offset_frames=1,
+            interpolation="spline",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_keys(
+            10,
+            20,
+            offset_frames=1,
+            interpolate_start="0",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_key(
+            10,
+            offset_frames=1,
+            interpolate_start=0,  # pyright: ignore[reportCallIssue]
         )
 
 

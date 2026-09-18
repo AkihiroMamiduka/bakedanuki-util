@@ -41,8 +41,10 @@ def reduce_test_plugin(new_scene, maya_cmds):
     maya_cmds.unloadPlugin(name)
 
 
-@pytest.fixture
-def move_test_plugin(new_scene, maya_cmds):
+@pytest.fixture(scope="module")
+def move_test_plugin():
+    # Repeated registration/unloading per parameter case crashes Maya 2027 on exit.
+    maya_cmds = pytest.importorskip("maya.cmds")
     name = "bdu_mpx_keyframe_move_test_plugin"
     path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
     maya_cmds.loadPlugin(str(path), quiet=True)
@@ -156,8 +158,9 @@ def test_keyframe_set_uses_command_undo_redo_and_failure_rollback(
 
 
 @pytest.mark.parametrize("fail", [False, True])
+@pytest.mark.parametrize("interpolate", [False, True])
 def test_move_keys_uses_maya_undo_redo_and_command_failure_rollback(
-    move_test_plugin, maya_cmds, fail
+    move_test_plugin, new_scene, maya_cmds, fail, interpolate
 ):
     from maya.api import OpenMaya as om
     from bd_util.maya.node.operator.attr import KeyframeManager
@@ -185,14 +188,20 @@ def test_move_keys_uses_maya_undo_redo_and_command_failure_rollback(
         with pytest.raises(
             RuntimeError, match="intentional keyframe move failure"
         ):
-            command(nodeName=node)
+            command(nodeName=node, interpolate=interpolate)
         assert [k.get_curve_data() for k in managers] == before
         assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
         return
-    command(nodeName=node)
-    assert managers[0].frames() == [0, 20, 30]
-    assert managers[0].get_keys() == [(0, 0), (20, 4), (30, 7)]
-    assert managers[1].frames() == [0, 10, 20, 30, 40, 46]
+    command(nodeName=node, interpolate=interpolate)
+    if interpolate:
+        assert managers[0].get_keys() == [(0, 0), (14, 4), (24, 2), (30, 7)]
+        assert managers[1].frames() == pytest.approx(
+            [0, 5, 10 + 10 / 7, 14, 20, 20 + 10 / 7, 25, 30]
+        )
+    else:
+        assert managers[0].frames() == [0, 20, 30]
+        assert managers[0].get_keys() == [(0, 0), (20, 4), (30, 7)]
+        assert managers[1].frames() == [0, 10, 20, 30, 40, 46]
     after = [k.get_curve_data() for k in managers]
     for _ in range(3):
         maya_cmds.undo()

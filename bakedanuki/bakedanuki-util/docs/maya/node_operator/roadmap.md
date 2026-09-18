@@ -184,7 +184,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 用途 | API / 状態 |
 | --- | --- |
 | 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。予約実行、Undo / Redo、途中失敗時rollbackに対応 |
-| 時間方向への移動 | `move_key()` / `move_keys()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、`insert_missing=False`を既定とする境界挿入。属性・layer・明示カーブで同じ操作を使用 |
+| 時間方向への移動 | `move_key()` / `move_keys()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_keys()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否。属性・layer・明示カーブで同じ操作を使用 |
 | 時間方向への拡縮 | `scale_keys()`。正の倍率・長さ・両端合わせ、基準区間の境界補完、配置先の部分置き換え（既定）とmerge。接線Xも拡縮し、Undo / Redo・rollbackに対応 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
 | キー削減 | `reduce_keys()`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持 |
@@ -262,13 +262,18 @@ nonweighted接線は正規化し、weighted接線は変換後の長さを保持�
 補間は既存キーの影響度だけを変え、自動サンプリングやイーズ再現用の接線調整は行いません。
 `insert_missing=True`だけが、明示した最大4境界を補います。
 現行仕様は[値編集](attributes.md#キーの値を編集する)を参照してください。
-その後の着手順は未確定です。
+値編集は利用者による動作確認・pushまで完了しました（`ba5fc139`）。
+続いて`move_keys()`へ同じ補間引数を追加しました。移動前の時刻から影響度を求め、
+影響度0の端点を含めて対象キーの衝突・順序逆転を検査します。
+次の補間拡張候補は`scale_keys()`です。接線Xの変換と配置先の部分置き換え範囲を
+個別に仕様化してから着手し、現時点では補間引数を追加していません。
+それ以降の着手順は未確定です。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
-| 移動の拡張 | 時間方向の移動、AnimationClip復元時とKeyframeManagerによる正の時間拡縮、既存キーの生値の設定・加算・拡縮は実装済み。値編集の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等を追加する場合は個別に仕様化する |
+| 移動の拡張 | 時間方向の移動、AnimationClip復元時とKeyframeManagerによる正の時間拡縮、既存キーの生値の設定・加算・拡縮は実装済み。値編集と`move_keys()`の補間は既存キーへの重み付けのみ。次候補の`scale_keys()`の補間は接線Xと部分置き換えの範囲を先に決める。合成結果を基準とする値編集等も個別に仕様化する |
 | キー削減の拡張・最適化 | 手動接線を維持する初期版は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
 | アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元時刻指定と正の時間拡縮は実装済み。逆再生やrig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録、AnimationClipによる階層・順序・weight等の保存復元は実装済み。登録解除や階層・順序を個別編集する公開API、auto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
@@ -283,19 +288,28 @@ layer構造の管理や自動選択を追加する場合は、
 
 `move_key(frame, *, offset_frames=None, to_frame=None, insert_missing=False)`と
 `move_keys(start_frame=None, end_frame=None, *, offset_frames=None, to_start_frame=None,
-to_end_frame=None, insert_missing=False)`を共通の`_KeyframeOperations`へ追加しました。
+to_end_frame=None, interpolate_start=None, interpolate_end=None, interpolation="smoothstep",
+insert_missing=False)`を共通の`_KeyframeOperations`へ追加しました。
 対象は位置引数、移動方法は必ず1つのkeyword引数で指定します。
 明示した開始・終了時刻を絶対移動の基準とし、基準側がNoneなら対象キーの端を使います。
 移動先の対象外キーを置換し、途中のキーや移動対象同士は失いません。
 `insert_missing=True`だけが明示境界を補い、空カーブや移動量0では挿入しません。
 詳しい契約は[移動の現行仕様](attributes.md#キーを時間方向へ移動する)を参照してください。
 
+補間を指定すると、補間区間の既存キーも対象にし、移動前の時刻から求めた影響度で
+移動量を重み付けします。絶対移動の基準は補間区間を含める前の元範囲です。
+影響度0の既存キーは移動せず、対象キー同士の衝突・順序逆転はエラーにします。
+対象外キーとの同時刻衝突は従来どおり上書きします。`insert_missing=True`だけが
+明示した最大4境界を補い、イーズを再現するための追加キー・接線調整は行いません。
+
 内部処理は`_keyframe_move.py`へ分離しています。既存resolverで対象・lock / referenceを
 初回実行時に検査し、1つの`MAnimCurveChange`で挿入から移動まで記録します。
 順序維持可能なら正方向は後ろから、負方向は前から`setInput()`を適用します。
 Maya 2025 / 2026 / 2027の`setInput()`は隣接キーを越えると直前で止まる場合があるため、
 時刻を事前計算し、適用後も確認します。上書き・飛び越しでは移動対象と衝突キーだけを
-削除し、元情報を移動先へ復元します。TTは値をMTime、接線を角度・重みで保存します。
+削除し、元情報を移動先へ復元します。影響度0のキーは再挿入しません。
+TA / TL / TUはbulk挿入で短いweighted接線やnonweightedの生XYを維持します。
+TTは値をMTime、接線を角度・重みで保存し、再挿入で再現できないweighted接線はrollbackします。
 公開の詳細データAPIの境界補完・nonweighted XY変換・全置換は経由しません。
 部分移動のauto等の接線再計算は許可し、境界挿入時はMayaの接線調整を維持します。
 
@@ -324,7 +338,7 @@ weightedの制御点時刻が逆転する区間や分割上限で未判定の候
 いずれも元キーは移動し、重なった元区間・配置先も全対象を確保してから編集します。
 
 `_keyframe_scale.py`が引数捕捉、実行時の配置計画、削除・接線Xの拡縮・再挿入を扱います。
-`_keyframe_move.py`の境界挿入・キー情報捕捉・TT復元helperを共有します。
+`_keyframe_move.py`の境界挿入・キー情報捕捉・復元helperを共有します。
 TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighted接線が
 下限補正されることを避けます。bulk挿入の種類・lock配列と、その後の種類設定を組み合わせ、
 初回とRedoの両方でメタデータを維持します。TTの表現限界は検査し、再現できなければrollbackします。
@@ -333,13 +347,14 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   `scale_keys()`までは利用者確認・push済み（`66dee785`）。続いて値編集の6メソッドを追加した。
+   値編集の6メソッドまでは利用者確認・push済み（`ba5fc139`）。続いて`move_keys()`の補間を追加した。
    commit / push状況は実際の作業ツリーと履歴を確認する。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
 2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
-   移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。値編集の利用者確認状況は別途確認する。
+   移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
+   `move_keys()`の補間の利用者確認状況は別途確認する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 
@@ -347,11 +362,13 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 
 - `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作、anim_layerの入口とキー設定の経路選択。
 - 同階層の`_keyframe_move.py`: 移動引数の検証・捕捉、実行時の対象範囲と移動先の計画、
-  境界挿入、setInputと削除・再挿入の経路。`test_keyframe_move.py`が専用の回帰テスト。
+  境界挿入、setInputと削除・再挿入の経路。拡縮・値編集とも復元helperを共有する。
+  `test_keyframe_move.py` / `test_keyframe_move_interpolation.py`が専用の回帰テスト。
+- 同階層の`_keyframe_influence.py`: 移動と値編集で共有する補間境界の検証・影響度計算。
 - 同階層の`_keyframe_scale.py`: 時間拡縮の配置計画と部分置き換え、接線の変換・再挿入。
   `test_keyframe_scale.py`とMPxCommandの専用fixtureが履歴を含む回帰テスト。
 - 同階層の`_keyframe_value.py`: 生値の設定・加算・拡縮、補間ウェイト、nonweighted接線の正規化。
-  `_keyframe_scale.restore_scaled_keys()`を再利用する。`test_keyframe_value.py`が専用の回帰テスト。
+  `_keyframe_move.restore_keys()`を再利用する。`test_keyframe_value.py`が専用の回帰テスト。
 - 同階層の`_keyframe_command.py`: native setKeyframeの予約、対象layerとUI単位の実行時解決。
   通常のキー設定と、詳細復元時のlayerカーブ作成で共有する。後者だけnoResolveとinsertBlend=Falseを使う。
 - `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`: layer作成と登録の共通mixin。

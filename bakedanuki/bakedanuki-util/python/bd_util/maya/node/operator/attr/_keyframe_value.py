@@ -2,14 +2,15 @@ from __future__ import annotations
 
 import math
 from bisect import bisect_left, bisect_right
-from dataclasses import dataclass, replace
+from dataclasses import replace
 from typing import Literal
 
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
-from . import _keyframe_move, _keyframe_scale, _keyframe_target
+from . import _keyframe_move, _keyframe_target
+from ._keyframe_influence import Influence
 
 
 def _number(value: object, name: str) -> float:
@@ -29,30 +30,6 @@ def _time(seconds: float) -> om.MTime:
     return _keyframe_move.checked_time(
         om.MTime(seconds, om.MTime.kSeconds), seconds
     )
-
-
-@dataclass(frozen=True)
-class _Influence:
-    start: om.MTime | None
-    end: om.MTime | None
-    fade_start: om.MTime | None
-    fade_end: om.MTime | None
-    interpolation: Literal["linear", "smoothstep"]
-
-    def weight(self, time: om.MTime) -> float:
-        u = 1.0
-        if self.start is not None and time < self.start:
-            assert self.fade_start is not None
-            u = (time - self.fade_start).asUnits(om.MTime.kSeconds) / (
-                self.start - self.fade_start
-            ).asUnits(om.MTime.kSeconds)
-        elif self.end is not None and time > self.end:
-            assert self.fade_end is not None
-            u = (self.fade_end - time).asUnits(om.MTime.kSeconds) / (
-                self.fade_end - self.end
-            ).asUnits(om.MTime.kSeconds)
-        u = max(0.0, min(1.0, u))
-        return u if self.interpolation == "linear" else u * u * (3 - 2 * u)
 
 
 def _scaled_tangents(
@@ -112,7 +89,7 @@ def _set_value(
 
 def _edit(
     curve: oma.MFnAnimCurve,
-    influence: _Influence,
+    influence: Influence,
     operation: Literal["set", "add", "scale"],
     amount: float,
     pivot: float,
@@ -127,20 +104,10 @@ def _edit(
     ):
         return
     times = [curve.input(i) for i in range(curve.numKeys)]
-    low = (
-        influence.start
-        if influence.fade_start is None
-        else influence.fade_start
-    )
-    high = influence.end if influence.fade_end is None else influence.fade_end
+    low, high = influence.low, influence.high
     missing: list[om.MTime] = []
     if insert_missing:
-        for time in (
-            influence.fade_start,
-            influence.start,
-            influence.end,
-            influence.fade_end,
-        ):
+        for time in influence.boundaries:
             if time is not None and time not in times and time not in missing:
                 missing.append(time)
     _keyframe_move.insert_boundaries(curve, missing, change)
@@ -190,7 +157,7 @@ def _edit(
         # Native bulk overwrite cannot reliably undo existing keys. Reinsert them.
         for index, _ in reversed(updates):
             curve.remove(index, change)
-        _keyframe_scale.restore_scaled_keys(
+        _keyframe_move.restore_keys(
             curve,
             tuple(key for _, key in updates),
             tuple(times[index] for index, _ in updates),
@@ -227,8 +194,6 @@ def queue_value(
     pivot = _number(pivot_value, "pivot_value")
     if type(insert_missing) is not bool:
         raise TypeError("insert_missing must be a bool.")
-    if interpolation not in ("linear", "smoothstep"):
-        raise ValueError("interpolation must be 'linear' or 'smoothstep'.")
     rate = om.MTime(1, om.MTime.uiUnit()).asUnits(om.MTime.kSeconds)
 
     def capture(value: float | None, name: str) -> om.MTime | None:
@@ -239,19 +204,7 @@ def queue_value(
     )
     fade_start = capture(interpolate_start, "interpolate_start")
     fade_end = capture(interpolate_end, "interpolate_end")
-    if start is not None and end is not None and start > end:
-        raise ValueError(
-            "start_frame must be less than or equal to end_frame."
-        )
-    if fade_start is not None and (start is None or fade_start >= start):
-        raise ValueError(
-            "interpolate_start requires an explicit, later start_frame."
-        )
-    if fade_end is not None and (end is None or fade_end <= end):
-        raise ValueError(
-            "interpolate_end requires an explicit, earlier end_frame."
-        )
-    influence = _Influence(start, end, fade_start, fade_end, interpolation)
+    influence = Influence(start, end, fade_start, fade_end, interpolation)
 
     def edit(change: oma.MAnimCurveChange) -> None:
         curve = _keyframe_target.resolve_curve(target, write=True)

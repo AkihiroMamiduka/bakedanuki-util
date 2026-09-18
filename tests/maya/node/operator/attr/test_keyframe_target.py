@@ -35,7 +35,16 @@ EDITS = (
     ("scale_keys", {"time_scale": 2}),
     ("reduce_keys", {"tolerance": 0.01}),
     ("move_key", {"frame": 1, "to_frame": 5}),
-    ("move_keys", {"offset_frames": 2}),
+    (
+        "move_keys",
+        {
+            "start_frame": 1,
+            "end_frame": 5,
+            "offset_frames": 2,
+            "interpolate_start": -3,
+            "interpolate_end": 9,
+        },
+    ),
     ("insert_key", {"frame": 3}),
     ("set_tangent", {"frame": 1, "out_tangent_type": "flat"}),
     ("delete_key", {"frame": 1}),

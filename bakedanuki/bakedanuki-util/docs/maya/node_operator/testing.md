@@ -659,6 +659,49 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
 テストの除外やUI実装の変更はしていません。
 その後、移動APIは利用者によるMaya画面上での動作確認とpushまで完了しました（`218751db`）。
 
+## キーフレーム移動の補間の検証
+
+`test_keyframe_move_interpolation.py`では、`move_keys()`の補間による移動量の重み付けを検証します。
+
+- 移動前の時刻によるlinear / smoothstep、相対移動と元範囲を基準にした開始・終了合わせ、
+  片側補間・片側省略・幅0の元範囲、負の時刻・subframe、実在キーのない元範囲。
+- 影響度0の端点を含む対象キー同士の衝突・順序逆転の拒否、対象外キーへの上書きと追い越し。
+  欠けた補間端点を仮キーとしては扱わず、明示挿入したときだけ固定点として検査すること。
+- TA / TL / TU / TT、weightedの有無、fixed・auto・linear・step系、値・接線・lock・breakdown・
+  infinityの保持。短いweighted接線とnonweightedの生XY、再挿入で再現できないTT接線のrollback。
+- 最大4境界の挿入とinfinityの事前評価、影響度0のキーを移動・再挿入しないこと。
+  移動量0では挿入しないこと、キーだけへの重み付けで自動サンプリングをしないこと。
+- 対象なし・空カーブ・不正引数、予約時のFPS捕捉、no-opでもmanager・write検査を通すこと。
+  保留中作成・先行編集とqueryの非実行、再接続・改名、反復Undo / Redo。
+- 境界挿入後・時刻変更後・削除後・再挿入後の失敗で同一batch全体をrollbackすること。
+
+共通の`test_keyframe_target.py` / `test_curve_keyframe.py`でも`move_keys()`へ補間を指定し、
+チャンネル・既定ベース・指定layer・明示カーブ・lock / referenceを検証します。
+MPxCommand fixtureには補間移動と境界挿入の組み合わせを追加し、Maya標準Undo / Redoと
+command失敗時rollbackを検証します。型contractは3種類の配置方法と補間引数を検査します。
+影響度計算とキー復元を共有するため、通常移動・時間拡縮・値編集も回帰テストに含めます。
+
+関連pytestの範囲と最終検証方法は通常移動・時間拡縮と同じです。
+利用者によるMaya画面上での補間移動の動作確認は未実施です。
+
+2026-09-18、補間移動追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 補間移動の専用pytest | 182件。下記の関連・全体テストにも含む |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2026 / 2027で各3,021件成功、プロセス正常終了。Maya 2025は下記のfull pytestで同じ範囲を確認 |
+| 変更実装5ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,457ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 5,995件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+Maya 2027では、移動の検証用MPxCommandをパラメーターごとに登録・解除する構成で、
+全テスト成功後のプロセス終了時に異常終了（`-1073740940`）が再現しました。
+push済みコミットと一時フォルダーで比較し、現在の実装と従来のテストでは正常終了することを確認しました。
+検証用commandへ補間の切り替えを追加し、module内では登録を共有する構成に整理しています。
+シーン初期化は各テストで維持し、同じ57件のMPxCommandテストと3,021件の関連テストで
+正常終了を確認しました。テストの除外や終了コードの無視はしていません。
+
 ## キーフレーム時間拡縮の検証
 
 `test_keyframe_scale.py`では、`scale_keys()`の時間拡縮と配置先の置換を検証します。
@@ -734,7 +777,7 @@ Blackは4,452ファイル、3 versionの型・補完contractはすべて成功�
 | 上記のMaya 2025 full pytest | 5,811件成功、632件skip |
 | 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
 
-値編集の利用者によるMaya画面上での動作確認は未実施です。
+その後、値編集も利用者によるMaya画面上での動作確認とpushまで完了しました（`ba5fc139`）。
 
 ## キー削減の検証
 

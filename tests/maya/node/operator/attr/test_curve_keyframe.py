@@ -328,7 +328,12 @@ def _queue_edit(keyframe, method, args):
     if method == "reduce_keys":
         keyframe.reduce_keys(*args, tolerance=0.01)
         return
-    if method in ("move_key", "move_keys"):
+    if method == "move_keys":
+        keyframe.move_keys(
+            1, 5, offset_frames=2, interpolate_start=-3, interpolate_end=9
+        )
+        return
+    if method == "move_key":
         getattr(keyframe, method)(*args, offset_frames=4)
         return
     if method == "set_key_data":

@@ -97,76 +97,6 @@ def _scaled_key(
     )
 
 
-def restore_scaled_keys(
-    curve: oma.MFnAnimCurve,
-    keys: tuple[_keyframe_move.CapturedKey, ...],
-    destinations: tuple[om.MTime, ...],
-    change: oma.MAnimCurveChange,
-) -> None:
-    if curve.animCurveType == curve.kAnimCurveTT:
-        _keyframe_move.restore_keys(curve, keys, destinations, change)
-        for key, time in zip(keys, destinations):
-            index = curve.find(time)
-            assert index is not None
-            for is_in, tangent, tangent_type in (
-                (True, key.in_tangent, key.in_type),
-                (False, key.out_tangent, key.out_type),
-            ):
-                if tangent_type != curve.kTangentFixed or not curve.isWeighted:
-                    continue
-                angle, weight = curve.getTangentAngleWeight(index, is_in)
-                expected_angle, expected_weight = tangent
-                assert isinstance(expected_angle, om.MAngle)
-                if not math.isclose(
-                    angle.asRadians(), expected_angle.asRadians(), abs_tol=1e-7
-                ) or not math.isclose(
-                    weight, expected_weight, rel_tol=1e-6, abs_tol=1e-10
-                ):
-                    raise RuntimeError(
-                        "Maya cannot represent the scaled weighted time tangent."
-                    )
-        return
-
-    values = om.MDoubleArray()
-    in_x, in_y, out_x, out_y = (om.MDoubleArray() for _ in range(4))
-    for key in keys:
-        assert isinstance(key.value, float)
-        values.append(key.value)
-        for tangent, xs, ys in (
-            (key.in_tangent, in_x, in_y),
-            (key.out_tangent, out_x, out_y),
-        ):
-            x, y = tangent
-            assert isinstance(x, float)
-            xs.append(x)
-            ys.append(y)
-    # setTangent clamps short weighted handles. Bulk insertion preserves native XY.
-    curve.addKeysWithTangents(
-        om.MTimeArray(destinations),
-        values,
-        tangentInType=curve.kTangentFixed,
-        tangentOutType=curve.kTangentFixed,
-        tangentInTypeArray=om.MIntArray([key.in_type for key in keys]),
-        tangentOutTypeArray=om.MIntArray([key.out_type for key in keys]),
-        tangentInXArray=in_x,
-        tangentInYArray=in_y,
-        tangentOutXArray=out_x,
-        tangentOutYArray=out_y,
-        tangentsLockedArray=[key.tangents_locked for key in keys],
-        weightsLockedArray=[key.weights_locked for key in keys],
-        convertUnits=False,
-        keepExistingKeys=True,
-        change=change,
-    )
-    for key, time in zip(keys, destinations):
-        index = curve.find(time)
-        if index is None:
-            raise RuntimeError("Maya did not restore the scaled key.")
-        curve.setInTangentType(index, key.in_type, change)
-        curve.setOutTangentType(index, key.out_type, change)
-        curve.setIsBreakdown(index, key.breakdown, change)
-
-
 def _scale(
     curve: oma.MFnAnimCurve,
     start: om.MTime | None,
@@ -257,7 +187,7 @@ def _scale(
         )
     for index in sorted(removed, reverse=True):
         curve.remove(index, change)
-    restore_scaled_keys(curve, keys, destinations, change)
+    _keyframe_move.restore_keys(curve, keys, destinations, change)
     if any(curve.find(time) is None for time in destinations):
         raise RuntimeError("Maya did not restore the scaled keys.")
 

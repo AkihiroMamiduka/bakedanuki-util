@@ -11,7 +11,6 @@ from bd_util.maya.node.operator.attr import (
     CurveKeyframeManager,
     KeyframeManager,
     _keyframe_move,
-    _keyframe_scale,
 )
 from test_keyframe_move import _make, _time, _history, _assert_state
 from test_keyframe_set_equivalence import (
@@ -339,10 +338,8 @@ def test_partial_failure_rolls_back_every_edit(maya_cmds, monkeypatch, stage):
     keyframe, mod, curve = _make(maya_cmds, weighted=True)
     before = _curve_state(curve)
     keyframe.set_key(99, frame=80)
-    helper = (
-        "insert_boundaries" if stage == "insert" else "restore_scaled_keys"
-    )
-    module = _keyframe_move if stage == "insert" else _keyframe_scale
+    helper = "insert_boundaries" if stage == "insert" else "restore_keys"
+    module = _keyframe_move
     original = getattr(module, helper)
 
     def fail(*args):

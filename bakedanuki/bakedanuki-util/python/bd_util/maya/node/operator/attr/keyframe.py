@@ -599,6 +599,9 @@ class _KeyframeOperations(ABC):
         offset_frames: float,
         to_start_frame: None = None,
         to_end_frame: None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None: ...
 
@@ -611,6 +614,9 @@ class _KeyframeOperations(ABC):
         offset_frames: None = None,
         to_start_frame: float,
         to_end_frame: None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None: ...
 
@@ -623,6 +629,9 @@ class _KeyframeOperations(ABC):
         offset_frames: None = None,
         to_start_frame: None = None,
         to_end_frame: float,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None: ...
 
@@ -634,14 +643,21 @@ class _KeyframeOperations(ABC):
         offset_frames: float | None = None,
         to_start_frame: float | None = None,
         to_end_frame: float | None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None:
-        """両端を含むキー範囲の平行移動を予約する。移動方法は1つだけ指定。
+        """両端を含むキー範囲の移動を予約する。移動方法は1つだけ指定。
 
         None側は無制限、両端省略は全体。絶対移動は指定境界を基準とし、
-        その側がNoneなら対象の最初/最後のキーを使う。移動先の既存キーは置換。
+        その側がNoneなら元範囲の最初/最後のキーを使う。移動先の対象外キーは置換。
         insert_missing=Trueは明示した境界だけを補う。空カーブや移動量0は変更しない。
         時刻は予約時のUI時間単位で捕捉し、対象とキーは初回実行時に解決する。
+        補間指定時は移動前の時刻からウェイトを求め、範囲外の既存キーにも移動量を配分。
+        interpolate_start < start_frame、end_frame < interpolate_endを指定する。
+        補間端の静止キーを含む対象同士の衝突・順序逆転は拒否する。手動接線は維持する。
+        insert_missing=Trueなら明示した補間境界も補い、自動samplingはしない。
         """
         _keyframe_move.queue_move(
             self._require_modifier_manager(),
@@ -651,6 +667,9 @@ class _KeyframeOperations(ABC):
             offset_frames=offset_frames,
             to_start_frame=to_start_frame,
             to_end_frame=to_end_frame,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
             insert_missing=insert_missing,
         )
 
