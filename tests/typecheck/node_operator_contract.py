@@ -4206,12 +4206,14 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
     curve = nodes.existing.animCurveTL("curve").keyframe
     for keyframe in (channel, layer, curve):
         assert_type(keyframe.scale_keys(time_scale=2), None)
+        assert_type(keyframe.scale_keys(time_scale=2, pivot_frame=20), None)
         assert_type(
             keyframe.scale_keys(
                 10,
                 30,
                 time_scale=2,
                 offset_frames=optional,
+                pivot_frame=optional,
                 interpolate_start=optional,
                 interpolate_end=50,
                 interpolation="linear",
@@ -4224,6 +4226,7 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
                 None,
                 duration_frames=20,
                 offset_frames=5,
+                pivot_frame=optional,
                 interpolate_start=0,
             ),
             None,
@@ -4318,6 +4321,35 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
         keyframe.scale_keys(
             time_scale=2,
             interpolation="spline",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(
+            time_scale=2,
+            pivot_frame="20",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
+            time_scale=2,
+            to_start_frame=10,
+            pivot_frame=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
+            time_scale=2,
+            to_end_frame=30,
+            pivot_frame=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
+            duration_frames=20,
+            to_start_frame=10,
+            pivot_frame=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(  # pyright: ignore[reportCallIssue]
+            duration_frames=20,
+            to_end_frame=30,
+            pivot_frame=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_keys(
+            to_start_frame=10,
+            to_end_frame=30,
+            pivot_frame=20,  # pyright: ignore[reportArgumentType]
         )
 
 

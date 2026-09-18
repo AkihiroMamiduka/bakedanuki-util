@@ -36,6 +36,19 @@ def _time(seconds: float) -> om.MTime:
     )
 
 
+def _pivoted_seconds(
+    seconds: float, pivot: om.MTime, scale: float, offset: float | None
+) -> float:
+    pivot_seconds = pivot.asUnits(om.MTime.kSeconds)
+    # Avoid cancellation near zero scale, and keep identity transforms exact.
+    transformed = (
+        pivot_seconds + (seconds - pivot_seconds) * scale
+        if scale < 0.5
+        else seconds + (seconds - pivot_seconds) * (scale - 1)
+    )
+    return transformed + (0 if offset is None else offset)
+
+
 def _placement(
     start: om.MTime,
     end: om.MTime,
@@ -44,6 +57,7 @@ def _placement(
     offset: float | None,
     to_start: om.MTime | None,
     to_end: om.MTime | None,
+    pivot: om.MTime | None,
 ) -> tuple[float, om.MTime, om.MTime]:
     first, last = (t.asUnits(om.MTime.kSeconds) for t in (start, end))
     source_duration = last - first
@@ -60,6 +74,8 @@ def _placement(
             )
         assert duration is not None
         time_scale = _positive(duration / source_duration, "time_scale")
+        if pivot is not None and _time(duration) == end - start:
+            time_scale = 1
     assert time_scale is not None
     length = _number(source_duration * time_scale, "Scaled duration")
     low = first if to_start is None else to_start.asUnits(om.MTime.kSeconds)
@@ -70,6 +86,9 @@ def _placement(
     )
     if to_end is not None and not fit:
         low = high - length
+    if pivot is not None:
+        low = _pivoted_seconds(first, pivot, time_scale, offset)
+        high = _pivoted_seconds(last, pivot, time_scale, offset)
     destination_start, destination_end = _time(low), _time(high)
     if start < end and destination_start >= destination_end:
         raise ValueError("Scaled key range collapses at Maya time precision.")
@@ -107,6 +126,7 @@ def _scale(
     offset: float | None,
     to_start: om.MTime | None,
     to_end: om.MTime | None,
+    pivot: om.MTime | None,
     mode: Literal["replace_range", "merge"],
     insert_missing: bool,
     change: oma.MAnimCurveChange,
@@ -146,6 +166,7 @@ def _scale(
         offset,
         to_start,
         to_end,
+        pivot,
     )
     # Derived scales may differ from one only due to seconds conversion rounding.
     if (
@@ -164,7 +185,9 @@ def _scale(
             return destination_end
         seconds = time.asUnits(om.MTime.kSeconds)
         transformed = (
-            destination_start.asUnits(om.MTime.kSeconds)
+            _pivoted_seconds(seconds, pivot, scale, offset)
+            if pivot is not None
+            else destination_start.asUnits(om.MTime.kSeconds)
             + (seconds - source_start.asUnits(om.MTime.kSeconds)) * scale
         )
         return _time(
@@ -234,6 +257,7 @@ def queue_scale(
     *,
     time_scale: float | None,
     duration_frames: float | None,
+    pivot_frame: float | None,
     offset_frames: float | None,
     to_start_frame: float | None,
     to_end_frame: float | None,
@@ -254,6 +278,10 @@ def queue_scale(
         raise ValueError(
             "offset_frames cannot be combined with target bounds."
         )
+    if pivot_frame is not None and (
+        to_start_frame is not None or to_end_frame is not None
+    ):
+        raise ValueError("pivot_frame cannot be combined with target bounds.")
     if mode not in ("replace_range", "merge"):
         raise ValueError("mode must be 'replace_range' or 'merge'.")
     if type(insert_missing) is not bool:
@@ -270,6 +298,7 @@ def queue_scale(
         to_end_frame, "to_end_frame"
     )
     offset_time = capture(offset_frames, "offset_frames")
+    pivot = capture(pivot_frame, "pivot_frame")
     offset = (
         None if offset_time is None else offset_time.asUnits(om.MTime.kSeconds)
     )
@@ -292,7 +321,9 @@ def queue_scale(
     if to_start is not None and to_end is not None and to_start >= to_end:
         raise ValueError("to_end_frame must be greater than to_start_frame.")
     if start is not None and end is not None:
-        _placement(start, end, time_scale, duration, offset, to_start, to_end)
+        _placement(
+            start, end, time_scale, duration, offset, to_start, to_end, pivot
+        )
 
     def edit(change: oma.MAnimCurveChange) -> None:
         curve = _keyframe_target.resolve_curve(target, write=True)
@@ -305,6 +336,7 @@ def queue_scale(
                 offset=offset,
                 to_start=to_start,
                 to_end=to_end,
+                pivot=pivot,
                 mode=mode,
                 insert_missing=insert_missing,
                 change=change,

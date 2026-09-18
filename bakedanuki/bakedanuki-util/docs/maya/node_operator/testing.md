@@ -762,7 +762,7 @@ Blackは4,452ファイル、3 versionの型・補完contractはすべて成功�
 明示カーブとlock / referenceを検証します。MPxCommandは補間拡縮と境界挿入を追加し、
 Maya標準Undo / Redo・command失敗時rollbackを確認します。登録は移動のfixtureと同じく
 module内で共有し、シーンは各caseで初期化します。型contractは3入口と全配置形式の補間引数を検査します。
-利用者によるMaya画面上での補間拡縮の動作確認は未実施です。
+その後、補間拡縮も利用者によるMaya画面上の動作確認・pushまで完了しました（`fbf9c033`）。
 
 2026-09-18、補間拡縮追加後の検証結果です。
 
@@ -773,6 +773,37 @@ module内で共有し、シーンは各caseで初期化します。型contract�
 | 変更実装2ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
 | `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,458ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
 | 上記のMaya 2025 full pytest | 6,147件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+## キーフレーム時間拡縮のピボット指定の検証
+
+`test_keyframe_scale_pivot.py`では、`scale_keys()`の`pivot_frame`を検証します。
+
+- 中央・開始・終了・区間外のピボット、明示Noneと従来動作、正の倍率・長さ、拡縮後の相対移動。
+  片側省略・全体・単一キー、負の時刻・subframe、ピボットにキーがなくても挿入しないこと。
+- 変換後の主区間による部分置き換えとmerge、補間キーの配置先が置換範囲外にある場合の衝突上書き。
+  linear / smoothstepでピボット変換と相対移動を重み付けすること、接線Xの実効倍率。
+- TA / TL / TU / TT、weightedの有無、拡縮後の形状・値・種類・lock・breakdown・infinity、反復Undo / Redo。
+- 予約時のピボット・長さ・相対移動の時間単位捕捉。遠いピボットの恒等変換や、
+  長さから算出した倍率の丸めで不要な編集をしないこと。小さい倍率で表現可能な移動先を維持すること。
+- 不正なピボット、配置先境界との併用を予約時に拒否すること。表現範囲外や対象キー同士の
+  衝突・順序逆転、途中の失敗で同一batchの先行編集・境界挿入もrollbackすること。
+- 保留中の作成・先行移動・queryの非実行、no-opでもmanagerとwrite検査を通すこと。
+
+共通の対象選択テストもピボットを指定し、ベース・指定layer・明示カーブとlock / referenceを確認します。
+MPxCommandのfixtureでは倍率・長さ・補間・境界挿入とピボットを組み合わせ、Maya標準の履歴と
+command失敗時rollbackを確認します。型contractは3入口のピボット指定と排他引数を検査します。
+利用者によるMaya画面上でのピボット指定の動作確認は未実施です。
+
+2026-09-18、ピボット指定追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| ピボット指定の専用pytest | 112件。下記の関連・全体テストにも含む |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,285件成功、プロセス正常終了 |
+| 変更実装2ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,459ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,259件成功、632件skip |
 | 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
 
 ## キーフレーム値編集の検証

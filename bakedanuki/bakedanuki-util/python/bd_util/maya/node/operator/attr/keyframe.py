@@ -684,6 +684,7 @@ class _KeyframeOperations(ABC):
         offset_frames: float | None = None,
         to_start_frame: None = None,
         to_end_frame: None = None,
+        pivot_frame: float | None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -702,6 +703,7 @@ class _KeyframeOperations(ABC):
         offset_frames: float | None = None,
         to_start_frame: None = None,
         to_end_frame: None = None,
+        pivot_frame: float | None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -720,6 +722,7 @@ class _KeyframeOperations(ABC):
         offset_frames: None = None,
         to_start_frame: float | None,
         to_end_frame: None = None,
+        pivot_frame: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -738,6 +741,7 @@ class _KeyframeOperations(ABC):
         offset_frames: None = None,
         to_start_frame: float | None,
         to_end_frame: None = None,
+        pivot_frame: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -756,6 +760,7 @@ class _KeyframeOperations(ABC):
         offset_frames: None = None,
         to_start_frame: None = None,
         to_end_frame: float | None,
+        pivot_frame: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -774,6 +779,7 @@ class _KeyframeOperations(ABC):
         offset_frames: None = None,
         to_start_frame: None = None,
         to_end_frame: float | None,
+        pivot_frame: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -792,6 +798,7 @@ class _KeyframeOperations(ABC):
         offset_frames: None = None,
         to_start_frame: float,
         to_end_frame: float,
+        pivot_frame: None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -809,6 +816,7 @@ class _KeyframeOperations(ABC):
         offset_frames: float | None = None,
         to_start_frame: float | None = None,
         to_end_frame: float | None = None,
+        pivot_frame: float | None = None,
         mode: Literal["replace_range", "merge"] = "replace_range",
         interpolate_start: float | None = None,
         interpolate_end: float | None = None,
@@ -817,8 +825,10 @@ class _KeyframeOperations(ABC):
     ) -> None:
         """両端を含むキー範囲の時間拡縮を予約する。戻り値はNone。
 
-        正の倍率・長さ・移動先の両端指定のいずれかを指定する。配置省略は開始を固定。
+        正の倍率・長さ・移動先の両端指定のいずれかを指定する。
         明示境界を基準とし、None側は対象キーの端を使う。接線Xも拡縮し、値は保持する。
+        pivot_frameは拡縮の基準時刻。配置先の境界とは併用不可。offsetは拡縮後に加える。
+        ピボットにキーは補わない。省略時は主区間の開始を基準にする。
         既定は配置先区間の置換。mergeは同時刻だけを上書きする。元キーは残さない。
         補間区間の既存キーは元時刻で重み付けし、時刻と接線Xの拡縮を弱める。
         置換区間と拡縮基準は主区間だけで決める。対象キーの衝突・順序逆転はエラー。
@@ -832,6 +842,7 @@ class _KeyframeOperations(ABC):
             end_frame,
             time_scale=time_scale,
             duration_frames=duration_frames,
+            pivot_frame=pivot_frame,
             offset_frames=offset_frames,
             to_start_frame=to_start_frame,
             to_end_frame=to_end_frame,

@@ -324,7 +324,12 @@ def _queue_edit(keyframe, method, args):
         return
     if method == "scale_keys":
         keyframe.scale_keys(
-            1, 5, time_scale=1.25, interpolate_start=-3, interpolate_end=13
+            1,
+            5,
+            time_scale=1.25,
+            pivot_frame=3,
+            interpolate_start=-3,
+            interpolate_end=13,
         )
         return
     if method == "reduce_keys":

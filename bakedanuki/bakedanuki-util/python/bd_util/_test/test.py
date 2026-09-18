@@ -172,6 +172,7 @@ def main():
         -50,
         50,
         time_scale=0.5,
+        pivot_frame=0,
         interpolate_start=-75,
         interpolate_end=75,
     )

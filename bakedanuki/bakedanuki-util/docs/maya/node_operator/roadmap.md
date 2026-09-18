@@ -185,7 +185,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | --- | --- |
 | 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。予約実行、Undo / Redo、途中失敗時rollbackに対応 |
 | 時間方向への移動 | `move_key()` / `move_keys()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_keys()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否。属性・layer・明示カーブで同じ操作を使用 |
-| 時間方向への拡縮 | `scale_keys()`。正の倍率・長さ・両端合わせ、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
+| 時間方向への拡縮 | `scale_keys()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot_frame`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
 | キー削減 | `reduce_keys()`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
@@ -269,7 +269,11 @@ nonweighted接線は正規化し、weighted接線は変換後の長さを保持�
 続いて`scale_keys()`の補間を追加しました。時刻は`t + (F(t) - t) * w`、
 接線Xは実効倍率`1 + w * (s - 1)`で変換します。主区間だけで拡縮基準と
 部分置き換えの範囲を決め、影響度0の端点を含む対象キーの衝突・順序逆転を拒否します。
-利用者による補間拡縮の動作確認は未実施です。
+補間拡縮も利用者確認・pushまで完了しました（`fbf9c033`）。
+続いて`pivot_frame`を追加しました。省略時の開始基準を維持し、指定時は任意時刻を基準に拡縮します。
+倍率・長さ・補間と併用でき、`offset_frames`は拡縮後に加算します。
+配置先の境界指定とは併用せず、ピボット指定によるキー追加もしません。
+利用者によるピボット指定の動作確認は未実施です。
 それ以降の着手順は未確定です。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
@@ -337,6 +341,7 @@ weightedの制御点時刻が逆転する区間や分割上限で未判定の候
 `scale_keys()`を両Manager共通の操作へ追加しました。
 倍率・長さと配置の組み合わせ、移動先の両端指定、`insert_missing=False`を既定とする境界補完を扱います。
 明示した元境界を基準にし、`None`側は対象キーの端を使います。
+`pivot_frame`で拡縮の基準時刻を変更でき、指定した基準で主区間の配置先も求めます。
 `mode="replace_range"`を既定にし、変換後の基準区間内を置換します。`merge`は同時刻だけを上書きします。
 いずれも元キーは移動し、重なった元区間・配置先も全対象を確保してから編集します。
 補間指定では対象を前後へ広げ、元時刻の影響度で時刻と接線Xを変換します。
@@ -352,14 +357,14 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   `move_keys()`の補間まで利用者確認・push済み（`9a63af85`）。続いて`scale_keys()`の補間を追加した。
+   `scale_keys()`の補間まで利用者確認・push済み（`fbf9c033`）。続いて`pivot_frame`を追加した。
    commit / push状況は実際の作業ツリーと履歴を確認する。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
 2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
-   `scale_keys()`の補間の利用者確認状況は別途確認する。
+   `scale_keys()`のピボット指定の利用者確認状況は別途確認する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 
@@ -371,7 +376,8 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
   `test_keyframe_move.py` / `test_keyframe_move_interpolation.py`が専用の回帰テスト。
 - 同階層の`_keyframe_influence.py`: 移動・時間拡縮・値編集で共有する補間境界の検証・影響度計算。
 - 同階層の`_keyframe_scale.py`: 時間拡縮の配置計画と部分置き換え、接線の変換・再挿入。
-  `test_keyframe_scale.py` / `test_keyframe_scale_interpolation.py`とMPxCommandの専用fixtureが履歴を含む回帰テスト。
+  `test_keyframe_scale.py` / `test_keyframe_scale_interpolation.py` / `test_keyframe_scale_pivot.py`と
+  MPxCommandの専用fixtureが履歴を含む回帰テスト。
 - 同階層の`_keyframe_value.py`: 生値の設定・加算・拡縮、補間ウェイト、nonweighted接線の正規化。
   `_keyframe_move.restore_keys()`を再利用する。`test_keyframe_value.py`が専用の回帰テスト。
 - 同階層の`_keyframe_command.py`: native setKeyframeの予約、対象layerとUI単位の実行時解決。

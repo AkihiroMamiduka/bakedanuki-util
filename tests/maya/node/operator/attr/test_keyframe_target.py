@@ -38,6 +38,7 @@ EDITS = (
             "start_frame": 1,
             "end_frame": 5,
             "time_scale": 1.25,
+            "pivot_frame": 3,
             "interpolate_start": -3,
             "interpolate_end": 13,
         },

@@ -39,7 +39,7 @@ class _ScaleKeyframesCommand(MPxCommandBase[tuple[str, bool]]):
                 12,
                 18,
                 duration_frames=3,
-                to_start_frame=13,
+                pivot_frame=14,
                 interpolate_start=5,
                 interpolate_end=25,
                 interpolation="linear",
@@ -54,7 +54,7 @@ class _ScaleKeyframesCommand(MPxCommandBase[tuple[str, bool]]):
                 12,
                 18,
                 time_scale=2,
-                to_start_frame=20,
+                pivot_frame=4,
                 mode="merge",
                 insert_missing=True,
             )
