@@ -19,6 +19,7 @@ from . import (
     _keyframe_scale,
     _keyframe_snapshot,
     _keyframe_target,
+    _keyframe_value,
 )
 from ._keyframe_discovery import CurveNode
 from .keyframe_data import AnimCurveData, KeyData
@@ -790,6 +791,169 @@ class _KeyframeOperations(ABC):
             to_start_frame=to_start_frame,
             to_end_frame=to_end_frame,
             mode=mode,
+            insert_missing=insert_missing,
+        )
+
+    def set_value(
+        self,
+        frame: float,
+        *,
+        value: float,
+        insert_missing: bool = False,
+    ) -> None:
+        """指定時刻の既存キーの値変更を予約する。手動接線は維持する。
+
+        値は対象カーブ自身のdegree / cm / unitless / 予約時UI時間単位。
+        insert_missing=Trueなら指定時刻を補う。未作成・空カーブは変更しない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            frame,
+            frame,
+            operation="set",
+            amount=value,
+            insert_missing=insert_missing,
+            single=True,
+        )
+
+    def set_values(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        value: float,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """範囲内の既存キーを同じ値へ変更する予約。手動接線は維持する。
+
+        None側は無制限。補間指定時は外側の既存キーも元の値から指定値へ重み付けする。
+        interpolate_start < start_frame、end_frame < interpolate_endを指定する。
+        interpolationはキーごとの影響度であり、キー間の形状を保証しない。
+        insert_missing=Trueは明示した最大4境界だけを補い、自動samplingはしない。
+        値は対象カーブ自身のdegree / cm / unitless / 予約時UI時間単位。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            operation="set",
+            amount=value,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
+            insert_missing=insert_missing,
+        )
+
+    def add_value(
+        self,
+        frame: float,
+        *,
+        offset_value: float,
+        insert_missing: bool = False,
+    ) -> None:
+        """指定時刻の既存キーへ値を加算する予約。手動接線は維持する。
+
+        単位はset_valueと同じ。offset_value=0では境界挿入も行わない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            frame,
+            frame,
+            operation="add",
+            amount=offset_value,
+            insert_missing=insert_missing,
+            single=True,
+        )
+
+    def add_values(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        offset_value: float,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """範囲内の既存キーへ値を加算する予約。手動接線は維持する。
+
+        補間指定時は外側の既存キーへもoffset_value * 影響度を加算する。
+        範囲・単位・補間・境界挿入はset_valuesと同じ。加算量0は挿入もしない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            operation="add",
+            amount=offset_value,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
+            insert_missing=insert_missing,
+        )
+
+    def scale_value(
+        self,
+        frame: float,
+        *,
+        value_scale: float,
+        pivot_value: float = 0,
+        insert_missing: bool = False,
+    ) -> None:
+        """指定時刻の既存キーをpivot_value基準で値方向へ拡縮する予約。
+
+        接線Yも拡縮し、nonweighted接線は正規化する。0・負の倍率にも対応。
+        pivot_valueの単位はset_valueと同じ。倍率1では境界挿入も行わない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            frame,
+            frame,
+            operation="scale",
+            amount=value_scale,
+            pivot_value=pivot_value,
+            insert_missing=insert_missing,
+            single=True,
+        )
+
+    def scale_values(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        value_scale: float,
+        pivot_value: float = 0,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """範囲内の既存キーをpivot_value基準で値方向へ拡縮する予約。
+
+        実効倍率は1 + 影響度 * (value_scale - 1)。接線Yも同じ倍率で拡縮し、
+        nonweighted接線は正規化する。接線型・lock・breakdownは維持する。
+        範囲・単位・補間・境界挿入はset_valuesと同じ。倍率1は挿入もしない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            operation="scale",
+            amount=value_scale,
+            pivot_value=pivot_value,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
             insert_missing=insert_missing,
         )
 

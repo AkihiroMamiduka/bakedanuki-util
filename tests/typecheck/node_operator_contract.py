@@ -4271,6 +4271,92 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
         )
 
 
+def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
+    channel = nodes.existing.transform("ctrl").tx.keyframe
+    layer = channel.anim_layer("Correction")
+    curve = nodes.existing.animCurveTL("curve").keyframe
+    for keyframe in (channel, layer, curve):
+        assert_type(keyframe.set_value(10, value=5), None)
+        assert_type(keyframe.set_values(value=5), None)
+        assert_type(keyframe.add_value(10, offset_value=-5), None)
+        assert_type(keyframe.add_values(offset_value=-5), None)
+        assert_type(
+            keyframe.scale_value(10, value_scale=-2, pivot_value=1), None
+        )
+        assert_type(keyframe.scale_values(value_scale=0), None)
+        assert_type(
+            keyframe.set_values(
+                optional,
+                30,
+                value=5,
+                interpolate_end=optional,
+                interpolation="linear",
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.add_values(
+                20,
+                optional,
+                offset_value=5,
+                interpolate_start=optional,
+                insert_missing=True,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_values(
+                20,
+                30,
+                value_scale=0.5,
+                pivot_value=1,
+                interpolate_start=10,
+                interpolate_end=40,
+                interpolation="smoothstep",
+                insert_missing=True,
+            ),
+            None,
+        )
+        assert_type(keyframe.set_value(10, value=5, insert_missing=True), None)
+        assert_type(
+            keyframe.add_value(10, offset_value=5, insert_missing=True), None
+        )
+        assert_type(
+            keyframe.scale_value(10, value_scale=2, insert_missing=True), None
+        )
+        keyframe.set_value(10, 5)  # pyright: ignore[reportCallIssue]
+        keyframe.add_values()  # pyright: ignore[reportCallIssue]
+        keyframe.scale_values()  # pyright: ignore[reportCallIssue]
+        keyframe.set_values(
+            value=[(10, 5)],  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.add_value(
+            10,
+            offset_value="5",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_values(
+            value_scale=2,
+            pivot_value=None,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.add_values(
+            offset_value=5,
+            interpolation="spline",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.set_value(
+            None,  # pyright: ignore[reportArgumentType]
+            value=5,
+        )
+        keyframe.set_values(
+            value=5,
+            insert_missing=1,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.add_value(
+            10,
+            offset_value=5,
+            interpolate_start=0,  # pyright: ignore[reportCallIssue]
+        )
+
+
 def keyframe_move_contract(nodes: bdu.Nodes) -> None:
     channel = nodes.existing.transform("ctrl").tx.keyframe
     layer = channel.anim_layer("Correction")

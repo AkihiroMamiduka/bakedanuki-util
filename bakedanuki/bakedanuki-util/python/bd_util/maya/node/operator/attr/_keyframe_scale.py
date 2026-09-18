@@ -97,7 +97,7 @@ def _scaled_key(
     )
 
 
-def _restore(
+def restore_scaled_keys(
     curve: oma.MFnAnimCurve,
     keys: tuple[_keyframe_move.CapturedKey, ...],
     destinations: tuple[om.MTime, ...],
@@ -257,7 +257,7 @@ def _scale(
         )
     for index in sorted(removed, reverse=True):
         curve.remove(index, change)
-    _restore(curve, keys, destinations, change)
+    restore_scaled_keys(curve, keys, destinations, change)
     if any(curve.find(time) is None for time in destinations):
         raise RuntimeError("Maya did not restore the scaled keys.")
 

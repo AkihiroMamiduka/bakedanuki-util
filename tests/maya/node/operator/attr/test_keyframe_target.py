@@ -26,6 +26,12 @@ QUERIES = (
     ("get_weighted", {}),
 )
 EDITS = (
+    ("set_value", {"frame": 1, "value": 50}),
+    ("set_values", {"value": 50}),
+    ("add_value", {"frame": 1, "offset_value": 5}),
+    ("add_values", {"offset_value": 5}),
+    ("scale_value", {"frame": 1, "value_scale": 2}),
+    ("scale_values", {"value_scale": 2}),
     ("scale_keys", {"time_scale": 2}),
     ("reduce_keys", {"tolerance": 0.01}),
     ("move_key", {"frame": 1, "to_frame": 5}),

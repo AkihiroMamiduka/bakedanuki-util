@@ -107,5 +107,26 @@ def main():
     dst_3 = nodes.create.transform(name="dst_3")
     clip.restore(nodes.modifier_manager, targets=[dst_3])
 
+    clip = bdu.AnimationClip.capture(
+        [trsf],
+        include_channel_box=True,
+    )
+
+    dst_4_0 = nodes.create.transform(name="dst_4_0")
+    dst_4_1 = nodes.create.transform(name="dst_4_1")
+    dst_4_2 = nodes.create.transform(name="dst_4_2")
+    dst_4_3 = nodes.create.transform(name="dst_4_3")
+    for target in [dst_4_0, dst_4_1, dst_4_2, dst_4_3]:
+        clip.restore(nodes.modifier_manager, targets=[target])
+    dst_4_1.tx.keyframe.set_values(
+        -50, 50, value=25, interpolate_start=-75, interpolate_end=75
+    )
+    dst_4_2.tx.keyframe.add_values(
+        -50, 50, offset_value=25, interpolate_start=-75, interpolate_end=75
+    )
+    dst_4_3.tx.keyframe.scale_values(
+        -50, 50, value_scale=2, interpolate_start=-75, interpolate_end=75
+    )
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

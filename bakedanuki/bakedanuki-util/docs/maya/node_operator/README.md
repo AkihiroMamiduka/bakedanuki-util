@@ -75,6 +75,9 @@
 - `python/bd_util/maya/node/operator/attr/_keyframe_move.py` / `_keyframe_scale.py`
   - 既存キーの平行移動と正の時間拡縮です。境界挿入・キー情報の捕捉を共有し、
     `scale_keys()`は配置先区間の部分置き換えを既定とします。
+- `python/bd_util/maya/node/operator/attr/_keyframe_value.py`
+  - 既存キーの値設定・加算・拡縮です。範囲外への補間はキーごとの影響度を計算し、
+    明示した境界以外を自動サンプリングしません。
 - `python/bd_util/maya/node/operator/attr/_keyframe_reduce.py` / `_keyframe_error.py`
   - `reduce_keys()`の削減計画とBezier区間の誤差判定です。残すキーの手動接線を維持し、
     元カーブとの誤差内に収まる候補だけを削除します。
@@ -1429,10 +1432,13 @@ KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元
 実装・動作確認済みです。時間方向の`move_key()` / `move_keys()`も利用者確認・push済みです。
 続いて、手動接線を維持するキー削減`reduce_keys()`を実装しました。
 時間拡縮の`scale_keys()`も追加し、倍率・長さ・両端合わせ、既定の部分置き換えとmergeに対応します。
+時間拡縮までは利用者確認・push済みです。続いて`set_value(s)` / `add_value(s)` /
+`scale_value(s)`による値編集と、既存キーへの補間ウェイトを追加しました。
 新しいチャットで開発を続ける場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と
 [キーフレーム移動](attributes.md#キーを時間方向へ移動する)・
 [時間拡縮](attributes.md#キーを時間方向へ拡縮する)・
+[値編集](attributes.md#キーの値を編集する)・
 [キー削減](attributes.md#手動接線を維持してキーを削減する)の現行仕様を参照してください。
 
 - [KeyframeManagerの開発状況と次の候補](roadmap.md#keyframemanagerの開発状況と次の候補)

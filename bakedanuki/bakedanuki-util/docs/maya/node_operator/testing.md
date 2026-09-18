@@ -689,7 +689,7 @@ Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.
 Blackは4,452ファイル、3 versionの型・補完contractはすべて成功、Maya 2025 full pytestは
 5,336件成功・632件skip、Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
 `git diff --check`も成功しています。
-利用者によるMaya画面上での`scale_keys()`の動作確認は未実施です。
+その後、利用者によるMaya画面上での`scale_keys()`の動作確認とpushまで完了しました（`66dee785`）。
 
 ```powershell
 .\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
@@ -697,6 +697,44 @@ Blackは4,452ファイル、3 versionの型・補完contractはすべて成功�
 .\scripts\test-pytest-maya2027.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
 .\scripts\verify.cmd
 ```
+
+## キーフレーム値編集の検証
+
+`test_keyframe_value.py`では、`set_value(s)` / `add_value(s)` / `scale_value(s)`の
+値編集と既存キーへの補間ウェイトを検証します。
+
+- 単一・両端包含範囲・片側省略・全体、負の時刻・subframe、0・負の倍率とピボット。
+- linear / smoothstepと既定値、片側補間、補間端点の影響度0、疎なキーで自動samplingや
+  イーズ再現用接線調整を行わないこと、最大4境界だけの挿入とinfinityの事前評価。
+- TA / TL / TU / TT、weighted / nonweighted、fixed・auto・linear・step・stepnext、
+  接線・lock・breakdown・infinity保持、全体拡縮後の密なサンプル照合。
+  短いweighted接線の保持、nonweighted接線の正規化、対象外キーを正規化しないこと。
+- 生値の設定・加算・拡縮を加算 / Override layerとベースで照合し、合成値の逆算をしないこと。
+  bool・enum・整数属性でもカーブの数値を丸めず扱うこと。
+- カーブなし・空カーブ・対象なし・恒等演算、同値setと任意境界挿入、不正引数・overflow・TT時間値の表現限界。
+- 保留中node作成・先行編集、queryの非実行、再接続・改名、予約後のFPS / 表示単位変更。
+- 反復Undo / Redo、境界挿入後・値更新後・削除後・復元後の失敗時rollback。
+
+6メソッドを`test_keyframe_target.py` / `test_curve_keyframe.py`の共通編集一覧にも登録し、
+属性・明示layer・既定ベース・明示カーブの対象選択、上流探索、lock / referenceを検証します。
+専用MPxCommand fixtureはMaya標準のUndo / Redoとcommand失敗時rollbackを確認します。
+型・補完contractは3入口、6メソッド、戻り値、値・補間・境界挿入の引数を検査します。
+
+関連pytestは時間拡縮と同じattr・MPxCommand・AnimLayerの範囲をMaya 2025 / 2026 / 2027で
+実行し、最後に`QT_QPA_PLATFORM=offscreen`を設定した`scripts/verify.cmd`で検証します。
+
+2026-09-17、値編集追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 値編集の専用pytest | 305件。下記の関連・全体テストに含み、3 versionで成功 |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2026 / 2027で各2,837件成功。Maya 2025は補強前の2,786件成功に加え、補強後のfull pytestで確認 |
+| 変更実装3ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | 成功。Black 4,455ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 5,811件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+値編集の利用者によるMaya画面上での動作確認は未実施です。
 
 ## キー削減の検証
 

@@ -930,6 +930,108 @@ TTは角度・重みのAPIを使い、Mayaの下限補正等によりweightedの
 queryは保留中の編集を実行しません。Undo / Redoでは置換されたキーも含めて復元し、
 途中失敗時は同じbatchの先行編集もrollbackします。
 
+### キーの値を編集する
+
+`set_value()` / `add_value()` / `scale_value()`は単一時刻、複数形の
+`set_values()` / `add_values()` / `scale_values()`は両端を含む範囲の既存キーを編集します。
+対象時刻は位置引数、値の操作はkeyword引数で指定します。戻り値はすべて`None`で、
+同じModifierManagerへ予約します。キーの時刻は変わりません。
+
+| 操作 | 単一キー | 範囲内のキー |
+| --- | --- | --- |
+| 同じ値へ設定 | `set_value(10, value=5)` | `set_values(10, 30, value=5)` |
+| 値を加算 | `add_value(10, offset_value=5)` | `add_values(10, 30, offset_value=5)` |
+| 値を拡縮 | `scale_value(10, value_scale=2, pivot_value=1)` | `scale_values(10, 30, value_scale=2, pivot_value=1)` |
+
+複数形の`start_frame=None, end_frame=None`は、`None`側を無制限とします。
+両方省略すればカーブ全体、`add_values(10, None, offset_value=5)`なら10以降、
+`add_values(None, 30, offset_value=5)`なら30以前です。開始と終了が同じでも使えます。
+`set_values()`の`value`は全対象キーへ設定する1つの数値です。時刻ごとに異なる値を
+渡す場合やカーブを新規作成する場合は、従来の`set_key()` / `set_keys()`を使います。
+
+拡縮は`pivot_value + (元の値 - pivot_value) * value_scale`です。`pivot_value`の既定は0で、
+倍率0はピボット値へまとめ、負の倍率はピボットを中心に反転します。
+
+値・加算量・ピボットは**対象カーブ自身の生値**です。角度はdegree、距離はcm、
+単位なしはその数値、時間値は予約時のUI時間単位です。表示単位を変更しても
+角度・距離の指定単位は変わりません。`set_key()` / `set_keys()`のような
+レイヤー合成結果からの逆算は行わず、別レイヤーのweightやキーも変更しません。
+属性経由はTA / TL / TU / TT、明示カーブはTA / TL / TUに対応します。
+bool・enum・整数属性でもカーブ上の数値を計算し、整数丸め・clampは行いません。
+接続先属性で評価される値は、その属性型の変換に従います。
+
+対象選択は既存の編集と共通です。レイヤー未指定はsceneのベース（root）、
+別レイヤーは`anim_layer()`で明示します。明示カーブはそのノード自身を編集します。
+対象とキーは初回実行時に解決するため、同じbatchの先行編集も反映します。
+
+#### 範囲の外側へ影響をならす
+
+複数形の3メソッドには、`interpolate_start=None` / `interpolate_end=None` /
+`interpolation="smoothstep"`を指定できます。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+keys = nodes.existing.transform("ctrl").tx.keyframe
+
+keys.add_values(
+    20, 30,
+    offset_value=5,
+    interpolate_start=10,
+    interpolate_end=40,
+)
+mod.do_it_dg()
+```
+
+この例では10〜20にあるキーの影響度を0から1へ増やし、20〜30は1、30〜40は1から0へ
+減らします。10・40の影響度は0で、それより外側のキーは編集しません。
+片側だけの補間指定もできます。補間を指定する側には対応する開始・終了の明示が必要で、
+`interpolate_start < start_frame <= end_frame < interpolate_end`を満たすように指定します。
+`None`側の大小関係は検査対象外です。補間幅0は拒否し、その側の補間引数を省略します。
+
+`linear`は区間内の位置`u`をそのまま、既定の`smoothstep`は`u * u * (3 - 2 * u)`を
+影響度`w`に使います。これは既存キーごとの影響度であり、キー間の曲線を
+そのイーズの形へ作り直す指定ではありません。キーが少ない場合、補間方式を変えても
+結果が同じになることがあります。自動サンプリングや、補間を再現するための接線調整は行いません。
+
+| 操作 | 影響度を含む計算 |
+| --- | --- |
+| set | `(1 - w) * 元の値 + w * value` |
+| add | `元の値 + w * offset_value` |
+| scale | `pivot_value + (元の値 - pivot_value) * 実効倍率`。実効倍率は`1 + w * (value_scale - 1)` |
+
+#### 接線と境界挿入
+
+`set`・`add`は手動接線を維持します。すべてのキーを同じ値へ設定しても、手動接線の
+傾きがある場合はキー間が平坦になるとは限りません。
+`scale`は各キーの実効倍率で接線Yを拡縮します。weighted接線は変換後の長さを保持し、
+nonweighted接線は変換後の方向を保って正規化します。影響度0のキーには適用しません。
+接線type・tangent lock・weight lock・breakdown、カーブのweighted・infinity設定は維持します。
+auto・linear等の接線はMayaが再計算するため、部分編集では隣接区間の形状も変わり得ます。
+旧来の`fast` / `slow`もMaya標準の再計算に従います。
+
+6メソッド共通の`insert_missing=False`が既定です。`True`なら、既存の空でないカーブに対し、
+単一メソッドは指定時刻、複数メソッドは明示した開始・終了・補間開始・補間終了の
+最大4境界に欠けているキーを補います。同じ時刻は1回だけ、`None`側には挿入しません。
+補間端点の影響度0のキーも、明示した境界として補います。
+すべての境界値を挿入前のカーブから評価し、Mayaの`insertKey()`で挿入します。
+挿入時には隣接接線が調整される場合があり、その結果を基に値編集を行います。
+区間内に実在キーがなくても境界を補えますが、カーブなし・空カーブでは新規作成しません。
+
+加算量0・倍率1は、`insert_missing=True`でも境界挿入を行いません。
+同じ値への`set`は既存キーを変更しませんが、明示した境界の挿入は行います。
+負の時刻・subframeを許可し、時刻と時間値の単位は予約時に捕捉します。
+フレーム引数はカーブ自身の入力時刻で、時間driverからの逆算は行いません。
+数値引数のbool・文字列・非有限数、逆転範囲、不正な補間指定は予約前に拒否します。
+Mayaの表現範囲外の時刻・時間値、計算結果のoverflowはエラーにしてrollbackします。
+TTのweighted fixed接線がMayaの下限補正等で再現できない拡縮もrollbackします。
+
+no-opを含め既存のmanager・対象構成・lock / reference検査を適用します。
+queryは予約を暗黙に実行しません。Undo / Redoは値・接線・挿入キーをまとめて復元し、
+途中失敗時は同じbatchの先行編集もrollbackします。
+
 ### 手動接線を維持してキーを削減する
 
 `reduce_keys(start_frame=None, end_frame=None, *, tolerance, preserve_breakdowns=True)`は、

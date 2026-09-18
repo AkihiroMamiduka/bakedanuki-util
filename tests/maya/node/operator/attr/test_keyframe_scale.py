@@ -339,7 +339,9 @@ def test_partial_failure_rolls_back_every_edit(maya_cmds, monkeypatch, stage):
     keyframe, mod, curve = _make(maya_cmds, weighted=True)
     before = _curve_state(curve)
     keyframe.set_key(99, frame=80)
-    helper = "insert_boundaries" if stage == "insert" else "_restore"
+    helper = (
+        "insert_boundaries" if stage == "insert" else "restore_scaled_keys"
+    )
     module = _keyframe_move if stage == "insert" else _keyframe_scale
     original = getattr(module, helper)
 
