@@ -5972,6 +5972,26 @@ def animation_clip_contract(
         include_static="yes",  # pyright: ignore[reportArgumentType]
     )
     assert_type(clip.restore(mod, offset_frames=15), None)
+    assert_type(clip.restore(mod, start_frame=10, end_frame=30), None)
+    assert_type(
+        clip.restore(
+            mod,
+            start_frame=optional_frame,
+            end_frame=None,
+            to_start_frame=100,
+            to_end_frame=140,
+        ),
+        None,
+    )
+    assert_type(
+        clip.restore(
+            mod, end_frame=optional_frame, offset_frames=10, time_scale=2
+        ),
+        None,
+    )
+    assert_type(clip.restore(mod, start_frame=10, duration_frames=30), None)
+    clip.restore(mod, start_frame="10")  # pyright: ignore[reportArgumentType]
+    clip.restore(mod, end_frame="30")  # pyright: ignore[reportArgumentType]
     assert_type(
         clip.restore(mod, to_start_frame=100, mode="replace_range"), None
     )

@@ -4,11 +4,13 @@ import pytest
 
 import bd_util as bdu
 
-pytestmark = pytest.mark.maya
+pytestmark = [pytest.mark.maya, pytest.mark.usefixtures("new_scene")]
 
 
-@pytest.fixture
-def clip_plugin(new_scene, maya_cmds):
+@pytest.fixture(scope="module")
+def clip_plugin():
+    # Share registration across cases, as for move/scale commands on Maya 2027.
+    maya_cmds = pytest.importorskip("maya.cmds")
     name = "bdu_mpx_animation_clip_test_plugin"
     maya_cmds.loadPlugin(
         str(Path(__file__).parent / "fixtures" / (name + ".py")), quiet=True
@@ -22,8 +24,9 @@ def clip_plugin(new_scene, maya_cmds):
 @pytest.mark.parametrize("fail", [False, True])
 @pytest.mark.parametrize("offset", [0, 90])
 @pytest.mark.parametrize("scale", [1, 2])
+@pytest.mark.parametrize("cropped", [False, True])
 def test_clip_command_history(
-    clip_plugin, maya_cmds, mode, fail, offset, scale
+    clip_plugin, maya_cmds, mode, fail, offset, scale, cropped
 ):
     cmds = maya_cmds
     source = cmds.createNode("transform")
@@ -37,13 +40,16 @@ def test_clip_command_history(
     clip = bdu.AnimationClip.capture(
         [source], attributes=["tx"], layer_mode=mode
     )
+    start, end = (2, 4) if cropped else (1, 5)
+    options = dict(startFrame=start, endFrame=end) if cropped else {}
     expected = (
         bdu.Nodes()
         .existing.transform(source)
-        .tx.sample_values(frames=[1, 3, 5])
+        .tx.sample_values(frames=[start, 3, end])
     )
     expected = [
-        (1 + (frame - 1) * scale + offset, value) for frame, value in expected
+        (start + (frame - start) * scale + offset, value)
+        for frame, value in expected
     ]
     cmds.file(new=True, force=True)
     target = cmds.createNode("transform")
@@ -65,6 +71,7 @@ def test_clip_command_history(
                 nodeName=target,
                 offsetFrames=offset,
                 timeScale=scale,
+                **options,
             )
         assert set(cmds.ls()) == before_nodes
         assert (
@@ -78,6 +85,7 @@ def test_clip_command_history(
         nodeName=target,
         offsetFrames=offset,
         timeScale=scale,
+        **options,
     )
     after_nodes = set(cmds.ls())
     for _ in range(3):

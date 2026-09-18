@@ -25,6 +25,7 @@ from ._animation_clip_capture import (
     sample,
 )
 from ._animation_clip_time import transformed_for_restore
+from ._animation_clip_range import cropped_for_restore
 from .modifier import ModifierManager
 from .nodes import Nodes
 from .operator.attr import _keyframe_target, _keyframe_snapshot
@@ -212,6 +213,8 @@ def restore(
     targets: Iterable[NodeOperator | om.MObject | str] | None,
     namespace: str | None,
     mode: RestoreMode,
+    start_frame: float | None,
+    end_frame: float | None,
     offset_frames: float | None,
     to_start_frame: float | None,
     to_end_frame: float | None,
@@ -242,7 +245,9 @@ def restore(
     if isinstance(targets, (str, NodeOperator, om.MObject)):
         raise TypeError("targets must be an iterable of nodes.")
     data = transformed_for_restore(
-        AnimationClip.from_dict(clip.to_dict()),
+        cropped_for_restore(
+            AnimationClip.from_dict(clip.to_dict()), start_frame, end_frame
+        ),
         offset_frames=offset_frames,
         to_start_frame=to_start_frame,
         to_end_frame=to_end_frame,

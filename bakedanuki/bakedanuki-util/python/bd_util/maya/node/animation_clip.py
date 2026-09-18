@@ -377,6 +377,8 @@ class AnimationClip:
         targets: Iterable[NodeOperator | om.MObject | str] | None = None,
         namespace: str | None = None,
         mode: RestoreMode = "merge",
+        start_frame: float | None = None,
+        end_frame: float | None = None,
         offset_frames: float | None = None,
         to_start_frame: None = None,
         to_end_frame: None = None,
@@ -394,6 +396,8 @@ class AnimationClip:
         targets: Iterable[NodeOperator | om.MObject | str] | None = None,
         namespace: str | None = None,
         mode: RestoreMode = "merge",
+        start_frame: float | None = None,
+        end_frame: float | None = None,
         offset_frames: float | None = None,
         to_start_frame: None = None,
         to_end_frame: None = None,
@@ -411,6 +415,8 @@ class AnimationClip:
         targets: Iterable[NodeOperator | om.MObject | str] | None = None,
         namespace: str | None = None,
         mode: RestoreMode = "merge",
+        start_frame: float | None = None,
+        end_frame: float | None = None,
         offset_frames: None = None,
         to_start_frame: float,
         to_end_frame: None = None,
@@ -428,6 +434,8 @@ class AnimationClip:
         targets: Iterable[NodeOperator | om.MObject | str] | None = None,
         namespace: str | None = None,
         mode: RestoreMode = "merge",
+        start_frame: float | None = None,
+        end_frame: float | None = None,
         offset_frames: None = None,
         to_start_frame: float,
         to_end_frame: None = None,
@@ -445,6 +453,8 @@ class AnimationClip:
         targets: Iterable[NodeOperator | om.MObject | str] | None = None,
         namespace: str | None = None,
         mode: RestoreMode = "merge",
+        start_frame: float | None = None,
+        end_frame: float | None = None,
         offset_frames: None = None,
         to_start_frame: None = None,
         to_end_frame: float,
@@ -462,6 +472,8 @@ class AnimationClip:
         targets: Iterable[NodeOperator | om.MObject | str] | None = None,
         namespace: str | None = None,
         mode: RestoreMode = "merge",
+        start_frame: float | None = None,
+        end_frame: float | None = None,
         offset_frames: None = None,
         to_start_frame: None = None,
         to_end_frame: float,
@@ -479,6 +491,8 @@ class AnimationClip:
         targets: Iterable[NodeOperator | om.MObject | str] | None = None,
         namespace: str | None = None,
         mode: RestoreMode = "merge",
+        start_frame: float | None = None,
+        end_frame: float | None = None,
         offset_frames: None = None,
         to_start_frame: float,
         to_end_frame: float,
@@ -495,6 +509,8 @@ class AnimationClip:
         targets: Iterable[NodeOperator | om.MObject | str] | None = None,
         namespace: str | None = None,
         mode: RestoreMode = "merge",
+        start_frame: float | None = None,
+        end_frame: float | None = None,
         offset_frames: float | None = None,
         to_start_frame: float | None = None,
         to_end_frame: float | None = None,
@@ -508,9 +524,12 @@ class AnimationClip:
         合成値はベースへ逆算設定し、サンプル時刻で検証する。失敗時は全体を戻す。
         preserveは生値を復元。設定不一致の既存layerを変更する場合だけ
         restore_layer_settings=Trueを指定する。予約後のデータ編集は反映しない。
-        保存区間を基準に全キーとlayer設定を拡縮・移動する。倍率または長さは一方だけ指定する。
-        開始と終了の両方の指定は区間合わせとなり、倍率・長さ・offsetとは併用不可。
-        片側の位置合わせとoffsetは排他。倍率は正、時刻・長さは予約時のUI時間単位。
+        start_frame / end_frameは保存フレーム単位の使用区間。省略側は保存区間の端。
+        範囲指定時は境界補完・連続接線のfixed化後、その区間を基準に拡縮・移動する。
+        保存区間外は拒否する。replace_rangeは変換後の区間、replace_allは全カーブを置換。
+        復元区間を基準に全キーとlayer設定を拡縮・移動する。倍率または長さは一方だけ指定する。
+        to_start_frameとto_end_frameの両方は区間合わせとなり、倍率・長さ・offsetとは併用不可。
+        復元先の片側合わせとoffsetは排他。倍率は正、復元先時刻・長さは予約時のUI時間単位。
         未指定・移動量0・倍率1でも通常の復元を行う。
         """
         from ._animation_clip_restore import restore
@@ -521,6 +540,8 @@ class AnimationClip:
             targets=targets,
             namespace=namespace,
             mode=mode,
+            start_frame=start_frame,
+            end_frame=end_frame,
             offset_frames=offset_frames,
             to_start_frame=to_start_frame,
             to_end_frame=to_end_frame,

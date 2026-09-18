@@ -244,13 +244,12 @@ def _extend_curve(
         curve.setTangent(index, x, y, incoming, convertUnits=False)
 
 
-def _clip_curve(
+def _complete_boundaries(
     source: oma.MFnAnimCurve,
-    data: AnimCurveData,
+    curve: oma.MFnAnimCurve,
     start: om.MTime | None,
     end: om.MTime | None,
-    unit: int,
-) -> AnimCurveData:
+) -> None:
     bounds = tuple(time for time in (start, end) if time is not None)
     for time in bounds:
         if time < source.input(0):
@@ -266,6 +265,25 @@ def _clip_curve(
             raise RuntimeError(
                 "Boundary completion outside cyclic infinity is not supported."
             )
+    samples = [(time, source.evaluate(time)) for time in bounds]
+    _freeze_tangents(curve)
+    for time, value in samples:
+        if curve.find(time) is not None:
+            continue
+        if time < curve.input(0) or time > curve.input(curve.numKeys - 1):
+            _extend_curve(curve, time, value)
+        else:
+            curve.insertKey(time)
+    _freeze_tangents(curve)
+
+
+def _clip_curve(
+    source: oma.MFnAnimCurve,
+    data: AnimCurveData,
+    start: om.MTime | None,
+    end: om.MTime | None,
+    unit: int,
+) -> AnimCurveData:
     modified = cmds.file(query=True, modified=True)
     modifier = om.MDGModifier()
     curve = oma.MFnAnimCurve(modifier.createNode(data.curve_type))
@@ -278,15 +296,7 @@ def _clip_curve(
             for key in data.keys
         )
         _restore_key_data(curve, data, times, oma.MAnimCurveChange())
-        _freeze_tangents(curve)
-        for time in bounds:
-            if curve.find(time) is not None:
-                continue
-            if time < curve.input(0) or time > curve.input(curve.numKeys - 1):
-                _extend_curve(curve, time, source.evaluate(time))
-            else:
-                curve.insertKey(time)
-        _freeze_tangents(curve)
+        _complete_boundaries(source, curve, start, end)
         return _capture_curve(curve, data.curve_type, unit, start, end)
     finally:
         # doItしない作業用nodeはmodifier破棄で解放する。API編集のdirty flagも戻す。
@@ -338,16 +348,7 @@ def _restore_key_data(
         curve.setTangentsLocked(i, key.tangents_locked, change)
 
 
-def reduce_curve_data(
-    data: AnimCurveData,
-    start: om.MTime | None,
-    end: om.MTime | None,
-    tolerance: float,
-    preserve_breakdowns: bool,
-) -> AnimCurveData:
-    """検証済みの独立したsnapshotを、未登録カーブで削減する。"""
-    from ._keyframe_reduce import reduce_curve
-
+def _data_times(data: AnimCurveData) -> tuple[om.MTime, ...]:
     times = tuple(
         _keyframe_move.checked_time(
             om.MTime(key.frame * data.seconds_per_frame, om.MTime.kSeconds),
@@ -357,14 +358,15 @@ def reduce_curve_data(
     )
     if any(a >= b for a, b in zip(times, times[1:])):
         raise ValueError("KeyData frames coincide at Maya time precision.")
-    if (
-        sum(
-            (start is None or time >= start) and (end is None or time <= end)
-            for time in times
-        )
-        < 3
-    ):
-        return data
+    return times
+
+
+def _restore_working_data(
+    work: oma.MFnAnimCurve,
+    data: AnimCurveData,
+    times: tuple[om.MTime, ...],
+    change: oma.MAnimCurveChange,
+) -> None:
     scale = math.pi / 180.0 if data.curve_type == "animCurveTA" else 1.0
 
     def tangent(xy: tuple[float, float]) -> tuple[float, float]:
@@ -389,36 +391,116 @@ def reduce_curve_data(
         )
         for key in data.keys
     )
+    work.setIsWeighted(data.weighted)
+    work.setPreInfinityType(_INFINITY[data.pre_infinity])
+    work.setPostInfinityType(_INFINITY[data.post_infinity])
+    # Bulk restoration preserves short weighted handles that setTangent clamps.
+    _keyframe_move.restore_keys(work, keys, times, change)
+
+
+def _capture_working_data(
+    work: oma.MFnAnimCurve,
+    data: AnimCurveData,
+    times: tuple[om.MTime, ...],
+    start: om.MTime | None = None,
+    end: om.MTime | None = None,
+    boundary_frames: dict[float, float] | None = None,
+) -> AnimCurveData:
+    captured = _capture_curve(
+        work, data.curve_type, om.MTime.kSeconds, start, end
+    )
+    original = {
+        time.asUnits(om.MTime.kSeconds): key
+        for time, key in zip(times, data.keys)
+    }
+    frames = {time: key.frame for time, key in original.items()}
+    frames.update(boundary_frames or {})
+    return replace_data(
+        data,
+        keys=tuple(
+            replace_data(
+                key,
+                frame=frames[key.frame],
+                value=(
+                    original[key.frame].value
+                    if key.frame in original
+                    else key.value
+                ),
+            )
+            for key in captured.keys
+        ),
+    )
+
+
+def clip_curve_data(
+    data: AnimCurveData,
+    start_frame: float,
+    end_frame: float,
+    seconds_per_frame: float,
+) -> AnimCurveData:
+    """検証済みsnapshotを境界補完して切り出す。引数はclipの保存時間単位。"""
+    times = _data_times(data)
+    if not times:
+        return data
+    bounds = tuple(
+        _keyframe_move.checked_time(
+            om.MTime(frame * seconds_per_frame, om.MTime.kSeconds),
+            frame * seconds_per_frame,
+        )
+        for frame in (start_frame, end_frame)
+    )
+    boundary_frames = {
+        time.asUnits(om.MTime.kSeconds): frame
+        * (seconds_per_frame / data.seconds_per_frame)
+        for time, frame in zip(bounds, (start_frame, end_frame))
+    }
     modified = cmds.file(query=True, modified=True)
     modifier = om.MDGModifier()
     work = oma.MFnAnimCurve()
     change = oma.MAnimCurveChange()
     try:
         work.setObject(modifier.createNode(data.curve_type))
-        work.setIsWeighted(data.weighted)
-        work.setPreInfinityType(_INFINITY[data.pre_infinity])
-        work.setPostInfinityType(_INFINITY[data.post_infinity])
-        # Bulk restoration preserves short weighted handles that setTangent clamps.
-        _keyframe_move.restore_keys(work, keys, times, change)
+        _restore_working_data(work, data, times, change)
+        _complete_boundaries(work, work, *bounds)
+        return _capture_working_data(
+            work, data, times, bounds[0], bounds[1], boundary_frames
+        )
+    finally:
+        del change, work, modifier
+        if not modified:
+            cmds.file(modified=False)
+
+
+def reduce_curve_data(
+    data: AnimCurveData,
+    start: om.MTime | None,
+    end: om.MTime | None,
+    tolerance: float,
+    preserve_breakdowns: bool,
+) -> AnimCurveData:
+    """検証済みの独立したsnapshotを、未登録カーブで削減する。"""
+    from ._keyframe_reduce import reduce_curve
+
+    times = _data_times(data)
+    if (
+        sum(
+            (start is None or time >= start) and (end is None or time <= end)
+            for time in times
+        )
+        < 3
+    ):
+        return data
+    modified = cmds.file(query=True, modified=True)
+    modifier = om.MDGModifier()
+    work = oma.MFnAnimCurve()
+    change = oma.MAnimCurveChange()
+    try:
+        work.setObject(modifier.createNode(data.curve_type))
+        _restore_working_data(work, data, times, change)
         reduce_curve(work, start, end, tolerance, preserve_breakdowns, change)
         if work.numKeys == len(data.keys):
             return data
-        captured = _capture_curve(work, data.curve_type, om.MTime.kSeconds)
-        original = {
-            time.asUnits(om.MTime.kSeconds): key
-            for time, key in zip(times, data.keys)
-        }
-        return replace_data(
-            data,
-            keys=tuple(
-                replace_data(
-                    key,
-                    frame=original[key.frame].frame,
-                    value=original[key.frame].value,
-                )
-                for key in captured.keys
-            ),
-        )
+        return _capture_working_data(work, data, times)
     finally:
         del change, work, modifier
         if not modified:

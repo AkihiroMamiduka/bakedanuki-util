@@ -190,5 +190,24 @@ def main():
     reduced_clip = clip.reduce_keys(-50, 50, tolerance=0.01)
     reduced_clip.restore(nodes.modifier_manager, targets=[dst_7_2])
 
+    dst_8_0 = nodes.create.transform(name="dst_8_0")
+    reduced_clip.restore(
+        nodes.modifier_manager,
+        targets=[dst_8_0],
+        start_frame=-50,
+        end_frame=50,
+        mode="replace_range",
+    )
+    dst_8_1 = nodes.create.transform(name="dst_8_1")
+    reduced_clip.restore(
+        nodes.modifier_manager,
+        targets=[dst_8_1],
+        start_frame=-50,
+        end_frame=50,
+        to_start_frame=100,
+        to_end_frame=200,
+        mode="replace_range",
+    )
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

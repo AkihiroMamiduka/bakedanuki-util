@@ -903,6 +903,41 @@ command失敗時rollbackを確認します。型contractは3入口のピボッ�
 
 仕様は[AnimationClip](animation_clip.md)を参照してください。
 
+### 復元に使用する範囲
+
+`test_animation_clip_range.py`では、`restore(start_frame=..., end_frame=...)`の次の契約を検証します。
+
+- flatten / preserve、3種類の復元mode、両端包含・片側省略・1時刻・全保存区間、未指定時の既存経路。
+- 境界補完後のTA / TL / TUの密な形状比較、全対応接線・weighted / nonweighted、stepの切り替わり、
+  接線のfixed化・lock解除・breakdown保持。空node・空チャンネル・node順も維持。
+- 切り出し後の区間を基準とする相対移動・絶対配置・倍率・長さ・両端合わせ、保存FPSと復元FPSの区別、
+  予約後のFPS変更、負時刻・subframe・任意の保存時間単位、削減済みデータとJSON往復。
+- root / layer設定の切り出し・拡縮・比較・再利用と、明示設定上書きによる範囲外キーの削除。
+- チャンネル固有のキー範囲外のconstant / linear補完、周期infinityの範囲外拒否。
+- 予約前の入力検証、元clipとscene状態・Undo履歴の保持、作業nodeの破棄、後続チャンネル失敗時の非予約。
+  保留中node作成、予約後のデータ独立、反復Undo / Redo、後続失敗時rollback。
+
+専用MPxCommandも範囲指定あり・なしでMaya標準Undo / Redoと失敗時rollbackを検証します。
+型・補完contractでは範囲引数と既存の時刻・拡縮指定を組み合わせ、戻り値が`None`であることを確認します。
+
+2026-09-18、範囲復元追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・AnimationClip・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各4,018件成功、プロセス正常終了 |
+| 変更実装4ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,463ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,574件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+範囲復元の利用者によるMaya画面上での確認は未実施です。
+
+Maya 2027の初回関連テストは4,018件の判定成功後、終了コード`-1073740940`となりました。
+範囲・削減・詳細切り出し・専用MPxCommandに絞った480件では正常終了しました。
+過去の移動テストの終了時異常と同じ登録の反復を避けるため、clip用MPxCommandもmodule内で登録を共有し、
+scene初期化は各テストで維持する構成に整理しました。その後、同じ4,018件で正常終了を確認しました。
+テストの除外や終了コードの無視はしていません。
+
 ### 保存データのキー削減
 
 `test_animation_clip_reduce.py`は、`AnimationClip.reduce_keys()`の次の契約を検証します。
@@ -926,7 +961,7 @@ command失敗時rollbackを確認します。型contractは3入口のピボッ�
 | `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,461ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
 | 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
 
-利用者によるMaya画面上でのクリップ削減の確認は未実施です。
+その後、クリップ削減も利用者によるMaya画面上での確認・pushまで完了しました（`8a722b40`）。
 
 ### 保存・復元の既存テスト
 

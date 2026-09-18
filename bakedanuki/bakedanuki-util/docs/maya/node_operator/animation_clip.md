@@ -55,6 +55,8 @@ clip.restore(
     targets=None,
     namespace=None,
     mode="merge",
+    start_frame=None,
+    end_frame=None,
     offset_frames=None,
     to_start_frame=None,
     to_end_frame=None,
@@ -189,6 +191,55 @@ selected / preferred等のUI状態は保存しません。
 rootの設定も同じ規則です。既存のlocked / referenced layerを自動解除して編集することはありません。
 新規layerの保存されたlock状態は、カーブ復元後に設定します。
 
+## 復元に使用する範囲
+
+`restore(start_frame=..., end_frame=...)`で、保存clipから復元に使う区間を選べます。
+`start_frame` / `end_frame`は**保存clipのフレーム単位**、`to_start_frame` / `to_end_frame`は
+**復元先のフレーム単位**です。切り出し、拡縮・移動、復元の順に処理します。
+
+```python
+# 保存clipの10〜30を、同じ物理時刻へ部分置換します。
+clip.restore(mod, start_frame=10, end_frame=30, mode="replace_range")
+
+# 同じ区間を100〜140へ拡縮して、別nodeへ部分置換します。
+clip.restore(
+    mod,
+    targets=targets,
+    start_frame=10,
+    end_frame=30,
+    to_start_frame=100,
+    to_end_frame=140,
+    mode="replace_range",
+)
+mod.do_it_dg()
+```
+
+- 両端を含み、片側の`None`は保存区間の端です。両方省略すれば従来どおり全体を復元し、
+  新たな境界補完・接線変更は行いません。明示した範囲が保存区間全体と等しくても、範囲切り出しの規則を適用します。
+- 保存区間外・開始と終了の逆転、bool・文字列・非有限数、Maya時刻の表現限界を超える指定は予約前に拒否します。
+  負の時刻・subframe・開始と終了が同じ1時刻にも対応します。1時刻を長さや両端指定で引き伸ばすことはできません。
+- 境界にキーがなければ、**保存カーブを評価して境界キーを補完**します。
+  元sceneの再評価や`sample_by`による再サンプリングは行いません。削減済みclipやJSON読込後、元nodeの削除後も利用できます。
+- preserveでは既存の詳細データの範囲取得と同様、区間形状を維持するため連続接線をfixed化し、
+  tangent / weight lockを解除します。step / stepnextの出力接線と実在キーのbreakdownは保持します。
+  この変更は復元用コピーだけに適用し、元clipや元sceneを変更しません。flattenは従来どおりlinear / stepで復元します。
+- 各チャンネルのキー範囲より外側でも、保存区間内ならconstant / linear infinityで境界補完します。
+  複数キーを持つcycle / cycleRelative / oscillateのキー範囲外補完は、既存の詳細データAPIと同じくエラーです。
+  空node・空チャンネル・node順は維持します。
+- 拡縮・配置の基準は**切り出した区間**です。同じFPSで10〜30を選び、`time_scale=2`なら10〜50、
+  `to_start_frame=100`なら100〜120、`to_start_frame=100, to_end_frame=140`なら100〜140へ復元します。
+  24fpsで保存した10〜30は、復元時が30fpsでも保存時の10〜30を指します。
+- `merge`は同時刻のみ上書き、`replace_range`は変換後の区間を置換し外側のキーを保持、
+  `replace_all`は対象カーブ全体を置換します。範囲指定だけで`mode`の既定値は変わりません。
+  部分置換でも境界をまたぐ補間や隣接auto接線の再計算は影響を受け得ます。
+- layerとrootの設定カーブも同じ区間で切り出して変換します。既存layerはその区間で設定を比較し、
+  一致すれば設定を変更せず再利用します。不一致時のエラー、新規layer作成は従来どおりです。
+  **`restore_layer_settings=True`は`mode`に関係なく設定カーブを全置換**するため、設定の範囲外キーも削除します。
+  layerの定数設定・構造・順序も従来の復元規則に従い、共有layerの他属性に影響する場合があります。
+
+戻り値は従来どおり`None`です。予約時の独立コピー、保留中modifierの非実行、Undo / Redo・rollbackを維持します。
+JSONはschema 2のままで、元clipの保存範囲・`sample_by`・データは変更しません。
+
 ## 復元時刻の指定
 
 `restore()`に`offset_frames` / `to_start_frame` / `to_end_frame`を指定すると、
@@ -210,12 +261,13 @@ clip.restore(mod, to_start_frame=100, mode="replace_range")
 mod.do_it_dg()
 ```
 
-絶対時刻合わせは`clip.start_frame` / `clip.end_frame`を基準にします。
+絶対時刻合わせは`clip.start_frame` / `clip.end_frame`（使用範囲を指定した場合はその両端）を基準にします。
 属性ごとの先頭・末尾キーは基準にしません。保存区間が10〜30で、ある属性のキーが15から
 始まる場合、`to_start_frame=100`ではそのキーは105へ移ります。
 1時刻だけのclipでも開始・終了のどちらの指定でも配置できます。
 
-フレームで指定する引数は`restore()`呼び出し時のMaya UI時間単位で捕捉します。
+復元先の時刻・移動量を指定する引数は`restore()`呼び出し時のMaya UI時間単位で捕捉します。
+元データの使用区間を選ぶ`start_frame` / `end_frame`には、保存clipの時間単位を使います。
 負の時刻とsubframeを許可し、整数フレームへ丸めません。拡縮未指定では動きの長さを秒で維持します。
 例えば24fpsで保存した24〜48のclipを30fpsで`to_start_frame=90`とすると、90〜120へ復元します。
 予約後にFPSを変更しても、予約時に決めた物理的な時刻・移動量を維持します。
@@ -243,7 +295,7 @@ weighted設定カーブの区間内の接線は方向・長さの両方を比較
 
 `time_scale`は時間の長さに掛ける倍率、`duration_frames`は復元後の長さです。
 開始と終了の両方を指定すると、保存区間の両端を復元先の両端へ合わせる倍率を自動で求めます。
-属性ごとの先頭・末尾キーではなく、`clip.start_frame` / `clip.end_frame`を共通の基準にします。
+属性ごとの先頭・末尾キーではなく、保存区間（使用範囲を指定した場合は切り出し後の区間）を共通の基準にします。
 
 保存区間が10〜30で、保存時と復元時のFPSが同じ場合です。
 
@@ -305,7 +357,7 @@ layer設定の比較でも、この2種類の接線はキー時刻・値・種�
 | --- | --- | --- |
 | `merge`（既定） | 追加・上書き | 同時刻だけ上書きし、他のキーを残す |
 | `replace_all` | 全置換 | 対象カーブの全キーを置換する |
-| `replace_range` | 部分置換 | 移動指定後の保存区間の既存キーを両端込みで削除して復元し、外側のキーを残す |
+| `replace_range` | 部分置換 | 使用範囲の切り出し・拡縮・移動後の区間の既存キーを両端込みで削除して復元し、外側のキーを残す |
 
 保存データに含まれない属性・チャンネルは置換対象にしません。
 部分置換はキー保持の契約で、境界をまたぐ補間やauto接線の再計算は影響を受け得ます。
