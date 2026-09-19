@@ -903,6 +903,30 @@ command失敗時rollbackを確認します。型contractは3入口のピボッ�
 
 仕様は[AnimationClip](animation_clip.md)を参照してください。
 
+### JSONファイルの保存・読込
+
+- `tests/py/test_json_file.py`: UTF-8・日本語・BOM、JSON各型とtuple、PathLike・相対パス、
+  親フォルダの既定作成と無効化、整形・上書き禁止・保存確定時の競合、
+  不正値・非有限数・循環・文字コード・JSON構文・ファイル不在・親がファイルの場合の拒否。
+  書き込み・close・確定の失敗時に既存ファイルを保護し、一時ファイルを除去すること。
+- `tests/maya/node/test_animation_clip_file.py`: flatten / preserveとTA / TL / TUの往復、
+  詳細データ・layer設定の保持、schema 2・BOM・オプション、編集済みKeyDataの保存前再検証、
+  元clipとscene状態・Undo履歴・保留中modifierの維持、元scene削除後の読込と復元・Undo / Redo。
+- `tests/typecheck/json_file_contract.py`: `bdu.json_file`と直接import、PathLike引数・保存オプション、
+  `Path` / `object` / `AnimationClip`の戻り値型と不正な引数型の拒否。
+
+2026-09-19、JSONファイルAPI追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 汎用JSON・AnimationClip関連pytest | Maya 2025 / 2026 / 2027で各790件成功、プロセス正常終了。今回追加したテストは73件 |
+| JSONモジュール・AnimationClip実装と新しい型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,467ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,647件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+ファイルAPIの利用者によるMaya画面上での確認は未実施です。
+
 ### 復元に使用する範囲
 
 `test_animation_clip_range.py`では、`restore(start_frame=..., end_frame=...)`の次の契約を検証します。
@@ -930,7 +954,7 @@ command失敗時rollbackを確認します。型contractは3入口のピボッ�
 | 上記のMaya 2025 full pytest | 6,574件成功、632件skip |
 | 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
 
-範囲復元の利用者によるMaya画面上での確認は未実施です。
+その後、範囲復元も利用者によるMaya画面上での確認・pushまで完了しました（`9c405008`）。
 
 Maya 2027の初回関連テストは4,018件の判定成功後、終了コード`-1073740940`となりました。
 範囲・削減・詳細切り出し・専用MPxCommandに絞った480件では正常終了しました。

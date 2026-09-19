@@ -6,8 +6,11 @@ import json
 import math
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
+from os import PathLike
+from pathlib import Path
 from typing import TYPE_CHECKING, Literal, cast, overload
 
+from ...py import json_file
 from .operator.attr.keyframe_data import AnimCurveData
 
 if TYPE_CHECKING:
@@ -306,6 +309,33 @@ class AnimationClip:
     @classmethod
     def from_json(cls, value: str) -> AnimationClip:
         return cls.from_dict(json.loads(value))
+
+    def save(
+        self,
+        path: str | PathLike[str],
+        *,
+        indent: int | None = 2,
+        overwrite: bool = True,
+        create_parents: bool = True,
+    ) -> Path:
+        """再検証したschema 2データをJSONファイルへ即時保存し、Pathを返す。
+
+        既定は親フォルダを作成し、既存ファイルを上書きする。
+        scene・保留中modifierは変更しない。ファイル操作はUndoの対象外。
+        """
+        data = self.from_dict(self.to_dict()).to_dict()
+        return json_file.write(
+            path,
+            data,
+            indent=indent,
+            overwrite=overwrite,
+            create_parents=create_parents,
+        )
+
+    @classmethod
+    def load(cls, path: str | PathLike[str]) -> AnimationClip:
+        """JSONファイルを再検証し、独立clipを返す。sceneへの復元は行わない。"""
+        return cls.from_dict(json_file.read(path))
 
     @classmethod
     def capture(

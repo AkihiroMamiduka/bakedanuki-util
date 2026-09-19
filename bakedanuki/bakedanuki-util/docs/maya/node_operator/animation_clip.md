@@ -427,7 +427,7 @@ data = clip.to_dict()
 clip = bdu.AnimationClip.from_dict(data)
 ```
 
-ファイルI/Oは呼び出し側で行います。JSONはschema 2のみ対応し、旧形式変換は行いません。
+JSONはschema 2のみ対応し、旧形式変換は行いません。
 `nodes`・`layers`は型付きtupleです。詳細型は`bd_util.maya.node.animation_clip`からimportできます。
 各カーブの`KeyData`は編集可能ですが、復元予約時に再検証・独立コピーするため、予約後の編集は
 予約内容を変えません。`clipped`は範囲切り出しの有無を記録し、設定カーブの比較にも使用します。
@@ -436,3 +436,44 @@ clip = bdu.AnimationClip.from_dict(data)
 例えば24fpsの24フレームは、30fpsのsceneでは30フレームへ復元されます。
 復元時刻の移動・正の時間拡縮は`restore()`で指定できます。逆再生、リグ固有の属性対応、
 ワールド空間への変換はこのAPIに含みません。
+
+## JSONファイルの保存・読込
+
+```python
+import bd_util as bdu
+
+clip = bdu.AnimationClip.capture(["ctrl"], attributes=["tx", "rx"])
+path = clip.save(r"D:\animation\walk.json")
+loaded = bdu.AnimationClip.load(path)
+
+mod = bdu.ModifierManager()
+loaded.restore(mod, targets=["target_ctrl"], mode="replace_range")
+mod.do_it_dg()
+```
+
+```python
+clip.save(
+    path: str | os.PathLike[str],
+    *,
+    indent: int | None = 2,
+    overwrite: bool = True,
+    create_parents: bool = True,
+) -> pathlib.Path
+
+AnimationClip.load(path: str | os.PathLike[str]) -> AnimationClip
+```
+
+- `save()`は編集済みのKeyDataも再検証したうえで保存し、指定先の`Path`を返します。
+  `load()`はschema 2の検証を行い、独立したclipを返します。sceneへの復元は行いません。
+- 親フォルダは既定で作成し、既存ファイルは既定で上書きします。
+  `create_parents=False`と`overwrite=False`で、それぞれ禁止できます。
+- UTF-8で日本語を保持し、既定は2スペースで整形します。`indent=None`なら整形なしです。
+  JSONの内容は`to_json()`と同じschema 2で、追加のファイル用wrapperはありません。
+  既存の`to_json()`／`from_json()`は引き続き文字列の変換に使用します。
+- ファイル操作は即時に実行します。元clip・scene・保留中modifierを変更せず、MayaのUndo対象にも入りません。
+  読込後の`restore()`は、既存どおりModifierManagerへ予約します。
+- 不正なclipは保存前に拒否します。書き込み途中で失敗した場合も既存ファイルを維持します。
+  読込失敗は例外になり、空clipなどに置き換えません。
+
+内部のファイル操作は、汎用の[`bdu.json_file`](../../py/json_file.md)を使用します。
+パス・上書き・文字コード・例外の詳細はそちらを参照してください。

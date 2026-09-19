@@ -28,6 +28,8 @@
     詳細は[AnimationClip](animation_clip.md)を参照してください。
     `reduce_keys()`で全属性チャンネルの保存データを削減し、独立した新しいclipとして保存・復元できます。
     `restore(start_frame=..., end_frame=...)`では保存データの使用区間を選び、境界補完後に拡縮・移動して復元できます。
+    `save()` / `load()`でschema 2のJSONファイルを保存・読込できます。親フォルダは既定で作成します。
+    汎用のファイル操作は[`bdu.json_file`](../../py/json_file.md)から利用できます。
 
 - `python/bd_util/maya/node/operator/node/_core.py`
   - `NodeOperator` の基底クラスです。
@@ -1450,7 +1452,9 @@ KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元
 続いて`AnimationClip.reduce_keys()`を追加しました。元clip・sceneとレイヤー設定を維持し、
 全属性チャンネルの保存カーブを削減した新しいclipを返します。クリップ削減も利用者確認・push済みです（`8a722b40`）。
 続いて`AnimationClip.restore()`へ`start_frame` / `end_frame`を追加しました。
-保存フレーム単位の指定区間を境界補完して切り出し、その区間を基準に拡縮・移動して復元します。範囲復元の利用者確認は未実施です。
+保存フレーム単位の指定区間を境界補完して切り出し、その区間を基準に拡縮・移動して復元します。範囲復元も利用者確認・push済みです（`9c405008`）。
+続いて`AnimationClip.save()` / `load()`と汎用の`bdu.json_file.write()` / `read()`を追加しました。
+既定で親フォルダを作成し、UTF-8で保存します。clipは保存前・読込時にschema 2を検証します。
 補間移動・補間拡縮とも、対象キー同士の衝突・順序逆転を拒否します。
 新しいチャットで開発を続ける場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と

@@ -209,5 +209,18 @@ def main():
         mode="replace_range",
     )
 
+    dst_9_0 = nodes.create.transform(name="dst_9_0")
+    reduced_clip.restore(
+        nodes.modifier_manager,
+        targets=[dst_9_0],
+    )
+    path = reduced_clip.save(r"D:/anim_clip.json")
+    load_clip = bdu.AnimationClip.load(path)
+    dst_9_1 = nodes.create.transform(name="dst_9_1")
+    load_clip.restore(
+        nodes.modifier_manager,
+        targets=[dst_9_1],
+    )
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

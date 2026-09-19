@@ -287,7 +287,12 @@ nonweighted接線は正規化し、weighted接線は変換後の長さを保持�
 続いて`AnimationClip.restore(start_frame=..., end_frame=...)`による使用区間の指定を追加しました。
 保存フレーム単位で区間を選び、境界補完・連続接線のfixed化後に拡縮・移動します。
 layerとrootの設定も同じ区間で切り出し、既存の設定比較・全置換の契約を維持します。
-範囲復元の利用者確認は未実施です。仕様は[復元に使用する範囲](animation_clip.md#復元に使用する範囲)を参照してください。
+範囲復元も利用者確認・push済みです（`9c405008`）。仕様は[復元に使用する範囲](animation_clip.md#復元に使用する範囲)を参照してください。
+続いて`AnimationClip.save()` / `load()`によるJSONファイル保存・読込を追加しました。
+汎用処理は`bd_util/py/json_file.py`へ分離し、`bdu.json_file.write()` / `read()`として公開します。
+親フォルダ作成と上書きは既定で有効。保存先と同じフォルダの一時ファイルへ書き終えてから確定し、
+clipは保存前・読込時にschema 2を検証します。ファイル操作は即時で、sceneとmodifierを変更しません。
+仕様は[JSONファイル入出力](../../py/json_file.md)と[clipのファイルAPI](animation_clip.md#jsonファイルの保存読込)を参照してください。
 それ以降の着手順は未確定です。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
@@ -371,14 +376,14 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   AnimationClipの保存データ削減まで利用者確認・push済み（`8a722b40`）。続いて復元時の使用区間指定を追加した。
+   AnimationClipの範囲復元まで利用者確認・push済み（`9c405008`）。続いてJSONファイル保存・読込を追加した。
    commit / push状況は実際の作業ツリーと履歴を確認する。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
 2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
-   AnimationClipの範囲復元の利用者確認状況は別途確認する。過去の実装・検証記録も本文では現行API名で表記する。
+   JSONファイル入出力の利用者確認状況は別途確認する。過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 
