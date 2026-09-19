@@ -271,6 +271,7 @@ bool_checkbox = BoolCheckBox(
 )
 assert_type(bool_checkbox, BoolCheckBox)
 assert_type(bool_checkbox.view_model, BoolViewModel)
+assert_type(bool_checkbox.setValueRequestHandler(lambda value: True), None)
 
 bool_combo_box = BoolComboBox(
     bool_view_model,

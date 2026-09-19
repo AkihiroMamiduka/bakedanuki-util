@@ -38,7 +38,10 @@ assert_type(binding.set_value(1.25), bool)
 assert_type(binding.refresh(), bool)
 assert_type(resolve_float_plug("sampleTransform", "tx"), MayaFloatPlug)
 assert_type(get_channel_box_precision(), int)
-assert_type(FloatSpinBox(binding).view_model, FloatViewModel)
+spin_box = FloatSpinBox(binding)
+assert_type(spin_box.view_model, FloatViewModel)
+assert_type(spin_box.setValueRequestHandler(lambda value: True), None)
+assert_type(spin_box.setStepRequestHandler(lambda steps: True), None)
 assert_type(FloatSpinBox(binding.view_model).value(), float)
 
 

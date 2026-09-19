@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
+from collections.abc import Callable
 from math import isfinite
 from typing import ClassVar
 
@@ -17,6 +18,8 @@ class FloatSlider(qt.QSlider):
     """公開単位の有限範囲を整数位置へ写像し、確定値を連続編集するView。"""
 
     floatRangeChanged = qt.Signal(float, float)
+    editStarted = qt.Signal()
+    editFinished = qt.Signal()
 
     _EDIT_KEYS: ClassVar[frozenset[qt.Qt.Key]] = frozenset(
         (
@@ -65,6 +68,7 @@ class FloatSlider(qt.QSlider):
         self._effective_range: tuple[float, float] | None = None
         self._editing = False
         self._interrupted = False
+        self._value_request_handler: Callable[[float], bool] | None = None
         self.setRange(0, steps)
         self.setSingleStep(1)
         self.setPageStep(max(1, steps // 10))
@@ -105,6 +109,18 @@ class FloatSlider(qt.QSlider):
             self._float_range = float_range
             self._render()
             self.floatRangeChanged.emit(*float_range)
+
+    def setValueRequestHandler(
+        self, handler: Callable[[float], bool] | None
+    ) -> None:
+        """公開値の入力を外側で処理する任意の関数を設定する。"""
+        if handler is not None and not callable(handler):
+            raise TypeError(
+                "handlerには呼出し可能な関数またはNoneを指定してください"
+            )
+        if self._editing:
+            self._finish_edit()
+        self._value_request_handler = handler
 
     def effectiveFloatRange(self) -> tuple[float, float] | None:
         """hard limitと交差する有効範囲を返し、操作不可ならNoneを返す。"""
@@ -156,7 +172,9 @@ class FloatSlider(qt.QSlider):
         )
         value = min(upper, max(lower, value))
         try:
-            self._view_model.set_value_command.execute(value)
+            handler = self._value_request_handler
+            if handler is None or not handler(value):
+                self._view_model.set_value_command.execute(value)
         except Exception:
             self._finish_edit()
             raise
@@ -192,7 +210,14 @@ class FloatSlider(qt.QSlider):
             and self.isEnabled()
             and not self._view_model.is_disposed
         ):
-            self._editing = self._view_model.begin_edit(self)
+            handler = self._value_request_handler
+            self._editing = (
+                True
+                if handler is not None
+                else self._view_model.begin_edit(self)
+            )
+            if self._editing:
+                self.editStarted.emit()
 
     @qt.Slot()
     def _finish_edit(self) -> None:
@@ -204,7 +229,10 @@ class FloatSlider(qt.QSlider):
         if qt.isValid(self):
             self.setRepeatAction(qt.QSlider.SliderAction.SliderNoAction)
             self.setSliderDown(False)
-        self._view_model.end_edit(self)
+        if self._value_request_handler is None:
+            self._view_model.end_edit(self)
+        if qt.isValid(self):
+            self.editFinished.emit()
 
     @qt.Slot()
     def _on_edit_finished(self) -> None:

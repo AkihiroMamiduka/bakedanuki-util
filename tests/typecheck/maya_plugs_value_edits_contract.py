@@ -11,6 +11,7 @@ from bd_util.maya.ui import (
     MayaEnumValueEdit,
     MayaFloatPlugsBinding,
     MayaFloatValueEdit,
+    MayaFloatOffsetEdit,
     MayaPlugsValueEdit,
     apply_plugs_values,
     resolve_bool_plug,
@@ -31,6 +32,9 @@ assert_type(bool_edit.binding, MayaBoolPlugsBinding)
 assert_type(bool_edit.value, bool)
 assert_type(float_edit.binding, MayaFloatPlugsBinding)
 assert_type(float_edit.value, float)
+float_offset = MayaFloatOffsetEdit(float_edit.binding, 1.0)
+assert_type(float_offset.binding, MayaFloatPlugsBinding)
+assert_type(float_offset.offset, float)
 assert_type(enum_edit.binding, MayaEnumPlugsBinding)
 assert_type(enum_edit.value, int)
 
@@ -45,6 +49,9 @@ def apply_edits(edits: Sequence[MayaPlugsValueEdit]) -> bool:
         elif isinstance(edit, MayaFloatValueEdit):
             assert_type(edit.binding, MayaFloatPlugsBinding)
             assert_type(edit.value, float)
+        elif isinstance(edit, MayaFloatOffsetEdit):
+            assert_type(edit.binding, MayaFloatPlugsBinding)
+            assert_type(edit.offset, float)
         else:
             assert_type(edit.binding, MayaEnumPlugsBinding)
             assert_type(edit.value, int)
@@ -52,4 +59,4 @@ def apply_edits(edits: Sequence[MayaPlugsValueEdit]) -> bool:
 
 
 assert_type(apply_edits([bool_edit, float_edit, enum_edit]), bool)
-assert_type(apply_plugs_values((float_edit, enum_edit)), bool)
+assert_type(apply_plugs_values((float_edit, float_offset, enum_edit)), bool)

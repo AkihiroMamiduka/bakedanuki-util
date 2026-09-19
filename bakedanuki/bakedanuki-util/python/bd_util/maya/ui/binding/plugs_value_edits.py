@@ -12,6 +12,7 @@ from maya.api import OpenMaya as om
 
 from ._float_edit import FloatEditUndo
 from ._plugs_store import PlugWrite, execute_plug_writes, plugs_undo_chunk
+from .edit_session import MayaEditSession
 from .plugs_binding import (
     MayaBoolPlugsBinding,
     MayaEnumPlugsBinding,
@@ -21,6 +22,7 @@ from .plugs_binding import (
 __all__ = [
     "MayaBoolValueEdit",
     "MayaFloatValueEdit",
+    "MayaFloatOffsetEdit",
     "MayaEnumValueEdit",
     "MayaPlugsValueEdit",
     "apply_plugs_values",
@@ -58,6 +60,18 @@ class MayaFloatValueEdit:
 
 
 @dataclass(frozen=True)
+class MayaFloatOffsetEdit:
+    """数値属性群の各現在値へ、公開単位の同じ増減量を加える。"""
+
+    binding: MayaFloatPlugsBinding
+    offset: float
+
+    def __post_init__(self) -> None:
+        """値の検証は実行前にまとめ、Bindingの型を先に確認する。"""
+        _require_binding(self.binding, MayaFloatPlugsBinding)
+
+
+@dataclass(frozen=True)
 class MayaEnumValueEdit:
     """一つのenum属性群へ明示入力する整数値を保持する。"""
 
@@ -70,14 +84,23 @@ class MayaEnumValueEdit:
 
 
 MayaPlugsValueEdit: TypeAlias = (
-    MayaBoolValueEdit | MayaFloatValueEdit | MayaEnumValueEdit
+    MayaBoolValueEdit
+    | MayaFloatValueEdit
+    | MayaFloatOffsetEdit
+    | MayaEnumValueEdit
 )
 
 
 def _require_edit(value: object) -> MayaPlugsValueEdit:
     """動的呼出しも対応する値入力だけに限定する。"""
     if not isinstance(
-        value, (MayaBoolValueEdit, MayaFloatValueEdit, MayaEnumValueEdit)
+        value,
+        (
+            MayaBoolValueEdit,
+            MayaFloatValueEdit,
+            MayaFloatOffsetEdit,
+            MayaEnumValueEdit,
+        ),
     ):
         raise TypeError("editsにはMayaの属性値入力を指定してください")
     return value
@@ -89,10 +112,16 @@ def _prepare_edit(edit: MayaPlugsValueEdit) -> list[PlugWrite]:
         return edit.binding.store.prepare_write(edit.value)
     if isinstance(edit, MayaFloatValueEdit):
         return edit.binding.store.prepare_write(edit.value)
+    if isinstance(edit, MayaFloatOffsetEdit):
+        return edit.binding.store.prepare_offset(edit.offset)
     return edit.binding.store.prepare_write(edit.value)
 
 
-def apply_plugs_values(edits: Sequence[MayaPlugsValueEdit]) -> bool:
+def apply_plugs_values(
+    edits: Sequence[MayaPlugsValueEdit],
+    *,
+    edit_session: MayaEditSession | None = None,
+) -> bool:
     """全要求を事前検証し、差分を一回のUndoで適用する。
 
     各値はBindingの公開単位で渡す。空入力・全対象が同値ならFalseを返す。
@@ -120,6 +149,8 @@ def apply_plugs_values(edits: Sequence[MayaPlugsValueEdit]) -> bool:
         if plan:
             FloatEditUndo.finish_active()
             with ExitStack() as stack:
+                if edit_session is not None:
+                    stack.enter_context(edit_session.write())
                 for store in stores:
                     stack.enter_context(store.write_guard())
                 stack.enter_context(plugs_undo_chunk())

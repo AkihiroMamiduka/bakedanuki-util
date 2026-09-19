@@ -118,7 +118,12 @@ soft limitは入力制限に使いません。
 Binding間では距離・角度・単位なしの数値、bool、enumを混在できます。
 
 ```python
-from bd_util.maya.ui import MayaFloatValueEdit, apply_plugs_values
+from bd_util.maya.ui import (
+    MayaEditSession,
+    MayaFloatOffsetEdit,
+    MayaFloatValueEdit,
+    apply_plugs_values,
+)
 
 # tx_bindingとrx_bindingは、それぞれの行が所有するMayaFloatPlugsBinding
 display_value = 5.0
@@ -134,10 +139,19 @@ changed = apply_plugs_values(
         ),
     ]
 )
+
+# 各行の値の差を保ち、公開単位で同じ増減量を加える
+apply_plugs_values(
+    [
+        MayaFloatOffsetEdit(tx_binding, 1.0),
+        MayaFloatOffsetEdit(rx_binding, 1.0),
+    ]
+)
 ```
 
 `MayaBoolValueEdit(binding, bool)`、`MayaFloatValueEdit(binding, float)`、
-`MayaEnumValueEdit(binding, int)`を受け取り、union型は`MayaPlugsValueEdit`です。
+`MayaFloatOffsetEdit(binding, float)`、`MayaEnumValueEdit(binding, int)`を受け取り、
+union型は`MayaPlugsValueEdit`です。
 値は各Bindingの公開単位で指定します。画面の同じ数値を入力する場合は、上記のように
 **各行の**`presentation.from_display()`を使用してください。距離がm、角度がradの
 表示でも、それぞれ画面上で5になります。各行の未丸め代表値へ揃える場合は、
@@ -153,7 +167,15 @@ enum定義不一致などで編集不可の場合は、他行も含めて例外�
 各書込み直前にも状態・範囲・単位・enum定義を確認し、途中失敗では先に成功した
 別行も含めて今回の入力を復旧します。対象の外部lockやenum定義を自動で元に戻しません。
 復旧にも失敗した場合は`ExceptionGroup`を送出し、各Bindingの`edit_failed`へ通知します。
-このAPIは単発の確定入力です。複数行にまたがる連続ドラッグのUndo集約は行いません。
+複数行にまたがる連続ドラッグでは、開始済みの`MayaEditSession`を
+`apply_plugs_values(..., edit_session=session)`へ渡し、操作終了時に`finish()`すると、
+各位置の一括入力を1回のUndoへまとめられます。
+
+`FloatSpinBox.setValueRequestHandler()`、`FloatSpinBox.setStepRequestHandler()`、
+`FloatSlider.setValueRequestHandler()`、`BoolCheckBox.setValueRequestHandler()`、
+`EnumComboBox.setValueRequestHandler()`へ関数を設定すると、既存Viewの入力を利用側で処理できます。
+関数がTrueを返した入力は元のViewModelへ重ねて渡しません。Sliderの`editStarted`と
+`editFinished`を編集セッションの開始・終了へ接続できます。未設定時の既存入力は変わりません。
 
 ## Undo、失敗復旧、終了
 
@@ -195,6 +217,7 @@ ComboBox・RadioButtonGroup・Labelに加え、混在、編集可能件数、対
 - `tests/maya/ui/test_plugs_binding.py`: 無書込み初期表示、混在、同値揃え、範囲、
   単位、lock・接続、単発・連続Undo、部分失敗の復旧、削除とcallback解放。
 - `tests/ui/test_plugs_binding_views.py`: 既存ComboBox・SpinBox・Sliderとの接続。
+- `tests/ui/test_value_request_handlers.py`: 既存Viewから外側への値・上下・連続入力の委譲。
 - `tests/typecheck/maya_plugs_binding_contract.py`: 状態APIと既存Viewへの受け渡し型。
 - `tests/maya/ui/test_plugs_value_edits.py`: 異単位・異種・複数行の一括入力、全件事前検証、
   readonly、重複拒否、一回Undo、全行の失敗復旧。

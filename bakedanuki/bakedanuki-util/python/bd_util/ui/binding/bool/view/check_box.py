@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from .... import qt
 from ..binding import BoolBinding
 from ..store import BoolValueStore
@@ -22,6 +24,7 @@ class BoolCheckBox(qt.QCheckBox):
         view_model, binding = resolve_bool_view_source(view_model)
         super().__init__(text, parent)
         self._binding = binding
+        self._value_request_handler: Callable[[bool], bool] | None = None
         # Viewだけを保持するfactory構成でもbinding先を存続させる。
         self._view_model = view_model
         self.setTristate(False)
@@ -48,18 +51,31 @@ class BoolCheckBox(qt.QCheckBox):
             raise RuntimeError("表示対象のBoolViewModelは破棄されています")
         return view_model
 
+    def setValueRequestHandler(
+        self, handler: Callable[[bool], bool] | None
+    ) -> None:
+        """bool入力を外側で処理する任意の関数を設定する。"""
+        if handler is not None and not callable(handler):
+            raise TypeError(
+                "handlerには呼出し可能な関数またはNoneを指定してください"
+            )
+        self._value_request_handler = handler
+
     def _request_value(self, value: bool) -> None:
         """ユーザー入力をCommandへ渡し、拒否時は実値へ戻す。"""
         view_model = self._valid_view_model()
         if view_model is None:
             self._disable_binding()
             return
+        handled = False
         try:
-            changed = view_model.set_value_command.execute(value)
+            handler = self._value_request_handler
+            handled = handler is not None and handler(value)
+            changed = handled or view_model.set_value_command.execute(value)
         except Exception:
             self._update_checked(view_model.value.value)
             raise
-        if not changed:
+        if handled or not changed:
             self._update_checked(view_model.value.value)
 
     def _update_checked(self, value: bool) -> None:

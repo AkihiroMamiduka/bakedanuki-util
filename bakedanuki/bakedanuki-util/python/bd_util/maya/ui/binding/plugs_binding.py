@@ -22,12 +22,13 @@ from ....ui import (
 )
 from ....ui.binding.enum._connection import connect_queued_qt_signal
 from ....ui.binding.enum.definition import require_enum_value
+from ....ui.binding.float._validation import require_float
 from ...node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolPlugOperator,
 )
 from ._float_plug_value import FloatPlugValue
 from ._enum_plug_value import EnumPlugValue
-from ._plugs_store import PlugsStore, PlugTarget
+from ._plugs_store import PlugsStore, PlugTarget, PlugWrite
 from .float_plug_resolver import MayaFloatPlug, require_float_plug
 from .enum_plug_resolver import MayaEnumPlug, require_enum_plug
 from .plugs_state import MayaPlugTargetState
@@ -297,6 +298,17 @@ class _FloatPlugsStore(PlugsStore[float]):
         if not self.is_available:
             raise RuntimeError("代表属性は利用できません")
         return self._representative_codec.value.presentation
+
+    def prepare_offset(self, offset: float) -> list[PlugWrite]:
+        """各対象の現在値へ公開単位の同じ増減量を加える計画を返す。"""
+        offset = require_float(offset, "offset")
+        if not self.is_writable:
+            raise RuntimeError("代表属性は編集できません")
+        values = tuple(
+            target.codec.read() + offset if target.state().is_writable else 0.0
+            for target in self._targets
+        )
+        return self._prepare_values(values)
 
     def _refresh_view_model(self) -> bool:
         """代表属性の単位、実値、入力可否を同期する。"""

@@ -11,7 +11,9 @@ from bd_util.maya.ui import (
     MayaBoolValueEdit,
     MayaEnumPlugsBinding,
     MayaEnumValueEdit,
+    MayaEditSession,
     MayaFloatPlugsBinding,
+    MayaFloatOffsetEdit,
     MayaFloatValueEdit,
     apply_plugs_values,
     resolve_bool_plug,
@@ -119,6 +121,88 @@ def test_mixed_types_and_units_share_one_undo(scene):
     assert number.value == 5.0
     assert visible.value is False
     assert rotation_order.value == 5
+
+
+def test_float_offsets_preserve_each_target_difference_and_share_one_undo(
+    scene,
+):
+    """属性ごとの現在値へ同じ増減量を加え、異なる行も一Undoにまとめる。"""
+    nodes, owner = scene
+    distance = float_binding(nodes, owner)
+    angle = float_binding(nodes, owner, "rx")
+    for index, node in enumerate(nodes):
+        cmds.setAttr(node + ".tx", index + 1)
+        cmds.setAttr(node + ".rx", (index + 1) * 10)
+    distance.refresh()
+    angle.refresh()
+    cmds.flushUndo()
+    assert apply_plugs_values(
+        [
+            MayaFloatOffsetEdit(distance, 2.0),
+            MayaFloatOffsetEdit(angle, -5.0),
+        ]
+    )
+    assert values(nodes, "tx") == [3.0, 4.0, 5.0]
+    assert values(nodes, "rx") == pytest.approx([5.0, 15.0, 25.0])
+    cmds.undo()
+    flush()
+    assert values(nodes, "tx") == [1.0, 2.0, 3.0]
+    assert values(nodes, "rx") == pytest.approx([10.0, 20.0, 30.0])
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+
+def test_float_offset_range_error_rejects_all_rows(scene):
+    """いずれかの対象が増減後に範囲外なら全行を変更しない。"""
+    nodes, owner = scene
+    for node in nodes:
+        cmds.addAttr(node, ln="limited", at="double", min=0, max=10)
+        cmds.setAttr(node + ".limited", 9)
+    distance = float_binding(nodes, owner)
+    limited = float_binding(nodes, owner, "limited")
+    cmds.flushUndo()
+    with pytest.raises(ValueError, match="上限"):
+        apply_plugs_values(
+            [
+                MayaFloatOffsetEdit(distance, 2.0),
+                MayaFloatOffsetEdit(limited, 2.0),
+            ]
+        )
+    assert values(nodes, "tx") == [0.0, 0.0, 0.0]
+    assert values(nodes, "limited") == [9.0, 9.0, 9.0]
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+
+@pytest.mark.parametrize("offset", [True, float("inf")])
+def test_float_offset_rejects_invalid_delta_before_writing(scene, offset):
+    """boolまたは非有限の増減量は、属性値とUndoを変更せず拒否する。"""
+    nodes, owner = scene
+    distance = float_binding(nodes, owner)
+    cmds.flushUndo()
+    with pytest.raises((TypeError, ValueError)):
+        apply_plugs_values([MayaFloatOffsetEdit(distance, offset)])
+    assert values(nodes, "tx") == [0.0, 0.0, 0.0]
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+
+def test_edit_session_groups_repeated_batch_values(scene):
+    """連続編集session内の複数回入力を一回のUndoへまとめる。"""
+    nodes, owner = scene
+    distance = float_binding(nodes, owner)
+    session = MayaEditSession(owner, chunk_name="TestBatchSlider")
+    cmds.flushUndo()
+    session.begin()
+    assert apply_plugs_values(
+        [MayaFloatValueEdit(distance, 2.0)], edit_session=session
+    )
+    assert apply_plugs_values(
+        [MayaFloatValueEdit(distance, 4.0)], edit_session=session
+    )
+    session.finish()
+    assert values(nodes, "tx") == [4.0, 4.0, 4.0]
+    cmds.undo()
+    flush()
+    assert values(nodes, "tx") == [0.0, 0.0, 0.0]
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
 
 
 def test_later_range_violation_rejects_every_row_before_writing(scene):

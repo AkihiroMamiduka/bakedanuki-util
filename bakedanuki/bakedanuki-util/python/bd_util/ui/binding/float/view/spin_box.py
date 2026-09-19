@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
+from collections.abc import Callable
 from sys import float_info
 
 from .... import qt
@@ -42,6 +43,8 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         self._view_model = view_model
         self._input_enabled = True
         self._unit_visible = False
+        self._value_request_handler: Callable[[float], bool] | None = None
+        self._step_request_handler: Callable[[int], bool] | None = None
 
         # 表示桁数・刻み幅を設定し、入力途中の逐次確定と値の循環を止める。
         self.setDecimals(decimals)
@@ -101,6 +104,45 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         self._input_enabled = enabled
         self._update_enabled()
 
+    def setValueRequestHandler(
+        self, handler: Callable[[float], bool] | None
+    ) -> None:
+        """表示値の入力を外側で処理する任意の関数を設定する。"""
+        if handler is not None and not callable(handler):
+            raise TypeError(
+                "handlerには呼出し可能な関数またはNoneを指定してください"
+            )
+        self._value_request_handler = handler
+
+    def setStepRequestHandler(
+        self, handler: Callable[[int], bool] | None
+    ) -> None:
+        """上下操作のstep数を外側で処理する任意の関数を設定する。"""
+        if handler is not None and not callable(handler):
+            raise TypeError(
+                "handlerには呼出し可能な関数またはNoneを指定してください"
+            )
+        self._step_request_handler = handler
+
+    def stepBy(self, steps: int) -> None:
+        """外側が処理した上下操作は、既定の値入力へ重ねて渡さない。"""
+        handler = self._step_request_handler
+        if (
+            handler is None
+            or not steps
+            or not self.isEnabled()
+            or self.isReadOnly()
+        ):
+            super().stepBy(steps)
+            return
+        try:
+            handled = handler(steps)
+        finally:
+            if qt.isValid(self) and self._valid_view_model() is not None:
+                self._render()
+        if not handled:
+            super().stepBy(steps)
+
     @qt.Slot()
     def _update_enabled(self) -> None:
         """View固有の操作設定と正本の編集可否を組み合わせる。"""
@@ -125,10 +167,11 @@ class FloatSpinBox(qt.QDoubleSpinBox):
             return
 
         # 公開単位へ変換して値の変更を要求する。
+        requested = view_model.presentation.from_display(value)
         try:
-            view_model.set_value_command.execute(
-                view_model.presentation.from_display(value)
-            )
+            handler = self._value_request_handler
+            if handler is None or not handler(requested):
+                view_model.set_value_command.execute(requested)
         finally:
             # 入力の補正・拒否・失敗時も、正本の確定値へ表示を戻す。
             if qt.isValid(self) and self._valid_view_model() is not None:

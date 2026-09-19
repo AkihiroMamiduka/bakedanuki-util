@@ -299,12 +299,18 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def prepare_write(self, value: _ValueT) -> list[PlugWrite]:
         """編集可能な全対象を検証してから、変更対象と復旧値を返す。"""
+        return self._prepare_values((value,) * len(self._targets))
+
+    def _prepare_values(self, values: Sequence[_ValueT]) -> list[PlugWrite]:
+        """対象ごとの公開値を検証し、変更対象と復旧値を返す。"""
         if self._write_depth:
             raise RuntimeError("一括書き込み中に別の入力は開始できません")
         if not self.is_writable:
             raise RuntimeError("代表のMaya属性は編集できません")
+        if len(values) != len(self._targets):
+            raise ValueError("対象と入力値の数を揃えてください")
         plan: list[PlugWrite] = []
-        for target in self._targets:
+        for target, value in zip(self._targets, values, strict=True):
             if not target.state().is_writable:
                 continue
             try:

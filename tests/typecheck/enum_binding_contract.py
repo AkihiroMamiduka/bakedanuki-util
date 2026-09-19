@@ -56,6 +56,7 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     combo = EnumComboBox(binding, widget)
     assert_type(combo.view_model, EnumViewModel)
     combo.setInputEnabled(False)
+    assert_type(combo.setValueRequestHandler(lambda value: True), None)
     EnumLabel(binding.view_model, widget)
     radio = EnumRadioButtonGroup(
         binding, widget, orientation=qt.Qt.Orientation.Vertical

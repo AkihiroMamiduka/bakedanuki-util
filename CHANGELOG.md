@@ -9,6 +9,11 @@
 
 ### Added
 
+- `MayaFloatOffsetEdit`を追加し、複数の数値属性群へ各現在値を保った同じ公開単位の増減量を適用する。
+  `apply_plugs_values(..., edit_session=...)`で複数行の連続入力を1回のUndoへまとめられる。
+  `FloatSpinBox`、`FloatSlider`、`BoolCheckBox`、`EnumComboBox`には任意入力handlerを追加し、
+  利用側が既存Viewの入力を選択属性などの一括操作へ委譲できる。Sliderは編集開始・終了も通知する。
+  handlerを設定しない既存動作は維持し、scene・設定の移行は不要。
 - `bd_util.maya.ui.apply_plugs_values()`と`MayaBoolValueEdit` /
   `MayaFloatValueEdit` / `MayaEnumValueEdit`、union型`MayaPlugsValueEdit`を追加。
   複数のBindingへ異なる公開単位の値を渡し、距離・角度・数値・bool・enumを

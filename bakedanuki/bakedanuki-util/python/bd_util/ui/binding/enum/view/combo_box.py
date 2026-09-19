@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from .... import qt
 from .._connection import connect_queued_qt_signal
 from ..binding import EnumBinding
@@ -29,6 +31,7 @@ class EnumComboBox(qt.QComboBox):
         self._view_model = view_model
         self._binding = binding
         self._input_enabled = True
+        self._value_request_handler: Callable[[int], bool] | None = None
         self._render()
         self.currentIndexChanged.connect(self._request_index)
         view_model.value.changed.connect(self._render)
@@ -51,6 +54,16 @@ class EnumComboBox(qt.QComboBox):
     def setInputEnabled(self, enabled: bool) -> None:
         self._input_enabled = _require_enabled(enabled)
         self._update_enabled()
+
+    def setValueRequestHandler(
+        self, handler: Callable[[int], bool] | None
+    ) -> None:
+        """enum入力を外側で処理する任意の関数を設定する。"""
+        if handler is not None and not callable(handler):
+            raise TypeError(
+                "handlerには呼出し可能な関数またはNoneを指定してください"
+            )
+        self._value_request_handler = handler
 
     def _update_enabled(self, *_args: object) -> None:
         self.setEnabled(
@@ -92,7 +105,9 @@ class EnumComboBox(qt.QComboBox):
             self._render()
             return
         try:
-            vm.set_value_command.execute(item.value)
+            handler = self._value_request_handler
+            if handler is None or not handler(item.value):
+                vm.set_value_command.execute(item.value)
         finally:
             if qt.isValid(self):
                 self._render()

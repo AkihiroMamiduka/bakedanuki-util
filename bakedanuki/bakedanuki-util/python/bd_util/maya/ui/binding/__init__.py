@@ -36,6 +36,7 @@ from .plugs_state import MayaPlugTargetState
 from .plugs_value_edits import (
     MayaBoolValueEdit,
     MayaFloatValueEdit,
+    MayaFloatOffsetEdit,
     MayaEnumValueEdit,
     MayaPlugsValueEdit,
     apply_plugs_values,
@@ -61,6 +62,7 @@ __all__ = [
     "MayaPlugTargetState",
     "MayaBoolValueEdit",
     "MayaFloatValueEdit",
+    "MayaFloatOffsetEdit",
     "MayaEnumValueEdit",
     "MayaPlugsValueEdit",
     "apply_plugs_values",
