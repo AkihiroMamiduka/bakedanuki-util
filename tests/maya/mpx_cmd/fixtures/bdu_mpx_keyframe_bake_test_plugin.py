@@ -23,7 +23,7 @@ class _BakeKeyframesCommand(MPxCommandBase[str]):
 
     def execute(self, params: str) -> None:
         node = self.nodes.existing.transform(params)
-        node.tx.keyframe.bake(1, 5, sample_by=2)
+        node.keyframes.bake(1, 5, attributes=["tx"], sample_by=2)
         self.modifier_manager.do_it_dg()
 
 

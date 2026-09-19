@@ -641,6 +641,40 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 .\scripts\test-pytest-maya2025.cmd tests/maya/mpx_cmd/test_command.py -k bake
 ```
 
+## node入力ベイクの検証
+
+`test_node_keyframe_bake.py`では、`node.keyframes.bake()`の次の契約を検証します。
+
+- keyable属性の自動収集、channelBox属性の任意追加、非keyable明示属性、compound展開、重複排除。
+- `include_static=True`の既定動作による静的カーブ作成と、`False`による生入力の
+  アニメーション判定。明示属性にも同じ静的値規則を適用し、対象0件をエラーにすること。
+- 自動収集での未対応・lock属性と指定layer未所属属性の除外、明示時のmissing・未対応・
+  lock・未所属の拒否。node / layer / 接続元のlock・reference検査。
+- 全属性のsamplingが最初の接続変更より前に完了すること。同じ親compound接続を複数leafが
+  共有しても1回だけ切断し、対象外の兄弟を維持すること。
+- 既存nodeと同じDG modifierで作成待ちのDG node、ベース・指定layer、Undo / Redo、
+  複数対象の途中失敗時rollback、適用後の全サンプル値検査。
+- 開始・終了・sample間隔、bool option、属性列の入力検証と、IDE補完で追える
+  `NodeKeyframeManager`の引数・戻り値型。
+
+専用MPxCommand fixtureのベイク経路も`node.keyframes.bake(attributes=["tx"])`を使用し、
+Maya標準Undo / Redoとcommand失敗時rollbackを検証します。plug単位の既存テストは同じ
+複数対象内部処理を1対象で通し、従来の接続分割・layer・静的入力の契約を回帰確認します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/node/test_node_keyframe_bake.py
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/operator/node/test_node_keyframe_bake.py
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/operator/node/test_node_keyframe_bake.py
+.\scripts\test-pytest-maya2025.cmd tests/maya/mpx_cmd/test_command.py -k bake
+```
+
+2026-09-20の実装時点で、専用21件はMaya 2025 / 2026 / 2027ですべて成功しました。
+plug版31件・node版21件・MPxCommand 2件を合わせた関連54件も3 versionで成功しています。
+`_keyframes.py` / `_keyframe_bake.py`の明示Pyrightと型・補完contractは3 versionで
+error / warningなしです。`QT_QPA_PLATFORM=offscreen`で実行した`verify.cmd`も成功し、
+Maya 2025 full pytestは6,701件成功・632件skip、UI互換性は各versionで
+Qt/UI 726件・Maya UI 244件成功しました。Blackは4,472ファイル、差分検査も成功しています。
+
 ## キーフレーム移動の検証
 
 2026-09-15に`move_frame()` / `move_frames()`と専用の`test_keyframe_move.py`を追加しました。

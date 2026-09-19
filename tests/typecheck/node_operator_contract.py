@@ -26,6 +26,7 @@ from bd_util.maya.node.operator.attr import (
     TangentTypeValue,
 )
 from bd_util.maya.node.operator.attr._core import PlugOperator
+from bd_util.maya.node.operator.node import NodeKeyframeManager
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_abs import (
     InputAttrOperator as AbsInputAttrOperator,
     InputPlugOperator as AbsInputPlugOperator,
@@ -4099,6 +4100,25 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         compose.inputTranslate.inputTranslateX.keyframe,
         KeyframeManager,
     )
+    assert_type(compose.keyframes, NodeKeyframeManager)
+    assert_type(compose.keyframes.bake(), None)
+    assert_type(
+        compose.keyframes.bake(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+            include_static=False,
+            sample_by=0.5,
+        ),
+        None,
+    )
+    compose.keyframes.bake(
+        attributes=[1],  # pyright: ignore[reportArgumentType]
+    )
+    compose.keyframes.bake(
+        include_static=1,  # pyright: ignore[reportArgumentType]
+    )
     assert_type(compose.inputTranslate.inputTranslateX.keyframe.bake(), None)
     assert_type(
         compose.inputTranslate.inputTranslateX.keyframe.bake(
@@ -5110,9 +5130,15 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(layer.add_nodes([node, node.m_obj, "other"]), None)
     assert_type(node.tx.keyframe.anim_layer(layer), KeyframeManager)
+    assert_type(node.keyframes.anim_layer(layer), NodeKeyframeManager)
+    assert_type(
+        node.keyframes.anim_layer(layer).bake(1, 24, attributes=["translate"]),
+        None,
+    )
     existing = nodes.existing.animLayer("Existing")
     assert_type(existing.add_nodes([node]), None)
     assert_type(node.tx.keyframe.anim_layer(existing), KeyframeManager)
+    assert_type(node.keyframes.anim_layer(existing), NodeKeyframeManager)
     layer.add_plugs([node])  # pyright: ignore[reportArgumentType]
     layer.add_nodes([node.tx])  # pyright: ignore[reportArgumentType]
     nodes.create.animLayer(

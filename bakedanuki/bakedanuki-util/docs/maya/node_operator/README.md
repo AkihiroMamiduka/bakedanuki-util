@@ -63,6 +63,9 @@
 - `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`
   - `nodes.create.animLayer()`のベース・階層を含む作成と、`add_plugs()` / `add_nodes()`の登録です。
     作成待ちの戻り値を`.keyframe.anim_layer(layer)`へ渡し、キー設定まで一括予約できます。
+- `python/bd_util/maya/node/operator/node/_keyframes.py`
+  - 全`NodeOperator`の`.keyframes`から使うnode単位のベイク入口です。明示属性または
+    keyable / channelBox属性を収集し、全対象のsampling後に同じ履歴で入力を置換します。
 - `python/bd_util/maya/node/operator/attr/_keyframe_discovery.py`
   - DG依存関係の候補列挙と型filter。layer所属や合成値の解決とは分離しています。
     内部のカーブ列挙はsample_valuesの再評価準備でも使用し、こちらは入力側のカーブまで辿ります。
@@ -1460,6 +1463,9 @@ KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元
 既定で親フォルダを作成し、UTF-8で保存します。clipは保存前・読込時にschema 2を検証します。
 続いてplug単位の`KeyframeManager.bake()`を追加しました。既定ベースまたは明示layerの生入力を
 再生範囲・指定区間でsamplingし、上流nodeと非対象接続を維持して時間入力カーブへ全置換します。
+続いてnode単位の`node.keyframes.bake()`を追加しました。keyable属性を既定で収集し、
+静的値も既定でカーブ化します。明示属性、channelBox属性、静的値の除外、指定layerを選択できます。全対象のsampling完了後に
+接続を変更し、失敗時は全属性をrollbackします。複数node版は今後の候補です。
 補間移動・補間拡縮とも、対象キー同士の衝突・順序逆転を拒否します。
 新しいチャットで開発を続ける場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と

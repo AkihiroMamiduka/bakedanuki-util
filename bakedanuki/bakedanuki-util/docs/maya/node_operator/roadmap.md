@@ -191,6 +191,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
 | plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を、再生範囲または指定区間で等間隔に評価してTA / TL / TUへ全置換。上流nodeと非対象のcompound子・layerを維持し、Undo / Redo・rollbackに対応 |
+| node入力の一括ベイク | `node.keyframes.bake()`。明示属性またはkeyable / channelBox属性をscalar leafへ展開し、静的な対象も既定でカーブ化。全対象を変更前にsamplingし、compound共有接続を一括分割して、操作全体のUndo / Redo・rollbackに対応 |
 | 実在キーの時刻・値 | `get_keys()`。指定範囲に存在するキーだけを返し、境界補完は行わない |
 | 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元と、未接続plug・登録済みlayerのカーブ自動作成に対応 |
 | カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
@@ -300,6 +301,10 @@ clipは保存前・読込時にschema 2を検証します。ファイル操作�
 既存カーブ再利用・共有カーブ分離、時間単位捕捉、反復Undo / Redo・rollbackに対応します。
 各時刻は独立評価とし、simulationや履歴依存のdynamics、TTは初期版の対象外です。
 仕様は[plug入力のベイク](attributes.md#評価済み入力をキーフレームへベイクする)を参照してください。
+続いてnode単位の`node.keyframes.bake()`を追加しました。明示属性、keyable属性の自動収集、
+channelBox属性の任意追加、静的値の既定ベイク、compound / 実在array要素の展開、指定layerに対応します。
+全対象のsampling完了後に接続を変更し、1属性でも失敗すれば操作全体をrollbackします。
+仕様は[nodeの複数属性をまとめてベイクする](attributes.md#nodeの複数属性をまとめてベイクする)を参照してください。
 それ以降の着手順は未確定です。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
@@ -307,7 +312,7 @@ layer構造の管理や自動選択を追加する場合は、
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
 | 移動の拡張 | 時間方向の移動、AnimationClip復元時とKeyframeManagerによる正の時間拡縮、既存キーの生値の設定・加算・拡縮は実装済み。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
-| ベイクの拡張 | plug単位の独立時刻評価は実装済み。node単位・複数nodeの全対象を変更前に一括samplingする入口、属性収集規則、チャンネルごとの失敗時rollback、simulation・cache・dynamics向けの時系列評価は今後個別に仕様化する |
+| ベイクの拡張 | plug単位とnode単位の独立時刻評価は実装済み。複数nodeの全対象を変更前に一括samplingする入口、node間を含む操作全体の失敗時rollback、simulation・cache・dynamics向けの時系列評価は今後個別に仕様化する |
 | キー削減の拡張・最適化 | 手動接線を維持する実カーブ操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
 | アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定と正の時間拡縮は実装済み。逆再生やrig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録、AnimationClipによる階層・順序・weight等の保存復元は実装済み。登録解除や階層・順序を個別編集する公開API、auto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
@@ -331,6 +336,22 @@ samplingしてから接続を変更します。終了端を必ず含め、負時
 接続元・接続先・layerのlock / reference検査、接続変更と全カーブ復元を同じmanagerの履歴へ含めます。
 詳しい契約は[ベイクの現行仕様](attributes.md#評価済み入力をキーフレームへベイクする)、
 検証範囲は[ベイクの検証](testing.md#plug入力ベイクの検証)を参照してください。
+
+### node入力ベイクの実装
+
+全`NodeOperator`へ`keyframes`プロパティを追加し、
+`NodeKeyframeManager.bake(start_frame=None, end_frame=None, *, attributes=None,
+include_channel_box=False, include_static=True, sample_by=1.0)`を公開しました。
+自動収集はkeyableの対応leafを対象とし、channelBox属性は明示optionで追加します。
+静的値は既定でカーブ化し、`include_static=False`でアニメーション依存のある入力へ絞ります。
+明示属性では非keyable、compound、実在array要素を扱います。自動収集は未対応型・lock・
+指定layerの未所属属性を除外し、明示指定では同じ状態をエラーにします。
+
+plug版の内部処理を複数対象へ拡張し、全対象を初回実行時にsamplingしてから接続を変更します。
+同じ親compound接続を共有する対象は1回の切断で処理し、対象外の兄弟だけを再接続します。
+個々のカーブ復元と全サンプルの再検査を1つのModifierManager履歴へ含めるため、
+途中失敗では全属性をrollbackします。指定layerの入口は`node.keyframes.anim_layer()`です。
+複数node版は、この単位を共有しつつnode間でも全サンプル取得を先行させる次の候補です。
 
 ### キーフレーム移動の実装
 
@@ -398,14 +419,14 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   AnimationClipの範囲復元まで利用者確認・push済み（`9c405008`）。続いてJSONファイル保存・読込を追加した。
+   plug入力ベイクまで利用者確認・push済み（`70e20457`）。続いてnode入力ベイクを追加した。
    commit / push状況は実際の作業ツリーと履歴を確認する。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
 2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
-   JSONファイル入出力の利用者確認状況は別途確認する。過去の実装・検証記録も本文では現行API名で表記する。
+   node入力ベイクの利用者確認・commit / push状況は別途確認する。過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 

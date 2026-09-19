@@ -15,6 +15,7 @@ from ...modifier import ModifierManager
 
 if TYPE_CHECKING:
     from ..attr._core import AttributeField, AttrOperator, PlugOperator
+    from ._keyframes import NodeKeyframeManager
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -203,6 +204,13 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     @property
     def modifier_manager(self) -> ModifierManager:
         return self._modifier_manager
+
+    @property
+    def keyframes(self) -> NodeKeyframeManager:
+        """Return node-level keyframe operations using this node's manager."""
+        from ._keyframes import NodeKeyframeManager
+
+        return NodeKeyframeManager(self.m_obj, self._modifier_manager)
 
     @classmethod
     def get_attr_operator(cls, long_name: str) -> AttrOperator[Any] | None:

@@ -806,6 +806,57 @@ bool・enum・整数系はstep接線を使います。静的な入力もキー�
 操作全体を失敗させます。対象plug・接続元・layerのlock / referenceを実行時に検査し、
 接続切断、カーブ作成・全置換、検証までがUndo / Redoと途中失敗時rollbackへ参加します。
 
+#### nodeの複数属性をまとめてベイクする
+
+すべての`NodeOperator`は、node単位の入口として`.keyframes`を持ちます。
+`NodeKeyframeManager.bake()`は、選択した全属性を変更前にsamplingしてから、
+各属性の生入力を時間入力カーブへ全置換します。戻り値は`None`で、nodeと同じ
+`ModifierManager`へ1つの操作として予約します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+
+# keyableかつアニメーションを持つ属性を、再生範囲でベイク
+ctrl.keyframes.bake()
+
+# compoundを含む明示属性を、指定区間でベイク
+ctrl.keyframes.bake(
+    1,
+    120,
+    attributes=["translate", "rotateY"],
+    sample_by=0.5,
+)
+
+# 登録済み属性から、指定layerの生入力だけをベイク
+ctrl.keyframes.anim_layer("Correction").bake(1, 120)
+mod.do_it_dg()
+```
+
+引数は次の規則で扱います。
+
+- `attributes=None`では、node自身の`keyable=True`属性を実行時に収集します。
+  `include_channel_box=True`なら、channel boxだけに表示した属性も追加します。
+- `attributes`を明示した場合は、非keyable属性も対象にできます。compoundはscalar leafへ、
+  arrayは実在elementへ展開します。同じleafを複数経路で指定しても1回だけ処理します。
+- 自動収集では未対応型・lock属性を除外します。明示属性が存在しない、未対応、lock中の場合は
+  操作全体をエラーにします。対応型は時間入力のTA / TL / TUを作成できるscalar属性です。
+- `include_static=True`が既定で、静的な対象もカーブへ置換します。node単位で元の入力から
+  独立させる用途を優先した規定値です。`False`を明示すると、対象layerの生入力にキーまたは
+  time / expression依存がない属性を、明示属性であっても除外します。
+- layer未指定はベースの生入力です。`.anim_layer()`を指定した自動収集では未所属属性を除外し、
+  明示した未所属属性はエラーにします。選択中layer等から対象を自動変更しません。
+
+開始・終了・`sample_by`の時刻規則、生成カーブ、上流nodeの維持、時間単位、
+独立時刻評価、サンプル数上限はplug単位の`bake()`と共通です。全対象をsamplingし終えるまで
+入力接続を変更しません。複数の対象leafが同じ親compound接続を共有する場合は親を1回だけ
+切断し、対象外の兄弟だけを接続し直します。対象が0件、いずれかの対象・接続・layerが
+編集できない場合、または適用後の値検査に失敗した場合は、一部の属性だけを残さず操作全体を
+rollbackします。自動キー削減は行わないため、必要なら各カーブへ`reduce_keys()`を明示します。
+
 ### キーを時間方向へ移動する
 
 時間方向の操作は`move_frame()` / `move_frames()` / `scale_frames()`、
