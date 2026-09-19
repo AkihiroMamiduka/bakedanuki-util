@@ -252,5 +252,17 @@ def main():
     trsf.sz.connect(dst_11_1.sz)
     dst_11_1.keyframes.bake(include_static=True)
 
+    dst_11_2 = nodes.create.transform(name="dst_11_2")
+    trsf.tx.connect(dst_11_2.tx)
+    trsf.ty.connect(dst_11_2.ty)
+    trsf.tz.connect(dst_11_2.tz)
+    trsf.rx.connect(dst_11_2.rx)
+    trsf.ry.connect(dst_11_2.ry)
+    trsf.rz.connect(dst_11_2.rz)
+    trsf.sx.connect(dst_11_2.sx)
+    trsf.sy.connect(dst_11_2.sy)
+    trsf.sz.connect(dst_11_2.sz)
+    dst_11_2.keyframes.bake(include_static=False)
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
