@@ -28,14 +28,17 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         *,
         decimals: int = 6,
         single_step: float = 0.1,
+        wheel_requires_focus: bool = False,
     ) -> None:
-        """ViewModelまたはBindingと、表示桁数・刻み幅で初期化する。"""
+        """入力元、表示桁数・刻み幅、ホイールのフォーカス要否で初期化する。"""
         # 入力元を解決し、Widget生成前に表示・入力設定を検証する。
         view_model, binding = resolve_float_view_source(view_model)
         decimals = require_decimals(decimals)
         single_step = require_float(single_step, "single_step")
         if single_step <= 0:
             raise ValueError("single_stepには正の値を指定してください")
+        if type(wheel_requires_focus) is not bool:
+            raise TypeError("wheel_requires_focusにはboolを指定してください")
 
         # Viewだけを保持する構成でもBindingとViewModelを存続させる。
         super().__init__(parent)
@@ -43,6 +46,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         self._view_model = view_model
         self._input_enabled = True
         self._unit_visible = False
+        self._wheel_requires_focus = wheel_requires_focus
         self._value_request_handler: Callable[[float], bool] | None = None
         self._step_request_handler: Callable[[int], bool] | None = None
 
@@ -104,6 +108,16 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         self._input_enabled = enabled
         self._update_enabled()
 
+    def wheelRequiresFocus(self) -> bool:
+        """ホイール操作にフォーカスを必須とする設定を返す。"""
+        return self._wheel_requires_focus
+
+    def setWheelRequiresFocus(self, required: bool) -> None:
+        """ホイール操作にフォーカスを必須とするか変更する。"""
+        if type(required) is not bool:
+            raise TypeError("requiredにはboolを指定してください")
+        self._wheel_requires_focus = required
+
     def setValueRequestHandler(
         self, handler: Callable[[float], bool] | None
     ) -> None:
@@ -142,6 +156,13 @@ class FloatSpinBox(qt.QDoubleSpinBox):
                 self._render()
         if not handled:
             super().stepBy(steps)
+
+    def wheelEvent(self, event: qt.QtGui.QWheelEvent) -> None:
+        """設定に応じて、非フォーカス時のホイールを親へ渡す。"""
+        if self._wheel_requires_focus and not self.hasFocus():
+            event.ignore()
+            return
+        super().wheelEvent(event)
 
     @qt.Slot()
     def _update_enabled(self) -> None:

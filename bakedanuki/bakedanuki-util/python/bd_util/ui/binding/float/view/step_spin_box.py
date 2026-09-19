@@ -40,13 +40,17 @@ class FloatStepSpinBox(qt.QDoubleSpinBox):
         value: float = 0.1,
         step_mode: FloatStepMode = "additive",
         step_increment: float = 1.0,
+        wheel_requires_focus: bool = True,
     ) -> None:
-        """初期刻み幅と操作モード、加算モードの増減量を指定する。"""
+        """刻み幅、操作モード、増減量、ホイールのフォーカス要否を指定する。"""
         value = require_step(value, "value")
         step_mode = require_step_mode(step_mode)
         step_increment = require_step(step_increment, "step_increment")
+        if type(wheel_requires_focus) is not bool:
+            raise TypeError("wheel_requires_focusにはboolを指定してください")
         super().__init__(parent)
         self._step_mode: FloatStepMode = step_mode
+        self._wheel_requires_focus = wheel_requires_focus
         # 表示桁数から独立して小さい刻み幅を保持し、末尾の0は表示時に省く。
         self.setDecimals(323)
         # 下限で初期値0を補正すると長い極小値表記になるため、先に正しい値を入れる
@@ -73,6 +77,16 @@ class FloatStepSpinBox(qt.QDoubleSpinBox):
     def stepMode(self) -> FloatStepMode:
         """生成時に選択した増減モードを返す。"""
         return self._step_mode
+
+    def wheelRequiresFocus(self) -> bool:
+        """ホイール操作にフォーカスを必須とする設定を返す。"""
+        return self._wheel_requires_focus
+
+    def setWheelRequiresFocus(self, required: bool) -> None:
+        """ホイール操作にフォーカスを必須とするか変更する。"""
+        if type(required) is not bool:
+            raise TypeError("requiredにはboolを指定してください")
+        self._wheel_requires_focus = required
 
     def setValue(self, val: float) -> None:
         """不正な刻み幅を黙って丸めず、正の有限値だけを設定する。"""
@@ -124,8 +138,8 @@ class FloatStepSpinBox(qt.QDoubleSpinBox):
         return flags
 
     def wheelEvent(self, event: qt.QtGui.QWheelEvent) -> None:
-        """スクロール中の誤変更を避け、フォーカス中だけホイール操作を受け付ける。"""
-        if not self.hasFocus():
+        """設定に応じて、非フォーカス時のホイールを親へ渡す。"""
+        if self._wheel_requires_focus and not self.hasFocus():
             event.ignore()
             return
         super().wheelEvent(event)

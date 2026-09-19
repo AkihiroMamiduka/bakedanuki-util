@@ -56,6 +56,21 @@ def enter(widget, text):
         )
 
 
+def wheel(widget):
+    """フォーカスを移さず、1ノッチ分のホイールイベントを送る。"""
+    event = qt.QtGui.QWheelEvent(
+        qt.QtCore.QPointF(5, 5),
+        qt.QtCore.QPointF(5, 5),
+        qt.QtCore.QPoint(),
+        qt.QtCore.QPoint(0, 120),
+        qt.Qt.MouseButton.NoButton,
+        qt.Qt.KeyboardModifier.NoModifier,
+        qt.Qt.ScrollPhase.NoScrollPhase,
+        False,
+    )
+    qt.QApplication.sendEvent(widget, event)
+
+
 @pytest.fixture
 def owner(qt_application):
     """各testに独立したWidgetの親を用意する。"""
@@ -133,6 +148,52 @@ def test_field_widths_default_and_fixed_alignment(owner):
     assert layout.itemAt(0).widget() is custom.spin_box
     assert layout.itemAt(1).widget() is custom.step_spin_box
     assert layout.itemAt(2).spacerItem() is not None
+
+
+def test_wheel_focus_options_preserve_defaults_and_allow_override(owner):
+    """値欄とStep欄で、非フォーカス時のホイール受付を個別指定する。"""
+    data = Data()
+    binding = FloatBinding.from_attribute(data, "value", parent=owner)
+    default = FloatValueStepSpinBox(binding, owner, single_step=1)
+    custom = FloatValueStepSpinBox(
+        binding,
+        owner,
+        single_step=1,
+        value_wheel_requires_focus=True,
+        step_wheel_requires_focus=False,
+    )
+    other = qt.QLineEdit(owner)
+    layout = qt.QVBoxLayout(owner)
+    layout.addWidget(default)
+    layout.addWidget(custom)
+    layout.addWidget(other)
+    owner.show()
+    owner.activateWindow()
+    other.setFocus()
+    flush()
+
+    assert not default.spin_box.wheelRequiresFocus()
+    assert default.step_spin_box.wheelRequiresFocus()
+    assert custom.spin_box.wheelRequiresFocus()
+    assert not custom.step_spin_box.wheelRequiresFocus()
+
+    before = data.value
+    wheel(default.spin_box)
+    assert data.value != before
+    other.setFocus()
+    flush()
+    before = data.value
+    wheel(custom.spin_box)
+    assert data.value == before
+    wheel(default.step_spin_box)
+    assert default.singleStep() == 1
+    wheel(custom.step_spin_box)
+    assert custom.singleStep() == 2
+
+    custom.spin_box.setWheelRequiresFocus(False)
+    custom.step_spin_box.setWheelRequiresFocus(True)
+    assert not custom.spin_box.wheelRequiresFocus()
+    assert custom.step_spin_box.wheelRequiresFocus()
 
 
 @pytest.mark.parametrize("show_unit", [False, True])
@@ -215,6 +276,8 @@ def test_qt_deletion_of_source_stops_step_and_view_keeps_binding_alive(owner):
         ({"step_increment": -1}, ValueError),
         ({"decimals": -1}, ValueError),
         ({"step_show_unit": 1}, TypeError),
+        ({"value_wheel_requires_focus": 1}, TypeError),
+        ({"step_wheel_requires_focus": 1}, TypeError),
         ({"value_width": True}, TypeError),
         ({"value_width": 0}, ValueError),
         ({"step_width": True}, TypeError),

@@ -996,6 +996,7 @@ API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slide
 
 `FloatValueStepSpinBox(binding, single_step=1, step_mode="multiplicative")`で、
 値入力とstep入力を横に配置できます。step変更はViewの刻み幅だけに作用し、正本を変更しません。
+値欄とstep欄は、非フォーカス時のホイール入力を受け付けるか個別に指定できます。
 属性別の初期値や設定保持は利用側で決定します。
 APIと単位・寿命の契約は[FloatValueStepSpinBox](float_value_step_spin_box.md)を参照してください。
 

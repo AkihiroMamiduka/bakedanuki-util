@@ -118,6 +118,11 @@
 
 ### Changed
 
+- `FloatSpinBox`と`FloatStepSpinBox`へ`wheel_requires_focus`を追加し、
+  非フォーカス時のホイール入力を受け付けるか選択可能にする。
+  `FloatValueStepSpinBox`は値欄とstep欄を個別指定できる。
+  値欄は従来どおり`False`、step欄は誤操作を避ける従来どおり`True`を既定値とし、
+  既存利用側の挙動、scene、保存設定の移行は不要。
 - 既存属性の解決で、名前が一意な属性はMaya APIから直接取得する。
   長名・短名と完全な親pathを確認し、非一意名は既存の全件検索で判定する。
   aliasの拒否、曖昧な名前のエラー、配列制限を維持し、キャッシュは追加しない。

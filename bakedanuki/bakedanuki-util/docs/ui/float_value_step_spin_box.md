@@ -26,6 +26,8 @@ editor = FloatValueStepSpinBox(
 | `step_mode="additive"` | step欄の上下操作。`additive` または `multiplicative` |
 | `step_increment=1.0` | additiveでstep欄自身を増減する幅 |
 | `step_show_unit=False` | step欄に現在の表示単位を付けるか |
+| `value_wheel_requires_focus=False` | 値欄のホイール操作にフォーカスを必須とするか |
+| `step_wheel_requires_focus=True` | step欄のホイール操作にフォーカスを必須とするか |
 | `value_width=None` | 値欄の固定幅。未指定なら残り幅に合わせて伸縮 |
 | `step_width=68` | 上下ボタンを含め、4桁を表示できるstep欄の固定幅 |
 | `.spin_box` | 値欄の `FloatSpinBox` |
@@ -38,6 +40,11 @@ multiplicativeはstep欄を10倍・1/10倍にします。値欄の上下操作�
 stepを加減算します。additiveで15刻みにする場合は、初期値と増減幅の両方に15を指定します。
 step欄には正の有限値を直接入力することもできます。
 
+値欄は従来どおりマウスオーバー中のホイールを受け付け、step欄は一覧スクロール中の
+誤変更を避けるため、既定ではフォーカス中だけ受け付けます。生成時の2引数で個別に変更でき、
+生成後も各欄の`wheelRequiresFocus()`／`setWheelRequiresFocus()`を利用できます。
+非フォーカス時に受け付けないホイールイベントは親Widgetへ渡します。
+
 子Widgetを公開しているため、幅・prefix・ボタン表示などは利用側で指定できます。
 値欄・step欄の単位文字は既定で非表示です。値欄は
 `editor.spin_box.setUnitVisible(True)`、step欄は生成時の`step_show_unit=True`で表示できます。
@@ -47,6 +54,7 @@ step欄には正の有限値を直接入力することもできます。
 ```python
 editor = FloatValueStepSpinBox(binding, value_width=90, step_width=80)
 editor.step_spin_box.setPrefix("step ")
+editor.step_spin_box.setWheelRequiresFocus(False)
 editor.setSingleStep(0.1)
 ```
 

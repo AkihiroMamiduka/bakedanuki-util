@@ -15,13 +15,24 @@ from bd_util.ui import (
 
 binding = MayaFloatPlugsBinding([resolve_float_plug("node", "translateX")])
 editor = FloatValueStepSpinBox(
-    binding, step_mode="multiplicative", value_width=90, step_width=68
+    binding,
+    step_mode="multiplicative",
+    value_wheel_requires_focus=True,
+    step_wheel_requires_focus=False,
+    value_width=90,
+    step_width=68,
 )
 assert_type(editor.view_model, FloatViewModel)
 assert_type(editor.spin_box, FloatSpinBox)
 assert_type(editor.step_spin_box, FloatStepSpinBox)
 assert_type(editor.step_spin_box.stepMode(), FloatStepMode)
+assert_type(editor.spin_box.wheelRequiresFocus(), bool)
+assert_type(editor.spin_box.setWheelRequiresFocus(False), None)
+assert_type(editor.step_spin_box.wheelRequiresFocus(), bool)
+assert_type(editor.step_spin_box.setWheelRequiresFocus(True), None)
 assert_type(editor.singleStep(), float)
 assert_type(editor.setSingleStep(15), None)
 assert_type(editor.settingsChanged, qt.QtCore.SignalInstance)
+assert_type(FloatSpinBox(binding, wheel_requires_focus=True), FloatSpinBox)
+assert_type(FloatStepSpinBox(wheel_requires_focus=False), FloatStepSpinBox)
 assert_type(FloatValueStepSpinBox(binding.view_model), FloatValueStepSpinBox)
