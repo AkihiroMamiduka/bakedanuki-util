@@ -9,6 +9,12 @@
 
 ### Added
 
+- `bd_util.maya.ui.apply_plugs_values()`と`MayaBoolValueEdit` /
+  `MayaFloatValueEdit` / `MayaEnumValueEdit`、union型`MayaPlugsValueEdit`を追加。
+  複数のBindingへ異なる公開単位の値を渡し、距離・角度・数値・bool・enumを
+  全件事前検証、一回Undo、全行の途中失敗復旧でまとめて確定できる。
+  既存の型・範囲・readonly規則を共用し、重複対象を変更前に拒否する。
+  従来の単一Binding API・scene・設定の移行は不要。
 - `bd_util.ui.CheckBoxSweep`を追加。チェックボックスの押下時がOFF・混在ならON、
   ONならOFFへなぞった対象を揃える。同じ対象は一操作一回だけ入力し、
   `add_button(..., on_change=...)`でBindingなどへ明示入力を委譲できる。

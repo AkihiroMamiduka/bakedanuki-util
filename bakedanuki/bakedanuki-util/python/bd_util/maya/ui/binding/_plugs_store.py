@@ -99,6 +99,84 @@ class PlugTarget(Generic[_ValueT]):
         )
 
 
+class PlugWrite(Protocol):
+    """値型が異なる入力も同じ適用・復旧順序で処理する内部契約。"""
+
+    def validate(self) -> None:
+        """書込み直前の状態を再検証する。"""
+        raise NotImplementedError
+
+    def apply(self) -> None:
+        """検証済みの一つの差分を適用する。"""
+        raise NotImplementedError
+
+    def restore(self) -> None:
+        """差分が残っている場合だけ入力前の値を復旧する。"""
+        raise NotImplementedError
+
+
+@dataclass(frozen=True)
+class _PreparedPlugWrite(Generic[_ValueT]):
+    """事前検証した入力と公開単位の復旧値を保持する。"""
+
+    store: PlugsStore[_ValueT]
+    target: PlugTarget[_ValueT]
+    before: _ValueT
+    value: _ValueT
+    requested: _ValueT
+
+    def validate(self) -> None:
+        """状態・範囲・単位が変わっていないことを確認する。"""
+        self.store.validate_write_target(self.target, self.requested)
+        if self.target.codec.validate(self.value) != self.requested:
+            raise RuntimeError("入力中に対象属性の単位が変わりました")
+
+    def apply(self) -> None:
+        """事前検証した現在単位の値をMayaへ書き込む。"""
+        set_attr = cast(Callable[[str, _ValueT], None], cmds.setAttr)
+        set_attr(self.target.name(), self.requested)
+
+    def restore(self) -> None:
+        """公開単位の復旧値を現在単位へ変換して元に戻す。"""
+        before = self.target.codec.to_ui(self.before)
+        if self.target.codec.to_ui(self.target.codec.read()) != before:
+            set_attr = cast(Callable[[str, _ValueT], None], cmds.setAttr)
+            set_attr(self.target.name(), before)
+
+
+@contextmanager
+def plugs_undo_chunk() -> Generator[None, None, None]:
+    """値入力を一操作へまとめ、MayaのUndo設定を変えずに閉じる。"""
+    enabled = bool(cmds.undoInfo(query=True, state=True))
+    if enabled:
+        cmds.undoInfo(openChunk=True, chunkName="EditAttributes")
+    try:
+        yield
+    finally:
+        if enabled:
+            cmds.undoInfo(closeChunk=True)
+
+
+def execute_plug_writes(plan: Sequence[PlugWrite]) -> None:
+    """入力元や値型をまたぐ全差分を適用し、途中失敗では逆順に復旧する。"""
+    applied: list[PlugWrite] = []
+    try:
+        for write in plan:
+            write.validate()
+            applied.append(write)
+            write.apply()
+    except Exception as error:
+        failures: list[Exception] = [error]
+        for write in reversed(applied):
+            try:
+                write.restore()
+            except Exception as restore_error:
+                failures.append(restore_error)
+        if len(failures) > 1:
+            raise ExceptionGroup("属性の入力と復旧に失敗しました", failures)
+        raise
+
+
 class PlugsStore(qt.QObject, Generic[_ValueT]):
     """先頭を代表値として読み、入力時だけ編集可能な対象へ一括適用する。"""
 
@@ -175,6 +253,11 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         return self._states
 
     @property
+    def target_plugs(self) -> tuple[om.MPlug, ...]:
+        """複数入力間の重複を検証するため、対象実体を返す。"""
+        return tuple(target.plug for target in self._targets)
+
+    @property
     def is_mixed(self) -> bool:
         """利用可能な対象に代表値と異なる実値があるか返す。"""
         return bool(self._values) and any(
@@ -201,7 +284,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             self.refresh()
             return False
         try:
-            plan = self._prepare_write(value)
+            plan = self.prepare_write(value)
             if not plan:
                 self.refresh()
                 return False
@@ -214,11 +297,13 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self.refresh()
         return True
 
-    def _prepare_write(
-        self, value: _ValueT
-    ) -> list[tuple[PlugTarget[_ValueT], _ValueT, _ValueT]]:
+    def prepare_write(self, value: _ValueT) -> list[PlugWrite]:
         """編集可能な全対象を検証してから、変更対象と復旧値を返す。"""
-        plan: list[tuple[PlugTarget[_ValueT], _ValueT, _ValueT]] = []
+        if self._write_depth:
+            raise RuntimeError("一括書き込み中に別の入力は開始できません")
+        if not self.is_writable:
+            raise RuntimeError("代表のMaya属性は編集できません")
+        plan: list[PlugWrite] = []
         for target in self._targets:
             if not target.state().is_writable:
                 continue
@@ -226,71 +311,48 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                 requested = target.codec.validate(value)
             except ValueError as error:
                 raise ValueError(f"{target.name()}: {error}") from error
-            before = target.codec.to_ui(target.codec.read())
-            if before != requested:
-                plan.append((target, before, requested))
+            before = target.codec.read()
+            if target.codec.to_ui(before) != requested:
+                plan.append(
+                    _PreparedPlugWrite(self, target, before, value, requested)
+                )
         return plan
 
     @contextmanager
-    def _undo_chunk(self) -> Generator[None, None, None]:
-        """単発入力とドラッグ中の一回分を安全に閉じるchunkへまとめる。"""
-        enabled = bool(cmds.undoInfo(query=True, state=True))
-        if enabled:
-            cmds.undoInfo(openChunk=True, chunkName="EditAttributes")
+    def write_guard(self) -> Generator[None, None, None]:
+        """書込み中の再入力とcallbackからの表示同期をまとめて抑止する。"""
+        if self._write_depth:
+            raise RuntimeError("一括書き込み中に別の入力は開始できません")
+        if not self.is_writable:
+            raise RuntimeError("代表のMaya属性は編集できません")
+        self._write_depth += 1
         try:
             yield
         finally:
-            if enabled:
-                cmds.undoInfo(closeChunk=True)
+            self._write_depth -= 1
 
-    def _execute_write(
-        self, plan: list[tuple[PlugTarget[_ValueT], _ValueT, _ValueT]]
-    ) -> None:
+    def _execute_write(self, plan: Sequence[PlugWrite]) -> None:
         """途中失敗では変更済み対象を同じchunk内で元へ戻す。"""
         view_model = self._float_view_model
         if view_model is None or not view_model.is_editing:
             FloatEditUndo.finish_active()
-        self._write_depth += 1
-        try:
+        with self.write_guard():
             if self._edit_undo is None:
-                with self._undo_chunk():
-                    self._write_and_restore_on_error(plan)
+                with plugs_undo_chunk():
+                    execute_plug_writes(plan)
             else:
-                with self._edit_undo.write(), self._undo_chunk():
-                    self._write_and_restore_on_error(plan)
-        finally:
-            self._write_depth -= 1
+                with self._edit_undo.write(), plugs_undo_chunk():
+                    execute_plug_writes(plan)
 
-    def _write_and_restore_on_error(
-        self, plan: list[tuple[PlugTarget[_ValueT], _ValueT, _ValueT]]
-    ) -> None:
-        """適用途中の失敗を捕捉し、復旧失敗も元の例外とともに通知する。"""
-        applied: list[tuple[PlugTarget[_ValueT], _ValueT]] = []
-        set_attr = cast(Callable[[str, _ValueT], None], cmds.setAttr)
-        try:
-            for target, before, requested in plan:
-                self._validate_write_target(target, requested)
-                applied.append((target, before))
-                set_attr(target.name(), requested)
-        except Exception as error:
-            failures: list[Exception] = [error]
-            for target, before in reversed(applied):
-                try:
-                    if target.codec.to_ui(target.codec.read()) != before:
-                        set_attr(target.name(), before)
-                except Exception as restore_error:
-                    failures.append(restore_error)
-            if len(failures) > 1:
-                raise ExceptionGroup(
-                    "属性の入力と復旧に失敗しました", failures
-                )
-            raise
-
-    def _validate_write_target(
+    def validate_write_target(
         self, target: PlugTarget[_ValueT], requested: _ValueT
     ) -> None:
         """書込み直前に対象の利用可否を再確認する。"""
-        if self.is_disposed or not target.state().is_writable:
+        if (
+            not self.is_available
+            or not self._targets[0].state().is_writable
+            or not target.state().is_writable
+        ):
             raise RuntimeError("入力中に対象属性の状態が変わりました")
 
     def _read_state(self) -> bool:

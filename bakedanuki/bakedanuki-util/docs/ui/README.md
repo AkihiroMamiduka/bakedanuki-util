@@ -409,6 +409,8 @@ Model・ViewModel・Viewを基本とし、値へのアクセスをStore、現在
 
 複数のMaya属性へ同じ値を明示入力する場合は、
 [MayaBoolPlugsBinding / MayaFloatPlugsBinding / MayaEnumPlugsBinding](plugs_binding.md) を使います。
+異なる行の属性群を一操作で変更する場合は、同じ資料の`apply_plugs_values()`を使います。
+距離・角度・数値・bool・enumの型付き入力をまとめ、全件事前検証とUndo・失敗復旧を共有します。
 先頭を代表として表示し、選択や表示更新では値を変更せず、入力時だけ一括反映します。
 混在状態・個別の編集可否・一回のUndo・失敗時の復旧を提供します。
 既存ノードの選択・属性列挙は [inspection](../maya/node_operator/inspection.md) を参照してください。

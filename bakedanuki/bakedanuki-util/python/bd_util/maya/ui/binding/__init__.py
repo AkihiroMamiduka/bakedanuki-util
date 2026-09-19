@@ -33,6 +33,13 @@ from .plugs_binding import (
     MayaEnumPlugsBinding,
 )
 from .plugs_state import MayaPlugTargetState
+from .plugs_value_edits import (
+    MayaBoolValueEdit,
+    MayaFloatValueEdit,
+    MayaEnumValueEdit,
+    MayaPlugsValueEdit,
+    apply_plugs_values,
+)
 
 __all__ = [
     "MayaEditSession",
@@ -52,6 +59,11 @@ __all__ = [
     "MayaBoolPlugsBinding",
     "MayaFloatPlugsBinding",
     "MayaPlugTargetState",
+    "MayaBoolValueEdit",
+    "MayaFloatValueEdit",
+    "MayaEnumValueEdit",
+    "MayaPlugsValueEdit",
+    "apply_plugs_values",
     "MayaFloat3Binding",
     "MayaFloat3PlugView",
     "MayaFloat3Plug",

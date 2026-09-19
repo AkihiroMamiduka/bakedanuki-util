@@ -180,10 +180,11 @@ class _EnumPlugsStore(PlugsStore[int]):
     def is_writable(self) -> bool:
         return super().is_writable and self._definitions_match()
 
-    def _validate_write_target(
+    def validate_write_target(
         self, target: PlugTarget[int], requested: int
     ) -> None:
-        super()._validate_write_target(target, requested)
+        """代表と対象の可用性、現在のenum定義を再検証する。"""
+        super().validate_write_target(target, requested)
         if not self._definitions_match():
             raise ValueError("入力中に対象のenum定義が変わりました")
         target.codec.validate(requested)

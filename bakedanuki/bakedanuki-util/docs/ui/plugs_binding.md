@@ -111,6 +111,50 @@ floatの公開単位は単一属性Bindingと同じで、距離はcm、角度は
 Sliderに代表の範囲を使った場合もこの検証は同じです。
 soft limitは入力制限に使いません。
 
+## 異なる属性群を一操作で編集する
+
+複数行の値をまとめて確定する場合は、`bd_util.maya.ui.apply_plugs_values()`へ
+型付きの入力を並べます。一つの`MayaFloatPlugsBinding`では単位種別を揃えたまま、
+Binding間では距離・角度・単位なしの数値、bool、enumを混在できます。
+
+```python
+from bd_util.maya.ui import MayaFloatValueEdit, apply_plugs_values
+
+# tx_bindingとrx_bindingは、それぞれの行が所有するMayaFloatPlugsBinding
+display_value = 5.0
+changed = apply_plugs_values(
+    [
+        MayaFloatValueEdit(
+            tx_binding,
+            tx_binding.view_model.presentation.from_display(display_value),
+        ),
+        MayaFloatValueEdit(
+            rx_binding,
+            rx_binding.view_model.presentation.from_display(display_value),
+        ),
+    ]
+)
+```
+
+`MayaBoolValueEdit(binding, bool)`、`MayaFloatValueEdit(binding, float)`、
+`MayaEnumValueEdit(binding, int)`を受け取り、union型は`MayaPlugsValueEdit`です。
+値は各Bindingの公開単位で指定します。画面の同じ数値を入力する場合は、上記のように
+**各行の**`presentation.from_display()`を使用してください。距離がm、角度がradの
+表示でも、それぞれ画面上で5になります。各行の未丸め代表値へ揃える場合は、
+対応するEditへその行の`binding.value`を渡します。
+
+利用側は選択行と入力可能な行を決め、明示入力だけをこのAPIへ渡します。
+APIは全要求の型・範囲・enum定義を実書込み前に検証し、対象群をまたぐ差分を
+一回のUndoで適用します。空入力・全て同値の入力はFalseを返し、Undoを追加しません。
+同じBindingまたは同じplugを二度含む要求は、無変更の対象も含めて変更前に拒否します。
+各行の後続readonly属性は既存仕様どおり除外します。代表が削除・lock・接続・
+enum定義不一致などで編集不可の場合は、他行も含めて例外で停止します。
+
+各書込み直前にも状態・範囲・単位・enum定義を確認し、途中失敗では先に成功した
+別行も含めて今回の入力を復旧します。対象の外部lockやenum定義を自動で元に戻しません。
+復旧にも失敗した場合は`ExceptionGroup`を送出し、各Bindingの`edit_failed`へ通知します。
+このAPIは単発の確定入力です。複数行にまたがる連続ドラッグのUndo集約は行いません。
+
 ## Undo、失敗復旧、終了
 
 bool・enum・数値の確定は対象群をまとめてUndo一回になります。
@@ -152,6 +196,9 @@ ComboBox・RadioButtonGroup・Labelに加え、混在、編集可能件数、対
   単位、lock・接続、単発・連続Undo、部分失敗の復旧、削除とcallback解放。
 - `tests/ui/test_plugs_binding_views.py`: 既存ComboBox・SpinBox・Sliderとの接続。
 - `tests/typecheck/maya_plugs_binding_contract.py`: 状態APIと既存Viewへの受け渡し型。
+- `tests/maya/ui/test_plugs_value_edits.py`: 異単位・異種・複数行の一括入力、全件事前検証、
+  readonly、重複拒否、一回Undo、全行の失敗復旧。
+- `tests/typecheck/maya_plugs_value_edits_contract.py`: 型付き入力とunionの補完契約。
 - `tests/maya/ui/test_enum_plugs_binding.py`: enum定義の一致・変更、未定義値、混在、Undo、途中失敗、寿命。
 - `tests/maya/ui/test_plugs_binding_notifications.py`: 無関係なdirtyによる再読取りの抑止、
   接続先・計算出力・時間変更の同期、親compound、同一nodeの複数対象、削除と遅延同期の終了。
