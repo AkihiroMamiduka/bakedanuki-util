@@ -41,6 +41,16 @@ def reduce_test_plugin(new_scene, maya_cmds):
     maya_cmds.unloadPlugin(name)
 
 
+@pytest.fixture
+def bake_test_plugin(new_scene, maya_cmds):
+    name = "bdu_mpx_keyframe_bake_test_plugin"
+    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+    maya_cmds.loadPlugin(str(path), quiet=True)
+    yield
+    maya_cmds.flushUndo()
+    maya_cmds.unloadPlugin(name)
+
+
 @pytest.fixture(scope="module")
 def move_test_plugin():
     # Repeated registration/unloading per parameter case crashes Maya 2027 on exit.
@@ -254,6 +264,71 @@ def test_reduce_keys_uses_maya_undo_redo_and_command_failure_rollback(
         assert keyframe.get_curve_data() == before
         maya_cmds.redo()
         assert keyframe.get_curve_data() == after
+
+
+@pytest.mark.parametrize("fail", [False, True])
+def test_bake_uses_maya_undo_redo_and_command_failure_rollback(
+    bake_test_plugin, maya_cmds, fail
+):
+    driver = maya_cmds.createNode("transform", name="bakeDriver")
+    target = maya_cmds.createNode("transform", name="bakeTarget")
+    maya_cmds.expression(
+        name="bakeExpression", string=f"{driver}.tx = time * 2;"
+    )
+    maya_cmds.pointConstraint(driver, target)
+    plug = target + ".tx"
+    expected = [maya_cmds.getAttr(plug, time=frame) for frame in (1, 3, 5)]
+    before_source = maya_cmds.listConnections(
+        plug, source=True, destination=False, plugs=True
+    )
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterBakeKeyframes"
+            if fail
+            else "bduTestMpxBakeKeyframes"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional keyframe bake failure"
+        ):
+            command(nodeName=target)
+        assert (
+            maya_cmds.listConnections(
+                plug, source=True, destination=False, plugs=True
+            )
+            == before_source
+        )
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+
+    command(nodeName=target)
+    after_source = maya_cmds.listConnections(
+        plug, source=True, destination=False, plugs=True
+    )
+    assert after_source != before_source
+    assert maya_cmds.nodeType(after_source[0].split(".")[0]) == "animCurveTL"
+    assert maya_cmds.keyframe(plug, query=True, timeChange=True) == [1, 3, 5]
+    assert [
+        maya_cmds.getAttr(plug, time=frame) for frame in (1, 3, 5)
+    ] == pytest.approx(expected)
+    for _ in range(3):
+        maya_cmds.undo()
+        assert (
+            maya_cmds.listConnections(
+                plug, source=True, destination=False, plugs=True
+            )
+            == before_source
+        )
+        maya_cmds.redo()
+        assert (
+            maya_cmds.listConnections(
+                plug, source=True, destination=False, plugs=True
+            )
+            == after_source
+        )
 
 
 @pytest.mark.parametrize("fail", [False, True])

@@ -13,6 +13,7 @@ from maya.api import OpenMayaAnim as oma
 from ...modifier import ModifierManager
 from . import (
     _keyframe_command,
+    _keyframe_bake,
     _keyframe_discovery,
     _keyframe_move,
     _keyframe_reduce,
@@ -1152,6 +1153,63 @@ class KeyframeManager(_KeyframeOperations):
         """
         return _keyframe_discovery.find_anim_curves(
             self.plug, self._modifier_manager, filter_type
+        )
+
+    def bake(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        sample_by: float = 1.0,
+    ) -> None:
+        """評価済み入力を等間隔に採取し、時間入力カーブへの置換を予約する。
+
+        Noneの範囲端は呼び出し時の再生範囲。範囲は両端を含み、割り切れない
+        終了時刻も採取する。未指定はベース、anim_layer()指定時はそのlayer入力を扱う。
+        上流nodeは削除せず、他のcompound子・layerを維持する。各時刻を独立に
+        評価するため、履歴依存のsimulationは対象外。
+        """
+        from maya import cmds
+
+        manager = self._require_modifier_manager()
+        self._validate_set_target("bake")
+        _keyframe_snapshot.curve_type_for_target(self._target)
+
+        def number(value: object, name: str) -> float:
+            if isinstance(value, bool) or not isinstance(value, (float, int)):
+                raise TypeError(f"{name} must be a number.")
+            result = float(value)
+            if not math.isfinite(result):
+                raise ValueError(f"{name} must be finite.")
+            return result
+
+        start = number(
+            (
+                cmds.playbackOptions(query=True, minTime=True)
+                if start_frame is None
+                else start_frame
+            ),
+            "start_frame",
+        )
+        end = number(
+            (
+                cmds.playbackOptions(query=True, maxTime=True)
+                if end_frame is None
+                else end_frame
+            ),
+            "end_frame",
+        )
+        step = number(sample_by, "sample_by")
+        if start > end:
+            raise ValueError(
+                "start_frame must be less than or equal to end_frame."
+            )
+        if step <= 0:
+            raise ValueError("sample_by must be positive.")
+        frames = _keyframe_bake.frame_grid(start, end, step)
+        rate = om.MTime(1.0, om.MTime.uiUnit()).asUnits(om.MTime.kSeconds)
+        _keyframe_bake.queue_bake(
+            manager, self._target, self.plug, frames, rate
         )
 
     def values(self) -> list[Any]:

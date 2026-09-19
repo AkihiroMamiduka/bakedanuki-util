@@ -757,6 +757,55 @@ frames = keyframe.frames()
 これらの操作は上記のチャンネル選択の規則を共有します。constraint先の属性からドライバー側の
 カーブを暗黙に編集することはありません。任意時刻のplug値は`sample_values()`で取得します。
 
+### 評価済み入力をキーフレームへベイクする
+
+`bake(start_frame=None, end_frame=None, *, sample_by=1.0)`は、plugの対象入力を
+等間隔に評価し、TA / TL / TUの時間入力カーブへ全置換します。
+属性経由の`KeyframeManager`専用で、明示カーブ用の`CurveKeyframeManager`には提供しません。
+戻り値は`None`で、同じ`ModifierManager`へ予約します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+
+# 再生範囲を1フレーム間隔でベイク
+ctrl.tx.keyframe.bake()
+
+# -10.5〜24.25を0.5フレーム間隔で指定layerへベイク
+ctrl.ty.keyframe.anim_layer("Correction").bake(
+    -10.5, 24.25, sample_by=0.5
+)
+mod.do_it_dg()
+```
+
+`None`の開始・終了は呼び出し時の再生範囲を使います。範囲は両端を含み、
+`sample_by`で割り切れない終了時刻も最後のキーとして追加します。
+負の時刻とsubframeを許可し、`sample_by`は正の有限数です。時刻と間隔は呼び出し時の
+UI時間単位で秒へ捕捉するため、予約後にFPSを変更しても同じ物理時刻を評価・配置します。
+値は初回の`do_it_dg()`で取得するので、同じbatchの先行編集と、予約後から実行前までの
+scene変更を反映します。queryと同様に、予約時には保留中modifierを実行しません。
+
+layer未指定はベース（root）の**生入力**、`anim_layer()`指定時はそのlayerの生入力を対象にします。
+既存layerを含む最終合成値をベースへ焼き戻さないため、非対象layerの効果は二重に加算されません。
+対象plugがconstraint・expression等へ接続されている場合は、サンプルを全て取得した後に
+その入力接続だけを切り、上流ノード自体は削除しません。親compoundへの接続は対象子で分割し、
+非対象の兄弟入力を接続し直します。直接接続された非共有animCurveは同じノードを再利用し、
+共有カーブは別の接続を維持して対象plug用の新しいカーブへ置き換えます。
+
+ベイク後のカーブは指定範囲のサンプルキーだけを持ちます。以前の範囲内・範囲外キー、
+weighted、infinity等の設定は全置換され、範囲外はconstantです。連続値はlinear接線、
+bool・enum・整数系はstep接線を使います。静的な入力もキーを作成し、自動削減は行いません。
+必要ならベイク後に`reduce_keys()`を明示的に予約してください。
+
+各時刻は`MDGContext`で独立評価します。前の時刻から状態を進めるsimulation、cache、
+履歴依存のdynamicsを再現するベイクではありません。時間値属性とTTカーブも初期版の対象外です。
+サンプル数は10,000,001点を上限とし、非有限値や、適用後に同じ値を再現できない場合は
+操作全体を失敗させます。対象plug・接続元・layerのlock / referenceを実行時に検査し、
+接続切断、カーブ作成・全置換、検証までがUndo / Redoと途中失敗時rollbackへ参加します。
+
 ### キーを時間方向へ移動する
 
 時間方向の操作は`move_frame()` / `move_frames()` / `scale_frames()`、

@@ -190,6 +190,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | キー削減 | `reduce_keys()`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
+| plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を、再生範囲または指定区間で等間隔に評価してTA / TL / TUへ全置換。上流nodeと非対象のcompound子・layerを維持し、Undo / Redo・rollbackに対応 |
 | 実在キーの時刻・値 | `get_keys()`。指定範囲に存在するキーだけを返し、境界補完は行わない |
 | 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元と、未接続plug・登録済みlayerのカーブ自動作成に対応 |
 | カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
@@ -293,6 +294,12 @@ layerとrootの設定も同じ区間で切り出し、既存の設定比較・�
 親フォルダ作成と上書きは既定で有効。保存先と同じフォルダの一時ファイルへ書き終えてから確定し、
 clipは保存前・読込時にschema 2を検証します。ファイル操作は即時で、sceneとmodifierを変更しません。
 仕様は[JSONファイル入出力](../../py/json_file.md)と[clipのファイルAPI](animation_clip.md#jsonファイルの保存読込)を参照してください。
+続いてplug単位の`KeyframeManager.bake()`を追加しました。再生範囲または指定区間の
+評価済み生入力を一定間隔で取得し、対象入力だけを時間入力カーブへ全置換します。
+既定ベースと明示layer、constraint・expression等の入力切断、compound接続の兄弟保持、
+既存カーブ再利用・共有カーブ分離、時間単位捕捉、反復Undo / Redo・rollbackに対応します。
+各時刻は独立評価とし、simulationや履歴依存のdynamics、TTは初期版の対象外です。
+仕様は[plug入力のベイク](attributes.md#評価済み入力をキーフレームへベイクする)を参照してください。
 それ以降の着手順は未確定です。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
@@ -300,6 +307,7 @@ layer構造の管理や自動選択を追加する場合は、
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
 | 移動の拡張 | 時間方向の移動、AnimationClip復元時とKeyframeManagerによる正の時間拡縮、既存キーの生値の設定・加算・拡縮は実装済み。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
+| ベイクの拡張 | plug単位の独立時刻評価は実装済み。node単位・複数nodeの全対象を変更前に一括samplingする入口、属性収集規則、チャンネルごとの失敗時rollback、simulation・cache・dynamics向けの時系列評価は今後個別に仕様化する |
 | キー削減の拡張・最適化 | 手動接線を維持する実カーブ操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
 | アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定と正の時間拡縮は実装済み。逆再生やrig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録、AnimationClipによる階層・順序・weight等の保存復元は実装済み。登録解除や階層・順序を個別編集する公開API、auto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
@@ -309,6 +317,20 @@ layer構造の管理や自動選択を追加する場合は、
 利用者の方針により、繰り返し領域の範囲切り出しは今後の実装候補から外します。
 既存のconstant / linearの範囲外補完は維持し、cycle / cycleRelative / oscillateの
 範囲外の詳細データ切り出しは引き続きエラーとします。
+
+### plug入力ベイクの実装
+
+`KeyframeManager.bake(start_frame=None, end_frame=None, *, sample_by=1.0)`を追加しました。
+範囲端の省略時は呼び出し時の再生範囲を捕捉し、初回実行時に対象の生入力を全時刻分
+samplingしてから接続を変更します。終了端を必ず含め、負時刻・subframe・予約後のFPS変更に対応します。
+
+内部処理は`_keyframe_bake.py`へ分離しました。既定ベースはlayer合成のinputA側、
+明示layerはMayaのlayeredPlugを解決します。対象へ直接つながる非共有カーブだけを再利用し、
+それ以外の入力接続を切って新しいカーブを作成します。親compound接続は対象子で分割して兄弟を維持します。
+連続値はlinear、離散値はstep、範囲外はconstantとし、適用後に全サンプル値を再検査します。
+接続元・接続先・layerのlock / reference検査、接続変更と全カーブ復元を同じmanagerの履歴へ含めます。
+詳しい契約は[ベイクの現行仕様](attributes.md#評価済み入力をキーフレームへベイクする)、
+検証範囲は[ベイクの検証](testing.md#plug入力ベイクの検証)を参照してください。
 
 ### キーフレーム移動の実装
 

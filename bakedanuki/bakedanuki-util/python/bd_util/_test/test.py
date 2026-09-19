@@ -222,5 +222,11 @@ def main():
         targets=[dst_9_1],
     )
 
+    dst_10_0 = nodes.create.transform(name="dst_10_0")
+    trsf.tx.connect(dst_10_0.tx)
+    dst_10_1 = nodes.create.transform(name="dst_10_1")
+    trsf.tx.connect(dst_10_1.tx)
+    dst_10_1.tx.keyframe.bake()
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

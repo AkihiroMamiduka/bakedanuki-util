@@ -76,6 +76,9 @@
   - 編集可能な`KeyData`と、カーブ共通設定を持つ`AnimCurveData`です。
 - `python/bd_util/maya/node/operator/attr/_keyframe_snapshot.py`
   - カーブ情報の取得・復元、指定範囲の境界補完の内部実装です。
+- `python/bd_util/maya/node/operator/attr/_keyframe_bake.py`
+  - plugのベースまたは指定layerの生入力を等間隔に評価し、入力接続だけを時間入力カーブへ
+    全置換する`bake()`の内部実装です。上流nodeと非対象のcompound子・layerを維持します。
 - `python/bd_util/maya/node/operator/attr/_keyframe_move.py` / `_keyframe_scale.py`
   - 既存キーの移動・正の時間拡縮と、それぞれの影響度の補間です。境界挿入・キー情報の捕捉・復元を共有し、
     `scale_frames()`は配置先区間の部分置き換えを既定とします。
@@ -1455,6 +1458,8 @@ KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元
 保存フレーム単位の指定区間を境界補完して切り出し、その区間を基準に拡縮・移動して復元します。範囲復元も利用者確認・push済みです（`9c405008`）。
 続いて`AnimationClip.save()` / `load()`と汎用の`bdu.json_file.write()` / `read()`を追加しました。
 既定で親フォルダを作成し、UTF-8で保存します。clipは保存前・読込時にschema 2を検証します。
+続いてplug単位の`KeyframeManager.bake()`を追加しました。既定ベースまたは明示layerの生入力を
+再生範囲・指定区間でsamplingし、上流nodeと非対象接続を維持して時間入力カーブへ全置換します。
 補間移動・補間拡縮とも、対象キー同士の衝突・順序逆転を拒否します。
 新しいチャットで開発を続ける場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と

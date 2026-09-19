@@ -615,6 +615,32 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr tests\maya\mpx_cmd tests\maya\node\operator\node\dg\test_anim_layer.py -q --tb=short
 ```
 
+## plug入力ベイクの検証
+
+`test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。
+
+- 呼び出し時の再生範囲、明示範囲、終了端を含むsample間隔、負時刻・subframe、静的入力。
+  予約後のFPS変更では物理時刻を維持し、値は初回実行時のsceneから取得すること。
+- TA / TL / TU、連続値のlinear接線、bool等のstep接線、constant infinity、nonweightedへの全置換。
+  既存カーブの範囲外キー・設定を削除し、直接の非共有カーブは再利用すること。
+- constraint・expression等の上流nodeを残して対象入力だけを切断すること。
+  親compound接続の非対象子、共有カーブの別出力先、ベース以外のlayerを維持すること。
+- layer未指定ではrootの生入力、`anim_layer()`では指定layerの生入力をベイクし、
+  既存layerの合成効果を二重に加えないこと。
+- target plug / node、接続元node、layerのlockとreference、不正引数、TT、非有限サンプルの拒否。
+  10,000,001点の上限、対象なしではなく静的カーブを作ること。
+- query時に予約を実行しないこと、同じbatchの先行変更、反復Undo / Redo、
+  接続変更後・後続処理・適用後検査の失敗時rollback、現在時刻と選択の維持。
+
+専用MPxCommand fixtureはMaya標準Undo / Redoとcommand失敗時の接続・カーブ復元を検証します。
+型・補完contractは属性経由の引数・戻り値と、明示カーブへ`bake()`を公開しないことを確認します。
+各時刻を順に進めるsimulationやcacheの検証は初期版に含めません。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr/test_keyframe_bake.py
+.\scripts\test-pytest-maya2025.cmd tests/maya/mpx_cmd/test_command.py -k bake
+```
+
 ## キーフレーム移動の検証
 
 2026-09-15に`move_frame()` / `move_frames()`と専用の`test_keyframe_move.py`を追加しました。

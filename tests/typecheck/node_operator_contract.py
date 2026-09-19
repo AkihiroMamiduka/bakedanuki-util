@@ -4099,6 +4099,22 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         compose.inputTranslate.inputTranslateX.keyframe,
         KeyframeManager,
     )
+    assert_type(compose.inputTranslate.inputTranslateX.keyframe.bake(), None)
+    assert_type(
+        compose.inputTranslate.inputTranslateX.keyframe.bake(
+            -10.5, 24.25, sample_by=0.5
+        ),
+        None,
+    )
+    compose.inputTranslate.inputTranslateX.keyframe.bake(
+        "1",  # pyright: ignore[reportArgumentType]
+        24,
+    )
+    compose.inputTranslate.inputTranslateX.keyframe.bake(
+        1,
+        24,
+        sample_by="1",  # pyright: ignore[reportArgumentType]
+    )
 
     assert_type(
         ComposeMatrix.inputRotateOrder,
@@ -4142,6 +4158,7 @@ def explicit_curve_keyframe_contract(
     )
     keyframe = nodes.create.animCurveTL(name="curve").keyframe
     assert_type(keyframe, CurveKeyframeManager)
+    keyframe.bake()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     assert_type(CurveKeyframeManager(obj), CurveKeyframeManager)
     assert_type(keyframe.get_curve_data(), AnimCurveData)
     assert_type(keyframe.get_weighted(), bool)
