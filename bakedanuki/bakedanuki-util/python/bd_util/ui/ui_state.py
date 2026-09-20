@@ -88,8 +88,37 @@ class _TabWidgetStateAdapter(_UiStateAdapter):
         return True
 
 
+@dataclass(frozen=True)
+class _CheckableActionStateAdapter(_UiStateAdapter):
+    """checkableなQActionのチェック状態を保存・復元する。"""
+
+    state_type: ClassVar[str] = "checkable_action"
+    action: qt.QAction
+
+    @property
+    def state_object(self) -> qt.QtCore.QObject:
+        """状態を所有するQActionを返す。"""
+        return self.action
+
+    def save_state(self) -> int:
+        """現在のチェック状態を0または1として取得する。"""
+        return int(self.action.isChecked())
+
+    def restore_state(
+        self,
+        settings: qt.QtCore.QSettings,
+        state_key: str,
+    ) -> bool:
+        """保存値が0または1の場合だけQActionへ復元する。"""
+        state = settings.value(state_key, -1, int)
+        if not isinstance(state, int) or state not in (0, 1):
+            return False
+        self.action.setChecked(bool(state))
+        return True
+
+
 class UiStateManager:
-    """明示登録されたWidgetの内部状態をQSettingsで管理する。"""
+    """明示登録されたUI objectの内部状態をQSettingsで管理する。"""
 
     SCHEMA_VERSION: ClassVar[int] = 1
     _STATE_GROUP: ClassVar[str] = "ui_state"
@@ -150,6 +179,22 @@ class UiStateManager:
 
         # 選択変更時に最新indexを退避して終了時の保存へ利用する。
         widget.currentChanged.connect(partial(self._capture_state, key))
+        self._capture_state(key)
+
+    def register_checkable_action(
+        self,
+        key: str,
+        action: qt.QAction,
+    ) -> None:
+        """checkableなQActionのチェック状態を保存対象として登録する。"""
+        if not isinstance(action, qt.QAction):
+            raise TypeError("actionにはQActionを指定してください")
+        if not action.isCheckable():
+            raise ValueError("actionにはcheckableなQActionを指定してください")
+        self._register(key, _CheckableActionStateAdapter(action))
+
+        # 切替時は状態だけを退避し、QSettingsへの書き込みはsave時にまとめる
+        action.toggled.connect(partial(self._capture_state, key))
         self._capture_state(key)
 
     def save(self) -> bool:

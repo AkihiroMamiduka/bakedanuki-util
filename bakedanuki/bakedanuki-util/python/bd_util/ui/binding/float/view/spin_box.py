@@ -46,7 +46,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         self._view_model = view_model
         self._input_enabled = True
         self._unit_visible = False
-        self._wheel_requires_focus = wheel_requires_focus
+        self.setWheelRequiresFocus(wheel_requires_focus)
         self._value_request_handler: Callable[[float], bool] | None = None
         self._step_request_handler: Callable[[int], bool] | None = None
 
@@ -113,10 +113,16 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         return self._wheel_requires_focus
 
     def setWheelRequiresFocus(self, required: bool) -> None:
-        """ホイール操作にフォーカスを必須とするか変更する。"""
+        """フォーカス必須時は、ホイールによる自動フォーカス移動も止める。"""
         if type(required) is not bool:
             raise TypeError("requiredにはboolを指定してください")
         self._wheel_requires_focus = required
+        # QtがwheelEventより先にフォーカスを移すと、未フォーカス判定を通り抜ける
+        self.setFocusPolicy(
+            qt.Qt.FocusPolicy.StrongFocus
+            if required
+            else qt.Qt.FocusPolicy.WheelFocus
+        )
 
     def setValueRequestHandler(
         self, handler: Callable[[float], bool] | None

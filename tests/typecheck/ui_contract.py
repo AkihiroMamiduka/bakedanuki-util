@@ -126,6 +126,15 @@ assert_type(
     ),
     None,
 )
+checkable_action = qt.QAction("Option")
+checkable_action.setCheckable(True)
+assert_type(
+    ui_state_manager.register_checkable_action(
+        "option",
+        checkable_action,
+    ),
+    None,
+)
 assert_type(ui_state_manager.save(), bool)
 assert_type(ui_state_manager.save_cached(), bool)
 assert_type(ui_state_manager.restore(), frozenset[str])

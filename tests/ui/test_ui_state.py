@@ -93,6 +93,53 @@ def test_save_and_restore_registered_widget_state(
     qt_application.processEvents()
 
 
+def test_save_and_restore_checkable_action_state(
+    qt_application,
+    tmp_path,
+) -> None:
+    """checkableなQActionの変更を保存し、新しいActionへ復元する。"""
+    settings_file = tmp_path / "ui.ini"
+    action = qt.QAction("Option")
+    action.setCheckable(True)
+    action.setChecked(True)
+    manager = _create_manager(settings_file, "sample_tool/preferences/main")
+    manager.register_checkable_action("option", action)
+
+    # 登録後の変更をsignal経由で退避して保存する
+    action.setChecked(False)
+    assert manager.save_cached()
+
+    restored_action = qt.QAction("Option")
+    restored_action.setCheckable(True)
+    restored_action.setChecked(True)
+    restored_manager = _create_manager(
+        settings_file, "sample_tool/preferences/main"
+    )
+    restored_manager.register_checkable_action("option", restored_action)
+    assert restored_manager.restore() == frozenset({"option"})
+    assert not restored_action.isChecked()
+
+    # testで生成したActionをQtのevent loopで破棄する
+    action.deleteLater()
+    restored_action.deleteLater()
+    qt_application.processEvents()
+
+
+def test_register_checkable_action_rejects_invalid_action(tmp_path) -> None:
+    """QAction以外とcheckableではないQActionを登録前に拒否する。"""
+    manager = _create_manager(tmp_path / "ui.ini")
+    with pytest.raises(TypeError, match="QAction"):
+        manager.register_checkable_action(
+            "option",
+            object(),  # pyright: ignore[reportArgumentType]
+        )
+
+    action = qt.QAction("Option")
+    with pytest.raises(ValueError, match="checkable"):
+        manager.register_checkable_action("option", action)
+    action.deleteLater()
+
+
 def test_save_preserves_deleted_widget_state_and_updates_live_widget(
     qt_application,
     tmp_path,

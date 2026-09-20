@@ -9,6 +9,9 @@
 
 ### Added
 
+- `UiStateManager.register_checkable_action()`を追加。checkableな`QAction`のチェック状態を
+  他のWidget内部状態と同じMaya用INIへ保存し、dockable UIのclose・復元・Maya終了処理へ
+  統合できる。既存のsettings pathと登録APIの動作は維持する。
 - `MayaFloatOffsetEdit`を追加し、複数の数値属性群へ各現在値を保った同じ公開単位の増減量を適用する。
   `apply_plugs_values(..., edit_session=...)`で複数行の連続入力を1回のUndoへまとめられる。
   `FloatSpinBox`、`FloatSlider`、`BoolCheckBox`、`EnumComboBox`には任意入力handlerを追加し、
@@ -123,6 +126,10 @@
   `FloatValueStepSpinBox`は値欄とstep欄を個別指定できる。
   値欄は従来どおり`False`、step欄は誤操作を避ける従来どおり`True`を既定値とし、
   既存利用側の挙動、scene、保存設定の移行は不要。
+  `FloatSpinBox`は`True`時に`StrongFocus`へ切り替え、ネイティブホイール入力が
+  判定前にフォーカスを取得して値を変更する不具合を修正する。クリック・Tabによる
+  フォーカス取得後は編集でき、`False`では従来の`WheelFocus`を維持する。
+  この値欄を使う`FloatValueStepSpinBox`と`FloatSliderSpinBox`にも適用される。
 - 既存属性の解決で、名前が一意な属性はMaya APIから直接取得する。
   長名・短名と完全な親pathを確認し、非一意名は既存の全件検索で判定する。
   aliasの拒否、曖昧な名前のエラー、配列制限を維持し、キャッシュは追加しない。

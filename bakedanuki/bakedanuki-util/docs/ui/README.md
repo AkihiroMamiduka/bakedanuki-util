@@ -997,6 +997,10 @@ API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slide
 `FloatValueStepSpinBox(binding, single_step=1, step_mode="multiplicative")`で、
 値入力とstep入力を横に配置できます。step変更はViewの刻み幅だけに作用し、正本を変更しません。
 値欄とstep欄は、非フォーカス時のホイール入力を受け付けるか個別に指定できます。
+値欄の`FloatSpinBox`は`wheel_requires_focus=True`または`setWheelRequiresFocus(True)`で
+`StrongFocus`を使い、ホイール入力による自動フォーカス取得を防ぎます。クリック・Tabなどで
+フォーカスを得た後はホイール編集できます。`False`では従来の`WheelFocus`を維持します。
+`FloatSliderSpinBox`内の値欄も`editor.spin_box.setWheelRequiresFocus(True)`で同じ制御ができます。
 属性別の初期値や設定保持は利用側で決定します。
 APIと単位・寿命の契約は[FloatValueStepSpinBox](float_value_step_spin_box.md)を参照してください。
 
@@ -1238,13 +1242,14 @@ ensure_window_on_screen(window)
 `settings_path`はplatformにかかわらず`/`で区切ります。絶対path、`.`、`..`、空segment、
 Windows予約名や使用できない文字は拒否されます。
 
-## Widget内部状態の保存
+## UI内部状態の保存
 
-`UiStateManager`は、明示登録したWidgetの内部状態を同じtool単位の`ui.ini`へ保存します。
-次のWidgetに対応しています。
+`UiStateManager`は、明示登録したWidgetやActionの内部状態を同じtool単位の`ui.ini`へ保存します。
+次のUI objectに対応しています。
 
 - `QSplitter`: 分割位置
 - `QTabWidget`: 現在選択されているタブ
+- checkableな`QAction`: チェック状態
 - `FloatRangeSliderSpinBox`: Min／Max・step
 - `Float3RangeSliderSpinBox`: XYZ各軸のMin／Max・step
 
@@ -1274,6 +1279,10 @@ self.ui_state.register_splitter(
 self.ui_state.register_tab_widget(
     "main_tabs",
     self.main_tabs,
+)
+self.ui_state.register_checkable_action(
+    "wheel_input",
+    self.wheel_input_action,
 )
 
 # 通常Windowでは全Widgetの登録後にlifecycle連携済みtrackerを生成する。

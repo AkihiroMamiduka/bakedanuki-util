@@ -176,6 +176,8 @@ def test_wheel_focus_options_preserve_defaults_and_allow_override(owner):
     assert default.step_spin_box.wheelRequiresFocus()
     assert custom.spin_box.wheelRequiresFocus()
     assert not custom.step_spin_box.wheelRequiresFocus()
+    assert default.spin_box.focusPolicy() == qt.Qt.FocusPolicy.WheelFocus
+    assert custom.spin_box.focusPolicy() == qt.Qt.FocusPolicy.StrongFocus
 
     before = data.value
     wheel(default.spin_box)
@@ -194,6 +196,22 @@ def test_wheel_focus_options_preserve_defaults_and_allow_override(owner):
     custom.step_spin_box.setWheelRequiresFocus(True)
     assert not custom.spin_box.wheelRequiresFocus()
     assert custom.step_spin_box.wheelRequiresFocus()
+    assert custom.spin_box.focusPolicy() == qt.Qt.FocusPolicy.WheelFocus
+    wheel(custom.spin_box)
+    assert data.value != before
+
+    # 動的に必須へ戻した場合もホイールだけでは編集を始めない
+    custom.spin_box.setWheelRequiresFocus(True)
+    assert custom.spin_box.focusPolicy() == qt.Qt.FocusPolicy.StrongFocus
+    other.setFocus()
+    flush()
+    before = data.value
+    wheel(custom.spin_box)
+    assert data.value == before
+    custom.spin_box.setFocus()
+    flush()
+    wheel(custom.spin_box)
+    assert data.value != before
 
 
 @pytest.mark.parametrize("show_unit", [False, True])
