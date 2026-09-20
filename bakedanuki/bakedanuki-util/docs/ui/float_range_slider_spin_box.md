@@ -215,7 +215,7 @@ linear_editor.setSingleStep(15)  # step欄も15になり、次の上下操作は
 複数段の操作はその回数分を適用します。Qt標準のPageUp／PageDownやCtrl併用による10段操作では、
 加算量が10倍、桁変更は10桁になります。通常の上下キー・1ノッチのホイールは1段です。
 step欄のホイールは既定でフォーカス中だけ受け付け、親のスクロール操作による誤変更を防ぎます。
-マウスオーバーだけで操作する場合は、`step_spin_box.setWheelRequiresFocus(False)`を指定します。
+マウスオーバーだけで操作する場合は、`step_spin_box.set_wheel_requires_focus(False)`を指定します。
 
 文字入力はEnterまたはフォーカス移動で確定します。不正な文字・0・負数・非有限値は直前の確定値へ戻します。
 正の有限値をQtが保持できる範囲（`1e-323`～`sys.float_info.max`）で扱い、桁変更の上下限はその端で停止します。

@@ -25,12 +25,18 @@ class EnumComboBox(qt.QComboBox):
         self,
         view_model: EnumViewModel | EnumBinding[EnumValueStore],
         parent: qt.QWidget | None = None,
+        *,
+        wheel_requires_focus: bool = False,
     ) -> None:
+        """入力元と、ホイール操作にフォーカスを必須とするか指定する。"""
+        if type(wheel_requires_focus) is not bool:
+            raise TypeError("wheel_requires_focusにはboolを指定してください")
         view_model, binding = resolve_enum_view_source(view_model)
         super().__init__(parent)
         self._view_model = view_model
         self._binding = binding
         self._input_enabled = True
+        self.set_wheel_requires_focus(wheel_requires_focus)
         self._value_request_handler: Callable[[int], bool] | None = None
         self._render()
         self.currentIndexChanged.connect(self._request_index)
@@ -54,6 +60,21 @@ class EnumComboBox(qt.QComboBox):
     def setInputEnabled(self, enabled: bool) -> None:
         self._input_enabled = _require_enabled(enabled)
         self._update_enabled()
+
+    def wheel_requires_focus(self) -> bool:
+        """ホイール操作にフォーカスを必須とする設定を返す。"""
+        return self._wheel_requires_focus
+
+    def set_wheel_requires_focus(self, required: bool) -> None:
+        """フォーカス必須時は、ホイールによる自動フォーカス移動も止める。"""
+        if type(required) is not bool:
+            raise TypeError("requiredにはboolを指定してください")
+        self._wheel_requires_focus = required
+        self.setFocusPolicy(
+            qt.Qt.FocusPolicy.StrongFocus
+            if required
+            else qt.Qt.FocusPolicy.WheelFocus
+        )
 
     def setValueRequestHandler(
         self, handler: Callable[[int], bool] | None
@@ -111,6 +132,13 @@ class EnumComboBox(qt.QComboBox):
         finally:
             if qt.isValid(self):
                 self._render()
+
+    def wheelEvent(self, event: qt.QtGui.QWheelEvent) -> None:
+        """設定に応じて、非フォーカス時のホイールを親へ渡す。"""
+        if self._wheel_requires_focus and not self.hasFocus():
+            event.ignore()
+            return
+        super().wheelEvent(event)
 
     @qt.Slot()
     def _disable_binding(self) -> None:

@@ -13,6 +13,9 @@ enum属性の編集には[enum binding](enum_binding.md)を使用できます。
 `MayaEnumBinding`はPython正本とMayaを双方向同期します。
 `EnumComboBox`・`EnumRadioButtonGroup`・`EnumLabel`は同じBindingを共有し、
 飛び番・負数・未定義値にも対応します。ラジオボタンは横並び・縦並びを選べます。
+`EnumComboBox(..., wheel_requires_focus=True)`は、フォーカスのないホイール入力を
+親Widgetへ渡します。生成後も`wheel_requires_focus()`と`set_wheel_requires_focus()`で
+切り替えられ、クリック・Tabでフォーカスを得た後のホイール選択は維持します。
 `MayaEnumPlugsBinding`は同じ定義の複数属性を一括編集し、混在状態とUndoに対応します。
 enum基盤は今回の合意範囲まで実装・動作確認を完了しています。
 設計判断と次回開発への引き継ぎは[enum MVVMの到達点と今後の拡張](enum_roadmap.md)を参照してください。
@@ -997,10 +1000,10 @@ API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slide
 `FloatValueStepSpinBox(binding, single_step=1, step_mode="multiplicative")`で、
 値入力とstep入力を横に配置できます。step変更はViewの刻み幅だけに作用し、正本を変更しません。
 値欄とstep欄は、非フォーカス時のホイール入力を受け付けるか個別に指定できます。
-値欄の`FloatSpinBox`は`wheel_requires_focus=True`または`setWheelRequiresFocus(True)`で
+値欄の`FloatSpinBox`は`wheel_requires_focus=True`または`set_wheel_requires_focus(True)`で
 `StrongFocus`を使い、ホイール入力による自動フォーカス取得を防ぎます。クリック・Tabなどで
 フォーカスを得た後はホイール編集できます。`False`では従来の`WheelFocus`を維持します。
-`FloatSliderSpinBox`内の値欄も`editor.spin_box.setWheelRequiresFocus(True)`で同じ制御ができます。
+`FloatSliderSpinBox`内の値欄も`editor.spin_box.set_wheel_requires_focus(True)`で同じ制御ができます。
 属性別の初期値や設定保持は利用側で決定します。
 APIと単位・寿命の契約は[FloatValueStepSpinBox](float_value_step_spin_box.md)を参照してください。
 

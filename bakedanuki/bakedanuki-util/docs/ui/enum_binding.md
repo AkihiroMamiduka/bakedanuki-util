@@ -57,6 +57,10 @@ combo_box = EnumComboBox(binding, parent=widget)
 binding.set_value(node.rotateOrder.ZYX)
 ```
 
+`wheel_requires_focus=True`を指定すると、フォーカスのないComboBox上のホイールを
+値変更に使わず、親Widgetへ渡します。クリック・Tabでフォーカスを得た後は変更できます。
+生成後は`wheel_requires_focus()`と`set_wheel_requires_focus()`で切り替えられます。
+
 `owner`はBindingの寿命を管理するQObject、`widget`はViewを配置するQWidgetです。
 名前から取得する場合は`resolve_enum_plug("settings", "mode")`を使用します。
 長名、短名、compound内のscalar enumの相対pathを解決します。

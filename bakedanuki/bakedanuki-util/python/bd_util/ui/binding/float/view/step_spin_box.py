@@ -78,11 +78,11 @@ class FloatStepSpinBox(qt.QDoubleSpinBox):
         """生成時に選択した増減モードを返す。"""
         return self._step_mode
 
-    def wheelRequiresFocus(self) -> bool:
+    def wheel_requires_focus(self) -> bool:
         """ホイール操作にフォーカスを必須とする設定を返す。"""
         return self._wheel_requires_focus
 
-    def setWheelRequiresFocus(self, required: bool) -> None:
+    def set_wheel_requires_focus(self, required: bool) -> None:
         """ホイール操作にフォーカスを必須とするか変更する。"""
         if type(required) is not bool:
             raise TypeError("requiredにはboolを指定してください")

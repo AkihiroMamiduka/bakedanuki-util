@@ -46,7 +46,7 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         self._view_model = view_model
         self._input_enabled = True
         self._unit_visible = False
-        self.setWheelRequiresFocus(wheel_requires_focus)
+        self.set_wheel_requires_focus(wheel_requires_focus)
         self._value_request_handler: Callable[[float], bool] | None = None
         self._step_request_handler: Callable[[int], bool] | None = None
 
@@ -108,11 +108,11 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         self._input_enabled = enabled
         self._update_enabled()
 
-    def wheelRequiresFocus(self) -> bool:
+    def wheel_requires_focus(self) -> bool:
         """ホイール操作にフォーカスを必須とする設定を返す。"""
         return self._wheel_requires_focus
 
-    def setWheelRequiresFocus(self, required: bool) -> None:
+    def set_wheel_requires_focus(self, required: bool) -> None:
         """フォーカス必須時は、ホイールによる自動フォーカス移動も止める。"""
         if type(required) is not bool:
             raise TypeError("requiredにはboolを指定してください")

@@ -121,6 +121,12 @@
 
 ### Changed
 
+- `EnumComboBox`へ`wheel_requires_focus`とスネークケースの取得・変更APIを追加し、
+  フォーカスのないホイール入力を親Widgetへ渡せるようにする。`True`では
+  ホイールによる自動フォーカス取得を防ぎ、クリック・Tabでフォーカスを得た後の操作は維持する。
+  `FloatSpinBox`と`FloatStepSpinBox`の独自APIも`wheel_requires_focus()`／
+  `set_wheel_requires_focus()`へ統一する。従来の`wheelRequiresFocus()`／
+  `setWheelRequiresFocus()`を使用する場合は新名称へ変更する必要がある。
 - `FloatSpinBox`と`FloatStepSpinBox`へ`wheel_requires_focus`を追加し、
   非フォーカス時のホイール入力を受け付けるか選択可能にする。
   `FloatValueStepSpinBox`は値欄とstep欄を個別指定できる。

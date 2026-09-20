@@ -172,10 +172,10 @@ def test_wheel_focus_options_preserve_defaults_and_allow_override(owner):
     other.setFocus()
     flush()
 
-    assert not default.spin_box.wheelRequiresFocus()
-    assert default.step_spin_box.wheelRequiresFocus()
-    assert custom.spin_box.wheelRequiresFocus()
-    assert not custom.step_spin_box.wheelRequiresFocus()
+    assert not default.spin_box.wheel_requires_focus()
+    assert default.step_spin_box.wheel_requires_focus()
+    assert custom.spin_box.wheel_requires_focus()
+    assert not custom.step_spin_box.wheel_requires_focus()
     assert default.spin_box.focusPolicy() == qt.Qt.FocusPolicy.WheelFocus
     assert custom.spin_box.focusPolicy() == qt.Qt.FocusPolicy.StrongFocus
 
@@ -192,16 +192,16 @@ def test_wheel_focus_options_preserve_defaults_and_allow_override(owner):
     wheel(custom.step_spin_box)
     assert custom.singleStep() == 2
 
-    custom.spin_box.setWheelRequiresFocus(False)
-    custom.step_spin_box.setWheelRequiresFocus(True)
-    assert not custom.spin_box.wheelRequiresFocus()
-    assert custom.step_spin_box.wheelRequiresFocus()
+    custom.spin_box.set_wheel_requires_focus(False)
+    custom.step_spin_box.set_wheel_requires_focus(True)
+    assert not custom.spin_box.wheel_requires_focus()
+    assert custom.step_spin_box.wheel_requires_focus()
     assert custom.spin_box.focusPolicy() == qt.Qt.FocusPolicy.WheelFocus
     wheel(custom.spin_box)
     assert data.value != before
 
     # 動的に必須へ戻した場合もホイールだけでは編集を始めない
-    custom.spin_box.setWheelRequiresFocus(True)
+    custom.spin_box.set_wheel_requires_focus(True)
     assert custom.spin_box.focusPolicy() == qt.Qt.FocusPolicy.StrongFocus
     other.setFocus()
     flush()

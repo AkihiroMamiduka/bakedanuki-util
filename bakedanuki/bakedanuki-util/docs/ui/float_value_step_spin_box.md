@@ -42,7 +42,7 @@ step欄には正の有限値を直接入力することもできます。
 
 値欄は従来どおりマウスオーバー中のホイールを受け付け、step欄は一覧スクロール中の
 誤変更を避けるため、既定ではフォーカス中だけ受け付けます。生成時の2引数で個別に変更でき、
-生成後も各欄の`wheelRequiresFocus()`／`setWheelRequiresFocus()`を利用できます。
+生成後も各欄の`wheel_requires_focus()`／`set_wheel_requires_focus()`を利用できます。
 非フォーカス時に受け付けないホイールイベントは親Widgetへ渡します。
 
 子Widgetを公開しているため、幅・prefix・ボタン表示などは利用側で指定できます。
@@ -54,7 +54,7 @@ step欄には正の有限値を直接入力することもできます。
 ```python
 editor = FloatValueStepSpinBox(binding, value_width=90, step_width=80)
 editor.step_spin_box.setPrefix("step ")
-editor.step_spin_box.setWheelRequiresFocus(False)
+editor.step_spin_box.set_wheel_requires_focus(False)
 editor.setSingleStep(0.1)
 ```
 

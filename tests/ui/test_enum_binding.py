@@ -32,6 +32,21 @@ def flush():
     qt.QtCore.QCoreApplication.processEvents()
 
 
+def wheel(widget, delta=120):
+    """フォーカスを移さず、指定量のホイールイベントを送る。"""
+    event = qt.QtGui.QWheelEvent(
+        qt.QPointF(5, 5),
+        qt.QPointF(5, 5),
+        qt.QPoint(),
+        qt.QPoint(0, delta),
+        qt.Qt.MouseButton.NoButton,
+        qt.Qt.KeyboardModifier.NoModifier,
+        qt.Qt.ScrollPhase.NoScrollPhase,
+        False,
+    )
+    qt.QApplication.sendEvent(widget, event)
+
+
 @pytest.mark.parametrize("value", [True, False, 1.0, "5", None])
 def test_invalid_values_never_write_python(value):
     data = Data()
@@ -109,6 +124,73 @@ def test_shared_views_use_values_not_positions_and_preserve_unknown(
     finally:
         for view in (first, second, label):
             view.deleteLater()
+        binding.dispose()
+        flush()
+
+
+def test_combo_wheel_focus_option_preserves_default_and_allows_override(
+    qt_application,
+):
+    """enum欄で非フォーカス時のホイール受付を切り替える。"""
+    data = Data(5)
+    binding = EnumBinding.from_attribute(data, "mode", definition=DEFINITION)
+    owner = qt.QWidget()
+    default = EnumComboBox(binding, owner)
+    custom = EnumComboBox(binding, owner, wheel_requires_focus=True)
+    other = qt.QLineEdit(owner)
+    layout = qt.QVBoxLayout(owner)
+    layout.addWidget(default)
+    layout.addWidget(custom)
+    layout.addWidget(other)
+    owner.show()
+    owner.activateWindow()
+    other.setFocus()
+    flush()
+    try:
+        assert not default.wheel_requires_focus()
+        assert custom.wheel_requires_focus()
+        assert default.focusPolicy() == qt.Qt.FocusPolicy.WheelFocus
+        assert custom.focusPolicy() == qt.Qt.FocusPolicy.StrongFocus
+
+        wheel(default)
+        assert data.mode == 0
+        other.setFocus()
+        flush()
+        wheel(custom)
+        assert data.mode == 0
+
+        custom.set_wheel_requires_focus(False)
+        assert not custom.wheel_requires_focus()
+        assert custom.focusPolicy() == qt.Qt.FocusPolicy.WheelFocus
+        wheel(custom)
+        assert data.mode == -2
+
+        custom.set_wheel_requires_focus(True)
+        other.setFocus()
+        flush()
+        wheel(custom, -120)
+        assert data.mode == -2
+        custom.setFocus()
+        flush()
+        wheel(custom, -120)
+        assert data.mode == 0
+    finally:
+        owner.deleteLater()
+        binding.dispose()
+        flush()
+
+
+def test_combo_wheel_focus_option_rejects_non_bool(qt_application):
+    """enum欄のホイール設定へbool以外を受け付けない。"""
+    binding = EnumBinding.from_attribute(Data(), "mode", definition=DEFINITION)
+    with pytest.raises(TypeError):
+        EnumComboBox(binding, wheel_requires_focus=1)
+    combo = EnumComboBox(binding)
+    try:
+        with pytest.raises(TypeError):
+            combo.set_wheel_requires_focus(1)
+    finally:
+        combo.deleteLater()
         binding.dispose()
         flush()
 
