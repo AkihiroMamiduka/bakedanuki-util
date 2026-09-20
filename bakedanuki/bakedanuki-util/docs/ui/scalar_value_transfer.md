@@ -5,7 +5,7 @@
 - `bd_util.ui.JsonClipboard`はMayaをimportせず、任意のJSON互換documentを
   custom MIMEとmarker付き`text/plain`へ保存します。
 - `bd_util.maya.ui`のscalar value transferは、Mayaのbool・number・distance・angle・enumを
-  型付きsnapshotへ取得し、別nodeの同じ正式属性pathへ適用します。
+  型付きsnapshotへ取得し、別nodeの同じ正式属性pathまたは明示した複数pathへ適用します。
 
 ## 基本的な使用方法
 
@@ -48,6 +48,11 @@ enumは整数値、項目名、表示順を保存します。貼り付け先で�
 
 `apply_scalar_value_transfer()`は行位置や表示名を使いません。各対象nodeを列挙し、
 正式な相対属性pathと`ScalarAttributeKind`が一致する属性だけを候補にします。
+
+`apply_scalar_value_to_paths()`は、一つのコピー元nodeに一つの属性値だけを持つtransferと、
+貼り付け先の正式pathを受け取ります。コピー元pathの代わりに指定pathへ同じ値を展開し、
+全target nodeへ適用します。number・distance・angle・boolは同じkind同士、enumは整数値と
+項目名の定義が一致する場合だけ候補にします。空・重複pathや複数の搬送値は書込み前に拒否します。
 
 - 属性なし、型・単位違い、enum定義違い、lock・入力接続などのreadonly属性は
   `MayaScalarPasteResult.excluded`へ理由を返します。

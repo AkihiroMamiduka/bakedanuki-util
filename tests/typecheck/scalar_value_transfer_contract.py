@@ -12,6 +12,7 @@ from bd_util.maya.ui import (
     MayaScalarValueSnapshot,
     MayaScalarValueTransfer,
     apply_scalar_value_transfer,
+    apply_scalar_value_to_paths,
     capture_scalar_node_values,
     decode_scalar_value_transfer,
     encode_scalar_value_transfer,
@@ -39,6 +40,10 @@ def contract(
     assert_type(decode_scalar_value_transfer({}), MayaScalarValueTransfer)
     assert_type(
         apply_scalar_value_transfer(target_names, transfer),
+        MayaScalarPasteResult,
+    )
+    assert_type(
+        apply_scalar_value_to_paths(target_names, ("mode",), transfer),
         MayaScalarPasteResult,
     )
     clipboard = MayaScalarValueClipboard()

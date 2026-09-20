@@ -52,6 +52,7 @@ from .scalar_value_transfer import (
     encode_scalar_value_transfer,
     decode_scalar_value_transfer,
     apply_scalar_value_transfer,
+    apply_scalar_value_to_paths,
 )
 
 __all__ = [
@@ -65,6 +66,7 @@ __all__ = [
     "encode_scalar_value_transfer",
     "decode_scalar_value_transfer",
     "apply_scalar_value_transfer",
+    "apply_scalar_value_to_paths",
     "MayaEditSession",
     "ChannelDisplayState",
     "MayaChannelStatePlug",

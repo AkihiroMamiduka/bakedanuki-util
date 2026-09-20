@@ -44,6 +44,7 @@ __all__ = [
     "encode_scalar_value_transfer",
     "decode_scalar_value_transfer",
     "apply_scalar_value_transfer",
+    "apply_scalar_value_to_paths",
 ]
 
 MayaScalarValue: TypeAlias = bool | float | int
@@ -497,3 +498,46 @@ def apply_scalar_value_transfer(
         for binding in bindings:
             binding.dispose()
             binding.deleteLater()
+
+
+def apply_scalar_value_to_paths(
+    node_names: Sequence[str],
+    target_paths: Sequence[str],
+    transfer: MayaScalarValueTransfer,
+) -> MayaScalarPasteResult:
+    """一つの搬送値を全target nodeの指定pathへ一Undoで適用する。"""
+    if not isinstance(transfer, MayaScalarValueTransfer):
+        raise TypeError(
+            "transferにはMayaScalarValueTransferを指定してください"
+        )
+    if len(transfer.nodes) != 1 or len(transfer.nodes[0].values) != 1:
+        raise ValueError(
+            "異なる複数属性へ貼り付けるには一つの属性値が必要です"
+        )
+    if isinstance(target_paths, str):
+        raise TypeError("target_pathsにはstrのsequenceを指定してください")
+    paths = tuple(_require_path(path) for path in target_paths)
+    if not paths:
+        raise ValueError("target_pathsには一つ以上の属性pathが必要です")
+    if len(paths) > _MAX_VALUES:
+        raise ValueError(f"target_pathsは{_MAX_VALUES}件以下にしてください")
+    if len(set(paths)) != len(paths):
+        raise ValueError("同じtarget pathを複数回指定できません")
+
+    # 搬送値の型と実値を保ち、明示された正式pathだけへ展開する
+    source = transfer.nodes[0].values[0]
+    expanded = MayaNodeValueSnapshot(
+        tuple(
+            MayaScalarValueSnapshot(
+                path,
+                source.kind,
+                source.value,
+                enum_definition=source.enum_definition,
+            )
+            for path in paths
+        )
+    )
+    return apply_scalar_value_transfer(
+        node_names,
+        MayaScalarValueTransfer((expanded,)),
+    )

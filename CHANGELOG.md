@@ -17,6 +17,10 @@
   bool・数値・距離・角度・enumを公開単位で搬送し、正式な相対属性pathと型で照合する。
   欠落・型違い・enum定義違い・readonly属性を対象外として返し、適用対象は全件事前検証、
   一回Undo、途中失敗復旧で確定する。sceneと保存設定の移行は不要。
+- `bd_util.maya.ui.apply_scalar_value_to_paths()`を追加。一つの型付き搬送値を、
+  複数nodeの明示した複数正式pathへ展開する。数値・距離・角度・boolは同じ型区分、
+  enumは同じ整数値・項目名定義だけを対象とし、既存の対象外理由・全件事前検証・
+  一回Undo・途中失敗復旧を共用する。clipboard schemaと既存APIの移行は不要。
 - `UiStateManager.register_checkable_action()`を追加。checkableな`QAction`のチェック状態を
   他のWidget内部状態と同じMaya用INIへ保存し、dockable UIのclose・復元・Maya終了処理へ
   統合できる。既存のsettings pathと登録APIの動作は維持する。

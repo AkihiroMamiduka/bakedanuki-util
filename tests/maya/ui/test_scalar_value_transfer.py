@@ -12,6 +12,7 @@ from bd_util.maya.ui import (
     MayaScalarValueSnapshot,
     MayaScalarValueTransfer,
     apply_scalar_value_transfer,
+    apply_scalar_value_to_paths,
     capture_scalar_node_values,
     decode_scalar_value_transfer,
     encode_scalar_value_transfer,
@@ -236,3 +237,116 @@ def test_multiple_sources_are_reserved_but_not_silently_applied(scene):
     transfer = MayaScalarValueTransfer((snapshot, snapshot))
     with pytest.raises(ValueError, match="一つのコピー元"):
         apply_scalar_value_transfer((first,), transfer)
+
+
+def test_single_value_pastes_to_multiple_paths_and_nodes_with_one_undo(scene):
+    """一つの値を同じ型の複数pathと複数nodeへ展開してUndoする。"""
+    source, first, second = scene
+    cmds.setAttr(source + ".tx", 7.5)
+    transfer = MayaScalarValueTransfer(
+        (
+            capture_scalar_node_values(
+                source, _attributes(source, "translate.translateX")
+            ),
+        )
+    )
+    cmds.setAttr(second + ".tz", lock=True)
+    cmds.flushUndo()
+
+    result = apply_scalar_value_to_paths(
+        (first, second),
+        ("translate.translateY", "translate.translateZ"),
+        transfer,
+    )
+    assert result.changed
+    assert result.eligible_count == 3
+    assert len(result.excluded) == 1
+    assert "ロック" in result.excluded[0]
+    assert [cmds.getAttr(node + ".ty") for node in (first, second)] == [
+        7.5,
+        7.5,
+    ]
+    assert cmds.getAttr(first + ".tz") == 7.5
+    assert cmds.getAttr(second + ".tz") == 0
+
+    cmds.undo()
+    assert [cmds.getAttr(node + ".ty") for node in (first, second)] == [0, 0]
+    assert cmds.getAttr(first + ".tz") == 0
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+
+def test_single_enum_value_requires_matching_definition_at_each_path(scene):
+    """enum値の複数path展開でも整数値と項目名の定義を照合する。"""
+    source, first, second = scene
+    for node in (source, first, second):
+        cmds.addAttr(
+            node,
+            ln="mode",
+            at="enum",
+            enumName="Off=0:On=5",
+            keyable=True,
+        )
+        cmds.addAttr(
+            node,
+            ln="quality",
+            at="enum",
+            enumName="Off=0:On=5",
+            keyable=True,
+        )
+    cmds.addAttr(second, ln="variant", at="enum", enumName="Off=0:Other=5")
+    cmds.addAttr(first, ln="variant", at="enum", enumName="Off=0:On=5")
+    cmds.setAttr(source + ".mode", 5)
+    transfer = MayaScalarValueTransfer(
+        (capture_scalar_node_values(source, _attributes(source, "mode")),)
+    )
+    cmds.flushUndo()
+
+    result = apply_scalar_value_to_paths(
+        (first, second), ("quality", "variant"), transfer
+    )
+    assert result.changed
+    assert result.eligible_count == 3
+    assert len(result.excluded) == 1
+    assert "enum定義" in result.excluded[0]
+    assert [cmds.getAttr(node + ".quality") for node in (first, second)] == [
+        5,
+        5,
+    ]
+    assert cmds.getAttr(first + ".variant") == 5
+    assert cmds.getAttr(second + ".variant") == 0
+
+
+def test_single_value_path_paste_rejects_ambiguous_inputs(scene):
+    """複数搬送値、空path集合、重複pathをscene変更前に拒否する。"""
+    source, first, _second = scene
+    one_value = MayaScalarValueTransfer(
+        (
+            capture_scalar_node_values(
+                source, _attributes(source, "translate.translateX")
+            ),
+        )
+    )
+    multiple_values = MayaScalarValueTransfer(
+        (
+            capture_scalar_node_values(
+                source,
+                _attributes(
+                    source,
+                    "translate.translateX",
+                    "translate.translateY",
+                ),
+            ),
+        )
+    )
+    with pytest.raises(ValueError, match="一つの属性値"):
+        apply_scalar_value_to_paths(
+            (first,), ("translate.translateY",), multiple_values
+        )
+    with pytest.raises(ValueError, match="一つ以上"):
+        apply_scalar_value_to_paths((first,), (), one_value)
+    with pytest.raises(ValueError, match="複数回"):
+        apply_scalar_value_to_paths(
+            (first,),
+            ("translate.translateY", "translate.translateY"),
+            one_value,
+        )
