@@ -4113,6 +4113,21 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
             include_channel_box=True,
             include_static=False,
             sample_by=0.5,
+            tangent_type="linear",
+            out_tangent_type=compose.inputTranslate.inputTranslateX.keyframe.tangent.flat,
+            discrete_tangent_type="step",
+        ),
+        None,
+    )
+    assert_type(
+        compose.keyframes.set_tangents(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+            tangent_type="auto",
+            in_tangent_type="flat",
+            discrete_tangent_type="step",
         ),
         None,
     )
@@ -4125,7 +4140,12 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     assert_type(compose.inputTranslate.inputTranslateX.keyframe.bake(), None)
     assert_type(
         compose.inputTranslate.inputTranslateX.keyframe.bake(
-            -10.5, 24.25, sample_by=0.5
+            -10.5,
+            24.25,
+            sample_by=0.5,
+            tangent_type="linear",
+            in_tangent_type="flat",
+            discrete_tangent_type="step",
         ),
         None,
     )
@@ -4191,9 +4211,13 @@ def explicit_curve_keyframe_contract(
     )
     assert_type(keyframe.frames(), list[float])
     assert_type(keyframe.values(), list[float])
-    assert_type(keyframe.set_key(10, 3, out_tangent_type="step"), None)
+    assert_type(keyframe.set_key(10, 3, tangent_type="step"), None)
     assert_type(
-        keyframe.set_keys([(1, 2)], in_tangent_type=keyframe.tangent.auto),
+        keyframe.set_keys(
+            [(1, 2)],
+            tangent_type="linear",
+            in_tangent_type=keyframe.tangent.auto,
+        ),
         None,
     )
     assert_type(keyframe.set_curve_data(keyframe.get_curve_data()), None)
@@ -4205,11 +4229,12 @@ def explicit_curve_keyframe_contract(
     )
     assert_type(keyframe.set_weighted(True), None)
     assert_type(keyframe.insert_key(2), None)
-    assert_type(keyframe.set_tangent(2, out_tangent_type="flat"), None)
+    assert_type(keyframe.set_tangent(2, tangent_type="flat"), None)
     assert_type(
         keyframe.set_tangents(
             1,
             24,
+            tangent_type="auto",
             in_tangent_type="linear",
             out_tangent_type=keyframe.tangent.flat,
         ),
@@ -5177,6 +5202,20 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
             1,
             24,
             attributes=["translate", "rotate"],
+            tangent_type="linear",
+            discrete_tangent_type="step",
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.set_tangents(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            tangent_type="auto",
+            out_tangent_type="flat",
+            discrete_tangent_type="step",
         ),
         None,
     )
@@ -5184,6 +5223,12 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.keyframes.anim_layer(layer).bake(
             [node, "other"], 1, 24, include_static=False
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).set_tangents(
+            [node, "other"], 1, 24, tangent_type="linear"
         ),
         None,
     )

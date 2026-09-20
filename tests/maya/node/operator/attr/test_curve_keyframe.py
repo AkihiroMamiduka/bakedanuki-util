@@ -302,7 +302,7 @@ EDITS = [
     ("set_key", (20, 3)),
     ("set_keys", ([(3, 20)],)),
     ("insert_key", (3,)),
-    ("set_tangent", (1, "linear")),
+    ("set_tangent", (1,)),
     ("set_tangents", ()),
     ("delete_key", (1,)),
     ("delete_keys", ()),
@@ -346,6 +346,9 @@ def _queue_edit(keyframe, method, args):
         return
     if method == "set_tangents":
         keyframe.set_tangents(1, 5, out_tangent_type="linear")
+        return
+    if method == "set_tangent":
+        keyframe.set_tangent(*args, in_tangent_type="linear")
         return
     if method == "set_key_data":
         args = (keyframe.get_key_data(),)

@@ -21,7 +21,11 @@ from .animation_clip import (
     literal_name,
     finite_number,
 )
-from .operator.attr import _keyframe_target, _keyframe_snapshot
+from .operator.attr import (
+    _keyframe_snapshot,
+    _keyframe_tangent,
+    _keyframe_target,
+)
 from .operator.attr._keyframe_discovery import curve_objects, has_animation
 from .operator.attr.define.std.at.scalar._base import sample_reader
 from .operator.attr.keyframe import KeyframeManager
@@ -73,16 +77,7 @@ def supported(plug: om.MPlug) -> bool:
 
 
 def discrete(plug: om.MPlug) -> bool:
-    attr = plug.attribute()
-    return attr.hasFn(om.MFn.kEnumAttribute) or (
-        attr.hasFn(om.MFn.kNumericAttribute)
-        and om.MFnNumericAttribute(attr).numericType()
-        in (
-            om.MFnNumericData.kBoolean,
-            om.MFnNumericData.kShort,
-            om.MFnNumericData.kInt,
-        )
-    )
+    return _keyframe_tangent.is_discrete(plug)
 
 
 def sample(

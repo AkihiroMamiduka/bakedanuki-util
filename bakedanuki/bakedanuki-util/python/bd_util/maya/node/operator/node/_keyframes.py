@@ -9,7 +9,13 @@ from maya import cmds
 from maya.api import OpenMaya as om
 
 from ...modifier import ModifierManager
-from ..attr import _keyframe_bake, _keyframe_snapshot, _keyframe_target
+from ..attr import (
+    _keyframe_bake,
+    _keyframe_snapshot,
+    _keyframe_tangent,
+    _keyframe_target,
+)
+from ..attr._keyframe_tangent import TangentTypeValue
 from .dg._anim_layer import (
     leaf_plugs,
     live_node,
@@ -120,6 +126,7 @@ def _collect_targets(
     allow_missing: bool,
 ) -> tuple[tuple[tuple[_keyframe_target.Target, om.MPlug], ...], set[str]]:
     fn = live_node(node)
+    candidates: list[om.MPlug]
     if attributes is None:
         candidates = [
             fn.findPlug(fn.attribute(index), False)
@@ -153,11 +160,13 @@ def _collect_targets(
             path = _keyframe_target.plug_path(plug)
             if not _supported(plug):
                 if not automatic:
-                    raise TypeError(f"Unsupported bake attribute: {path}.")
+                    raise TypeError(
+                        f"Unsupported animation attribute: {path}."
+                    )
                 continue
             if locked_plug(plug):
                 if not automatic:
-                    raise RuntimeError(f"Cannot bake locked plug {path}.")
+                    raise RuntimeError(f"Cannot edit locked plug {path}.")
                 continue
             if (
                 layer_name is not None
@@ -180,6 +189,26 @@ def _collect_targets(
             )
             found[path] = (target, plug)
     return tuple(found.values()), matched
+
+
+def _existing_tangent_targets(
+    targets: tuple[tuple[_keyframe_target.Target, om.MPlug], ...],
+    *,
+    automatic: bool,
+) -> tuple[tuple[_keyframe_target.Target, om.MPlug], ...]:
+    found: list[tuple[_keyframe_target.Target, om.MPlug]] = []
+    for target, plug in targets:
+        try:
+            curve = _keyframe_target.resolve_curve(target)
+        except RuntimeError:
+            if automatic:
+                continue
+            raise
+        if curve is None:
+            continue
+        _keyframe_target.resolve_curve(target, write=True)
+        found.append((target, plug))
+    return tuple(found)
 
 
 class NodeKeyframeManager:
@@ -227,6 +256,10 @@ class NodeKeyframeManager:
         include_channel_box: bool = False,
         include_static: bool = True,
         sample_by: float = 1.0,
+        tangent_type: TangentTypeValue = None,
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+        discrete_tangent_type: TangentTypeValue = None,
     ) -> None:
         """Sample selected node channels and replace their raw inputs with keys.
 
@@ -248,6 +281,14 @@ class NodeKeyframeManager:
             raise TypeError("include_static must be a bool.")
         frames, rate = _keyframe_bake.capture_grid(
             start_frame, end_frame, sample_by
+        )
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type, in_tangent_type, out_tangent_type
+        )
+        discrete_type = (
+            _keyframe_tangent.to_tangent_type(discrete_tangent_type)
+            if discrete_tangent_type is not None
+            else None
         )
         node_handle = self._node_handle
         layer_handle = self._layer_handle
@@ -285,6 +326,73 @@ class NodeKeyframeManager:
                 "No animated attributes were selected. "
                 "Use include_static=True to bake static values."
             ),
+            in_type=in_type,
+            out_type=out_type,
+            discrete_type=discrete_type,
+        )
+
+    def set_tangents(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        tangent_type: TangentTypeValue = None,
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+        discrete_tangent_type: TangentTypeValue = None,
+    ) -> None:
+        """Set tangent types on existing keys in selected node channels."""
+        if isinstance(attributes, str):
+            raise TypeError("attributes must be an iterable of names or None.")
+        attrs = (
+            None
+            if attributes is None
+            else tuple(_literal_attribute(value) for value in attributes)
+        )
+        if type(include_channel_box) is not bool:
+            raise TypeError("include_channel_box must be a bool.")
+        start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type, in_tangent_type, out_tangent_type
+        )
+        discrete_type = (
+            _keyframe_tangent.to_tangent_type(discrete_tangent_type)
+            if discrete_tangent_type is not None
+            else None
+        )
+        if in_type is None and out_type is None and discrete_type is None:
+            return
+        node_handle = self._node_handle
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> (
+            tuple[tuple[_keyframe_target.Target, om.MPlug], ...]
+        ):
+            if not node_handle.isAlive() or not node_handle.isValid():
+                raise RuntimeError("The node is not available in the scene.")
+            node = node_handle.object()
+            layer, layer_name, root_name = _resolve_layer(layer_handle)
+            found, _ = _collect_targets(
+                node,
+                attrs,
+                include_channel_box,
+                layer,
+                layer_name,
+                root_name,
+                allow_missing=False,
+            )
+            return _existing_tangent_targets(found, automatic=attrs is None)
+
+        _keyframe_tangent.queue_batch(
+            self._modifier_manager,
+            resolve_targets,
+            start,
+            end,
+            in_type,
+            out_type,
+            discrete_type,
         )
 
 
@@ -323,6 +431,10 @@ class NodesKeyframeManager:
         include_channel_box: bool = False,
         include_static: bool = True,
         sample_by: float = 1.0,
+        tangent_type: TangentTypeValue = None,
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+        discrete_tangent_type: TangentTypeValue = None,
     ) -> None:
         """Bake selected channels on multiple nodes as one atomic edit."""
         from ._core import NodeOperator
@@ -361,6 +473,14 @@ class NodesKeyframeManager:
             raise TypeError("include_static must be a bool.")
         frames, rate = _keyframe_bake.capture_grid(
             start_frame, end_frame, sample_by
+        )
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type, in_tangent_type, out_tangent_type
+        )
+        discrete_type = (
+            _keyframe_tangent.to_tangent_type(discrete_tangent_type)
+            if discrete_tangent_type is not None
+            else None
         )
         handles = tuple(node_handles)
         layer_handle = self._layer_handle
@@ -415,6 +535,117 @@ class NodesKeyframeManager:
                 "No animated attributes were selected. "
                 "Use include_static=True to bake static values."
             ),
+            in_type=in_type,
+            out_type=out_type,
+            discrete_type=discrete_type,
+        )
+
+    def set_tangents(
+        self,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        tangent_type: TangentTypeValue = None,
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+        discrete_tangent_type: TangentTypeValue = None,
+    ) -> None:
+        """Set tangent types across nodes as one atomic edit."""
+        from ._core import NodeOperator
+
+        if isinstance(nodes, (str, NodeOperator, om.MObject)):
+            raise TypeError("nodes must be an iterable of nodes.")
+        try:
+            values = tuple(nodes)
+        except TypeError as exc:
+            raise TypeError("nodes must be an iterable of nodes.") from exc
+        if not values:
+            raise ValueError("nodes must contain at least one node.")
+        node_handles: list[om.MObjectHandle] = []
+        unique_handles: set[om.MObjectHandle] = set()
+        for value in values:
+            handle = om.MObjectHandle(node_object(value))
+            if handle in unique_handles:
+                raise ValueError("Duplicate tangent node.")
+            unique_handles.add(handle)
+            node_handles.append(handle)
+
+        if isinstance(attributes, str):
+            raise TypeError("attributes must be an iterable of names or None.")
+        attrs = (
+            None
+            if attributes is None
+            else tuple(
+                dict.fromkeys(
+                    _literal_attribute(value) for value in attributes
+                )
+            )
+        )
+        if type(include_channel_box) is not bool:
+            raise TypeError("include_channel_box must be a bool.")
+        start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type, in_tangent_type, out_tangent_type
+        )
+        discrete_type = (
+            _keyframe_tangent.to_tangent_type(discrete_tangent_type)
+            if discrete_tangent_type is not None
+            else None
+        )
+        if in_type is None and out_type is None and discrete_type is None:
+            return
+        handles = tuple(node_handles)
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> (
+            tuple[tuple[_keyframe_target.Target, om.MPlug], ...]
+        ):
+            layer, layer_name, root_name = _resolve_layer(layer_handle)
+            found: list[tuple[_keyframe_target.Target, om.MPlug]] = []
+            matched: set[str] = set()
+            for handle in handles:
+                if not handle.isAlive() or not handle.isValid():
+                    raise RuntimeError(
+                        "A tangent node is not available in the scene."
+                    )
+                targets, names = _collect_targets(
+                    handle.object(),
+                    attrs,
+                    include_channel_box,
+                    layer,
+                    layer_name,
+                    root_name,
+                    allow_missing=True,
+                )
+                found.extend(targets)
+                matched.update(names)
+            if attrs is not None:
+                missing = tuple(
+                    attribute
+                    for attribute in attrs
+                    if attribute not in matched
+                )
+                if missing:
+                    joined = ", ".join(repr(value) for value in missing)
+                    raise ValueError(
+                        "Animation attributes do not exist on any selected "
+                        f"node: {joined}."
+                    )
+            return _existing_tangent_targets(
+                tuple(found), automatic=attrs is None
+            )
+
+        _keyframe_tangent.queue_batch(
+            self._modifier_manager,
+            resolve_targets,
+            start,
+            end,
+            in_type,
+            out_type,
+            discrete_type,
         )
 
 

@@ -183,16 +183,17 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 
 | 用途 | API / 状態 |
 | --- | --- |
-| 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `set_tangents()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。単一・両端包含範囲・全キーの接線type変更、予約実行、Undo / Redo、途中失敗時rollbackに対応 |
+| 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `set_tangents()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。`tangent_type`によるin / out共通指定、個別側の上書き、単一・両端包含範囲・全キーの接線type変更、Undo / Redo・rollbackに対応 |
 | 時間方向への移動 | `move_frame()` / `move_frames()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_frames()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否。属性・layer・明示カーブで同じ操作を使用 |
 | 時間方向への拡縮 | `scale_frames()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
 | キー削減 | `reduce_keys()`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
-| plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を、再生範囲または指定区間で等間隔に評価してTA / TL / TUへ全置換。上流nodeと非対象のcompound子・layerを維持し、Undo / Redo・rollbackに対応 |
-| node入力の一括ベイク | `node.keyframes.bake()`。明示属性またはkeyable / channelBox属性をscalar leafへ展開し、静的な対象も既定でカーブ化。全対象を変更前にsamplingし、compound共有接続を一括分割して、操作全体のUndo / Redo・rollbackに対応 |
-| 複数node入力の一括ベイク | `nodes.keyframes.bake([...])`。nodeごとに存在する明示属性または自動収集した属性を、全nodeで変更前にsampling。node間を含むUndo / Redo・rollback、共通layer、総サンプル数上限に対応 |
+| plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を等間隔に評価してTA / TL / TUへ全置換。連続・離散属性を分けた接線指定、上流nodeと非対象のcompound子・layerの維持、Undo / Redo・rollbackに対応 |
+| nodeの接線一括変更 | `node.keyframes.set_tangents()` / `nodes.keyframes.set_tangents([...])`。keyable / channelBoxまたは明示属性の既存カーブだけを対象にし、連続・離散属性を分けて全対象を1単位で変更 |
+| node入力の一括ベイク | `node.keyframes.bake()`。明示属性またはkeyable / channelBox属性をscalar leafへ展開し、静的な対象も既定でカーブ化。接線指定、全対象の事前sampling、compound共有接続の一括分割、操作全体のUndo / Redo・rollbackに対応 |
+| 複数node入力の一括ベイク | `nodes.keyframes.bake([...])`。nodeごとに存在する明示属性または自動収集した属性を全nodeで変更前にsampling。接線指定、node間を含むUndo / Redo・rollback、共通layer、総サンプル数上限に対応 |
 | 実在キーの時刻・値 | `get_keys()`。指定範囲に存在するキーだけを返し、境界補完は行わない |
 | 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元と、未接続plug・登録済みlayerのカーブ自動作成に対応 |
 | カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
@@ -310,8 +311,10 @@ channelBox属性の任意追加、静的値の既定ベイク、compound / 実�
 適用し、全nodeで見つからない名前はエラーにします。全node・全属性のsamplingを先行し、
 上流・下流nodeの指定順に依存しない操作全体のUndo / Redo・rollbackに対応します。
 仕様は[複数nodeをまとめてベイクする](attributes.md#複数nodeをまとめてベイクする)を参照してください。
-続いて、範囲内の既存キーの接線typeをまとめて変更する`set_tangents()`を追加しました。
-その後は、`AnimationClip`の逆再生、node・属性の部分抽出、Euler filterの順に検討します。
+続いて、範囲内の既存キーの接線typeをまとめて変更する`set_tangents()`を追加し、
+`tangent_type`共通指定、node・複数nodeの一括変更、ベイク時の接線指定へ拡張しました。
+その後は、接線・weight lockの範囲操作とnode / nodes単位のweighted切替を検討し、
+`AnimationClip`の逆再生、node・属性の部分抽出、Euler filterへ進みます。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
@@ -331,10 +334,11 @@ layer構造の管理や自動選択を追加する場合は、
 
 ### 範囲内キーの接線type変更
 
-`set_tangents(start_frame=None, end_frame=None, *, in_tangent_type=None,
-out_tangent_type=None)`を追加しました。両端包含、`None`側は無制限、両端省略は全キーです。
+`set_tangents(start_frame=None, end_frame=None, *, tangent_type=None,
+in_tangent_type=None, out_tangent_type=None)`を追加しました。両端包含、`None`側は無制限、
+両端省略は全キーです。`tangent_type`は両側の共通値で、個別指定は該当側を上書きします。
 境界キーは補完せず、範囲内に実在するキーだけを変更します。片側のtypeを省略するとその側を
-維持し、両側省略・カーブなし・該当キーなしはno-opです。
+維持し、全接線指定省略・カーブなし・該当キーなしはno-opです。
 
 値・時刻・breakdown・tangent / weight lock・weighted・infinityは維持し、typeに伴う
 接線XYの再計算だけをMayaへ委ねます。属性・明示layer・明示TA / TL / TUカーブで同じ
@@ -343,18 +347,35 @@ Undo / Redo・rollbackへ参加します。既存`set_tangent()`は同じ範囲�
 境界挿入、補間、lock操作、対応tangent typeの追加は行いません。
 2026-09-20時点で、関連pytestはMaya 2025 / 2026 / 2027で各3,377件成功し、
 3 versionの型・補完contractと`verify.cmd`も成功しています。
-利用者によるMaya画面上での確認とcommit / pushは未実施です。
+利用者によるMaya画面上での確認とcommit / pushも完了し、`3509264f`へ反映されています。
+
+### 接線指定とnode一括操作の拡張
+
+`set_key()` / `set_keys()` / `set_tangent()` / `set_tangents()`へ、in / out両側の共通値を
+指定する`tangent_type`を追加しました。個別の`in_tangent_type` / `out_tangent_type`は
+該当側だけ共通値を上書きします。単数版の接線引数もkeyword専用へ揃えました。
+
+`node.keyframes.set_tangents()` / `nodes.keyframes.set_tangents([...])`は、ベイクと同じ
+属性収集・layer選択を使い、既存カーブ・既存キーだけを1操作で変更します。通常の接線指定は
+連続属性だけに適用し、bool・enum・整数系は`discrete_tangent_type`を明示した場合だけ
+in / out両側を変更します。静的属性、カーブなし、該当キーなしはno-opです。
+
+plug・node・複数nodeの各`bake()`にも同じ連続接線指定と`discrete_tangent_type`を追加しました。
+未指定時は連続属性がlinear / linear、離散属性がstep / stepです。接線指定は生成する
+`AnimCurveData`へ含め、sampling・接続変更・復元・値検証と同じUndo / Redo・rollback単位で
+適用します。離散型判定は共通化し、enumとscalar整数系を同じ対象として扱います。
 
 ### plug入力ベイクの実装
 
-`KeyframeManager.bake(start_frame=None, end_frame=None, *, sample_by=1.0)`を追加しました。
+`KeyframeManager.bake(start_frame=None, end_frame=None, *, sample_by=1.0, ...)`を追加しました。
 範囲端の省略時は呼び出し時の再生範囲を捕捉し、初回実行時に対象の生入力を全時刻分
 samplingしてから接続を変更します。終了端を必ず含め、負時刻・subframe・予約後のFPS変更に対応します。
 
 内部処理は`_keyframe_bake.py`へ分離しました。既定ベースはlayer合成のinputA側、
 明示layerはMayaのlayeredPlugを解決します。対象へ直接つながる非共有カーブだけを再利用し、
 それ以外の入力接続を切って新しいカーブを作成します。親compound接続は対象子で分割して兄弟を維持します。
-連続値はlinear、離散値はstep、範囲外はconstantとし、適用後に全サンプル値を再検査します。
+連続値は既定でlinear / linear、離散値はstep / stepとし、専用引数で接線を変更できます。
+範囲外はconstantとし、適用後に全サンプル値を再検査します。
 接続元・接続先・layerのlock / reference検査、接続変更と全カーブ復元を同じmanagerの履歴へ含めます。
 詳しい契約は[ベイクの現行仕様](attributes.md#評価済み入力をキーフレームへベイクする)、
 検証範囲は[ベイクの検証](testing.md#plug入力ベイクの検証)を参照してください。

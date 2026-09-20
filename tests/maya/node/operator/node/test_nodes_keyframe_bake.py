@@ -82,6 +82,37 @@ def test_bake_multiple_nodes_with_one_history(maya_cmds):
     )
 
 
+def test_multiple_node_bake_propagates_tangent_options(maya_cmds):
+    cmds = maya_cmds
+    driver = _animated_transform(cmds)
+    first = cmds.createNode("transform", name="first")
+    second = cmds.createNode("transform", name="second")
+    cmds.connectAttr(driver + ".tx", first + ".tx")
+    cmds.connectAttr(driver + ".tx", second + ".tx")
+    manager = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=manager)
+    nodes.keyframes.bake(
+        [first, second],
+        1,
+        3,
+        attributes=["tx"],
+        tangent_type="flat",
+        out_tangent_type="linear",
+    )
+    manager.do_it_dg()
+
+    for node in (first, second):
+        curve = _source(node + ".tx").split(".")[0]
+        assert (
+            cmds.keyTangent(curve, query=True, inTangentType=True)
+            == ["flat"] * 3
+        )
+        assert (
+            cmds.keyTangent(curve, query=True, outTangentType=True)
+            == ["linear"] * 3
+        )
+
+
 def test_explicit_attribute_union_skips_missing_per_node(maya_cmds):
     cmds = maya_cmds
     first = cmds.createNode("transform", name="first")
@@ -372,6 +403,8 @@ def test_duplicate_nodes_are_rejected_by_identity(maya_cmds):
         ({"include_channel_box": 1}, TypeError),
         ({"include_static": 1}, TypeError),
         ({"sample_by": 0}, ValueError),
+        ({"tangent_type": "unknown"}, ValueError),
+        ({"discrete_tangent_type": "unknown"}, ValueError),
     ],
 )
 def test_invalid_bake_arguments_do_not_queue(maya_cmds, kwargs, error):

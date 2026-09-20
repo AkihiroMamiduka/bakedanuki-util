@@ -11,7 +11,12 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
-from . import _keyframe_discovery, _keyframe_snapshot, _keyframe_target
+from . import (
+    _keyframe_discovery,
+    _keyframe_snapshot,
+    _keyframe_tangent,
+    _keyframe_target,
+)
 from .keyframe_data import AnimCurveData, KeyData
 
 _MAX_SAMPLES = 10_000_001
@@ -198,28 +203,32 @@ def _direct_reusable_curve(
     return curve
 
 
-def _discrete(plug: om.MPlug) -> bool:
-    attribute = plug.attribute()
-    return attribute.hasFn(om.MFn.kEnumAttribute) or (
-        attribute.hasFn(om.MFn.kNumericAttribute)
-        and om.MFnNumericAttribute(attribute).numericType()
-        in (
-            om.MFnNumericData.kBoolean,
-            om.MFnNumericData.kByte,
-            om.MFnNumericData.kChar,
-            om.MFnNumericData.kShort,
-            om.MFnNumericData.kInt,
-        )
-    )
-
-
 def _curve_data(
     target: _keyframe_target.Target,
     plug: om.MPlug,
     samples: tuple[tuple[float, float], ...],
     seconds_per_frame: float,
+    in_type: int | None,
+    out_type: int | None,
+    discrete_type: int | None,
 ) -> AnimCurveData:
-    out_tangent = "step" if _discrete(plug) else "linear"
+    if _keyframe_tangent.is_discrete(plug):
+        incoming = outgoing = (
+            _keyframe_tangent.TangentType.step
+            if discrete_type is None
+            else discrete_type
+        )
+    else:
+        incoming = (
+            _keyframe_tangent.TangentType.linear
+            if in_type is None
+            else in_type
+        )
+        outgoing = (
+            _keyframe_tangent.TangentType.linear
+            if out_type is None
+            else out_type
+        )
     return AnimCurveData(
         curve_type=_keyframe_snapshot.curve_type_for_target(target),
         seconds_per_frame=seconds_per_frame,
@@ -230,8 +239,12 @@ def _curve_data(
             KeyData(
                 frame=frame,
                 value=value,
-                in_tangent_type="linear",
-                out_tangent_type=out_tangent,
+                in_tangent_type=_keyframe_tangent.data_tangent_name(
+                    incoming, incoming=True
+                ),
+                out_tangent_type=_keyframe_tangent.data_tangent_name(
+                    outgoing, incoming=False
+                ),
                 in_tangent_xy=(1.0, 0.0),
                 out_tangent_xy=(1.0, 0.0),
                 tangents_locked=False,
@@ -293,6 +306,9 @@ def queue_bakes(
     *,
     include_static: bool,
     empty_error: str,
+    in_type: int | None = None,
+    out_type: int | None = None,
+    discrete_type: int | None = None,
 ) -> None:
     """Queue one atomic, deferred bake for one or more channel targets."""
 
@@ -320,7 +336,15 @@ def queue_bakes(
                 target=target,
                 plug=plug,
                 samples=samples,
-                data=_curve_data(target, plug, samples, seconds_per_frame),
+                data=_curve_data(
+                    target,
+                    plug,
+                    samples,
+                    seconds_per_frame,
+                    in_type,
+                    out_type,
+                    discrete_type,
+                ),
                 connection=(connection := _incoming_connection(raw)),
                 reusable=_direct_reusable_curve(target, raw, connection),
             )
@@ -370,6 +394,10 @@ def queue_bake(
     plug: om.MPlug,
     frames: tuple[float, ...],
     seconds_per_frame: float,
+    *,
+    in_type: int | None,
+    out_type: int | None,
+    discrete_type: int | None,
 ) -> None:
     """Queue deferred sampling, connection replacement and value verification."""
 
@@ -380,4 +408,7 @@ def queue_bake(
         seconds_per_frame,
         include_static=True,
         empty_error="The bake target is not available.",
+        in_type=in_type,
+        out_type=out_type,
+        discrete_type=discrete_type,
     )

@@ -122,6 +122,57 @@ def test_keyframe_property_sets_in_and_out_tangent_type(
     ) == [tangent_type]
 
 
+def test_common_tangent_type_sets_both_sides_and_specific_side_overrides(
+    plus_minus_average_node,
+    maya_cmds,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_keys(
+        [(1, 0), (2, 1), (3, 0)],
+        tangent_type="flat",
+        out_tangent_type="linear",
+    )
+    plus_minus_average_node.modifier_manager.do_it_dg()
+
+    curve = "test_input1D_0_"
+    assert (
+        maya_cmds.keyTangent(curve, query=True, inTangentType=True)
+        == ["flat"] * 3
+    )
+    assert (
+        maya_cmds.keyTangent(curve, query=True, outTangentType=True)
+        == ["linear"] * 3
+    )
+
+    keyframe.set_tangents(
+        2,
+        3,
+        tangent_type="auto",
+        out_tangent_type="step",
+    )
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    assert maya_cmds.keyTangent(curve, query=True, inTangentType=True) == [
+        "flat",
+        "auto",
+        "auto",
+    ]
+    assert maya_cmds.keyTangent(curve, query=True, outTangentType=True) == [
+        "linear",
+        "step",
+        "step",
+    ]
+
+
+def test_single_key_tangent_arguments_are_keyword_only(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    with pytest.raises(TypeError):
+        keyframe.set_key(1, 1, "linear")
+    with pytest.raises(TypeError):
+        keyframe.set_tangent(1, "linear")
+
+
 @pytest.mark.parametrize("tangent_type", TANGENT_TYPES)
 def test_keyframe_property_sets_tangent_type_from_constant(
     plus_minus_average_node,

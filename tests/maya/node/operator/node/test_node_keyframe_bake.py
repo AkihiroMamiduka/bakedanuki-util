@@ -106,6 +106,44 @@ def test_automatic_bake_collects_static_and_animated_keyable_channels(
     )
 
 
+def test_node_bake_applies_separate_continuous_and_discrete_tangents(
+    maya_cmds,
+):
+    cmds = maya_cmds
+    driver = _animated_driver(cmds, attributes=("tx",))
+    target = cmds.createNode("transform", name="target")
+    cmds.connectAttr(driver + ".tx", target + ".tx")
+    cmds.connectAttr(driver + ".visibility", target + ".visibility")
+    manager = bdu.ModifierManager()
+    _node(target, manager).keyframes.bake(
+        1,
+        3,
+        attributes=["tx", "visibility"],
+        tangent_type="flat",
+        discrete_tangent_type="stepnext",
+    )
+    manager.do_it_dg()
+
+    continuous = _source(target + ".tx").split(".")[0]
+    discrete = _source(target + ".visibility").split(".")[0]
+    assert (
+        cmds.keyTangent(continuous, query=True, inTangentType=True)
+        == ["flat"] * 3
+    )
+    assert (
+        cmds.keyTangent(continuous, query=True, outTangentType=True)
+        == ["flat"] * 3
+    )
+    assert (
+        cmds.keyTangent(discrete, query=True, inTangentType=True)
+        == ["stepnext"] * 3
+    )
+    assert (
+        cmds.keyTangent(discrete, query=True, outTangentType=True)
+        == ["stepnext"] * 3
+    )
+
+
 def test_multiple_explicit_leaves_detach_parent_once_and_preserve_sibling(
     maya_cmds,
 ):
@@ -460,6 +498,8 @@ def test_pending_created_node_can_resolve_attributes_when_executed(maya_cmds):
         ((), {"include_static": 1}, TypeError),
         ((5, 1), {}, ValueError),
         ((1, 5), {"sample_by": 0}, ValueError),
+        ((1, 5), {"tangent_type": "unknown"}, ValueError),
+        ((1, 5), {"discrete_tangent_type": "unknown"}, ValueError),
     ],
 )
 def test_invalid_arguments_do_not_queue_changes(

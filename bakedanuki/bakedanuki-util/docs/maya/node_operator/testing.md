@@ -621,7 +621,8 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 次の契約を検証します。
 
 - 両端包含、片側省略、全キー、負時刻・subframe、範囲端にキーがない場合もキーを挿入しないこと。
-- in / out両側と片側だけの変更、両側省略・カーブなし・該当キーなしのno-op。
+- `tangent_type`によるin / out共通指定、個別側の上書き、片側だけの変更、
+  全指定省略・カーブなし・該当キーなしのno-op。単数版の接線引数がkeyword専用であること。
 - 値・時刻・breakdown・tangent / weight lock・weighted・infinityと範囲外キーを維持すること。
   type変更による接線XYの再計算と、lockしたキーの片側変更はMaya標準動作に従うこと。
 - 予約時のUI時間単位、同一batchで先行予約したキー、予約後の再接続・改名を初回実行時に解決すること。
@@ -644,7 +645,21 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 | 上記のMaya 2025 full pytest | 6,765件成功、632件skip |
 | 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
 
-範囲接線変更の利用者によるMaya画面上での確認とcommit / pushは未実施です。
+範囲接線変更の利用者によるMaya画面上での確認とcommit / pushも完了し、
+`3509264f`へ反映されています。
+
+## node・複数nodeの接線変更の検証
+
+`test_node_keyframe_tangent.py`では、`node.keyframes.set_tangents()`と
+`nodes.keyframes.set_tangents([...])`の次の契約を検証します。
+
+- keyable属性の自動収集、明示属性、既存カーブ・既存キーだけの変更と静的属性のno-op。
+- 通常の接線指定を連続属性だけへ適用し、離散属性は既定で維持すること。
+  `discrete_tangent_type`を明示するとin / out両側を同じtypeへ変更すること。
+- 複数nodeでは属性が存在するnodeだけへ適用し、全nodeにない名前、重複・空node列を拒否すること。
+- root / 明示layer、lock / reference / 未所属・未対応接続の検査、全対象のUndo / Redo・rollback。
+- 両端包含、片側省略、全キー、負時刻・subframe、予約時のUI時間単位と作成待ちnode / layer。
+- `NodeKeyframeManager` / `NodesKeyframeManager`の公開引数と戻り値をIDE補完で追えること。
 
 ## plug入力ベイクの検証
 
@@ -652,7 +667,8 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 
 - 呼び出し時の再生範囲、明示範囲、終了端を含むsample間隔、負時刻・subframe、静的入力。
   予約後のFPS変更では物理時刻を維持し、値は初回実行時のsceneから取得すること。
-- TA / TL / TU、連続値のlinear接線、bool等のstep接線、constant infinity、nonweightedへの全置換。
+- TA / TL / TU、連続値の既定linear / linear、bool・enum・整数系の既定step / step、
+  連続用の共通・個別接線指定と離散用`discrete_tangent_type`、constant infinity、nonweightedへの全置換。
   既存カーブの範囲外キー・設定を削除し、直接の非共有カーブは再利用すること。
 - constraint・expression等の上流nodeを残して対象入力だけを切断すること。
   親compound接続の非対象子、共有カーブの別出力先、ベース以外のlayerを維持すること。
@@ -685,7 +701,7 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
   共有しても1回だけ切断し、対象外の兄弟を維持すること。
 - 既存nodeと同じDG modifierで作成待ちのDG node、ベース・指定layer、Undo / Redo、
   複数対象の途中失敗時rollback、適用後の全サンプル値検査。
-- 開始・終了・sample間隔、bool option、属性列の入力検証と、IDE補完で追える
+- 開始・終了・sample間隔、bool option、属性列・接線の入力検証と、IDE補完で追える
   `NodeKeyframeManager`の引数・戻り値型。
 
 専用MPxCommand fixtureのベイク経路も`node.keyframes.bake(attributes=["tx"])`を使用し、
@@ -706,7 +722,8 @@ Maya標準Undo / Redoとcommand失敗時rollbackを検証します。plug単位�
   操作全体のエラーにすること。自動収集では対象0件のnodeをスキップすること。
 - 上流・下流nodeを逆順で指定しても、全nodeのsamplingを接続変更より前に完了すること。
 - 共通layer、作成待ちnode / layer、1回のUndo / Redo、後半nodeの検査失敗時の全体rollback。
-- `フレーム数 × 対象leaf数`による総サンプル数上限と、`NodesKeyframeManager`の型・補完契約。
+- 共通・個別・離散用の接線指定、`フレーム数 × 対象leaf数`による総サンプル数上限と、
+  `NodesKeyframeManager`の型・補完契約。
 
 ```powershell
 .\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/node/test_nodes_keyframe_bake.py

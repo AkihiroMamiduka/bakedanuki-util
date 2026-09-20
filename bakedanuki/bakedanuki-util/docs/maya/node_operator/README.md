@@ -57,7 +57,8 @@
     layerがないsceneでは、単位変換やpairBlend越しでも同じチャンネルのカーブを自動解決します。
     `.anim_layer("Correction")`で、既存layer用の`KeyframeManager`を取得できます。
     キー設定は対象layerを明示してMayaが値を解決し、取得・詳細復元はそのlayerの生カーブを扱います。
-    `set_tangents()`は両端包含範囲または全キーに実在する接線typeをまとめて変更します。
+    `set_tangents()`は`tangent_type`による両側指定と個別側の上書きに対応し、
+    両端包含範囲または全キーに実在する接線typeをまとめて変更します。
     詳細復元は登録済み属性のカーブがなければ自動作成し、事前の仮キーを必要としません。
     明示指定はTA / TL / TUノードの`.keyframe`から使用します。
     調査用の`find_anim_curves()`では、上流候補を具体ノード型のtupleとして取得できます。
@@ -66,8 +67,8 @@
     作成待ちの戻り値を`.keyframe.anim_layer(layer)`へ渡し、キー設定まで一括予約できます。
 - `python/bd_util/maya/node/operator/node/_keyframes.py`
   - 全`NodeOperator`の`.keyframes`と`Nodes.keyframes`から使う、node単位・複数node単位の
-    ベイク入口です。明示属性またはkeyable / channelBox属性を収集し、全対象のsampling後に
-    同じ履歴で入力を置換します。
+    接線変更・ベイク入口です。明示属性またはkeyable / channelBox属性を収集し、既存カーブの
+    接線を一括変更するか、全対象のsampling後に同じ履歴で入力を置換します。
 - `python/bd_util/maya/node/operator/attr/_keyframe_discovery.py`
   - DG依存関係の候補列挙と型filter。layer所属や合成値の解決とは分離しています。
     内部のカーブ列挙はsample_valuesの再評価準備でも使用し、こちらは入力側のカーブまで辿ります。

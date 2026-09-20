@@ -73,7 +73,12 @@ def test_set_keys_matches_sequential_set_key_with_unsorted_duplicate_inputs(
         is None
     )
     for frame, value in zip(frames, values):
-        reference.set_key(value, frame, in_type, out_type)
+        reference.set_key(
+            value,
+            frame,
+            in_tangent_type=in_type,
+            out_tangent_type=out_type,
+        )
     _assert_curve_state(_curve_state(actual_curve), before)
     maya_cmds.keyTangent(
         g=True,

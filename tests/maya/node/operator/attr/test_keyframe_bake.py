@@ -210,6 +210,11 @@ def test_discrete_channel_uses_step_tangents(maya_cmds):
     manager.do_it_dg()
 
     curve = _source(target + ".visibility").split(".")[0]
+    assert cmds.keyTangent(curve, query=True, inTangentType=True) == [
+        "step",
+        "step",
+        "step",
+    ]
     assert cmds.keyTangent(curve, query=True, outTangentType=True) == [
         "step",
         "step",
@@ -239,12 +244,63 @@ def test_enum_channel_uses_step_tangents(maya_cmds):
     manager.do_it_dg()
 
     curve = _source(target + ".mode").split(".")[0]
+    assert cmds.keyTangent(curve, query=True, inTangentType=True) == [
+        "step",
+        "step",
+        "step",
+    ]
     assert cmds.keyTangent(curve, query=True, outTangentType=True) == [
         "step",
         "step",
         "step",
     ]
     assert _values(cmds, target + ".mode", (1, 2, 3)) == [0, 0, 2]
+
+
+def test_bake_tangent_options_separate_continuous_and_discrete_channels(
+    maya_cmds,
+):
+    cmds = maya_cmds
+    driver = cmds.createNode("transform", name="driver")
+    target = cmds.createNode("transform", name="target")
+    for frame, value in ((1, 2), (3, 6)):
+        cmds.setKeyframe(driver + ".tx", time=frame, value=value)
+        cmds.setKeyframe(driver + ".visibility", time=frame, value=value > 2)
+    cmds.connectAttr(driver + ".tx", target + ".tx")
+    cmds.connectAttr(driver + ".visibility", target + ".visibility")
+    manager = bdu.ModifierManager()
+    _keyframe(target + ".tx", manager).bake(
+        1,
+        3,
+        tangent_type="flat",
+        out_tangent_type="linear",
+    )
+    _keyframe(target + ".visibility", manager).bake(
+        1,
+        3,
+        tangent_type="flat",
+        discrete_tangent_type="stepnext",
+    )
+    manager.do_it_dg()
+
+    continuous = _source(target + ".tx").split(".")[0]
+    assert (
+        cmds.keyTangent(continuous, query=True, inTangentType=True)
+        == ["flat"] * 3
+    )
+    assert (
+        cmds.keyTangent(continuous, query=True, outTangentType=True)
+        == ["linear"] * 3
+    )
+    discrete = _source(target + ".visibility").split(".")[0]
+    assert (
+        cmds.keyTangent(discrete, query=True, inTangentType=True)
+        == ["stepnext"] * 3
+    )
+    assert (
+        cmds.keyTangent(discrete, query=True, outTangentType=True)
+        == ["stepnext"] * 3
+    )
 
 
 def test_existing_direct_curve_is_reused_and_fully_replaced(maya_cmds):
@@ -518,6 +574,8 @@ def test_post_bake_verification_failure_rolls_back_changes(
         ((1, 5), {"sample_by": True}, TypeError),
         ((1, 5), {"sample_by": "1"}, TypeError),
         ((0, 10_000_001), {"sample_by": 1}, ValueError),
+        ((1, 5), {"tangent_type": "unknown"}, ValueError),
+        ((1, 5), {"discrete_tangent_type": "unknown"}, ValueError),
     ],
 )
 def test_invalid_arguments_do_not_queue_changes(

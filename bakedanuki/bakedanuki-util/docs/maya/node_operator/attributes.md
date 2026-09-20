@@ -211,8 +211,8 @@ nodes = bdu.Nodes(modifier_manager=mod)
 cmp_m = nodes.create.composeMatrix(name="cmp_m")
 keyframe = cmp_m.inputRotate.inputRotateX.keyframe
 
-keyframe.set_key(0.0, frame=1.0, out_tangent_type="linear")
-keyframe.set_key(90.0, frame=24.0, in_tangent_type=keyframe.tangent.linear)
+keyframe.set_key(0.0, frame=1.0, tangent_type="linear")
+keyframe.set_key(90.0, frame=24.0, tangent_type=keyframe.tangent.linear)
 mod.do_it_dg()
 
 mod.undo_it()
@@ -225,7 +225,7 @@ mod.redo_it()
 
 ### 複数キーをまとめて設定する
 
-`set_keys(keys, *, in_tangent_type=None, out_tangent_type=None) -> None`は、
+`set_keys(keys, *, tangent_type=None, in_tangent_type=None, out_tangent_type=None) -> None`は、
 複数キーをまとめて予約します。`keys`には`(frame, value)`の列を
 `Iterable[tuple[float, float]]`として渡します。pair内は時刻、値の順です。
 単位・tangent・実行時の経路選択は`set_key()`と同じです。
@@ -233,8 +233,7 @@ mod.redo_it()
 ```python
 keyframe.set_keys(
     [(1.0, 0.0), (12.0, 45.0), (24.0, 90.0)],
-    in_tangent_type="linear",
-    out_tangent_type="linear",
+    tangent_type="linear",
 )
 mod.do_it_dg()
 ```
@@ -303,9 +302,13 @@ centimeterとして渡し、cmds経路では実行時のUI単位へ換算しま�
 `value`や時刻の引数にNaNや無限大は指定できません。有限値、不正なtangent、
 `set_tangents()` / `delete_keys()`の逆転した範囲は予約時に検証します。
 
-`in_tangent_type` / `out_tangent_type`には`"linear"`などの文字列、または
+`tangent_type` / `in_tangent_type` / `out_tangent_type`には`"linear"`などの文字列、または
 `keyframe.tangent.linear`などの定数を指定できます。`set_key()` / `set_keys()`の`None`は
 Mayaの既定値を使用し、`set_tangent()` / `set_tangents()`の`None`はその側のtangentを変更しません。
+`tangent_type`はin / out両側の共通値です。個別の`in_tangent_type` / `out_tangent_type`を
+同時に指定すると、その側だけ共通値を上書きします。指定した引数は、個別指定で結果が
+上書きされる場合もすべて予約時に検証します。単数版の`set_key()` / `set_tangent()`でも
+接線引数はkeyword専用で、value / frameは従来どおり位置引数でも指定できます。
 
 これらのmethodのtangent引数は`TangentTypeName | int | None`で型付けしています。
 `TangentTypeName`は次の小文字の文字列を列挙した`Literal`で、対応するIDEでは
@@ -758,12 +761,11 @@ queryは実行済みsceneだけを読み、保留中modifierを実行しませ�
 keyframe.set_key(0.0, frame=1.0)
 keyframe.set_key(90.0, frame=24.0)
 keyframe.insert_key(frame=12.0)
-keyframe.set_tangent(frame=12.0, out_tangent_type="linear")
+keyframe.set_tangent(frame=12.0, tangent_type="linear")
 keyframe.set_tangents(
     start_frame=1.0,
     end_frame=24.0,
-    in_tangent_type="auto",
-    out_tangent_type="auto",
+    tangent_type="auto",
 )
 mod.do_it_dg()
 
@@ -773,9 +775,51 @@ frames = keyframe.frames()
 これらの操作は上記のチャンネル選択の規則を共有します。constraint先の属性からドライバー側の
 カーブを暗黙に編集することはありません。任意時刻のplug値は`sample_values()`で取得します。
 
+#### node・複数nodeの接線をまとめて変更する
+
+`node.keyframes.set_tangents()`と`nodes.keyframes.set_tangents([...])`は、選択した属性にある
+既存カーブ・既存キーの接線typeを1操作で変更します。範囲、`tangent_type`と個別側の上書き、
+値・時刻・詳細情報を維持する規則はplug単位と共通です。静的属性へカーブやキーを作成せず、
+カーブなし・該当キーなし・自動収集の対象0件はno-opです。
+
+```python
+ctrl_a = nodes.existing.transform("ctrlA")
+ctrl_b = nodes.existing.transform("ctrlB")
+
+ctrl_a.keyframes.set_tangents(
+    1,
+    120,
+    attributes=["translate", "rotate", "visibility"],
+    tangent_type="auto",
+    discrete_tangent_type="step",
+)
+
+nodes.keyframes.set_tangents(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    tangent_type="flat",
+)
+mod.do_it_dg()
+```
+
+`attributes=None`はkeyable属性、`include_channel_box=True`はchannelBox属性も追加します。
+明示属性では非keyable、compound、実在array elementを扱います。複数nodeの明示名は存在する
+nodeだけへ適用し、全nodeにない名前はエラーです。自動収集では、既存のtime animCurveとして
+解決できない接続を除外します。明示対象のmissing・未対応・lock・reference・layer未所属、
+または編集対象カーブの共有・lock等は、部分適用せず操作全体をエラーにします。
+
+通常の`tangent_type` / `in_tangent_type` / `out_tangent_type`は連続属性だけへ適用します。
+bool・enum・整数系の離散属性は`discrete_tangent_type`を明示した場合だけ対象とし、in / outの
+両側へ同じtypeを設定します。省略時は離散属性を変更しません。plugを直接選ぶ
+`plug.keyframe.set_tangent(s)()`と明示カーブ操作は対象が明確なため、この分離を行いません。
+layer未指定はroot、別layerには`.anim_layer()`を使用し、全属性・全nodeを1単位で
+Undo / Redo・rollbackします。
+
 ### 評価済み入力をキーフレームへベイクする
 
-`bake(start_frame=None, end_frame=None, *, sample_by=1.0)`は、plugの対象入力を
+`bake(start_frame=None, end_frame=None, *, sample_by=1.0, tangent_type=None,
+in_tangent_type=None, out_tangent_type=None, discrete_tangent_type=None)`は、plugの対象入力を
 等間隔に評価し、TA / TL / TUの時間入力カーブへ全置換します。
 属性経由の`KeyframeManager`専用で、明示カーブ用の`CurveKeyframeManager`には提供しません。
 戻り値は`None`で、同じ`ModifierManager`へ予約します。
@@ -792,7 +836,7 @@ ctrl.tx.keyframe.bake()
 
 # -10.5〜24.25を0.5フレーム間隔で指定layerへベイク
 ctrl.ty.keyframe.anim_layer("Correction").bake(
-    -10.5, 24.25, sample_by=0.5
+    -10.5, 24.25, sample_by=0.5, tangent_type="auto"
 )
 mod.do_it_dg()
 ```
@@ -812,8 +856,11 @@ layer未指定はベース（root）の**生入力**、`anim_layer()`指定時�
 共有カーブは別の接続を維持して対象plug用の新しいカーブへ置き換えます。
 
 ベイク後のカーブは指定範囲のサンプルキーだけを持ちます。以前の範囲内・範囲外キー、
-weighted、infinity等の設定は全置換され、範囲外はconstantです。連続値はlinear接線、
-bool・enum・整数系はstep接線を使います。静的な入力もキーを作成し、自動削減は行いません。
+weighted、infinity等の設定は全置換され、範囲外はconstantです。連続値は既定でin / outとも
+linearです。`tangent_type`は連続属性の両側、個別指定はその側を上書きします。
+bool・enum・整数系は通常の接線引数から分離し、既定でin / outともstepです。
+`discrete_tangent_type`を指定した場合だけ、離散属性の両側をそのtypeへ変更します。
+静的な入力もキーを作成し、自動削減は行いません。
 必要ならベイク後に`reduce_keys()`を明示的に予約してください。
 
 各時刻は`MDGContext`で独立評価します。前の時刻から状態を進めるsimulation、cache、
@@ -845,6 +892,8 @@ ctrl.keyframes.bake(
     120,
     attributes=["translate", "rotateY"],
     sample_by=0.5,
+    tangent_type="auto",
+    discrete_tangent_type="step",
 )
 
 # 登録済み属性から、指定layerの生入力だけをベイク
@@ -866,7 +915,7 @@ mod.do_it_dg()
 - layer未指定はベースの生入力です。`.anim_layer()`を指定した自動収集では未所属属性を除外し、
   明示した未所属属性はエラーにします。選択中layer等から対象を自動変更しません。
 
-開始・終了・`sample_by`の時刻規則、生成カーブ、上流nodeの維持、時間単位、
+開始・終了・`sample_by`の時刻規則、接線指定、生成カーブ、上流nodeの維持、時間単位、
 独立時刻評価、サンプル数上限はplug単位の`bake()`と共通です。全対象をsamplingし終えるまで
 入力接続を変更しません。複数の対象leafが同じ親compound接続を共有する場合は親を1回だけ
 切断し、対象外の兄弟だけを接続し直します。対象が0件、いずれかの対象・接続・layerが
@@ -891,6 +940,8 @@ nodes.keyframes.bake(
     120,
     attributes=["translate", "rotate", "customWeight"],
     sample_by=0.5,
+    tangent_type="auto",
+    discrete_tangent_type="step",
 )
 mod.do_it_dg()
 ```
@@ -910,7 +961,7 @@ nodes.keyframes.anim_layer("Correction").bake(
 )
 ```
 
-1操作では全nodeへ同じlayerを適用します。`include_channel_box`、`include_static`、時刻と
+1操作では全nodeへ同じlayerを適用します。`include_channel_box`、`include_static`、接線、時刻と
 samplingの規則はnode単位と共通です。全node・全属性の値を変更前に取得してから接続を
 変更するため、上流nodeと下流nodeを同時指定しても指定順に依存しません。Undo / Redoは
 1単位で、途中失敗時は全nodeをrollbackします。総サンプル数は

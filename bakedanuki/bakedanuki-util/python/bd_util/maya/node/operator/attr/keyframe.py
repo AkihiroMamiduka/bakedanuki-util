@@ -19,6 +19,7 @@ from . import (
     _keyframe_reduce,
     _keyframe_scale,
     _keyframe_snapshot,
+    _keyframe_tangent,
     _keyframe_target,
     _keyframe_value,
 )
@@ -32,79 +33,16 @@ if TYPE_CHECKING:
     from ._keyframe_discovery import AnimCurveNode
 
 ValueConverter = Callable[[Any], Any]
-TangentTypeName = Literal[
-    "auto",
-    "clamped",
-    "fast",
-    "flat",
-    "linear",
-    "plateau",
-    "slow",
-    "spline",
-    "step",
-    "stepnext",
-]
-TangentTypeValue = TangentTypeName | int | None
+TangentTypeName = _keyframe_tangent.TangentTypeName
+TangentTypeValue = _keyframe_tangent.TangentTypeValue
 _KeyValue = float | om.MAngle | om.MDistance | om.MTime
 _CapturedKey = tuple[om.MTime, _KeyValue]
 
-
-class TangentType:
-    auto = oma.MFnAnimCurve.kTangentAuto
-    clamped = oma.MFnAnimCurve.kTangentClamped
-    fast = oma.MFnAnimCurve.kTangentFast
-    flat = oma.MFnAnimCurve.kTangentFlat
-    linear = oma.MFnAnimCurve.kTangentLinear
-    plateau = oma.MFnAnimCurve.kTangentPlateau
-    slow = oma.MFnAnimCurve.kTangentSlow
-    spline = oma.MFnAnimCurve.kTangentSmooth
-    step = oma.MFnAnimCurve.kTangentStep
-    stepnext = oma.MFnAnimCurve.kTangentStepNext
-
-
-_TANGENT_TYPE_MAP = {
-    "auto": TangentType.auto,
-    "clamped": TangentType.clamped,
-    "fast": TangentType.fast,
-    "flat": TangentType.flat,
-    "linear": TangentType.linear,
-    "plateau": TangentType.plateau,
-    "slow": TangentType.slow,
-    "spline": TangentType.spline,
-    "step": TangentType.step,
-    "stepnext": TangentType.stepnext,
-}
-_VALID_TANGENT_TYPES = set(_TANGENT_TYPE_MAP.values()) | {
-    oma.MFnAnimCurve.kTangentGlobal,
-}
-_TANGENT_TYPE_NAMES = {
-    value: name for name, value in _TANGENT_TYPE_MAP.items()
-}
+TangentType = _keyframe_tangent.TangentType
 
 
 def _identity(value: Any) -> Any:
     return value
-
-
-def _to_tangent_type(tangent_type: int | str | None) -> int:
-    if tangent_type is None:
-        return oma.MFnAnimCurve.kTangentGlobal
-
-    if isinstance(tangent_type, str):
-        tangent_type = tangent_type.lower()
-        result = _TANGENT_TYPE_MAP.get(tangent_type)
-        if result is not None:
-            return result
-
-    else:
-        if tangent_type in _VALID_TANGENT_TYPES:
-            return tangent_type
-
-    valid_types = ", ".join(sorted(_TANGENT_TYPE_MAP))
-    raise ValueError(
-        f"Unsupported tangent type: {tangent_type!r}. "
-        f"Expected one of: {valid_types}."
-    )
 
 
 def _add_keys(
@@ -370,6 +308,8 @@ class _KeyframeOperations(ABC):
         self,
         value: float,
         frame: float,
+        *,
+        tangent_type: TangentTypeValue = None,
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
@@ -379,6 +319,7 @@ class _KeyframeOperations(ABC):
             value: 角度はdegree、距離はcentimeter、time属性は予約時の
                 Maya UI時間単位。それ以外はscalar値。
             frame: 予約時のMaya UI時間単位で指定する時刻。
+            tangent_type: 入出力両側の共通tangent。
             in_tangent_type: 入力側tangent。NoneはMayaの既定値。
             out_tangent_type: 出力側tangent。NoneはMayaの既定値。
 
@@ -395,8 +336,14 @@ class _KeyframeOperations(ABC):
         frame = float(frame)
         if not math.isfinite(value) or not math.isfinite(frame):
             raise ValueError("Keyframe value and frame must be finite.")
-        in_type = _to_tangent_type(in_tangent_type)
-        out_type = _to_tangent_type(out_tangent_type)
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type,
+            in_tangent_type,
+            out_tangent_type,
+            default_in=oma.MFnAnimCurve.kTangentGlobal,
+            default_out=oma.MFnAnimCurve.kTangentGlobal,
+        )
+        assert in_type is not None and out_type is not None
         self._validate_set_target("set_key")
 
         time = om.MTime(frame, om.MTime.uiUnit())
@@ -407,6 +354,7 @@ class _KeyframeOperations(ABC):
         self,
         keys: Iterable[tuple[float, float]],
         *,
+        tangent_type: TangentTypeValue = None,
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
@@ -418,8 +366,14 @@ class _KeyframeOperations(ABC):
         """
         manager = self._require_modifier_manager()
         time_unit = om.MTime.uiUnit()
-        in_type = _to_tangent_type(in_tangent_type)
-        out_type = _to_tangent_type(out_tangent_type)
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type,
+            in_tangent_type,
+            out_tangent_type,
+            default_in=oma.MFnAnimCurve.kTangentGlobal,
+            default_out=oma.MFnAnimCurve.kTangentGlobal,
+        )
+        assert in_type is not None and out_type is not None
         self._validate_set_target("set_keys")
         if isinstance(keys, (str, bytes)):
             raise TypeError(
@@ -444,6 +398,8 @@ class _KeyframeOperations(ABC):
     def set_tangent(
         self,
         frame: float,
+        *,
+        tangent_type: TangentTypeValue = None,
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
@@ -451,6 +407,7 @@ class _KeyframeOperations(ABC):
         self.set_tangents(
             frame,
             frame,
+            tangent_type=tangent_type,
             in_tangent_type=in_tangent_type,
             out_tangent_type=out_tangent_type,
         )
@@ -460,6 +417,7 @@ class _KeyframeOperations(ABC):
         start_frame: float | None = None,
         end_frame: float | None = None,
         *,
+        tangent_type: TangentTypeValue = None,
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
@@ -470,33 +428,11 @@ class _KeyframeOperations(ABC):
         tangent typeがNoneの側は変更しない。
         """
         manager = self._require_modifier_manager()
-        start_time = (
-            self._key_time(start_frame).asUnits(om.MTime.kSeconds)
-            if start_frame is not None
-            else None
+        start_time, end_time = _keyframe_tangent.capture_range(
+            start_frame, end_frame
         )
-        end_time = (
-            self._key_time(end_frame).asUnits(om.MTime.kSeconds)
-            if end_frame is not None
-            else None
-        )
-        if (
-            start_time is not None
-            and end_time is not None
-            and start_time > end_time
-        ):
-            raise ValueError(
-                "start_frame must be less than or equal to end_frame."
-            )
-        in_type = (
-            _to_tangent_type(in_tangent_type)
-            if in_tangent_type is not None
-            else None
-        )
-        out_type = (
-            _to_tangent_type(out_tangent_type)
-            if out_tangent_type is not None
-            else None
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type, in_tangent_type, out_tangent_type
         )
         if in_type is None and out_type is None:
             return
@@ -516,19 +452,9 @@ class _KeyframeOperations(ABC):
             ]
             if not indices:
                 return
-            if in_type is not None and out_type is not None:
-                fn_anim_curve.setTangentTypes(
-                    indices,
-                    in_type,
-                    out_type,
-                    change,
-                )
-                return
-            for index in indices:
-                if in_type is not None:
-                    fn_anim_curve.setInTangentType(index, in_type, change)
-                if out_type is not None:
-                    fn_anim_curve.setOutTangentType(index, out_type, change)
+            _keyframe_tangent.apply(
+                fn_anim_curve, tuple(indices), in_type, out_type, change
+            )
 
         manager.queue_anim_curve_change(set_key_tangents)
 
@@ -1218,6 +1144,10 @@ class KeyframeManager(_KeyframeOperations):
         end_frame: float | None = None,
         *,
         sample_by: float = 1.0,
+        tangent_type: TangentTypeValue = None,
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+        discrete_tangent_type: TangentTypeValue = None,
     ) -> None:
         """評価済み入力を等間隔に採取し、時間入力カーブへの置換を予約する。
 
@@ -1232,8 +1162,23 @@ class KeyframeManager(_KeyframeOperations):
         frames, rate = _keyframe_bake.capture_grid(
             start_frame, end_frame, sample_by
         )
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type, in_tangent_type, out_tangent_type
+        )
+        discrete_type = (
+            _keyframe_tangent.to_tangent_type(discrete_tangent_type)
+            if discrete_tangent_type is not None
+            else None
+        )
         _keyframe_bake.queue_bake(
-            manager, self._target, self.plug, frames, rate
+            manager,
+            self._target,
+            self.plug,
+            frames,
+            rate,
+            in_type=in_type,
+            out_type=out_type,
+            discrete_type=discrete_type,
         )
 
     def values(self) -> list[Any]:
@@ -1270,8 +1215,8 @@ class KeyframeManager(_KeyframeOperations):
         )
         fn_anim_curve: oma.MFnAnimCurve | None = None
         api_start = 0
-        in_name = _TANGENT_TYPE_NAMES.get(in_type)
-        out_name = _TANGENT_TYPE_NAMES.get(out_type)
+        in_name = _keyframe_tangent.command_tangent_name(in_type)
+        out_name = _keyframe_tangent.command_tangent_name(out_type)
 
         def queue_command_key(
             modifier: om.MDGModifier, key: _CapturedKey
