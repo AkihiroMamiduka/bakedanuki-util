@@ -152,6 +152,17 @@
 
 ## KeyframeManagerの開発状況と次の候補
 
+### 次の最優先項目
+
+次は、接線操作から派生した次の2項目を順に実装します。
+
+1. 指定範囲に実在するキーのtangent lock / weight lock一括変更。
+2. `node.keyframes` / `nodes.keyframes`単位の既存カーブに対するweighted一括切り替え。
+
+その後は本題へ戻り、`AnimationClip.reversed()`による独立した逆再生clipの作成、
+node・属性の部分抽出、Euler filterを順に検討します。各項目の公開method名・引数と
+対象なし・離散属性・layer・Undo / Redoの詳細契約は、着手時に現行APIと合わせて確定します。
+
 2026-09-12時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
 詳細データの保存・復元、指定範囲の境界補完まで実装し、利用者による動作確認も完了しています。
 範囲切り出しの初期版を未着手の項目として再実装する必要はありません。
@@ -313,8 +324,9 @@ channelBox属性の任意追加、静的値の既定ベイク、compound / 実�
 仕様は[複数nodeをまとめてベイクする](attributes.md#複数nodeをまとめてベイクする)を参照してください。
 続いて、範囲内の既存キーの接線typeをまとめて変更する`set_tangents()`を追加し、
 `tangent_type`共通指定、node・複数nodeの一括変更、ベイク時の接線指定へ拡張しました。
-その後は、接線・weight lockの範囲操作とnode / nodes単位のweighted切替を検討し、
-`AnimationClip`の逆再生、node・属性の部分抽出、Euler filterへ進みます。
+次は、上記の最優先項目として接線・weight lockの範囲操作とnode / nodes単位の
+weighted切替を実装します。その後、`AnimationClip.reversed()`による逆再生clipの作成、
+node・属性の部分抽出、Euler filterへ進みます。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
@@ -477,15 +489,15 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   複数node入力ベイクまで利用者確認・push済み（`31b9eb62`）。
-   続いて範囲内キーの接線変更`set_tangents()`を追加した。
-   `set_tangents()`の利用者確認・commit / push状況は実際の作業ツリーと履歴を確認する。
+   範囲内キーの接線変更、node / nodes一括接線変更、ベイク時の接線指定まで
+   利用者確認・push済み（`8e56317c`）。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
 2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
-   `set_tangents()`完了後は、AnimationClipの逆再生、node・属性の部分抽出、Euler filterを順に検討する。
+   次は接線・weight lockの範囲操作、node / nodes単位のweighted切替を順に実装する。
+   その後は`AnimationClip.reversed()`、node・属性の部分抽出、Euler filterを順に検討する。
    過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
