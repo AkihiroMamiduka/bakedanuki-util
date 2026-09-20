@@ -361,7 +361,7 @@ Undo / Redo・rollbackへ参加します。既存`set_tangent()`は同じ範囲�
 in / out両側を変更します。静的属性、カーブなし、該当キーなしはno-opです。
 
 plug・node・複数nodeの各`bake()`にも同じ連続接線指定と`discrete_tangent_type`を追加しました。
-未指定時は連続属性がlinear / linear、離散属性がstep / stepです。接線指定は生成する
+未指定時は連続属性がauto / auto、離散属性がstep / stepです。接線指定は生成する
 `AnimCurveData`へ含め、sampling・接続変更・復元・値検証と同じUndo / Redo・rollback単位で
 適用します。離散型判定は共通化し、enumとscalar整数系を同じ対象として扱います。
 
@@ -374,7 +374,7 @@ samplingしてから接続を変更します。終了端を必ず含め、負時
 内部処理は`_keyframe_bake.py`へ分離しました。既定ベースはlayer合成のinputA側、
 明示layerはMayaのlayeredPlugを解決します。対象へ直接つながる非共有カーブだけを再利用し、
 それ以外の入力接続を切って新しいカーブを作成します。親compound接続は対象子で分割して兄弟を維持します。
-連続値は既定でlinear / linear、離散値はstep / stepとし、専用引数で接線を変更できます。
+連続値は既定でauto / auto、離散値はstep / stepとし、専用引数で接線を変更できます。
 範囲外はconstantとし、適用後に全サンプル値を再検査します。
 接続元・接続先・layerのlock / reference検査、接続変更と全カーブ復元を同じmanagerの履歴へ含めます。
 詳しい契約は[ベイクの現行仕様](attributes.md#評価済み入力をキーフレームへベイクする)、

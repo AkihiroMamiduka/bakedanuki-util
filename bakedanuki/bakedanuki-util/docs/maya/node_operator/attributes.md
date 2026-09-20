@@ -818,7 +818,7 @@ Undo / Redo・rollbackします。
 
 ### 評価済み入力をキーフレームへベイクする
 
-`bake(start_frame=None, end_frame=None, *, sample_by=1.0, tangent_type=None,
+`bake(start_frame=None, end_frame=None, *, sample_by=1.0, tangent_type="auto",
 in_tangent_type=None, out_tangent_type=None, discrete_tangent_type=None)`は、plugの対象入力を
 等間隔に評価し、TA / TL / TUの時間入力カーブへ全置換します。
 属性経由の`KeyframeManager`専用で、明示カーブ用の`CurveKeyframeManager`には提供しません。
@@ -857,7 +857,7 @@ layer未指定はベース（root）の**生入力**、`anim_layer()`指定時�
 
 ベイク後のカーブは指定範囲のサンプルキーだけを持ちます。以前の範囲内・範囲外キー、
 weighted、infinity等の設定は全置換され、範囲外はconstantです。連続値は既定でin / outとも
-linearです。`tangent_type`は連続属性の両側、個別指定はその側を上書きします。
+autoです。`tangent_type`は連続属性の両側、個別指定はその側を上書きします。
 bool・enum・整数系は通常の接線引数から分離し、既定でin / outともstepです。
 `discrete_tangent_type`を指定した場合だけ、離散属性の両側をそのtypeへ変更します。
 静的な入力もキーを作成し、自動削減は行いません。

@@ -73,6 +73,18 @@ def test_bake_multiple_nodes_with_one_history(maya_cmds):
         assert cmds.keyframe(
             source.split(".")[0], query=True, timeChange=True
         ) == [1, 2, 3]
+        assert (
+            cmds.keyTangent(
+                source.split(".")[0], query=True, inTangentType=True
+            )
+            == ["auto"] * 3
+        )
+        assert (
+            cmds.keyTangent(
+                source.split(".")[0], query=True, outTangentType=True
+            )
+            == ["auto"] * 3
+        )
     manager.undo_it()
     assert _source(first + ".tx") == driver + ".translateX"
     assert _source(second + ".tx") == driver + ".translateX"

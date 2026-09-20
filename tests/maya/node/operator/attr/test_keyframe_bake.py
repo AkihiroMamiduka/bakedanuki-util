@@ -133,10 +133,10 @@ def test_explicit_subframe_range_includes_end_and_keeps_expression(maya_cmds):
     assert cmds.keyframe(curve, query=True, timeChange=True) == list(frames)
     assert _values(cmds, target + ".rx", frames) == pytest.approx(expected)
     assert cmds.keyTangent(curve, query=True, inTangentType=True) == [
-        "linear"
+        "auto"
     ] * len(frames)
     assert cmds.keyTangent(curve, query=True, outTangentType=True) == [
-        "linear"
+        "auto"
     ] * len(frames)
     assert cmds.objExists(expression)
 

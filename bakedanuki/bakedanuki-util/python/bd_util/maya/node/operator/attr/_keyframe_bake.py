@@ -220,12 +220,10 @@ def _curve_data(
         )
     else:
         incoming = (
-            _keyframe_tangent.TangentType.linear
-            if in_type is None
-            else in_type
+            _keyframe_tangent.TangentType.auto if in_type is None else in_type
         )
         outgoing = (
-            _keyframe_tangent.TangentType.linear
+            _keyframe_tangent.TangentType.auto
             if out_type is None
             else out_type
         )

@@ -667,7 +667,7 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 
 - 呼び出し時の再生範囲、明示範囲、終了端を含むsample間隔、負時刻・subframe、静的入力。
   予約後のFPS変更では物理時刻を維持し、値は初回実行時のsceneから取得すること。
-- TA / TL / TU、連続値の既定linear / linear、bool・enum・整数系の既定step / step、
+- TA / TL / TU、連続値の既定auto / auto、bool・enum・整数系の既定step / step、
   連続用の共通・個別接線指定と離散用`discrete_tangent_type`、constant infinity、nonweightedへの全置換。
   既存カーブの範囲外キー・設定を削除し、直接の非共有カーブは再利用すること。
 - constraint・expression等の上流nodeを残して対象入力だけを切断すること。

@@ -77,6 +77,12 @@ def test_automatic_bake_collects_static_and_animated_keyable_channels(
         curve = source.split(".")[0]
         assert cmds.nodeType(curve) == "animCurveTL"
         assert cmds.keyframe(curve, query=True, timeChange=True) == [1, 3, 5]
+        assert cmds.keyTangent(curve, query=True, inTangentType=True) == [
+            "auto"
+        ] * len(frames)
+        assert cmds.keyTangent(curve, query=True, outTangentType=True) == [
+            "auto"
+        ] * len(frames)
         assert [
             cmds.getAttr(target + "." + attr, time=frame) for frame in frames
         ] == pytest.approx(expected[attr])

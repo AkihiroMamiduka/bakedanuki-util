@@ -1144,7 +1144,7 @@ class KeyframeManager(_KeyframeOperations):
         end_frame: float | None = None,
         *,
         sample_by: float = 1.0,
-        tangent_type: TangentTypeValue = None,
+        tangent_type: TangentTypeValue = "auto",
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
         discrete_tangent_type: TangentTypeValue = None,
