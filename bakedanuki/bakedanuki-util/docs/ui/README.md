@@ -417,6 +417,8 @@ Model・ViewModel・Viewを基本とし、値へのアクセスをStore、現在
 先頭を代表として表示し、選択や表示更新では値を変更せず、入力時だけ一括反映します。
 混在状態・個別の編集可否・一回のUndo・失敗時の復旧を提供します。
 既存ノードの選択・属性列挙は [inspection](../maya/node_operator/inspection.md) を参照してください。
+OSクリップボードを介して同じ属性pathへ値を搬送する場合は、
+[Maya scalar値のクリップボード搬送](scalar_value_transfer.md)を参照してください。
 用語と役割の理解には上記ページ、公開APIと実行例にはこのREADME、
 実装を読み進める際の補足には設計・保守メモを使ってください。
 

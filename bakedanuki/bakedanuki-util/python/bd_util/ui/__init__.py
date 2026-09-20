@@ -54,6 +54,7 @@ from .binding import (
     SetBoolCommand,
 )
 from .settings_path import SettingsPath
+from .json_clipboard import JsonClipboard
 from .radio_button_sweep import RadioButtonSweep
 from .check_box_sweep import CheckBoxSweep
 from .ui_state import UiStateManager
@@ -65,6 +66,7 @@ from .window_state import (
 )
 
 __all__ = [
+    "JsonClipboard",
     "CheckBoxSweep",
     "RadioButtonSweep",
     "EnumBinding",

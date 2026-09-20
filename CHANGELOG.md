@@ -9,6 +9,14 @@
 
 ### Added
 
+- `bd_util.ui.JsonClipboard`を追加。version付きの利用側schemaをcustom MIMEと
+  marker付き`text/plain`へ同時保存し、別processでも復元できる。読込時は容量、UTF-8、
+  JSON構文、重複key、非有限値を検証する。
+- `bd_util.maya.ui`へ`MayaScalarValueTransfer`、型付きsnapshot、
+  `MayaScalarValueClipboard`、取得・JSON変換・同path一括適用APIを追加。
+  bool・数値・距離・角度・enumを公開単位で搬送し、正式な相対属性pathと型で照合する。
+  欠落・型違い・enum定義違い・readonly属性を対象外として返し、適用対象は全件事前検証、
+  一回Undo、途中失敗復旧で確定する。sceneと保存設定の移行は不要。
 - `UiStateManager.register_checkable_action()`を追加。checkableな`QAction`のチェック状態を
   他のWidget内部状態と同じMaya用INIへ保存し、dockable UIのclose・復元・Maya終了処理へ
   統合できる。既存のsettings pathと登録APIの動作は維持する。

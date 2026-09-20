@@ -41,8 +41,30 @@ from .plugs_value_edits import (
     MayaPlugsValueEdit,
     apply_plugs_values,
 )
+from .scalar_value_transfer import (
+    MayaScalarValue,
+    MayaScalarValueSnapshot,
+    MayaNodeValueSnapshot,
+    MayaScalarValueTransfer,
+    MayaScalarPasteResult,
+    MayaScalarValueClipboard,
+    capture_scalar_node_values,
+    encode_scalar_value_transfer,
+    decode_scalar_value_transfer,
+    apply_scalar_value_transfer,
+)
 
 __all__ = [
+    "MayaScalarValue",
+    "MayaScalarValueSnapshot",
+    "MayaNodeValueSnapshot",
+    "MayaScalarValueTransfer",
+    "MayaScalarPasteResult",
+    "MayaScalarValueClipboard",
+    "capture_scalar_node_values",
+    "encode_scalar_value_transfer",
+    "decode_scalar_value_transfer",
+    "apply_scalar_value_transfer",
     "MayaEditSession",
     "ChannelDisplayState",
     "MayaChannelStatePlug",

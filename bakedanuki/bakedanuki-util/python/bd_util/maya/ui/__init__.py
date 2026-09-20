@@ -1,6 +1,16 @@
 # coding: utf-8
 
 from .binding import (
+    MayaScalarValue,
+    MayaScalarValueSnapshot,
+    MayaNodeValueSnapshot,
+    MayaScalarValueTransfer,
+    MayaScalarPasteResult,
+    MayaScalarValueClipboard,
+    capture_scalar_node_values,
+    encode_scalar_value_transfer,
+    decode_scalar_value_transfer,
+    apply_scalar_value_transfer,
     MayaEditSession,
     ChannelDisplayState,
     MayaChannelStatePlug,
@@ -64,6 +74,16 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "MayaScalarValue",
+    "MayaScalarValueSnapshot",
+    "MayaNodeValueSnapshot",
+    "MayaScalarValueTransfer",
+    "MayaScalarPasteResult",
+    "MayaScalarValueClipboard",
+    "capture_scalar_node_values",
+    "encode_scalar_value_transfer",
+    "decode_scalar_value_transfer",
+    "apply_scalar_value_transfer",
     "MayaEditSession",
     "ChannelDisplayState",
     "MayaChannelStatePlug",
