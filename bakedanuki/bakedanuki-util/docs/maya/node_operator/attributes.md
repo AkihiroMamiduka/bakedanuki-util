@@ -301,11 +301,11 @@ centimeterとして渡し、cmds経路では実行時のUI単位へ換算しま�
 挿入・tangent変更・キー削除も捕捉した時刻をAPIで使用します。
 予約後にangle / linear / timeのUI単位を変更しても、予約した物理量は維持します。
 `value`や時刻の引数にNaNや無限大は指定できません。有限値、不正なtangent、
-`delete_keys()`の逆転した範囲は予約時に検証します。
+`set_tangents()` / `delete_keys()`の逆転した範囲は予約時に検証します。
 
 `in_tangent_type` / `out_tangent_type`には`"linear"`などの文字列、または
 `keyframe.tangent.linear`などの定数を指定できます。`set_key()` / `set_keys()`の`None`は
-Mayaの既定値を使用し、`set_tangent()`の`None`はその側のtangentを変更しません。
+Mayaの既定値を使用し、`set_tangent()` / `set_tangents()`の`None`はその側のtangentを変更しません。
 
 これらのmethodのtangent引数は`TangentTypeName | int | None`で型付けしています。
 `TangentTypeName`は次の小文字の文字列を列挙した`Literal`で、対応するIDEでは
@@ -325,7 +325,8 @@ Mayaの既定値を使用し、`set_tangent()`の`None`はその側のtangentを
 `"stepnext"`も同様に既定値になります。どちらも出力側へ指定することで、
 対応するMaya version間で共通の設定として使用できます。
 既存キーの上書きではvalueを更新して既存tangent typeを維持し、指定したtangent引数で
-既存tangent typeを変更することはありません。変更する場合は`set_tangent()`を使用します。
+既存tangent typeを変更することはありません。変更する場合は`set_tangent()` /
+`set_tangents()`を使用します。
 API経路の上書きにも`addKey()`を使用します。valueだけを変更する`setValue()`と異なり、
 breakdownやtangent lockの更新も`cmds.setKeyframe()`と同じ挙動に揃えるためです。
 
@@ -725,13 +726,22 @@ queryは実行済みsceneだけを読み、保留中modifierを実行しませ�
 | --- | --- | --- |
 | `insert_key(frame, breakdown=False)` | 前後のカーブ形状を保ってキーを挿入 | カーブがなければ`RuntimeError` |
 | `set_tangent(frame, ...)` | 指定した側のtangent typeを変更 | カーブ・キーがなければ何もしない |
+| `set_tangents(start_frame=None, end_frame=None, ...)` | 指定範囲に実在するキーのtangent typeを一括変更 | カーブ・該当キーがなければ何もしない |
 | `delete_key(frame)` | 指定時刻のキーを削除 | カーブ・キーがなければ何もしない |
 | `delete_keys(start_frame=None, end_frame=None)` | 指定範囲のキーを削除 | カーブ・該当キーがなければ何もしない |
 | `delete_anim_curve()` | カーブノード全体を削除 | カーブがなければ何もしない |
 
-`delete_keys()`の境界は両端を含み、`None`を指定した側には境界を設けません。
-両方省略すると全キーを削除します。キー削除には`MFnAnimCurve.remove()`を使用し、
+`set_tangents()` / `delete_keys()`の境界は両端を含み、`None`を指定した側には境界を設けません。
+`set_tangents()`は両方省略すると全キーの指定した側を変更し、`delete_keys()`は全キーを削除します。
+どちらも境界にキーがなくても挿入せず、実在するキーだけを対象にします。
+キー削除には`MFnAnimCurve.remove()`を使用し、
 最後のキーを削除しても空のカーブは残します。
+
+`set_tangents()`は値・時刻・breakdown・tangent lock・weight lock・weighted・infinityを変更しません。
+指定したtypeに応じた接線XYの再計算はMayaの標準挙動です。接線をlockしたキーでも片側だけを
+指定した場合は反対側のtypeを維持します。範囲端に実在するキーの`auto`等を変更すると、
+その接線につながる範囲外側の区間形状にも影響する場合がありますが、範囲外のキー自体は変更しません。
+`step` / `stepnext`は出力側への指定を推奨します。境界挿入や影響度の補間は行いません。
 
 挿入・tangent変更・キー削除は、`MAnimCurveChange`へ変更を記録します。
 カーブノードの削除も同じmanagerの履歴へ含め、Undoでキー・tangent・接続を復元します。
@@ -749,6 +759,12 @@ keyframe.set_key(0.0, frame=1.0)
 keyframe.set_key(90.0, frame=24.0)
 keyframe.insert_key(frame=12.0)
 keyframe.set_tangent(frame=12.0, out_tangent_type="linear")
+keyframe.set_tangents(
+    start_frame=1.0,
+    end_frame=24.0,
+    in_tangent_type="auto",
+    out_tangent_type="auto",
+)
 mod.do_it_dg()
 
 frames = keyframe.frames()

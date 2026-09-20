@@ -101,8 +101,11 @@ class _EditKeyframesCommand(_FailAfterExecuteCommand):
         keyframe = node.translateX.keyframe
         keyframe.set_key(5.0, frame=5.0)
         keyframe.insert_key(frame=2.0)
-        keyframe.set_tangent(
-            frame=2.0, in_tangent_type="linear", out_tangent_type="linear"
+        keyframe.set_tangents(
+            start_frame=2.0,
+            end_frame=5.0,
+            in_tangent_type="linear",
+            out_tangent_type="linear",
         )
         keyframe.delete_key(frame=3.0)
         node.translateY.keyframe.delete_anim_curve()

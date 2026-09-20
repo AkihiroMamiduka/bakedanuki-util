@@ -448,8 +448,46 @@ class _KeyframeOperations(ABC):
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
         """tangent変更を予約する。実行時にキーがなければ何もしない。"""
+        self.set_tangents(
+            frame,
+            frame,
+            in_tangent_type=in_tangent_type,
+            out_tangent_type=out_tangent_type,
+        )
+
+    def set_tangents(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+    ) -> None:
+        """両端を含む範囲の既存キーに対するtangent変更を予約する。
+
+        None側は制限せず、両端を省略すると全キーを対象にする。
+        境界キーは挿入せず、カーブや対象キーがなければ何もしない。
+        tangent typeがNoneの側は変更しない。
+        """
         manager = self._require_modifier_manager()
-        time = self._key_time(frame)
+        start_time = (
+            self._key_time(start_frame).asUnits(om.MTime.kSeconds)
+            if start_frame is not None
+            else None
+        )
+        end_time = (
+            self._key_time(end_frame).asUnits(om.MTime.kSeconds)
+            if end_frame is not None
+            else None
+        )
+        if (
+            start_time is not None
+            and end_time is not None
+            and start_time > end_time
+        ):
+            raise ValueError(
+                "start_frame must be less than or equal to end_frame."
+            )
         in_type = (
             _to_tangent_type(in_tangent_type)
             if in_tangent_type is not None
@@ -460,20 +498,39 @@ class _KeyframeOperations(ABC):
             if out_tangent_type is not None
             else None
         )
+        if in_type is None and out_type is None:
+            return
 
-        def set_key_tangent(change: oma.MAnimCurveChange) -> None:
+        def set_key_tangents(change: oma.MAnimCurveChange) -> None:
             fn_anim_curve = self._get_anim_curve_fn(write=True)
             if fn_anim_curve is None:
                 return
-            index = fn_anim_curve.find(time)
-            if index is None:
+            indices = [
+                index
+                for index in range(fn_anim_curve.numKeys)
+                if self._is_frame_in_range(
+                    fn_anim_curve.input(index).asUnits(om.MTime.kSeconds),
+                    start_time,
+                    end_time,
+                )
+            ]
+            if not indices:
                 return
-            if in_type is not None:
-                fn_anim_curve.setInTangentType(index, in_type, change)
-            if out_type is not None:
-                fn_anim_curve.setOutTangentType(index, out_type, change)
+            if in_type is not None and out_type is not None:
+                fn_anim_curve.setTangentTypes(
+                    indices,
+                    in_type,
+                    out_type,
+                    change,
+                )
+                return
+            for index in indices:
+                if in_type is not None:
+                    fn_anim_curve.setInTangentType(index, in_type, change)
+                if out_type is not None:
+                    fn_anim_curve.setOutTangentType(index, out_type, change)
 
-        manager.queue_anim_curve_change(set_key_tangent)
+        manager.queue_anim_curve_change(set_key_tangents)
 
     def insert_key(self, frame: float, breakdown: bool = False) -> None:
         """カーブ形状を保つキー挿入を予約する。カーブがなければ実行時に失敗する。"""

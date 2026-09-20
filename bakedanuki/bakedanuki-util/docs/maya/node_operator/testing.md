@@ -615,6 +615,37 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr tests\maya\mpx_cmd tests\maya\node\operator\node\dg\test_anim_layer.py -q --tb=short
 ```
 
+## 範囲内キーの接線変更の検証
+
+`set_tangents()`は、既存`set_tangent()`の単一時刻と同じ対象選択・編集履歴を使用し、
+次の契約を検証します。
+
+- 両端包含、片側省略、全キー、負時刻・subframe、範囲端にキーがない場合もキーを挿入しないこと。
+- in / out両側と片側だけの変更、両側省略・カーブなし・該当キーなしのno-op。
+- 値・時刻・breakdown・tangent / weight lock・weighted・infinityと範囲外キーを維持すること。
+  type変更による接線XYの再計算と、lockしたキーの片側変更はMaya標準動作に従うこと。
+- 予約時のUI時間単位、同一batchで先行予約したキー、予約後の再接続・改名を初回実行時に解決すること。
+- 既定ベース・明示layer・明示TA / TL / TUカーブ、通常の上流チャンネル、lock / referenceの拒否。
+- 反復Undo / Redo、MPxCommandのMaya標準履歴、同一batchの途中失敗時rollback。
+- 逆転範囲・非有限時刻・未対応tangent typeを予約時に拒否し、部分予約を残さないこと。
+- 属性・layer・明示カーブの3入口から引数と`None`の戻り値をIDE補完で追えること。
+
+開発中の局所確認には、`test_keyframe.py` / `test_keyframe_undo.py` /
+`test_keyframe_target.py` / `test_curve_keyframe.py`とMPxCommand testを使用します。
+
+2026-09-20、範囲接線変更追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,377件成功、プロセス正常終了 |
+| 変更実装と型・補完contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| 3 versionの型・補完contract | Maya 2025 / 2026 / 2027ですべてエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,473ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,765件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+範囲接線変更の利用者によるMaya画面上での確認とcommit / pushは未実施です。
+
 ## plug入力ベイクの検証
 
 `test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。

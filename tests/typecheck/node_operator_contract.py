@@ -4206,6 +4206,15 @@ def explicit_curve_keyframe_contract(
     assert_type(keyframe.set_weighted(True), None)
     assert_type(keyframe.insert_key(2), None)
     assert_type(keyframe.set_tangent(2, out_tangent_type="flat"), None)
+    assert_type(
+        keyframe.set_tangents(
+            1,
+            24,
+            in_tangent_type="linear",
+            out_tangent_type=keyframe.tangent.flat,
+        ),
+        None,
+    )
     assert_type(keyframe.delete_key(2), None)
     assert_type(keyframe.delete_keys(1, 3), None)
     assert_type(keyframe.delete_anim_curve(), None)
@@ -4637,6 +4646,13 @@ def keyframe_contract(
     assert_type(layer_keyframe.set_keys(samples), None)
     assert_type(layer_keyframe.get_curve_data(), AnimCurveData | None)
     assert_type(layer_keyframe.get_keys(), list[tuple[float, float]])
+    assert_type(
+        layer_keyframe.set_tangents(
+            end_frame=24.0,
+            out_tangent_type="step",
+        ),
+        None,
+    )
     keyframe.anim_layer(None)  # pyright: ignore[reportArgumentType]
     tangent_name: TangentTypeName = "linear"
     tangent_value: TangentTypeValue = keyframe.tangent.flat
@@ -4744,6 +4760,15 @@ def keyframe_contract(
     )
     assert_type(keyframe.set_keys(keyframe.get_keys()), None)
     assert_type(keyframe.set_tangent(12.0, out_tangent_type="linear"), None)
+    assert_type(
+        keyframe.set_tangents(
+            start_frame=1.0,
+            end_frame=None,
+            in_tangent_type=tangent_name,
+        ),
+        None,
+    )
+    assert_type(keyframe.set_tangents(out_tangent_type="flat"), None)
     assert_type(keyframe.delete_key(12.0), None)
     assert_type(keyframe.delete_keys(start_frame=1.0, end_frame=24.0), None)
     assert_type(keyframe.delete_anim_curve(), None)
@@ -4766,6 +4791,13 @@ def keyframe_contract(
     )
     keyframe.set_tangent(
         1.0,
+        out_tangent_type="unknown",  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_tangents(
+        start_frame="invalid",  # pyright: ignore[reportArgumentType]
+        out_tangent_type="linear",
+    )
+    keyframe.set_tangents(
         out_tangent_type="unknown",  # pyright: ignore[reportArgumentType]
     )
     keyframe.set_keys(

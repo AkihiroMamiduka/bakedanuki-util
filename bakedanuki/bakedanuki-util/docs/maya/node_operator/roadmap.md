@@ -183,7 +183,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 
 | 用途 | API / 状態 |
 | --- | --- |
-| 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。予約実行、Undo / Redo、途中失敗時rollbackに対応 |
+| 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `set_tangents()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。単一・両端包含範囲・全キーの接線type変更、予約実行、Undo / Redo、途中失敗時rollbackに対応 |
 | 時間方向への移動 | `move_frame()` / `move_frames()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_frames()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否。属性・layer・明示カーブで同じ操作を使用 |
 | 時間方向への拡縮 | `scale_frames()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
@@ -310,7 +310,8 @@ channelBox属性の任意追加、静的値の既定ベイク、compound / 実�
 適用し、全nodeで見つからない名前はエラーにします。全node・全属性のsamplingを先行し、
 上流・下流nodeの指定順に依存しない操作全体のUndo / Redo・rollbackに対応します。
 仕様は[複数nodeをまとめてベイクする](attributes.md#複数nodeをまとめてベイクする)を参照してください。
-それ以降の着手順は未確定です。
+続いて、範囲内の既存キーの接線typeをまとめて変更する`set_tangents()`を追加しました。
+その後は、`AnimationClip`の逆再生、node・属性の部分抽出、Euler filterの順に検討します。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
@@ -327,6 +328,22 @@ layer構造の管理や自動選択を追加する場合は、
 利用者の方針により、繰り返し領域の範囲切り出しは今後の実装候補から外します。
 既存のconstant / linearの範囲外補完は維持し、cycle / cycleRelative / oscillateの
 範囲外の詳細データ切り出しは引き続きエラーとします。
+
+### 範囲内キーの接線type変更
+
+`set_tangents(start_frame=None, end_frame=None, *, in_tangent_type=None,
+out_tangent_type=None)`を追加しました。両端包含、`None`側は無制限、両端省略は全キーです。
+境界キーは補完せず、範囲内に実在するキーだけを変更します。片側のtypeを省略するとその側を
+維持し、両側省略・カーブなし・該当キーなしはno-opです。
+
+値・時刻・breakdown・tangent / weight lock・weighted・infinityは維持し、typeに伴う
+接線XYの再計算だけをMayaへ委ねます。属性・明示layer・明示TA / TL / TUカーブで同じ
+対象resolverとlock / reference検査を使用し、1つの`MAnimCurveChange`として
+Undo / Redo・rollbackへ参加します。既存`set_tangent()`は同じ範囲処理へ委譲します。
+境界挿入、補間、lock操作、対応tangent typeの追加は行いません。
+2026-09-20時点で、関連pytestはMaya 2025 / 2026 / 2027で各3,377件成功し、
+3 versionの型・補完contractと`verify.cmd`も成功しています。
+利用者によるMaya画面上での確認とcommit / pushは未実施です。
 
 ### plug入力ベイクの実装
 
@@ -439,15 +456,16 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   node入力ベイクと静的値の既定変更まで利用者確認・push済み（`f759cd23`）。
-   続いて複数node入力ベイクを追加した。
-   commit / push状況は実際の作業ツリーと履歴を確認する。
+   複数node入力ベイクまで利用者確認・push済み（`31b9eb62`）。
+   続いて範囲内キーの接線変更`set_tangents()`を追加した。
+   `set_tangents()`の利用者確認・commit / push状況は実際の作業ツリーと履歴を確認する。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
 2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
-   複数node入力ベイクの利用者確認・commit / push状況は別途確認する。過去の実装・検証記録も本文では現行API名で表記する。
+   `set_tangents()`完了後は、AnimationClipの逆再生、node・属性の部分抽出、Euler filterを順に検討する。
+   過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 

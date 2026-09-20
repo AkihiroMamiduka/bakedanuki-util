@@ -294,5 +294,33 @@ def main():
         [dst_12_0, dst_12_1, dst_12_2, dst_12_3], attributes=["t", "r", "s"]
     )
 
+    dst_12_3.tx.keyframe.set_tangents(
+        in_tangent_type="auto", out_tangent_type="auto"
+    )
+    dst_12_3.ty.keyframe.set_tangents(
+        in_tangent_type="auto", out_tangent_type="auto"
+    )
+    dst_12_3.tz.keyframe.set_tangents(
+        in_tangent_type="auto", out_tangent_type="auto"
+    )
+    dst_12_3.rx.keyframe.set_tangents(
+        in_tangent_type="auto", out_tangent_type="auto"
+    )
+    dst_12_3.ry.keyframe.set_tangents(
+        in_tangent_type="auto", out_tangent_type="auto"
+    )
+    dst_12_3.rz.keyframe.set_tangents(
+        in_tangent_type="auto", out_tangent_type="auto"
+    )
+    dst_12_3.sx.keyframe.set_tangents(
+        in_tangent_type="auto", out_tangent_type="auto"
+    )
+    dst_12_3.sy.keyframe.set_tangents(
+        in_tangent_type="auto", out_tangent_type="auto"
+    )
+    dst_12_3.sz.keyframe.set_tangents(
+        in_tangent_type="auto", out_tangent_type="auto"
+    )
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

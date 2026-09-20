@@ -57,6 +57,10 @@ EDITS = (
     ),
     ("insert_key", {"frame": 3}),
     ("set_tangent", {"frame": 1, "out_tangent_type": "flat"}),
+    (
+        "set_tangents",
+        {"start_frame": 1, "end_frame": 5, "out_tangent_type": "flat"},
+    ),
     ("delete_key", {"frame": 1}),
     ("delete_keys", {}),
     ("delete_anim_curve", {}),
