@@ -820,7 +820,7 @@ mod = bdu.ModifierManager()
 nodes = bdu.Nodes(modifier_manager=mod)
 ctrl = nodes.existing.transform("ctrl")
 
-# keyableかつアニメーションを持つ属性を、再生範囲でベイク
+# keyable属性を、再生範囲でベイク
 ctrl.keyframes.bake()
 
 # compoundを含む明示属性を、指定区間でベイク
@@ -856,6 +856,52 @@ mod.do_it_dg()
 切断し、対象外の兄弟だけを接続し直します。対象が0件、いずれかの対象・接続・layerが
 編集できない場合、または適用後の値検査に失敗した場合は、一部の属性だけを残さず操作全体を
 rollbackします。自動キー削減は行わないため、必要なら各カーブへ`reduce_keys()`を明示します。
+
+#### 複数nodeをまとめてベイクする
+
+`Nodes.keyframes`は、複数nodeの対象を1つの操作としてベイクします。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl_a = nodes.existing.transform("ctrlA")
+ctrl_b = nodes.existing.transform("ctrlB")
+
+nodes.keyframes.bake(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    attributes=["translate", "rotate", "customWeight"],
+    sample_by=0.5,
+)
+mod.do_it_dg()
+```
+
+`nodes`には`NodeOperator`、`MObject`、node名を混在でき、重複nodeはエラーです。
+`attributes=None`では各nodeのkeyable属性を個別に収集します。明示した属性名は、存在する
+nodeだけへ適用します。例えば`customWeight`が`ctrlA`にだけ存在する場合、`ctrlB`ではその名前を
+スキップします。指定名が全nodeで一度も見つからない場合は、タイプミスを見逃さないため
+操作全体をエラーにします。存在する属性が未対応型、lock中、指定layerに未所属の場合もエラーです。
+nodeごとに対象属性が0件でも他nodeに対象があれば続行し、全体が0件ならエラーにします。
+
+```python
+nodes.keyframes.anim_layer("Correction").bake(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+)
+```
+
+1操作では全nodeへ同じlayerを適用します。`include_channel_box`、`include_static`、時刻と
+samplingの規則はnode単位と共通です。全node・全属性の値を変更前に取得してから接続を
+変更するため、上流nodeと下流nodeを同時指定しても指定順に依存しません。Undo / Redoは
+1単位で、途中失敗時は全nodeをrollbackします。総サンプル数は
+`フレーム数 × ベイク対象leaf数`で数え、10,000,001点を上限とします。
+
+選択node、DAG階層、子nodeは暗黙に追加しません。world-space変換や、前時刻から状態を進める
+simulation・cache・dynamics向けの時系列評価も行いません。
 
 ### キーを時間方向へ移動する
 

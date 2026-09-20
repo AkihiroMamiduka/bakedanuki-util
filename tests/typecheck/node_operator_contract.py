@@ -26,7 +26,10 @@ from bd_util.maya.node.operator.attr import (
     TangentTypeValue,
 )
 from bd_util.maya.node.operator.attr._core import PlugOperator
-from bd_util.maya.node.operator.node import NodeKeyframeManager
+from bd_util.maya.node.operator.node import (
+    NodeKeyframeManager,
+    NodesKeyframeManager,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_abs import (
     InputAttrOperator as AbsInputAttrOperator,
     InputPlugOperator as AbsInputPlugOperator,
@@ -5133,6 +5136,23 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(node.keyframes.anim_layer(layer), NodeKeyframeManager)
     assert_type(
         node.keyframes.anim_layer(layer).bake(1, 24, attributes=["translate"]),
+        None,
+    )
+    assert_type(nodes.keyframes, NodesKeyframeManager)
+    assert_type(
+        nodes.keyframes.bake(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+        ),
+        None,
+    )
+    assert_type(nodes.keyframes.anim_layer(layer), NodesKeyframeManager)
+    assert_type(
+        nodes.keyframes.anim_layer(layer).bake(
+            [node, "other"], 1, 24, include_static=False
+        ),
         None,
     )
     existing = nodes.existing.animLayer("Existing")

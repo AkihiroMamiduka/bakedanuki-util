@@ -668,12 +668,27 @@ Maya標準Undo / Redoとcommand失敗時rollbackを検証します。plug単位�
 .\scripts\test-pytest-maya2025.cmd tests/maya/mpx_cmd/test_command.py -k bake
 ```
 
-2026-09-20の実装時点で、専用21件はMaya 2025 / 2026 / 2027ですべて成功しました。
-plug版31件・node版21件・MPxCommand 2件を合わせた関連54件も3 versionで成功しています。
+`test_nodes_keyframe_bake.py`では、`nodes.keyframes.bake([...])`の次の契約を検証します。
+
+- NodeOperator / MObject / node名の複数指定、重複nodeと空の入力列の拒否。
+- 明示属性名を存在するnodeだけへ適用し、全nodeで見つからない名前、既存の未対応・lock属性を
+  操作全体のエラーにすること。自動収集では対象0件のnodeをスキップすること。
+- 上流・下流nodeを逆順で指定しても、全nodeのsamplingを接続変更より前に完了すること。
+- 共通layer、作成待ちnode / layer、1回のUndo / Redo、後半nodeの検査失敗時の全体rollback。
+- `フレーム数 × 対象leaf数`による総サンプル数上限と、`NodesKeyframeManager`の型・補完契約。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/node/test_nodes_keyframe_bake.py
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/operator/node/test_nodes_keyframe_bake.py
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/operator/node/test_nodes_keyframe_bake.py
+```
+
+2026-09-20の複数node版実装時点で、plug版31件・node版21件・複数node版21件・
+MPxCommand 2件を合わせた関連75件がMaya 2025 / 2026 / 2027ですべて成功しています。
 `_keyframes.py` / `_keyframe_bake.py`の明示Pyrightと型・補完contractは3 versionで
 error / warningなしです。`QT_QPA_PLATFORM=offscreen`で実行した`verify.cmd`も成功し、
-Maya 2025 full pytestは6,701件成功・632件skip、UI互換性は各versionで
-Qt/UI 726件・Maya UI 244件成功しました。Blackは4,472ファイル、差分検査も成功しています。
+Maya 2025 full pytestは6,722件成功・632件skip、UI互換性は各versionで
+Qt/UI 726件・Maya UI 244件成功しました。Blackは4,473ファイル、差分検査も成功しています。
 
 ## キーフレーム移動の検証
 

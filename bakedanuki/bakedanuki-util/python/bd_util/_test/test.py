@@ -264,5 +264,35 @@ def main():
     trsf.sz.connect(dst_11_2.sz)
     dst_11_2.keyframes.bake(include_static=False)
 
+    dst_12_0 = nodes.create.transform(name="dst_12_0")
+    trsf.tx.connect(dst_12_0.tx)
+    trsf.ty.connect(dst_12_0.ty)
+    trsf.tz.connect(dst_12_0.tz)
+
+    dst_12_1 = nodes.create.transform(name="dst_12_1")
+    trsf.rx.connect(dst_12_1.rx)
+    trsf.ry.connect(dst_12_1.ry)
+    trsf.rz.connect(dst_12_1.rz)
+
+    dst_12_2 = nodes.create.transform(name="dst_12_2")
+    trsf.sx.connect(dst_12_2.sx)
+    trsf.sy.connect(dst_12_2.sy)
+    trsf.sz.connect(dst_12_2.sz)
+
+    dst_12_3 = nodes.create.transform(name="dst_12_3")
+    trsf.tx.connect(dst_12_3.tx)
+    trsf.ty.connect(dst_12_3.ty)
+    trsf.tz.connect(dst_12_3.tz)
+    trsf.rx.connect(dst_12_3.rx)
+    trsf.ry.connect(dst_12_3.ry)
+    trsf.rz.connect(dst_12_3.rz)
+    trsf.sx.connect(dst_12_3.sx)
+    trsf.sy.connect(dst_12_3.sy)
+    trsf.sz.connect(dst_12_3.sz)
+
+    nodes.keyframes.bake(
+        [dst_12_0, dst_12_1, dst_12_2, dst_12_3], attributes=["t", "r", "s"]
+    )
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

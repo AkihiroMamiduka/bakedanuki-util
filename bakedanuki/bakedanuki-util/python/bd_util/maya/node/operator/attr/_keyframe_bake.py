@@ -304,6 +304,12 @@ def queue_bakes(
                 prepared.append((target, plug, raw))
         if not prepared:
             raise ValueError(empty_error)
+        sample_count = len(prepared) * len(frames)
+        if sample_count > _MAX_SAMPLES:
+            raise ValueError(
+                "The bake operation exceeds "
+                f"{_MAX_SAMPLES:,} total sample points."
+            )
 
         sampled = tuple(
             (target, plug, raw, _sample(raw, frames, seconds_per_frame))

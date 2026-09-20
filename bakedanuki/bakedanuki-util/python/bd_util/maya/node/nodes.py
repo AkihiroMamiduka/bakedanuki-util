@@ -11,6 +11,7 @@ from .existing_node import ExistingNode
 from .modifier import ModifierManager
 from .node_types import NodeTypes
 from .operator.node._core import NodeOperator
+from .operator.node._keyframes import NodesKeyframeManager
 
 
 class _ExistingNodeAccessor:
@@ -71,6 +72,7 @@ class Nodes:
         "_modifier_manager",
         "_create",
         "_existing",
+        "_keyframes",
         "_types",
     )
 
@@ -91,6 +93,7 @@ class Nodes:
         self._existing = _ExistingNodeAccessor(
             modifier_manager=modifier_manager,
         )
+        self._keyframes = NodesKeyframeManager(modifier_manager)
         self._types = NodeTypes()
 
     @property
@@ -104,6 +107,11 @@ class Nodes:
     @property
     def existing(self) -> _ExistingNodeAccessor:
         return self._existing
+
+    @property
+    def keyframes(self) -> NodesKeyframeManager:
+        """Return multi-node keyframe operations using this manager."""
+        return self._keyframes
 
     @property
     def types(self) -> NodeTypes:
