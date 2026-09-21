@@ -56,6 +56,17 @@ def _curve(name):
     return oma.MFnAnimCurve(selection.getDependNode(0))
 
 
+def _assert_baked_lock_state(name, *, tangents_locked=True):
+    curve = _curve(name)
+    assert curve.isWeighted is False
+    assert [curve.tangentsLocked(i) for i in range(curve.numKeys)] == [
+        tangents_locked
+    ] * curve.numKeys
+    assert [curve.weightsLocked(i) for i in range(curve.numKeys)] == [
+        False
+    ] * curve.numKeys
+
+
 def _values(cmds, name, frames):
     return [cmds.getAttr(name, time=frame) for frame in frames]
 
@@ -138,6 +149,7 @@ def test_explicit_subframe_range_includes_end_and_keeps_expression(maya_cmds):
     assert cmds.keyTangent(curve, query=True, outTangentType=True) == [
         "auto"
     ] * len(frames)
+    _assert_baked_lock_state(curve)
     assert cmds.objExists(expression)
 
 
@@ -220,6 +232,7 @@ def test_discrete_channel_uses_step_tangents(maya_cmds):
         "step",
         "step",
     ]
+    _assert_baked_lock_state(curve)
     assert _values(cmds, target + ".visibility", (1, 2, 3)) == expected
 
 
@@ -301,6 +314,23 @@ def test_bake_tangent_options_separate_continuous_and_discrete_channels(
         cmds.keyTangent(discrete, query=True, outTangentType=True)
         == ["stepnext"] * 3
     )
+    _assert_baked_lock_state(continuous)
+    _assert_baked_lock_state(discrete)
+
+
+def test_bake_lock_state_can_be_overridden_in_same_batch(maya_cmds):
+    cmds = maya_cmds
+    target = cmds.createNode("transform", name="target")
+    cmds.setAttr(target + ".tx", 5.0)
+    manager = bdu.ModifierManager()
+    keyframe = _keyframe(target + ".tx", manager)
+
+    keyframe.bake(1, 3)
+    keyframe.set_tangent_locks(tangents_locked=False)
+    manager.do_it_dg()
+
+    curve = _source(target + ".tx").split(".")[0]
+    _assert_baked_lock_state(curve, tangents_locked=False)
 
 
 def test_existing_direct_curve_is_reused_and_fully_replaced(maya_cmds):
@@ -312,23 +342,33 @@ def test_existing_direct_curve_is_reused_and_fully_replaced(maya_cmds):
         )
     curve = _source(target + ".tx").split(".")[0]
     cmds.keyTangent(curve, edit=True, weightedTangents=True)
-    _curve(curve).setPreInfinityType(oma.MFnAnimCurve.kCycle)
-    _curve(curve).setPostInfinityType(oma.MFnAnimCurve.kLinear)
+    curve_fn = _curve(curve)
+    curve_fn.setPreInfinityType(oma.MFnAnimCurve.kCycle)
+    curve_fn.setPostInfinityType(oma.MFnAnimCurve.kLinear)
+    for index in range(curve_fn.numKeys):
+        curve_fn.setTangentsLocked(index, False)
+        curve_fn.setWeightsLocked(index, True)
     original_keys = _keys(cmds, curve)
     manager = bdu.ModifierManager()
-    _keyframe(target + ".tx", manager).bake(1, 5, sample_by=2)
+    keyframe = _keyframe(target + ".tx", manager)
+    original_data = keyframe.get_curve_data()
+    keyframe.bake(1, 5, sample_by=2)
     manager.do_it_dg()
 
     assert _source(target + ".tx") == curve + ".output"
     assert cmds.keyframe(curve, query=True, timeChange=True) == [1, 3, 5]
     assert cmds.keyTangent(curve, query=True, weightedTangents=True) == [False]
+    _assert_baked_lock_state(curve)
     assert _curve(curve).preInfinityType == oma.MFnAnimCurve.kConstant
     assert _curve(curve).postInfinityType == oma.MFnAnimCurve.kConstant
     manager.undo_it()
     assert _keys(cmds, curve) == original_keys
+    assert keyframe.get_curve_data() == original_data
     assert cmds.keyTangent(curve, query=True, weightedTangents=True) == [True]
     assert _curve(curve).preInfinityType == oma.MFnAnimCurve.kCycle
     assert _curve(curve).postInfinityType == oma.MFnAnimCurve.kLinear
+    manager.redo_it()
+    _assert_baked_lock_state(curve)
 
 
 def test_shared_curve_is_preserved_for_other_destination(maya_cmds):

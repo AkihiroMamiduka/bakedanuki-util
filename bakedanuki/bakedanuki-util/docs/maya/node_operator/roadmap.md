@@ -391,7 +391,8 @@ in / out両側を変更します。静的属性、カーブなし、該当キー
 plug・node・複数nodeの各`bake()`にも同じ連続接線指定と`discrete_tangent_type`を追加しました。
 未指定時は連続属性がauto / auto、離散属性がstep / stepです。接線指定は生成する
 `AnimCurveData`へ含め、sampling・接続変更・復元・値検証と同じUndo / Redo・rollback単位で
-適用します。離散型判定は共通化し、enumとscalar整数系を同じ対象として扱います。
+適用します。生成キーはBreak Tangentsを解除した`tangents_locked=True`、
+`weights_locked=False`とします。離散型判定は共通化し、enumとscalar整数系を同じ対象として扱います。
 
 ### plug入力ベイクの実装
 

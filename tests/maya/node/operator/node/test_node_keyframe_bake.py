@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 from maya.api import OpenMaya as om
+from maya.api import OpenMayaAnim as oma
 
 import bd_util as bdu
 from bd_util.maya.node.operator.attr import _keyframe_bake
@@ -30,6 +31,16 @@ def _plug(name):
 def _source(name):
     sources = _plug(name).connectedTo(True, False)
     return None if not sources else sources[0].name()
+
+
+def _assert_baked_lock_state(name):
+    curve = oma.MFnAnimCurve(om.MSelectionList().add(name).getDependNode(0))
+    assert [curve.tangentsLocked(i) for i in range(curve.numKeys)] == [
+        True
+    ] * curve.numKeys
+    assert [curve.weightsLocked(i) for i in range(curve.numKeys)] == [
+        False
+    ] * curve.numKeys
 
 
 def _node(name, manager):
@@ -148,6 +159,8 @@ def test_node_bake_applies_separate_continuous_and_discrete_tangents(
         cmds.keyTangent(discrete, query=True, outTangentType=True)
         == ["stepnext"] * 3
     )
+    _assert_baked_lock_state(continuous)
+    _assert_baked_lock_state(discrete)
 
 
 def test_multiple_explicit_leaves_detach_parent_once_and_preserve_sibling(

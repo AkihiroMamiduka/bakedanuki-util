@@ -893,6 +893,10 @@ weighted、infinity等の設定は全置換され、範囲外はconstantです�
 autoです。`tangent_type`は連続属性の両側、個別指定はその側を上書きします。
 bool・enum・整数系は通常の接線引数から分離し、既定でin / outともstepです。
 `discrete_tangent_type`を指定した場合だけ、離散属性の両側をそのtypeへ変更します。
+生成する全キーはBreak Tangentsを解除した`tangents_locked=True`とし、片側の接線角度を編集すると
+反対側も連動する状態にします。カーブはnonweighted、`weights_locked=False`です。
+Break Tangentsされた状態が必要な場合は、同じmanagerへ続けて
+`set_tangent_locks(tangents_locked=False)`を予約できます。`.bake()`にはlock用の引数を追加しません。
 静的な入力もキーを作成し、自動削減は行いません。
 必要ならベイク後に`reduce_keys()`を明示的に予約してください。
 

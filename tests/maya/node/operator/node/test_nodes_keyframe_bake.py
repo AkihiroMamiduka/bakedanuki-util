@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 from maya.api import OpenMaya as om
+from maya.api import OpenMayaAnim as oma
 
 import bd_util as bdu
 from bd_util.maya.node.operator.attr import _keyframe_bake
@@ -36,6 +37,16 @@ def _object(name):
 def _source(name):
     sources = _plug(name).connectedTo(True, False)
     return None if not sources else sources[0].name()
+
+
+def _assert_baked_lock_state(name):
+    curve = oma.MFnAnimCurve(om.MSelectionList().add(name).getDependNode(0))
+    assert [curve.tangentsLocked(i) for i in range(curve.numKeys)] == [
+        True
+    ] * curve.numKeys
+    assert [curve.weightsLocked(i) for i in range(curve.numKeys)] == [
+        False
+    ] * curve.numKeys
 
 
 def _animated_transform(cmds, name="driver"):
@@ -85,6 +96,7 @@ def test_bake_multiple_nodes_with_one_history(maya_cmds):
             )
             == ["auto"] * 3
         )
+        _assert_baked_lock_state(source.split(".")[0])
     manager.undo_it()
     assert _source(first + ".tx") == driver + ".translateX"
     assert _source(second + ".tx") == driver + ".translateX"

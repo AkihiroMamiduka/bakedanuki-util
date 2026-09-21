@@ -245,7 +245,7 @@ def _curve_data(
                 ),
                 in_tangent_xy=(1.0, 0.0),
                 out_tangent_xy=(1.0, 0.0),
-                tangents_locked=False,
+                tangents_locked=True,
                 weights_locked=False,
                 breakdown=False,
             )

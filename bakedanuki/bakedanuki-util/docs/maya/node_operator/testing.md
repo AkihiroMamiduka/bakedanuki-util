@@ -697,6 +697,8 @@ Undo時にlockが戻らないことを確認したため、実装はanimCurveの
   予約後のFPS変更では物理時刻を維持し、値は初回実行時のsceneから取得すること。
 - TA / TL / TU、連続値の既定auto / auto、bool・enum・整数系の既定step / step、
   連続用の共通・個別接線指定と離散用`discrete_tangent_type`、constant infinity、nonweightedへの全置換。
+  連続・離散の全生成キーでtangent lockが有効、weight lockが無効であり、同じbatchの
+  `set_tangent_locks(tangents_locked=False)`で明示的にBreak Tangentsへ変更できること。
   既存カーブの範囲外キー・設定を削除し、直接の非共有カーブは再利用すること。
 - constraint・expression等の上流nodeを残して対象入力だけを切断すること。
   親compound接続の非対象子、共有カーブの別出力先、ベース以外のlayerを維持すること。
