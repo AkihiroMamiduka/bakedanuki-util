@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Callable
 from dataclasses import replace as replace_data
 from typing import cast
 
@@ -103,6 +104,32 @@ def queue_weighted(
             curve.setIsWeighted(weighted, change)
 
     manager.queue_anim_curve_change(edit)
+
+
+def queue_weighted_batch(
+    manager: ModifierManager,
+    resolve_targets: Callable[[], tuple[_keyframe_target.Target, ...]],
+    weighted: object,
+) -> None:
+    """Queue one atomic weighted edit for existing channel curves."""
+    if not isinstance(weighted, bool):
+        raise TypeError("weighted must be a bool.")
+
+    def prepare(work: ModifierManager) -> None:
+        curves: list[oma.MFnAnimCurve] = []
+        for target in resolve_targets():
+            curve = resolve_curve(target, write=True)
+            if curve is not None:
+                curves.append(curve)
+
+        def edit(change: oma.MAnimCurveChange) -> None:
+            for curve in curves:
+                if curve.isWeighted != weighted:
+                    curve.setIsWeighted(weighted, change)
+
+        work.queue_anim_curve_change(edit)
+
+    manager.queue_dg_batch(prepare)
 
 
 def capture_curve(

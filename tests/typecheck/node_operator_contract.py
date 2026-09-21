@@ -4142,6 +4142,17 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         ),
         None,
     )
+    assert_type(
+        compose.keyframes.set_weighted(
+            True,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+        ),
+        None,
+    )
+    compose.keyframes.set_weighted(
+        1,  # pyright: ignore[reportArgumentType]
+    )
     compose.keyframes.set_tangent_locks(
         tangents_locked=1,  # pyright: ignore[reportArgumentType]
     )
@@ -5290,6 +5301,15 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         ),
         None,
     )
+    assert_type(
+        nodes.keyframes.set_weighted(
+            [node, node.m_obj, "other"],
+            True,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+        ),
+        None,
+    )
     assert_type(nodes.keyframes.anim_layer(layer), NodesKeyframeManager)
     assert_type(
         nodes.keyframes.anim_layer(layer).bake(
@@ -5306,6 +5326,12 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.keyframes.anim_layer(layer).set_tangent_locks(
             [node, "other"], 1, 24, weights_locked=False
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).set_weighted(
+            [node, "other"], False, attributes=["translate"]
         ),
         None,
     )

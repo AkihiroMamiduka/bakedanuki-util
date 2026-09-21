@@ -191,7 +191,7 @@ def _collect_targets(
     return tuple(found.values()), matched
 
 
-def _existing_tangent_targets(
+def _existing_curve_targets(
     targets: tuple[tuple[_keyframe_target.Target, om.MPlug], ...],
     *,
     automatic: bool,
@@ -383,7 +383,7 @@ class NodeKeyframeManager:
                 root_name,
                 allow_missing=False,
             )
-            return _existing_tangent_targets(found, automatic=attrs is None)
+            return _existing_curve_targets(found, automatic=attrs is None)
 
         _keyframe_tangent.queue_batch(
             self._modifier_manager,
@@ -393,6 +393,53 @@ class NodeKeyframeManager:
             in_type,
             out_type,
             discrete_type,
+        )
+
+    def set_weighted(
+        self,
+        weighted: bool,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+    ) -> None:
+        """Set weighted tangents on existing curves in selected channels."""
+        if isinstance(attributes, str):
+            raise TypeError("attributes must be an iterable of names or None.")
+        attrs = (
+            None
+            if attributes is None
+            else tuple(_literal_attribute(value) for value in attributes)
+        )
+        if type(include_channel_box) is not bool:
+            raise TypeError("include_channel_box must be a bool.")
+        node_handle = self._node_handle
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> tuple[_keyframe_target.Target, ...]:
+            if not node_handle.isAlive() or not node_handle.isValid():
+                raise RuntimeError("The node is not available in the scene.")
+            node = node_handle.object()
+            layer, layer_name, root_name = _resolve_layer(layer_handle)
+            found, _ = _collect_targets(
+                node,
+                attrs,
+                include_channel_box,
+                layer,
+                layer_name,
+                root_name,
+                allow_missing=False,
+            )
+            return tuple(
+                target
+                for target, _ in _existing_curve_targets(
+                    found, automatic=attrs is None
+                )
+            )
+
+        _keyframe_snapshot.queue_weighted_batch(
+            self._modifier_manager,
+            resolve_targets,
+            weighted,
         )
 
     def set_tangent_locks(
@@ -440,7 +487,7 @@ class NodeKeyframeManager:
             )
             return tuple(
                 target
-                for target, _ in _existing_tangent_targets(
+                for target, _ in _existing_curve_targets(
                     found, automatic=attrs is None
                 )
             )
@@ -693,7 +740,7 @@ class NodesKeyframeManager:
                         "Animation attributes do not exist on any selected "
                         f"node: {joined}."
                     )
-            return _existing_tangent_targets(
+            return _existing_curve_targets(
                 tuple(found), automatic=attrs is None
             )
 
@@ -705,6 +752,95 @@ class NodesKeyframeManager:
             in_type,
             out_type,
             discrete_type,
+        )
+
+    def set_weighted(
+        self,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+        weighted: bool,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+    ) -> None:
+        """Set weighted tangents across existing curves as one atomic edit."""
+        from ._core import NodeOperator
+
+        if isinstance(nodes, (str, NodeOperator, om.MObject)):
+            raise TypeError("nodes must be an iterable of nodes.")
+        try:
+            values = tuple(nodes)
+        except TypeError as exc:
+            raise TypeError("nodes must be an iterable of nodes.") from exc
+        if not values:
+            raise ValueError("nodes must contain at least one node.")
+        node_handles: list[om.MObjectHandle] = []
+        unique_handles: set[om.MObjectHandle] = set()
+        for value in values:
+            handle = om.MObjectHandle(node_object(value))
+            if handle in unique_handles:
+                raise ValueError("Duplicate weighted node.")
+            unique_handles.add(handle)
+            node_handles.append(handle)
+
+        if isinstance(attributes, str):
+            raise TypeError("attributes must be an iterable of names or None.")
+        attrs = (
+            None
+            if attributes is None
+            else tuple(
+                dict.fromkeys(
+                    _literal_attribute(value) for value in attributes
+                )
+            )
+        )
+        if type(include_channel_box) is not bool:
+            raise TypeError("include_channel_box must be a bool.")
+        handles = tuple(node_handles)
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> tuple[_keyframe_target.Target, ...]:
+            layer, layer_name, root_name = _resolve_layer(layer_handle)
+            found: list[tuple[_keyframe_target.Target, om.MPlug]] = []
+            matched: set[str] = set()
+            for handle in handles:
+                if not handle.isAlive() or not handle.isValid():
+                    raise RuntimeError(
+                        "A weighted node is not available in the scene."
+                    )
+                targets, names = _collect_targets(
+                    handle.object(),
+                    attrs,
+                    include_channel_box,
+                    layer,
+                    layer_name,
+                    root_name,
+                    allow_missing=True,
+                )
+                found.extend(targets)
+                matched.update(names)
+            if attrs is not None:
+                missing = tuple(
+                    attribute
+                    for attribute in attrs
+                    if attribute not in matched
+                )
+                if missing:
+                    joined = ", ".join(repr(value) for value in missing)
+                    raise ValueError(
+                        "Animation attributes do not exist on any selected "
+                        f"node: {joined}."
+                    )
+            return tuple(
+                target
+                for target, _ in _existing_curve_targets(
+                    tuple(found), automatic=attrs is None
+                )
+            )
+
+        _keyframe_snapshot.queue_weighted_batch(
+            self._modifier_manager,
+            resolve_targets,
+            weighted,
         )
 
     def set_tangent_locks(
@@ -794,7 +930,7 @@ class NodesKeyframeManager:
                     )
             return tuple(
                 target
-                for target, _ in _existing_tangent_targets(
+                for target, _ in _existing_curve_targets(
                     tuple(found), automatic=attrs is None
                 )
             )

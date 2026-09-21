@@ -1657,8 +1657,9 @@ cycle / cycleRelative / oscillateの繰り返し領域を含む境界補完は`R
 ### カーブのweighted設定
 
 `get_weighted() -> bool | None`は実行済みカーブの設定を取得し、対象がなければ`None`です。
-`set_weighted(weighted: bool)`はカーブ全体の変更を予約します。同じ設定なら変更せず、
-実行時にカーブがなければエラーです。対象範囲・lock / reference等の制約はカーブデータと共通です。
+plug・明示カーブの`set_weighted(weighted: bool)`はカーブ全体の変更を予約します。
+同じ設定なら変更せず、実行時にカーブがなければエラーです。対象範囲・lock / reference等の
+制約はカーブデータと共通です。
 
 ```python
 keyframe = target.tx.keyframe
@@ -1669,9 +1670,43 @@ mod.do_it_dg()
 weighted = keyframe.get_weighted()  # True
 ```
 
+`node.keyframes.set_weighted()`と`nodes.keyframes.set_weighted([...])`は、選択した属性の
+既存カーブをまとめて同じweighted設定へ変更します。weightedはカーブ全体の設定なので
+キーの範囲引数はありません。既存カーブが0キーでも対象にし、静的属性からカーブを作成しません。
+実在する属性にカーブがない場合と自動収集の対象が0件の場合はno-opです。
+
+```python
+ctrl_a = nodes.existing.transform("ctrlA")
+ctrl_b = nodes.existing.transform("ctrlB")
+
+ctrl_a.keyframes.set_weighted(
+    True,
+    attributes=["translate", "rotate"],
+)
+
+nodes.keyframes.set_weighted(
+    [ctrl_a, ctrl_b],
+    False,
+    include_channel_box=True,
+)
+
+ctrl_a.keyframes.anim_layer("Correction").set_weighted(True)
+mod.do_it_dg()
+```
+
+属性の自動収集、明示compound・実在array element、channelBox、複数nodeの属性名のunion、
+root / 明示layer、上流カーブの探索は`set_tangents()`と同じ規則です。連続・離散属性を
+区別せず、対応するTA / TL / TUの既存カーブを対象にします。明示したmissing・未対応・
+lock・reference・layer未所属、共有カーブ等はエラーです。複数対象は全カーブを解決・
+検証してから変更するため、途中まで適用しません。戻り値は`None`で、変更は同じ
+`ModifierManager`のUndo / Redo・rollbackへ含まれます。
+
 変更には`MFnAnimCurve.setIsWeighted()`と`MAnimCurveChange`を使い、接線の変換も
 Mayaへ委譲します。weightedをFalseへ変えてからTrueへ戻しても失われた重みは戻りません。
-元の状態への復元にはUndoを使ってください。
+元の状態への復元にはUndoを使ってください。Maya 2025では、nonweightedからweightedへの
+変更はカーブ形状を維持した表現変換になります。weightedからnonweightedへの変更は接線方向を
+保って重みを正規化するため、手動の重みによる形状は変わる場合があります。キー時刻・値、
+接線type、tangent / weight lock、breakdown、pre / post infinityは維持します。
 
 取得は実行済みscene状態のsnapshotで、予約中の操作を実行しません。
 編集は入力データを予約時に捕捉し、接続先・lock・layerなどは実行時に検査します。

@@ -689,6 +689,32 @@ Undo時にlockが戻らないことを確認したため、実装はanimCurveの
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr\test_keyframe_lock.py tests\maya\node\operator\node\test_node_keyframe_lock.py tests\maya\mpx_cmd\test_command.py -q --tb=short
 ```
 
+## node・複数nodeのweighted変更の検証
+
+`test_node_keyframe_weighted.py`では、`node.keyframes.set_weighted()`と
+`nodes.keyframes.set_weighted([...])`について次の契約を検証します。
+
+- TA / TL / TUの既存カーブ、連続・離散属性、0キーカーブと同値設定を扱い、静的属性へ
+  カーブを作成しないこと。同じbatchで先に作成したカーブは実行時に認識すること。
+- keyable / channelBox・明示属性、複数nodeの属性名のunion、unitConversionを含む上流探索、
+  rootと明示layerを`set_tangents()`と同じ規則で選択すること。
+- missing・空／重複node列、bool以外のoption、plug・curve・node・layerのlock / reference、
+  layer未所属・共有カーブを拒否し、全対象を変更前に検証すること。
+- Maya標準のweighted変換、接線type等の保持、反復Undo / Redoで失われたweightまで復元すること。
+  後続処理の失敗時に同じbatch全体をrollbackすること。
+- `NodeKeyframeManager` / `NodesKeyframeManager`の引数と`None`戻り値をIDE補完で追えること。
+
+Maya 2025の実挙動確認では、`MFnAnimCurve.setIsWeighted()`がキー時刻・値、全接線type、
+tangent / weight lock、breakdown、pre / post infinityを維持することを確認しています。
+nonweightedからweightedへの変換は密な評価値を維持し、weightedからnonweightedへの変換は
+接線方向を保ってweightを正規化するため、任意weightの形状は変わり得ます。Falseへ変更後に
+Trueへ戻しても元のweightは復元されません。`MAnimCurveChange`のUndoは元のweightと形状を
+正確に復元します。`weightedTangents` plugの`MDGModifier`編集では復元できないため使用しません。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\test_node_keyframe_weighted.py tests\maya\node\operator\attr\test_keyframe_data.py -q --tb=short
+```
+
 ## plug入力ベイクの検証
 
 `test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。
