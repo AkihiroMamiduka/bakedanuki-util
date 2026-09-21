@@ -661,6 +661,34 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 - 両端包含、片側省略、全キー、負時刻・subframe、予約時のUI時間単位と作成待ちnode / layer。
 - `NodeKeyframeManager` / `NodesKeyframeManager`の公開引数と戻り値をIDE補完で追えること。
 
+## キー単位のtangent / weight lock変更の検証
+
+`test_keyframe_lock.py`と`test_node_keyframe_lock.py`では、属性・明示カーブ・node・複数nodeの
+`set_tangent_lock()` / `set_tangent_locks()`について次の契約を検証します。
+
+- 単一キー、両端包含、片側省略、全キー、負時刻・subframeと、境界キーを追加しないこと。
+- `tangents_locked` / `weights_locked`の個別指定、`None`による維持、両方省略・カーブなし・
+  該当キーなしのno-opと、bool以外・逆転範囲・非有限時刻の予約時拒否。
+- 接線type・接線XY、値・時刻・breakdown・weighted・infinityと範囲外キーを維持すること。
+  nonweightedカーブでもweight lockを保存し、weighted設定を変更しないこと。
+- 既定ベース・明示layer・明示TA / TL / TUカーブ、通常の上流チャンネルと作成待ち明示カーブ。
+- node・複数nodeのkeyable / channelBox・明示属性、連続・離散属性、既存カーブだけの変更、
+  missing・重複・空node列、lock / reference / layer所属と全対象の事前検証。
+- 反復Undo / Redo、MPxCommandのMaya標準履歴、同一batchの途中失敗時rollback。
+- 属性・layer・明示カーブ・node・複数nodeの公開引数と`None`の戻り値をIDE補完で追えること。
+
+Maya 2025の実挙動確認では、`MFnAnimCurve.setTangentsLocked()` /
+`setWeightsLocked()`が接線type・XYやweightedを変更しないこと、nonweightedでもweight lockが
+保存されることを確認しています。また、これらのsetterへ渡した`MAnimCurveChange`だけでは
+Undo時にlockが戻らないことを確認したため、実装はanimCurveの`keyTanLocked` /
+`keyWeightLocked`配列plugを`MDGModifier`で編集します。
+
+開発中の局所確認には次を使用します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr\test_keyframe_lock.py tests\maya\node\operator\node\test_node_keyframe_lock.py tests\maya\mpx_cmd\test_command.py -q --tb=short
+```
+
 ## plug入力ベイクの検証
 
 `test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。

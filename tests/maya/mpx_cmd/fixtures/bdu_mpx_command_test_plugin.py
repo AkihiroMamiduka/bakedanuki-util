@@ -107,6 +107,12 @@ class _EditKeyframesCommand(_FailAfterExecuteCommand):
             in_tangent_type="linear",
             out_tangent_type="linear",
         )
+        keyframe.set_tangent_locks(
+            start_frame=2.0,
+            end_frame=5.0,
+            tangents_locked=False,
+            weights_locked=True,
+        )
         keyframe.delete_key(frame=3.0)
         node.translateY.keyframe.delete_anim_curve()
 

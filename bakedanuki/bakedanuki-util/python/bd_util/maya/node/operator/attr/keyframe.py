@@ -458,6 +458,52 @@ class _KeyframeOperations(ABC):
 
         manager.queue_anim_curve_change(set_key_tangents)
 
+    def set_tangent_lock(
+        self,
+        frame: float,
+        *,
+        tangents_locked: bool | None = None,
+        weights_locked: bool | None = None,
+    ) -> None:
+        """実在する単一キーのtangent / weight lock変更を予約する。"""
+        self.set_tangent_locks(
+            frame,
+            frame,
+            tangents_locked=tangents_locked,
+            weights_locked=weights_locked,
+        )
+
+    def set_tangent_locks(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        tangents_locked: bool | None = None,
+        weights_locked: bool | None = None,
+    ) -> None:
+        """両端を含む範囲の既存キーに対するlock変更を予約する。
+
+        None側は制限せず、両端を省略すると全キーを対象にする。
+        境界キーは挿入せず、カーブや対象キーがなければ何もしない。
+        Noneのlockは変更しない。weighted設定と接線形状は維持する。
+        """
+        manager = self._require_modifier_manager()
+        start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
+        tangent_lock, weight_lock = _keyframe_tangent.capture_locks(
+            tangents_locked, weights_locked
+        )
+        if tangent_lock is None and weight_lock is None:
+            return
+
+        _keyframe_tangent.queue_locks(
+            manager,
+            lambda: (self._target,),
+            start,
+            end,
+            tangent_lock,
+            weight_lock,
+        )
+
     def insert_key(self, frame: float, breakdown: bool = False) -> None:
         """カーブ形状を保つキー挿入を予約する。カーブがなければ実行時に失敗する。"""
         manager = self._require_modifier_manager()

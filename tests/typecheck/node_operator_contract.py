@@ -4131,6 +4131,20 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         ),
         None,
     )
+    assert_type(
+        compose.keyframes.set_tangent_locks(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+            tangents_locked=False,
+            weights_locked=True,
+        ),
+        None,
+    )
+    compose.keyframes.set_tangent_locks(
+        tangents_locked=1,  # pyright: ignore[reportArgumentType]
+    )
     compose.keyframes.bake(
         attributes=[1],  # pyright: ignore[reportArgumentType]
     )
@@ -4237,6 +4251,22 @@ def explicit_curve_keyframe_contract(
             tangent_type="auto",
             in_tangent_type="linear",
             out_tangent_type=keyframe.tangent.flat,
+        ),
+        None,
+    )
+    assert_type(
+        keyframe.set_tangent_lock(
+            2,
+            tangents_locked=False,
+            weights_locked=True,
+        ),
+        None,
+    )
+    assert_type(
+        keyframe.set_tangent_locks(
+            1,
+            24,
+            tangents_locked=True,
         ),
         None,
     )
@@ -4678,6 +4708,14 @@ def keyframe_contract(
         ),
         None,
     )
+    assert_type(
+        layer_keyframe.set_tangent_locks(
+            start_frame=1,
+            end_frame=24,
+            weights_locked=True,
+        ),
+        None,
+    )
     keyframe.anim_layer(None)  # pyright: ignore[reportArgumentType]
     tangent_name: TangentTypeName = "linear"
     tangent_value: TangentTypeValue = keyframe.tangent.flat
@@ -4794,6 +4832,20 @@ def keyframe_contract(
         None,
     )
     assert_type(keyframe.set_tangents(out_tangent_type="flat"), None)
+    assert_type(
+        keyframe.set_tangent_lock(
+            12.0,
+            tangents_locked=False,
+        ),
+        None,
+    )
+    assert_type(
+        keyframe.set_tangent_locks(
+            start_frame=1.0,
+            weights_locked=True,
+        ),
+        None,
+    )
     assert_type(keyframe.delete_key(12.0), None)
     assert_type(keyframe.delete_keys(start_frame=1.0, end_frame=24.0), None)
     assert_type(keyframe.delete_anim_curve(), None)
@@ -4824,6 +4876,13 @@ def keyframe_contract(
     )
     keyframe.set_tangents(
         out_tangent_type="unknown",  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_tangent_lock(
+        1,
+        tangents_locked=1,  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_tangent_locks(
+        weights_locked="yes",  # pyright: ignore[reportArgumentType]
     )
     keyframe.set_keys(
         1.0,  # pyright: ignore[reportArgumentType]
@@ -5219,6 +5278,18 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         ),
         None,
     )
+    assert_type(
+        nodes.keyframes.set_tangent_locks(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            tangents_locked=False,
+            weights_locked=True,
+        ),
+        None,
+    )
     assert_type(nodes.keyframes.anim_layer(layer), NodesKeyframeManager)
     assert_type(
         nodes.keyframes.anim_layer(layer).bake(
@@ -5229,6 +5300,12 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.keyframes.anim_layer(layer).set_tangents(
             [node, "other"], 1, 24, tangent_type="linear"
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).set_tangent_locks(
+            [node, "other"], 1, 24, weights_locked=False
         ),
         None,
     )

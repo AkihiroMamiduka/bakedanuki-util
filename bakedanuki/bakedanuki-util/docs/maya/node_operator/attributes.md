@@ -730,13 +730,15 @@ queryは実行済みsceneだけを読み、保留中modifierを実行しませ�
 | `insert_key(frame, breakdown=False)` | 前後のカーブ形状を保ってキーを挿入 | カーブがなければ`RuntimeError` |
 | `set_tangent(frame, ...)` | 指定した側のtangent typeを変更 | カーブ・キーがなければ何もしない |
 | `set_tangents(start_frame=None, end_frame=None, ...)` | 指定範囲に実在するキーのtangent typeを一括変更 | カーブ・該当キーがなければ何もしない |
+| `set_tangent_lock(frame, *, tangents_locked=None, weights_locked=None)` | 単一キーのtangent / weight lockを変更 | カーブ・キーがなければ何もしない |
+| `set_tangent_locks(start_frame=None, end_frame=None, *, tangents_locked=None, weights_locked=None)` | 指定範囲に実在するキーのtangent / weight lockを一括変更 | カーブ・該当キーがなければ何もしない |
 | `delete_key(frame)` | 指定時刻のキーを削除 | カーブ・キーがなければ何もしない |
 | `delete_keys(start_frame=None, end_frame=None)` | 指定範囲のキーを削除 | カーブ・該当キーがなければ何もしない |
 | `delete_anim_curve()` | カーブノード全体を削除 | カーブがなければ何もしない |
 
-`set_tangents()` / `delete_keys()`の境界は両端を含み、`None`を指定した側には境界を設けません。
-`set_tangents()`は両方省略すると全キーの指定した側を変更し、`delete_keys()`は全キーを削除します。
-どちらも境界にキーがなくても挿入せず、実在するキーだけを対象にします。
+`set_tangents()` / `set_tangent_locks()` / `delete_keys()`の境界は両端を含み、`None`を指定した側には
+境界を設けません。両方省略すると全キーを対象にします。境界にキーがなくても挿入せず、
+実在するキーだけを対象にします。
 キー削除には`MFnAnimCurve.remove()`を使用し、
 最後のキーを削除しても空のカーブは残します。
 
@@ -745,6 +747,18 @@ queryは実行済みsceneだけを読み、保留中modifierを実行しませ�
 指定した場合は反対側のtypeを維持します。範囲端に実在するキーの`auto`等を変更すると、
 その接線につながる範囲外側の区間形状にも影響する場合がありますが、範囲外のキー自体は変更しません。
 `step` / `stepnext`は出力側への指定を推奨します。境界挿入や影響度の補間は行いません。
+
+`tangents_locked`と`weights_locked`は、どちらもキーごとの状態です。
+`tangents_locked=False`はMayaのBreak Tangentsに相当し、in / outの接線方向を別々に編集できる状態にします。
+`weights_locked=True`はMaya 2025のLock Tangent Length（旧表記のLock Tangent Weight）に相当し、
+接線handleの長さを連動させます。`normalize tangent`を意味する設定ではありません。
+どちらも`None`ならその状態を維持し、両方とも`None`なら何も予約しません。bool以外は受け付けません。
+
+lock操作は接線type・接線XY・値・時刻・breakdown、カーブ全体の`weighted`とinfinityを変更しません。
+nonweightedカーブでも`weights_locked`はキーに保存され、`weighted`を自動で有効にはしません。
+カーブ全体のweighted接線の有効・無効は`set_weighted()`で明示的に変更します。
+`set_tangent_lock()`は単一キー用の読みやすい入口で、同じ時刻を範囲版へ渡した操作と同じです。
+lock変更はanimCurveのlock配列plugを`MDGModifier`で編集し、同じmanagerのUndo / Redo・rollbackへ含めます。
 
 挿入・tangent変更・キー削除は、`MAnimCurveChange`へ変更を記録します。
 カーブノードの削除も同じmanagerの履歴へ含め、Undoでキー・tangent・接続を復元します。
@@ -767,6 +781,12 @@ keyframe.set_tangents(
     end_frame=24.0,
     tangent_type="auto",
 )
+keyframe.set_tangent_locks(
+    start_frame=1.0,
+    end_frame=24.0,
+    tangents_locked=False,
+    weights_locked=True,
+)
 mod.do_it_dg()
 
 frames = keyframe.frames()
@@ -775,12 +795,16 @@ frames = keyframe.frames()
 これらの操作は上記のチャンネル選択の規則を共有します。constraint先の属性からドライバー側の
 カーブを暗黙に編集することはありません。任意時刻のplug値は`sample_values()`で取得します。
 
-#### node・複数nodeの接線をまとめて変更する
+#### node・複数nodeの接線とlockをまとめて変更する
 
 `node.keyframes.set_tangents()`と`nodes.keyframes.set_tangents([...])`は、選択した属性にある
 既存カーブ・既存キーの接線typeを1操作で変更します。範囲、`tangent_type`と個別側の上書き、
 値・時刻・詳細情報を維持する規則はplug単位と共通です。静的属性へカーブやキーを作成せず、
 カーブなし・該当キーなし・自動収集の対象0件はno-opです。
+
+`node.keyframes.set_tangent_locks()`と`nodes.keyframes.set_tangent_locks([...])`は、同じ属性選択と
+layer選択を使って既存キーのlockだけを変更します。自動収集では連続・離散属性の両方を対象にし、
+接線typeのような`discrete_tangent_type`の分離は行いません。複数対象は編集前にすべて解決・検証します。
 
 ```python
 ctrl_a = nodes.existing.transform("ctrlA")
@@ -799,6 +823,15 @@ nodes.keyframes.set_tangents(
     1,
     120,
     tangent_type="flat",
+)
+
+nodes.keyframes.set_tangent_locks(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    attributes=["translate", "rotate", "visibility"],
+    tangents_locked=False,
+    weights_locked=True,
 )
 mod.do_it_dg()
 ```

@@ -100,6 +100,10 @@ def test_pending_creation_queries_do_not_flush_and_creation_undo_redo(
     assert not maya_cmds.objExists("pendingCurve")
     keyframe.set_keys([(1, 2), (3, 4)])
     keyframe.set_weighted(True)
+    keyframe.set_tangent_locks(
+        tangents_locked=False,
+        weights_locked=True,
+    )
     mod.do_it_dg()
     assert keyframe.get_keys() == pytest.approx([(1, 2), (3, 4)])
     for _ in range(2):
@@ -110,6 +114,9 @@ def test_pending_creation_queries_do_not_flush_and_creation_undo_redo(
         mod.redo_it()
         assert keyframe.get_keys() == pytest.approx([(1, 2), (3, 4)])
         assert keyframe.get_weighted() is True
+        data = keyframe.get_key_data()
+        assert [key.tangents_locked for key in data] == [False, False]
+        assert [key.weights_locked for key in data] == [True, True]
 
 
 @pytest.mark.parametrize(
@@ -304,6 +311,8 @@ EDITS = [
     ("insert_key", (3,)),
     ("set_tangent", (1,)),
     ("set_tangents", ()),
+    ("set_tangent_lock", (1,)),
+    ("set_tangent_locks", ()),
     ("delete_key", (1,)),
     ("delete_keys", ()),
     ("delete_anim_curve", ()),
@@ -349,6 +358,12 @@ def _queue_edit(keyframe, method, args):
         return
     if method == "set_tangent":
         keyframe.set_tangent(*args, in_tangent_type="linear")
+        return
+    if method == "set_tangent_lock":
+        keyframe.set_tangent_lock(*args, tangents_locked=False)
+        return
+    if method == "set_tangent_locks":
+        keyframe.set_tangent_locks(1, 5, weights_locked=True)
         return
     if method == "set_key_data":
         args = (keyframe.get_key_data(),)

@@ -294,6 +294,11 @@ def main():
         [dst_12_0, dst_12_1, dst_12_2, dst_12_3], attributes=["t", "r", "s"]
     )
 
+    dst_12_3.tx.keyframe.set_weighted(True)
+    dst_12_3.tx.keyframe.set_tangent_locks(
+        tangents_locked=True, weights_locked=True
+    )
+
     dst_12_3.keyframes.set_tangents(tangent_type="auto")
 
     nodes.modifier_manager.do_it_dag()

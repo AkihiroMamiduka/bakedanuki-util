@@ -154,10 +154,8 @@
 
 ### 次の最優先項目
 
-次は、接線操作から派生した次の2項目を順に実装します。
-
-1. 指定範囲に実在するキーのtangent lock / weight lock一括変更。
-2. `node.keyframes` / `nodes.keyframes`単位の既存カーブに対するweighted一括切り替え。
+指定範囲に実在するキーのtangent lock / weight lock一括変更を実装しました。
+次は`node.keyframes` / `nodes.keyframes`単位の既存カーブに対するweighted一括切り替えを実装します。
 
 その後は本題へ戻り、`AnimationClip.reversed()`による独立した逆再生clipの作成、
 node・属性の部分抽出、Euler filterを順に検討します。各項目の公開method名・引数と
@@ -194,7 +192,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 
 | 用途 | API / 状態 |
 | --- | --- |
-| 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `set_tangents()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。`tangent_type`によるin / out共通指定、個別側の上書き、単一・両端包含範囲・全キーの接線type変更、Undo / Redo・rollbackに対応 |
+| 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `set_tangents()` / `set_tangent_lock()` / `set_tangent_locks()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。`tangent_type`によるin / out共通指定、個別側の上書き、単一・両端包含範囲・全キーの接線typeとキー単位のtangent / weight lock変更、Undo / Redo・rollbackに対応 |
 | 時間方向への移動 | `move_frame()` / `move_frames()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_frames()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否。属性・layer・明示カーブで同じ操作を使用 |
 | 時間方向への拡縮 | `scale_frames()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
@@ -202,7 +200,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
 | plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を等間隔に評価してTA / TL / TUへ全置換。連続・離散属性を分けた接線指定、上流nodeと非対象のcompound子・layerの維持、Undo / Redo・rollbackに対応 |
-| nodeの接線一括変更 | `node.keyframes.set_tangents()` / `nodes.keyframes.set_tangents([...])`。keyable / channelBoxまたは明示属性の既存カーブだけを対象にし、連続・離散属性を分けて全対象を1単位で変更 |
+| nodeの接線一括変更 | `node.keyframes.set_tangents()` / `nodes.keyframes.set_tangents([...])`と各`set_tangent_locks()`。keyable / channelBoxまたは明示属性の既存カーブだけを対象にし、全対象を1単位で変更。接線typeでは連続・離散属性を分け、lockでは両方を対象にする |
 | node入力の一括ベイク | `node.keyframes.bake()`。明示属性またはkeyable / channelBox属性をscalar leafへ展開し、静的な対象も既定でカーブ化。接線指定、全対象の事前sampling、compound共有接続の一括分割、操作全体のUndo / Redo・rollbackに対応 |
 | 複数node入力の一括ベイク | `nodes.keyframes.bake([...])`。nodeごとに存在する明示属性または自動収集した属性を全nodeで変更前にsampling。接線指定、node間を含むUndo / Redo・rollback、共通layer、総サンプル数上限に対応 |
 | 実在キーの時刻・値 | `get_keys()`。指定範囲に存在するキーだけを返し、境界補完は行わない |
@@ -361,6 +359,24 @@ Undo / Redo・rollbackへ参加します。既存`set_tangent()`は同じ範囲�
 3 versionの型・補完contractと`verify.cmd`も成功しています。
 利用者によるMaya画面上での確認とcommit / pushも完了し、`3509264f`へ反映されています。
 
+### キー単位のtangent / weight lock変更
+
+属性・明示カーブには、単一キー用の
+`set_tangent_lock(frame, *, tangents_locked=None, weights_locked=None)`と、範囲用の
+`set_tangent_locks(start_frame=None, end_frame=None, *, tangents_locked=None,
+weights_locked=None)`を追加しました。node・複数nodeには同じ範囲版を追加し、既存の
+`set_tangents()`と同じ属性収集・layer選択・全対象の事前検証を使用します。
+
+`tangents_locked`と`weights_locked`はどちらもキー単位で、in / out別の状態ではありません。
+`None`は維持、両方省略はno-opです。両端包含、片側省略、全キーを扱い、境界キーや
+カーブを作成しません。nonweightedカーブでもweight lockだけを保存し、カーブ全体の
+`weighted`は変更しません。接線type・XY、値・時刻・breakdown・infinityも維持します。
+
+Maya 2025で`MFnAnimCurve`のlock setter、Maya command、animCurve内部plugを実測しました。
+`MAnimCurveChange`だけではlock setterのUndoが復元されないため、`keyTanLocked` /
+`keyWeightLocked`配列を`MDGModifier`へ予約します。これによりModifierManagerの
+Undo / Redoと途中失敗時rollbackを共通経路で扱います。
+
 ### 接線指定とnode一括操作の拡張
 
 `set_key()` / `set_keys()` / `set_tangent()` / `set_tangents()`へ、in / out両側の共通値を
@@ -496,7 +512,7 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
-   次は接線・weight lockの範囲操作、node / nodes単位のweighted切替を順に実装する。
+   接線・weight lockの範囲操作は実装済み。次はnode / nodes単位のweighted切替を実装する。
    その後は`AnimationClip.reversed()`、node・属性の部分抽出、Euler filterを順に検討する。
    過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、

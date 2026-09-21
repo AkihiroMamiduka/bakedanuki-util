@@ -533,6 +533,13 @@ def test_animation_edits_share_command_history_and_restore_on_failure(
         )
     maya_cmds.setKeyframe(ty, time=1, value=10)
     initial_x = _animation_state(maya_cmds, tx)
+    from bd_util.maya.node.operator.attr import KeyframeManager
+    from maya.api import OpenMaya as om
+
+    selection = om.MSelectionList()
+    selection.add(tx)
+    keyframe = KeyframeManager(selection.getPlug(0))
+    initial_data = keyframe.get_curve_data()
     initial_y = _animation_state(maya_cmds, ty)
     initial_curves = sorted(maya_cmds.ls(type="animCurve"))
     maya_cmds.flushUndo()
@@ -542,6 +549,7 @@ def test_animation_edits_share_command_history_and_restore_on_failure(
         with pytest.raises(RuntimeError, match="intentional animation"):
             command(nodeName=node_name)
         assert _animation_state(maya_cmds, tx) == initial_x
+        assert keyframe.get_curve_data() == initial_data
         assert _animation_state(maya_cmds, ty) == initial_y
         assert sorted(maya_cmds.ls(type="animCurve")) == initial_curves
         assert maya_cmds.getAttr(f"{node_name}.scaleX") == 1.0
@@ -555,6 +563,18 @@ def test_animation_edits_share_command_history_and_restore_on_failure(
     assert final_x[1] == pytest.approx([1.0, 2.0, 5.0])
     assert final_x[2][1] == "linear"
     assert final_x[3][1] == "linear"
+    final_data = keyframe.get_curve_data()
+    assert final_data is not None
+    assert [key.tangents_locked for key in final_data.keys] == [
+        True,
+        False,
+        False,
+    ]
+    assert [key.weights_locked for key in final_data.keys] == [
+        False,
+        True,
+        True,
+    ]
     for _ in range(2):
         assert _animation_state(maya_cmds, tx) == final_x
         assert not maya_cmds.listConnections(
@@ -565,6 +585,7 @@ def test_animation_edits_share_command_history_and_restore_on_failure(
         assert len(maya_cmds.ls(type="animCurve")) == 1
         maya_cmds.undo()
         assert _animation_state(maya_cmds, tx) == initial_x
+        assert keyframe.get_curve_data() == initial_data
         assert _animation_state(maya_cmds, ty) == initial_y
         assert sorted(maya_cmds.ls(type="animCurve")) == initial_curves
         assert maya_cmds.getAttr(f"{node_name}.scaleX") == 1.0

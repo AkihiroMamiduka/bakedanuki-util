@@ -61,6 +61,11 @@ EDITS = (
         "set_tangents",
         {"start_frame": 1, "end_frame": 5, "out_tangent_type": "flat"},
     ),
+    ("set_tangent_lock", {"frame": 1, "tangents_locked": False}),
+    (
+        "set_tangent_locks",
+        {"start_frame": 1, "end_frame": 5, "weights_locked": True},
+    ),
     ("delete_key", {"frame": 1}),
     ("delete_keys", {}),
     ("delete_anim_curve", {}),
@@ -194,7 +199,17 @@ def test_unsupported_graph_is_rejected_without_editing_upstream(
 
 
 @pytest.mark.parametrize("method,kwargs", EDITS)
-@pytest.mark.parametrize("lock", ["plug", "node", "curve", "key"])
+@pytest.mark.parametrize(
+    "lock",
+    [
+        "plug",
+        "node",
+        "curve",
+        "key",
+        "tangent_lock",
+        "weight_lock",
+    ],
+)
 def test_direct_queries_allow_locks_but_edits_revalidate_at_execution(
     maya_cmds, method, kwargs, lock
 ):
@@ -207,13 +222,16 @@ def test_direct_queries_allow_locks_but_edits_revalidate_at_execution(
         maya_cmds.lockNode(keyframe.plug.name().split(".")[0], lock=True)
     elif lock == "curve":
         maya_cmds.lockNode(curve_name, lock=True)
+    elif lock == "plug":
+        maya_cmds.setAttr(keyframe.plug.name(), lock=True)
     else:
+        locked_attribute = {
+            "key": "ktv[0].kv",
+            "tangent_lock": "ktl[0]",
+            "weight_lock": "kwl[0]",
+        }[lock]
         maya_cmds.setAttr(
-            (
-                keyframe.plug.name()
-                if lock == "plug"
-                else curve_name + ".ktv[0].kv"
-            ),
+            curve_name + "." + locked_attribute,
             lock=True,
         )
     assert keyframe.get_curve_data() == before
@@ -228,7 +246,18 @@ def test_direct_queries_allow_locks_but_edits_revalidate_at_execution(
 @pytest.mark.parametrize("layered", [False, True])
 @pytest.mark.parametrize(
     "attribute",
-    ["ktv[1]", "ktv[1].kv", "kix[1]", "guard[17].flag", "guard", "pair.child"],
+    [
+        "ktv[1]",
+        "ktv[1].kv",
+        "kix[1]",
+        "ktl",
+        "ktl[1]",
+        "kwl",
+        "kwl[1]",
+        "guard[17].flag",
+        "guard",
+        "pair.child",
+    ],
 )
 def test_curve_restore_checks_locked_array_and_compound_descendants(
     maya_cmds, method, layered, attribute

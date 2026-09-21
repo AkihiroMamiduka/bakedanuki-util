@@ -63,6 +63,7 @@ _TANGENT_TYPE_NAMES = {
 
 Target = tuple[_keyframe_target.Target, om.MPlug]
 TargetResolver = Callable[[], tuple[Target, ...]]
+LockTargetResolver = Callable[[], tuple[_keyframe_target.Target, ...]]
 
 
 def to_tangent_type(tangent_type: int | str | None) -> int:
@@ -155,6 +156,18 @@ def capture_range(
             "start_frame must be less than or equal to end_frame."
         )
     return start, end
+
+
+def capture_locks(
+    tangents_locked: bool | None,
+    weights_locked: bool | None,
+) -> tuple[bool | None, bool | None]:
+    """Validate per-key tangent lock values without coercing integers."""
+    if tangents_locked is not None and type(tangents_locked) is not bool:
+        raise TypeError("tangents_locked must be a bool or None.")
+    if weights_locked is not None and type(weights_locked) is not bool:
+        raise TypeError("weights_locked must be a bool or None.")
+    return tangents_locked, weights_locked
 
 
 def is_discrete(plug: om.MPlug) -> bool:
@@ -251,3 +264,49 @@ def queue_batch(
         work.queue_anim_curve_change(edit)
 
     manager.queue_dg_batch(prepare)
+
+
+def queue_locks(
+    manager: ModifierManager,
+    resolve_targets: LockTargetResolver,
+    start: float | None,
+    end: float | None,
+    tangents_locked: bool | None,
+    weights_locked: bool | None,
+) -> None:
+    """Queue lock-only changes for existing keys on preselected curves."""
+
+    def edit(modifier: om.MDGModifier) -> None:
+        plans: list[tuple[oma.MFnAnimCurve, tuple[int, ...]]] = []
+        for target in resolve_targets():
+            curve = _keyframe_target.resolve_curve(target, write=True)
+            if curve is None:
+                continue
+            indices = _indices(curve, start, end)
+            if indices:
+                plans.append((curve, indices))
+
+        for curve, indices in plans:
+            tangent_locks = curve.findPlug("keyTanLocked", False)
+            weight_locks = curve.findPlug("keyWeightLocked", False)
+            for index in indices:
+                if (
+                    tangents_locked is not None
+                    and curve.tangentsLocked(index) != tangents_locked
+                ):
+                    modifier.newPlugValueBool(
+                        tangent_locks.elementByLogicalIndex(index),
+                        tangents_locked,
+                    )
+                if (
+                    weights_locked is not None
+                    and curve.weightsLocked(index) != weights_locked
+                ):
+                    modifier.newPlugValueBool(
+                        weight_locks.elementByLogicalIndex(index),
+                        weights_locked,
+                    )
+
+    # MAnimCurveChange does not restore these two flags in Maya 2025.
+    # Their animCurve array plugs provide reliable undo/redo through MDGModifier.
+    manager.queue_dg_modifier(edit)
