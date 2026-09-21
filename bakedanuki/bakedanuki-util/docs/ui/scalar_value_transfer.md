@@ -15,6 +15,8 @@ from bd_util.maya.ui import (
     MayaScalarValueClipboard,
     MayaScalarValueTransfer,
     apply_scalar_value_transfer,
+    apply_scalar_value_transfer_to_paths,
+    capture_all_scalar_node_values,
     capture_scalar_node_values,
 )
 
@@ -37,6 +39,10 @@ result = apply_scalar_value_transfer(
 print(result.changed, result.eligible_count, result.excluded)
 ```
 
+node全体をコピーする場合は、表示状態やtool側の行選択に依存しない
+`capture_all_scalar_node_values("source")`を使用します。このAPIが対象にする「全属性」は、
+`inspect_scalar_attributes()`で扱えるbool・number・distance・angle・enumです。
+
 取得はsceneとUndo履歴を変更しません。distanceはcm、angleはdegree、通常数値は単位なしの
 公開単位で保存するため、コピー元と貼り付け先のMayaで表示単位が異なっても同じ実値を運べます。
 表示文字列へ丸めず、boolとenumも数値へ暗黙変換しません。
@@ -48,6 +54,10 @@ enumは整数値、項目名、表示順を保存します。貼り付け先で�
 
 `apply_scalar_value_transfer()`は行位置や表示名を使いません。各対象nodeを列挙し、
 正式な相対属性pathと`ScalarAttributeKind`が一致する属性だけを候補にします。
+
+`apply_scalar_value_transfer_to_paths()`は、複数値を含むtransferから明示した正式pathとの
+共通部分だけを選び、全target nodeの同じpathへ適用します。指定pathがtransferにない場合は
+`excluded`へ「コピーされた値なし」として返し、別pathの値へ暗黙に対応させません。
 
 `apply_scalar_value_to_paths()`は、一つのコピー元nodeに一つの属性値だけを持つtransferと、
 貼り付け先の正式pathを受け取ります。コピー元pathの代わりに指定pathへ同じ値を展開し、

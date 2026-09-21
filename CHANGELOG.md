@@ -21,6 +21,11 @@
   複数nodeの明示した複数正式pathへ展開する。数値・距離・角度・boolは同じ型区分、
   enumは同じ整数値・項目名定義だけを対象とし、既存の対象外理由・全件事前検証・
   一回Undo・途中失敗復旧を共用する。clipboard schemaと既存APIの移行は不要。
+- `bd_util.maya.ui.capture_all_scalar_node_values()`と
+  `apply_scalar_value_transfer_to_paths()`を追加。前者はnodeの対応scalar属性を表示状態に
+  依存せず一括取得し、後者は複数搬送値から指定した正式pathとの共通部分だけを複数nodeへ
+  適用する。clipboardにない指定pathは対象外理由へ含め、行順による対応付けは行わない。
+  clipboard schemaと既存sceneの移行は不要。
 - `UiStateManager.register_checkable_action()`を追加。checkableな`QAction`のチェック状態を
   他のWidget内部状態と同じMaya用INIへ保存し、dockable UIのclose・復元・Maya終了処理へ
   統合できる。既存のsettings pathと登録APIの動作は維持する。

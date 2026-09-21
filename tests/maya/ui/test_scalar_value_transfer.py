@@ -12,7 +12,9 @@ from bd_util.maya.ui import (
     MayaScalarValueSnapshot,
     MayaScalarValueTransfer,
     apply_scalar_value_transfer,
+    apply_scalar_value_transfer_to_paths,
     apply_scalar_value_to_paths,
+    capture_all_scalar_node_values,
     capture_scalar_node_values,
     decode_scalar_value_transfer,
     encode_scalar_value_transfer,
@@ -98,6 +100,20 @@ def test_capture_round_trip_and_multi_target_paste_share_one_undo(scene):
     cmds.undo()
     assert [cmds.getAttr(node + ".tx") for node in (first, second)] == [0, 0]
     assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+
+def test_capture_all_includes_hidden_supported_scalar_attributes(scene):
+    """表示状態と行選択に依存せず、対応する非表示属性もすべて取得する。"""
+    source, _first, _second = scene
+    cmds.addAttr(source, ln="hiddenValue", at="double", keyable=False)
+    cmds.setAttr(source + ".hiddenValue", 4.25)
+
+    snapshot = capture_all_scalar_node_values(source)
+    values = {item.path: item.value for item in snapshot.values}
+
+    assert values["hiddenValue"] == 4.25
+    assert values["translate.translateX"] == 0.0
+    assert values["visibility"] is True
 
 
 def test_same_path_kind_enum_and_writability_select_targets(scene):
@@ -272,6 +288,48 @@ def test_single_value_pastes_to_multiple_paths_and_nodes_with_one_undo(scene):
     cmds.undo()
     assert [cmds.getAttr(node + ".ty") for node in (first, second)] == [0, 0]
     assert cmds.getAttr(first + ".tz") == 0
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+
+def test_multiple_values_paste_only_to_selected_same_paths(scene):
+    """複数搬送値から指定pathだけを選び、ないコピー値は対象外として報告する。"""
+    source, first, second = scene
+    cmds.setAttr(source + ".tx", 7.5)
+    cmds.setAttr(source + ".ty", 8.5)
+    for node in (first, second):
+        cmds.addAttr(node, ln="targetOnly", at="double", keyable=True)
+    transfer = MayaScalarValueTransfer(
+        (
+            capture_scalar_node_values(
+                source,
+                _attributes(
+                    source,
+                    "translate.translateX",
+                    "translate.translateY",
+                ),
+            ),
+        )
+    )
+    cmds.flushUndo()
+
+    result = apply_scalar_value_transfer_to_paths(
+        (first, second),
+        ("translate.translateX", "targetOnly"),
+        transfer,
+    )
+
+    assert result.changed
+    assert result.eligible_count == 2
+    assert len(result.excluded) == 2
+    assert all("コピーされた値なし" in item for item in result.excluded)
+    assert [cmds.getAttr(node + ".tx") for node in (first, second)] == [
+        7.5,
+        7.5,
+    ]
+    assert [cmds.getAttr(node + ".ty") for node in (first, second)] == [0, 0]
+
+    cmds.undo()
+    assert [cmds.getAttr(node + ".tx") for node in (first, second)] == [0, 0]
     assert cmds.undoInfo(q=True, undoQueueEmpty=True)
 
 

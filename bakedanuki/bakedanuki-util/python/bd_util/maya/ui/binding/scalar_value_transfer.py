@@ -41,9 +41,11 @@ __all__ = [
     "MayaScalarPasteResult",
     "MayaScalarValueClipboard",
     "capture_scalar_node_values",
+    "capture_all_scalar_node_values",
     "encode_scalar_value_transfer",
     "decode_scalar_value_transfer",
     "apply_scalar_value_transfer",
+    "apply_scalar_value_transfer_to_paths",
     "apply_scalar_value_to_paths",
 ]
 
@@ -253,6 +255,13 @@ def capture_scalar_node_values(
             )
         )
     return MayaNodeValueSnapshot(tuple(snapshots))
+
+
+def capture_all_scalar_node_values(node_name: str) -> MayaNodeValueSnapshot:
+    """一つのnodeから対応する全scalar属性値をsnapshotへ複製する。"""
+    return capture_scalar_node_values(
+        node_name, inspect_scalar_attributes(node_name)
+    )
 
 
 def encode_scalar_value_transfer(
@@ -500,6 +509,69 @@ def apply_scalar_value_transfer(
             binding.deleteLater()
 
 
+def _require_target_paths(target_paths: Sequence[str]) -> tuple[str, ...]:
+    """重複のない一つ以上の貼り付け先pathを検証する。"""
+    if isinstance(target_paths, str):
+        raise TypeError("target_pathsにはstrのsequenceを指定してください")
+    paths = tuple(_require_path(path) for path in target_paths)
+    if not paths:
+        raise ValueError("target_pathsには一つ以上の属性pathが必要です")
+    if len(paths) > _MAX_VALUES:
+        raise ValueError(f"target_pathsは{_MAX_VALUES}件以下にしてください")
+    if len(set(paths)) != len(paths):
+        raise ValueError("同じtarget pathを複数回指定できません")
+    return paths
+
+
+def apply_scalar_value_transfer_to_paths(
+    node_names: Sequence[str],
+    target_paths: Sequence[str],
+    transfer: MayaScalarValueTransfer,
+) -> MayaScalarPasteResult:
+    """搬送値のうち指定した同一pathだけを全target nodeへ適用する。"""
+    if not isinstance(transfer, MayaScalarValueTransfer):
+        raise TypeError(
+            "transferにはMayaScalarValueTransferを指定してください"
+        )
+    if len(transfer.nodes) != 1:
+        raise ValueError("現在は一つのコピー元nodeだけ貼り付けられます")
+    paths = _require_target_paths(target_paths)
+    targets = tuple(node_names)
+    if not targets:
+        raise ValueError(
+            "node_namesには一つ以上のtarget nodeを指定してください"
+        )
+    if any(not isinstance(name, str) or not name for name in targets):
+        raise ValueError("node_namesには空でないstrを指定してください")
+    if len(set(targets)) != len(targets):
+        raise ValueError("同じtarget nodeを複数回指定できません")
+
+    # 選択pathとの共通部分だけを保持し、clipboardにない選択先も結果へ残す
+    values_by_path = {
+        snapshot.path: snapshot for snapshot in transfer.nodes[0].values
+    }
+    selected_values = tuple(
+        values_by_path[path] for path in paths if path in values_by_path
+    )
+    excluded = tuple(
+        f"{node_name}.{path}: コピーされた値なし"
+        for path in paths
+        if path not in values_by_path
+        for node_name in targets
+    )
+    if not selected_values:
+        return MayaScalarPasteResult(False, 0, excluded)
+    result = apply_scalar_value_transfer(
+        targets,
+        MayaScalarValueTransfer((MayaNodeValueSnapshot(selected_values),)),
+    )
+    return MayaScalarPasteResult(
+        result.changed,
+        result.eligible_count,
+        result.excluded + excluded,
+    )
+
+
 def apply_scalar_value_to_paths(
     node_names: Sequence[str],
     target_paths: Sequence[str],
@@ -514,15 +586,7 @@ def apply_scalar_value_to_paths(
         raise ValueError(
             "異なる複数属性へ貼り付けるには一つの属性値が必要です"
         )
-    if isinstance(target_paths, str):
-        raise TypeError("target_pathsにはstrのsequenceを指定してください")
-    paths = tuple(_require_path(path) for path in target_paths)
-    if not paths:
-        raise ValueError("target_pathsには一つ以上の属性pathが必要です")
-    if len(paths) > _MAX_VALUES:
-        raise ValueError(f"target_pathsは{_MAX_VALUES}件以下にしてください")
-    if len(set(paths)) != len(paths):
-        raise ValueError("同じtarget pathを複数回指定できません")
+    paths = _require_target_paths(target_paths)
 
     # 搬送値の型と実値を保ち、明示された正式pathだけへ展開する
     source = transfer.nodes[0].values[0]

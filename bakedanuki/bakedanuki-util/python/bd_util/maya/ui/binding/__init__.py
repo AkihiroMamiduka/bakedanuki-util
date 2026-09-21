@@ -49,9 +49,11 @@ from .scalar_value_transfer import (
     MayaScalarPasteResult,
     MayaScalarValueClipboard,
     capture_scalar_node_values,
+    capture_all_scalar_node_values,
     encode_scalar_value_transfer,
     decode_scalar_value_transfer,
     apply_scalar_value_transfer,
+    apply_scalar_value_transfer_to_paths,
     apply_scalar_value_to_paths,
 )
 
@@ -63,9 +65,11 @@ __all__ = [
     "MayaScalarPasteResult",
     "MayaScalarValueClipboard",
     "capture_scalar_node_values",
+    "capture_all_scalar_node_values",
     "encode_scalar_value_transfer",
     "decode_scalar_value_transfer",
     "apply_scalar_value_transfer",
+    "apply_scalar_value_transfer_to_paths",
     "apply_scalar_value_to_paths",
     "MayaEditSession",
     "ChannelDisplayState",
