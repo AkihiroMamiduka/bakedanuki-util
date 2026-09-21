@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Literal, TypeAlias, cast
 
@@ -14,10 +15,17 @@ from ._attribute_lookup import attribute_path
 ScalarAttributeKind: TypeAlias = Literal[
     "bool", "number", "distance", "angle", "enum"
 ]
+ScalarAttributeDisplayFilter: TypeAlias = Literal[
+    "all", "visible", "keyable", "channel_box", "hidden"
+]
+_DISPLAY_FILTERS = ("all", "visible", "keyable", "channel_box", "hidden")
 
 __all__ = [
     "ScalarAttributeKind",
+    "ScalarAttributeDisplayFilter",
     "ScalarAttributeInfo",
+    "matches_scalar_attribute_display_filter",
+    "filter_scalar_attribute_paths",
     "selected_node_names",
     "inspect_scalar_attributes",
 ]
@@ -33,6 +41,46 @@ class ScalarAttributeInfo:
     kind: ScalarAttributeKind
     keyable: bool
     channel_box: bool
+
+
+def matches_scalar_attribute_display_filter(
+    attribute: ScalarAttributeInfo,
+    display_filter: ScalarAttributeDisplayFilter,
+) -> bool:
+    """Keyableを優先する三状態分類で、属性が表示条件に合うか返す。"""
+    if not isinstance(attribute, ScalarAttributeInfo):
+        raise TypeError("attributeにはScalarAttributeInfoを指定してください")
+    if display_filter not in _DISPLAY_FILTERS:
+        raise ValueError("未対応の属性表示フィルターです")
+    if display_filter == "all":
+        return True
+    if display_filter == "visible":
+        return attribute.keyable or attribute.channel_box
+    if display_filter == "keyable":
+        return attribute.keyable
+    if display_filter == "channel_box":
+        return not attribute.keyable and attribute.channel_box
+    return not attribute.keyable and not attribute.channel_box
+
+
+def filter_scalar_attribute_paths(
+    attributes: Sequence[ScalarAttributeInfo],
+    display_filter: ScalarAttributeDisplayFilter,
+) -> tuple[str, ...]:
+    """入力順を維持し、表示条件に合うscalar属性の正式pathを返す。"""
+    if not isinstance(attributes, Sequence) or isinstance(
+        attributes, (str, bytes)
+    ):
+        raise TypeError(
+            "attributesにはScalarAttributeInfoのSequenceを指定してください"
+        )
+    if display_filter not in _DISPLAY_FILTERS:
+        raise ValueError("未対応の属性表示フィルターです")
+    return tuple(
+        attribute.path
+        for attribute in attributes
+        if matches_scalar_attribute_display_filter(attribute, display_filter)
+    )
 
 
 def selected_node_names() -> tuple[str, ...]:

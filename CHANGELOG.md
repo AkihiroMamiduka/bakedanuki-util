@@ -9,6 +9,10 @@
 
 ### Added
 
+- `bd_util.maya.node`へ`ScalarAttributeDisplayFilter`、
+  `matches_scalar_attribute_display_filter()`、`filter_scalar_attribute_paths()`を追加。
+  scalar属性を`all`、`visible`、`keyable`、`channel_box`、`hidden`の共通規則で分類し、
+  入力順を維持した正式pathを取得できる。sceneとclipboard schemaの移行は不要。
 - `bd_util.ui.JsonClipboard`を追加。version付きの利用側schemaをcustom MIMEと
   marker付き`text/plain`へ同時保存し、別processでも復元できる。読込時は容量、UTF-8、
   JSON構文、重複key、非有限値を検証する。

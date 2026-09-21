@@ -2,13 +2,17 @@
 """既存nodeの調査が表示用情報だけを返すことを検証する。"""
 
 from dataclasses import FrozenInstanceError
+from typing import cast
 
 import pytest
 from maya import cmds
 from maya.api import OpenMaya as om
 
 from bd_util.maya.node.inspection import (
+    ScalarAttributeDisplayFilter,
+    filter_scalar_attribute_paths,
     inspect_scalar_attributes,
+    matches_scalar_attribute_display_filter,
     selected_node_names,
 )
 from bd_util.maya.ui import resolve_bool_plug, resolve_float_plug
@@ -95,6 +99,42 @@ def test_enum_inspection_reports_scalars_and_omits_arrays(new_scene) -> None:
     assert infos["group.groupMode"].kind == "enum"
     assert infos["group.groupMode"].keyable
     assert {"modes", "records.recordsMode"}.isdisjoint(infos)
+
+
+def test_display_filter_classifies_scalar_attribute_paths(new_scene) -> None:
+    """Keyableを優先し、既存の五つの表示条件で正式pathを抽出する。"""
+    node = cmds.createNode("transform")
+    cmds.addAttr(node, longName="keyed", attributeType="double", keyable=True)
+    cmds.addAttr(node, longName="shown", attributeType="double")
+    cmds.addAttr(node, longName="hidden", attributeType="double")
+    cmds.setAttr(node + ".shown", channelBox=True)
+    attributes = tuple(
+        attribute
+        for attribute in inspect_scalar_attributes(node)
+        if attribute.path in {"keyed", "shown", "hidden"}
+    )
+
+    assert filter_scalar_attribute_paths(attributes, "all") == (
+        "keyed",
+        "shown",
+        "hidden",
+    )
+    assert filter_scalar_attribute_paths(attributes, "visible") == (
+        "keyed",
+        "shown",
+    )
+    assert filter_scalar_attribute_paths(attributes, "keyable") == ("keyed",)
+    assert filter_scalar_attribute_paths(attributes, "channel_box") == (
+        "shown",
+    )
+    assert filter_scalar_attribute_paths(attributes, "hidden") == ("hidden",)
+    assert matches_scalar_attribute_display_filter(attributes[0], "keyable")
+    with pytest.raises(ValueError, match="未対応"):
+        filter_scalar_attribute_paths(
+            attributes, cast(ScalarAttributeDisplayFilter, "invalid")
+        )
+    with pytest.raises(TypeError, match="Sequence"):
+        filter_scalar_attribute_paths("keyed", "all")
 
 
 def test_inspection_and_selection_do_not_change_scene_or_undo(

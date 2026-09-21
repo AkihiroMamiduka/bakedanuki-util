@@ -64,13 +64,18 @@ enumは整数値、項目名、表示順を保存します。貼り付け先で�
 全target nodeへ適用します。number・distance・angle・boolは同じkind同士、enumは整数値と
 項目名の定義が一致する場合だけ候補にします。空・重複pathや複数の搬送値は書込み前に拒否します。
 
+表示状態で正式pathを絞り込む場合は、`bd_util.maya.node`の
+`filter_scalar_attribute_paths()`を使用します。`all`、`visible`、`keyable`、
+`channel_box`、`hidden`を受け取り、Keyableを優先する共通分類で入力順のpathを返します。
+この処理はclipboardを変更しないため、Copyした同じtransferをPaste時の条件ごとに再利用できます。
+
 - 属性なし、型・単位違い、enum定義違い、lock・入力接続などのreadonly属性は
   `MayaScalarPasteResult.excluded`へ理由を返します。
 - 候補は既存の`apply_plugs_values()`へまとめ、hard limitを含む全件検証後に一回のUndoで
   書き込みます。途中で失敗した場合は変更済みの値を復旧します。
 - 全候補が同値なら`changed`は`False`となり、Undo項目を作りません。
-- 現在の適用APIは一つのコピー元nodeを受け付けます。transfer形式は将来の複数source拡張に
-  備えて`nodes`をtupleで保持しますが、複数sourceを暗黙に順番対応させません。
+- 適用APIは一つのコピー元nodeを受け付け、複数sourceを拒否します。transfer形式の`nodes`は
+  tupleですが、複数sourceを順番や表示位置で暗黙に対応させません。
 
 ## OSクリップボード形式
 

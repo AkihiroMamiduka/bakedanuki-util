@@ -48,9 +48,12 @@ def test_nodes_and_inspection_are_public_node_entries(new_scene):
     assert not hasattr(bd_util, "NodeTypes")
     assert set(node_package.__all__) == {
         "Nodes",
+        "ScalarAttributeDisplayFilter",
         "ScalarAttributeInfo",
         "ScalarAttributeKind",
+        "filter_scalar_attribute_paths",
         "inspect_scalar_attributes",
+        "matches_scalar_attribute_display_filter",
         "selected_node_names",
     }
     assert not hasattr(node_package, "ExistingNode")
