@@ -1166,6 +1166,28 @@ scene初期化は各テストで維持する構成に整理しました。その
 
 その後、クリップ削減も利用者によるMaya画面上での確認・pushまで完了しました（`8a722b40`）。
 
+### 逆再生clip
+
+`tests/maya/node/test_animation_clip_reverse.py`は、`AnimationClip.reversed()`の次の契約を検証します。
+
+- 保存範囲の共通秒軸による時刻の鏡映、負時刻・subframe、単一キー・空カーブ、
+  元clipと変更可能な`KeyData`の独立、schema 2のファイル往復、二重反転。
+- TA / TL / TU、weighted / nonweighted、fixed / linear / auto接線について、
+  反転前後の密なカーブ評価値が鏡映時刻で一致すること。
+- step / stepnextを区間単位で相互変換し、キー時刻・直前・直後・区間内の値を維持すること。
+  incoming側だけにある非標準のstep系をoutへ移して区間をstep化しないこと。
+- 全infinity種別の交換と範囲外評価、値・breakdown・weighted・tangent / weight lock、
+  接線type・XY、clipとlayerのメタデータ保持。
+- layer / root設定curveにもchannelと同じ秒軸を使い、保存範囲外キーと異なる
+  `seconds_per_frame`を反転すること。
+- 呼出時の再検証、Maya時刻精度、scene・現在時刻・選択・modified flag・保留中modifierの維持。
+  反転clipの復元、反復Undo / Redo、後続処理失敗時のrollback。
+- 型・補完contractでは`clip.reversed()`が`bdu.AnimationClip`を返し、連続呼出しできること。
+
+2026-09-22の開発中確認では、逆再生専用pytest 34件と、既存の移動・拡縮・範囲・
+ファイルAPIを含む関連pytest 581件がMaya 2025で成功しました。
+変更実装と型contractを明示したPyrightもエラー・警告0件です。
+
 ### 保存・復元の既存テスト
 
 - `tests/maya/node/test_animation_clip.py`: 合成保存・layer保持、keyable / channelBox / 明示属性、

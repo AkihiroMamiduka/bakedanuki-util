@@ -49,6 +49,8 @@ clip.reduce_keys(
     preserve_breakdowns=True,
 ) -> AnimationClip
 
+clip.reversed() -> AnimationClip
+
 clip.restore(
     modifier_manager,
     *,
@@ -323,7 +325,8 @@ mod.do_it_dg()
 - 開始・終了の両方を指定する場合は、`offset_frames`・`time_scale`・`duration_frames`との併用を拒否します。
 - 開始または終了の片側指定は、倍率・長さ指定と組み合わせられます。
 - `offset_frames`は開始・終了指定と併用できません。配置未指定では保存区間の開始を固定します。
-- 両端指定の終了は開始より後とします。0・負の倍率、逆再生、区間の0幅への圧縮には対応しません。
+- 両端指定の終了は開始より後とします。0・負の倍率、区間の0幅への圧縮には対応しません。
+  逆再生clipは`clip.reversed()`で先に作成します。
 - 保存区間が1時刻のclipに長さ・両端を指定することはできません。正の倍率指定は許可し、
   チャンネルは1時刻のまま配置します。layer設定に他の時刻のキーがあれば、同じ基準で拡縮します。
 - 倍率1や元と同じ長さ・区間でも通常の復元を行います。精度の限界でキーや区間が重なる指定は予約前に拒否します。
@@ -342,6 +345,41 @@ layer設定の比較でも、この2種類の接線はキー時刻・値・種�
 レイヤー保持では変換後の設定を既存layerと比較し、不一致時の`restore_layer_settings`の扱いは上記と同じです。
 部分置換は拡縮・配置後の区間、全置換は対象カーブ全体を置換します。
 元のclip・JSONを変更せず、予約時の独立コピー、Undo / Redo・rollbackにも対応します。
+
+## 逆再生clipの作成
+
+`reversed()`は、保存範囲の開始・終了を反転軸として、全カーブを逆再生に変換した
+独立した`AnimationClip`を即時に返します。元clip・scene・保留中modifier・MayaのUndo履歴は
+変更しません。引数と部分範囲指定はありません。
+
+```python
+reversed_clip = clip.reversed()
+
+reversed_clip.save("walk_backward.json")
+reversed_clip.restore(mod, mode="replace_all")
+mod.do_it_dg()
+```
+
+`start_frame` / `end_frame`は維持します。10〜30のclipでは10と30、15と25を対応させます。
+反転軸は保存clipの`seconds_per_frame`で秒へ換算して決め、各カーブ自身の
+`seconds_per_frame`へ戻します。現在のMaya UI時間単位には依存しません。
+
+- 全nodeのchannel curveと、layer / rootの設定curveを同じ秒単位の軸で反転します。
+  設定curveがchannelと異なる時間単位を持つ場合や、保存範囲外にキーを持つ場合も同じです。
+- キー順を昇順に並べ直し、値、breakdown、weighted、tangent lock、weight lock、
+  カーブ型、clip・layer構造を維持します。空カーブと単一キーカーブも保持します。
+- 連続接線はin / outのtypeとXYを交換します。時間方向だけが逆になるため、
+  接線XYはXを維持してYの符号を反転します。weighted / nonweightedで共通です。
+- step区間は区間の評価結果を保つため、元の左キーのoutを`step`から`stepnext`、
+  `stepnext`から`step`へ変換します。未使用側の接線情報も保持します。
+- `pre_infinity`と`post_infinity`を交換し、linear・周期系を含む範囲外評価も鏡映させます。
+- 変更可能な`KeyData`を呼出時に再検証します。不正値、Mayaで表現できない時刻、
+  時刻精度上で重なるキーは、結果を返す前にエラーにします。
+
+変換済みのデータをschema 2として保存するため、JSONへreverseフラグは追加しません。
+`clip.reversed().reversed()`は元clipと同じ構造・メタデータ・評価結果になります。
+異なる時間単位や任意の浮動小数点時刻では、秒換算に伴う表現誤差が時刻へ残る場合があります。
+反転後の`restore()`は通常の復元と同じく、Undo / Redoと途中失敗時rollbackへ参加します。
 
 ## 復元先と置換方法
 
@@ -434,8 +472,8 @@ JSONはschema 2のみ対応し、旧形式変換は行いません。
 
 時間は`seconds_per_frame`を保存し、移植時に秒としての位置・長さを保ちます。
 例えば24fpsの24フレームは、30fpsのsceneでは30フレームへ復元されます。
-復元時刻の移動・正の時間拡縮は`restore()`で指定できます。逆再生、リグ固有の属性対応、
-ワールド空間への変換はこのAPIに含みません。
+復元時刻の移動・正の時間拡縮は`restore()`、逆再生clipの作成は`reversed()`で行います。
+リグ固有の属性対応、ワールド空間への変換はこのAPIに含みません。
 
 ## JSONファイルの保存・読込
 

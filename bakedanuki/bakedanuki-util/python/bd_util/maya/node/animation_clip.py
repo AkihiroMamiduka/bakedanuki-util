@@ -399,6 +399,16 @@ class AnimationClip:
             preserve_breakdowns=preserve_breakdowns,
         )
 
+    def reversed(self) -> AnimationClip:
+        """保存範囲を共通軸として全カーブを反転した独立clipを返す。
+
+        元clip・scene・保留中modifierは変更しない。時間は秒基準で反転し、
+        layerとrootの設定カーブにも同じ軸を使用する。
+        """
+        from ._animation_clip_reverse import reversed_clip
+
+        return reversed_clip(self)
+
     @overload
     def restore(
         self,

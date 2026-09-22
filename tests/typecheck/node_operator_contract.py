@@ -6184,6 +6184,8 @@ def animation_clip_contract(
     assert_type(
         clip.reduce_keys(None, optional_frame, tolerance=0.1).to_json(), str
     )
+    assert_type(clip.reversed(), bdu.AnimationClip)
+    assert_type(clip.reversed().reversed().to_json(), str)
     clip.reduce_keys()  # pyright: ignore[reportCallIssue]
     clip.reduce_keys(0, 10, 0.01)  # pyright: ignore[reportCallIssue]
     clip.reduce_keys(tolerance="0.1")  # pyright: ignore[reportArgumentType]

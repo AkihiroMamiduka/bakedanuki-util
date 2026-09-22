@@ -11,7 +11,7 @@ from .animation_clip import AnimationClip, LayerSettingData, finite_number
 from .operator.attr.keyframe_data import AnimCurveData
 
 
-def _time(seconds: float) -> om.MTime:
+def checked_time(seconds: float) -> om.MTime:
     seconds = finite_number(seconds, "clip time in seconds")
     time = om.MTime(seconds, om.MTime.kSeconds)
     if not math.isclose(
@@ -65,7 +65,7 @@ def transformed_for_restore(
 
     def seconds(value: float, name: str) -> float:
         result = finite_number(value, name) * rate
-        _time(result)
+        checked_time(result)
         return result
 
     source_start = data.start_frame * data.seconds_per_frame
@@ -99,12 +99,14 @@ def transformed_for_restore(
         end = start + duration
     elif not fit_range:
         start = end - duration
-    if data.start_frame < data.end_frame and _time(start) >= _time(end):
+    if data.start_frame < data.end_frame and checked_time(
+        start
+    ) >= checked_time(end):
         raise ValueError(
             "Transformed clip range collapses at Maya time precision."
         )
-    _time(start)
-    _time(end)
+    checked_time(start)
+    checked_time(end)
 
     def frame(value: float, curve_rate: float) -> float:
         source_first = data.start_frame * (data.seconds_per_frame / curve_rate)
@@ -133,7 +135,7 @@ def transformed_for_restore(
             for key in item.keys
         )
         times = tuple(
-            _time(key.frame * item.seconds_per_frame) for key in keys
+            checked_time(key.frame * item.seconds_per_frame) for key in keys
         )
         if any(a >= b for a, b in zip(times, times[1:])):
             raise ValueError(
