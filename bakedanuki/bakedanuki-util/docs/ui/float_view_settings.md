@@ -3,6 +3,30 @@
 `FloatRangeSliderSpinBox`と`Float3RangeSliderSpinBox`の操作設定を、既存の`UiStateManager`へ
 明示登録して保存できます。登録しないViewは従来どおり、生成時の設定を使用します。
 
+動的に増減する複数行でStepだけを保存する場合は、`FloatStepProfile`を使用します。
+ProfileはViewを所有せず、利用側が選んだ安定した文字列keyと
+`FloatUnitKind`（`number`／`distance`／`angle`）の組へ表示数値のStepを対応付けます。
+
+```python
+from bd_util.ui import FloatStepProfile, FloatStepSetting
+
+window.step_profile = FloatStepProfile(window)
+window.step_profile.replace_entries(
+    (
+        FloatStepSetting("translate.translateX", "distance", 0.1),
+        FloatStepSetting("rotate.rotateY", "angle", 7.5),
+    )
+)
+window.editor_settings.register_float_step_profile(
+    "attribute_steps", window.step_profile
+)
+```
+
+`entries`はkeyと単位種別で安定して並び、`single_step()`、`set_single_step()`、
+`replace_entries()`、`remove()`、`clear()`で操作できます。同じ内容への更新は通知せず、
+複数項目の`replace_entries()`は実変更があっても`changed`を一度だけ通知します。
+既定値を保存するか、削除して構築時の値へ戻すかは、既定値を知る利用側が決めます。
+
 ## 登録とWindowの寿命
 
 通常Windowでは、Viewを構築してから保存対象を登録し、初回表示前にtrackerを接続します。
@@ -96,6 +120,11 @@ QByteArray内のJSONには`version=1`、`unit_kind`、`minimum`、`maximum`、`s
 不正な行は設定を適用せず保存データを除去し、現在の設定を維持します。初回復元なら生成時設定が残ります。
 他View・他軸の有効な保存データは引き続き復元します。形式全体の未知schemaは既存managerの仕様で無視します。
 
+`FloatStepProfile`も同じgroupへ、`version=1`と`entries`を持つ一つのJSONとして保存します。
+Profile全体のJSON、version、entriesの型が不正なら、そのprofileの保存項目だけを削除します。
+各entryのkey・単位種別・Stepが不正な場合はそのentryだけを除外し、有効な項目は復元します。
+空のProfileは保存項目を作りません。Profileの変更と復元は正本値やMaya Undoを操作しません。
+
 ## 開発時の引き継ぎ
 
 ### 既定値・保存キー・形式を変更するとき
@@ -137,6 +166,7 @@ Bindingも利用できるとは判断せず、取得不能なら退避値と保�
 | --- | --- |
 | 確定設定の通知 | [FloatRangeSliderSpinBox](../../python/bd_util/ui/binding/float/view/range_slider_spin_box.py) |
 | 行の保存形式・単位判定・事前検証 | [FloatRangeStateAdapter](../../python/bd_util/ui/_float_view_state.py) |
+| 動的なStep集合 | [FloatStepProfile](../../python/bd_util/ui/float_step_profile.py) |
 | 登録・XYZ展開・退避・保存 | [UiStateManager](../../python/bd_util/ui/ui_state.py) |
 | Window／dock／Maya終了との接続 | [MayaUiStateTracker](../../python/bd_util/maya/ui/ui_state.py) |
 

@@ -9,6 +9,12 @@
 
 ### Added
 
+- `bd_util.ui.FloatStepProfile`、`FloatStepSetting`と
+  `UiStateManager.register_float_step_profile()`を追加。任意の文字列keyと
+  `number`／`distance`／`angle`の組ごとに、丸め前の正の有限Stepを保持する。
+  複数項目の置換は一度だけ通知し、version付きJSONとして一つのUI stateへ保存する。
+  不正な個別項目だけを除外し、未知versionや壊れたprofileは同じmanagerの他状態へ
+  影響させず削除する。正本値、scene、Undo履歴は扱わない。
 - `bd_util.maya.node`へ`ScalarAttributeDisplayFilter`、
   `matches_scalar_attribute_display_filter()`、`filter_scalar_attribute_paths()`を追加。
   scalar属性を`all`、`visible`、`keyable`、`channel_box`、`hidden`の共通規則で分類し、

@@ -40,6 +40,9 @@ from bd_util.ui import (
     BoolValue,
     BoolValueStore,
     BoolViewModel,
+    FloatStepProfile,
+    FloatStepSetting,
+    FloatUnitKind,
     PythonBoolAttributeStore,
     SettingsPath,
     SetBoolCommand,
@@ -132,6 +135,29 @@ assert_type(
     ui_state_manager.register_checkable_action(
         "option",
         checkable_action,
+    ),
+    None,
+)
+step_profile = FloatStepProfile()
+step_setting = FloatStepSetting("translate.translateX", "distance", 0.1)
+assert_type(step_setting.key, str)
+assert_type(step_setting.unit_kind, FloatUnitKind)
+assert_type(step_setting.single_step, float)
+assert_type(step_profile.entries, tuple[FloatStepSetting, ...])
+assert_type(
+    step_profile.single_step("translate.translateX", "distance"),
+    float | None,
+)
+assert_type(
+    step_profile.set_single_step("translate.translateX", "distance", 0.1),
+    bool,
+)
+assert_type(step_profile.replace_entries((step_setting,)), bool)
+assert_type(step_profile.remove("translate.translateX", "distance"), bool)
+assert_type(step_profile.clear(), bool)
+assert_type(
+    ui_state_manager.register_float_step_profile(
+        "attribute_steps", step_profile
     ),
     None,
 )

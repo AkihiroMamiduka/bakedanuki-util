@@ -12,6 +12,7 @@ from ._ui_state_adapter import UiStateAdapter as _UiStateAdapter
 from ._ui_state_adapter import UiStateValue, require_widget
 
 if TYPE_CHECKING:
+    from .float_step_profile import FloatStepProfile
     from .binding.float.view.range_slider_spin_box import (
         FloatRangeSliderSpinBox,
     )
@@ -372,6 +373,23 @@ class UiStateManager:
         # QSettingsへ頻繁に書き込まず、次回saveがまとめて永続化する。
         self._cached_states[key] = state
         return True
+
+    def register_float_step_profile(
+        self, key: str, profile: FloatStepProfile
+    ) -> None:
+        """複数識別子のStep設定を一つの状態として登録し、変更を退避する。"""
+        from ._float_step_profile_state import FloatStepProfileStateAdapter
+        from .float_step_profile import FloatStepProfile
+
+        self._validate_key(key)
+        candidate: object = profile
+        if not isinstance(candidate, FloatStepProfile):
+            raise TypeError("profileにはFloatStepProfileを指定してください")
+        if not qt.isValid(candidate):
+            raise RuntimeError("登録対象のProfileは破棄されています")
+        self._register(key, FloatStepProfileStateAdapter(candidate))
+        candidate.changed.connect(partial(self._capture_state, key))
+        self._capture_state(key)
 
     def register_float_range_slider_spin_box(
         self, key: str, widget: FloatRangeSliderSpinBox

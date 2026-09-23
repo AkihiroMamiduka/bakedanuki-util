@@ -1257,8 +1257,11 @@ Windows予約名や使用できない文字は拒否されます。
 - checkableな`QAction`: チェック状態
 - `FloatRangeSliderSpinBox`: Min／Max・step
 - `Float3RangeSliderSpinBox`: XYZ各軸のMin／Max・step
+- `FloatStepProfile`: 任意の識別子と単位種別ごとのstep集合
 
 数値Viewは`register_float_range_slider_spin_box()`／`register_float3_range_slider_spin_box()`で登録します。
+複数の動的な行でStepだけを共有・保存する場合は、安定した`FloatStepProfile`をWindowで保持し、
+`register_float_step_profile()`で一つのstate keyへ登録します。
 配置リセットで設定を保持するため、`tool/editor_settings/main`など配置とは別のsettings_pathを使用してください。
 単位・形式・終了時の保存とサンプルは[Min／Max・stepの保存と復元](float_view_settings.md)にまとめています。
 
