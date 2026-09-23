@@ -32,6 +32,25 @@ def enter(widget, text):
     press(widget, qt.Qt.Key.Key_Return)
 
 
+def click_line_edit(spin: FloatStepSpinBox, position: qt.QPoint) -> None:
+    """SpinBoxの入力文字へ左クリックを送る。"""
+    line_edit = spin.lineEdit()
+    for kind, held in (
+        (qt.QEvent.Type.MouseButtonPress, qt.Qt.MouseButton.LeftButton),
+        (qt.QEvent.Type.MouseButtonRelease, qt.Qt.MouseButton.NoButton),
+    ):
+        event = qt.QtGui.QMouseEvent(
+            kind,
+            qt.QPointF(position),
+            qt.QPointF(line_edit.mapToGlobal(position)),
+            qt.Qt.MouseButton.LeftButton,
+            held,
+            qt.Qt.KeyboardModifier.NoModifier,
+        )
+        qt.QApplication.sendEvent(line_edit, event)
+    flush()
+
+
 @pytest.fixture
 def owner(qt_application):
     widget = qt.QWidget()
@@ -147,6 +166,105 @@ def test_focus_loss_commits_and_wheel_requires_focus(owner):
     assert spin.value() == 15
     press(spin, qt.Qt.Key.Key_Down)
     assert spin.value() == 1.5
+
+
+def test_mouse_focus_selects_all_only_on_first_text_click(owner):
+    """有効時は初回の文字クリックだけ全選択し、再クリックはカーソルを置く。"""
+    spin = FloatStepSpinBox(owner, value=15, select_all_on_mouse_focus=True)
+    other = qt.QLineEdit(owner)
+    layout = qt.QVBoxLayout(owner)
+    layout.addWidget(spin)
+    layout.addWidget(other)
+    owner.show()
+    owner.activateWindow()
+    other.setFocus()
+    flush()
+
+    line_edit = spin.lineEdit()
+    position = line_edit.rect().center()
+    spin.setFocus(qt.Qt.FocusReason.MouseFocusReason)
+    flush()
+    click_line_edit(spin, position)
+    assert line_edit.selectedText() == line_edit.text()
+
+    click_line_edit(spin, position)
+    assert line_edit.selectedText() == ""
+    assert spin.select_all_on_mouse_focus()
+    spin.set_select_all_on_mouse_focus(False)
+    assert not spin.select_all_on_mouse_focus()
+
+
+def test_mouse_focus_default_and_drag_do_not_force_full_selection(owner):
+    """既定値と初回ドラッグでは、入力文字を自動で全選択しない。"""
+    default = FloatStepSpinBox(owner, value=15)
+    dragged = FloatStepSpinBox(
+        owner, value=12345, select_all_on_mouse_focus=True
+    )
+    other = qt.QLineEdit(owner)
+    layout = qt.QVBoxLayout(owner)
+    layout.addWidget(default)
+    layout.addWidget(dragged)
+    layout.addWidget(other)
+    owner.show()
+    owner.activateWindow()
+
+    other.setFocus()
+    flush()
+    default.setFocus(qt.Qt.FocusReason.MouseFocusReason)
+    flush()
+    click_line_edit(default, default.lineEdit().rect().center())
+    assert default.lineEdit().selectedText() != default.lineEdit().text()
+    assert not default.select_all_on_mouse_focus()
+
+    other.setFocus()
+    flush()
+    dragged.setFocus(qt.Qt.FocusReason.MouseFocusReason)
+    flush()
+    line_edit = dragged.lineEdit()
+    start = line_edit.rect().center()
+    end = start + qt.QPoint(1, 0)
+    events = (
+        (
+            qt.QEvent.Type.MouseButtonPress,
+            start,
+            qt.Qt.MouseButton.LeftButton,
+            qt.Qt.MouseButton.LeftButton,
+        ),
+        (
+            qt.QEvent.Type.MouseMove,
+            end,
+            qt.Qt.MouseButton.NoButton,
+            qt.Qt.MouseButton.LeftButton,
+        ),
+        (
+            qt.QEvent.Type.MouseButtonRelease,
+            end,
+            qt.Qt.MouseButton.LeftButton,
+            qt.Qt.MouseButton.NoButton,
+        ),
+    )
+    for kind, position, button, held in events:
+        event = qt.QtGui.QMouseEvent(
+            kind,
+            qt.QPointF(position),
+            qt.QPointF(line_edit.mapToGlobal(position)),
+            button,
+            held,
+            qt.Qt.KeyboardModifier.NoModifier,
+        )
+        qt.QApplication.sendEvent(line_edit, event)
+    flush()
+    assert line_edit.selectedText() != line_edit.text()
+
+
+def test_mouse_focus_selection_setting_requires_bool(owner):
+    """全選択設定へbool以外を渡した場合は状態を変更しない。"""
+    with pytest.raises(TypeError):
+        FloatStepSpinBox(owner, select_all_on_mouse_focus=1)
+    spin = FloatStepSpinBox(owner)
+    with pytest.raises(TypeError):
+        spin.set_select_all_on_mouse_focus(1)
+    assert not spin.select_all_on_mouse_focus()
 
 
 def test_keyboard_uses_pending_input_and_qt_multiple_step_keys(owner):

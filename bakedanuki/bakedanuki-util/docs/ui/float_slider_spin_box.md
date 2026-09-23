@@ -25,6 +25,7 @@ binding = FloatBinding.from_attribute(data, "weight", parent=window)
 editor = FloatSliderSpinBox(
     binding, window, minimum=0, maximum=1, decimals=3, single_step=0.01,
     layout_order="value_slider",
+    value_select_all_on_mouse_focus=True,
 )
 layout = qt.QVBoxLayout(window)
 layout.addWidget(editor)
@@ -41,7 +42,7 @@ Maya正本なら`MayaFloatPlugBinding`、Python正本とMaya同期なら`MayaFlo
 
 | API | 内容 |
 | --- | --- |
-| `FloatSliderSpinBox(source, parent=None, *, minimum, maximum, steps=1000, decimals=6, single_step=0.1, layout_order="slider_value")` | 水平方向の複合Viewを生成する |
+| `FloatSliderSpinBox(source, parent=None, *, minimum, maximum, steps=1000, decimals=6, single_step=0.1, layout_order="slider_value", value_select_all_on_mouse_focus=False)` | 水平方向の複合Viewを生成する |
 | `editor.view_model` | 共有ViewModelを返す。明示終了・Qt破棄後は例外を送出する |
 | `editor.slider` | 内部の`FloatSlider`を具体型で返す |
 | `editor.spin_box` | 内部の`FloatSpinBox`を具体型で返す |
@@ -52,6 +53,8 @@ Maya正本なら`MayaFloatPlugBinding`、Python正本とMaya同期なら`MayaFlo
 Sliderの順です。既定値は従来順を維持します。
 レイアウトの外側余白は0で、追加した先のlayoutで余白を管理します。
 Widgetへのフォーカス要求はSpinBoxへ渡します。各子Viewへ直接フォーカスを設定することもできます。
+`value_select_all_on_mouse_focus=True`では、値欄をマウスで初回フォーカスしたクリックだけ
+入力文字全体を選択します。再クリックとドラッグ選択は通常の文字編集として扱います。
 
 設定変更は、対象の子Viewへ明示的に行います。
 

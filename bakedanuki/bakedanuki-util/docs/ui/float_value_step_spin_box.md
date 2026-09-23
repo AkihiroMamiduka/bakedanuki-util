@@ -28,6 +28,8 @@ editor = FloatValueStepSpinBox(
 | `step_show_unit=False` | step欄に現在の表示単位を付けるか |
 | `value_wheel_requires_focus=False` | 値欄のホイール操作にフォーカスを必須とするか |
 | `step_wheel_requires_focus=True` | step欄のホイール操作にフォーカスを必須とするか |
+| `value_select_all_on_mouse_focus=False` | 値欄の初回マウスフォーカス時に入力文字を全選択するか |
+| `step_select_all_on_mouse_focus=False` | step欄の初回マウスフォーカス時に入力文字を全選択するか |
 | `value_width=None` | 値欄の固定幅。未指定なら残り幅に合わせて伸縮 |
 | `step_width=68` | 上下ボタンを含め、4桁を表示できるstep欄の固定幅 |
 | `.spin_box` | 値欄の `FloatSpinBox` |
@@ -45,6 +47,10 @@ step欄には正の有限値を直接入力することもできます。
 生成後も各欄の`wheel_requires_focus()`／`set_wheel_requires_focus()`を利用できます。
 非フォーカス時に受け付けないホイールイベントは親Widgetへ渡します。
 
+マウスフォーカス時の全選択は既定で無効です。有効にした欄では最初の左クリックだけ
+入力文字全体を選び、再クリックではカーソル移動、ドラッグでは任意範囲選択を行います。
+生成後は各欄の`select_all_on_mouse_focus()`／`set_select_all_on_mouse_focus()`で切り替えられます。
+
 子Widgetを公開しているため、幅・prefix・ボタン表示などは利用側で指定できます。
 値欄・step欄の単位文字は既定で非表示です。値欄は
 `editor.spin_box.setUnitVisible(True)`、step欄は生成時の`step_show_unit=True`で表示できます。
@@ -52,7 +58,13 @@ step欄には正の有限値を直接入力することもできます。
 値の刻み幅は複合Viewの `setSingleStep()` で変更すると、両欄の表示と変更通知が揃います。
 
 ```python
-editor = FloatValueStepSpinBox(binding, value_width=90, step_width=80)
+editor = FloatValueStepSpinBox(
+    binding,
+    value_width=90,
+    step_width=80,
+    value_select_all_on_mouse_focus=True,
+    step_select_all_on_mouse_focus=True,
+)
 editor.step_spin_box.setPrefix("step ")
 editor.step_spin_box.set_wheel_requires_focus(False)
 editor.setSingleStep(0.1)

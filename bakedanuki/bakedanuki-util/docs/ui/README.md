@@ -1006,6 +1006,9 @@ API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slide
 `StrongFocus`を使い、ホイール入力による自動フォーカス取得を防ぎます。クリック・Tabなどで
 フォーカスを得た後はホイール編集できます。`False`では従来の`WheelFocus`を維持します。
 `FloatSliderSpinBox`内の値欄も`editor.spin_box.set_wheel_requires_focus(True)`で同じ制御ができます。
+`select_all_on_mouse_focus=True`では、数値欄をマウスで初回フォーカスしたクリックだけ
+入力文字全体を選択できます。`FloatValueStepSpinBox`は値欄とstep欄を個別指定でき、
+`FloatSliderSpinBox`は値欄へ指定できます。既定値は無効です。
 属性別の初期値や設定保持は利用側で決定します。
 APIと単位・寿命の契約は[FloatValueStepSpinBox](float_value_step_spin_box.md)を参照してください。
 

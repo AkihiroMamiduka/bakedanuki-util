@@ -19,6 +19,8 @@ editor = FloatValueStepSpinBox(
     step_mode="multiplicative",
     value_wheel_requires_focus=True,
     step_wheel_requires_focus=False,
+    value_select_all_on_mouse_focus=True,
+    step_select_all_on_mouse_focus=True,
     value_width=90,
     step_width=68,
 )
@@ -30,9 +32,26 @@ assert_type(editor.spin_box.wheel_requires_focus(), bool)
 assert_type(editor.spin_box.set_wheel_requires_focus(False), None)
 assert_type(editor.step_spin_box.wheel_requires_focus(), bool)
 assert_type(editor.step_spin_box.set_wheel_requires_focus(True), None)
+assert_type(editor.spin_box.select_all_on_mouse_focus(), bool)
+assert_type(editor.spin_box.set_select_all_on_mouse_focus(False), None)
+assert_type(editor.step_spin_box.select_all_on_mouse_focus(), bool)
+assert_type(editor.step_spin_box.set_select_all_on_mouse_focus(False), None)
 assert_type(editor.singleStep(), float)
 assert_type(editor.setSingleStep(15), None)
 assert_type(editor.settingsChanged, qt.QtCore.SignalInstance)
-assert_type(FloatSpinBox(binding, wheel_requires_focus=True), FloatSpinBox)
-assert_type(FloatStepSpinBox(wheel_requires_focus=False), FloatStepSpinBox)
+assert_type(
+    FloatSpinBox(
+        binding,
+        wheel_requires_focus=True,
+        select_all_on_mouse_focus=True,
+    ),
+    FloatSpinBox,
+)
+assert_type(
+    FloatStepSpinBox(
+        wheel_requires_focus=False,
+        select_all_on_mouse_focus=True,
+    ),
+    FloatStepSpinBox,
+)
 assert_type(FloatValueStepSpinBox(binding.view_model), FloatValueStepSpinBox)

@@ -47,6 +47,8 @@ class FloatValueStepSpinBox(qt.QWidget):
         step_show_unit: bool = False,
         value_wheel_requires_focus: bool = False,
         step_wheel_requires_focus: bool = True,
+        value_select_all_on_mouse_focus: bool = False,
+        step_select_all_on_mouse_focus: bool = False,
         value_width: int | None = None,
         step_width: int = 68,
     ) -> None:
@@ -69,6 +71,14 @@ class FloatValueStepSpinBox(qt.QWidget):
             raise TypeError(
                 "step_wheel_requires_focusにはboolを指定してください"
             )
+        if type(value_select_all_on_mouse_focus) is not bool:
+            raise TypeError(
+                "value_select_all_on_mouse_focusにはboolを指定してください"
+            )
+        if type(step_select_all_on_mouse_focus) is not bool:
+            raise TypeError(
+                "step_select_all_on_mouse_focusにはboolを指定してください"
+            )
         value_width = _require_width(value_width, "value_width")
         validated_step_width = _require_width(step_width, "step_width")
         if validated_step_width is None:
@@ -87,6 +97,7 @@ class FloatValueStepSpinBox(qt.QWidget):
                 decimals=decimals,
                 single_step=single_step,
                 wheel_requires_focus=value_wheel_requires_focus,
+                select_all_on_mouse_focus=value_select_all_on_mouse_focus,
             )
             self.step_spin_box = FloatStepSpinBox(
                 self,
@@ -94,6 +105,7 @@ class FloatValueStepSpinBox(qt.QWidget):
                 step_mode=step_mode,
                 step_increment=step_increment,
                 wheel_requires_focus=step_wheel_requires_focus,
+                select_all_on_mouse_focus=step_select_all_on_mouse_focus,
             )
             self.step_spin_box.setSizePolicy(
                 qt.QSizePolicy.Policy.Ignored, qt.QSizePolicy.Policy.Fixed

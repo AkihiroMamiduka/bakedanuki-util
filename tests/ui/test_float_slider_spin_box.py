@@ -105,6 +105,22 @@ def test_layout_order_controls_child_positions(
     assert editor.layoutOrder() == layout_order
 
 
+def test_value_mouse_focus_selection_option_reaches_spin_box(owner):
+    """複合Viewの設定を値入力欄へ渡し、既定値は変更しない。"""
+    default = FloatSliderSpinBox(
+        FloatViewModel(parent=owner), owner, minimum=0, maximum=1
+    )
+    custom = FloatSliderSpinBox(
+        FloatViewModel(parent=owner),
+        owner,
+        minimum=0,
+        maximum=1,
+        value_select_all_on_mouse_focus=True,
+    )
+    assert not default.spin_box.select_all_on_mouse_focus()
+    assert custom.spin_box.select_all_on_mouse_focus()
+
+
 def test_slider_range_does_not_limit_numeric_input(owner):
     @dataclass
     class Data:
@@ -177,6 +193,7 @@ def test_setter_correction_failure_and_readonly_state_are_shared(owner):
         ({"single_step": float("nan")}, ValueError),
         ({"layout_order": True}, TypeError),
         ({"layout_order": "unknown"}, ValueError),
+        ({"value_select_all_on_mouse_focus": 1}, TypeError),
     ],
 )
 def test_invalid_child_settings_leave_no_partial_widget(owner, kwargs, error):

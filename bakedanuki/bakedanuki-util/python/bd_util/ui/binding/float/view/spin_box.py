@@ -10,10 +10,11 @@ from ..binding import FloatBinding
 from ..store import FloatValueStore
 from ..view_model import FloatViewModel
 from ._connection import connect_queued_qt_signal, disconnect_qt_connection
+from ._mouse_focus_spin_box import MouseFocusSelectAllDoubleSpinBox
 from ._source import resolve_float_view_source
 
 
-class FloatSpinBox(qt.QDoubleSpinBox):
+class FloatSpinBox(MouseFocusSelectAllDoubleSpinBox):
     """公開値を表示単位に変換して編集するQDoubleSpinBox。
 
     decimalsは表示・入力の小数桁数、single_stepは表示単位での刻み幅。
@@ -29,8 +30,9 @@ class FloatSpinBox(qt.QDoubleSpinBox):
         decimals: int = 6,
         single_step: float = 0.1,
         wheel_requires_focus: bool = False,
+        select_all_on_mouse_focus: bool = False,
     ) -> None:
-        """入力元、表示桁数・刻み幅、ホイールのフォーカス要否で初期化する。"""
+        """入力元、表示・マウス・ホイールの操作設定で初期化する。"""
         # 入力元を解決し、Widget生成前に表示・入力設定を検証する。
         view_model, binding = resolve_float_view_source(view_model)
         decimals = require_decimals(decimals)
@@ -39,9 +41,15 @@ class FloatSpinBox(qt.QDoubleSpinBox):
             raise ValueError("single_stepには正の値を指定してください")
         if type(wheel_requires_focus) is not bool:
             raise TypeError("wheel_requires_focusにはboolを指定してください")
+        if type(select_all_on_mouse_focus) is not bool:
+            raise TypeError(
+                "select_all_on_mouse_focusにはboolを指定してください"
+            )
 
         # Viewだけを保持する構成でもBindingとViewModelを存続させる。
-        super().__init__(parent)
+        super().__init__(
+            parent, select_all_on_mouse_focus=select_all_on_mouse_focus
+        )
         self._binding = binding
         self._view_model = view_model
         self._input_enabled = True

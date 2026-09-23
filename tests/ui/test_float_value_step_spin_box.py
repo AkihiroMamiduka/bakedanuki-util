@@ -214,6 +214,22 @@ def test_wheel_focus_options_preserve_defaults_and_allow_override(owner):
     assert data.value != before
 
 
+def test_mouse_focus_selection_options_reach_value_and_step(owner):
+    """値欄とStep欄へ初回マウスフォーカス時の全選択設定を個別指定する。"""
+    binding = FloatBinding.from_attribute(Data(), "value", parent=owner)
+    default = FloatValueStepSpinBox(binding, owner)
+    custom = FloatValueStepSpinBox(
+        binding,
+        owner,
+        value_select_all_on_mouse_focus=True,
+        step_select_all_on_mouse_focus=True,
+    )
+    assert not default.spin_box.select_all_on_mouse_focus()
+    assert not default.step_spin_box.select_all_on_mouse_focus()
+    assert custom.spin_box.select_all_on_mouse_focus()
+    assert custom.step_spin_box.select_all_on_mouse_focus()
+
+
 @pytest.mark.parametrize("show_unit", [False, True])
 def test_additive_step_and_unit_changes_preserve_numeric_step(
     owner, show_unit
@@ -296,6 +312,8 @@ def test_qt_deletion_of_source_stops_step_and_view_keeps_binding_alive(owner):
         ({"step_show_unit": 1}, TypeError),
         ({"value_wheel_requires_focus": 1}, TypeError),
         ({"step_wheel_requires_focus": 1}, TypeError),
+        ({"value_select_all_on_mouse_focus": 1}, TypeError),
+        ({"step_select_all_on_mouse_focus": 1}, TypeError),
         ({"value_width": True}, TypeError),
         ({"value_width": 0}, ValueError),
         ({"step_width": True}, TypeError),

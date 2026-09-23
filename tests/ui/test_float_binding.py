@@ -102,6 +102,33 @@ def test_render_and_unedited_return_preserve_precision(qt_application):
         flush()
 
 
+def test_float_spin_box_exposes_mouse_focus_selection_setting(qt_application):
+    """値入力欄からマウスフォーカス時の全選択設定を変更できる。"""
+    binding = FloatBinding(Store())
+    view = FloatSpinBox(binding, select_all_on_mouse_focus=True)
+    try:
+        assert view.select_all_on_mouse_focus()
+        view.set_select_all_on_mouse_focus(False)
+        assert not view.select_all_on_mouse_focus()
+        with pytest.raises(TypeError):
+            view.set_select_all_on_mouse_focus(1)
+    finally:
+        view.deleteLater()
+        binding.dispose()
+        flush()
+
+
+def test_float_spin_box_mouse_focus_selection_requires_bool(qt_application):
+    """値入力欄の全選択設定へbool以外を指定できない。"""
+    binding = FloatBinding(Store())
+    try:
+        with pytest.raises(TypeError):
+            FloatSpinBox(binding, select_all_on_mouse_focus=1)
+    finally:
+        binding.dispose()
+        flush()
+
+
 def test_keyboard_commit_steps_and_shared_views(qt_application):
     store = Store(value=1.0)
     binding = FloatBinding(store)

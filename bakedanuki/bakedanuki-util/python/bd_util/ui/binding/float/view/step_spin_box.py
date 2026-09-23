@@ -7,6 +7,7 @@ from typing import Literal
 
 from .... import qt
 from .._validation import require_float
+from ._mouse_focus_spin_box import MouseFocusSelectAllDoubleSpinBox
 
 FloatStepMode = Literal["additive", "multiplicative"]
 
@@ -30,7 +31,7 @@ def require_step(value: object, name: str) -> float:
     return value
 
 
-class FloatStepSpinBox(qt.QDoubleSpinBox):
+class FloatStepSpinBox(MouseFocusSelectAllDoubleSpinBox):
     """正の刻み幅を加算または10倍・1/10倍で編集する、正本を持たない入力欄。"""
 
     def __init__(
@@ -41,14 +42,21 @@ class FloatStepSpinBox(qt.QDoubleSpinBox):
         step_mode: FloatStepMode = "additive",
         step_increment: float = 1.0,
         wheel_requires_focus: bool = True,
+        select_all_on_mouse_focus: bool = False,
     ) -> None:
-        """刻み幅、操作モード、増減量、ホイールのフォーカス要否を指定する。"""
+        """刻み幅とマウス・ホイールの操作設定を指定する。"""
         value = require_step(value, "value")
         step_mode = require_step_mode(step_mode)
         step_increment = require_step(step_increment, "step_increment")
         if type(wheel_requires_focus) is not bool:
             raise TypeError("wheel_requires_focusにはboolを指定してください")
-        super().__init__(parent)
+        if type(select_all_on_mouse_focus) is not bool:
+            raise TypeError(
+                "select_all_on_mouse_focusにはboolを指定してください"
+            )
+        super().__init__(
+            parent, select_all_on_mouse_focus=select_all_on_mouse_focus
+        )
         self._step_mode: FloatStepMode = step_mode
         self._wheel_requires_focus = wheel_requires_focus
         # 表示桁数から独立して小さい刻み幅を保持し、末尾の0は表示時に省く。

@@ -9,6 +9,11 @@
 
 ### Added
 
+- `FloatSpinBox`と`FloatStepSpinBox`へ`select_all_on_mouse_focus`、
+  `select_all_on_mouse_focus()`、`set_select_all_on_mouse_focus()`を追加。
+  有効時は入力文字をマウスで初回フォーカスした左クリックだけ全選択し、再クリック、
+  ドラッグ選択、矢印操作はQt標準動作を維持する。既定値は`False`。
+  `FloatValueStepSpinBox`は値欄とStep欄を個別指定でき、`FloatSliderSpinBox`も値欄へ指定できる。
 - `bd_util.ui.FloatStepProfile`、`FloatStepSetting`と
   `UiStateManager.register_float_step_profile()`を追加。任意の文字列keyと
   `number`／`distance`／`angle`の組ごとに、丸め前の正の有限Stepを保持する。

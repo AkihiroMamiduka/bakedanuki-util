@@ -38,6 +38,7 @@ editor = FloatSliderSpinBox(
     decimals=3,
     single_step=0.1,
     layout_order=order,
+    value_select_all_on_mouse_focus=True,
 )
 assert_type(editor.view_model, FloatViewModel)
 assert_type(editor.slider, FloatSlider)
@@ -48,6 +49,8 @@ assert_type(editor.spin_box.decimals(), int)
 assert_type(editor.spin_box.setDecimals(6), None)
 assert_type(editor.spin_box.singleStep(), float)
 assert_type(editor.spin_box.setSingleStep(0.25), None)
+assert_type(editor.spin_box.select_all_on_mouse_focus(), bool)
+assert_type(editor.spin_box.set_select_all_on_mouse_focus(False), None)
 assert_type(editor.layoutOrder(), FloatSliderSpinBoxOrder)
 assert_type(BindingEditor(binding, minimum=0, maximum=1), FloatSliderSpinBox)
 assert_type(

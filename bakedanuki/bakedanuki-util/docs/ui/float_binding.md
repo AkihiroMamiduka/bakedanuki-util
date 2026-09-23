@@ -143,6 +143,11 @@ Channel Box自体が未生成でも取得できます。スクリプトでChanne
 キーボード入力はEnter／フォーカス移動で確定し、矢印・ホイールはstepごとに反映します。
 `FloatSpinBox(..., wheel_requires_focus=True)`を指定すると、非フォーカス時のホイールを
 値変更に使わず親Widgetへ渡します。既定の`False`では従来どおりマウスオーバーで操作できます。
+`select_all_on_mouse_focus=True`を指定すると、入力文字をマウスで初回フォーカスした
+左クリックだけ全選択します。そのまま入力すれば既存値を置換でき、フォーカス中の再クリックでは
+カーソルを移動し、ドラッグでは任意範囲を選択できます。生成後は
+`select_all_on_mouse_focus()`と`set_select_all_on_mouse_focus()`で切り替えられます。
+既定値は`False`です。
 Mayaへの各書き込みは標準Undo／Redo対象です。SpinBoxの各変更は個別に確定します。
 [FloatSlider](float_slider.md)はViewModelの連続編集APIを使い、ドラッグ中の書き込みをUndo 1回へまとめます。
 

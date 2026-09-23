@@ -45,6 +45,7 @@ class FloatSliderSpinBox(qt.QWidget):
         decimals: int = 6,
         single_step: float = 0.1,
         layout_order: FloatSliderSpinBoxOrder = "slider_value",
+        value_select_all_on_mouse_focus: bool = False,
     ) -> None:
         """操作範囲、入力設定、Sliderと値欄の並び順を受け取る。"""
         # 子Widgetを作る前に、両Viewの設定と共有する入力元を検証する。
@@ -56,6 +57,10 @@ class FloatSliderSpinBox(qt.QWidget):
         layout_order = _require_layout_order(layout_order)
         if single_step <= 0:
             raise ValueError("single_stepには正の値を指定してください")
+        if type(value_select_all_on_mouse_focus) is not bool:
+            raise TypeError(
+                "value_select_all_on_mouse_focusにはboolを指定してください"
+            )
         if view_model.is_disposed:
             raise RuntimeError("編集対象のFloatViewModelは終了しています")
         self._ready = False
@@ -70,7 +75,11 @@ class FloatSliderSpinBox(qt.QWidget):
                 view_model, self, minimum=minimum, maximum=maximum, steps=steps
             )
             self.spin_box = FloatSpinBox(
-                view_model, self, decimals=decimals, single_step=single_step
+                view_model,
+                self,
+                decimals=decimals,
+                single_step=single_step,
+                select_all_on_mouse_focus=value_select_all_on_mouse_focus,
             )
             layout = self._create_layout()
             if layout_order == "slider_value":
