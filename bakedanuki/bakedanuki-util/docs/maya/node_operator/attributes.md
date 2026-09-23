@@ -849,6 +849,39 @@ bool・enum・整数系の離散属性は`discrete_tangent_type`を明示した�
 layer未指定はroot、別layerには`.anim_layer()`を使用し、全属性・全nodeを1単位で
 Undo / Redo・rollbackします。
 
+#### 回転カーブへEuler filterを適用する
+
+`node.keyframes.euler_filter(start_frame=None, end_frame=None)`は、Transform / Jointの
+`rotateX` / `rotateY` / `rotateZ`にある既存TAカーブを一組としてEuler filterします。
+複数nodeは`nodes.keyframes.euler_filter([...], start_frame=None, end_frame=None)`で一括処理します。
+属性を選ぶ引数はなく、標準の3軸回転だけが対象です。
+
+```python
+ctrl_a.keyframes.euler_filter()
+ctrl_a.keyframes.euler_filter(10, 40)
+
+nodes.keyframes.euler_filter([ctrl_a, ctrl_b], 10, 40)
+ctrl_a.keyframes.anim_layer("Correction").euler_filter()
+mod.do_it_dg()
+```
+
+範囲は両端を含み、`None`側には境界を設けません。実在するキーだけを対象にし、境界キーや
+カーブは作成しません。範囲内の先頭キーを基準として維持し、2番目以降を直前のfilter済み姿勢に
+最も近い等価Euler角へ変換します。範囲外のキーを基準にはしないため、範囲開始前との連続性は
+自動では補正しません。対象範囲にキーがなければno-opで、1組だけなら値を変更しません。
+
+姿勢を安全に維持するため、範囲内にいずれかの回転キーがある場合は、3軸すべての既存カーブと
+完全に一致するキー時刻を必要とします。`rotateOrder`は接続のない静的値に限定し、nodeごとの
+実際の回転順序を使用します。TAカーブの`rotationInterpolation`は独立した3本のscalar補間だけを
+扱います。条件を満たさないnode、共有・lock・reference・未所属layer等が1つでもあれば、
+複数nodeを含む全対象を変更前に停止します。
+
+layer未指定はベース（root）、別layerは`.anim_layer()`で明示します。単位変換、pairBlend、
+blendWeightedを含む上流探索は他のKeyframeManager操作と共通です。キー時刻・数、tangent type、
+weighted、breakdown、tangent / weight lock、infinityは維持します。値に従ってMayaが計算する
+linear / spline / clamped等の接線XYは更新され、fixed接線の保存値は維持されます。
+変更は`MAnimCurveChange`へ記録し、Undo / Redoと途中失敗時のrollbackへ参加します。
+
 ### 評価済み入力をキーフレームへベイクする
 
 `bake(start_frame=None, end_frame=None, *, sample_by=1.0, tangent_type="auto",

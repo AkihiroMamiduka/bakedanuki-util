@@ -157,9 +157,11 @@
 指定範囲に実在するキーのtangent lock / weight lock一括変更と、
 `node.keyframes` / `nodes.keyframes`単位の既存カーブに対するweighted一括切り替え、
 `AnimationClip.reversed()`による独立した逆再生clipの作成、
-`AnimationClip.extract(nodes=...)`によるnode単位の部分抽出を実装しました。
+`AnimationClip.extract(nodes=...)`によるnode単位の部分抽出、
+`node.keyframes` / `nodes.keyframes`単位のEuler filterを実装しました。
 
-属性単位の部分抽出はnode抽出の利用状況を確認してから再検討します。次はEuler filterを検討します。
+属性単位の部分抽出はnode抽出の利用状況を確認してから再検討します。
+次の最優先項目はEuler filterの利用者確認後に決めます。
 各項目の公開method名・引数と
 対象なし・離散属性・layer・Undo / Redoの詳細契約は、着手時に現行APIと合わせて確定します。
 
@@ -203,6 +205,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
 | plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を等間隔に評価してTA / TL / TUへ全置換。連続・離散属性を分けた接線指定、上流nodeと非対象のcompound子・layerの維持、Undo / Redo・rollbackに対応 |
 | nodeの接線一括変更 | `node.keyframes.set_tangents()` / `nodes.keyframes.set_tangents([...])`と各`set_tangent_locks()`。keyable / channelBoxまたは明示属性の既存カーブだけを対象にし、全対象を1単位で変更。接線typeでは連続・離散属性を分け、lockでは両方を対象にする |
+| nodeのEuler filter | `node.keyframes.euler_filter()` / `nodes.keyframes.euler_filter([...])`。標準rotate 3軸の同期した既存キーを静的`rotateOrder`に従ってfilterし、範囲内先頭をanchorとして姿勢を維持。ベース・明示layer、全対象の事前検証、Undo / Redo・rollbackに対応 |
 | node入力の一括ベイク | `node.keyframes.bake()`。明示属性またはkeyable / channelBox属性をscalar leafへ展開し、静的な対象も既定でカーブ化。接線指定、全対象の事前sampling、compound共有接続の一括分割、操作全体のUndo / Redo・rollbackに対応 |
 | 複数node入力の一括ベイク | `nodes.keyframes.bake([...])`。nodeごとに存在する明示属性または自動収集した属性を全nodeで変更前にsampling。接線指定、node間を含むUndo / Redo・rollback、共通layer、総サンプル数上限に対応 |
 | 実在キーの時刻・値 | `get_keys()`。指定範囲に存在するキーだけを返し、境界補完は行わない |
@@ -332,7 +335,11 @@ infinity交換、schema 2、元clipとの独立性と二重反転を扱います
 続いて`AnimationClip.extract(nodes=...)`を追加しました。captureではscene全体で一意なDAGを
 namespace込みのshort name、同名DAGをfull pathとして保存し、階層変更への耐性と曖昧性の拒否を両立します。
 抽出は旧schema 2のfull pathも一意なshort nameで選べ、指定node順、全channel、必要なlayerと祖先、
-root設定、元clipとの独立性を維持します。属性単位の抽出は保留し、次はEuler filterへ進みます。
+root設定、元clipとの独立性を維持します。属性単位の抽出は保留しています。
+続いて`node.keyframes.euler_filter()` / `nodes.keyframes.euler_filter([...])`を追加しました。
+既存のrotate 3軸カーブだけを対象に、指定範囲の同期キーをnodeの静的`rotateOrder`でfilterします。
+範囲内先頭キーをanchorとして姿勢を維持し、ベース・明示layer、全対象の事前検証、
+Undo / Redo・rollbackに対応します。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
@@ -522,14 +529,18 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
    接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
-   AnimationClipの逆再生とnode単位の部分抽出も実装済み。属性単位の抽出は保留し、
-   次はEuler filterを検討する。
+   AnimationClipの逆再生とnode単位の部分抽出、node / nodes単位のEuler filterも実装済み。
+   属性単位の抽出は保留し、次の項目は利用者確認後に決める。
    過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 
 ### 実装を引き継ぐ際の参照先
 
+- `python/bd_util/maya/node/operator/attr/_keyframe_euler.py`: rotate 3軸の既存カーブ、同期キー、
+  静的`rotateOrder`を事前検証し、`MEulerRotation.closestSolution()`と`MAnimCurveChange`で
+  filter・Undo / Redo・rollbackを行う。node入口は`operator/node/_keyframes.py`、
+  回帰テストは`test_node_keyframe_euler.py`。
 - `python/bd_util/maya/node/_animation_clip_range.py`: 復元用コピーの使用区間を保存時間単位で検証し、
   全属性とlayer / root設定を切り出す。`_keyframe_snapshot.clip_curve_data()`で未登録カーブを評価し、
   既存の境界補完処理を共有する。`_animation_clip_restore.py`で時間変換の前に適用する。

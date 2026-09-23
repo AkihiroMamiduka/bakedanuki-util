@@ -11,6 +11,7 @@ from maya.api import OpenMaya as om
 from ...modifier import ModifierManager
 from ..attr import (
     _keyframe_bake,
+    _keyframe_euler,
     _keyframe_snapshot,
     _keyframe_tangent,
     _keyframe_target,
@@ -209,6 +210,32 @@ def _existing_curve_targets(
         _keyframe_target.resolve_curve(target, write=True)
         found.append((target, plug))
     return tuple(found)
+
+
+def _rotation_target(
+    node: om.MObject,
+    layer: om.MObject | None,
+) -> _keyframe_euler.RotationTarget:
+    if not node.hasFn(om.MFn.kTransform):
+        raise TypeError("Euler filter requires a transform or joint node.")
+    fn = live_node(node)
+    plugs = tuple(
+        fn.findPlug(attribute, False)
+        for attribute in ("rotateX", "rotateY", "rotateZ")
+    )
+    targets = tuple(
+        plug if layer is None else _keyframe_target.LayerTarget(plug, layer)
+        for plug in plugs
+    )
+    if len(targets) != 3:
+        raise RuntimeError(
+            "Euler filter could not resolve three rotation plugs."
+        )
+    return _keyframe_euler.RotationTarget(
+        _node_name(node),
+        fn.findPlug("rotateOrder", False),
+        (targets[0], targets[1], targets[2]),
+    )
 
 
 class NodeKeyframeManager:
@@ -499,6 +526,29 @@ class NodeKeyframeManager:
             end,
             tangent_lock,
             weight_lock,
+        )
+
+    def euler_filter(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+    ) -> None:
+        """Filter synchronized rotateX/Y/Z keys to nearby Euler solutions."""
+        start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
+        node_handle = self._node_handle
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> tuple[_keyframe_euler.RotationTarget, ...]:
+            if not node_handle.isAlive() or not node_handle.isValid():
+                raise RuntimeError("The Euler filter node is not available.")
+            layer, _, _ = _resolve_layer(layer_handle)
+            return (_rotation_target(node_handle.object(), layer),)
+
+        _keyframe_euler.queue_filter(
+            self._modifier_manager,
+            resolve_targets,
+            start,
+            end,
         )
 
 
@@ -942,6 +992,54 @@ class NodesKeyframeManager:
             end,
             tangent_lock,
             weight_lock,
+        )
+
+    def euler_filter(
+        self,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+    ) -> None:
+        """Filter synchronized rotation keys across nodes as one atomic edit."""
+        from ._core import NodeOperator
+
+        if isinstance(nodes, (str, NodeOperator, om.MObject)):
+            raise TypeError("nodes must be an iterable of nodes.")
+        try:
+            values = tuple(nodes)
+        except TypeError as exc:
+            raise TypeError("nodes must be an iterable of nodes.") from exc
+        if not values:
+            raise ValueError("nodes must contain at least one node.")
+        node_handles: list[om.MObjectHandle] = []
+        unique_handles: set[om.MObjectHandle] = set()
+        for value in values:
+            handle = om.MObjectHandle(node_object(value))
+            if handle in unique_handles:
+                raise ValueError("Duplicate Euler filter node.")
+            unique_handles.add(handle)
+            node_handles.append(handle)
+
+        start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
+        handles = tuple(node_handles)
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> tuple[_keyframe_euler.RotationTarget, ...]:
+            layer, _, _ = _resolve_layer(layer_handle)
+            targets: list[_keyframe_euler.RotationTarget] = []
+            for handle in handles:
+                if not handle.isAlive() or not handle.isValid():
+                    raise RuntimeError(
+                        "An Euler filter node is not available in the scene."
+                    )
+                targets.append(_rotation_target(handle.object(), layer))
+            return tuple(targets)
+
+        _keyframe_euler.queue_filter(
+            self._modifier_manager,
+            resolve_targets,
+            start,
+            end,
         )
 
 

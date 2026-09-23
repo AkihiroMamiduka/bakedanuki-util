@@ -5261,11 +5261,23 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(layer.add_nodes([node, node.m_obj, "other"]), None)
     assert_type(node.tx.keyframe.anim_layer(layer), KeyframeManager)
     assert_type(node.keyframes.anim_layer(layer), NodeKeyframeManager)
+    assert_type(node.keyframes.euler_filter(), None)
+    assert_type(node.keyframes.euler_filter(-10.5, 24.25), None)
+    assert_type(
+        node.keyframes.anim_layer(layer).euler_filter(1, 24),
+        None,
+    )
     assert_type(
         node.keyframes.anim_layer(layer).bake(1, 24, attributes=["translate"]),
         None,
     )
     assert_type(nodes.keyframes, NodesKeyframeManager)
+    assert_type(
+        nodes.keyframes.euler_filter(
+            [node, node.m_obj, "other"], -10.5, 24.25
+        ),
+        None,
+    )
     assert_type(
         nodes.keyframes.bake(
             [node, node.m_obj, "other"],
@@ -5333,6 +5345,10 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         nodes.keyframes.anim_layer(layer).set_weighted(
             [node, "other"], False, attributes=["translate"]
         ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).euler_filter([node, "other"], 1, 24),
         None,
     )
     existing = nodes.existing.animLayer("Existing")

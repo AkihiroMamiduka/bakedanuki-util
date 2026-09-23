@@ -715,6 +715,28 @@ Trueへ戻しても元のweightは復元されません。`MAnimCurveChange`のU
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\test_node_keyframe_weighted.py tests\maya\node\operator\attr\test_keyframe_data.py -q --tb=short
 ```
 
+## node・複数nodeのEuler filterの検証
+
+`test_node_keyframe_euler.py`では、`node.keyframes.euler_filter()`と
+`nodes.keyframes.euler_filter([...])`について次の契約を検証します。
+
+- 6種類の`rotateOrder`で、各キーの姿勢を維持しながら直前のfilter済みキーに近いEuler角へ
+  変換すること。範囲内の先頭キーをanchorとして維持すること。
+- 両端包含範囲、範囲外キー、3軸で異なる範囲外index、境界キーを作成しないこと、
+  カーブなし・範囲内キーなしのno-op。
+- 3軸カーブの欠落、範囲内キー時刻の不一致、接続された`rotateOrder`、lockされたカーブ、
+  非Transform nodeを編集前に拒否すること。
+- ベースと明示layerを分離し、同じbatchで先に作成した3軸カーブを実行時に認識すること。
+- キー時刻・tangent type、weighted、breakdown、tangent / weight lock、infinityを維持すること。
+- 複数nodeの全対象事前検証、反復Undo / Redo、後続失敗時のrollback。
+- `NodeKeyframeManager` / `NodesKeyframeManager`の範囲引数と`None`戻り値をIDE補完で追えること。
+
+開発中の局所確認には次を使用します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\test_node_keyframe_euler.py -q --tb=short
+```
+
 ## plug入力ベイクの検証
 
 `test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。
