@@ -39,7 +39,7 @@ from .operator.node.dg._anim_layer import (
 )
 
 
-def node_name(node: om.MObject) -> str:
+def node_path(node: om.MObject) -> str:
     return (
         om.MFnDagNode(node).fullPathName()
         if node.hasFn(om.MFn.kDagNode)
@@ -47,9 +47,25 @@ def node_name(node: om.MObject) -> str:
     )
 
 
+def saved_node_name(node: om.MObject) -> str:
+    """階層に依存しない一意名を優先し、曖昧なDAGだけfull pathにする。"""
+    name = live_node(node).name()
+    if not node.hasFn(om.MFn.kDagNode):
+        return name
+    selection = om.MSelectionList()
+    try:
+        # 先頭のcolonでcurrent namespaceに依存しない絶対名として検査する。
+        selection.add(":" + name)
+    except RuntimeError:
+        return om.MFnDagNode(node).fullPathName()
+    if selection.length() != 1 or selection.getDependNode(0) != node:
+        return om.MFnDagNode(node).fullPathName()
+    return name
+
+
 def plug_for(node: om.MObject, attribute: str) -> om.MPlug:
     selection = om.MSelectionList()
-    selection.add(f"{node_name(node)}.{literal_name(attribute)}")
+    selection.add(f"{node_path(node)}.{literal_name(attribute)}")
     plug = selection.getPlug(0)
     # Explicit nonexistent multi indices must not be materialized by capture.
     current = plug
@@ -478,7 +494,9 @@ def capture(
                         rate,
                     )
                 channels.append(ChannelAnimationData(attribute, layer, data))
-        records.append(NodeAnimationData(node_name(node), tuple(channels)))
+        records.append(
+            NodeAnimationData(saved_node_name(node), tuple(channels))
+        )
     layer_records = (
         tuple(
             AnimationLayerData(name, parent, capture_settings(name, *bounds))

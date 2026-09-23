@@ -399,6 +399,16 @@ class AnimationClip:
             preserve_breakdowns=preserve_breakdowns,
         )
 
+    def extract(self, *, nodes: Iterable[str]) -> AnimationClip:
+        """指定した保存nodeだけを持つ独立したclipを即時に返す。
+
+        short nameは保存名の最後のDAG要素へ照合し、複数一致は拒否する。
+        node順はnodesの指定順。scene・元clip・保留中modifierは変更しない。
+        """
+        from ._animation_clip_extract import extract
+
+        return extract(self, nodes=nodes)
+
     def reversed(self) -> AnimationClip:
         """保存範囲を共通軸として全カーブを反転した独立clipを返す。
 

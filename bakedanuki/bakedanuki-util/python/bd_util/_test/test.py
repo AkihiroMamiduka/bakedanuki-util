@@ -1,5 +1,8 @@
 # coding:utf-8
 
+# maya
+from maya import cmds
+
 # self
 import bd_util as bdu
 from .. import logger as u_logger
@@ -300,6 +303,24 @@ def main():
     )
 
     dst_12_3.keyframes.set_tangents(tangent_type="auto")
+
+    nodes.modifier_manager.do_it_dag()
+    nodes.modifier_manager.do_it_dg()
+
+    clip = bdu.AnimationClip.capture(
+        nodes=[dst_12_0, dst_12_1, dst_12_2, dst_12_3]
+    )
+
+    cmds.file(newFile=True, force=True)
+
+    nodes = bdu.Nodes()
+    dst_12_0 = nodes.create.transform(name="dst_12_0")
+    dst_12_1 = nodes.create.transform(name="dst_12_1")
+    dst_12_2 = nodes.create.transform(name="dst_12_2")
+    dst_12_3 = nodes.create.transform(name="dst_12_3")
+
+    partial_clip = clip.extract(nodes=["dst_12_1", "dst_12_3"])
+    partial_clip.restore(nodes.modifier_manager)
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

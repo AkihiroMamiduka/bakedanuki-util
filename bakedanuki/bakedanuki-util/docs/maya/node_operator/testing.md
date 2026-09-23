@@ -1188,6 +1188,26 @@ scene初期化は各テストで維持する構成に整理しました。その
 ファイルAPIを含む関連pytest 581件がMaya 2025で成功しました。
 変更実装と型contractを明示したPyrightもエラー・警告0件です。
 
+### AnimationClipのnode部分抽出
+
+`tests/maya/node/test_animation_clip_extract.py`は、`AnimationClip.extract(nodes=...)`と
+capture時の保存node名について、次の契約を検証します。
+
+- scene全体で一意な階層下DAGはnamespace込みのshort name、同名DAGはfull pathで保存すること。
+  short name保存後の親変更、同名DAGのfull pathによるcaptureと既定restoreを含む。
+- 新しいshort保存と従来のfull path入りschema 2を、clip内で一意なshort nameから抽出できること。
+  short nameの複数一致、不明名、空・重複指定、裸の文字列、namespace省略を拒否すること。
+- `nodes`の指定順、全channel、空node、保存範囲・時間単位・schema等のメタデータを維持すること。
+  元scene削除後にも処理でき、元clipと変更可能な`KeyData`を共有しないこと。
+- preserve clipでは使用layerと全祖先、root設定、設定curve、相対順を維持し、
+  除外nodeだけが使用するlayerを除外すること。抽出clipの復元とUndoも確認すること。
+- 呼出時に除外対象を含む元clip全体を再検証し、JSON往復、`reversed()`との連続利用、
+  公開戻り値の型・補完contractを維持すること。
+
+2026-09-23の開発中確認では、node抽出専用pytest 7件と、既存の保存・範囲・削減・逆再生・
+時間変換・ファイルAPIを含むAnimationClip関連pytest 780件がMaya 2025で成功しました。
+変更実装と型contractを明示したPyrightもエラー・警告0件です。
+
 ### 保存・復元の既存テスト
 
 - `tests/maya/node/test_animation_clip.py`: 合成保存・layer保持、keyable / channelBox / 明示属性、
@@ -1215,8 +1235,9 @@ scene初期化は各テストで維持する構成に整理しました。その
   未接続outputの内部依存を含むアニメーション判定も検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`: `queue_dg_batch()`の準備一回、
   初回・後続失敗、Undo / Redoを検証します。
-- `tests/typecheck/node_operator_contract.py`: `bdu.AnimationClip`の入口、データ型とJSON・復元の
-  戻り値型、modeのLiteral補完、`include_static`のbool型、復元時刻・拡縮引数の型と組み合わせを検証します。
+- `tests/typecheck/node_operator_contract.py`: `bdu.AnimationClip`の入口、データ型とJSON・抽出・復元の
+  戻り値型、抽出node iterable、modeのLiteral補完、`include_static`のbool型、
+  復元時刻・拡縮引数の型と組み合わせを検証します。
 
 2026-09-16時点で、次の関連範囲はMaya 2025 / 2026 / 2027それぞれ2,083件成功しました。
 新機能のclip・専用MPxCommandは61件です。検証実績はこの時点の変更に対するもので、

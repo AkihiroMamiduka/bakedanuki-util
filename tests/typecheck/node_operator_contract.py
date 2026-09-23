@@ -6186,6 +6186,13 @@ def animation_clip_contract(
     )
     assert_type(clip.reversed(), bdu.AnimationClip)
     assert_type(clip.reversed().reversed().to_json(), str)
+    assert_type(clip.extract(nodes=["ctrl"]), bdu.AnimationClip)
+    assert_type(
+        clip.extract(nodes=(name for name in ("ctrl", "other"))).reversed(),
+        bdu.AnimationClip,
+    )
+    clip.extract(["ctrl"])  # pyright: ignore[reportCallIssue]
+    clip.extract(nodes=[1])  # pyright: ignore[reportArgumentType]
     clip.reduce_keys()  # pyright: ignore[reportCallIssue]
     clip.reduce_keys(0, 10, 0.01)  # pyright: ignore[reportCallIssue]
     clip.reduce_keys(tolerance="0.1")  # pyright: ignore[reportArgumentType]

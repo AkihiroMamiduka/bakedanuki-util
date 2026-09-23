@@ -156,9 +156,10 @@
 
 指定範囲に実在するキーのtangent lock / weight lock一括変更と、
 `node.keyframes` / `nodes.keyframes`単位の既存カーブに対するweighted一括切り替え、
-`AnimationClip.reversed()`による独立した逆再生clipの作成を実装しました。
+`AnimationClip.reversed()`による独立した逆再生clipの作成、
+`AnimationClip.extract(nodes=...)`によるnode単位の部分抽出を実装しました。
 
-次はAnimationClipからのnode・属性の部分抽出、Euler filterを順に検討します。
+属性単位の部分抽出はnode抽出の利用状況を確認してから再検討します。次はEuler filterを検討します。
 各項目の公開method名・引数と
 対象なし・離散属性・layer・Undo / Redoの詳細契約は、着手時に現行APIと合わせて確定します。
 
@@ -328,7 +329,10 @@ channelBox属性の任意追加、静的値の既定ベイク、compound / 実�
 続いて`AnimationClip.reversed()`を追加しました。保存範囲の共通秒軸でchannelと
 layer / root設定カーブを反転し、連続接線のin / out交換、step / stepnextの区間変換、
 infinity交換、schema 2、元clipとの独立性と二重反転を扱います。
-次はAnimationClipからのnode・属性の部分抽出、Euler filterへ進みます。
+続いて`AnimationClip.extract(nodes=...)`を追加しました。captureではscene全体で一意なDAGを
+namespace込みのshort name、同名DAGをfull pathとして保存し、階層変更への耐性と曖昧性の拒否を両立します。
+抽出は旧schema 2のfull pathも一意なshort nameで選べ、指定node順、全channel、必要なlayerと祖先、
+root設定、元clipとの独立性を維持します。属性単位の抽出は保留し、次はEuler filterへ進みます。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
@@ -337,7 +341,7 @@ layer構造の管理や自動選択を追加する場合は、
 | 移動の拡張 | 時間方向の移動、AnimationClip復元時とKeyframeManagerによる正の時間拡縮、既存キーの生値の設定・加算・拡縮は実装済み。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
 | ベイクの拡張 | plug単位・node単位・複数node単位の独立時刻評価は実装済み。複数nodeでも全対象を変更前に一括samplingし、node間を含む操作全体をrollbackする。simulation・cache・dynamics向けの時系列評価は今後個別に仕様化する |
 | キー削減の拡張・最適化 | 手動接線を維持する実カーブ操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
-| アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定、正の時間拡縮、独立した逆再生clipは実装済み。node・属性の部分抽出と、rig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
+| アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定、正の時間拡縮、独立した逆再生clip、node単位の部分抽出は実装済み。属性単位の部分抽出と、rig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録、AnimationClipによる階層・順序・weight等の保存復元は実装済み。登録解除や階層・順序を個別編集する公開API、auto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
 | 詳細データAPIの追加最適化 | 範囲取得、layer所属確認、通常の未lockカーブの検査を改善済み。境界補完は引き続き作業用カーブ全体へ依存する。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
@@ -518,7 +522,8 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
    接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
-   次はAnimationClipからのnode・属性の部分抽出、Euler filterを順に検討する。
+   AnimationClipの逆再生とnode単位の部分抽出も実装済み。属性単位の抽出は保留し、
+   次はEuler filterを検討する。
    過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。

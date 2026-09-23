@@ -206,6 +206,7 @@ def test_namespace_mapping_and_ordered_targets(maya_cmds):
     ta = _node(cmds, "new:a", ())
     tb = _node(cmds, "new:b", ())
     clip = AnimationClip.capture([b, a], attributes=["tx"])
+    assert [node.name for node in clip.nodes] == ["old:b", "old:a"]
     mod = bdu.ModifierManager()
     clip.restore(mod, namespace="new")
     mod.do_it_dg()

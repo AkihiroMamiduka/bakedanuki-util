@@ -41,6 +41,11 @@ AnimationClip.capture(
     sample_by=1.0,
 ) -> AnimationClip
 
+clip.extract(
+    *,
+    nodes,
+) -> AnimationClip
+
 clip.reduce_keys(
     start_frame=None,
     end_frame=None,
@@ -69,8 +74,15 @@ clip.restore(
 ) -> None
 ```
 
-`nodes` / `targets`はnode名、`NodeOperator`、`MObject`のiterableです。
+`capture()`の`nodes`と`restore()`の`targets`はnode名、`NodeOperator`、`MObject`のiterableです。
 選択中node・layerを対象決定に利用しません。transformを指定してもshapeや子nodeへは展開しません。
+
+captureしたDAG nodeは、namespaceを含むshort nameがscene全体で一意なら、そのshort nameを保存します。
+同名DAGが存在してshort nameでは一意に解決できない場合だけfull DAG pathを保存します。
+この判定はcapture対象内ではなくscene全体を基準にします。これにより、一意なnodeは保存後に
+親子階層が変わっても、同じ名前のnodeへ既定の`restore()`で復元できます。
+保存後に同名nodeが増えて曖昧になった場合は誤適用せずエラーにし、`targets`で復元先を明示します。
+非DAG nodeは従来どおりnode名を保存します。
 
 ## 属性と保存範囲
 
@@ -94,6 +106,37 @@ clip.restore(
 静的な属性の除外によって全体の対象がなくなった場合も`ValueError`です。
 一部のnodeだけ対象がなくなった場合は、そのnodeを空のチャンネル一覧として残し、
 `targets`の順番・個数による対応付けを維持します。
+
+## 保存nodeの部分抽出
+
+`extract(nodes=...)`は、指定した保存nodeの全属性・全layerチャンネルを持つ、独立した
+`AnimationClip`を即時に返します。scene、元clip、保留中modifierは変更しません。
+
+```python
+body_clip = clip.extract(
+    nodes=["character_a:root_ctrl", "character_a:spine_ctrl"],
+)
+
+body_clip.restore(mod, namespace="character_b")
+mod.do_it_dg()
+```
+
+- `nodes`は保存node名の文字列iterableです。`NodeOperator` / `MObject`や裸の文字列は受け付けません。
+- short nameは、保存名の最後のDAG要素へnamespace込みで照合します。旧schema 2のfull pathも、
+  clip内で一致が1件ならshort nameで選べます。namespaceは暗黙に取り除きません。
+- short nameが複数nodeへ一致する場合は曖昧としてエラーにし、保存されたfull pathでの指定を求めます。
+  `|`を含む指定は保存名との完全一致です。
+- node順は`nodes`の指定順です。不明名、空のiterable、同じ保存nodeの重複指定、
+  選択結果全体にチャンネルがない場合はエラーです。一部の空nodeは位置対応のため残します。
+- 保存範囲、時間単位、`sample_by`、`clipped`、schema、channelのキー・接線・weighted・lock・
+  breakdown・infinityを変更しません。変更可能な`KeyData`も元clipと共有しません。
+- preserveでは残したchannelが使用するlayerとその全祖先を元順で残し、設定と設定curveを維持します。
+  root設定も維持し、除外nodeだけが使用していたlayerは復元先へ影響させないため除外します。
+- JSONへ抽出条件は追加せず、schema 2を維持します。抽出後も`reduce_keys()`、`reversed()`、
+  `save()`、`restore()`を通常どおり連続して使用できます。
+
+初期版はnode単位の抽出だけを扱います。属性alias・compound・arrayをscene非依存で選ぶ規則は
+固定せず、属性単位の抽出は今後の候補とします。
 
 ### 静的な属性を含める場合
 
@@ -383,7 +426,8 @@ mod.do_it_dg()
 
 ## 復元先と置換方法
 
-- 既定: 保存したnode名へ復元します。DAG nodeはfull pathを保存し、曖昧な短縮名照合をしません。
+- 既定: 保存したnode名へ復元します。一意なDAG nodeはnamespace込みのshort name、
+  同名DAGはfull pathを保存します。short nameが復元時に曖昧ならエラーです。
 - `namespace="new:character"`: 各DAG経路要素・node・layerの名前空間を指定値へ置き換えます。
   `namespace=""`なら取り除きます。必要な名前空間と復元先nodeは事前に用意してください。
 - `targets=[dstA, dstB]`: 保存node順に対応させます。個数不一致・対応先の重複はエラーです。
