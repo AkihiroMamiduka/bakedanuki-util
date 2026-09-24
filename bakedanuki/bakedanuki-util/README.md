@@ -42,6 +42,17 @@
   - Quaternion plugのraw値をimmutableに保持し、積・変換・逆元・正規化・補間を扱います。
 - Attribute / Plug helpers
   - `AttributeField`, `AttrOperator`, `PlugOperator` により、クラス定義とインスタンス操作を分けて扱います。
+- Keyframe operations
+  - `node.tx.keyframe.bake()`で1属性、`node.keyframes.bake()`で1nodeの属性群、
+    `nodes.keyframes.bake([...])`で複数nodeの評価済み入力を時間入力カーブへ置換できます。
+    ベイク後は`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`で
+    既存カーブをまとめて削減できます。
+    別layerは`.anim_layer()`で明示します。
+  - `bdu.AnimationClip`は複数node・属性の保存、編集、JSON入出力、復元を扱います。
+- JSON file utilities
+  - `bdu.json_file.write(path, data)` / `read(path)`で設定やプリセットをUTF-8 JSONへ保存・読込できます。
+  - 親フォルダは既定で作成します。AnimationClipには専用の`save()` / `load()`もあります。
+  - 詳細は[JSONファイル入出力](docs/py/json_file.md)を参照してください。
 - Node class generator
   - Maya の DG ノード情報から `NodeOperator` 定義を生成する開発用ジェネレーターがあります。
   - Maya 2025を基準に、固定plugin profileからMaya 2026 / 2027のschema差分だけを

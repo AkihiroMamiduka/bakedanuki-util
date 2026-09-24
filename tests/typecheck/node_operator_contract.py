@@ -6,8 +6,13 @@ if TYPE_CHECKING:
     )
 
 import bd_util as bdu
+from bd_util.maya.node.animation_clip import (
+    NodeAnimationData,
+    AnimationLayerData,
+)
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
+
 
 from bd_util.maya.node.operator.attr import (
     AnimCurveData,
@@ -21,6 +26,10 @@ from bd_util.maya.node.operator.attr import (
     TangentTypeValue,
 )
 from bd_util.maya.node.operator.attr._core import PlugOperator
+from bd_util.maya.node.operator.node import (
+    NodeKeyframeManager,
+    NodesKeyframeManager,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_abs import (
     InputAttrOperator as AbsInputAttrOperator,
     InputPlugOperator as AbsInputPlugOperator,
@@ -4094,6 +4103,113 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         compose.inputTranslate.inputTranslateX.keyframe,
         KeyframeManager,
     )
+    assert_type(compose.keyframes, NodeKeyframeManager)
+    assert_type(compose.keyframes.bake(), None)
+    assert_type(
+        compose.keyframes.bake(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+            include_static=False,
+            sample_by=0.5,
+            tangent_type="linear",
+            out_tangent_type=compose.inputTranslate.inputTranslateX.keyframe.tangent.flat,
+            discrete_tangent_type="step",
+        ),
+        None,
+    )
+    assert_type(
+        compose.keyframes.set_tangents(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+            tangent_type="auto",
+            in_tangent_type="flat",
+            discrete_tangent_type="step",
+        ),
+        None,
+    )
+    assert_type(
+        compose.keyframes.set_tangent_locks(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+            tangents_locked=False,
+            weights_locked=True,
+        ),
+        None,
+    )
+    assert_type(
+        compose.keyframes.set_weighted(
+            True,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+        ),
+        None,
+    )
+    assert_type(
+        compose.keyframes.delete_keys(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+        ),
+        None,
+    )
+    assert_type(
+        compose.keyframes.reduce_keys(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+            tolerance=0.01,
+            preserve_breakdowns=False,
+        ),
+        None,
+    )
+    compose.keyframes.set_weighted(
+        1,  # pyright: ignore[reportArgumentType]
+    )
+    compose.keyframes.delete_keys(
+        attributes=[1],  # pyright: ignore[reportArgumentType]
+    )
+    compose.keyframes.reduce_keys()  # pyright: ignore[reportCallIssue]
+    compose.keyframes.reduce_keys(
+        tolerance="0.01"  # pyright: ignore[reportArgumentType]
+    )
+    compose.keyframes.set_tangent_locks(
+        tangents_locked=1,  # pyright: ignore[reportArgumentType]
+    )
+    compose.keyframes.bake(
+        attributes=[1],  # pyright: ignore[reportArgumentType]
+    )
+    compose.keyframes.bake(
+        include_static=1,  # pyright: ignore[reportArgumentType]
+    )
+    assert_type(compose.inputTranslate.inputTranslateX.keyframe.bake(), None)
+    assert_type(
+        compose.inputTranslate.inputTranslateX.keyframe.bake(
+            -10.5,
+            24.25,
+            sample_by=0.5,
+            tangent_type="linear",
+            in_tangent_type="flat",
+            discrete_tangent_type="step",
+        ),
+        None,
+    )
+    compose.inputTranslate.inputTranslateX.keyframe.bake(
+        "1",  # pyright: ignore[reportArgumentType]
+        24,
+    )
+    compose.inputTranslate.inputTranslateX.keyframe.bake(
+        1,
+        24,
+        sample_by="1",  # pyright: ignore[reportArgumentType]
+    )
 
     assert_type(
         ComposeMatrix.inputRotateOrder,
@@ -4137,6 +4253,7 @@ def explicit_curve_keyframe_contract(
     )
     keyframe = nodes.create.animCurveTL(name="curve").keyframe
     assert_type(keyframe, CurveKeyframeManager)
+    keyframe.bake()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     assert_type(CurveKeyframeManager(obj), CurveKeyframeManager)
     assert_type(keyframe.get_curve_data(), AnimCurveData)
     assert_type(keyframe.get_weighted(), bool)
@@ -4146,9 +4263,13 @@ def explicit_curve_keyframe_contract(
     )
     assert_type(keyframe.frames(), list[float])
     assert_type(keyframe.values(), list[float])
-    assert_type(keyframe.set_key(10, 3, out_tangent_type="step"), None)
+    assert_type(keyframe.set_key(10, 3, tangent_type="step"), None)
     assert_type(
-        keyframe.set_keys([(1, 2)], in_tangent_type=keyframe.tangent.auto),
+        keyframe.set_keys(
+            [(1, 2)],
+            tangent_type="linear",
+            in_tangent_type=keyframe.tangent.auto,
+        ),
         None,
     )
     assert_type(keyframe.set_curve_data(keyframe.get_curve_data()), None)
@@ -4160,7 +4281,33 @@ def explicit_curve_keyframe_contract(
     )
     assert_type(keyframe.set_weighted(True), None)
     assert_type(keyframe.insert_key(2), None)
-    assert_type(keyframe.set_tangent(2, out_tangent_type="flat"), None)
+    assert_type(keyframe.set_tangent(2, tangent_type="flat"), None)
+    assert_type(
+        keyframe.set_tangents(
+            1,
+            24,
+            tangent_type="auto",
+            in_tangent_type="linear",
+            out_tangent_type=keyframe.tangent.flat,
+        ),
+        None,
+    )
+    assert_type(
+        keyframe.set_tangent_lock(
+            2,
+            tangents_locked=False,
+            weights_locked=True,
+        ),
+        None,
+    )
+    assert_type(
+        keyframe.set_tangent_locks(
+            1,
+            24,
+            tangents_locked=True,
+        ),
+        None,
+    )
     assert_type(keyframe.delete_key(2), None)
     assert_type(keyframe.delete_keys(1, 3), None)
     assert_type(keyframe.delete_anim_curve(), None)
@@ -4169,6 +4316,355 @@ def explicit_curve_keyframe_contract(
         1, 2, out_tangent_type="invalid"  # pyright: ignore[reportArgumentType]
     )
     keyframe.plug  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+
+
+def keyframe_reduction_contract(nodes: bdu.Nodes) -> None:
+    channel = nodes.existing.transform("ctrl").tx.keyframe
+    layer = channel.anim_layer("Correction")
+    curve = nodes.existing.animCurveTL("curve").keyframe
+    for keyframe in (channel, layer, curve):
+        assert_type(keyframe.reduce_keys(tolerance=0.01), None)
+        assert_type(keyframe.reduce_keys(10, 100, tolerance=0.01), None)
+        assert_type(keyframe.reduce_keys(None, 100, tolerance=0), None)
+        assert_type(
+            keyframe.reduce_keys(
+                10, None, tolerance=0, preserve_breakdowns=False
+            ),
+            None,
+        )
+        keyframe.reduce_keys()  # pyright: ignore[reportCallIssue]
+        keyframe.reduce_keys(
+            tolerance="0.1",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.reduce_keys(
+            tolerance=0,
+            preserve_breakdowns=1,  # pyright: ignore[reportArgumentType]
+        )
+
+
+def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
+    channel = nodes.existing.transform("ctrl").tx.keyframe
+    layer = channel.anim_layer("Correction")
+    curve = nodes.existing.animCurveTL("curve").keyframe
+    for keyframe in (channel, layer, curve):
+        assert_type(keyframe.scale_frames(scale=2), None)
+        assert_type(keyframe.scale_frames(scale=2, pivot=20), None)
+        assert_type(
+            keyframe.scale_frames(
+                10,
+                30,
+                scale=2,
+                offset=optional,
+                pivot=optional,
+                interpolate_start=optional,
+                interpolate_end=50,
+                interpolation="linear",
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_frames(
+                10,
+                None,
+                duration=20,
+                offset=5,
+                pivot=optional,
+                interpolate_start=0,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_frames(
+                None,
+                30,
+                scale=2,
+                to_start=optional,
+                interpolate_end=optional,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_frames(
+                10,
+                30,
+                duration=20,
+                to_start=optional,
+                interpolate_start=0,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_frames(
+                10,
+                30,
+                scale=2,
+                to_end=optional,
+                mode="merge",
+                interpolate_end=50,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_frames(
+                10,
+                30,
+                duration=20,
+                to_end=optional,
+                insert_missing=True,
+                interpolate_start=0,
+                interpolate_end=50,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_frames(
+                10,
+                30,
+                to_start=100,
+                to_end=140,
+                mode="replace_range",
+                interpolate_start=optional,
+                interpolate_end=optional,
+                interpolation="smoothstep",
+            ),
+            None,
+        )
+        keyframe.scale_frames()  # pyright: ignore[reportCallIssue]
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            duration=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            to_start=10,
+            to_end=30,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            offset=1,
+            to_start=10,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(
+            scale=2,
+            mode="replace_all",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(
+            scale=2,
+            insert_missing=1,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(
+            scale=2,
+            interpolate_start="0",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(
+            scale=2,
+            interpolate_end="50",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(
+            scale=2,
+            interpolation="spline",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(
+            scale=2,
+            pivot="20",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            to_start=10,
+            pivot=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            scale=2,
+            to_end=30,
+            pivot=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            duration=20,
+            to_start=10,
+            pivot=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(  # pyright: ignore[reportCallIssue]
+            duration=20,
+            to_end=30,
+            pivot=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_frames(
+            to_start=10,
+            to_end=30,
+            pivot=20,  # pyright: ignore[reportArgumentType]
+        )
+
+
+def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
+    channel = nodes.existing.transform("ctrl").tx.keyframe
+    layer = channel.anim_layer("Correction")
+    curve = nodes.existing.animCurveTL("curve").keyframe
+    for keyframe in (channel, layer, curve):
+        assert_type(keyframe.set_value(10, value=5), None)
+        assert_type(keyframe.set_values(value=5), None)
+        assert_type(keyframe.add_value(10, offset=-5), None)
+        assert_type(keyframe.add_values(offset=-5), None)
+        assert_type(keyframe.scale_value(10, scale=-2, pivot=1), None)
+        assert_type(keyframe.scale_values(scale=0), None)
+        assert_type(
+            keyframe.set_values(
+                optional,
+                30,
+                value=5,
+                interpolate_end=optional,
+                interpolation="linear",
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.add_values(
+                20,
+                optional,
+                offset=5,
+                interpolate_start=optional,
+                insert_missing=True,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.scale_values(
+                20,
+                30,
+                scale=0.5,
+                pivot=1,
+                interpolate_start=10,
+                interpolate_end=40,
+                interpolation="smoothstep",
+                insert_missing=True,
+            ),
+            None,
+        )
+        assert_type(keyframe.set_value(10, value=5, insert_missing=True), None)
+        assert_type(
+            keyframe.add_value(10, offset=5, insert_missing=True), None
+        )
+        assert_type(
+            keyframe.scale_value(10, scale=2, insert_missing=True), None
+        )
+        keyframe.set_value(10, 5)  # pyright: ignore[reportCallIssue]
+        keyframe.add_values()  # pyright: ignore[reportCallIssue]
+        keyframe.scale_values()  # pyright: ignore[reportCallIssue]
+        keyframe.set_values(
+            value=[(10, 5)],  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.add_value(
+            10,
+            offset="5",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.scale_values(
+            scale=2,
+            pivot=None,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.add_values(
+            offset=5,
+            interpolation="spline",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.set_value(
+            None,  # pyright: ignore[reportArgumentType]
+            value=5,
+        )
+        keyframe.set_values(
+            value=5,
+            insert_missing=1,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.add_value(
+            10,
+            offset=5,
+            interpolate_start=0,  # pyright: ignore[reportCallIssue]
+        )
+
+
+def keyframe_move_contract(nodes: bdu.Nodes) -> None:
+    channel = nodes.existing.transform("ctrl").tx.keyframe
+    layer = channel.anim_layer("Correction")
+    curve = nodes.existing.animCurveTL("curve").keyframe
+    for keyframe in (channel, layer, curve):
+        assert_type(keyframe.move_frame(10, offset=15), None)
+        assert_type(keyframe.move_frame(10, to=15, insert_missing=True), None)
+        assert_type(keyframe.move_frames(10, 20, offset=15), None)
+        assert_type(keyframe.move_frames(10, 20, to_start=20), None)
+        assert_type(keyframe.move_frames(10, 20, to_end=30), None)
+        assert_type(keyframe.move_frames(10, None, offset=15), None)
+        assert_type(keyframe.move_frames(None, 20, offset=15), None)
+        assert_type(keyframe.move_frames(to_start=0), None)
+        assert_type(
+            keyframe.move_frames(
+                20,
+                30,
+                offset=5,
+                interpolate_start=10,
+                interpolate_end=40,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.move_frames(
+                20,
+                30,
+                to_start=25,
+                interpolate_start=10,
+                interpolation="linear",
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.move_frames(
+                20,
+                30,
+                to_end=35,
+                interpolate_end=40,
+                interpolation="smoothstep",
+                insert_missing=True,
+            ),
+            None,
+        )
+        assert_type(
+            keyframe.move_frames(20, None, offset=5, interpolate_start=10),
+            None,
+        )
+        assert_type(
+            keyframe.move_frames(None, 30, offset=-5, interpolate_end=40),
+            None,
+        )
+        assert_type(
+            keyframe.move_frames(to_end=100, insert_missing=True), None
+        )
+        keyframe.move_frame(10)  # pyright: ignore[reportCallIssue]
+        keyframe.move_frames()  # pyright: ignore[reportCallIssue]
+        keyframe.move_frame(  # pyright: ignore[reportCallIssue]
+            10,
+            offset=1,
+            to=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_frames(  # pyright: ignore[reportCallIssue]
+            to_start=10,
+            to_end=20,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_frames(
+            offset=1,
+            insert_missing=1,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_frame("10", to=20)  # pyright: ignore[reportArgumentType]
+        keyframe.move_frames(
+            offset=1,
+            interpolation="spline",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_frames(
+            10,
+            20,
+            offset=1,
+            interpolate_start="0",  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.move_frame(
+            10,
+            offset=1,
+            interpolate_start=0,  # pyright: ignore[reportCallIssue]
+        )
 
 
 def curve_discovery_contract(nodes: bdu.Nodes) -> None:
@@ -4243,6 +4739,21 @@ def keyframe_contract(
     assert_type(layer_keyframe.set_keys(samples), None)
     assert_type(layer_keyframe.get_curve_data(), AnimCurveData | None)
     assert_type(layer_keyframe.get_keys(), list[tuple[float, float]])
+    assert_type(
+        layer_keyframe.set_tangents(
+            end_frame=24.0,
+            out_tangent_type="step",
+        ),
+        None,
+    )
+    assert_type(
+        layer_keyframe.set_tangent_locks(
+            start_frame=1,
+            end_frame=24,
+            weights_locked=True,
+        ),
+        None,
+    )
     keyframe.anim_layer(None)  # pyright: ignore[reportArgumentType]
     tangent_name: TangentTypeName = "linear"
     tangent_value: TangentTypeValue = keyframe.tangent.flat
@@ -4350,6 +4861,29 @@ def keyframe_contract(
     )
     assert_type(keyframe.set_keys(keyframe.get_keys()), None)
     assert_type(keyframe.set_tangent(12.0, out_tangent_type="linear"), None)
+    assert_type(
+        keyframe.set_tangents(
+            start_frame=1.0,
+            end_frame=None,
+            in_tangent_type=tangent_name,
+        ),
+        None,
+    )
+    assert_type(keyframe.set_tangents(out_tangent_type="flat"), None)
+    assert_type(
+        keyframe.set_tangent_lock(
+            12.0,
+            tangents_locked=False,
+        ),
+        None,
+    )
+    assert_type(
+        keyframe.set_tangent_locks(
+            start_frame=1.0,
+            weights_locked=True,
+        ),
+        None,
+    )
     assert_type(keyframe.delete_key(12.0), None)
     assert_type(keyframe.delete_keys(start_frame=1.0, end_frame=24.0), None)
     assert_type(keyframe.delete_anim_curve(), None)
@@ -4373,6 +4907,20 @@ def keyframe_contract(
     keyframe.set_tangent(
         1.0,
         out_tangent_type="unknown",  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_tangents(
+        start_frame="invalid",  # pyright: ignore[reportArgumentType]
+        out_tangent_type="linear",
+    )
+    keyframe.set_tangents(
+        out_tangent_type="unknown",  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_tangent_lock(
+        1,
+        tangents_locked=1,  # pyright: ignore[reportArgumentType]
+    )
+    keyframe.set_tangent_locks(
+        weights_locked="yes",  # pyright: ignore[reportArgumentType]
     )
     keyframe.set_keys(
         1.0,  # pyright: ignore[reportArgumentType]
@@ -4739,9 +5287,155 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(layer.add_nodes([node, node.m_obj, "other"]), None)
     assert_type(node.tx.keyframe.anim_layer(layer), KeyframeManager)
+    assert_type(node.keyframes.anim_layer(layer), NodeKeyframeManager)
+    assert_type(node.keyframes.euler_filter(), None)
+    assert_type(node.keyframes.euler_filter(-10.5, 24.25), None)
+    assert_type(
+        node.keyframes.delete_keys(
+            -10.5,
+            24.25,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+        ),
+        None,
+    )
+    assert_type(
+        node.keyframes.reduce_keys(
+            -10.5,
+            24.25,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            tolerance=0.01,
+            preserve_breakdowns=False,
+        ),
+        None,
+    )
+    assert_type(
+        node.keyframes.anim_layer(layer).euler_filter(1, 24),
+        None,
+    )
+    assert_type(
+        node.keyframes.anim_layer(layer).bake(1, 24, attributes=["translate"]),
+        None,
+    )
+    assert_type(nodes.keyframes, NodesKeyframeManager)
+    assert_type(
+        nodes.keyframes.euler_filter(
+            [node, node.m_obj, "other"], -10.5, 24.25
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.bake(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            tangent_type="linear",
+            discrete_tangent_type="step",
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.set_tangents(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            tangent_type="auto",
+            out_tangent_type="flat",
+            discrete_tangent_type="step",
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.set_tangent_locks(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            tangents_locked=False,
+            weights_locked=True,
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.set_weighted(
+            [node, node.m_obj, "other"],
+            True,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.delete_keys(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.reduce_keys(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            tolerance=0.01,
+            preserve_breakdowns=False,
+        ),
+        None,
+    )
+    assert_type(nodes.keyframes.anim_layer(layer), NodesKeyframeManager)
+    assert_type(
+        nodes.keyframes.anim_layer(layer).bake(
+            [node, "other"], 1, 24, include_static=False
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).set_tangents(
+            [node, "other"], 1, 24, tangent_type="linear"
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).set_tangent_locks(
+            [node, "other"], 1, 24, weights_locked=False
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).set_weighted(
+            [node, "other"], False, attributes=["translate"]
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).delete_keys(
+            [node, "other"], 1, 24, attributes=["translate"]
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).reduce_keys(
+            [node, "other"], 1, 24, tolerance=0.01
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).euler_filter([node, "other"], 1, 24),
+        None,
+    )
     existing = nodes.existing.animLayer("Existing")
     assert_type(existing.add_nodes([node]), None)
     assert_type(node.tx.keyframe.anim_layer(existing), KeyframeManager)
+    assert_type(node.keyframes.anim_layer(existing), NodeKeyframeManager)
     layer.add_plugs([node])  # pyright: ignore[reportArgumentType]
     layer.add_nodes([node.tx])  # pyright: ignore[reportArgumentType]
     nodes.create.animLayer(
@@ -5559,3 +6253,145 @@ def invalid_usage_contract(
     scalar.set_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     scalar.value  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     scalar.value_direct  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+
+
+def animation_clip_contract(
+    mod: bdu.ModifierManager, nodes: bdu.Nodes, optional_frame: float | None
+) -> None:
+    ctrl = nodes.existing("ctrl")
+    layer = nodes.create.animLayer(name="Correction")
+    clip = bdu.AnimationClip.capture(
+        [ctrl, nodes.existing("other")],
+        attributes=["translate"],
+        include_channel_box=True,
+        include_static=True,
+    )
+    assert_type(clip, bdu.AnimationClip)
+    assert_type(clip.nodes, tuple[NodeAnimationData, ...])
+    assert_type(clip.layers, tuple[AnimationLayerData, ...])
+    assert_type(clip.to_json(), str)
+    assert_type(bdu.AnimationClip.from_json(clip.to_json()), bdu.AnimationClip)
+    assert_type(clip.reduce_keys(tolerance=0.01), bdu.AnimationClip)
+    assert_type(
+        clip.reduce_keys(-50, 50, tolerance=0, preserve_breakdowns=False),
+        bdu.AnimationClip,
+    )
+    assert_type(
+        clip.reduce_keys(optional_frame, None, tolerance=0.1).nodes,
+        tuple[NodeAnimationData, ...],
+    )
+    assert_type(
+        clip.reduce_keys(None, optional_frame, tolerance=0.1).to_json(), str
+    )
+    assert_type(clip.reversed(), bdu.AnimationClip)
+    assert_type(clip.reversed().reversed().to_json(), str)
+    assert_type(clip.extract(nodes=["ctrl"]), bdu.AnimationClip)
+    assert_type(
+        clip.extract(nodes=[ctrl, ctrl.m_obj, "other"]), bdu.AnimationClip
+    )
+    assert_type(
+        clip.extract(nodes=(name for name in ("ctrl", "other"))).reversed(),
+        bdu.AnimationClip,
+    )
+    clip.extract(["ctrl"])  # pyright: ignore[reportCallIssue]
+    clip.extract(nodes=[1])  # pyright: ignore[reportArgumentType]
+    clip.reduce_keys()  # pyright: ignore[reportCallIssue]
+    clip.reduce_keys(0, 10, 0.01)  # pyright: ignore[reportCallIssue]
+    clip.reduce_keys(tolerance="0.1")  # pyright: ignore[reportArgumentType]
+    clip.reduce_keys("0", tolerance=0.1)  # pyright: ignore[reportArgumentType]
+    clip.reduce_keys(
+        tolerance=0.1,
+        preserve_breakdowns=1,  # pyright: ignore[reportArgumentType]
+    )
+    assert_type(
+        clip.restore(
+            mod, targets=["target", "other_target"], mode="replace_range"
+        ),
+        None,
+    )
+    assert_type(
+        clip.restore(mod, namespace="character", restore_layer_settings=True),
+        None,
+    )
+    bdu.AnimationClip.capture(
+        ["ctrl"],
+        layer_mode="invalid",  # pyright: ignore[reportArgumentType]
+    )
+    clip.restore(
+        mod,
+        mode="invalid",  # pyright: ignore[reportArgumentType]
+    )
+    bdu.AnimationClip.capture(
+        ["ctrl"],
+        include_static="yes",  # pyright: ignore[reportArgumentType]
+    )
+    assert_type(
+        bdu.AnimationClip.capture(
+            [ctrl],
+            layer_mode="preserve",
+            layers=[layer, layer.m_obj, "Correction"],
+        ),
+        bdu.AnimationClip,
+    )
+    bdu.AnimationClip.capture(
+        [ctrl],
+        layer_mode="preserve",
+        layers=[ctrl],  # pyright: ignore[reportArgumentType]
+    )
+    assert_type(clip.restore(mod, offset_frames=15), None)
+    assert_type(clip.restore(mod, start_frame=10, end_frame=30), None)
+    assert_type(
+        clip.restore(
+            mod,
+            start_frame=optional_frame,
+            end_frame=None,
+            to_start_frame=100,
+            to_end_frame=140,
+        ),
+        None,
+    )
+    assert_type(
+        clip.restore(
+            mod, end_frame=optional_frame, offset_frames=10, time_scale=2
+        ),
+        None,
+    )
+    assert_type(clip.restore(mod, start_frame=10, duration_frames=30), None)
+    clip.restore(mod, start_frame="10")  # pyright: ignore[reportArgumentType]
+    clip.restore(mod, end_frame="30")  # pyright: ignore[reportArgumentType]
+    assert_type(
+        clip.restore(mod, to_start_frame=100, mode="replace_range"), None
+    )
+    assert_type(clip.restore(mod, to_end_frame=120), None)
+    assert_type(clip.restore(mod, offset_frames=optional_frame), None)
+    assert_type(clip.restore(mod, to_start_frame=optional_frame), None)
+    assert_type(clip.restore(mod, to_end_frame=optional_frame), None)
+    clip.restore(  # pyright: ignore[reportCallIssue]
+        mod,
+        offset_frames=1,
+        to_start_frame=10,  # pyright: ignore[reportArgumentType]
+    )
+    assert_type(clip.restore(mod, to_start_frame=10, to_end_frame=20), None)
+    assert_type(clip.restore(mod, time_scale=2, to_start_frame=100), None)
+    assert_type(clip.restore(mod, duration_frames=30, to_end_frame=100), None)
+    assert_type(clip.restore(mod, time_scale=optional_frame), None)
+    assert_type(clip.restore(mod, duration_frames=optional_frame), None)
+    clip.restore(  # pyright: ignore[reportCallIssue]
+        mod,
+        time_scale=2,
+        duration_frames=30,  # pyright: ignore[reportArgumentType]
+    )
+    clip.restore(  # pyright: ignore[reportCallIssue]
+        mod,
+        to_start_frame=10,
+        to_end_frame=20,
+        time_scale=2,  # pyright: ignore[reportArgumentType]
+    )
+    clip.restore(  # pyright: ignore[reportCallIssue]
+        mod,
+        duration_frames="30",  # pyright: ignore[reportArgumentType]
+    )
+    clip.restore(
+        mod,
+        offset_frames="15",  # pyright: ignore[reportArgumentType]
+    )

@@ -51,7 +51,40 @@ class _AnimCurveStep:
         self.change.undoIt()
 
 
-_Step = _ModifierStep | _AnimCurveStep
+@dataclass(slots=True)
+class _DeferredBatchStep:
+    callback: Callable[[ModifierManager], None] | None
+    manager: ModifierManager | None = None
+
+    def do_it(self) -> None:
+        if self.callback is None:
+            raise RuntimeError("A deferred batch cannot execute twice.")
+        self.manager = ModifierManager()
+        try:
+            self.callback(self.manager)
+            self.manager.do_it_dg()
+        except Exception as error:
+            try:
+                self.manager.rollback()
+            except Exception as rollback_error:
+                error.add_note(
+                    f"Deferred batch rollback also failed: {rollback_error!r}"
+                )
+            raise
+        finally:
+            self.callback = None
+
+    def redo_it(self) -> None:
+        if self.manager is None:
+            raise RuntimeError("The deferred batch has not executed.")
+        self.manager.redo_it()
+
+    def undo_it(self) -> None:
+        if self.manager is not None and self.manager.can_undo:
+            self.manager.undo_it()
+
+
+_Step = _ModifierStep | _AnimCurveStep | _DeferredBatchStep
 
 
 @dataclass(frozen=True, slots=True)
@@ -173,6 +206,18 @@ class ModifierManager:
     def _queue_dg_step(self, step: _Step) -> None:
         self._pending_dg_steps.extend((_ModifierStep(self._dg_mod), step))
         self._dg_mod = om.MDGModifier()
+
+    def queue_dg_batch(
+        self, callback: Callable[[ModifierManager], None]
+    ) -> None:
+        """実行時のsceneに応じた複合操作を、一つの履歴へ予約する。
+
+        callbackは渡されたmanagerへ操作を予約するだけにし、即時編集や
+        do_itを行わない。Undo / Redoでは構築済みの履歴を使用する。
+        """
+        if not callable(callback):
+            raise TypeError("DG batch callback must be callable.")
+        self._queue_dg_step(_DeferredBatchStep(callback))
 
     def do_it_dg(self):
         self._do_it("dg")

@@ -211,8 +211,8 @@ nodes = bdu.Nodes(modifier_manager=mod)
 cmp_m = nodes.create.composeMatrix(name="cmp_m")
 keyframe = cmp_m.inputRotate.inputRotateX.keyframe
 
-keyframe.set_key(0.0, frame=1.0, out_tangent_type="linear")
-keyframe.set_key(90.0, frame=24.0, in_tangent_type=keyframe.tangent.linear)
+keyframe.set_key(0.0, frame=1.0, tangent_type="linear")
+keyframe.set_key(90.0, frame=24.0, tangent_type=keyframe.tangent.linear)
 mod.do_it_dg()
 
 mod.undo_it()
@@ -225,7 +225,7 @@ mod.redo_it()
 
 ### 複数キーをまとめて設定する
 
-`set_keys(keys, *, in_tangent_type=None, out_tangent_type=None) -> None`は、
+`set_keys(keys, *, tangent_type=None, in_tangent_type=None, out_tangent_type=None) -> None`は、
 複数キーをまとめて予約します。`keys`には`(frame, value)`の列を
 `Iterable[tuple[float, float]]`として渡します。pair内は時刻、値の順です。
 単位・tangent・実行時の経路選択は`set_key()`と同じです。
@@ -233,8 +233,7 @@ mod.redo_it()
 ```python
 keyframe.set_keys(
     [(1.0, 0.0), (12.0, 45.0), (24.0, 90.0)],
-    in_tangent_type="linear",
-    out_tangent_type="linear",
+    tangent_type="linear",
 )
 mod.do_it_dg()
 ```
@@ -301,11 +300,15 @@ centimeterとして渡し、cmds経路では実行時のUI単位へ換算しま�
 挿入・tangent変更・キー削除も捕捉した時刻をAPIで使用します。
 予約後にangle / linear / timeのUI単位を変更しても、予約した物理量は維持します。
 `value`や時刻の引数にNaNや無限大は指定できません。有限値、不正なtangent、
-`delete_keys()`の逆転した範囲は予約時に検証します。
+`set_tangents()` / `delete_keys()`の逆転した範囲は予約時に検証します。
 
-`in_tangent_type` / `out_tangent_type`には`"linear"`などの文字列、または
+`tangent_type` / `in_tangent_type` / `out_tangent_type`には`"linear"`などの文字列、または
 `keyframe.tangent.linear`などの定数を指定できます。`set_key()` / `set_keys()`の`None`は
-Mayaの既定値を使用し、`set_tangent()`の`None`はその側のtangentを変更しません。
+Mayaの既定値を使用し、`set_tangent()` / `set_tangents()`の`None`はその側のtangentを変更しません。
+`tangent_type`はin / out両側の共通値です。個別の`in_tangent_type` / `out_tangent_type`を
+同時に指定すると、その側だけ共通値を上書きします。指定した引数は、個別指定で結果が
+上書きされる場合もすべて予約時に検証します。単数版の`set_key()` / `set_tangent()`でも
+接線引数はkeyword専用で、value / frameは従来どおり位置引数でも指定できます。
 
 これらのmethodのtangent引数は`TangentTypeName | int | None`で型付けしています。
 `TangentTypeName`は次の小文字の文字列を列挙した`Literal`で、対応するIDEでは
@@ -325,7 +328,8 @@ Mayaの既定値を使用し、`set_tangent()`の`None`はその側のtangentを
 `"stepnext"`も同様に既定値になります。どちらも出力側へ指定することで、
 対応するMaya version間で共通の設定として使用できます。
 既存キーの上書きではvalueを更新して既存tangent typeを維持し、指定したtangent引数で
-既存tangent typeを変更することはありません。変更する場合は`set_tangent()`を使用します。
+既存tangent typeを変更することはありません。変更する場合は`set_tangent()` /
+`set_tangents()`を使用します。
 API経路の上書きにも`addKey()`を使用します。valueだけを変更する`setValue()`と異なり、
 breakdownやtangent lockの更新も`cmds.setKeyframe()`と同じ挙動に揃えるためです。
 
@@ -512,6 +516,8 @@ root以外では、元の属性が指定layerに登録済みであることをqu
 layer側には11が保存される場合があります。`get_keys()`や`get_curve_data()`はこの11を
 取得し、`set_key_data()` / `set_curve_data()`は生の値をそのまま復元します。
 合成後のplug値が必要な場合は、元のplugの`sample_values()`を使用してください。
+複数node・属性をまとめて合成保存したり、layer構造を含めて保存する場合は
+[`bdu.AnimationClip`](animation_clip.md)を使用します。詳細データAPIはenumのTUカーブも扱えます。
 保存データにはlayer名やlayer構造を含めず、移植先は復元先の入口で決めます。
 layer未指定ならベース、別layerへ移植するなら`anim_layer()`を指定します。
 
@@ -723,13 +729,36 @@ queryは実行済みsceneだけを読み、保留中modifierを実行しませ�
 | --- | --- | --- |
 | `insert_key(frame, breakdown=False)` | 前後のカーブ形状を保ってキーを挿入 | カーブがなければ`RuntimeError` |
 | `set_tangent(frame, ...)` | 指定した側のtangent typeを変更 | カーブ・キーがなければ何もしない |
+| `set_tangents(start_frame=None, end_frame=None, ...)` | 指定範囲に実在するキーのtangent typeを一括変更 | カーブ・該当キーがなければ何もしない |
+| `set_tangent_lock(frame, *, tangents_locked=None, weights_locked=None)` | 単一キーのtangent / weight lockを変更 | カーブ・キーがなければ何もしない |
+| `set_tangent_locks(start_frame=None, end_frame=None, *, tangents_locked=None, weights_locked=None)` | 指定範囲に実在するキーのtangent / weight lockを一括変更 | カーブ・該当キーがなければ何もしない |
 | `delete_key(frame)` | 指定時刻のキーを削除 | カーブ・キーがなければ何もしない |
 | `delete_keys(start_frame=None, end_frame=None)` | 指定範囲のキーを削除 | カーブ・該当キーがなければ何もしない |
 | `delete_anim_curve()` | カーブノード全体を削除 | カーブがなければ何もしない |
 
-`delete_keys()`の境界は両端を含み、`None`を指定した側には境界を設けません。
-両方省略すると全キーを削除します。キー削除には`MFnAnimCurve.remove()`を使用し、
+`set_tangents()` / `set_tangent_locks()` / `delete_keys()`の境界は両端を含み、`None`を指定した側には
+境界を設けません。両方省略すると全キーを対象にします。境界にキーがなくても挿入せず、
+実在するキーだけを対象にします。
+キー削除には`MFnAnimCurve.remove()`を使用し、
 最後のキーを削除しても空のカーブは残します。
+
+`set_tangents()`は値・時刻・breakdown・tangent lock・weight lock・weighted・infinityを変更しません。
+指定したtypeに応じた接線XYの再計算はMayaの標準挙動です。接線をlockしたキーでも片側だけを
+指定した場合は反対側のtypeを維持します。範囲端に実在するキーの`auto`等を変更すると、
+その接線につながる範囲外側の区間形状にも影響する場合がありますが、範囲外のキー自体は変更しません。
+`step` / `stepnext`は出力側への指定を推奨します。境界挿入や影響度の補間は行いません。
+
+`tangents_locked`と`weights_locked`は、どちらもキーごとの状態です。
+`tangents_locked=False`はMayaのBreak Tangentsに相当し、in / outの接線方向を別々に編集できる状態にします。
+`weights_locked=True`はMaya 2025のLock Tangent Length（旧表記のLock Tangent Weight）に相当し、
+接線handleの長さを連動させます。`normalize tangent`を意味する設定ではありません。
+どちらも`None`ならその状態を維持し、両方とも`None`なら何も予約しません。bool以外は受け付けません。
+
+lock操作は接線type・接線XY・値・時刻・breakdown、カーブ全体の`weighted`とinfinityを変更しません。
+nonweightedカーブでも`weights_locked`はキーに保存され、`weighted`を自動で有効にはしません。
+カーブ全体のweighted接線の有効・無効は`set_weighted()`で明示的に変更します。
+`set_tangent_lock()`は単一キー用の読みやすい入口で、同じ時刻を範囲版へ渡した操作と同じです。
+lock変更はanimCurveのlock配列plugを`MDGModifier`で編集し、同じmanagerのUndo / Redo・rollbackへ含めます。
 
 挿入・tangent変更・キー削除は、`MAnimCurveChange`へ変更を記録します。
 カーブノードの削除も同じmanagerの履歴へ含め、Undoでキー・tangent・接続を復元します。
@@ -746,7 +775,18 @@ queryは実行済みsceneだけを読み、保留中modifierを実行しませ�
 keyframe.set_key(0.0, frame=1.0)
 keyframe.set_key(90.0, frame=24.0)
 keyframe.insert_key(frame=12.0)
-keyframe.set_tangent(frame=12.0, out_tangent_type="linear")
+keyframe.set_tangent(frame=12.0, tangent_type="linear")
+keyframe.set_tangents(
+    start_frame=1.0,
+    end_frame=24.0,
+    tangent_type="auto",
+)
+keyframe.set_tangent_locks(
+    start_frame=1.0,
+    end_frame=24.0,
+    tangents_locked=False,
+    weights_locked=True,
+)
 mod.do_it_dg()
 
 frames = keyframe.frames()
@@ -754,6 +794,855 @@ frames = keyframe.frames()
 
 これらの操作は上記のチャンネル選択の規則を共有します。constraint先の属性からドライバー側の
 カーブを暗黙に編集することはありません。任意時刻のplug値は`sample_values()`で取得します。
+
+#### node・複数nodeの接線とlockをまとめて変更する
+
+`node.keyframes.set_tangents()`と`nodes.keyframes.set_tangents([...])`は、選択した属性にある
+既存カーブ・既存キーの接線typeを1操作で変更します。範囲、`tangent_type`と個別側の上書き、
+値・時刻・詳細情報を維持する規則はplug単位と共通です。静的属性へカーブやキーを作成せず、
+カーブなし・該当キーなし・自動収集の対象0件はno-opです。
+
+`node.keyframes.set_tangent_locks()`と`nodes.keyframes.set_tangent_locks([...])`は、同じ属性選択と
+layer選択を使って既存キーのlockだけを変更します。自動収集では連続・離散属性の両方を対象にし、
+接線typeのような`discrete_tangent_type`の分離は行いません。複数対象は編集前にすべて解決・検証します。
+
+```python
+ctrl_a = nodes.existing.transform("ctrlA")
+ctrl_b = nodes.existing.transform("ctrlB")
+
+ctrl_a.keyframes.set_tangents(
+    1,
+    120,
+    attributes=["translate", "rotate", "visibility"],
+    tangent_type="auto",
+    discrete_tangent_type="step",
+)
+
+nodes.keyframes.set_tangents(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    tangent_type="flat",
+)
+
+nodes.keyframes.set_tangent_locks(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    attributes=["translate", "rotate", "visibility"],
+    tangents_locked=False,
+    weights_locked=True,
+)
+mod.do_it_dg()
+```
+
+`attributes=None`はkeyable属性、`include_channel_box=True`はchannelBox属性も追加します。
+明示属性では非keyable、compound、実在array elementを扱います。複数nodeの明示名は存在する
+nodeだけへ適用し、全nodeにない名前はエラーです。自動収集では、既存のtime animCurveとして
+解決できない接続を除外します。明示対象のmissing・未対応・lock・reference・layer未所属、
+または編集対象カーブの共有・lock等は、部分適用せず操作全体をエラーにします。
+
+通常の`tangent_type` / `in_tangent_type` / `out_tangent_type`は連続属性だけへ適用します。
+bool・enum・整数系の離散属性は`discrete_tangent_type`を明示した場合だけ対象とし、in / outの
+両側へ同じtypeを設定します。省略時は離散属性を変更しません。plugを直接選ぶ
+`plug.keyframe.set_tangent(s)()`と明示カーブ操作は対象が明確なため、この分離を行いません。
+layer未指定はroot、別layerには`.anim_layer()`を使用し、全属性・全nodeを1単位で
+Undo / Redo・rollbackします。
+
+#### node・複数nodeのキーをまとめて削除する
+
+`node.keyframes.delete_keys()`と`nodes.keyframes.delete_keys([...])`は、選択した属性にある
+既存カーブから、指定範囲に実在するキーだけをまとめて削除します。戻り値は`None`です。
+公開シグネチャは次のとおりです（`self`は省略）。
+
+```python
+# node.keyframes
+def delete_keys(
+    start_frame: float | None = None,
+    end_frame: float | None = None,
+    *,
+    attributes: Iterable[str] | None = None,
+    include_channel_box: bool = False,
+) -> None: ...
+
+# nodes.keyframes
+def delete_keys(
+    nodes: Iterable[NodeOperator | om.MObject | str],
+    start_frame: float | None = None,
+    end_frame: float | None = None,
+    *,
+    attributes: Iterable[str] | None = None,
+    include_channel_box: bool = False,
+) -> None: ...
+```
+
+```python
+ctrl_a.keyframes.delete_keys(
+    1,
+    120,
+    attributes=["translate", "rotate"],
+)
+
+nodes.keyframes.delete_keys(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    include_channel_box=True,
+)
+mod.do_it_dg()
+```
+
+`start_frame` / `end_frame`は両端包含で、片側の`None`は無制限、両方省略は全キーです。
+同じ値を指定するとその時刻の単一キーだけを対象にします。境界キーやカーブを作成せず、
+対象キーがなければno-opです。最後のキーを削除した場合も空のanimCurveを残します。
+カーブノード自体を削除する操作はplug・明示カーブ単位の`delete_anim_curve()`です。
+
+属性の自動収集、`include_channel_box`、明示compound / array、複数nodeの属性名のunion、
+上流探索、root / 明示layerの選択はnode単位の接線操作と共通です。NodeOperator、MObject、
+node名を混在できます。nodes版は1件以上を要求し、同じnodeの重複を拒否します。
+明示した属性が存在しても既存カーブがなければ何もしません。
+全カーブの解決・書込み検査と削除indexの計画を完了してから、1つの`MAnimCurveChange`で
+削除します。Undo / Redoと途中失敗時のrollbackは全対象を1単位で扱います。
+
+同じmanagerへ先に予約したベイクや復元で作成されるカーブも、実行順に解決して削除できます。
+
+#### node・複数nodeのキーをまとめて削減する
+
+`node.keyframes.reduce_keys()`と`nodes.keyframes.reduce_keys([...])`は、選択した属性にある
+既存カーブのキーを、元カーブとの値の誤差内でまとめて削減します。plug・明示カーブ単位の
+`reduce_keys()`と同じ削減規則を使用し、戻り値は`None`です。
+
+```python
+ctrl_a.keyframes.reduce_keys(
+    1,
+    120,
+    attributes=["translate", "rotate"],
+    tolerance=0.05,
+)
+
+nodes.keyframes.reduce_keys(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    tolerance=0.05,
+    preserve_breakdowns=True,
+)
+mod.do_it_dg()
+```
+
+`start_frame` / `end_frame`は両端包含で、片側の`None`は無制限、両方省略は全キーです。
+境界キーやカーブを作成せず、範囲内の最初と最後の実在キーを残します。対象カーブなし、
+対象キーが3個未満、誤差内で削除できるキーがない場合はno-opです。
+`preserve_breakdowns=True`ではbreakdownを残し、step系の値が切り替わるキーは指定にかかわらず
+維持します。
+
+`tolerance`は必須の非負・有限値です。TAはdegree、TLはcm、TUはunitlessとして、選択した
+全カーブへ同じ数値を適用します。属性の種類ごとに異なる精度が必要な場合は、`attributes`を
+分けて複数回予約します。残すキーの時刻・値・fixed接線、tangent / weight lock、breakdown、
+カーブのweighted・infinityを維持します。auto等の接線は隣接キーの削除により再計算されますが、
+元カーブとの誤差判定に含めます。
+
+属性の自動収集、`include_channel_box`、明示compound / array、複数nodeの属性名のunion、
+上流探索、root / 明示layerの選択はnode単位の接線操作と同じです。明示した属性が存在しても
+既存カーブがなければ何もしません。全カーブの解決・書込み検査と削減計画を完了してから、
+1つの`MAnimCurveChange`で削除します。Undo / Redoと途中失敗時のrollbackは全対象を1単位で
+扱います。
+
+同じmanagerへ先に予約したベイク結果も、実行順に解決して削減できます。
+
+```python
+nodes.keyframes.bake(ctrls, 1, 120)
+nodes.keyframes.reduce_keys(ctrls, 1, 120, tolerance=0.05)
+mod.do_it_dg()
+```
+
+#### 回転カーブへEuler filterを適用する
+
+`node.keyframes.euler_filter(start_frame=None, end_frame=None)`は、Transform / Jointの
+`rotateX` / `rotateY` / `rotateZ`にある既存TAカーブを一組としてEuler filterします。
+複数nodeは`nodes.keyframes.euler_filter([...], start_frame=None, end_frame=None)`で一括処理します。
+属性を選ぶ引数はなく、標準の3軸回転だけが対象です。
+
+```python
+ctrl_a.keyframes.euler_filter()
+ctrl_a.keyframes.euler_filter(10, 40)
+
+nodes.keyframes.euler_filter([ctrl_a, ctrl_b], 10, 40)
+ctrl_a.keyframes.anim_layer("Correction").euler_filter()
+mod.do_it_dg()
+```
+
+範囲は両端を含み、`None`側には境界を設けません。実在するキーだけを対象にし、境界キーや
+カーブは作成しません。範囲内の先頭キーを基準として維持し、2番目以降を直前のfilter済み姿勢に
+最も近い等価Euler角へ変換します。範囲外のキーを基準にはしないため、範囲開始前との連続性は
+自動では補正しません。対象範囲にキーがなければno-opで、1組だけなら値を変更しません。
+
+姿勢を安全に維持するため、範囲内にいずれかの回転キーがある場合は、3軸すべての既存カーブと
+完全に一致するキー時刻を必要とします。`rotateOrder`は接続のない静的値に限定し、nodeごとの
+実際の回転順序を使用します。TAカーブの`rotationInterpolation`は独立した3本のscalar補間だけを
+扱います。条件を満たさないnode、共有・lock・reference・未所属layer等が1つでもあれば、
+複数nodeを含む全対象を変更前に停止します。
+
+layer未指定はベース（root）、別layerは`.anim_layer()`で明示します。単位変換、pairBlend、
+blendWeightedを含む上流探索は他のKeyframeManager操作と共通です。キー時刻・数、tangent type、
+weighted、breakdown、tangent / weight lock、infinityは維持します。値に従ってMayaが計算する
+linear / spline / clamped等の接線XYは更新され、fixed接線の保存値は維持されます。
+変更は`MAnimCurveChange`へ記録し、Undo / Redoと途中失敗時のrollbackへ参加します。
+
+### 評価済み入力をキーフレームへベイクする
+
+`bake(start_frame=None, end_frame=None, *, sample_by=1.0, tangent_type="auto",
+in_tangent_type=None, out_tangent_type=None, discrete_tangent_type=None)`は、plugの対象入力を
+等間隔に評価し、TA / TL / TUの時間入力カーブへ全置換します。
+属性経由の`KeyframeManager`専用で、明示カーブ用の`CurveKeyframeManager`には提供しません。
+戻り値は`None`で、同じ`ModifierManager`へ予約します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+
+# 再生範囲を1フレーム間隔でベイク
+ctrl.tx.keyframe.bake()
+
+# -10.5〜24.25を0.5フレーム間隔で指定layerへベイク
+ctrl.ty.keyframe.anim_layer("Correction").bake(
+    -10.5, 24.25, sample_by=0.5, tangent_type="auto"
+)
+mod.do_it_dg()
+```
+
+`None`の開始・終了は呼び出し時の再生範囲を使います。範囲は両端を含み、
+`sample_by`で割り切れない終了時刻も最後のキーとして追加します。
+負の時刻とsubframeを許可し、`sample_by`は正の有限数です。時刻と間隔は呼び出し時の
+UI時間単位で秒へ捕捉するため、予約後にFPSを変更しても同じ物理時刻を評価・配置します。
+値は初回の`do_it_dg()`で取得するので、同じbatchの先行編集と、予約後から実行前までの
+scene変更を反映します。queryと同様に、予約時には保留中modifierを実行しません。
+
+layer未指定はベース（root）の**生入力**、`anim_layer()`指定時はそのlayerの生入力を対象にします。
+既存layerを含む最終合成値をベースへ焼き戻さないため、非対象layerの効果は二重に加算されません。
+対象plugがconstraint・expression等へ接続されている場合は、サンプルを全て取得した後に
+その入力接続だけを切り、上流ノード自体は削除しません。親compoundへの接続は対象子で分割し、
+非対象の兄弟入力を接続し直します。直接接続された非共有animCurveは同じノードを再利用し、
+共有カーブは別の接続を維持して対象plug用の新しいカーブへ置き換えます。
+
+ベイク後のカーブは指定範囲のサンプルキーだけを持ちます。以前の範囲内・範囲外キー、
+weighted、infinity等の設定は全置換され、範囲外はconstantです。連続値は既定でin / outとも
+autoです。`tangent_type`は連続属性の両側、個別指定はその側を上書きします。
+bool・enum・整数系は通常の接線引数から分離し、既定でin / outともstepです。
+`discrete_tangent_type`を指定した場合だけ、離散属性の両側をそのtypeへ変更します。
+生成する全キーはBreak Tangentsを解除した`tangents_locked=True`とし、片側の接線角度を編集すると
+反対側も連動する状態にします。カーブはnonweighted、`weights_locked=False`です。
+Break Tangentsされた状態が必要な場合は、同じmanagerへ続けて
+`set_tangent_locks(tangents_locked=False)`を予約できます。`.bake()`にはlock用の引数を追加しません。
+静的な入力もキーを作成し、自動削減は行いません。
+必要ならベイク後にplug、node、複数nodeいずれかの`reduce_keys()`を明示的に予約してください。
+
+各時刻は`MDGContext`で独立評価します。前の時刻から状態を進めるsimulation、cache、
+履歴依存のdynamicsを再現するベイクではありません。時間値属性とTTカーブも初期版の対象外です。
+サンプル数は10,000,001点を上限とし、非有限値や、適用後に同じ値を再現できない場合は
+操作全体を失敗させます。対象plug・接続元・layerのlock / referenceを実行時に検査し、
+接続切断、カーブ作成・全置換、検証までがUndo / Redoと途中失敗時rollbackへ参加します。
+
+#### nodeの複数属性をまとめてベイクする
+
+すべての`NodeOperator`は、node単位の入口として`.keyframes`を持ちます。
+`NodeKeyframeManager.bake()`は、選択した全属性を変更前にsamplingしてから、
+各属性の生入力を時間入力カーブへ全置換します。戻り値は`None`で、nodeと同じ
+`ModifierManager`へ1つの操作として予約します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+
+# keyable属性を、再生範囲でベイク
+ctrl.keyframes.bake()
+
+# compoundを含む明示属性を、指定区間でベイク
+ctrl.keyframes.bake(
+    1,
+    120,
+    attributes=["translate", "rotateY"],
+    sample_by=0.5,
+    tangent_type="auto",
+    discrete_tangent_type="step",
+)
+
+# 登録済み属性から、指定layerの生入力だけをベイク
+ctrl.keyframes.anim_layer("Correction").bake(1, 120)
+mod.do_it_dg()
+```
+
+引数は次の規則で扱います。
+
+- `attributes=None`では、node自身の`keyable=True`属性を実行時に収集します。
+  `include_channel_box=True`なら、channel boxだけに表示した属性も追加します。
+- `attributes`を明示した場合は、非keyable属性も対象にできます。compoundはscalar leafへ、
+  arrayは実在elementへ展開します。同じleafを複数経路で指定しても1回だけ処理します。
+- 自動収集では未対応型・lock属性を除外します。明示属性が存在しない、未対応、lock中の場合は
+  操作全体をエラーにします。対応型は時間入力のTA / TL / TUを作成できるscalar属性です。
+- `include_static=True`が既定で、静的な対象もカーブへ置換します。node単位で元の入力から
+  独立させる用途を優先した規定値です。`False`を明示すると、対象layerの生入力にキーまたは
+  time / expression依存がない属性を、明示属性であっても除外します。
+- layer未指定はベースの生入力です。`.anim_layer()`を指定した自動収集では未所属属性を除外し、
+  明示した未所属属性はエラーにします。選択中layer等から対象を自動変更しません。
+
+開始・終了・`sample_by`の時刻規則、接線指定、生成カーブ、上流nodeの維持、時間単位、
+独立時刻評価、サンプル数上限はplug単位の`bake()`と共通です。全対象をsamplingし終えるまで
+入力接続を変更しません。複数の対象leafが同じ親compound接続を共有する場合は親を1回だけ
+切断し、対象外の兄弟だけを接続し直します。対象が0件、いずれかの対象・接続・layerが
+編集できない場合、または適用後の値検査に失敗した場合は、一部の属性だけを残さず操作全体を
+rollbackします。自動キー削減は行わないため、必要なら同じnodeの
+`keyframes.reduce_keys()`を続けて予約します。
+
+#### 複数nodeをまとめてベイクする
+
+`Nodes.keyframes`は、複数nodeの対象を1つの操作としてベイクします。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl_a = nodes.existing.transform("ctrlA")
+ctrl_b = nodes.existing.transform("ctrlB")
+
+nodes.keyframes.bake(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    attributes=["translate", "rotate", "customWeight"],
+    sample_by=0.5,
+    tangent_type="auto",
+    discrete_tangent_type="step",
+)
+mod.do_it_dg()
+```
+
+`nodes`には`NodeOperator`、`MObject`、node名を混在でき、重複nodeはエラーです。
+`attributes=None`では各nodeのkeyable属性を個別に収集します。明示した属性名は、存在する
+nodeだけへ適用します。例えば`customWeight`が`ctrlA`にだけ存在する場合、`ctrlB`ではその名前を
+スキップします。指定名が全nodeで一度も見つからない場合は、タイプミスを見逃さないため
+操作全体をエラーにします。存在する属性が未対応型、lock中、指定layerに未所属の場合もエラーです。
+nodeごとに対象属性が0件でも他nodeに対象があれば続行し、全体が0件ならエラーにします。
+
+```python
+nodes.keyframes.anim_layer("Correction").bake(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+)
+```
+
+1操作では全nodeへ同じlayerを適用します。`include_channel_box`、`include_static`、接線、時刻と
+samplingの規則はnode単位と共通です。全node・全属性の値を変更前に取得してから接続を
+変更するため、上流nodeと下流nodeを同時指定しても指定順に依存しません。Undo / Redoは
+1単位で、途中失敗時は全nodeをrollbackします。総サンプル数は
+`フレーム数 × ベイク対象leaf数`で数え、10,000,001点を上限とします。
+
+選択node、DAG階層、子nodeは暗黙に追加しません。world-space変換や、前時刻から状態を進める
+simulation・cache・dynamics向けの時系列評価も行いません。
+
+### キーを時間方向へ移動する
+
+時間方向の操作は`move_frame()` / `move_frames()` / `scale_frames()`、
+値方向の操作は`set_value(s)` / `add_value(s)` / `scale_value(s)`で表します。
+操作量は`offset`、倍率は`scale`、拡縮の基準は`pivot`に統一しています。
+対象キーを選ぶ`frame` / `start_frame` / `end_frame`は、値方向の操作でも時刻なので名前を維持します。
+
+`move_frame()` / `move_frames()`は、移動対象を位置引数、移動方法をkeyword引数で指定します。
+戻り値は`None`で、同じModifierManagerへ予約します。値方向の移動や時間の拡大縮小は行いません。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+keyframe = ctrl.tx.keyframe
+
+keyframe.move_frames(10, 20, offset=15)
+mod.do_it_dg()
+```
+
+| 用途 | 呼び出し例 |
+| --- | --- |
+| 単一キーを相対移動 | `move_frame(10, offset=15)` |
+| 単一キーを絶対移動 | `move_frame(10, to=15)` |
+| 範囲を相対移動 | `move_frames(10, 20, offset=15)` |
+| 開始境界を20へ合わせる | `move_frames(10, 20, to_start=20)` |
+| 終了境界を30へ合わせる | `move_frames(10, 20, to_end=30)` |
+| 10以降を移動 | `move_frames(10, None, offset=15)` |
+| 20以前を移動 | `move_frames(None, 20, offset=15)` |
+| 全体を移動 | `move_frames(offset=-5)` |
+| 最初のキーを0へ合わせる | `move_frames(to_start=0)` |
+
+`move_frame(frame, *, offset=None, to=None, insert_missing=False)`は、
+移動量または移動先のどちらか1つを必ず指定します。
+`move_frames(start_frame=None, end_frame=None, *, offset=None, to_start=None,
+to_end=None, interpolate_start=None, interpolate_end=None, interpolation="smoothstep",
+insert_missing=False)`も、移動方法3種類のうち1つだけ指定します。
+指定なし・複数指定、非有限数、逆転した範囲、bool以外の`insert_missing`は予約時に拒否します。
+型・補完でも移動方法の排他指定を検査します。
+
+範囲は両端を含み、`None`の側は無制限です。明示した境界は、その数値自体を
+絶対移動の基準にします。例えば12～28の範囲に20のキーしかなくても、
+`move_frames(12, 28, to_start=20)`は+8の移動なので、キーは28へ移ります。
+基準側が`None`の場合は対象キーの最初・最後を基準にします。対象キーは初回実行時に
+決定するため、同じbatchの先行キー設定や移動も反映します。
+
+時刻と移動量は呼び出し時のUI時間単位で捕捉します。負の時刻・subframeを許可し、
+整数フレームへ丸めません。予約後にFPSを変更しても物理的な時刻・移動量を維持します。
+時刻の一致はMayaの時間精度に従います。指定するのはカーブ自身の入力時刻で、
+接続された時間driverからscene時刻を逆算しません。
+Mayaで表現できないほど大きな時刻・移動量は拒否し、移動先の計算が表現範囲を
+超えた場合も、別の時刻へ折り返さず実行を失敗させてrollbackします。
+
+移動先と同時刻の対象外キーは削除し、移動元の値・接線・lock・breakdownで置き換えます。
+途中のキーは残し、移動対象同士が互いの元時刻へ移る場合は両方を移動します。
+例えばキーが0・10・20・30にある場合、10→20なら元の20だけを置換し、
+10→25なら20は残ります。0・10を+10した場合は元の20を置換し、0・10の両キーが
+10・20へ移ります。キーindexは移動後に変わる場合があります。
+
+既定の`insert_missing=False`は実在キーだけを移動します。`True`なら、単一移動では
+元の指定時刻、範囲移動では明示した開始・終了時刻に欠けているキーを挿入してから移します。
+両端が同時刻なら1キー、`None`側には追加しません。対象区間に実在キーがなくても、
+空でないカーブがあれば境界を補えます。新しいキーはbreakdownではありません。
+補間指定時は、後述する補間開始・終了の境界も補います。
+
+```python
+keyframe.move_frame(12, to=15, insert_missing=True)
+keyframe.move_frames(40, 50, to_start=60, insert_missing=True)
+mod.do_it_dg()
+```
+
+挿入はMayaの`insertKey()`でカーブ自身の補間・infinity評価に基づいて行い、
+境界の値は両方とも挿入前のカーブから取得します。先の挿入による繰り返し周期の変化で、
+後の境界値が変わることを防ぎます。隣接接線が調整される場合があります。
+これは詳細データの範囲切り出しとは別で、
+区間全体の接線を一律fixed化する処理や、繰り返し領域のベイクは行いません。
+挿入後の接線情報を移動し、auto・linear等は新しい前後関係に応じて再計算されます。
+部分移動では対象外の隣接区間も形状が変わり得ます。fixed接線の方向・重み、
+既存キーの接線type・lock・breakdown、カーブのweighted・infinity設定は維持します。
+時間値カーブ（TT）の再挿入で短いweighted接線をMayaが再現できない場合は、
+接線を変更したまま成功させず、操作を失敗させてrollbackします。
+
+カーブなし・空カーブ・対象キーなしは何も変更しません。カーブを新規作成せず、
+移動量0（同じ時刻への絶対移動を含む）では境界挿入も行いません。
+これらのno-opでも通常のmanager・対象構成・lock / reference検査は適用します。
+対象選択は他の編集と共通で、属性経由はベースまたは`anim_layer()`の指定先、
+明示カーブはそのノード自身です。属性経由のTA / TL / TU / TTとbool・enum等も扱えます。
+明示カーブの入口は引き続きTA / TL / TUです。
+
+内部では順序を維持できる移動に`setInput()`を使い、上書き・飛び越しでは必要なキーだけを
+削除・再挿入します。公開の詳細データAPIや全カーブ置換は経由しません。
+挿入・削除・移動・接線復元を1つの`MAnimCurveChange`へ記録し、Undo / Redoでは
+上書きされたキーも復元します。途中失敗時は同じ実行batchの先行変更もrollbackします。
+queryは保留中modifierを実行せず、Redoは初回に記録した対象への変更を再生します。
+
+#### 移動量を範囲の外側へならす
+
+`move_frames()`には、値編集と同じ`interpolate_start` / `interpolate_end` /
+`interpolation`を指定できます。単一の`move_frame()`には追加していません。
+
+```python
+keyframe.move_frames(
+    20, 30,
+    offset=5,
+    interpolate_start=10,
+    interpolate_end=40,
+    interpolation="smoothstep",
+)
+mod.do_it_dg()
+```
+
+移動前の各キーの時刻から影響度`w`を求め、`元の時刻 + 移動量 * w`へ移します。
+上の例では10〜20で0から1、20〜30で1、30〜40で1から0になります。
+既定の`smoothstep`は`u * u * (3 - 2 * u)`、`linear`は区間内の位置`u`を使います。
+移動後の時刻からウェイトを計算し直すことはありません。
+
+| 元の時刻 | 影響度 | 移動後の時刻 |
+| --- | --- | --- |
+| 10 | 0 | 10 |
+| 15 | 0.5 | 17.5 |
+| 20 | 1 | 25 |
+| 30 | 1 | 35 |
+| 35 | 0.5 | 37.5 |
+| 40 | 0 | 40 |
+
+表の時刻にキーがある場合の例です。片側だけの補間も可能で、指定した側には
+対応する元範囲の明示境界が必要です。`interpolate_start < start_frame`、
+`end_frame < interpolate_end`を満たすように指定します。補間区間の幅0・逆転・非有限数、
+補間境界へのbool・文字列、不正な補間方式は予約時に拒否します。
+補間引数を省略した側と`None`の範囲境界は、従来の範囲指定に従います。
+補間境界の単位も予約時のUI時間単位で捕捉します。
+
+`to_start` / `to_end`は、補間区間を含める前の元範囲から移動量を求め、
+各キーに同じ規則で重み付けします。明示境界を基準にする既存の仕様は変わりません。
+元範囲にキーがなくても、移動量を確定できれば補間区間の既存キーを移動できます。
+絶対移動の基準側が`None`で元範囲にキーがない場合は何も変更せず、
+補間区間のキーを基準の代わりには使いません。
+
+**補間範囲内の対象キー同士の衝突・順序逆転はエラー**にし、同じbatchの先行変更も
+rollbackします。影響度0の端点キーもこの検査に含めます。
+例えば上の例の移動量を+15にすると、30のキーが45へ進み、40で止まるキーを追い越すため拒否します。
+補間範囲外の対象外キーとの衝突は、従来どおり移動キーで上書きします。
+対象外キーの追い越しも従来どおり許可し、途中の非衝突キーは残します。
+
+検査するのは実在キーと明示的に補ったキーです。補間境界にキーがない場合、
+その時刻を動かない仮キーとしては扱いません。境界を固定点として検査したい場合は
+`insert_missing=True`を指定します。これにより元の開始・終了に加えて補間開始・終了の
+最大4境界を補います。全境界の値は挿入前に取得し、同時刻は1回だけ補います。
+`insert_missing=False`が既定で、自動サンプリングはしません。移動量0は挿入もしません。
+
+値・手動接線・lock・breakdown・カーブ設定を維持し、イーズの形へ作り直すための
+追加接線調整はしません。影響度0の既存キーは移動・再挿入しません。
+境界挿入による隣接接線の調整とauto等の再計算はMayaに従います。
+キー間隔が変わるため、補間方式は移動量の配分を指定するものであり、曲線の形状や速度の連続性を
+保証しません。補間範囲外でも隣接区間の評価値が変わる場合があります。
+対象resolver・lock / reference検査・queryの非実行・Undo / Redoは通常の移動と共通です。
+
+### キーを時間方向へ拡縮する
+
+`scale_frames(start_frame=None, end_frame=None, *, scale=None, duration=None,
+offset=None, to_start=None, to_end=None, pivot=None, mode="replace_range",
+interpolate_start=None, interpolate_end=None, interpolation="smoothstep",
+insert_missing=False)`は、既存カーブのキーを時間方向に拡縮します。
+戻り値は`None`で、同じModifierManagerへ予約します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+
+# 10〜30の動きを100〜140へ収め、配置先区間の既存キーを置き換える
+ctrl.tx.keyframe.scale_frames(10, 30, to_start=100, to_end=140)
+mod.do_it_dg()
+```
+
+| 用途 | 呼び出し例 | 変換後の基準区間 |
+| --- | --- | --- |
+| 開始位置を固定して2倍 | `scale_frames(10, 30, scale=2)` | 10〜50 |
+| 20を固定して2倍 | `scale_frames(10, 30, scale=2, pivot=20)` | 0〜40 |
+| 20を固定して10フレームの長さへ | `scale_frames(10, 30, duration=10, pivot=20)` | 15〜25 |
+| 15フレームの長さへ | `scale_frames(10, 30, duration=15)` | 10〜25 |
+| 開始と終了を指定 | `scale_frames(10, 30, to_start=100, to_end=140)` | 100〜140 |
+| 2倍にして終了を固定 | `scale_frames(10, 30, scale=2, to_end=30)` | -10〜30 |
+| 2倍にして開始を指定 | `scale_frames(10, 30, scale=2, to_start=100)` | 100〜140 |
+| 拡縮して相対移動 | `scale_frames(10, 30, duration=10, offset=5)` | 15〜25 |
+| 全体を半分の長さへ | `scale_frames(scale=0.5)` | 最初のキーを固定 |
+| 10以降を2倍 | `scale_frames(10, None, scale=2)` | 10を固定 |
+| 30以前を2倍 | `scale_frames(None, 30, scale=2)` | 対象の最初のキーを固定 |
+
+拡縮方法は、正の`scale`、正の`duration`、移動先の両端指定のいずれか1つです。
+長さは終了と開始の差で、10〜30は20フレームと数えます。倍率・長さには配置方法を1つ
+組み合わせられます。`offset`と移動先境界の併用、倍率と長さの併用、
+両端指定と倍率・長さの併用は拒否します。配置だけを指定する場合は`move_frames()`を使います。
+ピボットと配置を省略すると基準区間の開始を固定します。逆再生・倍率0・区間の0幅への圧縮は扱いません。
+
+範囲は両端を含みます。明示した境界はキーの有無にかかわらず元区間の境界として扱い、`None`側は
+対象キーの最初・最後を使います。例えば10・30にはキーがなく、15・25にキーがある場合、
+`scale_frames(10, 30, scale=2)`は基準区間を10〜50へ変換し、実在キーを20・40へ移します。
+10を固定して、その時刻からの距離を2倍にする計算です。キーを境界へ寄せる操作ではありません。
+
+`pivot`には、拡縮で固定する基準時刻を指定できます。元時刻を`t`、倍率を`s`、
+ピボットを`p`とすると、変換後は`p + (t - p) * s`です。例えば10・20・30のキーへ
+`scale=2, pivot=20`を指定すると、0・20・40へ移ります。
+`duration`とも併用でき、元区間の長さから倍率を求めて同じ変換を使います。
+`offset`は拡縮した後に加えるため、併用時はピボット位置もその量だけ移動します。
+
+```python
+# 20を中心に2倍へ広げてから、全体を5フレーム移動する
+ctrl.tx.keyframe.scale_frames(10, 30, scale=2, pivot=20, offset=5)
+mod.do_it_dg()
+```
+
+ピボットは区間外・負の時刻・subframeも指定でき、そこにキーがある必要はありません。
+`insert_missing=True`でも、ピボット指定だけを理由にキーを追加しません。
+`pivot=None`は従来どおりの配置規則を使います。
+ピボットを明示した場合、`to_start` / `to_end`との併用は予約時に拒否します。
+配置先の境界を合わせる指定では最終的な変換がそこで決まり、ピボット指定の効果がなくなるためです。
+ピボットの時間単位も予約時に捕捉し、bool・文字列・非有限数・表現範囲外の時刻を拒否します。
+
+既定の`insert_missing=False`は実在キーだけを拡縮します。`True`なら、既存の空でない
+カーブに対して、明示した元の境界を補ってから拡縮します。15・25に実在キーがあり、
+10〜30を開始固定で2倍にする例では、境界を補うと10・20・40・50にキーが配置されます。
+`None`側には挿入しません。区間内に実在キーがなくても補完できます。
+両方の境界値は挿入前に評価し、Mayaの`insertKey()`を使用します。挿入による隣接接線の
+調整を含めて拡縮します。繰り返し領域のベイクや全接線のfixed化は行いません。
+
+| mode | 配置先の既存キー |
+| --- | --- |
+| `replace_range`（既定、部分置き換え） | 変換後の基準区間内を両端込みで置き換える |
+| `merge` | 変換後のキーと同時刻の既存キーだけを上書きし、他は残す |
+
+部分置き換えの範囲は実在キーの端ではなく、変換後の基準区間全体です。ピボットや相対移動も反映します。
+10〜30を開始固定で2倍にする例では、
+キーが20・40にしかなくても、10〜50にある対象外キーを削除します。
+どちらのmodeでも元キーは移動し、コピーとして残しません。全対象キーを確保してから
+削除・再配置するため、元区間と配置先が重なっても対象キーを失いません。
+それ以外のキーを押し出したり、全カーブを置換したりはしません。
+
+キーの値・接線の種類・lock・breakdown、カーブのweighted・infinity設定を維持し、
+接線のXも同じ倍率で変換します。auto等はMayaが再計算するため、部分拡縮では
+対象外の隣接区間も形状が変わり得ます。対象外キーの保持は、区間外の評価値の不変を
+保証するものではありません。旧来の`fast` / `slow`は全体拡縮でもMaya標準の固定された
+傾きへ再計算されるため、幾何学的な形状の拡縮とは異なります。
+
+属性経由はTA / TL / TU / TT、明示カーブはTA / TL / TUに対応します。
+TA / TL / TUは`addKeysWithTangents()`で短いweighted接線をそのまま復元します。
+TTは角度・重みのAPIを使い、Mayaの下限補正等によりweightedのfixed接線を再現できない
+場合はエラーにしてrollbackします。極端な圧縮や、元から重み0のfixed接線等が該当します。
+未指定はベース、別layerは`anim_layer()`で明示します。layerのweight等の設定や他layerは
+自動拡縮しません。時間driverが接続されていても、引数はカーブ自身の入力時刻です。
+
+対象とキーは初回実行時に解決し、同じbatchの先行キー編集を反映します。
+フレーム引数は予約時のUI時間単位で捕捉し、予約後のFPS変更でも秒単位の配置・長さを維持します。
+負の時刻・subframeを許可し、整数に丸めません。非有限数・bool・文字列は数値指定として拒否します。
+表現範囲外の時刻や、精度限界でキー・区間が重なる拡縮はエラーにします。
+
+カーブなし・空カーブ・対象キーなしは、境界補完を行う場合を除き何も変更しません。
+カーブは新規作成せず、恒等変換（倍率1で配置も同じ）では境界挿入も行いません。
+元の基準区間が0幅なら長さ・両端指定を拒否します。正の倍率は許可し、
+単一キーでも接線を拡縮します。引数だけで判定できる不正は予約前、対象キーに依存する不正は
+初回実行時に拒否します。no-opでもmanager・対象構成・lock / reference検査を適用します。
+queryは保留中の編集を実行しません。Undo / Redoでは置換されたキーも含めて復元し、
+途中失敗時は同じbatchの先行編集もrollbackします。
+
+#### 時間拡縮の影響を前後へならす
+
+`scale_frames()`も`move_frames()`・値編集と同じ`interpolate_start` / `interpolate_end`を受け取ります。
+補間区間の既存キーまで対象を広げ、元時刻から計算した影響度`w`で拡縮を弱めます。
+主区間は影響度1、補間開始・終了は0です。片側指定もでき、補間する側には
+明示した主区間の境界が必要です。`interpolate_start < start_frame`、
+`end_frame < interpolate_end`を満たす必要があります。
+方式は`linear`と、既定の`smoothstep`（`u * u * (3 - 2 * u)`）です。
+
+```python
+keys = ctrl.tx.keyframe
+keys.scale_frames(
+    20, 30,
+    scale=1.5,
+    interpolate_start=10,
+    interpolate_end=50,
+    interpolation="smoothstep",
+)
+mod.do_it_dg()
+```
+
+表の時刻にキーがある場合、次のように変わります。キーの値は維持します。
+
+| 元時刻 | 影響度 | 変換後の時刻 |
+| --- | --- | --- |
+| 10 | 0 | 10 |
+| 15 | 0.5 | 13.75 |
+| 20 | 1 | 20 |
+| 25 | 1 | 27.5 |
+| 30 | 1 | 35 |
+| 40 | 0.5 | 45 |
+| 50 | 0 | 50 |
+
+最初に、補間区間を含めず主区間だけから通常の時間変換`F(t)`と倍率`s`を決めます。
+各キーの変換は`new_time = t + (F(t) - t) * w`です。
+`pivot`があれば`F(t)`にピボットを反映し、`offset`も含めた変化量へ影響度を掛けます。
+部分置き換えはピボットを考慮した主区間の配置先だけで、補間範囲までは広げません。
+倍率・長さ・両端合わせと、相対配置・開始/終了合わせのすべてで同じ計算を使います。
+`None`側の基準は主区間の実在キー（境界補完指定時は補った主境界も含む）から求めます。
+主区間にキーがなくても両端が明示されていれば補間キーを編集できます。
+省略した基準を主区間から決められない場合は何もせず、補間キーを代わりに使いません。
+
+接線Xはキーごとの実効倍率`1 + w * (s - 1)`で変換し、Y・値・種類・lock・breakdownを保持します。
+影響度0のキーは時刻・接線を編集せず、削除・再挿入もしません。時刻が動かない主区間の
+ピボットキーでも、実効倍率が1以外なら接線を拡縮します。auto等のMayaによる再計算は通常どおりです。
+これはキーごとの重み付けで、連続した時間変換の微分による接線変換ではありません。
+イーズを再現するための追加キーや接線調整は行わず、補間区間の曲線形状・速度の連続性は保証しません。
+
+`replace_range`の置換範囲は、**通常の時間変換で求めた主区間の配置先**だけです。
+補間区間や移動した全キーの端までは広げません。置換範囲内でも、今回の対象である補間キーや
+影響度0の端点は保持します。補間キーの移動先が置換範囲外にある対象外キーと同時刻になった場合も、
+その対象外キーは上書きします。`merge`は同時刻だけを上書きし、それ以外の対象外キーを残します。
+
+影響度0の端点を含む**対象キー同士の衝突・順序逆転はエラー**にして、同じbatch全体をrollbackします。
+検査するのは実在キーと明示挿入したキーだけです。欠けた補間端点を仮キーとしては扱わず、
+キー間の連続関数の単調性も検査しません。対象外キーの追い越しは許可します。
+
+`insert_missing=False`が既定です。`True`なら主区間と補間区間の最大4つの明示境界だけを補い、
+値はすべて挿入前のカーブから評価します。同じ境界は一度だけ挿入し、自動サンプリングはしません。
+恒等変換や影響度0のキーしかない場合は何もしません。境界補完による隣接接線の変更は通常どおりです。
+負の時刻・subframe・予約時の時間単位捕捉・Undo / Redo・lock / reference検査も通常の拡縮と共通です。
+不正な補間境界、数値以外、非有限数、不正な補間方式は予約時に拒否します。
+
+### キーの値を編集する
+
+`set_value()` / `add_value()` / `scale_value()`は単一時刻、複数形の
+`set_values()` / `add_values()` / `scale_values()`は両端を含む範囲の既存キーを編集します。
+対象時刻は位置引数、値の操作はkeyword引数で指定します。戻り値はすべて`None`で、
+同じModifierManagerへ予約します。キーの時刻は変わりません。
+
+| 操作 | 単一キー | 範囲内のキー |
+| --- | --- | --- |
+| 同じ値へ設定 | `set_value(10, value=5)` | `set_values(10, 30, value=5)` |
+| 値を加算 | `add_value(10, offset=5)` | `add_values(10, 30, offset=5)` |
+| 値を拡縮 | `scale_value(10, scale=2, pivot=1)` | `scale_values(10, 30, scale=2, pivot=1)` |
+
+複数形の`start_frame=None, end_frame=None`は、`None`側を無制限とします。
+両方省略すればカーブ全体、`add_values(10, None, offset=5)`なら10以降、
+`add_values(None, 30, offset=5)`なら30以前です。開始と終了が同じでも使えます。
+`set_values()`の`value`は全対象キーへ設定する1つの数値です。時刻ごとに異なる値を
+渡す場合やカーブを新規作成する場合は、従来の`set_key()` / `set_keys()`を使います。
+
+拡縮は`pivot + (元の値 - pivot) * scale`です。`pivot`の既定は0で、
+倍率0はピボット値へまとめ、負の倍率はピボットを中心に反転します。
+
+値・加算量・ピボットは**対象カーブ自身の生値**です。角度はdegree、距離はcm、
+単位なしはその数値、時間値は予約時のUI時間単位です。表示単位を変更しても
+角度・距離の指定単位は変わりません。`set_key()` / `set_keys()`のような
+レイヤー合成結果からの逆算は行わず、別レイヤーのweightやキーも変更しません。
+属性経由はTA / TL / TU / TT、明示カーブはTA / TL / TUに対応します。
+bool・enum・整数属性でもカーブ上の数値を計算し、整数丸め・clampは行いません。
+接続先属性で評価される値は、その属性型の変換に従います。
+
+対象選択は既存の編集と共通です。レイヤー未指定はsceneのベース（root）、
+別レイヤーは`anim_layer()`で明示します。明示カーブはそのノード自身を編集します。
+対象とキーは初回実行時に解決するため、同じbatchの先行編集も反映します。
+
+#### 範囲の外側へ影響をならす
+
+複数形の3メソッドには、`interpolate_start=None` / `interpolate_end=None` /
+`interpolation="smoothstep"`を指定できます。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+keys = nodes.existing.transform("ctrl").tx.keyframe
+
+keys.add_values(
+    20, 30,
+    offset=5,
+    interpolate_start=10,
+    interpolate_end=40,
+)
+mod.do_it_dg()
+```
+
+この例では10〜20にあるキーの影響度を0から1へ増やし、20〜30は1、30〜40は1から0へ
+減らします。10・40の影響度は0で、それより外側のキーは編集しません。
+片側だけの補間指定もできます。補間を指定する側には対応する開始・終了の明示が必要で、
+`interpolate_start < start_frame <= end_frame < interpolate_end`を満たすように指定します。
+`None`側の大小関係は検査対象外です。補間幅0は拒否し、その側の補間引数を省略します。
+
+`linear`は区間内の位置`u`をそのまま、既定の`smoothstep`は`u * u * (3 - 2 * u)`を
+影響度`w`に使います。これは既存キーごとの影響度であり、キー間の曲線を
+そのイーズの形へ作り直す指定ではありません。キーが少ない場合、補間方式を変えても
+結果が同じになることがあります。自動サンプリングや、補間を再現するための接線調整は行いません。
+
+| 操作 | 影響度を含む計算 |
+| --- | --- |
+| set | `(1 - w) * 元の値 + w * value` |
+| add | `元の値 + w * offset` |
+| scale | `pivot + (元の値 - pivot) * 実効倍率`。実効倍率は`1 + w * (scale - 1)` |
+
+#### 接線と境界挿入
+
+`set`・`add`は手動接線を維持します。すべてのキーを同じ値へ設定しても、手動接線の
+傾きがある場合はキー間が平坦になるとは限りません。
+`scale`は各キーの実効倍率で接線Yを拡縮します。weighted接線は変換後の長さを保持し、
+nonweighted接線は変換後の方向を保って正規化します。影響度0のキーには適用しません。
+接線type・tangent lock・weight lock・breakdown、カーブのweighted・infinity設定は維持します。
+auto・linear等の接線はMayaが再計算するため、部分編集では隣接区間の形状も変わり得ます。
+旧来の`fast` / `slow`もMaya標準の再計算に従います。
+
+6メソッド共通の`insert_missing=False`が既定です。`True`なら、既存の空でないカーブに対し、
+単一メソッドは指定時刻、複数メソッドは明示した開始・終了・補間開始・補間終了の
+最大4境界に欠けているキーを補います。同じ時刻は1回だけ、`None`側には挿入しません。
+補間端点の影響度0のキーも、明示した境界として補います。
+すべての境界値を挿入前のカーブから評価し、Mayaの`insertKey()`で挿入します。
+挿入時には隣接接線が調整される場合があり、その結果を基に値編集を行います。
+区間内に実在キーがなくても境界を補えますが、カーブなし・空カーブでは新規作成しません。
+
+加算量0・倍率1は、`insert_missing=True`でも境界挿入を行いません。
+同じ値への`set`は既存キーを変更しませんが、明示した境界の挿入は行います。
+負の時刻・subframeを許可し、時刻と時間値の単位は予約時に捕捉します。
+フレーム引数はカーブ自身の入力時刻で、時間driverからの逆算は行いません。
+数値引数のbool・文字列・非有限数、逆転範囲、不正な補間指定は予約前に拒否します。
+Mayaの表現範囲外の時刻・時間値、計算結果のoverflowはエラーにしてrollbackします。
+TTのweighted fixed接線がMayaの下限補正等で再現できない拡縮もrollbackします。
+
+no-opを含め既存のmanager・対象構成・lock / reference検査を適用します。
+queryは予約を暗黙に実行しません。Undo / Redoは値・接線・挿入キーをまとめて復元し、
+途中失敗時は同じbatchの先行編集もrollbackします。
+
+### 手動接線を維持してキーを削減する
+
+`reduce_keys(start_frame=None, end_frame=None, *, tolerance, preserve_breakdowns=True)`は、
+元カーブとの値の誤差を指定して、不要なキーの削除を予約します。戻り値は`None`です。
+属性・`anim_layer()`・明示カーブで同じ操作を使用します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = nodes.existing.transform("ctrl")
+
+ctrl.tx.keyframe.reduce_keys(10, 100, tolerance=0.01)
+ctrl.rz.keyframe.reduce_keys(tolerance=0.1)
+mod.do_it_dg()
+```
+
+上の例はtranslateXの10～100フレームを0.01 cm、rotateZの全体を0.1 degreeの
+許容誤差で削減します。`tolerance`は必須の非負・有限数で、TAはdegree、TLはcm、
+TUはunitlessです。sceneの表示単位に依存せず、時間のずれや回転姿勢・ワールド座標での
+距離を意味しません。layerでは、そのlayer自身の生カーブ値を比較します。
+
+範囲は両端包含です。`None`側は無制限で、明示した境界にキーを挿入することはありません。
+指定範囲に実在する最初・最後のキーを必ず残し、削減対象が3キー未満なら何もしません。
+対象カーブなし・空カーブでも新規作成しません。負の時刻・subframeに対応し、
+範囲は呼び出し時のUI時間単位で捕捉します。対象とキーは初回実行時に解決するため、
+同じbatchで先に予約したキー設定も削減できます。queryは保留中の処理を実行しません。
+
+保持する情報と変更の範囲です。
+
+- 残すキーの時刻・値・接線type・tangent / weight lock・breakdownを保持します。
+  手動のfixed接線は方向・重みも維持し、削減のための接線再設定を行いません。
+  auto・linear等の接線はMayaが前後のキーから再計算し、その結果も誤差判定に含めます。
+- `preserve_breakdowns=True`ではbreakdownを削除候補から除外します。
+  `False`を明示すればbreakdownも候補にできますが、範囲内の両端キーは残します。
+- step / stepnextの値が切り替わる区間は両側のキーを保護します。
+  値が同じstep区間では、形状を保てる中間キーを削除できます。
+- 最初～最後の実在キー間では指定範囲外の形状を維持し、linear infinityの外挿傾きも保持します。
+  カーブのweighted・infinity設定や、接続・レイヤーの選択状態は変更しません。
+  cycle / cycleRelative / oscillateでは、範囲内の形状変更が他の周期にも反映されます。
+
+誤差は削減途中のカーブではなく、初回実行時の元カーブと常に比較します。
+キー時刻とキー間の両方を扱い、キー値が同じでも途中に膨らみがある場合は削減を拒否します。
+内部ではBezier区間を分割し、制御点から得られる誤差上界を検査します。
+毎フレーム等の固定間隔サンプリングだけで許可する処理ではありません。
+`tolerance=0`も使用できますが、浮動小数点の丸め誤差として公開値で
+`max(1e-12, 32 ULP)`を許容し、数学的な完全一致を保証する指定ではありません。
+
+初期版はTA / TL / TUに対応します。TT、driven key、quaternion補間、custom tangentは
+未対応です。weighted接線で制御点の時刻が逆転する区間や、分割上限内に誤差を確認できない
+候補は保守的に残します。前のキーから順に1回ずつ候補を検査するため、
+キー数の最小化やMaya標準Key Reducerと同じ結果を保証するAPIではありません。
+
+削減候補はsceneへ登録しない作業用カーブで計画します。本体への変更は
+`MFnAnimCurve.remove()`だけで、全カーブ置換・キーの移動・再設定は行いません。
+適用後も誤差と保持情報を確認し、想定外の結果や途中失敗では同じbatchの先行変更まで
+rollbackします。全削除を同じ`MAnimCurveChange`へ記録し、Undo / Redoに対応します。
+通常の対象resolverとlock / reference検査を使用し、no-opでも書込み可否を検査します。
+
+保存済みの複数カーブをまとめて削減する場合は、[AnimationClip.reduce_keys()](animation_clip.md#保存データのキー削減)を使用できます。
+こちらはsceneへの予約ではなく、元の保存データを維持して削減済みの新しいclipを返します。
 
 ### キー情報とカーブ全体の保存・復元
 
@@ -909,8 +1798,9 @@ cycle / cycleRelative / oscillateの繰り返し領域を含む境界補完は`R
 ### カーブのweighted設定
 
 `get_weighted() -> bool | None`は実行済みカーブの設定を取得し、対象がなければ`None`です。
-`set_weighted(weighted: bool)`はカーブ全体の変更を予約します。同じ設定なら変更せず、
-実行時にカーブがなければエラーです。対象範囲・lock / reference等の制約はカーブデータと共通です。
+plug・明示カーブの`set_weighted(weighted: bool)`はカーブ全体の変更を予約します。
+同じ設定なら変更せず、実行時にカーブがなければエラーです。対象範囲・lock / reference等の
+制約はカーブデータと共通です。
 
 ```python
 keyframe = target.tx.keyframe
@@ -921,9 +1811,43 @@ mod.do_it_dg()
 weighted = keyframe.get_weighted()  # True
 ```
 
+`node.keyframes.set_weighted()`と`nodes.keyframes.set_weighted([...])`は、選択した属性の
+既存カーブをまとめて同じweighted設定へ変更します。weightedはカーブ全体の設定なので
+キーの範囲引数はありません。既存カーブが0キーでも対象にし、静的属性からカーブを作成しません。
+実在する属性にカーブがない場合と自動収集の対象が0件の場合はno-opです。
+
+```python
+ctrl_a = nodes.existing.transform("ctrlA")
+ctrl_b = nodes.existing.transform("ctrlB")
+
+ctrl_a.keyframes.set_weighted(
+    True,
+    attributes=["translate", "rotate"],
+)
+
+nodes.keyframes.set_weighted(
+    [ctrl_a, ctrl_b],
+    False,
+    include_channel_box=True,
+)
+
+ctrl_a.keyframes.anim_layer("Correction").set_weighted(True)
+mod.do_it_dg()
+```
+
+属性の自動収集、明示compound・実在array element、channelBox、複数nodeの属性名のunion、
+root / 明示layer、上流カーブの探索は`set_tangents()`と同じ規則です。連続・離散属性を
+区別せず、対応するTA / TL / TUの既存カーブを対象にします。明示したmissing・未対応・
+lock・reference・layer未所属、共有カーブ等はエラーです。複数対象は全カーブを解決・
+検証してから変更するため、途中まで適用しません。戻り値は`None`で、変更は同じ
+`ModifierManager`のUndo / Redo・rollbackへ含まれます。
+
 変更には`MFnAnimCurve.setIsWeighted()`と`MAnimCurveChange`を使い、接線の変換も
 Mayaへ委譲します。weightedをFalseへ変えてからTrueへ戻しても失われた重みは戻りません。
-元の状態への復元にはUndoを使ってください。
+元の状態への復元にはUndoを使ってください。Maya 2025では、nonweightedからweightedへの
+変更はカーブ形状を維持した表現変換になります。weightedからnonweightedへの変更は接線方向を
+保って重みを正規化するため、手動の重みによる形状は変わる場合があります。キー時刻・値、
+接線type、tangent / weight lock、breakdown、pre / post infinityは維持します。
 
 取得は実行済みscene状態のsnapshotで、予約中の操作を実行しません。
 編集は入力データを予約時に捕捉し、接続先・lock・layerなどは実行時に検査します。
@@ -934,11 +1858,37 @@ Mayaへ委譲します。weightedをFalseへ変えてからTrueへ戻しても�
 `animCurveTA` / `animCurveTL` / `animCurveTU`に対応します。enum・time plugは対象外です。
 中間ノードやカーブ設定の対応範囲は上記のチャンネル選択規則と共通です。
 復元先のplug・node・curveのlockやreferenceも編集時に拒否します。
-time出力・driven key・custom tangentの保存、layer構造、キー削減は今後の対象です。
+time出力・driven key・custom tangentの保存、layer構造は今後の対象です。
 node名や独自属性、Graph Editorの表示設定はこのsnapshotの対象外です。
 接線の保存・復元にはMayaの浮動小数点精度による丸めが含まれます。
 
 ### 旧APIからの移行
+
+時間方向・値方向の編集APIを整理しました。旧メソッド名・旧keyword引数のaliasは提供しません。
+以下は`KeyframeManager`と`CurveKeyframeManager`に共通です。
+
+| 変更対象 | 旧名 | 新名 |
+| --- | --- | --- |
+| 時間方向のメソッド | `move_key` / `move_keys` / `scale_keys` | `move_frame` / `move_frames` / `scale_frames` |
+| 時間方向の移動量・値の加算量 | `offset_frames` / `offset_value` | `offset` |
+| 単一キーの移動先 | `to_frame` | `to` |
+| 範囲の配置先 | `to_start_frame` / `to_end_frame` | `to_start` / `to_end` |
+| 時間・値の倍率 | `time_scale` / `value_scale` | `scale` |
+| 時間拡縮後の長さ | `duration_frames` | `duration` |
+| 時間・値の拡縮基準 | `pivot_frame` / `pivot_value` | `pivot` |
+
+```python
+keyframe.move_frame(10, to=15)
+keyframe.move_frames(10, 30, offset=5)
+keyframe.scale_frames(10, 30, scale=2, pivot=20)
+keyframe.scale_frames(10, 30, duration=10, to_start=100)
+keyframe.add_values(10, 30, offset=5)
+keyframe.scale_values(10, 30, scale=2, pivot=0)
+```
+
+対象指定の`frame` / `start_frame` / `end_frame`、`set_value(s)`の`value`、
+補間・置換・境界挿入の引数は維持します。単位・既定値・戻り値・編集処理も従来どおりです。
+`AnimationClip.restore()`はこの改名の対象に含めず、`offset_frames` / `time_scale`等を引き続き使用します。
 
 layer未指定のキー設定は、Mayaの選択layer・preferred・keying modeへ委ねず、sceneの
 ベース（root）layerへ固定します。取得・編集・詳細復元もベースを対象にします。

@@ -87,7 +87,7 @@ def test_sampling_restores_outer_context_and_history(
     _, plug, _ = _layered(maya_cmds, "translateY", "native")
     from bd_util.maya.node.operator.attr.define.std.at.scalar import _base
 
-    original = _base._sample_reader
+    original = _base.sample_reader
 
     def reader(plug, unit):
         read = original(plug, unit)
@@ -100,7 +100,7 @@ def test_sampling_restores_outer_context_and_history(
         return value
 
     if failure:
-        monkeypatch.setattr(_base, "_sample_reader", reader)
+        monkeypatch.setattr(_base, "sample_reader", reader)
     maya_cmds.file(modified=False)
     before = _state(maya_cmds)
     outer = om.MDGContext(om.MTime(8, om.MTime.uiUnit()))

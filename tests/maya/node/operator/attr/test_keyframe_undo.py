@@ -461,6 +461,29 @@ def test_delete_anim_curve_rejects_shared_curve_without_changing_connections(
             {"frame": 5, "in_tangent_type": "flat"},
             [1.25, 6.25, 11.25],
         ),
+        (
+            "set_tangents",
+            {
+                "start_frame": 1,
+                "end_frame": 5,
+                "out_tangent_type": "flat",
+            },
+            [1.25, 6.25, 11.25],
+        ),
+        (
+            "set_tangent_lock",
+            {"frame": 5, "tangents_locked": False},
+            [1.25, 6.25, 11.25],
+        ),
+        (
+            "set_tangent_locks",
+            {
+                "start_frame": 1,
+                "end_frame": 5,
+                "weights_locked": True,
+            },
+            [1.25, 6.25, 11.25],
+        ),
         ("delete_key", {"frame": 5}, [1.25, 11.25]),
         ("delete_keys", {"start_frame": 1, "end_frame": 5}, [11.25]),
         ("delete_keys", {"end_frame": 5}, [11.25]),
@@ -482,6 +505,24 @@ def test_edits_capture_time_units_when_queued(
             time=(6.25, 6.25),
             inTangentType=True,
         ) == ["flat"]
+    elif method == "set_tangents":
+        assert maya_cmds.keyTangent(
+            keyframe.plug.name(),
+            query=True,
+            time=(1.25, 6.25),
+            outTangentType=True,
+        ) == ["flat", "flat"]
+    elif method == "set_tangent_lock":
+        assert maya_cmds.keyTangent(
+            keyframe.plug.name(),
+            query=True,
+            time=(6.25, 6.25),
+            lock=True,
+        ) == [False]
+    elif method == "set_tangent_locks":
+        data = keyframe.get_curve_data()
+        assert data is not None
+        assert [key.weights_locked for key in data.keys] == [True, True, False]
     mod.undo_it()
     assert keyframe.frames() == pytest.approx([1.25, 6.25, 11.25])
     mod.redo_it()
@@ -494,12 +535,24 @@ def test_edits_capture_time_units_when_queued(
         ("insert_key", {"frame": float("nan")}),
         ("set_tangent", {"frame": float("inf")}),
         (
+            "set_tangents",
+            {"start_frame": float("-inf"), "out_tangent_type": "flat"},
+        ),
+        (
+            "set_tangents",
+            {"start_frame": 9, "end_frame": 1, "out_tangent_type": "flat"},
+        ),
+        (
             "set_tangent",
             {
                 "frame": 5,
                 "in_tangent_type": "flat",
                 "out_tangent_type": "invalid",
             },
+        ),
+        (
+            "set_tangent_locks",
+            {"start_frame": 9, "end_frame": 1, "weights_locked": True},
         ),
         ("delete_key", {"frame": float("-inf")}),
         ("delete_keys", {"start_frame": float("nan")}),

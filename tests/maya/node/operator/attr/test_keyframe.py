@@ -122,6 +122,57 @@ def test_keyframe_property_sets_in_and_out_tangent_type(
     ) == [tangent_type]
 
 
+def test_common_tangent_type_sets_both_sides_and_specific_side_overrides(
+    plus_minus_average_node,
+    maya_cmds,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_keys(
+        [(1, 0), (2, 1), (3, 0)],
+        tangent_type="flat",
+        out_tangent_type="linear",
+    )
+    plus_minus_average_node.modifier_manager.do_it_dg()
+
+    curve = "test_input1D_0_"
+    assert (
+        maya_cmds.keyTangent(curve, query=True, inTangentType=True)
+        == ["flat"] * 3
+    )
+    assert (
+        maya_cmds.keyTangent(curve, query=True, outTangentType=True)
+        == ["linear"] * 3
+    )
+
+    keyframe.set_tangents(
+        2,
+        3,
+        tangent_type="auto",
+        out_tangent_type="step",
+    )
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    assert maya_cmds.keyTangent(curve, query=True, inTangentType=True) == [
+        "flat",
+        "auto",
+        "auto",
+    ]
+    assert maya_cmds.keyTangent(curve, query=True, outTangentType=True) == [
+        "linear",
+        "step",
+        "step",
+    ]
+
+
+def test_single_key_tangent_arguments_are_keyword_only(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    with pytest.raises(TypeError):
+        keyframe.set_key(1, 1, "linear")
+    with pytest.raises(TypeError):
+        keyframe.set_tangent(1, "linear")
+
+
 @pytest.mark.parametrize("tangent_type", TANGENT_TYPES)
 def test_keyframe_property_sets_tangent_type_from_constant(
     plus_minus_average_node,
@@ -229,6 +280,219 @@ def test_keyframe_property_set_tangent_ignores_missing_key(
     assert keyframe.set_tangent(10.0, in_tangent_type="linear") is None
     plus_minus_average_node.modifier_manager.do_it_dg()
     assert keyframe.frames() == [1.0]
+
+
+@pytest.mark.parametrize(
+    "start_frame,end_frame,expected",
+    [
+        (1.5, 3.5, ["spline", "flat", "flat", "spline"]),
+        (None, 2.0, ["flat", "flat", "spline", "spline"]),
+        (3.0, None, ["spline", "spline", "flat", "flat"]),
+        (None, None, ["flat", "flat", "flat", "flat"]),
+    ],
+)
+def test_keyframe_property_sets_tangents_on_existing_keys_in_range(
+    plus_minus_average_node,
+    maya_cmds,
+    start_frame,
+    end_frame,
+    expected,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_keys(
+        [(frame, frame * 2) for frame in (1, 2, 3, 4)],
+        in_tangent_type="spline",
+        out_tangent_type="spline",
+    )
+    plus_minus_average_node.modifier_manager.do_it_dg()
+
+    assert (
+        keyframe.set_tangents(
+            start_frame,
+            end_frame,
+            out_tangent_type="flat",
+        )
+        is None
+    )
+    plus_minus_average_node.modifier_manager.do_it_dg()
+
+    assert keyframe.frames() == [1.0, 2.0, 3.0, 4.0]
+    assert keyframe.values() == pytest.approx([2.0, 4.0, 6.0, 8.0])
+    assert (
+        maya_cmds.keyTangent("test_input1D_0_", query=True, inTangentType=True)
+        == ["spline"] * 4
+    )
+    assert (
+        maya_cmds.keyTangent(
+            "test_input1D_0_", query=True, outTangentType=True
+        )
+        == expected
+    )
+
+
+def test_keyframe_property_set_tangents_preserves_metadata_and_history(
+    plus_minus_average_node,
+    maya_cmds,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_keys(
+        [(frame, frame * frame) for frame in (1, 2, 3, 4)],
+        in_tangent_type="linear",
+        out_tangent_type="linear",
+    )
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    curve = "test_input1D_0_"
+    maya_cmds.keyTangent(curve, edit=True, weightedTangents=True)
+    maya_cmds.keyTangent(
+        curve,
+        edit=True,
+        time=(2, 2),
+        lock=True,
+        weightLock=True,
+    )
+    maya_cmds.keyframe(curve, edit=True, time=(2, 2), breakdown=True)
+    plus_minus_average_node.modifier_manager.clear()
+    before = keyframe.get_curve_data()
+    assert before is not None
+
+    keyframe.set_tangents(2, 3, in_tangent_type="flat")
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    after = keyframe.get_curve_data()
+    assert after is not None
+    assert [key.in_tangent_type for key in after.keys] == [
+        "linear",
+        "flat",
+        "flat",
+        "linear",
+    ]
+    assert [key.out_tangent_type for key in after.keys] == ["linear"] * 4
+    assert [key.frame for key in after.keys] == [
+        key.frame for key in before.keys
+    ]
+    assert [key.value for key in after.keys] == pytest.approx(
+        [key.value for key in before.keys]
+    )
+    assert [key.tangents_locked for key in after.keys] == [
+        key.tangents_locked for key in before.keys
+    ]
+    assert [key.weights_locked for key in after.keys] == [
+        key.weights_locked for key in before.keys
+    ]
+    assert [key.breakdown for key in after.keys] == [
+        key.breakdown for key in before.keys
+    ]
+    assert after.weighted == before.weighted
+    assert after.pre_infinity == before.pre_infinity
+    assert after.post_infinity == before.post_infinity
+
+    for _ in range(2):
+        plus_minus_average_node.modifier_manager.undo_it()
+        assert keyframe.get_curve_data() == before
+        plus_minus_average_node.modifier_manager.redo_it()
+        assert keyframe.get_curve_data() == after
+
+
+def test_keyframe_property_set_tangents_no_ops_without_targets(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+
+    assert keyframe.set_tangents(out_tangent_type="flat") is None
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    assert not keyframe.has_anim_curve()
+
+    keyframe.set_keys([(1, 1), (2, 2)], out_tangent_type="linear")
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    before = keyframe.get_curve_data()
+    keyframe.set_tangents(10, 20, out_tangent_type="flat")
+    keyframe.set_tangents(1, 2)
+    plus_minus_average_node.modifier_manager.do_it_dg()
+    assert keyframe.get_curve_data() == before
+
+
+def test_keyframe_property_set_tangents_follows_earlier_queued_keys(
+    plus_minus_average_node,
+    maya_cmds,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_keys(
+        [(1, 1), (2, 2), (3, 3)],
+        out_tangent_type="linear",
+    )
+    keyframe.set_tangents(2, None, out_tangent_type="flat")
+    assert not keyframe.has_anim_curve()
+
+    plus_minus_average_node.modifier_manager.do_it_dg()
+
+    assert keyframe.frames() == [1.0, 2.0, 3.0]
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_", query=True, outTangentType=True
+    ) == ["linear", "flat", "flat"]
+
+
+def test_keyframe_property_set_tangents_supports_negative_subframes(
+    plus_minus_average_node,
+    maya_cmds,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_keys(
+        [(frame, frame) for frame in (-2.5, -1.25, 0.125, 1.5)],
+        in_tangent_type="linear",
+        out_tangent_type="linear",
+    )
+    plus_minus_average_node.modifier_manager.do_it_dg()
+
+    keyframe.set_tangents(
+        -1.25,
+        0.125,
+        in_tangent_type="flat",
+        out_tangent_type="auto",
+    )
+    plus_minus_average_node.modifier_manager.do_it_dg()
+
+    assert keyframe.frames() == pytest.approx([-2.5, -1.25, 0.125, 1.5])
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_", query=True, inTangentType=True
+    ) == ["linear", "flat", "flat", "linear"]
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_", query=True, outTangentType=True
+    ) == ["linear", "auto", "auto", "linear"]
+
+
+@pytest.mark.parametrize(
+    "call,match",
+    [
+        (
+            lambda keyframe: keyframe.set_tangents(
+                2, 1, out_tangent_type="linear"
+            ),
+            "start_frame",
+        ),
+        (
+            lambda keyframe: keyframe.set_tangents(
+                float("nan"), out_tangent_type="linear"
+            ),
+            "finite",
+        ),
+        (
+            lambda keyframe: keyframe.set_tangents(
+                end_frame=float("inf"), out_tangent_type="linear"
+            ),
+            "finite",
+        ),
+        (
+            lambda keyframe: keyframe.set_tangents(out_tangent_type="unknown"),
+            "Unsupported tangent type",
+        ),
+    ],
+)
+def test_keyframe_property_set_tangents_rejects_invalid_arguments(
+    plus_minus_average_node,
+    call,
+    match,
+):
+    with pytest.raises(ValueError, match=match):
+        call(plus_minus_average_node.input1D[0].keyframe)
 
 
 def test_keyframe_property_rejects_unknown_tangent_type_name(

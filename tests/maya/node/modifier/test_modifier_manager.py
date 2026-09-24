@@ -8,6 +8,44 @@ import pytest
 pytestmark = pytest.mark.maya
 
 
+@pytest.mark.parametrize("failure", [None, "prepare", "execute", "later"])
+def test_deferred_batch_history_is_prepared_once(
+    modifier_manager, maya_cmds, failure
+):
+    manager = modifier_manager
+    calls = []
+
+    def fail(modifier):
+        raise RuntimeError("deferred test failure")
+
+    def build(work):
+        calls.append("build")
+        obj = work.dg_mod.createNode("network")
+        work.dg_mod.renameNode(obj, "deferred_node")
+        if failure == "prepare":
+            raise RuntimeError("deferred test failure")
+        if failure == "execute":
+            work.queue_dg_modifier(fail)
+
+    manager.queue_dg_batch(build)
+    if failure == "later":
+        manager.queue_dg_modifier(fail)
+    assert calls == []
+    if failure is not None:
+        with pytest.raises(RuntimeError, match="deferred test failure"):
+            manager.do_it_dg()
+        assert not maya_cmds.objExists("deferred_node")
+        assert not manager.can_undo
+        return
+    manager.do_it_dg()
+    for _ in range(2):
+        assert maya_cmds.objExists("deferred_node")
+        manager.undo_it()
+        assert not maya_cmds.objExists("deferred_node")
+        manager.redo_it()
+    assert calls == ["build"]
+
+
 def test_do_it_dg_undo_redo(modifier_manager, maya_cmds):
     manager = modifier_manager
     first_dg_mod = manager.dg_mod

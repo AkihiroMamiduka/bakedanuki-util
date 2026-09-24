@@ -127,7 +127,7 @@ def layer_name(target: LayerTarget, *, write: bool = False) -> str:
         check_editable_node(layer)
         if layer.findPlug("lock", False).asBool():
             raise RuntimeError(f"Cannot edit locked animation layer {name}.")
-    if name != cmds.animLayer(query=True, root=True) and not _layer_member(
+    if name != cmds.animLayer(query=True, root=True) and not layer_member(
         name, plug
     ):
         raise RuntimeError(
@@ -136,16 +136,60 @@ def layer_name(target: LayerTarget, *, write: bool = False) -> str:
     return name
 
 
-def _layer_member(name: str, plug: om.MPlug) -> bool:
+def layer_member(name: str, plug: om.MPlug) -> bool:
     """A registered plug has a layer input even before its curve is created."""
     return bool(cmds.animLayer(name, query=True, layeredPlug=plug_path(plug)))
+
+
+def bake_input(target: Target) -> om.MPlug:
+    """Resolve and validate the raw scalar input replaced by a channel bake."""
+    if isinstance(target, CurveTarget):
+        raise TypeError("Bake requires a channel plug, not an explicit curve.")
+    plug = target.plug if isinstance(target, LayerTarget) else target
+    if isinstance(target, LayerTarget):
+        name = layer_name(target, write=True)
+    else:
+        layer = base_layer(plug)
+        if layer is None:
+            _check_channel_plug(plug, write=True)
+            return plug
+        name = layer_name(layer, write=True)
+    root = cmds.animLayer(query=True, root=True)
+    if name != root:
+        value = cmds.animLayer(name, query=True, layeredPlug=plug_path(plug))
+        if not isinstance(value, str) or not value:
+            raise RuntimeError("The animation layer input is not available.")
+        selection = om.MSelectionList()
+        selection.add(value)
+        return selection.getPlug(0)
+    if not _is_layered(plug):
+        return plug
+    destination = plug
+    visited: set[str] = set()
+    while destination.name() not in visited:
+        visited.add(destination.name())
+        source = destination.sourceWithConversion()
+        if source.isNull:
+            return destination
+        node = om.MFnDependencyNode(source.node())
+        attribute = om.MFnAttribute(source.attribute()).name
+        if not node.typeName.startswith("animBlendNode") or attribute not in (
+            "output",
+            "outputX",
+            "outputY",
+            "outputZ",
+        ):
+            break
+        suffix = attribute.removeprefix("output")
+        destination = node.findPlug("inputA" + suffix, False)
+    return destination
 
 
 def _is_layered(plug: om.MPlug) -> bool:
     iterator = om.MItDependencyNodes(om.MFn.kAnimLayer)
     while not iterator.isDone():
         name = om.MFnDependencyNode(iterator.thisNode()).name()
-        if _layer_member(name, plug):
+        if layer_member(name, plug):
             return True
         iterator.next()
     return False
@@ -478,6 +522,11 @@ def check_editable_node(node: om.MFnDependencyNode) -> None:
         raise RuntimeError(
             f"Cannot edit locked or referenced node {node.name()}."
         )
+
+
+def check_editable_plug(plug: om.MPlug) -> None:
+    """Apply the shared lock check to a plug and its existing descendants."""
+    _check_editable_plug(plug)
 
 
 def _check_editable_plug(plug: om.MPlug) -> None:

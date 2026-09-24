@@ -1,0 +1,343 @@
+from __future__ import annotations
+
+import math
+from bisect import bisect_left, bisect_right
+from dataclasses import replace
+from typing import Literal
+
+from maya.api import OpenMaya as om
+from maya.api import OpenMayaAnim as oma
+
+from ...modifier import ModifierManager
+from . import _keyframe_move, _keyframe_target
+from ._keyframe_influence import Influence
+
+
+def _number(value: object, name: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise TypeError(f"{name} must be a number.")
+    value = float(value)
+    if not math.isfinite(value):
+        raise ValueError(f"{name} must be finite.")
+    return value
+
+
+def _positive(value: object, name: str) -> float:
+    value = _number(value, name)
+    if value <= 0:
+        raise ValueError(f"{name} must be positive.")
+    return value
+
+
+def _time(seconds: float) -> om.MTime:
+    seconds = _number(seconds, "Keyframe time")
+    return _keyframe_move.checked_time(
+        om.MTime(seconds, om.MTime.kSeconds), seconds
+    )
+
+
+def _pivoted_seconds(
+    seconds: float, pivot: om.MTime, scale: float, offset: float | None
+) -> float:
+    pivot_seconds = pivot.asUnits(om.MTime.kSeconds)
+    # Avoid cancellation near zero scale, and keep identity transforms exact.
+    transformed = (
+        pivot_seconds + (seconds - pivot_seconds) * scale
+        if scale < 0.5
+        else seconds + (seconds - pivot_seconds) * (scale - 1)
+    )
+    return transformed + (0 if offset is None else offset)
+
+
+def _placement(
+    start: om.MTime,
+    end: om.MTime,
+    time_scale: float | None,
+    duration: float | None,
+    offset: float | None,
+    to_start: om.MTime | None,
+    to_end: om.MTime | None,
+    pivot: om.MTime | None,
+) -> tuple[float, om.MTime, om.MTime]:
+    first, last = (t.asUnits(om.MTime.kSeconds) for t in (start, end))
+    source_duration = last - first
+    fit = to_start is not None and to_end is not None
+    if fit or duration is not None:
+        if source_duration <= 0:
+            raise ValueError(
+                "Cannot fit a zero-width key range to a duration or range."
+            )
+        if fit:
+            assert to_start is not None and to_end is not None
+            duration = to_end.asUnits(om.MTime.kSeconds) - to_start.asUnits(
+                om.MTime.kSeconds
+            )
+        assert duration is not None
+        time_scale = _positive(duration / source_duration, "scale")
+        if pivot is not None and _time(duration) == end - start:
+            time_scale = 1
+    assert time_scale is not None
+    length = _number(source_duration * time_scale, "Scaled duration")
+    low = first if to_start is None else to_start.asUnits(om.MTime.kSeconds)
+    if offset is not None:
+        low += offset
+    high = (
+        low + length if to_end is None else to_end.asUnits(om.MTime.kSeconds)
+    )
+    if to_end is not None and not fit:
+        low = high - length
+    if pivot is not None:
+        low = _pivoted_seconds(first, pivot, time_scale, offset)
+        high = _pivoted_seconds(last, pivot, time_scale, offset)
+    destination_start, destination_end = _time(low), _time(high)
+    if start < end and destination_start >= destination_end:
+        raise ValueError("Scaled key range collapses at Maya time precision.")
+    return time_scale, destination_start, destination_end
+
+
+def _scaled_key(
+    key: _keyframe_move.CapturedKey, scale: float
+) -> _keyframe_move.CapturedKey:
+    def tangent(
+        item: tuple[float | om.MAngle, float],
+    ) -> tuple[float | om.MAngle, float]:
+        x, y = item
+        if isinstance(x, om.MAngle):
+            # TT uses angle/weight because native XY loses time precision.
+            angle, weight = x.asRadians(), y
+            x, y = math.cos(angle) * weight * scale, math.sin(angle) * weight
+            weight = _number(math.hypot(x, y), "Scaled tangent weight")
+            return om.MAngle(math.atan2(y, x), om.MAngle.kRadians), weight
+        return _number(x * scale, "Scaled tangent X"), y
+
+    return replace(
+        key,
+        in_tangent=tangent(key.in_tangent),
+        out_tangent=tangent(key.out_tangent),
+    )
+
+
+def _scale(
+    curve: oma.MFnAnimCurve,
+    influence: Influence,
+    *,
+    time_scale: float | None,
+    duration: float | None,
+    offset: float | None,
+    to_start: om.MTime | None,
+    to_end: om.MTime | None,
+    pivot: om.MTime | None,
+    mode: Literal["replace_range", "merge"],
+    insert_missing: bool,
+    change: oma.MAnimCurveChange,
+) -> None:
+    if not curve.numKeys:
+        return
+    start, end = influence.start, influence.end
+    times = [curve.input(i) for i in range(curve.numKeys)]
+    first = 0 if start is None else bisect_left(times, start)
+    stop = len(times) if end is None else bisect_right(times, end)
+    core = times[first:stop]
+    if insert_missing:
+        for boundary in (start, end):
+            if boundary is not None and boundary not in core:
+                core.insert(bisect_left(core, boundary), boundary)
+    if not core and (start is None or end is None):
+        return
+    source_start = core[0] if start is None else start
+    source_end = core[-1] if end is None else end
+    low, high = influence.low, influence.high
+    first = 0 if low is None else bisect_left(times, low)
+    stop = len(times) if high is None else bisect_right(times, high)
+    selected = times[first:stop]
+    missing: list[om.MTime] = []
+    if insert_missing:
+        for boundary in influence.boundaries:
+            if boundary is not None and boundary not in selected:
+                selected.insert(bisect_left(selected, boundary), boundary)
+                missing.append(boundary)
+    if not selected:
+        return
+    scale, destination_start, destination_end = _placement(
+        source_start,
+        source_end,
+        time_scale,
+        duration,
+        offset,
+        to_start,
+        to_end,
+        pivot,
+    )
+    # Derived scales may differ from one only due to seconds conversion rounding.
+    if (
+        (time_scale is None or scale == 1)
+        and source_start == destination_start
+        and source_end == destination_end
+    ):
+        return
+
+    def destination(time: om.MTime, weight: float) -> om.MTime:
+        if weight == 0:
+            return time
+        if weight == 1 and time == source_start:
+            return destination_start
+        if weight == 1 and time == source_end:
+            return destination_end
+        seconds = time.asUnits(om.MTime.kSeconds)
+        transformed = (
+            _pivoted_seconds(seconds, pivot, scale, offset)
+            if pivot is not None
+            else destination_start.asUnits(om.MTime.kSeconds)
+            + (seconds - source_start.asUnits(om.MTime.kSeconds)) * scale
+        )
+        return _time(
+            transformed
+            if weight == 1
+            else seconds + (transformed - seconds) * weight
+        )
+
+    weights = tuple(influence.weight(time) for time in selected)
+    destinations = tuple(
+        destination(time, weight) for time, weight in zip(selected, weights)
+    )
+    if any(a >= b for a, b in zip(destinations, destinations[1:])):
+        raise ValueError(
+            "Scaled keys coincide or change order at Maya time precision."
+        )
+    scales = tuple((1 - weight) + weight * scale for weight in weights)
+    updated = tuple(
+        i
+        for i, (time, dest, factor) in enumerate(
+            zip(selected, destinations, scales)
+        )
+        if time != dest or factor != 1
+    )
+    if not updated:
+        return
+    _keyframe_move.insert_boundaries(curve, missing, change)
+    times = [curve.input(i) for i in range(curve.numKeys)]
+    first = 0 if low is None else bisect_left(times, low)
+    stop = len(times) if high is None else bisect_right(times, high)
+    if times[first:stop] != selected:
+        raise RuntimeError("Maya did not insert the requested boundary keys.")
+    keys: list[_keyframe_move.CapturedKey] = []
+    for i in updated:
+        key = _keyframe_move.capture_key(curve, first + i)
+        keys.append(_scaled_key(key, scales[i]) if scales[i] != 1 else key)
+    removed = {first + i for i in updated}
+    if mode == "replace_range":
+        removed.update(
+            i
+            for i in range(
+                bisect_left(times, destination_start),
+                bisect_right(times, destination_end),
+            )
+            if not first <= i < stop
+        )
+    removed.update(
+        index
+        for time in destinations
+        if (index := curve.find(time)) is not None
+        and not first <= index < stop
+    )
+    for index in sorted(removed, reverse=True):
+        curve.remove(index, change)
+    _keyframe_move.restore_keys(
+        curve, tuple(keys), tuple(destinations[i] for i in updated), change
+    )
+    if any(curve.find(time) is None for time in destinations):
+        raise RuntimeError("Maya did not restore the scaled keys.")
+
+
+def queue_scale(
+    manager: ModifierManager,
+    target: _keyframe_target.Target,
+    start_frame: float | None,
+    end_frame: float | None,
+    *,
+    time_scale: float | None,
+    duration_frames: float | None,
+    pivot_frame: float | None,
+    offset_frames: float | None,
+    to_start_frame: float | None,
+    to_end_frame: float | None,
+    mode: Literal["replace_range", "merge"],
+    insert_missing: bool,
+    interpolate_start: float | None = None,
+    interpolate_end: float | None = None,
+    interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+) -> None:
+    fit = to_start_frame is not None and to_end_frame is not None
+    if sum((time_scale is not None, duration_frames is not None, fit)) != 1:
+        raise ValueError(
+            "Specify exactly one of scale, duration, or both target bounds."
+        )
+    if offset_frames is not None and (
+        to_start_frame is not None or to_end_frame is not None
+    ):
+        raise ValueError("offset cannot be combined with target bounds.")
+    if pivot_frame is not None and (
+        to_start_frame is not None or to_end_frame is not None
+    ):
+        raise ValueError("pivot cannot be combined with target bounds.")
+    if mode not in ("replace_range", "merge"):
+        raise ValueError("mode must be 'replace_range' or 'merge'.")
+    if type(insert_missing) is not bool:
+        raise TypeError("insert_missing must be a bool.")
+    rate = om.MTime(1, om.MTime.uiUnit()).asUnits(om.MTime.kSeconds)
+
+    def capture(value: float | None, name: str) -> om.MTime | None:
+        return None if value is None else _time(_number(value, name) * rate)
+
+    start, end = capture(start_frame, "start_frame"), capture(
+        end_frame, "end_frame"
+    )
+    to_start, to_end = capture(to_start_frame, "to_start"), capture(
+        to_end_frame, "to_end"
+    )
+    offset_time = capture(offset_frames, "offset")
+    pivot = capture(pivot_frame, "pivot")
+    offset = (
+        None if offset_time is None else offset_time.asUnits(om.MTime.kSeconds)
+    )
+    duration = (
+        None
+        if duration_frames is None
+        else _positive(duration_frames, "duration") * rate
+    )
+    if duration is not None:
+        _time(duration)
+    if time_scale is not None:
+        time_scale = _positive(time_scale, "scale")
+    influence = Influence(
+        start,
+        end,
+        capture(interpolate_start, "interpolate_start"),
+        capture(interpolate_end, "interpolate_end"),
+        interpolation,
+    )
+    if to_start is not None and to_end is not None and to_start >= to_end:
+        raise ValueError("to_end must be greater than to_start.")
+    if start is not None and end is not None:
+        _placement(
+            start, end, time_scale, duration, offset, to_start, to_end, pivot
+        )
+
+    def edit(change: oma.MAnimCurveChange) -> None:
+        curve = _keyframe_target.resolve_curve(target, write=True)
+        if curve is not None:
+            _scale(
+                curve,
+                influence,
+                time_scale=time_scale,
+                duration=duration,
+                offset=offset,
+                to_start=to_start,
+                to_end=to_end,
+                pivot=pivot,
+                mode=mode,
+                insert_missing=insert_missing,
+                change=change,
+            )
+
+    manager.queue_anim_curve_change(edit)

@@ -2,8 +2,10 @@
 from . import _version
 from ._dev.reload import reload_package
 from ._dev.timer import timer
+from .py import json_file
 from .maya.node.modifier import ModifierManager
 from .maya.node.nodes import Nodes
+from .maya.node.animation_clip import AnimationClip
 from .maya.transform import TransformMatrix
 from .maya.value import (
     Double2,
@@ -37,6 +39,8 @@ __version__ = _version.__version__
 
 # パッケージの公開API
 __all__ = [
+    "AnimationClip",
+    "json_file",
     "reload_package",
     "timer",
     "MPxCommandBase",

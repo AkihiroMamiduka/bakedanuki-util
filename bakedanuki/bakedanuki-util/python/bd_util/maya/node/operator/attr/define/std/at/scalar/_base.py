@@ -18,7 +18,7 @@ A = TypeVar("A", bound="ScalarBaseAttrOperator[Any]")
 P = TypeVar("P", bound="ScalarBasePlugOperator[Any]")
 
 
-def _sample_reader(plug: om.MPlug, time_unit: int) -> Callable[[], float]:
+def sample_reader(plug: om.MPlug, time_unit: int) -> Callable[[], float]:
     attribute = plug.attribute()
     if attribute.hasFn(om.MFn.kUnitAttribute):
         unit_type = om.MFnUnitAttribute(attribute).unitType()
@@ -34,6 +34,39 @@ def _sample_reader(plug: om.MPlug, time_unit: int) -> Callable[[], float]:
     ):
         return plug.asDouble
     raise TypeError("sample_values() requires a numeric or unit plug.")
+
+
+def sample_plug_values(
+    plug: om.MPlug, *, frames: Iterable[float]
+) -> list[tuple[float, float]]:
+    """Scalar plugの時刻別評価を共通化する。現在時刻と保留中編集は変更しない。"""
+    time_unit = om.MTime.uiUnit()
+    if isinstance(frames, (str, bytes)):
+        raise TypeError("frames must be an iterable of numbers.")
+    frame_items = tuple(float(frame) for frame in frames)
+    if not all(math.isfinite(frame) for frame in frame_items):
+        raise ValueError("Sample frames must be finite.")
+    if plug.isArray or plug.isCompound:
+        raise TypeError("sample_values() requires a scalar plug.")
+    read_value = sample_reader(plug, time_unit)
+    if frame_items:
+        outputs = [
+            om.MFnDependencyNode(node).name() + ".output"
+            for node in curve_objects(plug, traverse_inputs=True)
+        ]
+        if outputs:
+            # setKeyframe can leave downstream timed-context input data stale.
+            cmds.dgdirty(*outputs, propagation=True)
+    samples: list[tuple[float, float]] = []
+    for frame in frame_items:
+        context = om.MDGContext(om.MTime(frame, time_unit))
+        previous = context.makeCurrent()
+        try:
+            value = read_value()
+        finally:
+            previous.makeCurrent()
+        samples.append((frame, value))
+    return samples
 
 
 class ScalarBasePlugOperator(ChannelBoxStateMixin, PlugOperator[A]):
@@ -57,37 +90,7 @@ class ScalarBasePlugOperator(ChannelBoxStateMixin, PlugOperator[A]):
         現在時刻を変更せず、保留中の操作も実行しない。
         各時刻を独立に評価するため、履歴依存のsimulationは対象外。
         """
-        time_unit = om.MTime.uiUnit()
-        if isinstance(frames, (str, bytes)):
-            raise TypeError("frames must be an iterable of numbers.")
-        frame_items = tuple(float(frame) for frame in frames)
-        if not all(math.isfinite(frame) for frame in frame_items):
-            raise ValueError("Sample frames must be finite.")
-
-        plug = self.plug
-        if plug.isArray or plug.isCompound:
-            raise TypeError("sample_values() requires a scalar plug.")
-        read_value = _sample_reader(plug, time_unit)
-        if frame_items:
-            outputs = [
-                om.MFnDependencyNode(node).name() + ".output"
-                for node in curve_objects(plug, traverse_inputs=True)
-            ]
-            if outputs:
-                # setKeyframe can leave downstream timed-context input data stale.
-                cmds.dgdirty(*outputs, propagation=True)
-
-        samples: list[tuple[float, float]] = []
-        for frame in frame_items:
-            # contextの寿命を読み取り終了まで保持し、呼出元のcontextへ戻す。
-            context = om.MDGContext(om.MTime(frame, time_unit))
-            previous = context.makeCurrent()
-            try:
-                value = read_value()
-            finally:
-                previous.makeCurrent()
-            samples.append((frame, value))
-        return samples
+        return sample_plug_values(self.plug, frames=frames)
 
 
 class ScalarBaseAttrOperator(AttrOperator[P]):

@@ -15,6 +15,7 @@ from ...modifier import ModifierManager
 
 if TYPE_CHECKING:
     from ..attr._core import AttributeField, AttrOperator, PlugOperator
+    from ._keyframes import NodeKeyframeManager
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -92,6 +93,8 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         "_modifier_manager",
         "m_obj",
         "_fn_node",
+        "_pending_at_initialization",
+        "_requested_name",
         "_plug_cache",
     )
 
@@ -161,12 +164,24 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             sel.add(name)
             self.m_obj = sel.getDependNode(0)
 
+        handle = om.MObjectHandle(self.m_obj)
+        self._pending_at_initialization = (
+            handle.isAlive() and not handle.isValid()
+        )
+
         # fn_node
         self._fn_node = None
+
+        # Most recent explicit name requested through this wrapper, resolved
+        # against the namespace at request time. A newly created MObject has
+        # no queryable Maya name until its modifier runs, so data-only
+        # selectors may use this as a pending-name hint.
+        self._requested_name: str | None = None
 
         # name
         if name:
             self._dg_mod.renameNode(self.m_obj, name)
+            self._set_requested_name_hint(name)
 
         # plug_cache
         self._plug_cache: dict[str, PlugOperator[Any]] | None = None
@@ -203,6 +218,13 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     @property
     def modifier_manager(self) -> ModifierManager:
         return self._modifier_manager
+
+    @property
+    def keyframes(self) -> NodeKeyframeManager:
+        """Return node-level keyframe operations using this node's manager."""
+        from ._keyframes import NodeKeyframeManager
+
+        return NodeKeyframeManager(self.m_obj, self._modifier_manager)
 
     @classmethod
     def get_attr_operator(cls, long_name: str) -> AttrOperator[Any] | None:
@@ -297,6 +319,24 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             str: ノード名
         """
         return self.fn_node.name()
+
+    @property
+    def _requested_name_hint(self) -> str | None:
+        """Return the latest explicit name requested through this wrapper."""
+        return self._requested_name
+
+    @property
+    def _was_pending_creation(self) -> bool:
+        """Return whether this wrapper received a pending-created MObject."""
+        return self._pending_at_initialization
+
+    def _set_requested_name_hint(self, name: str) -> None:
+        """Record a name after its modifier rename has been queued."""
+        if name.startswith(":"):
+            self._requested_name = name[1:]
+            return
+        namespace = om.MNamespace.currentNamespace().removeprefix(":")
+        self._requested_name = f"{namespace}:{name}" if namespace else name
 
     @property
     def namespace(self) -> str:
@@ -427,4 +467,6 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         pure_name = prefix + pure_name + suffix
 
         # リネームする
-        self._dg_mod.renameNode(self.m_obj, namespace_prefix + pure_name)
+        requested_name = namespace_prefix + pure_name
+        self._dg_mod.renameNode(self.m_obj, requested_name)
+        self._set_requested_name_hint(requested_name)

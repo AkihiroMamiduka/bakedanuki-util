@@ -615,24 +615,760 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr tests\maya\mpx_cmd tests\maya\node\operator\node\dg\test_anim_layer.py -q --tb=short
 ```
 
-次のキーフレーム移動は未実装です。下記は、[仕様の検討](roadmap.md#次の着手はキーフレーム移動)に
-合わせて追加する検証候補であり、上記の成功件数には含まれません。
+## 範囲内キーの接線変更の検証
 
-- 単一・複数・全体のうち採用した対象指定、正負の移動、subframe、範囲端、
-  FPS変更、対象なし・移動量0、不正入力と、仕様で定めた衝突時の挙動。
+`set_tangents()`は、既存`set_tangent()`の単一時刻と同じ対象選択・編集履歴を使用し、
+次の契約を検証します。
+
+- 両端包含、片側省略、全キー、負時刻・subframe、範囲端にキーがない場合もキーを挿入しないこと。
+- `tangent_type`によるin / out共通指定、個別側の上書き、片側だけの変更、
+  全指定省略・カーブなし・該当キーなしのno-op。単数版の接線引数がkeyword専用であること。
+- 値・時刻・breakdown・tangent / weight lock・weighted・infinityと範囲外キーを維持すること。
+  type変更による接線XYの再計算と、lockしたキーの片側変更はMaya標準動作に従うこと。
+- 予約時のUI時間単位、同一batchで先行予約したキー、予約後の再接続・改名を初回実行時に解決すること。
+- 既定ベース・明示layer・明示TA / TL / TUカーブ、通常の上流チャンネル、lock / referenceの拒否。
+- 反復Undo / Redo、MPxCommandのMaya標準履歴、同一batchの途中失敗時rollback。
+- 逆転範囲・非有限時刻・未対応tangent typeを予約時に拒否し、部分予約を残さないこと。
+- 属性・layer・明示カーブの3入口から引数と`None`の戻り値をIDE補完で追えること。
+
+開発中の局所確認には、`test_keyframe.py` / `test_keyframe_undo.py` /
+`test_keyframe_target.py` / `test_curve_keyframe.py`とMPxCommand testを使用します。
+
+2026-09-20、範囲接線変更追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,377件成功、プロセス正常終了 |
+| 変更実装と型・補完contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| 3 versionの型・補完contract | Maya 2025 / 2026 / 2027ですべてエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,473ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,765件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+範囲接線変更の利用者によるMaya画面上での確認とcommit / pushも完了し、
+`3509264f`へ反映されています。
+
+## node・複数nodeの接線変更の検証
+
+`test_node_keyframe_tangent.py`では、`node.keyframes.set_tangents()`と
+`nodes.keyframes.set_tangents([...])`の次の契約を検証します。
+
+- keyable属性の自動収集、明示属性、既存カーブ・既存キーだけの変更と静的属性のno-op。
+- 通常の接線指定を連続属性だけへ適用し、離散属性は既定で維持すること。
+  `discrete_tangent_type`を明示するとin / out両側を同じtypeへ変更すること。
+- 複数nodeでは属性が存在するnodeだけへ適用し、全nodeにない名前、重複・空node列を拒否すること。
+- root / 明示layer、lock / reference / 未所属・未対応接続の検査、全対象のUndo / Redo・rollback。
+- 両端包含、片側省略、全キー、負時刻・subframe、予約時のUI時間単位と作成待ちnode / layer。
+- `NodeKeyframeManager` / `NodesKeyframeManager`の公開引数と戻り値をIDE補完で追えること。
+
+## キー単位のtangent / weight lock変更の検証
+
+`test_keyframe_lock.py`と`test_node_keyframe_lock.py`では、属性・明示カーブ・node・複数nodeの
+`set_tangent_lock()` / `set_tangent_locks()`について次の契約を検証します。
+
+- 単一キー、両端包含、片側省略、全キー、負時刻・subframeと、境界キーを追加しないこと。
+- `tangents_locked` / `weights_locked`の個別指定、`None`による維持、両方省略・カーブなし・
+  該当キーなしのno-opと、bool以外・逆転範囲・非有限時刻の予約時拒否。
+- 接線type・接線XY、値・時刻・breakdown・weighted・infinityと範囲外キーを維持すること。
+  nonweightedカーブでもweight lockを保存し、weighted設定を変更しないこと。
+- 既定ベース・明示layer・明示TA / TL / TUカーブ、通常の上流チャンネルと作成待ち明示カーブ。
+- node・複数nodeのkeyable / channelBox・明示属性、連続・離散属性、既存カーブだけの変更、
+  missing・重複・空node列、lock / reference / layer所属と全対象の事前検証。
+- 反復Undo / Redo、MPxCommandのMaya標準履歴、同一batchの途中失敗時rollback。
+- 属性・layer・明示カーブ・node・複数nodeの公開引数と`None`の戻り値をIDE補完で追えること。
+
+Maya 2025の実挙動確認では、`MFnAnimCurve.setTangentsLocked()` /
+`setWeightsLocked()`が接線type・XYやweightedを変更しないこと、nonweightedでもweight lockが
+保存されることを確認しています。また、これらのsetterへ渡した`MAnimCurveChange`だけでは
+Undo時にlockが戻らないことを確認したため、実装はanimCurveの`keyTanLocked` /
+`keyWeightLocked`配列plugを`MDGModifier`で編集します。
+
+開発中の局所確認には次を使用します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr\test_keyframe_lock.py tests\maya\node\operator\node\test_node_keyframe_lock.py tests\maya\mpx_cmd\test_command.py -q --tb=short
+```
+
+## node・複数nodeのweighted変更の検証
+
+`test_node_keyframe_weighted.py`では、`node.keyframes.set_weighted()`と
+`nodes.keyframes.set_weighted([...])`について次の契約を検証します。
+
+- TA / TL / TUの既存カーブ、連続・離散属性、0キーカーブと同値設定を扱い、静的属性へ
+  カーブを作成しないこと。同じbatchで先に作成したカーブは実行時に認識すること。
+- keyable / channelBox・明示属性、複数nodeの属性名のunion、unitConversionを含む上流探索、
+  rootと明示layerを`set_tangents()`と同じ規則で選択すること。
+- missing・空／重複node列、bool以外のoption、plug・curve・node・layerのlock / reference、
+  layer未所属・共有カーブを拒否し、全対象を変更前に検証すること。
+- Maya標準のweighted変換、接線type等の保持、反復Undo / Redoで失われたweightまで復元すること。
+  後続処理の失敗時に同じbatch全体をrollbackすること。
+- `NodeKeyframeManager` / `NodesKeyframeManager`の引数と`None`戻り値をIDE補完で追えること。
+
+Maya 2025の実挙動確認では、`MFnAnimCurve.setIsWeighted()`がキー時刻・値、全接線type、
+tangent / weight lock、breakdown、pre / post infinityを維持することを確認しています。
+nonweightedからweightedへの変換は密な評価値を維持し、weightedからnonweightedへの変換は
+接線方向を保ってweightを正規化するため、任意weightの形状は変わり得ます。Falseへ変更後に
+Trueへ戻しても元のweightは復元されません。`MAnimCurveChange`のUndoは元のweightと形状を
+正確に復元します。`weightedTangents` plugの`MDGModifier`編集では復元できないため使用しません。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\test_node_keyframe_weighted.py tests\maya\node\operator\attr\test_keyframe_data.py -q --tb=short
+```
+
+## node・複数nodeのEuler filterの検証
+
+`test_node_keyframe_euler.py`では、`node.keyframes.euler_filter()`と
+`nodes.keyframes.euler_filter([...])`について次の契約を検証します。
+
+- 6種類の`rotateOrder`で、各キーの姿勢を維持しながら直前のfilter済みキーに近いEuler角へ
+  変換すること。範囲内の先頭キーをanchorとして維持すること。
+- 両端包含範囲、範囲外キー、3軸で異なる範囲外index、境界キーを作成しないこと、
+  カーブなし・範囲内キーなしのno-op。
+- 3軸カーブの欠落、範囲内キー時刻の不一致、接続された`rotateOrder`、lockされたカーブ、
+  非Transform nodeを編集前に拒否すること。
+- ベースと明示layerを分離し、同じbatchで先に作成した3軸カーブを実行時に認識すること。
+- キー時刻・tangent type、weighted、breakdown、tangent / weight lock、infinityを維持すること。
+- 複数nodeの全対象事前検証、反復Undo / Redo、後続失敗時のrollback。
+- `NodeKeyframeManager` / `NodesKeyframeManager`の範囲引数と`None`戻り値をIDE補完で追えること。
+
+開発中の局所確認には次を使用します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\test_node_keyframe_euler.py -q --tb=short
+```
+
+## node・複数nodeのキー削減の検証
+
+`test_node_keyframe_reduce.py`では、`node.keyframes.reduce_keys()`と
+`nodes.keyframes.reduce_keys([...])`について次の契約を検証します。
+
+- keyable / channelBox・明示属性、TA / TL / TU、両端包含範囲、境界を追加しないこと、
+  カーブなし・対象キー不足のno-op。
+- breakdownの既定保持、plug単位と同じ削減コア、反復Undo / Redo。
+- unitConversionを含む上流探索、rootと明示layerの分離、複数nodeの属性名のunion。
+- 同じbatchで先に予約したnodeベイク結果を実行時に認識して削減すること。
+- lockされた後半カーブと、後半カーブの削減計画失敗で前半カーブを変更しないこと。
+  後続処理の失敗では適用済みの全カーブをrollbackすること。
+- tolerance・範囲・bool option、空／重複node列の検証と、公開引数・`None`戻り値の型補完。
+
+削減アルゴリズム、接線・weighted・infinity、公開単位、step系、誤差上界の詳細は
+`test_keyframe_reduce.py`で引き続き共通検証します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr\test_keyframe_reduce.py tests\maya\node\operator\node\test_node_keyframe_reduce.py -q --tb=short
+```
+
+## node・複数nodeのキー削除の検証
+
+`test_node_keyframe_delete.py`では、`node.keyframes.delete_keys()`と
+`nodes.keyframes.delete_keys([...])`について次の契約を検証します。
+
+- keyable / channelBox・明示属性、両端包含・片側省略・単一時刻・全キー・負時刻・subframeと、
+  予約時のUI時間単位の捕捉。
+- 境界やカーブを作成せず、対象キーなしはno-op、全キー削除後も空カーブを残すこと。
+- NodeOperator / MObject / node名の混在、複数nodeの属性名のunion、空・重複node列の拒否。
+- unitConversionを含む上流探索、rootと明示layerの分離。
+- 同じbatchで先に予約したnodeベイク・AnimationClip復元結果を実行時に認識して削除すること。
+- lockされた後半カーブと、後半カーブの削除計画失敗で前半カーブを変更しないこと。
+  後続処理の失敗では適用済みの全カーブをrollbackすること。
+- 反復Undo / Redoと、`NodeKeyframeManager` / `NodesKeyframeManager`の引数・`None`戻り値を
+  IDE補完で追えること。
+
+plug・明示カーブ単位の既存削除経路も共通コアへ揃えたため、チャンネル選択、layer、
+lock / reference、空カーブの回帰は既存テストと合わせて確認します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\test_node_keyframe_delete.py -q --tb=short
+```
+
+2026-09-24、追加時の自動検証と利用者確認は次のとおりです。
+この記録は新しい変更の検証を代替しません。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| node / nodesキー削除の専用pytest | 13件成功 |
+| キー削除関連の回帰pytest | 874件成功 |
+| `scripts/verify.cmd` | 成功 |
+| Black | 4,488ファイル確認、変更不要 |
+| Maya 2025 / 2026 / 2027 Pyright contract | 各versionともerror・warningなし |
+| Maya 2025 full pytest | 7,010件成功、632件skip |
+| Maya 2025 / 2026 / 2027 Qt / UI互換性テスト | 各version 726件成功 |
+| Maya 2025 / 2026 / 2027 Maya UIテスト | 各version 244件成功 |
+| `git diff --check` | 成功 |
+| 利用者確認 | Maya上の動作確認と`c529be15`へのpush完了 |
+
+通常の`verify.cmd`の範囲どおり、Maya 2026 / 2027のfull pytestは実行していません。
+
+## plug入力ベイクの検証
+
+`test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。
+
+- 呼び出し時の再生範囲、明示範囲、終了端を含むsample間隔、負時刻・subframe、静的入力。
+  予約後のFPS変更では物理時刻を維持し、値は初回実行時のsceneから取得すること。
+- TA / TL / TU、連続値の既定auto / auto、bool・enum・整数系の既定step / step、
+  連続用の共通・個別接線指定と離散用`discrete_tangent_type`、constant infinity、nonweightedへの全置換。
+  連続・離散の全生成キーでtangent lockが有効、weight lockが無効であり、同じbatchの
+  `set_tangent_locks(tangents_locked=False)`で明示的にBreak Tangentsへ変更できること。
+  既存カーブの範囲外キー・設定を削除し、直接の非共有カーブは再利用すること。
+- constraint・expression等の上流nodeを残して対象入力だけを切断すること。
+  親compound接続の非対象子、共有カーブの別出力先、ベース以外のlayerを維持すること。
+- layer未指定ではrootの生入力、`anim_layer()`では指定layerの生入力をベイクし、
+  既存layerの合成効果を二重に加えないこと。
+- target plug / node、接続元node、layerのlockとreference、不正引数、TT、非有限サンプルの拒否。
+  10,000,001点の上限、対象なしではなく静的カーブを作ること。
+- query時に予約を実行しないこと、同じbatchの先行変更、反復Undo / Redo、
+  接続変更後・後続処理・適用後検査の失敗時rollback、現在時刻と選択の維持。
+
+専用MPxCommand fixtureはMaya標準Undo / Redoとcommand失敗時の接続・カーブ復元を検証します。
+型・補完contractは属性経由の引数・戻り値と、明示カーブへ`bake()`を公開しないことを確認します。
+各時刻を順に進めるsimulationやcacheの検証は初期版に含めません。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr/test_keyframe_bake.py
+.\scripts\test-pytest-maya2025.cmd tests/maya/mpx_cmd/test_command.py -k bake
+```
+
+## node入力ベイクの検証
+
+`test_node_keyframe_bake.py`では、`node.keyframes.bake()`の次の契約を検証します。
+
+- keyable属性の自動収集、channelBox属性の任意追加、非keyable明示属性、compound展開、重複排除。
+- `include_static=True`の既定動作による静的カーブ作成と、`False`による生入力の
+  アニメーション判定。明示属性にも同じ静的値規則を適用し、対象0件をエラーにすること。
+- 自動収集での未対応・lock属性と指定layer未所属属性の除外、明示時のmissing・未対応・
+  lock・未所属の拒否。node / layer / 接続元のlock・reference検査。
+- 全属性のsamplingが最初の接続変更より前に完了すること。同じ親compound接続を複数leafが
+  共有しても1回だけ切断し、対象外の兄弟を維持すること。
+- 既存nodeと同じDG modifierで作成待ちのDG node、ベース・指定layer、Undo / Redo、
+  複数対象の途中失敗時rollback、適用後の全サンプル値検査。
+- 開始・終了・sample間隔、bool option、属性列・接線の入力検証と、IDE補完で追える
+  `NodeKeyframeManager`の引数・戻り値型。
+
+専用MPxCommand fixtureのベイク経路も`node.keyframes.bake(attributes=["tx"])`を使用し、
+Maya標準Undo / Redoとcommand失敗時rollbackを検証します。plug単位の既存テストは同じ
+複数対象内部処理を1対象で通し、従来の接続分割・layer・静的入力の契約を回帰確認します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/node/test_node_keyframe_bake.py
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/operator/node/test_node_keyframe_bake.py
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/operator/node/test_node_keyframe_bake.py
+.\scripts\test-pytest-maya2025.cmd tests/maya/mpx_cmd/test_command.py -k bake
+```
+
+`test_nodes_keyframe_bake.py`では、`nodes.keyframes.bake([...])`の次の契約を検証します。
+
+- NodeOperator / MObject / node名の複数指定、重複nodeと空の入力列の拒否。
+- 明示属性名を存在するnodeだけへ適用し、全nodeで見つからない名前、既存の未対応・lock属性を
+  操作全体のエラーにすること。自動収集では対象0件のnodeをスキップすること。
+- 上流・下流nodeを逆順で指定しても、全nodeのsamplingを接続変更より前に完了すること。
+- 共通layer、作成待ちnode / layer、1回のUndo / Redo、後半nodeの検査失敗時の全体rollback。
+- 共通・個別・離散用の接線指定、`フレーム数 × 対象leaf数`による総サンプル数上限と、
+  `NodesKeyframeManager`の型・補完契約。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/node/test_nodes_keyframe_bake.py
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/operator/node/test_nodes_keyframe_bake.py
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/operator/node/test_nodes_keyframe_bake.py
+```
+
+2026-09-20の複数node版実装時点で、plug版31件・node版21件・複数node版21件・
+MPxCommand 2件を合わせた関連75件がMaya 2025 / 2026 / 2027ですべて成功しています。
+`_keyframes.py` / `_keyframe_bake.py`の明示Pyrightと型・補完contractは3 versionで
+error / warningなしです。`QT_QPA_PLATFORM=offscreen`で実行した`verify.cmd`も成功し、
+Maya 2025 full pytestは6,722件成功・632件skip、UI互換性は各versionで
+Qt/UI 726件・Maya UI 244件成功しました。Blackは4,473ファイル、差分検査も成功しています。
+
+## キーフレーム移動の検証
+
+2026-09-15に`move_frame()` / `move_frames()`と専用の`test_keyframe_move.py`を追加しました。
+以下は移動実装の検証範囲であり、上の引き継ぎ時点の成功件数には含まれません。
+
+- 単一・範囲・全体の相対移動と開始/終了基準の絶対移動、正負の移動、subframe、範囲端、
+  FPS変更、対象なし・移動量0、不正入力、移動先の対象外キーの置換。
+- `insert_missing`の既定False、明示境界だけの補完、同時刻境界の重複排除、
+  実在キーのない区間、infinity領域での値取得、挿入から移動までの履歴。
 - 複数キーが互いの元時刻へ移る場合と、移動対象外のキーをまたぐ場合。
   処理順による一時的な重複と、最終結果の重複を区別し、元キーが余分に残らないこと。
 - 値・接線type / XY / lock・breakdown・weighted・infinityについて仕様で定めた保持や再計算、
-  移動対象外のキーと隣接区間の評価。TA / TL / TU、weightedの有無、auto・fixed・step系を含める。
+  移動対象外のキーと隣接区間の評価。TA / TL / TU / TT、weightedの有無、auto・fixed・step系を含める。
 - 直接接続・対応済みの上流チャンネル・ベース・加算・Override・明示カーブ指定の対象一致。
   非対象のlayer・軸・weightと接続を保持し、予約後の対象変更、lock / referenceを検査すること。
 - 同一batchの先行キー設定からの移動、保留中query、反復Undo / Redo、
   移動途中・後続処理の失敗時rollback、MPxCommandからの履歴と型・IDE補完。
 
-実装時は既存の`test_keyframe_undo.py`、`test_keyframe_target.py`、
-`test_keyframe_channel.py`、`test_keyframe_anim_layer.py`、
-`test_keyframe_default_layer.py`、`test_curve_keyframe.py`を参照してください。
-新しいテストの配置・対象範囲は、採用した仕様と変更箇所に合わせて決めます。
+`test_keyframe_target.py`と`test_curve_keyframe.py`の共通編集パラメーターにも移動を登録し、
+上流チャンネル・指定layer・既定ベース・明示カーブのlock / reference等を検査します。
+`tests/maya/mpx_cmd/test_command.py`はMaya標準Undo / Redoとcommand失敗時の復元、
+`tests/typecheck/node_operator_contract.py`は3入口の引数・戻り値・排他指定を検査します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
+```
+
+Maya 2026 / 2027でも同じ範囲を実行し、最終検証は`scripts/verify.cmd`を使用します。
+
+2026-09-15、移動実装追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 移動専用pytest | Maya 2025で261件成功。下記の関連・全体テストにも含む |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2026 / 2027で各1,861件成功、プロセス正常終了。Maya 2025は下記のfull pytestで同じ範囲を確認 |
+| `scripts/verify.cmd` | 成功。Black、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 4,413件成功、632件skip。Qt/UIの対象は専用ランナーでも別途実行 |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+通常実行は既存のクリップボードテスト1件で停止したため、
+`QT_QPA_PLATFORM=offscreen`をプロセス環境に設定して`verify.cmd`全体を再実行し、成功しました。
+テストの除外やUI実装の変更はしていません。
+その後、移動APIは利用者によるMaya画面上での動作確認とpushまで完了しました（`218751db`）。
+
+## キーフレーム移動の補間の検証
+
+`test_keyframe_move_interpolation.py`では、`move_frames()`の補間による移動量の重み付けを検証します。
+
+- 移動前の時刻によるlinear / smoothstep、相対移動と元範囲を基準にした開始・終了合わせ、
+  片側補間・片側省略・幅0の元範囲、負の時刻・subframe、実在キーのない元範囲。
+- 影響度0の端点を含む対象キー同士の衝突・順序逆転の拒否、対象外キーへの上書きと追い越し。
+  欠けた補間端点を仮キーとしては扱わず、明示挿入したときだけ固定点として検査すること。
+- TA / TL / TU / TT、weightedの有無、fixed・auto・linear・step系、値・接線・lock・breakdown・
+  infinityの保持。短いweighted接線とnonweightedの生XY、再挿入で再現できないTT接線のrollback。
+- 最大4境界の挿入とinfinityの事前評価、影響度0のキーを移動・再挿入しないこと。
+  移動量0では挿入しないこと、キーだけへの重み付けで自動サンプリングをしないこと。
+- 対象なし・空カーブ・不正引数、予約時のFPS捕捉、no-opでもmanager・write検査を通すこと。
+  保留中作成・先行編集とqueryの非実行、再接続・改名、反復Undo / Redo。
+- 境界挿入後・時刻変更後・削除後・再挿入後の失敗で同一batch全体をrollbackすること。
+
+共通の`test_keyframe_target.py` / `test_curve_keyframe.py`でも`move_frames()`へ補間を指定し、
+チャンネル・既定ベース・指定layer・明示カーブ・lock / referenceを検証します。
+MPxCommand fixtureには補間移動と境界挿入の組み合わせを追加し、Maya標準Undo / Redoと
+command失敗時rollbackを検証します。型contractは3種類の配置方法と補間引数を検査します。
+影響度計算とキー復元を共有するため、通常移動・時間拡縮・値編集も回帰テストに含めます。
+
+関連pytestの範囲と最終検証方法は通常移動・時間拡縮と同じです。
+その後、補間移動も利用者によるMaya画面上の動作確認・pushまで完了しました（`9a63af85`）。
+
+2026-09-18、補間移動追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 補間移動の専用pytest | 182件。下記の関連・全体テストにも含む |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2026 / 2027で各3,021件成功、プロセス正常終了。Maya 2025は下記のfull pytestで同じ範囲を確認 |
+| 変更実装5ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,457ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 5,995件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+Maya 2027では、移動の検証用MPxCommandをパラメーターごとに登録・解除する構成で、
+全テスト成功後のプロセス終了時に異常終了（`-1073740940`）が再現しました。
+push済みコミットと一時フォルダーで比較し、現在の実装と従来のテストでは正常終了することを確認しました。
+検証用commandへ補間の切り替えを追加し、module内では登録を共有する構成に整理しています。
+シーン初期化は各テストで維持し、同じ57件のMPxCommandテストと3,021件の関連テストで
+正常終了を確認しました。テストの除外や終了コードの無視はしていません。
+
+## キーフレーム時間拡縮の検証
+
+`test_keyframe_scale.py`では、`scale_frames()`の時間拡縮と配置先の置換を検証します。
+
+- 倍率・長さ・両端合わせ、相対配置・開始/終了合わせ、明示境界と実在キーの違い、
+  片側省略・全体・単一キー、負の時刻・subframe、元区間と配置先の重なり。
+- 既定の`replace_range`と`merge`、欠けた境界も含めた配置先区間の置換、対象外fixedキーの保持。
+- TA / TL / TU / TT、weighted / nonweighted、14種類の接線、値・lock・breakdown・infinity、
+  密なサンプルでの形状照合と`fast` / `slow`のMaya標準拡縮との照合。
+- 短いweighted接線が下限補正されないこと、TTで再現できない接線のrollback。
+  境界挿入前の値評価、区間外のinfinity補完、挿入を伴う反復Undo / Redo。
+- カーブなし・空カーブ・対象なし・恒等変換、0幅区間・不正引数・時刻の表現限界と精度限界、
+  予約後のFPS / 表示単位変更、no-opでもmanager・write検査を通すこと。
+- 保留中node作成と先行キー編集、queryの非実行、再接続・改名、bool・enum等の属性。
+  挿入後・削除後・再挿入後の失敗時に、同じbatchの先行変更もrollbackすること。
+
+`test_keyframe_target.py` / `test_curve_keyframe.py`の共通編集一覧にも拡縮を登録しています。
+通常チャンネル・既定ベース・明示layer・明示カーブの対象選択、上流接続、lock / reference、
+非対象layerのキー・weight保持を、既存の共通テストで検証します。
+専用MPxCommand fixtureはMaya標準Undo / Redoとcommand失敗時rollback、型contractは
+属性・layer・明示カーブの3入口、戻り値、排他引数、modeと境界補完の補完を検証します。
+
+2026-09-17、下記の関連pytestはMaya 2025 / 2026 / 2027それぞれ2,360件成功しました。
+変更した実装3ファイルと型contractを明示したMaya 2025のPyright検証も、エラー・警告0件でした。
+その後、長さ指定の丸めで恒等変換が不要な境界挿入をしないように補強し、
+時間拡縮の専用pytestは3 versionで各322件成功しました。
+補強後の最終`verify.cmd`も`QT_QPA_PLATFORM=offscreen`で成功しました。
+Blackは4,452ファイル、3 versionの型・補完contractはすべて成功、Maya 2025 full pytestは
+5,336件成功・632件skip、Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
+`git diff --check`も成功しています。
+その後、利用者によるMaya画面上での`scale_frames()`の動作確認とpushまで完了しました（`66dee785`）。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/operator/attr tests/maya/mpx_cmd tests/maya/node/operator/node/dg/test_anim_layer.py -q --tb=short
+.\scripts\verify.cmd
+```
+
+## キーフレーム時間拡縮の補間の検証
+
+`test_keyframe_scale_interpolation.py`は、`scale_frames()`の時刻と接線Xへの影響度を検証します。
+
+- 元時刻によるlinear / smoothstepと既定値、倍率・長さ・両端合わせと各配置方法。
+  主区間だけを基準にすること、片側省略・キーのない主区間・幅0・負の時刻・subframe。
+- 主区間の配置先だけの部分置き換え、merge、置換範囲外の補間キーの衝突上書き。
+  動かない端点が置換範囲内でも保持されること、主ピボットの接線だけの拡縮。
+- 対象キーの衝突・順序逆転の拒否、欠けた補間端点を仮キーとせず、明示挿入時のみ検査すること。
+- TA / TL / TU / TT、weightedの有無、fixed・auto・linear・step系、実効倍率による接線X、
+  値・種類・lock・breakdown・infinityの保持と反復Undo / Redo。
+  復元できないTTのweighted接線は同じbatch全体をrollbackすること。
+- 最大4境界の事前評価・挿入・重複除去、恒等変換や影響度0だけの場合は変更しないこと。
+  no-opでもmanagerとwrite検査を通すこと、対象なし・空カーブ・不正引数。
+- 予約時のFPS捕捉、保留中の作成・先行編集・queryの非実行。
+  挿入後・捕捉後・削除後・復元後の失敗で先行編集も含めてrollbackすること。
+
+`test_keyframe_target.py` / `test_curve_keyframe.py`も補間拡縮を指定し、ベース・指定layer・
+明示カーブとlock / referenceを検証します。MPxCommandは補間拡縮と境界挿入を追加し、
+Maya標準Undo / Redo・command失敗時rollbackを確認します。登録は移動のfixtureと同じく
+module内で共有し、シーンは各caseで初期化します。型contractは3入口と全配置形式の補間引数を検査します。
+その後、補間拡縮も利用者によるMaya画面上の動作確認・pushまで完了しました（`fbf9c033`）。
+
+2026-09-18、補間拡縮追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 補間拡縮の専用pytest | 150件。下記の関連・全体テストにも含む |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,173件成功、プロセス正常終了 |
+| 変更実装2ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,458ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,147件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+## キーフレーム時間拡縮のピボット指定の検証
+
+`test_keyframe_scale_pivot.py`では、`scale_frames()`の`pivot`を検証します。
+
+- 中央・開始・終了・区間外のピボット、明示Noneと従来動作、正の倍率・長さ、拡縮後の相対移動。
+  片側省略・全体・単一キー、負の時刻・subframe、ピボットにキーがなくても挿入しないこと。
+- 変換後の主区間による部分置き換えとmerge、補間キーの配置先が置換範囲外にある場合の衝突上書き。
+  linear / smoothstepでピボット変換と相対移動を重み付けすること、接線Xの実効倍率。
+- TA / TL / TU / TT、weightedの有無、拡縮後の形状・値・種類・lock・breakdown・infinity、反復Undo / Redo。
+- 予約時のピボット・長さ・相対移動の時間単位捕捉。遠いピボットの恒等変換や、
+  長さから算出した倍率の丸めで不要な編集をしないこと。小さい倍率で表現可能な移動先を維持すること。
+- 不正なピボット、配置先境界との併用を予約時に拒否すること。表現範囲外や対象キー同士の
+  衝突・順序逆転、途中の失敗で同一batchの先行編集・境界挿入もrollbackすること。
+- 保留中の作成・先行移動・queryの非実行、no-opでもmanagerとwrite検査を通すこと。
+
+共通の対象選択テストもピボットを指定し、ベース・指定layer・明示カーブとlock / referenceを確認します。
+MPxCommandのfixtureでは倍率・長さ・補間・境界挿入とピボットを組み合わせ、Maya標準の履歴と
+command失敗時rollbackを確認します。型contractは3入口のピボット指定と排他引数を検査します。
+その後、利用者によるMaya画面上でのピボット指定の動作確認・pushまで完了しました（`f0def8ab`）。
+
+2026-09-18、ピボット指定追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| ピボット指定の専用pytest | 112件。下記の関連・全体テストにも含む |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,285件成功、プロセス正常終了 |
+| 変更実装2ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,459ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,259件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+## キーフレーム編集APIの名称整理の検証
+
+時間方向は`move_frame()` / `move_frames()` / `scale_frames()`に改名し、
+時間・値の編集引数を`offset` / `to` / `to_start` / `to_end` / `scale` / `duration` / `pivot`へ整理しました。
+旧メソッド名・旧keyword引数のaliasは提供しません。変更対応表は[旧APIからの移行](attributes.md#旧apiからの移行)を参照してください。
+
+既存の移動・時間拡縮・値編集・共通resolver・MPxCommandのテストと手動サンプルを新名へ更新しています。
+型・補完contractも属性・指定layer・明示カーブの3入口で新名と排他引数を検査します。
+`AnimationClip.restore()`の引数と検証は維持しています。
+本書の過去の実装・検証記録もAPI名は現在の名前で表記しますが、過去の成功件数は当時の実績です。
+その後、名称整理も利用者によるMaya画面上の動作確認・pushまで完了しました（`b90965c0`）。
+
+2026-09-18、名称整理後に改めて実行した検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,285件成功、プロセス正常終了 |
+| 変更実装3ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,459ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,259件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+## キーフレーム値編集の検証
+
+`test_keyframe_value.py`では、`set_value(s)` / `add_value(s)` / `scale_value(s)`の
+値編集と既存キーへの補間ウェイトを検証します。
+
+- 単一・両端包含範囲・片側省略・全体、負の時刻・subframe、0・負の倍率とピボット。
+- linear / smoothstepと既定値、片側補間、補間端点の影響度0、疎なキーで自動samplingや
+  イーズ再現用接線調整を行わないこと、最大4境界だけの挿入とinfinityの事前評価。
+- TA / TL / TU / TT、weighted / nonweighted、fixed・auto・linear・step・stepnext、
+  接線・lock・breakdown・infinity保持、全体拡縮後の密なサンプル照合。
+  短いweighted接線の保持、nonweighted接線の正規化、対象外キーを正規化しないこと。
+- 生値の設定・加算・拡縮を加算 / Override layerとベースで照合し、合成値の逆算をしないこと。
+  bool・enum・整数属性でもカーブの数値を丸めず扱うこと。
+- カーブなし・空カーブ・対象なし・恒等演算、同値setと任意境界挿入、不正引数・overflow・TT時間値の表現限界。
+- 保留中node作成・先行編集、queryの非実行、再接続・改名、予約後のFPS / 表示単位変更。
+- 反復Undo / Redo、境界挿入後・値更新後・削除後・復元後の失敗時rollback。
+
+6メソッドを`test_keyframe_target.py` / `test_curve_keyframe.py`の共通編集一覧にも登録し、
+属性・明示layer・既定ベース・明示カーブの対象選択、上流探索、lock / referenceを検証します。
+専用MPxCommand fixtureはMaya標準のUndo / Redoとcommand失敗時rollbackを確認します。
+型・補完contractは3入口、6メソッド、戻り値、値・補間・境界挿入の引数を検査します。
+
+関連pytestは時間拡縮と同じattr・MPxCommand・AnimLayerの範囲をMaya 2025 / 2026 / 2027で
+実行し、最後に`QT_QPA_PLATFORM=offscreen`を設定した`scripts/verify.cmd`で検証します。
+
+2026-09-17、値編集追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 値編集の専用pytest | 305件。下記の関連・全体テストに含み、3 versionで成功 |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2026 / 2027で各2,837件成功。Maya 2025は補強前の2,786件成功に加え、補強後のfull pytestで確認 |
+| 変更実装3ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | 成功。Black 4,455ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 5,811件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+その後、値編集も利用者によるMaya画面上での動作確認とpushまで完了しました（`ba5fc139`）。
+
+## キー削減の検証
+
+`test_keyframe_reduce.py`では、手動接線を維持する`reduce_keys()`を検証します。
+
+- TA / TL / TU、weighted / nonweighted、相対的なキー密度・負の時刻・subframe、
+  部分範囲・全体・実在境界の保持、予約後のFPS / 表示単位変更。
+- fixed接線・lock・breakdown・weighted / infinity設定の保持、step / stepnextの切り替わり。
+  auto・spline等の再計算後も、初回実行時の元カーブとの誤差内にあること。
+- Bezier区間の値とMayaネイティブ評価の照合、同値キー間の膨らみ、
+  累積削減誤差の高密度サンプル検証、範囲外形状・linear infinityの外挿傾き。
+- 誤差を判定できないweighted区間の保護、カーブなし・空カーブ・対象なし・不正引数。
+- 作業用カーブやmodified flagを残さないこと、予約後の再接続・改名、
+  既定ベース・明示layer・共有出力の明示カーブ、先行キー設定からの削減。
+- 作業用カーブでの失敗・適用後検査の失敗・後続処理の失敗時rollbackと反復Undo / Redo。
+
+共通の`test_keyframe_target.py` / `test_curve_keyframe.py`にも削減を登録し、
+派生するチャンネル・layer・lock / reference等のテストを実行します。
+専用MPxCommand fixtureでMaya標準Undo / Redoとcommand失敗時の復元を確認し、
+型・補完contractは3つの入口の引数と戻り値を検査します。
+
+関連pytestは移動実装時と同じattr・MPxCommand・AnimLayerの範囲を3バージョンで実行し、
+最終確認には`scripts/verify.cmd`を使用します。キー削減の利用者による手動確認は未実施です。
+
+2026-09-15、キー削減追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各1,993件成功、プロセス正常終了 |
+| Bezier分割の計算改善後の削減専用pytest・MPxCommand | 3 versionで各137件成功。削減専用は102件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black、3 versionの型・補完contract、full pytest、UI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 4,545件成功、632件skip。Qt/UI対象は専用ランナーでも別途実行 |
+| 上記のUI互換性 | 3 versionで各Qt/UI 726件・Maya UI 244件成功 |
+
+## AnimationClipの検証
+
+仕様は[AnimationClip](animation_clip.md)を参照してください。
+
+### JSONファイルの保存・読込
+
+- `tests/py/test_json_file.py`: UTF-8・日本語・BOM、JSON各型とtuple、PathLike・相対パス、
+  親フォルダの既定作成と無効化、整形・上書き禁止・保存確定時の競合、
+  不正値・非有限数・循環・文字コード・JSON構文・ファイル不在・親がファイルの場合の拒否。
+  書き込み・close・確定の失敗時に既存ファイルを保護し、一時ファイルを除去すること。
+- `tests/maya/node/test_animation_clip_file.py`: flatten / preserveとTA / TL / TUの往復、
+  詳細データ・layer設定の保持、schema 2・BOM・オプション、編集済みKeyDataの保存前再検証、
+  元clipとscene状態・Undo履歴・保留中modifierの維持、元scene削除後の読込と復元・Undo / Redo。
+- `tests/typecheck/json_file_contract.py`: `bdu.json_file`と直接import、PathLike引数・保存オプション、
+  `Path` / `object` / `AnimationClip`の戻り値型と不正な引数型の拒否。
+
+2026-09-19、JSONファイルAPI追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| 汎用JSON・AnimationClip関連pytest | Maya 2025 / 2026 / 2027で各790件成功、プロセス正常終了。今回追加したテストは73件 |
+| JSONモジュール・AnimationClip実装と新しい型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,467ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,647件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+ファイルAPIの利用者によるMaya画面上での確認は未実施です。
+
+### 復元に使用する範囲
+
+`test_animation_clip_range.py`では、`restore(start_frame=..., end_frame=...)`の次の契約を検証します。
+
+- flatten / preserve、3種類の復元mode、両端包含・片側省略・1時刻・全保存区間、未指定時の既存経路。
+- 境界補完後のTA / TL / TUの密な形状比較、全対応接線・weighted / nonweighted、stepの切り替わり、
+  接線のfixed化・lock解除・breakdown保持。空node・空チャンネル・node順も維持。
+- 切り出し後の区間を基準とする相対移動・絶対配置・倍率・長さ・両端合わせ、保存FPSと復元FPSの区別、
+  予約後のFPS変更、負時刻・subframe・任意の保存時間単位、削減済みデータとJSON往復。
+- root / layer設定の切り出し・拡縮・比較・再利用と、明示設定上書きによる範囲外キーの削除。
+- チャンネル固有のキー範囲外のconstant / linear補完、周期infinityの範囲外拒否。
+- 予約前の入力検証、元clipとscene状態・Undo履歴の保持、作業nodeの破棄、後続チャンネル失敗時の非予約。
+  保留中node作成、予約後のデータ独立、反復Undo / Redo、後続失敗時rollback。
+
+専用MPxCommandも範囲指定あり・なしでMaya標準Undo / Redoと失敗時rollbackを検証します。
+型・補完contractでは範囲引数と既存の時刻・拡縮指定を組み合わせ、戻り値が`None`であることを確認します。
+
+2026-09-18、範囲復元追加後の検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・AnimationClip・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各4,018件成功、プロセス正常終了 |
+| 変更実装4ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,463ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のMaya 2025 full pytest | 6,574件成功、632件skip |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+その後、範囲復元も利用者によるMaya画面上での確認・pushまで完了しました（`9c405008`）。
+
+Maya 2027の初回関連テストは4,018件の判定成功後、終了コード`-1073740940`となりました。
+範囲・削減・詳細切り出し・専用MPxCommandに絞った480件では正常終了しました。
+過去の移動テストの終了時異常と同じ登録の反復を避けるため、clip用MPxCommandもmodule内で登録を共有し、
+scene初期化は各テストで維持する構成に整理しました。その後、同じ4,018件で正常終了を確認しました。
+テストの除外や終了コードの無視はしていません。
+
+### 保存データのキー削減
+
+`test_animation_clip_reduce.py`は、`AnimationClip.reduce_keys()`の次の契約を検証します。
+
+- flatten / preserve、TA / TL / TU、全体・両端包含・片側指定・対象なし、境界を挿入しないこと。
+- 実カーブの削減との比較、weighted / nonweighted、fixed / auto / linear等の形状とメタデータ保持。
+  キー間の膨らみ、短いweighted接線、breakdown保護とstepの切り替わり。
+- 許容誤差の公開値単位、保存時FPS・任意のseconds_per_frame、負時刻・subframe、sceneのFPS変更。
+- 元clipとの独立、schema 2 JSON往復、空node・空カーブ・node順、rootとlayerの設定維持・既存layer再利用。
+- 元nodeを削除した後の処理、sceneのnode・modified flag・現在時刻・選択・Undo / Redo履歴と保留中編集の維持。
+  復元・削減・再取得の失敗や後続チャンネルの失敗で部分変更を残さないこと。
+- 削減済みclipの復元予約、Undo / Redo・後続失敗時rollback・予約後の独立コピー。
+  保存カーブの誤差と、復元先の加算layerによる最終合成値の誤差を区別すること。
+
+2026-09-18、クリップ削減追加後に実行した検証結果です。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| attr・AnimationClip・MPxCommand・AnimLayerの関連pytest | Maya 2025 / 2026 / 2027で各3,805件成功、プロセス正常終了 |
+| 変更実装4ファイルと型contractの明示Pyright | Maya 2025でエラー・警告0件 |
+| `scripts/verify.cmd` | `QT_QPA_PLATFORM=offscreen`で成功。Black 4,461ファイル、3 versionの型・補完contract、Maya 2025 full pytest、3 versionのUI互換性、差分確認を含む |
+| 上記のUI互換性 | Maya 2025 / 2026 / 2027で各Qt/UI 726件・Maya UI 244件成功 |
+
+その後、クリップ削減も利用者によるMaya画面上での確認・pushまで完了しました（`8a722b40`）。
+
+### 逆再生clip
+
+`tests/maya/node/test_animation_clip_reverse.py`は、`AnimationClip.reversed()`の次の契約を検証します。
+
+- 保存範囲の共通秒軸による時刻の鏡映、負時刻・subframe、単一キー・空カーブ、
+  元clipと変更可能な`KeyData`の独立、schema 2のファイル往復、二重反転。
+- TA / TL / TU、weighted / nonweighted、fixed / linear / auto接線について、
+  反転前後の密なカーブ評価値が鏡映時刻で一致すること。
+- step / stepnextを区間単位で相互変換し、キー時刻・直前・直後・区間内の値を維持すること。
+  incoming側だけにある非標準のstep系をoutへ移して区間をstep化しないこと。
+- 全infinity種別の交換と範囲外評価、値・breakdown・weighted・tangent / weight lock、
+  接線type・XY、clipとlayerのメタデータ保持。
+- layer / root設定curveにもchannelと同じ秒軸を使い、保存範囲外キーと異なる
+  `seconds_per_frame`を反転すること。
+- 呼出時の再検証、Maya時刻精度、scene・現在時刻・選択・modified flag・保留中modifierの維持。
+  反転clipの復元、反復Undo / Redo、後続処理失敗時のrollback。
+- 型・補完contractでは`clip.reversed()`が`bdu.AnimationClip`を返し、連続呼出しできること。
+
+2026-09-22の開発中確認では、逆再生専用pytest 34件と、既存の移動・拡縮・範囲・
+ファイルAPIを含む関連pytest 581件がMaya 2025で成功しました。
+変更実装と型contractを明示したPyrightもエラー・警告0件です。
+
+### AnimationClipのnode部分抽出
+
+`tests/maya/node/test_animation_clip_extract.py`は、`AnimationClip.extract(nodes=...)`と
+capture時の保存node名について、次の契約を検証します。
+
+- scene全体で一意な階層下DAGはnamespace込みのshort name、同名DAGはfull pathで保存すること。
+  short name保存後の親変更、同名DAGのfull pathによるcaptureと既定restoreを含む。
+- 新しいshort保存と従来のfull path入りschema 2を、clip内で一意なshort nameから抽出できること。
+  short nameの複数一致、不明名、空・重複指定、裸の文字列、namespace省略を拒否すること。
+- 保存名、liveな`NodeOperator` / `MObject`を混在し、DAGは現在のfull path完全一致、続いて
+  short nameで保存nodeを選べること。capture後の同名DAG追加・削除にも対応すること。
+  objectはclip内identityではなく、呼出時の確定済みnode名をselectorにし、
+  予約中のrenameを実行せず変更前の現在名を使うこと。
+- 明示名付きのpending `NodeOperator`は予約名で選べ、保留中modifierを実行しないこと。
+  相対予約名は名前を要求した時点のcurrent namespace、先頭`:`付き予約名はrootから解決し、
+  後からcurrent namespaceを変更してもselectorが変わらないこと。
+  名前なしpending `NodeOperator`、raw pending `MObject`、削除済み・node以外の`MObject`を拒否すること。
+- `nodes`の指定順、全channel、空node、保存範囲・時間単位・schema等のメタデータを維持すること。
+  元scene削除後にも処理でき、元clipと変更可能な`KeyData`を共有しないこと。
+- preserve clipでは使用layerと全祖先、root設定、設定curve、相対順を維持し、
+  除外nodeだけが使用するlayerを除外すること。抽出clipの復元とUndoも確認すること。
+- 呼出時に除外対象を含む元clip全体を再検証し、JSON往復、`reversed()`との連続利用、
+  公開戻り値と`NodeOperator | MObject | str`入力の型・補完contractを維持すること。
+
+2026-09-23の開発中確認では、node抽出専用pytest 7件と、既存の保存・範囲・削減・逆再生・
+時間変換・ファイルAPIを含むAnimationClip関連pytest 780件がMaya 2025で成功しました。
+変更実装と型contractを明示したPyrightもエラー・警告0件です。
+
+### 保存・復元の既存テスト
+
+- `tests/maya/node/test_animation_clip.py`: 合成保存・layer保持、keyable / channelBox / 明示属性、
+  static・compound・sparse array・enum・単位、JSON、範囲とFPS、名前空間とnode順対応、
+  全置換・部分置換・merge、接線・lock・breakdown・weighted・infinity、layer階層・順序・
+  設定競合・root設定、保留中操作と同一性、合成結果の検査、失敗時の全体rollbackを検証します。
+  `capture(layers=...)`ではlayer名とliveなanimLayer `NodeOperator` / `MObject`の混在、
+  node type・生存状態・pending objectの拒否、入力型contractも確認します。
+- `tests/maya/mpx_cmd/test_animation_clip_command.py`と同階層`fixtures`の専用plug-in:
+  時刻移動・時間拡縮の有無それぞれで、`cmds.undo()` / `cmds.redo()`によるlayer作成・キー復元の履歴と、
+  command失敗時rollbackを検証します。
+- `tests/maya/node/test_animation_clip_static.py`: `include_static`の既定除外・明示取得、
+  明示属性・compoundへの適用、定数キー・空カーブ、constraint / expression / time / driven key、
+  layer再現に必要な定数値とweight・親のweight、回転3軸の依存、layer限定、空nodeの順番維持、
+  保留中編集の非実行とscene状態、復元先の対象外キーの維持を検証します。
+- `tests/maya/node/test_animation_clip_time.py`: 相対移動・開始/終了合わせと3種類の復元mode、
+  全node共通の区間基準、負の時刻・subframe・1時刻clip・移動量0、FPS変更前後の予約・実行、
+  データの非変更・複数予約、不正引数の予約前拒否、接線等の詳細情報の保持、
+  layerとrootの設定カーブの移動・比較・上書き、weighted接線の丸めとnonweighted接線の正規化、
+  移動先layerの合成値解決、保留中node作成・後続失敗のrollback、Undo / Redoを検証します。
+- `tests/maya/node/test_animation_clip_scale.py`: 倍率・長さ・両端指定、配置との組み合わせ、
+  全node共通の基準、保存区間の境界、TA / TL / TUの各接線・weighted・lock・breakdown・infinity、
+  `fast` / `slow`のMaya標準再計算、レイヤー設定の比較・再利用・区間外キー、
+  置換mode・衝突、FPS変更前後の予約、データの非変更・複数予約、1時刻clip・不正引数・精度限界、
+  移動先layerの合成値解決、保留中node作成・後続失敗・Undo / Redoを検証します。
+- `tests/maya/node/operator/attr/test_keyframe_discovery.py`: 上流探索に加え、
+  未接続outputの内部依存を含むアニメーション判定も検証します。
+- `tests/maya/node/modifier/test_modifier_manager.py`: `queue_dg_batch()`の準備一回、
+  初回・後続失敗、Undo / Redoを検証します。
+- `tests/typecheck/node_operator_contract.py`: `bdu.AnimationClip`の入口、データ型とJSON・抽出・復元の
+  戻り値型、抽出node iterable、modeのLiteral補完、`include_static`のbool型、
+  復元時刻・拡縮引数の型と組み合わせを検証します。
+
+2026-09-16時点で、次の関連範囲はMaya 2025 / 2026 / 2027それぞれ2,083件成功しました。
+新機能のclip・専用MPxCommandは61件です。検証実績はこの時点の変更に対するもので、
+以後の変更を自動的に保証するものではありません。
+
+同日の最終`verify.cmd`も成功しました（`QT_QPA_PLATFORM=offscreen`）。
+Blackは4,445ファイル、3 versionのPyright contractはすべて成功、Maya 2025 full pytestは
+4,610件成功・632件skip、Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
+`git diff --check`も成功しています。
+
+同日の`include_static`追加後は、次の関連範囲がMaya 2025 / 2026 / 2027それぞれ
+2,117件成功しました。静的属性の専用テスト33件と、上流判定のテスト1件を追加しています。
+変更した実装ファイルを明示したPyright検証も、エラー・警告0件でした。
+追加後の最終`verify.cmd`も成功しました（`QT_QPA_PLATFORM=offscreen`）。
+Blackは4,446ファイル、3 versionの型・補完contractはすべて成功、Maya 2025 full pytestは
+4,644件成功・632件skip、Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
+
+2026-09-17の復元時刻指定追加後は、次の関連範囲がMaya 2025 / 2026 / 2027それぞれ
+2,183件成功しました。復元時刻の専用テスト62件と、MPxCommandの時刻移動4件を追加しています。
+変更した実装3ファイルを明示したMaya 2025のPyright検証も、エラー・警告0件でした。
+最終`verify.cmd`も成功しました（`QT_QPA_PLATFORM=offscreen`）。Blackは4,448ファイル、
+3 versionの型・補完contractはすべて成功、Maya 2025 full pytestは4,710件成功・632件skip、
+Qt/UIは各versionで726件、Maya UIは各versionで244件成功しました。
+
+同日の時間拡縮追加後は、次の関連範囲がMaya 2025 / 2026 / 2027それぞれ2,457件成功しました。
+時間拡縮の専用テスト266件と、MPxCommandの時間拡縮8件を追加しています。
+変更した実装3ファイルを明示したMaya 2025のPyright検証も、エラー・警告0件でした。
+最終`verify.cmd`も成功しました（`QT_QPA_PLATFORM=offscreen`）。Blackは4,449ファイル、
+3 versionの型・補完contract、Maya 2025 full pytestが成功しました。
+Qt/UIは各versionで726件、Maya UIは各versionで244件成功しています。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/test_animation_clip_time.py tests/maya/node/test_animation_clip_scale.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2026.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/test_animation_clip_time.py tests/maya/node/test_animation_clip_scale.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\test-pytest-maya2027.cmd tests/maya/node/test_animation_clip.py tests/maya/node/test_animation_clip_static.py tests/maya/node/test_animation_clip_time.py tests/maya/node/test_animation_clip_scale.py tests/maya/node/operator/attr tests/maya/node/operator/node/dg/test_anim_layer.py tests/maya/node/modifier tests/maya/mpx_cmd
+.\scripts\verify.cmd
+```
 
 ## ベンチマークの見方
 

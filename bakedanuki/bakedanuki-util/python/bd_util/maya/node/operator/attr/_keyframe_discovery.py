@@ -6,6 +6,7 @@ from collections.abc import Iterator
 from typing import TYPE_CHECKING, TypeVar, cast
 
 from maya.api import OpenMaya as om
+from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
 
@@ -54,10 +55,7 @@ def _roots(plug: om.MPlug, *, traverse_inputs: bool) -> list[om.MPlug]:
     return roots
 
 
-def curve_objects(
-    plug: om.MPlug, *, traverse_inputs: bool = False
-) -> tuple[om.MObject, ...]:
-    """Collect upstream curves; sampling also follows animation-driven inputs."""
+def _validate_plug(plug: om.MPlug) -> None:
     handle = om.MObjectHandle(plug.node())
     if not handle.isAlive() or not handle.isValid():
         raise RuntimeError("The discovery plug is not available in the scene.")
@@ -75,18 +73,50 @@ def curve_objects(
             "Curve discovery requires a scalar numeric or unit plug."
         )
 
+
+def _upstream(root: om.MPlug) -> om.MItDependencyGraph:
+    iterator = om.MItDependencyGraph(
+        root,
+        om.MFn.kInvalid,
+        om.MItDependencyGraph.kUpstream,
+        om.MItDependencyGraph.kBreadthFirst,
+        om.MItDependencyGraph.kPlugLevel,
+        om.MItDependencyGraph.kDependsOn,
+    )
+    iterator.traversingOverWorldSpaceDependents = True
+    return iterator
+
+
+def has_animation(plug: om.MPlug) -> bool:
+    """Keep authored keys and upstream time/expression dependencies, even if constant."""
+    _validate_plug(plug)
+    for root in _roots(plug, traverse_inputs=True):
+        iterator = _upstream(root)
+        while not iterator.isDone():
+            current: om.MPlug = iterator.currentPlug()
+            node = current.node()
+            if current.attribute().hasFn(om.MFn.kMessageAttribute):
+                iterator.prune()
+            elif node.hasFn(om.MFn.kAnimCurve):
+                if oma.MFnAnimCurve(node).numKeys:
+                    return True
+                # An empty curve's time input does not animate its output.
+                iterator.prune()
+            elif node.hasFn(om.MFn.kTime) or node.hasFn(om.MFn.kExpression):
+                return True
+            iterator.next()
+    return False
+
+
+def curve_objects(
+    plug: om.MPlug, *, traverse_inputs: bool = False
+) -> tuple[om.MObject, ...]:
+    """Collect upstream curves; sampling also follows animation-driven inputs."""
+    _validate_plug(plug)
     objects: list[om.MObject] = []
     # Keep each root MPlug alive until iteration finishes (Maya retains it).
     for root in _roots(plug, traverse_inputs=traverse_inputs):
-        iterator = om.MItDependencyGraph(
-            root,
-            om.MFn.kInvalid,
-            om.MItDependencyGraph.kUpstream,
-            om.MItDependencyGraph.kBreadthFirst,
-            om.MItDependencyGraph.kPlugLevel,
-            om.MItDependencyGraph.kDependsOn,
-        )
-        iterator.traversingOverWorldSpaceDependents = True
+        iterator = _upstream(root)
         while not iterator.isDone():
             current: om.MPlug = iterator.currentPlug()
             if current.attribute().hasFn(om.MFn.kMessageAttribute):

@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Literal, overload
 
 from .modifier import ModifierManager
+from .operator.node import NodesKeyframeManager
 from ._versioned_accessors import (
     _ExistingNodeAccessorCommon,
     _ExistingNodeAccessorMaya2025,
@@ -57,6 +58,8 @@ class Nodes:
     ) -> None: ...
     @property
     def modifier_manager(self) -> ModifierManager: ...
+    @property
+    def keyframes(self) -> NodesKeyframeManager: ...
     @property
     def create(self) -> _NodeCreatorCommon: ...
     @property

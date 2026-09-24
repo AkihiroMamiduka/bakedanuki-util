@@ -100,6 +100,10 @@ def test_pending_creation_queries_do_not_flush_and_creation_undo_redo(
     assert not maya_cmds.objExists("pendingCurve")
     keyframe.set_keys([(1, 2), (3, 4)])
     keyframe.set_weighted(True)
+    keyframe.set_tangent_locks(
+        tangents_locked=False,
+        weights_locked=True,
+    )
     mod.do_it_dg()
     assert keyframe.get_keys() == pytest.approx([(1, 2), (3, 4)])
     for _ in range(2):
@@ -110,6 +114,9 @@ def test_pending_creation_queries_do_not_flush_and_creation_undo_redo(
         mod.redo_it()
         assert keyframe.get_keys() == pytest.approx([(1, 2), (3, 4)])
         assert keyframe.get_weighted() is True
+        data = keyframe.get_key_data()
+        assert [key.tangents_locked for key in data] == [False, False]
+        assert [key.weights_locked for key in data] == [True, True]
 
 
 @pytest.mark.parametrize(
@@ -289,10 +296,23 @@ def test_shared_curve_and_time_driver_edit_delete_restore_all_connections(
 
 
 EDITS = [
+    ("set_value", (1,)),
+    ("set_values", ()),
+    ("add_value", (1,)),
+    ("add_values", ()),
+    ("scale_value", (1,)),
+    ("scale_values", ()),
+    ("scale_frames", ()),
+    ("reduce_keys", ()),
+    ("move_frame", (1,)),
+    ("move_frames", ()),
     ("set_key", (20, 3)),
     ("set_keys", ([(3, 20)],)),
     ("insert_key", (3,)),
-    ("set_tangent", (1, "linear")),
+    ("set_tangent", (1,)),
+    ("set_tangents", ()),
+    ("set_tangent_lock", (1,)),
+    ("set_tangent_locks", ()),
     ("delete_key", (1,)),
     ("delete_keys", ()),
     ("delete_anim_curve", ()),
@@ -303,6 +323,48 @@ EDITS = [
 
 
 def _queue_edit(keyframe, method, args):
+    if method in ("set_value", "set_values"):
+        getattr(keyframe, method)(*args, value=50)
+        return
+    if method in ("add_value", "add_values"):
+        getattr(keyframe, method)(*args, offset=5)
+        return
+    if method in ("scale_value", "scale_values"):
+        getattr(keyframe, method)(*args, scale=2)
+        return
+    if method == "scale_frames":
+        keyframe.scale_frames(
+            1,
+            5,
+            scale=1.25,
+            pivot=3,
+            interpolate_start=-3,
+            interpolate_end=13,
+        )
+        return
+    if method == "reduce_keys":
+        keyframe.reduce_keys(*args, tolerance=0.01)
+        return
+    if method == "move_frames":
+        keyframe.move_frames(
+            1, 5, offset=2, interpolate_start=-3, interpolate_end=9
+        )
+        return
+    if method == "move_frame":
+        getattr(keyframe, method)(*args, offset=4)
+        return
+    if method == "set_tangents":
+        keyframe.set_tangents(1, 5, out_tangent_type="linear")
+        return
+    if method == "set_tangent":
+        keyframe.set_tangent(*args, in_tangent_type="linear")
+        return
+    if method == "set_tangent_lock":
+        keyframe.set_tangent_lock(*args, tangents_locked=False)
+        return
+    if method == "set_tangent_locks":
+        keyframe.set_tangent_locks(1, 5, weights_locked=True)
+        return
     if method == "set_key_data":
         args = (keyframe.get_key_data(),)
     elif method == "set_curve_data":

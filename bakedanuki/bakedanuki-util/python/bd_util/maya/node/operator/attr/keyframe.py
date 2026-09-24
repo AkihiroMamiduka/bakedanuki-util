@@ -12,10 +12,17 @@ from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
 from . import (
+    _keyframe_bake,
     _keyframe_command,
+    _keyframe_delete,
     _keyframe_discovery,
+    _keyframe_move,
+    _keyframe_reduce,
+    _keyframe_scale,
     _keyframe_snapshot,
+    _keyframe_tangent,
     _keyframe_target,
+    _keyframe_value,
 )
 from ._keyframe_discovery import CurveNode
 from .keyframe_data import AnimCurveData, KeyData
@@ -27,79 +34,16 @@ if TYPE_CHECKING:
     from ._keyframe_discovery import AnimCurveNode
 
 ValueConverter = Callable[[Any], Any]
-TangentTypeName = Literal[
-    "auto",
-    "clamped",
-    "fast",
-    "flat",
-    "linear",
-    "plateau",
-    "slow",
-    "spline",
-    "step",
-    "stepnext",
-]
-TangentTypeValue = TangentTypeName | int | None
+TangentTypeName = _keyframe_tangent.TangentTypeName
+TangentTypeValue = _keyframe_tangent.TangentTypeValue
 _KeyValue = float | om.MAngle | om.MDistance | om.MTime
 _CapturedKey = tuple[om.MTime, _KeyValue]
 
-
-class TangentType:
-    auto = oma.MFnAnimCurve.kTangentAuto
-    clamped = oma.MFnAnimCurve.kTangentClamped
-    fast = oma.MFnAnimCurve.kTangentFast
-    flat = oma.MFnAnimCurve.kTangentFlat
-    linear = oma.MFnAnimCurve.kTangentLinear
-    plateau = oma.MFnAnimCurve.kTangentPlateau
-    slow = oma.MFnAnimCurve.kTangentSlow
-    spline = oma.MFnAnimCurve.kTangentSmooth
-    step = oma.MFnAnimCurve.kTangentStep
-    stepnext = oma.MFnAnimCurve.kTangentStepNext
-
-
-_TANGENT_TYPE_MAP = {
-    "auto": TangentType.auto,
-    "clamped": TangentType.clamped,
-    "fast": TangentType.fast,
-    "flat": TangentType.flat,
-    "linear": TangentType.linear,
-    "plateau": TangentType.plateau,
-    "slow": TangentType.slow,
-    "spline": TangentType.spline,
-    "step": TangentType.step,
-    "stepnext": TangentType.stepnext,
-}
-_VALID_TANGENT_TYPES = set(_TANGENT_TYPE_MAP.values()) | {
-    oma.MFnAnimCurve.kTangentGlobal,
-}
-_TANGENT_TYPE_NAMES = {
-    value: name for name, value in _TANGENT_TYPE_MAP.items()
-}
+TangentType = _keyframe_tangent.TangentType
 
 
 def _identity(value: Any) -> Any:
     return value
-
-
-def _to_tangent_type(tangent_type: int | str | None) -> int:
-    if tangent_type is None:
-        return oma.MFnAnimCurve.kTangentGlobal
-
-    if isinstance(tangent_type, str):
-        tangent_type = tangent_type.lower()
-        result = _TANGENT_TYPE_MAP.get(tangent_type)
-        if result is not None:
-            return result
-
-    else:
-        if tangent_type in _VALID_TANGENT_TYPES:
-            return tangent_type
-
-    valid_types = ", ".join(sorted(_TANGENT_TYPE_MAP))
-    raise ValueError(
-        f"Unsupported tangent type: {tangent_type!r}. "
-        f"Expected one of: {valid_types}."
-    )
 
 
 def _add_keys(
@@ -365,6 +309,8 @@ class _KeyframeOperations(ABC):
         self,
         value: float,
         frame: float,
+        *,
+        tangent_type: TangentTypeValue = None,
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
@@ -374,6 +320,7 @@ class _KeyframeOperations(ABC):
             value: 角度はdegree、距離はcentimeter、time属性は予約時の
                 Maya UI時間単位。それ以外はscalar値。
             frame: 予約時のMaya UI時間単位で指定する時刻。
+            tangent_type: 入出力両側の共通tangent。
             in_tangent_type: 入力側tangent。NoneはMayaの既定値。
             out_tangent_type: 出力側tangent。NoneはMayaの既定値。
 
@@ -390,8 +337,14 @@ class _KeyframeOperations(ABC):
         frame = float(frame)
         if not math.isfinite(value) or not math.isfinite(frame):
             raise ValueError("Keyframe value and frame must be finite.")
-        in_type = _to_tangent_type(in_tangent_type)
-        out_type = _to_tangent_type(out_tangent_type)
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type,
+            in_tangent_type,
+            out_tangent_type,
+            default_in=oma.MFnAnimCurve.kTangentGlobal,
+            default_out=oma.MFnAnimCurve.kTangentGlobal,
+        )
+        assert in_type is not None and out_type is not None
         self._validate_set_target("set_key")
 
         time = om.MTime(frame, om.MTime.uiUnit())
@@ -402,6 +355,7 @@ class _KeyframeOperations(ABC):
         self,
         keys: Iterable[tuple[float, float]],
         *,
+        tangent_type: TangentTypeValue = None,
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
@@ -413,8 +367,14 @@ class _KeyframeOperations(ABC):
         """
         manager = self._require_modifier_manager()
         time_unit = om.MTime.uiUnit()
-        in_type = _to_tangent_type(in_tangent_type)
-        out_type = _to_tangent_type(out_tangent_type)
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type,
+            in_tangent_type,
+            out_tangent_type,
+            default_in=oma.MFnAnimCurve.kTangentGlobal,
+            default_out=oma.MFnAnimCurve.kTangentGlobal,
+        )
+        assert in_type is not None and out_type is not None
         self._validate_set_target("set_keys")
         if isinstance(keys, (str, bytes)):
             raise TypeError(
@@ -439,36 +399,111 @@ class _KeyframeOperations(ABC):
     def set_tangent(
         self,
         frame: float,
+        *,
+        tangent_type: TangentTypeValue = None,
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
         """tangent変更を予約する。実行時にキーがなければ何もしない。"""
-        manager = self._require_modifier_manager()
-        time = self._key_time(frame)
-        in_type = (
-            _to_tangent_type(in_tangent_type)
-            if in_tangent_type is not None
-            else None
-        )
-        out_type = (
-            _to_tangent_type(out_tangent_type)
-            if out_tangent_type is not None
-            else None
+        self.set_tangents(
+            frame,
+            frame,
+            tangent_type=tangent_type,
+            in_tangent_type=in_tangent_type,
+            out_tangent_type=out_tangent_type,
         )
 
-        def set_key_tangent(change: oma.MAnimCurveChange) -> None:
+    def set_tangents(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        tangent_type: TangentTypeValue = None,
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+    ) -> None:
+        """両端を含む範囲の既存キーに対するtangent変更を予約する。
+
+        None側は制限せず、両端を省略すると全キーを対象にする。
+        境界キーは挿入せず、カーブや対象キーがなければ何もしない。
+        tangent typeがNoneの側は変更しない。
+        """
+        manager = self._require_modifier_manager()
+        start_time, end_time = _keyframe_tangent.capture_range(
+            start_frame, end_frame
+        )
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type, in_tangent_type, out_tangent_type
+        )
+        if in_type is None and out_type is None:
+            return
+
+        def set_key_tangents(change: oma.MAnimCurveChange) -> None:
             fn_anim_curve = self._get_anim_curve_fn(write=True)
             if fn_anim_curve is None:
                 return
-            index = fn_anim_curve.find(time)
-            if index is None:
+            indices = [
+                index
+                for index in range(fn_anim_curve.numKeys)
+                if self._is_frame_in_range(
+                    fn_anim_curve.input(index).asUnits(om.MTime.kSeconds),
+                    start_time,
+                    end_time,
+                )
+            ]
+            if not indices:
                 return
-            if in_type is not None:
-                fn_anim_curve.setInTangentType(index, in_type, change)
-            if out_type is not None:
-                fn_anim_curve.setOutTangentType(index, out_type, change)
+            _keyframe_tangent.apply(
+                fn_anim_curve, tuple(indices), in_type, out_type, change
+            )
 
-        manager.queue_anim_curve_change(set_key_tangent)
+        manager.queue_anim_curve_change(set_key_tangents)
+
+    def set_tangent_lock(
+        self,
+        frame: float,
+        *,
+        tangents_locked: bool | None = None,
+        weights_locked: bool | None = None,
+    ) -> None:
+        """実在する単一キーのtangent / weight lock変更を予約する。"""
+        self.set_tangent_locks(
+            frame,
+            frame,
+            tangents_locked=tangents_locked,
+            weights_locked=weights_locked,
+        )
+
+    def set_tangent_locks(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        tangents_locked: bool | None = None,
+        weights_locked: bool | None = None,
+    ) -> None:
+        """両端を含む範囲の既存キーに対するlock変更を予約する。
+
+        None側は制限せず、両端を省略すると全キーを対象にする。
+        境界キーは挿入せず、カーブや対象キーがなければ何もしない。
+        Noneのlockは変更しない。weighted設定と接線形状は維持する。
+        """
+        manager = self._require_modifier_manager()
+        start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
+        tangent_lock, weight_lock = _keyframe_tangent.capture_locks(
+            tangents_locked, weights_locked
+        )
+        if tangent_lock is None and weight_lock is None:
+            return
+
+        _keyframe_tangent.queue_locks(
+            manager,
+            lambda: (self._target,),
+            start,
+            end,
+            tangent_lock,
+            weight_lock,
+        )
 
     def insert_key(self, frame: float, breakdown: bool = False) -> None:
         """カーブ形状を保つキー挿入を予約する。カーブがなければ実行時に失敗する。"""
@@ -506,39 +541,508 @@ class _KeyframeOperations(ABC):
         end_frame: float | None = None,
     ) -> None:
         """両端を含む範囲のキー削除を予約する。省略した端は制限しない。"""
-        manager = self._require_modifier_manager()
-        start_time = (
-            self._key_time(start_frame).asUnits(om.MTime.kSeconds)
-            if start_frame is not None
-            else None
+        _keyframe_delete.queue_delete(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
         )
-        end_time = (
-            self._key_time(end_frame).asUnits(om.MTime.kSeconds)
-            if end_frame is not None
-            else None
+
+    @overload
+    def move_frame(
+        self,
+        frame: float,
+        *,
+        offset: float,
+        to: None = None,
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def move_frame(
+        self,
+        frame: float,
+        *,
+        offset: None = None,
+        to: float,
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    def move_frame(
+        self,
+        frame: float,
+        *,
+        offset: float | None = None,
+        to: float | None = None,
+        insert_missing: bool = False,
+    ) -> None:
+        """指定時刻のキー移動を予約する。offset / toは一方だけ。
+
+        時刻と移動量は予約時のUI時間単位。移動先の既存キーは置換する。
+        insert_missing=Trueなら、欠けた元キーを形状を保って挿入してから移す。
+        カーブ・キーなしは何もしない。移動量0では挿入も行わない。
+        """
+        frame = float(frame)
+        _keyframe_move.queue_move(
+            self._require_modifier_manager(),
+            self._target,
+            frame,
+            frame,
+            offset_frames=offset,
+            to_start_frame=to,
+            to_end_frame=None,
+            insert_missing=insert_missing,
         )
-        if (
-            start_time is not None
-            and end_time is not None
-            and start_time > end_time
-        ):
-            raise ValueError(
-                "start_frame must be less than or equal to end_frame."
-            )
 
-        def remove_keys(change: oma.MAnimCurveChange) -> None:
-            fn_anim_curve = self._get_anim_curve_fn(write=True)
-            if fn_anim_curve is None:
-                return
-            for index in reversed(range(fn_anim_curve.numKeys)):
-                if self._is_frame_in_range(
-                    fn_anim_curve.input(index).asUnits(om.MTime.kSeconds),
-                    start_time,
-                    end_time,
-                ):
-                    fn_anim_curve.remove(index, change)
+    @overload
+    def move_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        offset: float,
+        to_start: None = None,
+        to_end: None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
 
-        manager.queue_anim_curve_change(remove_keys)
+    @overload
+    def move_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        offset: None = None,
+        to_start: float,
+        to_end: None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def move_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        offset: None = None,
+        to_start: None = None,
+        to_end: float,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    def move_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        offset: float | None = None,
+        to_start: float | None = None,
+        to_end: float | None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """両端を含むキー範囲の移動を予約する。移動方法は1つだけ指定。
+
+        None側は無制限、両端省略は全体。絶対移動は指定境界を基準とし、
+        その側がNoneなら元範囲の最初/最後のキーを使う。移動先の対象外キーは置換。
+        insert_missing=Trueは明示した境界だけを補う。空カーブや移動量0は変更しない。
+        時刻は予約時のUI時間単位で捕捉し、対象とキーは初回実行時に解決する。
+        補間指定時は移動前の時刻からウェイトを求め、範囲外の既存キーにも移動量を配分。
+        interpolate_start < start_frame、end_frame < interpolate_endを指定する。
+        補間端の静止キーを含む対象同士の衝突・順序逆転は拒否する。手動接線は維持する。
+        insert_missing=Trueなら明示した補間境界も補い、自動samplingはしない。
+        """
+        _keyframe_move.queue_move(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            offset_frames=offset,
+            to_start_frame=to_start,
+            to_end_frame=to_end,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
+            insert_missing=insert_missing,
+        )
+
+    @overload
+    def scale_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        scale: float,
+        duration: None = None,
+        offset: float | None = None,
+        to_start: None = None,
+        to_end: None = None,
+        pivot: float | None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        scale: None = None,
+        duration: float,
+        offset: float | None = None,
+        to_start: None = None,
+        to_end: None = None,
+        pivot: float | None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        scale: float,
+        duration: None = None,
+        offset: None = None,
+        to_start: float | None,
+        to_end: None = None,
+        pivot: None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        scale: None = None,
+        duration: float,
+        offset: None = None,
+        to_start: float | None,
+        to_end: None = None,
+        pivot: None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        scale: float,
+        duration: None = None,
+        offset: None = None,
+        to_start: None = None,
+        to_end: float | None,
+        pivot: None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        scale: None = None,
+        duration: float,
+        offset: None = None,
+        to_start: None = None,
+        to_end: float | None,
+        pivot: None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def scale_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        scale: None = None,
+        duration: None = None,
+        offset: None = None,
+        to_start: float,
+        to_end: float,
+        pivot: None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    def scale_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        scale: float | None = None,
+        duration: float | None = None,
+        offset: float | None = None,
+        to_start: float | None = None,
+        to_end: float | None = None,
+        pivot: float | None = None,
+        mode: Literal["replace_range", "merge"] = "replace_range",
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """両端を含むキー範囲の時間拡縮を予約する。戻り値はNone。
+
+        正の倍率・長さ・移動先の両端指定のいずれかを指定する。
+        明示境界を基準とし、None側は対象キーの端を使う。接線Xも拡縮し、値は保持する。
+        pivotは拡縮の基準時刻。配置先の境界とは併用不可。offsetは拡縮後に加える。
+        ピボットにキーは補わない。省略時は主区間の開始を基準にする。
+        既定は配置先区間の置換。mergeは同時刻だけを上書きする。元キーは残さない。
+        補間区間の既存キーは元時刻で重み付けし、時刻と接線Xの拡縮を弱める。
+        置換区間と拡縮基準は主区間だけで決める。対象キーの衝突・順序逆転はエラー。
+        insert_missing=Trueは最大4つの明示境界を補う。恒等変換・空カーブは変更しない。
+        フレーム引数は予約時のUI時間単位で捕捉し、対象キーは初回実行時に解決する。
+        """
+        _keyframe_scale.queue_scale(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            time_scale=scale,
+            duration_frames=duration,
+            pivot_frame=pivot,
+            offset_frames=offset,
+            to_start_frame=to_start,
+            to_end_frame=to_end,
+            mode=mode,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
+            insert_missing=insert_missing,
+        )
+
+    def set_value(
+        self,
+        frame: float,
+        *,
+        value: float,
+        insert_missing: bool = False,
+    ) -> None:
+        """指定時刻の既存キーの値変更を予約する。手動接線は維持する。
+
+        値は対象カーブ自身のdegree / cm / unitless / 予約時UI時間単位。
+        insert_missing=Trueなら指定時刻を補う。未作成・空カーブは変更しない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            frame,
+            frame,
+            operation="set",
+            amount=value,
+            insert_missing=insert_missing,
+            single=True,
+        )
+
+    def set_values(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        value: float,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """範囲内の既存キーを同じ値へ変更する予約。手動接線は維持する。
+
+        None側は無制限。補間指定時は外側の既存キーも元の値から指定値へ重み付けする。
+        interpolate_start < start_frame、end_frame < interpolate_endを指定する。
+        interpolationはキーごとの影響度であり、キー間の形状を保証しない。
+        insert_missing=Trueは明示した最大4境界だけを補い、自動samplingはしない。
+        値は対象カーブ自身のdegree / cm / unitless / 予約時UI時間単位。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            operation="set",
+            amount=value,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
+            insert_missing=insert_missing,
+        )
+
+    def add_value(
+        self,
+        frame: float,
+        *,
+        offset: float,
+        insert_missing: bool = False,
+    ) -> None:
+        """指定時刻の既存キーへ値を加算する予約。手動接線は維持する。
+
+        単位はset_valueと同じ。offset=0では境界挿入も行わない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            frame,
+            frame,
+            operation="add",
+            amount=offset,
+            insert_missing=insert_missing,
+            single=True,
+        )
+
+    def add_values(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        offset: float,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """範囲内の既存キーへ値を加算する予約。手動接線は維持する。
+
+        補間指定時は外側の既存キーへもoffset * 影響度を加算する。
+        範囲・単位・補間・境界挿入はset_valuesと同じ。加算量0は挿入もしない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            operation="add",
+            amount=offset,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
+            insert_missing=insert_missing,
+        )
+
+    def scale_value(
+        self,
+        frame: float,
+        *,
+        scale: float,
+        pivot: float = 0,
+        insert_missing: bool = False,
+    ) -> None:
+        """指定時刻の既存キーをpivot基準で値方向へ拡縮する予約。
+
+        接線Yも拡縮し、nonweighted接線は正規化する。0・負の倍率にも対応。
+        pivotの単位はset_valueと同じ。倍率1では境界挿入も行わない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            frame,
+            frame,
+            operation="scale",
+            amount=scale,
+            pivot_value=pivot,
+            insert_missing=insert_missing,
+            single=True,
+        )
+
+    def scale_values(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        scale: float,
+        pivot: float = 0,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """範囲内の既存キーをpivot基準で値方向へ拡縮する予約。
+
+        実効倍率は1 + 影響度 * (scale - 1)。接線Yも同じ倍率で拡縮し、
+        nonweighted接線は正規化する。接線型・lock・breakdownは維持する。
+        範囲・単位・補間・境界挿入はset_valuesと同じ。倍率1は挿入もしない。
+        """
+        _keyframe_value.queue_value(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            operation="scale",
+            amount=scale,
+            pivot_value=pivot,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
+            insert_missing=insert_missing,
+        )
+
+    def reduce_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        tolerance: float,
+        preserve_breakdowns: bool = True,
+    ) -> None:
+        """元カーブとの値の誤差内でキーを削減する予約。戻り値はNone。
+
+        範囲は両端包含、None側は無制限。範囲内の最初・最後と、既定ではbreakdownを残す。
+        toleranceはdegree / cm / unitlessの非負数。キー間も比較し、判定できない候補は残す。
+        残るキーの時刻・値・手動接線を保持し、auto等の再計算も誤差判定に含める。
+        TA / TL / TUに対応。対象解決・編集は初回実行時、範囲の時間単位は予約時に捕捉する。
+        """
+        _keyframe_reduce.queue_reduce(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
+            tolerance,
+            preserve_breakdowns,
+        )
 
     def _require_modifier_manager(self) -> ModifierManager:
         if self._modifier_manager is None:
@@ -654,6 +1158,49 @@ class KeyframeManager(_KeyframeOperations):
             self.plug, self._modifier_manager, filter_type
         )
 
+    def bake(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        sample_by: float = 1.0,
+        tangent_type: TangentTypeValue = "auto",
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+        discrete_tangent_type: TangentTypeValue = None,
+    ) -> None:
+        """評価済み入力を等間隔に採取し、時間入力カーブへの置換を予約する。
+
+        Noneの範囲端は呼び出し時の再生範囲。範囲は両端を含み、割り切れない
+        終了時刻も採取する。未指定はベース、anim_layer()指定時はそのlayer入力を扱う。
+        上流nodeは削除せず、他のcompound子・layerを維持する。各時刻を独立に
+        評価するため、履歴依存のsimulationは対象外。
+        """
+        manager = self._require_modifier_manager()
+        self._validate_set_target("bake")
+        _keyframe_snapshot.curve_type_for_target(self._target)
+        frames, rate = _keyframe_bake.capture_grid(
+            start_frame, end_frame, sample_by
+        )
+        in_type, out_type = _keyframe_tangent.resolve_tangent_types(
+            tangent_type, in_tangent_type, out_tangent_type
+        )
+        discrete_type = (
+            _keyframe_tangent.to_tangent_type(discrete_tangent_type)
+            if discrete_tangent_type is not None
+            else None
+        )
+        _keyframe_bake.queue_bake(
+            manager,
+            self._target,
+            self.plug,
+            frames,
+            rate,
+            in_type=in_type,
+            out_type=out_type,
+            discrete_type=discrete_type,
+        )
+
     def values(self) -> list[Any]:
         fn_anim_curve = self._get_anim_curve_fn()
         if fn_anim_curve is None:
@@ -688,8 +1235,8 @@ class KeyframeManager(_KeyframeOperations):
         )
         fn_anim_curve: oma.MFnAnimCurve | None = None
         api_start = 0
-        in_name = _TANGENT_TYPE_NAMES.get(in_type)
-        out_name = _TANGENT_TYPE_NAMES.get(out_type)
+        in_name = _keyframe_tangent.command_tangent_name(in_type)
+        out_name = _keyframe_tangent.command_tangent_name(out_type)
 
         def queue_command_key(
             modifier: om.MDGModifier, key: _CapturedKey

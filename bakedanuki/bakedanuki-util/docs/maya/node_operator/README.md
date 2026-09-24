@@ -19,6 +19,18 @@
 
 ## 主要ファイル
 
+- `python/bd_util/maya/node/animation_clip.py`
+  - 複数node・属性の保存・復元を行う`bdu.AnimationClip`です。既定の合成保存、layer保持、
+    名前空間・対象リストによる対応付け、追加・全置換・部分置換、JSONを扱います。
+    静的な属性は既定で除外し、`include_static=True`で保存対象に含めます。
+    復元時刻は`offset_frames` / `to_start_frame` / `to_end_frame`のいずれかで指定できます。
+    `time_scale` / `duration_frames`による時間拡縮と、開始・終了の両端指定による区間合わせにも対応します。
+    詳細は[AnimationClip](animation_clip.md)を参照してください。
+    `reduce_keys()`で全属性チャンネルの保存データを削減し、独立した新しいclipとして保存・復元できます。
+    `restore(start_frame=..., end_frame=...)`では保存データの使用区間を選び、境界補完後に拡縮・移動して復元できます。
+    `save()` / `load()`でschema 2のJSONファイルを保存・読込できます。親フォルダは既定で作成します。
+    汎用のファイル操作は[`bdu.json_file`](../../py/json_file.md)から利用できます。
+
 - `python/bd_util/maya/node/operator/node/_core.py`
   - `NodeOperator` の基底クラスです。
 - `python/bd_util/maya/node/operator/node/dg/_core.py`
@@ -45,12 +57,18 @@
     layerがないsceneでは、単位変換やpairBlend越しでも同じチャンネルのカーブを自動解決します。
     `.anim_layer("Correction")`で、既存layer用の`KeyframeManager`を取得できます。
     キー設定は対象layerを明示してMayaが値を解決し、取得・詳細復元はそのlayerの生カーブを扱います。
+    `set_tangents()`は`tangent_type`による両側指定と個別側の上書きに対応し、
+    両端包含範囲または全キーに実在する接線typeをまとめて変更します。
     詳細復元は登録済み属性のカーブがなければ自動作成し、事前の仮キーを必要としません。
     明示指定はTA / TL / TUノードの`.keyframe`から使用します。
     調査用の`find_anim_curves()`では、上流候補を具体ノード型のtupleとして取得できます。
 - `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`
   - `nodes.create.animLayer()`のベース・階層を含む作成と、`add_plugs()` / `add_nodes()`の登録です。
     作成待ちの戻り値を`.keyframe.anim_layer(layer)`へ渡し、キー設定まで一括予約できます。
+- `python/bd_util/maya/node/operator/node/_keyframes.py`
+  - 全`NodeOperator`の`.keyframes`と`Nodes.keyframes`から使う、node単位・複数node単位の
+    接線変更・ベイク入口です。明示属性またはkeyable / channelBox属性を収集し、既存カーブの
+    接線を一括変更するか、全対象のsampling後に同じ履歴で入力を置換します。
 - `python/bd_util/maya/node/operator/attr/_keyframe_discovery.py`
   - DG依存関係の候補列挙と型filter。layer所属や合成値の解決とは分離しています。
     内部のカーブ列挙はsample_valuesの再評価準備でも使用し、こちらは入力側のカーブまで辿ります。
@@ -64,6 +82,21 @@
   - 編集可能な`KeyData`と、カーブ共通設定を持つ`AnimCurveData`です。
 - `python/bd_util/maya/node/operator/attr/_keyframe_snapshot.py`
   - カーブ情報の取得・復元、指定範囲の境界補完の内部実装です。
+- `python/bd_util/maya/node/operator/attr/_keyframe_bake.py`
+  - plugのベースまたは指定layerの生入力を等間隔に評価し、入力接続だけを時間入力カーブへ
+    全置換する`bake()`の内部実装です。上流nodeと非対象のcompound子・layerを維持します。
+- `python/bd_util/maya/node/operator/attr/_keyframe_move.py` / `_keyframe_scale.py`
+  - 既存キーの移動・正の時間拡縮と、それぞれの影響度の補間です。境界挿入・キー情報の捕捉・復元を共有し、
+    `scale_frames()`は配置先区間の部分置き換えを既定とします。
+- `python/bd_util/maya/node/operator/attr/_keyframe_influence.py`
+  - 移動・時間拡縮・値編集で共有する補間境界の検証と、linear / smoothstepの影響度計算です。
+- `python/bd_util/maya/node/operator/attr/_keyframe_value.py`
+  - 既存キーの値設定・加算・拡縮です。範囲外への補間はキーごとの影響度を計算し、
+    明示した境界以外を自動サンプリングしません。
+- `python/bd_util/maya/node/operator/attr/_keyframe_reduce.py` / `_keyframe_error.py`
+  - `reduce_keys()`の削減計画とBezier区間の誤差判定です。残すキーの手動接線を維持し、
+    元カーブとの誤差内に収まる候補だけを削除します。node・複数node操作では全カーブの
+    削減計画を完了してから一括変更します。
 - `python/bd_util/maya/node/operator/attr/extra/add_attr.py`
   - extra attribute 作成用の `AddAttr` API です。
 - `python/bd_util/maya/node/operator/attr/lookup.py`
@@ -1411,11 +1444,44 @@ alias や child plug は同じ logical plug を指す場合、同じ `PlugOperat
 
 ## 関連ドキュメント
 
+以下は名称整理前の実装・確認履歴も現行API名で表記しています。
+
 KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元、layer構成を含む性能改善まで
-実装・動作確認済みです。次の着手はキーフレーム移動で、メソッド名と仕様は未確定です。
+実装・動作確認済みです。時間方向の`move_frame()` / `move_frames()`も利用者確認・push済みです。
+続いて、手動接線を維持するキー削減`reduce_keys()`を実装しました。
+時間拡縮の`scale_frames()`も追加し、倍率・長さ・両端合わせ、既定の部分置き換えとmergeに対応します。
+`set_value(s)` / `add_value(s)` / `scale_value(s)`による値編集と、既存キーへの補間ウェイトも
+利用者確認・push済みです。`move_frames()`の補間も利用者確認・push済みです（`9a63af85`）。
+続いて`scale_frames()`にも補間指定を追加しました。元時刻から時刻・接線Xへの影響度を求め、
+部分置き換えは主区間の配置先だけを対象にします。補間拡縮も利用者確認・push済みです（`fbf9c033`）。
+続いて`pivot`を追加し、任意時刻を基準にした拡縮と、その後の相対移動に対応しました。
+ピボット指定も利用者確認・push済みです（`f0def8ab`）。
+時間方向の操作名を`move_frame()` / `move_frames()` / `scale_frames()`へ整理し、
+時間・値の編集引数を`offset` / `scale` / `pivot`等へ短縮しました。旧名のaliasは提供しません。
+対応表は[旧APIからの移行](attributes.md#旧apiからの移行)を参照してください。名称整理も利用者確認・push済みです（`b90965c0`）。
+続いて`AnimationClip.reduce_keys()`を追加しました。元clip・sceneとレイヤー設定を維持し、
+全属性チャンネルの保存カーブを削減した新しいclipを返します。クリップ削減も利用者確認・push済みです（`8a722b40`）。
+続いて`AnimationClip.restore()`へ`start_frame` / `end_frame`を追加しました。
+保存フレーム単位の指定区間を境界補完して切り出し、その区間を基準に拡縮・移動して復元します。範囲復元も利用者確認・push済みです（`9c405008`）。
+続いて`AnimationClip.save()` / `load()`と汎用の`bdu.json_file.write()` / `read()`を追加しました。
+既定で親フォルダを作成し、UTF-8で保存します。clipは保存前・読込時にschema 2を検証します。
+続いてplug単位の`KeyframeManager.bake()`を追加しました。既定ベースまたは明示layerの生入力を
+再生範囲・指定区間でsamplingし、上流nodeと非対象接続を維持して時間入力カーブへ全置換します。
+続いてnode単位の`node.keyframes.bake()`を追加しました。keyable属性を既定で収集し、
+静的値も既定でカーブ化します。明示属性、channelBox属性、静的値の除外、指定layerを選択できます。全対象のsampling完了後に
+接続を変更し、失敗時は全属性をrollbackします。
+続いて複数node単位の`nodes.keyframes.bake([...])`を追加しました。nodeごとに存在する
+明示属性だけを選び、全node・全属性のsampling完了後に接続を変更します。上流・下流nodeを
+同時指定しても入力順に依存せず、失敗時はnode間を含む操作全体をrollbackします。
+続いて範囲内の既存キーへ接線typeを一括設定する`set_tangents()`を追加しました。
+片側無制限・全キー・片側接線だけの変更に対応し、キーの挿入やlock状態の変更は行いません。
+補間移動・補間拡縮とも、対象キー同士の衝突・順序逆転を拒否します。
 新しいチャットで開発を続ける場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と
-[キーフレーム移動の検討事項](roadmap.md#次の着手はキーフレーム移動)を参照してください。
+[キーフレーム移動](attributes.md#キーを時間方向へ移動する)・
+[時間拡縮](attributes.md#キーを時間方向へ拡縮する)・
+[値編集](attributes.md#キーの値を編集する)・
+[キー削減](attributes.md#手動接線を維持してキーを削減する)の現行仕様を参照してください。
 
 - [KeyframeManagerの開発状況と次の候補](roadmap.md#keyframemanagerの開発状況と次の候補)
 - [キーフレームの現行仕様](attributes.md#キーフレーム)

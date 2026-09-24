@@ -5,6 +5,7 @@ from maya.api import OpenMaya as om
 
 import bd_util as bdu
 from bd_util.maya.node.operator.attr import KeyframeManager
+from bd_util.maya.node.operator.attr._keyframe_discovery import has_animation
 
 pytestmark = [pytest.mark.maya, pytest.mark.usefixtures("new_scene")]
 
@@ -74,6 +75,16 @@ def test_declared_dependencies_can_include_other_axes_but_not_unrelated_nodes(
     unrelated = maya_cmds.createNode("transform")
     _connect_curve(maya_cmds, unrelated + ".tx", "unrelated")
     assert _names(_keyframe(multiply + ".outputX")) == (x, y)
+
+
+def test_animation_detection_follows_unconsumed_output_dependencies(maya_cmds):
+    source = maya_cmds.createNode("multiplyDivide")
+    selection = om.MSelectionList()
+    selection.add(source + ".outputX")
+    plug = selection.getPlug(0)
+    assert not has_animation(plug)
+    maya_cmds.setKeyframe(source + ".input1X", time=1, value=7)
+    assert has_animation(plug)
 
 
 def test_layer_curves_and_weight_are_candidates_even_when_muted_and_locked(

@@ -14,7 +14,7 @@ from test_keyframe_anim_layer import (
 )
 from test_keyframe_channel import _manager, _states
 from test_keyframe_set_equivalence import restore_animation_preferences
-from test_keyframe_target import EDITS, QUERIES
+from test_keyframe_target import EDITS, QUERIES, _prepare_reduction
 
 pytestmark = pytest.mark.maya
 
@@ -162,6 +162,8 @@ def test_default_edits_preserve_additive_curves_and_restore_history(
     base = maya_cmds.animLayer(query=True, root=True)
     selected = _curve_name(maya_cmds, base, keyframe.plug.name())
     _prefer(maya_cmds, layers[1])
+    if method == "reduce_keys":
+        _prepare_reduction(maya_cmds, selected)
     before = _states(maya_cmds)
     _queue_edit(keyframe, method)
     assert _states(maya_cmds) == before

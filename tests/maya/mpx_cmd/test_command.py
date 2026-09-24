@@ -32,6 +32,60 @@ def mpx_test_plugin(new_scene, maya_cmds):
 
 
 @pytest.fixture
+def reduce_test_plugin(new_scene, maya_cmds):
+    name = "bdu_mpx_keyframe_reduce_test_plugin"
+    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+    maya_cmds.loadPlugin(str(path), quiet=True)
+    yield
+    maya_cmds.flushUndo()
+    maya_cmds.unloadPlugin(name)
+
+
+@pytest.fixture
+def bake_test_plugin(new_scene, maya_cmds):
+    name = "bdu_mpx_keyframe_bake_test_plugin"
+    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+    maya_cmds.loadPlugin(str(path), quiet=True)
+    yield
+    maya_cmds.flushUndo()
+    maya_cmds.unloadPlugin(name)
+
+
+@pytest.fixture(scope="module")
+def move_test_plugin():
+    # Repeated registration/unloading per parameter case crashes Maya 2027 on exit.
+    maya_cmds = pytest.importorskip("maya.cmds")
+    name = "bdu_mpx_keyframe_move_test_plugin"
+    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+    maya_cmds.loadPlugin(str(path), quiet=True)
+    yield
+    maya_cmds.flushUndo()
+    maya_cmds.unloadPlugin(name)
+
+
+@pytest.fixture(scope="module")
+def scale_test_plugin():
+    # Share registration across cases, as for the move command on Maya 2027.
+    maya_cmds = pytest.importorskip("maya.cmds")
+    name = "bdu_mpx_keyframe_scale_test_plugin"
+    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+    maya_cmds.loadPlugin(str(path), quiet=True)
+    yield
+    maya_cmds.flushUndo()
+    maya_cmds.unloadPlugin(name)
+
+
+@pytest.fixture
+def value_test_plugin(new_scene, maya_cmds):
+    name = "bdu_mpx_keyframe_value_test_plugin"
+    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+    maya_cmds.loadPlugin(str(path), quiet=True)
+    yield
+    maya_cmds.flushUndo()
+    maya_cmds.unloadPlugin(name)
+
+
+@pytest.fixture
 def sample_commands_plugin(new_scene, maya_cmds):
     yield
 
@@ -113,6 +167,263 @@ def test_keyframe_set_uses_command_undo_redo_and_failure_rollback(
         assert not maya_cmds.ls(type="animCurve")
         assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
         maya_cmds.redo()
+
+
+@pytest.mark.parametrize("fail", [False, True])
+@pytest.mark.parametrize("interpolate", [False, True])
+def test_move_frames_uses_maya_undo_redo_and_command_failure_rollback(
+    move_test_plugin, new_scene, maya_cmds, fail, interpolate
+):
+    from maya.api import OpenMaya as om
+    from bd_util.maya.node.operator.attr import KeyframeManager
+
+    node = maya_cmds.createNode("transform")
+    managers = []
+    for channel in ("tx", "ty"):
+        plug = node + "." + channel
+        for frame, value in ((0, 0), (10, 4), (20, 2), (30, 7)):
+            maya_cmds.setKeyframe(plug, time=frame, value=value)
+        managers.append(
+            KeyframeManager(om.MSelectionList().add(plug).getPlug(0))
+        )
+    before = [k.get_curve_data() for k in managers]
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterMoveKeyframes"
+            if fail
+            else "bduTestMpxMoveKeyframes"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional keyframe move failure"
+        ):
+            command(nodeName=node, interpolate=interpolate)
+        assert [k.get_curve_data() for k in managers] == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    command(nodeName=node, interpolate=interpolate)
+    if interpolate:
+        assert managers[0].get_keys() == [(0, 0), (14, 4), (24, 2), (30, 7)]
+        assert managers[1].frames() == pytest.approx(
+            [0, 5, 10 + 10 / 7, 14, 20, 20 + 10 / 7, 25, 30]
+        )
+    else:
+        assert managers[0].frames() == [0, 20, 30]
+        assert managers[0].get_keys() == [(0, 0), (20, 4), (30, 7)]
+        assert managers[1].frames() == [0, 10, 20, 30, 40, 46]
+    after = [k.get_curve_data() for k in managers]
+    for _ in range(3):
+        maya_cmds.undo()
+        assert [k.get_curve_data() for k in managers] == before
+        maya_cmds.redo()
+        assert [k.get_curve_data() for k in managers] == after
+
+
+@pytest.mark.parametrize("fail", [False, True])
+def test_reduce_keys_uses_maya_undo_redo_and_command_failure_rollback(
+    reduce_test_plugin, maya_cmds, fail
+):
+    import bd_util as bdu
+
+    node = maya_cmds.createNode("transform")
+    for i in range(11):
+        maya_cmds.setKeyframe(
+            node + ".tx",
+            time=i,
+            value=i,
+            inTangentType="linear",
+            outTangentType="linear",
+        )
+    keyframe = bdu.Nodes().existing.transform(node).tx.keyframe
+    before = keyframe.get_curve_data()
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterReduceKeyframes"
+            if fail
+            else "bduTestMpxReduceKeyframes"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional keyframe reduction failure"
+        ):
+            command(nodeName=node)
+        assert keyframe.get_curve_data() == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    command(nodeName=node)
+    assert keyframe.frames() == [0, 10]
+    after = keyframe.get_curve_data()
+    for _ in range(3):
+        maya_cmds.undo()
+        assert keyframe.get_curve_data() == before
+        maya_cmds.redo()
+        assert keyframe.get_curve_data() == after
+
+
+@pytest.mark.parametrize("fail", [False, True])
+def test_bake_uses_maya_undo_redo_and_command_failure_rollback(
+    bake_test_plugin, maya_cmds, fail
+):
+    driver = maya_cmds.createNode("transform", name="bakeDriver")
+    target = maya_cmds.createNode("transform", name="bakeTarget")
+    maya_cmds.expression(
+        name="bakeExpression", string=f"{driver}.tx = time * 2;"
+    )
+    maya_cmds.pointConstraint(driver, target)
+    plug = target + ".tx"
+    expected = [maya_cmds.getAttr(plug, time=frame) for frame in (1, 3, 5)]
+    before_source = maya_cmds.listConnections(
+        plug, source=True, destination=False, plugs=True
+    )
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterBakeKeyframes"
+            if fail
+            else "bduTestMpxBakeKeyframes"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional keyframe bake failure"
+        ):
+            command(nodeName=target)
+        assert (
+            maya_cmds.listConnections(
+                plug, source=True, destination=False, plugs=True
+            )
+            == before_source
+        )
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+
+    command(nodeName=target)
+    after_source = maya_cmds.listConnections(
+        plug, source=True, destination=False, plugs=True
+    )
+    assert after_source != before_source
+    assert maya_cmds.nodeType(after_source[0].split(".")[0]) == "animCurveTL"
+    assert maya_cmds.keyframe(plug, query=True, timeChange=True) == [1, 3, 5]
+    assert [
+        maya_cmds.getAttr(plug, time=frame) for frame in (1, 3, 5)
+    ] == pytest.approx(expected)
+    for _ in range(3):
+        maya_cmds.undo()
+        assert (
+            maya_cmds.listConnections(
+                plug, source=True, destination=False, plugs=True
+            )
+            == before_source
+        )
+        maya_cmds.redo()
+        assert (
+            maya_cmds.listConnections(
+                plug, source=True, destination=False, plugs=True
+            )
+            == after_source
+        )
+
+
+@pytest.mark.parametrize("fail", [False, True])
+@pytest.mark.parametrize("interpolate", [False, True])
+def test_scale_frames_uses_maya_history_and_command_failure_rollback(
+    scale_test_plugin, new_scene, maya_cmds, fail, interpolate
+):
+    import bd_util as bdu
+
+    name = maya_cmds.createNode("transform")
+    for attr in ("tx", "ty"):
+        for frame, value in ((0, 0), (10, 4), (20, 2), (30, 7)):
+            maya_cmds.setKeyframe(name + "." + attr, time=frame, value=value)
+        maya_cmds.keyTangent(
+            name + "." + attr, edit=True, weightedTangents=True
+        )
+    node = bdu.Nodes().existing.transform(name)
+    managers = [node.tx.keyframe, node.ty.keyframe]
+    before = [k.get_curve_data() for k in managers]
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterScaleKeyframes"
+            if fail
+            else "bduTestMpxScaleKeyframes"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional keyframe scaling failure"
+        ):
+            command(nodeName=name, interpolate=interpolate)
+        assert [k.get_curve_data() for k in managers] == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    command(nodeName=name, interpolate=interpolate)
+    if interpolate:
+        assert managers[0].get_keys() == [(0, 0), (10, 4), (25, 2), (30, 7)]
+        assert managers[1].frames() == pytest.approx(
+            [0, 5, 10 + 10 / 7, 13, 16, 20 - 15 / 7, 25, 30]
+        )
+    else:
+        assert managers[0].get_keys() == [(0, 0), (20, 4), (40, 2)]
+        assert managers[1].frames() == [0, 10, 20, 30, 32]
+    after = [k.get_curve_data() for k in managers]
+    for _ in range(3):
+        maya_cmds.undo()
+        assert [k.get_curve_data() for k in managers] == before
+        maya_cmds.redo()
+        assert [k.get_curve_data() for k in managers] == after
+
+
+@pytest.mark.parametrize("fail", [False, True])
+def test_value_edits_use_maya_history_and_command_failure_rollback(
+    value_test_plugin, maya_cmds, fail
+):
+    import bd_util as bdu
+
+    name = maya_cmds.createNode("transform")
+    for attr in ("tx", "ty"):
+        for frame, value in ((0, 0), (10, 4), (20, 2), (30, 7)):
+            maya_cmds.setKeyframe(name + "." + attr, time=frame, value=value)
+        maya_cmds.keyTangent(
+            name + "." + attr, edit=True, weightedTangents=True
+        )
+    node = bdu.Nodes().existing.transform(name)
+    managers = [node.tx.keyframe, node.ty.keyframe]
+    before = [k.get_curve_data() for k in managers]
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterEditKeyframeValues"
+            if fail
+            else "bduTestMpxEditKeyframeValues"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional keyframe value failure"
+        ):
+            command(nodeName=name)
+        assert [k.get_curve_data() for k in managers] == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    command(nodeName=name)
+    assert managers[0].get_keys() == [(0, 0), (10, 5), (20, -3), (30, 7)]
+    assert managers[1].frames() == [0, 5, 10, 12, 18, 20, 25, 30]
+    after = [k.get_curve_data() for k in managers]
+    for _ in range(3):
+        maya_cmds.undo()
+        assert [k.get_curve_data() for k in managers] == before
+        maya_cmds.redo()
+        assert [k.get_curve_data() for k in managers] == after
 
 
 def _animation_state(maya_cmds, plug_name):
@@ -222,6 +533,13 @@ def test_animation_edits_share_command_history_and_restore_on_failure(
         )
     maya_cmds.setKeyframe(ty, time=1, value=10)
     initial_x = _animation_state(maya_cmds, tx)
+    from bd_util.maya.node.operator.attr import KeyframeManager
+    from maya.api import OpenMaya as om
+
+    selection = om.MSelectionList()
+    selection.add(tx)
+    keyframe = KeyframeManager(selection.getPlug(0))
+    initial_data = keyframe.get_curve_data()
     initial_y = _animation_state(maya_cmds, ty)
     initial_curves = sorted(maya_cmds.ls(type="animCurve"))
     maya_cmds.flushUndo()
@@ -231,6 +549,7 @@ def test_animation_edits_share_command_history_and_restore_on_failure(
         with pytest.raises(RuntimeError, match="intentional animation"):
             command(nodeName=node_name)
         assert _animation_state(maya_cmds, tx) == initial_x
+        assert keyframe.get_curve_data() == initial_data
         assert _animation_state(maya_cmds, ty) == initial_y
         assert sorted(maya_cmds.ls(type="animCurve")) == initial_curves
         assert maya_cmds.getAttr(f"{node_name}.scaleX") == 1.0
@@ -244,6 +563,18 @@ def test_animation_edits_share_command_history_and_restore_on_failure(
     assert final_x[1] == pytest.approx([1.0, 2.0, 5.0])
     assert final_x[2][1] == "linear"
     assert final_x[3][1] == "linear"
+    final_data = keyframe.get_curve_data()
+    assert final_data is not None
+    assert [key.tangents_locked for key in final_data.keys] == [
+        True,
+        False,
+        False,
+    ]
+    assert [key.weights_locked for key in final_data.keys] == [
+        False,
+        True,
+        True,
+    ]
     for _ in range(2):
         assert _animation_state(maya_cmds, tx) == final_x
         assert not maya_cmds.listConnections(
@@ -254,6 +585,7 @@ def test_animation_edits_share_command_history_and_restore_on_failure(
         assert len(maya_cmds.ls(type="animCurve")) == 1
         maya_cmds.undo()
         assert _animation_state(maya_cmds, tx) == initial_x
+        assert keyframe.get_curve_data() == initial_data
         assert _animation_state(maya_cmds, ty) == initial_y
         assert sorted(maya_cmds.ls(type="animCurve")) == initial_curves
         assert maya_cmds.getAttr(f"{node_name}.scaleX") == 1.0
