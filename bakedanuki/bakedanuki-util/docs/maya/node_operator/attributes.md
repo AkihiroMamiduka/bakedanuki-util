@@ -849,6 +849,40 @@ bool・enum・整数系の離散属性は`discrete_tangent_type`を明示した�
 layer未指定はroot、別layerには`.anim_layer()`を使用し、全属性・全nodeを1単位で
 Undo / Redo・rollbackします。
 
+#### node・複数nodeのキーをまとめて削除する
+
+`node.keyframes.delete_keys()`と`nodes.keyframes.delete_keys([...])`は、選択した属性にある
+既存カーブから、指定範囲に実在するキーだけをまとめて削除します。戻り値は`None`です。
+
+```python
+ctrl_a.keyframes.delete_keys(
+    1,
+    120,
+    attributes=["translate", "rotate"],
+)
+
+nodes.keyframes.delete_keys(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    include_channel_box=True,
+)
+mod.do_it_dg()
+```
+
+`start_frame` / `end_frame`は両端包含で、片側の`None`は無制限、両方省略は全キーです。
+同じ値を指定するとその時刻の単一キーだけを対象にします。境界キーやカーブを作成せず、
+対象キーがなければno-opです。最後のキーを削除した場合も空のanimCurveを残します。
+カーブノード自体を削除する操作はplug・明示カーブ単位の`delete_anim_curve()`です。
+
+属性の自動収集、`include_channel_box`、明示compound / array、複数nodeの属性名のunion、
+上流探索、root / 明示layerの選択はnode単位の接線操作と共通です。NodeOperator、MObject、
+node名を混在できます。明示した属性が存在しても既存カーブがなければ何もしません。
+全カーブの解決・書込み検査と削除indexの計画を完了してから、1つの`MAnimCurveChange`で
+削除します。Undo / Redoと途中失敗時のrollbackは全対象を1単位で扱います。
+
+同じmanagerへ先に予約したベイクや復元で作成されるカーブも、実行順に解決して削除できます。
+
 #### node・複数nodeのキーをまとめて削減する
 
 `node.keyframes.reduce_keys()`と`nodes.keyframes.reduce_keys([...])`は、選択した属性にある

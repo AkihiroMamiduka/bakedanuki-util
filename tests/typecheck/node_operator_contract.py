@@ -4151,6 +4151,15 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         None,
     )
     assert_type(
+        compose.keyframes.delete_keys(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+        ),
+        None,
+    )
+    assert_type(
         compose.keyframes.reduce_keys(
             -10.5,
             24.25,
@@ -4163,6 +4172,9 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     )
     compose.keyframes.set_weighted(
         1,  # pyright: ignore[reportArgumentType]
+    )
+    compose.keyframes.delete_keys(
+        attributes=[1],  # pyright: ignore[reportArgumentType]
     )
     compose.keyframes.reduce_keys()  # pyright: ignore[reportCallIssue]
     compose.keyframes.reduce_keys(
@@ -5279,6 +5291,15 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(node.keyframes.euler_filter(), None)
     assert_type(node.keyframes.euler_filter(-10.5, 24.25), None)
     assert_type(
+        node.keyframes.delete_keys(
+            -10.5,
+            24.25,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+        ),
+        None,
+    )
+    assert_type(
         node.keyframes.reduce_keys(
             -10.5,
             24.25,
@@ -5349,6 +5370,16 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
+        nodes.keyframes.delete_keys(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+        ),
+        None,
+    )
+    assert_type(
         nodes.keyframes.reduce_keys(
             [node, node.m_obj, "other"],
             1,
@@ -5382,6 +5413,12 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.keyframes.anim_layer(layer).set_weighted(
             [node, "other"], False, attributes=["translate"]
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).delete_keys(
+            [node, "other"], 1, 24, attributes=["translate"]
         ),
         None,
     )

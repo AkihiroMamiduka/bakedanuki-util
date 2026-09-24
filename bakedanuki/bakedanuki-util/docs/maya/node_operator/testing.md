@@ -758,6 +758,29 @@ Trueへ戻しても元のweightは復元されません。`MAnimCurveChange`のU
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr\test_keyframe_reduce.py tests\maya\node\operator\node\test_node_keyframe_reduce.py -q --tb=short
 ```
 
+## node・複数nodeのキー削除の検証
+
+`test_node_keyframe_delete.py`では、`node.keyframes.delete_keys()`と
+`nodes.keyframes.delete_keys([...])`について次の契約を検証します。
+
+- keyable / channelBox・明示属性、両端包含・片側省略・単一時刻・全キー・負時刻・subframeと、
+  予約時のUI時間単位の捕捉。
+- 境界やカーブを作成せず、対象キーなしはno-op、全キー削除後も空カーブを残すこと。
+- NodeOperator / MObject / node名の混在、複数nodeの属性名のunion、空・重複node列の拒否。
+- unitConversionを含む上流探索、rootと明示layerの分離。
+- 同じbatchで先に予約したnodeベイク・AnimationClip復元結果を実行時に認識して削除すること。
+- lockされた後半カーブと、後半カーブの削除計画失敗で前半カーブを変更しないこと。
+  後続処理の失敗では適用済みの全カーブをrollbackすること。
+- 反復Undo / Redoと、`NodeKeyframeManager` / `NodesKeyframeManager`の引数・`None`戻り値を
+  IDE補完で追えること。
+
+plug・明示カーブ単位の既存削除経路も共通コアへ揃えたため、チャンネル選択、layer、
+lock / reference、空カーブの回帰は既存テストと合わせて確認します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\test_node_keyframe_delete.py -q --tb=short
+```
+
 ## plug入力ベイクの検証
 
 `test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。

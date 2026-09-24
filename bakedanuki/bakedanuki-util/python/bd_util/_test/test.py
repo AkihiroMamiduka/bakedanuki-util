@@ -326,5 +326,14 @@ def main():
     partial_clip.restore(nodes.modifier_manager)
     nodes.keyframes.reduce_keys(restore_targets, tolerance=0.01)
 
+    dst_12_3.keyframes.delete_keys()
+
+    clip.restore(
+        nodes.modifier_manager,
+        targets=[dst_12_0, dst_12_1, dst_12_2, dst_12_3],
+    )
+    nodes.keyframes.delete_keys([dst_12_1, dst_12_3])
+    nodes.keyframes.reduce_keys([dst_12_0, dst_12_2], tolerance=0.01)
+
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

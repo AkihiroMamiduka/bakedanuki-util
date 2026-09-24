@@ -158,11 +158,11 @@
 `node.keyframes` / `nodes.keyframes`単位の既存カーブに対するweighted一括切り替え、
 `AnimationClip.reversed()`による独立した逆再生clipの作成、
 `AnimationClip.extract(nodes=...)`によるnode単位の部分抽出、
-`node.keyframes` / `nodes.keyframes`単位のEuler filterとキー削減を実装しました。
+`node.keyframes` / `nodes.keyframes`単位のEuler filter、キー削減、既存キーの一括削除を実装しました。
 
 属性単位の部分抽出はnode抽出の利用状況を確認してから再検討します。
-次の最優先項目はnode / nodes単位のキー削減の利用者確認後に決めます。
-各項目の公開method名・引数と
+次はnode / nodes単位の`move_frames()`、`scale_frames()`、保存データ用の
+`AnimationClip.retimed()`の順で進めます。各項目の公開method名・引数と
 対象なし・離散属性・layer・Undo / Redoの詳細契約は、着手時に現行APIと合わせて確定します。
 
 2026-09-12時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
@@ -196,7 +196,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 
 | 用途 | API / 状態 |
 | --- | --- |
-| 作成・挿入・接線変更・削除 | `set_key()` / `insert_key()` / `set_tangent()` / `set_tangents()` / `set_tangent_lock()` / `set_tangent_locks()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。`tangent_type`によるin / out共通指定、個別側の上書き、単一・両端包含範囲・全キーの接線typeとキー単位のtangent / weight lock変更、Undo / Redo・rollbackに対応 |
+| 作成・挿入・接線変更・削除 | 属性・明示カーブの`set_key()` / `insert_key()` / `set_tangent()` / `set_tangents()` / `set_tangent_lock()` / `set_tangent_locks()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。`tangent_type`によるin / out共通指定、個別側の上書き、単一・両端包含範囲・全キーの接線typeとキー単位のtangent / weight lock変更、Undo / Redo・rollbackに対応 |
 | 時間方向への移動 | `move_frame()` / `move_frames()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_frames()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否。属性・layer・明示カーブで同じ操作を使用 |
 | 時間方向への拡縮 | `scale_frames()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
@@ -205,6 +205,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
 | plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を等間隔に評価してTA / TL / TUへ全置換。連続・離散属性を分けた接線指定、上流nodeと非対象のcompound子・layerの維持、Undo / Redo・rollbackに対応 |
 | nodeの接線一括変更 | `node.keyframes.set_tangents()` / `nodes.keyframes.set_tangents([...])`と各`set_tangent_locks()`。keyable / channelBoxまたは明示属性の既存カーブだけを対象にし、全対象を1単位で変更。接線typeでは連続・離散属性を分け、lockでは両方を対象にする |
+| nodeのキー一括削除 | `node.keyframes.delete_keys()` / `nodes.keyframes.delete_keys([...])`。両端包含・片側省略・全キーを扱い、既存カーブの実在キーだけを削除。属性・上流カーブ・root / 明示layerの選択、全対象の事前検証、Undo / Redo・rollbackに対応 |
 | nodeのEuler filter | `node.keyframes.euler_filter()` / `nodes.keyframes.euler_filter([...])`。標準rotate 3軸の同期した既存キーを静的`rotateOrder`に従ってfilterし、範囲内先頭をanchorとして姿勢を維持。ベース・明示layer、全対象の事前検証、Undo / Redo・rollbackに対応 |
 | node入力の一括ベイク | `node.keyframes.bake()`。明示属性またはkeyable / channelBox属性をscalar leafへ展開し、静的な対象も既定でカーブ化。接線指定、全対象の事前sampling、compound共有接続の一括分割、操作全体のUndo / Redo・rollbackに対応 |
 | 複数node入力の一括ベイク | `nodes.keyframes.bake([...])`。nodeごとに存在する明示属性または自動収集した属性を全nodeで変更前にsampling。接線指定、node間を含むUndo / Redo・rollback、共通layer、総サンプル数上限に対応 |
@@ -348,6 +349,9 @@ Undo / Redo・rollbackに対応します。
 続いて`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`を追加しました。
 既存の削減コアと属性・layer選択を共有し、全対象の削減計画を完了してから1つの履歴で変更します。
 同じmanagerへ先に予約したベイク結果も実行時に解決して削減します。
+続いて`node.keyframes.delete_keys()` / `nodes.keyframes.delete_keys([...])`を追加しました。
+既存カーブの実在キーだけを対象にし、属性・layer選択と上流探索をnode一括操作で共有します。
+全対象の解決・書込み検査と削除indexの計画後に変更し、先行するベイクや復元にも追従します。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
@@ -544,8 +548,8 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
    接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
    AnimationClipの逆再生とNodeOperator / MObject / 保存名によるnode単位の部分抽出、
-   node / nodes単位のEuler filter・キー削減も実装済み。
-   属性単位の抽出は保留し、次の項目は利用者確認後に決める。
+   node / nodes単位のEuler filter・キー削減・既存キーの一括削除も実装済み。
+   属性単位の抽出は保留し、次はnode / nodes単位の`move_frames()`から進める。
    過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。

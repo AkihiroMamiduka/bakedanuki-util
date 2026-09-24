@@ -12,8 +12,9 @@ from maya.api import OpenMayaAnim as oma
 
 from ...modifier import ModifierManager
 from . import (
-    _keyframe_command,
     _keyframe_bake,
+    _keyframe_command,
+    _keyframe_delete,
     _keyframe_discovery,
     _keyframe_move,
     _keyframe_reduce,
@@ -540,39 +541,12 @@ class _KeyframeOperations(ABC):
         end_frame: float | None = None,
     ) -> None:
         """両端を含む範囲のキー削除を予約する。省略した端は制限しない。"""
-        manager = self._require_modifier_manager()
-        start_time = (
-            self._key_time(start_frame).asUnits(om.MTime.kSeconds)
-            if start_frame is not None
-            else None
+        _keyframe_delete.queue_delete(
+            self._require_modifier_manager(),
+            self._target,
+            start_frame,
+            end_frame,
         )
-        end_time = (
-            self._key_time(end_frame).asUnits(om.MTime.kSeconds)
-            if end_frame is not None
-            else None
-        )
-        if (
-            start_time is not None
-            and end_time is not None
-            and start_time > end_time
-        ):
-            raise ValueError(
-                "start_frame must be less than or equal to end_frame."
-            )
-
-        def remove_keys(change: oma.MAnimCurveChange) -> None:
-            fn_anim_curve = self._get_anim_curve_fn(write=True)
-            if fn_anim_curve is None:
-                return
-            for index in reversed(range(fn_anim_curve.numKeys)):
-                if self._is_frame_in_range(
-                    fn_anim_curve.input(index).asUnits(om.MTime.kSeconds),
-                    start_time,
-                    end_time,
-                ):
-                    fn_anim_curve.remove(index, change)
-
-        manager.queue_anim_curve_change(remove_keys)
 
     @overload
     def move_frame(
