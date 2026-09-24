@@ -26,6 +26,16 @@ class EnumRadioButtonGroup(qt.QWidget):
         *,
         orientation: qt.Qt.Orientation = qt.Qt.Orientation.Horizontal,
     ) -> None:
+        """定義中の各項目に対応するラジオボタンを生成する。
+
+        Args:
+            view_model: 表示する ViewModel またはその Binding。
+            parent: Qt の親 Widget。
+            orientation: ボタンの横並びまたは縦並び。
+
+        Raises:
+            ValueError: ``orientation`` が水平・垂直以外の場合。
+        """
         if orientation not in (
             qt.Qt.Orientation.Horizontal,
             qt.Qt.Orientation.Vertical,
@@ -63,6 +73,7 @@ class EnumRadioButtonGroup(qt.QWidget):
 
     @property
     def view_model(self) -> EnumViewModel:
+        """表示対象を返す。終了済みの場合は ``RuntimeError`` を送出する。"""
         if self._view_model.is_disposed:
             raise RuntimeError("表示対象のEnumViewModelは終了しています")
         return self._view_model
@@ -77,12 +88,22 @@ class EnumRadioButtonGroup(qt.QWidget):
         return self._buttons.get(require_enum_value(value))
 
     def orientation(self) -> qt.Qt.Orientation:
+        """構築時に指定したボタンの配置方向を返す。"""
         return self._orientation
 
     def isInputEnabled(self) -> bool:
+        """この View 固有の入力許可設定を返す。"""
         return self._input_enabled
 
     def setInputEnabled(self, enabled: bool) -> None:
+        """この View からの入力を許可または停止する。
+
+        Args:
+            enabled: 入力を許可する場合は ``True``。
+
+        Raises:
+            TypeError: ``enabled`` が ``bool`` でない場合。
+        """
         self._input_enabled = _require_enabled(enabled)
         self._update_enabled()
 
@@ -94,6 +115,7 @@ class EnumRadioButtonGroup(qt.QWidget):
         )
 
     def _replace_buttons(self, definition: EnumDefinition) -> None:
+        # 公開済みの buttons は定義変更後に無効となるため、古い Widget を破棄する。
         for button in self._buttons.values():
             self._button_group.removeButton(button)
             self._layout.removeWidget(button)
@@ -102,6 +124,7 @@ class EnumRadioButtonGroup(qt.QWidget):
             button.deleteLater()
         self._buttons.clear()
         self._button_values.clear()
+        # 項目名の & は Qt のニーモニックにせず、表示文字として扱う。
         for index, item in enumerate(definition.items):
             button = qt.QRadioButton(item.name.replace("&", "&&"), self)
             button.setAccessibleName(item.name)

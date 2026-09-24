@@ -32,7 +32,12 @@ def _require_items(value: object) -> tuple[EnumItem, ...]:
 
 @dataclass(frozen=True)
 class EnumItem:
-    """整数値と項目名。View内の位置は値とは独立している。"""
+    """一つの整数値と表示名。View内の位置は値と独立する。
+
+    Attributes:
+        value: 選択肢の整数値。`bool`は受け付けない。
+        name: 空でない表示名。
+    """
 
     value: int
     name: str
@@ -44,7 +49,11 @@ class EnumItem:
 
 @dataclass(frozen=True)
 class EnumDefinition:
-    """順序を持つ不変の選択肢。空の定義では編集を停止する。"""
+    """順序を持つ不変の選択肢。空なら編集を停止する。
+
+    Attributes:
+        items: 表示順の項目。整数値と表示名はそれぞれ重複できない。
+    """
 
     items: tuple[EnumItem, ...] = ()
 
@@ -60,18 +69,42 @@ class EnumDefinition:
 
     @classmethod
     def from_mapping(cls, names: Mapping[int, str]) -> EnumDefinition:
-        """mappingの順序を維持して値と項目名を取り込む。"""
+        """mappingの順序を保って選択肢を作る。
+
+        Args:
+            names: 整数値から表示名への対応。
+
+        Returns:
+            同じ順序のEnumDefinition。
+        """
         return cls(
             tuple(EnumItem(value, name) for value, name in names.items())
         )
 
     def item_for_value(self, value: int) -> EnumItem | None:
-        """未定義の実値は例外にせずNoneを返す。"""
+        """整数値に対応する項目を返す。
+
+        Args:
+            value: 検索する整数値。
+
+        Returns:
+            対応する項目。未定義なら`None`。
+        """
         value = require_enum_value(value)
         return next((item for item in self.items if item.value == value), None)
 
     def require_value(self, value: int) -> int:
-        """変更要求が定義に含まれていることを検証する。"""
+        """変更要求が選択肢に含まれるか検証する。
+
+        Args:
+            value: 検証する整数値。
+
+        Returns:
+            定義に含まれる同じ値。
+
+        Raises:
+            ValueError: 値が選択肢に含まれない場合。
+        """
         value = require_enum_value(value)
         if self.item_for_value(value) is None:
             raise ValueError(f"enumに定義されていない値です: {value}")

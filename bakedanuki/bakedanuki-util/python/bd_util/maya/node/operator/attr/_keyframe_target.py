@@ -1,4 +1,4 @@
-"""Resolve a curve separately from key editing and plug-value assignment."""
+"""キー編集や Plug 値の設定とは独立に対象カーブを解決する。"""
 
 from __future__ import annotations
 
@@ -70,7 +70,7 @@ Target = om.MPlug | CurveTarget | LayerTarget
 
 
 def base_layer(plug: om.MPlug) -> LayerTarget | None:
-    """Resolve the scene's current root layer without creating any layers."""
+    """レイヤーを作らず、シーンの現在のルートレイヤーを解決する。"""
     if om.MItDependencyNodes(om.MFn.kAnimLayer).isDone():
         return None
     name = cmds.animLayer(query=True, root=True)
@@ -80,7 +80,7 @@ def base_layer(plug: om.MPlug) -> LayerTarget | None:
 
 
 def plug_path(plug: om.MPlug) -> str:
-    """Use an unambiguous command argument even for duplicate DAG names."""
+    """同名の DAG ノードがあっても一意に指定できる Plug 名を返す。"""
     node = plug.node()
     name = (
         om.MFnDagNode(node).fullPathName()
@@ -111,7 +111,7 @@ def resolve_curve(
 
 
 def layer_name(target: LayerTarget, *, write: bool = False) -> str:
-    """Revalidate membership without executing pending modifiers or changing UI."""
+    """予約中の操作や UI に触れず、レイヤー所属を再検証する。"""
     if not target.handle.isAlive() or not target.handle.isValid():
         raise RuntimeError(
             "The animation layer is not available in the scene."
@@ -137,12 +137,12 @@ def layer_name(target: LayerTarget, *, write: bool = False) -> str:
 
 
 def layer_member(name: str, plug: om.MPlug) -> bool:
-    """A registered plug has a layer input even before its curve is created."""
+    """カーブ作成前も含め、Plug がレイヤー入力に登録されているかを返す。"""
     return bool(cmds.animLayer(name, query=True, layeredPlug=plug_path(plug)))
 
 
 def bake_input(target: Target) -> om.MPlug:
-    """Resolve and validate the raw scalar input replaced by a channel bake."""
+    """チャンネル bake で置き換える生の scalar 入力を解決・検証する。"""
     if isinstance(target, CurveTarget):
         raise TypeError("Bake requires a channel plug, not an explicit curve.")
     plug = target.plug if isinstance(target, LayerTarget) else target
@@ -196,7 +196,7 @@ def _is_layered(plug: om.MPlug) -> bool:
 
 
 def creation_layer(target: Target) -> LayerTarget | None:
-    """Select a layer for data restoration without adopting other connections."""
+    """ほかの接続を取り込まず、データ復元に使うレイヤーを選ぶ。"""
     if isinstance(target, LayerTarget):
         layer = target
     elif isinstance(target, om.MPlug) and _is_layered(target):
@@ -270,10 +270,10 @@ def layer_curve(
 def explicit_curve(
     target: CurveTarget, *, write: bool = False
 ) -> oma.MFnAnimCurve:
-    """Resolve the same scene node, irrespective of its output destinations.
+    """出力先に依存せず、同じシーン上のカーブを解決する。
 
-    Input times refer to the curve's own domain, including with a time driver.
-    Message connections describe ownership and do not drive curve values.
+    時刻入力で駆動されていても、時刻はカーブ自身の入力領域で解釈する。
+    message 接続は所有関係を示し、カーブ値は駆動しない。
     """
     if not target.handle.isAlive() or not target.handle.isValid():
         raise RuntimeError(
@@ -309,10 +309,10 @@ def _check_curve_inputs(curve: oma.MFnAnimCurve) -> None:
 def channel_curve(
     plug: om.MPlug, *, write: bool = False
 ) -> oma.MFnAnimCurve | None:
-    """Resolve this channel, retaining axes and the pairBlend keying input.
+    """軸と pairBlend のキー入力を保ちながらチャンネルを解決する。
 
-    Driven keys and constraint drivers are not the channel's time animation.
-    blendWeighted inputs are searched by logical index; weights are ignored.
+    Driven Key や constraint の駆動は、このチャンネルの時間アニメーションに含めない。
+    blendWeighted の入力は logical index 順に調べ、weight は参照しない。
     """
     handle = om.MObjectHandle(plug.node())
     if not handle.isAlive() or not handle.isValid():
@@ -420,7 +420,7 @@ def _check_channel_plug(plug: om.MPlug, *, write: bool) -> None:
 
 
 def _check_owning_layers(curve: oma.MFnAnimCurve) -> None:
-    """Layer locks are metadata, not necessarily locks on the curve's plugs."""
+    """カーブの Plug に反映されない場合もあるレイヤーの lock 状態を調べる。"""
     iterator = om.MItDependencyNodes(om.MFn.kAnimLayer)
     if iterator.isDone():
         return
@@ -456,7 +456,7 @@ def _check_owning_layers(curve: oma.MFnAnimCurve) -> None:
 def deletion_connections(
     curve: oma.MFnAnimCurve,
 ) -> list[tuple[om.MPlug, om.MPlug]]:
-    """Validate every connection before any disconnection can be executed."""
+    """切断が実行される前に、すべての接続を検証する。"""
     connections: list[tuple[om.MPlug, om.MPlug]] = []
     for plug in curve.getConnections():
         pairs = [(source, plug) for source in plug.connectedTo(True, False)]
@@ -473,9 +473,9 @@ def deletion_connections(
 def direct_curve(
     plug: om.MPlug, *, write: bool = False
 ) -> oma.MFnAnimCurve | None:
-    """Check eligibility for the set_key/set_keys API fast path.
+    """``set_key()`` / ``set_keys()`` の直接編集が可能か調べる。
 
-    Other connections and scene states use Maya's setKeyframe value resolution.
+    ほかの接続やシーン状態では Maya の ``setKeyframe`` に値解決を委ねる。
     """
     _check_channel_plug(plug, write=write)
     if not om.MItDependencyNodes(om.MFn.kAnimLayer).isDone():
@@ -525,7 +525,7 @@ def check_editable_node(node: om.MFnDependencyNode) -> None:
 
 
 def check_editable_plug(plug: om.MPlug) -> None:
-    """Apply the shared lock check to a plug and its existing descendants."""
+    """Plug と既存の子要素に共通の lock 検査を適用する。"""
     _check_editable_plug(plug)
 
 

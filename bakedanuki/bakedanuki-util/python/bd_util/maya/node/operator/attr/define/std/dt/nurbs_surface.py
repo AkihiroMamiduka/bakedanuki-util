@@ -13,8 +13,8 @@ class DataNurbsSurfacePlugOperator(
 ):
     __slots__ = ()
 
-    # add
     def add_attr(self):
+        """NURBS surface data 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnData.kNurbsSurface)
 
 

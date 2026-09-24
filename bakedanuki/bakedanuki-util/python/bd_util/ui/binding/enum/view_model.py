@@ -17,18 +17,26 @@ from .value import EnumValue
 
 class _MutableEnumValue(EnumValue):
     def replace_silently(self, value: int) -> None:
+        """通知順を制御できるよう、signalなしで確定値を置き換える。"""
         self._value = value
 
 
 class _MutableSetEnumCommand(SetEnumCommand):
     def set_can_execute(self, value: bool) -> None:
+        """入力可否が変わった場合だけ変更signalを通知する。"""
         if value != self._can_execute:
             self._can_execute = value
             self.can_execute_changed.emit(value)
 
 
 class EnumViewModel(qt.QObject):
-    """Storeの確定値・選択肢・変更要求を仲介する。"""
+    """Storeの確定値、選択肢、変更要求をViewへ届ける。
+
+    Attributes:
+        definition_changed: 選択肢が変わると`EnumDefinition`を通知する。
+        store_refreshed: Storeの再読込後に確定した`int`値を通知する。
+        disposed: 終了時に通知する。
+    """
 
     definition_changed = qt.Signal(object)
     store_refreshed = qt.Signal(object)
@@ -41,6 +49,13 @@ class EnumViewModel(qt.QObject):
         *,
         definition: EnumDefinition | None = None,
     ) -> None:
+        """初期値と選択肢を指定してViewModelを作る。
+
+        Args:
+            value: Storeを接続する前の整数値。
+            parent: このViewModelを所有するQObject。
+            definition: 選択肢。`None`なら空の定義。
+        """
         super().__init__(parent)
         self._is_disposed = False
         self._revision = 0
@@ -60,29 +75,36 @@ class EnumViewModel(qt.QObject):
 
     @property
     def value(self) -> EnumValue:
+        """現在の確定値と変更signalを保持する値objectを返す。"""
         return self._value
 
     @property
     def definition(self) -> EnumDefinition:
+        """最後に同期した選択肢を返す。"""
         return self._definition
 
     @property
     def is_value_defined(self) -> bool:
+        """現在値が選択肢に含まれている場合は`True`。"""
         return self._definition.item_for_value(self._value.value) is not None
 
     @property
     def set_value_command(self) -> SetEnumCommand:
+        """選択肢を検証して変更を要求するCommandを返す。"""
         return self._set_value_command
 
     @property
     def store(self) -> EnumValueStore | None:
+        """接続中のStoreを返す。未接続なら`None`。"""
         return self._store
 
     @property
     def is_disposed(self) -> bool:
+        """終了済み、またはQt objectが破棄済みなら`True`。"""
         return self._is_disposed or not qt.isValid(self)
 
     def dispose(self) -> None:
+        """変更要求を止め、終了を通知する。"""
         if self.is_disposed:
             return
         self._is_disposed = True
@@ -90,6 +112,14 @@ class EnumViewModel(qt.QObject):
         self.disposed.emit()
 
     def attach_store(self, store: EnumValueStore) -> None:
+        """一つのStoreを接続し、その確定値と選択肢を読み込む。
+
+        Args:
+            store: 接続するenum Store。
+
+        Raises:
+            RuntimeError: 終了済み、または別のStoreが接続済みの場合。
+        """
         if self.is_disposed:
             raise RuntimeError("EnumViewModelは終了しています")
         if self._store is store:
@@ -117,6 +147,17 @@ class EnumViewModel(qt.QObject):
             raise
 
     def refresh_from_store(self, store: EnumValueStore) -> bool:
+        """接続中のStoreから確定値と選択肢を再取得する。
+
+        Args:
+            store: 接続中のStore。
+
+        Returns:
+            公開値が変わった場合は`True`。
+
+        Raises:
+            ValueError: 接続中のStoreと異なる場合。
+        """
         self._require_attached_store(store)
         if self.is_disposed:
             return False
@@ -136,6 +177,14 @@ class EnumViewModel(qt.QObject):
         return changed
 
     def store_became_unavailable(self, store: EnumValueStore) -> None:
+        """接続中のStoreを編集できない状態にする。
+
+        Args:
+            store: 接続中のStore。
+
+        Raises:
+            ValueError: 接続中のStoreと異なる場合。
+        """
         self._require_attached_store(store)
         self._set_value_command.set_can_execute(False)
 
@@ -179,7 +228,7 @@ class EnumViewModel(qt.QObject):
         if changed or definition_changed:
             self._revision += 1
         revision = self._revision
-        # どの通知から読んでも値と定義が同じ確定状態になるよう先に更新する。
+        # 通知中の読み取りでも整合するよう、値と定義を両方更新してからsignalを出す。
         self._value.replace_silently(value)
         self._definition = definition
         self._set_value_command.set_can_execute(

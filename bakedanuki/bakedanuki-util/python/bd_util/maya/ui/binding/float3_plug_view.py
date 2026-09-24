@@ -129,7 +129,16 @@ class MayaFloat3PlugView(qt.QObject, Generic[_PlugT]):
     def __init__(
         self, view_model: Float3ViewModel, plug: _PlugT, owner: qt.QObject
     ) -> None:
-        """全成分を検証して接続し、Python初期値をMayaへまとめて適用する。"""
+        """全成分を検証し、Python初期値をMayaへまとめて適用する。
+
+        Args:
+            view_model: Python Storeを接続済みの3成分ViewModel。
+            plug: 同期先のMaya 3成分親plug。
+            owner: callbackの寿命を管理するQObject。
+
+        Raises:
+            RuntimeError: Storeが未接続、またはMaya Storeが正本の場合。
+        """
         view_model = _require_view_model(view_model)
         require_float3_plug(plug)
         owner = require_owner(owner)
@@ -305,7 +314,15 @@ class MayaFloat3PlugView(qt.QObject, Generic[_PlugT]):
         return self._components[index].matches(value)
 
     def sync_from_view_model(self) -> bool:
-        """最後に確定したPython tupleを明示再同期し、失敗時は例外を返す。"""
+        """最後に確定したPython tupleをMayaへ明示再同期する。
+
+        Returns:
+            Mayaへ書き込んだ場合は ``True``。すでに一致する場合は ``False``。
+
+        Raises:
+            RuntimeError: StoreやMaya plugが利用不可、または書き込み不可の場合。
+            ValueError: 値がMaya属性のhard limit外の場合。
+        """
         self._is_history_input = False
         self._input_axes.clear()
         self._pending_python.update(range(3))

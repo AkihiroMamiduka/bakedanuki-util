@@ -19,7 +19,14 @@ class BoolComboBox(qt.QComboBox):
         true_text: str = "On",
         parent: qt.QWidget | None = None,
     ) -> None:
-        """ViewModelまたはBinding、False／Trueの表示文字列で初期化する。"""
+        """bool値をFalse・Trueの二つの項目で表示する。
+
+        Args:
+            view_model: 操作するViewModelまたはそのBinding。
+            false_text: ``False`` の表示文字列。
+            true_text: ``True`` の表示文字列。
+            parent: Qtの親Widget。
+        """
         view_model, binding = resolve_bool_view_source(view_model)
         super().__init__(parent)
         self._binding = binding

@@ -17,6 +17,14 @@ class EnumLabel(qt.QLabel):
         view_model: EnumViewModel | EnumBinding[EnumValueStore],
         parent: qt.QWidget | None = None,
     ) -> None:
+        """確定した項目名を選択・コピー可能なラベルで表示する。
+
+        未定義の整数値は ``未定義 (値)`` と表示する。
+
+        Args:
+            view_model: 表示するViewModelまたはそのBinding。
+            parent: Qtの親Widget。
+        """
         view_model, binding = resolve_enum_view_source(view_model)
         super().__init__(parent)
         self._view_model = view_model
@@ -34,6 +42,7 @@ class EnumLabel(qt.QLabel):
 
     @property
     def view_model(self) -> EnumViewModel:
+        """表示対象を返す。終了済みの場合は ``RuntimeError`` を送出する。"""
         if self._view_model.is_disposed:
             raise RuntimeError("表示対象のEnumViewModelは終了しています")
         return self._view_model

@@ -29,7 +29,7 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def _node_attr(name: str) -> AttrOperator[Any]:
-    """Exercise NodeOperator's class subscription with an explicit result type."""
+    """戻り値の型を明示して NodeOperator のクラス添字を試す。"""
     return cast(AttrOperator[Any], PlusMinusAverage[name])
 
 

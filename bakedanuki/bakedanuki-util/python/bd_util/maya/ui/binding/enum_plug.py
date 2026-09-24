@@ -29,7 +29,13 @@ class MayaEnumPlugStore(EnumPlugEndpoint):
         plug: MayaEnumPlug,
         owner: qt.QObject,
     ) -> None:
-        """自身の書き込み通知をまとめるStoreを初期化する。"""
+        """Maya enum plugをViewModelの正本として監視する。
+
+        Args:
+            view_model: Mayaの実値と定義を受け取るViewModel。
+            plug: 読み書きするMaya enum plug。
+            owner: callbackの寿命を管理するQObject。
+        """
         self._write_depth = 0
         super().__init__(view_model, plug, owner)
 
@@ -45,7 +51,14 @@ class MayaEnumPlugStore(EnumPlugEndpoint):
         return self._read_plug()
 
     def write(self, value: int) -> int:
-        """Maya undo対応のsetAttrで値を設定し、確定値を返す。"""
+        """Maya undo対応のsetAttrで書き込み、通知後の実値を返す。
+
+        Args:
+            value: Maya enum定義中の整数値。
+
+        Returns:
+            通知先から再編集された場合も含む、最新のMaya実値。
+        """
         # changed slotが終了しても、書き込み後の確定値は先に取得しておく。
         self._write_depth += 1
         try:
@@ -61,7 +74,11 @@ class MayaEnumPlugStore(EnumPlugEndpoint):
         return self._write_depth > 0
 
     def refresh(self) -> bool:
-        """Maya plugの実値と書き込み可否をViewModelへ同期する。"""
+        """Maya plugの実値・定義・書き込み可否を再同期する。
+
+        Returns:
+            公開値が変わった場合は ``True``。接続解除後も ``False``。
+        """
         view_model = self._valid_view_model()
         if view_model is None:
             self._dispose_endpoint()
@@ -109,7 +126,16 @@ class MayaEnumPlugView(EnumPlugEndpoint):
         plug: MayaEnumPlug,
         owner: qt.QObject,
     ) -> None:
-        """Python値を初期同期し、Maya入力と選択肢のcallbackを接続する。"""
+        """Pythonの確定値をMayaへ初期同期し、入力と選択肢を監視する。
+
+        Args:
+            view_model: Python Storeを接続済みのViewModel。
+            plug: 同期先のMaya enum plug。
+            owner: callbackの寿命を管理するQObject。
+
+        Raises:
+            RuntimeError: Storeが未接続、またはMaya Storeが正本の場合。
+        """
         view_model = require_enum_view_model(view_model)
         if view_model.is_disposed or view_model.store is None:
             raise RuntimeError(
@@ -170,7 +196,15 @@ class MayaEnumPlugView(EnumPlugEndpoint):
         return self._last_sync_error
 
     def sync_from_view_model(self) -> bool:
-        """Pythonの確定値をMayaへ反映し、失敗を公開して呼び出し元へ返す。"""
+        """Pythonの確定値をMayaへ明示的に反映する。
+
+        Returns:
+            Mayaへ書き込んだ場合は ``True``。すでに一致する場合は ``False``。
+
+        Raises:
+            ValueError: PythonとMayaのenum定義が一致しない場合。
+            RuntimeError: 同期先が利用不可、書き込み不可、または確定値が反映されない場合。
+        """
         self._is_history_input = False
         return self._sync_from_view_model(allow_write=True)
 

@@ -6,6 +6,8 @@ from logging import DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 
 class LogLevel:
+    """``logging`` の主要なログレベルをまとめた定数。"""
+
     DEBUG = DEBUG
     INFO = INFO
     WARNING = WARNING
@@ -14,15 +16,14 @@ class LogLevel:
 
 
 def get_logger(name: str, level: int = logging.INFO) -> logging.Logger:
-    """
-    指定された name のloggerを取得する
+    """名前に対応するロガーを取得し、未設定なら出力先を構成する。
 
     Args:
-        name (str): モジュール名などの logger の名前（基本的に __name__ を渡す）
-        level (int, optional): ログレベルを指定する。 Defaults to logging.INFO.
+        name: ロガー名。通常は ``__name__`` を渡す。
+        level: 初回構成時のログレベル。既定値は ``logging.INFO``。
 
     Returns:
-        logging.Logger: logger オブジェクト
+        同名のロガー。既存のハンドラーがあれば設定は変更しない。
     """
     # logger を取得する
     logger = logging.getLogger(name)

@@ -12,6 +12,11 @@ from .operator.attr.keyframe_data import AnimCurveData
 
 
 def checked_time(seconds: float) -> om.MTime:
+    """秒を Maya で表現できる MTime に変換する。
+
+    Raises:
+        ValueError: 値が有限でないか、Maya の表現範囲を超える場合。
+    """
     seconds = finite_number(seconds, "clip time in seconds")
     time = om.MTime(seconds, om.MTime.kSeconds)
     if not math.isclose(
@@ -22,6 +27,7 @@ def checked_time(seconds: float) -> om.MTime:
 
 
 def _positive(value: object, name: str) -> float:
+    """有限で正の数値を検証する。"""
     number = finite_number(value, name)
     if number <= 0:
         raise ValueError(f"{name} must be positive.")
@@ -37,6 +43,22 @@ def transformed_for_restore(
     time_scale: float | None,
     duration_frames: float | None,
 ) -> AnimationClip:
+    """復元先の時間位置と長さに合わせて clip の全キーを変換する。
+
+    Args:
+        data: 変換元の clip。
+        offset_frames: 復元先の UI 時間単位で加える移動量。
+        to_start_frame: 復元先の開始時刻。
+        to_end_frame: 復元先の終了時刻。
+        time_scale: 正の時間倍率。duration_frames とは併用できない。
+        duration_frames: 復元先の長さ。time_scale とは併用できない。
+
+    Returns:
+        キー時刻と接線 X を変換した独立の clip。指定がなければ元の clip。
+
+    Raises:
+        ValueError: 指定の組合せ、長さ、または Maya の時間精度が不正な場合。
+    """
     fit_range = to_start_frame is not None and to_end_frame is not None
     if offset_frames is not None and (
         to_start_frame is not None or to_end_frame is not None

@@ -29,7 +29,13 @@ def _reject_constant(value: str) -> object:
 
 @dataclass(frozen=True)
 class JsonClipboard:
-    """custom MIMEとmarker付きtextへ同じUTF-8 JSONを保存する。"""
+    """UTF-8 JSONをcustom MIMEとmarker付きtextへ同時に保存する。
+
+    Attributes:
+        mime_type: `application/`で始まる固有のMIME type。
+        text_marker: 改行で終わる固有のtext/plain識別子。
+        max_bytes: JSON本文の最大UTF-8 byte数。
+    """
 
     mime_type: str
     text_marker: str
@@ -61,7 +67,11 @@ class JsonClipboard:
         return application.clipboard()
 
     def contains(self) -> bool:
-        """対応MIMEまたは専用marker付きtextがあるか軽量に判定する。"""
+        """対応MIMEまたは専用markerがある場合は`True`。
+
+        Raises:
+            RuntimeError: QApplicationが存在しない場合。
+        """
         mime_data = self._clipboard().mimeData()
         if mime_data is None:
             return False
@@ -71,7 +81,15 @@ class JsonClipboard:
         )
 
     def write(self, document: object) -> None:
-        """JSON化できる値をcustom MIMEとtext/plainへ同時に保存する。"""
+        """JSON化できる値を二つの形式でOSへ保存する。
+
+        Args:
+            document: JSONへ変換する値。
+
+        Raises:
+            ValueError: JSONへ変換できないか、容量上限を超える場合。
+            RuntimeError: QApplicationが存在しない場合。
+        """
         try:
             text = json.dumps(
                 document,
@@ -89,7 +107,15 @@ class JsonClipboard:
         self._clipboard().setMimeData(mime_data)
 
     def read(self) -> object:
-        """現在のclipboardから識別済みJSONを読み、外部入力として厳格に解析する。"""
+        """識別済みJSONを外部入力として検証し、読み込む。
+
+        Returns:
+            JSONから復元したPython値。利用側でschema検証する。
+
+        Raises:
+            ValueError: 対応形式がないか、容量・UTF-8・JSONが不正な場合。
+            RuntimeError: QApplicationが存在しない場合。
+        """
         mime_data = self._clipboard().mimeData()
         if mime_data is None:
             raise ValueError("OSクリップボードにデータがありません")

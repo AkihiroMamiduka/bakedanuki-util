@@ -30,21 +30,29 @@ class _CreateTypedAttribute(Protocol):
 
 
 class DataTypePlugOperator(PlugOperator[A]):
+    """Maya の typed attribute を扱う PlugOperator。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
-        # ファンクションを作成
         self._fn_attr = om.MFnTypedAttribute()
 
-    # add
     def _add_attr_base(
         self,
         mfn_data_type: int,
         default_object_factory: _DefaultObjectFactory | None = None,
     ) -> None:
-        # アトリビュートが既に存在する場合はスキップ
+        """typed attribute が未作成ならノードへ即時追加する。
+
+        Args:
+            mfn_data_type: MFnData の属性データ型。
+            default_object_factory: 既定値を MObject に変換する処理。
+
+        Raises:
+            UnsupportedOperationError: 既定値があるが変換処理がない場合。
+        """
         if self.exists():
             return
 
@@ -58,7 +66,6 @@ class DataTypePlugOperator(PlugOperator[A]):
                 )
             default_object = default_object_factory(default_value)
 
-        # アトリビュートを作成
         fn_attr = cast(om.MFnTypedAttribute, self._fn_attr)
         create_attr = cast(
             _CreateTypedAttribute,
@@ -79,7 +86,6 @@ class DataTypePlugOperator(PlugOperator[A]):
             )
         self._apply_mfn_attr_options(fn_attr)
 
-        # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)
 
 

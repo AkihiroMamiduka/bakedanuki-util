@@ -94,6 +94,8 @@ class _ScalarCompoundPlugAdapter:
 
 
 class CompoundPlugOperator(PlugOperator[A]):
+    """子 Field の定義に従って compound 属性を構築する。"""
+
     __slots__ = ()
 
     CHILD_FIELDS: tuple[AttributeField[Any, Any], ...] = ()
@@ -118,8 +120,13 @@ class CompoundPlugOperator(PlugOperator[A]):
         else:
             cls.CHILD_FIELDS = tuple(getattr(cls, "CHILD_FIELDS", ()))
 
-    # add
     def add_attr(self):
+        """子属性を含む compound 属性をノードへ追加する。
+
+        Raises:
+            UnsupportedOperationError: 子 Field が未定義、または子属性の型が
+                OpenMaya で作成できない場合。
+        """
         if self.exists():
             return
 
@@ -136,6 +143,7 @@ class CompoundPlugOperator(PlugOperator[A]):
             self.short_name,
         )
 
+        # 登録順に子属性を構築してから、親属性をノードに追加する。
         for child_field in child_fields:
             fn_attr.addChild(_create_child_attr(self, child_field))
 
@@ -183,6 +191,7 @@ def _create_child_attr(
     parent: _CompoundAttrParent,
     child_field: AttributeField[Any, Any],
 ) -> om.MObject:
+    """子 Field の Maya 型に対応する MObject を作成する。"""
     child_attr = _create_child_attr_operator(parent, child_field)
     attr_type = child_attr.ATTR_TYPE
 

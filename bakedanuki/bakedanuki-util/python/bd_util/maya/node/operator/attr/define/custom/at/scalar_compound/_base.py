@@ -34,6 +34,8 @@ class ScalarCompoundBasePlugOperator(
     PlugOperator[A],
     Generic[A, V, S],
 ):
+    """子属性をまとめて読み書きする複合プラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     CHILD_M_FN: ClassVar[_ChildMFnType]
@@ -49,9 +51,8 @@ class ScalarCompoundBasePlugOperator(
         child_fields: list[AttributeField[Any, Any]] = []
         seen_ids: set[int] = set()
 
-        # 子属性の情報を取得
+        # 宣言された子 Field を順序どおり収集し、同じ Field の別名は重複させない。
         for key, child_field in vars(cls).items():
-            # AttributeField の派生以外はスキップ
             if not isinstance(child_field, AttributeField):
                 continue
             child_field = cast(AttributeField[Any, Any], child_field)
@@ -59,8 +60,6 @@ class ScalarCompoundBasePlugOperator(
             if child_id in seen_ids:
                 continue
             seen_ids.add(child_id)
-            # 子に関する情報を登録
-            #   suffix
             suffixes.append(key)
             child_fields.append(child_field)
 
@@ -90,7 +89,6 @@ class ScalarCompoundBasePlugOperator(
         plug = self.plug
         return tuple(plug.child(i) for i in range(len(self._SUFFIXES)))
 
-    # get
     @abstractmethod
     def _get_child_value(self, child_plug: om.MPlug) -> S:
         raise NotImplementedError
@@ -107,7 +105,6 @@ class ScalarCompoundBasePlugOperator(
         )
         return self.VALUE_TYPE.from_values(values)
 
-    # set
     def _set_child_value(
         self,
         child_plug: om.MPlug,
@@ -163,20 +160,21 @@ class ScalarCompoundBasePlugOperator(
         value: S | Sequence[S],
         *values: S,
     ) -> None:
-        """compoundプラグの全child値をModifierManager経由で設定する。
+        """compound プラグの全 child 値を ModifierManager 経由で設定する。
+
+        child 数と値数は一致する必要がある。変更は
+        ``ModifierManager.do_it_dg()`` の実行時に反映される。
 
         Args:
             value: 先頭成分、または全成分を格納したsequence。
             *values: 展開形式で指定する残りの成分。
 
-        Notes:
-            child数と値数は一致する必要がある。変更は
-            ``ModifierManager.do_it_dg()`` の実行時に反映される。
+        Raises:
+            TypeError: 値の数が子属性の数と異なる場合。
         """
         normalized_values = self._normalize_set_values((value, *values))
         plug = self.plug
         try:
-            # 値をセットする
             for i, val in enumerate(normalized_values):
                 self._set_child_value(plug.child(i), val)
 
@@ -188,15 +186,17 @@ class ScalarCompoundBasePlugOperator(
         value: S | Sequence[S],
         *values: S,
     ) -> None:
-        """compoundプラグの全child値を即時設定する。
+        """compound プラグの全 child 値を即時設定する。
+
+        child 数と値数は一致する必要がある。ModifierManager の
+        undo / redo 対象外。
 
         Args:
             value: 先頭成分、または全成分を格納したsequence。
             *values: 展開形式で指定する残りの成分。
 
-        Notes:
-            child数と値数は一致する必要がある。ModifierManagerの
-            undo / redo対象外。
+        Raises:
+            TypeError: 値の数が子属性の数と異なる場合。
         """
         normalized_values = self._normalize_set_values(
             (value, *values),
@@ -213,7 +213,6 @@ class ScalarCompoundBasePlugOperator(
                 "set_direct",
             ) from e
 
-    # add
     @overload
     def _child_value(
         self,
@@ -291,6 +290,14 @@ class ScalarCompoundBasePlugOperator(
         return self.CHILD_M_FN(self.plug.child(index).attribute())
 
     def set_min(self, value: S | Sequence[S]) -> None:
+        """各子属性の下限を即時設定する。
+
+        Args:
+            value: 全子属性に共通の下限、または子属性ごとの下限。
+
+        Raises:
+            ValueError: 指定した値の数が子属性の数と異なる場合。
+        """
         for i in range(len(self._SUFFIXES)):
             self._set_child_attr_min(
                 self._child_fn(i),
@@ -298,6 +305,14 @@ class ScalarCompoundBasePlugOperator(
             )
 
     def set_max(self, value: S | Sequence[S]) -> None:
+        """各子属性の上限を即時設定する。
+
+        Args:
+            value: 全子属性に共通の上限、または子属性ごとの上限。
+
+        Raises:
+            ValueError: 指定した値の数が子属性の数と異なる場合。
+        """
         for i in range(len(self._SUFFIXES)):
             self._set_child_attr_max(
                 self._child_fn(i),
@@ -305,6 +320,14 @@ class ScalarCompoundBasePlugOperator(
             )
 
     def set_soft_min(self, value: S | Sequence[S]) -> None:
+        """各子属性の推奨下限を即時設定する。
+
+        Args:
+            value: 全子属性に共通の下限、または子属性ごとの下限。
+
+        Raises:
+            ValueError: 指定した値の数が子属性の数と異なる場合。
+        """
         for i in range(len(self._SUFFIXES)):
             self._set_child_attr_soft_min(
                 self._child_fn(i),
@@ -312,6 +335,14 @@ class ScalarCompoundBasePlugOperator(
             )
 
     def set_soft_max(self, value: S | Sequence[S]) -> None:
+        """各子属性の推奨上限を即時設定する。
+
+        Args:
+            value: 全子属性に共通の上限、または子属性ごとの上限。
+
+        Raises:
+            ValueError: 指定した値の数が子属性の数と異なる場合。
+        """
         for i in range(len(self._SUFFIXES)):
             self._set_child_attr_soft_max(
                 self._child_fn(i),
@@ -329,23 +360,46 @@ class ScalarCompoundBasePlugOperator(
             return None
 
     def child_long_name(self, suffix: str, index: int | None = None) -> str:
+        """子属性の long name を返す。
+
+        Args:
+            suffix: 子 Field の接尾辞。
+            index: 子属性の位置。省略時は ``suffix`` から探す。
+
+        Returns:
+            明示名があればその名前、なければ親の名前と接尾辞を結合した名前。
+        """
         index = self._resolve_child_name_index(suffix, index)
         if self.CHILD_ATTR_NAMES and index is not None:
             return self.CHILD_ATTR_NAMES[index][0]
         return f"{self.long_name}{suffix.upper()}"
 
     def child_short_name(self, suffix: str, index: int | None = None) -> str:
+        """子属性の short name を返す。
+
+        Args:
+            suffix: 子 Field の接尾辞。
+            index: 子属性の位置。省略時は ``suffix`` から探す。
+
+        Returns:
+            明示名があればその名前、なければ親の名前と接尾辞を結合した名前。
+        """
         index = self._resolve_child_name_index(suffix, index)
         if self.CHILD_ATTR_NAMES and index is not None:
             return self.CHILD_ATTR_NAMES[index][1]
         return f"{self.short_name}{suffix.lower()}"
 
     def add_attr(self):
+        """子属性と親属性を作成し、ノードに即時追加する。
+
+        既に属性がある場合は何もしない。追加後に指定された値域を各子属性へ
+        適用する。
+        """
+
         def _create_child_attr(
             suffix: str,
             index: int,
         ) -> om.MObject:
-            # 子属性を作成
             child_fn = self.CHILD_M_FN()
             default_value = self._child_value(
                 self._oprt_attr.default_value,
@@ -361,16 +415,13 @@ class ScalarCompoundBasePlugOperator(
 
             return child_attr
 
-        # アトリビュートが既に存在する場合はスキップ
         if self.exists():
             return
 
-        # アトリビュートを作成
-        #   子属性
+        # 子属性をそろえてから親属性を作り、親に共通の属性設定を適用する。
         children_attrs: list[om.MObject] = []
         for i, suffix in enumerate(self._SUFFIXES):
             children_attrs.append(_create_child_attr(suffix, i))
-        #   親属性(double3)
         fn_attr = om.MFnNumericAttribute()
         self._fn_attr = fn_attr
         attr_obj = fn_attr.create(
@@ -380,9 +431,9 @@ class ScalarCompoundBasePlugOperator(
         )
         self._apply_mfn_attr_options(fn_attr)
 
-        # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)
 
+        # 値域は子属性ごとに設定する。
         v = self._oprt_attr.min_value
         if v is not None:
             self.set_min(v)

@@ -26,11 +26,10 @@ class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
     def set(self, value: float) -> None:
         """timeプラグへMaya UI時間単位の値をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する時間。単位は現在のMaya UI time unit。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         time = om.MTime(value, om.MTime.uiUnit())
         self._node.modifier_manager.dg_mod.newPlugValueMTime(self.plug, time)
@@ -40,8 +39,8 @@ class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
             return value.asUnits(om.MTime.uiUnit())
         return value
 
-    # add
     def add_attr(self):
+        """time 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnUnitAttribute.kTime)
 
 

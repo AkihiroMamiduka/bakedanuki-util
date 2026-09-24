@@ -31,16 +31,15 @@ class DoublePlugOperator(
     def set(self, value: float) -> None:
         """doubleプラグへ値をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する浮動小数点値。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         self._node.modifier_manager.dg_mod.newPlugValueDouble(self.plug, value)
 
-    # add
     def add_attr(self):
+        """double 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnNumericData.kDouble)
 
 

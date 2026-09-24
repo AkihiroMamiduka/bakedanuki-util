@@ -30,13 +30,13 @@ class DataNumericBasePlugOperator(DataTypePlugOperator[A], Generic[A, N]):
         numeric_type: int,
         values: list[N],
     ) -> None:
-        """
-        値をセットするヘルパー
+        """MPlug に数値データを直接設定する。
 
-        modifier.undoIt() 非対応
+        ModifierManager の履歴には入らない。
 
         Args:
-            values (list[N]): セットする値のリスト
+            numeric_type: MFnNumericData の数値型。
+            values: 設定する数値の並び。
         """
         fn_data = om.MFnNumericData()
         obj = fn_data.create(numeric_type)

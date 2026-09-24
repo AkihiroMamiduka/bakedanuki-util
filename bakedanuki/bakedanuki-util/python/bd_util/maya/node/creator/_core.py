@@ -39,6 +39,8 @@ def _node_type_to_creator_name(node_type: str) -> str:
 
 
 class NodeCreator:
+    """指定した型のノード作成を ModifierManager に予約する。"""
+
     __slots__ = (
         "__dict__",
         "_modifier_manager",
@@ -56,10 +58,12 @@ class NodeCreator:
 
     @property
     def modifier_manager(self) -> ModifierManager:
+        """ノード作成を予約する先。"""
         return self._modifier_manager
 
     @property
     def with_transform(self) -> ShapeWithTransformCreator:
+        """Transform と Shape をまとめて作成する入口。"""
         return self._with_transform
 
     def create(
@@ -70,6 +74,21 @@ class NodeCreator:
         *,
         parent: DAG | None = None,
     ) -> NodeOperator:
+        """指定した Maya ノード型の作成を予約する。
+
+        Args:
+            node_name: Maya のノード型名。
+            name: 作成するノードの名前。省略時は Maya に委ねる。
+            auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。
+            parent: DAG ノードの親。DG ノードには指定できない。
+
+        Returns:
+            作成予定のノードを包む NodeOperator。
+
+        Raises:
+            TypeError: DG ノードに parent を指定した場合。
+            AttributeError: 作成できないノード型を指定した場合。
+        """
         node_cls = self._creator_node_class(node_name)
         if not issubclass(node_cls, DAG):
             if parent is not None:
@@ -89,6 +108,14 @@ class NodeCreator:
         )
 
     def node_class(self, node_name: str) -> type[NodeOperator]:
+        """Maya ノード型に対応する NodeOperator クラスを返す。
+
+        Args:
+            node_name: Maya のノード型名。
+
+        Returns:
+            対応する NodeOperator クラス。
+        """
         return resolve_node_class(node_name)
 
     def animLayer(
@@ -98,7 +125,16 @@ class NodeCreator:
         *,
         override: bool = False,
     ) -> AnimLayer:
-        """ベースと階層接続を含むアニメーションレイヤーの作成を予約する。"""
+        """ベースと階層接続を含むアニメーションレイヤーの作成を予約する。
+
+        Args:
+            name: 作成するレイヤー名。
+            auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。
+            override: 上書きモードのレイヤーにするか。
+
+        Returns:
+            作成予定のアニメーションレイヤー。
+        """
         node_cls = cast(
             "type[AnimLayer]", self._creator_node_class("animLayer")
         )
@@ -121,6 +157,7 @@ class NodeCreator:
         return node_cls
 
     def available_node_names(self) -> tuple[str, ...]:
+        """現在の Maya で作成できるノード型名を返す。"""
         if self._node_names_cache is not None:
             return self._node_names_cache
 
@@ -213,7 +250,19 @@ class NodeCreator:
 
         create_func.__name__ = node_name
         create_func.__qualname__ = f"{type(self).__name__}.{node_name}"
-        create_func.__doc__ = f"Create {node_cls.__name__}."
+        parent_doc = ""
+        if issubclass(node_cls, Shape):
+            parent_doc = "    parent: 親の Transform。\n"
+        elif issubclass(node_cls, DAG):
+            parent_doc = "    parent: 親の DAG ノード。\n"
+        create_func.__doc__ = (
+            f"{node_cls.NODE_TYPE} ノードの作成を予約する。\n\n"
+            "Args:\n"
+            "    name: 作成するノードの名前。省略時は Maya に委ねる。\n"
+            "    auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。\n"
+            f"{parent_doc}\nReturns:\n"
+            f"    {node_cls.__name__} インスタンス。"
+        )
         setattr(self, node_name, create_func)
         return create_func
 

@@ -1,4 +1,4 @@
-"""Node-level animation operations shared by every NodeOperator."""
+"""NodeOperator が共有するノード単位のアニメーション操作。"""
 
 from __future__ import annotations
 
@@ -241,7 +241,7 @@ def _rotation_target(
 
 
 class NodeKeyframeManager:
-    """Collect scalar channels on one node and queue node-level edits."""
+    """単一ノードの scalar 属性を集め、キー編集をまとめて予約する。"""
 
     __slots__ = (
         "_node",
@@ -265,10 +265,21 @@ class NodeKeyframeManager:
 
     @property
     def modifier_manager(self) -> ModifierManager:
+        """キー編集を予約する先。"""
         return self._modifier_manager
 
     def anim_layer(self, name: str | AnimLayerNode) -> NodeKeyframeManager:
-        """Return an entry point for one explicit animation layer."""
+        """指定レイヤーに対するキー編集の入口を返す。
+
+        Args:
+            name: 既存のアニメーションレイヤー名またはノード。
+
+        Returns:
+            指定レイヤーを対象とする操作入口。
+
+        Raises:
+            TypeError: 対象がアニメーションレイヤーでない場合。
+        """
         layer = node_object(name)
         if not layer.hasFn(om.MFn.kAnimLayer):
             raise TypeError("Expected an animation layer.")
@@ -290,12 +301,22 @@ class NodeKeyframeManager:
         out_tangent_type: TangentTypeValue = None,
         discrete_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """Sample selected node channels and replace their raw inputs with keys.
+        """選択した属性の評価値を採取し、入力をキーに置き換える。
 
-        Attribute collection and sampling occur on the first DG execution.
-        Automatic collection uses keyable scalar leaves, optionally including
-        channel-box leaves. Explicit compound and existing array attributes are
-        expanded to scalar leaves and may be nonkeyable.
+        属性収集と採取は最初の ``do_it_dg()`` で行う。
+
+        Args:
+            start_frame: 開始時刻。省略時は再生範囲の開始。
+            end_frame: 終了時刻。省略時は再生範囲の終了。
+            attributes: 対象属性名。省略時は keyable な scalar 属性を収集する。
+                compound と既存配列を明示すると scalar 子属性へ展開する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            include_static: アニメーションのない属性も対象に含めるか。
+            sample_by: 採取間隔。Maya の UI 時間単位で指定する。
+            tangent_type: 入出力共通の接線型。
+            in_tangent_type: 入力側の接線型。
+            out_tangent_type: 出力側の接線型。
+            discrete_tangent_type: 離散値用の接線型。
         """
         if isinstance(attributes, str):
             raise TypeError("attributes must be an iterable of names or None.")
@@ -372,7 +393,18 @@ class NodeKeyframeManager:
         out_tangent_type: TangentTypeValue = None,
         discrete_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """Set tangent types on existing keys in selected node channels."""
+        """選択した属性の既存キーの接線型変更を予約する。
+
+        Args:
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            tangent_type: 入出力共通の接線型。
+            in_tangent_type: 入力側の接線型。
+            out_tangent_type: 出力側の接線型。
+            discrete_tangent_type: 離散値用の接線型。
+        """
         if isinstance(attributes, str):
             raise TypeError("attributes must be an iterable of names or None.")
         attrs = (
@@ -431,7 +463,13 @@ class NodeKeyframeManager:
         attributes: Iterable[str] | None = None,
         include_channel_box: bool = False,
     ) -> None:
-        """Set weighted tangents on existing curves in selected channels."""
+        """選択した属性の既存カーブの weighted 設定を予約する。
+
+        Args:
+            weighted: weighted tangent を有効にするか。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+        """
         if isinstance(attributes, str):
             raise TypeError("attributes must be an iterable of names or None.")
         attrs = (
@@ -481,7 +519,16 @@ class NodeKeyframeManager:
         tangents_locked: bool | None = None,
         weights_locked: bool | None = None,
     ) -> None:
-        """Set tangent and weight locks on existing keys in node channels."""
+        """選択した属性の既存キーの接線 lock 変更を予約する。
+
+        Args:
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            tangents_locked: 接線 lock の状態。None は変更しない。
+            weights_locked: weight lock の状態。None は変更しない。
+        """
         if isinstance(attributes, str):
             raise TypeError("attributes must be an iterable of names or None.")
         attrs = (
@@ -538,7 +585,14 @@ class NodeKeyframeManager:
         attributes: Iterable[str] | None = None,
         include_channel_box: bool = False,
     ) -> None:
-        """Delete existing keys across node curves as one atomic edit."""
+        """選択した属性の既存キー削除を一つの操作として予約する。
+
+        Args:
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+        """
         if isinstance(attributes, str):
             raise TypeError("attributes must be an iterable of names or None.")
         attrs = (
@@ -589,7 +643,16 @@ class NodeKeyframeManager:
         tolerance: float,
         preserve_breakdowns: bool = True,
     ) -> None:
-        """Reduce keys across existing node curves as one atomic edit."""
+        """選択した属性の既存キー削減を一つの操作として予約する。
+
+        Args:
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            tolerance: 元のカーブから許容する値の誤差。
+            preserve_breakdowns: breakdown キーを残すか。
+        """
         if isinstance(attributes, str):
             raise TypeError("attributes must be an iterable of names or None.")
         attrs = (
@@ -637,7 +700,12 @@ class NodeKeyframeManager:
         start_frame: float | None = None,
         end_frame: float | None = None,
     ) -> None:
-        """Filter synchronized rotateX/Y/Z keys to nearby Euler solutions."""
+        """同期した回転キーを近い Euler 解へ補正する操作を予約する。
+
+        Args:
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+        """
         start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
         node_handle = self._node_handle
         layer_handle = self._layer_handle
@@ -657,7 +725,7 @@ class NodeKeyframeManager:
 
 
 class NodesKeyframeManager:
-    """Collect channels across nodes and queue one atomic bake."""
+    """複数ノードのキー編集を一つの操作として予約する。"""
 
     __slots__ = ("_modifier_manager", "_layer", "_layer_handle")
 
@@ -672,10 +740,21 @@ class NodesKeyframeManager:
 
     @property
     def modifier_manager(self) -> ModifierManager:
+        """キー編集を予約する先。"""
         return self._modifier_manager
 
     def anim_layer(self, name: str | AnimLayerNode) -> NodesKeyframeManager:
-        """Return a multi-node entry point for one animation layer."""
+        """指定レイヤーに対する複数ノードの操作入口を返す。
+
+        Args:
+            name: 既存のアニメーションレイヤー名またはノード。
+
+        Returns:
+            指定レイヤーを対象とする操作入口。
+
+        Raises:
+            TypeError: 対象がアニメーションレイヤーでない場合。
+        """
         layer = node_object(name)
         if not layer.hasFn(om.MFn.kAnimLayer):
             raise TypeError("Expected an animation layer.")
@@ -696,7 +775,23 @@ class NodesKeyframeManager:
         out_tangent_type: TangentTypeValue = None,
         discrete_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """Bake selected channels on multiple nodes as one atomic edit."""
+        """複数ノードの評価値を採取し、入力をキーに置き換える。
+
+        属性収集と採取は最初の ``do_it_dg()`` で行う。
+
+        Args:
+            nodes: 対象ノードの iterable。1 個以上指定する。
+            start_frame: 開始時刻。省略時は再生範囲の開始。
+            end_frame: 終了時刻。省略時は再生範囲の終了。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            include_static: アニメーションのない属性も対象に含めるか。
+            sample_by: 採取間隔。Maya の UI 時間単位で指定する。
+            tangent_type: 入出力共通の接線型。
+            in_tangent_type: 入力側の接線型。
+            out_tangent_type: 出力側の接線型。
+            discrete_tangent_type: 離散値用の接線型。
+        """
         from ._core import NodeOperator
 
         if isinstance(nodes, (str, NodeOperator, om.MObject)):
@@ -813,7 +908,19 @@ class NodesKeyframeManager:
         out_tangent_type: TangentTypeValue = None,
         discrete_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """Set tangent types across nodes as one atomic edit."""
+        """複数ノードの既存キーの接線型変更を予約する。
+
+        Args:
+            nodes: 対象ノードの iterable。1 個以上指定する。
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            tangent_type: 入出力共通の接線型。
+            in_tangent_type: 入力側の接線型。
+            out_tangent_type: 出力側の接線型。
+            discrete_tangent_type: 離散値用の接線型。
+        """
         from ._core import NodeOperator
 
         if isinstance(nodes, (str, NodeOperator, om.MObject)):
@@ -916,7 +1023,14 @@ class NodesKeyframeManager:
         attributes: Iterable[str] | None = None,
         include_channel_box: bool = False,
     ) -> None:
-        """Set weighted tangents across existing curves as one atomic edit."""
+        """複数ノードの既存カーブの weighted 設定を予約する。
+
+        Args:
+            nodes: 対象ノードの iterable。1 個以上指定する。
+            weighted: weighted tangent を有効にするか。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+        """
         from ._core import NodeOperator
 
         if isinstance(nodes, (str, NodeOperator, om.MObject)):
@@ -1008,7 +1122,17 @@ class NodesKeyframeManager:
         tangents_locked: bool | None = None,
         weights_locked: bool | None = None,
     ) -> None:
-        """Set tangent and weight locks across nodes as one atomic edit."""
+        """複数ノードの既存キーの接線 lock 変更を予約する。
+
+        Args:
+            nodes: 対象ノードの iterable。1 個以上指定する。
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            tangents_locked: 接線 lock の状態。None は変更しない。
+            weights_locked: weight lock の状態。None は変更しない。
+        """
         from ._core import NodeOperator
 
         if isinstance(nodes, (str, NodeOperator, om.MObject)):
@@ -1107,7 +1231,15 @@ class NodesKeyframeManager:
         attributes: Iterable[str] | None = None,
         include_channel_box: bool = False,
     ) -> None:
-        """Delete existing keys across nodes as one atomic edit."""
+        """複数ノードの既存キー削除を一つの操作として予約する。
+
+        Args:
+            nodes: 対象ノードの iterable。1 個以上指定する。
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+        """
         from ._core import NodeOperator
 
         if isinstance(nodes, (str, NodeOperator, om.MObject)):
@@ -1200,7 +1332,17 @@ class NodesKeyframeManager:
         tolerance: float,
         preserve_breakdowns: bool = True,
     ) -> None:
-        """Reduce existing curves across nodes as one atomic edit."""
+        """複数ノードの既存キー削減を一つの操作として予約する。
+
+        Args:
+            nodes: 対象ノードの iterable。1 個以上指定する。
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            tolerance: 元のカーブから許容する値の誤差。
+            preserve_breakdowns: breakdown キーを残すか。
+        """
         from ._core import NodeOperator
 
         if isinstance(nodes, (str, NodeOperator, om.MObject)):
@@ -1290,7 +1432,13 @@ class NodesKeyframeManager:
         start_frame: float | None = None,
         end_frame: float | None = None,
     ) -> None:
-        """Filter synchronized rotation keys across nodes as one atomic edit."""
+        """複数ノードの同期した回転キーを近い Euler 解へ補正する。
+
+        Args:
+            nodes: 対象ノードの iterable。1 個以上指定する。
+            start_frame: 対象範囲の開始。省略時は制限しない。
+            end_frame: 対象範囲の終了。省略時は制限しない。
+        """
         from ._core import NodeOperator
 
         if isinstance(nodes, (str, NodeOperator, om.MObject)):

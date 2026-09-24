@@ -8,7 +8,7 @@ _PLUGIN_NAME = "bdUtilSampleCommands"
 
 
 def ensure_sample_commands_plugin_loaded() -> None:
-    """Load the shared sample commands plug-in on first facade use."""
+    """サンプルコマンド用プラグインを未ロードの場合に読み込む。"""
     is_loaded: object = cmds.pluginInfo(
         _PLUGIN_NAME,
         query=True,

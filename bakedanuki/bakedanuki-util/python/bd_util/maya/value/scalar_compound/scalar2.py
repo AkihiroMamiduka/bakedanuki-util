@@ -10,11 +10,24 @@ Scalar = TypeVar("Scalar", int, float)
 
 @dataclass(frozen=True, slots=True)
 class Scalar2(ScalarCompoundValue[Scalar], Generic[Scalar]):
+    """2 成分の不変な数値を保持する。"""
+
     x: Scalar
     y: Scalar
 
     @classmethod
     def from_values(cls, values: Sequence[int | float]) -> Self:
+        """2 個の値からインスタンスを作る。
+
+        Args:
+            values: x, y の順に並ぶ値。
+
+        Returns:
+            作成したインスタンス。
+
+        Raises:
+            ValueError: 値の個数が 2 個でない場合。
+        """
         if len(values) != 2:
             raise ValueError(f"{cls.__name__} requires 2 values")
         return cls(cast(Scalar, values[0]), cast(Scalar, values[1]))
@@ -40,4 +53,5 @@ class Scalar2(ScalarCompoundValue[Scalar], Generic[Scalar]):
         return 2
 
     def as_tuple(self) -> tuple[Scalar, Scalar]:
+        """x, y を順番どおりにタプルで返す。"""
         return self.x, self.y

@@ -27,16 +27,15 @@ class LongPlugOperator(NumericRangeBasePlugOperator["LongAttrOperator"]):
     def set(self, value: int) -> None:
         """longプラグへ整数値をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する整数値。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         self._node.modifier_manager.dg_mod.newPlugValueInt(self.plug, value)
 
-    # add
     def add_attr(self):
+        """long 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnNumericData.kLong)
 
 

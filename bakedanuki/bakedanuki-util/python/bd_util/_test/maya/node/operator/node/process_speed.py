@@ -236,7 +236,7 @@ def _pymel_benchmarks_available() -> bool:
 
 
 def pymel_benchmarks_available() -> bool:
-    """Return whether PyMEL has the caches required by this Maya version."""
+    """現在の Maya 用の PyMEL キャッシュが揃っているかを返す。"""
     return _pymel_benchmarks_available()
 
 
@@ -264,7 +264,7 @@ def _run_benchmark(
 
 
 def _pymel_core() -> Any:
-    """Load the optional PyMEL dependency at the benchmark boundary."""
+    """ベンチマークの実行時に任意依存の PyMEL を読み込む。"""
     return cast(Any, import_module("pymel.core"))
 
 

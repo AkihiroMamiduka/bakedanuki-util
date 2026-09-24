@@ -19,7 +19,14 @@ class BoolStatusLabel(qt.QLabel):
         true_text: str = "On",
         parent: qt.QWidget | None = None,
     ) -> None:
-        """ViewModelまたはBinding、False／Trueの表示文字列で初期化する。"""
+        """bool値を文字列で表示する読み取り専用ラベルを生成する。
+
+        Args:
+            view_model: 表示するViewModelまたはそのBinding。
+            false_text: ``False`` の表示文字列。
+            true_text: ``True`` の表示文字列。
+            parent: Qtの親Widget。
+        """
         view_model, binding = resolve_bool_view_source(view_model)
         super().__init__(parent)
         self._binding = binding

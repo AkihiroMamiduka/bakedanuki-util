@@ -69,6 +69,17 @@ def float_plug_kind(plug: om.MPlug) -> FloatPlugKind:
 
 
 def require_float_plug(value: object) -> MayaFloatPlug:
+    """対応する単一数値・距離・角度属性のPlugOperatorを検証する。
+
+    Args:
+        value: 検証するPlugOperator。
+
+    Returns:
+        検証済みのfloat系PlugOperator。
+
+    Raises:
+        TypeError: 非対応の型、compound、または配列配下のplugの場合。
+    """
     if not isinstance(
         value,
         (

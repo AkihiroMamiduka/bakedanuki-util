@@ -27,16 +27,15 @@ class CharPlugOperator(NumericRangeBasePlugOperator["CharAttrOperator"]):
     def set(self, value: str) -> None:
         """charプラグへ1文字の文字列をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する1文字の文字列。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         self._node.modifier_manager.dg_mod.newPlugValueChar(self.plug, value)
 
-    # add
     def add_attr(self):
+        """char 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnNumericData.kChar)
 
 

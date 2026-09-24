@@ -19,6 +19,7 @@ class MayaEnumPlugBinding(EnumBinding[MayaEnumPlugStore]):
         self._owned_store: MayaEnumPlugStore | None = None
 
         def create_store(view_model: EnumViewModel) -> MayaEnumPlugStore:
+            """このBindingをownerとするMaya enum Storeを作る。"""
             store = MayaEnumPlugStore(view_model, plug, self)
             self._owned_store = store
             return store

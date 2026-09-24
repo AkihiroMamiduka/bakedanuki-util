@@ -53,7 +53,18 @@ def _reject_constant(text: str) -> NoReturn:
 
 
 def read(path: str | os.PathLike[str]) -> object:
-    """UTF-8 JSONを即時に読む。BOMを許容し、非有限数とI/Oの失敗は例外にする。"""
+    """UTF-8 の JSON ファイルを読み込む。
+
+    Args:
+        path: 読み込むファイルのパス。UTF-8 BOM も受け付ける。
+
+    Returns:
+        復元した JSON 値。
+
+    Raises:
+        OSError: ファイルを読み込めない場合。
+        ValueError: JSON が不正、または数値が非有限の場合。
+    """
     with Path(path).open("r", encoding="utf-8-sig") as stream:
         return cast(
             object,
@@ -73,12 +84,25 @@ def write(
     overwrite: bool = True,
     create_parents: bool = True,
 ) -> Path:
-    """UTF-8 JSONを即時に保存し、指定先のPathを返す。
+    """JSON を UTF-8 で保存し、保存先のパスを返す。
 
-    既定は親フォルダを作成し、既存ファイルを上書きする。
-    dictのキーはstrのみ。tupleはJSON配列になり、非有限数・循環参照は拒否する。
-    一時ファイルを閉じてから確定するため、書き込み途中では保存先を変更しない。
-    失敗時も作成済みの親フォルダは残す。拡張子は自動付加しない。
+    一時ファイルを確定時に置き換える。拡張子は追加しない。
+
+    Args:
+        path: 保存先のパス。
+        data: JSON に変換する値。辞書のキーは文字列のみ。
+            タプルは配列として保存する。
+        indent: インデント幅。``None`` は改行なし。
+        overwrite: 既存ファイルを上書きするか。
+        create_parents: 親ディレクトリを作成するか。
+
+    Returns:
+        保存先の ``Path``。
+
+    Raises:
+        TypeError: 引数の型や JSON 値が対応外の場合。
+        ValueError: ``indent`` が負、値が非有限、または循環参照の場合。
+        OSError: 保存に失敗した場合。作成済みの親ディレクトリは残る。
     """
     if indent is not None:
         if type(indent) is not int:
@@ -88,6 +112,7 @@ def write(
     if type(overwrite) is not bool or type(create_parents) is not bool:
         raise TypeError("overwrite and create_parents must be bools.")
     target = Path(path)
+    # データの検証を先に終え、保存先を変更する前に失敗を確定させる。
     _validate(data, set())
     text = json.dumps(data, ensure_ascii=False, allow_nan=False, indent=indent)
     if create_parents:

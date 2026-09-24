@@ -29,6 +29,17 @@ def _require_scalar_enum(plug: om.MPlug) -> None:
 
 
 def require_enum_plug(value: object) -> MayaEnumPlug:
+    """配列配下ではない単一enum属性のPlugOperatorを検証する。
+
+    Args:
+        value: 検証するPlugOperator。
+
+    Returns:
+        検証済みのenum PlugOperator。
+
+    Raises:
+        TypeError: enum以外、compound、または配列配下のplugの場合。
+    """
     if not isinstance(value, EnumPlugOperator):
         raise TypeError("plugにはEnumPlugOperatorを指定してください")
     result = cast(MayaEnumPlug, value)

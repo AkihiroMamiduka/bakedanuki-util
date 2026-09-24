@@ -48,7 +48,7 @@ def node_path(node: om.MObject) -> str:
 
 
 def saved_node_name(node: om.MObject) -> str:
-    """階層に依存しない一意名を優先し、曖昧なDAGだけfull pathにする。"""
+    """一意な短い名前を優先し、曖昧な DAG 名だけ full path にする。"""
     name = live_node(node).name()
     if not node.hasFn(om.MFn.kDagNode):
         return name
@@ -64,10 +64,19 @@ def saved_node_name(node: om.MObject) -> str:
 
 
 def plug_for(node: om.MObject, attribute: str) -> om.MPlug:
+    """保存対象の Plug を取得し、未生成の配列要素は拒否する。
+
+    Args:
+        node: 対象ノード。
+        attribute: 親・配列要素を含む属性パス。
+
+    Raises:
+        ValueError: 配列の logical index がまだ存在しない場合。
+    """
     selection = om.MSelectionList()
     selection.add(f"{node_path(node)}.{literal_name(attribute)}")
     plug = selection.getPlug(0)
-    # Explicit nonexistent multi indices must not be materialized by capture.
+    # 取得処理によって未生成の配列要素を作らないようにする。
     current = plug
     while current.isChild or current.isElement:
         if current.isElement:
@@ -83,6 +92,7 @@ def plug_for(node: om.MObject, attribute: str) -> om.MPlug:
 
 
 def supported(plug: om.MPlug) -> bool:
+    """Plug が TA / TL / TU の時間入力カーブへ保存できるか判定する。"""
     return supported_plug(
         plug
     ) and oma.MFnAnimCurve().timedAnimCurveTypeForPlug(plug) in (
@@ -99,13 +109,18 @@ def discrete(plug: om.MPlug) -> bool:
 def sample(
     plug: om.MPlug, frames: Iterable[float]
 ) -> list[tuple[float, float]]:
-    # Reuse the scalar sampler's units and upstream dirty propagation.
+    """scalar sampler と同じ単位で、各時刻の Plug 値を採取する。"""
+    # 上流の dirty 伝播も scalar sampler と共有する。
     from .operator.attr.define.std.at.scalar._base import sample_plug_values
 
     return sample_plug_values(plug, frames=frames)
 
 
 def frame_grid(start: float, end: float, step: float) -> tuple[float, ...]:
+    """両端を含む等間隔の採取時刻を作る。
+
+    割り切れない場合も終了時刻を加える。点数が 10,000,001 を超えれば拒否する。
+    """
     span = (end - start) / step
     if not math.isfinite(span) or span > 10_000_000:
         raise ValueError("The clip sample grid exceeds 10,000,001 points.")
@@ -121,6 +136,7 @@ def frame_grid(start: float, end: float, step: float) -> tuple[float, ...]:
 def sampled_curve(
     plug: om.MPlug, samples: Iterable[tuple[float, float]], rate: float
 ) -> AnimCurveData:
+    """採取値から linear または step 接線の独立したカーブを作る。"""
     tangent = "step" if discrete(plug) else "linear"
     return AnimCurveData(
         curve_type=_keyframe_snapshot.curve_type_for_plug(plug),
@@ -146,6 +162,7 @@ def sampled_curve(
 
 
 def layer_tree() -> tuple[str | None, list[tuple[str, str | None]]]:
+    """ルート名と、親が子より先に並ぶレイヤー階層を返す。"""
     root = cast(str | None, cmds.animLayer(query=True, root=True))
     result: list[tuple[str, str | None]] = []
 
@@ -162,6 +179,10 @@ def layer_tree() -> tuple[str | None, list[tuple[str, str | None]]]:
 
 
 def layer_input(plug: om.MPlug, layer: str | None) -> om.MPlug:
+    """指定レイヤー、またはベースの生入力 Plug を解決する。
+
+    ベース入力では animBlendNode の inputA を遡り、合成後の値を避ける。
+    """
     if layer is not None:
         value = cmds.animLayer(
             layer, query=True, layeredPlug=_keyframe_target.plug_path(plug)
@@ -196,6 +217,11 @@ def layer_input(plug: om.MPlug, layer: str | None) -> om.MPlug:
 def capture_settings(
     name: str, start: float | None, end: float | None
 ) -> tuple[LayerSettingData, ...]:
+    """レイヤー設定の値と、範囲内の設定カーブを取得する。
+
+    Raises:
+        RuntimeError: 時間カーブ以外が設定を駆動している場合。
+    """
     node = node_object(name)
     result: list[LayerSettingData] = []
     for attr in LAYER_SETTINGS:
@@ -215,6 +241,7 @@ def channel_layers(
     tree: list[tuple[str, str | None]],
     selected: set[str | None],
 ) -> list[str | None]:
+    """選択済みレイヤーのうち Plug が所属するものを階層順に返す。"""
     return ([None] if root in selected else []) + [
         name
         for name, _ in tree
@@ -229,6 +256,10 @@ def preserved_animation(
     selected: set[str | None],
     settings_cache: dict[str, bool],
 ) -> bool:
+    """生入力やレイヤー設定の時間依存が保存に必要か判定する。
+
+    同じ compound の別軸と親レイヤーの設定カーブも調べる。
+    """
     parents = dict(tree)
     for layer in channel_layers(plug, root, tree, selected):
         raw = layer_input(plug, layer)
@@ -261,7 +292,7 @@ def preserved_animation(
 
 
 def _capture_layer_name(value: object) -> str:
-    """Resolve one live animation layer without executing pending modifiers."""
+    """予約中の操作を実行せず、シーン上のレイヤー名を解決する。"""
     if isinstance(value, str):
         name = literal_name(value)
         try:
@@ -308,6 +339,26 @@ def capture(
     layers: Iterable[NodeOperator | om.MObject | str] | None,
     sample_by: float,
 ) -> AnimationClip:
+    """シーンを変更せず、選択した属性のアニメーションを保存する。
+
+    Args:
+        nodes: 保存する既存ノードの iterable。
+        attributes: 各ノードに共通の属性名。None では keyable 属性を収集する。
+        include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+        include_static: 時間変化のない属性も保存するか。
+        start_frame: 保存区間の開始。None は対象キーの最小時刻。
+        end_frame: 保存区間の終了。None は対象キーの最大時刻。
+        layer_mode: 合成値を採取する flatten、または生カーブを保存する preserve。
+        layers: preserve 時に保存するレイヤー。None は所属レイヤー。
+        sample_by: flatten 時の採取間隔。現在の UI 時間単位。
+
+    Returns:
+        ノード順とレイヤー階層を保持する独立した AnimationClip。
+
+    Raises:
+        ValueError: 対象属性、時間範囲、レイヤーの指定が不正な場合。
+        TypeError: 引数の型や対象属性の型が未対応の場合。
+    """
     if isinstance(nodes, (str, NodeOperator, om.MObject)):
         raise TypeError("nodes must be an iterable of nodes.")
     if type(include_channel_box) is not bool:

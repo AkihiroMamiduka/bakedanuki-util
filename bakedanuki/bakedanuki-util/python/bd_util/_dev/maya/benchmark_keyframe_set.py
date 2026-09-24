@@ -1,5 +1,5 @@
 # coding: utf-8
-"""Run with mayapy in a separate process; this benchmark replaces the scene."""
+"""別プロセスの mayapy で計測する。シーンは置き換わる。"""
 
 from __future__ import annotations
 

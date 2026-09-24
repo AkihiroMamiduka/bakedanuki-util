@@ -2,4 +2,4 @@
 
 
 class UnsupportedOperationError(RuntimeError):
-    """その操作をサポートしていない"""
+    """要求された操作がサポートされていない場合の例外。"""

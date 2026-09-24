@@ -234,20 +234,14 @@ _DT_CLASS_MAP = _build_class_map(
 
 
 def lookup_attr_cls(node: str, attr: str) -> _AttrOperatorClass | None:
-    """
-    ノード名とアトリビュート名から、対応する Attr クラスを返す。
-
-    アトリビュートが データ型（typed attribute）の場合は dt 階層の Attr クラスを、
-    アトリビュート型の場合は at 階層の Attr クラスを返す。
-    対応するクラスが見つからない場合は None を返す。
+    """既存属性の型に対応する AttrOperator クラスを返す。
 
     Args:
-        node (str): ノード名
-        attr (str): アトリビュート名
+        node: 対象ノード名。
+        attr: 対象属性名。
 
     Returns:
-        type[AttrOperator[Any]] | None: 対応する Attr クラス。
-            見つからない場合は None。
+        dataType または attributeType に対応するクラス。未対応なら None。
     """
     attr_info = get_attribute_info(node, attr)
 

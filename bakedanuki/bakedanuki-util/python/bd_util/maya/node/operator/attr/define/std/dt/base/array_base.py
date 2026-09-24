@@ -55,13 +55,14 @@ class DataArrayBasePlugOperator(DataTypePlugOperator[A]):
         array_cls: _ArrayFactory[T],
         values: list[T],
     ) -> None:
-        """
-        値をセットするヘルパー
+        """MPlug に配列値を直接設定する。
 
-        modifier.undoIt() 非対応
+        ModifierManager の履歴には入らない。
 
         Args:
-            values (list[T]): セットする値のリスト
+            fn_data_cls: 配列データを作る MFn クラス。
+            array_cls: Maya 配列オブジェクトを作るクラス。
+            values: 設定する配列値。
         """
         self.plug.setMObject(fn_data_cls().create(array_cls(values)))
 

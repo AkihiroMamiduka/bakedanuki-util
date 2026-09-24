@@ -1,4 +1,4 @@
-"""Queue Maya's key creation without duplicating layer and unit resolution."""
+"""レイヤーと単位を重複解決せず、Maya によるキー作成を予約する。"""
 
 from __future__ import annotations
 

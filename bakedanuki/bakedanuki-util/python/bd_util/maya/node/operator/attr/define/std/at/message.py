@@ -9,8 +9,8 @@ from ...._core import AttrOperator, PlugOperator, AttributeField
 class MessagePlugOperator(PlugOperator["MessageAttrOperator"]):
     __slots__ = ()
 
-    # add
     def add_attr(self):
+        """message 属性がなければ、ノードへ即時追加する。"""
         # アトリビュートが既に存在する場合はスキップ
         if self.exists():
             return

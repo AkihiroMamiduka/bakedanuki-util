@@ -23,17 +23,17 @@ class DataStringArrayPlugOperator(
 
     # set
     def set_direct(self, value: list[str]) -> None:
-        """
-        MPlug に値を直接セットする
-            その為、modifier.undoIt() 非対応です
+        """MPlug に値を直接設定する。
+
+        ModifierManager の履歴には入らない。
 
         Args:
-            value (list[str]): セットする値のリスト
+            value: セットする値のリスト
         """
         self.plug.setMObject(om.MFnStringArrayData().create(value))
 
-    # add
     def add_attr(self):
+        """文字列配列属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnData.kStringArray)
 
 

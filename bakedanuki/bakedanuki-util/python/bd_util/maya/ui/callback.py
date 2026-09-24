@@ -35,7 +35,10 @@ def _validate_callback_id(value: object) -> int:
 
 
 class MayaCallbackRegistry(qt.QtCore.QObject):
-    """Qt ownerと同じ寿命でMaya callback IDを管理する。"""
+    """Qt ownerと同じ寿命でMaya callback IDを管理する。
+
+    ownerの破棄時とMaya終了時には、登録済みcallbackを解除する。
+    """
 
     def __init__(
         self,
@@ -43,8 +46,13 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         *,
         on_maya_exiting: Callable[[], object] | None = None,
     ) -> None:
-        """ownerと任意のMaya終了処理を受け取って初期化する。"""
-        # QObjectの親子関係とdestroyed通知の両方でregistryの寿命をownerへ揃える。
+        """callbackの所有者とMaya終了時の処理を指定する。
+
+        Args:
+            owner: callbackの寿命を決めるQObject。
+            on_maya_exiting: 登録済みcallbackの解除前に呼ぶ引数なしの関数。
+        """
+        # Qtの親子関係とdestroyed通知の両方でownerの寿命に追従する。
         super().__init__(owner)
         self._owner: qt.QtCore.QObject | None = owner
         self._callback_ids: list[int] = []
@@ -76,8 +84,19 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         return getattr(self, "_is_disposed", True)
 
     def register(self, callback_id: int) -> int:
-        """Maya callback IDを管理対象へ追加して同じIDを返す。"""
-        # Maya APIから返された整数IDだけを受け付ける。
+        """Maya callback IDを管理対象へ追加する。
+
+        Args:
+            callback_id: Maya APIから返された整数ID。
+
+        Returns:
+            登録した同じID。callback作成時の戻り値としても使える。
+
+        Raises:
+            TypeError: IDが`int`でない場合。`bool`も受け付けない。
+            RuntimeError: Registryが破棄済みの場合。
+            ValueError: 同じIDを登録済みの場合。
+        """
         callback_id = _validate_callback_id(callback_id)
         if self._is_disposed:
             raise RuntimeError("破棄済みMayaCallbackRegistryへ登録できません")
@@ -90,8 +109,18 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         return callback_id
 
     def remove(self, callback_id: int) -> bool:
-        """指定callbackを解除し、管理対象だったか返す。"""
-        # 未登録IDはMayaへ渡さず何もしない。
+        """登録したcallbackを解除する。
+
+        Args:
+            callback_id: 解除するMaya callback ID。
+
+        Returns:
+            管理対象のIDを解除した場合は`True`。未登録なら`False`。
+
+        Raises:
+            TypeError: IDが`int`でない場合。`bool`も受け付けない。
+        """
+        # 未登録IDをMayaへ渡さず、他の所有者のcallbackを触らない。
         callback_id = _validate_callback_id(callback_id)
         if callback_id not in self._callback_ids:
             return False
@@ -103,7 +132,7 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         self,
         _object: qt.QtCore.QObject | None = None,
     ) -> None:
-        """管理中のMaya callbackをすべて解除する。"""
+        """利用側callbackと終了監視callbackをすべて解除する。"""
         # 再入と二重解除を防ぐため、Maya APIを呼ぶ前に破棄済みへ変更する。
         if getattr(self, "_is_disposed", True):
             return
@@ -159,7 +188,14 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
 
 
 def dispose_owned_callbacks(owner: qt.QtCore.QObject) -> int:
-    """owner直下のMaya callback registryをすべて破棄する。"""
+    """owner直下のRegistryを破棄し、callbackを直ちに解除する。
+
+    Args:
+        owner: Registryを子に持つQObject。
+
+    Returns:
+        今回破棄したRegistryの数。
+    """
     disposed_count = 0
 
     # controllerの完全破棄時はDeferredDeleteを待たずcallbackを解除する。

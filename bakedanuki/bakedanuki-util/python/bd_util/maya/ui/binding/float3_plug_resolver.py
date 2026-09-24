@@ -32,7 +32,17 @@ class _ResolvedFloat3Plug:
 
 
 def require_float3_plug(value: object) -> MayaFloat3Plug:
-    """配列配下を除く、同種の数値3成分を持つ親plugだけを受け付ける。"""
+    """同種の数値3成分を持つ親plugだけを受け付ける。
+
+    Args:
+        value: 親MPlugとNodeOperatorを持つ対象。
+
+    Returns:
+        検証済みの3成分plug。
+
+    Raises:
+        TypeError: 配列配下、非数値compound、または成分型が不一致の場合。
+    """
     plug: object = getattr(value, "plug", None)
     node: object = getattr(value, "node", None)
     if not isinstance(plug, om.MPlug) or not isinstance(node, NodeOperator):

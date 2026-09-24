@@ -23,17 +23,17 @@ class DataDoubleArrayPlugOperator(
 
     # set
     def set_direct(self, value: list[float]) -> None:
-        """
-        MPlug に値を直接セットする
-            その為、modifier.undoIt() 非対応です
+        """MPlug に値を直接設定する。
+
+        ModifierManager の履歴には入らない。
 
         Args:
-            value (list[float]): セットする値のリスト
+            value: セットする値のリスト
         """
         self._set_values(om.MFnDoubleArrayData, om.MDoubleArray, value)
 
-    # add
     def add_attr(self):
+        """double 配列属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnData.kDoubleArray)
 
 

@@ -462,7 +462,7 @@ class _MayaBoolPlugEndpoint(qt.QObject):
 
 
 class MayaBoolPlugStore(_MayaBoolPlugEndpoint):
-    """Maya bool plugをbool値の正本として扱うStore。"""
+    """Maya bool plugを値の正本とし、変更通知をViewModelへ反映するStore。"""
 
     def __init__(
         self,
@@ -470,7 +470,13 @@ class MayaBoolPlugStore(_MayaBoolPlugEndpoint):
         plug: BoolPlugOperator,
         owner: qt.QObject,
     ) -> None:
-        """ViewModelとbool plugを接続し、書き込み中の再入状態を初期化する。"""
+        """bool plugをViewModelの正本として監視する。
+
+        Args:
+            view_model: Mayaの実値を受け取るViewModel。
+            plug: 読み書きするMaya bool plug。
+            owner: callbackの寿命を管理するQObject。
+        """
         self._write_depth = 0
         super().__init__(view_model, plug, owner)
 
@@ -479,7 +485,14 @@ class MayaBoolPlugStore(_MayaBoolPlugEndpoint):
         return self._read_plug()
 
     def write(self, value: bool) -> bool:
-        """Maya undo対応のsetAttrで値を設定し、確定値を返す。"""
+        """Maya undo対応のsetAttrで書き込み、通知後の実値を返す。
+
+        Args:
+            value: 設定するbool値。
+
+        Returns:
+            通知先から再編集された場合も含む、最新のMaya実値。
+        """
         # changed slotが終了しても、書き込み後の確定値は先に取得しておく。
         self._write_depth += 1
         try:
@@ -495,7 +508,11 @@ class MayaBoolPlugStore(_MayaBoolPlugEndpoint):
         return self._write_depth > 0
 
     def refresh(self) -> bool:
-        """Maya plugの実値と書き込み可否をViewModelへ同期する。"""
+        """Maya plugの実値と書き込み可否をViewModelへ再同期する。
+
+        Returns:
+            公開値が変わった場合は ``True``。接続解除後も ``False``。
+        """
         view_model = self._valid_view_model()
         if view_model is None:
             self._dispose_endpoint()
@@ -532,7 +549,7 @@ class MayaBoolPlugStore(_MayaBoolPlugEndpoint):
 
 
 class MayaBoolPlugView(_MayaBoolPlugEndpoint):
-    """Store正本のbool値とMaya bool plugを同期するView。"""
+    """Python Storeを正本とし、Maya bool plugと双方向同期するView。"""
 
     sync_failed = qt.Signal(object)
     _DEFER_ATTRIBUTE_CHANGES = True
@@ -546,7 +563,16 @@ class MayaBoolPlugView(_MayaBoolPlugEndpoint):
         plug: BoolPlugOperator,
         owner: qt.QObject,
     ) -> None:
-        """Store接続済みViewModelとMaya plugを双方向同期する。"""
+        """Pythonの確定値をMayaへ初期同期し、双方向の通知を接続する。
+
+        Args:
+            view_model: Python Storeを接続済みのViewModel。
+            plug: 同期先のMaya bool plug。
+            owner: callbackの寿命を管理するQObject。
+
+        Raises:
+            RuntimeError: Storeが未接続、またはMaya Storeが正本の場合。
+        """
         view_model = _require_view_model(view_model)
         store = view_model.store
         if store is None:
@@ -604,7 +630,14 @@ class MayaBoolPlugView(_MayaBoolPlugEndpoint):
         return self._last_sync_error
 
     def sync_from_view_model(self) -> bool:
-        """Storeの公開値をMaya plugへ反映する。"""
+        """Python Storeの確定値をMaya plugへ明示的に反映する。
+
+        Returns:
+            Maya plugに書き込んだ場合は ``True``。すでに一致する場合は ``False``。
+
+        Raises:
+            RuntimeError: 同期先が利用不可、書き込み不可、または確定値が反映されない場合。
+        """
         try:
             view_model = self.view_model
             if not self.is_available:

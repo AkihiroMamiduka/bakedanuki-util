@@ -1,4 +1,6 @@
 # coding: utf-8
+"""Maya のノード操作、値型、UI 構築に使うユーティリティ。"""
+
 from . import _version
 from ._dev.reload import reload_package
 from ._dev.timer import timer

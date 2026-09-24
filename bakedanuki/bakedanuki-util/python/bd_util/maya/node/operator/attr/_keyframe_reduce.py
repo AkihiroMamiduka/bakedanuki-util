@@ -494,7 +494,7 @@ def queue_reduce_batch(
     tolerance: object,
     preserve_breakdowns: bool,
 ) -> None:
-    """Queue one atomic reduction after every target has been planned."""
+    """全対象の処理を組み立てた後、キー削減を単一操作として予約する。"""
     start, end, tolerance = _capture_options(
         start_frame, end_frame, tolerance, preserve_breakdowns
     )

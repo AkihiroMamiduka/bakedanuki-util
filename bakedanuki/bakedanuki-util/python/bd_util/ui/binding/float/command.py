@@ -24,6 +24,7 @@ class SetFloatCommand(qt.QObject):
 
     @property
     def can_execute(self) -> bool:
+        """現在、変更要求を受け付けられるか返す。"""
         return self._can_execute
 
     def execute(self, value: float) -> bool:

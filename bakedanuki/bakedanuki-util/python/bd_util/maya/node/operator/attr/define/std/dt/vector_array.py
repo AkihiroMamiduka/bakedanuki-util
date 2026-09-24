@@ -29,12 +29,12 @@ class DataVectorArrayPlugOperator(
         self,
         value: list[tuple[float, float, float]],
     ) -> None:
-        """
-        MPlug に値を直接セットする
-            その為、modifier.undoIt() 非対応です
+        """MPlug に値を直接設定する。
+
+        ModifierManager の履歴には入らない。
 
         Args:
-            value (list[tuple[float, float, float]]):
+            value:
                 セットする値のリスト
         """
         vectors = [om.MVector(*vector) for vector in value]
@@ -44,8 +44,8 @@ class DataVectorArrayPlugOperator(
             vectors,
         )
 
-    # add
     def add_attr(self):
+        """vector 配列属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnData.kVectorArray)
 
 

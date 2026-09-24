@@ -19,6 +19,7 @@ class MayaFloatPlugBinding(FloatBinding[MayaFloatPlugStore]):
         self._owned_store: MayaFloatPlugStore | None = None
 
         def create_store(view_model: FloatViewModel) -> MayaFloatPlugStore:
+            """このBindingをownerとするMaya float Storeを作る。"""
             store = MayaFloatPlugStore(view_model, plug, self)
             self._owned_store = store
             return store

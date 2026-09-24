@@ -8,15 +8,14 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def find_attr(obj: Any, name: str) -> Any | None:
-    """
-    指定された名前の属性をクラス内から探して返す
+    """クラスの継承階層から属性の定義値を探す。
 
     Args:
-        obj (any): class または instance
-        name (str): 属性名
+        obj: 検索するクラスまたはインスタンス。
+        name: 属性名。
 
     Returns:
-        any: 属性
+        クラスの ``__dict__`` にある定義値。見つからなければ ``None``。
     """
     if isinstance(obj, type):
         mro = obj.__mro__

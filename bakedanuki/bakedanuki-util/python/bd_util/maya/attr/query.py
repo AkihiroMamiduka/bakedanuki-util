@@ -22,6 +22,15 @@ R = TypeVar("R")
 # get
 #   attr
 def get_attr(node: str, attr: str) -> om.MObject:
+    """指定したノードの属性を ``MObject`` として取得する。
+
+    Args:
+        node: シーン内のノード名。
+        attr: 属性名。
+
+    Returns:
+        属性の ``MObject``。
+    """
 
     sel = om.MSelectionList()
     sel.add(node)
@@ -36,10 +45,12 @@ def get_attr(node: str, attr: str) -> om.MObject:
 
 
 def get_mfn_attribute(node: str, attr: str) -> om.MFnAttribute:
+    """指定した属性の ``MFnAttribute`` を取得する。"""
     return om.MFnAttribute(get_attr(node, attr))
 
 
 def get_attr_path_name(node: str, attr: str) -> str | None:
+    """属性の完全なパス名を取得し、未対応なら ``None`` を返す。"""
     path_name = getattr(get_mfn_attribute(node, attr), "pathName", None)
     if path_name is None:
         return None
@@ -52,6 +63,7 @@ def get_attr_path_name(node: str, attr: str) -> str | None:
 
 
 def get_attr_parent_names(node: str, attr: str) -> list[str] | None:
+    """親属性名をリストで返し、親がなければ ``None`` を返す。"""
     parent = get_mfn_attribute(node, attr).parent
     if parent.isNull():
         return None
@@ -59,11 +71,13 @@ def get_attr_parent_names(node: str, attr: str) -> list[str] | None:
 
 
 def get_attr_enforcing_unique_name(node: str, attr: str) -> bool | None:
+    """属性名の一意性を強制するかを返し、取得できなければ ``None``。"""
     value = getattr(get_mfn_attribute(node, attr), "enforcingUniqueName", None)
     return value if isinstance(value, bool) else None
 
 
 def get_attr_short_name(node: str, attr: str) -> str | None:
+    """属性の短い名前を返し、取得できなければ ``None`` を返す。"""
     short_name = safe_query(
         cmds.attributeQuery, attr, node=node, shortName=True
     )
@@ -74,6 +88,7 @@ def get_attr_short_name(node: str, attr: str) -> str | None:
 
 
 def is_typed_attr(node: str, attr: str) -> bool:
+    """指定した属性が Maya の typed attribute かを返す。"""
     attr_obj = safe_query(get_attr, node, attr)
     if attr_obj is None:
         return False
@@ -81,27 +96,33 @@ def is_typed_attr(node: str, attr: str) -> bool:
 
 
 class AttrKind(Enum):
+    """属性が attribute type と data type のどちらに属するか。"""
+
     ATTRIBUTE_TYPE = 0
     DATA_TYPE = 1
 
 
 # type kind
 def get_attr_kind(node: str, attr: str) -> AttrKind:
+    """指定した属性の種類を ``AttrKind`` で返す。"""
     if is_typed_attr(node, attr):
         return AttrKind.DATA_TYPE
     return AttrKind.ATTRIBUTE_TYPE
 
 
 def is_attribute_type(node: str, attr: str) -> bool:
+    """指定した属性が attribute type かを返す。"""
     return get_attr_kind(node, attr) == AttrKind.ATTRIBUTE_TYPE
 
 
 def is_data_type(node: str, attr: str) -> bool:
+    """指定した属性が data type かを返す。"""
     return get_attr_kind(node, attr) == AttrKind.DATA_TYPE
 
 
 # data_type_name
 def get_data_type_name(node: str, attr: str) -> str | None:
+    """属性の Maya data type 名を返し、非該当なら ``None`` を返す。"""
     attr_obj = safe_query(get_attr, node, attr)
     if attr_obj is None:
         return None
@@ -110,7 +131,10 @@ def get_data_type_name(node: str, attr: str) -> str | None:
 
 
 def get_data_type_name_from_attr(attr_obj: om.MObject) -> str | None:
-    """OpenMaya attribute object から data type 名を返す。"""
+    """属性 ``MObject`` から Maya data type 名を返す。
+
+    対応しない属性なら ``None`` を返す。
+    """
 
     if not attr_obj.hasFn(om.MFn.kTypedAttribute):
         return None
@@ -136,6 +160,7 @@ def get_data_type_name_from_attr(attr_obj: om.MObject) -> str | None:
 
 
 def get_numeric_attribute_type_name(attr_obj: om.MObject) -> str | None:
+    """数値属性の型名を返し、非該当・未対応なら ``None`` を返す。"""
     if not attr_obj.hasFn(om.MFn.kNumericAttribute):
         return None
 
@@ -164,6 +189,7 @@ def get_numeric_attribute_type_name(attr_obj: om.MObject) -> str | None:
 
 
 def get_unit_attribute_type_name(attr_obj: om.MObject) -> str | None:
+    """単位付き属性の型名を返し、非該当なら ``None`` を返す。"""
     if not attr_obj.hasFn(om.MFn.kUnitAttribute):
         return None
 
@@ -177,6 +203,7 @@ def get_unit_attribute_type_name(attr_obj: om.MObject) -> str | None:
 
 
 def get_matrix_attribute_type_name(attr_obj: om.MObject) -> str | None:
+    """行列属性の型名を返し、非該当なら ``None`` を返す。"""
     if not attr_obj.hasFn(om.MFn.kMatrixAttribute):
         return None
 
@@ -187,6 +214,11 @@ def get_matrix_attribute_type_name(attr_obj: om.MObject) -> str | None:
 
 
 def get_attribute_type_name(node: str, attr: str) -> str | None:
+    """Maya の attribute type 名を取得する。
+
+    ``attributeQuery`` で取得できなければ OpenMaya を使う。
+    型を特定できない場合は ``None`` を返す。
+    """
     attribute_type = safe_query(
         cmds.attributeQuery, attr, node=node, attributeType=True
     )
@@ -203,7 +235,10 @@ def get_attribute_type_name(node: str, attr: str) -> str | None:
 def get_attribute_type_name_from_attr(
     attr_obj: om.MObject,
 ) -> str | None:
-    """OpenMaya attribute object から attribute type 名を返す。"""
+    """属性 ``MObject`` から Maya attribute type 名を返す。
+
+    対応する型を特定できない場合は ``None`` を返す。
+    """
 
     for resolver in (
         get_numeric_attribute_type_name,
@@ -235,6 +270,11 @@ def get_attribute_type_name_from_attr(
 # info
 @dataclasses.dataclass
 class AttrInfo:
+    """Maya 属性の名前・型・初期値・制約などの取得結果。
+
+    取得できなかった項目には ``None`` が入る。
+    """
+
     long_name: str
     short_name: str | None
     attribute_type: str | None
@@ -260,8 +300,15 @@ def safe_query(
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> R | None:
-    """
-    例外が出ても None を返す安全ラッパー
+    """問い合わせ関数の例外を抑え、失敗時に ``None`` を返す。
+
+    Args:
+        func: 実行する問い合わせ関数。
+        *args: 問い合わせ関数へ渡す位置引数。
+        **kwargs: 問い合わせ関数へ渡すキーワード引数。
+
+    Returns:
+        問い合わせ結果。例外が発生した場合は ``None``。
     """
     try:
         return func(*args, **kwargs)
@@ -290,6 +337,15 @@ def _as_str_list(value: object) -> list[str] | None:
 
 
 def get_attribute_info(node: str, attr: str) -> AttrInfo:
+    """シーン内のノードから属性情報を取得する。
+
+    Args:
+        node: シーン内のノード名。
+        attr: 属性名。
+
+    Returns:
+        属性の名前・型・初期値などを収めた ``AttrInfo``。
+    """
     # long / short name
     long_name = attr
     short_name = safe_query(get_attr_short_name, node, attr)
@@ -381,7 +437,15 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
 
 
 def get_attribute_info_by_type(node_type: str, attr: str) -> AttrInfo:
-    """node instance を作成せず、node type から attribute 情報を返す。"""
+    """ノードを作らず、登録済みノード型から属性情報を取得する。
+
+    Args:
+        node_type: Maya に登録済みのノード型名。
+        attr: 属性名。
+
+    Returns:
+        属性の名前・型・初期値などを収めた ``AttrInfo``。
+    """
     node_class = om.MNodeClass(node_type)
     attr_obj = node_class.attribute(attr)
     fn_attr = om.MFnAttribute(attr_obj)
@@ -527,7 +591,14 @@ def get_attribute_info_by_type(node_type: str, attr: str) -> AttrInfo:
 
 
 def get_attribute_infos_by_type(node_type: str) -> list[AttrInfo]:
-    """node instance を作成せず、登録済み node type の属性を取得する。"""
+    """ノードを作らず、登録済みノード型の全属性情報を取得する。
+
+    Args:
+        node_type: Maya に登録済みのノード型名。
+
+    Returns:
+        ノード型の属性ごとの ``AttrInfo``。
+    """
     node_class = om.MNodeClass(node_type)
     return [
         get_attribute_info_by_type(
@@ -543,6 +614,23 @@ def get_attribute_infos(
     mode_new_scene: bool = False,
     mode_error_skip: bool = False,
 ) -> list[AttrInfo]:
+    """一時ノードを作成してノード型の属性情報を取得する。
+
+    取得後は一時ノードを削除する。``mode_new_scene=True`` なら代わりに
+    保存確認なしで新規シーンを開く。
+
+    Args:
+        node_type: 情報を取得する Maya ノード型名。
+        mode_new_scene: 取得後にシーン全体を新規作成するか。
+        mode_error_skip: ノード作成・型確認に失敗した場合に空リストを返すか。
+
+    Returns:
+        ノードの各属性に対応する ``AttrInfo`` のリスト。
+
+    Raises:
+        ValueError: ノードを作成・確認できず、スキップが無効な場合。
+    """
+
     def _post_process(node: str) -> None:
         # ノードを削除するか新規シーンにするか
         if mode_new_scene:
@@ -602,6 +690,12 @@ def print_attribute_infos(
     node_type: str,
     valid_value: bool = True,
 ) -> None:
+    """ノード型の属性情報を標準出力へ表示する。
+
+    Args:
+        node_type: 情報を表示する Maya ノード型名。
+        valid_value: 値のある項目も表示するか。
+    """
     attr_infos: list[AttrInfo] = get_attribute_infos(node_type)
     for attr_info in attr_infos:
 

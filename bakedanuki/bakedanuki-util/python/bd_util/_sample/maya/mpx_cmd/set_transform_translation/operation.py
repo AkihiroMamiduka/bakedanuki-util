@@ -28,7 +28,15 @@ def queue_set_transform_translation(
     nodes: Nodes,
     params: SetTransformTranslationParams,
 ) -> Transform:
-    """Queue a local translation edit into the caller's ModifierManager."""
+    """ローカル移動値の変更を共有 ModifierManager に予約する。
+
+    Args:
+        nodes: 既存ノードの取得に使う入口。
+        params: 対象ノード名と移動値。
+
+    Returns:
+        対象の transform ノード。
+    """
     transform = nodes.existing.transform(params.node_name)
     transform.set_translate(params.translation)
     return transform
@@ -38,7 +46,15 @@ def apply_set_transform_translation(
     nodes: Nodes,
     params: SetTransformTranslationParams,
 ) -> SetTransformTranslationResult:
-    """Set local translation and execute the required DG boundary."""
+    """ローカル移動値を設定し、変更があれば DG modifier を実行する。
+
+    Args:
+        nodes: 既存ノードの取得に使う入口。
+        params: 対象ノード名と移動値。
+
+    Returns:
+        対象ノード名と設定した移動値を保持する結果。
+    """
     transform = queue_set_transform_translation(nodes, params)
     current_translation = transform.translate.get().as_tuple()
     if current_translation != params.translation.as_tuple():

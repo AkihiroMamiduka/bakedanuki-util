@@ -10,6 +10,8 @@ from ._generated.shape import GeneratedShape
 
 
 class Shape(GeneratedShape):
+    """親 Transform を持つ Shape ノードの共通操作を定義する。"""
+
     __slots__ = ()
 
     NODE_TYPE = "shape"
@@ -23,6 +25,20 @@ class Shape(GeneratedShape):
         *,
         parent: DAG | None = None,
     ) -> Self:
+        """親 Transform の下に Shape ノードの作成を予約する。
+
+        Args:
+            modifier_manager: 作成と Undo を管理するオブジェクト。
+            name: 指定する場合のノード名。
+            auto_add_attr: 定義済みの追加属性も作成するか。
+            parent: 必須の親 Transform ノード。
+
+        Returns:
+            作成を予約した Shape ノード。
+
+        Raises:
+            TypeError: `Shape` 自体を作成するか、親を省略した場合。
+        """
         if cls is Shape:
             raise TypeError("Shape is an abstract NodeOperator base class")
         if parent is None:

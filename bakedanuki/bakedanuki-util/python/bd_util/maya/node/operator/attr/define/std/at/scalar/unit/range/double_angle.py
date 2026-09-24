@@ -37,11 +37,10 @@ class DoubleAnglePlugOperator(
     def set(self, value: float) -> None:
         """doubleAngleプラグへdegree値をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する角度。単位はdegree。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         self._node.modifier_manager.dg_mod.newPlugValueMAngle(
             self.plug, _float_to_angle(value)
@@ -50,8 +49,8 @@ class DoubleAnglePlugOperator(
     def _from_anim_curve_value(self, value: float) -> float:
         return om.MAngle(value, om.MAngle.kRadians).asDegrees()
 
-    # add
     def add_attr(self):
+        """doubleAngle 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnUnitAttribute.kAngle)
 
 

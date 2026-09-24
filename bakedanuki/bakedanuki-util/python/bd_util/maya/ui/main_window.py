@@ -8,8 +8,12 @@ from ...ui import qt
 
 
 def get_main_window() -> qt.QtWidgets.QWidget | None:
-    """interactive Mayaのmain windowを取得する。"""
-    # batch MayaとMaya初期化前ではUIへアクセスせずNoneを返す。
+    """Mayaのmain windowをQt Widgetとして取得する。
+
+    Returns:
+        interactive Mayaのmain window。batchまたは未初期化なら`None`。
+    """
+    # batch・未初期化環境ではMaya UI APIへ進まない。
     try:
         if cmds.about(batch=True):
             return None

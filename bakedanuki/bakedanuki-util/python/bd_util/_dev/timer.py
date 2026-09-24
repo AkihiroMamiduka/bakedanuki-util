@@ -27,6 +27,18 @@ def run_timed(
     log: bool = True,
     **kwargs: object,
 ) -> tuple[R, float]:
+    """関数を1回実行し、実行結果と経過秒数を返す。
+
+    Args:
+        func: 計測対象の関数。
+        *args: 関数へ渡す位置引数。
+        label: ログに表示する名前。省略時は関数の修飾名。
+        log: 経過時間をログへ出力するか。
+        **kwargs: 関数へ渡すキーワード引数。
+
+    Returns:
+        関数の戻り値と経過秒数の組。
+    """
     label = label or func.__qualname__
     start = time.perf_counter()
     try:
@@ -46,6 +58,22 @@ def run_timed_repeat(
     unwrap: bool = True,
     **kwargs: object,
 ) -> list[float]:
+    """関数を指定回数実行し、各回の経過秒数を返す。
+
+    Args:
+        func: 計測対象の関数。
+        *args: 関数へ渡す位置引数。
+        repeat_count: 実行回数。1以上を指定する。
+        log_each: 各回の経過時間もログへ出力するか。
+        unwrap: デコレーターが付いた関数を1段展開するか。
+        **kwargs: 関数へ渡すキーワード引数。
+
+    Returns:
+        実行順の経過秒数。
+
+    Raises:
+        ValueError: ``repeat_count`` が1未満の場合。
+    """
     if repeat_count < 1:
         raise ValueError("repeat_count must be greater than 0.")
 
@@ -79,17 +107,15 @@ def run_timed_repeat(
 
 
 def timer(func: Callable[P, R]) -> Callable[P, R]:
-    """
-    関数の処理時間を計測するデコレーター。
-    関数の実行前後の時刻を記録し、経過時間をログに出力する。
+    """関数の経過時間をログへ出力するデコレーター。
 
     Args:
-        func (Callable): 計測対象の関数
+        func: 計測対象の関数。
 
     Returns:
-        Callable: ラップされた関数
+        元の戻り値を保つラッパー関数。
 
-    Example:
+    Examples:
         @timer
         def heavy_process():
             ...

@@ -26,13 +26,26 @@ _NODE_CLASS_NAMES = tuple(
 
 
 class NodeTypes:
+    """Maya ノード型に対応する NodeOperator クラスを参照する。"""
+
     __slots__ = ("_cache",)
 
     def __init__(self) -> None:
         self._cache: dict[str, type[NodeOperator]] = dict(_BASE_NODE_CLASSES)
 
     def resolve(self, node_type: object) -> type[NodeOperator]:
-        """Maya node type名に対応するNodeOperatorクラスを返す。"""
+        """Maya ノード型名から対応するクラスを返す。
+
+        Args:
+            node_type: Maya ノード型名。
+
+        Returns:
+            対応する NodeOperator クラス。
+
+        Raises:
+            TypeError: node_type が文字列でない場合。
+            AttributeError: 対応するノード型がない場合。
+        """
         if not isinstance(node_type, str):
             raise TypeError(f"node_type must be str: {type(node_type)}")
 
@@ -42,6 +55,7 @@ class NodeTypes:
         return node_cls
 
     def available_class_names(self) -> tuple[str, ...]:
+        """現在の Maya で参照できるクラス名を返す。"""
         return tuple(
             sorted(
                 set(_BASE_NODE_CLASSES)

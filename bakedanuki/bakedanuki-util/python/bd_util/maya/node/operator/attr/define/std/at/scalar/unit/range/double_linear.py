@@ -29,19 +29,18 @@ class DoubleLinearPlugOperator(
     def set(self, value: float) -> None:
         """doubleLinearプラグへcentimeter値をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する距離。単位はcentimeter。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         value = om.MDistance(value, om.MDistance.kCentimeters)
         self._node.modifier_manager.dg_mod.newPlugValueMDistance(
             self.plug, value
         )
 
-    # add
     def add_attr(self):
+        """doubleLinear 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnUnitAttribute.kDistance)
 
 

@@ -24,7 +24,7 @@ _VERSIONED_NODE_TYPE_BY_MODULE_NAME = {
 
 
 def maya_major_version() -> int:
-    """Return the major version of the running Maya process."""
+    """実行中の Maya のメジャーバージョンを返す。"""
     return int(om.MGlobal.apiVersion()) // 10000
 
 
@@ -32,7 +32,7 @@ def is_node_type_available(
     node_type: str,
     maya_version: int | None = None,
 ) -> bool:
-    """Return whether a node type belongs to the running Maya version."""
+    """ノード型が指定した Maya 版で利用できるかを返す。省略時は実行中の版を使う。"""
     if maya_version is None:
         maya_version = maya_major_version()
 
@@ -47,7 +47,7 @@ def require_node_type_available(
     node_type: str,
     maya_version: int | None = None,
 ) -> None:
-    """Raise a public-facing error when a node type is version-incompatible."""
+    """ノード型が指定した Maya 版に非対応なら例外を送出する。"""
     if maya_version is None:
         maya_version = maya_major_version()
     if not is_node_type_available(node_type, maya_version):
@@ -60,7 +60,7 @@ def require_node_name_available(
     node_name: str,
     maya_version: int | None = None,
 ) -> None:
-    """Validate a Maya, class, or generated module spelling before import."""
+    """ノード名に対応する型が指定した Maya 版で利用できるか検証する。"""
     module_name = _node_name_to_module_name(node_name)
     node_type = _VERSIONED_NODE_TYPE_BY_MODULE_NAME.get(module_name)
     if node_type is not None:
@@ -71,7 +71,7 @@ def configure_generated_package_path(
     package_path: list[str],
     package_file: str,
 ) -> None:
-    """Prepend sparse schema overlays for the running Maya version."""
+    """実行中の Maya 用の差分 schema を検索パスの先頭に追加する。"""
     baseline_path = Path(package_file).resolve().parent
     maya_version = maya_major_version()
     overlay_paths = [

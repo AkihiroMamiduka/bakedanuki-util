@@ -28,7 +28,13 @@ class EnumComboBox(qt.QComboBox):
         *,
         wheel_requires_focus: bool = False,
     ) -> None:
-        """入力元と、ホイール操作にフォーカスを必須とするか指定する。"""
+        """enum の選択肢と確定値を表示する。
+
+        Args:
+            view_model: 表示する ViewModel またはその Binding。
+            parent: Qt の親 Widget。
+            wheel_requires_focus: ``True`` なら非フォーカス時のホイール入力を親へ渡す。
+        """
         if type(wheel_requires_focus) is not bool:
             raise TypeError("wheel_requires_focusにはboolを指定してください")
         view_model, binding = resolve_enum_view_source(view_model)
@@ -50,14 +56,24 @@ class EnumComboBox(qt.QComboBox):
 
     @property
     def view_model(self) -> EnumViewModel:
+        """表示対象を返す。終了済みの場合は ``RuntimeError`` を送出する。"""
         if self._view_model.is_disposed:
             raise RuntimeError("表示対象のEnumViewModelは終了しています")
         return self._view_model
 
     def isInputEnabled(self) -> bool:
+        """この View 固有の入力許可設定を返す。"""
         return self._input_enabled
 
     def setInputEnabled(self, enabled: bool) -> None:
+        """この View からの入力を許可または停止する。
+
+        Args:
+            enabled: 入力を許可する場合は ``True``。
+
+        Raises:
+            TypeError: ``enabled`` が ``bool`` でない場合。
+        """
         self._input_enabled = _require_enabled(enabled)
         self._update_enabled()
 
@@ -79,7 +95,15 @@ class EnumComboBox(qt.QComboBox):
     def setValueRequestHandler(
         self, handler: Callable[[int], bool] | None
     ) -> None:
-        """enum入力を外側で処理する任意の関数を設定する。"""
+        """選択時に整数値を受け取る入力 handler を設定する。
+
+        Args:
+            handler: 入力を処理したら ``True`` を返す関数。``False`` または
+                ``None`` の場合は ViewModel の Command が値を設定する。
+
+        Raises:
+            TypeError: ``handler`` が呼び出し可能でも ``None`` でもない場合。
+        """
         if handler is not None and not callable(handler):
             raise TypeError(
                 "handlerには呼出し可能な関数またはNoneを指定してください"
@@ -98,6 +122,7 @@ class EnumComboBox(qt.QComboBox):
             self._disable_binding()
             return
         vm = self._view_model
+        # 選択肢を再構築しても入力イベントとして扱わず、未定義値はプレースホルダーに残す。
         blocker = qt.QtCore.QSignalBlocker(self)
         try:
             self.clear()

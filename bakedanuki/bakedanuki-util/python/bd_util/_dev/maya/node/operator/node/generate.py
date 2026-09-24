@@ -1,37 +1,18 @@
 # coding: utf-8
-"""
-Maya ノードの attributeQuery 情報をもとに、Node Operator クラスの
-Python ファイルを生成するモジュール。
+"""Maya の属性情報から NodeOperator の Python ファイルを生成する。
 
-生成される attribute 定義は node kind ごとの ``_generated`` package
-以下に配置する。公開 module は従来のパスに維持し、生成 class を継承する
-手書き可能な wrapper として扱う。
+生成コードはノード種別ごとの ``_generated`` に置き、既存の公開 wrapper は
+上書きしない。
 
-使用例::
+Examples:
+    Maya の Script Editor で実行する。
 
-    # Maya Python Script Editor で実行
-    from bd_util._dev.maya.node.operator.node.generate import (
-        generate_node_class_file,
-    )
+        from bd_util._dev.maya.node.operator.node.generate import generate_node_class_file
 
-    generate_node_class_file(
-        node_type="multiplyDivide",
-        src_dir=r"C:/path/bakedanuki/bakedanuki-util/python",
-    )
-    # generated:
-    # C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dg/_generated/multiply_divide.py
-    # public:
-    # C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dg/multiply_divide.py
-
-    generate_node_class_file(
-        node_type="joint",
-        src_dir=r"C:/path/bakedanuki/bakedanuki-util/python",
-        node_kind="transform",
-    )
-    # generated:
-    # C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dag/transform/_generated/joint.py
-    # public:
-    # C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dag/transform/joint.py
+        generate_node_class_file(
+            "multiplyDivide",
+            src_dir=r"C:/path/bakedanuki/bakedanuki-util/python",
+        )
 """
 
 from __future__ import annotations
@@ -198,9 +179,7 @@ _DG_BASE_LONG_NAMES: frozenset[str] = frozenset(
     }
 )
 
-# DG node types that are intentionally outside the generated NodeOperator
-# coverage. These are mostly editor/internal state nodes whose attributes are
-# not useful as ordinary node-operation wrappers.
+# エディタ用・内部状態用など、通常のノード操作として公開しない DG ノード型。
 _SKIPPED_DG_NODE_TYPES: dict[str, str] = {
     "nodeGraphEditorInfo": (
         "Node Editor UI state node. Standalone mayapy cannot resolve all "
@@ -702,7 +681,7 @@ def _node_type_to_file_name(node_type: str) -> str:
 
 
 def _validate_node_type_name_collisions(node_types: tuple[str, ...]) -> None:
-    """Reject node types that collapse to the same Python symbol or module."""
+    """同じ Python クラス名・モジュール名に変換されるノード型を拒否する。"""
     converters = {
         "class": _node_type_to_class_name,
         "module": _camel_to_snake,
@@ -740,7 +719,7 @@ def _validate_existing_node_output(
     path: pathlib.Path,
     node_type: str,
 ) -> None:
-    """Prevent a normalized file name from overwriting another node type."""
+    """変換後のファイル名が別のノード型を上書きしないよう検査する。"""
     if not path.is_file():
         return
 
@@ -760,7 +739,7 @@ def _validate_existing_node_output(
 
 
 def _resolve_node_kind(node_type: str, node_kind: str) -> str:
-    """Return concrete generation kind for a node type."""
+    """ノード型に対する具体的な生成種別を決める。"""
     if node_kind not in _VALID_NODE_KINDS:
         raise ValueError(
             "node_kind must be one of {}: {}".format(
@@ -1055,7 +1034,7 @@ def _filter_inherited_attr_infos(
 
 
 def _node_kind_base_long_names(node_kind: str) -> frozenset[str]:
-    # DG base attrs are inherited by both DG and DAG dependency nodes.
+    # DG 基底属性は DG と DAG の依存ノード双方に継承される。
     return _DG_BASE_LONG_NAMES
 
 
@@ -1067,9 +1046,9 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
     解決できない場合は ``None`` を返す。
 
     Returns:
-        tuple[str, str] | None: (クラス名, モジュール相対パス) または None
+        解決した (クラス名, モジュール相対パス)。対応がなければ None。
     """
-    # Some built-in attrs report dataType but no attributeType in MFn query.
+    # 一部の組み込み属性は MFn の取得結果で dataType のみ報告される。
     attribute_type = attr_info.attribute_type
     if attribute_type in {None, "typed"} and attr_info.data_type:
         result = _DT_TYPE_MAP.get(attr_info.data_type)
@@ -1106,12 +1085,12 @@ def _node_module_attr_path(module_path: str) -> str:
 
 
 def _attr_long_name(attr_info: AttrInfo) -> str:
-    """Return the canonical Maya attr path used for generated code."""
+    """生成コードで使う Maya 属性の正規パスを返す。"""
     return getattr(attr_info, "path_name", None) or attr_info.long_name
 
 
 def _attr_parent_name(attr_info: AttrInfo) -> str | None:
-    """Return the canonical parent attr path for generated code."""
+    """生成コードで使う親属性の正規パスを返す。"""
     if not attr_info.parent:
         return None
 
@@ -1125,7 +1104,7 @@ def _attr_parent_name(attr_info: AttrInfo) -> str | None:
 
 
 def _normalize_attr_hierarchy(attr_infos: list[AttrInfo]) -> list[AttrInfo]:
-    """Return copies whose path names preserve nested compound parents."""
+    """入れ子の compound 親を含む属性パスを補ったコピーを返す。"""
     infos_by_name: dict[str, AttrInfo] = {}
     for info in attr_infos:
         for name in {
@@ -1173,7 +1152,7 @@ def _normalize_attr_hierarchy(attr_infos: list[AttrInfo]) -> list[AttrInfo]:
 
 
 def _uniform_child_attr_type(children: list[AttrInfo]) -> str | None:
-    """Return child attributeType when all children share the same type."""
+    """すべての子で共通する attributeType を返す。"""
     if not children:
         return None
 
@@ -1192,7 +1171,7 @@ def _is_quat_like_compound(
     *,
     node_type: str | None = None,
 ) -> bool:
-    """Return whether Maya reports a four-double compound as a quat."""
+    """4 個の double 子属性を持つ compound を quat と扱うか判定する。"""
     parent_long_name = _attr_long_name(parent_info)
     has_quat_semantics = "quat" in parent_long_name.lower() or (
         node_type is not None
@@ -1326,7 +1305,7 @@ def _build_attr_init_args(attr_info: AttrInfo) -> list[str]:
 
 
 def _field_arg_literal(value: object) -> str:
-    """Return a stable Python literal for generated Field kwargs."""
+    """Field のキーワード引数に使う安定した Python リテラルを返す。"""
     if isinstance(value, str):
         escaped = value.replace("\\", "\\\\").replace('"', '\\"')
         return f'"{escaped}"'
@@ -1350,7 +1329,7 @@ def _field_arg_literal(value: object) -> str:
 
 
 def _normalize_attr_query_value(value: object) -> object | None:
-    """Normalize Maya attributeQuery list results for Field kwargs."""
+    """Maya の attributeQuery のリスト結果を Field 引数向けに正規化する。"""
     if value is None:
         return None
     if isinstance(value, (list, tuple)):
@@ -1393,7 +1372,7 @@ _RANGE_ARG_NAMES: frozenset[str] = frozenset(
 
 
 def _to_int_if_integral(value: object) -> object:
-    """Convert Maya's numeric float result to int when it is integral."""
+    """Maya が返す整数値相当の float を int に変換する。"""
     if isinstance(value, bool):
         return int(value)
     if isinstance(value, float) and value.is_integer():
@@ -1402,7 +1381,7 @@ def _to_int_if_integral(value: object) -> object:
 
 
 def _normalize_int_metadata_value(value: object) -> object:
-    """Normalize int-like metadata values, including compound tuples."""
+    """compound のタプルも含め、整数系メタデータを正規化する。"""
     if isinstance(value, tuple):
         values = cast(tuple[object, ...], value)
         return tuple(_to_int_if_integral(item) for item in values)
@@ -1410,7 +1389,7 @@ def _normalize_int_metadata_value(value: object) -> object:
 
 
 def _normalize_bool_metadata_value(value: object) -> object:
-    """Normalize bool metadata default values from Maya query results."""
+    """Maya の取得結果から bool 型の既定値を正規化する。"""
     value = _to_int_if_integral(value)
     if isinstance(value, int):
         return bool(value)
@@ -1422,7 +1401,7 @@ def _normalize_metadata_value(
     arg_name: str,
     value: object,
 ) -> object | None:
-    """Normalize Field metadata by Maya attribute type."""
+    """Maya の属性型に合わせて Field のメタデータを正規化する。"""
     attr_type = attr_info.attribute_type
     value = _normalize_attr_query_value(value)
     if value is None:
@@ -1448,7 +1427,7 @@ def _replace_compound_default_with_child_defaults(
     attr_info: AttrInfo,
     children: list[AttrInfo],
 ) -> AttrInfo:
-    """Use child metadata units for a compound default value."""
+    """compound の既定値を子属性それぞれの単位で組み立てる。"""
     if attr_info.default_value is None:
         return attr_info
 
@@ -1471,7 +1450,7 @@ def _replace_compound_default_with_child_defaults(
 
 
 def _normalize_category_value(value: object) -> str | None:
-    """Normalize Maya category query results to AttributeField's string API."""
+    """Maya の category 取得結果を AttributeField 用の文字列に変換する。"""
     if value is None:
         return None
     if isinstance(value, (list, tuple)):
@@ -1487,7 +1466,7 @@ def _normalize_category_value(value: object) -> str | None:
 def _iter_attr_metadata_args(
     attr_info: AttrInfo,
 ) -> Iterator[tuple[str, object]]:
-    """Yield generated Field metadata kwargs for known Maya attr state."""
+    """取得できた Maya 属性の状態を Field のキーワード引数として列挙する。"""
     for arg_name, value in (
         ("default_value", attr_info.default_value),
         ("min_value", attr_info.min_value),
@@ -1631,7 +1610,7 @@ def _safe_attr_name(name: str) -> str:
 
 
 def _safe_field_name(name: str) -> str:
-    """Return a safe Python descriptor name for generated fields."""
+    """生成する Field に使える Python ディスクリプタ名を返す。"""
     safe_name = _safe_attr_name(name)
     while safe_name in _FIELD_NAME_COLLISIONS:
         safe_name += "_"
@@ -1644,7 +1623,7 @@ def _field_init_args(
     long_name: str,
     short_name: str | None,
 ) -> str:
-    """Build Field constructor args, preserving Maya names when escaped."""
+    """Python 名を変換しても Maya 属性名を保持する Field 引数を作る。"""
     args = list(base_args)
     if python_name != long_name:
         args.append(f'long_name="{long_name}"')
@@ -1654,7 +1633,7 @@ def _field_init_args(
 
 
 def _is_deprecated_attr_name(name: str | None) -> bool:
-    """Return True when Maya marks an attribute name as deprecated."""
+    """属性名に deprecated が含まれるかを返す。"""
     return bool(name and "deprecated" in name.lower())
 
 
@@ -1662,7 +1641,7 @@ def _should_emit_short_alias(
     short_name: str | None,
     long_name: str,
 ) -> TypeGuard[str]:
-    """Return True when a short name should be emitted as a Python alias."""
+    """短縮名を Python の別名として生成できるか判定する。"""
     if not short_name or short_name == long_name:
         return False
     if "." in short_name:
@@ -1774,11 +1753,11 @@ def _build_enum_class_lines(
     """現行 EnumOperator / EnumField 形式のコード行リストを生成する。
 
     Args:
-        base_name (str): 生成するベース名 (例: ``"OperationEnum"``)
-        entries (list[tuple[str, int | None]]): ``(ラベル, 明示的整数値 or None)`` のリスト
+        base_name: 生成するベース名。例: ``"OperationEnum"``。
+        entries: ``(ラベル, 明示的整数値または None)`` のリスト。
 
     Returns:
-        list[str]: クラス定義のコード行リスト
+        クラス定義のコード行リスト。
     """
     name_values = _enum_entries_to_name_values(entries)
     plug_cls_name = f"{base_name}PlugOperator"
@@ -1833,7 +1812,6 @@ def _build_enum_class_lines(
 # ---------------------------------------------------------------------------
 
 
-# generate
 def generate_node_attr_code(
     node_type: str,
     attr_infos: list[AttrInfo] | None = None,
@@ -1845,13 +1823,13 @@ def generate_node_attr_code(
     ことを想定した相対インポートを使用する。
 
     Args:
-        node_type (str): Maya ノードタイプ名 (例: ``"multiplyDivide"``)
-        attr_infos (list[AttrInfo] | None): 属性情報のリスト。
+        node_type: Maya ノードタイプ名。例: ``"multiplyDivide"``。
+        attr_infos: 属性情報のリスト。
             ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
             で自動取得する。
 
     Returns:
-        str | None: 生成された Python コード文字列。
+        生成された Python コード文字列。
             対象の compound アトリビュートが存在しない場合は ``None``。
     """
     if attr_infos is None:
@@ -1998,8 +1976,8 @@ def generate_node_attr_code(
             if safe_child_name == "extra" or (
                 safe_child_name == "value" and child_cls_name == "TypedField"
             ):
-                # Keep the descriptor visible to Pyright when a compound child
-                # shadows an operator property with a different return type.
+                # compound の子が別の戻り値型のプロパティを隠す場合も、
+                # Pyright からディスクリプタを参照できるようにする。
                 field_declaration = f"{safe_child_name}: {child_cls_name}"
             child_body_lines.append(
                 f"    {field_declaration} = {child_cls_name}({init_args})"
@@ -2111,7 +2089,6 @@ def generate_node_attr_code(
     return "\n".join(lines)
 
 
-# generate
 def generate_node_class_code(
     node_type: str,
     attr_infos: list[AttrInfo] | None = None,
@@ -2127,20 +2104,20 @@ def generate_node_class_code(
     使用する。
 
     Args:
-        node_type (str): Maya ノードタイプ名 (例: ``"addDoubleLinear"``)
-        attr_infos (list[AttrInfo] | None): 属性情報のリスト。
+        node_type: Maya ノードタイプ名。例: ``"addDoubleLinear"``。
+        attr_infos: 属性情報のリスト。
             ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
             で自動取得する。
-        node_kind (str): ``"dg"`` / ``"dag"`` / ``"transform"`` /
+        node_kind: ``"dg"`` / ``"dag"`` / ``"transform"`` /
             ``"shape"`` / ``"auto"`` のいずれか。
-        inherited_attr_infos (list[AttrInfo] | None): 継承元ノードで定義済みの
+        inherited_attr_infos: 継承元ノードで定義済みの
             属性情報。指定された属性は生成対象から除外する。
-        maya_version (int | None): version 別 overlay 用の Maya major version。
+        maya_version: バージョン別 overlay 用の Maya major version。
             ``None`` / ``2025`` は基準 package、``2026`` 以降は対応する
             versioned ``node_attr`` package を参照する。
 
     Returns:
-        str: 生成された Python コード文字列
+        生成された Python コード文字列。
     """
     resolved_node_kind = _resolve_node_kind(node_type, node_kind)
     normalized_maya_version = _normalize_generated_maya_version(maya_version)
@@ -2433,19 +2410,19 @@ def generate_node_class_file(
         {src_dir}/bd_util/maya/node/operator/attr/define/node_attr/{snake_case_node_type}.py
 
     Args:
-        node_type (str): Maya ノードタイプ名 (例: ``"multiplyDivide"``)
-        src_dir (str | pathlib.Path): ``bd_util`` パッケージの親ディレクトリへのパス
+        node_type: Maya ノードタイプ名。例: ``"multiplyDivide"``。
+        src_dir: ``bd_util`` パッケージの親ディレクトリへのパス。
             (例: ``r"C:/path/bakedanuki/bakedanuki-util/python"``)
-        attr_infos (list[AttrInfo] | None): 属性情報のリスト。
+        attr_infos: 属性情報のリスト。
             ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
             で自動取得する。
-        include_skipped (bool): ``True`` の場合、通常は除外される特殊ノードも
+        include_skipped: ``True`` の場合、通常は除外される特殊ノードも
             調査用に生成する。
-        node_kind (str): ``"dg"`` / ``"dag"`` / ``"transform"`` /
+        node_kind: ``"dg"`` / ``"dag"`` / ``"transform"`` /
             ``"shape"`` / ``"auto"`` のいずれか。
-        inherited_attr_infos (list[AttrInfo] | None): 継承元ノードで定義済みの
+        inherited_attr_infos: 継承元ノードで定義済みの
             属性情報。指定された属性は生成対象から除外する。
-        maya_version (int | None): 出力する Maya major version。``None`` /
+        maya_version: 出力する Maya major version。``None`` /
             ``2025`` は基準 snapshot、``2026`` / ``2027`` は sparse overlay
             package へ出力する。
     """

@@ -20,7 +20,13 @@ class BoolCheckBox(qt.QCheckBox):
         text: str = "",
         parent: qt.QWidget | None = None,
     ) -> None:
-        """ViewModelまたはBinding、表示文字列、親Widgetで初期化する。"""
+        """確定したbool値に追従する二値チェックボックスを生成する。
+
+        Args:
+            view_model: 操作するViewModelまたはそのBinding。
+            text: チェックボックスの表示文字列。
+            parent: Qtの親Widget。
+        """
         view_model, binding = resolve_bool_view_source(view_model)
         super().__init__(text, parent)
         self._binding = binding
@@ -54,7 +60,15 @@ class BoolCheckBox(qt.QCheckBox):
     def setValueRequestHandler(
         self, handler: Callable[[bool], bool] | None
     ) -> None:
-        """bool入力を外側で処理する任意の関数を設定する。"""
+        """チェック操作時の入力handlerを設定する。
+
+        Args:
+            handler: 入力を処理したら ``True`` を返す関数。``False`` または
+                ``None`` の場合はViewModelのCommandが値を設定する。
+
+        Raises:
+            TypeError: ``handler`` が呼び出し可能でも ``None`` でもない場合。
+        """
         if handler is not None and not callable(handler):
             raise TypeError(
                 "handlerには呼出し可能な関数またはNoneを指定してください"

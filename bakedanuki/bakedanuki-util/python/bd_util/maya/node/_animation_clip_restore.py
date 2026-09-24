@@ -42,6 +42,7 @@ from .operator.node.dg._anim_layer import (
 
 
 def mapped_name(name: str, namespace: str | None) -> str:
+    """DAG パスの各ノード名を指定 namespace へ写す。None なら元名を返す。"""
     if namespace is None:
         return name
     prefix = namespace + ":" if namespace else ""
@@ -52,10 +53,13 @@ def mapped_name(name: str, namespace: str | None) -> str:
 
 
 def absolute(name: str) -> str:
+    """相対ノード名に先頭のコロンを付けて絶対名にする。"""
     return name if name.startswith(("|", ":")) else ":" + name
 
 
 def command(manager: ModifierManager, callback: Callable[[], object]) -> None:
+    """Maya コマンドを DG modifier の実行位置に予約する。"""
+
     def prepare(modifier: om.MDGModifier) -> None:
         modifier.pythonCommandToExecute(callback)
 
@@ -67,6 +71,7 @@ def _ui_frame(frame: float, rate: float) -> float:
 
 
 def _converted(data: AnimCurveData) -> AnimCurveData:
+    """保存カーブのキー時刻を現在の UI 時間単位へ換算する。"""
     rate = om.MTime(1, om.MTime.uiUnit()).asUnits(om.MTime.kSeconds)
     return replace(
         data,
@@ -86,13 +91,18 @@ def _restore_curve(
     start: float,
     end: float,
 ) -> None:
+    """保存カーブを mode に従って置換または既存カーブへ統合する。
+
+    ``replace_range`` では対象区間のキーだけを削除する。新規カーブには
+    保存済みの weighted・infinity 設定も復元する。
+    """
     if mode == "replace_all":
         keyframe.set_curve_data(data)
     else:
         if mode == "replace_range":
             keyframe.delete_keys(start, end)
         if keyframe.get_curve_data() is None:
-            # New curves should retain the saved weighting and infinity.
+            # 新規カーブには保存済みの weighted・infinity 設定も適用する。
             keyframe.set_curve_data(data)
         else:
             keyframe.set_key_data(
@@ -101,6 +111,7 @@ def _restore_curve(
 
 
 def _same_setting(actual: LayerSettingData, saved: LayerSettingData) -> bool:
+    """Maya の接線丸めを考慮してレイヤー設定が一致するか判定する。"""
     if actual.curve is None or saved.curve is None:
         return actual.curve is saved.curve and actual.value == saved.value
     expected = _converted(saved.curve)
@@ -175,6 +186,11 @@ def _apply_settings(
     *,
     locked_only: bool,
 ) -> None:
+    """レイヤー設定を lock 属性とそれ以外に分けて復元する。
+
+    Args:
+        locked_only: True では lock 属性だけを最後に適用する。
+    """
     for setting in data.settings:
         if (setting.name == "lock") != locked_only:
             continue
@@ -223,6 +239,28 @@ def restore(
     restore_layer_settings: bool,
     tolerance: float,
 ) -> None:
+    """保存データの検証とシーンへの復元を単一 DG 履歴として予約する。
+
+    Args:
+        clip: 復元する保存データ。予約時に独立コピーを作る。
+        modifier_manager: 操作を予約する先。
+        targets: 保存ノード順に対応する復元先。namespace と併用不可。
+        namespace: 保存名の namespace を置き換える文字列。
+        mode: キーを統合・全置換・区間置換する方法。
+        start_frame: 保存範囲内で使用する区間の開始。
+        end_frame: 保存範囲内で使用する区間の終了。
+        offset_frames: 復元先の UI 時間単位での移動量。
+        to_start_frame: 復元先の開始時刻。
+        to_end_frame: 復元先の終了時刻。
+        time_scale: 正の時間倍率。
+        duration_frames: 復元先の長さ。
+        restore_layer_settings: 既存レイヤーの設定を上書きするか。
+        tolerance: 合成値の検証に用いる非負の許容誤差。
+
+    Raises:
+        ValueError: 復元先やレイヤー構造、時間指定が不正な場合。
+        RuntimeError: 実行時に対象を復元できない場合。
+    """
     if not isinstance(cast(object, modifier_manager), ModifierManager):
         raise TypeError("modifier_manager must be a ModifierManager.")
     if mode not in ("merge", "replace_all", "replace_range"):
@@ -272,8 +310,7 @@ def restore(
         raise ValueError(
             "targets must have the same length as the saved node list."
         )
-    # Existing destinations retain identity across renames; unresolved names can
-    # refer to nodes created by earlier steps in this same manager.
+    # 既存ノードは改名後も同一性を保持し、未解決名は先行操作の作成ノードに委ねる。
     captured = tuple(
         (
             node_object(value)
@@ -423,7 +460,7 @@ def restore(
                 layer_nodes[layer.name] = created.m_obj
                 changed_layers.add(layer.name)
 
-        # Defer the remaining plan until all layer objects have entered the DG.
+        # レイヤーの MObject が DG に登録されてから残りの復元を組み立てる。
         def populate(work: ModifierManager) -> None:
             if root_changed:
                 current_root = cast(str, cmds.animLayer(query=True, root=True))

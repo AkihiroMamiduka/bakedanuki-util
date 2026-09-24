@@ -1,4 +1,4 @@
-"""Read executed DG dependencies without choosing an editing target."""
+"""編集対象を選ばず、実行済み DG の依存関係を調べる。"""
 
 from __future__ import annotations
 
@@ -88,7 +88,7 @@ def _upstream(root: om.MPlug) -> om.MItDependencyGraph:
 
 
 def has_animation(plug: om.MPlug) -> bool:
-    """Keep authored keys and upstream time/expression dependencies, even if constant."""
+    """値が一定でも、キーや上流の時間・式への依存があれば True を返す。"""
     _validate_plug(plug)
     for root in _roots(plug, traverse_inputs=True):
         iterator = _upstream(root)
@@ -111,7 +111,7 @@ def has_animation(plug: om.MPlug) -> bool:
 def curve_objects(
     plug: om.MPlug, *, traverse_inputs: bool = False
 ) -> tuple[om.MObject, ...]:
-    """Collect upstream curves; sampling also follows animation-driven inputs."""
+    """上流カーブを集め、採取時にはアニメーション駆動の入力も辿る。"""
     _validate_plug(plug)
     objects: list[om.MObject] = []
     # Keep each root MPlug alive until iteration finishes (Maya retains it).

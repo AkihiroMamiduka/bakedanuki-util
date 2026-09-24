@@ -38,7 +38,12 @@ def _require_bool(value: object, argument_name: str) -> bool:
 
 
 class FloatRangeSliderSpinBox(FloatSliderSpinBox):
-    """最小値・最大値を表示単位で編集できる、View固有の操作範囲付きView。"""
+    """Min・Max・値・stepを編集できる、View固有の操作範囲付きView。
+
+    Attributes:
+        rangeEditRejected: 範囲入力を拒否した理由を文字列で通知する。
+        settingsChanged: 範囲またはstep設定の確定時に通知する。
+    """
 
     rangeEditRejected = qt.Signal(str)
     settingsChanged = qt.Signal()
@@ -75,8 +80,39 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         value_show_unit: bool = False,
         step_show_unit: bool = False,
     ) -> None:
-        """公開単位の範囲と、各部品の幅・操作可否・桁数・表示設定を指定する。"""
-        # 不正な表示設定で、親に生成途中のWidgetを残さない。
+        """公開単位の操作範囲と各入力欄の表示設定を指定する。
+
+        Args:
+            view_model: 共有するViewModelまたはBinding。
+            parent: このViewを所有するWidget。
+            minimum: 公開単位での操作範囲の下限。
+            maximum: 公開単位での操作範囲の上限。minimumより大きくする。
+            steps: Sliderの整数位置の分割数。
+            decimals: 値欄の小数桁数。
+            single_step: 値欄の表示単位での刻み幅。
+            step_mode: step欄の加算または10倍・1/10倍モード。
+            step_increment: step欄の加算モードでの増減量。
+            slider_width: Sliderの固定幅。`None`なら伸縮する。
+            minimum_width: Min欄の固定幅。`None`なら伸縮する。
+            maximum_width: Max欄の固定幅。`None`なら伸縮する。
+            value_width: 値欄の固定幅。`None`なら伸縮する。
+            step_width: step欄の固定幅。`None`なら伸縮する。
+            minimum_enabled: Min欄の入力を許すか。
+            maximum_enabled: Max欄の入力を許すか。
+            value_enabled: 値欄の入力を許すか。
+            step_enabled: step欄の入力を許すか。
+            minimum_show_buttons: Min欄の上下ボタンを表示するか。
+            maximum_show_buttons: Max欄の上下ボタンを表示するか。
+            value_show_buttons: 値欄の上下ボタンを表示するか。
+            step_show_buttons: step欄の上下ボタンを表示するか。
+            minimum_decimals: Min欄の小数桁数。
+            maximum_decimals: Max欄の小数桁数。
+            minimum_show_unit: Min欄へ単位文字を表示するか。
+            maximum_show_unit: Max欄へ単位文字を表示するか。
+            value_show_unit: 値欄へ単位文字を表示するか。
+            step_show_unit: step欄へ単位文字を表示するか。
+        """
+        # 全設定を先に検証し、親に生成途中のWidgetを残さない。
         slider_width = _require_width(slider_width, "slider_width")
         minimum_width = _require_width(minimum_width, "minimum_width")
         maximum_width = _require_width(maximum_width, "maximum_width")
@@ -252,7 +288,13 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         return self.slider.floatRange()
 
     def setFloatRange(self, minimum: float, maximum: float) -> None:
-        """公開単位の範囲を設定し、正本を変更せずに入力欄へ反映する。"""
+        """View固有の操作範囲を変更する。正本の値とhard limitは維持する。
+
+        Args:
+            minimum: 新しい下限。maximumより小さくする。
+            maximum: 新しい上限。
+
+        """
         minimum, maximum = require_slider_range(minimum, maximum)
         # 範囲を変更する前に、両端を現在の表示単位へ変換できることを確認する。
         presentation = self.view_model.presentation
@@ -262,7 +304,11 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         self._refresh_range()
 
     def effectiveFloatRange(self) -> tuple[float, float] | None:
-        """正本のhard limitを反映した、実際に操作できる公開単位範囲を返す。"""
+        """正本のhard limitも反映した実効操作範囲を返す。
+
+        Returns:
+            公開単位の下限と上限。操作可能な範囲がなければ`None`。
+        """
         return self.slider.effectiveFloatRange()
 
     def decimals(self) -> int:

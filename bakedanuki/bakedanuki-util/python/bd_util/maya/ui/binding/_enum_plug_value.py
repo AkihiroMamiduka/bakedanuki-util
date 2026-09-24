@@ -24,13 +24,16 @@ class EnumPlugValue:
         self._definition = EnumDefinition()
 
     def read(self) -> int:
+        """Maya enum属性の現在の整数値を返す。"""
         return self._plug.asShort()
 
     def matches(self, value: int) -> bool:
+        """指定値がMaya enum属性の現在値と一致するか返す。"""
         return self.read() == value
 
     @property
     def definition(self) -> EnumDefinition:
+        """現在のMaya enum定義を取得し、変更時にキャッシュを更新する。"""
         # enumNameは値が飛ぶ箇所だけ=整数を含む。毎回queryして外部編集も検出する。
         fn = om.MFnEnumAttribute(self._plug.attribute())
         if fn.dynamic:

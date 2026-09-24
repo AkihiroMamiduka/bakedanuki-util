@@ -59,6 +59,8 @@ def _matches_shape_filter(node: "DAG", include_shapes: bool) -> bool:
 
 
 class DAG(NodeOperator):
+    """DAG ノードの階層とパスを ModifierManager 経由で操作する。"""
+
     __slots__ = ("_dag_path",)
 
     def __init__(
@@ -78,14 +80,13 @@ class DAG(NodeOperator):
             auto_add_attr=False,
         )
 
-        # dag_path
+        # 実行前のノードにもパスを保持し、後続の階層操作に使う。
         self._dag_path = om.MDagPath.getAPathTo(self.m_obj)
 
         if rename_name:
             self._dag_mod.renameNode(self.m_obj, rename_name)
             self._set_requested_name_hint(rename_name)
 
-        # auto_add_attr
         if auto_add_attr and self._extra_attributes:
             self._auto_add_extra_attrs()
 
@@ -98,6 +99,19 @@ class DAG(NodeOperator):
         *,
         parent: "DAG | None" = None,
     ) -> Self:
+        """DAG ノードの作成と親子関係を予約する。
+
+        予約した操作は `modifier_manager.do_it_dag()` で実行する。
+
+        Args:
+            modifier_manager: 作成と Undo を管理するオブジェクト。
+            name: 指定する場合のノード名。
+            auto_add_attr: 定義済みの追加属性も作成するか。
+            parent: 親の Transform ノード。実行前の親は同じ管理下に置く。
+
+        Returns:
+            作成を予約したノード。
+        """
         if cls.NODE_TYPE is None:
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
         require_node_type_available(cls.NODE_TYPE)
@@ -105,14 +119,13 @@ class DAG(NodeOperator):
         if parent is not None:
             cls._validate_parent(parent, modifier_manager)
 
-        # ノード作成
+        # 作成時の親を記録し、未実行の操作間でも循環を判定できるようにする。
         parent_obj = (
             parent.m_obj if parent is not None else om.MObject.kNullObj
         )
         m_obj = modifier_manager.dag_mod.createNode(cls.NODE_TYPE, parent_obj)
         modifier_manager.record_pending_dag_parent(m_obj, parent_obj)
 
-        # インスタンス生成
         return cls(
             modifier_manager,
             m_obj=m_obj,
@@ -136,7 +149,14 @@ class DAG(NodeOperator):
 
     @property
     def parent(self) -> "DAG | None":
-        """直接の親を返す。ワールド直下では None を返す。"""
+        """直接の親を返す。
+
+        Returns:
+            ワールド直下では `None`、それ以外は親ノード。
+
+        Raises:
+            RuntimeError: 複数の親パスを持ち、親を一意に選べない場合。
+        """
         if self.is_instanced:
             raise RuntimeError(
                 "parent is ambiguous for an instanced DAG node: "
@@ -185,7 +205,19 @@ class DAG(NodeOperator):
         include_subclasses: object = True,
         include_shapes: object = True,
     ) -> tuple["DAG", ...]:
-        """Mayaのchild index順で、条件に一致する直接の子を返す。"""
+        """Maya の child index 順で、条件に一致する直接の子を返す。
+
+        Args:
+            filter_type: 指定した DAG 型に結果を絞る。省略時は全型。
+            include_subclasses: 型を指定した場合に派生型も含めるか。
+            include_shapes: Shape ノードも結果に含めるか。
+
+        Returns:
+            条件に一致する直接の子。該当がなければ空のタプル。
+
+        Raises:
+            ValueError: 型を指定せずに `include_subclasses=False` とした場合。
+        """
         include_subclasses_value = _require_bool(
             include_subclasses,
             "include_subclasses",
@@ -264,7 +296,16 @@ class DAG(NodeOperator):
         include_subclasses: object = True,
         until: object = None,
     ) -> tuple["DAG", ...] | None:
-        """保持pathの直接親からroot方向へ、条件に一致する祖先を返す。"""
+        """保持するパスの直接の親から root 方向へ祖先を返す。
+
+        Args:
+            filter_type: 指定した DAG 型に結果を絞る。省略時は全型。
+            include_subclasses: 型を指定した場合に派生型も含めるか。
+            until: 探索を止める祖先。型条件に合えば結果にも含む。
+
+        Returns:
+            条件に一致した祖先。`until` に到達しなければ `None`。
+        """
         include_subclasses_value = _require_bool(
             include_subclasses,
             "include_subclasses",
@@ -325,7 +366,16 @@ class DAG(NodeOperator):
         include_subclasses: object = True,
         include_shapes: object = True,
     ) -> tuple["DAG", ...]:
-        """条件に一致する子孫をdepth-first pre-orderで返す。"""
+        """条件に一致する子孫を深さ優先の先行順で返す。
+
+        Args:
+            filter_type: 指定した DAG 型に結果を絞る。省略時は全型。
+            include_subclasses: 型を指定した場合に派生型も含めるか。
+            include_shapes: Shape ノードも結果に含めるか。
+
+        Returns:
+            条件に一致する子孫。該当がなければ空のタプル。
+        """
         include_subclasses_value = _require_bool(
             include_subclasses,
             "include_subclasses",
@@ -383,7 +433,19 @@ class DAG(NodeOperator):
         *,
         until: object = None,
     ) -> tuple["DAG", ...] | None:
-        """各階層で同じchild indexを選び、末端まで返す。"""
+        """各階層で同じ child index を選び、末端までの子孫を返す。
+
+        Args:
+            child_index: 各階層で選ぶ非負の child index。
+            until: 探索を止める子孫。到達した場合はその子孫も含む。
+
+        Returns:
+            自分を除く子孫の列。`until` に到達しなければ `None`。
+
+        Raises:
+            TypeError: `child_index` が整数ではない場合。
+            ValueError: `child_index` が負の場合。
+        """
         if isinstance(child_index, bool) or not isinstance(child_index, int):
             raise TypeError(
                 f"child_index must be int; got {type(child_index).__name__}"
@@ -426,7 +488,20 @@ class DAG(NodeOperator):
         return node
 
     def set_parent(self, parent: "DAG") -> Self:
-        """local transform を維持して親変更を DAG modifier に積む。"""
+        """ローカル変換を維持したまま、親の変更を予約する。
+
+        `modifier_manager.do_it_dag()` で変更を実行する。
+
+        Args:
+            parent: 新しい親の Transform ノード。
+
+        Returns:
+            このノード。
+
+        Raises:
+            RuntimeError: このノードまたは親がインスタンス化されている場合。
+            ValueError: 自分自身や子孫を親に指定した場合。
+        """
         self._validate_set_parent(parent)
         self._dag_mod.reparentNode(self.m_obj, parent.m_obj)
         self.modifier_manager.record_pending_dag_parent(
@@ -473,6 +548,7 @@ class DAG(NodeOperator):
 
     @property
     def cmd_access_name(self) -> str:
+        """Maya command へ渡す現在の DAG フルパスを返す。"""
         return self.full_path
 
     def _get_instance_transform_matrix(
@@ -484,7 +560,14 @@ class DAG(NodeOperator):
         return matrix_plug.get()
 
     def get_relative_matrix(self, dst_dag: "DAG") -> TransformMatrix:
-        """self の行列を dst_dag 自身の空間で表して返す。"""
+        """このノードのワールド行列を指定ノードの空間で返す。
+
+        Args:
+            dst_dag: 基準となる DAG ノード。
+
+        Returns:
+            指定ノードから見た相対行列。
+        """
         dst_dag = _require_dag(dst_dag, "dst_dag")
 
         src_world_matrix = self._get_instance_transform_matrix("worldMatrix")
@@ -494,7 +577,14 @@ class DAG(NodeOperator):
         return src_world_matrix * dst_world_inverse_matrix
 
     def get_local_matrix(self, dst_dag: "DAG") -> TransformMatrix:
-        """self の worldMatrix を再現する dst_dag の local 行列を返す。"""
+        """このノードのワールド行列を再現するローカル行列を返す。
+
+        Args:
+            dst_dag: ローカル行列を求める DAG ノード。
+
+        Returns:
+            指定ノードの親空間における行列。
+        """
         dst_dag = _require_dag(dst_dag, "dst_dag")
 
         src_world_matrix = self._get_instance_transform_matrix("worldMatrix")

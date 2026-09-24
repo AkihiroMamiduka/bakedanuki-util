@@ -24,12 +24,12 @@ class DataLong3PlugOperator(
 
     # set
     def set_direct(self, value: list[int]) -> None:
-        """
-        MPlug に値を直接セットする
-            その為、modifier.undoIt() 非対応です
+        """MPlug に値を直接設定する。
+
+        ModifierManager の履歴には入らない。
 
         Args:
-            value (list[int]): x, y, z の値のリスト
+            value: x, y, z の値のリスト
         """
         self._set_data(om.MFnNumericData.k3Long, value)
 

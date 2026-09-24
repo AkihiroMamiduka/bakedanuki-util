@@ -21,7 +21,7 @@ _UNSET = object()
 
 
 class Quat(Scalar4[float]):
-    """Maya規約のraw Quaternionを保持するimmutableなsnapshot値。"""
+    """Maya の XYZW 順で四元数を保持する不変のスナップショット。"""
 
     __slots__ = ()
 
@@ -50,7 +50,15 @@ class Quat(Scalar4[float]):
         z: object = _UNSET,
         w: object = _UNSET,
     ) -> None:
-        """XYZW成分、sequence、またはMQuaternionからsnapshotを作る。"""
+        """恒等回転、4 成分、または既存の四元数から値を作る。
+
+        引数なしでは ``(0, 0, 0, 1)``。単独引数には Quat、
+        MQuaternion、または XYZW 順の 4 要素を指定する。
+
+        Raises:
+            TypeError: 引数の組み合わせや成分の型が不正な場合。
+            ValueError: 成分の個数が 4 でない場合。
+        """
         values: tuple[float, ...]
         if x is _UNSET and y is _UNSET and z is _UNSET and w is _UNSET:
             values = (0.0, 0.0, 0.0, 1.0)
@@ -93,7 +101,15 @@ class Quat(Scalar4[float]):
         rotate: Sequence[int | float],
         rotate_order: RotationOrder = "xyz",
     ) -> Self:
-        """degree単位のEuler回転からQuaternionを作る。"""
+        """度数法の Euler 回転から四元数を作る。
+
+        Args:
+            rotate: X、Y、Z の角度。単位は度。
+            rotate_order: Maya の回転順序。既定は ``xyz``。
+
+        Returns:
+            対応する四元数。
+        """
         values = cls._numeric_sequence(rotate, name="rotate", size=3)
         radians = tuple(
             om.MAngle(value, om.MAngle.kDegrees).asRadians()
@@ -111,7 +127,15 @@ class Quat(Scalar4[float]):
         axis: Sequence[int | float],
         angle: int | float,
     ) -> Self:
-        """axisとdegree単位のangleからQuaternionを作る。"""
+        """回転軸と度数法の角度から四元数を作る。
+
+        Args:
+            axis: 3 成分の回転軸。
+            angle: 回転角。単位は度。
+
+        Returns:
+            対応する四元数。
+        """
         axis_values = cls._numeric_sequence(axis, name="axis", size=3)
         angle_value = cls._numeric_value(angle, name="angle")
         radians = om.MAngle(
@@ -129,7 +153,16 @@ class Quat(Scalar4[float]):
         target: Sequence[int | float],
         factor: int | float = 1.0,
     ) -> Self:
-        """sourceからtargetへ向けるQuaternionを作る。"""
+        """source を target に向ける四元数を作る。
+
+        Args:
+            source: 元の 3 成分ベクトル。
+            target: 向け先の 3 成分ベクトル。
+            factor: 回転量に適用する係数。既定は 1.0。
+
+        Returns:
+            対応する四元数。
+        """
         source_values = cls._numeric_sequence(
             source,
             name="source",
@@ -160,31 +193,49 @@ class Quat(Scalar4[float]):
             | Sequence[Sequence[int | float]]
         ),
     ) -> Self:
-        """transform matrixの回転成分からQuaternionを作る。"""
+        """変換行列の回転成分から四元数を作る。
+
+        Args:
+            value: Maya の行列または 16 要素・4 行 4 列の行列値。
+
+        Returns:
+            抽出した回転を保持する四元数。
+        """
         from ....transform import TransformMatrix
 
         return cls(TransformMatrix(value).quat)
 
     @property
     def quaternion(self) -> om.MQuaternion:
-        """内部値のコピーをMQuaternionとして返す。"""
+        """成分値のコピーを MQuaternion として返す。"""
         return om.MQuaternion(self.x, self.y, self.z, self.w)
 
     @property
     def length_squared(self) -> float:
+        """4 成分の長さの二乗。"""
         return math.fsum(component * component for component in self)
 
     @property
     def length(self) -> float:
+        """4 成分の長さ。"""
         return math.sqrt(self.length_squared)
 
     def is_finite(self) -> bool:
+        """すべての成分が有限値かを返す。"""
         return all(math.isfinite(component) for component in self)
 
     def is_zero(
         self,
         tolerance: int | float = om.MQuaternion.kTolerance,
     ) -> bool:
+        """四元数の長さが許容値以下かを返す。
+
+        Args:
+            tolerance: 有限かつ非負の許容値。
+
+        Raises:
+            ValueError: 許容値が有限でない、または負の場合。
+        """
         tolerance_value = self._tolerance(tolerance)
         return self.length <= tolerance_value
 
@@ -192,6 +243,14 @@ class Quat(Scalar4[float]):
         self,
         tolerance: int | float = om.MQuaternion.kTolerance,
     ) -> bool:
+        """四元数の長さが 1 に十分近いかを返す。
+
+        Args:
+            tolerance: 有限かつ非負の許容値。
+
+        Raises:
+            ValueError: 許容値が有限でない、または負の場合。
+        """
         tolerance_value = self._tolerance(tolerance)
         return abs(self.length - 1.0) <= tolerance_value
 
@@ -200,7 +259,19 @@ class Quat(Scalar4[float]):
         other: Quat | om.MQuaternion,
         tolerance: int | float = om.MQuaternion.kTolerance,
     ) -> bool:
-        """MQuaternionと同じ規則でqと-qを含む等価性を判定する。"""
+        """MQuaternion と同じ規則で q と -q の等価性も判定する。
+
+        Args:
+            other: 比較する四元数。
+            tolerance: 有限かつ非負の許容値。
+
+        Returns:
+            同じ回転を許容値内で表す場合は True。
+
+        Raises:
+            TypeError: 比較対象や許容値の型が不正な場合。
+            ValueError: 許容値が有限でない、または負の場合。
+        """
         other_quaternion = self._operand_quaternion(other)
         if other_quaternion is None:
             raise TypeError(
@@ -218,7 +289,14 @@ class Quat(Scalar4[float]):
         self,
         rotate_order: RotationOrder = "xyz",
     ) -> DoubleAngle3:
-        """指定した回転順序のEuler回転をdegreeで返す。"""
+        """指定した回転順序の Euler 角を度数法で返す。
+
+        Args:
+            rotate_order: Maya の回転順序。既定は ``xyz``。
+
+        Returns:
+            X、Y、Z の角度を保持する DoubleAngle3。
+        """
         value = self.quaternion.asEulerRotation()
         value.reorderIt(resolve_rotation_order(rotate_order))
         return DoubleAngle3(
@@ -228,7 +306,11 @@ class Quat(Scalar4[float]):
         )
 
     def to_axis_angle(self) -> tuple[Double3, float]:
-        """axisとdegree単位のangleを返す。"""
+        """回転軸と度数法の角度を返す。
+
+        Returns:
+            回転軸の Double3 と、度単位の回転角。
+        """
         axis, angle = self.quaternion.asAxisAngle()
         return (
             Double3(float(axis.x), float(axis.y), float(axis.z)),
@@ -236,21 +318,21 @@ class Quat(Scalar4[float]):
         )
 
     def to_transform_matrix(self) -> TransformMatrix:
-        """回転だけを持つTransformMatrixを返す。"""
+        """この回転だけを持つ TransformMatrix を返す。"""
         from ....transform import TransformMatrix
 
         return TransformMatrix(quat=self)
 
     def normalized(self) -> Self:
-        """MQuaternion.normal()と同じ規則で正規化した値を返す。"""
+        """MQuaternion.normal() と同じ規則で正規化した値を返す。"""
         return type(self)._from_quaternion(self.quaternion.normal())
 
     def inverse(self) -> Self:
-        """MQuaternion.inverse()と同じ規則で逆元を返す。"""
+        """MQuaternion.inverse() と同じ規則で逆元を返す。"""
         return type(self)._from_quaternion(self.quaternion.inverse())
 
     def conjugate(self) -> Self:
-        """共役Quaternionを返す。"""
+        """共役四元数を返す。"""
         return type(self)._from_quaternion(self.quaternion.conjugate())
 
     def slerp(
@@ -258,7 +340,18 @@ class Quat(Scalar4[float]):
         other: Quat | om.MQuaternion,
         weight: int | float,
     ) -> Self:
-        """shortest pathを使って球面線形補間する。"""
+        """最短経路で球面線形補間する。
+
+        Args:
+            other: 補間先の四元数。
+            weight: 補間係数。0.0 は現在値、1.0 は補間先。
+
+        Returns:
+            補間後の新しい Quat。
+
+        Raises:
+            TypeError: 補間先や係数の型が不正な場合。
+        """
         other_quaternion = self._operand_quaternion(other)
         if other_quaternion is None:
             raise TypeError(

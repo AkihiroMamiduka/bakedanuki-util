@@ -38,8 +38,13 @@ class _ExistingNodeMeta(type):
         _wrap.__name__ = node_name
         _wrap.__qualname__ = f"{cls.__name__}.{node_name}"
         _wrap.__doc__ = (
-            f"Wrap an existing {node_cls.NODE_TYPE} node as "
-            f"{node_cls.__name__}."
+            f"既存の {node_cls.NODE_TYPE} ノードを {node_cls.__name__} として取得する。\n\n"
+            "Args:\n"
+            "    node: ノード名または MObject。\n"
+            "    modifier_manager: 操作を予約する先。省略時は新規作成する。\n"
+            "    auto_add_attr: 不足している extra attribute を追加するか。\n\n"
+            "Returns:\n"
+            f"    {node_cls.__name__} インスタンス。"
         )
         _wrap.__annotations__["return"] = node_cls
         cls._accessor_cache[node_name] = _wrap
@@ -47,12 +52,29 @@ class _ExistingNodeMeta(type):
 
 
 class ExistingNode(metaclass=_ExistingNodeMeta):
+    """既存ノードを型に対応した NodeOperator として取得する。"""
+
     def __new__(
         cls,
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> NodeOperator:
+        """既存ノードを包む。
+
+        Args:
+            node: ノード名または MObject。
+            modifier_manager: 操作を予約する先。省略時は新規作成する。
+            auto_add_attr: 不足している extra attribute を追加するか。
+                既定値は False。
+
+        Returns:
+            ノード型に対応した NodeOperator。
+
+        Raises:
+            ValueError: ノード名が見つからない場合。
+            AttributeError: ノード型に対応するクラスがない場合。
+        """
         return _wrap_existing_node(
             node,
             modifier_manager=modifier_manager,

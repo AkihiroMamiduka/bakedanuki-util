@@ -1,4 +1,4 @@
-"""Animation layer construction and membership, shared by Maya schemas."""
+"""Maya バージョン間で共用するアニメーションレイヤー操作。"""
 
 from __future__ import annotations
 
@@ -25,6 +25,7 @@ def _validate_name(name: object) -> None:
 
 
 def node_object(value: object) -> om.MObject:
+    """ノード名またはノードオブジェクトを有効な `MObject` に変換する。"""
     if isinstance(value, NodeOperator):
         node = value.m_obj
     elif isinstance(value, om.MObject):
@@ -47,6 +48,7 @@ def node_object(value: object) -> om.MObject:
 
 
 def live_node(node: om.MObject) -> om.MFnDependencyNode:
+    """シーン内で有効なノードの関数セットを返す。"""
     handle = om.MObjectHandle(node)
     if not handle.isAlive() or not handle.isValid():
         raise RuntimeError("The node is not available in the scene.")
@@ -70,12 +72,22 @@ def _editable_layer(node: om.MObject) -> str:
 
 @dataclass(frozen=True, slots=True)
 class PlugIdentity:
+    """登録対象プラグと、その生存確認に使うノード・属性を保持する。"""
+
     plug: om.MPlug
     node: om.MObjectHandle
     attribute: om.MObjectHandle
 
     @classmethod
     def capture(cls, value: object) -> PlugIdentity:
+        """プラグを解決し、後で生存確認できる形で保持する。
+
+        Args:
+            value: `PlugOperator`、`MPlug`、またはプラグ名。
+
+        Returns:
+            登録時に再検証できるプラグ識別情報。
+        """
         if isinstance(value, PlugOperator):
             plug = value.plug
         elif isinstance(value, om.MPlug):
@@ -99,6 +111,11 @@ class PlugIdentity:
         )
 
     def resolve(self) -> om.MPlug:
+        """ノードと属性が残っていることを確認してプラグを返す。
+
+        Raises:
+            RuntimeError: 登録前にノードまたは属性が無効になった場合。
+        """
         if not all(
             handle.isAlive() and handle.isValid()
             for handle in (self.node, self.attribute)
@@ -122,6 +139,7 @@ class PlugIdentity:
 
 
 def leaf_plugs(plug: om.MPlug) -> Iterator[om.MPlug]:
+    """既存の配列要素と複合属性を展開し、末端のプラグを順に返す。"""
     if plug.isArray:
         for index in sorted(plug.getExistingArrayAttributeIndices()):
             yield from leaf_plugs(plug.elementByLogicalIndex(index))
@@ -133,6 +151,7 @@ def leaf_plugs(plug: om.MPlug) -> Iterator[om.MPlug]:
 
 
 def locked_plug(plug: om.MPlug) -> bool:
+    """プラグ自身または親・配列属性がロックされているかを返す。"""
     while True:
         if plug.isLocked:
             return True
@@ -145,6 +164,7 @@ def locked_plug(plug: om.MPlug) -> bool:
 
 
 def supported_plug(plug: om.MPlug) -> bool:
+    """プラグがレイヤー登録に対応する書き込み可能な型かを返す。"""
     attribute = plug.attribute()
     if not om.MFnAttribute(attribute).writable:
         return False
@@ -180,6 +200,8 @@ def _members(name: str) -> set[str]:
 
 
 class AnimLayerOperations(NodeOperator):
+    """レイヤーの作成とメンバー登録を DG 履歴へ予約する。"""
+
     __slots__ = ()
 
     @classmethod
@@ -191,7 +213,19 @@ class AnimLayerOperations(NodeOperator):
         *,
         override: bool = False,
     ) -> Self:
-        """ベースがなければ作成し、加算またはOverrideレイヤーの作成を予約する。"""
+        """ベースを確保し、加算または Override レイヤーの作成を予約する。
+
+        `modifier_manager.do_it_dg()` で一連の操作を実行する。
+
+        Args:
+            modifier_manager: 作成と Undo を管理するオブジェクト。
+            name: 指定する場合のレイヤー名。
+            auto_add_attr: 定義済みの追加属性も作成するか。
+            override: `True` なら Override、`False` なら加算レイヤー。
+
+        Returns:
+            作成を予約したレイヤー。
+        """
         if type(override) is not bool:
             raise TypeError("override must be a bool.")
         _validate_name(name)
@@ -211,6 +245,7 @@ class AnimLayerOperations(NodeOperator):
                     True,
                 )
 
+        # ベースの有無は実行時のシーンで判定し、同じ履歴内に作成を積む。
         modifier_manager.queue_dg_modifier(prepare_root)
         result = super().create(modifier_manager, name, auto_add_attr)
         modifier_manager.dg_mod.newPlugValueBool(
@@ -234,7 +269,14 @@ class AnimLayerOperations(NodeOperator):
     def add_plugs(
         self, plugs: Iterable[PlugOperator[Any] | om.MPlug | str]
     ) -> None:
-        """指定プラグを登録予約する。compound・既存array要素を展開し、不正な対象は拒否する。"""
+        """指定プラグをレイヤーへ登録する操作を予約する。
+
+        複合属性と既存の配列要素は末端のプラグに展開する。
+        対象の編集可否は `modifier_manager.do_it_dg()` で確認する。
+
+        Args:
+            plugs: 登録するプラグの iterable。単一のプラグは受け付けない。
+        """
         if isinstance(plugs, (str, PlugOperator, om.MPlug)):
             raise TypeError("plugs must be an iterable of plugs.")
         captured = tuple(PlugIdentity.capture(plug) for plug in plugs)
@@ -243,7 +285,14 @@ class AnimLayerOperations(NodeOperator):
     def add_nodes(
         self, nodes: Iterable[NodeOperator | om.MObject | str]
     ) -> None:
-        """ノード自身のkeyable・未lockの対応プラグを実行時に列挙して登録する。"""
+        """ノードの keyable かつ未ロックの対応プラグを登録予約する。
+
+        対象プラグの列挙と編集可否の確認は
+        `modifier_manager.do_it_dg()` の実行時に行う。
+
+        Args:
+            nodes: 登録するノードの iterable。単一のノードは受け付けない。
+        """
         if isinstance(nodes, (str, NodeOperator, om.MObject)):
             raise TypeError("nodes must be an iterable of nodes.")
         captured = tuple(node_object(node) for node in nodes)
@@ -260,6 +309,7 @@ class AnimLayerOperations(NodeOperator):
         def prepare(modifier: om.MDGModifier) -> None:
             name = _editable_layer(layer)
             candidates: list[om.MPlug] = []
+            # 明示指定は無効な属性を拒否し、ノード指定は利用可能な属性だけを集める。
             for target in plugs:
                 plug = target.resolve()
                 _keyframe_target.check_editable_node(live_node(plug.node()))
@@ -287,6 +337,7 @@ class AnimLayerOperations(NodeOperator):
                         and not locked_plug(leaf)
                         and supported_plug(leaf)
                     )
+            # 既存メンバーと同じ要求内の重複を除いて登録する。
             registered = _members(name)
             for plug in candidates:
                 path = _keyframe_target.plug_path(plug)
@@ -300,6 +351,7 @@ class AnimLayerOperations(NodeOperator):
                 modifier.pythonCommandToExecute(add)
 
         def verify(modifier: om.MDGModifier) -> None:
+            # Maya command の成功後も実際の登録状態を確認する。
             if added and not added.issubset(_members(live_node(layer).name())):
                 raise RuntimeError(
                     "Maya could not register all requested animation layer plugs."

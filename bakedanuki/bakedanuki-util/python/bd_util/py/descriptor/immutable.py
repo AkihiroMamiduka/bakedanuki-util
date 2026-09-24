@@ -8,19 +8,19 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class ImmutableDescriptor:
+    """属性の再代入を禁止するデスクリプタの基底クラス。"""
+
     __slots__ = ("_name", "_owner", "_locked")
 
     def __init__(self) -> None:
         object.__setattr__(self, "_locked", False)
 
     def __set_name__(self, owner: type[Any], name: str) -> None:
-        """
-        class 定義時に 1 回だけ呼ばれる
-        親クラスでセットされた、クラス変数名を受け取る仕組み
+        """所有クラスと属性名を記録し、初期化後に変更を禁止する。
 
         Args:
-            owner (type[Any]): 親クラス
-            name (str): 親クラスでセットされた、クラス変数名
+            owner: この属性を定義したクラス。
+            name: クラスでの属性名。
         """
         # 変数に格納
         object.__setattr__(self, "_owner", owner)
@@ -33,26 +33,23 @@ class ImmutableDescriptor:
         object.__setattr__(self, "_locked", True)
 
     def _on_set_name(self, owner: type[Any], name: str) -> None:
-        """
-        __set_name__ 内での、子クラスの追加処理
+        """属性名を設定した後、サブクラス固有の処理を行う。
 
         Args:
-            owner (type[Any]): 親クラス
-            name (str): 親クラスでセットされた、クラス変数名
+            owner: この属性を定義したクラス。
+            name: クラスでの属性名。
         """
         pass
 
     def __set__(self, instance: Any, value: Any) -> None:
-        """
-        代入処理
-        このクラスへは、代入を禁止する
+        """インスタンス経由の代入を拒否する。
 
         Args:
-            instance (Any): インスタンス
-            value (Any): 値
+            instance: 代入先のインスタンス。
+            value: 代入しようとした値。
 
         Raises:
-            AttributeError: 代入を禁止する為、エラーを返す
+            AttributeError: デスクリプタへの代入を試みた場合。
         """
         # instance からの代入禁止
         raise AttributeError(
@@ -64,16 +61,14 @@ class ImmutableDescriptor:
         )
 
     def __setattr__(self, key: str, value: Any) -> None:
-        """
-        代入処理
-        このクラスへは、代入を禁止する
+        """初期化後のデスクリプタ属性の変更を拒否する。
 
         Args:
-            key (str): 属性名
-            value (Any): 値
+            key: 変更する属性名。
+            value: 設定する値。
 
         Raises:
-            AttributeError: 代入を禁止する為、エラーを返す
+            AttributeError: 初期化済みの属性を変更しようとした場合。
         """
         # descriptor 自体の変更禁止
         if getattr(self, "_locked", False):

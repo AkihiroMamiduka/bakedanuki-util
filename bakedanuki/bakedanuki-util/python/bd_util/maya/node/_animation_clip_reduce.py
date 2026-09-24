@@ -18,6 +18,21 @@ def reduce_keys(
     tolerance: float,
     preserve_breakdowns: bool,
 ) -> AnimationClip:
+    """保存チャンネルのキーを削減した独立の clip を返す。
+
+    Args:
+        data: 削減対象の clip。
+        start_frame: 対象範囲の開始。None は制限しない。
+        end_frame: 対象範囲の終了。None は制限しない。
+        tolerance: カーブ値の許容誤差。非負数。
+        preserve_breakdowns: breakdown キーを残すか。
+
+    Returns:
+        ノードの属性カーブだけを削減した clip。レイヤー設定は維持する。
+
+    Raises:
+        ValueError: 範囲が逆転するか、引数が有限数でない場合。
+    """
     tolerance = _keyframe_reduce.validate_options(
         tolerance, preserve_breakdowns
     )

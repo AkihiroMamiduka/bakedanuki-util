@@ -18,7 +18,7 @@ _InstanceT = TypeVar("_InstanceT")
 
 
 class MayaFloatBinding(FloatBinding[_StoreT]):
-    """Python正本のStoreと任意のMaya float Viewを1組だけ所有する。"""
+    """Python正本のStoreと任意のMaya float Viewを一組だけ管理する。"""
 
     def __init__(
         self,
@@ -27,7 +27,14 @@ class MayaFloatBinding(FloatBinding[_StoreT]):
         maya_plug: MayaFloatPlug | None = None,
         parent: qt.QObject | None = None,
     ) -> None:
-        """Store接続後にMayaへ初期同期し、失敗時はcallbackを解放する。"""
+        """Storeと任意のMaya plugを接続する。初期同期失敗時はcallbackを解除する。
+
+        Args:
+            store: Python側の正本となる数値Store。
+            maya_plug: 同期先のMaya float plug。`None`ならMaya Viewを作らない。
+            parent: このBindingを所有するQObject。
+
+        """
         self._maya_view: MayaFloatPlugView | None = None
         super().__init__(store, parent=parent)
         try:
@@ -48,7 +55,18 @@ class MayaFloatBinding(FloatBinding[_StoreT]):
         presentation: FloatPresentation | None = None,
         parent: qt.QObject | None = None,
     ) -> MayaFloatBinding[PythonFloatAttributeStore[_InstanceT]]:
-        """Python属性を正本とし、任意のMaya plugと単位追従Viewを接続する。"""
+        """Python属性を正本とし、任意のMaya plugへ同期する。
+
+        Args:
+            instance: 正本の属性を持つPython object。
+            attribute_name: 正本として扱う既存属性の名前。
+            maya_plug: 同期先のMaya float plug。
+            presentation: 公開単位から表示単位への変換と入力範囲。
+            parent: このBindingを所有するQObject。
+
+        Returns:
+            Python属性Storeを持つMayaFloatBinding。
+        """
         return MayaFloatBinding(
             PythonFloatAttributeStore(
                 instance, attribute_name, presentation=presentation
@@ -59,7 +77,7 @@ class MayaFloatBinding(FloatBinding[_StoreT]):
 
     @property
     def maya_view(self) -> MayaFloatPlugView | None:
-        """Maya同期状態、失敗理由、明示再同期の窓口を返す。"""
+        """Maya同期状態を持つViewを返す。plug未指定なら`None`。"""
         return self._maya_view
 
     def dispose(self) -> None:

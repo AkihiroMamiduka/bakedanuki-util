@@ -1,4 +1,4 @@
-"""Shared deletion of existing keys without creating curves or boundaries."""
+"""カーブや境界キーを作らず、既存キーを削除する共通処理。"""
 
 from __future__ import annotations
 
@@ -40,7 +40,7 @@ def queue_delete(
     start_frame: float | None,
     end_frame: float | None,
 ) -> None:
-    """Queue deletion for one existing curve target."""
+    """既存カーブ一つを対象とするキー削除を予約する。"""
     start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
 
     def edit(change: oma.MAnimCurveChange) -> None:
@@ -59,7 +59,7 @@ def queue_delete_batch(
     start_frame: float | None,
     end_frame: float | None,
 ) -> None:
-    """Queue one atomic deletion after every target has been validated."""
+    """全対象を検証した後、削除を単一操作として予約する。"""
     start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
 
     def prepare(work: ModifierManager) -> None:

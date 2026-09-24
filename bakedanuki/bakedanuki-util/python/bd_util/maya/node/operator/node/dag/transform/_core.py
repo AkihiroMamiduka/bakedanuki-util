@@ -21,6 +21,8 @@ JointChildCompensationAttr = Literal["rotate", "jointOrient"]
 
 
 class ScalarPlugProtocol(Protocol):
+    """値設定に必要なプラグ操作の最小インターフェース。"""
+
     @property
     def plug(self) -> om.MPlug: ...
 
@@ -45,6 +47,8 @@ _AIM_VECTOR_EPSILON = 1.0e-12
 
 
 class Transform(GeneratedTransform):
+    """Transform ノードの位置・回転と子の補償を操作する。"""
+
     __slots__ = ()
 
     NODE_TYPE = "transform"
@@ -59,6 +63,7 @@ class Transform(GeneratedTransform):
         euler = quaternion.asEulerRotation()
         euler.reorderIt(order)
         if closest_to is not None:
+            # 同じ姿勢の Euler 解から現在値に近いものを選び、回転の跳躍を抑える。
             closest_to_euler = Transform._rotation_to_euler(
                 closest_to,
                 order,
@@ -450,6 +455,7 @@ class Transform(GeneratedTransform):
                 f"DAG node: {self.name}"
             )
 
+        # 変換を継承する直接の子だけを補償対象として固定する。
         children = tuple(
             child
             for child in self.children(
@@ -475,6 +481,7 @@ class Transform(GeneratedTransform):
             position_changes.extend(parent_changes)
 
         if children:
+            # 変更後の親行列を先に求め、各子の現在のワールド行列との差を補正する。
             target_parent_world_matrix = (
                 target_local_matrix
                 * self._get_instance_transform_matrix("parentMatrix").matrix
@@ -553,6 +560,7 @@ class Transform(GeneratedTransform):
                         )
                     )
 
+        # 親子すべての書き込み先を確認してから、まとめて履歴へ積む。
         self._validate_position_m_plugs(
             tuple(plug.plug for plug, _ in position_changes)
         )
@@ -600,17 +608,16 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """位置を ``translate`` へ設定し、必要に応じて子を補償する。
 
+        値の単位は centimeter。変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             value: 3成分の値、またはX成分。
-            values: ``value`` がX成分の場合のY、Z成分。
+            *values: ``value`` がX成分の場合のY、Z成分。
             space: 値を解釈する空間。``"local"`` は属性値、``"world"`` は
                 DAG原点のworld位置として扱う。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world位置を維持するように子の ``translate`` を補償する。
 
-        Notes:
-            値の単位はcentimeter。変更は ``ModifierManager.do_it_dg()`` の
-            実行時に反映される。
         """
         translate = self._normalize_vector3_value(
             value,
@@ -661,15 +668,14 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """``translate`` を丸め、必要に応じて子のworld位置を補償する。
 
+        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
+        値の単位は centimeter。変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world位置を維持するように子の ``translate`` を補償する。
 
-        Notes:
-            Python組み込みの ``round()`` と同じ偶数丸めを使用する。
-            値の単位はcentimeter。変更は ``ModifierManager.do_it_dg()`` の
-            実行時に反映される。
         """
         current_translate = self.translate.get().as_tuple()
         target_translate = self._rounded_values(current_translate, ndigits)
@@ -716,9 +722,13 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """姿勢を ``rotateAxis`` へ設定し、必要に応じて子を補償する。
 
+        値の単位は degree、回転順は固定 XYZ。Transform 子は ``rotate``、
+        Joint 子は既定で ``rotate`` を補償する。変更は
+        ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             value: 3成分の値、またはX成分。
-            values: ``value`` がX成分の場合のY、Z成分。
+            *values: ``value`` がX成分の場合のY、Z成分。
             space: 値を解釈する空間。``"local"`` は属性値、``"world"`` は
                 最終的なworld姿勢として扱う。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
@@ -727,10 +737,6 @@ class Transform(GeneratedTransform):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            値の単位はdegreeで、回転順は固定XYZ。Transform子は ``rotate``、
-            Joint子は既定で ``rotate``を補償する。変更は
-            ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         rotate_axis = self._normalize_vector3_value(
             value,
@@ -796,6 +802,11 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """``rotateAxis`` を丸め、必要に応じて子のworld姿勢を補償する。
 
+        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
+        値の単位は degree、回転順は固定 XYZ。Transform 子は ``rotate``、
+        Joint 子は既定で ``rotate`` を補償する。変更は
+        ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
@@ -804,11 +815,6 @@ class Transform(GeneratedTransform):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            Python組み込みの ``round()`` と同じ偶数丸めを使用する。
-            値の単位はdegreeで、回転順は固定XYZ。Transform子は ``rotate``、
-            Joint子は既定で ``rotate``を補償する。変更は
-            ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         current_rotate_axis = self.rotateAxis.get().as_tuple()
         target_rotate_axis = self._rounded_values(
@@ -860,9 +866,12 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """姿勢を ``rotate`` へ設定し、必要に応じて子を補償する。
 
+        値の単位は degree。Transform 子は ``rotate``、Joint 子は既定で
+        ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             value: 3成分の値、またはX成分。
-            values: ``value`` がX成分の場合のY、Z成分。
+            *values: ``value`` がX成分の場合のY、Z成分。
             space: 値を解釈する空間。``"local"`` は属性値、``"world"`` は
                 最終的なworld姿勢として扱う。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
@@ -871,10 +880,6 @@ class Transform(GeneratedTransform):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            値の単位はdegree。Transform子は ``rotate``、Joint子は既定で
-            ``rotate``を補償する。変更は ``ModifierManager.do_it_dg()`` の
-            実行時に反映される。
         """
         rotate = self._normalize_vector3_value(
             value,
@@ -945,6 +950,10 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """``rotate`` を丸め、必要に応じて子のworld姿勢を補償する。
 
+        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
+        値の単位は degree。Transform 子は ``rotate``、Joint 子は既定で
+        ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
@@ -953,11 +962,6 @@ class Transform(GeneratedTransform):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            Python組み込みの ``round()`` と同じ偶数丸めを使用する。
-            値の単位はdegree。Transform子は ``rotate``、Joint子は既定で
-            ``rotate``を補償する。変更は ``ModifierManager.do_it_dg()`` の
-            実行時に反映される。
         """
         current_rotate = self.rotate.get().as_tuple()
         target_rotate = self._rounded_values(current_rotate, ndigits)
@@ -1004,6 +1008,8 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """DAG原点の位置を合わせ、必要に応じて子のworld位置を補償する。
 
+        変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             source: 位置を合わせるDAGノード。
             axes: 位置を合わせる軸。
@@ -1011,8 +1017,6 @@ class Transform(GeneratedTransform):
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world位置を維持するように子の ``translate`` を補償する。
 
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         source = self._validate_match_source(source)
         axes = self._validate_position_axes(axes)
@@ -1069,6 +1073,9 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """world姿勢を ``rotate`` で合わせ、必要に応じて子を補償する。
 
+        Transform 子は ``rotate``、Joint 子は既定で ``rotate`` を補償する。
+        変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             source: 姿勢を合わせるDAGノード。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
@@ -1077,9 +1084,6 @@ class Transform(GeneratedTransform):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            Transform子は ``rotate``、Joint子は既定で ``rotate`` を補償する。
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         source = self._validate_match_source(source)
         (
@@ -1121,6 +1125,9 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """world姿勢を ``rotateAxis`` で合わせ、必要に応じて子を補償する。
 
+        Transform 子は ``rotate``、Joint 子は既定で ``rotate`` を補償する。
+        変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             source: 姿勢を合わせるDAGノード。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
@@ -1129,9 +1136,6 @@ class Transform(GeneratedTransform):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            Transform子は ``rotate``、Joint子は既定で ``rotate`` を補償する。
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         source = self._validate_match_source(source)
         (
@@ -1176,6 +1180,10 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """エイムで求めたworld姿勢を ``rotate`` へ設定する。
 
+        ノードターゲットと自身の world rotate pivot を基準に計算する。
+        ``up_target=None`` の場合は現在のロールを可能な限り維持する。
+        変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             aim_target: エイム対象のTransform、ノード名、または3成分座標。
             aim_axis: エイム対象へ向けるlocal軸。
@@ -1188,10 +1196,6 @@ class Transform(GeneratedTransform):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            ノードターゲットと自身のworld rotate pivotを基準に計算する。
-            ``up_target=None`` の場合は現在のロールを可能な限り維持する。
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         (
             compensate_children,
@@ -1283,6 +1287,10 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """直接の子へ向けたworld姿勢を ``rotate`` へ設定する。
 
+        直接の Transform / Joint 子は world 姿勢と位置を常に補償する。
+        ``up_target`` と ``parent_up_vector`` は同時に指定できない。
+        変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             child_index: Transform系の直接の子における対象index。
             aim_axis: 対象の子へ向けるlocal軸。
@@ -1293,10 +1301,6 @@ class Transform(GeneratedTransform):
             end_behavior: Transform系の子がない場合の動作。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            直接のTransform / Joint子はworld姿勢と位置を常に補償する。
-            ``up_target`` と ``parent_up_vector`` は同時に指定できない。
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         joint_child_compensation_attr = (
             self._require_joint_child_compensation_attr(
@@ -1382,6 +1386,9 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """処理前から処理後への軸対応で姿勢を求め、``rotate`` へ設定する。
 
+        ``x``、``y``、``z`` のうち 2 つだけを指定し、残る軸は右手系から
+        自動決定する。変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             x: 処理前の正X軸を対応させる処理後の符号付き軸。
             y: 処理前の正Y軸を対応させる処理後の符号付き軸。
@@ -1392,10 +1399,6 @@ class Transform(GeneratedTransform):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            ``x``、``y``、``z`` のうち2つだけを指定し、残る軸は右手系から
-            自動決定する。変更は ``ModifierManager.do_it_dg()`` の実行時に
-            反映される。
         """
         (
             compensate_children,
@@ -1489,7 +1492,15 @@ class Transform(GeneratedTransform):
         /,
         *values: float,
     ) -> Self:
-        """姿勢を維持して ``rotateAxis`` を設定し、差分を ``rotate`` で吸収する。"""
+        """姿勢を維持して `rotateAxis` を設定し、差分を `rotate` で吸収する。
+
+        Args:
+            value: degree 単位の 3 成分、または X 成分。
+            *values: `value` が X 成分の場合の Y、Z 成分。
+
+        Returns:
+            変更を予約したこのノード。
+        """
         rotate_axis = self._normalize_vector3_value(
             value,
             values,
@@ -1540,7 +1551,15 @@ class Transform(GeneratedTransform):
         /,
         *values: float,
     ) -> Self:
-        """姿勢を維持して ``rotate`` を設定し、差分を ``rotateAxis`` で吸収する。"""
+        """姿勢を維持して `rotate` を設定し、差分を `rotateAxis` で吸収する。
+
+        Args:
+            value: degree 単位の 3 成分、または X 成分。
+            *values: `value` が X 成分の場合の Y、Z 成分。
+
+        Returns:
+            変更を予約したこのノード。
+        """
         rotate = self._normalize_vector3_value(
             value,
             values,
@@ -1907,6 +1926,7 @@ class Transform(GeneratedTransform):
             "aim_target",
         )
 
+        # Up 方向が未指定なら、現在の姿勢から Aim の差分だけを適用する。
         if up_target is None and world_up_direction is None:
             current_world_rotation = self._get_instance_transform_matrix(
                 "worldMatrix"
@@ -1953,6 +1973,7 @@ class Transform(GeneratedTransform):
             )
         world_up_axis /= world_up_length
 
+        # Aim を合わせた後、Aim 軸周りの回転で Up 方向を合わせる。
         aim_rotation = local_aim_axis.rotateTo(world_aim_axis)
         rotated_up_axis = local_up_axis.rotateBy(aim_rotation)
         up_angle = math.atan2(
@@ -2171,8 +2192,20 @@ class Transform(GeneratedTransform):
         *,
         preserve_world_transform: bool = False,
     ) -> Self:
-        """
-        親変更を積み、必要に応じて現在の world transform を維持する。
+        """親変更を予約し、必要なら現在の world transform を維持する。
+
+        ``modifier_manager.do_it_dag()`` で変更を実行する。
+
+        Args:
+            parent: 新しい親ノード。
+            preserve_world_transform: True ならワールド変換を維持する。
+
+        Returns:
+            この Transform。
+
+        Raises:
+            RuntimeError: このノードまたは親がインスタンス化されている場合。
+            ValueError: 自分自身や子孫を親に指定した場合。
         """
         if not preserve_world_transform:
             return super().set_parent(parent)
@@ -2192,7 +2225,17 @@ class Transform(GeneratedTransform):
         *,
         preserve_world_transform: bool = False,
     ) -> Self:
-        """ワールド直下への親変更を DAG modifier に積む。"""
+        """ワールド直下への親変更を DAG modifier に予約する。
+
+        Args:
+            preserve_world_transform: True ならワールド変換を維持する。
+
+        Returns:
+            この Transform。
+
+        Raises:
+            RuntimeError: このノードがインスタンス化されている場合。
+        """
         if self.is_instanced:
             raise RuntimeError(
                 "set_parent_to_world is not supported for an instanced "

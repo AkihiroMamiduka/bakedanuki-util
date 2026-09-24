@@ -15,6 +15,19 @@ def cropped_for_restore(
     start_frame: float | None,
     end_frame: float | None,
 ) -> AnimationClip:
+    """保存時間単位で指定した区間へ全カーブを切り出す。
+
+    Args:
+        data: 切り出し元の clip。
+        start_frame: 使用区間の開始。None は保存範囲の開始。
+        end_frame: 使用区間の終了。None は保存範囲の終了。
+
+    Returns:
+        境界キーを補完した独立の clip。両端が None なら元の clip。
+
+    Raises:
+        ValueError: 区間が逆転、保存範囲外、または Maya の時間精度で潰れる場合。
+    """
     if start_frame is None and end_frame is None:
         return data
     start = (

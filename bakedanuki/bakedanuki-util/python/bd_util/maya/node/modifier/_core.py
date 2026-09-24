@@ -134,11 +134,10 @@ class _ExecutedBatch:
 
 
 class ModifierManager:
-    """
-    Manages DG, DAG and animation edits as one undoable command.
+    """DG・DAG・アニメーション編集を予約し、実行履歴を管理する。
 
-    Each explicit execution closes one history entry. Deferred DG and animation
-    callbacks split pending operations into ordered steps without executing them.
+    ``do_it_dg()`` / ``do_it_dag()`` ごとに履歴を確定する。予約した操作は
+    実行までシーンに反映されない。
     """
 
     __slots__ = (
@@ -160,30 +159,35 @@ class ModifierManager:
 
     @property
     def dg_mod(self) -> om.MDGModifier:
-        """Current DG buffer; reacquire after queuing a deferred callback."""
+        """現在の DG modifier。遅延処理の予約後は取得し直す。"""
         return self._dg_mod
 
     @property
     def dag_mod(self) -> om.MDagModifier:
+        """現在の DAG modifier。"""
         return self._dag_mod
 
     @property
     def can_undo(self) -> bool:
+        """確定した操作の履歴があるか。"""
         return bool(self._done_stack)
 
     @property
     def can_redo(self) -> bool:
+        """やり直し可能な履歴があるか。"""
         return bool(self._redo_stack)
 
     def queue_anim_curve_change(
         self, callback: Callable[[oma.MAnimCurveChange], None]
     ) -> None:
-        """Queue an API animation edit at the current DG execution position.
+        """アニメーション編集を現在の DG 実行位置に予約する。
 
-        The callback runs once during ``do_it_dg()``. All its mutations must
-        use the supplied change cache so undo, redo and failure recovery can
-        restore them. Node creation and other DG edits must be queued separately.
-        Queuing an edit replaces ``dg_mod`` but does not execute pending work.
+        callback は ``do_it_dg()`` 時に一度だけ呼ばれる。予約後は
+        ``dg_mod`` が切り替わるため、必要なら取得し直す。
+
+        Args:
+            callback: 実行時に MAnimCurveChange を受け取る処理。
+                編集には渡された変更履歴を使い、ノード作成は別に予約する。
         """
         if not callable(callback):
             raise TypeError("Animation edit callback must be callable.")
@@ -192,12 +196,14 @@ class ModifierManager:
     def queue_dg_modifier(
         self, callback: Callable[[om.MDGModifier], None]
     ) -> None:
-        """Defer preparing and executing a DG modifier until ``do_it_dg()``.
+        """先行する DG 操作の実行後に modifier を準備する。
 
-        The callback runs once after earlier DG steps have executed. It must
-        only queue changes on the supplied modifier, without calling ``doIt``.
-        Undo and redo use that modifier; the callback is not replayed.
-        Queuing replaces ``dg_mod`` without executing pending work.
+        callback は ``do_it_dg()`` 時に一度だけ呼ばれる。Undo / Redo
+        には完成した modifier を使う。予約後は ``dg_mod`` を取得し直す。
+
+        Args:
+            callback: 実行時に MDGModifier を受け取る処理。
+                変更の予約だけを行い、``doIt()`` は呼ばない。
         """
         if not callable(callback):
             raise TypeError("DG modifier callback must be callable.")
@@ -210,22 +216,32 @@ class ModifierManager:
     def queue_dg_batch(
         self, callback: Callable[[ModifierManager], None]
     ) -> None:
-        """実行時のsceneに応じた複合操作を、一つの履歴へ予約する。
+        """実行時のシーンに応じた複合操作を一つの履歴へ予約する。
 
-        callbackは渡されたmanagerへ操作を予約するだけにし、即時編集や
-        do_itを行わない。Undo / Redoでは構築済みの履歴を使用する。
+        Undo / Redo には初回実行時に構築した履歴を使う。
+
+        Args:
+            callback: 実行時に新しい ModifierManager を受け取る処理。
+                操作の予約だけを行い、即時編集や ``do_it_dg()`` は行わない。
         """
         if not callable(callback):
             raise TypeError("DG batch callback must be callable.")
         self._queue_dg_step(_DeferredBatchStep(callback))
 
     def do_it_dg(self):
+        """予約済み DG・アニメーション操作を実行して履歴に確定する。"""
         self._do_it("dg")
 
     def do_it_dag(self):
+        """予約済み DAG 操作を実行して履歴に確定する。"""
         self._do_it("dag")
 
     def undo_it(self):
+        """確定済みの履歴を新しいものから順に取り消す。
+
+        Raises:
+            RuntimeError: 取り消せる履歴がない場合。
+        """
         if not self._done_stack:
             raise RuntimeError("No modifier history to undo.")
 
@@ -242,6 +258,11 @@ class ModifierManager:
         self._done_stack = []
 
     def redo_it(self):
+        """取り消した履歴を元の順で再実行する。
+
+        Raises:
+            RuntimeError: やり直せる履歴がない、または実行履歴が残る場合。
+        """
         if not self._redo_stack:
             raise RuntimeError("No undone modifier history to redo.")
         if self._done_stack:
@@ -262,11 +283,10 @@ class ModifierManager:
         self._redo_stack = []
 
     def rollback(self) -> None:
-        """Undo executed history and discard all pending command state.
+        """確定済み操作を取り消し、未実行の予約も破棄する。
 
-        Unlike ``undo_it()``, rollback is terminal. It also clears pending
-        modifiers and does not retain redo history. Every executed modifier is
-        given a chance to undo even if an earlier undo operation fails.
+        ``undo_it()`` と異なりやり直し履歴は残さない。途中で失敗しても
+        残りの確定済み操作の取り消しを試みる。
         """
         errors: list[Exception] = []
         try:
@@ -287,6 +307,7 @@ class ModifierManager:
             raise first_error
 
     def clear(self):
+        """予約中・確定済み・やり直し待ちの履歴をすべて破棄する。"""
         self._clear_pending_modifiers()
         self._done_stack = []
         self._redo_stack = []
@@ -344,6 +365,7 @@ class ModifierManager:
         return False
 
     def _do_it(self, kind: ModifierKind):
+        # 予約済み操作を 1 履歴にまとめ、失敗時は batch 内で元に戻す。
         if kind == "dg":
             steps = (*self._pending_dg_steps, _ModifierStep(self._dg_mod))
         elif kind == "dag":

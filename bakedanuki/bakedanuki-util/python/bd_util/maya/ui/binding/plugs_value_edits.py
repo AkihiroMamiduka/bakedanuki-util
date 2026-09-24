@@ -37,7 +37,12 @@ def _require_binding(value: object, expected: type[object]) -> None:
 
 @dataclass(frozen=True)
 class MayaBoolValueEdit:
-    """一つのbool属性群へ明示入力する値を保持する。"""
+    """一つのbool属性群へ適用する入力を保持する。
+
+    Attributes:
+        binding: 編集先のbool Binding。
+        value: 設定する真偽値。
+    """
 
     binding: MayaBoolPlugsBinding
     value: bool
@@ -49,7 +54,12 @@ class MayaBoolValueEdit:
 
 @dataclass(frozen=True)
 class MayaFloatValueEdit:
-    """一つの数値属性群へ入力するcm・degree・単位なしの値を保持する。"""
+    """一つの数値属性群へ適用する入力を保持する。
+
+    Attributes:
+        binding: 編集先のfloat Binding。
+        value: Bindingの公開単位で設定する値。
+    """
 
     binding: MayaFloatPlugsBinding
     value: float
@@ -61,7 +71,12 @@ class MayaFloatValueEdit:
 
 @dataclass(frozen=True)
 class MayaFloatOffsetEdit:
-    """数値属性群の各現在値へ、公開単位の同じ増減量を加える。"""
+    """数値属性群の各現在値へ同じ増減量を加える。
+
+    Attributes:
+        binding: 編集先のfloat Binding。
+        offset: Bindingの公開単位で加算する値。
+    """
 
     binding: MayaFloatPlugsBinding
     offset: float
@@ -73,7 +88,12 @@ class MayaFloatOffsetEdit:
 
 @dataclass(frozen=True)
 class MayaEnumValueEdit:
-    """一つのenum属性群へ明示入力する整数値を保持する。"""
+    """一つのenum属性群へ適用する整数値を保持する。
+
+    Attributes:
+        binding: 編集先のenum Binding。
+        value: 設定する選択肢の整数値。
+    """
 
     binding: MayaEnumPlugsBinding
     value: int
@@ -124,15 +144,26 @@ def apply_plugs_values(
 ) -> bool:
     """全要求を事前検証し、差分を一回のUndoで適用する。
 
-    各値はBindingの公開単位で渡す。空入力・全対象が同値ならFalseを返す。
-    代表属性が編集不可の場合と、Binding間で対象が重複する場合は全体を拒否する。
-    編集不可の後続属性は既存Bindingと同じく除外し、途中失敗は全変更を復旧する。
+    代表属性が編集不可なら要求を拒否し、編集不可の後続属性は除外する。
+    適用途中に失敗した場合は変更を復旧し、各Storeを再同期する。
+
+    Args:
+        edits: 適用する編集要求。数値は各Bindingの公開単位で指定する。
+        edit_session: Mayaへの書き込み中に使う編集セッション。
+
+    Returns:
+        差分を適用した場合は`True`。空入力・全対象が同値なら`False`。
+
+    Raises:
+        TypeError: 対応していない編集要求を渡した場合。
+        ValueError: 同じBindingまたは属性を複数回指定した場合。
+
     """
     requests = tuple(_require_edit(edit) for edit in edits)
     if not requests:
         return False
 
-    # 無変更の対象も含めて重複を拒否し、適用順による値の上書きを防ぐ
+    # 無変更の対象も含めて重複を拒否し、適用順で結果が変わらないようにする。
     stores = tuple(edit.binding.store for edit in requests)
     seen_plugs: list[om.MPlug] = []
     for index, store in enumerate(stores):
@@ -144,7 +175,7 @@ def apply_plugs_values(
             seen_plugs.append(plug)
 
     try:
-        # 全行の検証が済むまで、値とUndo履歴を変更しない
+        # 全要求を準備できてから単一のUndo chunk内で書き込む。
         plan = [write for edit in requests for write in _prepare_edit(edit)]
         if plan:
             FloatEditUndo.finish_active()
@@ -162,7 +193,7 @@ def apply_plugs_values(
                 store.edit_failed.emit(str(error))
         raise
 
-    # 全対象を確定してから同期し、途中状態を他の行へ伝播しない
+    # 書き込み完了後にまとめて同期し、途中状態を別の行へ通知しない。
     for store in stores:
         store.refresh()
     return bool(plan)

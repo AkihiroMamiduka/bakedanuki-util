@@ -13,6 +13,8 @@ from ._shape_types import CREATABLE_SHAPE_NODE_TYPES
 
 
 class ShapeWithTransformCreator:
+    """Transform と Shape の作成を同じ ModifierManager に予約する。"""
+
     __slots__ = (
         "__dict__",
         "_modifier_manager",
@@ -29,6 +31,7 @@ class ShapeWithTransformCreator:
 
     @property
     def modifier_manager(self) -> ModifierManager:
+        """ノード作成を予約する先。"""
         return self._modifier_manager
 
     def create(
@@ -40,6 +43,21 @@ class ShapeWithTransformCreator:
         shape_name: str | None = None,
         parent: DAG | None = None,
     ) -> tuple[Transform, Shape]:
+        """Shape と親 Transform の作成をまとめて予約する。
+
+        Args:
+            node_name: 作成する Shape の Maya ノード型名。
+            name: Transform の名前。省略時は Maya に委ねる。
+            auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。
+            shape_name: Shape の名前。省略時は name があれば ``Shape`` を付ける。
+            parent: Transform の親 DAG ノード。
+
+        Returns:
+            作成予定の ``(Transform, Shape)``。
+
+        Raises:
+            AttributeError: 指定した型の Shape を作成できない場合。
+        """
         node_cls = self._shape_node_class(node_name)
         return self._create(
             node_cls,
@@ -50,6 +68,7 @@ class ShapeWithTransformCreator:
         )
 
     def available_node_names(self) -> tuple[str, ...]:
+        """現在の Maya で一括作成できる Shape 型名を返す。"""
         return tuple(
             sorted(
                 node_type
@@ -88,7 +107,14 @@ class ShapeWithTransformCreator:
         create_func.__name__ = node_name
         create_func.__qualname__ = f"{type(self).__name__}.{node_name}"
         create_func.__doc__ = (
-            f"Create Transform and {node_cls.__name__} together."
+            f"Transform と {node_cls.__name__} の作成をまとめて予約する。\n\n"
+            "Args:\n"
+            "    name: Transform の名前。省略時は Maya に委ねる。\n"
+            "    auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。\n"
+            "    shape_name: Shape の名前。省略時は name があれば Shape を付ける。\n"
+            "    parent: Transform の親 DAG ノード。\n\n"
+            "Returns:\n"
+            f"    (Transform, {node_cls.__name__})。"
         )
         setattr(self, node_name, create_func)
         return create_func

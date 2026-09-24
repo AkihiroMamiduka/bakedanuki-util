@@ -44,7 +44,20 @@ class FloatSlider(qt.QSlider):
         steps: int = 1000,
         orientation: qt.Qt.Orientation = qt.Qt.Orientation.Horizontal,
     ) -> None:
-        """操作範囲と分割数を指定し、BindingまたはViewModelを共有する。"""
+        """公開値を整数位置へ写像するスライダーを生成する。
+
+        Args:
+            view_model: 操作する ViewModel またはその Binding。
+            parent: Qt の親 Widget。
+            minimum: 操作範囲の下限。正本の hard limit は変更しない。
+            maximum: 操作範囲の上限。正本の hard limit は変更しない。
+            steps: 操作範囲を分割する整数位置の数。
+            orientation: スライダーの水平・垂直方向。
+
+        Raises:
+            ValueError: 範囲・分割数・方向が不正な場合。
+            RuntimeError: ViewModel が終了済みの場合。
+        """
         view_model, binding = resolve_float_view_source(view_model)
         float_range = require_slider_range(minimum, maximum)
         steps = require_slider_steps(steps)
@@ -102,7 +115,17 @@ class FloatSlider(qt.QSlider):
         return self._float_range
 
     def setFloatRange(self, minimum: float, maximum: float) -> None:
-        """操作範囲だけを変更し、正本の値は変更しない。"""
+        """操作範囲を変更し、変更時に ``floatRangeChanged`` を通知する。
+
+        操作中の編集を終了する。正本の値と hard limit は変更しない。
+
+        Args:
+            minimum: 公開単位での新しい下限。
+            maximum: 公開単位での新しい上限。
+
+        Raises:
+            ValueError: 範囲が無効な場合。
+        """
         float_range = require_slider_range(minimum, maximum)
         if float_range != self._float_range:
             self._finish_edit()
@@ -113,7 +136,17 @@ class FloatSlider(qt.QSlider):
     def setValueRequestHandler(
         self, handler: Callable[[float], bool] | None
     ) -> None:
-        """公開値の入力を外側で処理する任意の関数を設定する。"""
+        """スライダー入力を受け取る handler を設定する。
+
+        変更時は進行中の連続編集を終了する。
+
+        Args:
+            handler: 公開値を処理したら ``True`` を返す関数。``False`` または
+                ``None`` の場合は ViewModel の Command が値を設定する。
+
+        Raises:
+            TypeError: ``handler`` が呼び出し可能でも ``None`` でもない場合。
+        """
         if handler is not None and not callable(handler):
             raise TypeError(
                 "handlerには呼出し可能な関数またはNoneを指定してください"
@@ -123,7 +156,11 @@ class FloatSlider(qt.QSlider):
         self._value_request_handler = handler
 
     def effectiveFloatRange(self) -> tuple[float, float] | None:
-        """hard limitと交差する有効範囲を返し、操作不可ならNoneを返す。"""
+        """操作範囲と hard limit の共通部分を返す。
+
+        Returns:
+            公開単位での有効範囲。操作不能な場合は ``None``。
+        """
         return self._effective_range
 
     def _render(self) -> None:

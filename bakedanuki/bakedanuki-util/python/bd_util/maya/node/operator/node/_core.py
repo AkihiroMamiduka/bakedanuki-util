@@ -23,9 +23,7 @@ DEFAULT_VALUE_AUTO_ADD_ATTR = True
 
 
 class IsInstance(ImmutableDescriptor):
-    """
-    親クラスがインスタンスかどうかの判定
-    """
+    """クラスアクセスとインスタンスアクセスを判別する記述子。"""
 
     __slots__ = ()
 
@@ -34,16 +32,14 @@ class IsInstance(ImmutableDescriptor):
         instance: object | None,
         owner: type[NodeOperator],
     ) -> bool:
-        """
-        属性アクセスメソッド
-        親クラスがインスタンスかどうかを返す
+        """インスタンスからアクセスされたかを返す。
 
         Args:
-            instance (object | None): インスタンス
-            owner (type[NodeOperator]): 親クラス
+            instance: クラスアクセス時は None。
+            owner: アクセス先の NodeOperator クラス。
 
         Returns:
-            bool: 親がインスタンスかどうかの真偽値
+            インスタンスアクセスなら True、クラスアクセスなら False。
         """
         if instance is None:
             return False
@@ -51,9 +47,7 @@ class IsInstance(ImmutableDescriptor):
 
 
 class NodeClass(ImmutableDescriptor):
-    """
-    ノードクラスを返す属性記述子
-    """
+    """Maya ノード型の MNodeClass を返す記述子。"""
 
     __slots__ = ()
 
@@ -62,17 +56,14 @@ class NodeClass(ImmutableDescriptor):
         instance: object | None,
         owner: type[NodeOperator],
     ) -> om.MNodeClass | None:
-        """
-        属性アクセスメソッド
-        ノードクラスを返す
+        """アクセス先クラスに対応する MNodeClass を返す。
 
         Args:
-            instance (object | None): インスタンス
-            owner (type[NodeOperator]): 親クラス
+            instance: クラスアクセス時は None。
+            owner: NODE_TYPE を定義する NodeOperator クラス。
 
         Returns:
-            om.MNodeClass | None: ノードクラス。
-                NODE_TYPE が未定義の場合は None。
+            Maya のノードクラス。NODE_TYPE が未定義なら None。
         """
         node_type = owner.NODE_TYPE
         if node_type is None:
@@ -81,6 +72,8 @@ class NodeClass(ImmutableDescriptor):
 
 
 class NodeOperator(metaclass=ImmutableDescriptorMeta):
+    """Maya ノードとその属性操作を包む共通基底クラス。"""
+
     NODE_TYPE: ClassVar[str | None] = None
     node_class = NodeClass()
     is_instance = IsInstance()
@@ -105,10 +98,9 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
     @classmethod
     def _init_set_extra_attrs(cls) -> None:
-        """
-        クラス階層からすべての extra=True 属性記述子を収集する。
-        オブジェクトの同一性に基づいて重複を排除し、
-        short_name エイリアス (例: mw = myWeight) が同じ属性を二度登録しないようにする。
+        """継承階層の extra attribute を重複なく登録する。
+
+        同一の記述子を指す短縮名エイリアスは、別の属性として扱わない。
         """
         from ..attr._core import (
             AttributeField,
@@ -127,7 +119,6 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
                 if obj_id in seen_ids:
                     continue
 
-                # 初回なので登録
                 seen_ids.add(obj_id)
 
                 # class access で AttrOperator を取得してマップを構築する
@@ -151,6 +142,17 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         m_obj: om.MObject | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> None:
+        """既存または作成予定のノードを包む。
+
+        Args:
+            modifier_manager: 変更を予約する先。
+            name: ノード名。m_obj と併用した場合は名前変更を予約する。
+            m_obj: 対象の MObject。
+            auto_add_attr: 定義済みの extra attribute を追加するか。
+
+        Raises:
+            ValueError: name と m_obj の両方が省略された場合。
+        """
         if m_obj is None and name is None:
             raise ValueError("Either m_obj or name must be provided.")
         # modifier_manager
@@ -172,10 +174,8 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         # fn_node
         self._fn_node = None
 
-        # Most recent explicit name requested through this wrapper, resolved
-        # against the namespace at request time. A newly created MObject has
-        # no queryable Maya name until its modifier runs, so data-only
-        # selectors may use this as a pending-name hint.
+        # 未実行の新規 MObject は Maya 名を取得できないため、予約時の名前を
+        # データ検索用の手掛かりとして保持する。
         self._requested_name: str | None = None
 
         # name
@@ -191,24 +191,18 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             self._auto_add_extra_attrs()
 
     def __getitem__(self, key: str) -> PlugOperator[Any]:
-        """
-        文字列キーでアトリビュートにアクセスし、Plug を返す。
-
-        "attrName"、"attrName.subAttr"、"attrName[0].subAttr" など
-        ドット区切り・インデックス指定を組み合わせた文字列から
-        Plug インスタンスを取得できる。
+        """属性パスから PlugOperator を取得する。
 
         Args:
-            key (str): アトリビュート名または "." 区切りのアトリビュートパス。
-                各セグメントには "attrName" または "attrName[index]" を使用できる。
+            key: 属性名または ``attrName[0].subAttr`` 形式の属性パス。
 
         Returns:
-            Plug: 対応する Plug インスタンス
+            対応する PlugOperator。
 
         Raises:
-            AttributeError: アトリビュートが見つからない場合
-            TypeError: key が str 以外の型の場合
-            ValueError: キーの書式が不正な場合
+            AttributeError: 属性が見つからない場合。
+            TypeError: key が文字列でない場合。
+            ValueError: 属性パスの書式が不正な場合。
         """
         return cast("PlugOperator[Any]", getattr(self, key))
 
@@ -217,27 +211,34 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
     @property
     def modifier_manager(self) -> ModifierManager:
+        """このノードへの変更を予約する先。"""
         return self._modifier_manager
 
     @property
     def keyframes(self) -> NodeKeyframeManager:
-        """Return node-level keyframe operations using this node's manager."""
+        """このノードのキーフレーム操作を予約する入口。"""
         from ._keyframes import NodeKeyframeManager
 
         return NodeKeyframeManager(self.m_obj, self._modifier_manager)
 
     @classmethod
     def get_attr_operator(cls, long_name: str) -> AttrOperator[Any] | None:
+        """長い属性名に対応するクラス定義を返す。
+
+        Args:
+            long_name: Maya の長い属性名。
+        """
         return cls._attributes_map_by_long_name.get(long_name)
 
     @classmethod
     def get_extra_attribute_fields(
         cls,
     ) -> tuple[AttributeField[Any, Any], ...]:
-        """Return the fields registered for automatic extra-attribute creation."""
+        """自動追加対象に登録された extra attribute 定義を返す。"""
         return cls._extra_attributes
 
     def get_cached_plug(self, attr_path: str) -> PlugOperator[Any] | None:
+        """属性パスに対応するキャッシュ済み PlugOperator を返す。"""
         plug_cache = self._plug_cache
         if plug_cache is None:
             return None
@@ -248,6 +249,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         attr_path: str,
         plug: PlugOperator[Any],
     ) -> None:
+        """属性パスに対する PlugOperator をキャッシュする。"""
         plug_cache = self._plug_cache
         if plug_cache is None:
             plug_cache = {}
@@ -259,9 +261,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         return self._modifier_manager.dg_mod
 
     def _auto_add_extra_attrs(self):
-        """
-        extra=True の Attr で、対象ノードに存在しないものを addAttr() する。
-        """
+        """不足している extra attribute を対象ノードへ追加する。"""
         for field in self._extra_attributes:
             plug = getattr(self, field.name)
             plug: PlugOperator[Any]
@@ -284,6 +284,19 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Self:
+        """このクラスに対応する DG ノードの作成を予約する。
+
+        Args:
+            modifier_manager: ノード作成を予約する先。
+            name: 作成するノードの名前。省略時は Maya に委ねる。
+            auto_add_attr: 定義済みの extra attribute を追加するか。
+
+        Returns:
+            作成予定のノードを包むインスタンス。
+
+        Raises:
+            ValueError: クラスに NODE_TYPE が定義されていない場合。
+        """
         if cls.NODE_TYPE is None:
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
         require_node_type_available(cls.NODE_TYPE)
@@ -301,37 +314,28 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
     @property
     def fn_node(self) -> om.MFnDependencyNode:
-        """
-        MFnDependencyNode を返す。
-
-        初回アクセス時に作成し、以降はキャッシュを返す。
-        """
+        """対象ノードの MFnDependencyNode。初回アクセス時に作成する。"""
         if self._fn_node is None:
             self._fn_node = om.MFnDependencyNode(self.m_obj)
         return self._fn_node
 
     @property
     def name(self) -> str:
-        """
-        ノード名を返す。
-
-        Returns:
-            str: ノード名
-        """
+        """現在の Maya ノード名。"""
         return self.fn_node.name()
 
     @property
     def _requested_name_hint(self) -> str | None:
-        """Return the latest explicit name requested through this wrapper."""
+        """最後に予約した明示的なノード名。"""
         return self._requested_name
 
     @property
     def _was_pending_creation(self) -> bool:
-        """Return whether this wrapper received a pending-created MObject."""
+        """作成待ちの MObject を受け取ったか。"""
         return self._pending_at_initialization
 
     def _set_requested_name_hint(self, name: str) -> None:
-        """Record a name after its modifier rename has been queued."""
+        """名前変更を予約した後のノード名を記録する。"""
         if name.startswith(":"):
             self._requested_name = name[1:]
             return
@@ -340,71 +344,41 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
     @property
     def namespace(self) -> str:
-        """
-        ノード名のネームスペース部分を返す。
-
-        ネームスペースが存在しない場合は空文字列を返す。
-        例: ``ns1:ns2:nodeName`` → ``"ns1:ns2"``
-            ``nodeName`` → ``""``
-
-        Returns:
-            str: ネームスペース文字列
-        """
+        """ノード名の namespace 部分。なければ空文字列。"""
         if ":" in self.name:
             return self.name.rsplit(":", 1)[0]
         return ""
 
     @property
     def namespace_colon(self) -> str:
-        """
-        ネームスペース部分をコロン付きで返す。
-
-        ネームスペースが存在しない場合は空文字列を返す。
-        例: ``ns1:ns2:nodeName`` → ``"ns1:ns2:"``
-            ``nodeName`` → ``""``
-
-        Returns:
-            str: ネームスペース文字列（コロン付き）
-        """
+        """末尾のコロンを含む namespace。なければ空文字列。"""
         if self.namespace:
             return f"{self.namespace}:"
         return ""
 
     @property
     def local_name(self) -> str:
-        """
-        ネームスペースを除いたノード名（ローカルネーム）を返す。
-
-        例: ``ns1:ns2:nodeName`` → ``"nodeName"``
-            ``nodeName`` → ``"nodeName"``
-
-        Returns:
-            str: ネームスペースなしのノード名
-        """
+        """namespace を除いたノード名。"""
         if ":" in self.name:
             return self.name.rsplit(":", 1)[1]
         return self.name
 
     @property
     def cmd_access_name(self) -> str:
-        """
-        maya コマンドへアクセスする用のノード名を返す。
-        dg ノード : name をそのまま返す
-        dag ノード: ロングネームを返す（階層パスを含む）
-
-        Returns:
-            str: ノード名の文字列
-        """
+        """Maya コマンドでこのノードを指定する名前。"""
         return self.name
 
     def exists(self) -> bool:
+        """シーンにこの名前のノードが存在するか。"""
         return cmds.objExists(self.name)
 
     def delete(self):
+        """ノードが存在する場合、その削除を予約する。"""
         if self.exists():
             self.delete_non_check()
 
     def delete_non_check(self):
+        """存在確認を行わず、ノードの削除を予約する。"""
         self._dg_mod.deleteNode(self.m_obj)
 
     def rename(
@@ -415,26 +389,18 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         prefix: str = "",
         suffix: str = "",
     ):
-        """
-        ノードをリネームする。
-
-        Maya ノード名はネームスペースを含む場合がある（例: ``ns:nodeName``）。
-        ネームスペース部分はリネームの対象外とし、コロン以降のピュアな名前部分
-        のみを変更する。
+        """ネームスペースを保ち、ローカル名の変更を予約する。
 
         Args:
-            new_name (str | None): 新しいノード名（ピュアな名前）。
-                指定した場合、現在のピュアな名前を置き換える。
-                ``search`` / ``replace`` と同時には使用できない。
-            search (str | None): 検索文字列。``replace`` と組み合わせて使用する。
-                ``new_name`` と同時には使用できない。
-            replace (str): 置換文字列。``search`` と組み合わせて使用する。
-            prefix (str): ピュアな名前の先頭に付加する文字列。
-            suffix (str): ピュアな名前の末尾に付加する文字列。
+            new_name: 新しいローカル名。search とは同時に指定できない。
+            search: ローカル名から検索する文字列。
+            replace: search に一致した箇所の置換文字列。
+            prefix: ローカル名の先頭に加える文字列。
+            suffix: ローカル名の末尾に加える文字列。
 
         Raises:
-            ValueError: ``new_name`` と ``search`` / ``replace`` が同時に
-                指定された場合。
+            ValueError: 指定がない場合、または new_name と search を
+                同時に指定した場合。
         """
         if new_name is not None and search is not None:
             raise ValueError(

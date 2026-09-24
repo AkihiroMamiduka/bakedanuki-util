@@ -17,6 +17,18 @@ _ROTATION_ORDER_MAP: dict[str, int] = {
 
 
 def resolve_rotation_order(rotate_order: object) -> int:
+    """回転順序の名前または Maya の番号を検証して番号を返す。
+
+    Args:
+        rotate_order: ``"xyz"`` などの順序名、または 0～5 の番号。
+
+    Returns:
+        ``MEulerRotation`` の回転順序番号。
+
+    Raises:
+        TypeError: 文字列・整数以外を指定した場合。
+        ValueError: 未対応の名前または番号を指定した場合。
+    """
     if isinstance(rotate_order, str):
         normalized_order = rotate_order.lower()
         try:

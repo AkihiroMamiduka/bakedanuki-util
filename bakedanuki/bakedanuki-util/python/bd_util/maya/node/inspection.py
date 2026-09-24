@@ -33,7 +33,16 @@ __all__ = [
 
 @dataclass(frozen=True)
 class ScalarAttributeInfo:
-    """単一値編集に利用できる既存属性の名前・型・表示フラグ。"""
+    """対象の scalar 型属性の名前・型・表示フラグ。
+
+    Attributes:
+        name: Maya の属性名。
+        path: 親属性を含む正式な属性パス。
+        nice_name: UI に表示する属性名。
+        kind: 編集できる scalar 値の種類。
+        keyable: キー設定できるか。
+        channel_box: Channel Box に表示するか。
+    """
 
     name: str
     path: str
@@ -47,7 +56,16 @@ def matches_scalar_attribute_display_filter(
     attribute: ScalarAttributeInfo,
     display_filter: ScalarAttributeDisplayFilter,
 ) -> bool:
-    """Keyableを優先する三状態分類で、属性が表示条件に合うか返す。"""
+    """属性が指定した表示条件に合うか判定する。
+
+    Args:
+        attribute: 判定する属性情報。
+        display_filter: ``all``、``visible``、``keyable``、
+            ``channel_box``、``hidden`` のいずれか。
+
+    Returns:
+        条件に合う場合は True。keyable を Channel Box より優先する。
+    """
     if not isinstance(attribute, ScalarAttributeInfo):
         raise TypeError("attributeにはScalarAttributeInfoを指定してください")
     if display_filter not in _DISPLAY_FILTERS:
@@ -67,7 +85,15 @@ def filter_scalar_attribute_paths(
     attributes: Sequence[ScalarAttributeInfo],
     display_filter: ScalarAttributeDisplayFilter,
 ) -> tuple[str, ...]:
-    """入力順を維持し、表示条件に合うscalar属性の正式pathを返す。"""
+    """入力順を維持し、表示条件に合う属性パスを返す。
+
+    Args:
+        attributes: 対象の scalar 属性情報。
+        display_filter: 適用する表示条件。
+
+    Returns:
+        条件に合う属性の正式パス。
+    """
     if not isinstance(attributes, Sequence) or isinstance(
         attributes, (str, bytes)
     ):
@@ -84,7 +110,7 @@ def filter_scalar_attribute_paths(
 
 
 def selected_node_names() -> tuple[str, ...]:
-    """現在の選択順で重複のないobject名を返し、componentとplugを除く。"""
+    """選択順で重複のないノード名を返す。component と Plug は除く。"""
     selection = om.MGlobal.getActiveSelectionList()
     iterator = om.MItSelectionList(selection)
     names: list[str] = []
@@ -162,7 +188,17 @@ def _scalar_kind(plug: om.MPlug) -> ScalarAttributeKind | None:
 def inspect_scalar_attributes(
     node_name: str,
 ) -> tuple[ScalarAttributeInfo, ...]:
-    """既存nodeの属性順で対応scalarを返し、表示フラグによる除外は行わない。"""
+    """既存ノードの対応する scalar 型属性を属性順に返す。
+
+    Args:
+        node_name: 一意に解決できる既存ノード名。
+
+    Returns:
+        表示フラグでは絞り込まない属性情報のタプル。
+
+    Raises:
+        ValueError: ノード名を一意に解決できない場合。
+    """
     node = _node_function(node_name)
     result: list[ScalarAttributeInfo] = []
 

@@ -18,9 +18,7 @@ def _get_package_module_names() -> list[str]:
 
 
 def _remove_pycache() -> None:
-    """
-    パッケージ内、全てのキャッシュを削除する
-    """
+    """パッケージ内の ``__pycache__`` を削除する。"""
     # パッケージのモジュールを取得
     module = sys.modules.get(PACKAGE_NAME)
 
@@ -39,13 +37,10 @@ def _remove_pycache() -> None:
 
 
 def _remove_parent_module_attrs(module_names: list[str]) -> None:
-    """
-    親モジュールが保持している子モジュール参照を削除する。
+    """親モジュールに残った古い子モジュール参照を取り除く。
 
-    例:
-        sys.modules["bd_util.maya"] を削除しても、
-        bd_util.maya 属性には古いモジュールが残る場合がある。
-        その参照を削除して、再 import 時に新しいモジュールを取得できるようにする。
+    Args:
+        module_names: 削除対象のモジュール名。
     """
     for name in sorted(module_names, key=lambda n: n.count("."), reverse=True):
         parent_name, _, child_name = name.rpartition(".")
@@ -67,12 +62,13 @@ def _remove_package_modules(module_names: list[str]) -> None:
 
 
 def reload_package(clear_pycache: bool = False) -> ModuleType:
-    """
-    パッケージをリロードする
+    """``bd_util`` のモジュール群を再読み込みする。
 
     Args:
-        clear_pycache (bool, optional): パッケージ内、全てのキャッシュを削除するかどうか.
-                                        Defaults to False.
+        clear_pycache: 再読み込み前に ``__pycache__`` も削除するか。
+
+    Returns:
+        再読み込みされた ``bd_util`` モジュール。
     """
     # キャッシュを削除してからリロードする場合は、__pycache__を削除する
     if clear_pycache:

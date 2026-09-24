@@ -47,8 +47,20 @@ class FloatSliderSpinBox(qt.QWidget):
         layout_order: FloatSliderSpinBoxOrder = "slider_value",
         value_select_all_on_mouse_focus: bool = False,
     ) -> None:
-        """操作範囲、入力設定、Sliderと値欄の並び順を受け取る。"""
-        # 子Widgetを作る前に、両Viewの設定と共有する入力元を検証する。
+        """Sliderと値入力欄の操作範囲・表示設定を指定する。
+
+        Args:
+            view_model: 両Viewで共有するViewModelまたはBinding。
+            parent: このViewを所有するWidget。
+            minimum: Sliderの公開単位での下限。
+            maximum: Sliderの公開単位での上限。minimumより大きくする。
+            steps: Sliderの整数位置の分割数。
+            decimals: 値入力欄の小数桁数。
+            single_step: 値入力欄の表示単位での刻み幅。
+            layout_order: `slider_value`または`value_slider`。
+            value_select_all_on_mouse_focus: 値欄をクリックしたとき全文選択するか。
+        """
+        # 両子Viewの生成前に設定と共有元を検証し、部分生成を避ける。
         view_model, binding = resolve_float_view_source(view_model)
         minimum, maximum = require_slider_range(minimum, maximum)
         steps = require_slider_steps(steps)

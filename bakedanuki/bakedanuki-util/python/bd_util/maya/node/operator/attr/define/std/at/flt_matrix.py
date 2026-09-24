@@ -19,17 +19,16 @@ class FltMatrixPlugOperator(PlugOperator["FltMatrixAttrOperator"]):
     def set(self, value: om.MFloatMatrix) -> None:
         """fltMatrixプラグへMFloatMatrixをModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定するMFloatMatrix。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         matrix_obj = om.MFnMatrixData().create(om.MMatrix(value))
         self._node.modifier_manager.dg_mod.newPlugValue(self.plug, matrix_obj)
 
-    # add
     def add_attr(self):
+        """fltMatrix 属性がなければ、ノードへ即時追加する。"""
         # アトリビュートが既に存在する場合はスキップ
         if self.exists():
             return

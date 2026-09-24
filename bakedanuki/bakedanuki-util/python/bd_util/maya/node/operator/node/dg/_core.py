@@ -14,6 +14,8 @@ from ...attr.define.std.dt.string import DataStringField
 
 
 class NodeStateEnumPlug(EnumPlugOperator["NodeStateEnumAttr"]):
+    """Maya 標準の `nodeState` 値をプラグから扱う。"""
+
     __slots__ = ()
 
     NORMAL = 0
@@ -25,6 +27,8 @@ class NodeStateEnumPlug(EnumPlugOperator["NodeStateEnumAttr"]):
 
 
 class NodeStateEnumAttr(EnumAttrOperator[NodeStateEnumPlug]):
+    """Maya 標準の `nodeState` 値と表示名を定義する。"""
+
     __slots__ = ()
 
     NORMAL = 0
@@ -45,6 +49,8 @@ class NodeStateEnumAttr(EnumAttrOperator[NodeStateEnumPlug]):
 
 
 class NodeStateEnumField(EnumField[NodeStateEnumAttr, NodeStateEnumPlug]):
+    """DG ノードの `nodeState` 属性を公開する。"""
+
     __slots__ = ()
 
     ATTR_CLS = NodeStateEnumAttr
@@ -52,6 +58,8 @@ class NodeStateEnumField(EnumField[NodeStateEnumAttr, NodeStateEnumPlug]):
 
 
 class DG(NodeOperator):
+    """DG ノードに共通する Maya 標準属性を公開する。"""
+
     __slots__ = ()
 
     message = MessageField()

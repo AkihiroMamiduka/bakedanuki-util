@@ -24,8 +24,8 @@ class GenericPlugOperator(PlugOperator["GenericAttrOperator"]):
 
         return self._data_handle
 
-    # add
     def add_attr(self):
+        """generic 属性がなければ、ノードへ即時追加する。"""
         # アトリビュートが既に存在する場合はスキップ
         if self.exists():
             return

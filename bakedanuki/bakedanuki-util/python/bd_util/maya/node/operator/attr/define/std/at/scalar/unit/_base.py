@@ -36,7 +36,6 @@ class UnitBasePlugOperator(
             )
         return fn_attr
 
-    # add
     def _add_attr_base(self, mfn_numeric_data_type: int):
         # アトリビュートが既に存在する場合はスキップ
         if self.exists():

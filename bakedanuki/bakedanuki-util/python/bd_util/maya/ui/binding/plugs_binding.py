@@ -113,15 +113,19 @@ class _EnumCodec:
     """読み取り・復旧は未定義値も保持し、新規入力だけを定義内に制限する。"""
 
     def __init__(self, plug: MayaEnumPlug) -> None:
+        """単一enum plugの値と定義を読み取るcodecを作る。"""
         self.value = EnumPlugValue(require_enum_plug(plug).plug)
 
     def read(self) -> int:
+        """未定義値も保持してMayaの実値を返す。"""
         return self.value.read()
 
     def to_ui(self, value: int) -> int:
+        """整数型だけを検証し、未定義値も維持する。"""
         return require_enum_value(value)
 
     def validate(self, value: int) -> int:
+        """新規入力値が現在のenum定義に含まれるか検証する。"""
         value = self.to_ui(value)
         self.value.definition.require_value(value)
         return value
@@ -136,6 +140,7 @@ class _EnumPlugsStore(PlugsStore[int]):
         plugs: Sequence[MayaEnumPlug],
         owner: qt.QObject,
     ) -> None:
+        """同じ定義のenum属性群を検証して監視する。"""
         self._view_model = view_model
         self._codecs = tuple(_EnumCodec(plug) for plug in plugs)
         if not self._codecs:
@@ -159,6 +164,7 @@ class _EnumPlugsStore(PlugsStore[int]):
 
     @property
     def definition(self) -> EnumDefinition:
+        """代表属性の現在のenum定義を返す。"""
         if not self.is_available:
             raise RuntimeError("代表属性は利用できません")
         return self._codecs[0].value.definition
@@ -179,6 +185,7 @@ class _EnumPlugsStore(PlugsStore[int]):
 
     @property
     def is_writable(self) -> bool:
+        """代表を編集でき、利用可能な対象と定義が一致するか返す。"""
         return super().is_writable and self._definitions_match()
 
     def validate_write_target(
@@ -235,6 +242,7 @@ class _EnumPlugsStore(PlugsStore[int]):
             raise ValueError("構築時のEnumViewModelへ接続してください")
 
     def dispose(self) -> None:
+        """監視を終了し、接続中のViewModelの入力を停止する。"""
         super().dispose()
         view_model = self._view_model
         if not view_model.is_disposed and view_model.store is self:
@@ -349,6 +357,7 @@ class _EnumPlugsViewModel(EnumViewModel):
     """代表と同値の入力でも、後続対象の差分を適用する。"""
 
     def _request_value(self, value: int) -> bool:
+        """代表と同じ値の入力も、属性群の一括変更へ渡す。"""
         store = self.store
         if self.is_disposed or not isinstance(store, _EnumPlugsStore):
             return False
@@ -401,7 +410,7 @@ class _PlugsBindingState(Generic[_ValueT]):
 class MayaBoolPlugsBinding(
     _PlugsBindingState[bool], BoolBinding[_BoolPlugsStore]
 ):
-    """複数のMaya bool属性を既存のBool Viewへ接続する。"""
+    """複数のMaya bool属性を一つのBool Viewへ接続する。"""
 
     def __init__(
         self,
@@ -409,7 +418,16 @@ class MayaBoolPlugsBinding(
         *,
         parent: qt.QObject | None = None,
     ) -> None:
-        """対象順を固定し、先頭の実値を表示する。書込みは行わない。"""
+        """対象を登録し、先頭の実値を書き込まずに初期表示する。
+
+        Args:
+            plugs: 代表を先頭にした一つ以上のbool属性。
+            parent: このBindingを所有するQObject。
+
+        Raises:
+            ValueError: 対象が空または重複している場合。
+
+        """
         self._owned_group = None
 
         def create_store(view_model: BoolViewModel) -> _BoolPlugsStore:
@@ -425,11 +443,19 @@ class MayaBoolPlugsBinding(
         return _BoolPlugsViewModel(parent=self)
 
     def apply_representative_value(self) -> bool:
-        """代表の現在の実値を、編集可能な対象へ明示的に揃える。"""
+        """代表の現在値で、編集可能な後続属性を揃える。
+
+        Returns:
+            少なくとも一つの属性値が変わった場合は`True`。
+        """
         return self.set_value(self.store.read())
 
     def refresh(self) -> bool:
-        """全対象の状態と代表値を、書込みなしで同期する。"""
+        """全対象の状態と代表値を、書き込まず再取得する。
+
+        Returns:
+            公開値が変わった場合は`True`。
+        """
         self._require_active()
         return self.store.refresh()
 
@@ -445,7 +471,7 @@ class MayaBoolPlugsBinding(
 class MayaFloatPlugsBinding(
     _PlugsBindingState[float], FloatBinding[_FloatPlugsStore]
 ):
-    """同種単位の複数Maya属性を既存のFloat Viewへ接続する。"""
+    """同種単位の複数Maya属性を一つのFloat Viewへ接続する。"""
 
     def __init__(
         self,
@@ -453,7 +479,17 @@ class MayaFloatPlugsBinding(
         *,
         parent: qt.QObject | None = None,
     ) -> None:
-        """全対象を検証し、値を書き戻さず初期表示する。"""
+        """対象を検証し、先頭の実値を書き込まずに初期表示する。
+
+        Args:
+            plugs: 代表を先頭にした一つ以上の同種単位のfloat属性。
+            parent: このBindingを所有するQObject。
+
+        Raises:
+            TypeError: 対象の単位種別が揃っていない場合。
+            ValueError: 対象が空または重複している場合。
+
+        """
         self._owned_group = None
 
         def create_store(view_model: FloatViewModel) -> _FloatPlugsStore:
@@ -469,11 +505,19 @@ class MayaFloatPlugsBinding(
         return _FloatPlugsViewModel(parent=self)
 
     def apply_representative_value(self) -> bool:
-        """代表の未丸め実値を、編集可能な対象へ明示的に揃える。"""
+        """代表の未丸め実値で、編集可能な後続属性を揃える。
+
+        Returns:
+            少なくとも一つの属性値が変わった場合は`True`。
+        """
         return self.set_value(self.store.read())
 
     def refresh(self) -> bool:
-        """全対象の値・状態を、書込みなしで再取得する。"""
+        """全対象の値と状態を、書き込まず再取得する。
+
+        Returns:
+            公開値が変わった場合は`True`。
+        """
         self._require_active()
         return self.store.refresh()
 
@@ -489,7 +533,7 @@ class MayaFloatPlugsBinding(
 class MayaEnumPlugsBinding(
     _PlugsBindingState[int], EnumBinding[_EnumPlugsStore]
 ):
-    """同じ定義の複数Maya enum属性を既存のEnum Viewへ接続する。"""
+    """同じ定義の複数Maya enum属性を一つのEnum Viewへ接続する。"""
 
     def __init__(
         self,
@@ -497,9 +541,20 @@ class MayaEnumPlugsBinding(
         *,
         parent: qt.QObject | None = None,
     ) -> None:
+        """対象を登録し、先頭の実値を書き込まずに初期表示する。
+
+        Args:
+            plugs: 代表を先頭にした一つ以上のenum属性。同じ定義が必要。
+            parent: このBindingを所有するQObject。
+
+        Raises:
+            ValueError: 対象が空・重複しているか、enum定義が異なる場合。
+
+        """
         self._owned_group = None
 
         def create_store(view_model: EnumViewModel) -> _EnumPlugsStore:
+            """enum属性群の監視をこのBindingの子として作る。"""
             store = _EnumPlugsStore(view_model, plugs, self)
             self._owned_group = store
             return store
@@ -510,15 +565,24 @@ class MayaEnumPlugsBinding(
         return _EnumPlugsViewModel(parent=self)
 
     def apply_representative_value(self) -> bool:
-        """代表の実値を編集可能な対象へ揃える。未定義値は拒否する。"""
+        """代表の実値で後続属性を揃える。未定義値は拒否する。
+
+        Returns:
+            少なくとも一つの属性値が変わった場合は`True`。
+        """
         return self.set_value(self.store.read())
 
     def refresh(self) -> bool:
-        """全対象の定義・状態・代表値を、書込みなしで読み直す。"""
+        """全対象の定義・状態・代表値を、書き込まず再取得する。
+
+        Returns:
+            公開値が変わった場合は`True`。
+        """
         self._require_active()
         return self.store.refresh()
 
     def dispose(self) -> None:
+        """所有する全callbackを解除して入力を停止する。"""
         try:
             if self._owned_group is not None:
                 self._owned_group.dispose()

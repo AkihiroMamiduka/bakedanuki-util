@@ -24,7 +24,13 @@ def _require_key(value: object) -> str:
 
 @dataclass(frozen=True)
 class FloatStepSetting:
-    """識別子と単位種別に対応する、表示数値としてのStep設定。"""
+    """識別子と単位種別に対応するstep設定。
+
+    Attributes:
+        key: 空でない設定識別子。
+        unit_kind: 公開値の単位種別。
+        single_step: 表示単位での正の刻み幅。
+    """
 
     key: str
     unit_kind: FloatUnitKind
@@ -44,7 +50,11 @@ class FloatStepSetting:
 
 
 class FloatStepProfile(qt.QObject):
-    """複数の浮動小数点Stepをまとめ、変更を一度だけ通知する。"""
+    """複数のstep設定を保持し、実変更時だけ通知する。
+
+    Attributes:
+        changed: 設定が変わると一度だけ通知するsignal。
+    """
 
     changed = qt.Signal()
 
@@ -62,7 +72,15 @@ class FloatStepProfile(qt.QObject):
         )
 
     def single_step(self, key: str, unit_kind: FloatUnitKind) -> float | None:
-        """指定した識別子と単位種別のStepを返す。"""
+        """指定したstep設定を返す。
+
+        Args:
+            key: 設定識別子。
+            unit_kind: 公開値の単位種別。
+
+        Returns:
+            表示単位の刻み幅。未登録なら`None`。
+        """
         identity = (_require_key(key), require_unit_kind(unit_kind))
         return self._steps.get(identity)
 
@@ -72,14 +90,33 @@ class FloatStepProfile(qt.QObject):
         unit_kind: FloatUnitKind,
         single_step: float,
     ) -> bool:
-        """一つのStepを設定し、内容が変化した場合だけ通知する。"""
+        """一つのstepを設定し、実変更時だけ通知する。
+
+        Args:
+            key: 設定識別子。
+            unit_kind: 公開値の単位種別。
+            single_step: 表示単位での正の刻み幅。
+
+        Returns:
+            設定が変わった場合は`True`。
+        """
         setting = FloatStepSetting(key, unit_kind, single_step)
         updated = dict(self._steps)
         updated[(setting.key, setting.unit_kind)] = setting.single_step
         return self._replace_steps(updated)
 
     def replace_entries(self, entries: Iterable[FloatStepSetting]) -> bool:
-        """全設定を検証済みの項目で置き換え、変更を一度だけ通知する。"""
+        """全設定を置き換え、実変更時だけ通知する。
+
+        Args:
+            entries: 新しい設定。識別子と単位種別が重なる場合は後の項目が優先。
+
+        Returns:
+            設定が変わった場合は`True`。
+
+        Raises:
+            TypeError: FloatStepSetting以外を含む場合。
+        """
         updated: dict[tuple[str, FloatUnitKind], float] = {}
         for entry in entries:
             candidate: object = entry
@@ -93,7 +130,15 @@ class FloatStepProfile(qt.QObject):
         return self._replace_steps(updated)
 
     def remove(self, key: str, unit_kind: FloatUnitKind) -> bool:
-        """一つのStep設定を削除し、削除した場合だけ通知する。"""
+        """一つのstep設定を削除する。
+
+        Args:
+            key: 設定識別子。
+            unit_kind: 公開値の単位種別。
+
+        Returns:
+            設定を削除した場合は`True`。
+        """
         identity = (_require_key(key), require_unit_kind(unit_kind))
         if identity not in self._steps:
             return False
@@ -102,7 +147,7 @@ class FloatStepProfile(qt.QObject):
         return self._replace_steps(updated)
 
     def clear(self) -> bool:
-        """全てのStep設定を削除し、内容があった場合だけ通知する。"""
+        """全設定を削除し、内容があった場合だけ通知して`True`を返す。"""
         return self._replace_steps({})
 
     def _replace_steps(

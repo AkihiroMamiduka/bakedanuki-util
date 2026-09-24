@@ -19,7 +19,14 @@ class BoolRadioButtonGroup(qt.QWidget):
         true_text: str = "On",
         parent: qt.QWidget | None = None,
     ) -> None:
-        """ViewModelまたはBinding、False／Trueの表示文字列で初期化する。"""
+        """排他的な二つのボタンでbool値を操作する。
+
+        Args:
+            view_model: 操作するViewModelまたはそのBinding。
+            false_text: ``False`` 側の表示文字列。
+            true_text: ``True`` 側の表示文字列。
+            parent: Qtの親Widget。
+        """
         view_model, binding = resolve_bool_view_source(view_model)
         super().__init__(parent)
         self._binding = binding

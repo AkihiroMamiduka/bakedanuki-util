@@ -58,7 +58,7 @@ def _add_keys(
             value = value.asRadians()
         elif isinstance(value, om.MDistance):
             value = value.asCentimeters()
-        # addKey also updates breakdown and tangent locks on existing keys.
+        # addKey は既存キーの breakdown と接線 lock も更新する。
         curve.addKey(time, value, in_type, out_type, change)
 
 
@@ -96,7 +96,11 @@ class _KeyframeOperations(ABC):
         raise NotImplementedError
 
     def values(self) -> list[float]:
-        """カーブ自身の値をdegree / cm / unitlessで取得する。"""
+        """実在キーの値を時刻順に返す。
+
+        Returns:
+            角度は degree、距離は cm、時間は現在の UI 時間単位での値。
+        """
         return [value for _, value in self.get_keys()]
 
     def get_curve_data(
@@ -106,11 +110,20 @@ class _KeyframeOperations(ABC):
         *,
         include_boundaries: bool = True,
     ) -> AnimCurveData | None:
-        """カーブ情報を取得する。既定で指定境界を補完し、区間の形状を保つ。
+        """元のカーブを変更せず、指定区間のカーブ情報を取得する。
 
-        範囲省略時は全体を取得する。対象カーブがなければNone。元のカーブは変更しない。
-        境界補完では連続接線をfixedにし、weightedと時間単位を保持する。
-        Falseなら範囲内の既存キーだけを取得し、接線の種類を維持する。
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+            include_boundaries: 範囲境界のキーを補完して形状を保つか。
+                False では既存キーのみ取得する。
+
+        Returns:
+            weighted・時間単位を含むカーブ情報。対象がなければ None。
+
+        Raises:
+            TypeError: ``include_boundaries`` が bool ではない場合。
+            ValueError: 開始時刻が終了時刻より後の場合。
         """
         if type(include_boundaries) is not bool:
             raise TypeError("include_boundaries must be a bool.")
@@ -127,20 +140,29 @@ class _KeyframeOperations(ABC):
         )
 
     def get_weighted(self) -> bool | None:
-        """対象カーブのweightedを取得する。カーブがなければNone。"""
+        """対象カーブの weighted 設定を返す。カーブがなければ None。"""
         curve = _keyframe_snapshot.resolve_curve(self._target)
         return None if curve is None else bool(curve.isWeighted)
 
     def set_weighted(self, weighted: bool) -> None:
-        """カーブ全体のweighted変更を予約する。対象がなければ実行時に失敗する。"""
+        """カーブ全体の weighted 設定変更を予約する。
+
+        対象カーブがなければ実行時に失敗する。
+
+        Args:
+            weighted: weighted tangent を有効にするか。
+        """
         manager = self._require_modifier_manager()
         _keyframe_snapshot.queue_weighted(manager, self._target, weighted)
 
     def set_curve_data(self, data: AnimCurveData) -> None:
-        """全キー・weighted・infinityの置換を予約する。保存時の時間単位を使用。
+        """全キー・weighted・infinity の置換を予約する。
 
-        未接続属性・登録済みlayerで対象カーブがなければ作成する。
-        layerの作成や属性登録は行わない。
+        属性・レイヤー対象でカーブがなければ作成する。
+        レイヤー作成や属性登録は行わない。
+
+        Args:
+            data: 復元するカーブ情報。保存時の時間単位を使用する。
         """
         manager = self._require_modifier_manager()
         _keyframe_snapshot.queue_restore(
@@ -154,10 +176,21 @@ class _KeyframeOperations(ABC):
         *,
         include_boundaries: bool = True,
     ) -> list[KeyData]:
-        """区間のキー情報を取得する。既定で指定境界を補完し、元カーブは変更しない。
+        """元のカーブを変更せず、指定区間のキー情報を取得する。
 
-        include_boundaries=Falseなら既存キーだけを返す。カーブ無し・空カーブは[]。
-        weightedと時間単位も保持する場合はget_curve_data()を使用する。
+        weighted と時間単位も必要なら ``get_curve_data()`` を使う。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+            include_boundaries: 範囲境界のキーを補完するか。
+
+        Returns:
+            キー情報のリスト。属性・レイヤー対象でカーブがない場合や
+            キーがない場合は空リスト。
+
+        Raises:
+            RuntimeError: カーブを直接指定した対象でカーブが消失した場合。
         """
         data = self.get_curve_data(
             start_frame, end_frame, include_boundaries=include_boundaries
@@ -170,15 +203,16 @@ class _KeyframeOperations(ABC):
         *,
         seconds_per_frame: float | None = None,
     ) -> None:
-        """指定キーの情報を上書き予約する。既存カーブのweightedは維持する。
+        """指定キーの上書きを予約し、既存カーブの weighted を維持する。
 
-        frameは既定で呼び出し時のUI時間単位。保存データから使う場合は
-        AnimCurveDataのseconds_per_frameを明示する。新規カーブはnonweighted。
-        未接続属性・登録済みlayerでカーブがなければ作成し、仮キーは残さない。
-        キーは時刻の昇順・重複なしで渡す。infinityと他のキーは置換しないが、
-        autoなどの接線は前後のキー変更によりMayaが再計算する。
-        nonweightedへの適用では接線の重みが失われる。
-        入力を再検証して独立コピーし、予約後の編集は実行内容へ反映しない。
+        属性・レイヤー対象でカーブがなければ作成する。
+        既存の他のキーと infinity は維持するが、
+        auto 接線は Maya が再計算する。
+
+        Args:
+            keys: 時刻の昇順で重複しない KeyData。入力は予約時にコピーする。
+            seconds_per_frame: 保存データの 1 frame あたりの秒数。
+                None では予約時の UI 時間単位を使う。
         """
         manager = self._require_modifier_manager()
         rate = (
@@ -200,7 +234,10 @@ class _KeyframeOperations(ABC):
             )
 
     def delete_anim_curve(self) -> None:
-        """対象カーブ全体の削除を予約する。明示指定では全接続先に影響する。"""
+        """対象カーブ全体の削除を予約する。
+
+        カーブを明示指定した場合は、全接続先に影響する。
+        """
         manager = self._require_modifier_manager()
         anim_curve_obj: om.MObject | None = None
 
@@ -229,15 +266,18 @@ class _KeyframeOperations(ABC):
         return _keyframe_target.resolve_curve(self._target, write=write)
 
     def has_anim_curve(self) -> bool:
+        """対象のアニメーションカーブが存在するか。"""
         return self._get_anim_curve_fn() is not None
 
     def key_count(self) -> int:
+        """対象カーブの実在キー数を返す。カーブがなければ 0。"""
         fn_anim_curve = self._get_anim_curve_fn()
         if fn_anim_curve is None:
             return 0
         return fn_anim_curve.numKeys
 
     def frames(self) -> list[float]:
+        """実在キーの時刻を現在の UI 時間単位で返す。"""
         fn_anim_curve = self._get_anim_curve_fn()
         if fn_anim_curve is None:
             return []
@@ -252,11 +292,20 @@ class _KeyframeOperations(ABC):
         start_frame: float | None = None,
         end_frame: float | None = None,
     ) -> list[tuple[float, float]]:
-        """対象の時間入力カーブから、実在キーを時刻順に取得する。
+        """対象カーブの実在キーを時刻順に取得する。
 
-        範囲は両端を含み、Noneの端は制限しない。frameとtime値は現在の
-        UI時間単位、angle値はdegree、linear値はcentimeter。
-        保留中の変更は実行せず、constraintやlayerの合成結果も評価しない。
+        予約中の変更やレイヤー合成結果は評価しない。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+
+        Returns:
+            ``(時刻, 値)`` のリスト。時刻・時間値は UI 時間単位、
+            角度は degree、距離は cm。カーブがなければ空リスト。
+
+        Raises:
+            ValueError: 開始時刻が終了時刻より後の場合。
         """
         time_unit = om.MTime.uiUnit()
         start_time = (
@@ -303,6 +352,11 @@ class _KeyframeOperations(ABC):
         return keys
 
     def has_key(self, frame: float) -> bool:
+        """指定時刻に実在キーがあるか。
+
+        Args:
+            frame: 現在の UI 時間単位で指定する時刻。
+        """
         return self._find_key_index(frame) is not None
 
     def set_key(
@@ -314,7 +368,10 @@ class _KeyframeOperations(ABC):
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """キー設定をModifierManagerへ予約する。
+        """キー設定を ModifierManager へ予約する。
+
+        ``do_it_dg()`` で実行する。属性では指定レイヤーの値解決を使い、
+        カーブ明示指定ではカーブ自身の値を編集する。
 
         Args:
             value: 角度はdegree、距離はcentimeter、time属性は予約時の
@@ -324,12 +381,9 @@ class _KeyframeOperations(ABC):
             in_tangent_type: 入力側tangent。NoneはMayaの既定値。
             out_tangent_type: 出力側tangent。NoneはMayaの既定値。
 
-        Notes:
-            do_it_dg()で実行し、managerのundo / redo対象になる。
-            属性経由の対象は、ベースまたはanim_layer()で指定したレイヤー。
-            属性経由では必要に応じてcmds.setKeyframeへ委譲する。
-            カーブ明示指定では、カーブ自身の値をAPIで編集する。
-            キーを設定できなかった場合は実行時にRuntimeErrorを送出する。
+        Raises:
+            ValueError: 値または時刻が有限数でない場合。
+            RuntimeError: 実行時にキーを設定できなかった場合。
         """
         manager = self._require_modifier_manager()
 
@@ -359,11 +413,16 @@ class _KeyframeOperations(ABC):
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """複数キーの設定をまとめて予約する。単位はset_key()と同じ。
+        """複数キーの設定をまとめて予約する。
 
-        keysは(frame, value)のペアを渡す。全入力を呼び出し時に
-        捕捉・検証し、入力順で設定する。同じ時刻は後の値で上書きする。
-        tangent引数は全キー共通で、keysが空なら何も予約しない。
+        入力は呼び出し時に確定する。空の iterable では何も予約しない。
+
+        Args:
+            keys: ``(frame, value)`` の iterable。単位は ``set_key()`` と同じ。
+                同じ時刻は後の値で上書きする。
+            tangent_type: 全キーの入出力共通の接線型。
+            in_tangent_type: 入力側の接線型。
+            out_tangent_type: 出力側の接線型。
         """
         manager = self._require_modifier_manager()
         time_unit = om.MTime.uiUnit()
@@ -404,7 +463,16 @@ class _KeyframeOperations(ABC):
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """tangent変更を予約する。実行時にキーがなければ何もしない。"""
+        """指定時刻の既存キーの接線型変更を予約する。
+
+        対象キーがなければ何もしない。
+
+        Args:
+            frame: 現在の UI 時間単位で指定する時刻。
+            tangent_type: 入出力共通の接線型。
+            in_tangent_type: 入力側の接線型。None は変更しない。
+            out_tangent_type: 出力側の接線型。None は変更しない。
+        """
         self.set_tangents(
             frame,
             frame,
@@ -422,11 +490,16 @@ class _KeyframeOperations(ABC):
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """両端を含む範囲の既存キーに対するtangent変更を予約する。
+        """両端を含む範囲の既存キーの接線型変更を予約する。
 
-        None側は制限せず、両端を省略すると全キーを対象にする。
-        境界キーは挿入せず、カーブや対象キーがなければ何もしない。
-        tangent typeがNoneの側は変更しない。
+        境界キーは追加せず、対象キーがなければ何もしない。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+            tangent_type: 入出力共通の接線型。
+            in_tangent_type: 入力側の接線型。None は変更しない。
+            out_tangent_type: 出力側の接線型。None は変更しない。
         """
         manager = self._require_modifier_manager()
         start_time, end_time = _keyframe_tangent.capture_range(
@@ -466,7 +539,13 @@ class _KeyframeOperations(ABC):
         tangents_locked: bool | None = None,
         weights_locked: bool | None = None,
     ) -> None:
-        """実在する単一キーのtangent / weight lock変更を予約する。"""
+        """指定時刻の既存キーの接線 lock 変更を予約する。
+
+        Args:
+            frame: 現在の UI 時間単位で指定する時刻。
+            tangents_locked: 接線 lock の状態。None は変更しない。
+            weights_locked: weight lock の状態。None は変更しない。
+        """
         self.set_tangent_locks(
             frame,
             frame,
@@ -482,11 +561,15 @@ class _KeyframeOperations(ABC):
         tangents_locked: bool | None = None,
         weights_locked: bool | None = None,
     ) -> None:
-        """両端を含む範囲の既存キーに対するlock変更を予約する。
+        """両端を含む範囲の既存キーの接線 lock 変更を予約する。
 
-        None側は制限せず、両端を省略すると全キーを対象にする。
-        境界キーは挿入せず、カーブや対象キーがなければ何もしない。
-        Noneのlockは変更しない。weighted設定と接線形状は維持する。
+        境界キーは追加せず、weighted 設定と接線形状は維持する。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+            tangents_locked: 接線 lock の状態。None は変更しない。
+            weights_locked: weight lock の状態。None は変更しない。
         """
         manager = self._require_modifier_manager()
         start, end = _keyframe_tangent.capture_range(start_frame, end_frame)
@@ -506,7 +589,14 @@ class _KeyframeOperations(ABC):
         )
 
     def insert_key(self, frame: float, breakdown: bool = False) -> None:
-        """カーブ形状を保つキー挿入を予約する。カーブがなければ実行時に失敗する。"""
+        """カーブ形状を保つキー挿入を予約する。
+
+        カーブがなければ実行時に失敗する。
+
+        Args:
+            frame: 現在の UI 時間単位で指定する時刻。
+            breakdown: 挿入キーを breakdown にするか。
+        """
         manager = self._require_modifier_manager()
         time = self._key_time(frame)
 
@@ -521,7 +611,13 @@ class _KeyframeOperations(ABC):
         manager.queue_anim_curve_change(insert_key)
 
     def delete_key(self, frame: float) -> None:
-        """キー削除を予約する。キーがなければ何もせず、空のカーブは残す。"""
+        """指定時刻のキー削除を予約する。
+
+        キーがなければ何もしない。空のカーブは残す。
+
+        Args:
+            frame: 現在の UI 時間単位で指定する時刻。
+        """
         manager = self._require_modifier_manager()
         time = self._key_time(frame)
 
@@ -540,7 +636,12 @@ class _KeyframeOperations(ABC):
         start_frame: float | None = None,
         end_frame: float | None = None,
     ) -> None:
-        """両端を含む範囲のキー削除を予約する。省略した端は制限しない。"""
+        """両端を含む範囲のキー削除を予約する。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+        """
         _keyframe_delete.queue_delete(
             self._require_modifier_manager(),
             self._target,
@@ -576,11 +677,15 @@ class _KeyframeOperations(ABC):
         to: float | None = None,
         insert_missing: bool = False,
     ) -> None:
-        """指定時刻のキー移動を予約する。offset / toは一方だけ。
+        """指定時刻のキー移動を予約する。
 
-        時刻と移動量は予約時のUI時間単位。移動先の既存キーは置換する。
-        insert_missing=Trueなら、欠けた元キーを形状を保って挿入してから移す。
-        カーブ・キーなしは何もしない。移動量0では挿入も行わない。
+        移動先の既存キーは置換する。移動量 0 や空カーブでは変更しない。
+
+        Args:
+            frame: 元キーの時刻。予約時の UI 時間単位。
+            offset: 相対移動量。to と同時には指定できない。
+            to: 移動先の時刻。offset と同時には指定できない。
+            insert_missing: 元キーがなければ形状を保って挿入するか。
         """
         frame = float(frame)
         _keyframe_move.queue_move(
@@ -652,16 +757,21 @@ class _KeyframeOperations(ABC):
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None:
-        """両端を含むキー範囲の移動を予約する。移動方法は1つだけ指定。
+        """両端を含むキー範囲の移動を予約する。
 
-        None側は無制限、両端省略は全体。絶対移動は指定境界を基準とし、
-        その側がNoneなら元範囲の最初/最後のキーを使う。移動先の対象外キーは置換。
-        insert_missing=Trueは明示した境界だけを補う。空カーブや移動量0は変更しない。
-        時刻は予約時のUI時間単位で捕捉し、対象とキーは初回実行時に解決する。
-        補間指定時は移動前の時刻からウェイトを求め、範囲外の既存キーにも移動量を配分。
-        interpolate_start < start_frame、end_frame < interpolate_endを指定する。
-        補間端の静止キーを含む対象同士の衝突・順序逆転は拒否する。手動接線は維持する。
-        insert_missing=Trueなら明示した補間境界も補い、自動samplingはしない。
+        時刻は予約時の UI 時間単位。移動先の対象外キーは置換する。
+        手動接線は維持し、キーの順序逆転は拒否する。
+
+        Args:
+            start_frame: 元範囲の開始。None は制限しない。
+            end_frame: 元範囲の終了。None は制限しない。
+            offset: 相対移動量。to_start / to_end と同時指定不可。
+            to_start: 開始境界の移動先。未指定境界には最初のキーを使う。
+            to_end: 終了境界の移動先。未指定境界には最後のキーを使う。
+            interpolate_start: 移動量を徐々に増やす外側の開始時刻。
+            interpolate_end: 移動量を徐々に減らす外側の終了時刻。
+            interpolation: 影響度の補間方法。
+            insert_missing: 明示した境界キーを補うか。
         """
         _keyframe_move.queue_move(
             self._require_modifier_manager(),
@@ -827,17 +937,26 @@ class _KeyframeOperations(ABC):
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None:
-        """両端を含むキー範囲の時間拡縮を予約する。戻り値はNone。
+        """両端を含むキー範囲を時間方向に拡縮する。
 
-        正の倍率・長さ・移動先の両端指定のいずれかを指定する。
-        明示境界を基準とし、None側は対象キーの端を使う。接線Xも拡縮し、値は保持する。
-        pivotは拡縮の基準時刻。配置先の境界とは併用不可。offsetは拡縮後に加える。
-        ピボットにキーは補わない。省略時は主区間の開始を基準にする。
-        既定は配置先区間の置換。mergeは同時刻だけを上書きする。元キーは残さない。
-        補間区間の既存キーは元時刻で重み付けし、時刻と接線Xの拡縮を弱める。
-        置換区間と拡縮基準は主区間だけで決める。対象キーの衝突・順序逆転はエラー。
-        insert_missing=Trueは最大4つの明示境界を補う。恒等変換・空カーブは変更しない。
-        フレーム引数は予約時のUI時間単位で捕捉し、対象キーは初回実行時に解決する。
+        時刻は予約時の UI 時間単位。値は維持し、接線 X を拡縮する。
+        キーの衝突・順序逆転は拒否する。
+
+        Args:
+            start_frame: 元範囲の開始。None では最初の対象キーを使う。
+            end_frame: 元範囲の終了。None では最後の対象キーを使う。
+            scale: 正の時間倍率。duration との併用は不可。
+            duration: 拡縮後の長さ。scale との併用は不可。
+            offset: 拡縮後に加える時刻の移動量。
+            to_start: 配置先の開始時刻。pivot との併用は不可。
+            to_end: 配置先の終了時刻。pivot との併用は不可。
+            pivot: 拡縮の基準時刻。省略時は元範囲の開始。
+            mode: ``replace_range`` は配置先区間を置換し、``merge`` は
+                同時刻のキーだけを上書きする。
+            interpolate_start: 影響度を徐々に増やす外側の開始時刻。
+            interpolate_end: 影響度を徐々に減らす外側の終了時刻。
+            interpolation: 影響度の補間方法。
+            insert_missing: 明示した境界キーを補うか。
         """
         _keyframe_scale.queue_scale(
             self._require_modifier_manager(),
@@ -864,10 +983,14 @@ class _KeyframeOperations(ABC):
         value: float,
         insert_missing: bool = False,
     ) -> None:
-        """指定時刻の既存キーの値変更を予約する。手動接線は維持する。
+        """指定時刻のキーの値変更を予約する。
 
-        値は対象カーブ自身のdegree / cm / unitless / 予約時UI時間単位。
-        insert_missing=Trueなら指定時刻を補う。未作成・空カーブは変更しない。
+        手動接線は維持する。空カーブでは変更しない。
+
+        Args:
+            frame: 変更する時刻。予約時の UI 時間単位。
+            value: 新しい値。角度は degree、距離は cm、時間は UI 時間単位。
+            insert_missing: 対象時刻のキーがなければ補うか。
         """
         _keyframe_value.queue_value(
             self._require_modifier_manager(),
@@ -891,13 +1014,18 @@ class _KeyframeOperations(ABC):
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None:
-        """範囲内の既存キーを同じ値へ変更する予約。手動接線は維持する。
+        """範囲内の既存キーを指定値へ変更する予約を行う。
 
-        None側は無制限。補間指定時は外側の既存キーも元の値から指定値へ重み付けする。
-        interpolate_start < start_frame、end_frame < interpolate_endを指定する。
-        interpolationはキーごとの影響度であり、キー間の形状を保証しない。
-        insert_missing=Trueは明示した最大4境界だけを補い、自動samplingはしない。
-        値は対象カーブ自身のdegree / cm / unitless / 予約時UI時間単位。
+        手動接線は維持する。補間はキーごとの影響度に適用する。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+            value: 新しい値。角度は degree、距離は cm、時間は UI 時間単位。
+            interpolate_start: 影響度を徐々に増やす外側の開始時刻。
+            interpolate_end: 影響度を徐々に減らす外側の終了時刻。
+            interpolation: 影響度の補間方法。
+            insert_missing: 明示した境界キーを補うか。
         """
         _keyframe_value.queue_value(
             self._require_modifier_manager(),
@@ -919,9 +1047,14 @@ class _KeyframeOperations(ABC):
         offset: float,
         insert_missing: bool = False,
     ) -> None:
-        """指定時刻の既存キーへ値を加算する予約。手動接線は維持する。
+        """指定時刻の既存キーに値を加算する。
 
-        単位はset_valueと同じ。offset=0では境界挿入も行わない。
+        手動接線は維持する。offset が 0 の場合は挿入もしない。
+
+        Args:
+            frame: 変更する時刻。予約時の UI 時間単位。
+            offset: 加算量。単位は ``set_value()`` と同じ。
+            insert_missing: 対象時刻のキーがなければ補うか。
         """
         _keyframe_value.queue_value(
             self._require_modifier_manager(),
@@ -945,10 +1078,18 @@ class _KeyframeOperations(ABC):
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None:
-        """範囲内の既存キーへ値を加算する予約。手動接線は維持する。
+        """範囲内の既存キーに値を加算する。
 
-        補間指定時は外側の既存キーへもoffset * 影響度を加算する。
-        範囲・単位・補間・境界挿入はset_valuesと同じ。加算量0は挿入もしない。
+        手動接線は維持する。offset が 0 の場合は挿入もしない。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+            offset: 加算量。単位は ``set_value()`` と同じ。
+            interpolate_start: 影響度を徐々に増やす外側の開始時刻。
+            interpolate_end: 影響度を徐々に減らす外側の終了時刻。
+            interpolation: 影響度の補間方法。
+            insert_missing: 明示した境界キーを補うか。
         """
         _keyframe_value.queue_value(
             self._require_modifier_manager(),
@@ -971,10 +1112,15 @@ class _KeyframeOperations(ABC):
         pivot: float = 0,
         insert_missing: bool = False,
     ) -> None:
-        """指定時刻の既存キーをpivot基準で値方向へ拡縮する予約。
+        """指定時刻のキーを pivot 基準で値方向に拡縮する。
 
-        接線Yも拡縮し、nonweighted接線は正規化する。0・負の倍率にも対応。
-        pivotの単位はset_valueと同じ。倍率1では境界挿入も行わない。
+        scale が 1 の場合は挿入もしない。
+
+        Args:
+            frame: 変更する時刻。予約時の UI 時間単位。
+            scale: 値と接線 Y に適用する倍率。0 や負数にも対応。
+            pivot: 値の拡縮基準。単位は ``set_value()`` と同じ。
+            insert_missing: 対象時刻のキーがなければ補うか。
         """
         _keyframe_value.queue_value(
             self._require_modifier_manager(),
@@ -1000,11 +1146,19 @@ class _KeyframeOperations(ABC):
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None:
-        """範囲内の既存キーをpivot基準で値方向へ拡縮する予約。
+        """範囲内の既存キーを pivot 基準で値方向に拡縮する。
 
-        実効倍率は1 + 影響度 * (scale - 1)。接線Yも同じ倍率で拡縮し、
-        nonweighted接線は正規化する。接線型・lock・breakdownは維持する。
-        範囲・単位・補間・境界挿入はset_valuesと同じ。倍率1は挿入もしない。
+        接線型・lock・breakdown は維持する。scale が 1 なら変更しない。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+            scale: 値と接線 Y に適用する倍率。
+            pivot: 値の拡縮基準。単位は ``set_value()`` と同じ。
+            interpolate_start: 影響度を徐々に増やす外側の開始時刻。
+            interpolate_end: 影響度を徐々に減らす外側の終了時刻。
+            interpolation: 影響度の補間方法。
+            insert_missing: 明示した境界キーを補うか。
         """
         _keyframe_value.queue_value(
             self._require_modifier_manager(),
@@ -1028,12 +1182,15 @@ class _KeyframeOperations(ABC):
         tolerance: float,
         preserve_breakdowns: bool = True,
     ) -> None:
-        """元カーブとの値の誤差内でキーを削減する予約。戻り値はNone。
+        """元カーブとの値の誤差内でキーを削減する。
 
-        範囲は両端包含、None側は無制限。範囲内の最初・最後と、既定ではbreakdownを残す。
-        toleranceはdegree / cm / unitlessの非負数。キー間も比較し、判定できない候補は残す。
-        残るキーの時刻・値・手動接線を保持し、auto等の再計算も誤差判定に含める。
-        TA / TL / TUに対応。対象解決・編集は初回実行時、範囲の時間単位は予約時に捕捉する。
+        範囲の最初と最後のキーは残す。対象解決と編集は初回実行時。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+            tolerance: 許容誤差。角度は degree、距離は cm の非負数。
+            preserve_breakdowns: breakdown キーを残すか。
         """
         _keyframe_reduce.queue_reduce(
             self._require_modifier_manager(),
@@ -1103,6 +1260,14 @@ class KeyframeManager(_KeyframeOperations):
         *,
         modifier_manager: ModifierManager | None = None,
     ):
+        """属性と操作を予約する先を設定する。
+
+        Args:
+            plug: 操作対象の scalar MPlug。
+            plug_name: 表示・コマンド用の属性パス。省略時は plug から作る。
+            value_reader: カーブ値を属性値へ変換する関数。
+            modifier_manager: 編集を予約する先。None では読み取り専用。
+        """
         super().__init__(plug, modifier_manager)
         self._plug = plug
         self._plug_name = plug_name or str(plug)
@@ -1110,17 +1275,24 @@ class KeyframeManager(_KeyframeOperations):
 
     @property
     def plug(self) -> om.MPlug:
+        """操作対象の MPlug。"""
         return self._plug
 
     @property
     def plug_name(self) -> str:
+        """操作対象の ``node.attr`` 形式の名前。"""
         return self._plug_name
 
     def anim_layer(self, name: str | AnimLayerNode) -> KeyframeManager:
-        """指定レイヤー用の操作入口を返す。元の入口とmanagerは共有する。
+        """指定レイヤーに対する操作入口を返す。
 
-        既存名または作成待ちを含むAnimLayerを保持し、所属・接続・lockは取得時と実行時に検査する。
-        キー設定はMayaの値解決、取得・詳細復元はレイヤーの生カーブを扱う。
+        レイヤーの所属・接続・lock は取得時と実行時に検査する。
+
+        Args:
+            name: レイヤー名または作成待ちを含む AnimLayer ノード。
+
+        Returns:
+            同じ ModifierManager を使うレイヤー用 KeyframeManager。
         """
         from ..node._core import NodeOperator
 
@@ -1149,10 +1321,15 @@ class KeyframeManager(_KeyframeOperations):
     def find_anim_curves(
         self, *, filter_type: object = None
     ) -> tuple[AnimCurveNode, ...]:
-        """上流の候補をnode名順で返す。各経路の最初のカーブで探索を止める。
+        """上流にあるアニメーションカーブをノード名順で返す。
 
-        Mayaの依存関係に従うため、別軸やblend weightも候補に含み得る。
-        filter_typeは返却型だけを絞り込み、探索の停止位置は変えない。
+        別軸や blend weight のカーブも候補に含まれる。
+
+        Args:
+            filter_type: 返すカーブのノードクラス。探索範囲は変えない。
+
+        Returns:
+            各接続経路で最初に見つかったカーブのタプル。
         """
         return _keyframe_discovery.find_anim_curves(
             self.plug, self._modifier_manager, filter_type
@@ -1169,12 +1346,19 @@ class KeyframeManager(_KeyframeOperations):
         out_tangent_type: TangentTypeValue = None,
         discrete_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """評価済み入力を等間隔に採取し、時間入力カーブへの置換を予約する。
+        """評価済み入力を等間隔に採取してキーへ置き換える。
 
-        Noneの範囲端は呼び出し時の再生範囲。範囲は両端を含み、割り切れない
-        終了時刻も採取する。未指定はベース、anim_layer()指定時はそのlayer入力を扱う。
-        上流nodeは削除せず、他のcompound子・layerを維持する。各時刻を独立に
-        評価するため、履歴依存のsimulationは対象外。
+        範囲の両端を採取する。上流ノードと他のレイヤーは維持する。
+        各時刻を独立に評価するため履歴依存の simulation は対象外。
+
+        Args:
+            start_frame: 開始時刻。None は呼び出し時の再生範囲の開始。
+            end_frame: 終了時刻。None は呼び出し時の再生範囲の終了。
+            sample_by: 採取間隔。UI 時間単位で指定する。
+            tangent_type: 入出力共通の接線型。
+            in_tangent_type: 入力側の接線型。
+            out_tangent_type: 出力側の接線型。
+            discrete_tangent_type: 離散値用の接線型。
         """
         manager = self._require_modifier_manager()
         self._validate_set_target("bake")
@@ -1202,6 +1386,7 @@ class KeyframeManager(_KeyframeOperations):
         )
 
     def values(self) -> list[Any]:
+        """対象カーブの実在キーの評価値を時刻順に返す。"""
         fn_anim_curve = self._get_anim_curve_fn()
         if fn_anim_curve is None:
             return []
@@ -1309,8 +1494,7 @@ class KeyframeManager(_KeyframeOperations):
         try:
             fn_anim_curve = _keyframe_target.direct_curve(plug)
         except RuntimeError:
-            # Direct curve queries reject unsupported graphs; plug assignment
-            # delegates their target selection and value resolution to Maya.
+            # 直接カーブを取得できない構成では、対象と値の解決を Maya に委ねる。
             return None
         if fn_anim_curve is None:
             return None
@@ -1346,11 +1530,10 @@ class KeyframeManager(_KeyframeOperations):
 
 
 class CurveKeyframeManager(_KeyframeOperations):
-    """明示したTA / TL / TUカーブ自身を操作する。
+    """明示した TA / TL / TU カーブ自身を操作する。
 
-    時刻はカーブの入力時間、値はdegree / cm / unitless。
-    接続先やlayerで合成される最終値への変換は行わない。
-    対象はノード同一性で保持し、削除・未実行の作成はquery時に拒否する。
+    時刻はカーブ入力時間、値は degree / cm / unitless。
+    接続先やレイヤーで合成される最終値は扱わない。
     """
 
     __slots__ = ()
@@ -1361,6 +1544,12 @@ class CurveKeyframeManager(_KeyframeOperations):
         *,
         modifier_manager: ModifierManager | None = None,
     ) -> None:
+        """明示したアニメーションカーブの操作入口を作る。
+
+        Args:
+            curve: TA / TL / TU カーブの MObject。
+            modifier_manager: 編集を予約する先。None では読み取り専用。
+        """
         super().__init__(_keyframe_target.CurveTarget(curve), modifier_manager)
 
     def _validate_set_target(self, method: str) -> None:
@@ -1403,6 +1592,19 @@ class CurveKeyframeManager(_KeyframeOperations):
         *,
         include_boundaries: bool = True,
     ) -> AnimCurveData:
+        """明示したカーブから指定範囲の情報を取得する。
+
+        Args:
+            start_frame: 範囲の開始。None は制限しない。
+            end_frame: 範囲の終了。None は制限しない。
+            include_boundaries: 境界キーを補完して形状を保つか。
+
+        Returns:
+            カーブのキー・接線・時間単位を含むデータ。
+
+        Raises:
+            RuntimeError: 指定カーブが利用できない場合。
+        """
         data = super().get_curve_data(
             start_frame, end_frame, include_boundaries=include_boundaries
         )
@@ -1411,6 +1613,11 @@ class CurveKeyframeManager(_KeyframeOperations):
         return data
 
     def get_weighted(self) -> bool:
+        """明示したカーブの weighted 設定を返す。
+
+        Raises:
+            RuntimeError: 指定カーブが利用できない場合。
+        """
         weighted = super().get_weighted()
         if weighted is None:
             raise RuntimeError("The explicit animCurve is not available.")

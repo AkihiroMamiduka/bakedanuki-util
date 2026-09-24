@@ -17,9 +17,8 @@ from ._source import resolve_float_view_source
 class FloatSpinBox(MouseFocusSelectAllDoubleSpinBox):
     """公開値を表示単位に変換して編集するQDoubleSpinBox。
 
-    decimalsは表示・入力の小数桁数、single_stepは表示単位での刻み幅。
-    単位文字は既定で省略し、setUnitVisible(True)で表示できる。
-    表示の丸めや単位変更を正本へ書き戻さない。
+    単位文字は既定で非表示。`setUnitVisible(True)`で表示できる。
+    表示の丸めや単位変更は正本へ書き戻さない。
     """
 
     def __init__(
@@ -32,8 +31,17 @@ class FloatSpinBox(MouseFocusSelectAllDoubleSpinBox):
         wheel_requires_focus: bool = False,
         select_all_on_mouse_focus: bool = False,
     ) -> None:
-        """入力元、表示・マウス・ホイールの操作設定で初期化する。"""
-        # 入力元を解決し、Widget生成前に表示・入力設定を検証する。
+        """入力元と、表示・マウス・ホイールの操作設定を指定する。
+
+        Args:
+            view_model: 共有するViewModelまたはBinding。
+            parent: このViewを所有するWidget。
+            decimals: 表示・入力の小数桁数。
+            single_step: 表示単位での刻み幅。正の値を指定する。
+            wheel_requires_focus: フォーカス中だけホイール操作を許すか。
+            select_all_on_mouse_focus: マウスフォーカス時に全文選択するか。
+        """
+        # Widgetを作る前に入力元と設定を検証し、生成途中のQt objectを残さない。
         view_model, binding = resolve_float_view_source(view_model)
         decimals = require_decimals(decimals)
         single_step = require_float(single_step, "single_step")

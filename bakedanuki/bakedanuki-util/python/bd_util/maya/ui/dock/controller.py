@@ -26,14 +26,23 @@ class MayaDockableWindowController(Generic[WindowT]):
         restore: DockRestoreSpec,
         dock_options: DockOptions | None = None,
     ) -> None:
-        """Widget factoryと固定control IDを受け取って初期化する。"""
-        # Maya UI名とuiScriptへ安全に利用できる識別子だけを許可する。
+        """Widgetの生成方法とMaya側の固定IDを設定する。
+
+        Args:
+            factory: `MayaDockableWindow`を生成する引数なしの関数。
+            control_id: ASCII英字か`_`で始まる固定ID。Windowの`objectName`にも使う。
+            restore: Maya再起動時に呼ばれる復元関数の指定。
+            dock_options: 初回表示とclose時の設定。省略時は`DockOptions()`。
+
+        Raises:
+            ValueError: control_idが英数字と`_`の識別子形式でない場合。
+        """
+        # 固定IDはQtのobjectNameとMayaのworkspaceControl名の双方に使う。
         if not _CONTROL_ID_PATTERN.fullmatch(control_id):
             raise ValueError(
                 "control_idにはPython識別子として有効な名前を指定してください"
             )
 
-        # Widget生成処理とMaya側の固定名、初期表示設定を保持する。
         self._factory = factory
         self._control_id = control_id
         self._restore_spec = restore
@@ -43,8 +52,7 @@ class MayaDockableWindowController(Generic[WindowT]):
 
     @property
     def window(self) -> WindowT | None:
-        """現在管理しているWidgetを返す。"""
-        # Widgetが未生成または破棄済みの場合はNoneを返す。
+        """管理中のWidgetを返す。未生成・破棄済みなら`None`。"""
         return self._window
 
     @property
@@ -72,7 +80,11 @@ class MayaDockableWindowController(Generic[WindowT]):
         return self._restore_spec
 
     def show(self) -> WindowT:
-        """ドッキングウィンドウを生成または再表示する。"""
+        """dockable Windowを生成または再表示して前面へ移動する。
+
+        Returns:
+            表示したWidget。同じWidgetが生存中なら再利用する。
+        """
         control_name = self.workspace_control_name
         attached_now = False
 
@@ -125,7 +137,11 @@ class MayaDockableWindowController(Generic[WindowT]):
         return window
 
     def restore(self) -> WindowT:
-        """Mayaが復元中のworkspaceControlへWidgetを接続する。"""
+        """MayaのuiScriptから復元中のworkspaceControlへWidgetを接続する。
+
+        Returns:
+            復元先へ接続したWidget。
+        """
         # uiScript実行中に設定されているcurrent parentを先に取得する。
         parent_pointer = workspace_control.current_parent()
         window = self._ensure_window()
@@ -149,7 +165,7 @@ class MayaDockableWindowController(Generic[WindowT]):
         return window
 
     def close(self) -> None:
-        """retain設定に従ってworkspaceControlを閉じる。"""
+        """workspaceControlを閉じる。`retain=False`なら完全破棄する。"""
         control_name = self.workspace_control_name
 
         # 破棄policyではcallbackを即時解除してcontrolごと削除する。
@@ -168,7 +184,11 @@ class MayaDockableWindowController(Generic[WindowT]):
             window.close()
 
     def ensure_on_screen(self) -> bool:
-        """floating workspaceControlを現在のscreenへ補正する。"""
+        """floating時に画面外のworkspaceControlを補正する。
+
+        Returns:
+            実際に配置を変更した場合は`True`。
+        """
         # 未生成または破棄済みのWidgetではMaya UIを操作しない。
         window = self._window
         if window is None or not qt.isValid(window):
@@ -179,7 +199,7 @@ class MayaDockableWindowController(Generic[WindowT]):
         )
 
     def dispose(self) -> None:
-        """workspaceControlと管理中のWidgetを完全に破棄する。"""
+        """workspaceControlとWidgetを破棄し、所有するMaya callbackを外す。"""
         control_name = self.workspace_control_name
         window = self._window
 
@@ -204,7 +224,7 @@ class MayaDockableWindowController(Generic[WindowT]):
             window.deleteLater()
 
     def reset_workspace_state(self) -> None:
-        """WidgetとMayaが保存したworkspaceControl stateを削除する。"""
+        """WidgetとMayaが保存したworkspaceControlの配置を削除する。"""
         control_name = self.workspace_control_name
 
         # 実体を先に破棄してから次回配置へ影響する保存状態を削除する。

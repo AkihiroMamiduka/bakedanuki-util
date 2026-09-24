@@ -44,7 +44,16 @@ class FloatStepSpinBox(MouseFocusSelectAllDoubleSpinBox):
         wheel_requires_focus: bool = True,
         select_all_on_mouse_focus: bool = False,
     ) -> None:
-        """刻み幅とマウス・ホイールの操作設定を指定する。"""
+        """正の刻み幅と操作方法を指定する。
+
+        Args:
+            parent: この入力欄を所有するWidget。
+            value: 初期の刻み幅。正の有限値を指定する。
+            step_mode: `additive`は加算、`multiplicative`は10倍・1/10倍。
+            step_increment: 加算モードでの増減量。
+            wheel_requires_focus: フォーカス中だけホイール操作を許すか。
+            select_all_on_mouse_focus: マウスフォーカス時に全文選択するか。
+        """
         value = require_step(value, "value")
         step_mode = require_step_mode(step_mode)
         step_increment = require_step(step_increment, "step_increment")
@@ -61,7 +70,7 @@ class FloatStepSpinBox(MouseFocusSelectAllDoubleSpinBox):
         self._wheel_requires_focus = wheel_requires_focus
         # 表示桁数から独立して小さい刻み幅を保持し、末尾の0は表示時に省く。
         self.setDecimals(323)
-        # 下限で初期値0を補正すると長い極小値表記になるため、先に正しい値を入れる
+        # 下限設定が初期値0を極小値へ補正する前に、正しい初期値を設定する。
         self.setMaximum(float_info.max)
         self.setValue(value)
         self.setMinimum(1e-323)

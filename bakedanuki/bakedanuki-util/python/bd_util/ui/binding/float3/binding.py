@@ -15,12 +15,17 @@ _InstanceT = TypeVar("_InstanceT")
 
 
 class Float3Binding(qt.QObject, Generic[_StoreT]):
-    """3成分Storeと専用ViewModelの組み立て・操作・寿命をまとめる。"""
+    """3成分Storeと専用ViewModelの同期・寿命を管理する。"""
 
     def __init__(
         self, store: _StoreT, *, parent: qt.QObject | None = None
     ) -> None:
-        """外部Storeの所有権を変更せずViewModelへ接続する。"""
+        """外部Storeに対応する専用ViewModelを作る。
+
+        Args:
+            store: 3成分を読み書きする正本。終了時も破棄しない。
+            parent: このBindingを所有するQObject。
+        """
         self._initialize(lambda _view_model: store, parent=parent)
 
     def _initialize(
@@ -52,7 +57,17 @@ class Float3Binding(qt.QObject, Generic[_StoreT]):
         ) = None,
         parent: qt.QObject | None = None,
     ) -> Float3Binding[PythonFloat3AttributeStore[_InstanceT]]:
-        """Python属性の3成分tupleを正本とするStoreとBindingを作る。"""
+        """既存のPython 3成分属性を正本とするBindingを作る。
+
+        Args:
+            instance: 属性を持つPython object。
+            attribute_name: 正本として扱う既存属性の名前。
+            presentation: 全軸共通、またはXYZ別の表示設定。
+            parent: このBindingを所有するQObject。
+
+        Returns:
+            作成した属性Storeを保持するBinding。
+        """
         return Float3Binding(
             PythonFloat3AttributeStore(
                 instance, attribute_name, presentation=presentation
@@ -92,11 +107,22 @@ class Float3Binding(qt.QObject, Generic[_StoreT]):
         )
 
     def set_value(self, value: Sequence[float]) -> bool:
-        """公開単位の3成分を一括設定し、実値が変わったか返す。"""
+        """公開単位のXYZ値を一括設定する。
+
+        Args:
+            value: XYZ順の3成分値。
+
+        Returns:
+            正本の実値が変わった場合は`True`。
+        """
         return self.view_model.set_value_command.execute(value)
 
     def refresh(self) -> bool:
-        """正本の現在値・表示情報・編集可否を読み直す。"""
+        """正本の値・表示情報・編集可否を読み直す。
+
+        Returns:
+            公開値が変わった場合は`True`。
+        """
         return self.view_model.refresh()
 
     def dispose(self) -> None:

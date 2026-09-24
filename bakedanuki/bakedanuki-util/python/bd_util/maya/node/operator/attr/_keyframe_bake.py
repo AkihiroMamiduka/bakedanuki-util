@@ -1,4 +1,4 @@
-"""Evaluate a channel and replace its selected raw input with sampled keys."""
+"""チャンネルの評価値を採取し、選択した生入力をキーに置き換える。"""
 
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ def capture_grid(
     end_frame: object | None,
     sample_by: object,
 ) -> tuple[tuple[float, ...], float]:
-    """Validate call-time frame arguments and preserve their physical unit."""
+    """呼び出し時に時刻引数を検証し、その時間単位を保持する。"""
 
     def number(value: object, name: str) -> float:
         if isinstance(value, bool) or not isinstance(value, (float, int)):
@@ -308,7 +308,7 @@ def queue_bakes(
     out_type: int | None = None,
     discrete_type: int | None = None,
 ) -> None:
-    """Queue one atomic, deferred bake for one or more channel targets."""
+    """一つ以上のチャンネルの遅延 bake を単一操作として予約する。"""
 
     def bake(work: ModifierManager) -> None:
         prepared: list[tuple[_keyframe_target.Target, om.MPlug, om.MPlug]] = []
@@ -397,7 +397,7 @@ def queue_bake(
     out_type: int | None,
     discrete_type: int | None,
 ) -> None:
-    """Queue deferred sampling, connection replacement and value verification."""
+    """採取・接続の置換・値の検証を遅延操作として予約する。"""
 
     queue_bakes(
         manager,

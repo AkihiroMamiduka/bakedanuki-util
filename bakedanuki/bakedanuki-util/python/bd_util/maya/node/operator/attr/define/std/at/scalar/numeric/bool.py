@@ -30,16 +30,15 @@ class BoolPlugOperator(NumericBasePlugOperator["BoolAttrOperator"]):
     def set(self, value: bool) -> None:
         """boolプラグへ値をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する真偽値。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         self._node.modifier_manager.dg_mod.newPlugValueBool(self.plug, value)
 
-    # add
     def add_attr(self):
+        """bool 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnNumericData.kBoolean)
 
 

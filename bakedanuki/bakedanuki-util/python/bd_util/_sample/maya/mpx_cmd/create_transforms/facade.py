@@ -24,7 +24,15 @@ def create_transforms(
     prefix: str = "bduSample",
     count: int = 2,
 ) -> CreateTransformsResult:
-    """Create transforms through the registered undoable Maya command."""
+    """Undo 対応の Maya コマンドで transform ノードを作成する。
+
+    Args:
+        prefix: 作成するノード名の接頭辞。
+        count: 作成するノード数。1 以上を指定する。
+
+    Returns:
+        作成したノード名を保持する結果。
+    """
     ensure_sample_commands_plugin_loaded()
 
     command = cast(

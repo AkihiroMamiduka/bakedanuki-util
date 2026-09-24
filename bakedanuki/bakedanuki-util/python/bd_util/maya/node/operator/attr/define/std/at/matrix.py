@@ -31,20 +31,19 @@ class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
     ) -> None:
         """matrixプラグへ行列値をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定するTransformMatrix、MMatrix、
                 MTransformationMatrix、flat 16要素、または4行4列の
                 matrix sequence。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         matrix = TransformMatrix(value).matrix
         mat_obj = om.MFnMatrixData().create(matrix)
         self._node.modifier_manager.dg_mod.newPlugValue(self.plug, mat_obj)
 
-    # add
     def add_attr(self):
+        """matrix 属性がなければ、ノードへ即時追加する。"""
         # アトリビュートが既に存在する場合はスキップ
         if self.exists():
             return

@@ -64,8 +64,20 @@ def reset_ui_layout(
     clear_window_state: bool = True,
     clear_widget_state: bool = True,
 ) -> bool:
-    """Windowを破棄し、MayaとINIに保存されたUI配置をまとめて削除する。"""
-    # close-onlyの低レベルAPIとして共通reset処理の成否を返す。
+    """Windowを破棄し、指定したUI配置の保存値を削除する。
+
+    Args:
+        controller: 通常Windowまたはdockable Windowのcontroller。
+        settings_path: 削除するtoolとgroup。通常Windowでは保存先と一致させる。
+        clear_window_state: geometryなどのWindow状態を削除するか。
+        clear_widget_state: SplitterなどのWidget内部状態を削除するか。
+
+    Returns:
+        指定したINI状態をすべて削除できた場合は`True`。
+
+    Raises:
+        ValueError: 通常Windowの保存先とsettings_pathが異なる場合。
+    """
     return _reset_ui_layout(
         controller,
         settings_path,
@@ -101,8 +113,22 @@ def reset_and_show_ui_layout(
     clear_window_state: bool = True,
     clear_widget_state: bool = True,
 ) -> qt.QtWidgets.QWidget:
-    """UI配置をリセットし、初期状態のWindowを生成して返す。"""
-    # reset失敗時は古い保存値を復元する可能性があるため再表示しない。
+    """UI配置を削除し、初期状態のWindowを表示する。
+
+    Args:
+        controller: 通常Windowまたはdockable Windowのcontroller。
+        settings_path: 削除するtoolとgroup。通常Windowでは保存先と一致させる。
+        clear_window_state: geometryなどのWindow状態を削除するか。
+        clear_widget_state: SplitterなどのWidget内部状態を削除するか。
+
+    Returns:
+        再生成して表示した具体型のWindow。
+
+    Raises:
+        ValueError: 通常Windowの保存先とsettings_pathが異なる場合。
+        RuntimeError: INI状態の削除に失敗した場合。
+    """
+    # 削除失敗時に古い配置を復元しないよう、再表示は成功後だけにする。
     if not _reset_ui_layout(
         controller,
         settings_path,
@@ -113,7 +139,6 @@ def reset_and_show_ui_layout(
             f"UI配置をリセットできなかったため再表示しません: {settings_path}"
         )
 
-    # controllerが保持する具体的なWindow型を初期配置で再生成する。
     return controller.show()
 
 
@@ -125,7 +150,7 @@ def _reset_ui_layout(
     clear_widget_state: bool,
 ) -> bool:
     """controller破棄後に指定された保存済みUI配置を削除する。"""
-    # controllerを変更する前にsettings pathと保存先を検証して初期化する。
+    # controllerを破棄する前に保存先を確定し、取り違えを検出する。
     resolved_path = SettingsPath.from_value(settings_path)
     if (
         clear_window_state
@@ -146,13 +171,13 @@ def _reset_ui_layout(
         create_ui_state_manager(resolved_path) if clear_widget_state else None
     )
 
-    # dockable Windowでは完全破棄に加えてMayaのworkspace stateも削除する。
+    # dockable WindowはMayaのworkspace stateも一緒に消す。
     if isinstance(controller, _WorkspaceStateController):
         controller.reset_workspace_state()
     else:
         controller.dispose()
 
-    # dispose時の最終保存後にINIをclearし、保存値が復活しない順序を維持する。
+    # 破棄に伴う最終保存が終わってからINIを消し、古い状態の復活を防ぐ。
     clear_results: list[bool] = []
     if window_state_store is not None:
         clear_results.append(window_state_store.clear())

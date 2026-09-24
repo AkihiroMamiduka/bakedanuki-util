@@ -39,11 +39,10 @@ class LongLongIntPlugOperator(
     def set(self, value: int) -> None:
         """long long intプラグへ値をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する64-bit整数値。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         plug = self.plug
 
@@ -61,11 +60,10 @@ class LongLongIntPlugOperator(
     def set_direct(self, value: int) -> None:
         """long long intプラグへ値を即時設定する。
 
+        ModifierManagerのundo / redo対象外。
+
         Args:
             value: 設定する64-bit整数値。
-
-        Notes:
-            ModifierManagerのundo / redo対象外。
         """
         plug_name = self.plug.name()
         if not cmds.objExists(plug_name):
@@ -76,17 +74,27 @@ class LongLongIntPlugOperator(
         _set_int_attr(plug_name, value)
 
     def set_min(self, value: int | float) -> None:
+        """long long int 属性では下限設定をサポートしない。
+
+        Raises:
+            UnsupportedOperationError: 常に送出する。
+        """
         raise UnsupportedOperationError(
             "Setting min value is not supported for LongLongInt attributes."
         )
 
     def set_max(self, value: int | float) -> None:
+        """long long int 属性では上限設定をサポートしない。
+
+        Raises:
+            UnsupportedOperationError: 常に送出する。
+        """
         raise UnsupportedOperationError(
             "Setting max value is not supported for LongLongInt attributes."
         )
 
-    # add
     def add_attr(self):
+        """long long int 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnNumericData.kInt64)
 
 

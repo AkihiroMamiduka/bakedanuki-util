@@ -15,12 +15,14 @@ CommandResult = bool | int | float | str | list[int] | list[float] | list[str]
 
 
 class MPxCommandBase(om.MPxCommand, Generic[ParamsT], ABC):
-    """Base class for undoable API 2.0 Maya commands.
+    """Maya API 2.0 コマンドの undo 対応基底クラス。
 
-    Subclasses parse Maya command arguments into a typed parameter object and
-    implement ``execute()`` as the command workflow. Scene edits must be queued
-    and executed through this instance's ``modifier_manager`` so the base can
-    provide undo, redo, and failure rollback.
+    サブクラスは引数を ``parse_arguments()`` で解析し、``execute()`` で処理する。
+    シーン変更を ``modifier_manager`` 経由で実行すると、undo・redo と失敗時の
+    巻き戻しを利用できる。
+
+    Attributes:
+        COMMAND_NAME: Maya に登録するコマンド名。サブクラスで設定する。
     """
 
     COMMAND_NAME: ClassVar[str] = ""
@@ -35,41 +37,56 @@ class MPxCommandBase(om.MPxCommand, Generic[ParamsT], ABC):
 
     @property
     def modifier_manager(self) -> ModifierManager:
+        """このコマンドの変更履歴を管理する ``ModifierManager``。"""
         return self._modifier_manager
 
     @property
     def nodes(self) -> Nodes:
+        """同じ ``ModifierManager`` を共有するノード操作入口。"""
         return self._nodes
 
     @classmethod
     def creator(cls) -> MPxCommandBase[ParamsT]:
-        """Return an API 2.0 command instance for ``registerCommand``."""
+        """``registerCommand`` に渡す新しいコマンドインスタンスを作る。"""
         return cls()
 
     @classmethod
     def create_syntax(cls) -> om.MSyntax:
-        """Create the Maya command syntax.
+        """Maya コマンドの引数構文を作る。
 
-        Commands without arguments can use the default empty syntax.
+        引数がないコマンドでは、空の構文を返す既定実装を使える。
         """
         return om.MSyntax()
 
     @abstractmethod
     def parse_arguments(self, arg_database: om.MArgDatabase) -> ParamsT:
-        """Convert Maya arguments into the command's typed parameters."""
+        """Maya の引数をコマンド固有のパラメータに変換する。
+
+        Args:
+            arg_database: Maya が渡した引数の解析結果。
+
+        Returns:
+            ``execute()`` に渡すパラメータ。
+        """
         raise NotImplementedError
 
     @abstractmethod
     def execute(self, params: ParamsT) -> CommandResult | None:
-        """Execute the initial command workflow and optionally return a result.
+        """コマンドの初回処理を実行する。
 
-        Implementations explicitly choose their ``do_it_dg()`` and
-        ``do_it_dag()`` boundaries. The base does not auto-execute pending
-        modifiers because workflows may require intermediate Maya evaluation.
+        ``do_it_dg()`` / ``do_it_dag()`` の実行位置はサブクラスで決める。
+        基底クラスは保留中の変更を自動実行しない。
+
+        Args:
+            params: ``parse_arguments()`` が返したパラメータ。
+
+        Returns:
+            Maya のコマンド結果。結果が不要なら ``None``。
         """
         raise NotImplementedError
 
     def doIt(self, args: om.MArgList) -> None:
+        """引数解析と初回処理を実行し、失敗時は変更履歴を巻き戻す。"""
         if self._has_executed:
             raise RuntimeError("A command instance cannot execute twice.")
 
@@ -92,6 +109,7 @@ class MPxCommandBase(om.MPxCommand, Generic[ParamsT], ABC):
         self._has_executed = True
 
     def undoIt(self) -> None:
+        """実行済みの変更履歴を取り消す。"""
         if not self._is_undoable:
             raise RuntimeError(
                 "This command has no executed modifier history."
@@ -99,6 +117,7 @@ class MPxCommandBase(om.MPxCommand, Generic[ParamsT], ABC):
         self._modifier_manager.undo_it()
 
     def redoIt(self) -> None:
+        """取り消した変更履歴を再実行する。"""
         if not self._is_undoable:
             raise RuntimeError(
                 "This command has no executed modifier history."
@@ -106,4 +125,5 @@ class MPxCommandBase(om.MPxCommand, Generic[ParamsT], ABC):
         self._modifier_manager.redo_it()
 
     def isUndoable(self) -> bool:
+        """実行済みの変更履歴が undo 可能かを返す。"""
         return self._is_undoable

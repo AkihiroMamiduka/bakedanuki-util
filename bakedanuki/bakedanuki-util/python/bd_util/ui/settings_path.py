@@ -47,18 +47,29 @@ def _validate_segment(segment: str) -> None:
 
 @dataclass(frozen=True, slots=True, init=False)
 class SettingsPath:
-    """toolとINI内groupを表す安全な相対settings path。"""
+    """tool名とINI内のgroupを表す相対パス。
+
+    Examples:
+        >>> SettingsPath("my_tool/windows/main")
+    """
 
     segments: tuple[str, ...]
 
     def __init__(self, value: str) -> None:
-        """`/`区切りの文字列を検証して初期化する。"""
-        # 文字列以外とWindows separatorを含むpathを明示的に拒否する。
+        """`/`区切りの文字列からsettings pathを作る。
+
+        Args:
+            value: `tool名/group名`形式。groupは複数階層にできる。
+
+        Raises:
+            TypeError: 文字列以外を指定した場合。
+            ValueError: groupがない場合や、各階層に無効な名前を指定した場合。
+        """
         runtime_value = _require_string(value)
         if "\\" in runtime_value:
             raise ValueError("settings pathの区切りには'/'を使用してください")
 
-        # tool名と1つ以上のgroupを必須として各segmentを検証する。
+        # ファイル名とQSettingsのキーに共用するため、全階層を先に検証する。
         segments = tuple(runtime_value.split("/"))
         if len(segments) < 2:
             raise ValueError(
@@ -67,13 +78,18 @@ class SettingsPath:
         for segment in segments:
             _validate_segment(segment)
 
-        # 検証済みのsegmentだけをimmutableな状態として保持する。
         object.__setattr__(self, "segments", segments)
 
     @classmethod
     def from_value(cls, value: str | Self) -> Self:
-        """文字列または既存instanceからSettingsPathを取得する。"""
-        # 文字列だけを新規生成し、検証済みinstanceはそのまま再利用する。
+        """文字列を変換し、既存のSettingsPathはそのまま返す。
+
+        Args:
+            value: `SettingsPath`、または同じ形式の文字列。
+
+        Returns:
+            同じsettings path。文字列からは新しいinstanceを作る。
+        """
         if isinstance(value, str):
             return cls(value)
         return value

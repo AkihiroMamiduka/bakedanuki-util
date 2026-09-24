@@ -18,4 +18,5 @@ class FloatValue(qt.QObject):
 
     @property
     def value(self) -> float:
+        """最後に確定した公開単位の値を返す。"""
         return self._value

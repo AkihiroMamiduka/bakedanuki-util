@@ -55,7 +55,13 @@ class MayaFloat3PlugStore(qt.QObject, Generic[_PlugT]):
         plug: _PlugT,
         owner: qt.QObject,
     ) -> None:
-        """各軸のscalar StoreとcallbackをこのStoreの子として生成する。"""
+        """各軸のscalar StoreとcallbackをこのStoreの子として生成する。
+
+        Args:
+            view_model: Mayaの実値を受け取る3成分ViewModel。
+            plug: 3成分を持つMaya親plug。
+            owner: callbackの寿命を管理するQObject。
+        """
         require_float3_plug(plug)
         super().__init__(owner)
         self._view_model_ref = weakref.ref(view_model)
@@ -139,13 +145,31 @@ class MayaFloat3PlugStore(qt.QObject, Generic[_PlugT]):
         )
 
     def read(self) -> Float3:
-        """各軸の実値を公開単位のtupleで返す。"""
+        """各軸の実値を公開単位のtupleで返す。
+
+        Returns:
+            X・Y・Z順の確定値。
+
+        Raises:
+            RuntimeError: Maya親属性または子属性が利用できない場合。
+        """
         if not self.is_available:
             raise RuntimeError("同期対象のMaya 3成分plugは利用できません")
         return require_float3(tuple(codec.read() for codec in self._codecs))
 
     def write(self, value: Float3) -> Float3:
-        """一括変更の確定値を同期し、通知先からの再編集も読み直す。"""
+        """親属性へ1回で書き込み、通知後の確定値を返す。
+
+        Args:
+            value: 公開単位のX・Y・Z値。
+
+        Returns:
+            通知先からの再編集も反映した、最新のMaya実値。
+
+        Raises:
+            RuntimeError: 親属性または子属性へ書き込めない場合。
+            ValueError: 成分がMaya属性のhard limit外の場合。
+        """
         self._write_depth += 1
         try:
             actual = self._write_plug(value)
@@ -155,7 +179,11 @@ class MayaFloat3PlugStore(qt.QObject, Generic[_PlugT]):
         return self.read() if self.is_available else actual
 
     def refresh(self) -> bool:
-        """構築時のViewModelが接続中の場合だけ正本を再同期する。"""
+        """接続中のViewModelへ3成分の実値を再同期する。
+
+        Returns:
+            公開値が変わった場合は ``True``。接続解除後は ``False``。
+        """
         view_model = self._view_model_ref()
         if view_model is None or view_model.is_disposed:
             self.dispose()

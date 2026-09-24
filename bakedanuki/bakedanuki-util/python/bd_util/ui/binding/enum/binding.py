@@ -14,7 +14,10 @@ _InstanceT = TypeVar("_InstanceT")
 
 
 class EnumBinding(qt.QObject, Generic[_StoreT]):
-    """1つのStoreとViewModelの組み立て、操作、寿命をまとめる。"""
+    """一つのenum StoreとViewModelの同期・寿命を管理する。
+
+    `dispose()`はBindingを終了するが、外から渡されたStoreは破棄しない。
+    """
 
     def __init__(
         self,
@@ -22,7 +25,12 @@ class EnumBinding(qt.QObject, Generic[_StoreT]):
         *,
         parent: qt.QObject | None = None,
     ) -> None:
-        """外部Storeを参照し、専用ViewModelをこのbindingの子として作る。"""
+        """外部Storeに対応する専用ViewModelを作る。
+
+        Args:
+            store: 整数値と選択肢を読み書きする正本。
+            parent: このBindingを所有するQObject。
+        """
         self._initialize(lambda _view_model: store, parent=parent)
 
     def _initialize(
@@ -54,7 +62,17 @@ class EnumBinding(qt.QObject, Generic[_StoreT]):
         definition: EnumDefinition,
         parent: qt.QObject | None = None,
     ) -> EnumBinding[PythonEnumAttributeStore[_InstanceT]]:
-        """Pythonの整数属性を正本とするStoreとBindingを組み立てる。"""
+        """既存のPython整数属性を正本とするBindingを作る。
+
+        Args:
+            instance: 属性を持つPython object。
+            attribute_name: 正本として扱う既存属性の名前。
+            definition: 値と表示名の対応を表す選択肢。
+            parent: このBindingを所有するQObject。
+
+        Returns:
+            作成した属性Storeを保持するBinding。
+        """
         return EnumBinding(
             PythonEnumAttributeStore(
                 instance, attribute_name, definition=definition
@@ -85,10 +103,12 @@ class EnumBinding(qt.QObject, Generic[_StoreT]):
 
     @property
     def is_value_defined(self) -> bool:
+        """現在値が選択肢に含まれている場合は`True`。"""
         return self.view_model.is_value_defined
 
     @property
     def definition_changed(self) -> qt.QtCore.SignalInstance:
+        """選択肢の変更時に`EnumDefinition`を通知するsignalを返す。"""
         return self.view_model.definition_changed
 
     @property
@@ -106,11 +126,22 @@ class EnumBinding(qt.QObject, Generic[_StoreT]):
         )
 
     def set_value(self, value: int) -> bool:
-        """Viewと同じCommandへ要求し、正本の実値が変わったか返す。"""
+        """Viewと同じCommandを通して整数値を設定する。
+
+        Args:
+            value: 設定するenumの整数値。
+
+        Returns:
+            正本の実値が変わった場合は`True`。
+        """
         return self.view_model.set_value_command.execute(value)
 
     def refresh(self) -> bool:
-        """正本を読み直し、公開値が変わったか返す。"""
+        """正本を読み直してViewModelへ反映する。
+
+        Returns:
+            公開値が変わった場合は`True`。
+        """
         return self.view_model.refresh_from_store(self._store)
 
     def dispose(self) -> None:

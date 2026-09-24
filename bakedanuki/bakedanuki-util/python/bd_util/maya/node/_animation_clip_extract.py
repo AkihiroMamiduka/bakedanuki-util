@@ -16,6 +16,11 @@ def _leaf_name(name: str) -> str:
 
 
 def _resolve_node(data: AnimationClip, selector: str) -> NodeAnimationData:
+    """保存名または DAG の末尾名から一意のノードを選ぶ。
+
+    Raises:
+        ValueError: 一致するノードがない、または短い名前が曖昧な場合。
+    """
     matches = (
         [node for node in data.nodes if node.name == selector]
         if "|" in selector
@@ -34,6 +39,7 @@ def _resolve_node(data: AnimationClip, selector: str) -> NodeAnimationData:
 def _selector_names(
     value: NodeOperator | om.MObject | str,
 ) -> tuple[str, ...]:
+    """既存ノードや名前付き作成待ちノードから保存名候補を得る。"""
     if isinstance(value, str):
         return (literal_name(value),)
     operator = value if isinstance(value, NodeOperator) else None
@@ -90,7 +96,18 @@ def extract(
     *,
     nodes: Iterable[NodeOperator | om.MObject | str],
 ) -> AnimationClip:
-    """指定した保存nodeだけを持つ独立clipを返す。"""
+    """指定した保存ノードだけを持つ独立した clip を返す。
+
+    Args:
+        data: 抽出元の clip。
+        nodes: 保存名、既存ノード、または名前付き作成待ちノード。
+
+    Returns:
+        指定順に並ぶノードと必要な親レイヤーだけを持つ clip。
+
+    Raises:
+        ValueError: 対象が空、重複、見つからない、または名前が曖昧な場合。
+    """
     if isinstance(nodes, (str, NodeOperator, om.MObject)):
         raise TypeError("nodes must be an iterable of node selectors.")
     values = tuple(nodes)

@@ -28,7 +28,15 @@ def queue_create_transforms(
     nodes: Nodes,
     params: CreateTransformsParams,
 ) -> tuple[Transform, ...]:
-    """Queue reusable scene edits into the caller's ModifierManager."""
+    """transform ノードの作成を共有 ModifierManager に予約する。
+
+    Args:
+        nodes: 作成に使うノード操作の入口。
+        params: 名前の接頭辞と作成数。
+
+    Returns:
+        作成予定の transform ノード。
+    """
     return tuple(
         nodes.create.transform(name=f"{params.prefix}{index + 1}")
         for index in range(params.count)
@@ -39,7 +47,15 @@ def apply_create_transforms(
     nodes: Nodes,
     params: CreateTransformsParams,
 ) -> CreateTransformsResult:
-    """Create transforms and execute the operation's DAG boundary."""
+    """transform ノードを作成し、DAG modifier を実行する。
+
+    Args:
+        nodes: 作成に使うノード操作の入口。
+        params: 名前の接頭辞と作成数。
+
+    Returns:
+        作成したノード名を保持する結果。
+    """
     transforms = queue_create_transforms(nodes, params)
     nodes.modifier_manager.do_it_dag()
     return CreateTransformsResult(

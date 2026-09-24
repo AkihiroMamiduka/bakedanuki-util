@@ -10,6 +10,8 @@ Scalar = TypeVar("Scalar", int, float)
 
 @dataclass(frozen=True, slots=True)
 class Scalar4(ScalarCompoundValue[Scalar], Generic[Scalar]):
+    """4 成分の不変な数値を保持する。"""
+
     x: Scalar
     y: Scalar
     z: Scalar
@@ -17,6 +19,17 @@ class Scalar4(ScalarCompoundValue[Scalar], Generic[Scalar]):
 
     @classmethod
     def from_values(cls, values: Sequence[int | float]) -> Self:
+        """4 個の値からインスタンスを作る。
+
+        Args:
+            values: x, y, z, w の順に並ぶ値。
+
+        Returns:
+            作成したインスタンス。
+
+        Raises:
+            ValueError: 値の個数が 4 個でない場合。
+        """
         if len(values) != 4:
             raise ValueError(f"{cls.__name__} requires 4 values")
         return cls(
@@ -47,4 +60,5 @@ class Scalar4(ScalarCompoundValue[Scalar], Generic[Scalar]):
         return 4
 
     def as_tuple(self) -> tuple[Scalar, Scalar, Scalar, Scalar]:
+        """x, y, z, w を順番どおりにタプルで返す。"""
         return self.x, self.y, self.z, self.w

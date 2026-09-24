@@ -45,6 +45,13 @@ class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
         self.plug.setMDataHandle(data_handle)
 
     def add_attr(self) -> Never:
+        """addr 属性の追加はサポートしない。
+
+        ``cmds_add_attr()`` を使用する。
+
+        Raises:
+            TypeError: 常に送出する。
+        """
         raise TypeError(
             "{}{}".format(
                 "addr 属性は api.OpenMaya ではアトリビュートを作成できない為、 addAttr() できません。",

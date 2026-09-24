@@ -31,16 +31,15 @@ class FloatPlugOperator(
     def set(self, value: float) -> None:
         """floatプラグへ値をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する浮動小数点値。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         self._node.modifier_manager.dg_mod.newPlugValueFloat(self.plug, value)
 
-    # add
     def add_attr(self):
+        """float 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnNumericData.kFloat)
 
 

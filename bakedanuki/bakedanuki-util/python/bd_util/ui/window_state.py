@@ -114,8 +114,15 @@ def _select_target_screen(
 
 
 def ensure_window_on_screen(window: qt.QtWidgets.QWidget) -> bool:
-    """Windowのタイトル領域を現在のscreenへ収め、補正したか返す。"""
-    # screenを取得できないbatch環境と既に操作可能なWindowは変更しない。
+    """画面外に出たWindowを、操作できる画面内へ移す。
+
+    Args:
+        window: 配置を確認するWindow。
+
+    Returns:
+        実際にgeometryを変更した場合は`True`。画面のない環境では`False`。
+    """
+    # タイトル領域を操作できる場合は、保存された配置を維持する。
     screens = _get_screens()
     frame_geometry = window.frameGeometry()
     if not screens or _has_accessible_title(frame_geometry, screens):
@@ -151,7 +158,7 @@ def ensure_window_on_screen(window: qt.QtWidgets.QWidget) -> bool:
 
 
 class WindowStateStore:
-    """QSettingsへwindowのgeometryとstateを保存する。"""
+    """WindowのgeometryとQMainWindow固有のstateをQSettingsで管理する。"""
 
     SCHEMA_VERSION: ClassVar[int] = 1
     WINDOW_STATE_VERSION: ClassVar[int] = 1
@@ -164,8 +171,12 @@ class WindowStateStore:
         settings: qt.QtCore.QSettings,
         settings_path: SettingsPath,
     ) -> None:
-        """保存先QSettingsとsettings pathを受け取って初期化する。"""
-        # QSettings instanceとtool内の保存groupを保持する。
+        """保存先とINI内のgroupを指定する。
+
+        Args:
+            settings: 保存先のQSettings。
+            settings_path: tool名とgroup名を含むパス。
+        """
         self._settings = settings
         self._settings_path = settings_path
 
@@ -182,8 +193,15 @@ class WindowStateStore:
         return self._settings.fileName()
 
     def save(self, window: qt.QtWidgets.QWidget) -> bool:
-        """windowのgeometryと対応するstateを保存する。"""
-        # window単位のgroupへschema versionとgeometryを保存する。
+        """Windowのgeometryと、該当する場合はdock・toolbar状態を保存する。
+
+        Args:
+            window: 状態を保存するWindow。
+
+        Returns:
+            QSettingsへの同期に成功した場合は`True`。
+        """
+        # geometryは全Window、dock・toolbar状態はQMainWindowだけで管理する。
         self._settings.beginGroup(self._settings_path.group_path)
         try:
             self._settings.setValue(
@@ -195,7 +213,6 @@ class WindowStateStore:
                 window.saveGeometry(),
             )
 
-            # QMainWindowの場合だけdockやtoolbarのstateも保存する。
             if isinstance(window, qt.QtWidgets.QMainWindow):
                 self._settings.setValue(
                     self._WINDOW_STATE_KEY,
@@ -211,8 +228,15 @@ class WindowStateStore:
         return self._settings.status() == qt.QtCore.QSettings.Status.NoError
 
     def restore(self, window: qt.QtWidgets.QWidget) -> bool:
-        """保存済みのgeometryと対応するstateをwindowへ復元する。"""
-        # window単位のgroupから保存値をまとめて読み取る。
+        """保存済みのgeometryとQMainWindow固有のstateを復元する。
+
+        Args:
+            window: 復元先のWindow。
+
+        Returns:
+            geometryを復元できた場合は`True`。stateのみ成功しても`False`。
+        """
+        # 保存値をまとめて読み、schemaが一致する場合だけWindowへ適用する。
         self._settings.beginGroup(self._settings_path.group_path)
         try:
             schema_version = self._settings.value(
@@ -265,8 +289,12 @@ class WindowStateStore:
         return geometry_restored
 
     def clear(self) -> bool:
-        """管理対象windowのgeometryとstateを削除する。"""
-        # 将来追加される他の設定を残し、管理対象keyだけを削除する。
+        """管理中のgeometryとstateだけを削除する。
+
+        Returns:
+            QSettingsへの同期に成功した場合は`True`。
+        """
+        # 同じgroup内のtool固有設定は残す。
         self._settings.beginGroup(self._settings_path.group_path)
         try:
             self._settings.remove(self._SCHEMA_VERSION_KEY)
@@ -291,15 +319,20 @@ class WindowStateStore:
 
 
 class WindowStateTracker(qt.QtCore.QObject):
-    """windowの生成とcloseに合わせてstateを復元・保存する。"""
+    """Windowの生成時に復元し、close時に保存する。"""
 
     def __init__(
         self,
         window: qt.QtWidgets.QWidget,
         store: WindowStateStore,
     ) -> None:
-        """監視対象windowと保存処理を受け取って初期化する。"""
-        # trackerをwindowのchildにして同じlifecycleで管理する。
+        """Windowへ監視を付け、その場で保存済み状態を復元する。
+
+        Args:
+            window: 監視対象。TrackerのQt parentにもなる。
+            store: 復元・保存に使用するWindowStateStore。
+        """
+        # Windowと同じ寿命でTrackerを破棄し、closeを取りこぼさない。
         super().__init__(window)
         self._window = window
         self._store = store
@@ -315,8 +348,11 @@ class WindowStateTracker(qt.QtCore.QObject):
         return self._restore_succeeded
 
     def save(self) -> bool:
-        """現在のwindow stateを保存する。"""
-        # 明示保存でもclose eventと同じstoreを使用する。
+        """現在のWindow状態を保存する。
+
+        Returns:
+            QSettingsへの同期に成功した場合は`True`。
+        """
         return self._store.save(self._window)
 
     def eventFilter(

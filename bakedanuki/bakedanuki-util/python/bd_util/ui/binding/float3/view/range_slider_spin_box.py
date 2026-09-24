@@ -48,7 +48,18 @@ class Float3RangeSliderSpinBox(
         value_show_unit: bool = False,
         step_show_unit: bool = False,
     ) -> None:
-        """軸別の公開単位範囲と、全軸共通の幅・操作・表示設定を指定する。"""
+        """軸別の範囲と、全軸共通の表示・操作設定を指定する。
+
+        その他の表示・操作引数は各軸の ``FloatRangeSliderSpinBox`` へ共通に渡す。
+        各軸の範囲と step は独立して変更できる。
+
+        Args:
+            view_model: XYZで共有するViewModelまたはBinding。
+            parent: このViewを所有するWidget。
+            minimum: 公開単位の下限。単一値またはXYZ順の3値。
+            maximum: 公開単位の上限。単一値またはXYZ順の3値。
+
+        """
 
         # 設定の検証と実装はscalar Viewへ委譲し、各軸で独立した状態を持つ。
         def create_editor(

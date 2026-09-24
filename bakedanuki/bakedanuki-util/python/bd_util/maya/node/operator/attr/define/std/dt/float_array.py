@@ -58,12 +58,12 @@ class DataFloatArrayPlugOperator(
 
     # set
     def set_direct(self, value: list[float]) -> None:
-        """
-        MPlug に値を直接セットする
-            その為、modifier.undoIt() 非対応です
+        """MPlug に値を直接設定する。
+
+        ModifierManager の履歴には入らない。
 
         Args:
-            value (list[float]): セットする値のリスト
+            value: セットする値のリスト
         """
         plug_name = self.plug.name()
         if not cmds.objExists(plug_name):
@@ -73,8 +73,8 @@ class DataFloatArrayPlugOperator(
             )
         _set_float_array_attr(plug_name, value, type="floatArray")
 
-    # add
     def add_attr(self):
+        """float 配列属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnData.kFloatArray)
 
 

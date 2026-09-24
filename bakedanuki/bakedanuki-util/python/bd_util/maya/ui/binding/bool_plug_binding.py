@@ -21,6 +21,7 @@ class MayaBoolPlugBinding(BoolBinding[MayaBoolPlugStore]):
         self._owned_store: MayaBoolPlugStore | None = None
 
         def create_store(view_model: BoolViewModel) -> MayaBoolPlugStore:
+            """このBindingをownerとするMaya bool Storeを作る。"""
             store = MayaBoolPlugStore(view_model, plug, self)
             self._owned_store = store
             return store

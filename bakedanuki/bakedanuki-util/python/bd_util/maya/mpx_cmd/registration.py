@@ -15,7 +15,12 @@ def register_commands(
     plugin: om.MObject,
     command_types: Iterable[CommandType],
 ) -> None:
-    """Register commands and undo partial registration on failure."""
+    """コマンド群を登録し、途中で失敗した場合は登録済み分を戻す。
+
+    Args:
+        plugin: 登録先プラグインの ``MObject``。
+        command_types: 登録順のコマンドクラス。
+    """
     plugin_fn = om.MFnPlugin(plugin)
     registered_names: list[str] = []
 
@@ -37,7 +42,12 @@ def deregister_commands(
     plugin: om.MObject,
     command_types: Iterable[CommandType],
 ) -> None:
-    """Deregister commands in reverse registration order."""
+    """コマンド群を登録時と逆順に解除する。
+
+    Args:
+        plugin: 登録先プラグインの ``MObject``。
+        command_types: 登録時の順序のコマンドクラス。
+    """
     plugin_fn = om.MFnPlugin(plugin)
     command_names = [
         _command_name(command_type) for command_type in command_types

@@ -19,6 +19,8 @@ from ._generated.joint import GeneratedJoint
 
 
 class Joint(GeneratedJoint):
+    """Joint の姿勢と `jointOrient`、子の補償を操作する。"""
+
     __slots__ = ()
 
     NODE_TYPE = "joint"
@@ -150,9 +152,12 @@ class Joint(GeneratedJoint):
     ) -> Self:
         """姿勢を ``jointOrient`` へ設定し、必要に応じて子を補償する。
 
+        値の単位は degree。Transform 子は ``rotate``、Joint 子は既定で
+        ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             value: 3成分の値、またはX成分。
-            values: ``value`` がX成分の場合のY、Z成分。
+            *values: ``value`` がX成分の場合のY、Z成分。
             space: 値を解釈する空間。``"local"`` は属性値、``"world"`` は
                 最終的なworld姿勢として扱う。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
@@ -161,10 +166,6 @@ class Joint(GeneratedJoint):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            値の単位はdegree。Transform子は ``rotate``、Joint子は既定で
-            ``rotate``を補償する。変更は ``ModifierManager.do_it_dg()`` の
-            実行時に反映される。
         """
         joint_orient = self._normalize_vector3_value(
             value,
@@ -230,6 +231,10 @@ class Joint(GeneratedJoint):
     ) -> Self:
         """``jointOrient`` を丸め、必要に応じて子のworld姿勢を補償する。
 
+        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
+        値の単位は degree。Transform 子は ``rotate``、Joint 子は既定で
+        ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
@@ -238,11 +243,6 @@ class Joint(GeneratedJoint):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            Python組み込みの ``round()`` と同じ偶数丸めを使用する。
-            値の単位はdegree。Transform子は ``rotate``、Joint子は既定で
-            ``rotate``を補償する。変更は ``ModifierManager.do_it_dg()`` の
-            実行時に反映される。
         """
         current_joint_orient = self.jointOrient.get().as_tuple()
         target_joint_orient = self._rounded_values(
@@ -278,6 +278,9 @@ class Joint(GeneratedJoint):
     ) -> Self:
         """world姿勢を ``jointOrient`` で合わせ、必要に応じて子を補償する。
 
+        Transform 子は ``rotate``、Joint 子は既定で ``rotate`` を補償する。
+        変更は ``ModifierManager.do_it_dg()`` で反映する。
+
         Args:
             source: 姿勢を合わせるDAGノード。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
@@ -286,9 +289,6 @@ class Joint(GeneratedJoint):
                 補償してworld位置を維持する。``compensate_children=True`` が必要。
             joint_child_compensation_attr: Joint子のworld姿勢を補償する属性。
 
-        Notes:
-            Transform子は ``rotate``、Joint子は既定で ``rotate`` を補償する。
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         source = self._validate_match_source(source)
         (
@@ -473,7 +473,15 @@ class Joint(GeneratedJoint):
         /,
         *values: float,
     ) -> Self:
-        """姿勢を維持して ``jointOrient`` を設定し、差分を ``rotate`` で吸収する。"""
+        """姿勢を維持して `jointOrient` を設定し、差分を `rotate` で吸収する。
+
+        Args:
+            value: degree 単位の 3 成分、または X 成分。
+            *values: `value` が X 成分の場合の Y、Z 成分。
+
+        Returns:
+            変更を予約したこのノード。
+        """
         joint_orient = self._normalize_vector3_value(
             value,
             values,
@@ -485,6 +493,7 @@ class Joint(GeneratedJoint):
         rotate_order = self.rotateOrder.get()
         current_rotate = self.rotate.get().as_tuple()
         current_joint_orient = self.jointOrient.get().as_tuple()
+        # jointOrient を変更した後も合成回転を維持する rotate を求める。
         compensated_rotate = self._quaternion_to_rotation(
             self._rotation_to_quaternion(current_rotate, rotate_order)
             * self._rotation_to_quaternion(
@@ -524,7 +533,15 @@ class Joint(GeneratedJoint):
         /,
         *values: float,
     ) -> Self:
-        """姿勢を維持して ``rotate`` を設定し、差分を ``jointOrient`` で吸収する。"""
+        """姿勢を維持して `rotate` を設定し、差分を `jointOrient` で吸収する。
+
+        Args:
+            value: degree 単位の 3 成分、または X 成分。
+            *values: `value` が X 成分の場合の Y、Z 成分。
+
+        Returns:
+            変更を予約したこのノード。
+        """
         rotate = self._normalize_vector3_value(
             value,
             values,
@@ -536,6 +553,7 @@ class Joint(GeneratedJoint):
         rotate_order = self.rotateOrder.get()
         current_rotate = self.rotate.get().as_tuple()
         current_joint_orient = self.jointOrient.get().as_tuple()
+        # rotate を変更した後も合成回転を維持する jointOrient を求める。
         compensated_joint_orient = self._quaternion_to_rotation(
             self._rotation_to_quaternion(rotate, rotate_order).inverse()
             * self._rotation_to_quaternion(current_rotate, rotate_order)

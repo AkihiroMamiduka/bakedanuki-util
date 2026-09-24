@@ -28,7 +28,19 @@ def set_transform_translation(
     node_name: str,
     translation: Sequence[float],
 ) -> SetTransformTranslationResult:
-    """Set a local translation through the registered undoable command."""
+    """Undo 対応の Maya コマンドでローカル移動値を設定する。
+
+    Args:
+        node_name: 対象の transform ノード名。
+        translation: X、Y、Z の順に並べた数値 3 個。
+
+    Returns:
+        対象ノード名と設定した移動値を保持する結果。
+
+    Raises:
+        ValueError: 移動値の要素数が 3 個でない場合。
+        TypeError: 移動値の要素を数値に変換できない場合。
+    """
     translation_value = _coerce_translation(translation)
     ensure_sample_commands_plugin_loaded()
 

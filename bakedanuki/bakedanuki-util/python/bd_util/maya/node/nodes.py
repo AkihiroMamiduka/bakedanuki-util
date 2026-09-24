@@ -15,6 +15,8 @@ from .operator.node._keyframes import NodesKeyframeManager
 
 
 class _ExistingNodeAccessor:
+    """共有 ModifierManager を使って既存ノードを包む。"""
+
     __slots__ = (
         "__dict__",
         "_modifier_manager",
@@ -32,6 +34,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator:
+        """既存ノードを型に対応した NodeOperator として取得する。
+
+        Args:
+            node: ノード名または MObject。
+            auto_add_attr: 不足している extra attribute を追加するか。
+                既存ノードを変更しないよう、既定値は False。
+
+        Returns:
+            ノード型に対応した NodeOperator。
+        """
         return ExistingNode(
             node,
             modifier_manager=self._modifier_manager,
@@ -68,6 +80,8 @@ class _ExistingNodeAccessor:
 
 
 class Nodes:
+    """ノードの作成・取得と共通の ModifierManager をまとめる入口。"""
+
     __slots__ = (
         "_modifier_manager",
         "_create",
@@ -82,8 +96,14 @@ class Nodes:
         *,
         typing_maya_version: Literal["2025", "2026", "2027"] | None = None,
     ):
-        # This argument is intentionally type-checker-only. Runtime schema
-        # selection always follows the Maya process that imports bd_util.
+        """ノード操作の入口を初期化する。
+
+        Args:
+            modifier_manager: 操作を予約する先。省略時は新規作成する。
+            typing_maya_version: IDE の補完対象にする Maya バージョン。
+                実行時のノード定義は現在の Maya に従う。
+        """
+        # 型補完だけに使う引数。実行時の定義は読み込んだ Maya の版に従う。
         del typing_maya_version
         if modifier_manager is None:
             modifier_manager = ModifierManager()
@@ -98,21 +118,25 @@ class Nodes:
 
     @property
     def modifier_manager(self) -> ModifierManager:
+        """作成・取得したノードと共有する ModifierManager。"""
         return self._modifier_manager
 
     @property
     def create(self) -> NodeCreator:
+        """作成を予約するノード型別アクセサ。"""
         return self._create
 
     @property
     def existing(self) -> _ExistingNodeAccessor:
+        """既存ノードを包むノード型別アクセサ。"""
         return self._existing
 
     @property
     def keyframes(self) -> NodesKeyframeManager:
-        """Return multi-node keyframe operations using this manager."""
+        """複数ノードのキーフレーム操作を予約する入口。"""
         return self._keyframes
 
     @property
     def types(self) -> NodeTypes:
+        """ノード型の参照・解決を行うアクセサ。"""
         return self._types

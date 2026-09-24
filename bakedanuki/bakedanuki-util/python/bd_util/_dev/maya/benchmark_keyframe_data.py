@@ -1,4 +1,4 @@
-"""Measure curve data in a separate mayapy process; replaces the scene."""
+"""別プロセスの mayapy でカーブデータを計測する。シーンは置き換わる。"""
 
 from __future__ import annotations
 

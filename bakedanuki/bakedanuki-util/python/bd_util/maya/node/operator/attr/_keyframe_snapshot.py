@@ -111,7 +111,7 @@ def queue_weighted_batch(
     resolve_targets: Callable[[], tuple[_keyframe_target.Target, ...]],
     weighted: object,
 ) -> None:
-    """Queue one atomic weighted edit for existing channel curves."""
+    """既存チャンネルカーブの weighted 変更を単一操作として予約する。"""
     if not isinstance(weighted, bool):
         raise TypeError("weighted must be a bool.")
 

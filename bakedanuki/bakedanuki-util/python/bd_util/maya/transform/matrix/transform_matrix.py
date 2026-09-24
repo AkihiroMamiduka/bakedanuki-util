@@ -25,11 +25,10 @@ _UNSET = object()
 
 
 class TransformMatrix:
-    """Mayaのtransform行列を合成・分解するsnapshot値。
+    """Maya の transform 行列を合成・分解するスナップショット値。
 
-    matrix sequenceは、MMatrixと同じrow-major順のflat 16要素、または
-    4行4列として受け取る。keyword-onlyのtransform componentからも
-    composeMatrix nodeと同じ規則で合成できる。
+    行列は ``MMatrix`` と同じ行優先の16要素または4行4列で受け取る。
+    transform 成分からも ``composeMatrix`` と同じ規則で合成できる。
     """
 
     __slots__ = ("_matrix",)
@@ -63,7 +62,7 @@ class TransformMatrix:
         scale: Sequence[int | float] | None = None,
         shear: Sequence[int | float] | None = None,
     ) -> None:
-        """matrix source、またはtransform componentからsnapshotを作る。
+        """行列または transform 成分からスナップショットを作る。
 
         Args:
             value: TransformMatrix、matrix plug名、MPlug、MMatrix、
@@ -299,6 +298,7 @@ class TransformMatrix:
 
     @property
     def translate(self) -> DoubleLinear3:
+        """XYZ 移動量をセンチメートル単位で返す。"""
         value = self.transformation_matrix.translation(om.MSpace.kTransform)
         return DoubleLinear3(float(value.x), float(value.y), float(value.z))
 
@@ -311,7 +311,15 @@ class TransformMatrix:
         self,
         rotate_order: RotationOrder = "xyz",
     ) -> DoubleAngle3:
-        """指定した回転順序の Euler 回転を degree で返す。"""
+        """指定した回転順序の Euler 回転を度単位で返す。
+
+        Args:
+            rotate_order: ``"xyz"`` などの順序名、または Maya の順序番号。
+
+        Raises:
+            TypeError: 回転順序の型が不正な場合。
+            ValueError: 回転順序が未対応の場合。
+        """
         maya_order = _resolve_rotation_order(rotate_order)
 
         value = self.transformation_matrix.rotation()
@@ -324,16 +332,19 @@ class TransformMatrix:
 
     @property
     def scale(self) -> Double3:
+        """XYZ のスケールを返す。"""
         value = self.transformation_matrix.scale(om.MSpace.kTransform)
         return Double3(float(value[0]), float(value[1]), float(value[2]))
 
     @property
     def shear(self) -> Double3:
+        """``(xy, xz, yz)`` 順のシアーを返す。"""
         value = self.transformation_matrix.shear(om.MSpace.kTransform)
         return Double3(float(value[0]), float(value[1]), float(value[2]))
 
     @property
     def quat(self) -> Quat:
+        """回転成分を ``Quat`` として返す。"""
         value = self.transformation_matrix.rotation(asQuaternion=True)
         return Quat(
             float(value.x),

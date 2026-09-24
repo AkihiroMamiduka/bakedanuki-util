@@ -13,7 +13,7 @@ _InstanceT = TypeVar("_InstanceT")
 
 
 class BoolBinding(qt.QObject, Generic[_StoreT]):
-    """1つのStoreとViewModelの組み立て、操作、寿命をまとめる。"""
+    """一つのbool StoreとViewModelの同期・寿命を管理する。"""
 
     def __init__(
         self,
@@ -21,7 +21,12 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         *,
         parent: qt.QObject | None = None,
     ) -> None:
-        """外部Storeを参照し、専用ViewModelをこのbindingの子として作る。"""
+        """外部Storeに対応する専用ViewModelを作る。
+
+        Args:
+            store: 真偽値を読み書きする正本。終了時も破棄しない。
+            parent: このBindingを所有するQObject。
+        """
         self._initialize(lambda _view_model: store, parent=parent)
 
     def _initialize(
@@ -52,7 +57,16 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         *,
         parent: qt.QObject | None = None,
     ) -> BoolBinding[PythonBoolAttributeStore[_InstanceT]]:
-        """Pythonのbool属性を正本とするbindingを作る。"""
+        """既存のPython bool属性を正本とするBindingを作る。
+
+        Args:
+            instance: 属性を持つPython object。
+            attribute_name: 正本として扱う既存属性の名前。
+            parent: このBindingを所有するQObject。
+
+        Returns:
+            作成した属性Storeを保持するBinding。
+        """
         return BoolBinding(
             PythonBoolAttributeStore(instance, attribute_name),
             parent=parent,
@@ -89,11 +103,22 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         )
 
     def set_value(self, value: bool) -> bool:
-        """Viewと同じCommandへ要求し、正本の実値が変わったか返す。"""
+        """Viewと同じCommandを通して値を設定する。
+
+        Args:
+            value: 設定する真偽値。
+
+        Returns:
+            正本の実値が変わった場合は`True`。
+        """
         return self.view_model.set_value_command.execute(value)
 
     def refresh(self) -> bool:
-        """正本を読み直し、公開値が変わったか返す。"""
+        """正本を読み直してViewModelへ反映する。
+
+        Returns:
+            公開値が変わった場合は`True`。
+        """
         return self.view_model.refresh_from_store(self._store)
 
     def dispose(self) -> None:

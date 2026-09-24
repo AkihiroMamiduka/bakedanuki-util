@@ -3,16 +3,10 @@ from __future__ import annotations
 
 from typing import Any, ClassVar
 
-# self
-#   difine
-#       at
-#           std
+# 属性定義と追加属性のフィールドをまとめて公開する。
 from ..define.std.at.scalar.enum import EnumPlugOperator
 from ..define.std.at.compound import CompoundPlugOperator
 
-#   extra
-#      at
-#           std
 from .std.at.bool import ExtraBoolField
 from .std.at.byte import ExtraByteField
 from .std.at.char import ExtraCharField
@@ -33,7 +27,6 @@ from .std.at.message import ExtraMessageField
 from .std.at.short import ExtraShortField
 from .std.at.time import ExtraTimeField
 
-#          custom
 from .custom.double2 import ExtraDouble2Field
 from .custom.double3 import ExtraDouble3Field
 from .custom.double4 import ExtraDouble4Field
@@ -53,7 +46,6 @@ from .custom.long3 import ExtraLong3Field
 from .custom.short2 import ExtraShort2Field
 from .custom.short3 import ExtraShort3Field
 
-#       dt
 from .std.dt.double_array import ExtraDataDoubleArrayField
 from .std.dt.float_array import ExtraDataFloatArrayField
 from .std.dt.int32_array import ExtraDataInt32ArrayField
@@ -105,9 +97,17 @@ def _field_kwargs(
     return kwargs
 
 
-# simple
 class AddAttrAt:
-    """addAttr(attributeType=...) 用フィールド群。"""
+    """Maya の ``attributeType`` に対応する追加属性を定義する。
+
+    各メソッドは NodeOperator のクラス属性に置く AttributeField を返す。
+
+    共通の ``multi`` は配列属性、``long_name`` / ``short_name`` は
+    Maya 側の属性名を指定する。``readable`` / ``writable`` と
+    ``category`` は Maya 属性のフラグ・カテゴリに渡す。
+    数値型で使う ``min_value`` / ``max_value`` は許容範囲、
+    ``soft_min_value`` / ``soft_max_value`` は UI 上の推奨範囲。
+    """
 
     @classmethod
     def bool(
@@ -120,6 +120,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraBoolField:
+        """真偽値の追加属性を定義する。"""
         return ExtraBoolField(
             **_field_kwargs(
                 default_value=default_value,
@@ -147,6 +148,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraByteField:
+        """byte 型の追加属性を定義する。"""
         return ExtraByteField(
             **_field_kwargs(
                 default_value=default_value,
@@ -178,6 +180,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraCharField:
+        """char 型の追加属性を定義する。"""
         return ExtraCharField(
             **_field_kwargs(
                 default_value=default_value,
@@ -209,6 +212,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleAngleField:
+        """double 精度の角度属性を定義する。"""
         return ExtraDoubleAngleField(
             **_field_kwargs(
                 default_value=default_value,
@@ -240,6 +244,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleLinearField:
+        """double 精度の距離属性を定義する。値の単位は cm。"""
         return ExtraDoubleLinearField(
             **_field_kwargs(
                 default_value=default_value,
@@ -271,6 +276,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleField:
+        """double 型の追加属性を定義する。"""
         return ExtraDoubleField(
             **_field_kwargs(
                 default_value=default_value,
@@ -302,6 +308,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDouble2Field:
+        """2 成分の double 属性を定義する。"""
         return ExtraDouble2Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -333,6 +340,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDouble3Field:
+        """3 成分の double 属性を定義する。"""
         return ExtraDouble3Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -368,6 +376,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDouble4Field:
+        """4 成分の double 属性を定義する。"""
         return ExtraDouble4Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -403,6 +412,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraQuat4Field:
+        """4 成分の Quaternion 属性を定義する。"""
         return ExtraQuat4Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -434,6 +444,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleLinear2Field:
+        """2 成分の距離属性を定義する。値の単位は cm。"""
         return ExtraDoubleLinear2Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -465,6 +476,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleLinear3Field:
+        """3 成分の距離属性を定義する。値の単位は cm。"""
         return ExtraDoubleLinear3Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -496,6 +508,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleAngle2Field:
+        """2 成分の角度属性を定義する。"""
         return ExtraDoubleAngle2Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -527,6 +540,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleAngle3Field:
+        """3 成分の角度属性を定義する。"""
         return ExtraDoubleAngle3Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -558,6 +572,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatAngleField:
+        """float 精度の角度属性を定義する。"""
         return ExtraFloatAngleField(
             **_field_kwargs(
                 default_value=default_value,
@@ -589,6 +604,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatLinearField:
+        """float 精度の距離属性を定義する。値の単位は cm。"""
         return ExtraFloatLinearField(
             **_field_kwargs(
                 default_value=default_value,
@@ -620,6 +636,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatField:
+        """float 型の追加属性を定義する。"""
         return ExtraFloatField(
             **_field_kwargs(
                 default_value=default_value,
@@ -651,6 +668,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloat2Field:
+        """2 成分の float 属性を定義する。"""
         return ExtraFloat2Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -682,6 +700,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloat3Field:
+        """3 成分の float 属性を定義する。"""
         return ExtraFloat3Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -713,6 +732,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatLinear2Field:
+        """2 成分の距離属性を定義する。値の単位は cm。"""
         return ExtraFloatLinear2Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -744,6 +764,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatLinear3Field:
+        """3 成分の距離属性を定義する。値の単位は cm。"""
         return ExtraFloatLinear3Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -775,6 +796,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatAngle2Field:
+        """2 成分の角度属性を定義する。"""
         return ExtraFloatAngle2Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -806,6 +828,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatAngle3Field:
+        """3 成分の角度属性を定義する。"""
         return ExtraFloatAngle3Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -832,6 +855,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFltMatrixField:
+        """float 精度の行列属性を定義する。"""
         return ExtraFltMatrixField(
             **_field_kwargs(
                 multi=multi,
@@ -853,6 +877,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraGenericField:
+        """generic 型の追加属性を定義する。"""
         return ExtraGenericField(
             **_field_kwargs(
                 multi=multi,
@@ -877,6 +902,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraLongLongIntField:
+        """64 bit 整数の追加属性を定義する。"""
         return ExtraLongLongIntField(
             **_field_kwargs(
                 default_value=default_value,
@@ -906,6 +932,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraLongField:
+        """long 整数の追加属性を定義する。"""
         return ExtraLongField(
             **_field_kwargs(
                 default_value=default_value,
@@ -937,6 +964,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraLong2Field:
+        """2 成分の long 整数属性を定義する。"""
         return ExtraLong2Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -968,6 +996,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraLong3Field:
+        """3 成分の long 整数属性を定義する。"""
         return ExtraLong3Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -994,6 +1023,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraMatrixField:
+        """attributeType の行列属性を定義する。"""
         return ExtraMatrixField(
             **_field_kwargs(
                 multi=multi,
@@ -1015,6 +1045,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraMessageField:
+        """message 型の追加属性を定義する。"""
         return ExtraMessageField(
             **_field_kwargs(
                 multi=multi,
@@ -1041,6 +1072,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraShortField:
+        """short 整数の追加属性を定義する。"""
         return ExtraShortField(
             **_field_kwargs(
                 default_value=default_value,
@@ -1072,6 +1104,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraShort2Field:
+        """2 成分の short 整数属性を定義する。"""
         return ExtraShort2Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -1103,6 +1136,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraShort3Field:
+        """3 成分の short 整数属性を定義する。"""
         return ExtraShort3Field(
             **_field_kwargs(
                 default_value=default_value,
@@ -1130,6 +1164,7 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraTimeField:
+        """時間属性を定義する。値は Maya の UI 時間単位。"""
         return ExtraTimeField(
             **_field_kwargs(
                 default_value=default_value,
@@ -1144,7 +1179,11 @@ class AddAttrAt:
 
 
 class AddAttrDt:
-    """addAttr(dataType=...) 用フィールド群。"""
+    """Maya の ``dataType`` に対応する追加属性を定義する。
+
+    各メソッドは ``multi``、属性名、readable / writable、category を
+    ``AddAttrAt`` と同じ意味で受け取る。
+    """
 
     @classmethod
     def double_array(
@@ -1156,6 +1195,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataDoubleArrayField:
+        """double 配列の dataType 属性を定義する。"""
         return ExtraDataDoubleArrayField(
             **_field_kwargs(
                 multi=multi,
@@ -1177,6 +1217,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataFloatArrayField:
+        """float 配列の dataType 属性を定義する。"""
         return ExtraDataFloatArrayField(
             **_field_kwargs(
                 multi=multi,
@@ -1198,6 +1239,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataInt32ArrayField:
+        """32 bit 整数配列の dataType 属性を定義する。"""
         return ExtraDataInt32ArrayField(
             **_field_kwargs(
                 multi=multi,
@@ -1219,6 +1261,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataLatticeField:
+        """lattice データの属性を定義する。"""
         return ExtraDataLatticeField(
             **_field_kwargs(
                 multi=multi,
@@ -1240,6 +1283,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataMatrixField:
+        """dataType の行列属性を定義する。"""
         return ExtraDataMatrixField(
             **_field_kwargs(
                 multi=multi,
@@ -1261,6 +1305,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataMeshField:
+        """mesh データの属性を定義する。"""
         return ExtraDataMeshField(
             **_field_kwargs(
                 multi=multi,
@@ -1282,6 +1327,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataNurbsCurveField:
+        """NURBS curve データの属性を定義する。"""
         return ExtraDataNurbsCurveField(
             **_field_kwargs(
                 multi=multi,
@@ -1303,6 +1349,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataNurbsSurfaceField:
+        """NURBS surface データの属性を定義する。"""
         return ExtraDataNurbsSurfaceField(
             **_field_kwargs(
                 multi=multi,
@@ -1324,6 +1371,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataPointArrayField:
+        """point 配列の dataType 属性を定義する。"""
         return ExtraDataPointArrayField(
             **_field_kwargs(
                 multi=multi,
@@ -1345,6 +1393,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataStringArrayField:
+        """文字列配列の dataType 属性を定義する。"""
         return ExtraDataStringArrayField(
             **_field_kwargs(
                 multi=multi,
@@ -1367,6 +1416,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataStringField:
+        """文字列の dataType 属性を定義する。"""
         return ExtraDataStringField(
             **_field_kwargs(
                 default_value=default_value,
@@ -1389,6 +1439,7 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataVectorArrayField:
+        """vector 配列の dataType 属性を定義する。"""
         return ExtraDataVectorArrayField(
             **_field_kwargs(
                 multi=multi,
@@ -1401,36 +1452,41 @@ class AddAttrDt:
         )
 
 
-# define
 class DefineEnum:
+    """enum 用の Field と PlugOperator 型をまとめる。"""
+
     field = ExtraEnumField
     plug_operator = EnumPlugOperator
 
 
 class DefineCompound:
+    """compound 用の Field と PlugOperator 型をまとめる。"""
+
     field = ExtraCompoundField
     plug_operator = CompoundPlugOperator
 
 
 class DefineAddAttrAt:
+    """enum / compound の型定義への入口。"""
+
     enum = DefineEnum
     compound = DefineCompound
 
 
 class DefineAddAttr:
+    """追加属性の型定義への入口。"""
+
     at = DefineAddAttrAt
 
 
-# add_attr
 class AddAttr:
-    """
-    Extra Attribute Field の呼び出しハブ。
+    """NodeOperator に追加する AttributeField の入口。
 
-    使用例:
-        class NewNode(NodeOperator):
-            testDouble = AddAttr.double(default_value=1.0)
-            testMatrix = AddAttr.at.matrix()
-            testDataMatrix = AddAttr.dt.matrix()
+    Examples:
+        >>> class NewNode(NodeOperator):
+        ...     weight = AddAttr.at.double(default_value=1.0)
+        ...     matrix = AddAttr.at.matrix()
+        ...     data_matrix = AddAttr.dt.matrix()
     """
 
     at: ClassVar[AddAttrAt] = AddAttrAt()

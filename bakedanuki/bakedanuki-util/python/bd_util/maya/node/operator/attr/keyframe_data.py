@@ -101,14 +101,19 @@ def _key_data(value: object) -> KeyData:
 def weighted_tangent_xy(
     xy: tuple[float, float], span_seconds: float | None
 ) -> tuple[float, float]:
-    """nonweightedの方向をMayaのweighted tangent vectorへ換算する。"""
+    """nonweighted 接線の向きを weighted 接線ベクトルへ換算する。
+
+    Args:
+        xy: 元の接線ベクトル。
+        span_seconds: 隣接キーまでの秒数。None なら換算しない。
+    """
     if span_seconds is None or xy[0] == 0.0:
         return xy
     return span_seconds, span_seconds * (xy[1] / xy[0])
 
 
 def copy_curve_data(value: object) -> AnimCurveData:
-    """予約境界で再検証し、変更可能なKeyDataも独立して保持する。"""
+    """カーブ情報を再検証し、変更可能な KeyData も複製する。"""
     if not isinstance(value, AnimCurveData):
         raise TypeError("data must be AnimCurveData.")
     return replace(value)
@@ -116,7 +121,19 @@ def copy_curve_data(value: object) -> AnimCurveData:
 
 @dataclass(slots=True, kw_only=True)
 class KeyData:
-    """編集可能な1キーのデータ。接線XYはweighted相当、frameは取得時のUI単位。"""
+    """編集可能な一つのキーのデータ。
+
+    Attributes:
+        frame: 時刻。取得時の UI 時間単位。
+        value: カーブ自身の値。
+        in_tangent_type: 入力側の接線型。
+        out_tangent_type: 出力側の接線型。
+        in_tangent_xy: 入力側の weighted 相当の接線ベクトル。
+        out_tangent_xy: 出力側の weighted 相当の接線ベクトル。
+        tangents_locked: 入出力接線を連動するか。
+        weights_locked: 入出力の重みを連動するか。
+        breakdown: breakdown キーか。
+    """
 
     frame: float
     value: float
@@ -139,11 +156,12 @@ class KeyData:
             _boolean(getattr(self, name), name)
 
     def to_dict(self) -> dict[str, object]:
-        """json.dumpsへ渡せる独立した辞書を返す。"""
+        """JSON 化できる独立した辞書を返す。"""
         return asdict(replace(self))
 
     @classmethod
     def from_dict(cls, value: object) -> KeyData:
+        """保存済みの辞書を検証して KeyData に復元する。"""
         data = _mapping(value, cls)
         return cls(
             frame=_number(data["frame"], "frame"),
@@ -174,7 +192,19 @@ class KeyData:
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class AnimCurveData:
-    """カーブ全体のデータ。共通設定は不変、keysの各KeyDataは編集可能。"""
+    """カーブ全体の設定とキー情報。
+
+    共通設定は不変。``keys`` に含まれる KeyData は編集できる。
+
+    Attributes:
+        curve_type: Maya の時間入力カーブ型。
+        seconds_per_frame: 保存時の 1 frame あたりの秒数。
+        weighted: weighted tangent を使うか。
+        pre_infinity: 最初のキーより前の挙動。
+        post_infinity: 最後のキーより後の挙動。
+        keys: 時刻の昇順に並ぶキー情報。
+        schema_version: 保存形式のバージョン。常に 2。
+    """
 
     curve_type: CurveTypeName
     seconds_per_frame: float
@@ -203,10 +233,12 @@ class AnimCurveData:
         object.__setattr__(self, "keys", keys)
 
     def to_dict(self) -> dict[str, object]:
+        """JSON 化できる独立した辞書を返す。"""
         return asdict(copy_curve_data(self))
 
     @classmethod
     def from_dict(cls, value: object) -> AnimCurveData:
+        """schema 2 の辞書を検証してカーブ情報に復元する。"""
         data = _mapping(value, cls)
         if (
             type(data["schema_version"]) is not int

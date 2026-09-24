@@ -1,4 +1,4 @@
-"""Shared tangent argument handling and batch edits."""
+"""接線引数の共通処理と複数キーの編集。"""
 
 from __future__ import annotations
 
@@ -92,7 +92,7 @@ def resolve_tangent_types(
     default_in: int | None = None,
     default_out: int | None = None,
 ) -> tuple[int | None, int | None]:
-    """Resolve one common value with optional side-specific overrides."""
+    """共通の接線型に、指定された入出力別の値を上書きして返す。"""
     common = (
         to_tangent_type(tangent_type) if tangent_type is not None else None
     )
@@ -162,7 +162,7 @@ def capture_locks(
     tangents_locked: bool | None,
     weights_locked: bool | None,
 ) -> tuple[bool | None, bool | None]:
-    """Validate per-key tangent lock values without coercing integers."""
+    """整数を bool に変換せず、キーごとの接線 lock 値を検証する。"""
     if tangents_locked is not None and type(tangents_locked) is not bool:
         raise TypeError("tangents_locked must be a bool or None.")
     if weights_locked is not None and type(weights_locked) is not bool:
@@ -234,7 +234,7 @@ def queue_batch(
     out_type: int | None,
     discrete_type: int | None,
 ) -> None:
-    """Queue one atomic edit for already selected node channel targets."""
+    """選択済みのノードチャンネルへの編集を単一操作として予約する。"""
 
     def prepare(work: ModifierManager) -> None:
         targets = resolve_targets()
@@ -274,7 +274,7 @@ def queue_locks(
     tangents_locked: bool | None,
     weights_locked: bool | None,
 ) -> None:
-    """Queue lock-only changes for existing keys on preselected curves."""
+    """選択済みカーブの既存キーに対する lock 変更だけを予約する。"""
 
     def edit(modifier: om.MDGModifier) -> None:
         plans: list[tuple[oma.MFnAnimCurve, tuple[int, ...]]] = []

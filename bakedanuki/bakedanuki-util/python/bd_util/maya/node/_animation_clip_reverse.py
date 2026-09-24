@@ -54,6 +54,11 @@ def _curve(
     clip_end_frame: float,
     clip_rate: float,
 ) -> AnimCurveData:
+    """保存範囲の共通軸でキー・接線・infinity を反転する。
+
+    カーブ固有の時間単位を保ち、Maya の時間精度でキーが重なれば拒否する。
+    """
+
     def reversed_frame(frame: float) -> float:
         source_seconds = finite_number(
             frame * data.seconds_per_frame, "key time in seconds"
@@ -133,7 +138,10 @@ def _curve(
 
 
 def reversed_clip(data: AnimationClip) -> AnimationClip:
-    """再検証したclipを秒基準で反転し、独立したclipを返す。"""
+    """clip の全カーブを秒基準で反転した独立した clip を返す。
+
+    ノード属性とレイヤー設定には、保存範囲の同じ反転軸を使う。
+    """
     data = AnimationClip.from_dict(data.to_dict())
     start_seconds = finite_number(
         data.start_frame * data.seconds_per_frame, "start time in seconds"

@@ -27,14 +27,14 @@ class RoundCompoundPlugOperatorMixin:
         専用compound値の各 ``float`` 成分を丸め、値型は維持する。
         numeric compoundはunitless、angleはdegree、linearはcentimeterで扱う。
 
+        Python組み込みの ``round()`` と同じ偶数丸めを使用する。
+        呼び出し時点のscene値を ``get()`` で取得し、``set()`` と同様に
+        ModifierManagerへ変更を積む。sceneへの変更は
+        ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
 
-        Notes:
-            Python組み込みの ``round()`` と同じ偶数丸めを使用する。
-            呼び出し時点のscene値を ``get()`` で取得し、``set()`` と同様に
-            ModifierManagerへ変更を積む。sceneへの変更は
-            ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         target = cast(_RoundCompoundTarget, self)
         rounded_values = tuple(

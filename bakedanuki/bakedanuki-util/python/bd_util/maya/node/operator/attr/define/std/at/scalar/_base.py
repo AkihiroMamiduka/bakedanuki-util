@@ -70,6 +70,8 @@ def sample_plug_values(
 
 
 class ScalarBasePlugOperator(ChannelBoxStateMixin, PlugOperator[A]):
+    """scalar 属性の値とキーフレームを扱う共通基底。"""
+
     __slots__ = ()
 
     def _channel_box_state_plugs(self) -> tuple[om.MPlug, ...]:
@@ -78,6 +80,7 @@ class ScalarBasePlugOperator(ChannelBoxStateMixin, PlugOperator[A]):
 
     @property
     def keyframe(self) -> KeyframeManager:
+        """この属性に対するキーフレーム操作の入口。"""
         return self._get_keyframe_manager()
 
     def sample_values(
@@ -89,6 +92,12 @@ class ScalarBasePlugOperator(ChannelBoxStateMixin, PlugOperator[A]):
         angle値はdegree、linear値はcentimeter、その他はnumeric値。
         現在時刻を変更せず、保留中の操作も実行しない。
         各時刻を独立に評価するため、履歴依存のsimulationは対象外。
+
+        Args:
+            frames: UI 時間単位で指定する評価時刻の並び。
+
+        Returns:
+            入力順の (時刻, 評価値) のリスト。
         """
         return sample_plug_values(self.plug, frames=frames)
 

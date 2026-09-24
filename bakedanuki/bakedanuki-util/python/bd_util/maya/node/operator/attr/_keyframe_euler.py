@@ -1,4 +1,4 @@
-"""Euler filtering for synchronized transform rotation curves."""
+"""同期した Transform の回転カーブに Euler filter を適用する。"""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from . import _keyframe_target
 
 @dataclass(frozen=True, slots=True)
 class RotationTarget:
-    """The three rotation channels and static rotation order of one node."""
+    """一つのノードの三つの回転チャンネルと固定の回転順。"""
 
     name: str
     rotate_order: om.MPlug
@@ -161,7 +161,7 @@ def queue_filter(
     start: float | None,
     end: float | None,
 ) -> None:
-    """Queue one atomic Euler filter after validating every node."""
+    """全ノードを検証した後、Euler filter を単一操作として予約する。"""
 
     def prepare(work: ModifierManager) -> None:
         plans = tuple(

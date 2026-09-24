@@ -101,7 +101,18 @@ def _require_kind(value: object) -> ScalarAttributeKind:
 
 @dataclass(frozen=True)
 class MayaScalarValueSnapshot:
-    """node相対path、値型、公開単位の未丸め値とenum定義。"""
+    """一つの属性の型と、公開単位で取得した未丸め値。
+
+    Attributes:
+        path: node相対のscalar属性path。配列要素は指定できない。
+        kind: bool、number、distance、angle、enumのいずれか。
+        value: kindに対応する実値。数値は有限の`float`。
+        enum_definition: enumの場合に必須の選択肢。
+
+    Raises:
+        TypeError: kindと値の型、またはenum定義の型が合わない場合。
+        ValueError: path、数値、enum定義が不正な場合。
+    """
 
     path: str
     kind: ScalarAttributeKind
@@ -148,7 +159,11 @@ class MayaScalarValueSnapshot:
 
 @dataclass(frozen=True)
 class MayaNodeValueSnapshot:
-    """一つの基準nodeから同時に取得した順序付きscalar値。"""
+    """一つのnodeから取得した、重複のない順序付きscalar値。
+
+    Attributes:
+        values: 1～10,000件の属性snapshot。属性pathの重複は許さない。
+    """
 
     values: tuple[MayaScalarValueSnapshot, ...]
 
@@ -175,7 +190,14 @@ class MayaNodeValueSnapshot:
 
 @dataclass(frozen=True)
 class MayaScalarValueTransfer:
-    """将来の複数コピー元も表現できるscalar値の搬送単位。"""
+    """コピー元nodeごとのscalar値をまとめた搬送単位。
+
+    貼り付けAPIは現在、コピー元nodeを1件だけ受け付ける。
+
+    Attributes:
+        nodes: 1～64件のコピー元snapshot。値の合計は10,000件以下。
+
+    """
 
     nodes: tuple[MayaNodeValueSnapshot, ...]
 
@@ -195,7 +217,13 @@ class MayaScalarValueTransfer:
 
 @dataclass(frozen=True)
 class MayaScalarPasteResult:
-    """同path貼り付けの変更有無、適用候補数、対象外理由。"""
+    """貼り付け結果と、適用対象から外した属性の理由。
+
+    Attributes:
+        changed: 少なくとも一つの値が変わったか。
+        eligible_count: 書き込み候補になった属性数。
+        excluded: 対象外にした属性pathと理由。
+    """
 
     changed: bool
     eligible_count: int
@@ -203,25 +231,59 @@ class MayaScalarPasteResult:
 
 
 class MayaScalarValueClipboard:
-    """Maya scalar値の搬送schemaをOSクリップボードへ読み書きする。"""
+    """Maya scalar値の搬送schemaをOSクリップボードで読み書きする。"""
 
     def contains(self) -> bool:
-        """対応MIMEまたは専用markerが現在のclipboardにあるか返す。"""
+        """対応MIMEまたは専用markerがある場合は`True`。
+
+        Raises:
+            RuntimeError: QApplicationが存在しない場合。
+        """
         return _CLIPBOARD.contains()
 
     def write(self, transfer: MayaScalarValueTransfer) -> None:
-        """検証済みtransferをversion付きJSONとしてOSへ保存する。"""
+        """transferをversion付きJSONとしてOSへ保存する。
+
+        Args:
+            transfer: 型付きのscalar値搬送データ。
+
+        Raises:
+            TypeError: transferの型が不正な場合。
+            ValueError: JSONがクリップボードの容量上限を超える場合。
+            RuntimeError: QApplicationが存在しない場合。
+        """
         _CLIPBOARD.write(encode_scalar_value_transfer(transfer))
 
     def read(self) -> MayaScalarValueTransfer:
-        """OS上の外部入力をschema検証して型付きtransferへ変換する。"""
+        """OSクリップボードの値を検証してtransferへ変換する。
+
+        Returns:
+            schema検証済みのscalar値搬送データ。
+
+        Raises:
+            TypeError: JSON内の項目型がschemaと異なる場合。
+            ValueError: 対応する形式がないか、schemaが不正な場合。
+            RuntimeError: QApplicationが存在しない場合。
+        """
         return decode_scalar_value_transfer(_CLIPBOARD.read())
 
 
 def capture_scalar_node_values(
     node_name: str, attributes: Sequence[ScalarAttributeInfo]
 ) -> MayaNodeValueSnapshot:
-    """一つのnodeから指定scalar属性の公開単位値をsnapshotへ複製する。"""
+    """指定したscalar属性の公開単位値をnodeから取得する。
+
+    Args:
+        node_name: コピー元のMaya node名。
+        attributes: 一つ以上のscalar属性情報。
+
+    Returns:
+        指定順の属性値を持つsnapshot。
+
+    Raises:
+        ValueError: node名が空、または属性が空・重複している場合。
+        TypeError: 属性情報の型が不正な場合。
+    """
     if not isinstance(node_name, str) or not node_name:
         raise ValueError("node_nameには空でないstrを指定してください")
     snapshots: list[MayaScalarValueSnapshot] = []
@@ -258,7 +320,17 @@ def capture_scalar_node_values(
 
 
 def capture_all_scalar_node_values(node_name: str) -> MayaNodeValueSnapshot:
-    """一つのnodeから対応する全scalar属性値をsnapshotへ複製する。"""
+    """nodeの対応する全scalar属性値を取得する。
+
+    Args:
+        node_name: コピー元のMaya node名。
+
+    Returns:
+        対応する属性のsnapshot。
+
+    Raises:
+        ValueError: 対応する属性が一つもない場合。
+    """
     return capture_scalar_node_values(
         node_name, inspect_scalar_attributes(node_name)
     )
@@ -267,7 +339,14 @@ def capture_all_scalar_node_values(node_name: str) -> MayaNodeValueSnapshot:
 def encode_scalar_value_transfer(
     transfer: MayaScalarValueTransfer,
 ) -> dict[str, object]:
-    """型付きtransferをJSON互換のversion 1 documentへ変換する。"""
+    """transferをJSON互換のversion 1 documentへ変換する。
+
+    Args:
+        transfer: 型付きのscalar値搬送データ。
+
+    Returns:
+        `format`、`version`、`nodes`を持つJSON互換dict。
+    """
     if not isinstance(transfer, MayaScalarValueTransfer):
         raise TypeError(
             "transferにはMayaScalarValueTransferを指定してください"
@@ -379,7 +458,18 @@ def _decode_snapshot(value: object) -> MayaScalarValueSnapshot:
 
 
 def decode_scalar_value_transfer(document: object) -> MayaScalarValueTransfer:
-    """外部JSON documentを完全検証してversion 1 transferへ変換する。"""
+    """外部JSON documentを検証してversion 1 transferへ変換する。
+
+    Args:
+        document: JSONから読み込んだ値。
+
+    Returns:
+        schema検証済みのscalar値搬送データ。
+
+    Raises:
+        TypeError: 項目の型がschemaと異なる場合。
+        ValueError: 形式、version、必須項目、値が不正な場合。
+    """
     root = _require_mapping(document, "document")
     _require_keys(root, {"format", "version", "nodes"})
     if root["format"] != _FORMAT:
@@ -447,7 +537,23 @@ def _create_edit(
 def apply_scalar_value_transfer(
     node_names: Sequence[str], transfer: MayaScalarValueTransfer
 ) -> MayaScalarPasteResult:
-    """一つのsource snapshotを全target nodeの同pathへ一Undoで適用する。"""
+    """一つのコピー元を、全対象nodeの同じ属性pathへ適用する。
+
+    属性pathと型・単位が一致する書き込みを一つのUndoで適用する。
+    一致しない属性や編集不可の属性は結果の`excluded`へ記録する。
+
+    Args:
+        node_names: 重複のない一つ以上の貼り付け先node名。
+        transfer: コピー元nodeを一つだけ含む搬送データ。
+
+    Returns:
+        変更有無、書き込み候補数、除外した属性と理由。
+
+    Raises:
+        TypeError: transferの型が不正な場合。
+        ValueError: コピー元・貼り付け先nodeの件数や名前が不正な場合。
+
+    """
     if not isinstance(transfer, MayaScalarValueTransfer):
         raise TypeError(
             "transferにはMayaScalarValueTransferを指定してください"
@@ -464,7 +570,7 @@ def apply_scalar_value_transfer(
     if len(set(targets)) != len(targets):
         raise ValueError("同じtarget nodeを複数回指定できません")
 
-    # 属性構成を先に固定し、行位置ではなく正式pathとkindだけで対応させる
+    # 貼り付け先の構成を先に固定し、行位置ではなく属性pathと型で照合する。
     target_attributes = {
         node_name: {
             attribute.path: attribute
@@ -528,7 +634,20 @@ def apply_scalar_value_transfer_to_paths(
     target_paths: Sequence[str],
     transfer: MayaScalarValueTransfer,
 ) -> MayaScalarPasteResult:
-    """搬送値のうち指定した同一pathだけを全target nodeへ適用する。"""
+    """搬送値から指定した同一pathだけを各nodeへ適用する。
+
+    Args:
+        node_names: 重複のない一つ以上の貼り付け先node名。
+        target_paths: 重複のない一つ以上のnode相対属性path。
+        transfer: コピー元nodeを一つだけ含む搬送データ。
+
+    Returns:
+        変更有無、書き込み候補数、除外した属性と理由。
+
+    Raises:
+        TypeError: transferまたはpathの型が不正な場合。
+        ValueError: コピー元、貼り付け先、pathの指定が不正な場合。
+    """
     if not isinstance(transfer, MayaScalarValueTransfer):
         raise TypeError(
             "transferにはMayaScalarValueTransferを指定してください"
@@ -546,7 +665,7 @@ def apply_scalar_value_transfer_to_paths(
     if len(set(targets)) != len(targets):
         raise ValueError("同じtarget nodeを複数回指定できません")
 
-    # 選択pathとの共通部分だけを保持し、clipboardにない選択先も結果へ残す
+    # コピー元にない選択pathも結果へ残し、貼り付けされなかった理由を示す。
     values_by_path = {
         snapshot.path: snapshot for snapshot in transfer.nodes[0].values
     }
@@ -577,7 +696,24 @@ def apply_scalar_value_to_paths(
     target_paths: Sequence[str],
     transfer: MayaScalarValueTransfer,
 ) -> MayaScalarPasteResult:
-    """一つの搬送値を全target nodeの指定pathへ一Undoで適用する。"""
+    """一つのコピー元値を各nodeの指定pathへ適用する。
+
+    元の属性pathは使用せず、指定したpathへ値と型を複製する。
+    書き込みは一つのUndoにまとめる。
+
+    Args:
+        node_names: 重複のない一つ以上の貼り付け先node名。
+        target_paths: 重複のない一つ以上のnode相対属性path。
+        transfer: コピー元属性を一つだけ含む搬送データ。
+
+    Returns:
+        変更有無、書き込み候補数、除外した属性と理由。
+
+    Raises:
+        TypeError: transferまたはpathの型が不正な場合。
+        ValueError: コピー元、貼り付け先、pathの指定が不正な場合。
+
+    """
     if not isinstance(transfer, MayaScalarValueTransfer):
         raise TypeError(
             "transferにはMayaScalarValueTransferを指定してください"
@@ -588,7 +724,7 @@ def apply_scalar_value_to_paths(
         )
     paths = _require_target_paths(target_paths)
 
-    # 搬送値の型と実値を保ち、明示された正式pathだけへ展開する
+    # 元の値と型を維持して各指定pathへ展開し、同じ検証・Undo経路で適用する。
     source = transfer.nodes[0].values[0]
     expanded = MayaNodeValueSnapshot(
         tuple(

@@ -1,4 +1,4 @@
-"""Time-input curve behavior shared by every version's generated schema."""
+"""Maya バージョン間で共用するアニメーションカーブ操作。"""
 
 from maya.api import OpenMaya as om
 
@@ -7,6 +7,8 @@ from ...attr.keyframe import CurveKeyframeManager
 
 
 class AnimCurveKeyframes:
+    """カーブ自身のキーフレーム操作を公開する共通クラス。"""
+
     __slots__ = ()
 
     m_obj: om.MObject
@@ -14,7 +16,7 @@ class AnimCurveKeyframes:
 
     @property
     def keyframe(self) -> CurveKeyframeManager:
-        """このカーブ自身を、同じModifierManagerで操作する。"""
+        """同じ ModifierManager を使うキーフレーム操作を返す。"""
         return CurveKeyframeManager(
             self.m_obj, modifier_manager=self._modifier_manager
         )

@@ -26,21 +26,20 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
     def set(self, value: str) -> None:
         """string dataプラグへ文字列をModifierManager経由で設定する。
 
+        変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
+
         Args:
             value: 設定する文字列。
-
-        Notes:
-            変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         """
         self._node.modifier_manager.dg_mod.newPlugValueString(self.plug, value)
 
     def set_direct(self, value: str):
-        """
-        MPlug に値を直接セットする
-            その為、modifier.undoIt() 非対応です
+        """MPlug に値を直接設定する。
+
+        ModifierManager の履歴には入らない。
 
         Args:
-            value (str): セットする文字列
+            value: セットする文字列
         """
         self.plug.setString(value)
 
@@ -53,8 +52,8 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
             )
         return om.MFnStringData().create(value)
 
-    # add
     def add_attr(self):
+        """文字列属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(
             om.MFnData.kString,
             default_object_factory=self._create_default_object,
