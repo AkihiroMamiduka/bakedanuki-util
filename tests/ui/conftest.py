@@ -4,7 +4,7 @@ from typing import cast
 
 import pytest
 from maya import standalone
-from PySide6 import QtWidgets
+from PySide6 import QtGui, QtWidgets
 
 
 @pytest.fixture(autouse=True)
@@ -45,6 +45,25 @@ def qt_application() -> Iterator[QtWidgets.QApplication]:
 
     # 生成または取得したapplicationをsession全体で共有する。
     yield cast(QtWidgets.QApplication, application)
+
+
+@pytest.fixture
+def saved_clipboard(
+    qt_application: QtWidgets.QApplication,
+) -> Iterator[QtGui.QClipboard]:
+    """test前のclipboard内容を複製し、終了時に戻す。"""
+    from bd_util.ui import qt
+
+    clipboard = qt_application.clipboard()
+    saved = qt.QtCore.QMimeData()
+    original = clipboard.mimeData()
+    if original is not None:
+        for mime_type in original.formats():
+            saved.setData(mime_type, original.data(mime_type))
+    try:
+        yield clipboard
+    finally:
+        clipboard.setMimeData(saved)
 
 
 @pytest.fixture(scope="session")

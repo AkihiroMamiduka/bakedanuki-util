@@ -1650,8 +1650,25 @@ Qt facade、Window lifecycle、Maya UI連携の自動テストは、対応する
 各versionでは、Maya、Python、Qt bindingの実バージョンを表示した後、汎用Qt/UIテストと
 Maya APIを使うUIテストを独立したmayapy processで実行します。pytestはrepository直下の
 `.test`から読み込み、統一検証では`.\scripts\verify.cmd`が3 versionを実行します。
+通常のUIテストはランナーが`QT_QPA_PLATFORM=offscreen`を指定し、呼び出し元の設定を
+終了時に戻します。Qtのコピー操作は確認しますが、Windowsの実clipboardへの書き込みは
+この実行では確認しません。
 Qt/UI用processでは、root conftestのMaya初期化より先に`QApplication`を生成します。
 Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を避けるためです。
+
+Windowsの実clipboardとの連携は、対話デスクトップで専用テストを実行します。
+`Float3Label`の各軸のCtrl+Cと`JsonClipboard`のJSON書き込みを、QtとWindows APIの
+両方から確認します。失敗時は終了コード1になり、pytestのskipや除外にはしません。
+このテストでは小さなWidgetを表示し、実clipboardの内容を一時変更して終了時に戻します。
+
+```powershell
+.\scripts\test-ui-maya2025.cmd -NativeClipboard
+.\scripts\test-ui-maya2026.cmd -NativeClipboard
+.\scripts\test-ui-maya2027.cmd -NativeClipboard
+
+# 3 versionを順番に確認する。
+.\scripts\test-ui-maya-all.cmd -NativeClipboard
+```
 
 2026-09-14にMin／Max・stepの保存・復元を追加し、単一値・3成分の6サンプルへ組み込んだ作業ツリーでの確認結果です。
 
@@ -1661,10 +1678,11 @@ Mayaが先に`QGuiApplication`を作り、Widgetのtestがskipされる状態を
 | 2026 | 3.11.9 | PySide6 6.5.3 | 726 passed | 244 passed |
 | 2027 | 3.13.9 | PySide6 6.8.3 | 726 passed | 244 passed |
 
-本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した結果です。
+本表は検証processに`QT_QPA_PLATFORM=offscreen`を指定し、`verify.cmd`を実行した当時の結果です。
 範囲編集Viewを追加した際に、WindowsのシステムclipboardへQtから直接書き込む処理も失敗し、
 通常環境の統一検証が既存のFloatLabelコピーtestで停止したため、同じoffscreen環境を使用しています。同じコピー操作を含めて
 全件成功しています。Windowsのシステムclipboardとの実際の連携は、このoffscreen検証では確認していません。
+現在は上記の`-NativeClipboard`で別途確認します。
 
 `verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 上表の3 version UI互換性テスト、`git diff --check`を実行します。

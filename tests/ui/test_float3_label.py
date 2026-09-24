@@ -139,33 +139,26 @@ def test_component_presentation_overflow_and_locale_are_independent(owner):
 
 
 def test_each_axis_can_copy_displayed_text_without_writes(
-    owner, qt_application
+    owner, qt_application, saved_clipboard
 ):
     binding = Float3Binding.from_attribute(Data(), "value", parent=owner)
     view = Float3Label(binding, owner, decimals=3)
-    clipboard = qt_application.clipboard()
-    saved = qt.QtCore.QMimeData()
-    original = clipboard.mimeData()
-    if original is not None:
-        for mime in original.formats():
-            saved.setData(mime, original.data(mime))
-    try:
-        for label in labels(view):
-            label.setSelection(0, len(label.text()))
-            binding.refresh()
-            assert label.selectedText() == label.text()
-            qt.QApplication.sendEvent(
-                label,
-                qt.QtGui.QKeyEvent(
-                    qt.QEvent.Type.KeyPress,
-                    qt.Qt.Key.Key_C,
-                    qt.Qt.KeyboardModifier.ControlModifier,
-                ),
-            )
-            assert clipboard.text() == label.text()
-        assert binding.value == Data().value
-    finally:
-        clipboard.setMimeData(saved)
+    for label in labels(view):
+        label.setSelection(0, len(label.text()))
+        binding.refresh()
+        assert label.selectedText() == label.text()
+        qt_application.processEvents()
+        qt.QApplication.sendEvent(
+            label,
+            qt.QtGui.QKeyEvent(
+                qt.QEvent.Type.KeyPress,
+                qt.Qt.Key.Key_C,
+                qt.Qt.KeyboardModifier.ControlModifier,
+            ),
+        )
+        qt_application.processEvents()
+        assert saved_clipboard.text() == label.text()
+    assert binding.value == Data().value
 
 
 @pytest.mark.parametrize("termination", ["binding", "view_model", "component"])

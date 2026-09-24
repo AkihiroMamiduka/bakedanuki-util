@@ -100,16 +100,11 @@ def test_format_matches_spinbox_and_locale_change_does_not_write(
 
 def test_presentation_only_change_plain_text_and_copy_selection(
     qt_application,
+    saved_clipboard,
 ):
     store = Store(value=100, presentation=FloatPresentation(suffix=" cm"))
     binding = FloatBinding(store)
     label = FloatLabel(binding, decimals=3)
-    clipboard = qt_application.clipboard()
-    saved = qt.QtCore.QMimeData()
-    original = clipboard.mimeData()
-    if original is not None:
-        for mime in original.formats():
-            saved.setData(mime, original.data(mime))
     try:
         store.presentation = FloatPresentation(scale=0.01, suffix=" <m>")
         binding.refresh()
@@ -120,6 +115,7 @@ def test_presentation_only_change_plain_text_and_copy_selection(
         label.setSelection(0, len(label.text()))
         binding.refresh()
         assert label.selectedText() == "1.000 <m>"
+        qt_application.processEvents()
         qt.QApplication.sendEvent(
             label,
             qt.QtGui.QKeyEvent(
@@ -128,9 +124,9 @@ def test_presentation_only_change_plain_text_and_copy_selection(
                 qt.Qt.KeyboardModifier.ControlModifier,
             ),
         )
-        assert clipboard.text() == "1.000 <m>"
+        qt_application.processEvents()
+        assert saved_clipboard.text() == "1.000 <m>"
     finally:
-        clipboard.setMimeData(saved)
         label.deleteLater()
         binding.dispose()
         flush()
