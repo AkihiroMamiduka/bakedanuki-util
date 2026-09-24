@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [switch]$Check,
-    [switch]$Diff
+    [switch]$Diff,
+    [string]$TargetPath
 )
 
 $ErrorActionPreference = "Stop"
@@ -17,6 +18,19 @@ $formatTargets = @(
     (Join-Path $repoRoot "tests"),
     (Join-Path $repoRoot "scripts\test_ui_maya.py")
 )
+
+if ($TargetPath) {
+    $formatTarget = if ([System.IO.Path]::IsPathRooted($TargetPath)) {
+        [System.IO.Path]::GetFullPath($TargetPath)
+    }
+    else {
+        [System.IO.Path]::GetFullPath((Join-Path $repoRoot $TargetPath))
+    }
+    if (-not (Test-Path -LiteralPath $formatTarget)) {
+        throw "Format target was not found: $TargetPath"
+    }
+    $formatTargets = @($formatTarget)
+}
 
 function Test-PythonEnvironment {
     param(

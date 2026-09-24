@@ -1647,6 +1647,16 @@ Qt facade、Window lifecycle、Maya UI連携の自動テストは、対応する
 .\scripts\test-ui-maya-all.cmd
 ```
 
+開発中は`-Target qt`または`-Target maya`を指定すると、その対象だけを1つの
+mayapy processで実行できます。`-TestPath`には対応する`tests/ui`または
+`tests/maya/ui`内のファイル・ディレクトリ・pytest node IDを指定し、
+`-Keyword`はpytestの`-k`式として使います。引数なしでは従来どおり全件実行します。
+
+```powershell
+.\scripts\test-ui-maya2025.cmd -Target qt -TestPath tests\ui\test_float3_label.py -Keyword copy
+.\scripts\test-ui-maya2025.cmd -Target maya -TestPath tests\maya\ui\test_settings.py
+```
+
 各versionでは、Maya、Python、Qt bindingの実バージョンを表示した後、汎用Qt/UIテストと
 Maya APIを使うUIテストを独立したmayapy processで実行します。pytestはrepository直下の
 `.test`から読み込み、統一検証では`.\scripts\verify.cmd`が3 versionを実行します。

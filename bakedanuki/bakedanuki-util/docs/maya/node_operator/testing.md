@@ -46,6 +46,17 @@ Maya 2025を基準にfull pytestまたはtargeted pytestだけを切り分ける
 .\scripts\test-pytest-maya2025.cmd tests/maya/node/operator/attr/test_extra_attr.py
 ```
 
+開発中は関連するtargeted pytestと変更ファイルのBlack確認を先に行います。
+UIテストも`-Target`と`-TestPath`で対象を絞れます。編集と差分確認を終えてから
+`verify.cmd`を実行すると、そこに含まれるfull pytestと3 versionのUIテストを
+重複して走らせずに済みます。広い影響の切り分けが必要なときは、開発中にもfull pytestを
+実行してください。
+
+```powershell
+.\scripts\format.cmd -Check -TargetPath tests\ui\test_float3_label.py
+.\scripts\test-ui-maya2025.cmd -Target qt -TestPath tests\ui\test_float3_label.py -Keyword copy
+```
+
 ## Black format
 
 BlackはMaya実行環境とは分離した`.venv-format`へインストールします。
@@ -68,6 +79,9 @@ BlackはMaya実行環境とは分離した`.venv-format`へインストールし
 .\scripts\format.cmd -Check
 .\scripts\format.cmd -Check -Diff
 ```
+
+開発中は`-TargetPath`で変更したファイルまたはディレクトリだけを確認できます。
+引数なしの一括整形・整形確認と、最終の`verify.cmd`の対象は変わりません。
 
 設定はリポジトリ直下の`pyproject.toml`に置き、Python 3.11を対象にします。
 VS CodeのBlack Formatterも`.venv-format`と同じ設定を使用します。

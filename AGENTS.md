@@ -139,6 +139,12 @@ Maya実行環境とは分離した`.venv-format`を使用します。
 
 対象は`bakedanuki`と`tests`以下、および`scripts/test_ui_maya.py`です。
 外部由来のMaya API stubを置く`typings`は対象外です。
+開発中に変更ファイルだけを確認する場合は`-TargetPath`でファイルまたはディレクトリを
+指定できます。最終の`verify.cmd`は従来どおり全対象を確認します。
+
+```powershell
+.\scripts\format.cmd -Check -TargetPath tests\ui\test_float3_label.py
+```
 
 ノード生成器はBlackを直接importしません。
 DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を実行してから
@@ -171,6 +177,15 @@ native plug-in、build script、配布binary、対応Maya versionを変更した
 targeted pytestや個別scriptは開発中の切り分けに使用できますが、最終確認の
 `verify.cmd`を省略しないでください。必要なMaya、pytest、toolchain、staged plug-inが
 ない場合はskipせず明確に失敗させます。
+開発中は対象を絞って確認し、編集・整形・差分確認を終えてから最終の`verify.cmd`を
+実行します。通常の`verify.cmd`にはMaya 2025 full pytestと3 versionのUI互換性testが
+含まれるため、切り分けが必要な場合を除き、同じ全件テストを直前に重複実行しません。
+UIの対象限定実行には次の入口を使用します。
+
+```powershell
+.\scripts\test-ui-maya2025.cmd -Target qt -TestPath tests\ui\test_float3_label.py
+.\scripts\test-ui-maya2025.cmd -Target maya -TestPath tests\maya\ui\test_settings.py
+```
 
 変更内容に応じた開発中の確認範囲です。
 
@@ -179,13 +194,13 @@ targeted pytestや個別scriptは開発中の切り分けに使用できます�
 - 小さな局所変更
   - 関連する targeted pytest を実行してください。
 - `AttributeField`, `PlugOperator`, `AttrOperator`, `ModifierManager`, enum base など共有基盤の変更
-  - targeted pytest に加えて、原則として full pytest を実行してください。
+  - 開発中は targeted pytest を実行し、最終の`verify.cmd`に含まれるfull pytestで広い影響を確認してください。切り分けが必要なら早めにfull pytestも実行します。
 - DG ノード生成、node attr 解決、共通 import に関わる変更
-  - full pytest に加えて、必要に応じて DG モジュールの import sweep を検討してください。
+  - 最終の`verify.cmd`に含まれるfull pytestに加えて、必要に応じてDGモジュールのimport sweepを検討してください。
 - Pythonコードを変更した場合
-  - 開発中も原則として`.\scripts\format.cmd -Check`で整形状態を確認してください。
+  - 開発中は原則として`.\scripts\format.cmd -Check -TargetPath <changed-path>`で整形状態を確認してください。最終の`verify.cmd`では全対象を確認します。
 - Qt facade、Window lifecycle、Maya UI adapterを変更した場合
-  - Maya 2025 / 2026 / 2027それぞれでUI互換性テストを実行してください。
+  - 開発中は関連するUIテストを対象指定で実行し、最終の`verify.cmd`でMaya 2025 / 2026 / 2027それぞれのUI互換性テストを実行してください。
 - ネイティブplug-in、build script、配布バイナリ、対応Maya versionを変更した場合
   - 最終確認に`-IncludeNative`を指定してください。
 

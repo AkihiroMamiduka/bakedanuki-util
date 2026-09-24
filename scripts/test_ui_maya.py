@@ -42,7 +42,7 @@ def _print_environment() -> int:
     return 0
 
 
-def _run_tests(target: str) -> int:
+def _run_tests(target: str, test_path: str | None, keyword: str | None) -> int:
     """指定されたUIテスト群を実行する。"""
 
     # Mayaごとのmayapyプロセス内でpytestを起動する。
@@ -59,7 +59,11 @@ def _run_tests(target: str) -> int:
         if not isinstance(application, qt.QApplication):
             raise RuntimeError("Qt/UI testにはQApplicationが必要です")
 
-    return pytest.main(["-p", "no:cacheprovider", str(_TEST_PATHS[target])])
+    pytest_args = ["-p", "no:cacheprovider"]
+    if keyword:
+        pytest_args.extend(("-k", keyword))
+    pytest_args.append(test_path or str(_TEST_PATHS[target]))
+    return pytest.main(pytest_args)
 
 
 def _windows_clipboard_text() -> str:
@@ -176,6 +180,8 @@ def main() -> int:
     parser.add_argument(
         "target", choices=("environment", "qt", "maya", "native-clipboard")
     )
+    parser.add_argument("--test-path")
+    parser.add_argument("--keyword")
     args = parser.parse_args()
 
     _prepare_import_paths()
@@ -183,7 +189,7 @@ def main() -> int:
         return _print_environment()
     if args.target == "native-clipboard":
         return _run_native_clipboard()
-    return _run_tests(args.target)
+    return _run_tests(args.target, args.test_path, args.keyword)
 
 
 if __name__ == "__main__":
