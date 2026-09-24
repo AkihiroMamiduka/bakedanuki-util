@@ -76,7 +76,8 @@ print(bd_util.__file__)
 ## Development
 
 手書きの公開 Python API には、IDE の hover で使い方を確認できる簡潔な日本語の
-Google style docstring を記述します。引数・戻り値・例外は必要に応じて
+Google style docstring を記述します。引数や API の識別子はコードと同じ綴りで記します。
+引数・戻り値・例外は必要に応じて
 `Args:` / `Returns:` / `Raises:` にまとめ、コード内コメントは処理の意図を
 まとまりごとに説明します。生成ファイルは手編集しません。
 詳しい方針は [AGENTS.md](AGENTS.md#docstring-とコード内コメント) を参照してください。
