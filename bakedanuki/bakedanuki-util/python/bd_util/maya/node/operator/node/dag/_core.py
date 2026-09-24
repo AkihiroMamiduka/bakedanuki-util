@@ -83,6 +83,7 @@ class DAG(NodeOperator):
 
         if rename_name:
             self._dag_mod.renameNode(self.m_obj, rename_name)
+            self._set_requested_name_hint(rename_name)
 
         # auto_add_attr
         if auto_add_attr and self._extra_attributes:

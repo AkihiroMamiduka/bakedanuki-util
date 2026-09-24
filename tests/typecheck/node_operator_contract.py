@@ -6221,8 +6221,10 @@ def invalid_usage_contract(
 def animation_clip_contract(
     mod: bdu.ModifierManager, nodes: bdu.Nodes, optional_frame: float | None
 ) -> None:
+    ctrl = nodes.existing("ctrl")
+    layer = nodes.create.animLayer(name="Correction")
     clip = bdu.AnimationClip.capture(
-        ["ctrl", nodes.existing("other")],
+        [ctrl, nodes.existing("other")],
         attributes=["translate"],
         include_channel_box=True,
         include_static=True,
@@ -6247,6 +6249,9 @@ def animation_clip_contract(
     assert_type(clip.reversed(), bdu.AnimationClip)
     assert_type(clip.reversed().reversed().to_json(), str)
     assert_type(clip.extract(nodes=["ctrl"]), bdu.AnimationClip)
+    assert_type(
+        clip.extract(nodes=[ctrl, ctrl.m_obj, "other"]), bdu.AnimationClip
+    )
     assert_type(
         clip.extract(nodes=(name for name in ("ctrl", "other"))).reversed(),
         bdu.AnimationClip,
@@ -6282,6 +6287,19 @@ def animation_clip_contract(
     bdu.AnimationClip.capture(
         ["ctrl"],
         include_static="yes",  # pyright: ignore[reportArgumentType]
+    )
+    assert_type(
+        bdu.AnimationClip.capture(
+            [ctrl],
+            layer_mode="preserve",
+            layers=[layer, layer.m_obj, "Correction"],
+        ),
+        bdu.AnimationClip,
+    )
+    bdu.AnimationClip.capture(
+        [ctrl],
+        layer_mode="preserve",
+        layers=[ctrl],  # pyright: ignore[reportArgumentType]
     )
     assert_type(clip.restore(mod, offset_frames=15), None)
     assert_type(clip.restore(mod, start_frame=10, end_frame=30), None)

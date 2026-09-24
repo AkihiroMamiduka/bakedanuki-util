@@ -74,8 +74,13 @@ clip.restore(
 ) -> None
 ```
 
-`capture()`の`nodes`と`restore()`の`targets`はnode名、`NodeOperator`、`MObject`のiterableです。
+`capture()`の`nodes`、`extract()`の`nodes`、`restore()`の`targets`はnode名、
+`NodeOperator`、`MObject`のiterableです。
 選択中node・layerを対象決定に利用しません。transformを指定してもshapeや子nodeへは展開しません。
+
+`capture(layer_mode="preserve", layers=...)`の明示layerも、layer名、liveなanimLayerの
+`NodeOperator`、liveなanimLayerの`MObject`を混在できます。取得は即時queryなので、
+作成待ちlayerを暗黙に実行せずエラーにします。
 
 captureしたDAG nodeは、namespaceを含むshort nameがscene全体で一意なら、そのshort nameを保存します。
 同名DAGが存在してshort nameでは一意に解決できない場合だけfull DAG pathを保存します。
@@ -113,15 +118,29 @@ captureしたDAG nodeは、namespaceを含むshort nameがscene全体で一意�
 `AnimationClip`を即時に返します。scene、元clip、保留中modifierは変更しません。
 
 ```python
+root_ctrl = nodes.existing("character_a:root_ctrl")
+spine_ctrl = nodes.existing("character_a:spine_ctrl")
+
 body_clip = clip.extract(
-    nodes=["character_a:root_ctrl", "character_a:spine_ctrl"],
+    nodes=[root_ctrl, spine_ctrl],
 )
 
 body_clip.restore(mod, namespace="character_b")
 mod.do_it_dg()
 ```
 
-- `nodes`は保存node名の文字列iterableです。`NodeOperator` / `MObject`や裸の文字列は受け付けません。
+- `nodes`は保存node名、`NodeOperator`、`MObject`を混在できるiterableです。裸の文字列や
+  裸の`NodeOperator` / `MObject`は受け付けません。文字列は、元sceneを削除したclipや
+  JSONから読み込んだclipをsceneから独立して選ぶため、引き続き使用できます。
+- liveなDAGの`NodeOperator` / `MObject`は現在のfull pathで完全一致を先に試し、
+  一致しなければnamespace込みのshort nameで保存nodeを選びます。capture後に同名DAGが
+  追加・削除されても、full pathかshort nameの一方で特定できる場合は選択できます。
+  scene nodeのidentityをclipへ保存する機能ではなく、呼出時の確定済みnode名をselectorとして使います。
+  予約中のrenameや親変更は暗黙に実行せず、live nodeには変更前の現在名を使用します。
+- 明示名を付けて作成予約したpending `NodeOperator`は、その予約名をselectorとして使用できます。
+  相対名は名前を要求した時点のcurrent namespaceで解決し、先頭`:`付きの名前はrootから解決します。
+  保留中modifierは実行しません。名前を指定していないpending `NodeOperator`と、予約名を保持しない
+  raw pending `MObject`は保存nodeを特定できないためエラーです。
 - short nameは、保存名の最後のDAG要素へnamespace込みで照合します。旧schema 2のfull pathも、
   clip内で一致が1件ならshort nameで選べます。namespaceは暗黙に取り除きません。
 - short nameが複数nodeへ一致する場合は曖昧としてエラーにし、保存されたfull pathでの指定を求めます。
@@ -206,7 +225,7 @@ clip = bdu.AnimationClip.capture(
 correction = bdu.AnimationClip.capture(
     ["ctrlA", "ctrlB"],
     layer_mode="preserve",
-    layers=["Correction"],
+    layers=[nodes.existing.animLayer("Correction")],
     start_frame=10,
     end_frame=30,
 )
@@ -214,6 +233,8 @@ correction = bdu.AnimationClip.capture(
 
 `layers=None`ならベースと対象属性が所属するlayerを保存します。明示したリストでは指定layerの
 チャンネルだけを保存します。ベースも含める場合は、取得時のrootの名前をリストへ追加します。
+明示layerにはlayer名、liveなanimLayerの`NodeOperator`、liveなanimLayerの`MObject`を混在できます。
+重複layer、別node type、削除済みobject、作成待ちobjectは呼出時に拒否します。
 親layerは階層・設定の復元に必要なため含めますが、指定されていない親のチャンネルは保存しません。
 加算layerだけを保存したデータは差分であり、それだけで元sceneの最終値を再現するものではありません。
 `layers`を合成保存へ指定するとエラーです。

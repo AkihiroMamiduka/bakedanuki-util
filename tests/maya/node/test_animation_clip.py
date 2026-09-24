@@ -404,6 +404,88 @@ def test_subset_layers_capture_ancestors_without_their_channels(maya_cmds):
     assert "Other" not in cmds.ls(type="animLayer")
 
 
+def test_layer_subset_accepts_node_operator_mobject_and_name(maya_cmds):
+    cmds = maya_cmds
+    source = _node(cmds, "source")
+    layer = _layer(cmds, source, "Selected")
+    nodes = bdu.Nodes()
+    layer_node = nodes.existing.animLayer(layer)
+    expected = AnimationClip.capture(
+        [source], attributes=["tx"], layer_mode="preserve", layers=[layer]
+    )
+
+    for selector in (layer_node, layer_node.m_obj):
+        actual = AnimationClip.capture(
+            [source],
+            attributes=["tx"],
+            layer_mode="preserve",
+            layers=[selector],
+        )
+        assert actual == expected
+
+    with pytest.raises(ValueError, match="Duplicate animation layer"):
+        AnimationClip.capture(
+            [source],
+            attributes=["tx"],
+            layer_mode="preserve",
+            layers=[layer, layer_node],
+        )
+
+
+def test_layer_subset_rejects_invalid_and_pending_layers(maya_cmds):
+    cmds = maya_cmds
+    source = _node(cmds, "source")
+    _layer(cmds, source)
+    nodes = bdu.Nodes()
+    transform = nodes.existing.transform(source)
+
+    for selector in (source, transform, transform.m_obj):
+        with pytest.raises(TypeError, match="Expected an animation layer"):
+            AnimationClip.capture(
+                [source],
+                attributes=["tx"],
+                layer_mode="preserve",
+                layers=[selector],
+            )
+    with pytest.raises(ValueError, match="does not exist"):
+        AnimationClip.capture(
+            [source],
+            attributes=["tx"],
+            layer_mode="preserve",
+            layers=["MissingLayer"],
+        )
+    with pytest.raises(TypeError, match="must contain animation layer"):
+        AnimationClip.capture(
+            [source],
+            attributes=["tx"],
+            layer_mode="preserve",
+            layers=[object()],
+        )
+
+    pending_nodes = bdu.Nodes()
+    pending = pending_nodes.create.animLayer(name="Pending")
+    for selector in (pending, pending.m_obj):
+        with pytest.raises(ValueError, match="Pending animation layers"):
+            AnimationClip.capture(
+                [source],
+                attributes=["tx"],
+                layer_mode="preserve",
+                layers=[selector],
+            )
+    assert not cmds.objExists("Pending")
+
+    deleted_name = cmds.animLayer("Deleted")
+    deleted = nodes.existing.animLayer(deleted_name)
+    cmds.delete(deleted_name)
+    with pytest.raises(ValueError, match="no longer available"):
+        AnimationClip.capture(
+            [source],
+            attributes=["tx"],
+            layer_mode="preserve",
+            layers=[deleted],
+        )
+
+
 def test_layer_order_conflict_and_explicit_reordering(maya_cmds):
     cmds = maya_cmds
     source = _node(cmds, "source")

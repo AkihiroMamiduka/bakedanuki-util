@@ -264,6 +264,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 複数node・属性の一括保存・復元は`bdu.AnimationClip`として実装しました。
 合成保存とlayer保持、keyable / channelBox収集、名前空間・対象node順での対応付け、
 追加・全置換・部分置換、schema 2 JSONを扱います。[仕様](animation_clip.md)を参照してください。
+preserveの明示layerは名前に加え、liveなanimLayerの`NodeOperator` / `MObject`でも選択できます。
 静的な属性は既定で除外し、`include_static=True`で含めます。
 上流のアニメーションや、layer再現に必要な静的な生値は保持します。
 `AnimationClip.restore()`の復元時刻指定も実装しました。`offset_frames` / `to_start_frame` /
@@ -335,7 +336,11 @@ infinity交換、schema 2、元clipとの独立性と二重反転を扱います
 続いて`AnimationClip.extract(nodes=...)`を追加しました。captureではscene全体で一意なDAGを
 namespace込みのshort name、同名DAGをfull pathとして保存し、階層変更への耐性と曖昧性の拒否を両立します。
 抽出は旧schema 2のfull pathも一意なshort nameで選べ、指定node順、全channel、必要なlayerと祖先、
-root設定、元clipとの独立性を維持します。属性単位の抽出は保留しています。
+root設定、元clipとの独立性を維持します。保存名に加えてliveな`NodeOperator` / `MObject`を、
+DAGでは現在のfull path完全一致、続いてshort nameの順でselectorにできます。
+明示名付きpending `NodeOperator`は予約名で選択します。
+名前なしpending `NodeOperator`とraw pending `MObject`は拒否し、保留中modifierを実行しません。
+属性単位の抽出は保留しています。
 続いて`node.keyframes.euler_filter()` / `nodes.keyframes.euler_filter([...])`を追加しました。
 既存のrotate 3軸カーブだけを対象に、指定範囲の同期キーをnodeの静的`rotateOrder`でfilterします。
 範囲内先頭キーをanchorとして姿勢を維持し、ベース・明示layer、全対象の事前検証、
@@ -538,7 +543,8 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
    接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
-   AnimationClipの逆再生とnode単位の部分抽出、node / nodes単位のEuler filter・キー削減も実装済み。
+   AnimationClipの逆再生とNodeOperator / MObject / 保存名によるnode単位の部分抽出、
+   node / nodes単位のEuler filter・キー削減も実装済み。
    属性単位の抽出は保留し、次の項目は利用者確認後に決める。
    過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、

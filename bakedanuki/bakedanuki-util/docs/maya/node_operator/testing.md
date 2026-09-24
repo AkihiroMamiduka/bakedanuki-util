@@ -1240,12 +1240,20 @@ capture時の保存node名について、次の契約を検証します。
   short name保存後の親変更、同名DAGのfull pathによるcaptureと既定restoreを含む。
 - 新しいshort保存と従来のfull path入りschema 2を、clip内で一意なshort nameから抽出できること。
   short nameの複数一致、不明名、空・重複指定、裸の文字列、namespace省略を拒否すること。
+- 保存名、liveな`NodeOperator` / `MObject`を混在し、DAGは現在のfull path完全一致、続いて
+  short nameで保存nodeを選べること。capture後の同名DAG追加・削除にも対応すること。
+  objectはclip内identityではなく、呼出時の確定済みnode名をselectorにし、
+  予約中のrenameを実行せず変更前の現在名を使うこと。
+- 明示名付きのpending `NodeOperator`は予約名で選べ、保留中modifierを実行しないこと。
+  相対予約名は名前を要求した時点のcurrent namespace、先頭`:`付き予約名はrootから解決し、
+  後からcurrent namespaceを変更してもselectorが変わらないこと。
+  名前なしpending `NodeOperator`、raw pending `MObject`、削除済み・node以外の`MObject`を拒否すること。
 - `nodes`の指定順、全channel、空node、保存範囲・時間単位・schema等のメタデータを維持すること。
   元scene削除後にも処理でき、元clipと変更可能な`KeyData`を共有しないこと。
 - preserve clipでは使用layerと全祖先、root設定、設定curve、相対順を維持し、
   除外nodeだけが使用するlayerを除外すること。抽出clipの復元とUndoも確認すること。
 - 呼出時に除外対象を含む元clip全体を再検証し、JSON往復、`reversed()`との連続利用、
-  公開戻り値の型・補完contractを維持すること。
+  公開戻り値と`NodeOperator | MObject | str`入力の型・補完contractを維持すること。
 
 2026-09-23の開発中確認では、node抽出専用pytest 7件と、既存の保存・範囲・削減・逆再生・
 時間変換・ファイルAPIを含むAnimationClip関連pytest 780件がMaya 2025で成功しました。
@@ -1257,6 +1265,8 @@ capture時の保存node名について、次の契約を検証します。
   static・compound・sparse array・enum・単位、JSON、範囲とFPS、名前空間とnode順対応、
   全置換・部分置換・merge、接線・lock・breakdown・weighted・infinity、layer階層・順序・
   設定競合・root設定、保留中操作と同一性、合成結果の検査、失敗時の全体rollbackを検証します。
+  `capture(layers=...)`ではlayer名とliveなanimLayer `NodeOperator` / `MObject`の混在、
+  node type・生存状態・pending objectの拒否、入力型contractも確認します。
 - `tests/maya/mpx_cmd/test_animation_clip_command.py`と同階層`fixtures`の専用plug-in:
   時刻移動・時間拡縮の有無それぞれで、`cmds.undo()` / `cmds.redo()`によるlayer作成・キー復元の履歴と、
   command失敗時rollbackを検証します。

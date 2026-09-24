@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import replace
 
 import pytest
+from maya.api import OpenMaya as om
 
 import bd_util as bdu
 from bd_util.maya.node.animation_clip import AnimationClip, NodeAnimationData
@@ -84,6 +85,12 @@ def test_duplicate_dag_names_use_full_paths_and_require_unambiguous_extract(
     extracted = clip.extract(nodes=[right, left])
     assert [node.name for node in extracted.nodes] == [right, left]
 
+    nodes = bdu.Nodes()
+    extracted = clip.extract(
+        nodes=[nodes.existing(right), nodes.existing(left).m_obj]
+    )
+    assert [node.name for node in extracted.nodes] == [right, left]
+
     for path in (left, right):
         cmds.cutKey(path + ".tx", clear=True)
         cmds.setAttr(path + ".tx", 0)
@@ -147,6 +154,8 @@ def test_extract_rejects_invalid_and_duplicate_selections(maya_cmds):
     clip = AnimationClip.capture([a], attributes=["tx"])
     with pytest.raises(TypeError, match="iterable"):
         clip.extract(nodes="a")
+    with pytest.raises(TypeError, match="iterable"):
+        clip.extract(nodes=bdu.Nodes().existing(a))
     with pytest.raises(ValueError, match="must not be empty"):
         clip.extract(nodes=[])
     with pytest.raises(ValueError, match="Unknown clip node"):
@@ -160,6 +169,151 @@ def test_extract_rejects_invalid_and_duplicate_selections(maya_cmds):
     )
     with pytest.raises(ValueError, match="contain no channels"):
         empty.extract(nodes=["empty"])
+
+
+def test_extract_uses_named_pending_operator_without_executing_it(maya_cmds):
+    cmds = maya_cmds
+    source = _node(cmds, "pendingTarget", values=((1, 0), (2, 1), (3, 2)))
+    clip = AnimationClip.capture([source], attributes=["tx"])
+    cmds.file(new=True, force=True)
+
+    manager = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=manager)
+    target = nodes.create.transform(name="pendingTarget")
+
+    extracted = clip.extract(nodes=[target])
+    assert extracted.nodes[0].name == "pendingTarget"
+    assert not cmds.objExists("pendingTarget")
+    assert not manager.can_undo
+
+    extracted.restore(manager, targets=[target])
+    nodes.keyframes.reduce_keys([target], attributes=["tx"], tolerance=0.01)
+    manager.do_it_dag()
+    manager.do_it_dg()
+
+    assert cmds.keyframe("pendingTarget.tx", query=True, timeChange=True) == [
+        1,
+        3,
+    ]
+    manager.undo_it()
+    assert not cmds.objExists("pendingTarget")
+    manager.redo_it()
+    assert cmds.keyframe("pendingTarget.tx", query=True, timeChange=True) == [
+        1,
+        3,
+    ]
+
+
+def test_extract_rejects_pending_selector_without_a_stable_name(maya_cmds):
+    cmds = maya_cmds
+    source = _node(cmds, "source")
+    clip = AnimationClip.capture([source], attributes=["tx"])
+    cmds.file(new=True, force=True)
+
+    nodes = bdu.Nodes()
+    named = nodes.create.transform(name="source")
+    unnamed = nodes.create.transform()
+
+    with pytest.raises(ValueError, match="pending MObject"):
+        clip.extract(nodes=[named.m_obj])
+    with pytest.raises(ValueError, match="explicit name"):
+        clip.extract(nodes=[unnamed])
+    assert not cmds.objExists("source")
+
+
+def test_extract_resolves_pending_name_in_current_namespace(maya_cmds):
+    cmds = maya_cmds
+    cmds.namespace(add="character")
+    source = _node(cmds, "character:ctrl")
+    root_source = _node(cmds, "rootCtrl")
+    clip = AnimationClip.capture([source, root_source], attributes=["tx"])
+    cmds.delete(source, root_source)
+    cmds.namespace(set="character")
+
+    nodes = bdu.Nodes()
+    target = nodes.create.transform(name="ctrl")
+    root_target = nodes.create.transform(name=":rootCtrl")
+
+    assert [
+        node.name for node in clip.extract(nodes=[target, root_target]).nodes
+    ] == ["character:ctrl", "rootCtrl"]
+    assert not cmds.objExists("character:ctrl")
+    assert not cmds.objExists(":rootCtrl")
+    nodes.modifier_manager.do_it_dag()
+    assert target.name == "character:ctrl"
+    assert root_target.name == "rootCtrl"
+
+
+def test_extract_live_operator_uses_current_name_before_queued_rename(
+    maya_cmds,
+):
+    cmds = maya_cmds
+    source = _node(cmds, "source")
+    clip = AnimationClip.capture([source], attributes=["tx"])
+    saved_name = clip.nodes[0].name
+    manager = bdu.ModifierManager()
+    node = bdu.Nodes(modifier_manager=manager).existing(source)
+    node.rename(new_name="renamed")
+
+    assert clip.extract(nodes=[node]).nodes[0].name == saved_name
+    assert cmds.objExists(source)
+    assert not cmds.objExists("renamed")
+
+
+def test_extract_live_dag_prefers_full_path_then_short_name(maya_cmds):
+    cmds = maya_cmds
+    left_group = cmds.createNode("transform", name="left")
+    source = _node(cmds, "ctrl", parent=left_group)
+    clip = AnimationClip.capture([source], attributes=["tx"])
+    node = bdu.Nodes().existing(source)
+    right_group = cmds.createNode("transform", name="right")
+    cmds.createNode("transform", name="ctrl", parent=right_group)
+
+    assert clip.nodes[0].name == "ctrl"
+    assert clip.extract(nodes=[node]).nodes[0].name == "ctrl"
+
+    cmds.file(new=True, force=True)
+    left_group = cmds.createNode("transform", name="left")
+    right_group = cmds.createNode("transform", name="right")
+    left = _node(cmds, "ctrl", parent=left_group)
+    right = _node(cmds, "ctrl", parent=right_group, values=((1, 3),))
+    clip = AnimationClip.capture([left, right], attributes=["tx"])
+    node = bdu.Nodes().existing(left)
+    cmds.delete(right)
+
+    assert [record.name for record in clip.nodes] == [left, right]
+    assert clip.extract(nodes=[node]).nodes[0].name == left
+
+
+def test_extract_rejects_non_node_and_deleted_object_selectors(maya_cmds):
+    cmds = maya_cmds
+    source = _node(cmds, "source")
+    clip = AnimationClip.capture([source], attributes=["tx"])
+    saved_name = clip.nodes[0].name
+    node = bdu.Nodes().existing(source)
+    attribute = om.MFnNumericAttribute().create(
+        "testValue", "tv", om.MFnNumericData.kDouble
+    )
+
+    with pytest.raises(TypeError, match="dependency node"):
+        clip.extract(nodes=[attribute])
+    cmds.delete(source)
+    with pytest.raises(ValueError, match="no longer available"):
+        clip.extract(nodes=[node])
+
+    nodes = bdu.Nodes()
+    created = nodes.create.transform(name=saved_name)
+    nodes.modifier_manager.do_it_dag()
+    cmds.delete(saved_name)
+    with pytest.raises(ValueError, match="no longer available"):
+        clip.extract(nodes=[created])
+
+    undo_nodes = bdu.Nodes()
+    undone = undo_nodes.create.transform(name=saved_name)
+    undo_nodes.modifier_manager.do_it_dag()
+    undo_nodes.modifier_manager.undo_it()
+    with pytest.raises(ValueError, match="no longer available"):
+        clip.extract(nodes=[undone])
 
 
 def test_extract_keeps_required_layer_ancestors_and_prunes_other_layers(

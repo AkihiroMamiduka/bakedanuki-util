@@ -15,6 +15,9 @@ from .operator.attr.keyframe_data import AnimCurveData
 
 if TYPE_CHECKING:
     from maya.api import OpenMaya as om
+    from ._versioned_accessors import (  # pyright: ignore[reportMissingModuleSource]
+        AnimLayerNode,
+    )
     from .modifier import ModifierManager
     from .operator.node._core import NodeOperator
 
@@ -348,7 +351,7 @@ class AnimationClip:
         start_frame: float | None = None,
         end_frame: float | None = None,
         layer_mode: LayerMode = "flatten",
-        layers: Iterable[str] | None = None,
+        layers: Iterable[AnimLayerNode | om.MObject | str] | None = None,
         sample_by: float = 1.0,
     ) -> AnimationClip:
         """即時取得。既定はkeyable属性の最終値を1フレーム間隔で合成保存する。
@@ -357,6 +360,7 @@ class AnimationClip:
         静的な属性は既定で除外し、include_static=Trueで含める。
         キー・時間依存がある属性と、レイヤー再現に必要な静的な生値は保持する。
         layersはpreserve専用で、省略時はベースと対象属性の所属layerを保存する。
+        layer名とliveなAnimLayer NodeOperator / MObjectを指定できる。
         指定layerの親は構造・設定のみ保存する。queryは保留中modifierを実行しない。
         """
         from ._animation_clip_capture import capture
@@ -399,9 +403,15 @@ class AnimationClip:
             preserve_breakdowns=preserve_breakdowns,
         )
 
-    def extract(self, *, nodes: Iterable[str]) -> AnimationClip:
+    def extract(
+        self,
+        *,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+    ) -> AnimationClip:
         """指定した保存nodeだけを持つ独立したclipを即時に返す。
 
+        保存名、liveなNodeOperator / MObject、明示名付きの作成予約中
+        NodeOperatorを指定できる。
         short nameは保存名の最後のDAG要素へ照合し、複数一致は拒否する。
         node順はnodesの指定順。scene・元clip・保留中modifierは変更しない。
         """

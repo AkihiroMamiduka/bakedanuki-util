@@ -260,6 +260,42 @@ def preserved_animation(
     return False
 
 
+def _capture_layer_name(value: object) -> str:
+    """Resolve one live animation layer without executing pending modifiers."""
+    if isinstance(value, str):
+        name = literal_name(value)
+        try:
+            node = node_object(name)
+        except (RuntimeError, ValueError) as exc:
+            raise ValueError(
+                f"Animation layer does not exist: {name!r}."
+            ) from exc
+    elif isinstance(value, NodeOperator):
+        node = value.m_obj
+    elif isinstance(value, om.MObject):
+        node = value
+    else:
+        raise TypeError(
+            "layers must contain animation layer NodeOperators, "
+            "MObjects or node names."
+        )
+
+    handle = om.MObjectHandle(node)
+    if not handle.isAlive():
+        raise ValueError("The animation layer is not available in the scene.")
+    if not node.hasFn(om.MFn.kAnimLayer):
+        raise TypeError("Expected an animation layer in layers.")
+    if not handle.isValid():
+        if om.MFnDependencyNode(node).name():
+            raise ValueError(
+                "The animation layer is no longer available in the scene."
+            )
+        raise ValueError(
+            "Pending animation layers cannot be captured before execution."
+        )
+    return live_node(node).name()
+
+
 def capture(
     nodes: Iterable[NodeOperator | om.MObject | str],
     *,
@@ -269,7 +305,7 @@ def capture(
     start_frame: float | None,
     end_frame: float | None,
     layer_mode: LayerMode,
-    layers: Iterable[str] | None,
+    layers: Iterable[NodeOperator | om.MObject | str] | None,
     sample_by: float,
 ) -> AnimationClip:
     if isinstance(nodes, (str, NodeOperator, om.MObject)):
@@ -284,8 +320,10 @@ def capture(
         raise ValueError(
             "layers is available only with layer_mode='preserve'."
         )
-    if isinstance(attributes, str) or isinstance(layers, str):
-        raise TypeError("attributes and layers must be iterables of names.")
+    if isinstance(attributes, str):
+        raise TypeError("attributes must be an iterable of names.")
+    if isinstance(layers, (str, NodeOperator, om.MObject)):
+        raise TypeError("layers must be an iterable of animation layers.")
     attrs = (
         None
         if attributes is None
@@ -338,9 +376,19 @@ def capture(
     if not collected or not any(plugs for _, plugs in collected):
         raise ValueError("No supported animation attributes were selected.")
     root, tree = layer_tree()
+    selected_layers: set[str] | None = None
+    if layers is not None:
+        selected_layers = set()
+        for value in layers:
+            name = _capture_layer_name(value)
+            if name in selected_layers:
+                raise ValueError(
+                    f"Duplicate animation layer in layers: {name}."
+                )
+            selected_layers.add(name)
     selected: set[str | None] = (
-        {literal_name(layer) for layer in layers}
-        if layers is not None
+        set(selected_layers)
+        if selected_layers is not None
         else {
             name
             for name, _ in tree
