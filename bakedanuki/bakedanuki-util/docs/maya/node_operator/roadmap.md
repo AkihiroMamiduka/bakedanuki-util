@@ -158,10 +158,10 @@
 `node.keyframes` / `nodes.keyframes`単位の既存カーブに対するweighted一括切り替え、
 `AnimationClip.reversed()`による独立した逆再生clipの作成、
 `AnimationClip.extract(nodes=...)`によるnode単位の部分抽出、
-`node.keyframes` / `nodes.keyframes`単位のEuler filterを実装しました。
+`node.keyframes` / `nodes.keyframes`単位のEuler filterとキー削減を実装しました。
 
 属性単位の部分抽出はnode抽出の利用状況を確認してから再検討します。
-次の最優先項目はEuler filterの利用者確認後に決めます。
+次の最優先項目はnode / nodes単位のキー削減の利用者確認後に決めます。
 各項目の公開method名・引数と
 対象なし・離散属性・layer・Undo / Redoの詳細契約は、着手時に現行APIと合わせて確定します。
 
@@ -200,7 +200,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 時間方向への移動 | `move_frame()` / `move_frames()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_frames()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否。属性・layer・明示カーブで同じ操作を使用 |
 | 時間方向への拡縮 | `scale_frames()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
-| キー削減 | `reduce_keys()`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持 |
+| キー削減 | 属性・明示カーブの`reduce_keys()`と、`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持。node / nodesでは全カーブを計画後に一括変更 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
 | plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を等間隔に評価してTA / TL / TUへ全置換。連続・離散属性を分けた接線指定、上流nodeと非対象のcompound子・layerの維持、Undo / Redo・rollbackに対応 |
@@ -340,6 +340,9 @@ root設定、元clipとの独立性を維持します。属性単位の抽出は
 既存のrotate 3軸カーブだけを対象に、指定範囲の同期キーをnodeの静的`rotateOrder`でfilterします。
 範囲内先頭キーをanchorとして姿勢を維持し、ベース・明示layer、全対象の事前検証、
 Undo / Redo・rollbackに対応します。
+続いて`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`を追加しました。
+既存の削減コアと属性・layer選択を共有し、全対象の削減計画を完了してから1つの履歴で変更します。
+同じmanagerへ先に予約したベイク結果も実行時に解決して削減します。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
@@ -347,7 +350,7 @@ layer構造の管理や自動選択を追加する場合は、
 | --- | --- |
 | 移動の拡張 | 時間方向の移動、AnimationClip復元時とKeyframeManagerによる正の時間拡縮、既存キーの生値の設定・加算・拡縮は実装済み。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
 | ベイクの拡張 | plug単位・node単位・複数node単位の独立時刻評価は実装済み。複数nodeでも全対象を変更前に一括samplingし、node間を含む操作全体をrollbackする。simulation・cache・dynamics向けの時系列評価は今後個別に仕様化する |
-| キー削減の拡張・最適化 | 手動接線を維持する実カーブ操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
+| キー削減の拡張・最適化 | 手動接線を維持する属性・明示カーブ・node・複数node操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
 | アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定、正の時間拡縮、独立した逆再生clip、node単位の部分抽出は実装済み。属性単位の部分抽出と、rig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録、AnimationClipによる階層・順序・weight等の保存復元は実装済み。登録解除や階層・順序を個別編集する公開API、auto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
@@ -500,6 +503,12 @@ weightedの制御点時刻が逆転する区間や分割上限で未判定の候
 実カーブにはキー削除だけを適用し、削除後の再検査・Undo / Redo・rollbackに対応します。
 キー数の最小化やMaya標準フィルタとの結果一致を保証するものではありません。
 
+続いて同じ名前を`NodeKeyframeManager` / `NodesKeyframeManager`へ追加しました。
+属性・channelBox・layer・上流カーブの選択は既存のnode一括操作と共通です。
+複数カーブでは先に全削減計画を作成し、成功後に1つの`MAnimCurveChange`へ削除を記録します。
+同じmanagerに先行するベイク・キー作成は実行時に解決し、後半カーブの計画失敗や後続処理の
+失敗では操作全体をrollbackします。
+
 ### キーフレーム時間拡縮の実装
 
 `scale_frames()`を両Manager共通の操作へ追加しました。
@@ -529,7 +538,7 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
    接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
-   AnimationClipの逆再生とnode単位の部分抽出、node / nodes単位のEuler filterも実装済み。
+   AnimationClipの逆再生とnode単位の部分抽出、node / nodes単位のEuler filter・キー削減も実装済み。
    属性単位の抽出は保留し、次の項目は利用者確認後に決める。
    過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、

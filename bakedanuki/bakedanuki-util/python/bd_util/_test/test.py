@@ -293,9 +293,10 @@ def main():
     trsf.sy.connect(dst_12_3.sy)
     trsf.sz.connect(dst_12_3.sz)
 
-    nodes.keyframes.bake(
-        [dst_12_0, dst_12_1, dst_12_2, dst_12_3], attributes=["t", "r", "s"]
-    )
+    targets = [dst_12_0, dst_12_1, dst_12_2, dst_12_3]
+
+    nodes.keyframes.bake(targets, attributes=["t", "r", "s"])
+    nodes.keyframes.reduce_keys(targets, tolerance=0.01)
 
     dst_12_3.tx.keyframe.set_weighted(True)
     dst_12_3.tx.keyframe.set_tangent_locks(
@@ -311,16 +312,22 @@ def main():
         nodes=[dst_12_0, dst_12_1, dst_12_2, dst_12_3]
     )
 
-    cmds.file(newFile=True, force=True)
+    # cmds.file(newFile=True, force=True)
 
-    nodes = bdu.Nodes()
-    dst_12_0 = nodes.create.transform(name="dst_12_0")
-    dst_12_1 = nodes.create.transform(name="dst_12_1")
-    dst_12_2 = nodes.create.transform(name="dst_12_2")
-    dst_12_3 = nodes.create.transform(name="dst_12_3")
+    # nodes = bdu.Nodes()
+    # dst_12_0 = nodes.create.transform(name="dst_12_0")
+    # dst_12_1 = nodes.create.transform(name="dst_12_1")
+    # dst_12_2 = nodes.create.transform(name="dst_12_2")
+    # dst_12_3 = nodes.create.transform(name="dst_12_3")
 
-    partial_clip = clip.extract(nodes=["dst_12_1", "dst_12_3"])
-    partial_clip.restore(nodes.modifier_manager)
+    # restore_nodes = ["dst_12_1", "dst_12_3"]
 
-    nodes.modifier_manager.do_it_dag()
-    nodes.modifier_manager.do_it_dg()
+    # partial_clip = clip.extract(nodes=restore_nodes)
+    # partial_clip.restore(nodes.modifier_manager)
+
+    # nodes.modifier_manager.do_it_dag()
+    # nodes.modifier_manager.do_it_dg()
+
+    # nodes.keyframes.reduce_keys(restore_nodes, tolerance=0.01)
+
+    # nodes.modifier_manager.do_it_dg()

@@ -737,6 +737,27 @@ Trueへ戻しても元のweightは復元されません。`MAnimCurveChange`のU
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\test_node_keyframe_euler.py -q --tb=short
 ```
 
+## node・複数nodeのキー削減の検証
+
+`test_node_keyframe_reduce.py`では、`node.keyframes.reduce_keys()`と
+`nodes.keyframes.reduce_keys([...])`について次の契約を検証します。
+
+- keyable / channelBox・明示属性、TA / TL / TU、両端包含範囲、境界を追加しないこと、
+  カーブなし・対象キー不足のno-op。
+- breakdownの既定保持、plug単位と同じ削減コア、反復Undo / Redo。
+- unitConversionを含む上流探索、rootと明示layerの分離、複数nodeの属性名のunion。
+- 同じbatchで先に予約したnodeベイク結果を実行時に認識して削減すること。
+- lockされた後半カーブと、後半カーブの削減計画失敗で前半カーブを変更しないこと。
+  後続処理の失敗では適用済みの全カーブをrollbackすること。
+- tolerance・範囲・bool option、空／重複node列の検証と、公開引数・`None`戻り値の型補完。
+
+削減アルゴリズム、接線・weighted・infinity、公開単位、step系、誤差上界の詳細は
+`test_keyframe_reduce.py`で引き続き共通検証します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr\test_keyframe_reduce.py tests\maya\node\operator\node\test_node_keyframe_reduce.py -q --tb=short
+```
+
 ## plug入力ベイクの検証
 
 `test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。

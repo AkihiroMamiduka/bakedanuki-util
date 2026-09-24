@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 from bisect import bisect_left, bisect_right
+from collections.abc import Callable
 from dataclasses import dataclass
 
 from maya import cmds
@@ -43,6 +44,18 @@ class _Key:
     tangents_locked: bool
     weights_locked: bool
     breakdown: bool
+
+
+@dataclass(frozen=True, slots=True)
+class _ReductionPlan:
+    curve: oma.MFnAnimCurve
+    original: tuple[_Key, ...]
+    times: tuple[float, ...]
+    removed: tuple[float, ...]
+    start: float
+    end: float
+    tolerance: float
+    scale: float
 
 
 def _key(curve: oma.MFnAnimCurve, i: int) -> _Key:
@@ -296,23 +309,22 @@ def _plan(
             cmds.file(modified=False)
 
 
-def reduce_curve(
+def _plan_curve(
     curve: oma.MFnAnimCurve,
     start: om.MTime | None,
     end: om.MTime | None,
     tolerance: float,
     preserve_breakdowns: bool,
-    change: oma.MAnimCurveChange,
-) -> None:
+) -> _ReductionPlan | None:
     if curve.numKeys < 3:
-        return
+        return None
     original = tuple(_key(curve, i) for i in range(curve.numKeys))
     times = tuple(key.time for key in original)
     low = times[0] if start is None else start.asUnits(om.MTime.kSeconds)
     high = times[-1] if end is None else end.asUnits(om.MTime.kSeconds)
     first, stop = bisect_left(times, low), bisect_right(times, high)
     if stop - first < 3:
-        return
+        return None
     if any(
         not math.isfinite(value)
         for key in original
@@ -344,8 +356,22 @@ def reduce_curve(
         scale,
     )
     if not removed:
-        return
-    for time in removed:
+        return None
+    return _ReductionPlan(
+        curve,
+        original,
+        times,
+        tuple(removed),
+        low,
+        high,
+        tolerance,
+        scale,
+    )
+
+
+def _apply_plan(plan: _ReductionPlan, change: oma.MAnimCurveChange) -> None:
+    curve = plan.curve
+    for time in plan.removed:
         index = curve.find(om.MTime(time, om.MTime.kSeconds))
         if index is None:
             raise RuntimeError(
@@ -353,29 +379,42 @@ def reduce_curve(
             )
         curve.remove(index, change)
     remaining = [_key(curve, i) for i in range(curve.numKeys)]
-    source_by_time = {key.time: key for key in original}
+    source_by_time = {key.time: key for key in plan.original}
     segments = tuple(
-        _segment(a, b, curve.isWeighted, scale)
-        for a, b in zip(original, original[1:])
+        _segment(a, b, curve.isWeighted, plan.scale)
+        for a, b in zip(plan.original, plan.original[1:])
     )
     if (
         not all(_preserved(source_by_time[k.time], k) for k in remaining)
-        or not _linear_infinity_preserved(curve, original)
+        or not _linear_infinity_preserved(curve, plan.original)
         or not _compare(
             curve,
             remaining,
-            original,
-            times,
+            plan.original,
+            plan.times,
             segments,
-            scale,
-            low,
-            high,
-            tolerance,
+            plan.scale,
+            plan.start,
+            plan.end,
+            plan.tolerance,
         )
     ):
         raise RuntimeError(
             "Key reduction could not preserve the requested curve error or key metadata."
         )
+
+
+def reduce_curve(
+    curve: oma.MFnAnimCurve,
+    start: om.MTime | None,
+    end: om.MTime | None,
+    tolerance: float,
+    preserve_breakdowns: bool,
+    change: oma.MAnimCurveChange,
+) -> None:
+    plan = _plan_curve(curve, start, end, tolerance, preserve_breakdowns)
+    if plan is not None:
+        _apply_plan(plan, change)
 
 
 def validate_options(tolerance: object, preserve_breakdowns: bool) -> float:
@@ -389,14 +428,12 @@ def validate_options(tolerance: object, preserve_breakdowns: bool) -> float:
     return tolerance
 
 
-def queue_reduce(
-    manager: ModifierManager,
-    target: _keyframe_target.Target,
+def _capture_options(
     start_frame: float | None,
     end_frame: float | None,
     tolerance: object,
     preserve_breakdowns: bool,
-) -> None:
+) -> tuple[om.MTime | None, om.MTime | None, float]:
     tolerance = validate_options(tolerance, preserve_breakdowns)
     unit = om.MTime.uiUnit()
 
@@ -424,6 +461,20 @@ def queue_reduce(
         raise ValueError(
             "start_frame must be less than or equal to end_frame."
         )
+    return start, end, tolerance
+
+
+def queue_reduce(
+    manager: ModifierManager,
+    target: _keyframe_target.Target,
+    start_frame: float | None,
+    end_frame: float | None,
+    tolerance: object,
+    preserve_breakdowns: bool,
+) -> None:
+    start, end, tolerance = _capture_options(
+        start_frame, end_frame, tolerance, preserve_breakdowns
+    )
 
     def edit(change: oma.MAnimCurveChange) -> None:
         curve = _keyframe_snapshot.resolve_curve(target, write=True)
@@ -433,3 +484,48 @@ def queue_reduce(
             )
 
     manager.queue_anim_curve_change(edit)
+
+
+def queue_reduce_batch(
+    manager: ModifierManager,
+    resolve_targets: Callable[[], tuple[_keyframe_target.Target, ...]],
+    start_frame: float | None,
+    end_frame: float | None,
+    tolerance: object,
+    preserve_breakdowns: bool,
+) -> None:
+    """Queue one atomic reduction after every target has been planned."""
+    start, end, tolerance = _capture_options(
+        start_frame, end_frame, tolerance, preserve_breakdowns
+    )
+
+    def prepare(work: ModifierManager) -> None:
+        curves: list[oma.MFnAnimCurve] = []
+        handles: set[om.MObjectHandle] = set()
+        for target in resolve_targets():
+            curve = _keyframe_snapshot.resolve_curve(target, write=True)
+            if curve is None:
+                continue
+            handle = om.MObjectHandle(curve.object())
+            if handle not in handles:
+                handles.add(handle)
+                curves.append(curve)
+
+        plans = tuple(
+            plan
+            for curve in curves
+            if (
+                plan := _plan_curve(
+                    curve, start, end, tolerance, preserve_breakdowns
+                )
+            )
+            is not None
+        )
+
+        def edit(change: oma.MAnimCurveChange) -> None:
+            for plan in plans:
+                _apply_plan(plan, change)
+
+        work.queue_anim_curve_change(edit)
+
+    manager.queue_dg_batch(prepare)

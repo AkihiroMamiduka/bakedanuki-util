@@ -45,6 +45,8 @@
 - Keyframe operations
   - `node.tx.keyframe.bake()`で1属性、`node.keyframes.bake()`で1nodeの属性群、
     `nodes.keyframes.bake([...])`で複数nodeの評価済み入力を時間入力カーブへ置換できます。
+    ベイク後は`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`で
+    既存カーブをまとめて削減できます。
     別layerは`.anim_layer()`で明示します。
   - `bdu.AnimationClip`は複数node・属性の保存、編集、JSON入出力、復元を扱います。
 - JSON file utilities

@@ -849,6 +849,56 @@ bool・enum・整数系の離散属性は`discrete_tangent_type`を明示した�
 layer未指定はroot、別layerには`.anim_layer()`を使用し、全属性・全nodeを1単位で
 Undo / Redo・rollbackします。
 
+#### node・複数nodeのキーをまとめて削減する
+
+`node.keyframes.reduce_keys()`と`nodes.keyframes.reduce_keys([...])`は、選択した属性にある
+既存カーブのキーを、元カーブとの値の誤差内でまとめて削減します。plug・明示カーブ単位の
+`reduce_keys()`と同じ削減規則を使用し、戻り値は`None`です。
+
+```python
+ctrl_a.keyframes.reduce_keys(
+    1,
+    120,
+    attributes=["translate", "rotate"],
+    tolerance=0.05,
+)
+
+nodes.keyframes.reduce_keys(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    tolerance=0.05,
+    preserve_breakdowns=True,
+)
+mod.do_it_dg()
+```
+
+`start_frame` / `end_frame`は両端包含で、片側の`None`は無制限、両方省略は全キーです。
+境界キーやカーブを作成せず、範囲内の最初と最後の実在キーを残します。対象カーブなし、
+対象キーが3個未満、誤差内で削除できるキーがない場合はno-opです。
+`preserve_breakdowns=True`ではbreakdownを残し、step系の値が切り替わるキーは指定にかかわらず
+維持します。
+
+`tolerance`は必須の非負・有限値です。TAはdegree、TLはcm、TUはunitlessとして、選択した
+全カーブへ同じ数値を適用します。属性の種類ごとに異なる精度が必要な場合は、`attributes`を
+分けて複数回予約します。残すキーの時刻・値・fixed接線、tangent / weight lock、breakdown、
+カーブのweighted・infinityを維持します。auto等の接線は隣接キーの削除により再計算されますが、
+元カーブとの誤差判定に含めます。
+
+属性の自動収集、`include_channel_box`、明示compound / array、複数nodeの属性名のunion、
+上流探索、root / 明示layerの選択はnode単位の接線操作と同じです。明示した属性が存在しても
+既存カーブがなければ何もしません。全カーブの解決・書込み検査と削減計画を完了してから、
+1つの`MAnimCurveChange`で削除します。Undo / Redoと途中失敗時のrollbackは全対象を1単位で
+扱います。
+
+同じmanagerへ先に予約したベイク結果も、実行順に解決して削減できます。
+
+```python
+nodes.keyframes.bake(ctrls, 1, 120)
+nodes.keyframes.reduce_keys(ctrls, 1, 120, tolerance=0.05)
+mod.do_it_dg()
+```
+
 #### 回転カーブへEuler filterを適用する
 
 `node.keyframes.euler_filter(start_frame=None, end_frame=None)`は、Transform / Jointの
@@ -931,7 +981,7 @@ bool・enum・整数系は通常の接線引数から分離し、既定でin / o
 Break Tangentsされた状態が必要な場合は、同じmanagerへ続けて
 `set_tangent_locks(tangents_locked=False)`を予約できます。`.bake()`にはlock用の引数を追加しません。
 静的な入力もキーを作成し、自動削減は行いません。
-必要ならベイク後に`reduce_keys()`を明示的に予約してください。
+必要ならベイク後にplug、node、複数nodeいずれかの`reduce_keys()`を明示的に予約してください。
 
 各時刻は`MDGContext`で独立評価します。前の時刻から状態を進めるsimulation、cache、
 履歴依存のdynamicsを再現するベイクではありません。時間値属性とTTカーブも初期版の対象外です。
@@ -990,7 +1040,8 @@ mod.do_it_dg()
 入力接続を変更しません。複数の対象leafが同じ親compound接続を共有する場合は親を1回だけ
 切断し、対象外の兄弟だけを接続し直します。対象が0件、いずれかの対象・接続・layerが
 編集できない場合、または適用後の値検査に失敗した場合は、一部の属性だけを残さず操作全体を
-rollbackします。自動キー削減は行わないため、必要なら各カーブへ`reduce_keys()`を明示します。
+rollbackします。自動キー削減は行わないため、必要なら同じnodeの
+`keyframes.reduce_keys()`を続けて予約します。
 
 #### 複数nodeをまとめてベイクする
 

@@ -95,7 +95,8 @@
     明示した境界以外を自動サンプリングしません。
 - `python/bd_util/maya/node/operator/attr/_keyframe_reduce.py` / `_keyframe_error.py`
   - `reduce_keys()`の削減計画とBezier区間の誤差判定です。残すキーの手動接線を維持し、
-    元カーブとの誤差内に収まる候補だけを削除します。
+    元カーブとの誤差内に収まる候補だけを削除します。node・複数node操作では全カーブの
+    削減計画を完了してから一括変更します。
 - `python/bd_util/maya/node/operator/attr/extra/add_attr.py`
   - extra attribute 作成用の `AddAttr` API です。
 - `python/bd_util/maya/node/operator/attr/lookup.py`

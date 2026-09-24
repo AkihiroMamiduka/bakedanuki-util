@@ -4150,8 +4150,23 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         ),
         None,
     )
+    assert_type(
+        compose.keyframes.reduce_keys(
+            -10.5,
+            24.25,
+            attributes=["inputTranslate", "inputRotateOrder"],
+            include_channel_box=True,
+            tolerance=0.01,
+            preserve_breakdowns=False,
+        ),
+        None,
+    )
     compose.keyframes.set_weighted(
         1,  # pyright: ignore[reportArgumentType]
+    )
+    compose.keyframes.reduce_keys()  # pyright: ignore[reportCallIssue]
+    compose.keyframes.reduce_keys(
+        tolerance="0.01"  # pyright: ignore[reportArgumentType]
     )
     compose.keyframes.set_tangent_locks(
         tangents_locked=1,  # pyright: ignore[reportArgumentType]
@@ -5264,6 +5279,17 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(node.keyframes.euler_filter(), None)
     assert_type(node.keyframes.euler_filter(-10.5, 24.25), None)
     assert_type(
+        node.keyframes.reduce_keys(
+            -10.5,
+            24.25,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            tolerance=0.01,
+            preserve_breakdowns=False,
+        ),
+        None,
+    )
+    assert_type(
         node.keyframes.anim_layer(layer).euler_filter(1, 24),
         None,
     )
@@ -5322,6 +5348,18 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         ),
         None,
     )
+    assert_type(
+        nodes.keyframes.reduce_keys(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            tolerance=0.01,
+            preserve_breakdowns=False,
+        ),
+        None,
+    )
     assert_type(nodes.keyframes.anim_layer(layer), NodesKeyframeManager)
     assert_type(
         nodes.keyframes.anim_layer(layer).bake(
@@ -5344,6 +5382,12 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.keyframes.anim_layer(layer).set_weighted(
             [node, "other"], False, attributes=["translate"]
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).reduce_keys(
+            [node, "other"], 1, 24, tolerance=0.01
         ),
         None,
     )

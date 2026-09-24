@@ -12,6 +12,7 @@ from ...modifier import ModifierManager
 from ..attr import (
     _keyframe_bake,
     _keyframe_euler,
+    _keyframe_reduce,
     _keyframe_snapshot,
     _keyframe_tangent,
     _keyframe_target,
@@ -528,6 +529,59 @@ class NodeKeyframeManager:
             weight_lock,
         )
 
+    def reduce_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        tolerance: float,
+        preserve_breakdowns: bool = True,
+    ) -> None:
+        """Reduce keys across existing node curves as one atomic edit."""
+        if isinstance(attributes, str):
+            raise TypeError("attributes must be an iterable of names or None.")
+        attrs = (
+            None
+            if attributes is None
+            else tuple(_literal_attribute(value) for value in attributes)
+        )
+        if type(include_channel_box) is not bool:
+            raise TypeError("include_channel_box must be a bool.")
+        node_handle = self._node_handle
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> tuple[_keyframe_target.Target, ...]:
+            if not node_handle.isAlive() or not node_handle.isValid():
+                raise RuntimeError("The key reduction node is not available.")
+            node = node_handle.object()
+            layer, layer_name, root_name = _resolve_layer(layer_handle)
+            found, _ = _collect_targets(
+                node,
+                attrs,
+                include_channel_box,
+                layer,
+                layer_name,
+                root_name,
+                allow_missing=False,
+            )
+            return tuple(
+                target
+                for target, _ in _existing_curve_targets(
+                    found, automatic=attrs is None
+                )
+            )
+
+        _keyframe_reduce.queue_reduce_batch(
+            self._modifier_manager,
+            resolve_targets,
+            start_frame,
+            end_frame,
+            tolerance,
+            preserve_breakdowns,
+        )
+
     def euler_filter(
         self,
         start_frame: float | None = None,
@@ -992,6 +1046,101 @@ class NodesKeyframeManager:
             end,
             tangent_lock,
             weight_lock,
+        )
+
+    def reduce_keys(
+        self,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        tolerance: float,
+        preserve_breakdowns: bool = True,
+    ) -> None:
+        """Reduce existing curves across nodes as one atomic edit."""
+        from ._core import NodeOperator
+
+        if isinstance(nodes, (str, NodeOperator, om.MObject)):
+            raise TypeError("nodes must be an iterable of nodes.")
+        try:
+            values = tuple(nodes)
+        except TypeError as exc:
+            raise TypeError("nodes must be an iterable of nodes.") from exc
+        if not values:
+            raise ValueError("nodes must contain at least one node.")
+        node_handles: list[om.MObjectHandle] = []
+        unique_handles: set[om.MObjectHandle] = set()
+        for value in values:
+            handle = om.MObjectHandle(node_object(value))
+            if handle in unique_handles:
+                raise ValueError("Duplicate key reduction node.")
+            unique_handles.add(handle)
+            node_handles.append(handle)
+
+        if isinstance(attributes, str):
+            raise TypeError("attributes must be an iterable of names or None.")
+        attrs = (
+            None
+            if attributes is None
+            else tuple(
+                dict.fromkeys(
+                    _literal_attribute(value) for value in attributes
+                )
+            )
+        )
+        if type(include_channel_box) is not bool:
+            raise TypeError("include_channel_box must be a bool.")
+        handles = tuple(node_handles)
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> tuple[_keyframe_target.Target, ...]:
+            layer, layer_name, root_name = _resolve_layer(layer_handle)
+            found: list[tuple[_keyframe_target.Target, om.MPlug]] = []
+            matched: set[str] = set()
+            for handle in handles:
+                if not handle.isAlive() or not handle.isValid():
+                    raise RuntimeError(
+                        "A key reduction node is not available in the scene."
+                    )
+                targets, names = _collect_targets(
+                    handle.object(),
+                    attrs,
+                    include_channel_box,
+                    layer,
+                    layer_name,
+                    root_name,
+                    allow_missing=True,
+                )
+                found.extend(targets)
+                matched.update(names)
+            if attrs is not None:
+                missing = tuple(
+                    attribute
+                    for attribute in attrs
+                    if attribute not in matched
+                )
+                if missing:
+                    joined = ", ".join(repr(value) for value in missing)
+                    raise ValueError(
+                        "Animation attributes do not exist on any selected "
+                        f"node: {joined}."
+                    )
+            return tuple(
+                target
+                for target, _ in _existing_curve_targets(
+                    tuple(found), automatic=attrs is None
+                )
+            )
+
+        _keyframe_reduce.queue_reduce_batch(
+            self._modifier_manager,
+            resolve_targets,
+            start_frame,
+            end_frame,
+            tolerance,
+            preserve_breakdowns,
         )
 
     def euler_filter(
