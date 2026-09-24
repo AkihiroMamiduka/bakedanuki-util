@@ -781,6 +781,24 @@ lock / reference、空カーブの回帰は既存テストと合わせて確認�
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\test_node_keyframe_delete.py -q --tb=short
 ```
 
+2026-09-24、追加時の自動検証と利用者確認は次のとおりです。
+この記録は新しい変更の検証を代替しません。
+
+| 確認内容 | 結果 |
+| --- | --- |
+| node / nodesキー削除の専用pytest | 13件成功 |
+| キー削除関連の回帰pytest | 874件成功 |
+| `scripts/verify.cmd` | 成功 |
+| Black | 4,488ファイル確認、変更不要 |
+| Maya 2025 / 2026 / 2027 Pyright contract | 各versionともerror・warningなし |
+| Maya 2025 full pytest | 7,010件成功、632件skip |
+| Maya 2025 / 2026 / 2027 Qt / UI互換性テスト | 各version 726件成功 |
+| Maya 2025 / 2026 / 2027 Maya UIテスト | 各version 244件成功 |
+| `git diff --check` | 成功 |
+| 利用者確認 | Maya上の動作確認と`c529be15`へのpush完了 |
+
+通常の`verify.cmd`の範囲どおり、Maya 2026 / 2027のfull pytestは実行していません。
+
 ## plug入力ベイクの検証
 
 `test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。

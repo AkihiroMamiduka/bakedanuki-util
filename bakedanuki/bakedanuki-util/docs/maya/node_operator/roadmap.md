@@ -162,7 +162,7 @@
 
 属性単位の部分抽出はnode抽出の利用状況を確認してから再検討します。
 次はnode / nodes単位の`move_frames()`、`scale_frames()`、保存データ用の
-`AnimationClip.retimed()`の順で進めます。各項目の公開method名・引数と
+`AnimationClip.retimed()`の順で進めます。各項目の公開引数・戻り値と、
 対象なし・離散属性・layer・Undo / Redoの詳細契約は、着手時に現行APIと合わせて確定します。
 
 2026-09-12時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
@@ -197,8 +197,8 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 用途 | API / 状態 |
 | --- | --- |
 | 作成・挿入・接線変更・削除 | 属性・明示カーブの`set_key()` / `insert_key()` / `set_tangent()` / `set_tangents()` / `set_tangent_lock()` / `set_tangent_locks()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。`tangent_type`によるin / out共通指定、個別側の上書き、単一・両端包含範囲・全キーの接線typeとキー単位のtangent / weight lock変更、Undo / Redo・rollbackに対応 |
-| 時間方向への移動 | `move_frame()` / `move_frames()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_frames()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否。属性・layer・明示カーブで同じ操作を使用 |
-| 時間方向への拡縮 | `scale_frames()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
+| 時間方向への移動 | plug・anim_layer plug・明示カーブの`move_frame()` / `move_frames()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_frames()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否 |
+| 時間方向への拡縮 | plug・anim_layer plug・明示カーブの`scale_frames()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
 | キー削減 | 属性・明示カーブの`reduce_keys()`と、`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持。node / nodesでは全カーブを計画後に一括変更 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
@@ -352,12 +352,13 @@ Undo / Redo・rollbackに対応します。
 続いて`node.keyframes.delete_keys()` / `nodes.keyframes.delete_keys([...])`を追加しました。
 既存カーブの実在キーだけを対象にし、属性・layer選択と上流探索をnode一括操作で共有します。
 全対象の解決・書込み検査と削除indexの計画後に変更し、先行するベイクや復元にも追従します。
+2026-09-24、利用者によるMaya上での動作確認とpushまで完了しました（`c529be15`）。
 layer構造の管理や自動選択を追加する場合は、
 ベースを既定とし、別layerを明示する現在の契約と分けて仕様を決めます。
 
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
-| 移動の拡張 | 時間方向の移動、AnimationClip復元時とKeyframeManagerによる正の時間拡縮、既存キーの生値の設定・加算・拡縮は実装済み。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
+| 移動の拡張 | plug・anim_layer plug・明示カーブの`move_frames()` / `scale_frames()`と、AnimationClip復元時の正の時間拡縮は実装済み。node / nodes一括入口は次の対象。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
 | ベイクの拡張 | plug単位・node単位・複数node単位の独立時刻評価は実装済み。複数nodeでも全対象を変更前に一括samplingし、node間を含む操作全体をrollbackする。simulation・cache・dynamics向けの時系列評価は今後個別に仕様化する |
 | キー削減の拡張・最適化 | 手動接線を維持する属性・明示カーブ・node・複数node操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
 | アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定、正の時間拡縮、独立した逆再生clip、node単位の部分抽出は実装済み。属性単位の部分抽出と、rig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
@@ -536,16 +537,45 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 初回とRedoの両方でメタデータを維持します。TTの表現限界は検査し、再現できなければrollbackします。
 仕様は[時間拡縮](attributes.md#キーを時間方向へ拡縮する)、検証は[時間拡縮テスト](testing.md#キーフレーム時間拡縮の検証)を参照してください。
 
+### 次の実装: node / nodes単位の`move_frames()`
+
+次は既存のplug・anim_layer plug・明示カーブ用`move_frames()`を、
+`node.keyframes` / `nodes.keyframes`の属性選択へ展開します。既存の移動コアを作り直さず、
+node一括接線・weighted・削減・削除と同じ対象選択と履歴契約へ揃えます。
+
+- `attributes` / `include_channel_box`、複数nodeの属性名のunion、NodeOperator / MObject / node名、
+  root / 明示layer、上流探索は既存のnode一括操作と同じにする。
+- TA / TL / TUの既存カーブだけを対象にする。カーブ自体は作成せず、`insert_missing=True`では
+  既存カーブ上に明示した境界キーだけを補う。
+- 範囲、`offset` / `to_start` / `to_end`、補間、境界補完、接線・breakdown等の保持は
+  現行plug版と同じ契約を起点にする。戻り値は`None`とする。
+- UI時間単位は予約時に捕捉し、対象カーブは実行時に解決する。同じmanagerへ先に予約した
+  ベイクやAnimationClip復元で作成されたカーブも対象にできるようにする。
+- 全対象の解決・書込み検査・共有カーブの重複排除・移動計画を終えてから、
+  1つの`MAnimCurveChange`で適用する。後半の計画失敗でも前半を変更せず、
+  Undo / Redoと後続失敗時のrollbackを全対象で1単位にする。
+
+着手時に確定する主な仕様は、範囲の片側を省略した絶対移動の基準です。
+現行plug版では`start_frame=None`の`to_start`は各カーブの最初の対象キー、
+`end_frame=None`の`to_end`は各カーブの最後の対象キーを基準にします。
+node / nodes版で同じ規則をカーブごとに適用するとチャンネル間の時刻差が変わるため、
+全対象の最早・最遅キーを共通基準にして同じoffsetを適用する案と比較し、初期仕様を決めます。
+明示した境界と`offset`は全カーブへ同じ移動量を適用できるため、この曖昧さはありません。
+
+回帰テストはplug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を基礎にし、
+node入力・属性union・一括計画は`test_node_keyframe_delete.py`と`test_node_keyframe_reduce.py`、
+履歴はMPxCommand、型補完は`tests/typecheck/node_operator_contract.py`の契約を参照します。
+
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   範囲内キーの接線・lock変更、node / nodes一括接線変更、ベイク時の接線指定と
-   Break Tangents修正まで利用者確認・push済み（`be068260`）。
+   KeyframeManager周辺はnode / nodesの既存キー一括削除まで利用者確認・push済み（`c529be15`）。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
 2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
-   移動・キー削減・AnimationClip・時間拡縮・値編集を未実装として再開発しない。
+   plug・anim_layer plug・明示カーブの移動・時間拡縮、キー削減・AnimationClip・値編集を
+   未実装として再開発しない。次は既存の移動コアをnode / nodesへ展開する。
    接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
    AnimationClipの逆再生とNodeOperator / MObject / 保存名によるnode単位の部分抽出、
    node / nodes単位のEuler filter・キー削減・既存キーの一括削除も実装済み。
@@ -570,7 +600,16 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 - `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作、anim_layerの入口とキー設定の経路選択。
 - 同階層の`_keyframe_move.py`: 移動引数の検証・捕捉、実行時の対象範囲と移動先の計画、
   境界挿入、setInputと削除・再挿入の経路。拡縮・値編集とも復元helperを共有する。
-  `test_keyframe_move.py` / `test_keyframe_move_interpolation.py`が専用の回帰テスト。
+  現状は1カーブの計画と適用を同じcallbackで行うため、node / nodes版ではplan / applyを分け、
+  全カーブの計画後に適用するbatch経路を追加する。`test_keyframe_move.py` /
+  `test_keyframe_move_interpolation.py`が専用の回帰テスト。
+- `python/bd_util/maya/node/operator/node/_keyframes.py`: `_collect_targets()`、
+  `_existing_curve_targets()`、`_resolve_layer()`による属性・layer・既存カーブの実行時解決。
+  NodeOperator / MObject / node名、複数nodeの属性union、lock / reference検査を共有する。
+- `python/bd_util/maya/node/operator/attr/_keyframe_delete.py`: 全カーブの書込み検査と削除indexを
+  先に計画し、重複カーブを除外して1つの`MAnimCurveChange`で適用するbatch設計の直近例。
+  `test_node_keyframe_delete.py`はnode入力、layer・上流探索、先行ベイク・復元、
+  計画失敗・rollbackの回帰テスト。
 - 同階層の`_keyframe_influence.py`: 移動・時間拡縮・値編集で共有する補間境界の検証・影響度計算。
 - 同階層の`_keyframe_scale.py`: 時間拡縮の配置計画と部分置き換え、接線の変換・再挿入。
   `test_keyframe_scale.py` / `test_keyframe_scale_interpolation.py` / `test_keyframe_scale_pivot.py`と

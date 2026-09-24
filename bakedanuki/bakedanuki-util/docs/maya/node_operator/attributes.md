@@ -853,6 +853,28 @@ Undo / Redo・rollbackします。
 
 `node.keyframes.delete_keys()`と`nodes.keyframes.delete_keys([...])`は、選択した属性にある
 既存カーブから、指定範囲に実在するキーだけをまとめて削除します。戻り値は`None`です。
+公開シグネチャは次のとおりです（`self`は省略）。
+
+```python
+# node.keyframes
+def delete_keys(
+    start_frame: float | None = None,
+    end_frame: float | None = None,
+    *,
+    attributes: Iterable[str] | None = None,
+    include_channel_box: bool = False,
+) -> None: ...
+
+# nodes.keyframes
+def delete_keys(
+    nodes: Iterable[NodeOperator | om.MObject | str],
+    start_frame: float | None = None,
+    end_frame: float | None = None,
+    *,
+    attributes: Iterable[str] | None = None,
+    include_channel_box: bool = False,
+) -> None: ...
+```
 
 ```python
 ctrl_a.keyframes.delete_keys(
@@ -877,7 +899,8 @@ mod.do_it_dg()
 
 属性の自動収集、`include_channel_box`、明示compound / array、複数nodeの属性名のunion、
 上流探索、root / 明示layerの選択はnode単位の接線操作と共通です。NodeOperator、MObject、
-node名を混在できます。明示した属性が存在しても既存カーブがなければ何もしません。
+node名を混在できます。nodes版は1件以上を要求し、同じnodeの重複を拒否します。
+明示した属性が存在しても既存カーブがなければ何もしません。
 全カーブの解決・書込み検査と削除indexの計画を完了してから、1つの`MAnimCurveChange`で
 削除します。Undo / Redoと途中失敗時のrollbackは全対象を1単位で扱います。
 
