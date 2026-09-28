@@ -54,6 +54,11 @@ clip.reduce_keys(
     preserve_breakdowns=True,
 ) -> AnimationClip
 
+clip.trimmed(
+    start_frame=None,
+    end_frame=None,
+) -> AnimationClip
+
 clip.reversed() -> AnimationClip
 
 clip.retimed(
@@ -315,6 +320,35 @@ mod.do_it_dg()
 戻り値は従来どおり`None`です。予約時の独立コピー、保留中modifierの非実行、Undo / Redo・rollbackを維持します。
 JSONはschema 2のままで、元clipの保存範囲・`sample_by`・データは変更しません。
 
+## 保存clipの範囲切り出し
+
+`trimmed()`は`restore(start_frame=..., end_frame=...)`と同じ切り出し規則を使い、
+部分区間を保存した独立の`AnimationClip`を即時に返します。繰り返し復元、JSON保存、
+`retimed()`や`reversed()`との連続利用に使えます。
+
+```python
+partial_clip = clip.trimmed(10, 30)
+partial_clip.save("walk_partial.json")
+partial_clip.restore(mod, mode="replace_range")
+mod.do_it_dg()
+```
+
+- `start_frame` / `end_frame`は保存clipのフレーム単位で両端を含みます。
+  片側の`None`は保存範囲の端です。負時刻、subframe、同じ1時刻も指定できます。
+  保存範囲外・逆転・不正な数値・Maya時刻の精度で潰れる範囲は拒否します。
+- 明示した範囲では保存カーブを評価して境界キーを補い、区間形状を保つため
+  連続接線をfixed化します。step / stepnext、実在キーのbreakdown、weighted、
+  infinityも上記の復元用切り出し規則に従います。周期infinityのキー範囲外補完は
+  エラーです。元sceneの再評価や`sample_by`による再サンプリングは行いません。
+- 全node・全属性とlayer / rootの設定カーブを同じ区間で切り出し、空node・空カーブ、
+  layer構造と順序を維持します。`clipped=True`にし、`seconds_per_frame`、取得時の
+  `sample_by`、schema 2を維持します。保存範囲全体を明示した場合も切り出し規則を適用します。
+- 両端を省略した`trimmed()`は追加の境界処理をせず、元の`clipped`を保つ独立コピーを
+  返します。変更可能な`KeyData`は元clipと共有しません。
+
+元clip、scene、保留中modifier、Undo履歴は変更しません。切り出したclipの`restore()`は
+通常どおり予約され、Undo / Redoと後続処理失敗時のrollbackに参加します。
+
 ## 復元時刻の指定
 
 `restore()`に`offset_frames` / `to_start_frame` / `to_end_frame`を指定すると、
@@ -451,8 +485,8 @@ mod.do_it_dg()
   独立コピーを返します。Mayaの時刻精度で保存範囲や同一カーブ内のキーが重なる指定は拒否します。
 
 元clip、scene、保留中modifier、Undo履歴は変更しません。変換後のclipを復元した場合は、
-通常の`restore()`としてUndo / Redo・失敗時rollbackに参加します。初期版には部分区間指定、
-境界補完、`pivot`を含めません。
+通常の`restore()`としてUndo / Redo・失敗時rollbackに参加します。部分区間は先に
+`trimmed()`で切り出せます。`retimed()`自体には範囲指定と`pivot`を含めません。
 
 ## 逆再生clipの作成
 

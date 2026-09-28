@@ -164,6 +164,8 @@
 node / nodes単位の`move_frames()`と`scale_frames()`も実装しました。
 保存データ用の`AnimationClip.retimed()`も実装しました。保存範囲を共通基準に
 全カーブとlayer / root設定カーブを正倍率・配置指定で変換し、独立したclipを返します。
+保存データの部分区間を独立したclipにする`AnimationClip.trimmed()`も実装しました。
+`restore()`の範囲切り出し処理を共有し、境界補完・layer設定・JSON往復に対応します。
 
 2026-09-12時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
 詳細データの保存・復元、指定範囲の境界補完まで実装し、利用者による動作確認も完了しています。
@@ -596,6 +598,16 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
 仕様は[保存clipの時間変換](animation_clip.md#保存clipの時間変換)、検証範囲は
 [AnimationClipの時間変換](testing.md#保存clipの時間変換の検証)を参照してください。
 
+### 完了: `AnimationClip.trimmed()`
+
+`trimmed(start_frame=None, end_frame=None)`は保存フレーム単位の区間を切り出し、
+独立したclipを即時に返します。既存の`restore()`用切り出しコアを共有し、
+全channelとlayer / root設定カーブに同じ境界補完・接線処理を適用します。
+両端省略でも変更可能なキーを共有しないコピーを返し、片側省略、1時刻、
+負時刻・subframe、空カーブに対応します。元clipとsceneは変更しません。
+仕様は[保存clipの範囲切り出し](animation_clip.md#保存clipの範囲切り出し)、
+検証範囲は[保存clipの範囲切り出しの検証](testing.md#保存clipの範囲切り出しの検証)を参照してください。
+
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
@@ -606,7 +618,8 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    plug・anim_layer plug・明示カーブの移動・時間拡縮、キー削減・AnimationClip・値編集を
    未実装として再開発しない。node / nodesの移動・時間拡縮も実装済みで、
-   `AnimationClip.retimed()`も実装済み。次の機能は現行roadmapと利用者の希望を確認する。
+   `AnimationClip.retimed()`と`AnimationClip.trimmed()`も実装済み。
+   次の機能は現行roadmapと利用者の希望を確認する。
    接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
    AnimationClipの逆再生とNodeOperator / MObject / 保存名によるnode単位の部分抽出、
    node / nodes単位のEuler filter・キー削減・既存キーの一括削除も実装済み。
@@ -623,8 +636,9 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
   回帰テストは`test_node_keyframe_euler.py`。
 - `python/bd_util/maya/node/_animation_clip_range.py`: 復元用コピーの使用区間を保存時間単位で検証し、
   全属性とlayer / root設定を切り出す。`_keyframe_snapshot.clip_curve_data()`で未登録カーブを評価し、
-  既存の境界補完処理を共有する。`_animation_clip_restore.py`で時間変換の前に適用する。
-  `test_animation_clip_range.py`とMPxCommandの範囲指定が回帰テスト。
+  既存の境界補完処理を共有する。`_animation_clip_restore.py`で時間変換の前に適用し、
+  公開`AnimationClip.trimmed()`からも呼び出す。`test_animation_clip_range.py`、
+  `test_animation_clip_trim.py`、MPxCommandの範囲指定が回帰テスト。
 - `python/bd_util/maya/node/_animation_clip_reduce.py`: 保存時間単位による範囲と全チャンネルの処理。
   `_keyframe_snapshot.reduce_curve_data()`で未登録カーブへ復元し、`_keyframe_reduce.reduce_curve()`を共有する。
   削減後の接線情報を再取得して元のframe・valueと時間単位を維持する。`test_animation_clip_reduce.py`が回帰テスト。

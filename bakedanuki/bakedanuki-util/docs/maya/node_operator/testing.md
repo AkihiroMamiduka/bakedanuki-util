@@ -1345,6 +1345,22 @@ scene初期化は各テストで維持する構成に整理しました。その
 - 変換後の`restore()`とUndo / Redo・後続処理失敗時のrollback。
   `tests/typecheck/node_operator_contract.py`では戻り値と連続呼出しの補完を検証します。
 
+### 保存clipの範囲切り出しの検証
+
+`tests/maya/node/test_animation_clip_trim.py`は、`AnimationClip.trimmed()`の次の契約を検証します。
+
+- flatten / preserveで両端・片側・全範囲・1時刻を指定した保存範囲、境界キー、
+  `clipped`、`seconds_per_frame`、`sample_by`、schema 2、JSON往復、変更可能なキーの独立性。
+  両端省略時は追加の境界処理をせず、元データと等しい独立コピーを返すこと。
+- 保存した部分clipの復元が直接の範囲指定復元と同じカーブになり、元node削除後も使えること。
+  TA / TLのweightedカーブ、breakdown、infinity、密な評価形状、TUのstep、空node・空カーブ。
+- layer / rootの設定カーブと構造・順序の切り出し、復元、Undo / Redo、
+  後続処理失敗時のrollback。負・非有限・型不正・逆転・精度限界の範囲と、
+  周期infinityのキー範囲外補完の拒否時に元clipとsceneが変わらないこと。
+- UI時間単位から独立した保存フレームでの指定、保留中modifierの非実行、
+  `trimmed().retimed().reversed()`の連続利用。`reversed()`は浮動小数点誤差によって
+  境界キーを保存範囲外へ出さないこと。型・補完contractでは戻り値と連続呼出しを検証します。
+
 ### AnimationClipのnode部分抽出
 
 `tests/maya/node/test_animation_clip_extract.py`は、`AnimationClip.extract(nodes=...)`と

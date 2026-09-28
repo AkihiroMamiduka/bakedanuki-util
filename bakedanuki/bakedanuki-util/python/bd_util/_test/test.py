@@ -363,3 +363,8 @@ def main():
     retimed.restore(nodes.modifier_manager, mode="replace_all")
 
     nodes.modifier_manager.do_it_dg()
+
+    trimmed = retimed.trimmed(-150, 150)
+    trimmed.restore(nodes.modifier_manager, mode="replace_all")
+
+    nodes.modifier_manager.do_it_dg()

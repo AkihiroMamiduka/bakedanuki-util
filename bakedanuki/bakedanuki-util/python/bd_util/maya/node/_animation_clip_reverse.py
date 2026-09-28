@@ -65,11 +65,16 @@ def _curve(
         )
         if data.seconds_per_frame == clip_rate:
             # 通常チャンネルと同じ単位の設定カーブでは、秒への往復だけで生じる
-            # 誤差を避ける。反転軸自体は保存 clip と同じ物理時刻である。
-            result = finite_number(
-                clip_start_frame + clip_end_frame - frame,
-                "reversed key frame",
-            )
+            # 誤差を避ける。境界キーは計算の丸めで保存範囲外へ出さない。
+            if frame == clip_start_frame:
+                result = clip_end_frame
+            elif frame == clip_end_frame:
+                result = clip_start_frame
+            else:
+                result = finite_number(
+                    clip_start_frame + clip_end_frame - frame,
+                    "reversed key frame",
+                )
         elif source_seconds == start_seconds:
             result_seconds = end_seconds
             result = finite_number(

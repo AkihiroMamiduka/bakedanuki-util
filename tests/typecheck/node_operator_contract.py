@@ -6398,6 +6398,11 @@ def animation_clip_contract(
     )
     assert_type(clip.retimed(time_scale=2).restore(mod), None)
     clip.retimed(time_scale="2")  # pyright: ignore[reportArgumentType]
+    assert_type(clip.trimmed(), bdu.AnimationClip)
+    assert_type(clip.trimmed(optional_frame, None), bdu.AnimationClip)
+    assert_type(clip.trimmed(None, optional_frame).to_json(), str)
+    assert_type(clip.trimmed(10, 30).retimed(time_scale=2).restore(mod), None)
+    clip.trimmed("10")  # pyright: ignore[reportArgumentType]
     assert_type(clip.extract(nodes=["ctrl"]), bdu.AnimationClip)
     assert_type(
         clip.extract(nodes=[ctrl, ctrl.m_obj, "other"]), bdu.AnimationClip

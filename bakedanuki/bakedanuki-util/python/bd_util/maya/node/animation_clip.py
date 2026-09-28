@@ -532,6 +532,35 @@ class AnimationClip:
 
         return extract(self, nodes=nodes)
 
+    def trimmed(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+    ) -> AnimationClip:
+        """保存範囲内の区間を切り出した独立した clip を返す。
+
+        レイヤーと root の設定カーブも切り出す。明示した範囲には境界補完と
+        接線の固定化を適用し、`clipped=True`にする。元の clip、シーン、
+        保留中の操作は変更しない。
+
+        Args:
+            start_frame: 保存 clip のフレーム単位で指定する開始。`None`は保存範囲の開始。
+            end_frame: 保存 clip のフレーム単位で指定する終了。`None`は保存範囲の終了。
+
+        Returns:
+            両端を含む区間の`AnimationClip`。両方省略した場合も独立したコピー。
+
+        Raises:
+            TypeError: 時刻に数値以外または bool を指定した場合。
+            ValueError: 範囲が逆転、保存範囲外、または Maya の時間精度で潰れる場合。
+            RuntimeError: 周期infinityのキー範囲外に境界を補完する場合。
+        """
+        from ._animation_clip_range import cropped_for_restore
+
+        return cropped_for_restore(
+            self.from_dict(self.to_dict()), start_frame, end_frame
+        )
+
     def reversed(self) -> AnimationClip:
         """保存範囲を軸に全カーブの時間を反転した新しい clip を返す。
 
