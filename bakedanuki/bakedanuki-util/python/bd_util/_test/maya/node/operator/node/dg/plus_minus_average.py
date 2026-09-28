@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# self
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.modifier import ModifierManager

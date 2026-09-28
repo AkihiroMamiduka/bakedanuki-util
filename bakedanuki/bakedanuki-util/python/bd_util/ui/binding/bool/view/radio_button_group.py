@@ -10,7 +10,7 @@ from ._source import resolve_bool_view_source
 
 
 class BoolRadioButtonGroup(qt.QWidget):
-    """BoolViewModelをFalse／Trueの排他的なRadioButtonで操作するView。"""
+    """`BoolViewModel` を `False`／`True` の排他的な RadioButton で操作する View。"""
 
     def __init__(
         self,

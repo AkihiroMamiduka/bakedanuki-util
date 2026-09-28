@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any, Never
 
-# self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
@@ -15,7 +14,6 @@ class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
 
         self._data_handle = None
 
-    # get
     def get(self) -> int:
         """addrプラグの現在値を整数で取得する。"""
         return self._get_data_handle().asAddr()
@@ -27,7 +25,6 @@ class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
 
         return self._data_handle
 
-    # set
     def set_direct(self, value: int) -> None:
         """
         addrプラグへ整数値を即時設定する。

@@ -39,7 +39,7 @@ def _node_type_to_creator_name(node_type: str) -> str:
 
 
 class NodeCreator:
-    """指定した型のノード作成を ModifierManager に予約する。"""
+    """指定した型のノード作成を `ModifierManager` に予約する。"""
 
     __slots__ = (
         "__dict__",
@@ -63,7 +63,7 @@ class NodeCreator:
 
     @property
     def with_transform(self) -> ShapeWithTransformCreator:
-        """Transform と Shape をまとめて作成する入口。"""
+        """`Transform` と `Shape` をまとめて作成する入口。"""
         return self._with_transform
 
     def create(
@@ -83,10 +83,10 @@ class NodeCreator:
             parent: DAG ノードの親。DG ノードには指定できない。
 
         Returns:
-            作成予定のノードを包む NodeOperator。
+            作成予定のノードを包む `NodeOperator`。
 
         Raises:
-            TypeError: DG ノードに parent を指定した場合。
+            TypeError: DG ノードに `parent` を指定した場合。
             AttributeError: 作成できないノード型を指定した場合。
         """
         node_cls = self._creator_node_class(node_name)
@@ -108,13 +108,13 @@ class NodeCreator:
         )
 
     def node_class(self, node_name: str) -> type[NodeOperator]:
-        """Maya ノード型に対応する NodeOperator クラスを返す。
+        """Maya ノード型に対応する `NodeOperator` クラスを返す。
 
         Args:
             node_name: Maya のノード型名。
 
         Returns:
-            対応する NodeOperator クラス。
+            対応する `NodeOperator` クラス。
         """
         return resolve_node_class(node_name)
 
@@ -252,16 +252,16 @@ class NodeCreator:
         create_func.__qualname__ = f"{type(self).__name__}.{node_name}"
         parent_doc = ""
         if issubclass(node_cls, Shape):
-            parent_doc = "    parent: 親の Transform。\n"
+            parent_doc = "    parent: 親の `Transform`。\n"
         elif issubclass(node_cls, DAG):
-            parent_doc = "    parent: 親の DAG ノード。\n"
+            parent_doc = "    parent: 親の `DAG` ノード。\n"
         create_func.__doc__ = (
-            f"{node_cls.NODE_TYPE} ノードの作成を予約する。\n\n"
+            f"`{node_cls.NODE_TYPE}` ノードの作成を予約する。\n\n"
             "Args:\n"
             "    name: 作成するノードの名前。省略時は Maya に委ねる。\n"
             "    auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。\n"
             f"{parent_doc}\nReturns:\n"
-            f"    {node_cls.__name__} インスタンス。"
+            f"    `{node_cls.__name__}` インスタンス。"
         )
         setattr(self, node_name, create_func)
         return create_func

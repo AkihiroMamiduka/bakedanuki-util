@@ -20,7 +20,7 @@ class EnumValue(qt.QObject):
 
         Args:
             value: 初期の整数値。`bool`は受け付けない。
-            parent: この値objectを所有するQObject。
+            parent: この値 object を所有する `QObject`。
         """
         super().__init__(parent)
         self._value = require_enum_value(value)

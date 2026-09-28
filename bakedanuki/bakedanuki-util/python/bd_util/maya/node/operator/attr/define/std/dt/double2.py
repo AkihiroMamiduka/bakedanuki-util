@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .base.numeric_base import (
     DataNumericBaseAttrOperator,
     DataNumericBasePlugOperator,
@@ -16,17 +14,15 @@ class DataDouble2PlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> list[float]:
         """double2 dataプラグの現在値を2要素のfloatリストで取得する。"""
         x, y = self._get_data()
         return [x, y]
 
-    # set
     def set_direct(self, value: list[float]) -> None:
-        """MPlug に値を直接設定する。
+        """`MPlug` に値を直接設定する。
 
-        ModifierManager の履歴には入らない。
+        `ModifierManager` の履歴には入らない。
 
         Args:
             value: x, y の値のリスト

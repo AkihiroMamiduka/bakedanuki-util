@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# self
 from ._base import (
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseAttrOperator,

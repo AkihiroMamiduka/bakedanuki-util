@@ -10,7 +10,7 @@ from ._source import resolve_bool_view_source
 
 
 class BoolStatusLabel(qt.QLabel):
-    """BoolViewModelをOff／On文字列で表示する読み取り専用View。"""
+    """`BoolViewModel` を Off／On 文字列で表示する読み取り専用 View。"""
 
     def __init__(
         self,

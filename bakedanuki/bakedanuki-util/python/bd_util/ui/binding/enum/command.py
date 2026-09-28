@@ -23,7 +23,7 @@ class SetEnumCommand(qt.QObject):
 
         Args:
             execute: 整数値を受け、実値が変わったか返す関数。
-            parent: このCommandを所有するQObject。
+            parent: この Command を所有する `QObject`。
         """
         super().__init__(parent)
         self._execute = execute

@@ -1,7 +1,7 @@
 # coding: utf-8
-"""Maya の属性情報から NodeOperator の Python ファイルを生成する。
+"""Maya の属性情報から `NodeOperator` の Python ファイルを生成する。
 
-生成コードはノード種別ごとの ``_generated`` に置き、既存の公開 wrapper は
+生成コードはノード種別ごとの `_generated` に置き、既存の公開 wrapper は
 上書きしない。
 
 Examples:
@@ -47,10 +47,10 @@ from ......maya.node.type import (
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 # ---------------------------------------------------------------------------
-# attribute_type → (Field クラス名, "define.at/dt モジュール名")
+# `attribute_type` → (`AttributeField` クラス名, モジュール名)
 # ---------------------------------------------------------------------------
 
-# attributeType ベースのマッピング (attr/define/std/at or attr/define/custom/at)
+# `attribute_type` ベースのマッピング（`std.at` または `custom`）。
 _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "addr": ("AddrField", "define.std.at.addr"),
     "bool": ("BoolField", "define.std.at.scalar.numeric.bool"),
@@ -134,8 +134,7 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "typed": ("TypedField", "define.std.at.typed"),
 }
 
-# dataType ベースのマッピング (dt/ ディレクトリ)
-# attribute_type == "typed" のときに data_type で参照する
+# `attribute_type == "typed"` のときに `data_type` で参照するマッピング。
 _DT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "double2": ("DataDouble2Field", "define.std.dt.double2"),
     "double3": ("DataDouble3Field", "define.std.dt.double3"),
@@ -349,7 +348,7 @@ def _get_skipped_dag_node_type_reason(node_type: str) -> str | None:
 
 _INHERITED_ATTR_INFOS_CACHE: dict[str, list[AttrInfo]] = {}
 
-# generate_node_class_file が src_dir から補完する DG node class パス部品
+# `generate_node_class_file` が `src_dir` から組み立てる DG ノード出力先。
 _DG_OUTPUT_REL_PARTS: tuple[str, ...] = (
     "bd_util",
     "maya",
@@ -359,10 +358,10 @@ _DG_OUTPUT_REL_PARTS: tuple[str, ...] = (
     "dg",
 )
 
-# 互換用: 既存コードから参照されても DG 出力先を返す。
+# 既存コードとの互換用に DG 出力先を残す。
 _OUTPUT_REL_PARTS = _DG_OUTPUT_REL_PARTS
 
-# generate_node_class_file が src_dir から補完する DAG node class パス部品
+# `generate_node_class_file` が `src_dir` から組み立てる DAG ノード出力先。
 _DAG_OUTPUT_REL_PARTS: tuple[str, ...] = (
     "bd_util",
     "maya",
@@ -382,7 +381,7 @@ _DAG_SHAPE_OUTPUT_REL_PARTS: tuple[str, ...] = (
     "shape",
 )
 
-# generate_node_class_file が src_dir から補完する node_attr パス部品
+# `generate_node_class_file` が `src_dir` から組み立てる `node_attr` 出力先。
 _NODE_ATTR_OUTPUT_REL_PARTS: tuple[str, ...] = (
     "bd_util",
     "maya",
@@ -1039,7 +1038,7 @@ def _node_kind_base_long_names(node_kind: str) -> frozenset[str]:
 
 
 def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
-    """AttrInfo から ``(Field クラス名, モジュールパス)`` を返す。
+    """`AttrInfo` から `AttributeField` クラス名とモジュールパスを返す。
 
     ``attribute_type == "typed"`` かつ ``data_type`` が設定されている場合は
     ``_DT_TYPE_MAP`` で解決し、それ以外は ``_AT_TYPE_MAP`` で解決する。
@@ -1220,7 +1219,7 @@ def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
     """attributeType に ``<`` または ``>`` を含む場合に True を返す。
 
     ``attributeType`` が ``None`` の場合は False を返す（スキップしない）。
-    None のまま下流の :func:`_resolve_attr_class` に渡すと ``None`` が返り、
+    `None` のまま下流の `_resolve_attr_class` に渡すと `None` が返り、
     呼び出し元で TODO コメントが出力される。
     手動での追記が必要であることを示すために意図的に通過させる。
     """
@@ -1289,7 +1288,7 @@ def _parse_enum_entries(
 
 
 def _build_attr_init_args(attr_info: AttrInfo) -> list[str]:
-    """Field コンストラクタ引数リストを生成する。
+    """`AttributeField` コンストラクタの引数リストを生成する。
 
     例: ``multi=True`` / ``default_value=0.0`` / ``writable=False``
     """
@@ -1305,7 +1304,7 @@ def _build_attr_init_args(attr_info: AttrInfo) -> list[str]:
 
 
 def _field_arg_literal(value: object) -> str:
-    """Field のキーワード引数に使う安定した Python リテラルを返す。"""
+    """`AttributeField` のキーワード引数に使う安定した Python リテラルを返す。"""
     if isinstance(value, str):
         escaped = value.replace("\\", "\\\\").replace('"', '\\"')
         return f'"{escaped}"'
@@ -1329,7 +1328,7 @@ def _field_arg_literal(value: object) -> str:
 
 
 def _normalize_attr_query_value(value: object) -> object | None:
-    """Maya の attributeQuery のリスト結果を Field 引数向けに正規化する。"""
+    """Maya の `attributeQuery` のリスト結果を `AttributeField` 引数向けに正規化する。"""
     if value is None:
         return None
     if isinstance(value, (list, tuple)):
@@ -1401,7 +1400,7 @@ def _normalize_metadata_value(
     arg_name: str,
     value: object,
 ) -> object | None:
-    """Maya の属性型に合わせて Field のメタデータを正規化する。"""
+    """Maya の属性型に合わせて `AttributeField` のメタデータを正規化する。"""
     attr_type = attr_info.attribute_type
     value = _normalize_attr_query_value(value)
     if value is None:
@@ -1450,7 +1449,7 @@ def _replace_compound_default_with_child_defaults(
 
 
 def _normalize_category_value(value: object) -> str | None:
-    """Maya の category 取得結果を AttributeField 用の文字列に変換する。"""
+    """Maya の category 取得結果を `AttributeField` 用の文字列に変換する。"""
     if value is None:
         return None
     if isinstance(value, (list, tuple)):
@@ -1466,7 +1465,7 @@ def _normalize_category_value(value: object) -> str | None:
 def _iter_attr_metadata_args(
     attr_info: AttrInfo,
 ) -> Iterator[tuple[str, object]]:
-    """取得できた Maya 属性の状態を Field のキーワード引数として列挙する。"""
+    """取得した Maya 属性の状態を `AttributeField` のキーワード引数へ変換する。"""
     for arg_name, value in (
         ("default_value", attr_info.default_value),
         ("min_value", attr_info.min_value),
@@ -1610,7 +1609,7 @@ def _safe_attr_name(name: str) -> str:
 
 
 def _safe_field_name(name: str) -> str:
-    """生成する Field に使える Python ディスクリプタ名を返す。"""
+    """生成する `AttributeField` に使える Python ディスクリプタ名を返す。"""
     safe_name = _safe_attr_name(name)
     while safe_name in _FIELD_NAME_COLLISIONS:
         safe_name += "_"
@@ -1623,7 +1622,7 @@ def _field_init_args(
     long_name: str,
     short_name: str | None,
 ) -> str:
-    """Python 名を変換しても Maya 属性名を保持する Field 引数を作る。"""
+    """Python 名を変換しても Maya 属性名を保持する `AttributeField` 引数を作る。"""
     args = list(base_args)
     if python_name != long_name:
         args.append(f'long_name="{long_name}"')
@@ -1696,7 +1695,7 @@ def _get_child_attr_name(child_long_name: str, parent_long_name: str) -> str:
 def _long_name_to_compound_class_names(
     long_name: str,
 ) -> tuple[str, str, str]:
-    """long_name を PascalCase の custom compound クラス名へ変換する。
+    """`long_name` を PascalCase の custom compound クラス名へ変換する。
 
     例: ``"input2D"`` →
     ``("Input2DPlugOperator", "Input2DAttrOperator", "Input2DField")``
@@ -1713,7 +1712,7 @@ def _long_name_to_compound_class_names(
 
 
 def _long_name_to_enum_class_name(long_name: str) -> str:
-    """アトリビュートの long_name を PascalCase の Enum クラス名へ変換する。
+    """アトリビュートの `long_name` を PascalCase の Enum クラス名へ変換する。
 
     例: ``"operation"`` → ``"OperationEnum"``、
         ``"nodeState"`` → ``"NodeStateEnum"``
@@ -1750,7 +1749,7 @@ def _build_enum_class_lines(
     base_name: str,
     entries: list[tuple[str, int | None]],
 ) -> list[str]:
-    """現行 EnumOperator / EnumField 形式のコード行リストを生成する。
+    """現行の `EnumOperator` / `EnumField` 形式のコード行を生成する。
 
     Args:
         base_name: 生成するベース名。例: ``"OperationEnum"``。
@@ -1825,7 +1824,7 @@ def generate_node_attr_code(
     Args:
         node_type: Maya ノードタイプ名。例: ``"multiplyDivide"``。
         attr_infos: 属性情報のリスト。
-            ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
+            `None` の場合は `get_attribute_infos`
             で自動取得する。
 
     Returns:
@@ -1881,7 +1880,7 @@ def generate_node_attr_code(
         if cls_name not in cls_names:
             cls_names.append(cls_name)
 
-    # 生成する EnumOperator / EnumField クラス: base_name -> entries
+    # 生成する `EnumOperator` / `EnumField` クラスを集める。
     enum_classes: dict[str, list[tuple[str, int | None]]] = {}
 
     # 各 compound アトリビュートのクラスブロックを生成
@@ -2022,7 +2021,7 @@ def generate_node_attr_code(
             plug_block.append("")
             plug_block.append("    pass")
 
-        # AttrOperator クラスブロック
+        # `AttrOperator` クラスブロックを追加する。
         attr_block: list[str] = _build_class_header_lines(
             attr_cls_name,
             f"{base_attr_cls}[{plug_cls_name}]",
@@ -2097,16 +2096,16 @@ def generate_node_class_code(
     inherited_attr_infos: list[AttrInfo] | None = None,
     maya_version: int | None = None,
 ) -> str:
-    """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python コードを生成する。
+    """Maya ノード型の属性情報から `NodeOperator` クラスのコードを生成する。
 
-    生成されるコードは ``node_kind`` に応じた node package の
+    生成されるコードは `node_kind` に応じた node package の
     ``_generated`` package 以下に配置することを想定した相対インポートを
     使用する。
 
     Args:
         node_type: Maya ノードタイプ名。例: ``"addDoubleLinear"``。
         attr_infos: 属性情報のリスト。
-            ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
+            `None` の場合は `get_attribute_infos`
             で自動取得する。
         node_kind: ``"dg"`` / ``"dag"`` / ``"transform"`` /
             ``"shape"`` / ``"auto"`` のいずれか。
@@ -2118,6 +2117,9 @@ def generate_node_class_code(
 
     Returns:
         生成された Python コード文字列。
+
+    Raises:
+        ValueError: `node_kind` または `maya_version` が未対応の場合。
     """
     resolved_node_kind = _resolve_node_kind(node_type, node_kind)
     normalized_maya_version = _normalize_generated_maya_version(maya_version)
@@ -2146,7 +2148,7 @@ def generate_node_class_code(
         inherited_long_names,
     )
 
-    # attr_infos が空の場合は警告を出して空のクラスコードを返す
+    # `attr_infos` が空の場合は警告を出して空のクラスコードを返す。
     if not attr_infos:
         logger.warning(
             f"No attribute infos found for node type '{node_type}'. "
@@ -2164,7 +2166,7 @@ def generate_node_class_code(
         _node_kind_base_long_names(resolved_node_kind) | inherited_long_names
     )
 
-    # short_name → long_name  (short_name が long_name と異なる場合のみ)
+    # `short_name` と `long_name` が異なる属性のみ、短縮名を正規名へ対応させる。
     short_to_long: dict[str, str] = {}
     for info in attr_infos:
         long_name = _attr_long_name(info)
@@ -2175,7 +2177,7 @@ def generate_node_class_code(
     # クラス名 → "define.std..." or "define.custom..."
     imports: dict[str, str] = {}
 
-    # 生成する EnumOperator / EnumField クラス: (ベース名, エントリリスト)
+    # 生成する `EnumOperator` / `EnumField` クラスと値一覧を集める。
     enum_classes: list[tuple[str, list[tuple[str, int | None]]]] = []
 
     # 生成するアトリビュート行
@@ -2221,8 +2223,8 @@ def generate_node_class_code(
         if _attr_parent_name(attr_info) is not None:
             continue
 
-        # listAttr が short_name も返してきた場合はスキップ
-        # (long_name が別のアトリビュートの short_name と一致するケース)
+        # `listAttr` が短縮名も返し、`long_name` が別属性の `short_name` と
+        # 一致する場合は重複生成を避ける。
         if long_name in short_to_long:
             continue
 
@@ -2314,7 +2316,7 @@ def generate_node_class_code(
             f"    {safe_long_name} = {field_cls_name}({init_args})"
         )
 
-        # short_name のエイリアス行
+        # `short_name` のエイリアス行を追加する。
         if _should_emit_short_alias(short_name, long_name):
             safe_short_name = _safe_field_name(short_name)
             if safe_short_name != safe_long_name:
@@ -2387,35 +2389,19 @@ def generate_node_class_file(
     inherited_attr_infos: list[AttrInfo] | None = None,
     maya_version: int | None = None,
 ) -> None:
-    """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python ファイルを生成する。
+    """Maya ノード型の属性情報から `NodeOperator` クラスのファイルを生成する。
 
-    ``src_dir`` に ``bd_util`` パッケージの親ディレクトリを指定するだけで、出力先パスを自動で構築する。
-
-    compound 型アトリビュート
-    (compound, double2/3/4, float2/3, lightData, long2/3, short2/3)
-    が存在する場合は、node_attr ファイルも同時に生成する。
-
-    生成 class の出力先::
-
-        {src_dir}/bd_util/maya/node/operator/node/dg/_generated/{snake_case_node_type}.py
-        {src_dir}/bd_util/maya/node/operator/node/dag/_generated/{snake_case_node_type}.py
-        {src_dir}/bd_util/maya/node/operator/node/dag/transform/_generated/{snake_case_node_type}.py
-        {src_dir}/bd_util/maya/node/operator/node/dag/shape/_generated/{snake_case_node_type}.py
-
-    公開 wrapper は従来の node module path に、存在しない場合だけ作成する。
-    既存 wrapper は手書きコードを保護するため上書きしない。
-
-    compound attribute がある場合は、従来どおり次へ出力する::
-
-        {src_dir}/bd_util/maya/node/operator/attr/define/node_attr/{snake_case_node_type}.py
+    `src_dir` 下のノード種別別 `_generated` に書き出す。`maya_version` が
+    2026 以降なら版別 package に出力し、compound 属性があれば対応する
+    `node_attr` も生成する。生成領域の同名ファイルは更新する。
+    公開 wrapper は未作成の場合だけ追加し、既存の手書き内容を上書きしない。
 
     Args:
         node_type: Maya ノードタイプ名。例: ``"multiplyDivide"``。
-        src_dir: ``bd_util`` パッケージの親ディレクトリへのパス。
+        src_dir: `bd_util` パッケージの親ディレクトリへのパス。
             (例: ``r"C:/path/bakedanuki/bakedanuki-util/python"``)
         attr_infos: 属性情報のリスト。
-            ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
-            で自動取得する。
+            `None` の場合は `get_attribute_infos` で自動取得する。
         include_skipped: ``True`` の場合、通常は除外される特殊ノードも
             調査用に生成する。
         node_kind: ``"dg"`` / ``"dag"`` / ``"transform"`` /
@@ -2425,6 +2411,10 @@ def generate_node_class_file(
         maya_version: 出力する Maya major version。``None`` /
             ``2025`` は基準 snapshot、``2026`` / ``2027`` は sparse overlay
             package へ出力する。
+
+    Raises:
+        ValueError: `node_kind` / `maya_version` が未対応、または出力先が
+            別のノード型と衝突する場合。
     """
     resolved_node_kind = _resolve_node_kind(node_type, node_kind)
     normalized_maya_version = _normalize_generated_maya_version(maya_version)
@@ -2539,7 +2529,6 @@ def generate_node_class_file(
         )
 
 
-#   node_type ごとのファイル生成
 def generate_specific_node_class_file_core(
     src_dir: str | pathlib.Path,
     func_get_node_types: Callable[[], list[str]],
@@ -2548,6 +2537,15 @@ def generate_specific_node_class_file_core(
     node_kind: str = _NODE_KIND_DG,
     maya_version: int | None = None,
 ) -> None:
+    """`func_get_node_types` が返すノード型のファイルを一括生成する。
+
+    Args:
+        src_dir: `bd_util` パッケージの親ディレクトリ。
+        func_get_node_types: 生成対象のノード型名を返す関数。
+        include_skipped: 通常除外する特殊ノードも生成するか。
+        node_kind: 生成するノードの種別。
+        maya_version: 出力先の Maya major version。`None` は基準版。
+    """
     node_types = tuple(func_get_node_types())
     _validate_node_type_name_collisions(node_types)
 
@@ -2561,13 +2559,13 @@ def generate_specific_node_class_file_core(
         )
 
 
-#       dg_node
 def generate_dg_node_class_files(
     src_dir: str | pathlib.Path,
     *,
     include_skipped: bool = False,
     maya_version: int | None = None,
 ) -> None:
+    """対象の DG ノード型の `NodeOperator` ファイルを生成する。"""
     generate_specific_node_class_file_core(
         src_dir=src_dir,
         func_get_node_types=get_dg_node_types,
@@ -2577,13 +2575,13 @@ def generate_dg_node_class_files(
     )
 
 
-#       dag_node
 def generate_dag_node_class_files(
     src_dir: str | pathlib.Path,
     *,
     include_skipped: bool = False,
     maya_version: int | None = None,
 ) -> None:
+    """対象の DAG ノード型の `NodeOperator` ファイルを生成する。"""
     generate_specific_node_class_file_core(
         src_dir=src_dir,
         func_get_node_types=get_dag_node_types,
@@ -2593,13 +2591,13 @@ def generate_dag_node_class_files(
     )
 
 
-#           transform
 def generate_transform_node_class_files(
     src_dir: str | pathlib.Path,
     *,
     include_skipped: bool = False,
     maya_version: int | None = None,
 ) -> None:
+    """対象の transform ノード型の `NodeOperator` ファイルを生成する。"""
     generate_specific_node_class_file_core(
         src_dir=src_dir,
         func_get_node_types=get_transform_types,
@@ -2609,13 +2607,13 @@ def generate_transform_node_class_files(
     )
 
 
-#           shape
 def generate_shape_node_class_files(
     src_dir: str | pathlib.Path,
     *,
     include_skipped: bool = False,
     maya_version: int | None = None,
 ) -> None:
+    """対象の shape ノード型の `NodeOperator` ファイルを生成する。"""
     generate_specific_node_class_file_core(
         src_dir=src_dir,
         func_get_node_types=get_shape_types,

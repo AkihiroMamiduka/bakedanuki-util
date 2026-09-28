@@ -3,10 +3,8 @@ from abc import abstractmethod
 from collections.abc import Sequence
 from typing import Any, ClassVar, Generic, overload, TypeVar, Type, cast
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ........value.scalar_compound.scalar_compound_value import (
     ScalarCompoundValue,
 )
@@ -160,7 +158,7 @@ class ScalarCompoundBasePlugOperator(
         value: S | Sequence[S],
         *values: S,
     ) -> None:
-        """compound プラグの全 child 値を ModifierManager 経由で設定する。
+        """compound プラグの全 child 値を `ModifierManager` 経由で設定する。
 
         child 数と値数は一致する必要がある。変更は
         ``ModifierManager.do_it_dg()`` の実行時に反映される。
@@ -188,7 +186,7 @@ class ScalarCompoundBasePlugOperator(
     ) -> None:
         """compound プラグの全 child 値を即時設定する。
 
-        child 数と値数は一致する必要がある。ModifierManager の
+        child 数と値数は一致する必要がある。`ModifierManager` の
         undo / redo 対象外。
 
         Args:

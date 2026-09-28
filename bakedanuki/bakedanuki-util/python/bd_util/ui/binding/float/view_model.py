@@ -29,7 +29,7 @@ class _QueuedSignal(Protocol):
         slot: Callable[[], None],
         connection_type: qt.Qt.ConnectionType,
     ) -> qt.QtCore.QMetaObject.Connection:
-        """slotを指定した接続方式で接続する。"""
+        """`slot` を指定した接続方式で接続する。"""
         raise NotImplementedError
 
 
@@ -67,7 +67,7 @@ def _disconnect_qt_connection(
 
 
 class _MutableFloatValue(FloatValue):
-    """FloatViewModelだけが保持する更新可能なFloatValue。"""
+    """`FloatViewModel` だけが保持する更新可能な `FloatValue`。"""
 
     def replace(self, value: float) -> bool:
         """ViewModelから値を確定し、変更された場合だけ通知する。"""
@@ -80,7 +80,7 @@ class _MutableFloatValue(FloatValue):
 
 
 class _MutableSetFloatCommand(SetFloatCommand):
-    """FloatViewModelだけが保持する状態更新可能なCommand。"""
+    """`FloatViewModel` だけが保持する状態更新可能な Command。"""
 
     def set_can_execute(self, can_execute: bool) -> None:
         """ViewModelから実行可否を更新する。"""
@@ -156,7 +156,7 @@ class FloatViewModel(qt.QObject):
         return self._is_disposed or not qt.isValid(self)
 
     def dispose(self) -> None:
-        """入力と同期を停止する。QObjectの破棄はownerへ任せる。"""
+        """入力と同期を停止する。`QObject` の破棄は所有者へ任せる。"""
         if self.is_disposed:
             return
         self._is_disposed = True
@@ -172,7 +172,7 @@ class FloatViewModel(qt.QObject):
         return self._edit_owner is not None and not self.is_disposed
 
     def begin_edit(self, owner: qt.QObject) -> bool:
-        """1つのViewによる連続編集を開始し、owner破棄時にも終了する。"""
+        """1つの View による連続編集を開始し、`owner` 破棄時にも終了する。"""
         owner = _require_edit_owner(owner)
         if self.is_disposed or not self._set_value_command.can_execute:
             return False
@@ -188,11 +188,11 @@ class FloatViewModel(qt.QObject):
         return self._owns_edit(owner)
 
     def _owns_edit(self, owner: qt.QObject) -> bool:
-        """通知slotによる終了・再開始後も、現在の編集ownerを読み直す。"""
+        """通知 slot による終了・再開始後も、現在の編集 `owner` を読み直す。"""
         return self._edit_owner is not None and self._edit_owner() is owner
 
     def end_edit(self, owner: qt.QObject | None = None) -> None:
-        """連続編集を確定終了する。owner省略時は現在の編集を終了する。"""
+        """連続編集を確定終了する。`owner` が `None` なら現在の編集を終了する。"""
         if self._edit_owner is None:
             return
         if owner is not None and self._edit_owner() is not owner:
@@ -307,7 +307,7 @@ class FloatViewModel(qt.QObject):
         *,
         notify: bool = True,
     ) -> None:
-        """Maya adapter用の表示変換を設定し、正本への入力なしで再表示する。"""
+        """Maya 用の表示変換 `adapter` を設定し、正本への入力なしで再表示する。"""
         self._presentation_adapter = adapter
         if not notify or self.is_disposed:
             return
@@ -395,6 +395,6 @@ class FloatViewModel(qt.QObject):
 
     @qt.Slot()
     def _on_store_destroyed(self) -> None:
-        """QObject Store破棄後のCommand停止をevent loopで反映する。"""
+        """`QObject` Store 破棄後の Command 停止を event loop で反映する。"""
         self._store_destroyed_connection = None
         self._set_value_command.set_can_execute(False)

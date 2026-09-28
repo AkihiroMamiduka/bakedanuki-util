@@ -32,7 +32,7 @@ def _require_layout_order(value: object) -> FloatSliderSpinBoxOrder:
 
 
 class FloatSliderSpinBox(qt.QWidget):
-    """同じ正本を編集するFloatSliderとFloatSpinBoxを横に並べるView。"""
+    """同じ正本を編集する `FloatSlider` と `FloatSpinBox` を横に並べる View。"""
 
     def __init__(
         self,

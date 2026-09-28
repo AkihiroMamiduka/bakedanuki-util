@@ -113,7 +113,7 @@ def weighted_tangent_xy(
 
 
 def copy_curve_data(value: object) -> AnimCurveData:
-    """カーブ情報を再検証し、変更可能な KeyData も複製する。"""
+    """カーブ情報を再検証し、変更可能な `KeyData` も複製する。"""
     if not isinstance(value, AnimCurveData):
         raise TypeError("data must be AnimCurveData.")
     return replace(value)
@@ -161,7 +161,7 @@ class KeyData:
 
     @classmethod
     def from_dict(cls, value: object) -> KeyData:
-        """保存済みの辞書を検証して KeyData に復元する。"""
+        """保存済みの辞書を検証して `KeyData` に復元する。"""
         data = _mapping(value, cls)
         return cls(
             frame=_number(data["frame"], "frame"),
@@ -194,7 +194,7 @@ class KeyData:
 class AnimCurveData:
     """カーブ全体の設定とキー情報。
 
-    共通設定は不変。``keys`` に含まれる KeyData は編集できる。
+    共通設定は不変。``keys`` に含まれる `KeyData` は編集できる。
 
     Attributes:
         curve_type: Maya の時間入力カーブ型。

@@ -13,10 +13,8 @@ Node / Plug の文字列アクセス（__getitem__）のテスト
 
 from typing import Any, cast
 
-# maya
 from maya import cmds
 
-# self
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.modifier import ModifierManager
@@ -29,7 +27,7 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def _node_attr(name: str) -> AttrOperator[Any]:
-    """戻り値の型を明示して NodeOperator のクラス添字を試す。"""
+    """戻り値の型を明示して `NodeOperator` のクラス添字を試す。"""
     return cast(AttrOperator[Any], PlusMinusAverage[name])
 
 

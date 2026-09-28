@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any, TypeVar, Type, cast
 
-# self
 from ...........value import FloatAngle3
 from .._base import (
     AngleCompoundBasePlugOperator,

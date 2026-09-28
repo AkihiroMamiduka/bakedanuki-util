@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any, ClassVar, TypeVar, Type, cast
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ..........value.scalar_compound.scalar_compound_value import (
     ScalarCompoundValue,
 )
@@ -32,11 +30,9 @@ class ShortCompoundBasePlugOperator(
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnNumericData.kShort
 
-    # get
     def _get_child_value(self, child_plug: om.MPlug) -> int:
         return child_plug.asShort()
 
-    # set
     def _set_child_value(self, child_plug: om.MPlug, value: int) -> None:
         self._node.modifier_manager.dg_mod.newPlugValueShort(child_plug, value)
 

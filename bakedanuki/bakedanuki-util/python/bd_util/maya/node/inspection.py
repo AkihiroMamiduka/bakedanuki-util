@@ -110,13 +110,13 @@ def filter_scalar_attribute_paths(
 
 
 def selected_node_names() -> tuple[str, ...]:
-    """選択順で重複のないノード名を返す。component と Plug は除く。"""
+    """選択順で重複のないノード名を返す。コンポーネントとプラグは除く。"""
     selection = om.MGlobal.getActiveSelectionList()
     iterator = om.MItSelectionList(selection)
     names: list[str] = []
     nodes: list[om.MObject] = []
 
-    # DAG instanceは同じnodeとして扱い、最初の選択pathを残す
+    # DAG インスタンスは同じノードとして扱い、最初の選択パスを残す。
     while not iterator.isDone():
         item_type = iterator.itemType()
         if item_type == om.MItSelectionList.kDagSelectionItem:
@@ -140,7 +140,7 @@ def selected_node_names() -> tuple[str, ...]:
 
 
 def _node_function(node_name: object) -> om.MFnDependencyNode:
-    """完全一致する既存node名だけを解決する。"""
+    """`node_name` に完全一致する既存ノードだけを解決する。"""
     if not isinstance(node_name, str):
         raise TypeError("node_nameにはstrを指定してください")
     if not node_name or any(char in node_name for char in ".*?[]"):
@@ -197,12 +197,12 @@ def inspect_scalar_attributes(
         表示フラグでは絞り込まない属性情報のタプル。
 
     Raises:
-        ValueError: ノード名を一意に解決できない場合。
+        ValueError: `node_name` を一意に解決できない場合。
     """
     node = _node_function(node_name)
     result: list[ScalarAttributeInfo] = []
 
-    # 親が非表示でも子のkeyable状態は独立しているため全属性を検査する
+    # 親が非表示でも子の keyable 状態は独立しているため、全属性を検査する。
     for index in range(node.attributeCount()):
         attribute = node.attribute(index)
         plug = node.findPlug(attribute, False)

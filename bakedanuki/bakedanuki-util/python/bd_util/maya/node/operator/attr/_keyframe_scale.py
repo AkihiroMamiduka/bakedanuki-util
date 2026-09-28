@@ -40,7 +40,7 @@ def _pivoted_seconds(
     seconds: float, pivot: om.MTime, scale: float, offset: float | None
 ) -> float:
     pivot_seconds = pivot.asUnits(om.MTime.kSeconds)
-    # Avoid cancellation near zero scale, and keep identity transforms exact.
+    # 倍率が 0 に近い場合の桁落ちを避け、等倍変換も正確に保つ。
     transformed = (
         pivot_seconds + (seconds - pivot_seconds) * scale
         if scale < 0.5
@@ -103,7 +103,7 @@ def _scaled_key(
     ) -> tuple[float | om.MAngle, float]:
         x, y = item
         if isinstance(x, om.MAngle):
-            # TT uses angle/weight because native XY loses time precision.
+            # TT カーブは生の XY だと時間精度を失うため、角度と weight を使う。
             angle, weight = x.asRadians(), y
             x, y = math.cos(angle) * weight * scale, math.sin(angle) * weight
             weight = _number(math.hypot(x, y), "Scaled tangent weight")
@@ -168,7 +168,7 @@ def _scale(
         to_end,
         pivot,
     )
-    # Derived scales may differ from one only due to seconds conversion rounding.
+    # 算出した倍率は秒への変換時の丸めだけで 1 と異なる場合がある。
     if (
         (time_scale is None or scale == 1)
         and source_start == destination_start

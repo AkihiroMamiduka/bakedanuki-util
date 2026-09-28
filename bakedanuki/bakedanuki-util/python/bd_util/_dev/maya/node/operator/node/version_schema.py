@@ -3,8 +3,8 @@ from __future__ import annotations
 
 SUPPORTED_MAYA_VERSIONS = (2025, 2026, 2027)
 
-# Fixed Autodesk plug-in profile used to compare the generated NodeOperator
-# surface. dynamicGeometryAttributes is bundled from Maya 2026 onward.
+# 生成した `NodeOperator` の公開面を比較するため、plug-in の読み込み条件を固定する。
+# `dynamicGeometryAttributes` は Maya 2026 以降で読み込む。
 BASE_PROFILE_PLUGIN_REQUESTS = (
     "mayaHIK",
     "invertShape",
@@ -42,8 +42,7 @@ INVENTORY_COUNTS = {
     2027: {"registered": 1485, "generated": 1365, "skipped": 120},
 }
 
-# These supported nodes were absent from the original Maya 2025 snapshot but
-# are needed as the baseline for a later schema change or removal.
+# 初回の Maya 2025 snapshot にない対応ノードも、後続版の差分判定の基準へ含める。
 BASELINE_ADDITIONAL_NODE_TYPES = (
     "aiOpenPBRSurface",
     "bifrostGraphShape",
@@ -57,9 +56,8 @@ BASELINE_ADDITIONAL_NODE_TYPES = (
     "xgmSplineDescription",
 )
 
-# Keep the fixed-profile inventory independent from the runtime registry.
-# Tests compare these snapshots with NODE_TYPE_VERSION_RANGES so an accidental
-# omission on either side is visible.
+# 固定 profile の一覧は runtime registry と独立に保持する。
+# test で `NODE_TYPE_VERSION_RANGES` と照合し、双方の登録漏れを検出する。
 INTRODUCED_NODE_TYPES_BY_VERSION = {
     2025: (),
     2026: (
@@ -306,6 +304,17 @@ SCHEMA_CHANGED_NODE_TYPES_BY_VERSION = {
 
 
 def profile_plugin_requests(maya_version: int) -> tuple[str, ...]:
+    """指定した Maya 版で固定 profile に読み込む plug-in 名を返す。
+
+    Args:
+        maya_version: 対応している Maya の major version。
+
+    Returns:
+        `dynamicGeometryAttributes` を対象版に応じて加えた plug-in 名。
+
+    Raises:
+        ValueError: `maya_version` が未対応の場合。
+    """
     if maya_version not in SUPPORTED_MAYA_VERSIONS:
         raise ValueError(f"Unsupported Maya version: {maya_version}")
     if maya_version == 2025:
@@ -320,18 +329,44 @@ def profile_plugin_requests(maya_version: int) -> tuple[str, ...]:
 
 
 def introduced_node_types(maya_version: int) -> tuple[str, ...]:
+    """指定版で追加されたノード型名を返す。
+
+    Args:
+        maya_version: 対応している Maya の major version。
+
+    Raises:
+        ValueError: `maya_version` が未対応の場合。
+    """
     if maya_version not in SUPPORTED_MAYA_VERSIONS:
         raise ValueError(f"Unsupported Maya version: {maya_version}")
     return INTRODUCED_NODE_TYPES_BY_VERSION[maya_version]
 
 
 def removed_node_types(maya_version: int) -> tuple[str, ...]:
+    """指定版で削除されたノード型名を返す。
+
+    Args:
+        maya_version: 対応している Maya の major version。
+
+    Raises:
+        ValueError: `maya_version` が未対応の場合。
+    """
     if maya_version not in SUPPORTED_MAYA_VERSIONS:
         raise ValueError(f"Unsupported Maya version: {maya_version}")
     return REMOVED_NODE_TYPES_BY_VERSION[maya_version]
 
 
 def node_types_to_generate(maya_version: int) -> tuple[str, ...]:
+    """指定版で追加または schema 変更された生成対象のノード型名を返す。
+
+    Maya 2025 では初回 snapshot にない追加の基準ノード型を返す。
+
+    Args:
+        maya_version: 対応している Maya の major version。
+
+    Raises:
+        ValueError: `maya_version` が未対応の場合。
+    """
     if maya_version == 2025:
         return BASELINE_ADDITIONAL_NODE_TYPES
     if maya_version not in SUPPORTED_MAYA_VERSIONS:

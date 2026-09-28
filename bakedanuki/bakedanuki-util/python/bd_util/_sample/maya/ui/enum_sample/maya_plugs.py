@@ -93,7 +93,20 @@ _controller: MayaWindowController[EnumPlugsSampleWindow] | None = None
 def show(
     node_names: Sequence[str], attribute_name: str = "rotateOrder"
 ) -> EnumPlugsSampleWindow:
-    """既存属性を指定順で表示する。先頭を代表とし、値は書き戻さない。"""
+    """複数ノードの既存 enum 属性を指定順で表示する。
+
+    先頭の値を代表として表示するが、表示時には書き戻さない。
+
+    Args:
+        node_names: 対象ノード名を代表にしたい順で並べる。
+        attribute_name: 各ノードで参照する enum 属性名。
+
+    Returns:
+        複数属性を一括編集する Window。
+
+    Raises:
+        TypeError: `node_names` に文字列を直接渡した場合。
+    """
     global _controller
     if isinstance(node_names, str):
         raise TypeError("node_namesにはノード名のリストなどを指定してください")
@@ -108,6 +121,7 @@ def show(
 
 
 def dispose() -> None:
+    """表示中の Window と複数属性の binding を破棄する。"""
     global _controller
     if _controller is not None:
         _controller.dispose()

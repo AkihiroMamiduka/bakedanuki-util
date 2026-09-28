@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
@@ -16,7 +14,6 @@ class GenericPlugOperator(PlugOperator["GenericAttrOperator"]):
 
         self._data_handle = None
 
-    # get
     def _get_data_handle(self):
         # MDataHandle をキャッシュする
         if self._data_handle is None:

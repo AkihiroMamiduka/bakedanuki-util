@@ -3,10 +3,8 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Any, Protocol, TypeVar, Type, cast
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 from ........py.error import UnsupportedOperationError
 
@@ -30,7 +28,7 @@ class _CreateTypedAttribute(Protocol):
 
 
 class DataTypePlugOperator(PlugOperator[A]):
-    """Maya の typed attribute を扱う PlugOperator。"""
+    """Maya の typed attribute を扱う `PlugOperator`。"""
 
     __slots__ = ()
 
@@ -47,8 +45,8 @@ class DataTypePlugOperator(PlugOperator[A]):
         """typed attribute が未作成ならノードへ即時追加する。
 
         Args:
-            mfn_data_type: MFnData の属性データ型。
-            default_object_factory: 既定値を MObject に変換する処理。
+            mfn_data_type: `MFnData` の属性データ型。
+            default_object_factory: 既定値を `MObject` に変換する処理。
 
         Raises:
             UnsupportedOperationError: 既定値があるが変換処理がない場合。

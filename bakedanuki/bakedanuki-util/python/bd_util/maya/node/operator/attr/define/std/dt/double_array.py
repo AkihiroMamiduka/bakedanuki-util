@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .base.array_base import (
     DataArrayBaseAttrOperator,
     DataArrayBasePlugOperator,
@@ -16,16 +14,14 @@ class DataDoubleArrayPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> list[float]:
         """doubleArray dataプラグの現在値をfloatリストで取得する。"""
         return self._get_array_values(om.MFnDoubleArrayData)
 
-    # set
     def set_direct(self, value: list[float]) -> None:
-        """MPlug に値を直接設定する。
+        """`MPlug` に値を直接設定する。
 
-        ModifierManager の履歴には入らない。
+        `ModifierManager` の履歴には入らない。
 
         Args:
             value: セットする値のリスト

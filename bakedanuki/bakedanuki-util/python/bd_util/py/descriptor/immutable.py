@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any
 
-# self
 from ... import logger as u_logger
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -22,14 +21,12 @@ class ImmutableDescriptor:
             owner: この属性を定義したクラス。
             name: クラスでの属性名。
         """
-        # 変数に格納
+        # サブクラスの追加処理を完了してから内部状態を固定する。
         object.__setattr__(self, "_owner", owner)
         object.__setattr__(self, "_name", name)
 
-        # 子クラスでの追加処理
         self._on_set_name(owner, name)
 
-        # lock
         object.__setattr__(self, "_locked", True)
 
     def _on_set_name(self, owner: type[Any], name: str) -> None:
@@ -51,7 +48,6 @@ class ImmutableDescriptor:
         Raises:
             AttributeError: デスクリプタへの代入を試みた場合。
         """
-        # instance からの代入禁止
         raise AttributeError(
             "{}.{} descriptor は {}".format(
                 self._owner.__name__,
@@ -70,7 +66,6 @@ class ImmutableDescriptor:
         Raises:
             AttributeError: 初期化済みの属性を変更しようとした場合。
         """
-        # descriptor 自体の変更禁止
         if getattr(self, "_locked", False):
             raise AttributeError(
                 "{}.{} descriptor は {}".format(

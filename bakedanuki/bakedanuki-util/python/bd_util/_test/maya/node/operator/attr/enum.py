@@ -11,7 +11,6 @@ EnumAttr.enum / EnumPlug.enum アクセスのテスト
   6. 等値比較: PlusMinusAverage.operation.enum.NO_OPERATION == 0 が True であることを確認する
 """
 
-# self
 from ...... import logger as u_logger
 from ..... import str as test_str
 from ......maya.node.modifier import ModifierManager

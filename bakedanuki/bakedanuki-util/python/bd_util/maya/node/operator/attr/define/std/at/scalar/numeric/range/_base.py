@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any, TypeVar, Type, cast
 
-# self
 from ........... import logger as u_logger
 from .._base import (
     NumericBaseAttrOperator,

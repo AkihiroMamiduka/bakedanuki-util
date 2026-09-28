@@ -3,11 +3,9 @@ import math
 from collections.abc import Callable, Iterable
 from typing import Any, TypeVar, Type, cast
 
-# maya
 from maya import cmds
 from maya.api import OpenMaya as om
 
-# self
 from ....._channel_state import ChannelBoxStateMixin
 from ....._core import AttrOperator, PlugOperator, AttributeField
 from .....keyframe import KeyframeManager

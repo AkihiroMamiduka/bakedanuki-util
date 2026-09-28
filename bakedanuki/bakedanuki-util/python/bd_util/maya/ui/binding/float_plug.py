@@ -29,12 +29,12 @@ class MayaFloatPlugStore(FloatPlugEndpoint):
         plug: MayaFloatPlug,
         owner: qt.QObject,
     ) -> None:
-        """Maya float plugをViewModelの正本として監視する。
+        """Maya float `plug` を ViewModel の正本として監視する。
 
         Args:
             view_model: Mayaの実値を受け取るViewModel。
             plug: 読み書きするMaya float plug。
-            owner: callbackの寿命を管理するQObject。
+            owner: callback の寿命を管理する `QObject`。
         """
         self._write_depth = 0
         super().__init__(view_model, plug, owner)
@@ -131,7 +131,7 @@ class MayaFloatPlugView(FloatPlugEndpoint):
         Args:
             view_model: Python Storeを接続済みのViewModel。
             plug: 同期先のMaya float plug。
-            owner: callbackの寿命を管理するQObject。
+            owner: callback の寿命を管理する `QObject`。
 
         Raises:
             RuntimeError: Storeが未接続、またはMaya Storeが正本の場合。

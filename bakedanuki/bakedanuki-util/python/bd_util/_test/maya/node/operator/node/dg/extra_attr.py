@@ -3,10 +3,8 @@
 extra=True の Attr を使った自動 addAttr() 機能のテスト・デモ
 """
 
-# maya
 from maya import cmds
 
-# self
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.modifier import ModifierManager

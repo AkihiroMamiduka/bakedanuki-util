@@ -4,7 +4,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, Literal
 
-# maya
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
@@ -182,11 +181,11 @@ class ModifierManager:
     ) -> None:
         """アニメーション編集を現在の DG 実行位置に予約する。
 
-        callback は ``do_it_dg()`` 時に一度だけ呼ばれる。予約後は
+        `callback` は ``do_it_dg()`` 時に一度だけ呼ばれる。予約後は
         ``dg_mod`` が切り替わるため、必要なら取得し直す。
 
         Args:
-            callback: 実行時に MAnimCurveChange を受け取る処理。
+            callback: 実行時に `MAnimCurveChange` を受け取る処理。
                 編集には渡された変更履歴を使い、ノード作成は別に予約する。
         """
         if not callable(callback):
@@ -198,11 +197,11 @@ class ModifierManager:
     ) -> None:
         """先行する DG 操作の実行後に modifier を準備する。
 
-        callback は ``do_it_dg()`` 時に一度だけ呼ばれる。Undo / Redo
+        `callback` は ``do_it_dg()`` 時に一度だけ呼ばれる。Undo / Redo
         には完成した modifier を使う。予約後は ``dg_mod`` を取得し直す。
 
         Args:
-            callback: 実行時に MDGModifier を受け取る処理。
+            callback: 実行時に `MDGModifier` を受け取る処理。
                 変更の予約だけを行い、``doIt()`` は呼ばない。
         """
         if not callable(callback):
@@ -221,7 +220,7 @@ class ModifierManager:
         Undo / Redo には初回実行時に構築した履歴を使う。
 
         Args:
-            callback: 実行時に新しい ModifierManager を受け取る処理。
+            callback: 実行時に新しい `ModifierManager` を受け取る処理。
                 操作の予約だけを行い、即時編集や ``do_it_dg()`` は行わない。
         """
         if not callable(callback):

@@ -27,8 +27,8 @@ _UNSET = object()
 class TransformMatrix:
     """Maya の transform 行列を合成・分解するスナップショット値。
 
-    行列は ``MMatrix`` と同じ行優先の16要素または4行4列で受け取る。
-    transform 成分からも ``composeMatrix`` と同じ規則で合成できる。
+    行列は ``MMatrix`` と同じ行優先の 16 要素または 4 行 4 列で受け取る。
+    ``translate`` などの成分からも ``composeMatrix`` と同じ規則で合成できる。
     """
 
     __slots__ = ("_matrix",)
@@ -62,25 +62,24 @@ class TransformMatrix:
         scale: Sequence[int | float] | None = None,
         shear: Sequence[int | float] | None = None,
     ) -> None:
-        """行列または transform 成分からスナップショットを作る。
+        """``value`` の行列または transform 成分からスナップショットを作る。
 
         Args:
-            value: TransformMatrix、matrix plug名、MPlug、MMatrix、
-                MTransformationMatrix、flat 16要素のmatrix sequence、
-                または4行4列のmatrix sequence。
-            translate: centimeter単位のXYZ移動。省略時は``(0, 0, 0)``。
-            rotate: degree単位のXYZ Euler回転。``quat``とは同時指定不可。
-            quat: ``(x, y, z, w)``順のquaternion。``rotate``とは
+            value: ``TransformMatrix``、行列プラグ名、``MPlug``、``MMatrix``、
+                ``MTransformationMatrix``、平坦な 16 要素または 4 行 4 列の数値列。
+            translate: センチメートル単位の XYZ 移動。省略時は ``(0, 0, 0)``。
+            rotate: 度単位の XYZ Euler 回転。``quat`` とは同時指定不可。
+            quat: ``(x, y, z, w)`` 順の四元数。``rotate`` とは
                 同時指定不可。
-            rotate_order: Euler回転順序。既定値は``"xyz"``。
-            scale: XYZ scale。省略時は``(1, 1, 1)``。
-            shear: ``(xy, xz, yz)``順のshear。省略時は``(0, 0, 0)``。
+            rotate_order: Euler 回転順序。既定値は ``"xyz"``。
+            scale: XYZ スケール。省略時は ``(1, 1, 1)``。
+            shear: ``(xy, xz, yz)`` 順のシアー。省略時は ``(0, 0, 0)``。
 
         Raises:
-            TypeError: 対応しないsource型の場合。
-            ValueError: plugを解決できない場合、matrix値を取得できない場合、
-                matrix sequence / componentが不正な場合、sourceとcomponentを
-                同時指定した場合、または``rotate``と``quat``を同時指定した場合。
+            TypeError: ``value`` の型が非対応、または行列以外のプラグの場合。
+            ValueError: ``value`` のプラグ・行列値を取得できない場合、
+                要素列や成分が不正な場合、``value`` と成分引数を併用した場合、
+                または ``rotate`` と ``quat`` を同時指定した場合。
         """
         components = (translate, rotate, quat, scale, shear)
         if value is not _UNSET:
@@ -304,7 +303,7 @@ class TransformMatrix:
 
     @property
     def rotate(self) -> DoubleAngle3:
-        """XYZ 順の Euler 回転を degree で返す。"""
+        """XYZ 順の Euler 回転を度単位で返す。"""
         return self.get_rotate(rotate_order="xyz")
 
     def get_rotate(

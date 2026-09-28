@@ -40,5 +40,5 @@ class UiStateAdapter(ABC):
     def restore_state(
         self, settings: qt.QtCore.QSettings, state_key: str
     ) -> bool:
-        """QSettingsから状態を読み取りWidgetへ復元する。"""
+        """`QSettings` から状態を読み取り Widget へ復元する。"""
         raise NotImplementedError

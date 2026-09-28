@@ -1,4 +1,4 @@
-"""保存チャンネルのキーを削減する。元clipとsceneは変更しない。"""
+"""保存チャンネルのキーを削減する。元の clip とシーンは変更しない。"""
 
 from __future__ import annotations
 

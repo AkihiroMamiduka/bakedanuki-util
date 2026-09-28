@@ -1,4 +1,4 @@
-"""復元に使用する区間を保存データから切り出す。sceneは変更しない。"""
+"""復元に使用する区間を保存データから切り出す。シーンは変更しない。"""
 
 from __future__ import annotations
 
@@ -23,7 +23,8 @@ def cropped_for_restore(
         end_frame: 使用区間の終了。None は保存範囲の終了。
 
     Returns:
-        境界キーを補完した独立の clip。両端が None なら元の clip。
+        境界キーを補完した独立の clip。`start_frame` と `end_frame` が
+        ともに `None` なら元の clip。
 
     Raises:
         ValueError: 区間が逆転、保存範囲外、または Maya の時間精度で潰れる場合。

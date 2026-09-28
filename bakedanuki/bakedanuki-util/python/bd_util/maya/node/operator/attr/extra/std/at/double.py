@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any
 
-# self
 from ....define.std.at.scalar.numeric.range.double import DoubleField
 
 

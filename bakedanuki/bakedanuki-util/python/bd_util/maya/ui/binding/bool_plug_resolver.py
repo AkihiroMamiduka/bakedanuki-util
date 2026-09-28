@@ -104,7 +104,7 @@ def resolve_bool_plug(
         raise ValueError(
             "attribute_nameには単一の属性名か相対pathを指定してください"
         )
-    # scene上の既存nodeを汎用NodeOperatorとして取得する。
+    # scene 上の既存 node を汎用 `NodeOperator` として取得する。
     node = Nodes().existing(node_name)
 
     return _dynamic_bool_plug(node, attribute_name)

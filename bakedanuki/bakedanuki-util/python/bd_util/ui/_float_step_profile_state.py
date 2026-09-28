@@ -1,5 +1,5 @@
 # coding: utf-8
-"""FloatStepProfileをUiStateManagerへ接続する内部adapter。"""
+"""`FloatStepProfile` を `UiStateManager` へ接続する内部 adapter。"""
 
 from __future__ import annotations
 

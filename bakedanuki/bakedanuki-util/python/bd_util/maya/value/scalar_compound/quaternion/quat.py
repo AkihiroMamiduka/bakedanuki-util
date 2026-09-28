@@ -52,8 +52,9 @@ class Quat(Scalar4[float]):
     ) -> None:
         """恒等回転、4 成分、または既存の四元数から値を作る。
 
-        引数なしでは ``(0, 0, 0, 1)``。単独引数には Quat、
-        MQuaternion、または XYZW 順の 4 要素を指定する。
+        引数なしでは ``(0, 0, 0, 1)``。``x`` だけを指定する場合は
+        ``Quat``、``MQuaternion``、または XYZW 順の 4 要素を受け付ける。
+        成分を個別指定する場合は ``x``、``y``、``z``、``w`` をすべて渡す。
 
         Raises:
             TypeError: 引数の組み合わせや成分の型が不正な場合。
@@ -153,7 +154,7 @@ class Quat(Scalar4[float]):
         target: Sequence[int | float],
         factor: int | float = 1.0,
     ) -> Self:
-        """source を target に向ける四元数を作る。
+        """``source`` を ``target`` に向ける四元数を作る。
 
         Args:
             source: 元の 3 成分ベクトル。
@@ -207,7 +208,7 @@ class Quat(Scalar4[float]):
 
     @property
     def quaternion(self) -> om.MQuaternion:
-        """成分値のコピーを MQuaternion として返す。"""
+        """成分値のコピーを ``MQuaternion`` として返す。"""
         return om.MQuaternion(self.x, self.y, self.z, self.w)
 
     @property
@@ -259,14 +260,14 @@ class Quat(Scalar4[float]):
         other: Quat | om.MQuaternion,
         tolerance: int | float = om.MQuaternion.kTolerance,
     ) -> bool:
-        """MQuaternion と同じ規則で q と -q の等価性も判定する。
+        """``MQuaternion`` と同じ規則で ``q`` と ``-q`` の等価性も判定する。
 
         Args:
             other: 比較する四元数。
             tolerance: 有限かつ非負の許容値。
 
         Returns:
-            同じ回転を許容値内で表す場合は True。
+            同じ回転を許容値内で表す場合は ``True``。
 
         Raises:
             TypeError: 比較対象や許容値の型が不正な場合。
@@ -295,7 +296,7 @@ class Quat(Scalar4[float]):
             rotate_order: Maya の回転順序。既定は ``xyz``。
 
         Returns:
-            X、Y、Z の角度を保持する DoubleAngle3。
+            X、Y、Z の角度を保持する ``DoubleAngle3``。
         """
         value = self.quaternion.asEulerRotation()
         value.reorderIt(resolve_rotation_order(rotate_order))
@@ -309,7 +310,7 @@ class Quat(Scalar4[float]):
         """回転軸と度数法の角度を返す。
 
         Returns:
-            回転軸の Double3 と、度単位の回転角。
+            回転軸の ``Double3`` と、度単位の回転角。
         """
         axis, angle = self.quaternion.asAxisAngle()
         return (
@@ -318,17 +319,17 @@ class Quat(Scalar4[float]):
         )
 
     def to_transform_matrix(self) -> TransformMatrix:
-        """この回転だけを持つ TransformMatrix を返す。"""
+        """この回転だけを持つ ``TransformMatrix`` を返す。"""
         from ....transform import TransformMatrix
 
         return TransformMatrix(quat=self)
 
     def normalized(self) -> Self:
-        """MQuaternion.normal() と同じ規則で正規化した値を返す。"""
+        """``MQuaternion.normal()`` と同じ規則で正規化した値を返す。"""
         return type(self)._from_quaternion(self.quaternion.normal())
 
     def inverse(self) -> Self:
-        """MQuaternion.inverse() と同じ規則で逆元を返す。"""
+        """``MQuaternion.inverse()`` と同じ規則で逆元を返す。"""
         return type(self)._from_quaternion(self.quaternion.inverse())
 
     def conjugate(self) -> Self:
@@ -347,7 +348,7 @@ class Quat(Scalar4[float]):
             weight: 補間係数。0.0 は現在値、1.0 は補間先。
 
         Returns:
-            補間後の新しい Quat。
+            補間後の新しい ``Quat``。
 
         Raises:
             TypeError: 補間先や係数の型が不正な場合。

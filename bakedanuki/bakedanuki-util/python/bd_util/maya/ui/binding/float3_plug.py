@@ -60,7 +60,7 @@ class MayaFloat3PlugStore(qt.QObject, Generic[_PlugT]):
         Args:
             view_model: Mayaの実値を受け取る3成分ViewModel。
             plug: 3成分を持つMaya親plug。
-            owner: callbackの寿命を管理するQObject。
+            owner: callback の寿命を管理する `QObject`。
         """
         require_float3_plug(plug)
         super().__init__(owner)

@@ -9,7 +9,7 @@ from ._source import resolve_float3_view_source
 
 
 class Float3Label(qt.QWidget):
-    """X・Y・ZのFloatLabelを横に並べる、各軸をコピー可能な読み取り専用View。"""
+    """X・Y・Z の `FloatLabel` を横に並べる、各軸をコピー可能な読み取り専用 View。"""
 
     def __init__(
         self,

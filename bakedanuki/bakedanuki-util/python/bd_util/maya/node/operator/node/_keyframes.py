@@ -1,4 +1,4 @@
-"""NodeOperator が共有するノード単位のアニメーション操作。"""
+"""`NodeOperator` が共有するノード単位のアニメーション操作。"""
 
 from __future__ import annotations
 
@@ -463,10 +463,10 @@ class NodeKeyframeManager:
         attributes: Iterable[str] | None = None,
         include_channel_box: bool = False,
     ) -> None:
-        """選択した属性の既存カーブの weighted 設定を予約する。
+        """選択した属性の既存カーブの `weighted` 設定を予約する。
 
         Args:
-            weighted: weighted tangent を有効にするか。
+            weighted: ウェイト付き接線を有効にするか。
             attributes: 対象属性名。省略時は keyable 属性を自動収集する。
             include_channel_box: 自動収集時に Channel Box 属性も含めるか。
         """
@@ -1023,11 +1023,11 @@ class NodesKeyframeManager:
         attributes: Iterable[str] | None = None,
         include_channel_box: bool = False,
     ) -> None:
-        """複数ノードの既存カーブの weighted 設定を予約する。
+        """複数ノードの既存カーブの `weighted` 設定を予約する。
 
         Args:
             nodes: 対象ノードの iterable。1 個以上指定する。
-            weighted: weighted tangent を有効にするか。
+            weighted: ウェイト付き接線を有効にするか。
             attributes: 対象属性名。省略時は keyable 属性を自動収集する。
             include_channel_box: 自動収集時に Channel Box 属性も含めるか。
         """

@@ -24,7 +24,7 @@ class _QTimerType(Protocol):
         milliseconds: int,
         callback: Callable[[], None],
     ) -> None:
-        """指定時間後にcallbackを一度だけ呼び出す。"""
+        """指定時間後に `callback` を一度だけ呼び出す。"""
         raise NotImplementedError
 
 
@@ -36,18 +36,18 @@ class _QueuedSignal(Protocol):
         slot: Callable[[], None],
         connection_type: qt.Qt.ConnectionType,
     ) -> qt.QtCore.QMetaObject.Connection:
-        """slotを指定した接続方式で登録する。"""
+        """`slot` を指定した接続方式で登録する。"""
         raise NotImplementedError
 
 
 def run_later(callback: Callable[[], None]) -> None:
-    """次のQt event loopでcallbackを一度だけ呼び出す。"""
+    """次の Qt event loop で `callback` を一度だけ呼び出す。"""
     timer_type = cast(_QTimerType, qt.QtCore.QTimer)
     timer_type.singleShot(0, callback)
 
 
 def require_enum_view_model(value: object) -> EnumViewModel:
-    """runtime値をEnumViewModelとして検証する。"""
+    """runtime 値を `EnumViewModel` として検証する。"""
     if not isinstance(value, EnumViewModel):
         raise TypeError(
             "view_modelにはEnumViewModelを指定してください: "
@@ -87,19 +87,19 @@ class _EnumPlugOperatorCallbackRegistry(MayaCallbackRegistry):
     disposed = qt.Signal()
 
     def __init__(self, owner: qt.QObject) -> None:
-        """callback ownerと破棄経路の状態を保持して初期化する。"""
+        """callback の `owner` と破棄経路の状態を保持して初期化する。"""
         self._owner_is_being_destroyed = False
         self._endpoint_is_being_destroyed = False
         super().__init__(owner)
 
     @property
     def owner_is_being_destroyed(self) -> bool:
-        """ownerのQObject破棄通知から解除中か返す。"""
+        """`owner` の `QObject` 破棄通知から解除中か返す。"""
         return self._owner_is_being_destroyed
 
     @property
     def endpoint_is_being_destroyed(self) -> bool:
-        """endpointのQObject破棄通知から解除中か返す。"""
+        """endpoint の `QObject` 破棄通知から解除中か返す。"""
         return self._endpoint_is_being_destroyed
 
     def dispose(
@@ -136,7 +136,7 @@ class EnumPlugEndpoint(qt.QObject):
         plug: MayaEnumPlug,
         owner: qt.QObject,
     ) -> None:
-        """ViewModel、enumplug、callback ownerを保持する。"""
+        """ViewModel、enum `plug`、callback の `owner` を保持する。"""
         view_model = require_enum_view_model(view_model)
         owner = require_owner(owner)
         plug = require_enum_plug(plug)
@@ -338,7 +338,7 @@ class EnumPlugEndpoint(qt.QObject):
         )
 
     def _matches_plug(self, plug: om.MPlug) -> bool:
-        """callback対象が同期中のplug自身か返す。"""
+        """callback 対象が同期中の `plug` 自身か返す。"""
         if not self.is_available:
             return False
         try:
@@ -405,7 +405,7 @@ class EnumPlugEndpoint(qt.QObject):
         plug: om.MPlug,
         _client_data: object,
     ) -> None:
-        """上流評価でdirtyになった対象plugの遅延更新を予約する。"""
+        """上流評価で dirty になった対象 `plug` の遅延更新を予約する。"""
         if not self._matches_plug(plug):
             return
         self._schedule_refresh()
@@ -434,5 +434,5 @@ class EnumPlugEndpoint(qt.QObject):
 
     @qt.Slot()
     def _on_view_model_destroyed(self) -> None:
-        """ViewModelのQObject tree破棄後にcallbackを停止する。"""
+        """ViewModel の `QObject` tree 破棄後に callback を停止する。"""
         self._dispose_endpoint()

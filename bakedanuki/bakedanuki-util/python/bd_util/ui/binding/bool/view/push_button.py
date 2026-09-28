@@ -10,7 +10,7 @@ from ._source import resolve_bool_view_source
 
 
 class BoolPushButton(qt.QPushButton):
-    """BoolViewModelを押下状態とOff／On文字列で表示・操作するボタン。"""
+    """`BoolViewModel` を押下状態と Off／On 文字列で表示・操作するボタン。"""
 
     def __init__(
         self,

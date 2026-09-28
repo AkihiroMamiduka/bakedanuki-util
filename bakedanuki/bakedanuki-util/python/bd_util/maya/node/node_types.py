@@ -26,7 +26,7 @@ _NODE_CLASS_NAMES = tuple(
 
 
 class NodeTypes:
-    """Maya ノード型に対応する NodeOperator クラスを参照する。"""
+    """Maya ノード型に対応する `NodeOperator` クラスを参照する。"""
 
     __slots__ = ("_cache",)
 
@@ -40,10 +40,10 @@ class NodeTypes:
             node_type: Maya ノード型名。
 
         Returns:
-            対応する NodeOperator クラス。
+            対応する `NodeOperator` クラス。
 
         Raises:
-            TypeError: node_type が文字列でない場合。
+            TypeError: `node_type` が文字列でない場合。
             AttributeError: 対応するノード型がない場合。
         """
         if not isinstance(node_type, str):

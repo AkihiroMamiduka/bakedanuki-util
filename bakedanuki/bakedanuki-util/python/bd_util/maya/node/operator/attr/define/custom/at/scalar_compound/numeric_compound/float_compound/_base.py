@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any, ClassVar, TypeVar, Type, cast
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ..........value.scalar_compound.scalar_compound_value import (
     ScalarCompoundValue,
 )
@@ -34,11 +32,9 @@ class FloatCompoundBasePlugOperator(
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnNumericData.kFloat
 
-    # get
     def _get_child_value(self, child_plug: om.MPlug) -> float:
         return child_plug.asFloat()
 
-    # set
     def _set_child_value(self, child_plug: om.MPlug, value: float) -> None:
         self._node.modifier_manager.dg_mod.newPlugValueFloat(child_plug, value)
 

@@ -86,7 +86,7 @@ class FloatSpinBox(MouseFocusSelectAllDoubleSpinBox):
             self._update_enabled
         )
 
-        # QObjectの破棄が完了してから、次のevent loopで入力を停止する。
+        # `QObject` の破棄が完了してから、次の event loop で入力を停止する。
         connect_queued_qt_signal(
             view_model.destroyed, self._on_view_model_destroyed
         )

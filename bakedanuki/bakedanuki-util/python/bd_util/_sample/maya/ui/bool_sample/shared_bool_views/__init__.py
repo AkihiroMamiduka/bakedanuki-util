@@ -1,5 +1,5 @@
 # coding: utf-8
-"""1つのBoolViewModelを複数Windowで共有するsample。"""
+"""1つの `BoolViewModel` を複数 Window で共有するサンプル。"""
 
 # 共通dataを再公開し、Managerを明示的に生成する入口を用意する。
 from ..data import VisibilityData

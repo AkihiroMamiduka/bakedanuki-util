@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ._base import (
     NumericRangeBaseAttrOperator,
     NumericRangeBasePlugOperator,
@@ -15,7 +13,6 @@ from ._base import (
 class LongPlugOperator(NumericRangeBasePlugOperator["LongAttrOperator"]):
     __slots__ = ()
 
-    # get
     def get(self) -> int:
         """longプラグの現在値を整数で取得する。"""
         plug = self._m_plug
@@ -23,7 +20,6 @@ class LongPlugOperator(NumericRangeBasePlugOperator["LongAttrOperator"]):
             plug = self.plug
         return plug.asInt()
 
-    # set
     def set(self, value: int) -> None:
         """longプラグへ整数値をModifierManager経由で設定する。
 

@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# self
 from .. import logger as u_logger
 import bd_util._test.maya.node.operator.attr.enum
 import bd_util._test.maya.node.operator.attr.keyframe

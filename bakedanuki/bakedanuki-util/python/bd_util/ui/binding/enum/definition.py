@@ -75,7 +75,7 @@ class EnumDefinition:
             names: 整数値から表示名への対応。
 
         Returns:
-            同じ順序のEnumDefinition。
+            同じ順序の `EnumDefinition`。
         """
         return cls(
             tuple(EnumItem(value, name) for value, name in names.items())

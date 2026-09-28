@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any, Generic, TypeVar, Type, cast
 
-# self
 from ...........value.scalar_compound.scalar_compound_value import (
     ScalarCompoundValue,
 )

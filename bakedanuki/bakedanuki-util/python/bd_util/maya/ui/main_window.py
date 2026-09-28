@@ -25,7 +25,7 @@ def get_main_window() -> qt.QtWidgets.QWidget | None:
     if not pointer:
         return None
 
-    # C++側のpointerをPySide6のQWidget wrapperへ変換する。
+    # C++ 側の pointer を PySide6 の `QWidget` wrapper へ変換する。
     return cast(
         qt.QtWidgets.QWidget,
         qt.wrapInstance(int(pointer), qt.QtWidgets.QWidget),

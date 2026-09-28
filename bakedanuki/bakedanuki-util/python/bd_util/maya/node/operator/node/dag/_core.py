@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Literal, overload, Self, TypeVar
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ....modifier import ModifierManager
 from ...._maya_version import require_node_type_available
 from .....transform import TransformMatrix
@@ -59,7 +57,7 @@ def _matches_shape_filter(node: "DAG", include_shapes: bool) -> bool:
 
 
 class DAG(NodeOperator):
-    """DAG ノードの階層とパスを ModifierManager 経由で操作する。"""
+    """DAG ノードの階層とパスを `ModifierManager` 経由で操作する。"""
 
     __slots__ = ("_dag_path",)
 
@@ -107,7 +105,7 @@ class DAG(NodeOperator):
             modifier_manager: 作成と Undo を管理するオブジェクト。
             name: 指定する場合のノード名。
             auto_add_attr: 定義済みの追加属性も作成するか。
-            parent: 親の Transform ノード。実行前の親は同じ管理下に置く。
+            parent: 親の `Transform` ノード。実行前の親は同じ管理下に置く。
 
         Returns:
             作成を予約したノード。
@@ -210,7 +208,7 @@ class DAG(NodeOperator):
         Args:
             filter_type: 指定した DAG 型に結果を絞る。省略時は全型。
             include_subclasses: 型を指定した場合に派生型も含めるか。
-            include_shapes: Shape ノードも結果に含めるか。
+            include_shapes: `Shape` ノードも結果に含めるか。
 
         Returns:
             条件に一致する直接の子。該当がなければ空のタプル。
@@ -371,7 +369,7 @@ class DAG(NodeOperator):
         Args:
             filter_type: 指定した DAG 型に結果を絞る。省略時は全型。
             include_subclasses: 型を指定した場合に派生型も含めるか。
-            include_shapes: Shape ノードも結果に含めるか。
+            include_shapes: `Shape` ノードも結果に含めるか。
 
         Returns:
             条件に一致する子孫。該当がなければ空のタプル。
@@ -493,7 +491,7 @@ class DAG(NodeOperator):
         `modifier_manager.do_it_dag()` で変更を実行する。
 
         Args:
-            parent: 新しい親の Transform ノード。
+            parent: 新しい親の `Transform` ノード。
 
         Returns:
             このノード。

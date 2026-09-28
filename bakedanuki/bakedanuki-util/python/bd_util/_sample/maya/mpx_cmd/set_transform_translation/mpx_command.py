@@ -14,6 +14,8 @@ from .operation import (
 class SetTransformTranslationCommand(
     MPxCommandBase[SetTransformTranslationParams]
 ):
+    """Undo 対応のローカル移動値変更サンプルコマンド。"""
+
     COMMAND_NAME = "bduSampleSetTransformTranslation"
 
     @classmethod

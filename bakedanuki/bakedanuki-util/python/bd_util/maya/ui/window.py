@@ -13,7 +13,7 @@ logger = get_logger(__name__)
 
 
 class MayaWindowController(WindowController[WindowT]):
-    """Maya main windowを親にして通常Windowを管理する。"""
+    """Maya main window を親にして通常 Window を管理する。"""
 
     def __init__(
         self,
@@ -25,11 +25,11 @@ class MayaWindowController(WindowController[WindowT]):
         """生成方法とWindow状態の保存先を設定する。
 
         Args:
-            factory: Maya main windowを受け取りWindowを作る関数。
-            settings_path: geometryの保存先。`None`なら自動保存しない。
-            retain: `True`ならclose後も同じWindowを再利用する。
+            factory: Maya main window を受け取り Window を作る関数。
+            settings_path: geometry の保存先。`None` なら自動保存しない。
+            retain: `True` なら `close()` 後も同じ Window を再利用する。
         """
-        # Maya main windowと設定ファイルは、Windowの生成時に取得する。
+        # Maya main window と設定ファイルは、`factory` の実行時に取得する。
         self._maya_factory = factory
         self._settings_path = (
             None
@@ -41,12 +41,12 @@ class MayaWindowController(WindowController[WindowT]):
 
     @property
     def settings_path(self) -> SettingsPath | None:
-        """Window状態の保存先を返す。自動保存しない場合は`None`。"""
+        """Window 状態の保存先を返す。自動保存しない場合は `None`。"""
         return self._settings_path
 
     def _create_window(self) -> WindowT:
         """現在のMaya main windowを親としてwindowを生成する。"""
-        # Maya側のWindowが再生成されても最新の親を渡す。
+        # Maya 側の Window が再生成されても最新の親を `factory` へ渡す。
         window = self._maya_factory(get_main_window())
 
         # 設定ファイルの利用に失敗してもWindowの表示自体は継続する。

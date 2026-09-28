@@ -17,7 +17,7 @@ class DockRestoreSpec:
     """MayaのuiScriptから呼び出す復元関数を指定する。
 
     Attributes:
-        module: Maya再起動後もimportできるtool moduleの修飾名。
+        module: Maya 再起動後も import できる tool module の修飾名。
         function: 引数なしの復元関数名。既定は`restore`。
 
     Raises:
@@ -28,7 +28,7 @@ class DockRestoreSpec:
     function: str = "restore"
 
     def __post_init__(self) -> None:
-        """uiScriptへ埋め込める名前の形式を検証する。"""
+        """uiScript へ埋め込める `module` と `function` の形式を検証する。"""
         # 実際のimportはMayaが復元するときに行い、ここでは名前の形式だけ調べる。
         if not _DOTTED_NAME_PATTERN.fullmatch(self.module):
             raise ValueError("moduleにはimport可能な修飾名を指定してください")
@@ -45,7 +45,7 @@ class DockRestoreSpec:
 
 
 def restore_dockable(module: str, function: str = "restore") -> Any:
-    """tool moduleを読み込み、dockable Windowの復元関数を呼ぶ。
+    """tool の `module` を読み込み、dockable Window の復元関数を呼ぶ。
 
     Args:
         module: 復元関数を持つmoduleの修飾名。
@@ -55,10 +55,10 @@ def restore_dockable(module: str, function: str = "restore") -> Any:
         復元関数の戻り値。
 
     Raises:
-        ImportError: 指定したmoduleを読み込めない場合。
-        AttributeError: 指定した関数がmoduleにない場合。
+        ImportError: `module` を読み込めない場合。
+        AttributeError: `function` が `module` にない場合。
     """
-    # Maya再起動後の復元時にmoduleを読み込む。
+    # Maya 再起動後の復元時に `module` を読み込む。
     imported_module = importlib.import_module(module)
     callback = cast(Callable[[], Any], getattr(imported_module, function))
 

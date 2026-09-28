@@ -53,7 +53,7 @@ class EnumViewModel(qt.QObject):
 
         Args:
             value: Storeを接続する前の整数値。
-            parent: このViewModelを所有するQObject。
+            parent: この ViewModel を所有する `QObject`。
             definition: 選択肢。`None`なら空の定義。
         """
         super().__init__(parent)

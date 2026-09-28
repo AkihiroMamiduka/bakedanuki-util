@@ -65,7 +65,7 @@ class _ComponentFloatViewModel(FloatViewModel):
 
 
 class Float3ViewModel(qt.QObject):
-    """各軸のFloatViewModelと3成分の確定値・一括Commandをまとめる。"""
+    """各軸の `FloatViewModel` と3成分の確定値・一括 Command をまとめる。"""
 
     store_refreshed = qt.Signal(object)
 
@@ -302,7 +302,7 @@ class Float3ViewModel(qt.QObject):
 
     @qt.Slot()
     def _on_store_destroyed(self) -> None:
-        """StoreのQObject破棄後に残った入力経路を停止する。"""
+        """Store の `QObject` 破棄後に残った入力経路を停止する。"""
         self.dispose()
 
     @qt.Slot()

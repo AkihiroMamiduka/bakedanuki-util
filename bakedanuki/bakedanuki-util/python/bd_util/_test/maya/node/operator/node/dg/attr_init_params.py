@@ -13,10 +13,8 @@ Attr クラスの __init__ 引数拡張と各プロパティのテスト・デ�
     8. extra=False のプロパティが cmds.attributeQuery から値を取得する
 """
 
-# maya
 from maya import cmds
 
-# self
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.modifier import ModifierManager

@@ -15,7 +15,7 @@ from .operator.node._keyframes import NodesKeyframeManager
 
 
 class _ExistingNodeAccessor:
-    """共有 ModifierManager を使って既存ノードを包む。"""
+    """共有 `ModifierManager` を使って既存ノードを包む。"""
 
     __slots__ = (
         "__dict__",
@@ -34,15 +34,15 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator:
-        """既存ノードを型に対応した NodeOperator として取得する。
+        """既存ノードを型に対応した `NodeOperator` として取得する。
 
         Args:
-            node: ノード名または MObject。
+            node: ノード名または `MObject`。
             auto_add_attr: 不足している extra attribute を追加するか。
                 既存ノードを変更しないよう、既定値は False。
 
         Returns:
-            ノード型に対応した NodeOperator。
+            ノード型に対応した `NodeOperator`。
         """
         return ExistingNode(
             node,
@@ -80,7 +80,7 @@ class _ExistingNodeAccessor:
 
 
 class Nodes:
-    """ノードの作成・取得と共通の ModifierManager をまとめる入口。"""
+    """ノードの作成・取得と共通の `ModifierManager` をまとめる入口。"""
 
     __slots__ = (
         "_modifier_manager",
@@ -103,7 +103,7 @@ class Nodes:
             typing_maya_version: IDE の補完対象にする Maya バージョン。
                 実行時のノード定義は現在の Maya に従う。
         """
-        # 型補完だけに使う引数。実行時の定義は読み込んだ Maya の版に従う。
+        # `typing_maya_version` は型補完だけに使う。実行時は読み込んだ Maya の版に従う。
         del typing_maya_version
         if modifier_manager is None:
             modifier_manager = ModifierManager()
@@ -118,7 +118,7 @@ class Nodes:
 
     @property
     def modifier_manager(self) -> ModifierManager:
-        """作成・取得したノードと共有する ModifierManager。"""
+        """作成・取得したノードと共有する `ModifierManager`。"""
         return self._modifier_manager
 
     @property

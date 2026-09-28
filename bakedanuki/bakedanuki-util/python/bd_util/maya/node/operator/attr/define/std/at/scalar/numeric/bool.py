@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .......... import logger as u_logger
 from ._base import (
     NumericBaseAttrOperator,
@@ -18,7 +16,6 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class BoolPlugOperator(NumericBasePlugOperator["BoolAttrOperator"]):
     __slots__ = ()
 
-    # get
     def get(self) -> bool:
         """boolプラグの現在値を取得する。"""
         plug = self._m_plug
@@ -26,7 +23,6 @@ class BoolPlugOperator(NumericBasePlugOperator["BoolAttrOperator"]):
             plug = self.plug
         return plug.asBool()
 
-    # set
     def set(self, value: bool) -> None:
         """boolプラグへ値をModifierManager経由で設定する。
 

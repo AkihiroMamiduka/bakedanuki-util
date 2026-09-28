@@ -1,4 +1,4 @@
-"""AnimationClipの対象収集と読み取り。sceneを編集しない。"""
+"""`AnimationClip` の対象を収集して読み取る。シーンは編集しない。"""
 
 from __future__ import annotations
 
@@ -54,7 +54,7 @@ def saved_node_name(node: om.MObject) -> str:
         return name
     selection = om.MSelectionList()
     try:
-        # 先頭のcolonでcurrent namespaceに依存しない絶対名として検査する。
+        # 先頭の `:` で現在の namespace に依存しない絶対名として検査する。
         selection.add(":" + name)
     except RuntimeError:
         return om.MFnDagNode(node).fullPathName()
@@ -109,8 +109,8 @@ def discrete(plug: om.MPlug) -> bool:
 def sample(
     plug: om.MPlug, frames: Iterable[float]
 ) -> list[tuple[float, float]]:
-    """scalar sampler と同じ単位で、各時刻の Plug 値を採取する。"""
-    # 上流の dirty 伝播も scalar sampler と共有する。
+    """`sample_plug_values()` と同じ単位で各時刻の Plug 値を採取する。"""
+    # 上流の dirty 伝播も `sample_plug_values()` と共有する。
     from .operator.attr.define.std.at.scalar._base import sample_plug_values
 
     return sample_plug_values(plug, frames=frames)
@@ -119,7 +119,8 @@ def sample(
 def frame_grid(start: float, end: float, step: float) -> tuple[float, ...]:
     """両端を含む等間隔の採取時刻を作る。
 
-    割り切れない場合も終了時刻を加える。点数が 10,000,001 を超えれば拒否する。
+    `step` で割り切れない場合も `end` を加える。
+    点数が 10,000,001 を超えれば拒否する。
     """
     span = (end - start) / step
     if not math.isfinite(span) or span > 10_000_000:
@@ -348,12 +349,14 @@ def capture(
         include_static: 時間変化のない属性も保存するか。
         start_frame: 保存区間の開始。None は対象キーの最小時刻。
         end_frame: 保存区間の終了。None は対象キーの最大時刻。
-        layer_mode: 合成値を採取する flatten、または生カーブを保存する preserve。
-        layers: preserve 時に保存するレイヤー。None は所属レイヤー。
-        sample_by: flatten 時の採取間隔。現在の UI 時間単位。
+        layer_mode: 合成値を採取する `flatten`、またはレイヤー別カーブの `preserve`。
+        layers: `layer_mode="preserve"` のときに保存するレイヤー。
+            `None` は所属レイヤー。
+        sample_by: 正の採取間隔。現在の UI 時間単位で指定し、
+            `layer_mode="flatten"` のときだけ採取に使う。
 
     Returns:
-        ノード順とレイヤー階層を保持する独立した AnimationClip。
+        ノード順とレイヤー階層を保持する独立した `AnimationClip`。
 
     Raises:
         ValueError: 対象属性、時間範囲、レイヤーの指定が不正な場合。

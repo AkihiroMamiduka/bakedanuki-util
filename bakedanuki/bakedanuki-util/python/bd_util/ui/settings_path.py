@@ -26,12 +26,12 @@ def _require_string(value: object) -> str:
 
 
 def _validate_segment(segment: str) -> None:
-    """settings pathを構成する1つのsegmentを検証する。"""
-    # 空文字、相対移動、前後の空白を含む曖昧なsegmentを拒否する。
+    """settings path を構成する1つの `segment` を検証する。"""
+    # 空文字、相対移動、前後の空白を含む曖昧な `segment` を拒否する。
     if not segment or segment in {".", ".."} or segment != segment.strip():
         raise ValueError(f"無効なsettings path segmentです: {segment!r}")
 
-    # filesystemやQSettings keyで問題になる文字と制御文字を拒否する。
+    # filesystem や `QSettings` key で問題になる文字と制御文字を拒否する。
     if any(character in _INVALID_CHARACTERS for character in segment) or any(
         ord(character) < 32 for character in segment
     ):
@@ -56,10 +56,10 @@ class SettingsPath:
     segments: tuple[str, ...]
 
     def __init__(self, value: str) -> None:
-        """`/`区切りの文字列からsettings pathを作る。
+        """`/` 区切りの文字列からsettings pathを作る。
 
         Args:
-            value: `tool名/group名`形式。groupは複数階層にできる。
+            value: `tool名/group名` 形式。groupは複数階層にできる。
 
         Raises:
             TypeError: 文字列以外を指定した場合。
@@ -69,7 +69,7 @@ class SettingsPath:
         if "\\" in runtime_value:
             raise ValueError("settings pathの区切りには'/'を使用してください")
 
-        # ファイル名とQSettingsのキーに共用するため、全階層を先に検証する。
+        # ファイル名と `QSettings` のキーに共用するため、全階層を先に検証する。
         segments = tuple(runtime_value.split("/"))
         if len(segments) < 2:
             raise ValueError(
@@ -82,13 +82,13 @@ class SettingsPath:
 
     @classmethod
     def from_value(cls, value: str | Self) -> Self:
-        """文字列を変換し、既存のSettingsPathはそのまま返す。
+        """文字列を変換し、既存の `SettingsPath` はそのまま返す。
 
         Args:
             value: `SettingsPath`、または同じ形式の文字列。
 
         Returns:
-            同じsettings path。文字列からは新しいinstanceを作る。
+            同じsettings path。文字列からは新しい `SettingsPath` を作る。
         """
         if isinstance(value, str):
             return cls(value)
@@ -97,13 +97,13 @@ class SettingsPath:
     @property
     def tool_name(self) -> str:
         """物理directory名に使用するtool名を返す。"""
-        # settings pathの先頭segmentをtool単位の識別子として使用する。
+        # `segments` の先頭をtool単位の識別子として使用する。
         return self.segments[0]
 
     @property
     def group_path(self) -> str:
         """toolのINI内で使用するgroup pathを返す。"""
-        # tool名を除いた残りのsegmentをQSettings形式へ戻す。
+        # tool名を除いた残りの `segments` を `QSettings` 形式へ戻す。
         return "/".join(self.segments[1:])
 
     def __str__(self) -> str:

@@ -24,12 +24,12 @@ class _QTimerType(Protocol):
         milliseconds: int,
         callback: Callable[[], None],
     ) -> None:
-        """指定時間後にcallbackを一度だけ呼び出す。"""
+        """指定時間後に `callback` を一度だけ呼び出す。"""
         raise NotImplementedError
 
 
 def _run_later(callback: Callable[[], None]) -> None:
-    """次のQt event loopでcallbackを一度だけ呼び出す。"""
+    """次の Qt event loop で `callback` を一度だけ呼び出す。"""
     # MayaによるworkspaceControlのlayout計算完了を0ms timerで待つ。
     timer_type = cast(_QTimerType, qt.QtCore.QTimer)
     timer_type.singleShot(0, callback)
@@ -145,7 +145,7 @@ def find_floating_host(
     window: qt.QtWidgets.QWidget,
 ) -> qt.QtWidgets.QWidget | None:
     """workspaceControlを包むfloating最上位Widgetを返す。"""
-    # Maya 2025では内容Widgetの直接の親がQWidgetになるため名前で接続を確認する。
+    # Maya 2025 では内容 Widget の直接の親が `QWidget` になるため名前で接続を確認する。
     if not qt.isValid(window):
         return None
     workspace_widget = window.parent()

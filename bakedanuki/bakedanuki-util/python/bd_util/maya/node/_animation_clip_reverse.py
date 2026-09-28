@@ -1,4 +1,4 @@
-"""AnimationClipを保存範囲の共通時間軸で反転する。sceneは変更しない。"""
+"""`AnimationClip` を保存範囲の共通時間軸で反転する。シーンは変更しない。"""
 
 from __future__ import annotations
 
@@ -31,16 +31,16 @@ def _is_step(tangent: Tangent) -> bool:
 def _reversed_interval(
     left_out: Tangent, right_in: Tangent
 ) -> tuple[Tangent, Tangent]:
-    """1区間を反転し、新しい左outと右inを返す。
+    """1 区間を反転し、新しい左の出力接線と右の入力接線を返す。
 
-    step系は左キーのoutだけで区間を決める。未使用側の情報も保持し、
-    同じ変換を2回適用すると元データへ戻るようにする。
+    `step` 系では `left_out` だけで区間を決める。未使用側の情報も保持し、
+    同じ変換を 2 回適用すると元データへ戻るようにする。
     """
     if _is_step(left_out):
         return _reversed_step(left_out), _reversed_tangent(right_in)
     if _is_step(right_in):
-        # Mayaではincomingのstep系は区間をstep化しない。非標準データでも
-        # reversed側のoutへ移して意味を変えず、二重反転で元へ戻す。
+        # Maya では `right_in` の `step` 系は区間を `step` 化しない。
+        # 非標準データでも反転後の出力接線へ移し、二重反転で元へ戻す。
         return _reversed_tangent(left_out), _reversed_tangent(right_in)
     return _reversed_tangent(right_in), _reversed_tangent(left_out)
 
@@ -64,8 +64,8 @@ def _curve(
             frame * data.seconds_per_frame, "key time in seconds"
         )
         if data.seconds_per_frame == clip_rate:
-            # 通常のchannelと同じ単位の設定curveでは、秒への往復だけで生じる
-            # 誤差を避ける。反転軸自体は保存clipと同じ物理時刻である。
+            # 通常チャンネルと同じ単位の設定カーブでは、秒への往復だけで生じる
+            # 誤差を避ける。反転軸自体は保存 clip と同じ物理時刻である。
             result = finite_number(
                 clip_start_frame + clip_end_frame - frame,
                 "reversed key frame",

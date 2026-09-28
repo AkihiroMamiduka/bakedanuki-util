@@ -17,6 +17,7 @@ R = TypeVar("R")
 
 
 def log_elapsed(label: str, elapsed: float) -> None:
+    """`label` と経過秒数 `elapsed` を debug ログへ出力する。"""
     logger.debug(f"[timer] {label}: {elapsed:.6f} 秒")
 
 
@@ -72,7 +73,7 @@ def run_timed_repeat(
         実行順の経過秒数。
 
     Raises:
-        ValueError: ``repeat_count`` が1未満の場合。
+        ValueError: `repeat_count` が1未満の場合。
     """
     if repeat_count < 1:
         raise ValueError("repeat_count must be greater than 0.")

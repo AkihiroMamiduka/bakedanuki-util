@@ -517,5 +517,5 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self._registry.dispose()
 
     def _on_destroyed(self, *_args: object) -> None:
-        """QObject破棄中は兄弟Viewへ通知せず外部状態だけを解放する。"""
+        """`QObject` 破棄中は兄弟 View へ通知せず外部状態だけを解放する。"""
         self.dispose()

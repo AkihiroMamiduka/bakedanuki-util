@@ -8,7 +8,7 @@ from ...ui import qt
 
 
 def _add_maya_exiting_callback(callback: Callable[..., None]) -> int:
-    """Maya終了直前に呼ばれるcallbackを登録する。"""
+    """Maya 終了直前に呼ばれる `callback` を登録する。"""
     # Qt objectの破棄通知だけに依存せずMaya終了時にも解除できるようにする。
     return int(
         om.MSceneMessage.addCallback(
@@ -35,9 +35,9 @@ def _validate_callback_id(value: object) -> int:
 
 
 class MayaCallbackRegistry(qt.QtCore.QObject):
-    """Qt ownerと同じ寿命でMaya callback IDを管理する。
+    """Qt `owner` と同じ寿命で Maya callback ID を管理する。
 
-    ownerの破棄時とMaya終了時には、登録済みcallbackを解除する。
+    `owner` の破棄時と Maya 終了時には、登録済み callback を解除する。
     """
 
     def __init__(
@@ -49,10 +49,10 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         """callbackの所有者とMaya終了時の処理を指定する。
 
         Args:
-            owner: callbackの寿命を決めるQObject。
+            owner: callback の寿命を決める `QObject`。
             on_maya_exiting: 登録済みcallbackの解除前に呼ぶ引数なしの関数。
         """
-        # Qtの親子関係とdestroyed通知の両方でownerの寿命に追従する。
+        # Qt の親子関係と destroyed 通知の両方で `owner` の寿命に追従する。
         super().__init__(owner)
         self._owner: qt.QtCore.QObject | None = owner
         self._callback_ids: list[int] = []
@@ -147,7 +147,7 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         self._owner_destroyed_connection = None
         self._on_maya_exiting_callback = None
 
-        # 手動dispose後にownerの遅いdestroyed通知から再度呼ばれないようにする。
+        # 手動 `dispose()` 後に `owner` の遅い destroyed 通知から再度呼ばれないようにする。
         if owner is not None and owner_destroyed_connection is not None:
             try:
                 disconnect = cast(
@@ -188,10 +188,10 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
 
 
 def dispose_owned_callbacks(owner: qt.QtCore.QObject) -> int:
-    """owner直下のRegistryを破棄し、callbackを直ちに解除する。
+    """`owner` 直下の Registry を破棄し、callback を直ちに解除する。
 
     Args:
-        owner: Registryを子に持つQObject。
+        owner: Registry を子に持つ `QObject`。
 
     Returns:
         今回破棄したRegistryの数。

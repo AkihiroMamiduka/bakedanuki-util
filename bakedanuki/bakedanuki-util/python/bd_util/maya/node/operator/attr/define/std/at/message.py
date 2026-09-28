@@ -1,8 +1,6 @@
 # coding: utf-8
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
 

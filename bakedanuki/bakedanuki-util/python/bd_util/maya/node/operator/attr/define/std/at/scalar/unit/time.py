@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ._base import (
     UnitBaseAttrOperator,
     UnitBasePlugOperator,
@@ -14,7 +12,6 @@ from ._base import (
 class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
     __slots__ = ()
 
-    # get
     def get(self) -> float:
         """timeプラグの現在値をMaya UIの時間単位で取得する。"""
         plug = self._m_plug
@@ -22,7 +19,6 @@ class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
             plug = self.plug
         return plug.asMTime().asUnits(om.MTime.uiUnit())
 
-    # set
     def set(self, value: float) -> None:
         """timeプラグへMaya UI時間単位の値をModifierManager経由で設定する。
 

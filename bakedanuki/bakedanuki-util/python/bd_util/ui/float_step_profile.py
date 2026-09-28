@@ -37,7 +37,7 @@ class FloatStepSetting:
     single_step: float
 
     def __post_init__(self) -> None:
-        """公開境界で識別子・単位種別・Step値を正規化する。"""
+        """公開境界で `key`・`unit_kind`・`single_step` を正規化する。"""
         object.__setattr__(self, "key", _require_key(self.key))
         object.__setattr__(
             self, "unit_kind", require_unit_kind(self.unit_kind)
@@ -115,7 +115,7 @@ class FloatStepProfile(qt.QObject):
             設定が変わった場合は`True`。
 
         Raises:
-            TypeError: FloatStepSetting以外を含む場合。
+            TypeError: `entries` に `FloatStepSetting` 以外を含む場合。
         """
         updated: dict[tuple[str, FloatUnitKind], float] = {}
         for entry in entries:

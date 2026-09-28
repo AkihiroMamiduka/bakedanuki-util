@@ -2,7 +2,6 @@
 from collections.abc import Sequence
 from typing import Any
 
-# self
 from ._base import (
     QuatCompoundBaseAttrOperator,
     QuatCompoundBasePlugOperator,

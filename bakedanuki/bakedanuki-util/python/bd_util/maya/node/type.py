@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# maya
 from maya import cmds
 
 TYPE_DAG_NODE = "dagNode"
@@ -25,12 +24,12 @@ def is_dag_node_type(node_type: str) -> bool:
 
 
 def is_transform_type(node_type: str) -> bool:
-    """指定した型が Transform ノードか。"""
+    """指定した Maya ノード型が `transform` 型を継承するか。"""
     return is_type_core(node_type, TYPE_TRANSFORM_NODE)
 
 
 def is_shape_type(node_type: str) -> bool:
-    """指定した型が Shape ノードか。"""
+    """指定した Maya ノード型が `shape` 型を継承するか。"""
     return is_type_core(node_type, TYPE_SHAPE_NODE)
 
 

@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .base.numeric_base import (
     DataNumericBaseAttrOperator,
     DataNumericBasePlugOperator,
@@ -16,17 +14,15 @@ class DataReflectanceRGBPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> list[float]:
         """reflectanceRGB dataプラグの現在値をfloatリストで取得する。"""
         x, y, z = self._get_data()
         return [x, y, z]
 
-    # set
     def set_direct(self, value: list[float]) -> None:
-        """MPlug に値を直接設定する。
+        """`MPlug` に値を直接設定する。
 
-        ModifierManager の履歴には入らない。
+        `ModifierManager` の履歴には入らない。
 
         Args:
             value: x, y, z の値のリスト

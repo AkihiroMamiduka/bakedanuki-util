@@ -39,7 +39,7 @@ def _roots(plug: om.MPlug, *, traverse_inputs: bool) -> list[om.MPlug]:
         if traverse_inputs and plug == node.findPlug("output", False):
             roots.append(node.findPlug("input", False))
         return roots
-    # MItDependencyGraph omits internal dependencies of unconsumed outputs.
+    # `MItDependencyGraph` は未使用の出力属性の内部依存を辿らない。
     attributes: om.MObjectArray = node.getAffectingAttributes(plug.attribute())
     for attribute in attributes:
         parent = om.MFnAttribute(attribute).parent
@@ -47,7 +47,7 @@ def _roots(plug: om.MPlug, *, traverse_inputs: bool) -> list[om.MPlug]:
             attribute = parent
             parent = om.MFnAttribute(attribute).parent
         for leaf in _leaves(node.findPlug(attribute, False)):
-            # MPlug equality can consider different array elements equal.
+            # 異なる配列要素でも `MPlug` の比較が等しいことがあるため、名前で重複を除く。
             name = leaf.name()
             if name not in names:
                 names.add(name)
@@ -100,7 +100,7 @@ def has_animation(plug: om.MPlug) -> bool:
             elif node.hasFn(om.MFn.kAnimCurve):
                 if oma.MFnAnimCurve(node).numKeys:
                     return True
-                # An empty curve's time input does not animate its output.
+                # キーのないカーブの時間入力は出力値を変化させない。
                 iterator.prune()
             elif node.hasFn(om.MFn.kTime) or node.hasFn(om.MFn.kExpression):
                 return True
@@ -114,7 +114,7 @@ def curve_objects(
     """上流カーブを集め、採取時にはアニメーション駆動の入力も辿る。"""
     _validate_plug(plug)
     objects: list[om.MObject] = []
-    # Keep each root MPlug alive until iteration finishes (Maya retains it).
+    # Maya が参照するため、走査が終わるまで各ルート `MPlug` を保持する。
     for root in _roots(plug, traverse_inputs=traverse_inputs):
         iterator = _upstream(root)
         while not iterator.isDone():
@@ -140,7 +140,7 @@ def find_anim_curves(
     modifier_manager: ModifierManager | None,
     filter_type: object,
 ) -> tuple[AnimCurveNode, ...]:
-    # Import wrappers after the attribute definitions have been initialized.
+    # 属性定義の初期化後にノードラッパーを import する。
     from ...existing_node import ExistingNode
     from ..node._core import NodeOperator
 

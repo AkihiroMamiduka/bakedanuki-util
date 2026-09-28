@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ........ import logger as u_logger
 from .......transform.matrix.transform_matrix import (
     MatrixSequence,
@@ -17,12 +15,12 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
-    """matrix data プラグを TransformMatrix として読み書きする。"""
+    """matrix data プラグを `TransformMatrix` として読み書きする。"""
 
     __slots__ = ()
 
     def get(self) -> TransformMatrix:
-        """現在の行列値を TransformMatrix のスナップショットで返す。
+        """現在の行列値を `TransformMatrix` のスナップショットで返す。
 
         Raises:
             ValueError: plugがmatrix dataを保持していない場合。
@@ -79,10 +77,10 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
             | MatrixSequence
         ),
     ) -> None:
-        """行列を即時設定する。ModifierManager の Undo 履歴には入らない。
+        """行列を即時設定する。`ModifierManager` の Undo 履歴には入らない。
 
         Args:
-            value: TransformMatrix、MMatrix、MTransformationMatrix、
+            value: `TransformMatrix`、`MMatrix`、`MTransformationMatrix`、
                 16 要素または 4 行 4 列の数列。
         """
         matrix = TransformMatrix(value).matrix

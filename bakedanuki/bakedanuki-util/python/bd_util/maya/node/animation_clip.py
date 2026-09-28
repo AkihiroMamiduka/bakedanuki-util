@@ -1,4 +1,4 @@
-"""複数ノードのアニメーションを保存する、sceneから独立したデータ。"""
+"""複数ノードのアニメーションを保存する、シーンから独立したデータ。"""
 
 from __future__ import annotations
 
@@ -196,13 +196,13 @@ class AnimationClip:
     Attributes:
         nodes: 保存順に並ぶノードと属性カーブ。
         layers: 親が子より先に並ぶレイヤー情報。
-        layer_mode: 合成値を保存する ``flatten`` または生カーブの ``preserve``。
+        layer_mode: 合成値を採取する `flatten` またはレイヤー別カーブの `preserve`。
         start_frame: 保存区間の開始。
         end_frame: 保存区間の終了。
         seconds_per_frame: 保存時の 1 frame あたりの秒数。
-        root_settings: ルートレイヤーの設定。flatten では空。
+        root_settings: ルートレイヤーの設定。`layer_mode="flatten"` では空。
         clipped: 区間を切り出して保存したか。
-        sample_by: flatten 時の採取間隔。preserve 時は生カーブを保持する。
+        sample_by: 正の採取間隔。`layer_mode="flatten"` のときだけ採取に使う。
         schema_version: JSON の schema バージョン。常に 2。
     """
 
@@ -337,7 +337,7 @@ class AnimationClip:
             value: 保存済みの clip 辞書。
 
         Returns:
-            検証済みの AnimationClip。
+            検証済みの `AnimationClip`。
 
         Raises:
             TypeError: 辞書やフィールドの型が不正な場合。
@@ -404,7 +404,7 @@ class AnimationClip:
             create_parents: 親ディレクトリを作成するか。
 
         Returns:
-            実際の保存先 Path。
+            実際の保存先 `Path`。
         """
         data = self.from_dict(self.to_dict()).to_dict()
         return json_file.write(
@@ -423,7 +423,7 @@ class AnimationClip:
             path: 読み込む JSON ファイル。
 
         Returns:
-            シーンには復元しない AnimationClip。
+            シーンには復元しない `AnimationClip`。
         """
         return cls.from_dict(json_file.read(path))
 
@@ -451,17 +451,20 @@ class AnimationClip:
             attributes: 各ノードに共通の属性名。省略時は keyable 属性。
             include_channel_box: 自動収集時に Channel Box 属性も含めるか。
             include_static: 時間変化のない属性も含めるか。
-            start_frame: 保存区間の開始。None は取得したキー範囲の開始。
-            end_frame: 保存区間の終了。None は取得したキー範囲の終了。
-            layer_mode: 合成値の ``flatten`` またはレイヤー別の ``preserve``。
-            layers: preserve 時に保存するレイヤー。None は所属レイヤー。
-            sample_by: flatten 時の採取間隔。現在の UI 時間単位で指定する。
+            start_frame: 保存区間の開始。`None` は取得したキー範囲の開始。
+            end_frame: 保存区間の終了。`None` は取得したキー範囲の終了。
+            layer_mode: 合成値を採取する `flatten` またはレイヤー別カーブの `preserve`。
+            layers: `layer_mode="preserve"` のときに保存するレイヤー。
+                `None` は所属レイヤー。
+            sample_by: 正の採取間隔。現在の UI 時間単位で指定し、
+                `layer_mode="flatten"` のときだけ採取に使う。
 
         Returns:
-            シーンから独立した AnimationClip。
+            シーンから独立した `AnimationClip`。
 
         Raises:
-            ValueError: キー範囲を得られず、保存区間も指定されていない場合。
+            TypeError: 引数または対象属性の型が未対応の場合。
+            ValueError: 対象ノード・属性、レイヤー、時間範囲が不正な場合。
         """
         from ._animation_clip_capture import capture
 
@@ -497,7 +500,7 @@ class AnimationClip:
             preserve_breakdowns: breakdown キーを残すか。
 
         Returns:
-            キー削減後の独立した AnimationClip。
+            キー削減後の独立した `AnimationClip`。
         """
         from ._animation_clip_reduce import reduce_keys
 
@@ -523,7 +526,7 @@ class AnimationClip:
                 短い名前の一致が複数ある場合は拒否する。
 
         Returns:
-            指定順にノードを並べた独立した AnimationClip。
+            指定順にノードを並べた独立した `AnimationClip`。
         """
         from ._animation_clip_extract import extract
 
@@ -690,24 +693,33 @@ class AnimationClip:
     ) -> None:
         """保存したアニメーションの復元を予約する。
 
-        保存区間は clip の時間単位、復元先時刻は予約時の UI 時間単位。
-        開始・終了時刻の両方指定は時間倍率・長さ・移動量と併用できない。
+        `start_frame` と `end_frame` は clip の時間単位。
+        `to_start_frame`、`to_end_frame`、`offset_frames`、`duration_frames` は
+        予約時の UI 時間単位。
+        `to_start_frame` と `to_end_frame` の両方を指定する場合、
+        `time_scale` と `duration_frames` は併用できない。
+        `offset_frames` は `to_start_frame`、`to_end_frame` のどちらとも併用できない。
         復元に失敗した場合は操作全体を戻す。
 
         Args:
             modifier_manager: 復元操作を予約する先。
-            targets: 保存ノード順に対応する復元先。namespace とは併用不可。
-            namespace: 復元先ノードに付ける名前空間。
-            mode: ``merge``、``replace_all``、``replace_range`` のいずれか。
-            start_frame: 保存データ内の使用区間の開始。None は保存範囲の端。
-            end_frame: 保存データ内の使用区間の終了。None は保存範囲の端。
+            targets: 保存ノード順に対応する復元先。`namespace` とは併用不可。
+            namespace: 保存名の名前空間を置き換える。`None` は保持、空文字は除去。
+            mode: `merge`、`replace_all`、`replace_range` のいずれか。
+            start_frame: 保存データ内の使用区間の開始。`None` は保存範囲の端。
+            end_frame: 保存データ内の使用区間の終了。`None` は保存範囲の端。
             offset_frames: 復元時刻に加える移動量。
             to_start_frame: 復元先の開始時刻。
-            to_end_frame: 復元先の終了時刻。開始と両方指定すると区間を合わせる。
-            time_scale: 正の時間倍率。duration_frames との併用不可。
-            duration_frames: 復元区間の長さ。time_scale との併用不可。
+            to_end_frame: 復元先の終了時刻。`to_start_frame` も指定すると区間を合わせる。
+            time_scale: 正の時間倍率。`duration_frames` との併用不可。
+            duration_frames: 復元区間の長さ。`time_scale` との併用不可。
             restore_layer_settings: 設定が異なる既存レイヤーも更新するか。
-            tolerance: flatten 値の復元確認に使う許容誤差。
+            tolerance: `layer_mode="flatten"` の値の復元確認に使う許容誤差。
+
+        Raises:
+            TypeError: `modifier_manager` や `targets` などの型が不正な場合。
+            ValueError: 復元先、レイヤー、時間指定が不正な場合。
+            RuntimeError: `do_it_dg()` 時に対象ノードやレイヤーを復元できない場合。
         """
         from ._animation_clip_restore import restore
 

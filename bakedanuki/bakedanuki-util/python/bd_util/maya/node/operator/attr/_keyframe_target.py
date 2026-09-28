@@ -25,7 +25,7 @@ class CurveTarget:
             raise RuntimeError(
                 "Explicit curve operations support only animCurveTA / TL / TU."
             )
-        # handle.object() is null for a pending MDGModifier-created node.
+        # `MDGModifier` で作成待ちのノードでは `handle.object()` が null になる。
         self.node = node
         self.handle = handle
         self.curve_type: CurveTypeName = name
@@ -221,7 +221,7 @@ def _check_layer_creation_input(target: LayerTarget) -> None:
         selection.add(layered_plug)
         destination = selection.getPlug(0)
     else:
-        # Maya's layeredPlug query does not return the root layer's input.
+        # Maya の `layeredPlug` 問い合わせはルートレイヤーの入力を返さない。
         visited: set[str] = set()
         while destination.name() not in visited:
             visited.add(destination.name())
@@ -534,11 +534,11 @@ def _check_editable_plug(plug: om.MPlug) -> None:
         raise RuntimeError(f"Cannot edit locked plug {plug.name()}.")
     if not (plug.isArray or plug.isCompound):
         return
-    # Maya checks descendants without materializing every key plug in Python.
+    # Maya は各キーのプラグを Python で実体化せずに子孫を検査できる。
     if plug.isFreeToChange(False, True) == om.MPlug.kFreeToChange:
         return
     if plug.isArray:
-        # animCurve internal arrays do not support physical index access.
+        # animCurve の内部配列は physical index でアクセスできない。
         for index in plug.getExistingArrayAttributeIndices():
             _check_editable_plug(plug.elementByLogicalIndex(index))
     elif plug.isCompound:

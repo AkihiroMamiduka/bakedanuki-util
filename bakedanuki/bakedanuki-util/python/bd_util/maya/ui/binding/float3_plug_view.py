@@ -134,7 +134,7 @@ class MayaFloat3PlugView(qt.QObject, Generic[_PlugT]):
         Args:
             view_model: Python Storeを接続済みの3成分ViewModel。
             plug: 同期先のMaya 3成分親plug。
-            owner: callbackの寿命を管理するQObject。
+            owner: callback の寿命を管理する `QObject`。
 
         Raises:
             RuntimeError: Storeが未接続、またはMaya Storeが正本の場合。

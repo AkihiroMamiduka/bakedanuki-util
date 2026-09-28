@@ -23,7 +23,7 @@ def _initialize_maya() -> bool:
     try:
         maya.standalone.initialize(name="python")
     except RuntimeError:
-        # Maya may already be initialized when this is called in Script Editor.
+        # Script Editor から呼ぶ場合は Maya が初期化済みなので、その状態を維持する。
         return False
     return True
 
@@ -52,6 +52,21 @@ def generate_version_schema(
     shard_index: int = 0,
     shard_count: int = 1,
 ) -> tuple[str, ...]:
+    """指定した Maya 版の差分ノードを選び、対応する生成ファイルを書き出す。
+
+    Args:
+        maya_version: 実行中の Maya と一致させる対象バージョン。
+        src_dir: `bd_util` パッケージの親ディレクトリ。
+        shard_index: 分割実行する際の担当番号。0 から数える。
+        shard_count: 分割数。1 以上を指定する。
+
+    Returns:
+        この分割で生成対象になったノード型名。
+
+    Raises:
+        ValueError: 未対応の `maya_version`、または無効な分割指定の場合。
+        RuntimeError: 実行中の Maya 版が `maya_version` と異なる場合。
+    """
     from .generate import generate_node_class_file
 
     if maya_version not in SUPPORTED_MAYA_VERSIONS:
@@ -84,6 +99,7 @@ def generate_version_schema(
 
 
 def main() -> None:
+    """CLI 引数に従い、必要なら Maya を初期化して差分 schema を生成する。"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--maya-version",

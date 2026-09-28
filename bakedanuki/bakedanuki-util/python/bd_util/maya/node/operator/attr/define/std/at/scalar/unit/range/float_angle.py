@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ._base import (
     UnitRangeBaseAttrOperator,
     UnitRangeBasePlugOperator,
@@ -16,7 +14,6 @@ class FloatAnglePlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> float:
         """floatAngleプラグの現在値をdegree単位で取得する。"""
         plug = self._m_plug
@@ -24,7 +21,6 @@ class FloatAnglePlugOperator(
             plug = self.plug
         return plug.asMAngle().asDegrees()
 
-    # set
     def set(self, value: float) -> None:
         """floatAngleプラグへdegree値をModifierManager経由で設定する。
 

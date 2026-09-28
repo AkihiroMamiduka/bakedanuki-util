@@ -113,7 +113,7 @@ class _EnumCodec:
     """読み取り・復旧は未定義値も保持し、新規入力だけを定義内に制限する。"""
 
     def __init__(self, plug: MayaEnumPlug) -> None:
-        """単一enum plugの値と定義を読み取るcodecを作る。"""
+        """単一 enum `plug` の値と定義を読み取る codec を作る。"""
         self.value = EnumPlugValue(require_enum_plug(plug).plug)
 
     def read(self) -> int:
@@ -422,7 +422,7 @@ class MayaBoolPlugsBinding(
 
         Args:
             plugs: 代表を先頭にした一つ以上のbool属性。
-            parent: このBindingを所有するQObject。
+            parent: この Binding を所有する `QObject`。
 
         Raises:
             ValueError: 対象が空または重複している場合。
@@ -483,7 +483,7 @@ class MayaFloatPlugsBinding(
 
         Args:
             plugs: 代表を先頭にした一つ以上の同種単位のfloat属性。
-            parent: このBindingを所有するQObject。
+            parent: この Binding を所有する `QObject`。
 
         Raises:
             TypeError: 対象の単位種別が揃っていない場合。
@@ -545,7 +545,7 @@ class MayaEnumPlugsBinding(
 
         Args:
             plugs: 代表を先頭にした一つ以上のenum属性。同じ定義が必要。
-            parent: このBindingを所有するQObject。
+            parent: この Binding を所有する `QObject`。
 
         Raises:
             ValueError: 対象が空・重複しているか、enum定義が異なる場合。

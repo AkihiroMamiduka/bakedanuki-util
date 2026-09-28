@@ -15,7 +15,7 @@ class _QTimerType(Protocol):
         milliseconds: int,
         callback: Callable[[], None],
     ) -> None:
-        """指定時間後にcallbackを一度だけ呼び出す。"""
+        """指定時間後に `callback` を一度だけ呼び出す。"""
         raise NotImplementedError
 
 

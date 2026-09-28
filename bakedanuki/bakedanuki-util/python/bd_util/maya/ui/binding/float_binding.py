@@ -18,7 +18,7 @@ _InstanceT = TypeVar("_InstanceT")
 
 
 class MayaFloatBinding(FloatBinding[_StoreT]):
-    """Python正本のStoreと任意のMaya float Viewを一組だけ管理する。"""
+    """Python 正本の Store と任意の Maya float View を一組だけ管理する。"""
 
     def __init__(
         self,
@@ -27,13 +27,12 @@ class MayaFloatBinding(FloatBinding[_StoreT]):
         maya_plug: MayaFloatPlug | None = None,
         parent: qt.QObject | None = None,
     ) -> None:
-        """Storeと任意のMaya plugを接続する。初期同期失敗時はcallbackを解除する。
+        """`store` と任意の Maya plug を接続する。初期同期失敗時は callback を解除する。
 
         Args:
-            store: Python側の正本となる数値Store。
-            maya_plug: 同期先のMaya float plug。`None`ならMaya Viewを作らない。
-            parent: このBindingを所有するQObject。
-
+            store: Python 側の正本となる数値 Store。
+            maya_plug: 同期先の Maya float plug。`None` なら Maya View を作らない。
+            parent: この `MayaFloatBinding` を所有する `QObject`。
         """
         self._maya_view: MayaFloatPlugView | None = None
         super().__init__(store, parent=parent)
@@ -55,17 +54,17 @@ class MayaFloatBinding(FloatBinding[_StoreT]):
         presentation: FloatPresentation | None = None,
         parent: qt.QObject | None = None,
     ) -> MayaFloatBinding[PythonFloatAttributeStore[_InstanceT]]:
-        """Python属性を正本とし、任意のMaya plugへ同期する。
+        """Python 属性を正本とし、任意の Maya plug へ同期する。
 
         Args:
-            instance: 正本の属性を持つPython object。
+            instance: 正本の属性を持つ Python object。
             attribute_name: 正本として扱う既存属性の名前。
-            maya_plug: 同期先のMaya float plug。
-            presentation: 公開単位から表示単位への変換と入力範囲。
-            parent: このBindingを所有するQObject。
+            maya_plug: 同期先の Maya float plug。`None` なら Maya View を作らない。
+            presentation: 公開単位から表示単位への変換と入力範囲。`None` なら既定の `FloatPresentation`。
+            parent: この `MayaFloatBinding` を所有する `QObject`。
 
         Returns:
-            Python属性Storeを持つMayaFloatBinding。
+            Python 属性 Store を持つ `MayaFloatBinding`。
         """
         return MayaFloatBinding(
             PythonFloatAttributeStore(
@@ -77,7 +76,7 @@ class MayaFloatBinding(FloatBinding[_StoreT]):
 
     @property
     def maya_view(self) -> MayaFloatPlugView | None:
-        """Maya同期状態を持つViewを返す。plug未指定なら`None`。"""
+        """Maya 同期状態を持つ View を返す。`maya_plug` 未指定なら `None`。"""
         return self._maya_view
 
     def dispose(self) -> None:

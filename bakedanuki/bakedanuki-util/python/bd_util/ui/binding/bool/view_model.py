@@ -26,7 +26,7 @@ class _QueuedSignal(Protocol):
         slot: Callable[[], None],
         connection_type: qt.Qt.ConnectionType,
     ) -> qt.QtCore.QMetaObject.Connection:
-        """slotを指定した接続方式で接続する。"""
+        """`slot` を指定した接続方式で接続する。"""
         raise NotImplementedError
 
 
@@ -57,7 +57,7 @@ def _disconnect_qt_connection(
 
 
 class _MutableBoolValue(BoolValue):
-    """BoolViewModelだけが保持する更新可能なBoolValue。"""
+    """`BoolViewModel` だけが保持する更新可能な `BoolValue`。"""
 
     def replace(self, value: bool) -> bool:
         """ViewModelから値を確定し、変更された場合だけ通知する。"""
@@ -70,7 +70,7 @@ class _MutableBoolValue(BoolValue):
 
 
 class _MutableSetBoolCommand(SetBoolCommand):
-    """BoolViewModelだけが保持する状態更新可能なCommand。"""
+    """`BoolViewModel` だけが保持する状態更新可能な Command。"""
 
     def set_can_execute(self, can_execute: bool) -> None:
         """ViewModelから実行可否を更新する。"""
@@ -125,7 +125,7 @@ class BoolViewModel(qt.QObject):
         return self._is_disposed or not qt.isValid(self)
 
     def dispose(self) -> None:
-        """入力と同期を停止する。QObjectの破棄はownerへ任せる。"""
+        """入力と同期を停止する。`QObject` の破棄は所有者へ任せる。"""
         if self.is_disposed:
             return
         self._is_disposed = True
@@ -274,6 +274,6 @@ class BoolViewModel(qt.QObject):
 
     @qt.Slot()
     def _on_store_destroyed(self) -> None:
-        """QObject Store破棄後のCommand停止をevent loopで反映する。"""
+        """`QObject` Store 破棄後の Command 停止を event loop で反映する。"""
         self._store_destroyed_connection = None
         self._set_value_command.set_can_execute(False)

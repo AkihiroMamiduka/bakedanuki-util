@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ........ import logger as u_logger
 from ._core import (
     DataTypeAttrOperator,
@@ -17,12 +15,10 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
     __slots__ = ()
 
-    # get
     def get(self) -> str:
         """string dataプラグの現在値を文字列で取得する。"""
         return self.plug.asString()
 
-    # set
     def set(self, value: str) -> None:
         """string dataプラグへ文字列をModifierManager経由で設定する。
 
@@ -34,9 +30,9 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
         self._node.modifier_manager.dg_mod.newPlugValueString(self.plug, value)
 
     def set_direct(self, value: str):
-        """MPlug に値を直接設定する。
+        """`MPlug` に値を直接設定する。
 
-        ModifierManager の履歴には入らない。
+        `ModifierManager` の履歴には入らない。
 
         Args:
             value: セットする文字列

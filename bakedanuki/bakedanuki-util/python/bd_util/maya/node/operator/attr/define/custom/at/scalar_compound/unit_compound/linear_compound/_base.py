@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any, ClassVar, TypeVar, Type, cast
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ..........value.scalar_compound.scalar_compound_value import (
     ScalarCompoundValue,
 )
@@ -33,11 +31,9 @@ class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
     def _prepare_child_limit_value(self, value: float) -> om.MDistance:
         return om.MDistance(value, om.MDistance.kCentimeters)
 
-    # get
     def _get_child_value(self, child_plug: om.MPlug) -> float:
         return child_plug.asMDistance().asCentimeters()
 
-    # set
     def _set_child_value(self, child_plug: om.MPlug, value: float) -> None:
         value = om.MDistance(value, om.MDistance.kCentimeters)
         self._node.modifier_manager.dg_mod.newPlugValueMDistance(

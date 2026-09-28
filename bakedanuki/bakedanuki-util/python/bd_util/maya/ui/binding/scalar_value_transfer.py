@@ -242,13 +242,13 @@ class MayaScalarValueClipboard:
         return _CLIPBOARD.contains()
 
     def write(self, transfer: MayaScalarValueTransfer) -> None:
-        """transferをversion付きJSONとしてOSへ保存する。
+        """`transfer` を version 付き JSON として OS へ保存する。
 
         Args:
             transfer: 型付きのscalar値搬送データ。
 
         Raises:
-            TypeError: transferの型が不正な場合。
+            TypeError: `transfer` の型が不正な場合。
             ValueError: JSONがクリップボードの容量上限を超える場合。
             RuntimeError: QApplicationが存在しない場合。
         """
@@ -281,7 +281,7 @@ def capture_scalar_node_values(
         指定順の属性値を持つsnapshot。
 
     Raises:
-        ValueError: node名が空、または属性が空・重複している場合。
+        ValueError: `node_name` が空、または `attributes` が空・重複している場合。
         TypeError: 属性情報の型が不正な場合。
     """
     if not isinstance(node_name, str) or not node_name:
@@ -339,7 +339,7 @@ def capture_all_scalar_node_values(node_name: str) -> MayaNodeValueSnapshot:
 def encode_scalar_value_transfer(
     transfer: MayaScalarValueTransfer,
 ) -> dict[str, object]:
-    """transferをJSON互換のversion 1 documentへ変換する。
+    """`transfer` を JSON 互換の version 1 document へ変換する。
 
     Args:
         transfer: 型付きのscalar値搬送データ。
@@ -458,7 +458,7 @@ def _decode_snapshot(value: object) -> MayaScalarValueSnapshot:
 
 
 def decode_scalar_value_transfer(document: object) -> MayaScalarValueTransfer:
-    """外部JSON documentを検証してversion 1 transferへ変換する。
+    """外部 JSON の `document` を検証して version 1 transfer へ変換する。
 
     Args:
         document: JSONから読み込んだ値。
@@ -550,7 +550,7 @@ def apply_scalar_value_transfer(
         変更有無、書き込み候補数、除外した属性と理由。
 
     Raises:
-        TypeError: transferの型が不正な場合。
+        TypeError: `transfer` の型が不正な場合。
         ValueError: コピー元・貼り付け先nodeの件数や名前が不正な場合。
 
     """
@@ -645,7 +645,7 @@ def apply_scalar_value_transfer_to_paths(
         変更有無、書き込み候補数、除外した属性と理由。
 
     Raises:
-        TypeError: transferまたはpathの型が不正な場合。
+        TypeError: `transfer` または `target_paths` の型が不正な場合。
         ValueError: コピー元、貼り付け先、pathの指定が不正な場合。
     """
     if not isinstance(transfer, MayaScalarValueTransfer):
@@ -710,7 +710,7 @@ def apply_scalar_value_to_paths(
         変更有無、書き込み候補数、除外した属性と理由。
 
     Raises:
-        TypeError: transferまたはpathの型が不正な場合。
+        TypeError: `transfer` または `target_paths` の型が不正な場合。
         ValueError: コピー元、貼り付け先、pathの指定が不正な場合。
 
     """

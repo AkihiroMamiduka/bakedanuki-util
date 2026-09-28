@@ -1,4 +1,4 @@
-"""AnimationClipから保存nodeを名前selectorで抽出する。"""
+"""`AnimationClip` から名前やノード参照で保存ノードを抽出する。"""
 
 from __future__ import annotations
 
@@ -114,7 +114,7 @@ def extract(
     if not values:
         raise ValueError("nodes must not be empty.")
 
-    # 除外対象を含む元データ全体を再検証し、変更可能なKeyDataも独立させる。
+    # 除外対象を含む元データ全体を再検証し、変更可能な `KeyData` も独立させる。
     data = replace(data)
     selected: list[NodeAnimationData] = []
     selected_names: set[str] = set()

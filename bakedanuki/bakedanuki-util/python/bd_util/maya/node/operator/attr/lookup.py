@@ -234,7 +234,7 @@ _DT_CLASS_MAP = _build_class_map(
 
 
 def lookup_attr_cls(node: str, attr: str) -> _AttrOperatorClass | None:
-    """既存属性の型に対応する AttrOperator クラスを返す。
+    """既存属性の型に対応する `AttrOperator` クラスを返す。
 
     Args:
         node: 対象ノード名。

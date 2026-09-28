@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# self
 from ......maya.node.nodes import Nodes
 
 

@@ -10,7 +10,7 @@ from .float_plug_resolver import float_plug_kind
 
 
 class MayaFloat3Plug(Protocol):
-    """既存PlugOperatorと名前解決結果に共通する3成分plugの境界。"""
+    """既存 `PlugOperator` と名前解決結果に共通する3成分 plug の境界。"""
 
     @property
     def node(self) -> NodeOperator:
@@ -19,7 +19,7 @@ class MayaFloat3Plug(Protocol):
 
     @property
     def plug(self) -> om.MPlug:
-        """3成分の親MPlugを返す。"""
+        """3成分の親 `MPlug` を返す。"""
         raise NotImplementedError
 
 
@@ -35,7 +35,7 @@ def require_float3_plug(value: object) -> MayaFloat3Plug:
     """同種の数値3成分を持つ親plugだけを受け付ける。
 
     Args:
-        value: 親MPlugとNodeOperatorを持つ対象。
+        value: 親 `MPlug` と `NodeOperator` を持つ対象。
 
     Returns:
         検証済みの3成分plug。

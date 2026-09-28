@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any, TypeVar, Type, cast
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .........value.scalar_compound.scalar_compound_value import (
     ScalarCompoundValue,
 )

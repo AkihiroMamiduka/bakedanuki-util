@@ -1,11 +1,9 @@
 # coding: utf-8
 from typing import Protocol, cast
 
-# maya
 from maya import cmds
 from maya.api import OpenMaya as om
 
-# self
 from .base.array_base import (
     DataArrayBaseAttrOperator,
     DataArrayBasePlugOperator,
@@ -31,7 +29,6 @@ class DataFloatArrayPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> list[float]:
         """floatArray dataプラグの現在値をfloatリストで取得する。"""
         plug_name = self.plug.name()
@@ -56,11 +53,10 @@ class DataFloatArrayPlugOperator(
             result.append(float(value))
         return result
 
-    # set
     def set_direct(self, value: list[float]) -> None:
-        """MPlug に値を直接設定する。
+        """`MPlug` に値を直接設定する。
 
-        ModifierManager の履歴には入らない。
+        `ModifierManager` の履歴には入らない。
 
         Args:
             value: セットする値のリスト

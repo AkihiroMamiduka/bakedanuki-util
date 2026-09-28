@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any
 
-# self
 from ... import logger as u_logger
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)

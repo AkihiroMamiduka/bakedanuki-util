@@ -13,7 +13,7 @@ _InstanceT = TypeVar("_InstanceT")
 
 
 class BoolBinding(qt.QObject, Generic[_StoreT]):
-    """一つのbool StoreとViewModelの同期・寿命を管理する。"""
+    """一つの bool Store と `BoolViewModel` の同期・寿命を管理する。"""
 
     def __init__(
         self,
@@ -21,11 +21,11 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         *,
         parent: qt.QObject | None = None,
     ) -> None:
-        """外部Storeに対応する専用ViewModelを作る。
+        """外部 `store` に対応する専用 `BoolViewModel` を作る。
 
         Args:
             store: 真偽値を読み書きする正本。終了時も破棄しない。
-            parent: このBindingを所有するQObject。
+            parent: この `BoolBinding` を所有する `QObject`。
         """
         self._initialize(lambda _view_model: store, parent=parent)
 
@@ -57,15 +57,15 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         *,
         parent: qt.QObject | None = None,
     ) -> BoolBinding[PythonBoolAttributeStore[_InstanceT]]:
-        """既存のPython bool属性を正本とするBindingを作る。
+        """既存の Python bool 属性を正本とする `BoolBinding` を作る。
 
         Args:
             instance: 属性を持つPython object。
             attribute_name: 正本として扱う既存属性の名前。
-            parent: このBindingを所有するQObject。
+            parent: この `BoolBinding` を所有する `QObject`。
 
         Returns:
-            作成した属性Storeを保持するBinding。
+            作成した `PythonBoolAttributeStore` を保持する `BoolBinding`。
         """
         return BoolBinding(
             PythonBoolAttributeStore(instance, attribute_name),
@@ -103,7 +103,7 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         )
 
     def set_value(self, value: bool) -> bool:
-        """Viewと同じCommandを通して値を設定する。
+        """View と共通の `set_value_command` を通して値を設定する。
 
         Args:
             value: 設定する真偽値。
@@ -114,7 +114,7 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
         return self.view_model.set_value_command.execute(value)
 
     def refresh(self) -> bool:
-        """正本を読み直してViewModelへ反映する。
+        """正本を読み直して `BoolViewModel` へ反映する。
 
         Returns:
             公開値が変わった場合は`True`。
@@ -133,6 +133,6 @@ class BoolBinding(qt.QObject, Generic[_StoreT]):
             self.deleteLater()
 
     def _require_active(self) -> None:
-        """終了後の操作と破棄済みQObjectへのアクセスを拒否する。"""
+        """終了後の操作と破棄済み `QObject` へのアクセスを拒否する。"""
         if self.is_disposed:
             raise RuntimeError("BoolBindingは終了しています")

@@ -5,12 +5,10 @@ import dataclasses
 from enum import Enum
 from typing import ParamSpec, TypeVar, cast
 
-# maya
 from .. import scene as u_scene
 import maya.cmds as cmds
 import maya.api.OpenMaya as om
 
-# self
 from ... import logger as u_logger
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -19,8 +17,6 @@ P = ParamSpec("P")
 R = TypeVar("R")
 
 
-# get
-#   attr
 def get_attr(node: str, attr: str) -> om.MObject:
     """指定したノードの属性を ``MObject`` として取得する。
 
@@ -102,7 +98,6 @@ class AttrKind(Enum):
     DATA_TYPE = 1
 
 
-# type kind
 def get_attr_kind(node: str, attr: str) -> AttrKind:
     """指定した属性の種類を ``AttrKind`` で返す。"""
     if is_typed_attr(node, attr):
@@ -120,7 +115,6 @@ def is_data_type(node: str, attr: str) -> bool:
     return get_attr_kind(node, attr) == AttrKind.DATA_TYPE
 
 
-# data_type_name
 def get_data_type_name(node: str, attr: str) -> str | None:
     """属性の Maya data type 名を返し、非該当なら ``None`` を返す。"""
     attr_obj = safe_query(get_attr, node, attr)
@@ -267,7 +261,6 @@ def get_attribute_type_name_from_attr(
     return None
 
 
-# info
 @dataclasses.dataclass
 class AttrInfo:
     """Maya 属性の名前・型・初期値・制約などの取得結果。
@@ -346,7 +339,7 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
     Returns:
         属性の名前・型・初期値などを収めた ``AttrInfo``。
     """
-    # long / short name
+    # 属性名や型を取得し、問い合わせに失敗した項目は `None` として保持する。
     long_name = attr
     short_name = safe_query(get_attr_short_name, node, attr)
     path_name = safe_query(get_attr_path_name, node, attr)
@@ -354,16 +347,13 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
         get_attr_enforcing_unique_name, node, attr
     )
 
-    # attributeType / dataType
     attribute_type = get_attribute_type_name(node, attr)
     data_type = get_data_type_name(node, attr)
 
-    # default value
     default_value = safe_query(
         cmds.attributeQuery, attr, node=node, listDefault=True
     )
 
-    # min / max
     min_value = safe_query(cmds.attributeQuery, attr, node=node, minimum=True)
     max_value = safe_query(cmds.attributeQuery, attr, node=node, maximum=True)
     soft_min_value = safe_query(
@@ -373,17 +363,14 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
         cmds.attributeQuery, attr, node=node, softMax=True
     )
 
-    # enum
     enum_name = _as_str_list(
         safe_query(cmds.attributeQuery, attr, node=node, listEnum=True)
     )
 
-    # multi
     multi = _as_bool(
         safe_query(cmds.attributeQuery, attr, node=node, multi=True)
     )
 
-    # number of children
     number_of_children = _as_int(
         safe_query(
             cmds.attributeQuery,
@@ -393,14 +380,13 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
         )
     )
 
-    # parent
     parent = _as_str_list(
         safe_query(cmds.attributeQuery, attr, node=node, listParent=True)
     )
+    # `attributeQuery` で親を取得できない場合は OpenMaya から補う。
     if not parent:
         parent = safe_query(get_attr_parent_names, node, attr)
 
-    # readable / writable
     readable = _as_bool(
         safe_query(cmds.attributeQuery, attr, node=node, readable=True)
     )
@@ -408,12 +394,10 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
         safe_query(cmds.attributeQuery, attr, node=node, writable=True)
     )
 
-    # category
     category = _as_str_list(
         safe_query(cmds.attributeQuery, attr, node=node, categories=True)
     )
 
-    # 情報をまとめる
     return AttrInfo(
         long_name=long_name,
         short_name=short_name,
@@ -616,7 +600,7 @@ def get_attribute_infos(
 ) -> list[AttrInfo]:
     """一時ノードを作成してノード型の属性情報を取得する。
 
-    取得後は一時ノードを削除する。``mode_new_scene=True`` なら代わりに
+    取得後は一時ノードを削除する。`mode_new_scene=True` なら代わりに
     保存確認なしで新規シーンを開く。
 
     Args:
@@ -625,14 +609,13 @@ def get_attribute_infos(
         mode_error_skip: ノード作成・型確認に失敗した場合に空リストを返すか。
 
     Returns:
-        ノードの各属性に対応する ``AttrInfo`` のリスト。
+        ノードの各属性に対応する `AttrInfo` のリスト。
 
     Raises:
         ValueError: ノードを作成・確認できず、スキップが無効な場合。
     """
 
     def _post_process(node: str) -> None:
-        # ノードを削除するか新規シーンにするか
         if mode_new_scene:
             u_scene.new_scene()
         else:
@@ -641,7 +624,6 @@ def get_attribute_infos(
 
     logger.debug(f"node_type: {node_type}")
 
-    # アトリビュート情報確認用に代理のノードを作成
     try:
         node = cmds.createNode(node_type)
     except Exception:
@@ -665,7 +647,6 @@ def get_attribute_infos(
         else:
             raise ValueError(f"Invalid node type: '{node_type}'")
 
-    # 不明なノードタイプの場合は例外を出す
     if created_node_type == "unknown":
         _post_process(node)
         if mode_error_skip:
@@ -674,15 +655,12 @@ def get_attribute_infos(
         else:
             raise ValueError(f"Invalid node type: '{node_type}'")
 
-    # アトリビュートの情報を取得
     attr_infos: list[AttrInfo] = []
     for attr in cmds.listAttr(node) or []:
         attr_infos.append(get_attribute_info(node, attr))
 
-    # ノードを削除
     _post_process(node)
 
-    # 戻り値
     return attr_infos
 
 
@@ -699,7 +677,6 @@ def print_attribute_infos(
     attr_infos: list[AttrInfo] = get_attribute_infos(node_type)
     for attr_info in attr_infos:
 
-        # title
         title = "-" * 8
         title = "{} {} ({}) ({}) ".format(
             title,
@@ -710,7 +687,6 @@ def print_attribute_infos(
         title = title.ljust(50, "-")
         print(f"{title} ")
 
-        # info
         if valid_value and attr_info.long_name:
             print("           longName:", attr_info.long_name)
         if valid_value and attr_info.short_name:

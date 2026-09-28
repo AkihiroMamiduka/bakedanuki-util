@@ -22,7 +22,7 @@ class Scalar4(ScalarCompoundValue[Scalar], Generic[Scalar]):
         """4 個の値からインスタンスを作る。
 
         Args:
-            values: x, y, z, w の順に並ぶ値。
+            values: ``x``、``y``、``z``、``w`` の順に並ぶ値。
 
         Returns:
             作成したインスタンス。
@@ -60,5 +60,5 @@ class Scalar4(ScalarCompoundValue[Scalar], Generic[Scalar]):
         return 4
 
     def as_tuple(self) -> tuple[Scalar, Scalar, Scalar, Scalar]:
-        """x, y, z, w を順番どおりにタプルで返す。"""
+        """``x``、``y``、``z``、``w`` を順番どおりにタプルで返す。"""
         return self.x, self.y, self.z, self.w

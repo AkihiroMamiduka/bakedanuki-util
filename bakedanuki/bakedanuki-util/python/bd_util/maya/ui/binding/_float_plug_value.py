@@ -32,7 +32,7 @@ class FloatPlugValue:
     """Maya内部単位・既存APIの公開単位・画面単位の変換境界。"""
 
     def __init__(self, plug: om.MPlug) -> None:
-        """plugの単位種別と格納精度を保持する。"""
+        """`plug` の単位種別と格納精度を保持する。"""
         self.plug = plug
         self.kind: FloatPlugKind = float_plug_kind(plug)
         self._is_float32 = self.kind == "number" and (

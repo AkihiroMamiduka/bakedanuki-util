@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ._base import (
     NumericRangeBaseAttrOperator,
     NumericRangeBasePlugOperator,
@@ -19,7 +17,6 @@ class FloatPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> float:
         """floatプラグの現在値を浮動小数点数で取得する。"""
         plug = self._m_plug
@@ -27,7 +24,6 @@ class FloatPlugOperator(
             plug = self.plug
         return plug.asFloat()
 
-    # set
     def set(self, value: float) -> None:
         """floatプラグへ値をModifierManager経由で設定する。
 

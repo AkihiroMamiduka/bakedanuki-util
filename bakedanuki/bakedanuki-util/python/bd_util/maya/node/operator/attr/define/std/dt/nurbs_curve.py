@@ -1,10 +1,8 @@
 # coding: utf-8
 from __future__ import annotations
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 

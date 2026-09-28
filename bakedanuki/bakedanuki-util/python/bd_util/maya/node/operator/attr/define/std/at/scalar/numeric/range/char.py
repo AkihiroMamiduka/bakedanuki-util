@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ._base import (
     NumericRangeBaseAttrOperator,
     NumericRangeBasePlugOperator,
@@ -15,7 +13,6 @@ from ._base import (
 class CharPlugOperator(NumericRangeBasePlugOperator["CharAttrOperator"]):
     __slots__ = ()
 
-    # get
     def get(self) -> str:
         """charプラグの現在値を1文字の文字列で取得する。"""
         plug = self._m_plug
@@ -23,7 +20,6 @@ class CharPlugOperator(NumericRangeBasePlugOperator["CharAttrOperator"]):
             plug = self.plug
         return plug.asChar()
 
-    # set
     def set(self, value: str) -> None:
         """charプラグへ1文字の文字列をModifierManager経由で設定する。
 

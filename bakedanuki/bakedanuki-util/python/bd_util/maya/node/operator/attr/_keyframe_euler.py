@@ -1,4 +1,4 @@
-"""同期した Transform の回転カーブに Euler filter を適用する。"""
+"""同期した `Transform` の回転カーブに Euler filter を適用する。"""
 
 from __future__ import annotations
 

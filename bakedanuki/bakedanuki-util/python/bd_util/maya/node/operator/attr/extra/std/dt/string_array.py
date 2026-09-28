@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any
 
-# self
 from ....define.std.dt.string_array import DataStringArrayField
 
 

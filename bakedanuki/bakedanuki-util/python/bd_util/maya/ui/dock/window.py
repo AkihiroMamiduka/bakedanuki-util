@@ -34,7 +34,7 @@ class MayaDockableWindow(_MayaQWidgetDockableMixin, qt.QtWidgets.QWidget):
         self,
         parent: qt.QtWidgets.QWidget | None = None,
     ) -> None:
-        """Mayaのdockable mixinとQWidgetを初期化する。"""
+        """Maya の dockable mixin と `QWidget` を初期化する。"""
         # MayaのMixinを先頭にしたMROを通してQt Widgetを初期化する。
         super().__init__(parent=parent)
 

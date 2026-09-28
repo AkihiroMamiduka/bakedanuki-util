@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# self
 from ._base import (
     Long2CompoundBasePlugOperator,
     Long2CompoundBaseAttrOperator,

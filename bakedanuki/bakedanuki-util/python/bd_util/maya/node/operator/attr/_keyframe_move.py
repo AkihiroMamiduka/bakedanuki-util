@@ -80,7 +80,7 @@ def _restore_xy_keys(
             assert isinstance(x, float)
             xs.append(x)
             ys.append(y)
-    # setTangent clamps short weighted handles. Bulk insertion preserves native XY.
+    # `setTangent()` は短い weighted 接線を丸めるため、一括挿入で元の XY を保つ。
     curve.addKeysWithTangents(
         om.MTimeArray(destinations),
         values,
@@ -132,7 +132,7 @@ def restore_keys(
             (True, key.in_tangent),
             (False, key.out_tangent),
         ):
-            # TT needs the angle/weight overload; raw XY loses time precision.
+            # TT カーブは生の XY だと時間精度を失うため、角度と weight を渡す。
             curve.setTangent(
                 index, *tangent, is_in, change=change, convertUnits=time_output
             )
@@ -166,7 +166,7 @@ def insert_boundaries(
     times: list[om.MTime],
     change: oma.MAnimCurveChange,
 ) -> None:
-    # Adding an exterior key changes the period used by cyclic infinity.
+    # 範囲外のキーを追加すると cycle infinity の周期が変わるため、先に値を採取する。
     samples = [(time, curve.evaluate(time)) for time in times]
     for time, _ in samples:
         curve.insertKey(time, False, change)

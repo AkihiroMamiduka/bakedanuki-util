@@ -122,7 +122,7 @@ class FloatLabel(qt.QLabel):
             self._render()
 
     def _valid_view_model(self) -> FloatViewModel | None:
-        """明示終了とQObject破棄の両方を確認する。"""
+        """明示終了と `QObject` 破棄の両方を確認する。"""
         view_model = self._view_model
         return view_model if not view_model.is_disposed else None
 

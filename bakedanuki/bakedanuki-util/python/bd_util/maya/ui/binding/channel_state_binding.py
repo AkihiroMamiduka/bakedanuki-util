@@ -31,7 +31,7 @@ __all__ = [
 
 
 class MayaChannelStatePlug(Protocol):
-    """具体的なPlugOperatorの型を失わず、必要な参照だけを受け取る。"""
+    """具体的な `PlugOperator` の型を失わず、必要な参照だけを受け取る。"""
 
     @property
     def node(self) -> NodeOperator:
@@ -514,5 +514,5 @@ class MayaChannelStateBinding(qt.QObject):
         self._registry.dispose()
 
     def _on_destroyed(self, *_args: object) -> None:
-        """QObject破棄時は表示へ通知せず監視だけを終了する。"""
+        """`QObject` 破棄時は表示へ通知せず監視だけを終了する。"""
         self.dispose()

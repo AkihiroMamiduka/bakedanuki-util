@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any, ClassVar, TypeVar, Type, cast
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ..........value.scalar_compound.scalar_compound_value import (
     ScalarCompoundValue,
 )
@@ -36,11 +34,9 @@ class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
     def _prepare_child_limit_value(self, value: float) -> om.MAngle:
         return om.MAngle(value, om.MAngle.kDegrees)
 
-    # get
     def _get_child_value(self, child_plug: om.MPlug) -> float:
         return child_plug.asMAngle().asDegrees()
 
-    # set
     def _set_child_value(self, child_plug: om.MPlug, value: float) -> None:
         self._node.modifier_manager.dg_mod.newPlugValueMAngle(
             child_plug, om.MAngle(value, om.MAngle.kDegrees)

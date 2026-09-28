@@ -47,7 +47,7 @@ _AIM_VECTOR_EPSILON = 1.0e-12
 
 
 class Transform(GeneratedTransform):
-    """Transform ノードの位置・回転と子の補償を操作する。"""
+    """`Transform` ノードの位置・回転と子の補償を操作する。"""
 
     __slots__ = ()
 
@@ -722,8 +722,8 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """姿勢を ``rotateAxis`` へ設定し、必要に応じて子を補償する。
 
-        値の単位は degree、回転順は固定 XYZ。Transform 子は ``rotate``、
-        Joint 子は既定で ``rotate`` を補償する。変更は
+        値の単位は degree、回転順は固定 XYZ。`Transform` 子は ``rotate``、
+        `Joint` 子は既定で ``rotate`` を補償する。変更は
         ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
@@ -803,8 +803,8 @@ class Transform(GeneratedTransform):
         """``rotateAxis`` を丸め、必要に応じて子のworld姿勢を補償する。
 
         Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は degree、回転順は固定 XYZ。Transform 子は ``rotate``、
-        Joint 子は既定で ``rotate`` を補償する。変更は
+        値の単位は degree、回転順は固定 XYZ。`Transform` 子は ``rotate``、
+        `Joint` 子は既定で ``rotate`` を補償する。変更は
         ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
@@ -866,7 +866,7 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """姿勢を ``rotate`` へ設定し、必要に応じて子を補償する。
 
-        値の単位は degree。Transform 子は ``rotate``、Joint 子は既定で
+        値の単位は degree。`Transform` 子は ``rotate``、`Joint` 子は既定で
         ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
@@ -951,7 +951,7 @@ class Transform(GeneratedTransform):
         """``rotate`` を丸め、必要に応じて子のworld姿勢を補償する。
 
         Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は degree。Transform 子は ``rotate``、Joint 子は既定で
+        値の単位は degree。`Transform` 子は ``rotate``、`Joint` 子は既定で
         ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
@@ -1073,7 +1073,7 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """world姿勢を ``rotate`` で合わせ、必要に応じて子を補償する。
 
-        Transform 子は ``rotate``、Joint 子は既定で ``rotate`` を補償する。
+        `Transform` 子は ``rotate``、`Joint` 子は既定で ``rotate`` を補償する。
         変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
@@ -1125,7 +1125,7 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """world姿勢を ``rotateAxis`` で合わせ、必要に応じて子を補償する。
 
-        Transform 子は ``rotate``、Joint 子は既定で ``rotate`` を補償する。
+        `Transform` 子は ``rotate``、`Joint` 子は既定で ``rotate`` を補償する。
         変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
@@ -1241,7 +1241,7 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """エイムで求めたworld姿勢を ``rotateAxis`` へ設定する。
 
-        引数と計算仕様は :meth:`aim_to_rotate` と共通で、変更する回転属性だけが
+        引数と計算仕様は `aim_to_rotate()` と共通で、変更する回転属性だけが
         異なる。
         """
         (
@@ -1287,7 +1287,7 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """直接の子へ向けたworld姿勢を ``rotate`` へ設定する。
 
-        直接の Transform / Joint 子は world 姿勢と位置を常に補償する。
+        直接の `Transform` / `Joint` 子は world 姿勢と位置を常に補償する。
         ``up_target`` と ``parent_up_vector`` は同時に指定できない。
         変更は ``ModifierManager.do_it_dg()`` で反映する。
 
@@ -1344,7 +1344,7 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """直接の子へ向けたworld姿勢を ``rotateAxis`` へ設定する。
 
-        引数と計算仕様は :meth:`aim_child_to_rotate` と共通で、変更する回転属性
+        引数と計算仕様は `aim_child_to_rotate()` と共通で、変更する回転属性
         だけが異なる。
         """
         joint_child_compensation_attr = (
@@ -1440,7 +1440,7 @@ class Transform(GeneratedTransform):
     ) -> Self:
         """軸対応で求めた姿勢を ``rotateAxis`` へ設定する。
 
-        引数と計算仕様は :meth:`remap_axes_to_rotate` と共通で、変更する回転属性
+        引数と計算仕様は `remap_axes_to_rotate()` と共通で、変更する回転属性
         だけが異なる。
         """
         (
@@ -2201,7 +2201,7 @@ class Transform(GeneratedTransform):
             preserve_world_transform: True ならワールド変換を維持する。
 
         Returns:
-            この Transform。
+            この `Transform`。
 
         Raises:
             RuntimeError: このノードまたは親がインスタンス化されている場合。
@@ -2231,7 +2231,7 @@ class Transform(GeneratedTransform):
             preserve_world_transform: True ならワールド変換を維持する。
 
         Returns:
-            この Transform。
+            この `Transform`。
 
         Raises:
             RuntimeError: このノードがインスタンス化されている場合。
@@ -2255,7 +2255,14 @@ class Transform(GeneratedTransform):
         return self
 
     def _parent_python_command(self, parent: DAG | None) -> str:
-        """undo 可能な absolute parent command を UUID 指定で返す。"""
+        """対象を UUID で指定する Undo 可能な親子付けコマンドを返す。
+
+        Args:
+            parent: 新しい親。`None` はワールド直下。
+
+        Returns:
+            `cmds.parent` を呼ぶ Python コマンド文字列。
+        """
         child_uuid = om.MFnDependencyNode(self.m_obj).uuid().asString()
         command = (
             "from maya import cmds as _cmds; "

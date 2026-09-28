@@ -6,6 +6,8 @@ from .data import EnumData, MODE_DEFINITION
 
 
 class MinimalEnumWindow(EnumSampleWindow):
+    """Python オブジェクトの `mode` を編集する最小 enum サンプル。"""
+
     def __init__(self, parent: qt.QWidget | None = None) -> None:
         self.data = EnumData()
         super().__init__(
@@ -21,8 +23,10 @@ _controller = MayaWindowController(MinimalEnumWindow)
 
 
 def show() -> MinimalEnumWindow:
+    """サンプル Window を表示し、表示中なら同じインスタンスを返す。"""
     return _controller.show()
 
 
 def dispose() -> None:
+    """サンプル Window とその binding を破棄する。"""
     _controller.dispose()

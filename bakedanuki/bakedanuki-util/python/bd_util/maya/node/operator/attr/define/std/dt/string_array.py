@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .base.array_base import (
     DataArrayBaseAttrOperator,
     DataArrayBasePlugOperator,
@@ -16,16 +14,14 @@ class DataStringArrayPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> list[str]:
         """stringArray dataプラグの現在値を文字列リストで取得する。"""
         return self._get_array_values(om.MFnStringArrayData)
 
-    # set
     def set_direct(self, value: list[str]) -> None:
-        """MPlug に値を直接設定する。
+        """`MPlug` に値を直接設定する。
 
-        ModifierManager の履歴には入らない。
+        `ModifierManager` の履歴には入らない。
 
         Args:
             value: セットする値のリスト

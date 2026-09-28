@@ -9,7 +9,7 @@ from ._source import resolve_float3_view_source
 
 
 class Float3SpinBox(qt.QWidget):
-    """X・Y・ZのFloatSpinBoxを横に並べる3成分用View。"""
+    """X・Y・Z の `FloatSpinBox` を横に並べる3成分用 View。"""
 
     def __init__(
         self,

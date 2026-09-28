@@ -1,4 +1,4 @@
-"""復元予約時にclipの時間を拡縮・移動する。sceneと元のclipは変更しない。"""
+"""復元予約時に clip の時間を拡縮・移動する。シーンと元の clip は変更しない。"""
 
 from __future__ import annotations
 
@@ -50,8 +50,8 @@ def transformed_for_restore(
         offset_frames: 復元先の UI 時間単位で加える移動量。
         to_start_frame: 復元先の開始時刻。
         to_end_frame: 復元先の終了時刻。
-        time_scale: 正の時間倍率。duration_frames とは併用できない。
-        duration_frames: 復元先の長さ。time_scale とは併用できない。
+        time_scale: 正の時間倍率。`duration_frames` とは併用できない。
+        duration_frames: 復元先の長さ。`time_scale` とは併用できない。
 
     Returns:
         キー時刻と接線 X を変換した独立の clip。指定がなければ元の clip。
@@ -133,7 +133,7 @@ def transformed_for_restore(
     def frame(value: float, curve_rate: float) -> float:
         source_first = data.start_frame * (data.seconds_per_frame / curve_rate)
         source_last = data.end_frame * (data.seconds_per_frame / curve_rate)
-        # Exact boundary placement also keeps replace_range inclusive.
+        # 境界を正確に配置し、`replace_range` の両端を包含したままにする。
         if value == source_first:
             return start / curve_rate
         if value == source_last:

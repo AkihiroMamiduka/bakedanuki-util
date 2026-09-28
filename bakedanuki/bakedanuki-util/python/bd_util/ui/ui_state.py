@@ -25,18 +25,18 @@ _STATE_KEY_PATTERN = re.compile(r"^[A-Za-z_]\w*$", re.ASCII)
 
 @dataclass(frozen=True)
 class _SplitterStateAdapter(_UiStateAdapter):
-    """QSplitterの分割位置を保存・復元する。"""
+    """`QSplitter` の分割位置を保存・復元する。"""
 
     state_type: ClassVar[str] = "splitter"
     widget: qt.QtWidgets.QSplitter
 
     @property
     def state_object(self) -> qt.QtCore.QObject:
-        """状態を所有するQSplitterを返す。"""
+        """状態を所有する `QSplitter` を返す。"""
         return self.widget
 
     def save_state(self) -> qt.QtCore.QByteArray:
-        """QSplitterの現在の状態を取得する。"""
+        """`QSplitter` の現在の状態を取得する。"""
         # Qt標準形式を使い、orientationや各領域のサイズをまとめて保存する。
         return self.widget.saveState()
 
@@ -45,7 +45,7 @@ class _SplitterStateAdapter(_UiStateAdapter):
         settings: qt.QtCore.QSettings,
         state_key: str,
     ) -> bool:
-        """保存済みのQSplitter状態を復元する。"""
+        """保存済みの `QSplitter` 状態を復元する。"""
         # INI内の値をQByteArrayとして読み取り、Qt標準処理へ渡す。
         state = settings.value(
             state_key,
@@ -59,18 +59,18 @@ class _SplitterStateAdapter(_UiStateAdapter):
 
 @dataclass(frozen=True)
 class _TabWidgetStateAdapter(_UiStateAdapter):
-    """QTabWidgetで現在選択されているタブを保存・復元する。"""
+    """`QTabWidget` で現在選択されているタブを保存・復元する。"""
 
     state_type: ClassVar[str] = "tab_widget"
     widget: qt.QtWidgets.QTabWidget
 
     @property
     def state_object(self) -> qt.QtCore.QObject:
-        """状態を所有するQTabWidgetを返す。"""
+        """状態を所有する `QTabWidget` を返す。"""
         return self.widget
 
     def save_state(self) -> int | None:
-        """QTabWidgetの現在のindexを取得する。"""
+        """`QTabWidget` の現在の index を取得する。"""
         # タブが存在しない場合は復元できる状態がないため保存対象外にする。
         index = self.widget.currentIndex()
         return None if index < 0 else index
@@ -91,14 +91,14 @@ class _TabWidgetStateAdapter(_UiStateAdapter):
 
 @dataclass(frozen=True)
 class _CheckableActionStateAdapter(_UiStateAdapter):
-    """checkableなQActionのチェック状態を保存・復元する。"""
+    """checkable な `QAction` のチェック状態を保存・復元する。"""
 
     state_type: ClassVar[str] = "checkable_action"
     action: qt.QAction
 
     @property
     def state_object(self) -> qt.QtCore.QObject:
-        """状態を所有するQActionを返す。"""
+        """状態を所有する `QAction` を返す。"""
         return self.action
 
     def save_state(self) -> int:
@@ -110,7 +110,7 @@ class _CheckableActionStateAdapter(_UiStateAdapter):
         settings: qt.QtCore.QSettings,
         state_key: str,
     ) -> bool:
-        """保存値が0または1の場合だけQActionへ復元する。"""
+        """保存値が0または1の場合だけ `QAction` へ復元する。"""
         state = settings.value(state_key, -1, int)
         if not isinstance(state, int) or state not in (0, 1):
             return False
@@ -119,10 +119,10 @@ class _CheckableActionStateAdapter(_UiStateAdapter):
 
 
 class UiStateManager:
-    """登録したWidgetの内部状態をQSettingsへ保存・復元する。
+    """登録したWidgetの内部状態を `QSettings` へ保存・復元する。
 
     Splitter位置、選択タブ、checkable Actionなどを同じsettings pathで管理する。
-    登録keyはASCII英字か`_`で始まり、以降は英数字か`_`を使用する。
+    登録する `key` はASCII英字か`_`で始まり、以降は英数字か`_`を使用する。
     """
 
     SCHEMA_VERSION: ClassVar[int] = 1
@@ -138,8 +138,8 @@ class UiStateManager:
         """保存先とINI内のgroupを指定する。
 
         Args:
-            settings: 保存先のQSettings。
-            settings_path: tool名とgroup名を含むパス。
+            settings: 保存先の `QSettings`。
+            settings_path: tool名とgroup名を含む `SettingsPath`。
         """
         self._settings = settings
         self._settings_path = settings_path
@@ -149,13 +149,13 @@ class UiStateManager:
     @property
     def settings_path(self) -> SettingsPath:
         """UI stateの保存先を表すsettings pathを返す。"""
-        # 初期化時に検証済みのSettingsPathをそのまま公開する。
+        # 初期化時に検証済みの `SettingsPath` をそのまま公開する。
         return self._settings_path
 
     @property
     def file_name(self) -> str:
-        """QSettingsが使用するファイル名を返す。"""
-        # 実際にQSettingsが解決した保存先を取得する。
+        """`QSettings` が使用するファイル名を返す。"""
+        # 実際に `QSettings` が解決した保存先を取得する。
         return self._settings.fileName()
 
     @property
@@ -173,15 +173,15 @@ class UiStateManager:
 
         Args:
             key: manager内で一意な登録名。
-            widget: 保存対象のQSplitter。
+            widget: 保存対象の `QSplitter`。
 
         Raises:
-            TypeError: keyが文字列でない場合。
-            ValueError: keyが無効か、登録済みの場合。
+            TypeError: `key` が文字列でない場合。
+            ValueError: `key` が無効か、登録済みの場合。
         """
         self._register(key, _SplitterStateAdapter(widget))
 
-        # 操作中はメモリへ退避し、ファイルへの書き込みはsave時にまとめる。
+        # 操作中はメモリへ退避し、ファイルへの書き込みは `save()` 時にまとめる。
         widget.splitterMoved.connect(partial(self._capture_state, key))
         self._capture_state(key)
 
@@ -194,15 +194,15 @@ class UiStateManager:
 
         Args:
             key: manager内で一意な登録名。
-            widget: 保存対象のQTabWidget。
+            widget: 保存対象の `QTabWidget`。
 
         Raises:
-            TypeError: keyが文字列でない場合。
-            ValueError: keyが無効か、登録済みの場合。
+            TypeError: `key` が文字列でない場合。
+            ValueError: `key` が無効か、登録済みの場合。
         """
         self._register(key, _TabWidgetStateAdapter(widget))
 
-        # タブ変更を退避しておき、Widget破棄後のsave_cachedでも利用する。
+        # タブ変更を退避しておき、Widget破棄後の `save_cached()` でも利用する。
         widget.currentChanged.connect(partial(self._capture_state, key))
         self._capture_state(key)
 
@@ -211,15 +211,15 @@ class UiStateManager:
         key: str,
         action: qt.QAction,
     ) -> None:
-        """checkableなQActionのチェック状態を登録する。
+        """checkableな `QAction` のチェック状態を登録する。
 
         Args:
             key: manager内で一意な登録名。
-            action: `setCheckable(True)`を設定したQAction。
+            action: `setCheckable(True)` を設定した `QAction`。
 
         Raises:
-            TypeError: actionがQActionでないか、keyが文字列でない場合。
-            ValueError: actionがcheckableでないか、keyが無効・登録済みの場合。
+            TypeError: `action` が `QAction` でないか、`key` が文字列でない場合。
+            ValueError: `action` がcheckableでないか、`key` が無効・登録済みの場合。
         """
         if not isinstance(action, qt.QAction):
             raise TypeError("actionにはQActionを指定してください")
@@ -227,7 +227,7 @@ class UiStateManager:
             raise ValueError("actionにはcheckableなQActionを指定してください")
         self._register(key, _CheckableActionStateAdapter(action))
 
-        # 切替時は状態だけを退避し、ファイルへの書き込みはsave時にまとめる。
+        # 切替時は状態だけを退避し、ファイルへの書き込みは `save()` 時にまとめる。
         action.toggled.connect(partial(self._capture_state, key))
         self._capture_state(key)
 
@@ -235,7 +235,7 @@ class UiStateManager:
         """生存中のWidgetの状態を収集して保存する。
 
         Returns:
-            QSettingsへの同期に成功した場合は`True`。
+            `QSettings` への同期に成功した場合は`True`。
         """
         # 全状態の収集を終えてから保存し、途中の失敗で既存値を壊さない。
         for key, adapter in self._adapters.items():
@@ -258,7 +258,7 @@ class UiStateManager:
         """変更時に退避した状態を、Widgetへ再アクセスせず保存する。
 
         Returns:
-            QSettingsへの同期に成功した場合は`True`。
+            `QSettings` への同期に成功した場合は`True`。
         """
         # 終了処理中のWidgetへ触れず、最後に退避できた状態だけを使う。
         collected_states = {
@@ -267,7 +267,7 @@ class UiStateManager:
             if key in self._adapters
         }
 
-        # 状態収集後にsettings path配下の今回更新できるWidgetだけを書き換える。
+        # 状態収集後に `settings_path` 配下の今回更新できるWidgetだけを書き換える。
         self._settings.beginGroup(self._settings_path.group_path)
         self._settings.beginGroup(self._STATE_GROUP)
         try:
@@ -276,7 +276,7 @@ class UiStateManager:
                 self.SCHEMA_VERSION,
             )
 
-            # 退避のないWidgetと別managerが保存したWidgetの状態は変更せず維持する。
+            # 退避のないWidgetと別の `UiStateManager` が保存したWidgetの状態は維持する。
             for key, (adapter, state) in collected_states.items():
                 widget_group = f"{self._WIDGETS_GROUP}/{key}"
                 self._settings.remove(widget_group)
@@ -301,12 +301,12 @@ class UiStateManager:
         """保存済み状態を登録済みWidgetへ復元する。
 
         Returns:
-            復元できたkeyの集合。未保存・型不一致・破棄済みは含まない。
+            復元できた `key` の集合。未保存・型不一致・破棄済みは含まない。
         """
         restored_keys: set[str] = set()
         removed_invalid_state = False
 
-        # manager専用groupからschemaとWidgetごとの状態を読み取る。
+        # この `UiStateManager` 専用groupからschemaとWidgetごとの状態を読み取る。
         self._settings.beginGroup(self._settings_path.group_path)
         self._settings.beginGroup(self._STATE_GROUP)
         try:
@@ -369,7 +369,7 @@ class UiStateManager:
         """このmanagerのUI stateだけを削除する。
 
         Returns:
-            QSettingsへの同期に成功した場合は`True`。
+            `QSettings` への同期に成功した場合は`True`。
         """
         # 同じsettings pathのgeometryなど、別の設定は残す。
         self._cached_states.clear()
@@ -384,14 +384,14 @@ class UiStateManager:
         return self._settings.status() == qt.QtCore.QSettings.Status.NoError
 
     def _register(self, key: object, adapter: _UiStateAdapter) -> None:
-        """検証済みのkeyでWidget adapterを登録する。"""
+        """検証済みの `key` で Widget `adapter` を登録する。"""
         self._validate_key(key)
         assert isinstance(key, str)
         self._adapters[key] = adapter
 
     def _validate_key(self, key: object) -> None:
         """登録前に識別子の形式と重複を検証する。"""
-        # QSettingsの階層を壊さない単純な固定識別子だけを許可する。
+        # `QSettings` の階層を壊さない単純な固定識別子だけを許可する。
         if not isinstance(key, str):
             raise TypeError("UI state keyには文字列を指定してください")
         if not _STATE_KEY_PATTERN.fullmatch(key):
@@ -402,7 +402,7 @@ class UiStateManager:
             raise ValueError(f"UI state keyは既に登録されています: {key}")
 
     def _capture_state(self, key: str, *_args: object) -> bool:
-        """Widgetが生存中に最新状態をmemoryへ退避する。"""
+        """Widgetが生存中に最新状態をメモリへ退避する。"""
         # signal発火元に対応する登録済みadapterだけを処理する。
         adapter = self._adapters.get(key)
         if adapter is None:
@@ -419,23 +419,23 @@ class UiStateManager:
                 return False
             raise
 
-        # QSettingsへ頻繁に書き込まず、次回saveがまとめて永続化する。
+        # `QSettings` へ頻繁に書き込まず、次回 `save()` がまとめて永続化する。
         self._cached_states[key] = state
         return True
 
     def register_float_step_profile(
         self, key: str, profile: FloatStepProfile
     ) -> None:
-        """Profileの複数のstep設定を一つのkeyで保存対象にする。
+        """`FloatStepProfile` の複数のstep設定を一つの `key` で保存対象にする。
 
         Args:
             key: manager内で一意な登録名。
-            profile: 生存中のFloatStepProfile。
+            profile: 生存中の `FloatStepProfile`。
 
         Raises:
-            TypeError: profileの型またはkeyが不正な場合。
-            ValueError: keyが無効か、登録済みの場合。
-            RuntimeError: profileが破棄済みの場合。
+            TypeError: `profile` の型または `key` が不正な場合。
+            ValueError: `key` が無効か、登録済みの場合。
+            RuntimeError: `profile` が破棄済みの場合。
         """
         from ._float_step_profile_state import FloatStepProfileStateAdapter
         from .float_step_profile import FloatStepProfile
@@ -457,12 +457,12 @@ class UiStateManager:
 
         Args:
             key: manager内で一意な登録名。
-            widget: 生存中のFloatRangeSliderSpinBox。
+            widget: 生存中の `FloatRangeSliderSpinBox`。
 
         Raises:
-            TypeError: widgetの型またはkeyが不正な場合。
-            ValueError: keyが無効か、登録済みの場合。
-            RuntimeError: widgetが破棄済みの場合。
+            TypeError: `widget` の型または `key` が不正な場合。
+            ValueError: `key` が無効か、登録済みの場合。
+            RuntimeError: `widget` が破棄済みの場合。
         """
         from ._float_view_state import FloatRangeStateAdapter
 
@@ -476,16 +476,16 @@ class UiStateManager:
     def register_float3_range_slider_spin_box(
         self, key: str, widget: Float3RangeSliderSpinBox
     ) -> None:
-        """XYZの範囲設定を`key_x`・`key_y`・`key_z`へ登録する。
+        """XYZの範囲設定を `key` に `_x`・`_y`・`_z` を付けたキーへ登録する。
 
         Args:
-            key: 3軸のkeyに共通する名前。生成されるkeyも未登録であること。
-            widget: 生存中のFloat3RangeSliderSpinBox。
+            key: 3軸のキーに共通する名前。生成される各キーも未登録であること。
+            widget: 生存中の `Float3RangeSliderSpinBox`。
 
         Raises:
-            TypeError: widgetの型またはkeyが不正な場合。
-            ValueError: keyや生成されるkeyが無効・登録済みの場合。
-            RuntimeError: widgetまたはいずれかの軸Viewが破棄済みの場合。
+            TypeError: `widget` の型または `key` が不正な場合。
+            ValueError: `key` や生成されるキーが無効・登録済みの場合。
+            RuntimeError: `widget` またはいずれかの軸Viewが破棄済みの場合。
         """
         from .binding.float3.view.range_slider_spin_box import (
             Float3RangeSliderSpinBox,

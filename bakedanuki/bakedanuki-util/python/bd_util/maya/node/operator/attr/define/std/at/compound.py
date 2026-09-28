@@ -2,11 +2,9 @@
 from collections.abc import Callable
 from typing import Any, TypeVar, Type, cast, Protocol
 
-# self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 from ........py.error import UnsupportedOperationError
 
-# maya
 from maya.api import OpenMaya as om
 
 A = TypeVar("A", bound="AttrOperator[Any]")
@@ -191,7 +189,7 @@ def _create_child_attr(
     parent: _CompoundAttrParent,
     child_field: AttributeField[Any, Any],
 ) -> om.MObject:
-    """子 Field の Maya 型に対応する MObject を作成する。"""
+    """子 Field の Maya 型に対応する `MObject` を作成する。"""
     child_attr = _create_child_attr_operator(parent, child_field)
     attr_type = child_attr.ATTR_TYPE
 

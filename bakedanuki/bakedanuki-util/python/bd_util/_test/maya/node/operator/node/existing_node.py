@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya import cmds
 
-# self
 from ......maya.node.existing_node import ExistingNode
 
 

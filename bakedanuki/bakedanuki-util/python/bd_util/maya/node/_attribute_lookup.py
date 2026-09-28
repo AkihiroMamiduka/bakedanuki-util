@@ -1,5 +1,5 @@
 # coding: utf-8
-"""既存属性の完全なpathを扱う内部共通処理。"""
+"""既存属性の完全なパスを扱う内部共通処理。"""
 
 from typing import cast
 
@@ -7,7 +7,7 @@ from maya.api import OpenMaya as om
 
 
 def attribute_path(plug: om.MPlug) -> str:
-    """aliasを含まない長名の相対属性pathを返す。"""
+    """別名を使わず、長名からなる相対属性パスを返す。"""
     path = cast(
         str,
         plug.partialName(
@@ -17,7 +17,7 @@ def attribute_path(plug: om.MPlug) -> str:
             useLongNames=True,
         ),
     )
-    # 非一意な最上位名は先頭のdotでcompound配下と区別する
+    # 非一意な最上位名は先頭の `.` で複合属性配下と区別する。
     if (
         not plug.isChild
         and not om.MFnAttribute(plug.attribute()).enforcingUniqueName
@@ -27,7 +27,7 @@ def attribute_path(plug: om.MPlug) -> str:
 
 
 def _matches_parent_path(plug: om.MPlug, parts: list[str]) -> bool:
-    """最上位からleafまで、段数と各段の長名または短名が一致するか返す。"""
+    """最上位から末端まで、段数と各段の長名または短名が一致するか返す。"""
     chain = [plug]
     while chain[-1].isChild:
         chain.append(chain[-1].parent())
@@ -43,7 +43,7 @@ def _matches_parent_path(plug: om.MPlug, parts: list[str]) -> bool:
 def find_attribute_plug(
     node: om.MFnDependencyNode, attribute_name: str
 ) -> om.MPlug:
-    """長名・短名・完全な相対pathを曖昧なleaf名を許さず解決する。"""
+    """長名・短名・完全な相対パスを、曖昧な末端名を許さず解決する。"""
     absolute_path = attribute_name.startswith(".")
     parts = attribute_name.removeprefix(".").split(".")
     if not all(parts) or any(char in attribute_name for char in "[]*?"):
@@ -52,7 +52,7 @@ def find_attribute_plug(
         )
     check_parent_path = absolute_path or len(parts) > 1
 
-    # 一意な実名は直接取得し、aliasや不正な親pathを受理しない
+    # 一意な実名は直接取得し、別名や不正な親パスを受理しない。
     try:
         direct = node.findPlug(parts[-1], False)
     except RuntimeError:
@@ -66,7 +66,7 @@ def find_attribute_plug(
         ):
             return direct
 
-    # 非一意名など直接確定できない場合は全候補を調べ、曖昧さを拒否する
+    # 非一意名など直接確定できない場合は全候補を調べ、曖昧さを拒否する。
     matches: list[om.MPlug] = []
     for index in range(node.attributeCount()):
         attribute = node.attribute(index)

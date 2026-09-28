@@ -95,7 +95,7 @@ class EnumComboBox(qt.QComboBox):
     def setValueRequestHandler(
         self, handler: Callable[[int], bool] | None
     ) -> None:
-        """選択時に整数値を受け取る入力 handler を設定する。
+        """選択時に整数値を受け取る入力 `handler` を設定する。
 
         Args:
             handler: 入力を処理したら ``True`` を返す関数。``False`` または

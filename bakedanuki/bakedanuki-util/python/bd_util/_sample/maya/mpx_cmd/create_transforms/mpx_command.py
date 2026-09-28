@@ -8,6 +8,8 @@ from .operation import CreateTransformsParams, apply_create_transforms
 
 
 class CreateTransformsCommand(MPxCommandBase[CreateTransformsParams]):
+    """Undo 対応の transform 作成サンプルコマンド。"""
+
     COMMAND_NAME = "bduSampleCreateTransforms"
 
     @classmethod

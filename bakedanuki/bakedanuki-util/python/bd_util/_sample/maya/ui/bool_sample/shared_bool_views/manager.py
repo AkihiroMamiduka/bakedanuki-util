@@ -61,7 +61,7 @@ class SharedBoolViewsManager:
 
     @property
     def is_disposed(self) -> bool:
-        """Managerが終了済みか、共有QObjectが破棄済みか返す。"""
+        """Manager が終了済みか、共有 `QObject` が破棄済みか返す。"""
         return self._is_disposed or self.binding.is_disposed
 
     @property

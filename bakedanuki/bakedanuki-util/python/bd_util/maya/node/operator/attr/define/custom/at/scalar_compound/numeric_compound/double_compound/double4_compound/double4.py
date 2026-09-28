@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# self
 from ...........value import Double4
 from ._base import (
     Double4CompoundBaseAttrOperator,

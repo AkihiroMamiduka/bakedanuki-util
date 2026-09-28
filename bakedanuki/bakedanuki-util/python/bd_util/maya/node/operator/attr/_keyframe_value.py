@@ -41,7 +41,7 @@ def _scaled_tangents(
         x, y = item
         time_output = isinstance(x, om.MAngle)
         if isinstance(x, om.MAngle):
-            # TT uses angle/weight because native XY loses time precision.
+            # TT カーブは生の XY だと時間精度を失うため、角度と weight を使う。
             angle, weight = x.asRadians(), y
             x, y = math.cos(angle) * weight, math.sin(angle) * weight
         y = _number(y * scale, "Scaled tangent Y")
@@ -51,7 +51,7 @@ def _scaled_tangents(
                 length if weighted else 1.0
             )
         if not weighted:
-            # Bulk insertion does not normalize nonweighted tangent vectors.
+            # 一括挿入ではウェイトなしの接線ベクトルを正規化しない。
             return (x / length, y / length) if length else (1.0, 0.0)
         return x, y
 
@@ -79,7 +79,7 @@ def _set_value(
             curve.outTangentType(index),
             change,
         )
-        # addKey updates TT values but resets key flags even at an existing time.
+        # `addKey()` は既存時刻でも TT の値を更新すると同時にキーの flag をリセットする。
         curve.setTangentsLocked(index, locked, change)
         curve.setWeightsLocked(index, weights_locked, change)
         curve.setIsBreakdown(index, breakdown, change)
@@ -154,7 +154,7 @@ def _edit(
         if operation == "scale" or new_value != old:
             updates.append((index, replace(key, value=new_value)))
     if operation == "scale" and updates:
-        # Native bulk overwrite cannot reliably undo existing keys. Reinsert them.
+        # 既存キーの一括上書きは Undo が不安定なため、削除してから再挿入する。
         for index, _ in reversed(updates):
             curve.remove(index, change)
         _keyframe_move.restore_keys(

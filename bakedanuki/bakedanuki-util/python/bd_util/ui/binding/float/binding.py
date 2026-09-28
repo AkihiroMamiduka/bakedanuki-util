@@ -14,9 +14,9 @@ _InstanceT = TypeVar("_InstanceT")
 
 
 class FloatBinding(qt.QObject, Generic[_StoreT]):
-    """一つの数値StoreとViewModelの同期・寿命を管理する。
+    """一つの数値 Store と `FloatViewModel` の同期・寿命を管理する。
 
-    `dispose()`はBindingを終了するが、外から渡されたStoreは破棄しない。
+    `dispose()` は `FloatBinding` を終了するが、外から渡された `store` は破棄しない。
     """
 
     def __init__(
@@ -25,11 +25,11 @@ class FloatBinding(qt.QObject, Generic[_StoreT]):
         *,
         parent: qt.QObject | None = None,
     ) -> None:
-        """外部Storeに対応する専用ViewModelを作る。
+        """外部 `store` に対応する専用 `FloatViewModel` を作る。
 
         Args:
             store: 公開単位の数値を読み書きする正本。
-            parent: このBindingを所有するQObject。
+            parent: この `FloatBinding` を所有する `QObject`。
         """
         self._initialize(lambda _view_model: store, parent=parent)
 
@@ -62,16 +62,16 @@ class FloatBinding(qt.QObject, Generic[_StoreT]):
         presentation: FloatPresentation | None = None,
         parent: qt.QObject | None = None,
     ) -> FloatBinding[PythonFloatAttributeStore[_InstanceT]]:
-        """既存のPython数値属性を正本とするBindingを作る。
+        """既存の Python 数値属性を正本とする `FloatBinding` を作る。
 
         Args:
             instance: 属性を持つPython object。
             attribute_name: 正本として扱う既存属性の名前。
-            presentation: 公開単位から表示単位への変換と入力範囲。
-            parent: このBindingを所有するQObject。
+            presentation: 公開単位から表示単位への変換と入力範囲。`None` なら既定の `FloatPresentation`。
+            parent: この `FloatBinding` を所有する `QObject`。
 
         Returns:
-            作成した属性Storeを保持するBinding。
+            作成した `PythonFloatAttributeStore` を保持する `FloatBinding`。
         """
         return FloatBinding(
             PythonFloatAttributeStore(
@@ -111,7 +111,7 @@ class FloatBinding(qt.QObject, Generic[_StoreT]):
         )
 
     def set_value(self, value: float) -> bool:
-        """Viewと同じCommandを通して公開単位の値を設定する。
+        """View と共通の `set_value_command` を通して公開単位の値を設定する。
 
         Args:
             value: 設定する公開単位の有限値。
@@ -122,7 +122,7 @@ class FloatBinding(qt.QObject, Generic[_StoreT]):
         return self.view_model.set_value_command.execute(value)
 
     def refresh(self) -> bool:
-        """正本を読み直してViewModelへ反映する。
+        """正本を読み直して `FloatViewModel` へ反映する。
 
         Returns:
             公開値が変わった場合は`True`。
@@ -141,6 +141,6 @@ class FloatBinding(qt.QObject, Generic[_StoreT]):
             self.deleteLater()
 
     def _require_active(self) -> None:
-        """終了後の操作と破棄済みQObjectへのアクセスを拒否する。"""
+        """終了後の操作と破棄済み `QObject` へのアクセスを拒否する。"""
         if self.is_disposed:
             raise RuntimeError("FloatBindingは終了しています")

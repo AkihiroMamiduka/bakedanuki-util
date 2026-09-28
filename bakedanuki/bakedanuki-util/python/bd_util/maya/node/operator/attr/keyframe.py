@@ -6,7 +6,6 @@ from abc import ABC, abstractmethod
 from collections.abc import Iterable
 from typing import TYPE_CHECKING, Any, Callable, Literal, overload
 
-# maya
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
@@ -140,17 +139,17 @@ class _KeyframeOperations(ABC):
         )
 
     def get_weighted(self) -> bool | None:
-        """対象カーブの weighted 設定を返す。カーブがなければ None。"""
+        """対象カーブのウェイト付き接線の設定を返す。カーブがなければ `None`。"""
         curve = _keyframe_snapshot.resolve_curve(self._target)
         return None if curve is None else bool(curve.isWeighted)
 
     def set_weighted(self, weighted: bool) -> None:
-        """カーブ全体の weighted 設定変更を予約する。
+        """カーブ全体の `weighted` 設定変更を予約する。
 
         対象カーブがなければ実行時に失敗する。
 
         Args:
-            weighted: weighted tangent を有効にするか。
+            weighted: ウェイト付き接線を有効にするか。
         """
         manager = self._require_modifier_manager()
         _keyframe_snapshot.queue_weighted(manager, self._target, weighted)
@@ -210,7 +209,7 @@ class _KeyframeOperations(ABC):
         auto 接線は Maya が再計算する。
 
         Args:
-            keys: 時刻の昇順で重複しない KeyData。入力は予約時にコピーする。
+            keys: 時刻の昇順で重複しない `KeyData`。入力は予約時にコピーする。
             seconds_per_frame: 保存データの 1 frame あたりの秒数。
                 None では予約時の UI 時間単位を使う。
         """
@@ -368,7 +367,7 @@ class _KeyframeOperations(ABC):
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ) -> None:
-        """キー設定を ModifierManager へ予約する。
+        """キー設定を `ModifierManager` へ予約する。
 
         ``do_it_dg()`` で実行する。属性では指定レイヤーの値解決を使い、
         カーブ明示指定ではカーブ自身の値を編集する。
@@ -680,11 +679,12 @@ class _KeyframeOperations(ABC):
         """指定時刻のキー移動を予約する。
 
         移動先の既存キーは置換する。移動量 0 や空カーブでは変更しない。
+        `offset` と `to` のどちらか一方を指定する。
 
         Args:
             frame: 元キーの時刻。予約時の UI 時間単位。
-            offset: 相対移動量。to と同時には指定できない。
-            to: 移動先の時刻。offset と同時には指定できない。
+            offset: 相対移動量。`to` と同時には指定できない。
+            to: 移動先の時刻。`offset` と同時には指定できない。
             insert_missing: 元キーがなければ形状を保って挿入するか。
         """
         frame = float(frame)
@@ -761,11 +761,12 @@ class _KeyframeOperations(ABC):
 
         時刻は予約時の UI 時間単位。移動先の対象外キーは置換する。
         手動接線は維持し、キーの順序逆転は拒否する。
+        `offset`、`to_start`、`to_end` のうち一つだけ指定する。
 
         Args:
             start_frame: 元範囲の開始。None は制限しない。
             end_frame: 元範囲の終了。None は制限しない。
-            offset: 相対移動量。to_start / to_end と同時指定不可。
+            offset: 相対移動量。`to_start` / `to_end` と同時指定不可。
             to_start: 開始境界の移動先。未指定境界には最初のキーを使う。
             to_end: 終了境界の移動先。未指定境界には最後のキーを使う。
             interpolate_start: 移動量を徐々に増やす外側の開始時刻。
@@ -941,16 +942,19 @@ class _KeyframeOperations(ABC):
 
         時刻は予約時の UI 時間単位。値は維持し、接線 X を拡縮する。
         キーの衝突・順序逆転は拒否する。
+        `scale`、`duration`、`to_start` と `to_end` の両方指定のうち
+        ちょうど一つで倍率を決める。
 
         Args:
             start_frame: 元範囲の開始。None では最初の対象キーを使う。
             end_frame: 元範囲の終了。None では最後の対象キーを使う。
-            scale: 正の時間倍率。duration との併用は不可。
-            duration: 拡縮後の長さ。scale との併用は不可。
-            offset: 拡縮後に加える時刻の移動量。
-            to_start: 配置先の開始時刻。pivot との併用は不可。
-            to_end: 配置先の終了時刻。pivot との併用は不可。
+            scale: 正の時間倍率。`duration` や両方の配置先境界とは併用不可。
+            duration: 拡縮後の長さ。`scale` や両方の配置先境界とは併用不可。
+            offset: 拡縮後に加える時刻の移動量。配置先境界とは併用不可。
+            to_start: 配置先の開始時刻。`offset` / `pivot` とは併用不可。
+            to_end: 配置先の終了時刻。`offset` / `pivot` とは併用不可。
             pivot: 拡縮の基準時刻。省略時は元範囲の開始。
+                `to_start` / `to_end` とは併用不可。
             mode: ``replace_range`` は配置先区間を置換し、``merge`` は
                 同時刻のキーだけを上書きする。
             interpolate_start: 影響度を徐々に増やす外側の開始時刻。
@@ -1049,7 +1053,7 @@ class _KeyframeOperations(ABC):
     ) -> None:
         """指定時刻の既存キーに値を加算する。
 
-        手動接線は維持する。offset が 0 の場合は挿入もしない。
+        手動接線は維持する。`offset` が 0 の場合は挿入もしない。
 
         Args:
             frame: 変更する時刻。予約時の UI 時間単位。
@@ -1080,7 +1084,7 @@ class _KeyframeOperations(ABC):
     ) -> None:
         """範囲内の既存キーに値を加算する。
 
-        手動接線は維持する。offset が 0 の場合は挿入もしない。
+        手動接線は維持する。`offset` が 0 の場合は挿入もしない。
 
         Args:
             start_frame: 範囲の開始。None は制限しない。
@@ -1112,9 +1116,9 @@ class _KeyframeOperations(ABC):
         pivot: float = 0,
         insert_missing: bool = False,
     ) -> None:
-        """指定時刻のキーを pivot 基準で値方向に拡縮する。
+        """指定時刻のキーを `pivot` 基準で値方向に拡縮する。
 
-        scale が 1 の場合は挿入もしない。
+        `scale` が 1 の場合は挿入もしない。
 
         Args:
             frame: 変更する時刻。予約時の UI 時間単位。
@@ -1146,9 +1150,9 @@ class _KeyframeOperations(ABC):
         interpolation: Literal["linear", "smoothstep"] = "smoothstep",
         insert_missing: bool = False,
     ) -> None:
-        """範囲内の既存キーを pivot 基準で値方向に拡縮する。
+        """範囲内の既存キーを `pivot` 基準で値方向に拡縮する。
 
-        接線型・lock・breakdown は維持する。scale が 1 なら変更しない。
+        接線型・lock・breakdown は維持する。`scale` が 1 なら変更しない。
 
         Args:
             start_frame: 範囲の開始。None は制限しない。
@@ -1263,8 +1267,8 @@ class KeyframeManager(_KeyframeOperations):
         """属性と操作を予約する先を設定する。
 
         Args:
-            plug: 操作対象の scalar MPlug。
-            plug_name: 表示・コマンド用の属性パス。省略時は plug から作る。
+            plug: 操作対象の scalar `MPlug`。
+            plug_name: 表示・コマンド用の属性パス。省略時は `plug` から作る。
             value_reader: カーブ値を属性値へ変換する関数。
             modifier_manager: 編集を予約する先。None では読み取り専用。
         """
@@ -1275,7 +1279,7 @@ class KeyframeManager(_KeyframeOperations):
 
     @property
     def plug(self) -> om.MPlug:
-        """操作対象の MPlug。"""
+        """操作対象の `MPlug`。"""
         return self._plug
 
     @property
@@ -1289,10 +1293,10 @@ class KeyframeManager(_KeyframeOperations):
         レイヤーの所属・接続・lock は取得時と実行時に検査する。
 
         Args:
-            name: レイヤー名または作成待ちを含む AnimLayer ノード。
+            name: レイヤー名または作成待ちを含む `AnimLayer` ノード。
 
         Returns:
-            同じ ModifierManager を使うレイヤー用 KeyframeManager。
+            同じ `ModifierManager` を使うレイヤー用 `KeyframeManager`。
         """
         from ..node._core import NodeOperator
 
@@ -1547,7 +1551,7 @@ class CurveKeyframeManager(_KeyframeOperations):
         """明示したアニメーションカーブの操作入口を作る。
 
         Args:
-            curve: TA / TL / TU カーブの MObject。
+            curve: TA / TL / TU カーブの `MObject`。
             modifier_manager: 編集を予約する先。None では読み取り専用。
         """
         super().__init__(_keyframe_target.CurveTarget(curve), modifier_manager)

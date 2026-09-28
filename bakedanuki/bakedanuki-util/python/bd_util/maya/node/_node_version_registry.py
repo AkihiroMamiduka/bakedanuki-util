@@ -1,8 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
-# The upper bound is exclusive. Unlisted node types use the supported Maya
-# baseline range (2025 and later).
+# 範囲の上限は含まない。未列挙のノード型には対応 Maya の基準範囲（2025 以降）を使う。
 NODE_TYPE_VERSION_RANGES: dict[
     str,
     tuple[tuple[int, int | None], ...],

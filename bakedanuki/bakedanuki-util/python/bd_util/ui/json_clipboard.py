@@ -13,7 +13,7 @@ __all__ = ["JsonClipboard"]
 
 
 def _unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
-    """重複keyによる解釈の差を拒否してJSON objectを返す。"""
+    """重複した `key` による解釈の差を拒否してJSON objectを返す。"""
     result: dict[str, object] = {}
     for key, value in pairs:
         if key in result:
@@ -60,7 +60,7 @@ class JsonClipboard:
 
     @staticmethod
     def _clipboard() -> qt.QtGui.QClipboard:
-        """現在のGUI applicationが所有するグローバルclipboardを返す。"""
+        """現在の `QApplication` が所有するグローバルclipboardを返す。"""
         application = qt.QApplication.instance()
         if not isinstance(application, qt.QApplication):
             raise RuntimeError("OSクリップボードにはQApplicationが必要です")
@@ -70,7 +70,7 @@ class JsonClipboard:
         """対応MIMEまたは専用markerがある場合は`True`。
 
         Raises:
-            RuntimeError: QApplicationが存在しない場合。
+            RuntimeError: `QApplication` が存在しない場合。
         """
         mime_data = self._clipboard().mimeData()
         if mime_data is None:
@@ -88,7 +88,7 @@ class JsonClipboard:
 
         Raises:
             ValueError: JSONへ変換できないか、容量上限を超える場合。
-            RuntimeError: QApplicationが存在しない場合。
+            RuntimeError: `QApplication` が存在しない場合。
         """
         try:
             text = json.dumps(
@@ -114,7 +114,7 @@ class JsonClipboard:
 
         Raises:
             ValueError: 対応形式がないか、容量・UTF-8・JSONが不正な場合。
-            RuntimeError: QApplicationが存在しない場合。
+            RuntimeError: `QApplication` が存在しない場合。
         """
         mime_data = self._clipboard().mimeData()
         if mime_data is None:

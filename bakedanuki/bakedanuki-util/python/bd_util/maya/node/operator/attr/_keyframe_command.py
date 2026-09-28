@@ -72,5 +72,5 @@ def queue_key(
         if not count:
             raise RuntimeError(f"No keyframe was set on {plug_name!r}.")
 
-    # Keep one Maya mutation per callback so modifier rollback can undo it.
+    # 1 回の callback に Maya の変更を一つだけ積み、`modifier` の rollback で戻せるようにする。
     modifier.pythonCommandToExecute(set_keyframe)

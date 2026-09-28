@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# self
 from .._core import NodeOperator
 from ...attr.define.std.at.scalar.numeric.bool import BoolField
 from ...attr.define.std.at.scalar.numeric.range.byte import ByteField

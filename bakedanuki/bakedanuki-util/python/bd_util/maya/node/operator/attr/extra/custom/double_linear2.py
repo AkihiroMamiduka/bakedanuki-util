@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any
 
-# self
 from ...define.custom import (
     DoubleLinear2Field,
 )

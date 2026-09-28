@@ -1,9 +1,7 @@
 # coding:utf-8
 
-# maya
 from maya import cmds
 
-# self
 import bd_util as bdu
 from .. import logger as u_logger
 

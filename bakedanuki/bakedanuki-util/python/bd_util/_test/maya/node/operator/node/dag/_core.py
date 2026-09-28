@@ -3,7 +3,6 @@
 
 import maya.cmds as cmds
 
-# self
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.nodes import Nodes

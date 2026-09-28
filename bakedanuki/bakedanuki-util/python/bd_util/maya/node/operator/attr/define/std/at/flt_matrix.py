@@ -1,21 +1,17 @@
 # coding: utf-8
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
 class FltMatrixPlugOperator(PlugOperator["FltMatrixAttrOperator"]):
     __slots__ = ()
 
-    # get
     def get(self) -> om.MFloatMatrix:
         """fltMatrixプラグの現在値をMFloatMatrixで取得する。"""
         matrix = om.MFnMatrixData(self.plug.asMObject()).matrix()
         return om.MFloatMatrix(matrix)
 
-    # set
     def set(self, value: om.MFloatMatrix) -> None:
         """fltMatrixプラグへMFloatMatrixをModifierManager経由で設定する。
 

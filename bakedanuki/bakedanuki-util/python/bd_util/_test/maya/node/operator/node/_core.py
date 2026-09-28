@@ -3,10 +3,8 @@
 Node クラスの名前系プロパティ（namespace / local_name）のテスト・デモ
 """
 
-# maya
 from maya import cmds
 
-# self
 from ...... import logger as u_logger
 from ..... import str as test_str
 from ......maya.node.modifier import ModifierManager

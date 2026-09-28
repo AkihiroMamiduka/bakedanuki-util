@@ -16,7 +16,7 @@ _CONTROL_ID_PATTERN = re.compile(r"^[A-Za-z_]\w*$", re.ASCII)
 
 
 class MayaDockableWindowController(Generic[WindowT]):
-    """MayaのworkspaceControlと1つのdockable Widgetを管理する。"""
+    """Maya の workspaceControl と1つの dockable Widget を管理する。"""
 
     def __init__(
         self,
@@ -29,15 +29,15 @@ class MayaDockableWindowController(Generic[WindowT]):
         """Widgetの生成方法とMaya側の固定IDを設定する。
 
         Args:
-            factory: `MayaDockableWindow`を生成する引数なしの関数。
-            control_id: ASCII英字か`_`で始まる固定ID。Windowの`objectName`にも使う。
-            restore: Maya再起動時に呼ばれる復元関数の指定。
-            dock_options: 初回表示とclose時の設定。省略時は`DockOptions()`。
+            factory: `MayaDockableWindow` を生成する引数なしの関数。
+            control_id: ASCII 英字か `_` で始まる固定 ID。Window の `objectName` にも使う。
+            restore: Maya 再起動時に呼ばれる復元関数の指定。
+            dock_options: 初回表示と `close()` 時の設定。`None` なら `DockOptions()`。
 
         Raises:
-            ValueError: control_idが英数字と`_`の識別子形式でない場合。
+            ValueError: `control_id` が英数字と `_` の識別子形式でない場合。
         """
-        # 固定IDはQtのobjectNameとMayaのworkspaceControl名の双方に使う。
+        # `control_id` は Qt の `objectName` と Maya の workspaceControl 名の双方に使う。
         if not _CONTROL_ID_PATTERN.fullmatch(control_id):
             raise ValueError(
                 "control_idにはPython識別子として有効な名前を指定してください"
@@ -165,7 +165,7 @@ class MayaDockableWindowController(Generic[WindowT]):
         return window
 
     def close(self) -> None:
-        """workspaceControlを閉じる。`retain=False`なら完全破棄する。"""
+        """workspaceControl を閉じる。`dock_options.retain` が `False` なら完全破棄する。"""
         control_name = self.workspace_control_name
 
         # 破棄policyではcallbackを即時解除してcontrolごと削除する。

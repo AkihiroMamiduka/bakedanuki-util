@@ -1,10 +1,8 @@
 # coding: utf-8
 from collections.abc import Callable
 
-# maya
 from maya import cmds
 
-# self
 from .type import (
     is_dag_node_type,
     is_dg_node_type,
@@ -36,12 +34,12 @@ def get_dag_node_types() -> list[str]:
 
 
 def get_transform_types() -> list[str]:
-    """Transform ノード型名を返す。"""
+    """Maya の `transform` 型を継承するノード型名を返す。"""
     return get_specific_types_core(is_transform_type)
 
 
 def get_shape_types() -> list[str]:
-    """Shape ノード型名を返す。"""
+    """Maya の `shape` 型を継承するノード型名を返す。"""
     return get_specific_types_core(is_shape_type)
 
 

@@ -16,7 +16,7 @@ class AnimCurveKeyframes:
 
     @property
     def keyframe(self) -> CurveKeyframeManager:
-        """同じ ModifierManager を使うキーフレーム操作を返す。"""
+        """同じ `ModifierManager` を使うキーフレーム操作を返す。"""
         return CurveKeyframeManager(
             self.m_obj, modifier_manager=self._modifier_manager
         )

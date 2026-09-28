@@ -2,10 +2,8 @@
 from __future__ import annotations
 from typing import Any, Generic, TypeVar, Type, cast
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 A = TypeVar("A", bound="DataTypeAttrOperator[Any]")
@@ -18,24 +16,22 @@ N = TypeVar("N", int, float)
 class DataNumericBasePlugOperator(DataTypePlugOperator[A], Generic[A, N]):
     __slots__ = ()
 
-    # get
     def _get_data(self) -> tuple[N, ...]:
         m_obj = self.plug.asMObject()
         fn_data = om.MFnNumericData(m_obj)
         return cast(tuple[N, ...], fn_data.getData())
 
-    # set
     def _set_data(
         self,
         numeric_type: int,
         values: list[N],
     ) -> None:
-        """MPlug に数値データを直接設定する。
+        """`MPlug` に数値データを直接設定する。
 
-        ModifierManager の履歴には入らない。
+        `ModifierManager` の履歴には入らない。
 
         Args:
-            numeric_type: MFnNumericData の数値型。
+            numeric_type: `MFnNumericData` の数値型。
             values: 設定する数値の並び。
         """
         fn_data = om.MFnNumericData()

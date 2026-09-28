@@ -14,9 +14,9 @@ _InstanceT = TypeVar("_InstanceT")
 
 
 class EnumBinding(qt.QObject, Generic[_StoreT]):
-    """一つのenum StoreとViewModelの同期・寿命を管理する。
+    """一つの enum Store と `EnumViewModel` の同期・寿命を管理する。
 
-    `dispose()`はBindingを終了するが、外から渡されたStoreは破棄しない。
+    `dispose()` は `EnumBinding` を終了するが、外から渡された `store` は破棄しない。
     """
 
     def __init__(
@@ -25,11 +25,11 @@ class EnumBinding(qt.QObject, Generic[_StoreT]):
         *,
         parent: qt.QObject | None = None,
     ) -> None:
-        """外部Storeに対応する専用ViewModelを作る。
+        """外部 `store` に対応する専用 `EnumViewModel` を作る。
 
         Args:
             store: 整数値と選択肢を読み書きする正本。
-            parent: このBindingを所有するQObject。
+            parent: この `EnumBinding` を所有する `QObject`。
         """
         self._initialize(lambda _view_model: store, parent=parent)
 
@@ -62,16 +62,16 @@ class EnumBinding(qt.QObject, Generic[_StoreT]):
         definition: EnumDefinition,
         parent: qt.QObject | None = None,
     ) -> EnumBinding[PythonEnumAttributeStore[_InstanceT]]:
-        """既存のPython整数属性を正本とするBindingを作る。
+        """既存の Python 整数属性を正本とする `EnumBinding` を作る。
 
         Args:
             instance: 属性を持つPython object。
             attribute_name: 正本として扱う既存属性の名前。
             definition: 値と表示名の対応を表す選択肢。
-            parent: このBindingを所有するQObject。
+            parent: この `EnumBinding` を所有する `QObject`。
 
         Returns:
-            作成した属性Storeを保持するBinding。
+            作成した `PythonEnumAttributeStore` を保持する `EnumBinding`。
         """
         return EnumBinding(
             PythonEnumAttributeStore(
@@ -126,7 +126,7 @@ class EnumBinding(qt.QObject, Generic[_StoreT]):
         )
 
     def set_value(self, value: int) -> bool:
-        """Viewと同じCommandを通して整数値を設定する。
+        """View と共通の `set_value_command` を通して整数値を設定する。
 
         Args:
             value: 設定するenumの整数値。
@@ -137,7 +137,7 @@ class EnumBinding(qt.QObject, Generic[_StoreT]):
         return self.view_model.set_value_command.execute(value)
 
     def refresh(self) -> bool:
-        """正本を読み直してViewModelへ反映する。
+        """正本を読み直して `EnumViewModel` へ反映する。
 
         Returns:
             公開値が変わった場合は`True`。
@@ -156,6 +156,6 @@ class EnumBinding(qt.QObject, Generic[_StoreT]):
             self.deleteLater()
 
     def _require_active(self) -> None:
-        """終了後の操作と破棄済みQObjectへのアクセスを拒否する。"""
+        """終了後の操作と破棄済み `QObject` へのアクセスを拒否する。"""
         if self.is_disposed:
             raise RuntimeError("EnumBindingは終了しています")

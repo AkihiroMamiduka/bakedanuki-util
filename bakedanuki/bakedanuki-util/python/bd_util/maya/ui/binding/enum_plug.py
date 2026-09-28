@@ -29,12 +29,12 @@ class MayaEnumPlugStore(EnumPlugEndpoint):
         plug: MayaEnumPlug,
         owner: qt.QObject,
     ) -> None:
-        """Maya enum plugをViewModelの正本として監視する。
+        """Maya enum `plug` を ViewModel の正本として監視する。
 
         Args:
             view_model: Mayaの実値と定義を受け取るViewModel。
             plug: 読み書きするMaya enum plug。
-            owner: callbackの寿命を管理するQObject。
+            owner: callback の寿命を管理する `QObject`。
         """
         self._write_depth = 0
         super().__init__(view_model, plug, owner)
@@ -131,7 +131,7 @@ class MayaEnumPlugView(EnumPlugEndpoint):
         Args:
             view_model: Python Storeを接続済みのViewModel。
             plug: 同期先のMaya enum plug。
-            owner: callbackの寿命を管理するQObject。
+            owner: callback の寿命を管理する `QObject`。
 
         Raises:
             RuntimeError: Storeが未接続、またはMaya Storeが正本の場合。

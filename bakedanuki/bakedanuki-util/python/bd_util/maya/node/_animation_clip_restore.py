@@ -1,4 +1,4 @@
-"""AnimationClipの検査と、ModifierManagerによる一括復元。"""
+"""`AnimationClip` を検証し、`ModifierManager` でまとめて復元する。"""
 
 from __future__ import annotations
 
@@ -42,7 +42,10 @@ from .operator.node.dg._anim_layer import (
 
 
 def mapped_name(name: str, namespace: str | None) -> str:
-    """DAG パスの各ノード名を指定 namespace へ写す。None なら元名を返す。"""
+    """DAG パス `name` の各ノード名を `namespace` に写す。
+
+    `namespace=None` なら `name` を返す。
+    """
     if namespace is None:
         return name
     prefix = namespace + ":" if namespace else ""
@@ -91,10 +94,10 @@ def _restore_curve(
     start: float,
     end: float,
 ) -> None:
-    """保存カーブを mode に従って置換または既存カーブへ統合する。
+    """保存カーブを `mode` に従って置換または既存カーブへ統合する。
 
-    ``replace_range`` では対象区間のキーだけを削除する。新規カーブには
-    保存済みの weighted・infinity 設定も復元する。
+    `replace_range` では対象区間のキーだけを削除する。新規カーブには
+    保存済みの `weighted` と `pre_infinity` / `post_infinity` も復元する。
     """
     if mode == "replace_all":
         keyframe.set_curve_data(data)
@@ -148,13 +151,13 @@ def _same_setting(actual: LayerSettingData, saved: LayerSettingData) -> bool:
                 index == len(expected.keys) - 1,
             ),
         ):
-            # Maya derives these legacy tangents from type and key spacing.
-            # Editing their angle or weight changes their type to fixed.
+            # Maya は `fast` / `slow` 接線を種類とキー間隔から算出する。
+            # 角度やウェイトを編集すると接線型が `fixed` に変わる。
             if tangent in ("fast", "slow"):
                 continue
             if not expected.weighted or outside:
-                # Endpoint length affects neither interpolation nor infinity.
-                # Maya can renormalize it when restoring automatic tangents.
+                # `expected.weighted=False` のカーブと区間端の接線長は補間・外挿に影響しない。
+                # 自動接線の復元時に再正規化されるため、方向だけを比較する。
                 actual_length = math.hypot(*actual_xy) or 1.0
                 saved_length = math.hypot(*saved_xy) or 1.0
                 actual_xy = (
@@ -166,7 +169,7 @@ def _same_setting(actual: LayerSettingData, saved: LayerSettingData) -> bool:
                     saved_xy[1] / saved_length,
                 )
             if any(
-                # Maya rounds weighted tangent lengths when restoring them.
+                # Maya によるウェイト付き接線長の丸めを考慮する。
                 not math.isclose(
                     x,
                     y,
@@ -244,8 +247,8 @@ def restore(
     Args:
         clip: 復元する保存データ。予約時に独立コピーを作る。
         modifier_manager: 操作を予約する先。
-        targets: 保存ノード順に対応する復元先。namespace と併用不可。
-        namespace: 保存名の namespace を置き換える文字列。
+        targets: 保存ノード順に対応する復元先。`namespace` と併用不可。
+        namespace: 保存名の名前空間を置き換える。`None` は保持、空文字は除去。
         mode: キーを統合・全置換・区間置換する方法。
         start_frame: 保存範囲内で使用する区間の開始。
         end_frame: 保存範囲内で使用する区間の終了。
@@ -258,6 +261,7 @@ def restore(
         tolerance: 合成値の検証に用いる非負の許容誤差。
 
     Raises:
+        TypeError: `modifier_manager` や `targets` などの型が不正な場合。
         ValueError: 復元先やレイヤー構造、時間指定が不正な場合。
         RuntimeError: 実行時に対象を復元できない場合。
     """

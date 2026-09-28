@@ -36,6 +36,7 @@ class _Range(TypedDict, total=False):
 
 
 def main() -> None:
+    """Maya 上でシーンを置き換えながらカーブ操作を計測し、JSON に保存する。"""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--keys", type=int, nargs="+", default=[100, 1000, 10000]
@@ -82,7 +83,7 @@ def main() -> None:
             "repeats/window/layer-members must be positive and keys must exceed window + 2"
         )
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    # Fail on an unwritable output before starting a potentially long measurement.
+    # 長時間の計測を始める前に出力先へ書き込めるか確認する。
     args.output.open("a", encoding="utf-8").close()
 
     root = next(
@@ -186,7 +187,7 @@ def main() -> None:
             metadata: Mapping[str, object],
             run: Callable[[], dict[str, float]],
         ) -> None:
-            run()  # Warm-up and assertions are excluded from recorded samples.
+            run()  # 準備実行とその検証は計測結果に含めない。
             samples = [run() for _ in range(args.repeats)]
             results.append(
                 {

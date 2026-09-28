@@ -307,6 +307,6 @@ def queue_locks(
                         weights_locked,
                     )
 
-    # MAnimCurveChange does not restore these two flags in Maya 2025.
-    # Their animCurve array plugs provide reliable undo/redo through MDGModifier.
+    # Maya 2025 の `MAnimCurveChange` は二つの lock 状態を復元しない。
+    # animCurve の配列プラグを `MDGModifier` で更新して Undo / Redo を保つ。
     manager.queue_dg_modifier(edit)

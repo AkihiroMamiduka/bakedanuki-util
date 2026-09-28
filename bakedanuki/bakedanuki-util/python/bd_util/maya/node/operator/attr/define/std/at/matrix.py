@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .......transform.matrix.transform_matrix import (
     MatrixSequence,
     TransformMatrix,
@@ -14,12 +12,10 @@ from ...._core import AttrOperator, PlugOperator, AttributeField
 class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
     __slots__ = ()
 
-    # get
     def get(self) -> TransformMatrix:
-        """matrixプラグの現在値をTransformMatrixのsnapshotとして取得する。"""
+        """matrix プラグの現在値を `TransformMatrix` として取得する。"""
         return TransformMatrix(self.plug)
 
-    # set
     def set(
         self,
         value: (
@@ -29,13 +25,13 @@ class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
             | MatrixSequence
         ),
     ) -> None:
-        """matrixプラグへ行列値をModifierManager経由で設定する。
+        """matrix プラグへ行列値を `ModifierManager` 経由で設定する。
 
         変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
 
         Args:
-            value: 設定するTransformMatrix、MMatrix、
-                MTransformationMatrix、flat 16要素、または4行4列の
+            value: 設定する `TransformMatrix`、`MMatrix`、
+                `MTransformationMatrix`、flat 16要素、または4行4列の
                 matrix sequence。
         """
         matrix = TransformMatrix(value).matrix

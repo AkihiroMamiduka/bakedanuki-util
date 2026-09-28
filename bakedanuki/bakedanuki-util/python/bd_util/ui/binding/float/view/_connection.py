@@ -15,7 +15,7 @@ class _QueuedSignal(Protocol):
         slot: Callable[[], None],
         connection_type: qt.Qt.ConnectionType,
     ) -> qt.QtCore.QMetaObject.Connection:
-        """slotを指定した接続方式で接続する。"""
+        """`slot` を指定した接続方式で接続する。"""
         raise NotImplementedError
 
 

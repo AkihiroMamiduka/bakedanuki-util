@@ -1,7 +1,6 @@
 # coding: utf-8
 
 
-# self
 from ._base import (
     FloatLinear2CompoundBasePlugOperator,
     FloatLinear2CompoundBaseAttrOperator,

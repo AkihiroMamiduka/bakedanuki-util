@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .base.array_base import (
     DataArrayBaseAttrOperator,
     DataArrayBasePlugOperator,
@@ -16,7 +14,6 @@ class DataVectorArrayPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> list[tuple[float, float, float]]:
         """vectorArray dataプラグの現在値を3成分tupleのリストで取得する。"""
         return [
@@ -24,14 +21,13 @@ class DataVectorArrayPlugOperator(
             for p in self._get_array_values(om.MFnVectorArrayData)
         ]
 
-    # set
     def set_direct(
         self,
         value: list[tuple[float, float, float]],
     ) -> None:
-        """MPlug に値を直接設定する。
+        """`MPlug` に値を直接設定する。
 
-        ModifierManager の履歴には入らない。
+        `ModifierManager` の履歴には入らない。
 
         Args:
             value:

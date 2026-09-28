@@ -10,7 +10,7 @@ from .widget import BoolViewsWidget
 
 
 class BoolViewsWindow(qt.QDialog):
-    """自己完結したBoolViewsWidgetを表示するsample Window。"""
+    """自己完結した `BoolViewsWidget` を表示するサンプル Window。"""
 
     def __init__(
         self,
@@ -52,7 +52,7 @@ class BoolViewsWindow(qt.QDialog):
 
 @dataclass(frozen=True)
 class _WindowArguments:
-    """MayaWindowControllerのfactoryへ渡す次回Window設定。"""
+    """`MayaWindowController` の factory へ渡す次回の Window 設定。"""
 
     data: object
     data_attribute_name: str

@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# self
 from ._base import (
     FloatAngle3CompoundBasePlugOperator,
     FloatAngle3CompoundBaseAttrOperator,

@@ -20,6 +20,7 @@ KEYFRAME_PATH = (
 
 
 def main() -> None:
+    """旧実装と現行実装のキー設定を Maya で比較計測する。"""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--keys", type=int, nargs="+", default=[10, 100, 1000])
     parser.add_argument("--repeats", type=int, default=5)
@@ -98,7 +99,7 @@ def main() -> None:
                 keyframe = baseline.KeyframeManager(
                     keyframe.plug, modifier_manager=manager
                 )
-                # The historical baseline predates the set_key() rename.
+                # 旧基準コードは `set_key()` への改名より前のため `set()` を使う。
                 set_key = keyframe.set
             else:
                 set_key = keyframe.set_key

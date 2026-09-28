@@ -136,7 +136,7 @@ class FloatSlider(qt.QSlider):
     def setValueRequestHandler(
         self, handler: Callable[[float], bool] | None
     ) -> None:
-        """スライダー入力を受け取る handler を設定する。
+        """スライダー入力を受け取る `handler` を設定する。
 
         変更時は進行中の連続編集を終了する。
 

@@ -13,4 +13,6 @@ ROTATE_ORDER_DEFINITION = EnumDefinition.from_mapping(
 
 @dataclass
 class EnumData:
+    """Python 側の enum 値を `mode` に保持する。"""
+
     mode: int = 5

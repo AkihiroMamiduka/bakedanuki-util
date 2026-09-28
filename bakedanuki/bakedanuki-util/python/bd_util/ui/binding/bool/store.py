@@ -66,7 +66,7 @@ class PythonBoolAttributeStore(Generic[_InstanceT]):
         instance: _InstanceT,
         attribute_name: str,
     ) -> None:
-        """同期対象instanceとattribute名を受け取って初期化する。"""
+        """同期対象の `instance` と `attribute_name` を受け取って初期化する。"""
         self._instance = instance
         self._attribute_name = _require_attribute_name(attribute_name)
 

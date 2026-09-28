@@ -9,7 +9,7 @@ WindowT = TypeVar("WindowT", bound=qt.QtWidgets.QWidget)
 
 
 class WindowController(Generic[WindowT]):
-    """factoryから生成した1つのWindowを表示・破棄する。"""
+    """`factory` から生成した1つのWindowを表示・破棄する。"""
 
     def __init__(
         self,
@@ -17,11 +17,11 @@ class WindowController(Generic[WindowT]):
         *,
         retain: bool = False,
     ) -> None:
-        """Windowの生成方法とclose時の保持方針を設定する。
+        """Windowの生成方法と `close()` 時の保持方針を設定する。
 
         Args:
             factory: Windowを生成する引数なしの関数。初回表示時に呼ぶ。
-            retain: `True`ならclose後も同じWindowを再利用する。
+            retain: `True` なら `close()` 後も同じWindowを再利用する。
         """
         self._factory = factory
         self._retain = retain
@@ -35,7 +35,7 @@ class WindowController(Generic[WindowT]):
 
     @property
     def retain(self) -> bool:
-        """close時にwindow instanceを保持するか返す。"""
+        """`close()` 時にWindowを保持するか返す。"""
         return self._retain
 
     def show(self) -> WindowT:
@@ -51,7 +51,7 @@ class WindowController(Generic[WindowT]):
             self._window = window
             self._window_token = token
 
-            # Qt側のclose操作もcontrollerの保持方針に合わせる。
+            # Qt側の `close()` 操作も `retain` の保持方針に合わせる。
             window.setAttribute(
                 qt.QtCore.Qt.WidgetAttribute.WA_DeleteOnClose,
                 not self._retain,
@@ -71,7 +71,7 @@ class WindowController(Generic[WindowT]):
         return window
 
     def close(self) -> None:
-        """Windowを閉じる。`retain=False`なら完全破棄する。"""
+        """Windowを閉じる。`retain=False` なら完全破棄する。"""
         window = self._window
         if window is None:
             return

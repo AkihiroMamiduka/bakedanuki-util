@@ -19,7 +19,7 @@ from ._generated.joint import GeneratedJoint
 
 
 class Joint(GeneratedJoint):
-    """Joint の姿勢と `jointOrient`、子の補償を操作する。"""
+    """`Joint` の姿勢と `jointOrient`、子の補償を操作する。"""
 
     __slots__ = ()
 
@@ -152,7 +152,7 @@ class Joint(GeneratedJoint):
     ) -> Self:
         """姿勢を ``jointOrient`` へ設定し、必要に応じて子を補償する。
 
-        値の単位は degree。Transform 子は ``rotate``、Joint 子は既定で
+        値の単位は degree。`Transform` 子は ``rotate``、`Joint` 子は既定で
         ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
@@ -232,7 +232,7 @@ class Joint(GeneratedJoint):
         """``jointOrient`` を丸め、必要に応じて子のworld姿勢を補償する。
 
         Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は degree。Transform 子は ``rotate``、Joint 子は既定で
+        値の単位は degree。`Transform` 子は ``rotate``、`Joint` 子は既定で
         ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
@@ -278,7 +278,7 @@ class Joint(GeneratedJoint):
     ) -> Self:
         """world姿勢を ``jointOrient`` で合わせ、必要に応じて子を補償する。
 
-        Transform 子は ``rotate``、Joint 子は既定で ``rotate`` を補償する。
+        `Transform` 子は ``rotate``、`Joint` 子は既定で ``rotate`` を補償する。
         変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
@@ -333,7 +333,7 @@ class Joint(GeneratedJoint):
     ) -> Self:
         """エイムで求めたworld姿勢を ``jointOrient`` へ設定する。
 
-        引数と計算仕様は :meth:`Transform.aim_to_rotate` と共通で、変更する
+        引数と計算仕様は `Transform.aim_to_rotate()` と共通で、変更する
         回転属性だけが異なる。
         """
         (
@@ -379,7 +379,7 @@ class Joint(GeneratedJoint):
     ) -> Self:
         """直接の子へ向けたworld姿勢を ``jointOrient`` へ設定する。
 
-        引数と計算仕様は :meth:`Transform.aim_child_to_rotate` と共通で、変更する
+        引数と計算仕様は `Transform.aim_child_to_rotate()` と共通で、変更する
         回転属性だけが異なる。
         """
         joint_child_compensation_attr = (
@@ -421,7 +421,7 @@ class Joint(GeneratedJoint):
     ) -> Self:
         """軸対応で求めた姿勢を ``jointOrient`` へ設定する。
 
-        引数と計算仕様は :meth:`Transform.remap_axes_to_rotate` と共通で、変更する
+        引数と計算仕様は `Transform.remap_axes_to_rotate()` と共通で、変更する
         回転属性だけが異なる。
         """
         (

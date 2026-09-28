@@ -1,17 +1,14 @@
 # conding: utf-8
 
-# builtin
 import importlib.util
 from collections.abc import Callable, Iterable
 from importlib import import_module
 from pathlib import Path
 from typing import Any, cast
 
-# maya
 from maya import cmds
 from maya.api import OpenMaya as om
 
-# self
 from ...... import logger as u_logger
 from ..... import str as test_str
 from ......_dev.timer import run_timed_repeat, timer

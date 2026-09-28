@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from .base.array_base import (
     DataArrayBaseAttrOperator,
     DataArrayBasePlugOperator,
@@ -16,7 +14,6 @@ class PointArrayPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> list[tuple[float, float, float, float]]:
         """pointArray dataプラグの現在値を4成分tupleのリストで取得する。"""
         return [
@@ -24,14 +21,13 @@ class PointArrayPlugOperator(
             for p in self._get_array_values(om.MFnPointArrayData)
         ]
 
-    # set
     def set_direct(
         self,
         value: list[tuple[float, float, float, float]],
     ) -> None:
-        """MPlug に値を直接設定する。
+        """`MPlug` に値を直接設定する。
 
-        ModifierManager の履歴には入らない。
+        `ModifierManager` の履歴には入らない。
 
         Args:
             value:

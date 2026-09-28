@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# maya
 from maya import cmds
 
 

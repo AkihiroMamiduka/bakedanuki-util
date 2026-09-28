@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ._base import (
     UnitRangeBaseAttrOperator,
     UnitRangeBasePlugOperator,
@@ -17,7 +15,6 @@ class DoubleLinearPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> float:
         """doubleLinearプラグの現在値をcentimeter単位で取得する。"""
         plug = self._m_plug
@@ -25,7 +22,6 @@ class DoubleLinearPlugOperator(
             plug = self.plug
         return plug.asMDistance().asCentimeters()
 
-    # set
     def set(self, value: float) -> None:
         """doubleLinearプラグへcentimeter値をModifierManager経由で設定する。
 

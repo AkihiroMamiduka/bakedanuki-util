@@ -1,7 +1,6 @@
 # coding: utf-8
 from typing import Any, TypeVar, Type, cast
 
-# self
 from ...........value import Long2
 from .._base import (
     LongCompoundBasePlugOperator,

@@ -86,7 +86,7 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
             view_model: 共有するViewModelまたはBinding。
             parent: このViewを所有するWidget。
             minimum: 公開単位での操作範囲の下限。
-            maximum: 公開単位での操作範囲の上限。minimumより大きくする。
+            maximum: 公開単位での操作範囲の上限。`minimum` より大きくする。
             steps: Sliderの整数位置の分割数。
             decimals: 値欄の小数桁数。
             single_step: 値欄の表示単位での刻み幅。
@@ -291,7 +291,7 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
         """View固有の操作範囲を変更する。正本の値とhard limitは維持する。
 
         Args:
-            minimum: 新しい下限。maximumより小さくする。
+            minimum: 新しい下限。`maximum` より小さくする。
             maximum: 新しい上限。
 
         """

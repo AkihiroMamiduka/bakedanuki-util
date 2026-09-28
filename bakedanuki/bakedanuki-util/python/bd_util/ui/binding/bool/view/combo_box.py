@@ -10,7 +10,7 @@ from ._source import resolve_bool_view_source
 
 
 class BoolComboBox(qt.QComboBox):
-    """BoolViewModelをOff／On項目で表示・操作するコンボボックス。"""
+    """`BoolViewModel` を Off／On 項目で表示・操作するコンボボックス。"""
 
     def __init__(
         self,

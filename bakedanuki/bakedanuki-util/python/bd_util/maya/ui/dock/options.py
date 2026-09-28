@@ -15,17 +15,17 @@ class DockArea(str, Enum):
 
 @dataclass(frozen=True)
 class DockOptions:
-    """dockable Windowの初期配置とclose時の保持方針。
+    """dockable Window の初期配置と `close()` 時の保持方針。
 
     Attributes:
-        area: 初回表示する領域。`DockArea.ALL`は指定できない。
+        area: 初回表示する領域。`DockArea.ALL` は指定できない。
         allowed_area: 移動を許可する領域。既定は全領域。
         floating: 初回から独立したWindowとして表示するか。
-        initial_width: 初回の幅。`None`ならWidget側に任せる。
-        initial_height: 初回の高さ。`None`ならWidget側に任せる。
-        minimum_width: 最小幅。`None`なら指定しない。
-        retain: close後もworkspaceControlとWidgetを保持するか。
-        tab_to_control: 初回にタブ化する既存workspaceControl名。
+        initial_width: 初回の幅。`None` なら Widget 側に任せる。
+        initial_height: 初回の高さ。`None` なら Widget 側に任せる。
+        minimum_width: 最小幅。`None` なら指定しない。
+        retain: `close()` 後も workspaceControl と Widget を保持するか。
+        tab_to_control: 初回にタブ化する既存 workspaceControl 名。
 
     Raises:
         ValueError: 領域の組み合わせ、サイズ、タブ先の指定が不正な場合。
@@ -70,13 +70,13 @@ class DockOptions:
             )
 
     def to_mixin_arguments(self, ui_script: str) -> dict[str, object]:
-        """設定をMayaQWidgetDockableMixinの引数へ変換する。
+        """設定を `MayaQWidgetDockableMixin` の引数へ変換する。
 
         Args:
             ui_script: Maya再起動時に呼ばれる復元用スクリプト。
 
         Returns:
-            Mixinの`show()`へ渡すキーワード引数。
+            Mixin の `show()` へ渡すキーワード引数。
         """
         # この境界でMixinが要求するcamelCaseのキーへ変換する。
         arguments: dict[str, object] = {

@@ -100,7 +100,7 @@ def _field_kwargs(
 class AddAttrAt:
     """Maya の ``attributeType`` に対応する追加属性を定義する。
 
-    各メソッドは NodeOperator のクラス属性に置く AttributeField を返す。
+    各メソッドは `NodeOperator` のクラス属性に置く `AttributeField` を返す。
 
     共通の ``multi`` は配列属性、``long_name`` / ``short_name`` は
     Maya 側の属性名を指定する。``readable`` / ``writable`` と
@@ -1453,14 +1453,14 @@ class AddAttrDt:
 
 
 class DefineEnum:
-    """enum 用の Field と PlugOperator 型をまとめる。"""
+    """enum 用の Field と `PlugOperator` 型をまとめる。"""
 
     field = ExtraEnumField
     plug_operator = EnumPlugOperator
 
 
 class DefineCompound:
-    """compound 用の Field と PlugOperator 型をまとめる。"""
+    """compound 用の Field と `PlugOperator` 型をまとめる。"""
 
     field = ExtraCompoundField
     plug_operator = CompoundPlugOperator
@@ -1480,7 +1480,7 @@ class DefineAddAttr:
 
 
 class AddAttr:
-    """NodeOperator に追加する AttributeField の入口。
+    """`NodeOperator` に追加する `AttributeField` の入口。
 
     Examples:
         >>> class NewNode(NodeOperator):

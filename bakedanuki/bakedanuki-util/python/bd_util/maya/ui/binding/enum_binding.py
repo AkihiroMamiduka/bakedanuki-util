@@ -27,7 +27,13 @@ class MayaEnumBinding(EnumBinding[_StoreT]):
         maya_plug: MayaEnumPlug | None = None,
         parent: qt.QObject | None = None,
     ) -> None:
-        """Store接続後にMayaへ初期同期し、失敗時はcallbackを解放する。"""
+        """Store 接続後に Maya へ初期同期し、失敗時は callback を解放する。
+
+        Args:
+            store: Python 側の正本となる enum Store。
+            maya_plug: 同期先の Maya enum plug。`None` なら Maya View を作らない。
+            parent: この `MayaEnumBinding` を所有する `QObject`。
+        """
         self._maya_view: MayaEnumPlugView | None = None
         super().__init__(store, parent=parent)
         try:
@@ -48,7 +54,18 @@ class MayaEnumBinding(EnumBinding[_StoreT]):
         definition: EnumDefinition,
         parent: qt.QObject | None = None,
     ) -> MayaEnumBinding[PythonEnumAttributeStore[_InstanceT]]:
-        """Python属性を正本とし、任意のMaya plugとenum Viewを接続する。"""
+        """Python 属性を正本とし、任意の Maya plug と enum View を接続する。
+
+        Args:
+            instance: 正本の属性を持つ Python object。
+            attribute_name: 正本として扱う既存属性の名前。
+            maya_plug: 同期先の Maya enum plug。`None` なら Maya View を作らない。
+            definition: 値と表示名の対応を表す `EnumDefinition`。
+            parent: この `MayaEnumBinding` を所有する `QObject`。
+
+        Returns:
+            Python 属性 Store を持つ `MayaEnumBinding`。
+        """
         return MayaEnumBinding(
             PythonEnumAttributeStore(
                 instance, attribute_name, definition=definition
@@ -59,7 +76,7 @@ class MayaEnumBinding(EnumBinding[_StoreT]):
 
     @property
     def maya_view(self) -> MayaEnumPlugView | None:
-        """Maya同期状態、失敗理由、明示再同期の窓口を返す。"""
+        """Maya 同期状態、失敗理由、明示再同期の窓口を返す。`maya_plug` 未指定なら `None`。"""
         return self._maya_view
 
     def dispose(self) -> None:

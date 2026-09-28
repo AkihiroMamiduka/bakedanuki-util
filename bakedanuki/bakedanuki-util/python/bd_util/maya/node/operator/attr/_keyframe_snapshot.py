@@ -1,4 +1,4 @@
-"""選択済みカーブのsnapshotと、ModifierManager経由の復元。"""
+"""選択済みカーブの snapshot と、`ModifierManager` 経由の復元。"""
 
 from __future__ import annotations
 
@@ -111,7 +111,7 @@ def queue_weighted_batch(
     resolve_targets: Callable[[], tuple[_keyframe_target.Target, ...]],
     weighted: object,
 ) -> None:
-    """既存チャンネルカーブの weighted 変更を単一操作として予約する。"""
+    """既存チャンネルカーブの `weighted` 変更を単一操作として予約する。"""
     if not isinstance(weighted, bool):
         raise TypeError("weighted must be a bool.")
 
@@ -326,7 +326,7 @@ def _clip_curve(
         _complete_boundaries(source, curve, start, end)
         return _capture_curve(curve, data.curve_type, unit, start, end)
     finally:
-        # doItしない作業用nodeはmodifier破棄で解放する。API編集のdirty flagも戻す。
+        # `doIt()` しない作業用ノードは `modifier` 破棄で解放し、編集前の dirty 状態も戻す。
         del curve, modifier
         if not modified:
             cmds.file(modified=False)
@@ -421,7 +421,7 @@ def _restore_working_data(
     work.setIsWeighted(data.weighted)
     work.setPreInfinityType(_INFINITY[data.pre_infinity])
     work.setPostInfinityType(_INFINITY[data.post_infinity])
-    # Bulk restoration preserves short weighted handles that setTangent clamps.
+    # `setTangent()` が丸める短い weighted 接線を一括復元で保つ。
     _keyframe_move.restore_keys(work, keys, times, change)
 
 

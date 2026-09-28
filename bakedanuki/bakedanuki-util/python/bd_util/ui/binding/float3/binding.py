@@ -15,16 +15,16 @@ _InstanceT = TypeVar("_InstanceT")
 
 
 class Float3Binding(qt.QObject, Generic[_StoreT]):
-    """3成分Storeと専用ViewModelの同期・寿命を管理する。"""
+    """3成分 Store と専用 `Float3ViewModel` の同期・寿命を管理する。"""
 
     def __init__(
         self, store: _StoreT, *, parent: qt.QObject | None = None
     ) -> None:
-        """外部Storeに対応する専用ViewModelを作る。
+        """外部 `store` に対応する専用 `Float3ViewModel` を作る。
 
         Args:
             store: 3成分を読み書きする正本。終了時も破棄しない。
-            parent: このBindingを所有するQObject。
+            parent: この `Float3Binding` を所有する `QObject`。
         """
         self._initialize(lambda _view_model: store, parent=parent)
 
@@ -57,16 +57,16 @@ class Float3Binding(qt.QObject, Generic[_StoreT]):
         ) = None,
         parent: qt.QObject | None = None,
     ) -> Float3Binding[PythonFloat3AttributeStore[_InstanceT]]:
-        """既存のPython 3成分属性を正本とするBindingを作る。
+        """既存の Python 3成分属性を正本とする `Float3Binding` を作る。
 
         Args:
             instance: 属性を持つPython object。
             attribute_name: 正本として扱う既存属性の名前。
-            presentation: 全軸共通、またはXYZ別の表示設定。
-            parent: このBindingを所有するQObject。
+            presentation: 全軸共通、または XYZ 別の表示設定。`None` なら既定の `FloatPresentation` を全軸に使う。
+            parent: この `Float3Binding` を所有する `QObject`。
 
         Returns:
-            作成した属性Storeを保持するBinding。
+            作成した `PythonFloat3AttributeStore` を保持する `Float3Binding`。
         """
         return Float3Binding(
             PythonFloat3AttributeStore(

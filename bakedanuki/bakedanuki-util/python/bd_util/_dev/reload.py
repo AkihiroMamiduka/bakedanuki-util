@@ -18,7 +18,7 @@ def _get_package_module_names() -> list[str]:
 
 
 def _remove_pycache() -> None:
-    """パッケージ内の ``__pycache__`` を削除する。"""
+    """パッケージ内の `__pycache__` を削除する。"""
     # パッケージのモジュールを取得
     module = sys.modules.get(PACKAGE_NAME)
 
@@ -62,13 +62,13 @@ def _remove_package_modules(module_names: list[str]) -> None:
 
 
 def reload_package(clear_pycache: bool = False) -> ModuleType:
-    """``bd_util`` のモジュール群を再読み込みする。
+    """`bd_util` のモジュール群を再読み込みする。
 
     Args:
-        clear_pycache: 再読み込み前に ``__pycache__`` も削除するか。
+        clear_pycache: 再読み込み前に `__pycache__` も削除するか。
 
     Returns:
-        再読み込みされた ``bd_util`` モジュール。
+        再読み込みされた `bd_util` モジュール。
     """
     # キャッシュを削除してからリロードする場合は、__pycache__を削除する
     if clear_pycache:

@@ -12,7 +12,7 @@ from ._source import resolve_bool_view_source
 
 
 class BoolCheckBox(qt.QCheckBox):
-    """BoolViewModelを表示・操作する二値チェックボックス。"""
+    """`BoolViewModel` を表示・操作する二値チェックボックス。"""
 
     def __init__(
         self,
@@ -60,7 +60,7 @@ class BoolCheckBox(qt.QCheckBox):
     def setValueRequestHandler(
         self, handler: Callable[[bool], bool] | None
     ) -> None:
-        """チェック操作時の入力handlerを設定する。
+        """チェック操作時の入力 `handler` を設定する。
 
         Args:
             handler: 入力を処理したら ``True`` を返す関数。``False`` または

@@ -13,11 +13,9 @@ from typing import (
     overload,
 )
 
-# maya
 from maya import cmds
 from maya.api import OpenMaya as om
 
-# self
 from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
 from .keyframe import KeyframeManager
@@ -113,27 +111,27 @@ class PlugOperator(Generic[A]):
         index: int | None = None,
         parent_oprt_plug: PlugOperator[Any] | None = None,
     ):
-        # args ----------------------------------------------------------------
-        # multi
+        """属性定義と親・配列要素の位置を保持する。
+
+        Args:
+            node: 属性を持つノード。
+            oprt_attr: 対応する属性定義。
+            parent_attr_path: 親属性までのパス。
+            multi: 配列属性か。
+            index: 配列要素の logical index。`None` は要素を指定しない。
+            parent_oprt_plug: 親属性の `PlugOperator`。
+        """
         self.multi: bool = multi
-        # index
         self.index: int | None = index
-        # node
         self._node: NodeOperator = node
-        # attr
         self._oprt_attr: A = oprt_attr
         self.__attr_path: str = ""
         self._parent_attr_path: str = parent_attr_path
         self._child_index: int | None = oprt_attr.child_index
-        # plug
         self.parent_oprt_plug: PlugOperator[Any] | None = parent_oprt_plug
-        # args ----------------------------------------------------------------
 
-        # attr
         self._fn_attr: om.MFnAttribute | None = None
-        # plug
         self._m_plug: om.MPlug | None = None
-        # array plug
         self._array_m_plug: om.MPlug | None = None
         self._indexed_plug_cache: dict[int, Self] | None = None
         self._next_index: int | None = None
@@ -154,7 +152,6 @@ class PlugOperator(Generic[A]):
         """属性追加に ``cmds.addAttr()`` が必要か。"""
         return self._REQUIRED_CMDS_ADD_ATTR
 
-    # name
     @property
     def name(self) -> str:
         """属性の長い名前。"""
@@ -164,8 +161,6 @@ class PlugOperator(Generic[A]):
     def long_name(self) -> str:
         """Maya 側の長い属性名。"""
         name = self._oprt_attr.long_name
-        # if self.index is not None:
-        #     name = f"{name}[{self.index}]"
         return name
 
     @property
@@ -181,13 +176,11 @@ class PlugOperator(Generic[A]):
 
     @property
     def plug(self) -> om.MPlug:
-        """この属性に対応する MPlug。"""
-        # キャッシュがあればそれを返す
+        """この属性に対応する `MPlug`。"""
         if self._m_plug is not None:
             return self._m_plug
 
-        # plug を取得する
-        #   __getitem__() が作成した index plug は、親 multi plug から直接取得する
+        # 配列要素は親 `MPlug` から、compound 子属性は親の子から解決する。
         parent_oprt_plug = self.parent_oprt_plug
         index = self.index
         indexed_from_parent = False
@@ -198,7 +191,6 @@ class PlugOperator(Generic[A]):
         ):
             plug = parent_oprt_plug.plug.elementByLogicalIndex(index)
             indexed_from_parent = True
-        # 親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
         elif parent_oprt_plug is not None:
             parent_plug = parent_oprt_plug.plug
             plug = None
@@ -216,15 +208,12 @@ class PlugOperator(Generic[A]):
                         parent_plug,
                     )
                 )
-        #   それ以外は、ノードから直接 plug を探す
         else:
             plug = self._node.fn_node.findPlug(self.long_name, False)
 
-        # index があれば、elementByLogicalIndex で plug を置き換える
         if index is not None and not indexed_from_parent:
             plug = plug.elementByLogicalIndex(index)
 
-        # plug をキャッシュする
         self._m_plug = plug
 
         return plug
@@ -234,69 +223,58 @@ class PlugOperator(Generic[A]):
         plug: om.MPlug,
         child_name: str,
     ) -> om.MPlug | None:
-        # 子を探査して、名前が一致する plug を返す
+        """親 `MPlug` の子を長い属性名で探す。"""
         for i in range(plug.numChildren()):
-            # 子の plug を取得
             child_plug = plug.child(i)
-            # 子の純粋なロングネームを取得
             p_name = child_plug.partialName(
                 useLongNames=True,
                 useFullAttributePath=False,
             ).split(".")[-1]
-            # 名前を比較して、一致すればその plug を返す
             if p_name == child_name:
                 return child_plug
         return None
 
-    # array
     @property
     def array_plug(self) -> om.MPlug:
-        """配列属性全体を表す MPlug を返す。
+        """配列属性全体を表す `MPlug` を返す。
 
         Raises:
             AttributeError: この属性が multi でない場合。
         """
-        # multi アトリビュートでなければ array_plug はない
         if not self.multi:
             raise AttributeError(f"{self.plug} は array_plug を持ちません")
 
-        # index が None ならば、自身が array_plug
         if self.index is None:
             return self.plug
 
-        # index がある場合は、array_plug を返す
-        #   キャッシュがなければ、Maya に問い合わせる
         array_plug = self._array_m_plug
         if array_plug is None:
             array_plug = self.plug.array()
             self._array_m_plug = array_plug
-        #   キャッシュを返す
         return array_plug
 
-    # type
     @property
     def type(self) -> str:
         """Maya の attributeType 名。"""
         return self._oprt_attr.type
 
-    # [] アクセス
     def __getitem__(
         self,
         key: int | str | _NextIndexSentinel,
     ) -> Self:
-        """配列要素または子属性の PlugOperator を取得する。
+        """配列要素または子属性の `PlugOperator` を取得する。
 
         Args:
             key: 配列の logical index、``subAttr[0]`` 形式の子属性名、
                 または次の空き index を表す組み込みの ``next``。
 
         Returns:
-            指定した配列要素または子属性の PlugOperator。
+            指定した配列要素または子属性の `PlugOperator`。
 
         Raises:
             AttributeError: 配列要素を再度 index 指定した場合、または
                 子属性が見つからない場合。
-            TypeError: key の型が対応していない場合。
+            TypeError: `key` の型が対応していない場合。
         """
         if isinstance(key, int):
             if self.index is not None:
@@ -334,20 +312,16 @@ class PlugOperator(Generic[A]):
     @property
     def _attr_path(self) -> str:
         """親属性と index を含む属性パスを返す。"""
-        # キャッシュがあればそれを返す
         if self.__attr_path:
             return self.__attr_path
 
-        # 親の attr_path がなければ、自身の名前を返す
         if not self._parent_attr_path:
             return self.name
 
-        # mulit_attr の index アクセスの場合
         if self.index is not None:
             self.__attr_path = f"{self._parent_attr_path}[{self.index}]"
             return self.__attr_path
 
-        # attr_path を生成する
         return f"{self._parent_attr_path}.{self.name}"
 
     @property
@@ -355,7 +329,6 @@ class PlugOperator(Generic[A]):
         """親属性と index を含む属性パス。"""
         return self._attr_path
 
-    # str
     def __str__(self) -> str:
         return str(self.plug_name)
 
@@ -380,7 +353,7 @@ class PlugOperator(Generic[A]):
         self._node.modifier_manager.dg_mod.pythonCommandToExecute(set_state)
 
     def set_locked(self) -> None:
-        """この Plug の lock 変更を ModifierManager に予約する。
+        """この Plug の lock 変更を `ModifierManager` に予約する。
 
         変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         compound 親では、子の lock 継承は Maya 標準挙動に従う。
@@ -388,15 +361,15 @@ class PlugOperator(Generic[A]):
         self._set_locked_state(True, direct=False)
 
     def set_locked_direct(self) -> None:
-        """この MPlug を即時に lock する。
+        """この `MPlug` を即時に lock する。
 
-        ModifierManager の Undo / Redo 対象外。
+        `ModifierManager` の Undo / Redo 対象外。
         compound 親では、子の lock 継承は Maya 標準挙動に従う。
         """
         self._set_locked_state(True, direct=True)
 
     def set_unlocked(self) -> None:
-        """この Plug の unlock 変更を ModifierManager に予約する。
+        """この Plug の unlock 変更を `ModifierManager` に予約する。
 
         変更は ``ModifierManager.do_it_dg()`` の実行時に反映される。
         compound 親では、子自身の lock 状態を上書きしない。
@@ -404,21 +377,21 @@ class PlugOperator(Generic[A]):
         self._set_locked_state(False, direct=False)
 
     def set_unlocked_direct(self) -> None:
-        """この MPlug を即時に unlock する。
+        """この `MPlug` を即時に unlock する。
 
-        ModifierManager の Undo / Redo 対象外。
+        `ModifierManager` の Undo / Redo 対象外。
         compound 親では、子自身の lock 状態を上書きしない。
         """
         self._set_locked_state(False, direct=True)
 
     def _get_plug_from_str(self, plug_str: str) -> om.MPlug:
-        """``node.attr`` 形式の文字列から MPlug を取得する。
+        """``node.attr`` 形式の文字列から `MPlug` を取得する。
 
         Args:
             plug_str: ノードと属性を含む Plug 名。
 
         Returns:
-            対応する MPlug。
+            対応する `MPlug`。
         """
         sel = om.MSelectionList()
         sel.add(plug_str)
@@ -426,13 +399,13 @@ class PlugOperator(Generic[A]):
         return plug
 
     def _get_plug_from_strs(self, plug_str_list: _PlugPath) -> om.MPlug:
-        """ノード・属性名のシーケンスから MPlug を取得する。
+        """ノード・属性名のシーケンスから `MPlug` を取得する。
 
         Args:
             plug_str_list: ``["node", "attr"]`` 形式のパス。
 
         Returns:
-            対応する MPlug。
+            対応する `MPlug`。
         """
         plug_str = ".".join(plug_str_list)
         return self._get_plug_from_str(plug_str)
@@ -450,30 +423,26 @@ class PlugOperator(Generic[A]):
             )
         return self._keyframe_manager
 
-    # connect
     def _normalize_to_plug(self, obj: object) -> om.MPlug:
-        """PlugOperator または属性パスを MPlug に変換する。
+        """`PlugOperator` または属性パスを `MPlug` に変換する。
 
         Args:
-            obj: PlugOperator、``node.attr``、または名前のシーケンス。
+            obj: `PlugOperator`、``node.attr``、または名前のシーケンス。
 
         Returns:
-            対応する MPlug。
+            対応する `MPlug`。
 
         Raises:
             ValueError: シーケンスに属性名が含まれない場合。
             TypeError: 型が未対応、またはシーケンスに文字列以外がある場合。
         """
-        # Plug
         if isinstance(obj, PlugOperator):
             plug = obj._m_plug
             if plug is not None:
                 return plug
             return obj.plug
-        # str("node.attr")
         elif isinstance(obj, str):
             return self._get_plug_from_str(obj)
-        # list or tuple(["node", "attr"...])
         elif isinstance(obj, (list, tuple)):
             path_parts = cast(list[object] | tuple[object, ...], obj)
             if len(path_parts) < 2:
@@ -490,7 +459,7 @@ class PlugOperator(Generic[A]):
         接続は ``ModifierManager.do_it_dg()`` で実行される。
 
         Args:
-            other: 接続先の PlugOperator、``node.attr``、または
+            other: 接続先の `PlugOperator`、``node.attr``、または
                 ``["node", "attr"]`` 形式のパス。
         """
         src = self._m_plug
@@ -509,7 +478,7 @@ class PlugOperator(Generic[A]):
         接続は ``ModifierManager.do_it_dg()`` で実行される。
 
         Args:
-            other: 接続元の PlugOperator、``node.attr``、または
+            other: 接続元の `PlugOperator`、``node.attr``、または
                 ``["node", "attr"]`` 形式のパス。
         """
         src = self._normalize_to_plug(other)
@@ -520,18 +489,16 @@ class PlugOperator(Generic[A]):
         self._node.modifier_manager.dg_mod.connect(src, dst)
 
     def _get_next_index(self) -> int:
+        """既存配列の末尾に続く logical index を返す。"""
         result = self._next_index
-        # キャッシュがなければ Maya に問い合わせる
+        # 初回だけ Maya から末尾を取得し、続く予約ではキャッシュを進める。
         if result is None:
             result = 0
             indices = self.plug.getExistingArrayAttributeIndices()
             if indices:
                 result = max(indices) + 1
 
-        # 次回の index をキャッシュする
         self._next_index = result + 1
-
-        # 戻り値
         return result
 
     def _get_next_plug(self) -> om.MPlug:
@@ -550,7 +517,7 @@ class PlugOperator(Generic[A]):
         変わった場合は ``refresh_next_index()`` で再取得する。
 
         Args:
-            other: 接続元の PlugOperator または属性パス。
+            other: 接続元の `PlugOperator` または属性パス。
         """
         src = self._normalize_to_plug(other)
         dst = self._get_next_plug()
@@ -570,7 +537,7 @@ class PlugOperator(Generic[A]):
         切断は ``ModifierManager.do_it_dg()`` で実行される。
 
         Args:
-            other: 接続先の PlugOperator または属性パス。
+            other: 接続先の `PlugOperator` または属性パス。
         """
         src = self._m_plug
         if src is None:
@@ -588,7 +555,7 @@ class PlugOperator(Generic[A]):
         切断は ``ModifierManager.do_it_dg()`` で実行される。
 
         Args:
-            other: 接続元の PlugOperator または属性パス。
+            other: 接続元の `PlugOperator` または属性パス。
         """
         src = self._normalize_to_plug(other)
         dst = self._m_plug
@@ -597,11 +564,10 @@ class PlugOperator(Generic[A]):
 
         self._node.modifier_manager.dg_mod.disconnect(src, dst)
 
-        # 切断後、キャッシュをリセットする
+        # 配列接続の変更後は次の空き index を再計算する。
         if self._oprt_attr.multi:
             self.refresh_next_index()
 
-    # connection
     def _wrap_connected_plug(self, m_plug: om.MPlug) -> PlugOperator[Any]:
         from ...existing_node import ExistingNode
 
@@ -612,7 +578,7 @@ class PlugOperator(Generic[A]):
         )
 
         root_plug = m_plug
-        # 親・配列要素を逆走し、定義済み属性から型付き Plug を再構築する。
+        # 親・配列要素を逆走し、定義済み属性から型付き `PlugOperator` を再構築する。
         steps: list[tuple[str, int | om.MPlug]] = []
         while True:
             if root_plug.isElement:
@@ -686,7 +652,7 @@ class PlugOperator(Generic[A]):
         filter_type: type[NodeOperator] | None,
         include_subclasses: bool,
     ) -> tuple[PlugOperator[Any], ...]:
-        # 先に型付き Plug へ変換し、接続ノードの型条件を適用する。
+        # 型付き `PlugOperator` に変換してから、接続ノードの型条件を適用する。
         include_subclasses_value = _require_bool(
             include_subclasses,
             "include_subclasses",
@@ -726,7 +692,7 @@ class PlugOperator(Generic[A]):
         """直接接続された接続元 Plug を返す。
 
         Args:
-            filter_type: 接続元ノードに求める NodeOperator クラス。
+            filter_type: 接続元ノードに求める `NodeOperator` クラス。
             include_subclasses: サブクラスも対象に含めるか。
 
         Returns:
@@ -750,7 +716,7 @@ class PlugOperator(Generic[A]):
         """直接接続された接続元のノード名を返す。
 
         Args:
-            filter_type: 接続元ノードに求める NodeOperator クラス。
+            filter_type: 接続元ノードに求める `NodeOperator` クラス。
             include_subclasses: サブクラスも対象に含めるか。
 
         Returns:
@@ -773,7 +739,7 @@ class PlugOperator(Generic[A]):
         """直接接続された接続元の Plug 名を返す。
 
         Args:
-            filter_type: 接続元ノードに求める NodeOperator クラス。
+            filter_type: 接続元ノードに求める `NodeOperator` クラス。
             include_subclasses: サブクラスも対象に含めるか。
 
         Returns:
@@ -796,7 +762,7 @@ class PlugOperator(Generic[A]):
         """直接接続された接続先 Plug を返す。
 
         Args:
-            filter_type: 接続先ノードに求める NodeOperator クラス。
+            filter_type: 接続先ノードに求める `NodeOperator` クラス。
             include_subclasses: サブクラスも対象に含めるか。
 
         Returns:
@@ -817,7 +783,7 @@ class PlugOperator(Generic[A]):
         """直接接続された接続先のノード名を返す。
 
         Args:
-            filter_type: 接続先ノードに求める NodeOperator クラス。
+            filter_type: 接続先ノードに求める `NodeOperator` クラス。
             include_subclasses: サブクラスも対象に含めるか。
 
         Returns:
@@ -840,7 +806,7 @@ class PlugOperator(Generic[A]):
         """直接接続された接続先の Plug 名を返す。
 
         Args:
-            filter_type: 接続先ノードに求める NodeOperator クラス。
+            filter_type: 接続先ノードに求める `NodeOperator` クラス。
             include_subclasses: サブクラスも対象に含めるか。
 
         Returns:
@@ -854,12 +820,10 @@ class PlugOperator(Generic[A]):
             )
         )
 
-    # exists
     def exists(self) -> bool:
         """この属性がノードに存在するか。"""
         return self._node.fn_node.hasAttribute(self.long_name)
 
-    # add attr options
     def _apply_mfn_attr_options(self, fn_attr: om.MFnAttribute):
         if self.multi:
             fn_attr.array = True
@@ -895,7 +859,6 @@ class PlugOperator(Generic[A]):
 
         return kwargs
 
-    # add
     def add_attr(self):
         """この属性の追加処理。具象クラスで実装する。"""
         pass
@@ -904,32 +867,27 @@ class PlugOperator(Generic[A]):
         """``cmds.addAttr()`` で属性を即時追加する。
 
         ノードが存在しない、または属性が既に存在する場合は何もしない。
-        ModifierManager の履歴には含まれない。
+        `ModifierManager` の履歴には含まれない。
 
         Args:
             **kwargs: ``cmds.addAttr()`` に渡す追加オプション。
-                attributeType、dataType、属性名は自動設定する。
+                `attributeType`、`dataType`、属性名は自動設定する。
         """
-        # ノードが存在しない場合はスキップ
         if not self._node.exists():
             return
 
-        # アトリビュートが既に存在する場合はスキップ
         if self.exists():
             return
 
-        # kwargs に追加
-        #   attributeType/dataType
+        # 属性定義の型と名前を優先し、それ以外のオプションは呼び出し側の指定を保つ。
         kwargs["attributeType"] = self._oprt_attr.ATTR_TYPE
         if self._oprt_attr.DATA_TYPE is not None:
             kwargs["dataType"] = self._oprt_attr.DATA_TYPE
-        #   longName/shortName
         kwargs["longName"] = self._oprt_attr.long_name
         kwargs["shortName"] = self._oprt_attr.short_name
         for key, value in self._cmds_add_attr_option_kwargs().items():
             kwargs.setdefault(key, value)
 
-        # add
         cmds.addAttr(
             self._node.cmd_access_name,
             **kwargs,
@@ -961,12 +919,9 @@ class AttrOperator(Generic[P]):
         "category",
         "child_index",
     )
-    # type
     ATTR_TYPE: ClassVar[str | None] = None
     DATA_TYPE: ClassVar[str | None] = None
-    # name
     name: str
-    # attr
     _attr_path: str
 
     def __init__(
@@ -997,28 +952,20 @@ class AttrOperator(Generic[P]):
         category: str | None = None,
         child_index: int | None = None,
     ) -> None:
-        # node
         self.node_cls: Type[NodeOperator] | None = node_cls
-        # name
         self.name: str = name
         self.long_name: str = long_name
         self.short_name: str = short_name
-        # attr
-        #   attr_path
         self._attr_path: str = attr_path
         self._parent_attr_path: str = parent_attr_path
-        #   parent
         self.oprt_parent: (
             AttrOperator[Any]
             | PlugOperator[Any]
             | AttributeField[Any, Any]
             | None
         ) = oprt_parent
-        #   multi
         self.multi: bool = multi
-        #   extra attr flag
         self._extra: bool = extra
-        # extra attr info
         self.default_value: Any = default_value
         self.min_value: Any = min_value
         self.max_value: Any = max_value
@@ -1038,26 +985,23 @@ class AttrOperator(Generic[P]):
                 f"{cls.__name__} は、 ATTR_TYPE が定義されていません。定義してください。"
             )
 
-    # [] アクセス
     def __getitem__(
         self,
         key: str,
     ) -> Self:
-        """名前から子属性の AttrOperator を返す。
+        """名前から子属性の `AttrOperator` を返す。
 
         Args:
             key: 子属性の名前。
 
         Returns:
-            対応する AttrOperator。
+            対応する `AttrOperator`。
         """
         return getattr(self, key)
 
-    # str
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} {self.name}>"
 
-    # type
     @property
     def type(self) -> str:
         """Maya の attributeType 名。"""
@@ -1151,10 +1095,8 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             writable: 接続先として書き込めるか。
             category: 属性カテゴリ。
         """
-        # parent
         self.oprt_parent: A | P | AttributeField[Any, Any] | None = None
 
-        # name
         self.long_name = None
         self._short_name = None
         if long_name is not None:
@@ -1162,16 +1104,11 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         if short_name is not None:
             self._short_name = short_name
 
-        # attr
-        #   attr_path
         self._attr_path = ""
         self._parent_attr_path: str = ""
-        #   multi
         self.multi: bool = multi
-        #   extra attr flag
         self.extra: bool = extra
 
-        # extra attr info
         self._default_value: Any = default_value
         self._min_value: Any = min_value
         self._max_value: Any = max_value
@@ -1195,7 +1132,6 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 f"{cls.__name__} は、 PLUG_CLS が定義されていません。定義してください。"
             )
 
-    # __set_name__
     def _on_set_name(self, owner: type[Any], name: str) -> None:
         """クラス属性名と compound 内の位置を確定する。
 
@@ -1207,15 +1143,13 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             object.__setattr__(
                 self, "_child_index", self._find_child_index(owner)
             )
-        # name をセット
+        # 初回に属性名を確定し、同じ `AttributeField` の別名を短い属性名に使う。
         if not self._attr_path:
-            #  name, _attr_path, long_name にセット
             self.name = name
             if self.long_name is None:
                 self.long_name = name
             self._attr_path = self.long_name
         else:
-            # short name をセット
             if self._short_name is None:
                 object.__setattr__(self, "_short_name", name)
 
@@ -1226,7 +1160,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 self._set_attr_path(parent_attr_path)
 
     def _find_child_index(self, owner: type[Any]) -> int | None:
-        """owner 内での AttributeField の定義順を返す。
+        """`owner` 内での `AttributeField` の定義順を返す。
 
         同じ Field の別名は重複して数えない。
         """
@@ -1248,7 +1182,6 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
 
         return None
 
-    # __get__
     @overload
     def __get__(self, instance: None, owner: type[Any]) -> A: ...
 
@@ -1281,15 +1214,15 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         instance: object | None,
         owner: type[Any],
     ) -> A | P | Self:
-        """アクセス元に応じて AttrOperator または PlugOperator を返す。
+        """アクセス元に応じて `AttrOperator` または `PlugOperator` を返す。
 
         Args:
             instance: アクセス元のインスタンス。クラスアクセスでは None。
             owner: 属性を持つクラス。
 
         Returns:
-            クラスアクセスでは AttrOperator、ノードインスタンスでは
-            PlugOperator。Field 内の子属性アクセスでは Field 自身。
+            クラスアクセスでは `AttrOperator`、ノードインスタンスでは
+            `PlugOperator`。`Field` 内の子属性アクセスでは `Field` 自身。
         """
         attr_cls = self.ATTR_CLS
         plug_cls = self.PLUG_CLS
@@ -1401,12 +1334,9 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         parent_attr_path = self._parent_attr_path
         attr_path = self._attr_path
 
-        # node class, attr_path を解決する
-        #   class アクセス(Attr)
+        # クラスアクセスと親属性アクセスに応じて、属性定義のパスを組み立てる。
         if instance is None:
-            # 親が Node(Attr)
             node_cls = owner
-        #   親が Attr
         elif isinstance(instance, AttrOperator):
             instance = cast(AttrOperator[Any], instance)
             oprt_parent = instance
@@ -1414,10 +1344,9 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             if parent_attr_path:
                 attr_path = f"{parent_attr_path}.{self.name}"
             node_cls = instance.node_cls
-        #   親が Field
         elif isinstance(instance, AttributeField):
             instance = cast(AttributeField[Any, Any], instance)
-            # class 定義時の alias 構築だけは Field 自体へ反映する
+            # クラス定義時の別名は同じ `AttributeField` を共有する。
             object.__setattr__(self, "oprt_parent", instance)
             object.__setattr__(self, "_parent_attr_path", instance._attr_path)
             self._set_attr_path(self._parent_attr_path)
@@ -1427,7 +1356,6 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 f"Unsupported attribute access type: {type(instance)}"
             )
 
-        #   AttrOperator を生成
         oprt_attr = attr_cls(
             node_cls=node_cls,
             oprt_parent=oprt_parent,
@@ -1452,21 +1380,17 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         )
         return oprt_attr
 
-    # attr_path
     def _set_attr_path(self, parent_attr_path: str):
         """親属性を含む属性パスを設定する。
 
         Args:
             parent_attr_path: 親属性のパス。
         """
-        # 親の attr_path がなければ終了する
         if not parent_attr_path:
             return
 
-        # attr_path を生成する
         attr_path = f"{parent_attr_path}.{self.name}"
 
-        # attr_path をセットする
         object.__setattr__(self, "_attr_path", attr_path)
 
     @property

@@ -76,7 +76,7 @@ def reset_ui_layout(
         指定したINI状態をすべて削除できた場合は`True`。
 
     Raises:
-        ValueError: 通常Windowの保存先とsettings_pathが異なる場合。
+        ValueError: 通常 Window の保存先と `settings_path` が異なる場合。
     """
     return _reset_ui_layout(
         controller,
@@ -125,7 +125,7 @@ def reset_and_show_ui_layout(
         再生成して表示した具体型のWindow。
 
     Raises:
-        ValueError: 通常Windowの保存先とsettings_pathが異なる場合。
+        ValueError: 通常 Window の保存先と `settings_path` が異なる場合。
         RuntimeError: INI状態の削除に失敗した場合。
     """
     # 削除失敗時に古い配置を復元しないよう、再表示は成功後だけにする。
@@ -149,8 +149,8 @@ def _reset_ui_layout(
     clear_window_state: bool,
     clear_widget_state: bool,
 ) -> bool:
-    """controller破棄後に指定された保存済みUI配置を削除する。"""
-    # controllerを破棄する前に保存先を確定し、取り違えを検出する。
+    """`controller` 破棄後に指定された保存済み UI 配置を削除する。"""
+    # `controller` を破棄する前に `settings_path` を確定し、取り違えを検出する。
     resolved_path = SettingsPath.from_value(settings_path)
     if (
         clear_window_state

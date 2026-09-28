@@ -1,9 +1,7 @@
 # coding: utf-8
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ._base import (
     UnitRangeBaseAttrOperator,
     UnitRangeBasePlugOperator,
@@ -16,7 +14,6 @@ class FloatLinearPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> float:
         """floatLinearプラグの現在値をcentimeter単位で取得する。"""
         plug = self._m_plug
@@ -24,7 +21,6 @@ class FloatLinearPlugOperator(
             plug = self.plug
         return plug.asMDistance().asCentimeters()
 
-    # set
     def set(self, value: float) -> None:
         """floatLinearプラグへcentimeter値をModifierManager経由で設定する。
 

@@ -2,11 +2,9 @@
 from __future__ import annotations
 from typing import Any, cast, ClassVar, Self, TYPE_CHECKING
 
-# maya
 import maya.cmds as cmds
 from maya.api import OpenMaya as om
 
-# self
 from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
 from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
@@ -36,7 +34,7 @@ class IsInstance(ImmutableDescriptor):
 
         Args:
             instance: クラスアクセス時は None。
-            owner: アクセス先の NodeOperator クラス。
+            owner: アクセス先の `NodeOperator` クラス。
 
         Returns:
             インスタンスアクセスなら True、クラスアクセスなら False。
@@ -47,7 +45,7 @@ class IsInstance(ImmutableDescriptor):
 
 
 class NodeClass(ImmutableDescriptor):
-    """Maya ノード型の MNodeClass を返す記述子。"""
+    """Maya ノード型の `MNodeClass` を返す記述子。"""
 
     __slots__ = ()
 
@@ -56,14 +54,14 @@ class NodeClass(ImmutableDescriptor):
         instance: object | None,
         owner: type[NodeOperator],
     ) -> om.MNodeClass | None:
-        """アクセス先クラスに対応する MNodeClass を返す。
+        """アクセス先クラスに対応する `MNodeClass` を返す。
 
         Args:
             instance: クラスアクセス時は None。
-            owner: NODE_TYPE を定義する NodeOperator クラス。
+            owner: `NODE_TYPE` を定義する `NodeOperator` クラス。
 
         Returns:
-            Maya のノードクラス。NODE_TYPE が未定義なら None。
+            Maya のノードクラス。`NODE_TYPE` が未定義なら None。
         """
         node_type = owner.NODE_TYPE
         if node_type is None:
@@ -121,13 +119,12 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
                 seen_ids.add(obj_id)
 
-                # class access で AttrOperator を取得してマップを構築する
+                # クラスアクセスで `AttrOperator` を取得し、型名のマップを作る。
                 oprt_attr = field.__get__(None, cls)
                 attributes_by_long_name[oprt_attr.long_name] = oprt_attr
                 attributes_by_short_name[oprt_attr.short_name] = oprt_attr
 
-                # extra=True のものは field を保持して、
-                # instance access 時に PlugOperator へ解決する
+                # extra 属性は実体を保持し、後で `PlugOperator` へ解決する。
                 if field.extra:
                     extra_attrs.append(field)
 
@@ -146,19 +143,17 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
         Args:
             modifier_manager: 変更を予約する先。
-            name: ノード名。m_obj と併用した場合は名前変更を予約する。
-            m_obj: 対象の MObject。
+            name: ノード名。`m_obj` と併用した場合は名前変更を予約する。
+            m_obj: 対象の `MObject`。
             auto_add_attr: 定義済みの extra attribute を追加するか。
 
         Raises:
-            ValueError: name と m_obj の両方が省略された場合。
+            ValueError: `name` と `m_obj` の両方が省略された場合。
         """
         if m_obj is None and name is None:
             raise ValueError("Either m_obj or name must be provided.")
-        # modifier_manager
         self._modifier_manager = modifier_manager
 
-        # m_obj
         if m_obj is not None:
             self.m_obj = m_obj
         else:
@@ -171,37 +166,33 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             handle.isAlive() and not handle.isValid()
         )
 
-        # fn_node
         self._fn_node = None
 
-        # 未実行の新規 MObject は Maya 名を取得できないため、予約時の名前を
+        # 未実行の新規 `MObject` は Maya 名を取得できないため、予約時の名前を
         # データ検索用の手掛かりとして保持する。
         self._requested_name: str | None = None
 
-        # name
         if name:
             self._dg_mod.renameNode(self.m_obj, name)
             self._set_requested_name_hint(name)
 
-        # plug_cache
         self._plug_cache: dict[str, PlugOperator[Any]] | None = None
 
-        # auto_add_attr
         if auto_add_attr and self._extra_attributes:
             self._auto_add_extra_attrs()
 
     def __getitem__(self, key: str) -> PlugOperator[Any]:
-        """属性パスから PlugOperator を取得する。
+        """属性パスから `PlugOperator` を取得する。
 
         Args:
             key: 属性名または ``attrName[0].subAttr`` 形式の属性パス。
 
         Returns:
-            対応する PlugOperator。
+            対応する `PlugOperator`。
 
         Raises:
             AttributeError: 属性が見つからない場合。
-            TypeError: key が文字列でない場合。
+            TypeError: `key` が文字列でない場合。
             ValueError: 属性パスの書式が不正な場合。
         """
         return cast("PlugOperator[Any]", getattr(self, key))
@@ -238,7 +229,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         return cls._extra_attributes
 
     def get_cached_plug(self, attr_path: str) -> PlugOperator[Any] | None:
-        """属性パスに対応するキャッシュ済み PlugOperator を返す。"""
+        """属性パスに対応するキャッシュ済み `PlugOperator` を返す。"""
         plug_cache = self._plug_cache
         if plug_cache is None:
             return None
@@ -249,7 +240,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         attr_path: str,
         plug: PlugOperator[Any],
     ) -> None:
-        """属性パスに対する PlugOperator をキャッシュする。"""
+        """属性パスに対する `PlugOperator` をキャッシュする。"""
         plug_cache = self._plug_cache
         if plug_cache is None:
             plug_cache = {}
@@ -295,16 +286,14 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             作成予定のノードを包むインスタンス。
 
         Raises:
-            ValueError: クラスに NODE_TYPE が定義されていない場合。
+            ValueError: クラスに `NODE_TYPE` が定義されていない場合。
         """
         if cls.NODE_TYPE is None:
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
         require_node_type_available(cls.NODE_TYPE)
 
-        # ノード作成
         m_obj = modifier_manager.dg_mod.createNode(cls.NODE_TYPE)
 
-        # インスタンス生成
         return cls(
             modifier_manager,
             m_obj=m_obj,
@@ -314,7 +303,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
     @property
     def fn_node(self) -> om.MFnDependencyNode:
-        """対象ノードの MFnDependencyNode。初回アクセス時に作成する。"""
+        """対象ノードの `MFnDependencyNode`。初回アクセス時に作成する。"""
         if self._fn_node is None:
             self._fn_node = om.MFnDependencyNode(self.m_obj)
         return self._fn_node
@@ -331,7 +320,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
     @property
     def _was_pending_creation(self) -> bool:
-        """作成待ちの MObject を受け取ったか。"""
+        """作成待ちの `MObject` を受け取ったか。"""
         return self._pending_at_initialization
 
     def _set_requested_name_hint(self, name: str) -> None:
@@ -392,15 +381,15 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         """ネームスペースを保ち、ローカル名の変更を予約する。
 
         Args:
-            new_name: 新しいローカル名。search とは同時に指定できない。
+            new_name: 新しいローカル名。`search` とは同時に指定できない。
             search: ローカル名から検索する文字列。
-            replace: search に一致した箇所の置換文字列。
+            replace: `search` に一致した箇所の置換文字列。
             prefix: ローカル名の先頭に加える文字列。
             suffix: ローカル名の末尾に加える文字列。
 
         Raises:
-            ValueError: 指定がない場合、または new_name と search を
-                同時に指定した場合。
+            ValueError: `new_name` / `search` / `prefix` / `suffix` が
+                すべて未指定か、`new_name` と `search` を同時に指定した場合。
         """
         if new_name is not None and search is not None:
             raise ValueError(
@@ -411,8 +400,6 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
                 "new_name または search、もしくは prefix/suffix のいずれかを指定してください。"
             )
 
-        # ネームスペースとピュアな名前を分離する
-        # Maya のノード名は "ns1:ns2:pureName" のような形式になる
         if ":" in self.name:
             namespace, pure_name = self.name.rsplit(":", 1)
             namespace_prefix = namespace + ":"
@@ -423,16 +410,13 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         namespace_prefix = self.namespace_colon
         pure_name = self.local_name
 
-        # ピュアな名前を変換する
-        #   名前自体の変換
+        # 名前空間を保ち、ローカル名の変更だけを予約する。
         if new_name is not None:
             pure_name = new_name
         elif search is not None:
             pure_name = pure_name.replace(search, replace)
-        #   prefix, suffix を付加する
         pure_name = prefix + pure_name + suffix
 
-        # リネームする
         requested_name = namespace_prefix + pure_name
         self._dg_mod.renameNode(self.m_obj, requested_name)
         self._set_requested_name_hint(requested_name)

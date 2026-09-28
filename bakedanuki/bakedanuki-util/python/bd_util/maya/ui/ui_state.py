@@ -19,7 +19,7 @@ class _QTimerType(Protocol):
         milliseconds: int,
         callback: Callable[[], None],
     ) -> None:
-        """指定時間後にcallbackを一度だけ呼び出す。"""
+        """指定時間後に `callback` を一度だけ呼び出す。"""
         raise NotImplementedError
 
 
@@ -33,7 +33,7 @@ class _WindowLifecycleFilter(qt.QtCore.QObject):
         on_closed: Callable[[], None],
     ) -> None:
         """監視対象Windowとlifecycle callbackを受け取って初期化する。"""
-        # trackerが所有する独立QObjectとしてWindowへevent filterを登録する。
+        # tracker が所有する独立 `QObject` として Window へ event filter を登録する。
         super().__init__()
         self._window: qt.QtWidgets.QWidget | None = window
         self._on_shown: Callable[[], None] | None = on_shown
@@ -60,8 +60,8 @@ class _WindowLifecycleFilter(qt.QtCore.QObject):
         watched: qt.QtCore.QObject,
         event: qt.QtCore.QEvent,
     ) -> bool:
-        """通常WindowのShowとClose eventをcallbackへ変換する。"""
-        # 監視対象Windowへ届いたlifecycle eventだけをtrackerへ通知する。
+        """通常 Window の Show と Close `event` を callback へ変換する。"""
+        # 監視対象 Window へ届いた `event` だけを tracker へ通知する。
         if watched is self._window:
             if event.type() == qt.QtCore.QEvent.Type.Show:
                 on_shown = self._on_shown
@@ -72,7 +72,7 @@ class _WindowLifecycleFilter(qt.QtCore.QObject):
                 if on_closed is not None:
                     on_closed()
 
-        # Window標準のevent処理は止めず、未処理としてQtへ返す。
+        # Window 標準の `event` 処理は止めず、未処理として Qt へ返す。
         return False
 
 
@@ -92,7 +92,7 @@ class MayaUiStateTracker:
         owner: qt.QtCore.QObject,
     ) -> None:
         """保存処理とcallbackの所有者を受け取って監視を開始する。"""
-        # owner破棄時にUI連携とcallbackを解除できるよう参照を保持する。
+        # `owner` 破棄時に UI 連携と callback を解除できるよう参照を保持する。
         self._manager = manager
         self._owner: qt.QtCore.QObject | None = owner
         self._dockable_window: MayaDockableWindow | None = None
@@ -144,7 +144,7 @@ class MayaUiStateTracker:
 
     @property
     def manager(self) -> UiStateManager:
-        """監視対象のUiStateManagerを返す。"""
+        """監視対象の `UiStateManager` を返す。"""
         return self._manager
 
     def restore(self) -> None:

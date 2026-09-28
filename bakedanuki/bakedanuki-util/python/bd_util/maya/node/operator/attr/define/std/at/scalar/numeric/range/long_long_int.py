@@ -2,11 +2,9 @@
 from collections.abc import Callable
 from typing import Any, cast
 
-# maya
 from maya import cmds
 from maya.api import OpenMaya as om
 
-# self
 from ...........py.error import UnsupportedOperationError
 from ._base import (
     NumericRangeBaseAttrOperator,
@@ -22,7 +20,6 @@ class LongLongIntPlugOperator(
 ):
     __slots__ = ()
 
-    # get
     def get(self) -> int:
         """long long intプラグの現在値を64-bit整数で取得する。"""
         plug = self.plug
@@ -35,7 +32,6 @@ class LongLongIntPlugOperator(
             raise TypeError(f"Expected int value from {plug_name}: {value!r}")
         return value
 
-    # set
     def set(self, value: int) -> None:
         """long long intプラグへ値をModifierManager経由で設定する。
 

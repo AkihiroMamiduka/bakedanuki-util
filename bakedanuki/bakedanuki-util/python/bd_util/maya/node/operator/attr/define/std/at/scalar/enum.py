@@ -1,10 +1,8 @@
 # coding: utf-8
 from typing import Any, TypeVar, Type, cast
 
-# maya
 from maya.api import OpenMaya as om
 
-# self
 from ._base import (
     ScalarBaseAttrOperator,
     ScalarBasePlugOperator,
@@ -104,7 +102,7 @@ class EnumPlugOperator(ScalarBasePlugOperator[A]):
         return _index_by_name_from_name_map(self._active_name_map, name)
 
     def set(self, value: int) -> None:
-        """項目番号の設定を ModifierManager に予約する。
+        """項目番号の設定を `ModifierManager` に予約する。
 
         `ModifierManager.do_it_dg()` の実行時に反映される。
 

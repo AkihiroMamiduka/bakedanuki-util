@@ -23,7 +23,7 @@ class _QTimerType(Protocol):
         milliseconds: int,
         callback: Callable[[], None],
     ) -> None:
-        """指定時間後にcallbackを一度だけ呼び出す。"""
+        """指定時間後に `callback` を一度だけ呼び出す。"""
         raise NotImplementedError
 
 
@@ -35,18 +35,18 @@ class _QueuedSignal(Protocol):
         slot: Callable[[], None],
         connection_type: qt.Qt.ConnectionType,
     ) -> qt.QtCore.QMetaObject.Connection:
-        """slotを指定した接続方式で登録する。"""
+        """`slot` を指定した接続方式で登録する。"""
         raise NotImplementedError
 
 
 def _run_later(callback: Callable[[], None]) -> None:
-    """次のQt event loopでcallbackを一度だけ呼び出す。"""
+    """次の Qt event loop で `callback` を一度だけ呼び出す。"""
     timer_type = cast(_QTimerType, qt.QtCore.QTimer)
     timer_type.singleShot(0, callback)
 
 
 def _require_view_model(value: object) -> BoolViewModel:
-    """runtime値をBoolViewModelとして検証する。"""
+    """runtime 値を `BoolViewModel` として検証する。"""
     if not isinstance(value, BoolViewModel):
         raise TypeError(
             "view_modelにはBoolViewModelを指定してください: "
@@ -65,7 +65,7 @@ def _require_owner(value: object) -> qt.QObject:
 
 
 def _require_bool_plug(value: object) -> BoolPlugOperator:
-    """runtime値をBoolPlugOperatorとして検証する。"""
+    """runtime 値を `BoolPlugOperator` として検証する。"""
     if not isinstance(value, BoolPlugOperator):
         raise TypeError(
             "plugにはBoolPlugOperatorを指定してください: "
@@ -114,19 +114,19 @@ class _MayaBoolPlugCallbackRegistry(MayaCallbackRegistry):
     disposed = qt.Signal()
 
     def __init__(self, owner: qt.QObject) -> None:
-        """callback ownerと破棄経路の状態を保持して初期化する。"""
+        """callback の `owner` と破棄経路の状態を保持して初期化する。"""
         self._owner_is_being_destroyed = False
         self._endpoint_is_being_destroyed = False
         super().__init__(owner)
 
     @property
     def owner_is_being_destroyed(self) -> bool:
-        """ownerのQObject破棄通知から解除中か返す。"""
+        """`owner` の `QObject` 破棄通知から解除中か返す。"""
         return self._owner_is_being_destroyed
 
     @property
     def endpoint_is_being_destroyed(self) -> bool:
-        """endpointのQObject破棄通知から解除中か返す。"""
+        """endpoint の `QObject` 破棄通知から解除中か返す。"""
         return self._endpoint_is_being_destroyed
 
     def dispose(
@@ -163,7 +163,7 @@ class _MayaBoolPlugEndpoint(qt.QObject):
         plug: BoolPlugOperator,
         owner: qt.QObject,
     ) -> None:
-        """ViewModel、bool plug、callback ownerを保持する。"""
+        """ViewModel、bool `plug`、callback の `owner` を保持する。"""
         view_model = _require_view_model(view_model)
         owner = _require_owner(owner)
         plug = _require_bool_plug(plug)
@@ -361,7 +361,7 @@ class _MayaBoolPlugEndpoint(qt.QObject):
         )
 
     def _matches_plug(self, plug: om.MPlug) -> bool:
-        """callback対象が同期中のplugかその親か返す。"""
+        """callback 対象が同期中の `plug` かその親か返す。"""
         if not self.is_available:
             return False
         try:
@@ -428,7 +428,7 @@ class _MayaBoolPlugEndpoint(qt.QObject):
         plug: om.MPlug,
         _client_data: object,
     ) -> None:
-        """上流評価でdirtyになった対象plugの遅延更新を予約する。"""
+        """上流評価で dirty になった対象 `plug` の遅延更新を予約する。"""
         if not self._matches_plug(plug):
             return
         self._schedule_refresh()
@@ -457,7 +457,7 @@ class _MayaBoolPlugEndpoint(qt.QObject):
 
     @qt.Slot()
     def _on_view_model_destroyed(self) -> None:
-        """ViewModelのQObject tree破棄後にcallbackを停止する。"""
+        """ViewModel の `QObject` tree 破棄後に callback を停止する。"""
         self._dispose_endpoint()
 
 
@@ -470,12 +470,12 @@ class MayaBoolPlugStore(_MayaBoolPlugEndpoint):
         plug: BoolPlugOperator,
         owner: qt.QObject,
     ) -> None:
-        """bool plugをViewModelの正本として監視する。
+        """bool `plug` を ViewModel の正本として監視する。
 
         Args:
             view_model: Mayaの実値を受け取るViewModel。
             plug: 読み書きするMaya bool plug。
-            owner: callbackの寿命を管理するQObject。
+            owner: callback の寿命を管理する `QObject`。
         """
         self._write_depth = 0
         super().__init__(view_model, plug, owner)
@@ -568,7 +568,7 @@ class MayaBoolPlugView(_MayaBoolPlugEndpoint):
         Args:
             view_model: Python Storeを接続済みのViewModel。
             plug: 同期先のMaya bool plug。
-            owner: callbackの寿命を管理するQObject。
+            owner: callback の寿命を管理する `QObject`。
 
         Raises:
             RuntimeError: Storeが未接続、またはMaya Storeが正本の場合。
