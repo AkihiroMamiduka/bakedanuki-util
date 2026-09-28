@@ -5314,6 +5314,27 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(node.keyframes.anim_layer(layer).move_frames(to_end=50), None)
+    assert_type(node.keyframes.scale_frames(scale=2), None)
+    assert_type(
+        node.keyframes.scale_frames(
+            -10.5,
+            24.25,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            duration=20,
+            to_start=100,
+            interpolate_start=-20,
+            interpolation="linear",
+            insert_missing=True,
+        ),
+        None,
+    )
+    assert_type(
+        node.keyframes.anim_layer(layer).scale_frames(
+            scale=0.5, pivot=20, mode="merge"
+        ),
+        None,
+    )
     assert_type(
         node.keyframes.reduce_keys(
             -10.5,
@@ -5415,6 +5436,28 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
+        nodes.keyframes.scale_frames(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            to_start=40,
+            to_end=80,
+            mode="merge",
+            interpolate_end=30,
+            insert_missing=True,
+        ),
+        None,
+    )
+    assert_type(nodes.keyframes.scale_frames([node], duration=10), None)
+    assert_type(
+        nodes.keyframes.anim_layer(layer).scale_frames(
+            [node, "other"], scale=2, to_end=50
+        ),
+        None,
+    )
+    assert_type(
         nodes.keyframes.reduce_keys(
             [node, node.m_obj, "other"],
             1,
@@ -5487,6 +5530,17 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     nodes.keyframes.move_frames([node])  # pyright: ignore[reportCallIssue]
     nodes.keyframes.move_frames(
         [node], offset=1, attributes=[1]  # pyright: ignore[reportArgumentType]
+    )
+    node.keyframes.scale_frames()  # pyright: ignore[reportCallIssue]
+    node.keyframes.scale_frames(  # pyright: ignore[reportCallIssue]
+        scale=2, duration=10  # pyright: ignore[reportArgumentType]
+    )
+    node.keyframes.scale_frames(  # pyright: ignore[reportCallIssue]
+        scale=2, pivot=20, to_start=0  # pyright: ignore[reportArgumentType]
+    )
+    nodes.keyframes.scale_frames([node])  # pyright: ignore[reportCallIssue]
+    nodes.keyframes.scale_frames(
+        [node], scale=2, attributes=[1]  # pyright: ignore[reportArgumentType]
     )
 
 

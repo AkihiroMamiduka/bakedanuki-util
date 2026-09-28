@@ -1002,6 +1002,29 @@ plug・明示カーブ単位の移動、境界挿入、接線・weighted・break
 `test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回帰テストに含めます。
 最終確認には`scripts/verify.cmd`を使用します。
 
+## node・複数nodeのキーフレーム時間拡縮の検証
+
+`test_node_keyframe_scale.py`では、`node.keyframes.scale_frames()`と
+`nodes.keyframes.scale_frames([...])`について次の契約を検証します。
+
+- 省略した元境界を全カーブの主区間から共通に求めること。倍率・長さ・両端合わせ・
+  片側配置・共通ピボット、明示境界、0幅の扱いと反復Undo / Redo。
+- 属性名のunionとNodeOperator / MObject / node名、両端包含範囲、境界補完、
+  `replace_range` / `merge`、補間区間だけのカーブと基準候補なし、恒等変換。
+- keyable / channelBox、離散属性、unitConversionの上流探索、rootと明示layer、
+  分岐して共有するカーブの重複排除。
+- 先に予約したベイク・AnimationClip復元結果の実行時解決、予約時UI時間単位捕捉、
+  保留中queryの非実行とカーブなし・空カーブのno-op。
+- 後半カーブのlock・対象キー同士の衝突で前半を変更しないこと。適用途中と
+  後続処理の失敗で全カーブをrollbackすること。
+- `test_command.py`でMaya標準Undo / Redoとcommand失敗時rollback、
+  `node_operator_contract.py`で全配置形式・排他指定・`None`戻り値の型補完。
+
+値・接線・weighted・lock・breakdown・infinity等の詳細保持は、plug版の
+`test_keyframe_scale.py` / `test_keyframe_scale_interpolation.py` /
+`test_keyframe_scale_pivot.py`を回帰テストに含めます。最終確認には
+`scripts/verify.cmd`を使用します。
+
 ## キーフレーム時間拡縮の検証
 
 `test_keyframe_scale.py`では、`scale_frames()`の時間拡縮と配置先の置換を検証します。

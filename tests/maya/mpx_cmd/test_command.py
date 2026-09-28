@@ -441,6 +441,52 @@ def test_scale_frames_uses_maya_history_and_command_failure_rollback(
 
 
 @pytest.mark.parametrize("fail", [False, True])
+@pytest.mark.parametrize("interpolate", [False, True])
+def test_node_scale_frames_uses_maya_history_and_failure_rollback(
+    scale_test_plugin, new_scene, maya_cmds, fail, interpolate
+):
+    import bd_util as bdu
+
+    name = maya_cmds.createNode("transform")
+    for attr in ("tx", "ty"):
+        for frame, value in ((0, 0), (10, 4), (20, 2), (30, 7)):
+            maya_cmds.setKeyframe(name + "." + attr, time=frame, value=value)
+        maya_cmds.keyTangent(
+            name + "." + attr, edit=True, weightedTangents=True
+        )
+    node = bdu.Nodes().existing.transform(name)
+    managers = [node.tx.keyframe, node.ty.keyframe]
+    before = [keyframe.get_curve_data() for keyframe in managers]
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterScaleNodeKeyframes"
+            if fail
+            else "bduTestMpxScaleNodeKeyframes"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional node keyframe scaling failure"
+        ):
+            command(nodeName=name, interpolate=interpolate)
+        assert [keyframe.get_curve_data() for keyframe in managers] == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+
+    command(nodeName=name, interpolate=interpolate)
+    expected = [0, 10, 25, 30] if interpolate else [0, 10, 30]
+    assert all(keyframe.frames() == expected for keyframe in managers)
+    after = [keyframe.get_curve_data() for keyframe in managers]
+    for _ in range(2):
+        maya_cmds.undo()
+        assert [keyframe.get_curve_data() for keyframe in managers] == before
+        maya_cmds.redo()
+        assert [keyframe.get_curve_data() for keyframe in managers] == after
+
+
+@pytest.mark.parametrize("fail", [False, True])
 def test_value_edits_use_maya_history_and_command_failure_rollback(
     value_test_plugin, maya_cmds, fail
 ):

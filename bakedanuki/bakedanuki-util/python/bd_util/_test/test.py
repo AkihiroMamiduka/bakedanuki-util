@@ -349,6 +349,7 @@ def main():
     clip.restore(nodes.modifier_manager, targets=[dst_13_2])
     dst_13_2.keyframes.move_frames(offset=100)
     nodes.keyframes.move_frames([dst_13_1, dst_13_2], offset=100)
+    dst_13_2.keyframes.scale_frames(scale=3, pivot=230)
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

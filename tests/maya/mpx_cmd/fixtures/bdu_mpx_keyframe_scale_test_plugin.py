@@ -67,7 +67,42 @@ class _FailAfterScaleKeyframesCommand(_ScaleKeyframesCommand):
         raise RuntimeError("intentional keyframe scaling failure")
 
 
-COMMAND_TYPES = (_ScaleKeyframesCommand, _FailAfterScaleKeyframesCommand)
+class _ScaleNodeKeyframesCommand(_ScaleKeyframesCommand):
+    COMMAND_NAME = "bduTestMpxScaleNodeKeyframes"
+
+    def execute(self, params: tuple[str, bool]) -> None:
+        name, interpolate = params
+        node = self.nodes.existing.transform(name)
+        if interpolate:
+            node.keyframes.scale_frames(
+                10,
+                20,
+                attributes=["tx", "ty"],
+                scale=1.5,
+                interpolate_start=0,
+                interpolate_end=30,
+            )
+        else:
+            node.keyframes.scale_frames(
+                10, 20, attributes=["tx", "ty"], scale=2
+            )
+        self.modifier_manager.do_it_dg()
+
+
+class _FailAfterScaleNodeKeyframesCommand(_ScaleNodeKeyframesCommand):
+    COMMAND_NAME = "bduTestMpxFailAfterScaleNodeKeyframes"
+
+    def execute(self, params: tuple[str, bool]) -> None:
+        super().execute(params)
+        raise RuntimeError("intentional node keyframe scaling failure")
+
+
+COMMAND_TYPES = (
+    _ScaleKeyframesCommand,
+    _FailAfterScaleKeyframesCommand,
+    _ScaleNodeKeyframesCommand,
+    _FailAfterScaleNodeKeyframesCommand,
+)
 
 
 def maya_useNewAPI() -> None:

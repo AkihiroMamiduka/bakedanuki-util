@@ -1449,6 +1449,41 @@ TTは角度・重みのAPIを使い、Mayaの下限補正等によりweightedの
 queryは保留中の編集を実行しません。Undo / Redoでは置換されたキーも含めて復元し、
 途中失敗時は同じbatchの先行編集もrollbackします。
 
+#### node・複数nodeの既存キーをまとめて拡縮する
+
+`node.keyframes.scale_frames()` / `nodes.keyframes.scale_frames([...])`は、選択した属性の
+TA / TL / TU既存カーブを一括で時間方向へ拡縮します。公開引数はplug版へ
+`attributes` / `include_channel_box`を追加した形で、複数node版は先頭に
+`nodes: Iterable[NodeOperator | om.MObject | str]`を取ります。戻り値は`None`です。
+
+```python
+ctrl_a.keyframes.scale_frames(10, 30, attributes=["translate", "rotate"], scale=2)
+nodes.keyframes.scale_frames([ctrl_a, ctrl_b], duration=20, to_start=100)
+mod.do_it_dg()
+```
+
+明示した`start_frame` / `end_frame`はキーの有無にかかわらず共通の元境界です。
+省略側は全対象カーブの主区間にある最早・最遅キーから決め、補間区間だけのキーは
+基準に含めません。共通の元区間から倍率と配置先を一度だけ計算し、全カーブへ
+同じ時間変換を適用します。例えばAの開始キーが10、Bが12のとき、
+`scale=2`でBの12は14になります。`duration`と配置先の両端指定も共通区間の長さを
+使います。`pivot`は全カーブ共通の絶対時刻で、省略時は共通の元区間開始が基準です。
+省略側の基準候補が全体にない場合はno-opです。共通区間が0幅なら`duration`と
+配置先の両端指定を拒否し、正の`scale`は単一キーにも適用できます。
+
+属性の自動収集、`include_channel_box`、複数nodeの属性名のunion、root / 明示layer、
+上流探索と離散属性はnode単位の移動と同じです。カーブなし・空カーブにはキーを
+作成しません。`insert_missing=True`は各既存の非空カーブへ明示した元・補間の
+最大4境界だけを補い、補った主境界は共通基準の候補に含めます。恒等変換や
+影響度0のキーしかない場合は挿入しません。`replace_range`は共通の変換後主区間を
+各編集対象カーブで置換し、`merge`は同時刻だけを上書きします。
+
+UI時間単位は予約時に捕捉し、対象カーブは実行時に解決します。同じmanagerへ
+先に予約したベイクや`AnimationClip.restore()`の作成カーブも対象です。
+全対象の書込み検査・共有カーブの重複排除・移動先と衝突・順序逆転の計画を
+済ませてから、1つの`MAnimCurveChange`で適用します。衝突と順序は各カーブ内で
+検査し、Undo / Redoと後続失敗時のrollbackを全対象で一単位にします。
+
 #### 時間拡縮の影響を前後へならす
 
 `scale_frames()`も`move_frames()`・値編集と同じ`interpolate_start` / `interpolate_end`を受け取ります。

@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import math
 from bisect import bisect_left, bisect_right
-from dataclasses import replace
+from collections.abc import Callable
+from dataclasses import dataclass, replace
 from typing import Literal
 
 from maya.api import OpenMaya as om
@@ -117,64 +118,33 @@ def _scaled_key(
     )
 
 
-def _scale(
-    curve: oma.MFnAnimCurve,
+@dataclass(frozen=True)
+class _ScalePlan:
+    selection: _keyframe_move.MoveSelection
+    samples: tuple[tuple[om.MTime, float | om.MTime], ...]
+    virtual_times: tuple[om.MTime, ...]
+    first: int
+    stop: int
+    destinations: tuple[om.MTime, ...]
+    scales: tuple[float, ...]
+    updated: tuple[int, ...]
+    removed: tuple[int, ...]
+
+
+def _plan_scale(
+    selection: _keyframe_move.MoveSelection,
     influence: Influence,
-    *,
-    time_scale: float | None,
-    duration: float | None,
+    source_start: om.MTime,
+    source_end: om.MTime,
+    scale: float,
+    destination_start: om.MTime,
+    destination_end: om.MTime,
     offset: float | None,
-    to_start: om.MTime | None,
-    to_end: om.MTime | None,
     pivot: om.MTime | None,
     mode: Literal["replace_range", "merge"],
-    insert_missing: bool,
-    change: oma.MAnimCurveChange,
-) -> None:
-    if not curve.numKeys:
-        return
-    start, end = influence.start, influence.end
-    times = [curve.input(i) for i in range(curve.numKeys)]
-    first = 0 if start is None else bisect_left(times, start)
-    stop = len(times) if end is None else bisect_right(times, end)
-    core = times[first:stop]
-    if insert_missing:
-        for boundary in (start, end):
-            if boundary is not None and boundary not in core:
-                core.insert(bisect_left(core, boundary), boundary)
-    if not core and (start is None or end is None):
-        return
-    source_start = core[0] if start is None else start
-    source_end = core[-1] if end is None else end
-    low, high = influence.low, influence.high
-    first = 0 if low is None else bisect_left(times, low)
-    stop = len(times) if high is None else bisect_right(times, high)
-    selected = times[first:stop]
-    missing: list[om.MTime] = []
-    if insert_missing:
-        for boundary in influence.boundaries:
-            if boundary is not None and boundary not in selected:
-                selected.insert(bisect_left(selected, boundary), boundary)
-                missing.append(boundary)
-    if not selected:
-        return
-    scale, destination_start, destination_end = _placement(
-        source_start,
-        source_end,
-        time_scale,
-        duration,
-        offset,
-        to_start,
-        to_end,
-        pivot,
-    )
-    # 算出した倍率は秒への変換時の丸めだけで 1 と異なる場合がある。
-    if (
-        (time_scale is None or scale == 1)
-        and source_start == destination_start
-        and source_end == destination_end
-    ):
-        return
+) -> _ScalePlan | None:
+    if not selection.selected:
+        return None
 
     def destination(time: om.MTime, weight: float) -> om.MTime:
         if weight == 0:
@@ -196,6 +166,7 @@ def _scale(
             else seconds + (transformed - seconds) * weight
         )
 
+    selected = selection.selected
     weights = tuple(influence.weight(time) for time in selected)
     destinations = tuple(
         destination(time, weight) for time, weight in zip(selected, weights)
@@ -213,45 +184,182 @@ def _scale(
         if time != dest or factor != 1
     )
     if not updated:
-        return
-    _keyframe_move.insert_boundaries(curve, missing, change)
-    times = [curve.input(i) for i in range(curve.numKeys)]
-    first = 0 if low is None else bisect_left(times, low)
-    stop = len(times) if high is None else bisect_right(times, high)
-    if times[first:stop] != selected:
-        raise RuntimeError("Maya did not insert the requested boundary keys.")
-    keys: list[_keyframe_move.CapturedKey] = []
-    for i in updated:
-        key = _keyframe_move.capture_key(curve, first + i)
-        keys.append(_scaled_key(key, scales[i]) if scales[i] != 1 else key)
+        return None
+
+    virtual_times = tuple(sorted((*selection.times, *selection.missing)))
+    low, high = influence.low, influence.high
+    first = 0 if low is None else bisect_left(virtual_times, low)
+    stop = (
+        len(virtual_times)
+        if high is None
+        else bisect_right(virtual_times, high)
+    )
+    if virtual_times[first:stop] != selected:
+        raise RuntimeError(
+            "The planned boundary keys do not match the selection."
+        )
     removed = {first + i for i in updated}
     if mode == "replace_range":
         removed.update(
             i
             for i in range(
-                bisect_left(times, destination_start),
-                bisect_right(times, destination_end),
+                bisect_left(virtual_times, destination_start),
+                bisect_right(virtual_times, destination_end),
             )
             if not first <= i < stop
         )
-    removed.update(
-        index
-        for time in destinations
-        if (index := curve.find(time)) is not None
-        and not first <= index < stop
+    for time in destinations:
+        index = bisect_left(virtual_times, time)
+        if (
+            index < len(virtual_times)
+            and virtual_times[index] == time
+            and not first <= index < stop
+        ):
+            removed.add(index)
+    samples = tuple(
+        (time, selection.curve.evaluate(time)) for time in selection.missing
     )
-    for index in sorted(removed, reverse=True):
+    return _ScalePlan(
+        selection,
+        samples,
+        virtual_times,
+        first,
+        stop,
+        destinations,
+        scales,
+        updated,
+        tuple(sorted(removed, reverse=True)),
+    )
+
+
+def _apply_scale(plan: _ScalePlan, change: oma.MAnimCurveChange) -> None:
+    curve = plan.selection.curve
+    _keyframe_move.insert_boundaries(
+        curve, list(plan.selection.missing), change, plan.samples
+    )
+    times = tuple(curve.input(i) for i in range(curve.numKeys))
+    if times != plan.virtual_times:
+        raise RuntimeError("Maya did not insert the requested boundary keys.")
+    keys: list[_keyframe_move.CapturedKey] = []
+    for i in plan.updated:
+        key = _keyframe_move.capture_key(curve, plan.first + i)
+        factor = plan.scales[i]
+        keys.append(_scaled_key(key, factor) if factor != 1 else key)
+    for index in plan.removed:
         curve.remove(index, change)
     _keyframe_move.restore_keys(
-        curve, tuple(keys), tuple(destinations[i] for i in updated), change
+        curve,
+        tuple(keys),
+        tuple(plan.destinations[i] for i in plan.updated),
+        change,
     )
-    if any(curve.find(time) is None for time in destinations):
+    if any(curve.find(time) is None for time in plan.destinations):
         raise RuntimeError("Maya did not restore the scaled keys.")
 
 
-def queue_scale(
-    manager: ModifierManager,
-    target: _keyframe_target.Target,
+def _plan_scales(
+    selections: tuple[_keyframe_move.MoveSelection, ...],
+    influence: Influence,
+    *,
+    time_scale: float | None,
+    duration: float | None,
+    offset: float | None,
+    to_start: om.MTime | None,
+    to_end: om.MTime | None,
+    pivot: om.MTime | None,
+    mode: Literal["replace_range", "merge"],
+) -> tuple[_ScalePlan, ...]:
+    if not any(selection.selected for selection in selections):
+        return ()
+    core = tuple(time for selection in selections for time in selection.core)
+    if influence.start is None and not core:
+        return ()
+    if influence.end is None and not core:
+        return ()
+    source_start = (
+        influence.start if influence.start is not None else min(core)
+    )
+    source_end = influence.end if influence.end is not None else max(core)
+    scale, destination_start, destination_end = _placement(
+        source_start,
+        source_end,
+        time_scale,
+        duration,
+        offset,
+        to_start,
+        to_end,
+        pivot,
+    )
+    # 算出した倍率は秒への変換時の丸めだけで 1 と異なる場合がある。
+    if (
+        (time_scale is None or scale == 1)
+        and source_start == destination_start
+        and source_end == destination_end
+    ):
+        return ()
+    return tuple(
+        plan
+        for selection in selections
+        if (
+            plan := _plan_scale(
+                selection,
+                influence,
+                source_start,
+                source_end,
+                scale,
+                destination_start,
+                destination_end,
+                offset,
+                pivot,
+                mode,
+            )
+        )
+        is not None
+    )
+
+
+def _scale(
+    curve: oma.MFnAnimCurve,
+    influence: Influence,
+    *,
+    time_scale: float | None,
+    duration: float | None,
+    offset: float | None,
+    to_start: om.MTime | None,
+    to_end: om.MTime | None,
+    pivot: om.MTime | None,
+    mode: Literal["replace_range", "merge"],
+    insert_missing: bool,
+    change: oma.MAnimCurveChange,
+) -> None:
+    selection = _keyframe_move.select_keys(curve, influence, insert_missing)
+    plans = _plan_scales(
+        (selection,),
+        influence,
+        time_scale=time_scale,
+        duration=duration,
+        offset=offset,
+        to_start=to_start,
+        to_end=to_end,
+        pivot=pivot,
+        mode=mode,
+    )
+    for plan in plans:
+        _apply_scale(plan, change)
+
+
+@dataclass(frozen=True)
+class _ScaleOptions:
+    influence: Influence
+    time_scale: float | None
+    duration: float | None
+    offset: float | None
+    to_start: om.MTime | None
+    to_end: om.MTime | None
+    pivot: om.MTime | None
+
+
+def _capture_options(
     start_frame: float | None,
     end_frame: float | None,
     *,
@@ -266,7 +374,7 @@ def queue_scale(
     interpolate_start: float | None = None,
     interpolate_end: float | None = None,
     interpolation: Literal["linear", "smoothstep"] = "smoothstep",
-) -> None:
+) -> _ScaleOptions:
     fit = to_start_frame is not None and to_end_frame is not None
     if sum((time_scale is not None, duration_frames is not None, fit)) != 1:
         raise ValueError(
@@ -322,22 +430,134 @@ def queue_scale(
         _placement(
             start, end, time_scale, duration, offset, to_start, to_end, pivot
         )
+    return _ScaleOptions(
+        influence, time_scale, duration, offset, to_start, to_end, pivot
+    )
+
+
+def queue_scale(
+    manager: ModifierManager,
+    target: _keyframe_target.Target,
+    start_frame: float | None,
+    end_frame: float | None,
+    *,
+    time_scale: float | None,
+    duration_frames: float | None,
+    pivot_frame: float | None,
+    offset_frames: float | None,
+    to_start_frame: float | None,
+    to_end_frame: float | None,
+    mode: Literal["replace_range", "merge"],
+    insert_missing: bool,
+    interpolate_start: float | None = None,
+    interpolate_end: float | None = None,
+    interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+) -> None:
+    options = _capture_options(
+        start_frame,
+        end_frame,
+        time_scale=time_scale,
+        duration_frames=duration_frames,
+        pivot_frame=pivot_frame,
+        offset_frames=offset_frames,
+        to_start_frame=to_start_frame,
+        to_end_frame=to_end_frame,
+        mode=mode,
+        insert_missing=insert_missing,
+        interpolate_start=interpolate_start,
+        interpolate_end=interpolate_end,
+        interpolation=interpolation,
+    )
 
     def edit(change: oma.MAnimCurveChange) -> None:
         curve = _keyframe_target.resolve_curve(target, write=True)
         if curve is not None:
             _scale(
                 curve,
-                influence,
-                time_scale=time_scale,
-                duration=duration,
-                offset=offset,
-                to_start=to_start,
-                to_end=to_end,
-                pivot=pivot,
+                options.influence,
+                time_scale=options.time_scale,
+                duration=options.duration,
+                offset=options.offset,
+                to_start=options.to_start,
+                to_end=options.to_end,
+                pivot=options.pivot,
                 mode=mode,
                 insert_missing=insert_missing,
                 change=change,
             )
 
     manager.queue_anim_curve_change(edit)
+
+
+def queue_scale_batch(
+    manager: ModifierManager,
+    resolve_targets: Callable[[], tuple[_keyframe_target.Target, ...]],
+    start_frame: float | None,
+    end_frame: float | None,
+    *,
+    time_scale: float | None,
+    duration_frames: float | None,
+    pivot_frame: float | None,
+    offset_frames: float | None,
+    to_start_frame: float | None,
+    to_end_frame: float | None,
+    mode: Literal["replace_range", "merge"],
+    insert_missing: bool,
+    interpolate_start: float | None = None,
+    interpolate_end: float | None = None,
+    interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+) -> None:
+    """全カーブの拡縮を計画してから単一の変更履歴へ予約する。"""
+    options = _capture_options(
+        start_frame,
+        end_frame,
+        time_scale=time_scale,
+        duration_frames=duration_frames,
+        pivot_frame=pivot_frame,
+        offset_frames=offset_frames,
+        to_start_frame=to_start_frame,
+        to_end_frame=to_end_frame,
+        mode=mode,
+        insert_missing=insert_missing,
+        interpolate_start=interpolate_start,
+        interpolate_end=interpolate_end,
+        interpolation=interpolation,
+    )
+
+    def prepare(work: ModifierManager) -> None:
+        curves: list[oma.MFnAnimCurve] = []
+        handles: set[om.MObjectHandle] = set()
+        for target in resolve_targets():
+            curve = _keyframe_target.resolve_curve(target, write=True)
+            if curve is None:
+                continue
+            handle = om.MObjectHandle(curve.object())
+            if handle not in handles:
+                handles.add(handle)
+                curves.append(curve)
+
+        selections = tuple(
+            _keyframe_move.select_keys(
+                curve, options.influence, insert_missing
+            )
+            for curve in curves
+        )
+        plans = _plan_scales(
+            selections,
+            options.influence,
+            time_scale=options.time_scale,
+            duration=options.duration,
+            offset=options.offset,
+            to_start=options.to_start,
+            to_end=options.to_end,
+            pivot=options.pivot,
+            mode=mode,
+        )
+
+        def edit(change: oma.MAnimCurveChange) -> None:
+            for plan in plans:
+                _apply_scale(plan, change)
+
+        work.queue_anim_curve_change(edit)
+
+    manager.queue_dg_batch(prepare)

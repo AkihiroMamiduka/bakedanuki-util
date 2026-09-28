@@ -161,9 +161,9 @@
 `node.keyframes` / `nodes.keyframes`単位のEuler filter、キー削減、既存キーの一括削除を実装しました。
 
 属性単位の部分抽出はnode抽出の利用状況を確認してから再検討します。
-node / nodes単位の`move_frames()`も実装しました。次はnode / nodes単位の
-`scale_frames()`、保存データ用の`AnimationClip.retimed()`の順で進めます。各項目の公開引数・戻り値と、
-対象なし・離散属性・layer・Undo / Redoの詳細契約は、着手時に現行APIと合わせて確定します。
+node / nodes単位の`move_frames()`と`scale_frames()`も実装しました。
+次は保存データ用の`AnimationClip.retimed()`です。公開引数・戻り値と
+対象なし・離散属性・layerの詳細契約は、着手時に現行APIと合わせて確定します。
 
 2026-09-12時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
 詳細データの保存・復元、指定範囲の境界補完まで実装し、利用者による動作確認も完了しています。
@@ -200,6 +200,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 時間方向への移動 | plug・anim_layer plug・明示カーブの`move_frame()` / `move_frames()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_frames()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否 |
 | node単位の時間移動 | `node.keyframes.move_frames()` / `nodes.keyframes.move_frames([...])`。既存TA / TL / TUカーブを属性・layer・上流経路から選び、省略側の絶対移動は全カーブの共通基準を使用。全計画後に一括適用し、Undo / Redo・rollbackへ参加 |
 | 時間方向への拡縮 | plug・anim_layer plug・明示カーブの`scale_frames()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
+| node単位の時間拡縮 | `node.keyframes.scale_frames()` / `nodes.keyframes.scale_frames([...])`。既存TA / TL / TUカーブへ全対象共通の元区間・倍率・ピボットを適用。全計画後に一括変更し、Undo / Redo・rollbackへ参加 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
 | キー削減 | 属性・明示カーブの`reduce_keys()`と、`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持。node / nodesでは全カーブを計画後に一括変更 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
@@ -359,7 +360,7 @@ layer構造の管理や自動選択を追加する場合は、
 
 | 候補 | 現状と、実装前に決めること |
 | --- | --- |
-| 移動の拡張 | plug・anim_layer plug・明示カーブの`move_frames()` / `scale_frames()`と、AnimationClip復元時の正の時間拡縮は実装済み。node / nodes一括入口は次の対象。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
+| 移動の拡張 | plug・anim_layer plug・明示カーブとnode / nodes一括入口の`move_frames()` / `scale_frames()`、AnimationClip復元時の正の時間拡縮は実装済み。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
 | ベイクの拡張 | plug単位・node単位・複数node単位の独立時刻評価は実装済み。複数nodeでも全対象を変更前に一括samplingし、node間を含む操作全体をrollbackする。simulation・cache・dynamics向けの時系列評価は今後個別に仕様化する |
 | キー削減の拡張・最適化 | 手動接線を維持する属性・明示カーブ・node・複数node操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
 | アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定、正の時間拡縮、独立した逆再生clip、node単位の部分抽出は実装済み。属性単位の部分抽出と、rig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
@@ -568,6 +569,24 @@ node / nodes版は全対象の主区間にある最早・最遅キーを共通�
 plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回帰テストとし、
 履歴はMPxCommand、型補完は`tests/typecheck/node_operator_contract.py`で検証します。
 
+### 完了: node / nodes単位の`scale_frames()`
+
+既存のplug・anim_layer plug・明示カーブ用`scale_frames()`を、
+`node.keyframes` / `nodes.keyframes`の属性選択へ展開しました。
+`attributes` / `include_channel_box`、属性名のunion、root / 明示layer、上流探索、
+既存TA / TL / TUカーブだけの編集はnode単位の移動と同じです。
+
+省略した元区間の境界は全対象の主区間にある最早・最遅キーから共通に決めます。
+この区間から倍率・配置先を一度だけ求め、`pivot`も共通の絶対時刻とします。
+補間区間だけのキーは省略境界の基準にせず、`insert_missing=True`では各既存カーブへ
+明示した最大4境界だけを補います。全カーブの書込み検査・重複排除・移動先と
+衝突・順序逆転の計画後に、1つの`MAnimCurveChange`で適用します。
+同じmanagerへ先に予約したベイクとAnimationClip復元にも追従します。
+
+専用の`test_node_keyframe_scale.py`、plug版の拡縮テスト、MPxCommand、
+型補完contractで検証します。仕様は[時間拡縮](attributes.md#キーを時間方向へ拡縮する)、
+検証範囲は[時間拡縮テスト](testing.md#node複数nodeのキーフレーム時間拡縮の検証)を参照してください。
+
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
@@ -577,11 +596,12 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
    `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    plug・anim_layer plug・明示カーブの移動・時間拡縮、キー削減・AnimationClip・値編集を
-   未実装として再開発しない。node / nodesの移動も実装済みで、次は時間拡縮を展開する。
+   未実装として再開発しない。node / nodesの移動・時間拡縮も実装済みで、
+   次は`AnimationClip.retimed()`の仕様を検討する。
    接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
    AnimationClipの逆再生とNodeOperator / MObject / 保存名によるnode単位の部分抽出、
    node / nodes単位のEuler filter・キー削減・既存キーの一括削除も実装済み。
-   属性単位の抽出は保留し、次はnode / nodes単位の`scale_frames()`から進める。
+   属性単位の抽出は保留する。
    過去の実装・検証記録も本文では現行API名で表記する。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。

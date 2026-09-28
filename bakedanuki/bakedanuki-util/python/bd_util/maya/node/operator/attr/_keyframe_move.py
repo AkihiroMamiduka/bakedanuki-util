@@ -215,7 +215,7 @@ def _set_inputs(
 
 
 @dataclass(frozen=True)
-class _MoveSelection:
+class MoveSelection:
     curve: oma.MFnAnimCurve
     times: tuple[om.MTime, ...]
     core: tuple[om.MTime, ...]
@@ -225,7 +225,7 @@ class _MoveSelection:
 
 @dataclass(frozen=True)
 class _MovePlan:
-    selection: _MoveSelection
+    selection: MoveSelection
     samples: tuple[tuple[om.MTime, float | om.MTime], ...]
     virtual_times: tuple[om.MTime, ...]
     first: int
@@ -235,13 +235,13 @@ class _MovePlan:
     use_set_inputs: bool
 
 
-def _select_keys(
+def select_keys(
     curve: oma.MFnAnimCurve,
     influence: Influence,
     insert_missing: bool,
-) -> _MoveSelection:
+) -> MoveSelection:
     if not curve.numKeys:
-        return _MoveSelection(curve, (), (), (), ())
+        return MoveSelection(curve, (), (), (), ())
     start, end = influence.start, influence.end
     times = tuple(curve.input(i) for i in range(curve.numKeys))
     first = 0 if start is None else bisect_left(times, start)
@@ -266,13 +266,13 @@ def _select_keys(
     selected = list(times[first:stop])
     for boundary in missing:
         selected.insert(bisect_left(selected, boundary), boundary)
-    return _MoveSelection(
+    return MoveSelection(
         curve, times, tuple(core), tuple(missing), tuple(selected)
     )
 
 
 def _move_offset(
-    selections: tuple[_MoveSelection, ...],
+    selections: tuple[MoveSelection, ...],
     influence: Influence,
     offset: om.MTime | None,
     to_start: om.MTime | None,
@@ -311,7 +311,7 @@ def _move_offset(
 
 
 def _plan_move(
-    selection: _MoveSelection,
+    selection: MoveSelection,
     influence: Influence,
     offset: om.MTime,
 ) -> _MovePlan | None:
@@ -413,7 +413,7 @@ def _move(
     insert_missing: bool,
     change: oma.MAnimCurveChange,
 ) -> None:
-    selection = _select_keys(curve, influence, insert_missing)
+    selection = select_keys(curve, influence, insert_missing)
     movement = _move_offset((selection,), influence, offset, to_start, to_end)
     if movement is None:
         return
@@ -562,7 +562,7 @@ def queue_move_batch(
                 curves.append(curve)
 
         selections = tuple(
-            _select_keys(curve, influence, insert_missing) for curve in curves
+            select_keys(curve, influence, insert_missing) for curve in curves
         )
         movement = _move_offset(
             selections, influence, offset, to_start, to_end
