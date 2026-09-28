@@ -1332,6 +1332,19 @@ scene初期化は各テストで維持する構成に整理しました。その
 ファイルAPIを含む関連pytest 581件がMaya 2025で成功しました。
 変更実装と型contractを明示したPyrightもエラー・警告0件です。
 
+### 保存clipの時間変換の検証
+
+`tests/maya/node/test_animation_clip_retime.py`は、`AnimationClip.retimed()`の次の契約を検証します。
+
+- 保存範囲を共通基準にした倍率・長さ・移動・片端配置・両端合わせ、負時刻・subframe、
+  複数nodeとTA / TL / TU・離散属性、空カーブ・空clip・1時刻clip。
+- layer / root設定カーブの保存範囲外キーと異なる時間単位、接線Xとその他の詳細情報、
+  `seconds_per_frame` / `sample_by` / `clipped` / schema 2の保持。
+- UI時間単位から独立した保存フレームでの指定、元clipとの独立性、JSON往復、
+  不正引数とMaya時刻精度での衝突拒否。
+- 変換後の`restore()`とUndo / Redo・後続処理失敗時のrollback。
+  `tests/typecheck/node_operator_contract.py`では戻り値と連続呼出しの補完を検証します。
+
 ### AnimationClipのnode部分抽出
 
 `tests/maya/node/test_animation_clip_extract.py`は、`AnimationClip.extract(nodes=...)`と

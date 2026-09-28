@@ -56,6 +56,15 @@ clip.reduce_keys(
 
 clip.reversed() -> AnimationClip
 
+clip.retimed(
+    *,
+    time_scale=None,
+    duration_frames=None,
+    offset_frames=None,
+    to_start_frame=None,
+    to_end_frame=None,
+) -> AnimationClip
+
 clip.restore(
     modifier_manager,
     *,
@@ -410,6 +419,41 @@ layer設定の比較でも、この2種類の接線はキー時刻・値・種�
 部分置換は拡縮・配置後の区間、全置換は対象カーブ全体を置換します。
 元のclip・JSONを変更せず、予約時の独立コピー、Undo / Redo・rollbackにも対応します。
 
+## 保存clipの時間変換
+
+`retimed()`は保存範囲を全node・全属性の共通基準にして、時間を変換した独立の
+`AnimationClip`を即時に返します。`restore()`の時間変換と同じ配置・正倍率の規則を使います。
+対象はclip全体で、layer / root設定カーブの保存範囲外キーも同じ秒軸で変換します。
+
+```python
+retimed_clip = clip.retimed(time_scale=2, to_start_frame=100)
+retimed_clip.save("walk_slow.json")
+retimed_clip.restore(mod, mode="replace_range")
+mod.do_it_dg()
+```
+
+`offset_frames` / `to_start_frame` / `to_end_frame` / `duration_frames`は**保存clipの
+`seconds_per_frame`で定まるフレーム単位**で指定します。現在のMaya UI時間単位は参照しません。
+一方、`restore()`の配置先・長さの指定には呼出時のUI時間単位を使います。
+保存範囲10〜30のclipに`time_scale=2, to_start_frame=100`を指定すると100〜140となり、
+時刻15のキーは110へ移ります。各属性の最初のキーを個別の基準にはしません。
+
+- `time_scale`と`duration_frames`は排他です。片端の配置指定とは併用できます。
+  両端指定は長さを自動で合わせ、倍率・長さ・`offset_frames`とは併用できません。
+  `offset_frames`は片端指定とも併用できません。配置未指定では保存範囲の開始を固定します。
+- 倍率と長さは正の有限数です。負時刻・subframeを許可します。1時刻のclipは移動と
+  正倍率に対応しますが、長さ・両端指定では引き伸ばせません。逆再生には`reversed()`を使います。
+- 全カーブのキー時刻と接線XYのXを倍率に合わせます。値、接線Y・種類、各lock、
+  breakdown、weighted、infinity、layer構造は維持します。離散属性も保存済みのstep接線と
+  値を保ち、時刻だけを変換します。キーの補完・再サンプリングは行いません。
+- 保存範囲の両端を更新し、`seconds_per_frame`、取得時の採取間隔を示す`sample_by`、
+  `clipped`、schema 2は維持します。引数なし・等倍でも変更可能な`KeyData`を共有しない
+  独立コピーを返します。Mayaの時刻精度で保存範囲や同一カーブ内のキーが重なる指定は拒否します。
+
+元clip、scene、保留中modifier、Undo履歴は変更しません。変換後のclipを復元した場合は、
+通常の`restore()`としてUndo / Redo・失敗時rollbackに参加します。初期版には部分区間指定、
+境界補完、`pivot`を含めません。
+
 ## 逆再生clipの作成
 
 `reversed()`は、保存範囲の開始・終了を反転軸として、全カーブを逆再生に変換した
@@ -537,7 +581,8 @@ JSONはschema 2のみ対応し、旧形式変換は行いません。
 
 時間は`seconds_per_frame`を保存し、移植時に秒としての位置・長さを保ちます。
 例えば24fpsの24フレームは、30fpsのsceneでは30フレームへ復元されます。
-復元時刻の移動・正の時間拡縮は`restore()`、逆再生clipの作成は`reversed()`で行います。
+復元時刻の移動・正の時間拡縮は`restore()`、独立した時間変換clipの作成は`retimed()`、
+逆再生clipの作成は`reversed()`で行います。
 リグ固有の属性対応、ワールド空間への変換はこのAPIに含みません。
 
 ## JSONファイルの保存・読込

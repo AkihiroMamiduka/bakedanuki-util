@@ -541,6 +541,46 @@ class AnimationClip:
 
         return reversed_clip(self)
 
+    def retimed(
+        self,
+        *,
+        time_scale: float | None = None,
+        duration_frames: float | None = None,
+        offset_frames: float | None = None,
+        to_start_frame: float | None = None,
+        to_end_frame: float | None = None,
+    ) -> AnimationClip:
+        """保存範囲を共通軸に全カーブの時間を変換した新しい clip を返す。
+
+        時刻と長さは保存 clip のフレーム単位で指定する。レイヤーと root の設定カーブも
+        保存範囲外のキーを含めて変換する。元の clip、シーン、保留中の操作は変更しない。
+
+        Args:
+            time_scale: 正の時間倍率。`duration_frames` や両端指定とは併用できない。
+            duration_frames: 変換後の正の長さ。`time_scale` や両端指定とは併用できない。
+            offset_frames: 加える移動量。`to_start_frame` / `to_end_frame` とは併用できない。
+            to_start_frame: 変換後の保存区間の開始。片端指定は倍率・長さと併用できる。
+            to_end_frame: 変換後の保存区間の終了。両端指定は長さを自動で合わせる。
+
+        Returns:
+            指定なしや等倍の場合も元データと共有しない `AnimationClip`。
+
+        Raises:
+            TypeError: 時刻・長さ・倍率に数値以外または bool を指定した場合。
+            ValueError: 指定の組合せ、長さ、または Maya の時間精度が不正な場合。
+        """
+        from ._animation_clip_time import transformed_clip_time
+
+        return transformed_clip_time(
+            self.from_dict(self.to_dict()),
+            frame_seconds=self.seconds_per_frame,
+            offset_frames=offset_frames,
+            to_start_frame=to_start_frame,
+            to_end_frame=to_end_frame,
+            time_scale=time_scale,
+            duration_frames=duration_frames,
+        )
+
     @overload
     def restore(
         self,

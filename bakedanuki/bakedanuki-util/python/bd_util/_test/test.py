@@ -353,3 +353,13 @@ def main():
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
+
+    anim_nodes = [dst_13_0, dst_13_1, dst_13_2]
+    clip = bdu.AnimationClip.capture(
+        anim_nodes,
+        include_channel_box=True,
+    )
+    retimed = clip.retimed(to_start_frame=-300, to_end_frame=300)
+    retimed.restore(nodes.modifier_manager, mode="replace_all")
+
+    nodes.modifier_manager.do_it_dg()

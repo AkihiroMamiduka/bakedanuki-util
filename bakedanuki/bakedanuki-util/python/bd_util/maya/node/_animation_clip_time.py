@@ -1,4 +1,4 @@
-"""復元予約時に clip の時間を拡縮・移動する。シーンと元の clip は変更しない。"""
+"""clip の時間を拡縮・移動する。シーンと元の clip は変更しない。"""
 
 from __future__ import annotations
 
@@ -43,15 +43,43 @@ def transformed_for_restore(
     time_scale: float | None,
     duration_frames: float | None,
 ) -> AnimationClip:
-    """復元先の時間位置と長さに合わせて clip の全キーを変換する。
+    """復元予約時の UI 時間単位で clip の全キーを変換する。
+
+    時間指定がなければ元の clip を返す。
+    """
+    return transformed_clip_time(
+        data,
+        frame_seconds=om.MTime(1, om.MTime.uiUnit()).asUnits(
+            om.MTime.kSeconds
+        ),
+        offset_frames=offset_frames,
+        to_start_frame=to_start_frame,
+        to_end_frame=to_end_frame,
+        time_scale=time_scale,
+        duration_frames=duration_frames,
+    )
+
+
+def transformed_clip_time(
+    data: AnimationClip,
+    *,
+    frame_seconds: float,
+    offset_frames: float | None,
+    to_start_frame: float | None,
+    to_end_frame: float | None,
+    time_scale: float | None,
+    duration_frames: float | None,
+) -> AnimationClip:
+    """指定したフレーム単位で clip の全キーと保存範囲を変換する。
 
     Args:
         data: 変換元の clip。
-        offset_frames: 復元先の UI 時間単位で加える移動量。
-        to_start_frame: 復元先の開始時刻。
-        to_end_frame: 復元先の終了時刻。
+        frame_seconds: 時間指定に使う 1 frame あたりの秒数。
+        offset_frames: 加える移動量。
+        to_start_frame: 変換後の開始時刻。
+        to_end_frame: 変換後の終了時刻。
         time_scale: 正の時間倍率。`duration_frames` とは併用できない。
-        duration_frames: 復元先の長さ。`time_scale` とは併用できない。
+        duration_frames: 変換後の長さ。`time_scale` とは併用できない。
 
     Returns:
         キー時刻と接線 X を変換した独立の clip。指定がなければ元の clip。
@@ -83,7 +111,7 @@ def transformed_for_restore(
         )
     ):
         return data
-    rate = om.MTime(1, om.MTime.uiUnit()).asUnits(om.MTime.kSeconds)
+    rate = frame_seconds
 
     def seconds(value: float, name: str) -> float:
         result = finite_number(value, name) * rate

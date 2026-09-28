@@ -162,8 +162,8 @@
 
 属性単位の部分抽出はnode抽出の利用状況を確認してから再検討します。
 node / nodes単位の`move_frames()`と`scale_frames()`も実装しました。
-次は保存データ用の`AnimationClip.retimed()`です。公開引数・戻り値と
-対象なし・離散属性・layerの詳細契約は、着手時に現行APIと合わせて確定します。
+保存データ用の`AnimationClip.retimed()`も実装しました。保存範囲を共通基準に
+全カーブとlayer / root設定カーブを正倍率・配置指定で変換し、独立したclipを返します。
 
 2026-09-12時点で、Undo対応、キー設定のAPI経路・一括処理、値のsampling、
 詳細データの保存・復元、指定範囲の境界補完まで実装し、利用者による動作確認も完了しています。
@@ -363,7 +363,7 @@ layer構造の管理や自動選択を追加する場合は、
 | 移動の拡張 | plug・anim_layer plug・明示カーブとnode / nodes一括入口の`move_frames()` / `scale_frames()`、AnimationClip復元時の正の時間拡縮は実装済み。値編集・`move_frames()`・`scale_frames()`の補間は既存キーへの重み付けのみ。合成結果を基準とする値編集等は個別に仕様化する |
 | ベイクの拡張 | plug単位・node単位・複数node単位の独立時刻評価は実装済み。複数nodeでも全対象を変更前に一括samplingし、node間を含む操作全体をrollbackする。simulation・cache・dynamics向けの時系列評価は今後個別に仕様化する |
 | キー削減の拡張・最適化 | 手動接線を維持する属性・明示カーブ・node・複数node操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
-| アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定、正の時間拡縮、独立した逆再生clip、node単位の部分抽出は実装済み。属性単位の部分抽出と、rig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
+| アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定、正の時間拡縮、独立した時間変換・逆再生clip、node単位の部分抽出は実装済み。属性単位の部分抽出と、rig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
 | layer操作の拡張 | ベース選択、明示指定、作成・属性登録、AnimationClipによる階層・順序・weight等の保存復元は実装済み。登録解除や階層・順序を個別編集する公開API、auto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
 | 詳細データAPIの追加最適化 | 範囲取得、layer所属確認、通常の未lockカーブの検査を改善済み。境界補完は引き続き作業用カーブ全体へ依存する。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
@@ -587,6 +587,15 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
 型補完contractで検証します。仕様は[時間拡縮](attributes.md#キーを時間方向へ拡縮する)、
 検証範囲は[時間拡縮テスト](testing.md#node複数nodeのキーフレーム時間拡縮の検証)を参照してください。
 
+### 完了: `AnimationClip.retimed()`
+
+`retimed()`は保存区間を全カーブ共通の軸にして時間を変換した独立のclipを即時に返します。
+配置時刻・長さは保存clipのフレーム単位で解釈し、`restore()`が使用する現在のUI時間単位とは
+分けます。既存の時間変換コアにフレーム単位を渡して共有し、layer / root設定カーブの
+保存区間外キーと異なる時間単位も扱います。元clipとsceneは変更しません。
+仕様は[保存clipの時間変換](animation_clip.md#保存clipの時間変換)、検証範囲は
+[AnimationClipの時間変換](testing.md#保存clipの時間変換の検証)を参照してください。
+
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
@@ -597,7 +606,7 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
 3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
    plug・anim_layer plug・明示カーブの移動・時間拡縮、キー削減・AnimationClip・値編集を
    未実装として再開発しない。node / nodesの移動・時間拡縮も実装済みで、
-   次は`AnimationClip.retimed()`の仕様を検討する。
+   `AnimationClip.retimed()`も実装済み。次の機能は現行roadmapと利用者の希望を確認する。
    接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
    AnimationClipの逆再生とNodeOperator / MObject / 保存名によるnode単位の部分抽出、
    node / nodes単位のEuler filter・キー削減・既存キーの一括削除も実装済み。
