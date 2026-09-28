@@ -53,7 +53,7 @@ def sample_plug_values(
             for node in curve_objects(plug, traverse_inputs=True)
         ]
         if outputs:
-            # setKeyframe can leave downstream timed-context input data stale.
+            # `setKeyframe` 後に下流の時刻付きコンテキスト入力が古いまま残る場合がある。
             cmds.dgdirty(*outputs, propagation=True)
     samples: list[tuple[float, float]] = []
     for frame in frame_items:
@@ -101,12 +101,16 @@ class ScalarBasePlugOperator(ChannelBoxStateMixin, PlugOperator[A]):
 
 
 class ScalarBaseAttrOperator(AttrOperator[P]):
+    """スカラー属性の定義に共通する操作を扱う基底クラス。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "abc"
 
 
 class ScalarBaseField(AttributeField[A, P]):
+    """スカラー属性の定義とプラグ操作を結ぶ基底ディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], ScalarBaseAttrOperator)

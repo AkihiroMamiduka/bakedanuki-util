@@ -24,6 +24,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
+    """角度 compound 属性の値を読み書きするプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnUnitAttribute.kAngle
@@ -51,10 +53,14 @@ class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
 
 
 class AngleCompoundBaseAttrOperator(UnitCompoundBaseAttrOperator[P]):
+    """角度 compound 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
 
 class AngleCompoundBaseField(UnitCompoundBaseField[A, P]):
+    """角度 compound 属性の定義とプラグ操作を結ぶ基底クラス。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], AngleCompoundBaseAttrOperator)

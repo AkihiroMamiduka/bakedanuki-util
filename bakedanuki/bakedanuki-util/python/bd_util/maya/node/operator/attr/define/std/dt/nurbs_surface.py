@@ -9,6 +9,8 @@ from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 class DataNurbsSurfacePlugOperator(
     DataTypePlugOperator["DataNurbsSurfaceAttrOperator"]
 ):
+    """`nurbsSurface` データプラグを扱う。"""
+
     __slots__ = ()
 
     def add_attr(self):
@@ -19,6 +21,8 @@ class DataNurbsSurfacePlugOperator(
 class DataNurbsSurfaceAttrOperator(
     DataTypeAttrOperator[DataNurbsSurfacePlugOperator]
 ):
+    """`nurbsSurface` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "nurbsSurface"
@@ -27,6 +31,8 @@ class DataNurbsSurfaceAttrOperator(
 class DataNurbsSurfaceField(
     DataTypeField[DataNurbsSurfaceAttrOperator, DataNurbsSurfacePlugOperator]
 ):
+    """`nurbsSurface` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataNurbsSurfaceAttrOperator

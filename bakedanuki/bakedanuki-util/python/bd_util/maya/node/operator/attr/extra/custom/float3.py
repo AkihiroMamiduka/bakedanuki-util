@@ -7,6 +7,8 @@ from ...define.custom import (
 
 
 class ExtraFloat3Field(Float3Field):
+    """`Float3Field` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

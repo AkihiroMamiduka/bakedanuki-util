@@ -13,6 +13,8 @@ from ._base import (
 class DoubleLinearPlugOperator(
     UnitRangeBasePlugOperator["DoubleLinearAttrOperator"]
 ):
+    """`doubleLinear` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> float:
@@ -43,6 +45,8 @@ class DoubleLinearPlugOperator(
 class DoubleLinearAttrOperator(
     UnitRangeBaseAttrOperator[DoubleLinearPlugOperator]
 ):
+    """`doubleLinear` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "doubleLinear"
@@ -66,6 +70,8 @@ class DoubleLinearAttrOperator(
 class DoubleLinearField(
     UnitRangeBaseField[DoubleLinearAttrOperator, DoubleLinearPlugOperator]
 ):
+    """`doubleLinear` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DoubleLinearAttrOperator

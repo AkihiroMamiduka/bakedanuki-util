@@ -12,6 +12,8 @@ from .base.numeric_base import (
 class DataShort3PlugOperator(
     DataNumericBasePlugOperator["DataShort3AttrOperator", int]
 ):
+    """`short3` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[int]:
@@ -33,6 +35,8 @@ class DataShort3PlugOperator(
 class DataShort3AttrOperator(
     DataNumericBaseAttrOperator[DataShort3PlugOperator]
 ):
+    """`short3` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "short3"
@@ -41,6 +45,8 @@ class DataShort3AttrOperator(
 class DataShort3Field(
     DataNumericBaseField[DataShort3AttrOperator, DataShort3PlugOperator]
 ):
+    """`short3` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataShort3AttrOperator

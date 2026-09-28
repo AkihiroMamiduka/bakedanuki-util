@@ -18,6 +18,8 @@ _set_int_attr = cast(Callable[[str, int], object], cmds.setAttr)
 class LongLongIntPlugOperator(
     NumericRangeBasePlugOperator["LongLongIntAttrOperator"]
 ):
+    """64 ビット整数属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> int:
@@ -97,6 +99,8 @@ class LongLongIntPlugOperator(
 class LongLongIntAttrOperator(
     NumericRangeBaseAttrOperator[LongLongIntPlugOperator]
 ):
+    """64 ビット整数属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "long long int"
@@ -120,6 +124,8 @@ class LongLongIntAttrOperator(
 class LongLongIntField(
     NumericRangeBaseField[LongLongIntAttrOperator, LongLongIntPlugOperator]
 ):
+    """64 ビット整数属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = LongLongIntAttrOperator

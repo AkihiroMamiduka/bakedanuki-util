@@ -19,6 +19,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class NumericBasePlugOperator(ScalarBasePlugOperator[A]):
+    """数値スカラー属性のプラグ操作を扱う基底クラス。"""
+
     __slots__ = ()
 
     @property
@@ -53,10 +55,14 @@ class NumericBasePlugOperator(ScalarBasePlugOperator[A]):
 
 
 class NumericBaseAttrOperator(ScalarBaseAttrOperator[P]):
+    """数値スカラー属性の定義を扱う基底クラス。"""
+
     __slots__ = ()
 
 
 class NumericBaseField(ScalarBaseField[A, P]):
+    """数値スカラー属性の定義とプラグ操作を結ぶ基底ディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], NumericBaseAttrOperator)

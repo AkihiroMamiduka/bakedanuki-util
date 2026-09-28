@@ -14,6 +14,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class BoolPlugOperator(NumericBasePlugOperator["BoolAttrOperator"]):
+    """`bool` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> bool:
@@ -39,6 +41,8 @@ class BoolPlugOperator(NumericBasePlugOperator["BoolAttrOperator"]):
 
 
 class BoolAttrOperator(NumericBaseAttrOperator[BoolPlugOperator]):
+    """`bool` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "bool"
@@ -60,6 +64,8 @@ class BoolAttrOperator(NumericBaseAttrOperator[BoolPlugOperator]):
 
 
 class BoolField(NumericBaseField[BoolAttrOperator, BoolPlugOperator]):
+    """`bool` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = BoolAttrOperator

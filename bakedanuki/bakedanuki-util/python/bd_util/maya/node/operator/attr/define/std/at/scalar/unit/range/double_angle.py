@@ -21,6 +21,8 @@ def _float_to_radians(value: float) -> float:
 class DoubleAnglePlugOperator(
     UnitRangeBasePlugOperator["DoubleAngleAttrOperator"]
 ):
+    """`doubleAngle` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> float:
@@ -53,6 +55,8 @@ class DoubleAnglePlugOperator(
 class DoubleAngleAttrOperator(
     UnitRangeBaseAttrOperator[DoubleAnglePlugOperator]
 ):
+    """`doubleAngle` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "doubleAngle"
@@ -78,6 +82,8 @@ class DoubleAngleAttrOperator(
 class DoubleAngleField(
     UnitRangeBaseField[DoubleAngleAttrOperator, DoubleAnglePlugOperator]
 ):
+    """`doubleAngle` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DoubleAngleAttrOperator

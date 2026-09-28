@@ -12,6 +12,8 @@ from ._base import (
 class FloatLinearPlugOperator(
     UnitRangeBasePlugOperator["FloatLinearAttrOperator"]
 ):
+    """`floatLinear` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> float:
@@ -42,6 +44,8 @@ class FloatLinearPlugOperator(
 class FloatLinearAttrOperator(
     UnitRangeBaseAttrOperator[FloatLinearPlugOperator]
 ):
+    """`floatLinear` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "floatLinear"
@@ -50,6 +54,8 @@ class FloatLinearAttrOperator(
 class FloatLinearField(
     UnitRangeBaseField[FloatLinearAttrOperator, FloatLinearPlugOperator]
 ):
+    """`floatLinear` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = FloatLinearAttrOperator

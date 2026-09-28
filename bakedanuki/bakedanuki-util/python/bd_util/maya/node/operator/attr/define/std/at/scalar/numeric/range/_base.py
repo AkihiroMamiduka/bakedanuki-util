@@ -72,10 +72,14 @@ class NumericRangeBasePlugOperator(NumericBasePlugOperator[A]):
 
 
 class NumericRangeBaseAttrOperator(NumericBaseAttrOperator[P]):
+    """値域を持つ数値スカラー属性の定義を扱う基底クラス。"""
+
     __slots__ = ()
 
 
 class NumericRangeBaseField(NumericBaseField[A, P]):
+    """値域を持つ数値スカラー属性の定義とプラグ操作を結ぶ基底ディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], NumericRangeBaseAttrOperator)

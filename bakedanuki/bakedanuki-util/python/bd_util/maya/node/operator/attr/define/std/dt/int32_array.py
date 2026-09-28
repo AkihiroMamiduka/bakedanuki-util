@@ -12,6 +12,8 @@ from .base.array_base import (
 class DataInt32ArrayPlugOperator(
     DataArrayBasePlugOperator["DataInt32ArrayAttrOperator"]
 ):
+    """`int32Array` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[int]:
@@ -36,6 +38,8 @@ class DataInt32ArrayPlugOperator(
 class DataInt32ArrayAttrOperator(
     DataArrayBaseAttrOperator[DataInt32ArrayPlugOperator]
 ):
+    """`int32Array` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "int32Array"
@@ -44,6 +48,8 @@ class DataInt32ArrayAttrOperator(
 class DataInt32ArrayField(
     DataArrayBaseField[DataInt32ArrayAttrOperator, DataInt32ArrayPlugOperator]
 ):
+    """`int32Array` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataInt32ArrayAttrOperator

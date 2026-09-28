@@ -16,18 +16,24 @@ P = TypeVar("P", bound="DoubleLinear3CompoundBasePlugOperator[Any]")
 class DoubleLinear3CompoundBasePlugOperator(
     LinearCompoundBasePlugOperator[A, DoubleLinear3]
 ):
+    """3 成分の double 型の距離 compound 属性の値を読み書きするプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     VALUE_TYPE = DoubleLinear3
 
 
 class DoubleLinear3CompoundBaseAttrOperator(LinearCompoundBaseAttrOperator[P]):
+    """3 成分の double 型の距離 compound 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "double3"
 
 
 class DoubleLinear3CompoundBaseField(LinearCompoundBaseField[A, P]):
+    """3 成分の double 型の距離 compound 属性の定義とプラグ操作を結ぶ基底クラス。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], DoubleLinear3CompoundBaseAttrOperator)

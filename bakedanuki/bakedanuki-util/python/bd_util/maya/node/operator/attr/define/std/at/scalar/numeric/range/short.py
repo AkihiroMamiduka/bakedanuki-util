@@ -11,6 +11,8 @@ from ._base import (
 
 
 class ShortPlugOperator(NumericRangeBasePlugOperator["ShortAttrOperator"]):
+    """`short` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> int:
@@ -36,6 +38,8 @@ class ShortPlugOperator(NumericRangeBasePlugOperator["ShortAttrOperator"]):
 
 
 class ShortAttrOperator(NumericRangeBaseAttrOperator[ShortPlugOperator]):
+    """`short` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "short"
@@ -57,6 +61,8 @@ class ShortAttrOperator(NumericRangeBaseAttrOperator[ShortPlugOperator]):
 
 
 class ShortField(NumericRangeBaseField[ShortAttrOperator, ShortPlugOperator]):
+    """`short` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = ShortAttrOperator

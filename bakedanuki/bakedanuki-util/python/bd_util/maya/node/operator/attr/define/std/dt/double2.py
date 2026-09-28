@@ -12,6 +12,8 @@ from .base.numeric_base import (
 class DataDouble2PlugOperator(
     DataNumericBasePlugOperator["DataDouble2AttrOperator", float]
 ):
+    """`double2` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[float]:
@@ -33,6 +35,8 @@ class DataDouble2PlugOperator(
 class DataDouble2AttrOperator(
     DataNumericBaseAttrOperator[DataDouble2PlugOperator]
 ):
+    """`double2` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "double2"
@@ -41,6 +45,8 @@ class DataDouble2AttrOperator(
 class DataDouble2Field(
     DataNumericBaseField[DataDouble2AttrOperator, DataDouble2PlugOperator]
 ):
+    """`double2` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataDouble2AttrOperator

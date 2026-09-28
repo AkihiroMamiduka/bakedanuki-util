@@ -12,6 +12,8 @@ class _RoundScalarTarget(Protocol):
 
 
 class RoundScalarPlugOperatorMixin:
+    """スカラープラグの現在値を丸める操作を追加する。"""
+
     __slots__ = ()
 
     def round(self, ndigits: int = 0) -> None:

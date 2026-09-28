@@ -5,6 +5,8 @@ from ....define.std.at.message import MessageField
 
 
 class ExtraMessageField(MessageField):
+    """`MessageField` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

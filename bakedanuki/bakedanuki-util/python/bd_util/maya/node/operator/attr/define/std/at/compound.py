@@ -150,12 +150,16 @@ class CompoundPlugOperator(PlugOperator[A]):
 
 
 class CompoundAttrOperator(AttrOperator[P]):
+    """Maya の `compound` 属性定義を表す。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "compound"
 
 
 class CompoundField(AttributeField[A, P]):
+    """ノードクラスに `compound` 属性を定義する。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], CompoundAttrOperator)

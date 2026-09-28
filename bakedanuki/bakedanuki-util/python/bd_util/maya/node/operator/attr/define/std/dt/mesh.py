@@ -7,6 +7,8 @@ from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 
 class DataMeshPlugOperator(DataTypePlugOperator["DataMeshAttrOperator"]):
+    """`mesh` データプラグを扱う。"""
+
     __slots__ = ()
 
     def add_attr(self):
@@ -15,12 +17,16 @@ class DataMeshPlugOperator(DataTypePlugOperator["DataMeshAttrOperator"]):
 
 
 class DataMeshAttrOperator(DataTypeAttrOperator[DataMeshPlugOperator]):
+    """`mesh` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "mesh"
 
 
 class DataMeshField(DataTypeField[DataMeshAttrOperator, DataMeshPlugOperator]):
+    """`mesh` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataMeshAttrOperator

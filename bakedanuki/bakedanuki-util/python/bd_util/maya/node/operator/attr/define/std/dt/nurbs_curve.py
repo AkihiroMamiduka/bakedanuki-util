@@ -9,6 +9,8 @@ from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 class DataNurbsCurvePlugOperator(
     DataTypePlugOperator["DataNurbsCurveAttrOperator"]
 ):
+    """`nurbsCurve` データプラグを扱う。"""
+
     __slots__ = ()
 
     def add_attr(self):
@@ -19,6 +21,8 @@ class DataNurbsCurvePlugOperator(
 class DataNurbsCurveAttrOperator(
     DataTypeAttrOperator[DataNurbsCurvePlugOperator]
 ):
+    """`nurbsCurve` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "nurbsCurve"
@@ -27,6 +31,8 @@ class DataNurbsCurveAttrOperator(
 class DataNurbsCurveField(
     DataTypeField[DataNurbsCurveAttrOperator, DataNurbsCurvePlugOperator]
 ):
+    """`nurbsCurve` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataNurbsCurveAttrOperator

@@ -12,6 +12,8 @@ from .base.numeric_base import (
 class DataReflectanceRGBPlugOperator(
     DataNumericBasePlugOperator["DataReflectanceRGBAttrOperator", float]
 ):
+    """`reflectanceRGB` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[float]:
@@ -33,6 +35,8 @@ class DataReflectanceRGBPlugOperator(
 class DataReflectanceRGBAttrOperator(
     DataNumericBaseAttrOperator[DataReflectanceRGBPlugOperator]
 ):
+    """`reflectanceRGB` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "reflectanceRGB"
@@ -43,6 +47,8 @@ class DataReflectanceRGBField(
         DataReflectanceRGBAttrOperator, DataReflectanceRGBPlugOperator
     ]
 ):
+    """`reflectanceRGB` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataReflectanceRGBAttrOperator

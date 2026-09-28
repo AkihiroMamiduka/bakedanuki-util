@@ -9,6 +9,8 @@ from .......std.at.scalar.numeric.range.long import LongField
 
 
 class Long3PlugOperator(Long3CompoundBasePlugOperator["Long3AttrOperator"]):
+    """3 成分の long 型 compound 属性の値を読み書きするプラグ操作。"""
+
     __slots__ = ()
 
     x = LongField()
@@ -17,10 +19,14 @@ class Long3PlugOperator(Long3CompoundBasePlugOperator["Long3AttrOperator"]):
 
 
 class Long3AttrOperator(Long3CompoundBaseAttrOperator[Long3PlugOperator]):
+    """3 成分の long 型 compound 属性の定義を保持する。"""
+
     __slots__ = ()
 
 
 class Long3Field(Long3CompoundBaseField[Long3AttrOperator, Long3PlugOperator]):
+    """3 成分の long 型 compound 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = Long3AttrOperator

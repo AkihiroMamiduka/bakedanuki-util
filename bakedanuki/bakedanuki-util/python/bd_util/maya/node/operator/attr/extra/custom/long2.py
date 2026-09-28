@@ -7,6 +7,8 @@ from ...define.custom import (
 
 
 class ExtraLong2Field(Long2Field):
+    """`Long2Field` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

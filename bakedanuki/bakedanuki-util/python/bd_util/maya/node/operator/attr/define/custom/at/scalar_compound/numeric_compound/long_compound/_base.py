@@ -24,6 +24,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class LongCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A, V, int]):
+    """long 型 compound 属性の値を読み書きするプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnNumericData.kLong
@@ -43,10 +45,14 @@ class LongCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A, V, int]):
 
 
 class LongCompoundBaseAttrOperator(NumericCompoundBaseAttrOperator[P]):
+    """long 型 compound 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
 
 class LongCompoundBaseField(NumericCompoundBaseField[A, P]):
+    """long 型 compound 属性の定義とプラグ操作を結ぶ基底クラス。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], LongCompoundBaseAttrOperator)

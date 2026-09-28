@@ -72,10 +72,14 @@ class UnitRangeBasePlugOperator(UnitBasePlugOperator[A]):
 
 
 class UnitRangeBaseAttrOperator(UnitBaseAttrOperator[P]):
+    """値域を持つ単位付きスカラー属性の定義を扱う基底クラス。"""
+
     __slots__ = ()
 
 
 class UnitRangeBaseField(UnitBaseField[A, P]):
+    """値域を持つ単位付きスカラー属性の定義とプラグ操作を結ぶ基底ディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], UnitRangeBaseAttrOperator)

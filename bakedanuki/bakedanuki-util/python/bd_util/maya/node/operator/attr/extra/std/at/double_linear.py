@@ -5,6 +5,8 @@ from ....define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
 class ExtraDoubleLinearField(DoubleLinearField):
+    """`DoubleLinearField` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

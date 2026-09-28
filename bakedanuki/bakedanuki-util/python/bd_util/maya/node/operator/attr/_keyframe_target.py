@@ -12,6 +12,8 @@ from .keyframe_data import CurveTypeName
 
 
 class CurveTarget:
+    """編集対象の `animCurveTA`・`animCurveTL`・`animCurveTU` を保持する。"""
+
     __slots__ = ("node", "handle", "curve_type")
 
     def __init__(self, node: object) -> None:
@@ -32,6 +34,11 @@ class CurveTarget:
 
 
 class LayerTarget:
+    """編集対象の既存アニメーションレイヤーとプラグを保持する。
+
+    `name` は単一ノード名またはレイヤーの `MObject` を受け付ける。
+    """
+
     __slots__ = ("plug", "node", "handle")
 
     def __init__(self, plug: om.MPlug, name: object) -> None:

@@ -15,6 +15,8 @@ class FloatPlugOperator(
     RoundScalarPlugOperatorMixin,
     NumericRangeBasePlugOperator["FloatAttrOperator"],
 ):
+    """`float` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> float:
@@ -40,6 +42,8 @@ class FloatPlugOperator(
 
 
 class FloatAttrOperator(NumericRangeBaseAttrOperator[FloatPlugOperator]):
+    """`float` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "float"
@@ -61,6 +65,8 @@ class FloatAttrOperator(NumericRangeBaseAttrOperator[FloatPlugOperator]):
 
 
 class FloatField(NumericRangeBaseField[FloatAttrOperator, FloatPlugOperator]):
+    """`float` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = FloatAttrOperator

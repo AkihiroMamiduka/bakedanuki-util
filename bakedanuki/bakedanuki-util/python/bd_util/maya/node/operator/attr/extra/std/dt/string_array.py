@@ -5,6 +5,8 @@ from ....define.std.dt.string_array import DataStringArrayField
 
 
 class ExtraDataStringArrayField(DataStringArrayField):
+    """`DataStringArrayField` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

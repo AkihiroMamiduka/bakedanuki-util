@@ -10,6 +10,8 @@ from ._base import (
 
 
 class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
+    """`time` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> float:
@@ -41,12 +43,16 @@ class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
 
 
 class TimeAttrOperator(UnitBaseAttrOperator[TimePlugOperator]):
+    """`time` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "time"
 
 
 class TimeField(UnitBaseField[TimeAttrOperator, TimePlugOperator]):
+    """`time` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = TimeAttrOperator

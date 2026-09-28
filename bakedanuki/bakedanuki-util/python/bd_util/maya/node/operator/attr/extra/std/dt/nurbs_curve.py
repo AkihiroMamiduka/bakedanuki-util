@@ -5,6 +5,8 @@ from ....define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
 class ExtraDataNurbsCurveField(DataNurbsCurveField):
+    """`DataNurbsCurveField` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

@@ -12,6 +12,8 @@ from .base.array_base import (
 class DataStringArrayPlugOperator(
     DataArrayBasePlugOperator["DataStringArrayAttrOperator"]
 ):
+    """`stringArray` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[str]:
@@ -36,6 +38,8 @@ class DataStringArrayPlugOperator(
 class DataStringArrayAttrOperator(
     DataArrayBaseAttrOperator[DataStringArrayPlugOperator]
 ):
+    """`stringArray` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "stringArray"
@@ -46,6 +50,8 @@ class DataStringArrayField(
         DataStringArrayAttrOperator, DataStringArrayPlugOperator
     ]
 ):
+    """`stringArray` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataStringArrayAttrOperator

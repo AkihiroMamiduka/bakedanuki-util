@@ -26,6 +26,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class DoubleCompoundBasePlugOperator(
     NumericCompoundBasePlugOperator[A, V, float]
 ):
+    """double 型 compound 属性の値を読み書きするプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnNumericData.kDouble
@@ -47,10 +49,14 @@ class DoubleCompoundBasePlugOperator(
 
 
 class DoubleCompoundBaseAttrOperator(NumericCompoundBaseAttrOperator[P]):
+    """double 型 compound 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
 
 class DoubleCompoundBaseField(NumericCompoundBaseField[A, P]):
+    """double 型 compound 属性の定義とプラグ操作を結ぶ基底クラス。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], DoubleCompoundBaseAttrOperator)

@@ -5,6 +5,8 @@ from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
 class MessagePlugOperator(PlugOperator["MessageAttrOperator"]):
+    """Maya の `message` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def add_attr(self):
@@ -29,12 +31,16 @@ class MessagePlugOperator(PlugOperator["MessageAttrOperator"]):
 
 
 class MessageAttrOperator(AttrOperator[MessagePlugOperator]):
+    """Maya の `message` 属性定義を表す。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "message"
 
 
 class MessageField(AttributeField[MessageAttrOperator, MessagePlugOperator]):
+    """ノードクラスに `message` 属性を定義する。"""
+
     __slots__ = ()
 
     ATTR_CLS = MessageAttrOperator

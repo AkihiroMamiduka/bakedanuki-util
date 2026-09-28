@@ -23,6 +23,8 @@ class UnitBasePlugOperator(
     RoundScalarPlugOperatorMixin,
     ScalarBasePlugOperator[A],
 ):
+    """単位付きスカラー属性のプラグ操作を扱う基底クラス。"""
+
     __slots__ = ()
 
     @property
@@ -57,10 +59,14 @@ class UnitBasePlugOperator(
 
 
 class UnitBaseAttrOperator(ScalarBaseAttrOperator[P]):
+    """単位付きスカラー属性の定義を扱う基底クラス。"""
+
     __slots__ = ()
 
 
 class UnitBaseField(ScalarBaseField[A, P]):
+    """単位付きスカラー属性の定義とプラグ操作を結ぶ基底ディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], UnitBaseAttrOperator)

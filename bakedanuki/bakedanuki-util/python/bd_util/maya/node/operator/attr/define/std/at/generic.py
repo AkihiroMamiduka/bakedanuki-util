@@ -7,6 +7,8 @@ from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
 class GenericPlugOperator(PlugOperator["GenericAttrOperator"]):
+    """Maya の `generic` 属性プラグを操作する。"""
+
     __slots__ = ("_data_handle",)
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
@@ -43,12 +45,16 @@ class GenericPlugOperator(PlugOperator["GenericAttrOperator"]):
 
 
 class GenericAttrOperator(AttrOperator[GenericPlugOperator]):
+    """Maya の `generic` 属性定義を表す。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "generic"
 
 
 class GenericField(AttributeField[GenericAttrOperator, GenericPlugOperator]):
+    """ノードクラスに `generic` 属性を定義する。"""
+
     __slots__ = ()
 
     ATTR_CLS = GenericAttrOperator

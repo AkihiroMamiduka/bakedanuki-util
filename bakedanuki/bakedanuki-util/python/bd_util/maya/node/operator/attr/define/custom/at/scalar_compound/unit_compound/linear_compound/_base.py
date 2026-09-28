@@ -24,6 +24,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
+    """距離 compound 属性の値を読み書きするプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnUnitAttribute.kDistance
@@ -50,10 +52,14 @@ class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
 
 
 class LinearCompoundBaseAttrOperator(UnitCompoundBaseAttrOperator[P]):
+    """距離 compound 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
 
 class LinearCompoundBaseField(UnitCompoundBaseField[A, P]):
+    """距離 compound 属性の定義とプラグ操作を結ぶ基底クラス。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], LinearCompoundBaseAttrOperator)

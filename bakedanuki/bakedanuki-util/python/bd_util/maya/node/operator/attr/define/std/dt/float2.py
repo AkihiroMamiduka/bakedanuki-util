@@ -12,6 +12,8 @@ from .base.numeric_base import (
 class DataFloat2PlugOperator(
     DataNumericBasePlugOperator["DataFloat2AttrOperator", float]
 ):
+    """`float2` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[float]:
@@ -33,6 +35,8 @@ class DataFloat2PlugOperator(
 class DataFloat2AttrOperator(
     DataNumericBaseAttrOperator[DataFloat2PlugOperator]
 ):
+    """`float2` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "float2"
@@ -41,6 +45,8 @@ class DataFloat2AttrOperator(
 class DataFloat2Field(
     DataNumericBaseField[DataFloat2AttrOperator, DataFloat2PlugOperator]
 ):
+    """`float2` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataFloat2AttrOperator

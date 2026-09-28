@@ -12,6 +12,8 @@ from .base.array_base import (
 class PointArrayPlugOperator(
     DataArrayBasePlugOperator["DataPointArrayAttrOperator"]
 ):
+    """`pointArray` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[tuple[float, float, float, float]]:
@@ -48,6 +50,8 @@ class PointArrayPlugOperator(
 class DataPointArrayAttrOperator(
     DataArrayBaseAttrOperator[PointArrayPlugOperator]
 ):
+    """`pointArray` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "pointArray"
@@ -56,6 +60,8 @@ class DataPointArrayAttrOperator(
 class DataPointArrayField(
     DataArrayBaseField[DataPointArrayAttrOperator, PointArrayPlugOperator]
 ):
+    """`pointArray` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataPointArrayAttrOperator

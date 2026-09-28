@@ -25,6 +25,8 @@ def checked_time(time: om.MTime, seconds: float) -> om.MTime:
 
 @dataclass(frozen=True)
 class CapturedKey:
+    """移動するキーの値・接線・ロック状態を復元用に保持する。"""
+
     value: float | om.MTime
     in_type: int
     out_type: int

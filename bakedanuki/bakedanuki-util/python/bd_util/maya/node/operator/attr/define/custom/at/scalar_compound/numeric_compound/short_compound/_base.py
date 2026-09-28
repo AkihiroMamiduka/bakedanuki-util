@@ -26,6 +26,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class ShortCompoundBasePlugOperator(
     NumericCompoundBasePlugOperator[A, V, int]
 ):
+    """short 型 compound 属性の値を読み書きするプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     CHILD_M_ATTR_TYPE: ClassVar[int] = om.MFnNumericData.kShort
@@ -45,10 +47,14 @@ class ShortCompoundBasePlugOperator(
 
 
 class ShortCompoundBaseAttrOperator(NumericCompoundBaseAttrOperator[P]):
+    """short 型 compound 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
 
 class ShortCompoundBaseField(NumericCompoundBaseField[A, P]):
+    """short 型 compound 属性の定義とプラグ操作を結ぶ基底クラス。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], ShortCompoundBaseAttrOperator)

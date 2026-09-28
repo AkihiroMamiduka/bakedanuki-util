@@ -30,6 +30,8 @@ TangentTypeValue = TangentTypeName | int | None
 
 
 class TangentType:
+    """`MFnAnimCurve` の主要な接線種別を名前付き定数で公開する。"""
+
     auto: ClassVar[int] = oma.MFnAnimCurve.kTangentAuto
     clamped: ClassVar[int] = oma.MFnAnimCurve.kTangentClamped
     fast: ClassVar[int] = oma.MFnAnimCurve.kTangentFast

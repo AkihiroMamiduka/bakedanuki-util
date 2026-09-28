@@ -7,6 +7,8 @@ from ...define.custom import (
 
 
 class ExtraQuat4Field(Quat4Field):
+    """`Quat4Field` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

@@ -10,6 +10,8 @@ from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
 class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
+    """Maya の `matrix` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> TransformMatrix:
@@ -61,12 +63,16 @@ class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
 
 
 class MatrixAttrOperator(AttrOperator[MatrixPlugOperator]):
+    """Maya の `matrix` 属性定義を表す。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "matrix"
 
 
 class MatrixField(AttributeField[MatrixAttrOperator, MatrixPlugOperator]):
+    """ノードクラスに `matrix` 属性を定義する。"""
+
     __slots__ = ()
 
     ATTR_CLS = MatrixAttrOperator

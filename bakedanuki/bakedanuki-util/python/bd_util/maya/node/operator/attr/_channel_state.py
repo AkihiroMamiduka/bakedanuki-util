@@ -9,6 +9,11 @@ from ._core import PlugOperator
 
 
 class ChannelBoxStateMixin:
+    """scalar プラグと compound 子属性の Channel Box 状態変更を共通化する。
+
+    即時変更と `ModifierManager` への変更予約を提供する。
+    """
+
     __slots__ = ()
 
     def _channel_box_state_plugs(self) -> tuple[om.MPlug, ...]:

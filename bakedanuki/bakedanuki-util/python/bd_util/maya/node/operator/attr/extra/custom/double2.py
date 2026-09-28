@@ -7,6 +7,8 @@ from ...define.custom import (
 
 
 class ExtraDouble2Field(Double2Field):
+    """`Double2Field` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

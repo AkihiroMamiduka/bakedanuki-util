@@ -14,6 +14,8 @@ N = TypeVar("N", int, float)
 
 
 class DataNumericBasePlugOperator(DataTypePlugOperator[A], Generic[A, N]):
+    """数値データの読み書きを共通化するプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     def _get_data(self) -> tuple[N, ...]:
@@ -41,12 +43,16 @@ class DataNumericBasePlugOperator(DataTypePlugOperator[A], Generic[A, N]):
 
 
 class DataNumericBaseAttrOperator(DataTypeAttrOperator[P]):
+    """数値データ属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
     DATA_TYPE = "abc"
 
 
 class DataNumericBaseField(DataTypeField[A, P]):
+    """数値データ属性の定義とプラグ操作を結ぶ基底ディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], DataNumericBaseAttrOperator)

@@ -18,12 +18,25 @@ def _split(values: _Four, u: float) -> tuple[_Four, _Four]:
 
 @dataclass(frozen=True, slots=True)
 class Bezier:
+    """キー間の時刻と値をそれぞれ 4 制御点の Bezier 曲線で保持する。
+
+    `supported=False` の区間は誤差評価に使わない。
+    """
+
     x: _Four
     y: _Four
     supported: bool = True
     linear_x: bool = False
 
     def split(self, time: float) -> tuple[Bezier, Bezier]:
+        """指定時刻で曲線を左右の区間に分割する。
+
+        Args:
+            time: 分割位置の時刻。
+
+        Returns:
+            分割後の左区間と右区間。
+        """
         start, end = self.x[0], self.x[-1]
         span = end - start
         linear = (start, start + span / 3, end - span / 3, end)
@@ -52,6 +65,15 @@ class Bezier:
         )
 
     def clip(self, start: float, end: float) -> Bezier:
+        """指定した時刻範囲に曲線を切り詰める。
+
+        Args:
+            start: 範囲の開始時刻。
+            end: 範囲の終了時刻。
+
+        Returns:
+            指定範囲に切り詰めた新しい曲線。
+        """
         result = self
         if start > result.x[0]:
             result = result.split(start)[1]

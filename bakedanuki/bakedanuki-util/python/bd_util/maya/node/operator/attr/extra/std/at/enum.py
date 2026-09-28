@@ -14,6 +14,8 @@ P = TypeVar("P", bound="EnumPlugOperator[Any]")
 
 
 class ExtraEnumField(EnumField[EnumAttrOperator[P], P]):
+    """`EnumField` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[EnumAttrOperator[P]], EnumAttrOperator)

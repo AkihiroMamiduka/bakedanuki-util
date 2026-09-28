@@ -13,6 +13,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
+    """`string` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> str:
@@ -57,6 +59,8 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
 
 
 class DataStringAttrOperator(DataTypeAttrOperator[DataStringPlugOperator]):
+    """`string` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "string"
@@ -65,6 +69,8 @@ class DataStringAttrOperator(DataTypeAttrOperator[DataStringPlugOperator]):
 class DataStringField(
     DataTypeField[DataStringAttrOperator, DataStringPlugOperator]
 ):
+    """`string` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataStringAttrOperator

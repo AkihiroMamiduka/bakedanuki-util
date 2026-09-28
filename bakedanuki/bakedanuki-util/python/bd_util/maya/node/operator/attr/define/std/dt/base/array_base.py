@@ -30,6 +30,8 @@ _ArrayFactory = Callable[[list[T]], object]
 
 
 class DataArrayBasePlugOperator(DataTypePlugOperator[A]):
+    """配列データの読み書きを共通化するプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     def _get_array_data(
@@ -75,12 +77,16 @@ class DataArrayBasePlugOperator(DataTypePlugOperator[A]):
 
 
 class DataArrayBaseAttrOperator(DataTypeAttrOperator[P]):
+    """配列データ属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
     DATA_TYPE = "abc"
 
 
 class DataArrayBaseField(DataTypeField[A, P]):
+    """配列データ属性の定義とプラグ操作を結ぶ基底ディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], DataArrayBaseAttrOperator)

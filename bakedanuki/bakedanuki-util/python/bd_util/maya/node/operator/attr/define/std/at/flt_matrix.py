@@ -5,6 +5,8 @@ from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
 class FltMatrixPlugOperator(PlugOperator["FltMatrixAttrOperator"]):
+    """Maya の `fltMatrix` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> om.MFloatMatrix:
@@ -46,6 +48,8 @@ class FltMatrixPlugOperator(PlugOperator["FltMatrixAttrOperator"]):
 
 
 class FltMatrixAttrOperator(AttrOperator[FltMatrixPlugOperator]):
+    """Maya の `fltMatrix` 属性定義を表す。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "fltMatrix"
@@ -54,6 +58,8 @@ class FltMatrixAttrOperator(AttrOperator[FltMatrixPlugOperator]):
 class FltMatrixField(
     AttributeField[FltMatrixAttrOperator, FltMatrixPlugOperator]
 ):
+    """ノードクラスに `fltMatrix` 属性を定義する。"""
+
     __slots__ = ()
 
     ATTR_CLS = FltMatrixAttrOperator

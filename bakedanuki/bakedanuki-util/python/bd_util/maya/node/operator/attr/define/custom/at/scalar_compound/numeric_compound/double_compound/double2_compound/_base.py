@@ -18,18 +18,24 @@ class Double2CompoundBasePlugOperator(
     RoundCompoundPlugOperatorMixin,
     DoubleCompoundBasePlugOperator[A, Double2],
 ):
+    """2 成分の double 型 compound 属性の値を読み書きするプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     VALUE_TYPE = Double2
 
 
 class Double2CompoundBaseAttrOperator(DoubleCompoundBaseAttrOperator[P]):
+    """2 成分の double 型 compound 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "double2"
 
 
 class Double2CompoundBaseField(DoubleCompoundBaseField[A, P]):
+    """2 成分の double 型 compound 属性の定義とプラグ操作を結ぶ基底クラス。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], Double2CompoundBaseAttrOperator)

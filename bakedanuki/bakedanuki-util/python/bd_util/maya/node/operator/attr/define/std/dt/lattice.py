@@ -7,6 +7,8 @@ from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 
 class DataLatticePlugOperator(DataTypePlugOperator["DataLatticeAttrOperator"]):
+    """`lattice` データプラグを扱う。"""
+
     __slots__ = ()
 
     def add_attr(self):
@@ -15,6 +17,8 @@ class DataLatticePlugOperator(DataTypePlugOperator["DataLatticeAttrOperator"]):
 
 
 class DataLatticeAttrOperator(DataTypeAttrOperator[DataLatticePlugOperator]):
+    """`lattice` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "lattice"
@@ -23,6 +27,8 @@ class DataLatticeAttrOperator(DataTypeAttrOperator[DataLatticePlugOperator]):
 class DataLatticeField(
     DataTypeField[DataLatticeAttrOperator, DataLatticePlugOperator]
 ):
+    """`lattice` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataLatticeAttrOperator

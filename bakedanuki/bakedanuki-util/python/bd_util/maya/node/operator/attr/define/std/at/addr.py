@@ -5,6 +5,8 @@ from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
 class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
+    """Maya の `addr` 属性プラグを操作する。"""
+
     __slots__ = ("_data_handle",)
 
     _REQUIRED_CMDS_ADD_ATTR: bool = True
@@ -58,12 +60,16 @@ class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
 
 
 class AddrAttrOperator(AttrOperator[AddrPlugOperator]):
+    """Maya の `addr` 属性定義を表す。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "addr"
 
 
 class AddrField(AttributeField[AddrAttrOperator, AddrPlugOperator]):
+    """ノードクラスに `addr` 属性を定義する。"""
+
     __slots__ = ()
 
     ATTR_CLS = AddrAttrOperator

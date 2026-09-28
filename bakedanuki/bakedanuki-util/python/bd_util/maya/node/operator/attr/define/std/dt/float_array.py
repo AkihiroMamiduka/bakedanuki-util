@@ -27,6 +27,8 @@ _set_float_array_attr = cast(_SetFloatArrayAttr, cmds.setAttr)
 class DataFloatArrayPlugOperator(
     DataArrayBasePlugOperator["DataFloatArrayAttrOperator"]
 ):
+    """`floatArray` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[float]:
@@ -77,6 +79,8 @@ class DataFloatArrayPlugOperator(
 class DataFloatArrayAttrOperator(
     DataArrayBaseAttrOperator[DataFloatArrayPlugOperator]
 ):
+    """`floatArray` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "floatArray"
@@ -85,6 +89,8 @@ class DataFloatArrayAttrOperator(
 class DataFloatArrayField(
     DataArrayBaseField[DataFloatArrayAttrOperator, DataFloatArrayPlugOperator]
 ):
+    """`floatArray` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataFloatArrayAttrOperator

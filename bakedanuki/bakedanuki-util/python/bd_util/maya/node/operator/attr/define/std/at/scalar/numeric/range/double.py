@@ -15,6 +15,8 @@ class DoublePlugOperator(
     RoundScalarPlugOperatorMixin,
     NumericRangeBasePlugOperator["DoubleAttrOperator"],
 ):
+    """`double` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> float:
@@ -40,6 +42,8 @@ class DoublePlugOperator(
 
 
 class DoubleAttrOperator(NumericRangeBaseAttrOperator[DoublePlugOperator]):
+    """`double` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "double"
@@ -63,6 +67,8 @@ class DoubleAttrOperator(NumericRangeBaseAttrOperator[DoublePlugOperator]):
 class DoubleField(
     NumericRangeBaseField[DoubleAttrOperator, DoublePlugOperator]
 ):
+    """`double` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DoubleAttrOperator

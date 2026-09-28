@@ -12,6 +12,8 @@ from .base.numeric_base import (
 class DataSpectrumRGBPlugOperator(
     DataNumericBasePlugOperator["DataSpectrumRGBAttrOperator", float]
 ):
+    """`spectrumRGB` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[float]:
@@ -33,6 +35,8 @@ class DataSpectrumRGBPlugOperator(
 class DataSpectrumRGBAttrOperator(
     DataNumericBaseAttrOperator[DataSpectrumRGBPlugOperator]
 ):
+    """`spectrumRGB` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "spectrumRGB"
@@ -43,6 +47,8 @@ class DataSpectrumRGBField(
         DataSpectrumRGBAttrOperator, DataSpectrumRGBPlugOperator
     ]
 ):
+    """`spectrumRGB` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataSpectrumRGBAttrOperator

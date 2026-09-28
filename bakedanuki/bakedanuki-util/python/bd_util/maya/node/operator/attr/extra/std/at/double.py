@@ -5,6 +5,8 @@ from ....define.std.at.scalar.numeric.range.double import DoubleField
 
 
 class ExtraDoubleField(DoubleField):
+    """`DoubleField` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

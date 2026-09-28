@@ -12,6 +12,8 @@ from .base.array_base import (
 class DataDoubleArrayPlugOperator(
     DataArrayBasePlugOperator["DataDoubleArrayAttrOperator"]
 ):
+    """`doubleArray` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[float]:
@@ -36,6 +38,8 @@ class DataDoubleArrayPlugOperator(
 class DataDoubleArrayAttrOperator(
     DataArrayBaseAttrOperator[DataDoubleArrayPlugOperator]
 ):
+    """`doubleArray` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "doubleArray"
@@ -46,6 +50,8 @@ class DataDoubleArrayField(
         DataDoubleArrayAttrOperator, DataDoubleArrayPlugOperator
     ]
 ):
+    """`doubleArray` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataDoubleArrayAttrOperator

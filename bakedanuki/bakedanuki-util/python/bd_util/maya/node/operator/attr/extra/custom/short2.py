@@ -7,6 +7,8 @@ from ...define.custom import (
 
 
 class ExtraShort2Field(Short2Field):
+    """`Short2Field` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

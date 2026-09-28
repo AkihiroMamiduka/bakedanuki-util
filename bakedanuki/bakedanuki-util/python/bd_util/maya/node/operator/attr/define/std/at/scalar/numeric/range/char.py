@@ -11,6 +11,8 @@ from ._base import (
 
 
 class CharPlugOperator(NumericRangeBasePlugOperator["CharAttrOperator"]):
+    """`char` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> str:
@@ -36,6 +38,8 @@ class CharPlugOperator(NumericRangeBasePlugOperator["CharAttrOperator"]):
 
 
 class CharAttrOperator(NumericRangeBaseAttrOperator[CharPlugOperator]):
+    """`char` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "char"
@@ -57,6 +61,8 @@ class CharAttrOperator(NumericRangeBaseAttrOperator[CharPlugOperator]):
 
 
 class CharField(NumericRangeBaseField[CharAttrOperator, CharPlugOperator]):
+    """`char` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = CharAttrOperator

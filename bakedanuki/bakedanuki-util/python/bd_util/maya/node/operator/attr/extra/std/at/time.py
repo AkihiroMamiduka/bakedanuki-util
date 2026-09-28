@@ -5,6 +5,8 @@ from ....define.std.at.scalar.unit.time import TimeField
 
 
 class ExtraTimeField(TimeField):
+    """`TimeField` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

@@ -11,6 +11,8 @@ from ._base import (
 
 
 class BytePlugOperator(NumericRangeBasePlugOperator["ByteAttrOperator"]):
+    """`byte` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> int:
@@ -36,6 +38,8 @@ class BytePlugOperator(NumericRangeBasePlugOperator["ByteAttrOperator"]):
 
 
 class ByteAttrOperator(NumericRangeBaseAttrOperator[BytePlugOperator]):
+    """`byte` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "byte"
@@ -57,6 +61,8 @@ class ByteAttrOperator(NumericRangeBaseAttrOperator[BytePlugOperator]):
 
 
 class ByteField(NumericRangeBaseField[ByteAttrOperator, BytePlugOperator]):
+    """`byte` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = ByteAttrOperator

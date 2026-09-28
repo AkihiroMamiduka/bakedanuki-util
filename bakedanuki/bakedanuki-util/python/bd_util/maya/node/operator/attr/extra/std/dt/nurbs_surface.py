@@ -5,6 +5,8 @@ from ....define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
 class ExtraDataNurbsSurfaceField(DataNurbsSurfaceField):
+    """`DataNurbsSurfaceField` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

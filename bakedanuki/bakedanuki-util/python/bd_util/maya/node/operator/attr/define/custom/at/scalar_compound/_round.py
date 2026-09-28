@@ -17,6 +17,8 @@ class _RoundCompoundTarget(Protocol):
 
 
 class RoundCompoundPlugOperatorMixin:
+    """浮動小数点 compound 属性の成分を丸める機能を追加する。"""
+
     __slots__ = ()
 
     def round(self, ndigits: int = 0) -> None:

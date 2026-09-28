@@ -88,12 +88,16 @@ class DataTypePlugOperator(PlugOperator[A]):
 
 
 class DataTypeAttrOperator(AttrOperator[P]):
+    """Maya の typed data 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "typed"
 
 
 class DataTypeField(AttributeField[A, P]):
+    """typed data 属性の定義とプラグ操作を結ぶ基底ディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], DataTypeAttrOperator)

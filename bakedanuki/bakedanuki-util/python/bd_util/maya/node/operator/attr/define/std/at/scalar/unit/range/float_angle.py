@@ -12,6 +12,8 @@ from ._base import (
 class FloatAnglePlugOperator(
     UnitRangeBasePlugOperator["FloatAngleAttrOperator"]
 ):
+    """`floatAngle` 属性プラグを操作する。"""
+
     __slots__ = ()
 
     def get(self) -> float:
@@ -43,6 +45,8 @@ class FloatAnglePlugOperator(
 class FloatAngleAttrOperator(
     UnitRangeBaseAttrOperator[FloatAnglePlugOperator]
 ):
+    """`floatAngle` 属性の定義を保持する。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "floatAngle"
@@ -51,6 +55,8 @@ class FloatAngleAttrOperator(
 class FloatAngleField(
     UnitRangeBaseField[FloatAngleAttrOperator, FloatAnglePlugOperator]
 ):
+    """`floatAngle` 属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = FloatAngleAttrOperator

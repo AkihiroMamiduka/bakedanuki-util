@@ -12,6 +12,8 @@ from .base.array_base import (
 class DataVectorArrayPlugOperator(
     DataArrayBasePlugOperator["DataVectorArrayAttrOperator"]
 ):
+    """`vectorArray` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[tuple[float, float, float]]:
@@ -48,6 +50,8 @@ class DataVectorArrayPlugOperator(
 class DataVectorArrayAttrOperator(
     DataArrayBaseAttrOperator[DataVectorArrayPlugOperator]
 ):
+    """`vectorArray` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "vectorArray"
@@ -58,6 +62,8 @@ class DataVectorArrayField(
         DataVectorArrayAttrOperator, DataVectorArrayPlugOperator
     ]
 ):
+    """`vectorArray` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataVectorArrayAttrOperator

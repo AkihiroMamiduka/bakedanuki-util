@@ -12,6 +12,8 @@ P = TypeVar("P", bound="CompoundPlugOperator[Any]")
 
 
 class ExtraCompoundField(CompoundField[CompoundAttrOperator[P], P]):
+    """`CompoundField` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[CompoundAttrOperator[P]], CompoundAttrOperator)

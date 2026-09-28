@@ -7,6 +7,8 @@ from ...define.custom import (
 
 
 class ExtraFloatLinear3Field(FloatLinear3Field):
+    """`FloatLinear3Field` を追加属性として扱うフィールド。"""
+
     __slots__ = ()
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

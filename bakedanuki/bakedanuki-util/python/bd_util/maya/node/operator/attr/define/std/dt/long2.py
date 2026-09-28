@@ -12,6 +12,8 @@ from .base.numeric_base import (
 class DataLong2PlugOperator(
     DataNumericBasePlugOperator["DataLong2AttrOperator", int]
 ):
+    """`long2` データプラグを扱う。"""
+
     __slots__ = ()
 
     def get(self) -> list[int]:
@@ -33,6 +35,8 @@ class DataLong2PlugOperator(
 class DataLong2AttrOperator(
     DataNumericBaseAttrOperator[DataLong2PlugOperator]
 ):
+    """`long2` データ属性の定義を保持する。"""
+
     __slots__ = ()
 
     DATA_TYPE = "long2"
@@ -41,6 +45,8 @@ class DataLong2AttrOperator(
 class DataLong2Field(
     DataNumericBaseField[DataLong2AttrOperator, DataLong2PlugOperator]
 ):
+    """`long2` データ属性の定義とプラグ操作を結ぶディスクリプタ。"""
+
     __slots__ = ()
 
     ATTR_CLS = DataLong2AttrOperator

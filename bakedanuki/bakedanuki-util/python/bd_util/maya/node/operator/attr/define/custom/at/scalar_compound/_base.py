@@ -450,12 +450,16 @@ class ScalarCompoundBasePlugOperator(
 
 
 class ScalarCompoundBaseAttrOperator(AttrOperator[P]):
+    """scalar 子属性から成る compound 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
     ATTR_TYPE = "abc"
 
 
 class ScalarCompoundBaseField(AttributeField[A, P]):
+    """scalar 子属性から成る compound 属性の定義とプラグ操作を結ぶ基底クラス。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], ScalarCompoundBaseAttrOperator)

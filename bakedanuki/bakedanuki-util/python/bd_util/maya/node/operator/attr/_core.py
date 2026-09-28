@@ -25,6 +25,7 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class AccessMeta(type):
+    """属性クラスへの添字アクセスで同名のクラス属性を返す。"""
 
     def __getitem__(cls, key: str):
         return getattr(cls, key)

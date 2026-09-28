@@ -28,16 +28,22 @@ class UnitCompoundBasePlugOperator(
     RoundCompoundPlugOperatorMixin,
     ScalarCompoundBasePlugOperator[A, V, float],
 ):
+    """単位付き compound 属性の値を読み書きするプラグ操作の基底クラス。"""
+
     __slots__ = ()
 
     CHILD_M_FN = om.MFnUnitAttribute
 
 
 class UnitCompoundBaseAttrOperator(ScalarCompoundBaseAttrOperator[P]):
+    """単位付き compound 属性の定義を保持する基底クラス。"""
+
     __slots__ = ()
 
 
 class UnitCompoundBaseField(ScalarCompoundBaseField[A, P]):
+    """単位付き compound 属性の定義とプラグ操作を結ぶ基底クラス。"""
+
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], UnitCompoundBaseAttrOperator)
