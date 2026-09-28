@@ -1307,6 +1307,39 @@ rollbackします。影響度0の端点キーもこの検査に含めます。
 保証しません。補間範囲外でも隣接区間の評価値が変わる場合があります。
 対象resolver・lock / reference検査・queryの非実行・Undo / Redoは通常の移動と共通です。
 
+#### node・複数nodeの既存キーをまとめて移動する
+
+`node.keyframes.move_frames()` / `nodes.keyframes.move_frames([...])`は、選択した属性の
+TA / TL / TU既存カーブを一括で時間方向へ移動します。公開引数はplug版の
+`move_frames()`に`attributes` / `include_channel_box`を追加した形で、複数node版は
+先頭に`nodes: Iterable[NodeOperator | om.MObject | str]`を取ります。戻り値は`None`です。
+
+```python
+ctrl_a.keyframes.move_frames(10, 20, attributes=["translate", "rotate"], offset=5)
+nodes.keyframes.move_frames([ctrl_a, ctrl_b], to_start=100)
+mod.do_it_dg()
+```
+
+両端包含範囲、片側・両側の省略、移動方法の排他指定、予約時のUI時間単位捕捉、
+`linear` / `smoothstep`の補間はplug版と共通です。明示した`start_frame` / `end_frame`は
+その数値を絶対移動の基準にします。`start_frame=None`の`to_start`は全対象カーブの
+主区間で最も早いキー、`end_frame=None`の`to_end`は最も遅いキーを共通基準にして、
+全カーブへ同じ基本移動量を適用します。`insert_missing=True`で補う主区間の明示境界は
+基準候補に含め、補間区間だけのキーは含めません。全体に基準候補がなければno-opです。
+補間区間のキーには元時刻から計算した影響度を個別に掛けます。
+
+属性の自動収集、`include_channel_box`、明示compound / array、複数nodeの属性名のunion、
+root / 明示layerと上流探索はnode単位の削除・削減と同じです。bool・enum・整数系も
+既存の離散値カーブとして移動し、接線型を変更しません。カーブなし・空カーブはno-opです。
+`insert_missing=True`では各既存の非空カーブへ明示した最大4境界だけを補い、カーブは
+作成しません。移動量0では境界も補いません。
+
+全対象の書込み検査、共有カーブの重複排除、境界と移動先・衝突・順序逆転の計画を
+先に完了します。対象キー同士の衝突・順序逆転は各カーブ内で拒否し、対象外キーとの
+同時刻衝突は移動キーで置換します。全カーブを一つの`MAnimCurveChange`で適用し、
+Undo / Redoと途中失敗時のrollbackをまとめて扱います。同じmanagerへ先に予約した
+ベイクや`AnimationClip.restore()`が作成したカーブも実行時に解決します。
+
 ### キーを時間方向へ拡縮する
 
 `scale_frames(start_frame=None, end_frame=None, *, scale=None, duration=None,

@@ -223,6 +223,64 @@ def test_move_frames_uses_maya_undo_redo_and_command_failure_rollback(
 
 
 @pytest.mark.parametrize("fail", [False, True])
+@pytest.mark.parametrize("interpolate", [False, True])
+def test_node_move_frames_uses_maya_undo_redo_and_failure_rollback(
+    move_test_plugin, new_scene, maya_cmds, fail, interpolate
+):
+    import bd_util as bdu
+
+    name = maya_cmds.createNode("transform")
+    for channel in ("tx", "ty"):
+        for frame, value in ((0, 0), (10, 4), (20, 2), (30, 7)):
+            maya_cmds.setKeyframe(
+                name + "." + channel, time=frame, value=value
+            )
+    node = bdu.Nodes().existing.transform(name)
+    before = (
+        node.tx.keyframe.get_curve_data(),
+        node.ty.keyframe.get_curve_data(),
+    )
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterMoveNodeKeyframes"
+            if fail
+            else "bduTestMpxMoveNodeKeyframes"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional node keyframe move failure"
+        ):
+            command(nodeName=name, interpolate=interpolate)
+        assert (
+            node.tx.keyframe.get_curve_data(),
+            node.ty.keyframe.get_curve_data(),
+        ) == before
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+
+    command(nodeName=name, interpolate=interpolate)
+    after = (
+        node.tx.keyframe.get_curve_data(),
+        node.ty.keyframe.get_curve_data(),
+    )
+    assert after != before
+    for _ in range(2):
+        maya_cmds.undo()
+        assert (
+            node.tx.keyframe.get_curve_data(),
+            node.ty.keyframe.get_curve_data(),
+        ) == before
+        maya_cmds.redo()
+        assert (
+            node.tx.keyframe.get_curve_data(),
+            node.ty.keyframe.get_curve_data(),
+        ) == after
+
+
+@pytest.mark.parametrize("fail", [False, True])
 def test_reduce_keys_uses_maya_undo_redo_and_command_failure_rollback(
     reduce_test_plugin, maya_cmds, fail
 ):

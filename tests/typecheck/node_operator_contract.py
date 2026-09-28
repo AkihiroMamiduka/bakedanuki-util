@@ -5299,6 +5299,21 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         ),
         None,
     )
+    assert_type(node.keyframes.move_frames(offset=5), None)
+    assert_type(
+        node.keyframes.move_frames(
+            -10.5,
+            24.25,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            to_start=100,
+            interpolate_start=-20,
+            interpolation="linear",
+            insert_missing=True,
+        ),
+        None,
+    )
+    assert_type(node.keyframes.anim_layer(layer).move_frames(to_end=50), None)
     assert_type(
         node.keyframes.reduce_keys(
             -10.5,
@@ -5380,6 +5395,26 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
+        nodes.keyframes.move_frames(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            offset=5,
+            interpolate_end=30,
+            insert_missing=True,
+        ),
+        None,
+    )
+    assert_type(nodes.keyframes.move_frames([node], to_start=0), None)
+    assert_type(
+        nodes.keyframes.anim_layer(layer).move_frames(
+            [node, "other"], to_end=50
+        ),
+        None,
+    )
+    assert_type(
         nodes.keyframes.reduce_keys(
             [node, node.m_obj, "other"],
             1,
@@ -5442,6 +5477,17 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         override="bad"  # pyright: ignore[reportArgumentType]
     )
     node.tx.keyframe.anim_layer(node)  # pyright: ignore[reportArgumentType]
+    node.keyframes.move_frames()  # pyright: ignore[reportCallIssue]
+    node.keyframes.move_frames(  # pyright: ignore[reportCallIssue]
+        offset=1, to_end=2  # pyright: ignore[reportArgumentType]
+    )
+    node.keyframes.move_frames(
+        offset=1, interpolation="cubic"  # pyright: ignore[reportArgumentType]
+    )
+    nodes.keyframes.move_frames([node])  # pyright: ignore[reportCallIssue]
+    nodes.keyframes.move_frames(
+        [node], offset=1, attributes=[1]  # pyright: ignore[reportArgumentType]
+    )
 
 
 def scalar_base_contract(

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal, overload
 
 from maya import cmds
 from maya.api import OpenMaya as om
@@ -13,6 +13,7 @@ from ..attr import (
     _keyframe_bake,
     _keyframe_delete,
     _keyframe_euler,
+    _keyframe_move,
     _keyframe_reduce,
     _keyframe_snapshot,
     _keyframe_tangent,
@@ -631,6 +632,136 @@ class NodeKeyframeManager:
             resolve_targets,
             start_frame,
             end_frame,
+        )
+
+    @overload
+    def move_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        offset: float,
+        to_start: None = None,
+        to_end: None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def move_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        offset: None = None,
+        to_start: float,
+        to_end: None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def move_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        offset: None = None,
+        to_start: None = None,
+        to_end: float,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    def move_frames(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        offset: float | None = None,
+        to_start: float | None = None,
+        to_end: float | None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """選択した属性の既存キーを一つの操作として時間方向へ移動する。
+
+        時刻と移動量は予約時の UI 時間単位で捕捉する。省略した絶対移動の
+        基準は全対象カーブの主区間で共通とする。変更は実行まで保留する。
+
+        Args:
+            start_frame: 元範囲の開始。省略時は制限しない。
+            end_frame: 元範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            offset: 相対移動量。`to_start` / `to_end` と同時指定不可。
+            to_start: 開始境界の移動先。省略境界には全対象の最初のキーを使う。
+            to_end: 終了境界の移動先。省略境界には全対象の最後のキーを使う。
+            interpolate_start: 移動量を徐々に増やす外側の開始時刻。
+            interpolate_end: 移動量を徐々に減らす外側の終了時刻。
+            interpolation: 影響度の補間方法。
+            insert_missing: 既存カーブへ明示境界のキーを補うか。
+        """
+        if isinstance(attributes, str):
+            raise TypeError("attributes must be an iterable of names or None.")
+        attrs = (
+            None
+            if attributes is None
+            else tuple(_literal_attribute(value) for value in attributes)
+        )
+        if type(include_channel_box) is not bool:
+            raise TypeError("include_channel_box must be a bool.")
+        node_handle = self._node_handle
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> tuple[_keyframe_target.Target, ...]:
+            if not node_handle.isAlive() or not node_handle.isValid():
+                raise RuntimeError("The keyframe move node is not available.")
+            layer, layer_name, root_name = _resolve_layer(layer_handle)
+            found, _ = _collect_targets(
+                node_handle.object(),
+                attrs,
+                include_channel_box,
+                layer,
+                layer_name,
+                root_name,
+                allow_missing=False,
+            )
+            return tuple(
+                target
+                for target, _ in _existing_curve_targets(
+                    found, automatic=attrs is None
+                )
+            )
+
+        _keyframe_move.queue_move_batch(
+            self._modifier_manager,
+            resolve_targets,
+            start_frame,
+            end_frame,
+            offset_frames=offset,
+            to_start_frame=to_start,
+            to_end_frame=to_end,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
+            insert_missing=insert_missing,
         )
 
     def reduce_keys(
@@ -1319,6 +1450,182 @@ class NodesKeyframeManager:
             resolve_targets,
             start_frame,
             end_frame,
+        )
+
+    @overload
+    def move_frames(
+        self,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        offset: float,
+        to_start: None = None,
+        to_end: None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def move_frames(
+        self,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        offset: None = None,
+        to_start: float,
+        to_end: None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    @overload
+    def move_frames(
+        self,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        offset: None = None,
+        to_start: None = None,
+        to_end: float,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None: ...
+
+    def move_frames(
+        self,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        attributes: Iterable[str] | None = None,
+        include_channel_box: bool = False,
+        offset: float | None = None,
+        to_start: float | None = None,
+        to_end: float | None = None,
+        interpolate_start: float | None = None,
+        interpolate_end: float | None = None,
+        interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+        insert_missing: bool = False,
+    ) -> None:
+        """複数ノードの既存キーを共通基準で時間方向へ移動する。
+
+        時刻と移動量は予約時の UI 時間単位で捕捉する。変更は実行まで保留する。
+
+        Args:
+            nodes: 対象ノードの iterable。1 個以上指定する。
+            start_frame: 元範囲の開始。省略時は制限しない。
+            end_frame: 元範囲の終了。省略時は制限しない。
+            attributes: 対象属性名。省略時は keyable 属性を自動収集する。
+            include_channel_box: 自動収集時に Channel Box 属性も含めるか。
+            offset: 相対移動量。`to_start` / `to_end` と同時指定不可。
+            to_start: 開始境界の移動先。省略境界には全対象の最初のキーを使う。
+            to_end: 終了境界の移動先。省略境界には全対象の最後のキーを使う。
+            interpolate_start: 移動量を徐々に増やす外側の開始時刻。
+            interpolate_end: 移動量を徐々に減らす外側の終了時刻。
+            interpolation: 影響度の補間方法。
+            insert_missing: 既存カーブへ明示境界のキーを補うか。
+        """
+        from ._core import NodeOperator
+
+        if isinstance(nodes, (str, NodeOperator, om.MObject)):
+            raise TypeError("nodes must be an iterable of nodes.")
+        try:
+            values = tuple(nodes)
+        except TypeError as exc:
+            raise TypeError("nodes must be an iterable of nodes.") from exc
+        if not values:
+            raise ValueError("nodes must contain at least one node.")
+        node_handles: list[om.MObjectHandle] = []
+        unique_handles: set[om.MObjectHandle] = set()
+        for value in values:
+            handle = om.MObjectHandle(node_object(value))
+            if handle in unique_handles:
+                raise ValueError("Duplicate keyframe move node.")
+            unique_handles.add(handle)
+            node_handles.append(handle)
+
+        if isinstance(attributes, str):
+            raise TypeError("attributes must be an iterable of names or None.")
+        attrs = (
+            None
+            if attributes is None
+            else tuple(
+                dict.fromkeys(
+                    _literal_attribute(value) for value in attributes
+                )
+            )
+        )
+        if type(include_channel_box) is not bool:
+            raise TypeError("include_channel_box must be a bool.")
+        handles = tuple(node_handles)
+        layer_handle = self._layer_handle
+
+        def resolve_targets() -> tuple[_keyframe_target.Target, ...]:
+            layer, layer_name, root_name = _resolve_layer(layer_handle)
+            found: list[tuple[_keyframe_target.Target, om.MPlug]] = []
+            matched: set[str] = set()
+            for handle in handles:
+                if not handle.isAlive() or not handle.isValid():
+                    raise RuntimeError(
+                        "A keyframe move node is not available in the scene."
+                    )
+                targets, names = _collect_targets(
+                    handle.object(),
+                    attrs,
+                    include_channel_box,
+                    layer,
+                    layer_name,
+                    root_name,
+                    allow_missing=True,
+                )
+                found.extend(targets)
+                matched.update(names)
+            if attrs is not None:
+                missing = tuple(
+                    attribute
+                    for attribute in attrs
+                    if attribute not in matched
+                )
+                if missing:
+                    joined = ", ".join(repr(value) for value in missing)
+                    raise ValueError(
+                        "Animation attributes do not exist on any selected "
+                        f"node: {joined}."
+                    )
+            return tuple(
+                target
+                for target, _ in _existing_curve_targets(
+                    tuple(found), automatic=attrs is None
+                )
+            )
+
+        _keyframe_move.queue_move_batch(
+            self._modifier_manager,
+            resolve_targets,
+            start_frame,
+            end_frame,
+            offset_frames=offset,
+            to_start_frame=to_start,
+            to_end_frame=to_end,
+            interpolate_start=interpolate_start,
+            interpolate_end=interpolate_end,
+            interpolation=interpolation,
+            insert_missing=insert_missing,
         )
 
     def reduce_keys(

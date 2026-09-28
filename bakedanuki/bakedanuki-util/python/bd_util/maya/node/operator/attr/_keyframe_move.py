@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 from bisect import bisect_left, bisect_right
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Literal
 
@@ -167,9 +168,11 @@ def insert_boundaries(
     curve: oma.MFnAnimCurve,
     times: list[om.MTime],
     change: oma.MAnimCurveChange,
+    samples: tuple[tuple[om.MTime, float | om.MTime], ...] | None = None,
 ) -> None:
     # 範囲外のキーを追加すると cycle infinity の周期が変わるため、先に値を採取する。
-    samples = [(time, curve.evaluate(time)) for time in times]
+    if samples is None:
+        samples = tuple((time, curve.evaluate(time)) for time in times)
     for time, _ in samples:
         curve.insertKey(time, False, change)
     for time, value in samples:
@@ -211,22 +214,39 @@ def _set_inputs(
             )
 
 
-def _move(
+@dataclass(frozen=True)
+class _MoveSelection:
+    curve: oma.MFnAnimCurve
+    times: tuple[om.MTime, ...]
+    core: tuple[om.MTime, ...]
+    missing: tuple[om.MTime, ...]
+    selected: tuple[om.MTime, ...]
+
+
+@dataclass(frozen=True)
+class _MovePlan:
+    selection: _MoveSelection
+    samples: tuple[tuple[om.MTime, float | om.MTime], ...]
+    virtual_times: tuple[om.MTime, ...]
+    first: int
+    stop: int
+    destinations: tuple[om.MTime, ...]
+    collisions: tuple[int, ...]
+    use_set_inputs: bool
+
+
+def _select_keys(
     curve: oma.MFnAnimCurve,
     influence: Influence,
-    offset: om.MTime | None,
-    to_start: om.MTime | None,
-    to_end: om.MTime | None,
     insert_missing: bool,
-    change: oma.MAnimCurveChange,
-) -> None:
+) -> _MoveSelection:
     if not curve.numKeys:
-        return
+        return _MoveSelection(curve, (), (), (), ())
     start, end = influence.start, influence.end
-    times = [curve.input(i) for i in range(curve.numKeys)]
+    times = tuple(curve.input(i) for i in range(curve.numKeys))
     first = 0 if start is None else bisect_left(times, start)
     stop = len(times) if end is None else bisect_right(times, end)
-    core = times[first:stop]
+    core = list(times[first:stop])
     missing: list[om.MTime] = []
     if insert_missing:
         for boundary in influence.boundaries:
@@ -243,30 +263,60 @@ def _move(
     low, high = influence.low, influence.high
     first = 0 if low is None else bisect_left(times, low)
     stop = len(times) if high is None else bisect_right(times, high)
-    selected = times[first:stop]
+    selected = list(times[first:stop])
     for boundary in missing:
         selected.insert(bisect_left(selected, boundary), boundary)
-    if not selected:
-        return
+    return _MoveSelection(
+        curve, times, tuple(core), tuple(missing), tuple(selected)
+    )
+
+
+def _move_offset(
+    selections: tuple[_MoveSelection, ...],
+    influence: Influence,
+    offset: om.MTime | None,
+    to_start: om.MTime | None,
+    to_end: om.MTime | None,
+) -> om.MTime | None:
     if offset is None:
         if to_start is not None:
             destination = to_start
-            if start is None and not core:
-                return
-            anchor = start if start is not None else core[0]
+            if influence.start is not None:
+                anchor = influence.start
+            else:
+                anchors = tuple(
+                    time for selection in selections for time in selection.core
+                )
+                if not anchors:
+                    return None
+                anchor = min(anchors)
         else:
             assert to_end is not None
             destination = to_end
-            if end is None and not core:
-                return
-            anchor = end if end is not None else core[-1]
+            if influence.end is not None:
+                anchor = influence.end
+            else:
+                anchors = tuple(
+                    time for selection in selections for time in selection.core
+                )
+                if not anchors:
+                    return None
+                anchor = max(anchors)
         offset = checked_time(
             destination - anchor,
             destination.asUnits(om.MTime.kSeconds)
             - anchor.asUnits(om.MTime.kSeconds),
         )
-    if offset == om.MTime(0, om.MTime.kSeconds):
-        return
+    return offset
+
+
+def _plan_move(
+    selection: _MoveSelection,
+    influence: Influence,
+    offset: om.MTime,
+) -> _MovePlan | None:
+    if not selection.selected or offset == om.MTime(0, om.MTime.kSeconds):
+        return None
     seconds_offset = offset.asUnits(om.MTime.kSeconds)
 
     def destination_time(time: om.MTime) -> om.MTime:
@@ -283,26 +333,60 @@ def _move(
             time.asUnits(om.MTime.kSeconds) + seconds_offset * weight,
         )
 
-    destinations = tuple(destination_time(time) for time in selected)
+    destinations = tuple(destination_time(time) for time in selection.selected)
     if any(a >= b for a, b in zip(destinations, destinations[1:])):
         raise ValueError("Moved keys coincide or change order.")
 
-    insert_boundaries(curve, missing, change)
-    times = [curve.input(i) for i in range(curve.numKeys)]
-    first = 0 if low is None else bisect_left(times, low)
-    stop = len(times) if high is None else bisect_right(times, high)
-    indices = range(first, stop)
-    if times[first:stop] != selected:
+    virtual_times = tuple(sorted((*selection.times, *selection.missing)))
+    low, high = influence.low, influence.high
+    first = 0 if low is None else bisect_left(virtual_times, low)
+    stop = (
+        len(virtual_times)
+        if high is None
+        else bisect_right(virtual_times, high)
+    )
+    if virtual_times[first:stop] != selection.selected:
+        raise RuntimeError(
+            "The planned boundary keys do not match the selection."
+        )
+    collisions: set[int] = set()
+    for destination in destinations:
+        index = bisect_left(virtual_times, destination)
+        if (
+            index < len(virtual_times)
+            and virtual_times[index] == destination
+            and not first <= index < stop
+        ):
+            collisions.add(index)
+    final_times = virtual_times[:first] + destinations + virtual_times[stop:]
+    samples = tuple(
+        (time, selection.curve.evaluate(time)) for time in selection.missing
+    )
+    return _MovePlan(
+        selection,
+        samples,
+        virtual_times,
+        first,
+        stop,
+        destinations,
+        tuple(sorted(collisions)),
+        not collisions
+        and all(a < b for a, b in zip(final_times, final_times[1:])),
+    )
+
+
+def _apply_move(plan: _MovePlan, change: oma.MAnimCurveChange) -> None:
+    curve = plan.selection.curve
+    insert_boundaries(
+        curve, list(plan.selection.missing), change, plan.samples
+    )
+    times = tuple(curve.input(i) for i in range(curve.numKeys))
+    if times != plan.virtual_times:
         raise RuntimeError("Maya did not insert the requested boundary keys.")
-    collisions = {
-        index
-        for time in destinations
-        if (index := curve.find(time)) is not None and index not in indices
-    }
-    final_times = times[:first] + list(destinations) + times[stop:]
-    if not collisions and all(
-        a < b for a, b in zip(final_times, final_times[1:])
-    ):
+    first, stop = plan.first, plan.stop
+    indices = range(first, stop)
+    destinations = plan.destinations
+    if plan.use_set_inputs:
         _set_inputs(curve, indices, destinations, change)
         return
 
@@ -311,16 +395,34 @@ def _move(
     ]
     keys = tuple(capture_key(curve, i) for i, _ in moved)
     moved_times = tuple(time for _, time in moved)
-    for index in sorted({i for i, _ in moved} | collisions, reverse=True):
+    for index in sorted(
+        {i for i, _ in moved} | set(plan.collisions), reverse=True
+    ):
         curve.remove(index, change)
     restore_keys(curve, keys, moved_times, change)
     if any(curve.find(time) is None for time in destinations):
         raise RuntimeError("Maya did not restore the moved keys.")
 
 
-def queue_move(
-    manager: ModifierManager,
-    target: _keyframe_target.Target,
+def _move(
+    curve: oma.MFnAnimCurve,
+    influence: Influence,
+    offset: om.MTime | None,
+    to_start: om.MTime | None,
+    to_end: om.MTime | None,
+    insert_missing: bool,
+    change: oma.MAnimCurveChange,
+) -> None:
+    selection = _select_keys(curve, influence, insert_missing)
+    movement = _move_offset((selection,), influence, offset, to_start, to_end)
+    if movement is None:
+        return
+    plan = _plan_move(selection, influence, movement)
+    if plan is not None:
+        _apply_move(plan, change)
+
+
+def _capture_options(
     start_frame: float | None,
     end_frame: float | None,
     *,
@@ -331,7 +433,7 @@ def queue_move(
     interpolate_start: float | None = None,
     interpolate_end: float | None = None,
     interpolation: Literal["linear", "smoothstep"] = "smoothstep",
-) -> None:
+) -> tuple[Influence, om.MTime | None, om.MTime | None, om.MTime | None]:
     unit = om.MTime.uiUnit()
     if (
         sum(
@@ -375,6 +477,34 @@ def queue_move(
         capture_fade(interpolate_end, "interpolate_end"),
         interpolation,
     )
+    return influence, offset, to_start, to_end
+
+
+def queue_move(
+    manager: ModifierManager,
+    target: _keyframe_target.Target,
+    start_frame: float | None,
+    end_frame: float | None,
+    *,
+    offset_frames: float | None,
+    to_start_frame: float | None,
+    to_end_frame: float | None,
+    insert_missing: bool,
+    interpolate_start: float | None = None,
+    interpolate_end: float | None = None,
+    interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+) -> None:
+    influence, offset, to_start, to_end = _capture_options(
+        start_frame,
+        end_frame,
+        offset_frames=offset_frames,
+        to_start_frame=to_start_frame,
+        to_end_frame=to_end_frame,
+        insert_missing=insert_missing,
+        interpolate_start=interpolate_start,
+        interpolate_end=interpolate_end,
+        interpolation=interpolation,
+    )
 
     def edit(change: oma.MAnimCurveChange) -> None:
         curve = _keyframe_target.resolve_curve(target, write=True)
@@ -390,3 +520,68 @@ def queue_move(
             )
 
     manager.queue_anim_curve_change(edit)
+
+
+def queue_move_batch(
+    manager: ModifierManager,
+    resolve_targets: Callable[[], tuple[_keyframe_target.Target, ...]],
+    start_frame: float | None,
+    end_frame: float | None,
+    *,
+    offset_frames: float | None,
+    to_start_frame: float | None,
+    to_end_frame: float | None,
+    insert_missing: bool,
+    interpolate_start: float | None = None,
+    interpolate_end: float | None = None,
+    interpolation: Literal["linear", "smoothstep"] = "smoothstep",
+) -> None:
+    """全カーブの移動を計画してから単一の変更履歴へ予約する。"""
+    influence, offset, to_start, to_end = _capture_options(
+        start_frame,
+        end_frame,
+        offset_frames=offset_frames,
+        to_start_frame=to_start_frame,
+        to_end_frame=to_end_frame,
+        insert_missing=insert_missing,
+        interpolate_start=interpolate_start,
+        interpolate_end=interpolate_end,
+        interpolation=interpolation,
+    )
+
+    def prepare(work: ModifierManager) -> None:
+        curves: list[oma.MFnAnimCurve] = []
+        handles: set[om.MObjectHandle] = set()
+        for target in resolve_targets():
+            curve = _keyframe_target.resolve_curve(target, write=True)
+            if curve is None:
+                continue
+            handle = om.MObjectHandle(curve.object())
+            if handle not in handles:
+                handles.add(handle)
+                curves.append(curve)
+
+        selections = tuple(
+            _select_keys(curve, influence, insert_missing) for curve in curves
+        )
+        movement = _move_offset(
+            selections, influence, offset, to_start, to_end
+        )
+        plans = (
+            ()
+            if movement is None
+            else tuple(
+                plan
+                for selection in selections
+                if (plan := _plan_move(selection, influence, movement))
+                is not None
+            )
+        )
+
+        def edit(change: oma.MAnimCurveChange) -> None:
+            for plan in plans:
+                _apply_move(plan, change)
+
+        work.queue_anim_curve_change(edit)
+
+    manager.queue_dg_batch(prepare)

@@ -64,7 +64,42 @@ class _FailAfterMoveKeyframesCommand(_MoveKeyframesCommand):
         raise RuntimeError("intentional keyframe move failure")
 
 
-COMMAND_TYPES = (_MoveKeyframesCommand, _FailAfterMoveKeyframesCommand)
+class _MoveNodeKeyframesCommand(_MoveKeyframesCommand):
+    COMMAND_NAME = "bduTestMpxMoveNodeKeyframes"
+
+    def execute(self, params: tuple[str, bool]) -> None:
+        name, interpolate = params
+        node = self.nodes.existing.transform(name)
+        if interpolate:
+            node.keyframes.move_frames(
+                10,
+                20,
+                attributes=["tx", "ty"],
+                offset=4,
+                interpolate_start=0,
+                interpolate_end=30,
+            )
+        else:
+            node.keyframes.move_frames(
+                10, 20, attributes=["tx", "ty"], offset=4
+            )
+        self.modifier_manager.do_it_dg()
+
+
+class _FailAfterMoveNodeKeyframesCommand(_MoveNodeKeyframesCommand):
+    COMMAND_NAME = "bduTestMpxFailAfterMoveNodeKeyframes"
+
+    def execute(self, params: tuple[str, bool]) -> None:
+        super().execute(params)
+        raise RuntimeError("intentional node keyframe move failure")
+
+
+COMMAND_TYPES = (
+    _MoveKeyframesCommand,
+    _FailAfterMoveKeyframesCommand,
+    _MoveNodeKeyframesCommand,
+    _FailAfterMoveNodeKeyframesCommand,
+)
 
 
 def maya_useNewAPI() -> None:

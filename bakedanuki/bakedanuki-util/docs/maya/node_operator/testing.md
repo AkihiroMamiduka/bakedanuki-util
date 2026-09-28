@@ -979,6 +979,29 @@ push済みコミットと一時フォルダーで比較し、現在の実装と�
 シーン初期化は各テストで維持し、同じ57件のMPxCommandテストと3,021件の関連テストで
 正常終了を確認しました。テストの除外や終了コードの無視はしていません。
 
+## node・複数nodeのキーフレーム移動の検証
+
+`test_node_keyframe_move.py`では、`node.keyframes.move_frames()`と
+`nodes.keyframes.move_frames([...])`について次の契約を検証します。
+
+- 片側省略の`to_start` / `to_end`が全対象の主区間キーを共通基準にし、
+  チャンネル間の時刻差を維持すること。明示境界、属性名のunion、
+  NodeOperator / MObject / node名の混在も含めること。
+- 既存カーブだけへの明示境界補完、補完した主区間境界の絶対基準、
+  補間区間だけのキーと基準候補なし、移動量0、カーブなしの扱い。
+- keyable / channelBox、離散属性、unitConversionの上流探索、rootと明示layer、
+  変換後に分岐して同じカーブへ到達する対象の重複排除。
+- 同じmanagerで先に予約したベイク・AnimationClip復元結果の実行時解決、
+  予約時UI時間単位捕捉と保留中queryの非実行。
+- 後半カーブのlock・計画失敗・順序逆転で前半を変更しないこと。
+  適用途中と後続処理の失敗で全カーブをrollbackし、反復Undo / Redoができること。
+- `test_command.py`でMaya標準Undo / Redoとcommand失敗時rollback、
+  `node_operator_contract.py`で公開引数・排他指定・`None`戻り値の型補完。
+
+plug・明示カーブ単位の移動、境界挿入、接線・weighted・breakdown等の詳細保持は
+`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回帰テストに含めます。
+最終確認には`scripts/verify.cmd`を使用します。
+
 ## キーフレーム時間拡縮の検証
 
 `test_keyframe_scale.py`では、`scale_frames()`の時間拡縮と配置先の置換を検証します。
