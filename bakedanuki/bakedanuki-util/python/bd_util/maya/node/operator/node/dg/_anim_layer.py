@@ -185,6 +185,20 @@ def supported_plug(plug: om.MPlug) -> bool:
     )
 
 
+def check_editable_connections(node: om.MObject) -> None:
+    """解除で切断・付け替えされ得る接続プラグの編集可否を確認する。"""
+    fn = live_node(node)
+    _keyframe_target.check_editable_node(fn)
+    for plug in fn.getConnections():
+        _keyframe_target.check_editable_plug(plug)
+        if plug.isSource:
+            for destination in plug.connectedTo(False, True):
+                _keyframe_target.check_editable_node(
+                    live_node(destination.node())
+                )
+                _keyframe_target.check_editable_plug(destination)
+
+
 def _members(name: str) -> set[str]:
     result: set[str] = set()
     for member in (
@@ -200,7 +214,7 @@ def _members(name: str) -> set[str]:
 
 
 class AnimLayerOperations(NodeOperator):
-    """レイヤーの作成とメンバー登録を DG 履歴へ予約する。"""
+    """レイヤーの作成とメンバー登録・解除を DG 履歴へ予約する。"""
 
     __slots__ = ()
 
@@ -281,6 +295,100 @@ class AnimLayerOperations(NodeOperator):
             raise TypeError("plugs must be an iterable of plugs.")
         captured = tuple(PlugIdentity.capture(plug) for plug in plugs)
         self._queue_membership(captured, ())
+
+    def remove_plugs(
+        self, plugs: Iterable[PlugOperator[Any] | om.MPlug | str]
+    ) -> None:
+        """指定プラグをレイヤーから登録解除する操作を予約する。
+
+        登録解除したレイヤーのカーブとキーは Maya により削除される。
+        複合属性と既存の配列要素は末端のプラグに展開する。
+        対象の所属と編集可否は `modifier_manager.do_it_dg()` で確認する。
+
+        Args:
+            plugs: 解除するプラグの iterable。単一のプラグは受け付けない。
+                未登録のプラグと重複指定は何もしない。
+        """
+        if isinstance(plugs, (str, PlugOperator, om.MPlug)):
+            raise TypeError("plugs must be an iterable of plugs.")
+        captured = tuple(PlugIdentity.capture(plug) for plug in plugs)
+        if not captured:
+            return
+        layer = self.m_obj
+        removed: set[str] = set()
+
+        def prepare(modifier: om.MDGModifier) -> None:
+            name = _editable_layer(layer)
+            registered = _members(name)
+            candidates: list[str] = []
+            seen: set[str] = set()
+            for target in captured:
+                plug = target.resolve()
+                _keyframe_target.check_editable_node(live_node(plug.node()))
+                for leaf in leaf_plugs(plug):
+                    path = _keyframe_target.plug_path(leaf)
+                    if not supported_plug(leaf):
+                        raise TypeError(
+                            f"Unsupported animation layer plug: {path}"
+                        )
+                    if locked_plug(leaf):
+                        raise RuntimeError(
+                            f"Cannot unregister locked plug: {path}"
+                        )
+                    if path in registered and path not in seen:
+                        seen.add(path)
+                        candidates.append(path)
+
+            # Maya の解除処理が触れる入力とカーブを全件検査してから変更を積む。
+            for path in candidates:
+                layered = cmds.animLayer(name, query=True, layeredPlug=path)
+                if not isinstance(layered, str) or not layered:
+                    raise RuntimeError(
+                        f"Animation layer input is unavailable: {path}."
+                    )
+                selection = om.MSelectionList()
+                selection.add(layered)
+                input_plug = selection.getPlug(0)
+                check_editable_connections(input_plug.node())
+                _keyframe_target.check_editable_plug(input_plug)
+                curves = (
+                    cast(
+                        list[str] | None,
+                        cmds.animLayer(
+                            name, query=True, findCurveForPlug=path
+                        ),
+                    )
+                    or ()
+                )
+                for curve_name in curves:
+                    curve_selection = om.MSelectionList()
+                    curve_selection.add(curve_name)
+                    check_editable_connections(
+                        curve_selection.getDependNode(0)
+                    )
+
+            removed.update(candidates)
+            for path in candidates:
+
+                def remove(path: str = path) -> None:
+                    cmds.animLayer(name, edit=True, removeAttribute=path)
+
+                modifier.pythonCommandToExecute(remove)
+
+        def verify(modifier: om.MDGModifier) -> None:
+            if not removed:
+                return
+            name = live_node(layer).name()
+            if removed & _members(name) or any(
+                cmds.animLayer(name, query=True, layeredPlug=path)
+                for path in removed
+            ):
+                raise RuntimeError(
+                    "Maya could not unregister all requested animation layer plugs."
+                )
+
+        self.modifier_manager.queue_dg_modifier(prepare)
+        self.modifier_manager.queue_dg_modifier(verify)
 
     def add_nodes(
         self, nodes: Iterable[NodeOperator | om.MObject | str]

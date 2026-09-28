@@ -357,6 +357,13 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     作成待ちqueryは実行しないこと、TL / TA / TUの生カーブ値がnative操作と一致することを確認します。
   - PlugOperator / MPlug / 名前、NodeOperator / MObject / 名前、compound・sparse配列・非keyable、
     ノード自身のkeyable属性・dynamic属性と非対象の子孫・shape、byte / char等の除外を検証します。
+- `tests/maya/node/operator/node/dg/test_anim_layer_remove.py`
+  - `remove_plugs()`の入力形式、compound・既存配列要素、重複・未登録のno-op、
+    ベース・別layerのカーブ保持と対象layerのカーブ削除、Undo / Redoを確認します。
+  - 同一batchでの登録・解除、改名と同一性、lock・reference・削除済み対象の事前拒否、
+    Maya側の失敗・解除見送り・後続失敗時のrollbackを確認します。
+  - `tests/maya/mpx_cmd/test_command.py`の専用commandでMaya標準Undo / Redoと
+    command失敗時のrollbackを確認します。
   - 予約後の入力列変更、改名、ノード・属性の削除と同名再作成、同名DAG、作成待ちDGとdynamic属性、
     lock / reference、既存登録と重複、native失敗・黙示的な登録見送り・後続失敗でのrollbackを確認します。
   - `tests/maya/mpx_cmd/test_command.py`ではlayer作成・登録・キー設定のコマンド単位のUndo / Redoと、

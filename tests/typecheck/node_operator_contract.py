@@ -5285,6 +5285,10 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         layer.add_plugs([node.tx, node.translate, node.ty.plug, "ctrl.tz"]),
         None,
     )
+    assert_type(
+        layer.remove_plugs([node.tx, node.translate, node.ty.plug, "ctrl.tz"]),
+        None,
+    )
     assert_type(layer.add_nodes([node, node.m_obj, "other"]), None)
     assert_type(node.tx.keyframe.anim_layer(layer), KeyframeManager)
     assert_type(node.keyframes.anim_layer(layer), NodeKeyframeManager)
@@ -5512,9 +5516,11 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     )
     existing = nodes.existing.animLayer("Existing")
     assert_type(existing.add_nodes([node]), None)
+    assert_type(existing.remove_plugs([node.tx]), None)
     assert_type(node.tx.keyframe.anim_layer(existing), KeyframeManager)
     assert_type(node.keyframes.anim_layer(existing), NodeKeyframeManager)
     layer.add_plugs([node])  # pyright: ignore[reportArgumentType]
+    layer.remove_plugs([node])  # pyright: ignore[reportArgumentType]
     layer.add_nodes([node.tx])  # pyright: ignore[reportArgumentType]
     nodes.create.animLayer(
         override="bad"  # pyright: ignore[reportArgumentType]

@@ -42,6 +42,56 @@ def reduce_test_plugin(new_scene, maya_cmds):
 
 
 @pytest.fixture
+def anim_layer_remove_test_plugin(new_scene, maya_cmds):
+    name = "bdu_mpx_anim_layer_remove_test_plugin"
+    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+    maya_cmds.loadPlugin(str(path), quiet=True)
+    yield
+    maya_cmds.flushUndo()
+    maya_cmds.unloadPlugin(name)
+
+
+@pytest.mark.parametrize("fail", [False, True])
+def test_layer_remove_uses_maya_undo_redo_and_failure_rollback(
+    anim_layer_remove_test_plugin, maya_cmds, fail
+):
+    maya_cmds.createNode("transform", name="ctrl")
+    layer = maya_cmds.animLayer("Correction", attribute=["ctrl.tx", "ctrl.ty"])
+    maya_cmds.setKeyframe("ctrl.tx", animLayer=layer, time=1, value=4)
+    maya_cmds.setKeyframe("ctrl.ty", animLayer=layer, time=1, value=8)
+    before = set(maya_cmds.ls())
+    maya_cmds.flushUndo()
+    command = getattr(
+        maya_cmds,
+        (
+            "bduTestMpxFailAfterRemoveLayerPlugs"
+            if fail
+            else "bduTestMpxRemoveLayerPlugs"
+        ),
+    )
+    if fail:
+        with pytest.raises(
+            RuntimeError, match="intentional animation layer removal failure"
+        ):
+            command(layerName=layer)
+        assert set(maya_cmds.ls()) == before
+        assert set(maya_cmds.animLayer(layer, query=True, attribute=True)) == {
+            "ctrl.translateX",
+            "ctrl.translateY",
+        }
+        assert maya_cmds.undoInfo(query=True, undoQueueEmpty=True)
+        return
+    command(layerName=layer)
+    after = set(maya_cmds.ls())
+    assert not maya_cmds.animLayer(layer, query=True, attribute=True)
+    for _ in range(2):
+        maya_cmds.undo()
+        assert set(maya_cmds.ls()) == before
+        maya_cmds.redo()
+        assert set(maya_cmds.ls()) == after
+
+
+@pytest.fixture
 def bake_test_plugin(new_scene, maya_cmds):
     name = "bdu_mpx_keyframe_bake_test_plugin"
     path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"

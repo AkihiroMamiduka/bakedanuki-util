@@ -563,6 +563,7 @@ mod.do_it_dg()
 | API | 入力と登録範囲 |
 | --- | --- |
 | `add_plugs(plugs) -> None` | `PlugOperator`・`MPlug`・プラグ名のiterable。指定したプラグを登録。非keyableも指定可能 |
+| `remove_plugs(plugs) -> None` | `add_plugs()`と同じ入力形式。指定した既存メンバーだけを登録解除し、そのlayer上のカーブとキーをMayaの標準処理で削除 |
 | `add_nodes(nodes) -> None` | `NodeOperator`・`MObject`・ノード名のiterable。ノード自身のkeyable・未lock・書込み可能な対応プラグを初回実行時に列挙 |
 
 単一対象でも`[ctrl.tx]` / `[ctrl]`のように列で渡します。compoundはleafへ展開し、
@@ -574,6 +575,15 @@ byte / char、message、matrix、typed dataなどは対象外です。`add_nodes
 非keyable・lockされたプラグを除外し、dynamic属性も含む対応プラグだけを登録します。
 子孫DAGノードやshapeは自動で含めません。必要ならそれぞれを明示してください。
 登録できる型と、KeyframeManagerの詳細データで扱えるカーブ型の制約は別です。
+
+`remove_plugs()`は非keyableな明示登録属性も解除できます。入力列は予約時にコピーし、
+ノード・属性・layerの同一性を保持して改名に追従します。compoundと配列親の展開、
+重複除外は`add_plugs()`と同じです。未登録の対象と空の入力列は何もしません。
+所属、対象plug、layerの入力とカーブの編集可否を、先行予約を反映した実行時に全件確認してから
+解除します。lock・referenceされた対象、root、および削除後に同名で作り直された対象は拒否します。
+解除後の所属も確認し、Mayaが解除を見送った場合や後続操作が失敗した場合はbatch全体を
+巻き戻します。解除は対象layerのカーブとキーを削除し、他layerやベースのカーブを保持します。
+合成結果の値を別layerへ焼き込む処理は行いません。
 
 `add_plugs()`は、未対応型やlockされたleafを1つでも含むとエラーです。両APIとも
 lock・referenceされたノード、lockされたlayerへの書込みを拒否します。ベースは個別の

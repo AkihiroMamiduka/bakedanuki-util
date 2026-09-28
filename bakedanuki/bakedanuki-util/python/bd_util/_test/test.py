@@ -368,3 +368,10 @@ def main():
     trimmed.restore(nodes.modifier_manager, mode="replace_all")
 
     nodes.modifier_manager.do_it_dg()
+
+    layer = nodes.create.animLayer(name="Sample")
+    layer.add_nodes(anim_nodes)
+    layer.remove_plugs([dst_13_2.tx, dst_13_2.ry, dst_13_2.sz])
+
+    nodes.modifier_manager.do_it_dag()
+    nodes.modifier_manager.do_it_dg()

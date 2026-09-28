@@ -182,6 +182,8 @@ layer未指定の入口も、キー設定・取得・編集をsceneのベース�
 Mayaの選択layer・preferred・keying modeから独立し、rootの改名にも追従します。
 layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り値へ`add_plugs()` / `add_nodes()`で
 対象を登録し、その戻り値を`anim_layer(layer)`へ渡してキー設定まで一括予約できます。
+既存layerの`remove_plugs()`で明示プラグの登録解除も予約できます。対象layerのカーブとキーは
+Mayaの解除処理により削除され、対象全件の編集可否検査とUndo / Redo・rollbackに対応します。
 詳細データ復元も、登録済み属性のベース・指定layerにカーブがなければ自動作成します。
 事前の仮キーは不要で、内部の作成用キーを残さず、同じ履歴で作成から復元まで扱えます。
 この自動作成も利用者による動作確認まで完了しています。
@@ -219,7 +221,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 | 区間の切り出し | 両方の詳細取得APIに`start_frame` / `end_frame` / `include_boundaries=True`を実装。境界キーと調整後の接線を取得 |
 | チャンネルの自動選択 | layer未指定はベース（root）に固定。layerなし・未所属属性は単位変換・pairBlend・blendWeighted越しの通常チャンネル探索を使用。キー設定の値解決はMayaに委譲し、query・挿入・削除・詳細データも同じ対象を扱う |
 | layer指定 | `anim_layer(name)`は元managerを変えず、同じplugとModifierManagerを共有するKeyframeManagerを返す。既存layerのノード同一性・改名追従、BaseAnimationと登録済み属性、空カーブ、書込み時のlock / reference検査に対応 |
-| layer作成・登録 | `nodes.create.animLayer(name=..., override=False)`でroot直下へ作成。rootがなければ同時作成。`add_plugs()`は明示leaf、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録。作成待ちlayerを`anim_layer()`へ渡し、登録・キー設定まで共通履歴で実行可能 |
+| layer作成・登録・解除 | `nodes.create.animLayer(name=..., override=False)`でroot直下へ作成。rootがなければ同時作成。`add_plugs()`は明示leaf、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録。`remove_plugs()`は指定した既存メンバーを解除。作成待ちlayerを`anim_layer()`へ渡し、登録・キー設定・解除まで共通履歴で実行可能 |
 | 明示カーブ操作 | TA / TL / TUノードの`.keyframe`は`CurveKeyframeManager`。ノード同一性を保持し、未接続・共有出力・時間入力接続を持つカーブ自身の取得・編集・削除・保存復元に対応 |
 | 接続調査用の候補取得 | `find_anim_curves()`で具体ノードのtupleを取得。全8型、型filter、名前順、重複排除、各経路の最初のカーブでの停止に対応。通常の対象選択とは独立した補助API |
 | 詳細データの性能測定 | 専用benchmarkで取得・予約・実行・Undo / Redo・JSON変換を分離。直接接続・ベース・加算・Overrideと所属属性数を指定可能。指定範囲だけの詳細取得に加え、所属確認とlock検査のPython巡回を削減 |
