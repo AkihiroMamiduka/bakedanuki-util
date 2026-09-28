@@ -18,6 +18,7 @@ from . import (
     _keyframe_move,
     _keyframe_reduce,
     _keyframe_scale,
+    _keyframe_snap,
     _keyframe_snapshot,
     _keyframe_tangent,
     _keyframe_target,
@@ -646,6 +647,41 @@ class _KeyframeOperations(ABC):
             self._target,
             start_frame,
             end_frame,
+        )
+
+    def snap_subframe_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        preserve_breakdowns: bool = True,
+        max_deviation: float | None = None,
+    ) -> None:
+        """既存カーブの小数フレームキーを近い整数フレームへ打ち直す。
+
+        移動先の値は編集前のカーブを採取する。形状の変化は通常許容し、
+        `max_deviation` を指定した場合のみ上限を検査する。編集は次の
+        `do_it_dg()` で実行する。
+
+        Args:
+            start_frame: 対象範囲の開始。None は制限しない。両端を含む。
+            end_frame: 対象範囲の終了。None は制限しない。両端を含む。
+            preserve_breakdowns: True なら小数フレームの breakdown キーを残す。
+                False なら打ち直し、breakdown 状態を引き継ぐ。
+            max_deviation: 許容する元カーブとの最大誤差。None は検査しない。
+                角度は degree、距離は cm の非負数。
+
+        Raises:
+            ValueError: 複数キーが同じ整数フレームへ集まる、既存キーと
+                衝突する、または `max_deviation` を超える場合。
+        """
+        _keyframe_snap.queue_snap_subframe_batch(
+            self._require_modifier_manager(),
+            lambda: (self._target,),
+            start_frame,
+            end_frame,
+            preserve_breakdowns=preserve_breakdowns,
+            max_deviation=max_deviation,
         )
 
     @overload

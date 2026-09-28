@@ -46,6 +46,9 @@ class _Key:
     breakdown: bool
 
 
+CurveKey = _Key
+
+
 @dataclass(frozen=True, slots=True)
 class _ReductionPlan:
     curve: oma.MFnAnimCurve
@@ -70,6 +73,9 @@ def _key(curve: oma.MFnAnimCurve, i: int) -> _Key:
         curve.weightsLocked(i),
         curve.isBreakdown(i),
     )
+
+
+capture_curve_key = _key
 
 
 def _same_numbers(a: tuple[float, ...], b: tuple[float, ...]) -> bool:
@@ -136,6 +142,9 @@ def _segment(a: _Key, b: _Key, weighted: bool, scale: float) -> Bezier:
     return Bezier(
         x, y, valid and all(math.isfinite(v) for v in (*x, *y)), not weighted
     )
+
+
+curve_segment = _segment
 
 
 def _copy_keys(curve: oma.MFnAnimCurve, keys: tuple[_Key, ...]) -> None:

@@ -11,7 +11,7 @@ from maya.api import OpenMaya as om
 
 from ....modifier import ModifierManager
 from ...attr._core import PlugOperator
-from ...attr import _keyframe_target
+from ...attr import _keyframe_snap, _keyframe_snapshot, _keyframe_target
 from .._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 
 
@@ -213,10 +213,84 @@ def _members(name: str) -> set[str]:
     return result
 
 
+def _member_curve_targets(
+    layer: om.MObject,
+) -> tuple[_keyframe_target.LayerTarget, ...]:
+    """実行時の直接所属から既存カーブ用の対象を集める。"""
+    name = _editable_layer(layer)
+    targets: list[_keyframe_target.LayerTarget] = []
+    for path in sorted(_members(name)):
+        selection = om.MSelectionList()
+        selection.add(path)
+        plug = selection.getPlug(0)
+        if plug.node() == layer or not supported_plug(plug):
+            continue
+        try:
+            _keyframe_snapshot.curve_type_for_plug(plug)
+        except RuntimeError:
+            continue
+        targets.append(_keyframe_target.LayerTarget(plug, layer))
+    return tuple(targets)
+
+
+class AnimLayerMemberKeyframeManager:
+    """レイヤーに直接所属する属性カーブを一括操作する。"""
+
+    __slots__ = ("_layer", "_modifier_manager")
+
+    def __init__(
+        self, layer: om.MObject, modifier_manager: ModifierManager
+    ) -> None:
+        self._layer = layer
+        self._modifier_manager = modifier_manager
+
+    def snap_subframe_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+        *,
+        preserve_breakdowns: bool = True,
+        max_deviation: float | None = None,
+    ) -> None:
+        """直接所属する既存カーブの小数フレームキーを整数へ打ち直す。
+
+        `modifier_manager.do_it_dg()` で対象を解決し、一括編集する。
+        レイヤーノード自身の `weight` などのキーと子レイヤーは含めない。
+        root レイヤーの全ベースカーブ列挙には対応しない。
+
+        Args:
+            start_frame: 両端包含の開始フレーム。`None` は下限なし。
+            end_frame: 両端包含の終了フレーム。`None` は上限なし。
+            preserve_breakdowns: `True` なら breakdown キーを元の時刻に残す。
+            max_deviation: `None` は形状変化の上限を設けない。数値を指定すると
+                許容範囲を超えた操作を取り消す。角度は degree、距離は cm。
+
+        Raises:
+            RuntimeError: root、lock、reference などで編集できない場合。
+            ValueError: 移動先の衝突、または `max_deviation` を超える場合。
+        """
+        layer = self._layer
+        _keyframe_snap.queue_snap_subframe_batch(
+            self._modifier_manager,
+            lambda: _member_curve_targets(layer),
+            start_frame,
+            end_frame,
+            preserve_breakdowns=preserve_breakdowns,
+            max_deviation=max_deviation,
+        )
+
+
 class AnimLayerOperations(NodeOperator):
     """レイヤーの作成とメンバー登録・解除を DG 履歴へ予約する。"""
 
     __slots__ = ()
+
+    @property
+    def member_keyframes(self) -> AnimLayerMemberKeyframeManager:
+        """レイヤーに直接所属する属性カーブの一括操作入口を返す。"""
+        return AnimLayerMemberKeyframeManager(
+            self.m_obj, self.modifier_manager
+        )
 
     @classmethod
     def create(

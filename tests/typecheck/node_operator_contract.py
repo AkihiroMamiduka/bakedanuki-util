@@ -4342,6 +4342,27 @@ def keyframe_reduction_contract(nodes: bdu.Nodes) -> None:
         )
 
 
+def keyframe_snap_subframe_contract(nodes: bdu.Nodes) -> None:
+    channel = nodes.existing.transform("ctrl").tx.keyframe
+    layer = channel.anim_layer("Correction")
+    curve = nodes.existing.animCurveTL("curve").keyframe
+    for keyframe in (channel, layer, curve):
+        assert_type(keyframe.snap_subframe_keys(), None)
+        assert_type(keyframe.snap_subframe_keys(1, 24), None)
+        assert_type(
+            keyframe.snap_subframe_keys(
+                None, 24, preserve_breakdowns=False, max_deviation=0.01
+            ),
+            None,
+        )
+        keyframe.snap_subframe_keys(
+            preserve_breakdowns=1,  # pyright: ignore[reportArgumentType]
+        )
+        keyframe.snap_subframe_keys(
+            max_deviation="0.1",  # pyright: ignore[reportArgumentType]
+        )
+
+
 def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
     channel = nodes.existing.transform("ctrl").tx.keyframe
     layer = channel.anim_layer("Correction")
@@ -5281,6 +5302,13 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     layer = nodes.create.animLayer(name="Correction", override=True)
     node = nodes.existing.transform("ctrl")
     assert_type(layer.weight.set(0.5), None)
+    assert_type(layer.member_keyframes.snap_subframe_keys(), None)
+    assert_type(
+        layer.member_keyframes.snap_subframe_keys(
+            1, 24, preserve_breakdowns=False, max_deviation=0.01
+        ),
+        None,
+    )
     assert_type(
         layer.add_plugs([node.tx, node.translate, node.ty.plug, "ctrl.tz"]),
         None,
@@ -5302,6 +5330,22 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
             attributes=["translate", "rotate"],
             include_channel_box=True,
         ),
+        None,
+    )
+    assert_type(node.keyframes.snap_subframe_keys(), None)
+    assert_type(
+        node.keyframes.snap_subframe_keys(
+            -10.5,
+            24.25,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            preserve_breakdowns=False,
+            max_deviation=0.01,
+        ),
+        None,
+    )
+    assert_type(
+        node.keyframes.anim_layer(layer).snap_subframe_keys(attributes=["tx"]),
         None,
     )
     assert_type(node.keyframes.move_frames(offset=5), None)
@@ -5421,6 +5465,22 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
+        nodes.keyframes.snap_subframe_keys(
+            [node, node.m_obj, "other"],
+            1,
+            24,
+            attributes=["translate", "rotate"],
+            include_channel_box=True,
+            preserve_breakdowns=False,
+            max_deviation=0.01,
+        ),
+        None,
+    )
+    assert_type(
+        nodes.keyframes.anim_layer(layer).snap_subframe_keys([node, "other"]),
+        None,
+    )
+    assert_type(
         nodes.keyframes.move_frames(
             [node, node.m_obj, "other"],
             1,
@@ -5516,6 +5576,7 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     existing = nodes.existing.animLayer("Existing")
+    assert_type(existing.member_keyframes.snap_subframe_keys(), None)
     assert_type(existing.add_nodes([node]), None)
     assert_type(existing.remove_plugs([node.tx]), None)
     assert_type(existing.remove_nodes([node]), None)
@@ -5530,6 +5591,13 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     )
     node.tx.keyframe.anim_layer(node)  # pyright: ignore[reportArgumentType]
     node.keyframes.move_frames()  # pyright: ignore[reportCallIssue]
+    node.keyframes.snap_subframe_keys(
+        attributes=[1],  # pyright: ignore[reportArgumentType]
+    )
+    nodes.keyframes.snap_subframe_keys(
+        [node],
+        preserve_breakdowns="bad",  # pyright: ignore[reportArgumentType]
+    )
     node.keyframes.move_frames(  # pyright: ignore[reportCallIssue]
         offset=1, to_end=2  # pyright: ignore[reportArgumentType]
     )

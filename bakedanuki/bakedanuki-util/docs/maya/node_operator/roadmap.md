@@ -208,6 +208,7 @@ Mayaの解除処理により削除され、対象全件の編集可否検査とU
 | node単位の時間拡縮 | `node.keyframes.scale_frames()` / `nodes.keyframes.scale_frames([...])`。既存TA / TL / TUカーブへ全対象共通の元区間・倍率・ピボットを適用。全計画後に一括変更し、Undo / Redo・rollbackへ参加 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
 | キー削減 | 属性・明示カーブの`reduce_keys()`と、`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持。node / nodesでは全カーブを計画後に一括変更 |
+| 小数フレームキーの打ち直し | plug・明示カーブ・node・nodesの`snap_subframe_keys()`と非root layerの`member_keyframes.snap_subframe_keys()`。元カーブを最寄りの整数時刻で評価してキーを挿入し、小数時刻の元キーを削除。形状変化は既定で許容、breakdownは既定で保持、任意の`max_deviation`で誤差を制限。衝突は自動統合せず全対象を変更前に停止 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
 | plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を等間隔に評価してTA / TL / TUへ全置換。連続・離散属性を分けた接線指定、上流nodeと非対象のcompound子・layerの維持、Undo / Redo・rollbackに対応 |

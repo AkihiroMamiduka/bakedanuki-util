@@ -754,6 +754,7 @@ queryは実行済みsceneだけを読み、保留中modifierを実行しませ�
 | `set_tangent_locks(start_frame=None, end_frame=None, *, tangents_locked=None, weights_locked=None)` | 指定範囲に実在するキーのtangent / weight lockを一括変更 | カーブ・該当キーがなければ何もしない |
 | `delete_key(frame)` | 指定時刻のキーを削除 | カーブ・キーがなければ何もしない |
 | `delete_keys(start_frame=None, end_frame=None)` | 指定範囲のキーを削除 | カーブ・該当キーがなければ何もしない |
+| `snap_subframe_keys(start_frame=None, end_frame=None, *, preserve_breakdowns=True, max_deviation=None)` | 小数時刻のキーを整数時刻へ打ち直す | カーブ・該当キーがなければ何もしない |
 | `delete_anim_curve()` | カーブノード全体を削除 | カーブがなければ何もしない |
 
 `set_tangents()` / `set_tangent_locks()` / `delete_keys()`の境界は両端を含み、`None`を指定した側には
@@ -975,6 +976,57 @@ nodes.keyframes.bake(ctrls, 1, 120)
 nodes.keyframes.reduce_keys(ctrls, 1, 120, tolerance=0.05)
 mod.do_it_dg()
 ```
+
+#### 小数フレームのキーを整数フレームへ打ち直す
+
+`snap_subframe_keys()`は、範囲内の小数時刻にあるキーを最寄りの整数フレームへ
+打ち直します。plug・明示カーブに加えて、`node.keyframes`と`nodes.keyframes`からも
+実行できます。戻り値は`None`で、変更は`ModifierManager`へ予約します。
+
+```python
+ctrl_a.tx.keyframe.snap_subframe_keys(1, 120)
+ctrl_a.keyframes.snap_subframe_keys(attributes=["translate", "rotate"])
+nodes.keyframes.snap_subframe_keys(
+    [ctrl_a, ctrl_b],
+    1,
+    120,
+    preserve_breakdowns=False,
+)
+layer.member_keyframes.snap_subframe_keys(1, 120)
+mod.do_it_dg()
+```
+
+`start_frame`と`end_frame`は両端包含です。片側の`None`は無制限、両方省略すると
+全キーを調べます。整数フレーム上のキー、対象範囲外のキー、breakdown保持を指定したキーは
+そのまま残します。ちょうど0.5フレームのキーは、正負ともゼロから遠い整数へ丸めます。
+処理前のカーブを整数の移動先で評価し、その値のキーを既存カーブへ挿入してから、元の
+小数キーを削除します。範囲内の全整数フレームをベイクする操作ではありません。
+
+`preserve_breakdowns=True`では小数時刻のbreakdownキーを時刻・値・flagごと残します。
+`False`では通常キーと同じように打ち直し、移動先のキーへbreakdown flagを引き継ぎます。
+整数キーと残したbreakdownキーの時刻・値・flagは維持しますが、キー挿入時にMayaが
+隣接キーの接線種別を更新する場合があります。
+移動先に既存キーがある場合、または複数の小数キーが同じ整数時刻へ集まる場合は、
+自動で上書き・統合せず`ValueError`にします。複数カーブを対象にしている場合も、
+どのカーブも変更しません。
+
+小数キーを削除すると、移動先の整数フレームの値を維持しても、フレーム間の形状は
+変わり得ます。`step` / `stepNext`の離散接線も維持しますが、切り替わる時刻は変わり得ます。
+既定の`max_deviation=None`は形状変化を許容します。非負の有限値を
+指定すると、元・結果のキー区間と外挿を含むカーブ値の誤差を検査し、上限を超える場合は
+`ValueError`として全件を中止します。上限を評価できない場合も変更しません。
+TAはdegree、TLはcm、TUはunitlessの値で指定します。
+形状を見て採用する通常の操作では省略し、自動処理で上限が必要な場合に明示します。
+
+`node.keyframes` / `nodes.keyframes`には`attributes`と`include_channel_box`を指定できます。
+既存カーブの選択、複数nodeの属性名のunion、上流探索、rootと明示layerの区別は
+他の一括キー操作と共通です。別layerのカーブは`.anim_layer(layer)`から選びます。
+レイヤーの直接所属カーブ全体は非rootの`layer.member_keyframes.snap_subframe_keys()`で
+操作します。root / baseの通常カーブはplug・node・nodesのlayer未指定経路で選びます。
+カーブや範囲境界のキーは新規作成しません。対象がなければno-opです。
+UI時間単位は予約時に捕捉し、対象カーブとキーは実行時に解決します。
+書込み検査と全カーブの計画を済ませてから一括適用し、Undo / Redoと後続失敗時の
+rollbackにも参加します。
 
 #### 回転カーブへEuler filterを適用する
 

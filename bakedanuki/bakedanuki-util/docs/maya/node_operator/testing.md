@@ -825,6 +825,32 @@ lock / reference、空カーブの回帰は既存テストと合わせて確認�
 
 通常の`verify.cmd`の範囲どおり、Maya 2026 / 2027のfull pytestは実行していません。
 
+## 小数フレームキーの整数化の検証
+
+`test_keyframe_snap_subframe.py`、`test_keyframe_snap_error.py`、
+`test_node_keyframe_snap_subframe.py`、`test_anim_layer_member_keyframes.py`では、
+`snap_subframe_keys()`の次の契約を確認します。
+
+- TA / TL / TUの元カーブを移動先の整数時刻で評価し、その値を挿入してから元の小数キーを
+  削除すること。予約中はsceneを変更せず、反復Undo / Redoで元の詳細状態へ戻ること。
+- 両端包含・片側省略・範囲外のキー、正負の0.5フレーム、整数キーと対象なしのno-op。
+  予約時のUI時間単位を実行時の変更から独立して保持すること。
+- breakdownの既定保持と、明示した場合のbreakdown flagの引継ぎ。
+  既存キーとの衝突・複数キーの同時刻着地を自動統合せず中止すること。
+- 既定では形状変化を許容し、`max_deviation`指定時だけ上限超過を全件中止すること。
+  十分大きい上限では成功すること。`stepNext`でも移動先の採取値と離散接線を維持すること。
+- node / nodesの属性選択、NodeOperator / MObject / node名の混在、属性名のunion、
+  channelBox・離散属性・上流探索・rootと明示layerの分離・共有カーブの重複排除。
+- 同じmanagerへ先に予約したベイクで作成されるカーブの実行時解決、後半対象のlock・
+  衝突・誤差上限による一括停止、適用途中と後続処理失敗時のrollback。
+- 不正な範囲・bool・誤差指定と、plug・明示カーブ・node・nodesの`None`戻り値の型補完。
+- `max_deviation`の曲線全域の誤差上界、外挿・cycleの保守的判定、
+  非root layerの直接所属のみを対象にした処理とrootの拒否。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr\test_keyframe_snap_subframe.py tests\maya\node\operator\attr\test_keyframe_snap_error.py tests\maya\node\operator\node\test_node_keyframe_snap_subframe.py tests\maya\node\operator\node\dg\test_anim_layer_member_keyframes.py -q --tb=short
+```
+
 ## plug入力ベイクの検証
 
 `test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。
