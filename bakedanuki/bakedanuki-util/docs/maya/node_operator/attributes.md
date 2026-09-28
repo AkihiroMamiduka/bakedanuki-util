@@ -535,7 +535,7 @@ queryは保留中modifierを実行せず、lock / reference / mute / weightを�
 muteやweightが0でも生カーブは編集対象になり、最終評価への反映はMayaのlayer状態に従います。
 予約後の所属変更も初回実行時に再検査し、Undo / Redo・途中失敗時rollbackは通常操作と共通です。
 
-### アニメーションレイヤーの作成と登録
+### アニメーションレイヤーの作成・登録・解除
 
 `nodes.create.animLayer(name=None, override=False)`は、sceneのベース（root）の直下へ
 layerの作成を予約し、通常の`AnimLayer`を返します。既定は加算layer、`override=True`は
@@ -565,6 +565,7 @@ mod.do_it_dg()
 | `add_plugs(plugs) -> None` | `PlugOperator`・`MPlug`・プラグ名のiterable。指定したプラグを登録。非keyableも指定可能 |
 | `remove_plugs(plugs) -> None` | `add_plugs()`と同じ入力形式。指定した既存メンバーだけを登録解除し、そのlayer上のカーブとキーをMayaの標準処理で削除 |
 | `add_nodes(nodes) -> None` | `NodeOperator`・`MObject`・ノード名のiterable。ノード自身のkeyable・未lock・書込み可能な対応プラグを初回実行時に列挙 |
+| `remove_nodes(nodes) -> None` | `add_nodes()`と同じ入力形式。ノード自身がそのlayerに登録している全プラグを実行時に選んで解除 |
 
 単一対象でも`[ctrl.tx]` / `[ctrl]`のように列で渡します。compoundはleafへ展開し、
 配列親は実行時の既存要素だけを展開します。配列の一部だけなら`ctrl.samples[3]`を指定します。
@@ -585,7 +586,16 @@ byte / char、message、matrix、typed dataなどは対象外です。`add_nodes
 巻き戻します。解除は対象layerのカーブとキーを削除し、他layerやベースのカーブを保持します。
 合成結果の値を別layerへ焼き込む処理は行いません。
 
-`add_plugs()`は、未対応型やlockされたleafを1つでも含むとエラーです。両APIとも
+`remove_nodes()`は`add_nodes()`のkeyable属性収集を逆にたどりません。
+実行時にそのlayerへ所属する指定ノード自身のプラグをすべて対象にするため、
+`add_plugs()`で明示登録した非keyable属性や、登録後に非keyableへ変更した属性も解除します。
+子孫DAGノード・shapeは含めません。ノードの同一性を予約時に保持し、改名には追従しますが、
+削除・同名再作成では差し替えません。空入力・編集可能な未所属ノード・重複指定は何もしません。
+対象の所属・lock・reference・接続の編集可否は先行予約を反映した実行時に全件検査し、
+`remove_plugs()`と同じUndo / Redo・失敗時rollbackを使用します。
+全所属を解除してもlayerノード自体は残ります。
+
+`add_plugs()`は、未対応型やlockされたleafを1つでも含むとエラーです。登録APIは
 lock・referenceされたノード、lockされたlayerへの書込みを拒否します。ベースは個別の
 所属登録が不要なため、rootへの明示登録もエラーです。Mayaが登録を見送った場合も
 成功扱いにせず、同じ実行batchを巻き戻します。

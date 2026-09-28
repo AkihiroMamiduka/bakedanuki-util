@@ -372,6 +372,7 @@ def main():
     layer = nodes.create.animLayer(name="Sample")
     layer.add_nodes(anim_nodes)
     layer.remove_plugs([dst_13_2.tx, dst_13_2.ry, dst_13_2.sz])
+    layer.remove_nodes([dst_13_1])
 
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

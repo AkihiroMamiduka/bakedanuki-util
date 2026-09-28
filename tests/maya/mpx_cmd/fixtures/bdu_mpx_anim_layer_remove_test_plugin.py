@@ -35,7 +35,29 @@ class _FailAfterRemoveLayerPlugsCommand(_RemoveLayerPlugsCommand):
         raise RuntimeError("intentional animation layer removal failure")
 
 
-COMMAND_TYPES = (_RemoveLayerPlugsCommand, _FailAfterRemoveLayerPlugsCommand)
+class _RemoveLayerNodesCommand(_RemoveLayerPlugsCommand):
+    COMMAND_NAME = "bduTestMpxRemoveLayerNodes"
+
+    def execute(self, params: str) -> None:
+        layer = self.nodes.existing.animLayer(params)
+        layer.remove_nodes(["ctrl"])
+        self.modifier_manager.do_it_dg()
+
+
+class _FailAfterRemoveLayerNodesCommand(_RemoveLayerNodesCommand):
+    COMMAND_NAME = "bduTestMpxFailAfterRemoveLayerNodes"
+
+    def execute(self, params: str) -> None:
+        super().execute(params)
+        raise RuntimeError("intentional animation layer node removal failure")
+
+
+COMMAND_TYPES = (
+    _RemoveLayerPlugsCommand,
+    _FailAfterRemoveLayerPlugsCommand,
+    _RemoveLayerNodesCommand,
+    _FailAfterRemoveLayerNodesCommand,
+)
 
 
 def maya_useNewAPI() -> None:

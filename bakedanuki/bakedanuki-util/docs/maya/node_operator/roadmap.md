@@ -184,6 +184,7 @@ layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り�
 対象を登録し、その戻り値を`anim_layer(layer)`へ渡してキー設定まで一括予約できます。
 既存layerの`remove_plugs()`で明示プラグの登録解除も予約できます。対象layerのカーブとキーは
 Mayaの解除処理により削除され、対象全件の編集可否検査とUndo / Redo・rollbackに対応します。
+`remove_nodes()`は指定ノード自身の実行時の全所属を一括解除し、非keyableな明示登録属性も含めます。
 詳細データ復元も、登録済み属性のベース・指定layerにカーブがなければ自動作成します。
 事前の仮キーは不要で、内部の作成用キーを残さず、同じ履歴で作成から復元まで扱えます。
 この自動作成も利用者による動作確認まで完了しています。
@@ -221,7 +222,7 @@ Mayaの解除処理により削除され、対象全件の編集可否検査とU
 | 区間の切り出し | 両方の詳細取得APIに`start_frame` / `end_frame` / `include_boundaries=True`を実装。境界キーと調整後の接線を取得 |
 | チャンネルの自動選択 | layer未指定はベース（root）に固定。layerなし・未所属属性は単位変換・pairBlend・blendWeighted越しの通常チャンネル探索を使用。キー設定の値解決はMayaに委譲し、query・挿入・削除・詳細データも同じ対象を扱う |
 | layer指定 | `anim_layer(name)`は元managerを変えず、同じplugとModifierManagerを共有するKeyframeManagerを返す。既存layerのノード同一性・改名追従、BaseAnimationと登録済み属性、空カーブ、書込み時のlock / reference検査に対応 |
-| layer作成・登録・解除 | `nodes.create.animLayer(name=..., override=False)`でroot直下へ作成。rootがなければ同時作成。`add_plugs()`は明示leaf、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録。`remove_plugs()`は指定した既存メンバーを解除。作成待ちlayerを`anim_layer()`へ渡し、登録・キー設定・解除まで共通履歴で実行可能 |
+| layer作成・登録・解除 | `nodes.create.animLayer(name=..., override=False)`でroot直下へ作成。rootがなければ同時作成。`add_plugs()`は明示leaf、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録。`remove_plugs()`は明示指定、`remove_nodes()`は指定ノード自身の全所属を解除。登録・キー設定・解除まで共通履歴で実行可能 |
 | 明示カーブ操作 | TA / TL / TUノードの`.keyframe`は`CurveKeyframeManager`。ノード同一性を保持し、未接続・共有出力・時間入力接続を持つカーブ自身の取得・編集・削除・保存復元に対応 |
 | 接続調査用の候補取得 | `find_anim_curves()`で具体ノードのtupleを取得。全8型、型filter、名前順、重複排除、各経路の最初のカーブでの停止に対応。通常の対象選択とは独立した補助API |
 | 詳細データの性能測定 | 専用benchmarkで取得・予約・実行・Undo / Redo・JSON変換を分離。直接接続・ベース・加算・Overrideと所属属性数を指定可能。指定範囲だけの詳細取得に加え、所属確認とlock検査のPython巡回を削減 |
@@ -368,7 +369,7 @@ layer構造の管理や自動選択を追加する場合は、
 | ベイクの拡張 | plug単位・node単位・複数node単位の独立時刻評価は実装済み。複数nodeでも全対象を変更前に一括samplingし、node間を含む操作全体をrollbackする。simulation・cache・dynamics向けの時系列評価は今後個別に仕様化する |
 | キー削減の拡張・最適化 | 手動接線を維持する属性・明示カーブ・node・複数node操作とAnimationClipの保存チャンネル削減は実装済み。より多くのキーを削減する探索方法、大規模カーブの性能改善、TT対応、現在保守的に残すweighted区間の判定拡張が候補。接線を削減のために調整する機能は初期版の方針に含めない |
 | アニメーションライブラリー向けの一括操作 | `AnimationClip`の一括保存・復元、復元に使う区間の指定、復元時刻指定、正の時間拡縮、独立した時間変換・逆再生clip、node単位の部分抽出は実装済み。属性単位の部分抽出と、rig固有の属性対応・座標変換は未実装。汎用データ処理とrig固有処理の責務を分ける |
-| layer操作の拡張 | ベース選択、明示指定、作成・属性登録、AnimationClipによる階層・順序・weight等の保存復元は実装済み。登録解除や階層・順序を個別編集する公開API、auto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
+| layer操作の拡張 | ベース選択、明示指定、作成・属性登録、プラグ・ノード単位の登録解除、AnimationClipによる階層・順序・weight等の保存復元は実装済み。階層・順序を個別編集する公開APIとauto / best layerの選択は未実装。未指定のベース選択を維持し、scene変更の責務を個別に決める |
 | 対応カーブ・接続の拡張 | 明示指定のTA / TL / TUは未接続・中間nodeへの出力・共有出力・時間入力接続に対応。TT詳細データ、driven key、quaternion補間、custom tangentは個別に仕様化する |
 | 詳細データAPIの追加最適化 | 範囲取得、layer所属確認、通常の未lockカーブの検査を改善済み。境界補完は引き続き作業用カーブ全体へ依存する。コピー整理や作業用カーブの縮小は、形状・検証契約を維持できることを実測とテストで確かめてから行う。手順は[詳細データAPIの性能測定](testing.md#詳細データapiの性能測定)を参照 |
 

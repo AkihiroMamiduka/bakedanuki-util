@@ -312,7 +312,30 @@ class AnimLayerOperations(NodeOperator):
         if isinstance(plugs, (str, PlugOperator, om.MPlug)):
             raise TypeError("plugs must be an iterable of plugs.")
         captured = tuple(PlugIdentity.capture(plug) for plug in plugs)
-        if not captured:
+        self._queue_unmembership(captured, ())
+
+    def remove_nodes(
+        self, nodes: Iterable[NodeOperator | om.MObject | str]
+    ) -> None:
+        """ノード自身の登録済みプラグをレイヤーから一括解除する操作を予約する。
+
+        実行時の所属を対象とし、非keyableな登録済みプラグも含む。
+        解除したレイヤーのカーブとキーは Maya により削除される。
+
+        Args:
+            nodes: 解除するノードの iterable。単一のノードは受け付けない。
+                指定ノードの子孫やshapeは含めず、編集可能な未所属ノードと
+                重複指定は何もしない。
+        """
+        if isinstance(nodes, (str, NodeOperator, om.MObject)):
+            raise TypeError("nodes must be an iterable of nodes.")
+        captured = tuple(node_object(node) for node in nodes)
+        self._queue_unmembership((), captured)
+
+    def _queue_unmembership(
+        self, plugs: tuple[PlugIdentity, ...], nodes: tuple[om.MObject, ...]
+    ) -> None:
+        if not plugs and not nodes:
             return
         layer = self.m_obj
         removed: set[str] = set()
@@ -322,22 +345,38 @@ class AnimLayerOperations(NodeOperator):
             registered = _members(name)
             candidates: list[str] = []
             seen: set[str] = set()
-            for target in captured:
+
+            def add_candidate(plug: om.MPlug) -> None:
+                path = _keyframe_target.plug_path(plug)
+                if not supported_plug(plug):
+                    raise TypeError(
+                        f"Unsupported animation layer plug: {path}"
+                    )
+                if locked_plug(plug):
+                    raise RuntimeError(
+                        f"Cannot unregister locked plug: {path}"
+                    )
+                if path in registered and path not in seen:
+                    seen.add(path)
+                    candidates.append(path)
+
+            for target in plugs:
                 plug = target.resolve()
                 _keyframe_target.check_editable_node(live_node(plug.node()))
                 for leaf in leaf_plugs(plug):
-                    path = _keyframe_target.plug_path(leaf)
-                    if not supported_plug(leaf):
-                        raise TypeError(
-                            f"Unsupported animation layer plug: {path}"
-                        )
-                    if locked_plug(leaf):
-                        raise RuntimeError(
-                            f"Cannot unregister locked plug: {path}"
-                        )
-                    if path in registered and path not in seen:
-                        seen.add(path)
-                        candidates.append(path)
+                    add_candidate(leaf)
+
+            selected_nodes: set[om.MObjectHandle] = set()
+            for node in nodes:
+                _keyframe_target.check_editable_node(live_node(node))
+                selected_nodes.add(om.MObjectHandle(node))
+            if selected_nodes:
+                for path in sorted(registered):
+                    selection = om.MSelectionList()
+                    selection.add(path)
+                    plug = selection.getPlug(0)
+                    if om.MObjectHandle(plug.node()) in selected_nodes:
+                        add_candidate(plug)
 
             # Maya の解除処理が触れる入力とカーブを全件検査してから変更を積む。
             for path in candidates:

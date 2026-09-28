@@ -357,18 +357,23 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     作成待ちqueryは実行しないこと、TL / TA / TUの生カーブ値がnative操作と一致することを確認します。
   - PlugOperator / MPlug / 名前、NodeOperator / MObject / 名前、compound・sparse配列・非keyable、
     ノード自身のkeyable属性・dynamic属性と非対象の子孫・shape、byte / char等の除外を検証します。
-- `tests/maya/node/operator/node/dg/test_anim_layer_remove.py`
-  - `remove_plugs()`の入力形式、compound・既存配列要素、重複・未登録のno-op、
-    ベース・別layerのカーブ保持と対象layerのカーブ削除、Undo / Redoを確認します。
-  - 同一batchでの登録・解除、改名と同一性、lock・reference・削除済み対象の事前拒否、
-    Maya側の失敗・解除見送り・後続失敗時のrollbackを確認します。
-  - `tests/maya/mpx_cmd/test_command.py`の専用commandでMaya標準Undo / Redoと
-    command失敗時のrollbackを確認します。
   - 予約後の入力列変更、改名、ノード・属性の削除と同名再作成、同名DAG、作成待ちDGとdynamic属性、
     lock / reference、既存登録と重複、native失敗・黙示的な登録見送り・後続失敗でのrollbackを確認します。
   - `tests/maya/mpx_cmd/test_command.py`ではlayer作成・登録・キー設定のコマンド単位のUndo / Redoと、
     実行後失敗によるrollbackを検証します。評価時刻はMAnimControlで変え、検証自体でcmds.currentTimeの
     Undo履歴を追加しないようにします。型補完は共通・3 versionのnode_operator contractが対象です。
+- `tests/maya/node/operator/node/dg/test_anim_layer_remove.py`
+  - `remove_plugs()`の入力形式、compound・既存配列要素、重複・未登録のno-op、
+    ベース・別layerのカーブ保持と対象layerのカーブ削除、Undo / Redoを確認します。
+  - 同一batchでの登録・解除、改名と同一性、lock・reference・削除済み対象の事前拒否、
+    Maya側の失敗・解除見送り・後続失敗時のrollbackを確認します。
+- `tests/maya/node/operator/node/dg/test_anim_layer_remove_nodes.py`
+  - NodeOperator / MObject / 名前、非keyableな明示登録とkeyable変更後の所属、複数node、
+    同名DAG・子ノード除外、sparse配列、重複・未所属のno-op、先行予約の登録と作成待ちDGを検証します。
+  - 全件のlock / reference検査、削除後の同名再作成、別layerとベースの保持、
+    Undo / Redo、native失敗・解除見送り・後続失敗時のrollbackを確認します。
+  - `tests/maya/mpx_cmd/test_command.py`の専用commandで両解除APIのMaya標準Undo / Redoと
+    command失敗時のrollbackを確認します。
 - `tests/maya/node/operator/attr/test_keyframe_anim_layer.py`
   - `anim_layer()`が元のmanagerを変更せず、plugとModifierManagerを共有することを検証します。
     BaseAnimation、加算・上書きlayer、登録済み属性、未作成・空カーブの対象解決を確認します。
