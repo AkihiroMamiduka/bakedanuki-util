@@ -1023,6 +1023,9 @@ TAはdegree、TLはcm、TUはunitlessの値で指定します。
 他の一括キー操作と共通です。別layerのカーブは`.anim_layer(layer)`から選びます。
 レイヤーの直接所属カーブ全体は非rootの`layer.member_keyframes.snap_subframe_keys()`で
 操作します。root / baseの通常カーブはplug・node・nodesのlayer未指定経路で選びます。
+`layer.keyframes`はレイヤーノード自身の`weight`などのキーを扱う入口です。
+`layer.member_keyframes`はレイヤーに直接所属する属性カーブの入口で、
+レイヤーノード自身のキーや子レイヤーの所属カーブは含めません。
 カーブや範囲境界のキーは新規作成しません。対象がなければno-opです。
 UI時間単位は予約時に捕捉し、対象カーブとキーは実行時に解決します。
 書込み検査と全カーブの計画を済ませてから一括適用し、Undo / Redoと後続失敗時の

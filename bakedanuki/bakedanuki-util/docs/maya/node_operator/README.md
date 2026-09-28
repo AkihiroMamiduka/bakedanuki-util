@@ -65,10 +65,12 @@
 - `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`
   - `nodes.create.animLayer()`のベース・階層を含む作成と、`add_plugs()` / `add_nodes()`の登録です。
     作成待ちの戻り値を`.keyframe.anim_layer(layer)`へ渡し、キー設定まで一括予約できます。
+    非rootレイヤーの`member_keyframes`は、直接所属する属性カーブ全体の操作入口です。
 - `python/bd_util/maya/node/operator/node/_keyframes.py`
   - 全`NodeOperator`の`.keyframes`と`Nodes.keyframes`から使う、node単位・複数node単位の
-    接線変更・ベイク入口です。明示属性またはkeyable / channelBox属性を収集し、既存カーブの
-    接線を一括変更するか、全対象のsampling後に同じ履歴で入力を置換します。
+    既存カーブの一括編集とベイク入口です。明示属性またはkeyable / channelBox属性を収集し、
+    接線変更・移動・拡縮・削減・削除・小数キー打ち直しでは全対象を計画してから変更します。
+    ベイクでは全対象のsampling後に同じ履歴で入力を置換します。
 - `python/bd_util/maya/node/operator/attr/_keyframe_discovery.py`
   - DG依存関係の候補列挙と型filter。layer所属や合成値の解決とは分離しています。
     内部のカーブ列挙はsample_valuesの再評価準備でも使用し、こちらは入力側のカーブまで辿ります。
@@ -97,6 +99,9 @@
   - `reduce_keys()`の削減計画とBezier区間の誤差判定です。残すキーの手動接線を維持し、
     元カーブとの誤差内に収まる候補だけを削除します。node・複数node操作では全カーブの
     削減計画を完了してから一括変更します。
+- `python/bd_util/maya/node/operator/attr/_keyframe_snap.py` / `_keyframe_snap_error.py`
+  - `snap_subframe_keys()`の衝突・誤差上限を含む一括計画と、変更前後のカーブ値の誤差判定です。
+    詳細は[小数フレームのキーを整数フレームへ打ち直す](attributes.md#小数フレームのキーを整数フレームへ打ち直す)を参照してください。
 - `python/bd_util/maya/node/operator/attr/extra/add_attr.py`
   - extra attribute 作成用の `AddAttr` API です。
 - `python/bd_util/maya/node/operator/attr/lookup.py`
@@ -1476,16 +1481,16 @@ KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元
 続いて範囲内の既存キーへ接線typeを一括設定する`set_tangents()`を追加しました。
 片側無制限・全キー・片側接線だけの変更に対応し、キーの挿入やlock状態の変更は行いません。
 補間移動・補間拡縮とも、対象キー同士の衝突・順序逆転を拒否します。
-新しいチャットで開発を続ける場合は、
+その後、node / nodes単位のキー編集、`AnimationClip.retimed()` / `trimmed()`、
+`snap_subframe_keys()`と非rootレイヤーの`member_keyframes`まで実装・利用者確認・push済みです。
+Keyframe関連の開発はいったん完了しており、合意済みの次の実装項目はありません。
+今後Keyframe関連を変更する場合は、
 [開始手順](roadmap.md#新しいチャットでの開始手順)と
-[キーフレーム移動](attributes.md#キーを時間方向へ移動する)・
-[時間拡縮](attributes.md#キーを時間方向へ拡縮する)・
-[値編集](attributes.md#キーの値を編集する)・
-[キー削減](attributes.md#手動接線を維持してキーを削減する)の現行仕様を参照してください。
+[キーフレームの現行仕様](attributes.md#キーフレーム)を参照してください。
 
 - [KeyframeManagerの開発状況と次の候補](roadmap.md#keyframemanagerの開発状況と次の候補)
 - [キーフレームの現行仕様](attributes.md#キーフレーム)
-- [KeyframeManagerの引き継ぎ時点の検証](testing.md#keyframemanagerの引き継ぎ時点の検証)
+- [Keyframe関連の開発完了時点の検証](testing.md#keyframe関連の開発完了時点の検証)
 - [attributes.md](attributes.md)
 - [core.md](core.md)
 - [generator.md](generator.md)

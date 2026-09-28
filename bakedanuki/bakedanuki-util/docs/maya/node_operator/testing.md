@@ -851,6 +851,16 @@ lock / reference、空カーブの回帰は既存テストと合わせて確認�
 .\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\attr\test_keyframe_snap_subframe.py tests\maya\node\operator\attr\test_keyframe_snap_error.py tests\maya\node\operator\node\test_node_keyframe_snap_subframe.py tests\maya\node\operator\node\dg\test_anim_layer_member_keyframes.py -q --tb=short
 ```
 
+## Keyframe関連の開発完了時点の検証
+
+2026-09-29、`snap_subframe_keys()`までの実装（`e72b9fae`）について、
+利用者によるMaya上の動作確認とpushが完了しています。
+実装時の`QT_QPA_PLATFORM=offscreen`での`verify.cmd`は成功し、
+Black、3 versionのPyright contract、Maya 2025 full pytest、
+Maya 2025 / 2026 / 2027のUI互換性テスト、`git diff --check`を通過しました。
+Maya 2025 full pytestは7,406件成功・763件skipです。
+この履歴は新しい変更の最終検証を代替しません。
+
 ## plug入力ベイクの検証
 
 `test_keyframe_bake.py`では、`KeyframeManager.bake()`の次の契約を検証します。

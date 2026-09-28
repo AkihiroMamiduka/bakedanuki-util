@@ -152,7 +152,12 @@
 
 ## KeyframeManagerの開発状況と次の候補
 
-### 次の最優先項目
+### Keyframe関連の開発完了時点
+
+2026-09-29、`snap_subframe_keys()`と非rootレイヤーの`member_keyframes`まで、
+利用者によるMaya上での動作確認とpushが完了しました（`e72b9fae`）。
+現時点で合意済みの次のKeyframe実装項目はありません。以下の候補は予定ではなく、
+新しい利用要件が出た場合に仕様を決めるための記録です。
 
 指定範囲に実在するキーのtangent lock / weight lock一括変更と、
 `node.keyframes` / `nodes.keyframes`単位の既存カーブに対するweighted一括切り替え、
@@ -266,7 +271,7 @@ Mayaの解除処理により削除され、対象全件の編集可否検査とU
 - v1.0.0未満では互換aliasや旧形式の変換処理を残すことより、APIと実装の整理を優先する。
   現行JSONはschema 2のみ対応。旧schema 1の変換や廃止した`weighted`引数は復活させない。
 
-### 未着手の候補と着手時の論点
+### 実装済みの経緯と将来の候補
 
 通常のチャンネル選択、既定のベース選択、layer名による選択は実装済みです。
 時間方向の移動と、手動接線を維持するキー削減も実装済みです。
@@ -615,20 +620,15 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
 ### 新しいチャットでの開始手順
 
 1. repository rootで`git status --short`と直近のcommitを確認し、`AGENTS.md`を読む。
-   KeyframeManager周辺はnode / nodesの既存キー一括削除まで利用者確認・push済み（`c529be15`）。
+   KeyframeManager周辺は`snap_subframe_keys()`と`layer.member_keyframes`まで
+   利用者確認・push済み（`e72b9fae`）で、現在は一区切りとなっている。
    既存変更を戻さず、利用者の許可なくcommit / pushしない。
-2. この節の完了範囲・維持する契約・キーフレーム移動と時間拡縮の仕様を読み、
-   `attributes.md`で現行API、`testing.md`で関連テストと直近の検証実績を確認する。
-3. 以下の実装とテストを起点に、利用者が指定した次の機能を調査する。
-   plug・anim_layer plug・明示カーブの移動・時間拡縮、キー削減・AnimationClip・値編集を
-   未実装として再開発しない。node / nodesの移動・時間拡縮も実装済みで、
-   `AnimationClip.retimed()`と`AnimationClip.trimmed()`も実装済み。
-   次の機能は現行roadmapと利用者の希望を確認する。
-   接線・weight lockの範囲操作とnode / nodes単位のweighted切替は実装済み。
-   AnimationClipの逆再生とNodeOperator / MObject / 保存名によるnode単位の部分抽出、
-   node / nodes単位のEuler filter・キー削減・既存キーの一括削除も実装済み。
-   属性単位の抽出は保留する。
-   過去の実装・検証記録も本文では現行API名で表記する。
+2. この節の完了範囲と維持する契約を読み、`attributes.md`で現行API、
+   `animation_clip.md`で保存データ、`testing.md`で関連テストと検証履歴を確認する。
+   小数フレームの打ち直し、node / nodesの移動・時間拡縮、
+   `AnimationClip.retimed()` / `trimmed()`を含む既存機能を確認する。
+3. 新しい要件や不具合が生じた場合に、以下の実装・テストを起点に調査する。
+   属性単位のclip抽出などの将来候補は未確定であり、必要になった時点で利用者と仕様を決める。
 4. 実装時は関連テスト、型・IDE補完、ドキュメント更新まで進め、
    `AGENTS.md`に従って最後に`scripts/verify.cmd`を実行する。
 
@@ -647,6 +647,10 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
   `_keyframe_snapshot.reduce_curve_data()`で未登録カーブへ復元し、`_keyframe_reduce.reduce_curve()`を共有する。
   削減後の接線情報を再取得して元のframe・valueと時間単位を維持する。`test_animation_clip_reduce.py`が回帰テスト。
 - `python/bd_util/maya/node/operator/attr/keyframe.py`: 両Managerの共通操作、anim_layerの入口とキー設定の経路選択。
+- 同階層の`_keyframe_snap.py` / `_keyframe_snap_error.py`: 小数キーの移動先を元カーブから
+  評価し、衝突・`max_deviation`を全カーブで計画してから一括適用する。
+  前者はUndo / Redo・rollback、後者はカーブ区間と外挿の誤差上界を扱う。
+  `test_keyframe_snap_subframe.py` / `test_keyframe_snap_error.py`がplug・明示カーブの回帰テスト。
 - 同階層の`_keyframe_move.py`: 移動引数の検証・捕捉、実行時の対象範囲と移動先の計画、
   境界挿入、setInputと削除・再挿入の経路。拡縮・値編集とも復元helperを共有する。
   node / nodes版はplan / applyを分け、全カーブの計画後に一つの`MAnimCurveChange`で適用する。
@@ -655,6 +659,7 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
 - `python/bd_util/maya/node/operator/node/_keyframes.py`: `_collect_targets()`、
   `_existing_curve_targets()`、`_resolve_layer()`による属性・layer・既存カーブの実行時解決。
   NodeOperator / MObject / node名、複数nodeの属性union、lock / reference検査を共有する。
+  `test_node_keyframe_snap_subframe.py`が小数キー打ち直しの一括対象・事前計画の回帰テスト。
 - `python/bd_util/maya/node/operator/attr/_keyframe_delete.py`: 全カーブの書込み検査と削除indexを
   先に計画し、重複カーブを除外して1つの`MAnimCurveChange`で適用するbatch設計の直近例。
   `test_node_keyframe_delete.py`はnode入力、layer・上流探索、先行ベイク・復元、
@@ -671,6 +676,8 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
   作成待ちMObjectを保つため、rootとlayerはMDGModifierで作成し、rootのoverrideをTrueにする。
   native animLayerでparentと所属接続を構築し、登録後の照会は別のqueue_dg_modifierで行う。
   照会だけのpythonCommandToExecuteはMayaで失敗するため使用しない。
+  `member_keyframes`は非root layerに直接所属する既存カーブを実行時に列挙する入口。
+  `test_anim_layer_member_keyframes.py`がlayer自身のキーとの分離、対象選択、履歴の回帰テスト。
 - `python/bd_util/maya/node/operator/attr/_keyframe_target.py`: チャンネル・既定ベース・指定layer・明示指定resolverと編集時のlock / reference検査。
   既定ベースはsceneのrootを解決し、明示layerは元のplugとMObjectを保持する。
   対象カーブはMayaの属性とlayerの対応から解決する。
