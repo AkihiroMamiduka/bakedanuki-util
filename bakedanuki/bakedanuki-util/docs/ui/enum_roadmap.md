@@ -39,10 +39,10 @@ Maya正本の入力はUndo／Redoに対応し、一括編集では対象群を�
 | [_enum_plug_value.py](../../python/bd_util/maya/ui/binding/_enum_plug_value.py) | Mayaの実値と実定義の取得。生成classの項目表を正本にしない |
 | [_enum_plug_endpoint.py](../../python/bd_util/maya/ui/binding/_enum_plug_endpoint.py)・[enum_plug.py](../../python/bd_util/maya/ui/binding/enum_plug.py) | 単一プラグのcallback、書込み、Python正本との同期・終了 |
 | [plugs_binding.py](../../python/bd_util/maya/ui/binding/plugs_binding.py) | enum属性群の定義一致、代表値、同値入力と集約状態 |
-| [_plugs_store.py](../../python/bd_util/maya/ui/binding/_plugs_store.py) | bool／float／enum共通の監視、入力前検証、Undo、失敗時の復旧 |
+| [_plugs_store.py](../../python/bd_util/maya/ui/binding/_plugs_store.py) | bool／float／enum／string共通の監視、入力前検証、Undo、失敗時の復旧 |
 
 Maya固有の処理は`bd_util.maya.ui`へ置き、Qt ViewにMayaアクセスを持たせません。
-`_plugs_store.py`を変更する場合はenumだけでなく既存bool／floatの回帰も確認してください。
+`_plugs_store.py`を変更する場合はenumだけでなく既存bool／float／stringの回帰も確認してください。
 
 ## 拡張時に維持する仕様
 
@@ -76,8 +76,9 @@ Maya固有の処理は`bd_util.maya.ui`へ置き、Qt ViewにMayaアクセスを
 
 ## 今後の候補と現在の対象外
 
-今後の候補として挙がった汎用int／stringのMVVM基盤は、今回のenum実装とは独立した機能です。
-実装順・公開API・対応Viewは未確定で、次のツールで必要になる値型に合わせて決めます。
+汎用stringのMVVM基盤はenumとは独立して実装済みです。現行仕様と拡張時の確認点は
+[string binding](string_binding.md)を参照してください。汎用intのMVVM基盤は今後の候補で、
+公開API・対応Viewは必要になる用途に合わせて決めます。
 
 現在は配列と配列配下の属性、異なるenum定義間の値・名前変換、Maya定義の自動書換え、
 Python正本と複数Maya属性の双方向同期を提供していません。

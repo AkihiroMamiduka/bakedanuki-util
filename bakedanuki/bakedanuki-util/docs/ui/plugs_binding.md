@@ -109,9 +109,10 @@ Maya属性群が正本なので、Python正本用の`MayaEnumPlugView`は追加�
 代表値と同じ入力でも後続に差分があれば変更し、明示的な同値統一には
 `apply_representative_value()`を使います。空文字への明示統一は`set_value("")`です。
 
-編集中に後続対象だけが外部変更された場合も`StringLineEdit`は競合を示し、
-フォーカス移動による書込みを保留します。Enterによる明示確定とEscapeによる
-破棄は単一属性と共通です。jointの`.otherType`を題材にしたサンプルとAPIの詳細は
+既定の`StringLineEdit`は、編集中に後続対象だけが外部変更された場合も競合を示し、
+フォーカス移動による書込みを保留します。`follow_source_during_edit=True`を指定すると、
+基準・後続の値変更で未確定入力を破棄して基準値を表示します。Enterによる明示確定と
+Escapeによる破棄は単一属性と共通です。jointの`.otherType`を題材にしたサンプルとAPIの詳細は
 [string binding](string_binding.md#複数のmaya-string属性を一括編集する)を参照してください。
 
 ## 表示と入力の分離

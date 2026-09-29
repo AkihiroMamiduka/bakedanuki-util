@@ -136,3 +136,28 @@ maya_plugs.dispose()
 ```
 
 複数行編集と配列属性は現在の対象外です。
+
+## 開発完了と拡張時の確認
+
+2026-09-29時点で、Python属性・単一Maya属性・Python正本からMayaへの同期、
+複数Maya属性の一括編集、一行View、状態監視とscalar値転送まで実装済みです。
+bdChannelBoxへの組込みと編集中のMaya値追従について、利用者からMaya本体での
+動作確認とpush完了の報告を受けています。Maya本体の確認versionは未申告です。
+
+今後別のViewや値型へ広げる場合も、次の境界を維持します。
+
+- `bd_util.ui`はMayaをimportせず、確定値・Command・View・Python正本を扱います。
+  plug解決、Maya callback、Undoと一括書込みは`bd_util.maya.ui`が扱います。
+- 一行入力の未確定文字列は正本へ即時反映しません。汎用Viewの既定動作は競合時の
+  入力保持です。bdChannelBoxは`follow_source_during_edit=True`を選び、基準または
+  後続plugの実値が変わったときだけ未確定入力を破棄します。入力可能なままの
+  状態変更や同値再通知では破棄せず、表示同期からMayaへ書き戻しません。
+- 空文字と未設定は同一視し、前後の空白とUnicodeを保持します。NULは書込み前に
+  拒否します。複数対象では代表値・混在状態・編集可否を分け、明示入力だけを
+  一回のUndoで適用します。対象の削除Undoや同名再作成で自動再接続しません。
+
+複数行入力・配列属性は必要な用途が決まったときに別途設計します。現行の一行入力の
+拡張前に、`tests/ui/test_string_binding.py`、`tests/ui/test_string_plugs_views.py`、
+`tests/maya/ui/test_string_plugs_binding.py`で入力保持と確定値優先の両方を確認してください。
+bdChannelBoxとの組合せはtoolsの`tests/maya/test_bd_channel_box_string.py`で確認します。
+utilの最終検証はリポジトリ直下の`.\scripts\verify.cmd`を使用します。

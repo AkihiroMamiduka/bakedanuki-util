@@ -13,6 +13,8 @@ UI utilityは、利用場所ではなく依存関係で分けます。
 Python正本とMaya属性の双方向同期、および編集中の外部変更を扱います。
 `MayaStringPlugsBinding`では複数jointの`.otherType`を一回のUndoで揃え、
 混在・編集不可対象・入力中の外部変更を確認できます。
+string基盤とbdChannelBoxへの組込みは利用者によるMaya本体確認まで完了しています。
+拡張時に維持する仕様と検証入口は[string bindingの開発引き継ぎ](string_binding.md#開発完了と拡張時の確認)を参照してください。
 
 enum属性の編集には[enum binding](enum_binding.md)を使用できます。
 `EnumBinding`はPython属性、`MayaEnumPlugBinding`はMaya属性を正本とし、
