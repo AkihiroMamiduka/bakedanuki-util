@@ -725,6 +725,32 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
 [引き継ぎ時点の検証](testing.md#keyframemanagerの引き継ぎ時点の検証)を参照してください。
 新しい変更の最終検証は、過去の結果で代用せずrepositoryの現行`AGENTS.md`に従って実行します。
 
+## AttrSnapshotの完了状況と将来候補
+
+2026-09-29、`bdu.AttrSnapshot`の現在値取得、JSON保存・読込、復元、
+ロックされたアニメーションカーブの扱い、`extract(nodes=...)`まで実装し、
+利用者によるMaya上での動作確認とpushが完了しました。
+現時点で合意済みの次の実装項目はありません。
+
+保存対象はノードの評価済み属性値です。カーブ全体、入力接続、レイヤー構成は保存せず、
+復元先の現在の接続と所属に応じて通常の値設定か既存カーブへのキー設定を選びます。
+既定では適用できない属性だけをスキップし、`strict=True`では書込み前に検出します。
+`extract()`は`AnimationClip.extract()`と保存ノード名の選択規則を共有します。
+指定順は`restore(targets=...)`の位置対応にも影響するため、変更時は両APIと
+JSON往復・Undoの回帰を確認してください。
+現行仕様は[属性値スナップショット](attr_snapshot.md)、検証範囲は
+[AttrSnapshotの検証](testing.md#attrsnapshotの検証)を参照してください。
+
+属性単位の部分抽出は将来の候補です。ノード単位の抽出が足りない利用例が出た時点で、
+`AnimationClip`側も含めて選択規則と空ノードの扱いを決めます。
+
+時間単位の変更を挟む復元には修正余地があります。現在は`restore()`の予約時に
+`frame`の数値を保持し、`do_it_dg()`中にその時点のUI時間単位で`MTime`へ変換します。
+予約後にMayaのUI時間単位を変えると、キーの実時刻がずれます。Maya 2025では
+filmの24フレームで予約してからntscへ変更すると、1秒に相当する30フレームではなく
+24フレームへキーが設定されることを確認しました。修正時は予約時の時間単位を捕捉し、
+`frame`明示・`None`の両方で単位変更後の時刻とUndo / Redoを回帰確認します。
+
 ## 完了済み: DAG / shape API roadmap
 
 以下の順序で、DAG階層とshape作成APIを整備しました。
