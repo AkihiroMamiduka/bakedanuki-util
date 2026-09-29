@@ -29,3 +29,27 @@ def main():
     load_snap.restore(nodes.modifier_manager, targets=[dst])
 
     nodes.modifier_manager.do_it_dg()
+
+    targets = [src, dst]
+    snap = bdu.AttrSnapshot.capture(targets, include_hidden=True)
+
+    src.t.set(0, 0, 0)
+    src.r.set(0, 0, 0)
+    src.s.set(1, 1, 1)
+    src.v.set(True)
+    src.side.set(0)
+    src.type.set(src.type.NONE)
+    src.otherType.set("jaw")
+
+    dst.t.set(0, 0, 0)
+    dst.r.set(0, 0, 0)
+    dst.s.set(1, 1, 1)
+    dst.v.set(True)
+    dst.side.set(0)
+    dst.type.set(src.type.NONE)
+    dst.otherType.set("jaw")
+
+    extract_snap = snap.extract(nodes=[dst])
+    extract_snap.restore(nodes.modifier_manager)
+
+    nodes.modifier_manager.do_it_dg()

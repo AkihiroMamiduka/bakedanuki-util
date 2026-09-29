@@ -16,6 +16,7 @@ from ...py import json_file
 from ._animation_clip_capture import plug_for, saved_node_name
 from ._animation_clip_restore import absolute, mapped_name
 from ._attribute_lookup import attribute_path
+from ._saved_node_selector import select_saved_node_names
 from .animation_clip import finite_number, literal_name
 from .modifier import ModifierManager
 from .operator.attr import _keyframe_target
@@ -313,6 +314,38 @@ class AttrSnapshot:
     def load(cls, path: str | PathLike[str]) -> AttrSnapshot:
         """JSON ファイルを検証して独立した値を返す。"""
         return cls.from_dict(json_file.read(path))
+
+    def extract(
+        self,
+        *,
+        nodes: Iterable[NodeOperator | om.MObject | str],
+    ) -> AttrSnapshot:
+        """指定した保存ノードの全属性を持つ新しいスナップショットを返す。
+
+        元データ、シーン、予約中の操作は変更しない。
+
+        Args:
+            nodes: 保存名、既存ノード、または明示名付きの作成予定ノード。
+                短い名前の一致が複数ある場合は拒否する。
+
+        Returns:
+            指定順にノードを並べた独立した `AttrSnapshot`。
+
+        Raises:
+            TypeError: `nodes` がノード選択子の iterable でない場合。
+            ValueError: 対象が空、重複、見つからない、曖昧、または属性値がない場合。
+        """
+        data = self.from_dict(self.to_dict())
+        selected_names = select_saved_node_names(
+            (node.name for node in data.nodes), nodes=nodes, kind="snapshot"
+        )
+        by_name = {node.name: node for node in data.nodes}
+        selected = tuple(by_name[name] for name in selected_names)
+        if not any(node.attributes for node in selected):
+            raise ValueError(
+                "The selected snapshot nodes contain no attributes."
+            )
+        return AttrSnapshot(nodes=selected, schema_version=data.schema_version)
 
     @classmethod
     def capture(

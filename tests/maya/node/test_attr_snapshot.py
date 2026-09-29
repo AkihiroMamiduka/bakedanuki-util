@@ -400,3 +400,131 @@ def test_referenced_destination_curve_skips_only_its_attribute(
     assert (
         cmds.keyframe("ref:referencedCurve", query=True, time=(5, 5)) is None
     )
+
+
+def test_extract_round_trip_and_restore_in_requested_order(
+    maya_cmds, tmp_path
+):
+    cmds = maya_cmds
+    originals = []
+    for name, tx, rx in (("a", 1, 10), ("b", 2, 20), ("c", 3, 30)):
+        node = cmds.createNode("transform", name=name)
+        cmds.setAttr(node + ".tx", tx)
+        cmds.setAttr(node + ".rx", rx)
+        originals.append(node)
+    snapshot = bdu.AttrSnapshot.capture(originals, attributes=["tx", "rx"])
+    loaded = bdu.AttrSnapshot.load(snapshot.save(tmp_path / "all.json"))
+    cmds.delete(originals)
+
+    part = loaded.extract(nodes=["c", "a"])
+    assert part is not loaded
+    assert [node.name for node in part.nodes] == ["c", "a"]
+    assert [node.name for node in loaded.nodes] == ["a", "b", "c"]
+    assert part.nodes[0].attributes == loaded.nodes[2].attributes
+    assert part.nodes[1].attributes == loaded.nodes[0].attributes
+    assert part.schema_version == loaded.schema_version
+    assert bdu.AttrSnapshot.load(part.save(tmp_path / "part.json")) == part
+
+    first = cmds.createNode("transform", name="first")
+    second = cmds.createNode("transform", name="second")
+    mod = bdu.ModifierManager()
+    report = part.restore(mod, targets=[first, second])
+    mod.do_it_dg()
+    assert report.complete and report.applied_count == 4 and not report.skipped
+    assert cmds.getAttr(first + ".tx") == pytest.approx(3)
+    assert cmds.getAttr(first + ".rx") == pytest.approx(30)
+    assert cmds.getAttr(second + ".tx") == pytest.approx(1)
+    assert cmds.getAttr(second + ".rx") == pytest.approx(10)
+    mod.undo_it()
+    assert cmds.getAttr(first + ".tx") == pytest.approx(0)
+    assert cmds.getAttr(second + ".rx") == pytest.approx(0)
+
+
+def test_extract_resolves_dag_names_and_live_selectors(maya_cmds):
+    cmds = maya_cmds
+    left_group = cmds.createNode("transform", name="left")
+    right_group = cmds.createNode("transform", name="right")
+    cmds.createNode("transform", name="ctrl", parent=left_group)
+    cmds.createNode("transform", name="ctrl", parent=right_group)
+    left = cmds.listRelatives(left_group, children=True, fullPath=True)[0]
+    right = cmds.listRelatives(right_group, children=True, fullPath=True)[0]
+    snapshot = bdu.AttrSnapshot.capture([left, right], attributes=["tx"])
+    assert [node.name for node in snapshot.nodes] == [left, right]
+    with pytest.raises(ValueError, match="Ambiguous snapshot node"):
+        snapshot.extract(nodes=["ctrl"])
+    selected = snapshot.extract(nodes=[right, left])
+    assert [node.name for node in selected.nodes] == [right, left]
+    nodes = bdu.Nodes()
+    selected = snapshot.extract(
+        nodes=[nodes.existing(left), nodes.existing(right).m_obj]
+    )
+    assert [node.name for node in selected.nodes] == [left, right]
+    with pytest.raises(ValueError, match="Duplicate snapshot node"):
+        snapshot.extract(nodes=[left, nodes.existing(left)])
+
+
+def test_extract_keeps_namespace_in_short_name(maya_cmds):
+    cmds = maya_cmds
+    cmds.namespace(add="character")
+    source = cmds.createNode("transform", name="character:ctrl")
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx"])
+    assert snapshot.extract(nodes=["character:ctrl"]).nodes[0].name == (
+        "character:ctrl"
+    )
+    with pytest.raises(ValueError, match="Unknown snapshot node"):
+        snapshot.extract(nodes=["ctrl"])
+    cmds.namespace(set=":")
+
+
+def test_extract_rejects_invalid_and_empty_selections(maya_cmds):
+    cmds = maya_cmds
+    source = cmds.createNode("transform", name="source")
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx"])
+    saved_name = snapshot.nodes[0].name
+    with pytest.raises(TypeError, match="iterable"):
+        snapshot.extract(nodes="source")
+    with pytest.raises(TypeError, match="iterable"):
+        snapshot.extract(nodes=bdu.Nodes().existing(source))
+    with pytest.raises(ValueError, match="must not be empty"):
+        snapshot.extract(nodes=[])
+    with pytest.raises(ValueError, match="Unknown snapshot node"):
+        snapshot.extract(nodes=["missing"])
+    with pytest.raises(ValueError, match="Duplicate snapshot node"):
+        snapshot.extract(nodes=[saved_name, saved_name])
+
+    data = snapshot.to_dict()
+    data["nodes"] = ({"name": "empty", "attributes": []}, *data["nodes"])
+    with_empty = bdu.AttrSnapshot.from_dict(data)
+    with pytest.raises(ValueError, match="contain no attributes"):
+        with_empty.extract(nodes=["empty"])
+    selected = with_empty.extract(nodes=["empty", saved_name])
+    assert [node.name for node in selected.nodes] == ["empty", saved_name]
+    assert selected.nodes[0].attributes == ()
+
+
+def test_extract_named_pending_operator_does_not_run_modifier(maya_cmds):
+    cmds = maya_cmds
+    source = cmds.createNode("transform", name="pendingTarget")
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx"])
+    cmds.delete(source)
+    mod = bdu.ModifierManager()
+    nodes = bdu.Nodes(modifier_manager=mod)
+    pending = nodes.create.transform(name="pendingTarget")
+    selected = snapshot.extract(nodes=[pending])
+    assert [node.name for node in selected.nodes] == ["pendingTarget"]
+    assert not cmds.objExists("pendingTarget")
+    assert not mod.can_undo
+    with pytest.raises(ValueError, match="pending MObject"):
+        snapshot.extract(nodes=[pending.m_obj])
+    with pytest.raises(ValueError, match="explicit name"):
+        snapshot.extract(nodes=[nodes.create.transform()])
+
+
+def test_extract_rejects_deleted_node_selector(maya_cmds):
+    cmds = maya_cmds
+    source = cmds.createNode("transform", name="source")
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx"])
+    operator = bdu.Nodes().existing(source)
+    cmds.delete(source)
+    with pytest.raises(ValueError, match="no longer available"):
+        snapshot.extract(nodes=[operator])
