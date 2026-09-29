@@ -12,6 +12,10 @@ from .enum_definition import read_enum_definition
 from .enum_plug import MayaEnumPlugStore, MayaEnumPlugView
 from .enum_plug_binding import MayaEnumPlugBinding
 from .enum_plug_resolver import MayaEnumPlug, resolve_enum_plug
+from .string_binding import MayaStringBinding
+from .string_plug import MayaStringPlugStore, MayaStringPlugView
+from .string_plug_binding import MayaStringPlugBinding
+from .string_plug_resolver import MayaStringPlug, resolve_string_plug
 from .float3_plug import MayaFloat3PlugStore
 from .float3_binding import MayaFloat3Binding
 from .float3_plug_view import MayaFloat3PlugView
@@ -58,6 +62,12 @@ from .scalar_value_transfer import (
 )
 
 __all__ = [
+    "MayaStringBinding",
+    "MayaStringPlug",
+    "MayaStringPlugBinding",
+    "MayaStringPlugStore",
+    "MayaStringPlugView",
+    "resolve_string_plug",
     "MayaScalarValue",
     "MayaScalarValueSnapshot",
     "MayaNodeValueSnapshot",

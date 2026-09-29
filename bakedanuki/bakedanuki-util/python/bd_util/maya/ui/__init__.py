@@ -1,6 +1,12 @@
 # coding: utf-8
 
 from .binding import (
+    MayaStringBinding,
+    MayaStringPlug,
+    MayaStringPlugBinding,
+    MayaStringPlugStore,
+    MayaStringPlugView,
+    resolve_string_plug,
     MayaScalarValue,
     MayaScalarValueSnapshot,
     MayaNodeValueSnapshot,
@@ -77,6 +83,12 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "MayaStringBinding",
+    "MayaStringPlug",
+    "MayaStringPlugBinding",
+    "MayaStringPlugStore",
+    "MayaStringPlugView",
+    "resolve_string_plug",
     "MayaScalarValue",
     "MayaScalarValueSnapshot",
     "MayaNodeValueSnapshot",

@@ -8,6 +8,10 @@ UI utilityは、利用場所ではなく依存関係で分けます。
 
 ## 新しいtoolへの導入
 
+一行の文字列属性には[string binding](string_binding.md)を使用できます。
+最初の題材は既存jointの`.otherType`です。Maya属性正本、Python属性正本、
+Python正本とMaya属性の双方向同期、および編集中の外部変更を扱います。
+
 enum属性の編集には[enum binding](enum_binding.md)を使用できます。
 `EnumBinding`はPython属性、`MayaEnumPlugBinding`はMaya属性を正本とし、
 `MayaEnumBinding`はPython正本とMayaを双方向同期します。

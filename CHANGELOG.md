@@ -9,6 +9,10 @@
 
 ### Added
 
+- 単一string値のMVVM基盤を追加。Python属性またはMaya typed string属性を正本とし、
+  一行入力、共有ラベル、外部変更、Undo / Redo、編集中の競合検出に対応する。
+  `joint.otherType`のサンプルを含む。Maya未設定値は空文字として扱い、
+  既存API・scene・設定の移行は不要。
 - `FloatSpinBox`と`FloatStepSpinBox`へ`select_all_on_mouse_focus`、
   `select_all_on_mouse_focus()`、`set_select_all_on_mouse_focus()`を追加。
   有効時は入力文字をマウスで初回フォーカスした左クリックだけ全選択し、再クリック、
