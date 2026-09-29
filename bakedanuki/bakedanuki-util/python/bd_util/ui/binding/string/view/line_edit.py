@@ -20,8 +20,20 @@ class StringLineEdit(qt.QLineEdit):
         self,
         view_model: StringViewModel | StringBinding[StringValueStore],
         parent: qt.QWidget | None = None,
+        *,
+        follow_source_during_edit: bool = False,
     ) -> None:
-        """同じBindingを共有する複数Viewから編集できる入力欄を作る。"""
+        """同じBindingを共有し、外部値変更時の入力保持方針を指定する。
+
+        Args:
+            view_model: 表示するViewModelまたはBinding。
+            parent: 親Widget。
+            follow_source_during_edit: 編集中も確定値の変更を優先する場合はTrue。
+        """
+        if type(follow_source_during_edit) is not bool:
+            raise TypeError(
+                "follow_source_during_editにはboolを指定してください"
+            )
         view_model, binding = resolve_string_view_source(view_model)
         super().__init__(parent)
         self._view_model = view_model
@@ -29,6 +41,7 @@ class StringLineEdit(qt.QLineEdit):
         self._input_enabled = True
         self._dirty = False
         self._conflicted = False
+        self._follow_source_during_edit = follow_source_during_edit
         self._value_request_handler: Callable[[str], bool] | None = None
         # Qtの既定32767文字による正本の黙った切り詰めを防ぐ
         self.setMaxLength(2_147_483_647)
@@ -39,6 +52,9 @@ class StringLineEdit(qt.QLineEdit):
         self.editingFinished.connect(self._commit_on_focus_loss)
         view_model.value.changed.connect(self._on_value_changed)
         view_model.source_changed.connect(self._on_source_changed)
+        view_model.source_values_changed.connect(
+            self._on_source_values_changed
+        )
         view_model.set_value_command.can_execute_changed.connect(
             self._update_enabled
         )
@@ -97,9 +113,12 @@ class StringLineEdit(qt.QLineEdit):
             self._set_conflicted(False)
 
     def _on_value_changed(self, _value: str) -> None:
-        """入力中の外部更新は保持し、それ以外は最新値を表示する。"""
+        """選択した入力方針に従い、代表の最新値を表示する。"""
         if self._dirty:
-            if self.text() == self._view_model.value.value:
+            if (
+                self._follow_source_during_edit
+                or self.text() == self._view_model.value.value
+            ):
                 self._render()
             else:
                 self._set_conflicted(True)
@@ -107,9 +126,14 @@ class StringLineEdit(qt.QLineEdit):
         self._render()
 
     def _on_source_changed(self) -> None:
-        """代表以外の対象が編集中に変わった場合も競合を知らせる。"""
-        if self._dirty:
+        """入力保持方針では後続対象の状態変化も競合として知らせる。"""
+        if self._dirty and not self._follow_source_during_edit:
             self._set_conflicted(True)
+
+    def _on_source_values_changed(self) -> None:
+        """確定値優先のViewでは後続対象だけの値変更でも入力を破棄する。"""
+        if self._dirty and self._follow_source_during_edit:
+            self._render()
 
     def _commit_explicit(self) -> None:
         """Enterによる確定は競合中でも明示入力として扱う。"""

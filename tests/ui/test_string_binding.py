@@ -148,6 +148,27 @@ def test_external_value_matching_draft_clears_conflict(qt_application):
         flush()
 
 
+def test_line_edit_can_follow_external_value_during_edit(qt_application):
+    """確定値優先では編集中の外部値を表示し、古い入力を書き戻さない。"""
+    data = Data()
+    binding = StringBinding.from_attribute(data, "name")
+    line = StringLineEdit(binding, follow_source_during_edit=True)
+    try:
+        edit(line, "入力中")
+        binding.refresh()
+        assert line.text() == "入力中"
+        data.name = "外部変更"
+        binding.refresh()
+        assert line.text() == "外部変更"
+        assert not line.hasConflict()
+        line.editingFinished.emit()
+        assert data.name == "外部変更"
+    finally:
+        line.deleteLater()
+        binding.dispose()
+        flush()
+
+
 def test_line_edit_request_handler_intercepts_committed_value(qt_application):
     """任意handlerへ確定値を渡し、処理済みなら単行Commandを実行しない。"""
     data = Data()

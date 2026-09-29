@@ -3,7 +3,7 @@ from maya import cmds
 
 from bd_util._sample.maya.ui.string_sample import maya_plugs
 from bd_util.maya.ui.callback import MayaCallbackRegistry
-from bd_util.ui import qt
+from bd_util.ui import StringLineEdit, qt
 
 
 def flush() -> None:
@@ -69,6 +69,45 @@ def test_group_sample_mixed_empty_and_draft_conflict(
         cmds.select(joints)
         reopened = maya_plugs.show_selected()
         assert reopened.binding.target_count == 2
+    finally:
+        maya_plugs.dispose()
+        cmds.delete(joints)
+        flush()
+
+
+def test_group_line_edit_follows_value_changes_but_keeps_state_only_draft(
+    qt_application, maya_standalone
+):
+    """後続値変更でも入力を破棄し、lockだけの通知では維持する。"""
+    joints = [cmds.createNode("joint") for _ in range(2)]
+    cmds.setAttr(joints[0] + ".otherType", "first", type="string")
+    cmds.setAttr(joints[1] + ".otherType", "second", type="string")
+    window = maya_plugs.show(joints)
+    line = StringLineEdit(
+        window.binding, window, follow_source_during_edit=True
+    )
+    try:
+        edit(line, "draft")
+        cmds.setAttr(joints[1] + ".otherType", lock=True)
+        flush()
+        assert line.text() == "draft"
+        assert not line.hasConflict()
+        cmds.setAttr(joints[1] + ".otherType", lock=False)
+        flush()
+        assert line.text() == "draft"
+        cmds.setAttr(joints[1] + ".otherType", "external", type="string")
+        flush()
+        assert line.text() == "first"
+        assert not line.hasConflict()
+        line.editingFinished.emit()
+        assert cmds.getAttr(joints[1] + ".otherType") == "external"
+
+        edit(line, "another draft")
+        cmds.setAttr(joints[0] + ".otherType", "updated", type="string")
+        flush()
+        assert line.text() == "updated"
+        line.editingFinished.emit()
+        assert cmds.getAttr(joints[0] + ".otherType") == "updated"
     finally:
         maya_plugs.dispose()
         cmds.delete(joints)

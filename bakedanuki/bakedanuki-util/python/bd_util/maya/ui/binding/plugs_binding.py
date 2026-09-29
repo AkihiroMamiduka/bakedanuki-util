@@ -413,6 +413,7 @@ class _StringPlugsStore(PlugsStore[str]):
             for plug in plugs
         )
         super().__init__(targets, owner)
+        self.values_changed.connect(view_model.source_values_changed.emit)
         self.state_changed.connect(view_model.source_changed.emit)
         view_model.disposed.connect(self.dispose)
         connect_queued_qt_signal(view_model.destroyed, self.dispose)

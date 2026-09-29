@@ -39,6 +39,9 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     assert_type(binding.changed, qt.QtCore.SignalInstance)
     assert_type(binding.view_model, StringViewModel)
     assert_type(binding.view_model.value, StringValue)
+    assert_type(
+        binding.view_model.source_values_changed, qt.QtCore.SignalInstance
+    )
     assert_type(binding.view_model.set_value_command, SetStringCommand)
     assert_type(binding.set_value("next"), bool)
     assert_type(binding.refresh(), bool)
@@ -72,5 +75,5 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     assert_type(group.edit_failed, qt.QtCore.SignalInstance)
     assert_type(group.set_value(""), bool)
     assert_type(group.apply_representative_value(), bool)
-    StringLineEdit(group, widget)
+    StringLineEdit(group, widget, follow_source_during_edit=True)
     StringLabel(group.view_model, widget)

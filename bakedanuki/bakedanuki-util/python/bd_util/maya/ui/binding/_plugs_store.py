@@ -181,6 +181,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
     """先頭を代表値として読み、入力時だけ編集可能な対象へ一括適用する。"""
 
     state_changed = qt.Signal()
+    values_changed = qt.Signal()
     edit_failed = qt.Signal(str)
 
     def __init__(
@@ -385,10 +386,14 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         try:
             while True:
                 self._refresh_pending = False
+                previous_values = self._values
                 state_changed = self._read_state()
+                values_changed = self._values != previous_values
                 changed = self._refresh_view_model() or changed
                 if self.is_disposed:
                     break
+                if values_changed:
+                    self.values_changed.emit()
                 if state_changed:
                     self.state_changed.emit()
                 if self.is_disposed or not self._refresh_pending:

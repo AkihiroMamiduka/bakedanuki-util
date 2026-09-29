@@ -37,6 +37,7 @@ class StringViewModel(qt.QObject):
 
     store_refreshed = qt.Signal(str)
     source_changed = qt.Signal()
+    source_values_changed = qt.Signal()
     disposed = qt.Signal()
 
     def __init__(

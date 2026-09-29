@@ -7,6 +7,13 @@
 
 ## [Unreleased]
 
+### Changed
+
+- `StringLineEdit`へ`follow_source_during_edit`を追加。指定したViewでは、編集中に
+  正本の確定値が変わると未確定入力を破棄して最新値を表示する。複数Maya属性では
+  後続対象だけの値変更も対象とし、入力可能なままの状態通知では入力を維持する。
+  既定の競合保持動作は維持し、scene・設定の移行は不要。
+
 ### Added
 
 - `inspect_scalar_attributes()`と状態Binding、複数属性編集、scalar値搬送へ
