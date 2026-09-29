@@ -1516,6 +1516,8 @@ Qt/UIは各versionで726件、Maya UIは各versionで244件成功しています
   sparse arrayの既存要素、schema 1のJSON往復と不正データの拒否。
 - 入力接続のある属性のスキップと`strict=True`の事前拒否、既存キーのroot / 指定layerへの
   設定、指定layerに未所属のキー属性と入力接続のない属性の扱い、Undo / Redo。
+  予約後にUI時間単位を変更しても、`frame`明示・`None`の両方でキーの実時刻を
+  維持すること。
 - 復元先カーブのnode / Plug lockと参照状態、別layerのlockと無関係な追加属性のlockを
   区別し、適用可能な属性を残すこと。`strict=True`では書込み前に失敗すること。
 - `extract(nodes=...)`の指定順、保存名・DAG名・namespace・liveなnode参照の解決、
@@ -1524,9 +1526,6 @@ Qt/UIは各versionで726件、Maya UIは各versionで244件成功しています
 
 `tests/typecheck/node_operator_contract.py`では、`extract()`のnode selector入力と
 `bdu.AttrSnapshot`の戻り値型・連続利用を検証します。
-予約から実行までにUI時間単位を変更するケースは、現行テストの対象外です。
-この時刻ずれを修正する際は、`frame`明示・`None`、root / 指定layer、Undo / Redoを
-追加で確認します。背景は[AttrSnapshotの完了状況と将来候補](roadmap.md#attrsnapshotの完了状況と将来候補)を参照してください。
 開発中は次の対象テストを使い、コード変更の最終確認は`AGENTS.md`に従って
 `.\scripts\verify.cmd`を実行します。
 

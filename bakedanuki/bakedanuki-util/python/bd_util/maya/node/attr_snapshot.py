@@ -460,7 +460,8 @@ class AttrSnapshot:
             targets: 保存順に対応する復元先。`namespace` と併用不可。
             namespace: 保存名の名前空間を置換。空文字では名前空間を除く。
             anim_layer: アニメーション属性のキー設定先。`None` はルート。
-            frame: キー時刻。`None` は予約時の UI 時刻。
+            frame: 予約時の Maya UI 時間単位によるキー時刻。
+                `None` は予約時の UI 時刻。
             strict: スキップ対象があれば一括でエラーにするか。
 
         Returns:
@@ -486,9 +487,11 @@ class AttrSnapshot:
             cast(object, anim_layer), (str, om.MObject, NodeOperator)
         ):
             raise TypeError("anim_layer must be a layer name or node.")
+        time_unit = om.MTime.uiUnit()
         target_frame = finite_number(
             cmds.currentTime(query=True) if frame is None else frame, "frame"
         )
+        target_time = om.MTime(target_frame, time_unit)
         data = self.from_dict(self.to_dict())
         destination = (
             tuple(
@@ -639,7 +642,10 @@ class AttrSnapshot:
                     keyframes = KeyframeManager(plug, modifier_manager=manager)
                     if layer_name is not None:
                         keyframes = keyframes.anim_layer(layer_name)
-                    keyframes.set_key(cast(float, item.value), target_frame)
+                    keyframes.set_key(
+                        cast(float, item.value),
+                        target_time.asUnits(om.MTime.uiUnit()),
+                    )
                 else:
                     _queue_value(manager.dg_mod, plug, item)
 

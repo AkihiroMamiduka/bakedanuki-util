@@ -135,6 +135,57 @@ def test_existing_key_uses_root_and_requested_layer(maya_cmds):
     assert cmds.getAttr(target + ".ty") == pytest.approx(9)
 
 
+@pytest.mark.parametrize("frame", [None, 24])
+@pytest.mark.parametrize("use_layer", [False, True])
+def test_restore_captures_time_unit_at_reservation(
+    maya_cmds, frame, use_layer
+):
+    cmds = maya_cmds
+    original_unit = cmds.currentUnit(query=True, time=True)
+    cmds.currentUnit(time="film")
+    try:
+        source = cmds.createNode("transform", name="source")
+        cmds.setAttr(source + ".tx", 7)
+        snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx"])
+        target = cmds.createNode("transform", name="target")
+        cmds.setKeyframe(target + ".tx", time=0, value=0)
+        layer = None
+        if use_layer:
+            layer = cmds.animLayer("PoseLayer")
+            cmds.animLayer(layer, edit=True, attribute=target + ".tx")
+            cmds.setKeyframe(target + ".tx", time=0, value=0, animLayer=layer)
+        cmds.currentTime(24)
+        mod = bdu.ModifierManager()
+        report = snapshot.restore(
+            mod, targets=[target], frame=frame, anim_layer=layer
+        )
+        cmds.currentUnit(time="ntsc")
+        mod.do_it_dg()
+        curve = (
+            cmds.animLayer(layer, query=True, findCurveForPlug=target + ".tx")[
+                0
+            ]
+            if layer is not None
+            else cmds.listConnections(
+                target + ".tx", source=True, destination=False
+            )[0]
+        )
+        assert report.complete and report.applied_count == 1
+        assert cmds.keyframe(
+            curve, query=True, timeChange=True
+        ) == pytest.approx([0, 30])
+        mod.undo_it()
+        assert cmds.keyframe(
+            curve, query=True, timeChange=True
+        ) == pytest.approx([0])
+        mod.redo_it()
+        assert cmds.keyframe(
+            curve, query=True, timeChange=True
+        ) == pytest.approx([0, 30])
+    finally:
+        cmds.currentUnit(time=original_unit)
+
+
 def test_invalid_schema(maya_cmds, tmp_path):
     source = maya_cmds.createNode("transform")
     snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx"])
