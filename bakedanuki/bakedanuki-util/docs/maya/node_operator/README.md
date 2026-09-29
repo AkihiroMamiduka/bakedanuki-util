@@ -31,6 +31,12 @@
     `save()` / `load()`でschema 2のJSONファイルを保存・読込できます。親フォルダは既定で作成します。
     汎用のファイル操作は[`bdu.json_file`](../../py/json_file.md)から利用できます。
 
+- `python/bd_util/maya/node/attr_snapshot.py`
+  - 複数ノードの現在値を保存・復元する `bdu.AttrSnapshot` です。
+    JSON 入出力、`extract(nodes=...)`による保存ノードの部分抽出、
+    レイヤーを指定した既存キーへの設定、属性単位のスキップ結果を扱います。
+    詳細は[属性値スナップショット](attr_snapshot.md)を参照してください。
+
 - `python/bd_util/maya/node/operator/node/_core.py`
   - `NodeOperator` の基底クラスです。
 - `python/bd_util/maya/node/operator/node/dg/_core.py`

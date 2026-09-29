@@ -1507,6 +1507,32 @@ Qt/UIは各versionで726件、Maya UIは各versionで244件成功しています
 .\scripts\verify.cmd
 ```
 
+## AttrSnapshotの検証
+
+仕様は[属性値スナップショット](attr_snapshot.md)を参照してください。
+`tests/maya/node/test_attr_snapshot.py`は、次の契約をMaya実行環境で検証します。
+
+- keyable / Channel Box専用 / 非表示 / 明示属性の取得条件、対応するscalar型・単位、
+  sparse arrayの既存要素、schema 1のJSON往復と不正データの拒否。
+- 入力接続のある属性のスキップと`strict=True`の事前拒否、既存キーのroot / 指定layerへの
+  設定、指定layerに未所属のキー属性と入力接続のない属性の扱い、Undo / Redo。
+  予約後にUI時間単位を変更しても、`frame`明示・`None`の両方でキーの実時刻を
+  維持すること。
+- 復元先カーブのnode / Plug lockと参照状態、別layerのlockと無関係な追加属性のlockを
+  区別し、適用可能な属性を残すこと。`strict=True`では書込み前に失敗すること。
+- `extract(nodes=...)`の指定順、保存名・DAG名・namespace・liveなnode参照の解決、
+  曖昧名・重複・空指定の拒否、作成待ちnodeを選んでも予約操作を実行しないこと。
+  抽出結果のJSON往復、`restore(targets=...)`の位置対応とUndoも確認します。
+
+`tests/typecheck/node_operator_contract.py`では、`extract()`のnode selector入力と
+`bdu.AttrSnapshot`の戻り値型・連続利用を検証します。
+開発中は次の対象テストを使い、コード変更の最終確認は`AGENTS.md`に従って
+`.\scripts\verify.cmd`を実行します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\test_attr_snapshot.py
+```
+
 ## ベンチマークの見方
 
 NodeOperator は生の `maya.api.OpenMaya` より速くなることは基本的にありません。

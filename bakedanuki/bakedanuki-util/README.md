@@ -49,9 +49,10 @@
     既存カーブをまとめて削減できます。
     別layerは`.anim_layer()`で明示します。
   - `bdu.AnimationClip`は複数node・属性の保存、編集、JSON入出力、復元を扱います。
+  - `bdu.AttrSnapshot`は複数nodeの現在値を保存し、JSON入出力と属性単位の復元を行います。
 - JSON file utilities
   - `bdu.json_file.write(path, data)` / `read(path)`で設定やプリセットをUTF-8 JSONへ保存・読込できます。
-  - 親フォルダは既定で作成します。AnimationClipには専用の`save()` / `load()`もあります。
+  - 親フォルダは既定で作成します。`AnimationClip`と`AttrSnapshot`には専用の`save()` / `load()`もあります。
   - 詳細は[JSONファイル入出力](docs/py/json_file.md)を参照してください。
 - Node class generator
   - Maya の DG ノード情報から `NodeOperator` 定義を生成する開発用ジェネレーターがあります。

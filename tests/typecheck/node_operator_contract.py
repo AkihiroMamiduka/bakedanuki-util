@@ -6590,3 +6590,18 @@ def animation_clip_contract(
         mod,
         offset_frames="15",  # pyright: ignore[reportArgumentType]
     )
+
+
+def attr_snapshot_extract_contract(nodes: bdu.Nodes) -> None:
+    ctrl = nodes.existing("ctrl")
+    snapshot = bdu.AttrSnapshot.capture(["ctrl", "other"], attributes=["tx"])
+    assert_type(snapshot.extract(nodes=["ctrl"]), bdu.AttrSnapshot)
+    assert_type(
+        snapshot.extract(nodes=[ctrl, ctrl.m_obj, "other"]), bdu.AttrSnapshot
+    )
+    assert_type(
+        snapshot.extract(nodes=(name for name in ("ctrl", "other"))).to_json(),
+        str,
+    )
+    snapshot.extract(["ctrl"])  # pyright: ignore[reportCallIssue]
+    snapshot.extract(nodes=[1])  # pyright: ignore[reportArgumentType]

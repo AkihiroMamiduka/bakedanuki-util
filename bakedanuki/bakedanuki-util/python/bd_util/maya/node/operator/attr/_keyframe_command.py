@@ -59,7 +59,9 @@ def queue_key(
         target_layer = layer or _keyframe_target.base_layer(plug)
         if target_layer is not None:
             if layer is not None:
-                _keyframe_target.layer_curve(layer, write=True)
+                curve = _keyframe_target.layer_curve(layer)
+                if curve is not None:
+                    _keyframe_target.check_key_editable_curve(curve)
             flags["animLayer"] = _keyframe_target.layer_name(
                 target_layer, write=True
             )
