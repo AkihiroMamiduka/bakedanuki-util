@@ -209,3 +209,194 @@ def test_layer_unmembership_skips_key_but_sets_static(maya_cmds):
     )
     assert cmds.getAttr(target + ".tx") == pytest.approx(0)
     assert cmds.getAttr(target + ".tz") == pytest.approx(7)
+
+
+@pytest.mark.parametrize(
+    "lock",
+    ["node", "output", "keyTimeValue", "ktv[0].kv", "ktl[0]"],
+)
+def test_locked_destination_curve_skips_only_its_attribute(maya_cmds, lock):
+    cmds = maya_cmds
+    source = cmds.createNode("transform", name="source")
+    cmds.setAttr(source + ".tx", 8)
+    cmds.setAttr(source + ".ty", 9)
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["ty", "tx"])
+    target = cmds.createNode("transform", name="target")
+    cmds.setKeyframe(target + ".tx", time=1, value=0)
+    curve = cmds.listConnections(
+        target + ".tx", source=True, destination=False
+    )[0]
+    mod = bdu.ModifierManager()
+    report = snapshot.restore(mod, targets=[target], frame=5)
+    if lock == "node":
+        cmds.lockNode(curve, lock=True)
+    else:
+        cmds.setAttr(curve + "." + lock, lock=True)
+    mod.do_it_dg()
+    assert report.complete and report.applied_count == 1
+    assert [(item.attribute, item.reason) for item in report.skipped] == [
+        (snapshot.nodes[0].attributes[1].attribute, "locked animation curve")
+    ]
+    assert cmds.getAttr(target + ".ty") == pytest.approx(9)
+    assert cmds.keyframe(curve, query=True, time=(5, 5)) is None
+    mod.undo_it()
+    assert cmds.getAttr(target + ".ty") == pytest.approx(0)
+    mod.redo_it()
+    assert cmds.getAttr(target + ".ty") == pytest.approx(9)
+
+
+def test_locked_destination_curve_strict_fails_before_writing(maya_cmds):
+    cmds = maya_cmds
+    source = cmds.createNode("transform", name="source")
+    cmds.setAttr(source + ".tx", 8)
+    cmds.setAttr(source + ".ty", 9)
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["ty", "tx"])
+    target = cmds.createNode("transform", name="target")
+    cmds.setKeyframe(target + ".tx", time=1, value=0)
+    curve = cmds.listConnections(
+        target + ".tx", source=True, destination=False
+    )[0]
+    cmds.setAttr(curve + ".ktv[0].kv", lock=True)
+    mod = bdu.ModifierManager()
+    report = snapshot.restore(mod, targets=[target], strict=True)
+    with pytest.raises(RuntimeError, match="locked animation curve"):
+        mod.do_it_dg()
+    assert not report.complete
+    assert cmds.getAttr(target + ".ty") == pytest.approx(0)
+    assert cmds.keyframe(curve, query=True, keyframeCount=True) == 1
+    assert not mod.can_undo
+
+
+@pytest.mark.parametrize("target_layer", ["root", "PoseLayer"])
+def test_other_layer_curve_lock_does_not_block_restore(
+    maya_cmds, target_layer
+):
+    cmds = maya_cmds
+    source = cmds.createNode("transform", name="source")
+    cmds.setAttr(source + ".tx", 5)
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx"])
+    target = cmds.createNode("transform", name="target")
+    cmds.setKeyframe(target + ".tx", time=1, value=0)
+    layer = cmds.animLayer("PoseLayer")
+    cmds.animLayer(layer, edit=True, attribute=target + ".tx")
+    cmds.setKeyframe(target + ".tx", time=1, value=0, animLayer=layer)
+    root = cmds.animLayer(query=True, root=True)
+    protected_layer = layer if target_layer == "root" else root
+    protected_curve = cmds.animLayer(
+        protected_layer, query=True, findCurveForPlug=target + ".tx"
+    )[0]
+    cmds.setAttr(protected_curve + ".ktv", lock=True)
+    kwargs = {} if target_layer == "root" else {"anim_layer": layer}
+    mod = bdu.ModifierManager()
+    report = snapshot.restore(mod, targets=[target], frame=5, **kwargs)
+    mod.do_it_dg()
+    destination_layer = root if target_layer == "root" else layer
+    destination_curve = cmds.animLayer(
+        destination_layer, query=True, findCurveForPlug=target + ".tx"
+    )[0]
+    assert report.complete and report.applied_count == 1 and not report.skipped
+    assert cmds.keyframe(
+        destination_curve, query=True, time=(5, 5), valueChange=True
+    ) == pytest.approx([5])
+
+
+@pytest.mark.parametrize("layered", [False, True])
+def test_unrelated_curve_attribute_lock_does_not_block_restore(
+    maya_cmds, layered
+):
+    cmds = maya_cmds
+    source = cmds.createNode("transform", name="source")
+    cmds.setAttr(source + ".tx", 5)
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx"])
+    target = cmds.createNode("transform", name="target")
+    cmds.setKeyframe(target + ".tx", time=1, value=0)
+    layer = None
+    if layered:
+        layer = cmds.animLayer("PoseLayer")
+        cmds.animLayer(layer, edit=True, attribute=target + ".tx")
+        cmds.setKeyframe(target + ".tx", time=1, value=0, animLayer=layer)
+    curve = (
+        cmds.animLayer(layer, query=True, findCurveForPlug=target + ".tx")[0]
+        if layer is not None
+        else cmds.listConnections(
+            target + ".tx", source=True, destination=False
+        )[0]
+    )
+    cmds.addAttr(curve, longName="guard", attributeType="double")
+    cmds.setAttr(curve + ".guard", lock=True)
+    mod = bdu.ModifierManager()
+    report = snapshot.restore(mod, targets=[target], frame=5, anim_layer=layer)
+    mod.do_it_dg()
+    assert report.complete and report.applied_count == 1 and not report.skipped
+    assert cmds.keyframe(
+        curve, query=True, time=(5, 5), valueChange=True
+    ) == pytest.approx([5])
+
+
+@pytest.mark.parametrize("lock", ["node", "ktv[0].kv"])
+def test_locked_selected_layer_curve_skips_only_its_attribute(maya_cmds, lock):
+    cmds = maya_cmds
+    source = cmds.createNode("transform", name="source")
+    cmds.setAttr(source + ".tx", 5)
+    cmds.setAttr(source + ".ty", 7)
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx", "ty"])
+    target = cmds.createNode("transform", name="target")
+    cmds.setKeyframe(target + ".tx", time=1, value=0)
+    layer = cmds.animLayer("PoseLayer")
+    cmds.animLayer(layer, edit=True, attribute=target + ".tx")
+    cmds.setKeyframe(target + ".tx", time=1, value=0, animLayer=layer)
+    curve = cmds.animLayer(layer, query=True, findCurveForPlug=target + ".tx")[
+        0
+    ]
+    if lock == "node":
+        cmds.lockNode(curve, lock=True)
+    else:
+        cmds.setAttr(curve + "." + lock, lock=True)
+    mod = bdu.ModifierManager()
+    report = snapshot.restore(mod, targets=[target], frame=5, anim_layer=layer)
+    mod.do_it_dg()
+    assert report.complete and report.applied_count == 1
+    assert [(item.attribute, item.reason) for item in report.skipped] == [
+        (snapshot.nodes[0].attributes[0].attribute, "locked animation curve")
+    ]
+    assert cmds.getAttr(target + ".ty") == pytest.approx(7)
+    assert cmds.keyframe(curve, query=True, time=(5, 5)) is None
+
+
+def test_referenced_destination_curve_skips_only_its_attribute(
+    maya_cmds, tmp_path
+):
+    cmds = maya_cmds
+    curve = cmds.createNode("animCurveTL", name="referencedCurve")
+    cmds.setKeyframe(curve, time=1, value=0)
+    cmds.select(curve)
+    curve_file = tmp_path / "curve.ma"
+    cmds.file(
+        str(curve_file),
+        force=True,
+        options="v=0;",
+        type="mayaAscii",
+        exportSelected=True,
+    )
+    cmds.delete(curve)
+    cmds.file(str(curve_file), reference=True, namespace="ref")
+    source = cmds.createNode("transform", name="source")
+    cmds.setAttr(source + ".tx", 5)
+    cmds.setAttr(source + ".ty", 7)
+    snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx", "ty"])
+    target = cmds.createNode("transform", name="target")
+    cmds.connectAttr("ref:referencedCurve.output", target + ".tx")
+    mod = bdu.ModifierManager()
+    report = snapshot.restore(mod, targets=[target], frame=5)
+    mod.do_it_dg()
+    assert report.complete and report.applied_count == 1
+    assert [(item.attribute, item.reason) for item in report.skipped] == [
+        (
+            snapshot.nodes[0].attributes[0].attribute,
+            "referenced animation curve",
+        )
+    ]
+    assert cmds.getAttr(target + ".ty") == pytest.approx(7)
+    assert (
+        cmds.keyframe("ref:referencedCurve", query=True, time=(5, 5)) is None
+    )

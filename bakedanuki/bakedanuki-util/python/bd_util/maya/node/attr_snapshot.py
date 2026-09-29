@@ -419,6 +419,7 @@ class AttrSnapshot:
         入力接続のない属性は直接設定する。既存の時間カーブがある属性は
         `frame` で `anim_layer` にキーを設定する。指定なしではルートを使う。
         その他の入力接続、編集不可、型不一致、レイヤー未所属はスキップする。
+        キー設定先のカーブがロックまたは参照されている場合も、その属性をスキップする。
         `strict=True` では全件の適用可否を変更前に検査してエラーにする。
 
         Args:
@@ -561,6 +562,26 @@ class AttrSnapshot:
                                         reason = (
                                             "animation layer is not editable"
                                         )
+                                    else:
+                                        curve = (
+                                            _keyframe_target.layer_curve(
+                                                target_layer
+                                            )
+                                            if target_layer is not None
+                                            else _keyframe_target.channel_curve(
+                                                plug
+                                            )
+                                        )
+                                        if curve is not None:
+                                            if curve.isFromReferencedFile:
+                                                reason = "referenced animation curve"
+                                            else:
+                                                try:
+                                                    _keyframe_target.check_key_editable_curve(
+                                                        curve
+                                                    )
+                                                except RuntimeError:
+                                                    reason = "locked animation curve"
                         if reason is None:
                             pending.append(
                                 (

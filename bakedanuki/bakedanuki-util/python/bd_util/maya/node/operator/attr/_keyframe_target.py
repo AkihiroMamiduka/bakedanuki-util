@@ -524,6 +524,22 @@ def _check_editable_curve(curve: oma.MFnAnimCurve) -> None:
             _check_editable_plug(curve.findPlug(attribute, False))
 
 
+def check_key_editable_curve(curve: oma.MFnAnimCurve) -> None:
+    """キー設定先カーブのロックを調べ、無関係な追加属性は除外する。"""
+    check_editable_node(curve)
+    for i in range(curve.attributeCount()):
+        attribute = curve.attribute(i)
+        fn = om.MFnAttribute(attribute)
+        if fn.dynamic or not fn.parent.isNull():
+            continue
+        if fn.name.startswith("key") or fn.name in (
+            "output",
+            "tangentType",
+            "weightedTangents",
+        ):
+            _check_editable_plug(curve.findPlug(attribute, False))
+
+
 def check_editable_node(node: om.MFnDependencyNode) -> None:
     if node.isLocked or node.isFromReferencedFile:
         raise RuntimeError(
