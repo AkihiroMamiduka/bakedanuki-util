@@ -1,7 +1,9 @@
 # 複数のMaya属性を一つの入力で編集する
 
-`MayaBoolPlugsBinding`、`MayaFloatPlugsBinding`、`MayaEnumPlugsBinding`は、順序付きの属性群を既存の
-`BoolComboBox`、`FloatSpinBox`、`FloatSliderSpinBox`、`EnumComboBox`、`EnumRadioButtonGroup`などへ接続します。
+`MayaBoolPlugsBinding`、`MayaFloatPlugsBinding`、`MayaEnumPlugsBinding`、
+`MayaStringPlugsBinding`は、順序付きの属性群を既存の
+`BoolComboBox`、`FloatSpinBox`、`FloatSliderSpinBox`、`EnumComboBox`、
+`EnumRadioButtonGroup`、`StringLineEdit`などへ接続します。
 先頭属性を代表として表示し、ユーザーの入力時だけ編集可能な対象へ同じ値を適用します。
 
 ```python
@@ -94,6 +96,23 @@ scalar enumと配列配下ではないcompound子に対応し、配列・配列�
 
 Maya属性群が正本なので、Python正本用の`MayaEnumPlugView`は追加接続できません。
 同じBindingをQt View間で共有して使用してください。
+
+## string属性群
+
+`MayaStringPlugsBinding`は、同じ型の単一typed string属性をまとめます。
+最初の実値を代表に表示し、空文字を有効値として扱います。代表と異なる対象は
+`is_mixed`で示し、入力欄には代表の実文字列を表示します。混在の案内は別の
+ラベルへ表示してください。
+
+新しい入力は編集可能な対象へ一回のUndoで適用します。stringの書込みには
+`setAttr(..., type="string")`を使い、NUL文字は全件の書込み前に拒否します。
+代表値と同じ入力でも後続に差分があれば変更し、明示的な同値統一には
+`apply_representative_value()`を使います。空文字への明示統一は`set_value("")`です。
+
+編集中に後続対象だけが外部変更された場合も`StringLineEdit`は競合を示し、
+フォーカス移動による書込みを保留します。Enterによる明示確定とEscapeによる
+破棄は単一属性と共通です。jointの`.otherType`を題材にしたサンプルとAPIの詳細は
+[string binding](string_binding.md#複数のmaya-string属性を一括編集する)を参照してください。
 
 ## 表示と入力の分離
 

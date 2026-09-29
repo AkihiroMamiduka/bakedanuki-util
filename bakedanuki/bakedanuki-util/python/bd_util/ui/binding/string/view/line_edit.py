@@ -35,6 +35,7 @@ class StringLineEdit(qt.QLineEdit):
         self.returnPressed.connect(self._commit_explicit)
         self.editingFinished.connect(self._commit_on_focus_loss)
         view_model.value.changed.connect(self._on_value_changed)
+        view_model.source_changed.connect(self._on_source_changed)
         view_model.set_value_command.can_execute_changed.connect(
             self._update_enabled
         )
@@ -82,9 +83,17 @@ class StringLineEdit(qt.QLineEdit):
     def _on_value_changed(self, _value: str) -> None:
         """入力中の外部更新は保持し、それ以外は最新値を表示する。"""
         if self._dirty:
-            self._set_conflicted(True)
+            if self.text() == self._view_model.value.value:
+                self._render()
+            else:
+                self._set_conflicted(True)
             return
         self._render()
+
+    def _on_source_changed(self) -> None:
+        """代表以外の対象が編集中に変わった場合も競合を知らせる。"""
+        if self._dirty:
+            self._set_conflicted(True)
 
     def _commit_explicit(self) -> None:
         """Enterによる確定は競合中でも明示入力として扱う。"""

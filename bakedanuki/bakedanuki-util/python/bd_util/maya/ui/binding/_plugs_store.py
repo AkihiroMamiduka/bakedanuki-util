@@ -18,7 +18,7 @@ from ._float_edit import FloatEditUndo
 from ._float_plug_endpoint import run_later
 from .plugs_state import MayaPlugTargetState
 
-_ValueT = TypeVar("_ValueT", bool, float, int)
+_ValueT = TypeVar("_ValueT", bool, float, int, str)
 
 
 class PlugValueCodec(Protocol[_ValueT]):

@@ -5,8 +5,10 @@ from typing import assert_type
 from bd_util.maya.ui import (
     MayaStringBinding,
     MayaStringPlugBinding,
+    MayaStringPlugsBinding,
     MayaStringPlugStore,
     MayaStringPlugView,
+    MayaPlugTargetState,
     resolve_string_plug,
 )
 from bd_util.ui import (
@@ -59,3 +61,15 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     assert_type(plug_binding.value, str)
     StringLineEdit(plug_binding, widget)
     StringLabel(plug_binding, widget)
+    group = MayaStringPlugsBinding([plug], parent=owner)
+    assert_type(group.value, str)
+    assert_type(group.is_mixed, bool)
+    assert_type(group.target_count, int)
+    assert_type(group.writable_count, int)
+    assert_type(group.target_states, tuple[MayaPlugTargetState, ...])
+    assert_type(group.state_changed, qt.QtCore.SignalInstance)
+    assert_type(group.edit_failed, qt.QtCore.SignalInstance)
+    assert_type(group.set_value(""), bool)
+    assert_type(group.apply_representative_value(), bool)
+    StringLineEdit(group, widget)
+    StringLabel(group.view_model, widget)

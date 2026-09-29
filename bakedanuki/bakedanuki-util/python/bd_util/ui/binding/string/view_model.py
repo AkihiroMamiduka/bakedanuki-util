@@ -36,6 +36,7 @@ class StringViewModel(qt.QObject):
     """一つの確定文字列と変更要求をStoreへ仲介する。"""
 
     store_refreshed = qt.Signal(str)
+    source_changed = qt.Signal()
     disposed = qt.Signal()
 
     def __init__(

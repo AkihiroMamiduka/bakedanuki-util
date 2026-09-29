@@ -127,3 +127,22 @@ def test_locked_view_keeps_copy_and_view_model_can_work_without_store(
         line.deleteLater()
         view_model.deleteLater()
         flush()
+
+
+def test_external_value_matching_draft_clears_conflict(qt_application):
+    """外部確定値が入力中の文字列と一致したら競合を残さない。"""
+    data = Data()
+    binding = StringBinding.from_attribute(data, "name")
+    line = StringLineEdit(binding)
+    try:
+        edit(line, "matching")
+        data.name = "matching"
+        binding.refresh()
+        assert line.text() == "matching"
+        assert not line.hasConflict()
+        line.editingFinished.emit()
+        assert data.name == "matching"
+    finally:
+        line.deleteLater()
+        binding.dispose()
+        flush()

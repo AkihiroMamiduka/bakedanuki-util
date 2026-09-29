@@ -35,6 +35,7 @@ from .plugs_binding import (
     MayaBoolPlugsBinding,
     MayaFloatPlugsBinding,
     MayaEnumPlugsBinding,
+    MayaStringPlugsBinding,
 )
 from .plugs_state import MayaPlugTargetState
 from .plugs_value_edits import (
@@ -65,6 +66,7 @@ __all__ = [
     "MayaStringBinding",
     "MayaStringPlug",
     "MayaStringPlugBinding",
+    "MayaStringPlugsBinding",
     "MayaStringPlugStore",
     "MayaStringPlugView",
     "resolve_string_plug",

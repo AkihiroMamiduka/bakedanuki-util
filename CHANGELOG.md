@@ -9,6 +9,10 @@
 
 ### Added
 
+- `MayaStringPlugsBinding`を追加。複数の単一typed string属性を先頭の値を代表として
+  読み、明示入力時だけ編集可能な対象へ一回のUndoで適用する。混在、同値統一、
+  空文字、対象ごとの編集可否、途中失敗の復旧、外部変更中の入力保護に対応する。
+  複数jointの`.otherType`を対象とするサンプルを追加。既存scene・設定の移行は不要。
 - 単一string値のMVVM基盤を追加。Python属性またはMaya typed string属性を正本とし、
   一行入力、共有ラベル、外部変更、Undo / Redo、編集中の競合検出に対応する。
   `joint.otherType`のサンプルを含む。Maya未設定値は空文字として扱い、

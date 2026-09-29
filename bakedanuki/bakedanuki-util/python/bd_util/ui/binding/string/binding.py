@@ -30,7 +30,7 @@ class StringBinding(qt.QObject, Generic[_StoreT]):
         """専用ViewModelとStoreを一度だけ組み立てる。"""
         super().__init__(parent)
         self._is_disposed = False
-        self._view_model = StringViewModel(parent=self)
+        self._view_model = self._create_view_model()
         try:
             self._store = create_store(self._view_model)
             self._view_model.attach_store(self._store)
@@ -102,3 +102,7 @@ class StringBinding(qt.QObject, Generic[_StoreT]):
         """終了後の公開操作を拒否する。"""
         if self.is_disposed:
             raise RuntimeError("StringBindingは終了しています")
+
+    def _create_view_model(self) -> StringViewModel:
+        """派生Bindingが入力規則を差し替えられるViewModelを作る。"""
+        return StringViewModel(parent=self)

@@ -4,9 +4,10 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from dataclasses import replace
-from typing import Generic, TypeVar
+from dataclasses import dataclass, replace
+from typing import Generic, Protocol, TypeVar, cast
 
+from maya import cmds
 from maya.api import OpenMaya as om
 
 from ....ui import (
@@ -18,11 +19,14 @@ from ....ui import (
     FloatBinding,
     FloatPresentation,
     FloatViewModel,
+    StringBinding,
+    StringViewModel,
     qt,
 )
 from ....ui.binding.enum._connection import connect_queued_qt_signal
 from ....ui.binding.enum.definition import require_enum_value
 from ....ui.binding.float._validation import require_float
+from ....ui.binding.string._validation import require_string
 from ...node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolPlugOperator,
 )
@@ -32,14 +36,76 @@ from ._plugs_store import PlugsStore, PlugTarget, PlugWrite
 from .float_plug_resolver import MayaFloatPlug, require_float_plug
 from .enum_plug_resolver import MayaEnumPlug, require_enum_plug
 from .plugs_state import MayaPlugTargetState
+from .string_plug_resolver import MayaStringPlug, require_string_plug
 
 __all__ = [
     "MayaBoolPlugsBinding",
     "MayaFloatPlugsBinding",
     "MayaEnumPlugsBinding",
+    "MayaStringPlugsBinding",
 ]
 
-_ValueT = TypeVar("_ValueT", bool, float, int)
+_ValueT = TypeVar("_ValueT", bool, float, int, str)
+
+
+class _SetStringAttr(Protocol):
+    """Mayaへのstring書込みに必要な型指定を固定する。"""
+
+    def __call__(self, name: str, value: str, *, type: str) -> None:
+        """typed string属性へ値を書き込む。"""
+        raise NotImplementedError
+
+
+class _StringCodec:
+    """Mayaの単一typed stringを一括編集の公開値へ変換する。"""
+
+    def __init__(self, plug: MayaStringPlug) -> None:
+        """配列外のstring属性だけを受け付ける。"""
+        self.plug = require_string_plug(plug).plug
+
+    def read(self) -> str:
+        """未設定値を空文字として読み取る。"""
+        return cast(str, self.plug.asString())
+
+    def to_ui(self, value: str) -> str:
+        """復旧値を暗黙変換せず検証する。"""
+        return require_string(value)
+
+    def validate(self, value: str) -> str:
+        """Mayaが受け付けないNULを変更前に拒否する。"""
+        value = self.to_ui(value)
+        if "\x00" in value:
+            raise ValueError("Maya string属性へNUL文字は書き込めません")
+        return value
+
+
+@dataclass(frozen=True)
+class _PreparedStringWrite:
+    """string属性一件の値と復旧値を型付き書込みへ渡す。"""
+
+    store: _StringPlugsStore
+    target: PlugTarget[str]
+    before: str
+    value: str
+
+    def validate(self) -> None:
+        """直前の対象状態と入力文字列を再検証する。"""
+        self.store.validate_write_target(self.target, self.value)
+        self.target.codec.validate(self.value)
+
+    def apply(self) -> None:
+        """型を明示して変更値をMaya Undoへ積む。"""
+        cast(_SetStringAttr, cmds.setAttr)(
+            self.target.name(), self.value, type="string"
+        )
+
+    def restore(self) -> None:
+        """今回の入力で変わった値を元の文字列へ戻す。"""
+        before = self.target.codec.to_ui(self.before)
+        if self.target.codec.read() != before:
+            cast(_SetStringAttr, cmds.setAttr)(
+                self.target.name(), before, type="string"
+            )
 
 
 class _BoolCodec:
@@ -331,6 +397,70 @@ class _FloatPlugsStore(PlugsStore[float]):
         return view_model.refresh_from_store(self)
 
 
+class _StringPlugsStore(PlugsStore[str]):
+    """複数のMaya string属性を監視して一括入力するStore。"""
+
+    def __init__(
+        self,
+        view_model: StringViewModel,
+        plugs: Sequence[MayaStringPlug],
+        owner: qt.QObject,
+    ) -> None:
+        """型付きstring属性を検証し、書込みなしで監視を始める。"""
+        self._view_model = view_model
+        targets = tuple(
+            PlugTarget(plug.node, plug.plug, _StringCodec(plug))
+            for plug in plugs
+        )
+        super().__init__(targets, owner)
+        self.state_changed.connect(view_model.source_changed.emit)
+        view_model.disposed.connect(self.dispose)
+        connect_queued_qt_signal(view_model.destroyed, self.dispose)
+
+    def prepare_write(self, value: str) -> list[PlugWrite]:
+        """全件を先に検証し、差分だけstring専用書込みへ渡す。"""
+        value = require_string(value)
+        if "\x00" in value:
+            raise ValueError("Maya string属性へNUL文字は書き込めません")
+        if self._write_depth:
+            raise RuntimeError("一括書き込み中に別の入力は開始できません")
+        if not self.is_writable:
+            raise RuntimeError("代表のMaya属性は編集できません")
+        plan: list[PlugWrite] = []
+        for target in self._targets:
+            if not target.state().is_writable:
+                continue
+            target.codec.validate(value)
+            before = target.codec.read()
+            if before != value:
+                plan.append(_PreparedStringWrite(self, target, before, value))
+        return plan
+
+    def _refresh_view_model(self) -> bool:
+        """代表値と入力可否を共有ViewModelへ反映する。"""
+        view_model = self._view_model
+        if not qt.isValid(view_model) or view_model.is_disposed:
+            self.dispose()
+            return False
+        if view_model.store is not self:
+            return False
+        return view_model.refresh_from_store(self)
+
+    def _validate_attached_view_model(
+        self, view_model: StringViewModel
+    ) -> None:
+        """専用ViewModel以外への二重接続を拒否する。"""
+        if view_model is not self._view_model:
+            raise ValueError("構築時のStringViewModelへ接続してください")
+
+    def dispose(self) -> None:
+        """callbackを解除し、接続中のCommandを停止する。"""
+        super().dispose()
+        view_model = self._view_model
+        if not view_model.is_disposed and view_model.store is self:
+            view_model.store_became_unavailable(self)
+
+
 class _BoolPlugsViewModel(BoolViewModel):
     """代表との同値判定を行わず、属性群が入力差分を判断する。"""
 
@@ -360,6 +490,17 @@ class _EnumPlugsViewModel(EnumViewModel):
         """代表と同じ値の入力も、属性群の一括変更へ渡す。"""
         store = self.store
         if self.is_disposed or not isinstance(store, _EnumPlugsStore):
+            return False
+        return store.request_value(value)
+
+
+class _StringPlugsViewModel(StringViewModel):
+    """代表と同じ明示入力も全属性へ送るViewModel。"""
+
+    def _request_value(self, value: str) -> bool:
+        """対象群の差分判定へ文字列をそのまま渡す。"""
+        store = self.store
+        if self.is_disposed or not isinstance(store, _StringPlugsStore):
             return False
         return store.request_value(value)
 
@@ -578,6 +719,50 @@ class MayaEnumPlugsBinding(
         Returns:
             公開値が変わった場合は`True`。
         """
+        self._require_active()
+        return self.store.refresh()
+
+    def dispose(self) -> None:
+        """所有する全callbackを解除して入力を停止する。"""
+        try:
+            if self._owned_group is not None:
+                self._owned_group.dispose()
+        finally:
+            super().dispose()
+
+
+class MayaStringPlugsBinding(
+    _PlugsBindingState[str], StringBinding[_StringPlugsStore]
+):
+    """複数のMaya string属性を一つの文字列Viewへ接続する。"""
+
+    def __init__(
+        self,
+        plugs: Sequence[MayaStringPlug],
+        *,
+        parent: qt.QObject | None = None,
+    ) -> None:
+        """先頭の実値を代表として読み、他属性へ書き戻さない。"""
+        self._owned_group = None
+
+        def create_store(view_model: StringViewModel) -> _StringPlugsStore:
+            """専用ViewModelと同じ寿命の一括Storeを作る。"""
+            store = _StringPlugsStore(view_model, plugs, self)
+            self._owned_group = store
+            return store
+
+        self._initialize(create_store, parent=parent)
+
+    def _create_view_model(self) -> StringViewModel:
+        """代表との同値要求も一括適用するViewModelを作る。"""
+        return _StringPlugsViewModel(parent=self)
+
+    def apply_representative_value(self) -> bool:
+        """代表の確定値へ編集可能な後続属性を揃える。"""
+        return self.set_value(self.store.read())
+
+    def refresh(self) -> bool:
+        """全対象の状態と代表値を、書き込まず再取得する。"""
         self._require_active()
         return self.store.refresh()
 
