@@ -107,15 +107,25 @@ class _ChannelTarget:
         self.node = operator.node
         self.plug = operator.plug
         attribute = self.plug.attribute()
-        if self.plug.isCompound or not any(
-            attribute.hasFn(kind)
-            for kind in (
-                om.MFn.kNumericAttribute,
-                om.MFn.kUnitAttribute,
-                om.MFn.kEnumAttribute,
+        is_string = (
+            attribute.hasFn(om.MFn.kTypedAttribute)
+            and om.MFnTypedAttribute(attribute).attrType()
+            == om.MFnData.kString
+        )
+        if self.plug.isCompound or not (
+            is_string
+            or any(
+                attribute.hasFn(kind)
+                for kind in (
+                    om.MFn.kNumericAttribute,
+                    om.MFn.kUnitAttribute,
+                    om.MFn.kEnumAttribute,
+                )
             )
         ):
-            raise TypeError("単一のnumeric・unit・enum属性を指定してください")
+            raise TypeError(
+                "単一のnumeric・unit・enum・string属性を指定してください"
+            )
         watched = [self.plug]
         while True:
             ancestor = watched[-1]

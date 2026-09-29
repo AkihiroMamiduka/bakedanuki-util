@@ -134,7 +134,7 @@ soft limitは入力制限に使いません。
 
 複数行の値をまとめて確定する場合は、`bd_util.maya.ui.apply_plugs_values()`へ
 型付きの入力を並べます。一つの`MayaFloatPlugsBinding`では単位種別を揃えたまま、
-Binding間では距離・角度・単位なしの数値、bool、enumを混在できます。
+Binding間では距離・角度・単位なしの数値、bool、enum、stringを混在できます。
 
 ```python
 from bd_util.maya.ui import (
@@ -169,7 +169,8 @@ apply_plugs_values(
 ```
 
 `MayaBoolValueEdit(binding, bool)`、`MayaFloatValueEdit(binding, float)`、
-`MayaFloatOffsetEdit(binding, float)`、`MayaEnumValueEdit(binding, int)`を受け取り、
+`MayaFloatOffsetEdit(binding, float)`、`MayaEnumValueEdit(binding, int)`、
+`MayaStringValueEdit(binding, str)`を受け取り、
 union型は`MayaPlugsValueEdit`です。
 値は各Bindingの公開単位で指定します。画面の同じ数値を入力する場合は、上記のように
 **各行の**`presentation.from_display()`を使用してください。距離がm、角度がradの
@@ -177,7 +178,7 @@ union型は`MayaPlugsValueEdit`です。
 対応するEditへその行の`binding.value`を渡します。
 
 利用側は選択行と入力可能な行を決め、明示入力だけをこのAPIへ渡します。
-APIは全要求の型・範囲・enum定義を実書込み前に検証し、対象群をまたぐ差分を
+APIは全要求の型・範囲・enum定義・stringのNULを実書込み前に検証し、対象群をまたぐ差分を
 一回のUndoで適用します。空入力・全て同値の入力はFalseを返し、Undoを追加しません。
 同じBindingまたは同じplugを二度含む要求は、無変更の対象も含めて変更前に拒否します。
 各行の後続readonly属性は既存仕様どおり除外します。代表が削除・lock・接続・
@@ -192,13 +193,14 @@ enum定義不一致などで編集不可の場合は、他行も含めて例外�
 
 `FloatSpinBox.setValueRequestHandler()`、`FloatSpinBox.setStepRequestHandler()`、
 `FloatSlider.setValueRequestHandler()`、`BoolCheckBox.setValueRequestHandler()`、
-`EnumComboBox.setValueRequestHandler()`へ関数を設定すると、既存Viewの入力を利用側で処理できます。
+`EnumComboBox.setValueRequestHandler()`、`StringLineEdit.setValueRequestHandler()`へ
+関数を設定すると、既存Viewの入力を利用側で処理できます。
 関数がTrueを返した入力は元のViewModelへ重ねて渡しません。Sliderの`editStarted`と
 `editFinished`を編集セッションの開始・終了へ接続できます。未設定時の既存入力は変わりません。
 
 ## Undo、失敗復旧、終了
 
-bool・enum・数値の確定は対象群をまとめてUndo一回になります。
+bool・enum・数値・stringの確定は対象群をまとめてUndo一回になります。
 floatのドラッグは、各位置を全対象へ即時反映し、全ドラッグをUndo一回にまとめます。
 全てが同じ格納値になる要求では書込みやUndoを追加しません。
 代表と同値でも後続に差分がある場合は、一括入力を実行します。

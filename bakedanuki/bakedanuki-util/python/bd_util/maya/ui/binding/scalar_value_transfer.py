@@ -20,15 +20,18 @@ from .bool_plug_resolver import resolve_bool_plug
 from .enum_definition import read_enum_definition
 from .enum_plug_resolver import resolve_enum_plug
 from .float_plug_resolver import resolve_float_plug
+from .string_plug_resolver import resolve_string_plug
 from .plugs_binding import (
     MayaBoolPlugsBinding,
     MayaEnumPlugsBinding,
     MayaFloatPlugsBinding,
+    MayaStringPlugsBinding,
 )
 from .plugs_value_edits import (
     MayaBoolValueEdit,
     MayaEnumValueEdit,
     MayaFloatValueEdit,
+    MayaStringValueEdit,
     MayaPlugsValueEdit,
     apply_plugs_values,
 )
@@ -49,25 +52,30 @@ __all__ = [
     "apply_scalar_value_to_paths",
 ]
 
-MayaScalarValue: TypeAlias = bool | float | int
+MayaScalarValue: TypeAlias = bool | float | int | str
 _ScalarBinding: TypeAlias = (
-    MayaBoolPlugsBinding | MayaFloatPlugsBinding | MayaEnumPlugsBinding
+    MayaBoolPlugsBinding
+    | MayaFloatPlugsBinding
+    | MayaEnumPlugsBinding
+    | MayaStringPlugsBinding
 )
 
 _FORMAT = "bd_util.maya.scalar_values"
-_VERSION = 1
+_VERSION = 2
 _KINDS: tuple[ScalarAttributeKind, ...] = (
     "bool",
     "number",
     "distance",
     "angle",
     "enum",
+    "string",
 )
 _MAX_NODES = 64
 _MAX_VALUES = 10_000
 _MAX_ENUM_ITEMS = 2048
 _MAX_PATH_LENGTH = 1024
 _MAX_ENUM_NAME_LENGTH = 256
+_MAX_STRING_LENGTH = 1024 * 1024
 _CLIPBOARD = JsonClipboard(
     "application/vnd.bakedanuki.maya-scalar-values+json",
     "BAKEDANUKI_MAYA_SCALAR_VALUES/1\n",
@@ -99,13 +107,22 @@ def _require_kind(value: object) -> ScalarAttributeKind:
     return cast(ScalarAttributeKind, value)
 
 
+def _require_string_value(value: object) -> str:
+    """文字列の型・長さ・Mayaが拒否するNULを検証する。"""
+    if not isinstance(value, str):
+        raise TypeError("string valueにはstrを指定してください")
+    if len(value) > _MAX_STRING_LENGTH or "\x00" in value:
+        raise ValueError("string valueが長すぎるかNULを含みます")
+    return value
+
+
 @dataclass(frozen=True)
 class MayaScalarValueSnapshot:
     """一つの属性の型と、公開単位で取得した未丸め値。
 
     Attributes:
         path: node相対のscalar属性path。配列要素は指定できない。
-        kind: bool、number、distance、angle、enumのいずれか。
+        kind: bool、number、distance、angle、enum、stringのいずれか。
         value: kindに対応する実値。数値は有限の`float`。
         enum_definition: enumの場合に必須の選択肢。
 
@@ -146,6 +163,8 @@ class MayaScalarValueSnapshot:
                 raise ValueError("enum項目名が長すぎます")
             if self.enum_definition.item_for_value(self.value) is None:
                 raise ValueError("enum snapshotのvalueが定義されていません")
+        elif kind == "string":
+            _require_string_value(self.value)
         else:
             if type(self.value) is not float:
                 raise TypeError(
@@ -303,6 +322,11 @@ def capture_scalar_node_values(
             )
             value = enum_value.read()
             definition = enum_value.definition
+        elif attribute.kind == "string":
+            value = resolve_string_plug(
+                node_name, attribute.path
+            ).plug.asString()
+            definition = None
         else:
             value = FloatPlugValue(
                 resolve_float_plug(node_name, attribute.path).plug
@@ -339,7 +363,7 @@ def capture_all_scalar_node_values(node_name: str) -> MayaNodeValueSnapshot:
 def encode_scalar_value_transfer(
     transfer: MayaScalarValueTransfer,
 ) -> dict[str, object]:
-    """`transfer` を JSON 互換の version 1 document へ変換する。
+    """`transfer` を JSON 互換の version 2 document へ変換する。
 
     Args:
         transfer: 型付きのscalar値搬送データ。
@@ -423,12 +447,16 @@ def _decode_enum_definition(value: object) -> EnumDefinition:
     return EnumDefinition(tuple(items))
 
 
-def _decode_snapshot(value: object) -> MayaScalarValueSnapshot:
+def _decode_snapshot(
+    value: object, *, version: int
+) -> MayaScalarValueSnapshot:
     """一つのJSON値をkindに対応するsnapshotへ変換する。"""
     item = _require_mapping(value, "value item")
     _require_keys(item, {"path", "kind", "value"}, {"enum_items"})
     path = _require_path(item["path"])
     kind = _require_kind(item["kind"])
+    if version == 1 and kind == "string":
+        raise ValueError("version 1にstring属性は含められません")
     raw_value = item["value"]
     definition = None
     if kind == "bool":
@@ -442,6 +470,8 @@ def _decode_snapshot(value: object) -> MayaScalarValueSnapshot:
             raise ValueError("enum valueにはenum_itemsが必要です")
         parsed_value = raw_value
         definition = _decode_enum_definition(item["enum_items"])
+    elif kind == "string":
+        parsed_value = _require_string_value(raw_value)
     else:
         if not isinstance(raw_value, (int, float)) or isinstance(
             raw_value, bool
@@ -458,7 +488,7 @@ def _decode_snapshot(value: object) -> MayaScalarValueSnapshot:
 
 
 def decode_scalar_value_transfer(document: object) -> MayaScalarValueTransfer:
-    """外部 JSON の `document` を検証して version 1 transfer へ変換する。
+    """外部 JSON の `document` を検証して既知versionのtransferへ変換する。
 
     Args:
         document: JSONから読み込んだ値。
@@ -477,7 +507,7 @@ def decode_scalar_value_transfer(document: object) -> MayaScalarValueTransfer:
     version = root["version"]
     if not isinstance(version, int) or isinstance(version, bool):
         raise TypeError("clipboard schema versionにはintを指定してください")
-    if version != _VERSION:
+    if version not in (1, _VERSION):
         raise ValueError("対応していないclipboard schema versionです")
     raw_nodes = _require_list(root["nodes"], "nodes")
     if not raw_nodes or len(raw_nodes) > _MAX_NODES:
@@ -493,7 +523,10 @@ def decode_scalar_value_transfer(document: object) -> MayaScalarValueTransfer:
             raise ValueError(f"全valuesは{_MAX_VALUES}件以下にしてください")
         nodes.append(
             MayaNodeValueSnapshot(
-                tuple(_decode_snapshot(item) for item in raw_values)
+                tuple(
+                    _decode_snapshot(item, version=version)
+                    for item in raw_values
+                )
             )
         )
     return MayaScalarValueTransfer(tuple(nodes))
@@ -524,6 +557,14 @@ def _create_edit(
         return (
             MayaEnumValueEdit(enum_binding, cast(int, snapshot.value)),
             enum_binding,
+        )
+    if snapshot.kind == "string":
+        string_binding = MayaStringPlugsBinding(
+            [resolve_string_plug(node_name, snapshot.path)]
+        )
+        return (
+            MayaStringValueEdit(string_binding, cast(str, snapshot.value)),
+            string_binding,
         )
     float_binding = MayaFloatPlugsBinding(
         [resolve_float_plug(node_name, snapshot.path)]

@@ -17,6 +17,7 @@ from .plugs_binding import (
     MayaBoolPlugsBinding,
     MayaEnumPlugsBinding,
     MayaFloatPlugsBinding,
+    MayaStringPlugsBinding,
 )
 
 __all__ = [
@@ -24,6 +25,7 @@ __all__ = [
     "MayaFloatValueEdit",
     "MayaFloatOffsetEdit",
     "MayaEnumValueEdit",
+    "MayaStringValueEdit",
     "MayaPlugsValueEdit",
     "apply_plugs_values",
 ]
@@ -103,11 +105,24 @@ class MayaEnumValueEdit:
         _require_binding(self.binding, MayaEnumPlugsBinding)
 
 
+@dataclass(frozen=True)
+class MayaStringValueEdit:
+    """一つのstring属性群へ適用する文字列を保持する。"""
+
+    binding: MayaStringPlugsBinding
+    value: str
+
+    def __post_init__(self) -> None:
+        """Bindingの型を確認し、値は一括実行前に検証する。"""
+        _require_binding(self.binding, MayaStringPlugsBinding)
+
+
 MayaPlugsValueEdit: TypeAlias = (
     MayaBoolValueEdit
     | MayaFloatValueEdit
     | MayaFloatOffsetEdit
     | MayaEnumValueEdit
+    | MayaStringValueEdit
 )
 
 
@@ -120,6 +135,7 @@ def _require_edit(value: object) -> MayaPlugsValueEdit:
             MayaFloatValueEdit,
             MayaFloatOffsetEdit,
             MayaEnumValueEdit,
+            MayaStringValueEdit,
         ),
     ):
         raise TypeError("editsにはMayaの属性値入力を指定してください")

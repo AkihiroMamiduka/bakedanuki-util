@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from .... import qt
 from .._connection import connect_queued_qt_signal
 from ..binding import StringBinding
@@ -27,6 +29,7 @@ class StringLineEdit(qt.QLineEdit):
         self._input_enabled = True
         self._dirty = False
         self._conflicted = False
+        self._value_request_handler: Callable[[str], bool] | None = None
         # Qtの既定32767文字による正本の黙った切り詰めを防ぐ
         self.setMaxLength(2_147_483_647)
         self._render()
@@ -66,6 +69,19 @@ class StringLineEdit(qt.QLineEdit):
         """編集中に正本が外部更新された場合は`True`。"""
         return self._conflicted
 
+    def setValueRequestHandler(
+        self, handler: Callable[[str], bool] | None
+    ) -> None:
+        """確定した文字列を先に処理する任意のhandlerを設定する。
+
+        `handler` が`True`を返す場合は、このViewのCommandを実行しない。
+        """
+        if handler is not None and not callable(handler):
+            raise TypeError(
+                "handlerには呼出し可能な関数またはNoneを指定してください"
+            )
+        self._value_request_handler = handler
+
     def keyPressEvent(self, arg__1: qt.QtGui.QKeyEvent) -> None:
         """Escapeで未確定入力を破棄し、最新の正本を表示する。"""
         if arg__1.key() == qt.Qt.Key.Key_Escape and self._dirty:
@@ -76,8 +92,8 @@ class StringLineEdit(qt.QLineEdit):
 
     def _on_text_edited(self, _text: str) -> None:
         """ユーザー編集だけを未確定入力として記録する。"""
-        self._dirty = self.text() != self._view_model.value.value
-        if not self._dirty:
+        self._dirty = True
+        if self.text() == self._view_model.value.value:
             self._set_conflicted(False)
 
     def _on_value_changed(self, _value: str) -> None:
@@ -120,7 +136,10 @@ class StringLineEdit(qt.QLineEdit):
         requested = self.text()
         self._dirty = False
         try:
-            view_model.set_value_command.execute(requested)
+            handler = self._value_request_handler
+            handled = handler is not None and handler(requested)
+            if not handled:
+                view_model.set_value_command.execute(requested)
         finally:
             if qt.isValid(self):
                 self._render()

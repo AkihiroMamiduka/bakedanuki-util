@@ -43,6 +43,7 @@ from .plugs_value_edits import (
     MayaFloatValueEdit,
     MayaFloatOffsetEdit,
     MayaEnumValueEdit,
+    MayaStringValueEdit,
     MayaPlugsValueEdit,
     apply_plugs_values,
 )
@@ -104,6 +105,7 @@ __all__ = [
     "MayaFloatValueEdit",
     "MayaFloatOffsetEdit",
     "MayaEnumValueEdit",
+    "MayaStringValueEdit",
     "MayaPlugsValueEdit",
     "apply_plugs_values",
     "MayaFloat3Binding",

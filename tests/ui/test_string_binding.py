@@ -146,3 +146,27 @@ def test_external_value_matching_draft_clears_conflict(qt_application):
         line.deleteLater()
         binding.dispose()
         flush()
+
+
+def test_line_edit_request_handler_intercepts_committed_value(qt_application):
+    """任意handlerへ確定値を渡し、処理済みなら単行Commandを実行しない。"""
+    data = Data()
+    binding = StringBinding.from_attribute(data, "name")
+    line = StringLineEdit(binding)
+    requested: list[str] = []
+    try:
+        line.setValueRequestHandler(
+            lambda value: requested.append(value) or True
+        )
+        edit(line, "一括入力")
+        line.returnPressed.emit()
+        assert requested == ["一括入力"]
+        assert data.name == line.text() == "初期値"
+        line.setValueRequestHandler(None)
+        edit(line, "単行入力")
+        line.returnPressed.emit()
+        assert data.name == "単行入力"
+    finally:
+        line.deleteLater()
+        binding.dispose()
+        flush()

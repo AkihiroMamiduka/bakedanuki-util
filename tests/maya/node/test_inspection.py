@@ -28,6 +28,8 @@ def test_inspection_reports_leaf_flags_types_names_and_limits_scope(
         node, longName="amount", niceName="Amount Label", attributeType="float"
     )
     cmds.addAttr(node, longName="integer", attributeType="long", keyable=True)
+    cmds.addAttr(node, longName="caption", dataType="string")
+    cmds.addAttr(node, longName="captions", dataType="string", multi=True)
     cmds.addAttr(
         node, longName="timeValue", attributeType="time", keyable=True
     )
@@ -50,6 +52,7 @@ def test_inspection_reports_leaf_flags_types_names_and_limits_scope(
     assert by_name["scaleX"].kind == "number"
     assert by_name["visibility"].kind == "bool"
     assert by_name["rotateOrder"].kind == "enum"
+    assert by_name["caption"].kind == "string"
     assert by_name["translateX"].keyable
     assert not by_name["translateX"].channel_box
     assert by_name["translateX"].path == "translate.translateX"
@@ -58,7 +61,14 @@ def test_inspection_reports_leaf_flags_types_names_and_limits_scope(
     assert not by_name["enabled"].keyable
     assert not by_name["enabled"].channel_box
     assert (
-        not {"translate", "integer", "timeValue", "values", "recordValue"}
+        not {
+            "translate",
+            "integer",
+            "timeValue",
+            "values",
+            "recordValue",
+            "captions",
+        }
         & by_name.keys()
     )
     with pytest.raises(FrozenInstanceError):

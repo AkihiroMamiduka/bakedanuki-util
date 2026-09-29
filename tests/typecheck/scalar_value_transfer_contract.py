@@ -33,7 +33,11 @@ def contract(
     snapshot = MayaScalarValueSnapshot("mode", "enum", 5, definition)
     node = MayaNodeValueSnapshot((snapshot,))
     transfer = MayaScalarValueTransfer((node,))
-    assert_type(value, bool | float | int)
+    assert_type(value, bool | float | int | str)
+    assert_type(
+        MayaScalarValueSnapshot("caption", "string", "text"),
+        MayaScalarValueSnapshot,
+    )
     assert_type(
         capture_scalar_node_values(node_name, attributes),
         MayaNodeValueSnapshot,

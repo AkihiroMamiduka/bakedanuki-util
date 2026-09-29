@@ -47,6 +47,7 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     assert_type(line.isInputEnabled(), bool)
     assert_type(line.hasConflict(), bool)
     assert_type(line.setInputEnabled(False), None)
+    assert_type(line.setValueRequestHandler(None), None)
     StringLabel(binding.view_model, widget)
     plug = resolve_string_plug("joint1", "otherType")
     maya_binding = MayaStringBinding.from_attribute(

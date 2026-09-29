@@ -9,6 +9,10 @@
 
 ### Added
 
+- `inspect_scalar_attributes()`と状態Binding、複数属性編集、scalar値搬送へ
+  単一typed string属性を追加。`MayaStringValueEdit`と
+  `StringLineEdit.setValueRequestHandler()`を公開する。Clipboardの書込みschemaは
+  version 2とし、従来のversion 1は引き続き読み込む。既存sceneの移行は不要。
 - `MayaStringPlugsBinding`を追加。複数の単一typed string属性を先頭の値を代表として
   読み、明示入力時だけ編集可能な対象へ一回のUndoで適用する。混在、同値統一、
   空文字、対象ごとの編集可否、途中失敗の復旧、外部変更中の入力保護に対応する。

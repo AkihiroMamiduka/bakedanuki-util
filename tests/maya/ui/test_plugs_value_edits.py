@@ -15,10 +15,13 @@ from bd_util.maya.ui import (
     MayaFloatPlugsBinding,
     MayaFloatOffsetEdit,
     MayaFloatValueEdit,
+    MayaStringPlugsBinding,
+    MayaStringValueEdit,
     apply_plugs_values,
     resolve_bool_plug,
     resolve_enum_plug,
     resolve_float_plug,
+    resolve_string_plug,
 )
 from bd_util.maya.ui.binding._float_edit import FloatEditUndo
 from bd_util.ui import qt
@@ -121,6 +124,44 @@ def test_mixed_types_and_units_share_one_undo(scene):
     assert number.value == 5.0
     assert visible.value is False
     assert rotation_order.value == 5
+
+
+def test_string_rows_share_undo_and_reject_nul_before_writing(scene):
+    """複数のstring行を一括入力し、NULなら全行を変更しない。"""
+    nodes, owner = scene
+    for node in nodes:
+        for path in ("labelA", "labelB"):
+            cmds.addAttr(node, longName=path, dataType="string")
+            cmds.setAttr(f"{node}.{path}", "", type="string")
+    first = MayaStringPlugsBinding(
+        [resolve_string_plug(node, "labelA") for node in nodes],
+        parent=owner,
+    )
+    second = MayaStringPlugsBinding(
+        [resolve_string_plug(node, "labelB") for node in nodes],
+        parent=owner,
+    )
+    cmds.flushUndo()
+    with pytest.raises(ValueError, match="NUL"):
+        apply_plugs_values(
+            [
+                MayaStringValueEdit(first, "変更"),
+                MayaStringValueEdit(second, "不正\x00値"),
+            ]
+        )
+    assert values(nodes, "labelA") == values(nodes, "labelB") == [""] * 3
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+    assert apply_plugs_values(
+        [
+            MayaStringValueEdit(first, "日本語 😀"),
+            MayaStringValueEdit(second, ""),
+        ]
+    )
+    assert values(nodes, "labelA") == ["日本語 😀"] * 3
+    cmds.undo()
+    assert values(nodes, "labelA") == [""] * 3
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
 
 
 def test_float_offsets_preserve_each_target_difference_and_share_one_undo(

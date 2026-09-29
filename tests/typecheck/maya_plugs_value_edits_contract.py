@@ -13,10 +13,13 @@ from bd_util.maya.ui import (
     MayaFloatValueEdit,
     MayaFloatOffsetEdit,
     MayaPlugsValueEdit,
+    MayaStringPlugsBinding,
+    MayaStringValueEdit,
     apply_plugs_values,
     resolve_bool_plug,
     resolve_enum_plug,
     resolve_float_plug,
+    resolve_string_plug,
 )
 
 bool_edit = MayaBoolValueEdit(
@@ -28,6 +31,10 @@ float_edit = MayaFloatValueEdit(
 enum_edit = MayaEnumValueEdit(
     MayaEnumPlugsBinding([resolve_enum_plug("node", "rotateOrder")]), 5
 )
+string_edit = MayaStringValueEdit(
+    MayaStringPlugsBinding([resolve_string_plug("node", "caption")]),
+    "text",
+)
 assert_type(bool_edit.binding, MayaBoolPlugsBinding)
 assert_type(bool_edit.value, bool)
 assert_type(float_edit.binding, MayaFloatPlugsBinding)
@@ -37,6 +44,8 @@ assert_type(float_offset.binding, MayaFloatPlugsBinding)
 assert_type(float_offset.offset, float)
 assert_type(enum_edit.binding, MayaEnumPlugsBinding)
 assert_type(enum_edit.value, int)
+assert_type(string_edit.binding, MayaStringPlugsBinding)
+assert_type(string_edit.value, str)
 
 
 def apply_edits(edits: Sequence[MayaPlugsValueEdit]) -> bool:
@@ -52,11 +61,14 @@ def apply_edits(edits: Sequence[MayaPlugsValueEdit]) -> bool:
         elif isinstance(edit, MayaFloatOffsetEdit):
             assert_type(edit.binding, MayaFloatPlugsBinding)
             assert_type(edit.offset, float)
-        else:
+        elif isinstance(edit, MayaEnumValueEdit):
             assert_type(edit.binding, MayaEnumPlugsBinding)
             assert_type(edit.value, int)
+        else:
+            assert_type(edit.binding, MayaStringPlugsBinding)
+            assert_type(edit.value, str)
     return apply_plugs_values(edits)
 
 
-assert_type(apply_edits([bool_edit, float_edit, enum_edit]), bool)
+assert_type(apply_edits([bool_edit, float_edit, enum_edit, string_edit]), bool)
 assert_type(apply_plugs_values((float_edit, float_offset, enum_edit)), bool)

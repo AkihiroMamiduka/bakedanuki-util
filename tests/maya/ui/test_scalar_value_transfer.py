@@ -116,6 +116,83 @@ def test_capture_all_includes_hidden_supported_scalar_attributes(scene):
     assert values["visibility"] is True
 
 
+def test_string_capture_round_trip_and_paste_preserve_exact_text(scene):
+    """typed stringの空文字とUnicodeを型付きで運び、Undoで戻す。"""
+    source, first, second = scene
+    for node in (source, first, second):
+        for path in ("caption", "alternate"):
+            cmds.addAttr(node, longName=path, dataType="string")
+            cmds.setAttr(f"{node}.{path}", "", type="string")
+    cmds.setAttr(source + ".caption", " あいう 😀 ", type="string")
+    snapshot = capture_scalar_node_values(
+        source, _attributes(source, "caption", "alternate")
+    )
+    assert [item.value for item in snapshot.values] == [" あいう 😀 ", ""]
+    document = encode_scalar_value_transfer(
+        MayaScalarValueTransfer((snapshot,))
+    )
+    assert document["version"] == 2
+    transfer = decode_scalar_value_transfer(document)
+    cmds.flushUndo()
+
+    result = apply_scalar_value_transfer((first, second), transfer)
+    assert result.changed and result.eligible_count == 4
+    assert result.excluded == ()
+    assert [cmds.getAttr(node + ".caption") for node in (first, second)] == [
+        " あいう 😀 "
+    ] * 2
+    cmds.undo()
+    assert [cmds.getAttr(node + ".caption") for node in (first, second)] == [
+        ""
+    ] * 2
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+    one_value = MayaScalarValueTransfer(
+        (capture_scalar_node_values(source, _attributes(source, "caption")),)
+    )
+    assert apply_scalar_value_to_paths(
+        (first,), ("alternate",), one_value
+    ).changed
+    assert cmds.getAttr(first + ".alternate") == " あいう 😀 "
+
+
+def test_string_schema_accepts_legacy_data_and_rejects_invalid_values():
+    """旧形式の読取りを保ち、型違い・NUL・旧形式のstringを拒否する。"""
+    legacy = encode_scalar_value_transfer(
+        MayaScalarValueTransfer(
+            (
+                MayaNodeValueSnapshot(
+                    (MayaScalarValueSnapshot("enabled", "bool", True),)
+                ),
+            )
+        )
+    )
+    legacy["version"] = 1
+    assert (
+        decode_scalar_value_transfer(legacy).nodes[0].values[0].value is True
+    )
+
+    valid = encode_scalar_value_transfer(
+        MayaScalarValueTransfer(
+            (
+                MayaNodeValueSnapshot(
+                    (MayaScalarValueSnapshot("name", "string", ""),)
+                ),
+            )
+        )
+    )
+    for invalid in (12, "bad\x00value"):
+        document = dict(valid)
+        document["nodes"] = [
+            {"values": [{"path": "name", "kind": "string", "value": invalid}]}
+        ]
+        with pytest.raises((TypeError, ValueError)):
+            decode_scalar_value_transfer(document)
+    valid["version"] = 1
+    with pytest.raises(ValueError, match="version 1"):
+        decode_scalar_value_transfer(valid)
+
+
 def test_same_path_kind_enum_and_writability_select_targets(scene):
     """欠落・型違い・enum定義違い・lockだけを対象外として報告する。"""
     source, first, second = scene
