@@ -1864,6 +1864,13 @@ def transform_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(unknown_transform, UnknownTransform)
 
 
+def nodes_namespace_contract() -> None:
+    nodes = bdu.Nodes(namespace=":rig")
+    assert_type(nodes.namespace, str | None)
+    assert_type(nodes.set_namespace(None), bdu.Nodes)
+    assert_type(nodes.create.transform(name="control"), Transform)
+
+
 def shape_creation_contract(nodes: bdu.Nodes) -> None:
     parent = nodes.create.transform(name="shape_parent")
     assert_type(parent, Transform)

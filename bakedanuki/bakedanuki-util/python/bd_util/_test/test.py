@@ -6,22 +6,21 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def main():
-    nodes = bdu.Nodes()
+    nodes = bdu.Nodes(namespace=":test")
 
-    ns = ":test:a:b:c"
-    top = nodes.create.transform(name="top", namespace=ns)
+    top = nodes.create.transform(name="top", namespace=":top_ns")
 
     parent = top
     for num in range(10):
         for i in range(num):
             if i % 2:
                 parent = nodes.create.transform(
-                    name=f"{ns}:trsf_{num}_{i}",
+                    name=f"trsf_{num}_{i}",
                     parent=parent,
                 )
             else:
                 parent = nodes.create.joint(
-                    name=f"{ns}:j_{num}_{i}",
+                    name=f"j_{num}_{i}",
                     parent=parent,
                 )
 
@@ -36,10 +35,5 @@ def main():
         j.side.set(2)
         j.type.set(j.type.OTHER)
         j.otherType.set("test")
-
-    nodes.modifier_manager.do_it_dg()
-
-    top.rename("test_top")
-    top.set_namespace(":abc_test")
 
     nodes.modifier_manager.do_it_dg()

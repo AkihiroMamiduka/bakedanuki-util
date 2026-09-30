@@ -7,6 +7,7 @@ from collections.abc import Callable
 from importlib import resources
 from typing import TYPE_CHECKING, cast
 
+from .._creation_name import resolve_namespace, select_creation_namespace
 from .._maya_version import is_node_type_available
 from .._node_class_resolver import (
     CREATOR_PACKAGES,
@@ -44,22 +45,53 @@ class NodeCreator:
     __slots__ = (
         "__dict__",
         "_modifier_manager",
+        "_namespace",
         "_node_names_cache",
         "_with_transform",
     )
 
-    def __init__(self, modifier_manager: ModifierManager | None = None):
+    def __init__(
+        self,
+        modifier_manager: ModifierManager | None = None,
+        *,
+        namespace: str | None = None,
+    ):
         self._modifier_manager = modifier_manager or ModifierManager()
+        self._namespace = (
+            resolve_namespace(namespace) if namespace is not None else None
+        )
         self._node_names_cache: tuple[str, ...] | None = None
         self._with_transform = ShapeWithTransformCreator(
             self._modifier_manager,
             self._creator_node_class,
+            default_namespace=lambda: self._namespace,
         )
 
     @property
     def modifier_manager(self) -> ModifierManager:
         """ノード作成を予約する先。"""
         return self._modifier_manager
+
+    @property
+    def namespace(self) -> str | None:
+        """作成時の既定 namespace。`None` なら既定値を使わない。"""
+        return self._namespace
+
+    def set_namespace(self, namespace: str | None) -> None:
+        """以後のノード作成に使う既定 namespace を設定する。
+
+        Args:
+            namespace: 先頭の `:` はルート起点。`None` で既定値を解除する。
+                空文字列と `":"` はルートを表す。
+        """
+        self._namespace = (
+            resolve_namespace(namespace) if namespace is not None else None
+        )
+
+    def _effective_namespace(
+        self, name: str | None, namespace: str | None
+    ) -> str | None:
+        return select_creation_namespace(name, namespace, self._namespace)
 
     @property
     def with_transform(self) -> ShapeWithTransformCreator:
@@ -101,14 +133,14 @@ class NodeCreator:
                 self._modifier_manager,
                 name=name,
                 auto_add_attr=auto_add_attr,
-                namespace=namespace,
+                namespace=self._effective_namespace(name, namespace),
             )
         return node_cls.create(
             self._modifier_manager,
             name=name,
             auto_add_attr=auto_add_attr,
             parent=parent,
-            namespace=namespace,
+            namespace=self._effective_namespace(name, namespace),
         )
 
     def node_class(self, node_name: str) -> type[NodeOperator]:
@@ -149,7 +181,7 @@ class NodeCreator:
             name,
             auto_add_attr,
             override=override,
-            namespace=namespace,
+            namespace=self._effective_namespace(name, namespace),
         )
 
     def _creator_node_class(self, node_name: str) -> type[NodeOperator]:
@@ -224,7 +256,7 @@ class NodeCreator:
                     name=name,
                     auto_add_attr=auto_add_attr,
                     parent=parent,
-                    namespace=namespace,
+                    namespace=self._effective_namespace(name, namespace),
                 )
 
             create_func: Callable[..., NodeOperator] = _create_shape
@@ -243,7 +275,7 @@ class NodeCreator:
                     name=name,
                     auto_add_attr=auto_add_attr,
                     parent=parent,
-                    namespace=namespace,
+                    namespace=self._effective_namespace(name, namespace),
                 )
 
             create_func: Callable[..., NodeOperator] = _create_dag
@@ -260,7 +292,7 @@ class NodeCreator:
                     self._modifier_manager,
                     name=name,
                     auto_add_attr=auto_add_attr,
-                    namespace=namespace,
+                    namespace=self._effective_namespace(name, namespace),
                 )
 
             create_func = _create_dg

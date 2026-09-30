@@ -245,6 +245,9 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
 - `tests/maya/node/creator/test_namespace_creation.py`
   - 未作成 namespace での作成・移動、相対名の予約時解決、DG / DAG の実行順、
     連続した改名と移動、予約前の入力検証、Undo / Redo を検証します。
+- `tests/maya/node/creator/test_nodes_default_namespace.py`
+  - `Nodes` の既定 namespace、個別指定と名前の優先順位、設定変更、
+    `with_transform` と `animLayer`、無名作成の拒否を検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`
   - DG / DAG modifierと`MAnimCurveChange`の実行順・undo / redoを検証します。
   - animation callbackが初回だけ実行されること、同じ実行境界の部分変更の復元、

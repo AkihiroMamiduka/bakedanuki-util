@@ -1363,10 +1363,16 @@ from ._transform_creator import _TransformNodeCreatorMixin
 
 class NodeCreator(_TransformNodeCreatorMixin):
     def __init__(
-        self, modifier_manager: ModifierManager | None = None
+        self,
+        modifier_manager: ModifierManager | None = None,
+        *,
+        namespace: str | None = None,
     ) -> None: ...
     @property
     def modifier_manager(self) -> ModifierManager: ...
+    @property
+    def namespace(self) -> str | None: ...
+    def set_namespace(self, namespace: str | None) -> None: ...
     @property
     def with_transform(self) -> ShapeWithTransformCreator: ...
     def create(

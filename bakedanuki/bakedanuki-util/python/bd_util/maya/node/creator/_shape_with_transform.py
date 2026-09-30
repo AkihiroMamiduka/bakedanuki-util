@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from .._creation_name import resolve_creation_name
+from .._creation_name import resolve_creation_name, select_creation_namespace
 from .._maya_version import is_node_type_available
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
@@ -20,15 +20,19 @@ class ShapeWithTransformCreator:
         "__dict__",
         "_modifier_manager",
         "_node_class_resolver",
+        "_default_namespace",
     )
 
     def __init__(
         self,
         modifier_manager: ModifierManager,
         node_class_resolver: Callable[[str], type[NodeOperator]],
+        *,
+        default_namespace: Callable[[], str | None] | None = None,
     ) -> None:
         self._modifier_manager = modifier_manager
         self._node_class_resolver = node_class_resolver
+        self._default_namespace = default_namespace
 
     @property
     def modifier_manager(self) -> ModifierManager:
@@ -146,10 +150,23 @@ class ShapeWithTransformCreator:
         parent: DAG | None,
         namespace: str | None,
     ) -> tuple[Transform, Shape]:
-        resolved_name, _ = resolve_creation_name(name, namespace)
+        default_namespace = (
+            self._default_namespace()
+            if self._default_namespace is not None
+            else None
+        )
+        resolved_name, _ = resolve_creation_name(
+            name,
+            select_creation_namespace(name, namespace, default_namespace),
+        )
         if shape_name is None and name is not None:
             shape_name = f"{name}Shape"
-        resolved_shape_name, _ = resolve_creation_name(shape_name, namespace)
+        resolved_shape_name, _ = resolve_creation_name(
+            shape_name,
+            select_creation_namespace(
+                shape_name, namespace, default_namespace
+            ),
+        )
 
         transform = Transform.create(
             self._modifier_manager,

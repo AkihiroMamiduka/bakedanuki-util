@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import Literal
+from typing import Literal, Self
 
 from maya.api import OpenMaya as om
 
@@ -92,12 +92,15 @@ class Nodes:
         self,
         modifier_manager: ModifierManager | None = None,
         *,
+        namespace: str | None = None,
         typing_maya_version: Literal["2025", "2026", "2027"] | None = None,
     ):
         """ノード操作の入口を初期化する。
 
         Args:
             modifier_manager: 操作を予約する先。省略時は新規作成する。
+            namespace: 作成時の既定 namespace。`None` は既定値なし。
+                相対指定はこの呼び出し時のカレント namespace を基準にする。
             typing_maya_version: IDE の補完対象にする Maya バージョン。
                 実行時のノード定義は現在の Maya に従う。
         """
@@ -107,7 +110,9 @@ class Nodes:
             modifier_manager = ModifierManager()
 
         self._modifier_manager = modifier_manager
-        self._create = NodeCreator(modifier_manager=modifier_manager)
+        self._create = NodeCreator(
+            modifier_manager=modifier_manager, namespace=namespace
+        )
         self._existing = _ExistingNodeAccessor(
             modifier_manager=modifier_manager,
         )
@@ -117,6 +122,31 @@ class Nodes:
     def modifier_manager(self) -> ModifierManager:
         """作成・取得したノードと共有する `ModifierManager`。"""
         return self._modifier_manager
+
+    @property
+    def namespace(self) -> str | None:
+        """以後のノード作成に使う絶対 namespace。`None` は既定値なし。"""
+        return self._create.namespace
+
+    def set_namespace(self, namespace: str | None) -> Self:
+        """以後の `nodes.create` だけに適用する既定 namespace を設定する。
+
+        予約済みノードと既存ノードは変更しない。namespace 自体はノード作成の
+        `do_it_dg()` / `do_it_dag()` 時に必要なら作成する。
+
+        Args:
+            namespace: 先頭の `:` はルート起点。空文字列と `":"` はルート。
+                `None` は既定値を解除する。
+
+        Returns:
+            この `Nodes`。
+
+        Raises:
+            TypeError: `namespace` が文字列でも `None` でもない場合。
+            ValueError: `namespace` が不正な場合。
+        """
+        self._create.set_namespace(namespace)
+        return self
 
     @property
     def create(self) -> NodeCreator:

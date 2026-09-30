@@ -248,6 +248,27 @@ modifier_manager.do_it_dag()
 Undo ではノードを先に戻し、この実行履歴で作成した空の namespace を戻します。
 もとからある namespace や、後から別のノードが追加された namespace は残します。
 
+一連のノードに同じ namespace を付ける場合は、`Nodes` に既定値を設定できます。
+
+```python
+nodes = bdu.Nodes(modifier_manager=modifier_manager, namespace=":character")
+ctrl = nodes.create.transform(name="ctrl")
+joint = nodes.create.joint(name="joint")
+other = nodes.create.transform(name="ctrl", namespace=":other")
+modifier_manager.do_it_dag()
+```
+
+既定値は `nodes.create` の作成にだけ適用します。個別の `namespace=` を優先し、
+`name="other:ctrl"` のように namespace を含む名前には既定値を適用しません。
+`namespace=` と namespace を含む `name` は併用できません。既定値がある間は
+無名作成も `ValueError` となるため、`name` を指定してください。
+`nodes.set_namespace(":next")` は以後に予約する作成先を変更します。
+相対指定は設定時のカレント namespace を基準に絶対化されます。
+`nodes.set_namespace(None)` で既定値を解除し、`""` または `":"` でルートを
+既定値にできます。設定時に Maya のカレント namespace は変更せず、
+予約済みノードと `nodes.existing` から取得したノードにも影響しません。
+`nodes.create.with_transform` と `nodes.create.animLayer` にも適用します。
+
 既存ノードの namespace を変更するときは `set_namespace()` を使います。
 ローカル名は維持し、移動先の namespace が未作成なら `do_it_dg()` 時に作成します。
 

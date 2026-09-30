@@ -7,6 +7,42 @@ from typing import cast
 from maya.api import OpenMaya as om
 
 
+def resolve_namespace(namespace: str) -> str:
+    """指定時のカレント namespace を基準に絶対 namespace を返す。"""
+    if not isinstance(cast(object, namespace), str):
+        raise TypeError("namespace must be a string.")
+    if not namespace or namespace == ":":
+        return ":"
+    if namespace.startswith(":"):
+        absolute_namespace = namespace
+    else:
+        current = om.MNamespace.currentNamespace()
+        absolute_namespace = (
+            f"{current}{namespace}"
+            if current == ":"
+            else f"{current}:{namespace}"
+        )
+    if any(
+        not part or om.MNamespace.validateName(part) != part
+        for part in absolute_namespace[1:].split(":")
+    ):
+        raise ValueError("namespace contains an invalid name.")
+    return absolute_namespace
+
+
+def select_creation_namespace(
+    name: str | None,
+    namespace: str | None,
+    default_namespace: str | None,
+) -> str | None:
+    """明示指定を優先し、名前に namespace があれば既定値を適用しない。"""
+    if namespace is not None or default_namespace is None:
+        return namespace
+    if isinstance(name, str) and ":" in name:
+        return None
+    return default_namespace
+
+
 def resolve_creation_name(
     name: str | None, namespace: str | None = None
 ) -> tuple[str | None, str | None]:
@@ -38,17 +74,12 @@ def resolve_creation_name(
     if namespace is not None:
         if ":" in name:
             raise ValueError("name cannot include a namespace with namespace.")
-        if not namespace or namespace == ":":
-            absolute_name = f":{name}"
-        elif namespace.startswith(":"):
-            absolute_name = f"{namespace}:{name}"
-        else:
-            current = om.MNamespace.currentNamespace()
-            absolute_name = (
-                f"{current}{namespace}:{name}"
-                if current == ":"
-                else f"{current}:{namespace}:{name}"
-            )
+        absolute_namespace = resolve_namespace(namespace)
+        absolute_name = (
+            f":{name}"
+            if absolute_namespace == ":"
+            else f"{absolute_namespace}:{name}"
+        )
     elif name.startswith(":"):
         absolute_name = name
     else:

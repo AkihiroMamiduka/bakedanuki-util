@@ -101,6 +101,8 @@ class ShapeWithTransformCreator:
         self,
         modifier_manager: ModifierManager,
         node_class_resolver: Callable[[str], type[NodeOperator]],
+        *,
+        default_namespace: Callable[[], str | None] | None = None,
     ) -> None: ...
     @property
     def modifier_manager(self) -> ModifierManager: ...
