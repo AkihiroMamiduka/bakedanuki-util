@@ -421,24 +421,16 @@ def _append_creator_method(
             "        self,",
             "        name: str | None = None,",
             ("        auto_add_attr: bool = " "DEFAULT_VALUE_AUTO_ADD_ATTR,"),
+            "        *,",
         ]
     )
     if definition.node_type == "animLayer":
-        lines.extend(["        *,", "        override: bool = False,"])
+        lines.append("        override: bool = False,")
     elif definition.module_name.startswith(".operator.node.dag.shape."):
-        lines.extend(
-            [
-                "        *,",
-                "        parent: Transform,",
-            ]
-        )
+        lines.append("        parent: Transform,")
     elif definition.module_name.startswith(".operator.node.dag.transform."):
-        lines.extend(
-            [
-                "        *,",
-                "        parent: DAG | None = None,",
-            ]
-        )
+        lines.append("        parent: DAG | None = None,")
+    lines.append("        namespace: str | None = None,")
     lines.append(f"    ) -> {return_type}: ...")
 
 
@@ -457,6 +449,7 @@ def _append_shape_with_transform_method(
             "        *,",
             "        shape_name: str | None = None,",
             "        parent: DAG | None = None,",
+            "        namespace: str | None = None,",
             f"    ) -> tuple[Transform, {return_type}]: ...",
         ]
     )
@@ -720,6 +713,7 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
             "        *,",
             "        shape_name: str | None = None,",
             "        parent: DAG | None = None,",
+            "        namespace: str | None = None,",
             "    ) -> tuple[Transform, Shape]: ...",
             "    def available_node_names(self) -> tuple[str, ...]: ...",
         ]
@@ -792,6 +786,7 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
             ("        auto_add_attr: bool = " "DEFAULT_VALUE_AUTO_ADD_ATTR,"),
             "        *,",
             "        parent: DAG | None = None,",
+            "        namespace: str | None = None,",
             "    ) -> NodeOperator: ...",
             (
                 "    def node_class(self, node_name: str) "
@@ -1290,6 +1285,7 @@ def generate_transform_creator_stub_code(python_root: Path) -> str:
                 ),
                 "        *,",
                 "        parent: Transform | None = None,",
+                "        namespace: str | None = None,",
                 f"    ) -> {definition.return_type}: ...",
             ]
         )
@@ -1349,6 +1345,7 @@ def generate_shape_with_transform_stub_code(python_root: Path) -> str:
             "        *,",
             "        shape_name: str | None = None,",
             "        parent: DAG | None = None,",
+            "        namespace: str | None = None,",
             "    ) -> tuple[Transform, Shape]: ...",
             "",
             "    def available_node_names(self) -> tuple[str, ...]: ...",
@@ -1374,6 +1371,7 @@ def generate_shape_with_transform_stub_code(python_root: Path) -> str:
                 "        *,",
                 "        shape_name: str | None = None,",
                 "        parent: DAG | None = None,",
+                "        namespace: str | None = None,",
                 (
                     "    ) -> tuple[Transform, "
                     f"{definition.return_type}]: ..."

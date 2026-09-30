@@ -231,6 +231,23 @@ modifier_manager.do_it_dag()
 `nodes.existing` は、同じ `ModifierManager` を使う既存ノードアクセサです。
 したがって、各呼び出しで `modifier_manager=` を繰り返す必要はありません。
 
+作成名に namespace を含めるか、`namespace=` とローカル名を渡せます。
+指定した namespace がまだなければ、ノードと同じ実行履歴の中で作成します。
+
+```python
+ctrl = nodes.create.transform(name="character:ctrl")
+joint = nodes.create.joint(name="joint", namespace="character")
+modifier_manager.do_it_dag()
+```
+
+`character:ctrl` と `namespace="character"` は、予約時のカレント namespace
+からの相対指定です。ルートから指定するときは `:character:ctrl` または
+`namespace=":character"` を使います。予約後にカレント namespace が変わっても、
+作成先は変わりません。`namespace=` と namespace を含む `name` は併用できません。
+`namespace=` を指定するときは `name` も指定してください。
+Undo ではノードを先に戻し、この実行履歴で作成した空の namespace を戻します。
+もとからある namespace や、後から別のノードが追加された namespace は残します。
+
 Maya 2025 / 2026 / 2027 の実行 schema は、起動中の Maya から自動判定します。
 IDE の補完対象だけを固定したい場合は `typing_maya_version` を指定します。
 

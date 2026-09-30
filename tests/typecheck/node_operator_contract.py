@@ -1832,6 +1832,8 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
 
 def transform_creation_contract(nodes: bdu.Nodes) -> None:
     parent = nodes.create.transform(name="transform_parent")
+    namespaced = nodes.create.transform(name="control", namespace="character")
+    assert_type(namespaced, Transform)
 
     aim_constraint = nodes.create.aimConstraint(parent=parent)
     ik_handle = nodes.create.ikHandle(parent=parent)
@@ -1866,7 +1868,7 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(parent, Transform)
 
     mesh_transform, created_mesh = nodes.create.with_transform.mesh(
-        name="mesh"
+        name="mesh", namespace="character"
     )
     assert_type(mesh_transform, Transform)
     assert isinstance(created_mesh, Mesh)
@@ -1889,6 +1891,11 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     assert isinstance(mesh, Mesh)
     assert_type(mesh.inMesh, DataMeshPlugOperator)
     assert_type(mesh.visibility, BoolPlugOperator)
+
+    dynamic = nodes.create.create(
+        "transform", name="dynamic_control", namespace="character"
+    )
+    assert_type(dynamic, NodeOperator)
 
     camera = nodes.create.camera(name="cameraShape", parent=parent)
     assert_type(camera, Camera)

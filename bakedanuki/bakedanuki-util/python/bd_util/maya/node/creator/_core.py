@@ -73,6 +73,7 @@ class NodeCreator:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> NodeOperator:
         """指定した Maya ノード型の作成を予約する。
 
@@ -81,6 +82,7 @@ class NodeCreator:
             name: 作成するノードの名前。省略時は Maya に委ねる。
             auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。
             parent: DAG ノードの親。DG ノードには指定できない。
+            namespace: `name` に付ける namespace。未作成なら実行時に作成する。
 
         Returns:
             作成予定のノードを包む `NodeOperator`。
@@ -99,12 +101,14 @@ class NodeCreator:
                 self._modifier_manager,
                 name=name,
                 auto_add_attr=auto_add_attr,
+                namespace=namespace,
             )
         return node_cls.create(
             self._modifier_manager,
             name=name,
             auto_add_attr=auto_add_attr,
             parent=parent,
+            namespace=namespace,
         )
 
     def node_class(self, node_name: str) -> type[NodeOperator]:
@@ -124,6 +128,7 @@ class NodeCreator:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         override: bool = False,
+        namespace: str | None = None,
     ) -> AnimLayer:
         """ベースと階層接続を含むアニメーションレイヤーの作成を予約する。
 
@@ -131,6 +136,7 @@ class NodeCreator:
             name: 作成するレイヤー名。
             auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。
             override: 上書きモードのレイヤーにするか。
+            namespace: `name` に付ける namespace。未作成なら実行時に作成する。
 
         Returns:
             作成予定のアニメーションレイヤー。
@@ -139,7 +145,11 @@ class NodeCreator:
             "type[AnimLayer]", self._creator_node_class("animLayer")
         )
         return node_cls.create(
-            self._modifier_manager, name, auto_add_attr, override=override
+            self._modifier_manager,
+            name,
+            auto_add_attr,
+            override=override,
+            namespace=namespace,
         )
 
     def _creator_node_class(self, node_name: str) -> type[NodeOperator]:
@@ -207,12 +217,14 @@ class NodeCreator:
                 auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
                 *,
                 parent: Transform,
+                namespace: str | None = None,
             ) -> NodeOperator:
                 return node_cls.create(
                     self._modifier_manager,
                     name=name,
                     auto_add_attr=auto_add_attr,
                     parent=parent,
+                    namespace=namespace,
                 )
 
             create_func: Callable[..., NodeOperator] = _create_shape
@@ -224,12 +236,14 @@ class NodeCreator:
                 auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
                 *,
                 parent: DAG | None = None,
+                namespace: str | None = None,
             ) -> NodeOperator:
                 return node_cls.create(
                     self._modifier_manager,
                     name=name,
                     auto_add_attr=auto_add_attr,
                     parent=parent,
+                    namespace=namespace,
                 )
 
             create_func: Callable[..., NodeOperator] = _create_dag
@@ -239,11 +253,14 @@ class NodeCreator:
             def _create_dg(
                 name: str | None = None,
                 auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+                *,
+                namespace: str | None = None,
             ) -> NodeOperator:
                 return node_cls.create(
                     self._modifier_manager,
                     name=name,
                     auto_add_attr=auto_add_attr,
+                    namespace=namespace,
                 )
 
             create_func = _create_dg
@@ -260,6 +277,7 @@ class NodeCreator:
             "Args:\n"
             "    name: 作成するノードの名前。省略時は Maya に委ねる。\n"
             "    auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。\n"
+            "    namespace: `name` に付ける namespace。未作成なら実行時に作成する。\n"
             f"{parent_doc}\nReturns:\n"
             f"    `{node_cls.__name__}` インスタンス。"
         )

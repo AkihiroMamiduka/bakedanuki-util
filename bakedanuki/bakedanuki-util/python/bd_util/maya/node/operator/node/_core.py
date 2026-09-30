@@ -8,6 +8,7 @@ from maya.api import OpenMaya as om
 from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
 from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
+from ..._creation_name import resolve_creation_name
 from ..._maya_version import require_node_type_available
 from ...modifier import ModifierManager
 
@@ -274,6 +275,8 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         modifier_manager: ModifierManager,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
     ) -> Self:
         """このクラスに対応する DG ノードの作成を予約する。
 
@@ -281,6 +284,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             modifier_manager: ノード作成を予約する先。
             name: 作成するノードの名前。省略時は Maya に委ねる。
             auto_add_attr: 定義済みの extra attribute を追加するか。
+            namespace: `name` に付ける namespace。未作成なら実行時に作成する。
 
         Returns:
             作成予定のノードを包むインスタンス。
@@ -292,12 +296,18 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
         require_node_type_available(cls.NODE_TYPE)
 
+        resolved_name, required_namespace = resolve_creation_name(
+            name, namespace
+        )
+        if required_namespace is not None:
+            modifier_manager.require_namespace("dg", required_namespace)
+
         m_obj = modifier_manager.dg_mod.createNode(cls.NODE_TYPE)
 
         return cls(
             modifier_manager,
             m_obj=m_obj,
-            name=name,
+            name=resolved_name,
             auto_add_attr=auto_add_attr,
         )
 
@@ -400,15 +410,21 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
                 "new_name または search、もしくは prefix/suffix のいずれかを指定してください。"
             )
 
-        if ":" in self.name:
-            namespace, pure_name = self.name.rsplit(":", 1)
-            namespace_prefix = namespace + ":"
+        current_name = self.name or self._requested_name_hint or ""
+        if ":" in current_name:
+            namespace, pure_name = current_name.rsplit(":", 1)
+            namespace_prefix = f":{namespace}:"
+        elif current_name:
+            namespace_prefix = ":"
+            pure_name = current_name
         else:
-            namespace_prefix = ""
-            pure_name = self.name
-
-        namespace_prefix = self.namespace_colon
-        pure_name = self.local_name
+            current_namespace = om.MNamespace.currentNamespace()
+            namespace_prefix = (
+                current_namespace
+                if current_namespace == ":"
+                else f"{current_namespace}:"
+            )
+            pure_name = ""
 
         # 名前空間を保ち、ローカル名の変更だけを予約する。
         if new_name is not None:

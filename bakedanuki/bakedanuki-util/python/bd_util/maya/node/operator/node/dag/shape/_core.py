@@ -24,6 +24,7 @@ class Shape(GeneratedShape):
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> Self:
         """親 `Transform` の下に `Shape` ノードの作成を予約する。
 
@@ -32,6 +33,7 @@ class Shape(GeneratedShape):
             name: 指定する場合のノード名。
             auto_add_attr: 定義済みの追加属性も作成するか。
             parent: 必須の親 `Transform` ノード。
+            namespace: `name` に付ける namespace。未作成なら実行時に作成する。
 
         Returns:
             作成を予約した `Shape` ノード。
@@ -48,4 +50,5 @@ class Shape(GeneratedShape):
             name=name,
             auto_add_attr=auto_add_attr,
             parent=parent,
+            namespace=namespace,
         )

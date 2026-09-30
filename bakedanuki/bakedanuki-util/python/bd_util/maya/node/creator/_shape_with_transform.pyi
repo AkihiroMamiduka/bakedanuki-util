@@ -112,6 +112,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Shape]: ...
     def available_node_names(self) -> tuple[str, ...]: ...
     def __getattr__(
@@ -125,6 +126,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AiAreaLight]: ...
     def aiCurveCollector(
         self,
@@ -133,6 +135,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AiCurveCollector]: ...
     def aiLightBlocker(
         self,
@@ -141,6 +144,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AiLightBlocker]: ...
     def aiLightPortal(
         self,
@@ -149,6 +153,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AiLightPortal]: ...
     def aiMeshLight(
         self,
@@ -157,6 +162,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AiMeshLight]: ...
     def aiPhotometricLight(
         self,
@@ -165,6 +171,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AiPhotometricLight]: ...
     def aiSkyDomeLight(
         self,
@@ -173,6 +180,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AiSkyDomeLight]: ...
     def aiStandIn(
         self,
@@ -181,6 +189,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AiStandIn]: ...
     def aiVolume(
         self,
@@ -189,6 +198,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AiVolume]: ...
     def ambientLight(
         self,
@@ -197,6 +207,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AmbientLight]: ...
     def angleDimension(
         self,
@@ -205,6 +216,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AngleDimension]: ...
     def annotationShape(
         self,
@@ -213,6 +225,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AnnotationShape]: ...
     def arcLengthDimension(
         self,
@@ -221,6 +234,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, ArcLengthDimension]: ...
     def areaLight(
         self,
@@ -229,6 +243,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, AreaLight]: ...
     def baseLattice(
         self,
@@ -237,6 +252,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, BaseLattice]: ...
     def bezierCurve(
         self,
@@ -245,6 +261,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, BezierCurve]: ...
     def camera(
         self,
@@ -253,6 +270,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Camera]: ...
     def clusterFlexorShape(
         self,
@@ -261,6 +279,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, ClusterFlexorShape]: ...
     def clusterHandle(
         self,
@@ -269,6 +288,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, ClusterHandle]: ...
     def deformBend(
         self,
@@ -277,6 +297,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DeformBend]: ...
     def deformFlare(
         self,
@@ -285,6 +306,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DeformFlare]: ...
     def deformSine(
         self,
@@ -293,6 +315,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DeformSine]: ...
     def deformSquash(
         self,
@@ -301,6 +324,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DeformSquash]: ...
     def deformTwist(
         self,
@@ -309,6 +333,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DeformTwist]: ...
     def deformWave(
         self,
@@ -317,6 +342,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DeformWave]: ...
     def directedDisc(
         self,
@@ -325,6 +351,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DirectedDisc]: ...
     def directionalLight(
         self,
@@ -333,6 +360,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DirectionalLight]: ...
     def distanceDimShape(
         self,
@@ -341,6 +369,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DistanceDimShape]: ...
     def dropoffLocator(
         self,
@@ -349,6 +378,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DropoffLocator]: ...
     def dynHolder(
         self,
@@ -357,6 +387,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DynHolder]: ...
     def dynamicConstraint(
         self,
@@ -365,6 +396,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, DynamicConstraint]: ...
     def environmentFog(
         self,
@@ -373,6 +405,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, EnvironmentFog]: ...
     def flexorShape(
         self,
@@ -381,6 +414,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, FlexorShape]: ...
     def fluidShape(
         self,
@@ -389,6 +423,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, FluidShape]: ...
     def fluidTexture2D(
         self,
@@ -397,6 +432,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, FluidTexture2D]: ...
     def fluidTexture3D(
         self,
@@ -405,6 +441,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, FluidTexture3D]: ...
     def follicle(
         self,
@@ -413,6 +450,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Follicle]: ...
     def geoConnectable(
         self,
@@ -421,6 +459,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, GeoConnectable]: ...
     def greasePlane(
         self,
@@ -429,6 +468,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, GreasePlane]: ...
     def greasePlaneRenderShape(
         self,
@@ -437,6 +477,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, GreasePlaneRenderShape]: ...
     def hairConstraint(
         self,
@@ -445,6 +486,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, HairConstraint]: ...
     def hairSystem(
         self,
@@ -453,6 +495,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, HairSystem]: ...
     def heightField(
         self,
@@ -461,6 +504,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, HeightField]: ...
     def hikFloorContactMarker(
         self,
@@ -469,6 +513,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, HikFloorContactMarker]: ...
     def imagePlane(
         self,
@@ -477,6 +522,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, ImagePlane]: ...
     def implicitBox(
         self,
@@ -485,6 +531,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, ImplicitBox]: ...
     def implicitCone(
         self,
@@ -493,6 +540,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, ImplicitCone]: ...
     def implicitSphere(
         self,
@@ -501,6 +549,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, ImplicitSphere]: ...
     def lattice(
         self,
@@ -509,6 +558,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Lattice]: ...
     def lineModifier(
         self,
@@ -517,6 +567,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, LineModifier]: ...
     def locator(
         self,
@@ -525,6 +576,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Locator]: ...
     def mesh(
         self,
@@ -533,6 +585,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Mesh]: ...
     def motionTrailShape(
         self,
@@ -541,6 +594,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, MotionTrailShape]: ...
     def nCloth(
         self,
@@ -549,6 +603,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, NCloth]: ...
     def nParticle(
         self,
@@ -557,6 +612,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, NParticle]: ...
     def nRigid(
         self,
@@ -565,6 +621,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, NRigid]: ...
     def nurbsCurve(
         self,
@@ -573,6 +630,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, NurbsCurve]: ...
     def nurbsSurface(
         self,
@@ -581,6 +639,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, NurbsSurface]: ...
     def orientationMarker(
         self,
@@ -589,6 +648,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, OrientationMarker]: ...
     def paramDimension(
         self,
@@ -597,6 +657,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, ParamDimension]: ...
     def particle(
         self,
@@ -605,6 +666,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Particle]: ...
     def pfxHair(
         self,
@@ -613,6 +675,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, PfxHair]: ...
     def pfxToon(
         self,
@@ -621,6 +684,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, PfxToon]: ...
     def pointLight(
         self,
@@ -629,6 +693,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, PointLight]: ...
     def positionMarker(
         self,
@@ -637,6 +702,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, PositionMarker]: ...
     def renderBox(
         self,
@@ -645,6 +711,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, RenderBox]: ...
     def renderCone(
         self,
@@ -653,6 +720,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, RenderCone]: ...
     def renderRect(
         self,
@@ -661,6 +729,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, RenderRect]: ...
     def renderSphere(
         self,
@@ -669,6 +738,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, RenderSphere]: ...
     def rigidBody(
         self,
@@ -677,6 +747,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, RigidBody]: ...
     def sketchPlane(
         self,
@@ -685,6 +756,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, SketchPlane]: ...
     def snapshotShape(
         self,
@@ -693,6 +765,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, SnapshotShape]: ...
     def softModHandle(
         self,
@@ -701,6 +774,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, SoftModHandle]: ...
     def spotLight(
         self,
@@ -709,6 +783,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, SpotLight]: ...
     def spring(
         self,
@@ -717,6 +792,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Spring]: ...
     def stereoRigCamera(
         self,
@@ -725,6 +801,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, StereoRigCamera]: ...
     def stroke(
         self,
@@ -733,6 +810,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Stroke]: ...
     def subdiv(
         self,
@@ -741,6 +819,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Subdiv]: ...
     def ufeProxyCameraShape(
         self,
@@ -749,6 +828,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, UfeProxyCameraShape]: ...
     def volumeLight(
         self,
@@ -757,4 +837,5 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, VolumeLight]: ...

@@ -8,19 +8,20 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 def main():
     nodes = bdu.Nodes()
 
-    top = nodes.create.transform(name="top")
+    ns = ":test:a:b:c"
+    top = nodes.create.transform(name="top", namespace=ns)
 
     parent = top
     for num in range(10):
         for i in range(num):
             if i % 2:
                 parent = nodes.create.transform(
-                    name=f"trsf_{num}_{i}",
+                    name=f"{ns}:trsf_{num}_{i}",
                     parent=parent,
                 )
             else:
                 parent = nodes.create.joint(
-                    name=f"j_{num}_{i}",
+                    name=f"{ns}:j_{num}_{i}",
                     parent=parent,
                 )
 
