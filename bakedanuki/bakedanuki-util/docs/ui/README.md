@@ -48,6 +48,29 @@ Windowを完全破棄し、Windowが所有するMaya callbackも解除します�
 instanceとcallbackを維持する必要があるtoolだけ、`retain=True`を明示します。`dispose()`は
 設定にかかわらず完全破棄するため、module reload前とUI配置resetに使用します。
 
+## 開いていたtoolの再表示
+
+`bd_util.maya.ui`の`register_open_tool()`と`unregister_open_tool()`は、表示中の
+toolをpackage名・tool ID・再表示用module/function名で管理します。通常の`show()`と
+Mayaの`uiScript`からの`restore()`が成功した後に登録し、タイトルバーのclose、
+`closeEvent()`、`dispose()`では登録を解除します。inactiveなdock tabも開いているtool
+として扱います。遅れて届いた旧Windowの終了通知が新しいWindowの登録を消さないよう、
+Windowごとに異なる`token`を渡します。
+
+Mayaが`uiScript`を後回しにしたdockは、Widgetの登録だけでは見つかりません。
+利用側はtoolごとの`workspaceControl`名を`snapshot_open_tools(dock_tools=...)`へ渡し、
+存在して表示状態にあるcontrolを再表示対象へ含めます。閉じたcontrolは含めません。
+
+リロードを担当する側は、終了処理の前に`owner`を指定して`snapshot_open_tools()`を呼びます。
+結果は4つの文字列からなるtupleだけなので、util自体をreloadする間も呼出元の局所変数に
+保持できます。packageを依存順に再importした後、新しいutilの`reopen_tools()`へ渡します。
+この関数は保存したmodule/function名を再importして呼び出し、失敗しても残りのtoolを
+試してから例外を通知します。各toolの`show()`が通常の経路で再登録します。
+
+このAPIはUIの再表示だけを扱います。packageのreload対象と順序は利用側の開発用入口が
+決めます。Maya起動時のdock配置復元は従来の`uiScript`が担当し、開発reload時の正確な
+タブ位置・前面状態は再現対象に含めません。
+
 ## 属性の公開状態とlock
 
 `bd_util.maya.ui.MayaChannelStateBinding`は、複数scalar属性のChannel Box公開状態と

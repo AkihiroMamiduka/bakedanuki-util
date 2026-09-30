@@ -75,6 +75,14 @@ from .dock import (
 )
 from .layout import reset_and_show_ui_layout, reset_ui_layout
 from .main_window import get_main_window
+from .reopen import (
+    DockTool,
+    OpenTool,
+    register_open_tool,
+    unregister_open_tool,
+    snapshot_open_tools,
+    reopen_tools,
+)
 from .settings import (
     create_ui_state_manager,
     create_window_state_store,
@@ -159,6 +167,12 @@ __all__ = [
     "MayaDockableWindowController",
     "MayaUiStateTracker",
     "MayaWindowController",
+    "OpenTool",
+    "DockTool",
+    "register_open_tool",
+    "unregister_open_tool",
+    "snapshot_open_tools",
+    "reopen_tools",
     "reset_and_show_ui_layout",
     "reset_ui_layout",
     "resolve_bool_plug",
