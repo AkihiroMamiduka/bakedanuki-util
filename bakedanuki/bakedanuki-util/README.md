@@ -93,6 +93,19 @@ matrix plug の `get()` は `TransformMatrix` を返します。`translate` / `r
 
 詳細は [TransformMatrix](docs/maya/transform_matrix.md) を参照してください。
 
+### NodeOperator の型注釈
+
+空の list にノードを追加する場合は、`bdu.node_types` で要素型を指定できます。
+
+```python
+nodes = bdu.Nodes()
+joints: list[bdu.node_types.Joint] = []
+for i in range(10):
+    joints.append(nodes.create.joint(name=f"j_{i}"))
+```
+
+`joints` の要素には `Joint` の属性とメソッドが補完されます。
+
 ### Maya version 別の NodeOperator 補完
 
 実行時の NodeOperator schema は Maya 2025 / 2026 / 2027 から自動判定されます。
@@ -105,6 +118,8 @@ nodes = bdu.Nodes(typing_maya_version="2027")
 この指定は`nodes.create` / `nodes.existing` / `nodes.types`の静的な見え方だけを選び、
 実行 Maya の選択、version 検証、利用可能 node の変更には使われません。省略時は、
 対応する3 versionに共通する安全な補完面になります。
+型注釈を version ごとの補完面に合わせる場合は、
+`bdu.node_types.maya2027.Joint` のように対応する module を指定します。
 
 ### Numeric Compound Values
 

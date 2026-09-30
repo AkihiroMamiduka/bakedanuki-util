@@ -35,6 +35,20 @@ def test_node_types_exposes_base_and_concrete_classes(new_scene):
     assert node_types.UnknownDag is UnknownDag
 
 
+def test_public_node_types_reference_the_same_classes(new_scene):
+    import bd_util
+
+    from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+
+    nodes = bd_util.Nodes()
+    assert bd_util.node_types.Joint is Joint
+    assert bd_util.node_types.Joint is nodes.types.Joint
+    assert bd_util.node_types.maya2025.Joint is Joint
+    assert bd_util.node_types.maya2026.Joint is Joint
+    assert bd_util.node_types.maya2027.Joint is Joint
+    assert "Joint" in dir(bd_util.node_types)
+
+
 def test_node_types_resolves_exact_maya_node_type_names(new_scene):
     import bd_util
     from bd_util.maya.node.operator.node.dag.shape.locator import Locator

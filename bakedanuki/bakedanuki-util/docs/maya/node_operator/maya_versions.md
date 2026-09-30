@@ -82,6 +82,13 @@ constructor の結果型を version ごとに変えるため、選択は `__init
 `typing_maya_version` を省略した `Nodes()` は、全対応 version に共通する安全な API 面を
 返します。version 間で attribute 型だけが異なる場合、共通面では union 型になります。
 
+型注釈には、共通面なら `bdu.node_types.Joint`、version を指定する場合は
+`bdu.node_types.maya2027.Joint` のように対応する module を使います。
+`typing_maya_version` の値から、別の変数に書いた型注釈の module は自動選択されません。
+`bdu.node_types` は全対応 version で共通するクラス名を公開し、version 別 module は
+それぞれの version で利用可能なクラス名を公開します。実行時のクラス解決は
+どの module から参照しても起動中の Maya に従います。
+
 `nodes.pyi` と `_versioned_accessors.pyi` は生成物です。補完を修正するときは
 `generate_existing_node_stub.py` と version schema を修正し、生成物を手作業で直しません。
 
@@ -97,12 +104,14 @@ version 対応に関する主な管理場所です。
 | NodeOperator schema の生成先選択 | `python/bd_util/_dev/maya/node/operator/node/generate.py` |
 | version schema 生成 CLI | `python/bd_util/_dev/maya/node/operator/node/generate_version_schema.py` |
 | 補完 stub 生成 | `python/bd_util/_dev/maya/node/operator/node/generate_existing_node_stub.py` |
+| 型注釈用 module / stub | `python/bd_util/node_types` |
 | runtime の `typing_maya_version` 引数 | `python/bd_util/maya/node/nodes.py` |
 | generated schema 差分 | `operator/node/**/_generated_maya<version>` |
 | compound attribute 差分 | `operator/attr/define/node_attr_maya<version>` |
 | runtime version contract | `tests/maya/node/test_maya_version.py` |
 | schema・overlay contract | `tests/dev/maya/node/operator/node/test_version_schema.py` |
 | IDE 補完 contract | `tests/typecheck/node_operator_maya_version_contract.py` |
+| 型注釈 contract | `tests/typecheck/public_node_types_contract.py` |
 | Maya Module の配布先選択 | `bakedanuki/modules/bd_util.mod` |
 
 ## 新しい Maya version の追加手順
@@ -135,6 +144,8 @@ unloadします。配布先の `.mll` が Maya にロードされていると上
 `nodes.py` の `typing_maya_version` annotation と、stub generator が出力する import、
 `Literal` union、version facade も新versionを含むようにします。`nodes.pyi` 自体は
 generatorから再生成します。
+`python/bd_util/node_types/maya<version>.py` の実行時 module と、
+`python/bd_util/node_types/__init__.py` からの公開 import も追加します。
 
 version別schemaを持つ公開wrapperへ共通操作を追加するときは、生成baseの後ろに
 名前付きのbehavior mixinを継承させます。例えばTA / TL / TUの`AnimCurveKeyframes`です。
@@ -170,7 +181,7 @@ inventoryを正規snapshotとして採用しません。
 生成後は、基準 snapshot 全体が複製されていないこと、追加 node と変更 node だけが
 新overlayへ出力されていることを確認します。新規 node には public wrapper が必要です。
 
-続いて Maya 2025 の `mayapy` から `generate_existing_node_stub.py` を実行し、7つの
+続いて Maya 2025 の `mayapy` から `generate_existing_node_stub.py` を実行し、11の
 registry / stub 生成物を更新します。生成後に `--check` を実行し、ASTとして最新である
 ことも確認します。
 

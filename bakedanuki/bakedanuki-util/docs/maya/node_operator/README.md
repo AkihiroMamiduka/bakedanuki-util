@@ -288,6 +288,35 @@ assert issubclass(locator_type, shape_type)
 独立しているため、`IkHandle` / `UnknownDag` / `SphereLocator` も対象です。
 実classは属性へ最初にアクセスしたときだけimportされ、結果はaccessor内でcacheされます。
 
+変数や関数の型注釈には、`bdu.node_types` の同名クラスを使います。
+`nodes.types.Joint` は実行時のクラス参照ですが、`list[nodes.types.Joint]` は
+Pylance / Pyright の型注釈として認識されません。
+
+```python
+import bd_util as bdu
+
+nodes = bdu.Nodes()
+joints: list[bdu.node_types.Joint] = []
+for i in range(10):
+    joints.append(nodes.create.joint(name=f"j_{i}"))
+
+for joint in joints:
+    joint.t.set(1, 2, 3)
+    joint.r.set(3, 4, 5)
+    joint.s.set(6, 7, 8)
+    joint.v.set(False)
+
+nodes.modifier_manager.do_it_dag()
+nodes.modifier_manager.do_it_dg()
+```
+
+`bdu.node_types.Joint` も実行時は `nodes.types.Joint` と同じクラスを返します。
+型補完の既定面は `Nodes()` と同様に全対応 Maya version の共通部分です。
+`Nodes(typing_maya_version="2027")` を使う場合は、型注釈に
+`bdu.node_types.maya2027.Joint` を使って補完対象を揃えます。
+`maya2025` / `maya2026` も利用できます。これらの module 名は IDE の型補完だけを
+選択し、実行中の Maya version を変更しません。
+
 動的なMaya node type名から解決する場合は `resolve()` を使います。
 
 ```python

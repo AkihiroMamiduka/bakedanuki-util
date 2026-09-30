@@ -337,6 +337,25 @@ def test_node_types_stub_matches_generated_code():
     )
 
 
+def test_public_node_types_stubs_match_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    for maya_version in (None, 2025, 2026, 2027):
+        output_path = stub_generator.public_node_types_stub_path(
+            python_root, maya_version
+        )
+        assert stub_generator.stub_code_is_current(
+            output_path,
+            stub_generator.generate_public_node_types_stub_code(
+                python_root, maya_version
+            ),
+        )
+
+
 def test_stub_code_is_current_ignores_formatting_only(tmp_path):
     from bd_util._dev.maya.node.operator.node import (
         generate_existing_node_stub as stub_generator,

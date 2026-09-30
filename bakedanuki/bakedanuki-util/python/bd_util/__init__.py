@@ -2,6 +2,7 @@
 """Maya のノード操作、値型、UI 構築に使うユーティリティ。"""
 
 from . import _version
+from . import node_types
 from ._dev.reload import reload_package
 from ._dev.timer import timer
 from .py import json_file
@@ -57,6 +58,7 @@ __all__ = [
     "deregister_commands",
     "ModifierManager",
     "Nodes",
+    "node_types",
     "TransformMatrix",
     "Double2",
     "Double3",

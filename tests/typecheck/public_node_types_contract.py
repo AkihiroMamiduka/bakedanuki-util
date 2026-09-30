@@ -1,0 +1,61 @@
+from typing import assert_type
+
+import bd_util as bdu
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double import (
+    DoublePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearPlugOperator,
+)
+from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+
+
+def joint_list_contract() -> None:
+    nodes = bdu.Nodes()
+    joints: list[bdu.node_types.Joint] = []
+    for i in range(10):
+        joints.append(nodes.create.joint(name=f"j_{i}"))
+
+    assert_type(joints, list[Joint])
+    for joint in joints:
+        joint.t.set(1, 2, 3)
+        joint.r.set(3, 4, 5)
+        joint.s.set(6, 7, 8)
+        joint.v.set(False)
+        assert_type(joint, Joint)
+
+    other = nodes.create.plusMinusAverage()
+    joints.append(other)  # pyright: ignore[reportArgumentType]
+
+
+def versioned_node_type_list_contract() -> None:
+    common_nodes = bdu.Nodes()
+    nodes_2025 = bdu.Nodes(typing_maya_version="2025")
+    nodes_2026 = bdu.Nodes(typing_maya_version="2026")
+    nodes_2027 = bdu.Nodes(typing_maya_version="2027")
+
+    common: list[bdu.node_types.Absolute] = [common_nodes.create.absolute()]
+    absolute_2025: list[bdu.node_types.maya2025.Absolute] = [
+        nodes_2025.create.absolute()
+    ]
+    absolute_2026: list[bdu.node_types.maya2026.Absolute] = [
+        nodes_2026.create.absolute()
+    ]
+    absolute_2027: list[bdu.node_types.maya2027.Absolute] = [
+        nodes_2027.create.absolute()
+    ]
+
+    assert_type(
+        common[0].input,
+        DoubleLinearPlugOperator | DoublePlugOperator,
+    )
+    assert_type(absolute_2025[0].input, DoubleLinearPlugOperator)
+    assert_type(absolute_2026[0].input, DoublePlugOperator)
+    assert_type(absolute_2027[0].input, DoublePlugOperator)
+
+    bdu.node_types.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    bdu.node_types.maya2025.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    assert_type(
+        nodes_2026.create.absoluteDL(),
+        bdu.node_types.maya2026.AbsoluteDL,
+    )

@@ -723,7 +723,7 @@ print(errors)
 
 内部実装の `ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
 公開APIの `nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
-IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の7ファイルを生成します。
+IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の11ファイルを生成します。
 
 - `python/bd_util/maya/node/existing_node.pyi`
 - `python/bd_util/maya/node/nodes.pyi`
@@ -732,6 +732,10 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 - `python/bd_util/maya/node/creator/_transform_creator.pyi`
 - `python/bd_util/maya/node/_node_type_registry.py`
 - `python/bd_util/maya/node/node_types.pyi`
+- `python/bd_util/node_types/__init__.pyi`
+- `python/bd_util/node_types/maya2025.pyi`
+- `python/bd_util/node_types/maya2026.pyi`
+- `python/bd_util/node_types/maya2027.pyi`
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
@@ -758,6 +762,10 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 `node_types.pyi` は同じ定義からread-only propertyを生成し、
 `nodes.types.Locator` を `type[Locator]` として公開します。`NodeOperator` / `DAG` /
 `Shape` / `BaseGeometryVarGroup` はfilterにも使う公開基底classとして明示的に追加します。
+`bd_util/node_types/*.pyi` は同じ定義から型注釈用のクラス名を生成します。
+共通 module は全対応 version の共通ノードを公開し、schema が異なるクラスは
+version 別の戻り値型の union にします。version 別 module は、その version で
+利用可能なクラス名と有効な schema 型だけを公開します。
 
 `_versioned_accessors.pyi` は、3 version共通面と Maya 2025 / 2026 / 2027ごとの
 `nodes.create` / `nodes.existing` / `nodes.types`を保持します。`nodes.pyi`の
