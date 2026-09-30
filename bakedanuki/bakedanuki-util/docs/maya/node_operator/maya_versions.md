@@ -91,6 +91,25 @@ constructor の結果型を version ごとに変えるため、選択は `__init
 それぞれの version で利用可能なクラス名を公開します。実行時のクラス解決は
 どの module から参照しても起動中の Maya に従います。
 
+version 別 module が補完に表示する名前も、実行時にその Maya で利用できるとは限りません。
+例えば Maya 2025 で `maya2027.DgaVisualizer` を関数の型注釈として評価すると、
+クラスが利用できないため、関数定義時に `AttributeError` になります。型情報だけを
+version をまたいで記述する場合は、注釈の評価を遅らせます。
+
+```python
+from __future__ import annotations
+
+import bd_util as bdu
+
+
+def inspect(node: bdu.node_types.maya2027.DgaVisualizer) -> None:
+    ...
+```
+
+この指定は `filter_type=bdu.node_types.maya2027.DgaVisualizer` のような実行時の
+クラス参照には作用しません。`typing.get_type_hints()` などで後から注釈を評価する
+場合も、起動中の Maya でそのクラスを参照できる必要があります。
+
 `nodes.pyi` と `_versioned_accessors.pyi` は生成物です。補完を修正するときは
 `generate_existing_node_stub.py` と version schema を修正し、生成物を手作業で直しません。
 
@@ -194,9 +213,10 @@ registry / stub 生成物を更新します。生成後に `--check` を実行�
 3. `test_maya_version.py` にoverlay検索順、追加・廃止 node、変更attributeの代表例を
    追加します。
 4. `node_operator_maya_version_contract.py` に新しい `typing_maya_version` を追加します。
-5. IDE contract には、少なくとも追加node、前versionから継続するnode、廃止node、
+5. `public_node_types_contract.py` に version 別の型注釈と共通型の例を追加します。
+6. IDE contract には、少なくとも追加node、前versionから継続するnode、廃止node、
    schema変更attributeのpositive / negative例を1つずつ含めます。
-6. concrete shape が増減した場合は、`dag/shape/test_generated.py` のpublic wrapper件数と
+7. concrete shape が増減した場合は、`dag/shape/test_generated.py` のpublic wrapper件数と
    `creator/_shape_types.py` の作成確認済み一覧を更新します。
 
 negative例は、対象外versionでアクセスできないことを

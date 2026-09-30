@@ -265,6 +265,11 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
 - 具象クラスで補完が失われた場合は、単なる表示上の問題として放置しない。API の使い勝手の不具合として扱う。
 - 抽象基底クラス、内部 helper、意図的に型が未確定な generic base では、補完が限定的でも許容する。ただし、それが意図的な設計かどうかを判断する。
 - 既存の補完を壊すリファクタは避ける。必要な場合は、代替の型情報を同時に用意する。
+- `NodeOperator` のクラス参照と型注釈は `bdu.node_types` に統一し、`Nodes.types` は再導入しない。
+  version 固有の型は `bdu.node_types.maya2027.Joint` のように module を明示する。
+  `typing_maya_version` は `nodes.create` / `nodes.existing` の補完対象だけを選ぶ。
+- `bd_util/node_types/*.pyi` は生成物です。公開ノード型を変更するときは生成器を修正して
+  再生成し、`tests/typecheck/public_node_types_contract.py` と version 別 contract を確認する。
 
 特に、`node.attr.child` や `nodes.create.composeMatrix(...)` / `nodes.existing.decomposeMatrix(...)` のような主要な利用経路では、ユーザーが IDE 上で候補を辿れることを重視してください。
 

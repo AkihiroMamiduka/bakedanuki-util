@@ -766,6 +766,9 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 共通 module は全対応 version の共通ノードを公開し、schema が異なるクラスは
 version 別の戻り値型の union にします。version 別 module は、その version で
 利用可能なクラス名と有効な schema 型だけを公開します。
+実行時の公開入口は `bd_util/node_types/__init__.py` と `_runtime.py` が担当し、
+型情報は生成 `.pyi` が担当します。`resolve()` / `available_class_names()` のような
+公開関数を変更する場合は、実装と stub 生成器の両方を更新してください。
 
 `_versioned_accessors.pyi` は、3 version共通面と Maya 2025 / 2026 / 2027ごとの
 `nodes.create` / `nodes.existing`を保持します。`nodes.pyi`の

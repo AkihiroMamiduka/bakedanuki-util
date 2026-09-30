@@ -93,8 +93,9 @@ Generatorは生成コードを直接Blackへ依存させません。
 
 ## Pyright 型・補完 contract
 
-`tests/typecheck/node_operator_contract.py` と
-`tests/typecheck/node_operator_maya_version_contract.py` は、公開 API を利用したときに
+`tests/typecheck/node_operator_contract.py`、
+`tests/typecheck/node_operator_maya_version_contract.py`、
+`tests/typecheck/public_node_types_contract.py` は、公開 API を利用したときに
 Pyright が解決する型を `typing.assert_type()` で固定します。
 
 現在は次の経路を検証します。
@@ -119,6 +120,8 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
   `keyframe.insert_direct()`および旧名`keyframe.set()` / `keyframe.insert()`の非公開。
 - `bdu.node_types`から取得するNodeOperator classと、DAG traversalの
   `filter_type`に応じた具体的なtuple要素型。
+- `bdu.node_types` のクラス名を list の要素型に使った場合の補完と、
+  version 別 module の schema 型・利用可能なクラス名。
 - `ancestors(until=...)` / `descendant_chain(until=...)`の、引数省略時と
   境界指定時で異なるoptional戻り値型。
 - 存在しない属性や不正な引数が型エラーになること。

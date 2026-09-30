@@ -329,6 +329,10 @@ node_type = bdu.node_types.resolve("locator")
 `type[NodeOperator]`です。具体型のIDE補完が必要なコードでは
 `bdu.node_types.Locator` の形式を使います。
 
+`bdu.node_types.available_class_names()` は、起動中の Maya で参照できる
+PascalCase のクラス名をソート済みの tuple で返します。利用可能な型を
+実行時に列挙したい場合に使用します。
+
 `NodeCreator` / `ExistingNode` は `Nodes` の内部実装として維持しますが、`bd_util` の公開APIには含めません。
 ノード作成と既存ノード変換は、どちらも `Nodes` から利用します。
 
