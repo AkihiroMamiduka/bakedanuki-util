@@ -4,6 +4,7 @@ from typing import Literal, overload, Self, TypeVar
 from maya.api import OpenMaya as om
 
 from ....modifier import ModifierManager
+from ...._creation_name import resolve_creation_name
 from ...._maya_version import require_node_type_available
 from .....transform import TransformMatrix
 from .._core import NodeOperator, DEFAULT_VALUE_AUTO_ADD_ATTR
@@ -96,6 +97,7 @@ class DAG(NodeOperator):
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: "DAG | None" = None,
+        namespace: str | None = None,
     ) -> Self:
         """DAG ノードの作成と親子関係を予約する。
 
@@ -106,6 +108,7 @@ class DAG(NodeOperator):
             name: 指定する場合のノード名。
             auto_add_attr: 定義済みの追加属性も作成するか。
             parent: 親の `Transform` ノード。実行前の親は同じ管理下に置く。
+            namespace: `name` に付ける namespace。未作成なら実行時に作成する。
 
         Returns:
             作成を予約したノード。
@@ -117,6 +120,12 @@ class DAG(NodeOperator):
         if parent is not None:
             cls._validate_parent(parent, modifier_manager)
 
+        resolved_name, required_namespace = resolve_creation_name(
+            name, namespace
+        )
+        if required_namespace is not None:
+            modifier_manager.require_namespace("dag", required_namespace)
+
         # 作成時の親を記録し、未実行の操作間でも循環を判定できるようにする。
         parent_obj = (
             parent.m_obj if parent is not None else om.MObject.kNullObj
@@ -127,7 +136,7 @@ class DAG(NodeOperator):
         return cls(
             modifier_manager,
             m_obj=m_obj,
-            name=name,
+            name=resolved_name,
             auto_add_attr=auto_add_attr,
         )
 

@@ -79,6 +79,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> AimConstraint: ...
     def airField(
         self,
@@ -86,6 +87,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> AirField: ...
     def clipGhostShape(
         self,
@@ -93,6 +95,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> ClipGhostShape: ...
     def collisionModel(
         self,
@@ -100,6 +103,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> CollisionModel: ...
     def curveVarGroup(
         self,
@@ -107,6 +111,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> CurveVarGroup: ...
     def dagContainer(
         self,
@@ -114,6 +119,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> DagContainer: ...
     def dragField(
         self,
@@ -121,6 +127,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> DragField: ...
     def fluidEmitter(
         self,
@@ -128,6 +135,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> FluidEmitter: ...
     def fosterParent(
         self,
@@ -135,6 +143,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> FosterParent: ...
     def geometryConstraint(
         self,
@@ -142,6 +151,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> GeometryConstraint: ...
     def geometryVarGroup(
         self,
@@ -149,6 +159,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> GeometryVarGroup: ...
     def gravityField(
         self,
@@ -156,6 +167,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> GravityField: ...
     def hikEffector(
         self,
@@ -163,6 +175,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> HikEffector: ...
     def hikFKJoint(
         self,
@@ -170,6 +183,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> HikFKJoint: ...
     def hikGroundPlane(
         self,
@@ -177,6 +191,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> HikGroundPlane: ...
     def hikHandle(
         self,
@@ -184,6 +199,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> HikHandle: ...
     def hikIKEffector(
         self,
@@ -191,6 +207,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> HikIKEffector: ...
     def ikEffector(
         self,
@@ -198,6 +215,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> IkEffector: ...
     def ikHandle(
         self,
@@ -205,6 +223,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> IkHandle: ...
     def instancer(
         self,
@@ -212,6 +231,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> Instancer: ...
     def joint(
         self,
@@ -219,6 +239,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> Joint: ...
     def lodGroup(
         self,
@@ -226,6 +247,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> LodGroup: ...
     def lookAt(
         self,
@@ -233,6 +255,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> LookAt: ...
     def meshVarGroup(
         self,
@@ -240,6 +263,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> MeshVarGroup: ...
     def newtonField(
         self,
@@ -247,6 +271,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> NewtonField: ...
     def normalConstraint(
         self,
@@ -254,6 +279,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> NormalConstraint: ...
     def nucleus(
         self,
@@ -261,6 +287,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> Nucleus: ...
     def oldNormalConstraint(
         self,
@@ -268,6 +295,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> OldNormalConstraint: ...
     def oldTangentConstraint(
         self,
@@ -275,6 +303,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> OldTangentConstraint: ...
     def orientConstraint(
         self,
@@ -282,6 +311,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> OrientConstraint: ...
     def parentConstraint(
         self,
@@ -289,6 +319,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> ParentConstraint: ...
     def place3dTexture(
         self,
@@ -296,6 +327,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> Place3dTexture: ...
     def pointConstraint(
         self,
@@ -303,6 +335,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> PointConstraint: ...
     def pointEmitter(
         self,
@@ -310,6 +343,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> PointEmitter: ...
     def pointOnPolyConstraint(
         self,
@@ -317,6 +351,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> PointOnPolyConstraint: ...
     def poleVectorConstraint(
         self,
@@ -324,6 +359,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> PoleVectorConstraint: ...
     def primitiveFalloff(
         self,
@@ -331,6 +367,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> PrimitiveFalloff: ...
     def radialField(
         self,
@@ -338,6 +375,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> RadialField: ...
     def rigidConstraint(
         self,
@@ -345,6 +383,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> RigidConstraint: ...
     def scaleConstraint(
         self,
@@ -352,6 +391,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> ScaleConstraint: ...
     def subdivSurfaceVarGroup(
         self,
@@ -359,6 +399,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> SubdivSurfaceVarGroup: ...
     def surfaceVarGroup(
         self,
@@ -366,6 +407,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> SurfaceVarGroup: ...
     def symmetryConstraint(
         self,
@@ -373,6 +415,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> SymmetryConstraint: ...
     def tangentConstraint(
         self,
@@ -380,6 +423,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> TangentConstraint: ...
     def textureDeformerHandle(
         self,
@@ -387,6 +431,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> TextureDeformerHandle: ...
     def transform(
         self,
@@ -394,6 +439,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> Transform: ...
     def turbulenceField(
         self,
@@ -401,6 +447,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> TurbulenceField: ...
     def ufeProxyTransform(
         self,
@@ -408,6 +455,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> UfeProxyTransform: ...
     def uniformField(
         self,
@@ -415,6 +463,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> UniformField: ...
     def unknownTransform(
         self,
@@ -422,6 +471,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> UnknownTransform: ...
     def volumeAxisField(
         self,
@@ -429,6 +479,7 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> VolumeAxisField: ...
     def vortexField(
         self,
@@ -436,4 +487,5 @@ class _TransformNodeCreatorMixin:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: Transform | None = None,
+        namespace: str | None = None,
     ) -> VortexField: ...

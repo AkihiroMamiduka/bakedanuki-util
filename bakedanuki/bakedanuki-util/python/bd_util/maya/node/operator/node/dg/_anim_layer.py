@@ -9,6 +9,7 @@ from typing import Any, Self, cast
 from maya import cmds
 from maya.api import OpenMaya as om
 
+from ...._creation_name import resolve_creation_name
 from ....modifier import ModifierManager
 from ...attr._core import PlugOperator
 from ...attr import _keyframe_snap, _keyframe_snapshot, _keyframe_target
@@ -300,6 +301,7 @@ class AnimLayerOperations(NodeOperator):
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         override: bool = False,
+        namespace: str | None = None,
     ) -> Self:
         """ベースを確保し、加算または Override レイヤーの作成を予約する。
 
@@ -310,6 +312,7 @@ class AnimLayerOperations(NodeOperator):
             name: 指定する場合のレイヤー名。
             auto_add_attr: 定義済みの追加属性も作成するか。
             override: `True` なら Override、`False` なら加算レイヤー。
+            namespace: `name` に付ける namespace。未作成なら実行時に作成する。
 
         Returns:
             作成を予約したレイヤー。
@@ -317,6 +320,7 @@ class AnimLayerOperations(NodeOperator):
         if type(override) is not bool:
             raise TypeError("override must be a bool.")
         _validate_name(name)
+        resolved_name, _ = resolve_creation_name(name, namespace)
         root: om.MObject | None = None
 
         def prepare_root(modifier: om.MDGModifier) -> None:
@@ -335,7 +339,7 @@ class AnimLayerOperations(NodeOperator):
 
         # ベースの有無は実行時のシーンで判定し、同じ履歴内に作成を積む。
         modifier_manager.queue_dg_modifier(prepare_root)
-        result = super().create(modifier_manager, name, auto_add_attr)
+        result = super().create(modifier_manager, resolved_name, auto_add_attr)
         modifier_manager.dg_mod.newPlugValueBool(
             result.fn_node.findPlug("override", False), override
         )

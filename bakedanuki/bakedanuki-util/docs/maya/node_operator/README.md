@@ -231,6 +231,79 @@ modifier_manager.do_it_dag()
 `nodes.existing` は、同じ `ModifierManager` を使う既存ノードアクセサです。
 したがって、各呼び出しで `modifier_manager=` を繰り返す必要はありません。
 
+作成名に namespace を含めるか、`namespace=` とローカル名を渡せます。
+指定した namespace がまだなければ、ノードと同じ実行履歴の中で作成します。
+
+```python
+ctrl = nodes.create.transform(name="character:ctrl")
+joint = nodes.create.joint(name="joint", namespace="character")
+modifier_manager.do_it_dag()
+```
+
+`character:ctrl` と `namespace="character"` は、予約時のカレント namespace
+からの相対指定です。ルートから指定するときは `:character:ctrl` または
+`namespace=":character"` を使います。予約後にカレント namespace が変わっても、
+作成先は変わりません。`namespace=` と namespace を含む `name` は併用できません。
+`namespace=` を指定するときは `name` も指定してください。
+Undo ではノードを先に戻し、この実行履歴で作成した空の namespace を戻します。
+もとからある namespace や、後から別のノードが追加された namespace は残します。
+
+一連のノードに同じ namespace を付ける場合は、`Nodes` に既定値を設定できます。
+
+```python
+nodes = bdu.Nodes(modifier_manager=modifier_manager, namespace=":character")
+ctrl = nodes.create.transform(name="ctrl")
+joint = nodes.create.joint(name="joint")
+other = nodes.create.transform(name="ctrl", namespace=":other")
+modifier_manager.do_it_dag()
+```
+
+既定値は `nodes.create` の作成にだけ適用します。個別の `namespace=` を優先し、
+`name="other:ctrl"` のように namespace を含む名前には既定値を適用しません。
+`namespace=` と namespace を含む `name` は併用できません。既定値がある間は
+無名作成も `ValueError` となるため、`name` を指定してください。
+`nodes.set_namespace(":next")` は以後に予約する作成先を変更します。
+相対指定は設定時のカレント namespace を基準に絶対化されます。
+`nodes.set_namespace(None)` で既定値を解除し、`""` または `":"` でルートを
+既定値にできます。設定時に Maya のカレント namespace は変更せず、
+予約済みノードと `nodes.existing` から取得したノードにも影響しません。
+`nodes.create.with_transform` と `nodes.create.animLayer` にも適用します。
+
+ノードを別の namespace へ移すときは、単一ノードでは
+`node.move_to_namespace()`、複数ノードでは `nodes.move_to_namespace()` を使います。
+`nodes.set_namespace()` は今後作るノードの既定値を設定する別の操作です。
+移動先の namespace が未作成なら `do_it_dg()` 時に作成します。
+
+```python
+ctrl = nodes.existing.transform("character:ctrl")
+ctrl.rename(new_name="main_ctrl")
+ctrl.move_to_namespace(":rig")
+modifier_manager.do_it_dg()
+```
+
+`rename()` はローカル名だけを変更し、変更後のローカル名に `:` を含む指定は
+`ValueError` にします。`move_to_namespace("rig")` は予約時のカレント namespace からの
+相対指定、`move_to_namespace(":rig")` はルート起点です。ルートへ戻す場合は
+`move_to_namespace(":")` を使います。移動先の作成とノードの移動は同じ履歴で Undo / Redo
+でき、移動元の namespace は自動削除しません。作成予約中の DAG ノードを移動するときは
+`do_it_dag()` の後に `do_it_dg()` を実行してください。自動命名待ちのノードは、
+作成後に名前が確定してから移動します。
+
+```python
+nodes.move_to_namespace(
+    [joint, "other:ctrl"],
+    namespace=":rig",
+)
+modifier_manager.do_it_dg()
+```
+
+複数ノードの指定には `NodeOperator`、ノード名、`MObject` を混在できます。
+ノード名と `MObject` は呼び出し時にシーン上に存在するノードを指定します。
+作成待ちノードは名前付きの `NodeOperator` で指定してください。
+空・重複・不正な対象は予約前に拒否します。`NodeOperator` は `nodes` と同じ
+`ModifierManager` に属する必要があります。移動先に同じローカル名があると、
+Maya が連番を付けます。
+
 Maya 2025 / 2026 / 2027 の実行 schema は、起動中の Maya から自動判定します。
 IDE の補完対象だけを固定したい場合は `typing_maya_version` を指定します。
 

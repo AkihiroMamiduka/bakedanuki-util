@@ -1,7 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable, Literal
 
 from maya.api import OpenMaya as om
@@ -28,6 +28,40 @@ class _ModifierStep:
 
     def undo_it(self) -> None:
         self.modifier.undoIt()
+
+
+@dataclass(slots=True)
+class _NamespaceStep:
+    required: tuple[str, ...]
+    created: list[str] = field(default_factory=list[str])
+
+    def do_it(self) -> None:
+        self._ensure()
+
+    def redo_it(self) -> None:
+        self._ensure()
+
+    def _ensure(self) -> None:
+        for namespace in self.required:
+            parts = namespace[1:].split(":")
+            for depth in range(1, len(parts) + 1):
+                candidate = ":" + ":".join(parts[:depth])
+                if om.MNamespace.namespaceExists(candidate):
+                    continue
+                om.MNamespace.addNamespace(candidate)
+                if candidate not in self.created:
+                    self.created.append(candidate)
+
+    def undo_it(self) -> None:
+        # 他の操作が後から追加したノードや子 namespace は削除しない。
+        for namespace in reversed(self.created):
+            if not om.MNamespace.namespaceExists(namespace):
+                continue
+            if om.MNamespace.getNamespaceObjects(
+                namespace
+            ) or om.MNamespace.getNamespaces(namespace):
+                continue
+            om.MNamespace.removeNamespace(namespace)
 
 
 @dataclass(slots=True)
@@ -83,7 +117,7 @@ class _DeferredBatchStep:
             self.manager.undo_it()
 
 
-_Step = _ModifierStep | _AnimCurveStep | _DeferredBatchStep
+_Step = _ModifierStep | _NamespaceStep | _AnimCurveStep | _DeferredBatchStep
 
 
 @dataclass(frozen=True, slots=True)
@@ -144,6 +178,8 @@ class ModifierManager:
         "_dag_mod",
         "_pending_dg_steps",
         "_pending_dag_parents",
+        "_pending_namespaces",
+        "_dg_batch_generation",
         "_done_stack",
         "_redo_stack",
     )
@@ -153,6 +189,11 @@ class ModifierManager:
         self._dag_mod = om.MDagModifier()
         self._pending_dg_steps: list[_Step] = []
         self._pending_dag_parents: dict[om.MObjectHandle, om.MObject] = {}
+        self._pending_namespaces: dict[ModifierKind, set[str]] = {
+            "dg": set(),
+            "dag": set(),
+        }
+        self._dg_batch_generation = 0
         self._done_stack: list[_ExecutedBatch] = []
         self._redo_stack: list[_ExecutedBatch] = []
 
@@ -316,6 +357,34 @@ class ModifierManager:
         self._dag_mod = om.MDagModifier()
         self._pending_dg_steps = []
         self._pending_dag_parents = {}
+        self._pending_namespaces = {"dg": set(), "dag": set()}
+        self._dg_batch_generation += 1
+
+    @property
+    def dg_batch_generation(self) -> int:
+        """現在予約中の DG 実行バッチを識別する番号。"""
+        return self._dg_batch_generation
+
+    def require_namespace(self, kind: ModifierKind, namespace: str) -> None:
+        """ノードの作成・移動に必要な絶対 namespace を実行バッチへ記録する。
+
+        Args:
+            kind: 作成を予約した modifier の種類。
+            namespace: 先頭に `:` を持つ絶対 namespace。
+        """
+        if namespace != ":":
+            self._pending_namespaces[kind].add(namespace)
+
+    def _namespace_step(self, kind: ModifierKind) -> _NamespaceStep | None:
+        """必要な namespace を実行時に準備する step を返す。"""
+        required = self._pending_namespaces[kind]
+        if not required:
+            return None
+        return _NamespaceStep(
+            tuple(
+                sorted(required, key=lambda value: (value.count(":"), value))
+            )
+        )
 
     def record_pending_dag_parent(
         self,
@@ -365,12 +434,17 @@ class ModifierManager:
 
     def _do_it(self, kind: ModifierKind):
         # 予約済み操作を 1 履歴にまとめ、失敗時は batch 内で元に戻す。
+        steps: tuple[_Step, ...]
         if kind == "dg":
             steps = (*self._pending_dg_steps, _ModifierStep(self._dg_mod))
         elif kind == "dag":
             steps = (_ModifierStep(self._dag_mod),)
         else:
             raise ValueError(f"Unsupported modifier kind: {kind}")
+
+        namespace_step = self._namespace_step(kind)
+        if namespace_step is not None:
+            steps = (namespace_step, *steps)
 
         batch = _ExecutedBatch(kind, steps)
         try:
@@ -385,9 +459,11 @@ class ModifierManager:
         self._replace_current_modifier(kind)
 
     def _replace_current_modifier(self, kind: ModifierKind):
+        self._pending_namespaces[kind].clear()
         if kind == "dg":
             self._dg_mod = om.MDGModifier()
             self._pending_dg_steps = []
+            self._dg_batch_generation += 1
         elif kind == "dag":
             self._dag_mod = om.MDagModifier()
             self._pending_dag_parents = {}

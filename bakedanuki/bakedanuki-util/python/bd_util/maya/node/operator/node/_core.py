@@ -8,6 +8,7 @@ from maya.api import OpenMaya as om
 from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
 from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
+from ..._creation_name import resolve_creation_name
 from ..._maya_version import require_node_type_available
 from ...modifier import ModifierManager
 
@@ -86,6 +87,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         "_fn_node",
         "_pending_at_initialization",
         "_requested_name",
+        "_pending_name_dg_generation",
         "_plug_cache",
     )
 
@@ -171,6 +173,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         # 未実行の新規 `MObject` は Maya 名を取得できないため、予約時の名前を
         # データ検索用の手掛かりとして保持する。
         self._requested_name: str | None = None
+        self._pending_name_dg_generation: int | None = None
 
         if name:
             self._dg_mod.renameNode(self.m_obj, name)
@@ -274,6 +277,8 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         modifier_manager: ModifierManager,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
     ) -> Self:
         """このクラスに対応する DG ノードの作成を予約する。
 
@@ -281,6 +286,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             modifier_manager: ノード作成を予約する先。
             name: 作成するノードの名前。省略時は Maya に委ねる。
             auto_add_attr: 定義済みの extra attribute を追加するか。
+            namespace: `name` に付ける namespace。未作成なら実行時に作成する。
 
         Returns:
             作成予定のノードを包むインスタンス。
@@ -292,12 +298,18 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
         require_node_type_available(cls.NODE_TYPE)
 
+        resolved_name, required_namespace = resolve_creation_name(
+            name, namespace
+        )
+        if required_namespace is not None:
+            modifier_manager.require_namespace("dg", required_namespace)
+
         m_obj = modifier_manager.dg_mod.createNode(cls.NODE_TYPE)
 
         return cls(
             modifier_manager,
             m_obj=m_obj,
-            name=name,
+            name=resolved_name,
             auto_add_attr=auto_add_attr,
         )
 
@@ -330,6 +342,23 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             return
         namespace = om.MNamespace.currentNamespace().removeprefix(":")
         self._requested_name = f"{namespace}:{name}" if namespace else name
+
+    def _name_for_edit(self) -> str:
+        """同じ DG バッチに予約した改名を反映した名前を返す。"""
+        if (
+            self._pending_name_dg_generation
+            == self._modifier_manager.dg_batch_generation
+        ):
+            return self._requested_name_hint or ""
+        return self.name or self._requested_name_hint or ""
+
+    def _reserve_name_change(self, name: str) -> None:
+        """DG への改名予約と、同じバッチ内で使う予約名を更新する。"""
+        self._dg_mod.renameNode(self.m_obj, name)
+        self._set_requested_name_hint(name)
+        self._pending_name_dg_generation = (
+            self._modifier_manager.dg_batch_generation
+        )
 
     @property
     def namespace(self) -> str:
@@ -377,7 +406,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         replace: str = "",
         prefix: str = "",
         suffix: str = "",
-    ):
+    ) -> None:
         """ネームスペースを保ち、ローカル名の変更を予約する。
 
         Args:
@@ -390,6 +419,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         Raises:
             ValueError: `new_name` / `search` / `prefix` / `suffix` が
                 すべて未指定か、`new_name` と `search` を同時に指定した場合。
+                変更後のローカル名に `:` が含まれる場合。
         """
         if new_name is not None and search is not None:
             raise ValueError(
@@ -400,15 +430,21 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
                 "new_name または search、もしくは prefix/suffix のいずれかを指定してください。"
             )
 
-        if ":" in self.name:
-            namespace, pure_name = self.name.rsplit(":", 1)
-            namespace_prefix = namespace + ":"
+        current_name = self._name_for_edit()
+        if ":" in current_name:
+            namespace, pure_name = current_name.rsplit(":", 1)
+            namespace_prefix = f":{namespace}:"
+        elif current_name:
+            namespace_prefix = ":"
+            pure_name = current_name
         else:
-            namespace_prefix = ""
-            pure_name = self.name
-
-        namespace_prefix = self.namespace_colon
-        pure_name = self.local_name
+            current_namespace = om.MNamespace.currentNamespace()
+            namespace_prefix = (
+                current_namespace
+                if current_namespace == ":"
+                else f"{current_namespace}:"
+            )
+            pure_name = ""
 
         # 名前空間を保ち、ローカル名の変更だけを予約する。
         if new_name is not None:
@@ -416,7 +452,48 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         elif search is not None:
             pure_name = pure_name.replace(search, replace)
         pure_name = prefix + pure_name + suffix
+        if ":" in pure_name:
+            raise ValueError(
+                "The local node name cannot include ':'. Use move_to_namespace() to move the node."
+            )
 
         requested_name = namespace_prefix + pure_name
-        self._dg_mod.renameNode(self.m_obj, requested_name)
-        self._set_requested_name_hint(requested_name)
+        self._reserve_name_change(requested_name)
+
+    def move_to_namespace(self, namespace: str) -> Self:
+        """ローカル名を保ち、ノードの namespace の変更を DG に予約する。
+
+        相対指定は予約時のカレント namespace を基準にする。未作成の移動先は
+        `do_it_dg()` 時に作成し、Undo 時はこの履歴で作成した空の namespace を戻す。
+        移動先で名前が衝突すると Maya がローカル名に連番を付ける。
+
+        Args:
+            namespace: 移動先。先頭の `:` はルート起点。`""` と `":"` はルート。
+
+        Returns:
+            このノード。
+
+        Raises:
+            TypeError: `namespace` が文字列でない場合。
+            ValueError: `namespace` が不正か、作成待ちで名前が未確定の場合。
+        """
+        if not isinstance(cast(object, namespace), str):
+            raise TypeError("namespace must be a string.")
+
+        current_name = self._name_for_edit()
+        if not current_name:
+            raise ValueError(
+                "A pending node must have a name to set its namespace."
+            )
+        local_name = current_name.rsplit(":", 1)[-1]
+        requested_name, required_namespace = resolve_creation_name(
+            local_name, namespace
+        )
+        assert requested_name is not None
+        assert required_namespace is not None
+        if current_name == requested_name.removeprefix(":"):
+            return self
+
+        self._reserve_name_change(requested_name)
+        self._modifier_manager.require_namespace("dg", required_namespace)
+        return self

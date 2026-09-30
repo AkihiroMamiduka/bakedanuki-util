@@ -7,6 +7,7 @@ from collections.abc import Callable
 from importlib import resources
 from typing import TYPE_CHECKING, cast
 
+from .._creation_name import resolve_namespace, select_creation_namespace
 from .._maya_version import is_node_type_available
 from .._node_class_resolver import (
     CREATOR_PACKAGES,
@@ -44,22 +45,53 @@ class NodeCreator:
     __slots__ = (
         "__dict__",
         "_modifier_manager",
+        "_namespace",
         "_node_names_cache",
         "_with_transform",
     )
 
-    def __init__(self, modifier_manager: ModifierManager | None = None):
+    def __init__(
+        self,
+        modifier_manager: ModifierManager | None = None,
+        *,
+        namespace: str | None = None,
+    ):
         self._modifier_manager = modifier_manager or ModifierManager()
+        self._namespace = (
+            resolve_namespace(namespace) if namespace is not None else None
+        )
         self._node_names_cache: tuple[str, ...] | None = None
         self._with_transform = ShapeWithTransformCreator(
             self._modifier_manager,
             self._creator_node_class,
+            default_namespace=lambda: self._namespace,
         )
 
     @property
     def modifier_manager(self) -> ModifierManager:
         """ノード作成を予約する先。"""
         return self._modifier_manager
+
+    @property
+    def namespace(self) -> str | None:
+        """作成時の既定 namespace。`None` なら既定値を使わない。"""
+        return self._namespace
+
+    def set_namespace(self, namespace: str | None) -> None:
+        """以後のノード作成に使う既定 namespace を設定する。
+
+        Args:
+            namespace: 先頭の `:` はルート起点。`None` で既定値を解除する。
+                空文字列と `":"` はルートを表す。
+        """
+        self._namespace = (
+            resolve_namespace(namespace) if namespace is not None else None
+        )
+
+    def _effective_namespace(
+        self, name: str | None, namespace: str | None
+    ) -> str | None:
+        return select_creation_namespace(name, namespace, self._namespace)
 
     @property
     def with_transform(self) -> ShapeWithTransformCreator:
@@ -73,6 +105,7 @@ class NodeCreator:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> NodeOperator:
         """指定した Maya ノード型の作成を予約する。
 
@@ -81,6 +114,7 @@ class NodeCreator:
             name: 作成するノードの名前。省略時は Maya に委ねる。
             auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。
             parent: DAG ノードの親。DG ノードには指定できない。
+            namespace: `name` に付ける namespace。未作成なら実行時に作成する。
 
         Returns:
             作成予定のノードを包む `NodeOperator`。
@@ -99,12 +133,14 @@ class NodeCreator:
                 self._modifier_manager,
                 name=name,
                 auto_add_attr=auto_add_attr,
+                namespace=self._effective_namespace(name, namespace),
             )
         return node_cls.create(
             self._modifier_manager,
             name=name,
             auto_add_attr=auto_add_attr,
             parent=parent,
+            namespace=self._effective_namespace(name, namespace),
         )
 
     def node_class(self, node_name: str) -> type[NodeOperator]:
@@ -124,6 +160,7 @@ class NodeCreator:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
         *,
         override: bool = False,
+        namespace: str | None = None,
     ) -> AnimLayer:
         """ベースと階層接続を含むアニメーションレイヤーの作成を予約する。
 
@@ -131,6 +168,7 @@ class NodeCreator:
             name: 作成するレイヤー名。
             auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。
             override: 上書きモードのレイヤーにするか。
+            namespace: `name` に付ける namespace。未作成なら実行時に作成する。
 
         Returns:
             作成予定のアニメーションレイヤー。
@@ -139,7 +177,11 @@ class NodeCreator:
             "type[AnimLayer]", self._creator_node_class("animLayer")
         )
         return node_cls.create(
-            self._modifier_manager, name, auto_add_attr, override=override
+            self._modifier_manager,
+            name,
+            auto_add_attr,
+            override=override,
+            namespace=self._effective_namespace(name, namespace),
         )
 
     def _creator_node_class(self, node_name: str) -> type[NodeOperator]:
@@ -207,12 +249,14 @@ class NodeCreator:
                 auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
                 *,
                 parent: Transform,
+                namespace: str | None = None,
             ) -> NodeOperator:
                 return node_cls.create(
                     self._modifier_manager,
                     name=name,
                     auto_add_attr=auto_add_attr,
                     parent=parent,
+                    namespace=self._effective_namespace(name, namespace),
                 )
 
             create_func: Callable[..., NodeOperator] = _create_shape
@@ -224,12 +268,14 @@ class NodeCreator:
                 auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
                 *,
                 parent: DAG | None = None,
+                namespace: str | None = None,
             ) -> NodeOperator:
                 return node_cls.create(
                     self._modifier_manager,
                     name=name,
                     auto_add_attr=auto_add_attr,
                     parent=parent,
+                    namespace=self._effective_namespace(name, namespace),
                 )
 
             create_func: Callable[..., NodeOperator] = _create_dag
@@ -239,11 +285,14 @@ class NodeCreator:
             def _create_dg(
                 name: str | None = None,
                 auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+                *,
+                namespace: str | None = None,
             ) -> NodeOperator:
                 return node_cls.create(
                     self._modifier_manager,
                     name=name,
                     auto_add_attr=auto_add_attr,
+                    namespace=self._effective_namespace(name, namespace),
                 )
 
             create_func = _create_dg
@@ -260,6 +309,7 @@ class NodeCreator:
             "Args:\n"
             "    name: 作成するノードの名前。省略時は Maya に委ねる。\n"
             "    auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。\n"
+            "    namespace: `name` に付ける namespace。未作成なら実行時に作成する。\n"
             f"{parent_doc}\nReturns:\n"
             f"    `{node_cls.__name__}` インスタンス。"
         )

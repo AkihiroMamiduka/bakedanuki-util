@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from .._creation_name import resolve_creation_name, select_creation_namespace
 from .._maya_version import is_node_type_available
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
@@ -19,15 +20,19 @@ class ShapeWithTransformCreator:
         "__dict__",
         "_modifier_manager",
         "_node_class_resolver",
+        "_default_namespace",
     )
 
     def __init__(
         self,
         modifier_manager: ModifierManager,
         node_class_resolver: Callable[[str], type[NodeOperator]],
+        *,
+        default_namespace: Callable[[], str | None] | None = None,
     ) -> None:
         self._modifier_manager = modifier_manager
         self._node_class_resolver = node_class_resolver
+        self._default_namespace = default_namespace
 
     @property
     def modifier_manager(self) -> ModifierManager:
@@ -42,6 +47,7 @@ class ShapeWithTransformCreator:
         *,
         shape_name: str | None = None,
         parent: DAG | None = None,
+        namespace: str | None = None,
     ) -> tuple[Transform, Shape]:
         """`Shape` と親 `Transform` の作成をまとめて予約する。
 
@@ -51,6 +57,7 @@ class ShapeWithTransformCreator:
             auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。
             shape_name: `Shape` の名前。省略時は `name` があれば `Shape` を付ける。
             parent: `Transform` の親 DAG ノード。
+            namespace: 両ノードの `name` に付ける namespace。
 
         Returns:
             作成予定の `(Transform, Shape)`。
@@ -65,6 +72,7 @@ class ShapeWithTransformCreator:
             auto_add_attr=auto_add_attr,
             shape_name=shape_name,
             parent=parent,
+            namespace=namespace,
         )
 
     def available_node_names(self) -> tuple[str, ...]:
@@ -92,6 +100,7 @@ class ShapeWithTransformCreator:
             *,
             shape_name: str | None = None,
             parent: DAG | None = None,
+            namespace: str | None = None,
         ) -> tuple[Transform, Shape]:
             return self._create(
                 node_cls,
@@ -99,6 +108,7 @@ class ShapeWithTransformCreator:
                 auto_add_attr=auto_add_attr,
                 shape_name=shape_name,
                 parent=parent,
+                namespace=namespace,
             )
 
         create_func: Callable[..., tuple[Transform, Shape]] = (
@@ -112,7 +122,8 @@ class ShapeWithTransformCreator:
             "    name: `Transform` の名前。省略時は Maya に委ねる。\n"
             "    auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。\n"
             "    shape_name: `Shape` の名前。省略時は `name` があれば `Shape` を付ける。\n"
-            "    parent: `Transform` の親 DAG ノード。\n\n"
+            "    parent: `Transform` の親 DAG ノード。\n"
+            "    namespace: 両ノードの `name` に付ける namespace。\n\n"
             "Returns:\n"
             f"    (`Transform`, `{node_cls.__name__}`)。"
         )
@@ -137,18 +148,35 @@ class ShapeWithTransformCreator:
         auto_add_attr: bool,
         shape_name: str | None,
         parent: DAG | None,
+        namespace: str | None,
     ) -> tuple[Transform, Shape]:
-        transform = Transform.create(
-            self._modifier_manager,
-            name=name,
-            auto_add_attr=auto_add_attr,
-            parent=parent,
+        default_namespace = (
+            self._default_namespace()
+            if self._default_namespace is not None
+            else None
+        )
+        resolved_name, _ = resolve_creation_name(
+            name,
+            select_creation_namespace(name, namespace, default_namespace),
         )
         if shape_name is None and name is not None:
             shape_name = f"{name}Shape"
+        resolved_shape_name, _ = resolve_creation_name(
+            shape_name,
+            select_creation_namespace(
+                shape_name, namespace, default_namespace
+            ),
+        )
+
+        transform = Transform.create(
+            self._modifier_manager,
+            name=resolved_name,
+            auto_add_attr=auto_add_attr,
+            parent=parent,
+        )
         shape = node_cls.create(
             self._modifier_manager,
-            name=shape_name,
+            name=resolved_shape_name,
             auto_add_attr=auto_add_attr,
             parent=transform,
         )

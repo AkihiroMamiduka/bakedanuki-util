@@ -6,9 +6,9 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def main():
-    nodes = bdu.Nodes()
+    nodes = bdu.Nodes(namespace=":test")
 
-    top = nodes.create.transform(name="top")
+    top = nodes.create.transform(name="top", namespace=":top_ns")
 
     parent = top
     for num in range(10):
@@ -35,5 +35,7 @@ def main():
         j.side.set(2)
         j.type.set(j.type.OTHER)
         j.otherType.set("test")
+
+    nodes.move_to_namespace(joints, namespace=":jjj")
 
     nodes.modifier_manager.do_it_dg()

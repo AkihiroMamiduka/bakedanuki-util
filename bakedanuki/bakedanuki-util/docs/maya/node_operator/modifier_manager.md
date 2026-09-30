@@ -80,6 +80,33 @@ undo時は実行済み履歴を逆順に戻し、各履歴内の操作も逆順�
 redo時は元の順序で再実行します。native modifierには`doIt()`、animation curveの
 変更キャッシュには`redoIt()`を呼びます。
 
+## namespace を伴う作成と移動
+
+明示名付きのノード作成は、予約時のカレント namespace を使って絶対名へ解決します。
+`ModifierManager.require_namespace()` は必要な namespace を DG / DAG それぞれの
+実行バッチに記録します。`NodeOperator.move_to_namespace()` による移動は DG に予約し、
+移動先と最後に予約したローカル名から新しい絶対名を組み立てます。
+
+`do_it_dg()` / `do_it_dag()` はノード操作より先に、不足している namespace と
+その祖先を浅い階層から作成します。DG と DAG が同じ namespace を必要とするときは、
+先に実行したバッチが作成した階層だけを履歴に記録します。Undo ではノード操作を先に
+戻し、そのバッチで作成した空の namespace だけを深い階層から削除します。
+既存の namespace や後から別のノード・子 namespace が加わった階層は残します。
+Redo では不足している階層を再作成します。
+
+`rename()` と `move_to_namespace()` を同じ DG バッチへ続けて予約した場合は、前の予約で
+決まった名前を次の操作が使用します。DG バッチ確定後は実際のシーン名を使用し、
+外部からの改名にも追従します。作成待ちの DAG ノードを移動するときは、
+`do_it_dag()` で作成してから `do_it_dg()` で移動します。
+
+`Nodes.set_namespace()` は `nodes.create` の既定 namespace だけを更新し、
+既存ノードや予約済みノードを移動しません。`NodeOperator.move_to_namespace()` と
+`Nodes.move_to_namespace()` は移動を共有 DG バッチに予約する別の操作です。
+複数対象では、入力をすべて解決し、同一 `ModifierManager`・名前付きの作成待ちノード・
+重複を検査してから予約します。作成待ちの `MObject` だけでは予約名を復元できないため、
+その場合は元の `NodeOperator` を指定します。移動先に同じローカル名がある場合は、
+Maya の連番付き改名に従います。
+
 ## animation curve編集の予約
 
 `queue_anim_curve_change(callback: Callable[[MAnimCurveChange], None]) -> None`は、
