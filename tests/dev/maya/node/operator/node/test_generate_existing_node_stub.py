@@ -252,21 +252,34 @@ def test_versioned_creator_surfaces_follow_node_availability():
     existing_common_names = method_names("_ExistingNodeAccessorCommon")
     assert "__getattr__" not in existing_common_names
 
-    node_types_common_names = method_names("_NodeTypesCommon")
-    node_types_2025_names = method_names("_NodeTypesMaya2025")
-    node_types_2026_names = method_names("_NodeTypesMaya2026")
-    node_types_2027_names = method_names("_NodeTypesMaya2027")
+    def public_node_type_names(maya_version: int | None) -> set[str]:
+        public_tree = ast.parse(
+            stub_generator.generate_public_node_types_stub_code(
+                python_root, maya_version
+            )
+        )
+        return {
+            statement.target.id
+            for statement in public_tree.body
+            if isinstance(statement, ast.AnnAssign)
+            and isinstance(statement.target, ast.Name)
+        }
 
-    assert "Absolute" in node_types_common_names
+    common_names = public_node_type_names(None)
+    maya_2025_names = public_node_type_names(2025)
+    maya_2026_names = public_node_type_names(2026)
+    maya_2027_names = public_node_type_names(2027)
+
+    assert "Absolute" in common_names
     assert {"AddDoubleLinear", "AbsoluteDL", "ShotLabel"}.isdisjoint(
-        node_types_common_names
+        common_names
     )
-    assert "AddDoubleLinear" in node_types_2025_names
-    assert "AbsoluteDL" not in node_types_2025_names
-    assert "AddDoubleLinear" not in node_types_2026_names
-    assert "AbsoluteDL" in node_types_2026_names
-    assert "ShotLabel" not in node_types_2026_names
-    assert {"AbsoluteDL", "ShotLabel"}.issubset(node_types_2027_names)
+    assert "AddDoubleLinear" in maya_2025_names
+    assert "AbsoluteDL" not in maya_2025_names
+    assert "AddDoubleLinear" not in maya_2026_names
+    assert "AbsoluteDL" in maya_2026_names
+    assert "ShotLabel" not in maya_2026_names
+    assert {"AbsoluteDL", "ShotLabel"}.issubset(maya_2027_names)
 
     standard_surface_2026 = classes["_StandardSurfaceMaya2026"]
     assert len(standard_surface_2026.bases) == 1

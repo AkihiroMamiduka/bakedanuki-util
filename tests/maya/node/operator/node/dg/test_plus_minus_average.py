@@ -220,41 +220,43 @@ def test_connection_queries_filter_node_types(
     modifier_manager.do_it_dag()
     modifier_manager.do_it_dg()
 
-    source = dst.input1D[0].src_plug(filter_type=nodes.types.Joint)
+    source = dst.input1D[0].src_plug(filter_type=bdu.node_types.Joint)
     assert source is not None
-    assert isinstance(source.node, nodes.types.Joint)
+    assert isinstance(source.node, bdu.node_types.Joint)
     assert (
-        dst.input1D[0].src_name(filter_type=nodes.types.Joint) == "src_joint"
+        dst.input1D[0].src_name(filter_type=bdu.node_types.Joint)
+        == "src_joint"
     )
     assert (
-        dst.input1D[0].src_plug_name(filter_type=nodes.types.Joint)
+        dst.input1D[0].src_plug_name(filter_type=bdu.node_types.Joint)
         == src.translateX.plug_name
     )
 
     assert (
-        dst.input1D[0].src_plug(filter_type=nodes.types.Transform) is not None
+        dst.input1D[0].src_plug(filter_type=bdu.node_types.Transform)
+        is not None
     )
     assert (
         dst.input1D[0].src_plug(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_subclasses=False,
         )
         is None
     )
     assert (
         dst.input1D[0].src_plug(
-            filter_type=nodes.types.Joint,
+            filter_type=bdu.node_types.Joint,
             include_subclasses=False,
         )
         is not None
     )
     assert (
-        dst.input1D[0].src_plug(filter_type=nodes.types.PlusMinusAverage)
+        dst.input1D[0].src_plug(filter_type=bdu.node_types.PlusMinusAverage)
         is None
     )
 
     destinations = src.translateX.dst_plugs(
-        filter_type=nodes.types.PlusMinusAverage,
+        filter_type=bdu.node_types.PlusMinusAverage,
         include_subclasses=False,
     )
     assert len(destinations) == 2
@@ -265,7 +267,7 @@ def test_connection_queries_filter_node_types(
     assert src.translateX.dst_plug_names() == tuple(
         plug.plug_name for plug in src.translateX.dst_plugs()
     )
-    assert src.translateX.dst_plugs(filter_type=nodes.types.Transform) == ()
+    assert src.translateX.dst_plugs(filter_type=bdu.node_types.Transform) == ()
 
     # MPlug.connectedTo() と同じく、親multi plugから子の接続は集約しない。
     assert dst.input1D.src_plug() is None

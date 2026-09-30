@@ -13,7 +13,7 @@ def test_nodes_can_import_from_bd_util(new_scene):
     assert nodes.modifier_manager is modifier_manager
     assert nodes.create.modifier_manager is modifier_manager
     assert nodes.existing.modifier_manager is modifier_manager
-    assert nodes.types is nodes.types
+    assert not hasattr(nodes, "types")
 
 
 def test_typing_maya_version_does_not_select_the_runtime_maya(new_scene):
@@ -41,6 +41,7 @@ def test_nodes_and_inspection_are_public_node_entries(new_scene):
     from bd_util.maya import node as node_package
 
     assert "Nodes" in bd_util.__all__
+    assert "node_types" in bd_util.__all__
     assert "NodeCreator" not in bd_util.__all__
     assert "ExistingNode" not in bd_util.__all__
     assert not hasattr(bd_util, "NodeCreator")
@@ -131,6 +132,6 @@ def test_nodes_caches_accessors(new_scene):
 
     assert nodes.create is nodes.create
     assert nodes.existing is nodes.existing
-    assert nodes.types is nodes.types
+    assert not hasattr(nodes, "types")
     assert nodes.existing.decomposeMatrix is existing_accessor
     assert nodes.existing.__dict__["decomposeMatrix"] is existing_accessor

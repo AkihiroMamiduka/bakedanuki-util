@@ -757,24 +757,24 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 `creator/_shape_types.py` と共有するため、実行時 API と補完候補がずれません。
 
 `_node_type_registry.py` は、PascalCaseのPython class名とMaya node type名だけを
-保持します。`nodes.types` の初期化時に全NodeOperator moduleをimportせず、
-`nodes.types.Locator` のように参照されたclassだけを遅延importするためのregistryです。
-`node_types.pyi` は同じ定義からread-only propertyを生成し、
-`nodes.types.Locator` を `type[Locator]` として公開します。`NodeOperator` / `DAG` /
+保持します。`bdu.node_types` の初期化時に全NodeOperator moduleをimportせず、
+`bdu.node_types.Locator` のように参照されたclassだけを遅延importするためのregistryです。
+内部用の `node_types.pyi` は同じ定義からread-only propertyを生成します。
+`NodeOperator` / `DAG` /
 `Shape` / `BaseGeometryVarGroup` はfilterにも使う公開基底classとして明示的に追加します。
-`bd_util/node_types/*.pyi` は同じ定義から型注釈用のクラス名を生成します。
+`bd_util/node_types/*.pyi` は同じ定義からクラス参照・型注釈用の名前を生成します。
 共通 module は全対応 version の共通ノードを公開し、schema が異なるクラスは
 version 別の戻り値型の union にします。version 別 module は、その version で
 利用可能なクラス名と有効な schema 型だけを公開します。
 
 `_versioned_accessors.pyi` は、3 version共通面と Maya 2025 / 2026 / 2027ごとの
-`nodes.create` / `nodes.existing` / `nodes.types`を保持します。`nodes.pyi`の
+`nodes.create` / `nodes.existing`を保持します。`nodes.pyi`の
 `typing_maya_version` overloadは、この静的accessorだけを選択します。実行中Mayaの
 version判定やnode availabilityには使用しません。
 
 Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。
-`nodes.types.And` / `nodes.types.Or` / `nodes.types.Not` のruntime値は、それぞれの
+`bdu.node_types.And` / `bdu.node_types.Or` / `bdu.node_types.Not` のruntime値は、それぞれの
 具体classです。
 
 ```powershell

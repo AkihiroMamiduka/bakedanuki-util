@@ -80,7 +80,7 @@
   Maya 2025上で検証。
 - DAG traversalへShape filter、class-based type filter、完全一致option、
   固定child indexの`descendant_chain()`、`until`による境界指定を追加。
-  `nodes.types`から具体classを参照できる型・補完contractも整備。
+  `bdu.node_types`から具体classを参照できる型・補完contractも整備。
 - 親 Transform 必須の raw shape 作成 API を追加。
 - `camera` / `locator` / `mesh` / `nurbsCurve` / `nurbsSurface` を最初の
   作成確認済み shape として公開。
@@ -975,10 +975,10 @@ Maya node type名の文字列ではなく、`Transform` / `Joint` / `Shape` / `M
 継承関係を利用でき、`type[T]`と組み合わせて戻り値を`tuple[T, ...]`として表現できます。
 
 filter実装の事前整備として、生成済みNodeOperator classを
-`nodes.types.Transform` / `nodes.types.Locator` のように参照できるAPIを追加しました。
+`bdu.node_types.Transform` / `bdu.node_types.Locator` のように参照できるAPIを追加しました。
 PascalCase属性は具体的な`type[T]`をstubで公開し、実classはアクセス時に遅延importします。
 `NodeOperator` / `DAG` / `Shape` / `BaseGeometryVarGroup` の基底classも参照できます。
-動的なMaya node type名には `nodes.types.resolve("locator")` を使用します。
+動的なMaya node type名には `bdu.node_types.resolve("locator")` を使用します。
 
 第一段階として、`children(filter_type=...)`へ単一のDAG系Python classを渡せるように
 しました。filterは`isinstance()`に基づくため、`Transform`を指定すると`Joint`などの

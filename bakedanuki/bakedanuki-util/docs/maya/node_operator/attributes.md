@@ -693,7 +693,7 @@ nodes = bdu.Nodes(modifier_manager=mod)
 node = nodes.existing.transform("ctrl")
 
 curves = node.translate.translateX.keyframe.find_anim_curves(
-    filter_type=nodes.types.AnimCurveTL,
+    filter_type=bdu.node_types.AnimCurveTL,
 )
 print([curve.name for curve in curves])
 
@@ -704,9 +704,9 @@ mod.do_it_dg()
 ```
 
 返却ノードは`nodes.existing`と同じ具体型で、元の`ModifierManager`を共有します。
-`filter_type`には`nodes.types.AnimCurveTL`等の具体カーブクラスを渡します。
+`filter_type`には`bdu.node_types.AnimCurveTL`等の具体カーブクラスを渡します。
 戻り値の型も絞られるので、TA / TL / TUでは`.keyframe`以下の補完を利用できます。
-省略時は全8型が候補になり、`isinstance(curve, nodes.types.AnimCurveTL)`等でも型を
+省略時は全8型が候補になり、`isinstance(curve, bdu.node_types.AnimCurveTL)`等でも型を
 絞れます。TT / UA / UL / UT / UUは候補取得の対象ですが、カーブ自身の`.keyframe`は
 未対応です。型filterは結果だけに作用し、不一致のカーブを通り越して探索しません。
 
@@ -2218,11 +2218,11 @@ multi / compound の親 plug から element や child の接続は集約しま�
 
 ```python
 joint_source = dst.input.src_plug(
-    filter_type=nodes.types.Joint,
+    filter_type=bdu.node_types.Joint,
 )
 
 exact_joint_destinations = src.output.dst_plugs(
-    filter_type=nodes.types.Joint,
+    filter_type=bdu.node_types.Joint,
     include_subclasses=False,
 )
 ```

@@ -78,7 +78,7 @@ for version_nodes in (nodes_2025, nodes_2026, nodes_2027):
     curve_candidates = version_nodes.existing.transform(
         "target"
     ).translate.translateX.keyframe.find_anim_curves(
-        filter_type=version_nodes.types.AnimCurveTL
+        filter_type=bdu.node_types.AnimCurveTL
     )
     assert_type(curve_candidates[0].keyframe, CurveKeyframeManager)
     layer_keyframe = version_nodes.existing.transform(
@@ -104,13 +104,9 @@ assert_type(absolute_2026.input, DoublePlugOperator)
 assert_type(absolute_2027.input, DoublePlugOperator)
 assert isinstance(absolute_common, Absolute)
 
-assert_type(
-    nodes_common.types.Absolute.input,
-    DoubleLinearAttrOperator | DoubleAttrOperator,
-)
-assert_type(nodes_2025.types.Absolute.input, DoubleLinearAttrOperator)
-assert_type(nodes_2026.types.Absolute.input, DoubleAttrOperator)
-assert_type(nodes_2027.types.Absolute.input, DoubleAttrOperator)
+assert_type(bdu.node_types.maya2025.Absolute.input, DoubleLinearAttrOperator)
+assert_type(bdu.node_types.maya2026.Absolute.input, DoubleAttrOperator)
+assert_type(bdu.node_types.maya2027.Absolute.input, DoubleAttrOperator)
 
 assert_type(nodes_2025.create.addDoubleLinear(), AddDoubleLinear)
 assert_type(nodes_2026.create.absoluteDL(), AbsoluteDL)
@@ -152,10 +148,10 @@ assert_type(nodes_2027.existing.ufeLightDome("ufe_dome"), UfeLightDome)
 assert_type(nodes_2027.existing.ufeLightSphere("ufe_sphere"), UfeLightSphere)
 assert_type(nodes_2027.existing.ufeLightSpot("ufe_spot"), UfeLightSpot)
 
-assert_type(nodes_2026.types.DgaDelta, type[DgaDelta])
-assert_type(nodes_2026.types.UfeLightArea, type[UfeLightArea])
-assert_type(nodes_2027.types.DgaVisualizer, type[DgaVisualizer])
-assert_type(nodes_2027.types.UfeLightSpot, type[UfeLightSpot])
+assert_type(bdu.node_types.maya2026.DgaDelta, type[DgaDelta])
+assert_type(bdu.node_types.maya2026.UfeLightArea, type[UfeLightArea])
+assert_type(bdu.node_types.maya2027.DgaVisualizer, type[DgaVisualizer])
+assert_type(bdu.node_types.maya2027.UfeLightSpot, type[UfeLightSpot])
 
 assert_type(
     nodes_2027.create.bifrostClosureConverter(), BifrostClosureConverter
@@ -170,10 +166,12 @@ assert_type(
     UsdDefaultSettings,
 )
 assert_type(
-    nodes_2027.types.BifrostClosureConverter,
+    bdu.node_types.maya2027.BifrostClosureConverter,
     type[BifrostClosureConverter],
 )
-assert_type(nodes_2027.types.UsdDefaultSettings, type[UsdDefaultSettings])
+assert_type(
+    bdu.node_types.maya2027.UsdDefaultSettings, type[UsdDefaultSettings]
+)
 
 nodes_common.create.absoluteDL()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 nodes_2025.create.absoluteDL()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
@@ -192,10 +190,10 @@ nodes_2026.existing.addDoubleLinear(  # pyright: ignore[reportAttributeAccessIss
     "node"
 )
 
-nodes_common.types.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
-nodes_2025.types.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
-nodes_2026.types.AddDoubleLinear  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
-nodes_2026.types.ShotLabel  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2025.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2026.AddDoubleLinear  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2026.ShotLabel  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 nodes_common.create.dgaDelta()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 nodes_2025.create.dgaDelta()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
@@ -205,8 +203,8 @@ nodes_common.existing.dgaDelta(  # pyright: ignore[reportAttributeAccessIssue, r
 nodes_2025.existing.dgaDelta(  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     "node"
 )
-nodes_common.types.DgaDelta  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
-nodes_2025.types.DgaDelta  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.DgaDelta  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2025.DgaDelta  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 nodes_common.existing.ufeLightArea(  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     "node"
@@ -214,24 +212,24 @@ nodes_common.existing.ufeLightArea(  # pyright: ignore[reportAttributeAccessIssu
 nodes_2025.existing.ufeLightArea(  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     "node"
 )
-nodes_common.types.UfeLightArea  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
-nodes_2025.types.UfeLightArea  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.UfeLightArea  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2025.UfeLightArea  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 nodes_common.create.bifrostClosureConverter()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 nodes_2026.create.bifrostClosureConverter()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 nodes_2026.existing.bifrostClosureConverter(  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     "node"
 )
-nodes_2026.types.BifrostClosureConverter  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2026.BifrostClosureConverter  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 nodes_common.create.UsdDefaultSettings()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 nodes_2026.create.UsdDefaultSettings()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 nodes_2026.existing.UsdDefaultSettings(  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     "node"
 )
-nodes_2026.types.UsdDefaultSettings  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2026.UsdDefaultSettings  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
-nodes_2025.types.StandardSurface.lightDirectionX
-nodes_common.types.StandardSurface.lightDirectionX  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
-nodes_2026.types.StandardSurface.lightDirectionX  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
-nodes_2027.types.StandardSurface.lightDirectionX  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2025.StandardSurface.lightDirectionX
+bdu.node_types.StandardSurface.lightDirectionX  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2026.StandardSurface.lightDirectionX  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+bdu.node_types.maya2027.StandardSurface.lightDirectionX  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]

@@ -9,7 +9,6 @@ from maya.api import OpenMaya as om
 from .creator import NodeCreator
 from .existing_node import ExistingNode
 from .modifier import ModifierManager
-from .node_types import NodeTypes
 from .operator.node._core import NodeOperator
 from .operator.node._keyframes import NodesKeyframeManager
 
@@ -87,7 +86,6 @@ class Nodes:
         "_create",
         "_existing",
         "_keyframes",
-        "_types",
     )
 
     def __init__(
@@ -114,7 +112,6 @@ class Nodes:
             modifier_manager=modifier_manager,
         )
         self._keyframes = NodesKeyframeManager(modifier_manager)
-        self._types = NodeTypes()
 
     @property
     def modifier_manager(self) -> ModifierManager:
@@ -135,8 +132,3 @@ class Nodes:
     def keyframes(self) -> NodesKeyframeManager:
         """複数ノードのキーフレーム操作を予約する入口。"""
         return self._keyframes
-
-    @property
-    def types(self) -> NodeTypes:
-        """ノード型の参照・解決を行うアクセサ。"""
-        return self._types

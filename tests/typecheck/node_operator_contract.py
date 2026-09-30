@@ -1128,33 +1128,33 @@ def generic_dag_existing_contract(
         tuple[DAG, ...],
     )
     assert_type(
-        unknown_dag.children(filter_type=nodes.types.DAG),
+        unknown_dag.children(filter_type=bdu.node_types.DAG),
         tuple[DAG, ...],
     )
     assert_type(
-        unknown_dag.children(filter_type=nodes.types.Transform),
+        unknown_dag.children(filter_type=bdu.node_types.Transform),
         tuple[Transform, ...],
     )
     assert_type(
         unknown_dag.children(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_shapes=False,
         ),
         tuple[Transform, ...],
     )
     assert_type(
         unknown_dag.children(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_subclasses=False,
         ),
         tuple[Transform, ...],
     )
     assert_type(
-        unknown_dag.children(filter_type=nodes.types.Shape),
+        unknown_dag.children(filter_type=bdu.node_types.Shape),
         tuple[Shape, ...],
     )
     assert_type(
-        unknown_dag.children(filter_type=nodes.types.Locator),
+        unknown_dag.children(filter_type=bdu.node_types.Locator),
         tuple[Locator, ...],
     )
     assert_type(unknown_dag.ancestors(), tuple[DAG, ...])
@@ -1169,40 +1169,40 @@ def generic_dag_existing_contract(
         tuple[DAG, ...] | None,
     )
     assert_type(
-        unknown_dag.ancestors(filter_type=nodes.types.DAG),
+        unknown_dag.ancestors(filter_type=bdu.node_types.DAG),
         tuple[DAG, ...],
     )
     assert_type(
-        unknown_dag.ancestors(filter_type=nodes.types.Transform),
+        unknown_dag.ancestors(filter_type=bdu.node_types.Transform),
         tuple[Transform, ...],
     )
     assert_type(
         unknown_dag.ancestors(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             until=until,
         ),
         tuple[Transform, ...] | None,
     )
     assert_type(
         unknown_dag.ancestors(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             until=optional_until,
         ),
         tuple[Transform, ...] | None,
     )
     assert_type(
         unknown_dag.ancestors(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_subclasses=False,
         ),
         tuple[Transform, ...],
     )
     assert_type(
-        unknown_dag.ancestors(filter_type=nodes.types.Shape),
+        unknown_dag.ancestors(filter_type=bdu.node_types.Shape),
         tuple[Shape, ...],
     )
     assert_type(
-        unknown_dag.ancestors(filter_type=nodes.types.Locator),
+        unknown_dag.ancestors(filter_type=bdu.node_types.Locator),
         tuple[Locator, ...],
     )
     assert_type(unknown_dag.descendants(), tuple[DAG, ...])
@@ -1212,33 +1212,33 @@ def generic_dag_existing_contract(
         tuple[DAG, ...],
     )
     assert_type(
-        unknown_dag.descendants(filter_type=nodes.types.DAG),
+        unknown_dag.descendants(filter_type=bdu.node_types.DAG),
         tuple[DAG, ...],
     )
     assert_type(
-        unknown_dag.descendants(filter_type=nodes.types.Transform),
+        unknown_dag.descendants(filter_type=bdu.node_types.Transform),
         tuple[Transform, ...],
     )
     assert_type(
         unknown_dag.descendants(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_shapes=False,
         ),
         tuple[Transform, ...],
     )
     assert_type(
         unknown_dag.descendants(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_subclasses=False,
         ),
         tuple[Transform, ...],
     )
     assert_type(
-        unknown_dag.descendants(filter_type=nodes.types.Shape),
+        unknown_dag.descendants(filter_type=bdu.node_types.Shape),
         tuple[Shape, ...],
     )
     assert_type(
-        unknown_dag.descendants(filter_type=nodes.types.Locator),
+        unknown_dag.descendants(filter_type=bdu.node_types.Locator),
         tuple[Locator, ...],
     )
     assert_type(unknown_dag.descendant_chain(), tuple[DAG, ...])
@@ -1269,17 +1269,17 @@ def generic_dag_existing_contract(
 
 
 def node_types_contract(nodes: bdu.Nodes) -> None:
-    assert_type(nodes.types.NodeOperator, type[NodeOperator])
-    assert_type(nodes.types.DAG, type[DAG])
-    assert_type(nodes.types.Transform, type[Transform])
-    assert_type(nodes.types.Shape, type[Shape])
+    assert_type(bdu.node_types.NodeOperator, type[NodeOperator])
+    assert_type(bdu.node_types.DAG, type[DAG])
+    assert_type(bdu.node_types.Transform, type[Transform])
+    assert_type(bdu.node_types.Shape, type[Shape])
     assert_type(
-        nodes.types.BaseGeometryVarGroup,
+        bdu.node_types.BaseGeometryVarGroup,
         type[BaseGeometryVarGroup],
     )
-    assert_type(nodes.types.Locator, type[Locator])
-    assert_type(nodes.types.UnknownDag, type[UnknownDag])
-    assert_type(nodes.types.resolve("locator"), type[NodeOperator])
+    assert_type(bdu.node_types.Locator, type[Locator])
+    assert_type(bdu.node_types.UnknownDag, type[UnknownDag])
+    assert_type(bdu.node_types.resolve("locator"), type[NodeOperator])
 
 
 def transform_rotation_contract(nodes: bdu.Nodes) -> None:
@@ -1621,14 +1621,14 @@ def connection_query_contract(nodes: bdu.Nodes) -> None:
 
     assert_type(
         dst.input1D[0].src_plug(
-            filter_type=nodes.types.Joint,
+            filter_type=bdu.node_types.Joint,
             include_subclasses=False,
         ),
         PlugOperator[Any] | None,
     )
     assert_type(
         src.translateX.dst_plugs(
-            filter_type=nodes.types.PlusMinusAverage,
+            filter_type=bdu.node_types.PlusMinusAverage,
             include_subclasses=True,
         ),
         tuple[PlugOperator[Any], ...],
@@ -4695,20 +4695,20 @@ def curve_discovery_contract(nodes: bdu.Nodes) -> None:
     for candidate in candidates:
         assert_type(candidate.name, str)
         assert_type(candidate.modifier_manager, bdu.ModifierManager)
-        if isinstance(candidate, nodes.types.AnimCurveTL):
+        if isinstance(candidate, bdu.node_types.AnimCurveTL):
             assert_type(candidate.keyframe, CurveKeyframeManager)
-    curves = keyframe.find_anim_curves(filter_type=nodes.types.AnimCurveTL)
+    curves = keyframe.find_anim_curves(filter_type=bdu.node_types.AnimCurveTL)
     assert_type(curves[0].keyframe, CurveKeyframeManager)
     for curve in curves:
         assert_type(curve.keyframe.get_curve_data(), AnimCurveData)
         assert_type(curve.keyframe.set_key(2, 1), None)
     for driven in keyframe.find_anim_curves(
-        filter_type=nodes.types.AnimCurveUU
+        filter_type=bdu.node_types.AnimCurveUU
     ):
         assert_type(driven.input.get(), float)
         driven.keyframe  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     keyframe.find_anim_curves(  # pyright: ignore[reportCallIssue]
-        filter_type=nodes.types.Transform  # pyright: ignore[reportArgumentType]
+        filter_type=bdu.node_types.Transform  # pyright: ignore[reportArgumentType]
     )
     keyframe.find_anim_curves(  # pyright: ignore[reportCallIssue]
         filter_type="animCurveTL"  # pyright: ignore[reportArgumentType]
@@ -6334,17 +6334,17 @@ def invalid_usage_contract(
     nodes.existing.unknownDag(
         "invalid_filter"
     ).children(  # pyright: ignore[reportCallIssue]
-        filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
+        filter_type=bdu.node_types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
     )
     nodes.existing.unknownDag(
         "invalid_filter"
     ).ancestors(  # pyright: ignore[reportCallIssue]
-        filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
+        filter_type=bdu.node_types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
     )
     nodes.existing.unknownDag(
         "invalid_filter"
     ).descendants(  # pyright: ignore[reportCallIssue]
-        filter_type=nodes.types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
+        filter_type=bdu.node_types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
     )
     nodes.existing.unknownDag("invalid_filter").children(
         include_subclasses=False  # pyright: ignore[reportArgumentType]
@@ -6370,12 +6370,12 @@ def invalid_usage_contract(
     nodes.existing.unknownDag(
         "invalid_filter"
     ).ancestors(  # pyright: ignore[reportCallIssue]
-        until=nodes.types.Transform  # pyright: ignore[reportArgumentType]
+        until=bdu.node_types.Transform  # pyright: ignore[reportArgumentType]
     )
     nodes.existing.unknownDag(
         "invalid_filter"
     ).descendant_chain(  # pyright: ignore[reportCallIssue]
-        until=nodes.types.Transform  # pyright: ignore[reportArgumentType]
+        until=bdu.node_types.Transform  # pyright: ignore[reportArgumentType]
     )
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     bdu.TransformMatrix(

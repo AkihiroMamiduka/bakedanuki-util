@@ -115,7 +115,7 @@ IDE の補完対象だけを明示する場合は、`typing_maya_version` を指
 nodes = bdu.Nodes(typing_maya_version="2027")
 ```
 
-この指定は`nodes.create` / `nodes.existing` / `nodes.types`の静的な見え方だけを選び、
+この指定は`nodes.create` / `nodes.existing`の静的な見え方だけを選び、
 実行 Maya の選択、version 検証、利用可能 node の変更には使われません。省略時は、
 対応する3 versionに共通する安全な補完面になります。
 型注釈を version ごとの補完面に合わせる場合は、

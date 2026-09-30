@@ -23,7 +23,9 @@ nodes = bdu.Nodes(typing_maya_version="2027")
 ```
 
 このコードを Maya 2025 で実行しても、runtime は Maya 2025 の schema を使用します。
-一方、IDE は Maya 2027 用の `nodes.create` / `nodes.existing` / `nodes.types` を表示します。
+一方、IDE は Maya 2027 用の `nodes.create` / `nodes.existing` を表示します。
+NodeOperator class参照と型注釈には `bdu.node_types` を使い、version 固有の型は
+`bdu.node_types.maya2027` のように module を明示します。
 
 ## Runtime schema の選択
 
@@ -76,7 +78,7 @@ def __new__(
 
 constructor の結果型を version ごとに変えるため、選択は `__init__()` ではなく
 `__new__()` の overload で表現します。`_NodesMaya2027` は、version 専用の
-`_NodeCreatorMaya2027`、`_ExistingNodeAccessorMaya2027`、`_NodeTypesMaya2027` を返します。
+`_NodeCreatorMaya2027` と `_ExistingNodeAccessorMaya2027` を返します。
 
 実際の補完面は `_versioned_accessors.pyi` に生成します。
 `typing_maya_version` を省略した `Nodes()` は、全対応 version に共通する安全な API 面を
@@ -155,7 +157,7 @@ stub生成器は同じmixinをversion別classにも継承させるため、`.key
 属性を再公開する方法は使用しません。
 
 同じstub生成器は、全対応schemaを含む`AnimCurveTANode`等の型aliasと、全8型を束ねる
-`AnimCurveNode`も生成します。`find_anim_curves()`はこの型情報を使い、`nodes.types`の
+`AnimCurveNode`も生成します。`find_anim_curves()`はこの型情報を使い、`bdu.node_types`の
 version別クラスをfilterに渡した場合も具体型と`.keyframe`の補完を保持します。
 これらは`_versioned_accessors.pyi`内の型検査専用aliasで、実行時のimport対象ではありません。
 

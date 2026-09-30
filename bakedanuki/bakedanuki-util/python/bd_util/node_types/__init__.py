@@ -4,6 +4,8 @@
 from . import maya2025, maya2026, maya2027
 from ._runtime import __getattr__ as __getattr__
 from ._runtime import __dir__ as _runtime_dir
+from ._runtime import available_class_names as available_class_names
+from ._runtime import resolve as resolve
 
 
 def __dir__() -> list[str]:

@@ -82,7 +82,7 @@ def test_absolute_uses_the_running_maya_schema(new_scene):
         DoubleLinearAttrOperator,
     )
 
-    absolute_cls = bdu.Nodes().types.Absolute
+    absolute_cls = bdu.node_types.Absolute
     expected_type = (
         DoubleLinearAttrOperator
         if maya_major_version() == 2025
@@ -103,10 +103,10 @@ def test_poly_smart_bevel_uses_the_maya_2027_schema(new_scene):
             AttributeError,
             match="polySmartBevel.*unavailable in Maya 2025",
         ):
-            _ = bdu.Nodes().types.PolySmartBevel
+            _ = bdu.node_types.PolySmartBevel
         return
 
-    poly_smart_bevel_cls = bdu.Nodes().types.PolySmartBevel
+    poly_smart_bevel_cls = bdu.node_types.PolySmartBevel
     assert hasattr(poly_smart_bevel_cls, "cutbackRelaxation") == (
         maya_version >= 2027
     )

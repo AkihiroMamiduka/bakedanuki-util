@@ -42,7 +42,7 @@ def test_all_curve_types_are_discoverable_with_concrete_wrappers(
     assert isinstance(candidates, tuple) and len(candidates) == 1
     curve = candidates[0]
     assert curve.name == name and curve.NODE_TYPE == curve_type
-    assert isinstance(curve, getattr(nodes.types, "AnimCurve" + suffix))
+    assert isinstance(curve, getattr(bdu.node_types, "AnimCurve" + suffix))
     assert curve.modifier_manager is mod
     assert _names(keyframe, filter_type=type(curve)) == (name,)
     assert _names(_keyframe(name + ".output")) == (name,)
@@ -62,8 +62,11 @@ def test_blend_candidates_sort_deduplicate_and_filter_after_stopping(
     keyframe = _keyframe(blend + ".output")
     assert _names(keyframe) == (b, weight, a)
     nodes = bdu.Nodes()
-    assert _names(keyframe, filter_type=nodes.types.AnimCurveTU) == (weight, a)
-    assert _names(keyframe, filter_type=nodes.types.AnimCurveTL) == ()
+    assert _names(keyframe, filter_type=bdu.node_types.AnimCurveTU) == (
+        weight,
+        a,
+    )
+    assert _names(keyframe, filter_type=bdu.node_types.AnimCurveTL) == ()
 
 
 def test_declared_dependencies_can_include_other_axes_but_not_unrelated_nodes(
@@ -196,7 +199,7 @@ def test_unsupported_root_plugs_raise(maya_cmds, attribute):
 
 
 @pytest.mark.parametrize(
-    "filter_type", ["animCurveTL", 1, object, bdu.Nodes().types.Transform]
+    "filter_type", ["animCurveTL", 1, object, bdu.node_types.Transform]
 )
 def test_invalid_filter_rejected_without_needing_a_candidate(
     maya_cmds, filter_type

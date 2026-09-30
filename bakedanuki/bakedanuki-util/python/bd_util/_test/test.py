@@ -8,10 +8,25 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 def main():
     nodes = bdu.Nodes()
 
-    joints: list[bdu.node_types.Joint] = []
-    for i in range(10):
-        joints.append(nodes.create.joint(name=f"j_{i}"))
+    top = nodes.create.transform(name="top")
 
+    parent = top
+    for num in range(10):
+        for i in range(num):
+            if i % 2:
+                parent = nodes.create.transform(
+                    name=f"trsf_{num}_{i}",
+                    parent=parent,
+                )
+            else:
+                parent = nodes.create.joint(
+                    name=f"j_{num}_{i}",
+                    parent=parent,
+                )
+
+    nodes.modifier_manager.do_it_dag()
+
+    joints = top.descendants(filter_type=bdu.node_types.Joint)
     for j in joints:
         j.t.set(0, 1, 2)
         j.r.set(3, 4, 5)
@@ -21,5 +36,4 @@ def main():
         j.type.set(j.type.OTHER)
         j.otherType.set("test")
 
-    nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()

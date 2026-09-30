@@ -462,20 +462,6 @@ def _append_shape_with_transform_method(
     )
 
 
-def _append_node_types_property(
-    lines: list[str],
-    class_name: str,
-    return_type: str,
-) -> None:
-    lines.extend(
-        [
-            "",
-            "    @property",
-            f"    def {class_name}(self) -> type[{return_type}]: ...",
-        ]
-    )
-
-
 def _version_facade_requires_override(
     python_root: Path,
     definition: NodeDefinition,
@@ -927,71 +913,6 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
                 ),
             )
 
-    base_node_types = (
-        ("BaseGeometryVarGroup", "BaseGeometryVarGroup"),
-        ("DAG", "DAG"),
-        ("NodeOperator", "NodeOperator"),
-        ("Shape", "Shape"),
-    )
-    lines.extend(
-        [
-            "",
-            "",
-            "class _NodeTypesCommon:",
-            "    def resolve(",
-            "        self,",
-            "        node_type: str,",
-            "    ) -> type[NodeOperator]: ...",
-            "    def available_class_names(self) -> tuple[str, ...]: ...",
-        ]
-    )
-    for class_name, return_type in base_node_types:
-        _append_node_types_property(lines, class_name, return_type)
-    for definition in common_definitions:
-        _append_node_types_property(
-            lines,
-            definition.class_name,
-            _common_return_type(
-                python_root,
-                definition,
-                version_ranges,
-            ),
-        )
-
-    for maya_version in _SUPPORTED_MAYA_VERSIONS:
-        lines.extend(
-            [
-                "",
-                "",
-                f"class _NodeTypesMaya{maya_version}(_NodeTypesCommon):",
-            ]
-        )
-        for definition in definitions:
-            if not _definition_is_available(
-                definition,
-                maya_version,
-                version_ranges,
-            ):
-                continue
-            if not _version_facade_requires_override(
-                python_root,
-                definition,
-                maya_version,
-                common_node_types,
-                version_ranges,
-            ):
-                continue
-            _append_node_types_property(
-                lines,
-                definition.class_name,
-                _effective_return_type(
-                    python_root,
-                    definition,
-                    maya_version,
-                    version_ranges,
-                ),
-            )
-
     missing_versioned_node_types = set(version_ranges) - set(
         definitions_by_type
     )
@@ -1074,10 +995,6 @@ def generate_nodes_stub_code(python_root: Path) -> str:
         "    _NodeCreatorMaya2025,",
         "    _NodeCreatorMaya2026,",
         "    _NodeCreatorMaya2027,",
-        "    _NodeTypesCommon,",
-        "    _NodeTypesMaya2025,",
-        "    _NodeTypesMaya2026,",
-        "    _NodeTypesMaya2027,",
         ")",
         "",
         "",
@@ -1131,9 +1048,6 @@ def generate_nodes_stub_code(python_root: Path) -> str:
             "",
             "    @property",
             ("    def existing(self) -> " "_ExistingNodeAccessorCommon: ..."),
-            "",
-            "    @property",
-            "    def types(self) -> _NodeTypesCommon: ...",
         ]
     )
 
@@ -1153,12 +1067,6 @@ def generate_nodes_stub_code(python_root: Path) -> str:
                 (
                     "    def existing(self) -> "
                     f"_ExistingNodeAccessorMaya{maya_version}: ..."
-                ),
-                "",
-                "    @property",
-                (
-                    "    def types(self) -> "
-                    f"_NodeTypesMaya{maya_version}: ..."
                 ),
             ]
         )
@@ -1293,6 +1201,15 @@ def generate_public_node_types_stub_code(
     for class_name in ("BaseGeometryVarGroup", "DAG", "NodeOperator", "Shape"):
         lines.append(
             f"from {accessor_module} import {class_name} as {class_name}"
+        )
+
+    if maya_version is None:
+        lines.extend(
+            [
+                "",
+                "def resolve(node_type: str) -> type[NodeOperator]: ...",
+                "def available_class_names() -> tuple[str, ...]: ...",
+            ]
         )
 
     for definition in definitions:

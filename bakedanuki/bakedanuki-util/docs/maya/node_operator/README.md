@@ -115,9 +115,11 @@
 - `python/bd_util/maya/node/modifier/_core.py`
   - `ModifierManager` です。
 - `python/bd_util/maya/node/nodes.py`
-  - `Nodes` です。ノード作成、既存ノード変換、NodeOperator class参照の統合入口です。
+  - `Nodes` です。ノード作成と既存ノード変換の統合入口です。
 - `python/bd_util/maya/node/node_types.py`
-  - `nodes.types` を構成する、NodeOperator classの遅延参照accessorです。
+  - `bdu.node_types` が利用する、NodeOperator classの遅延参照accessorです。
+- `python/bd_util/node_types`
+  - NodeOperator class参照と型注釈の公開入口です。
 - `python/bd_util/maya/node/creator/_core.py`
   - `nodes.create` を構成する内部実装の `NodeCreator` です。
 - `python/bd_util/maya/node/existing_node.py`
@@ -139,12 +141,11 @@ flowchart TD
     NodeCreator["NodeCreator"]
     ExistingAccessor["nodes.existing"]
     ExistingNode["ExistingNode"]
-    NodeTypes["nodes.types"]
+    NodeTypes["bdu.node_types"]
     OpenMaya["maya.api.OpenMaya"]
 
     Nodes --> NodeCreator
     Nodes --> ExistingAccessor
-    Nodes --> NodeTypes
     Nodes --> ModifierManager
     ExistingAccessor --> ExistingNode
     NodeCreator --> NodeOperator
@@ -247,7 +248,8 @@ schema と利用可能ノードが使われます。指定を省略した場合�
 のみ指定してください。この指定で実行時にversion固有nodeが有効になるわけではなく、
 起動中のMayaで利用できないnodeへアクセスした場合は`AttributeError`になります。
 
-補完面は`nodes.create`、`nodes.existing`、`nodes.types`の3入口をまとめて選択します。
+`typing_maya_version` が選ぶ補完面は `nodes.create` と `nodes.existing` です。
+`bdu.node_types` の型注釈は、必要に応じて version 別 module を明示します。
 実行時schemaと補完stubの生成方法は[Generator](generator.md)、version別の検証入口は
 [Testing](testing.md)、次のMaya versionを追加する保守手順は
 [Maya Version Support](maya_versions.md)を参照してください。
@@ -258,7 +260,7 @@ escape hatchとして使用できます。
 ```python
 created = nodes.create.create("pluginNode")
 existing = nodes.existing("pluginNode")
-node_cls = nodes.types.resolve("pluginNode")
+node_cls = bdu.node_types.resolve("pluginNode")
 ```
 
 ```python
@@ -272,13 +274,13 @@ assert existing.modifier_manager is modifier_manager
 existing = nodes.existing("existing_node")
 ```
 
-生成済みの `NodeOperator` classを参照する場合は、`nodes.types` を使います。
+生成済みの `NodeOperator` classを参照する場合は、`bdu.node_types` を使います。
 属性名はMaya node type名ではなく、Python classと同じPascalCaseです。
 
 ```python
-transform_type = nodes.types.Transform
-locator_type = nodes.types.Locator
-shape_type = nodes.types.Shape
+transform_type = bdu.node_types.Transform
+locator_type = bdu.node_types.Locator
+shape_type = bdu.node_types.Shape
 
 assert issubclass(locator_type, shape_type)
 ```
@@ -286,11 +288,9 @@ assert issubclass(locator_type, shape_type)
 `NodeOperator` / `DAG` / `Shape` / `BaseGeometryVarGroup` のような基底classと、
 `nodes.existing` が具体型へ解決できる生成済みclassを参照できます。作成可否とは
 独立しているため、`IkHandle` / `UnknownDag` / `SphereLocator` も対象です。
-実classは属性へ最初にアクセスしたときだけimportされ、結果はaccessor内でcacheされます。
+実classは属性へ最初にアクセスしたときだけimportされ、結果は内部accessorでcacheされます。
 
-変数や関数の型注釈には、`bdu.node_types` の同名クラスを使います。
-`nodes.types.Joint` は実行時のクラス参照ですが、`list[nodes.types.Joint]` は
-Pylance / Pyright の型注釈として認識されません。
+`bdu.node_types.Joint` は実行時のクラス参照と、変数・関数の型注釈の両方に使えます。
 
 ```python
 import bd_util as bdu
@@ -310,22 +310,24 @@ nodes.modifier_manager.do_it_dag()
 nodes.modifier_manager.do_it_dg()
 ```
 
-`bdu.node_types.Joint` も実行時は `nodes.types.Joint` と同じクラスを返します。
 型補完の既定面は `Nodes()` と同様に全対応 Maya version の共通部分です。
 `Nodes(typing_maya_version="2027")` を使う場合は、型注釈に
 `bdu.node_types.maya2027.Joint` を使って補完対象を揃えます。
 `maya2025` / `maya2026` も利用できます。これらの module 名は IDE の型補完だけを
 選択し、実行中の Maya version を変更しません。
+version 間で属性定義が異なるクラスの共通名は union 型の alias です。
+`bdu.node_types.Absolute.input` のようなクラス属性の型まで追う場合は、
+`bdu.node_types.maya2025.Absolute.input` のように version 別 module を指定します。
 
 動的なMaya node type名から解決する場合は `resolve()` を使います。
 
 ```python
-node_type = nodes.types.resolve("locator")
+node_type = bdu.node_types.resolve("locator")
 ```
 
 `resolve()` は正確なMaya node type名を受け取り、静的な戻り値型は
 `type[NodeOperator]`です。具体型のIDE補完が必要なコードでは
-`nodes.types.Locator` の形式を使います。
+`bdu.node_types.Locator` の形式を使います。
 
 `NodeCreator` / `ExistingNode` は `Nodes` の内部実装として維持しますが、`bd_util` の公開APIには含めません。
 ノード作成と既存ノード変換は、どちらも `Nodes` から利用します。
@@ -651,31 +653,31 @@ parent = child.parent
 parents = child.parents
 children = parent.children()
 non_shape_children = parent.children(include_shapes=False)
-transform_children = parent.children(filter_type=nodes.types.Transform)
+transform_children = parent.children(filter_type=bdu.node_types.Transform)
 exact_transform_children = parent.children(
-    filter_type=nodes.types.Transform,
+    filter_type=bdu.node_types.Transform,
     include_subclasses=False,
 )
-shape_children = parent.children(filter_type=nodes.types.Shape)
-locator_children = parent.children(filter_type=nodes.types.Locator)
+shape_children = parent.children(filter_type=bdu.node_types.Shape)
+locator_children = parent.children(filter_type=bdu.node_types.Locator)
 ancestors = child.ancestors()
 ancestors_to_root = child.ancestors(until=root)
-transform_ancestors = child.ancestors(filter_type=nodes.types.Transform)
+transform_ancestors = child.ancestors(filter_type=bdu.node_types.Transform)
 exact_transform_ancestors = child.ancestors(
-    filter_type=nodes.types.Transform,
+    filter_type=bdu.node_types.Transform,
     include_subclasses=False,
 )
 descendants = parent.descendants()
 non_shape_descendants = parent.descendants(include_shapes=False)
 transform_descendants = parent.descendants(
-    filter_type=nodes.types.Transform,
+    filter_type=bdu.node_types.Transform,
 )
 exact_transform_descendants = parent.descendants(
-    filter_type=nodes.types.Transform,
+    filter_type=bdu.node_types.Transform,
     include_subclasses=False,
 )
-shape_descendants = parent.descendants(filter_type=nodes.types.Shape)
-mesh_descendants = parent.descendants(filter_type=nodes.types.Mesh)
+shape_descendants = parent.descendants(filter_type=bdu.node_types.Shape)
+mesh_descendants = parent.descendants(filter_type=bdu.node_types.Mesh)
 first_child_chain = parent.descendant_chain()
 second_child_chain = parent.descendant_chain(child_index=1)
 chain_to_target = parent.descendant_chain(until=target)
@@ -695,15 +697,15 @@ scene上のnode typeに
 含まれます。`include_subclasses=False`を指定すると`type(node) is filter_type`で判定し、
 `Transform`だけを対象として`Joint`などを除外できます。`Shape`や`DAG`のような基底classを
 完全一致で指定した結果に該当nodeがなければ、空tupleを返します。戻り値型は
-`nodes.types.Locator`を渡した場合に`tuple[Locator, ...]`となるよう、
+`bdu.node_types.Locator`を渡した場合に`tuple[Locator, ...]`となるよう、
 `type[T]`とoverloadで公開します。DG系class、NodeOperator instance、複数classの
 tupleは受け取らず、`TypeError`にします。`include_subclasses`はboolだけを受け取り、
 `filter_type`なしで`False`を指定した場合は`ValueError`にします。
 
 `include_shapes`はboolだけを受け取り、初期値は`True`です。`False`では
 Maya APIの`MFn.kShape`に一致するnodeを結果から除外します。Shapeだけへの限定は
-`filter_type=nodes.types.Shape`で表現します。`filter_type`と併用した場合はAND条件とし、
-例えば`filter_type=nodes.types.Shape, include_shapes=False`は空tupleを返します。
+`filter_type=bdu.node_types.Shape`で表現します。`filter_type`と併用した場合はAND条件とし、
+例えば`filter_type=bdu.node_types.Shape, include_shapes=False`は空tupleを返します。
 このoptionはShapeを通常の直接childとして列挙する`children()` / `descendants()`だけに
 提供し、`ancestors()`には追加しません。
 

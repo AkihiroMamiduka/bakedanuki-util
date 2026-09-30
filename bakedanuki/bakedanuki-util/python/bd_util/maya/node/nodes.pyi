@@ -15,10 +15,6 @@ from ._versioned_accessors import (
     _NodeCreatorMaya2025,
     _NodeCreatorMaya2026,
     _NodeCreatorMaya2027,
-    _NodeTypesCommon,
-    _NodeTypesMaya2025,
-    _NodeTypesMaya2026,
-    _NodeTypesMaya2027,
 )
 
 class Nodes:
@@ -64,29 +60,21 @@ class Nodes:
     def create(self) -> _NodeCreatorCommon: ...
     @property
     def existing(self) -> _ExistingNodeAccessorCommon: ...
-    @property
-    def types(self) -> _NodeTypesCommon: ...
 
 class _NodesMaya2025(Nodes):
     @property
     def create(self) -> _NodeCreatorMaya2025: ...
     @property
     def existing(self) -> _ExistingNodeAccessorMaya2025: ...
-    @property
-    def types(self) -> _NodeTypesMaya2025: ...
 
 class _NodesMaya2026(Nodes):
     @property
     def create(self) -> _NodeCreatorMaya2026: ...
     @property
     def existing(self) -> _ExistingNodeAccessorMaya2026: ...
-    @property
-    def types(self) -> _NodeTypesMaya2026: ...
 
 class _NodesMaya2027(Nodes):
     @property
     def create(self) -> _NodeCreatorMaya2027: ...
     @property
     def existing(self) -> _ExistingNodeAccessorMaya2027: ...
-    @property
-    def types(self) -> _NodeTypesMaya2027: ...

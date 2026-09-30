@@ -22,7 +22,7 @@ def test_node_types_exposes_base_and_concrete_classes(new_scene):
     )
     from bd_util.maya.node.operator.node.dag.unknown_dag import UnknownDag
 
-    node_types = bd_util.Nodes().types
+    node_types = bd_util.node_types
 
     assert node_types.NodeOperator is NodeOperator
     assert node_types.DAG is DAG
@@ -40,9 +40,7 @@ def test_public_node_types_reference_the_same_classes(new_scene):
 
     from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 
-    nodes = bd_util.Nodes()
     assert bd_util.node_types.Joint is Joint
-    assert bd_util.node_types.Joint is nodes.types.Joint
     assert bd_util.node_types.maya2025.Joint is Joint
     assert bd_util.node_types.maya2026.Joint is Joint
     assert bd_util.node_types.maya2027.Joint is Joint
@@ -54,7 +52,7 @@ def test_node_types_resolves_exact_maya_node_type_names(new_scene):
     from bd_util.maya.node.operator.node.dag.shape.locator import Locator
     from bd_util.maya.node.operator.node.dg.mash_audio import MASHAudio
 
-    node_types = bd_util.Nodes().types
+    node_types = bd_util.node_types
 
     assert node_types.resolve("locator") is Locator
     assert node_types.resolve("MASH_Audio") is MASHAudio
@@ -73,7 +71,7 @@ def test_node_types_has_completion_names_and_caches_classes(new_scene):
     import bd_util
     from bd_util.maya.node._maya_version import maya_major_version
 
-    node_types = bd_util.Nodes().types
+    node_types = bd_util.node_types
     class_names = node_types.available_class_names()
 
     expected_counts = {
@@ -101,21 +99,19 @@ def test_node_types_has_completion_names_and_caches_classes(new_scene):
 def test_node_types_can_import_every_available_class(new_scene):
     import bd_util
 
-    node_types = bd_util.Nodes().types
+    node_types = bd_util.node_types
 
     for class_name in node_types.available_class_names():
         node_cls = getattr(node_types, class_name)
         assert node_cls.__name__ == class_name
 
 
-def test_node_types_rejects_unknown_or_non_class_attribute(new_scene):
+def test_node_types_rejects_unknown_class_name(new_scene):
     import bd_util
 
-    node_types = bd_util.Nodes().types
+    node_types = bd_util.node_types
 
     with pytest.raises(AttributeError, match="Unsupported NodeOperator class"):
         _ = node_types.NotExistingNode
     with pytest.raises(AttributeError, match="Unsupported NodeOperator class"):
         _ = node_types.locator
-    with pytest.raises(AttributeError):
-        node_types.Locator = node_types.Transform  # type: ignore[misc]

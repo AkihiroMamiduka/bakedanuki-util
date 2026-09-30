@@ -101,7 +101,7 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 
 - `nodes.create` / `nodes.existing` の具体的な node 戻り値型。
 - `typing_maya_version="2025" / "2026" / "2027"` ごとの `nodes.create` /
-  `nodes.existing` / `nodes.types` の候補とversioned attribute schema。省略時は
+  `nodes.existing` の候補とversioned attribute schema。省略時は
   3 version共通面と共通型を検証します。
 - `AttributeField` の class access と instance access。
 - compound child と alias の具体的な plug 型。
@@ -117,7 +117,7 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
   廃止した`set_key_data(weighted=...)`引数の拒否。
 - 単体`KeyframeManager`の`modifier_manager`引数と、廃止した`keyframe.set_direct()` /
   `keyframe.insert_direct()`および旧名`keyframe.set()` / `keyframe.insert()`の非公開。
-- `nodes.types`から取得するNodeOperator classと、DAG traversalの
+- `bdu.node_types`から取得するNodeOperator classと、DAG traversalの
   `filter_type`に応じた具体的なtuple要素型。
 - `ancestors(until=...)` / `descendant_chain(until=...)`の、引数省略時と
   境界指定時で異なるoptional戻り値型。

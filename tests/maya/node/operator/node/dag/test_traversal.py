@@ -159,33 +159,33 @@ def test_children_filters_by_dag_class_with_inheritance(
         UnknownDag,
     )
     assert tuple(
-        type(child) for child in root.children(filter_type=nodes.types.DAG)
+        type(child) for child in root.children(filter_type=bdu.node_types.DAG)
     ) == (Joint, Mesh, UnknownDag)
     assert tuple(
         child.name
-        for child in root.children(filter_type=nodes.types.Transform)
+        for child in root.children(filter_type=bdu.node_types.Transform)
     ) == ("joint_child",)
     assert tuple(
-        child.name for child in root.children(filter_type=nodes.types.Shape)
+        child.name for child in root.children(filter_type=bdu.node_types.Shape)
     ) == ("meshShape",)
     assert tuple(
         child.name
-        for child in root.children(filter_type=nodes.types.UnknownDag)
+        for child in root.children(filter_type=bdu.node_types.UnknownDag)
     ) == ("unknown_child",)
-    assert root.children(filter_type=nodes.types.Locator) == ()
+    assert root.children(filter_type=bdu.node_types.Locator) == ()
     assert tuple(
         child.name for child in root.children(include_shapes=False)
     ) == ("joint_child", "unknown_child")
     assert tuple(
         child.name
         for child in root.children(
-            filter_type=nodes.types.DAG,
+            filter_type=bdu.node_types.DAG,
             include_shapes=False,
         )
     ) == ("joint_child", "unknown_child")
     assert (
         root.children(
-            filter_type=nodes.types.Shape,
+            filter_type=bdu.node_types.Shape,
             include_shapes=False,
         )
         == ()
@@ -208,25 +208,25 @@ def test_children_can_exclude_subclasses(new_scene, maya_cmds):
 
     assert tuple(
         child.name
-        for child in root.children(filter_type=nodes.types.Transform)
+        for child in root.children(filter_type=bdu.node_types.Transform)
     ) == ("transform_child", "joint_child")
     assert tuple(
         child.name
         for child in root.children(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_subclasses=False,
         )
     ) == ("transform_child",)
     assert tuple(
         child.name
         for child in root.children(
-            filter_type=nodes.types.Joint,
+            filter_type=bdu.node_types.Joint,
             include_subclasses=False,
         )
     ) == ("joint_child",)
     assert (
         root.children(
-            filter_type=nodes.types.Shape,
+            filter_type=bdu.node_types.Shape,
             include_subclasses=False,
         )
         == ()
@@ -234,7 +234,7 @@ def test_children_can_exclude_subclasses(new_scene, maya_cmds):
     assert tuple(
         child.name
         for child in root.children(
-            filter_type=nodes.types.Mesh,
+            filter_type=bdu.node_types.Mesh,
             include_subclasses=False,
         )
     ) == ("meshShape",)
@@ -248,10 +248,10 @@ def test_children_rejects_non_dag_filter_type(new_scene, maya_cmds):
     root = nodes.existing.transform(root_name)
 
     invalid_filter_types = (
-        nodes.types.NodeOperator,
-        nodes.types.PlusMinusAverage,
+        bdu.node_types.NodeOperator,
+        bdu.node_types.PlusMinusAverage,
         root,
-        (nodes.types.Transform, nodes.types.Shape),
+        (bdu.node_types.Transform, bdu.node_types.Shape),
     )
     for filter_type in invalid_filter_types:
         with pytest.raises(
@@ -312,28 +312,28 @@ def test_ancestors_returns_direct_parent_to_root_with_concrete_nodes(
     ) == ("transform_parent", "joint_parent", "root")
     assert tuple(
         ancestor.name
-        for ancestor in shape.ancestors(filter_type=nodes.types.DAG)
+        for ancestor in shape.ancestors(filter_type=bdu.node_types.DAG)
     ) == ("transform_parent", "joint_parent", "root")
     assert tuple(
         ancestor.name
-        for ancestor in shape.ancestors(filter_type=nodes.types.Transform)
+        for ancestor in shape.ancestors(filter_type=bdu.node_types.Transform)
     ) == ("transform_parent", "joint_parent", "root")
     assert tuple(
         ancestor.name
         for ancestor in shape.ancestors(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_subclasses=False,
         )
     ) == ("transform_parent", "root")
     assert tuple(
         ancestor.name
         for ancestor in shape.ancestors(
-            filter_type=nodes.types.Joint,
+            filter_type=bdu.node_types.Joint,
             include_subclasses=False,
         )
     ) == ("joint_parent",)
-    assert shape.ancestors(filter_type=nodes.types.Shape) == ()
-    assert shape.ancestors(filter_type=nodes.types.Locator) == ()
+    assert shape.ancestors(filter_type=bdu.node_types.Shape) == ()
+    assert shape.ancestors(filter_type=bdu.node_types.Locator) == ()
 
 
 def test_ancestors_until_is_inclusive_and_filter_independent(
@@ -391,13 +391,13 @@ def test_ancestors_until_is_inclusive_and_filter_independent(
     assert tuple(
         ancestor.name
         for ancestor in shape.ancestors(
-            filter_type=nodes.types.Joint,
+            filter_type=bdu.node_types.Joint,
             until=root_from_other_nodes,
         )
     ) == ("joint_parent",)
     assert (
         shape.ancestors(
-            filter_type=nodes.types.Joint,
+            filter_type=bdu.node_types.Joint,
             until=transform,
         )
         == ()
@@ -405,7 +405,7 @@ def test_ancestors_until_is_inclusive_and_filter_independent(
     assert tuple(
         ancestor.name
         for ancestor in shape.ancestors(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_subclasses=False,
             until=joint,
         )
@@ -428,10 +428,10 @@ def test_ancestors_rejects_non_dag_filter_type(new_scene, maya_cmds):
     child = nodes.existing.transform(child_name)
 
     invalid_filter_types = (
-        nodes.types.NodeOperator,
-        nodes.types.PlusMinusAverage,
+        bdu.node_types.NodeOperator,
+        bdu.node_types.PlusMinusAverage,
         child,
-        (nodes.types.Transform, nodes.types.Shape),
+        (bdu.node_types.Transform, bdu.node_types.Shape),
     )
     for filter_type in invalid_filter_types:
         with pytest.raises(
@@ -449,7 +449,7 @@ def test_ancestors_rejects_non_dag_until(new_scene, maya_cmds):
     root = nodes.existing.transform(root_name)
     dg_node = nodes.create.composeMatrix(name="compose_matrix")
 
-    for until in ("root", nodes.types.Transform, dg_node, object()):
+    for until in ("root", bdu.node_types.Transform, dg_node, object()):
         with pytest.raises(TypeError, match="until must be DAG"):
             root.ancestors(until=until)
 
@@ -667,7 +667,7 @@ def test_descendants_filters_results_without_pruning_subtrees(
     ) == (Transform, Mesh, Joint, Transform, Mesh, UnknownDag)
     assert tuple(
         descendant.name
-        for descendant in root.descendants(filter_type=nodes.types.DAG)
+        for descendant in root.descendants(filter_type=bdu.node_types.DAG)
     ) == (
         "branch_a",
         "meshAShape",
@@ -678,42 +678,46 @@ def test_descendants_filters_results_without_pruning_subtrees(
     )
     assert tuple(
         descendant.name
-        for descendant in root.descendants(filter_type=nodes.types.Transform)
+        for descendant in root.descendants(
+            filter_type=bdu.node_types.Transform
+        )
     ) == ("branch_a", "branch_b", "nested")
     assert tuple(
         descendant.name
-        for descendant in root.descendants(filter_type=nodes.types.Shape)
+        for descendant in root.descendants(filter_type=bdu.node_types.Shape)
     ) == ("meshAShape", "meshBShape")
     assert tuple(
         descendant.name
-        for descendant in root.descendants(filter_type=nodes.types.Mesh)
+        for descendant in root.descendants(filter_type=bdu.node_types.Mesh)
     ) == ("meshAShape", "meshBShape")
     assert tuple(
         descendant.name
-        for descendant in root.descendants(filter_type=nodes.types.Joint)
+        for descendant in root.descendants(filter_type=bdu.node_types.Joint)
     ) == ("branch_b",)
     assert tuple(
         descendant.name
-        for descendant in root.descendants(filter_type=nodes.types.UnknownDag)
+        for descendant in root.descendants(
+            filter_type=bdu.node_types.UnknownDag
+        )
     ) == ("unknown_child",)
-    assert root.descendants(filter_type=nodes.types.Locator) == ()
+    assert root.descendants(filter_type=bdu.node_types.Locator) == ()
     assert tuple(
         descendant.name
         for descendant in root.descendants(
-            filter_type=nodes.types.Transform,
+            filter_type=bdu.node_types.Transform,
             include_subclasses=False,
         )
     ) == ("branch_a", "nested")
     assert tuple(
         descendant.name
         for descendant in root.descendants(
-            filter_type=nodes.types.Joint,
+            filter_type=bdu.node_types.Joint,
             include_subclasses=False,
         )
     ) == ("branch_b",)
     assert (
         root.descendants(
-            filter_type=nodes.types.Shape,
+            filter_type=bdu.node_types.Shape,
             include_subclasses=False,
         )
         == ()
@@ -721,7 +725,7 @@ def test_descendants_filters_results_without_pruning_subtrees(
     assert tuple(
         descendant.name
         for descendant in root.descendants(
-            filter_type=nodes.types.Mesh,
+            filter_type=bdu.node_types.Mesh,
             include_subclasses=False,
         )
     ) == ("meshAShape", "meshBShape")
@@ -732,13 +736,13 @@ def test_descendants_filters_results_without_pruning_subtrees(
     assert tuple(
         descendant.name
         for descendant in root.descendants(
-            filter_type=nodes.types.DAG,
+            filter_type=bdu.node_types.DAG,
             include_shapes=False,
         )
     ) == ("branch_a", "branch_b", "nested", "unknown_child")
     assert (
         root.descendants(
-            filter_type=nodes.types.Shape,
+            filter_type=bdu.node_types.Shape,
             include_shapes=False,
         )
         == ()
@@ -753,10 +757,10 @@ def test_descendants_rejects_non_dag_filter_type(new_scene, maya_cmds):
     root = nodes.existing.transform(root_name)
 
     invalid_filter_types = (
-        nodes.types.NodeOperator,
-        nodes.types.PlusMinusAverage,
+        bdu.node_types.NodeOperator,
+        bdu.node_types.PlusMinusAverage,
         root,
-        (nodes.types.Transform, nodes.types.Shape),
+        (bdu.node_types.Transform, bdu.node_types.Shape),
     )
     for filter_type in invalid_filter_types:
         with pytest.raises(
@@ -794,7 +798,7 @@ def test_traversal_validates_include_subclasses(
             match="include_subclasses must be bool",
         ):
             traversal(
-                filter_type=nodes.types.Transform,
+                filter_type=bdu.node_types.Transform,
                 include_subclasses=include_subclasses,
             )
 
@@ -937,7 +941,7 @@ def test_descendants_revisits_instanced_subtree_for_each_dag_path(
         for descendant in descendants
     )
 
-    meshes = root.descendants(filter_type=nodes.types.Mesh)
+    meshes = root.descendants(filter_type=bdu.node_types.Mesh)
     assert tuple(mesh.name for mesh in meshes) == (
         "instancedShape",
         "instancedShape",
@@ -1179,6 +1183,6 @@ def test_descendant_chain_rejects_non_dag_until(new_scene, maya_cmds):
     root = nodes.existing.transform(root_name)
     dg_node = nodes.create.composeMatrix(name="compose_matrix")
 
-    for until in ("root", nodes.types.Transform, dg_node, object()):
+    for until in ("root", bdu.node_types.Transform, dg_node, object()):
         with pytest.raises(TypeError, match="until must be DAG"):
             root.descendant_chain(until=until)

@@ -15,6 +15,9 @@ from ..maya.node._versioned_accessors import DAG as DAG
 from ..maya.node._versioned_accessors import NodeOperator as NodeOperator
 from ..maya.node._versioned_accessors import Shape as Shape
 
+def resolve(node_type: str) -> type[NodeOperator]: ...
+def available_class_names() -> tuple[str, ...]: ...
+
 from ..maya.node._versioned_accessors import _AISEnvFacade
 
 AISEnvFacade: TypeAlias = _AISEnvFacade

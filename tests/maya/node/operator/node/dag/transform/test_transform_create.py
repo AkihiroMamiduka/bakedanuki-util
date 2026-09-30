@@ -109,7 +109,7 @@ def test_nodes_create_transform_type_supports_parent_and_undo_redo(
         name=node_name,
         parent=parent,
     )
-    node_cls = nodes.types.resolve(node_type)
+    node_cls = bdu.node_types.resolve(node_type)
 
     assert isinstance(node, node_cls)
     assert node.modifier_manager is mod
@@ -145,6 +145,6 @@ def test_generic_create_supports_transform_type(new_scene, maya_cmds):
     mod.do_it_dag()
     mod.do_it_dg()
 
-    assert isinstance(node, nodes.types.IkHandle)
+    assert isinstance(node, bdu.node_types.IkHandle)
     assert node.full_path == "|parent|raw_ik_handle"
     assert maya_cmds.nodeType(node.full_path) == "ikHandle"
