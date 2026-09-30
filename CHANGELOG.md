@@ -16,6 +16,14 @@
 
 ### Added
 
+- `nodes.create` に namespace 付きの名前と `namespace=` 指定を追加。
+  未作成の namespace はノード実行時に作成し、Undo / Redo へ含める。
+  `Nodes(namespace=...)` と `nodes.set_namespace()` で以後の作成先を設定でき、
+  個別の `namespace=` または namespace 付きの名前を優先する。
+- `node.move_to_namespace(namespace)` と
+  `nodes.move_to_namespace(targets, namespace=...)` を追加。
+  複数ノード版は `NodeOperator`・ノード名・`MObject` を混在して指定でき、
+  全対象を検証した後に同じ `ModifierManager` の DG バッチへ移動を予約する。
 - `inspect_scalar_attributes()`と状態Binding、複数属性編集、scalar値搬送へ
   単一typed string属性を追加。`MayaStringValueEdit`と
   `StringLineEdit.setValueRequestHandler()`を公開する。Clipboardの書込みschemaは

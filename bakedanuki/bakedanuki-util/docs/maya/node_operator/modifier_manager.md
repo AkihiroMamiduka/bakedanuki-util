@@ -99,6 +99,14 @@ Redo では不足している階層を再作成します。
 外部からの改名にも追従します。作成待ちの DAG ノードを移動するときは、
 `do_it_dag()` で作成してから `do_it_dg()` で移動します。
 
+`Nodes.set_namespace()` は `nodes.create` の既定 namespace だけを更新し、
+既存ノードや予約済みノードを移動しません。`NodeOperator.move_to_namespace()` と
+`Nodes.move_to_namespace()` は移動を共有 DG バッチに予約する別の操作です。
+複数対象では、入力をすべて解決し、同一 `ModifierManager`・名前付きの作成待ちノード・
+重複を検査してから予約します。作成待ちの `MObject` だけでは予約名を復元できないため、
+その場合は元の `NodeOperator` を指定します。移動先に同じローカル名がある場合は、
+Maya の連番付き改名に従います。
+
 ## animation curve編集の予約
 
 `queue_anim_curve_change(callback: Callable[[MAnimCurveChange], None]) -> None`は、

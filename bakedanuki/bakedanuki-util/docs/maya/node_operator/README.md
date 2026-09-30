@@ -298,6 +298,8 @@ modifier_manager.do_it_dg()
 ```
 
 複数ノードの指定には `NodeOperator`、ノード名、`MObject` を混在できます。
+ノード名と `MObject` は呼び出し時にシーン上に存在するノードを指定します。
+作成待ちノードは名前付きの `NodeOperator` で指定してください。
 空・重複・不正な対象は予約前に拒否します。`NodeOperator` は `nodes` と同じ
 `ModifierManager` に属する必要があります。移動先に同じローカル名があると、
 Maya が連番を付けます。
