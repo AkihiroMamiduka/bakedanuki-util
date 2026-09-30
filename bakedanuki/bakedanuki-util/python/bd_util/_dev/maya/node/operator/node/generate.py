@@ -1581,6 +1581,7 @@ _FIELD_NAME_COLLISIONS = {
     "long_name",
     "m_obj",
     "modifier_manager",
+    "move_to_namespace",
     "name",
     "namespace",
     "namespace_colon",

@@ -36,4 +36,6 @@ def main():
         j.type.set(j.type.OTHER)
         j.otherType.set("test")
 
+    nodes.move_to_namespace(joints, namespace=":jjj")
+
     nodes.modifier_manager.do_it_dg()

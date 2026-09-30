@@ -186,7 +186,7 @@ def test_anim_layer_uses_new_namespace(new_scene, maya_cmds):
     assert not maya_cmds.namespace(exists=":layers")
 
 
-def test_set_namespace_moves_existing_node_with_undo_redo(
+def test_move_to_namespace_moves_existing_node_with_undo_redo(
     new_scene, maya_cmds
 ):
     import bd_util as bdu
@@ -196,7 +196,7 @@ def test_set_namespace_moves_existing_node_with_undo_redo(
     mod = bdu.ModifierManager()
     node = bdu.Nodes(modifier_manager=mod).existing.transform(":source:ctrl")
 
-    assert node.set_namespace(":target:inner") is node
+    assert node.move_to_namespace(":target:inner") is node
     assert not maya_cmds.namespace(exists=":target")
     mod.do_it_dg()
     assert node.name == "target:inner:ctrl"
@@ -215,7 +215,7 @@ def test_set_namespace_moves_existing_node_with_undo_redo(
 @pytest.mark.parametrize(
     "node_type,creation_kind", [("transform", "dag"), ("multiplyDivide", "dg")]
 )
-def test_set_namespace_moves_pending_named_node(
+def test_move_to_namespace_moves_pending_named_node(
     new_scene, maya_cmds, node_type, creation_kind
 ):
     import bd_util as bdu
@@ -224,7 +224,7 @@ def test_set_namespace_moves_pending_named_node(
     node = getattr(bdu.Nodes(modifier_manager=mod).create, node_type)(
         name="source:node"
     )
-    node.set_namespace(":target")
+    node.move_to_namespace(":target")
 
     if creation_kind == "dag":
         mod.do_it_dag()
@@ -241,7 +241,7 @@ def test_set_namespace_moves_pending_named_node(
 
 
 @pytest.mark.parametrize("order", ["rename_then_move", "move_then_rename"])
-def test_rename_and_set_namespace_share_pending_name(
+def test_rename_and_move_to_namespace_share_pending_name(
     new_scene, maya_cmds, order
 ):
     import bd_util as bdu
@@ -253,9 +253,9 @@ def test_rename_and_set_namespace_share_pending_name(
 
     if order == "rename_then_move":
         node.rename(new_name="new")
-        node.set_namespace(":target")
+        node.move_to_namespace(":target")
     else:
-        node.set_namespace(":target")
+        node.move_to_namespace(":target")
         node.rename(new_name="new")
 
     assert node._requested_name_hint == "target:new"
@@ -263,7 +263,7 @@ def test_rename_and_set_namespace_share_pending_name(
     assert node.name == "target:new"
 
 
-def test_set_namespace_uses_live_name_after_previous_batch(
+def test_move_to_namespace_uses_live_name_after_previous_batch(
     new_scene, maya_cmds
 ):
     import bd_util as bdu
@@ -276,13 +276,13 @@ def test_set_namespace_uses_live_name_after_previous_batch(
     node.rename(new_name="reserved")
     mod.do_it_dg()
     maya_cmds.rename(":source:reserved", ":source:external")
-    node.set_namespace(":target")
+    node.move_to_namespace(":target")
     mod.do_it_dg()
 
     assert node.name == "target:external"
 
 
-def test_set_namespace_resolves_relative_target_at_reservation(
+def test_move_to_namespace_resolves_relative_target_at_reservation(
     new_scene, maya_cmds
 ):
     import bd_util as bdu
@@ -292,13 +292,13 @@ def test_set_namespace_resolves_relative_target_at_reservation(
     maya_cmds.namespace(set=":outer")
     mod = bdu.ModifierManager()
     node = bdu.Nodes(modifier_manager=mod).existing.transform(":ctrl")
-    node.set_namespace("inner")
+    node.move_to_namespace("inner")
     maya_cmds.namespace(set=":")
 
     mod.do_it_dg()
     assert node.name == "outer:inner:ctrl"
 
-    node.set_namespace(":")
+    node.move_to_namespace(":")
     mod.do_it_dg()
     assert node.name == "ctrl"
 
@@ -330,7 +330,7 @@ def test_rename_rejects_namespace_in_local_name(new_scene, maya_cmds, kwargs):
     assert node.name == "source:original"
 
 
-def test_set_namespace_rejects_invalid_or_unnamed_pending_node(
+def test_move_to_namespace_rejects_invalid_or_unnamed_pending_node(
     new_scene, maya_cmds
 ):
     import bd_util as bdu
@@ -339,13 +339,13 @@ def test_set_namespace_rejects_invalid_or_unnamed_pending_node(
     nodes = bdu.Nodes(modifier_manager=mod)
     unnamed = nodes.create.transform()
     with pytest.raises(ValueError, match="must have a name"):
-        unnamed.set_namespace("target")
+        unnamed.move_to_namespace("target")
 
     named = nodes.create.transform(name="named")
     with pytest.raises(ValueError, match="invalid name"):
-        named.set_namespace("bad;name")
+        named.move_to_namespace("bad;name")
     with pytest.raises(TypeError, match="must be a string"):
-        named.set_namespace(None)
+        named.move_to_namespace(None)
 
     assert not maya_cmds.namespace(exists=":target")
     mod.do_it_dag()

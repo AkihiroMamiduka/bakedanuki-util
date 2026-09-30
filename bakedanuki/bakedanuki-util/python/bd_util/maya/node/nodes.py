@@ -1,11 +1,12 @@
 # coding: utf-8
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from typing import Literal, Self
 
 from maya.api import OpenMaya as om
 
+from ._creation_name import resolve_namespace
 from .creator import NodeCreator
 from .existing_node import ExistingNode
 from .modifier import ModifierManager
@@ -78,6 +79,50 @@ class _ExistingNodeAccessor:
         return _wrap
 
 
+def _node_for_namespace_move(
+    value: object,
+    modifier_manager: ModifierManager,
+) -> NodeOperator:
+    """ノード指定を現在の操作履歴へ結び付ける。"""
+    if isinstance(value, NodeOperator):
+        if value.modifier_manager is not modifier_manager:
+            raise ValueError(
+                "NodeOperator must use this Nodes modifier_manager."
+            )
+        node = value
+    else:
+        if isinstance(value, str):
+            if not value or any(char in value for char in ".*?[]"):
+                raise ValueError("Expected one node name.")
+            selection = om.MSelectionList()
+            try:
+                selection.add(value)
+            except RuntimeError as exc:
+                raise ValueError(f"Node not found: {value}") from exc
+            if selection.length() != 1:
+                raise ValueError("Expected one node name.")
+            m_obj = selection.getDependNode(0)
+        elif isinstance(value, om.MObject):
+            m_obj = value
+        else:
+            raise TypeError("Expected a NodeOperator, MObject or node name.")
+
+        handle = om.MObjectHandle(m_obj)
+        if not handle.isAlive() or not handle.isValid():
+            raise ValueError("An MObject target must be an existing node.")
+        if not m_obj.hasFn(om.MFn.kDependencyNode):
+            raise TypeError("Expected a dependency node.")
+        node = NodeOperator(modifier_manager, m_obj=m_obj, auto_add_attr=False)
+
+    if not om.MObjectHandle(node.m_obj).isAlive():
+        raise ValueError("The node is no longer available.")
+    if not node._name_for_edit():  # pyright: ignore[reportPrivateUsage]
+        raise ValueError(
+            "A pending node must have a name to move its namespace."
+        )
+    return node
+
+
 class Nodes:
     """ノードの作成・取得と共通の `ModifierManager` をまとめる入口。"""
 
@@ -147,6 +192,52 @@ class Nodes:
         """
         self._create.set_namespace(namespace)
         return self
+
+    def move_to_namespace(
+        self,
+        targets: Iterable[NodeOperator | om.MObject | str],
+        *,
+        namespace: str,
+    ) -> None:
+        """複数ノードの namespace 変更を共有 DG バッチに予約する。
+
+        `namespace` は予約時のカレント namespace を基準に解決する。移動先が
+        未作成なら `do_it_dg()` 時に作成し、同じ履歴で Undo / Redo する。
+        作成待ちの DAG ノードは `do_it_dag()` 後に `do_it_dg()` を実行する。
+        移動先で名前が衝突すると Maya がローカル名に連番を付ける。
+
+        Args:
+            targets: 対象ノードの iterable。作成待ちノードは、この `Nodes` と
+                同じ `ModifierManager` を持つ、名前付きの `NodeOperator` で指定する。
+            namespace: 移動先。先頭の `:` はルート起点。`""` と `":"` はルート。
+
+        Raises:
+            TypeError: `targets` が iterable でないか、対象または `namespace` の型が不正な場合。
+            ValueError: 対象が空・重複・不正、別の `ModifierManager` に属する、
+                または `namespace` が不正な場合。
+        """
+        resolved_namespace = resolve_namespace(namespace)
+        if isinstance(targets, (str, NodeOperator, om.MObject)):
+            raise TypeError("targets must be an iterable of nodes.")
+        try:
+            values = tuple(targets)
+        except TypeError as exc:
+            raise TypeError("targets must be an iterable of nodes.") from exc
+        if not values:
+            raise ValueError("targets must contain at least one node.")
+
+        nodes: list[NodeOperator] = []
+        seen: set[om.MObjectHandle] = set()
+        for value in values:
+            node = _node_for_namespace_move(value, self._modifier_manager)
+            handle = om.MObjectHandle(node.m_obj)
+            if handle in seen:
+                raise ValueError("Duplicate namespace move node.")
+            seen.add(handle)
+            nodes.append(node)
+
+        for node in nodes:
+            node.move_to_namespace(resolved_namespace)
 
     @property
     def create(self) -> NodeCreator:

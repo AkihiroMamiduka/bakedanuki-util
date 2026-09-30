@@ -1834,7 +1834,7 @@ def transform_creation_contract(nodes: bdu.Nodes) -> None:
     parent = nodes.create.transform(name="transform_parent")
     namespaced = nodes.create.transform(name="control", namespace="character")
     assert_type(namespaced, Transform)
-    assert_type(namespaced.set_namespace(":rig"), Transform)
+    assert_type(namespaced.move_to_namespace(":rig"), Transform)
 
     aim_constraint = nodes.create.aimConstraint(parent=parent)
     ik_handle = nodes.create.ikHandle(parent=parent)
@@ -1869,6 +1869,7 @@ def nodes_namespace_contract() -> None:
     assert_type(nodes.namespace, str | None)
     assert_type(nodes.set_namespace(None), bdu.Nodes)
     assert_type(nodes.create.transform(name="control"), Transform)
+    assert_type(nodes.move_to_namespace(["existing"], namespace=":rig"), None)
 
 
 def shape_creation_contract(nodes: bdu.Nodes) -> None:

@@ -84,7 +84,7 @@ redo時は元の順序で再実行します。native modifierには`doIt()`、an
 
 明示名付きのノード作成は、予約時のカレント namespace を使って絶対名へ解決します。
 `ModifierManager.require_namespace()` は必要な namespace を DG / DAG それぞれの
-実行バッチに記録します。`NodeOperator.set_namespace()` による移動は DG に予約し、
+実行バッチに記録します。`NodeOperator.move_to_namespace()` による移動は DG に予約し、
 移動先と最後に予約したローカル名から新しい絶対名を組み立てます。
 
 `do_it_dg()` / `do_it_dag()` はノード操作より先に、不足している namespace と
@@ -94,7 +94,7 @@ redo時は元の順序で再実行します。native modifierには`doIt()`、an
 既存の namespace や後から別のノード・子 namespace が加わった階層は残します。
 Redo では不足している階層を再作成します。
 
-`rename()` と `set_namespace()` を同じ DG バッチへ続けて予約した場合は、前の予約で
+`rename()` と `move_to_namespace()` を同じ DG バッチへ続けて予約した場合は、前の予約で
 決まった名前を次の操作が使用します。DG バッチ確定後は実際のシーン名を使用し、
 外部からの改名にも追従します。作成待ちの DAG ノードを移動するときは、
 `do_it_dag()` で作成してから `do_it_dg()` で移動します。

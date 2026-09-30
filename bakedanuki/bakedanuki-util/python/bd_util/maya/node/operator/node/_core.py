@@ -454,17 +454,18 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         pure_name = prefix + pure_name + suffix
         if ":" in pure_name:
             raise ValueError(
-                "The local node name cannot include ':'. Use set_namespace() to move the node."
+                "The local node name cannot include ':'. Use move_to_namespace() to move the node."
             )
 
         requested_name = namespace_prefix + pure_name
         self._reserve_name_change(requested_name)
 
-    def set_namespace(self, namespace: str) -> Self:
+    def move_to_namespace(self, namespace: str) -> Self:
         """ローカル名を保ち、ノードの namespace の変更を DG に予約する。
 
         相対指定は予約時のカレント namespace を基準にする。未作成の移動先は
         `do_it_dg()` 時に作成し、Undo 時はこの履歴で作成した空の namespace を戻す。
+        移動先で名前が衝突すると Maya がローカル名に連番を付ける。
 
         Args:
             namespace: 移動先。先頭の `:` はルート起点。`""` と `":"` はルート。

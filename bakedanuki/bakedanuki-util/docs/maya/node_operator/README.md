@@ -269,23 +269,38 @@ modifier_manager.do_it_dag()
 予約済みノードと `nodes.existing` から取得したノードにも影響しません。
 `nodes.create.with_transform` と `nodes.create.animLayer` にも適用します。
 
-既存ノードの namespace を変更するときは `set_namespace()` を使います。
-ローカル名は維持し、移動先の namespace が未作成なら `do_it_dg()` 時に作成します。
+ノードを別の namespace へ移すときは、単一ノードでは
+`node.move_to_namespace()`、複数ノードでは `nodes.move_to_namespace()` を使います。
+`nodes.set_namespace()` は今後作るノードの既定値を設定する別の操作です。
+移動先の namespace が未作成なら `do_it_dg()` 時に作成します。
 
 ```python
 ctrl = nodes.existing.transform("character:ctrl")
 ctrl.rename(new_name="main_ctrl")
-ctrl.set_namespace(":rig")
+ctrl.move_to_namespace(":rig")
 modifier_manager.do_it_dg()
 ```
 
 `rename()` はローカル名だけを変更し、変更後のローカル名に `:` を含む指定は
-`ValueError` にします。`set_namespace("rig")` は予約時のカレント namespace からの
-相対指定、`set_namespace(":rig")` はルート起点です。ルートへ戻す場合は
-`set_namespace(":")` を使います。移動先の作成とノードの移動は同じ履歴で Undo / Redo
+`ValueError` にします。`move_to_namespace("rig")` は予約時のカレント namespace からの
+相対指定、`move_to_namespace(":rig")` はルート起点です。ルートへ戻す場合は
+`move_to_namespace(":")` を使います。移動先の作成とノードの移動は同じ履歴で Undo / Redo
 でき、移動元の namespace は自動削除しません。作成予約中の DAG ノードを移動するときは
 `do_it_dag()` の後に `do_it_dg()` を実行してください。自動命名待ちのノードは、
 作成後に名前が確定してから移動します。
+
+```python
+nodes.move_to_namespace(
+    [joint, "other:ctrl"],
+    namespace=":rig",
+)
+modifier_manager.do_it_dg()
+```
+
+複数ノードの指定には `NodeOperator`、ノード名、`MObject` を混在できます。
+空・重複・不正な対象は予約前に拒否します。`NodeOperator` は `nodes` と同じ
+`ModifierManager` に属する必要があります。移動先に同じローカル名があると、
+Maya が連番を付けます。
 
 Maya 2025 / 2026 / 2027 の実行 schema は、起動中の Maya から自動判定します。
 IDE の補完対象だけを固定したい場合は `typing_maya_version` を指定します。
