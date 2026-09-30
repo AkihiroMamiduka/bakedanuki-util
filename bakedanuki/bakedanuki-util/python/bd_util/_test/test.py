@@ -38,3 +38,8 @@ def main():
         j.otherType.set("test")
 
     nodes.modifier_manager.do_it_dg()
+
+    top.rename("test_top")
+    top.set_namespace(":abc_test")
+
+    nodes.modifier_manager.do_it_dg()

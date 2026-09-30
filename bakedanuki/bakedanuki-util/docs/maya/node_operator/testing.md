@@ -242,6 +242,9 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
     検証します。
 - `tests/maya/node/creator/test_shape_with_transform.py`
   - transform と shape の一括作成、命名、親子関係、undo / redo を検証します。
+- `tests/maya/node/creator/test_namespace_creation.py`
+  - 未作成 namespace での作成・移動、相対名の予約時解決、DG / DAG の実行順、
+    連続した改名と移動、予約前の入力検証、Undo / Redo を検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`
   - DG / DAG modifierと`MAnimCurveChange`の実行順・undo / redoを検証します。
   - animation callbackが初回だけ実行されること、同じ実行境界の部分変更の復元、

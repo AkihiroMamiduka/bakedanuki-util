@@ -179,6 +179,7 @@ class ModifierManager:
         "_pending_dg_steps",
         "_pending_dag_parents",
         "_pending_namespaces",
+        "_dg_batch_generation",
         "_done_stack",
         "_redo_stack",
     )
@@ -192,6 +193,7 @@ class ModifierManager:
             "dg": set(),
             "dag": set(),
         }
+        self._dg_batch_generation = 0
         self._done_stack: list[_ExecutedBatch] = []
         self._redo_stack: list[_ExecutedBatch] = []
 
@@ -356,9 +358,15 @@ class ModifierManager:
         self._pending_dg_steps = []
         self._pending_dag_parents = {}
         self._pending_namespaces = {"dg": set(), "dag": set()}
+        self._dg_batch_generation += 1
+
+    @property
+    def dg_batch_generation(self) -> int:
+        """現在予約中の DG 実行バッチを識別する番号。"""
+        return self._dg_batch_generation
 
     def require_namespace(self, kind: ModifierKind, namespace: str) -> None:
-        """ノード作成時に必要な絶対 namespace を実行バッチへ記録する。
+        """ノードの作成・移動に必要な絶対 namespace を実行バッチへ記録する。
 
         Args:
             kind: 作成を予約した modifier の種類。
@@ -455,6 +463,7 @@ class ModifierManager:
         if kind == "dg":
             self._dg_mod = om.MDGModifier()
             self._pending_dg_steps = []
+            self._dg_batch_generation += 1
         elif kind == "dag":
             self._dag_mod = om.MDagModifier()
             self._pending_dag_parents = {}

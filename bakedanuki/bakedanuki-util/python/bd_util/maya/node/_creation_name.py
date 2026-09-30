@@ -1,4 +1,4 @@
-"""作成予定ノードの名前と namespace を解決する。"""
+"""ノードの名前と namespace を予約時に解決する。"""
 
 from __future__ import annotations
 

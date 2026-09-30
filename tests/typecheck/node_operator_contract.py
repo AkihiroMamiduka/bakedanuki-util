@@ -1834,6 +1834,7 @@ def transform_creation_contract(nodes: bdu.Nodes) -> None:
     parent = nodes.create.transform(name="transform_parent")
     namespaced = nodes.create.transform(name="control", namespace="character")
     assert_type(namespaced, Transform)
+    assert_type(namespaced.set_namespace(":rig"), Transform)
 
     aim_constraint = nodes.create.aimConstraint(parent=parent)
     ik_handle = nodes.create.ikHandle(parent=parent)

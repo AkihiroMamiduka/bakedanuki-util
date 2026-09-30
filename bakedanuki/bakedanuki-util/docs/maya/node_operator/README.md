@@ -248,6 +248,24 @@ modifier_manager.do_it_dag()
 Undo ではノードを先に戻し、この実行履歴で作成した空の namespace を戻します。
 もとからある namespace や、後から別のノードが追加された namespace は残します。
 
+既存ノードの namespace を変更するときは `set_namespace()` を使います。
+ローカル名は維持し、移動先の namespace が未作成なら `do_it_dg()` 時に作成します。
+
+```python
+ctrl = nodes.existing.transform("character:ctrl")
+ctrl.rename(new_name="main_ctrl")
+ctrl.set_namespace(":rig")
+modifier_manager.do_it_dg()
+```
+
+`rename()` はローカル名だけを変更し、変更後のローカル名に `:` を含む指定は
+`ValueError` にします。`set_namespace("rig")` は予約時のカレント namespace からの
+相対指定、`set_namespace(":rig")` はルート起点です。ルートへ戻す場合は
+`set_namespace(":")` を使います。移動先の作成とノードの移動は同じ履歴で Undo / Redo
+でき、移動元の namespace は自動削除しません。作成予約中の DAG ノードを移動するときは
+`do_it_dag()` の後に `do_it_dg()` を実行してください。自動命名待ちのノードは、
+作成後に名前が確定してから移動します。
+
 Maya 2025 / 2026 / 2027 の実行 schema は、起動中の Maya から自動判定します。
 IDE の補完対象だけを固定したい場合は `typing_maya_version` を指定します。
 
