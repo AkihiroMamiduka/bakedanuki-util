@@ -5,10 +5,15 @@ from typing import assert_type
 
 from bd_util.maya.ui.binding.plugs_binding import (
     MayaBoolPlugsBinding,
+    MayaEnumPlugsBinding,
     MayaFloatPlugsBinding,
 )
 from bd_util.maya.ui.binding.plugs_state import MayaPlugTargetState
-from bd_util.maya.ui import resolve_bool_plug, resolve_float_plug
+from bd_util.maya.ui import (
+    resolve_bool_plug,
+    resolve_enum_plug,
+    resolve_float_plug,
+)
 from bd_util.ui import (
     BoolComboBox,
     BoolViewModel,
@@ -21,6 +26,24 @@ from bd_util.ui import (
 bool_binding = MayaBoolPlugsBinding([resolve_bool_plug("node", "visibility")])
 float_binding = MayaFloatPlugsBinding(
     [resolve_float_plug("node", "translateX")]
+)
+assert_type(
+    MayaBoolPlugsBinding(
+        [resolve_bool_plug("node", "visibility")], key_animated=True
+    ),
+    MayaBoolPlugsBinding,
+)
+assert_type(
+    MayaFloatPlugsBinding(
+        [resolve_float_plug("node", "translateX")], key_animated=True
+    ),
+    MayaFloatPlugsBinding,
+)
+assert_type(
+    MayaEnumPlugsBinding(
+        [resolve_enum_plug("node", "mode")], key_animated=True
+    ),
+    MayaEnumPlugsBinding,
 )
 assert_type(bool_binding.value, bool)
 assert_type(float_binding.value, float)

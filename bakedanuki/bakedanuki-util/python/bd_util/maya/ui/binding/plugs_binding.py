@@ -205,6 +205,8 @@ class _EnumPlugsStore(PlugsStore[int]):
         view_model: EnumViewModel,
         plugs: Sequence[MayaEnumPlug],
         owner: qt.QObject,
+        *,
+        key_animated: bool = False,
     ) -> None:
         """同じ定義のenum属性群を検証して監視する。"""
         self._view_model = view_model
@@ -221,7 +223,7 @@ class _EnumPlugsStore(PlugsStore[int]):
             )
         self._definitions: tuple[EnumDefinition | None, ...] = ()
         targets = tuple(
-            PlugTarget(plug.node, plug.plug, codec)
+            PlugTarget(plug.node, plug.plug, codec, key_animated=key_animated)
             for plug, codec in zip(plugs, self._codecs)
         )
         super().__init__(targets, owner)
@@ -323,11 +325,18 @@ class _BoolPlugsStore(PlugsStore[bool]):
         view_model: BoolViewModel,
         plugs: Sequence[BoolPlugOperator],
         owner: qt.QObject,
+        *,
+        key_animated: bool = False,
     ) -> None:
         """全属性を検証してから監視を開始する。"""
         self._view_model = view_model
         targets = tuple(
-            PlugTarget(plug.node, plug.plug, _BoolCodec(plug))
+            PlugTarget(
+                plug.node,
+                plug.plug,
+                _BoolCodec(plug),
+                key_animated=key_animated,
+            )
             for plug in plugs
         )
         super().__init__(targets, owner)
@@ -351,6 +360,8 @@ class _FloatPlugsStore(PlugsStore[float]):
         view_model: FloatViewModel,
         plugs: Sequence[MayaFloatPlug],
         owner: qt.QObject,
+        *,
+        key_animated: bool = False,
     ) -> None:
         """単位種別を揃え、代表の表示情報を維持する。"""
         self._view_model = view_model
@@ -361,7 +372,7 @@ class _FloatPlugsStore(PlugsStore[float]):
             raise TypeError("属性の単位種別は全対象で揃えてください")
         self._representative_codec = codecs[0]
         targets = tuple(
-            PlugTarget(plug.node, plug.plug, codec)
+            PlugTarget(plug.node, plug.plug, codec, key_animated=key_animated)
             for plug, codec in zip(plugs, codecs)
         )
         super().__init__(targets, owner, float_view_model=view_model)
@@ -558,12 +569,15 @@ class MayaBoolPlugsBinding(
         self,
         plugs: Sequence[BoolPlugOperator],
         *,
+        key_animated: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を登録し、先頭の実値を書き込まずに初期表示する。
 
         Args:
             plugs: 代表を先頭にした一つ以上のbool属性。
+            key_animated: `True` なら対応する既存の時間カーブを現在時刻で
+                キー編集する。一般接続とロックされた属性は編集しない。
             parent: この Binding を所有する `QObject`。
 
         Raises:
@@ -574,7 +588,9 @@ class MayaBoolPlugsBinding(
 
         def create_store(view_model: BoolViewModel) -> _BoolPlugsStore:
             """専用ViewModelと同じ寿命の集約Storeを生成する。"""
-            store = _BoolPlugsStore(view_model, plugs, self)
+            store = _BoolPlugsStore(
+                view_model, plugs, self, key_animated=key_animated
+            )
             self._owned_group = store
             return store
 
@@ -619,12 +635,15 @@ class MayaFloatPlugsBinding(
         self,
         plugs: Sequence[MayaFloatPlug],
         *,
+        key_animated: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を検証し、先頭の実値を書き込まずに初期表示する。
 
         Args:
             plugs: 代表を先頭にした一つ以上の同種単位のfloat属性。
+            key_animated: `True` なら対応する既存の時間カーブを現在時刻で
+                キー編集する。未アニメーション属性は通常の値入力を行う。
             parent: この Binding を所有する `QObject`。
 
         Raises:
@@ -636,7 +655,9 @@ class MayaFloatPlugsBinding(
 
         def create_store(view_model: FloatViewModel) -> _FloatPlugsStore:
             """連続編集と監視を共有する集約Storeを生成する。"""
-            store = _FloatPlugsStore(view_model, plugs, self)
+            store = _FloatPlugsStore(
+                view_model, plugs, self, key_animated=key_animated
+            )
             self._owned_group = store
             return store
 
@@ -681,12 +702,15 @@ class MayaEnumPlugsBinding(
         self,
         plugs: Sequence[MayaEnumPlug],
         *,
+        key_animated: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を登録し、先頭の実値を書き込まずに初期表示する。
 
         Args:
             plugs: 代表を先頭にした一つ以上のenum属性。同じ定義が必要。
+            key_animated: `True` なら対応する既存の時間カーブを現在時刻で
+                キー編集する。一般接続とロックされた属性は編集しない。
             parent: この Binding を所有する `QObject`。
 
         Raises:
@@ -697,7 +721,9 @@ class MayaEnumPlugsBinding(
 
         def create_store(view_model: EnumViewModel) -> _EnumPlugsStore:
             """enum属性群の監視をこのBindingの子として作る。"""
-            store = _EnumPlugsStore(view_model, plugs, self)
+            store = _EnumPlugsStore(
+                view_model, plugs, self, key_animated=key_animated
+            )
             self._owned_group = store
             return store
 

@@ -66,6 +66,12 @@ stringは単一のtyped string属性だけを対象とし、空文字・Unicode�
 全target nodeへ適用します。number・distance・angle・bool・stringは同じkind同士、enumは整数値と
 項目名の定義が一致する場合だけ候補にします。空・重複pathや複数の搬送値は書込み前に拒否します。
 
+三つの貼り付けAPIには`key_animated=True`を指定できます。通常の時間駆動カーブへ
+直接接続された数値・bool・enum属性では、変更時に現在時刻のキーを追加または更新します。
+接続のない属性は従来どおり値を書き込みます。既定の`False`ではキー付き属性は
+読取り専用です。Layer・Driven Key・その他の入力接続は対象外として理由を返します。
+同値ならキーを追加せず、複数対象の変更は一回のUndoへまとめます。
+
 表示状態で正式pathを絞り込む場合は、`bd_util.maya.node`の
 `filter_scalar_attribute_paths()`を使用します。`all`、`visible`、`keyable`、
 `channel_box`、`hidden`を受け取り、Keyableを優先する共通分類で入力順のpathを返します。

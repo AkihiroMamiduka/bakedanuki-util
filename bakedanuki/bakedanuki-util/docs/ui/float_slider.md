@@ -39,6 +39,7 @@ SliderとSpinBoxを1つのWidgetとして配置する場合は[FloatSliderSpinBo
 | `slider.setFloatRange(minimum, maximum)` | 値を書き換えずに操作範囲を変更する |
 | `slider.floatRangeChanged(float, float)` | 設定した公開単位範囲が変わった後に通知する。実値やhard limitだけの変更では通知しない |
 | `slider.effectiveFloatRange()` | hard limitとの共通範囲。操作できる幅がなければ`None` |
+| `slider.finish_edit()` | 外部の時刻変更などで連続入力を終了し、最後の確定値を維持する |
 | `slider.value()` / `setValue(position)` | Qt標準の**整数位置**を取得・設定する |
 | `binding.value` / `binding.set_value(value)` | 正本の浮動小数点値を取得・変更する |
 
@@ -94,6 +95,8 @@ Esc、フォーカス喪失、Window非アクティブ化、非表示、無効�
 最後に確定した値を維持して連続編集を終了します。Escは開始値へのロールバックではありません。
 ViewModelの明示終了、View・ownerの破棄、Maya node削除、callback解除、書き込み失敗でもchunkを閉じます。
 書き込み途中の通知で終了要求が届いた場合は、Maya commandが戻ってから閉じます。
+外部で対象時刻が変わった場合などは`finish_edit()`を呼べます。実行中のドラッグや
+キーリピートから届く古い入力を止め、次の操作開始まで新しい値を書き込みません。
 
 Sliderを破棄しても共有Bindingは終了しません。Binding・ViewModelはSliderが参照保持します。
 Python属性への直接代入後は、既存仕様どおり`binding.refresh()`で同期します。

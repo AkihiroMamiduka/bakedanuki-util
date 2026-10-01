@@ -14,6 +14,11 @@ from maya.api import OpenMaya as om
 from ....ui import FloatViewModel, qt
 from ...node.operator.node._core import NodeOperator
 from ..callback import MayaCallbackRegistry
+from ._animated_plug_write import (
+    AnimatedPlugWrite,
+    animation_edit_reason,
+    prepare_animated_plug_write,
+)
 from ._float_edit import FloatEditUndo
 from ._float_plug_endpoint import run_later
 from .plugs_state import MayaPlugTargetState
@@ -45,9 +50,12 @@ class PlugTarget(Generic[_ValueT]):
     plug: om.MPlug
     codec: PlugValueCodec[_ValueT]
     removed: bool = False
+    key_animated: bool = False
 
     def __post_init__(self) -> None:
         """同名再作成に追従しない実体参照と監視対象を記録する。"""
+        if type(self.key_animated) is not bool:
+            raise TypeError("key_animatedにはboolを指定してください")
         self.node_handle = om.MObjectHandle(self.plug.node())
         self.attribute_handle = om.MObjectHandle(self.plug.attribute())
         self.watched = [self.plug]
@@ -88,10 +96,16 @@ class PlugTarget(Generic[_ValueT]):
         reason: str | None = None
         if any(plug.isLocked for plug in self.watched):
             reason = "ロックされています"
-        elif any(plug.isDestination for plug in self.watched):
+        elif any(plug.isDestination for plug in self.watched[1:]):
             reason = "入力接続があります（アニメーションを含む）"
         elif not om.MFnAttribute(self.plug.attribute()).writable:
             reason = "書き込み不可の属性です"
+        elif self.plug.isDestination:
+            reason = (
+                animation_edit_reason(self.plug)
+                if self.key_animated
+                else "入力接続があります（アニメーションを含む）"
+            )
         elif self.plug.isFreeToChange(True, False) != om.MPlug.kFreeToChange:
             reason = "Mayaが値の変更を許可していません"
         return MayaPlugTargetState(
@@ -124,20 +138,31 @@ class _PreparedPlugWrite(Generic[_ValueT]):
     before: _ValueT
     value: _ValueT
     requested: _ValueT
+    animated: AnimatedPlugWrite | None = None
 
     def validate(self) -> None:
         """状態・範囲・単位が変わっていないことを確認する。"""
         self.store.validate_write_target(self.target, self.requested)
+        if self.target.plug.isDestination != (self.animated is not None):
+            raise RuntimeError("入力中に対象属性の接続が変わりました")
         if self.target.codec.validate(self.value) != self.requested:
             raise RuntimeError("入力中に対象属性の単位が変わりました")
+        if self.animated is not None:
+            self.animated.validate()
 
     def apply(self) -> None:
         """事前検証した現在単位の値をMayaへ書き込む。"""
+        if self.animated is not None:
+            self.animated.apply()
+            return
         set_attr = cast(Callable[[str, _ValueT], None], cmds.setAttr)
         set_attr(self.target.name(), self.requested)
 
     def restore(self) -> None:
         """公開単位の復旧値を現在単位へ変換して元に戻す。"""
+        if self.animated is not None:
+            self.animated.restore()
+            return
         before = self.target.codec.to_ui(self.before)
         if self.target.codec.to_ui(self.target.codec.read()) != before:
             set_attr = cast(Callable[[str, _ValueT], None], cmds.setAttr)
@@ -320,8 +345,15 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                 raise ValueError(f"{target.name()}: {error}") from error
             before = target.codec.read()
             if target.codec.to_ui(before) != requested:
+                animated = None
+                if target.plug.isDestination:
+                    if isinstance(value, str):
+                        raise TypeError("string属性はキー編集できません")
+                    animated = prepare_animated_plug_write(target.plug, value)
                 plan.append(
-                    _PreparedPlugWrite(self, target, before, value, requested)
+                    _PreparedPlugWrite(
+                        self, target, before, value, requested, animated
+                    )
                 )
         return plan
 
