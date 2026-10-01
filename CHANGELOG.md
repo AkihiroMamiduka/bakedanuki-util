@@ -16,6 +16,11 @@
 
 ### Added
 
+- Mayaの複数属性Bindingに`track_input_state`を追加し、各対象の
+  `MayaPlugTargetState.input_state`で現在キー・時間カーブ・その他接続・未接続を
+  読み取れるようにした。`inspect_plug_input_state()`も公開し、時刻・キー編集・
+  接続変更に追従する。既定は追跡しないため既存利用側の動作は維持する。
+  scene・設定の移行は不要。
 - `nodes.create` に namespace 付きの名前と `namespace=` 指定を追加。
   未作成の namespace はノード実行時に作成し、Undo / Redo へ含める。
   `Nodes(namespace=...)` と `nodes.set_namespace()` で以後の作成先を設定でき、

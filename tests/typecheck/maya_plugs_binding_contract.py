@@ -10,6 +10,8 @@ from bd_util.maya.ui.binding.plugs_binding import (
 )
 from bd_util.maya.ui.binding.plugs_state import MayaPlugTargetState
 from bd_util.maya.ui import (
+    MayaPlugInputState,
+    inspect_plug_input_state,
     resolve_bool_plug,
     resolve_enum_plug,
     resolve_float_plug,
@@ -29,7 +31,9 @@ float_binding = MayaFloatPlugsBinding(
 )
 assert_type(
     MayaBoolPlugsBinding(
-        [resolve_bool_plug("node", "visibility")], key_animated=True
+        [resolve_bool_plug("node", "visibility")],
+        key_animated=True,
+        track_input_state=True,
     ),
     MayaBoolPlugsBinding,
 )
@@ -52,6 +56,13 @@ assert_type(float_binding.view_model, FloatViewModel)
 assert_type(bool_binding.apply_representative_value(), bool)
 assert_type(float_binding.set_value(1), bool)
 assert_type(bool_binding.target_states, tuple[MayaPlugTargetState, ...])
+assert_type(
+    bool_binding.target_states[0].input_state, MayaPlugInputState | None
+)
+assert_type(
+    inspect_plug_input_state(resolve_float_plug("node", "translateX").plug),
+    MayaPlugInputState,
+)
 assert_type(float_binding.target_states[0].reason, str | None)
 assert_type(float_binding.is_mixed, bool)
 assert_type(bool_binding.target_count, int)

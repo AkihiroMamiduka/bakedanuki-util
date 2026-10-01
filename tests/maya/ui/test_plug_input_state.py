@@ -1,0 +1,154 @@
+# coding: utf-8
+"""入力接続の表示状態と、値が変わらないキー編集の通知を検証する。"""
+
+from __future__ import annotations
+
+import pytest
+from maya import cmds
+from maya.api import OpenMaya as om
+from maya.api import OpenMayaAnim as oma
+
+from bd_util.maya.ui import (
+    MayaFloatPlugsBinding,
+    inspect_plug_input_state,
+    resolve_float_plug,
+)
+from bd_util.ui import qt
+
+
+def _events() -> None:
+    """Maya通知を受けた次のQtイベントまで状態を同期する。"""
+    for _ in range(4):
+        qt.QApplication.processEvents()
+
+
+@pytest.fixture
+def scene(new_scene):
+    """接続状態を独立して検証できる二つのtransformを用意する。"""
+    owner = qt.QObject()
+    nodes = (cmds.createNode("transform"), cmds.createNode("transform"))
+    cmds.currentTime(1)
+    yield nodes, owner
+    owner.deleteLater()
+    _events()
+
+
+def _plug(path: str) -> om.MPlug:
+    """テスト用のMaya属性をAPI参照へ変換する。"""
+    return om.MSelectionList().add(path).getPlug(0)
+
+
+def test_four_states_use_exact_current_time_without_writing(scene) -> None:
+    """現在キー・他時刻キー・一般接続・未接続を読み取る。"""
+    nodes, _owner = scene
+    cmds.setKeyframe(nodes[0] + ".tx", time=1, value=3)
+    cmds.connectAttr(nodes[1] + ".tx", nodes[0] + ".tz")
+    cmds.flushUndo()
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tx")) == "keyed"
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tz")) == "connected"
+    assert inspect_plug_input_state(_plug(nodes[0] + ".ry")) == "unconnected"
+    cmds.currentTime(5.25)
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tx")) == "animated"
+    cmds.setKeyframe(nodes[0] + ".tx", time=5.25, value=3)
+    cmds.flushUndo()
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tx")) == "keyed"
+    assert (
+        inspect_plug_input_state(
+            _plug(nodes[0] + ".tx"), time=om.MTime(5.2501, om.MTime.uiUnit())
+        )
+        == "animated"
+    )
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+
+
+def test_parent_connection_and_nonstandard_curve_are_connected(scene) -> None:
+    """親接続と独自時間入力を現在時刻キーと取り違えない。"""
+    nodes, _owner = scene
+    source = cmds.createNode("multiplyDivide")
+    cmds.connectAttr(source + ".output", nodes[0] + ".translate")
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tx")) == "connected"
+    cmds.setKeyframe(nodes[1] + ".ty", time=1, value=3)
+    curve = cmds.listConnections(nodes[1] + ".ty", source=True)[0]
+    driver = cmds.createNode("addDoubleLinear")
+    cmds.connectAttr(driver + ".output", curve + ".input", force=True)
+    assert inspect_plug_input_state(_plug(nodes[1] + ".ty")) == "connected"
+
+
+def test_read_only_curve_still_shows_keys(scene) -> None:
+    """共有・ロックされたカーブも接続表示からは除外しない。"""
+    nodes, _owner = scene
+    cmds.setKeyframe(nodes[0] + ".tx", time=1, value=3)
+    curve = cmds.listConnections(nodes[0] + ".tx", source=True)[0]
+    cmds.connectAttr(curve + ".output", nodes[1] + ".tx")
+    cmds.lockNode(curve, lock=True)
+    cmds.setAttr(nodes[0] + ".tx", lock=True)
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tx")) == "keyed"
+    assert inspect_plug_input_state(_plug(nodes[1] + ".tx")) == "keyed"
+    cmds.currentTime(5)
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tx")) == "animated"
+
+
+def test_binding_tracks_equal_value_key_edits_and_time_changes(scene) -> None:
+    """同値キーと一定値カーブの時刻移動だけでも状態変更を通知する。"""
+    nodes, owner = scene
+    cmds.setKeyframe(nodes[0] + ".tx", time=1, value=3)
+    tracked = MayaFloatPlugsBinding(
+        [resolve_float_plug(nodes[0], "tx")],
+        track_input_state=True,
+        key_animated=True,
+        parent=owner,
+    )
+    default = MayaFloatPlugsBinding(
+        [resolve_float_plug(nodes[1], "ty")], parent=owner
+    )
+    assert tracked.target_states[0].input_state == "keyed"
+    assert default.target_states[0].input_state is None
+    signals: list[str] = []
+    tracked.state_changed.connect(
+        lambda: signals.append(tracked.target_states[0].input_state or "none")
+    )
+
+    cmds.currentTime(5)
+    _events()
+    assert tracked.target_states[0].input_state == "animated"
+    assert signals[-1] == "animated"
+    cmds.setKeyframe(nodes[0] + ".tx", time=5, value=3)
+    _events()
+    assert tracked.target_states[0].input_state == "keyed"
+    assert signals[-1] == "keyed"
+    cmds.cutKey(nodes[0] + ".tx", time=(5, 5), clear=True)
+    _events()
+    assert tracked.target_states[0].input_state == "animated"
+    assert signals[-1] == "animated"
+
+    # 値が一定のまま時刻とキーだけを変え、表示用監視の終了も確認する
+    cmds.currentTime(1)
+    _events()
+    assert tracked.target_states[0].input_state == "keyed"
+    callback_count = len(tracked.store._registry.callback_ids)
+    tracked.dispose()
+    assert tracked.store._registry.callback_ids == ()
+    assert callback_count > 0
+
+
+def test_connection_changes_replace_curve_observation(scene) -> None:
+    """接続と切断に合わせてカーブ監視を切り替える。"""
+    nodes, owner = scene
+    binding = MayaFloatPlugsBinding(
+        [resolve_float_plug(nodes[0], "tx")],
+        track_input_state=True,
+        parent=owner,
+    )
+    assert binding.target_states[0].input_state == "unconnected"
+    cmds.setKeyframe(nodes[0] + ".tx", time=1, value=3)
+    _events()
+    assert binding.target_states[0].input_state == "keyed"
+    curve = oma.MFnAnimCurve(
+        _plug(nodes[0] + ".tx").sourceWithConversion().node()
+    ).name()
+    cmds.disconnectAttr(curve + ".output", nodes[0] + ".tx")
+    _events()
+    assert binding.target_states[0].input_state == "unconnected"
+    cmds.setKeyframe(curve, time=5, value=3)
+    _events()
+    assert binding.target_states[0].input_state == "unconnected"

@@ -10,6 +10,7 @@ from typing import Generic, Protocol, TypeVar, cast
 
 from maya import cmds
 from maya.api import OpenMaya as om
+from maya.api import OpenMayaAnim as oma
 
 from ....ui import FloatViewModel, qt
 from ...node.operator.node._core import NodeOperator
@@ -21,6 +22,7 @@ from ._animated_plug_write import (
 )
 from ._float_edit import FloatEditUndo
 from ._float_plug_endpoint import run_later
+from .plug_input_state import _inspect_plug_input
 from .plugs_state import MayaPlugTargetState
 
 _ValueT = TypeVar("_ValueT", bool, float, int, str)
@@ -51,13 +53,17 @@ class PlugTarget(Generic[_ValueT]):
     codec: PlugValueCodec[_ValueT]
     removed: bool = False
     key_animated: bool = False
+    track_input_state: bool = False
 
     def __post_init__(self) -> None:
         """同名再作成に追従しない実体参照と監視対象を記録する。"""
         if type(self.key_animated) is not bool:
             raise TypeError("key_animatedにはboolを指定してください")
+        if type(self.track_input_state) is not bool:
+            raise TypeError("track_input_stateにはboolを指定してください")
         self.node_handle = om.MObjectHandle(self.plug.node())
         self.attribute_handle = om.MObjectHandle(self.plug.attribute())
+        self.source_curve: om.MObjectHandle | None = None
         self.watched = [self.plug]
         while self.watched[-1].isChild:
             self.watched.append(self.watched[-1].parent())
@@ -84,8 +90,9 @@ class PlugTarget(Generic[_ValueT]):
         return f"{self.node.cmd_access_name}.{path}"
 
     def state(self) -> MayaPlugTargetState:
-        """自身と祖先の状態から入力可否と説明を取得する。"""
+        """自身と祖先の入力可否、および要求時の接続状態を取得する。"""
         if not self.is_available:
+            self.source_curve = None
             return MayaPlugTargetState(
                 self.last_name,
                 False,
@@ -93,6 +100,14 @@ class PlugTarget(Generic[_ValueT]):
                 "ノードまたは属性が削除されました",
             )
         self.last_name = self.name()
+        input_state = None
+        if self.track_input_state:
+            input_state, curve = _inspect_plug_input(
+                self.plug, oma.MAnimControl.currentTime()
+            )
+            self.source_curve = (
+                None if curve is None else om.MObjectHandle(curve)
+            )
         reason: str | None = None
         if any(plug.isLocked for plug in self.watched):
             reason = "ロックされています"
@@ -109,7 +124,7 @@ class PlugTarget(Generic[_ValueT]):
         elif self.plug.isFreeToChange(True, False) != om.MPlug.kFreeToChange:
             reason = "Mayaが値の変更を許可していません"
         return MayaPlugTargetState(
-            self.last_name, True, reason is None, reason
+            self.last_name, True, reason is None, reason, input_state
         )
 
 
@@ -231,6 +246,9 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self._refresh_scheduled = False
         self._states: tuple[MayaPlugTargetState, ...] = ()
         self._values: tuple[_ValueT | None, ...] = ()
+        self._input_curves: tuple[om.MObjectHandle, ...] = ()
+        self._curve_callback_id: int | None = None
+        self._time_callback_id: int | None = None
         self._float_view_model = float_view_model
         self._edit_undo = (
             None
@@ -395,7 +413,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             raise RuntimeError("入力中に対象属性の状態が変わりました")
 
     def _read_state(self) -> bool:
-        """状態と全実値を読み、混在だけが変わった場合も検出する。"""
+        """接続状態と実値を読み、監視する時間カーブも更新する。"""
         states = tuple(target.state() for target in self._targets)
         values = tuple(
             target.codec.read() if state.is_available else None
@@ -404,7 +422,55 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         changed = states != self._states or values != self._values
         self._states = states
         self._values = values
+        self._sync_input_callbacks()
         return changed
+
+    def _sync_input_callbacks(self) -> None:
+        """接続中の通常時間カーブがある間だけ時刻とキー編集を監視する。"""
+        self._input_curves = tuple(
+            curve
+            for target in self._targets
+            if (curve := target.source_curve) is not None
+            and curve.isValid()
+            and curve.isAlive()
+        )
+        if self._input_curves and self._curve_callback_id is None:
+            self._curve_callback_id = self._registry.register(
+                int(
+                    oma.MAnimMessage.addAnimCurveEditedCallback(
+                        self._on_anim_curves_edited
+                    )
+                )
+            )
+            self._time_callback_id = self._registry.register(
+                int(
+                    om.MEventMessage.addEventCallback(
+                        "timeChanged", self._schedule_refresh
+                    )
+                )
+            )
+        elif not self._input_curves and self._curve_callback_id is not None:
+            self._registry.remove(self._curve_callback_id)
+            self._curve_callback_id = None
+            if self._time_callback_id is not None:
+                self._registry.remove(self._time_callback_id)
+                self._time_callback_id = None
+
+    def _on_anim_curves_edited(
+        self, edited: om.MObjectArray, *_args: object
+    ) -> None:
+        """監視中のカーブだけキー追加・削除後の状態を再読取りする。"""
+        if self.is_disposed:
+            return
+        for index in range(len(edited)):
+            if any(
+                curve.isValid()
+                and curve.isAlive()
+                and edited[index] == curve.object()
+                for curve in self._input_curves
+            ):
+                self._schedule_refresh()
+                return
 
     def refresh(self) -> bool:
         """表示だけを同期し、再入した通知は次の読取りへまとめる。"""

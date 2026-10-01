@@ -3,14 +3,17 @@
 
 from dataclasses import dataclass
 
+from .plug_input_state import MayaPlugInputState
+
 __all__ = ["MayaPlugTargetState"]
 
 
 @dataclass(frozen=True)
 class MayaPlugTargetState:
-    """順序付き入力対象の現在名、利用可否、書込み可否と理由。"""
+    """順序付き入力対象の利用・編集可否と任意の入力接続状態。"""
 
     name: str
     is_available: bool
     is_writable: bool
     reason: str | None
+    input_state: MayaPlugInputState | None = None

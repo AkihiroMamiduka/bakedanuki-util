@@ -34,20 +34,39 @@ floatの数値・距離・角度の単位種別は全対象で一致させてく
 | `is_mixed` | 利用可能な対象の値が代表と異なるか |
 | `target_count` / `writable_count` | 登録した対象数と、個別に書込み可能な対象数 |
 | `target_states` | 対象順の`tuple[MayaPlugTargetState, ...]` |
-| `state_changed` | 対象値、混在、編集可否の変更を引数なしで通知するsignal |
+| `state_changed` | 対象値、混在、編集可否、追跡時の入力接続状態の変更を引数なしで通知するsignal |
 | `edit_failed` | 入力拒否や実行失敗の説明をstrで通知するsignal |
 | `refresh()` / `dispose()` | 全対象の再同期とcallbackの明示終了 |
 
 `MayaPlugTargetState`はimmutableな`name`、`is_available`、`is_writable`、
-`reason`を持ちます。`name`は同名DAGを区別する属性名です。
+`reason`、`input_state`を持ちます。`name`は同名DAGを区別する属性名です。
+`input_state`は既定では`None`で、`track_input_state=True`を指定したBindingで
+`unconnected`・`keyed`・`animated`・`connected`のいずれかになります。
 後続の削除・lock・入力接続はその属性だけを入力対象から除外します。
 代表が書込み不可の場合は全体の入力を止めます。この場合も`writable_count`は
 個別に書込み可能な対象数を示すため、0になるとは限りません。
-アニメーション接続を含む入力接続は、キーを暗黙に変更せず読取り専用です。
+既定ではアニメーション接続を含む入力接続は、キーを暗黙に変更せず読取り専用です。
 bool・float・enumの複数Bindingに`key_animated=True`を渡すと、通常の時間駆動
 カーブへ直接接続した属性だけ、値の変更時に現在時刻のキーを追加・更新できます。
 通常属性は従来どおり直接書き込み、stringやその他の入力接続は対象外です。
 既定値は`False`で、従来の読取り専用動作を維持します。
+
+## 入力接続状態の追跡
+
+4種類の複数Bindingに`track_input_state=True`を渡すと、対象ごとの入力接続状態を
+`target_states[].input_state`へ公開します。これは`key_animated`と独立しており、
+lock・reference・キー編集の可否にかかわらず分類します。値の正本は従来どおりMaya plugです。
+単体の`MPlug`を調べる場合は`inspect_plug_input_state(plug, time=...)`も使用できます。
+
+`keyed`は通常時間カーブが直接接続され、指定時刻と厳密に一致するキーがある状態、
+`animated`は同じ接続でその時刻にキーがない状態です。サブフレームも区別します。
+それ以外の入力接続とcompound祖先の入力は`connected`、入力なしは`unconnected`です。
+SDK・Animation Layer・constraintなどの細分類は行いません。
+
+追跡中の時間カーブがある間だけ時刻変更とカーブ編集の通知を監視します。
+キーの追加・削除で評価値が変わらなくても`state_changed`を通知でき、接続変更、
+Undo／Redoでも再読取りします。`dispose()`で追加したcallbackも解除します。
+読み取りと通知によってsceneやUndo履歴は変更しません。
 
 `changed`は代表値の変更通知です。代表値を変えず後続だけが変わる入力では、
 `state_changed`を用いて混在表示や件数を更新してください。
