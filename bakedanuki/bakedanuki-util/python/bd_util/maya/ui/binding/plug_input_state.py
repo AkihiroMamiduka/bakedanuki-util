@@ -11,8 +11,26 @@ from maya.api import OpenMayaAnim as oma
 __all__ = ["MayaPlugInputState", "inspect_plug_input_state"]
 
 MayaPlugInputState: TypeAlias = Literal[
-    "unconnected", "keyed", "animated", "connected"
+    "unconnected",
+    "keyed",
+    "animated",
+    "pair_blend",
+    "constraint",
+    "connected",
 ]
+
+
+def _other_connection_state(plug: om.MPlug) -> MayaPlugInputState:
+    """直結元のMayaノード型からブレンド・コンストレイントを分類する。"""
+    source = plug.sourceWithConversion()
+    if source.isNull:
+        return "connected"
+    node = source.node()
+    if node.hasFn(om.MFn.kPairBlend):
+        return "pair_blend"
+    if node.hasFn(om.MFn.kConstraint):
+        return "constraint"
+    return "connected"
 
 
 def _current_time_curve(plug: om.MPlug) -> oma.MFnAnimCurve | None:
@@ -63,12 +81,12 @@ def _inspect_plug_input(
     while ancestor.isChild:
         ancestor = ancestor.parent()
         if ancestor.isDestination:
-            return "connected", None
+            return _other_connection_state(ancestor), None
     if not plug.isDestination:
         return "unconnected", None
     curve = _current_time_curve(plug)
     if curve is None:
-        return "connected", None
+        return _other_connection_state(plug), None
     return (
         "keyed" if curve.find(time) is not None else "animated",
         curve.object(),
@@ -78,7 +96,7 @@ def _inspect_plug_input(
 def inspect_plug_input_state(
     plug: om.MPlug, *, time: om.MTime | None = None
 ) -> MayaPlugInputState:
-    """通常時刻カーブのキー有無、その他接続、未接続を返す。
+    """通常時刻カーブのキー有無と直結元の種類を返す。
 
     Args:
         plug: 調べる属性のMayaプラグ。
@@ -86,6 +104,7 @@ def inspect_plug_input_state(
 
     Returns:
         `keyed`は現在キーあり、`animated`は通常時間カーブのみ、
+        `pair_blend`と`constraint`は直接または親compoundへの接続、
         `connected`はその他の入力接続、`unconnected`は入力接続なし。
     """
     at = oma.MAnimControl.currentTime() if time is None else time

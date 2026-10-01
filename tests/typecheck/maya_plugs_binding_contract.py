@@ -59,6 +59,7 @@ assert_type(bool_binding.target_states, tuple[MayaPlugTargetState, ...])
 assert_type(
     bool_binding.target_states[0].input_state, MayaPlugInputState | None
 )
+assert_type(bool_binding.target_states[0].is_locked, bool | None)
 assert_type(
     inspect_plug_input_state(resolve_float_plug("node", "translateX").plug),
     MayaPlugInputState,

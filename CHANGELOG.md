@@ -16,6 +16,11 @@
 
 ### Added
 
+- `MayaPlugTargetState.is_locked`で属性自身とcompound祖先の実効ロック状態を公開。
+  入力接続の分類には`pair_blend`と`constraint`を追加し、直結元のノード型で
+  親compoundへの接続も判定する。既存の`connected`はその他の接続を示す。
+  scene・設定の移行は不要。利用側で入力状態を網羅的に分岐している場合は
+  新しい2種類を追加する。
 - Mayaの複数属性Bindingに`track_input_state`を追加し、各対象の
   `MayaPlugTargetState.input_state`で現在キー・時間カーブ・その他接続・未接続を
   読み取れるようにした。`inspect_plug_input_state()`も公開し、時刻・キー編集・

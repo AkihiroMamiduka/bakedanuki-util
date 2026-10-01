@@ -74,6 +74,30 @@ def test_parent_connection_and_nonstandard_curve_are_connected(scene) -> None:
     assert inspect_plug_input_state(_plug(nodes[1] + ".ty")) == "connected"
 
 
+def test_pair_blend_and_constraint_classify_children_of_connected_parent(
+    scene,
+) -> None:
+    """属性名ではなく直結元の型で、compound子属性も分類する。"""
+    nodes, _owner = scene
+    blend = cmds.createNode("pairBlend")
+    constraint = cmds.createNode("scaleConstraint")
+    cmds.connectAttr(blend + ".outRotate", nodes[0] + ".rotate")
+    cmds.connectAttr(constraint + ".constraintScale", nodes[1] + ".scale")
+    cmds.connectAttr(blend + ".outTranslateX", nodes[1] + ".tx")
+    cmds.connectAttr(constraint + ".constraintScaleX", nodes[0] + ".sx")
+    for axis in "xyz":
+        assert (
+            inspect_plug_input_state(_plug(nodes[0] + ".r" + axis))
+            == "pair_blend"
+        )
+        assert (
+            inspect_plug_input_state(_plug(nodes[1] + ".s" + axis))
+            == "constraint"
+        )
+    assert inspect_plug_input_state(_plug(nodes[1] + ".tx")) == "pair_blend"
+    assert inspect_plug_input_state(_plug(nodes[0] + ".sx")) == "constraint"
+
+
 def test_read_only_curve_still_shows_keys(scene) -> None:
     """共有・ロックされたカーブも接続表示からは除外しない。"""
     nodes, _owner = scene
@@ -152,3 +176,33 @@ def test_connection_changes_replace_curve_observation(scene) -> None:
     cmds.setKeyframe(curve, time=5, value=3)
     _events()
     assert binding.target_states[0].input_state == "unconnected"
+
+
+def test_binding_reports_lock_without_hiding_input_connection(scene) -> None:
+    """自身と親のロックが接続状態を隠さず通知される。"""
+    nodes, owner = scene
+    cmds.setKeyframe(nodes[0] + ".tx", time=1, value=3)
+    binding = MayaFloatPlugsBinding(
+        [resolve_float_plug(nodes[0], "tx")],
+        track_input_state=True,
+        parent=owner,
+    )
+    signals: list[bool | None] = []
+    binding.state_changed.connect(
+        lambda: signals.append(binding.target_states[0].is_locked)
+    )
+    assert binding.target_states[0].input_state == "keyed"
+    assert binding.target_states[0].is_locked is False
+
+    cmds.setAttr(nodes[0] + ".translate", lock=True)
+    _events()
+    assert binding.target_states[0].input_state == "keyed"
+    assert binding.target_states[0].is_locked is True
+    assert not binding.target_states[0].is_writable
+    assert signals[-1] is True
+
+    cmds.setAttr(nodes[0] + ".translate", lock=False)
+    _events()
+    assert binding.target_states[0].input_state == "keyed"
+    assert binding.target_states[0].is_locked is False
+    assert signals[-1] is False

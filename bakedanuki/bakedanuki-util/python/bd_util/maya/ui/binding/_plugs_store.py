@@ -90,7 +90,7 @@ class PlugTarget(Generic[_ValueT]):
         return f"{self.node.cmd_access_name}.{path}"
 
     def state(self) -> MayaPlugTargetState:
-        """自身と祖先の入力可否、および要求時の接続状態を取得する。"""
+        """自身と祖先の入力可否、接続種類と実効ロックを取得する。"""
         if not self.is_available:
             self.source_curve = None
             return MayaPlugTargetState(
@@ -108,8 +108,9 @@ class PlugTarget(Generic[_ValueT]):
             self.source_curve = (
                 None if curve is None else om.MObjectHandle(curve)
             )
+        is_locked = any(plug.isLocked for plug in self.watched)
         reason: str | None = None
-        if any(plug.isLocked for plug in self.watched):
+        if is_locked:
             reason = "ロックされています"
         elif any(plug.isDestination for plug in self.watched[1:]):
             reason = "入力接続があります（アニメーションを含む）"
@@ -124,7 +125,12 @@ class PlugTarget(Generic[_ValueT]):
         elif self.plug.isFreeToChange(True, False) != om.MPlug.kFreeToChange:
             reason = "Mayaが値の変更を許可していません"
         return MayaPlugTargetState(
-            self.last_name, True, reason is None, reason, input_state
+            self.last_name,
+            True,
+            reason is None,
+            reason,
+            input_state,
+            is_locked,
         )
 
 

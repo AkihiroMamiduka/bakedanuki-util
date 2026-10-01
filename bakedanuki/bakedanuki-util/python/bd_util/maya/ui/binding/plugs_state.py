@@ -10,10 +10,11 @@ __all__ = ["MayaPlugTargetState"]
 
 @dataclass(frozen=True)
 class MayaPlugTargetState:
-    """順序付き入力対象の利用・編集可否と任意の入力接続状態。"""
+    """順序付き入力対象の編集可否、入力接続と実効ロック状態。"""
 
     name: str
     is_available: bool
     is_writable: bool
     reason: str | None
     input_state: MayaPlugInputState | None = None
+    is_locked: bool | None = None

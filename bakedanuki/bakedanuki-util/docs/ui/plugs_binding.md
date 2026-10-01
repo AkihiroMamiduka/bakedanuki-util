@@ -39,9 +39,11 @@ floatの数値・距離・角度の単位種別は全対象で一致させてく
 | `refresh()` / `dispose()` | 全対象の再同期とcallbackの明示終了 |
 
 `MayaPlugTargetState`はimmutableな`name`、`is_available`、`is_writable`、
-`reason`、`input_state`を持ちます。`name`は同名DAGを区別する属性名です。
+`reason`、`input_state`、`is_locked`を持ちます。`name`は同名DAGを区別する属性名です。
 `input_state`は既定では`None`で、`track_input_state=True`を指定したBindingで
-`unconnected`・`keyed`・`animated`・`connected`のいずれかになります。
+`unconnected`・`keyed`・`animated`・`pair_blend`・`constraint`・`connected`の
+いずれかになります。`is_locked`は自身かcompound祖先がロックされていれば`True`、
+有効な属性でロックがなければ`False`、利用不能な属性では`None`です。
 後続の削除・lock・入力接続はその属性だけを入力対象から除外します。
 代表が書込み不可の場合は全体の入力を止めます。この場合も`writable_count`は
 個別に書込み可能な対象数を示すため、0になるとは限りません。
@@ -60,8 +62,11 @@ lock・reference・キー編集の可否にかかわらず分類します。値�
 
 `keyed`は通常時間カーブが直接接続され、指定時刻と厳密に一致するキーがある状態、
 `animated`は同じ接続でその時刻にキーがない状態です。サブフレームも区別します。
-それ以外の入力接続とcompound祖先の入力は`connected`、入力なしは`unconnected`です。
-SDK・Animation Layer・constraintなどの細分類は行いません。
+`pair_blend`と`constraint`は自身かcompound祖先へ直結する入力ノードの型で判定します。
+それ以外の入力接続は`connected`、入力なしは`unconnected`です。
+間に`unitConversion`などの別ノードがある場合は、その直結元に従い`connected`とします。
+ロックは入力接続状態と別に保持し、ロック中も接続の分類は変えません。
+SDK・Animation Layerなど、残りの専用状態はまだ分類しません。
 
 追跡中の時間カーブがある間だけ時刻変更とカーブ編集の通知を監視します。
 キーの追加・削除で評価値が変わらなくても`state_changed`を通知でき、接続変更、
