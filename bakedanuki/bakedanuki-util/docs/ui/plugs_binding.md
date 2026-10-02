@@ -73,8 +73,13 @@ Time EditorのtimeEditorInterpolatorを直結元で判定します。
 `pair_blend`と`constraint`は自身かcompound祖先へ直結する入力ノードの型で判定します。
 それ以外の入力接続は`connected`、入力なしでkeyableが無効なら`nonkeyable`、
 keyableが有効なら`unconnected`です。
-`unitConversion`は透過し、それ以外の演算ノードを経由する場合は直結元に従い
-`connected`とします。
+判定に使う`MPlug.sourceWithConversion()`は`unitConversion`を飛ばさず、
+変換ノード自身の出力を直結元として返します。そのため特殊なカーブやノードが
+`unitConversion`の上流にあっても、現状は`connected`です。
+任意の上流ノードを再帰探索しないことで、直接駆動と間接的な依存を混同しません。
+変換ノード越しの専用状態が必要になった場合は、
+[MPlugの仕様](https://help.autodesk.com/cloudhelp/2026/ENU/MAYA-API-REF/py_ref/class_open_maya_1_1_m_plug.html)を踏まえて透過範囲と通知対象を定め、
+Mayaの実接続で検証してください。
 ロックは入力接続状態と別に保持し、ロック中も接続の分類は変えません。
 
 追跡中の時間カーブがある間だけ時刻変更とカーブ編集の通知を監視します。
