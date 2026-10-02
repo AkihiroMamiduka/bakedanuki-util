@@ -48,6 +48,50 @@ Windowを完全破棄し、Windowが所有するMaya callbackも解除します�
 instanceとcallbackを維持する必要があるtoolだけ、`retain=True`を明示します。`dispose()`は
 設定にかかわらず完全破棄するため、module reload前とUI配置resetに使用します。
 
+## 共有Mayaメインメニュー
+
+`bd_util.maya.ui.register_menu_item()`はMaya上部に`bd`を作り、その下のcategoryへ
+package所有の項目を登録します。tools、rigなどのpackageは各自の起動処理から呼び、
+utilは利用側packageをimportしません。クリック時の処理は`command`に渡します。
+
+```python
+from bd_util.maya.ui import register_menu_item, unregister_menu_owner
+
+
+def show_channel_box() -> None:
+    """menu選択時にtoolを読み込んで表示する。"""
+    from bd_tools.bd_channel_box import show
+
+    show()
+
+
+def install_menu() -> bool:
+    """Maya UI初期化後にpackageの項目を登録する。"""
+    return register_menu_item(
+        owner="bd_tools",
+        category="tools",
+        item_id="bdChannelBox",
+        label="bdChannelBox",
+        command=show_channel_box,
+    )
+
+
+def uninstall_menu() -> None:
+    """packageのreload前・終了時に項目を解除する。"""
+    unregister_menu_owner("bd_tools")
+```
+
+`owner`、`category`、`item_id`には英字で始まる英数字と`_`の固定識別子を指定します。
+`owner`と`item_id`の組はpackage内で一意です。同じ組を再登録するとlabelとcallbackを
+更新し、categoryを変更した場合は古い項目を移動します。`unregister_menu_owner()`は
+指定ownerの項目だけを削除し、空になったcategoryと`bd`を片付けます。UI名と`docTag`で
+所有を確認するため、utilのmodule状態を再作成しても他packageの項目を削除しません。
+
+`userSetup.py`などのMaya起動スクリプトからは、Maya UI初期化後に
+`maya.utils.executeDeferred()`で登録処理を呼びます。batchやmain window生成前は
+`register_menu_item()`が`False`を返し、UIを変更しません。menu項目の登録では利用者の
+`userSetup.py`やsceneを編集せず、menuはMaya process内だけに作成します。
+
 ## 開いていたtoolの再表示
 
 `bd_util.maya.ui`の`register_open_tool()`と`unregister_open_tool()`は、表示中の

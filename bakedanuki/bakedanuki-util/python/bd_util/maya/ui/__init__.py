@@ -75,6 +75,7 @@ from .dock import (
 )
 from .layout import reset_and_show_ui_layout, reset_ui_layout
 from .main_window import get_main_window
+from .menu import register_menu_item, unregister_menu_owner
 from .reopen import (
     DockTool,
     OpenTool,
@@ -167,6 +168,8 @@ __all__ = [
     "MayaDockableWindowController",
     "MayaUiStateTracker",
     "MayaWindowController",
+    "register_menu_item",
+    "unregister_menu_owner",
     "OpenTool",
     "DockTool",
     "register_open_tool",

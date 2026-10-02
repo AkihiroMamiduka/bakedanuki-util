@@ -16,6 +16,9 @@
 
 ### Added
 
+- `bd_util.maya.ui`へ複数packageで共有する`bd`メインメニュー登録APIを追加。
+  owner単位の解除、同一項目の再登録、batch時のUI作成抑止に対応する。
+  利用者の`userSetup.py`、設定、sceneの移行は不要。
 - `nodes.create` に namespace 付きの名前と `namespace=` 指定を追加。
   未作成の namespace はノード実行時に作成し、Undo / Redo へ含める。
   `Nodes(namespace=...)` と `nodes.set_namespace()` で以後の作成先を設定でき、
