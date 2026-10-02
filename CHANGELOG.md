@@ -16,6 +16,11 @@
 
 ### Added
 
+- `MayaPlugInputState`へ`driven_key`、`expression`、`animation_layer`、
+  `animation_clip`、`muted`、`key_altered`、`nonkeyable`を追加。
+  特殊な直結元、muteの有効状態、現在値とカーブ評価値、keyableフラグを読み取る。
+  既存scene・設定の移行は不要。入力状態を網羅的に分岐している利用側は
+  新しい7種類を扱うよう更新する。
 - `MayaPlugTargetState.is_locked`で属性自身とcompound祖先の実効ロック状態を公開。
   入力接続の分類には`pair_blend`と`constraint`を追加し、直結元のノード型で
   親compoundへの接続も判定する。既存の`connected`はその他の接続を示す。

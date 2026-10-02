@@ -98,6 +98,154 @@ def test_pair_blend_and_constraint_classify_children_of_connected_parent(
     assert inspect_plug_input_state(_plug(nodes[0] + ".sx")) == "constraint"
 
 
+def test_driven_key_expression_and_animation_layer_are_distinct(scene) -> None:
+    """属性名に依存せず、直結する特殊な入力元を区別する。"""
+    nodes, _owner = scene
+    driver = cmds.createNode("transform")
+    cmds.addAttr(
+        driver, longName="control", attributeType="double", keyable=True
+    )
+    cmds.setDrivenKeyframe(
+        nodes[0] + ".tx", currentDriver=driver + ".control", value=3
+    )
+    cmds.expression(string=f"{nodes[0]}.ty = {driver}.ty * 2;")
+    layer = cmds.animLayer("ProbeLayer", attribute=[nodes[0] + ".rz"])
+    cmds.setKeyframe(nodes[0] + ".rz", time=1, value=5, animLayer=layer)
+
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tx")) == "driven_key"
+    assert inspect_plug_input_state(_plug(nodes[0] + ".ty")) == "expression"
+    assert (
+        inspect_plug_input_state(_plug(nodes[0] + ".rz")) == "animation_layer"
+    )
+    plain_blend = cmds.createNode("animBlendNodeAdditiveDA")
+    cmds.connectAttr(plain_blend + ".output", nodes[1] + ".rx")
+    assert inspect_plug_input_state(_plug(nodes[1] + ".rx")) == "connected"
+
+
+def test_mute_tracks_active_flag_and_unconnected_nonkeyable(scene) -> None:
+    """muteの実効状態と未接続かつキー設定不可の表示を検証する。"""
+    nodes, owner = scene
+    cmds.setKeyframe(nodes[0] + ".tx", time=1, value=3)
+    cmds.mute(nodes[0] + ".tx")
+    mute_node = cmds.listConnections(nodes[0] + ".tx", source=True)[0]
+    cmds.setAttr(nodes[0] + ".ty", keyable=False, channelBox=True)
+    binding = MayaFloatPlugsBinding(
+        [resolve_float_plug(nodes[0], "tx")],
+        track_input_state=True,
+        parent=owner,
+    )
+
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tx")) == "muted"
+    assert binding.target_states[0].input_state == "muted"
+    assert inspect_plug_input_state(_plug(nodes[0] + ".ty")) == "nonkeyable"
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tz")) == "unconnected"
+    cmds.connectAttr(nodes[1] + ".ty", nodes[0] + ".ty")
+    assert inspect_plug_input_state(_plug(nodes[0] + ".ty")) == "connected"
+    cmds.setAttr(mute_node + ".mute", False)
+    _events()
+    assert inspect_plug_input_state(_plug(nodes[0] + ".tx")) == "keyed"
+    assert binding.target_states[0].input_state == "keyed"
+
+
+def test_key_altered_differs_from_off_frame_animation(scene) -> None:
+    """キー値を残した現在値の手動変更だけをKey Alteredとする。"""
+    nodes, owner = scene
+    path = nodes[0] + ".sx"
+    cmds.setKeyframe(path, time=1, value=2)
+    binding = MayaFloatPlugsBinding(
+        [resolve_float_plug(nodes[0], "sx")],
+        track_input_state=True,
+        key_animated=True,
+        parent=owner,
+    )
+    assert binding.target_states[0].input_state == "keyed"
+    cmds.setAttr(path, 5)
+    _events()
+    assert cmds.keyframe(path, query=True, valueChange=True) == [2.0]
+    assert inspect_plug_input_state(_plug(path)) == "key_altered"
+    assert binding.target_states[0].input_state == "key_altered"
+    cmds.currentTime(5)
+    _events()
+    assert inspect_plug_input_state(_plug(path)) == "animated"
+    assert binding.target_states[0].input_state == "animated"
+
+
+@pytest.mark.parametrize(
+    ("attribute", "key_value", "altered_value"),
+    [
+        ("tx", 2.25, 5.0),
+        ("rx", 12.5, 20.0),
+        ("sx", 3.5, 4.0),
+        ("visibility", 1, 0),
+        ("mode", 1, 2),
+    ],
+)
+def test_key_altered_supports_attribute_value_types(
+    scene, attribute: str, key_value: float, altered_value: float
+) -> None:
+    """距離・角度・無単位・真偽・列挙の差をキー評価値で判定する。"""
+    nodes, _owner = scene
+    if attribute == "mode":
+        cmds.addAttr(
+            nodes[0],
+            longName="mode",
+            attributeType="enum",
+            enumName="A:B:C",
+            keyable=True,
+        )
+    path = nodes[0] + "." + attribute
+    cmds.setKeyframe(path, time=1, value=key_value)
+    assert inspect_plug_input_state(_plug(path)) == "keyed"
+    cmds.setAttr(path, altered_value)
+    assert inspect_plug_input_state(_plug(path)) == "key_altered"
+    assert (
+        inspect_plug_input_state(
+            _plug(path), time=om.MTime(5, om.MTime.uiUnit())
+        )
+        == "animated"
+    )
+
+
+def test_time_editor_clip_is_classified_only_while_driving(scene) -> None:
+    """Time Editorの実接続がある間だけAnimation Clipと判定する。"""
+    nodes, owner = scene
+    path = nodes[0] + ".tx"
+    cmds.setKeyframe(path, time=1, value=1)
+    cmds.setKeyframe(path, time=10, value=2)
+    binding = MayaFloatPlugsBinding(
+        [resolve_float_plug(nodes[0], "tx")],
+        track_input_state=True,
+        parent=owner,
+    )
+    assert binding.target_states[0].input_state == "keyed"
+    cmds.select(nodes[0])
+    cmds.timeEditorComposition("ProbeComposition", createTrack=True)
+    clip = cmds.timeEditorClip(
+        "ProbeClip",
+        addSelectedObjects=True,
+        type=["animCurveTL"],
+        track="ProbeComposition:0",
+    )
+    _events()
+    assert inspect_plug_input_state(_plug(path)) == "animation_clip"
+    assert binding.target_states[0].input_state == "animation_clip"
+    assert cmds.timeEditor(drivingClipsForAttr=path) == [clip]
+    cmds.timeEditor(mute=True)
+    try:
+        _events()
+        assert inspect_plug_input_state(_plug(path)) == "unconnected"
+        assert binding.target_states[0].input_state == "unconnected"
+    finally:
+        cmds.timeEditor(mute=False)
+    _events()
+    assert inspect_plug_input_state(_plug(path)) == "animation_clip"
+    assert binding.target_states[0].input_state == "animation_clip"
+    cmds.timeEditorClip(edit=True, removeClip=True, clipId=clip)
+    _events()
+    assert inspect_plug_input_state(_plug(path)) == "unconnected"
+    assert binding.target_states[0].input_state == "unconnected"
+
+
 def test_read_only_curve_still_shows_keys(scene) -> None:
     """共有・ロックされたカーブも接続表示からは除外しない。"""
     nodes, _owner = scene

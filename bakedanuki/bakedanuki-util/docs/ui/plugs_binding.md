@@ -41,7 +41,9 @@ floatの数値・距離・角度の単位種別は全対象で一致させてく
 `MayaPlugTargetState`はimmutableな`name`、`is_available`、`is_writable`、
 `reason`、`input_state`、`is_locked`を持ちます。`name`は同名DAGを区別する属性名です。
 `input_state`は既定では`None`で、`track_input_state=True`を指定したBindingで
-`unconnected`・`keyed`・`animated`・`pair_blend`・`constraint`・`connected`の
+`unconnected`・`nonkeyable`・`keyed`・`animated`・`key_altered`・
+`driven_key`・`expression`・`animation_layer`・`animation_clip`・`muted`・
+`pair_blend`・`constraint`・`connected`の
 いずれかになります。`is_locked`は自身かcompound祖先がロックされていれば`True`、
 有効な属性でロックがなければ`False`、利用不能な属性では`None`です。
 後続の削除・lock・入力接続はその属性だけを入力対象から除外します。
@@ -62,11 +64,18 @@ lock・reference・キー編集の可否にかかわらず分類します。値�
 
 `keyed`は通常時間カーブが直接接続され、指定時刻と厳密に一致するキーがある状態、
 `animated`は同じ接続でその時刻にキーがない状態です。サブフレームも区別します。
+`key_altered`は現在時刻のplug値がカーブの評価値と異なる状態で、指定時刻が
+現在時刻以外ならキー有無だけを判定します。`driven_key`はunitless入力の
+アニメーションカーブ、`expression`はexpressionノードの直結です。
+`animation_layer`はanimLayerに接続したanimBlendNode、`animation_clip`は
+Time EditorのtimeEditorInterpolatorを直結元で判定します。
+`muted`は直結するmuteノードのmuteが有効な状態です。解除後はその入力を分類し直します。
 `pair_blend`と`constraint`は自身かcompound祖先へ直結する入力ノードの型で判定します。
-それ以外の入力接続は`connected`、入力なしは`unconnected`です。
-間に`unitConversion`などの別ノードがある場合は、その直結元に従い`connected`とします。
+それ以外の入力接続は`connected`、入力なしでkeyableが無効なら`nonkeyable`、
+keyableが有効なら`unconnected`です。
+`unitConversion`は透過し、それ以外の演算ノードを経由する場合は直結元に従い
+`connected`とします。
 ロックは入力接続状態と別に保持し、ロック中も接続の分類は変えません。
-SDK・Animation Layerなど、残りの専用状態はまだ分類しません。
 
 追跡中の時間カーブがある間だけ時刻変更とカーブ編集の通知を監視します。
 キーの追加・削除で評価値が変わらなくても`state_changed`を通知でき、接続変更、

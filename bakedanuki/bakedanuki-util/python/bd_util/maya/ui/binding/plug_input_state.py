@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import math
 from typing import Literal, TypeAlias
 
 from maya.api import OpenMaya as om
@@ -12,8 +13,15 @@ __all__ = ["MayaPlugInputState", "inspect_plug_input_state"]
 
 MayaPlugInputState: TypeAlias = Literal[
     "unconnected",
+    "nonkeyable",
     "keyed",
     "animated",
+    "key_altered",
+    "driven_key",
+    "expression",
+    "animation_layer",
+    "animation_clip",
+    "muted",
     "pair_blend",
     "constraint",
     "connected",
@@ -21,16 +29,46 @@ MayaPlugInputState: TypeAlias = Literal[
 
 
 def _other_connection_state(plug: om.MPlug) -> MayaPlugInputState:
-    """直結元のMayaノード型からブレンド・コンストレイントを分類する。"""
+    """直結元のMayaノード型から特殊な入力接続を分類する。"""
     source = plug.sourceWithConversion()
     if source.isNull:
         return "connected"
     node = source.node()
+    node_fn = om.MFnDependencyNode(node)
+    if node.hasFn(om.MFn.kAnimCurve):
+        if not oma.MFnAnimCurve(node).isTimeInput:
+            return "driven_key"
+    if node_fn.typeName == "expression":
+        return "expression"
+    if node_fn.typeName == "timeEditorInterpolator":
+        return "animation_clip"
+    if node_fn.typeName.startswith("animBlendNode"):
+        for connection in node_fn.getConnections():
+            if any(
+                om.MFnDependencyNode(other.node()).typeName == "animLayer"
+                for other in connection.connectedTo(True, True)
+            ):
+                return "animation_layer"
     if node.hasFn(om.MFn.kPairBlend):
         return "pair_blend"
     if node.hasFn(om.MFn.kConstraint):
         return "constraint"
     return "connected"
+
+
+def _is_key_altered(
+    plug: om.MPlug, curve: oma.MFnAnimCurve, time: om.MTime
+) -> bool:
+    """現在時刻のプラグ値がカーブの評価値から手動変更されたか判定する。"""
+    if time != oma.MAnimControl.currentTime():
+        return False
+    try:
+        actual = plug.asDouble()
+    except (RuntimeError, TypeError):
+        return False
+    return not math.isclose(
+        actual, curve.evaluate(time), rel_tol=1e-6, abs_tol=1e-6
+    )
 
 
 def _current_time_curve(plug: om.MPlug) -> oma.MFnAnimCurve | None:
@@ -83,12 +121,25 @@ def _inspect_plug_input(
         if ancestor.isDestination:
             return _other_connection_state(ancestor), None
     if not plug.isDestination:
-        return "unconnected", None
+        return ("unconnected" if plug.isKeyable else "nonkeyable"), None
+    source = plug.sourceWithConversion()
+    if not source.isNull:
+        source_fn = om.MFnDependencyNode(source.node())
+        if source_fn.typeName == "mute":
+            if source_fn.findPlug("mute", False).asBool():
+                return "muted", None
+            muted_input = source_fn.findPlug("input", False)
+            if muted_input.isDestination:
+                return _inspect_plug_input(muted_input, time)
     curve = _current_time_curve(plug)
     if curve is None:
         return _other_connection_state(plug), None
     return (
-        "keyed" if curve.find(time) is not None else "animated",
+        (
+            "key_altered"
+            if _is_key_altered(plug, curve, time)
+            else "keyed" if curve.find(time) is not None else "animated"
+        ),
         curve.object(),
     )
 
@@ -96,16 +147,16 @@ def _inspect_plug_input(
 def inspect_plug_input_state(
     plug: om.MPlug, *, time: om.MTime | None = None
 ) -> MayaPlugInputState:
-    """通常時刻カーブのキー有無と直結元の種類を返す。
+    """通常時刻カーブのキー有無と直結元の種類、非keyableを返す。
 
     Args:
         plug: 調べる属性のMayaプラグ。
         time: キーを照合する時刻。`None`ならMayaの現在時刻を使用する。
 
     Returns:
-        `keyed`は現在キーあり、`animated`は通常時間カーブのみ、
-        `pair_blend`と`constraint`は直接または親compoundへの接続、
-        `connected`はその他の入力接続、`unconnected`は入力接続なし。
+        `key_altered`は現在値とカーブ値の差、`keyed`は現在キーあり、
+        `animated`は通常時間カーブのみ。特殊な接続は元ノード別に分類し、
+        入力接続のない非keyable属性は`nonkeyable`とする。
     """
     at = oma.MAnimControl.currentTime() if time is None else time
     return _inspect_plug_input(plug, at)[0]
