@@ -9,6 +9,12 @@
 
 ### Changed
 
+- `bd`メニューの起動時表示設定をMayaの`optionVar`から
+  `prefs/bakedanuki/menu.json`の`show_menu_on_startup`へ移した。
+  既存の`optionVar`は専用ファイルがない場合に読み取る。旧JSONキー`auto_install`も
+  読み取り、次の切り替えまたはinstaller再D&Dで新しいキー名へ保存する。
+  チェック操作とinstallerは`savePrefs`を呼ばず、Mayaの一般設定やShelfを
+  明示的に保存しない。
 - `StringLineEdit`へ`follow_source_during_edit`を追加。指定したViewでは、編集中に
   正本の確定値が変わると未確定入力を破棄して最新値を表示する。複数Maya属性では
   後続対象だけの値変更も対象とし、入力可能なままの状態通知では入力を維持する。
@@ -16,6 +22,10 @@
 
 ### Added
 
+- 共有`bd`メニューへ起動時自動表示のチェック項目を追加。既定はONで、OFFは次回起動から
+  各packageの自動登録を抑止する。設定はMayaバージョンごとのユーザー設定へ保存する。
+  共通`installer.py`の再D&Dでは、Module pathが登録済みでも確認後にONへ戻せる。
+  既存設定がない環境ではONとして扱い、移行操作は不要。
 - `bd_util.maya.ui`へ複数packageで共有する`bd`メインメニュー登録APIを追加。
   owner単位の解除、同一項目の再登録、batch時のUI作成抑止に対応する。
   利用者の`userSetup.py`、設定、sceneの移行は不要。

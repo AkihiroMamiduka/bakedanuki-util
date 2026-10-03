@@ -3,8 +3,12 @@
 
 from __future__ import annotations
 
+import json
+import os
 import re
+import tempfile
 from collections.abc import Callable
+from pathlib import Path
 from typing import cast
 
 from maya import cmds, mel
@@ -13,9 +17,92 @@ _ROOT_NAME = "bdUtilMainMenu"
 _ROOT_TAG = "bd_util:menu:root"
 _CATEGORY_PREFIX = "bdUtilCategory_"
 _ITEM_PREFIX = "bdUtilItem_"
+_AUTO_INSTALL_OPTION_VAR = "bakedanukiMenuAutoInstall"
+_SHOW_MENU_ON_STARTUP_KEY = "show_menu_on_startup"
+_LEGACY_AUTO_INSTALL_SETTING_KEY = "auto_install"
+_AUTO_INSTALL_NAME = "bdUtilAutoInstallMenuOption"
+_AUTO_INSTALL_TAG = "bd_util:menu:auto_install"
+_AUTO_INSTALL_LABEL = "Maya 起動時に bd メニューを表示"
 _IDENTIFIER = re.compile(r"[A-Za-z][A-Za-z0-9_]*\Z")
 
-__all__ = ["register_menu_item", "unregister_menu_owner"]
+__all__ = [
+    "is_menu_auto_install_enabled",
+    "set_menu_auto_install_enabled",
+    "register_menu_item",
+    "unregister_menu_owner",
+]
+
+
+def is_menu_auto_install_enabled() -> bool:
+    """起動時の共有メニュー自動登録が有効か返す。
+
+    専用ファイルがなければ旧optionVarを読み、どちらもなければ有効とする。
+    """
+    path = _auto_install_settings_path()
+    if path.is_file():
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            raise ValueError(f"bdメニュー設定の形式が不正です: {path}")
+        enabled = data.get(
+            _SHOW_MENU_ON_STARTUP_KEY,
+            data.get(_LEGACY_AUTO_INSTALL_SETTING_KEY),
+        )
+        if type(enabled) is not bool:
+            raise ValueError(f"bdメニュー設定の形式が不正です: {path}")
+        return cast(bool, enabled)
+    if not cmds.optionVar(exists=_AUTO_INSTALL_OPTION_VAR):
+        return True
+    return cast(int, cmds.optionVar(query=_AUTO_INSTALL_OPTION_VAR)) != 0
+
+
+def _auto_install_settings_path() -> Path:
+    """現在のMayaバージョン用の専用設定ファイルを返す。"""
+    return (
+        Path(cast(str, cmds.internalVar(userPrefDir=True)))
+        / "bakedanuki"
+        / "menu.json"
+    )
+
+
+def set_menu_auto_install_enabled(enabled: bool) -> None:
+    """起動時の共有メニュー自動登録を専用ファイルへ保存する。
+
+    変更したセッションのメニューは残し、次回起動時から自動登録に反映する。
+    """
+    path = _auto_install_settings_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path: Path | None = None
+    try:
+        # 同じディレクトリへ一時保存してから置き換え、途中書込みを避ける
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=".menu-",
+            suffix=".tmp",
+            delete=False,
+        ) as file:
+            temp_path = Path(file.name)
+            json.dump({_SHOW_MENU_ON_STARTUP_KEY: enabled}, file, indent=2)
+            file.write("\n")
+        os.replace(temp_path, path)
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
+
+    # 現在のメニューがあれば、外部からの設定変更もチェック表示へ反映する
+    main_window = _main_window()
+    if main_window is None:
+        return
+    root = f"{main_window}|{_ROOT_NAME}"
+    option = f"{root}|{_AUTO_INSTALL_NAME}"
+    if (
+        cmds.menu(root, exists=True)
+        and _is_owned_root(root)
+        and option in _children(root)
+        and _is_owned_auto_install_option(option)
+    ):
+        cmds.menuItem(option, edit=True, checkBox=enabled)
 
 
 def _validate_identifier(value: str, field: str) -> None:
@@ -101,6 +188,61 @@ def _is_owned_item(path: str, owner: str, item_id: str) -> bool:
     ) == _item_tag(owner, item_id)
 
 
+def _is_owned_auto_install_option(path: str) -> bool:
+    """既存の起動時表示項目がこの基盤に属するか判定する。"""
+    return (
+        cast(str, cmds.menuItem(path, query=True, docTag=True))
+        == _AUTO_INSTALL_TAG
+    )
+
+
+def _ensure_auto_install_option(root: str) -> None:
+    """起動時表示のチェック項目を共有メニューの末尾へ配置する。"""
+    path = f"{root}|{_AUTO_INSTALL_NAME}"
+
+    def invoke(*_args: object) -> None:
+        """チェック項目の現状態を次回起動用の設定へ保存する。"""
+        enabled = cast(bool, cmds.menuItem(path, query=True, checkBox=True))
+        set_menu_auto_install_enabled(enabled)
+
+    children = _children(root)
+    if cmds.menuItem(path, exists=True):
+        if not _is_owned_auto_install_option(path):
+            raise RuntimeError(f"{path}は別のUIで使用されています")
+        if children and children[-1] == path:
+            cmds.menuItem(
+                path,
+                edit=True,
+                label=_AUTO_INSTALL_LABEL,
+                checkBox=is_menu_auto_install_enabled(),
+                command=invoke,
+            )
+            return
+
+        # 新しいcategoryより上にある項目や孤立項目を末尾へ作り直す
+        cmds.deleteUI(path, menuItem=True)
+        if cmds.menuItem(path, exists=True):
+            if path in _children(root):
+                raise RuntimeError(f"{path}を移動できませんでした")
+            cmds.deleteUI(path, menuItem=True)
+        if cmds.menuItem(path, exists=True):
+            raise RuntimeError(f"{path}の旧項目を削除できませんでした")
+
+    created = cast(
+        str | bool,
+        cmds.menuItem(
+            _AUTO_INSTALL_NAME,
+            parent=root,
+            label=_AUTO_INSTALL_LABEL,
+            checkBox=is_menu_auto_install_enabled(),
+            command=invoke,
+            docTag=_AUTO_INSTALL_TAG,
+        ),
+    )
+    if not created or path not in _children(root):
+        raise RuntimeError(f"{path}をmenuへ登録できませんでした")
+
+
 def _owned_categories(root: str) -> tuple[str, ...]:
     """root直下の、この基盤が作成したcategoryだけを返す。"""
     categories: list[str] = []
@@ -118,6 +260,16 @@ def _delete_empty_category(path: str) -> None:
     """他の項目がないcategoryだけを削除する。"""
     if not _children(path):
         cmds.deleteUI(path, menuItem=True)
+
+
+def _delete_empty_root(root: str) -> None:
+    """package項目のないrootと基盤所有の設定項目を片付ける。"""
+    children = _children(root)
+    option = f"{root}|{_AUTO_INSTALL_NAME}"
+    if children == (option,) and _is_owned_auto_install_option(option):
+        cmds.deleteUI(option, menuItem=True)
+    if not _children(root):
+        cmds.deleteUI(root, menu=True)
 
 
 def _ensure_root(main_window: str) -> str:
@@ -213,6 +365,7 @@ def register_menu_item(
 
     if current_item is not None:
         cmds.menuItem(current_item, edit=True, label=label, command=invoke)
+        _ensure_auto_install_option(root)
         return True
 
     # deleteUI直後の旧項目は同名で存在しても新しいsubmenuに属さない
@@ -235,6 +388,7 @@ def register_menu_item(
     )
     if not created or item_path not in _children(target_category):
         raise RuntimeError(f"{item_path}をmenuへ登録できませんでした")
+    _ensure_auto_install_option(root)
     return True
 
 
@@ -259,5 +413,4 @@ def unregister_menu_owner(owner: str) -> None:
                 cmds.deleteUI(item, menuItem=True)
         _delete_empty_category(category)
 
-    if not _children(root):
-        cmds.deleteUI(root, menu=True)
+    _delete_empty_root(root)

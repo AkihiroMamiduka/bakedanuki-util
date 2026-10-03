@@ -1,20 +1,31 @@
 # coding: utf-8
 from __future__ import annotations
 
+import json
 import os
 import re
+import sys
+import tempfile
+from collections.abc import Callable
 from pathlib import Path
-from typing import Protocol
+from typing import Protocol, cast
 
 ENV_NAME = "MAYA_MODULE_PATH"
 PATH_SEPARATOR = ";"
 BAKEDANUKI_FOLDER_NAME = "bakedanuki"
+MENU_AUTO_INSTALL_OPTION_VAR = "bakedanukiMenuAutoInstall"
+SHOW_MENU_ON_STARTUP_KEY = "show_menu_on_startup"
+LEGACY_AUTO_INSTALL_SETTING_KEY = "auto_install"
 
 
 class _MayaCmds(Protocol):
     def about(self, *, version: bool = ...) -> str: ...
 
-    def internalVar(self, *, userAppDir: bool = ...) -> str: ...
+    def internalVar(
+        self, *, userAppDir: bool = ..., userPrefDir: bool = ...
+    ) -> str: ...
+
+    def optionVar(self, **kwargs: object) -> object: ...
 
     def confirmDialog(
         self,
@@ -247,6 +258,73 @@ def _maya_env_path(cmds: _MayaCmds) -> Path:
     return user_app_dir / _maya_version(cmds) / "Maya.env"
 
 
+def _menu_auto_install_enabled(cmds: _MayaCmds) -> bool:
+    """現在のMayaで起動時のbdメニュー表示が有効か返す。"""
+    path = _menu_auto_install_settings_path(cmds)
+    if path.is_file():
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            raise ValueError(f"bdメニュー設定の形式が不正です: {path}")
+        enabled = data.get(
+            SHOW_MENU_ON_STARTUP_KEY,
+            data.get(LEGACY_AUTO_INSTALL_SETTING_KEY),
+        )
+        if type(enabled) is not bool:
+            raise ValueError(f"bdメニュー設定の形式が不正です: {path}")
+        return cast(bool, enabled)
+    if not cmds.optionVar(exists=MENU_AUTO_INSTALL_OPTION_VAR):
+        return True
+    return cmds.optionVar(query=MENU_AUTO_INSTALL_OPTION_VAR) != 0
+
+
+def _menu_auto_install_settings_path(cmds: _MayaCmds) -> Path:
+    """現在のMayaバージョン用の専用設定ファイルを返す。"""
+    return (
+        Path(cmds.internalVar(userPrefDir=True)) / "bakedanuki" / "menu.json"
+    )
+
+
+def _write_menu_auto_install_setting(cmds: _MayaCmds) -> None:
+    """Mayaの一般設定を保存せず、専用ファイルだけで表示を有効にする。"""
+    path = _menu_auto_install_settings_path(cmds)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path: Path | None = None
+    try:
+        # 同じディレクトリへ一時保存してから置き換える
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=".menu-",
+            suffix=".tmp",
+            delete=False,
+        ) as file:
+            temp_path = Path(file.name)
+            json.dump({SHOW_MENU_ON_STARTUP_KEY: True}, file, indent=2)
+            file.write("\n")
+        os.replace(temp_path, path)
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
+
+
+def _enable_menu_auto_install(cmds: _MayaCmds) -> None:
+    """現在のMayaで次回起動時のbdメニュー表示を有効化する。"""
+    ui_module = sys.modules.get("bd_util.maya.ui")
+    setter = (
+        getattr(ui_module, "set_menu_auto_install_enabled", None)
+        if ui_module is not None
+        else None
+    )
+    if callable(setter):
+        # 読込済みの基盤があれば現在のチェック表示も同期する
+        cast(Callable[[bool], None], setter)(True)
+        return
+
+    # 初回導入ではmoduleが未読込のため専用ファイルを直接更新する
+    _write_menu_auto_install_setting(cmds)
+
+
 def _confirm(
     cmds: _MayaCmds,
     title: str,
@@ -287,8 +365,26 @@ def install() -> None:
     env_path = _maya_env_path(cmds)
     text, encoding = _read_text(env_path)
     new_text, action, removed_paths = _build_env_text(text, target_path)
+    menu_enabled = _menu_auto_install_enabled(cmds)
 
     if action == "already_registered":
+        if not menu_enabled:
+            if not _confirm(
+                cmds,
+                "bakedanuki installer",
+                "bakedanuki modules は既に登録されています。\n"
+                "Maya 起動時の bd メニュー表示を再び有効にしますか？\n\n"
+                f"Maya.env:\n{env_path}",
+            ):
+                return
+            _enable_menu_auto_install(cmds)
+            _message(
+                cmds,
+                "bakedanuki installer",
+                "bd メニューの起動時表示を有効にしました。\n"
+                "変更を反映するには Maya を再起動してください。",
+            )
+            return
         _message(
             cmds,
             "bakedanuki installer",
@@ -312,17 +408,26 @@ def install() -> None:
             f"Maya.env:\n{env_path}\n\n"
             f"追加するパス:\n{target_path}"
         )
+    if not menu_enabled:
+        message += "\n\nbd メニューの起動時表示も有効にします。"
 
     if not _confirm(cmds, "bakedanuki installer", message):
         return
 
     _write_text(env_path, new_text, encoding)
+    if not menu_enabled:
+        _enable_menu_auto_install(cmds)
+    completion = "Maya.env を更新しました。\n"
+    if not menu_enabled:
+        completion += "bd メニューの起動時表示を有効にしました。\n"
+    completion += (
+        "変更を反映するには Maya を再起動してください。\n\n"
+        f"Maya.env:\n{env_path}"
+    )
     _message(
         cmds,
         "bakedanuki installer",
-        "Maya.env を更新しました。\n"
-        "変更を反映するには Maya を再起動してください。\n\n"
-        f"Maya.env:\n{env_path}",
+        completion,
     )
 
 

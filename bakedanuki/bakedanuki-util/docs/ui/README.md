@@ -92,6 +92,23 @@ def uninstall_menu() -> None:
 `register_menu_item()`が`False`を返し、UIを変更しません。menu項目の登録では利用者の
 `userSetup.py`やsceneを編集せず、menuはMaya process内だけに作成します。
 
+`bd`の末尾には「Maya 起動時に bd メニューを表示」のチェック項目を置きます。
+初期値はONです。OFFにしても現在のセッションのメニューと明示的な
+`register_menu_item()`は維持し、次回起動時から各packageの自動登録だけをスキップします。
+設定は現在のMayaバージョンの`prefs/bakedanuki/menu.json`へ
+`{"show_menu_on_startup": false}`または`{"show_menu_on_startup": true}`として保存します。
+チェック操作はこのファイルだけを更新し、Mayaの`savePrefs`は呼びません。
+ファイルがまだない場合は旧`bakedanukiMenuAutoInstall` optionVarを読み、旧設定も
+なければONとして扱います。ファイル作成後は専用ファイルを優先します。
+旧JSONキー`auto_install`も読み取れます。次にチェックを切り替えるかinstallerで
+再有効化すると、新しいキー名だけで保存します。
+`is_menu_auto_install_enabled()`で読み、`set_menu_auto_install_enabled()`で変更できます。
+各packageは起動時のdeferred処理で設定を読み、自動登録の有無を判断してください。
+
+OFFのまま再起動すると`bd`メニューは自動表示されません。共通`installer.py`を再び
+viewportへドロップすると、Module pathが登録済みでも確認後にONへ戻します。
+反映にはMayaの再起動が必要です。この操作は利用者の`userSetup.py`とsceneを変更しません。
+
 ## 開いていたtoolの再表示
 
 `bd_util.maya.ui`の`register_open_tool()`と`unregister_open_tool()`は、表示中の

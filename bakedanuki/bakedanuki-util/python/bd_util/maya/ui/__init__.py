@@ -75,7 +75,12 @@ from .dock import (
 )
 from .layout import reset_and_show_ui_layout, reset_ui_layout
 from .main_window import get_main_window
-from .menu import register_menu_item, unregister_menu_owner
+from .menu import (
+    is_menu_auto_install_enabled,
+    register_menu_item,
+    set_menu_auto_install_enabled,
+    unregister_menu_owner,
+)
 from .reopen import (
     DockTool,
     OpenTool,
@@ -169,6 +174,8 @@ __all__ = [
     "MayaUiStateTracker",
     "MayaWindowController",
     "register_menu_item",
+    "is_menu_auto_install_enabled",
+    "set_menu_auto_install_enabled",
     "unregister_menu_owner",
     "OpenTool",
     "DockTool",
