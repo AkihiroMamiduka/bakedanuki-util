@@ -12,9 +12,13 @@ from ._source import resolve_string_view_source
 
 
 class StringLineEdit(qt.QLineEdit):
-    """文字列を編集中は保持し、確定時だけCommandへ渡す一行View。"""
+    """文字列を編集中は保持し、確定時だけCommandへ渡す一行View。
+
+    UI操作の失敗は最新の確定値へ表示を戻し、`edit_failed`で理由を通知する。
+    """
 
     conflict_changed = qt.Signal(bool)
+    edit_failed = qt.Signal(str)
 
     def __init__(
         self,
@@ -98,13 +102,38 @@ class StringLineEdit(qt.QLineEdit):
             )
         self._value_request_handler = handler
 
+    def event(self, arg__1: qt.QEvent) -> bool:
+        """Enterのshortcutを入力欄内で扱い、Mayaへ伝播させない。"""
+        if (
+            arg__1.type() == qt.QEvent.Type.ShortcutOverride
+            and isinstance(arg__1, qt.QtGui.QKeyEvent)
+            and arg__1.key() in (qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter)
+        ):
+            arg__1.accept()
+            return True
+        return super().event(arg__1)
+
+    def focusInEvent(self, arg__1: qt.QtGui.QFocusEvent) -> None:
+        """入力開始時に正本の値と編集可否を再確認する。"""
+        self._refresh_source()
+        if qt.isValid(self):
+            super().focusInEvent(arg__1)
+
     def keyPressEvent(self, arg__1: qt.QtGui.QKeyEvent) -> None:
-        """Escapeで未確定入力を破棄し、最新の正本を表示する。"""
+        """Escapeで入力を破棄し、EnterはQtの確定処理後に受理する。"""
         if arg__1.key() == qt.Qt.Key.Key_Escape and self._dirty:
             self._render()
             arg__1.accept()
             return
         super().keyPressEvent(arg__1)
+        if arg__1.key() in (qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter):
+            arg__1.accept()
+
+    def keyReleaseEvent(self, arg__1: qt.QtGui.QKeyEvent) -> None:
+        """確定キーを離した通知も入力欄内で受理する。"""
+        super().keyReleaseEvent(arg__1)
+        if arg__1.key() in (qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter):
+            arg__1.accept()
 
     def _on_text_edited(self, _text: str) -> None:
         """ユーザー編集だけを未確定入力として記録する。"""
@@ -147,14 +176,16 @@ class StringLineEdit(qt.QLineEdit):
         """未確定入力を一回だけ正本へ渡し、実値へ表示を戻す。"""
         if not self._dirty:
             return
+        view_model = self._view_model
+        if view_model.is_disposed or not self._input_enabled:
+            self._render()
+            return
+        # 通知されなかった外部変更を、書込み可否や競合の判定前に読む
+        if not self._refresh_source() or not self._dirty:
+            return
         if self._conflicted and not explicit:
             return
-        view_model = self._view_model
-        if (
-            view_model.is_disposed
-            or not self._input_enabled
-            or not view_model.set_value_command.can_execute
-        ):
+        if not view_model.set_value_command.can_execute:
             self._render()
             return
         requested = self.text()
@@ -164,9 +195,33 @@ class StringLineEdit(qt.QLineEdit):
             handled = handler is not None and handler(requested)
             if not handled:
                 view_model.set_value_command.execute(requested)
+        except Exception as error:
+            # handlerが正本を変更してから失敗した場合も実値を優先する
+            self._refresh_source(report_failure=False)
+            if qt.isValid(self):
+                self._render()
+                self.edit_failed.emit(str(error))
         finally:
             if qt.isValid(self):
                 self._render()
+
+    def _refresh_source(self, *, report_failure: bool = True) -> bool:
+        """操作前に正本を読み、UI境界の読込み失敗をsignalへ変換する。"""
+        view_model = self._view_model
+        if view_model.is_disposed:
+            return False
+        store = view_model.store
+        if store is None:
+            return True
+        try:
+            view_model.refresh_from_store(store, notify_confirmation=False)
+            return qt.isValid(self) and not view_model.is_disposed
+        except Exception as error:
+            if qt.isValid(self):
+                self._render()
+                if report_failure:
+                    self.edit_failed.emit(str(error))
+            return False
 
     def _render(self) -> None:
         """同値の`setText()`を避け、入力欄のUndo履歴を保持する。"""

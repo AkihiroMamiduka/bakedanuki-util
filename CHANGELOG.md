@@ -9,6 +9,11 @@
 
 ### Changed
 
+- `StringLineEdit`は通常EnterとテンキーEnterの確定キーをView内で処理し、
+  フォーカス取得時と確定前に正本を再読込みする。UIの編集失敗は`edit_failed(str)`で
+  通知し、確定値へ表示を戻す。プログラムからの変更要求は従来どおり例外を返す。
+  親WindowのEnter処理に依存する利用側は、必要な処理を明示signalへ接続する。
+  scene・設定の移行は不要。
 - `StringLineEdit`へ`follow_source_during_edit`を追加。指定したViewでは、編集中に
   正本の確定値が変わると未確定入力を破棄して最新値を表示する。複数Maya属性では
   後続対象だけの値変更も対象とし、入力可能なままの状態通知では入力を維持する。
@@ -16,6 +21,11 @@
 
 ### Added
 
+- `MayaNodeNameStore`と`MayaNodeNameBinding`を追加。単一の既存ノード名を正本とし、
+  既存`StringLineEdit`と`StringLabel`から編集・共有表示できる。namespaceを維持し、
+  Mayaの採番後の確定名、外部リネーム、Undo／Redo、編集可否、削除による終了を扱う。
+  Shape名の追従は`rename_shapes=False`で抑止できる。固定ノードの編集サンプルを追加。
+  既存API・scene・設定の移行は不要。
 - `MayaPlugInputState`へ`driven_key`、`expression`、`animation_layer`、
   `animation_clip`、`muted`、`key_altered`、`nonkeyable`を追加。
   特殊な直結元、muteの有効状態、現在値とカーブ評価値、keyableフラグを読み取る。

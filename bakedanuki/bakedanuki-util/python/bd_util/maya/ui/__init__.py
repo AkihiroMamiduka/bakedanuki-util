@@ -1,6 +1,8 @@
 # coding: utf-8
 
 from .binding import (
+    MayaNodeNameStore,
+    MayaNodeNameBinding,
     MayaStringBinding,
     MayaStringPlug,
     MayaStringPlugBinding,
@@ -95,6 +97,8 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "MayaNodeNameStore",
+    "MayaNodeNameBinding",
     "MayaStringBinding",
     "MayaStringPlug",
     "MayaStringPlugBinding",

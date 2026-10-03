@@ -1,5 +1,7 @@
 # coding: utf-8
 from .edit_session import MayaEditSession
+from .node_name import MayaNodeNameStore
+from .node_name_binding import MayaNodeNameBinding
 from .channel_state_binding import (
     ChannelDisplayState,
     MayaChannelStatePlug,
@@ -65,6 +67,8 @@ from .scalar_value_transfer import (
 )
 
 __all__ = [
+    "MayaNodeNameStore",
+    "MayaNodeNameBinding",
     "MayaStringBinding",
     "MayaStringPlug",
     "MayaStringPlugBinding",

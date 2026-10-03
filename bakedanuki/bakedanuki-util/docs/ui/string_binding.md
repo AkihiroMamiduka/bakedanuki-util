@@ -6,6 +6,10 @@
 暗黙の`str()`変換は行わず、Python属性もMaya属性も`str`だけを扱います。
 空文字は有効値で、Mayaの未設定string属性も空文字として公開します。
 
+既存ノードの名前には[Mayaノード名を正本にするbinding](node_name_binding.md)を使用できます。
+`MayaNodeNameBinding`は同じ`StringViewModel`とViewを再利用し、名前固有の制約と
+callback・UndoをMaya側のStoreへ分離します。
+
 ## Maya属性を正本にする
 
 既存jointの`.otherType`を一行で編集する例です。Windowを開くだけではsceneへ書き込みません。
@@ -64,6 +68,10 @@ data, "name", maya_plug=resolve_string_plug(...))`を使用します。同一Vie
 
 `StringLineEdit`はユーザーの編集中の文字列を正本へ送らず、Enterまたは通常の
 フォーカス移動で一度だけ確定します。Escapeは未確定入力を破棄します。
+通常EnterとテンキーEnterはView内で処理し、親WindowやMayaへ伝播させません。
+フォーカス取得時と確定前にはStoreを再読込みします。UIからの確定失敗は
+`edit_failed(str)`で通知し、入力欄を正本の実値へ戻します。
+プログラムから`binding.set_value()`を呼んだ場合は、従来どおり例外として返します。
 編集中に正本が外部変更された場合は入力欄の文字列を維持し、`hasConflict()`と
 `conflict_changed`で知らせます。この状態の通常のフォーカス移動は書込みません。
 Enterによる明示操作だけが新しい正本を上書きします。利用側は競合表示と

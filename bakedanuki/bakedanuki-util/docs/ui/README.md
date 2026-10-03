@@ -9,6 +9,8 @@ UI utilityは、利用場所ではなく依存関係で分けます。
 ## 新しいtoolへの導入
 
 一行の文字列属性には[string binding](string_binding.md)を使用できます。
+属性ではなく既存ノードの名前を正本にする場合は、
+[node name binding](node_name_binding.md)を同じ`StringLineEdit`と`StringLabel`へ接続できます。
 最初の題材は既存jointの`.otherType`です。Maya属性正本、Python属性正本、
 Python正本とMaya属性の双方向同期、および編集中の外部変更を扱います。
 `MayaStringPlugsBinding`では複数jointの`.otherType`を一回のUndoで揃え、
