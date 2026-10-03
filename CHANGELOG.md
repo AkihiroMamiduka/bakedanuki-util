@@ -9,7 +9,10 @@
 
 ### Changed
 
-- `bd`メニューの起動時表示設定をMayaの`optionVar`から
+- Maya上部の共有メニュー表示名を`bd`から`bakedanuki`へ変更した。
+  内部UI名と所有権タグは維持し、既存セッションのメニューも再登録時に表示名を更新する。
+  sceneと保存設定の移行は不要。
+- `bakedanuki`メニューの起動時表示設定をMayaの`optionVar`から
   `prefs/bakedanuki/menu.json`の`show_menu_on_startup`へ移した。
   既存の`optionVar`は専用ファイルがない場合に読み取る。旧JSONキー`auto_install`も
   読み取り、次の切り替えまたはinstaller再D&Dで新しいキー名へ保存する。
@@ -22,11 +25,11 @@
 
 ### Added
 
-- 共有`bd`メニューへ起動時自動表示のチェック項目を追加。既定はONで、OFFは次回起動から
+- 共有`bakedanuki`メニューへ起動時自動表示のチェック項目を追加。既定はONで、OFFは次回起動から
   各packageの自動登録を抑止する。設定はMayaバージョンごとのユーザー設定へ保存する。
   共通`installer.py`の再D&Dでは、Module pathが登録済みでも確認後にONへ戻せる。
   既存設定がない環境ではONとして扱い、移行操作は不要。
-- `bd_util.maya.ui`へ複数packageで共有する`bd`メインメニュー登録APIを追加。
+- `bd_util.maya.ui`へ複数packageで共有する`bakedanuki`メインメニュー登録APIを追加。
   owner単位の解除、同一項目の再登録、batch時のUI作成抑止に対応する。
   利用者の`userSetup.py`、設定、sceneの移行は不要。
 - `nodes.create` に namespace 付きの名前と `namespace=` 指定を追加。

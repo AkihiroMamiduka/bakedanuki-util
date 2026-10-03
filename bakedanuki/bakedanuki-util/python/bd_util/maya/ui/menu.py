@@ -15,6 +15,7 @@ from maya import cmds, mel
 
 _ROOT_NAME = "bdUtilMainMenu"
 _ROOT_TAG = "bd_util:menu:root"
+_ROOT_LABEL = "bakedanuki"
 _CATEGORY_PREFIX = "bdUtilCategory_"
 _ITEM_PREFIX = "bdUtilItem_"
 _AUTO_INSTALL_OPTION_VAR = "bakedanukiMenuAutoInstall"
@@ -22,7 +23,7 @@ _SHOW_MENU_ON_STARTUP_KEY = "show_menu_on_startup"
 _LEGACY_AUTO_INSTALL_SETTING_KEY = "auto_install"
 _AUTO_INSTALL_NAME = "bdUtilAutoInstallMenuOption"
 _AUTO_INSTALL_TAG = "bd_util:menu:auto_install"
-_AUTO_INSTALL_LABEL = "Maya 起動時に bd メニューを表示"
+_AUTO_INSTALL_LABEL = "Maya 起動時に bakedanuki メニューを表示"
 _IDENTIFIER = re.compile(r"[A-Za-z][A-Za-z0-9_]*\Z")
 
 __all__ = [
@@ -278,11 +279,12 @@ def _ensure_root(main_window: str) -> str:
     if cmds.menu(root, exists=True):
         if not _is_owned_root(root):
             raise RuntimeError(f"{root}は別のUIで使用されています")
+        cmds.menu(root, edit=True, label=_ROOT_LABEL)
         return root
     cmds.menu(
         _ROOT_NAME,
         parent=main_window,
-        label="bd",
+        label=_ROOT_LABEL,
         tearOff=False,
         docTag=_ROOT_TAG,
     )
@@ -315,7 +317,7 @@ def register_menu_item(
     label: str,
     command: Callable[[], object],
 ) -> bool:
-    """`bd > category`へpackage所有の項目を登録する。
+    """`bakedanuki > category`へpackage所有の項目を登録する。
 
     同じownerとitem IDは再登録で更新し、別categoryへ移した場合は
     古い項目を削除する。batchまたはmain window未生成時は何もせずFalseを返す。

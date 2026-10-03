@@ -51,6 +51,9 @@ class FakeMenus:
         """menuの作成・照会を模倣する。"""
         if kwargs.get("exists"):
             return name in self.menus
+        if kwargs.get("edit"):
+            self.menus[name].update(kwargs)
+            return name
         if kwargs.get("query"):
             if kwargs.get("docTag"):
                 return self.menus[name]["docTag"]
@@ -64,7 +67,10 @@ class FakeMenus:
             raise AssertionError(kwargs)
         path = f"{kwargs['parent']}|{name}"
         assert path not in self.menus
-        self.menus[path] = {"docTag": kwargs["docTag"]}
+        self.menus[path] = {
+            "docTag": kwargs["docTag"],
+            "label": kwargs["label"],
+        }
         return path
 
     def menuItem(self, name: str, **kwargs: object) -> object:
@@ -148,6 +154,7 @@ def test_owners_share_category_and_reregister_in_place(
     root = "MayaWindow|bdUtilMainMenu"
     category = f"{root}|bdUtilCategory_tools"
     assert len(fake_menus.menus) == 1
+    assert fake_menus.menus[root]["label"] == "bakedanuki"
     assert len(fake_menus.items) == 4
     item = f"{category}|bdUtilItem_8_bd_tools_bdChannelBox"
     option = f"{root}|bdUtilAutoInstallMenuOption"
@@ -162,6 +169,29 @@ def test_owners_share_category_and_reregister_in_place(
     unregister_menu_owner("bd_extra")
     assert not fake_menus.items
     assert not fake_menus.menus
+
+
+def test_existing_owned_root_uses_new_display_label(
+    fake_menus: FakeMenus,
+) -> None:
+    """旧表示名の共有menuを再利用し、項目を保って表示名だけ更新する。"""
+    arguments = dict(
+        owner="bd_tools",
+        category="tools",
+        item_id="sample",
+        label="Sample",
+        command=lambda: None,
+    )
+    assert register_menu_item(**arguments)
+    root = "MayaWindow|bdUtilMainMenu"
+    fake_menus.menus[root]["label"] = "bd"
+    item_count = len(fake_menus.items)
+
+    assert register_menu_item(**arguments)
+
+    assert fake_menus.menus[root]["label"] == "bakedanuki"
+    assert len(fake_menus.menus) == 1
+    assert len(fake_menus.items) == item_count
 
 
 def test_reregister_can_move_item_to_other_category(

@@ -373,7 +373,7 @@ def install() -> None:
                 cmds,
                 "bakedanuki installer",
                 "bakedanuki modules は既に登録されています。\n"
-                "Maya 起動時の bd メニュー表示を再び有効にしますか？\n\n"
+                "Maya 起動時の bakedanuki メニュー表示を再び有効にしますか？\n\n"
                 f"Maya.env:\n{env_path}",
             ):
                 return
@@ -381,7 +381,7 @@ def install() -> None:
             _message(
                 cmds,
                 "bakedanuki installer",
-                "bd メニューの起動時表示を有効にしました。\n"
+                "bakedanuki メニューの起動時表示を有効にしました。\n"
                 "変更を反映するには Maya を再起動してください。",
             )
             return
@@ -409,7 +409,7 @@ def install() -> None:
             f"追加するパス:\n{target_path}"
         )
     if not menu_enabled:
-        message += "\n\nbd メニューの起動時表示も有効にします。"
+        message += "\n\nbakedanuki メニューの起動時表示も有効にします。"
 
     if not _confirm(cmds, "bakedanuki installer", message):
         return
@@ -419,7 +419,7 @@ def install() -> None:
         _enable_menu_auto_install(cmds)
     completion = "Maya.env を更新しました。\n"
     if not menu_enabled:
-        completion += "bd メニューの起動時表示を有効にしました。\n"
+        completion += "bakedanuki メニューの起動時表示を有効にしました。\n"
     completion += (
         "変更を反映するには Maya を再起動してください。\n\n"
         f"Maya.env:\n{env_path}"

@@ -50,7 +50,7 @@ instanceとcallbackを維持する必要があるtoolだけ、`retain=True`を�
 
 ## 共有Mayaメインメニュー
 
-`bd_util.maya.ui.register_menu_item()`はMaya上部に`bd`を作り、その下のcategoryへ
+`bd_util.maya.ui.register_menu_item()`はMaya上部に`bakedanuki`を作り、その下のcategoryへ
 package所有の項目を登録します。tools、rigなどのpackageは各自の起動処理から呼び、
 utilは利用側packageをimportしません。クリック時の処理は`command`に渡します。
 
@@ -84,7 +84,7 @@ def uninstall_menu() -> None:
 `owner`、`category`、`item_id`には英字で始まる英数字と`_`の固定識別子を指定します。
 `owner`と`item_id`の組はpackage内で一意です。同じ組を再登録するとlabelとcallbackを
 更新し、categoryを変更した場合は古い項目を移動します。`unregister_menu_owner()`は
-指定ownerの項目だけを削除し、空になったcategoryと`bd`を片付けます。UI名と`docTag`で
+指定ownerの項目だけを削除し、空になったcategoryと`bakedanuki`を片付けます。UI名と`docTag`で
 所有を確認するため、utilのmodule状態を再作成しても他packageの項目を削除しません。
 
 `userSetup.py`などのMaya起動スクリプトからは、Maya UI初期化後に
@@ -92,7 +92,7 @@ def uninstall_menu() -> None:
 `register_menu_item()`が`False`を返し、UIを変更しません。menu項目の登録では利用者の
 `userSetup.py`やsceneを編集せず、menuはMaya process内だけに作成します。
 
-`bd`の末尾には「Maya 起動時に bd メニューを表示」のチェック項目を置きます。
+`bakedanuki`の末尾には「Maya 起動時に bakedanuki メニューを表示」のチェック項目を置きます。
 初期値はONです。OFFにしても現在のセッションのメニューと明示的な
 `register_menu_item()`は維持し、次回起動時から各packageの自動登録だけをスキップします。
 設定は現在のMayaバージョンの`prefs/bakedanuki/menu.json`へ
@@ -105,7 +105,7 @@ def uninstall_menu() -> None:
 `is_menu_auto_install_enabled()`で読み、`set_menu_auto_install_enabled()`で変更できます。
 各packageは起動時のdeferred処理で設定を読み、自動登録の有無を判断してください。
 
-OFFのまま再起動すると`bd`メニューは自動表示されません。共通`installer.py`を再び
+OFFのまま再起動すると`bakedanuki`メニューは自動表示されません。共通`installer.py`を再び
 viewportへドロップすると、Module pathが登録済みでも確認後にONへ戻します。
 反映にはMayaの再起動が必要です。この操作は利用者の`userSetup.py`とsceneを変更しません。
 

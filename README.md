@@ -41,7 +41,7 @@ Windows版 Maya 2025 / 2026 / 2027 で検証しています。
 
 現在起動している Maya バージョン用の `Maya.env` に、`bakedanuki/modules` が `MAYA_MODULE_PATH` として登録されます。同じパスは重複して追加されず、既に別の bakedanuki パスが登録されている場合は置き換え確認が表示されます。
 
-`bd`メニューの起動時表示設定は、現在のMayaバージョンの
+`bakedanuki`メニューの起動時表示設定は、現在のMayaバージョンの
 `prefs/bakedanuki/menu.json`に保存します。チェックの切り替えと再D&Dは
 Mayaの一般設定を明示的に保存しません。
 
