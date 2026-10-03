@@ -71,6 +71,14 @@ data, "name", maya_plug=resolve_string_plug(...))`を使用します。同一Vie
 通常EnterとテンキーEnterはView内で処理し、親WindowやMayaへ伝播させません。
 フォーカス取得時と確定前にはStoreを再読込みします。UIからの確定失敗は
 `edit_failed(str)`で通知し、入力欄を正本の実値へ戻します。
+既定の`select_all_on_mouse_focus=True`では、マウスでフォーカスを得た最初の
+左単クリック後に表示文字を全選択します。フォーカスを取り直すたびに適用し、
+同じフォーカス中の再クリック、ドラッグ、右クリック、Tabなどでの移動では
+Qt標準の選択動作を維持します。全選択だけでは正本への書込みやUndoを行いません。
+従来のクリック位置から入力したい場合は、生成時に
+`StringLineEdit(binding, select_all_on_mouse_focus=False)`を指定してください。
+生成後も`select_all_on_mouse_focus()`と`set_select_all_on_mouse_focus(bool)`で
+設定を確認・変更できます。
 プログラムから`binding.set_value()`を呼んだ場合は、従来どおり例外として返します。
 編集中に正本が外部変更された場合は入力欄の文字列を維持し、`hasConflict()`と
 `conflict_changed`で知らせます。この状態の通常のフォーカス移動は書込みません。

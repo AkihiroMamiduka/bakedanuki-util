@@ -9,6 +9,8 @@
 
 ### Changed
 
+- `StringLineEdit`はマウスでフォーカスを得た最初の左クリック後に文字列を全選択する。
+  `select_all_on_mouse_focus=False`で無効化でき、設定の取得・変更も可能。
 - `StringLineEdit`は通常EnterとテンキーEnterの確定キーをView内で処理し、
   フォーカス取得時と確定前に正本を再読込みする。UIの編集失敗は`edit_failed(str)`で
   通知し、確定値へ表示を戻す。プログラムからの変更要求は従来どおり例外を返す。

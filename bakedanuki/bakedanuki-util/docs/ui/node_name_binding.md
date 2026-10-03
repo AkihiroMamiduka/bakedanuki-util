@@ -58,6 +58,8 @@ Transformに付随するShape名は、既定ではMaya標準の名前変更に�
 `StringLineEdit`の未確定入力はEnterまたは通常のフォーカス移動で確定し、Escapeで
 破棄します。通常EnterとテンキーEnterは入力欄内で処理し、親WindowやMaya側へ
 確定キーを伝播させません。入力欄へフォーカスした時と確定直前にも正本を読み直します。
+マウスでフォーカスした最初の左クリック後は、既定で確定名を全選択します。
+クリック位置から入力したい場合は`select_all_on_mouse_focus=False`を指定できます。
 
 編集中の外部リネームでは、既定で入力文字列を保ち`hasConflict()`と`conflict_changed`で
 競合を知らせます。競合中の通常フォーカス移動では書き込まず、Enterで明示した場合だけ

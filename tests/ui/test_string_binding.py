@@ -101,6 +101,195 @@ def focus_in(line: StringLineEdit) -> None:
     qt.QApplication.sendEvent(line, event)
 
 
+def send_mouse(
+    line: StringLineEdit,
+    kind: qt.QEvent.Type,
+    position: qt.QPoint,
+    button: qt.Qt.MouseButton,
+    held: qt.Qt.MouseButton,
+) -> None:
+    """入力欄へ位置と押下状態を指定したマウス通知を送る。"""
+    event = qt.QtGui.QMouseEvent(
+        kind,
+        qt.QPointF(position),
+        qt.QPointF(line.mapToGlobal(position)),
+        button,
+        held,
+        qt.Qt.KeyboardModifier.NoModifier,
+    )
+    qt.QApplication.sendEvent(line, event)
+
+
+def click_line(line: StringLineEdit, button: qt.Qt.MouseButton) -> None:
+    """入力欄の文字へ単クリックを送って遅延選択を処理する。"""
+    position = line.rect().center()
+    send_mouse(line, qt.QEvent.Type.MouseButtonPress, position, button, button)
+    send_mouse(
+        line,
+        qt.QEvent.Type.MouseButtonRelease,
+        position,
+        button,
+        qt.Qt.MouseButton.NoButton,
+    )
+    flush()
+
+
+def test_mouse_focus_selects_latest_value_only_on_first_click(qt_application):
+    """既定の初回クリックだけ正本の最新文字を選択し、再クリックは通常動作にする。"""
+    store = MutableStore()
+    binding = StringBinding(store)
+    owner = qt.QWidget()
+    line = StringLineEdit(binding, owner)
+    other = qt.QLineEdit(owner)
+    layout = qt.QVBoxLayout(owner)
+    layout.addWidget(line)
+    layout.addWidget(other)
+    edits: list[str] = []
+    line.textEdited.connect(edits.append)
+    try:
+        owner.show()
+        owner.activateWindow()
+        other.setFocus()
+        flush()
+        store.value = "external value"
+        line.setFocus(qt.Qt.FocusReason.MouseFocusReason)
+        flush()
+        click_line(line, qt.Qt.MouseButton.LeftButton)
+        assert line.text() == line.selectedText() == "external value"
+        assert line.select_all_on_mouse_focus()
+        assert store.writes == 0
+        assert edits == []
+
+        click_line(line, qt.Qt.MouseButton.LeftButton)
+        assert line.selectedText() == ""
+
+        other.setFocus()
+        flush()
+        line.setFocus(qt.Qt.FocusReason.MouseFocusReason)
+        flush()
+        click_line(line, qt.Qt.MouseButton.LeftButton)
+        assert line.selectedText() == "external value"
+        assert store.writes == 0
+    finally:
+        owner.deleteLater()
+        binding.dispose()
+        flush()
+
+
+def test_mouse_focus_opt_out_and_keyboard_focus(qt_application):
+    """設定OFFとキーボードによるフォーカス取得では自動全選択しない。"""
+    binding = StringBinding(MutableStore(value="some value"))
+    owner = qt.QWidget()
+    line = StringLineEdit(binding, owner, select_all_on_mouse_focus=False)
+    other = qt.QLineEdit(owner)
+    layout = qt.QVBoxLayout(owner)
+    layout.addWidget(line)
+    layout.addWidget(other)
+    try:
+        owner.show()
+        owner.activateWindow()
+        other.setFocus()
+        flush()
+        line.setFocus(qt.Qt.FocusReason.MouseFocusReason)
+        flush()
+        click_line(line, qt.Qt.MouseButton.LeftButton)
+        assert line.selectedText() == ""
+        assert not line.select_all_on_mouse_focus()
+
+        line.set_select_all_on_mouse_focus(True)
+        other.setFocus()
+        flush()
+        line.setFocus(qt.Qt.FocusReason.TabFocusReason)
+        flush()
+        click_line(line, qt.Qt.MouseButton.LeftButton)
+        assert line.selectedText() != line.text()
+
+        other.setFocus()
+        flush()
+        line.setFocus(qt.Qt.FocusReason.MouseFocusReason)
+        flush()
+        line.set_select_all_on_mouse_focus(False)
+        click_line(line, qt.Qt.MouseButton.LeftButton)
+        assert line.selectedText() != line.text()
+    finally:
+        owner.deleteLater()
+        binding.dispose()
+        flush()
+
+
+def test_mouse_focus_drag_and_right_click_keep_qt_selection(qt_application):
+    """最初のドラッグや右クリックではQtの文字選択を上書きしない。"""
+    binding = StringBinding(MutableStore(value="some longer value"))
+    owner = qt.QWidget()
+    line = StringLineEdit(binding, owner)
+    other = qt.QLineEdit(owner)
+    layout = qt.QVBoxLayout(owner)
+    layout.addWidget(line)
+    layout.addWidget(other)
+    try:
+        owner.show()
+        owner.activateWindow()
+        other.setFocus()
+        flush()
+        line.setFocus(qt.Qt.FocusReason.MouseFocusReason)
+        flush()
+        start = line.rect().center()
+        end = start + qt.QPoint(2, 0)
+        send_mouse(
+            line,
+            qt.QEvent.Type.MouseButtonPress,
+            start,
+            qt.Qt.MouseButton.LeftButton,
+            qt.Qt.MouseButton.LeftButton,
+        )
+        send_mouse(
+            line,
+            qt.QEvent.Type.MouseMove,
+            end,
+            qt.Qt.MouseButton.NoButton,
+            qt.Qt.MouseButton.LeftButton,
+        )
+        send_mouse(
+            line,
+            qt.QEvent.Type.MouseButtonRelease,
+            end,
+            qt.Qt.MouseButton.LeftButton,
+            qt.Qt.MouseButton.NoButton,
+        )
+        flush()
+        assert line.selectedText() != line.text()
+
+        other.setFocus()
+        flush()
+        line.setFocus(qt.Qt.FocusReason.MouseFocusReason)
+        flush()
+        click_line(line, qt.Qt.MouseButton.RightButton)
+        click_line(line, qt.Qt.MouseButton.LeftButton)
+        assert line.selectedText() != line.text()
+    finally:
+        owner.deleteLater()
+        binding.dispose()
+        flush()
+
+
+def test_mouse_focus_selection_setting_requires_bool(qt_application):
+    """全選択設定へbool以外を渡しても既存状態を変更しない。"""
+    binding = StringBinding(MutableStore())
+    try:
+        with pytest.raises(TypeError):
+            StringLineEdit(binding, select_all_on_mouse_focus=1)
+        line = StringLineEdit(binding)
+        try:
+            with pytest.raises(TypeError):
+                line.set_select_all_on_mouse_focus(1)
+            assert line.select_all_on_mouse_focus()
+        finally:
+            line.deleteLater()
+    finally:
+        binding.dispose()
+        flush()
+
+
 def test_python_store_preserves_exact_str_and_rejects_other_types(
     qt_application,
 ):

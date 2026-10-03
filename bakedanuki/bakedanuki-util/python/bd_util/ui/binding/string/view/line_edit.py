@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Protocol, cast
 
 from .... import qt
 from .._connection import connect_queued_qt_signal
@@ -9,6 +10,18 @@ from ..binding import StringBinding
 from ..store import StringValueStore
 from ..view_model import StringViewModel
 from ._source import resolve_string_view_source
+
+
+class _QTimerType(Protocol):
+    """PySide stub境界で使用するQTimer classの必要最小API。"""
+
+    @staticmethod
+    def singleShot(
+        milliseconds: int,
+        callback: Callable[[], None],
+    ) -> None:
+        """指定時間後に`callback`を一度だけ呼び出す。"""
+        raise NotImplementedError
 
 
 class StringLineEdit(qt.QLineEdit):
@@ -26,17 +39,24 @@ class StringLineEdit(qt.QLineEdit):
         parent: qt.QWidget | None = None,
         *,
         follow_source_during_edit: bool = False,
+        select_all_on_mouse_focus: bool = True,
     ) -> None:
-        """同じBindingを共有し、外部値変更時の入力保持方針を指定する。
+        """同じBindingを共有し、入力保持とマウスフォーカス時の選択方針を指定する。
 
         Args:
             view_model: 表示するViewModelまたはBinding。
             parent: 親Widget。
             follow_source_during_edit: 編集中も確定値の変更を優先する場合はTrue。
+            select_all_on_mouse_focus: マウスでフォーカスした初回クリック後に
+                全選択する場合はTrue。既定値はTrue。
         """
         if type(follow_source_during_edit) is not bool:
             raise TypeError(
                 "follow_source_during_editにはboolを指定してください"
+            )
+        if type(select_all_on_mouse_focus) is not bool:
+            raise TypeError(
+                "select_all_on_mouse_focusにはboolを指定してください"
             )
         view_model, binding = resolve_string_view_source(view_model)
         super().__init__(parent)
@@ -46,6 +66,10 @@ class StringLineEdit(qt.QLineEdit):
         self._dirty = False
         self._conflicted = False
         self._follow_source_during_edit = follow_source_during_edit
+        self._select_all_on_mouse_focus = select_all_on_mouse_focus
+        self._select_on_mouse_release = False
+        self._mouse_selection_dragged = False
+        self._pending_select_all = False
         self._value_request_handler: Callable[[str], bool] | None = None
         # Qtの既定32767文字による正本の黙った切り詰めを防ぐ
         self.setMaxLength(2_147_483_647)
@@ -85,6 +109,20 @@ class StringLineEdit(qt.QLineEdit):
             self._render()
         self._update_enabled()
 
+    def select_all_on_mouse_focus(self) -> bool:
+        """マウスで初回フォーカスしたときに全選択する設定を返す。"""
+        return self._select_all_on_mouse_focus
+
+    def set_select_all_on_mouse_focus(self, enabled: bool) -> None:
+        """マウスで初回フォーカスしたときの全選択を切り替える。"""
+        if type(enabled) is not bool:
+            raise TypeError("enabledにはboolを指定してください")
+        self._select_all_on_mouse_focus = enabled
+        if not enabled:
+            self._select_on_mouse_release = False
+            self._mouse_selection_dragged = False
+            self._pending_select_all = False
+
     def hasConflict(self) -> bool:
         """編集中に正本が外部更新された場合は`True`。"""
         return self._conflicted
@@ -114,10 +152,63 @@ class StringLineEdit(qt.QLineEdit):
         return super().event(arg__1)
 
     def focusInEvent(self, arg__1: qt.QtGui.QFocusEvent) -> None:
-        """入力開始時に正本の値と編集可否を再確認する。"""
+        """入力開始時に正本を再読込みし、マウスによる初回選択を準備する。"""
         self._refresh_source()
         if qt.isValid(self):
+            self._select_on_mouse_release = (
+                self._select_all_on_mouse_focus
+                and arg__1.reason() == qt.Qt.FocusReason.MouseFocusReason
+            )
+            self._mouse_selection_dragged = False
+            self._pending_select_all = False
             super().focusInEvent(arg__1)
+
+    def focusOutEvent(self, arg__1: qt.QtGui.QFocusEvent) -> None:
+        """フォーカスを失ったら保留中の全選択を破棄する。"""
+        self._select_on_mouse_release = False
+        self._mouse_selection_dragged = False
+        self._pending_select_all = False
+        super().focusOutEvent(arg__1)
+
+    def mousePressEvent(self, arg__1: qt.QtGui.QMouseEvent) -> None:
+        """新しいクリックでは前の遅延選択を無効にする。"""
+        self._pending_select_all = False
+        if arg__1.button() != qt.Qt.MouseButton.LeftButton:
+            self._select_on_mouse_release = False
+        self._mouse_selection_dragged = False
+        super().mousePressEvent(arg__1)
+
+    def mouseMoveEvent(self, arg__1: qt.QtGui.QMouseEvent) -> None:
+        """左ドラッグした場合はQtの範囲選択を優先する。"""
+        if arg__1.buttons() & qt.Qt.MouseButton.LeftButton:
+            self._mouse_selection_dragged = True
+        super().mouseMoveEvent(arg__1)
+
+    def mouseReleaseEvent(self, arg__1: qt.QtGui.QMouseEvent) -> None:
+        """初回の左単クリック後、Qtのカーソル移動より後に全選択する。"""
+        should_select = (
+            self._select_on_mouse_release
+            and not self._mouse_selection_dragged
+            and arg__1.button() == qt.Qt.MouseButton.LeftButton
+        )
+        self._select_on_mouse_release = False
+        self._mouse_selection_dragged = False
+        super().mouseReleaseEvent(arg__1)
+        if should_select and qt.isValid(self):
+            self._pending_select_all = True
+            timer_type = cast(_QTimerType, qt.QTimer)
+            timer_type.singleShot(0, self._select_all_after_click)
+
+    def _select_all_after_click(self) -> None:
+        """フォーカスを維持した初回クリックだけ最新の表示文字を全選択する。"""
+        if (
+            qt.isValid(self)
+            and self._pending_select_all
+            and self._select_all_on_mouse_focus
+            and self.hasFocus()
+        ):
+            self.selectAll()
+        self._pending_select_all = False
 
     def keyPressEvent(self, arg__1: qt.QtGui.QKeyEvent) -> None:
         """Escapeで入力を破棄し、EnterはQtの確定処理後に受理する。"""
