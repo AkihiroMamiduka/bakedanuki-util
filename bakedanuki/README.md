@@ -2,7 +2,7 @@
 
 このフォルダは、bakedanuki 系パッケージを Maya Module としてまとめて配置するための親フォルダです。
 
-`bakedanuki-util`、今後追加予定の `bakedanuki-rig`、`bakedanuki-tool` などは、各パッケージの `bakedanuki` フォルダを同じ場所へ重ねて配置する想定です。
+`bakedanuki-util`、`bakedanuki-tools`、今後追加予定の `bakedanuki-rig` などは、各パッケージの `bakedanuki` フォルダを同じ場所へ重ねて配置する想定です。
 
 ## Layout
 
@@ -15,8 +15,7 @@ bakedanuki/
     maya2027.bat
   modules/
     bd_util.mod
-    bd_rig.mod
-    bd_tool.mod
+    bd_tools.mod
 
   bakedanuki-util/
     README.md
@@ -31,20 +30,16 @@ bakedanuki/
         bdUtilNodes.mll
     python/
 
-  bakedanuki-rig/
-    README.md
-    LICENSE
-    docs/
-    python/
-    plugins/
-
-  bakedanuki-tool/
+  bakedanuki-tools/
     README.md
     LICENSE
     docs/
     python/
     scripts/
 ```
+
+将来`bakedanuki-rig`を同梱する場合は、同じrootにpackageフォルダと
+`modules/bd_rig.mod`を重ねます。
 
 Maya には `bakedanuki/modules` だけを `MAYA_MODULE_PATH` として追加します。
 
@@ -69,6 +64,21 @@ Maya version 別の `plug-ins` などを Maya へ追加します。
 この操作でMayaの一般設定やShelfを明示的に保存することはありません。
 
 別の bakedanuki フォルダを指すパスが登録されている場合は、置き換え確認のダイアログが表示されます。置き換え時も、bakedanuki 以外の module パスはそのまま維持されます。
+
+installerは配布時の単一`bakedanuki/modules`を前提とし、既存の`MAYA_MODULE_PATH`に
+`bakedanuki`フォルダを含むパスがあれば置き換え対象とします。開発用にtoolsとutilの
+repositoryをsiblingに置き、それぞれの`bakedanuki/modules`を登録している場合は、
+installerの再D&Dで片方のパスが外れます。この開発構成では両パスを各バージョンの
+`Maya.env`へ手動登録してください。メニュー表示設定だけをONに戻す場合は、Script Editorで
+次を実行できます。
+
+```python
+from bd_util.maya.ui import set_menu_auto_install_enabled
+
+set_menu_auto_install_enabled(True)
+```
+
+起動時表示への反映にはMayaの再起動が必要です。
 
 新規追加または置き換えられるパスは `/` 区切りで記述され、後から別のパスを追加しやすいように末尾へ `;` が付きます。
 

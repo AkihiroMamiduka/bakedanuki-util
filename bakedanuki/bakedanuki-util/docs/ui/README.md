@@ -86,11 +86,66 @@ def uninstall_menu() -> None:
 更新し、categoryを変更した場合は古い項目を移動します。`unregister_menu_owner()`は
 指定ownerの項目だけを削除し、空になったcategoryと`bakedanuki`を片付けます。UI名と`docTag`で
 所有を確認するため、utilのmodule状態を再作成しても他packageの項目を削除しません。
+`owner`はpackageごとに固定し、複数packageが同じ`category`を使用しても構いません。
+`label`は表示文字列で、UI名は`owner`・`item_id`から作られます。表示名だけを変更する
+場合は識別子を維持してください。Maya上部の表示名は`bakedanuki`ですが、rootの内部UI名
+`bdUtilMainMenu`は既存メニューの再利用とreloadのため維持します。
 
 `userSetup.py`などのMaya起動スクリプトからは、Maya UI初期化後に
 `maya.utils.executeDeferred()`で登録処理を呼びます。batchやmain window生成前は
 `register_menu_item()`が`False`を返し、UIを変更しません。menu項目の登録では利用者の
 `userSetup.py`やsceneを編集せず、menuはMaya process内だけに作成します。
+
+### 新しいpackageからメニューを追加する
+
+利用側packageは、自分のMaya Module内に`scripts/userSetup.py`を置き、UI初期化後の
+遅延処理を予約します。例えば将来の`bd_rig`では次の構成にします。
+
+```python
+# scripts/userSetup.py
+try:
+    __import__(
+        "bd_rig._startup", fromlist=("schedule_menu_install",)
+    ).schedule_menu_install()
+except Exception:
+    __import__("traceback").print_exc()
+```
+
+Mayaは複数の`userSetup.py`を同じ`__main__`辞書で実行するため、この入口では一時的な
+グローバル名を残しません。自packageの`_startup.py`でbatch起動を除外し、遅延処理内で
+共通設定を読みます。
+
+```python
+# bd_rig/_startup.py
+from maya import cmds, utils
+
+
+def _install_menu_deferred() -> None:
+    """起動時表示が有効ならrigの項目を登録する。"""
+    from bd_util.maya.ui import is_menu_auto_install_enabled
+
+    if not is_menu_auto_install_enabled():
+        return
+    from .menu import install_menu
+
+    install_menu()
+
+
+def schedule_menu_install() -> None:
+    """interactive起動後にrigのメニュー登録を予約する。"""
+    if cmds.about(batch=True):
+        return
+    utils.executeDeferred(_install_menu_deferred)
+
+
+__all__ = ["schedule_menu_install"]
+```
+
+自packageの`menu.py`で固有の`owner`、目的の`category`、固定の`item_id`を指定して
+`register_menu_item()`を呼びます。tool本体はクリック時に読み込み、reload前には
+`unregister_menu_owner(owner)`で自packageの項目を解除します。reload機構がある場合は
+この解除処理を破棄callbackへ登録してください。表示設定がOFFでも、明示的に呼ぶ
+`register_menu_item()`は引き続き利用できます。
 
 `bakedanuki`の末尾には「Maya 起動時に bakedanuki メニューを表示」のチェック項目を置きます。
 初期値はONです。OFFにしても現在のセッションのメニューと明示的な
@@ -104,6 +159,18 @@ def uninstall_menu() -> None:
 再有効化すると、新しいキー名だけで保存します。
 `is_menu_auto_install_enabled()`で読み、`set_menu_auto_install_enabled()`で変更できます。
 各packageは起動時のdeferred処理で設定を読み、自動登録の有無を判断してください。
+実際の設定ファイルの場所はMayaのScript Editorから確認できます。
+
+```python
+from pathlib import Path
+from maya import cmds
+
+print(Path(cmds.internalVar(userPrefDir=True)) / "bakedanuki" / "menu.json")
+```
+
+ファイルは初回のチェック切り替え、またはinstallerによる再有効化時に作成されます。
+値を直接編集した場合も、起動時の
+自動登録への反映は次回のMaya起動からです。
 
 OFFのまま再起動すると`bakedanuki`メニューは自動表示されません。共通`installer.py`を再び
 viewportへドロップすると、Module pathが登録済みでも確認後にONへ戻します。
