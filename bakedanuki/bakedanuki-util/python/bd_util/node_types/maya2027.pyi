@@ -1585,6 +1585,10 @@ from ..maya.node._versioned_accessors import _BdDblWeightedSumMulti
 
 BdDblWeightedSumMulti: TypeAlias = _BdDblWeightedSumMulti
 
+from ..maya.node._versioned_accessors import _BdDeleteWithOwner
+
+BdDeleteWithOwner: TypeAlias = _BdDeleteWithOwner
+
 from ..maya.node._versioned_accessors import _BdEulerComposeBendTwist
 
 BdEulerComposeBendTwist: TypeAlias = _BdEulerComposeBendTwist

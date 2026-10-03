@@ -160,6 +160,7 @@
 | `bdRbf_MultiOrientationFalloffWeight` | `0x0014271B` | Autodesk registered |
 | `bdRbf_MultiPositionFalloffWeight` | `0x0014271C` | Autodesk registered |
 | `bdRbf_MultiBendTwistFalloffWeight` | `0x0014271D` | Autodesk registered |
+| `bdDeleteWithOwner` | `0x0014271E` | Autodesk registered |
 
 2026-08-14 に
 [Autodesk Maya Developer Network](https://adn.autodesk.io/maya) から、次の固有 ID block
@@ -169,9 +170,9 @@
 - 最終 ID: `0x0014277F`
 - block size: 256
 
-既存ノードは、開発用 ID の相対順序を保って `0x00142680` から `0x0014271D` までへ
+既存ノードは、開発用 ID の相対順序を保って `0x00142680` から `0x0014271E` までへ
 割り当てています。未使用 ID は `0x001426AA`、`0x001426AB`、および
-`0x0014271E` から `0x0014277F` までです。
+`0x0014271F` から `0x0014277F` までです。
 
 新しい node type は未使用 ID から割り当て、この表へ登録します。一度 production
 scene へ保存した `MTypeId` は、その node type が存続する限り変更しません。

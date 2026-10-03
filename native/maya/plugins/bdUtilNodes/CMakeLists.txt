@@ -1,6 +1,7 @@
 add_library(
     bdUtilNodes
     SHARED
+    src/nodes/BdDeleteWithOwnerNode.cpp
     src/nodes/BdDblAddNode.cpp
     src/nodes/BdDblAddMultiNode.cpp
     src/nodes/BdDbl3AddNode.cpp

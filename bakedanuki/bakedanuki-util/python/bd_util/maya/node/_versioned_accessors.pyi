@@ -886,6 +886,9 @@ from .operator.node.dg.bd_dbl_weighted_average_multi import (
 from .operator.node.dg.bd_dbl_weighted_sum_multi import (
     BdDblWeightedSumMulti as _BdDblWeightedSumMulti,
 )
+from .operator.node.dg.bd_delete_with_owner import (
+    BdDeleteWithOwner as _BdDeleteWithOwner,
+)
 from .operator.node.dg.bd_euler_compose_bend_twist import (
     BdEulerComposeBendTwist as _BdEulerComposeBendTwist,
 )
@@ -7574,6 +7577,13 @@ class _NodeCreatorCommon:
         *,
         namespace: str | None = None,
     ) -> _BdDblWeightedSumMulti: ...
+    def bdDeleteWithOwner(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _BdDeleteWithOwner: ...
     def bdEuler_ComposeBendTwist(
         self,
         name: str | None = None,
@@ -19190,6 +19200,11 @@ class _ExistingNodeAccessorCommon:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> _BdDblWeightedSumMulti: ...
+    def bdDeleteWithOwner(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdDeleteWithOwner: ...
     def bdEuler_ComposeBendTwist(
         self,
         node: str | om.MObject,

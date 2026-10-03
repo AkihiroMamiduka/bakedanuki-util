@@ -52,7 +52,7 @@ def test_node_type_ids_are_unique_and_in_registered_block(maya_cmds, maya_om):
     plugin_name = _load_bd_util_nodes(maya_cmds)
     node_types = maya_cmds.pluginInfo(plugin_name, query=True, dependNode=True)
 
-    assert len(node_types) == 156
+    assert len(node_types) == 157
 
     type_ids = [
         maya_om.MNodeClass(node_type).typeId.id() for node_type in node_types

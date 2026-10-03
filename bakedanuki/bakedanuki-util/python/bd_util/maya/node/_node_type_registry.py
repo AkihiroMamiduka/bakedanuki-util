@@ -398,6 +398,7 @@ NODE_TYPE_BY_CLASS_NAME: dict[str, str] = {
     "BdDblValue": "bdDbl_Value",
     "BdDblWeightedAverageMulti": "bdDbl_WeightedAverageMulti",
     "BdDblWeightedSumMulti": "bdDbl_WeightedSumMulti",
+    "BdDeleteWithOwner": "bdDeleteWithOwner",
     "BdEulerComposeBendTwist": "bdEuler_ComposeBendTwist",
     "BdEulerDecomposeBendTwist": "bdEuler_DecomposeBendTwist",
     "BdEulerDecomposeTwist": "bdEuler_DecomposeTwist",

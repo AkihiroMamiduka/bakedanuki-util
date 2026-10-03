@@ -4,6 +4,7 @@
 #include <maya/MObject.h>
 #include <maya/MStatus.h>
 
+#include "bdUtilNodes/nodes/BdDeleteWithOwnerNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblLNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblLMultiNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblANode.h"
@@ -176,8 +177,14 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 156>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 156> registrations = {{
+const std::array<NodeRegistration, 157>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 157> registrations = {{
+        {
+            BdDeleteWithOwnerNode::typeName,
+            BdDeleteWithOwnerNode::typeId,
+            BdDeleteWithOwnerNode::creator,
+            BdDeleteWithOwnerNode::initialize,
+        },
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,

@@ -5,6 +5,9 @@
 
 ## Documents
 
+所有元とともに DG ノードを削除する場合は
+[bdDeleteWithOwner](delete-with-owner.md) を参照してください。
+
 1. [Node Basics](node-basics.md)
    - node のライフサイクル、attribute 定義、`compute()`、multi attribute、
      演算node familyの設計方針、plug-in 登録

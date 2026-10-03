@@ -758,6 +758,9 @@ from .operator.node.dg.bd_dbl_weighted_average_multi import (
 from .operator.node.dg.bd_dbl_weighted_sum_multi import (
     BdDblWeightedSumMulti as _BdDblWeightedSumMulti,
 )
+from .operator.node.dg.bd_delete_with_owner import (
+    BdDeleteWithOwner as _BdDeleteWithOwner,
+)
 from .operator.node.dg.bd_euler_compose_bend_twist import (
     BdEulerComposeBendTwist as _BdEulerComposeBendTwist,
 )
@@ -3259,6 +3262,8 @@ class NodeTypes:
     ) -> type[_BdDblWeightedAverageMulti]: ...
     @property
     def BdDblWeightedSumMulti(self) -> type[_BdDblWeightedSumMulti]: ...
+    @property
+    def BdDeleteWithOwner(self) -> type[_BdDeleteWithOwner]: ...
     @property
     def BdEulerComposeBendTwist(self) -> type[_BdEulerComposeBendTwist]: ...
     @property

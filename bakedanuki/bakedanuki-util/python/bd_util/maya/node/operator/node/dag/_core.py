@@ -8,6 +8,7 @@ from ...._creation_name import resolve_creation_name
 from ...._maya_version import require_node_type_available
 from .....transform import TransformMatrix
 from .._core import NodeOperator, DEFAULT_VALUE_AUTO_ADD_ATTR
+from ...attr.define.std.at.message import MessageField
 
 _DAGType = TypeVar("_DAGType", bound="DAG")
 
@@ -61,6 +62,9 @@ class DAG(NodeOperator):
     """DAG ノードの階層とパスを `ModifierManager` 経由で操作する。"""
 
     __slots__ = ("_dag_path",)
+
+    message = MessageField()
+    msg = message
 
     def __init__(
         self,
