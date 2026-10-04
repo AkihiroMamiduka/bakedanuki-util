@@ -107,6 +107,21 @@ def test_stub_excludes_abstract_base_classes():
     )
 
 
+def test_controller_shape_is_in_public_definitions():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    node_types = {
+        definition.node_type
+        for definition in stub_generator.collect_node_definitions(python_root)
+    }
+
+    assert "bdControllerShape" in node_types
+
+
 def test_shape_with_transform_stub_uses_only_creatable_shapes():
     import bd_util
     from bd_util._dev.maya.node.operator.node import (
@@ -118,7 +133,7 @@ def test_shape_with_transform_stub_uses_only_creatable_shapes():
         python_root
     )
 
-    assert len(definitions) == 80
+    assert len(definitions) == 81
     assert any(definition.node_type == "mesh" for definition in definitions)
     assert all(
         definition.node_type != "SphereLocator" for definition in definitions
@@ -238,6 +253,7 @@ def test_versioned_creator_surfaces_follow_node_availability():
     maya_2027_names = method_names("_NodeCreatorMaya2027")
 
     assert "absolute" in common_names
+    assert "controllerShape" in common_names
     assert "__getattr__" not in common_names
     assert {"addDoubleLinear", "absoluteDL", "shotLabel"}.isdisjoint(
         common_names
@@ -271,6 +287,7 @@ def test_versioned_creator_surfaces_follow_node_availability():
     maya_2027_names = public_node_type_names(2027)
 
     assert "Absolute" in common_names
+    assert "BdControllerShape" in common_names
     assert {"AddDoubleLinear", "AbsoluteDL", "ShotLabel"}.isdisjoint(
         common_names
     )

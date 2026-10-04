@@ -511,6 +511,9 @@ from .operator.node.dg.bd_condition_dbl_l_case_compose import (
 from .operator.node.dg.bd_condition_dbl_l_extra_compose import (
     BdConditionDblLExtraCompose as _BdConditionDblLExtraCompose,
 )
+from .operator.node.dag.shape.bd_controller_shape import (
+    BdControllerShape as _BdControllerShape,
+)
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs as _BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add as _BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import (
@@ -3010,6 +3013,8 @@ class NodeTypes:
     def BdConditionDblLExtraCompose(
         self,
     ) -> type[_BdConditionDblLExtraCompose]: ...
+    @property
+    def BdControllerShape(self) -> type[_BdControllerShape]: ...
     @property
     def BdDbl3Abs(self) -> type[_BdDbl3Abs]: ...
     @property

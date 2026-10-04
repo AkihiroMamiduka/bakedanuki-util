@@ -1,9 +1,11 @@
 #include <array>
 
 #include <maya/MFnPlugin.h>
+#include <maya/MDrawRegistry.h>
 #include <maya/MObject.h>
 #include <maya/MStatus.h>
 
+#include "bdUtilNodes/nodes/BdControllerShapeNode.h"
 #include "bdUtilNodes/nodes/BdDeleteWithOwnerNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblLNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblLMultiNode.h"
@@ -175,10 +177,20 @@ struct NodeRegistration {
     const MTypeId& typeId;
     MCreatorFunction creator;
     MInitializeFunction initialize;
+    MPxNode::Type type = MPxNode::kDependNode;
+    const MString* classification = nullptr;
 };
 
-const std::array<NodeRegistration, 157>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 157> registrations = {{
+const std::array<NodeRegistration, 158>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 158> registrations = {{
+        {
+            BdControllerShapeNode::typeName,
+            BdControllerShapeNode::typeId,
+            BdControllerShapeNode::creator,
+            BdControllerShapeNode::initialize,
+            MPxNode::kLocatorNode,
+            &BdControllerShapeNode::drawClassification,
+        },
         {
             BdDeleteWithOwnerNode::typeName,
             BdDeleteWithOwnerNode::typeId,
@@ -1149,7 +1161,8 @@ MStatus initializePlugin(MObject pluginObject) {
             registration.typeId,
             registration.creator,
             registration.initialize,
-            MPxNode::kDependNode
+            registration.type,
+            registration.classification
         );
         if (status) {
             ++registeredCount;
@@ -1175,6 +1188,19 @@ MStatus initializePlugin(MObject pluginObject) {
         return status;
     }
 
+    status = MHWRender::MDrawRegistry::registerDrawOverrideCreator(
+        BdControllerShapeNode::drawClassification,
+        BdControllerShapeNode::drawRegistrantId,
+        BdControllerShapeNode::createDrawOverride
+    );
+    if (!status) {
+        status.perror("Failed to register bdControllerShape draw override");
+        for (std::size_t index = registrations.size(); index > 0; --index) {
+            plugin.deregisterNode(registrations[index - 1].typeId);
+        }
+        return status;
+    }
+
     return MS::kSuccess;
 }
 
@@ -1193,6 +1219,14 @@ MStatus uninitializePlugin(MObject pluginObject) {
     }
 
     const auto& registrations = nodeRegistrations();
+    status = MHWRender::MDrawRegistry::deregisterDrawOverrideCreator(
+        BdControllerShapeNode::drawClassification,
+        BdControllerShapeNode::drawRegistrantId
+    );
+    if (!status) {
+        status.perror("Failed to deregister bdControllerShape draw override");
+        return status;
+    }
     for (std::size_t index = registrations.size(); index > 0; --index) {
         const NodeRegistration& registration = registrations[index - 1];
         status = plugin.deregisterNode(registration.typeId);

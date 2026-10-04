@@ -407,6 +407,7 @@ from .operator.node.dg.bd_condition_dbl_l_case_compose import (
 from .operator.node.dg.bd_condition_dbl_l_extra_compose import (
     BdConditionDblLExtraCompose,
 )
+from .operator.node.dag.shape.bd_controller_shape import BdControllerShape
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
@@ -3585,6 +3586,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdConditionDblLExtraCompose: ...
+    @staticmethod
+    def bdControllerShape(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdControllerShape: ...
     @staticmethod
     def bdDbl3_Abs(
         node: str | om.MObject,

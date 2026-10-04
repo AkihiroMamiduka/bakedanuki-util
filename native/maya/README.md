@@ -17,6 +17,7 @@ C++ node の設計・実装・検証については
 [Maya C++ Plug-in Development Guide](docs/README.md) を参照してください。
 
 - [Dependency Node Basics](docs/node-basics.md)
+- [Controller Shape](docs/controller-shape.md)
 - [bdDeleteWithOwner](docs/delete-with-owner.md)
 - [RBF Node Family And Roadmap](docs/rbf-roadmap.md)
 - [DG, Parallel Evaluation, And Cached Playback](docs/dg-parallel-cache-playback.md)

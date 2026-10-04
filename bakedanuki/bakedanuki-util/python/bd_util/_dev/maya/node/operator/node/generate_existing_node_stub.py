@@ -697,6 +697,9 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
     common_node_types = {
         definition.node_type for definition in common_definitions
     }
+    common_controller_shape_type = _common_return_type(
+        python_root, definitions_by_type["bdControllerShape"], version_ranges
+    )
 
     lines.extend(
         [
@@ -793,6 +796,18 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
                 "-> type[NodeOperator]: ..."
             ),
             "    def available_node_names(self) -> tuple[str, ...]: ...",
+            "    def controllerShape(",
+            "        self,",
+            "        name: str | None = None,",
+            "        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,",
+            "        *,",
+            "        shape_name: str | None = None,",
+            "        parent: DAG | None = None,",
+            "        namespace: str | None = None,",
+            (
+                "    ) -> tuple[Transform, "
+                f"{common_controller_shape_type}]: ..."
+            ),
         ]
     )
     for definition in creator_definitions:

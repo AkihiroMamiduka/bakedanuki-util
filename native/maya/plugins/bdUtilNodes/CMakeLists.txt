@@ -1,6 +1,7 @@
 add_library(
     bdUtilNodes
     SHARED
+    src/nodes/BdControllerShapeNode.cpp
     src/nodes/BdDeleteWithOwnerNode.cpp
     src/nodes/BdDblAddNode.cpp
     src/nodes/BdDblAddMultiNode.cpp
@@ -194,6 +195,8 @@ target_link_libraries(
     PRIVATE
     "${MAYA_LOCATION}/lib/Foundation.lib"
     "${MAYA_LOCATION}/lib/OpenMaya.lib"
+    "${MAYA_LOCATION}/lib/OpenMayaUI.lib"
+    "${MAYA_LOCATION}/lib/OpenMayaRender.lib"
 )
 
 target_compile_definitions(

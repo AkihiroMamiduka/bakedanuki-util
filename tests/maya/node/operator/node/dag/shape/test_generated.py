@@ -37,7 +37,7 @@ def test_all_generated_shape_modules_import():
     }
     available_public_module_names = public_module_names - future_module_names
 
-    assert len(public_module_names) == 97
+    assert len(public_module_names) == 98
     assert generated_module_names == available_public_module_names | {"shape"}
 
     for module_name in sorted(available_public_module_names):

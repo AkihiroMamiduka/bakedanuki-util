@@ -26,6 +26,7 @@ from ._transform_types import CREATABLE_TRANSFORM_NODE_TYPES
 
 if TYPE_CHECKING:
     from ..operator.node.dg.anim_layer import AnimLayer
+    from ..operator.node.dag.shape.bd_controller_shape import BdControllerShape
 
 _NODE_TYPE_PATTERN = re.compile(
     r"^\s*NODE_TYPE\s*=\s*[\"']([^\"']+)[\"']",
@@ -183,6 +184,40 @@ class NodeCreator:
             override=override,
             namespace=self._effective_namespace(name, namespace),
         )
+
+    def controllerShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, BdControllerShape]:
+        """専用コントローラー `Shape` と親 `Transform` の作成を予約する。
+
+        `do_it_dag()` で両ノードを作成する。属性設定も予約した場合は、
+        続けて `do_it_dg()` を実行する。
+
+        Args:
+            name: コントローラーの `Transform` 名。省略時は Maya に委ねる。
+            auto_add_attr: 定義済みの extra attribute を追加するか。既定は True。
+            shape_name: `Shape` 名。省略時は `name` に `Shape` を付ける。
+            parent: コントローラーの親 `DAG` ノード。
+            namespace: 両ノードの名前に付ける namespace。
+
+        Returns:
+            作成予定の `(Transform, BdControllerShape)`。
+        """
+        transform, shape = self._with_transform.create(
+            "bdControllerShape",
+            name=name,
+            auto_add_attr=auto_add_attr,
+            shape_name=shape_name,
+            parent=parent,
+            namespace=namespace,
+        )
+        return transform, cast("BdControllerShape", shape)
 
     def _creator_node_class(self, node_name: str) -> type[NodeOperator]:
         node_cls = resolve_node_class(node_name, CREATOR_PACKAGES)

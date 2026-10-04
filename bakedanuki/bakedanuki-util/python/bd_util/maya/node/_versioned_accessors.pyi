@@ -639,6 +639,9 @@ from .operator.node.dg.bd_condition_dbl_l_case_compose import (
 from .operator.node.dg.bd_condition_dbl_l_extra_compose import (
     BdConditionDblLExtraCompose as _BdConditionDblLExtraCompose,
 )
+from .operator.node.dag.shape.bd_controller_shape import (
+    BdControllerShape as _BdControllerShape,
+)
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs as _BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add as _BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import (
@@ -3249,6 +3252,15 @@ class _ShapeWithTransformCreatorCommon:
         parent: DAG | None = None,
         namespace: str | None = None,
     ) -> tuple[Transform, _BaseLattice]: ...
+    def bdControllerShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BdControllerShape]: ...
     def bezierCurve(
         self,
         name: str | None = None,
@@ -4429,6 +4441,15 @@ class _NodeCreatorCommon:
     ) -> NodeOperator: ...
     def node_class(self, node_name: str) -> type[NodeOperator]: ...
     def available_node_names(self) -> tuple[str, ...]: ...
+    def controllerShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BdControllerShape]: ...
     def AISEnvFacade(
         self,
         name: str | None = None,
@@ -6730,6 +6751,14 @@ class _NodeCreatorCommon:
         *,
         namespace: str | None = None,
     ) -> _BdConditionDblLExtraCompose: ...
+    def bdControllerShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdControllerShape: ...
     def bdDbl3_Abs(
         self,
         name: str | None = None,
@@ -18595,6 +18624,11 @@ class _ExistingNodeAccessorCommon:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> _BdConditionDblLExtraCompose: ...
+    def bdControllerShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdControllerShape: ...
     def bdDbl3_Abs(
         self,
         node: str | om.MObject,

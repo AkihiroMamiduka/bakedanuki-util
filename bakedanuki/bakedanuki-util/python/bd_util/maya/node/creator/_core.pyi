@@ -21,6 +21,7 @@ from ..operator.node.dag.shape.annotation_shape import AnnotationShape
 from ..operator.node.dag.shape.arc_length_dimension import ArcLengthDimension
 from ..operator.node.dag.shape.area_light import AreaLight
 from ..operator.node.dag.shape.base_lattice import BaseLattice
+from ..operator.node.dag.shape.bd_controller_shape import BdControllerShape
 from ..operator.node.dag.shape.bezier_curve import BezierCurve
 from ..operator.node.dag.shape.camera import Camera
 from ..operator.node.dag.shape.cluster_flexor_shape import ClusterFlexorShape
@@ -1375,6 +1376,15 @@ class NodeCreator(_TransformNodeCreatorMixin):
     def set_namespace(self, namespace: str | None) -> None: ...
     @property
     def with_transform(self) -> ShapeWithTransformCreator: ...
+    def controllerShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, BdControllerShape]: ...
     def create(
         self,
         node_name: str,

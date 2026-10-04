@@ -34,6 +34,7 @@ $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
 
 & $mayapy -m pytest `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_plugin.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_shape.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_delete_with_owner.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_double_linear.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_add.py") `

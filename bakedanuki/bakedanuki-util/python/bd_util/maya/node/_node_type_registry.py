@@ -277,6 +277,7 @@ NODE_TYPE_BY_CLASS_NAME: dict[str, str] = {
     "BdConditionDblExtraCompose": "bdConditionDblExtra_Compose",
     "BdConditionDblLCaseCompose": "bdConditionDblLCase_Compose",
     "BdConditionDblLExtraCompose": "bdConditionDblLExtra_Compose",
+    "BdControllerShape": "bdControllerShape",
     "BdDbl3Abs": "bdDbl3_Abs",
     "BdDbl3Add": "bdDbl3_Add",
     "BdDbl3AddMulti": "bdDbl3_AddMulti",

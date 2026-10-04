@@ -1101,6 +1101,10 @@ from ..maya.node._versioned_accessors import _BdConditionDblLExtraCompose
 
 BdConditionDblLExtraCompose: TypeAlias = _BdConditionDblLExtraCompose
 
+from ..maya.node._versioned_accessors import _BdControllerShape
+
+BdControllerShape: TypeAlias = _BdControllerShape
+
 from ..maya.node._versioned_accessors import _BdDbl3Abs
 
 BdDbl3Abs: TypeAlias = _BdDbl3Abs

@@ -67,6 +67,8 @@
    - Maya 2025 / 2026 / 2027 向け build、stage、test の実行方法
 27. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
+28. [Controller Shape](controller-shape.md)
+   - 独立した輪郭を１つのカスタム shape に描くコントローラーと GUI 確認項目
 
 ## Reference Implementation
 
