@@ -146,6 +146,53 @@ class Shape2ndAxisEnumField(
     PLUG_CLS = Shape2ndAxisEnumPlugOperator
 
 
+class ShapeAxisOffsetDirectionEnumPlugOperator(
+    EnumPlugOperator["ShapeAxisOffsetDirectionEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    PLUS_1STAXIS = 0
+    MINUS_1STAXIS = 1
+    PLUS_2NDAXIS = 2
+    MINUS_2NDAXIS = 3
+    PLUS_3RDAXIS = 4
+    MINUS_3RDAXIS = 5
+
+
+class ShapeAxisOffsetDirectionEnumAttrOperator(
+    EnumAttrOperator[ShapeAxisOffsetDirectionEnumPlugOperator]
+):
+    __slots__ = ()
+
+    PLUS_1STAXIS = 0
+    MINUS_1STAXIS = 1
+    PLUS_2NDAXIS = 2
+    MINUS_2NDAXIS = 3
+    PLUS_3RDAXIS = 4
+    MINUS_3RDAXIS = 5
+
+    NAME_MAP = {
+        PLUS_1STAXIS: "+1stAxis",
+        MINUS_1STAXIS: "-1stAxis",
+        PLUS_2NDAXIS: "+2ndAxis",
+        MINUS_2NDAXIS: "-2ndAxis",
+        PLUS_3RDAXIS: "+3rdAxis",
+        MINUS_3RDAXIS: "-3rdAxis",
+    }
+
+
+class ShapeAxisOffsetDirectionEnumField(
+    EnumField[
+        ShapeAxisOffsetDirectionEnumAttrOperator,
+        ShapeAxisOffsetDirectionEnumPlugOperator,
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeAxisOffsetDirectionEnumAttrOperator
+    PLUG_CLS = ShapeAxisOffsetDirectionEnumPlugOperator
+
+
 class GeneratedBdControllerShape(Shape):
     __slots__ = ()
 
@@ -304,6 +351,14 @@ class GeneratedBdControllerShape(Shape):
     sscy = shapeScaleY
     shapeScaleZ = shapeScale.shapeScaleZ
     sscz = shapeScaleZ
+
+    shapeAxisOffset = BoolField(default_value=False)
+    sao = shapeAxisOffset
+
+    shapeAxisOffsetDirection = ShapeAxisOffsetDirectionEnumField(
+        default_value=0
+    )
+    saod = shapeAxisOffsetDirection
 
     shapeAxisTranslate = ShapeAxisTranslateField(default_value=(0.0, 0.0, 0.0))
     sat = shapeAxisTranslate

@@ -59,6 +59,8 @@ MObject BdControllerShapeNode::shapeScale;
 MObject BdControllerShapeNode::shapeScaleX;
 MObject BdControllerShapeNode::shapeScaleY;
 MObject BdControllerShapeNode::shapeScaleZ;
+MObject BdControllerShapeNode::shapeAxisOffset;
+MObject BdControllerShapeNode::shapeAxisOffsetDirection;
 MObject BdControllerShapeNode::shapeAxisTranslate;
 MObject BdControllerShapeNode::shapeAxisTranslateX;
 MObject BdControllerShapeNode::shapeAxisTranslateY;
@@ -91,6 +93,8 @@ struct ShapeSettings {
     MVector translate = MVector(0.0, 0.0, 0.0);
     MVector rotateAngles = MVector(0.0, 0.0, 0.0);
     MVector scale = MVector(1.0, 1.0, 1.0);
+    bool axisOffset = false;
+    short axisOffsetDirection = 0;
     MVector axisTranslate = MVector(0.0, 0.0, 0.0);
     MVector axisRotateAngles = MVector(0.0, 0.0, 0.0);
     MVector axisScale = MVector(1.0, 1.0, 1.0);
@@ -111,6 +115,8 @@ bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
         sameVector(left.translate, right.translate) &&
         sameVector(left.rotateAngles, right.rotateAngles) &&
         sameVector(left.scale, right.scale) &&
+        left.axisOffset == right.axisOffset &&
+        left.axisOffsetDirection == right.axisOffsetDirection &&
         sameVector(left.axisTranslate, right.axisTranslate) &&
         sameVector(left.axisRotateAngles, right.axisRotateAngles) &&
         sameVector(left.axisScale, right.axisScale) &&
@@ -131,6 +137,18 @@ MVector axisVector(short axis) {
     }
 }
 
+MVector axisOffsetVector(short direction) {
+    switch (direction) {
+        case 0: return MVector(0.0, 0.0, 0.5);
+        case 1: return MVector(0.0, 0.0, -0.5);
+        case 2: return MVector(0.0, 0.5, 0.0);
+        case 3: return MVector(0.0, -0.5, 0.0);
+        case 4: return MVector(0.5, 0.0, 0.0);
+        case 5: return MVector(-0.5, 0.0, 0.0);
+        default: return MVector(0.0, 0.0, 0.5);
+    }
+}
+
 struct ShapeTransform {
     const ShapeSettings& settings;
     MQuaternion rotate;
@@ -138,6 +156,7 @@ struct ShapeTransform {
     MVector axisX;
     MVector axisY;
     MVector axisZ;
+    MVector axisOffset;
 
     explicit ShapeTransform(const ShapeSettings& source)
         : settings(source),
@@ -154,7 +173,12 @@ struct ShapeTransform {
               MEulerRotation::kXYZ
           ).asQuaternion()),
           axisZ(axisVector(source.firstAxis)),
-          axisY(axisVector(source.secondAxis)) {
+          axisY(axisVector(source.secondAxis)),
+          axisOffset(
+              source.axisOffset
+                  ? axisOffsetVector(source.axisOffsetDirection)
+                  : MVector(0.0, 0.0, 0.0)
+          ) {
         if ((axisY ^ axisZ).length() == 0.0) {
             axisY = std::abs(axisZ.y) == 1.0
                 ? MVector(0.0, 0.0, 1.0)
@@ -228,6 +252,18 @@ bool readSettings(const MObject& node, ShapeSettings& settings) {
         return false;
     }
 
+    settings.axisOffset =
+        MPlug(node, BdControllerShapeNode::shapeAxisOffset).asBool(&status);
+    if (!status) {
+        return false;
+    }
+    settings.axisOffsetDirection = MPlug(
+        node, BdControllerShapeNode::shapeAxisOffsetDirection
+    ).asShort(&status);
+    if (!status) {
+        return false;
+    }
+
     const MPlug axisTranslate(node, BdControllerShapeNode::shapeAxisTranslate);
     settings.axisTranslate.x =
         axisTranslate.child(0).asMDistance(&status).asCentimeters();
@@ -290,7 +326,11 @@ bool readSettings(const MObject& node, ShapeSettings& settings) {
     return status == MS::kSuccess;
 }
 
-MPoint transformPoint(const MPoint& point, const ShapeTransform& transform) {
+MPoint transformPoint(
+    const MPoint& point,
+    const ShapeTransform& transform,
+    bool includeAxisOffset = true
+) {
     const ShapeSettings& settings = transform.settings;
     const MVector axisScaled(
         point.x * settings.size * settings.axisScale.x,
@@ -298,7 +338,8 @@ MPoint transformPoint(const MPoint& point, const ShapeTransform& transform) {
         point.z * settings.size * settings.axisScale.z
     );
     const MVector axisLocal =
-        axisScaled.rotateBy(transform.axisRotate) + settings.axisTranslate;
+        axisScaled.rotateBy(transform.axisRotate) + settings.axisTranslate +
+        (includeAxisOffset ? transform.axisOffset : MVector(0.0, 0.0, 0.0));
     const MVector oriented =
         transform.axisX * axisLocal.x +
         transform.axisY * axisLocal.y +
@@ -456,6 +497,8 @@ bool isShapeAttribute(const MObject& attribute) {
              BdControllerShapeNode::shapeScaleX,
              BdControllerShapeNode::shapeScaleY,
              BdControllerShapeNode::shapeScaleZ,
+             BdControllerShapeNode::shapeAxisOffset,
+             BdControllerShapeNode::shapeAxisOffsetDirection,
              BdControllerShapeNode::shapeAxisTranslate,
              BdControllerShapeNode::shapeAxisTranslateX,
              BdControllerShapeNode::shapeAxisTranslateY,
@@ -500,6 +543,8 @@ bool hasConnectedShapeInput(const MObject& node) {
              BdControllerShapeNode::shapeTranslate,
              BdControllerShapeNode::shapeRotate,
              BdControllerShapeNode::shapeScale,
+             BdControllerShapeNode::shapeAxisOffset,
+             BdControllerShapeNode::shapeAxisOffsetDirection,
              BdControllerShapeNode::shapeAxisTranslate,
              BdControllerShapeNode::shapeAxisRotate,
              BdControllerShapeNode::shapeAxisScale,
@@ -687,7 +732,7 @@ BdControllerShapeNode::geometry() const {
     result->bounds = boundsForStrokes(result->strokes);
     result->offsetLineTemplate = settings.offsetLineTemplate;
     if (settings.showOffsetLine) {
-        const MPoint endpoint = transformPoint(MPoint::origin, transform);
+        const MPoint endpoint = transformPoint(MPoint::origin, transform, false);
         if (hasOffsetLine(endpoint)) {
             result->offsetLine.append(MPoint::origin);
             result->offsetLine.append(endpoint);
@@ -899,6 +944,50 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = addAttribute(shapeScale);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createBooleanAttribute(
+        numericAttributeFn,
+        shapeAxisOffset,
+        "shapeAxisOffset",
+        "sao",
+        false
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(shapeAxisOffset);
+    if (!status) {
+        return status;
+    }
+
+    shapeAxisOffsetDirection = enumAttributeFn.create(
+        "shapeAxisOffsetDirection", "saod", 0, &status
+    );
+    if (!status) {
+        return status;
+    }
+    for (const auto& field : {
+             std::pair<const char*, short>{"+1stAxis", 0},
+             std::pair<const char*, short>{"-1stAxis", 1},
+             std::pair<const char*, short>{"+2ndAxis", 2},
+             std::pair<const char*, short>{"-2ndAxis", 3},
+             std::pair<const char*, short>{"+3rdAxis", 4},
+             std::pair<const char*, short>{"-3rdAxis", 5},
+         }) {
+        status = enumAttributeFn.addField(field.first, field.second);
+        if (!status) {
+            return status;
+        }
+    }
+    enumAttributeFn.setKeyable(true);
+    status = addAttribute(shapeAxisOffsetDirection);
     if (!status) {
         return status;
     }

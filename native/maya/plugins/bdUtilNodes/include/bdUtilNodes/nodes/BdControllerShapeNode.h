@@ -67,6 +67,9 @@ public:
     static MObject shapeScaleY;
     static MObject shapeScaleZ;
 
+    static MObject shapeAxisOffset;
+    static MObject shapeAxisOffsetDirection;
+
     static MObject shapeAxisTranslate;
     static MObject shapeAxisTranslateX;
     static MObject shapeAxisTranslateY;
