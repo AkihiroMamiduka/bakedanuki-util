@@ -36,8 +36,10 @@ mod.do_it_dg()
 | `shapeRotate` | `doubleAngle3` | `(0, 0, 0)` | XYZ 固定順で回転 |
 | `shapeScale` | `double3` | `(1, 1, 1)` | 回転前の局所軸方向で拡縮 |
 | `shapeSize` | `double` | `1` | 線の頂点を末端で一律スケール |
+| `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から変形後のシェイプ原点まで補助線を描く |
+| `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 
-`shape` と５つの変形属性、および３軸属性の各子属性は keyable です。
+`shape` と５つの変形属性、２つの補助線属性、および３軸属性の各子属性は keyable です。
 shape を選択して Channel Box から数値を調整できます。
 `MPxLocatorNode` から継承する `localPositionX/Y/Z` と `localScaleX/Y/Z` は
 描画に使わないため、`bdControllerShape` では Channel Box の既定表示から外します。
@@ -54,6 +56,14 @@ p_out = shapeRootSize * (shapeTranslate + R_XYZ(shapeScale ⊙ (shapeSize * p)))
 ここで `⊙` は成分ごとの積です。`shapeRootSize` は `shapeTranslate` の
 移動量にも影響し、`shapeSize` は頂点だけを拡縮します。
 これらは親 `transform` のアニメーション用 TRS とは別です。
+
+補助線の始点は親 `transform` のローカル原点 `(0, 0, 0)`、終点は
+`shapeRootSize * shapeTranslate` です。`shapeRotate`、`shapeScale`、
+`shapeSize` は終点を動かしません。始点と終点が重なる場合は線を描きません。
+`shapeOffsetLineTemplate` が `true` のときは補助線だけを選択対象から外し、
+Maya の template 表示色で描きます。`false` なら補助線は通常のワイヤーフレーム色で
+クリック選択に使えます。どちらの設定でも形状本体の線は選択できます。
+補助線が形状本体の線と重なる箇所では、本体の線で選択される場合があります。
 
 既定の `Square` と `Circle` は XY 面にあり、各軸 `-0.5` から `+0.5`
 の範囲に収まります。`Cube` は３軸とも同じ範囲です。
@@ -83,3 +93,6 @@ shape 自身の `visibility` をオフにすると非表示になります。
 5. shape の `visibility` をオフにすると消え、オンに戻すと再び表示される。
 6. `shape` と各変形属性を変えた直後に、描画と選択範囲が更新される。
 7. シーンを Maya ASCII で保存して再読込し、上記の表示と選択を再確認する。
+8. `shapeTranslate` を動かし、`showShapeOffsetLine` をオンにすると親のローカル原点からシェイプの中心へ補助線が出る。オフにすると消える。
+9. 本体の線と重ならない補助線上をクリックし、`shapeOffsetLineTemplate` がオンなら選択されず、オフなら親 `transform` が選択される。どちらの設定でも本体の線は選択できる。
+10. `shapeOffsetLineTemplate` をオンにすると補助線だけが Maya の template 表示色になり、オフにすると通常のワイヤーフレーム色に戻る。本体の線の色は変わらない。

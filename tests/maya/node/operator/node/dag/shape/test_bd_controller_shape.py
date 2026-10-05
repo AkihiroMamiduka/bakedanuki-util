@@ -76,6 +76,17 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         (1.0, 1.0, 1.0)
     )
     assert maya_cmds.getAttr(f"{shape}.shapeSize") == pytest.approx(1.0)
+    assert not maya_cmds.getAttr(f"{shape}.showShapeOffsetLine")
+    assert not maya_cmds.getAttr(f"{shape}.shapeOffsetLineTemplate")
+    assert (
+        maya_cmds.attributeQuery(
+            "shapeOffsetLineTemplate", node=shape, shortName=True
+        )
+        == "solt"
+    )
+    assert not maya_cmds.attributeQuery(
+        "shapeOffsetLineSelectable", node=shape, exists=True
+    )
     assert (
         maya_cmds.getAttr(f"{shape}.shapeTranslateX", type=True)
         == "doubleLinear"
@@ -100,6 +111,8 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeScaleY",
         "shapeScaleZ",
         "shapeSize",
+        "showShapeOffsetLine",
+        "shapeOffsetLineTemplate",
     ):
         assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
 
@@ -193,6 +206,42 @@ def test_shape_transform_order_and_dirty_bounds(maya_cmds, maya_om, new_scene):
     )
 
 
+def test_shape_offset_line_expands_bounds_and_round_trips(
+    maya_cmds, maya_om, new_scene, tmp_path
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.shapeRootSize", 2.0)
+    maya_cmds.setAttr(f"{shape}.shapeTranslateX", 2.0)
+
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (3.0, -1.0, 0.0, 5.0, 1.0, 0.0), abs=1.0e-9
+    )
+
+    maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", True)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (0.0, -1.0, 0.0, 5.0, 1.0, 0.0), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.shapeOffsetLineTemplate", True)
+
+    scene_path = tmp_path / "controller_shape_offset_line.ma"
+    maya_cmds.file(rename=str(scene_path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(scene_path), open=True, force=True)
+
+    assert maya_cmds.getAttr(f"{shape}.showShapeOffsetLine")
+    assert maya_cmds.getAttr(f"{shape}.shapeOffsetLineTemplate")
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (0.0, -1.0, 0.0, 5.0, 1.0, 0.0), abs=1.0e-9
+    )
+
+    maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", False)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (3.0, -1.0, 0.0, 5.0, 1.0, 0.0), abs=1.0e-9
+    )
+
+
 def test_scene_round_trip_preserves_circle_arrow(
     maya_cmds, maya_om, new_scene, tmp_path
 ):
@@ -224,10 +273,14 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     transform, shape = nodes.create.controllerShape(name="rig_ctrl")
     shape.shape.set(3)
     shape.shapeSize.set(2.0)
+    shape.showShapeOffsetLine.set(True)
+    shape.shapeOffsetLineTemplate.set(True)
     mod.do_it_dag()
     mod.do_it_dg()
 
     assert maya_cmds.nodeType(shape.full_path) == "bdControllerShape"
+    assert maya_cmds.getAttr(f"{shape.full_path}.showShapeOffsetLine")
+    assert maya_cmds.getAttr(f"{shape.full_path}.shapeOffsetLineTemplate")
     assert maya_cmds.listRelatives(
         transform.full_path, shapes=True, fullPath=True
     ) == [shape.full_path]
@@ -240,3 +293,5 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     mod.redo_it()
     assert maya_cmds.objExists(transform.full_path)
     assert maya_cmds.getAttr(f"{shape.full_path}.shape") == 3
+    assert maya_cmds.getAttr(f"{shape.full_path}.showShapeOffsetLine")
+    assert maya_cmds.getAttr(f"{shape.full_path}.shapeOffsetLineTemplate")

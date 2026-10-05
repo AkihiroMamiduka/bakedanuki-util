@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#include <maya/M3dView.h>
 #include <maya/MAngle.h>
 #include <maya/MColor.h>
 #include <maya/MDagPath.h>
@@ -54,6 +55,8 @@ MObject BdControllerShapeNode::shapeScaleX;
 MObject BdControllerShapeNode::shapeScaleY;
 MObject BdControllerShapeNode::shapeScaleZ;
 MObject BdControllerShapeNode::shapeSize;
+MObject BdControllerShapeNode::showShapeOffsetLine;
+MObject BdControllerShapeNode::shapeOffsetLineTemplate;
 
 namespace {
 
@@ -70,6 +73,8 @@ struct ShapeSettings {
     MQuaternion rotate;
     MVector scale = MVector(1.0, 1.0, 1.0);
     double size = 1.0;
+    bool showOffsetLine = false;
+    bool offsetLineTemplate = false;
 };
 
 bool readSettings(const MObject& node, ShapeSettings& settings) {
@@ -129,6 +134,16 @@ bool readSettings(const MObject& node, ShapeSettings& settings) {
         return false;
     }
     settings.size = MPlug(node, BdControllerShapeNode::shapeSize).asDouble(&status);
+    if (!status) {
+        return false;
+    }
+    settings.showOffsetLine =
+        MPlug(node, BdControllerShapeNode::showShapeOffsetLine).asBool(&status);
+    if (!status) {
+        return false;
+    }
+    settings.offsetLineTemplate =
+        MPlug(node, BdControllerShapeNode::shapeOffsetLineTemplate).asBool(&status);
     return status == MS::kSuccess;
 }
 
@@ -144,6 +159,10 @@ MPoint transformPoint(const MPoint& point, const ShapeSettings& settings) {
         settings.rootSize * (settings.translate.y + rotated.y),
         settings.rootSize * (settings.translate.z + rotated.z)
     );
+}
+
+bool hasOffsetLine(const MPoint& endpoint) {
+    return endpoint.x != 0.0 || endpoint.y != 0.0 || endpoint.z != 0.0;
 }
 
 template <std::size_t Count>
@@ -269,12 +288,23 @@ MBoundingBox nodeBounds(const MObject& node) {
     if (!readSettings(node, settings)) {
         return MBoundingBox(MPoint::origin, MPoint::origin);
     }
-    return boundsForStrokes(makeStrokes(settings));
+    MBoundingBox box = boundsForStrokes(makeStrokes(settings));
+    if (settings.showOffsetLine) {
+        const MPoint endpoint = transformPoint(MPoint::origin, settings);
+        if (hasOffsetLine(endpoint)) {
+            box.expand(MPoint::origin);
+            box.expand(endpoint);
+        }
+    }
+    return box;
 }
 
 struct ShapeDrawData final : public MUserData {
     Strokes strokes;
+    MPointArray offsetLine;
+    bool offsetLineTemplate = false;
     MColor color;
+    MColor offsetLineColor;
 };
 
 class ControllerShapeDrawOverride final : public MHWRender::MPxDrawOverride {
@@ -311,10 +341,28 @@ public:
             ? static_cast<ShapeDrawData*>(oldData)
             : new ShapeDrawData();
         ShapeSettings settings;
-        data->strokes = readSettings(objectPath.node(), settings)
-            ? makeStrokes(settings)
-            : Strokes();
+        const bool hasSettings = readSettings(objectPath.node(), settings);
+        data->strokes = hasSettings ? makeStrokes(settings) : Strokes();
+        data->offsetLine.clear();
+        data->offsetLineTemplate = hasSettings && settings.offsetLineTemplate;
+        if (hasSettings && settings.showOffsetLine) {
+            const MPoint endpoint = transformPoint(MPoint::origin, settings);
+            if (hasOffsetLine(endpoint)) {
+                data->offsetLine.append(MPoint::origin);
+                data->offsetLine.append(endpoint);
+            }
+        }
         data->color = MHWRender::MGeometryUtilities::wireframeColor(objectPath);
+        if (data->offsetLine.length() == 2) {
+            data->offsetLineColor = data->color;
+            if (data->offsetLineTemplate) {
+                MStatus colorStatus;
+                const MColor templateColor = M3dView::templateColor(&colorStatus);
+                if (colorStatus) {
+                    data->offsetLineColor = templateColor;
+                }
+            }
+        }
         return data;
     }
 
@@ -338,6 +386,16 @@ public:
             drawManager.lineStrip(stroke, false);
         }
         drawManager.endDrawable();
+        if (data->offsetLine.length() == 2) {
+            drawManager.beginDrawable(
+                data->offsetLineTemplate
+                    ? MHWRender::MUIDrawManager::kNonSelectable
+                    : MHWRender::MUIDrawManager::kSelectable
+            );
+            drawManager.setColor(data->offsetLineColor);
+            drawManager.lineStrip(data->offsetLine, false);
+            drawManager.endDrawable();
+        }
     }
 };
 
@@ -507,7 +565,45 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    return addAttribute(shapeSize);
+    status = addAttribute(shapeSize);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createBooleanAttribute(
+        numericAttributeFn,
+        showShapeOffsetLine,
+        "showShapeOffsetLine",
+        "ssol",
+        false
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(showShapeOffsetLine);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createBooleanAttribute(
+        numericAttributeFn,
+        shapeOffsetLineTemplate,
+        "shapeOffsetLineTemplate",
+        "solt",
+        false
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) {
+        return status;
+    }
+    return addAttribute(shapeOffsetLineTemplate);
 }
 
 bool BdControllerShapeNode::isBounded() const {

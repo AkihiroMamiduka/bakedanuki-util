@@ -46,4 +46,6 @@ public:
     static MObject shapeScaleZ;
 
     static MObject shapeSize;
+    static MObject showShapeOffsetLine;
+    static MObject shapeOffsetLineTemplate;
 };

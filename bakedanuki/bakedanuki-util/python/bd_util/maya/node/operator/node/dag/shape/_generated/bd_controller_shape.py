@@ -210,3 +210,9 @@ class GeneratedBdControllerShape(Shape):
 
     shapeSize = DoubleField(default_value=1.0)
     ss = shapeSize
+
+    showShapeOffsetLine = BoolField(default_value=False)
+    ssol = showShapeOffsetLine
+
+    shapeOffsetLineTemplate = BoolField(default_value=False)
+    solt = shapeOffsetLineTemplate

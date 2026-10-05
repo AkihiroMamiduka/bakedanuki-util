@@ -1,6 +1,9 @@
 from typing import assert_type
 
 import bd_util as bdu
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.bool import (
+    BoolPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double import (
     DoublePlugOperator,
 )
@@ -59,3 +62,12 @@ def versioned_node_type_list_contract() -> None:
         nodes_2026.create.absoluteDL(),
         bdu.node_types.maya2026.AbsoluteDL,
     )
+
+
+def controller_shape_offset_line_contract() -> None:
+    _, shape = bdu.Nodes().create.controllerShape()
+    assert_type(shape, bdu.node_types.BdControllerShape)
+    assert_type(shape.showShapeOffsetLine, BoolPlugOperator)
+    assert_type(shape.shapeOffsetLineTemplate, BoolPlugOperator)
+    shape.showShapeOffsetLine.set(True)
+    shape.shapeOffsetLineTemplate.set(False)
