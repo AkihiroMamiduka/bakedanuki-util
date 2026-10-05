@@ -41,6 +41,7 @@ from .plugs_binding import (
 )
 from .plugs_state import MayaPlugTargetState
 from .plug_input_state import MayaPlugInputState, inspect_plug_input_state
+from .plug_value_edit import connected_plug_edit_reason
 from .plugs_value_edits import (
     MayaBoolValueEdit,
     MayaFloatValueEdit,
@@ -108,6 +109,7 @@ __all__ = [
     "MayaPlugTargetState",
     "MayaPlugInputState",
     "inspect_plug_input_state",
+    "connected_plug_edit_reason",
     "MayaBoolValueEdit",
     "MayaFloatValueEdit",
     "MayaFloatOffsetEdit",

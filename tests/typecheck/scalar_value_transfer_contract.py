@@ -56,6 +56,12 @@ def contract(
         MayaScalarPasteResult,
     )
     assert_type(
+        apply_scalar_value_transfer(
+            target_names, transfer, edit_connected=True
+        ),
+        MayaScalarPasteResult,
+    )
+    assert_type(
         apply_scalar_value_transfer_to_paths(
             target_names, ("mode",), transfer
         ),
@@ -68,12 +74,24 @@ def contract(
         MayaScalarPasteResult,
     )
     assert_type(
+        apply_scalar_value_transfer_to_paths(
+            target_names, ("mode",), transfer, edit_connected=True
+        ),
+        MayaScalarPasteResult,
+    )
+    assert_type(
         apply_scalar_value_to_paths(target_names, ("mode",), transfer),
         MayaScalarPasteResult,
     )
     assert_type(
         apply_scalar_value_to_paths(
             target_names, ("mode",), transfer, key_animated=True
+        ),
+        MayaScalarPasteResult,
+    )
+    assert_type(
+        apply_scalar_value_to_paths(
+            target_names, ("mode",), transfer, edit_connected=True
         ),
         MayaScalarPasteResult,
     )

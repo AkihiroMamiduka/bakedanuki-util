@@ -67,10 +67,26 @@ stringは単一のtyped string属性だけを対象とし、空文字・Unicode�
 項目名の定義が一致する場合だけ候補にします。空・重複pathや複数の搬送値は書込み前に拒否します。
 
 三つの貼り付けAPIには`key_animated=True`を指定できます。通常の時間駆動カーブへ
-直接接続された数値・bool・enum属性では、変更時に現在時刻のキーを追加または更新します。
+直接接続された数値・bool・enum属性では、変更時にAuto KeyのON／OFFにかかわらず
+現在時刻のキーを追加または更新します。
 接続のない属性は従来どおり値を書き込みます。既定の`False`ではキー付き属性は
 読取り専用です。Layer・Driven Key・その他の入力接続は対象外として理由を返します。
 同値ならキーを追加せず、複数対象の変更は一回のUndoへまとめます。
+
+Maya標準の値入力へ合わせる場合は、代わりに`edit_connected=True`を指定します。
+通常の時間カーブとAnimation LayerはAuto Keyに連動し、OFFでは一時値を変更、
+ONでは現在時刻のキーを追加・更新します。SDKも一時値を変更できますが、
+SDKのキーは更新しません。未接続属性へAuto Keyで新しいカーブを作ることはありません。
+constraintを含む駆動、pairBlend、unitConversion、mute、Time Editor、expressionや
+その他の接続は対象外です。stringは従来どおり入力接続を許可しません。
+Layerの編集先・合成後の出力はMayaの選択状態、ロック、ウェイト等に従います。
+詳細は[接続属性への入力](plugs_binding.md#maya標準に合わせた接続属性への入力)を参照してください。
+
+`edit_connected`の既定値は`False`で、既存の貼り付け規則は維持します。
+`key_animated`との同時`True`は、貼り付け先に対応属性がない場合も`ValueError`です。
+`bdChannelBox`のPasteは`edit_connected=True`を使用し、通常入力と規則を揃えます。
+既存APIをこの動作へ移す場合は`key_animated=True`を`edit_connected=True`へ置き換えます。
+clipboard schema、scene、保存設定の移行は不要です。
 
 表示状態で正式pathを絞り込む場合は、`bd_util.maya.node`の
 `filter_scalar_attribute_paths()`を使用します。`all`、`visible`、`keyable`、
@@ -80,10 +96,17 @@ stringは単一のtyped string属性だけを対象とし、空文字・Unicode�
 - 属性なし、型・単位違い、enum定義違い、lock・入力接続などのreadonly属性は
   `MayaScalarPasteResult.excluded`へ理由を返します。
 - 候補は既存の`apply_plugs_values()`へまとめ、hard limitを含む全件検証後に一回のUndoで
-  書き込みます。途中で失敗した場合は変更済みの値を復旧します。
+  書き込みます。途中で失敗した場合は変更済みの値とAuto Keyのキー変更を復旧します。
 - 全候補が同値なら`changed`は`False`となり、Undo項目を作りません。
 - 適用APIは一つのコピー元nodeを受け付け、複数sourceを拒否します。transfer形式の`nodes`は
   tupleですが、複数sourceを順番や表示位置で暗黙に対応させません。
+
+`tests/maya/ui/test_connected_value_transfer.py`では、三つのAPIから通常値・時間キー・
+SDK・Animation Layerへ同時に貼り付け、Auto Key ON／OFFでのキー内容と一回Undoを
+検証します。constraint・一般接続・unitConversionの除外と、stringや空path経路での
+入力方針の競合も検証します。既存の型・単位・schema・対象照合は
+`tests/maya/ui/test_scalar_value_transfer.py`、公開型は
+`tests/typecheck/scalar_value_transfer_contract.py`で検証します。
 
 ## OSクリップボード形式
 

@@ -11,6 +11,7 @@ from bd_util.maya.ui.binding.plugs_binding import (
 from bd_util.maya.ui.binding.plugs_state import MayaPlugTargetState
 from bd_util.maya.ui import (
     MayaPlugInputState,
+    connected_plug_edit_reason,
     inspect_plug_input_state,
     resolve_bool_plug,
     resolve_enum_plug,
@@ -49,6 +50,24 @@ assert_type(
     ),
     MayaEnumPlugsBinding,
 )
+assert_type(
+    MayaBoolPlugsBinding(
+        [resolve_bool_plug("node", "visibility")], edit_connected=True
+    ),
+    MayaBoolPlugsBinding,
+)
+assert_type(
+    MayaFloatPlugsBinding(
+        [resolve_float_plug("node", "translateX")], edit_connected=True
+    ),
+    MayaFloatPlugsBinding,
+)
+assert_type(
+    MayaEnumPlugsBinding(
+        [resolve_enum_plug("node", "mode")], edit_connected=True
+    ),
+    MayaEnumPlugsBinding,
+)
 assert_type(bool_binding.value, bool)
 assert_type(float_binding.value, float)
 assert_type(bool_binding.view_model, BoolViewModel)
@@ -60,6 +79,11 @@ assert_type(
     bool_binding.target_states[0].input_state, MayaPlugInputState | None
 )
 assert_type(bool_binding.target_states[0].is_locked, bool | None)
+assert_type(float_binding.target_states[0].edit_description, str | None)
+assert_type(
+    connected_plug_edit_reason(resolve_float_plug("node", "translateX").plug),
+    str | None,
+)
 assert_type(
     inspect_plug_input_state(resolve_float_plug("node", "translateX").plug),
     MayaPlugInputState,

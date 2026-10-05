@@ -20,6 +20,12 @@ from ._animated_plug_write import (
     animation_edit_reason,
     prepare_animated_plug_write,
 )
+from ._connected_plug_write import (
+    ConnectedPlugWrite,
+    connected_plug_watch_nodes,
+    inspect_connected_plug,
+    prepare_connected_plug_write,
+)
 from ._float_edit import FloatEditUndo
 from ._float_plug_endpoint import run_later
 from .plug_input_state import _inspect_plug_input
@@ -54,16 +60,23 @@ class PlugTarget(Generic[_ValueT]):
     removed: bool = False
     key_animated: bool = False
     track_input_state: bool = False
+    edit_connected: bool = False
 
     def __post_init__(self) -> None:
         """同名再作成に追従しない実体参照と監視対象を記録する。"""
         if type(self.key_animated) is not bool:
             raise TypeError("key_animatedにはboolを指定してください")
+        if type(self.edit_connected) is not bool:
+            raise TypeError("edit_connectedにはboolを指定してください")
+        if self.key_animated and self.edit_connected:
+            raise ValueError("key_animatedとedit_connectedは併用できません")
         if type(self.track_input_state) is not bool:
             raise TypeError("track_input_stateにはboolを指定してください")
         self.node_handle = om.MObjectHandle(self.plug.node())
         self.attribute_handle = om.MObjectHandle(self.plug.attribute())
         self.source_curve: om.MObjectHandle | None = None
+        self.source_nodes: tuple[om.MObjectHandle, ...] = ()
+        self.connected_curves: tuple[om.MObjectHandle, ...] = ()
         self.watched = [self.plug]
         while self.watched[-1].isChild:
             self.watched.append(self.watched[-1].parent())
@@ -91,8 +104,10 @@ class PlugTarget(Generic[_ValueT]):
 
     def state(self) -> MayaPlugTargetState:
         """自身と祖先の入力可否、接続種類と実効ロックを取得する。"""
+        self.source_curve = None
+        self.source_nodes = ()
+        self.connected_curves = ()
         if not self.is_available:
-            self.source_curve = None
             return MayaPlugTargetState(
                 self.last_name,
                 False,
@@ -109,9 +124,28 @@ class PlugTarget(Generic[_ValueT]):
                 None if curve is None else om.MObjectHandle(curve)
             )
         is_locked = any(plug.isLocked for plug in self.watched)
+        has_input = any(plug.isDestination for plug in self.watched)
+        description: str | None = None
+        if self.edit_connected and has_input:
+            self.source_nodes = tuple(
+                om.MObjectHandle(node)
+                for node in connected_plug_watch_nodes(self.plug)
+            )
         reason: str | None = None
         if is_locked:
             reason = "ロックされています"
+        elif self.edit_connected and has_input:
+            try:
+                info = inspect_connected_plug(self.plug)
+                description = info.description
+                self.source_nodes = tuple(
+                    om.MObjectHandle(node) for node in info.watched_nodes
+                )
+                self.connected_curves = tuple(
+                    om.MObjectHandle(curve) for curve in info.curves
+                )
+            except RuntimeError as error:
+                reason = str(error)
         elif any(plug.isDestination for plug in self.watched[1:]):
             reason = "入力接続があります（アニメーションを含む）"
         elif not om.MFnAttribute(self.plug.attribute()).writable:
@@ -131,6 +165,7 @@ class PlugTarget(Generic[_ValueT]):
             reason,
             input_state,
             is_locked,
+            description,
         )
 
 
@@ -160,21 +195,35 @@ class _PreparedPlugWrite(Generic[_ValueT]):
     value: _ValueT
     requested: _ValueT
     animated: AnimatedPlugWrite | None = None
+    connected: ConnectedPlugWrite | None = None
 
     def validate(self) -> None:
         """状態・範囲・単位が変わっていないことを確認する。"""
+        self._validate_target()
+        if self.animated is not None:
+            self.animated.validate()
+        if self.connected is not None:
+            self.connected.validate()
+
+    def _validate_target(self) -> None:
+        """先行する別属性への入力を許容し、接続と入力条件を再確認する。"""
         self.store.validate_write_target(self.target, self.requested)
-        if self.target.plug.isDestination != (self.animated is not None):
+        has_input = any(plug.isDestination for plug in self.target.watched)
+        if has_input != (
+            self.animated is not None or self.connected is not None
+        ):
             raise RuntimeError("入力中に対象属性の接続が変わりました")
         if self.target.codec.validate(self.value) != self.requested:
             raise RuntimeError("入力中に対象属性の単位が変わりました")
-        if self.animated is not None:
-            self.animated.validate()
 
     def apply(self) -> None:
         """事前検証した現在単位の値をMayaへ書き込む。"""
+        self._validate_target()
         if self.animated is not None:
             self.animated.apply()
+            return
+        if self.connected is not None:
+            self.connected.apply(prevalidated=True)
             return
         set_attr = cast(Callable[[str, _ValueT], None], cmds.setAttr)
         set_attr(self.target.name(), self.requested)
@@ -183,6 +232,9 @@ class _PreparedPlugWrite(Generic[_ValueT]):
         """公開単位の復旧値を現在単位へ変換して元に戻す。"""
         if self.animated is not None:
             self.animated.restore()
+            return
+        if self.connected is not None:
+            self.connected.restore()
             return
         before = self.target.codec.to_ui(self.before)
         if self.target.codec.to_ui(self.target.codec.read()) != before:
@@ -209,6 +261,7 @@ def execute_plug_writes(plan: Sequence[PlugWrite]) -> None:
     try:
         for write in plan:
             write.validate()
+        for write in plan:
             applied.append(write)
             write.apply()
     except Exception as error:
@@ -255,6 +308,11 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self._input_curves: tuple[om.MObjectHandle, ...] = ()
         self._curve_callback_id: int | None = None
         self._time_callback_id: int | None = None
+        self._input_node_callbacks: list[tuple[om.MObjectHandle, int]] = []
+        self._input_lock_states: tuple[bool | None, ...] = ()
+        self._input_lock_timer = qt.QTimer(self)
+        self._input_lock_timer.setInterval(500)
+        self._input_lock_timer.timeout.connect(self._check_input_node_locks)
         self._float_view_model = float_view_model
         self._edit_undo = (
             None
@@ -370,13 +428,27 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             before = target.codec.read()
             if target.codec.to_ui(before) != requested:
                 animated = None
-                if target.plug.isDestination:
+                connected = None
+                if any(plug.isDestination for plug in target.watched):
                     if isinstance(value, str):
-                        raise TypeError("string属性はキー編集できません")
-                    animated = prepare_animated_plug_write(target.plug, value)
+                        raise TypeError("string属性の接続入力は編集できません")
+                    if target.edit_connected:
+                        connected = prepare_connected_plug_write(
+                            target.plug, cast(float | int | bool, requested)
+                        )
+                    else:
+                        animated = prepare_animated_plug_write(
+                            target.plug, value
+                        )
                 plan.append(
                     _PreparedPlugWrite(
-                        self, target, before, value, requested, animated
+                        self,
+                        target,
+                        before,
+                        value,
+                        requested,
+                        animated,
+                        connected,
                     )
                 )
         return plan
@@ -432,13 +504,15 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         return changed
 
     def _sync_input_callbacks(self) -> None:
-        """接続中の通常時間カーブがある間だけ時刻とキー編集を監視する。"""
+        """入力元の曲線・レイヤ設定と時刻に必要な監視だけを保持する。"""
         self._input_curves = tuple(
             curve
             for target in self._targets
-            if (curve := target.source_curve) is not None
-            and curve.isValid()
-            and curve.isAlive()
+            for curve in (
+                (() if target.source_curve is None else (target.source_curve,))
+                + target.connected_curves
+            )
+            if curve.isValid() and curve.isAlive()
         )
         if self._input_curves and self._curve_callback_id is None:
             self._curve_callback_id = self._registry.register(
@@ -448,6 +522,14 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                     )
                 )
             )
+        elif not self._input_curves and self._curve_callback_id is not None:
+            self._registry.remove(self._curve_callback_id)
+            self._curve_callback_id = None
+        needs_time = bool(self._input_curves) or any(
+            target.edit_connected and target.source_nodes
+            for target in self._targets
+        )
+        if needs_time and self._time_callback_id is None:
             self._time_callback_id = self._registry.register(
                 int(
                     om.MEventMessage.addEventCallback(
@@ -455,12 +537,81 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                     )
                 )
             )
-        elif not self._input_curves and self._curve_callback_id is not None:
-            self._registry.remove(self._curve_callback_id)
-            self._curve_callback_id = None
-            if self._time_callback_id is not None:
-                self._registry.remove(self._time_callback_id)
-                self._time_callback_id = None
+        elif not needs_time and self._time_callback_id is not None:
+            self._registry.remove(self._time_callback_id)
+            self._time_callback_id = None
+        self._sync_input_node_callbacks()
+
+    def _sync_input_node_callbacks(self) -> None:
+        """接続元のロック解除やレイヤ設定変更にも動的に追従する。"""
+        nodes: list[om.MObjectHandle] = []
+        for target in self._targets:
+            for node in target.source_nodes:
+                if (
+                    node.isValid()
+                    and node.isAlive()
+                    and not any(
+                        node.object() == previous.object()
+                        for previous in nodes
+                    )
+                ):
+                    nodes.append(node)
+        retained: list[tuple[om.MObjectHandle, int]] = []
+        for node, callback in self._input_node_callbacks:
+            if (
+                node.isValid()
+                and node.isAlive()
+                and any(node.object() == current.object() for current in nodes)
+            ):
+                retained.append((node, callback))
+            else:
+                self._registry.remove(callback)
+        self._input_node_callbacks = retained
+        for node in nodes:
+            if not any(
+                node.object() == previous.object()
+                for previous, _callback in retained
+            ):
+                callback = self._registry.register(
+                    int(
+                        om.MNodeMessage.addAttributeChangedCallback(
+                            node.object(), self._schedule_refresh
+                        )
+                    )
+                )
+                self._input_node_callbacks.append((node, callback))
+        # node自体のlock変更にはMayaの属性通知がないためフラグだけを比較する
+        self._input_lock_states = self._read_input_node_locks()
+        if nodes:
+            if not self._input_lock_timer.isActive():
+                self._input_lock_timer.start()
+        else:
+            self._input_lock_timer.stop()
+
+    def _read_input_node_locks(self) -> tuple[bool | None, ...]:
+        """DG値を再評価せず、対象と入力元のnodeロックだけを読む。"""
+        nodes = tuple(
+            target.node_handle
+            for target in self._targets
+            if target.edit_connected and target.source_nodes
+        ) + tuple(node for node, _callback in self._input_node_callbacks)
+        return tuple(
+            (
+                om.MFnDependencyNode(node.object()).isLocked
+                if node.isValid() and node.isAlive()
+                else None
+            )
+            for node in nodes
+        )
+
+    def _check_input_node_locks(self) -> None:
+        """接続nodeのlock変更時だけ、入力可否の再読取りを予約する。"""
+        if self.is_disposed:
+            return
+        states = self._read_input_node_locks()
+        if states != self._input_lock_states:
+            self._input_lock_states = states
+            self._schedule_refresh()
 
     def _on_anim_curves_edited(
         self, edited: om.MObjectArray, *_args: object
@@ -571,6 +722,22 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                     )
                 )
             )
+        if any(target.edit_connected for target in self._targets):
+            self._registry.register(
+                int(
+                    om.MConditionMessage.addConditionCallback(
+                        "autoKeyframeState", self._schedule_refresh
+                    )
+                )
+            )
+            for event in ("animLayerRefresh", "animLayerRebuild"):
+                self._registry.register(
+                    int(
+                        om.MEventMessage.addEventCallback(
+                            event, self._schedule_refresh
+                        )
+                    )
+                )
 
     def _on_attribute_changed(
         self,
@@ -621,6 +788,8 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             return
         self._disposed = True
         self._refresh_scheduled = False
+        if qt.isValid(self._input_lock_timer):
+            self._input_lock_timer.stop()
         if self._edit_undo is not None:
             self._edit_undo.dispose()
         self._registry.dispose()

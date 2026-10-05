@@ -207,6 +207,7 @@ class _EnumPlugsStore(PlugsStore[int]):
         owner: qt.QObject,
         *,
         key_animated: bool = False,
+        edit_connected: bool = False,
         track_input_state: bool = False,
     ) -> None:
         """同じ定義のenum属性群を検証して監視する。"""
@@ -229,6 +230,7 @@ class _EnumPlugsStore(PlugsStore[int]):
                 plug.plug,
                 codec,
                 key_animated=key_animated,
+                edit_connected=edit_connected,
                 track_input_state=track_input_state,
             )
             for plug, codec in zip(plugs, self._codecs)
@@ -335,6 +337,7 @@ class _BoolPlugsStore(PlugsStore[bool]):
         owner: qt.QObject,
         *,
         key_animated: bool = False,
+        edit_connected: bool = False,
         track_input_state: bool = False,
     ) -> None:
         """全属性を検証してから監視を開始する。"""
@@ -345,6 +348,7 @@ class _BoolPlugsStore(PlugsStore[bool]):
                 plug.plug,
                 _BoolCodec(plug),
                 key_animated=key_animated,
+                edit_connected=edit_connected,
                 track_input_state=track_input_state,
             )
             for plug in plugs
@@ -372,6 +376,7 @@ class _FloatPlugsStore(PlugsStore[float]):
         owner: qt.QObject,
         *,
         key_animated: bool = False,
+        edit_connected: bool = False,
         track_input_state: bool = False,
     ) -> None:
         """単位種別を揃え、代表の表示情報を維持する。"""
@@ -388,6 +393,7 @@ class _FloatPlugsStore(PlugsStore[float]):
                 plug.plug,
                 codec,
                 key_animated=key_animated,
+                edit_connected=edit_connected,
                 track_input_state=track_input_state,
             )
             for plug, codec in zip(plugs, codecs)
@@ -594,6 +600,7 @@ class MayaBoolPlugsBinding(
         plugs: Sequence[BoolPlugOperator],
         *,
         key_animated: bool = False,
+        edit_connected: bool = False,
         track_input_state: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
@@ -602,12 +609,17 @@ class MayaBoolPlugsBinding(
         Args:
             plugs: 代表を先頭にした一つ以上のbool属性。
             key_animated: `True` なら対応する既存の時間カーブを現在時刻で
-                キー編集する。一般接続とロックされた属性は編集しない。
+                常にキー編集する。`edit_connected` とは併用できない。
+            edit_connected: `True` なら通常の時間カーブ・SDK・Animation
+                Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
+                一時値のみ変更する。constraintや未対応接続は編集しない。
+                既定値は `False` で、`key_animated` とは併用できない。
             track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
-            ValueError: 対象が空または重複している場合。
+            ValueError: 対象が空・重複、または `key_animated` と
+                `edit_connected` が両方 `True` の場合。
 
         """
         self._owned_group = None
@@ -619,6 +631,7 @@ class MayaBoolPlugsBinding(
                 plugs,
                 self,
                 key_animated=key_animated,
+                edit_connected=edit_connected,
                 track_input_state=track_input_state,
             )
             self._owned_group = store
@@ -666,6 +679,7 @@ class MayaFloatPlugsBinding(
         plugs: Sequence[MayaFloatPlug],
         *,
         key_animated: bool = False,
+        edit_connected: bool = False,
         track_input_state: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
@@ -674,13 +688,18 @@ class MayaFloatPlugsBinding(
         Args:
             plugs: 代表を先頭にした一つ以上の同種単位のfloat属性。
             key_animated: `True` なら対応する既存の時間カーブを現在時刻で
-                キー編集する。未アニメーション属性は通常の値入力を行う。
+                常にキー編集する。`edit_connected` とは併用できない。
+            edit_connected: `True` なら通常の時間カーブ・SDK・Animation
+                Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
+                一時値のみ変更する。constraintや未対応接続は編集しない。
+                既定値は `False` で、`key_animated` とは併用できない。
             track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
             TypeError: 対象の単位種別が揃っていない場合。
-            ValueError: 対象が空または重複している場合。
+            ValueError: 対象が空・重複、または `key_animated` と
+                `edit_connected` が両方 `True` の場合。
 
         """
         self._owned_group = None
@@ -692,6 +711,7 @@ class MayaFloatPlugsBinding(
                 plugs,
                 self,
                 key_animated=key_animated,
+                edit_connected=edit_connected,
                 track_input_state=track_input_state,
             )
             self._owned_group = store
@@ -739,6 +759,7 @@ class MayaEnumPlugsBinding(
         plugs: Sequence[MayaEnumPlug],
         *,
         key_animated: bool = False,
+        edit_connected: bool = False,
         track_input_state: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
@@ -747,12 +768,18 @@ class MayaEnumPlugsBinding(
         Args:
             plugs: 代表を先頭にした一つ以上のenum属性。同じ定義が必要。
             key_animated: `True` なら対応する既存の時間カーブを現在時刻で
-                キー編集する。一般接続とロックされた属性は編集しない。
+                常にキー編集する。`edit_connected` とは併用できない。
+            edit_connected: `True` なら通常の時間カーブ・SDK・Animation
+                Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
+                一時値のみ変更する。constraintや未対応接続は編集しない。
+                既定値は `False` で、`key_animated` とは併用できない。
             track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
             ValueError: 対象が空・重複しているか、enum定義が異なる場合。
+                または `key_animated` と `edit_connected` が両方
+                `True` の場合。
 
         """
         self._owned_group = None
@@ -764,6 +791,7 @@ class MayaEnumPlugsBinding(
                 plugs,
                 self,
                 key_animated=key_animated,
+                edit_connected=edit_connected,
                 track_input_state=track_input_state,
             )
             self._owned_group = store

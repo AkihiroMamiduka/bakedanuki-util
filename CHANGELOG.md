@@ -23,6 +23,15 @@
 
 ### Added
 
+- bool・float・enumの複数Maya属性Bindingと三つのscalar値貼り付けAPIへ
+  `edit_connected=False`を追加。指定時は通常時間カーブ・SDK・Animation Layerに
+  Maya標準の値入力を行い、時間キーとLayerはAuto Keyへ連動する。SDKは一時値のみ
+  変更し、constraintを含む駆動とその他の未対応接続は編集しない。途中失敗では
+  値と自動キー変更を復旧する。`MayaPlugTargetState.edit_description`と
+  接続構成の入力不可理由を返す`connected_plug_edit_reason()`も公開する。
+  既定の接続属性は読取り専用のまま。従来の常時キー編集は`key_animated=True`を
+  維持し、標準入力へ移行する利用側は`edit_connected=True`へ置き換える。
+  両方の同時指定は`ValueError`。scene・設定・clipboard schemaの移行は不要。
 - `MayaNodeNameStore`と`MayaNodeNameBinding`を追加。単一の既存ノード名を正本とし、
   既存`StringLineEdit`と`StringLabel`から編集・共有表示できる。namespaceを維持し、
   Mayaの採番後の確定名、外部リネーム、Undo／Redo、編集可否、削除による終了を扱う。
