@@ -446,3 +446,168 @@ class ShapeScaleField(
 
     shapeScaleZ = DoubleField(default_value=1.0)
     sscz = shapeScaleZ
+
+
+class ShapeAxisTranslatePlugOperator(
+    DoubleLinear3CompoundBasePlugOperator["ShapeAxisTranslateAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("shapeAxisTranslateX", "satx"),
+        ("shapeAxisTranslateY", "saty"),
+        ("shapeAxisTranslateZ", "satz"),
+    )
+
+    shapeAxisTranslateX = DoubleLinearField(default_value=0.0)
+    satx = shapeAxisTranslateX
+
+    shapeAxisTranslateY = DoubleLinearField(default_value=0.0)
+    saty = shapeAxisTranslateY
+
+    shapeAxisTranslateZ = DoubleLinearField(default_value=0.0)
+    satz = shapeAxisTranslateZ
+
+
+class ShapeAxisTranslateAttrOperator(
+    DoubleLinear3CompoundBaseAttrOperator[ShapeAxisTranslatePlugOperator]
+):
+    __slots__ = ()
+
+    shapeAxisTranslateX = DoubleLinearField(default_value=0.0)
+    satx = shapeAxisTranslateX
+
+    shapeAxisTranslateY = DoubleLinearField(default_value=0.0)
+    saty = shapeAxisTranslateY
+
+    shapeAxisTranslateZ = DoubleLinearField(default_value=0.0)
+    satz = shapeAxisTranslateZ
+
+
+class ShapeAxisTranslateField(
+    DoubleLinear3CompoundBaseField[
+        ShapeAxisTranslateAttrOperator, ShapeAxisTranslatePlugOperator
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeAxisTranslateAttrOperator
+    PLUG_CLS = ShapeAxisTranslatePlugOperator
+
+    shapeAxisTranslateX = DoubleLinearField(default_value=0.0)
+    satx = shapeAxisTranslateX
+
+    shapeAxisTranslateY = DoubleLinearField(default_value=0.0)
+    saty = shapeAxisTranslateY
+
+    shapeAxisTranslateZ = DoubleLinearField(default_value=0.0)
+    satz = shapeAxisTranslateZ
+
+
+class ShapeAxisRotatePlugOperator(
+    DoubleAngle3CompoundBasePlugOperator["ShapeAxisRotateAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("shapeAxisRotateX", "sarx"),
+        ("shapeAxisRotateY", "sary"),
+        ("shapeAxisRotateZ", "sarz"),
+    )
+
+    shapeAxisRotateX = DoubleAngleField(default_value=0.0)
+    sarx = shapeAxisRotateX
+
+    shapeAxisRotateY = DoubleAngleField(default_value=0.0)
+    sary = shapeAxisRotateY
+
+    shapeAxisRotateZ = DoubleAngleField(default_value=0.0)
+    sarz = shapeAxisRotateZ
+
+
+class ShapeAxisRotateAttrOperator(
+    DoubleAngle3CompoundBaseAttrOperator[ShapeAxisRotatePlugOperator]
+):
+    __slots__ = ()
+
+    shapeAxisRotateX = DoubleAngleField(default_value=0.0)
+    sarx = shapeAxisRotateX
+
+    shapeAxisRotateY = DoubleAngleField(default_value=0.0)
+    sary = shapeAxisRotateY
+
+    shapeAxisRotateZ = DoubleAngleField(default_value=0.0)
+    sarz = shapeAxisRotateZ
+
+
+class ShapeAxisRotateField(
+    DoubleAngle3CompoundBaseField[
+        ShapeAxisRotateAttrOperator, ShapeAxisRotatePlugOperator
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeAxisRotateAttrOperator
+    PLUG_CLS = ShapeAxisRotatePlugOperator
+
+    shapeAxisRotateX = DoubleAngleField(default_value=0.0)
+    sarx = shapeAxisRotateX
+
+    shapeAxisRotateY = DoubleAngleField(default_value=0.0)
+    sary = shapeAxisRotateY
+
+    shapeAxisRotateZ = DoubleAngleField(default_value=0.0)
+    sarz = shapeAxisRotateZ
+
+
+class ShapeAxisScalePlugOperator(
+    Double3CompoundBasePlugOperator["ShapeAxisScaleAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("shapeAxisScaleX", "sascx"),
+        ("shapeAxisScaleY", "sascy"),
+        ("shapeAxisScaleZ", "sascz"),
+    )
+
+    shapeAxisScaleX = DoubleField(default_value=1.0)
+    sascx = shapeAxisScaleX
+
+    shapeAxisScaleY = DoubleField(default_value=1.0)
+    sascy = shapeAxisScaleY
+
+    shapeAxisScaleZ = DoubleField(default_value=1.0)
+    sascz = shapeAxisScaleZ
+
+
+class ShapeAxisScaleAttrOperator(
+    Double3CompoundBaseAttrOperator[ShapeAxisScalePlugOperator]
+):
+    __slots__ = ()
+
+    shapeAxisScaleX = DoubleField(default_value=1.0)
+    sascx = shapeAxisScaleX
+
+    shapeAxisScaleY = DoubleField(default_value=1.0)
+    sascy = shapeAxisScaleY
+
+    shapeAxisScaleZ = DoubleField(default_value=1.0)
+    sascz = shapeAxisScaleZ
+
+
+class ShapeAxisScaleField(
+    Double3CompoundBaseField[
+        ShapeAxisScaleAttrOperator, ShapeAxisScalePlugOperator
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeAxisScaleAttrOperator
+    PLUG_CLS = ShapeAxisScalePlugOperator
+
+    shapeAxisScaleX = DoubleField(default_value=1.0)
+    sascx = shapeAxisScaleX
+
+    shapeAxisScaleY = DoubleField(default_value=1.0)
+    sascy = shapeAxisScaleY
+
+    shapeAxisScaleZ = DoubleField(default_value=1.0)
+    sascz = shapeAxisScaleZ

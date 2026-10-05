@@ -65,6 +65,11 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "Square:Cube:Circle:CircleArrow"
     ]
     assert maya_cmds.getAttr(f"{shape}.shape") == 0
+    for attribute, default in (("shape1stAxis", 4), ("shape2ndAxis", 2)):
+        assert maya_cmds.attributeQuery(
+            attribute, node=shape, listEnum=True
+        ) == ["+X:-X:+Y:-Y:+Z:-Z"]
+        assert maya_cmds.getAttr(f"{shape}.{attribute}") == default
     assert maya_cmds.getAttr(f"{shape}.shapeRootSize") == pytest.approx(1.0)
     assert maya_cmds.getAttr(f"{shape}.shapeTranslate")[0] == pytest.approx(
         (0.0, 0.0, 0.0)
@@ -73,6 +78,15 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         (0.0, 0.0, 0.0)
     )
     assert maya_cmds.getAttr(f"{shape}.shapeScale")[0] == pytest.approx(
+        (1.0, 1.0, 1.0)
+    )
+    assert maya_cmds.getAttr(f"{shape}.shapeAxisTranslate")[
+        0
+    ] == pytest.approx((0.0, 0.0, 0.0))
+    assert maya_cmds.getAttr(f"{shape}.shapeAxisRotate")[0] == pytest.approx(
+        (0.0, 0.0, 0.0)
+    )
+    assert maya_cmds.getAttr(f"{shape}.shapeAxisScale")[0] == pytest.approx(
         (1.0, 1.0, 1.0)
     )
     assert maya_cmds.getAttr(f"{shape}.shapeSize") == pytest.approx(1.0)
@@ -95,8 +109,19 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         maya_cmds.getAttr(f"{shape}.shapeRotateX", type=True) == "doubleAngle"
     )
     assert maya_cmds.getAttr(f"{shape}.shapeScaleX", type=True) == "double"
+    assert (
+        maya_cmds.getAttr(f"{shape}.shapeAxisTranslateX", type=True)
+        == "doubleLinear"
+    )
+    assert (
+        maya_cmds.getAttr(f"{shape}.shapeAxisRotateX", type=True)
+        == "doubleAngle"
+    )
+    assert maya_cmds.getAttr(f"{shape}.shapeAxisScaleX", type=True) == "double"
     for attribute in (
         "shape",
+        "shape1stAxis",
+        "shape2ndAxis",
         "shapeRootSize",
         "shapeTranslate",
         "shapeTranslateX",
@@ -110,11 +135,45 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeScaleX",
         "shapeScaleY",
         "shapeScaleZ",
+        "shapeAxisTranslate",
+        "shapeAxisTranslateX",
+        "shapeAxisTranslateY",
+        "shapeAxisTranslateZ",
+        "shapeAxisRotate",
+        "shapeAxisRotateX",
+        "shapeAxisRotateY",
+        "shapeAxisRotateZ",
+        "shapeAxisScale",
+        "shapeAxisScaleX",
+        "shapeAxisScaleY",
+        "shapeAxisScaleZ",
         "shapeSize",
         "showShapeOffsetLine",
         "shapeOffsetLineTemplate",
     ):
         assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+
+    channel_order = maya_cmds.listAttr(shape, keyable=True)
+    ordered_attributes = (
+        "shape",
+        "shape1stAxis",
+        "shape2ndAxis",
+        "shapeRootSize",
+        "shapeTranslateX",
+        "shapeRotateX",
+        "shapeScaleX",
+        "shapeAxisTranslateX",
+        "shapeAxisRotateX",
+        "shapeAxisScaleX",
+        "shapeSize",
+        "showShapeOffsetLine",
+        "shapeOffsetLineTemplate",
+    )
+    assert [
+        channel_order.index(attribute) for attribute in ordered_attributes
+    ] == sorted(
+        channel_order.index(attribute) for attribute in ordered_attributes
+    )
 
 
 def test_inherited_locator_channels_are_hidden_only_on_controller_shape(
@@ -206,6 +265,79 @@ def test_shape_transform_order_and_dirty_bounds(maya_cmds, maya_om, new_scene):
     )
 
 
+@pytest.mark.parametrize(
+    ("first_axis", "second_axis", "expected_position"),
+    (
+        (4, 2, (1.0, 0.0, 0.0)),  # +Z, +Y: identity
+        (0, 2, (0.0, 0.0, -1.0)),  # +X, +Y: local +X becomes -Z
+        (5, 2, (-1.0, 0.0, 0.0)),  # -Z, +Y: local +X becomes -X
+        (2, 0, (0.0, 0.0, 1.0)),  # +Y, +X: local +X becomes +Z
+        (2, 3, (-1.0, 0.0, 0.0)),  # Invalid: +Y keeps primary, uses +Z
+        (4, 5, (1.0, 0.0, 0.0)),  # Invalid: +Z keeps primary, uses +Y
+    ),
+)
+def test_axis_orientation_and_invalid_pair_fallback(
+    maya_cmds, maya_om, new_scene, first_axis, second_axis, expected_position
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", first_axis)
+    maya_cmds.setAttr(f"{shape}.shape2ndAxis", second_axis)
+    maya_cmds.setAttr(f"{shape}.shapeAxisTranslateX", 1.0)
+    maya_cmds.setAttr(f"{shape}.shapeSize", 0.0)
+
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (*expected_position, *expected_position), abs=1.0e-9
+    )
+
+
+def test_axis_transform_is_between_outer_and_inner_transform(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", 0)  # +X
+    maya_cmds.setAttr(f"{shape}.shape2ndAxis", 2)  # +Y
+    maya_cmds.setAttr(f"{shape}.shapeRootSize", 2.0)
+    maya_cmds.setAttr(f"{shape}.shapeTranslate", 1.0, 2.0, 3.0, type="double3")
+    maya_cmds.setAttr(f"{shape}.shapeRotateZ", 90.0)
+    maya_cmds.setAttr(f"{shape}.shapeScale", 2.0, 3.0, 4.0, type="double3")
+    maya_cmds.setAttr(f"{shape}.shapeAxisTranslateZ", 1.0)
+    maya_cmds.setAttr(f"{shape}.shapeAxisRotateZ", 90.0)
+    maya_cmds.setAttr(f"{shape}.shapeAxisScale", 2.0, 1.0, 1.0, type="double3")
+
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-4.0, 8.0, 2.0, 8.0, 8.0, 10.0), abs=1.0e-9
+    )
+
+    maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", True)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-4.0, 0.0, 0.0, 8.0, 8.0, 10.0), abs=1.0e-9
+    )
+
+
+def test_connected_axis_translation_updates_bounds_at_keyframes(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setKeyframe(
+        shape, attribute="shapeAxisTranslateX", time=1, value=0
+    )
+    maya_cmds.setKeyframe(
+        shape, attribute="shapeAxisTranslateX", time=10, value=2
+    )
+
+    maya_cmds.currentTime(1)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+    )
+    maya_cmds.currentTime(10)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (1.5, -0.5, 0.0, 2.5, 0.5, 0.0), abs=1.0e-9
+    )
+
+
 def test_shape_offset_line_expands_bounds_and_round_trips(
     maya_cmds, maya_om, new_scene, tmp_path
 ):
@@ -248,6 +380,9 @@ def test_scene_round_trip_preserves_circle_arrow(
     _load_bd_util_nodes(maya_cmds)
     transform, shape = _create_controller(maya_cmds, name="savedController")
     maya_cmds.setAttr(f"{shape}.shape", 3)
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", 0)  # +X
+    maya_cmds.setAttr(f"{shape}.shape2ndAxis", 2)  # +Y
+    maya_cmds.setAttr(f"{shape}.shapeAxisTranslateZ", 2.0)
     maya_cmds.setAttr(f"{shape}.shapeSize", 1.5)
 
     scene_path = tmp_path / "controller_shape.ma"
@@ -258,9 +393,14 @@ def test_scene_round_trip_preserves_circle_arrow(
 
     assert maya_cmds.listRelatives(transform, shapes=True) == [shape]
     assert maya_cmds.getAttr(f"{shape}.shape") == 3
+    assert maya_cmds.getAttr(f"{shape}.shape1stAxis") == 0
+    assert maya_cmds.getAttr(f"{shape}.shape2ndAxis") == 2
+    assert maya_cmds.getAttr(f"{shape}.shapeAxisTranslateZ") == pytest.approx(
+        2.0
+    )
     assert maya_cmds.getAttr(f"{shape}.shapeSize") == pytest.approx(1.5)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.48, -0.48, 0.0, 0.48, 0.75, 0.0), abs=1.0e-9
+        (2.0, -0.48, -0.48, 2.0, 0.75, 0.48), abs=1.0e-9
     )
 
 
@@ -272,6 +412,9 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     nodes = bdu.Nodes(modifier_manager=mod)
     transform, shape = nodes.create.controllerShape(name="rig_ctrl")
     shape.shape.set(3)
+    shape.shape1stAxis.set(0)
+    shape.shape2ndAxis.set(2)
+    shape.shapeAxisTranslate.set(0.0, 0.0, 2.0)
     shape.shapeSize.set(2.0)
     shape.showShapeOffsetLine.set(True)
     shape.shapeOffsetLineTemplate.set(True)
@@ -279,13 +422,18 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     mod.do_it_dg()
 
     assert maya_cmds.nodeType(shape.full_path) == "bdControllerShape"
+    assert maya_cmds.getAttr(f"{shape.full_path}.shape1stAxis") == 0
+    assert maya_cmds.getAttr(f"{shape.full_path}.shape2ndAxis") == 2
+    assert maya_cmds.getAttr(
+        f"{shape.full_path}.shapeAxisTranslateZ"
+    ) == pytest.approx(2.0)
     assert maya_cmds.getAttr(f"{shape.full_path}.showShapeOffsetLine")
     assert maya_cmds.getAttr(f"{shape.full_path}.shapeOffsetLineTemplate")
     assert maya_cmds.listRelatives(
         transform.full_path, shapes=True, fullPath=True
     ) == [shape.full_path]
     assert _bounds(maya_om, shape.full_path) == pytest.approx(
-        (-0.64, -0.64, 0.0, 0.64, 1.0, 0.0), abs=1.0e-9
+        (0.0, -0.64, -0.64, 2.0, 1.0, 0.64), abs=1.0e-9
     )
 
     mod.undo_it()
@@ -293,5 +441,10 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     mod.redo_it()
     assert maya_cmds.objExists(transform.full_path)
     assert maya_cmds.getAttr(f"{shape.full_path}.shape") == 3
+    assert maya_cmds.getAttr(f"{shape.full_path}.shape1stAxis") == 0
+    assert maya_cmds.getAttr(f"{shape.full_path}.shape2ndAxis") == 2
+    assert maya_cmds.getAttr(
+        f"{shape.full_path}.shapeAxisTranslateZ"
+    ) == pytest.approx(2.0)
     assert maya_cmds.getAttr(f"{shape.full_path}.showShapeOffsetLine")
     assert maya_cmds.getAttr(f"{shape.full_path}.shapeOffsetLineTemplate")

@@ -10,6 +10,15 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double i
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_controller_shape import (
+    ShapeAxisRotatePlugOperator,
+    ShapeAxisScalePlugOperator,
+    ShapeAxisTranslatePlugOperator,
+)
+from bd_util.maya.node.operator.node.dag.shape._generated.bd_controller_shape import (
+    Shape1stAxisEnumPlugOperator,
+    Shape2ndAxisEnumPlugOperator,
+)
 from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 
 
@@ -67,6 +76,16 @@ def versioned_node_type_list_contract() -> None:
 def controller_shape_offset_line_contract() -> None:
     _, shape = bdu.Nodes().create.controllerShape()
     assert_type(shape, bdu.node_types.BdControllerShape)
+    assert_type(shape.shape1stAxis, Shape1stAxisEnumPlugOperator)
+    assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
+    assert_type(shape.shapeAxisTranslate, ShapeAxisTranslatePlugOperator)
+    assert_type(shape.shapeAxisRotate, ShapeAxisRotatePlugOperator)
+    assert_type(shape.shapeAxisScale, ShapeAxisScalePlugOperator)
+    shape.shape1stAxis.set(Shape1stAxisEnumPlugOperator.PLUS_X)
+    shape.shape2ndAxis.set(Shape2ndAxisEnumPlugOperator.PLUS_Y)
+    shape.shapeAxisTranslate.set(1.0, 2.0, 3.0)
+    shape.shapeAxisRotate.set(0.0, 0.0, 90.0)
+    shape.shapeAxisScale.set(2.0, 1.0, 1.0)
     assert_type(shape.showShapeOffsetLine, BoolPlugOperator)
     assert_type(shape.shapeOffsetLineTemplate, BoolPlugOperator)
     shape.showShapeOffsetLine.set(True)

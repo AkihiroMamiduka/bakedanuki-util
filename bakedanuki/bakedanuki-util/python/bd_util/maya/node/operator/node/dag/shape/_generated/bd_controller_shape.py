@@ -5,6 +5,9 @@ from .....attr.define.node_attr.bd_controller_shape import (
     ComponentTagsField,
     LocalPositionField,
     LocalScaleField,
+    ShapeAxisRotateField,
+    ShapeAxisScaleField,
+    ShapeAxisTranslateField,
     ShapeRotateField,
     ShapeScaleField,
     ShapeTranslateField,
@@ -53,6 +56,94 @@ class ShapeEnumField(EnumField[ShapeEnumAttrOperator, ShapeEnumPlugOperator]):
 
     ATTR_CLS = ShapeEnumAttrOperator
     PLUG_CLS = ShapeEnumPlugOperator
+
+
+class Shape1stAxisEnumPlugOperator(
+    EnumPlugOperator["Shape1stAxisEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+
+class Shape1stAxisEnumAttrOperator(
+    EnumAttrOperator[Shape1stAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+    NAME_MAP = {
+        PLUS_X: "+X",
+        MINUS_X: "-X",
+        PLUS_Y: "+Y",
+        MINUS_Y: "-Y",
+        PLUS_Z: "+Z",
+        MINUS_Z: "-Z",
+    }
+
+
+class Shape1stAxisEnumField(
+    EnumField[Shape1stAxisEnumAttrOperator, Shape1stAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Shape1stAxisEnumAttrOperator
+    PLUG_CLS = Shape1stAxisEnumPlugOperator
+
+
+class Shape2ndAxisEnumPlugOperator(
+    EnumPlugOperator["Shape2ndAxisEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+
+class Shape2ndAxisEnumAttrOperator(
+    EnumAttrOperator[Shape2ndAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+    NAME_MAP = {
+        PLUS_X: "+X",
+        MINUS_X: "-X",
+        PLUS_Y: "+Y",
+        MINUS_Y: "-Y",
+        PLUS_Z: "+Z",
+        MINUS_Z: "-Z",
+    }
+
+
+class Shape2ndAxisEnumField(
+    EnumField[Shape2ndAxisEnumAttrOperator, Shape2ndAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Shape2ndAxisEnumAttrOperator
+    PLUG_CLS = Shape2ndAxisEnumPlugOperator
 
 
 class GeneratedBdControllerShape(Shape):
@@ -178,6 +269,12 @@ class GeneratedBdControllerShape(Shape):
     shape = ShapeEnumField(default_value=0)
     sh = shape
 
+    shape1stAxis = Shape1stAxisEnumField(default_value=4)
+    s1a = shape1stAxis
+
+    shape2ndAxis = Shape2ndAxisEnumField(default_value=2)
+    s2a = shape2ndAxis
+
     shapeRootSize = DoubleField(default_value=1.0)
     srs = shapeRootSize
 
@@ -207,6 +304,33 @@ class GeneratedBdControllerShape(Shape):
     sscy = shapeScaleY
     shapeScaleZ = shapeScale.shapeScaleZ
     sscz = shapeScaleZ
+
+    shapeAxisTranslate = ShapeAxisTranslateField(default_value=(0.0, 0.0, 0.0))
+    sat = shapeAxisTranslate
+    shapeAxisTranslateX = shapeAxisTranslate.shapeAxisTranslateX
+    satx = shapeAxisTranslateX
+    shapeAxisTranslateY = shapeAxisTranslate.shapeAxisTranslateY
+    saty = shapeAxisTranslateY
+    shapeAxisTranslateZ = shapeAxisTranslate.shapeAxisTranslateZ
+    satz = shapeAxisTranslateZ
+
+    shapeAxisRotate = ShapeAxisRotateField(default_value=(0.0, 0.0, 0.0))
+    sar = shapeAxisRotate
+    shapeAxisRotateX = shapeAxisRotate.shapeAxisRotateX
+    sarx = shapeAxisRotateX
+    shapeAxisRotateY = shapeAxisRotate.shapeAxisRotateY
+    sary = shapeAxisRotateY
+    shapeAxisRotateZ = shapeAxisRotate.shapeAxisRotateZ
+    sarz = shapeAxisRotateZ
+
+    shapeAxisScale = ShapeAxisScaleField(default_value=(1.0, 1.0, 1.0))
+    sasc = shapeAxisScale
+    shapeAxisScaleX = shapeAxisScale.shapeAxisScaleX
+    sascx = shapeAxisScaleX
+    shapeAxisScaleY = shapeAxisScale.shapeAxisScaleY
+    sascy = shapeAxisScaleY
+    shapeAxisScaleZ = shapeAxisScale.shapeAxisScaleZ
+    sascz = shapeAxisScaleZ
 
     shapeSize = DoubleField(default_value=1.0)
     ss = shapeSize
