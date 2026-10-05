@@ -52,6 +52,7 @@ native nodeの標準テストは、配布対象のMaya 2025 / 2026 / 2027それ�
 
 - [test_bd_dbl3_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_multiply.py)
 - [test_bd_delete_with_owner.py](../../../tests/maya/node/operator/node/dg/test_bd_delete_with_owner.py)
+- [test_bd_controller_shape.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py)
 
 新しい node では、少なくとも次を自動化します。
 

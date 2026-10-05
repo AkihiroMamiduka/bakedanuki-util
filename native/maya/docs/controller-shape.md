@@ -100,6 +100,39 @@ Maya の template 表示色で描きます。`false` なら補助線は通常の
 調整属性自身をアニメーションまたは接続で変更する場合は、値が変わった時点で
 形状を更新します。描画と親 `transform` の評価には引き続き処理が必要です。
 
+## 実装と拡張
+
+公開済みの node type は `bdControllerShape`、`MTypeId` は `0x0014271F` です。
+ID の管理方針は [NODE_IDS.md](../NODE_IDS.md) に従います。
+実装は [BdControllerShapeNode.cpp](../plugins/bdUtilNodes/src/nodes/BdControllerShapeNode.cpp)、
+Maya 上の挙動テストは [test_bd_controller_shape.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py)、
+公開 API の型確認は [public_node_types_contract.py](../../../tests/typecheck/public_node_types_contract.py)
+にあります。
+線の形状は独立したストロークの配列で保持し、ストロークごとに線を描きます。
+そのため `CircleArrow` の円と矢印や `Cube` の各辺を、橋渡しの線なしで
+１つの shape に収められます。現在の円は 64 分割の折れ線で、NURBS の
+degree や surface を持つ形状ではありません。
+
+ローカル頂点・補助線・描画範囲は同じ node 内のキャッシュを共有します。
+直接の属性変更と接続変更は `MNodeMessage` callback でキャッシュを無効化します。
+調整属性に入力接続がある場合は、再生中の値の変化を拾うために値を比較します。
+値が同じなら頂点を再生成せず、入力接続のない状態では変更通知がない限り
+plug の読み取りも省きます。親 `transform` の TRS はローカル形状の
+再生成条件に含めません。
+描画 override は選択色などの表示変化に追従するため常時更新とし、
+静的な調整値では属性の再読込と頂点・描画範囲の再計算を省きます。
+キャッシュの仕組みを変更する際は、描画と両方の `boundingBox()`、
+属性の直接編集、Undo/Redo、キー・接続による変化を一緒に確認してください。
+再生速度の改善量はまだ実測していません。
+
+ネイティブ属性を変更したら、対応 Maya version の plug-in をビルド・配置した後、
+Maya 2025 でその plug-in をロードして `generate_node_class_file()` から
+`bdControllerShape` の Python 定義を再生成します。生成対象は
+`node_attr/bd_controller_shape.py` と `_generated/bd_controller_shape.py` です。
+生成手順は [generator.md](../../../bakedanuki/bakedanuki-util/docs/maya/node_operator/generator.md)
+を参照してください。生成ファイルは手編集せず、テストと仕様書を同時に更新します。
+完了前の統一検証は repository 直下で `.\scripts\verify.cmd -IncludeNative` です。
+
 ## 表示と選択
 
 この shape は Maya 標準の `nurbsCurve` ではありません。
@@ -127,3 +160,4 @@ shape 自身の `visibility` をオフにすると非表示になります。
 10. `shapeOffsetLineTemplate` をオンにすると補助線だけが Maya の template 表示色になり、オフにすると通常のワイヤーフレーム色に戻る。本体の線の色は変わらない。
 11. 軸指定と内側の移動・回転・スケールを変更し、形状、補助線、選択範囲が直後に更新される。無効な軸の組では主軸が保たれる。
 12. 親 `transform` をアニメーションしても、形状が追従し、ローカル形状の調整値は変わらない。
+13. `shapeAxisTranslate` などの調整属性にキーまたは入力接続を作り、タイムラインを動かすと形状と選択範囲が追従する。直接編集と Undo/Redo の後も更新される。
