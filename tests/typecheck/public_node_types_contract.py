@@ -79,6 +79,7 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape, bdu.node_types.BdControllerShape)
     assert_type(shape.shape1stAxis, Shape1stAxisEnumPlugOperator)
     assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
+    assert_type(shape.shapeAxisOffsetLength, DoubleLinearPlugOperator)
     assert_type(shape.shapeAxisOffset, BoolPlugOperator)
     assert_type(
         shape.shapeAxisOffsetDirection,
@@ -89,6 +90,7 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shapeAxisScale, ShapeAxisScalePlugOperator)
     shape.shape1stAxis.set(Shape1stAxisEnumPlugOperator.PLUS_X)
     shape.shape2ndAxis.set(Shape2ndAxisEnumPlugOperator.PLUS_Y)
+    shape.shapeAxisOffsetLength.set(5.0)
     shape.shapeAxisOffset.set(True)
     shape.shapeAxisOffsetDirection.set(
         ShapeAxisOffsetDirectionEnumPlugOperator.PLUS_1STAXIS

@@ -24,6 +24,9 @@ from .....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from .....attr.define.std.at.scalar.numeric.range.float import FloatField
 from .....attr.define.std.at.scalar.numeric.range.long import LongField
 from .....attr.define.std.at.scalar.numeric.range.short import ShortField
+from .....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 
 
 class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
@@ -351,6 +354,9 @@ class GeneratedBdControllerShape(Shape):
     sscy = shapeScaleY
     shapeScaleZ = shapeScale.shapeScaleZ
     sscz = shapeScaleZ
+
+    shapeAxisOffsetLength = DoubleLinearField(default_value=1.0, min_value=0.0)
+    saol = shapeAxisOffsetLength
 
     shapeAxisOffset = BoolField(default_value=False)
     sao = shapeAxisOffset

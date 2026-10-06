@@ -1,5 +1,6 @@
 #include "bdUtilNodes/nodes/BdControllerShapeNode.h"
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -33,6 +34,7 @@
 #include "bdUtilNodes/attributes/DoubleLinear3Attribute.h"
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 #include "bdUtilNodes/attributes/RotateAttribute.h"
+#include "bdUtilNodes/attributes/UnitAttribute.h"
 
 const MString BdControllerShapeNode::typeName("bdControllerShape");
 const MTypeId BdControllerShapeNode::typeId(0x0014271F);
@@ -59,6 +61,7 @@ MObject BdControllerShapeNode::shapeScale;
 MObject BdControllerShapeNode::shapeScaleX;
 MObject BdControllerShapeNode::shapeScaleY;
 MObject BdControllerShapeNode::shapeScaleZ;
+MObject BdControllerShapeNode::shapeAxisOffsetLength;
 MObject BdControllerShapeNode::shapeAxisOffset;
 MObject BdControllerShapeNode::shapeAxisOffsetDirection;
 MObject BdControllerShapeNode::shapeAxisTranslate;
@@ -93,6 +96,7 @@ struct ShapeSettings {
     MVector translate = MVector(0.0, 0.0, 0.0);
     MVector rotateAngles = MVector(0.0, 0.0, 0.0);
     MVector scale = MVector(1.0, 1.0, 1.0);
+    double axisOffsetLength = 1.0;
     bool axisOffset = false;
     short axisOffsetDirection = 0;
     MVector axisTranslate = MVector(0.0, 0.0, 0.0);
@@ -115,6 +119,7 @@ bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
         sameVector(left.translate, right.translate) &&
         sameVector(left.rotateAngles, right.rotateAngles) &&
         sameVector(left.scale, right.scale) &&
+        left.axisOffsetLength == right.axisOffsetLength &&
         left.axisOffset == right.axisOffset &&
         left.axisOffsetDirection == right.axisOffsetDirection &&
         sameVector(left.axisTranslate, right.axisTranslate) &&
@@ -146,6 +151,18 @@ MVector axisOffsetVector(short direction) {
         case 4: return MVector(0.5, 0.0, 0.0);
         case 5: return MVector(-0.5, 0.0, 0.0);
         default: return MVector(0.0, 0.0, 0.5);
+    }
+}
+
+MVector axisLengthScaledVector(
+    const MVector& vector, short direction, double length
+) {
+    switch (direction) {
+        case 2:
+        case 3: return MVector(vector.x, vector.y * length, vector.z);
+        case 4:
+        case 5: return MVector(vector.x * length, vector.y, vector.z);
+        default: return MVector(vector.x, vector.y, vector.z * length);
     }
 }
 
@@ -252,6 +269,15 @@ bool readSettings(const MObject& node, ShapeSettings& settings) {
         return false;
     }
 
+    settings.axisOffsetLength = std::max(
+        0.0,
+        MPlug(node, BdControllerShapeNode::shapeAxisOffsetLength)
+            .asMDistance(&status)
+            .asCentimeters()
+    );
+    if (!status) {
+        return false;
+    }
     settings.axisOffset =
         MPlug(node, BdControllerShapeNode::shapeAxisOffset).asBool(&status);
     if (!status) {
@@ -337,9 +363,12 @@ MPoint transformPoint(
         point.y * settings.size * settings.axisScale.y,
         point.z * settings.size * settings.axisScale.z
     );
-    const MVector axisLocal =
+    const MVector axisLocal = axisLengthScaledVector(
         axisScaled.rotateBy(transform.axisRotate) + settings.axisTranslate +
-        (includeAxisOffset ? transform.axisOffset : MVector(0.0, 0.0, 0.0));
+            (includeAxisOffset ? transform.axisOffset : MVector(0.0, 0.0, 0.0)),
+        settings.axisOffsetDirection,
+        settings.axisOffsetLength
+    );
     const MVector oriented =
         transform.axisX * axisLocal.x +
         transform.axisY * axisLocal.y +
@@ -497,6 +526,7 @@ bool isShapeAttribute(const MObject& attribute) {
              BdControllerShapeNode::shapeScaleX,
              BdControllerShapeNode::shapeScaleY,
              BdControllerShapeNode::shapeScaleZ,
+             BdControllerShapeNode::shapeAxisOffsetLength,
              BdControllerShapeNode::shapeAxisOffset,
              BdControllerShapeNode::shapeAxisOffsetDirection,
              BdControllerShapeNode::shapeAxisTranslate,
@@ -543,6 +573,7 @@ bool hasConnectedShapeInput(const MObject& node) {
              BdControllerShapeNode::shapeTranslate,
              BdControllerShapeNode::shapeRotate,
              BdControllerShapeNode::shapeScale,
+             BdControllerShapeNode::shapeAxisOffsetLength,
              BdControllerShapeNode::shapeAxisOffset,
              BdControllerShapeNode::shapeAxisOffsetDirection,
              BdControllerShapeNode::shapeAxisTranslate,
@@ -944,6 +975,29 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = addAttribute(shapeScale);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDoubleLinearAttribute(
+        unitAttributeFn,
+        shapeAxisOffsetLength,
+        "shapeAxisOffsetLength",
+        "saol",
+        1.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = unitAttributeFn.setMin(0.0);
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputUnitAttribute(unitAttributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(shapeAxisOffsetLength);
     if (!status) {
         return status;
     }

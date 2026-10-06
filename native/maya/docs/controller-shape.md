@@ -28,11 +28,13 @@ mod.do_it_dg()
 両ノードの作成は `mod.do_it_dag()`、属性設定は `mod.do_it_dg()` で確定します。
 標準の `nurbsCurve` データや生成ノードへの接続はありません。
 
-`Cube` を主軸方向へ半幅ずらす場合は、`shapeSize=1` として次のように設定します。
+`Cube` の根元を原点に合わせ、主軸方向へ 5 cm 伸ばす場合は、
+`shapeSize=1` として次のように設定します。
 
 ```python
 shape.shape.set(1)  # Cube
 shape.shapeSize.set(1.0)
+shape.shapeAxisOffsetLength.set(5.0)
 shape.shapeAxisOffset.set(True)
 shape.shapeAxisOffsetDirection.set(0)  # +1stAxis
 mod.do_it_dg()
@@ -49,6 +51,7 @@ mod.do_it_dg()
 | `shapeTranslate` | `doubleLinear3` | `(0, 0, 0)` | 軸指定の外側で形状を平行移動 |
 | `shapeRotate` | `doubleAngle3` | `(0, 0, 0)` | 軸指定の外側で XYZ 固定順に回転 |
 | `shapeScale` | `double3` | `(1, 1, 1)` | 軸指定の外側、`shapeRotate` の内側で拡縮 |
+| `shapeAxisOffsetLength` | `doubleLinear` | `1 cm` | `shapeAxisOffsetDirection` で選んだ軸に沿い、オフセットと形状を原点基準で伸縮。最小値 `0` |
 | `shapeAxisOffset` | `bool` | `false` | 選択した軸方向へ基準形状を固定 `0.5` オフセット |
 | `shapeAxisOffsetDirection` | enum | `+1stAxis` (0) | `+1stAxis` (0)、`-1stAxis` (1)、`+2ndAxis` (2)、`-2ndAxis` (3)、`+3rdAxis` (4)、`-3rdAxis` (5) |
 | `shapeAxisTranslate` | `doubleLinear3` | `(0, 0, 0)` | 指定した軸を基準に形状を平行移動 |
@@ -58,10 +61,10 @@ mod.do_it_dg()
 | `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から、軸オフセットを除いた形状基準位置まで補助線を描く |
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 
-`shape`、２つの軸属性、８つの変形属性、２つの軸オフセット属性、２つの補助線属性、
+`shape`、２つの軸属性、８つの変形属性、長さ属性、２つの軸オフセット属性、２つの補助線属性、
 および３軸属性の各子属性は keyable です。
 Channel Box では `shape`、`shape1stAxis`、`shape2ndAxis`、`shapeRootSize`、
-外側の移動・回転・スケール、`shapeAxisOffset`、`shapeAxisOffsetDirection`、
+外側の移動・回転・スケール、`shapeAxisOffsetLength`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、
 内側の移動・回転・スケール、`shapeSize` の順に並びます。
 shape を選択して Channel Box から数値を調整できます。
 `MPxLocatorNode` から継承する `localPositionX/Y/Z` と `localScaleX/Y/Z` は
@@ -69,18 +72,20 @@ shape を選択して Channel Box から数値を調整できます。
 標準の locator の表示設定には影響しません。
 
 点 `p` に適用する階層は `shapeRootSize > shapeTranslate > shapeRotate >
-shapeScale > 軸指定 > shapeAxisOffset > shapeAxisTranslate > shapeAxisRotate > shapeAxisScale >
-shapeSize > p` です。外側・内側の XYZ 回転をそれぞれ `R`・`R_axis`、
-軸指定から作る回転を `A`、軸オフセットを `O_axis` とすると、計算結果は次のとおりです。
+shapeScale > 軸指定 > shapeAxisOffsetLength > shapeAxisOffset > shapeAxisTranslate >
+shapeAxisRotate > shapeAxisScale > shapeSize > p` です。
+外側・内側の XYZ 回転をそれぞれ `R`・`R_axis`、軸指定から作る回転を `A`、
+軸オフセットを `O_axis`、選択軸だけを伸縮する変換を `S_axis` とすると、
+計算結果は次のとおりです。
 
 ```text
 p_out = shapeRootSize * (
     shapeTranslate + R_XYZ(
-        shapeScale ⊙ A(
+        shapeScale ⊙ A(S_axis(
             O_axis + shapeAxisTranslate + R_axis_XYZ(
                 shapeAxisScale ⊙ (shapeSize * p)
             )
-        )
+        ))
     )
 )
 ```
@@ -106,17 +111,27 @@ p_out = shapeRootSize * (
 `1stAxis` は主軸、`2ndAxis` は補助軸、`3rdAxis` は「補助軸 × 主軸」の方向です。
 無効な軸の組では、形状と同じ補正後の補助軸と第３軸を使います。
 主軸が `-X` なら `+1stAxis` は `-X` 方向、`-1stAxis` は `+X` 方向です。
+`S_axis` は方向の正負にかかわらず選択軸の１成分だけを
+`shapeAxisOffsetLength / 1 cm` 倍します。基準形状の長さは内部座標で `1 cm` なので、
+他の変形が既定値の `Cube` では、軸オフセットをオンにすると正方向は
+`0` から指定長、負方向は `-指定長` から `0` まで伸びます。
+軸オフセットがオフでも、同じ軸を原点中心に伸縮します。
+`0 cm` では選択軸方向に潰れます。接続から負値が入った場合も、形状の計算では
+`0 cm` として扱います。`shapeAxisTranslate` の選択軸成分も
+この長さで伸縮します。`shapeSize`、`shapeAxisScale`、内側の回転、外側のスケールなどを
+変更した場合、形状の端や実際の長さは指定長と一致するとは限りません。
 固定 `0.5` は `shapeSize`、`shapeAxisScale`、`shapeAxisRotate` の影響を受けず、
-外側の `shapeScale`、`shapeRotate`、`shapeRootSize` の影響を受けます。
+`shapeAxisOffsetLength`、外側の `shapeScale`、`shapeRotate`、`shapeRootSize` の影響を受けます。
 `shapeAxisTranslate` には加算して使えます。`shapeAxisOffset` をオフにしても
-`shapeAxisOffsetDirection` の設定は保持します。
+`shapeAxisOffsetDirection` は長さを適用する軸を指定し続けます。
 その他の変形が既定値の `Cube` は、`+1stAxis` へのオフセットで主軸方向の範囲が
 `0` から `1` になります。`shapeSize` だけを `2` にすると `-0.5` から `1.5` です。
 
 補助線の始点は親 `transform` のローカル原点 `(0, 0, 0)`、終点は上記の式に
 `p=(0, 0, 0)` と `O_axis=(0, 0, 0)` を代入した形状基準位置です。
 `shapeTranslate` と `shapeAxisTranslate` の移動を反映し、軸オフセットを除外します。
-`shapeAxisOffset`、`shapeAxisOffsetDirection`、`shapeAxisRotate`、`shapeAxisScale`、
+`shapeAxisOffsetLength` は `shapeAxisTranslate` の選択軸成分を伸縮するため、
+終点にも反映します。`shapeAxisOffset`、`shapeAxisRotate`、`shapeAxisScale`、
 `shapeSize` は終点を動かしません。軸オフセットだけをオンにした場合は補助線を描きません。
 始点と終点が重なる場合は線を描きません。
 描画・選択範囲には、軸オフセット後の形状本体と、表示中の補助線の両方を含めます。
@@ -199,3 +214,5 @@ shape 自身の `visibility` をオフにすると非表示になります。
 13. `shapeAxisTranslate` などの調整属性にキーまたは入力接続を作り、タイムラインを動かすと形状と選択範囲が追従する。直接編集と Undo/Redo の後も更新される。
 14. `shapeAxisOffset` をオンにして６方向を切り替えると、形状本体と選択範囲が更新される。`Cube` の既定サイズでは片面が原点に揃い、`shapeSize=2` でも移動量は固定 `0.5` のままになる。
 15. `showShapeOffsetLine` をオンにし、軸オフセットを切り替えても補助線の終点が動かない。軸オフセットだけをオンにした場合は線が出ない。
+16. `Cube` で `shapeAxisOffsetLength` を変え、指定した軸方向だけが伸縮し、形状本体と選択範囲が更新される。軸オフセットがオンなら原点から、オフなら原点を中心に伸縮する。
+17. `shapeAxisTranslate` の選択軸成分がある場合、長さの変更が補助線の終点にも反映される。他の変形が既定値の `Cube` では、距離プラグからの接続やシーン単位の変更後も、骨長と形状の長さが一致する。
