@@ -10,6 +10,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double i
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.dt.matrix import (
+    DataMatrixPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_controller_shape import (
     ShapeAxisRotatePlugOperator,
     ShapeAxisScalePlugOperator,
@@ -79,6 +82,7 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape, bdu.node_types.BdControllerShape)
     assert_type(shape.shape1stAxis, Shape1stAxisEnumPlugOperator)
     assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
+    assert_type(shape.shapeAnimationTransformMatrix, DataMatrixPlugOperator)
     assert_type(shape.shapeAxisOffsetLength, DoubleLinearPlugOperator)
     assert_type(shape.shapeAxisOffset, BoolPlugOperator)
     assert_type(
@@ -90,6 +94,26 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shapeAxisScale, ShapeAxisScalePlugOperator)
     shape.shape1stAxis.set(Shape1stAxisEnumPlugOperator.PLUS_X)
     shape.shape2ndAxis.set(Shape2ndAxisEnumPlugOperator.PLUS_Y)
+    shape.shapeAnimationTransformMatrix.set(
+        (
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+        )
+    )
     shape.shapeAxisOffsetLength.set(5.0)
     shape.shapeAxisOffset.set(True)
     shape.shapeAxisOffsetDirection.set(

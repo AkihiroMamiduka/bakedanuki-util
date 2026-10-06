@@ -123,6 +123,31 @@ def test_data_matrix_set_direct_is_immediate(new_scene, maya_cmds, maya_om):
         assert actual.translate == pytest.approx((1.0, 2.0, 3.0))
 
 
+def test_data_matrix_set_uses_modifier_history(new_scene, maya_cmds, maya_om):
+    import bd_util as bdu
+
+    node_name = maya_cmds.createNode("wtAddMatrix", name="wt_add_matrix")
+    mod = bdu.ModifierManager()
+    node = bdu.Nodes(modifier_manager=mod).existing.wtAddMatrix(node_name)
+    matrix_plug = node.wtMatrix[0].matrixIn
+    value = maya_om.MTransformationMatrix()
+    value.setTranslation(
+        maya_om.MVector(1.0, 2.0, 3.0), maya_om.MSpace.kTransform
+    )
+
+    matrix_plug.set(value)
+    with pytest.raises(ValueError, match="does not contain a matrix value"):
+        matrix_plug.get()
+    mod.do_it_dg()
+    assert matrix_plug.get().translate == pytest.approx((1.0, 2.0, 3.0))
+
+    mod.undo_it()
+    with pytest.raises(ValueError, match="does not contain a matrix value"):
+        matrix_plug.get()
+    mod.redo_it()
+    assert matrix_plug.get().translate == pytest.approx((1.0, 2.0, 3.0))
+
+
 def test_transform_matrix_property_is_not_exposed(new_scene, maya_cmds):
     import bd_util as bdu
 

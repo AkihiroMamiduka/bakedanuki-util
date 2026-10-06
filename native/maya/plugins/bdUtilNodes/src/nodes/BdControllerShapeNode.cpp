@@ -14,13 +14,17 @@
 #include <maya/MDagPath.h>
 #include <maya/MDistance.h>
 #include <maya/MEulerRotation.h>
+#include <maya/MFnData.h>
 #include <maya/MFnEnumAttribute.h>
 #include <maya/MFnDependencyNode.h>
+#include <maya/MFnMatrixData.h>
 #include <maya/MFnNumericAttribute.h>
+#include <maya/MFnTypedAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MFrameContext.h>
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MMessage.h>
+#include <maya/MMatrix.h>
 #include <maya/MPxDrawOverride.h>
 #include <maya/MPlug.h>
 #include <maya/MPoint.h>
@@ -48,6 +52,7 @@ const MString BdControllerShapeNode::drawRegistrantId(
 MObject BdControllerShapeNode::shape;
 MObject BdControllerShapeNode::shape1stAxis;
 MObject BdControllerShapeNode::shape2ndAxis;
+MObject BdControllerShapeNode::shapeAnimationTransformMatrix;
 MObject BdControllerShapeNode::shapeRootSize;
 MObject BdControllerShapeNode::shapeTranslate;
 MObject BdControllerShapeNode::shapeTranslateX;
@@ -109,6 +114,17 @@ struct ShapeSettings {
 
 bool sameVector(const MVector& left, const MVector& right) {
     return left.x == right.x && left.y == right.y && left.z == right.z;
+}
+
+bool sameMatrix(const MMatrix& left, const MMatrix& right) {
+    for (unsigned int row = 0; row < 4; ++row) {
+        for (unsigned int column = 0; column < 4; ++column) {
+            if (left[row][column] != right[row][column]) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
@@ -352,6 +368,22 @@ bool readSettings(const MObject& node, ShapeSettings& settings) {
     return status == MS::kSuccess;
 }
 
+bool readAnimationMatrix(const MObject& node, MMatrix& matrix) {
+    MStatus status;
+    const MObject data = MPlug(
+        node, BdControllerShapeNode::shapeAnimationTransformMatrix
+    ).asMObject(&status);
+    if (!status) {
+        return false;
+    }
+    MFnMatrixData matrixData(data, &status);
+    if (!status) {
+        return false;
+    }
+    matrix = matrixData.matrix(&status);
+    return status == MS::kSuccess;
+}
+
 MPoint transformPoint(
     const MPoint& point,
     const ShapeTransform& transform,
@@ -506,6 +538,49 @@ MBoundingBox boundsForStrokes(const Strokes& strokes) {
         return MBoundingBox(MPoint::origin, MPoint::origin);
     }
     return box;
+}
+
+std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
+    const ShapeSettings& settings
+) {
+    const ShapeTransform transform(settings);
+    auto result = std::make_shared<BdControllerShapeNode::Geometry>();
+    result->strokes = makeStrokes(transform);
+    result->bounds = boundsForStrokes(result->strokes);
+    result->offsetLineTemplate = settings.offsetLineTemplate;
+    result->offsetLineEndpoint = transformPoint(MPoint::origin, transform, false);
+    if (settings.showOffsetLine && hasOffsetLine(result->offsetLineEndpoint)) {
+        result->offsetLine.append(MPoint::origin);
+        result->offsetLine.append(result->offsetLineEndpoint);
+        result->bounds.expand(MPoint::origin);
+        result->bounds.expand(result->offsetLineEndpoint);
+    }
+    return result;
+}
+
+std::shared_ptr<const BdControllerShapeNode::Geometry> transformGeometry(
+    const BdControllerShapeNode::Geometry& base,
+    const MMatrix& matrix,
+    bool showOffsetLine
+) {
+    auto result = std::make_shared<BdControllerShapeNode::Geometry>();
+    result->offsetLineTemplate = base.offsetLineTemplate;
+    for (const Stroke& baseStroke : base.strokes) {
+        Stroke stroke;
+        for (unsigned int index = 0; index < baseStroke.length(); ++index) {
+            stroke.append(baseStroke[index] * matrix);
+        }
+        result->strokes.push_back(std::move(stroke));
+    }
+    result->bounds = boundsForStrokes(result->strokes);
+    result->offsetLineEndpoint = base.offsetLineEndpoint * matrix;
+    if (showOffsetLine && hasOffsetLine(result->offsetLineEndpoint)) {
+        result->offsetLine.append(MPoint::origin);
+        result->offsetLine.append(result->offsetLineEndpoint);
+        result->bounds.expand(MPoint::origin);
+        result->bounds.expand(result->offsetLineEndpoint);
+    }
+    return result;
 }
 
 bool isShapeAttribute(const MObject& attribute) {
@@ -704,9 +779,13 @@ public:
 struct BdControllerShapeNode::GeometryCache {
     std::mutex mutex;
     ShapeSettings settings;
+    std::shared_ptr<const Geometry> base;
     std::shared_ptr<const Geometry> value;
-    std::uint64_t revision = 0;
+    MMatrix animationMatrix = MMatrix::identity;
+    std::uint64_t baseRevision = 0;
+    std::uint64_t animationRevision = 0;
     bool hasConnectedInput = false;
+    bool hasConnectedAnimationInput = false;
 };
 
 BdControllerShapeNode::BdControllerShapeNode()
@@ -726,56 +805,76 @@ void BdControllerShapeNode::onAttributeChanged(
 ) {
     if (!(change & (MNodeMessage::kAttributeSet |
                      MNodeMessage::kConnectionMade |
-                     MNodeMessage::kConnectionBroken)) ||
-        !isShapeAttribute(plug.attribute())) {
+                     MNodeMessage::kConnectionBroken))) {
         return;
     }
     auto* node = static_cast<BdControllerShapeNode*>(clientData);
-    node->geometryRevision_.fetch_add(1, std::memory_order_release);
+    if (plug.attribute() == shapeAnimationTransformMatrix) {
+        node->animationRevision_.fetch_add(1, std::memory_order_release);
+    } else if (isShapeAttribute(plug.attribute())) {
+        node->geometryRevision_.fetch_add(1, std::memory_order_release);
+    }
 }
 
 std::shared_ptr<const BdControllerShapeNode::Geometry>
 BdControllerShapeNode::geometry() const {
     GeometryCache& cache = *geometryCache_;
     const std::lock_guard<std::mutex> lock(cache.mutex);
-    const std::uint64_t revision = geometryRevision_.load(
+    const std::uint64_t baseRevision = geometryRevision_.load(
         std::memory_order_acquire
     );
-    if (cache.value && cache.revision == revision &&
-        !cache.hasConnectedInput && attributeChangedCallback_ != 0) {
+    const std::uint64_t animationRevision = animationRevision_.load(
+        std::memory_order_acquire
+    );
+    if (cache.value && cache.baseRevision == baseRevision &&
+        cache.animationRevision == animationRevision &&
+        !cache.hasConnectedInput && !cache.hasConnectedAnimationInput &&
+        attributeChangedCallback_ != 0) {
         return cache.value;
     }
 
-    ShapeSettings settings;
-    if (!readSettings(thisMObject(), settings)) {
-        return cache.value;
-    }
-    const bool connected = hasConnectedShapeInput(thisMObject());
-    if (cache.value && sameSettings(settings, cache.settings)) {
-        cache.revision = revision;
-        cache.hasConnectedInput = connected;
-        return cache.value;
-    }
-
-    const ShapeTransform transform(settings);
-    auto result = std::make_shared<Geometry>();
-    result->strokes = makeStrokes(transform);
-    result->bounds = boundsForStrokes(result->strokes);
-    result->offsetLineTemplate = settings.offsetLineTemplate;
-    if (settings.showOffsetLine) {
-        const MPoint endpoint = transformPoint(MPoint::origin, transform, false);
-        if (hasOffsetLine(endpoint)) {
-            result->offsetLine.append(MPoint::origin);
-            result->offsetLine.append(endpoint);
-            result->bounds.expand(MPoint::origin);
-            result->bounds.expand(endpoint);
+    bool baseChanged = false;
+    if (!cache.base || cache.baseRevision != baseRevision ||
+        cache.hasConnectedInput || attributeChangedCallback_ == 0) {
+        ShapeSettings settings;
+        if (!readSettings(thisMObject(), settings)) {
+            return cache.value;
         }
+        const bool connected = hasConnectedShapeInput(thisMObject());
+        if (!cache.base || !sameSettings(settings, cache.settings)) {
+            cache.base = makeBaseGeometry(settings);
+            cache.settings = settings;
+            baseChanged = true;
+        }
+        cache.baseRevision = baseRevision;
+        cache.hasConnectedInput = connected;
     }
-    cache.settings = settings;
-    cache.value = result;
-    cache.revision = revision;
-    cache.hasConnectedInput = connected;
-    return result;
+
+    if (!cache.value || baseChanged ||
+        cache.animationRevision != animationRevision ||
+        cache.hasConnectedAnimationInput || attributeChangedCallback_ == 0) {
+        MMatrix animationMatrix;
+        if (!readAnimationMatrix(thisMObject(), animationMatrix)) {
+            return cache.value;
+        }
+        const bool connected = hasIncomingConnection(MPlug(
+            thisMObject(), shapeAnimationTransformMatrix
+        ));
+        if (!cache.value || baseChanged ||
+            !sameMatrix(animationMatrix, cache.animationMatrix)) {
+            cache.value = sameMatrix(animationMatrix, MMatrix::identity)
+                ? cache.base
+                : transformGeometry(
+                    *cache.base,
+                    animationMatrix,
+                    cache.settings.showOffsetLine
+                );
+            cache.animationMatrix = animationMatrix;
+        }
+        cache.animationRevision = animationRevision;
+        cache.hasConnectedAnimationInput = connected;
+    }
+    return cache.value;
 }
 
 void* BdControllerShapeNode::creator() {
@@ -820,6 +919,7 @@ MStatus BdControllerShapeNode::initialize() {
     MStatus status;
     MFnNumericAttribute numericAttributeFn;
     MFnUnitAttribute unitAttributeFn;
+    MFnTypedAttribute typedAttributeFn;
     MFnEnumAttribute enumAttributeFn;
 
     shape = enumAttributeFn.create("shape", "sh", 0, &status);
@@ -877,6 +977,30 @@ MStatus BdControllerShapeNode::initialize() {
         if (!status) {
             return status;
         }
+    }
+
+    MFnMatrixData matrixDataFn;
+    const MObject identityMatrix = matrixDataFn.create(MMatrix::identity, &status);
+    if (!status) {
+        return status;
+    }
+    shapeAnimationTransformMatrix = typedAttributeFn.create(
+        "shapeAnimationTransformMatrix",
+        "satm",
+        MFnData::kMatrix,
+        identityMatrix,
+        &status
+    );
+    if (!status) {
+        return status;
+    }
+    status = typedAttributeFn.setKeyable(false);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(shapeAnimationTransformMatrix);
+    if (!status) {
+        return status;
     }
 
     status = bd_util_nodes::createDoubleAttribute(

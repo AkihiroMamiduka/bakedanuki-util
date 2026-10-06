@@ -6435,7 +6435,7 @@ def invalid_usage_contract(
     typed.set_channel_box  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     mesh_data.get()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     mesh_data.set_keyable  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
-    matrix_data.set  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    matrix_data.set("not a matrix")  # pyright: ignore[reportArgumentType]
     matrix_data.round  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     matrix_data.set_hidden  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     integer.round  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]

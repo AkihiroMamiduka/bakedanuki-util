@@ -87,6 +87,27 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
         matrix_obj = om.MFnMatrixData().create(matrix)
         self.plug.setMObject(matrix_obj)
 
+    def set(
+        self,
+        value: (
+            TransformMatrix
+            | om.MMatrix
+            | om.MTransformationMatrix
+            | MatrixSequence
+        ),
+    ) -> None:
+        """matrix data プラグへ行列を `ModifierManager` 経由で設定する。
+
+        変更は `ModifierManager.do_it_dg()` の実行時に反映される。
+
+        Args:
+            value: `TransformMatrix`、`MMatrix`、`MTransformationMatrix`、
+                16 要素または 4 行 4 列の数列。
+        """
+        matrix = TransformMatrix(value).matrix
+        matrix_obj = om.MFnMatrixData().create(matrix)
+        self._node.modifier_manager.dg_mod.newPlugValue(self.plug, matrix_obj)
+
     def add_attr(self):
         """matrix data 属性がなければ、ノードへ即時追加する。"""
         self._add_attr_base(om.MFnData.kMatrix)

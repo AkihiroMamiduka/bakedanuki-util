@@ -27,6 +27,7 @@ from .....attr.define.std.at.scalar.numeric.range.short import ShortField
 from .....attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearField,
 )
+from .....attr.define.std.dt.matrix import DataMatrixField
 
 
 class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
@@ -324,6 +325,9 @@ class GeneratedBdControllerShape(Shape):
 
     shape2ndAxis = Shape2ndAxisEnumField(default_value=2)
     s2a = shape2ndAxis
+
+    shapeAnimationTransformMatrix = DataMatrixField()
+    satm = shapeAnimationTransformMatrix
 
     shapeRootSize = DoubleField(default_value=1.0)
     srs = shapeRootSize

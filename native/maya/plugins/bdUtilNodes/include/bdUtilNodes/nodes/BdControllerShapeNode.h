@@ -9,6 +9,7 @@
 #include <maya/MMessage.h>
 #include <maya/MNodeMessage.h>
 #include <maya/MObject.h>
+#include <maya/MPoint.h>
 #include <maya/MPointArray.h>
 #include <maya/MPxLocatorNode.h>
 #include <maya/MStatus.h>
@@ -36,6 +37,7 @@ public:
     struct Geometry {
         std::vector<MPointArray> strokes;
         MPointArray offsetLine;
+        MPoint offsetLineEndpoint = MPoint::origin;
         MBoundingBox bounds;
         bool offsetLineTemplate = false;
     };
@@ -50,6 +52,7 @@ public:
     static MObject shape;
     static MObject shape1stAxis;
     static MObject shape2ndAxis;
+    static MObject shapeAnimationTransformMatrix;
     static MObject shapeRootSize;
 
     static MObject shapeTranslate;
@@ -100,5 +103,6 @@ private:
     struct GeometryCache;
     std::unique_ptr<GeometryCache> geometryCache_;
     std::atomic<std::uint64_t> geometryRevision_{1};
+    std::atomic<std::uint64_t> animationRevision_{1};
     MCallbackId attributeChangedCallback_ = 0;
 };

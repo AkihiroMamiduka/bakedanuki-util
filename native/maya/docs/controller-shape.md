@@ -28,6 +28,18 @@ mod.do_it_dg()
 両ノードの作成は `mod.do_it_dag()`、属性設定は `mod.do_it_dg()` で確定します。
 標準の `nurbsCurve` データや生成ノードへの接続はありません。
 
+アニメーションで形状だけを変形する場合は、行列ノードの出力を接続します。
+次の例では `composeMatrix` の数値入力をアニメーションさせます。
+
+```python
+animation_matrix = nodes.create.composeMatrix(name="hand_shape_animation")
+animation_matrix.outputMatrix.connect(shape.shapeAnimationTransformMatrix)
+mod.do_it_dg()
+```
+
+`shapeAnimationTransformMatrix` 自体には Maya の通常のキーを直接作れません。
+行列の移動・回転・スケールをキー化するときは、接続元の数値属性を使います。
+
 `Cube` の根元を原点に合わせ、主軸方向へ 5 cm 伸ばす場合は、
 `shapeSize=1` として次のように設定します。
 
@@ -47,6 +59,7 @@ mod.do_it_dg()
 | `shape` | enum | `Square` (0) | `Square` (0)、`Cube` (1)、`Circle` (2)、`CircleArrow` (3) |
 | `shape1stAxis` | enum | `+Z` (4) | 元の `+Z` 軸を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 元の `+Y` 軸を向ける方向。選択肢は `shape1stAxis` と同じ |
+| `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状の完成後、親 `transform` の変換前に形状だけへ適用するローカル行列 |
 | `shapeRootSize` | `double` | `1` | 平行移動を含む全体の一律スケール |
 | `shapeTranslate` | `doubleLinear3` | `(0, 0, 0)` | 軸指定の外側で形状を平行移動 |
 | `shapeRotate` | `doubleAngle3` | `(0, 0, 0)` | 軸指定の外側で XYZ 固定順に回転 |
@@ -61,8 +74,11 @@ mod.do_it_dg()
 | `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から、軸オフセットを除いた形状基準位置まで補助線を描く |
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 
-`shape`、２つの軸属性、８つの変形属性、長さ属性、２つの軸オフセット属性、２つの補助線属性、
+`shapeAnimationTransformMatrix` 以外の `shape`、２つの軸属性、８つの変形属性、
+長さ属性、２つの軸オフセット属性、２つの補助線属性、
 および３軸属性の各子属性は keyable です。
+`shapeAnimationTransformMatrix` は接続と `ModifierManager` 経由の設定に対応しますが、
+キーを直接作る属性ではありません。
 Channel Box では `shape`、`shape1stAxis`、`shape2ndAxis`、`shapeRootSize`、
 外側の移動・回転・スケール、`shapeAxisOffsetLength`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、
 内側の移動・回転・スケール、`shapeSize` の順に並びます。
@@ -71,7 +87,7 @@ shape を選択して Channel Box から数値を調整できます。
 描画に使わないため、`bdControllerShape` では Channel Box の既定表示から外します。
 標準の locator の表示設定には影響しません。
 
-点 `p` に適用する階層は `shapeRootSize > shapeTranslate > shapeRotate >
+点 `p` に適用する階層は `shapeAnimationTransformMatrix > shapeRootSize > shapeTranslate > shapeRotate >
 shapeScale > 軸指定 > shapeAxisOffsetLength > shapeAxisOffset > shapeAxisTranslate >
 shapeAxisRotate > shapeAxisScale > shapeSize > p` です。
 外側・内側の XYZ 回転をそれぞれ `R`・`R_axis`、軸指定から作る回転を `A`、
@@ -88,7 +104,14 @@ p_out = shapeRootSize * (
         ))
     )
 )
+p_local = p_out * shapeAnimationTransformMatrix
 ```
+
+行列の積は Maya の行ベクトル規約で表しています。行列は親 `transform` の
+ローカル空間で適用し、その後の親 DAG 変換は Maya に任せます。
+ワールド空間の行列を使う場合は、親の `worldInverseMatrix` でローカル空間へ
+変換してから接続します。行列の平行移動は `shapeRootSize` の影響を受けません。
+非等方スケールやシアーも、行列を分解せず頂点へ適用します。
 
 ここで `⊙` は成分ごとの積です。`shapeRootSize` は平行移動と軸オフセットにも影響し、
 `shapeSize` は頂点だけを拡縮します。`shape1stAxis=+Z`・`shape2ndAxis=+Y`
@@ -128,11 +151,13 @@ p_out = shapeRootSize * (
 `0` から `1` になります。`shapeSize` だけを `2` にすると `-0.5` から `1.5` です。
 
 補助線の始点は親 `transform` のローカル原点 `(0, 0, 0)`、終点は上記の式に
-`p=(0, 0, 0)` と `O_axis=(0, 0, 0)` を代入した形状基準位置です。
+`p=(0, 0, 0)` と `O_axis=(0, 0, 0)` を代入し、
+`shapeAnimationTransformMatrix` を適用した形状基準位置です。
 `shapeTranslate` と `shapeAxisTranslate` の移動を反映し、軸オフセットを除外します。
 `shapeAxisOffsetLength` は `shapeAxisTranslate` の選択軸成分を伸縮するため、
 終点にも反映します。`shapeAxisOffset`、`shapeAxisRotate`、`shapeAxisScale`、
-`shapeSize` は終点を動かしません。軸オフセットだけをオンにした場合は補助線を描きません。
+`shapeSize` は終点を動かしません。行列が単位行列のとき、軸オフセットだけを
+オンにした場合は補助線を描きません。
 始点と終点が重なる場合は線を描きません。
 描画・選択範囲には、軸オフセット後の形状本体と、表示中の補助線の両方を含めます。
 `shapeOffsetLineTemplate` が `true` のときは補助線だけを選択対象から外し、
@@ -146,10 +171,12 @@ Maya の template 表示色で描きます。`false` なら補助線は通常の
 `(-0.1, 0.38)` → `(0, 0.5)` → `(0.1, 0.38)` → 始点の
 独立した三角形からなります。
 
-調整属性が固定されている間は、形状のローカル頂点・補助線・描画範囲を
-再利用します。親 `transform` のアニメーションでは形状調整を再計算しません。
-調整属性自身をアニメーションまたは接続で変更する場合は、値が変わった時点で
-形状を更新します。描画と親 `transform` の評価には引き続き処理が必要です。
+基準形状を作る調整属性が固定されている間は、その頂点を再利用します。
+`shapeAnimationTransformMatrix` だけが変化する場合は、基準頂点を作り直さず、
+行列による頂点変換と補助線・描画範囲の更新だけを行います。
+親 `transform` のアニメーションでも基準形状は再計算しません。
+基準形状の調整属性自身をアニメーションまたは接続で変更する場合は、
+値が変わった時点で基準形状を更新します。
 
 ## 実装と拡張
 
@@ -164,12 +191,12 @@ Maya 上の挙動テストは [test_bd_controller_shape.py](../../../tests/maya/
 １つの shape に収められます。現在の円は 64 分割の折れ線で、NURBS の
 degree や surface を持つ形状ではありません。
 
-ローカル頂点・補助線・描画範囲は同じ node 内のキャッシュを共有します。
-直接の属性変更と接続変更は `MNodeMessage` callback でキャッシュを無効化します。
-調整属性に入力接続がある場合は、再生中の値の変化を拾うために値を比較します。
-値が同じなら頂点を再生成せず、入力接続のない状態では変更通知がない限り
-plug の読み取りも省きます。親 `transform` の TRS はローカル形状の
-再生成条件に含めません。
+基準形状と行列適用後の形状を同じ node 内で別々にキャッシュします。
+直接の属性変更と接続変更は `MNodeMessage` callback で対応するキャッシュを
+無効化します。入力接続がある場合は、再生中の値の変化を拾うために値を比較します。
+基準形状の調整値が同じなら頂点を再生成せず、行列が同じなら変換後の頂点も
+再生成しません。入力接続のない状態では変更通知がない限り plug の読み取りも
+省きます。親 `transform` の TRS は基準形状の再生成条件に含めません。
 描画 override は選択色などの表示変化に追従するため常時更新とし、
 静的な調整値では属性の再読込と頂点・描画範囲の再計算を省きます。
 キャッシュの仕組みを変更する際は、描画と両方の `boundingBox()`、
@@ -216,3 +243,5 @@ shape 自身の `visibility` をオフにすると非表示になります。
 15. `showShapeOffsetLine` をオンにし、軸オフセットを切り替えても補助線の終点が動かない。軸オフセットだけをオンにした場合は線が出ない。
 16. `Cube` で `shapeAxisOffsetLength` を変え、指定した軸方向だけが伸縮し、形状本体と選択範囲が更新される。軸オフセットがオンなら原点から、オフなら原点を中心に伸縮する。
 17. `shapeAxisTranslate` の選択軸成分がある場合、長さの変更が補助線の終点にも反映される。他の変形が既定値の `Cube` では、距離プラグからの接続やシーン単位の変更後も、骨長と形状の長さが一致する。
+18. `shapeAnimationTransformMatrix` に `composeMatrix.outputMatrix` を接続し、接続元をアニメーションすると形状・描画範囲・クリック選択が追従する。基準形状の調整値は変わらない。
+19. 補助線の基準終点が原点でも、行列の平行移動で終点が動くと親のローカル原点から補助線が出る。行列を戻すと消える。

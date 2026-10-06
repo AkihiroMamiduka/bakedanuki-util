@@ -121,8 +121,8 @@ def test_value_operations_are_absent_from_unsupported_plug_types(
         ),
         (
             DataMatrixPlugOperator,
-            ("get", "set_direct"),
-            ("set", "round", "value", "value_direct"),
+            ("get", "set", "set_direct"),
+            ("round", "value", "value_direct"),
         ),
         (
             DataStringPlugOperator,
