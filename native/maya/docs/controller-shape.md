@@ -28,7 +28,7 @@ mod.do_it_dg()
 両ノードの作成は `mod.do_it_dag()`、属性設定は `mod.do_it_dg()` で確定します。
 標準の `nurbsCurve` データや生成ノードへの接続はありません。
 
-アニメーションで形状だけを変形する場合は、行列ノードの出力を接続します。
+アニメーションで形状とフォーカス範囲を変形する場合は、行列ノードの出力を接続します。
 次の例では `composeMatrix` の数値入力をアニメーションさせます。
 
 ```python
@@ -52,6 +52,22 @@ shape.shapeAxisOffsetDirection.set(0)  # +1stAxis
 mod.do_it_dg()
 ```
 
+フォーカス範囲を形状の位置から分離する場合は、`boundsMode` を切り替えます。
+`ShapeCentered` は形状由来の大きさを原点中心で使い、`Custom` は独立した
+Cube の調整値を使います。
+
+```python
+shape.boundsMode.set(1)  # ShapeCentered
+shape.boundsMode.set(2)  # Custom
+shape.customBoundsTranslate.set(0.0, 0.0, 2.0)
+shape.customBoundsSize.set(3.0)
+shape.showCustomBoundsPreview.set(True)
+mod.do_it_dg()
+```
+
+プレビューは `boundsMode` が `Custom` 以外でも表示でき、template 色で描画されます。
+プレビューの線はクリック選択できません。
+
 ## 形状と属性
 
 | Attribute | Maya の型 | 既定値 | 意味 |
@@ -59,7 +75,7 @@ mod.do_it_dg()
 | `shape` | enum | `Square` (0) | `Square` (0)、`Cube` (1)、`Circle` (2)、`CircleArrow` (3) |
 | `shape1stAxis` | enum | `+Z` (4) | 元の `+Z` 軸を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 元の `+Y` 軸を向ける方向。選択肢は `shape1stAxis` と同じ |
-| `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状の完成後、親 `transform` の変換前に形状だけへ適用するローカル行列 |
+| `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
 | `shapeRootSize` | `double` | `1` | 平行移動を含む全体の一律スケール |
 | `shapeTranslate` | `doubleLinear3` | `(0, 0, 0)` | 軸指定の外側で形状を平行移動 |
 | `shapeRotate` | `doubleAngle3` | `(0, 0, 0)` | 軸指定の外側で XYZ 固定順に回転 |
@@ -73,6 +89,32 @@ mod.do_it_dg()
 | `shapeSize` | `double` | `1` | 線の頂点を末端で一律スケール |
 | `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から、軸オフセットを除いた形状基準位置まで補助線を描く |
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
+| `boundsMode` | enum | `Shape` (0) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
+| `showCustomBoundsPreview` | `bool` | `false` | Custom の最終的な軸平行範囲を template 色で表示する。選択不可 |
+
+`Custom` 用の調整属性は `shapeAnimationTransformMatrix` を除き、形状本体から独立しています。
+基準形状は固定の `Cube` で、`shape` と OffsetLine に対応する属性はありません。
+
+| Custom attribute | Maya の型 | 既定値 | 対応する形状属性 |
+| --- | --- | --- | --- |
+| `customBounds1stAxis` / `customBounds2ndAxis` | enum | `+Z` / `+Y` | `shape1stAxis` / `shape2ndAxis` |
+| `customBoundsRootSize` | `double` | `1` | `shapeRootSize` |
+| `customBoundsTranslate` | `doubleLinear3` | `(0, 0, 0)` | `shapeTranslate` |
+| `customBoundsRotate` | `doubleAngle3` | `(0, 0, 0)` | `shapeRotate` |
+| `customBoundsScale` | `double3` | `(1, 1, 1)` | `shapeScale` |
+| `customBoundsAxisOffsetLength` | `doubleLinear` | `1 cm` | `shapeAxisOffsetLength`。最小値 `0` |
+| `customBoundsAxisOffset` | `bool` | `false` | `shapeAxisOffset` |
+| `customBoundsAxisOffsetDirection` | enum | `+1stAxis` | `shapeAxisOffsetDirection` |
+| `customBoundsAxisTranslate` | `doubleLinear3` | `(0, 0, 0)` | `shapeAxisTranslate` |
+| `customBoundsAxisRotate` | `doubleAngle3` | `(0, 0, 0)` | `shapeAxisRotate` |
+| `customBoundsAxisScale` | `double3` | `(1, 1, 1)` | `shapeAxisScale` |
+| `customBoundsSize` | `double` | `1` | `shapeSize` |
+
+`boundsMode`、`showCustomBoundsPreview`、Custom の全調整属性と３軸属性の子属性は
+keyable です。２つの軸指定と軸オフセット方向の enum 値は形状本体と同じです。
+Channel Box では `boundsMode`、`showCustomBoundsPreview`、Custom の２軸指定、
+RootSize、外側の移動・回転・スケール、軸オフセット長・オン/オフ・方向、
+内側の移動・回転・スケール、Size の順です。
 
 `shapeAnimationTransformMatrix` 以外の `shape`、２つの軸属性、８つの変形属性、
 長さ属性、２つの軸オフセット属性、２つの補助線属性、
@@ -116,6 +158,36 @@ p_local = p_out * shapeAnimationTransformMatrix
 `p_out * W` の位置になります。`W` をそのまま接続すると親の変換が重複します。
 行列の平行移動は `shapeRootSize` の影響を受けません。
 非等方スケールやシアーも、行列を分解せず頂点へ適用します。
+
+### フォーカス範囲
+
+`boundsMode=Shape` は従来どおり、変形済みの形状本体と表示中の OffsetLine を
+含む範囲を返します。既定値をこのモードにして既存シーンの挙動を保ちます。
+
+`boundsMode=ShapeCentered` は形状の種類・軸指定・回転・スケール・サイズを使い、
+`shapeTranslate`、`shapeAxisTranslate`、`shapeAxisOffset` による位置ずれと
+OffsetLine を除外します。`shapeAxisOffsetLength` と
+`shapeAxisOffsetDirection` は軸方向の伸縮に必要なため保持します。
+この調整値で求めた形状の軸平行範囲を、まず親 `transform` のローカル原点を
+中心とする箱に置き直します。その８角へ `shapeAnimationTransformMatrix` を
+そのまま適用し、最終的な軸平行範囲を求めます。
+したがって行列の平行移動もフォーカス範囲へ反映されます。
+例えば他の変形が既定値の `Cube` で `shapeAxisOffsetLength=5 cm` なら、
+行列適用前の伸縮方向の範囲は `-2.5 cm` から `+2.5 cm` です。
+`CircleArrow` のように非対称な形状でも、行列適用前の範囲の中心は原点です。
+
+`boundsMode=Custom` は独立した調整属性で固定の `Cube` の８角を変形し、
+さらに共有の `shapeAnimationTransformMatrix` を適用してから軸平行範囲を
+求めます。Custom の箱は形状本体より小さくも大きくもできます。
+`showCustomBoundsPreview` はこの最終範囲の12辺を表示するだけで、
+どの `boundsMode` のフォーカス範囲も変更しません。
+
+`MPxLocatorNode::boundingBox()` は選択したモードの範囲を返すため、
+`MFnDagNode.boundingBox`、親 `transform` の `xform -bb`、標準の
+F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform も含むため、
+子の範囲は別途合算されます。Viewport 2.0 の描画 override はカリング用に
+形状本体・表示中の OffsetLine・表示中の Custom プレビューを包む範囲を返します。
+クリック選択に使う線は形状本体と、template ではない OffsetLine のままです。
 
 ここで `⊙` は成分ごとの積です。`shapeRootSize` は平行移動と軸オフセットにも影響し、
 `shapeSize` は頂点だけを拡縮します。`shape1stAxis=+Z`・`shape2ndAxis=+Y`
@@ -163,7 +235,9 @@ p_local = p_out * shapeAnimationTransformMatrix
 `shapeSize` は終点を動かしません。行列が単位行列のとき、軸オフセットだけを
 オンにした場合は補助線を描きません。
 始点と終点が重なる場合は線を描きません。
-描画・選択範囲には、軸オフセット後の形状本体と、表示中の補助線の両方を含めます。
+形状本体の描画範囲には、軸オフセット後の形状本体と、表示中の補助線の
+両方を含めます。フォーカス範囲へ補助線を含めるのは `boundsMode=Shape` の
+場合だけです。
 `shapeOffsetLineTemplate` が `true` のときは補助線だけを選択対象から外し、
 Maya の template 表示色で描きます。`false` なら補助線は通常のワイヤーフレーム色で
 クリック選択に使えます。どちらの設定でも形状本体の線は選択できます。
@@ -212,7 +286,8 @@ degree や surface を持つ形状ではありません。
 形状を追加するときはストロークの区切り、基準 bounds、軸指定・オフセット・
 行列適用後の bounds と選択範囲を確認します。
 
-基準形状と行列適用後の形状を同じ node 内で別々にキャッシュします。
+基準形状と行列適用後の形状、および Custom の基準箱と行列適用後の箱を
+同じ node 内で別々にキャッシュします。
 直接の属性変更と接続変更は `MNodeMessage` callback で対応するキャッシュを
 無効化します。入力接続がある場合は、再生中の値の変化を拾うために値を比較します。
 基準形状の調整値が同じなら頂点を再生成せず、行列が同じなら変換後の頂点も
@@ -224,7 +299,8 @@ degree や surface を持つ形状ではありません。
 属性の直接編集、Undo/Redo、キー・接続による変化を一緒に確認してください。
 再生速度の改善量はまだ実測していません。
 
-`shape` enum の選択肢を増やす場合も、ネイティブ属性の変更です。
+`shape` enum の選択肢やフォーカス関連の属性を変更する場合も、
+ネイティブ属性の変更です。
 対応 Maya version の plug-in をビルド・配置した後、
 Maya 2025 でその plug-in をロードして `generate_node_class_file()` から
 `bdControllerShape` の Python 定義を再生成します。生成対象は
@@ -267,3 +343,8 @@ shape 自身の `visibility` をオフにすると非表示になります。
 17. `shapeAxisTranslate` の選択軸成分がある場合、長さの変更が補助線の終点にも反映される。他の変形が既定値の `Cube` では、距離プラグからの接続やシーン単位の変更後も、骨長と形状の長さが一致する。
 18. `shapeAnimationTransformMatrix` に `composeMatrix.outputMatrix` を接続し、接続元をアニメーションすると形状・描画範囲・クリック選択が追従する。基準形状の調整値は変わらない。
 19. 補助線の基準終点が原点でも、行列の平行移動で終点が動くと親のローカル原点から補助線が出る。行列を戻すと消える。
+20. `boundsMode` を３値で切り替え、F と Ctrl+F のフレーム範囲がそれぞれの範囲に追従する。子 transform を持つ場合は Ctrl+F に子も含まれる。
+21. `ShapeCentered` で形状の移動・軸オフセット・OffsetLine を変えても中心が動かず、`shapeAxisOffsetLength` で大きさだけが変わる。`shapeAnimationTransformMatrix` の平行移動を加えると中心も動く。
+22. `Custom` の箱を形状本体より小さく、次に大きくしても、本体の線を描画・クリック選択できる。カメラを動かして視錐台カリングも確認する。
+23. `showCustomBoundsPreview` を `boundsMode` に関係なく切り替え、最終的な軸平行範囲が template 色で表示され、プレビューの線だけをクリックしても選択されない。プレビューの表示でフォーカス範囲は変化しない。
+24. Custom の調整値を直接編集・接続・キー設定してフレームとプレビューが更新される。Undo/Redo とシーン再読込後にも同じ範囲へ戻る。

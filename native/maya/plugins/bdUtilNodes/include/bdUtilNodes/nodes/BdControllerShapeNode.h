@@ -36,9 +36,12 @@ public:
 
     struct Geometry {
         std::vector<MPointArray> strokes;
+        std::vector<MPointArray> boundsPreview;
         MPointArray offsetLine;
         MPoint offsetLineEndpoint = MPoint::origin;
         MBoundingBox bounds;
+        MBoundingBox focusBounds;
+        MBoundingBox drawBounds;
         bool offsetLineTemplate = false;
     };
 
@@ -93,6 +96,40 @@ public:
     static MObject showShapeOffsetLine;
     static MObject shapeOffsetLineTemplate;
 
+    static MObject boundsMode;
+    static MObject showCustomBoundsPreview;
+    static MObject customBounds1stAxis;
+    static MObject customBounds2ndAxis;
+    static MObject customBoundsRootSize;
+    static MObject customBoundsTranslate;
+    static MObject customBoundsTranslateX;
+    static MObject customBoundsTranslateY;
+    static MObject customBoundsTranslateZ;
+    static MObject customBoundsRotate;
+    static MObject customBoundsRotateX;
+    static MObject customBoundsRotateY;
+    static MObject customBoundsRotateZ;
+    static MObject customBoundsScale;
+    static MObject customBoundsScaleX;
+    static MObject customBoundsScaleY;
+    static MObject customBoundsScaleZ;
+    static MObject customBoundsAxisOffsetLength;
+    static MObject customBoundsAxisOffset;
+    static MObject customBoundsAxisOffsetDirection;
+    static MObject customBoundsAxisTranslate;
+    static MObject customBoundsAxisTranslateX;
+    static MObject customBoundsAxisTranslateY;
+    static MObject customBoundsAxisTranslateZ;
+    static MObject customBoundsAxisRotate;
+    static MObject customBoundsAxisRotateX;
+    static MObject customBoundsAxisRotateY;
+    static MObject customBoundsAxisRotateZ;
+    static MObject customBoundsAxisScale;
+    static MObject customBoundsAxisScaleX;
+    static MObject customBoundsAxisScaleY;
+    static MObject customBoundsAxisScaleZ;
+    static MObject customBoundsSize;
+
 private:
     static void onAttributeChanged(
         MNodeMessage::AttributeMessage change,
@@ -104,5 +141,6 @@ private:
     std::unique_ptr<GeometryCache> geometryCache_;
     std::atomic<std::uint64_t> geometryRevision_{1};
     std::atomic<std::uint64_t> animationRevision_{1};
+    std::atomic<std::uint64_t> boundsRevision_{1};
     MCallbackId attributeChangedCallback_ = 0;
 };

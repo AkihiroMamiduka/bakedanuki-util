@@ -303,6 +303,199 @@ def test_shape_bounds(
     )
 
 
+def test_bounds_modes_and_custom_attribute_defaults(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+
+    assert maya_cmds.attributeQuery(
+        "boundsMode", node=shape, listEnum=True
+    ) == ["Shape:ShapeCentered:Custom"]
+    assert maya_cmds.getAttr(f"{shape}.boundsMode") == 0
+    assert not maya_cmds.getAttr(f"{shape}.showCustomBoundsPreview")
+    for attribute, default in (
+        ("customBounds1stAxis", 4),
+        ("customBounds2ndAxis", 2),
+        ("customBoundsRootSize", 1.0),
+        ("customBoundsAxisOffsetLength", 1.0),
+        ("customBoundsAxisOffset", False),
+        ("customBoundsAxisOffsetDirection", 0),
+        ("customBoundsSize", 1.0),
+    ):
+        assert maya_cmds.getAttr(f"{shape}.{attribute}") == default
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+    for attribute, expected in (
+        ("customBoundsTranslate", (0.0, 0.0, 0.0)),
+        ("customBoundsRotate", (0.0, 0.0, 0.0)),
+        ("customBoundsScale", (1.0, 1.0, 1.0)),
+        ("customBoundsAxisTranslate", (0.0, 0.0, 0.0)),
+        ("customBoundsAxisRotate", (0.0, 0.0, 0.0)),
+        ("customBoundsAxisScale", (1.0, 1.0, 1.0)),
+    ):
+        assert maya_cmds.getAttr(f"{shape}.{attribute}")[0] == pytest.approx(
+            expected
+        )
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+    assert maya_cmds.getAttr(f"{shape}.showCustomBoundsPreview", keyable=True)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)
+    )
+
+
+def test_shape_centered_keeps_size_without_position_offsets(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.shape", 1)
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 5.0)
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
+    maya_cmds.setAttr(f"{shape}.shapeTranslateX", 10.0)
+    maya_cmds.setAttr(f"{shape}.shapeAxisTranslateY", 7.0)
+    maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", True)
+    maya_cmds.setAttr(f"{shape}.boundsMode", 1)
+
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -0.5, -2.5, 0.5, 0.5, 2.5), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffsetDirection", 2)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -2.5, -0.5, 0.5, 2.5, 0.5), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.boundsMode", 0)
+    assert _bounds(maya_om, shape) != pytest.approx(
+        (-0.5, -2.5, -0.5, 0.5, 2.5, 0.5)
+    )
+
+
+def test_shape_centered_asymmetry_and_animation_matrix(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    matrix = maya_cmds.createNode("composeMatrix")
+    maya_cmds.setAttr(f"{shape}.shape", 3)
+    maya_cmds.setAttr(f"{shape}.boundsMode", 1)
+    maya_cmds.connectAttr(
+        f"{matrix}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
+    )
+
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.32, -0.41, 0.0, 0.32, 0.41, 0.0), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{matrix}.inputTranslateX", 3.0)
+    maya_cmds.setAttr(f"{matrix}.inputRotateZ", 90.0)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (2.59, -0.32, 0.0, 3.41, 0.32, 0.0), abs=1.0e-9
+    )
+
+
+def test_custom_bounds_are_independent_and_preview_does_not_change_focus(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.shapeTranslateX", 10.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsTranslateX", -3.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsSize", 2.0)
+    maya_cmds.setAttr(f"{shape}.boundsMode", 2)
+
+    expected = (-4.0, -1.0, -1.0, -2.0, 1.0, 1.0)
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
+    maya_cmds.setAttr(f"{shape}.showCustomBoundsPreview", True)
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
+    maya_cmds.setAttr(f"{shape}.boundsMode", 0)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (9.5, -0.5, 0.0, 10.5, 0.5, 0.0), abs=1.0e-9
+    )
+
+
+def test_custom_bounds_transform_and_animation_connection(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    matrix = maya_cmds.createNode("composeMatrix")
+    maya_cmds.setAttr(f"{shape}.boundsMode", 2)
+    maya_cmds.setAttr(f"{shape}.customBoundsAxisOffset", True)
+    maya_cmds.setAttr(f"{shape}.customBoundsAxisOffsetLength", 4.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsTranslateX", 3.0)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (2.5, -0.5, 0.0, 3.5, 0.5, 4.0), abs=1.0e-9
+    )
+
+    maya_cmds.connectAttr(
+        f"{matrix}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
+    )
+    maya_cmds.setKeyframe(matrix, attribute="inputTranslateX", time=1, value=0)
+    maya_cmds.setKeyframe(
+        matrix, attribute="inputTranslateX", time=10, value=5
+    )
+    maya_cmds.currentTime(10)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (7.5, -0.5, 0.0, 8.5, 0.5, 4.0), abs=1.0e-9
+    )
+    maya_cmds.currentTime(1)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (2.5, -0.5, 0.0, 3.5, 0.5, 4.0), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.customBoundsAxisOffset", False)
+    maya_cmds.setAttr(f"{shape}.customBoundsAxisOffsetLength", 1.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsTranslateX", 0.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsScaleX", 2.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsRotateZ", 90.0)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -1.0, -0.5, 0.5, 1.0, 0.5), abs=1.0e-9
+    )
+
+
+def test_connected_custom_bounds_input_updates_at_keyframes(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.boundsMode", 2)
+    maya_cmds.setKeyframe(
+        shape, attribute="customBoundsTranslateX", time=1, value=0
+    )
+    maya_cmds.setKeyframe(
+        shape, attribute="customBoundsTranslateX", time=10, value=5
+    )
+    maya_cmds.currentTime(10)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (4.5, -0.5, -0.5, 5.5, 0.5, 0.5), abs=1.0e-9
+    )
+    maya_cmds.currentTime(1)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5), abs=1.0e-9
+    )
+
+
+def test_view_fit_uses_selected_bounds_mode(maya_cmds, maya_om, new_scene):
+    _load_bd_util_nodes(maya_cmds)
+    transform, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.shapeTranslateX", 10.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsTranslateX", -3.0)
+    maya_cmds.select(transform)
+
+    maya_cmds.setAttr(f"{shape}.boundsMode", 2)
+    assert maya_cmds.xform(
+        transform, query=True, boundingBox=True, worldSpace=True
+    ) == pytest.approx((-3.5, -0.5, -0.5, -2.5, 0.5, 0.5), abs=1.0e-9)
+    maya_cmds.viewFit("frontShape", animate=False, noChildren=True)
+    assert maya_cmds.xform(
+        "front", query=True, translation=True, worldSpace=True
+    )[0] == pytest.approx(-3.0, abs=1.0e-9)
+
+    maya_cmds.setAttr(f"{shape}.boundsMode", 0)
+    maya_cmds.setAttr(f"{shape}.showCustomBoundsPreview", True)
+    maya_cmds.viewFit("frontShape", animate=False, noChildren=True)
+    assert maya_cmds.xform(
+        "front", query=True, translation=True, worldSpace=True
+    )[0] == pytest.approx(10.0, abs=1.0e-9)
+
+
 def test_circle_arrow_uses_one_shape(maya_cmds, maya_om, new_scene):
     _load_bd_util_nodes(maya_cmds)
     transform, shape = _create_controller(maya_cmds)
@@ -867,6 +1060,7 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     ) == pytest.approx(2.0)
     assert maya_cmds.getAttr(f"{shape.full_path}.showShapeOffsetLine")
     assert maya_cmds.getAttr(f"{shape.full_path}.shapeOffsetLineTemplate")
+
     assert maya_cmds.listRelatives(
         transform.full_path, shapes=True, fullPath=True
     ) == [shape.full_path]
@@ -890,3 +1084,34 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     ) == pytest.approx(2.0)
     assert maya_cmds.getAttr(f"{shape.full_path}.showShapeOffsetLine")
     assert maya_cmds.getAttr(f"{shape.full_path}.shapeOffsetLineTemplate")
+
+
+def test_custom_bounds_node_operator_history_and_scene_reload(
+    maya_cmds, maya_om, new_scene, tmp_path
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape_name = _create_controller(maya_cmds)
+    mod = bdu.ModifierManager()
+    shape = bdu.Nodes(modifier_manager=mod).existing(shape_name)
+    shape.boundsMode.set(2)
+    shape.customBoundsSize.set(4.0)
+    shape.customBoundsTranslate.set(2.0, 0.0, 0.0)
+    shape.showCustomBoundsPreview.set(True)
+    mod.do_it_dg()
+
+    expected = (0.0, -2.0, -2.0, 4.0, 2.0, 2.0)
+    assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)
+    mod.undo_it()
+    assert maya_cmds.getAttr(f"{shape_name}.boundsMode") == 0
+    assert not maya_cmds.getAttr(f"{shape_name}.showCustomBoundsPreview")
+    mod.redo_it()
+    assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)
+
+    scene_path = tmp_path / "controller_shape_custom_bounds.ma"
+    maya_cmds.file(rename=str(scene_path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(scene_path), open=True, force=True)
+    assert maya_cmds.getAttr(f"{shape_name}.boundsMode") == 2
+    assert maya_cmds.getAttr(f"{shape_name}.showCustomBoundsPreview")
+    assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)
