@@ -68,7 +68,7 @@
 27. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 28. [Controller Shape](controller-shape.md)
-   - 独立した輪郭を１つのカスタム shape に描くコントローラーと GUI 確認項目
+   - 基準形状の座標規約、軸・長さ・アニメーション行列による変形、GUI 確認項目
 
 ## Reference Implementation
 
