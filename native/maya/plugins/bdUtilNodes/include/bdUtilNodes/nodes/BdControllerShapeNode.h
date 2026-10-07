@@ -95,6 +95,9 @@ public:
     static MObject shapeSize;
     static MObject showShapeOffsetLine;
     static MObject shapeOffsetLineTemplate;
+    static MObject shapeLineWidth;
+    static MObject shapeTransparency;
+    static MObject shapeDrawOnTop;
 
     static MObject boundsMode;
     static MObject showBoundsPreview;

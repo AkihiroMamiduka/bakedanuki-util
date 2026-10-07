@@ -7,6 +7,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.bool import (
 from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double import (
     DoublePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.float import (
+    FloatPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearPlugOperator,
 )
@@ -175,3 +178,13 @@ def controller_shape_bounds_contract() -> None:
     shape.customBoundsAxisTranslate.set(1.0, 2.0, 3.0)
     shape.customBoundsAxisRotate.set(0.0, 0.0, 45.0)
     shape.customBoundsAxisScale.set(1.0, 2.0, 3.0)
+
+
+def controller_shape_draw_style_contract() -> None:
+    _, shape = bdu.Nodes().create.controllerShape()
+    assert_type(shape.shapeLineWidth, FloatPlugOperator)
+    assert_type(shape.shapeTransparency, FloatPlugOperator)
+    assert_type(shape.shapeDrawOnTop, BoolPlugOperator)
+    shape.shapeLineWidth.set(2.5)
+    shape.shapeTransparency.set(0.375)
+    shape.shapeDrawOnTop.set(True)

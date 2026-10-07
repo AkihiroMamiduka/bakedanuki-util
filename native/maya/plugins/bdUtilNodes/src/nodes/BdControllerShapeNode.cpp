@@ -19,6 +19,7 @@
 #include <maya/MFnDependencyNode.h>
 #include <maya/MFnMatrixData.h>
 #include <maya/MFnNumericAttribute.h>
+#include <maya/MFnNumericData.h>
 #include <maya/MFnTypedAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MFrameContext.h>
@@ -84,6 +85,9 @@ MObject BdControllerShapeNode::shapeAxisScaleZ;
 MObject BdControllerShapeNode::shapeSize;
 MObject BdControllerShapeNode::showShapeOffsetLine;
 MObject BdControllerShapeNode::shapeOffsetLineTemplate;
+MObject BdControllerShapeNode::shapeLineWidth;
+MObject BdControllerShapeNode::shapeTransparency;
+MObject BdControllerShapeNode::shapeDrawOnTop;
 MObject BdControllerShapeNode::boundsMode;
 MObject BdControllerShapeNode::showBoundsPreview;
 MObject BdControllerShapeNode::customBounds1stAxis;
@@ -921,11 +925,25 @@ MBoundingBox nodeBounds(const MObject& node) {
         : MBoundingBox(MPoint::origin, MPoint::origin);
 }
 
+MPointArray lineSegments(const Strokes& strokes) {
+    MPointArray segments;
+    for (const Stroke& stroke : strokes) {
+        for (unsigned int index = 1; index < stroke.length(); ++index) {
+            segments.append(stroke[index - 1]);
+            segments.append(stroke[index]);
+        }
+    }
+    return segments;
+}
+
 struct ShapeDrawData final : public MUserData {
     std::shared_ptr<const BdControllerShapeNode::Geometry> geometry;
+    MPointArray onTopSegments;
     MColor color;
     MColor offsetLineColor;
     MColor boundsPreviewColor;
+    float lineWidth = 1.0f;
+    bool drawOnTop = false;
 };
 
 class ControllerShapeDrawOverride final : public MHWRender::MPxDrawOverride {
@@ -964,7 +982,34 @@ public:
         ShapeDrawData* data = oldData
             ? static_cast<ShapeDrawData*>(oldData)
             : new ShapeDrawData();
-        data->geometry = nodeGeometry(objectPath.node());
+        const auto geometry = nodeGeometry(objectPath.node());
+        const bool geometryChanged = data->geometry != geometry;
+        data->geometry = geometry;
+        MStatus status;
+        const float lineWidth = MPlug(
+            objectPath.node(), BdControllerShapeNode::shapeLineWidth
+        ).asFloat(&status);
+        data->lineWidth = status && std::isfinite(lineWidth)
+            ? std::max(1.0f, lineWidth)
+            : 1.0f;
+        const float transparency = MPlug(
+            objectPath.node(), BdControllerShapeNode::shapeTransparency
+        ).asFloat(&status);
+        const float opacity = status && std::isfinite(transparency)
+            ? 1.0f - std::clamp(transparency, 0.0f, 1.0f)
+            : 1.0f;
+        const bool wasDrawOnTop = data->drawOnTop;
+        data->drawOnTop = MPlug(
+            objectPath.node(), BdControllerShapeNode::shapeDrawOnTop
+        ).asBool(&status);
+        if (!status) {
+            data->drawOnTop = false;
+        }
+        if (data->drawOnTop && (geometryChanged || !wasDrawOnTop)) {
+            data->onTopSegments = data->geometry
+                ? lineSegments(data->geometry->strokes)
+                : MPointArray();
+        }
         data->color = MHWRender::MGeometryUtilities::wireframeColor(objectPath);
         if (data->geometry && !data->geometry->boundsPreview.empty()) {
             MStatus colorStatus;
@@ -982,6 +1027,10 @@ public:
                     data->offsetLineColor = templateColor;
                 }
             }
+        }
+        data->color.a *= opacity;
+        if (data->geometry && data->geometry->offsetLine.length() == 2) {
+            data->offsetLineColor.a *= opacity;
         }
         return data;
     }
@@ -1002,8 +1051,19 @@ public:
         }
         drawManager.beginDrawable();
         drawManager.setColor(data->color);
-        for (const Stroke& stroke : data->geometry->strokes) {
-            drawManager.lineStrip(stroke, false);
+        if (data->lineWidth > 1.0f) {
+            drawManager.setLineWidth(data->lineWidth);
+        }
+        if (data->drawOnTop && data->onTopSegments.length() > 0) {
+            drawManager.beginDrawInXray();
+            drawManager.mesh(
+                MHWRender::MUIDrawManager::kLines, data->onTopSegments
+            );
+            drawManager.endDrawInXray();
+        } else {
+            for (const Stroke& stroke : data->geometry->strokes) {
+                drawManager.lineStrip(stroke, false);
+            }
         }
         drawManager.endDrawable();
         if (data->geometry->offsetLine.length() == 2) {
@@ -1013,7 +1073,19 @@ public:
                     : MHWRender::MUIDrawManager::kSelectable
             );
             drawManager.setColor(data->offsetLineColor);
-            drawManager.lineStrip(data->geometry->offsetLine, false);
+            if (data->lineWidth > 1.0f) {
+                drawManager.setLineWidth(data->lineWidth);
+            }
+            if (data->drawOnTop) {
+                drawManager.beginDrawInXray();
+                drawManager.mesh(
+                    MHWRender::MUIDrawManager::kLines,
+                    data->geometry->offsetLine
+                );
+                drawManager.endDrawInXray();
+            } else {
+                drawManager.lineStrip(data->geometry->offsetLine, false);
+            }
             drawManager.endDrawable();
         }
         if (!data->geometry->boundsPreview.empty()) {
@@ -1652,6 +1724,67 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = addAttribute(shapeOffsetLineTemplate);
+    if (!status) {
+        return status;
+    }
+
+    shapeLineWidth = numericAttributeFn.create(
+        "shapeLineWidth", "slw", MFnNumericData::kFloat, 1.0f, &status
+    );
+    if (!status) {
+        return status;
+    }
+    status = numericAttributeFn.setMin(1.0);
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(shapeLineWidth);
+    if (!status) {
+        return status;
+    }
+
+    shapeTransparency = numericAttributeFn.create(
+        "shapeTransparency", "stp", MFnNumericData::kFloat, 0.0f, &status
+    );
+    if (!status) {
+        return status;
+    }
+    status = numericAttributeFn.setMin(0.0);
+    if (!status) {
+        return status;
+    }
+    status = numericAttributeFn.setMax(1.0);
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(shapeTransparency);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createBooleanAttribute(
+        numericAttributeFn,
+        shapeDrawOnTop,
+        "shapeDrawOnTop",
+        "sdot",
+        false
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(shapeDrawOnTop);
     if (!status) {
         return status;
     }

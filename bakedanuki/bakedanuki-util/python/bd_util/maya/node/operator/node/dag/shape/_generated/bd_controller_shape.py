@@ -586,6 +586,17 @@ class GeneratedBdControllerShape(Shape):
     shapeOffsetLineTemplate = BoolField(default_value=False)
     solt = shapeOffsetLineTemplate
 
+    shapeLineWidth = FloatField(default_value=1.0, min_value=1.0)
+    slw = shapeLineWidth
+
+    shapeTransparency = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
+    stp = shapeTransparency
+
+    shapeDrawOnTop = BoolField(default_value=False)
+    sdot = shapeDrawOnTop
+
     boundsMode = BoundsModeEnumField(default_value=0)
     bdm = boundsMode
 

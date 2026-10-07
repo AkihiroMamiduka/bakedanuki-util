@@ -19,6 +19,9 @@ shape.shape1stAxis.set(4)  # +Z
 shape.shape2ndAxis.set(2)  # +Y
 shape.shapeRootSize.set(1.5)
 shape.shapeSize.set(0.8)
+shape.shapeLineWidth.set(2.0)  # 画面上で 2 px の線
+shape.shapeTransparency.set(0.25)  # 25% 透明
+shape.shapeDrawOnTop.set(True)
 
 mod.do_it_dag()
 mod.do_it_dg()
@@ -89,6 +92,9 @@ mod.do_it_dg()
 | `shapeSize` | `double` | `1` | 線の頂点を末端で一律スケール |
 | `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から、軸オフセットを除いた形状基準位置まで補助線を描く |
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
+| `shapeLineWidth` | `float` | `1` | 本体と OffsetLine の画面上の線幅。単位は pixel、最小値 `1` |
+| `shapeTransparency` | `float` | `0` | 本体と OffsetLine の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
+| `shapeDrawOnTop` | `bool` | `false` | 本体と OffsetLine を他のシーン形状に隠れないように描画する |
 | `boundsMode` | enum | `Shape` (0) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
 | `showBoundsPreview` | `bool` | `false` | 選択中の `boundsMode` の最終的な軸平行範囲を template 色で表示する。選択不可 |
 
@@ -117,13 +123,14 @@ RootSize、外側の移動・回転・スケール、軸オフセット長・オ
 内側の移動・回転・スケール、Size の順です。
 
 `shapeAnimationTransformMatrix` 以外の `shape`、２つの軸属性、８つの変形属性、
-長さ属性、２つの軸オフセット属性、２つの補助線属性、
+長さ属性、２つの軸オフセット属性、２つの補助線属性、３つの描画属性、
 および３軸属性の各子属性は keyable です。
 `shapeAnimationTransformMatrix` は接続と `ModifierManager` 経由の設定に対応しますが、
 キーを直接作る属性ではありません。
 Channel Box では `shape`、`shape1stAxis`、`shape2ndAxis`、`shapeRootSize`、
 外側の移動・回転・スケール、`shapeAxisOffsetLength`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、
-内側の移動・回転・スケール、`shapeSize` の順に並びます。
+内側の移動・回転・スケール、`shapeSize`、２つの補助線属性、
+`shapeLineWidth`、`shapeTransparency`、`shapeDrawOnTop` の順に並びます。
 shape を選択して Channel Box から数値を調整できます。
 `MPxLocatorNode` から継承する `localPositionX/Y/Z` と `localScaleX/Y/Z` は
 描画に使わないため、`bdControllerShape` では Channel Box の既定表示から外します。
@@ -158,6 +165,17 @@ p_local = p_out * shapeAnimationTransformMatrix
 `p_out * W` の位置になります。`W` をそのまま接続すると親の変換が重複します。
 行列の平行移動は `shapeRootSize` の影響を受けません。
 非等方スケールやシアーも、行列を分解せず頂点へ適用します。
+
+### 描画属性
+
+`shapeLineWidth`、`shapeTransparency`、`shapeDrawOnTop` は Viewport 2.0 の
+描画だけを調整します。線幅は画面上の pixel 指定で、シーン単位や
+`shapeSize` とは独立しています。透明度は選択状態に応じたワイヤーフレーム色、
+または OffsetLine の template 色に適用します。最前面表示は他のシーン形状に
+遮られない線の表示を意味します。３属性は本体と OffsetLine に共通です。
+`showBoundsPreview` の確認用の箱は従来の template 色・線幅・選択不可を維持し、
+これらの属性の影響を受けません。描画属性の変更はフォーカス範囲を変えず、
+本体と OffsetLine のクリック選択の可否も変更しません。
 
 ### フォーカス範囲
 
@@ -268,6 +286,8 @@ Maya 上の挙動テストは [test_bd_controller_shape.py](../../../tests/maya/
 そのため `CircleArrow` の円と矢印や `Cube` の各辺を、橋渡しの線なしで
 １つの shape に収められます。現在の円は 64 分割の折れ線で、NURBS の
 degree や surface を持つ形状ではありません。
+`shapeDrawOnTop` がオンのときは、最前面表示に対応するためストロークを
+線分へ展開して描画します。オフの既定状態では通常の深度テストを使います。
 
 ### 基準形状を追加する際の座標規約
 
@@ -348,3 +368,7 @@ shape 自身の `visibility` をオフにすると非表示になります。
 22. `Custom` の箱を形状本体より小さく、次に大きくしても、本体の線を描画・クリック選択できる。カメラを動かして視錐台カリングも確認する。
 23. `showBoundsPreview` をオンにして `boundsMode` を３値で切り替え、各モードの最終的な軸平行範囲が template 色で表示される。プレビューの線だけをクリックしても選択されず、表示のオン/オフでフォーカス範囲は変化しない。
 24. Custom の調整値を直接編集・接続・キー設定してフレームとプレビューが更新される。Undo/Redo とシーン再読込後にも同じ範囲へ戻る。
+25. `shapeLineWidth` を `1` から大きくすると、本体と表示中の OffsetLine が太くなる。カメラのズームとシーン単位の変更では画面上の指定線幅が変わらない。
+26. `shapeTransparency` を `0`、中間値、`1` に切り替えると、本体と OffsetLine の透明度が変わる。通常色、選択色、OffsetLine の template 色で確認する。
+27. `shapeDrawOnTop` をオンにすると他のシーン形状に隠れた本体と OffsetLine の線が見え、オフに戻すと通常の深度テストに戻る。線の形やクリック選択が変わらない。
+28. ３つの描画属性を組み合わせ、Undo/Redo とシーン再読込後にも表示が戻る。`showBoundsPreview` の template 色・線幅・選択不可と、F / Ctrl+F のフォーカス範囲は変わらない。

@@ -151,6 +151,31 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
     assert not maya_cmds.attributeQuery(
         "shapeOffsetLineSelectable", node=shape, exists=True
     )
+    for attribute, short_name, default in (
+        ("shapeLineWidth", "slw", 1.0),
+        ("shapeTransparency", "stp", 0.0),
+        ("shapeDrawOnTop", "sdot", False),
+    ):
+        assert maya_cmds.getAttr(f"{shape}.{attribute}") == default
+        assert (
+            maya_cmds.attributeQuery(attribute, node=shape, shortName=True)
+            == short_name
+        )
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+    assert maya_cmds.getAttr(f"{shape}.shapeLineWidth", type=True) == "float"
+    assert (
+        maya_cmds.getAttr(f"{shape}.shapeTransparency", type=True) == "float"
+    )
+    assert maya_cmds.getAttr(f"{shape}.shapeDrawOnTop", type=True) == "bool"
+    assert maya_cmds.attributeQuery(
+        "shapeLineWidth", node=shape, minimum=True
+    ) == [1.0]
+    assert maya_cmds.attributeQuery(
+        "shapeTransparency", node=shape, minimum=True
+    ) == [0.0]
+    assert maya_cmds.attributeQuery(
+        "shapeTransparency", node=shape, maximum=True
+    ) == [1.0]
     assert (
         maya_cmds.getAttr(f"{shape}.shapeTranslateX", type=True)
         == "doubleLinear"
@@ -215,6 +240,9 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeSize",
         "showShapeOffsetLine",
         "shapeOffsetLineTemplate",
+        "shapeLineWidth",
+        "shapeTransparency",
+        "shapeDrawOnTop",
     ):
         assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
 
@@ -236,6 +264,9 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeSize",
         "showShapeOffsetLine",
         "shapeOffsetLineTemplate",
+        "shapeLineWidth",
+        "shapeTransparency",
+        "shapeDrawOnTop",
     )
     assert [
         channel_order.index(attribute) for attribute in ordered_attributes
@@ -301,6 +332,65 @@ def test_shape_bounds(
     assert _bounds(maya_om, shape) == pytest.approx(
         expected_bounds, abs=1.0e-9
     )
+
+
+def test_draw_style_attributes_preserve_focus_bounds_and_scene_values(
+    maya_cmds, maya_om, new_scene, tmp_path
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape_name = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape_name}.shape", 1)
+    maya_cmds.setAttr(f"{shape_name}.shapeTranslateX", 3.0)
+    maya_cmds.setAttr(f"{shape_name}.showShapeOffsetLine", True)
+    maya_cmds.setAttr(f"{shape_name}.customBoundsSize", 2.0)
+    maya_cmds.setAttr(f"{shape_name}.showBoundsPreview", True)
+
+    expected_bounds = {}
+    for mode in range(3):
+        maya_cmds.setAttr(f"{shape_name}.boundsMode", mode)
+        expected_bounds[mode] = _bounds(maya_om, shape_name)
+
+    mod = bdu.ModifierManager()
+    shape = bdu.Nodes(modifier_manager=mod).existing(shape_name)
+    shape.shapeLineWidth.set(2.5)
+    shape.shapeTransparency.set(0.375)
+    shape.shapeDrawOnTop.set(True)
+    mod.do_it_dg()
+
+    assert maya_cmds.getAttr(f"{shape_name}.shapeLineWidth") == pytest.approx(
+        2.5
+    )
+    assert maya_cmds.getAttr(
+        f"{shape_name}.shapeTransparency"
+    ) == pytest.approx(0.375)
+    assert maya_cmds.getAttr(f"{shape_name}.shapeDrawOnTop")
+    for mode, bounds in expected_bounds.items():
+        maya_cmds.setAttr(f"{shape_name}.boundsMode", mode)
+        assert _bounds(maya_om, shape_name) == pytest.approx(bounds)
+
+    mod.undo_it()
+    assert maya_cmds.getAttr(f"{shape_name}.shapeLineWidth") == pytest.approx(
+        1.0
+    )
+    assert maya_cmds.getAttr(
+        f"{shape_name}.shapeTransparency"
+    ) == pytest.approx(0.0)
+    assert not maya_cmds.getAttr(f"{shape_name}.shapeDrawOnTop")
+    mod.redo_it()
+
+    scene_path = tmp_path / "controller_shape_draw_style.ma"
+    maya_cmds.file(rename=str(scene_path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(scene_path), open=True, force=True)
+    assert maya_cmds.getAttr(f"{shape_name}.shapeLineWidth") == pytest.approx(
+        2.5
+    )
+    assert maya_cmds.getAttr(
+        f"{shape_name}.shapeTransparency"
+    ) == pytest.approx(0.375)
+    assert maya_cmds.getAttr(f"{shape_name}.shapeDrawOnTop")
+    assert _bounds(maya_om, shape_name) == pytest.approx(expected_bounds[2])
 
 
 def test_bounds_modes_and_custom_attribute_defaults(
