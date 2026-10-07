@@ -139,7 +139,7 @@ using Strokes = std::vector<Stroke>;
 
 struct ShapeSettings {
     short shape = 0;
-    short firstAxis = 4;
+    short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
     MVector translate = MVector(0.0, 0.0, 0.0);
@@ -259,19 +259,19 @@ MVector axisVector(short axis) {
         case 3: return MVector(0.0, -1.0, 0.0);
         case 4: return MVector(0.0, 0.0, 1.0);
         case 5: return MVector(0.0, 0.0, -1.0);
-        default: return MVector(0.0, 0.0, 1.0);
+        default: return MVector(1.0, 0.0, 0.0);
     }
 }
 
 MVector axisOffsetVector(short direction) {
     switch (direction) {
-        case 0: return MVector(0.0, 0.0, 0.5);
-        case 1: return MVector(0.0, 0.0, -0.5);
+        case 0: return MVector(0.5, 0.0, 0.0);
+        case 1: return MVector(-0.5, 0.0, 0.0);
         case 2: return MVector(0.0, 0.5, 0.0);
         case 3: return MVector(0.0, -0.5, 0.0);
-        case 4: return MVector(0.5, 0.0, 0.0);
-        case 5: return MVector(-0.5, 0.0, 0.0);
-        default: return MVector(0.0, 0.0, 0.5);
+        case 4: return MVector(0.0, 0.0, 0.5);
+        case 5: return MVector(0.0, 0.0, -0.5);
+        default: return MVector(0.5, 0.0, 0.0);
     }
 }
 
@@ -282,8 +282,8 @@ MVector axisLengthScaledVector(
         case 2:
         case 3: return MVector(vector.x, vector.y * length, vector.z);
         case 4:
-        case 5: return MVector(vector.x * length, vector.y, vector.z);
-        default: return MVector(vector.x, vector.y, vector.z * length);
+        case 5: return MVector(vector.x, vector.y, vector.z * length);
+        default: return MVector(vector.x * length, vector.y, vector.z);
     }
 }
 
@@ -310,19 +310,19 @@ struct ShapeTransform {
               source.axisRotateAngles.z,
               MEulerRotation::kXYZ
           ).asQuaternion()),
-          axisZ(axisVector(source.firstAxis)),
+          axisX(axisVector(source.firstAxis)),
           axisY(axisVector(source.secondAxis)),
           axisOffset(
               source.axisOffset
                   ? axisOffsetVector(source.axisOffsetDirection)
                   : MVector(0.0, 0.0, 0.0)
           ) {
-        if ((axisY ^ axisZ).length() == 0.0) {
-            axisY = std::abs(axisZ.y) == 1.0
+        if ((axisX ^ axisY).length() == 0.0) {
+            axisY = std::abs(axisX.y) == 1.0
                 ? MVector(0.0, 0.0, 1.0)
                 : MVector(0.0, 1.0, 0.0);
         }
-        axisX = axisY ^ axisZ;
+        axisZ = axisX ^ axisY;
     }
 };
 
@@ -551,11 +551,11 @@ void appendStroke(
 void appendSquare(const ShapeTransform& transform, Strokes& strokes) {
     appendStroke(
         std::array<MPoint, 5>{
-            MPoint(-0.5, -0.5, 0.0),
-            MPoint(0.5, -0.5, 0.0),
-            MPoint(0.5, 0.5, 0.0),
-            MPoint(-0.5, 0.5, 0.0),
-            MPoint(-0.5, -0.5, 0.0),
+            MPoint(0.0, -0.5, 0.5),
+            MPoint(0.0, -0.5, -0.5),
+            MPoint(0.0, 0.5, -0.5),
+            MPoint(0.0, 0.5, 0.5),
+            MPoint(0.0, -0.5, 0.5),
         },
         transform,
         strokes
@@ -596,7 +596,7 @@ void appendCircle(
     for (unsigned int index = 0; index <= kCircleSegments; ++index) {
         const double angle = 2.0 * kPi * index / kCircleSegments;
         stroke.append(transformPoint(
-            MPoint(radius * std::cos(angle), radius * std::sin(angle), 0.0),
+            MPoint(0.0, radius * std::sin(angle), -radius * std::cos(angle)),
             transform
         ));
     }
@@ -607,10 +607,10 @@ void appendCircleArrow(const ShapeTransform& transform, Strokes& strokes) {
     appendCircle(0.32, transform, strokes);
     appendStroke(
         std::array<MPoint, 4>{
-            MPoint(-0.1, 0.38, 0.0),
+            MPoint(0.0, 0.38, 0.1),
             MPoint(0.0, 0.5, 0.0),
-            MPoint(0.1, 0.38, 0.0),
-            MPoint(-0.1, 0.38, 0.0),
+            MPoint(0.0, 0.38, -0.1),
+            MPoint(0.0, 0.38, 0.1),
         },
         transform,
         strokes
@@ -1382,7 +1382,7 @@ MStatus BdControllerShapeNode::initialize() {
              std::pair<MObject*, std::pair<const char*, const char*>>{
                  &shape2ndAxis, {"shape2ndAxis", "s2a"}},
          }) {
-        const short defaultAxis = axisAttribute.first == &shape1stAxis ? 4 : 2;
+        const short defaultAxis = axisAttribute.first == &shape1stAxis ? 0 : 2;
         *axisAttribute.first = enumAttributeFn.create(
             axisAttribute.second.first,
             axisAttribute.second.second,
@@ -1765,7 +1765,7 @@ MStatus BdControllerShapeNode::initialize() {
                  &customBounds2ndAxis, {"customBounds2ndAxis", "cb2a"}},
          }) {
         const short defaultAxis = axisAttribute.first == &customBounds1stAxis
-            ? 4 : 2;
+            ? 0 : 2;
         *axisAttribute.first = enumAttributeFn.create(
             axisAttribute.second.first,
             axisAttribute.second.second,

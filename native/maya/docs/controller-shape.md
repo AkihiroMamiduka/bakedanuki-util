@@ -15,8 +15,6 @@ nodes = bdu.Nodes(modifier_manager=mod)
 
 control, shape = nodes.create.controllerShape(name="hand_ctrl")
 shape.shape.set(3)  # CircleArrow
-shape.shape1stAxis.set(4)  # +Z
-shape.shape2ndAxis.set(2)  # +Y
 shape.shapeRootSize.set(1.5)
 shape.shapeSize.set(0.8)
 shape.shapeLineWidth.set(2.0)  # 画面上で 2 px の線
@@ -30,6 +28,8 @@ mod.do_it_dg()
 `nodes.create.controllerShape()` は `(Transform, BdControllerShape)` を返します。
 両ノードの作成は `mod.do_it_dag()`、属性設定は `mod.do_it_dg()` で確定します。
 標準の `nurbsCurve` データや生成ノードへの接続はありません。
+軸指定の既定値は主軸 `+X`・補助軸 `+Y` で、平面形状は YZ 面に作られます。
+XY 面に向ける場合は `shape.shape1stAxis.set(4)`（`+Z`）を指定します。
 
 アニメーションで形状とフォーカス範囲を変形する場合は、行列ノードの出力を接続します。
 次の例では `composeMatrix` の数値入力をアニメーションさせます。
@@ -76,8 +76,8 @@ mod.do_it_dg()
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
 | `shape` | enum | `Square` (0) | `Square` (0)、`Cube` (1)、`Circle` (2)、`CircleArrow` (3) |
-| `shape1stAxis` | enum | `+Z` (4) | 元の `+Z` 軸を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
-| `shape2ndAxis` | enum | `+Y` (2) | 元の `+Y` 軸を向ける方向。選択肢は `shape1stAxis` と同じ |
+| `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
+| `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
 | `shapeRootSize` | `double` | `1` | 平行移動を含む全体の一律スケール |
 | `shapeTranslate` | `doubleLinear3` | `(0, 0, 0)` | 軸指定の外側で形状を平行移動 |
@@ -103,7 +103,7 @@ mod.do_it_dg()
 
 | Custom attribute | Maya の型 | 既定値 | 対応する形状属性 |
 | --- | --- | --- | --- |
-| `customBounds1stAxis` / `customBounds2ndAxis` | enum | `+Z` / `+Y` | `shape1stAxis` / `shape2ndAxis` |
+| `customBounds1stAxis` / `customBounds2ndAxis` | enum | `+X` / `+Y` | `shape1stAxis` / `shape2ndAxis` |
 | `customBoundsRootSize` | `double` | `1` | `shapeRootSize` |
 | `customBoundsTranslate` | `doubleLinear3` | `(0, 0, 0)` | `shapeTranslate` |
 | `customBoundsRotate` | `doubleAngle3` | `(0, 0, 0)` | `shapeRotate` |
@@ -182,8 +182,8 @@ p_local = p_out * shapeAnimationTransformMatrix
 
 ### フォーカス範囲
 
-`boundsMode=Shape` は従来どおり、変形済みの形状本体と表示中の OffsetLine を
-含む範囲を返します。既定値をこのモードにして既存シーンの挙動を保ちます。
+`boundsMode=Shape` は変形済みの形状本体と表示中の OffsetLine を
+含む範囲を返します。このモードが既定値です。
 
 `boundsMode=ShapeCentered` は形状の種類・軸指定・回転・スケール・サイズを使い、
 `shapeTranslate`、`shapeAxisTranslate`、`shapeAxisOffset` による位置ずれと
@@ -212,10 +212,13 @@ F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform 
 クリック選択に使う線は形状本体と、template ではない OffsetLine のままです。
 
 ここで `⊙` は成分ごとの積です。`shapeRootSize` は平行移動と軸オフセットにも影響し、
-`shapeSize` は頂点だけを拡縮します。`shape1stAxis=+Z`・`shape2ndAxis=+Y`
-では `A` は恒等回転となり、従来の形状を維持します。
-`shape1stAxis` は元の `+Z`、`shape2ndAxis` は元の `+Y` の行先です。
-残る `+X` は「補助軸 × 主軸」で決め、右手系を維持します。
+`shapeSize` は頂点だけを拡縮します。既定の
+`shape1stAxis=+X`・`shape2ndAxis=+Y` では `A` は恒等回転です。
+`shape1stAxis` は基準の `+X`、`shape2ndAxis` は基準の `+Y` の行先です。
+残る `+Z` は「主軸 × 補助軸」で決め、右手系を維持します。
+したがって Axis 系の X/Y/Z 成分は、それぞれ主軸／補助軸／第３軸に対応します。
+`shape1stAxis=+Z`・`shape2ndAxis=+Y` なら基準の `+X/+Y/+Z` は
+表示上の `+Z/+Y/-X` へ向き、平面形状は XY 面になります。
 主軸と補助軸が同じ方向または正反対のときは主軸を優先し、補助軸に
 `+Y` を使います。主軸が `+Y` または `-Y` の場合だけ `+Z` を使います。
 これらは親 `transform` のアニメーション用 TRS とは別です。
@@ -225,11 +228,11 @@ F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform 
 
 | 方向 | 軸指定前の `O_axis` |
 | --- | --- |
-| `+1stAxis` / `-1stAxis` | `(0, 0, +0.5)` / `(0, 0, -0.5)` |
+| `+1stAxis` / `-1stAxis` | `(+0.5, 0, 0)` / `(-0.5, 0, 0)` |
 | `+2ndAxis` / `-2ndAxis` | `(0, +0.5, 0)` / `(0, -0.5, 0)` |
-| `+3rdAxis` / `-3rdAxis` | `(+0.5, 0, 0)` / `(-0.5, 0, 0)` |
+| `+3rdAxis` / `-3rdAxis` | `(0, 0, +0.5)` / `(0, 0, -0.5)` |
 
-`1stAxis` は主軸、`2ndAxis` は補助軸、`3rdAxis` は「補助軸 × 主軸」の方向です。
+`1stAxis` は主軸、`2ndAxis` は補助軸、`3rdAxis` は「主軸 × 補助軸」の方向です。
 無効な軸の組では、形状と同じ補正後の補助軸と第３軸を使います。
 主軸が `-X` なら `+1stAxis` は `-X` 方向、`-1stAxis` は `+X` 方向です。
 `S_axis` は `shapeAxisOffset=true` のとき、方向の正負にかかわらず選択軸の１成分だけを
@@ -267,10 +270,10 @@ Maya の template 表示色で描きます。`false` なら補助線は通常の
 クリック選択に使えます。どちらの設定でも形状本体の線は選択できます。
 補助線が形状本体の線と重なる箇所では、本体の線で選択される場合があります。
 
-既定の `Square` と `Circle` は XY 面にあり、各軸 `-0.5` から `+0.5`
-の範囲に収まります。`Cube` は３軸とも同じ範囲です。
-`CircleArrow` は XY 面で、半径 `0.32` の円と、
-`(-0.1, 0.38)` → `(0, 0.5)` → `(0.1, 0.38)` → 始点の
+既定の `Square` と `Circle` は YZ 面（`x=0`）にあり、Y/Z の各軸が
+`-0.5` から `+0.5` の範囲に収まります。`Cube` は３軸とも同じ範囲です。
+`CircleArrow` は YZ 面で、半径 `0.32` の円と、
+`(y, z)=(0.38, +0.1)` → `(0.5, 0)` → `(0.38, -0.1)` → 始点の
 独立した三角形からなります。
 
 基準形状を作る調整属性が固定されている間は、その頂点を再利用します。
@@ -313,8 +316,8 @@ Channel Box 表示を設定します。複合属性では X/Y/Z 子属性にも�
 
 新しい形状のストロークを構成する頂点は、軸指定や各変形を適用する前の
 ローカル座標で作ります。
-元の `+Z` を主軸、`+Y` を補助軸、`+X` を「補助軸 × 主軸」とする右手系です。
-現在の２次元形状は XY 面（`z=0`）に置き、元の `+Z` は面の法線です。
+基準の `+X` を主軸、`+Y` を補助軸、`+Z` を「主軸 × 補助軸」とする右手系です。
+現在の２次元形状は YZ 面（`x=0`）に置き、基準の `+X` は面の法線です。
 `CircleArrow` の矢印が元の `+Y` を向くのは意図した仕様で、主軸が形状の
 長手方向である必要はありません。
 

@@ -520,7 +520,7 @@ class GeneratedBdControllerShape(Shape):
     shapeOffsetLineTemplate = BoolField(default_value=False)
     solt = shapeOffsetLineTemplate
 
-    shape1stAxis = Shape1stAxisEnumField(default_value=4)
+    shape1stAxis = Shape1stAxisEnumField(default_value=0)
     s1a = shape1stAxis
 
     shape2ndAxis = Shape2ndAxisEnumField(default_value=2)
@@ -603,7 +603,7 @@ class GeneratedBdControllerShape(Shape):
     showBoundsPreview = BoolField(default_value=False)
     sbp = showBoundsPreview
 
-    customBounds1stAxis = CustomBounds1stAxisEnumField(default_value=4)
+    customBounds1stAxis = CustomBounds1stAxisEnumField(default_value=0)
     cb1a = customBounds1stAxis
 
     customBounds2ndAxis = CustomBounds2ndAxisEnumField(default_value=2)

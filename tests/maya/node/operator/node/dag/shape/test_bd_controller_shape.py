@@ -65,7 +65,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "Square:Cube:Circle:CircleArrow"
     ]
     assert maya_cmds.getAttr(f"{shape}.shape") == 0
-    for attribute, default in (("shape1stAxis", 4), ("shape2ndAxis", 2)):
+    for attribute, default in (("shape1stAxis", 0), ("shape2ndAxis", 2)):
         assert maya_cmds.attributeQuery(
             attribute, node=shape, listEnum=True
         ) == ["+X:-X:+Y:-Y:+Z:-Z"]
@@ -356,10 +356,10 @@ def test_inherited_locator_channels_are_hidden_only_on_controller_shape(
 @pytest.mark.parametrize(
     ("shape_value", "expected_bounds"),
     (
-        (0, (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        (0, (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
         (1, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (2, (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
-        (3, (-0.32, -0.32, 0.0, 0.32, 0.5, 0.0)),
+        (2, (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        (3, (0.0, -0.32, -0.32, 0.0, 0.5, 0.32)),
     ),
 )
 def test_shape_bounds(
@@ -368,6 +368,27 @@ def test_shape_bounds(
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
     maya_cmds.setAttr(f"{shape}.shape", shape_value)
+
+    assert _bounds(maya_om, shape) == pytest.approx(
+        expected_bounds, abs=1.0e-9
+    )
+
+
+@pytest.mark.parametrize(
+    ("shape_value", "expected_bounds"),
+    (
+        (0, (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        (2, (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        (3, (-0.32, -0.32, 0.0, 0.32, 0.5, 0.0)),
+    ),
+)
+def test_planar_shape_faces_first_axis(
+    maya_cmds, maya_om, new_scene, shape_value, expected_bounds
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.shape", shape_value)
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", 4)  # +Z
 
     assert _bounds(maya_om, shape) == pytest.approx(
         expected_bounds, abs=1.0e-9
@@ -454,7 +475,7 @@ def test_bounds_modes_and_custom_attribute_defaults(
         "showCustomBoundsPreview", node=shape, exists=True
     )
     for attribute, default in (
-        ("customBounds1stAxis", 4),
+        ("customBounds1stAxis", 0),
         ("customBounds2ndAxis", 2),
         ("customBoundsRootSize", 1.0),
         ("customBoundsAxisOffsetLength", 1.0),
@@ -485,7 +506,7 @@ def test_bounds_modes_and_custom_attribute_defaults(
     assert not maya_cmds.getAttr(f"{shape}.showBoundsPreview", keyable=True)
     assert maya_cmds.getAttr(f"{shape}.showBoundsPreview", channelBox=True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)
+        (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)
     )
 
 
@@ -503,7 +524,7 @@ def test_shape_centered_keeps_size_without_position_offsets(
     maya_cmds.setAttr(f"{shape}.boundsMode", 1)
 
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, -2.5, 0.5, 0.5, 2.5), abs=1.0e-9
+        (-2.5, -0.5, -0.5, 2.5, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", False)
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -533,12 +554,12 @@ def test_shape_centered_asymmetry_and_animation_matrix(
     )
 
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.32, -0.41, 0.0, 0.32, 0.41, 0.0), abs=1.0e-9
+        (0.0, -0.41, -0.32, 0.0, 0.41, 0.32), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{matrix}.inputTranslateX", 3.0)
     maya_cmds.setAttr(f"{matrix}.inputRotateZ", 90.0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (2.59, -0.32, 0.0, 3.41, 0.32, 0.0), abs=1.0e-9
+        (2.59, 0.0, -0.32, 3.41, 0.0, 0.32), abs=1.0e-9
     )
 
 
@@ -558,15 +579,15 @@ def test_custom_bounds_are_independent_and_preview_does_not_change_focus(
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
     maya_cmds.setAttr(f"{shape}.boundsMode", 0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (9.5, -0.5, 0.0, 10.5, 0.5, 0.0), abs=1.0e-9
+        (10.0, -0.5, -0.5, 10.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.boundsMode", 1)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 0.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.customBoundsTranslateX", -5.0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 0.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.boundsMode", 2)
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -585,7 +606,7 @@ def test_custom_bounds_transform_and_animation_connection(
     maya_cmds.setAttr(f"{shape}.customBoundsAxisOffsetLength", 4.0)
     maya_cmds.setAttr(f"{shape}.customBoundsTranslateX", 3.0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (2.5, -0.5, 0.0, 3.5, 0.5, 4.0), abs=1.0e-9
+        (3.0, -0.5, -0.5, 7.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.customBoundsAxisOffset", False)
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -602,11 +623,11 @@ def test_custom_bounds_transform_and_animation_connection(
     )
     maya_cmds.currentTime(10)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (7.5, -0.5, 0.0, 8.5, 0.5, 4.0), abs=1.0e-9
+        (8.0, -0.5, -0.5, 12.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.currentTime(1)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (2.5, -0.5, 0.0, 3.5, 0.5, 4.0), abs=1.0e-9
+        (3.0, -0.5, -0.5, 7.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.customBoundsAxisOffset", False)
     maya_cmds.setAttr(f"{shape}.customBoundsAxisOffsetLength", 1.0)
@@ -671,7 +692,7 @@ def test_circle_arrow_uses_one_shape(maya_cmds, maya_om, new_scene):
 
     assert maya_cmds.listRelatives(transform, shapes=True) == [shape]
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.32, -0.32, 0.0, 0.32, 0.5, 0.0), abs=1.0e-9
+        (0.0, -0.32, -0.32, 0.0, 0.5, 0.32), abs=1.0e-9
     )
 
 
@@ -685,12 +706,12 @@ def test_shape_transform_order_and_dirty_bounds(maya_cmds, maya_om, new_scene):
     maya_cmds.setAttr(f"{shape}.shapeSize", 0.5)
 
     assert _bounds(maya_om, shape) == pytest.approx(
-        (1.5, 3.0, 6.0, 2.5, 5.0, 6.0), abs=1.0e-9
+        (1.5, 4.0, 4.5, 2.5, 4.0, 7.5), abs=1.0e-9
     )
 
     maya_cmds.setAttr(f"{shape}.shapeSize", 1.0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (1.0, 2.0, 6.0, 3.0, 6.0, 6.0), abs=1.0e-9
+        (1.0, 4.0, 3.0, 3.0, 4.0, 9.0), abs=1.0e-9
     )
 
 
@@ -715,12 +736,12 @@ def test_animation_matrix_connection_updates_bounds_at_keyframes(
 
     maya_cmds.currentTime(1)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 2.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 2.0, 0.5, 0.5), abs=1.0e-9
     )
 
     maya_cmds.currentTime(10)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (4.5, -0.5, 0.0, 5.5, 0.5, 4.0), abs=1.0e-9
+        (5.0, -0.5, -1.0, 7.0, 0.5, 1.0), abs=1.0e-9
     )
 
     scene_path = tmp_path / "controller_shape_animation.ma"
@@ -730,11 +751,11 @@ def test_animation_matrix_connection_updates_bounds_at_keyframes(
     maya_cmds.file(str(scene_path), open=True, force=True)
     maya_cmds.currentTime(10)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (4.5, -0.5, 0.0, 5.5, 0.5, 4.0), abs=1.0e-9
+        (5.0, -0.5, -1.0, 7.0, 0.5, 1.0), abs=1.0e-9
     )
     maya_cmds.currentTime(1)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 2.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 2.0, 0.5, 0.5), abs=1.0e-9
     )
 
 
@@ -751,13 +772,13 @@ def test_animation_matrix_moves_offset_line_endpoint_from_origin(
     maya_cmds.setAttr(f"{source}.inputTranslateZ", 3.0)
 
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 3.0), abs=1.0e-9
+        (0.0, -0.5, 0.0, 0.0, 0.5, 3.5), abs=1.0e-9
     )
 
     maya_cmds.setAttr(f"{shape}.shapeSize", 0.0)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, 0.0, 0.0, 0.0, 0.0, 3.5), abs=1.0e-9
+        (0.0, 0.0, 0.0, 0.5, 0.0, 3.0), abs=1.0e-9
     )
 
 
@@ -772,31 +793,31 @@ def test_animation_matrix_set_uses_modifier_history(
 
     shape.shapeAnimationTransformMatrix.set(matrix)
     assert _bounds(maya_om, shape_name) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 0.0, 0.5, 0.5), abs=1.0e-9
     )
     mod.do_it_dg()
     assert _bounds(maya_om, shape_name) == pytest.approx(
-        (1.5, -0.5, 0.0, 2.5, 0.5, 0.0), abs=1.0e-9
+        (2.0, -0.5, -0.5, 2.0, 0.5, 0.5), abs=1.0e-9
     )
     mod.undo_it()
     assert _bounds(maya_om, shape_name) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 0.0, 0.5, 0.5), abs=1.0e-9
     )
     mod.redo_it()
     assert _bounds(maya_om, shape_name) == pytest.approx(
-        (1.5, -0.5, 0.0, 2.5, 0.5, 0.0), abs=1.0e-9
+        (2.0, -0.5, -0.5, 2.0, 0.5, 0.5), abs=1.0e-9
     )
 
 
 @pytest.mark.parametrize(
     ("first_axis", "second_axis", "expected_position"),
     (
-        (4, 2, (1.0, 0.0, 0.0)),  # +Z, +Y: identity
-        (0, 2, (0.0, 0.0, -1.0)),  # +X, +Y: local +X becomes -Z
-        (5, 2, (-1.0, 0.0, 0.0)),  # -Z, +Y: local +X becomes -X
-        (2, 0, (0.0, 0.0, 1.0)),  # +Y, +X: local +X becomes +Z
-        (2, 3, (-1.0, 0.0, 0.0)),  # Invalid: +Y keeps primary, uses +Z
-        (4, 5, (1.0, 0.0, 0.0)),  # Invalid: +Z keeps primary, uses +Y
+        (0, 2, (1.0, 0.0, 0.0)),  # +X, +Y: identity
+        (4, 2, (0.0, 0.0, 1.0)),  # +Z, +Y: local +X becomes +Z
+        (5, 2, (0.0, 0.0, -1.0)),  # -Z, +Y: local +X becomes -Z
+        (2, 0, (0.0, 1.0, 0.0)),  # +Y, +X: local +X becomes +Y
+        (2, 3, (0.0, 1.0, 0.0)),  # Invalid: +Y keeps primary, uses +Z
+        (4, 5, (0.0, 0.0, 1.0)),  # Invalid: +Z keeps primary, uses +Y
     ),
 )
 def test_axis_orientation_and_invalid_pair_fallback(
@@ -814,11 +835,91 @@ def test_axis_orientation_and_invalid_pair_fallback(
     )
 
 
+@pytest.mark.parametrize("prefix, mode", (("shape", 0), ("customBounds", 2)))
+@pytest.mark.parametrize(
+    "first_axis, expected_axes",
+    (
+        (0, ((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0))),
+        (4, ((0.0, 0.0, 1.0), (0.0, 1.0, 0.0), (-1.0, 0.0, 0.0))),
+    ),
+)
+@pytest.mark.parametrize("component, index", (("X", 0), ("Y", 1), ("Z", 2)))
+def test_axis_translation_components_follow_selected_basis(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    prefix,
+    mode,
+    first_axis,
+    expected_axes,
+    component,
+    index,
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.boundsMode", mode)
+    maya_cmds.setAttr(f"{shape}.{prefix}Size", 0.0)
+    maya_cmds.setAttr(f"{shape}.{prefix}1stAxis", first_axis)
+    maya_cmds.setAttr(f"{shape}.{prefix}AxisTranslate{component}", 1.0)
+
+    position = expected_axes[index]
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (*position, *position), abs=1.0e-9
+    )
+
+
+def test_axis_rotate_x_turns_circle_arrow_around_first_axis(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.shape", 3)
+    maya_cmds.setAttr(f"{shape}.shapeAxisRotateX", 90.0)
+
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (0.0, -0.32, -0.32, 0.0, 0.32, 0.5), abs=1.0e-9
+    )
+
+
+@pytest.mark.parametrize("prefix, mode", (("shape", 0), ("customBounds", 2)))
+def test_axis_scale_x_follows_first_axis(
+    maya_cmds, maya_om, new_scene, prefix, mode
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.boundsMode", mode)
+    maya_cmds.setAttr(f"{shape}.shape", 1)
+    maya_cmds.setAttr(f"{shape}.{prefix}1stAxis", 4)  # +Z
+    maya_cmds.setAttr(f"{shape}.{prefix}AxisScaleX", 3.0)
+
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -0.5, -1.5, 0.5, 0.5, 1.5), abs=1.0e-9
+    )
+
+
+def test_custom_bounds_third_axis_offset_matches_axis_z(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    maya_cmds.setAttr(f"{shape}.boundsMode", 2)
+    maya_cmds.setAttr(f"{shape}.customBoundsSize", 0.0)
+    maya_cmds.setAttr(f"{shape}.customBounds1stAxis", 4)  # +Z
+    maya_cmds.setAttr(
+        f"{shape}.customBoundsAxisOffsetDirection", 4
+    )  # +3rdAxis
+    maya_cmds.setAttr(f"{shape}.customBoundsAxisOffset", True)
+
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, 0.0, 0.0, -0.5, 0.0, 0.0), abs=1.0e-9
+    )
+
+
 @pytest.mark.parametrize(
     ("size", "expected_bounds"),
     (
-        (1.0, (-0.5, -0.5, 0.0, 0.5, 0.5, 1.0)),
-        (2.0, (-1.0, -1.0, -0.5, 1.0, 1.0, 1.5)),
+        (1.0, (0.0, -0.5, -0.5, 1.0, 0.5, 0.5)),
+        (2.0, (-0.5, -1.0, -1.0, 1.5, 1.0, 1.0)),
     ),
 )
 def test_cube_axis_offset_is_fixed_after_shape_size(
@@ -838,12 +939,12 @@ def test_cube_axis_offset_is_fixed_after_shape_size(
 @pytest.mark.parametrize(
     ("direction", "expected_bounds"),
     (
-        (0, (-0.5, -0.5, 0.0, 0.5, 0.5, 3.0)),
-        (1, (-0.5, -0.5, -3.0, 0.5, 0.5, 0.0)),
+        (0, (0.0, -0.5, -0.5, 3.0, 0.5, 0.5)),
+        (1, (-3.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
         (2, (-0.5, 0.0, -0.5, 0.5, 3.0, 0.5)),
         (3, (-0.5, -3.0, -0.5, 0.5, 0.0, 0.5)),
-        (4, (0.0, -0.5, -0.5, 3.0, 0.5, 0.5)),
-        (5, (-3.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        (4, (-0.5, -0.5, 0.0, 0.5, 0.5, 3.0)),
+        (5, (-0.5, -0.5, -3.0, 0.5, 0.5, 0.0)),
     ),
 )
 def test_cube_axis_offset_length_anchors_selected_direction(
@@ -878,22 +979,22 @@ def test_axis_offset_length_requires_offset_and_scales_axis_translation(
     )
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 0.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 3.0)
 
     maya_cmds.setAttr(f"{shape}.shapeSize", 0.0)
-    maya_cmds.setAttr(f"{shape}.shapeAxisTranslateZ", 1.0)
+    maya_cmds.setAttr(f"{shape}.shapeAxisTranslateX", 1.0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, 0.0, 4.5, 0.0, 0.0, 4.5), abs=1.0e-9
+        (4.5, 0.0, 0.0, 4.5, 0.0, 0.0), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, 0.0, 0.0, 0.0, 0.0, 4.5), abs=1.0e-9
+        (0.0, 0.0, 0.0, 4.5, 0.0, 0.0), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", False)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, 0.0, 0.0, 0.0, 0.0, 1.0), abs=1.0e-9
+        (0.0, 0.0, 0.0, 1.0, 0.0, 0.0), abs=1.0e-9
     )
 
 
@@ -915,15 +1016,15 @@ def test_axis_offset_length_accepts_distance_connection_across_scene_units(
             f"{shape}.shapeAxisOffsetLength"
         ) == pytest.approx(2.0)
         assert _bounds(maya_om, shape) == pytest.approx(
-            (-0.5, -0.5, 0.0, 0.5, 0.5, 200.0), abs=1.0e-9
+            (0.0, -0.5, -0.5, 200.0, 0.5, 0.5), abs=1.0e-9
         )
         maya_cmds.setAttr(f"{source}.translateX", 3.0)
         assert _bounds(maya_om, shape) == pytest.approx(
-            (-0.5, -0.5, 0.0, 0.5, 0.5, 300.0), abs=1.0e-9
+            (0.0, -0.5, -0.5, 300.0, 0.5, 0.5), abs=1.0e-9
         )
         maya_cmds.setAttr(f"{source}.translateX", -2.0)
         assert _bounds(maya_om, shape) == pytest.approx(
-            (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+            (0.0, -0.5, -0.5, 0.0, 0.5, 0.5), abs=1.0e-9
         )
     finally:
         maya_cmds.currentUnit(linear="cm")
@@ -938,15 +1039,15 @@ def test_axis_offset_length_updates_bounds_after_undo_redo(
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 2.0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 2.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 2.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.undo()
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 1.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 1.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.redo()
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 2.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 2.0, 0.5, 0.5), abs=1.0e-9
     )
 
 
@@ -957,12 +1058,12 @@ def test_axis_offset_length_updates_bounds_after_undo_redo(
         (4, 2, 1, (0.0, 0.0, -0.5)),
         (4, 2, 2, (0.0, 0.5, 0.0)),
         (4, 2, 3, (0.0, -0.5, 0.0)),
-        (4, 2, 4, (0.5, 0.0, 0.0)),
-        (4, 2, 5, (-0.5, 0.0, 0.0)),
+        (4, 2, 4, (-0.5, 0.0, 0.0)),
+        (4, 2, 5, (0.5, 0.0, 0.0)),
         (0, 2, 0, (0.5, 0.0, 0.0)),
-        (0, 2, 4, (0.0, 0.0, -0.5)),
+        (0, 2, 4, (0.0, 0.0, 0.5)),
         (5, 2, 0, (0.0, 0.0, -0.5)),
-        (2, 3, 4, (-0.5, 0.0, 0.0)),
+        (2, 3, 4, (0.5, 0.0, 0.0)),
     ),
 )
 def test_axis_offset_uses_selected_basis_and_invalid_pair_fallback(
@@ -1000,25 +1101,25 @@ def test_axis_transform_is_between_outer_and_inner_transform(
     maya_cmds.setAttr(f"{shape}.shapeScale", 2.0, 3.0, 4.0, type="double3")
     maya_cmds.setAttr(f"{shape}.shapeAxisTranslateZ", 1.0)
     maya_cmds.setAttr(f"{shape}.shapeAxisRotateZ", 90.0)
-    maya_cmds.setAttr(f"{shape}.shapeAxisScale", 2.0, 1.0, 1.0, type="double3")
+    maya_cmds.setAttr(f"{shape}.shapeAxisScale", 1.0, 2.0, 1.0, type="double3")
 
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-4.0, 8.0, 2.0, 8.0, 8.0, 10.0), abs=1.0e-9
+        (2.0, 0.0, 10.0, 2.0, 8.0, 18.0), abs=1.0e-9
     )
 
     maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-4.0, 0.0, 0.0, 8.0, 8.0, 10.0), abs=1.0e-9
+        (0.0, 0.0, 0.0, 2.0, 8.0, 18.0), abs=1.0e-9
     )
 
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-4.0, 0.0, 0.0, 8.0, 10.0, 10.0), abs=1.0e-9
+        (0.0, 0.0, 0.0, 2.0, 10.0, 18.0), abs=1.0e-9
     )
 
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetDirection", 4)  # +3rdAxis
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-4.0, 0.0, -2.0, 8.0, 8.0, 6.0), abs=1.0e-9
+        (0.0, 0.0, 0.0, 2.0, 8.0, 22.0), abs=1.0e-9
     )
 
 
@@ -1028,16 +1129,16 @@ def test_axis_offset_does_not_move_offset_line_endpoint(
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
     maya_cmds.setAttr(f"{shape}.shapeSize", 0.0)
-    maya_cmds.setAttr(f"{shape}.shapeAxisTranslateZ", 1.0)
+    maya_cmds.setAttr(f"{shape}.shapeAxisTranslateX", 1.0)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetDirection", 1)  # -1stAxis
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
 
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, 0.0, 0.5, 0.0, 0.0, 0.5), abs=1.0e-9
+        (0.5, 0.0, 0.0, 0.5, 0.0, 0.0), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, 0.0, 0.0, 0.0, 0.0, 1.0), abs=1.0e-9
+        (0.0, 0.0, 0.0, 1.0, 0.0, 0.0), abs=1.0e-9
     )
 
 
@@ -1049,11 +1150,11 @@ def test_axis_offset_updates_bounds_after_direct_changes_and_undo_redo(
     maya_cmds.setAttr(f"{shape}.shapeSize", 0.0)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, 0.0, 0.5, 0.0, 0.0, 0.5), abs=1.0e-9
+        (0.5, 0.0, 0.0, 0.5, 0.0, 0.0), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetDirection", 5)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, 0.0, 0.0, -0.5, 0.0, 0.0), abs=1.0e-9
+        (0.0, 0.0, -0.5, 0.0, 0.0, -0.5), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", False)
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -1062,7 +1163,7 @@ def test_axis_offset_updates_bounds_after_direct_changes_and_undo_redo(
 
     maya_cmds.undo()
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, 0.0, 0.0, -0.5, 0.0, 0.0), abs=1.0e-9
+        (0.0, 0.0, -0.5, 0.0, 0.0, -0.5), abs=1.0e-9
     )
     maya_cmds.redo()
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -1074,7 +1175,7 @@ def test_axis_offset_updates_bounds_after_direct_changes_and_undo_redo(
     ("animated_attribute", "other_attribute", "other_value", "expected_start"),
     (
         ("shapeAxisOffset", "shapeAxisOffsetDirection", 5, (0.0, 0.0, 0.0)),
-        ("shapeAxisOffsetDirection", "shapeAxisOffset", 1, (0.0, 0.0, 0.5)),
+        ("shapeAxisOffsetDirection", "shapeAxisOffset", 1, (0.5, 0.0, 0.0)),
     ),
 )
 def test_connected_axis_offset_updates_bounds_at_keyframes(
@@ -1104,7 +1205,7 @@ def test_connected_axis_offset_updates_bounds_at_keyframes(
     )
     maya_cmds.currentTime(10)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, 0.0, 0.0, -0.5, 0.0, 0.0), abs=1.0e-9
+        (0.0, 0.0, -0.5, 0.0, 0.0, -0.5), abs=1.0e-9
     )
 
 
@@ -1122,11 +1223,11 @@ def test_connected_axis_translation_updates_bounds_at_keyframes(
 
     maya_cmds.currentTime(1)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+        (0.0, -0.5, -0.5, 0.0, 0.5, 0.5), abs=1.0e-9
     )
     maya_cmds.currentTime(10)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (1.5, -0.5, 0.0, 2.5, 0.5, 0.0), abs=1.0e-9
+        (2.0, -0.5, -0.5, 2.0, 0.5, 0.5), abs=1.0e-9
     )
 
 
@@ -1139,12 +1240,12 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
     maya_cmds.setAttr(f"{shape}.shapeTranslateX", 2.0)
 
     assert _bounds(maya_om, shape) == pytest.approx(
-        (3.0, -1.0, 0.0, 5.0, 1.0, 0.0), abs=1.0e-9
+        (4.0, -1.0, -1.0, 4.0, 1.0, 1.0), abs=1.0e-9
     )
 
     maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, -1.0, 0.0, 5.0, 1.0, 0.0), abs=1.0e-9
+        (0.0, -1.0, -1.0, 4.0, 1.0, 1.0), abs=1.0e-9
     )
     maya_cmds.setAttr(f"{shape}.shapeOffsetLineTemplate", True)
 
@@ -1157,12 +1258,12 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
     assert maya_cmds.getAttr(f"{shape}.showShapeOffsetLine")
     assert maya_cmds.getAttr(f"{shape}.shapeOffsetLineTemplate")
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, -1.0, 0.0, 5.0, 1.0, 0.0), abs=1.0e-9
+        (0.0, -1.0, -1.0, 4.0, 1.0, 1.0), abs=1.0e-9
     )
 
     maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", False)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (3.0, -1.0, 0.0, 5.0, 1.0, 0.0), abs=1.0e-9
+        (4.0, -1.0, -1.0, 4.0, 1.0, 1.0), abs=1.0e-9
     )
 
 
@@ -1196,7 +1297,7 @@ def test_scene_round_trip_preserves_circle_arrow(
     )
     assert maya_cmds.getAttr(f"{shape}.shapeSize") == pytest.approx(1.5)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (2.0, -0.48, -0.98, 2.0, 0.75, -0.02), abs=1.0e-9
+        (0.0, -0.48, 2.02, 0.0, 0.75, 2.98), abs=1.0e-9
     )
 
 
@@ -1236,7 +1337,7 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
         transform.full_path, shapes=True, fullPath=True
     ) == [shape.full_path]
     assert _bounds(maya_om, shape.full_path) == pytest.approx(
-        (0.0, -0.64, -0.64, 2.5, 1.0, 0.64), abs=1.0e-9
+        (0.0, -0.64, 0.0, 0.5, 1.0, 2.64), abs=1.0e-9
     )
 
     mod.undo_it()

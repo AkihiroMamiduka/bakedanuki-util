@@ -9,6 +9,11 @@
 
 ### Changed
 
+- `bdControllerShape` の基準軸を主軸 `+X`・補助軸 `+Y` の右手系へ変更した。
+  `Square`・`Circle`・`CircleArrow` の基準面と作成時の表示面は YZ とし、
+  `shape1stAxis` / `customBounds1stAxis` の既定値を `+X` に変更した。
+  形状と Custom Bounds の Axis 系 X/Y/Z は主軸／補助軸／第３軸に対応し、
+  `+3rdAxis` は「主軸 × 補助軸」の正方向とする。旧計算仕様は残さない。
 - Maya上部の共有メニュー表示名を`bd`から`bakedanuki`へ変更した。
   内部UI名と所有権タグは維持し、既存セッションのメニューも再登録時に表示名を更新する。
   sceneと保存設定の移行は不要。
