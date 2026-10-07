@@ -23,6 +23,9 @@
 
 ### Added
 
+- `MayaFloatRoundEdit`を追加。複数float属性の各実値を現在の表示単位で十進四捨五入し、
+  `apply_plugs_values()`から一括適用できる。0桁と正負の中間値、1回Undo・同値時の
+  無Undoに対応する。公開APIの追加で、scene・設定の移行は不要。
 - `selected_node_names(limit=...)`を追加。選択中の重複しないobject nodeが指定数に
   達した時点で取得を終える。省略時の全件取得、選択順、component・plugの除外、
   DAG instanceの重複除去は従来どおり。scene・設定の移行は不要。

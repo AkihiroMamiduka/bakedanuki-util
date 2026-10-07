@@ -233,6 +233,7 @@ Binding間では距離・角度・単位なしの数値、bool、enum、string�
 from bd_util.maya.ui import (
     MayaEditSession,
     MayaFloatOffsetEdit,
+    MayaFloatRoundEdit,
     MayaFloatValueEdit,
     apply_plugs_values,
 )
@@ -259,16 +260,26 @@ apply_plugs_values(
         MayaFloatOffsetEdit(rx_binding, 1.0),
     ]
 )
+
+# 各属性の実値を現在の表示単位で小数2桁へ個別に四捨五入する
+apply_plugs_values(
+    [MayaFloatRoundEdit(tx_binding, 2), MayaFloatRoundEdit(rx_binding, 2)]
+)
 ```
 
 `MayaBoolValueEdit(binding, bool)`、`MayaFloatValueEdit(binding, float)`、
-`MayaFloatOffsetEdit(binding, float)`、`MayaEnumValueEdit(binding, int)`、
+`MayaFloatOffsetEdit(binding, float)`、`MayaFloatRoundEdit(binding, int)`、
+`MayaEnumValueEdit(binding, int)`、
 `MayaStringValueEdit(binding, str)`を受け取り、
 union型は`MayaPlugsValueEdit`です。
 値は各Bindingの公開単位で指定します。画面の同じ数値を入力する場合は、上記のように
 **各行の**`presentation.from_display()`を使用してください。距離がm、角度がradの
 表示でも、それぞれ画面上で5になります。各行の未丸め代表値へ揃える場合は、
 対応するEditへその行の`binding.value`を渡します。
+`MayaFloatRoundEdit`は各plugの未丸め実値を現在の表示単位へ変換し、
+小数`decimals`桁で十進の四捨五入を行ってから公開単位へ戻します。
+0桁は整数へ丸め、端数がちょうど半分なら正負ともゼロから遠い方向へ進めます。
+小数桁数は0～323を受け付け、負のゼロは0へ正規化します。
 
 利用側は選択行と入力可能な行を決め、明示入力だけをこのAPIへ渡します。
 APIは全要求の型・範囲・enum定義・stringのNULを実書込み前に検証し、対象群をまたぐ差分を

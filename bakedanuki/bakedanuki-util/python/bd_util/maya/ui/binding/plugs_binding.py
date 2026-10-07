@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass, replace
+from decimal import Decimal, ROUND_HALF_UP, localcontext
 from typing import Generic, Protocol, TypeVar, cast
 
 from maya import cmds
@@ -46,6 +47,17 @@ __all__ = [
 ]
 
 _ValueT = TypeVar("_ValueT", bool, float, int, str)
+
+
+def _round_display_value(value: float, decimals: int) -> float:
+    """表示単位の実値を十進の四捨五入で指定小数桁へ揃える。"""
+    source = Decimal(str(value))
+    quantum = Decimal(1).scaleb(-decimals)
+    # 大きな整数部と細かな小数部を併せても量子化できる精度を確保する
+    with localcontext() as context:
+        context.prec = max(28, source.adjusted() + decimals + 2)
+        rounded = source.quantize(quantum, rounding=ROUND_HALF_UP)
+    return 0.0 if rounded.is_zero() else require_float(float(rounded))
 
 
 class _SetStringAttr(Protocol):
@@ -387,6 +399,7 @@ class _FloatPlugsStore(PlugsStore[float]):
         if any(codec.value.kind != codecs[0].value.kind for codec in codecs):
             raise TypeError("属性の単位種別は全対象で揃えてください")
         self._representative_codec = codecs[0]
+        self._codecs = codecs
         targets = tuple(
             PlugTarget(
                 plug.node,
@@ -416,6 +429,25 @@ class _FloatPlugsStore(PlugsStore[float]):
             target.codec.read() + offset if target.state().is_writable else 0.0
             for target in self._targets
         )
+        return self._prepare_values(values)
+
+    def prepare_round(self, decimals: int) -> list[PlugWrite]:
+        """各対象の表示単位の現在値を個別に四捨五入する計画を返す。"""
+        if type(decimals) is not int:
+            raise TypeError("decimalsにはintを指定してください")
+        if not 0 <= decimals <= 323:
+            raise ValueError("decimalsは0から323の範囲で指定してください")
+        if not self.is_writable:
+            raise RuntimeError("代表属性は編集できません")
+        values: list[float] = []
+        for target, codec in zip(self._targets, self._codecs, strict=True):
+            if not target.state().is_writable:
+                values.append(0.0)
+                continue
+            presentation = codec.value.presentation
+            display = presentation.to_display(codec.read())
+            rounded = _round_display_value(display, decimals)
+            values.append(presentation.from_display(rounded))
         return self._prepare_values(values)
 
     def _refresh_view_model(self) -> bool:
