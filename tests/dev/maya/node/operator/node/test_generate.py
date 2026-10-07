@@ -155,6 +155,36 @@ def test_generate_node_class_code_removes_type_separator_from_class_name():
     assert 'NODE_TYPE = "bdDbl_Add"' in code
 
 
+def test_controller_shape_generator_skips_channel_box_separators():
+    code = generate_node_class_code(
+        "bdControllerShape",
+        attr_infos=[
+            _attr("shape", "sh", "enum", enum_name=["Square:Cube"]),
+            _attr(
+                "_",
+                "_",
+                "enum",
+                enum_name=["-----------------------------------"],
+            ),
+            _attr(
+                "__",
+                "__",
+                "enum",
+                enum_name=["-----------------------------------"],
+            ),
+            _attr("shapeSize", "ss", "double"),
+        ],
+        node_kind="shape",
+        inherited_attr_infos=[],
+    )
+
+    compile(code, "bd_controller_shape.py", "exec")
+    assert "shape = ShapeEnumField(" in code
+    assert "shapeSize = DoubleField(" in code
+    assert "AttrEnum" not in code
+    assert "    attr = " not in code
+
+
 def test_generate_specific_node_classes_rejects_name_conversion_collision(
     tmp_path,
 ):

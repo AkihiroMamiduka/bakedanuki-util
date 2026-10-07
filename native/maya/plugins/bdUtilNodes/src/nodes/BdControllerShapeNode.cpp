@@ -14,6 +14,7 @@
 #include <maya/MDagPath.h>
 #include <maya/MDistance.h>
 #include <maya/MEulerRotation.h>
+#include <maya/MFnAttribute.h>
 #include <maya/MFnData.h>
 #include <maya/MFnEnumAttribute.h>
 #include <maya/MFnDependencyNode.h>
@@ -123,6 +124,12 @@ MObject BdControllerShapeNode::customBoundsAxisScaleZ;
 MObject BdControllerShapeNode::customBoundsSize;
 
 namespace {
+
+MObject channelBoxSeparator1;
+MObject channelBoxSeparator2;
+MObject channelBoxSeparator3;
+MObject channelBoxSeparator4;
+MObject channelBoxSeparator5;
 
 constexpr double kPi = 3.14159265358979323846;
 constexpr unsigned int kCircleSegments = 64;
@@ -505,7 +512,7 @@ MPoint transformPoint(
         axisScaled.rotateBy(transform.axisRotate) + settings.axisTranslate +
             (includeAxisOffset ? transform.axisOffset : MVector(0.0, 0.0, 0.0)),
         settings.axisOffsetDirection,
-        settings.axisOffsetLength
+        settings.axisOffset ? settings.axisOffsetLength : 1.0
     );
     const MVector oriented =
         transform.axisX * axisLocal.x +
@@ -693,7 +700,6 @@ MBoundingBox centeredShapeBounds(const ShapeSettings& settings) {
     ShapeSettings centered = settings;
     centered.translate = MVector(0.0, 0.0, 0.0);
     centered.axisTranslate = MVector(0.0, 0.0, 0.0);
-    centered.axisOffset = false;
     centered.showOffsetLine = false;
     const MBoundingBox bounds = makeBaseGeometry(centered)->bounds;
     const MPoint minimum = bounds.min();
@@ -1333,6 +1339,18 @@ void BdControllerShapeNode::postConstructor() {
             status.perror("Failed to hide bdControllerShape locator attribute");
         }
     }
+    for (const MObject& attribute : {
+             channelBoxSeparator1,
+             channelBoxSeparator2,
+             channelBoxSeparator3,
+             channelBoxSeparator4,
+             channelBoxSeparator5,
+         }) {
+        const MStatus status = MPlug(node, attribute).setLocked(true);
+        if (!status) {
+            status.perror("Failed to lock bdControllerShape separator");
+        }
+    }
 }
 
 MStatus BdControllerShapeNode::initialize() {
@@ -1356,11 +1374,6 @@ MStatus BdControllerShapeNode::initialize() {
         if (!status) {
             return status;
         }
-    }
-    enumAttributeFn.setKeyable(true);
-    status = addAttribute(shape);
-    if (!status) {
-        return status;
     }
 
     for (const auto& axisAttribute : {
@@ -1392,11 +1405,6 @@ MStatus BdControllerShapeNode::initialize() {
                 return status;
             }
         }
-        enumAttributeFn.setKeyable(true);
-        status = addAttribute(*axisAttribute.first);
-        if (!status) {
-            return status;
-        }
     }
 
     MFnMatrixData matrixDataFn;
@@ -1418,10 +1426,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(shapeAnimationTransformMatrix);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createDoubleAttribute(
         numericAttributeFn, shapeRootSize, "shapeRootSize", "srs", 1.0
@@ -1430,10 +1434,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(shapeRootSize);
     if (!status) {
         return status;
     }
@@ -1462,10 +1462,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(shapeTranslate);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createRotateAttribute(
         numericAttributeFn,
@@ -1487,10 +1483,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(shapeRotate);
     if (!status) {
         return status;
     }
@@ -1518,10 +1510,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(shapeScale);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createDoubleLinearAttribute(
         unitAttributeFn,
@@ -1541,10 +1529,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(shapeAxisOffsetLength);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn,
@@ -1557,10 +1541,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(shapeAxisOffset);
     if (!status) {
         return status;
     }
@@ -1584,11 +1564,6 @@ MStatus BdControllerShapeNode::initialize() {
             return status;
         }
     }
-    enumAttributeFn.setKeyable(true);
-    status = addAttribute(shapeAxisOffsetDirection);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createDoubleLinear3Attribute(
         numericAttributeFn,
@@ -1611,10 +1586,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(shapeAxisTranslate);
     if (!status) {
         return status;
     }
@@ -1642,10 +1613,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(shapeAxisRotate);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createDouble3Attribute(
         numericAttributeFn,
@@ -1670,10 +1637,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(shapeAxisScale);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createDoubleAttribute(
         numericAttributeFn, shapeSize, "shapeSize", "ss", 1.0
@@ -1682,10 +1645,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(shapeSize);
     if (!status) {
         return status;
     }
@@ -1704,10 +1663,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(showShapeOffsetLine);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn,
@@ -1723,10 +1678,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(shapeOffsetLineTemplate);
-    if (!status) {
-        return status;
-    }
 
     shapeLineWidth = numericAttributeFn.create(
         "shapeLineWidth", "slw", MFnNumericData::kFloat, 1.0f, &status
@@ -1739,10 +1690,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(shapeLineWidth);
     if (!status) {
         return status;
     }
@@ -1765,10 +1712,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(shapeTransparency);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn,
@@ -1781,10 +1724,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(shapeDrawOnTop);
     if (!status) {
         return status;
     }
@@ -1803,11 +1742,6 @@ MStatus BdControllerShapeNode::initialize() {
             return status;
         }
     }
-    enumAttributeFn.setKeyable(true);
-    status = addAttribute(boundsMode);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn,
@@ -1820,10 +1754,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(showBoundsPreview);
     if (!status) {
         return status;
     }
@@ -1858,11 +1788,6 @@ MStatus BdControllerShapeNode::initialize() {
                 return status;
             }
         }
-        enumAttributeFn.setKeyable(true);
-        status = addAttribute(*axisAttribute.first);
-        if (!status) {
-            return status;
-        }
     }
 
     status = bd_util_nodes::createDoubleAttribute(
@@ -1876,10 +1801,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(customBoundsRootSize);
     if (!status) {
         return status;
     }
@@ -1904,10 +1825,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(customBoundsTranslate);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createRotateAttribute(
         numericAttributeFn,
@@ -1925,10 +1842,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(customBoundsRotate);
     if (!status) {
         return status;
     }
@@ -1952,10 +1865,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(customBoundsScale);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createDoubleLinearAttribute(
         unitAttributeFn,
@@ -1975,10 +1884,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(customBoundsAxisOffsetLength);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn,
@@ -1991,10 +1896,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(customBoundsAxisOffset);
     if (!status) {
         return status;
     }
@@ -2018,11 +1919,6 @@ MStatus BdControllerShapeNode::initialize() {
             return status;
         }
     }
-    enumAttributeFn.setKeyable(true);
-    status = addAttribute(customBoundsAxisOffsetDirection);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createDoubleLinear3Attribute(
         numericAttributeFn,
@@ -2041,10 +1937,6 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) {
-        return status;
-    }
-    status = addAttribute(customBoundsAxisTranslate);
     if (!status) {
         return status;
     }
@@ -2068,10 +1960,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(customBoundsAxisRotate);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createDouble3Attribute(
         numericAttributeFn,
@@ -2092,10 +1980,6 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(customBoundsAxisScale);
-    if (!status) {
-        return status;
-    }
 
     status = bd_util_nodes::createDoubleAttribute(
         numericAttributeFn,
@@ -2111,7 +1995,173 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    return addAttribute(customBoundsSize);
+
+    for (const auto& separator : {
+             std::pair<MObject*, const char*>{&channelBoxSeparator1, "_"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator2, "__"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator3, "___"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator4, "____"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator5, "_____"},
+         }) {
+        *separator.first = enumAttributeFn.create(
+            separator.second, separator.second, 0, &status
+        );
+        if (!status) {
+            return status;
+        }
+        status = enumAttributeFn.addField("-----------------------------------", 0);
+        if (!status) {
+            return status;
+        }
+        status = enumAttributeFn.setStorable(false);
+        if (!status) {
+            return status;
+        }
+        status = enumAttributeFn.setConnectable(false);
+        if (!status) {
+            return status;
+        }
+    }
+
+    for (const MObject& attribute : {
+             shape,
+             shapeDrawOnTop,
+             shapeLineWidth,
+             shapeTransparency,
+             showShapeOffsetLine,
+             shapeOffsetLineTemplate,
+             channelBoxSeparator1,
+             shape1stAxis,
+             shape2ndAxis,
+             shapeAxisOffset,
+             shapeAxisOffsetDirection,
+             shapeAxisOffsetLength,
+             channelBoxSeparator2,
+             shapeRootSize,
+             shapeTranslate,
+             shapeRotate,
+             shapeScale,
+             shapeAxisTranslate,
+             shapeAxisRotate,
+             shapeAxisScale,
+             shapeSize,
+             channelBoxSeparator3,
+             boundsMode,
+             showBoundsPreview,
+             channelBoxSeparator4,
+             customBounds1stAxis,
+             customBounds2ndAxis,
+             customBoundsAxisOffset,
+             customBoundsAxisOffsetDirection,
+             customBoundsAxisOffsetLength,
+             channelBoxSeparator5,
+             customBoundsRootSize,
+             customBoundsTranslate,
+             customBoundsRotate,
+             customBoundsScale,
+             customBoundsAxisTranslate,
+             customBoundsAxisRotate,
+             customBoundsAxisScale,
+             customBoundsSize,
+             shapeTranslateX,
+             shapeTranslateY,
+             shapeTranslateZ,
+             shapeRotateX,
+             shapeRotateY,
+             shapeRotateZ,
+             shapeScaleX,
+             shapeScaleY,
+             shapeScaleZ,
+             shapeAxisTranslateX,
+             shapeAxisTranslateY,
+             shapeAxisTranslateZ,
+             shapeAxisRotateX,
+             shapeAxisRotateY,
+             shapeAxisRotateZ,
+             shapeAxisScaleX,
+             shapeAxisScaleY,
+             shapeAxisScaleZ,
+             customBoundsTranslateX,
+             customBoundsTranslateY,
+             customBoundsTranslateZ,
+             customBoundsRotateX,
+             customBoundsRotateY,
+             customBoundsRotateZ,
+             customBoundsScaleX,
+             customBoundsScaleY,
+             customBoundsScaleZ,
+             customBoundsAxisTranslateX,
+             customBoundsAxisTranslateY,
+             customBoundsAxisTranslateZ,
+             customBoundsAxisRotateX,
+             customBoundsAxisRotateY,
+             customBoundsAxisRotateZ,
+             customBoundsAxisScaleX,
+             customBoundsAxisScaleY,
+             customBoundsAxisScaleZ,
+         }) {
+        MFnAttribute attributeFn(attribute, &status);
+        if (!status) {
+            return status;
+        }
+        status = attributeFn.setKeyable(false);
+        if (!status) {
+            return status;
+        }
+        status = attributeFn.setChannelBox(true);
+        if (!status) {
+            return status;
+        }
+    }
+
+    for (const MObject& attribute : {
+             shape,
+             shapeAnimationTransformMatrix,
+             shapeDrawOnTop,
+             shapeLineWidth,
+             shapeTransparency,
+             showShapeOffsetLine,
+             shapeOffsetLineTemplate,
+             channelBoxSeparator1,
+             shape1stAxis,
+             shape2ndAxis,
+             shapeAxisOffset,
+             shapeAxisOffsetDirection,
+             shapeAxisOffsetLength,
+             channelBoxSeparator2,
+             shapeRootSize,
+             shapeTranslate,
+             shapeRotate,
+             shapeScale,
+             shapeAxisTranslate,
+             shapeAxisRotate,
+             shapeAxisScale,
+             shapeSize,
+             channelBoxSeparator3,
+             boundsMode,
+             showBoundsPreview,
+             channelBoxSeparator4,
+             customBounds1stAxis,
+             customBounds2ndAxis,
+             customBoundsAxisOffset,
+             customBoundsAxisOffsetDirection,
+             customBoundsAxisOffsetLength,
+             channelBoxSeparator5,
+             customBoundsRootSize,
+             customBoundsTranslate,
+             customBoundsRotate,
+             customBoundsScale,
+             customBoundsAxisTranslate,
+             customBoundsAxisRotate,
+             customBoundsAxisScale,
+             customBoundsSize,
+         }) {
+        status = addAttribute(attribute);
+        if (!status) {
+            return status;
+        }
+    }
+    return MS::kSuccess;
 }
 
 bool BdControllerShapeNode::isBounded() const {

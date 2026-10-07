@@ -161,7 +161,8 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
             maya_cmds.attributeQuery(attribute, node=shape, shortName=True)
             == short_name
         )
-        assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+        assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
     assert maya_cmds.getAttr(f"{shape}.shapeLineWidth", type=True) == "float"
     assert (
         maya_cmds.getAttr(f"{shape}.shapeTransparency", type=True) == "float"
@@ -186,6 +187,9 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
     assert maya_cmds.getAttr(f"{shape}.shapeScaleX", type=True) == "double"
     assert not maya_cmds.getAttr(
         f"{shape}.shapeAnimationTransformMatrix", keyable=True
+    )
+    assert not maya_cmds.getAttr(
+        f"{shape}.shapeAnimationTransformMatrix", channelBox=True
     )
     assert (
         maya_cmds.getAttr(f"{shape}.shapeAxisOffsetLength", type=True)
@@ -244,29 +248,65 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeTransparency",
         "shapeDrawOnTop",
     ):
-        assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+        assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
 
-    channel_order = maya_cmds.listAttr(shape, keyable=True)
+    for index in range(1, 6):
+        separator = "_" * index
+        assert (
+            maya_cmds.attributeQuery(separator, node=shape, shortName=True)
+            == separator
+        )
+        assert maya_cmds.attributeQuery(
+            separator, node=shape, listEnum=True
+        ) == ["-----------------------------------"]
+        assert maya_cmds.getAttr(f"{shape}.{separator}", type=True) == "enum"
+        assert maya_cmds.getAttr(f"{shape}.{separator}") == 0
+        assert maya_cmds.getAttr(f"{shape}.{separator}", lock=True)
+        assert not maya_cmds.getAttr(f"{shape}.{separator}", keyable=True)
+        assert maya_cmds.getAttr(f"{shape}.{separator}", channelBox=True)
+
+    channel_order = maya_cmds.listAttr(shape, channelBox=True)
     ordered_attributes = (
         "shape",
+        "shapeDrawOnTop",
+        "shapeLineWidth",
+        "shapeTransparency",
+        "showShapeOffsetLine",
+        "shapeOffsetLineTemplate",
+        "_",
         "shape1stAxis",
         "shape2ndAxis",
+        "shapeAxisOffset",
+        "shapeAxisOffsetDirection",
+        "shapeAxisOffsetLength",
+        "__",
         "shapeRootSize",
         "shapeTranslateX",
         "shapeRotateX",
         "shapeScaleX",
-        "shapeAxisOffsetLength",
-        "shapeAxisOffset",
-        "shapeAxisOffsetDirection",
         "shapeAxisTranslateX",
         "shapeAxisRotateX",
         "shapeAxisScaleX",
         "shapeSize",
-        "showShapeOffsetLine",
-        "shapeOffsetLineTemplate",
-        "shapeLineWidth",
-        "shapeTransparency",
-        "shapeDrawOnTop",
+        "___",
+        "boundsMode",
+        "showBoundsPreview",
+        "____",
+        "customBounds1stAxis",
+        "customBounds2ndAxis",
+        "customBoundsAxisOffset",
+        "customBoundsAxisOffsetDirection",
+        "customBoundsAxisOffsetLength",
+        "_____",
+        "customBoundsRootSize",
+        "customBoundsTranslateX",
+        "customBoundsRotateX",
+        "customBoundsScaleX",
+        "customBoundsAxisTranslateX",
+        "customBoundsAxisRotateX",
+        "customBoundsAxisScaleX",
+        "customBoundsSize",
     )
     assert [
         channel_order.index(attribute) for attribute in ordered_attributes
@@ -423,7 +463,8 @@ def test_bounds_modes_and_custom_attribute_defaults(
         ("customBoundsSize", 1.0),
     ):
         assert maya_cmds.getAttr(f"{shape}.{attribute}") == default
-        assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+        assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
     for attribute, expected in (
         ("customBoundsTranslate", (0.0, 0.0, 0.0)),
         ("customBoundsRotate", (0.0, 0.0, 0.0)),
@@ -435,8 +476,14 @@ def test_bounds_modes_and_custom_attribute_defaults(
         assert maya_cmds.getAttr(f"{shape}.{attribute}")[0] == pytest.approx(
             expected
         )
-        assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
-    assert maya_cmds.getAttr(f"{shape}.showBoundsPreview", keyable=True)
+        assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
+        for axis in "XYZ":
+            child = f"{attribute}{axis}"
+            assert not maya_cmds.getAttr(f"{shape}.{child}", keyable=True)
+            assert maya_cmds.getAttr(f"{shape}.{child}", channelBox=True)
+    assert not maya_cmds.getAttr(f"{shape}.showBoundsPreview", keyable=True)
+    assert maya_cmds.getAttr(f"{shape}.showBoundsPreview", channelBox=True)
     assert _bounds(maya_om, shape) == pytest.approx(
         (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)
     )
@@ -458,6 +505,11 @@ def test_shape_centered_keeps_size_without_position_offsets(
     assert _bounds(maya_om, shape) == pytest.approx(
         (-0.5, -0.5, -2.5, 0.5, 0.5, 2.5), abs=1.0e-9
     )
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffset", False)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetDirection", 2)
     assert _bounds(maya_om, shape) == pytest.approx(
         (-0.5, -2.5, -0.5, 0.5, 2.5, 0.5), abs=1.0e-9
@@ -535,6 +587,11 @@ def test_custom_bounds_transform_and_animation_connection(
     assert _bounds(maya_om, shape) == pytest.approx(
         (2.5, -0.5, 0.0, 3.5, 0.5, 4.0), abs=1.0e-9
     )
+    maya_cmds.setAttr(f"{shape}.customBoundsAxisOffset", False)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (2.5, -0.5, -0.5, 3.5, 0.5, 0.5), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.customBoundsAxisOffset", True)
 
     maya_cmds.connectAttr(
         f"{matrix}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
@@ -804,7 +861,7 @@ def test_cube_axis_offset_length_anchors_selected_direction(
     )
 
 
-def test_axis_offset_length_also_scales_centered_shape_and_axis_translation(
+def test_axis_offset_length_requires_offset_and_scales_axis_translation(
     maya_cmds, maya_om, new_scene
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -812,10 +869,14 @@ def test_axis_offset_length_also_scales_centered_shape_and_axis_translation(
     maya_cmds.setAttr(f"{shape}.shape", 1)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 3.0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, -0.5, -1.5, 0.5, 0.5, 1.5), abs=1.0e-9
+        (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5), abs=1.0e-9
     )
 
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 0.0)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     assert _bounds(maya_om, shape) == pytest.approx(
         (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
     )
@@ -823,7 +884,6 @@ def test_axis_offset_length_also_scales_centered_shape_and_axis_translation(
 
     maya_cmds.setAttr(f"{shape}.shapeSize", 0.0)
     maya_cmds.setAttr(f"{shape}.shapeAxisTranslateZ", 1.0)
-    maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     assert _bounds(maya_om, shape) == pytest.approx(
         (0.0, 0.0, 4.5, 0.0, 0.0, 4.5), abs=1.0e-9
     )
@@ -833,7 +893,7 @@ def test_axis_offset_length_also_scales_centered_shape_and_axis_translation(
     )
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", False)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, 0.0, 0.0, 0.0, 0.0, 3.0), abs=1.0e-9
+        (0.0, 0.0, 0.0, 0.0, 0.0, 1.0), abs=1.0e-9
     )
 
 

@@ -1229,12 +1229,19 @@ def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
     return "<" in attr_type or ">" in attr_type
 
 
-def _filter_supported_attr_infos(attr_infos: list[AttrInfo]) -> list[AttrInfo]:
-    """``attributeType`` に ``<`` / ``>`` を含まない属性情報のみを返す。"""
+def _filter_supported_attr_infos(
+    node_type: str, attr_infos: list[AttrInfo]
+) -> list[AttrInfo]:
+    """未対応の型と `bdControllerShape` の表示専用区切りを除く。"""
     return [
         info
         for info in attr_infos
         if not _contains_angle_brackets_in_attribute_type(info)
+        and not (
+            node_type == "bdControllerShape"
+            and info.attribute_type == "enum"
+            and re.fullmatch(r"_+", _attr_long_name(info))
+        )
     ]
 
 
@@ -1840,7 +1847,7 @@ def generate_node_attr_code(
         )
 
     attr_infos = _omit_unreliable_default_values(node_type, attr_infos)
-    attr_infos = _filter_supported_attr_infos(attr_infos)
+    attr_infos = _filter_supported_attr_infos(node_type, attr_infos)
     attr_infos = _normalize_attr_hierarchy(attr_infos)
 
     # 子アトリビュートを親ごとにグループ化
@@ -2142,7 +2149,7 @@ def generate_node_class_code(
 
     inherited_long_names = _attr_long_names(inherited_attr_infos)
 
-    attr_infos = _filter_supported_attr_infos(attr_infos)
+    attr_infos = _filter_supported_attr_infos(node_type, attr_infos)
     attr_infos = _normalize_attr_hierarchy(attr_infos)
     attr_infos = _filter_inherited_attr_infos(
         attr_infos,

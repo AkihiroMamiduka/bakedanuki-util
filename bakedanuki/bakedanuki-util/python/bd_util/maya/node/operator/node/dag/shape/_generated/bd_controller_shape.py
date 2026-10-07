@@ -500,14 +500,42 @@ class GeneratedBdControllerShape(Shape):
     shape = ShapeEnumField(default_value=0)
     sh = shape
 
+    shapeAnimationTransformMatrix = DataMatrixField()
+    satm = shapeAnimationTransformMatrix
+
+    shapeDrawOnTop = BoolField(default_value=False)
+    sdot = shapeDrawOnTop
+
+    shapeLineWidth = FloatField(default_value=1.0, min_value=1.0)
+    slw = shapeLineWidth
+
+    shapeTransparency = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
+    stp = shapeTransparency
+
+    showShapeOffsetLine = BoolField(default_value=False)
+    ssol = showShapeOffsetLine
+
+    shapeOffsetLineTemplate = BoolField(default_value=False)
+    solt = shapeOffsetLineTemplate
+
     shape1stAxis = Shape1stAxisEnumField(default_value=4)
     s1a = shape1stAxis
 
     shape2ndAxis = Shape2ndAxisEnumField(default_value=2)
     s2a = shape2ndAxis
 
-    shapeAnimationTransformMatrix = DataMatrixField()
-    satm = shapeAnimationTransformMatrix
+    shapeAxisOffset = BoolField(default_value=False)
+    sao = shapeAxisOffset
+
+    shapeAxisOffsetDirection = ShapeAxisOffsetDirectionEnumField(
+        default_value=0
+    )
+    saod = shapeAxisOffsetDirection
+
+    shapeAxisOffsetLength = DoubleLinearField(default_value=1.0, min_value=0.0)
+    saol = shapeAxisOffsetLength
 
     shapeRootSize = DoubleField(default_value=1.0)
     srs = shapeRootSize
@@ -539,17 +567,6 @@ class GeneratedBdControllerShape(Shape):
     shapeScaleZ = shapeScale.shapeScaleZ
     sscz = shapeScaleZ
 
-    shapeAxisOffsetLength = DoubleLinearField(default_value=1.0, min_value=0.0)
-    saol = shapeAxisOffsetLength
-
-    shapeAxisOffset = BoolField(default_value=False)
-    sao = shapeAxisOffset
-
-    shapeAxisOffsetDirection = ShapeAxisOffsetDirectionEnumField(
-        default_value=0
-    )
-    saod = shapeAxisOffsetDirection
-
     shapeAxisTranslate = ShapeAxisTranslateField(default_value=(0.0, 0.0, 0.0))
     sat = shapeAxisTranslate
     shapeAxisTranslateX = shapeAxisTranslate.shapeAxisTranslateX
@@ -580,23 +597,6 @@ class GeneratedBdControllerShape(Shape):
     shapeSize = DoubleField(default_value=1.0)
     ss = shapeSize
 
-    showShapeOffsetLine = BoolField(default_value=False)
-    ssol = showShapeOffsetLine
-
-    shapeOffsetLineTemplate = BoolField(default_value=False)
-    solt = shapeOffsetLineTemplate
-
-    shapeLineWidth = FloatField(default_value=1.0, min_value=1.0)
-    slw = shapeLineWidth
-
-    shapeTransparency = FloatField(
-        default_value=0.0, min_value=0.0, max_value=1.0
-    )
-    stp = shapeTransparency
-
-    shapeDrawOnTop = BoolField(default_value=False)
-    sdot = shapeDrawOnTop
-
     boundsMode = BoundsModeEnumField(default_value=0)
     bdm = boundsMode
 
@@ -608,6 +608,19 @@ class GeneratedBdControllerShape(Shape):
 
     customBounds2ndAxis = CustomBounds2ndAxisEnumField(default_value=2)
     cb2a = customBounds2ndAxis
+
+    customBoundsAxisOffset = BoolField(default_value=False)
+    cbao = customBoundsAxisOffset
+
+    customBoundsAxisOffsetDirection = CustomBoundsAxisOffsetDirectionEnumField(
+        default_value=0
+    )
+    cbaod = customBoundsAxisOffsetDirection
+
+    customBoundsAxisOffsetLength = DoubleLinearField(
+        default_value=1.0, min_value=0.0
+    )
+    cbaol = customBoundsAxisOffsetLength
 
     customBoundsRootSize = DoubleField(default_value=1.0)
     cbrs = customBoundsRootSize
@@ -640,19 +653,6 @@ class GeneratedBdControllerShape(Shape):
     cbscy = customBoundsScaleY
     customBoundsScaleZ = customBoundsScale.customBoundsScaleZ
     cbscz = customBoundsScaleZ
-
-    customBoundsAxisOffsetLength = DoubleLinearField(
-        default_value=1.0, min_value=0.0
-    )
-    cbaol = customBoundsAxisOffsetLength
-
-    customBoundsAxisOffset = BoolField(default_value=False)
-    cbao = customBoundsAxisOffset
-
-    customBoundsAxisOffsetDirection = CustomBoundsAxisOffsetDirectionEnumField(
-        default_value=0
-    )
-    cbaod = customBoundsAxisOffsetDirection
 
     customBoundsAxisTranslate = CustomBoundsAxisTranslateField(
         default_value=(0.0, 0.0, 0.0)

@@ -83,7 +83,7 @@ mod.do_it_dg()
 | `shapeTranslate` | `doubleLinear3` | `(0, 0, 0)` | 軸指定の外側で形状を平行移動 |
 | `shapeRotate` | `doubleAngle3` | `(0, 0, 0)` | 軸指定の外側で XYZ 固定順に回転 |
 | `shapeScale` | `double3` | `(1, 1, 1)` | 軸指定の外側、`shapeRotate` の内側で拡縮 |
-| `shapeAxisOffsetLength` | `doubleLinear` | `1 cm` | `shapeAxisOffsetDirection` で選んだ軸に沿い、オフセットと形状を原点基準で伸縮。最小値 `0` |
+| `shapeAxisOffsetLength` | `doubleLinear` | `1 cm` | `shapeAxisOffset=true` のとき、`shapeAxisOffsetDirection` で選んだ軸に沿ってオフセットと形状を原点基準で伸縮。最小値 `0` |
 | `shapeAxisOffset` | `bool` | `false` | 選択した軸方向へ基準形状を固定 `0.5` オフセット |
 | `shapeAxisOffsetDirection` | enum | `+1stAxis` (0) | `+1stAxis` (0)、`-1stAxis` (1)、`+2ndAxis` (2)、`-2ndAxis` (3)、`+3rdAxis` (4)、`-3rdAxis` (5) |
 | `shapeAxisTranslate` | `doubleLinear3` | `(0, 0, 0)` | 指定した軸を基準に形状を平行移動 |
@@ -108,7 +108,7 @@ mod.do_it_dg()
 | `customBoundsTranslate` | `doubleLinear3` | `(0, 0, 0)` | `shapeTranslate` |
 | `customBoundsRotate` | `doubleAngle3` | `(0, 0, 0)` | `shapeRotate` |
 | `customBoundsScale` | `double3` | `(1, 1, 1)` | `shapeScale` |
-| `customBoundsAxisOffsetLength` | `doubleLinear` | `1 cm` | `shapeAxisOffsetLength`。最小値 `0` |
+| `customBoundsAxisOffsetLength` | `doubleLinear` | `1 cm` | `customBoundsAxisOffset=true` のときだけ作用する `shapeAxisOffsetLength` 相当の長さ。最小値 `0` |
 | `customBoundsAxisOffset` | `bool` | `false` | `shapeAxisOffset` |
 | `customBoundsAxisOffsetDirection` | enum | `+1stAxis` | `shapeAxisOffsetDirection` |
 | `customBoundsAxisTranslate` | `doubleLinear3` | `(0, 0, 0)` | `shapeAxisTranslate` |
@@ -116,22 +116,25 @@ mod.do_it_dg()
 | `customBoundsAxisScale` | `double3` | `(1, 1, 1)` | `shapeAxisScale` |
 | `customBoundsSize` | `double` | `1` | `shapeSize` |
 
-`boundsMode`、`showBoundsPreview`、Custom の全調整属性と３軸属性の子属性は
-keyable です。２つの軸指定と軸オフセット方向の enum 値は形状本体と同じです。
-Channel Box では `boundsMode`、`showBoundsPreview`、Custom の２軸指定、
-RootSize、外側の移動・回転・スケール、軸オフセット長・オン/オフ・方向、
-内側の移動・回転・スケール、Size の順です。
+表示する調整属性は、複合属性の X/Y/Z 子属性も含めて非 keyable・Channel Box 表示です。
+Channel Box から値を編集でき、DG 接続や属性を明示したキー設定も可能です。
+通常の一括キー操作では対象になりません。２つの軸指定と軸オフセット方向の
+enum 値は形状本体と Custom で共通です。
+`shapeAnimationTransformMatrix` は Channel Box に表示せず、接続と
+`ModifierManager` 経由の設定に対応します。
 
-`shapeAnimationTransformMatrix` 以外の `shape`、２つの軸属性、８つの変形属性、
-長さ属性、２つの軸オフセット属性、２つの補助線属性、３つの描画属性、
-および３軸属性の各子属性は keyable です。
-`shapeAnimationTransformMatrix` は接続と `ModifierManager` 経由の設定に対応しますが、
-キーを直接作る属性ではありません。
-Channel Box では `shape`、`shape1stAxis`、`shape2ndAxis`、`shapeRootSize`、
-外側の移動・回転・スケール、`shapeAxisOffsetLength`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、
-内側の移動・回転・スケール、`shapeSize`、２つの補助線属性、
-`shapeLineWidth`、`shapeTransparency`、`shapeDrawOnTop` の順に並びます。
-shape を選択して Channel Box から数値を調整できます。
+Channel Box の表示順は次の６区画です。区切りは `_`、`__`、`___`、`____`、
+`_____` という表示専用の１値 enum 属性で、値は
+`-----------------------------------`、非 keyable・ロック済みです。
+
+1. `shape`、`shapeDrawOnTop`、`shapeLineWidth`、`shapeTransparency`、`showShapeOffsetLine`、`shapeOffsetLineTemplate`
+2. `shape1stAxis`、`shape2ndAxis`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、`shapeAxisOffsetLength`
+3. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
+4. `boundsMode`、`showBoundsPreview`
+5. `customBounds1stAxis`、`customBounds2ndAxis`、`customBoundsAxisOffset`、`customBoundsAxisOffsetDirection`、`customBoundsAxisOffsetLength`
+6. `customBoundsRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`customBoundsSize`
+
+区切りは Python の生成 NodeOperator API から除外します。
 `MPxLocatorNode` から継承する `localPositionX/Y/Z` と `localScaleX/Y/Z` は
 描画に使わないため、`bdControllerShape` では Channel Box の既定表示から外します。
 標準の locator の表示設定には影響しません。
@@ -184,13 +187,14 @@ p_local = p_out * shapeAnimationTransformMatrix
 
 `boundsMode=ShapeCentered` は形状の種類・軸指定・回転・スケール・サイズを使い、
 `shapeTranslate`、`shapeAxisTranslate`、`shapeAxisOffset` による位置ずれと
-OffsetLine を除外します。`shapeAxisOffsetLength` と
-`shapeAxisOffsetDirection` は軸方向の伸縮に必要なため保持します。
+OffsetLine を除外します。`shapeAxisOffset=true` のときは
+`shapeAxisOffsetLength` と `shapeAxisOffsetDirection` による伸縮を保持します。
 この調整値で求めた形状の軸平行範囲を、まず親 `transform` のローカル原点を
 中心とする箱に置き直します。その８角へ `shapeAnimationTransformMatrix` を
 そのまま適用し、最終的な軸平行範囲を求めます。
 したがって行列の平行移動もフォーカス範囲へ反映されます。
-例えば他の変形が既定値の `Cube` で `shapeAxisOffsetLength=5 cm` なら、
+例えば他の変形が既定値の `Cube` で `shapeAxisOffset=true`、
+`shapeAxisOffsetLength=5 cm` なら、
 行列適用前の伸縮方向の範囲は `-2.5 cm` から `+2.5 cm` です。
 `CircleArrow` のように非対称な形状でも、行列適用前の範囲の中心は原点です。
 
@@ -228,19 +232,20 @@ F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform 
 `1stAxis` は主軸、`2ndAxis` は補助軸、`3rdAxis` は「補助軸 × 主軸」の方向です。
 無効な軸の組では、形状と同じ補正後の補助軸と第３軸を使います。
 主軸が `-X` なら `+1stAxis` は `-X` 方向、`-1stAxis` は `+X` 方向です。
-`S_axis` は方向の正負にかかわらず選択軸の１成分だけを
-`shapeAxisOffsetLength / 1 cm` 倍します。基準形状の長さは内部座標で `1 cm` なので、
+`S_axis` は `shapeAxisOffset=true` のとき、方向の正負にかかわらず選択軸の１成分だけを
+`shapeAxisOffsetLength / 1 cm` 倍します。オフのときは恒等変換です。
+基準形状の長さは内部座標で `1 cm` なので、
 他の変形が既定値の `Cube` では、軸オフセットをオンにすると正方向は
 `0` から指定長、負方向は `-指定長` から `0` まで伸びます。
-軸オフセットがオフでも、同じ軸を原点中心に伸縮します。
-`0 cm` では選択軸方向に潰れます。接続から負値が入った場合も、形状の計算では
+軸オフセットがオフなら、長さと方向の値を変えても形状は伸縮しません。
+オンで `0 cm` にすると選択軸方向に潰れます。接続から負値が入った場合も、形状の計算では
 `0 cm` として扱います。`shapeAxisTranslate` の選択軸成分も
 この長さで伸縮します。`shapeSize`、`shapeAxisScale`、内側の回転、外側のスケールなどを
 変更した場合、形状の端や実際の長さは指定長と一致するとは限りません。
 固定 `0.5` は `shapeSize`、`shapeAxisScale`、`shapeAxisRotate` の影響を受けず、
 `shapeAxisOffsetLength`、外側の `shapeScale`、`shapeRotate`、`shapeRootSize` の影響を受けます。
-`shapeAxisTranslate` には加算して使えます。`shapeAxisOffset` をオフにしても
-`shapeAxisOffsetDirection` は長さを適用する軸を指定し続けます。
+`shapeAxisTranslate` には加算して使えます。`shapeAxisOffset` をオフにすると
+`shapeAxisOffsetDirection` も変形に作用しません。
 その他の変形が既定値の `Cube` は、`+1stAxis` へのオフセットで主軸方向の範囲が
 `0` から `1` になります。`shapeSize` だけを `2` にすると `-0.5` から `1.5` です。
 
@@ -248,8 +253,9 @@ F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform 
 `p=(0, 0, 0)` と `O_axis=(0, 0, 0)` を代入し、
 `shapeAnimationTransformMatrix` を適用した形状基準位置です。
 `shapeTranslate` と `shapeAxisTranslate` の移動を反映し、軸オフセットを除外します。
-`shapeAxisOffsetLength` は `shapeAxisTranslate` の選択軸成分を伸縮するため、
-終点にも反映します。`shapeAxisOffset`、`shapeAxisRotate`、`shapeAxisScale`、
+`shapeAxisOffset=true` なら `shapeAxisOffsetLength` は
+`shapeAxisTranslate` の選択軸成分を伸縮するため、終点にも反映します。
+`shapeAxisOffset` の固定位置成分、`shapeAxisRotate`、`shapeAxisScale`、
 `shapeSize` は終点を動かしません。行列が単位行列のとき、軸オフセットだけを
 オンにした場合は補助線を描きません。
 始点と終点が重なる場合は線を描きません。
@@ -359,12 +365,12 @@ shape 自身の `visibility` をオフにすると非表示になります。
 13. `shapeAxisTranslate` などの調整属性にキーまたは入力接続を作り、タイムラインを動かすと形状と選択範囲が追従する。直接編集と Undo/Redo の後も更新される。
 14. `shapeAxisOffset` をオンにして６方向を切り替えると、形状本体と選択範囲が更新される。`Cube` の既定サイズでは片面が原点に揃い、`shapeSize=2` でも移動量は固定 `0.5` のままになる。
 15. `showShapeOffsetLine` をオンにし、軸オフセットを切り替えても補助線の終点が動かない。軸オフセットだけをオンにした場合は線が出ない。
-16. `Cube` で `shapeAxisOffsetLength` を変え、指定した軸方向だけが伸縮し、形状本体と選択範囲が更新される。軸オフセットがオンなら原点から、オフなら原点を中心に伸縮する。
-17. `shapeAxisTranslate` の選択軸成分がある場合、長さの変更が補助線の終点にも反映される。他の変形が既定値の `Cube` では、距離プラグからの接続やシーン単位の変更後も、骨長と形状の長さが一致する。
+16. `Cube` で `shapeAxisOffset` をオンにすると `shapeAxisOffsetLength` で指定軸だけが伸縮し、形状本体と選択範囲が更新される。オフなら長さと方向を変更しても伸縮しない。
+17. `shapeAxisOffset` がオンで `shapeAxisTranslate` の選択軸成分がある場合、長さの変更が補助線の終点にも反映される。他の変形が既定値の `Cube` では、距離プラグからの接続やシーン単位の変更後も、骨長と形状の長さが一致する。
 18. `shapeAnimationTransformMatrix` に `composeMatrix.outputMatrix` を接続し、接続元をアニメーションすると形状・描画範囲・クリック選択が追従する。基準形状の調整値は変わらない。
 19. 補助線の基準終点が原点でも、行列の平行移動で終点が動くと親のローカル原点から補助線が出る。行列を戻すと消える。
 20. `boundsMode` を３値で切り替え、F と Ctrl+F のフレーム範囲がそれぞれの範囲に追従する。子 transform を持つ場合は Ctrl+F に子も含まれる。
-21. `ShapeCentered` で形状の移動・軸オフセット・OffsetLine を変えても中心が動かず、`shapeAxisOffsetLength` で大きさだけが変わる。`shapeAnimationTransformMatrix` の平行移動を加えると中心も動く。
+21. `ShapeCentered` で形状の移動・軸オフセット・OffsetLine を変えても中心が動かず、`shapeAxisOffset` がオンなら `shapeAxisOffsetLength` で大きさだけが変わる。`shapeAnimationTransformMatrix` の平行移動を加えると中心も動く。
 22. `Custom` の箱を形状本体より小さく、次に大きくしても、本体の線を描画・クリック選択できる。カメラを動かして視錐台カリングも確認する。
 23. `showBoundsPreview` をオンにして `boundsMode` を３値で切り替え、各モードの最終的な軸平行範囲が template 色で表示される。プレビューの線だけをクリックしても選択されず、表示のオン/オフでフォーカス範囲は変化しない。
 24. Custom の調整値を直接編集・接続・キー設定してフレームとプレビューが更新される。Undo/Redo とシーン再読込後にも同じ範囲へ戻る。
