@@ -352,6 +352,15 @@ Maya 2025 でその plug-in をロードして `generate_node_class_file()` か�
 を参照してください。生成ファイルは手編集せず、テストと仕様書を同時に更新します。
 完了前の統一検証は repository 直下で `.\scripts\verify.cmd -IncludeNative` です。
 
+### 今後の候補: 多数配置時の再生性能測定
+
+多数の `bdControllerShape` を置いたシーンで、調整属性が静的な場合、
+`shapeAxisTranslate` などにキーや入力接続がある場合、親 `transform` のみを
+アニメーションする場合の再生時間を比較します。基準頂点と変換後頂点の
+再生成回数も記録し、現在のキャッシュが効く条件と負荷の大きい処理を特定します。
+最適化が必要と分かった場合は、描画・クリック選択・`boundingBox()` の結果を
+保ったまま、実測した負荷箇所に絞って変更します。
+
 ## 表示と選択
 
 この shape は Maya 標準の `nurbsCurve` ではありません。
