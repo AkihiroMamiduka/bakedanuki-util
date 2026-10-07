@@ -61,11 +61,11 @@ shape.boundsMode.set(1)  # ShapeCentered
 shape.boundsMode.set(2)  # Custom
 shape.customBoundsTranslate.set(0.0, 0.0, 2.0)
 shape.customBoundsSize.set(3.0)
-shape.showCustomBoundsPreview.set(True)
+shape.showBoundsPreview.set(True)
 mod.do_it_dg()
 ```
 
-プレビューは `boundsMode` が `Custom` 以外でも表示でき、template 色で描画されます。
+プレビューは選択中の `boundsMode` のフォーカス範囲を template 色で描画します。
 プレビューの線はクリック選択できません。
 
 ## 形状と属性
@@ -90,7 +90,7 @@ mod.do_it_dg()
 | `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から、軸オフセットを除いた形状基準位置まで補助線を描く |
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 | `boundsMode` | enum | `Shape` (0) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
-| `showCustomBoundsPreview` | `bool` | `false` | Custom の最終的な軸平行範囲を template 色で表示する。選択不可 |
+| `showBoundsPreview` | `bool` | `false` | 選択中の `boundsMode` の最終的な軸平行範囲を template 色で表示する。選択不可 |
 
 `Custom` 用の調整属性は `shapeAnimationTransformMatrix` を除き、形状本体から独立しています。
 基準形状は固定の `Cube` で、`shape` と OffsetLine に対応する属性はありません。
@@ -110,9 +110,9 @@ mod.do_it_dg()
 | `customBoundsAxisScale` | `double3` | `(1, 1, 1)` | `shapeAxisScale` |
 | `customBoundsSize` | `double` | `1` | `shapeSize` |
 
-`boundsMode`、`showCustomBoundsPreview`、Custom の全調整属性と３軸属性の子属性は
+`boundsMode`、`showBoundsPreview`、Custom の全調整属性と３軸属性の子属性は
 keyable です。２つの軸指定と軸オフセット方向の enum 値は形状本体と同じです。
-Channel Box では `boundsMode`、`showCustomBoundsPreview`、Custom の２軸指定、
+Channel Box では `boundsMode`、`showBoundsPreview`、Custom の２軸指定、
 RootSize、外側の移動・回転・スケール、軸オフセット長・オン/オフ・方向、
 内側の移動・回転・スケール、Size の順です。
 
@@ -179,14 +179,14 @@ OffsetLine を除外します。`shapeAxisOffsetLength` と
 `boundsMode=Custom` は独立した調整属性で固定の `Cube` の８角を変形し、
 さらに共有の `shapeAnimationTransformMatrix` を適用してから軸平行範囲を
 求めます。Custom の箱は形状本体より小さくも大きくもできます。
-`showCustomBoundsPreview` はこの最終範囲の12辺を表示するだけで、
-どの `boundsMode` のフォーカス範囲も変更しません。
+`showBoundsPreview` は選択中の `boundsMode` の最終範囲を表示するだけで、
+フォーカス範囲を変更しません。`Shape` では表示中の OffsetLine も範囲へ含みます。
 
 `MPxLocatorNode::boundingBox()` は選択したモードの範囲を返すため、
 `MFnDagNode.boundingBox`、親 `transform` の `xform -bb`、標準の
 F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform も含むため、
 子の範囲は別途合算されます。Viewport 2.0 の描画 override はカリング用に
-形状本体・表示中の OffsetLine・表示中の Custom プレビューを包む範囲を返します。
+形状本体・表示中の OffsetLine・表示中のフォーカス範囲プレビューを包む範囲を返します。
 クリック選択に使う線は形状本体と、template ではない OffsetLine のままです。
 
 ここで `⊙` は成分ごとの積です。`shapeRootSize` は平行移動と軸オフセットにも影響し、
@@ -346,5 +346,5 @@ shape 自身の `visibility` をオフにすると非表示になります。
 20. `boundsMode` を３値で切り替え、F と Ctrl+F のフレーム範囲がそれぞれの範囲に追従する。子 transform を持つ場合は Ctrl+F に子も含まれる。
 21. `ShapeCentered` で形状の移動・軸オフセット・OffsetLine を変えても中心が動かず、`shapeAxisOffsetLength` で大きさだけが変わる。`shapeAnimationTransformMatrix` の平行移動を加えると中心も動く。
 22. `Custom` の箱を形状本体より小さく、次に大きくしても、本体の線を描画・クリック選択できる。カメラを動かして視錐台カリングも確認する。
-23. `showCustomBoundsPreview` を `boundsMode` に関係なく切り替え、最終的な軸平行範囲が template 色で表示され、プレビューの線だけをクリックしても選択されない。プレビューの表示でフォーカス範囲は変化しない。
+23. `showBoundsPreview` をオンにして `boundsMode` を３値で切り替え、各モードの最終的な軸平行範囲が template 色で表示される。プレビューの線だけをクリックしても選択されず、表示のオン/オフでフォーカス範囲は変化しない。
 24. Custom の調整値を直接編集・接続・キー設定してフレームとプレビューが更新される。Undo/Redo とシーン再読込後にも同じ範囲へ戻る。

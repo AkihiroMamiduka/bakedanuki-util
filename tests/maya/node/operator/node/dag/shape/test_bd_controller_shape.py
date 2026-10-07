@@ -313,7 +313,16 @@ def test_bounds_modes_and_custom_attribute_defaults(
         "boundsMode", node=shape, listEnum=True
     ) == ["Shape:ShapeCentered:Custom"]
     assert maya_cmds.getAttr(f"{shape}.boundsMode") == 0
-    assert not maya_cmds.getAttr(f"{shape}.showCustomBoundsPreview")
+    assert not maya_cmds.getAttr(f"{shape}.showBoundsPreview")
+    assert (
+        maya_cmds.attributeQuery(
+            "showBoundsPreview", node=shape, shortName=True
+        )
+        == "sbp"
+    )
+    assert not maya_cmds.attributeQuery(
+        "showCustomBoundsPreview", node=shape, exists=True
+    )
     for attribute, default in (
         ("customBounds1stAxis", 4),
         ("customBounds2ndAxis", 2),
@@ -337,7 +346,7 @@ def test_bounds_modes_and_custom_attribute_defaults(
             expected
         )
         assert maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
-    assert maya_cmds.getAttr(f"{shape}.showCustomBoundsPreview", keyable=True)
+    assert maya_cmds.getAttr(f"{shape}.showBoundsPreview", keyable=True)
     assert _bounds(maya_om, shape) == pytest.approx(
         (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)
     )
@@ -403,11 +412,23 @@ def test_custom_bounds_are_independent_and_preview_does_not_change_focus(
 
     expected = (-4.0, -1.0, -1.0, -2.0, 1.0, 1.0)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
-    maya_cmds.setAttr(f"{shape}.showCustomBoundsPreview", True)
+    maya_cmds.setAttr(f"{shape}.showBoundsPreview", True)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
     maya_cmds.setAttr(f"{shape}.boundsMode", 0)
     assert _bounds(maya_om, shape) == pytest.approx(
         (9.5, -0.5, 0.0, 10.5, 0.5, 0.0), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.boundsMode", 1)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.customBoundsTranslateX", -5.0)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0), abs=1.0e-9
+    )
+    maya_cmds.setAttr(f"{shape}.boundsMode", 2)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-6.0, -1.0, -1.0, -4.0, 1.0, 1.0), abs=1.0e-9
     )
 
 
@@ -489,7 +510,7 @@ def test_view_fit_uses_selected_bounds_mode(maya_cmds, maya_om, new_scene):
     )[0] == pytest.approx(-3.0, abs=1.0e-9)
 
     maya_cmds.setAttr(f"{shape}.boundsMode", 0)
-    maya_cmds.setAttr(f"{shape}.showCustomBoundsPreview", True)
+    maya_cmds.setAttr(f"{shape}.showBoundsPreview", True)
     maya_cmds.viewFit("frontShape", animate=False, noChildren=True)
     assert maya_cmds.xform(
         "front", query=True, translation=True, worldSpace=True
@@ -1096,14 +1117,14 @@ def test_custom_bounds_node_operator_history_and_scene_reload(
     shape.boundsMode.set(2)
     shape.customBoundsSize.set(4.0)
     shape.customBoundsTranslate.set(2.0, 0.0, 0.0)
-    shape.showCustomBoundsPreview.set(True)
+    shape.showBoundsPreview.set(True)
     mod.do_it_dg()
 
     expected = (0.0, -2.0, -2.0, 4.0, 2.0, 2.0)
     assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)
     mod.undo_it()
     assert maya_cmds.getAttr(f"{shape_name}.boundsMode") == 0
-    assert not maya_cmds.getAttr(f"{shape_name}.showCustomBoundsPreview")
+    assert not maya_cmds.getAttr(f"{shape_name}.showBoundsPreview")
     mod.redo_it()
     assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)
 
@@ -1113,5 +1134,5 @@ def test_custom_bounds_node_operator_history_and_scene_reload(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
     assert maya_cmds.getAttr(f"{shape_name}.boundsMode") == 2
-    assert maya_cmds.getAttr(f"{shape_name}.showCustomBoundsPreview")
+    assert maya_cmds.getAttr(f"{shape_name}.showBoundsPreview")
     assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)

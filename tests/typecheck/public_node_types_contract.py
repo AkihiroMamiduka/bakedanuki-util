@@ -141,7 +141,7 @@ def controller_shape_offset_line_contract() -> None:
 def controller_shape_bounds_contract() -> None:
     _, shape = bdu.Nodes().create.controllerShape()
     assert_type(shape.boundsMode, BoundsModeEnumPlugOperator)
-    assert_type(shape.showCustomBoundsPreview, BoolPlugOperator)
+    assert_type(shape.showBoundsPreview, BoolPlugOperator)
     assert_type(shape.customBounds1stAxis, CustomBounds1stAxisEnumPlugOperator)
     assert_type(shape.customBounds2ndAxis, CustomBounds2ndAxisEnumPlugOperator)
     assert_type(shape.customBoundsRootSize, DoublePlugOperator)
@@ -163,7 +163,7 @@ def controller_shape_bounds_contract() -> None:
     assert_type(shape.customBoundsAxisScale, CustomBoundsAxisScalePlugOperator)
     assert_type(shape.customBoundsSize, DoublePlugOperator)
     shape.boundsMode.set(BoundsModeEnumPlugOperator.CUSTOM)
-    shape.showCustomBoundsPreview.set(True)
+    shape.showBoundsPreview.set(True)
     shape.customBounds1stAxis.set(CustomBounds1stAxisEnumPlugOperator.PLUS_X)
     shape.customBounds2ndAxis.set(CustomBounds2ndAxisEnumPlugOperator.PLUS_Y)
     shape.customBoundsAxisOffsetDirection.set(

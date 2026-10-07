@@ -85,7 +85,7 @@ MObject BdControllerShapeNode::shapeSize;
 MObject BdControllerShapeNode::showShapeOffsetLine;
 MObject BdControllerShapeNode::shapeOffsetLineTemplate;
 MObject BdControllerShapeNode::boundsMode;
-MObject BdControllerShapeNode::showCustomBoundsPreview;
+MObject BdControllerShapeNode::showBoundsPreview;
 MObject BdControllerShapeNode::customBounds1stAxis;
 MObject BdControllerShapeNode::customBounds2ndAxis;
 MObject BdControllerShapeNode::customBoundsRootSize;
@@ -739,9 +739,25 @@ Strokes boundsStrokes(const MBoundingBox& bounds) {
     }};
     Strokes strokes;
     for (const auto& edge : edges) {
+        const MPoint& start = corners[edge[0]];
+        const MPoint& end = corners[edge[1]];
+        if (start == end) {
+            continue;
+        }
+        bool duplicate = false;
+        for (const Stroke& existing : strokes) {
+            if ((existing[0] == start && existing[1] == end) ||
+                (existing[0] == end && existing[1] == start)) {
+                duplicate = true;
+                break;
+            }
+        }
+        if (duplicate) {
+            continue;
+        }
         Stroke stroke;
-        stroke.append(corners[edge[0]]);
-        stroke.append(corners[edge[1]]);
+        stroke.append(start);
+        stroke.append(end);
         strokes.push_back(std::move(stroke));
     }
     return strokes;
@@ -794,7 +810,7 @@ bool isShapeAttribute(const MObject& attribute) {
 bool isBoundsAttribute(const MObject& attribute) {
     for (const MObject& boundsAttribute : {
              BdControllerShapeNode::boundsMode,
-             BdControllerShapeNode::showCustomBoundsPreview,
+             BdControllerShapeNode::showBoundsPreview,
              BdControllerShapeNode::customBounds1stAxis,
              BdControllerShapeNode::customBounds2ndAxis,
              BdControllerShapeNode::customBoundsRootSize,
@@ -879,7 +895,7 @@ bool hasConnectedBoundsInput(const MObject& node) {
     return hasConnectedSettingsInput(node, customBoundsAttributes()) ||
         hasIncomingConnection(MPlug(node, BdControllerShapeNode::boundsMode)) ||
         hasIncomingConnection(MPlug(
-            node, BdControllerShapeNode::showCustomBoundsPreview
+            node, BdControllerShapeNode::showBoundsPreview
         ));
 }
 
@@ -1028,7 +1044,7 @@ struct BdControllerShapeNode::GeometryCache {
     std::uint64_t animationRevision = 0;
     std::uint64_t boundsRevision = 0;
     short boundsMode = 0;
-    bool showCustomBoundsPreview = false;
+    bool showBoundsPreview = false;
     bool hasConnectedInput = false;
     bool hasConnectedAnimationInput = false;
     bool hasConnectedBoundsInput = false;
@@ -1119,7 +1135,7 @@ BdControllerShapeNode::geometry() const {
             mode = 0;
         }
         const bool showPreview = MPlug(
-            thisMObject(), showCustomBoundsPreview
+            thisMObject(), showBoundsPreview
         ).asBool(&status);
         if (!status) {
             return cache.value;
@@ -1137,9 +1153,9 @@ BdControllerShapeNode::geometry() const {
             customBaseChanged = true;
         }
         boundsStateChanged = cache.boundsMode != mode ||
-            cache.showCustomBoundsPreview != showPreview;
+            cache.showBoundsPreview != showPreview;
         cache.boundsMode = mode;
-        cache.showCustomBoundsPreview = showPreview;
+        cache.showBoundsPreview = showPreview;
         cache.boundsRevision = boundsRevision;
         cache.hasConnectedBoundsInput = hasConnectedBoundsInput(thisMObject());
     }
@@ -1175,7 +1191,7 @@ BdControllerShapeNode::geometry() const {
     }
 
     bool customValueChanged = false;
-    if (cache.boundsMode == 2 || cache.showCustomBoundsPreview) {
+    if (cache.boundsMode == 2) {
         if (!cache.customValue || customBaseChanged || animationChanged) {
             cache.customValue = sameMatrix(
                 cache.animationMatrix, MMatrix::identity
@@ -1197,8 +1213,8 @@ BdControllerShapeNode::geometry() const {
                 ? cache.customValue->bounds
                 : result->bounds;
         result->drawBounds = result->bounds;
-        if (cache.showCustomBoundsPreview) {
-            const MBoundingBox& previewBounds = cache.customValue->bounds;
+        if (cache.showBoundsPreview) {
+            const MBoundingBox& previewBounds = result->focusBounds;
             result->boundsPreview = boundsStrokes(previewBounds);
             for (const MPoint& corner : boundsCorners(previewBounds)) {
                 result->drawBounds.expand(corner);
@@ -1662,9 +1678,9 @@ MStatus BdControllerShapeNode::initialize() {
 
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn,
-        showCustomBoundsPreview,
-        "showCustomBoundsPreview",
-        "scbp",
+        showBoundsPreview,
+        "showBoundsPreview",
+        "sbp",
         false
     );
     if (!status) {
@@ -1674,7 +1690,7 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    status = addAttribute(showCustomBoundsPreview);
+    status = addAttribute(showBoundsPreview);
     if (!status) {
         return status;
     }

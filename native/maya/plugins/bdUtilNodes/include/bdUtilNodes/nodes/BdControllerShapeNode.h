@@ -97,7 +97,7 @@ public:
     static MObject shapeOffsetLineTemplate;
 
     static MObject boundsMode;
-    static MObject showCustomBoundsPreview;
+    static MObject showBoundsPreview;
     static MObject customBounds1stAxis;
     static MObject customBounds2ndAxis;
     static MObject customBoundsRootSize;

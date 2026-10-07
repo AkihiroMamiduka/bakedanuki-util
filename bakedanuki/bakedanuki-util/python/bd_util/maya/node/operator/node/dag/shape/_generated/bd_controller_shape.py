@@ -589,8 +589,8 @@ class GeneratedBdControllerShape(Shape):
     boundsMode = BoundsModeEnumField(default_value=0)
     bdm = boundsMode
 
-    showCustomBoundsPreview = BoolField(default_value=False)
-    scbp = showCustomBoundsPreview
+    showBoundsPreview = BoolField(default_value=False)
+    sbp = showBoundsPreview
 
     customBounds1stAxis = CustomBounds1stAxisEnumField(default_value=4)
     cb1a = customBounds1stAxis
