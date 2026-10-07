@@ -138,7 +138,7 @@ using Stroke = MPointArray;
 using Strokes = std::vector<Stroke>;
 
 struct ShapeSettings {
-    short shape = 0;
+    short shape = 6;
     short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
@@ -333,7 +333,7 @@ bool readSettings(
 ) {
     MStatus status;
     if (attributes.shape.isNull()) {
-        settings.shape = 1;
+        settings.shape = 17;
     } else {
         settings.shape = MPlug(node, attributes.shape).asShort(&status);
         if (!status) {
@@ -535,106 +535,89 @@ bool hasOffsetLine(const MPoint& endpoint) {
     return endpoint.x != 0.0 || endpoint.y != 0.0 || endpoint.z != 0.0;
 }
 
-template <std::size_t Count>
-void appendStroke(
-    const std::array<MPoint, Count>& points,
+struct RawPoint {
+    double x;
+    double y;
+    double z;
+};
+
+void appendPresetComponent(
+    int primitive,
+    const MVector& translate,
+    const MVector& rotate,
+    const MVector& scale,
+    StrokeStyle style,
     const ShapeTransform& transform,
-    Strokes& strokes
-) {
-    Stroke stroke;
-    for (const MPoint& point : points) {
-        stroke.append(transformPoint(point, transform));
-    }
-    strokes.push_back(std::move(stroke));
-}
+    Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+);
 
-void appendSquare(const ShapeTransform& transform, Strokes& strokes) {
-    appendStroke(
-        std::array<MPoint, 5>{
-            MPoint(0.0, -0.5, 0.5),
-            MPoint(0.0, -0.5, -0.5),
-            MPoint(0.0, 0.5, -0.5),
-            MPoint(0.0, 0.5, 0.5),
-            MPoint(0.0, -0.5, 0.5),
-        },
-        transform,
-        strokes
-    );
-}
+#include "BdControllerShapePresets.inc"
 
-void appendCube(const ShapeTransform& transform, Strokes& strokes) {
-    const std::array<MPoint, 8> corners = {
-        MPoint(-0.5, -0.5, -0.5),
-        MPoint(0.5, -0.5, -0.5),
-        MPoint(0.5, 0.5, -0.5),
-        MPoint(-0.5, 0.5, -0.5),
-        MPoint(-0.5, -0.5, 0.5),
-        MPoint(0.5, -0.5, 0.5),
-        MPoint(0.5, 0.5, 0.5),
-        MPoint(-0.5, 0.5, 0.5),
-    };
-    constexpr std::array<std::array<int, 2>, 12> edges = {{
-        {{0, 1}}, {{1, 2}}, {{2, 3}}, {{3, 0}},
-        {{4, 5}}, {{5, 6}}, {{6, 7}}, {{7, 4}},
-        {{0, 4}}, {{1, 5}}, {{2, 6}}, {{3, 7}},
-    }};
-    for (const auto& edge : edges) {
-        appendStroke(
-            std::array<MPoint, 2>{corners[edge[0]], corners[edge[1]]},
-            transform,
-            strokes
-        );
-    }
-}
-
-void appendCircle(
-    double radius,
+void appendPresetComponent(
+    int primitive,
+    const MVector& translate,
+    const MVector& rotate,
+    const MVector& scale,
+    StrokeStyle style,
     const ShapeTransform& transform,
-    Strokes& strokes
+    Strokes& strokes,
+    std::vector<StrokeStyle>& styles
 ) {
-    Stroke stroke;
-    for (unsigned int index = 0; index <= kCircleSegments; ++index) {
-        const double angle = 2.0 * kPi * index / kCircleSegments;
-        stroke.append(transformPoint(
-            MPoint(0.0, radius * std::sin(angle), -radius * std::cos(angle)),
-            transform
-        ));
+    std::vector<RawPoint> generated;
+    if (primitive == kCirclePrimitive || primitive == kSemicirclePrimitive) {
+        const unsigned int segments = primitive == kCirclePrimitive
+            ? kCircleSegments : kCircleSegments / 2;
+        for (unsigned int index = 0; index <= segments; ++index) {
+            const double angle = kPi * index / (kCircleSegments / 2);
+            if (primitive == kCirclePrimitive) {
+                generated.push_back({0.5 * std::sin(angle), -0.5 * std::cos(angle), 0.0});
+            } else {
+                generated.push_back({0.5 * std::cos(angle), 0.5 * std::sin(angle), 0.0});
+            }
+        }
+    } else if (primitive == kGearPrimitive) {
+        for (int tooth = 0; tooth < 8; ++tooth) {
+            const double angle = -tooth * kPi / 4.0;
+            for (const auto& point : {
+                     RawPoint{-0.09, 0.35, 0.0},
+                     RawPoint{-0.0675, 0.5, 0.0},
+                     RawPoint{0.0675, 0.5, 0.0},
+                     RawPoint{0.09, 0.35, 0.0},
+                 }) {
+                generated.push_back({
+                    point.x * std::cos(angle) - point.y * std::sin(angle),
+                    point.x * std::sin(angle) + point.y * std::cos(angle),
+                    0.0,
+                });
+            }
+        }
+        generated.push_back(generated.front());
     }
-    strokes.push_back(std::move(stroke));
+    const auto& points = generated.empty() ? presetPrimitive(primitive) : generated;
+    const MMatrix rotation = MEulerRotation(
+        MAngle(rotate.x, MAngle::kDegrees).asRadians(),
+        MAngle(rotate.y, MAngle::kDegrees).asRadians(),
+        MAngle(rotate.z, MAngle::kDegrees).asRadians()
+    ).asMatrix();
+    Stroke stroke;
+    for (const RawPoint& raw : points) {
+        MPoint point(raw.x * scale.x, raw.y * scale.y, raw.z * scale.z);
+        point = point * rotation + translate;
+        stroke.append(transformPoint(MPoint(point.z, point.y, -point.x), transform));
+    }
+    if (stroke.length() >= 2) {
+        strokes.push_back(std::move(stroke));
+        styles.push_back(style);
+    }
 }
 
-void appendCircleArrow(const ShapeTransform& transform, Strokes& strokes) {
-    appendCircle(0.32, transform, strokes);
-    appendStroke(
-        std::array<MPoint, 4>{
-            MPoint(0.0, 0.38, 0.1),
-            MPoint(0.0, 0.5, 0.0),
-            MPoint(0.0, 0.38, -0.1),
-            MPoint(0.0, 0.38, 0.1),
-        },
-        transform,
-        strokes
-    );
-}
-
-Strokes makeStrokes(const ShapeTransform& transform) {
+Strokes makeStrokes(
+    const ShapeTransform& transform,
+    std::vector<StrokeStyle>& styles
+) {
     Strokes strokes;
-    switch (transform.settings.shape) {
-        case 0:
-            appendSquare(transform, strokes);
-            break;
-        case 1:
-            appendCube(transform, strokes);
-            break;
-        case 2:
-            appendCircle(0.5, transform, strokes);
-            break;
-        case 3:
-            appendCircleArrow(transform, strokes);
-            break;
-        default:
-            break;
-    }
+    appendPresetGeometry(transform.settings.shape, transform, strokes, styles);
     return strokes;
 }
 
@@ -658,7 +641,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
 ) {
     const ShapeTransform transform(settings);
     auto result = std::make_shared<BdControllerShapeNode::Geometry>();
-    result->strokes = makeStrokes(transform);
+    result->strokes = makeStrokes(transform, result->strokeStyles);
     result->bounds = boundsForStrokes(result->strokes);
     result->offsetLineTemplate = settings.offsetLineTemplate;
     result->offsetLineEndpoint = transformPoint(MPoint::origin, transform, false);
@@ -678,6 +661,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> transformGeometry(
 ) {
     auto result = std::make_shared<BdControllerShapeNode::Geometry>();
     result->offsetLineTemplate = base.offsetLineTemplate;
+    result->strokeStyles = base.strokeStyles;
     for (const Stroke& baseStroke : base.strokes) {
         Stroke stroke;
         for (unsigned int index = 0; index < baseStroke.length(); ++index) {
@@ -944,12 +928,14 @@ MPointArray lineSegments(const Strokes& strokes) {
 
 struct ShapeDrawData final : public MUserData {
     std::shared_ptr<const BdControllerShapeNode::Geometry> geometry;
-    MPointArray onTopSegments;
+    Strokes onTopSegments;
     MColor color;
+    MColor templateStrokeColor;
     MColor offsetLineColor;
     MColor boundsPreviewColor;
     float lineWidth = 1.0f;
     bool drawOnTop = false;
+    bool selected = false;
 };
 
 class ControllerShapeDrawOverride final : public MHWRender::MPxDrawOverride {
@@ -1012,11 +998,24 @@ public:
             data->drawOnTop = false;
         }
         if (data->drawOnTop && (geometryChanged || !wasDrawOnTop)) {
-            data->onTopSegments = data->geometry
-                ? lineSegments(data->geometry->strokes)
-                : MPointArray();
+            data->onTopSegments.clear();
+            if (data->geometry) {
+                for (const Stroke& stroke : data->geometry->strokes) {
+                    data->onTopSegments.push_back(lineSegments(Strokes{stroke}));
+                }
+            }
         }
         data->color = MHWRender::MGeometryUtilities::wireframeColor(objectPath);
+        const auto displayStatus = MHWRender::MGeometryUtilities::displayStatus(objectPath);
+        data->selected = displayStatus == MHWRender::kActive ||
+            displayStatus == MHWRender::kLead ||
+            displayStatus == MHWRender::kActiveComponent ||
+            displayStatus == MHWRender::kHilite;
+        MStatus templateStatus;
+        data->templateStrokeColor = M3dView::templateColor(&templateStatus);
+        if (!templateStatus) {
+            data->templateStrokeColor = data->color;
+        }
         if (data->geometry && !data->geometry->boundsPreview.empty()) {
             MStatus colorStatus;
             data->boundsPreviewColor = M3dView::templateColor(&colorStatus);
@@ -1035,6 +1034,7 @@ public:
             }
         }
         data->color.a *= opacity;
+        data->templateStrokeColor.a *= opacity;
         if (data->geometry && data->geometry->offsetLine.length() == 2) {
             data->offsetLineColor.a *= opacity;
         }
@@ -1055,23 +1055,40 @@ public:
         if (!data || !data->geometry) {
             return;
         }
-        drawManager.beginDrawable();
-        drawManager.setColor(data->color);
-        if (data->lineWidth > 1.0f) {
-            drawManager.setLineWidth(data->lineWidth);
-        }
-        if (data->drawOnTop && data->onTopSegments.length() > 0) {
-            drawManager.beginDrawInXray();
-            drawManager.mesh(
-                MHWRender::MUIDrawManager::kLines, data->onTopSegments
+        for (std::size_t index = 0; index < data->geometry->strokes.size(); ++index) {
+            const StrokeStyle style = data->geometry->strokeStyles[index];
+            drawManager.beginDrawable(
+                style == StrokeStyle::Template
+                    ? MHWRender::MUIDrawManager::kNonSelectable
+                    : MHWRender::MUIDrawManager::kSelectable
             );
-            drawManager.endDrawInXray();
-        } else {
-            for (const Stroke& stroke : data->geometry->strokes) {
-                drawManager.lineStrip(stroke, false);
+            MColor strokeColor = data->color;
+            if (style == StrokeStyle::Template) {
+                strokeColor = data->templateStrokeColor;
+            } else if (!data->selected && style != StrokeStyle::Normal) {
+                strokeColor = style == StrokeStyle::AxisX
+                    ? MColor(1.0f, 0.0f, 0.0f)
+                    : style == StrokeStyle::AxisY
+                    ? MColor(0.0f, 1.0f, 0.0f)
+                    : MColor(0.0f, 0.0f, 1.0f);
+                strokeColor.a = data->color.a;
             }
+            drawManager.setColor(strokeColor);
+            if (data->lineWidth > 1.0f) {
+                drawManager.setLineWidth(data->lineWidth);
+            }
+            if (data->drawOnTop && index < data->onTopSegments.size()) {
+                drawManager.beginDrawInXray();
+                drawManager.mesh(
+                    MHWRender::MUIDrawManager::kLines,
+                    data->onTopSegments[index]
+                );
+                drawManager.endDrawInXray();
+            } else {
+                drawManager.lineStrip(data->geometry->strokes[index], false);
+            }
+            drawManager.endDrawable();
         }
-        drawManager.endDrawable();
         if (data->geometry->offsetLine.length() == 2) {
             drawManager.beginDrawable(
                 data->geometry->offsetLineTemplate
@@ -1360,17 +1377,14 @@ MStatus BdControllerShapeNode::initialize() {
     MFnTypedAttribute typedAttributeFn;
     MFnEnumAttribute enumAttributeFn;
 
-    shape = enumAttributeFn.create("shape", "sh", 0, &status);
+    shape = enumAttributeFn.create("shape", "sh", 6, &status);
     if (!status) {
         return status;
     }
-    for (const auto& field : {
-             std::pair<const char*, short>{"Square", 0},
-             std::pair<const char*, short>{"Cube", 1},
-             std::pair<const char*, short>{"Circle", 2},
-             std::pair<const char*, short>{"CircleArrow", 3},
-         }) {
-        status = enumAttributeFn.addField(field.first, field.second);
+    for (std::size_t index = 0; index < kPresetNames.size(); ++index) {
+        status = enumAttributeFn.addField(
+            kPresetNames[index], static_cast<short>(index)
+        );
         if (!status) {
             return status;
         }

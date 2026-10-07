@@ -2,7 +2,7 @@
 
 `bdControllerShape` はリグのコントローラー向けのカスタム DAG shape です。
 １つの親 `transform` の下に１つの shape を置き、Viewport 2.0 に線を描画します。
-`CircleArrow` は円と矢印を独立した線として描くため、両者をつなぐ線は不要です。
+`CircleArrow2D` は円と矢印を独立した線として描くため、両者をつなぐ線は不要です。
 コントローラーとして操作するのは親 `transform` です。
 
 ## 作成例
@@ -14,7 +14,7 @@ mod = bdu.ModifierManager()
 nodes = bdu.Nodes(modifier_manager=mod)
 
 control, shape = nodes.create.controllerShape(name="hand_ctrl")
-shape.shape.set(3)  # CircleArrow
+shape.shape.set(shape.shape.CIRCLEARROW2D)
 shape.shapeRootSize.set(1.5)
 shape.shapeSize.set(0.8)
 shape.shapeLineWidth.set(2.0)  # 画面上で 2 px の線
@@ -47,7 +47,7 @@ mod.do_it_dg()
 `shapeSize=1` として次のように設定します。
 
 ```python
-shape.shape.set(1)  # Cube
+shape.shape.set(shape.shape.CUBE)
 shape.shapeSize.set(1.0)
 shape.shapeAxisOffsetLength.set(5.0)
 shape.shapeAxisOffset.set(True)
@@ -75,7 +75,7 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `shape` | enum | `Square` (0) | `Square` (0)、`Cube` (1)、`Circle` (2)、`CircleArrow` (3) |
+| `shape` | enum | `Square` (6) | 下表の43種類。`Gear` を一覧の先頭とし、初期値は `Square` |
 | `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
@@ -97,6 +97,30 @@ mod.do_it_dg()
 | `shapeDrawOnTop` | `bool` | `false` | 本体と OffsetLine を他のシーン形状に隠れないように描画する |
 | `boundsMode` | enum | `Shape` (0) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
 | `showBoundsPreview` | `bool` | `false` | 選択中の `boundsMode` の最終的な軸平行範囲を template 色で表示する。選択不可 |
+
+### 形状一覧
+
+| 値 | 形状 |
+| --- | --- |
+| 0–3 | `Gear`、`Line`、`CrossLineXY`、`CrossLineXYZ` |
+| 4–6 | `Triangle`、`TriangleArrow3D`、`Square` |
+| 7–12 | `SquareArrow2D`、`SquareArrow3D`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine3D`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate3D` |
+| 13–16 | `SquareArrow4Way2D`、`SquareArrow4Way3D`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way3D` |
+| 17–20 | `Cube`、`CubeArrow2D`、`CubeArrow3D`、`CubeFin` |
+| 21–23 | `Octahedron`、`OctahedronArrow`、`OctahedronArrowFin` |
+| 24–29 | `Circle`、`CircleArrow2D`、`CircleArrow3D`、`Semicircle`、`SemicircleArrow2D`、`SemicircleArrow3D` |
+| 30–34 | `Sphere`、`SphereArrow2D`、`SphereArrow3D`、`Cylinder`、`CylinderFin` |
+| 35–40 | `Arrow`、`ArrowFin`、`Pyramid`、`PyramidFin`、`Cone`、`ConeFin` |
+| 41–42 | `ColorCrossLine`、`ColorSphereCrossLine` |
+
+基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
+矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
+`2D` / `3D` は付属する矢印の立体性を示します。
+`Semicircle` は底辺のない半円です。
+`SquareArrowCrossLineTemplate*` は十字線、`SquareTemplateArrow4Way*` は四隅だけを
+template 色・選択不可にします。`Color*` は各ローカル軸の正方向と直交円を
+X=赤、Y=緑、Z=青で表示し、負方向の線は通常色にします。
+軸の向きを変えても色は元の軸に付随します。
 
 `Custom` 用の調整属性は `shapeAnimationTransformMatrix` を除き、形状本体から独立しています。
 基準形状は固定の `Cube` で、`shape` と OffsetLine に対応する属性はありません。
@@ -196,7 +220,7 @@ OffsetLine を除外します。`shapeAxisOffset=true` のときは
 例えば他の変形が既定値の `Cube` で `shapeAxisOffset=true`、
 `shapeAxisOffsetLength=5 cm` なら、
 行列適用前の伸縮方向の範囲は `-2.5 cm` から `+2.5 cm` です。
-`CircleArrow` のように非対称な形状でも、行列適用前の範囲の中心は原点です。
+`CircleArrow2D` のように非対称な形状でも、行列適用前の範囲の中心は原点です。
 
 `boundsMode=Custom` は独立した調整属性で固定の `Cube` の８角を変形し、
 さらに共有の `shapeAnimationTransformMatrix` を適用してから軸平行範囲を
@@ -272,9 +296,10 @@ Maya の template 表示色で描きます。`false` なら補助線は通常の
 
 既定の `Square` と `Circle` は YZ 面（`x=0`）にあり、Y/Z の各軸が
 `-0.5` から `+0.5` の範囲に収まります。`Cube` は３軸とも同じ範囲です。
-`CircleArrow` は YZ 面で、半径 `0.32` の円と、
-`(y, z)=(0.38, +0.1)` → `(0.5, 0)` → `(0.38, -0.1)` → 始点の
-独立した三角形からなります。
+`CircleArrow2D` は YZ 面で、半径 `0.5` の円と、
+`(y, z)=(0.495096189432334, -0.075)` → `(0.625, 0)` →
+`(0.495096189432334, +0.075)` の独立した山形の線からなります。
+`CircleArrow3D` は矢印に第１軸方向へ張り出すフィンを加えます。
 
 基準形状を作る調整属性が固定されている間は、その頂点を再利用します。
 `shapeAnimationTransformMatrix` だけが変化する場合は、基準頂点を作り直さず、
@@ -292,11 +317,12 @@ Maya 上の挙動テストは [test_bd_controller_shape.py](../../../tests/maya/
 公開 API の型確認は [public_node_types_contract.py](../../../tests/typecheck/public_node_types_contract.py)
 にあります。
 線の形状は独立したストロークの配列で保持し、ストロークごとに線を描きます。
-そのため `CircleArrow` の円と矢印や `Cube` の各辺を、橋渡しの線なしで
+そのため `CircleArrow2D` の円と矢印や、色や選択可否の異なる部分を、橋渡しの線なしで
 １つの shape に収められます。現在の円は 64 分割の折れ線で、NURBS の
 degree や surface を持つ形状ではありません。
 `shapeDrawOnTop` がオンのときは、最前面表示に対応するためストロークを
-線分へ展開して描画します。オフの既定状態では通常の深度テストを使います。
+線分へ展開して描画します。色と選択可否はストロークごとに保持します。
+オフの既定状態では通常の深度テストを使います。
 
 ### 調整属性を追加するとき
 
@@ -318,7 +344,7 @@ Channel Box 表示を設定します。複合属性では X/Y/Z 子属性にも�
 ローカル座標で作ります。
 基準の `+X` を主軸、`+Y` を補助軸、`+Z` を「主軸 × 補助軸」とする右手系です。
 現在の２次元形状は YZ 面（`x=0`）に置き、基準の `+X` は面の法線です。
-`CircleArrow` の矢印が元の `+Y` を向くのは意図した仕様で、主軸が形状の
+`CircleArrow2D` の矢印が元の `+Y` を向くのは意図した仕様で、主軸が形状の
 長手方向である必要はありません。
 
 骨に沿う３次元形状で `shapeAxisOffsetLength` を骨長として使う場合は、
@@ -376,7 +402,7 @@ shape 自身の `visibility` をオフにすると非表示になります。
 ビューポートの描画とクリック選択は `mayapy` のヘッドレステストだけでは
 確認できません。Maya 2025 / 2026 / 2027 の GUI で次を確認してください。
 
-1. `CircleArrow` を表示し、円と矢印が離れた２つの輪郭として見え、橋渡しの線がない。
+1. `CircleArrow2D` を表示し、円と矢印が独立した２つの輪郭として見え、橋渡しの線がない。
 2. 親 `transform` を選択解除し、円と矢印のそれぞれをクリックすると、同じ親 `transform` を選択できる。
 3. **Show > Plugins > Plugin Shapes** をオフにするとこの shape が消え、オンに戻すと再び表示される。オフの間にクリックで選択されないかも確認する。
 4. **Show > Locators** をオフにして標準 locator が消えても、この shape は表示される。

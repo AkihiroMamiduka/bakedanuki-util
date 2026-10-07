@@ -39,25 +39,142 @@ from .....attr.define.std.dt.matrix import DataMatrixField
 class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     __slots__ = ()
 
-    SQUARE = 0
-    CUBE = 1
-    CIRCLE = 2
-    CIRCLEARROW = 3
+    GEAR = 0
+    LINE = 1
+    CROSSLINEXY = 2
+    CROSSLINEXYZ = 3
+    TRIANGLE = 4
+    TRIANGLEARROW3D = 5
+    SQUARE = 6
+    SQUAREARROW2D = 7
+    SQUAREARROW3D = 8
+    SQUAREARROWCROSSLINE2D = 9
+    SQUAREARROWCROSSLINE3D = 10
+    SQUAREARROWCROSSLINETEMPLATE2D = 11
+    SQUAREARROWCROSSLINETEMPLATE3D = 12
+    SQUAREARROW4WAY2D = 13
+    SQUAREARROW4WAY3D = 14
+    SQUARETEMPLATEARROW4WAY2D = 15
+    SQUARETEMPLATEARROW4WAY3D = 16
+    CUBE = 17
+    CUBEARROW2D = 18
+    CUBEARROW3D = 19
+    CUBEFIN = 20
+    OCTAHEDRON = 21
+    OCTAHEDRONARROW = 22
+    OCTAHEDRONARROWFIN = 23
+    CIRCLE = 24
+    CIRCLEARROW2D = 25
+    CIRCLEARROW3D = 26
+    SEMICIRCLE = 27
+    SEMICIRCLEARROW2D = 28
+    SEMICIRCLEARROW3D = 29
+    SPHERE = 30
+    SPHEREARROW2D = 31
+    SPHEREARROW3D = 32
+    CYLINDER = 33
+    CYLINDERFIN = 34
+    ARROW = 35
+    ARROWFIN = 36
+    PYRAMID = 37
+    PYRAMIDFIN = 38
+    CONE = 39
+    CONEFIN = 40
+    COLORCROSSLINE = 41
+    COLORSPHERECROSSLINE = 42
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     __slots__ = ()
 
-    SQUARE = 0
-    CUBE = 1
-    CIRCLE = 2
-    CIRCLEARROW = 3
+    GEAR = 0
+    LINE = 1
+    CROSSLINEXY = 2
+    CROSSLINEXYZ = 3
+    TRIANGLE = 4
+    TRIANGLEARROW3D = 5
+    SQUARE = 6
+    SQUAREARROW2D = 7
+    SQUAREARROW3D = 8
+    SQUAREARROWCROSSLINE2D = 9
+    SQUAREARROWCROSSLINE3D = 10
+    SQUAREARROWCROSSLINETEMPLATE2D = 11
+    SQUAREARROWCROSSLINETEMPLATE3D = 12
+    SQUAREARROW4WAY2D = 13
+    SQUAREARROW4WAY3D = 14
+    SQUARETEMPLATEARROW4WAY2D = 15
+    SQUARETEMPLATEARROW4WAY3D = 16
+    CUBE = 17
+    CUBEARROW2D = 18
+    CUBEARROW3D = 19
+    CUBEFIN = 20
+    OCTAHEDRON = 21
+    OCTAHEDRONARROW = 22
+    OCTAHEDRONARROWFIN = 23
+    CIRCLE = 24
+    CIRCLEARROW2D = 25
+    CIRCLEARROW3D = 26
+    SEMICIRCLE = 27
+    SEMICIRCLEARROW2D = 28
+    SEMICIRCLEARROW3D = 29
+    SPHERE = 30
+    SPHEREARROW2D = 31
+    SPHEREARROW3D = 32
+    CYLINDER = 33
+    CYLINDERFIN = 34
+    ARROW = 35
+    ARROWFIN = 36
+    PYRAMID = 37
+    PYRAMIDFIN = 38
+    CONE = 39
+    CONEFIN = 40
+    COLORCROSSLINE = 41
+    COLORSPHERECROSSLINE = 42
 
     NAME_MAP = {
+        GEAR: "Gear",
+        LINE: "Line",
+        CROSSLINEXY: "CrossLineXY",
+        CROSSLINEXYZ: "CrossLineXYZ",
+        TRIANGLE: "Triangle",
+        TRIANGLEARROW3D: "TriangleArrow3D",
         SQUARE: "Square",
+        SQUAREARROW2D: "SquareArrow2D",
+        SQUAREARROW3D: "SquareArrow3D",
+        SQUAREARROWCROSSLINE2D: "SquareArrowCrossLine2D",
+        SQUAREARROWCROSSLINE3D: "SquareArrowCrossLine3D",
+        SQUAREARROWCROSSLINETEMPLATE2D: "SquareArrowCrossLineTemplate2D",
+        SQUAREARROWCROSSLINETEMPLATE3D: "SquareArrowCrossLineTemplate3D",
+        SQUAREARROW4WAY2D: "SquareArrow4Way2D",
+        SQUAREARROW4WAY3D: "SquareArrow4Way3D",
+        SQUARETEMPLATEARROW4WAY2D: "SquareTemplateArrow4Way2D",
+        SQUARETEMPLATEARROW4WAY3D: "SquareTemplateArrow4Way3D",
         CUBE: "Cube",
+        CUBEARROW2D: "CubeArrow2D",
+        CUBEARROW3D: "CubeArrow3D",
+        CUBEFIN: "CubeFin",
+        OCTAHEDRON: "Octahedron",
+        OCTAHEDRONARROW: "OctahedronArrow",
+        OCTAHEDRONARROWFIN: "OctahedronArrowFin",
         CIRCLE: "Circle",
-        CIRCLEARROW: "CircleArrow",
+        CIRCLEARROW2D: "CircleArrow2D",
+        CIRCLEARROW3D: "CircleArrow3D",
+        SEMICIRCLE: "Semicircle",
+        SEMICIRCLEARROW2D: "SemicircleArrow2D",
+        SEMICIRCLEARROW3D: "SemicircleArrow3D",
+        SPHERE: "Sphere",
+        SPHEREARROW2D: "SphereArrow2D",
+        SPHEREARROW3D: "SphereArrow3D",
+        CYLINDER: "Cylinder",
+        CYLINDERFIN: "CylinderFin",
+        ARROW: "Arrow",
+        ARROWFIN: "ArrowFin",
+        PYRAMID: "Pyramid",
+        PYRAMIDFIN: "PyramidFin",
+        CONE: "Cone",
+        CONEFIN: "ConeFin",
+        COLORCROSSLINE: "ColorCrossLine",
+        COLORSPHERECROSSLINE: "ColorSphereCrossLine",
     }
 
 
@@ -497,7 +614,7 @@ class GeneratedBdControllerShape(Shape):
     localScaleZ = localScale.localScaleZ
     lsz = localScaleZ
 
-    shape = ShapeEnumField(default_value=0)
+    shape = ShapeEnumField(default_value=6)
     sh = shape
 
     shapeAnimationTransformMatrix = DataMatrixField()

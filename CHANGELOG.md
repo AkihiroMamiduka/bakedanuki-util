@@ -10,7 +10,7 @@
 ### Changed
 
 - `bdControllerShape` の基準軸を主軸 `+X`・補助軸 `+Y` の右手系へ変更した。
-  `Square`・`Circle`・`CircleArrow` の基準面と作成時の表示面は YZ とし、
+  `Square`・`Circle`・`CircleArrow2D` の基準面と作成時の表示面は YZ とし、
   `shape1stAxis` / `customBounds1stAxis` の既定値を `+X` に変更した。
   形状と Custom Bounds の Axis 系 X/Y/Z は主軸／補助軸／第３軸に対応し、
   `+3rdAxis` は「主軸 × 補助軸」の正方向とする。旧計算仕様は残さない。
@@ -30,6 +30,8 @@
 
 ### Added
 
+- `bdControllerShape.shape` に43種類の形状を定義した。Gearを一覧の先頭、Squareを
+  初期値とし、矢印・フィン、部分template、軸色を含む複合形状を1つのshapeで描画する。
 - 共有`bakedanuki`メニューへ起動時自動表示のチェック項目を追加。既定はONで、OFFは次回起動から
   各packageの自動登録を抑止する。設定はMayaバージョンごとのユーザー設定へ保存する。
   共通`installer.py`の再D&Dでは、Module pathが登録済みでも確認後にONへ戻せる。

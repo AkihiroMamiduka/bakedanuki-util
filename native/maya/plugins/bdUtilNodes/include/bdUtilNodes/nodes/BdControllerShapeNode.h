@@ -20,6 +20,14 @@ namespace MHWRender {
 class MPxDrawOverride;
 }
 
+enum class StrokeStyle : unsigned char {
+    Normal,
+    Template,
+    AxisX,
+    AxisY,
+    AxisZ,
+};
+
 class BdControllerShapeNode final : public MPxLocatorNode {
 public:
     BdControllerShapeNode();
@@ -36,6 +44,7 @@ public:
 
     struct Geometry {
         std::vector<MPointArray> strokes;
+        std::vector<StrokeStyle> strokeStyles;
         std::vector<MPointArray> boundsPreview;
         MPointArray offsetLine;
         MPoint offsetLineEndpoint = MPoint::origin;

@@ -35,6 +35,7 @@ from bd_util.maya.node.operator.node.dag.shape._generated.bd_controller_shape im
     Shape1stAxisEnumPlugOperator,
     Shape2ndAxisEnumPlugOperator,
     ShapeAxisOffsetDirectionEnumPlugOperator,
+    ShapeEnumPlugOperator,
 )
 from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 
@@ -93,6 +94,12 @@ def versioned_node_type_list_contract() -> None:
 def controller_shape_offset_line_contract() -> None:
     _, shape = bdu.Nodes().create.controllerShape()
     assert_type(shape, bdu.node_types.BdControllerShape)
+    assert_type(shape.shape, ShapeEnumPlugOperator)
+    shape.shape.set(ShapeEnumPlugOperator.GEAR)
+    shape.shape.set(ShapeEnumPlugOperator.CIRCLEARROW2D)
+    shape.shape.set(ShapeEnumPlugOperator.OCTAHEDRON)
+    shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLE)
+    shape.shape.set(ShapeEnumPlugOperator.COLORSPHERECROSSLINE)
     assert_type(shape.shape1stAxis, Shape1stAxisEnumPlugOperator)
     assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
     assert_type(shape.shapeAnimationTransformMatrix, DataMatrixPlugOperator)
