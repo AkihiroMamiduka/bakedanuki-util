@@ -19,6 +19,9 @@ for node_name in selected_node_names():
 DAGはフルpath、DGはnode名を返し、componentとplugの選択は除外します。
 同じnodeの複数DAG instanceは最初のpathだけを返します。選択順trackingの設定は
 変更しないため、クリックした履歴の順とは限りません。
+`selected_node_names(limit=50)`のように上限を指定すると、対象ノードをその数だけ
+見つけた時点で走査を終えます。componentとplugは数えず、DAG instanceは同じnodeとして
+まとめます。省略時は選択全体を返します。
 
 `inspect_scalar_attributes()`はMayaの属性定義順に`ScalarAttributeInfo`のtupleを
 返します。bool、float/double、距離、角度、enumのscalarを扱い、compoundの子も

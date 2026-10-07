@@ -109,8 +109,19 @@ def filter_scalar_attribute_paths(
     )
 
 
-def selected_node_names() -> tuple[str, ...]:
-    """選択順で重複のないノード名を返す。コンポーネントとプラグは除く。"""
+def selected_node_names(*, limit: int | None = None) -> tuple[str, ...]:
+    """選択順で重複のないノード名を返す。コンポーネントとプラグは除く。
+
+    `limit`を指定した場合は、その数のノードを見つけた時点で走査を終える。
+
+    Args:
+        limit: 取得するノードの上限。`None`なら選択全体を調べる。
+
+    Raises:
+        ValueError: `limit`が1未満の場合。
+    """
+    if limit is not None and limit < 1:
+        raise ValueError("limitには1以上を指定してください")
     selection = om.MGlobal.getActiveSelectionList()
     iterator = om.MItSelectionList(selection)
     names: list[str] = []
@@ -135,6 +146,8 @@ def selected_node_names() -> tuple[str, ...]:
         if not any(node == previous for previous in nodes):
             nodes.append(node)
             names.append(name)
+            if limit is not None and len(names) == limit:
+                break
         iterator.next()
     return tuple(names)
 

@@ -23,6 +23,9 @@
 
 ### Added
 
+- `selected_node_names(limit=...)`を追加。選択中の重複しないobject nodeが指定数に
+  達した時点で取得を終える。省略時の全件取得、選択順、component・plugの除外、
+  DAG instanceの重複除去は従来どおり。scene・設定の移行は不要。
 - bool・float・enumの複数Maya属性Bindingと三つのscalar値貼り付けAPIへ
   `edit_connected=False`を追加。指定時は通常時間カーブ・SDK・Animation Layerに
   Maya標準の値入力を行い、時間キーとLayerはAuto Keyへ連動する。SDKは一時値のみ
