@@ -139,7 +139,7 @@ using Stroke = MPointArray;
 using Strokes = std::vector<Stroke>;
 
 struct ShapeSettings {
-    short shape = 6;
+    short shape = 8;
     short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
@@ -334,7 +334,7 @@ bool readSettings(
 ) {
     MStatus status;
     if (attributes.shape.isNull()) {
-        settings.shape = 17;
+        settings.shape = 19;
     } else {
         settings.shape = MPlug(node, attributes.shape).asShort(&status);
         if (!status) {
@@ -1392,7 +1392,7 @@ MStatus BdControllerShapeNode::initialize() {
     MFnTypedAttribute typedAttributeFn;
     MFnEnumAttribute enumAttributeFn;
 
-    shape = enumAttributeFn.create("shape", "sh", 6, &status);
+    shape = enumAttributeFn.create("shape", "sh", 8, &status);
     if (!status) {
         return status;
     }

@@ -75,7 +75,7 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `shape` | enum | `Square` (6) | 下表の43種類。`Gear` を一覧の先頭とし、初期値は `Square` |
+| `shape` | enum | `Square` (8) | 下表の48種類。`Gear` を一覧の先頭とし、初期値は `Square` |
 | `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
@@ -102,19 +102,23 @@ mod.do_it_dg()
 
 | 値 | 形状 |
 | --- | --- |
-| 0–3 | `Gear`、`Line`、`CrossLineXY`、`CrossLineXYZ` |
-| 4–6 | `Triangle`、`TriangleArrow3D`、`Square` |
-| 7–12 | `SquareArrow2D`、`SquareArrow3D`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine3D`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate3D` |
-| 13–16 | `SquareArrow4Way2D`、`SquareArrow4Way3D`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way3D` |
-| 17–20 | `Cube`、`CubeArrow2D`、`CubeArrow3D`、`CubeFin` |
-| 21–23 | `Octahedron`、`OctahedronArrow`、`OctahedronArrowFin` |
-| 24–29 | `Circle`、`CircleArrow2D`、`CircleArrow3D`、`Semicircle`、`SemicircleArrow2D`、`SemicircleArrow3D` |
-| 30–34 | `Sphere`、`SphereArrow2D`、`SphereArrow3D`、`Cylinder`、`CylinderFin` |
-| 35–40 | `Arrow`、`ArrowFin`、`Pyramid`、`PyramidFin`、`Cone`、`ConeFin` |
-| 41–43 | `ColorCrossLine`、`ColorSphere`、`ColorSphereCrossLine` |
+| 0–5 | `Gear`、`Line1st`、`Line2nd`、`Line3rd`、`CrossLineXY`、`CrossLineXYZ` |
+| 6–8 | `Triangle`、`TriangleArrow3D`、`Square` |
+| 9–14 | `SquareArrow2D`、`SquareArrow3D`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine3D`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate3D` |
+| 15–18 | `SquareArrow4Way2D`、`SquareArrow4Way3D`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way3D` |
+| 19–23 | `Cube`、`CubeArrow2D`、`CubeArrow3D`、`CubeFin`、`CubeFinArrow` |
+| 24–26 | `Octahedron`、`OctahedronArrow`、`OctahedronArrowFin` |
+| 27–32 | `Circle`、`CircleArrow2D`、`CircleArrow3D`、`Semicircle`、`SemicircleArrow2D`、`SemicircleArrow3D` |
+| 33–38 | `Sphere`、`SphereArrow2D`、`SphereArrow3D`、`Cylinder`、`CylinderFin`、`CylinderFinArrow` |
+| 39–44 | `Arrow`、`ArrowFin`、`Pyramid`、`PyramidFin`、`Cone`、`ConeFin` |
+| 45–47 | `ColorCrossLine`、`ColorSphere`、`ColorSphereCrossLine` |
 
 基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
 矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
+`Line1st`、`Line2nd`、`Line3rd` はそれぞれ主軸、補助軸、第3軸に沿って
+`-0.5` から `+0.5` まで伸びます。`CubeFinArrow` と `CylinderFinArrow` は
+`-1stAxis` 側のフィンを `+2ndAxis` 方向へ高さ `1` まで伸ばし、
+`+1stAxis` 側の本体上端へ斜めにつなぎます。
 `2D` / `3D` は付属する矢印の立体性を示します。
 `Semicircle` は底辺のない半円です。
 `SquareArrowCrossLineTemplate*` は十字線、`SquareTemplateArrow4Way*` は四隅だけを
@@ -442,3 +446,5 @@ template 色・選択不可の線には影響しません。
 32. `ColorSphere` は赤・緑・青の直交円だけ、`ColorSphereCrossLine` は同じ円と十字線として表示され、円と十字線の間に橋渡しの線がない。
 33. `bdControllerShape` を選択したまま **Show > Selection Highlighting** をオフにすると通常線と OffsetLine が非選択時の色に戻り、軸色の線は赤・緑・青に戻る。オンに戻すと選択色になる。オフでもクリック選択できる。
 34. 複数ビューポートで Selection Highlighting のオン・オフを別々に設定し、それぞれの表示色が独立する。template 色・選択不可の線と、通常線への色オーバーライドも確認する。
+35. `Line1st`、`Line2nd`、`Line3rd` が既定軸で X、Y、Z の各方向へ長さ1の線として表示され、`shape1stAxis` と `shape2ndAxis` を変更すると対応する方向へ回る。
+36. `CubeFinArrow` と `CylinderFinArrow` の斜線が `-1stAxis` 側の高い位置から `+1stAxis` 側の本体上端へ伸び、軸指定・拡縮後も本体とフィンの接点が離れない。

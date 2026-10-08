@@ -1,8 +1,10 @@
 // Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 44> kPresetNames = {
+constexpr std::array<const char*, 48> kPresetNames = {
     "Gear",
-    "Line",
+    "Line1st",
+    "Line2nd",
+    "Line3rd",
     "CrossLineXY",
     "CrossLineXYZ",
     "Triangle",
@@ -22,6 +24,7 @@ constexpr std::array<const char*, 44> kPresetNames = {
     "CubeArrow2D",
     "CubeArrow3D",
     "CubeFin",
+    "CubeFinArrow",
     "Octahedron",
     "OctahedronArrow",
     "OctahedronArrowFin",
@@ -36,6 +39,7 @@ constexpr std::array<const char*, 44> kPresetNames = {
     "SphereArrow3D",
     "Cylinder",
     "CylinderFin",
+    "CylinderFinArrow",
     "Arrow",
     "ArrowFin",
     "Pyramid",
@@ -523,57 +527,79 @@ constexpr std::array<RawPoint, 2> kPrimitive44 = {{
     {0.5, 0, 0},
 }};
 
+constexpr std::array<RawPoint, 2> kPrimitive45 = {{
+    {0, 0.5, 0},
+    {0, -0.5, 0},
+}};
+
+constexpr std::array<RawPoint, 2> kPrimitive46 = {{
+    {-0.5, 0, 0},
+    {0.5, 0, 0},
+}};
+
+constexpr std::array<RawPoint, 3> kPrimitive47 = {{
+    {0, 0.5, -0.5},
+    {0, 1, -0.5},
+    {0, 0.5, 0.5},
+}};
+
 void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes& strokes, std::vector<StrokeStyle>& styles) {
     switch (shape) {
         case 0:  // Gear
             appendPresetComponent(0, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {0.275, 0.275, 0.275}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 1:  // Line
+        case 1:  // Line1st
             appendPresetComponent(2, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 2:  // CrossLineXY
+        case 2:  // Line2nd
+            appendPresetComponent(45, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            break;
+        case 3:  // Line3rd
+            appendPresetComponent(46, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            break;
+        case 4:  // CrossLineXY
             appendPresetComponent(3, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 3:  // CrossLineXYZ
+        case 5:  // CrossLineXYZ
             appendPresetComponent(4, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 4:  // Triangle
+        case 6:  // Triangle
             appendPresetComponent(5, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 5:  // TriangleArrow3D
+        case 7:  // TriangleArrow3D
             appendPresetComponent(6, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 6:  // Square
+        case 8:  // Square
             appendPresetComponent(7, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 7:  // SquareArrow2D
+        case 9:  // SquareArrow2D
             appendPresetComponent(8, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 8:  // SquareArrow3D
+        case 10:  // SquareArrow3D
             appendPresetComponent(9, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 9:  // SquareArrowCrossLine2D
+        case 11:  // SquareArrowCrossLine2D
             appendPresetComponent(10, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 10:  // SquareArrowCrossLine3D
+        case 12:  // SquareArrowCrossLine3D
             appendPresetComponent(11, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 11:  // SquareArrowCrossLineTemplate2D
+        case 13:  // SquareArrowCrossLineTemplate2D
             appendPresetComponent(8, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(12, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Template, transform, strokes, styles);
             break;
-        case 12:  // SquareArrowCrossLineTemplate3D
+        case 14:  // SquareArrowCrossLineTemplate3D
             appendPresetComponent(9, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(12, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Template, transform, strokes, styles);
             break;
-        case 13:  // SquareArrow4Way2D
+        case 15:  // SquareArrow4Way2D
             appendPresetComponent(13, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 14:  // SquareArrow4Way3D
+        case 16:  // SquareArrow4Way3D
             appendPresetComponent(14, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 15:  // SquareTemplateArrow4Way2D
+        case 17:  // SquareTemplateArrow4Way2D
             appendPresetComponent(15, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Template, transform, strokes, styles);
             appendPresetComponent(15, {0, 0, 0}, {0, 0, -90}, {1, 1, 1}, StrokeStyle::Template, transform, strokes, styles);
             appendPresetComponent(15, {0, 0, 0}, {0, 0, 90}, {1, 1, 1}, StrokeStyle::Template, transform, strokes, styles);
@@ -583,7 +609,7 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(17, {0, 0, 0}, {0, 0, -90}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(17, {0, 0, 0}, {0, 0, 90}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 16:  // SquareTemplateArrow4Way3D
+        case 18:  // SquareTemplateArrow4Way3D
             appendPresetComponent(15, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Template, transform, strokes, styles);
             appendPresetComponent(15, {0, 0, 0}, {0, 0, -90}, {1, 1, 1}, StrokeStyle::Template, transform, strokes, styles);
             appendPresetComponent(15, {0, 0, 0}, {0, 0, 90}, {1, 1, 1}, StrokeStyle::Template, transform, strokes, styles);
@@ -593,70 +619,74 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(19, {0, 0, 0}, {0, 0, -90}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(19, {0, 0, 0}, {0, 0, 90}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 17:  // Cube
+        case 19:  // Cube
             appendPresetComponent(20, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 18:  // CubeArrow2D
+        case 20:  // CubeArrow2D
             appendPresetComponent(20, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(21, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 19:  // CubeArrow3D
+        case 21:  // CubeArrow3D
             appendPresetComponent(20, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(22, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 20:  // CubeFin
+        case 22:  // CubeFin
             appendPresetComponent(23, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 21:  // Octahedron
+        case 23:  // CubeFinArrow
+            appendPresetComponent(20, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            appendPresetComponent(47, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            break;
+        case 24:  // Octahedron
             appendPresetComponent(24, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 22:  // OctahedronArrow
+        case 25:  // OctahedronArrow
             appendPresetComponent(25, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 23:  // OctahedronArrowFin
+        case 26:  // OctahedronArrowFin
             appendPresetComponent(25, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(26, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 24:  // Circle
+        case 27:  // Circle
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 25:  // CircleArrow2D
+        case 28:  // CircleArrow2D
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(27, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 26:  // CircleArrow3D
+        case 29:  // CircleArrow3D
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(28, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 27:  // Semicircle
+        case 30:  // Semicircle
             appendPresetComponent(29, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 28:  // SemicircleArrow2D
+        case 31:  // SemicircleArrow2D
             appendPresetComponent(29, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(27, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 29:  // SemicircleArrow3D
+        case 32:  // SemicircleArrow3D
             appendPresetComponent(29, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(28, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 30:  // Sphere
+        case 33:  // Sphere
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {90, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 90, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 31:  // SphereArrow2D
+        case 34:  // SphereArrow2D
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {90, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 90, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(30, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 32:  // SphereArrow3D
+        case 35:  // SphereArrow3D
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {90, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 90, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(31, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 33:  // Cylinder
+        case 36:  // Cylinder
             appendPresetComponent(1, {0, 0, 0.5}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, -0.5}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(2, {0.5, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
@@ -664,7 +694,7 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(2, {0, 0.5, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(2, {0, -0.5, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 34:  // CylinderFin
+        case 37:  // CylinderFin
             appendPresetComponent(1, {0, 0, 0.5}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, -0.5}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(2, {0.5, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
@@ -672,27 +702,35 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(2, {0, -0.5, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(32, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 35:  // Arrow
+        case 38:  // CylinderFinArrow
+            appendPresetComponent(1, {0, 0, 0.5}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            appendPresetComponent(1, {0, 0, -0.5}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            appendPresetComponent(2, {0.5, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            appendPresetComponent(2, {-0.5, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            appendPresetComponent(2, {0, -0.5, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            appendPresetComponent(47, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            break;
+        case 39:  // Arrow
             appendPresetComponent(33, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 36:  // ArrowFin
+        case 40:  // ArrowFin
             appendPresetComponent(34, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 37:  // Pyramid
+        case 41:  // Pyramid
             appendPresetComponent(35, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 38:  // PyramidFin
+        case 42:  // PyramidFin
             appendPresetComponent(36, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 39:  // Cone
+        case 43:  // Cone
             appendPresetComponent(1, {0, 0, -0.5}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(37, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 40:  // ConeFin
+        case 44:  // ConeFin
             appendPresetComponent(1, {0, 0, -0.5}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(38, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 41:  // ColorCrossLine
+        case 45:  // ColorCrossLine
             appendPresetComponent(39, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisX, transform, strokes, styles);
             appendPresetComponent(40, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisY, transform, strokes, styles);
             appendPresetComponent(41, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisZ, transform, strokes, styles);
@@ -700,12 +738,12 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(43, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(44, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 42:  // ColorSphere
+        case 46:  // ColorSphere
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisX, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {90, 0, 0}, {1, 1, 1}, StrokeStyle::AxisY, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 90, 0}, {1, 1, 1}, StrokeStyle::AxisZ, transform, strokes, styles);
             break;
-        case 43:  // ColorSphereCrossLine
+        case 47:  // ColorSphereCrossLine
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisX, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {90, 0, 0}, {1, 1, 1}, StrokeStyle::AxisY, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 90, 0}, {1, 1, 1}, StrokeStyle::AxisZ, transform, strokes, styles);
@@ -890,6 +928,18 @@ const std::vector<RawPoint>& presetPrimitive(int id) {
         }
         case 44: {
             static const std::vector<RawPoint> points(kPrimitive44.begin(), kPrimitive44.end());
+            return points;
+        }
+        case 45: {
+            static const std::vector<RawPoint> points(kPrimitive45.begin(), kPrimitive45.end());
+            return points;
+        }
+        case 46: {
+            static const std::vector<RawPoint> points(kPrimitive46.begin(), kPrimitive46.end());
+            return points;
+        }
+        case 47: {
+            static const std::vector<RawPoint> points(kPrimitive47.begin(), kPrimitive47.end());
             return points;
         }
         default:
