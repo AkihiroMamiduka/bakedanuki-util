@@ -75,7 +75,7 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `shape` | enum | `Square` (11) | 下表の90種類。`Gear` を一覧の先頭とし、初期値は `Square` |
+| `shape` | enum | `Cube` (33) | 下表の94種類。`Gear` を一覧の先頭とし、初期値は `Cube` |
 | `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
@@ -96,7 +96,7 @@ mod.do_it_dg()
 | `shapeTransparency` | `float` | `0` | 本体の輪郭線と OffsetLine の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
 | `shapeFillTransparency` | `float` | `0.85` | `*Filled` の面の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
 | `shapeDrawOnTop` | `bool` | `false` | 本体の輪郭線・面と OffsetLine を他のシーン形状に隠れないように描画する |
-| `boundsMode` | enum | `Shape` (0) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
+| `boundsMode` | enum | `ShapeCentered` (1) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
 | `showBoundsPreview` | `bool` | `false` | 選択中の `boundsMode` の最終的な軸平行範囲を template 色で表示する。選択不可 |
 
 ### 形状一覧
@@ -111,7 +111,8 @@ mod.do_it_dg()
 | 50–59 | `CircleFilled`、`CircleArrow2D`、`CircleArrow2DFilled`、`CircleArrow3D`、`CircleArrow3DFilled`、`Semicircle`、`SemicircleFilled`、`SemicircleArrow2D`、`SemicircleArrow2DFilled`、`SemicircleArrow3D` |
 | 60–69 | `SemicircleArrow3DFilled`、`Sphere`、`SphereFilled`、`SphereArrow2D`、`SphereArrow2DFilled`、`SphereArrow3D`、`SphereArrow3DFilled`、`Cylinder`、`CylinderFilled`、`CylinderFin` |
 | 70–79 | `CylinderFinFilled`、`CylinderFinArrow`、`CylinderFinArrowFilled`、`Arrow`、`ArrowFilled`、`ArrowFin`、`ArrowFinFilled`、`Pyramid`、`PyramidFilled`、`PyramidFin` |
-| 80–89 | `PyramidFinFilled`、`Cone`、`ConeFilled`、`ConeFin`、`ConeFinFilled`、`ColorCrossLine`、`ColorSphere`、`ColorSphereFilled`、`ColorSphereCrossLine`、`ColorSphereCrossLineFilled` |
+| 80–89 | `PyramidFinFilled`、`Cone`、`ConeFilled`、`ConeFin`、`ConeFinFilled`、`ColorCrossLine`、`ColorSphere`、`ColorSphereFilled`、`ColorSphereArrow2D`、`ColorSphereArrow2DFilled` |
+| 90–93 | `ColorSphereArrow3D`、`ColorSphereArrow3DFilled`、`ColorSphereCrossLine`、`ColorSphereCrossLineFilled` |
 
 基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
 矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
@@ -137,14 +138,18 @@ NURBS の CV・UV・材質・レンダリング用サーフェスではありま
 三角面だけを塗ります。
 `SquareArrowCrossLineTemplate*` は十字線、`SquareTemplateArrow4Way*` は四隅だけを
 template 色・選択不可にします。`ColorSphere` は X=赤、Y=緑、Z=青の
-直交円だけで構成し、十字線を含みません。`ColorSphereCrossLine` はその円に
+直交円だけで構成し、十字線を含みません。`ColorSphereArrow2D` と
+`ColorSphereArrow3D` は同じ軸色の円へ通常色の矢印を加えます。
+`2D` の矢印は主平面上、`3D` の矢印はそれと直交する面にもあります。
+`ColorSphereCrossLine` はその円に
 `ColorCrossLine` の十字線を加えます。十字線の正方向は各軸色、負方向は通常色です。
 軸の向きを変えても色は元の軸に付随します。
 `SquareTemplateArrow4Way*Filled` では四角い本体面が template 色・選択不可、
 矢印面は通常色・選択可能です。`SquareArrowCrossLineTemplate*Filled` の
 十字線は template 線のままで、本体面からは選択できます。
-`ColorSphereFilled` と `ColorSphereCrossLineFilled` は球殻を通常色で塗り、
-軸色の円と十字線を維持します。
+`ColorSphereFilled`、`ColorSphereArrow2D/3DFilled`、
+`ColorSphereCrossLineFilled` は球殻を通常色で塗り、軸色の円を維持します。
+矢印付きでは矢印面も通常色で塗り、`ColorSphereCrossLineFilled` は十字線を維持します。
 
 `Custom` 用の調整属性は `shapeAnimationTransformMatrix` を除き、形状本体から独立しています。
 基準形状は固定の `Cube` で、`shape` と OffsetLine に対応する属性はありません。
@@ -234,9 +239,10 @@ Wireframe on Shaded は面と輪郭線を表示します。面内のクリック
 ### フォーカス範囲
 
 `boundsMode=Shape` は変形済みの形状本体と表示中の OffsetLine を
-含む範囲を返します。このモードが既定値です。
+含む範囲を返します。
 
 `boundsMode=ShapeCentered` は形状の種類・軸指定・回転・スケール・サイズを使い、
+既定のフォーカス範囲を求めます。
 `shapeTranslate`、`shapeAxisTranslate`、`shapeAxisOffset` による位置ずれと
 OffsetLine を除外します。`shapeAxisOffset=true` のときは
 `shapeAxisOffsetLength` と `shapeAxisOffsetDirection` による伸縮を保持します。
@@ -321,8 +327,8 @@ Maya の template 表示色で描きます。`false` なら補助線は通常の
 クリック選択に使えます。どちらの設定でも形状本体の輪郭線は選択できます。
 補助線が形状本体の線と重なる箇所では、本体の線で選択される場合があります。
 
-既定の `Square` と `Circle` は YZ 面（`x=0`）にあり、Y/Z の各軸が
-`-0.5` から `+0.5` の範囲に収まります。`Cube` は３軸とも同じ範囲です。
+`Square` と `Circle` は YZ 面（`x=0`）にあり、Y/Z の各軸が
+`-0.5` から `+0.5` の範囲に収まります。既定の `Cube` は３軸とも同じ範囲です。
 `CircleArrow2D` は YZ 面で、半径 `0.5` の円と、
 `(y, z)=(0.495096189432334, -0.075)` → `(0.625, 0)` →
 `(0.495096189432334, +0.075)` の独立した山形の線からなります。
@@ -469,12 +475,12 @@ template 色・選択不可の線には影響しません。
 29. shape の Channel Box で５本の区切りが表示され、形状の描画・軸・変形、フォーカスモード、Custom の軸・変形が上記の６区画の順に並ぶ。
 30. 調整属性とその X/Y/Z 子属性を Channel Box から編集でき、通常の一括キー操作ではキーが付かない。属性を明示すればキーや入力接続を設定できる。区切りは編集できない。
 31. Maya ASCII で保存して再読込した後も、区切りの表示とロック、調整属性の順序と非 keyable 状態が保たれる。
-32. `ColorSphere` は赤・緑・青の直交円だけ、`ColorSphereCrossLine` は同じ円と十字線として表示され、円と十字線の間に橋渡しの線がない。
+32. `ColorSphere` は赤・緑・青の直交円だけ、`ColorSphereArrow2D/3D` はその円と通常色の矢印、`ColorSphereCrossLine` は同じ円と十字線として表示され、円と十字線の間に橋渡しの線がない。矢印付きの Filled では球殻と矢印面が塗られ、軸色の円が維持される。
 33. `bdControllerShape` を選択したまま **Show > Selection Highlighting** をオフにすると通常線・面と OffsetLine が非選択時の色に戻り、軸色の線は赤・緑・青に戻る。オンに戻すと選択色になる。オフでもクリック選択できる。
 34. 複数ビューポートで Selection Highlighting のオン・オフを別々に設定し、それぞれの表示色が独立する。template 色・選択不可の線と、通常線への色オーバーライドも確認する。
 35. `Line1st`、`Line2nd`、`Line3rd` が既定軸で X、Y、Z の各方向へ長さ1の線として表示され、`shape1stAxis` と `shape2ndAxis` を変更すると対応する方向へ回る。
 36. `CubeFinArrow` と `CylinderFinArrow` の斜線が `-1stAxis` 側の高い位置から `+1stAxis` 側の本体上端へ伸び、軸指定・拡縮後も本体とフィンの接点が離れない。
-37. 42種の `*Filled` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。Shaded では面内をクリックして親 `transform` を選択できる。
+37. 44種の `*Filled` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。Shaded では面内をクリックして親 `transform` を選択できる。
 38. `TriangleFilled`、`SquareFilled`、`CircleFilled` を表裏から見て、面の表示と選択を確認する。立体形状では Backface Culling のオン・オフ、円柱・円錐の側面と底面、ピラミッドの底面も確認する。
 39. `shapeFillTransparency` を `0`、`0.5`、`1` に変え、輪郭線の `shapeTransparency` と独立して面の透明度が変わる。半透明の Cube・Sphere で前後の面の重なりと描画順を確認する。
 40. `*Filled` で `shapeDrawOnTop` を切り替え、面と輪郭線が前面表示される。`shapeFillTransparency` を組み合わせても選択色とクリック選択が期待どおりか確認する。

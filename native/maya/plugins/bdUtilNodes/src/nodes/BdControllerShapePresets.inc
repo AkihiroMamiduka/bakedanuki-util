@@ -1,6 +1,6 @@
 // Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 90> kPresetNames = {
+constexpr std::array<const char*, 94> kPresetNames = {
     "Gear",
     "GearFilled",
     "Line1st",
@@ -89,6 +89,10 @@ constexpr std::array<const char*, 90> kPresetNames = {
     "ColorCrossLine",
     "ColorSphere",
     "ColorSphereFilled",
+    "ColorSphereArrow2D",
+    "ColorSphereArrow2DFilled",
+    "ColorSphereArrow3D",
+    "ColorSphereArrow3DFilled",
     "ColorSphereCrossLine",
     "ColorSphereCrossLineFilled",
 };
@@ -98,7 +102,7 @@ struct PresetInfo {
     bool filled;
 };
 
-constexpr std::array<PresetInfo, 90> kPresetInfo = {{
+constexpr std::array<PresetInfo, 94> kPresetInfo = {{
     {0, false},  // Gear
     {0, true},  // GearFilled
     {1, false},  // Line1st
@@ -187,6 +191,10 @@ constexpr std::array<PresetInfo, 90> kPresetInfo = {{
     {45, false},  // ColorCrossLine
     {46, false},  // ColorSphere
     {46, true},  // ColorSphereFilled
+    {48, false},  // ColorSphereArrow2D
+    {48, true},  // ColorSphereArrow2DFilled
+    {49, false},  // ColorSphereArrow3D
+    {49, true},  // ColorSphereArrow3DFilled
     {47, false},  // ColorSphereCrossLine
     {47, true},  // ColorSphereCrossLineFilled
 }};
@@ -694,7 +702,8 @@ constexpr std::array<RawPoint, 3> kPrimitive47 = {{
 }};
 
 void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes& strokes, std::vector<StrokeStyle>& styles) {
-    switch (outlinePresetIndex(shape)) {
+    const short outline = outlinePresetIndex(shape);
+    switch (outline) {
         case 0:  // Gear
             appendPresetComponent(0, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {0.275, 0.275, 0.275}, StrokeStyle::Normal, transform, strokes, styles);
@@ -889,9 +898,14 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(44, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
         case 46:  // ColorSphere
+        case 48:  // ColorSphereArrow2D
+        case 49:  // ColorSphereArrow3D
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisX, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {90, 0, 0}, {1, 1, 1}, StrokeStyle::AxisY, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 90, 0}, {1, 1, 1}, StrokeStyle::AxisZ, transform, strokes, styles);
+            if (outline == 48 || outline == 49) {
+                appendPresetComponent(outline == 48 ? 30 : 31, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            }
             break;
         case 47:  // ColorSphereCrossLine
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisX, transform, strokes, styles);

@@ -140,7 +140,7 @@ using Stroke = MPointArray;
 using Strokes = std::vector<Stroke>;
 
 struct ShapeSettings {
-    short shape = 11;
+    short shape = 33;
     short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
@@ -1050,6 +1050,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
         case 35:  // SphereArrow3D
         case 46:  // ColorSphere
         case 47:  // ColorSphereCrossLine
+        case 48:  // ColorSphereArrow2D
+        case 49:  // ColorSphereArrow3D
             for (unsigned int latitude = 0; latitude < 16; ++latitude) {
                 for (unsigned int longitude = 0; longitude < 32; ++longitude) {
                     const MPoint upperLeft = spherePoint(latitude, longitude);
@@ -1070,13 +1072,14 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                     }
                 }
             }
-            if (outline == 34 || outline == 35) {
+            if (outline == 34 || outline == 35 ||
+                outline == 48 || outline == 49) {
                 appendLegacyTriangle(triangles, transform,
                     {-0.075, 0.0, 0.495096189432},
                     {0.0, 0.0, 0.625},
                     {0.075, 0.0, 0.495096189432});
             }
-            if (outline == 35) {
+            if (outline == 35 || outline == 49) {
                 appendLegacyTriangle(triangles, transform,
                     {0.0, 0.0, 0.625},
                     {0.0, 0.0625, 0.5}, {0.0, 0.0, 0.5});
@@ -1995,7 +1998,7 @@ MStatus BdControllerShapeNode::initialize() {
     MFnTypedAttribute typedAttributeFn;
     MFnEnumAttribute enumAttributeFn;
 
-    shape = enumAttributeFn.create("shape", "sh", 11, &status);
+    shape = enumAttributeFn.create("shape", "sh", 33, &status);
     if (!status) {
         return status;
     }
@@ -2379,7 +2382,7 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
 
-    boundsMode = enumAttributeFn.create("boundsMode", "bdm", 0, &status);
+    boundsMode = enumAttributeFn.create("boundsMode", "bdm", 1, &status);
     if (!status) {
         return status;
     }

@@ -103,6 +103,10 @@ SHAPE_NAMES = (
     "ColorCrossLine",
     "ColorSphere",
     "ColorSphereFilled",
+    "ColorSphereArrow2D",
+    "ColorSphereArrow2DFilled",
+    "ColorSphereArrow3D",
+    "ColorSphereArrow3DFilled",
     "ColorSphereCrossLine",
     "ColorSphereCrossLineFilled",
 )
@@ -126,11 +130,17 @@ def _load_bd_util_nodes(maya_cmds) -> None:
     maya_cmds.currentUnit(angle="degree")
 
 
-def _create_controller(maya_cmds, *, name="controller") -> tuple[str, str]:
+def _create_controller(
+    maya_cmds, *, name="controller", shape_value=11, bounds_mode=0
+) -> tuple[str, str]:
     transform = maya_cmds.createNode("transform", name=name)
     shape = maya_cmds.createNode(
         "bdControllerShape", parent=transform, name=f"{name}Shape"
     )
+    if shape_value is not None:
+        maya_cmds.setAttr(f"{shape}.shape", shape_value)
+    if bounds_mode is not None:
+        maya_cmds.setAttr(f"{shape}.boundsMode", bounds_mode)
     return transform, shape
 
 
@@ -158,7 +168,9 @@ def test_generated_shape_enum_matches_presets():
 
 def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
     _load_bd_util_nodes(maya_cmds)
-    transform, shape = _create_controller(maya_cmds)
+    transform, shape = _create_controller(
+        maya_cmds, shape_value=None, bounds_mode=None
+    )
 
     selection = maya_om.MSelectionList()
     selection.add(shape)
@@ -169,7 +181,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
     assert maya_cmds.attributeQuery("shape", node=shape, listEnum=True) == [
         ":".join(SHAPE_NAMES)
     ]
-    assert maya_cmds.getAttr(f"{shape}.shape") == SHAPE_NAMES.index("Square")
+    assert maya_cmds.getAttr(f"{shape}.shape") == SHAPE_NAMES.index("Cube")
     for attribute, default in (("shape1stAxis", 0), ("shape2ndAxis", 2)):
         assert maya_cmds.attributeQuery(
             attribute, node=shape, listEnum=True
@@ -638,6 +650,14 @@ def test_filled_preset_preserves_outline_bounds(
             (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
         ),  # ColorSphere
         (
+            SHAPE_NAMES.index("ColorSphereArrow2D"),
+            (-0.5, -0.5, -0.5, 0.625, 0.5, 0.5),
+        ),  # ColorSphereArrow2D
+        (
+            SHAPE_NAMES.index("ColorSphereArrow3D"),
+            (-0.5, -0.5, -0.5, 0.625, 0.5, 0.5),
+        ),  # ColorSphereArrow3D
+        (
             SHAPE_NAMES.index("ColorSphereCrossLine"),
             (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
         ),  # ColorSphereCrossLine
@@ -789,12 +809,14 @@ def test_bounds_modes_and_custom_attribute_defaults(
     maya_cmds, maya_om, new_scene
 ):
     _load_bd_util_nodes(maya_cmds)
-    _, shape = _create_controller(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_value=None, bounds_mode=None
+    )
 
     assert maya_cmds.attributeQuery(
         "boundsMode", node=shape, listEnum=True
     ) == ["Shape:ShapeCentered:Custom"]
-    assert maya_cmds.getAttr(f"{shape}.boundsMode") == 0
+    assert maya_cmds.getAttr(f"{shape}.boundsMode") == 1
     assert not maya_cmds.getAttr(f"{shape}.showBoundsPreview")
     assert (
         maya_cmds.attributeQuery(
@@ -837,7 +859,7 @@ def test_bounds_modes_and_custom_attribute_defaults(
     assert not maya_cmds.getAttr(f"{shape}.showBoundsPreview", keyable=True)
     assert maya_cmds.getAttr(f"{shape}.showBoundsPreview", channelBox=True)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)
+        (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
     )
 
 
@@ -1641,6 +1663,7 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     mod = bdu.ModifierManager()
     nodes = bdu.Nodes(modifier_manager=mod)
     transform, shape = nodes.create.controllerShape(name="rig_ctrl")
+    shape.boundsMode.set(0)
     shape.shape.set(SHAPE_NAMES.index("CircleArrow2D"))
     shape.shape1stAxis.set(0)
     shape.shape2ndAxis.set(2)
@@ -1697,7 +1720,7 @@ def test_custom_bounds_node_operator_history_and_scene_reload(
     maya_cmds, maya_om, new_scene, tmp_path
 ):
     _load_bd_util_nodes(maya_cmds)
-    _, shape_name = _create_controller(maya_cmds)
+    _, shape_name = _create_controller(maya_cmds, bounds_mode=None)
     mod = bdu.ModifierManager()
     shape = bdu.Nodes(modifier_manager=mod).existing(shape_name)
     shape.boundsMode.set(2)
@@ -1709,7 +1732,7 @@ def test_custom_bounds_node_operator_history_and_scene_reload(
     expected = (0.0, -2.0, -2.0, 4.0, 2.0, 2.0)
     assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)
     mod.undo_it()
-    assert maya_cmds.getAttr(f"{shape_name}.boundsMode") == 0
+    assert maya_cmds.getAttr(f"{shape_name}.boundsMode") == 1
     assert not maya_cmds.getAttr(f"{shape_name}.showBoundsPreview")
     mod.redo_it()
     assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)

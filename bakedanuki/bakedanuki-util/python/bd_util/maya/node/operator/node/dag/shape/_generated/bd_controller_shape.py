@@ -127,8 +127,12 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     COLORCROSSLINE = 85
     COLORSPHERE = 86
     COLORSPHEREFILLED = 87
-    COLORSPHERECROSSLINE = 88
-    COLORSPHERECROSSLINEFILLED = 89
+    COLORSPHEREARROW2D = 88
+    COLORSPHEREARROW2DFILLED = 89
+    COLORSPHEREARROW3D = 90
+    COLORSPHEREARROW3DFILLED = 91
+    COLORSPHERECROSSLINE = 92
+    COLORSPHERECROSSLINEFILLED = 93
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
@@ -222,8 +226,12 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     COLORCROSSLINE = 85
     COLORSPHERE = 86
     COLORSPHEREFILLED = 87
-    COLORSPHERECROSSLINE = 88
-    COLORSPHERECROSSLINEFILLED = 89
+    COLORSPHEREARROW2D = 88
+    COLORSPHEREARROW2DFILLED = 89
+    COLORSPHEREARROW3D = 90
+    COLORSPHEREARROW3DFILLED = 91
+    COLORSPHERECROSSLINE = 92
+    COLORSPHERECROSSLINEFILLED = 93
 
     NAME_MAP = {
         GEAR: "Gear",
@@ -318,6 +326,10 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         COLORCROSSLINE: "ColorCrossLine",
         COLORSPHERE: "ColorSphere",
         COLORSPHEREFILLED: "ColorSphereFilled",
+        COLORSPHEREARROW2D: "ColorSphereArrow2D",
+        COLORSPHEREARROW2DFILLED: "ColorSphereArrow2DFilled",
+        COLORSPHEREARROW3D: "ColorSphereArrow3D",
+        COLORSPHEREARROW3DFILLED: "ColorSphereArrow3DFilled",
         COLORSPHERECROSSLINE: "ColorSphereCrossLine",
         COLORSPHERECROSSLINEFILLED: "ColorSphereCrossLineFilled",
     }
@@ -759,7 +771,7 @@ class GeneratedBdControllerShape(Shape):
     localScaleZ = localScale.localScaleZ
     lsz = localScaleZ
 
-    shape = ShapeEnumField(default_value=11)
+    shape = ShapeEnumField(default_value=33)
     sh = shape
 
     shapeAnimationTransformMatrix = DataMatrixField()
@@ -864,7 +876,7 @@ class GeneratedBdControllerShape(Shape):
     shapeSize = DoubleField(default_value=1.0)
     ss = shapeSize
 
-    boundsMode = BoundsModeEnumField(default_value=0)
+    boundsMode = BoundsModeEnumField(default_value=1)
     bdm = boundsMode
 
     showBoundsPreview = BoolField(default_value=False)
