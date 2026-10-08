@@ -9,6 +9,8 @@
 
 ### Changed
 
+- `bdControllerShape` の選択色をビューポートごとの Selection Highlighting 設定に従わせ、
+  オフでは通常色と軸色を保つ。
 - `bdControllerShape` の基準軸を主軸 `+X`・補助軸 `+Y` の右手系へ変更した。
   `Square`・`Circle`・`CircleArrow2D` の基準面と作成時の表示面は YZ とし、
   `shape1stAxis` / `customBounds1stAxis` の既定値を `+X` に変更した。
@@ -30,8 +32,10 @@
 
 ### Added
 
-- `bdControllerShape.shape` に43種類の形状を定義した。Gearを一覧の先頭、Squareを
+- `bdControllerShape.shape` に44種類の形状を定義した。Gearを一覧の先頭、Squareを
   初期値とし、矢印・フィン、部分template、軸色を含む複合形状を1つのshapeで描画する。
+  `ColorSphere` は軸色の直交円だけを描き、`ColorCrossLine` と
+  `ColorSphereCrossLine` の間に配置した。
 - 共有`bakedanuki`メニューへ起動時自動表示のチェック項目を追加。既定はONで、OFFは次回起動から
   各packageの自動登録を抑止する。設定はMayaバージョンごとのユーザー設定へ保存する。
   共通`installer.py`の再D&Dでは、Module pathが登録済みでも確認後にONへ戻せる。

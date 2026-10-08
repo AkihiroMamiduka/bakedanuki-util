@@ -1,6 +1,6 @@
 // Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 43> kPresetNames = {
+constexpr std::array<const char*, 44> kPresetNames = {
     "Gear",
     "Line",
     "CrossLineXY",
@@ -43,6 +43,7 @@ constexpr std::array<const char*, 43> kPresetNames = {
     "Cone",
     "ConeFin",
     "ColorCrossLine",
+    "ColorSphere",
     "ColorSphereCrossLine",
 };
 
@@ -699,7 +700,12 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(43, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(44, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 42:  // ColorSphereCrossLine
+        case 42:  // ColorSphere
+            appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisX, transform, strokes, styles);
+            appendPresetComponent(1, {0, 0, 0}, {90, 0, 0}, {1, 1, 1}, StrokeStyle::AxisY, transform, strokes, styles);
+            appendPresetComponent(1, {0, 0, 0}, {0, 90, 0}, {1, 1, 1}, StrokeStyle::AxisZ, transform, strokes, styles);
+            break;
+        case 43:  // ColorSphereCrossLine
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisX, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {90, 0, 0}, {1, 1, 1}, StrokeStyle::AxisY, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 90, 0}, {1, 1, 1}, StrokeStyle::AxisZ, transform, strokes, styles);

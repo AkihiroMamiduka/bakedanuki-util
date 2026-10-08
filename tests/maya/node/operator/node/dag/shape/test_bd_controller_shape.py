@@ -53,6 +53,7 @@ SHAPE_NAMES = (
     "Cone",
     "ConeFin",
     "ColorCrossLine",
+    "ColorSphere",
     "ColorSphereCrossLine",
 )
 
@@ -444,6 +445,8 @@ def test_every_preset_has_a_drawable_extent(
         (26, (0.0, -0.5, -0.5, 0.0625, 0.625, 0.5)),  # CircleArrow3D
         (27, (0.0, 0.0, -0.5, 0.0, 0.5, 0.5)),  # Semicircle
         (41, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),  # ColorCrossLine
+        (42, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),  # ColorSphere
+        (43, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),  # ColorSphereCrossLine
     ),
 )
 def test_preset_base_and_decoration_bounds(

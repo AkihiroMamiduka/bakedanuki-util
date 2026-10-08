@@ -111,15 +111,16 @@ mod.do_it_dg()
 | 24–29 | `Circle`、`CircleArrow2D`、`CircleArrow3D`、`Semicircle`、`SemicircleArrow2D`、`SemicircleArrow3D` |
 | 30–34 | `Sphere`、`SphereArrow2D`、`SphereArrow3D`、`Cylinder`、`CylinderFin` |
 | 35–40 | `Arrow`、`ArrowFin`、`Pyramid`、`PyramidFin`、`Cone`、`ConeFin` |
-| 41–42 | `ColorCrossLine`、`ColorSphereCrossLine` |
+| 41–43 | `ColorCrossLine`、`ColorSphere`、`ColorSphereCrossLine` |
 
 基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
 矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
 `2D` / `3D` は付属する矢印の立体性を示します。
 `Semicircle` は底辺のない半円です。
 `SquareArrowCrossLineTemplate*` は十字線、`SquareTemplateArrow4Way*` は四隅だけを
-template 色・選択不可にします。`Color*` は各ローカル軸の正方向と直交円を
-X=赤、Y=緑、Z=青で表示し、負方向の線は通常色にします。
+template 色・選択不可にします。`ColorSphere` は X=赤、Y=緑、Z=青の
+直交円だけで構成し、十字線を含みません。`ColorSphereCrossLine` はその円に
+`ColorCrossLine` の十字線を加えます。十字線の正方向は各軸色、負方向は通常色です。
 軸の向きを変えても色は元の軸に付随します。
 
 `Custom` 用の調整属性は `shapeAnimationTransformMatrix` を除き、形状本体から独立しています。
@@ -399,6 +400,11 @@ shape 自身の `visibility` をオフにすると非表示になります。
 この表示条件は [Autodesk の API 説明](https://help.autodesk.com/cloudhelp/2024/ENU/MAYA-API-REF/cpp_ref/class_m_px_locator_node.html)
 に基づきます。
 
+**Show > Selection Highlighting** はビューポートごとに反映します。
+オンでは選択中の通常線と軸色の線を Maya の選択色にし、オフでは通常線を
+非選択時の色、軸色の線を赤・緑・青で表示します。選択そのものと、
+template 色・選択不可の線には影響しません。
+
 ビューポートの描画とクリック選択は `mayapy` のヘッドレステストだけでは
 確認できません。Maya 2025 / 2026 / 2027 の GUI で次を確認してください。
 
@@ -433,3 +439,6 @@ shape 自身の `visibility` をオフにすると非表示になります。
 29. shape の Channel Box で５本の区切りが表示され、形状の描画・軸・変形、フォーカスモード、Custom の軸・変形が上記の６区画の順に並ぶ。
 30. 調整属性とその X/Y/Z 子属性を Channel Box から編集でき、通常の一括キー操作ではキーが付かない。属性を明示すればキーや入力接続を設定できる。区切りは編集できない。
 31. Maya ASCII で保存して再読込した後も、区切りの表示とロック、調整属性の順序と非 keyable 状態が保たれる。
+32. `ColorSphere` は赤・緑・青の直交円だけ、`ColorSphereCrossLine` は同じ円と十字線として表示され、円と十字線の間に橋渡しの線がない。
+33. `bdControllerShape` を選択したまま **Show > Selection Highlighting** をオフにすると通常線と OffsetLine が非選択時の色に戻り、軸色の線は赤・緑・青に戻る。オンに戻すと選択色になる。オフでもクリック選択できる。
+34. 複数ビューポートで Selection Highlighting のオン・オフを別々に設定し、それぞれの表示色が独立する。template 色・選択不可の線と、通常線への色オーバーライドも確認する。

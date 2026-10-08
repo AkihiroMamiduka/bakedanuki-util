@@ -15,6 +15,7 @@
 #include <maya/MDistance.h>
 #include <maya/MEulerRotation.h>
 #include <maya/MFnAttribute.h>
+#include <maya/MFnDagNode.h>
 #include <maya/MFnData.h>
 #include <maya/MFnEnumAttribute.h>
 #include <maya/MFnDependencyNode.h>
@@ -930,8 +931,8 @@ struct ShapeDrawData final : public MUserData {
     std::shared_ptr<const BdControllerShapeNode::Geometry> geometry;
     Strokes onTopSegments;
     MColor color;
+    MColor dormantColor;
     MColor templateStrokeColor;
-    MColor offsetLineColor;
     MColor boundsPreviewColor;
     float lineWidth = 1.0f;
     bool drawOnTop = false;
@@ -1006,11 +1007,28 @@ public:
             }
         }
         data->color = MHWRender::MGeometryUtilities::wireframeColor(objectPath);
+        data->dormantColor = data->color;
         const auto displayStatus = MHWRender::MGeometryUtilities::displayStatus(objectPath);
         data->selected = displayStatus == MHWRender::kActive ||
             displayStatus == MHWRender::kLead ||
             displayStatus == MHWRender::kActiveComponent ||
             displayStatus == MHWRender::kHilite;
+        if (data->selected) {
+            MStatus colorStatus;
+            MFnDagNode dagNode(objectPath, &colorStatus);
+            if (colorStatus) {
+                MColor dormantColor = dagNode.dormantColor(&colorStatus);
+                if (colorStatus) {
+                    MColor overrideColor;
+                    MStatus overrideStatus;
+                    if (dagNode.drawOverrideColor(overrideColor, &overrideStatus) &&
+                        overrideStatus) {
+                        dormantColor = overrideColor;
+                    }
+                    data->dormantColor = dormantColor;
+                }
+            }
+        }
         MStatus templateStatus;
         data->templateStrokeColor = M3dView::templateColor(&templateStatus);
         if (!templateStatus) {
@@ -1023,21 +1041,9 @@ public:
                 data->boundsPreviewColor = data->color;
             }
         }
-        if (data->geometry && data->geometry->offsetLine.length() == 2) {
-            data->offsetLineColor = data->color;
-            if (data->geometry->offsetLineTemplate) {
-                MStatus colorStatus;
-                const MColor templateColor = M3dView::templateColor(&colorStatus);
-                if (colorStatus) {
-                    data->offsetLineColor = templateColor;
-                }
-            }
-        }
         data->color.a *= opacity;
+        data->dormantColor.a *= opacity;
         data->templateStrokeColor.a *= opacity;
-        if (data->geometry && data->geometry->offsetLine.length() == 2) {
-            data->offsetLineColor.a *= opacity;
-        }
         return data;
     }
 
@@ -1055,6 +1061,11 @@ public:
         if (!data || !data->geometry) {
             return;
         }
+        const bool selectionHighlighting =
+            (frameContext.getDisplayStyle() &
+             MHWRender::MFrameContext::kSelectionHighlighting) != 0;
+        const bool selected = data->selected && selectionHighlighting;
+        const MColor& color = selected ? data->color : data->dormantColor;
         for (std::size_t index = 0; index < data->geometry->strokes.size(); ++index) {
             const StrokeStyle style = data->geometry->strokeStyles[index];
             drawManager.beginDrawable(
@@ -1062,16 +1073,16 @@ public:
                     ? MHWRender::MUIDrawManager::kNonSelectable
                     : MHWRender::MUIDrawManager::kSelectable
             );
-            MColor strokeColor = data->color;
+            MColor strokeColor = color;
             if (style == StrokeStyle::Template) {
                 strokeColor = data->templateStrokeColor;
-            } else if (!data->selected && style != StrokeStyle::Normal) {
+            } else if (!selected && style != StrokeStyle::Normal) {
                 strokeColor = style == StrokeStyle::AxisX
                     ? MColor(1.0f, 0.0f, 0.0f)
                     : style == StrokeStyle::AxisY
                     ? MColor(0.0f, 1.0f, 0.0f)
                     : MColor(0.0f, 0.0f, 1.0f);
-                strokeColor.a = data->color.a;
+                strokeColor.a = color.a;
             }
             drawManager.setColor(strokeColor);
             if (data->lineWidth > 1.0f) {
@@ -1095,7 +1106,11 @@ public:
                     ? MHWRender::MUIDrawManager::kNonSelectable
                     : MHWRender::MUIDrawManager::kSelectable
             );
-            drawManager.setColor(data->offsetLineColor);
+            drawManager.setColor(
+                data->geometry->offsetLineTemplate
+                    ? data->templateStrokeColor
+                    : color
+            );
             if (data->lineWidth > 1.0f) {
                 drawManager.setLineWidth(data->lineWidth);
             }

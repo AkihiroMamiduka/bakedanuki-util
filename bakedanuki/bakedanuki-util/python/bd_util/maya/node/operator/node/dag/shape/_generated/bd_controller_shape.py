@@ -81,7 +81,8 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     CONE = 39
     CONEFIN = 40
     COLORCROSSLINE = 41
-    COLORSPHERECROSSLINE = 42
+    COLORSPHERE = 42
+    COLORSPHERECROSSLINE = 43
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
@@ -129,7 +130,8 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     CONE = 39
     CONEFIN = 40
     COLORCROSSLINE = 41
-    COLORSPHERECROSSLINE = 42
+    COLORSPHERE = 42
+    COLORSPHERECROSSLINE = 43
 
     NAME_MAP = {
         GEAR: "Gear",
@@ -174,6 +176,7 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         CONE: "Cone",
         CONEFIN: "ConeFin",
         COLORCROSSLINE: "ColorCrossLine",
+        COLORSPHERE: "ColorSphere",
         COLORSPHERECROSSLINE: "ColorSphereCrossLine",
     }
 
