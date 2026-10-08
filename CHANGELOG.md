@@ -32,10 +32,12 @@
 
 ### Added
 
-- `bdControllerShape.shape` に44種類の形状を定義した。Gearを一覧の先頭、Squareを
+- `bdControllerShape.shape` に90種類の形状を定義した。Gearを一覧の先頭、Squareを
   初期値とし、矢印・フィン、部分template、軸色を含む複合形状を1つのshapeで描画する。
   `ColorSphere` は軸色の直交円だけを描き、`ColorCrossLine` と
   `ColorSphereCrossLine` の間に配置した。
+  純線形状を除く42種類に `*Filled` を用意し、Gear の内円は穴、
+  矢印・フィンは付属部分も面で描画する。template の本体面は選択不可にする。
 - 共有`bakedanuki`メニューへ起動時自動表示のチェック項目を追加。既定はONで、OFFは次回起動から
   各packageの自動登録を抑止する。設定はMayaバージョンごとのユーザー設定へ保存する。
   共通`installer.py`の再D&Dでは、Module pathが登録済みでも確認後にONへ戻せる。

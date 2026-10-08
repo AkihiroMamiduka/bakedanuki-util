@@ -1,7 +1,8 @@
 // Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 57> kPresetNames = {
+constexpr std::array<const char*, 90> kPresetNames = {
     "Gear",
+    "GearFilled",
     "Line1st",
     "Line2nd",
     "Line3rd",
@@ -10,86 +11,194 @@ constexpr std::array<const char*, 57> kPresetNames = {
     "Triangle",
     "TriangleFilled",
     "TriangleArrow3D",
+    "TriangleArrow3DFilled",
     "Square",
     "SquareFilled",
     "SquareArrow2D",
+    "SquareArrow2DFilled",
     "SquareArrow3D",
+    "SquareArrow3DFilled",
     "SquareArrowCrossLine2D",
+    "SquareArrowCrossLine2DFilled",
     "SquareArrowCrossLine3D",
+    "SquareArrowCrossLine3DFilled",
     "SquareArrowCrossLineTemplate2D",
+    "SquareArrowCrossLineTemplate2DFilled",
     "SquareArrowCrossLineTemplate3D",
+    "SquareArrowCrossLineTemplate3DFilled",
     "SquareArrow4Way2D",
+    "SquareArrow4Way2DFilled",
     "SquareArrow4Way3D",
+    "SquareArrow4Way3DFilled",
     "SquareTemplateArrow4Way2D",
+    "SquareTemplateArrow4Way2DFilled",
     "SquareTemplateArrow4Way3D",
+    "SquareTemplateArrow4Way3DFilled",
     "Cube",
     "CubeFilled",
     "CubeArrow2D",
+    "CubeArrow2DFilled",
     "CubeArrow3D",
+    "CubeArrow3DFilled",
     "CubeFin",
+    "CubeFinFilled",
     "CubeFinArrow",
+    "CubeFinArrowFilled",
     "Octahedron",
     "OctahedronFilled",
     "OctahedronArrow",
+    "OctahedronArrowFilled",
     "OctahedronArrowFin",
+    "OctahedronArrowFinFilled",
     "Circle",
     "CircleFilled",
     "CircleArrow2D",
+    "CircleArrow2DFilled",
     "CircleArrow3D",
+    "CircleArrow3DFilled",
     "Semicircle",
+    "SemicircleFilled",
     "SemicircleArrow2D",
+    "SemicircleArrow2DFilled",
     "SemicircleArrow3D",
+    "SemicircleArrow3DFilled",
     "Sphere",
     "SphereFilled",
     "SphereArrow2D",
+    "SphereArrow2DFilled",
     "SphereArrow3D",
+    "SphereArrow3DFilled",
     "Cylinder",
     "CylinderFilled",
     "CylinderFin",
+    "CylinderFinFilled",
     "CylinderFinArrow",
+    "CylinderFinArrowFilled",
     "Arrow",
+    "ArrowFilled",
     "ArrowFin",
+    "ArrowFinFilled",
     "Pyramid",
     "PyramidFilled",
     "PyramidFin",
+    "PyramidFinFilled",
     "Cone",
     "ConeFilled",
     "ConeFin",
+    "ConeFinFilled",
     "ColorCrossLine",
     "ColorSphere",
+    "ColorSphereFilled",
     "ColorSphereCrossLine",
+    "ColorSphereCrossLineFilled",
 };
 
-constexpr short kTriangleFilledShape = 7;
-constexpr short kSquareFilledShape = 10;
-constexpr short kCubeFilledShape = 22;
-constexpr short kOctahedronFilledShape = 28;
-constexpr short kCircleFilledShape = 32;
-constexpr short kSphereFilledShape = 39;
-constexpr short kCylinderFilledShape = 43;
-constexpr short kPyramidFilledShape = 49;
-constexpr short kConeFilledShape = 52;
+struct PresetInfo {
+    short outlineIndex;
+    bool filled;
+};
+
+constexpr std::array<PresetInfo, 90> kPresetInfo = {{
+    {0, false},  // Gear
+    {0, true},  // GearFilled
+    {1, false},  // Line1st
+    {2, false},  // Line2nd
+    {3, false},  // Line3rd
+    {4, false},  // CrossLineXY
+    {5, false},  // CrossLineXYZ
+    {6, false},  // Triangle
+    {6, true},  // TriangleFilled
+    {7, false},  // TriangleArrow3D
+    {7, true},  // TriangleArrow3DFilled
+    {8, false},  // Square
+    {8, true},  // SquareFilled
+    {9, false},  // SquareArrow2D
+    {9, true},  // SquareArrow2DFilled
+    {10, false},  // SquareArrow3D
+    {10, true},  // SquareArrow3DFilled
+    {11, false},  // SquareArrowCrossLine2D
+    {11, true},  // SquareArrowCrossLine2DFilled
+    {12, false},  // SquareArrowCrossLine3D
+    {12, true},  // SquareArrowCrossLine3DFilled
+    {13, false},  // SquareArrowCrossLineTemplate2D
+    {13, true},  // SquareArrowCrossLineTemplate2DFilled
+    {14, false},  // SquareArrowCrossLineTemplate3D
+    {14, true},  // SquareArrowCrossLineTemplate3DFilled
+    {15, false},  // SquareArrow4Way2D
+    {15, true},  // SquareArrow4Way2DFilled
+    {16, false},  // SquareArrow4Way3D
+    {16, true},  // SquareArrow4Way3DFilled
+    {17, false},  // SquareTemplateArrow4Way2D
+    {17, true},  // SquareTemplateArrow4Way2DFilled
+    {18, false},  // SquareTemplateArrow4Way3D
+    {18, true},  // SquareTemplateArrow4Way3DFilled
+    {19, false},  // Cube
+    {19, true},  // CubeFilled
+    {20, false},  // CubeArrow2D
+    {20, true},  // CubeArrow2DFilled
+    {21, false},  // CubeArrow3D
+    {21, true},  // CubeArrow3DFilled
+    {22, false},  // CubeFin
+    {22, true},  // CubeFinFilled
+    {23, false},  // CubeFinArrow
+    {23, true},  // CubeFinArrowFilled
+    {24, false},  // Octahedron
+    {24, true},  // OctahedronFilled
+    {25, false},  // OctahedronArrow
+    {25, true},  // OctahedronArrowFilled
+    {26, false},  // OctahedronArrowFin
+    {26, true},  // OctahedronArrowFinFilled
+    {27, false},  // Circle
+    {27, true},  // CircleFilled
+    {28, false},  // CircleArrow2D
+    {28, true},  // CircleArrow2DFilled
+    {29, false},  // CircleArrow3D
+    {29, true},  // CircleArrow3DFilled
+    {30, false},  // Semicircle
+    {30, true},  // SemicircleFilled
+    {31, false},  // SemicircleArrow2D
+    {31, true},  // SemicircleArrow2DFilled
+    {32, false},  // SemicircleArrow3D
+    {32, true},  // SemicircleArrow3DFilled
+    {33, false},  // Sphere
+    {33, true},  // SphereFilled
+    {34, false},  // SphereArrow2D
+    {34, true},  // SphereArrow2DFilled
+    {35, false},  // SphereArrow3D
+    {35, true},  // SphereArrow3DFilled
+    {36, false},  // Cylinder
+    {36, true},  // CylinderFilled
+    {37, false},  // CylinderFin
+    {37, true},  // CylinderFinFilled
+    {38, false},  // CylinderFinArrow
+    {38, true},  // CylinderFinArrowFilled
+    {39, false},  // Arrow
+    {39, true},  // ArrowFilled
+    {40, false},  // ArrowFin
+    {40, true},  // ArrowFinFilled
+    {41, false},  // Pyramid
+    {41, true},  // PyramidFilled
+    {42, false},  // PyramidFin
+    {42, true},  // PyramidFinFilled
+    {43, false},  // Cone
+    {43, true},  // ConeFilled
+    {44, false},  // ConeFin
+    {44, true},  // ConeFinFilled
+    {45, false},  // ColorCrossLine
+    {46, false},  // ColorSphere
+    {46, true},  // ColorSphereFilled
+    {47, false},  // ColorSphereCrossLine
+    {47, true},  // ColorSphereCrossLineFilled
+}};
 
 short outlinePresetIndex(short shape) {
-    if (shape == kTriangleFilledShape) return 6;
-    if (shape == kSquareFilledShape) return 8;
-    if (shape == kCubeFilledShape) return 19;
-    if (shape == kOctahedronFilledShape) return 24;
-    if (shape == kCircleFilledShape) return 27;
-    if (shape == kSphereFilledShape) return 33;
-    if (shape == kCylinderFilledShape) return 36;
-    if (shape == kPyramidFilledShape) return 41;
-    if (shape == kConeFilledShape) return 43;
-    if (shape > kConeFilledShape) return shape - 9;
-    if (shape > kPyramidFilledShape) return shape - 8;
-    if (shape > kCylinderFilledShape) return shape - 7;
-    if (shape > kSphereFilledShape) return shape - 6;
-    if (shape > kCircleFilledShape) return shape - 5;
-    if (shape > kOctahedronFilledShape) return shape - 4;
-    if (shape > kCubeFilledShape) return shape - 3;
-    if (shape > kSquareFilledShape) return shape - 2;
-    if (shape > kTriangleFilledShape) return shape - 1;
-    return shape;
+    return shape >= 0 && shape < static_cast<short>(kPresetInfo.size())
+        ? kPresetInfo[shape].outlineIndex : 0;
+}
+
+bool isFilledPreset(short shape) {
+    return shape >= 0 && shape < static_cast<short>(kPresetInfo.size())
+        && kPresetInfo[shape].filled;
 }
 
 constexpr std::array<RawPoint, 2> kPrimitive2 = {{

@@ -7,11 +7,16 @@ from pathlib import Path
 import pytest
 
 import bd_util as bdu
+from bd_util.maya.node.operator.node.dag.shape._generated.bd_controller_shape import (
+    ShapeEnumAttrOperator,
+    ShapeEnumPlugOperator,
+)
 
 pytestmark = pytest.mark.maya
 
 SHAPE_NAMES = (
     "Gear",
+    "GearFilled",
     "Line1st",
     "Line2nd",
     "Line3rd",
@@ -20,54 +25,86 @@ SHAPE_NAMES = (
     "Triangle",
     "TriangleFilled",
     "TriangleArrow3D",
+    "TriangleArrow3DFilled",
     "Square",
     "SquareFilled",
     "SquareArrow2D",
+    "SquareArrow2DFilled",
     "SquareArrow3D",
+    "SquareArrow3DFilled",
     "SquareArrowCrossLine2D",
+    "SquareArrowCrossLine2DFilled",
     "SquareArrowCrossLine3D",
+    "SquareArrowCrossLine3DFilled",
     "SquareArrowCrossLineTemplate2D",
+    "SquareArrowCrossLineTemplate2DFilled",
     "SquareArrowCrossLineTemplate3D",
+    "SquareArrowCrossLineTemplate3DFilled",
     "SquareArrow4Way2D",
+    "SquareArrow4Way2DFilled",
     "SquareArrow4Way3D",
+    "SquareArrow4Way3DFilled",
     "SquareTemplateArrow4Way2D",
+    "SquareTemplateArrow4Way2DFilled",
     "SquareTemplateArrow4Way3D",
+    "SquareTemplateArrow4Way3DFilled",
     "Cube",
     "CubeFilled",
     "CubeArrow2D",
+    "CubeArrow2DFilled",
     "CubeArrow3D",
+    "CubeArrow3DFilled",
     "CubeFin",
+    "CubeFinFilled",
     "CubeFinArrow",
+    "CubeFinArrowFilled",
     "Octahedron",
     "OctahedronFilled",
     "OctahedronArrow",
+    "OctahedronArrowFilled",
     "OctahedronArrowFin",
+    "OctahedronArrowFinFilled",
     "Circle",
     "CircleFilled",
     "CircleArrow2D",
+    "CircleArrow2DFilled",
     "CircleArrow3D",
+    "CircleArrow3DFilled",
     "Semicircle",
+    "SemicircleFilled",
     "SemicircleArrow2D",
+    "SemicircleArrow2DFilled",
     "SemicircleArrow3D",
+    "SemicircleArrow3DFilled",
     "Sphere",
     "SphereFilled",
     "SphereArrow2D",
+    "SphereArrow2DFilled",
     "SphereArrow3D",
+    "SphereArrow3DFilled",
     "Cylinder",
     "CylinderFilled",
     "CylinderFin",
+    "CylinderFinFilled",
     "CylinderFinArrow",
+    "CylinderFinArrowFilled",
     "Arrow",
+    "ArrowFilled",
     "ArrowFin",
+    "ArrowFinFilled",
     "Pyramid",
     "PyramidFilled",
     "PyramidFin",
+    "PyramidFinFilled",
     "Cone",
     "ConeFilled",
     "ConeFin",
+    "ConeFinFilled",
     "ColorCrossLine",
     "ColorSphere",
+    "ColorSphereFilled",
     "ColorSphereCrossLine",
+    "ColorSphereCrossLineFilled",
 )
 
 
@@ -111,6 +148,14 @@ def _bounds(maya_om, shape: str) -> tuple[float, ...]:
     )
 
 
+def test_generated_shape_enum_matches_presets():
+    assert ShapeEnumAttrOperator.NAME_MAP == dict(enumerate(SHAPE_NAMES))
+    assert all(
+        getattr(ShapeEnumPlugOperator, name.upper()) == index
+        for index, name in enumerate(SHAPE_NAMES)
+    )
+
+
 def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
     _load_bd_util_nodes(maya_cmds)
     transform, shape = _create_controller(maya_cmds)
@@ -124,7 +169,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
     assert maya_cmds.attributeQuery("shape", node=shape, listEnum=True) == [
         ":".join(SHAPE_NAMES)
     ]
-    assert maya_cmds.getAttr(f"{shape}.shape") == 9
+    assert maya_cmds.getAttr(f"{shape}.shape") == SHAPE_NAMES.index("Square")
     for attribute, default in (("shape1stAxis", 0), ("shape2ndAxis", 2)):
         assert maya_cmds.attributeQuery(
             attribute, node=shape, listEnum=True
@@ -429,25 +474,40 @@ def test_inherited_locator_channels_are_hidden_only_on_controller_shape(
 @pytest.mark.parametrize(
     ("shape_value", "expected_bounds"),
     (
-        (6, (0.0, -0.37, -0.5, 0.0, 0.5, 0.5)),
-        (7, (0.0, -0.37, -0.5, 0.0, 0.5, 0.5)),
-        (9, (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
-        (10, (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
-        (21, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (22, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (27, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (28, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (31, (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
-        (32, (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
-        (33, (0.0, -0.5, -0.5, 0.0, 0.625, 0.5)),
-        (38, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (39, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (42, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (43, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (48, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (49, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (51, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        (52, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (SHAPE_NAMES.index("Triangle"), (0.0, -0.37, -0.5, 0.0, 0.5, 0.5)),
+        (
+            SHAPE_NAMES.index("TriangleFilled"),
+            (0.0, -0.37, -0.5, 0.0, 0.5, 0.5),
+        ),
+        (SHAPE_NAMES.index("Square"), (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        (SHAPE_NAMES.index("SquareFilled"), (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        (SHAPE_NAMES.index("Cube"), (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (SHAPE_NAMES.index("CubeFilled"), (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (SHAPE_NAMES.index("Octahedron"), (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (
+            SHAPE_NAMES.index("OctahedronFilled"),
+            (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
+        ),
+        (SHAPE_NAMES.index("Circle"), (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        (SHAPE_NAMES.index("CircleFilled"), (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        (
+            SHAPE_NAMES.index("CircleArrow2D"),
+            (0.0, -0.5, -0.5, 0.0, 0.625, 0.5),
+        ),
+        (SHAPE_NAMES.index("Sphere"), (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (SHAPE_NAMES.index("SphereFilled"), (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (SHAPE_NAMES.index("Cylinder"), (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (
+            SHAPE_NAMES.index("CylinderFilled"),
+            (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
+        ),
+        (SHAPE_NAMES.index("Pyramid"), (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (
+            SHAPE_NAMES.index("PyramidFilled"),
+            (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
+        ),
+        (SHAPE_NAMES.index("Cone"), (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (SHAPE_NAMES.index("ConeFilled"), (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
     ),
 )
 def test_shape_bounds(
@@ -513,21 +573,74 @@ def test_every_preset_has_a_drawable_extent(
 
 
 @pytest.mark.parametrize(
+    "filled_name",
+    tuple(name for name in SHAPE_NAMES if name.endswith("Filled")),
+)
+def test_filled_preset_preserves_outline_bounds(
+    maya_cmds, maya_om, new_scene, filled_name
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds)
+    base_name = filled_name.removesuffix("Filled")
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index(base_name))
+    outline_bounds = _bounds(maya_om, shape)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index(filled_name))
+
+    assert _bounds(maya_om, shape) == pytest.approx(outline_bounds, abs=1.0e-9)
+
+
+@pytest.mark.parametrize(
     ("shape_value", "expected_bounds"),
     (
-        (0, (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),  # Gear
-        (1, (-0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),  # Line1st
-        (2, (0.0, -0.5, 0.0, 0.0, 0.5, 0.0)),  # Line2nd
-        (3, (0.0, 0.0, -0.5, 0.0, 0.0, 0.5)),  # Line3rd
-        (25, (-0.5, -0.5, -0.5, 0.5, 1.0, 0.5)),  # CubeFin
-        (26, (-0.5, -0.5, -0.5, 0.5, 1.0, 0.5)),  # CubeFinArrow
-        (29, (-0.5, -0.5, -0.5, 1.5, 0.5, 0.5)),  # OctahedronArrow
-        (34, (0.0, -0.5, -0.5, 0.0625, 0.625, 0.5)),  # CircleArrow3D
-        (35, (0.0, 0.0, -0.5, 0.0, 0.5, 0.5)),  # Semicircle
-        (45, (-0.5, -0.5, -0.5, 0.5, 1.0, 0.5)),  # CylinderFinArrow
-        (54, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),  # ColorCrossLine
-        (55, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),  # ColorSphere
-        (56, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),  # ColorSphereCrossLine
+        (SHAPE_NAMES.index("Gear"), (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),  # Gear
+        (
+            SHAPE_NAMES.index("Line1st"),
+            (-0.5, 0.0, 0.0, 0.5, 0.0, 0.0),
+        ),  # Line1st
+        (
+            SHAPE_NAMES.index("Line2nd"),
+            (0.0, -0.5, 0.0, 0.0, 0.5, 0.0),
+        ),  # Line2nd
+        (
+            SHAPE_NAMES.index("Line3rd"),
+            (0.0, 0.0, -0.5, 0.0, 0.0, 0.5),
+        ),  # Line3rd
+        (
+            SHAPE_NAMES.index("CubeFin"),
+            (-0.5, -0.5, -0.5, 0.5, 1.0, 0.5),
+        ),  # CubeFin
+        (
+            SHAPE_NAMES.index("CubeFinArrow"),
+            (-0.5, -0.5, -0.5, 0.5, 1.0, 0.5),
+        ),  # CubeFinArrow
+        (
+            SHAPE_NAMES.index("OctahedronArrow"),
+            (-0.5, -0.5, -0.5, 1.5, 0.5, 0.5),
+        ),  # OctahedronArrow
+        (
+            SHAPE_NAMES.index("CircleArrow3D"),
+            (0.0, -0.5, -0.5, 0.0625, 0.625, 0.5),
+        ),  # CircleArrow3D
+        (
+            SHAPE_NAMES.index("Semicircle"),
+            (0.0, 0.0, -0.5, 0.0, 0.5, 0.5),
+        ),  # Semicircle
+        (
+            SHAPE_NAMES.index("CylinderFinArrow"),
+            (-0.5, -0.5, -0.5, 0.5, 1.0, 0.5),
+        ),  # CylinderFinArrow
+        (
+            SHAPE_NAMES.index("ColorCrossLine"),
+            (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
+        ),  # ColorCrossLine
+        (
+            SHAPE_NAMES.index("ColorSphere"),
+            (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
+        ),  # ColorSphere
+        (
+            SHAPE_NAMES.index("ColorSphereCrossLine"),
+            (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
+        ),  # ColorSphereCrossLine
     ),
 )
 def test_preset_base_and_decoration_bounds(
@@ -545,9 +658,18 @@ def test_preset_base_and_decoration_bounds(
 @pytest.mark.parametrize(
     ("shape_value", "expected_bounds"),
     (
-        (1, (0.0, 0.0, -0.5, 0.0, 0.0, 0.5)),  # Line1st
-        (2, (0.0, -0.5, 0.0, 0.0, 0.5, 0.0)),  # Line2nd
-        (3, (-0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),  # Line3rd
+        (
+            SHAPE_NAMES.index("Line1st"),
+            (0.0, 0.0, -0.5, 0.0, 0.0, 0.5),
+        ),  # Line1st
+        (
+            SHAPE_NAMES.index("Line2nd"),
+            (0.0, -0.5, 0.0, 0.0, 0.5, 0.0),
+        ),  # Line2nd
+        (
+            SHAPE_NAMES.index("Line3rd"),
+            (-0.5, 0.0, 0.0, 0.5, 0.0, 0.0),
+        ),  # Line3rd
     ),
 )
 def test_line_follows_selected_axis_basis(
@@ -566,13 +688,19 @@ def test_line_follows_selected_axis_basis(
 @pytest.mark.parametrize(
     ("shape_value", "expected_bounds"),
     (
-        (6, (-0.5, -0.37, 0.0, 0.5, 0.5, 0.0)),
-        (7, (-0.5, -0.37, 0.0, 0.5, 0.5, 0.0)),
-        (9, (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
-        (10, (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
-        (31, (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
-        (32, (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
-        (33, (-0.5, -0.5, 0.0, 0.5, 0.625, 0.0)),
+        (SHAPE_NAMES.index("Triangle"), (-0.5, -0.37, 0.0, 0.5, 0.5, 0.0)),
+        (
+            SHAPE_NAMES.index("TriangleFilled"),
+            (-0.5, -0.37, 0.0, 0.5, 0.5, 0.0),
+        ),
+        (SHAPE_NAMES.index("Square"), (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        (SHAPE_NAMES.index("SquareFilled"), (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        (SHAPE_NAMES.index("Circle"), (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        (SHAPE_NAMES.index("CircleFilled"), (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        (
+            SHAPE_NAMES.index("CircleArrow2D"),
+            (-0.5, -0.5, 0.0, 0.5, 0.625, 0.0),
+        ),
     ),
 )
 def test_planar_shape_faces_first_axis(
@@ -593,7 +721,7 @@ def test_draw_style_attributes_preserve_focus_bounds_and_scene_values(
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape_name = _create_controller(maya_cmds)
-    maya_cmds.setAttr(f"{shape_name}.shape", 21)
+    maya_cmds.setAttr(f"{shape_name}.shape", SHAPE_NAMES.index("Cube"))
     maya_cmds.setAttr(f"{shape_name}.shapeTranslateX", 3.0)
     maya_cmds.setAttr(f"{shape_name}.showShapeOffsetLine", True)
     maya_cmds.setAttr(f"{shape_name}.customBoundsSize", 2.0)
@@ -718,7 +846,7 @@ def test_shape_centered_keeps_size_without_position_offsets(
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
-    maya_cmds.setAttr(f"{shape}.shape", 21)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Cube"))
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 5.0)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     maya_cmds.setAttr(f"{shape}.shapeTranslateX", 10.0)
@@ -750,7 +878,7 @@ def test_shape_centered_asymmetry_and_animation_matrix(
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
     matrix = maya_cmds.createNode("composeMatrix")
-    maya_cmds.setAttr(f"{shape}.shape", 33)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("CircleArrow2D"))
     maya_cmds.setAttr(f"{shape}.boundsMode", 1)
     maya_cmds.connectAttr(
         f"{matrix}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
@@ -891,7 +1019,7 @@ def test_view_fit_uses_selected_bounds_mode(maya_cmds, maya_om, new_scene):
 def test_circle_arrow_uses_one_shape(maya_cmds, maya_om, new_scene):
     _load_bd_util_nodes(maya_cmds)
     transform, shape = _create_controller(maya_cmds)
-    maya_cmds.setAttr(f"{shape}.shape", 33)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("CircleArrow2D"))
 
     assert maya_cmds.listRelatives(transform, shapes=True) == [shape]
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -924,7 +1052,7 @@ def test_animation_matrix_connection_updates_bounds_at_keyframes(
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
     source = maya_cmds.createNode("composeMatrix", name="animatedShapeMatrix")
-    maya_cmds.setAttr(f"{shape}.shape", 21)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Cube"))
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 2.0)
     maya_cmds.connectAttr(
@@ -1076,7 +1204,7 @@ def test_axis_rotate_x_turns_circle_arrow_around_first_axis(
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
-    maya_cmds.setAttr(f"{shape}.shape", 33)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("CircleArrow2D"))
     maya_cmds.setAttr(f"{shape}.shapeAxisRotateX", 90.0)
 
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -1091,7 +1219,7 @@ def test_axis_scale_x_follows_first_axis(
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
     maya_cmds.setAttr(f"{shape}.boundsMode", mode)
-    maya_cmds.setAttr(f"{shape}.shape", 21)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Cube"))
     maya_cmds.setAttr(f"{shape}.{prefix}1stAxis", 4)  # +Z
     maya_cmds.setAttr(f"{shape}.{prefix}AxisScaleX", 3.0)
 
@@ -1130,7 +1258,7 @@ def test_cube_axis_offset_is_fixed_after_shape_size(
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
-    maya_cmds.setAttr(f"{shape}.shape", 21)  # Cube
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Cube"))  # Cube
     maya_cmds.setAttr(f"{shape}.shapeSize", size)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
 
@@ -1155,7 +1283,7 @@ def test_cube_axis_offset_length_anchors_selected_direction(
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
-    maya_cmds.setAttr(f"{shape}.shape", 21)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Cube"))
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetDirection", direction)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 3.0)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
@@ -1170,7 +1298,7 @@ def test_axis_offset_length_requires_offset_and_scales_axis_translation(
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
-    maya_cmds.setAttr(f"{shape}.shape", 21)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Cube"))
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 3.0)
     assert _bounds(maya_om, shape) == pytest.approx(
         (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5), abs=1.0e-9
@@ -1209,7 +1337,7 @@ def test_axis_offset_length_accepts_distance_connection_across_scene_units(
     try:
         _, shape = _create_controller(maya_cmds)
         source = maya_cmds.createNode("transform", name="boneLengthSource")
-        maya_cmds.setAttr(f"{shape}.shape", 21)
+        maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Cube"))
         maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
         maya_cmds.connectAttr(
             f"{source}.translateX", f"{shape}.shapeAxisOffsetLength"
@@ -1238,7 +1366,7 @@ def test_axis_offset_length_updates_bounds_after_undo_redo(
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
-    maya_cmds.setAttr(f"{shape}.shape", 21)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Cube"))
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 2.0)
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -1475,7 +1603,7 @@ def test_scene_round_trip_preserves_circle_arrow(
 ):
     _load_bd_util_nodes(maya_cmds)
     transform, shape = _create_controller(maya_cmds, name="savedController")
-    maya_cmds.setAttr(f"{shape}.shape", 33)
+    maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("CircleArrow2D"))
     maya_cmds.setAttr(f"{shape}.shape1stAxis", 0)  # +X
     maya_cmds.setAttr(f"{shape}.shape2ndAxis", 2)  # +Y
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
@@ -1490,7 +1618,9 @@ def test_scene_round_trip_preserves_circle_arrow(
     maya_cmds.file(str(scene_path), open=True, force=True)
 
     assert maya_cmds.listRelatives(transform, shapes=True) == [shape]
-    assert maya_cmds.getAttr(f"{shape}.shape") == 33
+    assert maya_cmds.getAttr(f"{shape}.shape") == SHAPE_NAMES.index(
+        "CircleArrow2D"
+    )
     assert maya_cmds.getAttr(f"{shape}.shape1stAxis") == 0
     assert maya_cmds.getAttr(f"{shape}.shape2ndAxis") == 2
     assert maya_cmds.getAttr(f"{shape}.shapeAxisOffset")
@@ -1511,7 +1641,7 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     mod = bdu.ModifierManager()
     nodes = bdu.Nodes(modifier_manager=mod)
     transform, shape = nodes.create.controllerShape(name="rig_ctrl")
-    shape.shape.set(33)
+    shape.shape.set(SHAPE_NAMES.index("CircleArrow2D"))
     shape.shape1stAxis.set(0)
     shape.shape2ndAxis.set(2)
     shape.shapeAxisOffset.set(True)
@@ -1547,7 +1677,9 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     assert not maya_cmds.objExists("rig_ctrl")
     mod.redo_it()
     assert maya_cmds.objExists(transform.full_path)
-    assert maya_cmds.getAttr(f"{shape.full_path}.shape") == 33
+    assert maya_cmds.getAttr(f"{shape.full_path}.shape") == SHAPE_NAMES.index(
+        "CircleArrow2D"
+    )
     assert maya_cmds.getAttr(f"{shape.full_path}.shape1stAxis") == 0
     assert maya_cmds.getAttr(f"{shape.full_path}.shape2ndAxis") == 2
     assert maya_cmds.getAttr(f"{shape.full_path}.shapeAxisOffset")

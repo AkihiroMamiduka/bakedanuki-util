@@ -140,7 +140,7 @@ using Stroke = MPointArray;
 using Strokes = std::vector<Stroke>;
 
 struct ShapeSettings {
-    short shape = 9;
+    short shape = 11;
     short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
@@ -335,7 +335,7 @@ bool readSettings(
 ) {
     MStatus status;
     if (attributes.shape.isNull()) {
-        settings.shape = 21;
+        settings.shape = 33;
     } else {
         settings.shape = MPlug(node, attributes.shape).asShort(&status);
         if (!status) {
@@ -647,6 +647,191 @@ void appendFillQuad(
     appendFillTriangle(triangles, transform, first, third, fourth);
 }
 
+MPoint legacyPoint(const RawPoint& point) {
+    return MPoint(point.z, point.y, -point.x);
+}
+
+void appendLegacyTriangle(
+    MPointArray& triangles, const ShapeTransform& transform,
+    const RawPoint& first, const RawPoint& second, const RawPoint& third
+) {
+    appendFillTriangle(
+        triangles, transform, legacyPoint(first), legacyPoint(second),
+        legacyPoint(third)
+    );
+}
+
+void appendLegacyQuad(
+    MPointArray& triangles, const ShapeTransform& transform,
+    const RawPoint& first, const RawPoint& second,
+    const RawPoint& third, const RawPoint& fourth
+) {
+    appendFillQuad(
+        triangles, transform, legacyPoint(first), legacyPoint(second),
+        legacyPoint(third), legacyPoint(fourth)
+    );
+}
+
+void appendLegacyArrowWedge(
+    MPointArray& triangles, const ShapeTransform& transform,
+    const RawPoint& left, const RawPoint& tip, const RawPoint& right,
+    const RawPoint& ridge, const RawPoint& baseCenter
+) {
+    appendLegacyTriangle(triangles, transform, left, tip, ridge);
+    appendLegacyTriangle(triangles, transform, tip, right, ridge);
+    appendLegacyTriangle(triangles, transform, right, baseCenter, ridge);
+    appendLegacyTriangle(triangles, transform, baseCenter, left, ridge);
+}
+
+void appendPlanarPolygon(
+    MPointArray& triangles, const ShapeTransform& transform,
+    std::vector<RawPoint> points, bool xzPlane = false
+) {
+    if (points.size() > 2 &&
+        std::abs(points.front().x - points.back().x) < 1.0e-9 &&
+        std::abs(points.front().y - points.back().y) < 1.0e-9 &&
+        std::abs(points.front().z - points.back().z) < 1.0e-9) {
+        points.pop_back();
+    }
+    if (points.size() < 3) return;
+    const auto ordinate = [xzPlane](const RawPoint& point) {
+        return xzPlane ? point.z : point.y;
+    };
+    const auto cross = [&](std::size_t a, std::size_t b, std::size_t c) {
+        return (points[b].x - points[a].x) *
+                   (ordinate(points[c]) - ordinate(points[a])) -
+               (ordinate(points[b]) - ordinate(points[a])) *
+                   (points[c].x - points[a].x);
+    };
+    double signedArea = 0.0;
+    for (std::size_t index = 0; index < points.size(); ++index) {
+        const RawPoint& first = points[index];
+        const RawPoint& second = points[(index + 1) % points.size()];
+        signedArea += first.x * ordinate(second) -
+                      second.x * ordinate(first);
+    }
+    const double winding = signedArea >= 0.0 ? 1.0 : -1.0;
+    std::vector<std::size_t> remaining;
+    for (std::size_t index = 0; index < points.size(); ++index) {
+        remaining.push_back(index);
+    }
+    while (remaining.size() > 3) {
+        bool foundEar = false;
+        for (std::size_t index = 0; index < remaining.size(); ++index) {
+            const std::size_t prev =
+                remaining[(index + remaining.size() - 1) % remaining.size()];
+            const std::size_t current = remaining[index];
+            const std::size_t next = remaining[(index + 1) % remaining.size()];
+            const double area = winding * cross(prev, current, next);
+            if (area <= 1.0e-10) continue;
+            bool containsPoint = false;
+            for (std::size_t candidate : remaining) {
+                if (candidate == prev || candidate == current ||
+                    candidate == next) continue;
+                const double first = winding * cross(prev, current, candidate);
+                const double second = winding * cross(current, next, candidate);
+                const double third = winding * cross(next, prev, candidate);
+                if (first >= -1.0e-10 && second >= -1.0e-10 &&
+                    third >= -1.0e-10) {
+                    containsPoint = true;
+                    break;
+                }
+            }
+            if (containsPoint) continue;
+            appendLegacyTriangle(
+                triangles, transform, points[prev], points[current],
+                points[next]
+            );
+            remaining.erase(remaining.begin() + index);
+            foundEar = true;
+            break;
+        }
+        if (!foundEar) break;
+    }
+    if (remaining.size() == 3) {
+        appendLegacyTriangle(
+            triangles, transform, points[remaining[0]],
+            points[remaining[1]], points[remaining[2]]
+        );
+    }
+}
+
+RawPoint rotatedPlanarPoint(const RawPoint& point, double angle) {
+    return {
+        point.x * std::cos(angle) - point.y * std::sin(angle),
+        point.x * std::sin(angle) + point.y * std::cos(angle),
+        point.z,
+    };
+}
+
+void appendGearRing(
+    MPointArray& triangles, const ShapeTransform& transform
+) {
+    std::vector<RawPoint> outer;
+    std::vector<RawPoint> inner;
+    std::vector<double> angles;
+    for (int tooth = 0; tooth < 8; ++tooth) {
+        const double rotation = -tooth * kPi / 4.0;
+        for (const RawPoint& point : {
+                 RawPoint{-0.09, 0.35, 0.0},
+                 RawPoint{-0.0675, 0.5, 0.0},
+                 RawPoint{0.0675, 0.5, 0.0},
+                 RawPoint{0.09, 0.35, 0.0},
+             }) {
+            outer.push_back(rotatedPlanarPoint(point, rotation));
+        }
+    }
+    for (unsigned int index = 0; index < kCircleSegments; ++index) {
+        const double angle = 2.0 * kPi * index / kCircleSegments;
+        inner.push_back({
+            0.1375 * std::sin(angle),
+            -0.1375 * std::cos(angle), 0.0
+        });
+    }
+    for (const auto& polygon : {outer, inner}) {
+        for (const RawPoint& point : polygon) {
+            double angle = std::atan2(point.y, point.x);
+            if (angle < 0.0) angle += 2.0 * kPi;
+            angles.push_back(angle);
+        }
+    }
+    std::sort(angles.begin(), angles.end());
+    angles.erase(
+        std::unique(angles.begin(), angles.end(),
+            [](double a, double b) { return std::abs(a - b) < 1.0e-9; }),
+        angles.end()
+    );
+    const auto onBoundary = [](const std::vector<RawPoint>& polygon,
+                               double angle) {
+        const double dx = std::cos(angle);
+        const double dy = std::sin(angle);
+        for (std::size_t index = 0; index < polygon.size(); ++index) {
+            const RawPoint& a = polygon[index];
+            const RawPoint& b = polygon[(index + 1) % polygon.size()];
+            const double ex = b.x - a.x;
+            const double ey = b.y - a.y;
+            const double denominator = dx * ey - dy * ex;
+            if (std::abs(denominator) < 1.0e-12) continue;
+            const double distance = (a.x * ey - a.y * ex) / denominator;
+            const double edgePosition = (a.x * dy - a.y * dx) / denominator;
+            if (distance > 0.0 && edgePosition >= -1.0e-8 &&
+                edgePosition <= 1.0 + 1.0e-8) {
+                return RawPoint{distance * dx, distance * dy, 0.0};
+            }
+        }
+        return RawPoint{0.0, 0.0, 0.0};
+    };
+    for (std::size_t index = 0; index < angles.size(); ++index) {
+        const double first = angles[index];
+        const double second = angles[(index + 1) % angles.size()];
+        appendLegacyQuad(
+            triangles, transform,
+            onBoundary(outer, first), onBoundary(outer, second),
+            onBoundary(inner, second), onBoundary(inner, first)
+        );
+    }
+}
+
 MPoint spherePoint(unsigned int latitude, unsigned int longitude) {
     const double polar = kPi * latitude / 16.0;
     const double azimuth = 2.0 * kPi * longitude / 32.0;
@@ -662,34 +847,129 @@ MPoint circlePointAtX(double x, unsigned int segment) {
     return MPoint(x, 0.5 * std::cos(angle), 0.5 * std::sin(angle));
 }
 
-MPointArray makeFillTriangles(const ShapeTransform& transform) {
+std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
+    const ShapeTransform& transform
+) {
+    if (!isFilledPreset(transform.settings.shape)) return {};
     MPointArray triangles;
-    switch (transform.settings.shape) {
-        case kTriangleFilledShape:
+    MPointArray templateTriangles;
+    const short outline = outlinePresetIndex(transform.settings.shape);
+    switch (outline) {
+        case 0:  // Gear
+            appendGearRing(triangles, transform);
+            break;
+        case 6:  // Triangle
+        case 7:  // TriangleArrow3D
             appendFillTriangle(
                 triangles, transform,
                 MPoint(0.0, 0.5, 0.0),
                 MPoint(0.0, -0.37, 0.5),
                 MPoint(0.0, -0.37, -0.5)
             );
-            break;
-        case kSquareFilledShape:
-            appendFillQuad(
-                triangles, transform,
-                MPoint(0.0, -0.5, -0.5), MPoint(0.0, 0.5, -0.5),
-                MPoint(0.0, 0.5, 0.5), MPoint(0.0, -0.5, 0.5)
-            );
-            break;
-        case kCircleFilledShape:
-            for (unsigned int index = 0; index < kCircleSegments; ++index) {
-                appendFillTriangle(
-                    triangles, transform, MPoint::origin,
-                    circlePointAtX(0.0, index),
-                    circlePointAtX(0.0, index + 1)
-                );
+            if (outline == 7) {
+                appendLegacyArrowWedge(triangles, transform,
+                    {-0.5, -0.37, 0.0}, {0.0, 0.5, 0.0},
+                    {0.5, -0.37, 0.0}, {0.0, -0.37, 0.5},
+                    {0.0, -0.37, 0.0});
             }
             break;
-        case kCubeFilledShape:
+        case 8:  // Square
+        case 9:   // SquareArrow2D
+        case 10:  // SquareArrow3D
+        case 11:  // SquareArrowCrossLine2D
+        case 12:  // SquareArrowCrossLine3D
+        case 13:  // SquareArrowCrossLineTemplate2D
+        case 14:  // SquareArrowCrossLineTemplate3D
+        case 15:  // SquareArrow4Way2D
+        case 16:  // SquareArrow4Way3D
+        case 17:  // SquareTemplateArrow4Way2D
+        case 18:  // SquareTemplateArrow4Way3D
+            if (outline == 17 || outline == 18) {
+                appendPlanarPolygon(templateTriangles, transform,
+                    presetPrimitive(7));
+                for (int direction = 0; direction < 4; ++direction) {
+                    const double angle = direction * kPi / 2.0;
+                    const double halfWidth =
+                        direction == 0 ? 0.072 : 0.036;
+                    const double tip = direction == 0 ? 0.625 : 0.5625;
+                    appendLegacyTriangle(triangles, transform,
+                        rotatedPlanarPoint({-halfWidth, 0.5, 0.0}, angle),
+                        rotatedPlanarPoint({0.0, tip, 0.0}, angle),
+                        rotatedPlanarPoint({halfWidth, 0.5, 0.0}, angle));
+                }
+            } else if (outline == 15 || outline == 16) {
+                appendPlanarPolygon(triangles, transform, presetPrimitive(13));
+            } else if (outline == 8) {
+                appendPlanarPolygon(triangles, transform, presetPrimitive(7));
+            } else {
+                appendPlanarPolygon(triangles, transform, presetPrimitive(8));
+            }
+            if (outline == 10 || outline == 12 || outline == 14) {
+                appendLegacyArrowWedge(triangles, transform,
+                    {-0.072, 0.5, 0.0}, {0.0, 0.625, 0.0},
+                    {0.072, 0.5, 0.0}, {0.0, 0.5, 0.0625},
+                    {0.0, 0.5, 0.0});
+            }
+            if (outline == 16 || outline == 18) {
+                for (int direction = 0; direction < 4; ++direction) {
+                    const double angle = direction * kPi / 2.0;
+                    const double tip = direction == 0 ? 0.625 : 0.5625;
+                    const double height =
+                        direction == 0 ? 0.0625 : 0.03125;
+                    const double halfWidth =
+                        direction == 0 ? 0.072 : 0.036;
+                    appendLegacyArrowWedge(triangles, transform,
+                        rotatedPlanarPoint({-halfWidth, 0.5, 0.0}, angle),
+                        rotatedPlanarPoint({0.0, tip, 0.0}, angle),
+                        rotatedPlanarPoint({halfWidth, 0.5, 0.0}, angle),
+                        rotatedPlanarPoint({0.0, 0.5, height}, angle),
+                        rotatedPlanarPoint({0.0, 0.5, 0.0}, angle));
+                }
+            }
+            break;
+        case 27:  // Circle
+        case 28:  // CircleArrow2D
+        case 29:  // CircleArrow3D
+            if (outline == 28 || outline == 29) {
+                std::vector<RawPoint> boundary;
+                for (unsigned int index = 0; index < kCircleSegments;
+                     ++index) {
+                    if (index == 31) {
+                        boundary.push_back({0.075, 0.495096189432, 0.0});
+                        boundary.push_back({0.0, 0.625, 0.0});
+                        boundary.push_back({-0.075, 0.495096189432, 0.0});
+                    }
+                    if (index >= 31 && index <= 33) continue;
+                    const double angle = 2.0 * kPi * index / kCircleSegments;
+                    boundary.push_back({
+                        0.5 * std::sin(angle),
+                        -0.5 * std::cos(angle), 0.0
+                    });
+                }
+                appendPlanarPolygon(triangles, transform, std::move(boundary));
+            } else {
+                for (unsigned int index = 0; index < kCircleSegments;
+                     ++index) {
+                    appendFillTriangle(
+                        triangles, transform, MPoint::origin,
+                        circlePointAtX(0.0, index),
+                        circlePointAtX(0.0, index + 1)
+                    );
+                }
+            }
+            if (outline == 29) {
+                appendLegacyArrowWedge(triangles, transform,
+                    {-0.075, 0.495096189432, 0.0},
+                    {0.0, 0.625, 0.0},
+                    {0.075, 0.495096189432, 0.0},
+                    {0.0, 0.5, 0.0625}, {0.0, 0.5, 0.0});
+            }
+            break;
+        case 19:  // Cube
+        case 20:  // CubeArrow2D
+        case 21:  // CubeArrow3D
+        case 22:  // CubeFin
+        case 23:  // CubeFinArrow
             appendFillQuad(triangles, transform,
                 MPoint(0.5, -0.5, -0.5), MPoint(0.5, 0.5, -0.5),
                 MPoint(0.5, 0.5, 0.5), MPoint(0.5, -0.5, 0.5));
@@ -708,8 +988,31 @@ MPointArray makeFillTriangles(const ShapeTransform& transform) {
             appendFillQuad(triangles, transform,
                 MPoint(0.5, -0.5, -0.5), MPoint(-0.5, -0.5, -0.5),
                 MPoint(-0.5, 0.5, -0.5), MPoint(0.5, 0.5, -0.5));
+            if (outline == 20 || outline == 21) {
+                appendLegacyTriangle(triangles, transform,
+                    {-0.072, 0.0, 0.5}, {0.0, 0.0, 0.625},
+                    {0.072, 0.0, 0.5});
+            }
+            if (outline == 21) {
+                appendLegacyArrowWedge(triangles, transform,
+                    {-0.072, 0.0, 0.5}, {0.0, 0.0, 0.625},
+                    {0.072, 0.0, 0.5}, {0.0, 0.0625, 0.5},
+                    {0.0, 0.0, 0.5});
+            }
+            if (outline == 22) {
+                appendLegacyQuad(triangles, transform,
+                    {0.0, 0.5, -0.5}, {0.0, 1.0, -0.5},
+                    {0.0, 1.0, 0.5}, {0.0, 0.5, 0.5});
+            }
+            if (outline == 23) {
+                appendLegacyTriangle(triangles, transform,
+                    {0.0, 0.5, -0.5}, {0.0, 1.0, -0.5},
+                    {0.0, 0.5, 0.5});
+            }
             break;
-        case kOctahedronFilledShape: {
+        case 24: {  // Octahedron
+        case 25:  // OctahedronArrow
+        case 26:  // OctahedronArrowFin
             const std::array<MPoint, 4> equator = {
                 MPoint(0.0, 0.5, 0.0), MPoint(0.0, 0.0, 0.5),
                 MPoint(0.0, -0.5, 0.0), MPoint(0.0, 0.0, -0.5)
@@ -718,13 +1021,54 @@ MPointArray makeFillTriangles(const ShapeTransform& transform) {
                 const MPoint& first = equator[index];
                 const MPoint& second = equator[(index + 1) % equator.size()];
                 appendFillTriangle(triangles, transform,
-                    MPoint(0.5, 0.0, 0.0), first, second);
+                    MPoint(outline == 24 ? 0.5 : 1.5, 0.0, 0.0),
+                    first, second);
                 appendFillTriangle(triangles, transform,
                     MPoint(-0.5, 0.0, 0.0), second, first);
             }
+            if (outline == 26) {
+                appendLegacyQuad(triangles, transform,
+                    {0.0, 0.0, 1.5}, {0.0, 0.5, 1.5},
+                    {0.0, 0.5, -0.5}, {0.0, 0.0, -0.5});
+            }
             break;
         }
-        case kSphereFilledShape:
+        case 30:  // Semicircle
+        case 31:  // SemicircleArrow2D
+        case 32:  // SemicircleArrow3D
+            {
+                std::vector<RawPoint> boundary;
+                for (unsigned int index = 0;
+                     index <= kCircleSegments / 2; ++index) {
+                    if ((outline == 31 || outline == 32) && index == 15) {
+                        boundary.push_back({0.075, 0.495096189432, 0.0});
+                        boundary.push_back({0.0, 0.625, 0.0});
+                        boundary.push_back({-0.075, 0.495096189432, 0.0});
+                    }
+                    if ((outline == 31 || outline == 32) &&
+                        index >= 15 && index <= 17) continue;
+                    const double angle = 2.0 * kPi * index /
+                                         kCircleSegments;
+                    boundary.push_back({
+                        0.5 * std::cos(angle),
+                        0.5 * std::sin(angle), 0.0
+                    });
+                }
+                appendPlanarPolygon(triangles, transform, std::move(boundary));
+            }
+            if (outline == 32) {
+                appendLegacyArrowWedge(triangles, transform,
+                    {-0.075, 0.495096189432, 0.0},
+                    {0.0, 0.625, 0.0},
+                    {0.075, 0.495096189432, 0.0},
+                    {0.0, 0.5, 0.0625}, {0.0, 0.5, 0.0});
+            }
+            break;
+        case 33:  // Sphere
+        case 34:  // SphereArrow2D
+        case 35:  // SphereArrow3D
+        case 46:  // ColorSphere
+        case 47:  // ColorSphereCrossLine
             for (unsigned int latitude = 0; latitude < 16; ++latitude) {
                 for (unsigned int longitude = 0; longitude < 32; ++longitude) {
                     const MPoint upperLeft = spherePoint(latitude, longitude);
@@ -745,8 +1089,23 @@ MPointArray makeFillTriangles(const ShapeTransform& transform) {
                     }
                 }
             }
+            if (outline == 34 || outline == 35) {
+                appendLegacyTriangle(triangles, transform,
+                    {-0.075, 0.0, 0.495096189432},
+                    {0.0, 0.0, 0.625},
+                    {0.075, 0.0, 0.495096189432});
+            }
+            if (outline == 35) {
+                appendLegacyArrowWedge(triangles, transform,
+                    {-0.075, 0.0, 0.495096189432},
+                    {0.0, 0.0, 0.625},
+                    {0.075, 0.0, 0.495096189432},
+                    {0.0, 0.0625, 0.5}, {0.0, 0.0, 0.5});
+            }
             break;
-        case kCylinderFilledShape:
+        case 36:  // Cylinder
+        case 37:  // CylinderFin
+        case 38:  // CylinderFinArrow
             for (unsigned int index = 0; index < kCircleSegments; ++index) {
                 const MPoint lower = circlePointAtX(-0.5, index);
                 const MPoint lowerNext = circlePointAtX(-0.5, index + 1);
@@ -759,8 +1118,28 @@ MPointArray makeFillTriangles(const ShapeTransform& transform) {
                 appendFillTriangle(triangles, transform,
                     MPoint(-0.5, 0.0, 0.0), lowerNext, lower);
             }
+            if (outline == 37) {
+                appendLegacyQuad(triangles, transform,
+                    {0.0, 0.5, 0.5}, {0.0, 1.0, 0.5},
+                    {0.0, 1.0, -0.5}, {0.0, 0.5, -0.5});
+            }
+            if (outline == 38) {
+                appendLegacyTriangle(triangles, transform,
+                    {0.0, 0.5, -0.5}, {0.0, 1.0, -0.5},
+                    {0.0, 0.5, 0.5});
+            }
             break;
-        case kPyramidFilledShape: {
+        case 39:  // Arrow
+        case 40:  // ArrowFin
+            appendPlanarPolygon(triangles, transform, presetPrimitive(33), true);
+            if (outline == 40) {
+                appendLegacyQuad(triangles, transform,
+                    {0.0, 0.0, 0.5}, {0.0, 0.5, -0.25},
+                    {0.0, 0.25, -0.5}, {0.0, 0.0, -0.25});
+            }
+            break;
+        case 41: {  // Pyramid
+        case 42:  // PyramidFin
             const std::array<MPoint, 4> base = {
                 MPoint(-0.5, 0.5, -0.5), MPoint(-0.5, 0.5, 0.5),
                 MPoint(-0.5, -0.5, 0.5), MPoint(-0.5, -0.5, -0.5)
@@ -772,9 +1151,15 @@ MPointArray makeFillTriangles(const ShapeTransform& transform) {
             }
             appendFillQuad(triangles, transform,
                 base[0], base[3], base[2], base[1]);
+            if (outline == 42) {
+                appendLegacyTriangle(triangles, transform,
+                    {0.0, 0.0, 0.5}, {0.0, 0.5, 0.5},
+                    {0.0, 0.5, -0.5});
+            }
             break;
         }
-        case kConeFilledShape:
+        case 43:  // Cone
+        case 44:  // ConeFin
             for (unsigned int index = 0; index < kCircleSegments; ++index) {
                 const MPoint first = circlePointAtX(-0.5, index);
                 const MPoint second = circlePointAtX(-0.5, index + 1);
@@ -783,15 +1168,28 @@ MPointArray makeFillTriangles(const ShapeTransform& transform) {
                 appendFillTriangle(triangles, transform,
                     MPoint(-0.5, 0.0, 0.0), second, first);
             }
+            if (outline == 44) {
+                appendLegacyTriangle(triangles, transform,
+                    {0.0, 0.0, 0.5}, {0.0, 0.5, 0.5},
+                    {0.0, 0.5, -0.5});
+            }
             break;
         default:
             break;
     }
-    return triangles;
+    std::vector<BdControllerShapeNode::Geometry::FillPart> parts;
+    if (triangles.length() != 0) {
+        parts.push_back({std::move(triangles), StrokeStyle::Normal});
+    }
+    if (templateTriangles.length() != 0) {
+        parts.push_back({std::move(templateTriangles), StrokeStyle::Template});
+    }
+    return parts;
 }
 
 MBoundingBox boundsForGeometry(
-    const Strokes& strokes, const MPointArray& fillTriangles
+    const Strokes& strokes,
+    const std::vector<BdControllerShapeNode::Geometry::FillPart>& fillParts
 ) {
     MBoundingBox box;
     bool hasPoint = false;
@@ -801,9 +1199,11 @@ MBoundingBox boundsForGeometry(
             hasPoint = true;
         }
     }
-    for (unsigned int index = 0; index < fillTriangles.length(); ++index) {
-        box.expand(fillTriangles[index]);
-        hasPoint = true;
+    for (const auto& part : fillParts) {
+        for (unsigned int index = 0; index < part.triangles.length(); ++index) {
+            box.expand(part.triangles[index]);
+            hasPoint = true;
+        }
     }
     if (!hasPoint) {
         return MBoundingBox(MPoint::origin, MPoint::origin);
@@ -817,8 +1217,8 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const ShapeTransform transform(settings);
     auto result = std::make_shared<BdControllerShapeNode::Geometry>();
     result->strokes = makeStrokes(transform, result->strokeStyles);
-    result->fillTriangles = makeFillTriangles(transform);
-    result->bounds = boundsForGeometry(result->strokes, result->fillTriangles);
+    result->fillParts = makeFillParts(transform);
+    result->bounds = boundsForGeometry(result->strokes, result->fillParts);
     result->offsetLineTemplate = settings.offsetLineTemplate;
     result->offsetLineEndpoint = transformPoint(MPoint::origin, transform, false);
     if (settings.showOffsetLine && hasOffsetLine(result->offsetLineEndpoint)) {
@@ -845,10 +1245,16 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> transformGeometry(
         }
         result->strokes.push_back(std::move(stroke));
     }
-    for (unsigned int index = 0; index < base.fillTriangles.length(); ++index) {
-        result->fillTriangles.append(base.fillTriangles[index] * matrix);
+    for (const auto& basePart : base.fillParts) {
+        BdControllerShapeNode::Geometry::FillPart part;
+        part.style = basePart.style;
+        for (unsigned int index = 0;
+             index < basePart.triangles.length(); ++index) {
+            part.triangles.append(basePart.triangles[index] * matrix);
+        }
+        result->fillParts.push_back(std::move(part));
     }
-    result->bounds = boundsForGeometry(result->strokes, result->fillTriangles);
+    result->bounds = boundsForGeometry(result->strokes, result->fillParts);
     result->offsetLineEndpoint = base.offsetLineEndpoint * matrix;
     if (showOffsetLine && hasOffsetLine(result->offsetLineEndpoint)) {
         result->offsetLine.append(MPoint::origin);
@@ -1261,23 +1667,28 @@ public:
             MHWRender::MFrameContext::kGouraudShaded |
             MHWRender::MFrameContext::kFlatShaded
         )) != 0;
-        if (shaded && data->geometry->fillTriangles.length() != 0) {
-            drawManager.beginDrawable(MHWRender::MUIDrawManager::kSelectable);
-            drawManager.setColor(
-                selected ? data->fillColor : data->dormantFillColor
-            );
-            drawManager.setPaintStyle(MHWRender::MUIDrawManager::kFlat);
-            if (data->drawOnTop) {
-                drawManager.beginDrawInXray();
+        if (shaded) {
+            for (const auto& part : data->geometry->fillParts) {
+                drawManager.beginDrawable(
+                    part.style == StrokeStyle::Template
+                        ? MHWRender::MUIDrawManager::kNonSelectable
+                        : MHWRender::MUIDrawManager::kSelectable
+                );
+                MColor fillColor = selected
+                    ? data->fillColor : data->dormantFillColor;
+                if (part.style == StrokeStyle::Template) {
+                    fillColor = data->templateStrokeColor;
+                    fillColor.a = data->fillColor.a;
+                }
+                drawManager.setColor(fillColor);
+                drawManager.setPaintStyle(MHWRender::MUIDrawManager::kFlat);
+                if (data->drawOnTop) drawManager.beginDrawInXray();
+                drawManager.mesh(
+                    MHWRender::MUIDrawManager::kTriangles, part.triangles
+                );
+                if (data->drawOnTop) drawManager.endDrawInXray();
+                drawManager.endDrawable();
             }
-            drawManager.mesh(
-                MHWRender::MUIDrawManager::kTriangles,
-                data->geometry->fillTriangles
-            );
-            if (data->drawOnTop) {
-                drawManager.endDrawInXray();
-            }
-            drawManager.endDrawable();
         }
         for (std::size_t index = 0; index < data->geometry->strokes.size(); ++index) {
             const StrokeStyle style = data->geometry->strokeStyles[index];
@@ -1605,7 +2016,7 @@ MStatus BdControllerShapeNode::initialize() {
     MFnTypedAttribute typedAttributeFn;
     MFnEnumAttribute enumAttributeFn;
 
-    shape = enumAttributeFn.create("shape", "sh", 9, &status);
+    shape = enumAttributeFn.create("shape", "sh", 11, &status);
     if (!status) {
         return status;
     }

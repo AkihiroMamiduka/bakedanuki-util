@@ -43,9 +43,13 @@ public:
     bool excludeAsLocator() const override;
 
     struct Geometry {
+        struct FillPart {
+            MPointArray triangles;
+            StrokeStyle style = StrokeStyle::Normal;
+        };
         std::vector<MPointArray> strokes;
         std::vector<StrokeStyle> strokeStyles;
-        MPointArray fillTriangles;
+        std::vector<FillPart> fillParts;
         std::vector<MPointArray> boundsPreview;
         MPointArray offsetLine;
         MPoint offsetLineEndpoint = MPoint::origin;
