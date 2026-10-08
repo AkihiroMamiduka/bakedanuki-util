@@ -119,7 +119,7 @@ mod.do_it_dg()
 `-0.5` から `+0.5` まで伸びます。`CubeFinArrow` と `CylinderFinArrow` は
 `-1stAxis` 側のフィンを `+2ndAxis` 方向へ高さ `1` まで伸ばし、
 `+1stAxis` 側の本体上端へ斜めにつなぎます。
-`2D` / `3D` は付属する矢印の立体性を示します。
+`2D` の矢印は主平面上にあり、`3D` の矢印は主平面と直交する三角形も持ちます。
 `*Filled` は既存形状の輪郭を保ち、面を加えた形状です。純粋な線形状
 （`Line1st/2nd/3rd`、`CrossLineXY/XYZ`、`ColorCrossLine`）以外の
 各形状に用意します。十字線など面積のない付属部分は線のままです。
@@ -132,6 +132,9 @@ NURBS の CV・UV・材質・レンダリング用サーフェスではありま
 `GearFilled` は外周と内円の間を塗り、内円の内側を穴として残します。
 `Semicircle` は底辺のない半円です。`Semicircle*Filled` は半円板を描きますが、
 直径の輪郭線は追加しません。矢印の突起と Fin も面を持ち、Fin は厚みのない面です。
+`3D` 系の Filled 矢印は、主平面と直交する薄い三角面で表し、閉じた立体には
+しません。`OctahedronArrowFinFilled` の Fin は、八面体の上半分と重ならない左右の
+三角面だけを塗ります。
 `SquareArrowCrossLineTemplate*` は十字線、`SquareTemplateArrow4Way*` は四隅だけを
 template 色・選択不可にします。`ColorSphere` は X=赤、Y=緑、Z=青の
 直交円だけで構成し、十字線を含みません。`ColorSphereCrossLine` はその円に
@@ -476,3 +479,4 @@ template 色・選択不可の線には影響しません。
 39. `shapeFillTransparency` を `0`、`0.5`、`1` に変え、輪郭線の `shapeTransparency` と独立して面の透明度が変わる。半透明の Cube・Sphere で前後の面の重なりと描画順を確認する。
 40. `*Filled` で `shapeDrawOnTop` を切り替え、面と輪郭線が前面表示される。`shapeFillTransparency` を組み合わせても選択色とクリック選択が期待どおりか確認する。
 41. 新しい33種の `*Filled` で輪郭線と面の外縁が一致する。Gear の穴、半円の直径側、矢印・Fin の付属面、template 本体面の非選択、ColorSphere 系の軸色の線を確認する。軸指定と非等方スケールを変えても一致し、負スケール時は表裏の表示を確認する。
+42. `3D` 系の Filled 矢印を斜めから見て、矢印部分が直交する２枚の薄い面として表示される。`SquareArrow4Way3DFilled` と `SquareTemplateArrow4Way3DFilled` は４方向とも確認する。`OctahedronArrowFinFilled` は Fin 外周の上側で、八面体と重ならない左右２枚の三角面だけが塗られる。

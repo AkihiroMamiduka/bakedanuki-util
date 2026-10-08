@@ -9,6 +9,8 @@
 
 ### Changed
 
+- `bdControllerShape` の `3D` 系 Filled 矢印は直交する薄い三角面で描き、
+  `OctahedronArrowFinFilled` は八面体と重ならない左右の Fin 面だけを塗る。
 - `bdControllerShape` の選択色をビューポートごとの Selection Highlighting 設定に従わせ、
   オフでは通常色と軸色を保つ。
 - `bdControllerShape` の基準軸を主軸 `+X`・補助軸 `+Y` の右手系へ変更した。

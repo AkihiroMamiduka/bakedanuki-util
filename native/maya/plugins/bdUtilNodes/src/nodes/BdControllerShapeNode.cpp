@@ -672,17 +672,6 @@ void appendLegacyQuad(
     );
 }
 
-void appendLegacyArrowWedge(
-    MPointArray& triangles, const ShapeTransform& transform,
-    const RawPoint& left, const RawPoint& tip, const RawPoint& right,
-    const RawPoint& ridge, const RawPoint& baseCenter
-) {
-    appendLegacyTriangle(triangles, transform, left, tip, ridge);
-    appendLegacyTriangle(triangles, transform, tip, right, ridge);
-    appendLegacyTriangle(triangles, transform, right, baseCenter, ridge);
-    appendLegacyTriangle(triangles, transform, baseCenter, left, ridge);
-}
-
 void appendPlanarPolygon(
     MPointArray& triangles, const ShapeTransform& transform,
     std::vector<RawPoint> points, bool xzPlane = false
@@ -867,9 +856,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                 MPoint(0.0, -0.37, -0.5)
             );
             if (outline == 7) {
-                appendLegacyArrowWedge(triangles, transform,
-                    {-0.5, -0.37, 0.0}, {0.0, 0.5, 0.0},
-                    {0.5, -0.37, 0.0}, {0.0, -0.37, 0.5},
+                appendLegacyTriangle(triangles, transform,
+                    {0.0, 0.5, 0.0}, {0.0, -0.37, 0.5},
                     {0.0, -0.37, 0.0});
             }
             break;
@@ -905,9 +893,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                 appendPlanarPolygon(triangles, transform, presetPrimitive(8));
             }
             if (outline == 10 || outline == 12 || outline == 14) {
-                appendLegacyArrowWedge(triangles, transform,
-                    {-0.072, 0.5, 0.0}, {0.0, 0.625, 0.0},
-                    {0.072, 0.5, 0.0}, {0.0, 0.5, 0.0625},
+                appendLegacyTriangle(triangles, transform,
+                    {0.0, 0.625, 0.0}, {0.0, 0.5, 0.0625},
                     {0.0, 0.5, 0.0});
             }
             if (outline == 16 || outline == 18) {
@@ -916,12 +903,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                     const double tip = direction == 0 ? 0.625 : 0.5625;
                     const double height =
                         direction == 0 ? 0.0625 : 0.03125;
-                    const double halfWidth =
-                        direction == 0 ? 0.072 : 0.036;
-                    appendLegacyArrowWedge(triangles, transform,
-                        rotatedPlanarPoint({-halfWidth, 0.5, 0.0}, angle),
+                    appendLegacyTriangle(triangles, transform,
                         rotatedPlanarPoint({0.0, tip, 0.0}, angle),
-                        rotatedPlanarPoint({halfWidth, 0.5, 0.0}, angle),
                         rotatedPlanarPoint({0.0, 0.5, height}, angle),
                         rotatedPlanarPoint({0.0, 0.5, 0.0}, angle));
                 }
@@ -958,10 +941,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                 }
             }
             if (outline == 29) {
-                appendLegacyArrowWedge(triangles, transform,
-                    {-0.075, 0.495096189432, 0.0},
+                appendLegacyTriangle(triangles, transform,
                     {0.0, 0.625, 0.0},
-                    {0.075, 0.495096189432, 0.0},
                     {0.0, 0.5, 0.0625}, {0.0, 0.5, 0.0});
             }
             break;
@@ -994,9 +975,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                     {0.072, 0.0, 0.5});
             }
             if (outline == 21) {
-                appendLegacyArrowWedge(triangles, transform,
-                    {-0.072, 0.0, 0.5}, {0.0, 0.0, 0.625},
-                    {0.072, 0.0, 0.5}, {0.0, 0.0625, 0.5},
+                appendLegacyTriangle(triangles, transform,
+                    {0.0, 0.0, 0.625}, {0.0, 0.0625, 0.5},
                     {0.0, 0.0, 0.5});
             }
             if (outline == 22) {
@@ -1027,9 +1007,12 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                     MPoint(-0.5, 0.0, 0.0), second, first);
             }
             if (outline == 26) {
-                appendLegacyQuad(triangles, transform,
-                    {0.0, 0.0, 1.5}, {0.0, 0.5, 1.5},
-                    {0.0, 0.5, -0.5}, {0.0, 0.0, -0.5});
+                appendLegacyTriangle(triangles, transform,
+                    {0.0, 0.0, -0.5}, {0.0, 0.5, 0.0},
+                    {0.0, 0.5, -0.5});
+                appendLegacyTriangle(triangles, transform,
+                    {0.0, 0.5, 0.0}, {0.0, 0.0, 1.5},
+                    {0.0, 0.5, 1.5});
             }
             break;
         }
@@ -1057,10 +1040,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                 appendPlanarPolygon(triangles, transform, std::move(boundary));
             }
             if (outline == 32) {
-                appendLegacyArrowWedge(triangles, transform,
-                    {-0.075, 0.495096189432, 0.0},
+                appendLegacyTriangle(triangles, transform,
                     {0.0, 0.625, 0.0},
-                    {0.075, 0.495096189432, 0.0},
                     {0.0, 0.5, 0.0625}, {0.0, 0.5, 0.0});
             }
             break;
@@ -1096,10 +1077,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                     {0.075, 0.0, 0.495096189432});
             }
             if (outline == 35) {
-                appendLegacyArrowWedge(triangles, transform,
-                    {-0.075, 0.0, 0.495096189432},
+                appendLegacyTriangle(triangles, transform,
                     {0.0, 0.0, 0.625},
-                    {0.075, 0.0, 0.495096189432},
                     {0.0, 0.0625, 0.5}, {0.0, 0.0, 0.5});
             }
             break;
