@@ -94,7 +94,7 @@ mod.do_it_dg()
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 | `shapeLineWidth` | `float` | `1` | 本体と OffsetLine の画面上の線幅。単位は pixel、最小値 `1` |
 | `shapeTransparency` | `float` | `0` | 本体の輪郭線と OffsetLine の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
-| `shapeFillTransparency` | `float` | `0.5` | `*Filled` の面の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
+| `shapeFillTransparency` | `float` | `0.85` | `*Filled` の面の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
 | `shapeDrawOnTop` | `bool` | `false` | 本体の輪郭線・面と OffsetLine を他のシーン形状に隠れないように描画する |
 | `boundsMode` | enum | `Shape` (0) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
 | `showBoundsPreview` | `bool` | `false` | 選択中の `boundsMode` の最終的な軸平行範囲を template 色で表示する。選択不可 |

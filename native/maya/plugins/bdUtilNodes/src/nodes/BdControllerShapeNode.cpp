@@ -1112,7 +1112,7 @@ public:
         ).asFloat(&status);
         const float fillOpacity = status && std::isfinite(fillTransparency)
             ? 1.0f - std::clamp(fillTransparency, 0.0f, 1.0f)
-            : 0.5f;
+            : 0.15f;
         const bool wasDrawOnTop = data->drawOnTop;
         data->drawOnTop = MPlug(
             objectPath.node(), BdControllerShapeNode::shapeDrawOnTop
@@ -1892,7 +1892,7 @@ MStatus BdControllerShapeNode::initialize() {
     }
 
     shapeFillTransparency = numericAttributeFn.create(
-        "shapeFillTransparency", "sftp", MFnNumericData::kFloat, 0.5f, &status
+        "shapeFillTransparency", "sftp", MFnNumericData::kFloat, 0.85f, &status
     );
     if (!status) {
         return status;
