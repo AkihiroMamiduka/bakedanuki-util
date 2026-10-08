@@ -1,6 +1,6 @@
 // Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 48> kPresetNames = {
+constexpr std::array<const char*, 52> kPresetNames = {
     "Gear",
     "Line1st",
     "Line2nd",
@@ -10,6 +10,7 @@ constexpr std::array<const char*, 48> kPresetNames = {
     "Triangle",
     "TriangleArrow3D",
     "Square",
+    "SquareFilled",
     "SquareArrow2D",
     "SquareArrow3D",
     "SquareArrowCrossLine2D",
@@ -21,6 +22,7 @@ constexpr std::array<const char*, 48> kPresetNames = {
     "SquareTemplateArrow4Way2D",
     "SquareTemplateArrow4Way3D",
     "Cube",
+    "CubeFilled",
     "CubeArrow2D",
     "CubeArrow3D",
     "CubeFin",
@@ -29,12 +31,14 @@ constexpr std::array<const char*, 48> kPresetNames = {
     "OctahedronArrow",
     "OctahedronArrowFin",
     "Circle",
+    "CircleFilled",
     "CircleArrow2D",
     "CircleArrow3D",
     "Semicircle",
     "SemicircleArrow2D",
     "SemicircleArrow3D",
     "Sphere",
+    "SphereFilled",
     "SphereArrow2D",
     "SphereArrow3D",
     "Cylinder",
@@ -50,6 +54,23 @@ constexpr std::array<const char*, 48> kPresetNames = {
     "ColorSphere",
     "ColorSphereCrossLine",
 };
+
+constexpr short kSquareFilledShape = 9;
+constexpr short kCubeFilledShape = 21;
+constexpr short kCircleFilledShape = 30;
+constexpr short kSphereFilledShape = 37;
+
+short outlinePresetIndex(short shape) {
+    if (shape == kSquareFilledShape) return 8;
+    if (shape == kCubeFilledShape) return 19;
+    if (shape == kCircleFilledShape) return 27;
+    if (shape == kSphereFilledShape) return 33;
+    if (shape > kSphereFilledShape) return shape - 4;
+    if (shape > kCircleFilledShape) return shape - 3;
+    if (shape > kCubeFilledShape) return shape - 2;
+    if (shape > kSquareFilledShape) return shape - 1;
+    return shape;
+}
 
 constexpr std::array<RawPoint, 2> kPrimitive2 = {{
     {0, 0, 0.5},
@@ -544,7 +565,7 @@ constexpr std::array<RawPoint, 3> kPrimitive47 = {{
 }};
 
 void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes& strokes, std::vector<StrokeStyle>& styles) {
-    switch (shape) {
+    switch (outlinePresetIndex(shape)) {
         case 0:  // Gear
             appendPresetComponent(0, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {0.275, 0.275, 0.275}, StrokeStyle::Normal, transform, strokes, styles);

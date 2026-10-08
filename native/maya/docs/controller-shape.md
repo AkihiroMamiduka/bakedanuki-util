@@ -1,7 +1,7 @@
 # Controller Shape
 
 `bdControllerShape` はリグのコントローラー向けのカスタム DAG shape です。
-１つの親 `transform` の下に１つの shape を置き、Viewport 2.0 に線を描画します。
+１つの親 `transform` の下に１つの shape を置き、Viewport 2.0 に線と面を描画します。
 `CircleArrow2D` は円と矢印を独立した線として描くため、両者をつなぐ線は不要です。
 コントローラーとして操作するのは親 `transform` です。
 
@@ -27,7 +27,7 @@ mod.do_it_dg()
 
 `nodes.create.controllerShape()` は `(Transform, BdControllerShape)` を返します。
 両ノードの作成は `mod.do_it_dag()`、属性設定は `mod.do_it_dg()` で確定します。
-標準の `nurbsCurve` データや生成ノードへの接続はありません。
+標準の `nurbsCurve` / `nurbsSurface` データや生成ノードへの接続はありません。
 軸指定の既定値は主軸 `+X`・補助軸 `+Y` で、平面形状は YZ 面に作られます。
 XY 面に向ける場合は `shape.shape1stAxis.set(4)`（`+Z`）を指定します。
 
@@ -75,7 +75,7 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `shape` | enum | `Square` (8) | 下表の48種類。`Gear` を一覧の先頭とし、初期値は `Square` |
+| `shape` | enum | `Square` (8) | 下表の52種類。`Gear` を一覧の先頭とし、初期値は `Square` |
 | `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
@@ -89,12 +89,13 @@ mod.do_it_dg()
 | `shapeAxisTranslate` | `doubleLinear3` | `(0, 0, 0)` | 指定した軸を基準に形状を平行移動 |
 | `shapeAxisRotate` | `doubleAngle3` | `(0, 0, 0)` | 指定した軸を基準に XYZ 固定順に回転 |
 | `shapeAxisScale` | `double3` | `(1, 1, 1)` | 指定した軸を基準に、`shapeAxisRotate` の内側で拡縮 |
-| `shapeSize` | `double` | `1` | 線の頂点を末端で一律スケール |
+| `shapeSize` | `double` | `1` | 本体の頂点を末端で一律スケール |
 | `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から、軸オフセットを除いた形状基準位置まで補助線を描く |
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 | `shapeLineWidth` | `float` | `1` | 本体と OffsetLine の画面上の線幅。単位は pixel、最小値 `1` |
-| `shapeTransparency` | `float` | `0` | 本体と OffsetLine の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
-| `shapeDrawOnTop` | `bool` | `false` | 本体と OffsetLine を他のシーン形状に隠れないように描画する |
+| `shapeTransparency` | `float` | `0` | 本体の輪郭線と OffsetLine の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
+| `shapeFillTransparency` | `float` | `0.5` | `*Filled` の面の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
+| `shapeDrawOnTop` | `bool` | `false` | 本体の輪郭線・面と OffsetLine を他のシーン形状に隠れないように描画する |
 | `boundsMode` | enum | `Shape` (0) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
 | `showBoundsPreview` | `bool` | `false` | 選択中の `boundsMode` の最終的な軸平行範囲を template 色で表示する。選択不可 |
 
@@ -103,15 +104,15 @@ mod.do_it_dg()
 | 値 | 形状 |
 | --- | --- |
 | 0–5 | `Gear`、`Line1st`、`Line2nd`、`Line3rd`、`CrossLineXY`、`CrossLineXYZ` |
-| 6–8 | `Triangle`、`TriangleArrow3D`、`Square` |
-| 9–14 | `SquareArrow2D`、`SquareArrow3D`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine3D`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate3D` |
-| 15–18 | `SquareArrow4Way2D`、`SquareArrow4Way3D`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way3D` |
-| 19–23 | `Cube`、`CubeArrow2D`、`CubeArrow3D`、`CubeFin`、`CubeFinArrow` |
-| 24–26 | `Octahedron`、`OctahedronArrow`、`OctahedronArrowFin` |
-| 27–32 | `Circle`、`CircleArrow2D`、`CircleArrow3D`、`Semicircle`、`SemicircleArrow2D`、`SemicircleArrow3D` |
-| 33–38 | `Sphere`、`SphereArrow2D`、`SphereArrow3D`、`Cylinder`、`CylinderFin`、`CylinderFinArrow` |
-| 39–44 | `Arrow`、`ArrowFin`、`Pyramid`、`PyramidFin`、`Cone`、`ConeFin` |
-| 45–47 | `ColorCrossLine`、`ColorSphere`、`ColorSphereCrossLine` |
+| 6–9 | `Triangle`、`TriangleArrow3D`、`Square`、`SquareFilled` |
+| 10–15 | `SquareArrow2D`、`SquareArrow3D`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine3D`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate3D` |
+| 16–19 | `SquareArrow4Way2D`、`SquareArrow4Way3D`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way3D` |
+| 20–25 | `Cube`、`CubeFilled`、`CubeArrow2D`、`CubeArrow3D`、`CubeFin`、`CubeFinArrow` |
+| 26–28 | `Octahedron`、`OctahedronArrow`、`OctahedronArrowFin` |
+| 29–35 | `Circle`、`CircleFilled`、`CircleArrow2D`、`CircleArrow3D`、`Semicircle`、`SemicircleArrow2D`、`SemicircleArrow3D` |
+| 36–42 | `Sphere`、`SphereFilled`、`SphereArrow2D`、`SphereArrow3D`、`Cylinder`、`CylinderFin`、`CylinderFinArrow` |
+| 43–48 | `Arrow`、`ArrowFin`、`Pyramid`、`PyramidFin`、`Cone`、`ConeFin` |
+| 49–51 | `ColorCrossLine`、`ColorSphere`、`ColorSphereCrossLine` |
 
 基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
 矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
@@ -120,6 +121,10 @@ mod.do_it_dg()
 `-1stAxis` 側のフィンを `+2ndAxis` 方向へ高さ `1` まで伸ばし、
 `+1stAxis` 側の本体上端へ斜めにつなぎます。
 `2D` / `3D` は付属する矢印の立体性を示します。
+`SquareFilled`、`CircleFilled`、`CubeFilled`、`SphereFilled` は既存形状の
+輪郭を保ち、面を加えた形状です。平面形状は YZ 面、立体形状は３軸とも
+`-0.5` から `+0.5` に収まります。面は Viewport 2.0 の三角形描画であり、
+NURBS の CV・UV・材質・レンダリング用サーフェスではありません。
 `Semicircle` は底辺のない半円です。
 `SquareArrowCrossLineTemplate*` は十字線、`SquareTemplateArrow4Way*` は四隅だけを
 template 色・選択不可にします。`ColorSphere` は X=赤、Y=緑、Z=青の
@@ -156,7 +161,7 @@ Channel Box の表示順は次の６区画です。区切りは `_`、`__`、`__
 `_____` という表示専用の１値 enum 属性で、値は
 `-----------------------------------`、非 keyable・ロック済みです。
 
-1. `shape`、`shapeDrawOnTop`、`shapeLineWidth`、`shapeTransparency`、`showShapeOffsetLine`、`shapeOffsetLineTemplate`
+1. `shape`、`shapeDrawOnTop`、`shapeLineWidth`、`shapeTransparency`、`shapeFillTransparency`、`showShapeOffsetLine`、`shapeOffsetLineTemplate`
 2. `shape1stAxis`、`shape2ndAxis`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、`shapeAxisOffsetLength`
 3. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
 4. `boundsMode`、`showBoundsPreview`
@@ -200,11 +205,14 @@ p_local = p_out * shapeAnimationTransformMatrix
 
 ### 描画属性
 
-`shapeLineWidth`、`shapeTransparency`、`shapeDrawOnTop` は Viewport 2.0 の
-描画だけを調整します。線幅は画面上の pixel 指定で、シーン単位や
-`shapeSize` とは独立しています。透明度は選択状態に応じたワイヤーフレーム色、
-または OffsetLine の template 色に適用します。最前面表示は他のシーン形状に
-遮られない線の表示を意味します。３属性は本体と OffsetLine に共通です。
+`shapeLineWidth`、`shapeTransparency`、`shapeFillTransparency`、
+`shapeDrawOnTop` は Viewport 2.0 の描画だけを調整します。線幅は画面上の
+pixel 指定で、シーン単位や `shapeSize` とは独立しています。
+`shapeTransparency` は輪郭線と OffsetLine、`shapeFillTransparency` は
+`*Filled` の面に適用します。面と輪郭線は選択状態に応じた色を使います。
+`shapeDrawOnTop` は輪郭線・面・OffsetLine を他のシーン形状より前に描きます。
+面を含む形状では、Shaded は面と輪郭線、Wireframe は輪郭線、
+Wireframe on Shaded は面と輪郭線を表示します。面内のクリックも選択対象です。
 `showBoundsPreview` の確認用の箱は従来の template 色・線幅・選択不可を維持し、
 これらの属性の影響を受けません。描画属性の変更はフォーカス範囲を変えず、
 本体と OffsetLine のクリック選択の可否も変更しません。
@@ -296,7 +304,7 @@ F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform 
 場合だけです。
 `shapeOffsetLineTemplate` が `true` のときは補助線だけを選択対象から外し、
 Maya の template 表示色で描きます。`false` なら補助線は通常のワイヤーフレーム色で
-クリック選択に使えます。どちらの設定でも形状本体の線は選択できます。
+クリック選択に使えます。どちらの設定でも形状本体の輪郭線は選択できます。
 補助線が形状本体の線と重なる箇所では、本体の線で選択される場合があります。
 
 既定の `Square` と `Circle` は YZ 面（`x=0`）にあり、Y/Z の各軸が
@@ -325,6 +333,10 @@ Maya 上の挙動テストは [test_bd_controller_shape.py](../../../tests/maya/
 そのため `CircleArrow2D` の円と矢印や、色や選択可否の異なる部分を、橋渡しの線なしで
 １つの shape に収められます。現在の円は 64 分割の折れ線で、NURBS の
 degree や surface を持つ形状ではありません。
+`*Filled` の面は同じ shape 内の三角形列で保持し、線と同じ形状変形と
+`shapeAnimationTransformMatrix` を適用します。Square は２三角形、Circle は
+64分割の扇形、Cube は６面の12三角形、Sphere は32経度×16緯度の球面です。
+面の頂点も描画範囲と `boundsMode=Shape` の算出に含めます。
 `shapeDrawOnTop` がオンのときは、最前面表示に対応するためストロークを
 線分へ展開して描画します。色と選択可否はストロークごとに保持します。
 オフの既定状態では通常の深度テストを使います。
@@ -399,13 +411,13 @@ Maya 2025 でその plug-in をロードして `generate_node_class_file()` か�
 `bdControllerShape` は `MPxLocatorNode::excludeAsLocator()` で `false` を返し、
 **Show > Locators** をオフにしたビューポートでも描画する設計です。
 Viewport 2.0 では **Show > Plugins > Plugin Shapes** をオフにすると、
-描画オーバーライドが線の描画を省略します。オンに戻すと線を描画します。
+描画オーバーライドが線と面の描画を省略します。オンに戻すと描画します。
 shape 自身の `visibility` をオフにすると非表示になります。
 この表示条件は [Autodesk の API 説明](https://help.autodesk.com/cloudhelp/2024/ENU/MAYA-API-REF/cpp_ref/class_m_px_locator_node.html)
 に基づきます。
 
 **Show > Selection Highlighting** はビューポートごとに反映します。
-オンでは選択中の通常線と軸色の線を Maya の選択色にし、オフでは通常線を
+オンでは選択中の通常線・面と軸色の線を Maya の選択色にし、オフでは通常線・面を
 非選択時の色、軸色の線を赤・緑・青で表示します。選択そのものと、
 template 色・選択不可の線には影響しません。
 
@@ -437,14 +449,18 @@ template 色・選択不可の線には影響しません。
 23. `showBoundsPreview` をオンにして `boundsMode` を３値で切り替え、各モードの最終的な軸平行範囲が template 色で表示される。プレビューの線だけをクリックしても選択されず、表示のオン/オフでフォーカス範囲は変化しない。
 24. Custom の調整値を直接編集・接続・キー設定してフレームとプレビューが更新される。Undo/Redo とシーン再読込後にも同じ範囲へ戻る。
 25. `shapeLineWidth` を `1` から大きくすると、本体と表示中の OffsetLine が太くなる。カメラのズームとシーン単位の変更では画面上の指定線幅が変わらない。
-26. `shapeTransparency` を `0`、中間値、`1` に切り替えると、本体と OffsetLine の透明度が変わる。通常色、選択色、OffsetLine の template 色で確認する。
-27. `shapeDrawOnTop` をオンにすると他のシーン形状に隠れた本体と OffsetLine の線が見え、オフに戻すと通常の深度テストに戻る。線の形やクリック選択が変わらない。
-28. ３つの描画属性を組み合わせ、Undo/Redo とシーン再読込後にも表示が戻る。`showBoundsPreview` の template 色・線幅・選択不可と、F / Ctrl+F のフォーカス範囲は変わらない。
+26. `shapeTransparency` を `0`、中間値、`1` に切り替えると、輪郭線と OffsetLine の透明度が変わる。通常色、選択色、OffsetLine の template 色で確認する。
+27. `shapeDrawOnTop` をオンにすると他のシーン形状に隠れた本体の輪郭線・面と OffsetLine が見え、オフに戻すと通常の深度テストに戻る。形状やクリック選択が変わらない。
+28. ４つの描画属性を組み合わせ、Undo/Redo とシーン再読込後にも表示が戻る。`showBoundsPreview` の template 色・線幅・選択不可と、F / Ctrl+F のフォーカス範囲は変わらない。
 29. shape の Channel Box で５本の区切りが表示され、形状の描画・軸・変形、フォーカスモード、Custom の軸・変形が上記の６区画の順に並ぶ。
 30. 調整属性とその X/Y/Z 子属性を Channel Box から編集でき、通常の一括キー操作ではキーが付かない。属性を明示すればキーや入力接続を設定できる。区切りは編集できない。
 31. Maya ASCII で保存して再読込した後も、区切りの表示とロック、調整属性の順序と非 keyable 状態が保たれる。
 32. `ColorSphere` は赤・緑・青の直交円だけ、`ColorSphereCrossLine` は同じ円と十字線として表示され、円と十字線の間に橋渡しの線がない。
-33. `bdControllerShape` を選択したまま **Show > Selection Highlighting** をオフにすると通常線と OffsetLine が非選択時の色に戻り、軸色の線は赤・緑・青に戻る。オンに戻すと選択色になる。オフでもクリック選択できる。
+33. `bdControllerShape` を選択したまま **Show > Selection Highlighting** をオフにすると通常線・面と OffsetLine が非選択時の色に戻り、軸色の線は赤・緑・青に戻る。オンに戻すと選択色になる。オフでもクリック選択できる。
 34. 複数ビューポートで Selection Highlighting のオン・オフを別々に設定し、それぞれの表示色が独立する。template 色・選択不可の線と、通常線への色オーバーライドも確認する。
 35. `Line1st`、`Line2nd`、`Line3rd` が既定軸で X、Y、Z の各方向へ長さ1の線として表示され、`shape1stAxis` と `shape2ndAxis` を変更すると対応する方向へ回る。
 36. `CubeFinArrow` と `CylinderFinArrow` の斜線が `-1stAxis` 側の高い位置から `+1stAxis` 側の本体上端へ伸び、軸指定・拡縮後も本体とフィンの接点が離れない。
+37. `SquareFilled`、`CircleFilled`、`CubeFilled`、`SphereFilled` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。Shaded では面内をクリックして親 `transform` を選択できる。
+38. `SquareFilled` と `CircleFilled` を表裏から見て、面の表示と選択を確認する。`CubeFilled` と `SphereFilled` では Backface Culling のオン・オフも確認する。
+39. `shapeFillTransparency` を `0`、`0.5`、`1` に変え、輪郭線の `shapeTransparency` と独立して面の透明度が変わる。半透明の Cube・Sphere で前後の面の重なりと描画順を確認する。
+40. `*Filled` で `shapeDrawOnTop` を切り替え、面と輪郭線が前面表示される。`shapeFillTransparency` を組み合わせても選択色とクリック選択が期待どおりか確認する。

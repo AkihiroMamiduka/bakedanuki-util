@@ -45,6 +45,7 @@ public:
     struct Geometry {
         std::vector<MPointArray> strokes;
         std::vector<StrokeStyle> strokeStyles;
+        MPointArray fillTriangles;
         std::vector<MPointArray> boundsPreview;
         MPointArray offsetLine;
         MPoint offsetLineEndpoint = MPoint::origin;
@@ -106,6 +107,7 @@ public:
     static MObject shapeOffsetLineTemplate;
     static MObject shapeLineWidth;
     static MObject shapeTransparency;
+    static MObject shapeFillTransparency;
     static MObject shapeDrawOnTop;
 
     static MObject boundsMode;

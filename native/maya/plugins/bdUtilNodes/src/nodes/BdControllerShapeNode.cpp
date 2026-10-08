@@ -89,6 +89,7 @@ MObject BdControllerShapeNode::showShapeOffsetLine;
 MObject BdControllerShapeNode::shapeOffsetLineTemplate;
 MObject BdControllerShapeNode::shapeLineWidth;
 MObject BdControllerShapeNode::shapeTransparency;
+MObject BdControllerShapeNode::shapeFillTransparency;
 MObject BdControllerShapeNode::shapeDrawOnTop;
 MObject BdControllerShapeNode::boundsMode;
 MObject BdControllerShapeNode::showBoundsPreview;
@@ -334,7 +335,7 @@ bool readSettings(
 ) {
     MStatus status;
     if (attributes.shape.isNull()) {
-        settings.shape = 19;
+        settings.shape = 20;
     } else {
         settings.shape = MPlug(node, attributes.shape).asShort(&status);
         if (!status) {
@@ -622,7 +623,112 @@ Strokes makeStrokes(
     return strokes;
 }
 
-MBoundingBox boundsForStrokes(const Strokes& strokes) {
+void appendFillTriangle(
+    MPointArray& triangles,
+    const ShapeTransform& transform,
+    const MPoint& first,
+    const MPoint& second,
+    const MPoint& third
+) {
+    triangles.append(transformPoint(first, transform));
+    triangles.append(transformPoint(second, transform));
+    triangles.append(transformPoint(third, transform));
+}
+
+void appendFillQuad(
+    MPointArray& triangles,
+    const ShapeTransform& transform,
+    const MPoint& first,
+    const MPoint& second,
+    const MPoint& third,
+    const MPoint& fourth
+) {
+    appendFillTriangle(triangles, transform, first, second, third);
+    appendFillTriangle(triangles, transform, first, third, fourth);
+}
+
+MPoint spherePoint(unsigned int latitude, unsigned int longitude) {
+    const double polar = kPi * latitude / 16.0;
+    const double azimuth = 2.0 * kPi * longitude / 32.0;
+    return MPoint(
+        0.5 * std::sin(polar) * std::cos(azimuth),
+        0.5 * std::cos(polar),
+        0.5 * std::sin(polar) * std::sin(azimuth)
+    );
+}
+
+MPointArray makeFillTriangles(const ShapeTransform& transform) {
+    MPointArray triangles;
+    switch (transform.settings.shape) {
+        case kSquareFilledShape:
+            appendFillQuad(
+                triangles, transform,
+                MPoint(0.0, -0.5, -0.5), MPoint(0.0, 0.5, -0.5),
+                MPoint(0.0, 0.5, 0.5), MPoint(0.0, -0.5, 0.5)
+            );
+            break;
+        case kCircleFilledShape:
+            for (unsigned int index = 0; index < kCircleSegments; ++index) {
+                const double first = 2.0 * kPi * index / kCircleSegments;
+                const double second = 2.0 * kPi * (index + 1) / kCircleSegments;
+                appendFillTriangle(
+                    triangles, transform, MPoint::origin,
+                    MPoint(0.0, 0.5 * std::cos(first), 0.5 * std::sin(first)),
+                    MPoint(0.0, 0.5 * std::cos(second), 0.5 * std::sin(second))
+                );
+            }
+            break;
+        case kCubeFilledShape:
+            appendFillQuad(triangles, transform,
+                MPoint(0.5, -0.5, -0.5), MPoint(0.5, 0.5, -0.5),
+                MPoint(0.5, 0.5, 0.5), MPoint(0.5, -0.5, 0.5));
+            appendFillQuad(triangles, transform,
+                MPoint(-0.5, -0.5, 0.5), MPoint(-0.5, 0.5, 0.5),
+                MPoint(-0.5, 0.5, -0.5), MPoint(-0.5, -0.5, -0.5));
+            appendFillQuad(triangles, transform,
+                MPoint(-0.5, 0.5, -0.5), MPoint(-0.5, 0.5, 0.5),
+                MPoint(0.5, 0.5, 0.5), MPoint(0.5, 0.5, -0.5));
+            appendFillQuad(triangles, transform,
+                MPoint(-0.5, -0.5, 0.5), MPoint(-0.5, -0.5, -0.5),
+                MPoint(0.5, -0.5, -0.5), MPoint(0.5, -0.5, 0.5));
+            appendFillQuad(triangles, transform,
+                MPoint(-0.5, -0.5, 0.5), MPoint(0.5, -0.5, 0.5),
+                MPoint(0.5, 0.5, 0.5), MPoint(-0.5, 0.5, 0.5));
+            appendFillQuad(triangles, transform,
+                MPoint(0.5, -0.5, -0.5), MPoint(-0.5, -0.5, -0.5),
+                MPoint(-0.5, 0.5, -0.5), MPoint(0.5, 0.5, -0.5));
+            break;
+        case kSphereFilledShape:
+            for (unsigned int latitude = 0; latitude < 16; ++latitude) {
+                for (unsigned int longitude = 0; longitude < 32; ++longitude) {
+                    const MPoint upperLeft = spherePoint(latitude, longitude);
+                    const MPoint upperRight = spherePoint(latitude, longitude + 1);
+                    const MPoint lowerLeft = spherePoint(latitude + 1, longitude);
+                    const MPoint lowerRight = spherePoint(latitude + 1, longitude + 1);
+                    if (latitude == 0) {
+                        appendFillTriangle(triangles, transform,
+                            upperLeft, lowerRight, lowerLeft);
+                    } else if (latitude == 15) {
+                        appendFillTriangle(triangles, transform,
+                            upperLeft, upperRight, lowerLeft);
+                    } else {
+                        appendFillTriangle(triangles, transform,
+                            upperLeft, upperRight, lowerLeft);
+                        appendFillTriangle(triangles, transform,
+                            upperRight, lowerRight, lowerLeft);
+                    }
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    return triangles;
+}
+
+MBoundingBox boundsForGeometry(
+    const Strokes& strokes, const MPointArray& fillTriangles
+) {
     MBoundingBox box;
     bool hasPoint = false;
     for (const Stroke& stroke : strokes) {
@@ -630,6 +736,10 @@ MBoundingBox boundsForStrokes(const Strokes& strokes) {
             box.expand(stroke[index]);
             hasPoint = true;
         }
+    }
+    for (unsigned int index = 0; index < fillTriangles.length(); ++index) {
+        box.expand(fillTriangles[index]);
+        hasPoint = true;
     }
     if (!hasPoint) {
         return MBoundingBox(MPoint::origin, MPoint::origin);
@@ -643,7 +753,8 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const ShapeTransform transform(settings);
     auto result = std::make_shared<BdControllerShapeNode::Geometry>();
     result->strokes = makeStrokes(transform, result->strokeStyles);
-    result->bounds = boundsForStrokes(result->strokes);
+    result->fillTriangles = makeFillTriangles(transform);
+    result->bounds = boundsForGeometry(result->strokes, result->fillTriangles);
     result->offsetLineTemplate = settings.offsetLineTemplate;
     result->offsetLineEndpoint = transformPoint(MPoint::origin, transform, false);
     if (settings.showOffsetLine && hasOffsetLine(result->offsetLineEndpoint)) {
@@ -670,7 +781,10 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> transformGeometry(
         }
         result->strokes.push_back(std::move(stroke));
     }
-    result->bounds = boundsForStrokes(result->strokes);
+    for (unsigned int index = 0; index < base.fillTriangles.length(); ++index) {
+        result->fillTriangles.append(base.fillTriangles[index] * matrix);
+    }
+    result->bounds = boundsForGeometry(result->strokes, result->fillTriangles);
     result->offsetLineEndpoint = base.offsetLineEndpoint * matrix;
     if (showOffsetLine && hasOffsetLine(result->offsetLineEndpoint)) {
         result->offsetLine.append(MPoint::origin);
@@ -932,6 +1046,8 @@ struct ShapeDrawData final : public MUserData {
     Strokes onTopSegments;
     MColor color;
     MColor dormantColor;
+    MColor fillColor;
+    MColor dormantFillColor;
     MColor templateStrokeColor;
     MColor boundsPreviewColor;
     float lineWidth = 1.0f;
@@ -991,6 +1107,12 @@ public:
         const float opacity = status && std::isfinite(transparency)
             ? 1.0f - std::clamp(transparency, 0.0f, 1.0f)
             : 1.0f;
+        const float fillTransparency = MPlug(
+            objectPath.node(), BdControllerShapeNode::shapeFillTransparency
+        ).asFloat(&status);
+        const float fillOpacity = status && std::isfinite(fillTransparency)
+            ? 1.0f - std::clamp(fillTransparency, 0.0f, 1.0f)
+            : 0.5f;
         const bool wasDrawOnTop = data->drawOnTop;
         data->drawOnTop = MPlug(
             objectPath.node(), BdControllerShapeNode::shapeDrawOnTop
@@ -1041,6 +1163,10 @@ public:
                 data->boundsPreviewColor = data->color;
             }
         }
+        data->fillColor = data->color;
+        data->dormantFillColor = data->dormantColor;
+        data->fillColor.a *= fillOpacity;
+        data->dormantFillColor.a *= fillOpacity;
         data->color.a *= opacity;
         data->dormantColor.a *= opacity;
         data->templateStrokeColor.a *= opacity;
@@ -1066,6 +1192,29 @@ public:
              MHWRender::MFrameContext::kSelectionHighlighting) != 0;
         const bool selected = data->selected && selectionHighlighting;
         const MColor& color = selected ? data->color : data->dormantColor;
+        const unsigned int displayStyle = frameContext.getDisplayStyle();
+        const bool shaded = (displayStyle & (
+            MHWRender::MFrameContext::kGouraudShaded |
+            MHWRender::MFrameContext::kFlatShaded
+        )) != 0;
+        if (shaded && data->geometry->fillTriangles.length() != 0) {
+            drawManager.beginDrawable(MHWRender::MUIDrawManager::kSelectable);
+            drawManager.setColor(
+                selected ? data->fillColor : data->dormantFillColor
+            );
+            drawManager.setPaintStyle(MHWRender::MUIDrawManager::kFlat);
+            if (data->drawOnTop) {
+                drawManager.beginDrawInXray();
+            }
+            drawManager.mesh(
+                MHWRender::MUIDrawManager::kTriangles,
+                data->geometry->fillTriangles
+            );
+            if (data->drawOnTop) {
+                drawManager.endDrawInXray();
+            }
+            drawManager.endDrawable();
+        }
         for (std::size_t index = 0; index < data->geometry->strokes.size(); ++index) {
             const StrokeStyle style = data->geometry->strokeStyles[index];
             drawManager.beginDrawable(
@@ -1742,6 +1891,25 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
 
+    shapeFillTransparency = numericAttributeFn.create(
+        "shapeFillTransparency", "sftp", MFnNumericData::kFloat, 0.5f, &status
+    );
+    if (!status) {
+        return status;
+    }
+    status = numericAttributeFn.setMin(0.0);
+    if (!status) {
+        return status;
+    }
+    status = numericAttributeFn.setMax(1.0);
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) {
+        return status;
+    }
+
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn,
         shapeDrawOnTop,
@@ -2057,6 +2225,7 @@ MStatus BdControllerShapeNode::initialize() {
              shapeDrawOnTop,
              shapeLineWidth,
              shapeTransparency,
+             shapeFillTransparency,
              showShapeOffsetLine,
              shapeOffsetLineTemplate,
              channelBoxSeparator1,
@@ -2149,6 +2318,7 @@ MStatus BdControllerShapeNode::initialize() {
              shapeDrawOnTop,
              shapeLineWidth,
              shapeTransparency,
+             shapeFillTransparency,
              showShapeOffsetLine,
              shapeOffsetLineTemplate,
              channelBoxSeparator1,
