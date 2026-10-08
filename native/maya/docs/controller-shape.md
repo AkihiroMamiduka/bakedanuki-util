@@ -346,6 +346,7 @@ Maya の template 表示色で描きます。`false` なら補助線は通常の
 公開済みの node type は `bdControllerShape`、`MTypeId` は `0x0014271F` です。
 ID の管理方針は [NODE_IDS.md](../NODE_IDS.md) に従います。
 実装は [BdControllerShapeNode.cpp](../plugins/bdUtilNodes/src/nodes/BdControllerShapeNode.cpp)、
+プリセットの一覧と輪郭は [BdControllerShapePresets.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapePresets.inc)、
 Maya 上の挙動テストは [test_bd_controller_shape.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py)、
 公開 API の型確認は [public_node_types_contract.py](../../../tests/typecheck/public_node_types_contract.py)
 にあります。
@@ -360,6 +361,21 @@ degree や surface を持つ形状ではありません。
 `shapeDrawOnTop` がオンのときは、最前面表示に対応するためストロークを
 線分へ展開して描画します。色と選択可否はストロークごとに保持します。
 オフの既定状態では通常の深度テストを使います。
+
+### プリセットを追加するとき
+
+`BdControllerShapePresets.inc` の `kPresetNames` の順序が公開 `shape` enum の数値です。
+同じ順序の `kPresetInfo` で、各選択肢を輪郭番号と Filled の有無へ対応付けます。
+輪郭番号は enum 値とは別で、輪郭線の組み立ては `appendPresetGeometry()` にあります。
+線ごとの `Normal`・`Template`・軸色の指定もここで行います。
+Filled 版を追加するときは `BdControllerShapeNode.cpp` の `makeFillParts()` に面を定義し、
+輪郭と同じ変形・外縁になることを確認します。template 面の選択可否も面側で指定します。
+
+形状を追加したら、`kPresetNames` と `kPresetInfo` の件数、仕様書の形状一覧、
+`test_bd_controller_shape.py` の `SHAPE_NAMES` と bounds の期待値を揃えます。
+輪郭と Filled 版の bounds、Undo/Redo、シーン再読込をテストし、Viewport では
+Wireframe・Shaded の輪郭と面、色、クリック選択、Selection Highlighting を確認します。
+Python の公開 enum は下記の生成手順で更新し、生成ファイルを手編集しません。
 
 ### 調整属性を追加するとき
 
@@ -383,6 +399,12 @@ Channel Box 表示を設定します。複合属性では X/Y/Z 子属性にも�
 現在の２次元形状は YZ 面（`x=0`）に置き、基準の `+X` は面の法線です。
 `CircleArrow2D` の矢印が元の `+Y` を向くのは意図した仕様で、主軸が形状の
 長手方向である必要はありません。
+
+旧モジュール由来の `RawPoint` は XY 面・`+Z` 法線の座標です。
+`appendPresetComponent()` は primitive 個別の拡縮・回転・移動後に
+`(x, y, z) → (z, y, -x)` へ変換し、上記の基準座標へ渡します。
+面の `appendLegacyTriangle()` なども同じ変換を使います。
+新しい頂点を追加するときは旧座標と変換後の座標を混同せず、輪郭と面の向きを揃えます。
 
 骨に沿う３次元形状で `shapeAxisOffsetLength` を骨長として使う場合は、
 伸縮対象の軸の基準範囲を `-0.5` から `+0.5`、長さを `1` にします。
