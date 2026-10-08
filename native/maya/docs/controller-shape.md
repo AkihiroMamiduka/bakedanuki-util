@@ -75,7 +75,7 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `shape` | enum | `Square` (8) | 下表の52種類。`Gear` を一覧の先頭とし、初期値は `Square` |
+| `shape` | enum | `Square` (9) | 下表の57種類。`Gear` を一覧の先頭とし、初期値は `Square` |
 | `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
@@ -104,15 +104,15 @@ mod.do_it_dg()
 | 値 | 形状 |
 | --- | --- |
 | 0–5 | `Gear`、`Line1st`、`Line2nd`、`Line3rd`、`CrossLineXY`、`CrossLineXYZ` |
-| 6–9 | `Triangle`、`TriangleArrow3D`、`Square`、`SquareFilled` |
-| 10–15 | `SquareArrow2D`、`SquareArrow3D`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine3D`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate3D` |
-| 16–19 | `SquareArrow4Way2D`、`SquareArrow4Way3D`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way3D` |
-| 20–25 | `Cube`、`CubeFilled`、`CubeArrow2D`、`CubeArrow3D`、`CubeFin`、`CubeFinArrow` |
-| 26–28 | `Octahedron`、`OctahedronArrow`、`OctahedronArrowFin` |
-| 29–35 | `Circle`、`CircleFilled`、`CircleArrow2D`、`CircleArrow3D`、`Semicircle`、`SemicircleArrow2D`、`SemicircleArrow3D` |
-| 36–42 | `Sphere`、`SphereFilled`、`SphereArrow2D`、`SphereArrow3D`、`Cylinder`、`CylinderFin`、`CylinderFinArrow` |
-| 43–48 | `Arrow`、`ArrowFin`、`Pyramid`、`PyramidFin`、`Cone`、`ConeFin` |
-| 49–51 | `ColorCrossLine`、`ColorSphere`、`ColorSphereCrossLine` |
+| 6–10 | `Triangle`、`TriangleFilled`、`TriangleArrow3D`、`Square`、`SquareFilled` |
+| 11–16 | `SquareArrow2D`、`SquareArrow3D`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine3D`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate3D` |
+| 17–20 | `SquareArrow4Way2D`、`SquareArrow4Way3D`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way3D` |
+| 21–26 | `Cube`、`CubeFilled`、`CubeArrow2D`、`CubeArrow3D`、`CubeFin`、`CubeFinArrow` |
+| 27–30 | `Octahedron`、`OctahedronFilled`、`OctahedronArrow`、`OctahedronArrowFin` |
+| 31–37 | `Circle`、`CircleFilled`、`CircleArrow2D`、`CircleArrow3D`、`Semicircle`、`SemicircleArrow2D`、`SemicircleArrow3D` |
+| 38–45 | `Sphere`、`SphereFilled`、`SphereArrow2D`、`SphereArrow3D`、`Cylinder`、`CylinderFilled`、`CylinderFin`、`CylinderFinArrow` |
+| 46–53 | `Arrow`、`ArrowFin`、`Pyramid`、`PyramidFilled`、`PyramidFin`、`Cone`、`ConeFilled`、`ConeFin` |
+| 54–56 | `ColorCrossLine`、`ColorSphere`、`ColorSphereCrossLine` |
 
 基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
 矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
@@ -121,9 +121,12 @@ mod.do_it_dg()
 `-1stAxis` 側のフィンを `+2ndAxis` 方向へ高さ `1` まで伸ばし、
 `+1stAxis` 側の本体上端へ斜めにつなぎます。
 `2D` / `3D` は付属する矢印の立体性を示します。
-`SquareFilled`、`CircleFilled`、`CubeFilled`、`SphereFilled` は既存形状の
-輪郭を保ち、面を加えた形状です。平面形状は YZ 面、立体形状は３軸とも
-`-0.5` から `+0.5` に収まります。面は Viewport 2.0 の三角形描画であり、
+`*Filled` は既存形状の輪郭を保ち、面を加えた形状です。
+`TriangleFilled`、`SquareFilled`、`CircleFilled` は YZ 面にあり、
+`TriangleFilled` の底辺は `Triangle` と同じ Y=`-0.37` です。
+立体形状の基準形状は３軸とも `-0.5` から `+0.5` に収まります。
+`CylinderFilled` は側面と両端、`ConeFilled` は側面と底面を描き、
+円周は輪郭線と同じ64分割です。面は Viewport 2.0 の三角形描画であり、
 NURBS の CV・UV・材質・レンダリング用サーフェスではありません。
 `Semicircle` は底辺のない半円です。
 `SquareArrowCrossLineTemplate*` は十字線、`SquareTemplateArrow4Way*` は四隅だけを
@@ -460,7 +463,8 @@ template 色・選択不可の線には影響しません。
 34. 複数ビューポートで Selection Highlighting のオン・オフを別々に設定し、それぞれの表示色が独立する。template 色・選択不可の線と、通常線への色オーバーライドも確認する。
 35. `Line1st`、`Line2nd`、`Line3rd` が既定軸で X、Y、Z の各方向へ長さ1の線として表示され、`shape1stAxis` と `shape2ndAxis` を変更すると対応する方向へ回る。
 36. `CubeFinArrow` と `CylinderFinArrow` の斜線が `-1stAxis` 側の高い位置から `+1stAxis` 側の本体上端へ伸び、軸指定・拡縮後も本体とフィンの接点が離れない。
-37. `SquareFilled`、`CircleFilled`、`CubeFilled`、`SphereFilled` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。Shaded では面内をクリックして親 `transform` を選択できる。
-38. `SquareFilled` と `CircleFilled` を表裏から見て、面の表示と選択を確認する。`CubeFilled` と `SphereFilled` では Backface Culling のオン・オフも確認する。
+37. ９種の `*Filled` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。Shaded では面内をクリックして親 `transform` を選択できる。
+38. `TriangleFilled`、`SquareFilled`、`CircleFilled` を表裏から見て、面の表示と選択を確認する。立体形状では Backface Culling のオン・オフ、円柱・円錐の側面と底面、ピラミッドの底面も確認する。
 39. `shapeFillTransparency` を `0`、`0.5`、`1` に変え、輪郭線の `shapeTransparency` と独立して面の透明度が変わる。半透明の Cube・Sphere で前後の面の重なりと描画順を確認する。
 40. `*Filled` で `shapeDrawOnTop` を切り替え、面と輪郭線が前面表示される。`shapeFillTransparency` を組み合わせても選択色とクリック選択が期待どおりか確認する。
+41. 新しい５種の `*Filled` で輪郭線と面の外縁が一致する。軸指定と非等方スケールを変えても一致し、負スケール時は表裏の表示を確認する。

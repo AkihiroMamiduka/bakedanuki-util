@@ -140,7 +140,7 @@ using Stroke = MPointArray;
 using Strokes = std::vector<Stroke>;
 
 struct ShapeSettings {
-    short shape = 8;
+    short shape = 9;
     short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
@@ -335,7 +335,7 @@ bool readSettings(
 ) {
     MStatus status;
     if (attributes.shape.isNull()) {
-        settings.shape = 20;
+        settings.shape = 21;
     } else {
         settings.shape = MPlug(node, attributes.shape).asShort(&status);
         if (!status) {
@@ -657,9 +657,22 @@ MPoint spherePoint(unsigned int latitude, unsigned int longitude) {
     );
 }
 
+MPoint circlePointAtX(double x, unsigned int segment) {
+    const double angle = 2.0 * kPi * segment / kCircleSegments;
+    return MPoint(x, 0.5 * std::cos(angle), 0.5 * std::sin(angle));
+}
+
 MPointArray makeFillTriangles(const ShapeTransform& transform) {
     MPointArray triangles;
     switch (transform.settings.shape) {
+        case kTriangleFilledShape:
+            appendFillTriangle(
+                triangles, transform,
+                MPoint(0.0, 0.5, 0.0),
+                MPoint(0.0, -0.37, 0.5),
+                MPoint(0.0, -0.37, -0.5)
+            );
+            break;
         case kSquareFilledShape:
             appendFillQuad(
                 triangles, transform,
@@ -669,12 +682,10 @@ MPointArray makeFillTriangles(const ShapeTransform& transform) {
             break;
         case kCircleFilledShape:
             for (unsigned int index = 0; index < kCircleSegments; ++index) {
-                const double first = 2.0 * kPi * index / kCircleSegments;
-                const double second = 2.0 * kPi * (index + 1) / kCircleSegments;
                 appendFillTriangle(
                     triangles, transform, MPoint::origin,
-                    MPoint(0.0, 0.5 * std::cos(first), 0.5 * std::sin(first)),
-                    MPoint(0.0, 0.5 * std::cos(second), 0.5 * std::sin(second))
+                    circlePointAtX(0.0, index),
+                    circlePointAtX(0.0, index + 1)
                 );
             }
             break;
@@ -698,6 +709,21 @@ MPointArray makeFillTriangles(const ShapeTransform& transform) {
                 MPoint(0.5, -0.5, -0.5), MPoint(-0.5, -0.5, -0.5),
                 MPoint(-0.5, 0.5, -0.5), MPoint(0.5, 0.5, -0.5));
             break;
+        case kOctahedronFilledShape: {
+            const std::array<MPoint, 4> equator = {
+                MPoint(0.0, 0.5, 0.0), MPoint(0.0, 0.0, 0.5),
+                MPoint(0.0, -0.5, 0.0), MPoint(0.0, 0.0, -0.5)
+            };
+            for (std::size_t index = 0; index < equator.size(); ++index) {
+                const MPoint& first = equator[index];
+                const MPoint& second = equator[(index + 1) % equator.size()];
+                appendFillTriangle(triangles, transform,
+                    MPoint(0.5, 0.0, 0.0), first, second);
+                appendFillTriangle(triangles, transform,
+                    MPoint(-0.5, 0.0, 0.0), second, first);
+            }
+            break;
+        }
         case kSphereFilledShape:
             for (unsigned int latitude = 0; latitude < 16; ++latitude) {
                 for (unsigned int longitude = 0; longitude < 32; ++longitude) {
@@ -718,6 +744,44 @@ MPointArray makeFillTriangles(const ShapeTransform& transform) {
                             upperRight, lowerRight, lowerLeft);
                     }
                 }
+            }
+            break;
+        case kCylinderFilledShape:
+            for (unsigned int index = 0; index < kCircleSegments; ++index) {
+                const MPoint lower = circlePointAtX(-0.5, index);
+                const MPoint lowerNext = circlePointAtX(-0.5, index + 1);
+                const MPoint upper = circlePointAtX(0.5, index);
+                const MPoint upperNext = circlePointAtX(0.5, index + 1);
+                appendFillQuad(triangles, transform,
+                    lower, lowerNext, upperNext, upper);
+                appendFillTriangle(triangles, transform,
+                    MPoint(0.5, 0.0, 0.0), upper, upperNext);
+                appendFillTriangle(triangles, transform,
+                    MPoint(-0.5, 0.0, 0.0), lowerNext, lower);
+            }
+            break;
+        case kPyramidFilledShape: {
+            const std::array<MPoint, 4> base = {
+                MPoint(-0.5, 0.5, -0.5), MPoint(-0.5, 0.5, 0.5),
+                MPoint(-0.5, -0.5, 0.5), MPoint(-0.5, -0.5, -0.5)
+            };
+            for (std::size_t index = 0; index < base.size(); ++index) {
+                appendFillTriangle(triangles, transform,
+                    MPoint(0.5, 0.0, 0.0), base[index],
+                    base[(index + 1) % base.size()]);
+            }
+            appendFillQuad(triangles, transform,
+                base[0], base[3], base[2], base[1]);
+            break;
+        }
+        case kConeFilledShape:
+            for (unsigned int index = 0; index < kCircleSegments; ++index) {
+                const MPoint first = circlePointAtX(-0.5, index);
+                const MPoint second = circlePointAtX(-0.5, index + 1);
+                appendFillTriangle(triangles, transform,
+                    MPoint(0.5, 0.0, 0.0), first, second);
+                appendFillTriangle(triangles, transform,
+                    MPoint(-0.5, 0.0, 0.0), second, first);
             }
             break;
         default:
@@ -1541,7 +1605,7 @@ MStatus BdControllerShapeNode::initialize() {
     MFnTypedAttribute typedAttributeFn;
     MFnEnumAttribute enumAttributeFn;
 
-    shape = enumAttributeFn.create("shape", "sh", 8, &status);
+    shape = enumAttributeFn.create("shape", "sh", 9, &status);
     if (!status) {
         return status;
     }

@@ -1,6 +1,6 @@
 // Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 52> kPresetNames = {
+constexpr std::array<const char*, 57> kPresetNames = {
     "Gear",
     "Line1st",
     "Line2nd",
@@ -8,6 +8,7 @@ constexpr std::array<const char*, 52> kPresetNames = {
     "CrossLineXY",
     "CrossLineXYZ",
     "Triangle",
+    "TriangleFilled",
     "TriangleArrow3D",
     "Square",
     "SquareFilled",
@@ -28,6 +29,7 @@ constexpr std::array<const char*, 52> kPresetNames = {
     "CubeFin",
     "CubeFinArrow",
     "Octahedron",
+    "OctahedronFilled",
     "OctahedronArrow",
     "OctahedronArrowFin",
     "Circle",
@@ -42,33 +44,51 @@ constexpr std::array<const char*, 52> kPresetNames = {
     "SphereArrow2D",
     "SphereArrow3D",
     "Cylinder",
+    "CylinderFilled",
     "CylinderFin",
     "CylinderFinArrow",
     "Arrow",
     "ArrowFin",
     "Pyramid",
+    "PyramidFilled",
     "PyramidFin",
     "Cone",
+    "ConeFilled",
     "ConeFin",
     "ColorCrossLine",
     "ColorSphere",
     "ColorSphereCrossLine",
 };
 
-constexpr short kSquareFilledShape = 9;
-constexpr short kCubeFilledShape = 21;
-constexpr short kCircleFilledShape = 30;
-constexpr short kSphereFilledShape = 37;
+constexpr short kTriangleFilledShape = 7;
+constexpr short kSquareFilledShape = 10;
+constexpr short kCubeFilledShape = 22;
+constexpr short kOctahedronFilledShape = 28;
+constexpr short kCircleFilledShape = 32;
+constexpr short kSphereFilledShape = 39;
+constexpr short kCylinderFilledShape = 43;
+constexpr short kPyramidFilledShape = 49;
+constexpr short kConeFilledShape = 52;
 
 short outlinePresetIndex(short shape) {
+    if (shape == kTriangleFilledShape) return 6;
     if (shape == kSquareFilledShape) return 8;
     if (shape == kCubeFilledShape) return 19;
+    if (shape == kOctahedronFilledShape) return 24;
     if (shape == kCircleFilledShape) return 27;
     if (shape == kSphereFilledShape) return 33;
-    if (shape > kSphereFilledShape) return shape - 4;
-    if (shape > kCircleFilledShape) return shape - 3;
-    if (shape > kCubeFilledShape) return shape - 2;
-    if (shape > kSquareFilledShape) return shape - 1;
+    if (shape == kCylinderFilledShape) return 36;
+    if (shape == kPyramidFilledShape) return 41;
+    if (shape == kConeFilledShape) return 43;
+    if (shape > kConeFilledShape) return shape - 9;
+    if (shape > kPyramidFilledShape) return shape - 8;
+    if (shape > kCylinderFilledShape) return shape - 7;
+    if (shape > kSphereFilledShape) return shape - 6;
+    if (shape > kCircleFilledShape) return shape - 5;
+    if (shape > kOctahedronFilledShape) return shape - 4;
+    if (shape > kCubeFilledShape) return shape - 3;
+    if (shape > kSquareFilledShape) return shape - 2;
+    if (shape > kTriangleFilledShape) return shape - 1;
     return shape;
 }
 
