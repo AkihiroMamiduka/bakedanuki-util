@@ -974,11 +974,7 @@ class Transform(GeneratedTransform):
 
     def rotation_to_rotate(self) -> Self:
         """現在の回転を ``rotate`` へ集約して DG modifier に積む。"""
-        self._validate_rotation_plugs()
-        rotation = self._quaternion_to_rotation(
-            self._combined_rotation(),
-            self.rotateOrder.get(),
-        )
+        rotation = self.consolidated_rotation_values("rotate")
         self._set_rotation_values(
             rotate_axis=self._ZERO_ROTATION,
             rotate=rotation,
@@ -987,16 +983,40 @@ class Transform(GeneratedTransform):
 
     def rotation_to_rotate_axis(self) -> Self:
         """現在の回転を ``rotateAxis`` へ集約して DG modifier に積む。"""
-        self._validate_rotation_plugs()
-        rotation = self._quaternion_to_rotation(
-            self._combined_rotation(),
-            om.MEulerRotation.kXYZ,
-        )
+        rotation = self.consolidated_rotation_values("rotateAxis")
         self._set_rotation_values(
             rotate_axis=rotation,
             rotate=self._ZERO_ROTATION,
         )
         return self
+
+    def consolidated_rotation_values(
+        self, destination: Literal["rotate", "rotateAxis", "jointOrient"]
+    ) -> _RotationValue:
+        """現在の合成回転を指定属性へ集約したときの角度を度で返す。
+
+        sceneとModifierManagerを変更しない。回転属性にlockや入力接続がある場合は
+        既存の集約操作と同じ条件で拒否する。
+
+        Args:
+            destination: 集約先。`jointOrient`はJointだけで指定できる。
+
+        Returns:
+            集約先のX・Y・Z角度。集約先以外はゼロになる。
+        """
+        if destination not in ("rotate", "rotateAxis", "jointOrient"):
+            raise ValueError("Unsupported rotation destination")
+        if destination == "jointOrient" and not self.m_obj.hasFn(
+            om.MFn.kJoint
+        ):
+            raise ValueError("jointOrient requires a Joint node")
+        self._validate_rotation_plugs()
+        order = (
+            self.rotateOrder.get()
+            if destination == "rotate"
+            else om.MEulerRotation.kXYZ
+        )
+        return self._quaternion_to_rotation(self._combined_rotation(), order)
 
     def match_position(
         self,

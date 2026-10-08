@@ -258,11 +258,7 @@ class Joint(GeneratedJoint):
 
     def rotation_to_joint_orient(self) -> Self:
         """現在の回転を ``jointOrient`` へ集約して DG modifier に積む。"""
-        self._validate_rotation_plugs()
-        rotation = self._quaternion_to_rotation(
-            self._combined_rotation(),
-            om.MEulerRotation.kXYZ,
-        )
+        rotation = self.consolidated_rotation_values("jointOrient")
         self.rotateAxis.set(self._ZERO_ROTATION)
         self.rotate.set(self._ZERO_ROTATION)
         self.jointOrient.set(rotation)

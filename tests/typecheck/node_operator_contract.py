@@ -1579,9 +1579,17 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(transform.rotation_to_rotate(), Transform)
     assert_type(transform.rotation_to_rotate_axis(), Transform)
+    assert_type(
+        transform.consolidated_rotation_values("rotate"),
+        tuple[float, float, float],
+    )
     assert_type(joint.rotation_to_rotate(), Joint)
     assert_type(joint.rotation_to_rotate_axis(), Joint)
     assert_type(joint.rotation_to_joint_orient(), Joint)
+    assert_type(
+        joint.consolidated_rotation_values("jointOrient"),
+        tuple[float, float, float],
+    )
     assert_type(
         transform.set_rotate_axis_with_rotate((10.0, 20.0, 30.0)),
         Transform,

@@ -23,6 +23,9 @@
 
 ### Added
 
+- `Transform`／`Joint`に`consolidated_rotation_values()`を追加。既存の回転集約と
+  同じ検証・合成で集約先の角度をscene変更なしに取得し、Maya標準Undoを使うUIでも
+  回転値を集約できる。既存API、scene、設定の移行は不要。
 - `MayaFloatRoundEdit`を追加。複数float属性の各実値を現在の表示単位で十進四捨五入し、
   `apply_plugs_values()`から一括適用できる。0桁と正負の中間値、1回Undo・同値時の
   無Undoに対応する。公開APIの追加で、scene・設定の移行は不要。

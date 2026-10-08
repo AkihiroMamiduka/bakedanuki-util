@@ -884,6 +884,12 @@ mod.do_it_dg()
 `Joint` では `rotateAxis`、`rotate`、`jointOrient` の3つをすべて合成します。
 継承する2メソッドに加えて、`jointOrient`への集約も利用できます。
 
+`consolidated_rotation_values("rotate")`などで、集約先へ設定されるXYZ角度を
+度単位で事前取得できます。sceneとModifierManagerは変更しません。
+`Joint`だけは`"jointOrient"`も指定できます。lock・入力接続の検証と回転の合成は
+対応する`rotation_to_*()`と共通です。Maya標準のUndoコマンドで値を確定するUIは、
+この値を使って集約先以外をゼロにできます。
+
 ```python
 joint.rotation_to_rotate()
 joint.rotation_to_rotate_axis()
