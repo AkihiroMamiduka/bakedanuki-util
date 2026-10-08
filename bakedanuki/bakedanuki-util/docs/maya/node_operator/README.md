@@ -1355,8 +1355,12 @@ world姿勢を設定して`mod.do_it_dg()`を実行し、続いてworld位置を
 `node.translate.set()`などはplug値を設定する低レベルAPIです。`node.set_translate()`
 などは、DAG階層の補償を選択できる高レベルAPIです。
 
-丸めメソッドはlocal属性値を対象とします。Python組み込みの`round()`と同じ偶数丸めで
-目標値を計算し、対応する`set_*()`のlocal経路へ渡します。
+丸めメソッドはlocal属性値を対象とします。数値は十進の四捨五入で丸め、
+ちょうど中間の値は正負ともゼロから遠い側へ進めます。既定の
+`rounding_unit="canonical"`では`translate`をcm、回転属性を度として
+桁数を数えます。`rounding_unit="display"`では現在のMaya表示単位で丸めてから
+cm／度の属性値へ戻します。どちらも対応する`set_*()`のlocal経路へ渡し、
+子補償の条件は同じです。
 
 ```python
 transform.round_translate(3)
@@ -1366,6 +1370,18 @@ transform.round_rotate(3)
 joint.round_joint_orient(3)
 mod.do_it_dg()
 ```
+
+表示中のチャンネルボックスと同じ単位で桁数を指定する場合は、次のようにします。
+
+```python
+transform.round_translate(2, rounding_unit="display")
+joint.round_joint_orient(2, rounding_unit="display")
+mod.do_it_dg()
+```
+
+この直接実行は`ModifierManager`の履歴に入り、Maya標準のUndoキューには
+登録されません。Ctrl+Zが必要な操作は、`bdUtilCommands`の型付きfacadeか
+`MPxCommandBase`を通してください。
 
 直接のTransform / Joint子を補償する場合は、`compensate_children=True`を
 明示します。`set_translate()` / `round_translate()`は子の`translate`を変更して

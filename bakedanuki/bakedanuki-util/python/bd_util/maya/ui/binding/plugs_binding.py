@@ -5,7 +5,6 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass, replace
-from decimal import Decimal, ROUND_HALF_UP, localcontext
 from typing import Generic, Protocol, TypeVar, cast
 
 from maya import cmds
@@ -31,6 +30,7 @@ from ....ui.binding.string._validation import require_string
 from ...node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolPlugOperator,
 )
+from ...rounding import round_decimal_half_up
 from ._float_plug_value import FloatPlugValue
 from ._enum_plug_value import EnumPlugValue
 from ._plugs_store import PlugsStore, PlugTarget, PlugWrite
@@ -47,17 +47,6 @@ __all__ = [
 ]
 
 _ValueT = TypeVar("_ValueT", bool, float, int, str)
-
-
-def _round_display_value(value: float, decimals: int) -> float:
-    """表示単位の実値を十進の四捨五入で指定小数桁へ揃える。"""
-    source = Decimal(str(value))
-    quantum = Decimal(1).scaleb(-decimals)
-    # 大きな整数部と細かな小数部を併せても量子化できる精度を確保する
-    with localcontext() as context:
-        context.prec = max(28, source.adjusted() + decimals + 2)
-        rounded = source.quantize(quantum, rounding=ROUND_HALF_UP)
-    return 0.0 if rounded.is_zero() else require_float(float(rounded))
 
 
 class _SetStringAttr(Protocol):
@@ -446,7 +435,7 @@ class _FloatPlugsStore(PlugsStore[float]):
                 continue
             presentation = codec.value.presentation
             display = presentation.to_display(codec.read())
-            rounded = _round_display_value(display, decimals)
+            rounded = round_decimal_half_up(display, decimals)
             values.append(presentation.from_display(rounded))
         return self._prepare_values(values)
 

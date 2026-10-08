@@ -19,6 +19,74 @@ _ROUND_CASES = (
 )
 
 
+@pytest.mark.parametrize(("node_type", "method", "attribute"), _ROUND_CASES)
+def test_round_methods_use_decimal_half_up(
+    new_scene, maya_cmds, node_type, method, attribute
+):
+    """4種類の丸めが正負の中間値をゼロから遠い側へ進める。"""
+    import bd_util as bdu
+
+    node_name = maya_cmds.createNode(node_type)
+    maya_cmds.setAttr(f"{node_name}.{attribute}X", 2.675)
+    maya_cmds.setAttr(f"{node_name}.{attribute}Y", -2.675)
+    mod = bdu.ModifierManager()
+    existing = bdu.Nodes(modifier_manager=mod).existing
+    node = (
+        existing.joint(node_name)
+        if node_type == "joint"
+        else existing.transform(node_name)
+    )
+
+    getattr(node, method)(2)
+    mod.do_it_dg()
+
+    assert maya_cmds.getAttr(f"{node_name}.{attribute}X") == pytest.approx(
+        2.68
+    )
+    assert maya_cmds.getAttr(f"{node_name}.{attribute}Y") == pytest.approx(
+        -2.68
+    )
+
+
+def test_round_methods_can_use_maya_display_units(new_scene, maya_cmds):
+    """距離と角度を現在の表示単位で丸めて公開値へ戻す。"""
+    import bd_util as bdu
+
+    prior_linear = maya_cmds.currentUnit(query=True, linear=True)
+    prior_angle = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(linear="in", angle="rad")
+        transform = maya_cmds.createNode("transform")
+        joint = maya_cmds.createNode("joint")
+        for plug in (
+            f"{transform}.translateX",
+            f"{transform}.rotateY",
+            f"{transform}.rotateAxisZ",
+            f"{joint}.jointOrientX",
+        ):
+            maya_cmds.setAttr(plug, 1.235)
+        mod = bdu.ModifierManager()
+        nodes = bdu.Nodes(modifier_manager=mod)
+        transform_node = nodes.existing.transform(transform)
+        joint_node = nodes.existing.joint(joint)
+
+        transform_node.round_translate(2, rounding_unit="display")
+        transform_node.round_rotate(2, rounding_unit="display")
+        transform_node.round_rotate_axis(2, rounding_unit="display")
+        joint_node.round_joint_orient(2, rounding_unit="display")
+        mod.do_it_dg()
+
+        for plug in (
+            f"{transform}.translateX",
+            f"{transform}.rotateY",
+            f"{transform}.rotateAxisZ",
+            f"{joint}.jointOrientX",
+        ):
+            assert maya_cmds.getAttr(plug) == pytest.approx(1.24)
+    finally:
+        maya_cmds.currentUnit(linear=prior_linear, angle=prior_angle)
+
+
 def _matrix(maya_cmds, node_name):
     return maya_cmds.getAttr(f"{node_name}.worldMatrix[0]")
 

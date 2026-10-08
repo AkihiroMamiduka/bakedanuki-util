@@ -9,6 +9,13 @@
 
 ### Changed
 
+- `Transform`／`Joint` の `round_translate()`、`round_rotate()`、
+  `round_rotate_axis()`、`round_joint_orient()` は、Python の偶数丸めから
+  十進の四捨五入へ変更する。従来の偶数丸めが必要な呼び出しは、
+  `round()`で目標値を計算して対応する`set_*()`へ渡す方式へ移行する。
+  既定の桁数の基準は従来どおり cm／度とし、
+  `rounding_unit="display"` で現在の Maya 表示単位を指定できる。
+  scene・設定の移行は不要。
 - `StringLineEdit`はマウスでフォーカスを得た最初の左クリック後に文字列を全選択する。
   `select_all_on_mouse_focus=False`で無効化でき、設定の取得・変更も可能。
 - `StringLineEdit`は通常EnterとテンキーEnterの確定キーをView内で処理し、
@@ -23,6 +30,13 @@
 
 ### Added
 
+- Python プラグイン `bdUtilCommands` に、複数の Transform／Joint を対象とする
+  `bdRoundTranslate`、`bdRoundRotate`、`bdRoundRotateAxis`、
+  `bdRoundJointOrient` を追加する。NodeOperator の子補償を利用し、
+  一回の Maya Undo／Redo と途中失敗時の復旧に対応する。型付き facade は
+  `bd_util.maya.mpx_cmd.round_transform` から利用できる。
+- `bd_util.maya.rounding` に十進四捨五入と Maya の cm／度・表示単位での
+  丸めを共通化し、既存の数値属性 Binding と NodeOperator で共有する。
 - `Transform`／`Joint`に`consolidated_rotation_values()`を追加。既存の回転集約と
   同じ検証・合成で集約先の角度をscene変更なしに取得し、Maya標準Undoを使うUIでも
   回転値を集約できる。既存API、scene、設定の移行は不要。

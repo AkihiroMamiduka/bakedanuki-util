@@ -1520,10 +1520,18 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(transform.round_translate(3), Transform)
     assert_type(
+        transform.round_translate(3, rounding_unit="display"),
+        Transform,
+    )
+    assert_type(
         transform.round_translate(3, compensate_children=True),
         Transform,
     )
     assert_type(transform.round_rotate_axis(3), Transform)
+    assert_type(
+        transform.round_rotate_axis(3, rounding_unit="display"),
+        Transform,
+    )
     assert_type(
         transform.round_rotate_axis(
             3,
@@ -1534,6 +1542,10 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
         Transform,
     )
     assert_type(transform.round_rotate(3), Transform)
+    assert_type(
+        transform.round_rotate(3, rounding_unit="display"),
+        Transform,
+    )
     assert_type(
         transform.round_rotate(3, compensate_children=True),
         Transform,
@@ -1551,6 +1563,10 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     assert_type(joint.round_rotate_axis(3), Joint)
     assert_type(joint.round_rotate(3), Joint)
     assert_type(joint.round_joint_orient(3), Joint)
+    assert_type(
+        joint.round_joint_orient(3, rounding_unit="display"),
+        Joint,
+    )
     assert_type(
         joint.round_joint_orient(
             3,

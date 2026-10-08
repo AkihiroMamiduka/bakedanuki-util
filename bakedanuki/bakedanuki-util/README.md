@@ -33,6 +33,10 @@
   - `MPxCommandBase`のundo / redoと失敗時rollbackを構成します。
 - `MPxCommandBase`
   - 再利用可能なscene処理をMayaのcommandとundo queueへ接続するAPI 2.0基盤です。
+- `bdUtilCommands`
+  - 移動・回転属性のXYZ値を子の位置・姿勢を補償しながら丸める4つのMaya commandです。
+  - 複数ノードを一回のUndoで処理する型付きfacadeは
+    [MPxCommand](docs/maya/mpx_command.md)を参照してください。
 - `TransformMatrix`
   - matrix plug や `MMatrix` を、合成・逆行列・TRS 分解が可能なスナップショット値として扱います。
 - Numeric compound values

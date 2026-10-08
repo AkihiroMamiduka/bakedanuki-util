@@ -1,11 +1,11 @@
 # coding: utf-8
-import builtins
 import math
 from collections.abc import Sequence
 from typing import cast, ClassVar, Literal, overload, Protocol, Self
 
 from maya.api import OpenMaya as om
 
+from ......rounding import MayaScalarKind, RoundingUnit, round_maya_scalar
 from .._core import DAG
 from ._generated.transform import GeneratedTransform
 
@@ -143,10 +143,22 @@ class Transform(GeneratedTransform):
     def _rounded_values(
         values: _Vector3Value,
         ndigits: int,
+        *,
+        kind: MayaScalarKind,
+        rounding_unit: RoundingUnit,
     ) -> _Vector3Value:
+        """3成分を指定した Maya 単位で十進の四捨五入に揃える。"""
         return cast(
             _Vector3Value,
-            tuple(builtins.round(value, ndigits) for value in values),
+            tuple(
+                round_maya_scalar(
+                    value,
+                    ndigits,
+                    kind=kind,
+                    rounding_unit=rounding_unit,
+                )
+                for value in values
+            ),
         )
 
     @staticmethod
@@ -664,21 +676,30 @@ class Transform(GeneratedTransform):
         self,
         ndigits: int = 0,
         *,
+        rounding_unit: RoundingUnit = "canonical",
         compensate_children: bool = False,
     ) -> Self:
         """``translate`` を丸め、必要に応じて子のworld位置を補償する。
 
-        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は centimeter。変更は ``ModifierManager.do_it_dg()`` で反映する。
+        十進の四捨五入を使用する。既定の桁数は centimeter を基準とし、
+        ``rounding_unit="display"`` では Maya の表示単位を基準とする。
+        変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            rounding_unit: 桁数の基準。``"canonical"`` は centimeter、
+                ``"display"`` は現在の Maya 表示単位。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world位置を維持するように子の ``translate`` を補償する。
 
         """
         current_translate = self.translate.get().as_tuple()
-        target_translate = self._rounded_values(current_translate, ndigits)
+        target_translate = self._rounded_values(
+            current_translate,
+            ndigits,
+            kind="distance",
+            rounding_unit=rounding_unit,
+        )
         return self.set_translate(
             target_translate,
             compensate_children=compensate_children,
@@ -796,19 +817,23 @@ class Transform(GeneratedTransform):
         self,
         ndigits: int = 0,
         *,
+        rounding_unit: RoundingUnit = "canonical",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
     ) -> Self:
         """``rotateAxis`` を丸め、必要に応じて子のworld姿勢を補償する。
 
-        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は degree、回転順は固定 XYZ。`Transform` 子は ``rotate``、
+        十進の四捨五入を使用する。既定の桁数は degree、
+        ``rounding_unit="display"`` では Maya の表示単位を基準とする。
+        回転順は固定 XYZ。`Transform` 子は ``rotate``、
         `Joint` 子は既定で ``rotate`` を補償する。変更は
         ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            rounding_unit: 桁数の基準。``"canonical"`` は degree、
+                ``"display"`` は現在の Maya 表示単位。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world姿勢を維持するように補償する。
             compensate_child_translate: ``True`` の場合、子の ``translate`` も
@@ -820,6 +845,8 @@ class Transform(GeneratedTransform):
         target_rotate_axis = self._rounded_values(
             current_rotate_axis,
             ndigits,
+            kind="angle",
+            rounding_unit=rounding_unit,
         )
         return self.set_rotate_axis(
             target_rotate_axis,
@@ -944,18 +971,22 @@ class Transform(GeneratedTransform):
         self,
         ndigits: int = 0,
         *,
+        rounding_unit: RoundingUnit = "canonical",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
     ) -> Self:
         """``rotate`` を丸め、必要に応じて子のworld姿勢を補償する。
 
-        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は degree。`Transform` 子は ``rotate``、`Joint` 子は既定で
+        十進の四捨五入を使用する。既定の桁数は degree、
+        ``rounding_unit="display"`` では Maya の表示単位を基準とする。
+        `Transform` 子は ``rotate``、`Joint` 子は既定で
         ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            rounding_unit: 桁数の基準。``"canonical"`` は degree、
+                ``"display"`` は現在の Maya 表示単位。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world姿勢を維持するように補償する。
             compensate_child_translate: ``True`` の場合、子の ``translate`` も
@@ -964,7 +995,12 @@ class Transform(GeneratedTransform):
 
         """
         current_rotate = self.rotate.get().as_tuple()
-        target_rotate = self._rounded_values(current_rotate, ndigits)
+        target_rotate = self._rounded_values(
+            current_rotate,
+            ndigits,
+            kind="angle",
+            rounding_unit=rounding_unit,
+        )
         return self.set_rotate(
             target_rotate,
             compensate_children=compensate_children,

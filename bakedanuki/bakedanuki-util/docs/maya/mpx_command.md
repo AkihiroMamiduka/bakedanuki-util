@@ -357,3 +357,58 @@ facadeは`bdUtilSampleCommands.py`をファイル名でロードするため、M
 
 sampleは設計確認用です。実際の公開commandは、そのcommandを所有するpackageの
 command単位package、共有plug-in loader、version別`plug-ins`へ同じ責務で配置します。
+
+## bdUtilCommands の回転・移動値の丸め
+
+正式なPython plug-in `bdUtilCommands.py`は、Maya 2025／2026／2027の
+`plug-ins/maya20xx`に配置します。`bdRoundTranslate`、`bdRoundRotate`、
+`bdRoundRotateAxis`、`bdRoundJointOrient`を登録し、NodeOperatorの
+`round_*()`と子補償をMaya標準Undoへ接続します。
+
+利用側は型付きfacadeから呼び出します。facadeがplug-inを必要時にロードするため、
+明示的な`loadPlugin()`や現在選択の変更は不要です。
+
+```python
+from bd_util.maya.mpx_cmd.round_transform import round_rotate
+
+changed = round_rotate(
+    ["|parent", "|parent|child"],
+    2,
+    rounding_unit="display",
+    compensate_children=True,
+    compensate_child_translate=True,
+    joint_child_compensation_attr="jointOrient",
+)
+print(changed)  # 値を変更したノードのフルDAG path
+```
+
+4つのfacadeは対象ノード名の列と`ndigits`を受け取り、`rounding_unit`は
+`"canonical"`（既定、cm／度）または`"display"`（現在のMaya表示単位）を
+指定します。`compensate_children=True`は直接のTransform／Joint子を補償し、
+回転系では`compensate_child_translate=True`で子のworld位置も維持します。
+Joint子の姿勢補償先は`joint_child_compensation_attr`で`"rotate"`または
+`"jointOrient"`を選べます。`bdRoundJointOrient`の対象はJointのみです。
+
+一回の呼び出しで複数ノードを処理し、重複する指定は一度だけ扱います。
+親子を同時指定した場合は親から順に確定し、子は補償後のlocal値を丸めます。
+Undo／Redoは呼び出し全体で一回です。途中で処理に失敗した場合は、
+それまでに行った変更を元に戻します。対象がすべて丸め済みならUndoを追加しません。
+
+### 開発中のplug-in再読み込み
+
+`reload_package()`はPython moduleを再読み込みしますが、既に登録されたMaya commandは
+更新しません。`bdUtilCommands`の実装を変更した開発時だけ、先にUndo履歴を消して
+plug-inを解除し、その後でpackageを再読み込みします。
+
+```python
+from maya import cmds
+import bd_util
+
+if cmds.pluginInfo("bdUtilCommands", query=True, loaded=True):
+    cmds.flushUndo()
+    cmds.unloadPlugin("bdUtilCommands")
+bd_util.reload_package()
+```
+
+次のfacade呼び出しで新しいplug-inが読み込まれます。toolsも変更した場合は、
+最後の行を`bd_tools.reload_package(reload_util=True)`に置き換えます。
