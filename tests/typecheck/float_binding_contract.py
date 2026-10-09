@@ -16,6 +16,7 @@ from bd_util.ui import (
     FloatValue,
     FloatValueStore,
     FloatViewModel,
+    MouseFocusSelectAllDoubleSpinBox,
     SetFloatCommand,
     qt,
 )
@@ -43,6 +44,10 @@ assert_type(spin_box.view_model, FloatViewModel)
 assert_type(spin_box.setValueRequestHandler(lambda value: True), None)
 assert_type(spin_box.setStepRequestHandler(lambda steps: True), None)
 assert_type(FloatSpinBox(binding.view_model).value(), float)
+assert_type(
+    MouseFocusSelectAllDoubleSpinBox(select_all_on_mouse_focus=True),
+    MouseFocusSelectAllDoubleSpinBox,
+)
 
 
 def accept_binding(value: FloatBinding[FloatValueStore]) -> None:

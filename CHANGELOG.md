@@ -30,6 +30,9 @@
 
 ### Added
 
+- Bindingを持たない数値入力にも初回クリック時の全選択を利用できるよう、
+  `MouseFocusSelectAllDoubleSpinBox`を`bd_util.ui`へ公開。既存の
+  `FloatSpinBox`と`FloatStepSpinBox`の操作は変更しない。
 - `bdUtilCommands` に `bdSetRotationPreservingPose` と型付き facade
   `set_rotation_preserving_pose()`を追加。Transform／Joint の回転属性群へ共通の
   XYZ 値を設定し、別の属性群で差分を吸収して現在の姿勢を維持する。

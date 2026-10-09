@@ -148,6 +148,9 @@ Channel Box自体が未生成でも取得できます。スクリプトでChanne
 カーソルを移動し、ドラッグでは任意範囲を選択できます。生成後は
 `select_all_on_mouse_focus()`と`set_select_all_on_mouse_focus()`で切り替えられます。
 既定値は`False`です。
+正本Bindingを使わない一時的な数値入力では、同じ選択動作を持つ
+`MouseFocusSelectAllDoubleSpinBox(parent, select_all_on_mouse_focus=True)`を
+`bd_util.ui`から利用できます。値の管理と単位変換は利用側で行います。
 Mayaへの各書き込みは標準Undo／Redo対象です。SpinBoxの各変更は個別に確定します。
 [FloatSlider](float_slider.md)はViewModelの連続編集APIを使い、ドラッグ中の書き込みをUndo 1回へまとめます。
 

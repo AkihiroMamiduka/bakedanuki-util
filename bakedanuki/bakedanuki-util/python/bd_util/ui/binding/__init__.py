@@ -51,6 +51,7 @@ from .bool import (
 )
 
 from .float import (
+    MouseFocusSelectAllDoubleSpinBox,
     FloatBinding,
     FloatLabel,
     FloatSlider,
@@ -71,6 +72,7 @@ from .float import (
 )
 
 __all__ = [
+    "MouseFocusSelectAllDoubleSpinBox",
     "PythonStringAttributeStore",
     "SetStringCommand",
     "StringBinding",
