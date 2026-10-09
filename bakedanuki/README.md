@@ -147,3 +147,16 @@ print(bd_util.__file__)
 ## Package Docs
 
 - [bakedanuki-util](bakedanuki-util/README.md)
+
+## For Maintainers
+
+配布スクリプトを変更するときは、共通の `modules` を登録単位として扱います。`installer.py` は既存の bakedanuki 配布パスを置き換える一方、`uninstaller.py` は実行元と同じ `modules` パスだけを解除します。解除条件を広げると、開発用に別々に登録した util・tools のパスまで外すおそれがあります。
+
+変更中は次のテストを実行し、`MAYA_ENV_DIR`、バージョン別と共通の `Maya.env`、確認の取り消し、未登録時、他の Module path の保持、文字コードと改行、バックアップを確認します。実装を変更した後の最終確認はリポジトリ直下の `verify.cmd` を使用します。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\ui\test_installer_menu.py tests\maya\ui\test_uninstaller.py
+.\scripts\verify.cmd
+```
+
+ドラッグ&ドロップの動作を変えた場合は、作業用の Maya 設定で実際に導入・解除を試し、対象 `Maya.env` とバックアップを確認します。解除の反映は Maya を再起動した新しいプロセスで確認してください。

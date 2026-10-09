@@ -316,6 +316,7 @@ mod.do_it_dg()
 ```text
 bakedanuki/
   installer.py
+  uninstaller.py
   launchers/
     maya2025.bat
     maya2026.bat
@@ -352,7 +353,7 @@ PYTHONPATH+:=python
 
 最も簡単な導入方法は、`bakedanuki/installer.py` を Maya のビューポートへドラッグ&ドロップする方法です。
 
-`installer.py` は、自分自身と同じ階層にある `modules` フォルダを検出し、現在起動している Maya バージョン用の `Maya.env` に `MAYA_MODULE_PATH` を追加します。
+`installer.py` は、自分自身と同じ階層にある `modules` フォルダを検出し、現在の Maya が読む `Maya.env` に `MAYA_MODULE_PATH` を追加します。`MAYA_ENV_DIR` が指定されていればそのフォルダを優先し、それ以外ではバージョン別、共通の順に既存ファイルを探します。
 
 追加前には確認ダイアログが表示され、`OK` を選んだ場合だけ `Maya.env` を更新します。`Cancel` を選んだ場合は何も変更しません。`Maya.env` が存在しない場合は新しく作成します。
 
@@ -365,6 +366,12 @@ PYTHONPATH+:=python
 実行時に生成された `installer.py` 自身の bytecode cache は処理終了時に削除されます。`__pycache__` 内に他の cache がある場合は、それらを残してフォルダも維持します。
 
 変更を反映するには、Maya を再起動してください。
+
+### uninstaller.py
+
+解除するときは、`bakedanuki/uninstaller.py` を対象バージョンの Maya のビューポートへドラッグ&ドロップします。確認後、実行元と同じ `modules` パスだけを `Maya.env` から解除します。同じ `modules` に含まれるパッケージはまとめて次回起動から無効になります。配布ファイルや個人設定は削除しません。
+
+導入・解除の対象範囲や注意事項は、[配布フォルダの説明](../README.md)を参照してください。
 
 ### Maya.env
 
