@@ -9,6 +9,10 @@
 
 ### Changed
 
+- `installer.py` は `MAYA_ENV_DIR` と共通 `Maya.env` の探索順を考慮する。
+  既存ファイルの変更時は元の内容をバックアップし、BOM・改行を維持して
+  一時ファイルから置き換える。複数の `MAYA_MODULE_PATH` 定義と保存競合は拒否する。
+
 - `bdControllerShape` の既定形状を `Cube`、既定の `boundsMode` を
   `ShapeCentered` に変更した。
 - `bdControllerShape` の `3D` 系 Filled 矢印は直交する薄い三角面で描き、
@@ -35,6 +39,10 @@
   既定の競合保持動作は維持し、scene・設定の移行は不要。
 
 ### Added
+
+- 共通配布ルートに `uninstaller.py` を追加した。現在の Maya が読む `Maya.env` から
+  実行元の `modules` パスだけを確認後に解除する。共通ルートの同梱packageは
+  次回起動からまとめて無効になり、配布ファイル・scene・個人設定は維持する。
 
 - `bdControllerShape.shape` に94種類の形状を定義した。Gearを一覧の先頭、Cubeを
   初期値とし、矢印・フィン、部分template、軸色を含む複合形状を1つのshapeで描画する。

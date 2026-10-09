@@ -72,13 +72,16 @@ def _join_paths(paths: list[str]) -> str:
 
 def _find_env_line(lines: list[str]) -> int | None:
     pattern = re.compile(rf"^\s*{re.escape(ENV_NAME)}\s*=", re.IGNORECASE)
+    found: int | None = None
     for index, line in enumerate(lines):
         stripped = line.lstrip()
         if stripped.startswith("#"):
             continue
         if pattern.match(line):
-            return index
-    return None
+            if found is not None:
+                raise ValueError(f"{ENV_NAME} が複数行に定義されています")
+            found = index
+    return found
 
 
 def _split_env_line(line: str) -> tuple[str, str]:
@@ -140,26 +143,64 @@ def _strip_trailing_blank_lines(lines: list[str]) -> list[str]:
     return lines
 
 
-def _read_text(path: Path) -> tuple[str, str]:
+def _read_text(path: Path) -> tuple[str, str, bytes | None]:
     if not path.exists():
-        return "", "utf-8"
+        return "", "utf-8", None
 
     data = path.read_bytes()
-    for encoding in ("utf-8-sig", "utf-8", "mbcs"):
+    encodings = (
+        ("utf-8-sig",)
+        if data.startswith(b"\xef\xbb\xbf")
+        else ("utf-8", "mbcs")
+    )
+    for encoding in encodings:
         try:
-            return data.decode(encoding), encoding
+            return data.decode(encoding), encoding, data
         except UnicodeDecodeError:
             continue
 
-    return data.decode("utf-8", errors="replace"), "utf-8"
+    raise UnicodeError(f"Maya.env の文字コードを判定できません: {path}")
 
 
-def _write_text(path: Path, text: str, encoding: str) -> None:
-    if encoding == "utf-8-sig":
-        encoding = "utf-8"
+def _write_text(
+    path: Path, text: str, encoding: str, original_data: bytes | None
+) -> Path | None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding=encoding, newline="") as file:
-        file.write(text)
+    if (path.read_bytes() if path.exists() else None) != original_data:
+        raise RuntimeError(f"確認後に Maya.env が変更されました: {path}")
+
+    temp_path: Path | None = None
+    backup_path: Path | None = None
+    try:
+        # 元の内容を復元できるよう退避してから一時ファイルへ保存する
+        if original_data is not None:
+            with tempfile.NamedTemporaryFile(
+                mode="wb",
+                dir=path.parent,
+                prefix=f"{path.name}.bakedanuki-",
+                suffix=".bak",
+                delete=False,
+            ) as backup:
+                backup_path = Path(backup.name)
+                backup.write(original_data)
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding=encoding,
+            newline="",
+            dir=path.parent,
+            prefix=f".{path.name}-",
+            suffix=".tmp",
+            delete=False,
+        ) as file:
+            temp_path = Path(file.name)
+            file.write(text)
+        if (path.read_bytes() if path.exists() else None) != original_data:
+            raise RuntimeError(f"保存中に Maya.env が変更されました: {path}")
+        os.replace(temp_path, path)
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
+    return backup_path
 
 
 def _build_env_text(text: str, target_path: str) -> tuple[str, str, list[str]]:
@@ -254,8 +295,19 @@ def _maya_version(cmds: _MayaCmds) -> str:
 
 
 def _maya_env_path(cmds: _MayaCmds) -> Path:
+    custom_dir = os.environ.get("MAYA_ENV_DIR")
+    if custom_dir:
+        return (
+            Path(os.path.expandvars(os.path.expanduser(custom_dir)))
+            / "Maya.env"
+        )
+
     user_app_dir = Path(cmds.internalVar(userAppDir=True))
-    return user_app_dir / _maya_version(cmds) / "Maya.env"
+    version_path = user_app_dir / _maya_version(cmds) / "Maya.env"
+    fallback_path = user_app_dir / "Maya.env"
+    if not version_path.exists() and fallback_path.exists():
+        return fallback_path
+    return version_path
 
 
 def _menu_auto_install_enabled(cmds: _MayaCmds) -> bool:
@@ -363,7 +415,7 @@ def install() -> None:
 
     target_path = _target_modules_dir().as_posix()
     env_path = _maya_env_path(cmds)
-    text, encoding = _read_text(env_path)
+    text, encoding, original_data = _read_text(env_path)
     new_text, action, removed_paths = _build_env_text(text, target_path)
     menu_enabled = _menu_auto_install_enabled(cmds)
 
@@ -414,7 +466,7 @@ def install() -> None:
     if not _confirm(cmds, "bakedanuki installer", message):
         return
 
-    _write_text(env_path, new_text, encoding)
+    backup_path = _write_text(env_path, new_text, encoding, original_data)
     if not menu_enabled:
         _enable_menu_auto_install(cmds)
     completion = "Maya.env を更新しました。\n"
@@ -424,6 +476,8 @@ def install() -> None:
         "変更を反映するには Maya を再起動してください。\n\n"
         f"Maya.env:\n{env_path}"
     )
+    if backup_path is not None:
+        completion += f"\n\nバックアップ:\n{backup_path}"
     _message(
         cmds,
         "bakedanuki installer",

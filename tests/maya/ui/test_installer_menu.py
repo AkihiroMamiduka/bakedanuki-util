@@ -179,3 +179,62 @@ def test_redrop_migrates_legacy_json_key(
     assert json.loads(setting_path.read_text(encoding="utf-8")) == {
         "show_menu_on_startup": True
     }
+
+
+def test_install_preserves_bom_and_creates_backup(
+    installer_env: tuple[FakeInstallerCmds, Path, Path],
+) -> None:
+    """既存のMaya.envを更新してもBOMと改行を維持する。"""
+    _, env_path, modules_dir = installer_env
+    original = "MAYA_MODULE_PATH=D:/other/modules;\r\nOTHER=値\r\n".encode(
+        "utf-8-sig"
+    )
+    env_path.write_bytes(original)
+
+    installer.install()
+
+    result = env_path.read_bytes()
+    assert result.startswith(b"\xef\xbb\xbf")
+    assert result.decode("utf-8-sig") == (
+        "MAYA_MODULE_PATH=D:/other/modules;"
+        f"{modules_dir.as_posix()};\r\nOTHER=値\r\n"
+    )
+    backups = list(env_path.parent.glob("Maya.env.bakedanuki-*.bak"))
+    assert len(backups) == 1
+    assert backups[0].read_bytes() == original
+
+
+def test_installer_resolves_custom_and_fallback_env_paths(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Mayaの探索順に沿ってMaya.envの編集先を選ぶ。"""
+
+    class FakePathCmds:
+        """Maya.envの探索に必要なMaya commandを代替する。"""
+
+        def about(self, *, version: bool) -> str:
+            """バージョン番号を返す。"""
+            assert version
+            return "2025"
+
+        def internalVar(self, *, userAppDir: bool) -> str:
+            """一時ユーザーディレクトリを返す。"""
+            assert userAppDir
+            return str(tmp_path)
+
+    fake = FakePathCmds()
+    monkeypatch.delenv("MAYA_ENV_DIR", raising=False)
+    assert installer._maya_env_path(fake) == tmp_path / "2025" / "Maya.env"
+
+    fallback_path = tmp_path / "Maya.env"
+    fallback_path.write_text("OTHER=1\n")
+    assert installer._maya_env_path(fake) == fallback_path
+
+    version_path = tmp_path / "2025" / "Maya.env"
+    version_path.parent.mkdir()
+    version_path.write_text("OTHER=2\n")
+    assert installer._maya_env_path(fake) == version_path
+
+    custom_dir = tmp_path / "custom"
+    monkeypatch.setenv("MAYA_ENV_DIR", str(custom_dir))
+    assert installer._maya_env_path(fake) == custom_dir / "Maya.env"

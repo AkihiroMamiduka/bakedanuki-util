@@ -45,6 +45,11 @@ Windows版 Maya 2025 / 2026 / 2027 で検証しています。
 `prefs/bakedanuki/menu.json`に保存します。チェックの切り替えと再D&Dは
 Mayaの一般設定を明示的に保存しません。
 
+解除する場合は、使用中の Maya に [bakedanuki/uninstaller.py](bakedanuki/uninstaller.py)
+をドラッグ&ドロップし、解除する `Maya.env` とパスを確認して再起動します。
+同じ配布ルートにある util・tools などをまとめて解除し、配布ファイルと個人設定は残します。
+詳しくは [配布フォルダの説明](bakedanuki/README.md#remove-with-uninstallerpy) を参照してください。
+
 ### 2. Maya Launcher
 
 `Maya.env` を変更せずに試す場合は、使用する Maya バージョンに対応する起動バッチを実行します。
@@ -172,6 +177,7 @@ Generatorを実行した後は、生成差分を確認する前に`format.cmd`�
 ```text
 bakedanuki/
   installer.py
+  uninstaller.py
   launchers/
     maya2025.bat
     maya2026.bat
