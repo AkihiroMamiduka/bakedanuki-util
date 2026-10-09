@@ -30,6 +30,12 @@
 
 ### Added
 
+- `bdUtilCommands` に `bdSetRotationPreservingPose` と型付き facade
+  `set_rotation_preserving_pose()`を追加。Transform／Joint の回転属性群へ共通の
+  XYZ 値を設定し、別の属性群で差分を吸収して現在の姿勢を維持する。
+  Joint は `rotateAxis` と `jointOrient` 間の補償にも対応する。
+  複数ノードを一回の Maya Undo で処理し、途中失敗時は全体を復旧する。
+  追加 API のため既存 scene・設定の移行は不要。
 - Python プラグイン `bdUtilCommands` に、複数の Transform／Joint を対象とする
   `bdRoundTranslate`、`bdRoundRotate`、`bdRoundRotateAxis`、
   `bdRoundJointOrient` を追加する。NodeOperator の子補償を利用し、

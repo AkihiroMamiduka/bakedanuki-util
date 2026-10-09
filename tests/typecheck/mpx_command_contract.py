@@ -23,6 +23,7 @@ from bd_util.maya.mpx_cmd.round_transform import (
     round_rotate_axis,
     round_translate,
 )
+from bd_util.maya.mpx_cmd import set_rotation_preserving_pose
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,6 +61,16 @@ assert_type(
 )
 assert_type(round_rotate_axis(["ctrl"], 2), list[str])
 assert_type(round_joint_orient(["joint"], 2), list[str])
+assert_type(
+    set_rotation_preserving_pose(
+        ["joint"],
+        (10.0, 20.0, 30.0),
+        target="jointOrient",
+        compensate_with="rotateAxis",
+        angle_unit="display",
+    ),
+    list[str],
+)
 
 facade_result = create_transforms(prefix="typed", count=3)
 assert_type(facade_result, CreateTransformsResult)

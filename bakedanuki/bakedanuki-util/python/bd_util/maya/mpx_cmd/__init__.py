@@ -8,6 +8,7 @@ from .round_transform import (
     round_rotate_axis,
     round_translate,
 )
+from .set_rotation_preserving_pose import set_rotation_preserving_pose
 
 __all__ = (
     "CommandResult",
@@ -18,4 +19,5 @@ __all__ = (
     "round_rotate",
     "round_rotate_axis",
     "round_joint_orient",
+    "set_rotation_preserving_pose",
 )

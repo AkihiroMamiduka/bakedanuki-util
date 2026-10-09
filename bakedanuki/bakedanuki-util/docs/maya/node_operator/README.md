@@ -905,22 +905,29 @@ mod.do_it_dg()
 
 ```python
 transform.set_rotate_axis_with_rotate((10.0, 20.0, 30.0))
+mod.do_it_dg()
 transform.set_rotate_with_rotate_axis(40.0, 50.0, 60.0)
 mod.do_it_dg()
 ```
 
-`Joint`では継承する上記2メソッドに加えて、`jointOrient`と`rotate`の間でも
-同じ操作を利用できます。
+`Joint`では継承する上記2メソッドに加えて、`jointOrient`と`rotate`、
+`jointOrient`と`rotateAxis`の間でも同じ操作を利用できます。
 
 ```python
 joint.set_joint_orient_with_rotate((10.0, 20.0, 30.0))
+mod.do_it_dg()
 joint.set_rotate_with_joint_orient(40.0, 50.0, 60.0)
+mod.do_it_dg()
+joint.set_joint_orient_with_rotate_axis((10.0, 20.0, 30.0))
+mod.do_it_dg()
+joint.set_rotate_axis_with_joint_orient(40.0, 50.0, 60.0)
 mod.do_it_dg()
 ```
 
 設定対象には指定値がそのまま入り、補償先だけが姿勢維持に必要な値へ変わります。
 `Joint`で`rotateAxis`と`rotate`の間を補償する場合は`jointOrient`を変更せず、
 `jointOrient`と`rotate`の間を補償する場合は`rotateAxis`を変更しません。
+`jointOrient`と`rotateAxis`の間を補償する場合は`rotate`を変更しません。
 変更しない第三の回転属性は、lockや入力接続があっても検証対象に含めません。
 
 補償値は同じ回転を表すEuler解のうち、補償先の現在値に近い解を選びます。
@@ -959,6 +966,8 @@ keyframe削除、lock解除は自動実行しません。操作時点のlocal ma
 | `set_rotate_with_rotate_axis(R_target)` | `A_new = A * R * inverse(R_target)` | Jointの`jointOrient` |
 | `set_joint_orient_with_rotate(J_target)` | `R_new = R * J * inverse(J_target)` | `rotateAxis` |
 | `set_rotate_with_joint_orient(R_target)` | `J_new = inverse(R_target) * R * J` | `rotateAxis` |
+| `set_joint_orient_with_rotate_axis(J_target)` | `A_new = A * R * J * inverse(J_target) * inverse(R)` | `rotate` |
+| `set_rotate_axis_with_joint_orient(A_target)` | `J_new = inverse(R) * inverse(A_target) * A * R * J` | `rotate` |
 
 `rotation_to_*()`も同じ回転積を使用し、集約先以外を単位回転にしたうえで
 集約先のEuler値へ変換します。積順またはEuler変換順を変更する場合は、全6種類の

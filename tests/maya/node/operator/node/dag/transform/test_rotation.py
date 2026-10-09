@@ -48,6 +48,18 @@ _SET_ROTATION_METHOD_CASES = (
         "rotate",
         ("rotateAxis",),
     ),
+    (
+        "joint",
+        "set_rotate_axis_with_joint_orient",
+        "rotateAxis",
+        ("rotate",),
+    ),
+    (
+        "joint",
+        "set_joint_orient_with_rotate_axis",
+        "jointOrient",
+        ("rotate",),
+    ),
 )
 
 
@@ -320,6 +332,8 @@ def test_set_rotation_methods_reject_invalid_values_before_queuing_changes(
         ("transform", "set_rotate_with_rotate_axis", "rotateAxisZ"),
         ("joint", "set_joint_orient_with_rotate", "jointOrientX"),
         ("joint", "set_rotate_with_joint_orient", "rotateZ"),
+        ("joint", "set_rotate_axis_with_joint_orient", "jointOrientX"),
+        ("joint", "set_joint_orient_with_rotate_axis", "rotateAxisZ"),
     ),
 )
 def test_set_rotation_methods_reject_locked_written_plug(
@@ -345,6 +359,8 @@ def test_set_rotation_methods_reject_locked_written_plug(
     (
         ("set_rotate_axis_with_rotate", "jointOrientX"),
         ("set_joint_orient_with_rotate", "rotateAxisX"),
+        ("set_rotate_axis_with_joint_orient", "rotateX"),
+        ("set_joint_orient_with_rotate_axis", "rotateX"),
     ),
 )
 def test_set_joint_rotation_methods_ignore_blocked_untouched_plug(

@@ -394,7 +394,41 @@ Joint子の姿勢補償先は`joint_child_compensation_attr`で`"rotate"`また�
 Undo／Redoは呼び出し全体で一回です。途中で処理に失敗した場合は、
 それまでに行った変更を元に戻します。対象がすべて丸め済みならUndoを追加しません。
 
-### 開発中のplug-in再読み込み
+## bdUtilCommands の姿勢を維持した回転値設定
+
+`bdSetRotationPreservingPose` は、指定した Transform／Joint の回転属性群へ
+共通の XYZ 値を設定し、別の属性群で差分を吸収して現在の local matrix を保ちます。
+型付き facade がプラグインを必要時に読み込み、明示されたノードだけを操作します。
+
+```python
+from bd_util.maya.mpx_cmd import set_rotation_preserving_pose
+
+changed = set_rotation_preserving_pose(
+    ["|ctrlA", "|ctrlB"],
+    (10.0, 20.0, 30.0),
+    target="rotate",
+    compensate_with="rotateAxis",
+)
+```
+
+`values` は既定で degree 単位です。`angle_unit="display"` を指定すると、
+現在の Maya 表示角度単位から degree へ変換します。Transform は
+`rotate` と `rotateAxis` の2方向、Joint は `jointOrient` を含む6方向に対応します。
+設定先と補償先は異なる属性群を指定してください。
+
+対象名は一意の DAG path へ解決・重複排除し、親から順に確定します。
+全ノードへ同じ XYZ を設定しますが、補償値は各ノードの現在値から個別に求めます。
+設定先の XYZ が既に目標値なら、そのノードは変更しません。すべて変更なしなら
+Undo 履歴は増えません。変更全体は一回の Maya Undo／Redo で扱い、途中で
+lock・入力接続などにより失敗した場合は先行ノードの変更も戻します。
+回転差分を吸収する2属性群の全子 plug が書き込み可能である必要があります。
+変更しない第三の属性群は検証対象に含みません。
+
+raw command は `bdSetRotationPreservingPose` で、ノード名を位置引数に取り、
+`targetAttribute`、`compensateWith`、`valueX`、`valueY`、`valueZ` を必須 flag、
+`angleUnit` を任意 flag とします。`jointOrient` を含む組は Joint 専用です。
+
+## 開発中のplug-in再読み込み
 
 `reload_package()`はPython moduleを再読み込みしますが、既に登録されたMaya commandは
 更新しません。`bdUtilCommands`の実装を変更した開発時だけ、先にUndo履歴を消して
