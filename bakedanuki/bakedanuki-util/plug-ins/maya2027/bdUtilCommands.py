@@ -13,6 +13,12 @@ from bd_util.maya.mpx_cmd.round_transform.mpx_command import (
 from bd_util.maya.mpx_cmd.set_rotation_preserving_pose.mpx_command import (
     SetRotationPreservingPoseCommand,
 )
+from bd_util.maya.mpx_cmd.set_transform_compensate_children.mpx_command import (
+    SetJointOrientCompensateChildrenCommand,
+    SetRotateAxisCompensateChildrenCommand,
+    SetRotateCompensateChildrenCommand,
+    SetTranslateCompensateChildrenCommand,
+)
 
 COMMAND_TYPES = (
     RoundTranslateCommand,
@@ -20,6 +26,10 @@ COMMAND_TYPES = (
     RoundRotateAxisCommand,
     RoundJointOrientCommand,
     SetRotationPreservingPoseCommand,
+    SetTranslateCompensateChildrenCommand,
+    SetRotateCompensateChildrenCommand,
+    SetRotateAxisCompensateChildrenCommand,
+    SetJointOrientCompensateChildrenCommand,
 )
 
 
@@ -29,7 +39,7 @@ def maya_useNewAPI() -> None:
 
 
 def initializePlugin(plugin: om.MObject) -> None:
-    """丸めと姿勢維持の回転設定コマンドを登録する。"""
+    """丸め、姿勢維持、子補償付き設定コマンドを登録する。"""
     register_commands(plugin, COMMAND_TYPES)
 
 

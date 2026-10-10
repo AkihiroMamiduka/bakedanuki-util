@@ -17,6 +17,9 @@ AimCoordinateSpace = Literal["world", "local"]
 ChildAimEndBehavior = Literal["error", "parent"]
 SignedAxis = Literal["x", "y", "z", "+x", "+y", "+z", "-x", "-y", "-z"]
 TransformSpace = Literal["local", "world"]
+TransformValueAttribute = Literal[
+    "translate", "rotate", "rotateAxis", "jointOrient"
+]
 JointChildCompensationAttr = Literal["rotate", "jointOrient"]
 
 
@@ -451,6 +454,133 @@ class Transform(GeneratedTransform):
             world_transformation.asMatrix()
         )
 
+    def convert_transform_space_values(
+        self,
+        attribute: TransformValueAttribute,
+        values: Sequence[float],
+        *,
+        from_space: TransformSpace,
+        to_space: TransformSpace,
+    ) -> _Vector3Value:
+        """未適用の属性XYZをlocal値とworld位置・姿勢の間で換算する。
+
+        sceneと`ModifierManager`を変更しない。world回転は最終姿勢を固定XYZ順の
+        度数で表す。`rotate`のlocal値だけはノードの`rotateOrder`に従う。
+
+        Args:
+            attribute: 換算する属性。`jointOrient`はJointのみ指定できる。
+            values: XYZ値。`translate`はcentimeter、回転属性はdegree。
+            from_space: `values`を解釈する空間。
+            to_space: 戻り値の空間。
+
+        Returns:
+            指定した空間におけるXYZ値。同じ空間間では入力値を返す。
+
+        Raises:
+            ValueError: 属性または空間が未対応の場合。
+            RuntimeError: world換算でDAG instanceか非可逆な親行列の場合。
+        """
+        if attribute not in (
+            "translate",
+            "rotate",
+            "rotateAxis",
+            "jointOrient",
+        ):
+            raise ValueError(f"Unsupported transform attribute: {attribute!r}")
+        if attribute == "jointOrient" and not self.m_obj.hasFn(om.MFn.kJoint):
+            raise ValueError("jointOrient requires a Joint node")
+        from_space = self._require_transform_space(from_space)
+        to_space = self._require_transform_space(to_space)
+        normalized = self._normalize_vector3_value(
+            values, (), "convert_transform_space_values"
+        )
+        if from_space == to_space:
+            return normalized
+        if from_space == "world":
+            return self._local_values_from_world(attribute, normalized)
+        return self._world_values_from_local(attribute, normalized)
+
+    def _local_values_from_world(
+        self,
+        attribute: TransformValueAttribute,
+        values: _Vector3Value,
+    ) -> _Vector3Value:
+        """固定XYZのworld姿勢または位置を指定属性のlocal値へ換算する。"""
+        if attribute == "translate":
+            return self._translate_from_world_position(values)
+        local_rotation = self._local_rotation_from_world_rotation(
+            values, om.MEulerRotation.kXYZ
+        )
+        if attribute == "rotate":
+            order = self.rotateOrder.get()
+            return self._quaternion_to_rotation(
+                self._rotate_from_combined_rotation(local_rotation),
+                order,
+                self.rotate.get().as_tuple(),
+            )
+        if attribute == "rotateAxis":
+            return self._quaternion_to_rotation(
+                self._rotate_axis_from_combined_rotation(local_rotation),
+                om.MEulerRotation.kXYZ,
+                self.rotateAxis.get().as_tuple(),
+            )
+        raise ValueError("jointOrient requires a Joint node")
+
+    def _transformation_with_preview_values(
+        self,
+        attribute: TransformValueAttribute,
+        values: _Vector3Value,
+    ) -> om.MTransformationMatrix:
+        """指定属性だけを変更したときのlocal変換行列を作る。"""
+        if attribute == "rotateAxis":
+            return self._transformation_with_rotate_axis(values)
+        transformation = om.MFnTransform(self.m_obj).transformation()
+        if attribute == "translate":
+            transformation.setTranslation(
+                om.MVector(*values), om.MSpace.kTransform
+            )
+        elif attribute == "rotate":
+            transformation.setRotation(
+                self._rotation_to_euler(values, self.rotateOrder.get())
+            )
+        else:
+            raise ValueError("jointOrient requires a Joint node")
+        return transformation
+
+    def _world_values_from_local(
+        self,
+        attribute: TransformValueAttribute,
+        values: _Vector3Value,
+    ) -> _Vector3Value:
+        """指定属性の未適用local値からworld位置または最終姿勢を予測する。"""
+        self._world_conversion_parent_inverse_matrix()
+        target_world_matrix = (
+            self._transformation_with_preview_values(
+                attribute, values
+            ).asMatrix()
+            * self._get_instance_transform_matrix("parentMatrix").matrix
+        )
+        if attribute == "translate":
+            return (
+                target_world_matrix[12],
+                target_world_matrix[13],
+                target_world_matrix[14],
+            )
+        current_world_rotation = om.MTransformationMatrix(
+            self._get_instance_transform_matrix("worldMatrix").matrix
+        ).rotation(asQuaternion=True)
+        current_world_values = self._quaternion_to_rotation(
+            current_world_rotation, om.MEulerRotation.kXYZ
+        )
+        target_world_rotation = om.MTransformationMatrix(
+            target_world_matrix
+        ).rotation(asQuaternion=True)
+        return self._quaternion_to_rotation(
+            target_world_rotation,
+            om.MEulerRotation.kXYZ,
+            current_world_values,
+        )
+
     def _set_with_child_compensation(
         self,
         *,
@@ -641,7 +771,9 @@ class Transform(GeneratedTransform):
             compensate_children
         )
         if space == "world":
-            translate = self._translate_from_world_position(translate)
+            translate = self.convert_transform_space_values(
+                "translate", translate, from_space="world", to_space="local"
+            )
         current_translate = self.translate.get().as_tuple()
         parent_changes = self._value_changes(
             self._translate_value_plugs(),
@@ -776,15 +908,11 @@ class Transform(GeneratedTransform):
         )
         current_rotate_axis = self.rotateAxis.get().as_tuple()
         if space == "world":
-            rotate_axis = self._quaternion_to_rotation(
-                self._rotate_axis_from_combined_rotation(
-                    self._local_rotation_from_world_rotation(
-                        rotate_axis,
-                        om.MEulerRotation.kXYZ,
-                    )
-                ),
-                om.MEulerRotation.kXYZ,
-                current_rotate_axis,
+            rotate_axis = self.convert_transform_space_values(
+                "rotateAxis",
+                rotate_axis,
+                from_space="world",
+                to_space="local",
             )
         parent_changes = self._value_changes(
             self._rotate_axis_value_plugs(),

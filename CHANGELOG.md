@@ -30,6 +30,15 @@
 
 ### Added
 
+- `bdUtilCommands`に`bdSetTranslateCompensateChildren`、
+  `bdSetRotateCompensateChildren`、`bdSetRotateAxisCompensateChildren`、
+  `bdSetJointOrientCompensateChildren`と型付きfacadeを追加。直接の子を補償し、
+  local属性値またはworld位置・固定XYZ順の最終姿勢を設定する。移動のcm・回転の度と
+  Maya表示単位を選べ、回転では子のworld位置を維持するかと子Jointの補償属性を選べる。
+  複数ノードを一回のMaya Undoで処理する。追加APIのためscene・設定の移行は不要。
+- `Transform`／`Joint`にsceneを変更せずlocal属性値とworld位置・固定XYZ順の
+  最終姿勢を換算する`convert_transform_space_values()`を追加。
+  `Joint`の`jointOrient`にも対応する。追加APIのためscene・設定の移行は不要。
 - Bindingを持たない数値入力にも初回クリック時の全選択を利用できるよう、
   `MouseFocusSelectAllDoubleSpinBox`を`bd_util.ui`へ公開。既存の
   `FloatSpinBox`と`FloatStepSpinBox`の操作は変更しない。

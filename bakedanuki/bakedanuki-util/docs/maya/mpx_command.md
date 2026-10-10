@@ -394,6 +394,50 @@ Joint子の姿勢補償先は`joint_child_compensation_attr`で`"rotate"`また�
 Undo／Redoは呼び出し全体で一回です。途中で処理に失敗した場合は、
 それまでに行った変更を元に戻します。対象がすべて丸め済みならUndoを追加しません。
 
+## bdUtilCommands の子を維持した移動・回転値設定
+
+`bdSetTranslateCompensateChildren`、`bdSetRotateCompensateChildren`、
+`bdSetRotateAxisCompensateChildren`、`bdSetJointOrientCompensateChildren`は、
+指定した属性群のXYZを設定し、直接のTransform／Joint子を補償します。
+通常の属性値だけを設定する場合はMaya標準の`cmds.setAttr()`を使用します。
+
+```python
+from bd_util.maya.mpx_cmd import (
+    set_translate_compensate_children,
+    set_rotate_compensate_children,
+)
+
+set_translate_compensate_children(["|root"], (1.0, 2.0, 3.0))
+set_rotate_compensate_children(
+    ["|root"],
+    (10.0, 20.0, 30.0),
+    space="world",
+    compensate_child_translate=True,
+    joint_child_compensation_attr="jointOrient",
+)
+```
+
+4つの型付きfacadeは明示したノード名だけを処理し、変更したノードのフルDAG pathを
+返します。複数ノードへ同じ目標XYZを適用でき、親子を同時に指定した場合は親から順に
+確定します。一回の呼び出しを一回のMaya Undo／Redoで戻せます。途中失敗では
+成功済みの変更も復旧し、変更なしならUndo履歴を増やしません。
+
+`space="local"`は対象属性の値です。`space="world"`は移動ではDAG原点の
+world位置、回転では最終world姿勢を**固定XYZ順のEuler角**で指定します。
+world回転は対象ノードの`rotateOrder`に依存しない入力です。各ノードの実効親行列と
+ほかの回転属性を使って対象属性のlocal値へ変換してから子を補償します。
+`input_unit="canonical"`は移動をcm、回転をdegreeとして扱います。
+`input_unit="display"`は現在のMaya表示単位で入力します。
+
+移動では子のworld位置を維持します。回転では子のworld姿勢を維持し、既定の
+`compensate_child_translate=True`でworld位置も維持します。姿勢のみを維持する場合は
+`False`を指定します。子Jointの補償先は既定の`rotate`から`jointOrient`へ
+切り替えられます。`bdSetJointOrientCompensateChildren`の対象はJointだけです。
+
+raw commandではノード名を位置引数とし、`valueX`、`valueY`、`valueZ`を必須flag、
+`space`、`inputUnit`を任意flagとします。回転の3コマンドにはさらに
+`compensateChildTranslate`と`jointChildCompensationAttr`を指定できます。
+
 ## bdUtilCommands の姿勢を維持した回転値設定
 
 `bdSetRotationPreservingPose` は、指定した Transform／Joint の回転属性群へ

@@ -24,6 +24,12 @@ from bd_util.maya.mpx_cmd.round_transform import (
     round_translate,
 )
 from bd_util.maya.mpx_cmd import set_rotation_preserving_pose
+from bd_util.maya.mpx_cmd import (
+    set_joint_orient_compensate_children,
+    set_rotate_axis_compensate_children,
+    set_rotate_compensate_children,
+    set_translate_compensate_children,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -69,6 +75,29 @@ assert_type(
         compensate_with="rotateAxis",
         angle_unit="display",
     ),
+    list[str],
+)
+assert_type(
+    set_translate_compensate_children(
+        ["ctrl"], (1.0, 2.0, 3.0), space="world", input_unit="display"
+    ),
+    list[str],
+)
+assert_type(
+    set_rotate_compensate_children(
+        ["ctrl"],
+        (10.0, 20.0, 30.0),
+        compensate_child_translate=True,
+        joint_child_compensation_attr="jointOrient",
+    ),
+    list[str],
+)
+assert_type(
+    set_rotate_axis_compensate_children(["ctrl"], (1.0, 2.0, 3.0)),
+    list[str],
+)
+assert_type(
+    set_joint_orient_compensate_children(["joint"], (1.0, 2.0, 3.0)),
     list[str],
 )
 

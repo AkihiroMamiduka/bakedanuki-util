@@ -1361,6 +1361,27 @@ world姿勢を設定して`mod.do_it_dg()`を実行し、続いてworld位置を
 `set_rotate_axis()`は自身の姿勢を変更する通常の値設定です。自身の姿勢を維持して
 差分を`rotate`で吸収する`set_rotate_axis_with_rotate()`とは用途が異なります。
 
+`convert_transform_space_values()`は、まだ設定していないXYZ値をlocal属性値と
+world位置・最終姿勢の間で換算します。sceneと`ModifierManager`は変更しません。
+ダイアログ内で編集中の値をLocal／Worldへ切り替えて表示するときなどに使用します。
+
+```python
+world_rotation = joint.convert_transform_space_values(
+    "jointOrient", (0.0, 15.0, 0.0),
+    from_space="local", to_space="world",
+)
+local_rotation = joint.convert_transform_space_values(
+    "jointOrient", world_rotation,
+    from_space="world", to_space="local",
+)
+```
+
+移動はcm、回転はdegreeです。このAPIのworld回転XYZは常に固定XYZ順です。
+localの`rotate`は対象の`rotateOrder`、`rotateAxis`と`jointOrient`は固定XYZ順です。
+`jointOrient`はJointのみ指定できます。world換算ではinstanced DAGや非可逆な
+実効親行列を拒否します。`set_rotate(space="world")`の入力順とは異なるため、
+このAPIでworld目標をlocalへ換算した後は`space="local"`で`set_*()`へ渡します。
+
 `node.translate.set()`などはplug値を設定する低レベルAPIです。`node.set_translate()`
 などは、DAG階層の補償を選択できる高レベルAPIです。
 

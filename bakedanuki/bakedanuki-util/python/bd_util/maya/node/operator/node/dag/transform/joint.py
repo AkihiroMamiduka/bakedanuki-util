@@ -15,6 +15,7 @@ from ._core import (
     SignedAxis,
     Transform,
     TransformSpace,
+    TransformValueAttribute,
 )
 from ._generated.joint import GeneratedJoint
 
@@ -115,6 +116,33 @@ class Joint(GeneratedJoint):
         transformation.setRotation(proxy_rotation)
         return transformation
 
+    def _local_values_from_world(
+        self,
+        attribute: TransformValueAttribute,
+        values: tuple[float, float, float],
+    ) -> tuple[float, float, float]:
+        """Jointの`jointOrient`もworld姿勢からlocal値へ換算する。"""
+        if attribute != "jointOrient":
+            return super()._local_values_from_world(attribute, values)
+        local_rotation = self._local_rotation_from_world_rotation(
+            values, om.MEulerRotation.kXYZ
+        )
+        return self._quaternion_to_rotation(
+            self._joint_orient_from_combined_rotation(local_rotation),
+            om.MEulerRotation.kXYZ,
+            self.jointOrient.get().as_tuple(),
+        )
+
+    def _transformation_with_preview_values(
+        self,
+        attribute: TransformValueAttribute,
+        values: tuple[float, float, float],
+    ) -> om.MTransformationMatrix:
+        """Jointの`jointOrient`も変更後のlocal変換行列へ反映する。"""
+        if attribute == "jointOrient":
+            return self._transformation_with_joint_orient(values)
+        return super()._transformation_with_preview_values(attribute, values)
+
     @overload
     def set_joint_orient(
         self,
@@ -185,15 +213,11 @@ class Joint(GeneratedJoint):
         )
         current_joint_orient = self.jointOrient.get().as_tuple()
         if space == "world":
-            joint_orient = self._quaternion_to_rotation(
-                self._joint_orient_from_combined_rotation(
-                    self._local_rotation_from_world_rotation(
-                        joint_orient,
-                        om.MEulerRotation.kXYZ,
-                    )
-                ),
-                om.MEulerRotation.kXYZ,
-                current_joint_orient,
+            joint_orient = self.convert_transform_space_values(
+                "jointOrient",
+                joint_orient,
+                from_space="world",
+                to_space="local",
             )
         parent_changes = self._value_changes(
             self._joint_orient_value_plugs(),

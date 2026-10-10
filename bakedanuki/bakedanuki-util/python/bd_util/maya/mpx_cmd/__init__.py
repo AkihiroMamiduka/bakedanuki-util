@@ -9,6 +9,12 @@ from .round_transform import (
     round_translate,
 )
 from .set_rotation_preserving_pose import set_rotation_preserving_pose
+from .set_transform_compensate_children import (
+    set_joint_orient_compensate_children,
+    set_rotate_axis_compensate_children,
+    set_rotate_compensate_children,
+    set_translate_compensate_children,
+)
 
 __all__ = (
     "CommandResult",
@@ -20,4 +26,8 @@ __all__ = (
     "round_rotate_axis",
     "round_joint_orient",
     "set_rotation_preserving_pose",
+    "set_translate_compensate_children",
+    "set_rotate_compensate_children",
+    "set_rotate_axis_compensate_children",
+    "set_joint_orient_compensate_children",
 )
