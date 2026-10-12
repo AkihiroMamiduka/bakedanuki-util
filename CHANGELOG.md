@@ -9,6 +9,8 @@
 
 ### Changed
 
+- `MouseFocusSelectAllDoubleSpinBox`を使う数値欄は、通常Enter・テンキーEnterの
+  確定操作を欄内で受理し、Mayaの親Windowのshortcutへ伝播させない。
 - `Transform`／`Joint` の `round_translate()`、`round_rotate()`、
   `round_rotate_axis()`、`round_joint_orient()` は、Python の偶数丸めから
   十進の四捨五入へ変更する。従来の偶数丸めが必要な呼び出しは、
@@ -41,7 +43,7 @@
   `Joint`の`jointOrient`にも対応する。追加APIのためscene・設定の移行は不要。
 - Bindingを持たない数値入力にも初回クリック時の全選択を利用できるよう、
   `MouseFocusSelectAllDoubleSpinBox`を`bd_util.ui`へ公開。既存の
-  `FloatSpinBox`と`FloatStepSpinBox`の操作は変更しない。
+  `FloatSpinBox`と`FloatStepSpinBox`の値管理は変更しない。
 - `bdUtilCommands` に `bdSetRotationPreservingPose` と型付き facade
   `set_rotation_preserving_pose()`を追加。Transform／Joint の回転属性群へ共通の
   XYZ 値を設定し、別の属性群で差分を吸収して現在の姿勢を維持する。
