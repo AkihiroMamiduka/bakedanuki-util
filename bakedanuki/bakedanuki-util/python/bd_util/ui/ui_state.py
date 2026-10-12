@@ -90,6 +90,43 @@ class _TabWidgetStateAdapter(_UiStateAdapter):
 
 
 @dataclass(frozen=True)
+class _ComboBoxStateAdapter(_UiStateAdapter):
+    """`QComboBox` の選択候補を文字列のitemDataで保存・復元する。"""
+
+    state_type: ClassVar[str] = "combo_box"
+    widget: qt.QtWidgets.QComboBox
+
+    @property
+    def state_object(self) -> qt.QtCore.QObject:
+        """状態を所有する `QComboBox` を返す。"""
+        return self.widget
+
+    def save_state(self) -> str | None:
+        """現在選択中の候補の識別子を取得する。"""
+        if self.widget.currentIndex() < 0:
+            return None
+        data: object = self.widget.currentData()
+        if not isinstance(data, str) or not data:
+            raise ValueError("選択候補のitemDataには空でない文字列が必要です")
+        return data
+
+    def restore_state(
+        self,
+        settings: qt.QtCore.QSettings,
+        state_key: str,
+    ) -> bool:
+        """識別子が現在も存在する場合だけ選択を復元する。"""
+        data: object = settings.value(state_key, "", str)
+        if not isinstance(data, str) or not data:
+            return False
+        index = self.widget.findData(data)
+        if index < 0:
+            return False
+        self.widget.setCurrentIndex(index)
+        return True
+
+
+@dataclass(frozen=True)
 class _CheckableActionStateAdapter(_UiStateAdapter):
     """checkable な `QAction` のチェック状態を保存・復元する。"""
 
@@ -121,7 +158,7 @@ class _CheckableActionStateAdapter(_UiStateAdapter):
 class UiStateManager:
     """登録したWidgetの内部状態を `QSettings` へ保存・復元する。
 
-    Splitter位置、選択タブ、checkable Actionなどを同じsettings pathで管理する。
+    Splitter位置、選択タブ、選択候補、checkable Actionなどを同じsettings pathで管理する。
     登録する `key` はASCII英字か`_`で始まり、以降は英数字か`_`を使用する。
     """
 
@@ -204,6 +241,40 @@ class UiStateManager:
 
         # タブ変更を退避しておき、Widget破棄後の `save_cached()` でも利用する。
         widget.currentChanged.connect(partial(self._capture_state, key))
+        self._capture_state(key)
+
+    def register_combo_box(
+        self,
+        key: str,
+        widget: qt.QtWidgets.QComboBox,
+    ) -> None:
+        """選択中の候補を安定した文字列のitemDataで保存対象にする。
+
+        Args:
+            key: manager内で一意な登録名。
+            widget: 各候補へ空でない一意の文字列itemDataを設定したComboBox。
+
+        Raises:
+            TypeError: `widget` または `key` の型が不正な場合。
+            ValueError: 候補のitemDataまたは `key` が不正な場合。
+            RuntimeError: `widget` が破棄済みの場合。
+        """
+        self._validate_key(key)
+        combo = require_widget(widget, qt.QtWidgets.QComboBox)
+        if not qt.isValid(combo):
+            raise RuntimeError("登録対象のComboBoxは破棄されています")
+        identifiers: set[str] = set()
+        for index in range(combo.count()):
+            data: object = combo.itemData(index)
+            if not isinstance(data, str) or not data or data in identifiers:
+                raise ValueError(
+                    "ComboBoxのitemDataには一意で空でない文字列が必要です"
+                )
+            identifiers.add(data)
+        self._register(key, _ComboBoxStateAdapter(combo))
+
+        # 選択変更を退避し、Widget破棄後の保存でも最後の値を使用する。
+        combo.currentIndexChanged.connect(partial(self._capture_state, key))
         self._capture_state(key)
 
     def register_checkable_action(

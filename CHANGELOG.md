@@ -32,6 +32,9 @@
 
 ### Added
 
+- `UiStateManager.register_combo_box()`を追加。候補の一意な文字列`itemData`を
+  保存し、表示名や候補順が変わっても選択を復元する。保存値が現行候補にない場合は
+  初期選択を維持する。既存の設定形式はそのまま利用でき、移行は不要。
 - `bdUtilCommands`に`bdSetTranslateCompensateChildren`、
   `bdSetRotateCompensateChildren`、`bdSetRotateAxisCompensateChildren`、
   `bdSetJointOrientCompensateChildren`と型付きfacadeを追加。直接の子を補償し、
