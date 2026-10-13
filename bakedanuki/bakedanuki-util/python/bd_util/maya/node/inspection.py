@@ -27,6 +27,7 @@ __all__ = [
     "matches_scalar_attribute_display_filter",
     "filter_scalar_attribute_paths",
     "selected_node_names",
+    "node_display_name",
     "inspect_scalar_attributes",
 ]
 
@@ -152,8 +153,8 @@ def selected_node_names(*, limit: int | None = None) -> tuple[str, ...]:
     return tuple(names)
 
 
-def _node_function(node_name: object) -> om.MFnDependencyNode:
-    """`node_name` に完全一致する既存ノードだけを解決する。"""
+def _node_selection(node_name: object) -> om.MSelectionList:
+    """`node_name` に完全一致する既存ノードの選択リストを作る。"""
     if not isinstance(node_name, str):
         raise TypeError("node_nameにはstrを指定してください")
     if not node_name or any(char in node_name for char in ".*?[]"):
@@ -161,9 +162,41 @@ def _node_function(node_name: object) -> om.MFnDependencyNode:
     selection = om.MSelectionList()
     try:
         selection.add(node_name)
-        return om.MFnDependencyNode(selection.getDependNode(0))
+        if selection.length() != 1:
+            raise ValueError(f"nodeを一意に解決できません: {node_name}")
     except RuntimeError as error:
         raise ValueError(f"nodeを一意に解決できません: {node_name}") from error
+    return selection
+
+
+def node_display_name(node_name: str) -> str:
+    """一意なDAGパスは短名で、曖昧なパスはフルパスで表示する。
+
+    Args:
+        node_name: 一意に解決できる既存ノード名。DAGインスタンスは表示したいパスを指定する。
+
+    Returns:
+        DAGの名前とパスが一意ならnamespace付き短名、同名やinstanceならフルパス。
+        DGノードはノード名。
+
+    Raises:
+        TypeError: `node_name`が文字列でない場合。
+        ValueError: `node_name`が単一の既存ノードを示さない場合。
+    """
+    selection = _node_selection(node_name)
+    node_object = selection.getDependNode(0)
+    if not node_object.hasFn(om.MFn.kDagNode):
+        return cast(str, om.MFnDependencyNode(node_object).name())
+    dag_path = selection.getDagPath(0)
+    dag_node = om.MFnDagNode(dag_path)
+    if dag_node.hasUniqueName() and not dag_path.isInstanced():
+        return cast(str, dag_node.name())
+    return cast(str, dag_path.fullPathName())
+
+
+def _node_function(node_name: object) -> om.MFnDependencyNode:
+    """`node_name` に完全一致する既存ノードだけを解決する。"""
+    return om.MFnDependencyNode(_node_selection(node_name).getDependNode(0))
 
 
 def _scalar_kind(plug: om.MPlug) -> ScalarAttributeKind | None:

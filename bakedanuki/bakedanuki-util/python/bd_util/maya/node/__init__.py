@@ -7,6 +7,7 @@ from .inspection import (
     filter_scalar_attribute_paths,
     inspect_scalar_attributes,
     matches_scalar_attribute_display_filter,
+    node_display_name,
     selected_node_names,
 )
 
@@ -18,5 +19,6 @@ __all__ = (
     "filter_scalar_attribute_paths",
     "inspect_scalar_attributes",
     "matches_scalar_attribute_display_filter",
+    "node_display_name",
     "selected_node_names",
 )
