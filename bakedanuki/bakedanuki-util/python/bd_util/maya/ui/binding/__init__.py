@@ -1,5 +1,7 @@
 # coding: utf-8
 from .edit_session import MayaEditSession
+from .node_name import MayaNodeNameStore
+from .node_name_binding import MayaNodeNameBinding
 from .channel_state_binding import (
     ChannelDisplayState,
     MayaChannelStatePlug,
@@ -38,10 +40,13 @@ from .plugs_binding import (
     MayaStringPlugsBinding,
 )
 from .plugs_state import MayaPlugTargetState
+from .plug_input_state import MayaPlugInputState, inspect_plug_input_state
+from .plug_value_edit import connected_plug_edit_reason
 from .plugs_value_edits import (
     MayaBoolValueEdit,
     MayaFloatValueEdit,
     MayaFloatOffsetEdit,
+    MayaFloatRoundEdit,
     MayaEnumValueEdit,
     MayaStringValueEdit,
     MayaPlugsValueEdit,
@@ -64,6 +69,8 @@ from .scalar_value_transfer import (
 )
 
 __all__ = [
+    "MayaNodeNameStore",
+    "MayaNodeNameBinding",
     "MayaStringBinding",
     "MayaStringPlug",
     "MayaStringPlugBinding",
@@ -101,9 +108,13 @@ __all__ = [
     "MayaBoolPlugsBinding",
     "MayaFloatPlugsBinding",
     "MayaPlugTargetState",
+    "MayaPlugInputState",
+    "inspect_plug_input_state",
+    "connected_plug_edit_reason",
     "MayaBoolValueEdit",
     "MayaFloatValueEdit",
     "MayaFloatOffsetEdit",
+    "MayaFloatRoundEdit",
     "MayaEnumValueEdit",
     "MayaStringValueEdit",
     "MayaPlugsValueEdit",

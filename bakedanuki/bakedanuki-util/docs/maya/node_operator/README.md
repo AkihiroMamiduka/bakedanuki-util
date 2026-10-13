@@ -884,6 +884,12 @@ mod.do_it_dg()
 `Joint` では `rotateAxis`、`rotate`、`jointOrient` の3つをすべて合成します。
 継承する2メソッドに加えて、`jointOrient`への集約も利用できます。
 
+`consolidated_rotation_values("rotate")`などで、集約先へ設定されるXYZ角度を
+度単位で事前取得できます。sceneとModifierManagerは変更しません。
+`Joint`だけは`"jointOrient"`も指定できます。lock・入力接続の検証と回転の合成は
+対応する`rotation_to_*()`と共通です。Maya標準のUndoコマンドで値を確定するUIは、
+この値を使って集約先以外をゼロにできます。
+
 ```python
 joint.rotation_to_rotate()
 joint.rotation_to_rotate_axis()
@@ -899,22 +905,29 @@ mod.do_it_dg()
 
 ```python
 transform.set_rotate_axis_with_rotate((10.0, 20.0, 30.0))
+mod.do_it_dg()
 transform.set_rotate_with_rotate_axis(40.0, 50.0, 60.0)
 mod.do_it_dg()
 ```
 
-`Joint`では継承する上記2メソッドに加えて、`jointOrient`と`rotate`の間でも
-同じ操作を利用できます。
+`Joint`では継承する上記2メソッドに加えて、`jointOrient`と`rotate`、
+`jointOrient`と`rotateAxis`の間でも同じ操作を利用できます。
 
 ```python
 joint.set_joint_orient_with_rotate((10.0, 20.0, 30.0))
+mod.do_it_dg()
 joint.set_rotate_with_joint_orient(40.0, 50.0, 60.0)
+mod.do_it_dg()
+joint.set_joint_orient_with_rotate_axis((10.0, 20.0, 30.0))
+mod.do_it_dg()
+joint.set_rotate_axis_with_joint_orient(40.0, 50.0, 60.0)
 mod.do_it_dg()
 ```
 
 設定対象には指定値がそのまま入り、補償先だけが姿勢維持に必要な値へ変わります。
 `Joint`で`rotateAxis`と`rotate`の間を補償する場合は`jointOrient`を変更せず、
 `jointOrient`と`rotate`の間を補償する場合は`rotateAxis`を変更しません。
+`jointOrient`と`rotateAxis`の間を補償する場合は`rotate`を変更しません。
 変更しない第三の回転属性は、lockや入力接続があっても検証対象に含めません。
 
 補償値は同じ回転を表すEuler解のうち、補償先の現在値に近い解を選びます。
@@ -953,6 +966,8 @@ keyframe削除、lock解除は自動実行しません。操作時点のlocal ma
 | `set_rotate_with_rotate_axis(R_target)` | `A_new = A * R * inverse(R_target)` | Jointの`jointOrient` |
 | `set_joint_orient_with_rotate(J_target)` | `R_new = R * J * inverse(J_target)` | `rotateAxis` |
 | `set_rotate_with_joint_orient(R_target)` | `J_new = inverse(R_target) * R * J` | `rotateAxis` |
+| `set_joint_orient_with_rotate_axis(J_target)` | `A_new = A * R * J * inverse(J_target) * inverse(R)` | `rotate` |
+| `set_rotate_axis_with_joint_orient(A_target)` | `J_new = inverse(R) * inverse(A_target) * A * R * J` | `rotate` |
 
 `rotation_to_*()`も同じ回転積を使用し、集約先以外を単位回転にしたうえで
 集約先のEuler値へ変換します。積順またはEuler変換順を変更する場合は、全6種類の
@@ -1346,11 +1361,36 @@ world姿勢を設定して`mod.do_it_dg()`を実行し、続いてworld位置を
 `set_rotate_axis()`は自身の姿勢を変更する通常の値設定です。自身の姿勢を維持して
 差分を`rotate`で吸収する`set_rotate_axis_with_rotate()`とは用途が異なります。
 
+`convert_transform_space_values()`は、まだ設定していないXYZ値をlocal属性値と
+world位置・最終姿勢の間で換算します。sceneと`ModifierManager`は変更しません。
+ダイアログ内で編集中の値をLocal／Worldへ切り替えて表示するときなどに使用します。
+
+```python
+world_rotation = joint.convert_transform_space_values(
+    "jointOrient", (0.0, 15.0, 0.0),
+    from_space="local", to_space="world",
+)
+local_rotation = joint.convert_transform_space_values(
+    "jointOrient", world_rotation,
+    from_space="world", to_space="local",
+)
+```
+
+移動はcm、回転はdegreeです。このAPIのworld回転XYZは常に固定XYZ順です。
+localの`rotate`は対象の`rotateOrder`、`rotateAxis`と`jointOrient`は固定XYZ順です。
+`jointOrient`はJointのみ指定できます。world換算ではinstanced DAGや非可逆な
+実効親行列を拒否します。`set_rotate(space="world")`の入力順とは異なるため、
+このAPIでworld目標をlocalへ換算した後は`space="local"`で`set_*()`へ渡します。
+
 `node.translate.set()`などはplug値を設定する低レベルAPIです。`node.set_translate()`
 などは、DAG階層の補償を選択できる高レベルAPIです。
 
-丸めメソッドはlocal属性値を対象とします。Python組み込みの`round()`と同じ偶数丸めで
-目標値を計算し、対応する`set_*()`のlocal経路へ渡します。
+丸めメソッドはlocal属性値を対象とします。数値は十進の四捨五入で丸め、
+ちょうど中間の値は正負ともゼロから遠い側へ進めます。既定の
+`rounding_unit="canonical"`では`translate`をcm、回転属性を度として
+桁数を数えます。`rounding_unit="display"`では現在のMaya表示単位で丸めてから
+cm／度の属性値へ戻します。どちらも対応する`set_*()`のlocal経路へ渡し、
+子補償の条件は同じです。
 
 ```python
 transform.round_translate(3)
@@ -1360,6 +1400,18 @@ transform.round_rotate(3)
 joint.round_joint_orient(3)
 mod.do_it_dg()
 ```
+
+表示中のチャンネルボックスと同じ単位で桁数を指定する場合は、次のようにします。
+
+```python
+transform.round_translate(2, rounding_unit="display")
+joint.round_joint_orient(2, rounding_unit="display")
+mod.do_it_dg()
+```
+
+この直接実行は`ModifierManager`の履歴に入り、Maya標準のUndoキューには
+登録されません。Ctrl+Zが必要な操作は、`bdUtilCommands`の型付きfacadeか
+`MPxCommandBase`を通してください。
 
 直接のTransform / Joint子を補償する場合は、`compensate_children=True`を
 明示します。`set_translate()` / `round_translate()`は子の`translate`を変更して

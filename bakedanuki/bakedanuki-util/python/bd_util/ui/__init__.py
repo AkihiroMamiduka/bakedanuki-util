@@ -2,6 +2,7 @@
 
 from . import qt
 from .binding import (
+    MouseFocusSelectAllDoubleSpinBox,
     PythonStringAttributeStore,
     SetStringCommand,
     StringBinding,
@@ -75,6 +76,7 @@ from .window_state import (
 )
 
 __all__ = [
+    "MouseFocusSelectAllDoubleSpinBox",
     "PythonStringAttributeStore",
     "SetStringCommand",
     "StringBinding",

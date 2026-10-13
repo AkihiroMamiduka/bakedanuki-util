@@ -1,6 +1,7 @@
 # coding: utf-8
 """既存nodeの調査が表示用情報だけを返すことを検証する。"""
 
+from collections.abc import Callable
 from dataclasses import FrozenInstanceError
 from typing import cast
 
@@ -13,6 +14,7 @@ from bd_util.maya.node.inspection import (
     filter_scalar_attribute_paths,
     inspect_scalar_attributes,
     matches_scalar_attribute_display_filter,
+    node_display_name,
     selected_node_names,
 )
 from bd_util.maya.ui import resolve_bool_plug, resolve_float_plug
@@ -181,6 +183,8 @@ def test_selection_preserves_object_order_and_omits_components_and_plugs(
     selection.add(last)
     om.MGlobal.setActiveSelectionList(selection)
     assert selected_node_names() == ("|" + first, last)
+    assert selected_node_names(limit=1) == ("|" + first,)
+    assert selected_node_names(limit=2) == ("|" + first, last)
     assert cmds.selectPref(query=True, trackSelectionOrder=True) == tracking
 
 
@@ -196,6 +200,69 @@ def test_selection_deduplicates_dag_instances_by_node(new_scene) -> None:
     ]
     cmds.select([original_shape, instance_shape], replace=True)
     assert selected_node_names() == (original_shape,)
+
+
+def test_node_display_name_uses_short_name_only_for_unique_path(
+    new_scene,
+) -> None:
+    """一意なDAG名・DG名と、同名・instanceのフルパスを区別する。"""
+    first_parent = cmds.createNode("transform", name="firstParent")
+    second_parent = cmds.createNode("transform", name="secondParent")
+    first = cmds.createNode(
+        "transform", name="sharedTarget", parent=first_parent
+    )
+    first_path = cmds.ls(first, long=True)[0]
+    assert node_display_name(first_path) == "sharedTarget"
+
+    second = cmds.createNode(
+        "transform", name="sharedTarget", parent=second_parent
+    )
+    second_path = cmds.ls(second, long=True)[0]
+    assert node_display_name(first_path) == first_path
+    assert node_display_name(second_path) == second_path
+
+    cmds.delete(second_path)
+    cast(Callable[..., list[str]], cmds.parent)(
+        first_path, second_parent, add=True
+    )
+    assert node_display_name(first_path) == first_path
+    assert node_display_name("|secondParent|sharedTarget") == (
+        "|secondParent|sharedTarget"
+    )
+
+    cmds.namespace(add="rig")
+    namespace_node = cmds.createNode("transform", name="rig:uniqueTarget")
+    assert node_display_name(namespace_node) == "rig:uniqueTarget"
+    dg_node = cmds.createNode("network", name="displayNetwork")
+    assert node_display_name(dg_node) == "displayNetwork"
+    with pytest.raises(ValueError):
+        node_display_name("missingNode")
+
+
+def test_selection_limit_counts_unique_objects(new_scene) -> None:
+    """instanceとcomponentを除いて上限に達した時点のノードを返す。"""
+    original = cmds.polyCube()[0]
+    instance = cmds.instance(original)[0]
+    original_shape = cmds.listRelatives(original, shapes=True, fullPath=True)[
+        0
+    ]
+    instance_shape = cmds.listRelatives(instance, shapes=True, fullPath=True)[
+        0
+    ]
+    second = cmds.createNode("network", name="secondSelected")
+    third = cmds.createNode("network", name="thirdSelected")
+    selection = om.MSelectionList()
+    selection.add(original_shape)
+    selection.add(original + ".vtx[0]")
+    selection.add(instance_shape)
+    selection.add(second)
+    selection.add(third)
+    om.MGlobal.setActiveSelectionList(selection)
+
+    assert selected_node_names(limit=2) == (original_shape, second)
+    assert selected_node_names() == (original_shape, second, third)
+    with pytest.raises(ValueError, match="1以上"):
+        selected_node_names(limit=0)
 
 
 def test_resolvers_accept_long_short_and_full_compound_paths(

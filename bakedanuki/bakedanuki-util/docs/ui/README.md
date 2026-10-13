@@ -9,6 +9,8 @@ UI utilityは、利用場所ではなく依存関係で分けます。
 ## 新しいtoolへの導入
 
 一行の文字列属性には[string binding](string_binding.md)を使用できます。
+属性ではなく既存ノードの名前を正本にする場合は、
+[node name binding](node_name_binding.md)を同じ`StringLineEdit`と`StringLabel`へ接続できます。
 最初の題材は既存jointの`.otherType`です。Maya属性正本、Python属性正本、
 Python正本とMaya属性の双方向同期、および編集中の外部変更を扱います。
 `MayaStringPlugsBinding`では複数jointの`.otherType`を一回のUndoで揃え、
@@ -1416,6 +1418,7 @@ Windows予約名や使用できない文字は拒否されます。
 
 - `QSplitter`: 分割位置
 - `QTabWidget`: 現在選択されているタブ
+- `QComboBox`: 現在選択されている候補の文字列`itemData`
 - checkableな`QAction`: チェック状態
 - `FloatRangeSliderSpinBox`: Min／Max・step
 - `Float3RangeSliderSpinBox`: XYZ各軸のMin／Max・step
@@ -1426,6 +1429,11 @@ Windows予約名や使用できない文字は拒否されます。
 `register_float_step_profile()`で一つのstate keyへ登録します。
 配置リセットで設定を保持するため、`tool/editor_settings/main`など配置とは別のsettings_pathを使用してください。
 単位・形式・終了時の保存とサンプルは[Min／Max・stepの保存と復元](float_view_settings.md)にまとめています。
+
+選択肢を保存する`QComboBox`は、各候補に空でない一意の文字列`itemData`を設定してから
+`register_combo_box()`で登録します。表示名や候補順ではなく`itemData`を保存するため、
+候補順を変更しても同じ選択を復元できます。保存済み候補がなくなった場合は現在の初期選択を
+維持し、その候補の保存値を削除します。
 
 `QHeaderView`の列幅・表示順は対応対象に含めません。MayaのworkspaceControlでは終了時の
 layout変更とWidget破棄の順序により、利用中のheader stateを安定して取得・復元できなかった
@@ -1449,6 +1457,10 @@ self.ui_state.register_splitter(
 self.ui_state.register_tab_widget(
     "main_tabs",
     self.main_tabs,
+)
+self.ui_state.register_combo_box(
+    "input_space",
+    self.input_space_combo,
 )
 self.ui_state.register_checkable_action(
     "wheel_input",

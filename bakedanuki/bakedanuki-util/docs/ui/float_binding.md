@@ -141,6 +141,7 @@ Channel Box自体が未生成でも取得できます。スクリプトでChanne
 
 `single_step`は表示単位での刻み幅です。Mayaの単位変更後も数値の刻み幅は維持します。
 キーボード入力はEnter／フォーカス移動で確定し、矢印・ホイールはstepごとに反映します。
+数値欄の通常Enter・テンキーEnterは、確定後も親Windowのshortcutへ伝播しません。
 `FloatSpinBox(..., wheel_requires_focus=True)`を指定すると、非フォーカス時のホイールを
 値変更に使わず親Widgetへ渡します。既定の`False`では従来どおりマウスオーバーで操作できます。
 `select_all_on_mouse_focus=True`を指定すると、入力文字をマウスで初回フォーカスした
@@ -148,6 +149,9 @@ Channel Box自体が未生成でも取得できます。スクリプトでChanne
 カーソルを移動し、ドラッグでは任意範囲を選択できます。生成後は
 `select_all_on_mouse_focus()`と`set_select_all_on_mouse_focus()`で切り替えられます。
 既定値は`False`です。
+正本Bindingを使わない一時的な数値入力では、同じ選択動作を持つ
+`MouseFocusSelectAllDoubleSpinBox(parent, select_all_on_mouse_focus=True)`を
+`bd_util.ui`から利用できます。値の管理と単位変換は利用側で行います。
 Mayaへの各書き込みは標準Undo／Redo対象です。SpinBoxの各変更は個別に確定します。
 [FloatSlider](float_slider.md)はViewModelの連続編集APIを使い、ドラッグ中の書き込みをUndo 1回へまとめます。
 

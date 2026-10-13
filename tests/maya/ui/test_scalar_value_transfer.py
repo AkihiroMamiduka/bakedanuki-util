@@ -485,3 +485,112 @@ def test_single_value_path_paste_rejects_ambiguous_inputs(scene):
             ("translate.translateY", "translate.translateY"),
             one_value,
         )
+
+
+def test_animated_paste_keys_only_connected_target_and_undoes_together(scene):
+    """明示したPasteはキー付き対象と通常対象を一回のUndoで変更する。"""
+    source, animated, static = scene
+    cmds.setAttr(source + ".tx", 7.5)
+    transfer = MayaScalarValueTransfer(
+        (
+            capture_scalar_node_values(
+                source, _attributes(source, "translate.translateX")
+            ),
+        )
+    )
+    for frame, value in ((1, 1.0), (10, 10.0)):
+        cmds.setKeyframe(animated + ".tx", time=frame, value=value)
+    cmds.currentTime(5)
+    original = cmds.getAttr(animated + ".tx")
+    cmds.flushUndo()
+
+    result = apply_scalar_value_transfer(
+        (animated, static), transfer, key_animated=True
+    )
+    assert result.changed and result.eligible_count == 2
+    assert result.excluded == ()
+    assert cmds.getAttr(animated + ".tx") == pytest.approx(7.5)
+    assert cmds.getAttr(static + ".tx") == pytest.approx(7.5)
+    assert (
+        cmds.keyframe(
+            animated + ".tx", query=True, time=(5, 5), keyframeCount=True
+        )
+        == 1
+    )
+    assert not cmds.keyframe(static + ".tx", query=True, keyframeCount=True)
+
+    cmds.undo()
+    assert cmds.getAttr(animated + ".tx") == pytest.approx(original)
+    assert cmds.getAttr(static + ".tx") == 0.0
+    assert (
+        cmds.keyframe(
+            animated + ".tx", query=True, time=(5, 5), keyframeCount=True
+        )
+        == 0
+    )
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+    cmds.redo()
+    assert cmds.getAttr(animated + ".tx") == pytest.approx(7.5)
+    assert cmds.getAttr(static + ".tx") == pytest.approx(7.5)
+
+
+def test_selected_path_paste_uses_animated_write_policy(scene):
+    """選択pathへ貼る二経路もキー作成と同値無変更を共有する。"""
+    source, target, _unused = scene
+    cmds.setAttr(source + ".tx", 8.0)
+    transfer = MayaScalarValueTransfer(
+        (
+            capture_scalar_node_values(
+                source, _attributes(source, "translate.translateX")
+            ),
+        )
+    )
+    for path in ("tx", "ty"):
+        cmds.setKeyframe(target + "." + path, time=1, value=1.0)
+        cmds.setKeyframe(target + "." + path, time=10, value=10.0)
+    cmds.currentTime(5)
+    cmds.flushUndo()
+
+    first = apply_scalar_value_transfer_to_paths(
+        (target,),
+        ("translate.translateX",),
+        transfer,
+        key_animated=True,
+    )
+    second = apply_scalar_value_to_paths(
+        (target,),
+        ("translate.translateY",),
+        transfer,
+        key_animated=True,
+    )
+    assert first.changed and second.changed
+    assert cmds.getAttr(target + ".tx") == pytest.approx(8.0)
+    assert cmds.getAttr(target + ".ty") == pytest.approx(8.0)
+    assert not apply_scalar_value_to_paths(
+        (target,),
+        ("translate.translateY",),
+        transfer,
+        key_animated=True,
+    ).changed
+
+    cmds.undo()
+    assert (
+        cmds.keyframe(
+            target + ".ty", query=True, time=(5, 5), keyframeCount=True
+        )
+        == 0
+    )
+    assert (
+        cmds.keyframe(
+            target + ".tx", query=True, time=(5, 5), keyframeCount=True
+        )
+        == 1
+    )
+    cmds.undo()
+    assert (
+        cmds.keyframe(
+            target + ".tx", query=True, time=(5, 5), keyframeCount=True
+        )
+        == 0
+    )
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)

@@ -48,6 +48,18 @@ _SET_ROTATION_METHOD_CASES = (
         "rotate",
         ("rotateAxis",),
     ),
+    (
+        "joint",
+        "set_rotate_axis_with_joint_orient",
+        "rotateAxis",
+        ("rotate",),
+    ),
+    (
+        "joint",
+        "set_joint_orient_with_rotate_axis",
+        "jointOrient",
+        ("rotate",),
+    ),
 )
 
 
@@ -135,6 +147,11 @@ def test_rotation_to_methods_preserve_matrix_and_support_undo_redo(
     }
     original_matrix = node.matrix.get().matrix
 
+    planned_rotation = node.consolidated_rotation_values(target_attribute)
+    assert {
+        name: tuple(getattr(node, name).get()) for name in attribute_names
+    } == original_values
+
     assert getattr(node, method_name)() is node
     assert {
         name: tuple(getattr(node, name).get()) for name in attribute_names
@@ -144,6 +161,9 @@ def test_rotation_to_methods_preserve_matrix_and_support_undo_redo(
 
     _assert_matrix_close(node.matrix.get().matrix, original_matrix)
     assert node.rotateOrder.get() == rotate_order
+    assert tuple(getattr(node, target_attribute).get()) == pytest.approx(
+        planned_rotation
+    )
     for attribute_name in attribute_names:
         if attribute_name != target_attribute:
             assert getattr(node, attribute_name).get() == pytest.approx(
@@ -312,6 +332,8 @@ def test_set_rotation_methods_reject_invalid_values_before_queuing_changes(
         ("transform", "set_rotate_with_rotate_axis", "rotateAxisZ"),
         ("joint", "set_joint_orient_with_rotate", "jointOrientX"),
         ("joint", "set_rotate_with_joint_orient", "rotateZ"),
+        ("joint", "set_rotate_axis_with_joint_orient", "jointOrientX"),
+        ("joint", "set_joint_orient_with_rotate_axis", "rotateAxisZ"),
     ),
 )
 def test_set_rotation_methods_reject_locked_written_plug(
@@ -337,6 +359,8 @@ def test_set_rotation_methods_reject_locked_written_plug(
     (
         ("set_rotate_axis_with_rotate", "jointOrientX"),
         ("set_joint_orient_with_rotate", "rotateAxisX"),
+        ("set_rotate_axis_with_joint_orient", "rotateX"),
+        ("set_joint_orient_with_rotate_axis", "rotateX"),
     ),
 )
 def test_set_joint_rotation_methods_ignore_blocked_untouched_plug(

@@ -155,6 +155,14 @@ class FloatSlider(qt.QSlider):
             self._finish_edit()
         self._value_request_handler = handler
 
+    def finish_edit(self) -> None:
+        """最後の確定値を維持して、外部処理から連続入力を終了する。
+
+        独自の入力 handler 使用時も終了通知を送り、残りのドラッグや
+        キーリピートから届く古い入力を無視する。
+        """
+        self._finish_edit()
+
     def effectiveFloatRange(self) -> tuple[float, float] | None:
         """操作範囲と hard limit の共通部分を返す。
 

@@ -533,12 +533,18 @@ def decode_scalar_value_transfer(document: object) -> MayaScalarValueTransfer:
 
 
 def _create_edit(
-    node_name: str, snapshot: MayaScalarValueSnapshot
+    node_name: str,
+    snapshot: MayaScalarValueSnapshot,
+    *,
+    key_animated: bool,
+    edit_connected: bool,
 ) -> tuple[MayaPlugsValueEdit, _ScalarBinding]:
-    """一つのtarget plugを監視するBindingと型付き入力を生成する。"""
+    """一つのtarget plugを監視し、キー入力方針付きの編集を作る。"""
     if snapshot.kind == "bool":
         bool_binding = MayaBoolPlugsBinding(
-            [resolve_bool_plug(node_name, snapshot.path)]
+            [resolve_bool_plug(node_name, snapshot.path)],
+            key_animated=key_animated,
+            edit_connected=edit_connected,
         )
         return (
             MayaBoolValueEdit(bool_binding, cast(bool, snapshot.value)),
@@ -553,7 +559,11 @@ def _create_edit(
             raise ValueError("enum定義（整数値と項目名）が異なります")
         if definition.item_for_value(cast(int, snapshot.value)) is None:
             raise ValueError("コピー元のenum値が定義されていません")
-        enum_binding = MayaEnumPlugsBinding([enum_plug])
+        enum_binding = MayaEnumPlugsBinding(
+            [enum_plug],
+            key_animated=key_animated,
+            edit_connected=edit_connected,
+        )
         return (
             MayaEnumValueEdit(enum_binding, cast(int, snapshot.value)),
             enum_binding,
@@ -567,7 +577,9 @@ def _create_edit(
             string_binding,
         )
     float_binding = MayaFloatPlugsBinding(
-        [resolve_float_plug(node_name, snapshot.path)]
+        [resolve_float_plug(node_name, snapshot.path)],
+        key_animated=key_animated,
+        edit_connected=edit_connected,
     )
     return (
         MayaFloatValueEdit(float_binding, cast(float, snapshot.value)),
@@ -576,7 +588,11 @@ def _create_edit(
 
 
 def apply_scalar_value_transfer(
-    node_names: Sequence[str], transfer: MayaScalarValueTransfer
+    node_names: Sequence[str],
+    transfer: MayaScalarValueTransfer,
+    *,
+    key_animated: bool = False,
+    edit_connected: bool = False,
 ) -> MayaScalarPasteResult:
     """一つのコピー元を、全対象nodeの同じ属性pathへ適用する。
 
@@ -586,6 +602,12 @@ def apply_scalar_value_transfer(
     Args:
         node_names: 重複のない一つ以上の貼り付け先node名。
         transfer: コピー元nodeを一つだけ含む搬送データ。
+        key_animated: `True` なら既存の時間カーブを現在時刻で常にキー
+            編集する。`edit_connected` とは併用できない。
+        edit_connected: `True` なら通常の時間カーブ・SDK・Animation
+            Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
+            一時値のみ変更する。constraintや未対応接続は編集しない。
+            既定値は `False` で、stringには適用しない。
 
     Returns:
         変更有無、書き込み候補数、除外した属性と理由。
@@ -593,8 +615,12 @@ def apply_scalar_value_transfer(
     Raises:
         TypeError: `transfer` の型が不正な場合。
         ValueError: コピー元・貼り付け先nodeの件数や名前が不正な場合。
+            または `key_animated` と `edit_connected` が両方
+            `True` の場合。
 
     """
+    if key_animated and edit_connected:
+        raise ValueError("key_animatedとedit_connectedは併用できません")
     if not isinstance(transfer, MayaScalarValueTransfer):
         raise TypeError(
             "transferにはMayaScalarValueTransferを指定してください"
@@ -634,7 +660,12 @@ def apply_scalar_value_transfer(
                     excluded.append(f"{plug_name}: 型・単位が異なる")
                     continue
                 try:
-                    edit, binding = _create_edit(node_name, snapshot)
+                    edit, binding = _create_edit(
+                        node_name,
+                        snapshot,
+                        key_animated=key_animated,
+                        edit_connected=edit_connected,
+                    )
                 except (TypeError, ValueError) as error:
                     excluded.append(f"{plug_name}: {error}")
                     continue
@@ -674,6 +705,9 @@ def apply_scalar_value_transfer_to_paths(
     node_names: Sequence[str],
     target_paths: Sequence[str],
     transfer: MayaScalarValueTransfer,
+    *,
+    key_animated: bool = False,
+    edit_connected: bool = False,
 ) -> MayaScalarPasteResult:
     """搬送値から指定した同一pathだけを各nodeへ適用する。
 
@@ -681,6 +715,12 @@ def apply_scalar_value_transfer_to_paths(
         node_names: 重複のない一つ以上の貼り付け先node名。
         target_paths: 重複のない一つ以上のnode相対属性path。
         transfer: コピー元nodeを一つだけ含む搬送データ。
+        key_animated: `True` なら既存の時間カーブを現在時刻で常にキー
+            編集する。`edit_connected` とは併用できない。
+        edit_connected: `True` なら通常の時間カーブ・SDK・Animation
+            Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
+            一時値のみ変更する。constraintや未対応接続は編集しない。
+            既定値は `False` で、stringには適用しない。
 
     Returns:
         変更有無、書き込み候補数、除外した属性と理由。
@@ -688,7 +728,11 @@ def apply_scalar_value_transfer_to_paths(
     Raises:
         TypeError: `transfer` または `target_paths` の型が不正な場合。
         ValueError: コピー元、貼り付け先、pathの指定が不正な場合。
+            または `key_animated` と `edit_connected` が両方
+            `True` の場合。
     """
+    if key_animated and edit_connected:
+        raise ValueError("key_animatedとedit_connectedは併用できません")
     if not isinstance(transfer, MayaScalarValueTransfer):
         raise TypeError(
             "transferにはMayaScalarValueTransferを指定してください"
@@ -724,6 +768,8 @@ def apply_scalar_value_transfer_to_paths(
     result = apply_scalar_value_transfer(
         targets,
         MayaScalarValueTransfer((MayaNodeValueSnapshot(selected_values),)),
+        key_animated=key_animated,
+        edit_connected=edit_connected,
     )
     return MayaScalarPasteResult(
         result.changed,
@@ -736,6 +782,9 @@ def apply_scalar_value_to_paths(
     node_names: Sequence[str],
     target_paths: Sequence[str],
     transfer: MayaScalarValueTransfer,
+    *,
+    key_animated: bool = False,
+    edit_connected: bool = False,
 ) -> MayaScalarPasteResult:
     """一つのコピー元値を各nodeの指定pathへ適用する。
 
@@ -746,6 +795,12 @@ def apply_scalar_value_to_paths(
         node_names: 重複のない一つ以上の貼り付け先node名。
         target_paths: 重複のない一つ以上のnode相対属性path。
         transfer: コピー元属性を一つだけ含む搬送データ。
+        key_animated: `True` なら既存の時間カーブを現在時刻で常にキー
+            編集する。`edit_connected` とは併用できない。
+        edit_connected: `True` なら通常の時間カーブ・SDK・Animation
+            Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
+            一時値のみ変更する。constraintや未対応接続は編集しない。
+            既定値は `False` で、stringには適用しない。
 
     Returns:
         変更有無、書き込み候補数、除外した属性と理由。
@@ -753,8 +808,12 @@ def apply_scalar_value_to_paths(
     Raises:
         TypeError: `transfer` または `target_paths` の型が不正な場合。
         ValueError: コピー元、貼り付け先、pathの指定が不正な場合。
+            または `key_animated` と `edit_connected` が両方
+            `True` の場合。
 
     """
+    if key_animated and edit_connected:
+        raise ValueError("key_animatedとedit_connectedは併用できません")
     if not isinstance(transfer, MayaScalarValueTransfer):
         raise TypeError(
             "transferにはMayaScalarValueTransferを指定してください"
@@ -781,4 +840,6 @@ def apply_scalar_value_to_paths(
     return apply_scalar_value_transfer(
         node_names,
         MayaScalarValueTransfer((expanded,)),
+        key_animated=key_animated,
+        edit_connected=edit_connected,
     )

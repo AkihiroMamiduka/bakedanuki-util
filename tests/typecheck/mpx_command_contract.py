@@ -17,6 +17,19 @@ from bd_util._sample.maya.mpx_cmd import (
     create_transforms,
     set_transform_translation,
 )
+from bd_util.maya.mpx_cmd.round_transform import (
+    round_joint_orient,
+    round_rotate,
+    round_rotate_axis,
+    round_translate,
+)
+from bd_util.maya.mpx_cmd import set_rotation_preserving_pose
+from bd_util.maya.mpx_cmd import (
+    set_joint_orient_compensate_children,
+    set_rotate_axis_compensate_children,
+    set_rotate_compensate_children,
+    set_translate_compensate_children,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -39,6 +52,54 @@ class _TypedCommand(bdu.MPxCommandBase[_Params]):
 command = _TypedCommand()
 assert_type(command.nodes, bdu.Nodes)
 assert_type(command.modifier_manager, bdu.ModifierManager)
+
+assert_type(round_translate(["ctrl"], 2), list[str])
+assert_type(round_translate(["ctrl"], 2, rounding_unit="display"), list[str])
+assert_type(
+    round_rotate(
+        ["ctrl"],
+        2,
+        compensate_children=True,
+        compensate_child_translate=True,
+        joint_child_compensation_attr="jointOrient",
+    ),
+    list[str],
+)
+assert_type(round_rotate_axis(["ctrl"], 2), list[str])
+assert_type(round_joint_orient(["joint"], 2), list[str])
+assert_type(
+    set_rotation_preserving_pose(
+        ["joint"],
+        (10.0, 20.0, 30.0),
+        target="jointOrient",
+        compensate_with="rotateAxis",
+        angle_unit="display",
+    ),
+    list[str],
+)
+assert_type(
+    set_translate_compensate_children(
+        ["ctrl"], (1.0, 2.0, 3.0), space="world", input_unit="display"
+    ),
+    list[str],
+)
+assert_type(
+    set_rotate_compensate_children(
+        ["ctrl"],
+        (10.0, 20.0, 30.0),
+        compensate_child_translate=True,
+        joint_child_compensation_attr="jointOrient",
+    ),
+    list[str],
+)
+assert_type(
+    set_rotate_axis_compensate_children(["ctrl"], (1.0, 2.0, 3.0)),
+    list[str],
+)
+assert_type(
+    set_joint_orient_compensate_children(["joint"], (1.0, 2.0, 3.0)),
+    list[str],
+)
 
 facade_result = create_transforms(prefix="typed", count=3)
 assert_type(facade_result, CreateTransformsResult)

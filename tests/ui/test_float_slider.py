@@ -259,6 +259,38 @@ def test_keyboard_repeat_and_escape_keep_last_confirmation(widgets):
     assert vm.value.value == 1
 
 
+def test_explicit_finish_stops_handler_gesture_and_old_key_repeats(widgets):
+    """外部終了は独自handlerの連続編集も閉じ、古いキー入力を遮断する。"""
+    vm = FloatViewModel(parent=widgets)
+    slider = FloatSlider(vm, widgets, minimum=0, maximum=1)
+    values = []
+    events = []
+
+    def handle_value(value):
+        """独自入力先から確定値を表示へ戻す。"""
+        values.append(value)
+        vm.set_value_command.execute(value)
+        return True
+
+    slider.setValueRequestHandler(handle_value)
+    slider.editStarted.connect(lambda: events.append("start"))
+    slider.editFinished.connect(lambda: events.append("end"))
+    send_key(slider, qt.QEvent.Type.KeyPress, qt.Qt.Key.Key_Right)
+    slider.finish_edit()
+    slider.finish_edit()
+    confirmed = vm.value.value
+    send_key(slider, qt.QEvent.Type.KeyPress, qt.Qt.Key.Key_Right, True)
+    assert events == ["start", "end"]
+    assert len(values) == 1
+    assert vm.value.value == confirmed
+    assert not vm.is_editing
+    send_key(slider, qt.QEvent.Type.KeyRelease, qt.Qt.Key.Key_Right)
+    send_key(slider, qt.QEvent.Type.KeyPress, qt.Qt.Key.Key_Right)
+    send_key(slider, qt.QEvent.Type.KeyRelease, qt.Qt.Key.Key_Right)
+    assert events == ["start", "end", "start", "end"]
+    assert len(values) == 2
+
+
 def test_range_or_units_end_gesture_without_writing(widgets):
     @dataclass
     class Data:

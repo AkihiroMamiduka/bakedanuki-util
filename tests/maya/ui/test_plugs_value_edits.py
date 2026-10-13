@@ -14,6 +14,7 @@ from bd_util.maya.ui import (
     MayaEditSession,
     MayaFloatPlugsBinding,
     MayaFloatOffsetEdit,
+    MayaFloatRoundEdit,
     MayaFloatValueEdit,
     MayaStringPlugsBinding,
     MayaStringValueEdit,
@@ -210,6 +211,57 @@ def test_float_offset_range_error_rejects_all_rows(scene):
         )
     assert values(nodes, "tx") == [0.0, 0.0, 0.0]
     assert values(nodes, "limited") == [9.0, 9.0, 9.0]
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+
+def test_float_round_preserves_each_target_and_uses_display_units(scene):
+    """各nodeの未丸め値を現在単位で四捨五入し、一回でUndoする。"""
+    nodes, owner = scene
+    for node, number, distance in zip(
+        nodes, (1.245, -1.245, 1.234), (124.5, -124.5, 123.4)
+    ):
+        cmds.setAttr(node + ".sx", number)
+        cmds.setAttr(node + ".tx", distance)
+    number = float_binding(nodes, owner, "sx")
+    distance = float_binding(nodes, owner)
+    cmds.currentUnit(linear="m")
+    cmds.flushUndo()
+
+    assert apply_plugs_values(
+        [MayaFloatRoundEdit(number, 2), MayaFloatRoundEdit(distance, 2)]
+    )
+    assert values(nodes, "sx") == [1.25, -1.25, 1.23]
+    assert values(nodes, "tx") == pytest.approx([1.25, -1.25, 1.23])
+    cmds.undo()
+    flush()
+    assert values(nodes, "sx") == [1.245, -1.245, 1.234]
+    assert values(nodes, "tx") == pytest.approx([1.245, -1.245, 1.234])
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+
+def test_float_round_validates_bounds_and_noop(scene):
+    """範囲違反では全体を止め、同値ならUndoを増やさない。"""
+    nodes, owner = scene
+    for node in nodes:
+        cmds.addAttr(node, ln="limited", at="double", min=0, max=0.6)
+        cmds.setAttr(node + ".limited", 0.6)
+        cmds.setAttr(node + ".tx", 1.0)
+    distance = float_binding(nodes, owner)
+    limited = float_binding(nodes, owner, "limited")
+    cmds.flushUndo()
+    with pytest.raises(ValueError, match="上限"):
+        apply_plugs_values(
+            [MayaFloatRoundEdit(distance, 0), MayaFloatRoundEdit(limited, 0)]
+        )
+    assert values(nodes, "tx") == [1.0] * 3
+    assert values(nodes, "limited") == [0.6] * 3
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+
+    assert not apply_plugs_values([MayaFloatRoundEdit(distance, 2)])
+    assert cmds.undoInfo(q=True, undoQueueEmpty=True)
+    for invalid in (True, -1, 324):
+        with pytest.raises((TypeError, ValueError)):
+            apply_plugs_values([MayaFloatRoundEdit(distance, invalid)])
     assert cmds.undoInfo(q=True, undoQueueEmpty=True)
 
 

@@ -56,6 +56,25 @@ def enter(widget, text):
         )
 
 
+class KeyReceiver(qt.QWidget):
+    """入力欄を通過した確定キーを記録する。"""
+
+    def __init__(self):
+        """親へ伝播したキー通知の記録を準備する。"""
+        super().__init__()
+        self.keys = []
+
+    def event(self, event):
+        """確定キーの押下と解放が親へ届いたか記録する。"""
+        if event.type() in (
+            qt.QEvent.Type.ShortcutOverride,
+            qt.QEvent.Type.KeyPress,
+            qt.QEvent.Type.KeyRelease,
+        ) and isinstance(event, qt.QtGui.QKeyEvent):
+            self.keys.append((event.type(), event.key()))
+        return super().event(event)
+
+
 def wheel(widget):
     """フォーカスを移さず、1ノッチ分のホイールイベントを送る。"""
     event = qt.QtGui.QWheelEvent(
@@ -78,6 +97,47 @@ def owner(qt_application):
     yield widget
     widget.deleteLater()
     flush()
+
+
+@pytest.mark.parametrize("key", [qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter])
+@pytest.mark.parametrize("field", ["spin_box", "step_spin_box"])
+def test_enter_commits_without_reaching_parent(qt_application, key, field):
+    """値・StepのEnter確定を保ち、Maya親Windowへ確定キーを渡さない。"""
+    del qt_application
+    parent = KeyReceiver()
+    data = Data()
+    binding = FloatBinding.from_attribute(data, "value", parent=parent)
+    editor = FloatValueStepSpinBox(binding, parent, single_step=1)
+    try:
+        spin = getattr(editor, field)
+        parent.show()
+        spin.setFocus()
+        qt.QApplication.processEvents()
+        focus_widget = qt.QApplication.focusWidget()
+        assert focus_widget in (spin, spin.lineEdit())
+        spin.lineEdit().setText("0.5" if field == "spin_box" else "2")
+        for kind in (
+            qt.QEvent.Type.ShortcutOverride,
+            qt.QEvent.Type.KeyPress,
+            qt.QEvent.Type.KeyRelease,
+        ):
+            event = qt.QtGui.QKeyEvent(
+                kind, key, qt.Qt.KeyboardModifier.NoModifier
+            )
+            event.setAccepted(False)
+            qt.QApplication.sendEvent(focus_widget, event)
+            assert event.isAccepted()
+        assert parent.keys == []
+        if field == "spin_box":
+            assert data.value == 0.5
+            assert data.writes == [0.5]
+        else:
+            assert editor.singleStep() == 2
+            assert data.writes == []
+    finally:
+        parent.deleteLater()
+        binding.dispose()
+        flush()
 
 
 @pytest.mark.parametrize("use_binding", [True, False])

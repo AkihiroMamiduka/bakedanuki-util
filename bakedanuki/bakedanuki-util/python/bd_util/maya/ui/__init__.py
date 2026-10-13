@@ -1,6 +1,8 @@
 # coding: utf-8
 
 from .binding import (
+    MayaNodeNameStore,
+    MayaNodeNameBinding,
     MayaStringBinding,
     MayaStringPlug,
     MayaStringPlugBinding,
@@ -38,9 +40,13 @@ from .binding import (
     MayaBoolPlugsBinding,
     MayaFloatPlugsBinding,
     MayaPlugTargetState,
+    MayaPlugInputState,
+    inspect_plug_input_state,
+    connected_plug_edit_reason,
     MayaBoolValueEdit,
     MayaFloatValueEdit,
     MayaFloatOffsetEdit,
+    MayaFloatRoundEdit,
     MayaEnumValueEdit,
     MayaStringValueEdit,
     MayaPlugsValueEdit,
@@ -99,6 +105,8 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "MayaNodeNameStore",
+    "MayaNodeNameBinding",
     "MayaStringBinding",
     "MayaStringPlug",
     "MayaStringPlugBinding",
@@ -136,9 +144,13 @@ __all__ = [
     "MayaBoolPlugsBinding",
     "MayaFloatPlugsBinding",
     "MayaPlugTargetState",
+    "MayaPlugInputState",
+    "inspect_plug_input_state",
+    "connected_plug_edit_reason",
     "MayaBoolValueEdit",
     "MayaFloatValueEdit",
     "MayaFloatOffsetEdit",
+    "MayaFloatRoundEdit",
     "MayaEnumValueEdit",
     "MayaStringValueEdit",
     "MayaPlugsValueEdit",

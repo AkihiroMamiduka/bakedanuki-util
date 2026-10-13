@@ -125,6 +125,80 @@ def test_save_and_restore_checkable_action_state(
     qt_application.processEvents()
 
 
+def test_combo_box_restores_item_data_after_reordering(
+    qt_application,
+    tmp_path,
+) -> None:
+    """表示名や候補順が変わっても識別子で選択を復元する。"""
+    settings_file = tmp_path / "ui.ini"
+    combo = QtWidgets.QComboBox()
+    combo.addItem("Local", "local")
+    combo.addItem("World", "world")
+    manager = _create_manager(settings_file)
+    manager.register_combo_box("space", combo)
+    combo.setCurrentIndex(combo.findData("world"))
+    assert manager.save_cached()
+
+    restored_combo = QtWidgets.QComboBox()
+    restored_combo.addItem("世界", "world")
+    restored_combo.addItem("局所", "local")
+    restored_combo.setCurrentIndex(1)
+    restored_manager = _create_manager(settings_file)
+    restored_manager.register_combo_box("space", restored_combo)
+    assert restored_manager.restore() == frozenset({"space"})
+    assert restored_combo.currentData() == "world"
+
+    combo.deleteLater()
+    restored_combo.deleteLater()
+    qt_application.processEvents()
+
+
+def test_combo_box_missing_or_unknown_state_keeps_default(
+    qt_application,
+    tmp_path,
+) -> None:
+    """未保存または廃止された候補は初期選択を維持する。"""
+    settings_file = tmp_path / "ui.ini"
+    combo = QtWidgets.QComboBox()
+    combo.addItem("Local", "local")
+    combo.addItem("World", "world")
+    manager = _create_manager(settings_file)
+    manager.register_combo_box("space", combo)
+    assert manager.restore() == frozenset()
+    assert combo.currentData() == "local"
+
+    combo.setCurrentIndex(1)
+    assert manager.save()
+    combo.removeItem(1)
+    assert manager.restore() == frozenset()
+    assert combo.currentData() == "local"
+    settings = QtCore.QSettings(
+        str(settings_file), QtCore.QSettings.Format.IniFormat
+    )
+    assert not settings.contains("windows/main/ui_state/widgets/space/state")
+
+    combo.deleteLater()
+    qt_application.processEvents()
+
+
+def test_register_combo_box_rejects_unstable_item_data(
+    qt_application,
+    tmp_path,
+) -> None:
+    """識別子の欠落や重複は登録前に拒否する。"""
+    manager = _create_manager(tmp_path / "ui.ini")
+    combo = QtWidgets.QComboBox()
+    combo.addItem("Local", "local")
+    combo.addItem("World", "local")
+    with pytest.raises(ValueError, match="itemData"):
+        manager.register_combo_box("space", combo)
+    combo.setItemData(1, True)
+    with pytest.raises(ValueError, match="itemData"):
+        manager.register_combo_box("space", combo)
+    combo.deleteLater()
+    qt_application.processEvents()
+
+
 def test_register_checkable_action_rejects_invalid_action(tmp_path) -> None:
     """QAction以外とcheckableではないQActionを登録前に拒否する。"""
     manager = _create_manager(tmp_path / "ui.ini")

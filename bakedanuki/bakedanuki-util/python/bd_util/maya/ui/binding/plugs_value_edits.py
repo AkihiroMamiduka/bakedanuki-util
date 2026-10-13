@@ -24,6 +24,7 @@ __all__ = [
     "MayaBoolValueEdit",
     "MayaFloatValueEdit",
     "MayaFloatOffsetEdit",
+    "MayaFloatRoundEdit",
     "MayaEnumValueEdit",
     "MayaStringValueEdit",
     "MayaPlugsValueEdit",
@@ -89,6 +90,23 @@ class MayaFloatOffsetEdit:
 
 
 @dataclass(frozen=True)
+class MayaFloatRoundEdit:
+    """各数値属性の現在値を表示単位で個別に四捨五入する。
+
+    Attributes:
+        binding: 編集先のfloat Binding。
+        decimals: 残す小数桁数。0は整数へ丸める。
+    """
+
+    binding: MayaFloatPlugsBinding
+    decimals: int
+
+    def __post_init__(self) -> None:
+        """値の検証は実行前にまとめ、Bindingの型を先に確認する。"""
+        _require_binding(self.binding, MayaFloatPlugsBinding)
+
+
+@dataclass(frozen=True)
 class MayaEnumValueEdit:
     """一つのenum属性群へ適用する整数値を保持する。
 
@@ -121,6 +139,7 @@ MayaPlugsValueEdit: TypeAlias = (
     MayaBoolValueEdit
     | MayaFloatValueEdit
     | MayaFloatOffsetEdit
+    | MayaFloatRoundEdit
     | MayaEnumValueEdit
     | MayaStringValueEdit
 )
@@ -134,6 +153,7 @@ def _require_edit(value: object) -> MayaPlugsValueEdit:
             MayaBoolValueEdit,
             MayaFloatValueEdit,
             MayaFloatOffsetEdit,
+            MayaFloatRoundEdit,
             MayaEnumValueEdit,
             MayaStringValueEdit,
         ),
@@ -150,6 +170,8 @@ def _prepare_edit(edit: MayaPlugsValueEdit) -> list[PlugWrite]:
         return edit.binding.store.prepare_write(edit.value)
     if isinstance(edit, MayaFloatOffsetEdit):
         return edit.binding.store.prepare_offset(edit.offset)
+    if isinstance(edit, MayaFloatRoundEdit):
+        return edit.binding.store.prepare_round(edit.decimals)
     return edit.binding.store.prepare_write(edit.value)
 
 

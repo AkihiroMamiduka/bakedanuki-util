@@ -6,10 +6,12 @@
 ```python
 from bd_util.maya.node.inspection import (
     inspect_scalar_attributes,
+    node_display_name,
     selected_node_names,
 )
 
 for node_name in selected_node_names():
+    print(node_display_name(node_name))
     for info in inspect_scalar_attributes(node_name):
         if info.keyable or info.channel_box:
             print(info.path, info.nice_name, info.kind)
@@ -19,6 +21,15 @@ for node_name in selected_node_names():
 DAGはフルpath、DGはnode名を返し、componentとplugの選択は除外します。
 同じnodeの複数DAG instanceは最初のpathだけを返します。選択順trackingの設定は
 変更しないため、クリックした履歴の順とは限りません。
+`selected_node_names(limit=50)`のように上限を指定すると、対象ノードをその数だけ
+見つけた時点で走査を終えます。componentとplugは数えず、DAG instanceは同じnodeとして
+まとめます。省略時は選択全体を返します。
+
+`node_display_name(node_name)`は一意に解決できる既存ノードのUI表示名を返します。
+DAGでは名前とパスが一意ならnamespaceを含む短名、同名ノードがある場合と
+インスタンスで複数パスを持つ場合は指定したフルパスを返します。DGではノード名を
+返します。表示名は操作対象の識別子として使わず、元の`node_name`を保持してください。
+同名・インスタンスの状態は呼び出し時点で再判定します。
 
 `inspect_scalar_attributes()`はMayaの属性定義順に`ScalarAttributeInfo`のtupleを
 返します。bool、float/double、距離、角度、enumのscalarを扱い、compoundの子も

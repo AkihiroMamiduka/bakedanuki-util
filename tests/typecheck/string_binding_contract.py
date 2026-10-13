@@ -46,8 +46,17 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     assert_type(binding.set_value("next"), bool)
     assert_type(binding.refresh(), bool)
     line = StringLineEdit(binding, widget)
+    assert_type(line.edit_failed, qt.QtCore.SignalInstance)
+    assert_type(
+        binding.view_model.refresh_from_store(
+            binding.store, notify_confirmation=False
+        ),
+        bool,
+    )
     assert_type(line.view_model, StringViewModel)
     assert_type(line.isInputEnabled(), bool)
+    assert_type(line.select_all_on_mouse_focus(), bool)
+    assert_type(line.set_select_all_on_mouse_focus(False), None)
     assert_type(line.hasConflict(), bool)
     assert_type(line.setInputEnabled(False), None)
     assert_type(line.setValueRequestHandler(None), None)
@@ -64,6 +73,7 @@ def check_contract(owner: qt.QObject, widget: qt.QWidget) -> None:
     assert_type(plug_binding.store, MayaStringPlugStore)
     assert_type(plug_binding.value, str)
     StringLineEdit(plug_binding, widget)
+    StringLineEdit(plug_binding, widget, select_all_on_mouse_focus=False)
     StringLabel(plug_binding, widget)
     group = MayaStringPlugsBinding([plug], parent=owner)
     assert_type(group.value, str)

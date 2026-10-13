@@ -5,6 +5,7 @@ from typing import cast, overload, Self
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
+from ......rounding import RoundingUnit
 from .._core import DAG
 from ._core import (
     AimCoordinateSpace,
@@ -14,6 +15,7 @@ from ._core import (
     SignedAxis,
     Transform,
     TransformSpace,
+    TransformValueAttribute,
 )
 from ._generated.joint import GeneratedJoint
 
@@ -114,6 +116,33 @@ class Joint(GeneratedJoint):
         transformation.setRotation(proxy_rotation)
         return transformation
 
+    def _local_values_from_world(
+        self,
+        attribute: TransformValueAttribute,
+        values: tuple[float, float, float],
+    ) -> tuple[float, float, float]:
+        """Jointの`jointOrient`もworld姿勢からlocal値へ換算する。"""
+        if attribute != "jointOrient":
+            return super()._local_values_from_world(attribute, values)
+        local_rotation = self._local_rotation_from_world_rotation(
+            values, om.MEulerRotation.kXYZ
+        )
+        return self._quaternion_to_rotation(
+            self._joint_orient_from_combined_rotation(local_rotation),
+            om.MEulerRotation.kXYZ,
+            self.jointOrient.get().as_tuple(),
+        )
+
+    def _transformation_with_preview_values(
+        self,
+        attribute: TransformValueAttribute,
+        values: tuple[float, float, float],
+    ) -> om.MTransformationMatrix:
+        """Jointの`jointOrient`も変更後のlocal変換行列へ反映する。"""
+        if attribute == "jointOrient":
+            return self._transformation_with_joint_orient(values)
+        return super()._transformation_with_preview_values(attribute, values)
+
     @overload
     def set_joint_orient(
         self,
@@ -184,15 +213,11 @@ class Joint(GeneratedJoint):
         )
         current_joint_orient = self.jointOrient.get().as_tuple()
         if space == "world":
-            joint_orient = self._quaternion_to_rotation(
-                self._joint_orient_from_combined_rotation(
-                    self._local_rotation_from_world_rotation(
-                        joint_orient,
-                        om.MEulerRotation.kXYZ,
-                    )
-                ),
-                om.MEulerRotation.kXYZ,
-                current_joint_orient,
+            joint_orient = self.convert_transform_space_values(
+                "jointOrient",
+                joint_orient,
+                from_space="world",
+                to_space="local",
             )
         parent_changes = self._value_changes(
             self._joint_orient_value_plugs(),
@@ -225,18 +250,22 @@ class Joint(GeneratedJoint):
         self,
         ndigits: int = 0,
         *,
+        rounding_unit: RoundingUnit = "canonical",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
     ) -> Self:
         """``jointOrient`` を丸め、必要に応じて子のworld姿勢を補償する。
 
-        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は degree。`Transform` 子は ``rotate``、`Joint` 子は既定で
+        十進の四捨五入を使用する。既定の桁数は degree、
+        ``rounding_unit="display"`` では Maya の表示単位を基準とする。
+        `Transform` 子は ``rotate``、`Joint` 子は既定で
         ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            rounding_unit: 桁数の基準。``"canonical"`` は degree、
+                ``"display"`` は現在の Maya 表示単位。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world姿勢を維持するように補償する。
             compensate_child_translate: ``True`` の場合、子の ``translate`` も
@@ -248,6 +277,8 @@ class Joint(GeneratedJoint):
         target_joint_orient = self._rounded_values(
             current_joint_orient,
             ndigits,
+            kind="angle",
+            rounding_unit=rounding_unit,
         )
         return self.set_joint_orient(
             target_joint_orient,
@@ -258,11 +289,7 @@ class Joint(GeneratedJoint):
 
     def rotation_to_joint_orient(self) -> Self:
         """現在の回転を ``jointOrient`` へ集約して DG modifier に積む。"""
-        self._validate_rotation_plugs()
-        rotation = self._quaternion_to_rotation(
-            self._combined_rotation(),
-            om.MEulerRotation.kXYZ,
-        )
+        rotation = self.consolidated_rotation_values("jointOrient")
         self.rotateAxis.set(self._ZERO_ROTATION)
         self.rotate.set(self._ZERO_ROTATION)
         self.jointOrient.set(rotation)
@@ -512,6 +539,78 @@ class Joint(GeneratedJoint):
         return self
 
     @overload
+    def set_joint_orient_with_rotate_axis(
+        self,
+        value: Sequence[float],
+        /,
+    ) -> Self: ...
+
+    @overload
+    def set_joint_orient_with_rotate_axis(
+        self,
+        value: float,
+        y: float,
+        z: float,
+        /,
+    ) -> Self: ...
+
+    def set_joint_orient_with_rotate_axis(
+        self,
+        value: float | Sequence[float],
+        /,
+        *values: float,
+    ) -> Self:
+        """姿勢を維持して `jointOrient` を設定し、差分を `rotateAxis` で吸収する。
+
+        `rotate` は変更しない。
+
+        Args:
+            value: degree 単位の 3 成分、または X 成分。
+            *values: `value` が X 成分の場合の Y、Z 成分。
+
+        Returns:
+            変更を予約したこのノード。
+        """
+        joint_orient = self._normalize_vector3_value(
+            value,
+            values,
+            "set_joint_orient_with_rotate_axis",
+        )
+        self._validate_rotation_m_plugs(
+            (self.jointOrient.plug, self.rotateAxis.plug)
+        )
+        rotate_order = self.rotateOrder.get()
+        current_rotate_axis = self.rotateAxis.get().as_tuple()
+        current_rotate = self.rotate.get().as_tuple()
+        current_joint_orient = self.jointOrient.get().as_tuple()
+        rotate_quaternion = self._rotation_to_quaternion(
+            current_rotate,
+            rotate_order,
+        )
+        # rotate を固定したまま合成回転を維持する rotateAxis を求める
+        compensated_rotate_axis = self._quaternion_to_rotation(
+            self._rotation_to_quaternion(
+                current_rotate_axis,
+                om.MEulerRotation.kXYZ,
+            )
+            * rotate_quaternion
+            * self._rotation_to_quaternion(
+                current_joint_orient,
+                om.MEulerRotation.kXYZ,
+            )
+            * self._rotation_to_quaternion(
+                joint_orient,
+                om.MEulerRotation.kXYZ,
+            ).inverse()
+            * rotate_quaternion.inverse(),
+            om.MEulerRotation.kXYZ,
+            current_rotate_axis,
+        )
+        self.jointOrient.set(joint_orient)
+        self.rotateAxis.set(compensated_rotate_axis)
+        return self
+
+    @overload
     def set_rotate_with_joint_orient(
         self,
         value: Sequence[float],
@@ -565,6 +664,78 @@ class Joint(GeneratedJoint):
             current_joint_orient,
         )
         self.rotate.set(rotate)
+        self.jointOrient.set(compensated_joint_orient)
+        return self
+
+    @overload
+    def set_rotate_axis_with_joint_orient(
+        self,
+        value: Sequence[float],
+        /,
+    ) -> Self: ...
+
+    @overload
+    def set_rotate_axis_with_joint_orient(
+        self,
+        value: float,
+        y: float,
+        z: float,
+        /,
+    ) -> Self: ...
+
+    def set_rotate_axis_with_joint_orient(
+        self,
+        value: float | Sequence[float],
+        /,
+        *values: float,
+    ) -> Self:
+        """姿勢を維持して `rotateAxis` を設定し、差分を `jointOrient` で吸収する。
+
+        `rotate` は変更しない。
+
+        Args:
+            value: degree 単位の 3 成分、または X 成分。
+            *values: `value` が X 成分の場合の Y、Z 成分。
+
+        Returns:
+            変更を予約したこのノード。
+        """
+        rotate_axis = self._normalize_vector3_value(
+            value,
+            values,
+            "set_rotate_axis_with_joint_orient",
+        )
+        self._validate_rotation_m_plugs(
+            (self.rotateAxis.plug, self.jointOrient.plug)
+        )
+        rotate_order = self.rotateOrder.get()
+        current_rotate_axis = self.rotateAxis.get().as_tuple()
+        current_rotate = self.rotate.get().as_tuple()
+        current_joint_orient = self.jointOrient.get().as_tuple()
+        rotate_quaternion = self._rotation_to_quaternion(
+            current_rotate,
+            rotate_order,
+        )
+        # rotate を固定したまま合成回転を維持する jointOrient を求める
+        compensated_joint_orient = self._quaternion_to_rotation(
+            rotate_quaternion.inverse()
+            * self._rotation_to_quaternion(
+                rotate_axis,
+                om.MEulerRotation.kXYZ,
+            ).inverse()
+            * self._rotation_to_quaternion(
+                current_rotate_axis,
+                om.MEulerRotation.kXYZ,
+            )
+            * rotate_quaternion
+            * self._rotation_to_quaternion(
+                current_joint_orient,
+                om.MEulerRotation.kXYZ,
+            ),
+            om.MEulerRotation.kXYZ,
+            current_joint_orient,
+        )
+        self.rotateAxis.set(rotate_axis)
         self.jointOrient.set(compensated_joint_orient)
         return self
 

@@ -5,6 +5,7 @@ from .presentation import FloatPresentation, FloatUnitKind
 from .store import FloatValueStore, PythonFloatAttributeStore
 from .value import FloatValue
 from .view import (
+    MouseFocusSelectAllDoubleSpinBox,
     FloatLabel,
     FloatSlider,
     FloatSliderSpinBox,
@@ -18,6 +19,7 @@ from .view import (
 from .view_model import FloatViewModel
 
 __all__ = [
+    "MouseFocusSelectAllDoubleSpinBox",
     "FloatBinding",
     "FloatLabel",
     "FloatSlider",

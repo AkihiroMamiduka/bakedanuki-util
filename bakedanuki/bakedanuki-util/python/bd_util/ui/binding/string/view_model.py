@@ -112,8 +112,21 @@ class StringViewModel(qt.QObject):
             self._set_value_command.set_can_execute(False)
             raise
 
-    def refresh_from_store(self, store: StringValueStore) -> bool:
-        """正本の確定値と書込み可否を読み直す。"""
+    def refresh_from_store(
+        self, store: StringValueStore, *, notify_confirmation: bool = True
+    ) -> bool:
+        """正本の確定値と書込み可否を読み直す。
+
+        Args:
+            store: このViewModelへ接続済みの正本。
+            notify_confirmation: 同値でも再同期を要求する場合は`True`。
+                Viewの入力前確認では`False`で副作用を伴う再同期を避ける。
+
+        Returns:
+            公開値が変わった場合は`True`。
+        """
+        if type(notify_confirmation) is not bool:
+            raise TypeError("notify_confirmationにはboolを指定してください")
         self._require_attached_store(store)
         if self.is_disposed:
             return False
@@ -129,7 +142,7 @@ class StringViewModel(qt.QObject):
             self._set_value_command.set_can_execute(False)
             raise
         changed = self._publish(value, writable)
-        if not self.is_disposed:
+        if not self.is_disposed and notify_confirmation:
             self.store_refreshed.emit(self._value.value)
         return changed
 

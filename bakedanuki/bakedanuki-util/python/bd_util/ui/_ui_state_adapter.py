@@ -4,7 +4,7 @@ from typing import ClassVar, TypeVar
 
 from . import qt
 
-UiStateValue = qt.QtCore.QByteArray | int
+UiStateValue = qt.QtCore.QByteArray | int | str
 _Widget = TypeVar("_Widget", bound=qt.QWidget)
 
 

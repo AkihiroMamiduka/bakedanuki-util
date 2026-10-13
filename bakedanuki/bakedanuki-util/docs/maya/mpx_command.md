@@ -357,3 +357,136 @@ facadeは`bdUtilSampleCommands.py`をファイル名でロードするため、M
 
 sampleは設計確認用です。実際の公開commandは、そのcommandを所有するpackageの
 command単位package、共有plug-in loader、version別`plug-ins`へ同じ責務で配置します。
+
+## bdUtilCommands の回転・移動値の丸め
+
+正式なPython plug-in `bdUtilCommands.py`は、Maya 2025／2026／2027の
+`plug-ins/maya20xx`に配置します。`bdRoundTranslate`、`bdRoundRotate`、
+`bdRoundRotateAxis`、`bdRoundJointOrient`を登録し、NodeOperatorの
+`round_*()`と子補償をMaya標準Undoへ接続します。
+
+利用側は型付きfacadeから呼び出します。facadeがplug-inを必要時にロードするため、
+明示的な`loadPlugin()`や現在選択の変更は不要です。
+
+```python
+from bd_util.maya.mpx_cmd.round_transform import round_rotate
+
+changed = round_rotate(
+    ["|parent", "|parent|child"],
+    2,
+    rounding_unit="display",
+    compensate_children=True,
+    compensate_child_translate=True,
+    joint_child_compensation_attr="jointOrient",
+)
+print(changed)  # 値を変更したノードのフルDAG path
+```
+
+4つのfacadeは対象ノード名の列と`ndigits`を受け取り、`rounding_unit`は
+`"canonical"`（既定、cm／度）または`"display"`（現在のMaya表示単位）を
+指定します。`compensate_children=True`は直接のTransform／Joint子を補償し、
+回転系では`compensate_child_translate=True`で子のworld位置も維持します。
+Joint子の姿勢補償先は`joint_child_compensation_attr`で`"rotate"`または
+`"jointOrient"`を選べます。`bdRoundJointOrient`の対象はJointのみです。
+
+一回の呼び出しで複数ノードを処理し、重複する指定は一度だけ扱います。
+親子を同時指定した場合は親から順に確定し、子は補償後のlocal値を丸めます。
+Undo／Redoは呼び出し全体で一回です。途中で処理に失敗した場合は、
+それまでに行った変更を元に戻します。対象がすべて丸め済みならUndoを追加しません。
+
+## bdUtilCommands の子を維持した移動・回転値設定
+
+`bdSetTranslateCompensateChildren`、`bdSetRotateCompensateChildren`、
+`bdSetRotateAxisCompensateChildren`、`bdSetJointOrientCompensateChildren`は、
+指定した属性群のXYZを設定し、直接のTransform／Joint子を補償します。
+通常の属性値だけを設定する場合はMaya標準の`cmds.setAttr()`を使用します。
+
+```python
+from bd_util.maya.mpx_cmd import (
+    set_translate_compensate_children,
+    set_rotate_compensate_children,
+)
+
+set_translate_compensate_children(["|root"], (1.0, 2.0, 3.0))
+set_rotate_compensate_children(
+    ["|root"],
+    (10.0, 20.0, 30.0),
+    space="world",
+    compensate_child_translate=True,
+    joint_child_compensation_attr="jointOrient",
+)
+```
+
+4つの型付きfacadeは明示したノード名だけを処理し、変更したノードのフルDAG pathを
+返します。複数ノードへ同じ目標XYZを適用でき、親子を同時に指定した場合は親から順に
+確定します。一回の呼び出しを一回のMaya Undo／Redoで戻せます。途中失敗では
+成功済みの変更も復旧し、変更なしならUndo履歴を増やしません。
+
+`space="local"`は対象属性の値です。`space="world"`は移動ではDAG原点の
+world位置、回転では最終world姿勢を**固定XYZ順のEuler角**で指定します。
+world回転は対象ノードの`rotateOrder`に依存しない入力です。各ノードの実効親行列と
+ほかの回転属性を使って対象属性のlocal値へ変換してから子を補償します。
+`input_unit="canonical"`は移動をcm、回転をdegreeとして扱います。
+`input_unit="display"`は現在のMaya表示単位で入力します。
+
+移動では子のworld位置を維持します。回転では子のworld姿勢を維持し、既定の
+`compensate_child_translate=True`でworld位置も維持します。姿勢のみを維持する場合は
+`False`を指定します。子Jointの補償先は既定の`rotate`から`jointOrient`へ
+切り替えられます。`bdSetJointOrientCompensateChildren`の対象はJointだけです。
+
+raw commandではノード名を位置引数とし、`valueX`、`valueY`、`valueZ`を必須flag、
+`space`、`inputUnit`を任意flagとします。回転の3コマンドにはさらに
+`compensateChildTranslate`と`jointChildCompensationAttr`を指定できます。
+
+## bdUtilCommands の姿勢を維持した回転値設定
+
+`bdSetRotationPreservingPose` は、指定した Transform／Joint の回転属性群へ
+共通の XYZ 値を設定し、別の属性群で差分を吸収して現在の local matrix を保ちます。
+型付き facade がプラグインを必要時に読み込み、明示されたノードだけを操作します。
+
+```python
+from bd_util.maya.mpx_cmd import set_rotation_preserving_pose
+
+changed = set_rotation_preserving_pose(
+    ["|ctrlA", "|ctrlB"],
+    (10.0, 20.0, 30.0),
+    target="rotate",
+    compensate_with="rotateAxis",
+)
+```
+
+`values` は既定で degree 単位です。`angle_unit="display"` を指定すると、
+現在の Maya 表示角度単位から degree へ変換します。Transform は
+`rotate` と `rotateAxis` の2方向、Joint は `jointOrient` を含む6方向に対応します。
+設定先と補償先は異なる属性群を指定してください。
+
+対象名は一意の DAG path へ解決・重複排除し、親から順に確定します。
+全ノードへ同じ XYZ を設定しますが、補償値は各ノードの現在値から個別に求めます。
+設定先の XYZ が既に目標値なら、そのノードは変更しません。すべて変更なしなら
+Undo 履歴は増えません。変更全体は一回の Maya Undo／Redo で扱い、途中で
+lock・入力接続などにより失敗した場合は先行ノードの変更も戻します。
+回転差分を吸収する2属性群の全子 plug が書き込み可能である必要があります。
+変更しない第三の属性群は検証対象に含みません。
+
+raw command は `bdSetRotationPreservingPose` で、ノード名を位置引数に取り、
+`targetAttribute`、`compensateWith`、`valueX`、`valueY`、`valueZ` を必須 flag、
+`angleUnit` を任意 flag とします。`jointOrient` を含む組は Joint 専用です。
+
+## 開発中のplug-in再読み込み
+
+`reload_package()`はPython moduleを再読み込みしますが、既に登録されたMaya commandは
+更新しません。`bdUtilCommands`の実装を変更した開発時だけ、先にUndo履歴を消して
+plug-inを解除し、その後でpackageを再読み込みします。
+
+```python
+from maya import cmds
+import bd_util
+
+if cmds.pluginInfo("bdUtilCommands", query=True, loaded=True):
+    cmds.flushUndo()
+    cmds.unloadPlugin("bdUtilCommands")
+bd_util.reload_package()
+```
+
+次のfacade呼び出しで新しいplug-inが読み込まれます。toolsも変更した場合は、
+最後の行を`bd_tools.reload_package(reload_util=True)`に置き換えます。

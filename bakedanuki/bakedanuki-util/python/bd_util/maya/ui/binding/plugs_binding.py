@@ -30,6 +30,7 @@ from ....ui.binding.string._validation import require_string
 from ...node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolPlugOperator,
 )
+from ...rounding import round_decimal_half_up
 from ._float_plug_value import FloatPlugValue
 from ._enum_plug_value import EnumPlugValue
 from ._plugs_store import PlugsStore, PlugTarget, PlugWrite
@@ -205,6 +206,10 @@ class _EnumPlugsStore(PlugsStore[int]):
         view_model: EnumViewModel,
         plugs: Sequence[MayaEnumPlug],
         owner: qt.QObject,
+        *,
+        key_animated: bool = False,
+        edit_connected: bool = False,
+        track_input_state: bool = False,
     ) -> None:
         """同じ定義のenum属性群を検証して監視する。"""
         self._view_model = view_model
@@ -221,7 +226,14 @@ class _EnumPlugsStore(PlugsStore[int]):
             )
         self._definitions: tuple[EnumDefinition | None, ...] = ()
         targets = tuple(
-            PlugTarget(plug.node, plug.plug, codec)
+            PlugTarget(
+                plug.node,
+                plug.plug,
+                codec,
+                key_animated=key_animated,
+                edit_connected=edit_connected,
+                track_input_state=track_input_state,
+            )
             for plug, codec in zip(plugs, self._codecs)
         )
         super().__init__(targets, owner)
@@ -292,6 +304,7 @@ class _EnumPlugsStore(PlugsStore[int]):
         self._definitions = definitions
         self._states = tuple(states)
         self._values = values
+        self._sync_input_callbacks()
         return changed
 
     def _refresh_view_model(self) -> bool:
@@ -323,11 +336,22 @@ class _BoolPlugsStore(PlugsStore[bool]):
         view_model: BoolViewModel,
         plugs: Sequence[BoolPlugOperator],
         owner: qt.QObject,
+        *,
+        key_animated: bool = False,
+        edit_connected: bool = False,
+        track_input_state: bool = False,
     ) -> None:
         """全属性を検証してから監視を開始する。"""
         self._view_model = view_model
         targets = tuple(
-            PlugTarget(plug.node, plug.plug, _BoolCodec(plug))
+            PlugTarget(
+                plug.node,
+                plug.plug,
+                _BoolCodec(plug),
+                key_animated=key_animated,
+                edit_connected=edit_connected,
+                track_input_state=track_input_state,
+            )
             for plug in plugs
         )
         super().__init__(targets, owner)
@@ -351,6 +375,10 @@ class _FloatPlugsStore(PlugsStore[float]):
         view_model: FloatViewModel,
         plugs: Sequence[MayaFloatPlug],
         owner: qt.QObject,
+        *,
+        key_animated: bool = False,
+        edit_connected: bool = False,
+        track_input_state: bool = False,
     ) -> None:
         """単位種別を揃え、代表の表示情報を維持する。"""
         self._view_model = view_model
@@ -360,8 +388,16 @@ class _FloatPlugsStore(PlugsStore[float]):
         if any(codec.value.kind != codecs[0].value.kind for codec in codecs):
             raise TypeError("属性の単位種別は全対象で揃えてください")
         self._representative_codec = codecs[0]
+        self._codecs = codecs
         targets = tuple(
-            PlugTarget(plug.node, plug.plug, codec)
+            PlugTarget(
+                plug.node,
+                plug.plug,
+                codec,
+                key_animated=key_animated,
+                edit_connected=edit_connected,
+                track_input_state=track_input_state,
+            )
             for plug, codec in zip(plugs, codecs)
         )
         super().__init__(targets, owner, float_view_model=view_model)
@@ -382,6 +418,25 @@ class _FloatPlugsStore(PlugsStore[float]):
             target.codec.read() + offset if target.state().is_writable else 0.0
             for target in self._targets
         )
+        return self._prepare_values(values)
+
+    def prepare_round(self, decimals: int) -> list[PlugWrite]:
+        """各対象の表示単位の現在値を個別に四捨五入する計画を返す。"""
+        if type(decimals) is not int:
+            raise TypeError("decimalsにはintを指定してください")
+        if not 0 <= decimals <= 323:
+            raise ValueError("decimalsは0から323の範囲で指定してください")
+        if not self.is_writable:
+            raise RuntimeError("代表属性は編集できません")
+        values: list[float] = []
+        for target, codec in zip(self._targets, self._codecs, strict=True):
+            if not target.state().is_writable:
+                values.append(0.0)
+                continue
+            presentation = codec.value.presentation
+            display = presentation.to_display(codec.read())
+            rounded = round_decimal_half_up(display, decimals)
+            values.append(presentation.from_display(rounded))
         return self._prepare_values(values)
 
     def _refresh_view_model(self) -> bool:
@@ -405,11 +460,18 @@ class _StringPlugsStore(PlugsStore[str]):
         view_model: StringViewModel,
         plugs: Sequence[MayaStringPlug],
         owner: qt.QObject,
+        *,
+        track_input_state: bool = False,
     ) -> None:
         """型付きstring属性を検証し、書込みなしで監視を始める。"""
         self._view_model = view_model
         targets = tuple(
-            PlugTarget(plug.node, plug.plug, _StringCodec(plug))
+            PlugTarget(
+                plug.node,
+                plug.plug,
+                _StringCodec(plug),
+                track_input_state=track_input_state,
+            )
             for plug in plugs
         )
         super().__init__(targets, owner)
@@ -558,23 +620,41 @@ class MayaBoolPlugsBinding(
         self,
         plugs: Sequence[BoolPlugOperator],
         *,
+        key_animated: bool = False,
+        edit_connected: bool = False,
+        track_input_state: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を登録し、先頭の実値を書き込まずに初期表示する。
 
         Args:
             plugs: 代表を先頭にした一つ以上のbool属性。
+            key_animated: `True` なら対応する既存の時間カーブを現在時刻で
+                常にキー編集する。`edit_connected` とは併用できない。
+            edit_connected: `True` なら通常の時間カーブ・SDK・Animation
+                Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
+                一時値のみ変更する。constraintや未対応接続は編集しない。
+                既定値は `False` で、`key_animated` とは併用できない。
+            track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
-            ValueError: 対象が空または重複している場合。
+            ValueError: 対象が空・重複、または `key_animated` と
+                `edit_connected` が両方 `True` の場合。
 
         """
         self._owned_group = None
 
         def create_store(view_model: BoolViewModel) -> _BoolPlugsStore:
             """専用ViewModelと同じ寿命の集約Storeを生成する。"""
-            store = _BoolPlugsStore(view_model, plugs, self)
+            store = _BoolPlugsStore(
+                view_model,
+                plugs,
+                self,
+                key_animated=key_animated,
+                edit_connected=edit_connected,
+                track_input_state=track_input_state,
+            )
             self._owned_group = store
             return store
 
@@ -619,24 +699,42 @@ class MayaFloatPlugsBinding(
         self,
         plugs: Sequence[MayaFloatPlug],
         *,
+        key_animated: bool = False,
+        edit_connected: bool = False,
+        track_input_state: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を検証し、先頭の実値を書き込まずに初期表示する。
 
         Args:
             plugs: 代表を先頭にした一つ以上の同種単位のfloat属性。
+            key_animated: `True` なら対応する既存の時間カーブを現在時刻で
+                常にキー編集する。`edit_connected` とは併用できない。
+            edit_connected: `True` なら通常の時間カーブ・SDK・Animation
+                Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
+                一時値のみ変更する。constraintや未対応接続は編集しない。
+                既定値は `False` で、`key_animated` とは併用できない。
+            track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
             TypeError: 対象の単位種別が揃っていない場合。
-            ValueError: 対象が空または重複している場合。
+            ValueError: 対象が空・重複、または `key_animated` と
+                `edit_connected` が両方 `True` の場合。
 
         """
         self._owned_group = None
 
         def create_store(view_model: FloatViewModel) -> _FloatPlugsStore:
             """連続編集と監視を共有する集約Storeを生成する。"""
-            store = _FloatPlugsStore(view_model, plugs, self)
+            store = _FloatPlugsStore(
+                view_model,
+                plugs,
+                self,
+                key_animated=key_animated,
+                edit_connected=edit_connected,
+                track_input_state=track_input_state,
+            )
             self._owned_group = store
             return store
 
@@ -681,23 +779,42 @@ class MayaEnumPlugsBinding(
         self,
         plugs: Sequence[MayaEnumPlug],
         *,
+        key_animated: bool = False,
+        edit_connected: bool = False,
+        track_input_state: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を登録し、先頭の実値を書き込まずに初期表示する。
 
         Args:
             plugs: 代表を先頭にした一つ以上のenum属性。同じ定義が必要。
+            key_animated: `True` なら対応する既存の時間カーブを現在時刻で
+                常にキー編集する。`edit_connected` とは併用できない。
+            edit_connected: `True` なら通常の時間カーブ・SDK・Animation
+                Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
+                一時値のみ変更する。constraintや未対応接続は編集しない。
+                既定値は `False` で、`key_animated` とは併用できない。
+            track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
             ValueError: 対象が空・重複しているか、enum定義が異なる場合。
+                または `key_animated` と `edit_connected` が両方
+                `True` の場合。
 
         """
         self._owned_group = None
 
         def create_store(view_model: EnumViewModel) -> _EnumPlugsStore:
             """enum属性群の監視をこのBindingの子として作る。"""
-            store = _EnumPlugsStore(view_model, plugs, self)
+            store = _EnumPlugsStore(
+                view_model,
+                plugs,
+                self,
+                key_animated=key_animated,
+                edit_connected=edit_connected,
+                track_input_state=track_input_state,
+            )
             self._owned_group = store
             return store
 
@@ -741,14 +858,23 @@ class MayaStringPlugsBinding(
         self,
         plugs: Sequence[MayaStringPlug],
         *,
+        track_input_state: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
-        """先頭の実値を代表として読み、他属性へ書き戻さない。"""
+        """先頭の実値を代表とし、必要なら入力接続状態も追跡する。
+
+        Args:
+            plugs: 代表を先頭にした一つ以上の文字列属性。
+            track_input_state: `True` なら入力接続状態を追跡する。
+            parent: この Binding を所有する `QObject`。
+        """
         self._owned_group = None
 
         def create_store(view_model: StringViewModel) -> _StringPlugsStore:
             """専用ViewModelと同じ寿命の一括Storeを作る。"""
-            store = _StringPlugsStore(view_model, plugs, self)
+            store = _StringPlugsStore(
+                view_model, plugs, self, track_input_state=track_input_state
+            )
             self._owned_group = store
             return store
 

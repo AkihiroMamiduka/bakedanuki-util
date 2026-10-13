@@ -34,16 +34,108 @@ floatの数値・距離・角度の単位種別は全対象で一致させてく
 | `is_mixed` | 利用可能な対象の値が代表と異なるか |
 | `target_count` / `writable_count` | 登録した対象数と、個別に書込み可能な対象数 |
 | `target_states` | 対象順の`tuple[MayaPlugTargetState, ...]` |
-| `state_changed` | 対象値、混在、編集可否の変更を引数なしで通知するsignal |
+| `state_changed` | 対象値、混在、編集可否、追跡時の入力接続状態の変更を引数なしで通知するsignal |
 | `edit_failed` | 入力拒否や実行失敗の説明をstrで通知するsignal |
 | `refresh()` / `dispose()` | 全対象の再同期とcallbackの明示終了 |
 
 `MayaPlugTargetState`はimmutableな`name`、`is_available`、`is_writable`、
-`reason`を持ちます。`name`は同名DAGを区別する属性名です。
+`reason`、`input_state`、`is_locked`、`edit_description`を持ちます。
+`name`は同名DAGを区別する属性名です。`reason`は入力できない理由、
+`edit_description`は接続属性への入力の意味を示す任意の説明です。
+SDKの一時編集やAnimation Layerのキー設定先などをtooltipへ表示できます。
+`input_state`は既定では`None`で、`track_input_state=True`を指定したBindingで
+`unconnected`・`nonkeyable`・`keyed`・`animated`・`key_altered`・
+`driven_key`・`expression`・`animation_layer`・`animation_clip`・`muted`・
+`pair_blend`・`constraint`・`connected`の
+いずれかになります。`is_locked`は自身かcompound祖先がロックされていれば`True`、
+有効な属性でロックがなければ`False`、利用不能な属性では`None`です。
 後続の削除・lock・入力接続はその属性だけを入力対象から除外します。
 代表が書込み不可の場合は全体の入力を止めます。この場合も`writable_count`は
 個別に書込み可能な対象数を示すため、0になるとは限りません。
-アニメーション接続を含む入力接続は、キーを暗黙に変更せず読取り専用です。
+既定ではアニメーション接続を含む入力接続は、キーを暗黙に変更せず読取り専用です。
+bool・float・enumの複数Bindingに`key_animated=True`を渡すと、通常の時間駆動
+カーブへ直接接続した属性だけ、値の変更時にAuto KeyのON／OFFにかかわらず
+現在時刻のキーを追加・更新できます。
+通常属性は従来どおり直接書き込み、stringやその他の入力接続は対象外です。
+既定値は`False`で、従来の読取り専用動作を維持します。
+
+## Maya標準に合わせた接続属性への入力
+
+bool・float・enumの複数Bindingに`edit_connected=True`を渡すと、
+対応する接続属性へMaya標準の値入力を行います。数値入力、上下操作、Slider、
+複数行の一括操作で同じ規則を使います。既定は`False`で、既存利用側の編集可否は
+変わりません。stringのBindingにはこの引数を設けません。
+
+```python
+binding = MayaFloatPlugsBinding(
+    [resolve_float_plug(name, "tx") for name in ("pCube1", "pCube2")],
+    edit_connected=True,
+    track_input_state=True,
+    parent=owner,
+)
+```
+
+| 接続 | 入力結果 |
+| --- | --- |
+| 未接続 | 通常の値変更。Auto Key ONでも初めてのカーブは作らない |
+| 通常の時間カーブ | Auto Key OFFでは一時値を変更し、ONでは現在時刻のキーを追加・更新する |
+| SDK／Driven Key | 一時値を変更する。SDKのキーは更新せず、ドライバー変更や再評価で評価値へ戻る |
+| Animation Layer | Mayaが選ぶ編集先へ値入力する。Auto Key ONでは対象レイヤーのキーを追加・更新する |
+| constraint、その他の接続 | 入力不可。pairBlend、unitConversion、mute、Time Editor、expressionも対象外 |
+
+自身またはcompound祖先のロック、reference、その他の既存の入力不可条件は維持します。
+constraintがpairBlendなどを介して対象チャンネルを駆動する場合も入力できません。
+SDKを含むLayer合成、複数属性で共有するカーブ、独自の時間入力や回転補間を持つ
+カーブも対象外です。未対応の理由は`target_states[].reason`で確認できます。
+Animation Layerの選択、ロック、ウェイトやミュートによって編集先と最終出力が変わるため、
+入力値と合成後の値が一致するとは限りません。Layerの選択状態を強制変更しません。
+
+対象と接続元の属性・キー・レイヤー変更、時刻移動、Auto Keyの切替に追従します。
+`lockNode`によるnode自体のロックはMayaの属性通知が発生しないため、接続属性を扱う
+Bindingでは500msごとにロックフラグだけを比較し、変化時だけ表示を再同期します。
+この確認は属性値を再評価せず、SDKやAuto Key OFFの一時値を維持します。
+監視callbackとタイマーは`dispose()`で解除・停止します。
+
+`key_animated=True`は既存の「常に時間キーを編集する」APIとして維持します。
+Maya標準のAuto Key連動へ移行する場合は、指定を`edit_connected=True`へ置き換えてください。
+両方を`True`にすると`ValueError`です。`bdChannelBox`はこの新しい入力方針を使用します。
+scene、設定、接続構成を変更する移行処理は不要です。
+
+`bd_util.maya.ui.connected_plug_edit_reason(plug)`は、接続構成がこの値入力方針に
+対応するかを確認し、未対応なら説明を、対応可能なら`None`を返します。
+ロックやreferenceなども含む最終的な入力可否は`target_states[].is_writable`で確認します。
+
+## 入力接続状態の追跡
+
+4種類の複数Bindingに`track_input_state=True`を渡すと、対象ごとの入力接続状態を
+`target_states[].input_state`へ公開します。これは`key_animated`や`edit_connected`と独立しており、
+lock・reference・キー編集の可否にかかわらず分類します。値の正本は従来どおりMaya plugです。
+単体の`MPlug`を調べる場合は`inspect_plug_input_state(plug, time=...)`も使用できます。
+
+`keyed`は通常時間カーブが直接接続され、指定時刻と厳密に一致するキーがある状態、
+`animated`は同じ接続でその時刻にキーがない状態です。サブフレームも区別します。
+`key_altered`は現在時刻のplug値がカーブの評価値と異なる状態で、指定時刻が
+現在時刻以外ならキー有無だけを判定します。`driven_key`はunitless入力の
+アニメーションカーブ、`expression`はexpressionノードの直結です。
+`animation_layer`はanimLayerに接続したanimBlendNode、`animation_clip`は
+Time EditorのtimeEditorInterpolatorを直結元で判定します。
+`muted`は直結するmuteノードのmuteが有効な状態です。解除後はその入力を分類し直します。
+`pair_blend`と`constraint`は自身かcompound祖先へ直結する入力ノードの型で判定します。
+それ以外の入力接続は`connected`、入力なしでkeyableが無効なら`nonkeyable`、
+keyableが有効なら`unconnected`です。
+判定に使う`MPlug.sourceWithConversion()`は`unitConversion`を飛ばさず、
+変換ノード自身の出力を直結元として返します。そのため特殊なカーブやノードが
+`unitConversion`の上流にあっても、現状は`connected`です。
+任意の上流ノードを再帰探索しないことで、直接駆動と間接的な依存を混同しません。
+変換ノード越しの専用状態が必要になった場合は、
+[MPlugの仕様](https://help.autodesk.com/cloudhelp/2026/ENU/MAYA-API-REF/py_ref/class_open_maya_1_1_m_plug.html)を踏まえて透過範囲と通知対象を定め、
+Mayaの実接続で検証してください。
+ロックは入力接続状態と別に保持し、ロック中も接続の分類は変えません。
+
+追跡中の時間カーブがある間だけ時刻変更とカーブ編集の通知を監視します。
+キーの追加・削除で評価値が変わらなくても`state_changed`を通知でき、接続変更、
+Undo／Redoでも再読取りします。`dispose()`で追加したcallbackも解除します。
+読み取りと通知によってsceneやUndo履歴は変更しません。
 
 `changed`は代表値の変更通知です。代表値を変えず後続だけが変わる入力では、
 `state_changed`を用いて混在表示や件数を更新してください。
@@ -141,6 +233,7 @@ Binding間では距離・角度・単位なしの数値、bool、enum、string�
 from bd_util.maya.ui import (
     MayaEditSession,
     MayaFloatOffsetEdit,
+    MayaFloatRoundEdit,
     MayaFloatValueEdit,
     apply_plugs_values,
 )
@@ -167,16 +260,26 @@ apply_plugs_values(
         MayaFloatOffsetEdit(rx_binding, 1.0),
     ]
 )
+
+# 各属性の実値を現在の表示単位で小数2桁へ個別に四捨五入する
+apply_plugs_values(
+    [MayaFloatRoundEdit(tx_binding, 2), MayaFloatRoundEdit(rx_binding, 2)]
+)
 ```
 
 `MayaBoolValueEdit(binding, bool)`、`MayaFloatValueEdit(binding, float)`、
-`MayaFloatOffsetEdit(binding, float)`、`MayaEnumValueEdit(binding, int)`、
+`MayaFloatOffsetEdit(binding, float)`、`MayaFloatRoundEdit(binding, int)`、
+`MayaEnumValueEdit(binding, int)`、
 `MayaStringValueEdit(binding, str)`を受け取り、
 union型は`MayaPlugsValueEdit`です。
 値は各Bindingの公開単位で指定します。画面の同じ数値を入力する場合は、上記のように
 **各行の**`presentation.from_display()`を使用してください。距離がm、角度がradの
 表示でも、それぞれ画面上で5になります。各行の未丸め代表値へ揃える場合は、
 対応するEditへその行の`binding.value`を渡します。
+`MayaFloatRoundEdit`は各plugの未丸め実値を現在の表示単位へ変換し、
+小数`decimals`桁で十進の四捨五入を行ってから公開単位へ戻します。
+0桁は整数へ丸め、端数がちょうど半分なら正負ともゼロから遠い方向へ進めます。
+小数桁数は0～323を受け付け、負のゼロは0へ正規化します。
 
 利用側は選択行と入力可能な行を決め、明示入力だけをこのAPIへ渡します。
 APIは全要求の型・範囲・enum定義・stringのNULを実書込み前に検証し、対象群をまたぐ差分を
@@ -207,7 +310,8 @@ floatのドラッグは、各位置を全対象へ即時反映し、全ドラッ
 代表と同値でも後続に差分がある場合は、一括入力を実行します。
 
 適用途中で失敗した場合、今回の入力で変更した対象を同じUndo chunk内で
-元へ戻します。ドラッグでは直前の成功した位置を維持し、ドラッグを終了します。
+元へ戻します。`edit_connected=True`ではAuto Keyで追加・更新されたキーも復旧します。
+ドラッグでは直前の成功した位置を維持し、ドラッグを終了します。
 復旧処理も失敗する外部変更があった場合は、元の失敗と復旧失敗を
 `ExceptionGroup`として通知します。復旧に成功した失敗操作は、値を変えない
 Undo項目として残る場合があります。既存のUndo履歴を削除して隠しません。

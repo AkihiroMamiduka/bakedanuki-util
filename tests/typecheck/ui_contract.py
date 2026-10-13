@@ -129,6 +129,13 @@ assert_type(
     ),
     None,
 )
+assert_type(
+    ui_state_manager.register_combo_box(
+        "input_space",
+        QtWidgets.QComboBox(),
+    ),
+    None,
+)
 checkable_action = qt.QAction("Option")
 checkable_action.setCheckable(True)
 assert_type(

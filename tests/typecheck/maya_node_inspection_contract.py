@@ -9,10 +9,13 @@ from bd_util.maya.node.inspection import (
     filter_scalar_attribute_paths,
     inspect_scalar_attributes,
     matches_scalar_attribute_display_filter,
+    node_display_name,
     selected_node_names,
 )
 
 assert_type(selected_node_names(), tuple[str, ...])
+assert_type(selected_node_names(limit=50), tuple[str, ...])
+assert_type(node_display_name("|parent|node"), str)
 attributes = inspect_scalar_attributes("transform1")
 assert_type(attributes, tuple[ScalarAttributeInfo, ...])
 display_filter: ScalarAttributeDisplayFilter = "visible"

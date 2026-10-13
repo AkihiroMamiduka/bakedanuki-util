@@ -1520,10 +1520,18 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(transform.round_translate(3), Transform)
     assert_type(
+        transform.round_translate(3, rounding_unit="display"),
+        Transform,
+    )
+    assert_type(
         transform.round_translate(3, compensate_children=True),
         Transform,
     )
     assert_type(transform.round_rotate_axis(3), Transform)
+    assert_type(
+        transform.round_rotate_axis(3, rounding_unit="display"),
+        Transform,
+    )
     assert_type(
         transform.round_rotate_axis(
             3,
@@ -1534,6 +1542,10 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
         Transform,
     )
     assert_type(transform.round_rotate(3), Transform)
+    assert_type(
+        transform.round_rotate(3, rounding_unit="display"),
+        Transform,
+    )
     assert_type(
         transform.round_rotate(3, compensate_children=True),
         Transform,
@@ -1551,6 +1563,10 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     assert_type(joint.round_rotate_axis(3), Joint)
     assert_type(joint.round_rotate(3), Joint)
     assert_type(joint.round_joint_orient(3), Joint)
+    assert_type(
+        joint.round_joint_orient(3, rounding_unit="display"),
+        Joint,
+    )
     assert_type(
         joint.round_joint_orient(
             3,
@@ -1579,9 +1595,17 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(transform.rotation_to_rotate(), Transform)
     assert_type(transform.rotation_to_rotate_axis(), Transform)
+    assert_type(
+        transform.consolidated_rotation_values("rotate"),
+        tuple[float, float, float],
+    )
     assert_type(joint.rotation_to_rotate(), Joint)
     assert_type(joint.rotation_to_rotate_axis(), Joint)
     assert_type(joint.rotation_to_joint_orient(), Joint)
+    assert_type(
+        joint.consolidated_rotation_values("jointOrient"),
+        tuple[float, float, float],
+    )
     assert_type(
         transform.set_rotate_axis_with_rotate((10.0, 20.0, 30.0)),
         Transform,
@@ -1604,6 +1628,14 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(
         joint.set_rotate_with_joint_orient(10.0, 20.0, 30.0),
+        Joint,
+    )
+    assert_type(
+        joint.set_joint_orient_with_rotate_axis((10.0, 20.0, 30.0)),
+        Joint,
+    )
+    assert_type(
+        joint.set_rotate_axis_with_joint_orient(10.0, 20.0, 30.0),
         Joint,
     )
 

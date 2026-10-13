@@ -1,11 +1,11 @@
 # coding: utf-8
-import builtins
 import math
 from collections.abc import Sequence
 from typing import cast, ClassVar, Literal, overload, Protocol, Self
 
 from maya.api import OpenMaya as om
 
+from ......rounding import MayaScalarKind, RoundingUnit, round_maya_scalar
 from .._core import DAG
 from ._generated.transform import GeneratedTransform
 
@@ -17,6 +17,9 @@ AimCoordinateSpace = Literal["world", "local"]
 ChildAimEndBehavior = Literal["error", "parent"]
 SignedAxis = Literal["x", "y", "z", "+x", "+y", "+z", "-x", "-y", "-z"]
 TransformSpace = Literal["local", "world"]
+TransformValueAttribute = Literal[
+    "translate", "rotate", "rotateAxis", "jointOrient"
+]
 JointChildCompensationAttr = Literal["rotate", "jointOrient"]
 
 
@@ -143,10 +146,22 @@ class Transform(GeneratedTransform):
     def _rounded_values(
         values: _Vector3Value,
         ndigits: int,
+        *,
+        kind: MayaScalarKind,
+        rounding_unit: RoundingUnit,
     ) -> _Vector3Value:
+        """3成分を指定した Maya 単位で十進の四捨五入に揃える。"""
         return cast(
             _Vector3Value,
-            tuple(builtins.round(value, ndigits) for value in values),
+            tuple(
+                round_maya_scalar(
+                    value,
+                    ndigits,
+                    kind=kind,
+                    rounding_unit=rounding_unit,
+                )
+                for value in values
+            ),
         )
 
     @staticmethod
@@ -439,6 +454,133 @@ class Transform(GeneratedTransform):
             world_transformation.asMatrix()
         )
 
+    def convert_transform_space_values(
+        self,
+        attribute: TransformValueAttribute,
+        values: Sequence[float],
+        *,
+        from_space: TransformSpace,
+        to_space: TransformSpace,
+    ) -> _Vector3Value:
+        """未適用の属性XYZをlocal値とworld位置・姿勢の間で換算する。
+
+        sceneと`ModifierManager`を変更しない。world回転は最終姿勢を固定XYZ順の
+        度数で表す。`rotate`のlocal値だけはノードの`rotateOrder`に従う。
+
+        Args:
+            attribute: 換算する属性。`jointOrient`はJointのみ指定できる。
+            values: XYZ値。`translate`はcentimeter、回転属性はdegree。
+            from_space: `values`を解釈する空間。
+            to_space: 戻り値の空間。
+
+        Returns:
+            指定した空間におけるXYZ値。同じ空間間では入力値を返す。
+
+        Raises:
+            ValueError: 属性または空間が未対応の場合。
+            RuntimeError: world換算でDAG instanceか非可逆な親行列の場合。
+        """
+        if attribute not in (
+            "translate",
+            "rotate",
+            "rotateAxis",
+            "jointOrient",
+        ):
+            raise ValueError(f"Unsupported transform attribute: {attribute!r}")
+        if attribute == "jointOrient" and not self.m_obj.hasFn(om.MFn.kJoint):
+            raise ValueError("jointOrient requires a Joint node")
+        from_space = self._require_transform_space(from_space)
+        to_space = self._require_transform_space(to_space)
+        normalized = self._normalize_vector3_value(
+            values, (), "convert_transform_space_values"
+        )
+        if from_space == to_space:
+            return normalized
+        if from_space == "world":
+            return self._local_values_from_world(attribute, normalized)
+        return self._world_values_from_local(attribute, normalized)
+
+    def _local_values_from_world(
+        self,
+        attribute: TransformValueAttribute,
+        values: _Vector3Value,
+    ) -> _Vector3Value:
+        """固定XYZのworld姿勢または位置を指定属性のlocal値へ換算する。"""
+        if attribute == "translate":
+            return self._translate_from_world_position(values)
+        local_rotation = self._local_rotation_from_world_rotation(
+            values, om.MEulerRotation.kXYZ
+        )
+        if attribute == "rotate":
+            order = self.rotateOrder.get()
+            return self._quaternion_to_rotation(
+                self._rotate_from_combined_rotation(local_rotation),
+                order,
+                self.rotate.get().as_tuple(),
+            )
+        if attribute == "rotateAxis":
+            return self._quaternion_to_rotation(
+                self._rotate_axis_from_combined_rotation(local_rotation),
+                om.MEulerRotation.kXYZ,
+                self.rotateAxis.get().as_tuple(),
+            )
+        raise ValueError("jointOrient requires a Joint node")
+
+    def _transformation_with_preview_values(
+        self,
+        attribute: TransformValueAttribute,
+        values: _Vector3Value,
+    ) -> om.MTransformationMatrix:
+        """指定属性だけを変更したときのlocal変換行列を作る。"""
+        if attribute == "rotateAxis":
+            return self._transformation_with_rotate_axis(values)
+        transformation = om.MFnTransform(self.m_obj).transformation()
+        if attribute == "translate":
+            transformation.setTranslation(
+                om.MVector(*values), om.MSpace.kTransform
+            )
+        elif attribute == "rotate":
+            transformation.setRotation(
+                self._rotation_to_euler(values, self.rotateOrder.get())
+            )
+        else:
+            raise ValueError("jointOrient requires a Joint node")
+        return transformation
+
+    def _world_values_from_local(
+        self,
+        attribute: TransformValueAttribute,
+        values: _Vector3Value,
+    ) -> _Vector3Value:
+        """指定属性の未適用local値からworld位置または最終姿勢を予測する。"""
+        self._world_conversion_parent_inverse_matrix()
+        target_world_matrix = (
+            self._transformation_with_preview_values(
+                attribute, values
+            ).asMatrix()
+            * self._get_instance_transform_matrix("parentMatrix").matrix
+        )
+        if attribute == "translate":
+            return (
+                target_world_matrix[12],
+                target_world_matrix[13],
+                target_world_matrix[14],
+            )
+        current_world_rotation = om.MTransformationMatrix(
+            self._get_instance_transform_matrix("worldMatrix").matrix
+        ).rotation(asQuaternion=True)
+        current_world_values = self._quaternion_to_rotation(
+            current_world_rotation, om.MEulerRotation.kXYZ
+        )
+        target_world_rotation = om.MTransformationMatrix(
+            target_world_matrix
+        ).rotation(asQuaternion=True)
+        return self._quaternion_to_rotation(
+            target_world_rotation,
+            om.MEulerRotation.kXYZ,
+            current_world_values,
+        )
+
     def _set_with_child_compensation(
         self,
         *,
@@ -629,7 +771,9 @@ class Transform(GeneratedTransform):
             compensate_children
         )
         if space == "world":
-            translate = self._translate_from_world_position(translate)
+            translate = self.convert_transform_space_values(
+                "translate", translate, from_space="world", to_space="local"
+            )
         current_translate = self.translate.get().as_tuple()
         parent_changes = self._value_changes(
             self._translate_value_plugs(),
@@ -664,21 +808,30 @@ class Transform(GeneratedTransform):
         self,
         ndigits: int = 0,
         *,
+        rounding_unit: RoundingUnit = "canonical",
         compensate_children: bool = False,
     ) -> Self:
         """``translate`` を丸め、必要に応じて子のworld位置を補償する。
 
-        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は centimeter。変更は ``ModifierManager.do_it_dg()`` で反映する。
+        十進の四捨五入を使用する。既定の桁数は centimeter を基準とし、
+        ``rounding_unit="display"`` では Maya の表示単位を基準とする。
+        変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            rounding_unit: 桁数の基準。``"canonical"`` は centimeter、
+                ``"display"`` は現在の Maya 表示単位。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world位置を維持するように子の ``translate`` を補償する。
 
         """
         current_translate = self.translate.get().as_tuple()
-        target_translate = self._rounded_values(current_translate, ndigits)
+        target_translate = self._rounded_values(
+            current_translate,
+            ndigits,
+            kind="distance",
+            rounding_unit=rounding_unit,
+        )
         return self.set_translate(
             target_translate,
             compensate_children=compensate_children,
@@ -755,15 +908,11 @@ class Transform(GeneratedTransform):
         )
         current_rotate_axis = self.rotateAxis.get().as_tuple()
         if space == "world":
-            rotate_axis = self._quaternion_to_rotation(
-                self._rotate_axis_from_combined_rotation(
-                    self._local_rotation_from_world_rotation(
-                        rotate_axis,
-                        om.MEulerRotation.kXYZ,
-                    )
-                ),
-                om.MEulerRotation.kXYZ,
-                current_rotate_axis,
+            rotate_axis = self.convert_transform_space_values(
+                "rotateAxis",
+                rotate_axis,
+                from_space="world",
+                to_space="local",
             )
         parent_changes = self._value_changes(
             self._rotate_axis_value_plugs(),
@@ -796,19 +945,23 @@ class Transform(GeneratedTransform):
         self,
         ndigits: int = 0,
         *,
+        rounding_unit: RoundingUnit = "canonical",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
     ) -> Self:
         """``rotateAxis`` を丸め、必要に応じて子のworld姿勢を補償する。
 
-        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は degree、回転順は固定 XYZ。`Transform` 子は ``rotate``、
+        十進の四捨五入を使用する。既定の桁数は degree、
+        ``rounding_unit="display"`` では Maya の表示単位を基準とする。
+        回転順は固定 XYZ。`Transform` 子は ``rotate``、
         `Joint` 子は既定で ``rotate`` を補償する。変更は
         ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            rounding_unit: 桁数の基準。``"canonical"`` は degree、
+                ``"display"`` は現在の Maya 表示単位。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world姿勢を維持するように補償する。
             compensate_child_translate: ``True`` の場合、子の ``translate`` も
@@ -820,6 +973,8 @@ class Transform(GeneratedTransform):
         target_rotate_axis = self._rounded_values(
             current_rotate_axis,
             ndigits,
+            kind="angle",
+            rounding_unit=rounding_unit,
         )
         return self.set_rotate_axis(
             target_rotate_axis,
@@ -944,18 +1099,22 @@ class Transform(GeneratedTransform):
         self,
         ndigits: int = 0,
         *,
+        rounding_unit: RoundingUnit = "canonical",
         compensate_children: bool = False,
         compensate_child_translate: bool = False,
         joint_child_compensation_attr: JointChildCompensationAttr = "rotate",
     ) -> Self:
         """``rotate`` を丸め、必要に応じて子のworld姿勢を補償する。
 
-        Python 組み込みの ``round()`` と同じ偶数丸めを使用する。
-        値の単位は degree。`Transform` 子は ``rotate``、`Joint` 子は既定で
+        十進の四捨五入を使用する。既定の桁数は degree、
+        ``rounding_unit="display"`` では Maya の表示単位を基準とする。
+        `Transform` 子は ``rotate``、`Joint` 子は既定で
         ``rotate`` を補償する。変更は ``ModifierManager.do_it_dg()`` で反映する。
 
         Args:
             ndigits: 丸める小数点以下の桁数。負の値も指定できる。
+            rounding_unit: 桁数の基準。``"canonical"`` は degree、
+                ``"display"`` は現在の Maya 表示単位。
             compensate_children: ``True`` の場合、直接のTransform / Joint子の
                 world姿勢を維持するように補償する。
             compensate_child_translate: ``True`` の場合、子の ``translate`` も
@@ -964,7 +1123,12 @@ class Transform(GeneratedTransform):
 
         """
         current_rotate = self.rotate.get().as_tuple()
-        target_rotate = self._rounded_values(current_rotate, ndigits)
+        target_rotate = self._rounded_values(
+            current_rotate,
+            ndigits,
+            kind="angle",
+            rounding_unit=rounding_unit,
+        )
         return self.set_rotate(
             target_rotate,
             compensate_children=compensate_children,
@@ -974,11 +1138,7 @@ class Transform(GeneratedTransform):
 
     def rotation_to_rotate(self) -> Self:
         """現在の回転を ``rotate`` へ集約して DG modifier に積む。"""
-        self._validate_rotation_plugs()
-        rotation = self._quaternion_to_rotation(
-            self._combined_rotation(),
-            self.rotateOrder.get(),
-        )
+        rotation = self.consolidated_rotation_values("rotate")
         self._set_rotation_values(
             rotate_axis=self._ZERO_ROTATION,
             rotate=rotation,
@@ -987,16 +1147,40 @@ class Transform(GeneratedTransform):
 
     def rotation_to_rotate_axis(self) -> Self:
         """現在の回転を ``rotateAxis`` へ集約して DG modifier に積む。"""
-        self._validate_rotation_plugs()
-        rotation = self._quaternion_to_rotation(
-            self._combined_rotation(),
-            om.MEulerRotation.kXYZ,
-        )
+        rotation = self.consolidated_rotation_values("rotateAxis")
         self._set_rotation_values(
             rotate_axis=rotation,
             rotate=self._ZERO_ROTATION,
         )
         return self
+
+    def consolidated_rotation_values(
+        self, destination: Literal["rotate", "rotateAxis", "jointOrient"]
+    ) -> _RotationValue:
+        """現在の合成回転を指定属性へ集約したときの角度を度で返す。
+
+        sceneとModifierManagerを変更しない。回転属性にlockや入力接続がある場合は
+        既存の集約操作と同じ条件で拒否する。
+
+        Args:
+            destination: 集約先。`jointOrient`はJointだけで指定できる。
+
+        Returns:
+            集約先のX・Y・Z角度。集約先以外はゼロになる。
+        """
+        if destination not in ("rotate", "rotateAxis", "jointOrient"):
+            raise ValueError("Unsupported rotation destination")
+        if destination == "jointOrient" and not self.m_obj.hasFn(
+            om.MFn.kJoint
+        ):
+            raise ValueError("jointOrient requires a Joint node")
+        self._validate_rotation_plugs()
+        order = (
+            self.rotateOrder.get()
+            if destination == "rotate"
+            else om.MEulerRotation.kXYZ
+        )
+        return self._quaternion_to_rotation(self._combined_rotation(), order)
 
     def match_position(
         self,

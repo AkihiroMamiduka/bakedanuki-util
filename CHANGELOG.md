@@ -33,6 +33,22 @@
   読み取り、次の切り替えまたはinstaller再D&Dで新しいキー名へ保存する。
   チェック操作とinstallerは`savePrefs`を呼ばず、Mayaの一般設定やShelfを
   明示的に保存しない。
+- `MouseFocusSelectAllDoubleSpinBox`を使う数値欄は、通常Enter・テンキーEnterの
+  確定操作を欄内で受理し、Mayaの親Windowのshortcutへ伝播させない。
+- `Transform`／`Joint` の `round_translate()`、`round_rotate()`、
+  `round_rotate_axis()`、`round_joint_orient()` は、Python の偶数丸めから
+  十進の四捨五入へ変更する。従来の偶数丸めが必要な呼び出しは、
+  `round()`で目標値を計算して対応する`set_*()`へ渡す方式へ移行する。
+  既定の桁数の基準は従来どおり cm／度とし、
+  `rounding_unit="display"` で現在の Maya 表示単位を指定できる。
+  scene・設定の移行は不要。
+- `StringLineEdit`はマウスでフォーカスを得た最初の左クリック後に文字列を全選択する。
+  `select_all_on_mouse_focus=False`で無効化でき、設定の取得・変更も可能。
+- `StringLineEdit`は通常EnterとテンキーEnterの確定キーをView内で処理し、
+  フォーカス取得時と確定前に正本を再読込みする。UIの編集失敗は`edit_failed(str)`で
+  通知し、確定値へ表示を戻す。プログラムからの変更要求は従来どおり例外を返す。
+  親WindowのEnter処理に依存する利用側は、必要な処理を明示signalへ接続する。
+  scene・設定の移行は不要。
 - `StringLineEdit`へ`follow_source_during_edit`を追加。指定したViewでは、編集中に
   正本の確定値が変わると未確定入力を破棄して最新値を表示する。複数Maya属性では
   後続対象だけの値変更も対象とし、入力可能なままの状態通知では入力を維持する。
@@ -58,6 +74,75 @@
 - `bd_util.maya.ui`へ複数packageで共有する`bakedanuki`メインメニュー登録APIを追加。
   owner単位の解除、同一項目の再登録、batch時のUI作成抑止に対応する。
   利用者の`userSetup.py`、設定、sceneの移行は不要。
+- `bd_util.maya.node.node_display_name()`を追加。一意なDAGノードは短名、同名ノードや
+  インスタンスは指定したフルパス、DGノードはノード名をUI表示用に返す。
+  追加APIのためscene・設定の移行は不要。
+- `UiStateManager.register_combo_box()`を追加。候補の一意な文字列`itemData`を
+  保存し、表示名や候補順が変わっても選択を復元する。保存値が現行候補にない場合は
+  初期選択を維持する。既存の設定形式はそのまま利用でき、移行は不要。
+- `bdUtilCommands`に`bdSetTranslateCompensateChildren`、
+  `bdSetRotateCompensateChildren`、`bdSetRotateAxisCompensateChildren`、
+  `bdSetJointOrientCompensateChildren`と型付きfacadeを追加。直接の子を補償し、
+  local属性値またはworld位置・固定XYZ順の最終姿勢を設定する。移動のcm・回転の度と
+  Maya表示単位を選べ、回転では子のworld位置を維持するかと子Jointの補償属性を選べる。
+  複数ノードを一回のMaya Undoで処理する。追加APIのためscene・設定の移行は不要。
+- `Transform`／`Joint`にsceneを変更せずlocal属性値とworld位置・固定XYZ順の
+  最終姿勢を換算する`convert_transform_space_values()`を追加。
+  `Joint`の`jointOrient`にも対応する。追加APIのためscene・設定の移行は不要。
+- Bindingを持たない数値入力にも初回クリック時の全選択を利用できるよう、
+  `MouseFocusSelectAllDoubleSpinBox`を`bd_util.ui`へ公開。既存の
+  `FloatSpinBox`と`FloatStepSpinBox`の値管理は変更しない。
+- `bdUtilCommands` に `bdSetRotationPreservingPose` と型付き facade
+  `set_rotation_preserving_pose()`を追加。Transform／Joint の回転属性群へ共通の
+  XYZ 値を設定し、別の属性群で差分を吸収して現在の姿勢を維持する。
+  Joint は `rotateAxis` と `jointOrient` 間の補償にも対応する。
+  複数ノードを一回の Maya Undo で処理し、途中失敗時は全体を復旧する。
+  追加 API のため既存 scene・設定の移行は不要。
+- Python プラグイン `bdUtilCommands` に、複数の Transform／Joint を対象とする
+  `bdRoundTranslate`、`bdRoundRotate`、`bdRoundRotateAxis`、
+  `bdRoundJointOrient` を追加する。NodeOperator の子補償を利用し、
+  一回の Maya Undo／Redo と途中失敗時の復旧に対応する。型付き facade は
+  `bd_util.maya.mpx_cmd.round_transform` から利用できる。
+- `bd_util.maya.rounding` に十進四捨五入と Maya の cm／度・表示単位での
+  丸めを共通化し、既存の数値属性 Binding と NodeOperator で共有する。
+- `Transform`／`Joint`に`consolidated_rotation_values()`を追加。既存の回転集約と
+  同じ検証・合成で集約先の角度をscene変更なしに取得し、Maya標準Undoを使うUIでも
+  回転値を集約できる。既存API、scene、設定の移行は不要。
+- `MayaFloatRoundEdit`を追加。複数float属性の各実値を現在の表示単位で十進四捨五入し、
+  `apply_plugs_values()`から一括適用できる。0桁と正負の中間値、1回Undo・同値時の
+  無Undoに対応する。公開APIの追加で、scene・設定の移行は不要。
+- `selected_node_names(limit=...)`を追加。選択中の重複しないobject nodeが指定数に
+  達した時点で取得を終える。省略時の全件取得、選択順、component・plugの除外、
+  DAG instanceの重複除去は従来どおり。scene・設定の移行は不要。
+- bool・float・enumの複数Maya属性Bindingと三つのscalar値貼り付けAPIへ
+  `edit_connected=False`を追加。指定時は通常時間カーブ・SDK・Animation Layerに
+  Maya標準の値入力を行い、時間キーとLayerはAuto Keyへ連動する。SDKは一時値のみ
+  変更し、constraintを含む駆動とその他の未対応接続は編集しない。途中失敗では
+  値と自動キー変更を復旧する。`MayaPlugTargetState.edit_description`と
+  接続構成の入力不可理由を返す`connected_plug_edit_reason()`も公開する。
+  既定の接続属性は読取り専用のまま。従来の常時キー編集は`key_animated=True`を
+  維持し、標準入力へ移行する利用側は`edit_connected=True`へ置き換える。
+  両方の同時指定は`ValueError`。scene・設定・clipboard schemaの移行は不要。
+- `MayaNodeNameStore`と`MayaNodeNameBinding`を追加。単一の既存ノード名を正本とし、
+  既存`StringLineEdit`と`StringLabel`から編集・共有表示できる。namespaceを維持し、
+  Mayaの採番後の確定名、外部リネーム、Undo／Redo、編集可否、削除による終了を扱う。
+  Shape名の追従は`rename_shapes=False`で抑止できる。固定ノードの編集サンプルを追加。
+  既存API・scene・設定の移行は不要。
+- `MayaPlugInputState`へ`driven_key`、`expression`、`animation_layer`、
+  `animation_clip`、`muted`、`key_altered`、`nonkeyable`を追加。
+  特殊な直結元、muteの有効状態、現在値とカーブ評価値、keyableフラグを読み取る。
+  既存scene・設定の移行は不要。入力状態を網羅的に分岐している利用側は
+  新しい7種類を扱うよう更新する。
+- `MayaPlugTargetState.is_locked`で属性自身とcompound祖先の実効ロック状態を公開。
+  入力接続の分類には`pair_blend`と`constraint`を追加し、直結元のノード型で
+  親compoundへの接続も判定する。既存の`connected`はその他の接続を示す。
+  scene・設定の移行は不要。利用側で入力状態を網羅的に分岐している場合は
+  新しい2種類を追加する。
+- Mayaの複数属性Bindingに`track_input_state`を追加し、各対象の
+  `MayaPlugTargetState.input_state`で現在キー・時間カーブ・その他接続・未接続を
+  読み取れるようにした。`inspect_plug_input_state()`も公開し、時刻・キー編集・
+  接続変更に追従する。既定は追跡しないため既存利用側の動作は維持する。
+  scene・設定の移行は不要。
 - `nodes.create` に namespace 付きの名前と `namespace=` 指定を追加。
   未作成の namespace はノード実行時に作成し、Undo / Redo へ含める。
   `Nodes(namespace=...)` と `nodes.set_namespace()` で以後の作成先を設定でき、

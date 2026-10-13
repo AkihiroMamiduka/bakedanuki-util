@@ -6,6 +6,8 @@ from typing import Protocol, cast
 
 from .... import qt
 
+__all__ = ["MouseFocusSelectAllDoubleSpinBox"]
+
 
 class _QTimerType(Protocol):
     """PySide stub境界で使用するQTimer classの必要最小API。"""
@@ -38,6 +40,29 @@ class MouseFocusSelectAllDoubleSpinBox(qt.QDoubleSpinBox):
         self._select_on_mouse_release = False
         self._mouse_selection_dragged = False
         self.lineEdit().installEventFilter(self)
+
+    def event(self, arg__1: qt.QEvent) -> bool:
+        """Enterを数値入力欄で扱い、Mayaのshortcutへ渡さない。"""
+        if (
+            arg__1.type() == qt.QEvent.Type.ShortcutOverride
+            and isinstance(arg__1, qt.QtGui.QKeyEvent)
+            and arg__1.key() in (qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter)
+        ):
+            arg__1.accept()
+            return True
+        return super().event(arg__1)
+
+    def keyPressEvent(self, arg__1: qt.QtGui.QKeyEvent) -> None:
+        """Qtによる値確定後にEnterの押下を受理する。"""
+        super().keyPressEvent(arg__1)
+        if arg__1.key() in (qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter):
+            arg__1.accept()
+
+    def keyReleaseEvent(self, arg__1: qt.QtGui.QKeyEvent) -> None:
+        """Enterの解放通知も数値入力欄で受理する。"""
+        super().keyReleaseEvent(arg__1)
+        if arg__1.key() in (qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter):
+            arg__1.accept()
 
     def select_all_on_mouse_focus(self) -> bool:
         """マウスで初回フォーカスしたときに全選択する設定を返す。"""
