@@ -22,6 +22,17 @@ from .string import (
     StringValueStore,
     StringViewModel,
 )
+from .int import (
+    IntBinding,
+    IntLabel,
+    IntPresentation,
+    IntSpinBox,
+    IntValue,
+    IntValueStore,
+    IntViewModel,
+    PythonIntAttributeStore,
+    SetIntCommand,
+)
 from .float3 import (
     Float3,
     Float3Binding,
@@ -72,6 +83,15 @@ from .float import (
 )
 
 __all__ = [
+    "IntBinding",
+    "IntLabel",
+    "IntPresentation",
+    "IntSpinBox",
+    "IntValue",
+    "IntValueStore",
+    "IntViewModel",
+    "PythonIntAttributeStore",
+    "SetIntCommand",
     "MouseFocusSelectAllDoubleSpinBox",
     "PythonStringAttributeStore",
     "SetStringCommand",

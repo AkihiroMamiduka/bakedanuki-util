@@ -1198,6 +1198,13 @@ manager.dispose()
 終了したManagerは再利用せず、新しいManagerを生成してください。構成を変更する場合も、
 古いManagerを`dispose()`してから作成します。
 
+## 整数値のMVVMとQSpinBox
+
+`IntBinding`、`IntSpinBox`、`IntLabel`は符号付き32-bit整数を型変換せずに共有します。
+Python属性を正本にする導入例、入力範囲、現段階の対応範囲は
+[整数binding](int_binding.md)を参照してください。Maya属性とbdChannelBoxへの接続は
+後続段階で追加します。
+
 ## 浮動小数点値のMVVMとQDoubleSpinBox
 
 `MayaFloatPlugBinding`は既存Maya属性を正本として読み取り、`FloatSpinBox`で編集します。

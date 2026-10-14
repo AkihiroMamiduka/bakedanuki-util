@@ -2,6 +2,15 @@
 
 from . import qt
 from .binding import (
+    IntBinding,
+    IntLabel,
+    IntPresentation,
+    IntSpinBox,
+    IntValue,
+    IntValueStore,
+    IntViewModel,
+    PythonIntAttributeStore,
+    SetIntCommand,
     MouseFocusSelectAllDoubleSpinBox,
     PythonStringAttributeStore,
     SetStringCommand,
@@ -76,6 +85,15 @@ from .window_state import (
 )
 
 __all__ = [
+    "IntBinding",
+    "IntLabel",
+    "IntPresentation",
+    "IntSpinBox",
+    "IntValue",
+    "IntValueStore",
+    "IntViewModel",
+    "PythonIntAttributeStore",
+    "SetIntCommand",
     "MouseFocusSelectAllDoubleSpinBox",
     "PythonStringAttributeStore",
     "SetStringCommand",
