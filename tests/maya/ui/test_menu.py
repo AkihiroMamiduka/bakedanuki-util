@@ -11,6 +11,7 @@ from typing import cast
 import pytest
 
 from bd_util.maya.ui import (
+    ensure_config_file,
     is_menu_auto_install_enabled,
     register_menu_item,
     set_menu_auto_install_enabled,
@@ -35,6 +36,11 @@ class FakeMenus:
         assert kwargs == {"userPrefDir": True}
         return str(self.prefs_dir)
 
+    def lsUI(self, **kwargs: object) -> list[str]:
+        """作成済みmenuのfull pathを返す。"""
+        assert kwargs == {"menus": True, "long": True}
+        return list(self.menus)
+
     def optionVar(self, **kwargs: object) -> object:
         """起動時表示に使うMaya preferenceを模倣する。"""
         if "exists" in kwargs:
@@ -57,6 +63,8 @@ class FakeMenus:
         if kwargs.get("query"):
             if kwargs.get("docTag"):
                 return self.menus[name]["docTag"]
+            if kwargs.get("postMenuCommand"):
+                return self.menus[name].get("postMenuCommand", "")
             if kwargs.get("itemArray"):
                 return [
                     path
@@ -85,10 +93,17 @@ class FakeMenus:
             raise AssertionError(kwargs)
         if kwargs.get("edit"):
             self.items[name].update(kwargs)
+            if name in self.menus:
+                self.menus[name].update(kwargs)
             return name
         path = f"{kwargs['parent']}|{name}"
         assert path not in self.items
         self.items[path] = dict(kwargs)
+        if kwargs.get("subMenu"):
+            self.menus[path] = {
+                "docTag": kwargs["docTag"],
+                "label": kwargs["label"],
+            }
         return path
 
     def deleteUI(self, name: str, **kwargs: object) -> None:
@@ -103,6 +118,7 @@ class FakeMenus:
                 if path != name
             )
             del self.items[name]
+            # Mayaはsubmenu項目の削除後も同名のmenuを保持する
             self.detached.discard(name)
         else:
             raise AssertionError(kwargs)
@@ -112,6 +128,7 @@ class FakeMenus:
 def fake_menus(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> FakeMenus:
     """UI作成済みのMaya windowを代替し、各testで状態を分離する。"""
     fake = FakeMenus(tmp_path / "prefs")
+    monkeypatch.delenv("BAKEDANUKI_CONFIG_FILE", raising=False)
     monkeypatch.setattr(menu_module, "cmds", fake)
     monkeypatch.setattr(menu_module, "_main_window", lambda: "MayaWindow")
     return fake
@@ -153,7 +170,7 @@ def test_owners_share_category_and_reregister_in_place(
 
     root = "MayaWindow|bdUtilMainMenu"
     category = f"{root}|bdUtilCategory_tools"
-    assert len(fake_menus.menus) == 1
+    assert len(fake_menus.menus) == 2
     assert fake_menus.menus[root]["label"] == "bakedanuki"
     assert len(fake_menus.items) == 4
     item = f"{category}|bdUtilItem_8_bd_tools_bdChannelBox"
@@ -190,7 +207,7 @@ def test_existing_owned_root_uses_new_display_label(
     assert register_menu_item(**arguments)
 
     assert fake_menus.menus[root]["label"] == "bakedanuki"
-    assert len(fake_menus.menus) == 1
+    assert len(fake_menus.menus) == 2
     assert len(fake_menus.items) == item_count
 
 
@@ -341,6 +358,296 @@ def test_invalid_identifier_is_rejected(fake_menus: FakeMenus) -> None:
     with pytest.raises(ValueError, match="owner"):
         register_menu_item(
             owner="other|package",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=lambda: None,
+        )
+    assert not fake_menus.menus
+
+
+def test_config_file_is_created_once(fake_menus: FakeMenus) -> None:
+    """コメント例を自動生成し、利用者が編集した内容を保持する。"""
+    path = ensure_config_file()
+    assert path == fake_menus.prefs_dir / "bakedanuki" / "config.toml"
+    content = path.read_text(encoding="utf-8")
+    assert content.startswith("[menu]\n")
+    assert (
+        "# parent_menu を指定しない場合、bakedanuki は最上位メニューに表示されます。"
+        in content
+    )
+    assert "# parent_menu = " in content
+
+    path.write_text("# 個別に編集した内容\n", encoding="utf-8")
+    assert ensure_config_file() == path
+    assert path.read_text(encoding="utf-8") == "# 個別に編集した内容\n"
+
+
+def test_nested_root_preserves_existing_parent(fake_menus: FakeMenus) -> None:
+    """既存メニュー配下にrootを作り、解除では既存メニューを残す。"""
+    parent = cast(
+        str,
+        fake_menus.menu(
+            "customToolsMenu",
+            parent="MayaWindow",
+            label="tools",
+            docTag="other",
+        ),
+    )
+    parent = cast(
+        str,
+        fake_menus.menuItem(
+            "freeToolsMenu",
+            parent=parent,
+            label="free_tools",
+            subMenu=True,
+            docTag="other",
+        ),
+    )
+    path = ensure_config_file()
+    path.write_text(f'[menu]\nparent_menu = "{parent}"\n', encoding="utf-8")
+
+    assert register_menu_item(
+        owner="bd_tools",
+        category="tools",
+        item_id="sample",
+        label="Sample",
+        command=lambda: None,
+    )
+    root = f"{parent}|bdUtilMainMenu"
+    assert root in fake_menus.menus
+    assert root in fake_menus.items
+    assert "MayaWindow|bdUtilMainMenu" not in fake_menus.menus
+    assert register_menu_item(
+        owner="bd_rig",
+        category="rig",
+        item_id="sample",
+        label="Rig sample",
+        command=lambda: None,
+    )
+
+    set_menu_auto_install_enabled(False)
+    option = f"{root}|bdUtilAutoInstallMenuOption"
+    assert fake_menus.items[option]["checkBox"] is False
+    unregister_menu_owner("bd_tools")
+    assert root in fake_menus.menus
+    assert f"{root}|bdUtilCategory_tools" not in fake_menus.menus
+    assert f"{root}|bdUtilCategory_rig" in fake_menus.menus
+    unregister_menu_owner("bd_rig")
+    assert root not in fake_menus.menus
+    assert parent in fake_menus.menus
+    assert "MayaWindow|customToolsMenu" in fake_menus.menus
+    assert register_menu_item(
+        owner="bd_tools",
+        category="tools",
+        item_id="sample",
+        label="Sample",
+        command=lambda: None,
+    )
+
+
+@pytest.mark.parametrize("initialized", (False, True))
+def test_nested_root_follows_existing_menu_items(
+    fake_menus: FakeMenus,
+    monkeypatch: pytest.MonkeyPatch,
+    initialized: bool,
+) -> None:
+    """遅延生成される既存項目の後へ追加し、再登録や解除でも維持する。"""
+    parent = "MayaWindow|customToolsMenu"
+    fake_menus.menu(
+        "customToolsMenu", parent="MayaWindow", label="tools", docTag="other"
+    )
+    fake_menus.menu(
+        parent,
+        edit=True,
+        postMenuCommand="buildExistingMenu",
+        postMenuCommandOnce=True,
+    )
+    calls: list[str] = []
+
+    def build_existing_menu(path: str) -> None:
+        """親が空の間だけ既存項目を生成するMayaの処理を模倣する。"""
+        assert path == parent
+        assert not fake_menus.menu(path, query=True, itemArray=True)
+        calls.append(path)
+        fake_menus.menuItem(
+            "existingItem", parent=path, label="Existing", docTag="other"
+        )
+
+    monkeypatch.setattr(
+        menu_module, "_emit_menu_about_to_show", build_existing_menu
+    )
+    if initialized:
+        build_existing_menu(parent)
+        calls.clear()
+    ensure_config_file().write_text(
+        f'[menu]\nparent_menu = "{parent}"\n', encoding="utf-8"
+    )
+
+    for _ in range(2):
+        assert register_menu_item(
+            owner="bd_tools",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=lambda: None,
+        )
+        assert fake_menus.menu(parent, query=True, itemArray=True) == [
+            f"{parent}|existingItem",
+            f"{parent}|bdUtilMainMenu",
+        ]
+    assert calls == ([] if initialized else [parent])
+    assert fake_menus.menus[parent]["postMenuCommand"] == "buildExistingMenu"
+    assert fake_menus.menus[parent]["postMenuCommandOnce"] is True
+
+    unregister_menu_owner("bd_tools")
+    assert fake_menus.menu(parent, query=True, itemArray=True) == [
+        f"{parent}|existingItem"
+    ]
+
+
+def test_explicit_config_file_takes_priority(
+    fake_menus: FakeMenus, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """起動環境で指定したTOMLを個人用TOMLより優先する。"""
+    parent = cast(
+        str,
+        fake_menus.menu(
+            "customToolsMenu",
+            parent="MayaWindow",
+            label="tools",
+            docTag="other",
+        ),
+    )
+    personal = ensure_config_file()
+    personal.write_text(
+        '[menu]\nparent_menu = "MayaWindow|missingMenu"\n',
+        encoding="utf-8",
+    )
+    external = tmp_path / "project-a.toml"
+    external.write_text(
+        f'[menu]\nparent_menu = "{parent}"\n', encoding="utf-8"
+    )
+    monkeypatch.setenv("BAKEDANUKI_CONFIG_FILE", str(external))
+
+    assert register_menu_item(
+        owner="bd_tools",
+        category="tools",
+        item_id="sample",
+        label="Sample",
+        command=lambda: None,
+    )
+    assert f"{parent}|bdUtilMainMenu" in fake_menus.menus
+    assert personal.read_text(encoding="utf-8").startswith("[menu]")
+
+
+def test_missing_placement_parent_never_falls_back(
+    fake_menus: FakeMenus,
+) -> None:
+    """設定された親がなければ最上位へ黙って配置しない。"""
+    path = ensure_config_file()
+    path.write_text(
+        '[menu]\nparent_menu = "MayaWindow|missingMenu"\n',
+        encoding="utf-8",
+    )
+    with pytest.raises(RuntimeError, match="既存メニューが見つかりません"):
+        register_menu_item(
+            owner="bd_tools",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=lambda: None,
+        )
+    assert not fake_menus.menus
+
+
+def test_missing_explicit_file_never_falls_back(
+    fake_menus: FakeMenus, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """起動環境で指定したファイルがなければ個人用へ切り替えない。"""
+    external = tmp_path / "missing-project.toml"
+    monkeypatch.setenv("BAKEDANUKI_CONFIG_FILE", str(external))
+    with pytest.raises(FileNotFoundError, match="設定が見つかりません"):
+        register_menu_item(
+            owner="bd_tools",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=lambda: None,
+        )
+    assert not fake_menus.menus
+
+
+def test_relative_explicit_file_is_rejected(
+    fake_menus: FakeMenus, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """起動ディレクトリで意味が変わる相対パスを受け付けない。"""
+    monkeypatch.setenv("BAKEDANUKI_CONFIG_FILE", "project-a.toml")
+    with pytest.raises(ValueError, match="絶対パス"):
+        register_menu_item(
+            owner="bd_tools",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=lambda: None,
+        )
+    assert not fake_menus.menus
+
+
+def test_placement_change_waits_for_restart(fake_menus: FakeMenus) -> None:
+    """起動中の配置変更は重複rootを作らず、旧rootを解除できる。"""
+    assert register_menu_item(
+        owner="bd_tools",
+        category="tools",
+        item_id="sample",
+        label="Sample",
+        command=lambda: None,
+    )
+    parent = cast(
+        str,
+        fake_menus.menu(
+            "customToolsMenu",
+            parent="MayaWindow",
+            label="tools",
+            docTag="other",
+        ),
+    )
+    path = ensure_config_file()
+    path.write_text(f'[menu]\nparent_menu = "{parent}"\n', encoding="utf-8")
+    with pytest.raises(RuntimeError, match="再起動後"):
+        register_menu_item(
+            owner="bd_tools",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=lambda: None,
+        )
+    assert "MayaWindow|bdUtilMainMenu" in fake_menus.menus
+    assert f"{parent}|bdUtilMainMenu" not in fake_menus.menus
+    unregister_menu_owner("bd_tools")
+    assert "MayaWindow|bdUtilMainMenu" not in fake_menus.menus
+
+
+@pytest.mark.parametrize(
+    "content, message",
+    (
+        ('[menu]\nparent_menu = "MayaWindow|"\n', "完全なUIパス"),
+        ("[menu]\nparent_menu = 42\n", "parent_menu"),
+        ("[menu]\nparent_mneu = 'typo'\n", "未知のキー"),
+        ("parent_menu = 'typo'\n", "未知のキー"),
+        ("menu = 42\n", "形式が不正"),
+        ("[menu]\nparent_menu = [\n", "TOMLが不正"),
+    ),
+)
+def test_invalid_placement_is_reported(
+    fake_menus: FakeMenus, content: str, message: str
+) -> None:
+    """設定の誤記を最上位への暗黙の配置に変えない。"""
+    path = ensure_config_file()
+    path.write_text(content, encoding="utf-8")
+    with pytest.raises(ValueError, match=message):
+        register_menu_item(
+            owner="bd_tools",
             category="tools",
             item_id="sample",
             label="Sample",

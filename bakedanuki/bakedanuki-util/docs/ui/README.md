@@ -52,9 +52,87 @@ instanceとcallbackを維持する必要があるtoolだけ、`retain=True`を�
 
 ## 共有Mayaメインメニュー
 
-`bd_util.maya.ui.register_menu_item()`はMaya上部に`bakedanuki`を作り、その下のcategoryへ
+`bd_util.maya.ui.register_menu_item()`は既定でMaya上部に`bakedanuki`を作り、その下のcategoryへ
 package所有の項目を登録します。tools、rigなどのpackageは各自の起動処理から呼び、
 utilは利用側packageをimportしません。クリック時の処理は`command`に渡します。
+
+### 起動設定とメニュー配置
+
+`bd_tools`を導入したinteractive Mayaの初回起動時に、コメント例を含む`config.toml`を
+`cmds.internalVar(userPrefDir=True)/bakedanuki/`へ自動作成します。
+Mayaのバージョンや言語で`userPrefDir`が異なれば、それぞれの設定ファイルを使います。
+`ensure_config_file()`を明示的に呼んだ場合も同じファイルを用意します。
+既存ファイルは書き換えません。同じフォルダの`menu.json`はUI操作で変わる表示状態、
+`config.toml`は利用者や管理者が編集する起動設定です。配布packageの更新や
+`uninstaller.py`では削除・上書きしません。
+現時点で対応するTOML項目は`[menu].parent_menu`です。
+
+```toml
+[menu]
+# parent_menu を指定しない場合、bakedanuki は最上位メニューに表示されます。
+# 配置先には、bakedanuki の登録前に作成される既存のメニューを指定してください。
+# 表示名ではなく、Maya の UI 名を「|」でつないだパスを指定します。
+# parent_menu = "MayaWindow|customToolsMenu|freeToolsMenu"
+```
+
+`[menu]`の`parent_menu`を有効にすると、既存の`freeToolsMenu`の直下へ
+`bakedanuki`が作成されます。配置先より内側のcategoryと項目は変わりません。
+既存項目の末尾へ追加します。配置先が空で遅延生成用の`postMenuCommand`を持つ場合は、
+先にMaya本来の初期化を実行します。Windowsメニューのように初めて開くときに
+項目を作るメニューでも、標準項目の生成を妨げません。
+`parent_menu`には実際のMaya main windowから始まる完全なUIパスを指定します。
+表示ラベルを使った探索、親メニューの自動作成、親メニューの削除は行いません。
+指定されたメニューが未作成、不正なTOML、未知のキーの場合はエラーを報告し、
+最上位へは切り替えません。別の起動処理で親メニューを後から作る場合は、
+その作成後に`bd_tools.install_menu()`など利用側packageの登録処理を呼んでください。
+設定変更中のセッションでは既存メニューを移動せず、異なる配置先への登録は
+エラーにします。設定変更後はMayaを再起動して反映してください。
+
+個人用設定ファイルの場所はScript Editorで確認できます。
+
+```python
+from bd_util.maya.ui import ensure_config_file
+
+print(ensure_config_file())
+```
+
+配置先のUI名は、MayaのScript EditorをPythonに切り替えて確認できます。
+次のコードは上部メニューの表示名と完全なUIパスを並べて出力します。
+`parent_menu`には右側のUIパスを指定してください。
+
+```python
+import maya.cmds as cmds
+
+for path in sorted(cmds.lsUI(menus=True, long=True) or []):
+    if path.startswith("MayaWindow|") and path.count("|") == 1:
+        print(f"{cmds.menu(path, query=True, label=True)} : {path}")
+```
+
+例えばWindowsメニューのUIパスが`MayaWindow|mainWindowMenu`なら、
+`config.toml`を次のように編集します。Mayaを再起動すると、Windowsメニューの
+既存項目の末尾に`bakedanuki`が表示されます。
+
+```toml
+[menu]
+parent_menu = "MayaWindow|mainWindowMenu"
+```
+
+組織・プロジェクト用の設定では、起動環境の`BAKEDANUKI_CONFIG_FILE`に
+外部TOMLの絶対パスを指定します。ファイル名と拡張子は任意ですが、内容は
+TOML形式にしてください。このファイル全体を
+個人用TOMLより優先して読み、内容を暗黙にマージしません。
+設定や親メニューに不備があれば
+エラーを報告します。例えばWindowsの起動バッチでは次のように設定します。
+
+```bat
+set "BAKEDANUKI_CONFIG_FILE=D:\studio\config\project-a.toml"
+start "" "C:\Program Files\Autodesk\Maya2025\bin\maya.exe"
+```
+
+起動バッチはTOMLのパスを渡すだけで、既存の親メニューはMaya側で先に作成します。
+配布フォルダ内には自動生成の元となる
+`bd_util/maya/ui/config.template.toml`を同梱します。利用者が編集する
+個人用ファイルは配布フォルダの外にあるため、packageを入れ替えても保持されます。
 
 ```python
 from bd_util.maya.ui import register_menu_item, unregister_menu_owner
@@ -124,8 +202,12 @@ from maya import cmds, utils
 
 def _install_menu_deferred() -> None:
     """起動時表示が有効ならrigの項目を登録する。"""
-    from bd_util.maya.ui import is_menu_auto_install_enabled
+    from bd_util.maya.ui import (
+        ensure_config_file,
+        is_menu_auto_install_enabled,
+    )
 
+    ensure_config_file()
     if not is_menu_auto_install_enabled():
         return
     from .menu import install_menu
