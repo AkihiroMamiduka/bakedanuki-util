@@ -268,8 +268,11 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
 - 抽象基底クラス、内部 helper、意図的に型が未確定な generic base では、補完が限定的でも許容する。ただし、それが意図的な設計かどうかを判断する。
 - 既存の補完を壊すリファクタは避ける。必要な場合は、代替の型情報を同時に用意する。
 - `NodeOperator` のクラス参照と型注釈は `bdu.node_types` に統一し、`Nodes.types` は再導入しない。
-  version 固有の型は `bdu.node_types.maya2027.Joint` のように module を明示する。
-  `typing_maya_version` は `nodes.create` / `nodes.existing` の補完対象だけを選ぶ。
+  version 固有の型は `bdu.node_types.maya2027.Joint`、対応済み version の下限を
+  指定する型は `bdu.node_types.maya2026_plus.Joint` のように module を明示する。
+  `typing_maya_version="2026+"` は対応済みの Maya 2026 以降で共通する
+  `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の補完対象を選ぶ。
+  実行時の Maya や、`bdu.node_types` の型注釈 module は切り替えない。
 - `bd_util/node_types/*.pyi` は生成物です。公開ノード型を変更するときは生成器を修正して
   再生成し、`tests/typecheck/public_node_types_contract.py` と version 別 contract を確認する。
 

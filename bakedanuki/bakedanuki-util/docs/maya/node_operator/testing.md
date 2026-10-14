@@ -101,9 +101,10 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 現在は次の経路を検証します。
 
 - `nodes.create` / `nodes.existing` の具体的な node 戻り値型。
-- `typing_maya_version="2025" / "2026" / "2027"` ごとの `nodes.create` /
-  `nodes.existing` の候補とversioned attribute schema。省略時は
-  3 version共通面と共通型を検証します。
+- `typing_maya_version="2025" / "2026" / "2027"` と
+  `"2025+" / "2026+" / "2027+"` ごとの `nodes.create` / `nodes.existing` /
+  `nodes.create.with_transform` の候補と versioned attribute schema。省略時は
+  3 version 共通面と共通型を検証します。
 - `AttributeField` の class access と instance access。
 - compound child と alias の具体的な plug 型。
 - enum plug と enum 定数。
@@ -121,7 +122,7 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 - `bdu.node_types`から取得するNodeOperator classと、DAG traversalの
   `filter_type`に応じた具体的なtuple要素型。
 - `bdu.node_types` のクラス名を list の要素型に使った場合の補完と、
-  version 別 module の schema 型・利用可能なクラス名。
+  単一版・`+` 範囲 module の schema 型・利用可能なクラス名。
 - `ancestors(until=...)` / `descendant_chain(until=...)`の、引数省略時と
   境界指定時で異なるoptional戻り値型。
 - 存在しない属性や不正な引数が型エラーになること。

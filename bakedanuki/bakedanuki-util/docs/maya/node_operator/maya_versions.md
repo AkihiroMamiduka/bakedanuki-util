@@ -103,7 +103,7 @@ attribute が異なる場合は、対象 version のいずれでも使える属�
 異なる型は union 型で表します。`nodes.create.with_transform` にも同じ範囲が適用されます。
 将来、正式対応 version が増えた場合は `+` の範囲も広がり、共通部分を再計算します。
 
-型注釈には、共通面なら `bdu.node_types.Joint`、version を指定する場合は
+型注釈には、共通面なら `bdu.node_types.Joint`、単一 version を指定する場合は
 `bdu.node_types.maya2027.Joint` のように対応する module を使います。
 `typing_maya_version` の値から、別の変数に書いた型注釈の module は自動選択されません。
 `bdu.node_types` は全対応 version で共通するクラス名を公開し、version 別 module は
@@ -190,8 +190,10 @@ unloadします。配布先の `.mll` が Maya にロードされていると上
 `nodes.py` の `typing_maya_version` annotation と、stub generator が出力する import、
 `Literal` union、version facade も新versionを含むようにします。`nodes.pyi` 自体は
 generatorから再生成します。
-`python/bd_util/node_types/maya<version>.py` の実行時 module と、
+`python/bd_util/node_types/maya<version>.py` と
+`maya<version>_plus.py` の実行時 module、および
 `python/bd_util/node_types/__init__.py` からの公開 import も追加します。
+既存の `maya<version>_plus.pyi` は、新 version を含む共通部分へ再生成されます。
 
 version別schemaを持つ公開wrapperへ共通操作を追加するときは、生成baseの後ろに
 名前付きのbehavior mixinを継承させます。例えばTA / TL / TUの`AnimCurveKeyframes`です。
@@ -227,9 +229,10 @@ inventoryを正規snapshotとして採用しません。
 生成後は、基準 snapshot 全体が複製されていないこと、追加 node と変更 node だけが
 新overlayへ出力されていることを確認します。新規 node には public wrapper が必要です。
 
-続いて Maya 2025 の `mayapy` から `generate_existing_node_stub.py` を実行し、11の
+続いて Maya 2025 の `mayapy` から `generate_existing_node_stub.py` を実行し、
+現行の14ファイルに新 version 用の単一版・`+` 範囲 stub を加えた
 registry / stub 生成物を更新します。生成後に `--check` を実行し、ASTとして最新である
-ことも確認します。
+ことも確認します。生成物の一覧は [Generator](generator.md) を参照してください。
 
 ### 5. contract と件数を更新する
 
@@ -237,10 +240,12 @@ registry / stub 生成物を更新します。生成後に `--check` を実行�
 2. `test_node_types.py` の version 別 class 件数を更新します。
 3. `test_maya_version.py` にoverlay検索順、追加・廃止 node、変更attributeの代表例を
    追加します。
-4. `node_operator_maya_version_contract.py` に新しい `typing_maya_version` を追加します。
-5. `public_node_types_contract.py` に version 別の型注釈と共通型の例を追加します。
+4. `node_operator_maya_version_contract.py` に新しい単一版・`+` 範囲の
+   `typing_maya_version` を追加します。
+5. `public_node_types_contract.py` に単一版・`+` 範囲の型注釈と共通型の例を追加します。
 6. IDE contract には、少なくとも追加node、前versionから継続するnode、廃止node、
-   schema変更attributeのpositive / negative例を1つずつ含めます。
+   schema変更attributeのpositive / negative例を1つずつ含めます。既存の `+` 範囲から
+   候補が除外される場合も、対象範囲の全 version に共通しないことを確認します。
 7. concrete shape が増減した場合は、`dag/shape/test_generated.py` のpublic wrapper件数と
    `creator/_shape_types.py` の作成確認済み一覧を更新します。
 

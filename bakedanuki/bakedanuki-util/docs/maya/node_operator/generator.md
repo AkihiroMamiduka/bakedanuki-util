@@ -723,7 +723,7 @@ print(errors)
 
 内部実装の `ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
 公開APIの `nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
-IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の11ファイルを生成します。
+IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の14ファイルを生成します。
 
 - `python/bd_util/maya/node/existing_node.pyi`
 - `python/bd_util/maya/node/nodes.pyi`
@@ -736,6 +736,9 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 - `python/bd_util/node_types/maya2025.pyi`
 - `python/bd_util/node_types/maya2026.pyi`
 - `python/bd_util/node_types/maya2027.pyi`
+- `python/bd_util/node_types/maya2025_plus.pyi`
+- `python/bd_util/node_types/maya2026_plus.pyi`
+- `python/bd_util/node_types/maya2027_plus.pyi`
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
@@ -766,14 +769,18 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 共通 module は全対応 version の共通ノードを公開し、schema が異なるクラスは
 version 別の戻り値型の union にします。version 別 module は、その version で
 利用可能なクラス名と有効な schema 型だけを公開します。
+`maya<version>_plus.pyi` は、指定 version 以降の全対応 version に共通するクラス名を
+公開し、対象 version 間で schema 型が異なる場合は union 型にします。
 実行時の公開入口は `bd_util/node_types/__init__.py` と `_runtime.py` が担当し、
 型情報は生成 `.pyi` が担当します。`resolve()` / `available_class_names()` のような
 公開関数を変更する場合は、実装と stub 生成器の両方を更新してください。
 
-`_versioned_accessors.pyi` は、3 version共通面と Maya 2025 / 2026 / 2027ごとの
-`nodes.create` / `nodes.existing`を保持します。`nodes.pyi`の
-`typing_maya_version` overloadは、この静的accessorだけを選択します。実行中Mayaの
-version判定やnode availabilityには使用しません。
+`_versioned_accessors.pyi` は、全対応 version の共通面、各単一 version、各 version を
+下限とする `+` 範囲の `nodes.create` / `nodes.existing` /
+`nodes.create.with_transform` を保持します。`+` 範囲では対象の全 version で利用できる
+node だけを公開し、schema 型が異なる戻り値は union 型にします。`nodes.pyi` の
+`typing_maya_version` overload は、この静的 accessor だけを選択します。実行中 Maya の
+version 判定や node availability には使用しません。
 
 Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。
