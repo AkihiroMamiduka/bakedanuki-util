@@ -16,11 +16,11 @@ class BytePlugOperator(NumericRangeBasePlugOperator["ByteAttrOperator"]):
     __slots__ = ()
 
     def get(self) -> int:
-        """byteプラグの現在値を整数で取得する。"""
+        """符号なしbyteプラグの0～255の現在値を整数で取得する。"""
         plug = self._m_plug
         if plug is None:
             plug = self.plug
-        return plug.asChar()
+        return plug.asInt()
 
     def set(self, value: int) -> None:
         """byteプラグへ整数値をModifierManager経由で設定する。

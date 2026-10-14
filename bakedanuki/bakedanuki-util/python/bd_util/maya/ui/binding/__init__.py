@@ -33,9 +33,12 @@ from .float_plug import MayaFloatPlugStore, MayaFloatPlugView
 from .float_binding import MayaFloatBinding
 from .float_plug_binding import MayaFloatPlugBinding
 from .float_plug_resolver import MayaFloatPlug, resolve_float_plug
+from .int_plug_resolver import MayaIntPlug, resolve_int_plug
 from .plugs_binding import (
     MayaBoolPlugsBinding,
     MayaFloatPlugsBinding,
+    MayaIntPlugBinding,
+    MayaIntPlugsBinding,
     MayaEnumPlugsBinding,
     MayaStringPlugsBinding,
 )
@@ -107,6 +110,10 @@ __all__ = [
     "read_enum_definition",
     "MayaBoolPlugsBinding",
     "MayaFloatPlugsBinding",
+    "MayaIntPlug",
+    "MayaIntPlugBinding",
+    "MayaIntPlugsBinding",
+    "resolve_int_plug",
     "MayaPlugTargetState",
     "MayaPlugInputState",
     "inspect_plug_input_state",

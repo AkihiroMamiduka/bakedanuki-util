@@ -9,6 +9,8 @@
 
 ### Changed
 
+- `BytePlugOperator.get()` はMayaのbyte値128～255を符号反転せず返す。
+  従来の負値を前提にした呼び出しは、byte属性の実値を使うよう修正する。
 - `Nodes` の操作入口を保持する推奨変数名を `nodes` から `bd_nodes` へ変更。
   README、docs、サンプル、内部コードとテストを統一した。
   `Nodes` のクラス名と既存の公開 API は維持するため、利用者のスクリプトの修正は不要。
@@ -60,6 +62,11 @@
 
 ### Added
 
+- `bd_util.maya.ui` に、byte・short・long属性用の
+  `resolve_int_plug()`、`MayaIntPlugBinding`、`MayaIntPlugsBinding`を追加。
+  単一属性とcompound子属性の監視、型固有範囲とhard limitの検証、
+  複数属性の一括入力とMaya Undoに対応する。入力接続中は読み取り専用とし、
+  既存scene・設定の移行は不要。
 - `bakedanuki`共有メニューの配置先を`prefs/bakedanuki/config.toml`の
   `[menu].parent_menu`で指定できるようにした。キーがなければ最上位メニューに表示し、
   既存メニューのUIパスを指定するとその直下に配置する。個人用ファイルはMayaの

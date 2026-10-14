@@ -4,8 +4,8 @@
 
 `IntBinding`は単一の符号付き32-bit整数を`IntValueStore`へ接続します。
 `IntSpinBox`と`IntLabel`は同じ`IntViewModel`を共有します。
-この段階の正本は`PythonIntAttributeStore`です。Maya属性への接続、複数属性の
-一括編集、bdChannelBoxへの組込みは後続段階で扱います。
+正本には`PythonIntAttributeStore`、またはMayaのbyte・short・long属性を接続できます。
+bdChannelBoxへの組込みは後続段階で扱います。
 
 `QSpinBox`はQtの`int`を使うため、公開値の範囲は
 `-2147483648`から`2147483647`までです。`bool`、`float`、文字列、
@@ -50,10 +50,37 @@ Bindingへの参照を維持します。`IntSpinBox.setInputEnabled(False)`は�
 
 Mayaの整数属性では`byte`が0～255、`short`が符号付き16-bit、
 `long`が符号付き32-bitです。`long`はC++の`int`に相当し、
-Mayaの`int64`とは別型です。Maya側の型ごとの検証、Undo、
-接続状態の扱いはMaya binding段階で追加します。
+Mayaの`int64`とは別型です。
 
-## Mayaで操作するサンプル
+## Maya属性を正本にする
+
+`resolve_int_plug(node_name, attribute_name)`は既存のbyte・short・long属性を
+型付きPlugOperatorとして解決します。単一属性は`MayaIntPlugBinding`、
+複数属性は`MayaIntPlugsBinding`へ渡します。単一属性とcompoundの子属性が対象です。
+配列、compound親、enum、bool、float、int64は受け付けません。
+
+```python
+from bd_util.maya.ui import MayaIntPlugBinding, resolve_int_plug
+from bd_util.ui import IntLabel, IntSpinBox
+
+plug = resolve_int_plug("myNode", "myLongAttribute")
+binding = MayaIntPlugBinding(plug)
+spin = IntSpinBox(binding)
+label = IntLabel(binding)
+```
+
+初期化時はMaya属性へ書き込まず、現在値を表示します。
+byteは0～255、shortは-32768～32767、longはsigned 32-bitの範囲を使い、
+属性のhard limitとの共通部分を入力範囲にします。各対象の範囲は一括入力前に
+検証し、失敗時は対象を変更しません。通常の未接続属性の入力はMaya Undoで一操作です。
+複数属性では先頭を代表値とし、`is_mixed`と`target_states`で対象の状態を確認できます。
+`apply_representative_value()`は代表の実値を編集可能な後続対象へ適用します。
+
+ロック、入力接続、ノードや属性の削除に追従します。入力接続中の整数属性は
+現在読み取り専用です。時間カーブ・SDK・Animation Layerへの値入力は、
+各対応Mayaで実挙動を確認した後に別段階で設計します。
+
+## Python属性のサンプル
 
 Maya Script EditorのPythonタブで次を実行します。
 
@@ -75,3 +102,35 @@ Windowを閉じて再実行すると、新しいデータで開きます。Maya�
 ```python
 minimal.dispose()
 ```
+
+## Maya属性のサンプル
+
+開発中に`bd_util`の変更を反映し、bdChannelBoxなど`bd_tools`のWindowも
+開いている場合は、先にMaya Script Editorで次を実行します。
+依存するWindowを破棄してからutil・toolsの順に再読込します。
+
+```python
+import bd_tools
+
+bd_tools.reload_package(reload_util=True)
+```
+
+`bd_util.reload_package()`だけを実行すると、開いているtoolsのWindowに
+古いclass参照が残り、次のノード作成や選択変更でエラーになることがあります。
+その状態になった場合も上記のまとめた再読込を実行するか、Mayaを再起動します。
+
+次をMaya Script EditorのPythonタブで実行すると、現在のシーンに二つの
+検証用transformとbyte・short・long属性を作り、Windowを開きます。
+
+```python
+from bd_util._sample.maya.ui.int_sample import maya_plug
+
+window = maya_plug.show_demo()
+```
+
+byte・shortは単一属性、longは二ノードの一括編集です。
+二つのlongの初期値は異なり、「代表値に揃える」で混在解除とUndoを試せます。
+MayaのChannel Boxから値やロック状態を変更すると、Windowへ同期します。
+Windowを閉じても検証用ノードはシーンに残ります。
+既存ノードの同名属性を試す場合は`maya_plug.show(first_name, second_name)`を使います。
+`maya_plug.dispose()`はWindowとcallbackだけを破棄します。

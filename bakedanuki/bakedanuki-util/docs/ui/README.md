@@ -1201,9 +1201,9 @@ manager.dispose()
 ## 整数値のMVVMとQSpinBox
 
 `IntBinding`、`IntSpinBox`、`IntLabel`は符号付き32-bit整数を型変換せずに共有します。
-Python属性を正本にする導入例、入力範囲、現段階の対応範囲は
-[整数binding](int_binding.md)を参照してください。Maya属性とbdChannelBoxへの接続は
-後続段階で追加します。
+Python属性とMayaのbyte・short・long属性を正本にする導入例、入力範囲、
+動作確認用サンプルは[整数binding](int_binding.md)を参照してください。
+bdChannelBoxへの組込みは後続段階で追加します。
 
 ## 浮動小数点値のMVVMとQDoubleSpinBox
 

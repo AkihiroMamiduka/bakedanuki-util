@@ -19,6 +19,9 @@ from ....ui import (
     FloatBinding,
     FloatPresentation,
     FloatViewModel,
+    IntBinding,
+    IntPresentation,
+    IntViewModel,
     StringBinding,
     StringViewModel,
     qt,
@@ -32,9 +35,11 @@ from ...node.operator.attr.define.std.at.scalar.numeric.bool import (
 )
 from ...rounding import round_decimal_half_up
 from ._float_plug_value import FloatPlugValue
+from ._int_plug_value import IntPlugValue
 from ._enum_plug_value import EnumPlugValue
 from ._plugs_store import PlugsStore, PlugTarget, PlugWrite
 from .float_plug_resolver import MayaFloatPlug, require_float_plug
+from .int_plug_resolver import MayaIntPlug
 from .enum_plug_resolver import MayaEnumPlug, require_enum_plug
 from .plugs_state import MayaPlugTargetState
 from .string_plug_resolver import MayaStringPlug, require_string_plug
@@ -42,6 +47,8 @@ from .string_plug_resolver import MayaStringPlug, require_string_plug
 __all__ = [
     "MayaBoolPlugsBinding",
     "MayaFloatPlugsBinding",
+    "MayaIntPlugBinding",
+    "MayaIntPlugsBinding",
     "MayaEnumPlugsBinding",
     "MayaStringPlugsBinding",
 ]
@@ -452,6 +459,52 @@ class _FloatPlugsStore(PlugsStore[float]):
         return view_model.refresh_from_store(self)
 
 
+class _IntPlugsStore(PlugsStore[int]):
+    """byte・short・longの属性群を整数のまま一括編集する。"""
+
+    def __init__(
+        self,
+        view_model: IntViewModel,
+        plugs: Sequence[MayaIntPlug],
+        owner: qt.QObject,
+        *,
+        track_input_state: bool = False,
+    ) -> None:
+        """各属性の型と実体を検証し、代表値の監視を開始する。"""
+        self._view_model = view_model
+        codecs = tuple(IntPlugValue(plug) for plug in plugs)
+        if not codecs:
+            raise ValueError("plugsには一つ以上の属性を指定してください")
+        self._representative_codec = codecs[0]
+        targets = tuple(
+            PlugTarget(
+                plug.node,
+                plug.plug,
+                codec,
+                track_input_state=track_input_state,
+            )
+            for plug, codec in zip(plugs, codecs)
+        )
+        super().__init__(targets, owner)
+
+    @property
+    def presentation(self) -> IntPresentation:
+        """代表属性の型固有範囲とhard limitを返す。"""
+        if not self.is_available:
+            raise RuntimeError("代表属性は利用できません")
+        return self._representative_codec.presentation
+
+    def _refresh_view_model(self) -> bool:
+        """代表値、範囲と編集可否をViewModelへ同期する。"""
+        view_model = self._view_model
+        if not qt.isValid(view_model) or view_model.is_disposed:
+            self.dispose()
+            return False
+        if view_model.store is not self:
+            return False
+        return view_model.refresh_from_store(self)
+
+
 class _StringPlugsStore(PlugsStore[str]):
     """複数のMaya string属性を監視して一括入力するStore。"""
 
@@ -542,6 +595,17 @@ class _FloatPlugsViewModel(FloatViewModel):
         """Viewの連続編集状態を維持して一括入力を実行する。"""
         store = self.store
         if self.is_disposed or not isinstance(store, _FloatPlugsStore):
+            return False
+        return store.request_value(value)
+
+
+class _IntPlugsViewModel(IntViewModel):
+    """代表と同値の明示入力も、後続属性の差分へ適用する。"""
+
+    def _request_value(self, value: int) -> bool:
+        """整数の変更要求を属性群の差分判定へ渡す。"""
+        store = self.store
+        if self.is_disposed or not isinstance(store, _IntPlugsStore):
             return False
         return store.request_value(value)
 
@@ -768,6 +832,78 @@ class MayaFloatPlugsBinding(
                 self._owned_group.dispose()
         finally:
             super().dispose()
+
+
+class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
+    """単一または複数のMaya整数属性を一つのInt Viewへ接続する。"""
+
+    def __init__(
+        self,
+        plugs: Sequence[MayaIntPlug],
+        *,
+        track_input_state: bool = False,
+        parent: qt.QObject | None = None,
+    ) -> None:
+        """未接続のbyte・short・long属性を初期書込みなしで監視する。
+
+        Args:
+            plugs: 代表を先頭にした一つ以上の整数PlugOperator。
+            track_input_state: 入力接続と現在キーの状態を追跡する場合はTrue。
+            parent: このBindingを所有するQObject。
+        """
+        self._owned_group = None
+
+        def create_store(view_model: IntViewModel) -> _IntPlugsStore:
+            """専用ViewModelと同じ寿命の集約Storeを生成する。"""
+            store = _IntPlugsStore(
+                view_model,
+                plugs,
+                self,
+                track_input_state=track_input_state,
+            )
+            self._owned_group = store
+            return store
+
+        self._initialize(create_store, parent=parent)
+
+    def _create_view_model(self) -> IntViewModel:
+        """同じ代表値への入力も一括編集へ渡すViewModelを作る。"""
+        return _IntPlugsViewModel(parent=self)
+
+    def apply_representative_value(self) -> bool:
+        """代表の整数実値で編集可能な後続属性を揃える。"""
+        return self.set_value(self.store.read())
+
+    def refresh(self) -> bool:
+        """全対象の状態と代表値を、書込みなしで再取得する。"""
+        self._require_active()
+        return self.store.refresh()
+
+    def dispose(self) -> None:
+        """所有するMaya callbackを解除して入力を停止する。"""
+        try:
+            if self._owned_group is not None:
+                self._owned_group.dispose()
+        finally:
+            super().dispose()
+
+
+class MayaIntPlugBinding(MayaIntPlugsBinding):
+    """単一のMaya整数属性を一つのInt Viewへ接続する。"""
+
+    def __init__(
+        self,
+        plug: MayaIntPlug,
+        *,
+        track_input_state: bool = False,
+        parent: qt.QObject | None = None,
+    ) -> None:
+        """整数plug一つを監視するBindingを作る。"""
+        super().__init__(
+            (plug,),
+            track_input_state=track_input_state,
+            parent=parent,
+        )
 
 
 class MayaEnumPlugsBinding(
