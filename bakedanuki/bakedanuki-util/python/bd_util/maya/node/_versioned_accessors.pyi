@@ -4425,6 +4425,313 @@ class _ShapeWithTransformCreatorMaya2027(_ShapeWithTransformCreatorCommon):
         namespace: str | None = None,
     ) -> tuple[Transform, _VolumeLightMaya2026]: ...
 
+class _ShapeWithTransformCreatorMaya2025Plus(_ShapeWithTransformCreatorCommon):
+    pass
+
+class _ShapeWithTransformCreatorMaya2026Plus(_ShapeWithTransformCreatorCommon):
+    def aiAreaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AiAreaLightMaya2026]: ...
+    def aiMeshLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AiMeshLightMaya2026]: ...
+    def aiPhotometricLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AiPhotometricLightMaya2026]: ...
+    def aiVolume(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AiVolumeMaya2026 | _AiVolumeMaya2027]: ...
+    def areaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AreaLightMaya2026]: ...
+    def greasePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _GreasePlaneMaya2026]: ...
+    def greasePlaneRenderShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[
+        Transform,
+        _GreasePlaneRenderShapeMaya2026 | _GreasePlaneRenderShapeMaya2027,
+    ]: ...
+    def imagePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _ImagePlaneMaya2026]: ...
+    def mesh(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _MeshMaya2026 | _MeshMaya2027]: ...
+    def pointLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _PointLightMaya2026]: ...
+    def spotLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _SpotLightMaya2026]: ...
+    def volumeLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _VolumeLightMaya2026]: ...
+
+class _ShapeWithTransformCreatorMaya2027Plus(_ShapeWithTransformCreatorCommon):
+    def aiAreaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AiAreaLightMaya2026]: ...
+    def aiMeshLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AiMeshLightMaya2026]: ...
+    def aiPhotometricLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AiPhotometricLightMaya2026]: ...
+    def aiStandIn(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AiStandInMaya2027]: ...
+    def aiVolume(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AiVolumeMaya2027]: ...
+    def areaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _AreaLightMaya2026]: ...
+    def bezierCurve(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BezierCurveMaya2027]: ...
+    def greasePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _GreasePlaneMaya2026]: ...
+    def greasePlaneRenderShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _GreasePlaneRenderShapeMaya2027]: ...
+    def hairSystem(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _HairSystemMaya2027]: ...
+    def imagePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _ImagePlaneMaya2026]: ...
+    def mesh(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _MeshMaya2027]: ...
+    def nCloth(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _NClothMaya2027]: ...
+    def nParticle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _NParticleMaya2027]: ...
+    def nRigid(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _NRigidMaya2027]: ...
+    def nurbsCurve(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _NurbsCurveMaya2027]: ...
+    def nurbsSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _NurbsSurfaceMaya2027]: ...
+    def particle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _ParticleMaya2027]: ...
+    def pointLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _PointLightMaya2026]: ...
+    def spotLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _SpotLightMaya2026]: ...
+    def volumeLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _VolumeLightMaya2026]: ...
+
 class _NodeCreatorCommon:
     @property
     def modifier_manager(self) -> ModifierManager: ...
@@ -16978,6 +17285,2390 @@ class _NodeCreatorMaya2027(_NodeCreatorCommon):
         namespace: str | None = None,
     ) -> _VolumeLightMaya2026: ...
 
+class _NodeCreatorMaya2025Plus(_NodeCreatorCommon):
+    @property
+    def with_transform(self) -> _ShapeWithTransformCreatorMaya2025Plus: ...
+
+class _NodeCreatorMaya2026Plus(_NodeCreatorCommon):
+    @property
+    def with_transform(self) -> _ShapeWithTransformCreatorMaya2026Plus: ...
+    def absolute(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AbsoluteMaya2026: ...
+    def absoluteDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AbsoluteDL: ...
+    def acos(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AcosMaya2026: ...
+    def acosDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AcosDL: ...
+    def addDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AddDL: ...
+    def aiAmbientOcclusion(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiAmbientOcclusionMaya2026: ...
+    def aiAreaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AiAreaLightMaya2026: ...
+    def aiCompareString(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiCompareString: ...
+    def aiCurvature(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiCurvatureMaya2026: ...
+    def aiDistance(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiDistanceMaya2026: ...
+    def aiFlakes(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiFlakesMaya2026: ...
+    def aiFog(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiFogMaya2026: ...
+    def aiImagerInference(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiImagerInference: ...
+    def aiImagerLensEffects(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiImagerLensEffectsMaya2026 | _AiImagerLensEffectsMaya2027: ...
+    def aiImagerLightMixer(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiImagerLightMixerMaya2026 | _AiImagerLightMixerMaya2027: ...
+    def aiLayerShader(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiLayerShaderMaya2026: ...
+    def aiLightDecay(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiLightDecayMaya2026: ...
+    def aiMeshLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AiMeshLightMaya2026: ...
+    def aiOpenPBRSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiOpenPBRSurfaceMaya2026: ...
+    def aiOptions(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiOptionsMaya2026 | _AiOptionsMaya2027: ...
+    def aiPassthrough(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiPassthroughMaya2026: ...
+    def aiPhotometricLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AiPhotometricLightMaya2026: ...
+    def aiRampFloat(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiRampFloatMaya2026: ...
+    def aiRampRgb(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiRampRgbMaya2026: ...
+    def aiRaySwitch(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiRaySwitchMaya2026: ...
+    def aiRoundCorners(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiRoundCornersMaya2026: ...
+    def aiSkin(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiSkinMaya2026: ...
+    def aiStandardHair(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiStandardHairMaya2026: ...
+    def aiStandardSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiStandardSurfaceMaya2026: ...
+    def aiSwitch(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiSwitchMaya2026: ...
+    def aiTraceSet(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiTraceSetMaya2026: ...
+    def aiTwoSided(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiTwoSidedMaya2026: ...
+    def aiUtility(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiUtilityMaya2026: ...
+    def aiVolume(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AiVolumeMaya2026 | _AiVolumeMaya2027: ...
+    def angleBetween(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AngleBetweenMaya2026: ...
+    def angleBetweenDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AngleBetweenDL: ...
+    def animInContextNode(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimInContextNode: ...
+    def areaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AreaLightMaya2026: ...
+    def asin(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AsinMaya2026: ...
+    def asinDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AsinDL: ...
+    def atan(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AtanMaya2026: ...
+    def atan2(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _Atan2Maya2026: ...
+    def atan2DL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _Atan2DL: ...
+    def atanDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AtanDL: ...
+    def average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AverageMaya2026: ...
+    def averageDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AverageDL: ...
+    def axisFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AxisFromMatrixMaya2026: ...
+    def axisFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AxisFromMatrixDL: ...
+    def bifrostGeoToMaya(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _BifrostGeoToMayaMaya2026: ...
+    def ceil(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CeilMaya2026: ...
+    def ceilDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CeilDL: ...
+    def clampRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ClampRangeMaya2026: ...
+    def clampRangeDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ClampRangeDL: ...
+    def columnFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ColumnFromMatrixMaya2026 | _ColumnFromMatrixMaya2027: ...
+    def columnFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ColumnFromMatrixDL: ...
+    def cos(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CosMaya2026: ...
+    def cosDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CosDL: ...
+    def crossProduct(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CrossProductMaya2026: ...
+    def crossProductDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CrossProductDL: ...
+    def determinant(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DeterminantMaya2026: ...
+    def determinantDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DeterminantDL: ...
+    def dgaDelta(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DgaDelta: ...
+    def dgaTension(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DgaTension: ...
+    def dgaToArray(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DgaToArray: ...
+    def dgaVisualizer(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DgaVisualizer: ...
+    def distanceBetween(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DistanceBetweenMaya2026: ...
+    def distanceBetweenDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DistanceBetweenDL: ...
+    def divide(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DivideMaya2026: ...
+    def divideDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DivideDL: ...
+    def dotProduct(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DotProductMaya2026: ...
+    def dotProductDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DotProductDL: ...
+    def equal(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _EqualMaya2026: ...
+    def equalDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _EqualDL: ...
+    def floor(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _FloorMaya2026: ...
+    def floorDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _FloorDL: ...
+    def greasePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _GreasePlaneMaya2026: ...
+    def greasePlaneRenderShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _GreasePlaneRenderShapeMaya2026 | _GreasePlaneRenderShapeMaya2027: ...
+    def greaterThan(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _GreaterThanMaya2026: ...
+    def greaterThanDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _GreaterThanDL: ...
+    def hardwareRenderingGlobals(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _HardwareRenderingGlobalsMaya2026: ...
+    def imagePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _ImagePlaneMaya2026: ...
+    def inverseLerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _InverseLerpMaya2026: ...
+    def inverseLerpDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _InverseLerpDL: ...
+    def length(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LengthMaya2026: ...
+    def lengthDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LengthDL: ...
+    def lerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LerpMaya2026: ...
+    def lerpDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LerpDL: ...
+    def lessThan(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LessThanMaya2026: ...
+    def lessThanDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LessThanDL: ...
+    def log(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LogMaya2026: ...
+    def logDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LogDL: ...
+    def max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MaxMaya2026: ...
+    def maxDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MaxDL: ...
+    def mesh(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _MeshMaya2026 | _MeshMaya2027: ...
+    def min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MinMaya2026: ...
+    def minDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MinDL: ...
+    def modulo(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ModuloMaya2026: ...
+    def moduloDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ModuloDL: ...
+    def multDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultDL: ...
+    def multiply(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyMaya2026: ...
+    def multiplyDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyDL: ...
+    def multiplyPointByMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyPointByMatrixMaya2026: ...
+    def multiplyPointByMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyPointByMatrixDL: ...
+    def multiplyVectorByMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyVectorByMatrixMaya2026: ...
+    def multiplyVectorByMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyVectorByMatrixDL: ...
+    def negate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _NegateMaya2026: ...
+    def negateDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _NegateDL: ...
+    def normalize(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _NormalizeMaya2026: ...
+    def normalizeDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _NormalizeDL: ...
+    def openPBRSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _OpenPBRSurfaceMaya2026: ...
+    def pointLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _PointLightMaya2026: ...
+    def pointMatrixMultDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PointMatrixMultDL: ...
+    def polyBoolean(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PolyBooleanMaya2026: ...
+    def polyExtrudeEdge(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PolyExtrudeEdgeMaya2026: ...
+    def polySmartBevel(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PolySmartBevel | _PolySmartBevelMaya2027: ...
+    def polySmartExtrude(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PolySmartExtrudeMaya2026: ...
+    def power(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PowerMaya2026: ...
+    def powerDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PowerDL: ...
+    def rotateVector(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RotateVectorMaya2026: ...
+    def rotateVectorDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RotateVectorDL: ...
+    def round(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RoundMaya2026: ...
+    def roundDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RoundDL: ...
+    def rowFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RowFromMatrixMaya2026 | _RowFromMatrixMaya2027: ...
+    def rowFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RowFromMatrixDL: ...
+    def scaleFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ScaleFromMatrixMaya2026: ...
+    def scaleFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ScaleFromMatrixDL: ...
+    def sin(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SinMaya2026: ...
+    def sinDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SinDL: ...
+    def smoothStep(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SmoothStepMaya2026: ...
+    def smoothStepDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SmoothStepDL: ...
+    def spotLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _SpotLightMaya2026: ...
+    def standardSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _StandardSurfaceMaya2026: ...
+    def subtract(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SubtractMaya2026: ...
+    def subtractDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SubtractDL: ...
+    def sum(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SumMaya2026: ...
+    def sumDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SumDL: ...
+    def tan(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TanMaya2026: ...
+    def tanDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TanDL: ...
+    def translationFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TranslationFromMatrixMaya2026: ...
+    def translationFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TranslationFromMatrixDL: ...
+    def truncate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TruncateMaya2026: ...
+    def truncateDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TruncateDL: ...
+    def volumeLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _VolumeLightMaya2026: ...
+
+class _NodeCreatorMaya2027Plus(_NodeCreatorCommon):
+    @property
+    def with_transform(self) -> _ShapeWithTransformCreatorMaya2027Plus: ...
+    def MASH_Waiter(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MASHWaiterMaya2027: ...
+    def UsdDefaultSettings(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _UsdDefaultSettings: ...
+    def absolute(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AbsoluteMaya2026: ...
+    def absoluteDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AbsoluteDL: ...
+    def acos(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AcosMaya2026: ...
+    def acosDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AcosDL: ...
+    def addDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AddDL: ...
+    def aiAOVDriver(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiAOVDriverMaya2027: ...
+    def aiAmbientOcclusion(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiAmbientOcclusionMaya2026: ...
+    def aiAreaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AiAreaLightMaya2026: ...
+    def aiColorJitter(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiColorJitterMaya2027: ...
+    def aiCompareString(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiCompareString: ...
+    def aiCurvature(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiCurvatureMaya2026: ...
+    def aiDistance(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiDistanceMaya2026: ...
+    def aiFlakes(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiFlakesMaya2026: ...
+    def aiFog(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiFogMaya2026: ...
+    def aiGaussianSplatShader(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiGaussianSplatShader: ...
+    def aiImagerDenoiserNoice(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiImagerDenoiserNoiceMaya2027: ...
+    def aiImagerInference(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiImagerInference: ...
+    def aiImagerLensEffects(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiImagerLensEffectsMaya2027: ...
+    def aiImagerLightMixer(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiImagerLightMixerMaya2027: ...
+    def aiLayerShader(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiLayerShaderMaya2026: ...
+    def aiLightDecay(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiLightDecayMaya2026: ...
+    def aiLine(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiLine: ...
+    def aiMeshLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AiMeshLightMaya2026: ...
+    def aiNearestPoints(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiNearestPoints: ...
+    def aiNormalMap(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiNormalMapMaya2027: ...
+    def aiOpenPBRSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiOpenPBRSurfaceMaya2026: ...
+    def aiOptions(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiOptionsMaya2027: ...
+    def aiPassthrough(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiPassthroughMaya2026: ...
+    def aiPhotometricLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AiPhotometricLightMaya2026: ...
+    def aiRampFloat(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiRampFloatMaya2026: ...
+    def aiRampRgb(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiRampRgbMaya2026: ...
+    def aiRaySwitch(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiRaySwitchMaya2026: ...
+    def aiRoundCorners(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiRoundCornersMaya2026: ...
+    def aiShaderToRgba(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiShaderToRgba: ...
+    def aiSkin(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiSkinMaya2026: ...
+    def aiStandIn(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AiStandInMaya2027: ...
+    def aiStandardHair(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiStandardHairMaya2026: ...
+    def aiStandardSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiStandardSurfaceMaya2026: ...
+    def aiSwitch(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiSwitchMaya2026: ...
+    def aiToneZones(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiToneZones: ...
+    def aiTraceSet(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiTraceSetMaya2026: ...
+    def aiTwoSided(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiTwoSidedMaya2026: ...
+    def aiUtility(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiUtilityMaya2026: ...
+    def aiUvTransform(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AiUvTransformMaya2027: ...
+    def aiVolume(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AiVolumeMaya2027: ...
+    def angleBetween(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AngleBetweenMaya2026: ...
+    def angleBetweenDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AngleBetweenDL: ...
+    def animCurveTA(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimCurveTAMaya2027: ...
+    def animCurveTL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimCurveTLMaya2027: ...
+    def animCurveTT(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimCurveTTMaya2027: ...
+    def animCurveTU(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimCurveTUMaya2027: ...
+    def animCurveUA(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimCurveUAMaya2027: ...
+    def animCurveUL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimCurveULMaya2027: ...
+    def animCurveUT(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimCurveUTMaya2027: ...
+    def animCurveUU(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimCurveUUMaya2027: ...
+    def animInContextNode(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AnimInContextNode: ...
+    def animLayer(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        override: bool = False,
+        namespace: str | None = None,
+    ) -> _AnimLayerMaya2027: ...
+    def areaLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _AreaLightMaya2026: ...
+    def asin(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AsinMaya2026: ...
+    def asinDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AsinDL: ...
+    def atan(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AtanMaya2026: ...
+    def atan2(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _Atan2Maya2026: ...
+    def atan2DL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _Atan2DL: ...
+    def atanDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AtanDL: ...
+    def average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AverageMaya2026: ...
+    def averageDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AverageDL: ...
+    def axisFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AxisFromMatrixMaya2026: ...
+    def axisFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _AxisFromMatrixDL: ...
+    def bezierCurve(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BezierCurveMaya2027: ...
+    def bifrostBoard(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _BifrostBoardMaya2027: ...
+    def bifrostClosureConverter(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _BifrostClosureConverter: ...
+    def bifrostGeoToMaya(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _BifrostGeoToMayaMaya2026: ...
+    def bump2d(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _Bump2dMaya2027: ...
+    def ceil(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CeilMaya2026: ...
+    def ceilDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CeilDL: ...
+    def character(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CharacterMaya2027: ...
+    def clampRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ClampRangeMaya2026: ...
+    def clampRangeDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ClampRangeDL: ...
+    def columnFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ColumnFromMatrixMaya2027: ...
+    def columnFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ColumnFromMatrixDL: ...
+    def cos(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CosMaya2026: ...
+    def cosDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CosDL: ...
+    def creaseSet(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CreaseSetMaya2027: ...
+    def crossProduct(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CrossProductMaya2026: ...
+    def crossProductDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CrossProductDL: ...
+    def cryptomatte(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _CryptomatteMaya2027: ...
+    def determinant(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DeterminantMaya2026: ...
+    def determinantDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DeterminantDL: ...
+    def dgaDelta(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DgaDelta: ...
+    def dgaTension(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DgaTension: ...
+    def dgaToArray(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DgaToArray: ...
+    def dgaVisualizer(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DgaVisualizer: ...
+    def distanceBetween(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DistanceBetweenMaya2026: ...
+    def distanceBetweenDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DistanceBetweenDL: ...
+    def divide(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DivideMaya2026: ...
+    def divideDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DivideDL: ...
+    def dotProduct(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DotProductMaya2026: ...
+    def dotProductDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _DotProductDL: ...
+    def equal(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _EqualMaya2026: ...
+    def equalDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _EqualDL: ...
+    def floor(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _FloorMaya2026: ...
+    def floorDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _FloorDL: ...
+    def greasePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _GreasePlaneMaya2026: ...
+    def greasePlaneRenderShape(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _GreasePlaneRenderShapeMaya2027: ...
+    def greaterThan(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _GreaterThanMaya2026: ...
+    def greaterThanDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _GreaterThanDL: ...
+    def hairSystem(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _HairSystemMaya2027: ...
+    def hardwareRenderingGlobals(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _HardwareRenderingGlobalsMaya2026: ...
+    def imagePlane(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _ImagePlaneMaya2026: ...
+    def inverseLerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _InverseLerpMaya2026: ...
+    def inverseLerpDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _InverseLerpDL: ...
+    def keyingGroup(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _KeyingGroupMaya2027: ...
+    def length(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LengthMaya2026: ...
+    def lengthDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LengthDL: ...
+    def lerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LerpMaya2026: ...
+    def lerpDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LerpDL: ...
+    def lessThan(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LessThanMaya2026: ...
+    def lessThanDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LessThanDL: ...
+    def log(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LogMaya2026: ...
+    def logDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _LogDL: ...
+    def max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MaxMaya2026: ...
+    def maxDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MaxDL: ...
+    def mesh(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _MeshMaya2027: ...
+    def min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MinMaya2026: ...
+    def minDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MinDL: ...
+    def modulo(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ModuloMaya2026: ...
+    def moduloDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ModuloDL: ...
+    def multDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultDL: ...
+    def multiply(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyMaya2026: ...
+    def multiplyDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyDL: ...
+    def multiplyPointByMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyPointByMatrixMaya2026: ...
+    def multiplyPointByMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyPointByMatrixDL: ...
+    def multiplyVectorByMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyVectorByMatrixMaya2026: ...
+    def multiplyVectorByMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _MultiplyVectorByMatrixDL: ...
+    def nCloth(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _NClothMaya2027: ...
+    def nParticle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _NParticleMaya2027: ...
+    def nRigid(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _NRigidMaya2027: ...
+    def negate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _NegateMaya2026: ...
+    def negateDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _NegateDL: ...
+    def normalize(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _NormalizeMaya2026: ...
+    def normalizeDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _NormalizeDL: ...
+    def nurbsCurve(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _NurbsCurveMaya2027: ...
+    def nurbsSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _NurbsSurfaceMaya2027: ...
+    def objectSet(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ObjectSetMaya2027: ...
+    def openPBRSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _OpenPBRSurfaceMaya2026: ...
+    def particle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _ParticleMaya2027: ...
+    def pointLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _PointLightMaya2026: ...
+    def pointMatrixMultDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PointMatrixMultDL: ...
+    def polyBoolean(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PolyBooleanMaya2026: ...
+    def polyExtrudeEdge(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PolyExtrudeEdgeMaya2026: ...
+    def polySmartBevel(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PolySmartBevelMaya2027: ...
+    def polySmartExtrude(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PolySmartExtrudeMaya2026: ...
+    def power(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PowerMaya2026: ...
+    def powerDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _PowerDL: ...
+    def resultCurveTimeToAngular(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ResultCurveTimeToAngularMaya2027: ...
+    def resultCurveTimeToLinear(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ResultCurveTimeToLinearMaya2027: ...
+    def resultCurveTimeToTime(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ResultCurveTimeToTimeMaya2027: ...
+    def resultCurveTimeToUnitless(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ResultCurveTimeToUnitlessMaya2027: ...
+    def rotateVector(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RotateVectorMaya2026: ...
+    def rotateVectorDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RotateVectorDL: ...
+    def round(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RoundMaya2026: ...
+    def roundDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RoundDL: ...
+    def rowFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RowFromMatrixMaya2027: ...
+    def rowFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _RowFromMatrixDL: ...
+    def scaleFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ScaleFromMatrixMaya2026: ...
+    def scaleFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ScaleFromMatrixDL: ...
+    def shadingEngine(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ShadingEngineMaya2027: ...
+    def shot(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ShotMaya2027: ...
+    def shotLabel(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _ShotLabel: ...
+    def sin(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SinMaya2026: ...
+    def sinDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SinDL: ...
+    def smoothStep(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SmoothStepMaya2026: ...
+    def smoothStepDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SmoothStepDL: ...
+    def spotLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _SpotLightMaya2026: ...
+    def standardSurface(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _StandardSurfaceMaya2026: ...
+    def subtract(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SubtractMaya2026: ...
+    def subtractDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SubtractDL: ...
+    def sum(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SumMaya2026: ...
+    def sumDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _SumDL: ...
+    def tan(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TanMaya2026: ...
+    def tanDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TanDL: ...
+    def textureBakeSet(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TextureBakeSetMaya2027: ...
+    def trackInfoManager(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TrackInfoManagerMaya2027: ...
+    def translationFromMatrix(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TranslationFromMatrixMaya2026: ...
+    def translationFromMatrixDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TranslationFromMatrixDL: ...
+    def truncate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TruncateMaya2026: ...
+    def truncateDL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _TruncateDL: ...
+    def vertexBakeSet(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        namespace: str | None = None,
+    ) -> _VertexBakeSetMaya2027: ...
+    def volumeLight(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _VolumeLightMaya2026: ...
+
 class _ExistingNodeAccessorCommon:
     @property
     def modifier_manager(self) -> ModifierManager: ...
@@ -25002,6 +27693,1813 @@ class _ExistingNodeAccessorMaya2026(_ExistingNodeAccessorCommon):
     ) -> _XgmSplineDescription: ...
 
 class _ExistingNodeAccessorMaya2027(_ExistingNodeAccessorCommon):
+    def MASH_Waiter(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MASHWaiterMaya2027: ...
+    def UsdDefaultSettings(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UsdDefaultSettings: ...
+    def absolute(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AbsoluteMaya2026: ...
+    def absoluteDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AbsoluteDL: ...
+    def acos(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AcosMaya2026: ...
+    def acosDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AcosDL: ...
+    def addDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AddDL: ...
+    def aiAOVDriver(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiAOVDriverMaya2027: ...
+    def aiAmbientOcclusion(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiAmbientOcclusionMaya2026: ...
+    def aiAreaLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiAreaLightMaya2026: ...
+    def aiColorJitter(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiColorJitterMaya2027: ...
+    def aiCompareString(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiCompareString: ...
+    def aiCurvature(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiCurvatureMaya2026: ...
+    def aiDistance(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiDistanceMaya2026: ...
+    def aiFlakes(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiFlakesMaya2026: ...
+    def aiFog(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiFogMaya2026: ...
+    def aiGaussianSplat(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiGaussianSplat: ...
+    def aiGaussianSplatShader(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiGaussianSplatShader: ...
+    def aiImagerDenoiserNoice(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiImagerDenoiserNoiceMaya2027: ...
+    def aiImagerInference(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiImagerInference: ...
+    def aiImagerLensEffects(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiImagerLensEffectsMaya2027: ...
+    def aiImagerLightMixer(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiImagerLightMixerMaya2027: ...
+    def aiLayerShader(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiLayerShaderMaya2026: ...
+    def aiLightDecay(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiLightDecayMaya2026: ...
+    def aiLine(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiLine: ...
+    def aiMeshLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiMeshLightMaya2026: ...
+    def aiNearestPoints(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiNearestPoints: ...
+    def aiNormalMap(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiNormalMapMaya2027: ...
+    def aiOpenPBRSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiOpenPBRSurfaceMaya2026: ...
+    def aiOptions(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiOptionsMaya2027: ...
+    def aiPassthrough(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiPassthroughMaya2026: ...
+    def aiPhotometricLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiPhotometricLightMaya2026: ...
+    def aiRampFloat(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiRampFloatMaya2026: ...
+    def aiRampRgb(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiRampRgbMaya2026: ...
+    def aiRaySwitch(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiRaySwitchMaya2026: ...
+    def aiRoundCorners(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiRoundCornersMaya2026: ...
+    def aiShaderToRgba(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiShaderToRgba: ...
+    def aiSkin(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiSkinMaya2026: ...
+    def aiStandIn(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiStandInMaya2027: ...
+    def aiStandardHair(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiStandardHairMaya2026: ...
+    def aiStandardSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiStandardSurfaceMaya2026: ...
+    def aiSwitch(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiSwitchMaya2026: ...
+    def aiToneZones(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiToneZones: ...
+    def aiTraceSet(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiTraceSetMaya2026: ...
+    def aiTwoSided(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiTwoSidedMaya2026: ...
+    def aiUtility(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiUtilityMaya2026: ...
+    def aiUvTransform(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiUvTransformMaya2027: ...
+    def aiVolume(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiVolumeMaya2027: ...
+    def angleBetween(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AngleBetweenMaya2026: ...
+    def angleBetweenDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AngleBetweenDL: ...
+    def animCurveTA(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimCurveTAMaya2027: ...
+    def animCurveTL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimCurveTLMaya2027: ...
+    def animCurveTT(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimCurveTTMaya2027: ...
+    def animCurveTU(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimCurveTUMaya2027: ...
+    def animCurveUA(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimCurveUAMaya2027: ...
+    def animCurveUL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimCurveULMaya2027: ...
+    def animCurveUT(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimCurveUTMaya2027: ...
+    def animCurveUU(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimCurveUUMaya2027: ...
+    def animInContextNode(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimInContextNode: ...
+    def animLayer(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimLayerMaya2027: ...
+    def areaLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AreaLightMaya2026: ...
+    def asin(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AsinMaya2026: ...
+    def asinDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AsinDL: ...
+    def atan(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AtanMaya2026: ...
+    def atan2(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _Atan2Maya2026: ...
+    def atan2DL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _Atan2DL: ...
+    def atanDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AtanDL: ...
+    def average(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AverageMaya2026: ...
+    def averageDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AverageDL: ...
+    def axisFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AxisFromMatrixMaya2026: ...
+    def axisFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AxisFromMatrixDL: ...
+    def bezierCurve(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BezierCurveMaya2027: ...
+    def bifrostBoard(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BifrostBoardMaya2027: ...
+    def bifrostClosureConverter(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BifrostClosureConverter: ...
+    def bifrostGeoToMaya(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BifrostGeoToMayaMaya2026: ...
+    def bifrostGraphShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BifrostGraphShapeMaya2027: ...
+    def bifrostRiggingContainer(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BifrostRiggingContainerMaya2026: ...
+    def bump2d(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _Bump2dMaya2027: ...
+    def ceil(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CeilMaya2026: ...
+    def ceilDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CeilDL: ...
+    def character(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CharacterMaya2027: ...
+    def clampRange(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ClampRangeMaya2026: ...
+    def clampRangeDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ClampRangeDL: ...
+    def columnFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ColumnFromMatrixMaya2027: ...
+    def columnFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ColumnFromMatrixDL: ...
+    def cos(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CosMaya2026: ...
+    def cosDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CosDL: ...
+    def creaseSet(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CreaseSetMaya2027: ...
+    def crossProduct(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CrossProductMaya2026: ...
+    def crossProductDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CrossProductDL: ...
+    def cryptomatte(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CryptomatteMaya2027: ...
+    def determinant(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DeterminantMaya2026: ...
+    def determinantDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DeterminantDL: ...
+    def dgaDelta(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DgaDelta: ...
+    def dgaTension(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DgaTension: ...
+    def dgaToArray(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DgaToArray: ...
+    def dgaVisualizer(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DgaVisualizer: ...
+    def distanceBetween(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DistanceBetweenMaya2026: ...
+    def distanceBetweenDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DistanceBetweenDL: ...
+    def divide(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DivideMaya2026: ...
+    def divideDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DivideDL: ...
+    def dotProduct(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DotProductMaya2026: ...
+    def dotProductDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DotProductDL: ...
+    def equal(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _EqualMaya2026: ...
+    def equalDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _EqualDL: ...
+    def floor(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _FloorMaya2026: ...
+    def floorDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _FloorDL: ...
+    def gpuCache(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _GpuCacheMaya2027: ...
+    def greasePlane(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _GreasePlaneMaya2026: ...
+    def greasePlaneRenderShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _GreasePlaneRenderShapeMaya2027: ...
+    def greaterThan(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _GreaterThanMaya2026: ...
+    def greaterThanDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _GreaterThanDL: ...
+    def hairSystem(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _HairSystemMaya2027: ...
+    def hardwareRenderingGlobals(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _HardwareRenderingGlobalsMaya2026: ...
+    def imagePlane(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ImagePlaneMaya2026: ...
+    def inverseLerp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _InverseLerpMaya2026: ...
+    def inverseLerpDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _InverseLerpDL: ...
+    def keyingGroup(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _KeyingGroupMaya2027: ...
+    def length(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LengthMaya2026: ...
+    def lengthDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LengthDL: ...
+    def lerp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LerpMaya2026: ...
+    def lerpDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LerpDL: ...
+    def lessThan(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LessThanMaya2026: ...
+    def lessThanDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LessThanDL: ...
+    def log(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LogMaya2026: ...
+    def logDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LogDL: ...
+    def max(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MaxMaya2026: ...
+    def maxDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MaxDL: ...
+    def mayaUsdProxyShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MayaUsdProxyShapeMaya2027: ...
+    def mayaUsdProxyShapeBase(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MayaUsdProxyShapeBaseMaya2027: ...
+    def mesh(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MeshMaya2027: ...
+    def min(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MinMaya2026: ...
+    def minDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MinDL: ...
+    def modulo(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ModuloMaya2026: ...
+    def moduloDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ModuloDL: ...
+    def multDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultDL: ...
+    def multiply(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyMaya2026: ...
+    def multiplyDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyDL: ...
+    def multiplyPointByMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyPointByMatrixMaya2026: ...
+    def multiplyPointByMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyPointByMatrixDL: ...
+    def multiplyVectorByMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyVectorByMatrixMaya2026: ...
+    def multiplyVectorByMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyVectorByMatrixDL: ...
+    def nCloth(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NClothMaya2027: ...
+    def nParticle(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NParticleMaya2027: ...
+    def nRigid(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NRigidMaya2027: ...
+    def negate(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NegateMaya2026: ...
+    def negateDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NegateDL: ...
+    def normalize(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NormalizeMaya2026: ...
+    def normalizeDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NormalizeDL: ...
+    def nurbsCurve(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NurbsCurveMaya2027: ...
+    def nurbsSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NurbsSurfaceMaya2027: ...
+    def objectSet(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ObjectSetMaya2027: ...
+    def openPBRSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _OpenPBRSurfaceMaya2026: ...
+    def particle(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ParticleMaya2027: ...
+    def pointLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PointLightMaya2026: ...
+    def pointMatrixMultDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PointMatrixMultDL: ...
+    def polyBoolean(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PolyBooleanMaya2026: ...
+    def polyExtrudeEdge(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PolyExtrudeEdgeMaya2026: ...
+    def polySmartBevel(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PolySmartBevelMaya2027: ...
+    def polySmartExtrude(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PolySmartExtrudeMaya2026: ...
+    def power(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PowerMaya2026: ...
+    def powerDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PowerDL: ...
+    def resultCurveTimeToAngular(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ResultCurveTimeToAngularMaya2027: ...
+    def resultCurveTimeToLinear(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ResultCurveTimeToLinearMaya2027: ...
+    def resultCurveTimeToTime(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ResultCurveTimeToTimeMaya2027: ...
+    def resultCurveTimeToUnitless(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ResultCurveTimeToUnitlessMaya2027: ...
+    def rotateVector(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RotateVectorMaya2026: ...
+    def rotateVectorDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RotateVectorDL: ...
+    def round(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RoundMaya2026: ...
+    def roundDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RoundDL: ...
+    def rowFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RowFromMatrixMaya2027: ...
+    def rowFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RowFromMatrixDL: ...
+    def scaleFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ScaleFromMatrixMaya2026: ...
+    def scaleFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ScaleFromMatrixDL: ...
+    def shadingEngine(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ShadingEngineMaya2027: ...
+    def shot(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ShotMaya2027: ...
+    def shotLabel(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ShotLabel: ...
+    def sin(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SinMaya2026: ...
+    def sinDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SinDL: ...
+    def smoothStep(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SmoothStepMaya2026: ...
+    def smoothStepDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SmoothStepDL: ...
+    def spotLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SpotLightMaya2026: ...
+    def standardSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _StandardSurfaceMaya2026: ...
+    def subtract(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SubtractMaya2026: ...
+    def subtractDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SubtractDL: ...
+    def sum(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SumMaya2026: ...
+    def sumDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SumDL: ...
+    def tan(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TanMaya2026: ...
+    def tanDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TanDL: ...
+    def textureBakeSet(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TextureBakeSetMaya2027: ...
+    def trackInfoManager(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TrackInfoManagerMaya2027: ...
+    def translationFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TranslationFromMatrixMaya2026: ...
+    def translationFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TranslationFromMatrixDL: ...
+    def truncate(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TruncateMaya2026: ...
+    def truncateDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TruncateDL: ...
+    def ufeLightArea(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightArea: ...
+    def ufeLightCylinder(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightCylinder: ...
+    def ufeLightDefault(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightDefault: ...
+    def ufeLightDirectional(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightDirectional: ...
+    def ufeLightDisk(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightDisk: ...
+    def ufeLightDome(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightDome: ...
+    def ufeLightSphere(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightSphere: ...
+    def ufeLightSpot(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightSpot: ...
+    def vertexBakeSet(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _VertexBakeSetMaya2027: ...
+    def volumeLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _VolumeLightMaya2026: ...
+    def xgmDescription(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _XgmDescriptionMaya2027: ...
+    def xgmSplineDescription(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _XgmSplineDescriptionMaya2027: ...
+
+class _ExistingNodeAccessorMaya2025Plus(_ExistingNodeAccessorCommon):
+    pass
+
+class _ExistingNodeAccessorMaya2026Plus(_ExistingNodeAccessorCommon):
+    def absolute(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AbsoluteMaya2026: ...
+    def absoluteDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AbsoluteDL: ...
+    def acos(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AcosMaya2026: ...
+    def acosDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AcosDL: ...
+    def addDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AddDL: ...
+    def aiAmbientOcclusion(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiAmbientOcclusionMaya2026: ...
+    def aiAreaLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiAreaLightMaya2026: ...
+    def aiCompareString(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiCompareString: ...
+    def aiCurvature(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiCurvatureMaya2026: ...
+    def aiDistance(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiDistanceMaya2026: ...
+    def aiFlakes(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiFlakesMaya2026: ...
+    def aiFog(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiFogMaya2026: ...
+    def aiImagerInference(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiImagerInference: ...
+    def aiImagerLensEffects(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiImagerLensEffectsMaya2026 | _AiImagerLensEffectsMaya2027: ...
+    def aiImagerLightMixer(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiImagerLightMixerMaya2026 | _AiImagerLightMixerMaya2027: ...
+    def aiLayerShader(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiLayerShaderMaya2026: ...
+    def aiLightDecay(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiLightDecayMaya2026: ...
+    def aiMeshLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiMeshLightMaya2026: ...
+    def aiOpenPBRSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiOpenPBRSurfaceMaya2026: ...
+    def aiOptions(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiOptionsMaya2026 | _AiOptionsMaya2027: ...
+    def aiPassthrough(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiPassthroughMaya2026: ...
+    def aiPhotometricLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiPhotometricLightMaya2026: ...
+    def aiRampFloat(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiRampFloatMaya2026: ...
+    def aiRampRgb(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiRampRgbMaya2026: ...
+    def aiRaySwitch(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiRaySwitchMaya2026: ...
+    def aiRoundCorners(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiRoundCornersMaya2026: ...
+    def aiSkin(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiSkinMaya2026: ...
+    def aiStandardHair(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiStandardHairMaya2026: ...
+    def aiStandardSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiStandardSurfaceMaya2026: ...
+    def aiSwitch(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiSwitchMaya2026: ...
+    def aiTraceSet(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiTraceSetMaya2026: ...
+    def aiTwoSided(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiTwoSidedMaya2026: ...
+    def aiUtility(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiUtilityMaya2026: ...
+    def aiVolume(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AiVolumeMaya2026 | _AiVolumeMaya2027: ...
+    def angleBetween(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AngleBetweenMaya2026: ...
+    def angleBetweenDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AngleBetweenDL: ...
+    def animInContextNode(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AnimInContextNode: ...
+    def areaLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AreaLightMaya2026: ...
+    def asin(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AsinMaya2026: ...
+    def asinDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AsinDL: ...
+    def atan(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AtanMaya2026: ...
+    def atan2(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _Atan2Maya2026: ...
+    def atan2DL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _Atan2DL: ...
+    def atanDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AtanDL: ...
+    def average(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AverageMaya2026: ...
+    def averageDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AverageDL: ...
+    def axisFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AxisFromMatrixMaya2026: ...
+    def axisFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _AxisFromMatrixDL: ...
+    def bifrostGeoToMaya(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BifrostGeoToMayaMaya2026: ...
+    def bifrostRiggingContainer(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BifrostRiggingContainerMaya2026: ...
+    def ceil(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CeilMaya2026: ...
+    def ceilDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CeilDL: ...
+    def clampRange(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ClampRangeMaya2026: ...
+    def clampRangeDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ClampRangeDL: ...
+    def columnFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ColumnFromMatrixMaya2026 | _ColumnFromMatrixMaya2027: ...
+    def columnFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ColumnFromMatrixDL: ...
+    def cos(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CosMaya2026: ...
+    def cosDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CosDL: ...
+    def crossProduct(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CrossProductMaya2026: ...
+    def crossProductDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _CrossProductDL: ...
+    def determinant(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DeterminantMaya2026: ...
+    def determinantDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DeterminantDL: ...
+    def dgaDelta(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DgaDelta: ...
+    def dgaTension(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DgaTension: ...
+    def dgaToArray(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DgaToArray: ...
+    def dgaVisualizer(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DgaVisualizer: ...
+    def distanceBetween(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DistanceBetweenMaya2026: ...
+    def distanceBetweenDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DistanceBetweenDL: ...
+    def divide(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DivideMaya2026: ...
+    def divideDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DivideDL: ...
+    def dotProduct(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DotProductMaya2026: ...
+    def dotProductDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _DotProductDL: ...
+    def equal(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _EqualMaya2026: ...
+    def equalDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _EqualDL: ...
+    def floor(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _FloorMaya2026: ...
+    def floorDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _FloorDL: ...
+    def greasePlane(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _GreasePlaneMaya2026: ...
+    def greasePlaneRenderShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _GreasePlaneRenderShapeMaya2026 | _GreasePlaneRenderShapeMaya2027: ...
+    def greaterThan(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _GreaterThanMaya2026: ...
+    def greaterThanDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _GreaterThanDL: ...
+    def hardwareRenderingGlobals(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _HardwareRenderingGlobalsMaya2026: ...
+    def imagePlane(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ImagePlaneMaya2026: ...
+    def inverseLerp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _InverseLerpMaya2026: ...
+    def inverseLerpDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _InverseLerpDL: ...
+    def length(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LengthMaya2026: ...
+    def lengthDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LengthDL: ...
+    def lerp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LerpMaya2026: ...
+    def lerpDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LerpDL: ...
+    def lessThan(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LessThanMaya2026: ...
+    def lessThanDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LessThanDL: ...
+    def log(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LogMaya2026: ...
+    def logDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _LogDL: ...
+    def max(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MaxMaya2026: ...
+    def maxDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MaxDL: ...
+    def mayaUsdProxyShape(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MayaUsdProxyShapeMaya2026 | _MayaUsdProxyShapeMaya2027: ...
+    def mesh(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MeshMaya2026 | _MeshMaya2027: ...
+    def min(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MinMaya2026: ...
+    def minDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MinDL: ...
+    def modulo(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ModuloMaya2026: ...
+    def moduloDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ModuloDL: ...
+    def multDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultDL: ...
+    def multiply(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyMaya2026: ...
+    def multiplyDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyDL: ...
+    def multiplyPointByMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyPointByMatrixMaya2026: ...
+    def multiplyPointByMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyPointByMatrixDL: ...
+    def multiplyVectorByMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyVectorByMatrixMaya2026: ...
+    def multiplyVectorByMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _MultiplyVectorByMatrixDL: ...
+    def negate(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NegateMaya2026: ...
+    def negateDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NegateDL: ...
+    def normalize(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NormalizeMaya2026: ...
+    def normalizeDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _NormalizeDL: ...
+    def openPBRSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _OpenPBRSurfaceMaya2026: ...
+    def pointLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PointLightMaya2026: ...
+    def pointMatrixMultDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PointMatrixMultDL: ...
+    def polyBoolean(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PolyBooleanMaya2026: ...
+    def polyExtrudeEdge(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PolyExtrudeEdgeMaya2026: ...
+    def polySmartBevel(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PolySmartBevel | _PolySmartBevelMaya2027: ...
+    def polySmartExtrude(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PolySmartExtrudeMaya2026: ...
+    def power(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PowerMaya2026: ...
+    def powerDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _PowerDL: ...
+    def rotateVector(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RotateVectorMaya2026: ...
+    def rotateVectorDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RotateVectorDL: ...
+    def round(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RoundMaya2026: ...
+    def roundDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RoundDL: ...
+    def rowFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RowFromMatrixMaya2026 | _RowFromMatrixMaya2027: ...
+    def rowFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _RowFromMatrixDL: ...
+    def scaleFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ScaleFromMatrixMaya2026: ...
+    def scaleFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _ScaleFromMatrixDL: ...
+    def sin(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SinMaya2026: ...
+    def sinDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SinDL: ...
+    def smoothStep(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SmoothStepMaya2026: ...
+    def smoothStepDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SmoothStepDL: ...
+    def spotLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SpotLightMaya2026: ...
+    def standardSurface(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _StandardSurfaceMaya2026: ...
+    def subtract(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SubtractMaya2026: ...
+    def subtractDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SubtractDL: ...
+    def sum(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SumMaya2026: ...
+    def sumDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _SumDL: ...
+    def tan(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TanMaya2026: ...
+    def tanDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TanDL: ...
+    def translationFromMatrix(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TranslationFromMatrixMaya2026: ...
+    def translationFromMatrixDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TranslationFromMatrixDL: ...
+    def truncate(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TruncateMaya2026: ...
+    def truncateDL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _TruncateDL: ...
+    def ufeLightArea(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightArea: ...
+    def ufeLightCylinder(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightCylinder: ...
+    def ufeLightDefault(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightDefault: ...
+    def ufeLightDirectional(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightDirectional: ...
+    def ufeLightDisk(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightDisk: ...
+    def ufeLightDome(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightDome: ...
+    def ufeLightSphere(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightSphere: ...
+    def ufeLightSpot(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _UfeLightSpot: ...
+    def volumeLight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _VolumeLightMaya2026: ...
+
+class _ExistingNodeAccessorMaya2027Plus(_ExistingNodeAccessorCommon):
     def MASH_Waiter(
         self,
         node: str | om.MObject,

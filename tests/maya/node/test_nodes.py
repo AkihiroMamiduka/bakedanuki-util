@@ -28,6 +28,12 @@ def test_typing_maya_version_does_not_select_the_runtime_maya(new_scene):
         maya_major_version() >= 2026
     )
 
+    range_nodes = Nodes(typing_maya_version="2026+")
+    assert (
+        range_nodes.create.available_node_names()
+        == nodes.create.available_node_names()
+    )
+
 
 def test_nodes_can_import_from_maya_node_package(new_scene):
     from bd_util.maya.node import Nodes

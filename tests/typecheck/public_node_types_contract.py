@@ -63,6 +63,9 @@ def versioned_node_type_list_contract() -> None:
     nodes_2025 = bdu.Nodes(typing_maya_version="2025")
     nodes_2026 = bdu.Nodes(typing_maya_version="2026")
     nodes_2027 = bdu.Nodes(typing_maya_version="2027")
+    nodes_2025_plus = bdu.Nodes(typing_maya_version="2025+")
+    nodes_2026_plus = bdu.Nodes(typing_maya_version="2026+")
+    nodes_2027_plus = bdu.Nodes(typing_maya_version="2027+")
 
     common: list[bdu.node_types.Absolute] = [common_nodes.create.absolute()]
     absolute_2025: list[bdu.node_types.maya2025.Absolute] = [
@@ -74,6 +77,15 @@ def versioned_node_type_list_contract() -> None:
     absolute_2027: list[bdu.node_types.maya2027.Absolute] = [
         nodes_2027.create.absolute()
     ]
+    absolute_2025_plus: list[bdu.node_types.maya2025_plus.Absolute] = [
+        nodes_2025_plus.create.absolute()
+    ]
+    absolute_2026_plus: list[bdu.node_types.maya2026_plus.Absolute] = [
+        nodes_2026_plus.create.absolute()
+    ]
+    absolute_2027_plus: list[bdu.node_types.maya2027_plus.Absolute] = [
+        nodes_2027_plus.create.absolute()
+    ]
 
     assert_type(
         common[0].input,
@@ -82,12 +94,34 @@ def versioned_node_type_list_contract() -> None:
     assert_type(absolute_2025[0].input, DoubleLinearPlugOperator)
     assert_type(absolute_2026[0].input, DoublePlugOperator)
     assert_type(absolute_2027[0].input, DoublePlugOperator)
+    assert_type(
+        absolute_2025_plus[0].input,
+        DoubleLinearPlugOperator | DoublePlugOperator,
+    )
+    assert_type(absolute_2026_plus[0].input, DoublePlugOperator)
+    assert_type(absolute_2027_plus[0].input, DoublePlugOperator)
+
+    bevels: list[bdu.node_types.maya2026_plus.PolySmartBevel] = [
+        nodes_2026_plus.create.polySmartBevel()
+    ]
+    bevels.append(nodes_2027.create.polySmartBevel())
+    bevel = bevels[0]
+    bevel.cutbackRelaxation  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+
+    _, area_light = nodes_2026_plus.create.with_transform.aiAreaLight()
+    assert_type(area_light, bdu.node_types.maya2026_plus.AiAreaLight)
 
     bdu.node_types.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     bdu.node_types.maya2025.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    bdu.node_types.maya2025_plus.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    bdu.node_types.maya2026_plus.ShotLabel  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     assert_type(
         nodes_2026.create.absoluteDL(),
         bdu.node_types.maya2026.AbsoluteDL,
+    )
+    assert_type(
+        nodes_2026_plus.create.absoluteDL(),
+        bdu.node_types.maya2026_plus.AbsoluteDL,
     )
 
 

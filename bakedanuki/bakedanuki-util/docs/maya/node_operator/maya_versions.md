@@ -26,6 +26,8 @@ nodes = bdu.Nodes(typing_maya_version="2027")
 一方、IDE は Maya 2027 用の `nodes.create` / `nodes.existing` を表示します。
 NodeOperator class参照と型注釈には `bdu.node_types` を使い、version 固有の型は
 `bdu.node_types.maya2027` のように module を明示します。
+複数 version を対象にする場合は、対応済み version の下限を `"2026+"` のように指定し、
+型注釈には `bdu.node_types.maya2026_plus` を使います。
 
 ## Runtime schema の選択
 
@@ -84,12 +86,35 @@ constructor の結果型を version ごとに変えるため、選択は `__init
 `typing_maya_version` を省略した `Nodes()` は、全対応 version に共通する安全な API 面を
 返します。version 間で attribute 型だけが異なる場合、共通面では union 型になります。
 
+`"<version>+"` は、指定した version から正式対応済みの最新 version までの
+共通部分を選びます。現時点の対象は次の通りです。
+
+| `typing_maya_version` | 補完対象 |
+| --- | --- |
+| 省略 | Maya 2025 / 2026 / 2027 の共通部分 |
+| `"2025+"` | Maya 2025 / 2026 / 2027 の共通部分 |
+| `"2026+"` | Maya 2026 / 2027 の共通部分 |
+| `"2027+"` | Maya 2027 |
+| `"2026"` など | 指定した単一 version |
+
+例えば `"2026+"` では、両 version に存在する `absoluteDL` は補完され、
+Maya 2027 専用の `shotLabel` は補完されません。version 間で同じノードの
+attribute が異なる場合は、対象 version のいずれでも使える属性だけを提示し、
+異なる型は union 型で表します。`nodes.create.with_transform` にも同じ範囲が適用されます。
+将来、正式対応 version が増えた場合は `+` の範囲も広がり、共通部分を再計算します。
+
 型注釈には、共通面なら `bdu.node_types.Joint`、version を指定する場合は
 `bdu.node_types.maya2027.Joint` のように対応する module を使います。
 `typing_maya_version` の値から、別の変数に書いた型注釈の module は自動選択されません。
 `bdu.node_types` は全対応 version で共通するクラス名を公開し、version 別 module は
 それぞれの version で利用可能なクラス名を公開します。実行時のクラス解決は
 どの module から参照しても起動中の Maya に従います。
+`bdu.node_types.maya2025_plus` / `maya2026_plus` / `maya2027_plus` は、対応する
+`+` の範囲で共通するクラス名を公開します。例えば
+`bdu.node_types.maya2026_plus.PolySmartBevel` は Maya 2026 / 2027 の定義を
+含む型 alias です。`"2025+"` と全版共通 module、`"2027+"` と単一版 module は、
+現時点では同じ補完面になります。`typing_maya_version` の選択は
+`bdu.node_types` の module を自動で切り替えません。
 
 version 別 module が補完に表示する名前も、実行時にその Maya で利用できるとは限りません。
 例えば Maya 2025 で `maya2027.DgaVisualizer` を関数の型注釈として評価すると、

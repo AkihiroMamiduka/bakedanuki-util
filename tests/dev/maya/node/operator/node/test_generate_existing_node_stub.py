@@ -251,6 +251,7 @@ def test_versioned_creator_surfaces_follow_node_availability():
     maya_2025_names = method_names("_NodeCreatorMaya2025")
     maya_2026_names = method_names("_NodeCreatorMaya2026")
     maya_2027_names = method_names("_NodeCreatorMaya2027")
+    maya_2026_plus_names = method_names("_NodeCreatorMaya2026Plus")
 
     assert "absolute" in common_names
     assert "controllerShape" in common_names
@@ -264,14 +265,22 @@ def test_versioned_creator_surfaces_follow_node_availability():
     assert "absoluteDL" in maya_2026_names
     assert "shotLabel" not in maya_2026_names
     assert {"absoluteDL", "shotLabel"}.issubset(maya_2027_names)
+    assert "absoluteDL" in maya_2026_plus_names
+    assert {"addDoubleLinear", "shotLabel"}.isdisjoint(maya_2026_plus_names)
 
     existing_common_names = method_names("_ExistingNodeAccessorCommon")
     assert "__getattr__" not in existing_common_names
 
-    def public_node_type_names(maya_version: int | None) -> set[str]:
+    def public_node_type_names(
+        maya_version: int | None = None,
+        *,
+        minimum_maya_version: int | None = None,
+    ) -> set[str]:
         public_tree = ast.parse(
             stub_generator.generate_public_node_types_stub_code(
-                python_root, maya_version
+                python_root,
+                maya_version,
+                minimum_maya_version=minimum_maya_version,
             )
         )
         return {
@@ -285,6 +294,7 @@ def test_versioned_creator_surfaces_follow_node_availability():
     maya_2025_names = public_node_type_names(2025)
     maya_2026_names = public_node_type_names(2026)
     maya_2027_names = public_node_type_names(2027)
+    maya_2026_plus_names = public_node_type_names(minimum_maya_version=2026)
 
     assert "Absolute" in common_names
     assert "BdControllerShape" in common_names
@@ -297,6 +307,8 @@ def test_versioned_creator_surfaces_follow_node_availability():
     assert "AbsoluteDL" in maya_2026_names
     assert "ShotLabel" not in maya_2026_names
     assert {"AbsoluteDL", "ShotLabel"}.issubset(maya_2027_names)
+    assert "AbsoluteDL" in maya_2026_plus_names
+    assert {"AddDoubleLinear", "ShotLabel"}.isdisjoint(maya_2026_plus_names)
 
     standard_surface_2026 = classes["_StandardSurfaceMaya2026"]
     assert len(standard_surface_2026.bases) == 1
@@ -382,6 +394,16 @@ def test_public_node_types_stubs_match_generated_code():
             output_path,
             stub_generator.generate_public_node_types_stub_code(
                 python_root, maya_version
+            ),
+        )
+    for minimum_version in (2025, 2026, 2027):
+        output_path = stub_generator.public_node_types_stub_path(
+            python_root, minimum_maya_version=minimum_version
+        )
+        assert stub_generator.stub_code_is_current(
+            output_path,
+            stub_generator.generate_public_node_types_stub_code(
+                python_root, minimum_maya_version=minimum_version
             ),
         )
 

@@ -7,6 +7,9 @@ from typing import TypeAlias
 from . import maya2025 as maya2025
 from . import maya2026 as maya2026
 from . import maya2027 as maya2027
+from . import maya2025_plus as maya2025_plus
+from . import maya2026_plus as maya2026_plus
+from . import maya2027_plus as maya2027_plus
 
 from ..maya.node._versioned_accessors import (
     BaseGeometryVarGroup as BaseGeometryVarGroup,

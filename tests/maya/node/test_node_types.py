@@ -44,7 +44,24 @@ def test_public_node_types_reference_the_same_classes(new_scene):
     assert bd_util.node_types.maya2025.Joint is Joint
     assert bd_util.node_types.maya2026.Joint is Joint
     assert bd_util.node_types.maya2027.Joint is Joint
+    assert bd_util.node_types.maya2025_plus.Joint is Joint
+    assert bd_util.node_types.maya2026_plus.Joint is Joint
+    assert bd_util.node_types.maya2027_plus.Joint is Joint
     assert "Joint" in dir(bd_util.node_types)
+
+
+def test_minimum_version_node_types_follow_the_running_maya(new_scene):
+    import bd_util as bdu
+    from bd_util.maya.node._maya_version import maya_major_version
+
+    if maya_major_version() == 2025:
+        with pytest.raises(AttributeError, match="absoluteDL.*unavailable"):
+            _ = bdu.node_types.maya2026_plus.AbsoluteDL
+    else:
+        assert (
+            bdu.node_types.maya2026_plus.AbsoluteDL
+            is bdu.node_types.maya2026.AbsoluteDL
+        )
 
 
 def test_node_types_resolves_exact_maya_node_type_names(new_scene):

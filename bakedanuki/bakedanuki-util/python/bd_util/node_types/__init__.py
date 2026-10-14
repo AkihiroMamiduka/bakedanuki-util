@@ -1,7 +1,14 @@
 # coding: utf-8
 """型注釈にも利用できる Maya ノードクラスの公開入口。"""
 
-from . import maya2025, maya2026, maya2027
+from . import (
+    maya2025,
+    maya2025_plus,
+    maya2026,
+    maya2026_plus,
+    maya2027,
+    maya2027_plus,
+)
 from ._runtime import __getattr__ as __getattr__
 from ._runtime import __dir__ as _runtime_dir
 from ._runtime import available_class_names as available_class_names

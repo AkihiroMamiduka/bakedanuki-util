@@ -123,8 +123,20 @@ nodes = bdu.Nodes(typing_maya_version="2027")
 この指定は`nodes.create` / `nodes.existing`の静的な見え方だけを選び、
 実行 Maya の選択、version 検証、利用可能 node の変更には使われません。省略時は、
 対応する3 versionに共通する安全な補完面になります。
+複数 version を対象にする場合は `"2026+"` のように下限を指定します。
+
+```python
+nodes = bdu.Nodes(typing_maya_version="2026+")
+bevels: list[bdu.node_types.maya2026_plus.PolySmartBevel] = []
+bevels.append(nodes.create.polySmartBevel())
+```
+
+現在の `"2026+"` は Maya 2026 / 2027 の共通面です。
+`"2025+"` は省略時と、`"2027+"` は `"2027"` と同じ範囲になります。
+将来、正式対応 version が増えると `+` の対象も広がります。
 型注釈を version ごとの補完面に合わせる場合は、
-`bdu.node_types.maya2027.Joint` のように対応する module を指定します。
+`bdu.node_types.maya2027.Joint` または
+`bdu.node_types.maya2026_plus.PolySmartBevel` のように対応する module を指定します。
 
 ### Numeric Compound Values
 

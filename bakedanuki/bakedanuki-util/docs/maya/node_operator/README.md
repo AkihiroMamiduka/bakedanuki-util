@@ -320,9 +320,13 @@ schema と利用可能ノードが使われます。指定を省略した場合�
 安全な API 面が提示されます。version 固有ノードや attribute まで補完したいコードで
 のみ指定してください。この指定で実行時にversion固有nodeが有効になるわけではなく、
 起動中のMayaで利用できないnodeへアクセスした場合は`AttributeError`になります。
+`"2026+"` は正式対応済みの Maya 2026 以降、現在は 2026 / 2027 の共通面を選びます。
+`"2025+"` は省略時、`"2027+"` は `"2027"` と同じ範囲です。
 
 `typing_maya_version` が選ぶ補完面は `nodes.create` と `nodes.existing` です。
-`bdu.node_types` の型注釈は、必要に応じて version 別 module を明示します。
+`nodes.create.with_transform` にも同じ範囲が適用されます。
+`bdu.node_types` の型注釈は、必要に応じて version 別 module または
+`bdu.node_types.maya2026_plus` のような範囲別 module を明示します。
 実行時schemaと補完stubの生成方法は[Generator](generator.md)、version別の検証入口は
 [Testing](testing.md)、次のMaya versionを追加する保守手順は
 [Maya Version Support](maya_versions.md)を参照してください。
@@ -386,8 +390,10 @@ nodes.modifier_manager.do_it_dg()
 型補完の既定面は `Nodes()` と同様に全対応 Maya version の共通部分です。
 `Nodes(typing_maya_version="2027")` を使う場合は、型注釈に
 `bdu.node_types.maya2027.Joint` を使って補完対象を揃えます。
-`maya2025` / `maya2026` も利用できます。これらの module 名は IDE の型補完だけを
-選択し、実行中の Maya version を変更しません。
+`maya2025` / `maya2026` も利用できます。`"2026+"` に合わせる場合は、
+`bdu.node_types.maya2026_plus.PolySmartBevel` のように指定します。
+`maya2025_plus` / `maya2027_plus` も利用できます。これらの module 名は
+IDE の型補完だけを選択し、実行中の Maya version を変更しません。
 version 間で属性定義が異なるクラスの共通名は union 型の alias です。
 `bdu.node_types.Absolute.input` のようなクラス属性の型まで追う場合は、
 `bdu.node_types.maya2025.Absolute.input` のように version 別 module を指定します。

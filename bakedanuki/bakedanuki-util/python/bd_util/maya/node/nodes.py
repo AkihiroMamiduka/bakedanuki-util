@@ -138,7 +138,9 @@ class Nodes:
         modifier_manager: ModifierManager | None = None,
         *,
         namespace: str | None = None,
-        typing_maya_version: Literal["2025", "2026", "2027"] | None = None,
+        typing_maya_version: (
+            Literal["2025", "2026", "2027", "2025+", "2026+", "2027+"] | None
+        ) = None,
     ):
         """ノード操作の入口を初期化する。
 
@@ -147,6 +149,7 @@ class Nodes:
             namespace: 作成時の既定 namespace。`None` は既定値なし。
                 相対指定はこの呼び出し時のカレント namespace を基準にする。
             typing_maya_version: IDE の補完対象にする Maya バージョン。
+                `+` を付けると、指定版以降の正式対応版に共通する補完面を選ぶ。
                 実行時のノード定義は現在の Maya に従う。
         """
         # `typing_maya_version` は型補完だけに使う。実行時は読み込んだ Maya の版に従う。

@@ -13,6 +13,27 @@ _ABSTRACT_NODE_TYPES = frozenset({"baseGeometryVarGroup", "shape"})
 _SUPPORTED_MAYA_VERSIONS = (2025, 2026, 2027)
 
 
+def _versions_from(minimum_version: int) -> tuple[int, ...]:
+    if minimum_version not in _SUPPORTED_MAYA_VERSIONS:
+        raise ValueError(f"Unsupported Maya version: {minimum_version}")
+    return tuple(
+        version
+        for version in _SUPPORTED_MAYA_VERSIONS
+        if version >= minimum_version
+    )
+
+
+def _version_facades() -> tuple[tuple[str, tuple[int, ...]], ...]:
+    exact = tuple(
+        (f"Maya{version}", (version,)) for version in _SUPPORTED_MAYA_VERSIONS
+    )
+    minimum = tuple(
+        (f"Maya{version}Plus", _versions_from(version))
+        for version in _SUPPORTED_MAYA_VERSIONS
+    )
+    return exact + minimum
+
+
 @dataclass(frozen=True)
 class NodeDefinition:
     """手書きノードクラスから読み取った型と公開メソッドの情報。"""
@@ -355,9 +376,10 @@ def _effective_return_type(
     return f"_{definition.class_name}"
 
 
-def _common_return_type(
+def _return_type_for_versions(
     python_root: Path,
     definition: NodeDefinition,
+    maya_versions: tuple[int, ...],
     version_ranges: dict[str, tuple[tuple[int, int | None], ...]],
 ) -> str:
     return_types = tuple(
@@ -368,10 +390,23 @@ def _common_return_type(
                 maya_version,
                 version_ranges,
             )
-            for maya_version in _SUPPORTED_MAYA_VERSIONS
+            for maya_version in maya_versions
         )
     )
     return " | ".join(return_types)
+
+
+def _common_return_type(
+    python_root: Path,
+    definition: NodeDefinition,
+    version_ranges: dict[str, tuple[tuple[int, int | None], ...]],
+) -> str:
+    return _return_type_for_versions(
+        python_root,
+        definition,
+        _SUPPORTED_MAYA_VERSIONS,
+        version_ranges,
+    )
 
 
 def _collect_creator_definitions(
@@ -458,16 +493,16 @@ def _append_shape_with_transform_method(
 def _version_facade_requires_override(
     python_root: Path,
     definition: NodeDefinition,
-    maya_version: int,
+    maya_versions: tuple[int, ...],
     common_node_types: set[str],
     version_ranges: dict[str, tuple[tuple[int, int | None], ...]],
 ) -> bool:
     if definition.node_type not in common_node_types:
         return True
-    return _effective_return_type(
+    return _return_type_for_versions(
         python_root,
         definition,
-        maya_version,
+        maya_versions,
         version_ranges,
     ) != _common_return_type(
         python_root,
@@ -734,27 +769,27 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
             ),
         )
 
-    for maya_version in _SUPPORTED_MAYA_VERSIONS:
+    for facade_name, maya_versions in _version_facades():
         lines.extend(
             [
                 "",
                 "",
-                f"class _ShapeWithTransformCreatorMaya{maya_version}(",
+                f"class _ShapeWithTransformCreator{facade_name}(",
                 "    _ShapeWithTransformCreatorCommon",
                 "):",
             ]
         )
+        method_count = 0
         for definition in shape_definitions:
-            if not _definition_is_available(
-                definition,
-                maya_version,
-                version_ranges,
+            if not all(
+                _definition_is_available(definition, version, version_ranges)
+                for version in maya_versions
             ):
                 continue
             if not _version_facade_requires_override(
                 python_root,
                 definition,
-                maya_version,
+                maya_versions,
                 common_node_types,
                 version_ranges,
             ):
@@ -762,13 +797,16 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
             _append_shape_with_transform_method(
                 lines,
                 definition,
-                _effective_return_type(
+                _return_type_for_versions(
                     python_root,
                     definition,
-                    maya_version,
+                    maya_versions,
                     version_ranges,
                 ),
             )
+            method_count += 1
+        if not method_count:
+            lines.append("    pass")
 
     lines.extend(
         [
@@ -823,30 +861,29 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
             ),
         )
 
-    for maya_version in _SUPPORTED_MAYA_VERSIONS:
+    for facade_name, maya_versions in _version_facades():
         lines.extend(
             [
                 "",
                 "",
-                f"class _NodeCreatorMaya{maya_version}(_NodeCreatorCommon):",
+                f"class _NodeCreator{facade_name}(_NodeCreatorCommon):",
                 "    @property",
                 (
                     "    def with_transform(self) -> "
-                    f"_ShapeWithTransformCreatorMaya{maya_version}: ..."
+                    f"_ShapeWithTransformCreator{facade_name}: ..."
                 ),
             ]
         )
         for definition in creator_definitions:
-            if not _definition_is_available(
-                definition,
-                maya_version,
-                version_ranges,
+            if not all(
+                _definition_is_available(definition, version, version_ranges)
+                for version in maya_versions
             ):
                 continue
             if not _version_facade_requires_override(
                 python_root,
                 definition,
-                maya_version,
+                maya_versions,
                 common_node_types,
                 version_ranges,
             ):
@@ -854,10 +891,10 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
             _append_creator_method(
                 lines,
                 definition,
-                _effective_return_type(
+                _return_type_for_versions(
                     python_root,
                     definition,
-                    maya_version,
+                    maya_versions,
                     version_ranges,
                 ),
             )
@@ -887,27 +924,27 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
             ),
         )
 
-    for maya_version in _SUPPORTED_MAYA_VERSIONS:
+    for facade_name, maya_versions in _version_facades():
         lines.extend(
             [
                 "",
                 "",
-                f"class _ExistingNodeAccessorMaya{maya_version}(",
+                f"class _ExistingNodeAccessor{facade_name}(",
                 "    _ExistingNodeAccessorCommon",
                 "):",
             ]
         )
+        method_count = 0
         for definition in definitions:
-            if not _definition_is_available(
-                definition,
-                maya_version,
-                version_ranges,
+            if not all(
+                _definition_is_available(definition, version, version_ranges)
+                for version in maya_versions
             ):
                 continue
             if not _version_facade_requires_override(
                 python_root,
                 definition,
-                maya_version,
+                maya_versions,
                 common_node_types,
                 version_ranges,
             ):
@@ -915,13 +952,16 @@ def generate_versioned_accessors_stub_code(python_root: Path) -> str:
             _append_existing_accessor_method(
                 lines,
                 definition,
-                _effective_return_type(
+                _return_type_for_versions(
                     python_root,
                     definition,
-                    maya_version,
+                    maya_versions,
                     version_ranges,
                 ),
             )
+            method_count += 1
+        if not method_count:
+            lines.append("    pass")
 
     missing_versioned_node_types = set(version_ranges) - set(
         definitions_by_type
@@ -1002,13 +1042,15 @@ def generate_nodes_stub_code(python_root: Path) -> str:
         "from .operator.node import NodesKeyframeManager",
         "from ._versioned_accessors import (",
         "    _ExistingNodeAccessorCommon,",
-        "    _ExistingNodeAccessorMaya2025,",
-        "    _ExistingNodeAccessorMaya2026,",
-        "    _ExistingNodeAccessorMaya2027,",
+        *(
+            f"    _ExistingNodeAccessor{facade_name},"
+            for facade_name, _ in _version_facades()
+        ),
         "    _NodeCreatorCommon,",
-        "    _NodeCreatorMaya2025,",
-        "    _NodeCreatorMaya2026,",
-        "    _NodeCreatorMaya2027,",
+        *(
+            f"    _NodeCreator{facade_name},"
+            for facade_name, _ in _version_facades()
+        ),
         ")",
         "",
         "",
@@ -1032,6 +1074,27 @@ def generate_nodes_stub_code(python_root: Path) -> str:
                 "",
             ]
         )
+    for minimum_version in _SUPPORTED_MAYA_VERSIONS:
+        lines.extend(
+            [
+                "    @overload",
+                "    def __new__(",
+                "        cls,",
+                "        modifier_manager: ModifierManager | None = None,",
+                "        *,",
+                "        namespace: str | None = None,",
+                (
+                    "        typing_maya_version: "
+                    f'Literal["{minimum_version}+"],'
+                ),
+                f"    ) -> _NodesMaya{minimum_version}Plus: ...",
+                "",
+            ]
+        )
+    literal_versions = ", ".join(
+        [f'"{version}"' for version in _SUPPORTED_MAYA_VERSIONS]
+        + [f'"{version}+"' for version in _SUPPORTED_MAYA_VERSIONS]
+    )
     lines.extend(
         [
             "    @overload",
@@ -1050,7 +1113,7 @@ def generate_nodes_stub_code(python_root: Path) -> str:
             "        namespace: str | None = None,",
             (
                 "        typing_maya_version: "
-                'Literal["2025", "2026", "2027"] | None = None,'
+                f"Literal[{literal_versions}] | None = None,"
             ),
             "    ) -> None: ...",
             "",
@@ -1080,22 +1143,19 @@ def generate_nodes_stub_code(python_root: Path) -> str:
         ]
     )
 
-    for maya_version in _SUPPORTED_MAYA_VERSIONS:
+    for facade_name, _ in _version_facades():
         lines.extend(
             [
                 "",
                 "",
-                f"class _NodesMaya{maya_version}(Nodes):",
+                f"class _Nodes{facade_name}(Nodes):",
                 "    @property",
-                (
-                    "    def create(self) -> "
-                    f"_NodeCreatorMaya{maya_version}: ..."
-                ),
+                ("    def create(self) -> " f"_NodeCreator{facade_name}: ..."),
                 "",
                 "    @property",
                 (
                     "    def existing(self) -> "
-                    f"_ExistingNodeAccessorMaya{maya_version}: ..."
+                    f"_ExistingNodeAccessor{facade_name}: ..."
                 ),
             ]
         )
@@ -1198,13 +1258,25 @@ def generate_node_types_stub_code(python_root: Path) -> str:
 def generate_public_node_types_stub_code(
     python_root: Path,
     maya_version: int | None = None,
+    *,
+    minimum_maya_version: int | None = None,
 ) -> str:
     """型注釈用の公開ノードクラス名を版ごとに生成する。"""
+    if maya_version is not None and minimum_maya_version is not None:
+        raise ValueError("Specify one Maya version selector.")
     if (
         maya_version is not None
         and maya_version not in _SUPPORTED_MAYA_VERSIONS
     ):
         raise ValueError(f"Unsupported Maya version: {maya_version}")
+
+    is_common = maya_version is None and minimum_maya_version is None
+    if maya_version is not None:
+        maya_versions = (maya_version,)
+    elif minimum_maya_version is not None:
+        maya_versions = _versions_from(minimum_maya_version)
+    else:
+        maya_versions = _SUPPORTED_MAYA_VERSIONS
 
     definitions = sorted(
         collect_node_definitions(python_root),
@@ -1219,9 +1291,13 @@ def generate_public_node_types_stub_code(
         "from typing import TypeAlias",
         "",
     ]
-    if maya_version is None:
+    if is_common:
         lines.extend(
             f"from . import maya{version} as maya{version}"
+            for version in _SUPPORTED_MAYA_VERSIONS
+        )
+        lines.extend(
+            f"from . import maya{version}_plus as maya{version}_plus"
             for version in _SUPPORTED_MAYA_VERSIONS
         )
         lines.append("")
@@ -1232,7 +1308,7 @@ def generate_public_node_types_stub_code(
             f"from {accessor_module} import {class_name} as {class_name}"
         )
 
-    if maya_version is None:
+    if is_common:
         lines.extend(
             [
                 "",
@@ -1242,34 +1318,17 @@ def generate_public_node_types_stub_code(
         )
 
     for definition in definitions:
-        if maya_version is None:
-            if not all(
-                _definition_is_available(
-                    definition,
-                    version,
-                    version_ranges,
-                )
-                for version in _SUPPORTED_MAYA_VERSIONS
-            ):
-                continue
-            return_type = _common_return_type(
-                python_root,
-                definition,
-                version_ranges,
-            )
-        else:
-            if not _definition_is_available(
-                definition,
-                maya_version,
-                version_ranges,
-            ):
-                continue
-            return_type = _effective_return_type(
-                python_root,
-                definition,
-                maya_version,
-                version_ranges,
-            )
+        if not all(
+            _definition_is_available(definition, version, version_ranges)
+            for version in maya_versions
+        ):
+            continue
+        return_type = _return_type_for_versions(
+            python_root,
+            definition,
+            maya_versions,
+            version_ranges,
+        )
 
         lines.append("")
         for variant_type in return_type.split(" | "):
@@ -1475,9 +1534,16 @@ def node_types_stub_path(python_root: Path) -> Path:
 def public_node_types_stub_path(
     python_root: Path,
     maya_version: int | None = None,
+    *,
+    minimum_maya_version: int | None = None,
 ) -> Path:
     """型注釈用の公開ノード型 stub の出力先を返す。"""
     node_types_dir = python_root / "bd_util" / "node_types"
+    if maya_version is not None and minimum_maya_version is not None:
+        raise ValueError("Specify one Maya version selector.")
+    if minimum_maya_version is not None:
+        _versions_from(minimum_maya_version)
+        return node_types_dir / f"maya{minimum_maya_version}_plus.pyi"
     if maya_version is None:
         return node_types_dir / "__init__.pyi"
     if maya_version not in _SUPPORTED_MAYA_VERSIONS:
@@ -1552,6 +1618,17 @@ def main() -> None:
                 ),
             )
             for maya_version in _SUPPORTED_MAYA_VERSIONS
+        ),
+        *(
+            (
+                public_node_types_stub_path(
+                    python_root, minimum_maya_version=minimum_version
+                ),
+                generate_public_node_types_stub_code(
+                    python_root, minimum_maya_version=minimum_version
+                ),
+            )
+            for minimum_version in _SUPPORTED_MAYA_VERSIONS
         ),
     )
 

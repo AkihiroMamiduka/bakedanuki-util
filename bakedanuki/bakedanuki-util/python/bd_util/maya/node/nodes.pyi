@@ -15,10 +15,16 @@ from ._versioned_accessors import (
     _ExistingNodeAccessorMaya2025,
     _ExistingNodeAccessorMaya2026,
     _ExistingNodeAccessorMaya2027,
+    _ExistingNodeAccessorMaya2025Plus,
+    _ExistingNodeAccessorMaya2026Plus,
+    _ExistingNodeAccessorMaya2027Plus,
     _NodeCreatorCommon,
     _NodeCreatorMaya2025,
     _NodeCreatorMaya2026,
     _NodeCreatorMaya2027,
+    _NodeCreatorMaya2025Plus,
+    _NodeCreatorMaya2026Plus,
+    _NodeCreatorMaya2027Plus,
 )
 
 class Nodes:
@@ -52,6 +58,30 @@ class Nodes:
         modifier_manager: ModifierManager | None = None,
         *,
         namespace: str | None = None,
+        typing_maya_version: Literal["2025+"],
+    ) -> _NodesMaya2025Plus: ...
+    @overload
+    def __new__(
+        cls,
+        modifier_manager: ModifierManager | None = None,
+        *,
+        namespace: str | None = None,
+        typing_maya_version: Literal["2026+"],
+    ) -> _NodesMaya2026Plus: ...
+    @overload
+    def __new__(
+        cls,
+        modifier_manager: ModifierManager | None = None,
+        *,
+        namespace: str | None = None,
+        typing_maya_version: Literal["2027+"],
+    ) -> _NodesMaya2027Plus: ...
+    @overload
+    def __new__(
+        cls,
+        modifier_manager: ModifierManager | None = None,
+        *,
+        namespace: str | None = None,
         typing_maya_version: None = None,
     ) -> Nodes: ...
     def __init__(
@@ -59,7 +89,9 @@ class Nodes:
         modifier_manager: ModifierManager | None = None,
         *,
         namespace: str | None = None,
-        typing_maya_version: Literal["2025", "2026", "2027"] | None = None,
+        typing_maya_version: (
+            Literal["2025", "2026", "2027", "2025+", "2026+", "2027+"] | None
+        ) = None,
     ) -> None: ...
     @property
     def modifier_manager(self) -> ModifierManager: ...
@@ -96,3 +128,21 @@ class _NodesMaya2027(Nodes):
     def create(self) -> _NodeCreatorMaya2027: ...
     @property
     def existing(self) -> _ExistingNodeAccessorMaya2027: ...
+
+class _NodesMaya2025Plus(Nodes):
+    @property
+    def create(self) -> _NodeCreatorMaya2025Plus: ...
+    @property
+    def existing(self) -> _ExistingNodeAccessorMaya2025Plus: ...
+
+class _NodesMaya2026Plus(Nodes):
+    @property
+    def create(self) -> _NodeCreatorMaya2026Plus: ...
+    @property
+    def existing(self) -> _ExistingNodeAccessorMaya2026Plus: ...
+
+class _NodesMaya2027Plus(Nodes):
+    @property
+    def create(self) -> _NodeCreatorMaya2027Plus: ...
+    @property
+    def existing(self) -> _ExistingNodeAccessorMaya2027Plus: ...
