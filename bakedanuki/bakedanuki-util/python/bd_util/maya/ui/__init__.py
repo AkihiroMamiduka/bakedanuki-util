@@ -82,6 +82,7 @@ from .dock import (
 from .layout import reset_and_show_ui_layout, reset_ui_layout
 from .main_window import get_main_window
 from .menu import (
+    ensure_config_file,
     is_menu_auto_install_enabled,
     register_menu_item,
     set_menu_auto_install_enabled,
@@ -186,6 +187,7 @@ __all__ = [
     "MayaUiStateTracker",
     "MayaWindowController",
     "register_menu_item",
+    "ensure_config_file",
     "is_menu_auto_install_enabled",
     "set_menu_auto_install_enabled",
     "unregister_menu_owner",

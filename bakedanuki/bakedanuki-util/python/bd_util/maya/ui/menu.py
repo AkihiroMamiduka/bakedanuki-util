@@ -7,6 +7,7 @@ import json
 import os
 import re
 import tempfile
+import tomllib
 from collections.abc import Callable
 from pathlib import Path
 from typing import cast
@@ -24,11 +25,15 @@ _LEGACY_AUTO_INSTALL_SETTING_KEY = "auto_install"
 _AUTO_INSTALL_NAME = "bdUtilAutoInstallMenuOption"
 _AUTO_INSTALL_TAG = "bd_util:menu:auto_install"
 _AUTO_INSTALL_LABEL = "Maya 起動時に bakedanuki メニューを表示"
+_CONFIG_ENV = "BAKEDANUKI_CONFIG_FILE"
+_CONFIG_FILE = "config.toml"
+_CONFIG_TEMPLATE = "config.template.toml"
 _IDENTIFIER = re.compile(r"[A-Za-z][A-Za-z0-9_]*\Z")
 
 __all__ = [
     "is_menu_auto_install_enabled",
     "set_menu_auto_install_enabled",
+    "ensure_config_file",
     "register_menu_item",
     "unregister_menu_owner",
 ]
@@ -41,16 +46,17 @@ def is_menu_auto_install_enabled() -> bool:
     """
     path = _auto_install_settings_path()
     if path.is_file():
-        data = json.loads(path.read_text(encoding="utf-8"))
-        if not isinstance(data, dict):
+        raw_data: object = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(raw_data, dict):
             raise ValueError(f"bdメニュー設定の形式が不正です: {path}")
+        data = cast(dict[str, object], raw_data)
         enabled = data.get(
             _SHOW_MENU_ON_STARTUP_KEY,
             data.get(_LEGACY_AUTO_INSTALL_SETTING_KEY),
         )
         if type(enabled) is not bool:
             raise ValueError(f"bdメニュー設定の形式が不正です: {path}")
-        return cast(bool, enabled)
+        return enabled
     if not cmds.optionVar(exists=_AUTO_INSTALL_OPTION_VAR):
         return True
     return cast(int, cmds.optionVar(query=_AUTO_INSTALL_OPTION_VAR)) != 0
@@ -59,10 +65,95 @@ def is_menu_auto_install_enabled() -> bool:
 def _auto_install_settings_path() -> Path:
     """現在のMayaバージョン用の専用設定ファイルを返す。"""
     return (
-        Path(cast(str, cmds.internalVar(userPrefDir=True)))
-        / "bakedanuki"
-        / "menu.json"
+        Path(cmds.internalVar(userPrefDir=True)) / "bakedanuki" / "menu.json"
     )
+
+
+def ensure_config_file() -> Path:
+    """個人用の起動設定を初回だけ作成し、既存の編集内容を保持する。"""
+    path = (
+        Path(cmds.internalVar(userPrefDir=True)) / "bakedanuki" / _CONFIG_FILE
+    )
+    if path.exists():
+        if not path.is_file():
+            raise RuntimeError(
+                f"bakedanuki設定の保存先がファイルではありません: {path}"
+            )
+        return path
+    path.parent.mkdir(parents=True, exist_ok=True)
+    template = Path(__file__).with_name(_CONFIG_TEMPLATE)
+    content = template.read_text(encoding="utf-8")
+    try:
+        with path.open("x", encoding="utf-8", newline="\n") as file:
+            file.write(content)
+    except FileExistsError:
+        if not path.is_file():
+            raise RuntimeError(
+                f"bakedanuki設定の保存先がファイルではありません: {path}"
+            ) from None
+    return path
+
+
+def _config_settings_path() -> Path:
+    """明示指定があればそのTOML、なければ個人用TOMLを返す。"""
+    configured = os.environ.get(_CONFIG_ENV)
+    if configured is None:
+        return ensure_config_file()
+    if not configured.strip():
+        raise ValueError(f"{_CONFIG_ENV}に空のパスは指定できません")
+    path = Path(os.path.expandvars(configured)).expanduser()
+    if not path.is_absolute():
+        raise ValueError(
+            f"{_CONFIG_ENV}には絶対パスを指定してください: {path}"
+        )
+    return path
+
+
+def _configured_parent(main_window: str) -> str:
+    """配置設定を読み、存在する親menuかメインウィンドウを返す。"""
+    path = _config_settings_path()
+    try:
+        with path.open("rb") as file:
+            data: dict[str, object] = tomllib.load(file)
+    except FileNotFoundError as exc:
+        raise FileNotFoundError(
+            f"bakedanuki設定が見つかりません: {path}"
+        ) from exc
+    except tomllib.TOMLDecodeError as exc:
+        raise ValueError(f"bakedanuki設定のTOMLが不正です: {path}") from exc
+    unknown = set(data) - {"menu"}
+    if unknown:
+        raise ValueError(
+            f"bakedanuki設定に未知のキーがあります: {sorted(unknown)}"
+        )
+    raw_menu = data.get("menu")
+    if raw_menu is None:
+        return main_window
+    if not isinstance(raw_menu, dict):
+        raise ValueError(f"[menu]の形式が不正です: {path}")
+    menu = cast(dict[str, object], raw_menu)
+    unknown_menu = set(menu) - {"parent_menu"}
+    if unknown_menu:
+        raise ValueError(
+            f"[menu]に未知のキーがあります: {sorted(unknown_menu)}"
+        )
+    if "parent_menu" not in menu:
+        return main_window
+    parent = menu["parent_menu"]
+    if not isinstance(parent, str) or not parent:
+        raise ValueError(
+            f"parent_menuにはMaya UI名のパスを指定してください: {path}"
+        )
+    parts = parent.split("|")
+    if parts[0] != main_window or len(parts) < 2 or not all(parts):
+        raise ValueError(
+            f"parent_menuは{main_window}から始まる完全なUIパスにしてください: {path}"
+        )
+    if not cmds.menu(parent, exists=True):
+        raise RuntimeError(
+            f"配置先の既存メニューが見つかりません: {parent} ({path})"
+        )
+    return parent
 
 
 def set_menu_auto_install_enabled(enabled: bool) -> None:
@@ -95,15 +186,10 @@ def set_menu_auto_install_enabled(enabled: bool) -> None:
     main_window = _main_window()
     if main_window is None:
         return
-    root = f"{main_window}|{_ROOT_NAME}"
-    option = f"{root}|{_AUTO_INSTALL_NAME}"
-    if (
-        cmds.menu(root, exists=True)
-        and _is_owned_root(root)
-        and option in _children(root)
-        and _is_owned_auto_install_option(option)
-    ):
-        cmds.menuItem(option, edit=True, checkBox=enabled)
+    for root in _owned_roots(main_window):
+        option = f"{root}|{_AUTO_INSTALL_NAME}"
+        if option in _children(root) and _is_owned_auto_install_option(option):
+            cmds.menuItem(option, edit=True, checkBox=enabled)
 
 
 def _validate_identifier(value: str, field: str) -> None:
@@ -172,7 +258,26 @@ def _item_tag(owner: str, item_id: str) -> str:
 
 def _is_owned_root(root: str) -> bool:
     """既存のrootがこの基盤で作られたものか判定する。"""
+    if cmds.menuItem(root, exists=True):
+        return (
+            cast(str, cmds.menuItem(root, query=True, docTag=True))
+            == _ROOT_TAG
+        )
     return cast(str, cmds.menu(root, query=True, docTag=True)) == _ROOT_TAG
+
+
+def _owned_roots(main_window: str) -> tuple[str, ...]:
+    """メインウィンドウ配下に残る共有rootのUIパスを返す。"""
+    menus = cast(list[str] | None, cmds.lsUI(menus=True, long=True))
+    prefix = f"{main_window}|"
+    return tuple(
+        path
+        for path in menus or ()
+        if path.startswith(prefix)
+        and _leaf(path) == _ROOT_NAME
+        and cmds.menu(path, exists=True)
+        and _is_owned_root(path)
+    )
 
 
 def _is_owned_category(path: str, category: str) -> bool:
@@ -261,6 +366,9 @@ def _delete_empty_category(path: str) -> None:
     """他の項目がないcategoryだけを削除する。"""
     if not _children(path):
         cmds.deleteUI(path, menuItem=True)
+        # Mayaではsubmenu項目の削除後も同名のmenuが残る
+        if cmds.menu(path, exists=True):
+            cmds.deleteUI(path, menu=True)
 
 
 def _delete_empty_root(root: str) -> None:
@@ -270,24 +378,82 @@ def _delete_empty_root(root: str) -> None:
     if children == (option,) and _is_owned_auto_install_option(option):
         cmds.deleteUI(option, menuItem=True)
     if not _children(root):
-        cmds.deleteUI(root, menu=True)
+        if cmds.menuItem(root, exists=True):
+            cmds.deleteUI(root, menuItem=True)
+            # Mayaではsubmenu項目の削除後も同名のmenuが残る
+            if cmds.menu(root, exists=True):
+                cmds.deleteUI(root, menu=True)
+        else:
+            cmds.deleteUI(root, menu=True)
+
+
+def _emit_menu_about_to_show(parent: str) -> None:
+    """Mayaの既存slotを通してメニューを開く直前の処理を実行する。"""
+    from maya import OpenMayaUI as omui
+
+    from ...ui import qt
+
+    pointer = omui.MQtUtil.findControl(parent)
+    if not pointer:
+        raise RuntimeError(f"配置先メニューのQt UIを取得できません: {parent}")
+    widget = cast(qt.QtWidgets.QMenu, qt.wrapInstance(int(pointer), qt.QMenu))
+    widget.aboutToShow.emit()
+
+
+def _initialize_parent_menu(parent: str) -> None:
+    """空の親メニューに遅延生成処理があれば追加前に実行する。"""
+    if _children(parent):
+        return
+    menu_command = cast(Callable[..., object], cmds.menu)
+    if not menu_command(parent, query=True, postMenuCommand=True):
+        return
+
+    # 標準メニューには項目が一つでもあると初期化を省くものがある
+    # MEL/Pythonの判別と一度だけ実行する制御はMayaに任せる
+    _emit_menu_about_to_show(parent)
 
 
 def _ensure_root(main_window: str) -> str:
     """所有が確認できる共有rootを作成または再利用する。"""
-    root = f"{main_window}|{_ROOT_NAME}"
+    parent = _configured_parent(main_window)
+    root = f"{parent}|{_ROOT_NAME}"
+    for old_root in _owned_roots(main_window):
+        if old_root != root:
+            raise RuntimeError(
+                "メニュー配置はMayaの再起動後に反映してください: "
+                f"現在={old_root}, 設定={root}"
+            )
     if cmds.menu(root, exists=True):
         if not _is_owned_root(root):
             raise RuntimeError(f"{root}は別のUIで使用されています")
-        cmds.menu(root, edit=True, label=_ROOT_LABEL)
+        if parent == main_window:
+            cmds.menu(root, edit=True, label=_ROOT_LABEL)
+        else:
+            cmds.menuItem(root, edit=True, label=_ROOT_LABEL)
         return root
-    cmds.menu(
-        _ROOT_NAME,
-        parent=main_window,
-        label=_ROOT_LABEL,
-        tearOff=False,
-        docTag=_ROOT_TAG,
-    )
+    if parent == main_window:
+        created = cmds.menu(
+            _ROOT_NAME,
+            parent=main_window,
+            label=_ROOT_LABEL,
+            tearOff=False,
+            docTag=_ROOT_TAG,
+        )
+    else:
+        _initialize_parent_menu(parent)
+        created = cast(
+            str | bool,
+            cmds.menuItem(
+                _ROOT_NAME,
+                parent=parent,
+                label=_ROOT_LABEL,
+                subMenu=True,
+                tearOff=False,
+                docTag=_ROOT_TAG,
+            ),
+        )
+    if not created or not cmds.menu(root, exists=True):
+        raise RuntimeError(f"{root}をmenuへ登録できませんでした")
     return root
 
 
@@ -317,7 +483,7 @@ def register_menu_item(
     label: str,
     command: Callable[[], object],
 ) -> bool:
-    """`bakedanuki > category`へpackage所有の項目を登録する。
+    """設定先の`bakedanuki > category`へpackage所有の項目を登録する。
 
     同じownerとitem IDは再登録で更新し、別categoryへ移した場合は
     古い項目を削除する。batchまたはmain window未生成時は何もせずFalseを返す。
@@ -400,19 +566,16 @@ def unregister_menu_owner(owner: str) -> None:
     main_window = _main_window()
     if main_window is None:
         return
-    root = f"{main_window}|{_ROOT_NAME}"
-    if not cmds.menu(root, exists=True) or not _is_owned_root(root):
-        return
-
     # Maya UIに残る名前とdocTagから所有を判定し、module状態に依存しない
     prefix = _item_prefix(owner)
-    for category in _owned_categories(root):
-        for item in _children(category):
-            name = _leaf(item)
-            if name.startswith(prefix) and _is_owned_item(
-                item, owner, name.removeprefix(prefix)
-            ):
-                cmds.deleteUI(item, menuItem=True)
-        _delete_empty_category(category)
+    for root in _owned_roots(main_window):
+        for category in _owned_categories(root):
+            for item in _children(category):
+                name = _leaf(item)
+                if name.startswith(prefix) and _is_owned_item(
+                    item, owner, name.removeprefix(prefix)
+                ):
+                    cmds.deleteUI(item, menuItem=True)
+            _delete_empty_category(category)
 
-    _delete_empty_root(root)
+        _delete_empty_root(root)

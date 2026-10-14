@@ -64,6 +64,21 @@ Maya version 別の `plug-ins` などを Maya へ追加します。
 表示設定は現在のMayaバージョンの`prefs/bakedanuki/menu.json`に保存します。
 この操作でMayaの一般設定やShelfを明示的に保存することはありません。
 
+メニューの配置先は、初回起動時に自動作成される
+`<Maya userPrefDir>/bakedanuki/config.toml`で変更できます。ファイル内の
+`[menu]`で`parent_menu`を指定しなければ、従来どおりMayaの最上位メニューに
+表示します。配置先を指定する場合は、表示名ではなく既存メニューのUIパスを
+指定してください。指定先は
+`bakedanuki`の登録前に作成されている必要があります。設定を変更した後はMayaを
+再起動してください。設定ファイルの場所と書式は
+[共有Mayaメニューの説明](bakedanuki-util/docs/ui/README.md#起動設定とメニュー配置)を参照してください。
+
+組織やプロジェクトで共通の設定を使う場合は、Maya起動前に環境変数
+`BAKEDANUKI_CONFIG_FILE`へ配布フォルダ外にあるTOMLの絶対パスを指定します。
+外部TOMLのファイル名は任意です。この指定は個人用TOMLより優先されます。
+指定ファイルや親メニューが見つからない場合は
+エラーとなり、最上位メニューへの自動切替は行いません。
+
 別の bakedanuki フォルダを指すパスが登録されている場合は、置き換え確認のダイアログが表示されます。置き換え時も、bakedanuki 以外の module パスはそのまま維持されます。
 
 installerは配布時の単一`bakedanuki/modules`を前提とし、既存の`MAYA_MODULE_PATH`に
@@ -98,7 +113,11 @@ set_menu_auto_install_enabled(True)
 
 `uninstaller.py` は、実行元の `modules` と同じパスだけを現在の Maya が読む `Maya.env` から解除します。共通 `modules` に同梱された util・tools・rig はまとめて次回起動から読み込まれなくなります。別の bakedanuki パスや他社の Module path は解除しません。対象がない場合と `Cancel` を選んだ場合は何も変更しません。
 
-配布ファイル、シーン、`prefs/bakedanuki/menu.json` などの個人設定、現在実行中のメニューや plug-in は変更しません。配布フォルダが不要なら Maya を終了してから削除してください。複数の Maya バージョンへ登録した場合は、それぞれのバージョンで操作します。起動 bat や別の環境変数から追加したパスは、この操作の対象外です。
+配布ファイル、シーン、`prefs/bakedanuki/menu.json`や`config.toml`などの
+個人設定、現在実行中のメニューやplug-inは変更しません。配布フォルダが不要なら
+Mayaを終了してから削除してください。複数のMayaバージョンへ登録した場合は、
+それぞれのバージョンで操作します。起動batや別の環境変数から追加したパスは、
+この操作の対象外です。
 
 ## Setup With Maya.env
 

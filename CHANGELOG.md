@@ -56,6 +56,11 @@
 
 ### Added
 
+- `bakedanuki`共有メニューの配置先を`prefs/bakedanuki/config.toml`の
+  `[menu].parent_menu`で指定できるようにした。キーがなければ最上位メニューに表示し、
+  既存メニューのUIパスを指定するとその直下に配置する。個人用ファイルはMayaの
+  設定ディレクトリへ初回だけ自動作成し、`BAKEDANUKI_CONFIG_FILE`で指定した
+  外部TOMLを優先する。
 - 共通配布ルートに `uninstaller.py` を追加した。現在の Maya が読む `Maya.env` から
   実行元の `modules` パスだけを確認後に解除する。共通ルートの同梱packageは
   次回起動からまとめて無効になり、配布ファイル・scene・個人設定は維持する。
@@ -441,6 +446,9 @@ v0.1.0 以降の NodeOperator 基盤の改善に加え、Windows版 Maya 2025 / 
 
 ### Fixed
 
+- Windowsなどの遅延生成されるメニューへ`bakedanuki`を配置すると、標準項目が
+  生成されなくなる問題を修正。配置先の初期化後に末尾へ追加し、既存項目と
+  元の`postMenuCommand`・`postMenuCommandOnce`を維持する。
 - 新規animation layerへの初回キー設定直後に`sample_values()`の先頭値が古い値になる問題を修正。
   対象plugの上流カーブから再評価を伝播してから読み取り、現在時刻・選択・modified flag・
   Undo / Redo履歴・保留中modifierを保持する。計算出力やdriven curve越しの依存関係にも対応。

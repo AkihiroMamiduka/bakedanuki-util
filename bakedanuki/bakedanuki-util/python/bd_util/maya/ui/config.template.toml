@@ -1,0 +1,5 @@
+[menu]
+# parent_menu を指定しない場合、bakedanuki は最上位メニューに表示されます。
+# 配置先には、bakedanuki の登録前に作成される既存のメニューを指定してください。
+# 表示名ではなく、Maya の UI 名を「|」でつないだパスを指定します。
+# parent_menu = "MayaWindow|customToolsMenu|freeToolsMenu"

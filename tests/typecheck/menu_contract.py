@@ -1,14 +1,17 @@
 """共有Mayaメニューの公開型を確認する。"""
 
+from pathlib import Path
 from typing import assert_type
 
 from bd_util.maya.ui import (
+    ensure_config_file,
     is_menu_auto_install_enabled,
     register_menu_item,
     set_menu_auto_install_enabled,
     unregister_menu_owner,
 )
 
+assert_type(ensure_config_file(), Path)
 assert_type(is_menu_auto_install_enabled(), bool)
 assert_type(set_menu_auto_install_enabled(False), None)
 
