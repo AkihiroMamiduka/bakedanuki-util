@@ -58,8 +58,8 @@ def test_direct_members_only_leave_base_other_layer_and_weight_untouched(
     original = [_times(maya_cmds, curve) for curve in first_curves]
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    layer = nodes.existing.animLayer(first)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    layer = bd_nodes.existing.animLayer(first)
     assert layer.member_keyframes.snap_subframe_keys() is None
     assert [_times(maya_cmds, curve) for curve in first_curves] == original
     mod.do_it_dg()
@@ -100,9 +100,9 @@ def test_membership_and_curves_are_discovered_at_execution(maya_cmds):
 def test_earlier_queued_layer_creation_and_key_are_included(maya_cmds):
     maya_cmds.createNode("transform", name="ctrl")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    ctrl = nodes.existing.transform("ctrl")
-    layer = nodes.create.animLayer(name="Correction")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    ctrl = bd_nodes.existing.transform("ctrl")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_plugs([ctrl.tx])
     ctrl.tx.keyframe.anim_layer(layer).set_key(5, frame=2.3)
     layer.member_keyframes.snap_subframe_keys()

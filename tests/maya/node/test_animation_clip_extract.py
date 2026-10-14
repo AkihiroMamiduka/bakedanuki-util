@@ -85,9 +85,9 @@ def test_duplicate_dag_names_use_full_paths_and_require_unambiguous_extract(
     extracted = clip.extract(nodes=[right, left])
     assert [node.name for node in extracted.nodes] == [right, left]
 
-    nodes = bdu.Nodes()
+    bd_nodes = bdu.Nodes()
     extracted = clip.extract(
-        nodes=[nodes.existing(right), nodes.existing(left).m_obj]
+        nodes=[bd_nodes.existing(right), bd_nodes.existing(left).m_obj]
     )
     assert [node.name for node in extracted.nodes] == [right, left]
 
@@ -178,8 +178,8 @@ def test_extract_uses_named_pending_operator_without_executing_it(maya_cmds):
     cmds.file(new=True, force=True)
 
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    target = nodes.create.transform(name="pendingTarget")
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    target = bd_nodes.create.transform(name="pendingTarget")
 
     extracted = clip.extract(nodes=[target])
     assert extracted.nodes[0].name == "pendingTarget"
@@ -187,7 +187,7 @@ def test_extract_uses_named_pending_operator_without_executing_it(maya_cmds):
     assert not manager.can_undo
 
     extracted.restore(manager, targets=[target])
-    nodes.keyframes.reduce_keys([target], attributes=["tx"], tolerance=0.01)
+    bd_nodes.keyframes.reduce_keys([target], attributes=["tx"], tolerance=0.01)
     manager.do_it_dag()
     manager.do_it_dg()
 
@@ -210,9 +210,9 @@ def test_extract_rejects_pending_selector_without_a_stable_name(maya_cmds):
     clip = AnimationClip.capture([source], attributes=["tx"])
     cmds.file(new=True, force=True)
 
-    nodes = bdu.Nodes()
-    named = nodes.create.transform(name="source")
-    unnamed = nodes.create.transform()
+    bd_nodes = bdu.Nodes()
+    named = bd_nodes.create.transform(name="source")
+    unnamed = bd_nodes.create.transform()
 
     with pytest.raises(ValueError, match="pending MObject"):
         clip.extract(nodes=[named.m_obj])
@@ -230,16 +230,16 @@ def test_extract_resolves_pending_name_in_current_namespace(maya_cmds):
     cmds.delete(source, root_source)
     cmds.namespace(set="character")
 
-    nodes = bdu.Nodes()
-    target = nodes.create.transform(name="ctrl")
-    root_target = nodes.create.transform(name=":rootCtrl")
+    bd_nodes = bdu.Nodes()
+    target = bd_nodes.create.transform(name="ctrl")
+    root_target = bd_nodes.create.transform(name=":rootCtrl")
 
     assert [
         node.name for node in clip.extract(nodes=[target, root_target]).nodes
     ] == ["character:ctrl", "rootCtrl"]
     assert not cmds.objExists("character:ctrl")
     assert not cmds.objExists(":rootCtrl")
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
     assert target.name == "character:ctrl"
     assert root_target.name == "rootCtrl"
 
@@ -301,17 +301,17 @@ def test_extract_rejects_non_node_and_deleted_object_selectors(maya_cmds):
     with pytest.raises(ValueError, match="no longer available"):
         clip.extract(nodes=[node])
 
-    nodes = bdu.Nodes()
-    created = nodes.create.transform(name=saved_name)
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes = bdu.Nodes()
+    created = bd_nodes.create.transform(name=saved_name)
+    bd_nodes.modifier_manager.do_it_dag()
     cmds.delete(saved_name)
     with pytest.raises(ValueError, match="no longer available"):
         clip.extract(nodes=[created])
 
-    undo_nodes = bdu.Nodes()
-    undone = undo_nodes.create.transform(name=saved_name)
-    undo_nodes.modifier_manager.do_it_dag()
-    undo_nodes.modifier_manager.undo_it()
+    bd_nodes_undo = bdu.Nodes()
+    undone = bd_nodes_undo.create.transform(name=saved_name)
+    bd_nodes_undo.modifier_manager.do_it_dag()
+    bd_nodes_undo.modifier_manager.undo_it()
     with pytest.raises(ValueError, match="no longer available"):
         clip.extract(nodes=[undone])
 

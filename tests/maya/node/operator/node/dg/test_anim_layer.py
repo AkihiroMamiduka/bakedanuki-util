@@ -14,8 +14,8 @@ def _members(cmds, layer):
 def _setup(cmds):
     name = cmds.createNode("transform", name="ctrl")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    return mod, nodes, nodes.existing.transform(name)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    return mod, bd_nodes, bd_nodes.existing.transform(name)
 
 
 @pytest.mark.parametrize("override", [False, True])
@@ -23,7 +23,7 @@ def _setup(cmds):
 def test_create_register_and_key_in_one_batch(
     maya_cmds, override, existing_root
 ):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     if existing_root:
         maya_cmds.animLayer("Unrelated")
         root = maya_cmds.rename(
@@ -32,7 +32,7 @@ def test_create_register_and_key_in_one_batch(
     else:
         root = "BaseAnimation"
     before = set(maya_cmds.ls())
-    layer = nodes.create.animLayer(name="Correction", override=override)
+    layer = bd_nodes.create.animLayer(name="Correction", override=override)
     layer.weight.set(0.5)
     layer.add_plugs([ctrl.translate])
     keyframe = ctrl.ty.keyframe.anim_layer(layer)
@@ -66,11 +66,11 @@ def test_create_register_and_key_in_one_batch(
 @pytest.mark.parametrize("override", [False, True])
 @pytest.mark.parametrize("channel", ["translateY", "rotateZ", "scaleX"])
 def test_created_layer_matches_native_values(maya_cmds, override, channel):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     control = maya_cmds.createNode("transform", name="control")
     for name in ("ctrl", control):
         maya_cmds.setKeyframe(name + "." + channel, time=1, value=4)
-    layer = nodes.create.animLayer(name="Correction", override=override)
+    layer = bd_nodes.create.animLayer(name="Correction", override=override)
     layer.weight.set(0.75)
     layer.add_plugs(["ctrl." + channel])
     keyframe = getattr(ctrl, channel).keyframe.anim_layer(layer)
@@ -83,7 +83,7 @@ def test_created_layer_matches_native_values(maya_cmds, override, channel):
         control + "." + channel, animLayer=native, time=1, value=16
     )
     expected = getattr(
-        nodes.existing.transform(control), channel
+        bd_nodes.existing.transform(control), channel
     ).keyframe.anim_layer(native)
     assert keyframe.get_keys() == pytest.approx(expected.get_keys())
     assert maya_cmds.animLayer(
@@ -92,13 +92,13 @@ def test_created_layer_matches_native_values(maya_cmds, override, channel):
 
 
 def test_multiple_layers_share_root_and_preserve_selection(maya_cmds):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     unrelated = maya_cmds.animLayer("Unrelated")
     maya_cmds.animLayer(unrelated, edit=True, selected=True, preferred=True)
     maya_cmds.select("ctrl")
     selected = maya_cmds.ls(selection=True, long=True)
-    first = nodes.create.animLayer(name="First")
-    second = nodes.create.animLayer(name="Second")
+    first = bd_nodes.create.animLayer(name="First")
+    second = bd_nodes.create.animLayer(name="Second")
     first.add_nodes([ctrl])
     second.add_plugs([ctrl.tx])
     mod.do_it_dg()
@@ -114,10 +114,10 @@ def test_multiple_layers_share_root_and_preserve_selection(maya_cmds):
 
 
 def test_generic_creator_and_name_collision(maya_cmds):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     maya_cmds.createNode("network", name="BaseAnimation")
-    first = nodes.create.create("animLayer", name="First")
-    second = nodes.create.animLayer(name="Second")
+    first = bd_nodes.create.create("animLayer", name="First")
+    second = bd_nodes.create.animLayer(name="Second")
     second.add_plugs([ctrl.tx])
     mod.do_it_dg()
     root = maya_cmds.animLayer(q=True, root=True)
@@ -130,8 +130,8 @@ def test_generic_creator_and_name_collision(maya_cmds):
 
 @pytest.mark.parametrize("kind", ["wrapper", "api", "name"])
 def test_membership_accepts_plug_and_node_forms(maya_cmds, kind):
-    mod, nodes, ctrl = _setup(maya_cmds)
-    layer = nodes.create.animLayer(name="Correction")
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
+    layer = bd_nodes.create.animLayer(name="Correction")
     plug = {"wrapper": ctrl.tx, "api": ctrl.tx.plug, "name": "ctrl.tx"}[kind]
     node = {"wrapper": ctrl, "api": ctrl.m_obj, "name": "ctrl"}[kind]
     layer.add_plugs([plug])
@@ -158,14 +158,14 @@ def test_membership_accepts_plug_and_node_forms(maya_cmds, kind):
 def test_compounds_sparse_arrays_and_nonkeyable_plugs(
     maya_cmds, explicit_element
 ):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     maya_cmds.addAttr(
         "ctrl", longName="samples", attributeType="double", multi=True
     )
     maya_cmds.setAttr("ctrl.samples[3]", 3)
     maya_cmds.setAttr("ctrl.samples[9]", 9)
     maya_cmds.addAttr("ctrl", longName="displayOnly", attributeType="double")
-    layer = nodes.create.animLayer(name="Correction")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_plugs(
         [
             ctrl.translate,
@@ -186,7 +186,7 @@ def test_compounds_sparse_arrays_and_nonkeyable_plugs(
 
 
 def test_add_nodes_matches_native_own_keyable_attributes(maya_cmds):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     maya_cmds.createNode("transform", name="child", parent="ctrl")
     maya_cmds.createNode("mesh", name="shape", parent="ctrl")
     for name, kind in (
@@ -217,7 +217,7 @@ def test_add_nodes_matches_native_own_keyable_attributes(maya_cmds):
     maya_cmds.setAttr("ctrl.ty", lock=True)
     maya_cmds.setKeyframe("ctrl.tx", time=1, value=7)
     original = ctrl.tx.keyframe.get_curve_data()
-    layer = nodes.create.animLayer(name="Correction")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_nodes([ctrl])
     mod.do_it_dg()
     actual = _members(maya_cmds, "Correction")
@@ -238,11 +238,11 @@ def test_add_nodes_matches_native_own_keyable_attributes(maya_cmds):
 
 
 def test_duplicates_and_empty_arrays_do_not_change_graph(maya_cmds):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     maya_cmds.addAttr(
         "ctrl", longName="samples", attributeType="double", multi=True
     )
-    layer = nodes.create.animLayer(name="Correction")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_plugs([ctrl.tx, "ctrl.translateX", "|ctrl.tx", "ctrl.samples"])
     mod.do_it_dg()
     before = set(maya_cmds.ls())
@@ -256,9 +256,9 @@ def test_duplicates_and_empty_arrays_do_not_change_graph(maya_cmds):
 
 
 def test_membership_captures_identity_and_copies_inputs(maya_cmds):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     name = maya_cmds.animLayer("Correction")
-    layer = nodes.existing.animLayer(name)
+    layer = bd_nodes.existing.animLayer(name)
     targets = ["ctrl.tx"]
     layer.add_plugs(targets)
     targets.append("ctrl.ty")
@@ -273,8 +273,8 @@ def test_membership_captures_identity_and_copies_inputs(maya_cmds):
 
 @pytest.mark.parametrize("method", ["add_plugs", "add_nodes"])
 def test_deleted_target_is_not_replaced_by_same_name(maya_cmds, method):
-    mod, nodes, ctrl = _setup(maya_cmds)
-    layer = nodes.create.animLayer(name="Correction")
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
+    layer = bd_nodes.create.animLayer(name="Correction")
     getattr(layer, method)(["ctrl.tx" if method == "add_plugs" else "ctrl"])
     maya_cmds.delete("ctrl")
     maya_cmds.createNode("transform", name="ctrl")
@@ -285,11 +285,11 @@ def test_deleted_target_is_not_replaced_by_same_name(maya_cmds, method):
 
 @pytest.mark.parametrize("plug", ["message", "matrix", "translate"])
 def test_invalid_explicit_membership_rolls_back_creation(maya_cmds, plug):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     if plug == "translate":
         maya_cmds.setAttr("ctrl.ty", lock=True)
     before = set(maya_cmds.ls())
-    layer = nodes.create.animLayer(name="Correction")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_plugs(["ctrl." + plug])
     with pytest.raises((RuntimeError, TypeError)):
         mod.do_it_dg()
@@ -299,7 +299,7 @@ def test_invalid_explicit_membership_rolls_back_creation(maya_cmds, plug):
 
 @pytest.mark.parametrize("target", ["layer", "node", "base"])
 def test_existing_readonly_or_base_layer_is_rejected(maya_cmds, target):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     name = maya_cmds.animLayer("Correction")
     if target == "layer":
         maya_cmds.animLayer(name, edit=True, lock=True)
@@ -307,7 +307,7 @@ def test_existing_readonly_or_base_layer_is_rejected(maya_cmds, target):
         maya_cmds.lockNode("ctrl", lock=True)
     else:
         name = maya_cmds.animLayer(q=True, root=True)
-    layer = nodes.existing.animLayer(name)
+    layer = bd_nodes.existing.animLayer(name)
     layer.add_plugs([ctrl.tx])
     before = set(maya_cmds.ls())
     with pytest.raises(RuntimeError):
@@ -316,8 +316,8 @@ def test_existing_readonly_or_base_layer_is_rejected(maya_cmds, target):
 
 
 def test_node_enumeration_observes_earlier_queued_changes(maya_cmds):
-    mod, nodes, ctrl = _setup(maya_cmds)
-    layer = nodes.create.animLayer(name="Correction")
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
+    layer = bd_nodes.create.animLayer(name="Correction")
     mod.dg_mod.pythonCommandToExecute(
         lambda: maya_cmds.setAttr("ctrl.tx", keyable=False)
     )
@@ -344,9 +344,9 @@ def test_node_enumeration_observes_earlier_queued_changes(maya_cmds):
 
 def test_pending_dg_node_membership(maya_cmds):
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    ctrl = nodes.create.composeMatrix(name="pending")
-    layer = nodes.create.animLayer(name="Correction")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    ctrl = bd_nodes.create.composeMatrix(name="pending")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_plugs([ctrl.inputTranslate])
     keyframe = ctrl.inputTranslate.inputTranslateX.keyframe.anim_layer(layer)
     keyframe.set_key(8, frame=1)
@@ -359,13 +359,13 @@ def test_pending_dg_node_membership(maya_cmds):
 
 @pytest.mark.parametrize("method", ["add_plugs", "add_nodes"])
 def test_pending_dynamic_attribute_membership(maya_cmds, maya_om, method):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     attribute = maya_om.MFnNumericAttribute().create(
         "pending", "pnd", maya_om.MFnNumericData.kDouble, 0.0
     )
     maya_om.MFnAttribute(attribute).keyable = True
     mod.dg_mod.addAttribute(ctrl.m_obj, attribute)
-    layer = nodes.create.animLayer(name="Correction")
+    layer = bd_nodes.create.animLayer(name="Correction")
     getattr(layer, method)(
         [maya_om.MPlug(ctrl.m_obj, attribute)]
         if method == "add_plugs"
@@ -383,11 +383,11 @@ def test_pending_dynamic_attribute_membership(maya_cmds, maya_om, method):
 def test_unsupported_numeric_attributes_are_skipped_only_for_add_nodes(
     maya_cmds, kind
 ):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     maya_cmds.addAttr(
         "ctrl", longName="unsupported", attributeType=kind, keyable=True
     )
-    layer = nodes.create.animLayer(name="Correction")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_nodes([ctrl])
     mod.do_it_dg()
     assert "ctrl.unsupported" not in _members(maya_cmds, "Correction")
@@ -400,10 +400,10 @@ def test_unsupported_numeric_attributes_are_skipped_only_for_add_nodes(
 
 @pytest.mark.parametrize("deleted", ["layer", "attribute"])
 def test_deleted_membership_identity_is_not_reused(maya_cmds, deleted):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     maya_cmds.addAttr("ctrl", longName="value", attributeType="double")
     name = maya_cmds.animLayer("Correction")
-    layer = nodes.existing.animLayer(name)
+    layer = bd_nodes.existing.animLayer(name)
     layer.add_plugs(["ctrl.value"])
     if deleted == "layer":
         maya_cmds.delete(name)
@@ -425,8 +425,8 @@ def test_referenced_nodes_reject_membership(maya_cmds, tmp_path, method):
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(path, reference=True, namespace="ref")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    layer = nodes.create.animLayer(name="Correction")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    layer = bd_nodes.create.animLayer(name="Correction")
     getattr(layer, method)(
         ["ref:ctrl.tx" if method == "add_plugs" else "ref:ctrl"]
     )
@@ -441,8 +441,8 @@ def test_duplicate_dag_names_register_only_the_specified_node(maya_cmds):
         maya_cmds.createNode("transform", name=parent)
         maya_cmds.createNode("transform", name="ctrl", parent=parent)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    layer = nodes.create.animLayer(name="Correction")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_plugs(["|first|ctrl.tx"])
     mod.do_it_dg()
     assert maya_cmds.listConnections("|first|ctrl.tx", source=True)
@@ -454,12 +454,12 @@ def test_duplicate_dag_names_register_only_the_specified_node(maya_cmds):
 def test_native_failure_or_skipped_registration_rolls_back(
     maya_cmds, monkeypatch, mode, existing_layer
 ):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     if existing_layer:
         name = maya_cmds.animLayer("Correction", attribute="ctrl.tz")
-        layer = nodes.existing.animLayer(name)
+        layer = bd_nodes.existing.animLayer(name)
     else:
-        layer = nodes.create.animLayer(name="Correction")
+        layer = bd_nodes.create.animLayer(name="Correction")
     before = set(maya_cmds.ls())
     native = maya_cmds.animLayer
 
@@ -494,9 +494,9 @@ def test_native_failure_or_skipped_registration_rolls_back(
     [{"override": 1}, {"name": ""}, {"name": "bad.name"}, {"name": "*"}],
 )
 def test_invalid_create_arguments_do_not_queue_work(maya_cmds, kwargs):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     with pytest.raises((TypeError, ValueError)):
-        nodes.create.animLayer(**kwargs)
+        bd_nodes.create.animLayer(**kwargs)
     mod.do_it_dg()
     assert not maya_cmds.ls(type="animLayer")
 
@@ -511,9 +511,9 @@ def test_invalid_create_arguments_do_not_queue_work(maya_cmds, kwargs):
     ],
 )
 def test_invalid_membership_arguments(maya_cmds, method, value):
-    mod, nodes, ctrl = _setup(maya_cmds)
+    mod, bd_nodes, ctrl = _setup(maya_cmds)
     name = maya_cmds.animLayer("Correction")
-    layer = nodes.existing.animLayer(name)
+    layer = bd_nodes.existing.animLayer(name)
     with pytest.raises(TypeError):
         getattr(layer, method)(value)
     mod.do_it_dg()

@@ -16,8 +16,8 @@ from bd_util.ui import Float3SpinBox, qt
 class TranslateWidget(qt.QWidget):
     def __init__(self, node_name: str, parent: qt.QWidget | None = None) -> None:
         super().__init__(parent)
-        nodes = bdu.Nodes()
-        node = nodes.existing.transform(node_name)
+        bd_nodes = bdu.Nodes()
+        node = bd_nodes.existing.transform(node_name)
         self.binding = MayaFloat3PlugBinding(node.translate, parent=self)
         self.spin_box = Float3SpinBox(
             self.binding, self, decimals=get_channel_box_precision()

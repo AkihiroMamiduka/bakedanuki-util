@@ -94,18 +94,18 @@ def test_euler_conversion_accepts_case_insensitive_order():
 
 
 def test_to_euler_accepts_rotate_order_from_transform_plug(new_scene):
-    nodes = bdu.Nodes()
-    dst = nodes.create.transform(name="dst")
+    bd_nodes = bdu.Nodes()
+    dst = bd_nodes.create.transform(name="dst")
     dst.rotateOrder.set(3)
-    nodes.modifier_manager.do_it_dag()
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dg()
 
     expected = bdu.Quat.from_euler(
         (17.0, -28.0, 39.0),
         rotate_order=3,
     )
     dst.r.set(expected.to_euler(rotate_order=dst.rotateOrder.get()))
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert expected.is_equivalent(dst.m.get().quat, tolerance=1.0e-10)
 

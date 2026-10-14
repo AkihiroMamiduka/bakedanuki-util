@@ -158,8 +158,8 @@ transformation_matrix = tm.transformation_matrix
 ```python
 import bd_util as bdu
 
-nodes = bdu.Nodes()
-node = nodes.existing.transform("test")
+bd_nodes = bdu.Nodes()
+node = bd_nodes.existing.transform("test")
 world_matrix = node.worldMatrix[0]
 
 tm = world_matrix.get()
@@ -193,10 +193,10 @@ scale = tm.scale
 
 ```python
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-src_node = nodes.existing.transform("src")
-mult_matrix = nodes.create.multMatrix(name="mult_matrix")
+src_node = bd_nodes.existing.transform("src")
+mult_matrix = bd_nodes.create.multMatrix(name="mult_matrix")
 
 src_world = src_node.worldMatrix[0].get()
 mult_matrix.matrixIn[0].set(src_world)

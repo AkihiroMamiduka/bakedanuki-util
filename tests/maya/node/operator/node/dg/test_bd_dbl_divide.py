@@ -61,9 +61,9 @@ def test_class_attribute_access(maya_cmds):
 def test_defaults_and_fixed_division(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl_Divide()
-    multi = nodes.create.bdDbl_DivideMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl_Divide()
+    multi = bd_nodes.create.bdDbl_DivideMulti()
     modifier_manager.do_it_dg()
 
     assert fixed.name == "bdDbl_Divide1"
@@ -111,8 +111,8 @@ def test_multi_uses_logical_index_order_and_defined_edge_cases(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_DivideMulti(name="div")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_DivideMulti(name="div")
     node.input[20].set(2.0)
     node.input[2].set(120.0)
     node.input[9].set(3.0)
@@ -133,8 +133,8 @@ def test_multi_uses_logical_index_order_and_defined_edge_cases(
 def test_multi_clamps_only_divisor_elements(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_DivideMulti(name="div")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_DivideMulti(name="div")
     node.input[2].set(1.0)
     node.input[9].set(0.0)
     node.input[20].set(-5.0e-10)
@@ -190,9 +190,9 @@ def test_connection_and_existing_node_accessors(
         BdDblDivideMulti,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl_Divide(name="fixed")
-    multi = nodes.create.bdDbl_DivideMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl_Divide(name="fixed")
+    multi = bd_nodes.create.bdDbl_DivideMulti(name="multi")
     fixed.input1.set(12.0)
     fixed.input2.set(3.0)
     fixed.output.connect(multi.input[2])
@@ -200,9 +200,9 @@ def test_connection_and_existing_node_accessors(
     modifier_manager.do_it_dg()
 
     assert multi.output.get() == pytest.approx(2.0)
-    assert isinstance(nodes.existing.bdDbl_Divide(fixed.name), BdDblDivide)
+    assert isinstance(bd_nodes.existing.bdDbl_Divide(fixed.name), BdDblDivide)
     assert isinstance(
-        nodes.existing.bdDbl_DivideMulti(multi.name),
+        bd_nodes.existing.bdDbl_DivideMulti(multi.name),
         BdDblDivideMulti,
     )
 
@@ -215,9 +215,9 @@ def test_both_nodes_survive_scene_save_and_reload(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl_Divide(name="fixed")
-    multi = nodes.create.bdDbl_DivideMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl_Divide(name="fixed")
+    multi = bd_nodes.create.bdDbl_DivideMulti(name="multi")
     fixed.input1.set(12.0)
     fixed.input2.set(3.0)
     multi.input[20].set(2.0)
@@ -239,10 +239,10 @@ def test_both_nodes_survive_scene_save_and_reload(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert existing_nodes.existing.bdDbl_Divide(
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_existing.existing.bdDbl_Divide(
         "fixed"
     ).output.get() == pytest.approx(4.0)
-    assert existing_nodes.existing.bdDbl_DivideMulti(
+    assert bd_nodes_existing.existing.bdDbl_DivideMulti(
         "multi"
     ).output.get() == pytest.approx(20.0)

@@ -51,11 +51,11 @@ def test_attributes_defaults_and_type_ids(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
     if node_type.startswith("bdDbl3_"):
-        node = nodes.create.bdDbl3_WeightedAverageMulti()
+        node = bd_nodes.create.bdDbl3_WeightedAverageMulti()
     else:
-        node = nodes.create.bdDbl_WeightedAverageMulti()
+        node = bd_nodes.create.bdDbl_WeightedAverageMulti()
     modifier_manager.do_it_dg()
 
     assert node.NODE_TYPE == node_type
@@ -87,8 +87,8 @@ def test_scalar_normalizes_sparse_inputs_and_removal(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_WeightedAverageMulti(name="weighted_average")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_WeightedAverageMulti(name="weighted_average")
     node.input[2].value.set(10.0)
     node.input[2].weight.set(1.0)
     node.input[9].value.set(20.0)
@@ -108,8 +108,8 @@ def test_double3_uses_one_weight_for_all_components(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_WeightedAverageMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_WeightedAverageMulti()
     node.input[2].value.set((2.0, 4.0, 6.0))
     node.input[2].weight.set(1.0)
     node.input[9].value.set((6.0, 12.0, 18.0))
@@ -279,9 +279,9 @@ def test_connections_existing_accessors_and_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    source = nodes.create.bdDbl_Value(name="source")
-    weighted = nodes.create.bdDbl_WeightedAverageMulti(name="weighted")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    source = bd_nodes.create.bdDbl_Value(name="source")
+    weighted = bd_nodes.create.bdDbl_WeightedAverageMulti(name="weighted")
     source.value.set(6.0)
     source.value.connect(weighted.input[2].value)
     weighted.input[2].weight.set(1.0)
@@ -291,7 +291,7 @@ def test_connections_existing_accessors_and_scene_round_trip(
 
     assert weighted.output.get() == pytest.approx(9.0)
     assert type(
-        nodes.existing.bdDbl_WeightedAverageMulti(weighted.name)
+        bd_nodes.existing.bdDbl_WeightedAverageMulti(weighted.name)
     ) is type(weighted)
 
     scene_path = tmp_path / "bd_weighted_average.ma"
@@ -300,7 +300,7 @@ def test_connections_existing_accessors_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded_nodes.existing.bdDbl_WeightedAverageMulti(
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDbl_WeightedAverageMulti(
         "weighted"
     ).output.get() == pytest.approx(9.0)

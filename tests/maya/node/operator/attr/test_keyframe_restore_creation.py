@@ -216,9 +216,9 @@ def test_restore_follows_pending_layer_creation_registration_and_rename(
     name = maya_cmds.createNode("transform", name="destination")
     before = _scene(maya_cmds)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    dest = nodes.existing.transform(name)
-    layer = nodes.create.animLayer(name="PendingLayer")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    dest = bd_nodes.existing.transform(name)
+    layer = bd_nodes.create.animLayer(name="PendingLayer")
     if registration == "nodes":
         layer.add_nodes([dest])
     else:

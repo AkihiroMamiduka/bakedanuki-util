@@ -119,27 +119,27 @@ def test_version_only_node_creation_follows_the_running_maya(new_scene):
     import bd_util as bdu
     from bd_util.maya.node._maya_version import maya_major_version
 
-    nodes = bdu.Nodes()
+    bd_nodes = bdu.Nodes()
     maya_version = maya_major_version()
 
     if maya_version == 2025:
-        old_node = nodes.create.addDoubleLinear(name="old_node")
+        old_node = bd_nodes.create.addDoubleLinear(name="old_node")
         with pytest.raises(
             AttributeError,
             match="absoluteDL.*unavailable in Maya 2025",
         ):
-            nodes.create.absoluteDL(name="new_node")
+            bd_nodes.create.absoluteDL(name="new_node")
 
-        nodes.modifier_manager.do_it_dg()
+        bd_nodes.modifier_manager.do_it_dg()
         assert old_node.exists()
         return
 
-    new_node = nodes.create.absoluteDL(name="new_node")
+    new_node = bd_nodes.create.absoluteDL(name="new_node")
     with pytest.raises(
         AttributeError,
         match=rf"addDoubleLinear.*unavailable in Maya {maya_version}",
     ):
-        nodes.create.addDoubleLinear(name="old_node")
+        bd_nodes.create.addDoubleLinear(name="old_node")
 
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
     assert new_node.exists()

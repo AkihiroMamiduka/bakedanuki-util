@@ -286,9 +286,9 @@ def test_node_operator_creation_and_existing_access(maya_cmds):
     )
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    quat_node = nodes.create.bdQuat_LimitBendTwist(name="quat_limit")
-    euler_node = nodes.create.bdEuler_LimitBendTwist(name="euler_limit")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    quat_node = bd_nodes.create.bdQuat_LimitBendTwist(name="quat_limit")
+    euler_node = bd_nodes.create.bdEuler_LimitBendTwist(name="euler_limit")
     quat_node.min.set((-30.0, -45.0, -60.0))
     quat_node.max.set((30.0, 45.0, 60.0))
     quat_node.bendLimitMode.set(quat_node.bendLimitMode.ELLIPSE)
@@ -300,10 +300,10 @@ def test_node_operator_creation_and_existing_access(maya_cmds):
     assert tuple(quat_node.max.get()) == pytest.approx((30.0, 45.0, 60.0))
     assert quat_node.bendLimitMode.get() == quat_node.bendLimitMode.ELLIPSE
     assert isinstance(
-        nodes.existing.bdQuat_LimitBendTwist(quat_node.name),
+        bd_nodes.existing.bdQuat_LimitBendTwist(quat_node.name),
         BdQuatLimitBendTwist,
     )
     assert isinstance(
-        nodes.existing.bdEuler_LimitBendTwist(euler_node.name),
+        bd_nodes.existing.bdEuler_LimitBendTwist(euler_node.name),
         BdEulerLimitBendTwist,
     )

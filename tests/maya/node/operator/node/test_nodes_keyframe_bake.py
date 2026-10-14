@@ -64,11 +64,11 @@ def test_bake_multiple_nodes_with_one_history(maya_cmds):
     cmds.connectAttr(driver + ".tx", first + ".tx")
     cmds.connectAttr(driver + ".tx", second + ".tx")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
 
     assert (
-        nodes.keyframes.bake(
-            [nodes.existing(first), second],
+        bd_nodes.keyframes.bake(
+            [bd_nodes.existing(first), second],
             1,
             3,
             attributes=["tx"],
@@ -114,8 +114,8 @@ def test_multiple_node_bake_propagates_tangent_options(maya_cmds):
     cmds.connectAttr(driver + ".tx", first + ".tx")
     cmds.connectAttr(driver + ".tx", second + ".tx")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake(
         [first, second],
         1,
         3,
@@ -146,8 +146,8 @@ def test_explicit_attribute_union_skips_missing_per_node(maya_cmds):
     cmds.setAttr(first + ".firstValue", 2.5)
     cmds.setAttr(second + ".secondValue", 7.5)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake(
         [first, second],
         4,
         4,
@@ -172,8 +172,8 @@ def test_attribute_missing_from_every_node_rejects_entire_edit(maya_cmds):
     first = cmds.createNode("transform", name="first")
     second = cmds.createNode("transform", name="second")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake(
         [first, second],
         1,
         3,
@@ -193,16 +193,16 @@ def test_existing_unsupported_or_locked_explicit_attribute_fails(maya_cmds):
     second = cmds.createNode("transform", name="second")
     cmds.setAttr(second + ".tx", lock=True)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake([first, second], 1, 3, attributes=["tx"])
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake([first, second], 1, 3, attributes=["tx"])
     with pytest.raises(RuntimeError, match="locked"):
         manager.do_it_dg()
     assert _source(first + ".tx") is None
     assert not manager.can_undo
 
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake([first, second], 1, 3, attributes=["message"])
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake([first, second], 1, 3, attributes=["message"])
     with pytest.raises(TypeError, match="Unsupported"):
         manager.do_it_dg()
     assert not manager.can_undo
@@ -213,8 +213,8 @@ def test_automatic_collection_skips_nodes_without_targets(maya_cmds):
     empty = cmds.createNode("network", name="empty")
     target = cmds.createNode("transform", name="target")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake([empty, target], 2, 2)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake([empty, target], 2, 2)
     manager.do_it_dg()
 
     assert cmds.nodeType(_source(target + ".tx").split(".")[0]) == (
@@ -222,8 +222,8 @@ def test_automatic_collection_skips_nodes_without_targets(maya_cmds):
     )
 
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake([empty], 2, 2)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake([empty], 2, 2)
     with pytest.raises(ValueError, match="No supported"):
         manager.do_it_dg()
     assert not manager.can_undo
@@ -251,8 +251,8 @@ def test_every_node_is_sampled_before_connections_change(
 
     monkeypatch.setattr(_keyframe_bake, "_sample", inspect_sample)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake(
         [target, middle], 1, 3, attributes=["tx"], sample_by=2
     )
     manager.do_it_dg()
@@ -289,8 +289,10 @@ def test_later_verification_failure_rolls_back_every_node(
     monkeypatch.setattr(_keyframe_bake, "_sample", fail_later)
     curves = set(cmds.ls(type="animCurve") or [])
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake([first, second], 1, 3, attributes=["tx"], sample_by=2)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake(
+        [first, second], 1, 3, attributes=["tx"], sample_by=2
+    )
 
     with pytest.raises(RuntimeError, match="Cannot preserve baked value"):
         manager.do_it_dg()
@@ -308,8 +310,8 @@ def test_one_layer_is_applied_to_every_node(maya_cmds):
     for node in (first, second):
         cmds.animLayer(layer, edit=True, attribute=node + ".tx")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.anim_layer(layer).bake(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.anim_layer(layer).bake(
         [first, second], 1, 3, attributes=["tx"]
     )
     manager.do_it_dg()
@@ -335,8 +337,8 @@ def test_explicit_layer_membership_failure_keeps_every_node_unchanged(
     layer = cmds.animLayer("Correction")
     cmds.animLayer(layer, edit=True, attribute=first + ".tx")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.anim_layer(layer).bake(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.anim_layer(layer).bake(
         [first, second], 1, 3, attributes=["tx"]
     )
 
@@ -352,12 +354,12 @@ def test_explicit_layer_membership_failure_keeps_every_node_unchanged(
 def test_pending_nodes_and_layer_share_one_history(maya_cmds):
     cmds = maya_cmds
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    first = nodes.create.multiplyDivide(name="first")
-    second = nodes.create.multiplyDivide(name="second")
-    layer = nodes.create.animLayer(name="PendingLayer")
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    first = bd_nodes.create.multiplyDivide(name="first")
+    second = bd_nodes.create.multiplyDivide(name="second")
+    layer = bd_nodes.create.animLayer(name="PendingLayer")
     layer.add_plugs([first.input1X, second.input1X])
-    nodes.keyframes.anim_layer(layer).bake(
+    bd_nodes.keyframes.anim_layer(layer).bake(
         [first, second], 2, 2, attributes=["input1X"]
     )
     manager.do_it_dg()
@@ -380,8 +382,8 @@ def test_total_sample_limit_counts_every_target(maya_cmds, monkeypatch):
     second = cmds.createNode("transform", name="second")
     monkeypatch.setattr(_keyframe_bake, "_MAX_SAMPLES", 3)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.bake([first, second], 1, 2, attributes=["tx"])
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.bake([first, second], 1, 2, attributes=["tx"])
 
     with pytest.raises(ValueError, match="total sample points"):
         manager.do_it_dg()
@@ -401,19 +403,19 @@ def test_total_sample_limit_counts_every_target(maya_cmds, monkeypatch):
 def test_invalid_node_collection_does_not_queue(maya_cmds, value, error):
     maya_cmds.createNode("transform", name="target")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     with pytest.raises(error):
-        nodes.keyframes.bake(value, 1, 2)
+        bd_nodes.keyframes.bake(value, 1, 2)
     assert not manager.can_undo
 
 
 def test_duplicate_nodes_are_rejected_by_identity(maya_cmds):
     target = maya_cmds.createNode("transform", name="target")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     with pytest.raises(ValueError, match="Duplicate"):
-        nodes.keyframes.bake(
-            [target, _object(target), nodes.existing(target)], 1, 2
+        bd_nodes.keyframes.bake(
+            [target, _object(target), bd_nodes.existing(target)], 1, 2
         )
     assert not manager.can_undo
 
@@ -434,7 +436,7 @@ def test_duplicate_nodes_are_rejected_by_identity(maya_cmds):
 def test_invalid_bake_arguments_do_not_queue(maya_cmds, kwargs, error):
     target = maya_cmds.createNode("transform", name="target")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     with pytest.raises(error):
-        nodes.keyframes.bake([target], 1, 2, **kwargs)
+        bd_nodes.keyframes.bake([target], 1, 2, **kwargs)
     assert not manager.can_undo

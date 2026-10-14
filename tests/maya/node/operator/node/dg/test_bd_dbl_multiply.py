@@ -61,9 +61,9 @@ def test_class_attribute_access(maya_cmds):
 def test_default_names_and_values(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl_Multiply()
-    multi = nodes.create.bdDbl_MultiplyMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl_Multiply()
+    multi = bd_nodes.create.bdDbl_MultiplyMulti()
     modifier_manager.do_it_dg()
 
     assert fixed.name == "bdDbl_Multiply1"
@@ -77,8 +77,8 @@ def test_default_names_and_values(modifier_manager, maya_cmds):
 def test_fixed_multiplies_two_inputs(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_Multiply(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_Multiply(name="mult")
     node.input1.set(-2.5)
     node.input2.set(4.0)
     modifier_manager.do_it_dg()
@@ -92,8 +92,8 @@ def test_multi_multiplies_existing_sparse_elements(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_MultiplyMulti(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_MultiplyMulti(name="mult")
     node.input[2].set(2.0)
     node.input[9].set(-3.0)
     node.input[20].set(0.5)
@@ -141,9 +141,9 @@ def test_fixed_output_participates_in_multi_product(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl_Multiply(name="fixed")
-    multi = nodes.create.bdDbl_MultiplyMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl_Multiply(name="fixed")
+    multi = bd_nodes.create.bdDbl_MultiplyMulti(name="multi")
     fixed.input1.set(2.0)
     fixed.input2.set(5.0)
     fixed.output.connect(multi.input[2])
@@ -166,14 +166,16 @@ def test_existing_node_accessors_return_specific_wrappers(
         BdDblMultiplyMulti,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl_Multiply(name="fixed")
-    multi = nodes.create.bdDbl_MultiplyMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl_Multiply(name="fixed")
+    multi = bd_nodes.create.bdDbl_MultiplyMulti(name="multi")
     modifier_manager.do_it_dg()
 
-    assert isinstance(nodes.existing.bdDbl_Multiply(fixed.name), BdDblMultiply)
     assert isinstance(
-        nodes.existing.bdDbl_MultiplyMulti(multi.name),
+        bd_nodes.existing.bdDbl_Multiply(fixed.name), BdDblMultiply
+    )
+    assert isinstance(
+        bd_nodes.existing.bdDbl_MultiplyMulti(multi.name),
         BdDblMultiplyMulti,
     )
 
@@ -186,9 +188,9 @@ def test_both_nodes_survive_scene_save_and_reload(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl_Multiply(name="fixed")
-    multi = nodes.create.bdDbl_MultiplyMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl_Multiply(name="fixed")
+    multi = bd_nodes.create.bdDbl_MultiplyMulti(name="multi")
     fixed.input1.set(2.0)
     fixed.input2.set(5.0)
     multi.input[0].set(2.0)
@@ -209,10 +211,10 @@ def test_both_nodes_survive_scene_save_and_reload(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert existing_nodes.existing.bdDbl_Multiply(
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_existing.existing.bdDbl_Multiply(
         "fixed"
     ).output.get() == pytest.approx(10.0)
-    assert existing_nodes.existing.bdDbl_MultiplyMulti(
+    assert bd_nodes_existing.existing.bdDbl_MultiplyMulti(
         "multi"
     ).output.get() == pytest.approx(10.0)

@@ -65,6 +65,8 @@ def apply_set_transform_compensate_children(
     params: SetTransformCompensateChildrenParams,
 ) -> list[str]:
     """親から順に目標値を設定し、変更した DAG path を返す。"""
+    # 公開引数名を維持し、内部では操作入口の推奨名を使う
+    bd_nodes = nodes
     targets = _resolve_targets(params.node_names, kind)
     values = _values_in_canonical_unit(
         params.values, kind=kind, input_unit=params.input_unit
@@ -72,7 +74,7 @@ def apply_set_transform_compensate_children(
     changed: list[str] = []
 
     for path, node_type in targets:
-        node = _typed_node(nodes, path, node_type)
+        node = _typed_node(bd_nodes, path, node_type)
         current = _current_values(node, kind)
         if params.space == "world":
             current_world = node.convert_transform_space_values(
@@ -130,7 +132,7 @@ def apply_set_transform_compensate_children(
             )
 
         # 次の選択ノードは、先行ノードによる子補償の後で評価する
-        nodes.modifier_manager.do_it_dg()
+        bd_nodes.modifier_manager.do_it_dg()
         changed.append(path)
 
     return changed
@@ -169,12 +171,12 @@ def _resolve_targets(
 
 
 def _typed_node(
-    nodes: Nodes, path: str, node_type: Literal["transform", "joint"]
+    bd_nodes: Nodes, path: str, node_type: Literal["transform", "joint"]
 ) -> Transform | Joint:
     """解決済みの DAG path を型別 NodeOperator として取得する。"""
     if node_type == "joint":
-        return nodes.existing.joint(path)
-    return nodes.existing.transform(path)
+        return bd_nodes.existing.joint(path)
+    return bd_nodes.existing.transform(path)
 
 
 def _current_values(

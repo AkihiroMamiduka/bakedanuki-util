@@ -113,7 +113,7 @@ snake_caseの区切りとして維持します。
 | `multiplyDivide` | `MultiplyDivide` | `GeneratedMultiplyDivide` | `multiply_divide.py` |
 
 `NodeCreator`と`ExistingNode`のmethod名は、Maya node typeをそのまま使用します。
-そのため、`nodes.create.bdDbl_Add()`や`nodes.create.MASH_Audio()`として補完されます。
+そのため、`bd_nodes.create.bdDbl_Add()`や`bd_nodes.create.MASH_Audio()`として補完されます。
 
 異なるnode typeが同じPython class名またはmodule名へ変換される場合、Generatorは
 ファイルを書き出す前に`ValueError`を送出します。個別生成でも、正規化後の出力先が
@@ -180,7 +180,7 @@ generate_node_class_file("transform", path, node_kind="transform")
     これにより、派生 class には固有 attribute だけが出力され、共通 attribute は `Transform` から継承されます。
   - attribute は node instance を作成せず、`MNodeClass` と
     `cmds.attributeQuery(..., type=<nodeType>)` から取得します。
-  - 生成済み class は `nodes.existing` から利用できますが、`nodes.create` には
+  - 生成済み class は `bd_nodes.existing` から利用できますが、`bd_nodes.create` には
     `CREATABLE_TRANSFORM_NODE_TYPES` に明示した作成確認済み type だけを公開します。
 - `shape`
   - `node/dag/shape/_generated` に、通常は `Generated<NodeClass>(Shape)` を出力します。
@@ -195,18 +195,18 @@ generate_node_class_file("transform", path, node_kind="transform")
 DG の既存呼び出しとの互換のため、デフォルトは `node_kind="dg"` です。
 
 shape node は全生成と作成 API の公開を分けて扱います。生成済み class は
-`nodes.existing` から利用できますが、`nodes.create` には親 Transform 必須の
+`bd_nodes.existing` から利用できますが、`bd_nodes.create` には親 Transform 必須の
 作成テストを通した node type だけを明示的に公開します。
 
 transform 派生 node も同じく、既存 node を具体型へ包む coverage と作成 API の
 公開を分けます。Maya 2025でraw作成、親指定、命名、undo / redoを確認した
 concrete transform系52種は`CREATABLE_TRANSFORM_NODE_TYPES`へ明示し、
-`nodes.create.<nodeType>()`から公開します。戻り値は各具体NodeOperator型です。
+`bd_nodes.create.<nodeType>()`から公開します。戻り値は各具体NodeOperator型です。
 constraintのtarget接続、IKのjoint / solver設定、fieldのdynamics接続など、
 専用commandが行う用途別初期化はraw作成に含めません。
 
 `ikHandle` / `ikEffector` は最初のtransform派生サンプルです。
-次のグループとしてconstraint系14種も生成し、`nodes.existing`と`nodes.create`の
+次のグループとしてconstraint系14種も生成し、`bd_nodes.existing`と`bd_nodes.create`の
 具体型補完へ追加しています。
 続いてfield / emitter系11種も同じ方針で生成します。`primitiveFalloff` は
 `dynBase` / `field` / `pointEmitter` を継承しない独立transformのため、
@@ -224,18 +224,18 @@ scene / utility系では、`lookAt` がnativeで `aimConstraint` を継承する
 `place3dTexture` はtransform共通attribute以外を持たない空の具象classです。
 VarGroup系5種は、作成不能な抽象native type `baseGeometryVarGroup` の共通attributeを
 `BaseGeometryVarGroup` に生成し、その派生型として生成します。抽象基底自体は
-`nodes.existing` の型別メソッドには公開せず、具体5種だけを公開します。
+`bd_nodes.existing` の型別メソッドには公開せず、具体5種だけを公開します。
 `ufeProxyTransform` の `ufePath` は静的なnode class attributeではなく、Mayaが
 各instanceへ追加するuser-defined attributeです。Maya 2025での実挙動をgeneratorの
 runtime-defined attribute情報として補い、静的queryに現れる将来versionでは重複を
 避けます。`unknownTransform` はtransform共通attributeだけの空の具象classです。
 作成不能な抽象native基底`baseGeometryVarGroup`は型階層だけに保持し、
-`nodes.create`へ公開しません。
+`bd_nodes.create`へ公開しません。
 
 transformでもshapeでもない汎用DAGの `unknownDag` は、`DAG` 直系の
 `UnknownDag` として生成します。Maya 2025では `kUnknownDag` として作成でき、
 親Transformが自動作成されます。既存sceneのplaceholderを具体型へ包む用途に限定し、
-`nodes.existing` には公開しますが `nodes.create` には公開しません。
+`bd_nodes.existing` には公開しますが `bd_nodes.create` には公開しません。
 
 ## 命名規則
 
@@ -660,7 +660,7 @@ cmds.loadPlugin("mtoa", quiet=True)
 version間の正式な比較・再生成では、上記の固定profileを使用します。
 最初の作成確認は `mesh` / `camera` / `nurbsCurve` / `locator` / `nurbsSurface` の
 5種から開始しました。現在はconcrete shape 81種を正式snapshotへ生成し、このうち
-作成可能な80種を`nodes.create`へ公開しています。
+作成可能な80種を`bd_nodes.create`へ公開しています。
 再生成時もまず調査用出力先で TODO、構文、import、node type 名衝突を確認します。
 
 shape の attribute 取得には `MNodeClass` と type 指定の `attributeQuery` を使い、
@@ -722,7 +722,7 @@ print(errors)
 ## ノードアクセス用の補完 stub
 
 内部実装の `ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
-公開APIの `nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
+公開APIの `bd_nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
 IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の14ファイルを生成します。
 
 - `python/bd_util/maya/node/existing_node.pyi`
@@ -752,10 +752,10 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 
 公開基底クラスの `Shape` は、具体的な Maya node type ではありません。
 そのため `Shape` クラス自体は継承用に維持しますが、実ノードを型別に包めない
-`nodes.existing.shape()` / `ExistingNode.shape()` は補完 stub の生成対象から除外します。
+`bd_nodes.existing.shape()` / `ExistingNode.shape()` は補完 stub の生成対象から除外します。
 
 `_shape_with_transform.pyi` は、一括作成を検証済み shape type に限定しながら、
-`nodes.create.with_transform.mesh()` のようなアクセスで `(Transform, Mesh)` まで
+`bd_nodes.create.with_transform.mesh()` のようなアクセスで `(Transform, Mesh)` まで
 具体的な戻り値型を追えるようにします。公開対象は
 `creator/_shape_types.py` と共有するため、実行時 API と補完候補がずれません。
 
@@ -776,8 +776,8 @@ version 別の戻り値型の union にします。version 別 module は、そ�
 公開関数を変更する場合は、実装と stub 生成器の両方を更新してください。
 
 `_versioned_accessors.pyi` は、全対応 version の共通面、各単一 version、各 version を
-下限とする `+` 範囲の `nodes.create` / `nodes.existing` /
-`nodes.create.with_transform` を保持します。`+` 範囲では対象の全 version で利用できる
+下限とする `+` 範囲の `bd_nodes.create` / `bd_nodes.existing` /
+`bd_nodes.create.with_transform` を保持します。`+` 範囲では対象の全 version で利用できる
 node だけを公開し、schema 型が異なる戻り値は union 型にします。`nodes.pyi` の
 `typing_maya_version` overload は、この静的 accessor だけを選択します。実行中 Maya の
 version 判定や node availability には使用しません。
@@ -798,7 +798,7 @@ Python キーワードと module 名が衝突する `and` / `or` / `not` は、`
 - `attributeType=None, dataType=None` の attribute はまだ自動解決できません。
 - DAG / shape 系では DG では目立たなかった attribute type が出る場合があります。未対応型は TODO として残し、型定義を追加してから再生成します。
 - 抽象 `shape` と concrete shape は、静的な node type query で属性を生成します。
-- shape class の生成だけでは `nodes.create` の公開対象になりません。作成確認済み type を明示的に opt-in します。
+- shape class の生成だけでは `bd_nodes.create` の公開対象になりません。作成確認済み type を明示的に opt-in します。
 - 生成後は必ず git diff を確認します。
 - `_generated` package 以下は再生成時に上書きされるため、手書きコードを追加しません。
 - 公開 wrapper は Generator が上書きしません。ノード固有のメソッドは公開 wrapper 側へ追加します。

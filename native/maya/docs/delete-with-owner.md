@@ -21,10 +21,10 @@ multiplyDivide1.message -> cleanup.deleteTarget[0]
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-owner = nodes.existing("null1")
-target = nodes.existing("multiplyDivide1")
-cleanup = nodes.create.bdDeleteWithOwner(name="cleanup")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+owner = bd_nodes.existing("null1")
+target = bd_nodes.existing("multiplyDivide1")
+cleanup = bd_nodes.create.bdDeleteWithOwner(name="cleanup")
 
 owner.message.connect(cleanup.owner)
 target.message.connect(cleanup.deleteTarget[next])

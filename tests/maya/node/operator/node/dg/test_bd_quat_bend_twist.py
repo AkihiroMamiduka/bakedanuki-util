@@ -481,10 +481,10 @@ def test_node_operator_types_and_direct_connection(
         BdQuatDecomposeTwist,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    compose = nodes.create.bdQuat_ComposeBendTwist(name="compose")
-    decompose = nodes.create.bdQuat_DecomposeBendTwist(name="decompose")
-    decompose_twist = nodes.create.bdQuat_DecomposeTwist(
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    compose = bd_nodes.create.bdQuat_ComposeBendTwist(name="compose")
+    decompose = bd_nodes.create.bdQuat_DecomposeBendTwist(name="decompose")
+    decompose_twist = bd_nodes.create.bdQuat_DecomposeTwist(
         name="decompose_twist"
     )
     compose.input.set((35.0, 40.0, -20.0))
@@ -504,15 +504,15 @@ def test_node_operator_types_and_direct_connection(
         math.hypot(40.0, -20.0) / 180.0
     )
     assert isinstance(
-        nodes.existing.bdQuat_ComposeBendTwist(compose.name),
+        bd_nodes.existing.bdQuat_ComposeBendTwist(compose.name),
         BdQuatComposeBendTwist,
     )
     assert isinstance(
-        nodes.existing.bdQuat_DecomposeBendTwist(decompose.name),
+        bd_nodes.existing.bdQuat_DecomposeBendTwist(decompose.name),
         BdQuatDecomposeBendTwist,
     )
     assert isinstance(
-        nodes.existing.bdQuat_DecomposeTwist(decompose_twist.name),
+        bd_nodes.existing.bdQuat_DecomposeTwist(decompose_twist.name),
         BdQuatDecomposeTwist,
     )
 
@@ -714,8 +714,8 @@ def test_euler_decompose_twist_node_operator(
         BdEulerDecomposeTwist,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdEuler_DecomposeTwist(name="euler_twist")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdEuler_DecomposeTwist(name="euler_twist")
     node.inputRotate.set((40.0, -25.0, 15.0))
     node.inputRotateOrder.set(4)
     modifier_manager.do_it_dg()
@@ -725,7 +725,7 @@ def test_euler_decompose_twist_node_operator(
     assert isinstance(node.axisRotate.get(), bdu.DoubleAngle3)
     assert isinstance(node.outputTwist.get(), float)
     assert isinstance(
-        nodes.existing.bdEuler_DecomposeTwist(node.name),
+        bd_nodes.existing.bdEuler_DecomposeTwist(node.name),
         BdEulerDecomposeTwist,
     )
 

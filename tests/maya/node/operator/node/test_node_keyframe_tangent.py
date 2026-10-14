@@ -197,8 +197,8 @@ def test_nodes_tangents_apply_attribute_union_and_rollback_together(
     cmds.addAttr(first, longName="custom", attributeType="double")
     _keys(cmds, first + ".custom")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.set_tangents(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.set_tangents(
         [first, second],
         attributes=["custom"],
         tangent_type="flat",
@@ -214,8 +214,8 @@ def test_nodes_tangents_apply_attribute_union_and_rollback_together(
     cmds.lockNode(second_curve, lock=True)
     first_before = _tangents(cmds, first + ".tx", True)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.set_tangents(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.set_tangents(
         [first, second], attributes=["tx"], tangent_type="auto"
     )
     with pytest.raises(RuntimeError, match="locked"):
@@ -229,8 +229,8 @@ def test_nodes_tangents_reject_attributes_missing_from_every_node(maya_cmds):
     first = cmds.createNode("transform", name="first")
     second = cmds.createNode("transform", name="second")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.set_tangents(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.set_tangents(
         [first, second], attributes=["missing"], tangent_type="flat"
     )
     with pytest.raises(ValueError, match="missing"):
@@ -252,9 +252,9 @@ def test_nodes_tangents_reject_invalid_node_collections(maya_cmds, nodes):
 def test_nodes_tangents_reject_duplicate_nodes(maya_cmds):
     target = maya_cmds.createNode("transform", name="target")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     with pytest.raises(ValueError, match="Duplicate"):
-        nodes.keyframes.set_tangents(
-            [target, nodes.existing(target)], tangent_type="flat"
+        bd_nodes.keyframes.set_tangents(
+            [target, bd_nodes.existing(target)], tangent_type="flat"
         )
     assert not manager.can_undo

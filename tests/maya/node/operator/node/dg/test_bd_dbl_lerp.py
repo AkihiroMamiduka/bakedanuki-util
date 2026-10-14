@@ -47,8 +47,8 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     assert BdDblLerp.w.short_name == "w"
     assert BdDblLerp.output.long_name == "output"
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_Lerp()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_Lerp()
     modifier_manager.do_it_dg()
 
     assert node.input1.get() == pytest.approx(0.0)
@@ -80,8 +80,8 @@ def test_interpolates_between_inputs(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_Lerp(name="lerp")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_Lerp(name="lerp")
     node.input1.set(10.0)
     node.input2.set(20.0)
     node.weight.set(weight)

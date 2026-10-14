@@ -451,9 +451,9 @@ def test_node_operator_creation_and_existing_accessors(
     )
     from bd_util.maya.node.operator.node.dg.bd_dbl_l_add import BdDblLAdd
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    scalar = nodes.create.bdDblL_Add(name="scalar")
-    compound = nodes.create.bdDblL3_Add(name="compound")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    scalar = bd_nodes.create.bdDblL_Add(name="scalar")
+    compound = bd_nodes.create.bdDblL3_Add(name="compound")
     scalar.input1.set(2.0)
     scalar.input2.set(3.0)
     compound.input1.set((1.0, 2.0, 3.0))
@@ -466,8 +466,8 @@ def test_node_operator_creation_and_existing_accessors(
     assert compound.output.get().as_tuple() == pytest.approx((5.0, 7.0, 9.0))
     assert compound.input1.input1X.get() == pytest.approx(1.0)
     assert compound.output.outputZ.get() == pytest.approx(9.0)
-    assert isinstance(nodes.existing.bdDblL_Add("scalar"), BdDblLAdd)
-    assert isinstance(nodes.existing.bdDblL3_Add("compound"), BdDblL3Add)
+    assert isinstance(bd_nodes.existing.bdDblL_Add("scalar"), BdDblLAdd)
+    assert isinstance(bd_nodes.existing.bdDblL3_Add("compound"), BdDblL3Add)
 
 
 def test_scalar_and_compound_survive_scene_round_trip(
@@ -477,9 +477,9 @@ def test_scalar_and_compound_survive_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    scalar = nodes.create.bdDblL_Add(name="scalar")
-    compound = nodes.create.bdDblL3_Add(name="compound")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    scalar = bd_nodes.create.bdDblL_Add(name="scalar")
+    compound = bd_nodes.create.bdDblL3_Add(name="compound")
     scalar.input1.set(2.0)
     scalar.input2.set(3.0)
     compound.input1.set((1.0, 2.0, 3.0))
@@ -493,10 +493,10 @@ def test_scalar_and_compound_survive_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded.existing.bdDblL_Add("scalar").output.get() == (
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDblL_Add("scalar").output.get() == (
         pytest.approx(5.0)
     )
-    assert reloaded.existing.bdDblL3_Add(
+    assert bd_nodes_reloaded.existing.bdDblL3_Add(
         "compound"
     ).output.get().as_tuple() == pytest.approx((5.0, 7.0, 9.0))

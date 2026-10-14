@@ -11,18 +11,18 @@ def test_default_namespace_is_frozen_and_explicit_names_win(
     maya_cmds.namespace(add=":outer")
     maya_cmds.namespace(set=":outer")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod, namespace="group")
-    cached_create = nodes.create.transform
+    bd_nodes = bdu.Nodes(modifier_manager=mod, namespace="group")
+    cached_create = bd_nodes.create.transform
 
-    assert nodes.namespace == ":outer:group"
+    assert bd_nodes.namespace == ":outer:group"
     maya_cmds.namespace(set=":")
     default = cached_create(name="default_ctrl")
     per_call = cached_create(name="override", namespace=":unique")
     qualified = cached_create(name=":explicit:qualified")
     root = cached_create(name=":root")
     maya_cmds.namespace(set=":outer")
-    nodes.set_namespace("later")
-    assert nodes.namespace == ":outer:later"
+    bd_nodes.set_namespace("later")
+    assert bd_nodes.namespace == ":outer:later"
     maya_cmds.namespace(set=":")
     later = cached_create(name="later")
 
@@ -50,16 +50,18 @@ def test_default_namespace_can_be_reset_or_forced_to_root(
     maya_cmds.namespace(add=":current")
     maya_cmds.namespace(set=":current")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod, namespace=":default")
+    bd_nodes = bdu.Nodes(modifier_manager=mod, namespace=":default")
 
-    assert nodes.set_namespace(None) is nodes
-    assert nodes.namespace is None
-    current = nodes.create.transform(name="current_node")
-    nodes.set_namespace("")
-    assert nodes.namespace == ":"
-    root = nodes.create.transform(name="root_node")
-    nodes.set_namespace(":default")
-    explicit_root = nodes.create.transform(name="explicit_root", namespace=":")
+    assert bd_nodes.set_namespace(None) is bd_nodes
+    assert bd_nodes.namespace is None
+    current = bd_nodes.create.transform(name="current_node")
+    bd_nodes.set_namespace("")
+    assert bd_nodes.namespace == ":"
+    root = bd_nodes.create.transform(name="root_node")
+    bd_nodes.set_namespace(":default")
+    explicit_root = bd_nodes.create.transform(
+        name="explicit_root", namespace=":"
+    )
 
     mod.do_it_dag()
     assert current.name == "current:current_node"
@@ -76,9 +78,9 @@ def test_relative_per_call_namespace_ignores_nodes_default(
     maya_cmds.namespace(add=":outer")
     maya_cmds.namespace(set=":outer")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod, namespace=":default")
-    per_call = nodes.create.multiplyDivide(name="math", namespace="other")
-    qualified = nodes.create.multiplyDivide(name="other:qualified")
+    bd_nodes = bdu.Nodes(modifier_manager=mod, namespace=":default")
+    per_call = bd_nodes.create.multiplyDivide(name="math", namespace="other")
+    qualified = bd_nodes.create.multiplyDivide(name="other:qualified")
     maya_cmds.namespace(set=":")
 
     mod.do_it_dg()
@@ -93,15 +95,15 @@ def test_default_namespace_covers_shape_pair_and_anim_layer(
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod, namespace=":assets")
-    cached_mesh = nodes.create.with_transform.mesh
-    nodes.set_namespace(":rig")
+    bd_nodes = bdu.Nodes(modifier_manager=mod, namespace=":assets")
+    cached_mesh = bd_nodes.create.with_transform.mesh
+    bd_nodes.set_namespace(":rig")
     transform, shape = cached_mesh(name="model")
     other_transform, other_shape = cached_mesh(
         name="other_model", namespace=":other"
     )
     explicit_transform, explicit_shape = cached_mesh(name=":explicit:model")
-    layer = nodes.create.animLayer(name="Correction")
+    layer = bd_nodes.create.animLayer(name="Correction")
 
     mod.do_it_dag()
     mod.do_it_dg()
@@ -127,11 +129,11 @@ def test_nodes_instances_keep_separate_defaults_with_shared_modifier(
 
     maya_cmds.createNode("transform", name=":existing")
     mod = bdu.ModifierManager()
-    left = bdu.Nodes(modifier_manager=mod, namespace=":left")
-    right = bdu.Nodes(modifier_manager=mod, namespace=":right")
-    existing = left.existing.transform(":existing")
-    left_node = left.create.transform(name="ctrl")
-    right_node = right.create.transform(name="ctrl")
+    bd_nodes_left = bdu.Nodes(modifier_manager=mod, namespace=":left")
+    bd_nodes_right = bdu.Nodes(modifier_manager=mod, namespace=":right")
+    existing = bd_nodes_left.existing.transform(":existing")
+    left_node = bd_nodes_left.create.transform(name="ctrl")
+    right_node = bd_nodes_right.create.transform(name="ctrl")
 
     mod.do_it_dag()
     assert existing.name == "existing"
@@ -148,21 +150,21 @@ def test_default_namespace_rejects_unnamed_and_conflicting_requests(
         bdu.Nodes(namespace="bad;namespace")
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod, namespace=":group")
+    bd_nodes = bdu.Nodes(modifier_manager=mod, namespace=":group")
     with pytest.raises(ValueError, match="name is required"):
-        nodes.create.transform()
+        bd_nodes.create.transform()
     with pytest.raises(ValueError, match="name is required"):
-        nodes.create.create("multiplyDivide")
+        bd_nodes.create.create("multiplyDivide")
     with pytest.raises(ValueError, match="name is required"):
-        nodes.create.with_transform.mesh()
+        bd_nodes.create.with_transform.mesh()
     with pytest.raises(ValueError, match="name is required"):
-        nodes.create.animLayer()
+        bd_nodes.create.animLayer()
     with pytest.raises(ValueError, match="cannot include a namespace"):
-        nodes.create.transform(name=":explicit:ctrl", namespace=":other")
+        bd_nodes.create.transform(name=":explicit:ctrl", namespace=":other")
     with pytest.raises(ValueError, match="invalid name"):
-        nodes.set_namespace("bad;namespace")
+        bd_nodes.set_namespace("bad;namespace")
 
-    assert nodes.namespace == ":group"
+    assert bd_nodes.namespace == ":group"
     assert not maya_cmds.namespace(exists=":group")
     assert not maya_cmds.namespace(exists=":explicit")
     assert not maya_cmds.namespace(exists=":other")

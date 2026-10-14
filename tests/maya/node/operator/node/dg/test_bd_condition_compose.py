@@ -334,13 +334,13 @@ def test_node_operator_connections_and_scene_round_trip(
         BdConditionDblExtraCompose,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    extra = nodes.create.bdConditionDblExtra_Compose(name="extra")
-    case = nodes.create.bdConditionDblCase_Compose(name="case_compose")
-    condition = nodes.create.bdAny_ConditionDblMulti(name="condition")
-    case_value = nodes.create.bdDbl_Value(name="case_value")
-    else_value = nodes.create.bdDbl_Value(name="else_value")
-    result = nodes.create.bdDbl_Value(name="result")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    extra = bd_nodes.create.bdConditionDblExtra_Compose(name="extra")
+    case = bd_nodes.create.bdConditionDblCase_Compose(name="case_compose")
+    condition = bd_nodes.create.bdAny_ConditionDblMulti(name="condition")
+    case_value = bd_nodes.create.bdDbl_Value(name="case_value")
+    else_value = bd_nodes.create.bdDbl_Value(name="else_value")
+    result = bd_nodes.create.bdDbl_Value(name="result")
 
     extra.logic.set(extra.logic.AND)
     extra.comparison.set(extra.comparison.LESS_THAN)
@@ -359,11 +359,11 @@ def test_node_operator_connections_and_scene_round_trip(
 
     assert result.value.get() == pytest.approx(12.0)
     assert isinstance(
-        nodes.existing.bdConditionDblExtra_Compose(extra.name),
+        bd_nodes.existing.bdConditionDblExtra_Compose(extra.name),
         BdConditionDblExtraCompose,
     )
     assert isinstance(
-        nodes.existing.bdConditionDblCase_Compose(case.name),
+        bd_nodes.existing.bdConditionDblCase_Compose(case.name),
         BdConditionDblCaseCompose,
     )
 
@@ -373,8 +373,8 @@ def test_node_operator_connections_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded.existing.bdDbl_Value(
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDbl_Value(
         "result"
     ).value.get() == pytest.approx(12.0)
 
@@ -391,14 +391,14 @@ def test_angle_condition_node_operator_accessors(
         "bdConditionDblAExtra_Compose",
         "bdConditionDblACase_Compose",
     )
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
     created = [
-        getattr(nodes.create, node_type)(name=f"angle_condition_{index}")
+        getattr(bd_nodes.create, node_type)(name=f"angle_condition_{index}")
         for index, node_type in enumerate(node_types)
     ]
     modifier_manager.do_it_dg()
 
     for node_type, node in zip(node_types, created):
         assert node.NODE_TYPE == node_type
-        existing = getattr(nodes.existing, node_type)(node.name)
+        existing = getattr(bd_nodes.existing, node_type)(node.name)
         assert existing.NODE_TYPE == node_type

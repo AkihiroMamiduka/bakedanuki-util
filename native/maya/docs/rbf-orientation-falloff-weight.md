@@ -81,12 +81,12 @@ weight合計が1を超える場合があります。無効poseには対応する
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-weight = nodes.create.bdRbf_OrientationFalloffWeight(
+weight = bd_nodes.create.bdRbf_OrientationFalloffWeight(
     name="shoulder_orientation_falloff"
 )
-blend = nodes.create.bdRbf_PoseBlend(name="shoulder_corrective_blend")
+blend = bd_nodes.create.bdRbf_PoseBlend(name="shoulder_corrective_blend")
 
 weight.pose[0].poseQuat.set((0.0, 0.0, 0.0, 1.0))
 weight.pose[1].poseQuat.set((0.382683, 0.0, 0.0, 0.923880))

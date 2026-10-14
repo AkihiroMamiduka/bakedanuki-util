@@ -113,13 +113,13 @@ otherwise  : t = (d - inner) / (outer - inner)
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-driver = nodes.existing("driver_joint")
-corrective = nodes.existing("corrective_joint")
+driver = bd_nodes.existing("driver_joint")
+corrective = bd_nodes.existing("corrective_joint")
 
-weight = nodes.create.bdRbf_PositionFalloffWeight(name="driver_falloff")
-blend = nodes.create.bdRbf_PoseBlend(name="corrective_pose_blend")
+weight = bd_nodes.create.bdRbf_PositionFalloffWeight(name="driver_falloff")
+blend = bd_nodes.create.bdRbf_PoseBlend(name="corrective_pose_blend")
 
 weight.innerRadius.set(1.0)
 weight.outerRadius.set(5.0)

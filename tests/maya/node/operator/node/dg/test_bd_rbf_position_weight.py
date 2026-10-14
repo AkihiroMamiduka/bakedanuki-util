@@ -346,9 +346,9 @@ def test_node_operator_creation_and_pose_blend_parent_connection(
         BdRbfPositionWeight,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight = nodes.create.bdRbf_PositionWeight(name="rbf_position_weight")
-    blend = nodes.create.bdRbf_PoseBlend(name="rbf_position_blend")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    weight = bd_nodes.create.bdRbf_PositionWeight(name="rbf_position_weight")
+    blend = bd_nodes.create.bdRbf_PoseBlend(name="rbf_position_blend")
     weight.pose[2].position.set((0.0, 0.0, 0.0))
     weight.pose[8].position.set((10.0, 0.0, 0.0))
     weight.inputPosition.set((10.0, 0.0, 0.0))
@@ -361,7 +361,7 @@ def test_node_operator_creation_and_pose_blend_parent_connection(
     assert weight.outputWeight[8].get() == pytest.approx(1.0, abs=2.0e-8)
     assert blend.outputTranslate.get() == pytest.approx((0.0, 5.0, 0.0))
     assert isinstance(
-        nodes.existing.bdRbf_PositionWeight(weight.name),
+        bd_nodes.existing.bdRbf_PositionWeight(weight.name),
         BdRbfPositionWeight,
     )
 

@@ -314,9 +314,9 @@ def test_node_operator_creation_and_existing_accessors(
         BdDblRatioDblL,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    scalar = nodes.create.bdDbl_RatioDblL(name="scalar")
-    compound = nodes.create.bdDbl3_RatioDblL3(name="compound")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    scalar = bd_nodes.create.bdDbl_RatioDblL(name="scalar")
+    compound = bd_nodes.create.bdDbl3_RatioDblL3(name="compound")
     scalar.input.set(12.0)
     scalar.base.set(3.0)
     compound.input.set((12.0, 20.0, 30.0))
@@ -328,9 +328,11 @@ def test_node_operator_creation_and_existing_accessors(
     assert scalar.output.get() == pytest.approx(4.0)
     assert compound.base.baseY.get() == pytest.approx(4.0)
     assert compound.output.get().as_tuple() == pytest.approx((4.0, 5.0, 6.0))
-    assert isinstance(nodes.existing.bdDbl_RatioDblL("scalar"), BdDblRatioDblL)
     assert isinstance(
-        nodes.existing.bdDbl3_RatioDblL3("compound"),
+        bd_nodes.existing.bdDbl_RatioDblL("scalar"), BdDblRatioDblL
+    )
+    assert isinstance(
+        bd_nodes.existing.bdDbl3_RatioDblL3("compound"),
         BdDbl3RatioDblL3,
     )
 
@@ -342,9 +344,9 @@ def test_ratio_nodes_survive_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    scalar = nodes.create.bdDbl_RatioDblL(name="scalar")
-    compound = nodes.create.bdDbl3_RatioDblL3(name="compound")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    scalar = bd_nodes.create.bdDbl_RatioDblL(name="scalar")
+    compound = bd_nodes.create.bdDbl3_RatioDblL3(name="compound")
     scalar.input.set(12.0)
     scalar.base.set(3.0)
     compound.input.set((12.0, 20.0, 30.0))
@@ -357,10 +359,10 @@ def test_ratio_nodes_survive_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded.existing.bdDbl_RatioDblL(
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDbl_RatioDblL(
         "scalar"
     ).output.get() == pytest.approx(4.0)
-    assert reloaded.existing.bdDbl3_RatioDblL3(
+    assert bd_nodes_reloaded.existing.bdDbl3_RatioDblL3(
         "compound"
     ).output.get().as_tuple() == pytest.approx((4.0, 5.0, 6.0))

@@ -34,8 +34,8 @@ def test_children_returns_direct_concrete_nodes_in_child_index_order(
         name="unknown_child",
         parent=root_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
 
     children = root.children()
 
@@ -50,7 +50,8 @@ def test_children_returns_direct_concrete_nodes_in_child_index_order(
         "|root|unknown_child",
     )
     assert all(
-        child.modifier_manager is nodes.modifier_manager for child in children
+        child.modifier_manager is bd_nodes.modifier_manager
+        for child in children
     )
     assert all(child.m_obj != root.m_obj for child in children)
     assert all(child.name != "grandchild" for child in children)
@@ -72,18 +73,18 @@ def test_children_reads_executed_scene_state_without_cache(
         name="reparented_child",
         parent=old_parent_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    pending_child = nodes.create.transform(
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    pending_child = bd_nodes.create.transform(
         name="pending_child",
         parent=root,
     )
-    reparented_child = nodes.existing.transform(reparented_name)
+    reparented_child = bd_nodes.existing.transform(reparented_name)
     reparented_child.set_parent(root)
 
     assert root.children() == ()
 
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     first_result = root.children()
     assert len(first_result) == 2
@@ -119,9 +120,9 @@ def test_children_supports_instanced_child_with_mobject_semantics(
         parent=parent_a_name,
     )
     maya_cmds.parent(child_name, parent_b_name, addObject=True)
-    nodes = bdu.Nodes()
-    parent_a = nodes.existing.transform(parent_a_name)
-    parent_b = nodes.existing.transform(parent_b_name)
+    bd_nodes = bdu.Nodes()
+    parent_a = bd_nodes.existing.transform(parent_a_name)
+    parent_b = bd_nodes.existing.transform(parent_b_name)
 
     child_from_a = parent_a.children()[0]
     child_from_b = parent_b.children()[0]
@@ -129,8 +130,8 @@ def test_children_supports_instanced_child_with_mobject_semantics(
     assert child_from_a.m_obj == child_from_b.m_obj
     assert child_from_a.is_instanced is True
     assert child_from_b.is_instanced is True
-    assert child_from_a.modifier_manager is nodes.modifier_manager
-    assert child_from_b.modifier_manager is nodes.modifier_manager
+    assert child_from_a.modifier_manager is bd_nodes.modifier_manager
+    assert child_from_b.modifier_manager is bd_nodes.modifier_manager
 
 
 def test_children_filters_by_dag_class_with_inheritance(
@@ -150,8 +151,8 @@ def test_children_filters_by_dag_class_with_inheritance(
         name="unknown_child",
         parent=root_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
 
     assert tuple(type(child) for child in root.children(filter_type=None)) == (
         Joint,
@@ -203,8 +204,8 @@ def test_children_can_exclude_subclasses(new_scene, maya_cmds):
     )
     maya_cmds.createNode("joint", name="joint_child", parent=root_name)
     maya_cmds.createNode("mesh", name="meshShape", parent=root_name)
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
 
     assert tuple(
         child.name
@@ -244,8 +245,8 @@ def test_children_rejects_non_dag_filter_type(new_scene, maya_cmds):
     import bd_util as bdu
 
     root_name = maya_cmds.createNode("transform", name="root")
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
 
     invalid_filter_types = (
         bdu.node_types.NodeOperator,
@@ -285,9 +286,9 @@ def test_ancestors_returns_direct_parent_to_root_with_concrete_nodes(
         name="meshShape",
         parent=transform_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    shape = nodes.existing.mesh(shape_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    shape = bd_nodes.existing.mesh(shape_name)
 
     ancestors = shape.ancestors()
 
@@ -302,7 +303,7 @@ def test_ancestors_returns_direct_parent_to_root_with_concrete_nodes(
         "|root",
     )
     assert all(
-        ancestor.modifier_manager is nodes.modifier_manager
+        ancestor.modifier_manager is bd_nodes.modifier_manager
         for ancestor in ancestors
     )
     assert all(ancestor.m_obj != shape.m_obj for ancestor in ancestors)
@@ -362,11 +363,11 @@ def test_ancestors_until_is_inclusive_and_filter_independent(
         "transform",
         name="unrelated",
     )
-    nodes = bdu.Nodes()
-    shape = nodes.existing.mesh(shape_name)
-    joint = nodes.existing.joint(joint_name)
-    transform = nodes.existing.transform(transform_name)
-    unrelated = nodes.existing.transform(unrelated_name)
+    bd_nodes = bdu.Nodes()
+    shape = bd_nodes.existing.mesh(shape_name)
+    joint = bd_nodes.existing.joint(joint_name)
+    transform = bd_nodes.existing.transform(transform_name)
+    unrelated = bd_nodes.existing.transform(unrelated_name)
     root_from_other_nodes = bdu.Nodes().existing.transform(root_name)
 
     to_joint = shape.ancestors(until=joint)
@@ -384,10 +385,12 @@ def test_ancestors_until_is_inclusive_and_filter_independent(
         "root",
     )
     assert all(
-        ancestor.modifier_manager is nodes.modifier_manager
+        ancestor.modifier_manager is bd_nodes.modifier_manager
         for ancestor in to_root
     )
-    assert root_from_other_nodes.modifier_manager is not nodes.modifier_manager
+    assert (
+        root_from_other_nodes.modifier_manager is not bd_nodes.modifier_manager
+    )
     assert tuple(
         ancestor.name
         for ancestor in shape.ancestors(
@@ -424,8 +427,8 @@ def test_ancestors_rejects_non_dag_filter_type(new_scene, maya_cmds):
         name="child",
         parent=root_name,
     )
-    nodes = bdu.Nodes()
-    child = nodes.existing.transform(child_name)
+    bd_nodes = bdu.Nodes()
+    child = bd_nodes.existing.transform(child_name)
 
     invalid_filter_types = (
         bdu.node_types.NodeOperator,
@@ -445,9 +448,9 @@ def test_ancestors_rejects_non_dag_until(new_scene, maya_cmds):
     import bd_util as bdu
 
     root_name = maya_cmds.createNode("transform", name="root")
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    dg_node = nodes.create.composeMatrix(name="compose_matrix")
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    dg_node = bd_nodes.create.composeMatrix(name="compose_matrix")
 
     for until in ("root", bdu.node_types.Transform, dg_node, object()):
         with pytest.raises(TypeError, match="until must be DAG"):
@@ -466,16 +469,16 @@ def test_ancestors_reads_executed_scene_state_without_cache(
         name="child",
         parent=root_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    child = nodes.existing.transform(child_name)
-    pending_root = nodes.create.transform(name="pending_root")
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    child = bd_nodes.existing.transform(child_name)
+    pending_root = bd_nodes.create.transform(name="pending_root")
     root.set_parent(pending_root)
 
     assert tuple(ancestor.name for ancestor in child.ancestors()) == ("root",)
     assert child.ancestors(until=pending_root) is None
 
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     first_result = child.ancestors()
     assert tuple(ancestor.name for ancestor in first_result) == (
@@ -526,8 +529,8 @@ def test_ancestors_uses_held_path_for_instanced_node(
     )
     maya_cmds.parent(child_name, parent_b_name, addObject=True)
     child_path = maya_cmds.ls(child_name, long=True, allPaths=True)[1]
-    nodes = bdu.Nodes()
-    child = nodes.existing.transform(child_path)
+    bd_nodes = bdu.Nodes()
+    child = bd_nodes.existing.transform(child_path)
 
     selected_path_names = child.full_path.lstrip("|").split("|")
     expected_ancestor_names = tuple(reversed(selected_path_names[:-1]))
@@ -538,7 +541,7 @@ def test_ancestors_uses_held_path_for_instanced_node(
         expected_ancestor_names
     )
     assert all(
-        ancestor.modifier_manager is nodes.modifier_manager
+        ancestor.modifier_manager is bd_nodes.modifier_manager
         for ancestor in ancestors
     )
     selected_parent_name = expected_ancestor_names[0]
@@ -547,8 +550,8 @@ def test_ancestors_uses_held_path_for_instanced_node(
         if selected_parent_name == parent_a_name
         else parent_a_name
     )
-    selected_parent = nodes.existing.transform(selected_parent_name)
-    other_parent = nodes.existing.transform(other_parent_name)
+    selected_parent = bd_nodes.existing.transform(selected_parent_name)
+    other_parent = bd_nodes.existing.transform(other_parent_name)
     assert tuple(
         ancestor.name for ancestor in child.ancestors(until=selected_parent)
     ) == (selected_parent_name,)
@@ -596,9 +599,9 @@ def test_descendants_returns_depth_first_pre_order_with_concrete_nodes(
         name="second_child",
         parent=second_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    shape = nodes.existing.mesh(shape_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    shape = bd_nodes.existing.mesh(shape_name)
 
     descendants = root.descendants()
 
@@ -619,7 +622,7 @@ def test_descendants_returns_depth_first_pre_order_with_concrete_nodes(
         "second_child",
     )
     assert all(
-        descendant.modifier_manager is nodes.modifier_manager
+        descendant.modifier_manager is bd_nodes.modifier_manager
         for descendant in descendants
     )
     assert all(descendant.m_obj != root.m_obj for descendant in descendants)
@@ -659,8 +662,8 @@ def test_descendants_filters_results_without_pruning_subtrees(
         name="unknown_child",
         parent=root_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
 
     assert tuple(
         type(descendant) for descendant in root.descendants(filter_type=None)
@@ -753,8 +756,8 @@ def test_descendants_rejects_non_dag_filter_type(new_scene, maya_cmds):
     import bd_util as bdu
 
     root_name = maya_cmds.createNode("transform", name="root")
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
 
     invalid_filter_types = (
         bdu.node_types.NodeOperator,
@@ -782,8 +785,8 @@ def test_traversal_validates_include_subclasses(
     import bd_util as bdu
 
     root_name = maya_cmds.createNode("transform", name="root")
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
     traversal = getattr(root, traversal_name)
 
     with pytest.raises(
@@ -812,8 +815,8 @@ def test_shape_filter_validates_include_shapes(
     import bd_util as bdu
 
     root_name = maya_cmds.createNode("transform", name="root")
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
     traversal = getattr(root, traversal_name)
 
     for include_shapes in (None, 0, 1, "false"):
@@ -845,22 +848,22 @@ def test_descendants_reads_executed_scene_state_without_cache(
         name="reparented_grandchild",
         parent=reparented_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    pending_child = nodes.create.transform(
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    pending_child = bd_nodes.create.transform(
         name="pending_child",
         parent=root,
     )
-    nodes.create.joint(
+    bd_nodes.create.joint(
         name="pending_grandchild",
         parent=pending_child,
     )
-    reparented_child = nodes.existing.transform(reparented_name)
+    reparented_child = bd_nodes.existing.transform(reparented_name)
     reparented_child.set_parent(root)
 
     assert root.descendants() == ()
 
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     first_result = root.descendants()
     assert tuple(descendant.name for descendant in first_result) == (
@@ -921,8 +924,8 @@ def test_descendants_revisits_instanced_subtree_for_each_dag_path(
         parent=instanced_name,
     )
     maya_cmds.parent(instanced_name, branch_b_name, addObject=True)
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
 
     descendants = root.descendants()
 
@@ -937,7 +940,7 @@ def test_descendants_revisits_instanced_subtree_for_each_dag_path(
     assert descendants[1].m_obj == descendants[4].m_obj
     assert descendants[2].m_obj == descendants[5].m_obj
     assert all(
-        descendant.modifier_manager is nodes.modifier_manager
+        descendant.modifier_manager is bd_nodes.modifier_manager
         for descendant in descendants
     )
 
@@ -999,8 +1002,8 @@ def test_descendant_chain_uses_same_child_index_at_each_level(
         name="mesh_1Shape",
         parent=branch_1_1_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
 
     first_child_chain = root.descendant_chain()
     second_child_chain = root.descendant_chain(child_index=1)
@@ -1024,11 +1027,11 @@ def test_descendant_chain_uses_same_child_index_at_each_level(
         "branch_1_1",
     )
     assert all(
-        node.modifier_manager is nodes.modifier_manager
+        node.modifier_manager is bd_nodes.modifier_manager
         for node in first_child_chain + second_child_chain
     )
     assert root.descendant_chain(child_index=2) == ()
-    assert nodes.existing.mesh(mesh_0_name).descendant_chain() == ()
+    assert bd_nodes.existing.mesh(mesh_0_name).descendant_chain() == ()
 
 
 def test_descendant_chain_until_is_inclusive_on_selected_chain(
@@ -1062,11 +1065,11 @@ def test_descendant_chain_until_is_inclusive_on_selected_chain(
         "transform",
         name="unrelated",
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    branch_1 = nodes.existing.joint(branch_1_name)
-    leaf = nodes.existing.mesh(leaf_name)
-    unrelated = nodes.existing.transform(unrelated_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    branch_1 = bd_nodes.existing.joint(branch_1_name)
+    leaf = bd_nodes.existing.mesh(leaf_name)
+    unrelated = bd_nodes.existing.transform(unrelated_name)
     target_from_other_nodes = bdu.Nodes().existing.joint(target_name)
 
     to_target = root.descendant_chain(until=target_from_other_nodes)
@@ -1087,10 +1090,11 @@ def test_descendant_chain_until_is_inclusive_on_selected_chain(
     assert second_child_to_branch is not None
     assert tuple(node.name for node in second_child_to_branch) == ("branch_1",)
     assert all(
-        node.modifier_manager is nodes.modifier_manager for node in to_leaf
+        node.modifier_manager is bd_nodes.modifier_manager for node in to_leaf
     )
     assert (
-        target_from_other_nodes.modifier_manager is not nodes.modifier_manager
+        target_from_other_nodes.modifier_manager
+        is not bd_nodes.modifier_manager
     )
     assert root.descendant_chain(child_index=1, until=leaf) is None
     assert root.descendant_chain(until=unrelated) is None
@@ -1104,13 +1108,13 @@ def test_descendant_chain_reads_executed_scene_state_without_cache(
     import bd_util as bdu
 
     root_name = maya_cmds.createNode("transform", name="root")
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    pending_child = nodes.create.transform(
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    pending_child = bd_nodes.create.transform(
         name="pending_child",
         parent=root,
     )
-    pending_grandchild = nodes.create.joint(
+    pending_grandchild = bd_nodes.create.joint(
         name="pending_grandchild",
         parent=pending_child,
     )
@@ -1118,7 +1122,7 @@ def test_descendant_chain_reads_executed_scene_state_without_cache(
     assert root.descendant_chain() == ()
     assert root.descendant_chain(until=pending_grandchild) is None
 
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     first_result = root.descendant_chain()
     assert tuple(node.name for node in first_result) == (
@@ -1179,9 +1183,9 @@ def test_descendant_chain_rejects_non_dag_until(new_scene, maya_cmds):
     import bd_util as bdu
 
     root_name = maya_cmds.createNode("transform", name="root")
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    dg_node = nodes.create.composeMatrix(name="compose_matrix")
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    dg_node = bd_nodes.create.composeMatrix(name="compose_matrix")
 
     for until in ("root", bdu.node_types.Transform, dg_node, object()):
         with pytest.raises(TypeError, match="until must be DAG"):

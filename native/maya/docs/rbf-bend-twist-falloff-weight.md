@@ -112,12 +112,12 @@ weightを同時に出力します。最終補正が加算されることを意�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-weight = nodes.create.bdRbf_BendTwistFalloffWeight(
+weight = bd_nodes.create.bdRbf_BendTwistFalloffWeight(
     name="shoulder_bend_falloff"
 )
-blend = nodes.create.bdRbf_PoseBlend(name="shoulder_corrective_blend")
+blend = bd_nodes.create.bdRbf_PoseBlend(name="shoulder_corrective_blend")
 
 weight.mode.set(weight.mode.BENDONLY)
 weight.pose[0].poseQuat.set((0.0, 0.0, 0.0, 1.0))

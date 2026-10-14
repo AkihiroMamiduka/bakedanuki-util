@@ -22,8 +22,8 @@ class Settings:
 class OffsetWidget(qt.QWidget):
     def __init__(self, data: Settings, node_name: str, parent=None):
         super().__init__(parent)
-        nodes = bdu.Nodes()
-        node = nodes.existing.transform(node_name)
+        bd_nodes = bdu.Nodes()
+        node = bd_nodes.existing.transform(node_name)
         self.binding = MayaFloat3Binding.from_attribute(
             data, "offset", maya_plug=node.translate, parent=self
         )

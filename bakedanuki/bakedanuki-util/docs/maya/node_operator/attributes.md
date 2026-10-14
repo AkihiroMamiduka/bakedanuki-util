@@ -116,9 +116,9 @@ constraint・unitConversion・animation layer・計算ノードで駆動され�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-source = nodes.existing.transform("source_ctrl")
-target = nodes.existing.transform("target_ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+source = bd_nodes.existing.transform("source_ctrl")
+target = bd_nodes.existing.transform("target_ctrl")
 
 samples = source.tx.sample_values(frames=range(1, 25))
 target.tx.keyframe.set_keys(
@@ -207,8 +207,8 @@ layerがないsceneでは通常のアニメーションカーブを扱い、別l
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-cmp_m = nodes.create.composeMatrix(name="cmp_m")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+cmp_m = bd_nodes.create.composeMatrix(name="cmp_m")
 keyframe = cmp_m.inputRotate.inputRotateX.keyframe
 
 keyframe.set_key(0.0, frame=1.0, tangent_type="linear")
@@ -474,8 +474,8 @@ layerに属する属性も、未指定ならベースへのキー設定とカー
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-node = nodes.existing.transform("ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+node = bd_nodes.existing.transform("ctrl")
 
 # Correctionは既存layerで、ctrl.translateYが登録されている前提。
 keyframe = node.translate.translateY.keyframe.anim_layer("Correction")
@@ -490,7 +490,7 @@ data = keyframe.get_curve_data()
 文字列で指定するlayerはsceneに存在する必要があります。空の名前、存在しない名前、
 animation layer以外のnode名は`ValueError`、文字列・`AnimLayer`以外は`TypeError`です。
 属性名やwildcardを含む指定も`ValueError`です。
-`nodes.create.animLayer()`の戻り値は作成待ちでも渡せます。名前を先に検索せず、
+`bd_nodes.create.animLayer()`の戻り値は作成待ちでも渡せます。名前を先に検索せず、
 作成・登録・キー設定を同じModifierManagerへ順に予約してください。
 実行前のqueryは`RuntimeError`で、作成や登録を暗黙に実行しません。
 layerは名前だけでなくノード同一性を保持し、取得後・予約後の改名にも追従します。
@@ -502,7 +502,7 @@ root以外では、元の属性が指定layerに登録済みであることをqu
 未登録なら`RuntimeError`です。rootには通常のlayer未所属属性も指定できます。
 ベースを扱うだけならlayer指定は不要です。明示する場合は、rootの現在の名前を指定してください。
 `anim_layer()`自体はlayerの作成、属性の自動登録、選択中のlayerやbest layerへの自動切替を行いません。
-作成・登録には次節の`nodes.create.animLayer()`と`add_plugs()` / `add_nodes()`を使用します。
+作成・登録には次節の`bd_nodes.create.animLayer()`と`add_plugs()` / `add_nodes()`を使用します。
 
 | 操作 | 指定layerでの意味 |
 | --- | --- |
@@ -537,7 +537,7 @@ muteやweightが0でも生カーブは編集対象になり、最終評価への
 
 ### アニメーションレイヤーの作成・登録・解除
 
-`nodes.create.animLayer(name=None, override=False)`は、sceneのベース（root）の直下へ
+`bd_nodes.create.animLayer(name=None, override=False)`は、sceneのベース（root）の直下へ
 layerの作成を予約し、通常の`AnimLayer`を返します。既定は加算layer、`override=True`は
 上書きlayerです。rootがなければベースも同じbatchで作成します。既存rootは現在の名前で
 解決し、同じbatchで複数layerを作る場合も共有します。
@@ -546,11 +546,11 @@ layerの作成を予約し、通常の`AnimLayer`を返します。既定は加�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-ctrl = nodes.existing.transform("ctrl")
-other = nodes.existing.transform("other_ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = bd_nodes.existing.transform("ctrl")
+other = bd_nodes.existing.transform("other_ctrl")
 
-layer = nodes.create.animLayer(name="Correction")
+layer = bd_nodes.create.animLayer(name="Correction")
 layer.add_plugs([ctrl.translate, ctrl.rotate])
 layer.add_nodes([other])
 layer.weight.set(0.5)
@@ -606,7 +606,7 @@ lock・referenceされたノード、lockされたlayerへの書込みを拒否�
 別ModifierManagerで作成した対象を渡す場合は、その作成を先に実行してください。
 通常のDAG作成と同様に、作成待ちのtransformは先に`do_it_dag()`が必要です。
 
-既存layerには`nodes.existing.animLayer("Correction")`で同じ登録APIを使用できます。
+既存layerには`bd_nodes.existing.animLayer("Correction")`で同じ登録APIを使用できます。
 作成・登録は選択ノードや選択layer・preferredを変更しません。ノード作成と初期値には
 MDGModifierを使用し、階層接続・所属とblend nodeの構築はMayaの`animLayer`へ委譲します。
 その変更もModifierManagerとMPxCommandのUndo / Redo・失敗時rollbackへ参加します。
@@ -614,19 +614,19 @@ MDGModifierを使用し、階層接続・所属とblend nodeの構築はMayaの`
 
 ### カーブを明示して操作する
 
-`nodes.existing.animCurveTA(...)` / `animCurveTL(...)` / `animCurveTU(...)`の
+`bd_nodes.existing.animCurveTA(...)` / `animCurveTL(...)` / `animCurveTU(...)`の
 `.keyframe`は、そのノード自身を対象にした`CurveKeyframeManager`を返します。
-`nodes.create`でも同じ入口を使用でき、ノード作成とキー編集をまとめて予約できます。
+`bd_nodes.create`でも同じ入口を使用でき、ノード作成とキー編集をまとめて予約できます。
 
 ```python
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-curve = nodes.existing.animCurveTL("walk_tx")
+curve = bd_nodes.existing.animCurveTL("walk_tx")
 data = curve.keyframe.get_curve_data(start_frame=1, end_frame=24)
-copy = nodes.create.animCurveTL(name="walk_tx_copy")
+copy = bd_nodes.create.animCurveTL(name="walk_tx_copy")
 copy.keyframe.set_curve_data(data)
 copy.keyframe.set_key(12.0, frame=10.0)
 mod.do_it_dg()
@@ -635,7 +635,7 @@ mod.do_it_dg()
 `CurveKeyframeManager`は`bd_util.maya.node.operator.attr`からもimportできます。
 `CurveKeyframeManager(m_obj, modifier_manager=mod)`の`m_obj`はTA / TL / TUの
 `MObject`です。queryだけならmanagerを省略できます。型の分からない名前は
-`nodes.existing(name)`で実行時に具体ノードへ解決できます。
+`bd_nodes.existing(name)`で実行時に具体ノードへ解決できます。
 カーブ自身の入口は`curve.keyframe`です。`curve.output.keyframe`は出力属性を対象とする
 従来の`KeyframeManager`なので、カーブ自身の編集には使いません。
 
@@ -689,8 +689,8 @@ queryは実行済みsceneだけを参照し、編集条件は初回実行時に�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-node = nodes.existing.transform("ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+node = bd_nodes.existing.transform("ctrl")
 
 curves = node.translate.translateX.keyframe.find_anim_curves(
     filter_type=bdu.node_types.AnimCurveTL,
@@ -703,7 +703,7 @@ curve.keyframe.set_key(12.0, frame=10.0)
 mod.do_it_dg()
 ```
 
-返却ノードは`nodes.existing`と同じ具体型で、元の`ModifierManager`を共有します。
+返却ノードは`bd_nodes.existing`と同じ具体型で、元の`ModifierManager`を共有します。
 `filter_type`には`bdu.node_types.AnimCurveTL`等の具体カーブクラスを渡します。
 戻り値の型も絞られるので、TA / TL / TUでは`.keyframe`以下の補完を利用できます。
 省略時は全8型が候補になり、`isinstance(curve, bdu.node_types.AnimCurveTL)`等でも型を
@@ -818,18 +818,18 @@ frames = keyframe.frames()
 
 #### node・複数nodeの接線とlockをまとめて変更する
 
-`node.keyframes.set_tangents()`と`nodes.keyframes.set_tangents([...])`は、選択した属性にある
+`node.keyframes.set_tangents()`と`bd_nodes.keyframes.set_tangents([...])`は、選択した属性にある
 既存カーブ・既存キーの接線typeを1操作で変更します。範囲、`tangent_type`と個別側の上書き、
 値・時刻・詳細情報を維持する規則はplug単位と共通です。静的属性へカーブやキーを作成せず、
 カーブなし・該当キーなし・自動収集の対象0件はno-opです。
 
-`node.keyframes.set_tangent_locks()`と`nodes.keyframes.set_tangent_locks([...])`は、同じ属性選択と
+`node.keyframes.set_tangent_locks()`と`bd_nodes.keyframes.set_tangent_locks([...])`は、同じ属性選択と
 layer選択を使って既存キーのlockだけを変更します。自動収集では連続・離散属性の両方を対象にし、
 接線typeのような`discrete_tangent_type`の分離は行いません。複数対象は編集前にすべて解決・検証します。
 
 ```python
-ctrl_a = nodes.existing.transform("ctrlA")
-ctrl_b = nodes.existing.transform("ctrlB")
+ctrl_a = bd_nodes.existing.transform("ctrlA")
+ctrl_b = bd_nodes.existing.transform("ctrlB")
 
 ctrl_a.keyframes.set_tangents(
     1,
@@ -839,14 +839,14 @@ ctrl_a.keyframes.set_tangents(
     discrete_tangent_type="step",
 )
 
-nodes.keyframes.set_tangents(
+bd_nodes.keyframes.set_tangents(
     [ctrl_a, ctrl_b],
     1,
     120,
     tangent_type="flat",
 )
 
-nodes.keyframes.set_tangent_locks(
+bd_nodes.keyframes.set_tangent_locks(
     [ctrl_a, ctrl_b],
     1,
     120,
@@ -872,7 +872,7 @@ Undo / Redo・rollbackします。
 
 #### node・複数nodeのキーをまとめて削除する
 
-`node.keyframes.delete_keys()`と`nodes.keyframes.delete_keys([...])`は、選択した属性にある
+`node.keyframes.delete_keys()`と`bd_nodes.keyframes.delete_keys([...])`は、選択した属性にある
 既存カーブから、指定範囲に実在するキーだけをまとめて削除します。戻り値は`None`です。
 公開シグネチャは次のとおりです（`self`は省略）。
 
@@ -886,7 +886,7 @@ def delete_keys(
     include_channel_box: bool = False,
 ) -> None: ...
 
-# nodes.keyframes
+# bd_nodes.keyframes
 def delete_keys(
     nodes: Iterable[NodeOperator | om.MObject | str],
     start_frame: float | None = None,
@@ -904,7 +904,7 @@ ctrl_a.keyframes.delete_keys(
     attributes=["translate", "rotate"],
 )
 
-nodes.keyframes.delete_keys(
+bd_nodes.keyframes.delete_keys(
     [ctrl_a, ctrl_b],
     1,
     120,
@@ -929,7 +929,7 @@ node名を混在できます。nodes版は1件以上を要求し、同じnodeの
 
 #### node・複数nodeのキーをまとめて削減する
 
-`node.keyframes.reduce_keys()`と`nodes.keyframes.reduce_keys([...])`は、選択した属性にある
+`node.keyframes.reduce_keys()`と`bd_nodes.keyframes.reduce_keys([...])`は、選択した属性にある
 既存カーブのキーを、元カーブとの値の誤差内でまとめて削減します。plug・明示カーブ単位の
 `reduce_keys()`と同じ削減規則を使用し、戻り値は`None`です。
 
@@ -941,7 +941,7 @@ ctrl_a.keyframes.reduce_keys(
     tolerance=0.05,
 )
 
-nodes.keyframes.reduce_keys(
+bd_nodes.keyframes.reduce_keys(
     [ctrl_a, ctrl_b],
     1,
     120,
@@ -972,21 +972,21 @@ mod.do_it_dg()
 同じmanagerへ先に予約したベイク結果も、実行順に解決して削減できます。
 
 ```python
-nodes.keyframes.bake(ctrls, 1, 120)
-nodes.keyframes.reduce_keys(ctrls, 1, 120, tolerance=0.05)
+bd_nodes.keyframes.bake(ctrls, 1, 120)
+bd_nodes.keyframes.reduce_keys(ctrls, 1, 120, tolerance=0.05)
 mod.do_it_dg()
 ```
 
 #### 小数フレームのキーを整数フレームへ打ち直す
 
 `snap_subframe_keys()`は、範囲内の小数時刻にあるキーを最寄りの整数フレームへ
-打ち直します。plug・明示カーブに加えて、`node.keyframes`と`nodes.keyframes`からも
+打ち直します。plug・明示カーブに加えて、`node.keyframes`と`bd_nodes.keyframes`からも
 実行できます。戻り値は`None`で、変更は`ModifierManager`へ予約します。
 
 ```python
 ctrl_a.tx.keyframe.snap_subframe_keys(1, 120)
 ctrl_a.keyframes.snap_subframe_keys(attributes=["translate", "rotate"])
-nodes.keyframes.snap_subframe_keys(
+bd_nodes.keyframes.snap_subframe_keys(
     [ctrl_a, ctrl_b],
     1,
     120,
@@ -1018,7 +1018,7 @@ mod.do_it_dg()
 TAはdegree、TLはcm、TUはunitlessの値で指定します。
 形状を見て採用する通常の操作では省略し、自動処理で上限が必要な場合に明示します。
 
-`node.keyframes` / `nodes.keyframes`には`attributes`と`include_channel_box`を指定できます。
+`node.keyframes` / `bd_nodes.keyframes`には`attributes`と`include_channel_box`を指定できます。
 既存カーブの選択、複数nodeの属性名のunion、上流探索、rootと明示layerの区別は
 他の一括キー操作と共通です。別layerのカーブは`.anim_layer(layer)`から選びます。
 レイヤーの直接所属カーブ全体は非rootの`layer.member_keyframes.snap_subframe_keys()`で
@@ -1035,14 +1035,14 @@ rollbackにも参加します。
 
 `node.keyframes.euler_filter(start_frame=None, end_frame=None)`は、Transform / Jointの
 `rotateX` / `rotateY` / `rotateZ`にある既存TAカーブを一組としてEuler filterします。
-複数nodeは`nodes.keyframes.euler_filter([...], start_frame=None, end_frame=None)`で一括処理します。
+複数nodeは`bd_nodes.keyframes.euler_filter([...], start_frame=None, end_frame=None)`で一括処理します。
 属性を選ぶ引数はなく、標準の3軸回転だけが対象です。
 
 ```python
 ctrl_a.keyframes.euler_filter()
 ctrl_a.keyframes.euler_filter(10, 40)
 
-nodes.keyframes.euler_filter([ctrl_a, ctrl_b], 10, 40)
+bd_nodes.keyframes.euler_filter([ctrl_a, ctrl_b], 10, 40)
 ctrl_a.keyframes.anim_layer("Correction").euler_filter()
 mod.do_it_dg()
 ```
@@ -1076,8 +1076,8 @@ in_tangent_type=None, out_tangent_type=None, discrete_tangent_type=None)`は、p
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-ctrl = nodes.existing.transform("ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = bd_nodes.existing.transform("ctrl")
 
 # 再生範囲を1フレーム間隔でベイク
 ctrl.tx.keyframe.bake()
@@ -1132,8 +1132,8 @@ Break Tangentsされた状態が必要な場合は、同じmanagerへ続けて
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-ctrl = nodes.existing.transform("ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = bd_nodes.existing.transform("ctrl")
 
 # keyable属性を、再生範囲でベイク
 ctrl.keyframes.bake()
@@ -1183,11 +1183,11 @@ rollbackします。自動キー削減は行わないため、必要なら同じ
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-ctrl_a = nodes.existing.transform("ctrlA")
-ctrl_b = nodes.existing.transform("ctrlB")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+ctrl_a = bd_nodes.existing.transform("ctrlA")
+ctrl_b = bd_nodes.existing.transform("ctrlB")
 
-nodes.keyframes.bake(
+bd_nodes.keyframes.bake(
     [ctrl_a, ctrl_b],
     1,
     120,
@@ -1207,7 +1207,7 @@ nodeだけへ適用します。例えば`customWeight`が`ctrlA`にだけ存在�
 nodeごとに対象属性が0件でも他nodeに対象があれば続行し、全体が0件ならエラーにします。
 
 ```python
-nodes.keyframes.anim_layer("Correction").bake(
+bd_nodes.keyframes.anim_layer("Correction").bake(
     [ctrl_a, ctrl_b],
     1,
     120,
@@ -1237,8 +1237,8 @@ simulation・cache・dynamics向けの時系列評価も行いません。
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-ctrl = nodes.existing.transform("ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = bd_nodes.existing.transform("ctrl")
 keyframe = ctrl.tx.keyframe
 
 keyframe.move_frames(10, 20, offset=15)
@@ -1384,14 +1384,14 @@ rollbackします。影響度0の端点キーもこの検査に含めます。
 
 #### node・複数nodeの既存キーをまとめて移動する
 
-`node.keyframes.move_frames()` / `nodes.keyframes.move_frames([...])`は、選択した属性の
+`node.keyframes.move_frames()` / `bd_nodes.keyframes.move_frames([...])`は、選択した属性の
 TA / TL / TU既存カーブを一括で時間方向へ移動します。公開引数はplug版の
 `move_frames()`に`attributes` / `include_channel_box`を追加した形で、複数node版は
 先頭に`nodes: Iterable[NodeOperator | om.MObject | str]`を取ります。戻り値は`None`です。
 
 ```python
 ctrl_a.keyframes.move_frames(10, 20, attributes=["translate", "rotate"], offset=5)
-nodes.keyframes.move_frames([ctrl_a, ctrl_b], to_start=100)
+bd_nodes.keyframes.move_frames([ctrl_a, ctrl_b], to_start=100)
 mod.do_it_dg()
 ```
 
@@ -1427,8 +1427,8 @@ insert_missing=False)`は、既存カーブのキーを時間方向に拡縮し�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-ctrl = nodes.existing.transform("ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = bd_nodes.existing.transform("ctrl")
 
 # 10〜30の動きを100〜140へ収め、配置先区間の既存キーを置き換える
 ctrl.tx.keyframe.scale_frames(10, 30, to_start=100, to_end=140)
@@ -1526,14 +1526,14 @@ queryは保留中の編集を実行しません。Undo / Redoでは置換され�
 
 #### node・複数nodeの既存キーをまとめて拡縮する
 
-`node.keyframes.scale_frames()` / `nodes.keyframes.scale_frames([...])`は、選択した属性の
+`node.keyframes.scale_frames()` / `bd_nodes.keyframes.scale_frames([...])`は、選択した属性の
 TA / TL / TU既存カーブを一括で時間方向へ拡縮します。公開引数はplug版へ
 `attributes` / `include_channel_box`を追加した形で、複数node版は先頭に
 `nodes: Iterable[NodeOperator | om.MObject | str]`を取ります。戻り値は`None`です。
 
 ```python
 ctrl_a.keyframes.scale_frames(10, 30, attributes=["translate", "rotate"], scale=2)
-nodes.keyframes.scale_frames([ctrl_a, ctrl_b], duration=20, to_start=100)
+bd_nodes.keyframes.scale_frames([ctrl_a, ctrl_b], duration=20, to_start=100)
 mod.do_it_dg()
 ```
 
@@ -1665,8 +1665,8 @@ bool・enum・整数属性でもカーブ上の数値を計算し、整数丸め
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-keys = nodes.existing.transform("ctrl").tx.keyframe
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+keys = bd_nodes.existing.transform("ctrl").tx.keyframe
 
 keys.add_values(
     20, 30,
@@ -1734,8 +1734,8 @@ queryは予約を暗黙に実行しません。Undo / Redoは値・接線・挿�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-ctrl = nodes.existing.transform("ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = bd_nodes.existing.transform("ctrl")
 
 ctrl.tx.keyframe.reduce_keys(10, 100, tolerance=0.01)
 ctrl.rz.keyframe.reduce_keys(tolerance=0.1)
@@ -1815,9 +1815,9 @@ import bd_util as bdu
 from bd_util.maya.node.operator.attr import AnimCurveData
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-source = nodes.existing.transform("source_ctrl")
-target = nodes.existing.transform("target_ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+source = bd_nodes.existing.transform("source_ctrl")
+target = bd_nodes.existing.transform("target_ctrl")
 
 data = source.tx.keyframe.get_curve_data()
 if data is not None:
@@ -1954,21 +1954,21 @@ mod.do_it_dg()
 weighted = keyframe.get_weighted()  # True
 ```
 
-`node.keyframes.set_weighted()`と`nodes.keyframes.set_weighted([...])`は、選択した属性の
+`node.keyframes.set_weighted()`と`bd_nodes.keyframes.set_weighted([...])`は、選択した属性の
 既存カーブをまとめて同じweighted設定へ変更します。weightedはカーブ全体の設定なので
 キーの範囲引数はありません。既存カーブが0キーでも対象にし、静的属性からカーブを作成しません。
 実在する属性にカーブがない場合と自動収集の対象が0件の場合はno-opです。
 
 ```python
-ctrl_a = nodes.existing.transform("ctrlA")
-ctrl_b = nodes.existing.transform("ctrlB")
+ctrl_a = bd_nodes.existing.transform("ctrlA")
+ctrl_b = bd_nodes.existing.transform("ctrlB")
 
 ctrl_a.keyframes.set_weighted(
     True,
     attributes=["translate", "rotate"],
 )
 
-nodes.keyframes.set_weighted(
+bd_nodes.keyframes.set_weighted(
     [ctrl_a, ctrl_b],
     False,
     include_channel_box=True,

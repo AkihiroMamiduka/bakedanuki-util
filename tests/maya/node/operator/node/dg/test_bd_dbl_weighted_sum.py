@@ -45,8 +45,8 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     assert BdDblWeightedSumMulti.i.short_name == "i"
     assert BdDblWeightedSumMulti.output.long_name == "output"
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_WeightedSumMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_WeightedSumMulti()
     modifier_manager.do_it_dg()
 
     assert node.output.get() == pytest.approx(0.0)
@@ -67,8 +67,8 @@ def test_sums_sparse_weighted_values_without_normalizing(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_WeightedSumMulti(name="weighted")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_WeightedSumMulti(name="weighted")
     node.input[2].value.set(10.0)
     node.input[2].weight.set(0.5)
     node.input[9].value.set(4.0)
@@ -86,8 +86,8 @@ def test_sums_sparse_weighted_values_without_normalizing(
 def test_default_weight_contributes_nothing(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_WeightedSumMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_WeightedSumMulti()
     node.input[4].value.set(100.0)
     modifier_manager.do_it_dg()
 

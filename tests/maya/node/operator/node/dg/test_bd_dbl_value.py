@@ -44,8 +44,8 @@ def test_class_attribute_access_and_default(modifier_manager, maya_cmds):
     assert BdDblValue.value.long_name == "value"
     assert BdDblValue.v.short_name == "v"
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_Value()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_Value()
     modifier_manager.do_it_dg()
 
     assert node.name == "bdDbl_Value1"
@@ -73,10 +73,10 @@ def test_value_can_be_destination_and_source_in_the_same_network(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    source = nodes.create.bdDbl_Value(name="source")
-    relay = nodes.create.bdDbl_Value(name="relay")
-    mult = nodes.create.bdDbl_Multiply(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    source = bd_nodes.create.bdDbl_Value(name="source")
+    relay = bd_nodes.create.bdDbl_Value(name="relay")
+    mult = bd_nodes.create.bdDbl_Multiply(name="mult")
     source.value.set(3.0)
     source.value.connect(relay.value)
     relay.value.connect(mult.input1)
@@ -145,12 +145,12 @@ def test_existing_accessor_and_scene_round_trip(
         BdDblValue,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_Value(name="value")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_Value(name="value")
     node.value.set(7.5)
     modifier_manager.do_it_dg()
 
-    assert isinstance(nodes.existing.bdDbl_Value(node.name), BdDblValue)
+    assert isinstance(bd_nodes.existing.bdDbl_Value(node.name), BdDblValue)
 
     selection = maya_om.MSelectionList()
     selection.add(node.name)
@@ -163,7 +163,7 @@ def test_existing_accessor_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert existing_nodes.existing.bdDbl_Value(
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_existing.existing.bdDbl_Value(
         "value"
     ).value.get() == pytest.approx(7.5)

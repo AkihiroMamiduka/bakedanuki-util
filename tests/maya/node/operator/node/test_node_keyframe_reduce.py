@@ -172,8 +172,8 @@ def test_nodes_apply_attribute_union_and_prevalidate_locked_curves(maya_cmds):
     )
     custom = _curve(maya_cmds, first + ".custom")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.reduce_keys(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.reduce_keys(
         [first, second], attributes=["custom"], tolerance=0
     )
     manager.do_it_dg()
@@ -185,8 +185,8 @@ def test_nodes_apply_attribute_union_and_prevalidate_locked_curves(maya_cmds):
     second_curve = _curve(maya_cmds, second + ".tx")
     maya_cmds.setAttr(second_curve.name() + ".ktv", lock=True)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.reduce_keys(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.reduce_keys(
         [first, second], attributes=["tx"], tolerance=0
     )
     with pytest.raises(RuntimeError, match="locked"):
@@ -255,11 +255,11 @@ def test_node_reduction_rejects_invalid_arguments(maya_cmds):
     with pytest.raises(TypeError, match="attributes"):
         node.keyframes.reduce_keys(tolerance=0, attributes="tx")
 
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     with pytest.raises(ValueError, match="at least one"):
-        nodes.keyframes.reduce_keys([], tolerance=0)
+        bd_nodes.keyframes.reduce_keys([], tolerance=0)
     with pytest.raises(TypeError, match="iterable"):
-        nodes.keyframes.reduce_keys(target, tolerance=0)
+        bd_nodes.keyframes.reduce_keys(target, tolerance=0)
     with pytest.raises(ValueError, match="Duplicate"):
-        nodes.keyframes.reduce_keys([target, node], tolerance=0)
+        bd_nodes.keyframes.reduce_keys([target, node], tolerance=0)
     assert not manager.can_undo

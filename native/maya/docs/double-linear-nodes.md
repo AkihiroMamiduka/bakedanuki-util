@@ -80,7 +80,7 @@ bdDblL3_WeightedAverageMulti
 | Maya node type | `bdDblL_Add` | `bdDblL3_Add` |
 | Python class | `BdDblLAdd` | `BdDblL3Add` |
 | Python module | `bd_dbl_l_add.py` | `bd_dbl_l3_add.py` |
-| `NodeCreator` method | `nodes.create.bdDblL_Add()` | `nodes.create.bdDblL3_Add()` |
+| `NodeCreator` method | `bd_nodes.create.bdDblL_Add()` | `bd_nodes.create.bdDblL3_Add()` |
 
 `DblL3`はMayaの正式な型名ではなく、このplug-inのtype codeです。node仕様では、
 必ず「親`double3`、子`doubleLinear`」という実体も併記します。
@@ -342,7 +342,7 @@ class / attribute定義を生成し、次を確認しています。
 
 - `node.inputX` / `node.outputX`の子plugがlinear operatorとして生成される。
 - 親plugが`DoubleLinear3AttrOperator`として生成される。
-- `nodes.create.bdDblL_*()` / `nodes.create.bdDblL3_*()`が補完される。
+- `bd_nodes.create.bdDblL_*()` / `bd_nodes.create.bdDblL3_*()`が補完される。
 - 生成class名とmodule名に衝突がない。
 - 生成後にformat、import sweep、pytestを実行する。
 

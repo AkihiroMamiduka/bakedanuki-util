@@ -211,9 +211,9 @@ def test_connect_disconnect_from_supported_sources(
 def test_connection_queries_filter_node_types(
     modifier_manager,
 ):
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    src = nodes.create.joint(name="src_joint")
-    dst = nodes.create.plusMinusAverage(name="dst")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    src = bd_nodes.create.joint(name="src_joint")
+    dst = bd_nodes.create.plusMinusAverage(name="dst")
 
     src.translateX.connect(dst.input1D[0])
     src.translateX.connect(dst.input1D[1])

@@ -64,9 +64,9 @@ def test_defaults_and_fixed_component_wise_subtraction(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Subtract()
-    multi = nodes.create.bdDbl3_SubtractMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Subtract()
+    multi = bd_nodes.create.bdDbl3_SubtractMulti()
     fixed.input1.set((10.0, 20.0, 30.0))
     fixed.input2.set((1.0, 5.0, 7.0))
     modifier_manager.do_it_dg()
@@ -124,8 +124,8 @@ def test_multi_uses_logical_index_order_and_defined_edge_cases(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_SubtractMulti(name="sub")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_SubtractMulti(name="sub")
     node.input[20].set((1.0, 2.0, 3.0))
     node.input[2].set((20.0, 30.0, 40.0))
     node.input[9].set((3.0, 5.0, 7.0))
@@ -237,9 +237,9 @@ def test_connection_and_existing_node_accessors(
         BdDbl3SubtractMulti,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Subtract(name="fixed")
-    multi = nodes.create.bdDbl3_SubtractMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Subtract(name="fixed")
+    multi = bd_nodes.create.bdDbl3_SubtractMulti(name="multi")
     fixed.input1.set((10.0, 20.0, 30.0))
     fixed.input2.set((1.0, 5.0, 7.0))
     fixed.output.connect(multi.input[2])
@@ -248,10 +248,10 @@ def test_connection_and_existing_node_accessors(
 
     assert multi.output.get().as_tuple() == pytest.approx((8.0, 13.0, 20.0))
     assert isinstance(
-        nodes.existing.bdDbl3_Subtract(fixed.name), BdDbl3Subtract
+        bd_nodes.existing.bdDbl3_Subtract(fixed.name), BdDbl3Subtract
     )
     assert isinstance(
-        nodes.existing.bdDbl3_SubtractMulti(multi.name),
+        bd_nodes.existing.bdDbl3_SubtractMulti(multi.name),
         BdDbl3SubtractMulti,
     )
 
@@ -264,9 +264,9 @@ def test_both_nodes_survive_scene_save_and_reload(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Subtract(name="fixed")
-    multi = nodes.create.bdDbl3_SubtractMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Subtract(name="fixed")
+    multi = bd_nodes.create.bdDbl3_SubtractMulti(name="multi")
     fixed.input1.set((10.0, 20.0, 30.0))
     fixed.input2.set((1.0, 5.0, 7.0))
     multi.input[20].set((1.0, 2.0, 3.0))
@@ -288,10 +288,10 @@ def test_both_nodes_survive_scene_save_and_reload(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert existing_nodes.existing.bdDbl3_Subtract(
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_existing.existing.bdDbl3_Subtract(
         "fixed"
     ).output.get().as_tuple() == pytest.approx((9.0, 15.0, 23.0))
-    assert existing_nodes.existing.bdDbl3_SubtractMulti(
+    assert bd_nodes_existing.existing.bdDbl3_SubtractMulti(
         "multi"
     ).output.get().as_tuple() == pytest.approx((16.0, 23.0, 30.0))

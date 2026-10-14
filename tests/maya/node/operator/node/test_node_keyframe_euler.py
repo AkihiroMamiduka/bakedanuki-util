@@ -415,18 +415,18 @@ def test_euler_filter_rejects_invalid_ranges_nodes_and_node_types(maya_cmds):
     with pytest.raises(ValueError, match="start_frame"):
         node.keyframes.euler_filter(2, 1)
 
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     with pytest.raises(ValueError, match="at least one"):
-        nodes.keyframes.euler_filter([])
+        bd_nodes.keyframes.euler_filter([])
     with pytest.raises(TypeError, match="iterable"):
-        nodes.keyframes.euler_filter(target)
+        bd_nodes.keyframes.euler_filter(target)
     with pytest.raises(ValueError, match="Duplicate"):
-        nodes.keyframes.euler_filter([target, node])
-    nodes.keyframes.euler_filter([joint])
+        bd_nodes.keyframes.euler_filter([target, node])
+    bd_nodes.keyframes.euler_filter([joint])
     manager.do_it_dg()
 
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.euler_filter([network])
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.euler_filter([network])
     with pytest.raises(TypeError, match="transform or joint"):
         manager.do_it_dg()

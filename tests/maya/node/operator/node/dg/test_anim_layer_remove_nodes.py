@@ -25,17 +25,17 @@ def _setup(cmds):
     second = cmds.animLayer("Second", attribute="ctrl.tx")
     cmds.setKeyframe("ctrl.tx", animLayer=second, time=1, value=12)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    ctrl = nodes.existing.transform("ctrl")
-    other = nodes.existing.transform("other")
-    return mod, nodes, ctrl, other, nodes.existing.animLayer(first)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    ctrl = bd_nodes.existing.transform("ctrl")
+    other = bd_nodes.existing.transform("other")
+    return mod, bd_nodes, ctrl, other, bd_nodes.existing.animLayer(first)
 
 
 @pytest.mark.parametrize("form", ["wrapper", "api", "name"])
 def test_remove_all_registered_plugs_and_preserve_other_nodes_layers(
     maya_cmds, form
 ):
-    mod, nodes, ctrl, other, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, other, layer = _setup(maya_cmds)
     target = {"wrapper": ctrl, "api": ctrl.m_obj, "name": "ctrl"}[form]
     maya_cmds.setAttr("ctrl.ty", keyable=False)
     assert not maya_cmds.getAttr("ctrl.displayOnly", keyable=True)
@@ -71,7 +71,7 @@ def test_remove_all_registered_plugs_and_preserve_other_nodes_layers(
 
 
 def test_multiple_nodes_and_idempotent_requests(maya_cmds):
-    mod, nodes, ctrl, other, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, other, layer = _setup(maya_cmds)
     layer.remove_nodes([ctrl, other, "ctrl"])
     mod.do_it_dg()
     assert not _members(maya_cmds, "First")
@@ -87,10 +87,10 @@ def test_pending_registration_is_seen_at_execution(maya_cmds):
     maya_cmds.createNode("transform", name="ctrl")
     maya_cmds.createNode("transform", name="other")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    ctrl = nodes.existing.transform("ctrl")
-    other = nodes.existing.transform("other")
-    layer = nodes.create.animLayer(name="Correction")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    ctrl = bd_nodes.existing.transform("ctrl")
+    other = bd_nodes.existing.transform("other")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_nodes([ctrl])
     layer.add_plugs([other.tx])
     layer.remove_nodes([ctrl])
@@ -104,9 +104,9 @@ def test_pending_registration_is_seen_at_execution(maya_cmds):
 
 def test_pending_dg_node_is_removed_after_registration(maya_cmds):
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    pending = nodes.create.composeMatrix(name="pending")
-    layer = nodes.create.animLayer(name="Correction")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    pending = bd_nodes.create.composeMatrix(name="pending")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_plugs([pending.inputTranslate.inputTranslateX])
     layer.remove_nodes([pending])
     mod.do_it_dg()
@@ -116,7 +116,7 @@ def test_pending_dg_node_is_removed_after_registration(maya_cmds):
 
 
 def test_sparse_array_membership_is_removed_without_new_elements(maya_cmds):
-    mod, nodes, ctrl, other, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, other, layer = _setup(maya_cmds)
     maya_cmds.addAttr(
         "ctrl", longName="samples", attributeType="double", multi=True
     )
@@ -130,7 +130,7 @@ def test_sparse_array_membership_is_removed_without_new_elements(maya_cmds):
 
 
 def test_captures_inputs_and_tracks_node_and_layer_renames(maya_cmds):
-    mod, nodes, ctrl, other, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, other, layer = _setup(maya_cmds)
     targets = ["ctrl"]
     layer.remove_nodes(targets)
     targets.append("other")
@@ -151,8 +151,8 @@ def test_node_identity_excludes_same_named_dag_and_children(
     for path in ("|first|ctrl.tx", "|second|ctrl.tx", "|first|ctrl|child.tx"):
         maya_cmds.animLayer(layer_name, edit=True, attribute=path)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    layer = nodes.existing.animLayer(layer_name)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    layer = bd_nodes.existing.animLayer(layer_name)
     layer.remove_nodes(["|first|ctrl"])
     mod.do_it_dg()
     remaining = set()
@@ -161,16 +161,18 @@ def test_node_identity_excludes_same_named_dag_and_children(
         selection.add(member)
         remaining.add(maya_om.MObjectHandle(selection.getPlug(0).node()))
     assert remaining == {
-        maya_om.MObjectHandle(nodes.existing.transform("|second|ctrl").m_obj),
         maya_om.MObjectHandle(
-            nodes.existing.transform("|first|ctrl|child").m_obj
+            bd_nodes.existing.transform("|second|ctrl").m_obj
+        ),
+        maya_om.MObjectHandle(
+            bd_nodes.existing.transform("|first|ctrl|child").m_obj
         ),
     }
 
 
 @pytest.mark.parametrize("deleted", ["node", "layer"])
 def test_deleted_identity_is_not_replaced_by_same_name(maya_cmds, deleted):
-    mod, nodes, ctrl, other, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, other, layer = _setup(maya_cmds)
     layer.remove_nodes([ctrl])
     if deleted == "node":
         maya_cmds.delete("ctrl")
@@ -186,7 +188,7 @@ def test_deleted_identity_is_not_replaced_by_same_name(maya_cmds, deleted):
 
 @pytest.mark.parametrize("locked", ["layer", "node", "plug", "curve"])
 def test_readonly_later_node_aborts_entire_batch(maya_cmds, locked):
-    mod, nodes, ctrl, other, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, other, layer = _setup(maya_cmds)
     if locked == "layer":
         maya_cmds.animLayer("First", edit=True, lock=True)
     elif locked == "node":
@@ -219,8 +221,8 @@ def test_referenced_node_aborts_entire_batch(maya_cmds, tmp_path):
     maya_cmds.animLayer(layer_name, edit=True, attribute="local.tx")
     maya_cmds.animLayer(layer_name, edit=True, attribute="ref:refCtrl.tx")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    layer = nodes.existing.animLayer(layer_name)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    layer = bd_nodes.existing.animLayer(layer_name)
     layer.remove_nodes(["local", "ref:refCtrl"])
     before = set(maya_cmds.ls())
     with pytest.raises(RuntimeError, match="referenced"):
@@ -233,7 +235,7 @@ def test_referenced_node_aborts_entire_batch(maya_cmds, tmp_path):
 def test_native_failure_and_late_failure_roll_back(
     maya_cmds, monkeypatch, mode
 ):
-    mod, nodes, ctrl, other, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, other, layer = _setup(maya_cmds)
     before = set(maya_cmds.ls())
     native = maya_cmds.animLayer
 
@@ -263,11 +265,13 @@ def test_native_failure_and_late_failure_roll_back(
 
 
 def test_invalid_arguments_and_root_are_rejected(maya_cmds):
-    mod, nodes, ctrl, other, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, other, layer = _setup(maya_cmds)
     for value in (ctrl, ctrl.m_obj, "ctrl", [ctrl.tx], [1]):
         with pytest.raises(TypeError):
             layer.remove_nodes(value)
-    root = nodes.existing.animLayer(maya_cmds.animLayer(query=True, root=True))
+    root = bd_nodes.existing.animLayer(
+        maya_cmds.animLayer(query=True, root=True)
+    )
     root.remove_nodes([ctrl])
     with pytest.raises(RuntimeError, match="base"):
         mod.do_it_dg()

@@ -100,10 +100,10 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 
 現在は次の経路を検証します。
 
-- `nodes.create` / `nodes.existing` の具体的な node 戻り値型。
+- `bd_nodes.create` / `bd_nodes.existing` の具体的な node 戻り値型。
 - `typing_maya_version="2025" / "2026" / "2027"` と
-  `"2025+" / "2026+" / "2027+"` ごとの `nodes.create` / `nodes.existing` /
-  `nodes.create.with_transform` の候補と versioned attribute schema。省略時は
+  `"2025+" / "2026+" / "2027+"` ごとの `bd_nodes.create` / `bd_nodes.existing` /
+  `bd_nodes.create.with_transform` の候補と versioned attribute schema。省略時は
   3 version 共通面と共通型を検証します。
 - `AttributeField` の class access と instance access。
 - compound child と alias の具体的な plug 型。
@@ -210,7 +210,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
 ### 公開 node API と modifier
 
 - `tests/maya/node/test_nodes.py`
-  - `Nodes` の公開範囲、`nodes.create` / `nodes.existing` の共有状態を検証します。
+  - `Nodes` の公開範囲、`bd_nodes.create` / `bd_nodes.existing` の共有状態を検証します。
 - `tests/maya/node/test_maya_version.py`
   - 実行中Mayaからのmajor version判定、sparse overlayの検索順、version固有nodeの
     availability、変更されたattribute schemaが実行Mayaへ追従することを検証します。
@@ -238,7 +238,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
 - `tests/maya/node/creator/test_node_creator.py`
   - node 作成、nodeType 解決、補完用 node 名を検証します。
   - concrete transform class が存在しても、allowlistにないtypeは
-    `nodes.create` へ公開しないことを検証します。
+    `bd_nodes.create` へ公開しないことを検証します。
   - `unknownDag` の具体classを解決できても、汎用DAG作成APIには公開しないことを
     検証します。
 - `tests/maya/node/creator/test_shape_with_transform.py`
@@ -534,7 +534,7 @@ stubは見つかっていてもMayaの実module sourceを解決できず、
   - concrete transform のnative基底が生成済みの場合、そのclassを継承して
     基底attributeを重複生成しないことを検証します。
 - `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
-  - `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の型情報と、
+  - `bd_nodes.create` / `bd_nodes.existing` / `bd_nodes.create.with_transform` の型情報と、
     raw作成を公開するtransform系メソッドのstub生成結果を検証します。
 - `tests/dev/maya/node/operator/node/test_version_schema.py`
   - 固定plugin profile、version別inventory、生成対象数、availability registryとの同期、
@@ -597,7 +597,7 @@ pytest 側では、ログ出力ではなく assert で仕様を固定します�
 特に次のような挙動は pytest に向いています。
 
 - `Nodes` が公開 node API の入口になり、内部 accessor が同じ `ModifierManager` を共有する。
-- `nodes.existing` の自動判定と型別アクセスが、実際の Maya nodeType を正しく解決する。
+- `bd_nodes.existing` の自動判定と型別アクセスが、実際の Maya nodeType を正しく解決する。
 - `NodeCreator` と生成 stub が、公開する node 名と具体的な戻り値型を維持する。
 - alias が同じ `PlugOperator` instance を返す。
 - child plug access が正しい plug 名を指す。
@@ -690,7 +690,7 @@ PyMEL の比較ベンチマークは、現在の Maya バージョン用キャ�
 ## node・複数nodeの接線変更の検証
 
 `test_node_keyframe_tangent.py`では、`node.keyframes.set_tangents()`と
-`nodes.keyframes.set_tangents([...])`の次の契約を検証します。
+`bd_nodes.keyframes.set_tangents([...])`の次の契約を検証します。
 
 - keyable属性の自動収集、明示属性、既存カーブ・既存キーだけの変更と静的属性のno-op。
 - 通常の接線指定を連続属性だけへ適用し、離散属性は既定で維持すること。
@@ -731,7 +731,7 @@ Undo時にlockが戻らないことを確認したため、実装はanimCurveの
 ## node・複数nodeのweighted変更の検証
 
 `test_node_keyframe_weighted.py`では、`node.keyframes.set_weighted()`と
-`nodes.keyframes.set_weighted([...])`について次の契約を検証します。
+`bd_nodes.keyframes.set_weighted([...])`について次の契約を検証します。
 
 - TA / TL / TUの既存カーブ、連続・離散属性、0キーカーブと同値設定を扱い、静的属性へ
   カーブを作成しないこと。同じbatchで先に作成したカーブは実行時に認識すること。
@@ -757,7 +757,7 @@ Trueへ戻しても元のweightは復元されません。`MAnimCurveChange`のU
 ## node・複数nodeのEuler filterの検証
 
 `test_node_keyframe_euler.py`では、`node.keyframes.euler_filter()`と
-`nodes.keyframes.euler_filter([...])`について次の契約を検証します。
+`bd_nodes.keyframes.euler_filter([...])`について次の契約を検証します。
 
 - 6種類の`rotateOrder`で、各キーの姿勢を維持しながら直前のfilter済みキーに近いEuler角へ
   変換すること。範囲内の先頭キーをanchorとして維持すること。
@@ -779,7 +779,7 @@ Trueへ戻しても元のweightは復元されません。`MAnimCurveChange`のU
 ## node・複数nodeのキー削減の検証
 
 `test_node_keyframe_reduce.py`では、`node.keyframes.reduce_keys()`と
-`nodes.keyframes.reduce_keys([...])`について次の契約を検証します。
+`bd_nodes.keyframes.reduce_keys([...])`について次の契約を検証します。
 
 - keyable / channelBox・明示属性、TA / TL / TU、両端包含範囲、境界を追加しないこと、
   カーブなし・対象キー不足のno-op。
@@ -800,7 +800,7 @@ Trueへ戻しても元のweightは復元されません。`MAnimCurveChange`のU
 ## node・複数nodeのキー削除の検証
 
 `test_node_keyframe_delete.py`では、`node.keyframes.delete_keys()`と
-`nodes.keyframes.delete_keys([...])`について次の契約を検証します。
+`bd_nodes.keyframes.delete_keys([...])`について次の契約を検証します。
 
 - keyable / channelBox・明示属性、両端包含・片側省略・単一時刻・全キー・負時刻・subframeと、
   予約時のUI時間単位の捕捉。
@@ -930,7 +930,7 @@ Maya標準Undo / Redoとcommand失敗時rollbackを検証します。plug単位�
 .\scripts\test-pytest-maya2025.cmd tests/maya/mpx_cmd/test_command.py -k bake
 ```
 
-`test_nodes_keyframe_bake.py`では、`nodes.keyframes.bake([...])`の次の契約を検証します。
+`test_nodes_keyframe_bake.py`では、`bd_nodes.keyframes.bake([...])`の次の契約を検証します。
 
 - NodeOperator / MObject / node名の複数指定、重複nodeと空の入力列の拒否。
 - 明示属性名を存在するnodeだけへ適用し、全nodeで見つからない名前、既存の未対応・lock属性を
@@ -1043,7 +1043,7 @@ push済みコミットと一時フォルダーで比較し、現在の実装と�
 ## node・複数nodeのキーフレーム移動の検証
 
 `test_node_keyframe_move.py`では、`node.keyframes.move_frames()`と
-`nodes.keyframes.move_frames([...])`について次の契約を検証します。
+`bd_nodes.keyframes.move_frames([...])`について次の契約を検証します。
 
 - 片側省略の`to_start` / `to_end`が全対象の主区間キーを共通基準にし、
   チャンネル間の時刻差を維持すること。明示境界、属性名のunion、
@@ -1066,7 +1066,7 @@ plug・明示カーブ単位の移動、境界挿入、接線・weighted・break
 ## node・複数nodeのキーフレーム時間拡縮の検証
 
 `test_node_keyframe_scale.py`では、`node.keyframes.scale_frames()`と
-`nodes.keyframes.scale_frames([...])`について次の契約を検証します。
+`bd_nodes.keyframes.scale_frames([...])`について次の契約を検証します。
 
 - 省略した元境界を全カーブの主区間から共通に求めること。倍率・長さ・両端合わせ・
   片側配置・共通ピボット、明示境界、0幅の扱いと反復Undo / Redo。

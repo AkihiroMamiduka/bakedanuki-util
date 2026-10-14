@@ -65,8 +65,8 @@ def test_set_waits_for_execution_and_queries_follow_undo_redo(
 
 def test_set_on_pending_node_and_rename_undo_together(new_scene, maya_cmds):
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    node = nodes.create.plusMinusAverage(name="beforeRename")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    node = bd_nodes.create.plusMinusAverage(name="beforeRename")
     keyframe = node.input1D[0].keyframe
     mod.dg_mod.renameNode(keyframe.plug.node(), "afterRename")
     keyframe.set_key(4.0, frame=8)

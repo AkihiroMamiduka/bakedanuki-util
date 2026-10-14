@@ -38,15 +38,15 @@ def test_parent_and_parents_return_shared_manager_operators(
         name="child",
         parent=parent_name,
     )
-    nodes = bdu.Nodes()
-    parent = nodes.existing.transform(parent_name)
-    child = nodes.existing.transform(child_name)
+    bd_nodes = bdu.Nodes()
+    parent = bd_nodes.existing.transform(parent_name)
+    child = bd_nodes.existing.transform(child_name)
 
     resolved_parent = child.parent
 
     assert resolved_parent is not None
     assert resolved_parent.m_obj == parent.m_obj
-    assert resolved_parent.modifier_manager is nodes.modifier_manager
+    assert resolved_parent.modifier_manager is bd_nodes.modifier_manager
     assert len(child.parents) == 1
     assert child.parents[0].m_obj == parent.m_obj
     assert parent.parent is None
@@ -67,9 +67,9 @@ def test_parent_rejects_instanced_dag_node(new_scene, maya_cmds):
     )
     maya_cmds.parent(child_name, parent_b, addObject=True)
     child_path = maya_cmds.ls(child_name, long=True, allPaths=True)[0]
-    nodes = bdu.Nodes()
-    child = nodes.existing.transform(child_path)
-    new_parent = nodes.existing.transform(new_parent_name)
+    bd_nodes = bdu.Nodes()
+    child = bd_nodes.existing.transform(child_path)
+    new_parent = bd_nodes.existing.transform(new_parent_name)
 
     assert child.is_instanced is True
     assert {parent.name for parent in child.parents} == {
@@ -99,13 +99,13 @@ def test_set_parent_preserves_local_transform_and_supports_undo_redo(
     child_name = maya_cmds.createNode("transform", name="child")
     maya_cmds.setAttr(f"{parent_name}.translateX", 10.0)
     maya_cmds.setAttr(f"{child_name}.translateX", 2.0)
-    nodes = bdu.Nodes()
-    parent = nodes.existing.transform(parent_name)
-    child = nodes.existing.transform(child_name)
+    bd_nodes = bdu.Nodes()
+    parent = bd_nodes.existing.transform(parent_name)
+    child = bd_nodes.existing.transform(child_name)
     assert child.full_path == "|child"
 
     assert child.set_parent(parent) is child
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     assert child.full_path == "|parent|child"
     assert maya_cmds.getAttr(f"{child_name}.translateX") == pytest.approx(2.0)
@@ -116,10 +116,10 @@ def test_set_parent_preserves_local_transform_and_supports_undo_redo(
         translation=True,
     ) == pytest.approx([12.0, 0.0, 0.0])
 
-    nodes.modifier_manager.undo_it()
+    bd_nodes.modifier_manager.undo_it()
     assert child.full_path == "|child"
 
-    nodes.modifier_manager.redo_it()
+    bd_nodes.modifier_manager.redo_it()
     assert child.full_path == "|parent|child"
 
 
@@ -134,9 +134,9 @@ def test_transform_set_parent_can_preserve_world_transform(
     maya_cmds.setAttr(f"{parent_name}.translateX", 10.0)
     maya_cmds.setAttr(f"{child_name}.translateX", 2.0)
     expected_world = _world_matrix(maya_cmds, child_name)
-    nodes = bdu.Nodes()
-    parent = nodes.existing.transform(parent_name)
-    child = nodes.existing.transform(child_name)
+    bd_nodes = bdu.Nodes()
+    parent = bd_nodes.existing.transform(parent_name)
+    child = bd_nodes.existing.transform(child_name)
 
     assert (
         child.set_parent(
@@ -145,7 +145,7 @@ def test_transform_set_parent_can_preserve_world_transform(
         )
         is child
     )
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     assert child.full_path == "|parent|child"
     assert _world_matrix(maya_cmds, child_name) == pytest.approx(
@@ -153,13 +153,13 @@ def test_transform_set_parent_can_preserve_world_transform(
     )
     assert maya_cmds.getAttr(f"{child_name}.translateX") == pytest.approx(-8.0)
 
-    nodes.modifier_manager.undo_it()
+    bd_nodes.modifier_manager.undo_it()
     assert child.full_path == "|child"
     assert _world_matrix(maya_cmds, child_name) == pytest.approx(
         expected_world
     )
 
-    nodes.modifier_manager.redo_it()
+    bd_nodes.modifier_manager.redo_it()
     assert child.full_path == "|parent|child"
     assert _world_matrix(maya_cmds, child_name) == pytest.approx(
         expected_world
@@ -189,8 +189,8 @@ def test_transform_set_parent_to_world(
     )
     maya_cmds.setAttr(f"{parent_name}.translateX", 10.0)
     maya_cmds.setAttr(f"{child_name}.translateX", 2.0)
-    nodes = bdu.Nodes()
-    child = nodes.existing.transform(child_name)
+    bd_nodes = bdu.Nodes()
+    child = bd_nodes.existing.transform(child_name)
 
     assert (
         child.set_parent_to_world(
@@ -198,7 +198,7 @@ def test_transform_set_parent_to_world(
         )
         is child
     )
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     assert child.parent is None
     assert child.full_path == "|child"
@@ -209,10 +209,10 @@ def test_transform_set_parent_to_world(
         translation=True,
     ) == pytest.approx([expected_world_x, 0.0, 0.0])
 
-    nodes.modifier_manager.undo_it()
+    bd_nodes.modifier_manager.undo_it()
     assert child.full_path == "|parent|child"
 
-    nodes.modifier_manager.redo_it()
+    bd_nodes.modifier_manager.redo_it()
     assert child.full_path == "|child"
     assert maya_cmds.xform(
         child_name,
@@ -229,10 +229,10 @@ def test_create_accepts_parent_and_full_path_is_not_cached(
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    parent = nodes.create.transform(name="parent")
-    child = nodes.create.transform(name="child", parent=parent)
-    generic_child = nodes.create.create(
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    parent = bd_nodes.create.transform(name="parent")
+    child = bd_nodes.create.transform(name="child", parent=parent)
+    generic_child = bd_nodes.create.create(
         "transform",
         name="generic_child",
         parent=parent,
@@ -253,8 +253,8 @@ def test_dag_create_accepts_parent_for_shape(new_scene, maya_cmds):
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    parent = nodes.create.transform(name="parent")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    parent = bd_nodes.create.transform(name="parent")
     shape = Mesh.create(
         mod,
         name="meshShape",
@@ -280,9 +280,9 @@ def test_preserve_world_transform_supports_uncommitted_parent(
     maya_cmds.setAttr(f"{child_name}.translate", 1.0, 2.0, 3.0)
     expected_world = _world_matrix(maya_cmds, child_name)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    parent = nodes.create.transform(name="parent")
-    child = nodes.existing.transform(child_name)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    parent = bd_nodes.create.transform(name="parent")
+    child = bd_nodes.existing.transform(child_name)
 
     child.set_parent(parent, preserve_world_transform=True)
     mod.do_it_dag()
@@ -302,30 +302,30 @@ def test_full_path_follows_rename_undo_and_redo(new_scene, maya_cmds):
         name="child",
         parent=parent_name,
     )
-    nodes = bdu.Nodes()
-    child = nodes.existing.transform(child_name)
+    bd_nodes = bdu.Nodes()
+    child = bd_nodes.existing.transform(child_name)
     assert child.full_path == "|parent|child"
 
     child.rename(new_name="renamed")
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert child.full_path == "|parent|renamed"
 
-    nodes.modifier_manager.undo_it()
+    bd_nodes.modifier_manager.undo_it()
     assert child.full_path == "|parent|child"
 
-    nodes.modifier_manager.redo_it()
+    bd_nodes.modifier_manager.redo_it()
     assert child.full_path == "|parent|renamed"
 
 
 def test_create_rejects_parent_for_dg_node(new_scene):
     import bd_util as bdu
 
-    nodes = bdu.Nodes()
-    parent = nodes.create.transform(name="parent")
+    bd_nodes = bdu.Nodes()
+    parent = bd_nodes.create.transform(name="parent")
 
     with pytest.raises(TypeError, match="only supported for DAG nodes"):
-        nodes.create.create("multiplyDivide", parent=parent)
+        bd_nodes.create.create("multiplyDivide", parent=parent)
 
 
 @pytest.mark.parametrize("preserve_world_transform", (False, True))
@@ -347,9 +347,9 @@ def test_set_parent_rejects_descendant(
         name="descendant",
         parent=child_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    descendant = nodes.existing.transform(descendant_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    descendant = bd_nodes.existing.transform(descendant_name)
 
     with pytest.raises(ValueError, match="parented to its descendant"):
         root.set_parent(
@@ -365,10 +365,10 @@ def test_set_parent_rejects_uncommitted_descendant(
 ):
     import bd_util as bdu
 
-    nodes = bdu.Nodes()
-    root = nodes.create.transform(name="test1")
-    child = nodes.create.transform(name="test2", parent=root)
-    descendant = nodes.create.transform(name="test3", parent=child)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.create.transform(name="test1")
+    child = bd_nodes.create.transform(name="test2", parent=root)
+    descendant = bd_nodes.create.transform(name="test3", parent=child)
 
     with pytest.raises(ValueError, match="parented to its descendant"):
         root.set_parent(
@@ -376,7 +376,7 @@ def test_set_parent_rejects_uncommitted_descendant(
             preserve_world_transform=preserve_world_transform,
         )
 
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     assert root.full_path == "|test1"
     assert child.full_path == "|test1|test2"
@@ -391,15 +391,15 @@ def test_set_parent_rejects_cycle_from_pending_reparent(
 
     first_name = maya_cmds.createNode("transform", name="first")
     second_name = maya_cmds.createNode("transform", name="second")
-    nodes = bdu.Nodes()
-    first = nodes.existing.transform(first_name)
-    second = nodes.existing.transform(second_name)
+    bd_nodes = bdu.Nodes()
+    first = bd_nodes.existing.transform(first_name)
+    second = bd_nodes.existing.transform(second_name)
 
     first.set_parent(second)
     with pytest.raises(ValueError, match="parented to its descendant"):
         second.set_parent(first)
 
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     assert first.full_path == "|second|first"
     assert second.full_path == "|second"
@@ -417,13 +417,13 @@ def test_pending_world_parent_replaces_current_parent_for_cycle_check(
         name="child",
         parent=root_name,
     )
-    nodes = bdu.Nodes()
-    root = nodes.existing.transform(root_name)
-    child = nodes.existing.transform(child_name)
+    bd_nodes = bdu.Nodes()
+    root = bd_nodes.existing.transform(root_name)
+    child = bd_nodes.existing.transform(child_name)
 
     child.set_parent_to_world()
     root.set_parent(child)
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     assert child.full_path == "|child"
     assert root.full_path == "|child|root"
@@ -435,9 +435,9 @@ def test_parent_must_be_transform_dag_node(new_scene, maya_cmds):
     transform_name, _ = maya_cmds.polyCube(name="cube")
     shape_name = maya_cmds.listRelatives(transform_name, shapes=True)[0]
     child_name = maya_cmds.createNode("transform", name="child")
-    nodes = bdu.Nodes()
-    shape = nodes.existing.mesh(shape_name)
-    child = nodes.existing.transform(child_name)
+    bd_nodes = bdu.Nodes()
+    shape = bd_nodes.existing.mesh(shape_name)
+    child = bd_nodes.existing.transform(child_name)
 
     with pytest.raises(TypeError, match="parent must be a transform DAG node"):
         child.set_parent(shape)
@@ -447,11 +447,11 @@ def test_parent_must_be_transform_dag_node(new_scene, maya_cmds):
 def test_uncommitted_parent_must_share_modifier_manager(new_scene):
     import bd_util as bdu
 
-    first_nodes = bdu.Nodes()
-    second_nodes = bdu.Nodes()
-    parent = first_nodes.create.transform(name="parent")
+    bd_nodes_first = bdu.Nodes()
+    bd_nodes_second = bdu.Nodes()
+    parent = bd_nodes_first.create.transform(name="parent")
 
     with pytest.raises(
         ValueError, match="must share the same ModifierManager"
     ):
-        second_nodes.create.transform(name="child", parent=parent)
+        bd_nodes_second.create.transform(name="child", parent=parent)

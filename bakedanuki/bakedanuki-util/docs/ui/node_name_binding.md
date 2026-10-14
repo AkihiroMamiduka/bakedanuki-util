@@ -12,8 +12,8 @@ from bd_util.maya.ui import MayaNodeNameBinding
 from bd_util.ui import StringLabel, StringLineEdit
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-node = nodes.existing("existing_node")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+node = bd_nodes.existing("existing_node")
 
 binding = MayaNodeNameBinding(node, parent=window)
 line_edit = StringLineEdit(binding, window)
@@ -24,7 +24,7 @@ binding.refresh()              # 現在名と編集可否の再読込み
 binding.dispose()              # Window終了時やreload前に呼ぶ
 ```
 
-`node`には`NodeOperator`を渡します。文字列からの解決は`nodes.existing()`で明示し、
+`node`には`NodeOperator`を渡します。文字列からの解決は`bd_nodes.existing()`で明示し、
 同名DAGの場合は一意なパスを指定してください。構築時は現在名を読むだけで、ノード作成や
 sceneへの書込みは行いません。Bindingは受け取った実体を固定し、選択変更には追従しません。
 選択監視、代表ノードの決定、別ノードへの切替えは利用側で行い、切替え時は古いBindingを

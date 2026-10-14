@@ -423,11 +423,13 @@ def test_node_operator_creation_and_parent_connection(
         BdRbfBendTwistFalloffWeight,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight = nodes.create.bdRbf_BendTwistFalloffWeight(
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    weight = bd_nodes.create.bdRbf_BendTwistFalloffWeight(
         name="rbf_bend_twist_falloff_weight"
     )
-    blend = nodes.create.bdRbf_PoseBlend(name="rbf_bend_twist_falloff_blend")
+    blend = bd_nodes.create.bdRbf_PoseBlend(
+        name="rbf_bend_twist_falloff_blend"
+    )
     pose = _compose(maya_cmds, twist=30.0, bend_h=20.0)
     weight.pose[8].poseQuat.set(pose)
     weight.inputQuat.set(pose)
@@ -440,7 +442,7 @@ def test_node_operator_creation_and_parent_connection(
     assert weight.outputWeight[8].get() == pytest.approx(1.0)
     assert blend.outputTranslate.get() == pytest.approx((0.0, 5.0, 0.0))
     assert isinstance(
-        nodes.existing.bdRbf_BendTwistFalloffWeight(weight.name),
+        bd_nodes.existing.bdRbf_BendTwistFalloffWeight(weight.name),
         BdRbfBendTwistFalloffWeight,
     )
 

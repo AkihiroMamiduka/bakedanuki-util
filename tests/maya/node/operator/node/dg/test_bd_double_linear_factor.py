@@ -459,9 +459,9 @@ def test_node_operator_creation_and_existing_accessors(
         BdDblLMultiply,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDblL_Multiply(name="fixed")
-    multi = nodes.create.bdDblL3_DivideMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDblL_Multiply(name="fixed")
+    multi = bd_nodes.create.bdDblL3_DivideMulti(name="multi")
     fixed.input.set(3.0)
     fixed.factor.set(4.0)
     multi.input.set((120.0, 240.0, 600.0))
@@ -474,9 +474,11 @@ def test_node_operator_creation_and_existing_accessors(
     assert fixed.output.get() == pytest.approx(12.0)
     assert multi.factor[2].factorX.get() == pytest.approx(3.0)
     assert multi.output.get().as_tuple() == pytest.approx((20.0, 12.0, 12.0))
-    assert isinstance(nodes.existing.bdDblL_Multiply("fixed"), BdDblLMultiply)
     assert isinstance(
-        nodes.existing.bdDblL3_DivideMulti("multi"),
+        bd_nodes.existing.bdDblL_Multiply("fixed"), BdDblLMultiply
+    )
+    assert isinstance(
+        bd_nodes.existing.bdDblL3_DivideMulti("multi"),
         BdDblL3DivideMulti,
     )
 
@@ -488,9 +490,9 @@ def test_factor_nodes_survive_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    scalar = nodes.create.bdDblL_Divide(name="scalar")
-    compound = nodes.create.bdDblL3_MultiplyMulti(name="compound")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    scalar = bd_nodes.create.bdDblL_Divide(name="scalar")
+    compound = bd_nodes.create.bdDblL3_MultiplyMulti(name="compound")
     scalar.input.set(24.0)
     scalar.factor.set(4.0)
     compound.input.set((2.0, 3.0, 4.0))
@@ -504,10 +506,10 @@ def test_factor_nodes_survive_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded.existing.bdDblL_Divide(
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDblL_Divide(
         "scalar"
     ).output.get() == pytest.approx(6.0)
-    assert reloaded.existing.bdDblL3_MultiplyMulti(
+    assert bd_nodes_reloaded.existing.bdDblL3_MultiplyMulti(
         "compound"
     ).output.get().as_tuple() == pytest.approx((5.0, 36.0, -28.0))

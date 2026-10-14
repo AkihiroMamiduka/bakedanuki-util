@@ -18,8 +18,8 @@ from bd_util.ui import FloatSpinBox, qt
 class TranslateXWidget(qt.QWidget):
     def __init__(self, node_name: str, parent: qt.QWidget | None = None) -> None:
         super().__init__(parent)
-        nodes = bdu.Nodes()
-        node = nodes.existing.transform(node_name)
+        bd_nodes = bdu.Nodes()
+        node = bd_nodes.existing.transform(node_name)
         self.binding = MayaFloatPlugBinding(node.translate.translateX, parent=self)
         self.spin_box = FloatSpinBox(self.binding, self)
         layout = qt.QVBoxLayout(self)

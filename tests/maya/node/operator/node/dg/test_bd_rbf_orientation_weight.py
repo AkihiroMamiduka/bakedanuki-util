@@ -330,8 +330,10 @@ def test_node_operator_creation_and_existing_access(
         BdRbfOrientationWeight,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdRbf_OrientationWeight(name="rbf_orientation_weight")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdRbf_OrientationWeight(
+        name="rbf_orientation_weight"
+    )
     node.pose[2].poseQuat.set(_axis_x_quaternion(0.0))
     node.pose[8].poseQuat.set(_axis_x_quaternion(90.0))
     node.kernel.set(node.kernel.GAUSSIAN)
@@ -341,7 +343,7 @@ def test_node_operator_creation_and_existing_access(
     assert node.outputWeight[2].get() == pytest.approx(1.0)
     assert node.outputWeight[8].get() == pytest.approx(0.0, abs=2.0e-8)
     assert isinstance(
-        nodes.existing.bdRbf_OrientationWeight(node.name),
+        bd_nodes.existing.bdRbf_OrientationWeight(node.name),
         BdRbfOrientationWeight,
     )
 

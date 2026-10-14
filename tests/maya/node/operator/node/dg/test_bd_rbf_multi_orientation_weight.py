@@ -446,11 +446,11 @@ def test_node_operator_nested_multi_and_existing_access(
         BdRbfMultiOrientationWeight,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight = nodes.create.bdRbf_MultiOrientationWeight(
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    weight = bd_nodes.create.bdRbf_MultiOrientationWeight(
         name="rbf_multi_orientation_weight"
     )
-    blend = nodes.create.bdRbf_PoseBlend(name="rbf_multi_orientation_blend")
+    blend = bd_nodes.create.bdRbf_PoseBlend(name="rbf_multi_orientation_blend")
     weight.source[2].inputQuat.set(_axis_x_quaternion(0.0))
     weight.source[8].inputQuat.set(_axis_x_quaternion(90.0))
     weight.source[8].influence.set(2.0)
@@ -464,7 +464,7 @@ def test_node_operator_nested_multi_and_existing_access(
     assert weight.outputWeight[7].get() == pytest.approx(1.0, abs=2.0e-8)
     assert blend.outputTranslate.get() == pytest.approx((1.0, 2.0, 3.0))
     assert isinstance(
-        nodes.existing.bdRbf_MultiOrientationWeight(weight.name),
+        bd_nodes.existing.bdRbf_MultiOrientationWeight(weight.name),
         BdRbfMultiOrientationWeight,
     )
 

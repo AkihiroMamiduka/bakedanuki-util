@@ -1661,8 +1661,8 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
 ):
     _load_bd_util_nodes(maya_cmds)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    transform, shape = nodes.create.controllerShape(name="rig_ctrl")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    transform, shape = bd_nodes.create.controllerShape(name="rig_ctrl")
     shape.boundsMode.set(0)
     shape.shape.set(SHAPE_NAMES.index("CircleArrow2D"))
     shape.shape1stAxis.set(0)

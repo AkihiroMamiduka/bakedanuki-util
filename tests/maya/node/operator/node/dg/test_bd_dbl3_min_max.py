@@ -95,9 +95,9 @@ def test_defaults_and_type_ids(
     del function
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = getattr(nodes.create, f"bdDbl3_{operation}")()
-    multi = getattr(nodes.create, f"bdDbl3_{operation}Multi")()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = getattr(bd_nodes.create, f"bdDbl3_{operation}")()
+    multi = getattr(bd_nodes.create, f"bdDbl3_{operation}Multi")()
     modifier_manager.do_it_dg()
 
     zero = (0.0, 0.0, 0.0)
@@ -139,9 +139,9 @@ def test_fixed_and_multi_do_not_include_zero_in_non_empty_comparison(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = getattr(nodes.create, f"bdDbl3_{operation}")()
-    multi = getattr(nodes.create, f"bdDbl3_{operation}Multi")()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = getattr(bd_nodes.create, f"bdDbl3_{operation}")()
+    multi = getattr(bd_nodes.create, f"bdDbl3_{operation}Multi")()
     fixed.input1.set(values[0])
     fixed.input2.set(values[1])
     modifier_manager.do_it_dg()
@@ -174,8 +174,8 @@ def test_multi_handles_sparse_elements_and_removal(
         (-3.0, 5.0, 9.0),
         (0.5, 7.0, 3.0),
     )
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = getattr(nodes.create, f"bdDbl3_{operation}Multi")()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = getattr(bd_nodes.create, f"bdDbl3_{operation}Multi")()
     node.input[2].set(values[0])
     node.input[9].set(values[1])
     node.input[20].set(values[2])
@@ -371,9 +371,9 @@ def test_connections_existing_accessors_and_scene_round_trip(
     input1 = (2.0, 3.0, 4.0)
     input2 = (5.0, 1.0, 7.0)
     extra = (0.5, 2.0, -1.0)
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = getattr(nodes.create, f"bdDbl3_{operation}")(name="fixed")
-    multi = getattr(nodes.create, f"bdDbl3_{operation}Multi")(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = getattr(bd_nodes.create, f"bdDbl3_{operation}")(name="fixed")
+    multi = getattr(bd_nodes.create, f"bdDbl3_{operation}Multi")(name="multi")
     fixed.input1.set(input1)
     fixed.input2.set(input2)
     fixed.output.connect(multi.input[2])
@@ -387,8 +387,10 @@ def test_connections_existing_accessors_and_scene_round_trip(
     )
     assert multi.output.get().as_tuple() == pytest.approx(expected)
 
-    existing_fixed = getattr(nodes.existing, f"bdDbl3_{operation}")(fixed.name)
-    existing_multi = getattr(nodes.existing, f"bdDbl3_{operation}Multi")(
+    existing_fixed = getattr(bd_nodes.existing, f"bdDbl3_{operation}")(
+        fixed.name
+    )
+    existing_multi = getattr(bd_nodes.existing, f"bdDbl3_{operation}Multi")(
         multi.name
     )
     assert type(existing_fixed) is type(fixed)
@@ -400,9 +402,9 @@ def test_connections_existing_accessors_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
     reloaded_multi = getattr(
-        reloaded.existing,
+        bd_nodes_reloaded.existing,
         f"bdDbl3_{operation}Multi",
     )("multi")
     assert reloaded_multi.output.get().as_tuple() == pytest.approx(expected)

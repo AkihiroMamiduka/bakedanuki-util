@@ -48,9 +48,9 @@ def test_nodes_use_one_source_interval_and_multiplier(
         _curve(maya_cmds, names[1] + ".tx", (12, 22)),
     ]
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     assert (
-        nodes.keyframes.scale_frames(names, attributes=["tx"], **timing)
+        bd_nodes.keyframes.scale_frames(names, attributes=["tx"], **timing)
         is None
     )
     manager.do_it_dg()
@@ -106,10 +106,10 @@ def test_explicit_bounds_and_attribute_union_accept_mixed_nodes(maya_cmds):
     )
     curve = _curve(maya_cmds, first + ".custom", (10, 20))
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     first_object = om.MSelectionList().add(first).getDependNode(0)
-    second_node = nodes.existing.transform(second)
-    nodes.keyframes.scale_frames(
+    second_node = bd_nodes.existing.transform(second)
+    bd_nodes.keyframes.scale_frames(
         [first_object, second_node],
         5,
         25,
@@ -161,8 +161,8 @@ def test_global_source_moves_fade_only_curve_but_missing_source_is_noop(
     core = _curve(maya_cmds, names[0] + ".tx", (10, 20))
     fade = _curve(maya_cmds, names[1] + ".tx", (25, 30))
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.scale_frames(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.scale_frames(
         names,
         None,
         20,
@@ -279,12 +279,12 @@ def test_scale_follows_queued_bake_and_clip_restore(maya_cmds):
     )
     maya_cmds.cutKey(restored + ".tx", clear=True)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    baked_node = nodes.existing.transform(baked)
-    restored_node = nodes.existing.transform(restored)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    baked_node = bd_nodes.existing.transform(baked)
+    restored_node = bd_nodes.existing.transform(restored)
     baked_node.keyframes.bake(0, 2, attributes=["tx"], sample_by=1)
     clip.restore(manager, targets=[restored_node], mode="replace_all")
-    nodes.keyframes.scale_frames(
+    bd_nodes.keyframes.scale_frames(
         [baked_node, restored_node], attributes=["tx"], scale=2
     )
     assert not baked_node.tx.keyframe.has_anim_curve()
@@ -393,8 +393,8 @@ def test_implicit_zero_width_and_booking_units(maya_cmds):
 def test_invalid_inputs_and_no_curve_noop(maya_cmds):
     name = maya_cmds.createNode("transform")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    node = nodes.existing.transform(name)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    node = bd_nodes.existing.transform(name)
     with pytest.raises(ValueError, match="exactly one"):
         node.keyframes.scale_frames(attributes=["tx"])
     with pytest.raises(ValueError, match="exactly one"):
@@ -412,11 +412,11 @@ def test_invalid_inputs_and_no_curve_noop(maya_cmds):
     with pytest.raises(TypeError, match="attributes"):
         node.keyframes.scale_frames(scale=2, attributes="tx")
     with pytest.raises(ValueError, match="at least one"):
-        nodes.keyframes.scale_frames([], scale=2)
+        bd_nodes.keyframes.scale_frames([], scale=2)
     with pytest.raises(TypeError, match="iterable"):
-        nodes.keyframes.scale_frames(name, scale=2)
+        bd_nodes.keyframes.scale_frames(name, scale=2)
     with pytest.raises(ValueError, match="Duplicate"):
-        nodes.keyframes.scale_frames([name, node], scale=2)
+        bd_nodes.keyframes.scale_frames([name, node], scale=2)
 
     empty = _curve(maya_cmds, name + ".ty", (0, 10))
     for index in reversed(range(empty.numKeys)):

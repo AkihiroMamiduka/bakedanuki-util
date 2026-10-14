@@ -165,9 +165,9 @@ def test_node_operator_returns_rotation_value_types(
     from bd_util.maya.node.operator.node.dg.bd_euler_value import BdEulerValue
     from bd_util.maya.node.operator.node.dg.bd_quat_value import BdQuatValue
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    euler = nodes.create.bdEuler_Value(name="euler_value")
-    quat = nodes.create.bdQuat_Value(name="quat_value")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    euler = bd_nodes.create.bdEuler_Value(name="euler_value")
+    quat = bd_nodes.create.bdQuat_Value(name="quat_value")
     euler.value.set((450.0, -725.0, 1080.0))
     euler.rotateOrder.set(4)
     quat.value.set((2.0, -3.0, 4.0, -5.0))
@@ -182,8 +182,10 @@ def test_node_operator_returns_rotation_value_types(
     assert isinstance(quat, BdQuatValue)
     assert isinstance(quat.value.get(), bdu.Quat)
     assert quat.value.get().as_tuple() == pytest.approx((2.0, -3.0, 4.0, -5.0))
-    assert isinstance(nodes.existing.bdEuler_Value(euler.name), BdEulerValue)
-    assert isinstance(nodes.existing.bdQuat_Value(quat.name), BdQuatValue)
+    assert isinstance(
+        bd_nodes.existing.bdEuler_Value(euler.name), BdEulerValue
+    )
+    assert isinstance(bd_nodes.existing.bdQuat_Value(quat.name), BdQuatValue)
 
 
 @pytest.mark.parametrize("evaluation_mode", ["off", "serial", "parallel"])
@@ -233,9 +235,9 @@ def test_values_survive_scene_save_and_reload(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    euler = nodes.create.bdEuler_Value(name="euler_value")
-    quat = nodes.create.bdQuat_Value(name="quat_value")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    euler = bd_nodes.create.bdEuler_Value(name="euler_value")
+    quat = bd_nodes.create.bdQuat_Value(name="quat_value")
     euler.value.set((450.0, -725.0, 1080.0))
     euler.rotateOrder.set(3)
     quat.value.set((2.0, -3.0, 4.0, -5.0))
@@ -247,9 +249,9 @@ def test_values_survive_scene_save_and_reload(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    reloaded_euler = existing_nodes.existing.bdEuler_Value("euler_value")
-    reloaded_quat = existing_nodes.existing.bdQuat_Value("quat_value")
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    reloaded_euler = bd_nodes_existing.existing.bdEuler_Value("euler_value")
+    reloaded_quat = bd_nodes_existing.existing.bdQuat_Value("quat_value")
     assert reloaded_euler.value.get().as_tuple() == pytest.approx(
         (450.0, -725.0, 1080.0)
     )

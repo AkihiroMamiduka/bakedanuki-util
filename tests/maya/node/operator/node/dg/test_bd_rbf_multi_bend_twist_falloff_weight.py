@@ -435,8 +435,8 @@ def test_node_operator_nested_multi_and_existing_access(
         BdRbfMultiBendTwistFalloffWeight,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight = nodes.create.bdRbf_MultiBendTwistFalloffWeight(
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    weight = bd_nodes.create.bdRbf_MultiBendTwistFalloffWeight(
         name="multi_bend_twist_falloff"
     )
     identity = _axis_quaternion("x", 0.0)
@@ -452,7 +452,7 @@ def test_node_operator_nested_multi_and_existing_access(
     assert isinstance(weight, BdRbfMultiBendTwistFalloffWeight)
     assert weight.outputWeight[7].get() == pytest.approx(1.0)
     assert isinstance(
-        nodes.existing.bdRbf_MultiBendTwistFalloffWeight(weight.name),
+        bd_nodes.existing.bdRbf_MultiBendTwistFalloffWeight(weight.name),
         BdRbfMultiBendTwistFalloffWeight,
     )
 

@@ -21,9 +21,9 @@ def test_get_relative_matrix_returns_src_in_dst_space(
     maya_cmds.setAttr(f"{src}.rotate", 10.0, 20.0, 30.0)
     maya_cmds.setAttr(f"{dst}.translate", 3.0, 4.0, 5.0)
     maya_cmds.setAttr(f"{dst}.rotate", 15.0, 25.0, 35.0)
-    nodes = bdu.Nodes()
-    src_dag = nodes.existing.transform(src)
-    dst_dag = nodes.existing.transform(dst)
+    bd_nodes = bdu.Nodes()
+    src_dag = bd_nodes.existing.transform(src)
+    dst_dag = bd_nodes.existing.transform(dst)
 
     relative = src_dag.get_relative_matrix(dst_dag)
     src_world = src_dag.wm[0].get()
@@ -62,9 +62,9 @@ def test_get_local_matrix_handles_offset_parent_matrix(
         *list(offset_parent.asMatrix()),
         type="matrix",
     )
-    nodes = bdu.Nodes()
-    src_dag = nodes.existing.transform(src)
-    dst_dag = nodes.existing.transform(dst)
+    bd_nodes = bdu.Nodes()
+    src_dag = bd_nodes.existing.transform(src)
+    dst_dag = bd_nodes.existing.transform(dst)
 
     local = src_dag.get_local_matrix(dst_dag)
     src_world = src_dag.wm[0].get()
@@ -103,10 +103,10 @@ def test_dag_matrix_methods_use_dag_path_instance_number(
     assert second_path.instanceNumber() == 1
 
     dst = maya_cmds.createNode("transform", name="dst")
-    nodes = bdu.Nodes()
-    src_dag = nodes.existing.transform(src_paths[1])
+    bd_nodes = bdu.Nodes()
+    src_dag = bd_nodes.existing.transform(src_paths[1])
     src_dag._dag_path = second_path
-    dst_dag = nodes.existing.transform(dst)
+    dst_dag = bd_nodes.existing.transform(dst)
 
     relative = src_dag.get_relative_matrix(dst_dag)
     src_world = src_dag.wm[1].get()
@@ -127,9 +127,9 @@ def test_dag_matrix_methods_require_dag_destination(
         "plusMinusAverage",
         name="plus_minus_average",
     )
-    nodes = bdu.Nodes()
-    dag = nodes.existing.transform(transform)
-    dg = nodes.existing.plusMinusAverage(plus_minus_average)
+    bd_nodes = bdu.Nodes()
+    dag = bd_nodes.existing.transform(transform)
+    dg = bd_nodes.existing.plusMinusAverage(plus_minus_average)
 
     with pytest.raises(TypeError, match="dst_dag must be DAG"):
         dag.get_relative_matrix(dg)

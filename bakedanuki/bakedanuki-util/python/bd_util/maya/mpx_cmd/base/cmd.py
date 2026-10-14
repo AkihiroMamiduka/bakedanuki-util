@@ -31,7 +31,7 @@ class MPxCommandBase(om.MPxCommand, Generic[ParamsT], ABC):
         super().__init__()
 
         self._modifier_manager = ModifierManager()
-        self._nodes = Nodes(modifier_manager=self._modifier_manager)
+        self._bd_nodes = Nodes(modifier_manager=self._modifier_manager)
         self._is_undoable = False
         self._has_executed = False
 
@@ -43,7 +43,7 @@ class MPxCommandBase(om.MPxCommand, Generic[ParamsT], ABC):
     @property
     def nodes(self) -> Nodes:
         """同じ ``ModifierManager`` を共有するノード操作入口。"""
-        return self._nodes
+        return self._bd_nodes
 
     @classmethod
     def creator(cls) -> MPxCommandBase[ParamsT]:

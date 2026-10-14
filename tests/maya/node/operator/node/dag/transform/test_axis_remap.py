@@ -139,8 +139,8 @@ def test_axis_remap_methods_use_before_to_after_mapping_and_support_undo_redo(
         23.0,
     )
 
-    nodes = bdu.Nodes()
-    destination_node = getattr(nodes.existing, node_type)(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = getattr(bd_nodes.existing, node_type)(destination)
     attribute_names = _rotation_attributes(node_type)
     original_values = {
         name: tuple(getattr(destination_node, name).get())
@@ -157,7 +157,7 @@ def test_axis_remap_methods_use_before_to_after_mapping_and_support_undo_redo(
         for name in attribute_names
     } == original_values
 
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     after_rotation = _world_rotation(maya_cmds, maya_om, destination)
     _assert_axis_remap(
@@ -178,12 +178,12 @@ def test_axis_remap_methods_use_before_to_after_mapping_and_support_undo_redo(
                 destination_node, attribute_name
             ).get() == pytest.approx(original_value)
 
-    nodes.modifier_manager.undo_it()
+    bd_nodes.modifier_manager.undo_it()
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
         before_rotation,
     )
-    nodes.modifier_manager.redo_it()
+    bd_nodes.modifier_manager.redo_it()
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
         after_rotation,
@@ -215,10 +215,10 @@ def test_axis_remap_supports_every_two_axis_signed_mapping(
     mappings = dict(zip(source_axes, remapped_axes))
     before_rotation = _world_rotation(maya_cmds, maya_om, destination)
 
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
     destination_node.remap_axes_to_rotate(**mappings)
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_axis_remap(
         maya_om,
@@ -259,8 +259,8 @@ def test_axis_remap_can_compensate_direct_child_world_pose(
         maya_cmds.getAttr(f"{joint_child}.rotate")[0]
     )
 
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
     destination_node.remap_axes_to_rotate(
         x="-y",
         z="x",
@@ -268,7 +268,7 @@ def test_axis_remap_can_compensate_direct_child_world_pose(
         compensate_child_translate=True,
         joint_child_compensation_attr="jointOrient",
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     for child, original_matrix in original_child_matrices.items():
         _assert_matrix_close(
@@ -322,14 +322,14 @@ def test_axis_remap_rejects_invalid_values_without_queueing_changes(
 
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{destination}.rotate", 10.0, 20.0, 30.0)
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
     original_rotate = destination_node.rotate.get()
 
     with pytest.raises(error_type, match=message):
         destination_node.remap_axes_to_rotate(**keyword_arguments)
 
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
     assert destination_node.rotate.get() == original_rotate
 
 
@@ -338,13 +338,13 @@ def test_axis_remap_noop_ignores_locked_rotation_plugs(new_scene, maya_cmds):
 
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{destination}.rotate", lock=True)
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
 
     assert (
         destination_node.remap_axes_to_rotate(x="x", z="z") is destination_node
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
     assert destination_node.rotate.get().as_tuple() == (0.0, 0.0, 0.0)
 
 
@@ -356,8 +356,8 @@ def test_axis_remap_rejects_blocked_selected_rotation_plug(
 
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{destination}.rotateX", lock=True)
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
 
     with pytest.raises(RuntimeError, match="rotateX"):
         destination_node.remap_axes_to_rotate(x="-y", z="x")

@@ -129,12 +129,12 @@ def test_nodes_tangent_locks_validate_every_target_before_edit(maya_cmds):
     second_curve = _keys(maya_cmds, second + ".tx")
     maya_cmds.setAttr(second_curve + ".keyTanLocked[1]", lock=True)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    first_node = nodes.existing.transform(first)
-    second_node = nodes.existing.transform(second)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    first_node = bd_nodes.existing.transform(first)
+    second_node = bd_nodes.existing.transform(second)
     before = (_locks(first_node, "tx"), _locks(second_node, "tx"))
 
-    nodes.keyframes.set_tangent_locks(
+    bd_nodes.keyframes.set_tangent_locks(
         [first, second],
         attributes=["tx"],
         tangents_locked=True,
@@ -146,7 +146,7 @@ def test_nodes_tangent_locks_validate_every_target_before_edit(maya_cmds):
     assert not manager.can_undo
     maya_cmds.setAttr(second_curve + ".keyTanLocked[1]", lock=False)
 
-    nodes.keyframes.set_tangent_locks(
+    bd_nodes.keyframes.set_tangent_locks(
         [first, second],
         attributes=["tx"],
         tangents_locked=True,

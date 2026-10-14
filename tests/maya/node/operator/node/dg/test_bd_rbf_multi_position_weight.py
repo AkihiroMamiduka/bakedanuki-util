@@ -258,9 +258,9 @@ def test_node_operator_nested_multi_and_existing_access(
         BdRbfMultiPositionWeight,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight = nodes.create.bdRbf_MultiPositionWeight(name="multi_position")
-    blend = nodes.create.bdRbf_PoseBlend(name="multi_position_blend")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    weight = bd_nodes.create.bdRbf_MultiPositionWeight(name="multi_position")
+    blend = bd_nodes.create.bdRbf_PoseBlend(name="multi_position_blend")
     weight.source[2].inputPosition.set((0.0, 0.0, 0.0))
     weight.source[8].inputPosition.set((1.0, 0.0, 0.0))
     weight.source[8].influence.set(2.0)
@@ -273,7 +273,7 @@ def test_node_operator_nested_multi_and_existing_access(
     assert isinstance(weight, BdRbfMultiPositionWeight)
     assert weight.outputWeight[7].get() == pytest.approx(1.0, abs=2.0e-8)
     assert isinstance(
-        nodes.existing.bdRbf_MultiPositionWeight(weight.name),
+        bd_nodes.existing.bdRbf_MultiPositionWeight(weight.name),
         BdRbfMultiPositionWeight,
     )
 

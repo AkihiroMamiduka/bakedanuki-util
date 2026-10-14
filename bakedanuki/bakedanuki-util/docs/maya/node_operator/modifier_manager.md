@@ -57,9 +57,9 @@ DAG `NodeOperator` が未実行の親関係を管理するための連携 API �
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-node = nodes.create.plusMinusAverage(name="test_pma")
+node = bd_nodes.create.plusMinusAverage(name="test_pma")
 node.input1D[0].set(1.0)
 node.input1D[1].set(2.0)
 
@@ -99,7 +99,7 @@ Redo では不足している階層を再作成します。
 外部からの改名にも追従します。作成待ちの DAG ノードを移動するときは、
 `do_it_dag()` で作成してから `do_it_dg()` で移動します。
 
-`Nodes.set_namespace()` は `nodes.create` の既定 namespace だけを更新し、
+`Nodes.set_namespace()` は `bd_nodes.create` の既定 namespace だけを更新し、
 既存ノードや予約済みノードを移動しません。`NodeOperator.move_to_namespace()` と
 `Nodes.move_to_namespace()` は移動を共有 DG バッチに予約する別の操作です。
 複数対象では、入力をすべて解決し、同一 `ModifierManager`・名前付きの作成待ちノード・

@@ -100,12 +100,12 @@ def test_nodes_create_transform_type_supports_parent_and_undo_redo(
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parent_name = f"parent_{node_type}"
     node_name = f"created_{node_type}"
 
-    parent = nodes.create.transform(name=parent_name)
-    node = getattr(nodes.create, node_type)(
+    parent = bd_nodes.create.transform(name=parent_name)
+    node = getattr(bd_nodes.create, node_type)(
         name=node_name,
         parent=parent,
     )
@@ -134,9 +134,9 @@ def test_generic_create_supports_transform_type(new_scene, maya_cmds):
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    parent = nodes.create.transform(name="parent")
-    node = nodes.create.create(
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    parent = bd_nodes.create.transform(name="parent")
+    node = bd_nodes.create.create(
         "ikHandle",
         name="raw_ik_handle",
         parent=parent,

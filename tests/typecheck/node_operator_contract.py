@@ -1113,11 +1113,11 @@ from bd_util.maya.node.operator.node.dag.transform.vortex_field import (
 
 
 def generic_dag_existing_contract(
-    nodes: bdu.Nodes,
+    bd_nodes: bdu.Nodes,
     until: DAG,
     optional_until: DAG | None,
 ) -> None:
-    unknown_dag = nodes.existing.unknownDag("existing_unknown_dag")
+    unknown_dag = bd_nodes.existing.unknownDag("existing_unknown_dag")
 
     assert_type(unknown_dag, UnknownDag)
     assert_type(unknown_dag.visibility, BoolPlugOperator)
@@ -1268,7 +1268,7 @@ def generic_dag_existing_contract(
     )
 
 
-def node_types_contract(nodes: bdu.Nodes) -> None:
+def node_types_contract(bd_nodes: bdu.Nodes) -> None:
     assert_type(bdu.node_types.NodeOperator, type[NodeOperator])
     assert_type(bdu.node_types.DAG, type[DAG])
     assert_type(bdu.node_types.Transform, type[Transform])
@@ -1282,10 +1282,10 @@ def node_types_contract(nodes: bdu.Nodes) -> None:
     assert_type(bdu.node_types.resolve("locator"), type[NodeOperator])
 
 
-def transform_rotation_contract(nodes: bdu.Nodes) -> None:
-    source = nodes.existing.transform("source_transform")
-    transform = nodes.existing.transform("existing_transform")
-    joint = nodes.existing.joint("existing_joint")
+def transform_rotation_contract(bd_nodes: bdu.Nodes) -> None:
+    source = bd_nodes.existing.transform("source_transform")
+    transform = bd_nodes.existing.transform("existing_transform")
+    joint = bd_nodes.existing.joint("existing_joint")
 
     assert_type(transform.match_position(source), Transform)
     assert_type(
@@ -1640,9 +1640,9 @@ def transform_rotation_contract(nodes: bdu.Nodes) -> None:
     )
 
 
-def connection_query_contract(nodes: bdu.Nodes) -> None:
-    src = nodes.existing.joint("existing_joint")
-    dst = nodes.existing.plusMinusAverage("existing_plus_minus_average")
+def connection_query_contract(bd_nodes: bdu.Nodes) -> None:
+    src = bd_nodes.existing.joint("existing_joint")
+    dst = bd_nodes.existing.plusMinusAverage("existing_plus_minus_average")
 
     assert_type(dst.input1D[0].src_plug(), PlugOperator[Any] | None)
     assert_type(dst.input1D[0].src_name(), str | None)
@@ -1667,103 +1667,111 @@ def connection_query_contract(nodes: bdu.Nodes) -> None:
     )
 
 
-def transform_existing_contract(nodes: bdu.Nodes) -> None:
-    handle = nodes.existing.ikHandle("existing_ik_handle")
-    effector = nodes.existing.ikEffector("existing_ik_effector")
-    aim_constraint = nodes.existing.aimConstraint("existing_aim_constraint")
-    geometry_constraint = nodes.existing.geometryConstraint(
+def transform_existing_contract(bd_nodes: bdu.Nodes) -> None:
+    handle = bd_nodes.existing.ikHandle("existing_ik_handle")
+    effector = bd_nodes.existing.ikEffector("existing_ik_effector")
+    aim_constraint = bd_nodes.existing.aimConstraint("existing_aim_constraint")
+    geometry_constraint = bd_nodes.existing.geometryConstraint(
         "existing_geometry_constraint"
     )
-    normal_constraint = nodes.existing.normalConstraint(
+    normal_constraint = bd_nodes.existing.normalConstraint(
         "existing_normal_constraint"
     )
-    old_normal_constraint = nodes.existing.oldNormalConstraint(
+    old_normal_constraint = bd_nodes.existing.oldNormalConstraint(
         "existing_old_normal_constraint"
     )
-    old_tangent_constraint = nodes.existing.oldTangentConstraint(
+    old_tangent_constraint = bd_nodes.existing.oldTangentConstraint(
         "existing_old_tangent_constraint"
     )
-    orient_constraint = nodes.existing.orientConstraint(
+    orient_constraint = bd_nodes.existing.orientConstraint(
         "existing_orient_constraint"
     )
-    parent_constraint = nodes.existing.parentConstraint(
+    parent_constraint = bd_nodes.existing.parentConstraint(
         "existing_parent_constraint"
     )
-    point_constraint = nodes.existing.pointConstraint(
+    point_constraint = bd_nodes.existing.pointConstraint(
         "existing_point_constraint"
     )
-    point_on_poly_constraint = nodes.existing.pointOnPolyConstraint(
+    point_on_poly_constraint = bd_nodes.existing.pointOnPolyConstraint(
         "existing_point_on_poly_constraint"
     )
-    pole_vector_constraint = nodes.existing.poleVectorConstraint(
+    pole_vector_constraint = bd_nodes.existing.poleVectorConstraint(
         "existing_pole_vector_constraint"
     )
-    rigid_constraint = nodes.existing.rigidConstraint(
+    rigid_constraint = bd_nodes.existing.rigidConstraint(
         "existing_rigid_constraint"
     )
-    scale_constraint = nodes.existing.scaleConstraint(
+    scale_constraint = bd_nodes.existing.scaleConstraint(
         "existing_scale_constraint"
     )
-    symmetry_constraint = nodes.existing.symmetryConstraint(
+    symmetry_constraint = bd_nodes.existing.symmetryConstraint(
         "existing_symmetry_constraint"
     )
-    tangent_constraint = nodes.existing.tangentConstraint(
+    tangent_constraint = bd_nodes.existing.tangentConstraint(
         "existing_tangent_constraint"
     )
-    air_field = nodes.existing.airField("existing_air_field")
-    drag_field = nodes.existing.dragField("existing_drag_field")
-    fluid_emitter = nodes.existing.fluidEmitter("existing_fluid_emitter")
-    gravity_field = nodes.existing.gravityField("existing_gravity_field")
-    newton_field = nodes.existing.newtonField("existing_newton_field")
-    point_emitter = nodes.existing.pointEmitter("existing_point_emitter")
-    radial_field = nodes.existing.radialField("existing_radial_field")
-    turbulence_field = nodes.existing.turbulenceField(
+    air_field = bd_nodes.existing.airField("existing_air_field")
+    drag_field = bd_nodes.existing.dragField("existing_drag_field")
+    fluid_emitter = bd_nodes.existing.fluidEmitter("existing_fluid_emitter")
+    gravity_field = bd_nodes.existing.gravityField("existing_gravity_field")
+    newton_field = bd_nodes.existing.newtonField("existing_newton_field")
+    point_emitter = bd_nodes.existing.pointEmitter("existing_point_emitter")
+    radial_field = bd_nodes.existing.radialField("existing_radial_field")
+    turbulence_field = bd_nodes.existing.turbulenceField(
         "existing_turbulence_field"
     )
-    uniform_field = nodes.existing.uniformField("existing_uniform_field")
-    volume_axis_field = nodes.existing.volumeAxisField(
+    uniform_field = bd_nodes.existing.uniformField("existing_uniform_field")
+    volume_axis_field = bd_nodes.existing.volumeAxisField(
         "existing_volume_axis_field"
     )
-    vortex_field = nodes.existing.vortexField("existing_vortex_field")
-    collision_model = nodes.existing.collisionModel("existing_collision_model")
-    instancer = nodes.existing.instancer("existing_instancer")
-    nucleus = nodes.existing.nucleus("existing_nucleus")
-    primitive_falloff = nodes.existing.primitiveFalloff(
+    vortex_field = bd_nodes.existing.vortexField("existing_vortex_field")
+    collision_model = bd_nodes.existing.collisionModel(
+        "existing_collision_model"
+    )
+    instancer = bd_nodes.existing.instancer("existing_instancer")
+    nucleus = bd_nodes.existing.nucleus("existing_nucleus")
+    primitive_falloff = bd_nodes.existing.primitiveFalloff(
         "existing_primitive_falloff"
     )
-    texture_deformer_handle = nodes.existing.textureDeformerHandle(
+    texture_deformer_handle = bd_nodes.existing.textureDeformerHandle(
         "existing_texture_deformer_handle"
     )
-    hik_effector = nodes.existing.hikEffector("existing_hik_effector")
-    hik_fk_joint = nodes.existing.hikFKJoint("existing_hik_fk_joint")
-    hik_ground_plane = nodes.existing.hikGroundPlane(
+    hik_effector = bd_nodes.existing.hikEffector("existing_hik_effector")
+    hik_fk_joint = bd_nodes.existing.hikFKJoint("existing_hik_fk_joint")
+    hik_ground_plane = bd_nodes.existing.hikGroundPlane(
         "existing_hik_ground_plane"
     )
-    hik_handle = nodes.existing.hikHandle("existing_hik_handle")
-    hik_ik_effector = nodes.existing.hikIKEffector("existing_hik_ik_effector")
-    clip_ghost_shape = nodes.existing.clipGhostShape(
+    hik_handle = bd_nodes.existing.hikHandle("existing_hik_handle")
+    hik_ik_effector = bd_nodes.existing.hikIKEffector(
+        "existing_hik_ik_effector"
+    )
+    clip_ghost_shape = bd_nodes.existing.clipGhostShape(
         "existing_clip_ghost_shape"
     )
-    dag_container = nodes.existing.dagContainer("existing_dag_container")
-    foster_parent = nodes.existing.fosterParent("existing_foster_parent")
-    lod_group = nodes.existing.lodGroup("existing_lod_group")
-    look_at = nodes.existing.lookAt("existing_look_at")
-    place3d_texture = nodes.existing.place3dTexture("existing_place3d_texture")
-    curve_var_group = nodes.existing.curveVarGroup("existing_curve_var_group")
-    geometry_var_group = nodes.existing.geometryVarGroup(
+    dag_container = bd_nodes.existing.dagContainer("existing_dag_container")
+    foster_parent = bd_nodes.existing.fosterParent("existing_foster_parent")
+    lod_group = bd_nodes.existing.lodGroup("existing_lod_group")
+    look_at = bd_nodes.existing.lookAt("existing_look_at")
+    place3d_texture = bd_nodes.existing.place3dTexture(
+        "existing_place3d_texture"
+    )
+    curve_var_group = bd_nodes.existing.curveVarGroup(
+        "existing_curve_var_group"
+    )
+    geometry_var_group = bd_nodes.existing.geometryVarGroup(
         "existing_geometry_var_group"
     )
-    mesh_var_group = nodes.existing.meshVarGroup("existing_mesh_var_group")
-    subdiv_surface_var_group = nodes.existing.subdivSurfaceVarGroup(
+    mesh_var_group = bd_nodes.existing.meshVarGroup("existing_mesh_var_group")
+    subdiv_surface_var_group = bd_nodes.existing.subdivSurfaceVarGroup(
         "existing_subdiv_surface_var_group"
     )
-    surface_var_group = nodes.existing.surfaceVarGroup(
+    surface_var_group = bd_nodes.existing.surfaceVarGroup(
         "existing_surface_var_group"
     )
-    ufe_proxy_transform = nodes.existing.ufeProxyTransform(
+    ufe_proxy_transform = bd_nodes.existing.ufeProxyTransform(
         "existing_ufe_proxy_transform"
     )
-    unknown_transform = nodes.existing.unknownTransform(
+    unknown_transform = bd_nodes.existing.unknownTransform(
         "existing_unknown_transform"
     )
 
@@ -1862,21 +1870,23 @@ def transform_existing_contract(nodes: bdu.Nodes) -> None:
     assert_type(unknown_transform.visibility, BoolPlugOperator)
 
 
-def transform_creation_contract(nodes: bdu.Nodes) -> None:
-    parent = nodes.create.transform(name="transform_parent")
-    namespaced = nodes.create.transform(name="control", namespace="character")
+def transform_creation_contract(bd_nodes: bdu.Nodes) -> None:
+    parent = bd_nodes.create.transform(name="transform_parent")
+    namespaced = bd_nodes.create.transform(
+        name="control", namespace="character"
+    )
     assert_type(namespaced, Transform)
     assert_type(namespaced.move_to_namespace(":rig"), Transform)
 
-    aim_constraint = nodes.create.aimConstraint(parent=parent)
-    ik_handle = nodes.create.ikHandle(parent=parent)
-    air_field = nodes.create.airField(parent=parent)
-    nucleus = nodes.create.nucleus(parent=parent)
-    hik_effector = nodes.create.hikEffector(parent=parent)
-    dag_container = nodes.create.dagContainer(parent=parent)
-    curve_var_group = nodes.create.curveVarGroup(parent=parent)
-    ufe_proxy_transform = nodes.create.ufeProxyTransform(parent=parent)
-    unknown_transform = nodes.create.unknownTransform(parent=parent)
+    aim_constraint = bd_nodes.create.aimConstraint(parent=parent)
+    ik_handle = bd_nodes.create.ikHandle(parent=parent)
+    air_field = bd_nodes.create.airField(parent=parent)
+    nucleus = bd_nodes.create.nucleus(parent=parent)
+    hik_effector = bd_nodes.create.hikEffector(parent=parent)
+    dag_container = bd_nodes.create.dagContainer(parent=parent)
+    curve_var_group = bd_nodes.create.curveVarGroup(parent=parent)
+    ufe_proxy_transform = bd_nodes.create.ufeProxyTransform(parent=parent)
+    unknown_transform = bd_nodes.create.unknownTransform(parent=parent)
 
     assert_type(aim_constraint, AimConstraint)
     assert_type(aim_constraint.lockOutput, BoolPlugOperator)
@@ -1897,24 +1907,26 @@ def transform_creation_contract(nodes: bdu.Nodes) -> None:
 
 
 def nodes_namespace_contract() -> None:
-    nodes = bdu.Nodes(namespace=":rig")
-    assert_type(nodes.namespace, str | None)
-    assert_type(nodes.set_namespace(None), bdu.Nodes)
-    assert_type(nodes.create.transform(name="control"), Transform)
-    assert_type(nodes.move_to_namespace(["existing"], namespace=":rig"), None)
+    bd_nodes = bdu.Nodes(namespace=":rig")
+    assert_type(bd_nodes.namespace, str | None)
+    assert_type(bd_nodes.set_namespace(None), bdu.Nodes)
+    assert_type(bd_nodes.create.transform(name="control"), Transform)
+    assert_type(
+        bd_nodes.move_to_namespace(["existing"], namespace=":rig"), None
+    )
 
 
-def shape_creation_contract(nodes: bdu.Nodes) -> None:
-    parent = nodes.create.transform(name="shape_parent")
+def shape_creation_contract(bd_nodes: bdu.Nodes) -> None:
+    parent = bd_nodes.create.transform(name="shape_parent")
     assert_type(parent, Transform)
 
-    mesh_transform, created_mesh = nodes.create.with_transform.mesh(
+    mesh_transform, created_mesh = bd_nodes.create.with_transform.mesh(
         name="mesh", namespace="character"
     )
     assert_type(mesh_transform, Transform)
     assert isinstance(created_mesh, Mesh)
 
-    camera_transform, created_camera = nodes.create.with_transform.camera(
+    camera_transform, created_camera = bd_nodes.create.with_transform.camera(
         name="camera",
         shape_name="renderCameraShape",
         parent=parent,
@@ -1922,76 +1934,76 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
     assert_type(camera_transform, Transform)
     assert_type(created_camera, Camera)
 
-    dynamic_transform, dynamic_shape = nodes.create.with_transform.create(
+    dynamic_transform, dynamic_shape = bd_nodes.create.with_transform.create(
         "mesh", name="dynamicMesh"
     )
     assert_type(dynamic_transform, Transform)
     assert_type(dynamic_shape, Shape)
 
-    mesh = nodes.create.mesh(name="meshShape", parent=parent)
+    mesh = bd_nodes.create.mesh(name="meshShape", parent=parent)
     assert isinstance(mesh, Mesh)
     assert_type(mesh.inMesh, DataMeshPlugOperator)
     assert_type(mesh.visibility, BoolPlugOperator)
 
-    dynamic = nodes.create.create(
+    dynamic = bd_nodes.create.create(
         "transform", name="dynamic_control", namespace="character"
     )
     assert_type(dynamic, NodeOperator)
 
-    camera = nodes.create.camera(name="cameraShape", parent=parent)
+    camera = bd_nodes.create.camera(name="cameraShape", parent=parent)
     assert_type(camera, Camera)
     assert_type(camera.focalLength, DoublePlugOperator)
 
-    locator = nodes.create.locator(name="locatorShape", parent=parent)
+    locator = bd_nodes.create.locator(name="locatorShape", parent=parent)
     assert_type(locator, Locator)
     assert_type(locator.localPosition, LocalPositionPlugOperator)
 
-    curve = nodes.create.nurbsCurve(name="curveShape", parent=parent)
+    curve = bd_nodes.create.nurbsCurve(name="curveShape", parent=parent)
     assert isinstance(curve, NurbsCurve)
     assert_type(curve.create_, DataNurbsCurvePlugOperator)
 
-    surface = nodes.create.nurbsSurface(name="surfaceShape", parent=parent)
+    surface = bd_nodes.create.nurbsSurface(name="surfaceShape", parent=parent)
     assert isinstance(surface, NurbsSurface)
     assert_type(surface.create_, DataNurbsSurfacePlugOperator)
 
-    base_lattice = nodes.create.baseLattice(
+    base_lattice = bd_nodes.create.baseLattice(
         name="baseLatticeShape",
         parent=parent,
     )
     assert_type(base_lattice, BaseLattice)
 
-    bezier_curve = nodes.create.bezierCurve(
+    bezier_curve = bd_nodes.create.bezierCurve(
         name="bezierCurveShape",
         parent=parent,
     )
     assert isinstance(bezier_curve, BezierCurve)
     assert_type(bezier_curve.create_, DataNurbsCurvePlugOperator)
 
-    lattice = nodes.create.lattice(
+    lattice = bd_nodes.create.lattice(
         name="latticeShape",
         parent=parent,
     )
     assert_type(lattice, Lattice)
 
-    subdiv = nodes.create.subdiv(
+    subdiv = bd_nodes.create.subdiv(
         name="subdivShape",
         parent=parent,
     )
     assert_type(subdiv, Subdiv)
 
-    implicit_box = nodes.create.implicitBox(
+    implicit_box = bd_nodes.create.implicitBox(
         name="implicitBoxShape",
         parent=parent,
     )
     assert_type(implicit_box, ImplicitBox)
 
-    implicit_cone = nodes.create.implicitCone(
+    implicit_cone = bd_nodes.create.implicitCone(
         name="implicitConeShape",
         parent=parent,
     )
     assert_type(implicit_cone, ImplicitCone)
 
-    implicit_sphere = nodes.create.implicitSphere(
+    implicit_sphere = bd_nodes.create.implicitSphere(
         name="implicitSphereShape",
         parent=parent,
     )
@@ -2001,25 +2013,25 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         double_linear.DoubleLinearPlugOperator,
     )
 
-    render_box = nodes.create.renderBox(
+    render_box = bd_nodes.create.renderBox(
         name="renderBoxShape",
         parent=parent,
     )
     assert_type(render_box, RenderBox)
 
-    render_cone = nodes.create.renderCone(
+    render_cone = bd_nodes.create.renderCone(
         name="renderConeShape",
         parent=parent,
     )
     assert_type(render_cone, RenderCone)
 
-    render_rect = nodes.create.renderRect(
+    render_rect = bd_nodes.create.renderRect(
         name="renderRectShape",
         parent=parent,
     )
     assert_type(render_rect, RenderRect)
 
-    render_sphere = nodes.create.renderSphere(
+    render_sphere = bd_nodes.create.renderSphere(
         name="renderSphereShape",
         parent=parent,
     )
@@ -2029,63 +2041,63 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         double_linear.DoubleLinearPlugOperator,
     )
 
-    angle_dimension = nodes.create.angleDimension(
+    angle_dimension = bd_nodes.create.angleDimension(
         name="angleDimensionShape",
         parent=parent,
     )
     assert_type(angle_dimension, AngleDimension)
     assert_type(angle_dimension.angle, DoubleAnglePlugOperator)
 
-    annotation_shape = nodes.create.annotationShape(
+    annotation_shape = bd_nodes.create.annotationShape(
         name="annotationShape",
         parent=parent,
     )
     assert_type(annotation_shape, AnnotationShape)
     assert_type(annotation_shape.text, DataStringPlugOperator)
 
-    arc_length_dimension = nodes.create.arcLengthDimension(
+    arc_length_dimension = bd_nodes.create.arcLengthDimension(
         name="arcLengthDimensionShape",
         parent=parent,
     )
     assert_type(arc_length_dimension, ArcLengthDimension)
     assert_type(arc_length_dimension.arcLength, DoublePlugOperator)
 
-    distance_dim_shape = nodes.create.distanceDimShape(
+    distance_dim_shape = bd_nodes.create.distanceDimShape(
         name="distanceDimShape",
         parent=parent,
     )
     assert_type(distance_dim_shape, DistanceDimShape)
     assert_type(distance_dim_shape.distance, DoublePlugOperator)
 
-    param_dimension = nodes.create.paramDimension(
+    param_dimension = bd_nodes.create.paramDimension(
         name="paramDimensionShape",
         parent=parent,
     )
     assert_type(param_dimension, ParamDimension)
     assert_type(param_dimension.uParamValue, DoublePlugOperator)
 
-    cluster_flexor_shape = nodes.create.clusterFlexorShape(
+    cluster_flexor_shape = bd_nodes.create.clusterFlexorShape(
         name="clusterFlexorShape",
         parent=parent,
     )
     assert_type(cluster_flexor_shape, ClusterFlexorShape)
     assert_type(cluster_flexor_shape.currentDriver, ShortPlugOperator)
 
-    flexor_shape = nodes.create.flexorShape(
+    flexor_shape = bd_nodes.create.flexorShape(
         name="flexorShape",
         parent=parent,
     )
     assert_type(flexor_shape, FlexorShape)
     assert_type(flexor_shape.currentDriver, ShortPlugOperator)
 
-    geo_connectable = nodes.create.geoConnectable(
+    geo_connectable = bd_nodes.create.geoConnectable(
         name="geoConnectableShape",
         parent=parent,
     )
     assert_type(geo_connectable, GeoConnectable)
     assert_type(geo_connectable.doVelocity, BoolPlugOperator)
 
-    cluster_handle = nodes.create.clusterHandle(
+    cluster_handle = bd_nodes.create.clusterHandle(
         name="clusterHandleShape",
         parent=parent,
     )
@@ -2095,49 +2107,49 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         double_linear.DoubleLinearPlugOperator,
     )
 
-    directed_disc = nodes.create.directedDisc(
+    directed_disc = bd_nodes.create.directedDisc(
         name="directedDiscShape",
         parent=parent,
     )
     assert_type(directed_disc, DirectedDisc)
     assert_type(directed_disc.primaryVisibility, BoolPlugOperator)
 
-    dropoff_locator = nodes.create.dropoffLocator(
+    dropoff_locator = bd_nodes.create.dropoffLocator(
         name="dropoffLocatorShape",
         parent=parent,
     )
     assert_type(dropoff_locator, DropoffLocator)
     assert_type(dropoff_locator.percent, FloatPlugOperator)
 
-    hik_floor_contact_marker = nodes.create.hikFloorContactMarker(
+    hik_floor_contact_marker = bd_nodes.create.hikFloorContactMarker(
         name="hikFloorContactMarkerShape",
         parent=parent,
     )
     assert_type(hik_floor_contact_marker, HikFloorContactMarker)
     assert_type(hik_floor_contact_marker.markerSize, DoublePlugOperator)
 
-    motion_trail_shape = nodes.create.motionTrailShape(
+    motion_trail_shape = bd_nodes.create.motionTrailShape(
         name="motionTrailShape",
         parent=parent,
     )
     assert_type(motion_trail_shape, MotionTrailShape)
     assert_type(motion_trail_shape.showFrames, BoolPlugOperator)
 
-    orientation_marker = nodes.create.orientationMarker(
+    orientation_marker = bd_nodes.create.orientationMarker(
         name="orientationMarkerShape",
         parent=parent,
     )
     assert_type(orientation_marker, OrientationMarker)
     assert_type(orientation_marker.frontTwist, DoubleAnglePlugOperator)
 
-    position_marker = nodes.create.positionMarker(
+    position_marker = bd_nodes.create.positionMarker(
         name="positionMarkerShape",
         parent=parent,
     )
     assert_type(position_marker, PositionMarker)
     assert_type(position_marker.time, TimePlugOperator)
 
-    soft_mod_handle = nodes.create.softModHandle(
+    soft_mod_handle = bd_nodes.create.softModHandle(
         name="softModHandleShape",
         parent=parent,
     )
@@ -2147,168 +2159,168 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         double_linear.DoubleLinearPlugOperator,
     )
 
-    deform_bend = nodes.create.deformBend(
+    deform_bend = bd_nodes.create.deformBend(
         name="deformBendShape",
         parent=parent,
     )
     assert_type(deform_bend, DeformBend)
     assert_type(deform_bend.curvature, DoubleAnglePlugOperator)
 
-    deform_flare = nodes.create.deformFlare(
+    deform_flare = bd_nodes.create.deformFlare(
         name="deformFlareShape",
         parent=parent,
     )
     assert_type(deform_flare, DeformFlare)
     assert_type(deform_flare.startFlareX, DoublePlugOperator)
 
-    deform_sine = nodes.create.deformSine(
+    deform_sine = bd_nodes.create.deformSine(
         name="deformSineShape",
         parent=parent,
     )
     assert_type(deform_sine, DeformSine)
     assert_type(deform_sine.amplitude, DoublePlugOperator)
 
-    deform_squash = nodes.create.deformSquash(
+    deform_squash = bd_nodes.create.deformSquash(
         name="deformSquashShape",
         parent=parent,
     )
     assert_type(deform_squash, DeformSquash)
     assert_type(deform_squash.factor, DoublePlugOperator)
 
-    deform_twist = nodes.create.deformTwist(
+    deform_twist = bd_nodes.create.deformTwist(
         name="deformTwistShape",
         parent=parent,
     )
     assert_type(deform_twist, DeformTwist)
     assert_type(deform_twist.startAngle, DoubleAnglePlugOperator)
 
-    deform_wave = nodes.create.deformWave(
+    deform_wave = bd_nodes.create.deformWave(
         name="deformWaveShape",
         parent=parent,
     )
     assert_type(deform_wave, DeformWave)
     assert_type(deform_wave.maxRadius, DoublePlugOperator)
 
-    environment_fog = nodes.create.environmentFog(
+    environment_fog = bd_nodes.create.environmentFog(
         name="environmentFogShape",
         parent=parent,
     )
     assert_type(environment_fog, EnvironmentFog)
     assert_type(environment_fog.primaryVisibility, BoolPlugOperator)
 
-    fluid_texture_2d = nodes.create.fluidTexture2D(
+    fluid_texture_2d = bd_nodes.create.fluidTexture2D(
         name="fluidTexture2DShape",
         parent=parent,
     )
     assert_type(fluid_texture_2d, FluidTexture2D)
     assert_type(fluid_texture_2d.is2d, BoolPlugOperator)
 
-    fluid_texture_3d = nodes.create.fluidTexture3D(
+    fluid_texture_3d = bd_nodes.create.fluidTexture3D(
         name="fluidTexture3DShape",
         parent=parent,
     )
     assert_type(fluid_texture_3d, FluidTexture3D)
     assert_type(fluid_texture_3d.is2d, BoolPlugOperator)
 
-    height_field = nodes.create.heightField(
+    height_field = bd_nodes.create.heightField(
         name="heightFieldShape",
         parent=parent,
     )
     assert_type(height_field, HeightField)
     assert_type(height_field.heightScale, FloatPlugOperator)
 
-    dynamic_constraint = nodes.create.dynamicConstraint(
+    dynamic_constraint = bd_nodes.create.dynamicConstraint(
         name="dynamicConstraintShape",
         parent=parent,
     )
     assert_type(dynamic_constraint, DynamicConstraint)
     assert_type(dynamic_constraint.enable, BoolPlugOperator)
 
-    dyn_holder = nodes.create.dynHolder(
+    dyn_holder = bd_nodes.create.dynHolder(
         name="dynHolderShape",
         parent=parent,
     )
     assert_type(dyn_holder, DynHolder)
     assert_type(dyn_holder.connectionsToMe, MessagePlugOperator)
 
-    follicle = nodes.create.follicle(
+    follicle = bd_nodes.create.follicle(
         name="follicleShape",
         parent=parent,
     )
     assert_type(follicle, Follicle)
     assert_type(follicle.parameterU, DoublePlugOperator)
 
-    hair_constraint = nodes.create.hairConstraint(
+    hair_constraint = bd_nodes.create.hairConstraint(
         name="hairConstraintShape",
         parent=parent,
     )
     assert_type(hair_constraint, HairConstraint)
     assert_type(hair_constraint.stiffness, DoublePlugOperator)
 
-    hair_system = nodes.create.hairSystem(
+    hair_system = bd_nodes.create.hairSystem(
         name="hairSystemShape",
         parent=parent,
     )
     assert isinstance(hair_system, HairSystem)
     assert_type(hair_system.collideStrength, FloatPlugOperator)
 
-    spring = nodes.create.spring(
+    spring = bd_nodes.create.spring(
         name="springShape",
         parent=parent,
     )
     assert_type(spring, Spring)
     assert_type(spring.useStiffnessPS, BoolPlugOperator)
 
-    fluid_shape = nodes.create.fluidShape(
+    fluid_shape = bd_nodes.create.fluidShape(
         name="fluidShape",
         parent=parent,
     )
     assert_type(fluid_shape, FluidShape)
     assert_type(fluid_shape.currentTime, TimePlugOperator)
 
-    n_cloth = nodes.create.nCloth(
+    n_cloth = bd_nodes.create.nCloth(
         name="nClothShape",
         parent=parent,
     )
     assert isinstance(n_cloth, NCloth)
     assert_type(n_cloth.thickness, FloatPlugOperator)
 
-    n_particle = nodes.create.nParticle(
+    n_particle = bd_nodes.create.nParticle(
         name="nParticleShape",
         parent=parent,
     )
     assert isinstance(n_particle, NParticle)
     assert_type(n_particle.currentTime, TimePlugOperator)
 
-    n_rigid = nodes.create.nRigid(
+    n_rigid = bd_nodes.create.nRigid(
         name="nRigidShape",
         parent=parent,
     )
     assert isinstance(n_rigid, NRigid)
     assert_type(n_rigid.thickness, FloatPlugOperator)
 
-    particle = nodes.create.particle(
+    particle = bd_nodes.create.particle(
         name="particleShape",
         parent=parent,
     )
     assert isinstance(particle, Particle)
     assert_type(particle.currentTime, TimePlugOperator)
 
-    rigid_body = nodes.create.rigidBody(
+    rigid_body = bd_nodes.create.rigidBody(
         name="rigidBodyShape",
         parent=parent,
     )
     assert_type(rigid_body, RigidBody)
     assert_type(rigid_body.mass, DoublePlugOperator)
 
-    grease_plane = nodes.create.greasePlane(
+    grease_plane = bd_nodes.create.greasePlane(
         name="greasePlaneShape",
         parent=parent,
     )
     assert isinstance(grease_plane, GreasePlane)
     assert_type(grease_plane.lockedToCamera, BoolPlugOperator)
 
-    grease_plane_render_shape = nodes.create.greasePlaneRenderShape(
+    grease_plane_render_shape = bd_nodes.create.greasePlaneRenderShape(
         name="greasePlaneRenderShape",
         parent=parent,
     )
@@ -2318,227 +2330,235 @@ def shape_creation_contract(nodes: bdu.Nodes) -> None:
         FloatPlugOperator,
     )
 
-    line_modifier = nodes.create.lineModifier(
+    line_modifier = bd_nodes.create.lineModifier(
         name="lineModifierShape",
         parent=parent,
     )
     assert_type(line_modifier, LineModifier)
     assert_type(line_modifier.widthScale, DoublePlugOperator)
 
-    pfx_hair = nodes.create.pfxHair(
+    pfx_hair = bd_nodes.create.pfxHair(
         name="pfxHairShape",
         parent=parent,
     )
     assert_type(pfx_hair, PfxHair)
     assert_type(pfx_hair.drawAsMesh, BoolPlugOperator)
 
-    pfx_toon = nodes.create.pfxToon(
+    pfx_toon = bd_nodes.create.pfxToon(
         name="pfxToonShape",
         parent=parent,
     )
     assert_type(pfx_toon, PfxToon)
     assert_type(pfx_toon.displayPercent, DoublePlugOperator)
 
-    stroke = nodes.create.stroke(
+    stroke = bd_nodes.create.stroke(
         name="strokeShape",
         parent=parent,
     )
     assert_type(stroke, Stroke)
     assert_type(stroke.motionBlurred, BoolPlugOperator)
 
-    image_plane = nodes.create.imagePlane(
+    image_plane = bd_nodes.create.imagePlane(
         name="imagePlaneShape",
         parent=parent,
     )
     assert isinstance(image_plane, ImagePlane)
     assert_type(image_plane.imageName, DataStringPlugOperator)
 
-    sketch_plane = nodes.create.sketchPlane(
+    sketch_plane = bd_nodes.create.sketchPlane(
         name="sketchPlaneShape",
         parent=parent,
     )
     assert_type(sketch_plane, SketchPlane)
     assert_type(sketch_plane.primaryVisibility, BoolPlugOperator)
 
-    snapshot_shape = nodes.create.snapshotShape(
+    snapshot_shape = bd_nodes.create.snapshotShape(
         name="snapshotShape",
         parent=parent,
     )
     assert_type(snapshot_shape, SnapshotShape)
     assert_type(snapshot_shape.showFrames, BoolPlugOperator)
 
-    stereo_rig_camera = nodes.create.stereoRigCamera(
+    stereo_rig_camera = bd_nodes.create.stereoRigCamera(
         name="stereoRigCameraShape",
         parent=parent,
     )
     assert_type(stereo_rig_camera, StereoRigCamera)
     assert_type(stereo_rig_camera.focalLength, DoublePlugOperator)
 
-    ufe_proxy_camera_shape = nodes.create.ufeProxyCameraShape(
+    ufe_proxy_camera_shape = bd_nodes.create.ufeProxyCameraShape(
         name="ufeProxyCameraShape",
         parent=parent,
     )
     assert_type(ufe_proxy_camera_shape, UfeProxyCameraShape)
     assert_type(ufe_proxy_camera_shape.focalLength, DoublePlugOperator)
 
-    ambient_light = nodes.create.ambientLight(
+    ambient_light = bd_nodes.create.ambientLight(
         name="ambientLightShape",
         parent=parent,
     )
     assert_type(ambient_light, AmbientLight)
 
-    area_light = nodes.create.areaLight(
+    area_light = bd_nodes.create.areaLight(
         name="areaLightShape",
         parent=parent,
     )
     assert isinstance(area_light, AreaLight)
     assert_type(area_light.aiExposure, FloatPlugOperator)
 
-    directional_light = nodes.create.directionalLight(
+    directional_light = bd_nodes.create.directionalLight(
         name="directionalLightShape",
         parent=parent,
     )
     assert_type(directional_light, DirectionalLight)
 
-    point_light = nodes.create.pointLight(
+    point_light = bd_nodes.create.pointLight(
         name="pointLightShape",
         parent=parent,
     )
     assert isinstance(point_light, PointLight)
 
-    spot_light = nodes.create.spotLight(
+    spot_light = bd_nodes.create.spotLight(
         name="spotLightShape",
         parent=parent,
     )
     assert isinstance(spot_light, SpotLight)
 
-    volume_light = nodes.create.volumeLight(
+    volume_light = bd_nodes.create.volumeLight(
         name="volumeLightShape",
         parent=parent,
     )
     assert isinstance(volume_light, VolumeLight)
 
-    ai_area_light = nodes.create.aiAreaLight(
+    ai_area_light = bd_nodes.create.aiAreaLight(
         name="aiAreaLightShape",
         parent=parent,
     )
     assert isinstance(ai_area_light, AiAreaLight)
     assert_type(ai_area_light.intensity, FloatPlugOperator)
 
-    ai_light_portal = nodes.create.aiLightPortal(
+    ai_light_portal = bd_nodes.create.aiLightPortal(
         name="aiLightPortalShape",
         parent=parent,
     )
     assert_type(ai_light_portal, AiLightPortal)
 
-    ai_mesh_light = nodes.create.aiMeshLight(
+    ai_mesh_light = bd_nodes.create.aiMeshLight(
         name="aiMeshLightShape",
         parent=parent,
     )
     assert isinstance(ai_mesh_light, AiMeshLight)
 
-    ai_photometric_light = nodes.create.aiPhotometricLight(
+    ai_photometric_light = bd_nodes.create.aiPhotometricLight(
         name="aiPhotometricLightShape",
         parent=parent,
     )
     assert isinstance(ai_photometric_light, AiPhotometricLight)
 
-    ai_sky_dome_light = nodes.create.aiSkyDomeLight(
+    ai_sky_dome_light = bd_nodes.create.aiSkyDomeLight(
         name="aiSkyDomeLightShape",
         parent=parent,
     )
     assert_type(ai_sky_dome_light, AiSkyDomeLight)
 
-    ai_curve_collector = nodes.create.aiCurveCollector(
+    ai_curve_collector = bd_nodes.create.aiCurveCollector(
         name="aiCurveCollectorShape",
         parent=parent,
     )
     assert_type(ai_curve_collector, AiCurveCollector)
 
-    ai_light_blocker = nodes.create.aiLightBlocker(
+    ai_light_blocker = bd_nodes.create.aiLightBlocker(
         name="aiLightBlockerShape",
         parent=parent,
     )
     assert_type(ai_light_blocker, AiLightBlocker)
 
-    ai_stand_in = nodes.create.aiStandIn(
+    ai_stand_in = bd_nodes.create.aiStandIn(
         name="aiStandInShape",
         parent=parent,
     )
     assert isinstance(ai_stand_in, AiStandIn)
 
-    ai_volume = nodes.create.aiVolume(
+    ai_volume = bd_nodes.create.aiVolume(
         name="aiVolumeShape",
         parent=parent,
     )
     assert isinstance(ai_volume, AiVolume)
 
-    assert isinstance(nodes.existing.mesh("existing_mesh"), Mesh)
-    assert_type(nodes.existing.camera("existing_camera"), Camera)
-    assert_type(nodes.existing.locator("existing_locator"), Locator)
-    assert isinstance(nodes.existing.nurbsCurve("existing_curve"), NurbsCurve)
+    assert isinstance(bd_nodes.existing.mesh("existing_mesh"), Mesh)
+    assert_type(bd_nodes.existing.camera("existing_camera"), Camera)
+    assert_type(bd_nodes.existing.locator("existing_locator"), Locator)
     assert isinstance(
-        nodes.existing.nurbsSurface("existing_surface"),
+        bd_nodes.existing.nurbsCurve("existing_curve"), NurbsCurve
+    )
+    assert isinstance(
+        bd_nodes.existing.nurbsSurface("existing_surface"),
         NurbsSurface,
     )
     assert_type(
-        nodes.existing.ambientLight("existing_ambient_light"),
+        bd_nodes.existing.ambientLight("existing_ambient_light"),
         AmbientLight,
     )
     assert isinstance(
-        nodes.existing.nParticle("existing_n_particle"), NParticle
+        bd_nodes.existing.nParticle("existing_n_particle"), NParticle
     )
-    assert isinstance(nodes.existing.aiStandIn("existing_stand_in"), AiStandIn)
+    assert isinstance(
+        bd_nodes.existing.aiStandIn("existing_stand_in"), AiStandIn
+    )
     assert_type(
-        nodes.existing.baseLattice("existing_base_lattice"),
+        bd_nodes.existing.baseLattice("existing_base_lattice"),
         BaseLattice,
     )
 
 
-def node_accessor_contract(nodes: bdu.Nodes) -> None:
-    absolute = nodes.create.bdDbl3_Abs(name="absolute")
+def node_accessor_contract(bd_nodes: bdu.Nodes) -> None:
+    absolute = bd_nodes.create.bdDbl3_Abs(name="absolute")
     assert_type(absolute, BdDbl3Abs)
     assert_type(absolute.input, AbsInputPlugOperator)
     assert_type(absolute.output, AbsOutputPlugOperator)
     assert_type(absolute.output.get(), bdu.Double3)
-    assert_type(nodes.existing.bdDbl3_Abs("existing_absolute"), BdDbl3Abs)
+    assert_type(bd_nodes.existing.bdDbl3_Abs("existing_absolute"), BdDbl3Abs)
 
-    negate = nodes.create.bdDbl3_Negate(name="negate")
+    negate = bd_nodes.create.bdDbl3_Negate(name="negate")
     assert_type(negate, BdDbl3Negate)
     assert_type(negate.input, NegInputPlugOperator)
     assert_type(negate.output, NegOutputPlugOperator)
     assert_type(negate.output.get(), bdu.Double3)
-    assert_type(nodes.existing.bdDbl3_Negate("existing_negate"), BdDbl3Negate)
+    assert_type(
+        bd_nodes.existing.bdDbl3_Negate("existing_negate"), BdDbl3Negate
+    )
 
-    add_fixed = nodes.create.bdDbl3_Add(name="add_fixed")
+    add_fixed = bd_nodes.create.bdDbl3_Add(name="add_fixed")
     assert_type(add_fixed, BdDbl3Add)
     assert_type(add_fixed.input1, AddInput1PlugOperator)
     assert_type(add_fixed.input2, AddInput2PlugOperator)
     assert_type(add_fixed.output, AddOutputPlugOperator)
     assert_type(add_fixed.output.get(), bdu.Double3)
 
-    add_multi = nodes.create.bdDbl3_AddMulti(name="add_multi")
+    add_multi = bd_nodes.create.bdDbl3_AddMulti(name="add_multi")
     assert_type(add_multi, BdDbl3AddMulti)
     assert_type(add_multi.input, AddMultiInputPlugOperator)
     assert_type(add_multi.input[next], AddMultiInputPlugOperator)
     assert_type(add_multi.output, AddMultiOutputPlugOperator)
     assert_type(add_multi.output.get(), bdu.Double3)
 
-    existing_add_fixed = nodes.existing.bdDbl3_Add("existing_add_fixed")
+    existing_add_fixed = bd_nodes.existing.bdDbl3_Add("existing_add_fixed")
     assert_type(existing_add_fixed, BdDbl3Add)
-    existing_add_multi = nodes.existing.bdDbl3_AddMulti("existing_add_multi")
+    existing_add_multi = bd_nodes.existing.bdDbl3_AddMulti(
+        "existing_add_multi"
+    )
     assert_type(existing_add_multi, BdDbl3AddMulti)
 
-    clamp = nodes.create.bdDbl3_Clamp(name="clamp")
+    clamp = bd_nodes.create.bdDbl3_Clamp(name="clamp")
     assert_type(clamp, BdDbl3Clamp)
     assert_type(clamp.input, ClampInputPlugOperator)
     assert_type(clamp.min, ClampMinPlugOperator)
     assert_type(clamp.max, ClampMaxPlugOperator)
     assert_type(clamp.output, ClampOutputPlugOperator)
     assert_type(clamp.output.get(), bdu.Double3)
-    assert_type(nodes.existing.bdDbl3_Clamp("existing_clamp"), BdDbl3Clamp)
+    assert_type(bd_nodes.existing.bdDbl3_Clamp("existing_clamp"), BdDbl3Clamp)
 
-    map_range = nodes.create.bdDbl3_MapRange(name="map_range")
+    map_range = bd_nodes.create.bdDbl3_MapRange(name="map_range")
     assert_type(map_range, BdDbl3MapRange)
     assert_type(map_range.input, MapRangeInputPlugOperator)
     assert_type(map_range.srcMin, MapRangeSrcMinPlugOperator)
@@ -2549,141 +2569,145 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(map_range.output, MapRangeOutputPlugOperator)
     assert_type(map_range.output.get(), bdu.Double3)
     assert_type(
-        nodes.existing.bdDbl3_MapRange("existing_map_range"),
+        bd_nodes.existing.bdDbl3_MapRange("existing_map_range"),
         BdDbl3MapRange,
     )
 
-    min_fixed = nodes.create.bdDbl3_Min(name="min_fixed")
+    min_fixed = bd_nodes.create.bdDbl3_Min(name="min_fixed")
     assert_type(min_fixed, BdDbl3Min)
     assert_type(min_fixed.input1, MinInput1PlugOperator)
     assert_type(min_fixed.input2, MinInput2PlugOperator)
     assert_type(min_fixed.output, MinOutputPlugOperator)
     assert_type(min_fixed.output.get(), bdu.Double3)
 
-    min_multi = nodes.create.bdDbl3_MinMulti(name="min_multi")
+    min_multi = bd_nodes.create.bdDbl3_MinMulti(name="min_multi")
     assert_type(min_multi, BdDbl3MinMulti)
     assert_type(min_multi.input, MinMultiInputPlugOperator)
     assert_type(min_multi.input[next], MinMultiInputPlugOperator)
     assert_type(min_multi.output, MinMultiOutputPlugOperator)
     assert_type(min_multi.output.get(), bdu.Double3)
 
-    assert_type(nodes.existing.bdDbl3_Min("existing_min"), BdDbl3Min)
+    assert_type(bd_nodes.existing.bdDbl3_Min("existing_min"), BdDbl3Min)
     assert_type(
-        nodes.existing.bdDbl3_MinMulti("existing_min_multi"),
+        bd_nodes.existing.bdDbl3_MinMulti("existing_min_multi"),
         BdDbl3MinMulti,
     )
 
-    max_fixed = nodes.create.bdDbl3_Max(name="max_fixed")
+    max_fixed = bd_nodes.create.bdDbl3_Max(name="max_fixed")
     assert_type(max_fixed, BdDbl3Max)
     assert_type(max_fixed.input1, MaxInput1PlugOperator)
     assert_type(max_fixed.input2, MaxInput2PlugOperator)
     assert_type(max_fixed.output, MaxOutputPlugOperator)
     assert_type(max_fixed.output.get(), bdu.Double3)
 
-    max_multi = nodes.create.bdDbl3_MaxMulti(name="max_multi")
+    max_multi = bd_nodes.create.bdDbl3_MaxMulti(name="max_multi")
     assert_type(max_multi, BdDbl3MaxMulti)
     assert_type(max_multi.input, MaxMultiInputPlugOperator)
     assert_type(max_multi.input[next], MaxMultiInputPlugOperator)
     assert_type(max_multi.output, MaxMultiOutputPlugOperator)
     assert_type(max_multi.output.get(), bdu.Double3)
 
-    assert_type(nodes.existing.bdDbl3_Max("existing_max"), BdDbl3Max)
+    assert_type(bd_nodes.existing.bdDbl3_Max("existing_max"), BdDbl3Max)
     assert_type(
-        nodes.existing.bdDbl3_MaxMulti("existing_max_multi"),
+        bd_nodes.existing.bdDbl3_MaxMulti("existing_max_multi"),
         BdDbl3MaxMulti,
     )
 
-    div_fixed = nodes.create.bdDbl3_Divide(name="div_fixed")
+    div_fixed = bd_nodes.create.bdDbl3_Divide(name="div_fixed")
     assert_type(div_fixed, BdDbl3Divide)
     assert_type(div_fixed.input1, DivInput1PlugOperator)
     assert_type(div_fixed.input2, DivInput2PlugOperator)
     assert_type(div_fixed.output, DivOutputPlugOperator)
     assert_type(div_fixed.output.get(), bdu.Double3)
 
-    div_multi = nodes.create.bdDbl3_DivideMulti(name="div_multi")
+    div_multi = bd_nodes.create.bdDbl3_DivideMulti(name="div_multi")
     assert_type(div_multi, BdDbl3DivideMulti)
     assert_type(div_multi.input, DivMultiInputPlugOperator)
     assert_type(div_multi.input[next], DivMultiInputPlugOperator)
     assert_type(div_multi.output, DivMultiOutputPlugOperator)
     assert_type(div_multi.output.get(), bdu.Double3)
 
-    existing_div_fixed = nodes.existing.bdDbl3_Divide("existing_div_fixed")
+    existing_div_fixed = bd_nodes.existing.bdDbl3_Divide("existing_div_fixed")
     assert_type(existing_div_fixed, BdDbl3Divide)
-    existing_div_multi = nodes.existing.bdDbl3_DivideMulti(
+    existing_div_multi = bd_nodes.existing.bdDbl3_DivideMulti(
         "existing_div_multi"
     )
     assert_type(existing_div_multi, BdDbl3DivideMulti)
 
-    double3_value = nodes.create.bdDbl3_Value(name="double3_value")
+    double3_value = bd_nodes.create.bdDbl3_Value(name="double3_value")
     assert_type(double3_value, BdDbl3Value)
     assert_type(double3_value.value, Double3ValuePlugOperator)
     assert_type(double3_value.value.valueX.get(), float)
     assert_type(double3_value.value.get(), bdu.Double3)
-    existing_double3_value = nodes.existing.bdDbl3_Value(
+    existing_double3_value = bd_nodes.existing.bdDbl3_Value(
         "existing_double3_value"
     )
     assert_type(existing_double3_value, BdDbl3Value)
 
-    pow_fixed = nodes.create.bdDbl3_Power(name="pow_fixed")
+    pow_fixed = bd_nodes.create.bdDbl3_Power(name="pow_fixed")
     assert_type(pow_fixed, BdDbl3Power)
     assert_type(pow_fixed.input1, PowInput1PlugOperator)
     assert_type(pow_fixed.input2, PowInput2PlugOperator)
     assert_type(pow_fixed.output, PowOutputPlugOperator)
     assert_type(pow_fixed.output.get(), bdu.Double3)
 
-    pow_multi = nodes.create.bdDbl3_PowerMulti(name="pow_multi")
+    pow_multi = bd_nodes.create.bdDbl3_PowerMulti(name="pow_multi")
     assert_type(pow_multi, BdDbl3PowerMulti)
     assert_type(pow_multi.input, PowMultiInputPlugOperator)
     assert_type(pow_multi.input[next], PowMultiInputPlugOperator)
     assert_type(pow_multi.output, PowMultiOutputPlugOperator)
     assert_type(pow_multi.output.get(), bdu.Double3)
 
-    existing_pow_fixed = nodes.existing.bdDbl3_Power("existing_pow_fixed")
+    existing_pow_fixed = bd_nodes.existing.bdDbl3_Power("existing_pow_fixed")
     assert_type(existing_pow_fixed, BdDbl3Power)
-    existing_pow_multi = nodes.existing.bdDbl3_PowerMulti("existing_pow_multi")
+    existing_pow_multi = bd_nodes.existing.bdDbl3_PowerMulti(
+        "existing_pow_multi"
+    )
     assert_type(existing_pow_multi, BdDbl3PowerMulti)
 
-    sub_fixed = nodes.create.bdDbl3_Subtract(name="sub_fixed")
+    sub_fixed = bd_nodes.create.bdDbl3_Subtract(name="sub_fixed")
     assert_type(sub_fixed, BdDbl3Subtract)
     assert_type(sub_fixed.input1, SubInput1PlugOperator)
     assert_type(sub_fixed.input2, SubInput2PlugOperator)
     assert_type(sub_fixed.output, SubOutputPlugOperator)
     assert_type(sub_fixed.output.get(), bdu.Double3)
 
-    sub_multi = nodes.create.bdDbl3_SubtractMulti(name="sub_multi")
+    sub_multi = bd_nodes.create.bdDbl3_SubtractMulti(name="sub_multi")
     assert_type(sub_multi, BdDbl3SubtractMulti)
     assert_type(sub_multi.input, SubMultiInputPlugOperator)
     assert_type(sub_multi.input[next], SubMultiInputPlugOperator)
     assert_type(sub_multi.output, SubMultiOutputPlugOperator)
     assert_type(sub_multi.output.get(), bdu.Double3)
 
-    existing_sub_fixed = nodes.existing.bdDbl3_Subtract("existing_sub_fixed")
+    existing_sub_fixed = bd_nodes.existing.bdDbl3_Subtract(
+        "existing_sub_fixed"
+    )
     assert_type(existing_sub_fixed, BdDbl3Subtract)
-    existing_sub_multi = nodes.existing.bdDbl3_SubtractMulti(
+    existing_sub_multi = bd_nodes.existing.bdDbl3_SubtractMulti(
         "existing_sub_multi"
     )
     assert_type(existing_sub_multi, BdDbl3SubtractMulti)
 
-    fixed = nodes.create.bdDbl3_Multiply(name="fixed")
+    fixed = bd_nodes.create.bdDbl3_Multiply(name="fixed")
     assert_type(fixed, BdDbl3Multiply)
     assert_type(fixed.input1, Input1PlugOperator)
     assert_type(fixed.input2, Input2PlugOperator)
     assert_type(fixed.output, FixedOutputPlugOperator)
     assert_type(fixed.output.get(), bdu.Double3)
 
-    multi = nodes.create.bdDbl3_MultiplyMulti(name="multi")
+    multi = bd_nodes.create.bdDbl3_MultiplyMulti(name="multi")
     assert_type(multi, BdDbl3MultiplyMulti)
     assert_type(multi.input, MultiInputPlugOperator)
     assert_type(multi.input[next], MultiInputPlugOperator)
     assert_type(multi.output, MultiOutputPlugOperator)
     assert_type(multi.output.get(), bdu.Double3)
 
-    existing_fixed = nodes.existing.bdDbl3_Multiply("existing_fixed")
+    existing_fixed = bd_nodes.existing.bdDbl3_Multiply("existing_fixed")
     assert_type(existing_fixed, BdDbl3Multiply)
-    existing_multi = nodes.existing.bdDbl3_MultiplyMulti("existing_multi")
+    existing_multi = bd_nodes.existing.bdDbl3_MultiplyMulti("existing_multi")
     assert_type(existing_multi, BdDbl3MultiplyMulti)
 
-    quat_multi = nodes.create.bdQuat_MultiplyMulti(name="quat_multi")
+    quat_multi = bd_nodes.create.bdQuat_MultiplyMulti(name="quat_multi")
     assert_type(quat_multi, BdQuatMultiplyMulti)
     assert_type(BdQuatMultiplyMulti.inputQuat, InputQuatAttrOperator)
     assert_type(quat_multi.inputQuat, InputQuatPlugOperator)
@@ -2692,11 +2716,11 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(quat_multi.outputQuat, OutputQuatPlugOperator)
     assert_type(quat_multi.outputQuat.get(), bdu.Quat)
     assert_type(
-        nodes.existing.bdQuat_MultiplyMulti("existing_quat_multi"),
+        bd_nodes.existing.bdQuat_MultiplyMulti("existing_quat_multi"),
         BdQuatMultiplyMulti,
     )
 
-    change_basis = nodes.create.bdQuat_ChangeBasis(name="change_basis")
+    change_basis = bd_nodes.create.bdQuat_ChangeBasis(name="change_basis")
     assert_type(change_basis, BdQuatChangeBasis)
     assert_type(
         BdQuatChangeBasis.inputQuat,
@@ -2722,21 +2746,21 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(change_basis.outputQuat, ChangeBasisOutputQuatPlugOperator)
     assert_type(change_basis.outputQuat.get(), bdu.Quat)
     assert_type(
-        nodes.existing.bdQuat_ChangeBasis("existing_change_basis"),
+        bd_nodes.existing.bdQuat_ChangeBasis("existing_change_basis"),
         BdQuatChangeBasis,
     )
 
-    quat_value = nodes.create.bdQuat_Value(name="quat_value")
+    quat_value = bd_nodes.create.bdQuat_Value(name="quat_value")
     assert_type(quat_value, BdQuatValue)
     assert_type(BdQuatValue.value, QuatValueAttrOperator)
     assert_type(quat_value.value, QuatValuePlugOperator)
     assert_type(quat_value.value.get(), bdu.Quat)
     assert_type(
-        nodes.existing.bdQuat_Value("existing_quat_value"),
+        bd_nodes.existing.bdQuat_Value("existing_quat_value"),
         BdQuatValue,
     )
 
-    rbf_bend_twist_falloff = nodes.create.bdRbf_BendTwistFalloffWeight(
+    rbf_bend_twist_falloff = bd_nodes.create.bdRbf_BendTwistFalloffWeight(
         name="rbf_bend_twist_falloff"
     )
     assert_type(rbf_bend_twist_falloff, BdRbfBendTwistFalloffWeight)
@@ -2830,14 +2854,14 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         RbfBendTwistFalloffStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_BendTwistFalloffWeight(
+        bd_nodes.existing.bdRbf_BendTwistFalloffWeight(
             "existing_rbf_bend_twist_falloff"
         ),
         BdRbfBendTwistFalloffWeight,
     )
 
     rbf_multi_bend_twist_falloff = (
-        nodes.create.bdRbf_MultiBendTwistFalloffWeight(
+        bd_nodes.create.bdRbf_MultiBendTwistFalloffWeight(
             name="rbf_multi_bend_twist_falloff"
         )
     )
@@ -2939,13 +2963,13 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         RbfMultiBendTwistFalloffStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_MultiBendTwistFalloffWeight(
+        bd_nodes.existing.bdRbf_MultiBendTwistFalloffWeight(
             "existing_rbf_multi_bend_twist_falloff"
         ),
         BdRbfMultiBendTwistFalloffWeight,
     )
 
-    rbf_multi_orientation = nodes.create.bdRbf_MultiOrientationWeight(
+    rbf_multi_orientation = bd_nodes.create.bdRbf_MultiOrientationWeight(
         name="rbf_multi_orientation"
     )
     assert_type(rbf_multi_orientation, BdRbfMultiOrientationWeight)
@@ -2992,14 +3016,14 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         RbfMultiOrientationSolveStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_MultiOrientationWeight(
+        bd_nodes.existing.bdRbf_MultiOrientationWeight(
             "existing_rbf_multi_orientation"
         ),
         BdRbfMultiOrientationWeight,
     )
 
     rbf_multi_orientation_falloff = (
-        nodes.create.bdRbf_MultiOrientationFalloffWeight(
+        bd_nodes.create.bdRbf_MultiOrientationFalloffWeight(
             name="rbf_multi_orientation_falloff"
         )
     )
@@ -3073,13 +3097,13 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         RbfMultiOrientationFalloffStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_MultiOrientationFalloffWeight(
+        bd_nodes.existing.bdRbf_MultiOrientationFalloffWeight(
             "existing_rbf_multi_orientation_falloff"
         ),
         BdRbfMultiOrientationFalloffWeight,
     )
 
-    rbf_multi_position = nodes.create.bdRbf_MultiPositionWeight(
+    rbf_multi_position = bd_nodes.create.bdRbf_MultiPositionWeight(
         name="rbf_multi_position"
     )
     assert_type(rbf_multi_position, BdRbfMultiPositionWeight)
@@ -3126,14 +3150,16 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         RbfMultiPositionSolveStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_MultiPositionWeight(
+        bd_nodes.existing.bdRbf_MultiPositionWeight(
             "existing_rbf_multi_position"
         ),
         BdRbfMultiPositionWeight,
     )
 
-    rbf_multi_position_falloff = nodes.create.bdRbf_MultiPositionFalloffWeight(
-        name="rbf_multi_position_falloff"
+    rbf_multi_position_falloff = (
+        bd_nodes.create.bdRbf_MultiPositionFalloffWeight(
+            name="rbf_multi_position_falloff"
+        )
     )
     assert_type(
         rbf_multi_position_falloff,
@@ -3205,13 +3231,13 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         RbfMultiPositionFalloffStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_MultiPositionFalloffWeight(
+        bd_nodes.existing.bdRbf_MultiPositionFalloffWeight(
             "existing_rbf_multi_position_falloff"
         ),
         BdRbfMultiPositionFalloffWeight,
     )
 
-    rbf_orientation_falloff = nodes.create.bdRbf_OrientationFalloffWeight(
+    rbf_orientation_falloff = bd_nodes.create.bdRbf_OrientationFalloffWeight(
         name="rbf_orientation_falloff"
     )
     assert_type(rbf_orientation_falloff, BdRbfOrientationFalloffWeight)
@@ -3261,13 +3287,13 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         RbfOrientationFalloffStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_OrientationFalloffWeight(
+        bd_nodes.existing.bdRbf_OrientationFalloffWeight(
             "existing_rbf_orientation_falloff"
         ),
         BdRbfOrientationFalloffWeight,
     )
 
-    rbf_orientation_weight = nodes.create.bdRbf_OrientationWeight(
+    rbf_orientation_weight = bd_nodes.create.bdRbf_OrientationWeight(
         name="rbf_orientation_weight"
     )
     assert_type(rbf_orientation_weight, BdRbfOrientationWeight)
@@ -3288,13 +3314,13 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(rbf_orientation_weight.isValid, BoolPlugOperator)
     assert_type(rbf_orientation_weight.solveStatus, RbfSolveStatusPlugOperator)
     assert_type(
-        nodes.existing.bdRbf_OrientationWeight(
+        bd_nodes.existing.bdRbf_OrientationWeight(
             "existing_rbf_orientation_weight"
         ),
         BdRbfOrientationWeight,
     )
 
-    rbf_position_falloff_weight = nodes.create.bdRbf_PositionFalloffWeight(
+    rbf_position_falloff_weight = bd_nodes.create.bdRbf_PositionFalloffWeight(
         name="rbf_position_falloff_weight"
     )
     assert_type(rbf_position_falloff_weight, BdRbfPositionFalloffWeight)
@@ -3355,13 +3381,13 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         RbfPositionFalloffStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_PositionFalloffWeight(
+        bd_nodes.existing.bdRbf_PositionFalloffWeight(
             "existing_rbf_position_falloff_weight"
         ),
         BdRbfPositionFalloffWeight,
     )
 
-    rbf_position_weight = nodes.create.bdRbf_PositionWeight(
+    rbf_position_weight = bd_nodes.create.bdRbf_PositionWeight(
         name="rbf_position_weight"
     )
     assert_type(rbf_position_weight, BdRbfPositionWeight)
@@ -3403,11 +3429,11 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         RbfPositionSolveStatusPlugOperator,
     )
     assert_type(
-        nodes.existing.bdRbf_PositionWeight("existing_rbf_position_weight"),
+        bd_nodes.existing.bdRbf_PositionWeight("existing_rbf_position_weight"),
         BdRbfPositionWeight,
     )
 
-    rbf_pose_blend = nodes.create.bdRbf_PoseBlend(name="rbf_pose_blend")
+    rbf_pose_blend = bd_nodes.create.bdRbf_PoseBlend(name="rbf_pose_blend")
     assert_type(rbf_pose_blend, BdRbfPoseBlend)
     assert_type(
         BdRbfPoseBlend.baseTranslate,
@@ -3483,11 +3509,11 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(rbf_pose_blend.isValid, BoolPlugOperator)
     assert_type(rbf_pose_blend.blendStatus, RbfBlendStatusPlugOperator)
     assert_type(
-        nodes.existing.bdRbf_PoseBlend("existing_rbf_pose_blend"),
+        bd_nodes.existing.bdRbf_PoseBlend("existing_rbf_pose_blend"),
         BdRbfPoseBlend,
     )
 
-    euler_value = nodes.create.bdEuler_Value(name="euler_value")
+    euler_value = bd_nodes.create.bdEuler_Value(name="euler_value")
     assert_type(euler_value, BdEulerValue)
     assert_type(BdEulerValue.value, EulerValueAttrOperator)
     assert_type(euler_value.value, EulerValuePlugOperator)
@@ -3501,11 +3527,11 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         EulerValueRotateOrderPlugOperator,
     )
     assert_type(
-        nodes.existing.bdEuler_Value("existing_euler_value"),
+        bd_nodes.existing.bdEuler_Value("existing_euler_value"),
         BdEulerValue,
     )
 
-    compose_bend_twist = nodes.create.bdQuat_ComposeBendTwist(
+    compose_bend_twist = bd_nodes.create.bdQuat_ComposeBendTwist(
         name="compose_bend_twist"
     )
     assert_type(compose_bend_twist, BdQuatComposeBendTwist)
@@ -3522,7 +3548,7 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(compose_bend_twist.outputQuat.get(), bdu.Quat)
 
-    decompose_bend_twist = nodes.create.bdQuat_DecomposeBendTwist(
+    decompose_bend_twist = bd_nodes.create.bdQuat_DecomposeBendTwist(
         name="decompose_bend_twist"
     )
     assert_type(decompose_bend_twist, BdQuatDecomposeBendTwist)
@@ -3545,27 +3571,29 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(decompose_bend_twist.output.get(), bdu.DoubleAngle3)
     assert_type(decompose_bend_twist.bendRatio, DoublePlugOperator)
     assert_type(decompose_bend_twist.bendRatio.get(), float)
-    decompose_twist = nodes.create.bdQuat_DecomposeTwist(
+    decompose_twist = bd_nodes.create.bdQuat_DecomposeTwist(
         name="decompose_twist"
     )
     assert_type(decompose_twist, BdQuatDecomposeTwist)
     assert_type(decompose_twist.outputTwist.get(), float)
     assert_type(
-        nodes.existing.bdQuat_ComposeBendTwist("existing_compose_bend_twist"),
+        bd_nodes.existing.bdQuat_ComposeBendTwist(
+            "existing_compose_bend_twist"
+        ),
         BdQuatComposeBendTwist,
     )
     assert_type(
-        nodes.existing.bdQuat_DecomposeBendTwist(
+        bd_nodes.existing.bdQuat_DecomposeBendTwist(
             "existing_decompose_bend_twist"
         ),
         BdQuatDecomposeBendTwist,
     )
     assert_type(
-        nodes.existing.bdQuat_DecomposeTwist("existing_decompose_twist"),
+        bd_nodes.existing.bdQuat_DecomposeTwist("existing_decompose_twist"),
         BdQuatDecomposeTwist,
     )
 
-    quat_limit = nodes.create.bdQuat_LimitBendTwist(name="quat_limit")
+    quat_limit = bd_nodes.create.bdQuat_LimitBendTwist(name="quat_limit")
     assert_type(quat_limit, BdQuatLimitBendTwist)
     assert_type(BdQuatLimitBendTwist.min, LimitMinAttrOperator)
     assert_type(quat_limit.min, LimitMinPlugOperator)
@@ -3581,20 +3609,20 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(quat_limit.outputQuat, LimitOutputQuatPlugOperator)
     assert_type(quat_limit.outputQuat.get(), bdu.Quat)
     assert_type(
-        nodes.existing.bdQuat_LimitBendTwist("existing_quat_limit"),
+        bd_nodes.existing.bdQuat_LimitBendTwist("existing_quat_limit"),
         BdQuatLimitBendTwist,
     )
 
-    euler_limit = nodes.create.bdEuler_LimitBendTwist(name="euler_limit")
+    euler_limit = bd_nodes.create.bdEuler_LimitBendTwist(name="euler_limit")
     assert_type(euler_limit, BdEulerLimitBendTwist)
     assert_type(euler_limit.output.get(), bdu.DoubleAngle3)
     assert_type(euler_limit.outputRotate.get(), bdu.DoubleAngle3)
     assert_type(
-        nodes.existing.bdEuler_LimitBendTwist("existing_euler_limit"),
+        bd_nodes.existing.bdEuler_LimitBendTwist("existing_euler_limit"),
         BdEulerLimitBendTwist,
     )
 
-    euler_decompose_twist = nodes.create.bdEuler_DecomposeTwist(
+    euler_decompose_twist = bd_nodes.create.bdEuler_DecomposeTwist(
         name="euler_decompose_twist"
     )
     assert_type(euler_decompose_twist, BdEulerDecomposeTwist)
@@ -3622,13 +3650,13 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(euler_decompose_twist.outputTwist.get(), float)
     assert_type(
-        nodes.existing.bdEuler_DecomposeTwist(
+        bd_nodes.existing.bdEuler_DecomposeTwist(
             "existing_euler_decompose_twist"
         ),
         BdEulerDecomposeTwist,
     )
 
-    euler_decompose_bend_twist = nodes.create.bdEuler_DecomposeBendTwist(
+    euler_decompose_bend_twist = bd_nodes.create.bdEuler_DecomposeBendTwist(
         name="euler_decompose_bend_twist"
     )
     assert_type(euler_decompose_bend_twist, BdEulerDecomposeBendTwist)
@@ -3687,13 +3715,13 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(euler_decompose_bend_twist.output.get(), bdu.DoubleAngle3)
     assert_type(euler_decompose_bend_twist.bendRatio.get(), float)
     assert_type(
-        nodes.existing.bdEuler_DecomposeBendTwist(
+        bd_nodes.existing.bdEuler_DecomposeBendTwist(
             "existing_euler_decompose_bend_twist"
         ),
         BdEulerDecomposeBendTwist,
     )
 
-    euler_compose_bend_twist = nodes.create.bdEuler_ComposeBendTwist(
+    euler_compose_bend_twist = bd_nodes.create.bdEuler_ComposeBendTwist(
         name="euler_compose_bend_twist"
     )
     assert_type(euler_compose_bend_twist, BdEulerComposeBendTwist)
@@ -3751,79 +3779,79 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         bdu.DoubleAngle3,
     )
     assert_type(
-        nodes.existing.bdEuler_ComposeBendTwist(
+        bd_nodes.existing.bdEuler_ComposeBendTwist(
             "existing_euler_compose_bend_twist"
         ),
         BdEulerComposeBendTwist,
     )
 
-    double_absolute = nodes.create.bdDbl_Abs(name="double_absolute")
+    double_absolute = bd_nodes.create.bdDbl_Abs(name="double_absolute")
     assert_type(double_absolute, BdDblAbs)
     assert_type(double_absolute.input, DoublePlugOperator)
     assert_type(double_absolute.output, DoublePlugOperator)
     assert_type(double_absolute.output.get(), float)
     assert_type(
-        nodes.existing.bdDbl_Abs("existing_double_absolute"),
+        bd_nodes.existing.bdDbl_Abs("existing_double_absolute"),
         BdDblAbs,
     )
 
-    double_negate = nodes.create.bdDbl_Negate(name="double_negate")
+    double_negate = bd_nodes.create.bdDbl_Negate(name="double_negate")
     assert_type(double_negate, BdDblNegate)
     assert_type(double_negate.input, DoublePlugOperator)
     assert_type(double_negate.output, DoublePlugOperator)
     assert_type(double_negate.output.get(), float)
     assert_type(
-        nodes.existing.bdDbl_Negate("existing_double_negate"),
+        bd_nodes.existing.bdDbl_Negate("existing_double_negate"),
         BdDblNegate,
     )
 
-    double_fixed = nodes.create.bdDbl_Multiply(name="double_fixed")
+    double_fixed = bd_nodes.create.bdDbl_Multiply(name="double_fixed")
     assert_type(double_fixed, BdDblMultiply)
     assert_type(double_fixed.input1, DoublePlugOperator)
     assert_type(double_fixed.input2, DoublePlugOperator)
     assert_type(double_fixed.output, DoublePlugOperator)
     assert_type(double_fixed.output.get(), float)
 
-    double_multi = nodes.create.bdDbl_MultiplyMulti(name="double_multi")
+    double_multi = bd_nodes.create.bdDbl_MultiplyMulti(name="double_multi")
     assert_type(double_multi, BdDblMultiplyMulti)
     assert_type(double_multi.input, DoublePlugOperator)
     assert_type(double_multi.input[next], DoublePlugOperator)
     assert_type(double_multi.output, DoublePlugOperator)
     assert_type(double_multi.output.get(), float)
 
-    existing_double_fixed = nodes.existing.bdDbl_Multiply(
+    existing_double_fixed = bd_nodes.existing.bdDbl_Multiply(
         "existing_double_fixed"
     )
     assert_type(existing_double_fixed, BdDblMultiply)
-    existing_double_multi = nodes.existing.bdDbl_MultiplyMulti(
+    existing_double_multi = bd_nodes.existing.bdDbl_MultiplyMulti(
         "existing_double_multi"
     )
     assert_type(existing_double_multi, BdDblMultiplyMulti)
 
-    double_add_fixed = nodes.create.bdDbl_Add(name="double_add_fixed")
+    double_add_fixed = bd_nodes.create.bdDbl_Add(name="double_add_fixed")
     assert_type(double_add_fixed, BdDblAdd)
     assert_type(double_add_fixed.input1, DoublePlugOperator)
     assert_type(double_add_fixed.input2, DoublePlugOperator)
     assert_type(double_add_fixed.output, DoublePlugOperator)
     assert_type(double_add_fixed.output.get(), float)
 
-    double_add_multi = nodes.create.bdDbl_AddMulti(name="double_add_multi")
+    double_add_multi = bd_nodes.create.bdDbl_AddMulti(name="double_add_multi")
     assert_type(double_add_multi, BdDblAddMulti)
     assert_type(double_add_multi.input, DoublePlugOperator)
     assert_type(double_add_multi.input[next], DoublePlugOperator)
     assert_type(double_add_multi.output, DoublePlugOperator)
     assert_type(double_add_multi.output.get(), float)
 
-    existing_double_add_fixed = nodes.existing.bdDbl_Add(
+    existing_double_add_fixed = bd_nodes.existing.bdDbl_Add(
         "existing_double_add_fixed"
     )
     assert_type(existing_double_add_fixed, BdDblAdd)
-    existing_double_add_multi = nodes.existing.bdDbl_AddMulti(
+    existing_double_add_multi = bd_nodes.existing.bdDbl_AddMulti(
         "existing_double_add_multi"
     )
     assert_type(existing_double_add_multi, BdDblAddMulti)
 
-    double_clamp = nodes.create.bdDbl_Clamp(name="double_clamp")
+    double_clamp = bd_nodes.create.bdDbl_Clamp(name="double_clamp")
     assert_type(double_clamp, BdDblClamp)
     assert_type(double_clamp.input, DoublePlugOperator)
     assert_type(double_clamp.min, DoublePlugOperator)
@@ -3831,11 +3859,11 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(double_clamp.output, DoublePlugOperator)
     assert_type(double_clamp.output.get(), float)
     assert_type(
-        nodes.existing.bdDbl_Clamp("existing_double_clamp"),
+        bd_nodes.existing.bdDbl_Clamp("existing_double_clamp"),
         BdDblClamp,
     )
 
-    double_map_range = nodes.create.bdDbl_MapRange(name="double_map_range")
+    double_map_range = bd_nodes.create.bdDbl_MapRange(name="double_map_range")
     assert_type(double_map_range, BdDblMapRange)
     assert_type(double_map_range.input, DoublePlugOperator)
     assert_type(double_map_range.srcMin, DoublePlugOperator)
@@ -3846,111 +3874,117 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(double_map_range.output, DoublePlugOperator)
     assert_type(double_map_range.output.get(), float)
     assert_type(
-        nodes.existing.bdDbl_MapRange("existing_double_map_range"),
+        bd_nodes.existing.bdDbl_MapRange("existing_double_map_range"),
         BdDblMapRange,
     )
 
-    double_min_fixed = nodes.create.bdDbl_Min(name="double_min_fixed")
+    double_min_fixed = bd_nodes.create.bdDbl_Min(name="double_min_fixed")
     assert_type(double_min_fixed, BdDblMin)
     assert_type(double_min_fixed.input1, DoublePlugOperator)
     assert_type(double_min_fixed.input2, DoublePlugOperator)
     assert_type(double_min_fixed.output, DoublePlugOperator)
     assert_type(double_min_fixed.output.get(), float)
 
-    double_min_multi = nodes.create.bdDbl_MinMulti(name="double_min_multi")
+    double_min_multi = bd_nodes.create.bdDbl_MinMulti(name="double_min_multi")
     assert_type(double_min_multi, BdDblMinMulti)
     assert_type(double_min_multi.input, DoublePlugOperator)
     assert_type(double_min_multi.input[next], DoublePlugOperator)
     assert_type(double_min_multi.output, DoublePlugOperator)
     assert_type(double_min_multi.output.get(), float)
 
-    assert_type(nodes.existing.bdDbl_Min("existing_double_min"), BdDblMin)
+    assert_type(bd_nodes.existing.bdDbl_Min("existing_double_min"), BdDblMin)
     assert_type(
-        nodes.existing.bdDbl_MinMulti("existing_double_min_multi"),
+        bd_nodes.existing.bdDbl_MinMulti("existing_double_min_multi"),
         BdDblMinMulti,
     )
 
-    double_max_fixed = nodes.create.bdDbl_Max(name="double_max_fixed")
+    double_max_fixed = bd_nodes.create.bdDbl_Max(name="double_max_fixed")
     assert_type(double_max_fixed, BdDblMax)
     assert_type(double_max_fixed.input1, DoublePlugOperator)
     assert_type(double_max_fixed.input2, DoublePlugOperator)
     assert_type(double_max_fixed.output, DoublePlugOperator)
     assert_type(double_max_fixed.output.get(), float)
 
-    double_max_multi = nodes.create.bdDbl_MaxMulti(name="double_max_multi")
+    double_max_multi = bd_nodes.create.bdDbl_MaxMulti(name="double_max_multi")
     assert_type(double_max_multi, BdDblMaxMulti)
     assert_type(double_max_multi.input, DoublePlugOperator)
     assert_type(double_max_multi.input[next], DoublePlugOperator)
     assert_type(double_max_multi.output, DoublePlugOperator)
     assert_type(double_max_multi.output.get(), float)
 
-    assert_type(nodes.existing.bdDbl_Max("existing_double_max"), BdDblMax)
+    assert_type(bd_nodes.existing.bdDbl_Max("existing_double_max"), BdDblMax)
     assert_type(
-        nodes.existing.bdDbl_MaxMulti("existing_double_max_multi"),
+        bd_nodes.existing.bdDbl_MaxMulti("existing_double_max_multi"),
         BdDblMaxMulti,
     )
 
-    double_div_fixed = nodes.create.bdDbl_Divide(name="double_div_fixed")
+    double_div_fixed = bd_nodes.create.bdDbl_Divide(name="double_div_fixed")
     assert_type(double_div_fixed, BdDblDivide)
     assert_type(double_div_fixed.input1, DoublePlugOperator)
     assert_type(double_div_fixed.input2, DoublePlugOperator)
     assert_type(double_div_fixed.output, DoublePlugOperator)
     assert_type(double_div_fixed.output.get(), float)
 
-    double_div_multi = nodes.create.bdDbl_DivideMulti(name="double_div_multi")
+    double_div_multi = bd_nodes.create.bdDbl_DivideMulti(
+        name="double_div_multi"
+    )
     assert_type(double_div_multi, BdDblDivideMulti)
     assert_type(double_div_multi.input, DoublePlugOperator)
     assert_type(double_div_multi.input[next], DoublePlugOperator)
     assert_type(double_div_multi.output, DoublePlugOperator)
     assert_type(double_div_multi.output.get(), float)
 
-    existing_double_div_fixed = nodes.existing.bdDbl_Divide(
+    existing_double_div_fixed = bd_nodes.existing.bdDbl_Divide(
         "existing_double_div_fixed"
     )
     assert_type(existing_double_div_fixed, BdDblDivide)
-    existing_double_div_multi = nodes.existing.bdDbl_DivideMulti(
+    existing_double_div_multi = bd_nodes.existing.bdDbl_DivideMulti(
         "existing_double_div_multi"
     )
     assert_type(existing_double_div_multi, BdDblDivideMulti)
 
-    double_value = nodes.create.bdDbl_Value(name="double_value")
+    double_value = bd_nodes.create.bdDbl_Value(name="double_value")
     assert_type(double_value, BdDblValue)
     assert_type(double_value.value, DoublePlugOperator)
     assert_type(double_value.value.get(), float)
-    existing_double_value = nodes.existing.bdDbl_Value("existing_double_value")
+    existing_double_value = bd_nodes.existing.bdDbl_Value(
+        "existing_double_value"
+    )
     assert_type(existing_double_value, BdDblValue)
 
-    double_pow_fixed = nodes.create.bdDbl_Power(name="double_pow_fixed")
+    double_pow_fixed = bd_nodes.create.bdDbl_Power(name="double_pow_fixed")
     assert_type(double_pow_fixed, BdDblPower)
     assert_type(double_pow_fixed.input1, DoublePlugOperator)
     assert_type(double_pow_fixed.input2, DoublePlugOperator)
     assert_type(double_pow_fixed.output, DoublePlugOperator)
     assert_type(double_pow_fixed.output.get(), float)
 
-    double_pow_multi = nodes.create.bdDbl_PowerMulti(name="double_pow_multi")
+    double_pow_multi = bd_nodes.create.bdDbl_PowerMulti(
+        name="double_pow_multi"
+    )
     assert_type(double_pow_multi, BdDblPowerMulti)
     assert_type(double_pow_multi.input, DoublePlugOperator)
     assert_type(double_pow_multi.input[next], DoublePlugOperator)
     assert_type(double_pow_multi.output, DoublePlugOperator)
     assert_type(double_pow_multi.output.get(), float)
 
-    existing_double_pow_fixed = nodes.existing.bdDbl_Power(
+    existing_double_pow_fixed = bd_nodes.existing.bdDbl_Power(
         "existing_double_pow_fixed"
     )
     assert_type(existing_double_pow_fixed, BdDblPower)
-    existing_double_pow_multi = nodes.existing.bdDbl_PowerMulti(
+    existing_double_pow_multi = bd_nodes.existing.bdDbl_PowerMulti(
         "existing_double_pow_multi"
     )
     assert_type(existing_double_pow_multi, BdDblPowerMulti)
 
-    double_sub_fixed = nodes.create.bdDbl_Subtract(name="double_sub_fixed")
+    double_sub_fixed = bd_nodes.create.bdDbl_Subtract(name="double_sub_fixed")
     assert_type(double_sub_fixed, BdDblSubtract)
     assert_type(double_sub_fixed.input1, DoublePlugOperator)
     assert_type(double_sub_fixed.input2, DoublePlugOperator)
     assert_type(double_sub_fixed.output, DoublePlugOperator)
     assert_type(double_sub_fixed.output.get(), float)
 
-    double_sub_multi = nodes.create.bdDbl_SubtractMulti(
+    double_sub_multi = bd_nodes.create.bdDbl_SubtractMulti(
         name="double_sub_multi"
     )
     assert_type(double_sub_multi, BdDblSubtractMulti)
@@ -3959,22 +3993,22 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(double_sub_multi.output, DoublePlugOperator)
     assert_type(double_sub_multi.output.get(), float)
 
-    existing_double_sub_fixed = nodes.existing.bdDbl_Subtract(
+    existing_double_sub_fixed = bd_nodes.existing.bdDbl_Subtract(
         "existing_double_sub_fixed"
     )
     assert_type(existing_double_sub_fixed, BdDblSubtract)
-    existing_double_sub_multi = nodes.existing.bdDbl_SubtractMulti(
+    existing_double_sub_multi = bd_nodes.existing.bdDbl_SubtractMulti(
         "existing_double_sub_multi"
     )
     assert_type(existing_double_sub_multi, BdDblSubtractMulti)
 
-    compose = nodes.create.composeMatrix(name="compose")
+    compose = bd_nodes.create.composeMatrix(name="compose")
     assert_type(compose, ComposeMatrix)
 
-    decompose = nodes.existing.decomposeMatrix("decompose")
+    decompose = bd_nodes.existing.decomposeMatrix("decompose")
     assert_type(decompose, DecomposeMatrix)
 
-    existing = nodes.existing("existing_node")
+    existing = bd_nodes.existing("existing_node")
     assert_type(existing, NodeOperator)
 
 
@@ -4288,18 +4322,18 @@ def modifier_callback_contract(mod: bdu.ModifierManager) -> None:
 
 
 def explicit_curve_keyframe_contract(
-    nodes: bdu.Nodes, obj: om.MObject
+    bd_nodes: bdu.Nodes, obj: om.MObject
 ) -> None:
     assert_type(
-        nodes.existing.animCurveTA("curve").keyframe, CurveKeyframeManager
+        bd_nodes.existing.animCurveTA("curve").keyframe, CurveKeyframeManager
     )
     assert_type(
-        nodes.existing.animCurveTL("curve").keyframe, CurveKeyframeManager
+        bd_nodes.existing.animCurveTL("curve").keyframe, CurveKeyframeManager
     )
     assert_type(
-        nodes.existing.animCurveTU("curve").keyframe, CurveKeyframeManager
+        bd_nodes.existing.animCurveTU("curve").keyframe, CurveKeyframeManager
     )
-    keyframe = nodes.create.animCurveTL(name="curve").keyframe
+    keyframe = bd_nodes.create.animCurveTL(name="curve").keyframe
     assert_type(keyframe, CurveKeyframeManager)
     keyframe.bake()  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     assert_type(CurveKeyframeManager(obj), CurveKeyframeManager)
@@ -4366,10 +4400,10 @@ def explicit_curve_keyframe_contract(
     keyframe.plug  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
 
-def keyframe_reduction_contract(nodes: bdu.Nodes) -> None:
-    channel = nodes.existing.transform("ctrl").tx.keyframe
+def keyframe_reduction_contract(bd_nodes: bdu.Nodes) -> None:
+    channel = bd_nodes.existing.transform("ctrl").tx.keyframe
     layer = channel.anim_layer("Correction")
-    curve = nodes.existing.animCurveTL("curve").keyframe
+    curve = bd_nodes.existing.animCurveTL("curve").keyframe
     for keyframe in (channel, layer, curve):
         assert_type(keyframe.reduce_keys(tolerance=0.01), None)
         assert_type(keyframe.reduce_keys(10, 100, tolerance=0.01), None)
@@ -4390,10 +4424,10 @@ def keyframe_reduction_contract(nodes: bdu.Nodes) -> None:
         )
 
 
-def keyframe_snap_subframe_contract(nodes: bdu.Nodes) -> None:
-    channel = nodes.existing.transform("ctrl").tx.keyframe
+def keyframe_snap_subframe_contract(bd_nodes: bdu.Nodes) -> None:
+    channel = bd_nodes.existing.transform("ctrl").tx.keyframe
     layer = channel.anim_layer("Correction")
-    curve = nodes.existing.animCurveTL("curve").keyframe
+    curve = bd_nodes.existing.animCurveTL("curve").keyframe
     for keyframe in (channel, layer, curve):
         assert_type(keyframe.snap_subframe_keys(), None)
         assert_type(keyframe.snap_subframe_keys(1, 24), None)
@@ -4411,10 +4445,12 @@ def keyframe_snap_subframe_contract(nodes: bdu.Nodes) -> None:
         )
 
 
-def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
-    channel = nodes.existing.transform("ctrl").tx.keyframe
+def keyframe_scale_contract(
+    bd_nodes: bdu.Nodes, optional: float | None
+) -> None:
+    channel = bd_nodes.existing.transform("ctrl").tx.keyframe
     layer = channel.anim_layer("Correction")
-    curve = nodes.existing.animCurveTL("curve").keyframe
+    curve = bd_nodes.existing.animCurveTL("curve").keyframe
     for keyframe in (channel, layer, curve):
         assert_type(keyframe.scale_frames(scale=2), None)
         assert_type(keyframe.scale_frames(scale=2, pivot=20), None)
@@ -4564,10 +4600,12 @@ def keyframe_scale_contract(nodes: bdu.Nodes, optional: float | None) -> None:
         )
 
 
-def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
-    channel = nodes.existing.transform("ctrl").tx.keyframe
+def keyframe_value_contract(
+    bd_nodes: bdu.Nodes, optional: float | None
+) -> None:
+    channel = bd_nodes.existing.transform("ctrl").tx.keyframe
     layer = channel.anim_layer("Correction")
-    curve = nodes.existing.animCurveTL("curve").keyframe
+    curve = bd_nodes.existing.animCurveTL("curve").keyframe
     for keyframe in (channel, layer, curve):
         assert_type(keyframe.set_value(10, value=5), None)
         assert_type(keyframe.set_values(value=5), None)
@@ -4648,10 +4686,10 @@ def keyframe_value_contract(nodes: bdu.Nodes, optional: float | None) -> None:
         )
 
 
-def keyframe_move_contract(nodes: bdu.Nodes) -> None:
-    channel = nodes.existing.transform("ctrl").tx.keyframe
+def keyframe_move_contract(bd_nodes: bdu.Nodes) -> None:
+    channel = bd_nodes.existing.transform("ctrl").tx.keyframe
     layer = channel.anim_layer("Correction")
-    curve = nodes.existing.animCurveTL("curve").keyframe
+    curve = bd_nodes.existing.animCurveTL("curve").keyframe
     for keyframe in (channel, layer, curve):
         assert_type(keyframe.move_frame(10, offset=15), None)
         assert_type(keyframe.move_frame(10, to=15, insert_missing=True), None)
@@ -4736,8 +4774,10 @@ def keyframe_move_contract(nodes: bdu.Nodes) -> None:
         )
 
 
-def curve_discovery_contract(nodes: bdu.Nodes) -> None:
-    keyframe = nodes.existing.transform("target").translate.translateX.keyframe
+def curve_discovery_contract(bd_nodes: bdu.Nodes) -> None:
+    keyframe = bd_nodes.existing.transform(
+        "target"
+    ).translate.translateX.keyframe
     candidates = keyframe.find_anim_curves()
     assert_type(candidates, tuple[AnimCurveNode, ...])
     for candidate in candidates:
@@ -5346,9 +5386,9 @@ def bd_dbl_multiply_descriptor_contract(
     assert_type(multi.output.get(), float)
 
 
-def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
-    layer = nodes.create.animLayer(name="Correction", override=True)
-    node = nodes.existing.transform("ctrl")
+def anim_layer_creation_contract(bd_nodes: bdu.Nodes) -> None:
+    layer = bd_nodes.create.animLayer(name="Correction", override=True)
+    node = bd_nodes.existing.transform("ctrl")
     assert_type(layer.weight.set(0.5), None)
     assert_type(layer.member_keyframes.snap_subframe_keys(), None)
     assert_type(
@@ -5451,15 +5491,15 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         node.keyframes.anim_layer(layer).bake(1, 24, attributes=["translate"]),
         None,
     )
-    assert_type(nodes.keyframes, NodesKeyframeManager)
+    assert_type(bd_nodes.keyframes, NodesKeyframeManager)
     assert_type(
-        nodes.keyframes.euler_filter(
+        bd_nodes.keyframes.euler_filter(
             [node, node.m_obj, "other"], -10.5, 24.25
         ),
         None,
     )
     assert_type(
-        nodes.keyframes.bake(
+        bd_nodes.keyframes.bake(
             [node, node.m_obj, "other"],
             1,
             24,
@@ -5470,7 +5510,7 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
-        nodes.keyframes.set_tangents(
+        bd_nodes.keyframes.set_tangents(
             [node, node.m_obj, "other"],
             1,
             24,
@@ -5482,7 +5522,7 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
-        nodes.keyframes.set_tangent_locks(
+        bd_nodes.keyframes.set_tangent_locks(
             [node, node.m_obj, "other"],
             1,
             24,
@@ -5494,7 +5534,7 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
-        nodes.keyframes.set_weighted(
+        bd_nodes.keyframes.set_weighted(
             [node, node.m_obj, "other"],
             True,
             attributes=["translate", "rotate"],
@@ -5503,7 +5543,7 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
-        nodes.keyframes.delete_keys(
+        bd_nodes.keyframes.delete_keys(
             [node, node.m_obj, "other"],
             1,
             24,
@@ -5513,7 +5553,7 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
-        nodes.keyframes.snap_subframe_keys(
+        bd_nodes.keyframes.snap_subframe_keys(
             [node, node.m_obj, "other"],
             1,
             24,
@@ -5525,11 +5565,13 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         None,
     )
     assert_type(
-        nodes.keyframes.anim_layer(layer).snap_subframe_keys([node, "other"]),
+        bd_nodes.keyframes.anim_layer(layer).snap_subframe_keys(
+            [node, "other"]
+        ),
         None,
     )
     assert_type(
-        nodes.keyframes.move_frames(
+        bd_nodes.keyframes.move_frames(
             [node, node.m_obj, "other"],
             1,
             24,
@@ -5541,15 +5583,15 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         ),
         None,
     )
-    assert_type(nodes.keyframes.move_frames([node], to_start=0), None)
+    assert_type(bd_nodes.keyframes.move_frames([node], to_start=0), None)
     assert_type(
-        nodes.keyframes.anim_layer(layer).move_frames(
+        bd_nodes.keyframes.anim_layer(layer).move_frames(
             [node, "other"], to_end=50
         ),
         None,
     )
     assert_type(
-        nodes.keyframes.scale_frames(
+        bd_nodes.keyframes.scale_frames(
             [node, node.m_obj, "other"],
             1,
             24,
@@ -5563,15 +5605,15 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         ),
         None,
     )
-    assert_type(nodes.keyframes.scale_frames([node], duration=10), None)
+    assert_type(bd_nodes.keyframes.scale_frames([node], duration=10), None)
     assert_type(
-        nodes.keyframes.anim_layer(layer).scale_frames(
+        bd_nodes.keyframes.anim_layer(layer).scale_frames(
             [node, "other"], scale=2, to_end=50
         ),
         None,
     )
     assert_type(
-        nodes.keyframes.reduce_keys(
+        bd_nodes.keyframes.reduce_keys(
             [node, node.m_obj, "other"],
             1,
             24,
@@ -5582,48 +5624,50 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
         ),
         None,
     )
-    assert_type(nodes.keyframes.anim_layer(layer), NodesKeyframeManager)
+    assert_type(bd_nodes.keyframes.anim_layer(layer), NodesKeyframeManager)
     assert_type(
-        nodes.keyframes.anim_layer(layer).bake(
+        bd_nodes.keyframes.anim_layer(layer).bake(
             [node, "other"], 1, 24, include_static=False
         ),
         None,
     )
     assert_type(
-        nodes.keyframes.anim_layer(layer).set_tangents(
+        bd_nodes.keyframes.anim_layer(layer).set_tangents(
             [node, "other"], 1, 24, tangent_type="linear"
         ),
         None,
     )
     assert_type(
-        nodes.keyframes.anim_layer(layer).set_tangent_locks(
+        bd_nodes.keyframes.anim_layer(layer).set_tangent_locks(
             [node, "other"], 1, 24, weights_locked=False
         ),
         None,
     )
     assert_type(
-        nodes.keyframes.anim_layer(layer).set_weighted(
+        bd_nodes.keyframes.anim_layer(layer).set_weighted(
             [node, "other"], False, attributes=["translate"]
         ),
         None,
     )
     assert_type(
-        nodes.keyframes.anim_layer(layer).delete_keys(
+        bd_nodes.keyframes.anim_layer(layer).delete_keys(
             [node, "other"], 1, 24, attributes=["translate"]
         ),
         None,
     )
     assert_type(
-        nodes.keyframes.anim_layer(layer).reduce_keys(
+        bd_nodes.keyframes.anim_layer(layer).reduce_keys(
             [node, "other"], 1, 24, tolerance=0.01
         ),
         None,
     )
     assert_type(
-        nodes.keyframes.anim_layer(layer).euler_filter([node, "other"], 1, 24),
+        bd_nodes.keyframes.anim_layer(layer).euler_filter(
+            [node, "other"], 1, 24
+        ),
         None,
     )
-    existing = nodes.existing.animLayer("Existing")
+    existing = bd_nodes.existing.animLayer("Existing")
     assert_type(existing.member_keyframes.snap_subframe_keys(), None)
     assert_type(existing.add_nodes([node]), None)
     assert_type(existing.remove_plugs([node.tx]), None)
@@ -5634,7 +5678,7 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     layer.remove_plugs([node])  # pyright: ignore[reportArgumentType]
     layer.add_nodes([node.tx])  # pyright: ignore[reportArgumentType]
     layer.remove_nodes([node.tx])  # pyright: ignore[reportArgumentType]
-    nodes.create.animLayer(
+    bd_nodes.create.animLayer(
         override="bad"  # pyright: ignore[reportArgumentType]
     )
     node.tx.keyframe.anim_layer(node)  # pyright: ignore[reportArgumentType]
@@ -5642,7 +5686,7 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     node.keyframes.snap_subframe_keys(
         attributes=[1],  # pyright: ignore[reportArgumentType]
     )
-    nodes.keyframes.snap_subframe_keys(
+    bd_nodes.keyframes.snap_subframe_keys(
         [node],
         preserve_breakdowns="bad",  # pyright: ignore[reportArgumentType]
     )
@@ -5652,8 +5696,8 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     node.keyframes.move_frames(
         offset=1, interpolation="cubic"  # pyright: ignore[reportArgumentType]
     )
-    nodes.keyframes.move_frames([node])  # pyright: ignore[reportCallIssue]
-    nodes.keyframes.move_frames(
+    bd_nodes.keyframes.move_frames([node])  # pyright: ignore[reportCallIssue]
+    bd_nodes.keyframes.move_frames(
         [node], offset=1, attributes=[1]  # pyright: ignore[reportArgumentType]
     )
     node.keyframes.scale_frames()  # pyright: ignore[reportCallIssue]
@@ -5663,8 +5707,8 @@ def anim_layer_creation_contract(nodes: bdu.Nodes) -> None:
     node.keyframes.scale_frames(  # pyright: ignore[reportCallIssue]
         scale=2, pivot=20, to_start=0  # pyright: ignore[reportArgumentType]
     )
-    nodes.keyframes.scale_frames([node])  # pyright: ignore[reportCallIssue]
-    nodes.keyframes.scale_frames(
+    bd_nodes.keyframes.scale_frames([node])  # pyright: ignore[reportCallIssue]
+    bd_nodes.keyframes.scale_frames(
         [node], scale=2, attributes=[1]  # pyright: ignore[reportArgumentType]
     )
 
@@ -5709,11 +5753,11 @@ def scalar_base_contract(
     assert_type(scalar_plug.set_unlocked_direct(), None)
 
 
-def multi_compound_contract(nodes: bdu.Nodes) -> None:
+def multi_compound_contract(bd_nodes: bdu.Nodes) -> None:
     flat_matrix_sequence = [0.0] * 16
     matrix_rows = [[0.0] * 4 for _ in range(4)]
 
-    wt_add_matrix = nodes.create.wtAddMatrix(name="wt_add_matrix")
+    wt_add_matrix = bd_nodes.create.wtAddMatrix(name="wt_add_matrix")
     assert_type(wt_add_matrix, WtAddMatrix)
 
     assert_type(WtAddMatrix.wtMatrix, WtMatrixAttrOperator)
@@ -5750,8 +5794,8 @@ def multi_compound_contract(nodes: bdu.Nodes) -> None:
     assert_type(matrix_in.set_direct(matrix_rows), None)
 
 
-def condition_contract(nodes: bdu.Nodes) -> None:
-    double = nodes.create.bdAny_ConditionDbl(name="double_condition")
+def condition_contract(bd_nodes: bdu.Nodes) -> None:
+    double = bd_nodes.create.bdAny_ConditionDbl(name="double_condition")
     assert_type(double, BdAnyConditionDbl)
     assert_type(double.input, DoublePlugOperator)
     assert_type(double.operation, AnyConditionDblOperationPlugOperator)
@@ -5776,7 +5820,7 @@ def condition_contract(nodes: bdu.Nodes) -> None:
     assert_type(double.falseValue, TypedPlugOperator)
     assert_type(double.output, TypedPlugOperator)
     assert_type(
-        nodes.existing.bdAny_ConditionDbl("existing_double_condition"),
+        bd_nodes.existing.bdAny_ConditionDbl("existing_double_condition"),
         BdAnyConditionDbl,
     )
     assert_type(
@@ -5784,7 +5828,7 @@ def condition_contract(nodes: bdu.Nodes) -> None:
         AnyConditionDblOperationAttrOperator,
     )
 
-    double_multi = nodes.create.bdAny_ConditionDblMulti(
+    double_multi = bd_nodes.create.bdAny_ConditionDblMulti(
         name="double_condition_multi"
     )
     assert_type(double_multi, BdAnyConditionDblMulti)
@@ -5824,11 +5868,11 @@ def condition_contract(nodes: bdu.Nodes) -> None:
     assert_type(double_multi.elseValue, TypedPlugOperator)
     assert_type(double_multi.output, TypedPlugOperator)
     assert_type(
-        nodes.existing.bdAny_ConditionDblMulti("existing_double_multi"),
+        bd_nodes.existing.bdAny_ConditionDblMulti("existing_double_multi"),
         BdAnyConditionDblMulti,
     )
 
-    linear = nodes.create.bdAny_ConditionDblL(name="linear_condition")
+    linear = bd_nodes.create.bdAny_ConditionDblL(name="linear_condition")
     assert_type(linear, BdAnyConditionDblL)
     assert_type(linear.input, double_linear.DoubleLinearPlugOperator)
     assert_type(linear.operation, AnyConditionDblLOperationPlugOperator)
@@ -5855,7 +5899,7 @@ def condition_contract(nodes: bdu.Nodes) -> None:
     assert_type(linear.falseValue, TypedPlugOperator)
     assert_type(linear.output, TypedPlugOperator)
     assert_type(
-        nodes.existing.bdAny_ConditionDblL("existing_linear_condition"),
+        bd_nodes.existing.bdAny_ConditionDblL("existing_linear_condition"),
         BdAnyConditionDblL,
     )
     assert_type(
@@ -5863,7 +5907,7 @@ def condition_contract(nodes: bdu.Nodes) -> None:
         AnyConditionDblLOperationAttrOperator,
     )
 
-    linear_multi = nodes.create.bdAny_ConditionDblLMulti(
+    linear_multi = bd_nodes.create.bdAny_ConditionDblLMulti(
         name="linear_condition_multi"
     )
     assert_type(linear_multi, BdAnyConditionDblLMulti)
@@ -5901,13 +5945,13 @@ def condition_contract(nodes: bdu.Nodes) -> None:
     assert_type(linear_multi.elseValue, TypedPlugOperator)
     assert_type(linear_multi.output, TypedPlugOperator)
     assert_type(
-        nodes.existing.bdAny_ConditionDblLMulti("existing_linear_multi"),
+        bd_nodes.existing.bdAny_ConditionDblLMulti("existing_linear_multi"),
         BdAnyConditionDblLMulti,
     )
 
 
-def condition_compose_contract(nodes: bdu.Nodes) -> None:
-    double_extra = nodes.create.bdConditionDblExtra_Compose(
+def condition_compose_contract(bd_nodes: bdu.Nodes) -> None:
+    double_extra = bd_nodes.create.bdConditionDblExtra_Compose(
         name="double_extra_compose"
     )
     assert_type(double_extra, BdConditionDblExtraCompose)
@@ -5925,13 +5969,13 @@ def condition_compose_contract(nodes: bdu.Nodes) -> None:
         DoublePlugOperator,
     )
     assert_type(
-        nodes.existing.bdConditionDblExtra_Compose(
+        bd_nodes.existing.bdConditionDblExtra_Compose(
             "existing_double_extra_compose"
         ),
         BdConditionDblExtraCompose,
     )
 
-    double_case = nodes.create.bdConditionDblCase_Compose(
+    double_case = bd_nodes.create.bdConditionDblCase_Compose(
         name="double_case_compose"
     )
     assert_type(double_case, BdConditionDblCaseCompose)
@@ -5964,13 +6008,13 @@ def condition_compose_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(double_case.output.outputValue, TypedPlugOperator)
     assert_type(
-        nodes.existing.bdConditionDblCase_Compose(
+        bd_nodes.existing.bdConditionDblCase_Compose(
             "existing_double_case_compose"
         ),
         BdConditionDblCaseCompose,
     )
 
-    linear_extra = nodes.create.bdConditionDblLExtra_Compose(
+    linear_extra = bd_nodes.create.bdConditionDblLExtra_Compose(
         name="linear_extra_compose"
     )
     assert_type(linear_extra, BdConditionDblLExtraCompose)
@@ -5991,13 +6035,13 @@ def condition_compose_contract(nodes: bdu.Nodes) -> None:
         double_linear.DoubleLinearPlugOperator,
     )
     assert_type(
-        nodes.existing.bdConditionDblLExtra_Compose(
+        bd_nodes.existing.bdConditionDblLExtra_Compose(
             "existing_linear_extra_compose"
         ),
         BdConditionDblLExtraCompose,
     )
 
-    linear_case = nodes.create.bdConditionDblLCase_Compose(
+    linear_case = bd_nodes.create.bdConditionDblLCase_Compose(
         name="linear_case_compose"
     )
     assert_type(linear_case, BdConditionDblLCaseCompose)
@@ -6032,36 +6076,38 @@ def condition_compose_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(linear_case.output.outputValue, TypedPlugOperator)
     assert_type(
-        nodes.existing.bdConditionDblLCase_Compose(
+        bd_nodes.existing.bdConditionDblLCase_Compose(
             "existing_linear_case_compose"
         ),
         BdConditionDblLCaseCompose,
     )
 
 
-def average_contract(nodes: bdu.Nodes) -> None:
-    scalar = nodes.create.bdDbl_Average(name="scalar_average")
+def average_contract(bd_nodes: bdu.Nodes) -> None:
+    scalar = bd_nodes.create.bdDbl_Average(name="scalar_average")
     assert_type(scalar, BdDblAverage)
     assert_type(scalar.input1, DoublePlugOperator)
     assert_type(scalar.input2, DoublePlugOperator)
     assert_type(scalar.output, DoublePlugOperator)
     assert_type(
-        nodes.existing.bdDbl_Average("existing_scalar_average"),
+        bd_nodes.existing.bdDbl_Average("existing_scalar_average"),
         BdDblAverage,
     )
 
-    scalar_multi = nodes.create.bdDbl_AverageMulti(name="scalar_average_multi")
+    scalar_multi = bd_nodes.create.bdDbl_AverageMulti(
+        name="scalar_average_multi"
+    )
     assert_type(scalar_multi, BdDblAverageMulti)
     assert_type(scalar_multi.input, DoublePlugOperator)
     assert_type(scalar_multi.input[0], DoublePlugOperator)
     assert_type(scalar_multi.input[next], DoublePlugOperator)
     assert_type(scalar_multi.output, DoublePlugOperator)
     assert_type(
-        nodes.existing.bdDbl_AverageMulti("existing_scalar_average_multi"),
+        bd_nodes.existing.bdDbl_AverageMulti("existing_scalar_average_multi"),
         BdDblAverageMulti,
     )
 
-    vector = nodes.create.bdDbl3_Average(name="vector_average")
+    vector = bd_nodes.create.bdDbl3_Average(name="vector_average")
     assert_type(vector, BdDbl3Average)
     assert_type(BdDbl3Average.input1, AverageInput1AttrOperator)
     assert_type(vector.input1, AverageInput1PlugOperator)
@@ -6071,11 +6117,11 @@ def average_contract(nodes: bdu.Nodes) -> None:
     assert_type(vector.output, AverageOutputPlugOperator)
     assert_type(vector.output.get(), bdu.Double3)
     assert_type(
-        nodes.existing.bdDbl3_Average("existing_vector_average"),
+        bd_nodes.existing.bdDbl3_Average("existing_vector_average"),
         BdDbl3Average,
     )
 
-    vector_multi = nodes.create.bdDbl3_AverageMulti(
+    vector_multi = bd_nodes.create.bdDbl3_AverageMulti(
         name="vector_average_multi"
     )
     assert_type(vector_multi, BdDbl3AverageMulti)
@@ -6087,13 +6133,13 @@ def average_contract(nodes: bdu.Nodes) -> None:
     assert_type(vector_multi.output, AverageMultiOutputPlugOperator)
     assert_type(vector_multi.output.get(), bdu.Double3)
     assert_type(
-        nodes.existing.bdDbl3_AverageMulti("existing_vector_average_multi"),
+        bd_nodes.existing.bdDbl3_AverageMulti("existing_vector_average_multi"),
         BdDbl3AverageMulti,
     )
 
 
-def weighted_average_contract(nodes: bdu.Nodes) -> None:
-    scalar = nodes.create.bdDbl_WeightedAverageMulti(
+def weighted_average_contract(bd_nodes: bdu.Nodes) -> None:
+    scalar = bd_nodes.create.bdDbl_WeightedAverageMulti(
         name="scalar_weighted_average"
     )
     assert_type(scalar, BdDblWeightedAverageMulti)
@@ -6108,13 +6154,13 @@ def weighted_average_contract(nodes: bdu.Nodes) -> None:
     assert_type(scalar.input[next].weight, DoublePlugOperator)
     assert_type(scalar.output, DoublePlugOperator)
     assert_type(
-        nodes.existing.bdDbl_WeightedAverageMulti(
+        bd_nodes.existing.bdDbl_WeightedAverageMulti(
             "existing_scalar_weighted_average"
         ),
         BdDblWeightedAverageMulti,
     )
 
-    vector = nodes.create.bdDbl3_WeightedAverageMulti(
+    vector = bd_nodes.create.bdDbl3_WeightedAverageMulti(
         name="vector_weighted_average"
     )
     assert_type(vector, BdDbl3WeightedAverageMulti)
@@ -6135,15 +6181,15 @@ def weighted_average_contract(nodes: bdu.Nodes) -> None:
     assert_type(vector.output, WeightedAverageOutputPlugOperator)
     assert_type(vector.output.get(), bdu.Double3)
     assert_type(
-        nodes.existing.bdDbl3_WeightedAverageMulti(
+        bd_nodes.existing.bdDbl3_WeightedAverageMulti(
             "existing_vector_weighted_average"
         ),
         BdDbl3WeightedAverageMulti,
     )
 
 
-def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
-    scalar_multiply = nodes.create.bdDblL_Multiply(name="scalar_multiply")
+def double_linear_factor_contract(bd_nodes: bdu.Nodes) -> None:
+    scalar_multiply = bd_nodes.create.bdDblL_Multiply(name="scalar_multiply")
     assert_type(scalar_multiply, BdDblLMultiply)
     assert_type(
         scalar_multiply.input,
@@ -6156,11 +6202,11 @@ def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
     )
     assert_type(scalar_multiply.output.get(), float)
     assert_type(
-        nodes.existing.bdDblL_Multiply("existing_scalar_multiply"),
+        bd_nodes.existing.bdDblL_Multiply("existing_scalar_multiply"),
         BdDblLMultiply,
     )
 
-    scalar_multiply_multi = nodes.create.bdDblL_MultiplyMulti(
+    scalar_multiply_multi = bd_nodes.create.bdDblL_MultiplyMulti(
         name="scalar_multiply_multi"
     )
     assert_type(scalar_multiply_multi, BdDblLMultiplyMulti)
@@ -6175,11 +6221,13 @@ def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
         double_linear.DoubleLinearPlugOperator,
     )
     assert_type(
-        nodes.existing.bdDblL_MultiplyMulti("existing_scalar_multiply_multi"),
+        bd_nodes.existing.bdDblL_MultiplyMulti(
+            "existing_scalar_multiply_multi"
+        ),
         BdDblLMultiplyMulti,
     )
 
-    scalar_divide = nodes.create.bdDblL_Divide(name="scalar_divide")
+    scalar_divide = bd_nodes.create.bdDblL_Divide(name="scalar_divide")
     assert_type(scalar_divide, BdDblLDivide)
     assert_type(
         scalar_divide.input,
@@ -6191,11 +6239,11 @@ def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
         double_linear.DoubleLinearPlugOperator,
     )
     assert_type(
-        nodes.existing.bdDblL_Divide("existing_scalar_divide"),
+        bd_nodes.existing.bdDblL_Divide("existing_scalar_divide"),
         BdDblLDivide,
     )
 
-    scalar_divide_multi = nodes.create.bdDblL_DivideMulti(
+    scalar_divide_multi = bd_nodes.create.bdDblL_DivideMulti(
         name="scalar_divide_multi"
     )
     assert_type(scalar_divide_multi, BdDblLDivideMulti)
@@ -6205,11 +6253,11 @@ def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
         double_linear.DoubleLinearPlugOperator,
     )
     assert_type(
-        nodes.existing.bdDblL_DivideMulti("existing_scalar_divide_multi"),
+        bd_nodes.existing.bdDblL_DivideMulti("existing_scalar_divide_multi"),
         BdDblLDivideMulti,
     )
 
-    vector_multiply = nodes.create.bdDblL3_Multiply(name="vector_multiply")
+    vector_multiply = bd_nodes.create.bdDblL3_Multiply(name="vector_multiply")
     assert_type(vector_multiply, BdDblL3Multiply)
     assert_type(vector_multiply.input, DblL3MultiplyInputPlugOperator)
     assert_type(vector_multiply.factor, DblL3MultiplyFactorPlugOperator)
@@ -6217,11 +6265,11 @@ def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
     assert_type(vector_multiply.output, DblL3MultiplyOutputPlugOperator)
     assert_type(vector_multiply.output.get(), bdu.DoubleLinear3)
     assert_type(
-        nodes.existing.bdDblL3_Multiply("existing_vector_multiply"),
+        bd_nodes.existing.bdDblL3_Multiply("existing_vector_multiply"),
         BdDblL3Multiply,
     )
 
-    vector_multiply_multi = nodes.create.bdDblL3_MultiplyMulti(
+    vector_multiply_multi = bd_nodes.create.bdDblL3_MultiplyMulti(
         name="vector_multiply_multi"
     )
     assert_type(vector_multiply_multi, BdDblL3MultiplyMulti)
@@ -6242,21 +6290,23 @@ def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
         DblL3MultiplyMultiOutputPlugOperator,
     )
     assert_type(
-        nodes.existing.bdDblL3_MultiplyMulti("existing_vector_multiply_multi"),
+        bd_nodes.existing.bdDblL3_MultiplyMulti(
+            "existing_vector_multiply_multi"
+        ),
         BdDblL3MultiplyMulti,
     )
 
-    vector_divide = nodes.create.bdDblL3_Divide(name="vector_divide")
+    vector_divide = bd_nodes.create.bdDblL3_Divide(name="vector_divide")
     assert_type(vector_divide, BdDblL3Divide)
     assert_type(vector_divide.input, DblL3DivideInputPlugOperator)
     assert_type(vector_divide.factor, DblL3DivideFactorPlugOperator)
     assert_type(vector_divide.output, DblL3DivideOutputPlugOperator)
     assert_type(
-        nodes.existing.bdDblL3_Divide("existing_vector_divide"),
+        bd_nodes.existing.bdDblL3_Divide("existing_vector_divide"),
         BdDblL3Divide,
     )
 
-    vector_divide_multi = nodes.create.bdDblL3_DivideMulti(
+    vector_divide_multi = bd_nodes.create.bdDblL3_DivideMulti(
         name="vector_divide_multi"
     )
     assert_type(vector_divide_multi, BdDblL3DivideMulti)
@@ -6273,24 +6323,24 @@ def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
         DblL3DivideMultiOutputPlugOperator,
     )
     assert_type(
-        nodes.existing.bdDblL3_DivideMulti("existing_vector_divide_multi"),
+        bd_nodes.existing.bdDblL3_DivideMulti("existing_vector_divide_multi"),
         BdDblL3DivideMulti,
     )
 
 
-def double_linear_ratio_contract(nodes: bdu.Nodes) -> None:
-    scalar = nodes.create.bdDbl_RatioDblL(name="scalar_ratio")
+def double_linear_ratio_contract(bd_nodes: bdu.Nodes) -> None:
+    scalar = bd_nodes.create.bdDbl_RatioDblL(name="scalar_ratio")
     assert_type(scalar, BdDblRatioDblL)
     assert_type(scalar.input, double_linear.DoubleLinearPlugOperator)
     assert_type(scalar.base, double_linear.DoubleLinearPlugOperator)
     assert_type(scalar.output, DoublePlugOperator)
     assert_type(scalar.output.get(), float)
     assert_type(
-        nodes.existing.bdDbl_RatioDblL("existing_scalar_ratio"),
+        bd_nodes.existing.bdDbl_RatioDblL("existing_scalar_ratio"),
         BdDblRatioDblL,
     )
 
-    vector = nodes.create.bdDbl3_RatioDblL3(name="vector_ratio")
+    vector = bd_nodes.create.bdDbl3_RatioDblL3(name="vector_ratio")
     assert_type(vector, BdDbl3RatioDblL3)
     assert_type(vector.input, RatioDblL3InputPlugOperator)
     assert_type(vector.input.inputX, double_linear.DoubleLinearPlugOperator)
@@ -6300,13 +6350,13 @@ def double_linear_ratio_contract(nodes: bdu.Nodes) -> None:
     assert_type(vector.output.outputZ, DoublePlugOperator)
     assert_type(vector.output.get(), bdu.Double3)
     assert_type(
-        nodes.existing.bdDbl3_RatioDblL3("existing_vector_ratio"),
+        bd_nodes.existing.bdDbl3_RatioDblL3("existing_vector_ratio"),
         BdDbl3RatioDblL3,
     )
 
 
-def double_linear_right_triangle_contract(nodes: bdu.Nodes) -> None:
-    node = nodes.create.bdDblL_RightTriangle(name="right_triangle")
+def double_linear_right_triangle_contract(bd_nodes: bdu.Nodes) -> None:
+    node = bd_nodes.create.bdDblL_RightTriangle(name="right_triangle")
     assert_type(node, BdDblLRightTriangle)
     assert_type(
         BdDblLRightTriangle.solveFor,
@@ -6321,13 +6371,13 @@ def double_linear_right_triangle_contract(nodes: bdu.Nodes) -> None:
     assert_type(node.isValid, BoolPlugOperator)
     assert_type(node.isValid.get(), bool)
     assert_type(
-        nodes.existing.bdDblL_RightTriangle("existing_right_triangle"),
+        bd_nodes.existing.bdDblL_RightTriangle("existing_right_triangle"),
         BdDblLRightTriangle,
     )
 
 
 def invalid_usage_contract(
-    nodes: bdu.Nodes,
+    bd_nodes: bdu.Nodes,
     c: ComposeMatrix,
     compound: CompoundPlugOperator[Any],
     message: MessagePlugOperator,
@@ -6374,53 +6424,55 @@ def invalid_usage_contract(
     (
         bdu.Quat() + bdu.Quat()
     )  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-    nodes.create.composeMatrix(
+    bd_nodes.create.composeMatrix(
         unknown_option=True  # pyright: ignore[reportCallIssue]
     )
-    nodes.create.mesh()  # pyright: ignore[reportCallIssue]
-    nodes.existing.decomposeMatrix(123)  # pyright: ignore[reportArgumentType]
-    nodes.existing.unknownDag(
+    bd_nodes.create.mesh()  # pyright: ignore[reportCallIssue]
+    bd_nodes.existing.decomposeMatrix(
+        123  # pyright: ignore[reportArgumentType]
+    )
+    bd_nodes.existing.unknownDag(
         "invalid_filter"
     ).children(  # pyright: ignore[reportCallIssue]
         filter_type=bdu.node_types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag(
+    bd_nodes.existing.unknownDag(
         "invalid_filter"
     ).ancestors(  # pyright: ignore[reportCallIssue]
         filter_type=bdu.node_types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag(
+    bd_nodes.existing.unknownDag(
         "invalid_filter"
     ).descendants(  # pyright: ignore[reportCallIssue]
         filter_type=bdu.node_types.PlusMinusAverage  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag("invalid_filter").children(
+    bd_nodes.existing.unknownDag("invalid_filter").children(
         include_subclasses=False  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag("invalid_filter").ancestors(
+    bd_nodes.existing.unknownDag("invalid_filter").ancestors(
         include_subclasses=False  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag("invalid_filter").descendants(
+    bd_nodes.existing.unknownDag("invalid_filter").descendants(
         include_subclasses=False  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag("invalid_filter").children(
+    bd_nodes.existing.unknownDag("invalid_filter").children(
         include_shapes=0  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag("invalid_filter").descendants(
+    bd_nodes.existing.unknownDag("invalid_filter").descendants(
         include_shapes=0  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag("invalid_filter").ancestors(
+    bd_nodes.existing.unknownDag("invalid_filter").ancestors(
         include_shapes=False  # pyright: ignore[reportCallIssue]
     )
-    nodes.existing.unknownDag("invalid_filter").descendant_chain(
+    bd_nodes.existing.unknownDag("invalid_filter").descendant_chain(
         child_index="0"  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag(
+    bd_nodes.existing.unknownDag(
         "invalid_filter"
     ).ancestors(  # pyright: ignore[reportCallIssue]
         until=bdu.node_types.Transform  # pyright: ignore[reportArgumentType]
     )
-    nodes.existing.unknownDag(
+    bd_nodes.existing.unknownDag(
         "invalid_filter"
     ).descendant_chain(  # pyright: ignore[reportCallIssue]
         until=bdu.node_types.Transform  # pyright: ignore[reportArgumentType]
@@ -6451,7 +6503,7 @@ def invalid_usage_contract(
     assert_type(compound.set_unlocked(), None)
     assert_type(compound.set_unlocked_direct(), None)
     assert_type(quat.set_hidden_direct(), None)
-    nodes.create.wtAddMatrix().wtMatrix[
+    bd_nodes.create.wtAddMatrix().wtMatrix[
         len
     ]  # pyright: ignore[reportArgumentType]
     c.x  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
@@ -6481,12 +6533,12 @@ def invalid_usage_contract(
 
 
 def animation_clip_contract(
-    mod: bdu.ModifierManager, nodes: bdu.Nodes, optional_frame: float | None
+    mod: bdu.ModifierManager, bd_nodes: bdu.Nodes, optional_frame: float | None
 ) -> None:
-    ctrl = nodes.existing("ctrl")
-    layer = nodes.create.animLayer(name="Correction")
+    ctrl = bd_nodes.existing("ctrl")
+    layer = bd_nodes.create.animLayer(name="Correction")
     clip = bdu.AnimationClip.capture(
-        [ctrl, nodes.existing("other")],
+        [ctrl, bd_nodes.existing("other")],
         attributes=["translate"],
         include_channel_box=True,
         include_static=True,
@@ -6640,8 +6692,8 @@ def animation_clip_contract(
     )
 
 
-def attr_snapshot_extract_contract(nodes: bdu.Nodes) -> None:
-    ctrl = nodes.existing("ctrl")
+def attr_snapshot_extract_contract(bd_nodes: bdu.Nodes) -> None:
+    ctrl = bd_nodes.existing("ctrl")
     snapshot = bdu.AttrSnapshot.capture(["ctrl", "other"], attributes=["tx"])
     assert_type(snapshot.extract(nodes=["ctrl"]), bdu.AttrSnapshot)
     assert_type(

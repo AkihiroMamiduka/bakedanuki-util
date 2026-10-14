@@ -309,8 +309,8 @@ def test_node_operator_supports_quaternion_values_and_direction(
 
     input_quat = (1.0, -2.0, 3.0, -4.0)
     axis_quat = (0.5, -1.0, 0.25, 2.0)
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdQuat_ChangeBasis(name="change_basis")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdQuat_ChangeBasis(name="change_basis")
     node.inputQuat.set(input_quat)
     node.axisQuat.set(axis_quat)
     node.direction.set(DirectionEnumPlugOperator.REMOVEAXIS)
@@ -324,7 +324,7 @@ def test_node_operator_supports_quaternion_values_and_direction(
         _expected(maya_om, input_quat, axis_quat, 1)
     )
     assert isinstance(
-        nodes.existing.bdQuat_ChangeBasis(node.name),
+        bd_nodes.existing.bdQuat_ChangeBasis(node.name),
         BdQuatChangeBasis,
     )
 
@@ -373,8 +373,8 @@ def test_scene_round_trip(
 
     input_quat = (1.0, -2.0, 3.0, -4.0)
     axis_quat = (0.5, -1.0, 0.25, 2.0)
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdQuat_ChangeBasis(name="change_basis")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdQuat_ChangeBasis(name="change_basis")
     node.inputQuat.set(input_quat)
     node.axisQuat.set(axis_quat)
     node.direction.set(1)
@@ -386,8 +386,8 @@ def test_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    existing = existing_nodes.existing.bdQuat_ChangeBasis("change_basis")
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    existing = bd_nodes_existing.existing.bdQuat_ChangeBasis("change_basis")
     assert existing.direction.get() == 1
     assert existing.outputQuat.get().as_tuple() == pytest.approx(
         _expected(maya_om, input_quat, axis_quat, 1)

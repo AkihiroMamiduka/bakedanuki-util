@@ -44,10 +44,10 @@ def test_nodes_use_one_absolute_anchor_and_preserve_channel_offsets(
         _curve(maya_cmds, names[1] + ".tx", (12, 22)),
     ]
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     destination = 30 if placement == "to_start" else 50
     assert (
-        nodes.keyframes.move_frames(
+        bd_nodes.keyframes.move_frames(
             names, attributes=["tx"], **{placement: destination}
         )
         is None
@@ -87,10 +87,10 @@ def test_explicit_boundary_and_union_of_mixed_nodes(maya_cmds):
     )
     curve = _curve(maya_cmds, first + ".custom", (10, 20))
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    second_node = nodes.existing.transform(second)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    second_node = bd_nodes.existing.transform(second)
     first_object = om.MSelectionList().add(first).getDependNode(0)
-    nodes.keyframes.move_frames(
+    bd_nodes.keyframes.move_frames(
         [first_object, second_node],
         5,
         25,
@@ -138,8 +138,8 @@ def test_global_anchor_moves_fade_only_curve_but_empty_core_is_noop(maya_cmds):
     core = _curve(maya_cmds, names[0] + ".tx", (10, 20))
     fade = _curve(maya_cmds, names[1] + ".tx", (25, 30))
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.move_frames(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.move_frames(
         names,
         None,
         20,
@@ -248,12 +248,12 @@ def test_move_follows_queued_bake_and_clip_restore(maya_cmds):
     )
     maya_cmds.cutKey(restored + ".tx", clear=True)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    baked_node = nodes.existing.transform(baked)
-    restored_node = nodes.existing.transform(restored)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    baked_node = bd_nodes.existing.transform(baked)
+    restored_node = bd_nodes.existing.transform(restored)
     baked_node.keyframes.bake(0, 2, attributes=["tx"], sample_by=1)
     clip.restore(manager, targets=[restored_node], mode="replace_all")
-    nodes.keyframes.move_frames(
+    bd_nodes.keyframes.move_frames(
         [baked_node, restored_node], attributes=["tx"], offset=5
     )
     assert not baked_node.tx.keyframe.has_anim_curve()
@@ -381,8 +381,8 @@ def test_arguments_and_ui_time_unit_are_captured_at_booking(maya_cmds):
 def test_invalid_inputs_and_missing_targets(maya_cmds):
     name = maya_cmds.createNode("transform")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    node = nodes.existing.transform(name)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    node = bd_nodes.existing.transform(name)
     with pytest.raises(ValueError, match="exactly one"):
         node.keyframes.move_frames(attributes=["tx"])
     with pytest.raises(ValueError, match="exactly one"):
@@ -398,11 +398,11 @@ def test_invalid_inputs_and_missing_targets(maya_cmds):
     with pytest.raises(TypeError, match="attributes"):
         node.keyframes.move_frames(offset=1, attributes="tx")
     with pytest.raises(ValueError, match="at least one"):
-        nodes.keyframes.move_frames([], offset=1)
+        bd_nodes.keyframes.move_frames([], offset=1)
     with pytest.raises(TypeError, match="iterable"):
-        nodes.keyframes.move_frames(name, offset=1)
+        bd_nodes.keyframes.move_frames(name, offset=1)
     with pytest.raises(ValueError, match="Duplicate"):
-        nodes.keyframes.move_frames([name, node], offset=1)
+        bd_nodes.keyframes.move_frames([name, node], offset=1)
 
     empty = _curve(maya_cmds, name + ".ty", (0, 10))
     for index in reversed(range(empty.numKeys)):

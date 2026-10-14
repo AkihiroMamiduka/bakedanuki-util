@@ -407,9 +407,9 @@ def test_pending_layer_registration_and_node_bake_share_one_history(
     cmds = maya_cmds
     target_name = cmds.createNode("transform", name="target")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    target = nodes.existing.transform(target_name)
-    layer = nodes.create.animLayer(name="PendingLayer")
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    target = bd_nodes.existing.transform(target_name)
+    layer = bd_nodes.create.animLayer(name="PendingLayer")
     layer.add_plugs([target.tx])
     target.keyframes.anim_layer(layer).bake(
         1, 3, attributes=["tx"], include_static=True

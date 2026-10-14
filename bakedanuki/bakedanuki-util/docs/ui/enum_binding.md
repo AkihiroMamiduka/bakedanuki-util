@@ -50,8 +50,8 @@ import bd_util as bdu
 from bd_util.maya.ui import MayaEnumPlugBinding
 from bd_util.ui import EnumComboBox
 
-nodes = bdu.Nodes()
-node = nodes.existing.transform("pCube1")
+bd_nodes = bdu.Nodes()
+node = bd_nodes.existing.transform("pCube1")
 binding = MayaEnumPlugBinding(node.rotateOrder, parent=owner)
 combo_box = EnumComboBox(binding, parent=widget)
 binding.set_value(node.rotateOrder.ZYX)

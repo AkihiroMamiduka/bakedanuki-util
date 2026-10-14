@@ -18,8 +18,8 @@ from bd_util.maya.ui import MayaFloat3PlugBinding, get_channel_box_precision
 from bd_util.ui import Float3RangeSliderSpinBox, qt
 
 window = qt.QWidget()
-nodes = bdu.Nodes()
-node = nodes.existing.transform("pCube1")
+bd_nodes = bdu.Nodes()
+node = bd_nodes.existing.transform("pCube1")
 binding = MayaFloat3PlugBinding(node.translate, parent=window)
 editor = Float3RangeSliderSpinBox(
     binding, window,

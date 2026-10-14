@@ -59,6 +59,8 @@ def apply_round_transform(
     params: RoundTransformParams,
 ) -> list[str]:
     """親から順に丸めと子補償を実行し、変更したフル DAG path を返す。"""
+    # 公開引数名を維持し、内部では操作入口の推奨名を使う
+    bd_nodes = nodes
     targets = _resolve_targets(params.node_names, kind)
     changed: list[str] = []
     value_kind: Literal["distance", "angle"] = (
@@ -66,7 +68,7 @@ def apply_round_transform(
     )
 
     for path, node_type in targets:
-        node = _typed_node(nodes, path, node_type)
+        node = _typed_node(bd_nodes, path, node_type)
         current_values = _current_values(node, kind)
         rounded_values = tuple(
             round_maya_scalar(
@@ -104,7 +106,7 @@ def apply_round_transform(
                 node.round_joint_orient(params.ndigits, **kwargs)
 
         # 次の選択ノードは、親による補償後の値から丸める。
-        nodes.modifier_manager.do_it_dg()
+        bd_nodes.modifier_manager.do_it_dg()
         changed.append(path)
 
     return changed
@@ -143,12 +145,12 @@ def _resolve_targets(
 
 
 def _typed_node(
-    nodes: Nodes, path: str, node_type: Literal["transform", "joint"]
+    bd_nodes: Nodes, path: str, node_type: Literal["transform", "joint"]
 ) -> Transform | Joint:
     """解決済みの DAG path を型別 NodeOperator として取得する。"""
     if node_type == "joint":
-        return nodes.existing.joint(path)
-    return nodes.existing.transform(path)
+        return bd_nodes.existing.joint(path)
+    return bd_nodes.existing.transform(path)
 
 
 def _current_values(

@@ -12,17 +12,17 @@ def test_mixed_targets_move_with_one_history(new_scene, maya_cmds):
         maya_cmds.createNode("transform", name=f":source:{name}")
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod, namespace=":creation_default")
-    first = nodes.existing.transform(":source:first")
-    second = nodes.existing.transform(":source:second")
+    bd_nodes = bdu.Nodes(modifier_manager=mod, namespace=":creation_default")
+    first = bd_nodes.existing.transform(":source:first")
+    second = bd_nodes.existing.transform(":source:second")
     selection = om.MSelectionList()
     selection.add(":source:fourth")
     fourth = selection.getDependNode(0)
 
-    nodes.move_to_namespace(
+    bd_nodes.move_to_namespace(
         [first, second, ":source:third", fourth], namespace=":target:inner"
     )
-    assert nodes.namespace == ":creation_default"
+    assert bd_nodes.namespace == ":creation_default"
     assert not maya_cmds.namespace(exists=":target")
 
     mod.do_it_dg()
@@ -55,12 +55,12 @@ def test_relative_target_and_parent_child_are_moved_together(
         "transform", name=":source:child", parent=":source:parent"
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    parent = nodes.existing.transform(":source:parent")
-    child = nodes.existing.transform("|source:parent|source:child")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    parent = bd_nodes.existing.transform(":source:parent")
+    child = bd_nodes.existing.transform("|source:parent|source:child")
 
     maya_cmds.namespace(set=":outer")
-    nodes.move_to_namespace([parent, child], namespace="inner")
+    bd_nodes.move_to_namespace([parent, child], namespace="inner")
     maya_cmds.namespace(set=":")
     mod.do_it_dg()
 
@@ -78,11 +78,11 @@ def test_named_pending_nodes_move_after_creation(new_scene, maya_cmds):
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    dag = nodes.create.transform(name="source:dag")
-    dg = nodes.create.multiplyDivide(name="source:dg")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    dag = bd_nodes.create.transform(name="source:dag")
+    dg = bd_nodes.create.multiplyDivide(name="source:dg")
 
-    nodes.move_to_namespace([dag, dg], namespace=":target")
+    bd_nodes.move_to_namespace([dag, dg], namespace=":target")
     mod.do_it_dag()
     assert dag.name == "source:dag"
     mod.do_it_dg()
@@ -101,29 +101,29 @@ def test_invalid_batch_does_not_reserve_earlier_moves(new_scene, maya_cmds):
     maya_cmds.createNode("transform", name=":source:first")
     maya_cmds.createNode("transform", name=":source:second")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    first = nodes.existing.transform(":source:first")
-    second = nodes.existing.transform(":source:second")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    first = bd_nodes.existing.transform(":source:first")
+    second = bd_nodes.existing.transform(":source:second")
     foreign = bdu.Nodes().existing.transform(":source:second")
 
     with pytest.raises(TypeError, match="iterable"):
-        nodes.move_to_namespace(first, namespace=":target")
+        bd_nodes.move_to_namespace(first, namespace=":target")
     with pytest.raises(ValueError, match="at least one"):
-        nodes.move_to_namespace([], namespace=":target")
+        bd_nodes.move_to_namespace([], namespace=":target")
     with pytest.raises(TypeError, match="must be a string"):
-        nodes.move_to_namespace([first], namespace=None)
+        bd_nodes.move_to_namespace([first], namespace=None)
     with pytest.raises(ValueError, match="invalid name"):
-        nodes.move_to_namespace([first], namespace="bad;name")
+        bd_nodes.move_to_namespace([first], namespace="bad;name")
     with pytest.raises(ValueError, match="Duplicate"):
-        nodes.move_to_namespace([first, first.m_obj], namespace=":target")
+        bd_nodes.move_to_namespace([first, first.m_obj], namespace=":target")
     with pytest.raises(ValueError, match="Node not found"):
-        nodes.move_to_namespace(
+        bd_nodes.move_to_namespace(
             [first, ":source:missing"], namespace=":target"
         )
     with pytest.raises(ValueError, match="modifier_manager"):
-        nodes.move_to_namespace([first, foreign], namespace=":target")
+        bd_nodes.move_to_namespace([first, foreign], namespace=":target")
     with pytest.raises(TypeError, match="Expected a NodeOperator"):
-        nodes.move_to_namespace([first, object()], namespace=":target")
+        bd_nodes.move_to_namespace([first, object()], namespace=":target")
 
     mod.do_it_dg()
     assert first.name == "source:first"
@@ -135,14 +135,14 @@ def test_pending_mobject_and_unnamed_node_are_rejected(new_scene, maya_cmds):
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    named = nodes.create.transform(name="source:named")
-    unnamed = nodes.create.transform()
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    named = bd_nodes.create.transform(name="source:named")
+    unnamed = bd_nodes.create.transform()
 
     with pytest.raises(ValueError, match="existing node"):
-        nodes.move_to_namespace([named.m_obj], namespace=":target")
+        bd_nodes.move_to_namespace([named.m_obj], namespace=":target")
     with pytest.raises(ValueError, match="must have a name"):
-        nodes.move_to_namespace([named, unnamed], namespace=":target")
+        bd_nodes.move_to_namespace([named, unnamed], namespace=":target")
 
     mod.do_it_dag()
     mod.do_it_dg()
@@ -158,10 +158,10 @@ def test_name_collision_matches_single_node_move(new_scene, maya_cmds):
     maya_cmds.createNode("transform", name=":source:duplicate")
     maya_cmds.createNode("transform", name=":target:duplicate")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    node = nodes.existing.transform(":source:duplicate")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    node = bd_nodes.existing.transform(":source:duplicate")
 
-    nodes.move_to_namespace([node], namespace=":target")
+    bd_nodes.move_to_namespace([node], namespace=":target")
     mod.do_it_dg()
     assert node.name == "target:duplicate1"
 

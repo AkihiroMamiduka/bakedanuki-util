@@ -1036,10 +1036,10 @@ def test_apply_create_transforms_can_be_used_directly(
     )
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
 
     result = apply_create_transforms(
-        nodes,
+        bd_nodes,
         CreateTransformsParams(prefix="directApply", count=2),
     )
 
@@ -1062,10 +1062,10 @@ def test_apply_set_transform_translation_can_be_used_directly(
 
     node_name = maya_cmds.createNode("transform", name="directApplyTarget")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
 
     result = apply_set_transform_translation(
-        nodes,
+        bd_nodes,
         SetTransformTranslationParams(
             node_name=node_name,
             translation=bdu.DoubleLinear3(4.0, 5.0, 6.0),

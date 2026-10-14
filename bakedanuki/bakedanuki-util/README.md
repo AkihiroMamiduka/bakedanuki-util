@@ -27,7 +27,7 @@
   - `node.input1D[0].set(10.0)` のように、プラグ操作をオブジェクト経由で書けます。
 - `Nodes`
   - ノード作成と既存ノード変換を、同じ `ModifierManager` から扱う統合入口です。
-  - `nodes.create.transform()` / `nodes.existing.transform()` のように用途を明示できます。
+  - `bd_nodes.create.transform()` / `bd_nodes.existing.transform()` のように用途を明示できます。
 - `ModifierManager`
   - `MDGModifier` / `MDagModifier` をまとめて扱う管理クラスです。
   - `MPxCommandBase`のundo / redoと失敗時rollbackを構成します。
@@ -49,8 +49,8 @@
   - `AttributeField`, `AttrOperator`, `PlugOperator` により、クラス定義とインスタンス操作を分けて扱います。
 - Keyframe operations
   - `node.tx.keyframe.bake()`で1属性、`node.keyframes.bake()`で1nodeの属性群、
-    `nodes.keyframes.bake([...])`で複数nodeの評価済み入力を時間入力カーブへ置換できます。
-    ベイク後は`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`で
+    `bd_nodes.keyframes.bake([...])`で複数nodeの評価済み入力を時間入力カーブへ置換できます。
+    ベイク後は`node.keyframes.reduce_keys()` / `bd_nodes.keyframes.reduce_keys([...])`で
     既存カーブをまとめて削減できます。
     別layerは`.anim_layer()`で明示します。
   - `bdu.AnimationClip`は複数node・属性の保存、編集、JSON入出力、復元を扱います。
@@ -80,9 +80,9 @@ import bd_util as bdu
 src = cmds.createNode("transform", name="src")
 dst = cmds.createNode("transform", name="dst")
 
-nodes = bdu.Nodes()
-src_dag = nodes.existing.transform(src)
-dst_dag = nodes.existing.transform(dst)
+bd_nodes = bdu.Nodes()
+src_dag = bd_nodes.existing.transform(src)
+dst_dag = bd_nodes.existing.transform(dst)
 
 local_tm = src_dag.get_local_matrix(dst_dag)
 translate = local_tm.translate
@@ -103,10 +103,10 @@ matrix plug の `get()` は `TransformMatrix` を返します。`translate` / `r
 空の list にノードを追加する場合は、`bdu.node_types` で要素型を指定できます。
 
 ```python
-nodes = bdu.Nodes()
+bd_nodes = bdu.Nodes()
 joints: list[bdu.node_types.Joint] = []
 for i in range(10):
-    joints.append(nodes.create.joint(name=f"j_{i}"))
+    joints.append(bd_nodes.create.joint(name=f"j_{i}"))
 ```
 
 `joints` の要素には `Joint` の属性とメソッドが補完されます。
@@ -117,18 +117,18 @@ for i in range(10):
 IDE の補完対象だけを明示する場合は、`typing_maya_version` を指定できます。
 
 ```python
-nodes = bdu.Nodes(typing_maya_version="2027")
+bd_nodes = bdu.Nodes(typing_maya_version="2027")
 ```
 
-この指定は`nodes.create` / `nodes.existing`の静的な見え方だけを選び、
+この指定は`bd_nodes.create` / `bd_nodes.existing`の静的な見え方だけを選び、
 実行 Maya の選択、version 検証、利用可能 node の変更には使われません。省略時は、
 対応する3 versionに共通する安全な補完面になります。
 複数 version を対象にする場合は `"2026+"` のように下限を指定します。
 
 ```python
-nodes = bdu.Nodes(typing_maya_version="2026+")
+bd_nodes = bdu.Nodes(typing_maya_version="2026+")
 bevels: list[bdu.node_types.maya2026_plus.PolySmartBevel] = []
-bevels.append(nodes.create.polySmartBevel())
+bevels.append(bd_nodes.create.polySmartBevel())
 ```
 
 現在の `"2026+"` は Maya 2026 / 2027 の共通面です。
@@ -174,6 +174,8 @@ rotate = result.to_euler(rotate_order="xyz")
 
 ### Unified Node Access
 
+`Nodes` の操作入口には、ノードの集合と区別できる `bd_nodes` を推奨変数名として使います。
+
 ```python
 from maya import cmds
 import bd_util as bdu
@@ -181,16 +183,16 @@ import bd_util as bdu
 cmds.createNode("transform", name="existing_node")
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-created = nodes.create.transform(name="new_node")
-existing = nodes.existing.transform("existing_node")
+created = bd_nodes.create.transform(name="new_node")
+existing = bd_nodes.existing.transform("existing_node")
 
 mod.do_it_dag()
 ```
 
-`nodes.create` と `nodes.existing` は同じ `ModifierManager` を共有します。
-`nodes.existing("nodeName")` と呼ぶと、既存ノードの nodeType を自動判定できます。
+`bd_nodes.create` と `bd_nodes.existing` は同じ `ModifierManager` を共有します。
+`bd_nodes.existing("nodeName")` と呼ぶと、既存ノードの nodeType を自動判定できます。
 
 ### Create Nodes
 
@@ -198,20 +200,20 @@ mod.do_it_dag()
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-pma = nodes.create.plusMinusAverage(name="pma")
-mult = nodes.create.multiplyDivide(name="mult")
+pma = bd_nodes.create.plusMinusAverage(name="pma")
+mult = bd_nodes.create.multiplyDivide(name="mult")
 
 mod.do_it_dg()
 ```
 
-`nodes.create` は、同じ `ModifierManager` を使うノード作成アクセサです。
+`bd_nodes.create` は、同じ `ModifierManager` を使うノード作成アクセサです。
 生成メソッド名は、基本的に Maya の nodeType 名に合わせています。
 
 ```python
-compose = nodes.create.composeMatrix(name="compose")
-decompose = nodes.create.decomposeMatrix(name="decompose")
+compose = bd_nodes.create.composeMatrix(name="compose")
+decompose = bd_nodes.create.decomposeMatrix(name="decompose")
 ```
 
 Python キーワードと衝突する `and`, `or`, `not` などは、`and_()`, `or_()`, `not_()` のように末尾 `_` を付けます。
@@ -230,9 +232,9 @@ Maya の Plug-in Manager で `bdUtilNodes.mll` をロードすると、
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-mult = nodes.create.bdDbl3_Multiply(name="mult")
+mult = bd_nodes.create.bdDbl3_Multiply(name="mult")
 mult.input1.set((2.0, 3.0, 4.0))
 mult.input2.set((5.0, 6.0, 7.0))
 
@@ -249,7 +251,7 @@ print(mult.output.get().as_tuple())  # (10.0, 18.0, 28.0)
 `(1.0, 1.0, 1.0)` を返します。
 
 ```python
-multi = nodes.create.bdDbl3_MultiplyMulti(name="multi")
+multi = bd_nodes.create.bdDbl3_MultiplyMulti(name="multi")
 multi.input[0].set((2.0, 3.0, 4.0))
 multi.input[3].set((5.0, 6.0, 7.0))
 ```
@@ -262,8 +264,8 @@ import bd_util as bdu
 
 cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
 
-nodes = bdu.Nodes()
-pma = nodes.existing("test_plus_minus_ave")
+bd_nodes = bdu.Nodes()
+pma = bd_nodes.existing("test_plus_minus_ave")
 pma.input1D[0].set(10.0)
 pma.modifier_manager.do_it_dg()
 ```
@@ -273,20 +275,20 @@ nodeType を自動判定させる代わりに、対応するメソッドを明�
 
 ```python
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
 cmds.createNode("decomposeMatrix", name="dcmp_m")
-dcmp_m = nodes.existing.decomposeMatrix("dcmp_m")
+dcmp_m = bd_nodes.existing.decomposeMatrix("dcmp_m")
 ```
 
 指定したメソッドと Maya 上の実際の nodeType が異なる場合は `TypeError` を送出します。
-例えば `nodes.existing.decomposeMatrix()` に `composeMatrix` ノードを渡すことはできません。
+例えば `bd_nodes.existing.decomposeMatrix()` に `composeMatrix` ノードを渡すことはできません。
 
-`nodes.existing` は既存ノードを包むだけなので、初期状態では extra attribute を自動追加しません。必要な場合は `auto_add_attr=True` を渡してください。
+`bd_nodes.existing` は既存ノードを包むだけなので、初期状態では extra attribute を自動追加しません。必要な場合は `auto_add_attr=True` を渡してください。
 
 ```python
-nodes = bdu.Nodes()
-node = nodes.existing("my_node", auto_add_attr=True)
+bd_nodes = bdu.Nodes()
+node = bd_nodes.existing("my_node", auto_add_attr=True)
 ```
 
 ### Connect Plugs
@@ -295,10 +297,10 @@ node = nodes.existing("my_node", auto_add_attr=True)
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-a = nodes.create.plusMinusAverage(name="a")
-b = nodes.create.plusMinusAverage(name="b")
+a = bd_nodes.create.plusMinusAverage(name="a")
+b = bd_nodes.create.plusMinusAverage(name="b")
 
 a.output1D.connect(b.input1D[0])
 mod.do_it_dg()
@@ -317,8 +319,8 @@ mod.do_it_dg()
 マルチアトリビュートへ次の空き index で接続したい場合は、`[next]` を使えます。
 
 ```python
-cmp_m = nodes.create.composeMatrix(name="cmp_m")
-mult_m = nodes.create.multMatrix(name="mult_m")
+cmp_m = bd_nodes.create.composeMatrix(name="cmp_m")
+mult_m = bd_nodes.create.multMatrix(name="mult_m")
 
 cmp_m.outputMatrix.connect(mult_m.matrixIn[next])
 mod.do_it_dg()

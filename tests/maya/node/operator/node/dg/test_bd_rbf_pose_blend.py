@@ -465,9 +465,9 @@ def test_node_operator_creation_and_parent_weight_connection(
         BdRbfPoseBlend,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight_node = nodes.create.bdRbf_OrientationWeight(name="rbf_weight")
-    blend_node = nodes.create.bdRbf_PoseBlend(name="rbf_blend")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    weight_node = bd_nodes.create.bdRbf_OrientationWeight(name="rbf_weight")
+    blend_node = bd_nodes.create.bdRbf_PoseBlend(name="rbf_blend")
     weight_node.pose[2].poseQuat.set((0.0, 0.0, 0.0, 1.0))
     blend_node.pose[2].translate.set((1.0, 2.0, 3.0))
     blend_node.pose[2].rotate.set((45.0, 0.0, 0.0))
@@ -487,7 +487,7 @@ def test_node_operator_creation_and_parent_weight_connection(
     )
     assert isinstance(blend_node.outputQuat.get(), bdu.Quat)
     assert isinstance(
-        nodes.existing.bdRbf_PoseBlend(blend_node.name),
+        bd_nodes.existing.bdRbf_PoseBlend(blend_node.name),
         BdRbfPoseBlend,
     )
 

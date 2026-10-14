@@ -8,12 +8,12 @@ def test_nodes_can_import_from_bd_util(new_scene):
     from bd_util import ModifierManager, Nodes
 
     modifier_manager = ModifierManager()
-    nodes = Nodes(modifier_manager=modifier_manager)
+    bd_nodes = Nodes(modifier_manager=modifier_manager)
 
-    assert nodes.modifier_manager is modifier_manager
-    assert nodes.create.modifier_manager is modifier_manager
-    assert nodes.existing.modifier_manager is modifier_manager
-    assert not hasattr(nodes, "types")
+    assert bd_nodes.modifier_manager is modifier_manager
+    assert bd_nodes.create.modifier_manager is modifier_manager
+    assert bd_nodes.existing.modifier_manager is modifier_manager
+    assert not hasattr(bd_nodes, "types")
 
 
 def test_typing_maya_version_does_not_select_the_runtime_maya(new_scene):
@@ -21,17 +21,17 @@ def test_typing_maya_version_does_not_select_the_runtime_maya(new_scene):
     from bd_util.maya.node._maya_version import maya_major_version
 
     typing_version = "2027" if maya_major_version() < 2027 else "2025"
-    nodes = Nodes(typing_maya_version=typing_version)
+    bd_nodes = Nodes(typing_maya_version=typing_version)
 
-    assert "plusMinusAverage" in nodes.create.available_node_names()
-    assert ("absoluteDL" in nodes.create.available_node_names()) == (
+    assert "plusMinusAverage" in bd_nodes.create.available_node_names()
+    assert ("absoluteDL" in bd_nodes.create.available_node_names()) == (
         maya_major_version() >= 2026
     )
 
-    range_nodes = Nodes(typing_maya_version="2026+")
+    bd_nodes_range = Nodes(typing_maya_version="2026+")
     assert (
-        range_nodes.create.available_node_names()
-        == nodes.create.available_node_names()
+        bd_nodes_range.create.available_node_names()
+        == bd_nodes.create.available_node_names()
     )
 
 
@@ -77,10 +77,10 @@ def test_nodes_create_and_existing_share_modifier_manager(
 
     maya_cmds.createNode("transform", name="existing_transform")
     modifier_manager = bd_util.ModifierManager()
-    nodes = bd_util.Nodes(modifier_manager=modifier_manager)
+    bd_nodes = bd_util.Nodes(modifier_manager=modifier_manager)
 
-    created = nodes.create.transform(name="created_transform")
-    existing = nodes.existing.transform("existing_transform")
+    created = bd_nodes.create.transform(name="created_transform")
+    existing = bd_nodes.existing.transform("existing_transform")
 
     assert isinstance(created, Transform)
     assert isinstance(existing, Transform)
@@ -94,10 +94,10 @@ def test_nodes_create_and_existing_share_modifier_manager(
 def test_nodes_creates_shared_modifier_manager(new_scene):
     import bd_util
 
-    nodes = bd_util.Nodes()
+    bd_nodes = bd_util.Nodes()
 
-    assert nodes.create.modifier_manager is nodes.modifier_manager
-    assert nodes.existing.modifier_manager is nodes.modifier_manager
+    assert bd_nodes.create.modifier_manager is bd_nodes.modifier_manager
+    assert bd_nodes.existing.modifier_manager is bd_nodes.modifier_manager
 
 
 def test_nodes_existing_auto_detects_node_type(new_scene, maya_cmds):
@@ -107,19 +107,19 @@ def test_nodes_existing_auto_detects_node_type(new_scene, maya_cmds):
     )
 
     maya_cmds.createNode("plusMinusAverage", name="existing_pma")
-    nodes = bd_util.Nodes()
+    bd_nodes = bd_util.Nodes()
 
-    node = nodes.existing("existing_pma")
+    node = bd_nodes.existing("existing_pma")
 
     assert isinstance(node, PlusMinusAverage)
-    assert node.modifier_manager is nodes.modifier_manager
+    assert node.modifier_manager is bd_nodes.modifier_manager
 
 
 def test_nodes_existing_rejects_different_node_type(new_scene, maya_cmds):
     import bd_util
 
     maya_cmds.createNode("composeMatrix", name="existing_compose_matrix")
-    nodes = bd_util.Nodes()
+    bd_nodes = bd_util.Nodes()
 
     with pytest.raises(
         TypeError,
@@ -128,17 +128,17 @@ def test_nodes_existing_rejects_different_node_type(new_scene, maya_cmds):
             "got 'composeMatrix'"
         ),
     ):
-        nodes.existing.decomposeMatrix("existing_compose_matrix")
+        bd_nodes.existing.decomposeMatrix("existing_compose_matrix")
 
 
 def test_nodes_caches_accessors(new_scene):
     import bd_util
 
-    nodes = bd_util.Nodes()
-    existing_accessor = nodes.existing.decomposeMatrix
+    bd_nodes = bd_util.Nodes()
+    existing_accessor = bd_nodes.existing.decomposeMatrix
 
-    assert nodes.create is nodes.create
-    assert nodes.existing is nodes.existing
-    assert not hasattr(nodes, "types")
-    assert nodes.existing.decomposeMatrix is existing_accessor
-    assert nodes.existing.__dict__["decomposeMatrix"] is existing_accessor
+    assert bd_nodes.create is bd_nodes.create
+    assert bd_nodes.existing is bd_nodes.existing
+    assert not hasattr(bd_nodes, "types")
+    assert bd_nodes.existing.decomposeMatrix is existing_accessor
+    assert bd_nodes.existing.__dict__["decomposeMatrix"] is existing_accessor

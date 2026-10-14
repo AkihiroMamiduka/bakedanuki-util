@@ -8,10 +8,10 @@ def main():
 
 
 def test_transform_matrix():
-    nodes = Nodes()
-    src = nodes.create.transform(name="src")
-    dst_parent = nodes.create.transform(name="dst_parent")
-    dst = nodes.create.transform(name="dst", parent=dst_parent)
+    bd_nodes = Nodes()
+    src = bd_nodes.create.transform(name="src")
+    dst_parent = bd_nodes.create.transform(name="dst_parent")
+    dst = bd_nodes.create.transform(name="dst", parent=dst_parent)
 
     # transform をセット
     #   src
@@ -24,8 +24,8 @@ def test_transform_matrix():
     dst_parent.scale.set(2, 3, 4)
 
     # mod
-    nodes.modifier_manager.do_it_dag()
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dg()
 
     # local 値を取得
     src_wm = src.wm[0].get()
@@ -39,5 +39,5 @@ def test_transform_matrix():
     dst.scale.set(local_m.scale)
 
     # mod
-    nodes.modifier_manager.do_it_dag()
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dg()

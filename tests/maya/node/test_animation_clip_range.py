@@ -390,9 +390,9 @@ def test_booking_and_failure_preserve_scene_and_pending_edits(
     cmds.setAttr(targets[0] + ".ty", 5)
     cmds.undo()
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    nodes.create.multiplyDivide(name="pending")
-    nodes.existing(targets[0]).ty.set(9)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes.create.multiplyDivide(name="pending")
+    bd_nodes.existing(targets[0]).ty.set(9)
     calls = 0
     handles = []
     name = {

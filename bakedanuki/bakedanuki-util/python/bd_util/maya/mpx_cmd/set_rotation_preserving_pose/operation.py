@@ -56,6 +56,8 @@ def apply_set_rotation_preserving_pose(
     nodes: Nodes, params: SetRotationPreservingPoseParams
 ) -> list[str]:
     """親から順に姿勢維持の回転設定を確定し、変更した DAG path を返す。"""
+    # 公開引数名を維持し、内部では操作入口の推奨名を使う
+    bd_nodes = nodes
     joint_required = "jointOrient" in (params.target, params.compensate_with)
     targets = _resolve_targets(
         params.node_names, joint_required=joint_required
@@ -64,7 +66,7 @@ def apply_set_rotation_preserving_pose(
     changed: list[str] = []
 
     for path, node_type in targets:
-        node = _typed_node(nodes, path, node_type)
+        node = _typed_node(bd_nodes, path, node_type)
         current = tuple(getattr(node, params.target).get())
         if all(
             isclose(actual, desired, rel_tol=1.0e-14, abs_tol=1.0e-14)
@@ -91,7 +93,7 @@ def apply_set_rotation_preserving_pose(
                 node.set_joint_orient_with_rotate_axis(values)
 
         # 次のノードは先行ノードの確定後に評価する
-        nodes.modifier_manager.do_it_dg()
+        bd_nodes.modifier_manager.do_it_dg()
         changed.append(path)
 
     return changed
@@ -130,12 +132,12 @@ def _resolve_targets(
 
 
 def _typed_node(
-    nodes: Nodes, path: str, node_type: Literal["transform", "joint"]
+    bd_nodes: Nodes, path: str, node_type: Literal["transform", "joint"]
 ) -> Transform | Joint:
     """解決済みの DAG path を型別 NodeOperator として取得する。"""
     if node_type == "joint":
-        return nodes.existing.joint(path)
-    return nodes.existing.transform(path)
+        return bd_nodes.existing.joint(path)
+    return bd_nodes.existing.transform(path)
 
 
 def _values_in_degrees(

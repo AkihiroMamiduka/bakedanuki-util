@@ -109,7 +109,7 @@ MayaのQuaternion規約では、`ApplyAxis`は`inputQuat`の回転軸を`axisQua
 Maya標準の`quatNormalize`を明示的に接続します。
 
 ```python
-change_basis = nodes.create.bdQuat_ChangeBasis(name="change_basis")
+change_basis = bd_nodes.create.bdQuat_ChangeBasis(name="change_basis")
 change_basis.inputQuat.set((0.0, 0.0, 0.0, 1.0))
 change_basis.axisQuat.set((0.0, 0.0, 0.0, 1.0))
 change_basis.direction.set(change_basis.direction.APPLYAXIS)
@@ -164,10 +164,10 @@ Quaternion積は可換ではないため、physical storage orderやelementの�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-product = nodes.create.bdQuat_MultiplyMulti(name="product")
-to_euler = nodes.create.quatToEuler(name="to_euler")
+product = bd_nodes.create.bdQuat_MultiplyMulti(name="product")
+to_euler = bd_nodes.create.quatToEuler(name="to_euler")
 
 product.inputQuat[next].set((0.0, 0.0, 0.0, 1.0))
 product.outputQuat.connect(to_euler.inputQuat)
@@ -527,12 +527,12 @@ Composeの角度入力は連続値として受け取り、三角関数の周期�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-compose = nodes.create.bdQuat_ComposeBendTwist(name="compose_bend_twist")
-decompose = nodes.create.bdQuat_DecomposeBendTwist(name="decompose_bend_twist")
-decompose_twist = nodes.create.bdQuat_DecomposeTwist(name="decompose_twist")
-recompose = nodes.create.bdQuat_ComposeBendTwist(name="recompose_bend_twist")
+compose = bd_nodes.create.bdQuat_ComposeBendTwist(name="compose_bend_twist")
+decompose = bd_nodes.create.bdQuat_DecomposeBendTwist(name="decompose_bend_twist")
+decompose_twist = bd_nodes.create.bdQuat_DecomposeTwist(name="decompose_twist")
+recompose = bd_nodes.create.bdQuat_ComposeBendTwist(name="recompose_bend_twist")
 
 compose.input.set((30.0, 45.0, -20.0))
 compose.outputQuat.connect(decompose.inputQuat)

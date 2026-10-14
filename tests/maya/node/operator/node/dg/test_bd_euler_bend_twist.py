@@ -390,9 +390,9 @@ def test_node_operator_types_and_direct_connection(
         BdEulerDecomposeBendTwist,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    compose = nodes.create.bdEuler_ComposeBendTwist(name="compose")
-    decompose = nodes.create.bdEuler_DecomposeBendTwist(name="decompose")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    compose = bd_nodes.create.bdEuler_ComposeBendTwist(name="compose")
+    decompose = bd_nodes.create.bdEuler_DecomposeBendTwist(name="decompose")
     compose.input.set((35.0, -40.0, 25.0))
     compose.outputRotate.connect(decompose.inputRotate)
     compose.outputRotateOrder.connect(decompose.inputRotateOrder)
@@ -406,11 +406,11 @@ def test_node_operator_types_and_direct_connection(
         (35.0, -40.0, 25.0)
     )
     assert isinstance(
-        nodes.existing.bdEuler_ComposeBendTwist(compose.name),
+        bd_nodes.existing.bdEuler_ComposeBendTwist(compose.name),
         BdEulerComposeBendTwist,
     )
     assert isinstance(
-        nodes.existing.bdEuler_DecomposeBendTwist(decompose.name),
+        bd_nodes.existing.bdEuler_DecomposeBendTwist(decompose.name),
         BdEulerDecomposeBendTwist,
     )
 

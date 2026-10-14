@@ -73,12 +73,12 @@ def test_nodes_accept_mixed_targets_and_attribute_union(maya_cmds):
     custom = _curve(maya_cmds, first + ".custom")
     translate = _curve(maya_cmds, second + ".tx")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     third_object = om.MSelectionList().add(third).getDependNode(0)
 
     assert (
-        nodes.keyframes.snap_subframe_keys(
-            [first, nodes.existing.transform(second), third_object],
+        bd_nodes.keyframes.snap_subframe_keys(
+            [first, bd_nodes.existing.transform(second), third_object],
             attributes=["custom", "tx"],
         )
         is None
@@ -268,8 +268,8 @@ def test_no_curve_and_integer_only_curve_are_noops(maya_cmds):
 def test_node_and_nodes_reject_invalid_arguments(maya_cmds):
     target = maya_cmds.createNode("transform")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    node = nodes.existing.transform(target)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    node = bd_nodes.existing.transform(target)
     with pytest.raises(ValueError):
         node.keyframes.snap_subframe_keys(2, 1)
     with pytest.raises(TypeError):
@@ -281,9 +281,9 @@ def test_node_and_nodes_reject_invalid_arguments(maya_cmds):
     with pytest.raises(TypeError):
         node.keyframes.snap_subframe_keys(attributes="tx")
     with pytest.raises(ValueError):
-        nodes.keyframes.snap_subframe_keys([])
+        bd_nodes.keyframes.snap_subframe_keys([])
     with pytest.raises(TypeError):
-        nodes.keyframes.snap_subframe_keys(target)
+        bd_nodes.keyframes.snap_subframe_keys(target)
     with pytest.raises(ValueError):
-        nodes.keyframes.snap_subframe_keys([target, node])
+        bd_nodes.keyframes.snap_subframe_keys([target, node])
     assert not manager.can_undo

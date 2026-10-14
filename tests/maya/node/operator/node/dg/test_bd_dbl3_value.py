@@ -50,8 +50,8 @@ def test_class_attribute_access_and_default(modifier_manager, maya_cmds):
     assert BdDbl3Value.valueZ.long_name == "valueZ"
     assert BdDbl3Value.vz.short_name == "vz"
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_Value()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_Value()
     modifier_manager.do_it_dg()
 
     assert node.name == "bdDbl3_Value1"
@@ -87,10 +87,10 @@ def test_value_can_be_destination_and_source_in_the_same_network(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    source = nodes.create.bdDbl3_Value(name="source")
-    relay = nodes.create.bdDbl3_Value(name="relay")
-    mult = nodes.create.bdDbl3_Multiply(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    source = bd_nodes.create.bdDbl3_Value(name="source")
+    relay = bd_nodes.create.bdDbl3_Value(name="relay")
+    mult = bd_nodes.create.bdDbl3_Multiply(name="mult")
     source.value.set((2.0, 3.0, 4.0))
     source.value.connect(relay.value)
     relay.value.connect(mult.input1)
@@ -109,9 +109,9 @@ def test_value_can_be_destination_and_source_in_the_same_network(
 def test_child_value_can_drive_scalar_plug(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    value = nodes.create.bdDbl3_Value(name="value")
-    mult = nodes.create.bdDbl_Multiply(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    value = bd_nodes.create.bdDbl3_Value(name="value")
+    mult = bd_nodes.create.bdDbl_Multiply(name="mult")
     value.value.set((2.0, 3.0, 4.0))
     value.value.valueY.connect(mult.input1)
     mult.input2.set(5.0)
@@ -161,12 +161,12 @@ def test_existing_accessor_and_scene_round_trip(
         BdDbl3Value,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_Value(name="value")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_Value(name="value")
     node.value.set((1.5, 2.5, 3.5))
     modifier_manager.do_it_dg()
 
-    assert isinstance(nodes.existing.bdDbl3_Value(node.name), BdDbl3Value)
+    assert isinstance(bd_nodes.existing.bdDbl3_Value(node.name), BdDbl3Value)
 
     selection = maya_om.MSelectionList()
     selection.add(node.name)
@@ -179,7 +179,7 @@ def test_existing_accessor_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert existing_nodes.existing.bdDbl3_Value(
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_existing.existing.bdDbl3_Value(
         "value"
     ).value.get().as_tuple() == pytest.approx((1.5, 2.5, 3.5))

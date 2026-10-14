@@ -271,12 +271,12 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
   version 固有の型は `bdu.node_types.maya2027.Joint`、対応済み version の下限を
   指定する型は `bdu.node_types.maya2026_plus.Joint` のように module を明示する。
   `typing_maya_version="2026+"` は対応済みの Maya 2026 以降で共通する
-  `nodes.create` / `nodes.existing` / `nodes.create.with_transform` の補完対象を選ぶ。
+  `bd_nodes.create` / `bd_nodes.existing` / `bd_nodes.create.with_transform` の補完対象を選ぶ。
   実行時の Maya や、`bdu.node_types` の型注釈 module は切り替えない。
 - `bd_util/node_types/*.pyi` は生成物です。公開ノード型を変更するときは生成器を修正して
   再生成し、`tests/typecheck/public_node_types_contract.py` と version 別 contract を確認する。
 
-特に、`node.attr.child` や `nodes.create.composeMatrix(...)` / `nodes.existing.decomposeMatrix(...)` のような主要な利用経路では、ユーザーが IDE 上で候補を辿れることを重視してください。
+特に、`node.attr.child` や `bd_nodes.create.composeMatrix(...)` / `bd_nodes.existing.decomposeMatrix(...)` のような主要な利用経路では、ユーザーが IDE 上で候補を辿れることを重視してください。
 
 ## Static Type Checking Practices
 
@@ -320,14 +320,18 @@ README や docs のサンプルでは、基本的に次の書き方を使って�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 ```
 
-`Nodes` のインスタンス変数名は `nodes` を使う方針です。
+`Nodes` の操作入口を保持するローカル変数と内部引数には `bd_nodes` を使います。
+複数の入口を区別する場合は `bd_nodes_2026` など、用途を添えます。
+ノード名の集合には `node_names`、NodeOperator の集合には `joints` など、
+役割が分かる名前を使います。`Nodes` のクラス名、`MPxCommandBase.nodes`、
+既存の公開 API の `nodes=` 引数は維持します。
 
 ```python
-cmp_m = nodes.create.composeMatrix(name="cmp_m")
-mult_m = nodes.create.multMatrix(name="mult_m")
+cmp_m = bd_nodes.create.composeMatrix(name="cmp_m")
+mult_m = bd_nodes.create.multMatrix(name="mult_m")
 
 cmp_m.outputMatrix.connect(mult_m.matrixIn[next])
 mod.do_it_dg()
@@ -346,13 +350,13 @@ src.output.connect(dst.input)
 dst.input.connect_from("src.output")
 ```
 
-`nodes.existing` はシーン上に既に存在するノードを包む入口です。
+`bd_nodes.existing` はシーン上に既に存在するノードを包む入口です。
 
 ```python
-node = nodes.existing("existing_node")
+node = bd_nodes.existing("existing_node")
 ```
 
-`nodes.existing` は内部で `ExistingNode` を利用します。
+`bd_nodes.existing` は内部で `ExistingNode` を利用します。
 既存ノードを勝手に変更しないため、初期値では `auto_add_attr=False` です。
 
 ## Important Implementation Notes
@@ -362,10 +366,10 @@ node = nodes.existing("existing_node")
 - `do_it_dg()` / `do_it_dag()` した modifier は履歴として閉じ、次の操作には新しい modifier を使う設計です。
 - `undo_it()` は積まれた modifier を逆順に undo します。
 - `redo_it()` は undo 済みの stack を順順に doIt します。
-- `NodeCreator` は `nodes.create` の内部実装です。`bd_util` のトップレベルには公開しません。
-- `ExistingNode` は `nodes.existing` の内部実装です。`bd_util` および `bd_util.maya.node` のトップレベルには公開しません。
+- `NodeCreator` は `bd_nodes.create` の内部実装です。`bd_util` のトップレベルには公開しません。
+- `ExistingNode` は `bd_nodes.existing` の内部実装です。`bd_util` および `bd_util.maya.node` のトップレベルには公開しません。
 - `node.multiAttr[next]` は Python builtin の `next` を sentinel として使い、次の空き logical index を取ります。
-- docs では `bdu`, `nodes`, `nodes.create`, `nodes.existing`, `matrixIn[next]`, 最後の 1 回の `mod.do_it_dg()` を優先してください。
+- docs では `bdu`, `bd_nodes`, `bd_nodes.create`, `bd_nodes.existing`, `matrixIn[next]`, 最後の 1 回の `mod.do_it_dg()` を優先してください。
 
 ## Documentation Policy
 

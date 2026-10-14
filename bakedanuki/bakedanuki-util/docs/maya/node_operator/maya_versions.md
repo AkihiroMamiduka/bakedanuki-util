@@ -19,11 +19,11 @@ version 対応は、実行時の schema 選択と IDE の補完選択を独立�
 ```python
 import bd_util as bdu
 
-nodes = bdu.Nodes(typing_maya_version="2027")
+bd_nodes = bdu.Nodes(typing_maya_version="2027")
 ```
 
 このコードを Maya 2025 で実行しても、runtime は Maya 2025 の schema を使用します。
-一方、IDE は Maya 2027 用の `nodes.create` / `nodes.existing` を表示します。
+一方、IDE は Maya 2027 用の `bd_nodes.create` / `bd_nodes.existing` を表示します。
 NodeOperator class参照と型注釈には `bdu.node_types` を使い、version 固有の型は
 `bdu.node_types.maya2027` のように module を明示します。
 複数 version を対象にする場合は、対応済み version の下限を `"2026+"` のように指定し、
@@ -100,7 +100,7 @@ constructor の結果型を version ごとに変えるため、選択は `__init
 例えば `"2026+"` では、両 version に存在する `absoluteDL` は補完され、
 Maya 2027 専用の `shotLabel` は補完されません。version 間で同じノードの
 attribute が異なる場合は、対象 version のいずれでも使える属性だけを提示し、
-異なる型は union 型で表します。`nodes.create.with_transform` にも同じ範囲が適用されます。
+異なる型は union 型で表します。`bd_nodes.create.with_transform` にも同じ範囲が適用されます。
 将来、正式対応 version が増えた場合は `+` の範囲も広がり、共通部分を再計算します。
 
 型注釈には、共通面なら `bdu.node_types.Joint`、単一 version を指定する場合は

@@ -270,8 +270,8 @@ def test_node_operator_nested_multi_and_existing_access(
         BdRbfMultiOrientationFalloffWeight,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight = nodes.create.bdRbf_MultiOrientationFalloffWeight(
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    weight = bd_nodes.create.bdRbf_MultiOrientationFalloffWeight(
         name="multi_orientation_falloff"
     )
     weight.source[2].inputQuat.set(_axis_x_quaternion(0.0))
@@ -284,7 +284,7 @@ def test_node_operator_nested_multi_and_existing_access(
     assert isinstance(weight, BdRbfMultiOrientationFalloffWeight)
     assert weight.outputWeight[7].get() == pytest.approx(1.0)
     assert isinstance(
-        nodes.existing.bdRbf_MultiOrientationFalloffWeight(weight.name),
+        bd_nodes.existing.bdRbf_MultiOrientationFalloffWeight(weight.name),
         BdRbfMultiOrientationFalloffWeight,
     )
 

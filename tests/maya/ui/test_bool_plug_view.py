@@ -167,12 +167,12 @@ def test_view_rejects_maya_plug_store_as_its_source(
         "transform",
         name="mayaStoreView",
     )
-    nodes = Nodes()
+    bd_nodes = Nodes()
     owner = qt.QObject()
     view_model = BoolViewModel(parent=owner)
     maya_store = MayaBoolPlugStore(
         view_model,
-        nodes.existing.transform(store_node_name).visibility,
+        bd_nodes.existing.transform(store_node_name).visibility,
         owner,
     )
     view_model.attach_store(maya_store)
@@ -180,7 +180,7 @@ def test_view_rejects_maya_plug_store_as_its_source(
         with pytest.raises(RuntimeError, match="Python側を正本"):
             MayaBoolPlugView(
                 view_model,
-                nodes.existing.transform(view_node_name).visibility,
+                bd_nodes.existing.transform(view_node_name).visibility,
                 owner,
             )
     finally:

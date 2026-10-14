@@ -289,8 +289,8 @@ def test_node_operator_supports_quat_values_and_next(
         BdQuatMultiplyMulti,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdQuat_MultiplyMulti(name="product")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdQuat_MultiplyMulti(name="product")
     node.inputQuat[next].set(_axis_quat("x", 30.0))
     node.inputQuat[next].set(_axis_quat("y", 50.0))
     modifier_manager.do_it_dg()
@@ -305,7 +305,7 @@ def test_node_operator_supports_quat_values_and_next(
         )
     )
     assert isinstance(
-        nodes.existing.bdQuat_MultiplyMulti(node.name),
+        bd_nodes.existing.bdQuat_MultiplyMulti(node.name),
         BdQuatMultiplyMulti,
     )
 
@@ -349,8 +349,8 @@ def test_node_survives_scene_save_and_reload(
 
     qx = _axis_quat("x", 25.0)
     qy = _axis_quat("y", -75.0)
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdQuat_MultiplyMulti(name="product")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdQuat_MultiplyMulti(name="product")
     node.inputQuat[2].set(qx)
     node.inputQuat[9].set(qy)
     modifier_manager.do_it_dg()
@@ -361,8 +361,8 @@ def test_node_survives_scene_save_and_reload(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    existing = existing_nodes.existing.bdQuat_MultiplyMulti("product")
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    existing = bd_nodes_existing.existing.bdQuat_MultiplyMulti("product")
     assert existing.outputQuat.get().as_tuple() == pytest.approx(
         _product(maya_om, qx, qy)
     )

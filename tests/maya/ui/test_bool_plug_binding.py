@@ -31,8 +31,8 @@ class _BindingContext:
 def bool_binding(new_scene, maya_cmds) -> _BindingContext:
     """transform.visibilityへ接続したViewModel一式を提供する。"""
     node_name = maya_cmds.createNode("transform", name="boolBindingTest")
-    nodes = Nodes()
-    node = nodes.existing.transform(node_name)
+    bd_nodes = Nodes()
+    node = bd_nodes.existing.transform(node_name)
     owner = qt.QObject()
     view_model = BoolViewModel(False, owner)
     store = MayaBoolPlugStore(

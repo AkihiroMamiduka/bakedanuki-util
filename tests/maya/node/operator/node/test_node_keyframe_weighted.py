@@ -187,8 +187,10 @@ def test_nodes_weighted_apply_attribute_union_and_prevalidate_all_curves(
     maya_cmds.addAttr(first, longName="custom", attributeType="double")
     _, custom = _curve(maya_cmds, first + ".custom")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.set_weighted([first, second], True, attributes=["custom"])
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.set_weighted(
+        [first, second], True, attributes=["custom"]
+    )
     manager.do_it_dg()
     assert custom.isWeighted is True
     manager.undo_it()
@@ -198,8 +200,8 @@ def test_nodes_weighted_apply_attribute_union_and_prevalidate_all_curves(
     second_name, second_curve = _curve(maya_cmds, second + ".tx")
     maya_cmds.setAttr(second_name + ".weightedTangents", lock=True)
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.keyframes.set_weighted([first, second], True, attributes=["tx"])
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.keyframes.set_weighted([first, second], True, attributes=["tx"])
     with pytest.raises(RuntimeError, match="locked"):
         manager.do_it_dg()
     assert first_curve.isWeighted is False
@@ -234,11 +236,11 @@ def test_node_weighted_rejects_invalid_arguments(maya_cmds):
     with pytest.raises(TypeError, match="attributes"):
         node.keyframes.set_weighted(True, attributes="tx")
 
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     with pytest.raises(ValueError, match="at least one"):
-        nodes.keyframes.set_weighted([], True)
+        bd_nodes.keyframes.set_weighted([], True)
     with pytest.raises(TypeError, match="iterable"):
-        nodes.keyframes.set_weighted(target, True)
+        bd_nodes.keyframes.set_weighted(target, True)
     with pytest.raises(ValueError, match="Duplicate"):
-        nodes.keyframes.set_weighted([target, node], True)
+        bd_nodes.keyframes.set_weighted([target, node], True)
     assert not manager.can_undo

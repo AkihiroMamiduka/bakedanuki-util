@@ -139,8 +139,8 @@ def test_rotation_to_methods_preserve_matrix_and_support_undo_redo(
         )
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    node = getattr(nodes.existing, node_type)(node_name)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    node = getattr(bd_nodes.existing, node_type)(node_name)
     attribute_names = _rotation_attributes(node_type)
     original_values = {
         name: tuple(getattr(node, name).get()) for name in attribute_names
@@ -212,8 +212,8 @@ def test_set_rotation_methods_preserve_matrix_and_support_undo_redo(
     _set_initial_rotation_values(maya_cmds, node_name, node_type)
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    node = getattr(nodes.existing, node_type)(node_name)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    node = getattr(bd_nodes.existing, node_type)(node_name)
     attribute_names = _rotation_attributes(node_type)
     original_values = {
         name: tuple(getattr(node, name).get()) for name in attribute_names
@@ -261,11 +261,11 @@ def test_set_rotation_methods_accept_three_scalar_values(
     import bd_util as bdu
 
     node_name = maya_cmds.createNode("transform", name="test_transform")
-    nodes = bdu.Nodes()
-    node = nodes.existing.transform(node_name)
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.existing.transform(node_name)
 
     assert node.set_rotate_axis_with_rotate(10.0, 20.0, 30.0) is node
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert node.rotateAxis.get() == pytest.approx((10.0, 20.0, 30.0))
 
@@ -284,12 +284,12 @@ def test_set_rotation_methods_accept_compound_rotation_value(
         30.0,
         type="double3",
     )
-    nodes = bdu.Nodes()
-    node = nodes.existing.transform(node_name)
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.existing.transform(node_name)
     rotation_value = node.rotateAxis.get()
 
     assert node.set_rotate_axis_with_rotate(rotation_value) is node
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert node.rotateAxis.get() == rotation_value
 
@@ -312,15 +312,15 @@ def test_set_rotation_methods_reject_invalid_values_before_queuing_changes(
     import bd_util as bdu
 
     node_name = maya_cmds.createNode("transform", name="test_transform")
-    nodes = bdu.Nodes()
-    node = nodes.existing.transform(node_name)
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.existing.transform(node_name)
     original_rotate_axis = node.rotateAxis.get()
     original_rotate = node.rotate.get()
 
     with pytest.raises(TypeError, match="set_rotate_axis_with_rotate"):
         node.set_rotate_axis_with_rotate(*values)
 
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
     assert node.rotateAxis.get() == original_rotate_axis
     assert node.rotate.get() == original_rotate
 
@@ -347,8 +347,8 @@ def test_set_rotation_methods_reject_locked_written_plug(
 
     node_name = maya_cmds.createNode(node_type, name=f"test_{node_type}")
     maya_cmds.setAttr(f"{node_name}.{locked_attribute}", lock=True)
-    nodes = bdu.Nodes()
-    node = getattr(nodes.existing, node_type)(node_name)
+    bd_nodes = bdu.Nodes()
+    node = getattr(bd_nodes.existing, node_type)(node_name)
 
     with pytest.raises(RuntimeError, match=locked_attribute):
         getattr(node, method_name)((10.0, 20.0, 30.0))
@@ -374,12 +374,12 @@ def test_set_joint_rotation_methods_ignore_blocked_untouched_plug(
     joint_name = maya_cmds.createNode("joint", name="test_joint")
     _set_initial_rotation_values(maya_cmds, joint_name, "joint")
     maya_cmds.setAttr(f"{joint_name}.{untouched_attribute}", lock=True)
-    nodes = bdu.Nodes()
-    joint = nodes.existing.joint(joint_name)
+    bd_nodes = bdu.Nodes()
+    joint = bd_nodes.existing.joint(joint_name)
     original_matrix = joint.matrix.get().matrix
 
     assert getattr(joint, method_name)((10.0, 20.0, 30.0)) is joint
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_matrix_close(joint.matrix.get().matrix, original_matrix)
 
@@ -406,8 +406,8 @@ def test_rotation_to_rejects_locked_plug_before_queuing_changes(
         type="double3",
     )
     maya_cmds.setAttr(f"{node_name}.rotateY", lock=True)
-    nodes = bdu.Nodes()
-    node = nodes.existing.transform(node_name)
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.existing.transform(node_name)
     original_rotate_axis = node.rotateAxis.get()
     original_rotate = node.rotate.get()
 
@@ -430,8 +430,8 @@ def test_joint_rotation_to_rejects_incoming_joint_orient_connection(
         f"{driver_name}.rotateX",
         f"{joint_name}.jointOrientX",
     )
-    nodes = bdu.Nodes()
-    joint = nodes.existing.joint(joint_name)
+    bd_nodes = bdu.Nodes()
+    joint = bd_nodes.existing.joint(joint_name)
 
     with pytest.raises(RuntimeError, match=r"test_joint\.jointOrientX"):
         joint.rotation_to_rotate()
@@ -445,8 +445,8 @@ def test_rotation_to_rejects_keyframed_rotation(
 
     node_name = maya_cmds.createNode("transform", name="test_transform")
     maya_cmds.setKeyframe(node_name, attribute="rotateAxisZ", value=30.0)
-    nodes = bdu.Nodes()
-    node = nodes.existing.transform(node_name)
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.existing.transform(node_name)
 
     with pytest.raises(RuntimeError, match=r"test_transform\.rotateAxisZ"):
         node.rotation_to_rotate()

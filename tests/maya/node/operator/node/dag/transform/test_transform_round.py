@@ -66,9 +66,9 @@ def test_round_methods_can_use_maya_display_units(new_scene, maya_cmds):
         ):
             maya_cmds.setAttr(plug, 1.235)
         mod = bdu.ModifierManager()
-        nodes = bdu.Nodes(modifier_manager=mod)
-        transform_node = nodes.existing.transform(transform)
-        joint_node = nodes.existing.joint(joint)
+        bd_nodes = bdu.Nodes(modifier_manager=mod)
+        transform_node = bd_nodes.existing.transform(transform)
+        joint_node = bd_nodes.existing.joint(joint)
 
         transform_node.round_translate(2, rounding_unit="display")
         transform_node.round_rotate(2, rounding_unit="display")
@@ -237,8 +237,8 @@ def test_node_round_compensates_direct_child_world_pose_and_undo_redo(
     original_joint_orient = maya_cmds.getAttr(f"{joint_child}.jointOrient")[0]
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    parent_node = getattr(nodes.existing, parent_type)(parent)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    parent_node = getattr(bd_nodes.existing, parent_type)(parent)
 
     round_kwargs = {"compensate_children": True}
     if method_name != "round_translate":
@@ -350,8 +350,8 @@ def test_rotation_round_compensation_supports_all_rotate_orders(
     original_child_rotate = maya_cmds.getAttr(f"{child}.rotate")[0]
     original_child_joint_orient = maya_cmds.getAttr(f"{child}.jointOrient")[0]
     original_parent_value = maya_cmds.getAttr(f"{parent}.{attribute_name}")[0]
-    nodes = bdu.Nodes()
-    parent_node = getattr(nodes.existing, parent_type)(parent)
+    bd_nodes = bdu.Nodes()
+    parent_node = getattr(bd_nodes.existing, parent_type)(parent)
 
     getattr(parent_node, method_name)(
         3,
@@ -359,7 +359,7 @@ def test_rotation_round_compensation_supports_all_rotate_orders(
         compensate_child_translate=True,
         joint_child_compensation_attr=joint_child_compensation_attr,
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert maya_cmds.getAttr(f"{parent}.{attribute_name}")[0] == pytest.approx(
         tuple(builtins.round(value, 3) for value in original_parent_value)
@@ -403,11 +403,11 @@ def test_node_round_defaults_to_no_child_compensation(
         for child in (transform_child, joint_child)
     }
     original_joint_orient = maya_cmds.getAttr(f"{joint_child}.jointOrient")[0]
-    nodes = bdu.Nodes()
-    parent_node = getattr(nodes.existing, parent_type)(parent)
+    bd_nodes = bdu.Nodes()
+    parent_node = getattr(bd_nodes.existing, parent_type)(parent)
 
     getattr(parent_node, method_name)(3)
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert _matrix(maya_cmds, transform_child) != pytest.approx(
         original_child_world
@@ -459,10 +459,10 @@ def test_rotation_round_defaults_to_orientation_only_child_compensation(
     for child in children:
         maya_cmds.setAttr(f"{child}.translateX", lock=True)
 
-    nodes = bdu.Nodes()
-    parent_node = getattr(nodes.existing, parent_type)(parent)
+    bd_nodes = bdu.Nodes()
+    parent_node = getattr(bd_nodes.existing, parent_type)(parent)
     getattr(parent_node, method_name)(3, compensate_children=True)
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     for child, original_world_matrix in original_world_matrices.items():
         _assert_rotation_close(
@@ -659,11 +659,11 @@ def test_node_round_ignores_non_inheriting_child_and_noop_child_blockers(
     maya_cmds.setAttr(f"{child}.translateX", lock=True)
     maya_cmds.setAttr(f"{child}.rotateX", lock=True)
     original_child_world = _matrix(maya_cmds, child)
-    nodes = bdu.Nodes()
-    node = nodes.existing.transform(parent)
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.existing.transform(parent)
 
     node.round_rotate(3, compensate_children=True)
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert _matrix(maya_cmds, child) == pytest.approx(original_child_world)
 

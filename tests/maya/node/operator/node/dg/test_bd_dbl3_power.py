@@ -65,9 +65,9 @@ def test_defaults_and_fixed_component_wise_power(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Power()
-    multi = nodes.create.bdDbl3_PowerMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Power()
+    multi = bd_nodes.create.bdDbl3_PowerMulti()
     modifier_manager.do_it_dg()
 
     assert fixed.name == "bdDbl3_Power1"
@@ -165,8 +165,8 @@ def test_multi_uses_logical_index_order_and_defined_edge_cases(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_PowerMulti(name="pow")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_PowerMulti(name="pow")
     node.input[20].set((2.0, 2.0, 2.0))
     node.input[2].set((2.0, 3.0, 4.0))
     node.input[9].set((3.0, 2.0, 0.5))
@@ -293,9 +293,9 @@ def test_connection_and_existing_node_accessors(
         BdDbl3PowerMulti,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Power(name="fixed")
-    multi = nodes.create.bdDbl3_PowerMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Power(name="fixed")
+    multi = bd_nodes.create.bdDbl3_PowerMulti(name="multi")
     fixed.input1.set((2.0, 3.0, 4.0))
     fixed.input2.set((3.0, 2.0, 0.5))
     fixed.output.connect(multi.input[2])
@@ -303,9 +303,9 @@ def test_connection_and_existing_node_accessors(
     modifier_manager.do_it_dg()
 
     assert multi.output.get().as_tuple() == pytest.approx((64.0, 3.0, 8.0))
-    assert isinstance(nodes.existing.bdDbl3_Power(fixed.name), BdDbl3Power)
+    assert isinstance(bd_nodes.existing.bdDbl3_Power(fixed.name), BdDbl3Power)
     assert isinstance(
-        nodes.existing.bdDbl3_PowerMulti(multi.name),
+        bd_nodes.existing.bdDbl3_PowerMulti(multi.name),
         BdDbl3PowerMulti,
     )
 
@@ -318,9 +318,9 @@ def test_both_nodes_survive_scene_save_and_reload(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Power(name="fixed")
-    multi = nodes.create.bdDbl3_PowerMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Power(name="fixed")
+    multi = bd_nodes.create.bdDbl3_PowerMulti(name="multi")
     fixed.input1.set((2.0, 3.0, 4.0))
     fixed.input2.set((3.0, 2.0, 0.5))
     multi.input[20].set((2.0, 2.0, 2.0))
@@ -342,10 +342,10 @@ def test_both_nodes_survive_scene_save_and_reload(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert existing_nodes.existing.bdDbl3_Power(
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_existing.existing.bdDbl3_Power(
         "fixed"
     ).output.get().as_tuple() == pytest.approx((8.0, 9.0, 2.0))
-    assert existing_nodes.existing.bdDbl3_PowerMulti(
+    assert bd_nodes_existing.existing.bdDbl3_PowerMulti(
         "multi"
     ).output.get().as_tuple() == pytest.approx((64.0, 81.0, 4.0))

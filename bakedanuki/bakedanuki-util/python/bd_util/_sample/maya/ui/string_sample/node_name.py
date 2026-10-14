@@ -124,8 +124,8 @@ def show(node_name: str) -> NodeNameSampleWindow:
         選択変更に追従しない名前編集Window。
     """
     global _controller
-    nodes = Nodes()
-    node = nodes.existing(node_name)
+    bd_nodes = Nodes()
+    node = bd_nodes.existing(node_name)
     dispose()
     controller = MayaWindowController(
         lambda parent: NodeNameSampleWindow(node, parent)

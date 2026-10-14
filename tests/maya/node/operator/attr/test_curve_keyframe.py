@@ -36,8 +36,8 @@ def _curve(cmds, curve_type="animCurveTL"):
     curve.addKey(om.MTime(1, om.MTime.uiUnit()), 1.0)
     curve.addKey(om.MTime(5, om.MTime.uiUnit()), 5.0)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    return nodes.existing(name).keyframe, mod, curve
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    return bd_nodes.existing(name).keyframe, mod, curve
 
 
 @pytest.mark.parametrize(
@@ -92,8 +92,8 @@ def test_pending_creation_queries_do_not_flush_and_creation_undo_redo(
     maya_cmds, curve_type
 ):
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    node = getattr(nodes.create, curve_type)(name="pendingCurve")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    node = getattr(bd_nodes.create, curve_type)(name="pendingCurve")
     keyframe = node.keyframe
     with pytest.raises(RuntimeError, match="not available"):
         keyframe.get_curve_data()
@@ -154,8 +154,8 @@ def test_explicit_snapshot_clip_and_json_share_plug_implementation(
         for frame in (2, 2.5, 3.25, 4.75, 5, 5.5, 7, 8)
     }
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    target = getattr(nodes.create, data.curve_type)(name="restored")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    target = getattr(bd_nodes.create, data.curve_type)(name="restored")
     target.keyframe.set_curve_data(data)
     data.keys[0].value += 999
     maya_cmds.currentUnit(time="ntsc", updateAnimation=False)

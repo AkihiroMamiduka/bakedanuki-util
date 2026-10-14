@@ -49,8 +49,8 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     assert BdDbl3Clamp.output.long_name == "output"
     assert BdDbl3Clamp.ox.short_name == "ox"
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_Clamp()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_Clamp()
     modifier_manager.do_it_dg()
 
     zero = (0.0, 0.0, 0.0)
@@ -221,9 +221,9 @@ def test_connections_existing_accessor_and_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    source = nodes.create.bdDbl3_Clamp(name="source_clamp3")
-    target = nodes.create.bdDbl3_Clamp(name="target_clamp3")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    source = bd_nodes.create.bdDbl3_Clamp(name="source_clamp3")
+    target = bd_nodes.create.bdDbl3_Clamp(name="target_clamp3")
     source.input.set((-5.0, 5.0, 15.0))
     source.min.set((0.0, 0.0, 0.0))
     source.max.set((10.0, 10.0, 10.0))
@@ -234,7 +234,7 @@ def test_connections_existing_accessor_and_scene_round_trip(
 
     expected = (2.0, 5.0, 8.0)
     assert target.output.get().as_tuple() == pytest.approx(expected)
-    existing = nodes.existing.bdDbl3_Clamp(target.name)
+    existing = bd_nodes.existing.bdDbl3_Clamp(target.name)
     assert type(existing) is type(target)
 
     scene_path = tmp_path / "bd_dbl3_clamp.ma"
@@ -243,6 +243,8 @@ def test_connections_existing_accessor_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    output = reloaded.existing.bdDbl3_Clamp("target_clamp3").output.get()
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    output = bd_nodes_reloaded.existing.bdDbl3_Clamp(
+        "target_clamp3"
+    ).output.get()
     assert output.as_tuple() == pytest.approx(expected)

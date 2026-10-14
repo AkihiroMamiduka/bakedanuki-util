@@ -161,13 +161,13 @@ Conditionへ接続を重ねても、nested `extra[]`とtyped-any payloadのdirty
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-extra = nodes.create.bdConditionDblLExtra_Compose(name="extra")
-case = nodes.create.bdConditionDblLCase_Compose(name="case_compose")
-condition = nodes.create.bdAny_ConditionDblLMulti(name="condition")
-case_value = nodes.create.bdDblL_Value(name="case_value")
-else_value = nodes.create.bdDblL_Value(name="else_value")
+extra = bd_nodes.create.bdConditionDblLExtra_Compose(name="extra")
+case = bd_nodes.create.bdConditionDblLCase_Compose(name="case_compose")
+condition = bd_nodes.create.bdAny_ConditionDblLMulti(name="condition")
+case_value = bd_nodes.create.bdDblL_Value(name="case_value")
+else_value = bd_nodes.create.bdDblL_Value(name="else_value")
 
 extra.logic.set(extra.logic.AND)
 extra.comparison.set(extra.comparison.LESS_THAN)
@@ -206,12 +206,12 @@ output = trueValue if compare(input, operation, compare) else falseValue
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-true_value = nodes.create.bdDblL_Value(name="true_value")
-false_value = nodes.create.bdDblL_Value(name="false_value")
-condition = nodes.create.bdAny_ConditionDblL(name="condition")
-result = nodes.create.bdDblL_Add(name="result")
+true_value = bd_nodes.create.bdDblL_Value(name="true_value")
+false_value = bd_nodes.create.bdDblL_Value(name="false_value")
+condition = bd_nodes.create.bdAny_ConditionDblL(name="condition")
+result = bd_nodes.create.bdDblL_Add(name="result")
 
 true_value.value.set(10.0)
 false_value.value.set(-10.0)

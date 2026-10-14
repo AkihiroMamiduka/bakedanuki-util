@@ -113,15 +113,15 @@ assert_type(translation_result, SetTransformTranslationResult)
 assert_type(translation_result.node_name, str)
 assert_type(translation_result.translation, bdu.DoubleLinear3)
 
-operation_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+bd_nodes_operation = bdu.Nodes(modifier_manager=bdu.ModifierManager())
 create_operation_result = apply_create_transforms(
-    operation_nodes,
+    bd_nodes_operation,
     CreateTransformsParams(prefix="operation", count=2),
 )
 assert_type(create_operation_result, CreateTransformsResult)
 
 translation_operation_result = apply_set_transform_translation(
-    operation_nodes,
+    bd_nodes_operation,
     SetTransformTranslationParams(
         node_name="operation1",
         translation=bdu.DoubleLinear3(1.0, 2.0, 3.0),

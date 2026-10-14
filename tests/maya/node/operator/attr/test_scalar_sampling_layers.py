@@ -12,8 +12,8 @@ pytestmark = pytest.mark.maya
 def _layered(cmds, channel, backend, override=False):
     name = cmds.createNode("transform", name="ctrl")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    ctrl = nodes.existing.transform(name)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    ctrl = bd_nodes.existing.transform(name)
     plug = getattr(ctrl, channel)
     if backend == "native":
         layer = cmds.animLayer("Correction", override=override)
@@ -21,7 +21,7 @@ def _layered(cmds, channel, backend, override=False):
         cmds.animLayer(layer, edit=True, attribute=name + "." + channel[:-1])
         cmds.setKeyframe(plug.plug.name(), animLayer=layer, time=3, value=12)
     else:
-        layer = nodes.create.animLayer(name="Correction", override=override)
+        layer = bd_nodes.create.animLayer(name="Correction", override=override)
         layer.weight.set(0.5)
         layer.add_plugs([getattr(ctrl, channel[:-1])])
         plug.keyframe.anim_layer(layer).set_key(12, frame=3)

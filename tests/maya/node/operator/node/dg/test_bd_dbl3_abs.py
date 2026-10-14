@@ -49,8 +49,8 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     assert BdDbl3Abs.oy.short_name == "oy"
     assert BdDbl3Abs.oz.short_name == "oz"
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_Abs()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_Abs()
     modifier_manager.do_it_dg()
 
     zero = (0.0, 0.0, 0.0)
@@ -154,16 +154,16 @@ def test_connections_existing_accessor_and_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    source = nodes.create.bdDbl3_Abs(name="source_abs3")
-    target = nodes.create.bdDbl3_Abs(name="target_abs3")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    source = bd_nodes.create.bdDbl3_Abs(name="source_abs3")
+    target = bd_nodes.create.bdDbl3_Abs(name="target_abs3")
     source.input.set((-1.0, 2.0, -3.0))
     source.output.connect(target.input)
     modifier_manager.do_it_dg()
 
     expected = (1.0, 2.0, 3.0)
     assert target.output.get().as_tuple() == pytest.approx(expected)
-    existing = nodes.existing.bdDbl3_Abs(target.name)
+    existing = bd_nodes.existing.bdDbl3_Abs(target.name)
     assert type(existing) is type(target)
 
     scene_path = tmp_path / "bd_dbl3_abs.ma"
@@ -172,6 +172,6 @@ def test_connections_existing_accessor_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    output = reloaded.existing.bdDbl3_Abs("target_abs3").output.get()
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    output = bd_nodes_reloaded.existing.bdDbl3_Abs("target_abs3").output.get()
     assert output.as_tuple() == pytest.approx(expected)

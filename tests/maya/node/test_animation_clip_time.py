@@ -396,8 +396,8 @@ def test_shift_after_queued_creation_and_later_failure(maya_cmds, fail):
     _keys(cmds, source + ".input1X")
     clip = bdu.AnimationClip.capture([source], attributes=["input1X"])
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    target = nodes.create.multiplyDivide(name="pendingTarget")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    target = bd_nodes.create.multiplyDivide(name="pendingTarget")
     clip.restore(mod, targets=[target], to_start_frame=100)
     assert not cmds.objExists("pendingTarget")
     if fail:

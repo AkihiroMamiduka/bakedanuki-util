@@ -317,7 +317,7 @@ Python側では、Maya node type、class、moduleを次のように変換しま�
 | Python class | `BdDbl3AddMulti` |
 | Generated class | `GeneratedBdDbl3AddMulti` |
 | Python module | `bd_dbl3_add_multi.py` |
-| `NodeCreator` method | `nodes.create.bdDbl3_AddMulti()` |
+| `NodeCreator` method | `bd_nodes.create.bdDbl3_AddMulti()` |
 
 Maya node typeの`_`はPython class名ではPascalCaseの単語境界として除去します。
 module名はsnake_caseへ正規化し、Creator methodはMaya node typeをそのまま公開します。

@@ -45,8 +45,8 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     assert BdDblNegate.output.long_name == "output"
     assert BdDblNegate.o.short_name == "o"
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_Negate()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_Negate()
     modifier_manager.do_it_dg()
 
     assert node.input.get() == pytest.approx(0.0)
@@ -138,15 +138,15 @@ def test_connections_existing_accessor_and_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    source = nodes.create.bdDbl_Negate(name="source_neg")
-    target = nodes.create.bdDbl_Negate(name="target_neg")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    source = bd_nodes.create.bdDbl_Negate(name="source_neg")
+    target = bd_nodes.create.bdDbl_Negate(name="target_neg")
     source.input.set(-3.5)
     source.output.connect(target.input)
     modifier_manager.do_it_dg()
 
     assert target.output.get() == pytest.approx(-3.5)
-    existing = nodes.existing.bdDbl_Negate(target.name)
+    existing = bd_nodes.existing.bdDbl_Negate(target.name)
     assert type(existing) is type(target)
 
     scene_path = tmp_path / "bd_dbl_negate.ma"
@@ -155,7 +155,7 @@ def test_connections_existing_accessor_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded.existing.bdDbl_Negate("target_neg").output.get() == (
-        pytest.approx(-3.5)
-    )
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDbl_Negate(
+        "target_neg"
+    ).output.get() == (pytest.approx(-3.5))

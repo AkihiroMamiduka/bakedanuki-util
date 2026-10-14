@@ -55,10 +55,10 @@ def full_path_under_group():
         if cmds.objExists(n):
             cmds.delete(n)
 
-    nodes = Nodes()
+    bd_nodes = Nodes()
 
-    grp = nodes.create.transform(name=group_name)
-    child = nodes.create.transform(name=child_name, parent=grp)
+    grp = bd_nodes.create.transform(name=group_name)
+    child = bd_nodes.create.transform(name=child_name, parent=grp)
 
     logger.debug(
         "{}: {}".format(
@@ -103,13 +103,13 @@ def operate_transform():
 def get_local_matrix():
     test_str.title("get_local_matrix")
 
-    nodes = Nodes()
+    bd_nodes = Nodes()
 
     # 作成
-    src_parent = nodes.create.transform(name="src_parent")
-    src = nodes.create.transform(name="src", parent=src_parent)
-    dst_parent = nodes.create.transform(name="dst_parent")
-    dst = nodes.create.transform(name="dst", parent=dst_parent)
+    src_parent = bd_nodes.create.transform(name="src_parent")
+    src = bd_nodes.create.transform(name="src", parent=src_parent)
+    dst_parent = bd_nodes.create.transform(name="dst_parent")
+    dst = bd_nodes.create.transform(name="dst", parent=dst_parent)
 
     # 値をセット
     #   src_parent
@@ -126,8 +126,8 @@ def get_local_matrix():
     dst_parent.scale.set(8, 7, 6)
 
     # mod
-    nodes.modifier_manager.do_it_dag()
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dg()
 
     # local 行列を取得
     local_m = src.get_local_matrix(dst)
@@ -137,4 +137,4 @@ def get_local_matrix():
     dst.shear.set(local_m.shear)
 
     # mod
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()

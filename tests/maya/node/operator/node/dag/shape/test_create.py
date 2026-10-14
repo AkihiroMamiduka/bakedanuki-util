@@ -121,9 +121,9 @@ def test_nodes_create_opted_in_shape(
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    parent = nodes.create.transform(name=f"{node_type}_parent")
-    shape = getattr(nodes.create, node_type)(
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+    shape = getattr(bd_nodes.create, node_type)(
         name=f"{node_type}Shape",
         parent=parent,
     )
@@ -151,14 +151,14 @@ def test_nodes_create_shapes_in_one_modifier_supports_undo_redo(
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    parent = nodes.create.transform(name="shape_parent")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    parent = bd_nodes.create.transform(name="shape_parent")
     shapes = [
-        nodes.create.camera(name="cameraShape", parent=parent),
-        nodes.create.locator(name="locatorShape", parent=parent),
-        nodes.create.mesh(name="meshShape", parent=parent),
-        nodes.create.nurbsCurve(name="curveShape", parent=parent),
-        nodes.create.nurbsSurface(name="surfaceShape", parent=parent),
+        bd_nodes.create.camera(name="cameraShape", parent=parent),
+        bd_nodes.create.locator(name="locatorShape", parent=parent),
+        bd_nodes.create.mesh(name="meshShape", parent=parent),
+        bd_nodes.create.nurbsCurve(name="curveShape", parent=parent),
+        bd_nodes.create.nurbsSurface(name="surfaceShape", parent=parent),
     ]
 
     mod.do_it_dag()
@@ -194,12 +194,12 @@ def test_nodes_create_geometry_shapes_supports_undo_redo(
         "subdiv",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -247,12 +247,12 @@ def test_nodes_create_primitive_shapes_supports_undo_redo(
         "renderSphere",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -298,12 +298,12 @@ def test_nodes_create_measurement_shapes_supports_undo_redo(
         "paramDimension",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -352,12 +352,12 @@ def test_nodes_create_helper_locator_shapes_supports_undo_redo(
         "softModHandle",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -401,12 +401,12 @@ def test_nodes_create_deformation_connection_shapes_supports_undo_redo(
         "geoConnectable",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -453,12 +453,12 @@ def test_nodes_create_nonlinear_deformer_shapes_supports_undo_redo(
         "deformWave",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -503,12 +503,12 @@ def test_nodes_create_environment_render_shapes_supports_undo_redo(
         "heightField",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -554,12 +554,12 @@ def test_nodes_create_scene_display_shapes_supports_undo_redo(
         "ufeProxyCameraShape",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -606,12 +606,12 @@ def test_nodes_create_paint_effects_shapes_supports_undo_redo(
         "stroke",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -658,12 +658,12 @@ def test_nodes_create_hair_dynamics_helper_shapes_supports_undo_redo(
         "spring",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -710,12 +710,12 @@ def test_nodes_create_simulation_body_shapes_supports_undo_redo(
         "rigidBody",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -762,12 +762,12 @@ def test_nodes_create_standard_lights_supports_undo_redo(
         "volumeLight",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     lights = []
     for node_type in light_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        light = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        light = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -817,9 +817,9 @@ def test_nodes_create_standard_light_exposes_arnold_attribute_when_mtoa_loaded(
         pytest.skip(f"mtoa is unavailable: {exc}")
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    parent = nodes.create.transform(name="area_light")
-    area_light = nodes.create.areaLight(
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    parent = bd_nodes.create.transform(name="area_light")
+    area_light = bd_nodes.create.areaLight(
         name="area_lightShape",
         parent=parent,
     )
@@ -858,12 +858,12 @@ def test_nodes_create_arnold_lights_supports_undo_redo(
         "aiSkyDomeLight",
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     lights = []
     for node_type in light_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        light = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        light = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -925,12 +925,12 @@ def test_nodes_create_arnold_non_light_shapes_supports_undo_redo(
         "aiVolume": "filename",
     }
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     parents = []
     shapes = []
     for node_type in shape_types:
-        parent = nodes.create.transform(name=f"{node_type}_parent")
-        shape = getattr(nodes.create, node_type)(
+        parent = bd_nodes.create.transform(name=f"{node_type}_parent")
+        shape = getattr(bd_nodes.create, node_type)(
             name=f"{node_type}Shape",
             parent=parent,
         )
@@ -973,14 +973,14 @@ def test_generic_create_supports_opted_in_shape(new_scene, maya_cmds):
         NurbsSurface,
     )
 
-    nodes = bdu.Nodes()
-    parent = nodes.create.transform(name="surface_parent")
-    surface = nodes.create.create(
+    bd_nodes = bdu.Nodes()
+    parent = bd_nodes.create.transform(name="surface_parent")
+    surface = bd_nodes.create.create(
         "nurbsSurface",
         name="surfaceShape",
         parent=parent,
     )
-    nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dag()
 
     assert isinstance(surface, NurbsSurface)
     assert surface.full_path == "|surface_parent|surfaceShape"
@@ -990,38 +990,38 @@ def test_generic_create_supports_opted_in_shape(new_scene, maya_cmds):
 def test_shape_parent_must_be_transform(new_scene):
     import bd_util as bdu
 
-    nodes = bdu.Nodes()
-    parent = nodes.create.transform(name="parent")
-    mesh = nodes.create.mesh(name="meshShape", parent=parent)
+    bd_nodes = bdu.Nodes()
+    parent = bd_nodes.create.transform(name="parent")
+    mesh = bd_nodes.create.mesh(name="meshShape", parent=parent)
 
     with pytest.raises(TypeError, match="parent must be a transform"):
-        nodes.create.camera(name="cameraShape", parent=mesh)
+        bd_nodes.create.camera(name="cameraShape", parent=mesh)
 
 
 def test_uncommitted_shape_parent_must_share_modifier_manager(new_scene):
     import bd_util as bdu
 
-    first_nodes = bdu.Nodes()
-    second_nodes = bdu.Nodes()
-    parent = first_nodes.create.transform(name="parent")
+    bd_nodes_first = bdu.Nodes()
+    bd_nodes_second = bdu.Nodes()
+    parent = bd_nodes_first.create.transform(name="parent")
 
     with pytest.raises(
         ValueError,
         match="must share the same ModifierManager",
     ):
-        second_nodes.create.mesh(name="meshShape", parent=parent)
+        bd_nodes_second.create.mesh(name="meshShape", parent=parent)
 
 
 def test_abstract_shape_is_not_creatable(new_scene):
     import bd_util as bdu
     from bd_util.maya.node.operator.node.dag.shape._core import Shape
 
-    nodes = bdu.Nodes()
-    parent = nodes.create.transform(name="parent")
+    bd_nodes = bdu.Nodes()
+    parent = bd_nodes.create.transform(name="parent")
 
     with pytest.raises(AttributeError, match="Unsupported node type"):
-        nodes.create.shape()
+        bd_nodes.create.shape()
     with pytest.raises(AttributeError, match="Unsupported node type"):
-        nodes.create.create("shape")
+        bd_nodes.create.create("shape")
     with pytest.raises(TypeError, match="abstract NodeOperator base class"):
-        Shape.create(nodes.modifier_manager, parent=parent)
+        Shape.create(bd_nodes.modifier_manager, parent=parent)

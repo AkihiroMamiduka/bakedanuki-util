@@ -11,9 +11,9 @@
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-control, shape = nodes.create.controllerShape(name="hand_ctrl")
+control, shape = bd_nodes.create.controllerShape(name="hand_ctrl")
 shape.shape.set(shape.shape.CIRCLEARROW2D)
 shape.shapeRootSize.set(1.5)
 shape.shapeSize.set(0.8)
@@ -25,7 +25,7 @@ mod.do_it_dag()
 mod.do_it_dg()
 ```
 
-`nodes.create.controllerShape()` は `(Transform, BdControllerShape)` を返します。
+`bd_nodes.create.controllerShape()` は `(Transform, BdControllerShape)` を返します。
 両ノードの作成は `mod.do_it_dag()`、属性設定は `mod.do_it_dg()` で確定します。
 標準の `nurbsCurve` / `nurbsSurface` データや生成ノードへの接続はありません。
 軸指定の既定値は主軸 `+X`・補助軸 `+Y` で、平面形状は YZ 面に作られます。
@@ -35,7 +35,7 @@ XY 面に向ける場合は `shape.shape1stAxis.set(4)`（`+Z`）を指定しま
 次の例では `composeMatrix` の数値入力をアニメーションさせます。
 
 ```python
-animation_matrix = nodes.create.composeMatrix(name="hand_shape_animation")
+animation_matrix = bd_nodes.create.composeMatrix(name="hand_shape_animation")
 animation_matrix.outputMatrix.connect(shape.shapeAnimationTransformMatrix)
 mod.do_it_dg()
 ```

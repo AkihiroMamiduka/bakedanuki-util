@@ -73,9 +73,9 @@ def test_default_names_have_unambiguous_maya_indices(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Multiply()
-    multi = nodes.create.bdDbl3_MultiplyMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Multiply()
+    multi = bd_nodes.create.bdDbl3_MultiplyMulti()
     modifier_manager.do_it_dg()
 
     assert fixed.name == "bdDbl3_Multiply1"
@@ -88,8 +88,8 @@ def test_fixed_defaults_return_multiplicative_identity(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_Multiply(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_Multiply(name="mult")
     modifier_manager.do_it_dg()
 
     assert node.output.get().as_tuple() == pytest.approx((1.0, 1.0, 1.0))
@@ -101,8 +101,8 @@ def test_fixed_multiplies_two_inputs_component_wise(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_Multiply(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_Multiply(name="mult")
     node.input1.set((2.0, 3.0, 4.0))
     node.input2.set((-0.5, 10.0, 2.0))
     modifier_manager.do_it_dg()
@@ -118,8 +118,8 @@ def test_fixed_child_inputs_dirty_and_update_output(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_Multiply(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_Multiply(name="mult")
     node.input1.input1X.set(2.0)
     node.input1.i1y.set(3.0)
     node.input1.input1Z.set(4.0)
@@ -186,8 +186,8 @@ def test_multi_empty_input_returns_multiplicative_identity(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_MultiplyMulti(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_MultiplyMulti(name="mult")
     modifier_manager.do_it_dg()
 
     assert node.output.get().as_tuple() == pytest.approx((1.0, 1.0, 1.0))
@@ -199,8 +199,8 @@ def test_multi_multiplies_existing_sparse_elements_component_wise(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_MultiplyMulti(name="mult")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_MultiplyMulti(name="mult")
     node.input[0].set((2.0, 3.0, 4.0))
     node.input[3].set((-0.5, 10.0, 2.0))
     modifier_manager.do_it_dg()
@@ -313,9 +313,9 @@ def test_fixed_output_participates_in_multi_product(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Multiply(name="fixed")
-    multi = nodes.create.bdDbl3_MultiplyMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Multiply(name="fixed")
+    multi = bd_nodes.create.bdDbl3_MultiplyMulti(name="multi")
 
     fixed.input1.set((2.0, 3.0, 4.0))
     fixed.input2.set((5.0, 6.0, 7.0))
@@ -339,13 +339,13 @@ def test_existing_node_accessors_return_specific_wrappers(
         BdDbl3MultiplyMulti,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Multiply(name="fixed")
-    multi = nodes.create.bdDbl3_MultiplyMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Multiply(name="fixed")
+    multi = bd_nodes.create.bdDbl3_MultiplyMulti(name="multi")
     modifier_manager.do_it_dg()
 
-    existing_fixed = nodes.existing.bdDbl3_Multiply(fixed.name)
-    existing_multi = nodes.existing.bdDbl3_MultiplyMulti(multi.name)
+    existing_fixed = bd_nodes.existing.bdDbl3_Multiply(fixed.name)
+    existing_multi = bd_nodes.existing.bdDbl3_MultiplyMulti(multi.name)
     assert isinstance(existing_fixed, BdDbl3Multiply)
     assert isinstance(existing_multi, BdDbl3MultiplyMulti)
 
@@ -358,9 +358,9 @@ def test_both_nodes_survive_scene_save_and_reload(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl3_Multiply(name="fixed")
-    multi = nodes.create.bdDbl3_MultiplyMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl3_Multiply(name="fixed")
+    multi = bd_nodes.create.bdDbl3_MultiplyMulti(name="multi")
     fixed.input1.set((2.0, 3.0, 4.0))
     fixed.input2.set((5.0, 6.0, 7.0))
     multi.input[0].set((2.0, 3.0, 4.0))
@@ -381,9 +381,9 @@ def test_both_nodes_survive_scene_save_and_reload(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    existing_fixed = existing_nodes.existing.bdDbl3_Multiply("fixed")
-    existing_multi = existing_nodes.existing.bdDbl3_MultiplyMulti("multi")
+    bd_nodes_existing = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    existing_fixed = bd_nodes_existing.existing.bdDbl3_Multiply("fixed")
+    existing_multi = bd_nodes_existing.existing.bdDbl3_MultiplyMulti("multi")
     expected = (10.0, 18.0, 28.0)
     assert existing_fixed.output.get().as_tuple() == pytest.approx(expected)
     assert existing_multi.output.get().as_tuple() == pytest.approx(expected)

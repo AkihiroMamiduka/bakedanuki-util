@@ -7,10 +7,10 @@
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
 clip = bdu.AnimationClip.capture(
-    [nodes.existing("source:ctrlA"), nodes.existing("source:ctrlB")],
+    [bd_nodes.existing("source:ctrlA"), bd_nodes.existing("source:ctrlB")],
     start_frame=10,
     end_frame=30,
 )
@@ -132,8 +132,8 @@ captureしたDAG nodeは、namespaceを含むshort nameがscene全体で一意�
 `AnimationClip`を即時に返します。scene、元clip、保留中modifierは変更しません。
 
 ```python
-root_ctrl = nodes.existing("character_a:root_ctrl")
-spine_ctrl = nodes.existing("character_a:spine_ctrl")
+root_ctrl = bd_nodes.existing("character_a:root_ctrl")
+spine_ctrl = bd_nodes.existing("character_a:spine_ctrl")
 
 body_clip = clip.extract(
     nodes=[root_ctrl, spine_ctrl],
@@ -239,7 +239,7 @@ clip = bdu.AnimationClip.capture(
 correction = bdu.AnimationClip.capture(
     ["ctrlA", "ctrlB"],
     layer_mode="preserve",
-    layers=[nodes.existing.animLayer("Correction")],
+    layers=[bd_nodes.existing.animLayer("Correction")],
     start_frame=10,
     end_frame=30,
 )

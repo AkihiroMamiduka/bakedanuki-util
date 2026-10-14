@@ -97,13 +97,13 @@ def test_scalar_channel_state_direct_changes_immediately(
         plug_name,
         _opposite_channel_state(target_state),
     )
-    nodes = bdu.Nodes()
-    node = nodes.existing.transform(node_name)
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.existing.transform(node_name)
 
     assert getattr(node.translateX, direct_method_name)() is None
 
     assert _channel_state(maya_cmds, plug_name) == target_state
-    assert not nodes.modifier_manager.can_undo
+    assert not bd_nodes.modifier_manager.can_undo
 
 
 @pytest.mark.parametrize(
@@ -171,8 +171,8 @@ def test_scalar_compound_channel_state_direct_expands_to_children(
             plug_name,
             _opposite_channel_state(target_state),
         )
-    nodes = bdu.Nodes()
-    node = nodes.existing.transform(node_name)
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.existing.transform(node_name)
 
     assert getattr(node.translate, direct_method_name)() is None
 
@@ -180,7 +180,7 @@ def test_scalar_compound_channel_state_direct_expands_to_children(
         _channel_state(maya_cmds, plug_name) == target_state
         for plug_name in child_plug_names
     )
-    assert not nodes.modifier_manager.can_undo
+    assert not bd_nodes.modifier_manager.can_undo
 
 
 @pytest.mark.parametrize(
@@ -246,13 +246,13 @@ def test_lock_state_direct_changes_every_plug_immediately(
     node_name = maya_cmds.createNode("transform", name="node")
     plug_name = f"{node_name}.matrix"
     maya_cmds.setAttr(plug_name, lock=original_state)
-    nodes = bdu.Nodes()
-    node = nodes.existing.transform(node_name)
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.existing.transform(node_name)
 
     assert getattr(node.matrix, method_name)() is None
 
     assert maya_cmds.getAttr(plug_name, lock=True) is target_state
-    assert not nodes.modifier_manager.can_undo
+    assert not bd_nodes.modifier_manager.can_undo
 
 
 def test_compound_lock_uses_parent_plug_and_preserves_child_lock(
@@ -287,14 +287,14 @@ def test_queued_channel_and_lock_state_calls_preserve_order(
 
     node_name = maya_cmds.createNode("transform", name="node")
     plug_name = f"{node_name}.translateX"
-    nodes = bdu.Nodes()
-    plug = nodes.existing.transform(node_name).translateX
+    bd_nodes = bdu.Nodes()
+    plug = bd_nodes.existing.transform(node_name).translateX
 
     plug.set_hidden()
     plug.set_keyable()
     plug.set_locked()
     plug.set_unlocked()
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert _channel_state(maya_cmds, plug_name) == (True, False)
     assert not maya_cmds.getAttr(plug_name, lock=True)
@@ -306,14 +306,14 @@ def test_queued_channel_and_lock_states_support_pending_created_node(
 ):
     import bd_util as bdu
 
-    nodes = bdu.Nodes()
-    node = nodes.create.transform(name="node")
+    bd_nodes = bdu.Nodes()
+    node = bd_nodes.create.transform(name="node")
 
     node.translateX.set_channel_box()
     node.matrix.set_locked()
 
-    nodes.modifier_manager.do_it_dag()
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dag()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert _channel_state(maya_cmds, "node.translateX") == (False, True)
     assert maya_cmds.getAttr("node.matrix", lock=True)
@@ -328,8 +328,8 @@ def test_unindexed_multi_rejects_channel_state_but_indexed_plug_accepts_it(
     import bd_util as bdu
 
     node_name = maya_cmds.createNode("plusMinusAverage", name="node")
-    nodes = bdu.Nodes()
-    input_plug = nodes.existing.plusMinusAverage(node_name).input1D
+    bd_nodes = bdu.Nodes()
+    input_plug = bd_nodes.existing.plusMinusAverage(node_name).input1D
     method_name = "set_keyable_direct" if direct else "set_keyable"
 
     with pytest.raises(UnsupportedOperationError, match="indexed multi"):
@@ -338,7 +338,7 @@ def test_unindexed_multi_rejects_channel_state_but_indexed_plug_accepts_it(
     indexed_plug = input_plug[0]
     getattr(indexed_plug, method_name)()
     if not direct:
-        nodes.modifier_manager.do_it_dg()
+        bd_nodes.modifier_manager.do_it_dg()
 
     assert _channel_state(maya_cmds, f"{node_name}.input1D[0]") == (
         True,

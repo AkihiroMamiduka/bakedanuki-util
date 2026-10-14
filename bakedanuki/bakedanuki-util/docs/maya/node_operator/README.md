@@ -69,7 +69,7 @@
     明示指定はTA / TL / TUノードの`.keyframe`から使用します。
     調査用の`find_anim_curves()`では、上流候補を具体ノード型のtupleとして取得できます。
 - `python/bd_util/maya/node/operator/node/dg/_anim_layer.py`
-  - `nodes.create.animLayer()`のベース・階層を含む作成と、`add_plugs()` / `add_nodes()`の登録です。
+  - `bd_nodes.create.animLayer()`のベース・階層を含む作成と、`add_plugs()` / `add_nodes()`の登録です。
     作成待ちの戻り値を`.keyframe.anim_layer(layer)`へ渡し、キー設定まで一括予約できます。
     非rootレイヤーの`member_keyframes`は、直接所属する属性カーブ全体の操作入口です。
 - `python/bd_util/maya/node/operator/node/_keyframes.py`
@@ -121,9 +121,9 @@
 - `python/bd_util/node_types`
   - NodeOperator class参照と型注釈の公開入口です。
 - `python/bd_util/maya/node/creator/_core.py`
-  - `nodes.create` を構成する内部実装の `NodeCreator` です。
+  - `bd_nodes.create` を構成する内部実装の `NodeCreator` です。
 - `python/bd_util/maya/node/existing_node.py`
-  - `nodes.existing` を構成する内部実装の `ExistingNode` です。
+  - `bd_nodes.existing` を構成する内部実装の `ExistingNode` です。
 
 ## 基本構成
 
@@ -139,7 +139,7 @@ flowchart TD
     ModifierManager["ModifierManager"]
     Nodes["Nodes"]
     NodeCreator["NodeCreator"]
-    ExistingAccessor["nodes.existing"]
+    ExistingAccessor["bd_nodes.existing"]
     ExistingNode["ExistingNode"]
     NodeTypes["bdu.node_types"]
     OpenMaya["maya.api.OpenMaya"]
@@ -170,10 +170,10 @@ flowchart TD
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
-ctrl = nodes.existing.transform("ctrl")
+bd_nodes = bdu.Nodes(modifier_manager=mod)
+ctrl = bd_nodes.existing.transform("ctrl")
 
-layer = nodes.create.animLayer(name="Correction")
+layer = bd_nodes.create.animLayer(name="Correction")
 layer.add_nodes([ctrl])
 ctrl.tx.keyframe.anim_layer(layer).set_keys([(1, 0), (24, 12)])
 mod.do_it_dg()
@@ -211,6 +211,7 @@ node.input3D[0] is node.input3D[0]
 ## NodeOperator の生成
 
 `Nodes` は、ノード作成と既存ノード変換を一つの `ModifierManager` から扱う推奨入口です。
+操作入口の推奨変数名は `bd_nodes` です。ノード名の集合は `node_names` などで区別します。
 
 ```python
 from maya import cmds
@@ -219,24 +220,24 @@ import bd_util as bdu
 cmds.createNode("transform", name="existing_node")
 
 modifier_manager = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=modifier_manager)
+bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
 
-created = nodes.create.transform(name="new_node")
-existing = nodes.existing.transform("existing_node")
+created = bd_nodes.create.transform(name="new_node")
+existing = bd_nodes.existing.transform("existing_node")
 
 modifier_manager.do_it_dag()
 ```
 
-`nodes.create` は、共有 `ModifierManager` を使うノード作成アクセサです。
-`nodes.existing` は、同じ `ModifierManager` を使う既存ノードアクセサです。
+`bd_nodes.create` は、共有 `ModifierManager` を使うノード作成アクセサです。
+`bd_nodes.existing` は、同じ `ModifierManager` を使う既存ノードアクセサです。
 したがって、各呼び出しで `modifier_manager=` を繰り返す必要はありません。
 
 作成名に namespace を含めるか、`namespace=` とローカル名を渡せます。
 指定した namespace がまだなければ、ノードと同じ実行履歴の中で作成します。
 
 ```python
-ctrl = nodes.create.transform(name="character:ctrl")
-joint = nodes.create.joint(name="joint", namespace="character")
+ctrl = bd_nodes.create.transform(name="character:ctrl")
+joint = bd_nodes.create.joint(name="joint", namespace="character")
 modifier_manager.do_it_dag()
 ```
 
@@ -251,31 +252,31 @@ Undo ではノードを先に戻し、この実行履歴で作成した空の na
 一連のノードに同じ namespace を付ける場合は、`Nodes` に既定値を設定できます。
 
 ```python
-nodes = bdu.Nodes(modifier_manager=modifier_manager, namespace=":character")
-ctrl = nodes.create.transform(name="ctrl")
-joint = nodes.create.joint(name="joint")
-other = nodes.create.transform(name="ctrl", namespace=":other")
+bd_nodes = bdu.Nodes(modifier_manager=modifier_manager, namespace=":character")
+ctrl = bd_nodes.create.transform(name="ctrl")
+joint = bd_nodes.create.joint(name="joint")
+other = bd_nodes.create.transform(name="ctrl", namespace=":other")
 modifier_manager.do_it_dag()
 ```
 
-既定値は `nodes.create` の作成にだけ適用します。個別の `namespace=` を優先し、
+既定値は `bd_nodes.create` の作成にだけ適用します。個別の `namespace=` を優先し、
 `name="other:ctrl"` のように namespace を含む名前には既定値を適用しません。
 `namespace=` と namespace を含む `name` は併用できません。既定値がある間は
 無名作成も `ValueError` となるため、`name` を指定してください。
-`nodes.set_namespace(":next")` は以後に予約する作成先を変更します。
+`bd_nodes.set_namespace(":next")` は以後に予約する作成先を変更します。
 相対指定は設定時のカレント namespace を基準に絶対化されます。
-`nodes.set_namespace(None)` で既定値を解除し、`""` または `":"` でルートを
+`bd_nodes.set_namespace(None)` で既定値を解除し、`""` または `":"` でルートを
 既定値にできます。設定時に Maya のカレント namespace は変更せず、
-予約済みノードと `nodes.existing` から取得したノードにも影響しません。
-`nodes.create.with_transform` と `nodes.create.animLayer` にも適用します。
+予約済みノードと `bd_nodes.existing` から取得したノードにも影響しません。
+`bd_nodes.create.with_transform` と `bd_nodes.create.animLayer` にも適用します。
 
 ノードを別の namespace へ移すときは、単一ノードでは
-`node.move_to_namespace()`、複数ノードでは `nodes.move_to_namespace()` を使います。
-`nodes.set_namespace()` は今後作るノードの既定値を設定する別の操作です。
+`node.move_to_namespace()`、複数ノードでは `bd_nodes.move_to_namespace()` を使います。
+`bd_nodes.set_namespace()` は今後作るノードの既定値を設定する別の操作です。
 移動先の namespace が未作成なら `do_it_dg()` 時に作成します。
 
 ```python
-ctrl = nodes.existing.transform("character:ctrl")
+ctrl = bd_nodes.existing.transform("character:ctrl")
 ctrl.rename(new_name="main_ctrl")
 ctrl.move_to_namespace(":rig")
 modifier_manager.do_it_dg()
@@ -290,7 +291,7 @@ modifier_manager.do_it_dg()
 作成後に名前が確定してから移動します。
 
 ```python
-nodes.move_to_namespace(
+bd_nodes.move_to_namespace(
     [joint, "other:ctrl"],
     namespace=":rig",
 )
@@ -300,7 +301,7 @@ modifier_manager.do_it_dg()
 複数ノードの指定には `NodeOperator`、ノード名、`MObject` を混在できます。
 ノード名と `MObject` は呼び出し時にシーン上に存在するノードを指定します。
 作成待ちノードは名前付きの `NodeOperator` で指定してください。
-空・重複・不正な対象は予約前に拒否します。`NodeOperator` は `nodes` と同じ
+空・重複・不正な対象は予約前に拒否します。`NodeOperator` は `bd_nodes` と同じ
 `ModifierManager` に属する必要があります。移動先に同じローカル名があると、
 Maya が連番を付けます。
 
@@ -308,7 +309,7 @@ Maya 2025 / 2026 / 2027 の実行 schema は、起動中の Maya から自動判
 IDE の補完対象だけを固定したい場合は `typing_maya_version` を指定します。
 
 ```python
-nodes = bdu.Nodes(
+bd_nodes = bdu.Nodes(
     modifier_manager=modifier_manager,
     typing_maya_version="2027",
 )
@@ -323,8 +324,8 @@ schema と利用可能ノードが使われます。指定を省略した場合�
 `"2026+"` は正式対応済みの Maya 2026 以降、現在は 2026 / 2027 の共通面を選びます。
 `"2025+"` は省略時、`"2027+"` は `"2027"` と同じ範囲です。
 
-`typing_maya_version` が選ぶ補完面は `nodes.create` と `nodes.existing` です。
-`nodes.create.with_transform` にも同じ範囲が適用されます。
+`typing_maya_version` が選ぶ補完面は `bd_nodes.create` と `bd_nodes.existing` です。
+`bd_nodes.create.with_transform` にも同じ範囲が適用されます。
 `bdu.node_types` の型注釈は、必要に応じて version 別 module または
 `bdu.node_types.maya2026_plus` のような範囲別 module を明示します。
 実行時schemaと補完stubの生成方法は[Generator](generator.md)、version別の検証入口は
@@ -335,8 +336,8 @@ schema と利用可能ノードが使われます。指定を省略した場合�
 escape hatchとして使用できます。
 
 ```python
-created = nodes.create.create("pluginNode")
-existing = nodes.existing("pluginNode")
+created = bd_nodes.create.create("pluginNode")
+existing = bd_nodes.existing("pluginNode")
 node_cls = bdu.node_types.resolve("pluginNode")
 ```
 
@@ -345,10 +346,10 @@ assert created.modifier_manager is modifier_manager
 assert existing.modifier_manager is modifier_manager
 ```
 
-既存ノードの nodeType を自動判定する場合は、`nodes.existing` 自体を呼び出します。
+既存ノードの nodeType を自動判定する場合は、`bd_nodes.existing` 自体を呼び出します。
 
 ```python
-existing = nodes.existing("existing_node")
+existing = bd_nodes.existing("existing_node")
 ```
 
 生成済みの `NodeOperator` classを参照する場合は、`bdu.node_types` を使います。
@@ -363,7 +364,7 @@ assert issubclass(locator_type, shape_type)
 ```
 
 `NodeOperator` / `DAG` / `Shape` / `BaseGeometryVarGroup` のような基底classと、
-`nodes.existing` が具体型へ解決できる生成済みclassを参照できます。作成可否とは
+`bd_nodes.existing` が具体型へ解決できる生成済みclassを参照できます。作成可否とは
 独立しているため、`IkHandle` / `UnknownDag` / `SphereLocator` も対象です。
 実classは属性へ最初にアクセスしたときだけimportされ、結果は内部accessorでcacheされます。
 
@@ -372,10 +373,10 @@ assert issubclass(locator_type, shape_type)
 ```python
 import bd_util as bdu
 
-nodes = bdu.Nodes()
+bd_nodes = bdu.Nodes()
 joints: list[bdu.node_types.Joint] = []
 for i in range(10):
-    joints.append(nodes.create.joint(name=f"j_{i}"))
+    joints.append(bd_nodes.create.joint(name=f"j_{i}"))
 
 for joint in joints:
     joint.t.set(1, 2, 3)
@@ -383,8 +384,8 @@ for joint in joints:
     joint.s.set(6, 7, 8)
     joint.v.set(False)
 
-nodes.modifier_manager.do_it_dag()
-nodes.modifier_manager.do_it_dg()
+bd_nodes.modifier_manager.do_it_dag()
+bd_nodes.modifier_manager.do_it_dg()
 ```
 
 型補完の既定面は `Nodes()` と同様に全対応 Maya version の共通部分です。
@@ -427,16 +428,16 @@ node = PlusMinusAverage.create(modifier_manager, name="test_pma")
 modifier_manager.do_it_dg()
 ```
 
-複数のノード型を扱う場合は、個別の `NodeOperator` クラスを毎回 import せず、`nodes.create` から作成できます。
+複数のノード型を扱う場合は、個別の `NodeOperator` クラスを毎回 import せず、`bd_nodes.create` から作成できます。
 
 ```python
 import bd_util as bdu
 
 modifier_manager = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=modifier_manager)
+bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
 
-pma = nodes.create.plusMinusAverage(name="plus_minus_ave")
-mult_div = nodes.create.multiplyDivide(name="mult_div")
+pma = bd_nodes.create.plusMinusAverage(name="plus_minus_ave")
+mult_div = bd_nodes.create.multiplyDivide(name="mult_div")
 
 modifier_manager.do_it_dg()
 ```
@@ -447,7 +448,7 @@ shape ノード名を lazy import し、`NodeOperator.create()` を呼びます�
 `create()` には `plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも渡せます。
 IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
 
-Maya 2025で作成確認済みのconcrete transform系52種は、`nodes.create`から
+Maya 2025で作成確認済みのconcrete transform系52種は、`bd_nodes.create`から
 未接続・未初期化のrawノードとして作成できます。作成時の親は`parent=`で指定でき、
 親子を同じ`MDagModifier`に積めます。
 
@@ -455,10 +456,10 @@ Maya 2025で作成確認済みのconcrete transform系52種は、`nodes.create`�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-parent = nodes.create.transform(name="parent")
-constraint = nodes.create.aimConstraint(
+parent = bd_nodes.create.transform(name="parent")
+constraint = bd_nodes.create.aimConstraint(
     name="raw_aim_constraint",
     parent=parent,
 )
@@ -468,7 +469,7 @@ mod.do_it_dag()
 
 constraintのtarget接続、IKのjoint / solver設定、fieldのdynamics接続など、
 Mayaの専用commandが行う用途別初期化はraw作成に含めません。作成不能な抽象native基底
-`baseGeometryVarGroup`と、transform直系ではない`unknownDag`は`nodes.create`へ
+`baseGeometryVarGroup`と、transform直系ではない`unknownDag`は`bd_nodes.create`へ
 公開しません。
 
 shape 系ノードは、親 `Transform` を必須として作成します。親を省略して Maya に
@@ -478,10 +479,10 @@ Transform を自動生成させる経路は公開しません。
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-transform = nodes.create.transform(name="mesh")
-mesh = nodes.create.mesh(
+transform = bd_nodes.create.transform(name="mesh")
+mesh = bd_nodes.create.mesh(
     name="meshShape",
     parent=transform,
 )
@@ -489,7 +490,7 @@ mesh = nodes.create.mesh(
 mod.do_it_dag()
 ```
 
-transform と shape を一度に用意する場合は、`nodes.create.with_transform` を使います。
+transform と shape を一度に用意する場合は、`bd_nodes.create.with_transform` を使います。
 戻り値は `(Transform, concrete Shape)` の順で、両方が同じ `ModifierManager` に
 積まれます。`name` は transform 名を表し、`shape_name` を省略すると
 `{name}Shape` が使われます。
@@ -498,9 +499,9 @@ transform と shape を一度に用意する場合は、`nodes.create.with_trans
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
-transform, mesh = nodes.create.with_transform.mesh(name="mesh")
+transform, mesh = bd_nodes.create.with_transform.mesh(name="mesh")
 
 mod.do_it_dag()
 ```
@@ -508,8 +509,8 @@ mod.do_it_dag()
 明示的な shape 名や、作成する transform の親も指定できます。
 
 ```python
-group = nodes.create.transform(name="group")
-transform, camera = nodes.create.with_transform.camera(
+group = bd_nodes.create.transform(name="group")
+transform, camera = bd_nodes.create.with_transform.camera(
     name="camera",
     shape_name="renderCameraShape",
     parent=group,
@@ -518,8 +519,8 @@ transform, camera = nodes.create.with_transform.camera(
 mod.do_it_dag()
 ```
 
-`nodes.create.mesh(parent=transform)` は親必須の raw shape 作成として維持します。
-一括作成は `nodes.create.with_transform.mesh()` という別入口にすることで、
+`bd_nodes.create.mesh(parent=transform)` は親必須の raw shape 作成として維持します。
+一括作成は `bd_nodes.create.with_transform.mesh()` という別入口にすることで、
 既存 API と transform 自動生成の意図を区別しています。
 
 ### raw shape 作成と一括作成を分ける理由
@@ -528,10 +529,10 @@ mod.do_it_dag()
 
 | API | 作成対象 | `name` | `parent` | 戻り値 |
 | --- | --- | --- | --- | --- |
-| `nodes.create.locator(parent=transform)` | Shapeのみ | Shape名 | Shapeの親Transform。必須 | `Locator` |
-| `nodes.create.with_transform.locator()` | Transform + Shape | Transform名 | 新規Transformの親。任意 | `tuple[Transform, Locator]` |
+| `bd_nodes.create.locator(parent=transform)` | Shapeのみ | Shape名 | Shapeの親Transform。必須 | `Locator` |
+| `bd_nodes.create.with_transform.locator()` | Transform + Shape | Transform名 | 新規Transformの親。任意 | `tuple[Transform, Locator]` |
 
-`nodes.create.locator()` の `parent` を省略可能にし、その有無で処理を切り替える
+`bd_nodes.create.locator()` の `parent` を省略可能にし、その有無で処理を切り替える
 overload も技術的には実装できます。ただし、その設計では次の問題が生じます。
 
 - `parent` の指定漏れがエラーにならず、意図しない Transform 作成へ変わる。
@@ -547,7 +548,7 @@ overload も技術的には実装できます。ただし、その設計では�
 一括作成 API は Transform の生成を明示し、常に
 `tuple[Transform, concrete Shape]` を返す別入口として固定します。
 
-現在 `nodes.create` から作成できる shape は、動作確認済みの次の80種類です。
+現在 `bd_nodes.create` から作成できる shape は、動作確認済みの次の80種類です。
 
 - `aiAreaLight`
 - `aiCurveCollector`
@@ -659,7 +660,7 @@ Maya 標準の補助 locator・marker・handle shape `clusterHandle` / `directed
 `orientationMarker` / `positionMarker` / `softModHandle` も、raw shape としての作成と
 undo / redo を確認済みです。deformer、motion path、HIK などとの接続や用途別の
 初期化は自動実行しません。生成済みの `SphereLocator` class は Maya 2025 の
-標準状態で node type を作成できないため、`nodes.create` へは公開していません。
+標準状態で node type を作成できないため、`bd_nodes.create` へは公開していません。
 
 Maya 標準の非線形 deformer 表示 shape `deformBend` / `deformFlare` /
 `deformSine` / `deformSquash` / `deformTwist` / `deformWave` も、raw shape としての
@@ -700,8 +701,8 @@ geometry・particle data、initial state、nucleus・rigid solver などとの�
 自動実行しません。
 
 Maya 2025 + MtoA の concrete shape 81種は class 生成済みで、
-`nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。
-このうち80種は作成確認済みで、`nodes.create` へ公開しています。残る
+`bd_nodes.existing.<nodeType>()` から具体的な戻り値型として利用できます。
+このうち80種は作成確認済みで、`bd_nodes.create` へ公開しています。残る
 `SphereLocator` は Maya 2025 の標準状態で node type が登録されていないため、
 非公開のまま維持します。
 `polyCube` のように Transform、Shape、history node をまとめて作る操作は、raw shape
@@ -1111,7 +1112,7 @@ srcのworld姿勢をdstの実効親空間へ変換して得た目標回転を`Q_
 変更する回転属性ごとにメソッドを分けています。
 
 ```python
-aim_target = nodes.existing("aim_target")
+aim_target = bd_nodes.existing("aim_target")
 
 transform.aim_to_rotate(aim_target)
 transform.aim_to_rotate_axis("aim_target")
@@ -1529,7 +1530,7 @@ local_tm = src_dag.get_local_matrix(dst_dag)
 
 どちらも各 `MDagPath.instanceNumber()` に対応する matrix plug を使います。戻り値の分解方法とmatrix plugからの直接取得については、[TransformMatrix](../transform_matrix.md) を参照してください。
 
-シーン上に既に存在するノードは `nodes.existing` で対応する `NodeOperator` に変換できます。
+シーン上に既に存在するノードは `bd_nodes.existing` で対応する `NodeOperator` に変換できます。
 
 ```python
 from maya import cmds
@@ -1538,64 +1539,64 @@ import bd_util as bdu
 
 cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
 
-nodes = bdu.Nodes()
-node = nodes.existing("test_plus_minus_ave")
+bd_nodes = bdu.Nodes()
+node = bd_nodes.existing("test_plus_minus_ave")
 node.input1D[0].set(10.0)
-nodes.modifier_manager.do_it_dg()
+bd_nodes.modifier_manager.do_it_dg()
 ```
 
-`nodes.existing` は既存ノードを包むだけなので、初期値では extra attribute を自動追加しません。
-必要な場合は `nodes.existing("nodeName", auto_add_attr=True)` のように指定します。
+`bd_nodes.existing` は既存ノードを包むだけなので、初期値では extra attribute を自動追加しません。
+必要な場合は `bd_nodes.existing("nodeName", auto_add_attr=True)` のように指定します。
 
 内部の `ExistingNode` は生成済みの DG / DAG / transform / shape class から node type を解決します。
 そのため、既存の mesh shape や camera shape も対応する `NodeOperator` として包めます。
 
-nodeType を呼び出し側で明示したい場合は、`nodes.existing` の型別メソッドを使用できます。
+nodeType を呼び出し側で明示したい場合は、`bd_nodes.existing` の型別メソッドを使用できます。
 
 ```python
 import bd_util as bdu
 
 modifier_manager = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=modifier_manager)
-node = nodes.existing.decomposeMatrix("test_decompose_matrix")
+bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+node = bd_nodes.existing.decomposeMatrix("test_decompose_matrix")
 ```
 
 型別メソッドは実行時に対象 class を lazy import し、`existing_node.pyi` では通常の nodeType に対して具体的な戻り値型を公開します。
-`nodes.existing` についても `nodes.pyi` で同じ具体的な戻り値型を公開します。
+`bd_nodes.existing` についても `nodes.pyi` で同じ具体的な戻り値型を公開します。
 この例の `node` は IDE 上でも `DecomposeMatrix` として扱われます。
 Maya 上の実際の nodeType が指定したメソッドと異なる場合は `TypeError` を送出します。
-自動判定する `nodes.existing("nodeName")` と型を明示する `nodes.existing.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
+自動判定する `bd_nodes.existing("nodeName")` と型を明示する `bd_nodes.existing.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
 
 transform 派生 node は、既存 node の具体型対応と作成 API を分けて段階公開します。
-`ikHandle` / `ikEffector` は `nodes.existing.ikHandle()` /
-`nodes.existing.ikEffector()` から具体型として利用できますが、作成には専用の
-初期化手順が必要なため `nodes.create` には公開しません。
-constraint 系14種も `nodes.existing.aimConstraint()` /
-`nodes.existing.parentConstraint()` などから具体型として利用できます。
-これらも専用 command や接続を伴うため `nodes.create` には公開しません。
-field / emitter 系11種も `nodes.existing.airField()` /
-`nodes.existing.fluidEmitter()` などから具体型として利用できます。
-これらも dynamics 用の初期化や接続を伴うため `nodes.create` には公開しません。
-dynamics / deformer 周辺の5種も `nodes.existing.nucleus()` /
-`nodes.existing.primitiveFalloff()` などから具体型として利用できます。
-これらも専用の作成手順や接続を伴うため `nodes.create` には公開しません。
-HIK 系5種も `nodes.existing.hikFKJoint()` /
-`nodes.existing.hikHandle()` などから具体型として利用できます。
+`ikHandle` / `ikEffector` は `bd_nodes.existing.ikHandle()` /
+`bd_nodes.existing.ikEffector()` から具体型として利用できますが、作成には専用の
+初期化手順が必要なため `bd_nodes.create` には公開しません。
+constraint 系14種も `bd_nodes.existing.aimConstraint()` /
+`bd_nodes.existing.parentConstraint()` などから具体型として利用できます。
+これらも専用 command や接続を伴うため `bd_nodes.create` には公開しません。
+field / emitter 系11種も `bd_nodes.existing.airField()` /
+`bd_nodes.existing.fluidEmitter()` などから具体型として利用できます。
+これらも dynamics 用の初期化や接続を伴うため `bd_nodes.create` には公開しません。
+dynamics / deformer 周辺の5種も `bd_nodes.existing.nucleus()` /
+`bd_nodes.existing.primitiveFalloff()` などから具体型として利用できます。
+これらも専用の作成手順や接続を伴うため `bd_nodes.create` には公開しません。
+HIK 系5種も `bd_nodes.existing.hikFKJoint()` /
+`bd_nodes.existing.hikHandle()` などから具体型として利用できます。
 `HikFKJoint` は `Joint`、`HikHandle` は `IkHandle` の継承関係も維持します。
-scene / utility 系6種も `nodes.existing.dagContainer()` /
-`nodes.existing.lookAt()` などから具体型として利用できます。
+scene / utility 系6種も `bd_nodes.existing.dagContainer()` /
+`bd_nodes.existing.lookAt()` などから具体型として利用できます。
 `LookAt` はnative継承に合わせて `AimConstraint` の派生型として扱います。
-VarGroup 系5種も `nodes.existing.curveVarGroup()` /
-`nodes.existing.meshVarGroup()` などから具体型として利用できます。
+VarGroup 系5種も `bd_nodes.existing.curveVarGroup()` /
+`bd_nodes.existing.meshVarGroup()` などから具体型として利用できます。
 5種共通の抽象native基底は `BaseGeometryVarGroup` として型階層に保持します。
 特殊transformの `ufeProxyTransform` / `unknownTransform` も
-`nodes.existing` から具体型として利用できます。`UfeProxyTransform` では、
+`bd_nodes.existing` から具体型として利用できます。`UfeProxyTransform` では、
 各instanceへ追加される `ufePath` も静的なfieldとして公開します。
 
 transformでもshapeでもない汎用DAGの `unknownDag` も、
-`nodes.existing.unknownDag()` から `UnknownDag` として利用できます。Mayaは
+`bd_nodes.existing.unknownDag()` から `UnknownDag` として利用できます。Mayaは
 `unknownDag` の作成時に親Transformも自動作成するため、戻り値と命名の契約が明確な
-`nodes.create` には公開しません。
+`bd_nodes.create` には公開しません。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 
@@ -1647,7 +1648,7 @@ KeyframeManagerは、layer対応、未作成カーブへの詳細データ復元
 続いてnode単位の`node.keyframes.bake()`を追加しました。keyable属性を既定で収集し、
 静的値も既定でカーブ化します。明示属性、channelBox属性、静的値の除外、指定layerを選択できます。全対象のsampling完了後に
 接続を変更し、失敗時は全属性をrollbackします。
-続いて複数node単位の`nodes.keyframes.bake([...])`を追加しました。nodeごとに存在する
+続いて複数node単位の`bd_nodes.keyframes.bake([...])`を追加しました。nodeごとに存在する
 明示属性だけを選び、全node・全属性のsampling完了後に接続を変更します。上流・下流nodeを
 同時指定しても入力順に依存せず、失敗時はnode間を含む操作全体をrollbackします。
 続いて範囲内の既存キーへ接線typeを一括設定する`set_tangents()`を追加しました。

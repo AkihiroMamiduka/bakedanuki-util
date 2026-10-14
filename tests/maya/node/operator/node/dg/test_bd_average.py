@@ -98,8 +98,8 @@ def test_defaults_and_type_ids(maya_cmds, maya_om, node_type, type_id):
 def test_fixed_scalar_returns_arithmetic_mean(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_Average()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_Average()
     node.input1.set(-2.0)
     node.input2.set(8.0)
     modifier_manager.do_it_dg()
@@ -113,8 +113,8 @@ def test_fixed_double3_averages_each_component(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_Average()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_Average()
     node.input1.set((-2.0, 4.0, 10.0))
     node.input2.set((8.0, -2.0, 2.0))
     modifier_manager.do_it_dg()
@@ -128,9 +128,9 @@ def test_multi_empty_is_zero_and_single_element_is_unchanged(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    scalar = nodes.create.bdDbl_AverageMulti()
-    vector = nodes.create.bdDbl3_AverageMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    scalar = bd_nodes.create.bdDbl_AverageMulti()
+    vector = bd_nodes.create.bdDbl3_AverageMulti()
     modifier_manager.do_it_dg()
 
     assert scalar.output.get() == pytest.approx(0.0)
@@ -154,8 +154,8 @@ def test_multi_counts_only_existing_sparse_elements(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl_AverageMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl_AverageMulti()
     node.input[2].set(2.0)
     node.input[9].set(4.0)
     node.input[20].set(12.0)
@@ -184,8 +184,8 @@ def test_double3_multi_averages_each_component(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3_AverageMulti()
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDbl3_AverageMulti()
     node.input[2].set((1.0, 10.0, -1.0))
     node.input[9].set((3.0, 20.0, 1.0))
     node.input[20].set((8.0, 30.0, 6.0))
@@ -280,9 +280,9 @@ def test_connections_existing_accessors_and_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDbl_Average(name="fixed")
-    multi = nodes.create.bdDbl_AverageMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    fixed = bd_nodes.create.bdDbl_Average(name="fixed")
+    multi = bd_nodes.create.bdDbl_AverageMulti(name="multi")
     fixed.input1.set(2.0)
     fixed.input2.set(6.0)
     fixed.output.connect(multi.input[2])
@@ -290,8 +290,10 @@ def test_connections_existing_accessors_and_scene_round_trip(
     modifier_manager.do_it_dg()
 
     assert multi.output.get() == pytest.approx(6.0)
-    assert type(nodes.existing.bdDbl_Average(fixed.name)) is type(fixed)
-    assert type(nodes.existing.bdDbl_AverageMulti(multi.name)) is type(multi)
+    assert type(bd_nodes.existing.bdDbl_Average(fixed.name)) is type(fixed)
+    assert type(bd_nodes.existing.bdDbl_AverageMulti(multi.name)) is type(
+        multi
+    )
 
     scene_path = tmp_path / "bd_average.ma"
     maya_cmds.file(rename=str(scene_path))
@@ -299,7 +301,7 @@ def test_connections_existing_accessors_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded_nodes.existing.bdDbl_AverageMulti(
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDbl_AverageMulti(
         "multi"
     ).output.get() == pytest.approx(6.0)

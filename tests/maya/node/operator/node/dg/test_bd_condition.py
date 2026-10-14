@@ -606,14 +606,14 @@ def test_node_operator_connections_accessors_and_scene_round_trip(
         BdAnyConditionDblMulti,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    true_value = nodes.create.bdDbl_Value(name="true_value")
-    false_value = nodes.create.bdDbl_Value(name="false_value")
-    case_value = nodes.create.bdDbl_Value(name="case_value")
-    else_value = nodes.create.bdDbl_Value(name="else_value")
-    result = nodes.create.bdDbl_Value(name="result")
-    first = nodes.create.bdAny_ConditionDbl(name="first")
-    multi = nodes.create.bdAny_ConditionDblMulti(name="multi")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    true_value = bd_nodes.create.bdDbl_Value(name="true_value")
+    false_value = bd_nodes.create.bdDbl_Value(name="false_value")
+    case_value = bd_nodes.create.bdDbl_Value(name="case_value")
+    else_value = bd_nodes.create.bdDbl_Value(name="else_value")
+    result = bd_nodes.create.bdDbl_Value(name="result")
+    first = bd_nodes.create.bdAny_ConditionDbl(name="first")
+    multi = bd_nodes.create.bdAny_ConditionDblMulti(name="multi")
 
     true_value.value.set(5.0)
     false_value.value.set(-5.0)
@@ -642,11 +642,11 @@ def test_node_operator_connections_accessors_and_scene_round_trip(
 
     assert result.value.get() == pytest.approx(10.0)
     assert isinstance(
-        nodes.existing.bdAny_ConditionDbl(first.name),
+        bd_nodes.existing.bdAny_ConditionDbl(first.name),
         BdAnyConditionDbl,
     )
     assert isinstance(
-        nodes.existing.bdAny_ConditionDblMulti(multi.name),
+        bd_nodes.existing.bdAny_ConditionDblMulti(multi.name),
         BdAnyConditionDblMulti,
     )
 
@@ -656,7 +656,7 @@ def test_node_operator_connections_accessors_and_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded.existing.bdDbl_Value(
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDbl_Value(
         "result"
     ).value.get() == pytest.approx(10.0)

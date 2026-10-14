@@ -90,39 +90,39 @@
   MtoA の shape 81 種で attribute 取得、TODO なしのコード生成、構文確認、
   別 mayapy process 間の snapshot 比較を完了。
 - concrete shape 81種の generated class / public wrapper / node_attr を正式生成し、
-  `nodes.existing` の具体的な補完 stub へ反映。
+  `bd_nodes.existing` の具体的な補完 stub へ反映。
 - Maya 2025 で作成可能な concrete shape 80種を、親 Transform 必須の
-  `nodes.create.<nodeType>()` へ公開。
-- 80種すべてについて `nodes.create.with_transform.<nodeType>()` を追加し、
+  `bd_nodes.create.<nodeType>()` へ公開。
+- 80種すべてについて `bd_nodes.create.with_transform.<nodeType>()` を追加し、
   Transform と具体 Shape の一括作成、命名、undo / redo、戻り値型の補完を整備。
-- transform 派生 NodeOperator の生成と作成 API を分離し、`nodes.create` は
+- transform 派生 NodeOperator の生成と作成 API を分離し、`bd_nodes.create` は
   allowlist による段階公開へ変更。
 - Maya 2025で作成可能なconcrete transform系52種すべてを、未接続・未初期化の
-  rawノードとして`nodes.create.<nodeType>()`へ公開。親指定、具体型、命名、
+  rawノードとして`bd_nodes.create.<nodeType>()`へ公開。親指定、具体型、命名、
   undo / redoと補完stubを検証。
 - transform 派生 node の最初の既存 node 用サンプルとして、`ikHandle` /
-  `ikEffector` の具体型と `nodes.existing` 補完を追加。
+  `ikEffector` の具体型と `bd_nodes.existing` 補完を追加。
 - transform 派生 node の第二グループとして、constraint 系14種の具体型と
-  `nodes.existing` 補完を追加。専用command相当の接続はraw作成と分離。
+  `bd_nodes.existing` 補完を追加。専用command相当の接続はraw作成と分離。
 - transform 派生 node の第三グループとして、field / emitter 系11種の具体型と
-  `nodes.existing` 補完を追加。dynamics用の初期化・接続はraw作成と分離。
+  `bd_nodes.existing` 補完を追加。dynamics用の初期化・接続はraw作成と分離。
 - transform 派生 node の第四グループとして、dynamics / deformer 周辺5種の
-  具体型と `nodes.existing` 補完を追加。専用の作成手順・接続はraw作成と分離。
+  具体型と `bd_nodes.existing` 補完を追加。専用の作成手順・接続はraw作成と分離。
 - transform 派生 node の第五グループとして、HIK 系5種の具体型と
-  `nodes.existing` 補完を追加。`hikFKJoint` / `hikHandle` はnative継承に合わせて
+  `bd_nodes.existing` 補完を追加。`hikFKJoint` / `hikHandle` はnative継承に合わせて
   `Joint` / `IkHandle` を基底とし、専用作成手順はraw作成と分離。
 - transform 派生 node の第六グループとして、scene / utility 系6種の具体型と
-  `nodes.existing` 補完を追加。`lookAt` はnative継承に合わせて `AimConstraint` を
+  `bd_nodes.existing` 補完を追加。`lookAt` はnative継承に合わせて `AimConstraint` を
   基底とする。
 - transform 派生 node の第七グループとして、VarGroup 系5種の具体型と
-  `nodes.existing` 補完を追加。作成不能な抽象native基底 `baseGeometryVarGroup` も
-  `BaseGeometryVarGroup` として型階層に保持し、抽象基底だけは`nodes.create`に非公開。
+  `bd_nodes.existing` 補完を追加。作成不能な抽象native基底 `baseGeometryVarGroup` も
+  `BaseGeometryVarGroup` として型階層に保持し、抽象基底だけは`bd_nodes.create`に非公開。
 - transform 派生 node の第八グループとして、特殊transform
-  `ufeProxyTransform` / `unknownTransform` の具体型と `nodes.existing` 補完を追加。
+  `ufeProxyTransform` / `unknownTransform` の具体型と `bd_nodes.existing` 補完を追加。
   `ufePath` はruntime-defined attributeとして補い、両方をraw作成へ公開。
 - transformでもshapeでもない最後の汎用DAG `unknownDag` を、`DAG` 直系の
   `UnknownDag` として追加。Mayaが親Transformを自動作成するplaceholder nodeのため、
-  `nodes.existing` のみに公開。
+  `bd_nodes.existing` のみに公開。
 - `Transform` / `Joint`に、指定したDAGへDAG原点のworld位置を合わせる
   `match_position()`と、world姿勢を`rotate` / `rotateAxis` / `jointOrient`の
   いずれか1属性だけで合わせる属性別マッチAPIを追加。部分軸のworld / local /
@@ -160,10 +160,10 @@
 新しい利用要件が出た場合に仕様を決めるための記録です。
 
 指定範囲に実在するキーのtangent lock / weight lock一括変更と、
-`node.keyframes` / `nodes.keyframes`単位の既存カーブに対するweighted一括切り替え、
+`node.keyframes` / `bd_nodes.keyframes`単位の既存カーブに対するweighted一括切り替え、
 `AnimationClip.reversed()`による独立した逆再生clipの作成、
 `AnimationClip.extract(nodes=...)`によるnode単位の部分抽出、
-`node.keyframes` / `nodes.keyframes`単位のEuler filter、キー削減、既存キーの一括削除を実装しました。
+`node.keyframes` / `bd_nodes.keyframes`単位のEuler filter、キー削減、既存キーの一括削除を実装しました。
 
 属性単位の部分抽出はnode抽出の利用状況を確認してから再検討します。
 node / nodes単位の`move_frames()`と`scale_frames()`も実装しました。
@@ -185,7 +185,7 @@ driven key・別軸・weight・constraintのdriverを対象から除外します
 Mayaにlayerを明示したキー設定を、共通のModifierManagerで扱えます。
 layer未指定の入口も、キー設定・取得・編集をsceneのベース（root）layerへ統一しました。
 Mayaの選択layer・preferred・keying modeから独立し、rootの改名にも追従します。
-layer作成と登録も実装しました。`nodes.create.animLayer()`の戻り値へ`add_plugs()` / `add_nodes()`で
+layer作成と登録も実装しました。`bd_nodes.create.animLayer()`の戻り値へ`add_plugs()` / `add_nodes()`で
 対象を登録し、その戻り値を`anim_layer(layer)`へ渡してキー設定まで一括予約できます。
 既存layerの`remove_plugs()`で明示プラグの登録解除も予約できます。対象layerのカーブとキーは
 Mayaの解除処理により削除され、対象全件の編集可否検査とUndo / Redo・rollbackに対応します。
@@ -208,27 +208,27 @@ Mayaの解除処理により削除され、対象全件の編集可否検査とU
 | --- | --- |
 | 作成・挿入・接線変更・削除 | 属性・明示カーブの`set_key()` / `insert_key()` / `set_tangent()` / `set_tangents()` / `set_tangent_lock()` / `set_tangent_locks()` / `delete_key()` / `delete_keys()` / `delete_anim_curve()`。`tangent_type`によるin / out共通指定、個別側の上書き、単一・両端包含範囲・全キーの接線typeとキー単位のtangent / weight lock変更、Undo / Redo・rollbackに対応 |
 | 時間方向への移動 | plug・anim_layer plug・明示カーブの`move_frame()` / `move_frames()`。単一・両端包含範囲・全体の相対移動と絶対移動、衝突先の置換、任意の境界挿入。`move_frames()`はlinear / smoothstepで移動量を範囲の外側へならし、対象キー同士の衝突・順序逆転を拒否 |
-| node単位の時間移動 | `node.keyframes.move_frames()` / `nodes.keyframes.move_frames([...])`。既存TA / TL / TUカーブを属性・layer・上流経路から選び、省略側の絶対移動は全カーブの共通基準を使用。全計画後に一括適用し、Undo / Redo・rollbackへ参加 |
+| node単位の時間移動 | `node.keyframes.move_frames()` / `bd_nodes.keyframes.move_frames([...])`。既存TA / TL / TUカーブを属性・layer・上流経路から選び、省略側の絶対移動は全カーブの共通基準を使用。全計画後に一括適用し、Undo / Redo・rollbackへ参加 |
 | 時間方向への拡縮 | plug・anim_layer plug・明示カーブの`scale_frames()`。正の倍率・長さ・両端合わせ、任意時刻の`pivot`、最大4境界の補完、主区間配置先の部分置き換え（既定）とmerge。linear / smoothstepで時刻・接線Xへの影響度を補間し、Undo / Redo・rollbackに対応 |
-| node単位の時間拡縮 | `node.keyframes.scale_frames()` / `nodes.keyframes.scale_frames([...])`。既存TA / TL / TUカーブへ全対象共通の元区間・倍率・ピボットを適用。全計画後に一括変更し、Undo / Redo・rollbackへ参加 |
+| node単位の時間拡縮 | `node.keyframes.scale_frames()` / `bd_nodes.keyframes.scale_frames([...])`。既存TA / TL / TUカーブへ全対象共通の元区間・倍率・ピボットを適用。全計画後に一括変更し、Undo / Redo・rollbackへ参加 |
 | 値の設定・加算・拡縮 | `set_value(s)` / `add_value(s)` / `scale_value(s)`。単一・範囲・全体の生値を編集。ピボット、0・負の倍率、既存キーだけへのlinear / smoothstepの補間ウェイト、任意の境界挿入、接線・履歴保持に対応 |
-| キー削減 | 属性・明示カーブの`reduce_keys()`と、`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持。node / nodesでは全カーブを計画後に一括変更 |
+| キー削減 | 属性・明示カーブの`reduce_keys()`と、`node.keyframes.reduce_keys()` / `bd_nodes.keyframes.reduce_keys([...])`。TA / TL / TUの元カーブとの値の誤差を検査してキーだけを削除。残すキーの手動接線・範囲内両端・既定のbreakdown・step系の切り替わりを保持。node / nodesでは全カーブを計画後に一括変更 |
 | 小数フレームキーの打ち直し | plug・明示カーブ・node・nodesの`snap_subframe_keys()`と非root layerの`member_keyframes.snap_subframe_keys()`。元カーブを最寄りの整数時刻で評価してキーを挿入し、小数時刻の元キーを削除。形状変化は既定で許容、breakdownは既定で保持、任意の`max_deviation`で誤差を制限。衝突は自動統合せず全対象を変更前に停止 |
 | 複数キーの設定 | `set_keys()`へ`(frame, value)`の列を渡す。単純なカーブではバッチ内で取得と変更キャッシュを共有 |
 | 指定時刻の評価済み値 | plugの`sample_values()`。constraint・layer等の合成結果も取得し、`set_keys()`へ渡せる。新規layerの先頭値が古くなる問題は、上流カーブからの再評価伝播で修正 |
 | plug入力のベイク | `bake()`。ベースまたは明示layerの生入力を等間隔に評価してTA / TL / TUへ全置換。連続・離散属性を分けた接線指定、上流nodeと非対象のcompound子・layerの維持、Undo / Redo・rollbackに対応 |
-| nodeの接線一括変更 | `node.keyframes.set_tangents()` / `nodes.keyframes.set_tangents([...])`と各`set_tangent_locks()`。keyable / channelBoxまたは明示属性の既存カーブだけを対象にし、全対象を1単位で変更。接線typeでは連続・離散属性を分け、lockでは両方を対象にする |
-| nodeのキー一括削除 | `node.keyframes.delete_keys()` / `nodes.keyframes.delete_keys([...])`。両端包含・片側省略・全キーを扱い、既存カーブの実在キーだけを削除。属性・上流カーブ・root / 明示layerの選択、全対象の事前検証、Undo / Redo・rollbackに対応 |
-| nodeのEuler filter | `node.keyframes.euler_filter()` / `nodes.keyframes.euler_filter([...])`。標準rotate 3軸の同期した既存キーを静的`rotateOrder`に従ってfilterし、範囲内先頭をanchorとして姿勢を維持。ベース・明示layer、全対象の事前検証、Undo / Redo・rollbackに対応 |
+| nodeの接線一括変更 | `node.keyframes.set_tangents()` / `bd_nodes.keyframes.set_tangents([...])`と各`set_tangent_locks()`。keyable / channelBoxまたは明示属性の既存カーブだけを対象にし、全対象を1単位で変更。接線typeでは連続・離散属性を分け、lockでは両方を対象にする |
+| nodeのキー一括削除 | `node.keyframes.delete_keys()` / `bd_nodes.keyframes.delete_keys([...])`。両端包含・片側省略・全キーを扱い、既存カーブの実在キーだけを削除。属性・上流カーブ・root / 明示layerの選択、全対象の事前検証、Undo / Redo・rollbackに対応 |
+| nodeのEuler filter | `node.keyframes.euler_filter()` / `bd_nodes.keyframes.euler_filter([...])`。標準rotate 3軸の同期した既存キーを静的`rotateOrder`に従ってfilterし、範囲内先頭をanchorとして姿勢を維持。ベース・明示layer、全対象の事前検証、Undo / Redo・rollbackに対応 |
 | node入力の一括ベイク | `node.keyframes.bake()`。明示属性またはkeyable / channelBox属性をscalar leafへ展開し、静的な対象も既定でカーブ化。接線指定、全対象の事前sampling、compound共有接続の一括分割、操作全体のUndo / Redo・rollbackに対応 |
-| 複数node入力の一括ベイク | `nodes.keyframes.bake([...])`。nodeごとに存在する明示属性または自動収集した属性を全nodeで変更前にsampling。接線指定、node間を含むUndo / Redo・rollback、共通layer、総サンプル数上限に対応 |
+| 複数node入力の一括ベイク | `bd_nodes.keyframes.bake([...])`。nodeごとに存在する明示属性または自動収集した属性を全nodeで変更前にsampling。接線指定、node間を含むUndo / Redo・rollback、共通layer、総サンプル数上限に対応 |
 | 実在キーの時刻・値 | `get_keys()`。指定範囲に存在するキーだけを返し、境界補完は行わない |
 | 詳細なキー情報・カーブ全体 | `get_key_data()` / `set_key_data()`、`get_curve_data()` / `set_curve_data()`。JSON保存・復元と、未接続plug・登録済みlayerのカーブ自動作成に対応 |
 | カーブ設定 | `get_weighted()` / `set_weighted()`。変更はUndo / Redoに対応 |
 | 区間の切り出し | 両方の詳細取得APIに`start_frame` / `end_frame` / `include_boundaries=True`を実装。境界キーと調整後の接線を取得 |
 | チャンネルの自動選択 | layer未指定はベース（root）に固定。layerなし・未所属属性は単位変換・pairBlend・blendWeighted越しの通常チャンネル探索を使用。キー設定の値解決はMayaに委譲し、query・挿入・削除・詳細データも同じ対象を扱う |
 | layer指定 | `anim_layer(name)`は元managerを変えず、同じplugとModifierManagerを共有するKeyframeManagerを返す。既存layerのノード同一性・改名追従、BaseAnimationと登録済み属性、空カーブ、書込み時のlock / reference検査に対応 |
-| layer作成・登録・解除 | `nodes.create.animLayer(name=..., override=False)`でroot直下へ作成。rootがなければ同時作成。`add_plugs()`は明示leaf、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録。`remove_plugs()`は明示指定、`remove_nodes()`は指定ノード自身の全所属を解除。登録・キー設定・解除まで共通履歴で実行可能 |
+| layer作成・登録・解除 | `bd_nodes.create.animLayer(name=..., override=False)`でroot直下へ作成。rootがなければ同時作成。`add_plugs()`は明示leaf、`add_nodes()`はノード自身のkeyable・未lockの対応属性を登録。`remove_plugs()`は明示指定、`remove_nodes()`は指定ノード自身の全所属を解除。登録・キー設定・解除まで共通履歴で実行可能 |
 | 明示カーブ操作 | TA / TL / TUノードの`.keyframe`は`CurveKeyframeManager`。ノード同一性を保持し、未接続・共有出力・時間入力接続を持つカーブ自身の取得・編集・削除・保存復元に対応 |
 | 接続調査用の候補取得 | `find_anim_curves()`で具体ノードのtupleを取得。全8型、型filter、名前順、重複排除、各経路の最初のカーブでの停止に対応。通常の対象選択とは独立した補助API |
 | 詳細データの性能測定 | 専用benchmarkで取得・予約・実行・Undo / Redo・JSON変換を分離。直接接続・ベース・加算・Overrideと所属属性数を指定可能。指定範囲だけの詳細取得に加え、所属確認とlock検査のPython巡回を削減 |
@@ -337,7 +337,7 @@ clipは保存前・読込時にschema 2を検証します。ファイル操作�
 channelBox属性の任意追加、静的値の既定ベイク、compound / 実在array要素の展開、指定layerに対応します。
 全対象のsampling完了後に接続を変更し、1属性でも失敗すれば操作全体をrollbackします。
 仕様は[nodeの複数属性をまとめてベイクする](attributes.md#nodeの複数属性をまとめてベイクする)を参照してください。
-続いて複数node単位の`nodes.keyframes.bake([...])`を追加しました。明示属性名は存在するnodeだけへ
+続いて複数node単位の`bd_nodes.keyframes.bake([...])`を追加しました。明示属性名は存在するnodeだけへ
 適用し、全nodeで見つからない名前はエラーにします。全node・全属性のsamplingを先行し、
 上流・下流nodeの指定順に依存しない操作全体のUndo / Redo・rollbackに対応します。
 仕様は[複数nodeをまとめてベイクする](attributes.md#複数nodeをまとめてベイクする)を参照してください。
@@ -355,14 +355,14 @@ DAGでは現在のfull path完全一致、続いてshort nameの順でselector�
 明示名付きpending `NodeOperator`は予約名で選択します。
 名前なしpending `NodeOperator`とraw pending `MObject`は拒否し、保留中modifierを実行しません。
 属性単位の抽出は保留しています。
-続いて`node.keyframes.euler_filter()` / `nodes.keyframes.euler_filter([...])`を追加しました。
+続いて`node.keyframes.euler_filter()` / `bd_nodes.keyframes.euler_filter([...])`を追加しました。
 既存のrotate 3軸カーブだけを対象に、指定範囲の同期キーをnodeの静的`rotateOrder`でfilterします。
 範囲内先頭キーをanchorとして姿勢を維持し、ベース・明示layer、全対象の事前検証、
 Undo / Redo・rollbackに対応します。
-続いて`node.keyframes.reduce_keys()` / `nodes.keyframes.reduce_keys([...])`を追加しました。
+続いて`node.keyframes.reduce_keys()` / `bd_nodes.keyframes.reduce_keys([...])`を追加しました。
 既存の削減コアと属性・layer選択を共有し、全対象の削減計画を完了してから1つの履歴で変更します。
 同じmanagerへ先に予約したベイク結果も実行時に解決して削減します。
-続いて`node.keyframes.delete_keys()` / `nodes.keyframes.delete_keys([...])`を追加しました。
+続いて`node.keyframes.delete_keys()` / `bd_nodes.keyframes.delete_keys([...])`を追加しました。
 既存カーブの実在キーだけを対象にし、属性・layer選択と上流探索をnode一括操作で共有します。
 全対象の解決・書込み検査と削除indexの計画後に変更し、先行するベイクや復元にも追従します。
 2026-09-24、利用者によるMaya上での動作確認とpushまで完了しました（`c529be15`）。
@@ -424,7 +424,7 @@ Undo / Redoと途中失敗時rollbackを共通経路で扱います。
 指定する`tangent_type`を追加しました。個別の`in_tangent_type` / `out_tangent_type`は
 該当側だけ共通値を上書きします。単数版の接線引数もkeyword専用へ揃えました。
 
-`node.keyframes.set_tangents()` / `nodes.keyframes.set_tangents([...])`は、ベイクと同じ
+`node.keyframes.set_tangents()` / `bd_nodes.keyframes.set_tangents([...])`は、ベイクと同じ
 属性収集・layer選択を使い、既存カーブ・既存キーだけを1操作で変更します。通常の接線指定は
 連続属性だけに適用し、bool・enum・整数系は`discrete_tangent_type`を明示した場合だけ
 in / out両側を変更します。静的属性、カーブなし、該当キーなしはno-opです。
@@ -474,7 +474,7 @@ node列はNodeOperator / MObject / node名を受け取り、空列と重複node�
 
 自動収集はnodeごとに行い、対象0件のnodeをスキップします。明示属性は存在するnodeだけへ
 適用し、全nodeで一度も見つからない名前をエラーにします。存在する未対応・lock・layer未所属属性は
-単一node版と同じくエラーです。指定layerは`nodes.keyframes.anim_layer()`で全nodeへ共通適用します。
+単一node版と同じくエラーです。指定layerは`bd_nodes.keyframes.anim_layer()`で全nodeへ共通適用します。
 
 全nodeのtargetを1つの`queue_bakes()`へ渡すため、上流・下流nodeを同時指定しても
 全サンプル取得後まで接続を変更しません。検証失敗を含む途中失敗では全nodeをrollbackし、
@@ -553,7 +553,7 @@ TA / TL / TUは`addKeysWithTangents()`を使い、`setTangent()`で短いweighte
 ### 完了: node / nodes単位の`move_frames()`
 
 既存のplug・anim_layer plug・明示カーブ用`move_frames()`を、
-`node.keyframes` / `nodes.keyframes`の属性選択へ展開しました。移動コアを共有し、
+`node.keyframes` / `bd_nodes.keyframes`の属性選択へ展開しました。移動コアを共有し、
 node一括接線・weighted・削減・削除と同じ対象選択と履歴契約へ揃えています。
 
 - `attributes` / `include_channel_box`、複数nodeの属性名のunion、NodeOperator / MObject / node名、
@@ -583,7 +583,7 @@ plug版の`test_keyframe_move.py` / `test_keyframe_move_interpolation.py`を回�
 ### 完了: node / nodes単位の`scale_frames()`
 
 既存のplug・anim_layer plug・明示カーブ用`scale_frames()`を、
-`node.keyframes` / `nodes.keyframes`の属性選択へ展開しました。
+`node.keyframes` / `bd_nodes.keyframes`の属性選択へ展開しました。
 `attributes` / `include_channel_box`、属性名のunion、root / 明示layer、上流探索、
 既存TA / TL / TUカーブだけの編集はnode単位の移動と同じです。
 
@@ -812,7 +812,7 @@ pathを明示的に選択するAPIは、必要な利用例が揃った段階で�
 最初の shape 作成 API は、親 `Transform` を必須として公開しました。
 
 ```python
-mesh = nodes.create.mesh(
+mesh = bd_nodes.create.mesh(
     name="meshShape",
     parent=transform,
 )
@@ -829,81 +829,81 @@ undo / redo、命名、親との `ModifierManager` 共有を検証済みです�
 
 第二段階として、Maya 標準 light shape の `ambientLight` / `areaLight` /
 `directionalLight` / `pointLight` / `spotLight` / `volumeLight` も同じ条件で検証し、
-`nodes.create` へ公開済みです。MtoA ロード時は、生成済みの Arnold attribute も
+`bd_nodes.create` へ公開済みです。MtoA ロード時は、生成済みの Arnold attribute も
 利用できます。
 
 第三段階として、MtoA をロードした Maya 上で Arnold 固有 light shape の
 `aiAreaLight` / `aiLightPortal` / `aiMeshLight` / `aiPhotometricLight` /
-`aiSkyDomeLight` を検証し、`nodes.create` へ公開済みです。
+`aiSkyDomeLight` を検証し、`bd_nodes.create` へ公開済みです。
 
 第四段階として、残る Arnold 固有 shape の `aiCurveCollector` /
 `aiLightBlocker` / `aiStandIn` / `aiVolume` も raw shape としての作成、命名、
-親子関係、undo / redo を検証し、`nodes.create` へ公開済みです。ファイル指定や
+親子関係、undo / redo を検証し、`bd_nodes.create` へ公開済みです。ファイル指定や
 geometry・shader 接続などの用途別初期化は、高レベル API の候補として分離します。
 
 第五段階として、Maya 標準 geometry shape の `baseLattice` / `bezierCurve` /
-`lattice` / `subdiv` を個別のシーンで検証し、`nodes.create` へ公開済みです。
+`lattice` / `subdiv` を個別のシーンで検証し、`bd_nodes.create` へ公開済みです。
 geometry データや lattice 分割数などの内容初期化は raw shape 作成と分離します。
 
 第六段階として、Maya 標準 primitive shape の `implicitBox` / `implicitCone` /
 `implicitSphere` / `renderBox` / `renderCone` / `renderRect` / `renderSphere` を
-個別のシーンで検証し、`nodes.create` へ公開済みです。size や radius などの
+個別のシーンで検証し、`bd_nodes.create` へ公開済みです。size や radius などの
 値設定は raw shape 作成と分離します。
 
 第七段階として、Maya 標準の計測・注釈 shape `angleDimension` /
 `annotationShape` / `arcLengthDimension` / `distanceDimShape` / `paramDimension` を
-個別のシーンで検証し、`nodes.create` へ公開済みです。計測点、表示テキスト、
+個別のシーンで検証し、`bd_nodes.create` へ公開済みです。計測点、表示テキスト、
 NURBS geometry との接続などの用途別初期化は raw shape 作成と分離します。
 
 第八段階として、Maya 標準の補助 locator・marker・handle shape `clusterHandle` /
 `directedDisc` / `dropoffLocator` / `hikFloorContactMarker` / `motionTrailShape` /
 `orientationMarker` / `positionMarker` / `softModHandle` を個別のシーンで検証し、
-`nodes.create` へ公開済みです。deformer、motion path、HIK などとの接続や
+`bd_nodes.create` へ公開済みです。deformer、motion path、HIK などとの接続や
 用途別初期化は raw shape 作成と分離します。`SphereLocator` は Maya 2025 の
 標準状態で `invalid node type` となるため、未公開のまま維持します。
 
 第九段階として、Maya 標準の非線形 deformer 表示 shape `deformBend` /
 `deformFlare` / `deformSine` / `deformSquash` / `deformTwist` / `deformWave` を
-個別のシーンで検証し、`nodes.create` へ公開済みです。対応する deformer node
+個別のシーンで検証し、`bd_nodes.create` へ公開済みです。対応する deformer node
 との接続や `deformerData` の初期化は raw shape 作成と分離します。
 
 第十段階として、Maya 標準の deformation connection helper shape
 `clusterFlexorShape` / `flexorShape` / `geoConnectable` を個別のシーンで検証し、
-`nodes.create` へ公開済みです。driver、flexor、surface geometry などとの接続は
+`bd_nodes.create` へ公開済みです。driver、flexor、surface geometry などとの接続は
 raw shape 作成と分離します。
 
 第十一段階として、Maya 標準のシーン表示・カメラ補助 shape `imagePlane` /
 `sketchPlane` / `snapshotShape` / `stereoRigCamera` を個別のシーンで検証し、
-`nodes.create` へ公開済みです。画像ファイル、描画内容、snapshot frame、
+`bd_nodes.create` へ公開済みです。画像ファイル、描画内容、snapshot frame、
 stereo camera 接続などの用途別初期化は raw shape 作成と分離します。
 
 第十二段階として、Maya 標準のレンダリング・環境表現補助 shape `environmentFog` /
 `fluidTexture2D` / `fluidTexture3D` / `heightField` を個別のシーンで検証し、
-`nodes.create` へ公開済みです。camera、fluid data、texture、displacement などとの
+`bd_nodes.create` へ公開済みです。camera、fluid data、texture、displacement などとの
 接続や用途別初期化は raw shape 作成と分離します。
 
 第十三段階として、Maya 標準の描画・Paint Effects 補助 shape `greasePlane` /
 `greasePlaneRenderShape` / `lineModifier` / `pfxHair` / `pfxToon` / `stroke` を
-個別のシーンで検証し、`nodes.create` へ公開済みです。image、brush、hair / toon
+個別のシーンで検証し、`bd_nodes.create` へ公開済みです。image、brush、hair / toon
 input、render geometry、line modifier などの接続や用途別初期化は raw shape 作成と
 分離します。
 
 第十四段階として、Maya 標準の hair・dynamics 補助 shape `dynamicConstraint` /
 `dynHolder` / `follicle` / `hairConstraint` / `hairSystem` / `spring` を個別のシーンで
-検証し、`nodes.create` へ公開済みです。simulation設定、constraint component、
+検証し、`bd_nodes.create` へ公開済みです。simulation設定、constraint component、
 hair curve、surface、solverなどとの接続や用途別初期化は raw shape 作成と分離します。
 
 第十五段階として、Maya 標準の simulation body shape `fluidShape` / `nCloth` /
 `nParticle` / `nRigid` / `particle` / `rigidBody` を個別のシーンで検証し、
-`nodes.create` へ公開済みです。geometry・particle data、initial state、nucleus・
+`bd_nodes.create` へ公開済みです。geometry・particle data、initial state、nucleus・
 rigid solver などとの接続や用途別初期化は raw shape 作成と分離します。
 
 第十六段階として、Maya 標準の `ufeProxyCameraShape` を標準起動状態で検証し、
-`nodes.create` へ公開済みです。UFE scene item や camera との関連付けなどの用途別初期化は
+`bd_nodes.create` へ公開済みです。UFE scene item や camera との関連付けなどの用途別初期化は
 raw shape 作成と分離します。残る `SphereLocator` は node type 自体が登録されておらず、
 `MDagModifier.createNode()` が `invalid node type` となるため非公開のまま維持します。
 
-全 shape class の生成後も、`nodes.create` には作成検証済み type だけを
+全 shape class の生成後も、`bd_nodes.create` には作成検証済み type だけを
 明示的に opt-in します。生成済み concrete shape 81種のうち、Maya 2025 で
 作成可能な80種を公開済みです。
 
@@ -912,7 +912,7 @@ raw shape 作成と分離します。残る `SphereLocator` は node type 自体
 親 Transform 必須の raw shape 作成とは別に、次の一括作成 API を公開済みです。
 
 ```python
-transform, mesh = nodes.create.with_transform.mesh(name="mesh")
+transform, mesh = bd_nodes.create.with_transform.mesh(name="mesh")
 mod.do_it_dag()
 ```
 
@@ -922,9 +922,9 @@ mod.do_it_dag()
 `parent` で指定できます。
 
 検証済み80種すべてについて具体 shape 型の補完を提供し、raw 作成は引き続き
-`nodes.create.<nodeType>(parent=transform)` として区別します。
+`bd_nodes.create.<nodeType>(parent=transform)` として区別します。
 
-同じ `nodes.create.<nodeType>()` の `parent` の有無で切り替える方式は採用しません。
+同じ `bd_nodes.create.<nodeType>()` の `parent` の有無で切り替える方式は採用しません。
 その方式では、指定漏れによる意図しない Transform 作成、条件による戻り値型の変化、
 `name` と `parent` の意味の変化が生じるためです。raw API は常に Shape のみ、
 `with_transform` API は常に Transform と Shape の両方を作成する契約に固定します。

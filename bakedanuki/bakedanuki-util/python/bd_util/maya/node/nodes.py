@@ -177,7 +177,7 @@ class Nodes:
         return self._create.namespace
 
     def set_namespace(self, namespace: str | None) -> Self:
-        """以後の `nodes.create` だけに適用する既定 namespace を設定する。
+        """以後の `bd_nodes.create` だけに適用する既定 namespace を設定する。
 
         予約済みノードと既存ノードは変更しない。namespace 自体はノード作成の
         `do_it_dg()` / `do_it_dag()` 時に必要なら作成する。

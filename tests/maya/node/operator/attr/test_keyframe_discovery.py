@@ -36,8 +36,8 @@ def test_all_curve_types_are_discoverable_with_concrete_wrappers(
     curve_type = "animCurve" + suffix
     name = _connect_curve(maya_cmds, node + ".tx", "candidate", curve_type)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    keyframe = nodes.existing.transform(node).translate.translateX.keyframe
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    keyframe = bd_nodes.existing.transform(node).translate.translateX.keyframe
     candidates = keyframe.find_anim_curves()
     assert isinstance(candidates, tuple) and len(candidates) == 1
     curve = candidates[0]
@@ -61,7 +61,7 @@ def test_blend_candidates_sort_deduplicate_and_filter_after_stopping(
     weight = _connect_curve(maya_cmds, blend + ".weight[0]", "mWeight")
     keyframe = _keyframe(blend + ".output")
     assert _names(keyframe) == (b, weight, a)
-    nodes = bdu.Nodes()
+    bd_nodes = bdu.Nodes()
     assert _names(keyframe, filter_type=bdu.node_types.AnimCurveTU) == (
         weight,
         a,
@@ -136,9 +136,9 @@ def test_query_has_no_scene_history_or_pending_modifier_side_effects(
 ):
     target = maya_cmds.createNode("transform")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    node = nodes.existing.transform(target)
-    curve = nodes.create.animCurveTL(name="pendingCurve")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    node = bd_nodes.existing.transform(target)
+    curve = bd_nodes.create.animCurveTL(name="pendingCurve")
     curve.output.connect(node.translate.translateX)
     curve.keyframe.set_key(2, 1)
     maya_cmds.select(target)
@@ -211,8 +211,8 @@ def test_invalid_filter_rejected_without_needing_a_candidate(
 
 def test_pending_or_deleted_root_is_an_error(maya_cmds):
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    curve = nodes.create.animCurveTL(name="pending")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    curve = bd_nodes.create.animCurveTL(name="pending")
     keyframe = curve.output.keyframe
     with pytest.raises(RuntimeError, match="not available"):
         keyframe.find_anim_curves()

@@ -32,39 +32,39 @@ class CreateTransformsResult:
 
 
 def queue_create_transforms(
-    nodes: Nodes,
+    bd_nodes: Nodes,
     params: CreateTransformsParams,
 ) -> tuple[Transform, ...]:
     """transform ノードの作成を共有 `ModifierManager` に予約する。
 
     Args:
-        nodes: 作成に使う `Nodes`。その `modifier_manager` に操作を積む。
+        bd_nodes: 作成に使う `Nodes`。その `modifier_manager` に操作を積む。
         params: `prefix` と `count` を保持する作成条件。
 
     Returns:
         実行前の transform ノード。
     """
     return tuple(
-        nodes.create.transform(name=f"{params.prefix}{index + 1}")
+        bd_nodes.create.transform(name=f"{params.prefix}{index + 1}")
         for index in range(params.count)
     )
 
 
 def apply_create_transforms(
-    nodes: Nodes,
+    bd_nodes: Nodes,
     params: CreateTransformsParams,
 ) -> CreateTransformsResult:
     """transform ノードを作成し、DAG modifier を実行する。
 
     Args:
-        nodes: 作成に使う `Nodes`。その `modifier_manager` を実行する。
+        bd_nodes: 作成に使う `Nodes`。その `modifier_manager` を実行する。
         params: `prefix` と `count` を保持する作成条件。
 
     Returns:
         作成したノード名を保持する結果。
     """
-    transforms = queue_create_transforms(nodes, params)
-    nodes.modifier_manager.do_it_dag()
+    transforms = queue_create_transforms(bd_nodes, params)
+    bd_nodes.modifier_manager.do_it_dag()
     return CreateTransformsResult(
         node_names=tuple(transform.name for transform in transforms)
     )

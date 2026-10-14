@@ -579,21 +579,21 @@ def test_node_operator_creation_and_existing_accessor(
     from bd_util.maya.node.operator.node.dg.bd_dbl_a_add import BdDblAAdd
     from bd_util.maya.node.operator.node.dg.bd_dbl_a_min import BdDblAMin
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    add_node = nodes.create.bdDblA_Add(name="angle_add")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    add_node = bd_nodes.create.bdDblA_Add(name="angle_add")
     add_node.input1.set(350.0)
     add_node.input2.set(20.0)
-    min_node = nodes.create.bdDblA_Min(name="angle_min")
+    min_node = bd_nodes.create.bdDblA_Min(name="angle_min")
     min_node.input1.set(-10.0)
     min_node.input2.set(350.0)
     modifier_manager.do_it_dg()
 
     assert isinstance(add_node, BdDblAAdd)
     assert add_node.output.get() == pytest.approx(370.0)
-    assert isinstance(nodes.existing.bdDblA_Add("angle_add"), BdDblAAdd)
+    assert isinstance(bd_nodes.existing.bdDblA_Add("angle_add"), BdDblAAdd)
     assert isinstance(min_node, BdDblAMin)
     assert min_node.output.get() == pytest.approx(-10.0)
-    assert isinstance(nodes.existing.bdDblA_Min("angle_min"), BdDblAMin)
+    assert isinstance(bd_nodes.existing.bdDblA_Min("angle_min"), BdDblAMin)
 
 
 def test_new_angle_node_operator_creation_and_existing_accessors(
@@ -612,16 +612,16 @@ def test_new_angle_node_operator_creation_and_existing_accessors(
         "bdDblA_LerpShortest",
         "bdDbl_RatioDblA",
     )
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
     created = [
-        getattr(nodes.create, node_type)(name=f"angle_new_{index}")
+        getattr(bd_nodes.create, node_type)(name=f"angle_new_{index}")
         for index, node_type in enumerate(node_types)
     ]
     modifier_manager.do_it_dg()
 
     for node_type, node in zip(node_types, created):
         assert node.NODE_TYPE == node_type
-        existing = getattr(nodes.existing, node_type)(node.name)
+        existing = getattr(bd_nodes.existing, node_type)(node.name)
         assert existing.NODE_TYPE == node_type
 
 
@@ -676,8 +676,8 @@ def test_angle_node_survives_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblA_Subtract(name="angle_subtract")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDblA_Subtract(name="angle_subtract")
     node.input1.set(10.0)
     node.input2.set(350.0)
     modifier_manager.do_it_dg()
@@ -688,8 +688,8 @@ def test_angle_node_survives_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded.existing.bdDblA_Subtract(
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDblA_Subtract(
         "angle_subtract"
     ).output.get() == pytest.approx(-340.0)
 
@@ -701,9 +701,9 @@ def test_periodic_angle_nodes_survive_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    lerp = nodes.create.bdDblA_LerpShortest(name="angle_lerp_shortest")
-    wrap = nodes.create.bdDblA_Wrap(name="angle_wrap")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    lerp = bd_nodes.create.bdDblA_LerpShortest(name="angle_lerp_shortest")
+    wrap = bd_nodes.create.bdDblA_Wrap(name="angle_wrap")
     lerp.input1.set(350.0)
     lerp.input2.set(10.0)
     lerp.weight.set(1.0)
@@ -716,10 +716,10 @@ def test_periodic_angle_nodes_survive_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert reloaded.existing.bdDblA_LerpShortest(
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert bd_nodes_reloaded.existing.bdDblA_LerpShortest(
         "angle_lerp_shortest"
     ).output.get() == pytest.approx(370.0)
-    assert reloaded.existing.bdDblA_Wrap(
+    assert bd_nodes_reloaded.existing.bdDblA_Wrap(
         "angle_wrap"
     ).output.get() == pytest.approx(10.0)

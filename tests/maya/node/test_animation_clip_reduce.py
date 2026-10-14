@@ -286,9 +286,9 @@ def test_scene_history_pending_edits_and_input_survive_success_or_late_failure(
     maya_cmds.setAttr("selected.ty", 8)
     maya_cmds.undo()
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    nodes.create.multiplyDivide(name="pending")
-    nodes.existing("selected").tx.keyframe.set_key(99, frame=7)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes.create.multiplyDivide(name="pending")
+    bd_nodes.existing("selected").tx.keyframe.set_key(99, frame=7)
     maya_cmds.file(modified=dirty)
     scene = _state(maya_cmds)
     original = _keyframe_reduce.reduce_curve

@@ -271,8 +271,8 @@ def test_node_operator_creation_and_existing_accessor(
         BdDblLRightTriangle,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblL_RightTriangle(name="right_triangle")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDblL_RightTriangle(name="right_triangle")
     node.solveFor.set(node.solveFor.LEGA)
     node.legB.set(4.0)
     node.hypotenuse.set(5.0)
@@ -283,7 +283,7 @@ def test_node_operator_creation_and_existing_accessor(
     assert node.output.get() == pytest.approx(3.0)
     assert node.isValid.get() is True
     assert isinstance(
-        nodes.existing.bdDblL_RightTriangle("right_triangle"),
+        bd_nodes.existing.bdDblL_RightTriangle("right_triangle"),
         BdDblLRightTriangle,
     )
 
@@ -295,8 +295,8 @@ def test_node_survives_scene_round_trip(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblL_RightTriangle(name="right_triangle")
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = bd_nodes.create.bdDblL_RightTriangle(name="right_triangle")
     node.solveFor.set(node.solveFor.LEGB)
     node.legA.set(3.0)
     node.hypotenuse.set(5.0)
@@ -308,7 +308,9 @@ def test_node_survives_scene_round_trip(
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene_path), open=True, force=True)
 
-    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    loaded_node = reloaded.existing.bdDblL_RightTriangle("right_triangle")
+    bd_nodes_reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    loaded_node = bd_nodes_reloaded.existing.bdDblL_RightTriangle(
+        "right_triangle"
+    )
     assert loaded_node.output.get() == pytest.approx(4.0)
     assert loaded_node.isValid.get() is True

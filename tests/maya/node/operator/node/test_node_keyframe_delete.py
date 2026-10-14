@@ -69,17 +69,17 @@ def test_node_supports_one_sided_single_and_all_key_ranges(maya_cmds):
     targets = [maya_cmds.createNode("transform") for _ in range(4)]
     curves = [_curve(maya_cmds, target + ".tx") for target in targets]
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    nodes.existing.transform(targets[0]).keyframes.delete_keys(
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes.existing.transform(targets[0]).keyframes.delete_keys(
         end_frame=0, attributes=["tx"]
     )
-    nodes.existing.transform(targets[1]).keyframes.delete_keys(
+    bd_nodes.existing.transform(targets[1]).keyframes.delete_keys(
         start_frame=5, attributes=["tx"]
     )
-    nodes.existing.transform(targets[2]).keyframes.delete_keys(
+    bd_nodes.existing.transform(targets[2]).keyframes.delete_keys(
         1.5, 1.5, attributes=["tx"]
     )
-    nodes.existing.transform(targets[3]).keyframes.delete_keys(
+    bd_nodes.existing.transform(targets[3]).keyframes.delete_keys(
         attributes=["tx"]
     )
     manager.do_it_dg()
@@ -205,11 +205,11 @@ def test_nodes_accept_mixed_nodes_and_apply_attribute_union(maya_cmds):
     )
     custom = _curve(maya_cmds, first + ".custom")
     manager = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=manager)
-    second_node = nodes.existing.transform(second)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
+    second_node = bd_nodes.existing.transform(second)
     third_object = om.MSelectionList().add(third).getDependNode(0)
 
-    nodes.keyframes.delete_keys(
+    bd_nodes.keyframes.delete_keys(
         [first, second_node, third_object],
         0,
         5,
@@ -292,14 +292,14 @@ def test_node_delete_rejects_invalid_arguments(maya_cmds):
     with pytest.raises(TypeError, match="attributes"):
         node.keyframes.delete_keys(attributes="tx")
 
-    nodes = bdu.Nodes(modifier_manager=manager)
+    bd_nodes = bdu.Nodes(modifier_manager=manager)
     with pytest.raises(ValueError, match="at least one"):
-        nodes.keyframes.delete_keys([])
+        bd_nodes.keyframes.delete_keys([])
     with pytest.raises(TypeError, match="iterable"):
-        nodes.keyframes.delete_keys(target)
+        bd_nodes.keyframes.delete_keys(target)
     with pytest.raises(ValueError, match="Duplicate"):
-        nodes.keyframes.delete_keys([target, node])
-    nodes.keyframes.delete_keys([target], attributes=["missing"])
+        bd_nodes.keyframes.delete_keys([target, node])
+    bd_nodes.keyframes.delete_keys([target], attributes=["missing"])
     with pytest.raises(ValueError, match="do not exist"):
         manager.do_it_dg()
     assert not manager.can_undo

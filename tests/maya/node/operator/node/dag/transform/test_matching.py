@@ -163,9 +163,9 @@ def test_match_position_matches_dag_origin_and_supports_undo_redo(
     _set_offset_parent_rotation(maya_cmds, maya_om, destination, 35.0)
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
     original_matrix = destination_node.worldMatrix[0].get().matrix
     original_translate = destination_node.translate.get()
 
@@ -247,15 +247,15 @@ def test_match_position_projects_delta_onto_selected_space_axes(
     )
     expected = before + masked_basis_delta.rotateBy(basis_rotation)
 
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
     destination_node.match_position(
         source_node,
         axes=axes,
         space=space,
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_vector_close(
         _world_position(maya_cmds, destination),
@@ -297,16 +297,16 @@ def test_match_position_can_compensate_direct_child_world_pose(
         for child in children
     }
 
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = getattr(nodes.existing, node_type)(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = getattr(bd_nodes.existing, node_type)(destination)
     destination_node.match_position(
         source_node,
         axes=axes,
         space=space,
         compensate_children=True,
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     for child, original_matrix in original_child_matrices.items():
         _assert_matrix_close(
@@ -330,11 +330,11 @@ def test_match_position_accepts_shape_source(
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{source_transform}.translate", 3.0, 5.0, 7.0)
 
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.mesh(source_shape)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.mesh(source_shape)
+    destination_node = bd_nodes.existing.transform(destination)
     destination_node.match_position(source_node)
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_vector_close(
         _world_position(maya_cmds, destination),
@@ -354,11 +354,11 @@ def test_match_position_ignores_blocked_unchanged_translate_plug(
     maya_cmds.setAttr(f"{destination}.translate", 1.0, 2.0, 3.0)
     maya_cmds.setAttr(f"{destination}.translateY", lock=True)
 
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
     destination_node.match_position(source_node, axes="x")
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     assert destination_node.translate.get() == pytest.approx((10.0, 2.0, 3.0))
 
@@ -373,9 +373,9 @@ def test_match_position_rejects_blocked_required_translate_plug(
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{source}.translateX", 10.0)
     maya_cmds.setAttr(f"{destination}.translateX", lock=True)
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
 
     with pytest.raises(RuntimeError, match=r"destination\.translateX"):
         destination_node.match_position(source_node, axes="x")
@@ -395,9 +395,9 @@ def test_match_position_rejects_connected_required_translate_plug(
         f"{driver}.translateX",
         f"{destination}.translateX",
     )
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
 
     with pytest.raises(RuntimeError, match=r"destination\.translateX"):
         destination_node.match_position(source_node, axes="x")
@@ -426,9 +426,9 @@ def test_match_position_rejects_invalid_options(
 
     source = maya_cmds.createNode("transform", name="source")
     destination = maya_cmds.createNode("transform", name="destination")
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
 
     with pytest.raises(error_type, match=argument_name):
         destination_node.match_position(
@@ -485,9 +485,9 @@ def test_match_rotation_methods_match_world_rotation_and_support_undo_redo(
     _set_offset_parent_rotation(maya_cmds, maya_om, destination, 23.0)
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    source_node = nodes.existing.transform(source)
-    destination_node = getattr(nodes.existing, node_type)(destination)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = getattr(bd_nodes.existing, node_type)(destination)
     attribute_names = _rotation_attributes(node_type)
     original_values = {
         name: tuple(getattr(destination_node, name).get())
@@ -559,12 +559,12 @@ def test_match_rotation_accepts_shape_source(
     )
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{source_transform}.rotate", 17.0, -23.0, 31.0)
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.mesh(source_shape)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.mesh(source_shape)
+    destination_node = bd_nodes.existing.transform(destination)
 
     destination_node.match_rotation_to_rotate(source_node)
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
@@ -583,14 +583,14 @@ def test_match_rotation_does_not_compensate_dag_origin_for_rotate_pivot(
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{source}.rotateZ", 90.0)
     maya_cmds.setAttr(f"{destination}.rotatePivotX", 5.0)
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
     original_position = _world_position(maya_cmds, destination)
     original_translate = destination_node.translate.get()
 
     destination_node.match_rotation_to_rotate(source_node)
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
@@ -638,16 +638,16 @@ def test_match_rotation_can_compensate_direct_child_world_pose(
     original_joint_rotate = maya_cmds.getAttr(f"{joint_child}.rotate")[0]
     original_joint_orient = maya_cmds.getAttr(f"{joint_child}.jointOrient")[0]
 
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = getattr(nodes.existing, node_type)(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = getattr(bd_nodes.existing, node_type)(destination)
     getattr(destination_node, method_name)(
         source_node,
         compensate_children=True,
         compensate_child_translate=True,
         joint_child_compensation_attr=joint_child_compensation_attr,
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
@@ -700,14 +700,14 @@ def test_match_rotation_child_compensation_keeps_translate_by_default(
         child: _world_rotation(maya_cmds, maya_om, child) for child in children
     }
 
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = getattr(nodes.existing, node_type)(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = getattr(bd_nodes.existing, node_type)(destination)
     getattr(destination_node, method_name)(
         source_node,
         compensate_children=True,
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     for child in children:
         assert maya_cmds.getAttr(f"{child}.translate")[0] == pytest.approx(
@@ -729,9 +729,9 @@ def test_match_rotation_rejects_blocked_selected_plug(
     destination = maya_cmds.createNode("joint", name="destination")
     maya_cmds.setAttr(f"{source}.rotateY", 20.0)
     maya_cmds.setAttr(f"{destination}.jointOrientY", lock=True)
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.joint(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.joint(destination)
 
     with pytest.raises(RuntimeError, match=r"destination\.jointOrientY"):
         destination_node.match_rotation_to_joint_orient(source_node)
@@ -748,12 +748,12 @@ def test_match_rotation_ignores_blocked_untouched_rotation_plug(
     destination = maya_cmds.createNode("joint", name="destination")
     maya_cmds.setAttr(f"{source}.rotate", 10.0, 20.0, 30.0)
     maya_cmds.setAttr(f"{destination}.rotateAxisX", lock=True)
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.joint(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.joint(destination)
 
     destination_node.match_rotation_to_joint_orient(source_node)
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
@@ -807,9 +807,9 @@ def test_match_rotation_rejects_invalid_child_compensation_options(
 
     source = maya_cmds.createNode("transform", name="source")
     destination = maya_cmds.createNode("joint", name="destination")
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.joint(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.joint(destination)
 
     with pytest.raises(error_type, match=message):
         getattr(destination_node, method_name)(source_node, **options)
@@ -833,9 +833,9 @@ def test_match_rotation_validates_child_compensation_before_queueing(
     maya_cmds.setAttr(f"{child}.jointOrientX", lock=True)
     original_rotate_axis = maya_cmds.getAttr(f"{destination}.rotateAxis")[0]
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
 
     with pytest.raises(RuntimeError, match=r"child\.jointOrientX"):
         destination_node.match_rotation_to_rotate_axis(
@@ -864,9 +864,9 @@ def test_match_rotation_noop_ignores_blocked_child_compensation_plug(
         parent=destination,
     )
     maya_cmds.setAttr(f"{child}.rotateX", lock=True)
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
 
     assert (
         destination_node.match_rotation_to_rotate(
@@ -913,9 +913,9 @@ def test_match_methods_reject_effectively_singular_parent_matrix(
         )
     }
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.joint(destination)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.joint(destination)
 
     with pytest.raises(
         RuntimeError, match="invertible effective parent matrix"
@@ -942,9 +942,9 @@ def test_match_methods_require_dag_source(
 
     destination = maya_cmds.createNode("transform", name="destination")
     source = maya_cmds.createNode("plusMinusAverage", name="source")
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
-    source_node = nodes.existing.plusMinusAverage(source)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
+    source_node = bd_nodes.existing.plusMinusAverage(source)
 
     with pytest.raises(TypeError, match="source must be DAG"):
         getattr(destination_node, method_name)(source_node)
@@ -961,9 +961,9 @@ def test_match_methods_reject_instanced_dag(
     source = maya_cmds.createNode("transform", name="source")
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.instance(source if instanced_node == "source" else destination)
-    nodes = bdu.Nodes()
-    source_node = nodes.existing.transform(source)
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    source_node = bd_nodes.existing.transform(source)
+    destination_node = bd_nodes.existing.transform(destination)
 
     with pytest.raises(RuntimeError, match="instanced DAG"):
         destination_node.match_position(source_node)

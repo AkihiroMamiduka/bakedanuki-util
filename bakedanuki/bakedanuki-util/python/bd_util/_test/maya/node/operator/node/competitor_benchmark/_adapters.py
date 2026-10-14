@@ -211,13 +211,13 @@ class NodeOperatorAdapter(BaseBenchmarkAdapter):
             "scalar_set",
         }:
             self._active_modifier = self._modifier_manager_cls()
-            self._active_nodes = self._nodes_cls(
+            self._active_bd_nodes = self._nodes_cls(
                 modifier_manager=self._active_modifier
             )
         return super().setup_scenario(scenario_name)
 
     def wrap_node(self, node_name: str) -> Any:
-        return self._active_nodes.existing.multiplyDivide(node_name)
+        return self._active_bd_nodes.existing.multiplyDivide(node_name)
 
     def scalar_plug(self, node: Any) -> Any:
         return node.input1X
@@ -237,19 +237,19 @@ class NodeOperatorAdapter(BaseBenchmarkAdapter):
 
     def create_nodes(self, count: int) -> OperationResult:
         modifier = self._modifier_manager_cls()
-        nodes = self._nodes_cls(modifier_manager=modifier)
+        bd_nodes = self._nodes_cls(modifier_manager=modifier)
         for _ in range(count):
-            nodes.create.multiplyDivide()
+            bd_nodes.create.multiplyDivide()
         modifier.do_it_dg()
         return OperationResult()
 
     def create_connect_chain(self, count: int) -> OperationResult:
         modifier = self._modifier_manager_cls()
-        nodes = self._nodes_cls(modifier_manager=modifier)
+        bd_nodes = self._nodes_cls(modifier_manager=modifier)
         previous = None
         last_destination = None
         for _ in range(count):
-            node = nodes.create.multiplyDivide()
+            node = bd_nodes.create.multiplyDivide()
             if previous is not None:
                 last_destination = node.input1X
                 previous.outputX.connect(last_destination)
@@ -263,12 +263,12 @@ class NodeOperatorAdapter(BaseBenchmarkAdapter):
 
     def create_matrix_graph(self, count: int) -> OperationResult:
         modifier = self._modifier_manager_cls()
-        nodes = self._nodes_cls(modifier_manager=modifier)
+        bd_nodes = self._nodes_cls(modifier_manager=modifier)
         last_destination = None
         for _ in range(count):
-            compose = nodes.create.composeMatrix()
-            mult = nodes.create.multMatrix()
-            decompose = nodes.create.decomposeMatrix()
+            compose = bd_nodes.create.composeMatrix()
+            mult = bd_nodes.create.multMatrix()
+            decompose = bd_nodes.create.decomposeMatrix()
             compose.outputMatrix.connect(mult.matrixIn[0])
             mult.matrixSum.connect(decompose.inputMatrix)
             last_destination = decompose.inputMatrix

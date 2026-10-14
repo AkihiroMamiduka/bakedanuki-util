@@ -242,8 +242,8 @@ def test_capture_leaves_pending_edits_and_scene_state(maya_cmds):
     cmds = maya_cmds
     node = _node(cmds, "source")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    nodes.existing.transform(node).tx.keyframe.set_key(999, 3)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes.existing.transform(node).tx.keyframe.set_key(999, 3)
     cmds.currentTime(17)
     cmds.select(node)
     cmds.flushUndo()
@@ -408,8 +408,8 @@ def test_layer_subset_accepts_node_operator_mobject_and_name(maya_cmds):
     cmds = maya_cmds
     source = _node(cmds, "source")
     layer = _layer(cmds, source, "Selected")
-    nodes = bdu.Nodes()
-    layer_node = nodes.existing.animLayer(layer)
+    bd_nodes = bdu.Nodes()
+    layer_node = bd_nodes.existing.animLayer(layer)
     expected = AnimationClip.capture(
         [source], attributes=["tx"], layer_mode="preserve", layers=[layer]
     )
@@ -436,8 +436,8 @@ def test_layer_subset_rejects_invalid_and_pending_layers(maya_cmds):
     cmds = maya_cmds
     source = _node(cmds, "source")
     _layer(cmds, source)
-    nodes = bdu.Nodes()
-    transform = nodes.existing.transform(source)
+    bd_nodes = bdu.Nodes()
+    transform = bd_nodes.existing.transform(source)
 
     for selector in (source, transform, transform.m_obj):
         with pytest.raises(TypeError, match="Expected an animation layer"):
@@ -462,8 +462,8 @@ def test_layer_subset_rejects_invalid_and_pending_layers(maya_cmds):
             layers=[object()],
         )
 
-    pending_nodes = bdu.Nodes()
-    pending = pending_nodes.create.animLayer(name="Pending")
+    bd_nodes_pending = bdu.Nodes()
+    pending = bd_nodes_pending.create.animLayer(name="Pending")
     for selector in (pending, pending.m_obj):
         with pytest.raises(ValueError, match="Pending animation layers"):
             AnimationClip.capture(
@@ -475,7 +475,7 @@ def test_layer_subset_rejects_invalid_and_pending_layers(maya_cmds):
     assert not cmds.objExists("Pending")
 
     deleted_name = cmds.animLayer("Deleted")
-    deleted = nodes.existing.animLayer(deleted_name)
+    deleted = bd_nodes.existing.animLayer(deleted_name)
     cmds.delete(deleted_name)
     with pytest.raises(ValueError, match="no longer available"):
         AnimationClip.capture(
@@ -537,8 +537,8 @@ def test_restore_after_pending_node_creation_and_rename(maya_cmds, layer_mode):
         [source], attributes=["tx"], layer_mode=layer_mode
     )
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    target = nodes.create.multiplyDivide(name="target")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    target = bd_nodes.create.multiplyDivide(name="target")
     # Reuse a compatible scalar destination through the editable clip data.
     channel = clip.nodes[0].channels[0]
     unitless = replace(channel.curve, curve_type="animCurveTU")

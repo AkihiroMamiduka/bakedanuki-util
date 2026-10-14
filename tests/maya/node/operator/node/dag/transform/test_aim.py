@@ -186,9 +186,9 @@ def test_aim_methods_set_selected_attribute_and_support_undo_redo(
     maya_cmds.setAttr(f"{up_target}.rotatePivot", -0.4, 0.6, -0.2)
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    destination_node = getattr(nodes.existing, node_type)(destination)
-    aim_target_node = nodes.existing.transform(aim_target)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    destination_node = getattr(bd_nodes.existing, node_type)(destination)
+    aim_target_node = bd_nodes.existing.transform(aim_target)
     attribute_names = _rotation_attributes(node_type)
     original_values = {
         name: tuple(getattr(destination_node, name).get())
@@ -314,14 +314,14 @@ def test_aim_coordinates_use_requested_space_and_default_world_space(
         up_point = maya_om.MPoint(*up_coordinate)
         keyword_arguments = {}
 
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
     destination_node.aim_to_rotate(
         aim_coordinate,
         up_target=up_coordinate,
         **keyword_arguments,
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_aim_axes(
         maya_cmds,
@@ -356,10 +356,10 @@ def test_aim_without_up_uses_shortest_rotation_from_current_pose(
         target_aim_axis
     )
 
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
     destination_node.aim_to_rotate(aim_point)
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
@@ -375,11 +375,11 @@ def test_aim_without_up_uses_current_up_axis_for_antiparallel_aim(
     import bd_util as bdu
 
     destination = maya_cmds.createNode("transform", name="destination")
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
 
     destination_node.aim_to_rotate((-10.0, 0.0, 0.0))
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     rotation = _world_rotation(maya_cmds, maya_om, destination)
     world_aim_axis = maya_om.MVector(1.0, 0.0, 0.0).rotateBy(rotation)
@@ -450,8 +450,8 @@ def test_aim_rejects_invalid_values_without_queueing_changes(
 
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{destination}.rotate", 10.0, 20.0, 30.0)
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
     original_rotate = destination_node.rotate.get()
 
     with pytest.raises(error_type, match=message):
@@ -460,7 +460,7 @@ def test_aim_rejects_invalid_values_without_queueing_changes(
             **keyword_arguments,
         )
 
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
     assert destination_node.rotate.get() == original_rotate
 
 
@@ -478,9 +478,9 @@ def test_aim_rejects_non_transform_targets(
         name="targetShape",
         parent=maya_cmds.createNode("transform", name="target"),
     )
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
-    target = shape if target_kind == "name" else nodes.existing.mesh(shape)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
+    target = shape if target_kind == "name" else bd_nodes.existing.mesh(shape)
 
     with pytest.raises(TypeError, match="aim_target.*Transform"):
         destination_node.aim_to_rotate(target)
@@ -490,8 +490,8 @@ def test_aim_rejects_missing_node_name(new_scene, maya_cmds):
     import bd_util as bdu
 
     destination = maya_cmds.createNode("transform", name="destination")
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
 
     with pytest.raises(ValueError, match="aim_target"):
         destination_node.aim_to_rotate("missing_target")
@@ -511,9 +511,9 @@ def test_aim_rejects_instanced_nodes(
     maya_cmds.instance(
         destination if instanced_node == "destination" else aim_target
     )
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
-    aim_target_node = nodes.existing.transform(aim_target)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
+    aim_target_node = bd_nodes.existing.transform(aim_target)
 
     with pytest.raises(RuntimeError, match="instanced"):
         destination_node.aim_to_rotate(aim_target_node)
@@ -545,8 +545,8 @@ def test_aim_can_compensate_direct_child_world_pose(
         child: _matrix(maya_cmds, f"{child}.worldMatrix[0]")
         for child in (transform_child, joint_child)
     }
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
 
     destination_node.aim_to_rotate(
         (8.0, 7.0, -4.0),
@@ -554,7 +554,7 @@ def test_aim_can_compensate_direct_child_world_pose(
         compensate_children=True,
         compensate_child_translate=True,
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     for child, original_matrix in original_child_matrices.items():
         _assert_matrix_close(
@@ -568,11 +568,11 @@ def test_aim_noop_ignores_locked_rotation_plugs(new_scene, maya_cmds):
 
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{destination}.rotate", lock=True)
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
 
     assert destination_node.aim_to_rotate((10.0, 0.0, 0.0)) is destination_node
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
     assert destination_node.rotate.get().as_tuple() == (0.0, 0.0, 0.0)
 
 
@@ -581,8 +581,8 @@ def test_aim_rejects_blocked_selected_rotation_plug(new_scene, maya_cmds):
 
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{destination}.rotateZ", lock=True)
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
 
     with pytest.raises(RuntimeError, match="rotateZ"):
         destination_node.aim_to_rotate((0.0, 10.0, 0.0))
@@ -601,8 +601,8 @@ def test_aim_rejects_effectively_singular_parent_matrix(
         parent=parent,
     )
     maya_cmds.setAttr(f"{parent}.scaleX", 0.0)
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
 
     with pytest.raises(RuntimeError, match="invertible effective parent"):
         destination_node.aim_to_rotate((0.0, 10.0, 0.0))
@@ -652,8 +652,8 @@ def test_child_aim_methods_select_transform_child_and_preserve_children(
     maya_cmds.setAttr(f"{aimed_child}.rotate", -13.0, 7.0, 19.0)
     maya_cmds.setAttr(f"{aimed_child}.jointOrient", 3.0, -5.0, 11.0)
 
-    nodes = bdu.Nodes()
-    destination_node = getattr(nodes.existing, node_type)(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = getattr(bd_nodes.existing, node_type)(destination)
     attribute_names = _rotation_attributes(node_type)
     original_values = {
         name: tuple(getattr(destination_node, name).get())
@@ -684,7 +684,7 @@ def test_child_aim_methods_select_transform_child_and_preserve_children(
         for name in attribute_names
     } == original_values
 
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_aim_axes(
         maya_cmds,
@@ -708,12 +708,12 @@ def test_child_aim_methods_select_transform_child_and_preserve_children(
             ).get() == pytest.approx(original_value)
 
     aimed_rotation = _world_rotation(maya_cmds, maya_om, destination)
-    nodes.modifier_manager.undo_it()
+    bd_nodes.modifier_manager.undo_it()
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
         original_rotation,
     )
-    nodes.modifier_manager.redo_it()
+    bd_nodes.modifier_manager.redo_it()
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
         aimed_rotation,
@@ -757,14 +757,14 @@ def test_child_aim_parent_up_vector_uses_effective_parent_orientation(
     )
     up_point = origin + world_up_vector
 
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
     destination_node.aim_child_to_rotate(
         aim_axis=(1.0, 0.0, 0.0),
         up_axis=(0.0, 0.0, 1.0),
         parent_up_vector=parent_up_vector,
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_aim_axes(
         maya_cmds,
@@ -809,8 +809,8 @@ def test_child_aim_end_defaults_to_effective_parent_orientation(
     if node_type == "joint":
         maya_cmds.setAttr(f"{destination}.jointOrient", 11.0, -5.0, 31.0)
 
-    nodes = bdu.Nodes()
-    destination_node = getattr(nodes.existing, node_type)(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = getattr(bd_nodes.existing, node_type)(destination)
     attribute_names = _rotation_attributes(node_type)
     original_values = {
         name: tuple(getattr(destination_node, name).get())
@@ -821,7 +821,7 @@ def test_child_aim_end_defaults_to_effective_parent_orientation(
     ).rotation(asQuaternion=True)
 
     assert getattr(destination_node, method_name)() is destination_node
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_rotation_close(
         _world_rotation(maya_cmds, maya_om, destination),
@@ -841,14 +841,14 @@ def test_child_aim_end_can_raise_without_queueing_changes(
 
     destination = maya_cmds.createNode("transform", name="destination")
     maya_cmds.setAttr(f"{destination}.rotate", 10.0, 20.0, 30.0)
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
     original_rotate = destination_node.rotate.get()
 
     with pytest.raises(ValueError, match="direct Transform child"):
         destination_node.aim_child_to_rotate(end_behavior="error")
 
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
     assert destination_node.rotate.get() == original_rotate
 
 
@@ -906,8 +906,8 @@ def test_child_aim_rejects_invalid_values_without_queueing_changes(
         parent=destination,
     )
     maya_cmds.setAttr(f"{child}.translateX", 5.0)
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.transform(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.transform(destination)
     original_rotate = destination_node.rotate.get()
 
     with pytest.raises(error_type, match=message):
@@ -916,7 +916,7 @@ def test_child_aim_rejects_invalid_values_without_queueing_changes(
             **keyword_arguments,
         )
 
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
     assert destination_node.rotate.get() == original_rotate
 
 
@@ -937,14 +937,14 @@ def test_child_aim_defaults_joint_child_compensation_to_joint_orient(
         maya_cmds.getAttr(f"{child}.jointOrient")[0]
     )
 
-    nodes = bdu.Nodes()
-    destination_node = nodes.existing.joint(destination)
+    bd_nodes = bdu.Nodes()
+    destination_node = bd_nodes.existing.joint(destination)
     destination_node.aim_child_to_joint_orient(
         aim_axis=(1.0, 0.0, 0.0),
         up_axis=(0.0, 0.0, 1.0),
         parent_up_vector=(0.0, 0.0, 1.0),
     )
-    nodes.modifier_manager.do_it_dg()
+    bd_nodes.modifier_manager.do_it_dg()
 
     _assert_matrix_close(
         _matrix(maya_cmds, f"{child}.worldMatrix[0]"),

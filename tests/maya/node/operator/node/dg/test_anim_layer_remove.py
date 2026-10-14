@@ -20,18 +20,18 @@ def _setup(cmds):
     second = cmds.animLayer("Second", attribute="ctrl.tx")
     cmds.setKeyframe("ctrl.tx", animLayer=second, time=1, value=12)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
     return (
         mod,
-        nodes,
-        nodes.existing.transform("ctrl"),
-        nodes.existing.animLayer(first),
+        bd_nodes,
+        bd_nodes.existing.transform("ctrl"),
+        bd_nodes.existing.animLayer(first),
     )
 
 
 @pytest.mark.parametrize("form", ["wrapper", "api", "name"])
 def test_remove_preserves_other_layers_and_undo_redo(maya_cmds, form):
-    mod, nodes, ctrl, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, layer = _setup(maya_cmds)
     target = {"wrapper": ctrl.tx, "api": ctrl.tx.plug, "name": "ctrl.tx"}[form]
     before = set(maya_cmds.ls())
     first_curve = maya_cmds.animLayer(
@@ -67,7 +67,7 @@ def test_remove_preserves_other_layers_and_undo_redo(maya_cmds, form):
 
 
 def test_compound_array_duplicates_and_unregistered_are_noop(maya_cmds):
-    mod, nodes, ctrl, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, layer = _setup(maya_cmds)
     maya_cmds.addAttr(
         "ctrl", longName="samples", attributeType="double", multi=True
     )
@@ -88,9 +88,9 @@ def test_compound_array_duplicates_and_unregistered_are_noop(maya_cmds):
 def test_add_then_remove_in_one_batch(maya_cmds):
     maya_cmds.createNode("transform", name="ctrl")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    ctrl = nodes.existing.transform("ctrl")
-    layer = nodes.create.animLayer(name="Correction")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    ctrl = bd_nodes.existing.transform("ctrl")
+    layer = bd_nodes.create.animLayer(name="Correction")
     layer.add_plugs([ctrl.tx, ctrl.ty])
     layer.remove_plugs([ctrl.tx])
     mod.do_it_dg()
@@ -102,7 +102,7 @@ def test_add_then_remove_in_one_batch(maya_cmds):
 
 
 def test_captures_identity_and_tracks_renames(maya_cmds):
-    mod, nodes, ctrl, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, layer = _setup(maya_cmds)
     targets = ["ctrl.tx"]
     layer.remove_plugs(targets)
     targets.append("ctrl.ty")
@@ -114,7 +114,7 @@ def test_captures_identity_and_tracks_renames(maya_cmds):
 
 @pytest.mark.parametrize("deleted", ["node", "layer", "attribute"])
 def test_deleted_identity_is_not_replaced(maya_cmds, deleted):
-    mod, nodes, ctrl, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, layer = _setup(maya_cmds)
     layer.remove_plugs([ctrl.tx])
     if deleted == "node":
         maya_cmds.delete("ctrl")
@@ -146,8 +146,8 @@ def test_referenced_target_is_rejected_before_removal(maya_cmds, tmp_path):
     maya_cmds.animLayer(layer_name, edit=True, attribute="local.tx")
     maya_cmds.animLayer(layer_name, edit=True, attribute="ref:ctrl.tx")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    layer = nodes.existing.animLayer(layer_name)
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    layer = bd_nodes.existing.animLayer(layer_name)
     layer.remove_plugs(["local.tx", "ref:ctrl.tx"])
     before = set(maya_cmds.ls())
     with pytest.raises(RuntimeError, match="referenced"):
@@ -160,11 +160,13 @@ def test_referenced_target_is_rejected_before_removal(maya_cmds, tmp_path):
 
 
 def test_invalid_arguments_and_root_are_rejected(maya_cmds):
-    mod, nodes, ctrl, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, layer = _setup(maya_cmds)
     for value in (ctrl.tx, ctrl.tx.plug, "ctrl.tx", [ctrl], [1]):
         with pytest.raises(TypeError):
             layer.remove_plugs(value)
-    root = nodes.existing.animLayer(maya_cmds.animLayer(query=True, root=True))
+    root = bd_nodes.existing.animLayer(
+        maya_cmds.animLayer(query=True, root=True)
+    )
     root.remove_plugs([ctrl.tx])
     with pytest.raises(RuntimeError, match="base"):
         mod.do_it_dg()
@@ -175,7 +177,7 @@ def test_invalid_arguments_and_root_are_rejected(maya_cmds):
     ["layer", "node", "plug", "curve", "curve_output", "blend_output"],
 )
 def test_readonly_targets_are_rejected_before_any_removal(maya_cmds, locked):
-    mod, nodes, ctrl, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, layer = _setup(maya_cmds)
     if locked == "layer":
         maya_cmds.animLayer("First", edit=True, lock=True)
     elif locked == "node":
@@ -213,7 +215,7 @@ def test_readonly_targets_are_rejected_before_any_removal(maya_cmds, locked):
 def test_native_failure_and_late_failure_roll_back(
     maya_cmds, monkeypatch, mode
 ):
-    mod, nodes, ctrl, layer = _setup(maya_cmds)
+    mod, bd_nodes, ctrl, layer = _setup(maya_cmds)
     before = set(maya_cmds.ls())
     native = maya_cmds.animLayer
 

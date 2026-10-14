@@ -438,7 +438,7 @@ def restore(
                 raise ValueError(
                     "Animation layer order differs; use restore_layer_settings=True."
                 )
-        nodes = Nodes(modifier_manager=manager)
+        bd_nodes = Nodes(modifier_manager=manager)
         if data.root_settings and root is None and not data.layers:
 
             def create_root(modifier: om.MDGModifier) -> None:
@@ -458,7 +458,7 @@ def restore(
                         if item.name == "override"
                     )
                 )
-                created = nodes.create.animLayer(
+                created = bd_nodes.create.animLayer(
                     name=absolute(names[layer.name]), override=override
                 )
                 layer_nodes[layer.name] = created.m_obj

@@ -41,10 +41,10 @@ from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 
 
 def joint_list_contract() -> None:
-    nodes = bdu.Nodes()
+    bd_nodes = bdu.Nodes()
     joints: list[bdu.node_types.Joint] = []
     for i in range(10):
-        joints.append(nodes.create.joint(name=f"j_{i}"))
+        joints.append(bd_nodes.create.joint(name=f"j_{i}"))
 
     assert_type(joints, list[Joint])
     for joint in joints:
@@ -54,37 +54,37 @@ def joint_list_contract() -> None:
         joint.v.set(False)
         assert_type(joint, Joint)
 
-    other = nodes.create.plusMinusAverage()
+    other = bd_nodes.create.plusMinusAverage()
     joints.append(other)  # pyright: ignore[reportArgumentType]
 
 
 def versioned_node_type_list_contract() -> None:
-    common_nodes = bdu.Nodes()
-    nodes_2025 = bdu.Nodes(typing_maya_version="2025")
-    nodes_2026 = bdu.Nodes(typing_maya_version="2026")
-    nodes_2027 = bdu.Nodes(typing_maya_version="2027")
-    nodes_2025_plus = bdu.Nodes(typing_maya_version="2025+")
-    nodes_2026_plus = bdu.Nodes(typing_maya_version="2026+")
-    nodes_2027_plus = bdu.Nodes(typing_maya_version="2027+")
+    bd_nodes_common = bdu.Nodes()
+    bd_nodes_2025 = bdu.Nodes(typing_maya_version="2025")
+    bd_nodes_2026 = bdu.Nodes(typing_maya_version="2026")
+    bd_nodes_2027 = bdu.Nodes(typing_maya_version="2027")
+    bd_nodes_2025_plus = bdu.Nodes(typing_maya_version="2025+")
+    bd_nodes_2026_plus = bdu.Nodes(typing_maya_version="2026+")
+    bd_nodes_2027_plus = bdu.Nodes(typing_maya_version="2027+")
 
-    common: list[bdu.node_types.Absolute] = [common_nodes.create.absolute()]
+    common: list[bdu.node_types.Absolute] = [bd_nodes_common.create.absolute()]
     absolute_2025: list[bdu.node_types.maya2025.Absolute] = [
-        nodes_2025.create.absolute()
+        bd_nodes_2025.create.absolute()
     ]
     absolute_2026: list[bdu.node_types.maya2026.Absolute] = [
-        nodes_2026.create.absolute()
+        bd_nodes_2026.create.absolute()
     ]
     absolute_2027: list[bdu.node_types.maya2027.Absolute] = [
-        nodes_2027.create.absolute()
+        bd_nodes_2027.create.absolute()
     ]
     absolute_2025_plus: list[bdu.node_types.maya2025_plus.Absolute] = [
-        nodes_2025_plus.create.absolute()
+        bd_nodes_2025_plus.create.absolute()
     ]
     absolute_2026_plus: list[bdu.node_types.maya2026_plus.Absolute] = [
-        nodes_2026_plus.create.absolute()
+        bd_nodes_2026_plus.create.absolute()
     ]
     absolute_2027_plus: list[bdu.node_types.maya2027_plus.Absolute] = [
-        nodes_2027_plus.create.absolute()
+        bd_nodes_2027_plus.create.absolute()
     ]
 
     assert_type(
@@ -102,13 +102,13 @@ def versioned_node_type_list_contract() -> None:
     assert_type(absolute_2027_plus[0].input, DoublePlugOperator)
 
     bevels: list[bdu.node_types.maya2026_plus.PolySmartBevel] = [
-        nodes_2026_plus.create.polySmartBevel()
+        bd_nodes_2026_plus.create.polySmartBevel()
     ]
-    bevels.append(nodes_2027.create.polySmartBevel())
+    bevels.append(bd_nodes_2027.create.polySmartBevel())
     bevel = bevels[0]
     bevel.cutbackRelaxation  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
 
-    _, area_light = nodes_2026_plus.create.with_transform.aiAreaLight()
+    _, area_light = bd_nodes_2026_plus.create.with_transform.aiAreaLight()
     assert_type(area_light, bdu.node_types.maya2026_plus.AiAreaLight)
 
     bdu.node_types.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
@@ -116,11 +116,11 @@ def versioned_node_type_list_contract() -> None:
     bdu.node_types.maya2025_plus.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     bdu.node_types.maya2026_plus.ShotLabel  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
     assert_type(
-        nodes_2026.create.absoluteDL(),
+        bd_nodes_2026.create.absoluteDL(),
         bdu.node_types.maya2026.AbsoluteDL,
     )
     assert_type(
-        nodes_2026_plus.create.absoluteDL(),
+        bd_nodes_2026_plus.create.absoluteDL(),
         bdu.node_types.maya2026_plus.AbsoluteDL,
     )
 

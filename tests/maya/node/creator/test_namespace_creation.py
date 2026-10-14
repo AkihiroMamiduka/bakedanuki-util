@@ -10,9 +10,9 @@ def test_create_auto_creates_shared_namespace_with_undo_redo(
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    dag_node = nodes.create.transform(name="new_ns:inner:ctrl")
-    dg_node = nodes.create.multiplyDivide(name="new_ns:inner:math")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    dag_node = bd_nodes.create.transform(name="new_ns:inner:ctrl")
+    dg_node = bd_nodes.create.multiplyDivide(name="new_ns:inner:math")
 
     assert not maya_cmds.namespace(exists=":new_ns")
 
@@ -91,9 +91,11 @@ def test_create_freezes_relative_namespace_at_request_time(
     maya_cmds.namespace(add=":outer")
     maya_cmds.namespace(set=":outer")
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    relative = nodes.create.transform(name="inner:ctrl")
-    absolute = nodes.create.transform(name="root_ctrl", namespace=":root_ns")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    relative = bd_nodes.create.transform(name="inner:ctrl")
+    absolute = bd_nodes.create.transform(
+        name="root_ctrl", namespace=":root_ns"
+    )
 
     assert relative._requested_name_hint == "outer:inner:ctrl"
     assert absolute._requested_name_hint == "root_ns:root_ctrl"
@@ -139,13 +141,13 @@ def test_existing_namespaced_node_rename_keeps_namespace(new_scene, maya_cmds):
 def test_create_rejects_conflicting_or_invalid_namespace(new_scene, maya_cmds):
     import bd_util as bdu
 
-    nodes = bdu.Nodes()
+    bd_nodes = bdu.Nodes()
     with pytest.raises(ValueError, match="cannot include a namespace"):
-        nodes.create.transform(name="first:ctrl", namespace="second")
+        bd_nodes.create.transform(name="first:ctrl", namespace="second")
     with pytest.raises(ValueError, match="invalid name"):
-        nodes.create.transform(name="ctrl", namespace="bad;name")
+        bd_nodes.create.transform(name="ctrl", namespace="bad;name")
     with pytest.raises(ValueError, match="name is required"):
-        nodes.create.transform(namespace="new_ns")
+        bd_nodes.create.transform(namespace="new_ns")
 
     assert not maya_cmds.namespace(exists=":first")
     assert not maya_cmds.namespace(exists=":second")
@@ -156,8 +158,8 @@ def test_shape_pair_uses_same_new_namespace(new_scene, maya_cmds):
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    transform, mesh = nodes.create.with_transform.mesh(
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    transform, mesh = bd_nodes.create.with_transform.mesh(
         name="model", namespace="assets"
     )
 
@@ -336,12 +338,12 @@ def test_move_to_namespace_rejects_invalid_or_unnamed_pending_node(
     import bd_util as bdu
 
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    unnamed = nodes.create.transform()
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    unnamed = bd_nodes.create.transform()
     with pytest.raises(ValueError, match="must have a name"):
         unnamed.move_to_namespace("target")
 
-    named = nodes.create.transform(name="named")
+    named = bd_nodes.create.transform(name="named")
     with pytest.raises(ValueError, match="invalid name"):
         named.move_to_namespace("bad;name")
     with pytest.raises(TypeError, match="must be a string"):

@@ -357,11 +357,13 @@ def test_node_operator_creation_and_parent_connection(
         BdRbfOrientationFalloffWeight,
     )
 
-    nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    weight = nodes.create.bdRbf_OrientationFalloffWeight(
+    bd_nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    weight = bd_nodes.create.bdRbf_OrientationFalloffWeight(
         name="rbf_orientation_falloff_weight"
     )
-    blend = nodes.create.bdRbf_PoseBlend(name="rbf_orientation_falloff_blend")
+    blend = bd_nodes.create.bdRbf_PoseBlend(
+        name="rbf_orientation_falloff_blend"
+    )
     pose = _axis_quaternion("x", 45.0)
     weight.pose[8].poseQuat.set(pose)
     weight.inputQuat.set(pose)
@@ -373,7 +375,7 @@ def test_node_operator_creation_and_parent_connection(
     assert weight.outputWeight[8].get() == pytest.approx(1.0)
     assert blend.outputTranslate.get() == pytest.approx((0.0, 5.0, 0.0))
     assert isinstance(
-        nodes.existing.bdRbf_OrientationFalloffWeight(weight.name),
+        bd_nodes.existing.bdRbf_OrientationFalloffWeight(weight.name),
         BdRbfOrientationFalloffWeight,
     )
 

@@ -505,13 +505,13 @@ def test_extract_resolves_dag_names_and_live_selectors(maya_cmds):
         snapshot.extract(nodes=["ctrl"])
     selected = snapshot.extract(nodes=[right, left])
     assert [node.name for node in selected.nodes] == [right, left]
-    nodes = bdu.Nodes()
+    bd_nodes = bdu.Nodes()
     selected = snapshot.extract(
-        nodes=[nodes.existing(left), nodes.existing(right).m_obj]
+        nodes=[bd_nodes.existing(left), bd_nodes.existing(right).m_obj]
     )
     assert [node.name for node in selected.nodes] == [left, right]
     with pytest.raises(ValueError, match="Duplicate snapshot node"):
-        snapshot.extract(nodes=[left, nodes.existing(left)])
+        snapshot.extract(nodes=[left, bd_nodes.existing(left)])
 
 
 def test_extract_keeps_namespace_in_short_name(maya_cmds):
@@ -559,8 +559,8 @@ def test_extract_named_pending_operator_does_not_run_modifier(maya_cmds):
     snapshot = bdu.AttrSnapshot.capture([source], attributes=["tx"])
     cmds.delete(source)
     mod = bdu.ModifierManager()
-    nodes = bdu.Nodes(modifier_manager=mod)
-    pending = nodes.create.transform(name="pendingTarget")
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    pending = bd_nodes.create.transform(name="pendingTarget")
     selected = snapshot.extract(nodes=[pending])
     assert [node.name for node in selected.nodes] == ["pendingTarget"]
     assert not cmds.objExists("pendingTarget")
@@ -568,7 +568,7 @@ def test_extract_named_pending_operator_does_not_run_modifier(maya_cmds):
     with pytest.raises(ValueError, match="pending MObject"):
         snapshot.extract(nodes=[pending.m_obj])
     with pytest.raises(ValueError, match="explicit name"):
-        snapshot.extract(nodes=[nodes.create.transform()])
+        snapshot.extract(nodes=[bd_nodes.create.transform()])
 
 
 def test_extract_rejects_deleted_node_selector(maya_cmds):

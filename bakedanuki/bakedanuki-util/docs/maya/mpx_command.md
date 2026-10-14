@@ -55,21 +55,21 @@ class CreateTransformsResult:
 
 
 def queue_create_transforms(
-    nodes: bdu.Nodes,
+    bd_nodes: bdu.Nodes,
     params: CreateTransformsParams,
 ):
     return tuple(
-        nodes.create.transform(name=f"{params.prefix}{index + 1}")
+        bd_nodes.create.transform(name=f"{params.prefix}{index + 1}")
         for index in range(params.count)
     )
 
 
 def apply_create_transforms(
-    nodes: bdu.Nodes,
+    bd_nodes: bdu.Nodes,
     params: CreateTransformsParams,
 ) -> CreateTransformsResult:
-    transforms = queue_create_transforms(nodes, params)
-    nodes.modifier_manager.do_it_dag()
+    transforms = queue_create_transforms(bd_nodes, params)
+    bd_nodes.modifier_manager.do_it_dag()
     return CreateTransformsResult(
         node_names=tuple(transform.name for transform in transforms)
     )
@@ -179,10 +179,10 @@ operationはMPxCommandがなくても利用できます。
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
 result = apply_create_transforms(
-    nodes,
+    bd_nodes,
     CreateTransformsParams(prefix="direct", count=2),
 )
 print(result.node_names)
@@ -198,10 +198,10 @@ Mayaのグローバルundo queueへ一つのcommandとして登録されませ�
 
 ```python
 mod = bdu.ModifierManager()
-nodes = bdu.Nodes(modifier_manager=mod)
+bd_nodes = bdu.Nodes(modifier_manager=mod)
 
 try:
-    result = apply_complex_operation(nodes, params)
+    result = apply_complex_operation(bd_nodes, params)
 except Exception:
     mod.rollback()
     raise
