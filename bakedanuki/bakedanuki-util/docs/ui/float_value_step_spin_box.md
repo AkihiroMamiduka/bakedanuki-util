@@ -41,6 +41,7 @@ editor = FloatValueStepSpinBox(
 multiplicativeはstep欄を10倍・1/10倍にします。値欄の上下操作は、その時点の
 stepを加減算します。additiveで15刻みにする場合は、初期値と増減幅の両方に15を指定します。
 step欄には正の有限値を直接入力することもできます。
+値欄が自動幅の場合もstep欄の固定幅を先に確保し、残りの幅を値欄へ割り当てます。
 
 値欄は従来どおりマウスオーバー中のホイールを受け付け、step欄は一覧スクロール中の
 誤変更を避けるため、既定ではフォーカス中だけ受け付けます。生成時の2引数で個別に変更でき、
@@ -90,3 +91,4 @@ editor.setSingleStep(0.1)
 
 検証は `tests/ui/test_float_value_step_spin_box.py`、公開型契約は
 `tests/typecheck/float_value_step_spin_box_contract.py` に配置しています。
+自動幅・固定幅での両欄の可視性とリサイズは`tests/ui/test_value_step_layout.py`で検証します。

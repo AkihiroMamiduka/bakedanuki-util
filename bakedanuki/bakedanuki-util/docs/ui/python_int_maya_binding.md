@@ -162,4 +162,4 @@ node_name = window.node_name
 | Maya 2025／2026／2027 Maya UI | 各804件成功。新規の整数同期55件を含む |
 
 full pytestで省略するQtテストは、続く専用のUI互換性テストで実行しています。
-今回追加したPython正本とMaya整数同期の利用者によるMaya本体確認はこれからです。
+Python正本とMaya整数同期は利用者によるMaya本体確認とpushが完了しました。

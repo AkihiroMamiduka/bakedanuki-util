@@ -107,8 +107,9 @@ class FloatValueStepSpinBox(qt.QWidget):
                 wheel_requires_focus=step_wheel_requires_focus,
                 select_all_on_mouse_focus=step_select_all_on_mouse_focus,
             )
+            # 値欄を自動伸縮する場合もStep欄の固定幅を先に確保する
             self.step_spin_box.setSizePolicy(
-                qt.QSizePolicy.Policy.Ignored, qt.QSizePolicy.Policy.Fixed
+                qt.QSizePolicy.Policy.Fixed, qt.QSizePolicy.Policy.Fixed
             )
             if value_width is not None:
                 self.spin_box.setFixedWidth(value_width)

@@ -1208,6 +1208,9 @@ bdChannelBoxへの組込みは利用者確認とpushが完了しています。
 Python整数を正本としてQtとMaya属性へ同期する場合は`MayaIntBinding`と
 `MayaIntPlugView`を使用します。初期値、範囲制約、同期保留、Undo／Redoとサンプルは
 [Python正本とMaya Viewの整数同期](python_int_maya_binding.md)を参照してください。
+`IntStepSpinBox`と`IntValueStepSpinBox`は加算・10倍方式の整数Stepを編集し、
+`IntStepProfile`を`UiStateManager`へ接続して保存できます。
+操作規則とサンプルは[整数Stepの入力と保存](int_step.md)を参照してください。
 
 ## 浮動小数点値のMVVMとQDoubleSpinBox
 

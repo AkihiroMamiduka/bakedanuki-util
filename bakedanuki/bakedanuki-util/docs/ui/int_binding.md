@@ -110,11 +110,12 @@ bdChannelBoxはこの入力方針を使用し、上下・整列・値Pasteも同
 
 初回の基盤・サンプル・Maya属性連携・bdChannelBox組込みは利用者確認とpushが完了しています。
 接続属性編集と入力操作の統一も利用者によるMaya本体確認とpushが完了しました。
-Python正本とMaya属性の同期は、`MayaIntBinding`／`MayaIntPlugView`とサンプルを実装しました。
-今回の追加範囲の利用者確認後、次の順に実装し、段階ごとに利用者が確認・commitします。
+Python正本とMaya属性の同期も利用者確認とpushが完了しました。
+整数Step欄の加算・10倍方式、設定保存とbdChannelBoxへの組込みを実装しました。
+詳細と操作サンプルは[整数Stepの入力と保存](int_step.md)を参照してください。
+今回の追加範囲の利用者確認後、次を実装し、利用者が確認・commitします。
 
-1. 整数専用Step入力欄と、属性ごとのStep設定・保存・リセット
-2. 整数Slider、Sliderと数値欄、範囲設定付きSlider、連続編集と一操作一回のUndo
+1. 整数Slider、Sliderと数値欄、範囲設定付きSlider、連続編集と一操作一回のUndo
 
 整数2／3成分を一体で扱うMVVMは今回の計画に含めません。
 

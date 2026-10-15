@@ -14,3 +14,11 @@ def require_int(value: object, argument_name: str = "value") -> int:
             f"{argument_name}は符号付き32-bit整数の範囲で指定してください"
         )
     return value
+
+
+def require_step(value: object, argument_name: str = "single_step") -> int:
+    """Qtで保持できる正の整数Stepを暗黙変換せず検証する。"""
+    value = require_int(value, argument_name)
+    if value < 1:
+        raise ValueError(f"{argument_name}は1以上の整数にしてください")
+    return value

@@ -7,6 +7,12 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- 整数・floatの`ValueStepSpinBox`で値欄を自動幅にしたとき、Step欄が表示領域の
+  右外へ配置される不具合を修正。Step欄の固定幅をレイアウトでも確保する。
+  API・scene・保存設定の移行は不要。
+
 ### Changed
 
 - `MayaIntPlugBinding`／`MayaIntPlugsBinding`と整数値Pasteに`edit_connected`と
@@ -72,6 +78,12 @@
   既定の競合保持動作は維持し、scene・設定の移行は不要。
 
 ### Added
+
+- `IntStepSpinBox`・`IntValueStepSpinBox`に、加算と10倍・整数除算による整数Step入力を追加。
+  任意の正整数を入力でき、下限1、上限を超える増加は無効とする。
+  `IntStepProfile`／`IntStepSetting`と`UiStateManager.register_int_step_profile()`で
+  整数設定を独立したversion 1形式で保存する。`int_sample.step.show()`で確認できる。
+  既存API・scene・保存設定の移行は不要。
 
 - Python整数を正本としてQtとMayaのbyte・short・longを同期する`MayaIntBinding`と
   `MayaIntPlugView`を追加。初期同期はPythonからMayaへ適用し、Maya入力はsetterを通す。

@@ -4,7 +4,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from functools import partial
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from .settings_path import SettingsPath
 from . import qt
@@ -12,6 +12,7 @@ from ._ui_state_adapter import UiStateAdapter as _UiStateAdapter
 from ._ui_state_adapter import UiStateValue, require_widget
 
 if TYPE_CHECKING:
+    from .int_step_profile import IntStepProfile
     from .float_step_profile import FloatStepProfile
     from .binding.float.view.range_slider_spin_box import (
         FloatRangeSliderSpinBox,
@@ -292,7 +293,7 @@ class UiStateManager:
             TypeError: `action` が `QAction` でないか、`key` が文字列でない場合。
             ValueError: `action` がcheckableでないか、`key` が無効・登録済みの場合。
         """
-        if not isinstance(action, qt.QAction):
+        if not isinstance(cast(object, action), qt.QAction):
             raise TypeError("actionにはQActionを指定してください")
         if not action.isCheckable():
             raise ValueError("actionにはcheckableなQActionを指定してください")
@@ -494,6 +495,33 @@ class UiStateManager:
         self._cached_states[key] = state
         return True
 
+    def register_int_step_profile(
+        self, key: str, profile: IntStepProfile
+    ) -> None:
+        """整数StepのProfileを一つの識別子で保存対象に登録する。
+
+        Args:
+            key: manager内で一意な登録名。
+            profile: 生存中の整数Step Profile。
+
+        Raises:
+            TypeError: Profileの型や登録名が不正な場合。
+            ValueError: 登録名が無効か登録済みの場合。
+            RuntimeError: Profileが破棄済みの場合。
+        """
+        from ._int_step_profile_state import IntStepProfileStateAdapter
+        from .int_step_profile import IntStepProfile
+
+        self._validate_key(key)
+        candidate = cast(object, profile)
+        if not isinstance(candidate, IntStepProfile):
+            raise TypeError("profileにはIntStepProfileを指定してください")
+        if not qt.isValid(candidate):
+            raise RuntimeError("登録対象のProfileは破棄されています")
+        self._register(key, IntStepProfileStateAdapter(candidate))
+        candidate.changed.connect(partial(self._capture_state, key))
+        self._capture_state(key)
+
     def register_float_step_profile(
         self, key: str, profile: FloatStepProfile
     ) -> None:
@@ -512,7 +540,7 @@ class UiStateManager:
         from .float_step_profile import FloatStepProfile
 
         self._validate_key(key)
-        candidate: object = profile
+        candidate = cast(object, profile)
         if not isinstance(candidate, FloatStepProfile):
             raise TypeError("profileにはFloatStepProfileを指定してください")
         if not qt.isValid(candidate):

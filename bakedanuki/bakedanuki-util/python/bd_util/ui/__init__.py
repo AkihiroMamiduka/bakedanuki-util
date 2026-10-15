@@ -6,6 +6,9 @@ from .binding import (
     IntLabel,
     IntPresentation,
     IntSpinBox,
+    IntStepMode,
+    IntStepSpinBox,
+    IntValueStepSpinBox,
     IntValue,
     IntValueStore,
     IntViewModel,
@@ -74,6 +77,7 @@ from .binding import (
 from .settings_path import SettingsPath
 from .json_clipboard import JsonClipboard
 from .float_step_profile import FloatStepProfile, FloatStepSetting
+from .int_step_profile import IntStepProfile, IntStepSetting
 from .radio_button_sweep import RadioButtonSweep
 from .check_box_sweep import CheckBoxSweep
 from .ui_state import UiStateManager
@@ -89,6 +93,11 @@ __all__ = [
     "IntLabel",
     "IntPresentation",
     "IntSpinBox",
+    "IntStepMode",
+    "IntStepSpinBox",
+    "IntValueStepSpinBox",
+    "IntStepProfile",
+    "IntStepSetting",
     "IntValue",
     "IntValueStore",
     "IntViewModel",
