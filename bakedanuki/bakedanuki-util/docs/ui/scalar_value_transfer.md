@@ -86,7 +86,8 @@ Layerの編集先・合成後の出力はMayaの選択状態、ロック、ウ�
 `edit_connected`の既定値は`False`で、既存の貼り付け規則は維持します。
 `key_animated`との同時`True`は、貼り付け先に対応属性がない場合も`ValueError`です。
 `bdChannelBox`のPasteは`edit_connected=True`を使用し、通常入力と規則を揃えます。
-整数属性は入力接続中なら編集対象から除外します。
+byte・short・longも同じ入力方針を受け付け、整数値のまま事前検証します。
+整数のLayerはMaya標準で登録可能なshort・longが対象です。
 既存APIをこの動作へ移す場合は`key_animated=True`を`edit_connected=True`へ置き換えます。
 clipboard schema、scene、保存設定の移行は不要です。
 

@@ -56,6 +56,31 @@ def _other_connection_state(plug: om.MPlug) -> MayaPlugInputState:
     return "connected"
 
 
+def _integer_curve_value(plug: om.MPlug, value: float) -> int | float:
+    """整数plugへのDG変換後の値でカーブと表示値を比較する。"""
+    attribute = plug.attribute()
+    if not attribute.hasFn(om.MFn.kNumericAttribute) or not math.isfinite(
+        value
+    ):
+        return value
+    kind = om.MFnNumericAttribute(attribute).numericType()
+    if kind not in (
+        om.MFnNumericData.kByte,
+        om.MFnNumericData.kShort,
+        om.MFnNumericData.kLong,
+    ):
+        return value
+    # DGは半端をゼロから遠い側へ丸め、32-bitを超えた値を0へ変換する
+    rounded = math.floor(value + 0.5) if value >= 0 else math.ceil(value - 0.5)
+    if not -(2**31) <= rounded < 2**31:
+        rounded = 0
+    if kind == om.MFnNumericData.kByte:
+        rounded %= 256
+    elif kind == om.MFnNumericData.kShort:
+        rounded = (rounded + 32768) % 65536 - 32768
+    return rounded
+
+
 def _is_key_altered(
     plug: om.MPlug, curve: oma.MFnAnimCurve, time: om.MTime
 ) -> bool:
@@ -66,9 +91,10 @@ def _is_key_altered(
         actual = plug.asDouble()
     except (RuntimeError, TypeError):
         return False
-    return not math.isclose(
-        actual, curve.evaluate(time), rel_tol=1e-6, abs_tol=1e-6
-    )
+    expected = _integer_curve_value(plug, curve.evaluate(time))
+    if type(expected) is int:
+        return actual != expected
+    return not math.isclose(actual, expected, rel_tol=1e-6, abs_tol=1e-6)
 
 
 def _current_time_curve(plug: om.MPlug) -> oma.MFnAnimCurve | None:

@@ -41,6 +41,9 @@ assert_type(binding.refresh(), bool)
 assert_type(binding.changed, qt.QtCore.SignalInstance)
 assert_type(IntBinding(store), IntBinding[PythonIntAttributeStore[Data]])
 assert_type(IntSpinBox(binding).value(), int)
+spin = IntSpinBox(binding, select_all_on_mouse_focus=True)
+assert_type(spin.select_all_on_mouse_focus(), bool)
+assert_type(spin.set_select_all_on_mouse_focus(False), None)
 assert_type(IntLabel(binding).view_model, IntViewModel)
 
 

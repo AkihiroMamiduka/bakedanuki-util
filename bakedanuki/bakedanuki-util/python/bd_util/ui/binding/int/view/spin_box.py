@@ -4,6 +4,7 @@ from __future__ import annotations
 from collections.abc import Callable
 
 from .... import qt
+from ..._spin_box_mouse_selection import SpinBoxMouseFocusSelection
 from .._connection import connect_queued, disconnect
 from .._validation import INT32_MAX, INT32_MIN, require_int
 from ..binding import IntBinding
@@ -22,6 +23,7 @@ class IntSpinBox(qt.QSpinBox):
         *,
         single_step: int = 1,
         wheel_requires_focus: bool = False,
+        select_all_on_mouse_focus: bool = False,
     ) -> None:
         """共有対象、刻み幅とホイール操作条件を指定する。"""
         view_model, binding = resolve_int_view_source(view_model)
@@ -30,7 +32,14 @@ class IntSpinBox(qt.QSpinBox):
             raise ValueError("single_stepには正の値を指定してください")
         if type(wheel_requires_focus) is not bool:
             raise TypeError("wheel_requires_focusにはboolを指定してください")
+        if type(select_all_on_mouse_focus) is not bool:
+            raise TypeError(
+                "select_all_on_mouse_focusにはboolを指定してください"
+            )
         super().__init__(parent)
+        self._mouse_selection = SpinBoxMouseFocusSelection(
+            self, select_all_on_mouse_focus
+        )
         self._binding = binding
         self._view_model = view_model
         self._input_enabled = True
@@ -133,6 +142,52 @@ class IntSpinBox(qt.QSpinBox):
             event.ignore()
             return
         super().wheelEvent(event)
+
+    def event(self, event: qt.QEvent) -> bool:
+        """Enterを整数入力欄で扱い、親Windowのshortcutへ渡さない。"""
+        if (
+            event.type() == qt.QEvent.Type.ShortcutOverride
+            and isinstance(event, qt.QtGui.QKeyEvent)
+            and event.key() in (qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter)
+        ):
+            event.accept()
+            return True
+        return super().event(event)
+
+    def keyPressEvent(self, event: qt.QtGui.QKeyEvent) -> None:
+        """Qtによる値確定後にEnterの押下を受理する。"""
+        super().keyPressEvent(event)
+        if event.key() in (qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter):
+            event.accept()
+
+    def keyReleaseEvent(self, event: qt.QtGui.QKeyEvent) -> None:
+        """Enterの解放通知も整数入力欄で受理する。"""
+        super().keyReleaseEvent(event)
+        if event.key() in (qt.Qt.Key.Key_Return, qt.Qt.Key.Key_Enter):
+            event.accept()
+
+    def select_all_on_mouse_focus(self) -> bool:
+        """マウスで初回フォーカスしたときの全選択設定を返す。"""
+        return self._mouse_selection.enabled
+
+    def set_select_all_on_mouse_focus(self, enabled: bool) -> None:
+        """マウスで初回フォーカスしたときの全選択を切り替える。"""
+        self._mouse_selection.set_enabled(enabled)
+
+    def focusInEvent(self, event: qt.QtGui.QFocusEvent) -> None:
+        """マウスで得たフォーカスだけを全選択の候補にする。"""
+        self._mouse_selection.focus_in(event)
+        super().focusInEvent(event)
+
+    def focusOutEvent(self, event: qt.QtGui.QFocusEvent) -> None:
+        """フォーカスを失ったら全選択の予約を破棄する。"""
+        self._mouse_selection.reset()
+        super().focusOutEvent(event)
+
+    def mousePressEvent(self, event: qt.QtGui.QMouseEvent) -> None:
+        """矢印や枠のクリックでは入力文字を自動選択しない。"""
+        self._mouse_selection.reset()
+        super().mousePressEvent(event)
 
     @qt.Slot()
     def _update_enabled(self) -> None:

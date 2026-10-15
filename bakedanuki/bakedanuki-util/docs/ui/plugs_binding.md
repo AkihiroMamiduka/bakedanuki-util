@@ -1,8 +1,8 @@
 # 複数のMaya属性を一つの入力で編集する
 
-`MayaBoolPlugsBinding`、`MayaFloatPlugsBinding`、`MayaEnumPlugsBinding`、
+`MayaBoolPlugsBinding`、`MayaFloatPlugsBinding`、`MayaIntPlugsBinding`、`MayaEnumPlugsBinding`、
 `MayaStringPlugsBinding`は、順序付きの属性群を既存の
-`BoolComboBox`、`FloatSpinBox`、`FloatSliderSpinBox`、`EnumComboBox`、
+`BoolComboBox`、`FloatSpinBox`、`IntSpinBox`、`FloatSliderSpinBox`、`EnumComboBox`、
 `EnumRadioButtonGroup`、`StringLineEdit`などへ接続します。
 先頭属性を代表として表示し、ユーザーの入力時だけ編集可能な対象へ同じ値を適用します。
 
@@ -53,7 +53,7 @@ SDKの一時編集やAnimation Layerのキー設定先などをtooltipへ表示�
 代表が書込み不可の場合は全体の入力を止めます。この場合も`writable_count`は
 個別に書込み可能な対象数を示すため、0になるとは限りません。
 既定ではアニメーション接続を含む入力接続は、キーを暗黙に変更せず読取り専用です。
-bool・float・enumの複数Bindingに`key_animated=True`を渡すと、通常の時間駆動
+bool・float・整数・enumの複数Bindingに`key_animated=True`を渡すと、通常の時間駆動
 カーブへ直接接続した属性だけ、値の変更時にAuto KeyのON／OFFにかかわらず
 現在時刻のキーを追加・更新できます。
 通常属性は従来どおり直接書き込み、stringやその他の入力接続は対象外です。
@@ -61,7 +61,7 @@ bool・float・enumの複数Bindingに`key_animated=True`を渡すと、通常�
 
 ## Maya標準に合わせた接続属性への入力
 
-bool・float・enumの複数Bindingに`edit_connected=True`を渡すと、
+bool・float・整数・enumの複数Bindingに`edit_connected=True`を渡すと、
 対応する接続属性へMaya標準の値入力を行います。数値入力、上下操作、Slider、
 複数行の一括操作で同じ規則を使います。既定は`False`で、既存利用側の編集可否は
 変わりません。stringのBindingにはこの引数を設けません。
@@ -82,6 +82,10 @@ binding = MayaFloatPlugsBinding(
 | SDK／Driven Key | 一時値を変更する。SDKのキーは更新せず、ドライバー変更や再評価で評価値へ戻る |
 | Animation Layer | Mayaが選ぶ編集先へ値入力する。Auto Key ONでは対象レイヤーのキーを追加・更新する |
 | constraint、その他の接続 | 入力不可。pairBlend、unitConversion、mute、Time Editor、expressionも対象外 |
+
+整数も同じ経路を使い、公開値は`int`のまま型固有範囲とhard limitを検証します。
+Maya標準ではbyte属性をLayerへ登録できず、整数Layerはshort・longが対象です。
+既存小数キーと接線は保持し、新規キーを整数型だけの理由でstepへ固定しません。
 
 自身またはcompound祖先のロック、reference、その他の既存の入力不可条件は維持します。
 constraintがpairBlendなどを介して対象チャンネルを駆動する場合も入力できません。
@@ -107,7 +111,7 @@ scene、設定、接続構成を変更する移行処理は不要です。
 
 ## 入力接続状態の追跡
 
-4種類の複数Bindingに`track_input_state=True`を渡すと、対象ごとの入力接続状態を
+5種類の複数Bindingに`track_input_state=True`を渡すと、対象ごとの入力接続状態を
 `target_states[].input_state`へ公開します。これは`key_animated`や`edit_connected`と独立しており、
 lock・reference・キー編集の可否にかかわらず分類します。値の正本は従来どおりMaya plugです。
 単体の`MPlug`を調べる場合は`inspect_plug_input_state(plug, time=...)`も使用できます。

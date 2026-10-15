@@ -9,6 +9,12 @@
 
 ### Changed
 
+- `MayaIntPlugBinding`／`MayaIntPlugsBinding`と整数値Pasteに`edit_connected`と
+  `key_animated`を追加。既定の読み取り専用は維持し、明示指定で時間カーブ・SDK・
+  short／longのAnimation Layerを既存型と同じ規則で編集する。
+  整数カーブの小数補間をKey Alteredと誤認せず、32-bit端でも1の差を識別する。
+  `IntSpinBox`はEnterを欄内で受理し、`select_all_on_mouse_focus`で初回クリックの
+  全選択を指定できる。scene・保存設定・clipboard schemaの移行は不要。
 - `inspect_scalar_attributes()`とscalar値搬送でbyte・short・longを整数値のまま扱う。
   `MayaIntValueEdit`と`MayaIntOffsetEdit`を公開し、複数属性への整数入力と一回Undoに対応。
   Clipboard書込みschemaはversion 3へ変更し、旧version 1・2は読み込める。

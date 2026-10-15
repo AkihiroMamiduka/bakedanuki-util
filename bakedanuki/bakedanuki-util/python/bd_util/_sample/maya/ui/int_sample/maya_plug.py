@@ -32,12 +32,24 @@ class MayaIntWidget(qt.QWidget):
     ) -> None:
         """既存Maya属性の現在値を読み、Window所有のBindingを作る。"""
         super().__init__(parent)
-        self.byte_binding = MayaIntPlugBinding(plugs[0], parent=self)
-        self.short_binding = MayaIntPlugBinding(plugs[1], parent=self)
-        self.long_binding = MayaIntPlugsBinding(plugs[2:], parent=self)
-        self.byte_spin_box = IntSpinBox(self.byte_binding, self)
-        self.short_spin_box = IntSpinBox(self.short_binding, self)
-        self.long_spin_box = IntSpinBox(self.long_binding, self)
+        self.byte_binding = MayaIntPlugBinding(
+            plugs[0], parent=self, edit_connected=True, track_input_state=True
+        )
+        self.short_binding = MayaIntPlugBinding(
+            plugs[1], parent=self, edit_connected=True, track_input_state=True
+        )
+        self.long_binding = MayaIntPlugsBinding(
+            plugs[2:], parent=self, edit_connected=True, track_input_state=True
+        )
+        self.byte_spin_box = IntSpinBox(
+            self.byte_binding, self, select_all_on_mouse_focus=True
+        )
+        self.short_spin_box = IntSpinBox(
+            self.short_binding, self, select_all_on_mouse_focus=True
+        )
+        self.long_spin_box = IntSpinBox(
+            self.long_binding, self, select_all_on_mouse_focus=True
+        )
         self.byte_label = IntLabel(self.byte_binding, self)
         self.short_label = IntLabel(self.short_binding, self)
         self.long_label = IntLabel(self.long_binding, self)

@@ -468,6 +468,8 @@ class _IntPlugsStore(PlugsStore[int]):
         plugs: Sequence[MayaIntPlug],
         owner: qt.QObject,
         *,
+        key_animated: bool = False,
+        edit_connected: bool = False,
         track_input_state: bool = False,
     ) -> None:
         """各属性の型と実体を検証し、代表値の監視を開始する。"""
@@ -481,6 +483,8 @@ class _IntPlugsStore(PlugsStore[int]):
                 plug.node,
                 plug.plug,
                 codec,
+                key_animated=key_animated,
+                edit_connected=edit_connected,
                 track_input_state=track_input_state,
             )
             for plug, codec in zip(plugs, codecs)
@@ -856,13 +860,18 @@ class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
         self,
         plugs: Sequence[MayaIntPlug],
         *,
+        key_animated: bool = False,
+        edit_connected: bool = False,
         track_input_state: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
-        """未接続のbyte・short・long属性を初期書込みなしで監視する。
+        """byte・short・long属性を初期書込みなしで監視する。
 
         Args:
             plugs: 代表を先頭にした一つ以上の整数PlugOperator。
+            key_animated: 時間カーブへ常に現在時刻のキーを設定する場合はTrue。
+            edit_connected: Maya標準のAuto Key・SDK・Layer入力を行う場合はTrue。
+                `key_animated`との同時指定はできない。
             track_input_state: 入力接続と現在キーの状態を追跡する場合はTrue。
             parent: このBindingを所有するQObject。
         """
@@ -874,6 +883,8 @@ class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
                 view_model,
                 plugs,
                 self,
+                key_animated=key_animated,
+                edit_connected=edit_connected,
                 track_input_state=track_input_state,
             )
             self._owned_group = store
@@ -910,12 +921,16 @@ class MayaIntPlugBinding(MayaIntPlugsBinding):
         self,
         plug: MayaIntPlug,
         *,
+        key_animated: bool = False,
+        edit_connected: bool = False,
         track_input_state: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """整数plug一つを監視するBindingを作る。"""
         super().__init__(
             (plug,),
+            key_animated=key_animated,
+            edit_connected=edit_connected,
             track_input_state=track_input_state,
             parent=parent,
         )

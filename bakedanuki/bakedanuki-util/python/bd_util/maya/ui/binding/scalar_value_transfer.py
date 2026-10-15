@@ -586,7 +586,9 @@ def _create_edit(
         )
     if snapshot.kind in _INTEGER_LIMITS:
         int_binding = MayaIntPlugsBinding(
-            [resolve_int_plug(node_name, snapshot.path)]
+            [resolve_int_plug(node_name, snapshot.path)],
+            key_animated=key_animated,
+            edit_connected=edit_connected,
         )
         return (
             MayaIntValueEdit(int_binding, cast(int, snapshot.value)),

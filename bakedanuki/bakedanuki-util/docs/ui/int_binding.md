@@ -5,12 +5,12 @@
 `IntBinding`は単一の符号付き32-bit整数を`IntValueStore`へ接続します。
 `IntSpinBox`と`IntLabel`は同じ`IntViewModel`を共有します。
 正本には`PythonIntAttributeStore`、またはMayaのbyte・short・long属性を接続できます。
-bdChannelBoxへの組込みは後続段階で扱います。
+bdChannelBoxへの組込みと初回範囲の利用者確認・pushは完了しています。
 
 `QSpinBox`はQtの`int`を使うため、公開値の範囲は
 `-2147483648`から`2147483647`までです。`bool`、`float`、文字列、
-この範囲を超えるPython整数は明示的に拒否します。値を`float`へ変換しないので、
-境界付近でも整数の精度を失いません。
+この範囲を超えるPython整数は明示的に拒否します。ViewとBindingの公開値を`int`で保ち、
+Mayaのdoubleカーブとの境界でも32-bit整数は正確に表現できます。
 
 ```python
 from dataclasses import dataclass
@@ -52,6 +52,12 @@ Mayaの整数属性では`byte`が0～255、`short`が符号付き16-bit、
 `long`が符号付き32-bitです。`long`はC++の`int`に相当し、
 Mayaの`int64`とは別型です。
 
+`IntSpinBox`の通常Enter・テンキーEnterは、値を確定した後も親Windowへ伝播しません。
+`select_all_on_mouse_focus=True`を指定すると、初回の文字クリックだけ全選択します。
+再クリックのカーソル移動とドラッグ選択は維持します。既定値は`False`で、
+取得・変更には`select_all_on_mouse_focus()`と`set_select_all_on_mouse_focus()`を使います。
+bdChannelBoxではこの設定を有効にします。
+
 ## Maya属性を正本にする
 
 `resolve_int_plug(node_name, attribute_name)`は既存のbyte・short・long属性を
@@ -80,9 +86,40 @@ byteは0～255、shortは-32768～32767、longはsigned 32-bitの範囲を使い
 `MayaIntOffsetEdit(binding, offset)`を渡します。後者は各対象の現在値へ差分を加えます。
 両者とも全対象の範囲を先に検証し、変更を一回のUndoにまとめます。
 
-ロック、入力接続、ノードや属性の削除に追従します。入力接続中の整数属性は
-現在読み取り専用です。時間カーブ・SDK・Animation Layerへの値入力は、
-各対応Mayaで実挙動を確認した後に別段階で設計します。
+ロック、入力接続、ノードや属性の削除に追従します。入力接続中は既定で読み取り専用です。
+`edit_connected=True`を指定すると、時間カーブはAuto Key OFFで一時値、ONで現在時刻の
+キーを変更します。SDKはキーを変更せず一時値を入力し、Animation LayerはMayaが選ぶ
+編集先と合成結果に従います。Maya標準ではbyte属性をLayerに登録できないため、
+整数Layerの対象はshort・longです。一般接続、constraint、unitConversion、共有カーブなどの
+対象外条件は[複数属性Binding](plugs_binding.md#maya標準に合わせた接続属性への入力)と共通です。
+bdChannelBoxはこの入力方針を使用し、上下・整列・値Pasteも同じ規則で処理します。
+
+`key_animated=True`はAuto Keyの状態によらず既存時間カーブへキーを設定する入口です。
+`edit_connected=True`との併用は拒否します。新しいキーの接線はMayaの設定に従い、
+整数だからという理由でstepへ固定しません。利用側の移行は引数の明示指定だけで、
+既存scene・設定・clipboard schemaの変換は不要です。
+
+表示と同値判定にはMaya属性の整数評価値を使います。既存カーブに小数キーがあっても
+自動で丸め直さず、Undoや失敗復旧では元のキー値と接線を保持します。
+入力接続表示のKey Altered判定はDGの整数変換後の値で比較し、
+小数補間や32-bit端の1だけの変更を誤判定しません。
+
+## 後続の実装計画
+
+初回の基盤・サンプル・Maya属性連携・bdChannelBox組込みは利用者確認とpushが完了しています。
+接続属性編集と入力操作の統一は実装済みで、利用者によるMaya本体の確認はこれからです。
+その後は次の順に実装し、段階ごとに利用者が確認・commitします。
+
+1. Python側の整数を正本としてMaya属性へ同期するBinding／PlugViewアダプター
+2. 整数専用Step入力欄と、属性ごとのStep設定・保存・リセット
+3. 整数Slider、Sliderと数値欄、範囲設定付きSlider、連続編集と一操作一回のUndo
+
+整数2／3成分を一体で扱うMVVMは今回の計画に含めません。
+
+接続編集は`tests/maya/ui/test_connected_int_binding.py`の105件で、時間カーブ・SDK・Layer、
+小数キー復旧・範囲検証・整数評価・三つの値Paste APIを検証します。
+Enterとマウス選択は`tests/ui/test_int_spin_box_interaction.py`の7件と既存floatの回帰テストで
+確認します。`verify.cmd`を通じてMaya 2025／2026／2027ですべて通過しました。
 
 ## Python属性のサンプル
 
@@ -131,6 +168,10 @@ from bd_util._sample.maya.ui.int_sample import maya_plug
 
 window = maya_plug.show_demo()
 ```
+
+このサンプルは`edit_connected=True`を明示し、初回クリックの全選択も有効にしています。
+Windowに表示されたノードの整数属性へMayaでキーやSDKを設定した後も、同じ欄から編集できます。
+short・longをLayerへ登録した場合も、MayaのAuto Keyと編集先の選択に従います。
 
 byte・shortは単一属性、longは二ノードの一括編集です。
 二つのlongの初期値は異なり、「代表値に揃える」で混在解除とUndoを試せます。
