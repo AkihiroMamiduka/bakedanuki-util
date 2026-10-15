@@ -34,6 +34,8 @@ from .float_binding import MayaFloatBinding
 from .float_plug_binding import MayaFloatPlugBinding
 from .float_plug_resolver import MayaFloatPlug, resolve_float_plug
 from .int_plug_resolver import MayaIntPlug, resolve_int_plug
+from .int_binding import MayaIntBinding
+from .int_plug_view import MayaIntPlugView
 from .plugs_binding import (
     MayaBoolPlugsBinding,
     MayaFloatPlugsBinding,
@@ -113,6 +115,8 @@ __all__ = [
     "MayaBoolPlugsBinding",
     "MayaFloatPlugsBinding",
     "MayaIntPlug",
+    "MayaIntBinding",
+    "MayaIntPlugView",
     "MayaIntPlugBinding",
     "MayaIntPlugsBinding",
     "resolve_int_plug",

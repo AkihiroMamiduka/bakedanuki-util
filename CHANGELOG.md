@@ -73,6 +73,12 @@
 
 ### Added
 
+- Python整数を正本としてQtとMayaのbyte・short・longを同期する`MayaIntBinding`と
+  `MayaIntPlugView`を追加。初期同期はPythonからMayaへ適用し、Maya入力はsetterを通す。
+  型範囲・hard limit・lock・接続による同期失敗ではPython値を維持し、状態と例外を公開する。
+  Undo／Redoの復元中は追加書込みを保留して履歴を維持する。
+  `int_sample.maya_view.show_demo()`で操作確認できる。既存API・scene・設定の移行は不要。
+
 - `bd_util.maya.ui` に、byte・short・long属性用の
   `resolve_int_plug()`、`MayaIntPlugBinding`、`MayaIntPlugsBinding`を追加。
   単一属性とcompound子属性の監視、型固有範囲とhard limitの検証、

@@ -1205,6 +1205,9 @@ Python属性とMayaのbyte・short・long属性を正本にする導入例、入
 動作確認用サンプルは[整数binding](int_binding.md)を参照してください。
 bdChannelBoxへの組込みは利用者確認とpushが完了しています。
 時間カーブ・SDK・short／longのLayer編集と、整数欄のEnter・初回クリック操作にも対応します。
+Python整数を正本としてQtとMaya属性へ同期する場合は`MayaIntBinding`と
+`MayaIntPlugView`を使用します。初期値、範囲制約、同期保留、Undo／Redoとサンプルは
+[Python正本とMaya Viewの整数同期](python_int_maya_binding.md)を参照してください。
 
 ## 浮動小数点値のMVVMとQDoubleSpinBox
 

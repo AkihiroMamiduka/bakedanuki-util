@@ -6,6 +6,8 @@
 `IntSpinBox`と`IntLabel`は同じ`IntViewModel`を共有します。
 正本には`PythonIntAttributeStore`、またはMayaのbyte・short・long属性を接続できます。
 bdChannelBoxへの組込みと初回範囲の利用者確認・pushは完了しています。
+Python正本をQtとMaya属性へ同期する場合は
+[`MayaIntBinding`／`MayaIntPlugView`](python_int_maya_binding.md)を使用します。
 
 `QSpinBox`はQtの`int`を使うため、公開値の範囲は
 `-2147483648`から`2147483647`までです。`bool`、`float`、文字列、
@@ -107,12 +109,12 @@ bdChannelBoxはこの入力方針を使用し、上下・整列・値Pasteも同
 ## 後続の実装計画
 
 初回の基盤・サンプル・Maya属性連携・bdChannelBox組込みは利用者確認とpushが完了しています。
-接続属性編集と入力操作の統一は実装済みで、利用者によるMaya本体の確認はこれからです。
-その後は次の順に実装し、段階ごとに利用者が確認・commitします。
+接続属性編集と入力操作の統一も利用者によるMaya本体確認とpushが完了しました。
+Python正本とMaya属性の同期は、`MayaIntBinding`／`MayaIntPlugView`とサンプルを実装しました。
+今回の追加範囲の利用者確認後、次の順に実装し、段階ごとに利用者が確認・commitします。
 
-1. Python側の整数を正本としてMaya属性へ同期するBinding／PlugViewアダプター
-2. 整数専用Step入力欄と、属性ごとのStep設定・保存・リセット
-3. 整数Slider、Sliderと数値欄、範囲設定付きSlider、連続編集と一操作一回のUndo
+1. 整数専用Step入力欄と、属性ごとのStep設定・保存・リセット
+2. 整数Slider、Sliderと数値欄、範囲設定付きSlider、連続編集と一操作一回のUndo
 
 整数2／3成分を一体で扱うMVVMは今回の計画に含めません。
 
