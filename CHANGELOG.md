@@ -9,6 +9,11 @@
 
 ### Changed
 
+- `inspect_scalar_attributes()`とscalar値搬送でbyte・short・longを整数値のまま扱う。
+  `MayaIntValueEdit`と`MayaIntOffsetEdit`を公開し、複数属性への整数入力と一回Undoに対応。
+  Clipboard書込みschemaはversion 3へ変更し、旧version 1・2は読み込める。
+  旧版アプリへ新しいコピー内容を貼り付ける場合は、利用側を更新する。
+  sceneと保存設定の移行は不要。
 - `BytePlugOperator.get()` はMayaのbyte値128～255を符号反転せず返す。
   従来の負値を前提にした呼び出しは、byte属性の実値を使うよう修正する。
 - `Nodes` の操作入口を保持する推奨変数名を `nodes` から `bd_nodes` へ変更。

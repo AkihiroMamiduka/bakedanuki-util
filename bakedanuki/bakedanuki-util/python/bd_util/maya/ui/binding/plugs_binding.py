@@ -504,6 +504,21 @@ class _IntPlugsStore(PlugsStore[int]):
             return False
         return view_model.refresh_from_store(self)
 
+    def prepare_offset(self, offset: int) -> list[PlugWrite]:
+        """編集可能な各属性の現在値へ整数差分を加える計画を作る。"""
+        from ....ui.binding.int._validation import require_int
+
+        offset = require_int(offset, "offset")
+        values = tuple(
+            (
+                require_int(target.codec.read() + offset)
+                if target.state().is_writable
+                else 0
+            )
+            for target in self._targets
+        )
+        return self._prepare_values(values)
+
 
 class _StringPlugsStore(PlugsStore[str]):
     """複数のMaya string属性を監視して一括入力するStore。"""

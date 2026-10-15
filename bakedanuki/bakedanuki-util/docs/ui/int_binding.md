@@ -75,6 +75,10 @@ byteは0～255、shortは-32768～32767、longはsigned 32-bitの範囲を使い
 検証し、失敗時は対象を変更しません。通常の未接続属性の入力はMaya Undoで一操作です。
 複数属性では先頭を代表値とし、`is_mixed`と`target_states`で対象の状態を確認できます。
 `apply_representative_value()`は代表の実値を編集可能な後続対象へ適用します。
+異なる整数属性群を一操作で編集する場合は、
+`apply_plugs_values()`へ`MayaIntValueEdit(binding, value)`または
+`MayaIntOffsetEdit(binding, offset)`を渡します。後者は各対象の現在値へ差分を加えます。
+両者とも全対象の範囲を先に検証し、変更を一回のUndoにまとめます。
 
 ロック、入力接続、ノードや属性の削除に追従します。入力接続中の整数属性は
 現在読み取り専用です。時間カーブ・SDK・Animation Layerへの値入力は、

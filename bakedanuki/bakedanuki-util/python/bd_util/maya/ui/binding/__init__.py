@@ -48,6 +48,8 @@ from .plug_value_edit import connected_plug_edit_reason
 from .plugs_value_edits import (
     MayaBoolValueEdit,
     MayaFloatValueEdit,
+    MayaIntValueEdit,
+    MayaIntOffsetEdit,
     MayaFloatOffsetEdit,
     MayaFloatRoundEdit,
     MayaEnumValueEdit,
@@ -120,6 +122,8 @@ __all__ = [
     "connected_plug_edit_reason",
     "MayaBoolValueEdit",
     "MayaFloatValueEdit",
+    "MayaIntValueEdit",
+    "MayaIntOffsetEdit",
     "MayaFloatOffsetEdit",
     "MayaFloatRoundEdit",
     "MayaEnumValueEdit",

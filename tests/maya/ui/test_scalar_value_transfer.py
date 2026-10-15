@@ -131,7 +131,7 @@ def test_string_capture_round_trip_and_paste_preserve_exact_text(scene):
     document = encode_scalar_value_transfer(
         MayaScalarValueTransfer((snapshot,))
     )
-    assert document["version"] == 2
+    assert document["version"] == 3
     transfer = decode_scalar_value_transfer(document)
     cmds.flushUndo()
 
@@ -168,6 +168,10 @@ def test_string_schema_accepts_legacy_data_and_rejects_invalid_values():
         )
     )
     legacy["version"] = 1
+    assert (
+        decode_scalar_value_transfer(legacy).nodes[0].values[0].value is True
+    )
+    legacy["version"] = 2
     assert (
         decode_scalar_value_transfer(legacy).nodes[0].values[0].value is True
     )

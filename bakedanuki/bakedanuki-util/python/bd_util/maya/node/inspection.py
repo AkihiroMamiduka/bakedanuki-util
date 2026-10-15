@@ -13,7 +13,15 @@ from maya.api import OpenMaya as om
 from ._attribute_lookup import attribute_path
 
 ScalarAttributeKind: TypeAlias = Literal[
-    "bool", "number", "distance", "angle", "enum", "string"
+    "bool",
+    "byte",
+    "short",
+    "long",
+    "number",
+    "distance",
+    "angle",
+    "enum",
+    "string",
 ]
 ScalarAttributeDisplayFilter: TypeAlias = Literal[
     "all", "visible", "keyable", "channel_box", "hidden"
@@ -217,6 +225,12 @@ def _scalar_kind(plug: om.MPlug) -> ScalarAttributeKind | None:
         numeric_type = om.MFnNumericAttribute(attribute).numericType()
         if numeric_type == om.MFnNumericData.kBoolean:
             return "bool"
+        if numeric_type == om.MFnNumericData.kByte:
+            return "byte"
+        if numeric_type == om.MFnNumericData.kShort:
+            return "short"
+        if numeric_type == om.MFnNumericData.kLong:
+            return "long"
         if numeric_type in (
             om.MFnNumericData.kFloat,
             om.MFnNumericData.kDouble,

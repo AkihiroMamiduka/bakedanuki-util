@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from typing import TypeAlias, cast
 
 from ....ui import EnumDefinition, EnumItem, JsonClipboard
+from ....ui.binding.int._validation import require_int
 from ...node.inspection import (
     ScalarAttributeInfo,
     ScalarAttributeKind,
@@ -16,21 +17,25 @@ from ...node.inspection import (
 )
 from ._enum_plug_value import EnumPlugValue
 from ._float_plug_value import FloatPlugValue
+from ._int_plug_value import IntPlugValue
 from .bool_plug_resolver import resolve_bool_plug
 from .enum_definition import read_enum_definition
 from .enum_plug_resolver import resolve_enum_plug
 from .float_plug_resolver import resolve_float_plug
+from .int_plug_resolver import resolve_int_plug
 from .string_plug_resolver import resolve_string_plug
 from .plugs_binding import (
     MayaBoolPlugsBinding,
     MayaEnumPlugsBinding,
     MayaFloatPlugsBinding,
+    MayaIntPlugsBinding,
     MayaStringPlugsBinding,
 )
 from .plugs_value_edits import (
     MayaBoolValueEdit,
     MayaEnumValueEdit,
     MayaFloatValueEdit,
+    MayaIntValueEdit,
     MayaStringValueEdit,
     MayaPlugsValueEdit,
     apply_plugs_values,
@@ -55,21 +60,30 @@ __all__ = [
 MayaScalarValue: TypeAlias = bool | float | int | str
 _ScalarBinding: TypeAlias = (
     MayaBoolPlugsBinding
+    | MayaIntPlugsBinding
     | MayaFloatPlugsBinding
     | MayaEnumPlugsBinding
     | MayaStringPlugsBinding
 )
 
 _FORMAT = "bd_util.maya.scalar_values"
-_VERSION = 2
+_VERSION = 3
 _KINDS: tuple[ScalarAttributeKind, ...] = (
     "bool",
+    "byte",
+    "short",
+    "long",
     "number",
     "distance",
     "angle",
     "enum",
     "string",
 )
+_INTEGER_LIMITS: dict[ScalarAttributeKind, tuple[int, int]] = {
+    "byte": (0, 255),
+    "short": (-(2**15), 2**15 - 1),
+    "long": (-(2**31), 2**31 - 1),
+}
 _MAX_NODES = 64
 _MAX_VALUES = 10_000
 _MAX_ENUM_ITEMS = 2048
@@ -116,14 +130,23 @@ def _require_string_value(value: object) -> str:
     return value
 
 
+def _require_integer_value(value: object, kind: ScalarAttributeKind) -> int:
+    """整数snapshotの型とMaya属性型固有の範囲を検証する。"""
+    result = require_int(value, "integer value")
+    lower, upper = _INTEGER_LIMITS[kind]
+    if not lower <= result <= upper:
+        raise ValueError(f"{kind} valueが型の範囲外です")
+    return result
+
+
 @dataclass(frozen=True)
 class MayaScalarValueSnapshot:
     """一つの属性の型と、公開単位で取得した未丸め値。
 
     Attributes:
         path: node相対のscalar属性path。配列要素は指定できない。
-        kind: bool、number、distance、angle、enum、stringのいずれか。
-        value: kindに対応する実値。数値は有限の`float`。
+        kind: bool、byte、short、long、number、distance、angle、enum、stringのいずれか。
+        value: kindに対応する実値。整数は`int`、連続値は有限の`float`。
         enum_definition: enumの場合に必須の選択肢。
 
     Raises:
@@ -145,6 +168,8 @@ class MayaScalarValueSnapshot:
                 raise TypeError(
                     "bool snapshotのvalueにはboolを指定してください"
                 )
+        elif kind in _INTEGER_LIMITS:
+            _require_integer_value(self.value, kind)
         elif kind == "enum":
             if not isinstance(self.value, int) or isinstance(self.value, bool):
                 raise TypeError(
@@ -316,6 +341,11 @@ def capture_scalar_node_values(
                 node_name, attribute.path
             ).get()
             definition = None
+        elif attribute.kind in _INTEGER_LIMITS:
+            value = IntPlugValue(
+                resolve_int_plug(node_name, attribute.path)
+            ).read()
+            definition = None
         elif attribute.kind == "enum":
             enum_value = EnumPlugValue(
                 resolve_enum_plug(node_name, attribute.path).plug
@@ -363,7 +393,7 @@ def capture_all_scalar_node_values(node_name: str) -> MayaNodeValueSnapshot:
 def encode_scalar_value_transfer(
     transfer: MayaScalarValueTransfer,
 ) -> dict[str, object]:
-    """`transfer` を JSON 互換の version 2 document へ変換する。
+    """`transfer` を JSON 互換の version 3 document へ変換する。
 
     Args:
         transfer: 型付きのscalar値搬送データ。
@@ -457,12 +487,16 @@ def _decode_snapshot(
     kind = _require_kind(item["kind"])
     if version == 1 and kind == "string":
         raise ValueError("version 1にstring属性は含められません")
+    if version < 3 and kind in _INTEGER_LIMITS:
+        raise ValueError("version 1・2に整数属性は含められません")
     raw_value = item["value"]
     definition = None
     if kind == "bool":
         if type(raw_value) is not bool:
             raise TypeError("bool valueにはboolを指定してください")
         parsed_value: MayaScalarValue = raw_value
+    elif kind in _INTEGER_LIMITS:
+        parsed_value = _require_integer_value(raw_value, kind)
     elif kind == "enum":
         if not isinstance(raw_value, int) or isinstance(raw_value, bool):
             raise TypeError("enum valueにはintを指定してください")
@@ -507,7 +541,7 @@ def decode_scalar_value_transfer(document: object) -> MayaScalarValueTransfer:
     version = root["version"]
     if not isinstance(version, int) or isinstance(version, bool):
         raise TypeError("clipboard schema versionにはintを指定してください")
-    if version not in (1, _VERSION):
+    if version not in (1, 2, _VERSION):
         raise ValueError("対応していないclipboard schema versionです")
     raw_nodes = _require_list(root["nodes"], "nodes")
     if not raw_nodes or len(raw_nodes) > _MAX_NODES:
@@ -549,6 +583,14 @@ def _create_edit(
         return (
             MayaBoolValueEdit(bool_binding, cast(bool, snapshot.value)),
             bool_binding,
+        )
+    if snapshot.kind in _INTEGER_LIMITS:
+        int_binding = MayaIntPlugsBinding(
+            [resolve_int_plug(node_name, snapshot.path)]
+        )
+        return (
+            MayaIntValueEdit(int_binding, cast(int, snapshot.value)),
+            int_binding,
         )
     if snapshot.kind == "enum":
         enum_plug = resolve_enum_plug(node_name, snapshot.path)

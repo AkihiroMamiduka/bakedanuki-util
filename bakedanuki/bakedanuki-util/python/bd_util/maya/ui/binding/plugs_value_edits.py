@@ -17,12 +17,15 @@ from .plugs_binding import (
     MayaBoolPlugsBinding,
     MayaEnumPlugsBinding,
     MayaFloatPlugsBinding,
+    MayaIntPlugsBinding,
     MayaStringPlugsBinding,
 )
 
 __all__ = [
     "MayaBoolValueEdit",
     "MayaFloatValueEdit",
+    "MayaIntValueEdit",
+    "MayaIntOffsetEdit",
     "MayaFloatOffsetEdit",
     "MayaFloatRoundEdit",
     "MayaEnumValueEdit",
@@ -70,6 +73,30 @@ class MayaFloatValueEdit:
     def __post_init__(self) -> None:
         """値の検証は実行前にまとめ、Bindingの型を先に確認する。"""
         _require_binding(self.binding, MayaFloatPlugsBinding)
+
+
+@dataclass(frozen=True)
+class MayaIntValueEdit:
+    """一つの整数属性群へ適用する未変換の整数値を保持する。"""
+
+    binding: MayaIntPlugsBinding
+    value: int
+
+    def __post_init__(self) -> None:
+        """Bindingの型を確認し、値は一括実行前に検証する。"""
+        _require_binding(self.binding, MayaIntPlugsBinding)
+
+
+@dataclass(frozen=True)
+class MayaIntOffsetEdit:
+    """整数属性群の各現在値へ同じ整数差分を加える。"""
+
+    binding: MayaIntPlugsBinding
+    offset: int
+
+    def __post_init__(self) -> None:
+        """Bindingの型を確認し、差分は一括実行前に検証する。"""
+        _require_binding(self.binding, MayaIntPlugsBinding)
 
 
 @dataclass(frozen=True)
@@ -137,6 +164,8 @@ class MayaStringValueEdit:
 
 MayaPlugsValueEdit: TypeAlias = (
     MayaBoolValueEdit
+    | MayaIntValueEdit
+    | MayaIntOffsetEdit
     | MayaFloatValueEdit
     | MayaFloatOffsetEdit
     | MayaFloatRoundEdit
@@ -151,6 +180,8 @@ def _require_edit(value: object) -> MayaPlugsValueEdit:
         value,
         (
             MayaBoolValueEdit,
+            MayaIntValueEdit,
+            MayaIntOffsetEdit,
             MayaFloatValueEdit,
             MayaFloatOffsetEdit,
             MayaFloatRoundEdit,
@@ -166,12 +197,18 @@ def _prepare_edit(edit: MayaPlugsValueEdit) -> list[PlugWrite]:
     """入力の型対応を保持したまま、既存Storeの事前検証を共用する。"""
     if isinstance(edit, MayaBoolValueEdit):
         return edit.binding.store.prepare_write(edit.value)
+    if isinstance(edit, MayaIntValueEdit):
+        return edit.binding.store.prepare_write(edit.value)
+    if isinstance(edit, MayaIntOffsetEdit):
+        return edit.binding.store.prepare_offset(edit.offset)
     if isinstance(edit, MayaFloatValueEdit):
         return edit.binding.store.prepare_write(edit.value)
     if isinstance(edit, MayaFloatOffsetEdit):
         return edit.binding.store.prepare_offset(edit.offset)
     if isinstance(edit, MayaFloatRoundEdit):
         return edit.binding.store.prepare_round(edit.decimals)
+    if isinstance(edit, MayaEnumValueEdit):
+        return edit.binding.store.prepare_write(edit.value)
     return edit.binding.store.prepare_write(edit.value)
 
 

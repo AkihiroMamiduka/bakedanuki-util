@@ -55,6 +55,8 @@ def test_inspection_reports_leaf_flags_types_names_and_limits_scope(
     assert by_name["visibility"].kind == "bool"
     assert by_name["rotateOrder"].kind == "enum"
     assert by_name["caption"].kind == "string"
+    assert by_name["integer"].kind == "long"
+    assert by_name["integer"].keyable
     assert by_name["translateX"].keyable
     assert not by_name["translateX"].channel_box
     assert by_name["translateX"].path == "translate.translateX"
@@ -65,7 +67,6 @@ def test_inspection_reports_leaf_flags_types_names_and_limits_scope(
     assert (
         not {
             "translate",
-            "integer",
             "timeValue",
             "values",
             "recordValue",

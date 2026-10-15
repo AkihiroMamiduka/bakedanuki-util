@@ -227,7 +227,7 @@ soft limitは入力制限に使いません。
 
 複数行の値をまとめて確定する場合は、`bd_util.maya.ui.apply_plugs_values()`へ
 型付きの入力を並べます。一つの`MayaFloatPlugsBinding`では単位種別を揃えたまま、
-Binding間では距離・角度・単位なしの数値、bool、enum、stringを混在できます。
+Binding間では距離・角度・単位なしの数値、byte・short・long、bool、enum、stringを混在できます。
 
 ```python
 from bd_util.maya.ui import (
@@ -268,6 +268,7 @@ apply_plugs_values(
 ```
 
 `MayaBoolValueEdit(binding, bool)`、`MayaFloatValueEdit(binding, float)`、
+`MayaIntValueEdit(binding, int)`、`MayaIntOffsetEdit(binding, int)`、
 `MayaFloatOffsetEdit(binding, float)`、`MayaFloatRoundEdit(binding, int)`、
 `MayaEnumValueEdit(binding, int)`、
 `MayaStringValueEdit(binding, str)`を受け取り、
@@ -276,6 +277,8 @@ union型は`MayaPlugsValueEdit`です。
 **各行の**`presentation.from_display()`を使用してください。距離がm、角度がradの
 表示でも、それぞれ画面上で5になります。各行の未丸め代表値へ揃える場合は、
 対応するEditへその行の`binding.value`を渡します。
+整数のValueEditは全対象を同じ整数へ揃え、OffsetEditは各対象の現在値へ整数差分を加えます。
+型固有の範囲と属性のhard limitを、書込み前に全対象で検証します。
 `MayaFloatRoundEdit`は各plugの未丸め実値を現在の表示単位へ変換し、
 小数`decimals`桁で十進の四捨五入を行ってから公開単位へ戻します。
 0桁は整数へ丸め、端数がちょうど半分なら正負ともゼロから遠い方向へ進めます。
