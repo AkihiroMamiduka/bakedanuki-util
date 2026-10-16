@@ -115,11 +115,12 @@ Python正本とMaya属性の同期も利用者確認とpushが完了しました
 詳細と操作サンプルは[整数Stepの入力と保存](int_step.md)を参照してください。
 整数Slider拡張は次の三段階に分け、各段階で利用者が確認・commitします。
 
-1. `IntSlider`単体・連続編集・Maya Undo・操作サンプル（実装済み、利用者確認待ち）
-2. Sliderと数値欄・範囲設定付きSlider、範囲・Stepの保存復元
+1. `IntSlider`単体・連続編集・Maya Undo・操作サンプル（利用者確認・push完了）
+2. Sliderと数値欄・範囲設定付きSlider、範囲・Stepの保存復元（実装済み、利用者確認待ち）
 3. bdChannelBoxへのSlider組込みと複数選択・中断・配置の確認
 
 第一段階の仕様とサンプルは[整数Sliderと連続編集](int_slider.md)を参照してください。
+第二段階は[整数Slider複合Viewと設定保存](int_range_slider_spin_box.md)を参照してください。
 
 整数2／3成分を一体で扱うMVVMは今回の計画に含めません。
 

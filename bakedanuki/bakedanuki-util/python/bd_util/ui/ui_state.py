@@ -12,6 +12,7 @@ from ._ui_state_adapter import UiStateAdapter as _UiStateAdapter
 from ._ui_state_adapter import UiStateValue, require_widget
 
 if TYPE_CHECKING:
+    from .binding.int.view.range_slider_spin_box import IntRangeSliderSpinBox
     from .int_step_profile import IntStepProfile
     from .float_step_profile import FloatStepProfile
     from .binding.float.view.range_slider_spin_box import (
@@ -547,6 +548,29 @@ class UiStateManager:
             raise RuntimeError("登録対象のProfileは破棄されています")
         self._register(key, FloatStepProfileStateAdapter(candidate))
         candidate.changed.connect(partial(self._capture_state, key))
+        self._capture_state(key)
+
+    def register_int_range_slider_spin_box(
+        self, key: str, widget: IntRangeSliderSpinBox
+    ) -> None:
+        """整数ViewのMin・Max・Stepを保存対象として登録する。
+
+        Args:
+            key: manager内で一意な登録名。
+            widget: 生存中の `IntRangeSliderSpinBox`。
+
+        Raises:
+            TypeError: `widget`の型または`key`が不正な場合。
+            ValueError: `key`が無効か登録済みの場合。
+            RuntimeError: ViewまたはBindingが終了している場合。
+        """
+        from ._int_view_state import IntRangeStateAdapter
+
+        self._validate_key(key)
+        adapter = IntRangeStateAdapter(widget)
+        adapter.require_available()
+        self._register(key, adapter)
+        widget.settingsChanged.connect(partial(self._capture_state, key))
         self._capture_state(key)
 
     def register_float_range_slider_spin_box(

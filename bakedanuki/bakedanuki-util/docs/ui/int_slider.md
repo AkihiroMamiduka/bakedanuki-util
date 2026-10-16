@@ -135,8 +135,9 @@ Python同期行は生成時にPython初期値42をMayaへ適用します。
 
 ## 後続段階
 
-今回の第一段階は`IntSlider`単体と連続編集、操作サンプルまでです。
-第二段階で`IntSliderSpinBox`・`IntRangeSliderSpinBox`と設定保存、
+第一段階の`IntSlider`単体と連続編集、操作サンプルは利用者確認とpushが完了しました。
+第二段階の`IntSliderSpinBox`・`IntRangeSliderSpinBox`と設定保存も実装済みです。
+仕様と追加サンプルは[整数Slider複合Viewと設定保存](int_range_slider_spin_box.md)を参照してください。
 第三段階でbdChannelBoxへのSlider組込みを行います。整数2／3成分MVVMは計画対象外です。
 
 ## Maya本体の確認（2026-10-15）
@@ -150,7 +151,8 @@ Python正本とMaya同期、32-bit両端、時刻移動による終了とclose�
 検証runnerは終了code 0でした。結果保存後のMaya終了待ちは完了せず、
 runnerが専用processを終了したためMaya processの終了codeは1です。
 Mayaの正常終了は未確認です。Maya 2026／2027本体の画面操作も未実施です。
-第一段階の利用者による操作確認はこれからです。
+第一段階は利用者による操作確認とpushが完了しました（2026-10-16時点）。
+利用者が確認したMaya versionは未申告です。
 
 ## 自動検証
 

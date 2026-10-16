@@ -79,6 +79,12 @@
 
 ### Added
 
+- 整数用の`IntSliderSpinBox`と`IntRangeSliderSpinBox`を追加。
+  前者はSliderと値欄の並び順を選べ、後者は`[Min][Slider][Max][値][Step]`で
+  View固有の操作範囲と正の整数Stepを編集する。既存の整数連続Undo基盤を利用する。
+  `UiStateManager.register_int_range_slider_spin_box()`でMin・Max・Stepだけを
+  JSON整数として保存・復元できる。既存の設定形式・sceneの移行は不要。
+  操作サンプルは`bd_util._sample.maya.ui.int_sample.range_slider.show_demo()`。
 - `IntSlider`と`IntViewModel`の連続編集APIを追加。整数演算で32-bit範囲を写像し、
   Maya正本・Python正本とMaya同期のドラッグを一回Undoにまとめる。
   floatと共通のUndo管理で操作切替・時刻移動・監視解除にも対応する。

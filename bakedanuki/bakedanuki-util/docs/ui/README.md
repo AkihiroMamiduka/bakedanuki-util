@@ -1213,6 +1213,8 @@ Python整数を正本としてQtとMaya属性へ同期する場合は`MayaIntBin
 操作規則とサンプルは[整数Stepの入力と保存](int_step.md)を参照してください。
 `IntSlider`は整数演算で値を位置へ対応付け、Mayaの連続編集を一回Undoにまとめます。
 公開API・範囲・中断・サンプルは[整数Sliderと連続編集](int_slider.md)を参照してください。
+`IntSliderSpinBox`・`IntRangeSliderSpinBox`は数値欄と範囲・Step編集を組み合わせます。
+操作設定の保存とサンプルは[整数Slider複合Viewと設定保存](int_range_slider_spin_box.md)を参照してください。
 
 ## 浮動小数点値のMVVMとQDoubleSpinBox
 

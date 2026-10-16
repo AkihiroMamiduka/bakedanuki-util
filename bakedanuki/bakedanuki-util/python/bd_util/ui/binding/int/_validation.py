@@ -22,3 +22,12 @@ def require_step(value: object, argument_name: str = "single_step") -> int:
     if value < 1:
         raise ValueError(f"{argument_name}は1以上の整数にしてください")
     return value
+
+
+def require_slider_range(minimum: object, maximum: object) -> tuple[int, int]:
+    """32-bit整数の両端を検証し、操作できる昇順範囲を返す。"""
+    lower = require_int(minimum, "minimum")
+    upper = require_int(maximum, "maximum")
+    if lower >= upper:
+        raise ValueError("操作範囲はminimum < maximumにしてください")
+    return lower, upper

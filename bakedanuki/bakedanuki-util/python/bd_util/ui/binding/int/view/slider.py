@@ -6,22 +6,13 @@ from typing import ClassVar
 
 from .... import qt
 from .._connection import connect_queued
-from .._validation import require_int, require_step
+from .._validation import require_slider_range, require_step
 from ..binding import IntBinding
 from ..store import IntValueStore
 from ..view_model import IntViewModel
 from ._source import resolve_int_view_source
 
 __all__ = ["IntSlider"]
-
-
-def _require_range(minimum: object, maximum: object) -> tuple[int, int]:
-    """32-bit整数の両端を検証し、操作できる昇順範囲を返す。"""
-    lower = require_int(minimum, "minimum")
-    upper = require_int(maximum, "maximum")
-    if lower >= upper:
-        raise ValueError("操作範囲はminimum < maximumにしてください")
-    return lower, upper
 
 
 def _round_ratio(numerator: int, denominator: int) -> int:
@@ -76,7 +67,7 @@ class IntSlider(qt.QSlider):
             RuntimeError: 入力元が終了している場合。
         """
         view_model, binding = resolve_int_view_source(view_model)
-        int_range = _require_range(minimum, maximum)
+        int_range = require_slider_range(minimum, maximum)
         steps = require_step(steps, "steps")
         if orientation not in (
             qt.Qt.Orientation.Horizontal,
@@ -130,7 +121,7 @@ class IntSlider(qt.QSlider):
 
     def setIntRange(self, minimum: int, maximum: int) -> None:
         """正本を変えず操作範囲を変更し、実変更時だけ通知する。"""
-        int_range = _require_range(minimum, maximum)
+        int_range = require_slider_range(minimum, maximum)
         if int_range != self._int_range:
             self._finish_edit()
             self._int_range = int_range
